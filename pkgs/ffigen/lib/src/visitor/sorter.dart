@@ -17,9 +17,11 @@ class SorterVisitation extends Visitation {
     : sorted = bindings.toList()..sortBy(sortKey);
 
   static String nameSortKey(Binding binding) => binding.name;
+
+  // Sorts by type then original name. The _lowPriorityTypes are sorted after
+  // all other types.
   static String originalNameSortKey(Binding binding) =>
       '${_typeKey(binding)} ${binding.originalName}';
-
   static const _lowPriorityTypes = {'ObjCCategory', 'ObjCProtocol'};
   static String _typeKey(Object o) {
     final t = '${o.runtimeType}';

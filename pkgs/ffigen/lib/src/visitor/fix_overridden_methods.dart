@@ -21,6 +21,7 @@ class FixOverriddenMethodsVisitation extends Visitation {
 
     _fixMethodVariance(node);
     _fixMethodsVsProperties(node);
+    _fixMethodSymbols(node);
 
     node.visitChildren(visitor);
   }
@@ -154,6 +155,17 @@ class FixOverriddenMethodsVisitation extends Visitation {
         continue;
       }
       _convertAllSubtreeMethodsToProperties(root, rootMethod);
+    }
+  }
+
+  void _fixMethodSymbols(ObjCInterface node) {
+    // If a method overrides a super method, they should have the same name.
+    for (final method in node.methods) {
+      if (method.isClassMethod) continue;
+      final (superType, superMethod) = _findRootWithMethod(node, method);
+      if (superType != null && superMethod != null) {
+        method.symbol = superMethod.symbol;
+      }
     }
   }
 

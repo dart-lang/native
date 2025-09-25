@@ -75,7 +75,7 @@ class ObjCBlock extends BindingType with HasLocalNamespace {
          name: 'block',
          objCConsumed: false,
        ),
-       super(originalName: name) {
+       super(originalName: usr) {
     _helper = _FnHelper(context, returnType, params, _blockParam);
     _blockingHelper = _FnHelper(context, returnType, [
       _waiterParam,

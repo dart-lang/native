@@ -885,7 +885,7 @@ extension DOBJCObservation$Methods on DOBJCObservation {
   }
 
   /// dealloc
-  void dealloc$2() {
+  void dealloc() {
     _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_dealloc);
   }
 
@@ -1346,7 +1346,7 @@ extension DartProtocol$Methods on DartProtocol {
   }
 
   /// dealloc
-  void dealloc$2() {
+  void dealloc() {
     _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_dealloc);
   }
 
@@ -3226,7 +3226,7 @@ extension NSBundle$Methods on NSBundle {
   }
 
   /// load
-  bool load$2() {
+  bool load$1() {
     return _objc_msgSend_91o635(this.ref.pointer, _sel_load);
   }
 
@@ -5847,7 +5847,7 @@ extension NSExtendedArray on NSArray {
   }
 
   /// description
-  NSString get description$2 {
+  NSString get description$1 {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_description);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
@@ -6437,7 +6437,7 @@ extension NSExtendedArray on NSArray {
 /// NSExtendedData
 extension NSExtendedData on NSData {
   /// description
-  NSString get description$2 {
+  NSString get description$1 {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_description);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
@@ -6584,7 +6584,7 @@ extension NSExtendedData on NSData {
 /// NSExtendedDate
 extension NSExtendedDate on NSDate {
   /// timeIntervalSinceReferenceDate
-  static double getTimeIntervalSinceReferenceDate$2() {
+  static double getTimeIntervalSinceReferenceDate$1() {
     return objc.useMsgSendVariants
         ? _objc_msgSend_1ukqyt8Fpret(
             _class_NSDate,
@@ -6607,7 +6607,7 @@ extension NSExtendedDate on NSDate {
   }
 
   /// description
-  NSString get description$2 {
+  NSString get description$1 {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_description);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
@@ -6712,7 +6712,7 @@ extension NSExtendedDictionary on NSDictionary {
   }
 
   /// description
-  NSString get description$2 {
+  NSString get description$1 {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_description);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
@@ -7811,7 +7811,7 @@ extension NSExtendedOrderedSet on NSOrderedSet {
   }
 
   /// description
-  NSString get description$2 {
+  NSString get description$1 {
     objc.checkOsVersionInternal(
       'NSOrderedSet.description',
       iOS: (false, (5, 0, 0)),
@@ -8375,7 +8375,7 @@ extension NSExtendedSet on NSSet {
   }
 
   /// description
-  NSString get description$2 {
+  NSString get description$1 {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_description);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
@@ -10144,7 +10144,7 @@ interface class NSItemProviderWriting extends objc.ObjCProtocolBase
       objc.ObjCBlock<ffi.Void Function(NSData?, NSError?)>,
     )
     loadDataWithTypeIdentifier_forItemProviderCompletionHandler_,
-    NSArray Function()? writableTypeIdentifiersForItemProvider$1,
+    NSArray Function()? writableTypeIdentifiersForItemProvider,
     bool $keepIsolateAlive = true,
   }) {
     final builder = objc.ObjCProtocolBuilder(
@@ -10162,9 +10162,9 @@ interface class NSItemProviderWriting extends objc.ObjCProtocolBase
           builder,
           loadDataWithTypeIdentifier_forItemProviderCompletionHandler_,
         );
-    NSItemProviderWriting.writableTypeIdentifiersForItemProvider$1.implement(
+    NSItemProviderWriting.writableTypeIdentifiersForItemProvider.implement(
       builder,
-      writableTypeIdentifiersForItemProvider$1,
+      writableTypeIdentifiersForItemProvider,
     );
     builder.addProtocol($protocol);
     return NSItemProviderWriting.castFrom(
@@ -10185,7 +10185,7 @@ interface class NSItemProviderWriting extends objc.ObjCProtocolBase
       objc.ObjCBlock<ffi.Void Function(NSData?, NSError?)>,
     )
     loadDataWithTypeIdentifier_forItemProviderCompletionHandler_,
-    NSArray Function()? writableTypeIdentifiersForItemProvider$1,
+    NSArray Function()? writableTypeIdentifiersForItemProvider,
     bool $keepIsolateAlive = true,
   }) {
     NSItemProviderWriting
@@ -10200,9 +10200,9 @@ interface class NSItemProviderWriting extends objc.ObjCProtocolBase
           builder,
           loadDataWithTypeIdentifier_forItemProviderCompletionHandler_,
         );
-    NSItemProviderWriting.writableTypeIdentifiersForItemProvider$1.implement(
+    NSItemProviderWriting.writableTypeIdentifiersForItemProvider.implement(
       builder,
-      writableTypeIdentifiersForItemProvider$1,
+      writableTypeIdentifiersForItemProvider,
     );
     builder.addProtocol($protocol);
   }
@@ -10280,7 +10280,7 @@ interface class NSItemProviderWriting extends objc.ObjCProtocolBase
       );
 
   /// writableTypeIdentifiersForItemProvider
-  static final writableTypeIdentifiersForItemProvider$1 =
+  static final writableTypeIdentifiersForItemProvider =
       objc.ObjCProtocolMethod<NSArray Function()>(
         _protocol_NSItemProviderWriting,
         _sel_writableTypeIdentifiersForItemProvider,
@@ -11546,7 +11546,7 @@ extension NSMutableData$Methods on NSMutableData {
   }
 
   /// length
-  int get length$2 {
+  int get length {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_length);
   }
 
@@ -11556,7 +11556,7 @@ extension NSMutableData$Methods on NSMutableData {
   }
 
   /// setLength:
-  set length$2(int value) {
+  set length$1(int value) {
     _objc_msgSend_1i9r4xy(this.ref.pointer, _sel_setLength_, value);
   }
 }
@@ -15123,16 +15123,16 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
   /// alive until it is garbage collected by both Dart and ObjC.
   static NSObjectProtocol implement({
-    required objc.ObjCObjectBase Function() autorelease$1,
-    required objc.ObjCObjectBase Function() class$1,
+    required objc.ObjCObjectBase Function() autorelease,
+    required objc.ObjCObjectBase Function() class$,
     required bool Function(Protocol) conformsToProtocol_,
-    NSString Function()? debugDescription$1,
-    required NSString Function() description$1,
-    required int Function() hash$1,
+    NSString Function()? debugDescription,
+    required NSString Function() description,
+    required int Function() hash,
     required bool Function(objc.ObjCObjectBase) isEqual_,
     required bool Function(objc.ObjCObjectBase) isKindOfClass_,
     required bool Function(objc.ObjCObjectBase) isMemberOfClass_,
-    required bool Function() isProxy$1,
+    required bool Function() isProxy,
     required objc.ObjCObjectBase Function(ffi.Pointer<objc.ObjCSelector>)
     performSelector_,
     required objc.ObjCObjectBase Function(
@@ -15146,29 +15146,29 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       objc.ObjCObjectBase,
     )
     performSelector_withObject_withObject_,
-    required void Function() release$1,
+    required void Function() release,
     required bool Function(ffi.Pointer<objc.ObjCSelector>) respondsToSelector_,
-    required objc.ObjCObjectBase Function() retain$1,
-    required int Function() retainCount$1,
-    required objc.ObjCObjectBase Function() self$1,
-    required objc.ObjCObjectBase Function() superclass$1,
-    required ffi.Pointer<NSZone> Function() zone$1,
+    required objc.ObjCObjectBase Function() retain,
+    required int Function() retainCount,
+    required objc.ObjCObjectBase Function() self,
+    required objc.ObjCObjectBase Function() superclass,
+    required ffi.Pointer<NSZone> Function() zone,
     bool $keepIsolateAlive = true,
   }) {
     final builder = objc.ObjCProtocolBuilder(debugName: 'NSObject');
-    NSObjectProtocol.autorelease$1.implement(builder, autorelease$1);
-    NSObjectProtocol.class$1.implement(builder, class$1);
+    NSObjectProtocol.autorelease.implement(builder, autorelease);
+    NSObjectProtocol.class$.implement(builder, class$);
     NSObjectProtocol.conformsToProtocol_.implement(
       builder,
       conformsToProtocol_,
     );
-    NSObjectProtocol.debugDescription$1.implement(builder, debugDescription$1);
-    NSObjectProtocol.description$1.implement(builder, description$1);
-    NSObjectProtocol.hash$1.implement(builder, hash$1);
+    NSObjectProtocol.debugDescription.implement(builder, debugDescription);
+    NSObjectProtocol.description.implement(builder, description);
+    NSObjectProtocol.hash.implement(builder, hash);
     NSObjectProtocol.isEqual_.implement(builder, isEqual_);
     NSObjectProtocol.isKindOfClass_.implement(builder, isKindOfClass_);
     NSObjectProtocol.isMemberOfClass_.implement(builder, isMemberOfClass_);
-    NSObjectProtocol.isProxy$1.implement(builder, isProxy$1);
+    NSObjectProtocol.isProxy.implement(builder, isProxy);
     NSObjectProtocol.performSelector_.implement(builder, performSelector_);
     NSObjectProtocol.performSelector_withObject_.implement(
       builder,
@@ -15178,16 +15178,16 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       builder,
       performSelector_withObject_withObject_,
     );
-    NSObjectProtocol.release$1.implement(builder, release$1);
+    NSObjectProtocol.release.implement(builder, release);
     NSObjectProtocol.respondsToSelector_.implement(
       builder,
       respondsToSelector_,
     );
-    NSObjectProtocol.retain$1.implement(builder, retain$1);
-    NSObjectProtocol.retainCount$1.implement(builder, retainCount$1);
-    NSObjectProtocol.self$1.implement(builder, self$1);
-    NSObjectProtocol.superclass$1.implement(builder, superclass$1);
-    NSObjectProtocol.zone$1.implement(builder, zone$1);
+    NSObjectProtocol.retain.implement(builder, retain);
+    NSObjectProtocol.retainCount.implement(builder, retainCount);
+    NSObjectProtocol.self.implement(builder, self);
+    NSObjectProtocol.superclass.implement(builder, superclass);
+    NSObjectProtocol.zone.implement(builder, zone);
     builder.addProtocol($protocol);
     return NSObjectProtocol.castFrom(
       builder.build(keepIsolateAlive: $keepIsolateAlive),
@@ -15200,16 +15200,16 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilder(
     objc.ObjCProtocolBuilder builder, {
-    required objc.ObjCObjectBase Function() autorelease$1,
-    required objc.ObjCObjectBase Function() class$1,
+    required objc.ObjCObjectBase Function() autorelease,
+    required objc.ObjCObjectBase Function() class$,
     required bool Function(Protocol) conformsToProtocol_,
-    NSString Function()? debugDescription$1,
-    required NSString Function() description$1,
-    required int Function() hash$1,
+    NSString Function()? debugDescription,
+    required NSString Function() description,
+    required int Function() hash,
     required bool Function(objc.ObjCObjectBase) isEqual_,
     required bool Function(objc.ObjCObjectBase) isKindOfClass_,
     required bool Function(objc.ObjCObjectBase) isMemberOfClass_,
-    required bool Function() isProxy$1,
+    required bool Function() isProxy,
     required objc.ObjCObjectBase Function(ffi.Pointer<objc.ObjCSelector>)
     performSelector_,
     required objc.ObjCObjectBase Function(
@@ -15223,28 +15223,28 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       objc.ObjCObjectBase,
     )
     performSelector_withObject_withObject_,
-    required void Function() release$1,
+    required void Function() release,
     required bool Function(ffi.Pointer<objc.ObjCSelector>) respondsToSelector_,
-    required objc.ObjCObjectBase Function() retain$1,
-    required int Function() retainCount$1,
-    required objc.ObjCObjectBase Function() self$1,
-    required objc.ObjCObjectBase Function() superclass$1,
-    required ffi.Pointer<NSZone> Function() zone$1,
+    required objc.ObjCObjectBase Function() retain,
+    required int Function() retainCount,
+    required objc.ObjCObjectBase Function() self,
+    required objc.ObjCObjectBase Function() superclass,
+    required ffi.Pointer<NSZone> Function() zone,
     bool $keepIsolateAlive = true,
   }) {
-    NSObjectProtocol.autorelease$1.implement(builder, autorelease$1);
-    NSObjectProtocol.class$1.implement(builder, class$1);
+    NSObjectProtocol.autorelease.implement(builder, autorelease);
+    NSObjectProtocol.class$.implement(builder, class$);
     NSObjectProtocol.conformsToProtocol_.implement(
       builder,
       conformsToProtocol_,
     );
-    NSObjectProtocol.debugDescription$1.implement(builder, debugDescription$1);
-    NSObjectProtocol.description$1.implement(builder, description$1);
-    NSObjectProtocol.hash$1.implement(builder, hash$1);
+    NSObjectProtocol.debugDescription.implement(builder, debugDescription);
+    NSObjectProtocol.description.implement(builder, description);
+    NSObjectProtocol.hash.implement(builder, hash);
     NSObjectProtocol.isEqual_.implement(builder, isEqual_);
     NSObjectProtocol.isKindOfClass_.implement(builder, isKindOfClass_);
     NSObjectProtocol.isMemberOfClass_.implement(builder, isMemberOfClass_);
-    NSObjectProtocol.isProxy$1.implement(builder, isProxy$1);
+    NSObjectProtocol.isProxy.implement(builder, isProxy);
     NSObjectProtocol.performSelector_.implement(builder, performSelector_);
     NSObjectProtocol.performSelector_withObject_.implement(
       builder,
@@ -15254,16 +15254,16 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       builder,
       performSelector_withObject_withObject_,
     );
-    NSObjectProtocol.release$1.implement(builder, release$1);
+    NSObjectProtocol.release.implement(builder, release);
     NSObjectProtocol.respondsToSelector_.implement(
       builder,
       respondsToSelector_,
     );
-    NSObjectProtocol.retain$1.implement(builder, retain$1);
-    NSObjectProtocol.retainCount$1.implement(builder, retainCount$1);
-    NSObjectProtocol.self$1.implement(builder, self$1);
-    NSObjectProtocol.superclass$1.implement(builder, superclass$1);
-    NSObjectProtocol.zone$1.implement(builder, zone$1);
+    NSObjectProtocol.retain.implement(builder, retain);
+    NSObjectProtocol.retainCount.implement(builder, retainCount);
+    NSObjectProtocol.self.implement(builder, self);
+    NSObjectProtocol.superclass.implement(builder, superclass);
+    NSObjectProtocol.zone.implement(builder, zone);
     builder.addProtocol($protocol);
   }
 
@@ -15274,16 +15274,16 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
   /// alive until it is garbage collected by both Dart and ObjC.
   static NSObjectProtocol implementAsListener({
-    required objc.ObjCObjectBase Function() autorelease$1,
-    required objc.ObjCObjectBase Function() class$1,
+    required objc.ObjCObjectBase Function() autorelease,
+    required objc.ObjCObjectBase Function() class$,
     required bool Function(Protocol) conformsToProtocol_,
-    NSString Function()? debugDescription$1,
-    required NSString Function() description$1,
-    required int Function() hash$1,
+    NSString Function()? debugDescription,
+    required NSString Function() description,
+    required int Function() hash,
     required bool Function(objc.ObjCObjectBase) isEqual_,
     required bool Function(objc.ObjCObjectBase) isKindOfClass_,
     required bool Function(objc.ObjCObjectBase) isMemberOfClass_,
-    required bool Function() isProxy$1,
+    required bool Function() isProxy,
     required objc.ObjCObjectBase Function(ffi.Pointer<objc.ObjCSelector>)
     performSelector_,
     required objc.ObjCObjectBase Function(
@@ -15297,29 +15297,29 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       objc.ObjCObjectBase,
     )
     performSelector_withObject_withObject_,
-    required void Function() release$1,
+    required void Function() release,
     required bool Function(ffi.Pointer<objc.ObjCSelector>) respondsToSelector_,
-    required objc.ObjCObjectBase Function() retain$1,
-    required int Function() retainCount$1,
-    required objc.ObjCObjectBase Function() self$1,
-    required objc.ObjCObjectBase Function() superclass$1,
-    required ffi.Pointer<NSZone> Function() zone$1,
+    required objc.ObjCObjectBase Function() retain,
+    required int Function() retainCount,
+    required objc.ObjCObjectBase Function() self,
+    required objc.ObjCObjectBase Function() superclass,
+    required ffi.Pointer<NSZone> Function() zone,
     bool $keepIsolateAlive = true,
   }) {
     final builder = objc.ObjCProtocolBuilder(debugName: 'NSObject');
-    NSObjectProtocol.autorelease$1.implement(builder, autorelease$1);
-    NSObjectProtocol.class$1.implement(builder, class$1);
+    NSObjectProtocol.autorelease.implement(builder, autorelease);
+    NSObjectProtocol.class$.implement(builder, class$);
     NSObjectProtocol.conformsToProtocol_.implement(
       builder,
       conformsToProtocol_,
     );
-    NSObjectProtocol.debugDescription$1.implement(builder, debugDescription$1);
-    NSObjectProtocol.description$1.implement(builder, description$1);
-    NSObjectProtocol.hash$1.implement(builder, hash$1);
+    NSObjectProtocol.debugDescription.implement(builder, debugDescription);
+    NSObjectProtocol.description.implement(builder, description);
+    NSObjectProtocol.hash.implement(builder, hash);
     NSObjectProtocol.isEqual_.implement(builder, isEqual_);
     NSObjectProtocol.isKindOfClass_.implement(builder, isKindOfClass_);
     NSObjectProtocol.isMemberOfClass_.implement(builder, isMemberOfClass_);
-    NSObjectProtocol.isProxy$1.implement(builder, isProxy$1);
+    NSObjectProtocol.isProxy.implement(builder, isProxy);
     NSObjectProtocol.performSelector_.implement(builder, performSelector_);
     NSObjectProtocol.performSelector_withObject_.implement(
       builder,
@@ -15329,16 +15329,16 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       builder,
       performSelector_withObject_withObject_,
     );
-    NSObjectProtocol.release$1.implementAsListener(builder, release$1);
+    NSObjectProtocol.release.implementAsListener(builder, release);
     NSObjectProtocol.respondsToSelector_.implement(
       builder,
       respondsToSelector_,
     );
-    NSObjectProtocol.retain$1.implement(builder, retain$1);
-    NSObjectProtocol.retainCount$1.implement(builder, retainCount$1);
-    NSObjectProtocol.self$1.implement(builder, self$1);
-    NSObjectProtocol.superclass$1.implement(builder, superclass$1);
-    NSObjectProtocol.zone$1.implement(builder, zone$1);
+    NSObjectProtocol.retain.implement(builder, retain);
+    NSObjectProtocol.retainCount.implement(builder, retainCount);
+    NSObjectProtocol.self.implement(builder, self);
+    NSObjectProtocol.superclass.implement(builder, superclass);
+    NSObjectProtocol.zone.implement(builder, zone);
     builder.addProtocol($protocol);
     return NSObjectProtocol.castFrom(
       builder.build(keepIsolateAlive: $keepIsolateAlive),
@@ -15352,16 +15352,16 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilderAsListener(
     objc.ObjCProtocolBuilder builder, {
-    required objc.ObjCObjectBase Function() autorelease$1,
-    required objc.ObjCObjectBase Function() class$1,
+    required objc.ObjCObjectBase Function() autorelease,
+    required objc.ObjCObjectBase Function() class$,
     required bool Function(Protocol) conformsToProtocol_,
-    NSString Function()? debugDescription$1,
-    required NSString Function() description$1,
-    required int Function() hash$1,
+    NSString Function()? debugDescription,
+    required NSString Function() description,
+    required int Function() hash,
     required bool Function(objc.ObjCObjectBase) isEqual_,
     required bool Function(objc.ObjCObjectBase) isKindOfClass_,
     required bool Function(objc.ObjCObjectBase) isMemberOfClass_,
-    required bool Function() isProxy$1,
+    required bool Function() isProxy,
     required objc.ObjCObjectBase Function(ffi.Pointer<objc.ObjCSelector>)
     performSelector_,
     required objc.ObjCObjectBase Function(
@@ -15375,28 +15375,28 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       objc.ObjCObjectBase,
     )
     performSelector_withObject_withObject_,
-    required void Function() release$1,
+    required void Function() release,
     required bool Function(ffi.Pointer<objc.ObjCSelector>) respondsToSelector_,
-    required objc.ObjCObjectBase Function() retain$1,
-    required int Function() retainCount$1,
-    required objc.ObjCObjectBase Function() self$1,
-    required objc.ObjCObjectBase Function() superclass$1,
-    required ffi.Pointer<NSZone> Function() zone$1,
+    required objc.ObjCObjectBase Function() retain,
+    required int Function() retainCount,
+    required objc.ObjCObjectBase Function() self,
+    required objc.ObjCObjectBase Function() superclass,
+    required ffi.Pointer<NSZone> Function() zone,
     bool $keepIsolateAlive = true,
   }) {
-    NSObjectProtocol.autorelease$1.implement(builder, autorelease$1);
-    NSObjectProtocol.class$1.implement(builder, class$1);
+    NSObjectProtocol.autorelease.implement(builder, autorelease);
+    NSObjectProtocol.class$.implement(builder, class$);
     NSObjectProtocol.conformsToProtocol_.implement(
       builder,
       conformsToProtocol_,
     );
-    NSObjectProtocol.debugDescription$1.implement(builder, debugDescription$1);
-    NSObjectProtocol.description$1.implement(builder, description$1);
-    NSObjectProtocol.hash$1.implement(builder, hash$1);
+    NSObjectProtocol.debugDescription.implement(builder, debugDescription);
+    NSObjectProtocol.description.implement(builder, description);
+    NSObjectProtocol.hash.implement(builder, hash);
     NSObjectProtocol.isEqual_.implement(builder, isEqual_);
     NSObjectProtocol.isKindOfClass_.implement(builder, isKindOfClass_);
     NSObjectProtocol.isMemberOfClass_.implement(builder, isMemberOfClass_);
-    NSObjectProtocol.isProxy$1.implement(builder, isProxy$1);
+    NSObjectProtocol.isProxy.implement(builder, isProxy);
     NSObjectProtocol.performSelector_.implement(builder, performSelector_);
     NSObjectProtocol.performSelector_withObject_.implement(
       builder,
@@ -15406,16 +15406,16 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       builder,
       performSelector_withObject_withObject_,
     );
-    NSObjectProtocol.release$1.implementAsListener(builder, release$1);
+    NSObjectProtocol.release.implementAsListener(builder, release);
     NSObjectProtocol.respondsToSelector_.implement(
       builder,
       respondsToSelector_,
     );
-    NSObjectProtocol.retain$1.implement(builder, retain$1);
-    NSObjectProtocol.retainCount$1.implement(builder, retainCount$1);
-    NSObjectProtocol.self$1.implement(builder, self$1);
-    NSObjectProtocol.superclass$1.implement(builder, superclass$1);
-    NSObjectProtocol.zone$1.implement(builder, zone$1);
+    NSObjectProtocol.retain.implement(builder, retain);
+    NSObjectProtocol.retainCount.implement(builder, retainCount);
+    NSObjectProtocol.self.implement(builder, self);
+    NSObjectProtocol.superclass.implement(builder, superclass);
+    NSObjectProtocol.zone.implement(builder, zone);
     builder.addProtocol($protocol);
   }
 
@@ -15426,16 +15426,16 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
   /// alive until it is garbage collected by both Dart and ObjC.
   static NSObjectProtocol implementAsBlocking({
-    required objc.ObjCObjectBase Function() autorelease$1,
-    required objc.ObjCObjectBase Function() class$1,
+    required objc.ObjCObjectBase Function() autorelease,
+    required objc.ObjCObjectBase Function() class$,
     required bool Function(Protocol) conformsToProtocol_,
-    NSString Function()? debugDescription$1,
-    required NSString Function() description$1,
-    required int Function() hash$1,
+    NSString Function()? debugDescription,
+    required NSString Function() description,
+    required int Function() hash,
     required bool Function(objc.ObjCObjectBase) isEqual_,
     required bool Function(objc.ObjCObjectBase) isKindOfClass_,
     required bool Function(objc.ObjCObjectBase) isMemberOfClass_,
-    required bool Function() isProxy$1,
+    required bool Function() isProxy,
     required objc.ObjCObjectBase Function(ffi.Pointer<objc.ObjCSelector>)
     performSelector_,
     required objc.ObjCObjectBase Function(
@@ -15449,29 +15449,29 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       objc.ObjCObjectBase,
     )
     performSelector_withObject_withObject_,
-    required void Function() release$1,
+    required void Function() release,
     required bool Function(ffi.Pointer<objc.ObjCSelector>) respondsToSelector_,
-    required objc.ObjCObjectBase Function() retain$1,
-    required int Function() retainCount$1,
-    required objc.ObjCObjectBase Function() self$1,
-    required objc.ObjCObjectBase Function() superclass$1,
-    required ffi.Pointer<NSZone> Function() zone$1,
+    required objc.ObjCObjectBase Function() retain,
+    required int Function() retainCount,
+    required objc.ObjCObjectBase Function() self,
+    required objc.ObjCObjectBase Function() superclass,
+    required ffi.Pointer<NSZone> Function() zone,
     bool $keepIsolateAlive = true,
   }) {
     final builder = objc.ObjCProtocolBuilder(debugName: 'NSObject');
-    NSObjectProtocol.autorelease$1.implement(builder, autorelease$1);
-    NSObjectProtocol.class$1.implement(builder, class$1);
+    NSObjectProtocol.autorelease.implement(builder, autorelease);
+    NSObjectProtocol.class$.implement(builder, class$);
     NSObjectProtocol.conformsToProtocol_.implement(
       builder,
       conformsToProtocol_,
     );
-    NSObjectProtocol.debugDescription$1.implement(builder, debugDescription$1);
-    NSObjectProtocol.description$1.implement(builder, description$1);
-    NSObjectProtocol.hash$1.implement(builder, hash$1);
+    NSObjectProtocol.debugDescription.implement(builder, debugDescription);
+    NSObjectProtocol.description.implement(builder, description);
+    NSObjectProtocol.hash.implement(builder, hash);
     NSObjectProtocol.isEqual_.implement(builder, isEqual_);
     NSObjectProtocol.isKindOfClass_.implement(builder, isKindOfClass_);
     NSObjectProtocol.isMemberOfClass_.implement(builder, isMemberOfClass_);
-    NSObjectProtocol.isProxy$1.implement(builder, isProxy$1);
+    NSObjectProtocol.isProxy.implement(builder, isProxy);
     NSObjectProtocol.performSelector_.implement(builder, performSelector_);
     NSObjectProtocol.performSelector_withObject_.implement(
       builder,
@@ -15481,16 +15481,16 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       builder,
       performSelector_withObject_withObject_,
     );
-    NSObjectProtocol.release$1.implementAsBlocking(builder, release$1);
+    NSObjectProtocol.release.implementAsBlocking(builder, release);
     NSObjectProtocol.respondsToSelector_.implement(
       builder,
       respondsToSelector_,
     );
-    NSObjectProtocol.retain$1.implement(builder, retain$1);
-    NSObjectProtocol.retainCount$1.implement(builder, retainCount$1);
-    NSObjectProtocol.self$1.implement(builder, self$1);
-    NSObjectProtocol.superclass$1.implement(builder, superclass$1);
-    NSObjectProtocol.zone$1.implement(builder, zone$1);
+    NSObjectProtocol.retain.implement(builder, retain);
+    NSObjectProtocol.retainCount.implement(builder, retainCount);
+    NSObjectProtocol.self.implement(builder, self);
+    NSObjectProtocol.superclass.implement(builder, superclass);
+    NSObjectProtocol.zone.implement(builder, zone);
     builder.addProtocol($protocol);
     return NSObjectProtocol.castFrom(
       builder.build(keepIsolateAlive: $keepIsolateAlive),
@@ -15504,16 +15504,16 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   /// Note: You cannot call this method after you have called `builder.build`.
   static void addToBuilderAsBlocking(
     objc.ObjCProtocolBuilder builder, {
-    required objc.ObjCObjectBase Function() autorelease$1,
-    required objc.ObjCObjectBase Function() class$1,
+    required objc.ObjCObjectBase Function() autorelease,
+    required objc.ObjCObjectBase Function() class$,
     required bool Function(Protocol) conformsToProtocol_,
-    NSString Function()? debugDescription$1,
-    required NSString Function() description$1,
-    required int Function() hash$1,
+    NSString Function()? debugDescription,
+    required NSString Function() description,
+    required int Function() hash,
     required bool Function(objc.ObjCObjectBase) isEqual_,
     required bool Function(objc.ObjCObjectBase) isKindOfClass_,
     required bool Function(objc.ObjCObjectBase) isMemberOfClass_,
-    required bool Function() isProxy$1,
+    required bool Function() isProxy,
     required objc.ObjCObjectBase Function(ffi.Pointer<objc.ObjCSelector>)
     performSelector_,
     required objc.ObjCObjectBase Function(
@@ -15527,28 +15527,28 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       objc.ObjCObjectBase,
     )
     performSelector_withObject_withObject_,
-    required void Function() release$1,
+    required void Function() release,
     required bool Function(ffi.Pointer<objc.ObjCSelector>) respondsToSelector_,
-    required objc.ObjCObjectBase Function() retain$1,
-    required int Function() retainCount$1,
-    required objc.ObjCObjectBase Function() self$1,
-    required objc.ObjCObjectBase Function() superclass$1,
-    required ffi.Pointer<NSZone> Function() zone$1,
+    required objc.ObjCObjectBase Function() retain,
+    required int Function() retainCount,
+    required objc.ObjCObjectBase Function() self,
+    required objc.ObjCObjectBase Function() superclass,
+    required ffi.Pointer<NSZone> Function() zone,
     bool $keepIsolateAlive = true,
   }) {
-    NSObjectProtocol.autorelease$1.implement(builder, autorelease$1);
-    NSObjectProtocol.class$1.implement(builder, class$1);
+    NSObjectProtocol.autorelease.implement(builder, autorelease);
+    NSObjectProtocol.class$.implement(builder, class$);
     NSObjectProtocol.conformsToProtocol_.implement(
       builder,
       conformsToProtocol_,
     );
-    NSObjectProtocol.debugDescription$1.implement(builder, debugDescription$1);
-    NSObjectProtocol.description$1.implement(builder, description$1);
-    NSObjectProtocol.hash$1.implement(builder, hash$1);
+    NSObjectProtocol.debugDescription.implement(builder, debugDescription);
+    NSObjectProtocol.description.implement(builder, description);
+    NSObjectProtocol.hash.implement(builder, hash);
     NSObjectProtocol.isEqual_.implement(builder, isEqual_);
     NSObjectProtocol.isKindOfClass_.implement(builder, isKindOfClass_);
     NSObjectProtocol.isMemberOfClass_.implement(builder, isMemberOfClass_);
-    NSObjectProtocol.isProxy$1.implement(builder, isProxy$1);
+    NSObjectProtocol.isProxy.implement(builder, isProxy);
     NSObjectProtocol.performSelector_.implement(builder, performSelector_);
     NSObjectProtocol.performSelector_withObject_.implement(
       builder,
@@ -15558,21 +15558,21 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       builder,
       performSelector_withObject_withObject_,
     );
-    NSObjectProtocol.release$1.implementAsBlocking(builder, release$1);
+    NSObjectProtocol.release.implementAsBlocking(builder, release);
     NSObjectProtocol.respondsToSelector_.implement(
       builder,
       respondsToSelector_,
     );
-    NSObjectProtocol.retain$1.implement(builder, retain$1);
-    NSObjectProtocol.retainCount$1.implement(builder, retainCount$1);
-    NSObjectProtocol.self$1.implement(builder, self$1);
-    NSObjectProtocol.superclass$1.implement(builder, superclass$1);
-    NSObjectProtocol.zone$1.implement(builder, zone$1);
+    NSObjectProtocol.retain.implement(builder, retain);
+    NSObjectProtocol.retainCount.implement(builder, retainCount);
+    NSObjectProtocol.self.implement(builder, self);
+    NSObjectProtocol.superclass.implement(builder, superclass);
+    NSObjectProtocol.zone.implement(builder, zone);
     builder.addProtocol($protocol);
   }
 
   /// autorelease
-  static final autorelease$1 =
+  static final autorelease =
       objc.ObjCProtocolMethod<objc.ObjCObjectBase Function()>(
         _protocol_NSObject,
         _sel_autorelease,
@@ -15598,30 +15598,29 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       );
 
   /// class
-  static final class$1 =
-      objc.ObjCProtocolMethod<objc.ObjCObjectBase Function()>(
-        _protocol_NSObject,
-        _sel_class,
-        ffi.Native.addressOf<
-              ffi.NativeFunction<
-                ffi.Pointer<objc.ObjCObject> Function(
-                  ffi.Pointer<objc.ObjCObject>,
-                  ffi.Pointer<ffi.Void>,
-                )
-              >
-            >(_ObjectiveCBindings_protocolTrampoline_1mbt9g9)
-            .cast(),
-        objc.getProtocolMethodSignature(
-          _protocol_NSObject,
-          _sel_class,
-          isRequired: true,
-          isInstanceMethod: true,
+  static final class$ = objc.ObjCProtocolMethod<objc.ObjCObjectBase Function()>(
+    _protocol_NSObject,
+    _sel_class,
+    ffi.Native.addressOf<
+          ffi.NativeFunction<
+            ffi.Pointer<objc.ObjCObject> Function(
+              ffi.Pointer<objc.ObjCObject>,
+              ffi.Pointer<ffi.Void>,
+            )
+          >
+        >(_ObjectiveCBindings_protocolTrampoline_1mbt9g9)
+        .cast(),
+    objc.getProtocolMethodSignature(
+      _protocol_NSObject,
+      _sel_class,
+      isRequired: true,
+      isInstanceMethod: true,
+    ),
+    (objc.ObjCObjectBase Function() func) =>
+        ObjCBlock_objcObjCObject_ffiVoid.fromFunction(
+          (ffi.Pointer<ffi.Void> _) => func(),
         ),
-        (objc.ObjCObjectBase Function() func) =>
-            ObjCBlock_objcObjCObject_ffiVoid.fromFunction(
-              (ffi.Pointer<ffi.Void> _) => func(),
-            ),
-      );
+  );
 
   /// conformsToProtocol:
   static final conformsToProtocol_ =
@@ -15651,32 +15650,31 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       );
 
   /// debugDescription
-  static final debugDescription$1 =
-      objc.ObjCProtocolMethod<NSString Function()>(
-        _protocol_NSObject,
-        _sel_debugDescription,
-        ffi.Native.addressOf<
-              ffi.NativeFunction<
-                ffi.Pointer<objc.ObjCObject> Function(
-                  ffi.Pointer<objc.ObjCObject>,
-                  ffi.Pointer<ffi.Void>,
-                )
-              >
-            >(_ObjectiveCBindings_protocolTrampoline_1mbt9g9)
-            .cast(),
-        objc.getProtocolMethodSignature(
-          _protocol_NSObject,
-          _sel_debugDescription,
-          isRequired: false,
-          isInstanceMethod: true,
-        ),
-        (NSString Function() func) => ObjCBlock_NSString_ffiVoid.fromFunction(
-          (ffi.Pointer<ffi.Void> _) => func(),
-        ),
-      );
+  static final debugDescription = objc.ObjCProtocolMethod<NSString Function()>(
+    _protocol_NSObject,
+    _sel_debugDescription,
+    ffi.Native.addressOf<
+          ffi.NativeFunction<
+            ffi.Pointer<objc.ObjCObject> Function(
+              ffi.Pointer<objc.ObjCObject>,
+              ffi.Pointer<ffi.Void>,
+            )
+          >
+        >(_ObjectiveCBindings_protocolTrampoline_1mbt9g9)
+        .cast(),
+    objc.getProtocolMethodSignature(
+      _protocol_NSObject,
+      _sel_debugDescription,
+      isRequired: false,
+      isInstanceMethod: true,
+    ),
+    (NSString Function() func) => ObjCBlock_NSString_ffiVoid.fromFunction(
+      (ffi.Pointer<ffi.Void> _) => func(),
+    ),
+  );
 
   /// description
-  static final description$1 = objc.ObjCProtocolMethod<NSString Function()>(
+  static final description = objc.ObjCProtocolMethod<NSString Function()>(
     _protocol_NSObject,
     _sel_description,
     ffi.Native.addressOf<
@@ -15700,7 +15698,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   );
 
   /// hash
-  static final hash$1 = objc.ObjCProtocolMethod<int Function()>(
+  static final hash = objc.ObjCProtocolMethod<int Function()>(
     _protocol_NSObject,
     _sel_hash,
     ffi.Native.addressOf<
@@ -15805,7 +15803,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       );
 
   /// isProxy
-  static final isProxy$1 = objc.ObjCProtocolMethod<bool Function()>(
+  static final isProxy = objc.ObjCProtocolMethod<bool Function()>(
     _protocol_NSObject,
     _sel_isProxy,
     ffi.Native.addressOf<
@@ -15949,7 +15947,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       );
 
   /// release
-  static final release$1 = objc.ObjCProtocolListenableMethod<void Function()>(
+  static final release = objc.ObjCProtocolListenableMethod<void Function()>(
     _protocol_NSObject,
     _sel_release,
     ffi.Native.addressOf<
@@ -16005,33 +16003,32 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       );
 
   /// retain
-  static final retain$1 =
-      objc.ObjCProtocolMethod<objc.ObjCObjectBase Function()>(
-        _protocol_NSObject,
-        _sel_retain,
-        ffi.Native.addressOf<
-              ffi.NativeFunction<
-                ffi.Pointer<objc.ObjCObject> Function(
-                  ffi.Pointer<objc.ObjCObject>,
-                  ffi.Pointer<ffi.Void>,
-                )
-              >
-            >(_ObjectiveCBindings_protocolTrampoline_1mbt9g9)
-            .cast(),
-        objc.getProtocolMethodSignature(
-          _protocol_NSObject,
-          _sel_retain,
-          isRequired: true,
-          isInstanceMethod: true,
+  static final retain = objc.ObjCProtocolMethod<objc.ObjCObjectBase Function()>(
+    _protocol_NSObject,
+    _sel_retain,
+    ffi.Native.addressOf<
+          ffi.NativeFunction<
+            ffi.Pointer<objc.ObjCObject> Function(
+              ffi.Pointer<objc.ObjCObject>,
+              ffi.Pointer<ffi.Void>,
+            )
+          >
+        >(_ObjectiveCBindings_protocolTrampoline_1mbt9g9)
+        .cast(),
+    objc.getProtocolMethodSignature(
+      _protocol_NSObject,
+      _sel_retain,
+      isRequired: true,
+      isInstanceMethod: true,
+    ),
+    (objc.ObjCObjectBase Function() func) =>
+        ObjCBlock_objcObjCObject_ffiVoid.fromFunction(
+          (ffi.Pointer<ffi.Void> _) => func(),
         ),
-        (objc.ObjCObjectBase Function() func) =>
-            ObjCBlock_objcObjCObject_ffiVoid.fromFunction(
-              (ffi.Pointer<ffi.Void> _) => func(),
-            ),
-      );
+  );
 
   /// retainCount
-  static final retainCount$1 = objc.ObjCProtocolMethod<int Function()>(
+  static final retainCount = objc.ObjCProtocolMethod<int Function()>(
     _protocol_NSObject,
     _sel_retainCount,
     ffi.Native.addressOf<
@@ -16055,7 +16052,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   );
 
   /// self
-  static final self$1 = objc.ObjCProtocolMethod<objc.ObjCObjectBase Function()>(
+  static final self = objc.ObjCProtocolMethod<objc.ObjCObjectBase Function()>(
     _protocol_NSObject,
     _sel_self,
     ffi.Native.addressOf<
@@ -16080,7 +16077,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
   );
 
   /// superclass
-  static final superclass$1 =
+  static final superclass =
       objc.ObjCProtocolMethod<objc.ObjCObjectBase Function()>(
         _protocol_NSObject,
         _sel_superclass,
@@ -16106,7 +16103,7 @@ interface class NSObjectProtocol extends objc.ObjCProtocolBase {
       );
 
   /// zone
-  static final zone$1 = objc.ObjCProtocolMethod<ffi.Pointer<NSZone> Function()>(
+  static final zone = objc.ObjCProtocolMethod<ffi.Pointer<NSZone> Function()>(
     _protocol_NSObject,
     _sel_zone,
     ffi.Native.addressOf<
@@ -20736,7 +20733,7 @@ extension NSStringExtensionMethods on NSString {
   }
 
   /// description
-  NSString get description$2 {
+  NSString get description$1 {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_description);
     return NSString.castFromPointer(_ret, retain: true, release: true);
   }
@@ -20903,7 +20900,7 @@ extension NSStringExtensionMethods on NSString {
   }
 
   /// hash
-  int get hash$2 {
+  int get hash$1 {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_hash);
   }
 

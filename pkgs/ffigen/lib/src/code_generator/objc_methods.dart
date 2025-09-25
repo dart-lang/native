@@ -226,9 +226,19 @@ class ObjCMethod extends AstNode with HasLocalNamespace {
     required List<Parameter> params,
     required this.ownershipAttribute,
     required this.consumesSelfAttribute,
-  }) : protocolMethodName = Symbol(protocolMethodName.replaceAll(':', '_')),
+  }) : protocolMethodName = _makeProtocolMethodName(protocolMethodName, symbol),
        _params = params,
        selObject = context.objCBuiltInFunctions.getSelObject(originalName);
+
+  static Symbol _makeProtocolMethodName(
+    String protocolMethodName,
+    Symbol symbol,
+  ) {
+    protocolMethodName = protocolMethodName.replaceAll(':', '_');
+    return protocolMethodName == symbol.oldName
+        ? symbol
+        : Symbol(protocolMethodName);
+  }
 
   factory ObjCMethod({
     required Context context,

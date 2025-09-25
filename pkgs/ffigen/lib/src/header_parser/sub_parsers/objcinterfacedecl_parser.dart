@@ -193,7 +193,7 @@ void _parseSuperType(
   final getter = ObjCMethod(
     context: context,
     originalName: getterName,
-    name: getterName,
+    name: filters.renameMember(decl, getterName),
     dartDoc: dartDoc ?? getterName,
     kind: ObjCMethodKind.propertyGetter,
     isClassMethod: isClassMethod,
