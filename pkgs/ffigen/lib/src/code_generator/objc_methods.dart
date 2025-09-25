@@ -179,7 +179,7 @@ class ObjCMethod extends AstNode with HasLocalNamespace {
   final String? dartDoc;
   final String originalName;
   Symbol symbol;
-  final Symbol protocolMethodName;
+  final String originalProtocolMethodName;
   Type returnType;
   final List<Parameter> _params;
   ObjCMethodKind kind;
@@ -192,6 +192,7 @@ class ObjCMethod extends AstNode with HasLocalNamespace {
   ObjCInternalGlobal selObject;
   ObjCMsgSendFunc? msgSend;
   ObjCBlock? protocolBlock;
+  Symbol? protocolMethodName;
 
   @override
   void visitChildren(Visitor visitor) {
@@ -226,19 +227,9 @@ class ObjCMethod extends AstNode with HasLocalNamespace {
     required List<Parameter> params,
     required this.ownershipAttribute,
     required this.consumesSelfAttribute,
-  }) : protocolMethodName = _makeProtocolMethodName(protocolMethodName, symbol),
+  }) : originalProtocolMethodName = protocolMethodName.replaceAll(':', '_'),
        _params = params,
        selObject = context.objCBuiltInFunctions.getSelObject(originalName);
-
-  static Symbol _makeProtocolMethodName(
-    String protocolMethodName,
-    Symbol symbol,
-  ) {
-    protocolMethodName = protocolMethodName.replaceAll(':', '_');
-    return protocolMethodName == symbol.oldName
-        ? symbol
-        : Symbol(protocolMethodName);
-  }
 
   factory ObjCMethod({
     required Context context,
@@ -334,6 +325,9 @@ class ObjCMethod extends AstNode with HasLocalNamespace {
       ],
       returnsRetained: returnsRetained,
     )..fillProtocolTrampoline();
+    protocolMethodName ??= symbol.oldName == originalProtocolMethodName
+        ? symbol
+        : Symbol(originalProtocolMethodName);
   }
 
   bool sameAs(ObjCMethod other) {

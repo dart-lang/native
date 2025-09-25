@@ -19,25 +19,35 @@ final class Visitor {
   final Visitation _visitation;
   final _seen = <AstNode>{};
   final bool _debug;
-  int _indentLevel = 0;
+  final _debugStack = <AstNode>[];
 
   /// Visits a node.
   void visit(AstNode? node) {
     if (node == null) return;
     if (_debug) {
-      context.logger.info('${'  ' * _indentLevel++}${node.runtimeType}: $node');
+      final indent = '  ' * _debugStack.length;
+      context.logger.info('$indent${node.runtimeType}: $node');
     }
+    _debugStack.add(node);
     if (!_seen.contains(node)) {
       _seen.add(node);
       node.visit(_visitation);
     }
-    if (_debug) --_indentLevel;
+    _debugStack.removeLast();
   }
 
   /// Helper method for visiting an iterable of nodes.
   void visitAll(Iterable<AstNode> nodes) {
     for (final node in nodes) {
       visit(node);
+    }
+  }
+
+  void debugPrintStack() {
+    var indent = '';
+    for (final node in _debugStack) {
+      context.logger.info('$indent${node.runtimeType}: $node');
+      indent += '  ';
     }
   }
 }

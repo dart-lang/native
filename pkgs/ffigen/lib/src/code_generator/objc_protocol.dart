@@ -118,7 +118,7 @@ interface class $name extends $protocolBase $impls{
 
       var anyListeners = false;
       for (final method in methods) {
-        final methodName = method.protocolMethodName.name;
+        final methodName = method.protocolMethodName!.name;
         final fieldName = methodName;
         final argName = methodName;
         final block = method.protocolBlock!;

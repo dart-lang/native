@@ -69,8 +69,8 @@ ${generateMethodBindings(w, parent)}
     super.visitChildren(visitor);
     visitor.visit(parent);
     visitor.visit(classObject);
-    visitor.visitAll(protocols);
     visitMethods(visitor);
     visitor.visit(objcPkgImport);
+    visitor.visitAll(protocols);
   }
 }

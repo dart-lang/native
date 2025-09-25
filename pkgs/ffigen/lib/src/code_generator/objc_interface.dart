@@ -246,10 +246,10 @@ ${generateInstanceMethodBindings(w, this)}
     visitor.visit(classObject);
     visitor.visit(_isKindOfClass);
     visitor.visit(_isKindOfClassMsgSend);
-    visitor.visitAll(protocols);
-    visitor.visitAll(categories);
     visitMethods(visitor);
     visitor.visit(objcPkgImport);
+    visitor.visitAll(categories);
+    visitor.visitAll(protocols);
 
     // Note: Don't visit subtypes here, because they shouldn't affect transitive
     // inclusion. Including an interface shouldn't auto-include all its

@@ -163,9 +163,7 @@ class FixOverriddenMethodsVisitation extends Visitation {
     for (final method in node.methods) {
       if (method.isClassMethod) continue;
       final (superType, superMethod) = _findRootWithMethod(node, method);
-      if (superType != null && superMethod != null) {
-        method.symbol = superMethod.symbol;
-      }
+      method.symbol = superMethod.symbol;
     }
   }
 

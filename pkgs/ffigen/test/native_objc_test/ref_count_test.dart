@@ -154,7 +154,7 @@ void main() {
       expect(counter.value, 2);
       final obj3 = obj1.mutableCopyMe();
       expect(counter.value, 3);
-      final obj4 = obj1.copyWithZone(nullptr);
+      final obj4 = obj1.copyWithZone$1(nullptr);
       expect(counter.value, 4);
       final obj5 = obj1.copy();
       expect(counter.value, 5);
