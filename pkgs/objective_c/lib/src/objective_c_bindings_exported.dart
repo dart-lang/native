@@ -116,6 +116,8 @@ export 'objective_c_bindings_generated.dart'
         NSMutableString$Methods,
         NSNotification,
         NSNotification$Methods,
+        NSNull,
+        NSNull$Methods,
         NSNumber,
         NSNumber$Methods,
         NSNumberCreation,

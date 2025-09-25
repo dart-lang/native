@@ -186,19 +186,26 @@ If the classes are in JAR file, make sure to provide path to JAR file itself, an
 If the errors are similar to `symbol not found`, ensure all dependencies of the source are available. If such dependency is compiled, it can be included in `class_path`.
 
 #### Generate bindings for built-in types
-To generate bindings for built-in Java types (like those in `java.*` packages), you need to provide the OpenJDK source code to the generator. Here's how:
+For your convenience, a number of built-in Java types, for example, many of those in `java.lang` and `java.util`, are provided to your build by `jni` by default.
 
-1. Locate the `src.zip` file in your Java installation directory
-2. Extract the `java.base` folder from this zip file
-3. Add the path to the extracted `java.base` folder in your `source_path` list in the YAML configuration
+Those don't need to be included in the classes block, and will error if you do so, with the following error:
+`Fatal: Trying to re-import the generated classes`.
 
-For example, to generate bindings for `java.lang.Math`, your configuration might look like:
+For any other types that are in core Java, you can add them in your `classes` block and bindings will be generated when you run the generate bindings task.
 
-```yaml
-source_path:
-  - '/path/to/extracted/java.base'
+Below is a snippet showing how you might generate bindings for several classes in `java.time.*` and a `java.lang` class that is not included by default.
+
+``` yaml
+output:
+  dart:
+    path: lib/gen/
+
 classes:
+  - 'java.time.Instant'
+  - 'java.time.ZoneOffset'
+  - 'java.time.ZonedDateTime'
   - 'java.lang.Math'
+# - 'java.lang.Integer' # Will error, already included in binary
 ```
 
 #### How are classes mapped into bindings?

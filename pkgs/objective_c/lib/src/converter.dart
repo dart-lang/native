@@ -19,9 +19,10 @@ ObjCObjectBase _defaultObjCConverter(Object o) =>
 /// If [dartObject] is not one of the recognized types, [convertOther] is
 /// called. If [convertOther] is not provided, an error is thrown.
 ObjCObjectBase toObjCObject(
-  Object dartObject, {
+  Object? dartObject, {
   ObjCObjectBase Function(Object) convertOther = _defaultObjCConverter,
 }) => switch (dartObject) {
+  null => NSNull.null$(),
   ObjCObjectBase() => dartObject,
   num() => dartObject.toNSNumber(),
   String() => dartObject.toNSString(),
@@ -97,6 +98,20 @@ Object toDartObject(
     ).toDartMap(convertOther: convertOther);
   }
   return convertOther(objCObject);
+}
+
+/// Converts a Objective C object to the corresponding Dart object.
+///
+/// See [toDartObject]. This method will additionally return `null` if passed an
+/// `NSNull`.
+Object? toNullableDartObject(
+  ObjCObjectBase objCObject, {
+  Object Function(ObjCObjectBase) convertOther = _defaultDartConverter,
+}) {
+  if (NSNull.isInstance(objCObject)) {
+    return null;
+  }
+  return toDartObject(objCObject, convertOther: convertOther);
 }
 
 extension NSArrayToDartList on NSArray {
