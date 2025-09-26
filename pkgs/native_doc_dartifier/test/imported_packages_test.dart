@@ -15,8 +15,6 @@ void main() {
       Directory.current.path,
       p.absolute('test/dartify_simple_cases/bindings.dart'),
     );
-    final logFile = File('output.txt');
-    await logFile.writeAsString(context!.toDartLikeRepresentation());
   });
 
   test('Get imported packages only', () {
