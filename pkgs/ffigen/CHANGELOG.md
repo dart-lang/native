@@ -23,6 +23,9 @@
   Users who cared about this distinction were likely already using
   `enums.as-int` for these enums. This change just provides a better default
   behavior, so is unlikely to cause any substantive code changes.
+- __Breaking_change__: The name collision resolution system has been overhauled
+  to fix various bugs, and make the renaming more consistent. As a result, in
+  some cases different names may be chosen when resolving collisions.
 - Fix for opaque dependencies for struct/union const arrays.
 
 ## 19.1.0

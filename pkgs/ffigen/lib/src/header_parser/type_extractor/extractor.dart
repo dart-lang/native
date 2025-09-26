@@ -411,9 +411,9 @@ void _parseAndMergeParamNames(
   for (final param in functionType.parameters) {
     final paramRealType = param.type.typealiasType;
     final paramBaseType = paramRealType.baseType.typealiasType;
-    if (paramBaseType is NativeFunc && param.name.isNotEmpty) {
+    if (paramBaseType is NativeFunc && param.originalName.isNotEmpty) {
       final paramFunctionType = paramBaseType.type;
-      final paramCursor = paramsInfo.params[param.name];
+      final paramCursor = paramsInfo.params[param.originalName];
       _parseAndMergeParamNames(
         context,
         paramFunctionType,

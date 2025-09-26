@@ -38,7 +38,7 @@ class Bindings$1 {
   late final __SymbolAddresses_1 = __SymbolAddresses_1Ptr
       .asFunction<void Function()>();
 
-  late final addresses = _SymbolAddresses$1(this);
+  late final addresses$1 = _SymbolAddresses$1(this);
 }
 
 class _SymbolAddresses$1 {

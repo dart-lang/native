@@ -74,6 +74,7 @@ Future<void> _buildSwift(
 }
 
 Future<void> _runDart(List<String> args) async {
+  args = ['--enable-asserts', ...args];
   final process = await Process.start(
     Platform.executable,
     args,

@@ -16,7 +16,7 @@ final class B extends ffi.Struct {
   external int B$1;
 
   @ffi.Int()
-  external int A;
+  external int A$1;
 }
 
 final class C extends ffi.Struct {

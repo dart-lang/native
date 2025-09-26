@@ -14,6 +14,7 @@
 // ignore_for_file: type=lint
 import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
+import 'package:ffi/ffi.dart' as pkg_ffi;
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCObject> Function(
@@ -116,41 +117,6 @@ final _objc_msgSend_1cwp428 = objc.msgSendPointer
     >();
 late final _sel_alloc = objc.registerName("alloc");
 late final _sel_self = objc.registerName("self");
-ffi.Pointer<objc.ObjCObject> _ObjCBlock_objcObjCObject_ffiVoid_fnPtrTrampoline(
-  ffi.Pointer<objc.ObjCBlockImpl> block,
-  ffi.Pointer<ffi.Void> arg0,
-) => block.ref.target
-    .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void> arg0)
-      >
-    >()
-    .asFunction<
-      ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
-    >()(arg0);
-ffi.Pointer<ffi.Void> _ObjCBlock_objcObjCObject_ffiVoid_fnPtrCallable =
-    ffi.Pointer.fromFunction<
-          ffi.Pointer<objc.ObjCObject> Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-          )
-        >(_ObjCBlock_objcObjCObject_ffiVoid_fnPtrTrampoline)
-        .cast();
-ffi.Pointer<objc.ObjCObject>
-_ObjCBlock_objcObjCObject_ffiVoid_closureTrampoline(
-  ffi.Pointer<objc.ObjCBlockImpl> block,
-  ffi.Pointer<ffi.Void> arg0,
-) =>
-    (objc.getBlockClosure(block)
-        as ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>))(arg0);
-ffi.Pointer<ffi.Void> _ObjCBlock_objcObjCObject_ffiVoid_closureCallable =
-    ffi.Pointer.fromFunction<
-          ffi.Pointer<objc.ObjCObject> Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-          )
-        >(_ObjCBlock_objcObjCObject_ffiVoid_closureTrampoline)
-        .cast();
 
 /// Construction methods for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>`.
 abstract final class ObjCBlock_objcObjCObject_ffiVoid {
@@ -186,10 +152,7 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid {
       objc.ObjCBlock<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
       >(
-        objc.newPointerBlock(
-          _ObjCBlock_objcObjCObject_ffiVoid_fnPtrCallable,
-          ptr.cast(),
-        ),
+        objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
         retain: false,
         release: true,
       );
@@ -213,17 +176,54 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid {
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
       >(
         objc.newClosureBlock(
-          _ObjCBlock_objcObjCObject_ffiVoid_closureCallable,
+          _closureCallable,
           (ffi.Pointer<ffi.Void> arg0) => fn(arg0).ref.retainAndAutorelease(),
           keepIsolateAlive,
         ),
         retain: false,
         release: true,
       );
+
+  static ffi.Pointer<objc.ObjCObject> _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+  ) => block.ref.target
+      .cast<
+        ffi.NativeFunction<
+          ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void> arg0)
+        >
+      >()
+      .asFunction<
+        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
+      >()(arg0);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObject> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+            )
+          >(_fnPtrTrampoline)
+          .cast();
+  static ffi.Pointer<objc.ObjCObject> _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+  ) =>
+      (objc.getBlockClosure(block)
+          as ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>))(
+        arg0,
+      );
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObject> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+            )
+          >(_closureTrampoline)
+          .cast();
 }
 
 /// Call operator for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>`.
-extension ObjCBlock_objcObjCObject_ffiVoid_CallExtension
+extension ObjCBlock_objcObjCObject_ffiVoid$CallExtension
     on
         objc.ObjCBlock<
           ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
@@ -280,20 +280,37 @@ class SwiftClass extends objc.NSObject {
     );
   }
 
-  /// sayHello
-  objc.NSString sayHello() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_sayHello);
-    return objc.NSString.castFromPointer(_ret, retain: true, release: true);
+  /// alloc
+  static SwiftClass alloc() {
+    final _ret = _objc_msgSend_151sglz(_class_SwiftClass, _sel_alloc);
+    return SwiftClass.castFromPointer(_ret, retain: false, release: true);
   }
 
-  /// someField
-  int get someField {
-    return _objc_msgSend_1hz7y9r(this.ref.pointer, _sel_someField);
+  /// allocWithZone:
+  static SwiftClass allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+    final _ret = _objc_msgSend_1cwp428(
+      _class_SwiftClass,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return SwiftClass.castFromPointer(_ret, retain: false, release: true);
   }
 
-  /// setSomeField:
-  set someField(int value) {
-    _objc_msgSend_4sp4xj(this.ref.pointer, _sel_setSomeField_, value);
+  /// new
+  static SwiftClass new$() {
+    final _ret = _objc_msgSend_151sglz(_class_SwiftClass, _sel_new);
+    return SwiftClass.castFromPointer(_ret, retain: false, release: true);
+  }
+
+  /// Returns a new instance of SwiftClass constructed with the default `new` method.
+  factory SwiftClass() => new$();
+}
+
+extension SwiftClass$Methods on SwiftClass {
+  /// autorelease
+  SwiftClass autorelease() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
+    return SwiftClass.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// init
@@ -310,46 +327,31 @@ class SwiftClass extends objc.NSObject {
     return SwiftClass.castFromPointer(_ret, retain: false, release: true);
   }
 
-  /// new
-  static SwiftClass new$() {
-    final _ret = _objc_msgSend_151sglz(_class_SwiftClass, _sel_new);
-    return SwiftClass.castFromPointer(_ret, retain: false, release: true);
-  }
-
-  /// allocWithZone:
-  static SwiftClass allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final _ret = _objc_msgSend_1cwp428(
-      _class_SwiftClass,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return SwiftClass.castFromPointer(_ret, retain: false, release: true);
-  }
-
-  /// alloc
-  static SwiftClass alloc() {
-    final _ret = _objc_msgSend_151sglz(_class_SwiftClass, _sel_alloc);
-    return SwiftClass.castFromPointer(_ret, retain: false, release: true);
-  }
-
-  /// self
-  SwiftClass self$1() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return SwiftClass.castFromPointer(_ret, retain: true, release: true);
-  }
-
   /// retain
   SwiftClass retain() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
     return SwiftClass.castFromPointer(_ret, retain: true, release: true);
   }
 
-  /// autorelease
-  SwiftClass autorelease() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
+  /// sayHello
+  objc.NSString sayHello() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_sayHello);
+    return objc.NSString.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// self
+  SwiftClass self() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return SwiftClass.castFromPointer(_ret, retain: true, release: true);
   }
 
-  /// Returns a new instance of SwiftClass constructed with the default `new` method.
-  factory SwiftClass() => new$();
+  /// setSomeField:
+  set someField(int value) {
+    _objc_msgSend_4sp4xj(this.ref.pointer, _sel_setSomeField_, value);
+  }
+
+  /// someField
+  int get someField {
+    return _objc_msgSend_1hz7y9r(this.ref.pointer, _sel_someField);
+  }
 }

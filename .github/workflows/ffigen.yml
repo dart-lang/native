@@ -42,7 +42,7 @@ jobs:
         run: dart format --output=none --set-exit-if-changed .
         if: always() && steps.install.outcome == 'success'
       - name: Build test dylib and bindings
-        run: dart test/setup.dart
+        run: dart --enable-asserts test/setup.dart
       - name: Analyze code
         run: flutter analyze --fatal-infos
 
@@ -62,11 +62,11 @@ jobs:
       - name: Install libclang-14-dev
         run: sudo apt-get install libclang-14-dev
       - name: Build test dylib and bindings
-        run: dart test/setup.dart
+        run: dart --enable-asserts test/setup.dart
       - name: Run VM tests
         run: dart test
       - name: Generate package:jni bindings
-        run: dart run tool/generate_ffi_bindings.dart
+        run: dart --enable-asserts run tool/generate_ffi_bindings.dart
         working-directory: pkgs/jni/
 
   # Keep in sync with ffigen_weekly.yaml:test-mac-arm64
@@ -88,13 +88,13 @@ jobs:
         with:
           brew: clang-format
       - name: Build test dylib and bindings
-        run: dart test/setup.dart
+        run: dart --enable-asserts test/setup.dart
       - name: Install coverage
         run: dart pub global activate coverage
       - name: Run VM tests and collect coverage
         run: dart pub global run coverage:test_with_coverage --scope-output=ffigen --scope-output=objective_c
       - name: Generate package:jni bindings
-        run: dart run tool/generate_ffi_bindings.dart
+        run: dart --enable-asserts run tool/generate_ffi_bindings.dart
         working-directory: pkgs/jni/
       - name: Upload coverage
         uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
@@ -128,7 +128,7 @@ jobs:
         with:
           brew: clang-format
       - name: Build test dylib and bindings
-        run: dart test/setup.dart
+        run: dart --enable-asserts test/setup.dart
       - name: Run VM tests and collect coverage
         run: dart test
 
@@ -146,7 +146,7 @@ jobs:
       - name: Install dependencies
         run: flutter pub get && flutter pub get --directory="../objective_c"
       - name: Build test dylib and bindings
-        run: dart test/setup.dart --main-thread-dispatcher
+        run: dart --enable-asserts test/setup.dart --main-thread-dispatcher
       - name: Run Flutter tests
         run: flutter test
 
@@ -164,11 +164,11 @@ jobs:
       - name: Install dependencies
         run: flutter pub get && flutter pub get --directory="../jni"
       - name: Build test dylib and bindings
-        run: dart test/setup.dart
+        run: dart --enable-asserts test/setup.dart
       - name: Run VM tests
         run: dart test
       - name: Generate package:jni bindings
-        run: dart run tool/generate_ffi_bindings.dart
+        run: dart --enable-asserts run tool/generate_ffi_bindings.dart
         working-directory: pkgs/jni/
 
   # Sanity check the latest `flutter create --template plugin_ffi`.
@@ -195,6 +195,6 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
       - name: Build test dylib and bindings
-        run: dart test/setup.dart
+        run: dart --enable-asserts test/setup.dart
       - name: Run VM tests
         run: flutter pub run test test_flutter/

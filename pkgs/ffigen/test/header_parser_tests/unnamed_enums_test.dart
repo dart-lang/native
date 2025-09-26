@@ -70,5 +70,5 @@ Library expectedLibrary() {
       Constant(name: 'A', rawType: 'int', rawValue: '1'),
       Constant(name: 'C', rawType: 'int', rawValue: '3'),
     ],
-  );
+  )..forceFillNamesForTesting();
 }

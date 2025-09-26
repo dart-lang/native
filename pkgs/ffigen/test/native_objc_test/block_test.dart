@@ -39,8 +39,8 @@ typedef StructListenerBlock = ObjCBlock_ffiVoid_Vec2_Vec4_NSObject;
 typedef NSStringListenerBlock = ObjCBlock_ffiVoid_NSString;
 typedef NoTrampolineListenerBlock = ObjCBlock_ffiVoid_Int32_Vec4_ffiChar;
 typedef BlockBlock = ObjCBlock_IntBlock_IntBlock;
-typedef IntPtrBlock = ObjCBlock_ffiVoid_Int32;
-typedef ResultBlock = ObjCBlock_ffiVoid_Int32$1;
+typedef IntPtrBlock = ObjCBlock_ffiVoid_Int32$1;
+typedef ResultBlock = ObjCBlock_ffiVoid_Int32;
 
 bool get hasIsolateOwnershipApi =>
     DynamicLibrary.process().providesSymbol('Dart_SetCurrentThreadOwnsIsolate');

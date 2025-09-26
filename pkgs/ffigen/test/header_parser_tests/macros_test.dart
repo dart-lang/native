@@ -182,5 +182,5 @@ Library expectedLibrary() {
       Constant(name: 'TEST18', rawType: 'int', rawValue: '4'),
       Constant(name: 'TEST19', rawType: 'int', rawValue: '8'),
     ],
-  );
+  )..forceFillNamesForTesting();
 }

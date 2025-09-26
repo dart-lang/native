@@ -4,6 +4,7 @@
 
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config.dart';
+import 'package:ffigen/src/context.dart';
 import 'package:ffigen/src/header_parser/parser.dart';
 import 'package:meta/meta.dart';
 import 'package:test/test.dart';
@@ -17,13 +18,14 @@ void main() {
 // BSD-style license that can be found in the LICENSE file.
 ''';
 
-  // Context used by all tests except withAndWithoutNative.
-  final context = testContext(
+  Context makeContext({Output? output}) => testContext(
     FfiGenerator(
-      output: Output(
-        dartFile: Uri.file('unused'),
-        style: const NativeExternalBindings(assetId: 'test'),
-      ),
+      output:
+          output ??
+          Output(
+            dartFile: Uri.file('unused'),
+            style: const DynamicLibraryBindings(wrapperName: 'Bindings'),
+          ),
       enums: Enums.includeAll,
       functions: Functions.includeAll,
       globals: Globals.includeAll,
@@ -47,22 +49,12 @@ void main() {
     withAndWithoutNative('Function Binding (primitives, pointers)', (
       loadFromNativeAsset,
     ) {
-      final nativeContext = testContext(
-        FfiGenerator(
-          output: Output(
-            dartFile: Uri.file('unused'),
-            style: loadFromNativeAsset
-                ? const NativeExternalBindings(assetId: 'test')
-                : const DynamicLibraryBindings(wrapperName: 'Wrapper'),
-          ),
-          enums: Enums.includeAll,
-          functions: Functions.includeAll,
-          globals: Globals.includeAll,
-          macros: Macros.includeAll,
-          structs: Structs.includeAll,
-          typedefs: Typedefs.includeAll,
-          unions: Unions.includeAll,
-          unnamedEnums: UnnamedEnums.includeAll,
+      final nativeContext = makeContext(
+        output: Output(
+          dartFile: Uri.file('unused'),
+          style: loadFromNativeAsset
+              ? const NativeExternalBindings(assetId: 'test')
+              : const DynamicLibraryBindings(wrapperName: 'Bindings'),
         ),
       );
       final library = Library(
@@ -136,6 +128,7 @@ void main() {
     });
 
     test('Struct Binding (primitives, pointers)', () {
+      final context = makeContext();
       final library = Library(
         context: context,
         name: 'Bindings',
@@ -207,6 +200,7 @@ void main() {
     });
 
     test('Function and Struct Binding (pointer to Struct)', () {
+      final context = makeContext();
       final structSome = Struct(
         context: context,
         name: 'SomeStruct',
@@ -248,11 +242,23 @@ void main() {
     withAndWithoutNative('global (primitives, pointers, pointer to struct)', (
       loadFromNativeAsset,
     ) {
-      final structSome = Struct(context: context, name: 'Some');
-      final emptyGlobalStruct = Struct(context: context, name: 'EmptyStruct');
+      final nativeContext = makeContext(
+        output: Output(
+          dartFile: Uri.file('unused'),
+          style: loadFromNativeAsset
+              ? const NativeExternalBindings(assetId: 'test')
+              : const DynamicLibraryBindings(wrapperName: 'Bindings'),
+        ),
+      );
+
+      final structSome = Struct(context: nativeContext, name: 'Some');
+      final emptyGlobalStruct = Struct(
+        context: nativeContext,
+        name: 'EmptyStruct',
+      );
 
       final library = Library(
-        context: context,
+        context: nativeContext,
         name: 'Bindings',
         header: licenseHeader,
         bindings: transformBindings([
@@ -289,12 +295,13 @@ void main() {
             name: 'globalStruct',
             type: emptyGlobalStruct,
           ),
-        ], context),
+        ], nativeContext),
       );
       _matchLib(library, loadFromNativeAsset ? 'global_native' : 'global');
     });
 
     test('constant', () {
+      final context = makeContext();
       final library = Library(
         context: context,
         name: 'Bindings',
@@ -308,6 +315,7 @@ void main() {
     });
 
     test('enum_class', () {
+      final context = makeContext();
       final library = Library(
         context: context,
         name: 'Bindings',
@@ -318,8 +326,8 @@ void main() {
             name: 'Constants',
             dartDoc: 'test line 1\ntest line 2',
             enumConstants: [
-              const EnumConstant(name: 'a', value: 10),
-              const EnumConstant(name: 'b', value: -1, dartDoc: 'negative'),
+              EnumConstant(name: 'a', value: 10),
+              EnumConstant(name: 'b', value: -1, dartDoc: 'negative'),
             ],
           ),
         ], context),
@@ -328,6 +336,7 @@ void main() {
     });
 
     test('enum_class with duplicates', () {
+      final context = makeContext();
       final library = Library(
         context: context,
         name: 'Bindings',
@@ -338,17 +347,17 @@ void main() {
             name: 'Duplicates',
             dartDoc: 'test line 1\ntest line 2',
             enumConstants: [
-              const EnumConstant(
+              EnumConstant(
                 name: 'a',
                 value: 0,
                 dartDoc: 'This is a unique value',
               ),
-              const EnumConstant(
+              EnumConstant(
                 name: 'b',
                 value: 1,
                 dartDoc: 'This is an original value',
               ),
-              const EnumConstant(
+              EnumConstant(
                 name: 'c',
                 value: 1,
                 dartDoc: 'This is a duplicate value',
@@ -361,13 +370,14 @@ void main() {
     });
 
     test('enum_class as integers', () {
+      final context = makeContext();
       final enum1 = EnumClass(
         context: context,
         name: 'MyEnum',
         enumConstants: [
-          const EnumConstant(name: 'value1', value: 0),
-          const EnumConstant(name: 'value2', value: 1),
-          const EnumConstant(name: 'value3', value: 2),
+          EnumConstant(name: 'value1', value: 0),
+          EnumConstant(name: 'value2', value: 1),
+          EnumConstant(name: 'value3', value: 2),
         ],
       );
       final enum2 = EnumClass(
@@ -375,9 +385,9 @@ void main() {
         name: 'MyIntegerEnum',
         style: EnumStyle.intConstants,
         enumConstants: [
-          const EnumConstant(name: 'int1', value: 1),
-          const EnumConstant(name: 'int2', value: 2),
-          const EnumConstant(name: 'int3', value: 10),
+          EnumConstant(name: 'int1', value: 1),
+          EnumConstant(name: 'int2', value: 2),
+          EnumConstant(name: 'int3', value: 10),
         ],
       );
       final library = Library(
@@ -408,10 +418,11 @@ void main() {
     });
 
     test('enum in structs and functions', () {
+      final context = makeContext();
       final enum1 = EnumClass(
         context: context,
         name: 'Enum1',
-        enumConstants: const [
+        enumConstants: [
           EnumConstant(name: 'a', value: 0),
           EnumConstant(name: 'b', value: 1),
           EnumConstant(name: 'c', value: 2),
@@ -421,7 +432,7 @@ void main() {
         context: context,
         name: 'Enum2',
         style: EnumStyle.intConstants,
-        enumConstants: const [
+        enumConstants: [
           EnumConstant(name: 'value1', value: 0),
           EnumConstant(name: 'value2', value: 1),
           EnumConstant(name: 'value3', value: 2),
@@ -483,6 +494,12 @@ void main() {
     });
 
     test('Internal conflict resolution', () {
+      final context = makeContext(
+        output: Output(
+          dartFile: Uri.file('unused'),
+          style: const DynamicLibraryBindings(wrapperName: 'init_dylib'),
+        ),
+      );
       final library = Library(
         context: context,
         name: 'init_dylib',
@@ -534,6 +551,12 @@ void main() {
     });
 
     test('Adds Native symbol on mismatch', () {
+      final context = makeContext(
+        output: Output(
+          dartFile: Uri.file('unused'),
+          style: const NativeExternalBindings(assetId: 'test'),
+        ),
+      );
       final library = Library(
         context: context,
         name: 'init_dylib',
@@ -557,7 +580,9 @@ void main() {
       _matchLib(library, 'native_symbol');
     });
   });
+
   test('boolean_dartBool', () {
+    final context = makeContext();
     final library = Library(
       context: context,
       name: 'Bindings',
@@ -584,7 +609,9 @@ void main() {
     );
     _matchLib(library, 'boolean_dartbool');
   });
+
   test('Pack Structs', () {
+    final context = makeContext();
     final library = Library(
       context: context,
       name: 'Bindings',
@@ -660,7 +687,9 @@ void main() {
     );
     _matchLib(library, 'packed_structs');
   });
+
   test('Union Bindings', () {
+    final context = makeContext();
     final struct1 = Struct(
       context: context,
       name: 'Struct1',
@@ -726,7 +755,9 @@ void main() {
     );
     _matchLib(library, 'unions');
   });
+
   test('Typealias Bindings', () {
+    final context = makeContext();
     final struct2 = Struct(
       context: context,
       name: 'Struct2',

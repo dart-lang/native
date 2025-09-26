@@ -480,18 +480,6 @@ class Stack<T> {
   void push(T item) => _stack.add(item);
 }
 
-class IncrementalNamer {
-  final _incrementedStringCounters = <String, int>{};
-
-  /// Appends `<int>` to base. `<int>` is incremented on every call.
-  String name(String base) {
-    var i = _incrementedStringCounters[base] ?? 0;
-    i++;
-    _incrementedStringCounters[base] = i;
-    return '$base$i';
-  }
-}
-
 class Macro {
   final String usr;
   final String? originalName;

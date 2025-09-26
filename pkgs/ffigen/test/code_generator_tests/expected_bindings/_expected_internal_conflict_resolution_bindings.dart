@@ -61,13 +61,13 @@ class init_dylib$1 {
   late final __dart_test = __dart_testPtr.asFunction<void Function()>();
 
   void Test() {
-    return _Test();
+    return _Test$1();
   }
 
   late final _TestPtr = _lookup<ffi.NativeFunction<ffi.Void Function()>>(
     'Test',
   );
-  late final _Test = _TestPtr.asFunction<void Function()>();
+  late final _Test$1 = _TestPtr.asFunction<void Function()>();
 }
 
 final class _Test extends ffi.Struct {

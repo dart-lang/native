@@ -110,41 +110,6 @@ final _objc_msgSend_1cwp428 = objc.msgSendPointer
     >();
 late final _sel_alloc = objc.registerName("alloc");
 late final _sel_self = objc.registerName("self");
-ffi.Pointer<objc.ObjCObject> _ObjCBlock_objcObjCObject_ffiVoid_fnPtrTrampoline(
-  ffi.Pointer<objc.ObjCBlockImpl> block,
-  ffi.Pointer<ffi.Void> arg0,
-) => block.ref.target
-    .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void> arg0)
-      >
-    >()
-    .asFunction<
-      ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
-    >()(arg0);
-ffi.Pointer<ffi.Void> _ObjCBlock_objcObjCObject_ffiVoid_fnPtrCallable =
-    ffi.Pointer.fromFunction<
-          ffi.Pointer<objc.ObjCObject> Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-          )
-        >(_ObjCBlock_objcObjCObject_ffiVoid_fnPtrTrampoline)
-        .cast();
-ffi.Pointer<objc.ObjCObject>
-_ObjCBlock_objcObjCObject_ffiVoid_closureTrampoline(
-  ffi.Pointer<objc.ObjCBlockImpl> block,
-  ffi.Pointer<ffi.Void> arg0,
-) =>
-    (objc.getBlockClosure(block)
-        as ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>))(arg0);
-ffi.Pointer<ffi.Void> _ObjCBlock_objcObjCObject_ffiVoid_closureCallable =
-    ffi.Pointer.fromFunction<
-          ffi.Pointer<objc.ObjCObject> Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-          )
-        >(_ObjCBlock_objcObjCObject_ffiVoid_closureTrampoline)
-        .cast();
 
 /// Construction methods for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>`.
 abstract final class ObjCBlock_objcObjCObject_ffiVoid {
@@ -180,10 +145,7 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid {
       objc.ObjCBlock<
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
       >(
-        objc.newPointerBlock(
-          _ObjCBlock_objcObjCObject_ffiVoid_fnPtrCallable,
-          ptr.cast(),
-        ),
+        objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
         retain: false,
         release: true,
       );
@@ -207,17 +169,54 @@ abstract final class ObjCBlock_objcObjCObject_ffiVoid {
         ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
       >(
         objc.newClosureBlock(
-          _ObjCBlock_objcObjCObject_ffiVoid_closureCallable,
+          _closureCallable,
           (ffi.Pointer<ffi.Void> arg0) => fn(arg0).ref.retainAndAutorelease(),
           keepIsolateAlive,
         ),
         retain: false,
         release: true,
       );
+
+  static ffi.Pointer<objc.ObjCObject> _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+  ) => block.ref.target
+      .cast<
+        ffi.NativeFunction<
+          ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void> arg0)
+        >
+      >()
+      .asFunction<
+        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
+      >()(arg0);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObject> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+            )
+          >(_fnPtrTrampoline)
+          .cast();
+  static ffi.Pointer<objc.ObjCObject> _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> arg0,
+  ) =>
+      (objc.getBlockClosure(block)
+          as ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>))(
+        arg0,
+      );
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Pointer<objc.ObjCObject> Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<ffi.Void>,
+            )
+          >(_closureTrampoline)
+          .cast();
 }
 
 /// Call operator for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>`.
-extension ObjCBlock_objcObjCObject_ffiVoid_CallExtension
+extension ObjCBlock_objcObjCObject_ffiVoid$CallExtension
     on
         objc.ObjCBlock<
           ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
@@ -274,9 +273,12 @@ class TestOtherClassWrapper extends objc.NSObject {
     );
   }
 
-  /// new
-  static TestOtherClassWrapper new$() {
-    final _ret = _objc_msgSend_151sglz(_class_TestOtherClassWrapper, _sel_new);
+  /// alloc
+  static TestOtherClassWrapper alloc() {
+    final _ret = _objc_msgSend_151sglz(
+      _class_TestOtherClassWrapper,
+      _sel_alloc,
+    );
     return TestOtherClassWrapper.castFromPointer(
       _ret,
       retain: false,
@@ -298,12 +300,9 @@ class TestOtherClassWrapper extends objc.NSObject {
     );
   }
 
-  /// alloc
-  static TestOtherClassWrapper alloc() {
-    final _ret = _objc_msgSend_151sglz(
-      _class_TestOtherClassWrapper,
-      _sel_alloc,
-    );
+  /// new
+  static TestOtherClassWrapper new$() {
+    final _ret = _objc_msgSend_151sglz(_class_TestOtherClassWrapper, _sel_new);
     return TestOtherClassWrapper.castFromPointer(
       _ret,
       retain: false,
@@ -316,9 +315,14 @@ class TestOtherClassWrapper extends objc.NSObject {
 }
 
 extension TestOtherClassWrapper$Methods on TestOtherClassWrapper {
-  /// times10WithX:
-  int times10WithX(int x) {
-    return _objc_msgSend_12hwf9n(this.ref.pointer, _sel_times10WithX_, x);
+  /// autorelease
+  TestOtherClassWrapper autorelease() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
+    return TestOtherClassWrapper.castFromPointer(
+      _ret,
+      retain: true,
+      release: true,
+    );
   }
 
   /// init
@@ -339,16 +343,6 @@ extension TestOtherClassWrapper$Methods on TestOtherClassWrapper {
     );
   }
 
-  /// self
-  TestOtherClassWrapper self() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return TestOtherClassWrapper.castFromPointer(
-      _ret,
-      retain: true,
-      release: true,
-    );
-  }
-
   /// retain
   TestOtherClassWrapper retain() {
     final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
@@ -359,14 +353,19 @@ extension TestOtherClassWrapper$Methods on TestOtherClassWrapper {
     );
   }
 
-  /// autorelease
-  TestOtherClassWrapper autorelease() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
+  /// self
+  TestOtherClassWrapper self() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return TestOtherClassWrapper.castFromPointer(
       _ret,
       retain: true,
       release: true,
     );
+  }
+
+  /// times10WithX:
+  int times10WithX(int x) {
+    return _objc_msgSend_12hwf9n(this.ref.pointer, _sel_times10WithX_, x);
   }
 }
 
@@ -400,15 +399,9 @@ class TestClassWrapper extends objc.NSObject {
     );
   }
 
-  /// create
-  static TestClassWrapper create() {
-    final _ret = _objc_msgSend_151sglz(_class_TestClassWrapper, _sel_create);
-    return TestClassWrapper.castFromPointer(_ret, retain: true, release: true);
-  }
-
-  /// new
-  static TestClassWrapper new$() {
-    final _ret = _objc_msgSend_151sglz(_class_TestClassWrapper, _sel_new);
+  /// alloc
+  static TestClassWrapper alloc() {
+    final _ret = _objc_msgSend_151sglz(_class_TestClassWrapper, _sel_alloc);
     return TestClassWrapper.castFromPointer(_ret, retain: false, release: true);
   }
 
@@ -422,9 +415,15 @@ class TestClassWrapper extends objc.NSObject {
     return TestClassWrapper.castFromPointer(_ret, retain: false, release: true);
   }
 
-  /// alloc
-  static TestClassWrapper alloc() {
-    final _ret = _objc_msgSend_151sglz(_class_TestClassWrapper, _sel_alloc);
+  /// create
+  static TestClassWrapper create() {
+    final _ret = _objc_msgSend_151sglz(_class_TestClassWrapper, _sel_create);
+    return TestClassWrapper.castFromPointer(_ret, retain: true, release: true);
+  }
+
+  /// new
+  static TestClassWrapper new$() {
+    final _ret = _objc_msgSend_151sglz(_class_TestClassWrapper, _sel_new);
     return TestClassWrapper.castFromPointer(_ret, retain: false, release: true);
   }
 
@@ -433,14 +432,10 @@ class TestClassWrapper extends objc.NSObject {
 }
 
 extension TestClassWrapper$Methods on TestClassWrapper {
-  /// myMethod
-  TestOtherClassWrapper myMethod() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_myMethod);
-    return TestOtherClassWrapper.castFromPointer(
-      _ret,
-      retain: true,
-      release: true,
-    );
+  /// autorelease
+  TestClassWrapper autorelease() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
+    return TestClassWrapper.castFromPointer(_ret, retain: true, release: true);
   }
 
   /// init
@@ -457,10 +452,14 @@ extension TestClassWrapper$Methods on TestClassWrapper {
     return TestClassWrapper.castFromPointer(_ret, retain: false, release: true);
   }
 
-  /// self
-  TestClassWrapper self() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return TestClassWrapper.castFromPointer(_ret, retain: true, release: true);
+  /// myMethod
+  TestOtherClassWrapper myMethod() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_myMethod);
+    return TestOtherClassWrapper.castFromPointer(
+      _ret,
+      retain: true,
+      release: true,
+    );
   }
 
   /// retain
@@ -469,9 +468,9 @@ extension TestClassWrapper$Methods on TestClassWrapper {
     return TestClassWrapper.castFromPointer(_ret, retain: true, release: true);
   }
 
-  /// autorelease
-  TestClassWrapper autorelease() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
+  /// self
+  TestClassWrapper self() {
+    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return TestClassWrapper.castFromPointer(_ret, retain: true, release: true);
   }
 }
