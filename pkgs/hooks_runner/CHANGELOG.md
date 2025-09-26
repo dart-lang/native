@@ -1,3 +1,9 @@
+## 0.23.0
+
+- **Breaking change**: Replaced `NativeAssetsBuildRunner.hookEnvironmentVariablesFilter`
+  with `NativeAssetsBuildRunner.includeHookEnvironmentVariable` to account for
+  environment variables that start with a particular prefix (i.e., `NIX_`).
+
 ## 0.22.1
 
 * Fix caches not being invalidated on (1) user-defines changing, (2) metadata

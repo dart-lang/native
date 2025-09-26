@@ -276,7 +276,7 @@ void main() async {
           hookEnvironment: modifiedEnvKey == 'PATH'
               ? null
               : filteredEnvironment(
-                  NativeAssetsBuildRunner.hookEnvironmentVariablesFilter,
+                  NativeAssetsBuildRunner.includeHookEnvironmentVariable,
                 ),
         )).success;
         logMessages.clear();

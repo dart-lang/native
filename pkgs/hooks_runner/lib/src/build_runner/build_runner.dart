@@ -80,7 +80,7 @@ class NativeAssetsBuildRunner {
        singleHookTimeout = singleHookTimeout ?? const Duration(minutes: 5),
        hookEnvironment =
            hookEnvironment ??
-           filteredEnvironment(hookEnvironmentVariablesFilter) {
+           filteredEnvironment(includeHookEnvironmentVariable) {
     _fileSystem = TracingFileSystem(fileSystem, _task);
   }
 
@@ -538,23 +538,31 @@ class NativeAssetsBuildRunner {
     ),
   );
 
-  /// The list of environment variables used if [hookEnvironment] is not passed
-  /// in.
-  /// This allowlist lists environment variables needed to run mainstream
-  /// compilers.
-  static const hookEnvironmentVariablesFilter = {
-    'ANDROID_HOME', // Needed for the NDK.
-    'HOME', // Needed to find tools in default install locations.
-    'PATH', // Needed to invoke native tools.
-    'PROGRAMDATA', // Needed for vswhere.exe.
-    'SYSTEMDRIVE', // Needed for CMake.
-    'SYSTEMROOT', // Needed for process invocations on Windows.
-    'TEMP', // Needed for temp dirs in Dart process.
-    'TMP', // Needed for temp dirs in Dart process.
-    'TMPDIR', // Needed for temp dirs in Dart process.
-    'USERPROFILE', // Needed to find tools in default install locations.
-    'WINDIR', // Needed for CMake.
-  };
+  /// Determines whether to allow an environment variable through
+  /// if [hookEnvironment] is not passed in.
+  ///
+  /// This allows environment variables needed to run mainstream compilers.
+  static bool includeHookEnvironmentVariable(String environmentVariableName) {
+    const staticVariablesFilter = {
+      'ANDROID_HOME', // Needed for the NDK.
+      'HOME', // Needed to find tools in default install locations.
+      'PATH', // Needed to invoke native tools.
+      'PROGRAMDATA', // Needed for vswhere.exe.
+      'SYSTEMDRIVE', // Needed for CMake.
+      'SYSTEMROOT', // Needed for process invocations on Windows.
+      'TEMP', // Needed for temp dirs in Dart process.
+      'TMP', // Needed for temp dirs in Dart process.
+      'TMPDIR', // Needed for temp dirs in Dart process.
+      'USERPROFILE', // Needed to find tools in default install locations.
+      'WINDIR', // Needed for CMake.
+    };
+    const variablePrefixesFilter = {
+      'NIX_', // Needed for Nix-installed toolchains.
+    };
+
+    return staticVariablesFilter.contains(environmentVariableName) ||
+        variablePrefixesFilter.any(environmentVariableName.startsWith);
+  }
 
   Future<Result<HookOutput, HooksRunnerFailure>> _runHookForPackage(
     Hook hook,
@@ -1198,7 +1206,7 @@ Future<List<Uri>> _readDepFile(File depFile) async {
 }
 
 @internal
-Map<String, String> filteredEnvironment(Set<String> allowList) => {
+Map<String, String> filteredEnvironment(bool Function(String) include) => {
   for (final entry in Platform.environment.entries)
-    if (allowList.contains(entry.key.toUpperCase())) entry.key: entry.value,
+    if (include(entry.key.toUpperCase())) entry.key: entry.value,
 };
