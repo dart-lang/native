@@ -6,18 +6,6 @@ import '../objective_c.dart';
 
 import 'objective_c_bindings_generated.dart';
 
-@Native<Pointer<Void> Function()>(
-  isLeaf: true,
-  symbol: 'objc_autoreleasePoolPush',
-)
-external Pointer<Void> _autoreleasePoolPush();
-
-@Native<Void Function(Pointer<Void>)>(
-  isLeaf: true,
-  symbol: 'objc_autoreleasePoolPop',
-)
-external void _autoreleasePoolPop(Pointer<Void> pool);
-
 extension NSInputStreamStreamExtension on Stream<List<int>> {
   /// Return a [NSInputStream] that, when read, will contain the contents of
   /// the [Stream].
@@ -46,15 +34,14 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
 
     final port = ReceivePort();
 
-    final DartInputStreamAdapter inputStream;
-    final DartInputStreamAdapterWeakHolder weakInputStream;
+    late final DartInputStreamAdapter inputStream;
+    late final DartInputStreamAdapterWeakHolder weakInputStream;
 
     // Only hold a weak reference to the returned `inputStream` so that there is
     // no unbreakable reference cycle between Dart and Objective-C. When the
     // `inputStream`'s `dealloc` method is called then it sends this code a
     // message saying that it was closed.
-    final pool = _autoreleasePoolPush();
-    try {
+    autoReleasePool(() {
       inputStream = DartInputStreamAdapter.inputStreamWithPort(
         port.sendPort.nativePort,
       );
@@ -62,9 +49,7 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
           DartInputStreamAdapterWeakHolder.holderWithInputStreamAdapter(
             inputStream,
           );
-    } finally {
-      _autoreleasePoolPop(pool);
-    }
+    });
 
     late final StreamSubscription<dynamic> dataSubscription;
 

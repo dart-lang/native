@@ -34,18 +34,6 @@ void doGC() {
   calloc.free(gcNow);
 }
 
-@Native<Pointer<Void> Function()>(
-  isLeaf: true,
-  symbol: 'objc_autoreleasePoolPush',
-)
-external Pointer<Void> autoreleasePoolPush();
-
-@Native<Void Function(Pointer<Void>)>(
-  isLeaf: true,
-  symbol: 'objc_autoreleasePoolPop',
-)
-external void autoreleasePoolPop(Pointer<Void> pool);
-
 @Native<Int Function(Pointer<Void>)>(isLeaf: true, symbol: 'isReadableMemory')
 external int _isReadableMemory(Pointer<Void> ptr);
 

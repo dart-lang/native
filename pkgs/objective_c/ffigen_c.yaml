@@ -48,6 +48,8 @@ functions:
     'object_getClass': 'getObjectClass'
     'objc_copyClassList': 'copyClassList'
     'objc_getProtocol': 'getProtocol'
+    'objc_autoreleasePoolPush': 'autoreleasePoolPush'
+    'objc_autoreleasePoolPop': 'autoreleasePoolPop'
     'protocol_getMethodDescription': 'getMethodDescription'
     'protocol_getName': 'getProtocolName'
 globals:

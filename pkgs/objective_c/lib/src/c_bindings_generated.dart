@@ -43,6 +43,18 @@ external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteMallocBlock;
 external ffi.Array<ffi.Pointer<ffi.Void>> NSConcreteStackBlock;
 
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
+  symbol: 'objc_autoreleasePoolPop',
+  isLeaf: true,
+)
+external void autoreleasePoolPop(ffi.Pointer<ffi.Void> pool);
+
+@ffi.Native<ffi.Pointer<ffi.Void> Function()>(
+  symbol: 'objc_autoreleasePoolPush',
+  isLeaf: true,
+)
+external ffi.Pointer<ffi.Void> autoreleasePoolPush();
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   symbol: 'DOBJC_awaitWaiter',
 )
 external void awaitWaiter(ffi.Pointer<ffi.Void> waiter);
