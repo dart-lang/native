@@ -103,35 +103,38 @@ void main() {
     test('observer and observed kept alive by observation', () async {
       final values = <dynamic>[];
 
-      final pool = autoreleasePoolPush();
-      NSProgress? observed = NSProgress();
-      Observer? observer = Observer.implement(
-        observeValueForKeyPath_ofObject_change_context_:
-            (
-              NSString keyPath,
-              ObjCObjectBase object,
-              NSDictionary change,
-              Pointer<Void> context,
-            ) {
-              values.add(toDartObject(change[NSKeyValueChangeNewKey]!));
+      NSProgress? observed;
+      Observer? observer;
+      Observation? observation;
+      autoReleasePool(() {
+        observed = NSProgress();
+        observer = Observer.implement(
+          observeValueForKeyPath_ofObject_change_context_:
+              (
+                NSString keyPath,
+                ObjCObjectBase object,
+                NSDictionary change,
+                Pointer<Void> context,
+              ) {
+                values.add(toDartObject(change[NSKeyValueChangeNewKey]!));
 
-              // This is testing that a captured reference from the observer to
-              // the observed object does not cause leak.
-              expect(object, observed);
-            },
-      );
+                // This is testing that a captured reference from the observer
+                // to the observed object does not cause leak.
+                expect(object, observed);
+              },
+        );
 
-      Observation? observation = observed.addObserver(
-        observer,
-        forKeyPath: 'totalUnitCount'.toNSString(),
-      );
-      autoreleasePoolPop(pool);
+        observation = observed!.addObserver(
+          observer!,
+          forKeyPath: 'totalUnitCount'.toNSString(),
+        );
+      });
 
-      observed.totalUnitCount = 123;
+      observed!.totalUnitCount = 123;
       expect(values, [123]);
 
-      final observedRaw = observed.ref.pointer;
-      final observerRaw = observer.ref.pointer;
+      final observedRaw = observed!.ref.pointer;
+      final observerRaw = observer!.ref.pointer;
 
       observed = null;
       observer = null;
@@ -157,26 +160,29 @@ void main() {
     });
 
     test('remove method drops references', () async {
-      final pool = autoreleasePoolPush();
-      NSProgress? observed = NSProgress();
-      Observer? observer = Observer.implement(
-        observeValueForKeyPath_ofObject_change_context_:
-            (
-              NSString keyPath,
-              ObjCObjectBase object,
-              NSDictionary change,
-              Pointer<Void> context,
-            ) {},
-      );
+      NSProgress? observed;
+      Observer? observer;
+      Observation? observation;
+      autoReleasePool(() {
+        observed = NSProgress();
+        observer = Observer.implement(
+          observeValueForKeyPath_ofObject_change_context_:
+              (
+                NSString keyPath,
+                ObjCObjectBase object,
+                NSDictionary change,
+                Pointer<Void> context,
+              ) {},
+        );
 
-      final observation = observed.addObserver(
-        observer,
-        forKeyPath: 'totalUnitCount'.toNSString(),
-      );
-      autoreleasePoolPop(pool);
+        observation = observed!.addObserver(
+          observer!,
+          forKeyPath: 'totalUnitCount'.toNSString(),
+        );
+      });
 
-      final observedRaw = observed.ref.pointer;
-      final observerRaw = observer.ref.pointer;
+      final observedRaw = observed!.ref.pointer;
+      final observerRaw = observer!.ref.pointer;
 
       observed = null;
       observer = null;
@@ -190,7 +196,7 @@ void main() {
       // expect(objectRetainCount(observedRaw), greaterThan(0));
       // expect(objectRetainCount(observerRaw), greaterThan(0));
 
-      observation.remove();
+      observation!.remove();
 
       doGC();
       await Future<void>.delayed(Duration.zero);

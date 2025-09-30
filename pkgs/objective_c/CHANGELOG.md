@@ -4,6 +4,7 @@
 - Fix missing `NSNumber` category includes in iOS and macOS `objective_c.m`
   files.
 - Add `NSBundle` and `NSNull` to the bindings.
+- Add `autoReleasePool` function.
 - Fix a [bug](https://github.com/dart-lang/native/issues/2627) where
   `NSMutableDictionary.of` returned a `NSDictionary`.
 
