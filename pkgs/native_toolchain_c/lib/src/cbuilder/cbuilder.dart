@@ -13,6 +13,7 @@ import 'build_mode.dart';
 import 'ctool.dart';
 import 'language.dart';
 import 'linkmode.dart';
+import 'logger.dart';
 import 'optimization_level.dart';
 import 'output_type.dart';
 import 'run_cbuilder.dart';
@@ -119,11 +120,12 @@ class CBuilder extends CTool implements Builder {
   Future<void> run({
     required BuildInput input,
     required BuildOutputBuilder output,
-    required Logger? logger,
+    Logger? logger,
     List<AssetRouting> routing = const [ToAppBundle()],
   }) async {
+    logger ??= createDefaultLogger();
     if (!input.config.buildCodeAssets) {
-      logger?.info(
+      logger.info(
         'config.buildAssetTypes did not contain CodeAssets, '
         'skipping CodeAsset $assetName build.',
       );

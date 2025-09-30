@@ -8,7 +8,6 @@
 
 // snippet-start
 import 'package:hooks/hooks.dart';
-import 'package:logging/logging.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 void main(List<String> args) async {
@@ -19,13 +18,7 @@ void main(List<String> args) async {
       assetName: '$packageName.dart',
       sources: ['src/$packageName.c'],
     );
-    await cbuilder.run(
-      input: input,
-      output: output,
-      logger: Logger('')
-        ..level = Level.ALL
-        ..onRecord.listen((record) => print(record.message)),
-    );
+    await cbuilder.run(input: input, output: output);
   });
 }
 
