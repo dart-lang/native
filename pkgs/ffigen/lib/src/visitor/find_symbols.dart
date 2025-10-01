@@ -14,17 +14,16 @@ import '../code_generator/typealias.dart';
 import '../context.dart';
 import 'ast.dart';
 
-// Visitation to create all the namespaces and all the symbols to the correct
-// namespace.
+// Visitation to create all the scopes and all the symbols to the correct scope.
 //
-// A Binding's name Symbol is always added to the root namespace. If the Binding
-// has a local namespace, its other symbols (eg a struct's field names) are
-// added to that local namespace. If the Binding doesn't have a local namespace
-// all its symbols are added to the root namespace.
+// A Binding's name Symbol is always added to the root scope. If the Binding has
+// a local scope, its other symbols (eg a struct's field names) are added to
+// that local scope. If the Binding doesn't have a local scope all its symbols
+// are added to the root scope.
 //
-// Most local namespaces are parented to the root namespace (eg functions or
-// structs), but some are parented to a non-root namespace (eg ObjC interfaces
-// are parented to their supertype).
+// Most local scopes are parented to the root scope (eg functions or structs),
+// but some are parented to a non-root scope (eg ObjC interfaces are parented to
+// their supertype).
 class FindSymbolsVisitation extends Visitation {
   final Context context;
   final Set<Binding> bindings;
@@ -54,9 +53,9 @@ class FindSymbolsVisitation extends Visitation {
   // Note: node should be Binding & HasLocalScope, but Dart doesn't have
   // intersection types.
   void visitBindingHasLocalScope(Binding node, Scope parentScope) {
-    // Explicitly add the Binding's symbol to the root namespace before visiting
-    // the children, because the name shouldn't be part of the local namespace.
-    // Visiting the children will also add the symbol to the local namespace,
+    // Explicitly add the Binding's symbol to the root scope before visiting
+    // the children, because the name shouldn't be part of the local scope.
+    // Visiting the children will also add the symbol to the local scope,
     // but that's ok because `Scope.fillNames` is built to handle that.
     context.rootScope.add(node.symbol);
     visitHasLocalScope(node as HasLocalScope, parentScope, node.originalName);
@@ -77,7 +76,7 @@ class FindSymbolsVisitation extends Visitation {
   @override
   void visitTypealias(Typealias node) {
     // If the typealias is not in the bindings, that means we're not generating
-    // bindings for it, so we shouldn't add its name to the namespace. But we
+    // bindings for it, so we shouldn't add its name to the scope. But we
     // still need to visit its target type. Otherwise, if the target type is
     // only referred to via this alias, then we won't visit it at all.
     if (!bindings.contains(node)) {

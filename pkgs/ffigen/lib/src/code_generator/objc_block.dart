@@ -407,10 +407,10 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
 
     final listenerWrapper = _blockWrappers!.listenerWrapper.name;
     final blockingWrapper = _blockWrappers!.blockingWrapper.name;
-    final listenerName = Scope.cSafeName(
+    final listenerName = Namer.cSafeName(
       context.rootObjCScope.addPrivate('_ListenerTrampoline'),
     );
-    final blockingName = Scope.cSafeName(
+    final blockingName = Namer.cSafeName(
       context.rootObjCScope.addPrivate('_BlockingTrampoline'),
     );
 
@@ -458,7 +458,7 @@ $listenerName $blockingWrapper(
     final argRecv = argsReceived.join(', ');
     final argPass = argsPassed.join(', ');
     final fnName = protocolTrampoline!.func.name;
-    final block = Scope.cSafeName(
+    final block = Namer.cSafeName(
       context.rootObjCScope.addPrivate('_ProtocolTrampoline'),
     );
     final msgSend = '((id (*)(id, SEL, SEL))objc_msgSend)';

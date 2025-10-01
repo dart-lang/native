@@ -172,7 +172,7 @@ class EnumClass extends BindingType with HasLocalScope {
     }
     s.write(
       '    _ => throw ArgumentError('
-      "'Unknown value for ${Scope.stringLiteral(name)}: \$value'),\n",
+      "'Unknown value for ${Namer.stringLiteral(name)}: \$value'),\n",
     );
     s.write('  };\n');
   }

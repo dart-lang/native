@@ -68,9 +68,9 @@ class Scope {
         symbol._name = namer.add(symbol.oldName);
       } else {
         // Symbol already has a name. This can happen if the symbol is in
-        // multiple namespaces, or in the same namespace more than once. It's
-        // fine as long as the name isn't used by a different symbol earlier in
-        // this namespace.
+        // multiple scopes, or in the same scope more than once. It's fine as
+        // long as the name isn't used by a different symbol earlier in this
+        // scope.
         namer.markUsed(symbol._name!);
         assert(!_symbols.any((s) => s != symbol && s._name == symbol._name));
       }
@@ -81,13 +81,6 @@ class Scope {
   }
 
   bool get _filled => _namer != null;
-
-  /// Returns a version of [name] that can safely be used in C code. Not
-  /// guaranteed to be unique.
-  static String cSafeName(String name) => name.replaceAll('\$', '_');
-
-  /// Returns a version of [name] suitable for inclusion in a string literal.
-  static String stringLiteral(String name) => name.replaceAll('\$', '\\\$');
 
   void debugPrint([String depth = '']) {
     final newDepth = '  $depth';
@@ -126,6 +119,13 @@ class Namer {
   }
 
   void markUsed(String name) => _used.add(name);
+
+  /// Returns a version of [name] that can safely be used in C code. Not
+  /// guaranteed to be unique.
+  static String cSafeName(String name) => name.replaceAll('\$', '_');
+
+  /// Returns a version of [name] suitable for inclusion in a string literal.
+  static String stringLiteral(String name) => name.replaceAll('\$', '\\\$');
 }
 
 class Symbol extends AstNode {

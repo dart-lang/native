@@ -43,18 +43,18 @@ void main() {
 
     test('cSafeName', () {
       final namer = Namer({});
-      expect(Scope.cSafeName(namer.add('foo')), 'foo');
-      expect(Scope.cSafeName(namer.add('foo')), 'foo_1');
-      expect(Scope.cSafeName(namer.add('foo')), 'foo_2');
-      expect(Scope.cSafeName(namer.add('foo')), 'foo_3');
+      expect(Namer.cSafeName(namer.add('foo')), 'foo');
+      expect(Namer.cSafeName(namer.add('foo')), 'foo_1');
+      expect(Namer.cSafeName(namer.add('foo')), 'foo_2');
+      expect(Namer.cSafeName(namer.add('foo')), 'foo_3');
     });
 
     test('stringLiteral', () {
       final namer = Namer({});
-      expect(Scope.stringLiteral(namer.add('foo')), 'foo');
-      expect(Scope.stringLiteral(namer.add('foo')), 'foo\\\$1');
-      expect(Scope.stringLiteral(namer.add('foo')), 'foo\\\$2');
-      expect(Scope.stringLiteral(namer.add('foo')), 'foo\\\$3');
+      expect(Namer.stringLiteral(namer.add('foo')), 'foo');
+      expect(Namer.stringLiteral(namer.add('foo')), 'foo\\\$1');
+      expect(Namer.stringLiteral(namer.add('foo')), 'foo\\\$2');
+      expect(Namer.stringLiteral(namer.add('foo')), 'foo\\\$3');
     });
   });
 

@@ -205,7 +205,7 @@ $dartReturnType $enclosingFuncName($dartArgDeclString) {
       }
 
       // Write function pointer.
-      final lookupStr = Scope.stringLiteral(lookupName);
+      final lookupStr = Namer.stringLiteral(lookupName);
       final lookupFn = context.extraSymbols.lookupFuncName!.name;
       s.write('''
 late final $funcPointerName = $lookupFn<

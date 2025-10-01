@@ -85,9 +85,9 @@ class LibraryImports {
 
   // Call after all used imports have been marked by [markUsed]. Creates Symbols
   // for all the library prefixes used for codegen.
-  void createSymbols(Scope namespace) {
+  void createSymbols(Scope scope) {
     for (final lib in _used) {
-      namespace.add(_prefixes[lib] = Symbol(lib.name));
+      scope.add(_prefixes[lib] = Symbol(lib.name));
     }
 
     _prefixesFilled = true;
