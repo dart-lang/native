@@ -6,6 +6,14 @@ import '../code_generator.dart';
 import '../context.dart';
 import 'ast.dart';
 
+// Various fixups related to ObjC's inheritance being less strict than Dart's:
+//  - ObjC isn't as strict about return type covariance and arg type
+//    contravariance as Dart is.
+//  - ObjC allows properties to override methods, but Dart doesn't allow getters
+//    and setters to override methods.
+// This visitation detects these cases and attemps to fix them. Also, it merges
+// the Symbols of overridden methods so that the later renaming pass is
+// consistent.
 class FixOverriddenMethodsVisitation extends Visitation {
   final Context context;
 

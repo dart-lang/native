@@ -14,11 +14,17 @@ import '../code_generator/typealias.dart';
 import '../context.dart';
 import 'ast.dart';
 
-// Visitation to add all the symbols to the correct namespace.
+// Visitation to create all the namespaces and all the symbols to the correct
+// namespace.
 //
-// This visitation is based on the assumption that all Bindings' name symbols
-// live in the root namespace. The other names inside a binding (eg function
-// params) may be nested in several layers of namespaces.
+// A Binding's name Symbol is always added to the root namespace. If the Binding
+// has a local namespace, its other symbols (eg a struct's field names) are
+// added to that local namespace. If the Binding doesn't have a local namespace
+// all its symbols are added to the root namespace.
+//
+// Most local namespaces are parented to the root namespace (eg functions or
+// structs), but some are parented to a non-root namespace (eg ObjC interfaces
+// are parented to their supertype).
 class FindSymbolsVisitation extends Visitation {
   final Context context;
   final Set<Binding> bindings;
@@ -45,7 +51,7 @@ class FindSymbolsVisitation extends Visitation {
     visitInsideNamespace(node, node.localNamespace);
   }
 
-  // Node: node should be Binding & HasLocalNamespace, but Dart doesn't have
+  // Note: node should be Binding & HasLocalNamespace, but Dart doesn't have
   // intersection types.
   void visitBindingHasLocalNamespace(Binding node, Namespace parentNamespace) {
     // Explicitly add the Binding's symbol to the root namespace before visiting
