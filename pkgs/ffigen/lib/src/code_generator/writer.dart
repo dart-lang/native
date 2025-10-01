@@ -361,7 +361,7 @@ class SymbolAddressWriter {
 
   SymbolAddressWriter(this.context);
 
-  late final _symbolAddressClassName = context.rootNamespace.addPrivate(
+  late final _symbolAddressClassName = context.rootScope.addPrivate(
     '_SymbolAddresses',
   );
 
@@ -392,7 +392,7 @@ class SymbolAddressWriter {
     final sb = StringBuffer();
     sb.write('class $_symbolAddressClassName {\n');
 
-    late final libraryVarName = context.rootNamespace.addPrivate('_library');
+    late final libraryVarName = context.rootScope.addPrivate('_library');
     if (hasNonNativeAddress) {
       // Write Library object.
       final wrapperClassName = context.extraSymbols.wrapperClassName!.name;

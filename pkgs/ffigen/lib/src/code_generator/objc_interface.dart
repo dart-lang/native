@@ -11,7 +11,7 @@ import 'namespace.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-class ObjCInterface extends BindingType with ObjCMethods, HasLocalNamespace {
+class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
   @override
   final Context context;
   ObjCInterface? superType;

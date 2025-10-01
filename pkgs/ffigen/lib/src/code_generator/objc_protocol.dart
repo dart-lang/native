@@ -11,7 +11,7 @@ import 'namespace.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-class ObjCProtocol extends BindingType with ObjCMethods, HasLocalNamespace {
+class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
   @override
   final Context context;
   final superProtocols = <ObjCProtocol>[];

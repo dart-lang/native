@@ -8,7 +8,7 @@ import '../visitor/ast.dart';
 import 'namespace.dart';
 
 /// Represents a function type.
-class FunctionType extends Type with HasLocalNamespace {
+class FunctionType extends Type with HasLocalScope {
   final Type returnType;
   final List<Parameter> parameters;
   final List<Parameter> varArgParameters;

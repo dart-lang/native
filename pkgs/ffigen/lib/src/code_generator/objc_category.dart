@@ -10,7 +10,7 @@ import 'namespace.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-class ObjCCategory extends NoLookUpBinding with ObjCMethods, HasLocalNamespace {
+class ObjCCategory extends NoLookUpBinding with ObjCMethods, HasLocalScope {
   @override
   final Context context;
   final ObjCInterface parent;

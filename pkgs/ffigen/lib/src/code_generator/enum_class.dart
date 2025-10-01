@@ -39,7 +39,7 @@ import 'writer.dart';
 ///   }
 /// }
 /// ```
-class EnumClass extends BindingType with HasLocalNamespace {
+class EnumClass extends BindingType with HasLocalScope {
   /// Backing integer type for this enum.
   Type nativeType;
 
@@ -172,7 +172,7 @@ class EnumClass extends BindingType with HasLocalNamespace {
     }
     s.write(
       '    _ => throw ArgumentError('
-      "'Unknown value for ${Namespace.stringLiteral(name)}: \$value'),\n",
+      "'Unknown value for ${Scope.stringLiteral(name)}: \$value'),\n",
     );
     s.write('  };\n');
   }

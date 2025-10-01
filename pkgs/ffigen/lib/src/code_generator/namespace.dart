@@ -5,36 +5,32 @@
 import '../visitor/ast.dart';
 import 'dart_keywords.dart';
 
-class Namespace {
+class Scope {
   final String _debugName;
   final _symbols = <Symbol>[];
-  final _children = <Namespace>[];
+  final _children = <Scope>[];
   final Set<String> _preUsedNames;
   Namer? _namer;
 
-  Namespace._(this._debugName, this._preUsedNames);
+  Scope._(this._debugName, this._preUsedNames);
 
-  static Namespace createRoot(String debugName) =>
-      Namespace._(debugName, const {});
+  static Scope createRoot(String debugName) => Scope._(debugName, const {});
 
-  /// Create a new [Namespace] as a child of this one.
+  /// Create a new [Scope] as a child of this one.
   ///
   /// [fillNames] must not have been called yet.
-  Namespace addNamespace(
-    String debugName, {
-    Set<String> preUsedNames = const {},
-  }) {
+  Scope addScope(String debugName, {Set<String> preUsedNames = const {}}) {
     assert(!_filled);
-    final ns = Namespace._(debugName, preUsedNames);
+    final ns = Scope._(debugName, preUsedNames);
     _children.add(ns);
     return ns;
   }
 
-  /// Add a [Symbol] to this [Namespace].
+  /// Add a [Symbol] to this [Scope].
   ///
-  /// It's fine to add the [Symbol] to this [Namespace] multiple times. It's
-  /// also fine to add the [Symbol] to multiple [Namespace]s, as long as one of
-  /// the [Namespace]s is an ancestor of the other (this is checked during
+  /// It's fine to add the [Symbol] to this [Scope] multiple times. It's
+  /// also fine to add the [Symbol] to multiple [Scope]s, as long as one of
+  /// the [Scope]s is an ancestor of the other (this is checked during
   /// [fillNames]).
   ///
   /// [fillNames] must not have been called yet.
@@ -43,7 +39,7 @@ class Namespace {
     if (symbol != null) _symbols.add(symbol);
   }
 
-  /// Add an ad-hoc name to the [Namespace].
+  /// Add an ad-hoc name to the [Scope].
   ///
   /// This is meant to be used during code generation, for generating unique
   /// names for internal use only. It shouldn't be used for user visible names,
@@ -59,7 +55,7 @@ class Namespace {
     return _namer!.add(name);
   }
 
-  /// Fill in the names of all the [Symbol]s in this [Namespace] and its
+  /// Fill in the names of all the [Symbol]s in this [Scope] and its
   /// children.
   void fillNames() => _fillNames(const {});
 
@@ -136,7 +132,7 @@ class Symbol extends AstNode {
   final String oldName;
   String? _name;
 
-  /// Only valid if [Namespace.fillNames] has been called already.
+  /// Only valid if [Scope.fillNames] has been called already.
   String get name => _name!;
 
   Symbol(this.oldName);
@@ -152,13 +148,13 @@ class Symbol extends AstNode {
   void forceFillForTesting() => _name = oldName;
 }
 
-mixin HasLocalNamespace on AstNode {
-  Namespace? _localNamespace;
-  Namespace get localNamespace => _localNamespace!;
-  set localNamespace(Namespace ns) {
-    assert(!localNamespaceFilled);
-    _localNamespace = ns;
+mixin HasLocalScope on AstNode {
+  Scope? _localScope;
+  Scope get localScope => _localScope!;
+  set localScope(Scope ns) {
+    assert(!localScopeFilled);
+    _localScope = ns;
   }
 
-  bool get localNamespaceFilled => _localNamespace != null;
+  bool get localScopeFilled => _localScope != null;
 }

@@ -27,8 +27,8 @@ class Context {
   final reportedCommentRanges = <((String, int), (String, int))>{};
   final libs = LibraryImports();
   late final compilerOpts = config.compilerOpts ?? defaultCompilerOpts(logger);
-  final Namespace rootNamespace = Namespace.createRoot('root');
-  final Namespace rootObjCNamespace = Namespace.createRoot('objc_root');
+  final Scope rootScope = Scope.createRoot('root');
+  final Scope rootObjCScope = Scope.createRoot('objc_root');
   late final ExtraSymbols extraSymbols;
 
   Context(this.logger, FfiGenerator generator, {Uri? libclangDylib})
@@ -85,7 +85,7 @@ class LibraryImports {
 
   // Call after all used imports have been marked by [markUsed]. Creates Symbols
   // for all the library prefixes used for codegen.
-  void createSymbols(Namespace namespace) {
+  void createSymbols(Scope namespace) {
     for (final lib in _used) {
       namespace.add(_prefixes[lib] = Symbol(lib.name));
     }

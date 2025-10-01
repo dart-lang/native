@@ -43,27 +43,27 @@ void main() {
 
     test('cSafeName', () {
       final namer = Namer({});
-      expect(Namespace.cSafeName(namer.add('foo')), 'foo');
-      expect(Namespace.cSafeName(namer.add('foo')), 'foo_1');
-      expect(Namespace.cSafeName(namer.add('foo')), 'foo_2');
-      expect(Namespace.cSafeName(namer.add('foo')), 'foo_3');
+      expect(Scope.cSafeName(namer.add('foo')), 'foo');
+      expect(Scope.cSafeName(namer.add('foo')), 'foo_1');
+      expect(Scope.cSafeName(namer.add('foo')), 'foo_2');
+      expect(Scope.cSafeName(namer.add('foo')), 'foo_3');
     });
 
     test('stringLiteral', () {
       final namer = Namer({});
-      expect(Namespace.stringLiteral(namer.add('foo')), 'foo');
-      expect(Namespace.stringLiteral(namer.add('foo')), 'foo\\\$1');
-      expect(Namespace.stringLiteral(namer.add('foo')), 'foo\\\$2');
-      expect(Namespace.stringLiteral(namer.add('foo')), 'foo\\\$3');
+      expect(Scope.stringLiteral(namer.add('foo')), 'foo');
+      expect(Scope.stringLiteral(namer.add('foo')), 'foo\\\$1');
+      expect(Scope.stringLiteral(namer.add('foo')), 'foo\\\$2');
+      expect(Scope.stringLiteral(namer.add('foo')), 'foo\\\$3');
     });
   });
 
-  group('Namespace', () {
+  group('Scope', () {
     test('parenting', () {
-      final root = Namespace.createRoot('root');
-      final parent = root.addNamespace('parent');
-      final child = parent.addNamespace('child');
-      final uncle = root.addNamespace('uncle');
+      final root = Scope.createRoot('root');
+      final parent = root.addScope('parent');
+      final child = parent.addScope('child');
+      final uncle = root.addScope('uncle');
 
       final rootSymbol = Symbol('foo');
       final parentSymbol = Symbol('foo');
@@ -83,7 +83,7 @@ void main() {
     });
 
     test('addPrivate', () {
-      final root = Namespace.createRoot('root');
+      final root = Scope.createRoot('root');
       root.fillNames();
       expect(root.addPrivate('_foo'), '_foo');
       expect(root.addPrivate('_foo'), '_foo\$1');
@@ -91,10 +91,10 @@ void main() {
     });
 
     test('preUsedNames', () {
-      final root = Namespace.createRoot('root');
-      final parent = root.addNamespace('parent', preUsedNames: {'bar'});
-      final child = parent.addNamespace('child');
-      final uncle = root.addNamespace('uncle');
+      final root = Scope.createRoot('root');
+      final parent = root.addScope('parent', preUsedNames: {'bar'});
+      final child = parent.addScope('child');
+      final uncle = root.addScope('uncle');
 
       final parentSymbol = Symbol('bar');
       final childSymbol = Symbol('bar');

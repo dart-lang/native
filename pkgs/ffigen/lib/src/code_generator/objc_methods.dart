@@ -174,7 +174,7 @@ enum ObjCMethodFamily {
   }
 }
 
-class ObjCMethod extends AstNode with HasLocalNamespace {
+class ObjCMethod extends AstNode with HasLocalScope {
   final Context context;
   final String? dartDoc;
   final String originalName;

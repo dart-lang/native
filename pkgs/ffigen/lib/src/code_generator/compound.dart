@@ -13,7 +13,7 @@ import 'utils.dart';
 import 'writer.dart';
 
 /// A binding for Compound type - Struct/Union.
-abstract class Compound extends BindingType with HasLocalNamespace {
+abstract class Compound extends BindingType with HasLocalScope {
   /// Marker for if a struct definition is complete.
   ///
   /// A function can be safely pass this struct by value if it's complete.

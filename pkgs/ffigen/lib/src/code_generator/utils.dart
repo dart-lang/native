@@ -47,7 +47,7 @@ String makeNativeAnnotation(
 }) {
   final args = <(String, String)>[];
   if (dartName != nativeSymbolName) {
-    args.add(('symbol', "'${Namespace.stringLiteral(nativeSymbolName)}'"));
+    args.add(('symbol', "'${Scope.stringLiteral(nativeSymbolName)}'"));
   }
   if (isLeaf) {
     args.add(('isLeaf', 'true'));

@@ -39,7 +39,7 @@ import 'writer.dart';
 /// @ffi.Native<ffi.Int32 Function(ffi.Int32 a, ffi.Int32 b)>('sum')
 /// external int sum(int a, int b);
 /// ```
-class Func extends LookUpBinding with HasLocalNamespace {
+class Func extends LookUpBinding with HasLocalScope {
   final FunctionType functionType;
   final bool exposeSymbolAddress;
   final bool exposeFunctionTypedefs;
@@ -110,7 +110,7 @@ class Func extends LookUpBinding with HasLocalNamespace {
         functionType.getFfiDartType(context, writeArgumentNames: false);
     final needsWrapper = !functionType.sameDartAndFfiDartType && !isInternal;
 
-    final funcVarName = localNamespace.addPrivate('_$name');
+    final funcVarName = localScope.addPrivate('_$name');
     final ffiReturnType = functionType.returnType.getFfiDartType(context);
     final ffiArgDeclString = functionType.dartTypeParameters
         .map((p) => '${p.type.getFfiDartType(context)} ${p.name},\n')
@@ -182,7 +182,7 @@ $dartReturnType $enclosingFuncName($dartArgDeclString) => $funcImplCall;
         );
       }
     } else {
-      final funcPointerName = localNamespace.addPrivate('_${name}Ptr');
+      final funcPointerName = localScope.addPrivate('_${name}Ptr');
       final isLeafString = isLeaf ? 'isLeaf:true' : '';
 
       // Write enclosing function.
@@ -205,7 +205,7 @@ $dartReturnType $enclosingFuncName($dartArgDeclString) {
       }
 
       // Write function pointer.
-      final lookupStr = Namespace.stringLiteral(lookupName);
+      final lookupStr = Scope.stringLiteral(lookupName);
       final lookupFn = context.extraSymbols.lookupFuncName!.name;
       s.write('''
 late final $funcPointerName = $lookupFn<

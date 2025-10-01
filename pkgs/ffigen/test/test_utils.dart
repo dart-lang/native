@@ -53,8 +53,8 @@ extension LibraryTestExt on Library {
       symbolAddressVariableName: Symbol('addresses')..forceFillForTesting(),
     );
     context.libs.forceFillForTesting();
-    context.rootNamespace.fillNames();
-    context.rootObjCNamespace.fillNames();
+    context.rootScope.fillNames();
+    context.rootObjCScope.fillNames();
   }
 }
 
@@ -64,8 +64,8 @@ class _FakeRenamer extends Visitation {
 
   @override
   void visitBinding(Binding node) {
-    if (node is HasLocalNamespace) {
-      (node as HasLocalNamespace).localNamespace = Namespace.createRoot('test')
+    if (node is HasLocalScope) {
+      (node as HasLocalScope).localScope = Scope.createRoot('test')
         ..fillNames();
     }
     node.visitChildren(visitor);

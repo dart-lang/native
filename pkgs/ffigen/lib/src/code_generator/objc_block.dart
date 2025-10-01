@@ -10,7 +10,7 @@ import 'binding_string.dart';
 import 'namespace.dart';
 import 'writer.dart';
 
-class ObjCBlock extends BindingType with HasLocalNamespace {
+class ObjCBlock extends BindingType with HasLocalScope {
   final Context context;
   final Type returnType;
   final List<Parameter> params;
@@ -145,15 +145,15 @@ class ObjCBlock extends BindingType with HasLocalNamespace {
     final voidPtr = PointerType(voidType);
     final blockPtr = PointerType(objCBlockType);
 
-    final funcPtrTrampoline = localNamespace.addPrivate('_fnPtrTrampoline');
-    final closureTrampoline = localNamespace.addPrivate('_closureTrampoline');
-    final funcPtrCallable = localNamespace.addPrivate('_fnPtrCallable');
-    final closureCallable = localNamespace.addPrivate('_closureCallable');
-    final listenerTrampoline = localNamespace.addPrivate('_listenerTrampoline');
-    final listenerCallable = localNamespace.addPrivate('_listenerCallable');
-    final blockingTrampoline = localNamespace.addPrivate('_blockingTrampoline');
-    final blockingCallable = localNamespace.addPrivate('_blockingCallable');
-    final blockingListenerCallable = localNamespace.addPrivate(
+    final funcPtrTrampoline = localScope.addPrivate('_fnPtrTrampoline');
+    final closureTrampoline = localScope.addPrivate('_closureTrampoline');
+    final funcPtrCallable = localScope.addPrivate('_fnPtrCallable');
+    final closureCallable = localScope.addPrivate('_closureCallable');
+    final listenerTrampoline = localScope.addPrivate('_listenerTrampoline');
+    final listenerCallable = localScope.addPrivate('_listenerCallable');
+    final blockingTrampoline = localScope.addPrivate('_blockingTrampoline');
+    final blockingCallable = localScope.addPrivate('_blockingCallable');
+    final blockingListenerCallable = localScope.addPrivate(
       '_blockingListenerCallable',
     );
 
@@ -407,11 +407,11 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
 
     final listenerWrapper = _blockWrappers!.listenerWrapper.name;
     final blockingWrapper = _blockWrappers!.blockingWrapper.name;
-    final listenerName = Namespace.cSafeName(
-      context.rootObjCNamespace.addPrivate('_ListenerTrampoline'),
+    final listenerName = Scope.cSafeName(
+      context.rootObjCScope.addPrivate('_ListenerTrampoline'),
     );
-    final blockingName = Namespace.cSafeName(
-      context.rootObjCNamespace.addPrivate('_BlockingTrampoline'),
+    final blockingName = Scope.cSafeName(
+      context.rootObjCScope.addPrivate('_BlockingTrampoline'),
     );
 
     return '''
@@ -458,8 +458,8 @@ $listenerName $blockingWrapper(
     final argRecv = argsReceived.join(', ');
     final argPass = argsPassed.join(', ');
     final fnName = protocolTrampoline!.func.name;
-    final block = Namespace.cSafeName(
-      context.rootObjCNamespace.addPrivate('_ProtocolTrampoline'),
+    final block = Scope.cSafeName(
+      context.rootObjCScope.addPrivate('_ProtocolTrampoline'),
     );
     final msgSend = '((id (*)(id, SEL, SEL))objc_msgSend)';
     final getterSel = '@selector(getDOBJCDartProtocolMethodForSelector:)';

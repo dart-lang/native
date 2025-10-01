@@ -91,7 +91,7 @@ class Global extends LookUpBinding {
 
       final pointerName = type.sameDartAndFfiDartType
           ? globalVarName
-          : context.rootNamespace.addPrivate('_$globalVarName');
+          : context.rootScope.addPrivate('_$globalVarName');
 
       s
         ..writeln(
@@ -118,7 +118,7 @@ class Global extends LookUpBinding {
         w.symbolAddressWriter.addNativeSymbol(type: ptrType, name: name);
       }
     } else {
-      final pointerName = context.rootNamespace.addPrivate('_$globalVarName');
+      final pointerName = context.rootScope.addPrivate('_$globalVarName');
       final lookupFn = context.extraSymbols.lookupFuncName!.name;
 
       s.write(

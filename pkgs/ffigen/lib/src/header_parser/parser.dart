@@ -258,10 +258,10 @@ void _nameAllSymbols(Context context, Set<Binding> bindings) {
   visit(context, FindSymbolsVisitation(context, bindings), namingOrder);
 
   context.extraSymbols = _createExtraSymbols(context);
-  context.libs.createSymbols(context.rootNamespace);
+  context.libs.createSymbols(context.rootScope);
 
-  context.rootNamespace.fillNames();
-  context.rootObjCNamespace.fillNames();
+  context.rootScope.fillNames();
+  context.rootObjCScope.fillNames();
 }
 
 ExtraSymbols _createExtraSymbols(Context context) {
@@ -277,8 +277,8 @@ ExtraSymbols _createExtraSymbols(Context context) {
     lookupFuncName: lookupFuncName,
     symbolAddressVariableName: Symbol('addresses'),
   );
-  context.rootNamespace.add(extraSymbols.wrapperClassName);
-  context.rootNamespace.add(extraSymbols.lookupFuncName);
-  context.rootNamespace.add(extraSymbols.symbolAddressVariableName);
+  context.rootScope.add(extraSymbols.wrapperClassName);
+  context.rootScope.add(extraSymbols.lookupFuncName);
+  context.rootScope.add(extraSymbols.symbolAddressVariableName);
   return extraSymbols;
 }
