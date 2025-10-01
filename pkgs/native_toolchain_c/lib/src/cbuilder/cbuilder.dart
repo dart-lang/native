@@ -116,6 +116,9 @@ class CBuilder extends CTool implements Builder {
   /// Runs the C Compiler with on this C build spec.
   ///
   /// Completes with an error if the build fails.
+  ///
+  /// If provided, uses [logger] to output logs. Otherwise, uses a default
+  /// logger that streams [Level.WARNING] to stdout and higher levels to stderr.
   @override
   Future<void> run({
     required BuildInput input,
