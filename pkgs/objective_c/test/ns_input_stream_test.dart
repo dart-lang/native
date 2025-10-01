@@ -325,21 +325,23 @@ void main() {
         await completionPort.first;
       });
       test('with self delegate', () async {
-        final pool = autoreleasePoolPush();
-        DartInputStreamAdapter? inputStream =
-            Stream.fromIterable([
-                  [1, 2, 3],
-                ]).toNSInputStream()
-                as DartInputStreamAdapter;
+        late DartInputStreamAdapter? inputStream;
+        late Pointer<ObjCObject> ptr;
+        autoReleasePool(() {
+          inputStream =
+              Stream.fromIterable([
+                    [1, 2, 3],
+                  ]).toNSInputStream()
+                  as DartInputStreamAdapter;
 
-        expect(inputStream.delegate, inputStream);
+          expect(inputStream!.delegate, inputStream);
 
-        final ptr = inputStream.ref.pointer;
-        autoreleasePoolPop(pool);
+          ptr = inputStream!.ref.pointer;
+        });
         expect(objectRetainCount(ptr), greaterThan(0));
 
-        inputStream.open();
-        inputStream.close();
+        inputStream!.open();
+        inputStream!.close();
         inputStream = null;
 
         doGC();
@@ -350,22 +352,24 @@ void main() {
       });
 
       test('with non-self delegate', () async {
-        final pool = autoreleasePoolPush();
-        DartInputStreamAdapter? inputStream =
-            Stream.fromIterable([
-                  [1, 2, 3],
-                ]).toNSInputStream()
-                as DartInputStreamAdapter;
+        late DartInputStreamAdapter? inputStream;
+        late Pointer<ObjCObject> ptr;
+        autoReleasePool(() {
+          inputStream =
+              Stream.fromIterable([
+                    [1, 2, 3],
+                  ]).toNSInputStream()
+                  as DartInputStreamAdapter;
 
-        inputStream.delegate = NSStreamDelegate.castFrom(NSObject());
-        expect(inputStream.delegate, isNot(inputStream));
+          inputStream!.delegate = NSStreamDelegate.castFrom(NSObject());
+          expect(inputStream!.delegate, isNot(inputStream));
 
-        final ptr = inputStream.ref.pointer;
-        autoreleasePoolPop(pool);
+          ptr = inputStream!.ref.pointer;
+        });
         expect(objectRetainCount(ptr), greaterThan(0));
 
-        inputStream.open();
-        inputStream.close();
+        inputStream!.open();
+        inputStream!.close();
         inputStream = null;
 
         doGC();

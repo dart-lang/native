@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 export 'package:pub_semver/pub_semver.dart' show Version;
+export 'src/autorelease.dart';
 export 'src/block.dart';
 export 'src/c_bindings_generated.dart'
     show
