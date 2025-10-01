@@ -110,7 +110,7 @@ class Scope {
 }
 
 /// Assigns unique names, avoiding collisions with existing names and keywords,
-/// by postfixing '$<int>' if there's a collision.
+/// by postfixing '$[int]' if there's a collision.
 ///
 /// This class is used internally by [Scope] to name [Symbol]s, and 99% of the
 /// time you should use those instead of this.
