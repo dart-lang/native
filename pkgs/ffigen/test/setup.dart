@@ -13,7 +13,12 @@ import 'package:args/args.dart';
 Future<void> _run(String subdir, String script, List<String> flags) async {
   final dir = Platform.script.resolve('$subdir/');
   print('\nRunning $script in ${dir.toFilePath()}');
-  final args = ['run', dir.resolve(script).toFilePath(), ...flags];
+  final args = [
+    '--enable-asserts',
+    'run',
+    dir.resolve(script).toFilePath(),
+    ...flags,
+  ];
   final process = await Process.start(
     Platform.executable,
     args,

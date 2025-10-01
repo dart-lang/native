@@ -7,7 +7,7 @@ import 'dart:ffi';
 import 'package:logging/logging.dart';
 
 import 'code_generator.dart';
-import 'code_generator/unique_namer.dart';
+import 'code_generator/scope.dart';
 import 'config_provider/config.dart';
 import 'config_provider/config_types.dart';
 import 'config_provider/spec_utils.dart';
@@ -17,37 +17,29 @@ import 'header_parser/utils.dart';
 /// Wrapper around various ffigen-wide variables.
 class Context {
   final Logger logger;
-
   final Config config;
-
   final CursorIndex cursorIndex;
-
   final bindingsIndex = BindingsIndex();
-
-  final incrementalNamer = IncrementalNamer();
-
   final savedMacros = <String, Macro>{};
-
   final unnamedEnumConstants = <Constant>[];
-
-  final ObjCBuiltInFunctions objCBuiltInFunctions;
-
+  late final ObjCBuiltInFunctions objCBuiltInFunctions;
   bool hasSourceErrors = false;
-
   final reportedCommentRanges = <((String, int), (String, int))>{};
-
   final libs = LibraryImports();
-
   late final compilerOpts = config.compilerOpts ?? defaultCompilerOpts(logger);
+  final Scope rootScope = Scope.createRoot('root');
+  final Scope rootObjCScope = Scope.createRoot('objc_root');
+  late final ExtraSymbols extraSymbols;
 
   Context(this.logger, FfiGenerator generator, {Uri? libclangDylib})
     : config = Config(generator),
-      cursorIndex = CursorIndex(logger),
-      objCBuiltInFunctions = ObjCBuiltInFunctions(
-        Config(generator).wrapperName,
-        // ignore: deprecated_member_use_from_same_package
-        generator.objectiveC?.generateForPackageObjectiveC ?? false,
-      ) {
+      cursorIndex = CursorIndex(logger) {
+    objCBuiltInFunctions = ObjCBuiltInFunctions(
+      this,
+      config.wrapperName,
+      // ignore: deprecated_member_use_from_same_package
+      generator.objectiveC?.generateForPackageObjectiveC ?? false,
+    );
     final libclangDylibPath =
         // ignore: deprecated_member_use_from_same_package
         generator.libclangDylib?.toFilePath() ??
@@ -91,18 +83,18 @@ class LibraryImports {
 
   final _used = <LibraryImport>{};
 
-  // Call after all used imports have been marked by [markUsed]. Fills the
-  // library prefixes used for codegen.
-  void fillPrefixes(UniqueNamer namer) {
+  // Call after all used imports have been marked by [markUsed]. Creates Symbols
+  // for all the library prefixes used for codegen.
+  void createSymbols(Scope scope) {
     for (final lib in _used) {
-      _prefixes[lib] = namer.makeUnique(lib.name);
+      scope.add(_prefixes[lib] = Symbol(lib.name));
     }
 
     _prefixesFilled = true;
   }
 
   bool _prefixesFilled = false;
-  final _prefixes = <LibraryImport, String>{};
+  final _prefixes = <LibraryImport, Symbol>{};
 
   String prefix(LibraryImport lib) {
     assert(lib == canonicalize(lib));
@@ -113,6 +105,21 @@ class LibraryImports {
     }
     // If this null assert fails, it means that a library was used during code
     // generation that wasn't visited by MarkImportsVisitation, which is a bug.
-    return _prefixes[lib]!;
+    return _prefixes[lib]!.name;
+  }
+
+  void forceFillForTesting() {
+    _used.addAll(builtInLibraries.values);
+    for (final lib in _used) {
+      _prefixes[lib] = Symbol(lib.name)..forceFillForTesting();
+    }
+    _prefixesFilled = true;
   }
 }
+
+typedef ExtraSymbols = ({
+  Symbol? wrapperClassName,
+  Symbol? lookupFuncName,
+  // TODO(https://github.com/dart-lang/native/issues/1259): Make this nullable.
+  Symbol symbolAddressVariableName,
+});

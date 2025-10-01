@@ -8,13 +8,19 @@ import '../visitor/ast.dart';
 
 import 'binding_string.dart';
 import 'objc_built_in_types.dart';
+import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
 
 /// Built in functions used by the Objective C bindings.
 class ObjCBuiltInFunctions {
-  ObjCBuiltInFunctions(this.wrapperName, this.generateForPackageObjectiveC);
+  ObjCBuiltInFunctions(
+    this.context,
+    this.wrapperName,
+    this.generateForPackageObjectiveC,
+  );
 
+  final Context context;
   final String wrapperName;
   final bool generateForPackageObjectiveC;
 
@@ -73,7 +79,7 @@ class ObjCBuiltInFunctions {
     params = _methodSigParams(params);
     returnType = _methodSigType(returnType);
     final (id, idHash) = _methodSigId(returnType, params);
-    return _msgSendFuncs[id] ??= ObjCMsgSendFunc(
+    return _msgSendFuncs[id] ??= ObjCMsgSendFunc._(
       '_objc_msgSend_$idHash',
       returnType,
       params,
@@ -85,7 +91,7 @@ class ObjCBuiltInFunctions {
   ObjCInternalGlobal getSelObject(String methodName) {
     return _selObjects[methodName] ??= ObjCInternalGlobal(
       '_sel_${methodName.replaceAll(":", "_")}',
-      (Context context) => '${registerName.gen(context)}("$methodName")',
+      () => '${registerName.gen(context)}("$methodName")',
     );
   }
 
@@ -132,14 +138,10 @@ class ObjCBuiltInFunctions {
     return t;
   }
 
-  List<Parameter> _methodSigParams(List<Parameter> params) => params
-      .map(
-        (p) => Parameter(
-          type: _methodSigType(p.type),
-          objCConsumed: p.objCConsumed,
-        ),
-      )
-      .toList();
+  List<Parameter> _methodSigParams(List<Parameter> params) => [
+    for (final p in params)
+      Parameter(type: _methodSigType(p.type), objCConsumed: p.objCConsumed),
+  ];
 
   final _blockTrampolines = <String, ObjCBlockWrapperFuncs>{};
   ObjCBlockWrapperFuncs? getBlockTrampolines(ObjCBlock block) {
@@ -260,17 +262,15 @@ class ObjCImport {
 
 /// Globals only used internally by ObjC bindings, such as classes and SELs.
 class ObjCInternalGlobal extends NoLookUpBinding {
-  final String Function(Context) makeValue;
+  final String Function() makeValue;
 
   ObjCInternalGlobal(String name, this.makeValue)
     : super(originalName: name, name: name, isInternal: true);
 
   @override
   BindingString toBindingString(Writer w) {
-    final s = StringBuffer();
-    name = w.wrapperLevelUniqueNamer.makeUnique(name);
-    s.write('late final $name = ${makeValue(w.context)};\n');
-    return BindingString(type: BindingStringType.global, string: s.toString());
+    final s = 'late final $name = ${makeValue()};\n';
+    return BindingString(type: BindingStringType.global, string: s);
   }
 }
 
@@ -296,7 +296,7 @@ class ObjCMsgSendVariantFunc extends NoLookUpBinding {
   ObjCMsgSendVariant variant;
   FunctionType type;
 
-  ObjCMsgSendVariantFunc({
+  ObjCMsgSendVariantFunc._({
     required super.name,
     required this.variant,
     required Type returnType,
@@ -340,7 +340,7 @@ final $name = $pointer.cast<$cType>().asFunction<$dartType>();
 /// a different signature than objc_msgSend has for the same method. This is
 /// because objc_msgSend_stret takes a pointer to the return type as its first
 /// arg.
-class ObjCMsgSendFunc extends AstNode {
+class ObjCMsgSendFunc extends AstNode with HasLocalScope {
   final ObjCMsgSendVariant variant;
   final ObjCImport useVariants;
 
@@ -350,13 +350,13 @@ class ObjCMsgSendFunc extends AstNode {
   late final ObjCMsgSendVariantFunc normalFunc;
   late final ObjCMsgSendVariantFunc? variantFunc;
 
-  ObjCMsgSendFunc(
+  ObjCMsgSendFunc._(
     String name,
     Type returnType,
     List<Parameter> params,
     this.useVariants,
   ) : variant = ObjCMsgSendVariant.fromReturnType(returnType) {
-    normalFunc = ObjCMsgSendVariantFunc(
+    normalFunc = ObjCMsgSendVariantFunc._(
       name: name,
       variant: ObjCMsgSendVariant.normal,
       returnType: returnType,
@@ -366,14 +366,14 @@ class ObjCMsgSendFunc extends AstNode {
       case ObjCMsgSendVariant.normal:
         variantFunc = null;
       case ObjCMsgSendVariant.fpret:
-        variantFunc = ObjCMsgSendVariantFunc(
+        variantFunc = ObjCMsgSendVariantFunc._(
           name: '${name}Fpret',
           variant: variant,
           returnType: returnType,
           parameters: _params(params),
         );
       case ObjCMsgSendVariant.stret:
-        variantFunc = ObjCMsgSendVariantFunc(
+        variantFunc = ObjCMsgSendVariantFunc._(
           name: '${name}Stret',
           variant: variant,
           returnType: voidType,
@@ -382,12 +382,20 @@ class ObjCMsgSendFunc extends AstNode {
     }
   }
 
-  static List<Parameter> _params(List<Parameter> params, {Type? structRetPtr}) {
+  List<Parameter> _params(List<Parameter> params, {Type? structRetPtr}) {
     return [
       if (structRetPtr != null)
-        Parameter(type: structRetPtr, objCConsumed: false),
-      Parameter(type: PointerType(objCObjectType), objCConsumed: false),
-      Parameter(type: PointerType(objCSelType), objCConsumed: false),
+        Parameter(name: 'result', type: structRetPtr, objCConsumed: false),
+      Parameter(
+        name: 'receiver',
+        type: PointerType(objCObjectType),
+        objCConsumed: false,
+      ),
+      Parameter(
+        name: 'sel',
+        type: PointerType(objCSelType),
+        objCConsumed: false,
+      ),
       ...params,
     ];
   }
@@ -438,4 +446,7 @@ class ObjCMsgSendFunc extends AstNode {
     visitor.visit(variantFunc);
     visitor.visit(objcPkgImport);
   }
+
+  @override
+  void visit(Visitation visitation) => visitation.visitObjCMsgSendFunc(this);
 }

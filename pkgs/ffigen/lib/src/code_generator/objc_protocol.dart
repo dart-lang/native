@@ -6,12 +6,12 @@ import '../code_generator.dart';
 import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
-
 import 'binding_string.dart';
+import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-class ObjCProtocol extends BindingType with ObjCMethods {
+class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
   @override
   final Context context;
   final superProtocols = <ObjCProtocol>[];
@@ -35,7 +35,7 @@ class ObjCProtocol extends BindingType with ObjCMethods {
   }) : lookupName = lookupName ?? originalName,
        _protocolPointer = ObjCInternalGlobal(
          '_protocol_$originalName',
-         (Context context) =>
+         () =>
              '${ObjCBuiltInFunctions.getProtocol.gen(context)}("$lookupName")',
        ),
        super(
@@ -62,9 +62,6 @@ class ObjCProtocol extends BindingType with ObjCMethods {
   @override
   bool get isObjCImport =>
       context.objCBuiltInFunctions.getBuiltInProtocolName(originalName) != null;
-
-  @override
-  void sort() => sortMethods();
 
   bool get unavailable => apiAvailability.availability == Availability.none;
 
@@ -119,11 +116,9 @@ interface class $name extends $protocolBase $impls{
       final buildBlockingImplementations = StringBuffer();
       final methodFields = StringBuffer();
 
-      final methodNamer = createMethodRenamer(w);
-
       var anyListeners = false;
       for (final method in methods) {
-        final methodName = method.getDartProtocolMethodName(methodNamer);
+        final methodName = method.protocolMethodName!.name;
         final fieldName = methodName;
         final argName = methodName;
         final block = method.protocolBlock!;

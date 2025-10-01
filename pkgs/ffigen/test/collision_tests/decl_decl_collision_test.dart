@@ -17,7 +17,10 @@ void main() {
     test('declaration conflict', () {
       final context = testContext(
         FfiGenerator(
-          output: Output(dartFile: Uri.file('unused')),
+          output: Output(
+            dartFile: Uri.file('unused'),
+            style: const DynamicLibraryBindings(wrapperName: 'Bindings'),
+          ),
           functions: Functions.includeAll,
           structs: Structs.includeAll,
           enums: Enums.includeAll,

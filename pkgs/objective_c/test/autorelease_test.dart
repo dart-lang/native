@@ -25,7 +25,7 @@ void main() {
       autoReleasePool(() {
         {
           final object = NSObject();
-          pointer = object.ref.autorelease();
+          pointer = object.ref.retainAndAutorelease();
         }
         doGC();
         expect(objectRetainCount(pointer), greaterThan(0));
@@ -44,7 +44,7 @@ void main() {
         () => autoReleasePool(() {
           {
             final object = NSObject();
-            pointer = object.ref.autorelease();
+            pointer = object.ref.retainAndAutorelease();
           }
           doGC();
           expect(objectRetainCount(pointer), greaterThan(0));

@@ -25,8 +25,10 @@ import 'writer.dart';
 class Global extends LookUpBinding {
   final Type type;
   final bool exposeSymbolAddress;
-  final bool loadFromNativeAsset;
   final bool constant;
+
+  @override
+  final bool loadFromNativeAsset;
 
   Global({
     super.usr,
@@ -89,7 +91,7 @@ class Global extends LookUpBinding {
 
       final pointerName = type.sameDartAndFfiDartType
           ? globalVarName
-          : w.wrapperLevelUniqueNamer.makeUnique('_$globalVarName');
+          : context.rootScope.addPrivate('_$globalVarName');
 
       s
         ..writeln(
@@ -116,21 +118,17 @@ class Global extends LookUpBinding {
         w.symbolAddressWriter.addNativeSymbol(type: ptrType, name: name);
       }
     } else {
-      final pointerName = w.wrapperLevelUniqueNamer.makeUnique(
-        '_$globalVarName',
-      );
+      final pointerName = context.rootScope.addPrivate('_$globalVarName');
+      final lookupFn = context.extraSymbols.lookupFuncName!.name;
 
       s.write(
         'late final $ptrType $pointerName = '
-        "${w.lookupFuncIdentifier}<$cType>('$originalName');\n\n",
+        "$lookupFn<$cType>('$originalName');\n\n",
       );
       final baseTypealiasType = type.typealiasType;
       if (baseTypealiasType is Compound) {
         if (baseTypealiasType.isOpaque) {
-          s.write(
-            '$ptrType get $globalVarName =>'
-            ' $pointerName;\n\n',
-          );
+          s.write('$ptrType get $globalVarName => $pointerName;\n\n');
         } else {
           s.write('$ffiDartType get $globalVarName => $pointerName.ref;\n\n');
         }

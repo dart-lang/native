@@ -5,12 +5,12 @@
 import '../code_generator.dart';
 import '../context.dart';
 import '../visitor/ast.dart';
-
 import 'binding_string.dart';
+import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-class ObjCCategory extends NoLookUpBinding with ObjCMethods {
+class ObjCCategory extends NoLookUpBinding with ObjCMethods, HasLocalScope {
   @override
   final Context context;
   final ObjCInterface parent;
@@ -42,9 +42,6 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods {
       context.objCBuiltInFunctions.isBuiltInCategory(originalName);
 
   @override
-  void sort() => sortMethods();
-
-  @override
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
     s.write('\n');
@@ -72,8 +69,8 @@ ${generateMethodBindings(w, parent)}
     super.visitChildren(visitor);
     visitor.visit(parent);
     visitor.visit(classObject);
-    visitor.visitAll(protocols);
     visitMethods(visitor);
     visitor.visit(objcPkgImport);
+    visitor.visitAll(protocols);
   }
 }

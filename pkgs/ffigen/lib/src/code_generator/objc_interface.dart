@@ -6,12 +6,12 @@ import '../code_generator.dart';
 import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
-
 import 'binding_string.dart';
+import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-class ObjCInterface extends BindingType with ObjCMethods {
+class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
   @override
   final Context context;
   ObjCInterface? superType;
@@ -48,8 +48,7 @@ class ObjCInterface extends BindingType with ObjCMethods {
        ) {
     classObject = ObjCInternalGlobal(
       '_class_$originalName',
-      (Context context) =>
-          '${ObjCBuiltInFunctions.getClass.gen(context)}("$lookupName")',
+      () => '${ObjCBuiltInFunctions.getClass.gen(context)}("$lookupName")',
     );
     _isKindOfClass = context.objCBuiltInFunctions.getSelObject(
       'isKindOfClass:',
@@ -74,9 +73,6 @@ class ObjCInterface extends BindingType with ObjCMethods {
   bool get isObjCImport =>
       context.objCBuiltInFunctions.getBuiltInInterfaceName(originalName) !=
       null;
-
-  @override
-  void sort() => sortMethods();
 
   bool get unavailable => apiAvailability.availability == Availability.none;
 
@@ -127,9 +123,8 @@ ${generateAsStub ? '' : _generateStaticMethods(w)}
 ''');
 
     if (!generateAsStub) {
-      final extName = w.topLevelUniqueNamer.makeUnique('$name\$Methods');
       s.write('''
-extension $extName on $name {
+extension $name\$Methods on $name {
 ${generateInstanceMethodBindings(w, this)}
 }
 
@@ -168,7 +163,7 @@ ${generateInstanceMethodBindings(w, this)}
     if (newMethod != null && originalName != 'NSString') {
       s.write('''
   /// Returns a new instance of $name constructed with the default `new` method.
-  factory $name() => ${newMethod.dartMethodName}();
+  factory $name() => ${newMethod.name}();
 ''');
     }
 
@@ -251,10 +246,10 @@ ${generateInstanceMethodBindings(w, this)}
     visitor.visit(classObject);
     visitor.visit(_isKindOfClass);
     visitor.visit(_isKindOfClassMsgSend);
-    visitor.visitAll(protocols);
-    visitor.visitAll(categories);
     visitMethods(visitor);
     visitor.visit(objcPkgImport);
+    visitor.visitAll(categories);
+    visitor.visitAll(protocols);
 
     // Note: Don't visit subtypes here, because they shouldn't affect transitive
     // inclusion. Including an interface shouldn't auto-include all its

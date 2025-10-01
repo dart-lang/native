@@ -5,13 +5,12 @@
 import 'dart:ffi';
 import 'dart:io';
 
-import 'package:collection/collection.dart';
 import 'package:ffi/ffi.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
 import '../code_generator.dart';
-import '../code_generator/unique_namer.dart';
+import '../code_generator/scope.dart';
 import '../config_provider.dart';
 import '../config_provider/utils.dart';
 import '../context.dart';
@@ -20,11 +19,13 @@ import '../visitor/apply_config_filters.dart';
 import '../visitor/ast.dart';
 import '../visitor/copy_methods_from_super_type.dart';
 import '../visitor/fill_method_dependencies.dart';
+import '../visitor/find_symbols.dart';
 import '../visitor/find_transitive_deps.dart';
 import '../visitor/fix_overridden_methods.dart';
 import '../visitor/list_bindings.dart';
 import '../visitor/mark_imports.dart';
 import '../visitor/opaque_compounds.dart';
+import '../visitor/sorter.dart';
 import 'clang_bindings/clang_bindings.dart' as clang_types;
 import 'sub_parsers/macro_parser.dart';
 import 'translation_unit_parser.dart';
@@ -206,26 +207,21 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
 
   visit(context, MarkImportsVisitation(context), finalBindings);
 
-  // TODO(https://github.com/dart-lang/native/issues/1259): Remove libNamer when
-  // renaming is another ordinary transformer.
-  final libNamer = UniqueNamer()..markAllUsed(finalBindings.map((d) => d.name));
-  context.libs.fillPrefixes(libNamer);
-
-  final finalBindingsList = finalBindings.toList();
+  _nameAllSymbols(context, finalBindings);
 
   /// Sort bindings.
+  var finalBindingsList = finalBindings.toList();
   if (config.sort) {
-    finalBindingsList.sortBy((b) => b.name);
-    for (final b in finalBindingsList) {
-      b.sort();
-    }
+    finalBindingsList = visit(
+      context,
+      SorterVisitation(finalBindings, SorterVisitation.nameSortKey),
+      finalBindings,
+    ).sorted;
   }
 
   /// Handle any declaration-declaration name conflicts and emit warnings.
-  final declConflictHandler = UniqueNamer();
   for (final b in finalBindingsList) {
     _warnIfPrivateDeclaration(b, context.logger);
-    _resolveIfNameConflicts(declConflictHandler, b, context.logger);
   }
 
   // Override pack values according to config. We do this after declaration
@@ -252,15 +248,37 @@ void _warnIfPrivateDeclaration(Binding b, Logger logger) {
   }
 }
 
-/// Resolves name conflict(if any) and logs a warning.
-void _resolveIfNameConflicts(UniqueNamer namer, Binding b, Logger logger) {
-  // Print warning if name was conflicting and has been changed.
-  final oldName = b.name;
-  b.name = namer.makeUnique(b.name);
-  if (oldName != b.name) {
-    logger.warning(
-      "Resolved name conflict: Declaration '$oldName' "
-      "and has been renamed to '${b.name}'.",
-    );
+void _nameAllSymbols(Context context, Set<Binding> bindings) {
+  final namingOrder = visit(
+    context,
+    SorterVisitation(bindings, SorterVisitation.originalNameSortKey),
+    bindings,
+  ).sorted;
+
+  visit(context, FindSymbolsVisitation(context, bindings), namingOrder);
+
+  context.extraSymbols = _createExtraSymbols(context);
+  context.libs.createSymbols(context.rootScope);
+
+  context.rootScope.fillNames();
+  context.rootObjCScope.fillNames();
+}
+
+ExtraSymbols _createExtraSymbols(Context context) {
+  final bindingStyle = context.config.outputStyle;
+  Symbol? wrapperClassName;
+  Symbol? lookupFuncName;
+  if (bindingStyle is DynamicLibraryBindings) {
+    wrapperClassName = Symbol(bindingStyle.wrapperName);
+    lookupFuncName = Symbol('_lookup');
   }
+  final extraSymbols = (
+    wrapperClassName: wrapperClassName,
+    lookupFuncName: lookupFuncName,
+    symbolAddressVariableName: Symbol('addresses'),
+  );
+  context.rootScope.add(extraSymbols.wrapperClassName);
+  context.rootScope.add(extraSymbols.lookupFuncName);
+  context.rootScope.add(extraSymbols.symbolAddressVariableName);
+  return extraSymbols;
 }

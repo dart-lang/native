@@ -8,7 +8,6 @@ import '../code_generator.dart';
 import '../context.dart';
 import '../strings.dart' as strings;
 import '../visitor/visitor.dart';
-import 'unique_namer.dart';
 import 'utils.dart';
 
 /// To store generated String bindings.
@@ -31,34 +30,11 @@ class Writer {
   /// Manages the `_SymbolAddress` class.
   final SymbolAddressWriter symbolAddressWriter;
 
-  late String _className;
-  String get className => _className;
-
   final String? classDocComment;
 
   final bool generateForPackageObjectiveC;
 
   final List<String> nativeEntryPoints;
-
-  late String _lookupFuncIdentifier;
-  String get lookupFuncIdentifier => _lookupFuncIdentifier;
-
-  late String _symbolAddressClassName;
-  late String _symbolAddressVariableName;
-  late String _symbolAddressLibraryVarName;
-
-  /// Initial namers set after running constructor. Namers are reset to this
-  /// initial state everytime [generate] is called.
-  late UniqueNamer _initialTopLevelUniqueNamer;
-  late UniqueNamer _initialWrapperLevelUniqueNamer;
-
-  /// Used by [Binding]s for generating required code.
-  late UniqueNamer _topLevelUniqueNamer;
-  UniqueNamer get topLevelUniqueNamer => _topLevelUniqueNamer;
-  late UniqueNamer _wrapperLevelUniqueNamer;
-  UniqueNamer get wrapperLevelUniqueNamer => _wrapperLevelUniqueNamer;
-  late UniqueNamer _objCLevelUniqueNamer;
-  UniqueNamer get objCLevelUniqueNamer => _objCLevelUniqueNamer;
 
   /// Set true after calling [generate]. Indicates if
   /// [generateSymbolOutputYamlMap] can be called.
@@ -71,7 +47,6 @@ class Writer {
     required this.lookUpBindings,
     required this.ffiNativeBindings,
     required this.noLookUpBindings,
-    required String className,
     required this.nativeAssetId,
     List<LibraryImport> additionalImports = const <LibraryImport>[],
     this.classDocComment,
@@ -80,74 +55,7 @@ class Writer {
     required this.silenceEnumWarning,
     required this.nativeEntryPoints,
     required this.context,
-  }) : symbolAddressWriter = SymbolAddressWriter(context) {
-    final globalLevelNames = noLookUpBindings.map((e) => e.name);
-    final wrapperLevelNames = lookUpBindings.map((e) => e.name);
-
-    _initialTopLevelUniqueNamer = UniqueNamer()..markAllUsed(globalLevelNames);
-    for (final lib in context.libs.used) {
-      _initialTopLevelUniqueNamer.markUsed(context.libs.prefix(lib));
-    }
-
-    _initialWrapperLevelUniqueNamer = UniqueNamer()
-      ..markAllUsed(wrapperLevelNames);
-    final allLevelsUniqueNamer = UniqueNamer()
-      ..markAllUsed(globalLevelNames)
-      ..markAllUsed(wrapperLevelNames);
-
-    /// Wrapper class name must be unique among all names.
-    _className = _resolveNameConflict(
-      name: className,
-      makeUnique: allLevelsUniqueNamer,
-      markUsed: [_initialWrapperLevelUniqueNamer, _initialTopLevelUniqueNamer],
-    );
-
-    /// [_lookupFuncIdentifier] should be unique in top level.
-    _lookupFuncIdentifier = _resolveNameConflict(
-      name: '_lookup',
-      makeUnique: _initialTopLevelUniqueNamer,
-    );
-
-    /// Resolve name conflicts of identifiers used for SymbolAddresses.
-    _symbolAddressClassName = _resolveNameConflict(
-      name: '_SymbolAddresses',
-      makeUnique: allLevelsUniqueNamer,
-      markUsed: [_initialWrapperLevelUniqueNamer, _initialTopLevelUniqueNamer],
-    );
-    _symbolAddressVariableName = _resolveNameConflict(
-      name: 'addresses',
-      makeUnique: _initialWrapperLevelUniqueNamer,
-    );
-    _symbolAddressLibraryVarName = _resolveNameConflict(
-      name: '_library',
-      makeUnique: _initialWrapperLevelUniqueNamer,
-    );
-
-    _resetUniqueNamers();
-  }
-
-  /// Resolved name conflict using [makeUnique] and marks the result as used in
-  /// all [markUsed].
-  String _resolveNameConflict({
-    required String name,
-    required UniqueNamer makeUnique,
-    List<UniqueNamer> markUsed = const [],
-  }) {
-    final s = makeUnique.makeUnique(name);
-    for (final un in markUsed) {
-      un.markUsed(s);
-    }
-    return s;
-  }
-
-  /// Resets the namers to initial state. Namers are reset before generating.
-  void _resetUniqueNamers() {
-    _topLevelUniqueNamer = UniqueNamer(parent: _initialTopLevelUniqueNamer);
-    _wrapperLevelUniqueNamer = UniqueNamer(
-      parent: _initialWrapperLevelUniqueNamer,
-    );
-    _objCLevelUniqueNamer = UniqueNamer();
-  }
+  }) : symbolAddressWriter = SymbolAddressWriter(context);
 
   /// Writes all bindings to a String.
   String generate() {
@@ -156,9 +64,6 @@ class Writer {
     // We write the source first to determine which imports are actually
     // referenced. Headers and [s] are then combined into the final result.
     final result = StringBuffer();
-
-    // Reset unique namers to initial state.
-    _resetUniqueNamers();
 
     // Write file header (if any).
     if (header != null) {
@@ -192,32 +97,33 @@ class Writer {
     /// Write [lookUpBindings].
     if (lookUpBindings.isNotEmpty) {
       final ffiPrefix = context.libs.prefix(ffiImport);
+      final className = context.extraSymbols.wrapperClassName!.name;
+      final lookupFn = context.extraSymbols.lookupFuncName!.name;
       // Write doc comment for wrapper class.
       s.write(makeDartDoc(classDocComment));
-      // Write wrapper classs.
-      s.write('class $_className{\n');
+      // Write wrapper class.
+      s.write('class $className{\n');
       // Write dylib.
       s.write('/// Holds the symbol lookup function.\n');
       s.write(
         'final $ffiPrefix.Pointer<T> Function<T extends '
-        '$ffiPrefix.NativeType>(String symbolName) '
-        '$lookupFuncIdentifier;\n',
+        '$ffiPrefix.NativeType>(String symbolName) $lookupFn;\n',
       );
       s.write('\n');
       //Write doc comment for wrapper class constructor.
       s.write(makeDartDoc('The symbols are looked up in [dynamicLibrary].'));
       // Write wrapper class constructor.
       s.write(
-        '$_className($ffiPrefix.DynamicLibrary dynamicLibrary): '
-        '$lookupFuncIdentifier = dynamicLibrary.lookup;\n\n',
+        '$className($ffiPrefix.DynamicLibrary dynamicLibrary): '
+        '$lookupFn = dynamicLibrary.lookup;\n\n',
       );
       //Write doc comment for wrapper class named constructor.
       s.write(makeDartDoc('The symbols are looked up with [lookup].'));
       // Write wrapper class named constructor.
       s.write(
-        '$_className.fromLookup($ffiPrefix.Pointer<T> '
+        '$className.fromLookup($ffiPrefix.Pointer<T> '
         'Function<T extends $ffiPrefix.NativeType>('
-        'String symbolName) lookup): $lookupFuncIdentifier = lookup;\n\n',
+        'String symbolName) lookup): $lookupFn = lookup;\n\n',
       );
       for (final b in lookUpBindings) {
         s.write(b.toBindingString(this).string);
@@ -343,7 +249,7 @@ class Writer {
 
   String? getTypedefDartAliasName(Type b) {
     if (b is! Typealias) return null;
-    return b.dartAliasName ?? getTypedefDartAliasName(b.type);
+    return b.dartAliasName?.name ?? getTypedefDartAliasName(b.type);
   }
 
   static String _objcImport(String entryPoint, String outDir) {
@@ -455,6 +361,10 @@ class SymbolAddressWriter {
 
   SymbolAddressWriter(this.context);
 
+  late final _symbolAddressClassName = context.rootScope.addPrivate(
+    '_SymbolAddresses',
+  );
+
   void addSymbol({
     required String type,
     required String name,
@@ -469,35 +379,33 @@ class SymbolAddressWriter {
   }
 
   String writeObject(Writer w) {
-    final className = w._symbolAddressClassName;
-    final fieldName = w._symbolAddressVariableName;
+    final fieldName = context.extraSymbols.symbolAddressVariableName.name;
 
     if (hasNonNativeAddress) {
-      return 'late final $fieldName = $className(this);';
+      return 'late final $fieldName = $_symbolAddressClassName(this);';
     } else {
-      return 'const $fieldName = $className();';
+      return 'const $fieldName = $_symbolAddressClassName();';
     }
   }
 
   String writeClass(Writer w) {
     final sb = StringBuffer();
-    sb.write('class ${w._symbolAddressClassName} {\n');
+    sb.write('class $_symbolAddressClassName {\n');
 
+    late final libraryVarName = context.rootScope.addPrivate('_library');
     if (hasNonNativeAddress) {
       // Write Library object.
-      sb.write('final ${w._className} ${w._symbolAddressLibraryVarName};\n');
+      final wrapperClassName = context.extraSymbols.wrapperClassName!.name;
+      sb.write('  final $wrapperClassName $libraryVarName;\n');
       // Write Constructor.
-      sb.write(
-        '${w._symbolAddressClassName}('
-        'this.${w._symbolAddressLibraryVarName});\n',
-      );
+      sb.write('  $_symbolAddressClassName(this.$libraryVarName);\n');
     } else {
       // Native bindings are top-level, so we don't need a field here.
-      sb.write('const ${w._symbolAddressClassName}();');
+      sb.write('  const $_symbolAddressClassName();');
     }
 
     for (final address in _addresses) {
-      sb.write('${address.type} get ${address.name} => ');
+      sb.write('  ${address.type} get ${address.name} => ');
 
       if (address.native) {
         // For native fields and functions, we can use Native.addressOf to look
@@ -509,7 +417,7 @@ class SymbolAddressWriter {
       } else {
         // For other elements, the generator will write a private field of type
         // Pointer which we can reference here.
-        sb.writeln('${w._symbolAddressLibraryVarName}.${address.ptrName};');
+        sb.writeln('$libraryVarName.${address.ptrName};');
       }
     }
     sb.write('}\n');

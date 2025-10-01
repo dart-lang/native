@@ -6,6 +6,14 @@ import '../code_generator.dart';
 import '../context.dart';
 import 'ast.dart';
 
+// Various fixups related to ObjC's inheritance being less strict than Dart's:
+//  - ObjC isn't as strict about return type covariance and arg type
+//    contravariance as Dart is.
+//  - ObjC allows properties to override methods, but Dart doesn't allow getters
+//    and setters to override methods.
+// This visitation detects these cases and attemps to fix them. Also, it merges
+// the Symbols of overridden methods so that the later renaming pass is
+// consistent.
 class FixOverriddenMethodsVisitation extends Visitation {
   final Context context;
 
@@ -21,6 +29,7 @@ class FixOverriddenMethodsVisitation extends Visitation {
 
     _fixMethodVariance(node);
     _fixMethodsVsProperties(node);
+    _fixMethodSymbols(node);
 
     node.visitChildren(visitor);
   }
@@ -100,8 +109,8 @@ class FixOverriddenMethodsVisitation extends Visitation {
     }
 
     for (var i = 0; i < n; ++i) {
-      final pt = method.params[i].type;
-      final st = superMethod.params[i].type;
+      final pt = method.params.elementAt(i).type;
+      final st = superMethod.params.elementAt(i).type;
 
       if (st.isSubtypeOf(pt)) {
         // Contravariant param, nothing to fix.
@@ -123,7 +132,7 @@ class FixOverriddenMethodsVisitation extends Visitation {
         '${node.originalName}.${method.originalName} at position ${i + 1} to '
         'be covariant',
       );
-      method.params[i].isCovariant = true;
+      method.params.elementAt(i).isCovariant = true;
     }
   }
 
@@ -154,6 +163,15 @@ class FixOverriddenMethodsVisitation extends Visitation {
         continue;
       }
       _convertAllSubtreeMethodsToProperties(root, rootMethod);
+    }
+  }
+
+  void _fixMethodSymbols(ObjCInterface node) {
+    // If a method overrides a super method, they should have the same name.
+    for (final method in node.methods) {
+      if (method.isClassMethod) continue;
+      final (superType, superMethod) = _findRootWithMethod(node, method);
+      method.symbol = superMethod.symbol;
     }
   }
 

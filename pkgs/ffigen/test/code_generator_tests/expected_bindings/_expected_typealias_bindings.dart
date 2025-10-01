@@ -23,13 +23,13 @@ class Bindings {
     ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
   ) : _lookup = lookup;
 
-  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> WithTypealiasStruct$1(
+  ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> WithTypealiasStruct(
     Struct3Typealias t,
   ) {
-    return _WithTypealiasStruct$1(t);
+    return _WithTypealiasStruct(t);
   }
 
-  late final _WithTypealiasStruct$1Ptr =
+  late final _WithTypealiasStructPtr =
       _lookup<
         ffi.NativeFunction<
           ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> Function(
@@ -37,8 +37,8 @@ class Bindings {
           )
         >
       >('WithTypealiasStruct');
-  late final _WithTypealiasStruct$1 =
-      _WithTypealiasStruct$1Ptr.asFunction<
+  late final _WithTypealiasStruct =
+      _WithTypealiasStructPtr.asFunction<
         ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> Function(
           Struct3Typealias,
         )
@@ -56,7 +56,7 @@ final class Struct2 extends ffi.Struct {
 
 typedef Struct2Typealias = Struct2;
 
-final class WithTypealiasStruct extends ffi.Struct {
+final class WithTypealiasStruct$1 extends ffi.Struct {
   external Struct2Typealias t;
 }
 

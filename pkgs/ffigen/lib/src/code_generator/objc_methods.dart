@@ -15,9 +15,9 @@ import 'objc_built_in_functions.dart';
 import 'objc_interface.dart';
 import 'objc_nullable.dart';
 import 'pointer.dart';
+import 'scope.dart';
 import 'type.dart';
 import 'typealias.dart';
-import 'unique_namer.dart';
 import 'utils.dart';
 import 'writer.dart';
 
@@ -36,19 +36,19 @@ mixin ObjCMethods {
   void addMethod(ObjCMethod? method) {
     if (method == null) return;
     final oldMethod = getSimilarMethod(method);
-    if (oldMethod != null) {
-      _methods[method.key] = _maybeReplaceMethod(oldMethod, method);
-    } else {
+    if (oldMethod == null) {
       _methods[method.key] = method;
       _order.add(method.key);
+    } else if (_shouldReplaceMethod(oldMethod, method)) {
+      _methods[method.key] = method;
     }
   }
 
   void visitMethods(Visitor visitor) {
-    visitor.visitAll(_methods.values);
+    visitor.visitAll(methods);
   }
 
-  ObjCMethod _maybeReplaceMethod(ObjCMethod oldMethod, ObjCMethod newMethod) {
+  bool _shouldReplaceMethod(ObjCMethod oldMethod, ObjCMethod newMethod) {
     // Typically we ignore duplicate methods. However, property setters and
     // getters are duplicated in the AST. One copy is marked with
     // ObjCMethodKind.propertyGetter/Setter. The other copy is missing
@@ -56,18 +56,18 @@ mixin ObjCMethods {
     // existing method is an instanceMethod, and the new one is a property,
     // override it.
     if (newMethod.isProperty && !oldMethod.isProperty) {
-      return newMethod;
+      return true;
     } else if (!newMethod.isProperty && oldMethod.isProperty) {
       // Don't override, but also skip the same method check below.
-      return oldMethod;
+      return false;
     }
 
     // If one of the methods is optional, and the other is required, keep the
     // required one.
     if (newMethod.isOptional && !oldMethod.isOptional) {
-      return oldMethod;
+      return false;
     } else if (!newMethod.isOptional && oldMethod.isOptional) {
-      return newMethod;
+      return true;
     }
 
     // Check the duplicate is the same method.
@@ -76,7 +76,7 @@ mixin ObjCMethods {
         'Duplicate methods with different signatures: '
         '$originalName.${newMethod.originalName}',
       );
-      return newMethod;
+      return true;
     }
 
     // There's a bug in some Apple APIs where an init method that should return
@@ -85,24 +85,14 @@ mixin ObjCMethods {
     // is an alias of id, the sameAs check above passes.
     if (ObjCBuiltInFunctions.isInstanceType(newMethod.returnType) &&
         !ObjCBuiltInFunctions.isInstanceType(oldMethod.returnType)) {
-      return newMethod;
+      return true;
     } else if (!ObjCBuiltInFunctions.isInstanceType(newMethod.returnType) &&
         ObjCBuiltInFunctions.isInstanceType(oldMethod.returnType)) {
-      return oldMethod;
+      return false;
     }
 
-    return newMethod;
+    return true;
   }
-
-  UniqueNamer createMethodRenamer(Writer w) =>
-      UniqueNamer(parent: w.topLevelUniqueNamer)..markAllUsed([
-        name,
-        'pointer',
-        'toString',
-        'hashCode',
-        'runtimeType',
-        'noSuchMethod',
-      ]);
 
   void sortMethods() => _order.sort();
 
@@ -130,11 +120,10 @@ mixin ObjCMethods {
       _generateMethods(w, target, false);
 
   String _generateMethods(Writer w, ObjCInterface target, bool? staticMethods) {
-    final methodNamer = createMethodRenamer(w);
     return [
       for (final m in methods)
         if (staticMethods == null || staticMethods == m.isClassMethod)
-          m.generateBindings(w, target, methodNamer),
+          m.generateBindings(w, target),
     ].join('\n');
   }
 }
@@ -185,41 +174,33 @@ enum ObjCMethodFamily {
   }
 }
 
-class ObjCProperty extends AstNode {
-  final String originalName;
-  final String name;
-  String? dartName;
-
-  ObjCProperty({required this.originalName, required this.name});
-}
-
-class ObjCMethod extends AstNode {
+class ObjCMethod extends AstNode with HasLocalScope {
   final Context context;
   final String? dartDoc;
   final String originalName;
-  String name;
-  String? dartMethodName;
-  late final String protocolMethodName;
-  final ObjCProperty? property;
+  Symbol symbol;
+  final String originalProtocolMethodName;
   Type returnType;
-  final List<Parameter> params;
+  final List<Parameter> _params;
   ObjCMethodKind kind;
   final bool isClassMethod;
   final bool isOptional;
-  ObjCMethodOwnership? ownershipAttribute;
+  final ObjCMethodOwnership? ownershipAttribute;
   final ObjCMethodFamily? family;
   final ApiAvailability apiAvailability;
-  bool consumesSelfAttribute = false;
+  final bool consumesSelfAttribute;
   ObjCInternalGlobal selObject;
   ObjCMsgSendFunc? msgSend;
   ObjCBlock? protocolBlock;
+  Symbol? protocolMethodName;
 
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
-    visitor.visit(property);
+    visitor.visit(symbol);
+    visitor.visit(protocolMethodName);
     visitor.visit(returnType);
-    visitor.visitAll(params);
+    visitor.visitAll(_params);
     visitor.visit(selObject);
     visitor.visit(msgSend);
     visitor.visit(protocolBlock);
@@ -228,11 +209,14 @@ class ObjCMethod extends AstNode {
     visitor.visit(objcPkgImport);
   }
 
-  ObjCMethod({
+  @override
+  void visit(Visitation visitation) => visitation.visitObjCMethod(this);
+
+  ObjCMethod.withSymbol({
     required this.context,
     required this.originalName,
-    required this.name,
-    this.property,
+    required this.symbol,
+    required String protocolMethodName,
     this.dartDoc,
     required this.kind,
     required this.isClassMethod,
@@ -240,13 +224,29 @@ class ObjCMethod extends AstNode {
     required this.returnType,
     required this.family,
     required this.apiAvailability,
-    List<Parameter>? params_,
-  }) : params = params_ ?? [],
+    required List<Parameter> params,
+    required this.ownershipAttribute,
+    required this.consumesSelfAttribute,
+  }) : originalProtocolMethodName = protocolMethodName.replaceAll(':', '_'),
+       _params = params,
        selObject = context.objCBuiltInFunctions.getSelObject(originalName);
 
-  // Must be called after all params are added to the method.
-  void finalizeParams() {
-    protocolMethodName = name.replaceAll(':', '_');
+  factory ObjCMethod({
+    required Context context,
+    required String originalName,
+    required String name,
+    String? dartDoc,
+    required ObjCMethodKind kind,
+    required bool isClassMethod,
+    required bool isOptional,
+    required Type returnType,
+    required ObjCMethodFamily? family,
+    required ApiAvailability apiAvailability,
+    required List<Parameter> params,
+    required ObjCMethodOwnership? ownershipAttribute,
+    required bool consumesSelfAttribute,
+  }) {
+    final protocolMethodName = name;
 
     // Split the name at the ':'. The first chunk is the name of the method, and
     // the rest of the chunks are named parameters. Eg NSString's
@@ -270,16 +270,36 @@ class ObjCMethod extends AstNode {
       // rest to each of the params after the first.
       name = chunks[0];
       for (var i = 1; i < params.length; ++i) {
-        params[i].name = chunks[i];
+        params[i].symbol = Symbol(chunks[i]);
       }
     } else {
       // There are a few methods that don't obey these rules, eg due to variadic
       // parameters. Most of these are omitted from the bindings as they're not
       // supported yet. But as a fallback, just replace all the ':' in the name
       // with '_', like we do for protocol methods.
-      name = protocolMethodName;
+      name = name.replaceAll(':', '_');
     }
+
+    return ObjCMethod.withSymbol(
+      context: context,
+      originalName: originalName,
+      symbol: Symbol(name),
+      protocolMethodName: protocolMethodName,
+      dartDoc: dartDoc,
+      kind: kind,
+      isClassMethod: isClassMethod,
+      isOptional: isOptional,
+      returnType: returnType,
+      family: family,
+      apiAvailability: apiAvailability,
+      params: params,
+      ownershipAttribute: ownershipAttribute,
+      consumesSelfAttribute: consumesSelfAttribute,
+    );
   }
+
+  String get name => symbol.name;
+  Iterable<Parameter> get params => _params;
 
   bool get isProperty =>
       kind == ObjCMethodKind.propertyGetter ||
@@ -288,7 +308,10 @@ class ObjCMethod extends AstNode {
   bool get isInstanceMethod => !isClassMethod;
 
   void fillMsgSend() {
-    msgSend ??= context.objCBuiltInFunctions.getMsgSendFunc(returnType, params);
+    msgSend ??= context.objCBuiltInFunctions.getMsgSendFunc(
+      returnType,
+      _params,
+    );
   }
 
   void fillProtocolBlock() {
@@ -298,27 +321,13 @@ class ObjCMethod extends AstNode {
       params: [
         // First arg of the protocol block is a void pointer that we ignore.
         Parameter(name: '_', type: PointerType(voidType), objCConsumed: false),
-        ...params,
+        ..._params,
       ],
       returnsRetained: returnsRetained,
     )..fillProtocolTrampoline();
-  }
-
-  String getDartProtocolMethodName(UniqueNamer uniqueNamer) =>
-      uniqueNamer.makeUnique(protocolMethodName);
-
-  String getDartMethodName(UniqueNamer uniqueNamer) {
-    if (property != null) {
-      // A getter and a setter are allowed to have the same name, so we can't
-      // just run the name through uniqueNamer. Instead they need to share
-      // the dartName, which is run through uniqueNamer.
-      if (property!.dartName == null) {
-        property!.dartName = uniqueNamer.makeUnique(property!.name);
-      }
-      return property!.dartName!;
-    }
-
-    return uniqueNamer.makeUnique(name);
+    protocolMethodName ??= symbol.oldName == originalProtocolMethodName
+        ? symbol
+        : Symbol(originalProtocolMethodName);
   }
 
   bool sameAs(ObjCMethod other) {
@@ -342,7 +351,7 @@ class ObjCMethod extends AstNode {
 
   Iterable<Type> get childTypes sync* {
     yield returnType;
-    for (final p in params) {
+    for (final p in _params) {
       yield p.type;
     }
   }
@@ -351,13 +360,13 @@ class ObjCMethod extends AstNode {
   // that it doesn't have method overloading, so the [originalName] is mostly
   // sufficient as the key. But unlike Dart, ObjC can have static methods and
   // instance methods with the same name, so we have to include staticness in
-  // the key.
-  String get key => '${isClassMethod ? '+' : '-'}$originalName';
+  // the key. We order instance methods before static methods alphabetically.
+  String get key => '${isClassMethod ? 'S' : 'I'} $originalName';
 
   @override
   String toString() =>
       '${isOptional ? '@optional ' : ''}$returnType '
-      '$originalName(${params.join(', ')})';
+      '$originalName(${_params.join(', ')})';
 
   bool get returnsInstanceType {
     if (returnType is ObjCInstanceType) return true;
@@ -393,26 +402,15 @@ class ObjCMethod extends AstNode {
     return '${_paramToStr(context, params.first)}, {$named}';
   }
 
-  String generateBindings(
-    Writer w,
-    ObjCInterface target,
-    UniqueNamer methodNamer,
-  ) {
+  String generateBindings(Writer w, ObjCInterface target) {
     final context = w.context;
-    if (dartMethodName == null) {
-      dartMethodName = getDartMethodName(methodNamer);
-      final paramNamer = UniqueNamer(parent: methodNamer);
-      for (final p in params) {
-        p.name = paramNamer.makeUnique(p.name);
-      }
-    }
-    final methodName = dartMethodName!;
+    final methodName = symbol.name;
     final upperName = methodName[0].toUpperCase() + methodName.substring(1);
     final s = StringBuffer();
 
     final targetType = target.getDartType(context);
     final returnTypeStr = _getConvertedReturnType(context, targetType);
-    final paramStr = _joinParamStr(context, params);
+    final paramStr = _joinParamStr(context, _params);
 
     // The method declaration.
     s.write('\n  ${makeDartDoc(dartDoc)}  ');
@@ -473,7 +471,7 @@ class ObjCMethod extends AstNode {
         kind != ObjCMethodKind.propertySetter &&
         !returnType.sameDartAndFfiDartType;
 
-    final msgSendParams = params.map(
+    final msgSendParams = _params.map(
       (p) => p.type.convertDartTypeToFfiDartType(
         context,
         p.name,

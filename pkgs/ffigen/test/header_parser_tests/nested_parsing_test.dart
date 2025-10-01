@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/context.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
 import 'package:ffigen/src/strings.dart' as strings;
 import 'package:test/test.dart';
@@ -29,7 +28,7 @@ ${strings.structs}:
     - Struct2
         '''),
       );
-      expected = expectedLibrary(context);
+      expected = expectedLibrary();
       actual = parser.parse(context);
     });
 
@@ -76,7 +75,8 @@ ${strings.structs}:
   });
 }
 
-Library expectedLibrary(Context context) {
+Library expectedLibrary() {
+  final context = testContext();
   final struct2 = Struct(
     context: context,
     name: 'Struct2',
@@ -87,7 +87,7 @@ Library expectedLibrary(Context context) {
   );
   final unnamedInternalStruct = Struct(
     context: context,
-    name: 'UnnamedStruct1',
+    name: 'UnnamedStruct',
     members: [
       CompoundMember(name: 'a', type: intType),
       CompoundMember(name: 'b', type: intType),
@@ -95,17 +95,17 @@ Library expectedLibrary(Context context) {
   );
   final unnamedUnion1 = Union(
     context: context,
-    name: 'UnnamedUnion1',
+    name: 'UnnamedUnion',
     members: [CompoundMember(name: 'a', type: floatType)],
   );
   final unnamedUnion2 = Union(
     context: context,
-    name: 'UnnamedUnion2',
+    name: 'UnnamedUnion\$1',
     members: [CompoundMember(name: 'b', type: floatType)],
   );
   final unnamedUnion3 = Union(
     context: context,
-    name: 'UnnamedUnion3',
+    name: 'UnnamedUnion\$2',
     members: [CompoundMember(name: 'd', type: floatType)],
   );
   return Library(
@@ -141,11 +141,11 @@ Library expectedLibrary(Context context) {
         context: context,
         name: 'Struct6',
         members: [
-          CompoundMember(name: '', type: unnamedUnion1),
+          CompoundMember(name: 'unnamed', type: unnamedUnion1),
           CompoundMember(name: 'c', type: unnamedUnion2),
           CompoundMember(name: 'e', type: unnamedUnion3),
         ],
       ),
     ],
-  );
+  )..forceFillNamesForTesting();
 }

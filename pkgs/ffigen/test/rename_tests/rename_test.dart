@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/context.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
 import 'package:ffigen/src/strings.dart' as strings;
 import 'package:test/test.dart';
@@ -79,7 +78,7 @@ ${strings.typedefs}:
     'Struct5_Alias': 'Struct5_Alias_Renamed'
     '''),
       );
-      expected = expectedLibrary(context);
+      expected = expectedLibrary();
       actual = parser.parse(context);
     });
 
@@ -200,7 +199,8 @@ ${strings.typedefs}:
   });
 }
 
-Library expectedLibrary(Context context) {
+Library expectedLibrary() {
+  final context = testContext();
   final struct1 = Struct(context: context, name: '${structPrefix}Struct1');
   final struct2 = Struct(context: context, name: 'Struct2');
   final struct3 = Struct(context: context, name: 'Struct3');
@@ -278,35 +278,35 @@ Library expectedLibrary(Context context) {
         context: context,
         name: '${enumPrefix}Enum1',
         enumConstants: [
-          const EnumConstant(name: 'a', value: 0),
-          const EnumConstant(name: 'b', value: 1),
-          const EnumConstant(name: 'c', value: 2),
+          EnumConstant(name: 'a', value: 0),
+          EnumConstant(name: 'b', value: 1),
+          EnumConstant(name: 'c', value: 2),
         ],
       ),
       EnumClass(
         context: context,
         name: 'Enum2',
         enumConstants: [
-          const EnumConstant(name: 'e', value: 0),
-          const EnumConstant(name: 'f', value: 1),
-          const EnumConstant(name: 'g', value: 2),
+          EnumConstant(name: 'e', value: 0),
+          EnumConstant(name: 'f', value: 1),
+          EnumConstant(name: 'g', value: 2),
         ],
       ),
       EnumClass(
         context: context,
         name: 'Enum3',
         enumConstants: [
-          const EnumConstant(name: 'i', value: 0),
-          const EnumConstant(name: 'j', value: 1),
-          const EnumConstant(name: 'k', value: 2),
+          EnumConstant(name: 'i', value: 0),
+          EnumConstant(name: 'j', value: 1),
+          EnumConstant(name: 'k', value: 2),
         ],
       ),
       EnumClass(
         context: context,
         name: '${enumPrefix}MemberRenameEnum4',
         enumConstants: [
-          const EnumConstant(name: 'underscore', value: 0),
-          const EnumConstant(name: 'fullMatchSuccess', value: 1),
+          EnumConstant(name: 'underscore', value: 0),
+          EnumConstant(name: 'fullMatchSuccess', value: 1),
         ],
       ),
       Constant(name: '${macroPrefix}Macro1', rawType: 'int', rawValue: '1'),
@@ -316,5 +316,5 @@ Library expectedLibrary(Context context) {
       Constant(name: 'unnamedFullMatchSuccess', rawType: 'int', rawValue: '1'),
       struct5Alias,
     ],
-  );
+  )..forceFillNamesForTesting();
 }

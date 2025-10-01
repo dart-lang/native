@@ -8,18 +8,18 @@ import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
-import 'unique_namer.dart';
+import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
 
 /// A binding for Compound type - Struct/Union.
-abstract class Compound extends BindingType {
+abstract class Compound extends BindingType with HasLocalScope {
   /// Marker for if a struct definition is complete.
   ///
   /// A function can be safely pass this struct by value if it's complete.
   bool isIncomplete;
 
-  List<CompoundMember> members;
+  final List<CompoundMember> members;
 
   bool get isOpaque => members.isEmpty;
 
@@ -68,16 +68,6 @@ abstract class Compound extends BindingType {
     final enclosingClassName = name;
     s.write(makeDartDoc(dartDoc));
 
-    /// Adding [enclosingClassName] because dart doesn't allow class member
-    /// to have the same name as the class.
-    final localUniqueNamer = UniqueNamer()..markUsed(enclosingClassName);
-
-    /// Marking type names because dart doesn't allow class member to have the
-    /// same name as a type name used internally.
-    for (final m in members) {
-      localUniqueNamer.markUsed(m.type.getFfiDartType(context));
-    }
-
     /// Write @Packed(X) annotation if struct is packed.
     final ffiPrefix = context.libs.prefix(ffiImport);
     if (pack != null) {
@@ -93,7 +83,6 @@ abstract class Compound extends BindingType {
     s.write('$ffiPrefix.$dartClassName{\n');
     const depth = '  ';
     for (final m in members) {
-      m.name = localUniqueNamer.makeUnique(m.name);
       if (m.dartDoc != null) {
         s.write('$depth/// ');
         s.writeAll(m.dartDoc!.split('\n'), '\n$depth/// ');
@@ -167,19 +156,23 @@ abstract class Compound extends BindingType {
 class CompoundMember extends AstNode {
   final String? dartDoc;
   final String originalName;
-  String name;
   final Type type;
+
+  final Symbol _symbol;
+  String get name => _symbol.name;
 
   CompoundMember({
     String? originalName,
-    required this.name,
+    required String name,
     required this.type,
     this.dartDoc,
-  }) : originalName = originalName ?? name;
+  }) : originalName = originalName ?? name,
+       _symbol = Symbol(name);
 
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
+    visitor.visit(_symbol);
     visitor.visit(type);
   }
 }

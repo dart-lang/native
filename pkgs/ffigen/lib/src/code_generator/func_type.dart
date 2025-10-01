@@ -5,10 +5,10 @@
 import '../code_generator.dart';
 import '../context.dart';
 import '../visitor/ast.dart';
-import 'unique_namer.dart';
+import 'scope.dart';
 
 /// Represents a function type.
-class FunctionType extends Type {
+class FunctionType extends Type with HasLocalScope {
   final Type returnType;
   final List<Parameter> parameters;
   final List<Parameter> varArgParameters;
@@ -16,6 +16,7 @@ class FunctionType extends Type {
   /// Get all the parameters for generating the dart type. This includes both
   /// [parameters] and [varArgParameters].
   List<Parameter> get dartTypeParameters => parameters + varArgParameters;
+  int get numDartTypeParameters => parameters.length + varArgParameters.length;
 
   FunctionType({
     required this.returnType,
@@ -29,17 +30,14 @@ class FunctionType extends Type {
     String? varArgWrapper,
   }) {
     final params = varArgWrapper != null ? parameters : dartTypeParameters;
+    String paramToString(Parameter p) =>
+        '${typeToString(p.type)} ${writeArgumentNames ? p.originalName : ""}';
     String? varArgPack;
     if (varArgWrapper != null && varArgParameters.isNotEmpty) {
       final varArgPackBuf = StringBuffer();
       varArgPackBuf.write('$varArgWrapper<(');
       varArgPackBuf.write(
-        varArgParameters
-            .map<String>(
-              (p) =>
-                  '${typeToString(p.type)} ${writeArgumentNames ? p.name : ""}',
-            )
-            .join(', '),
+        varArgParameters.map<String>(paramToString).join(', '),
       );
       varArgPackBuf.write(',)>');
       varArgPack = varArgPackBuf.toString();
@@ -53,9 +51,7 @@ class FunctionType extends Type {
     sb.write(' Function(');
     sb.write(
       [
-        ...params.map<String>((p) {
-          return '${typeToString(p.type)} ${writeArgumentNames ? p.name : ""}';
-        }),
+        ...params.map<String>(paramToString),
         if (varArgPack != null) varArgPack,
       ].join(', '),
     );
@@ -111,13 +107,10 @@ class FunctionType extends Type {
     if (names.length != parameters.length) {
       return;
     }
-    final paramNamer = UniqueNamer();
     for (var i = 0; i < parameters.length; i++) {
-      final finalName = paramNamer.makeUnique(names[i]);
       parameters[i] = Parameter(
         type: parameters[i].type,
-        originalName: names[i],
-        name: finalName,
+        name: names[i],
         objCConsumed: false,
       );
     }
@@ -131,6 +124,9 @@ class FunctionType extends Type {
     visitor.visitAll(varArgParameters);
     visitor.visit(ffiImport);
   }
+
+  @override
+  void visit(Visitation visitation) => visitation.visitFunctionType(this);
 
   @override
   bool isSupertypeOf(Type other) {

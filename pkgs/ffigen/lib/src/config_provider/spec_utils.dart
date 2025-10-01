@@ -14,7 +14,7 @@ import 'package:quiver/pattern.dart' as quiver;
 import 'package:yaml/yaml.dart';
 
 import '../code_generator.dart';
-import '../code_generator/unique_namer.dart';
+import '../code_generator/scope.dart';
 import '../header_parser/type_extractor/cxtypekindmap.dart';
 import '../strings.dart' as strings;
 import 'config_types.dart';
@@ -90,18 +90,17 @@ Map<String, ImportedType> symbolFileImportExtractor(
       );
       exit(1);
     }
-    final uniqueNamer = UniqueNamer()
-      ..markAllUsed(libraryImports.keys)
-      ..markUsed(strings.defaultSymbolFileImportPrefix);
+    final uniqueNamer = Namer({
+      ...libraryImports.keys,
+      strings.defaultSymbolFileImportPrefix,
+    });
     final files = symbolFile[strings.files] as YamlMap;
     for (final file in files.keys) {
       final existingImports = libraryImports.values.where(
         (element) => element.importPath(false) == file,
       );
       if (existingImports.isEmpty) {
-        final name = uniqueNamer.makeUnique(
-          strings.defaultSymbolFileImportPrefix,
-        );
+        final name = uniqueNamer.add(strings.defaultSymbolFileImportPrefix);
         libraryImports[name] = LibraryImport(name, file as String);
       }
       final libraryImport = libraryImports.values.firstWhere(
