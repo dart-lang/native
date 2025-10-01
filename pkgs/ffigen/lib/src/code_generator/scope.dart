@@ -5,6 +5,17 @@
 import '../visitor/ast.dart';
 import 'dart_keywords.dart';
 
+/// Holds [Symbol]s and assigns unique names to them.
+///
+/// [Scope]s form a tree from a single root scope. The names assigned to symbols
+/// avoid collisions with other names in the same scope, and the parent scopes.
+///
+/// Usage:
+///  - Create a root scope with [createRoot]
+///  - Use [addChild] to create child scopes
+///  - [add] [Symbol]s to the scopes
+///  - Call [fillNames] on the root scope to name all the [Symbol]s
+///  - Use [addPrivate] to create ad-hoc names during code generation
 class Scope {
   final String _debugName;
   final _symbols = <Symbol>[];
@@ -98,6 +109,11 @@ class Scope {
   String toString() => _debugName;
 }
 
+/// Assigns unique names, avoiding collisions with existing names and keywords,
+/// by postfixing '$<int>' if there's a collision.
+///
+/// This class is used internally by [Scope] to name [Symbol]s, and 99% of the
+/// time you should use those instead of this.
 class Namer {
   final Set<String> _used;
 
@@ -128,6 +144,10 @@ class Namer {
   static String stringLiteral(String name) => name.replaceAll('\$', '\\\$');
 }
 
+/// A renamable string used to assign names to variables, types, etc.
+///
+/// Add the [Symbol] to a [Scope], and it will be assigned a name during the
+/// transformation phase.
 class Symbol extends AstNode {
   final String oldName;
   String? _name;
