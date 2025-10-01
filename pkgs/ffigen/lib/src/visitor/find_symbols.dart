@@ -4,12 +4,12 @@
 
 import '../code_generator/binding.dart';
 import '../code_generator/func_type.dart';
-import '../code_generator/namespace.dart';
 import '../code_generator/objc_built_in_functions.dart';
 import '../code_generator/objc_category.dart';
 import '../code_generator/objc_interface.dart';
 import '../code_generator/objc_methods.dart';
 import '../code_generator/objc_protocol.dart';
+import '../code_generator/scope.dart';
 import '../code_generator/typealias.dart';
 import '../context.dart';
 import 'ast.dart';

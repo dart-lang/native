@@ -5,7 +5,7 @@
 import '../config_provider/config_types.dart' show Declaration;
 import '../visitor/ast.dart';
 import 'binding_string.dart';
-import 'namespace.dart';
+import 'scope.dart';
 import 'writer.dart';
 
 /// Base class for all Bindings.

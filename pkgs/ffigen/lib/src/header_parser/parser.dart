@@ -10,7 +10,7 @@ import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
 import '../code_generator.dart';
-import '../code_generator/namespace.dart';
+import '../code_generator/scope.dart';
 import '../config_provider.dart';
 import '../config_provider/utils.dart';
 import '../context.dart';

@@ -14,7 +14,7 @@ import 'package:quiver/pattern.dart' as quiver;
 import 'package:yaml/yaml.dart';
 
 import '../code_generator.dart';
-import '../code_generator/namespace.dart';
+import '../code_generator/scope.dart';
 import '../header_parser/type_extractor/cxtypekindmap.dart';
 import '../strings.dart' as strings;
 import 'config_types.dart';

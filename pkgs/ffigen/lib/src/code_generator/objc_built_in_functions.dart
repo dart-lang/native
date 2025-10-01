@@ -7,8 +7,8 @@ import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
-import 'namespace.dart';
 import 'objc_built_in_types.dart';
+import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
 

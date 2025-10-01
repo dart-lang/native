@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-import '../code_generator/namespace.dart';
+import '../code_generator/scope.dart';
 import '../context.dart';
 import 'ast.dart';
 

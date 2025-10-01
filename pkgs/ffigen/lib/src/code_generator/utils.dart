@@ -8,8 +8,8 @@ import 'dart:io';
 import 'package:path/path.dart' as p;
 
 import 'imports.dart';
-import 'namespace.dart';
 import 'pointer.dart';
+import 'scope.dart';
 import 'type.dart';
 import 'writer.dart';
 

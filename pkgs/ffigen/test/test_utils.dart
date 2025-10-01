@@ -5,7 +5,7 @@
 import 'dart:io';
 
 import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/code_generator/namespace.dart';
+import 'package:ffigen/src/code_generator/scope.dart';
 import 'package:ffigen/src/code_generator/utils.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/utils.dart';

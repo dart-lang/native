@@ -5,7 +5,7 @@
 import '../code_generator.dart';
 import '../context.dart';
 import '../visitor/ast.dart';
-import 'namespace.dart';
+import 'scope.dart';
 
 /// Represents a function type.
 class FunctionType extends Type with HasLocalScope {
