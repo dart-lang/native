@@ -61,9 +61,9 @@ void main() {
   group('Scope', () {
     test('parenting', () {
       final root = Scope.createRoot('root');
-      final parent = root.addScope('parent');
-      final child = parent.addScope('child');
-      final uncle = root.addScope('uncle');
+      final parent = root.addChild('parent');
+      final child = parent.addChild('child');
+      final uncle = root.addChild('uncle');
 
       final rootSymbol = Symbol('foo');
       final parentSymbol = Symbol('foo');
@@ -92,9 +92,9 @@ void main() {
 
     test('preUsedNames', () {
       final root = Scope.createRoot('root');
-      final parent = root.addScope('parent', preUsedNames: {'bar'});
-      final child = parent.addScope('child');
-      final uncle = root.addScope('uncle');
+      final parent = root.addChild('parent', preUsedNames: {'bar'});
+      final child = parent.addChild('child');
+      final uncle = root.addChild('uncle');
 
       final parentSymbol = Symbol('bar');
       final childSymbol = Symbol('bar');

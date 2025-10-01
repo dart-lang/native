@@ -45,7 +45,7 @@ class FindSymbolsVisitation extends Visitation {
     String debugName,
   ) {
     if (!node.localScopeFilled) {
-      node.localScope = parentScope.addScope(debugName);
+      node.localScope = parentScope.addChild(debugName);
     }
     visitInsideScope(node, node.localScope);
   }
@@ -116,7 +116,7 @@ class FindSymbolsVisitation extends Visitation {
   @override
   void visitObjCProtocol(ObjCProtocol node) {
     context.rootScope.add(node.symbol);
-    node.localScope = context.rootScope.addScope(
+    node.localScope = context.rootScope.addChild(
       node.originalName,
       preUsedNames: objCObjectBaseMethods,
     );
@@ -144,6 +144,6 @@ class FindSymbolsVisitation extends Visitation {
     if (node == null || node.localScopeFilled) return;
     fillObjCInterfaceScopes(node.superType);
     node.localScope = (node.superType?.localScope ?? context.rootScope)
-        .addScope(node.originalName, preUsedNames: objCObjectBaseMethods);
+        .addChild(node.originalName, preUsedNames: objCObjectBaseMethods);
   }
 }

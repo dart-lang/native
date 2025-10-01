@@ -19,7 +19,7 @@ class Scope {
   /// Create a new [Scope] as a child of this one.
   ///
   /// [fillNames] must not have been called yet.
-  Scope addScope(String debugName, {Set<String> preUsedNames = const {}}) {
+  Scope addChild(String debugName, {Set<String> preUsedNames = const {}}) {
     assert(!_filled);
     final ns = Scope._(debugName, preUsedNames);
     _children.add(ns);
