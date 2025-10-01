@@ -4,7 +4,6 @@
 
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
-import 'package:logging/logging.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 void main(List<String> args) async {
@@ -20,13 +19,7 @@ void main(List<String> args) async {
             'MA_API': '__declspec(dllexport)',
         },
       );
-      await builder.run(
-        input: input,
-        output: output,
-        logger: Logger('')
-          ..level = Level.ALL
-          ..onRecord.listen((record) => print(record.message)),
-      );
+      await builder.run(input: input, output: output);
     }
   });
 }

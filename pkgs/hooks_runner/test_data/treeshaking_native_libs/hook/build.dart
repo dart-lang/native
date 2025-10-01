@@ -4,7 +4,6 @@
 
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
-import 'package:logging/logging.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 void main(List<String> arguments) async {
@@ -23,11 +22,6 @@ void main(List<String> arguments) async {
       routing: input.config.linkingEnabled
           ? [ToLinkHook(input.packageName)]
           : [const ToAppBundle()],
-      logger: Logger('')
-        ..level = Level.ALL
-        ..onRecord.listen((record) {
-          print('${record.level.name}: ${record.time}: ${record.message}');
-        }),
     );
   });
 }
