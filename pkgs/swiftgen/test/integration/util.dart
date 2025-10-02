@@ -4,7 +4,6 @@
 
 import 'dart:io';
 
-import 'package:args/args.dart';
 import 'package:ffigen/ffigen.dart' as fg;
 import 'package:logging/logging.dart';
 import 'package:native_test_helpers/native_test_helpers.dart';
@@ -28,7 +27,6 @@ Future<Target> hostTarget = Target.host();
 
 class TestGenerator {
   final String name;
-  final ArgResults args;
   late final String testDir;
   late final String tempDir;
   late final String inputFile;
@@ -41,8 +39,7 @@ class TestGenerator {
   late final String dylibFile;
   late final String actualOutputFile;
 
-  TestGenerator(this.name, List<String> commandLineArgs) :
-      args = (ArgParser()..addFlag('regen')).parse(commandLineArgs) {
+  TestGenerator(this.name) {
     testDir = path.absolute(path.join(pkgDir, 'test/integration'));
     tempDir = path.join(testDir, 'temp');
     inputFile = path.join(testDir, '$name.swift');
@@ -148,14 +145,10 @@ class TestGenerator {
     ], tempDir);
     expect(File(dylibFile).existsSync(), isTrue);
 
-    if (args.flag('regen')) {
-      File(outputFile).copySync(actualOutputFile);
-    } else {
-      // Expect that the bindings match.
-      expect(
-        File(outputFile).readAsStringSync(),
-        File(actualOutputFile).readAsStringSync(),
-      );
-  }
+    // Expect that the bindings match.
+    expect(
+      File(outputFile).readAsStringSync(),
+      File(actualOutputFile).readAsStringSync(),
+    );
   }
 }

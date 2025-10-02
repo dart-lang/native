@@ -12,10 +12,10 @@ import 'package:test/test.dart';
 import 'classes_bindings.dart';
 import 'util.dart';
 
-void main([List<String> args = const []]) {
+void main() {
   group('Classes', () {
     setUpAll(() async {
-      final gen = TestGenerator('classes', args);
+      final gen = TestGenerator('classes');
       await gen.generateAndVerifyBindings();
       DynamicLibrary.open(gen.dylibFile);
 
