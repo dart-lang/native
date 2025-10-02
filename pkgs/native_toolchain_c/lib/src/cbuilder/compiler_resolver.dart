@@ -39,9 +39,8 @@ class CompilerResolver {
     var result = await _tryLoadCompilerFromInput();
 
     // Then, try to detect on the host machine.
-    final tool = _selectCompiler();
-    if (tool != null) {
-      result ??= await _tryLoadToolFromNativeToolchain(tool);
+    for (final possibleTool in _selectPossibleCompilers()) {
+      result ??= await _tryLoadToolFromNativeToolchain(possibleTool);
     }
 
     if (result != null) {
@@ -57,46 +56,36 @@ class CompilerResolver {
     throw ToolError(errorMessage);
   }
 
-  /// Select the right compiler for cross compiling to the specified target.
-  Tool? _selectCompiler() {
+  /// Select possible compilers for cross compiling to the specified target.
+  Iterable<Tool> _selectPossibleCompilers() sync* {
     final targetOS = codeConfig.targetOS;
     final targetArch = codeConfig.targetArchitecture;
 
-    // TODO(dacoharkes): Support falling back on other tools.
-    if (targetArch == hostArchitecture &&
-        targetOS == hostOS &&
-        hostOS == OS.linux) {
-      return clang;
+    switch ((hostOS, targetOS, targetArch)) {
+      case (_, OS.android, _):
+        yield androidNdkClang;
+      case (OS.macOS, OS.macOS || OS.iOS, _):
+        yield appleClang;
+        yield clang;
+      case (OS.linux, OS.linux, _) when hostArchitecture == targetArch:
+        yield clang;
+      case (OS.linux, _, Architecture.arm):
+        yield armLinuxGnueabihfGcc;
+      case (OS.linux, _, Architecture.arm64):
+        yield aarch64LinuxGnuGcc;
+      case (OS.linux, _, Architecture.ia32):
+        yield i686LinuxGnuGcc;
+      case (OS.linux, _, Architecture.x64):
+        yield x86_64LinuxGnuGcc;
+      case (OS.linux, _, Architecture.riscv64):
+        yield riscv64LinuxGnuGcc;
+      case (OS.windows, _, Architecture.ia32):
+        yield clIA32;
+      case (OS.windows, _, Architecture.arm64):
+        yield clArm64;
+      case (OS.windows, _, Architecture.x64):
+        yield cl;
     }
-    if (targetOS == OS.macOS || targetOS == OS.iOS) return appleClang;
-    if (targetOS == OS.android) return androidNdkClang;
-    if (hostOS == OS.linux) {
-      switch (targetArch) {
-        case Architecture.arm:
-          return armLinuxGnueabihfGcc;
-        case Architecture.arm64:
-          return aarch64LinuxGnuGcc;
-        case Architecture.ia32:
-          return i686LinuxGnuGcc;
-        case Architecture.x64:
-          return x86_64LinuxGnuGcc;
-        case Architecture.riscv64:
-          return riscv64LinuxGnuGcc;
-      }
-    }
-
-    if (hostOS == OS.windows) {
-      switch (targetArch) {
-        case Architecture.ia32:
-          return clIA32;
-        case Architecture.arm64:
-          return clArm64;
-        case Architecture.x64:
-          return cl;
-      }
-    }
-
-    return null;
   }
 
   Future<ToolInstance?> _tryLoadCompilerFromInput() async {

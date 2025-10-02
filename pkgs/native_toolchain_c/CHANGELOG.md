@@ -3,6 +3,7 @@
 - Made `CBuilder.run` `Logger` argument optional. It now defaults to a logger
   printing to stdout and stderr. (Technically this is a breaking change on
   passing `null` explicitly, but I doubt anyone is using it like that.)
+- Broaden compiler tool discovery
 
 ## 0.17.1
 
