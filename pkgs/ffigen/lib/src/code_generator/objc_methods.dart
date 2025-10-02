@@ -435,7 +435,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
     final s = StringBuffer();
     final targetType = target.getDartType(context);
     final returnTypeStr = _getConvertedReturnType(context, targetType);
-    final paramStr = _joinParamStr(context, _params);
+    final paramStr = _joinParamStr(context, params);
 
     // The method declaration.
     s.write('\n  ${makeDartDoc(dartDoc)}  ');
