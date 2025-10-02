@@ -55,7 +55,7 @@ import Foundation
 
   @available(macOS, introduced: 456)
   @available(iOS, introduced: 101)
-  @objc init(x: Int) {
+  @objc public init(x: Int) {
     wrappedInstance = NewApi(x: x)
   }
 

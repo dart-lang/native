@@ -72,35 +72,31 @@ String? _generateClassWrappedInstance(ClassDeclaration declaration) {
 }
 
 List<String> _generateInitializers(ClassDeclaration declaration) {
-  final initializers = [
-    declaration.wrapperInitializer,
-    ...declaration.initializers,
-  ].nonNulls;
-  return [for (final init in initializers) ..._generateInitializer(init)];
+  return [
+    ..._generateInitializer(declaration.wrapperInitializer, isPublic: false),
+    for (final init in declaration.initializers)
+      ..._generateInitializer(init, isPublic: true),
+  ];
 }
 
-List<String> _generateInitializer(InitializerDeclaration initializer) {
-  final header = StringBuffer();
-
-  if (initializer.hasObjCAnnotation) {
-    header.write('@objc ');
-  }
-
-  if (initializer.isOverriding) {
-    header.write('override ');
-  }
-
-  header.write('init');
-
-  if (initializer.isFailable) {
-    header.write('?');
-  }
-
-  header.write('(${generateParameters(initializer.params)})');
+List<String> _generateInitializer(
+  InitializerDeclaration? initializer, {
+  required bool isPublic,
+}) {
+  if (initializer == null) return [];
+  final header = [
+    if (initializer.hasObjCAnnotation) '@objc ',
+    if (initializer.isOverriding) 'override ',
+    if (isPublic) 'public ',
+    'init',
+    if (initializer.isFailable) '?',
+    '(${generateParameters(initializer.params)}) ',
+    '${generateAnnotations(initializer)}{',
+  ].join('');
 
   return [
     ...generateAvailability(initializer),
-    '$header ${generateAnnotations(initializer)}{',
+    header,
     ...initializer.statements.indent(),
     '}\n',
   ];

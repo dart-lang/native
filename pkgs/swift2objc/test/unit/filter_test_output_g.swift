@@ -9,7 +9,7 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc override init() {
+  @objc override public init() {
     wrappedInstance = Garage()
   }
 
