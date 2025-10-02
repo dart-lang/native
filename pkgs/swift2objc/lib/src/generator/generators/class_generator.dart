@@ -75,11 +75,14 @@ List<String> _generateInitializers(ClassDeclaration declaration) {
   return [
     ..._generateInitializer(declaration.wrapperInitializer, isPublic: false),
     for (final init in declaration.initializers)
-        ..._generateInitializer(init, isPublic: true),
+      ..._generateInitializer(init, isPublic: true),
   ];
 }
 
-List<String> _generateInitializer(InitializerDeclaration? initializer, {required bool isPublic}) {
+List<String> _generateInitializer(
+  InitializerDeclaration? initializer, {
+  required bool isPublic,
+}) {
   if (initializer == null) return [];
   final header = [
     if (initializer.hasObjCAnnotation) '@objc ',
