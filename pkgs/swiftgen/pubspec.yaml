@@ -27,6 +27,7 @@ dependencies:
   swift2objc: ^0.1.0
 
 dev_dependencies:
+  args: ^2.7.0
   dart_flutter_team_lints: ^3.5.2
   native_test_helpers:
     path: ../native_test_helpers
