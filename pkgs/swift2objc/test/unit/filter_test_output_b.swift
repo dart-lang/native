@@ -75,7 +75,7 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc override init() {
+  @objc override public init() {
     wrappedInstance = Garage()
   }
 
@@ -141,7 +141,7 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc init(brand: String, gearCount: Int, dimensions: DimensionsWrapper) {
+  @objc public init(brand: String, gearCount: Int, dimensions: DimensionsWrapper) {
     wrappedInstance = Bicycle(brand: brand, gearCount: gearCount, dimensions: dimensions.wrappedInstance)
   }
 
@@ -194,7 +194,7 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc init(make: String, model: String, engine: EngineWrapper, dimensions: DimensionsWrapper) {
+  @objc public init(make: String, model: String, engine: EngineWrapper, dimensions: DimensionsWrapper) {
     wrappedInstance = Vehicle(make: make, model: model, engine: engine.wrappedInstance, dimensions: dimensions.wrappedInstance)
   }
 

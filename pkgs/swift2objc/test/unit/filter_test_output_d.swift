@@ -67,7 +67,7 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc init(make: String, model: String, engine: EngineWrapper, dimensions: DimensionsWrapper) {
+  @objc public init(make: String, model: String, engine: EngineWrapper, dimensions: DimensionsWrapper) {
     wrappedInstance = Vehicle(make: make, model: model, engine: engine.wrappedInstance, dimensions: dimensions.wrappedInstance)
   }
 
