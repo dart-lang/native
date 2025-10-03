@@ -70,10 +70,10 @@ workspace:
   - pkgs/hooks/example/link/app_with_asset_treeshaking
   - pkgs/hooks/example/link/package_with_assets
   - pkgs/json_syntax_generator
+  - pkgs/native_analyzer_plugin
   - pkgs/native_test_helpers
   - pkgs/native_toolchain_c
   - pkgs/pub_formats
-  - pkgs/repo_lint_rules
 
 # Hook user-defines are specified in the pub workspace.
 hooks:

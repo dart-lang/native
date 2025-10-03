@@ -20,6 +20,8 @@ dev_dependencies:
   json_schema: ^5.2.0 # May only be used in tool/ and test/json_schema/.
   json_syntax_generator:
     path: ../json_syntax_generator/
+  native_analyzer_plugin:
+    path: ../native_analyzer_plugin/
   native_test_helpers:
     path: ../native_test_helpers/
   test: ^1.25.15
