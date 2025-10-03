@@ -80,9 +80,15 @@ class CreateScopesVisitation extends Visitation {
     'noSuchMethod',
   };
 
-  void visitObjCMethods(ObjCMethods node, Scope localScope) {
+  void visitObjCMethods(
+    ObjCMethods node,
+    ObjCInterface? superType,
+    Scope classScope,
+  ) {
     for (final m in node.methods) {
-      createScope(m, localScope, m.originalName);
+      final parentScope =
+          _findRootWithMethod(superType, m)?.localScope ?? classScope;
+      createScope(m, parentScope, m.originalName);
     }
   }
 
@@ -92,6 +98,7 @@ class CreateScopesVisitation extends Visitation {
     node.visitChildren(visitor, typeGraphOnly: orderedPass);
     visitObjCMethods(
       node,
+      node.parent,
       createScope(
         node,
         node.parent.localScope,
@@ -111,6 +118,7 @@ class CreateScopesVisitation extends Visitation {
     }
     visitObjCMethods(
       node,
+      node.superType,
       createScope(
         node,
         node.superType?.localScope ?? context.rootScope,
@@ -127,6 +135,7 @@ class CreateScopesVisitation extends Visitation {
     }
     visitObjCMethods(
       node,
+      null,
       createScope(
         node,
         context.rootScope,
@@ -134,5 +143,15 @@ class CreateScopesVisitation extends Visitation {
         preUsedNames: objCObjectBaseMethods,
       ),
     );
+  }
+
+  ObjCInterface? _findRootWithMethod(ObjCInterface? node, ObjCMethod method) {
+    ObjCInterface? root;
+    for (var t = node; t != null; t = t.superType) {
+      if (t.getSimilarMethod(method) == null) break;
+      root = t;
+    }
+    assert(root == null || root.getSimilarMethod(method) != null);
+    return root;
   }
 }
