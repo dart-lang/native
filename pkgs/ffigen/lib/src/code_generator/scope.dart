@@ -18,7 +18,7 @@ import 'dart_keywords.dart';
 ///  - Use [addPrivate] to create ad-hoc names during code generation
 class Scope {
   final String _debugName;
-  final _symbols = <Symbol>[];
+  final _symbols = <Symbol>{};
   final _children = <Scope>[];
   final Set<String> _preUsedNames;
   Namer? _namer;
@@ -41,7 +41,7 @@ class Scope {
   ///
   /// It's fine to add the [Symbol] to this [Scope] multiple times. It's
   /// also fine to add the [Symbol] to multiple [Scope]s, as long as one of
-  /// the [Scope]s is an ancestor of the other (this is checked during
+  /// the [Scope]s is an ancestor of all the others (this is checked during
   /// [fillNames]).
   ///
   /// [fillNames] must not have been called yet.
@@ -79,9 +79,8 @@ class Scope {
         symbol._name = namer.add(symbol.oldName);
       } else {
         // Symbol already has a name. This can happen if the symbol is in
-        // multiple scopes, or in the same scope more than once. It's fine as
-        // long as the name isn't used by a different symbol earlier in this
-        // scope.
+        // multiple scopes. It's fine as long as the name isn't used by a
+        // different symbol earlier in this scope.
         namer.markUsed(symbol._name!);
         assert(!_symbols.any((s) => s != symbol && s._name == symbol._name));
       }

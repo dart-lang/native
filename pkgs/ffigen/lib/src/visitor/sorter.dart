@@ -22,12 +22,15 @@ class SorterVisitation extends Visitation {
   // all other types.
   static String originalNameSortKey(Binding binding) =>
       '${_typeKey(binding)} ${binding.originalName}';
-  static const _lowPriorityTypes = {'ObjCCategory', 'ObjCProtocol'};
+  // '~' comes after all valid Dart naming characters.
+  static const _lowPriorityTypes = {
+    'ObjCCategory': '~ObjCCategory',
+    'ObjCProtocol': '~ObjCProtocol',
+    'ObjCMethod': '~~ObjCMethod',
+  };
   static String _typeKey(Object o) {
     final t = '${o.runtimeType}';
-    // '~' comes after all valid Dart naming characters.
-    if (_lowPriorityTypes.contains(t)) return '~$t';
-    return t;
+    return _lowPriorityTypes[t] ?? t;
   }
 
   @override

@@ -211,9 +211,7 @@ void main() {
       // Regression test for https://github.com/dart-lang/native/issues/2656
       final instanceTypeMethod = makeMethod('m1', instanceType, []);
 
-      final parent = makeInterface('Parent', null, [
-        instanceTypeMethod,
-      ]);
+      final parent = makeInterface('Parent', null, [instanceTypeMethod]);
       final child = makeInterface('Child', parent, []);
       final grandChild = makeInterface('GrandChild', child, []);
 
