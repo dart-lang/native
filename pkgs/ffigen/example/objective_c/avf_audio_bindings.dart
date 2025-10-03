@@ -23,6 +23,62 @@ external ffi.Pointer<objc.ObjCObject> _AVFAudio_protocolTrampoline_1mbt9g9(
   ffi.Pointer<ffi.Void> arg0,
 );
 
+late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
+final _objc_msgSend_19nvye5 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Bool Function(
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObject>,
+        )
+      >
+    >()
+    .asFunction<
+      bool Function(
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObject>,
+      )
+    >();
+typedef instancetype = ffi.Pointer<objc.ObjCObject>;
+typedef Dartinstancetype = objc.ObjCObjectBase;
+late final _sel_init = objc.registerName("init");
+late final _sel_conformsToProtocol_ = objc.registerName("conformsToProtocol:");
+final _objc_msgSend_e3qsqz = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Bool Function(
+          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCProtocol>,
+        )
+      >
+    >()
+    .asFunction<
+      bool Function(
+        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCProtocol>,
+      )
+    >();
+late final _sel_initWithContentsOfURL_error_ = objc.registerName(
+  "initWithContentsOfURL:error:",
+);
+late final _sel_data = objc.registerName("data");
+late final _sel_duration = objc.registerName("duration");
+late final _sel_initWithCoder_ = objc.registerName("initWithCoder:");
+late final _sel_format = objc.registerName("format");
+late final _sel_new = objc.registerName("new");
+late final _sel_delegate = objc.registerName("delegate");
+late final _sel_setDelegate_ = objc.registerName("setDelegate:");
+late final _sel_supportsSecureCoding = objc.registerName(
+  "supportsSecureCoding",
+);
+late final _sel_stop = objc.registerName("stop");
+late final _sel_alloc = objc.registerName("alloc");
+late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
+
 final class AudioStreamBasicDescription extends ffi.Struct {
   @ffi.Double()
   external double mSampleRate;
@@ -114,6 +170,18 @@ final class AudioChannelLayout extends ffi.Struct {
   external ffi.Array<AudioChannelDescription> mChannelDescriptions;
 }
 
+late final _class_AVAudioChannelLayout = objc.getClass("AVAudioChannelLayout");
+late final _sel_initWithLayoutTag_ = objc.registerName("initWithLayoutTag:");
+late final _sel_initWithLayout_ = objc.registerName("initWithLayout:");
+late final _sel_isEqual_ = objc.registerName("isEqual:");
+late final _sel_layoutWithLayoutTag_ = objc.registerName(
+  "layoutWithLayoutTag:",
+);
+late final _sel_layoutWithLayout_ = objc.registerName("layoutWithLayout:");
+late final _sel_layoutTag = objc.registerName("layoutTag");
+late final _sel_layout = objc.registerName("layout");
+late final _sel_channelCount = objc.registerName("channelCount");
+
 final class opaqueCMFormatDescription extends ffi.Opaque {}
 
 enum AVAudioCommonFormat {
@@ -135,6 +203,39 @@ enum AVAudioCommonFormat {
     _ => throw ArgumentError('Unknown value for AVAudioCommonFormat: $value'),
   };
 }
+
+late final _class_AVAudioFormat = objc.getClass("AVAudioFormat");
+late final _sel_initWithStreamDescription_ = objc.registerName(
+  "initWithStreamDescription:",
+);
+late final _sel_initWithStreamDescription_channelLayout_ = objc.registerName(
+  "initWithStreamDescription:channelLayout:",
+);
+late final _sel_initStandardFormatWithSampleRate_channels_ = objc.registerName(
+  "initStandardFormatWithSampleRate:channels:",
+);
+late final _sel_initStandardFormatWithSampleRate_channelLayout_ = objc
+    .registerName("initStandardFormatWithSampleRate:channelLayout:");
+late final _sel_initWithCommonFormat_sampleRate_channels_interleaved_ = objc
+    .registerName("initWithCommonFormat:sampleRate:channels:interleaved:");
+late final _sel_initWithCommonFormat_sampleRate_interleaved_channelLayout_ =
+    objc.registerName(
+      "initWithCommonFormat:sampleRate:interleaved:channelLayout:",
+    );
+late final _sel_initWithSettings_ = objc.registerName("initWithSettings:");
+late final _sel_initWithCMAudioFormatDescription_ = objc.registerName(
+  "initWithCMAudioFormatDescription:",
+);
+late final _sel_isStandard = objc.registerName("isStandard");
+late final _sel_commonFormat = objc.registerName("commonFormat");
+late final _sel_sampleRate = objc.registerName("sampleRate");
+late final _sel_isInterleaved = objc.registerName("isInterleaved");
+late final _sel_streamDescription = objc.registerName("streamDescription");
+late final _sel_channelLayout = objc.registerName("channelLayout");
+late final _sel_magicCookie = objc.registerName("magicCookie");
+late final _sel_setMagicCookie_ = objc.registerName("setMagicCookie:");
+late final _sel_settings = objc.registerName("settings");
+late final _sel_formatDescription = objc.registerName("formatDescription");
 
 /// WARNING: AVAudioFormat is a stub. To generate bindings for this class, include
 /// AVAudioFormat in your config's objc-interfaces list.
@@ -166,28 +267,117 @@ class AVAudioFormat extends objc.NSObject implements objc.NSSecureCoding {
 }
 
 late final _class_AVAudioPlayer = objc.getClass("AVAudioPlayer");
-late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
-final _objc_msgSend_19nvye5 = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Bool Function(
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObject>,
-        )
-      >
-    >()
-    .asFunction<
-      bool Function(
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObject>,
-      )
-    >();
-typedef instancetype = ffi.Pointer<objc.ObjCObject>;
-typedef Dartinstancetype = objc.ObjCObjectBase;
-late final _sel_initWithContentsOfURL_error_ = objc.registerName(
-  "initWithContentsOfURL:error:",
+late final _sel_initWithData_error_ = objc.registerName("initWithData:error:");
+late final _sel_initWithContentsOfURL_fileTypeHint_error_ = objc.registerName(
+  "initWithContentsOfURL:fileTypeHint:error:",
+);
+late final _sel_initWithData_fileTypeHint_error_ = objc.registerName(
+  "initWithData:fileTypeHint:error:",
+);
+late final _sel_prepareToPlay = objc.registerName("prepareToPlay");
+late final _sel_play = objc.registerName("play");
+late final _sel_playAtTime_ = objc.registerName("playAtTime:");
+late final _sel_pause = objc.registerName("pause");
+late final _sel_isPlaying = objc.registerName("isPlaying");
+late final _sel_numberOfChannels = objc.registerName("numberOfChannels");
+late final _sel_currentDevice = objc.registerName("currentDevice");
+late final _sel_setCurrentDevice_ = objc.registerName("setCurrentDevice:");
+late final _protocol_AVAudioPlayerDelegate = objc.getProtocol(
+  "AVAudioPlayerDelegate",
+);
+late final _sel_audioPlayerDidFinishPlaying_successfully_ = objc.registerName(
+  "audioPlayerDidFinishPlaying:successfully:",
+);
+late final _sel_audioPlayerDecodeErrorDidOccur_error_ = objc.registerName(
+  "audioPlayerDecodeErrorDidOccur:error:",
+);
+
+/// WARNING: AVAudioPlayerDelegate is a stub. To generate bindings for this class, include
+/// AVAudioPlayerDelegate in your config's objc-protocols list.
+///
+/// AVAudioPlayerDelegate
+interface class AVAudioPlayerDelegate extends objc.ObjCProtocolBase
+    implements objc.NSObjectProtocol {
+  AVAudioPlayerDelegate._(
+    ffi.Pointer<objc.ObjCObject> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [AVAudioPlayerDelegate] that points to the same underlying object as [other].
+  AVAudioPlayerDelegate.castFrom(objc.ObjCObjectBase other)
+    : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [AVAudioPlayerDelegate] that wraps the given raw object pointer.
+  AVAudioPlayerDelegate.castFromPointer(
+    ffi.Pointer<objc.ObjCObject> other, {
+    bool retain = false,
+    bool release = false,
+  }) : this._(other, retain: retain, release: release);
+}
+
+late final _sel_url = objc.registerName("url");
+late final _sel_pan = objc.registerName("pan");
+late final _sel_setPan_ = objc.registerName("setPan:");
+late final _sel_volume = objc.registerName("volume");
+late final _sel_setVolume_ = objc.registerName("setVolume:");
+late final _sel_setVolume_fadeDuration_ = objc.registerName(
+  "setVolume:fadeDuration:",
+);
+late final _sel_enableRate = objc.registerName("enableRate");
+late final _sel_setEnableRate_ = objc.registerName("setEnableRate:");
+late final _sel_rate = objc.registerName("rate");
+late final _sel_setRate_ = objc.registerName("setRate:");
+late final _sel_currentTime = objc.registerName("currentTime");
+late final _sel_setCurrentTime_ = objc.registerName("setCurrentTime:");
+late final _sel_deviceCurrentTime = objc.registerName("deviceCurrentTime");
+late final _sel_numberOfLoops = objc.registerName("numberOfLoops");
+late final _sel_setNumberOfLoops_ = objc.registerName("setNumberOfLoops:");
+late final _sel_isMeteringEnabled = objc.registerName("isMeteringEnabled");
+late final _sel_setMeteringEnabled_ = objc.registerName("setMeteringEnabled:");
+late final _sel_updateMeters = objc.registerName("updateMeters");
+late final _sel_peakPowerForChannel_ = objc.registerName(
+  "peakPowerForChannel:",
+);
+late final _sel_averagePowerForChannel_ = objc.registerName(
+  "averagePowerForChannel:",
+);
+late final _sel_channelAssignments = objc.registerName("channelAssignments");
+late final _sel_setChannelAssignments_ = objc.registerName(
+  "setChannelAssignments:",
+);
+late final _class_CASpatialAudioExperience = objc.getClass(
+  "CASpatialAudioExperience",
+);
+
+/// WARNING: CASpatialAudioExperience is a stub. To generate bindings for this class, include
+/// CASpatialAudioExperience in your config's objc-interfaces list.
+///
+/// CASpatialAudioExperience
+class CASpatialAudioExperience extends objc.ObjCObjectBase {
+  CASpatialAudioExperience._(
+    ffi.Pointer<objc.ObjCObject> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [CASpatialAudioExperience] that points to the same underlying object as [other].
+  CASpatialAudioExperience.castFrom(objc.ObjCObjectBase other)
+    : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [CASpatialAudioExperience] that wraps the given raw object pointer.
+  CASpatialAudioExperience.castFromPointer(
+    ffi.Pointer<objc.ObjCObject> other, {
+    bool retain = false,
+    bool release = false,
+  }) : this._(other, retain: retain, release: release);
+}
+
+late final _sel_intendedSpatialExperience = objc.registerName(
+  "intendedSpatialExperience",
+);
+late final _sel_setIntendedSpatialExperience_ = objc.registerName(
+  "setIntendedSpatialExperience:",
 );
 final _objc_msgSend_1lhpu4m = objc.msgSendPointer
     .cast<
@@ -208,10 +398,6 @@ final _objc_msgSend_1lhpu4m = objc.msgSendPointer
         ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
       )
     >();
-late final _sel_initWithData_error_ = objc.registerName("initWithData:error:");
-late final _sel_initWithContentsOfURL_fileTypeHint_error_ = objc.registerName(
-  "initWithContentsOfURL:fileTypeHint:error:",
-);
 final _objc_msgSend_1pnyuds = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -233,10 +419,6 @@ final _objc_msgSend_1pnyuds = objc.msgSendPointer
         ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
       )
     >();
-late final _sel_initWithData_fileTypeHint_error_ = objc.registerName(
-  "initWithData:fileTypeHint:error:",
-);
-late final _sel_prepareToPlay = objc.registerName("prepareToPlay");
 final _objc_msgSend_91o635 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -252,8 +434,6 @@ final _objc_msgSend_91o635 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
-late final _sel_play = objc.registerName("play");
-late final _sel_playAtTime_ = objc.registerName("playAtTime:");
 final _objc_msgSend_18chyc = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -271,7 +451,6 @@ final _objc_msgSend_18chyc = objc.msgSendPointer
         double,
       )
     >();
-late final _sel_pause = objc.registerName("pause");
 final _objc_msgSend_1pl9qdv = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -287,9 +466,6 @@ final _objc_msgSend_1pl9qdv = objc.msgSendPointer
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
-late final _sel_stop = objc.registerName("stop");
-late final _sel_isPlaying = objc.registerName("isPlaying");
-late final _sel_numberOfChannels = objc.registerName("numberOfChannels");
 final _objc_msgSend_xw2lbc = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -302,7 +478,6 @@ final _objc_msgSend_xw2lbc = objc.msgSendPointer
     .asFunction<
       int Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)
     >();
-late final _sel_duration = objc.registerName("duration");
 final _objc_msgSend_1ukqyt8 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -333,7 +508,6 @@ final _objc_msgSend_1ukqyt8Fpret = objc.msgSendFpretPointer
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
-late final _sel_currentDevice = objc.registerName("currentDevice");
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -349,7 +523,6 @@ final _objc_msgSend_151sglz = objc.msgSendPointer
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
-late final _sel_setCurrentDevice_ = objc.registerName("setCurrentDevice:");
 final _objc_msgSend_xtuoz7 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -367,36 +540,6 @@ final _objc_msgSend_xtuoz7 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObject>,
       )
     >();
-
-/// WARNING: AVAudioPlayerDelegate is a stub. To generate bindings for this class, include
-/// AVAudioPlayerDelegate in your config's objc-protocols list.
-///
-/// AVAudioPlayerDelegate
-interface class AVAudioPlayerDelegate extends objc.ObjCProtocolBase
-    implements objc.NSObjectProtocol {
-  AVAudioPlayerDelegate._(
-    ffi.Pointer<objc.ObjCObject> pointer, {
-    bool retain = false,
-    bool release = false,
-  }) : super(pointer, retain: retain, release: release);
-
-  /// Constructs a [AVAudioPlayerDelegate] that points to the same underlying object as [other].
-  AVAudioPlayerDelegate.castFrom(objc.ObjCObjectBase other)
-    : this._(other.ref.pointer, retain: true, release: true);
-
-  /// Constructs a [AVAudioPlayerDelegate] that wraps the given raw object pointer.
-  AVAudioPlayerDelegate.castFromPointer(
-    ffi.Pointer<objc.ObjCObject> other, {
-    bool retain = false,
-    bool release = false,
-  }) : this._(other, retain: retain, release: release);
-}
-
-late final _sel_delegate = objc.registerName("delegate");
-late final _sel_setDelegate_ = objc.registerName("setDelegate:");
-late final _sel_url = objc.registerName("url");
-late final _sel_data = objc.registerName("data");
-late final _sel_pan = objc.registerName("pan");
 final _objc_msgSend_2cgrxl = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -427,7 +570,6 @@ final _objc_msgSend_2cgrxlFpret = objc.msgSendFpretPointer
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
-late final _sel_setPan_ = objc.registerName("setPan:");
 final _objc_msgSend_v5hmet = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -445,11 +587,6 @@ final _objc_msgSend_v5hmet = objc.msgSendPointer
         double,
       )
     >();
-late final _sel_volume = objc.registerName("volume");
-late final _sel_setVolume_ = objc.registerName("setVolume:");
-late final _sel_setVolume_fadeDuration_ = objc.registerName(
-  "setVolume:fadeDuration:",
-);
 final _objc_msgSend_1p4uk9e = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -469,8 +606,6 @@ final _objc_msgSend_1p4uk9e = objc.msgSendPointer
         double,
       )
     >();
-late final _sel_enableRate = objc.registerName("enableRate");
-late final _sel_setEnableRate_ = objc.registerName("setEnableRate:");
 final _objc_msgSend_1s56lr9 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -488,10 +623,6 @@ final _objc_msgSend_1s56lr9 = objc.msgSendPointer
         bool,
       )
     >();
-late final _sel_rate = objc.registerName("rate");
-late final _sel_setRate_ = objc.registerName("setRate:");
-late final _sel_currentTime = objc.registerName("currentTime");
-late final _sel_setCurrentTime_ = objc.registerName("setCurrentTime:");
 final _objc_msgSend_hwm8nu = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -509,8 +640,6 @@ final _objc_msgSend_hwm8nu = objc.msgSendPointer
         double,
       )
     >();
-late final _sel_deviceCurrentTime = objc.registerName("deviceCurrentTime");
-late final _sel_numberOfLoops = objc.registerName("numberOfLoops");
 final _objc_msgSend_1hz7y9r = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -523,7 +652,6 @@ final _objc_msgSend_1hz7y9r = objc.msgSendPointer
     .asFunction<
       int Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)
     >();
-late final _sel_setNumberOfLoops_ = objc.registerName("setNumberOfLoops:");
 final _objc_msgSend_4sp4xj = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -541,14 +669,6 @@ final _objc_msgSend_4sp4xj = objc.msgSendPointer
         int,
       )
     >();
-late final _sel_settings = objc.registerName("settings");
-late final _sel_format = objc.registerName("format");
-late final _sel_isMeteringEnabled = objc.registerName("isMeteringEnabled");
-late final _sel_setMeteringEnabled_ = objc.registerName("setMeteringEnabled:");
-late final _sel_updateMeters = objc.registerName("updateMeters");
-late final _sel_peakPowerForChannel_ = objc.registerName(
-  "peakPowerForChannel:",
-);
 final _objc_msgSend_65s5yw = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -583,46 +703,6 @@ final _objc_msgSend_65s5ywFpret = objc.msgSendFpretPointer
         int,
       )
     >();
-late final _sel_averagePowerForChannel_ = objc.registerName(
-  "averagePowerForChannel:",
-);
-late final _sel_channelAssignments = objc.registerName("channelAssignments");
-late final _sel_setChannelAssignments_ = objc.registerName(
-  "setChannelAssignments:",
-);
-
-/// WARNING: CASpatialAudioExperience is a stub. To generate bindings for this class, include
-/// CASpatialAudioExperience in your config's objc-interfaces list.
-///
-/// CASpatialAudioExperience
-class CASpatialAudioExperience extends objc.ObjCObjectBase {
-  CASpatialAudioExperience._(
-    ffi.Pointer<objc.ObjCObject> pointer, {
-    bool retain = false,
-    bool release = false,
-  }) : super(pointer, retain: retain, release: release);
-
-  /// Constructs a [CASpatialAudioExperience] that points to the same underlying object as [other].
-  CASpatialAudioExperience.castFrom(objc.ObjCObjectBase other)
-    : this._(other.ref.pointer, retain: true, release: true);
-
-  /// Constructs a [CASpatialAudioExperience] that wraps the given raw object pointer.
-  CASpatialAudioExperience.castFromPointer(
-    ffi.Pointer<objc.ObjCObject> other, {
-    bool retain = false,
-    bool release = false,
-  }) : this._(other, retain: retain, release: release);
-}
-
-late final _sel_intendedSpatialExperience = objc.registerName(
-  "intendedSpatialExperience",
-);
-late final _sel_setIntendedSpatialExperience_ = objc.registerName(
-  "setIntendedSpatialExperience:",
-);
-late final _sel_init = objc.registerName("init");
-late final _sel_new = objc.registerName("new");
-late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
 final _objc_msgSend_1cwp428 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -640,7 +720,6 @@ final _objc_msgSend_1cwp428 = objc.msgSendPointer
         ffi.Pointer<objc.NSZone>,
       )
     >();
-late final _sel_alloc = objc.registerName("alloc");
 late final _sel_self = objc.registerName("self");
 
 /// Construction methods for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>`.
@@ -818,11 +897,11 @@ class AVAudioPlayer extends objc.NSObject {
   }
 
   /// allocWithZone:
-  static AVAudioPlayer allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+  static AVAudioPlayer allocWithZone(ffi.Pointer<objc.NSZone> zone$1) {
     final $ret = _objc_msgSend_1cwp428(
       _class_AVAudioPlayer,
       _sel_allocWithZone_,
-      zone,
+      zone$1,
     );
     return AVAudioPlayer.castFromPointer($ret, retain: false, release: true);
   }
@@ -996,7 +1075,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
 
   /// initWithContentsOfURL:error:
   AVAudioPlayer? initWithContentsOfURL(
-    objc.NSURL url, {
+    objc.NSURL url$1, {
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
   }) {
     objc.checkOsVersionInternal(
@@ -1007,7 +1086,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
     final $ret = _objc_msgSend_1lhpu4m(
       this.ref.retainAndReturnPointer(),
       _sel_initWithContentsOfURL_error_,
-      url.ref.pointer,
+      url$1.ref.pointer,
       error,
     );
     return $ret.address == 0
@@ -1017,7 +1096,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
 
   /// initWithContentsOfURL:fileTypeHint:error:
   AVAudioPlayer? initWithContentsOfURL$1(
-    objc.NSURL url, {
+    objc.NSURL url$1, {
     objc.NSString? fileTypeHint,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
   }) {
@@ -1029,7 +1108,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
     final $ret = _objc_msgSend_1pnyuds(
       this.ref.retainAndReturnPointer(),
       _sel_initWithContentsOfURL_fileTypeHint_error_,
-      url.ref.pointer,
+      url$1.ref.pointer,
       fileTypeHint?.ref.pointer ?? ffi.nullptr,
       error,
     );
@@ -1040,7 +1119,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
 
   /// initWithData:error:
   AVAudioPlayer? initWithData(
-    objc.NSData data, {
+    objc.NSData data$1, {
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
   }) {
     objc.checkOsVersionInternal(
@@ -1051,7 +1130,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
     final $ret = _objc_msgSend_1lhpu4m(
       this.ref.retainAndReturnPointer(),
       _sel_initWithData_error_,
-      data.ref.pointer,
+      data$1.ref.pointer,
       error,
     );
     return $ret.address == 0
@@ -1061,7 +1140,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
 
   /// initWithData:fileTypeHint:error:
   AVAudioPlayer? initWithData$1(
-    objc.NSData data, {
+    objc.NSData data$1, {
     objc.NSString? fileTypeHint,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
   }) {
@@ -1073,7 +1152,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
     final $ret = _objc_msgSend_1pnyuds(
       this.ref.retainAndReturnPointer(),
       _sel_initWithData_fileTypeHint_error_,
-      data.ref.pointer,
+      data$1.ref.pointer,
       fileTypeHint?.ref.pointer ?? ffi.nullptr,
       error,
     );
@@ -1363,7 +1442,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
   }
 
   /// setVolume:fadeDuration:
-  void setVolume(double volume, {required double fadeDuration}) {
+  void setVolume(double volume$1, {required double fadeDuration}) {
     objc.checkOsVersionInternal(
       'AVAudioPlayer.setVolume:fadeDuration:',
       iOS: (false, (10, 0, 0)),
@@ -1372,7 +1451,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
     _objc_msgSend_1p4uk9e(
       this.ref.pointer,
       _sel_setVolume_fadeDuration_,
-      volume,
+      volume$1,
       fadeDuration,
     );
   }
