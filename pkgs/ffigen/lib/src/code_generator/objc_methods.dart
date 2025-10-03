@@ -377,6 +377,24 @@ class ObjCMethod extends AstNode with HasLocalScope {
     return false;
   }
 
+  // Whether this method returns an `NSError` out param.
+  //
+  // In ObjC, the pattern for returning an error is to return it as an out
+  // param. Specifically, the last param is named error, and is a NSError**.
+  // The same pattern is used when translating Swift methods that throw into
+  // ObjC methods. We don't need to handle subtypes of NSError, as there are
+  // no known APIs that return subtypes of NSError (in fact the Swift bridging
+  // relies on the type always being exactly NSError).
+  bool get returnsNSErrorByOutParam {
+    final p = _params.lastOrNull;
+    if (p == null || p.originalName != 'error') return false;
+    final t = p.type;
+    if (t is! PointerType) return false;
+    final c = t.child;
+    if (c is! ObjCInterface) return false;
+    return ObjCBuiltInFunctions.isNSError(c.originalName);
+  }
+
   String _getConvertedReturnType(Context context, String instanceType) {
     if (returnType is ObjCInstanceType) return instanceType;
     final baseType = returnType.typealiasType;
@@ -406,11 +424,20 @@ class ObjCMethod extends AstNode with HasLocalScope {
     final context = w.context;
     final methodName = symbol.name;
     final upperName = methodName[0].toUpperCase() + methodName.substring(1);
-    final s = StringBuffer();
+    final throwNSError = returnsNSErrorByOutParam;
 
+    final params = throwNSError
+        ? _params.sublist(0, _params.length - 1)
+        : _params;
+    const retVar = '\$ret';
+    const ptrVar = '\$ptr';
+    const finalizableVar = '\$finalizable';
+    const errVar = '\$err';
+
+    final s = StringBuffer();
     final targetType = target.getDartType(context);
     final returnTypeStr = _getConvertedReturnType(context, targetType);
-    final paramStr = _joinParamStr(context, _params);
+    final paramStr = _joinParamStr(context, params);
 
     // The method declaration.
     s.write('\n  ${makeDartDoc(dartDoc)}  ');
@@ -460,28 +487,43 @@ class ObjCMethod extends AstNode with HasLocalScope {
 
     final sel = selObject.name;
     if (isOptional) {
+      final responds = ObjCBuiltInFunctions.respondsToSelector.gen(context);
+      final unimplementedException = ObjCBuiltInFunctions
+          .unimplementedOptionalMethodException
+          .gen(context);
       s.write('''
-    if (!${ObjCBuiltInFunctions.respondsToSelector.gen(context)}($targetStr, $sel)) {
-      throw ${ObjCBuiltInFunctions.unimplementedOptionalMethodException.gen(context)}(
-          '${target.originalName}', '$originalName');
+    if (!$responds($targetStr, $sel)) {
+      throw $unimplementedException('${target.originalName}', '$originalName');
     }
 ''');
     }
+
+    final calloc = '${context.libs.prefix(ffiPkgImport)}.calloc';
+    if (throwNSError) {
+      final rawObjType = PointerType(objCObjectType).getCType(context);
+      s.write('''
+    final $errVar = $calloc<$rawObjType>();
+    try {
+''');
+    }
+
     final convertReturn =
         kind != ObjCMethodKind.propertySetter &&
         !returnType.sameDartAndFfiDartType;
+    final msgSendParams = [
+      for (final p in params)
+        p.type.convertDartTypeToFfiDartType(
+          context,
+          p.name,
+          objCRetain: p.objCConsumed,
+          objCAutorelease: false,
+        ),
+      if (throwNSError) errVar,
+    ];
 
-    final msgSendParams = _params.map(
-      (p) => p.type.convertDartTypeToFfiDartType(
-        context,
-        p.name,
-        objCRetain: p.objCConsumed,
-        objCAutorelease: false,
-      ),
-    );
     if (msgSend!.isStret) {
       assert(!convertReturn);
-      final calloc = '${context.libs.prefix(ffiPkgImport)}.calloc';
+      assert(!throwNSError);
       final sizeOf = '${context.libs.prefix(ffiImport)}.sizeOf';
       final uint8Type = NativeType(SupportedNativeType.uint8).getCType(context);
       final invoke = msgSend!.invoke(
@@ -489,30 +531,48 @@ class ObjCMethod extends AstNode with HasLocalScope {
         targetStr,
         sel,
         msgSendParams,
-        structRetPtr: '_ptr',
+        structRetPtr: ptrVar,
       );
       s.write('''
-    final _ptr = $calloc<$returnTypeStr>();
+    final $ptrVar = $calloc<$returnTypeStr>();
     $invoke;
-    final _finalizable = _ptr.cast<$uint8Type>().asTypedList(
+    final $finalizableVar = $ptrVar.cast<$uint8Type>().asTypedList(
         $sizeOf<$returnTypeStr>(), finalizer: $calloc.nativeFree);
-    return ${context.libs.prefix(ffiImport)}.Struct.create<$returnTypeStr>(_finalizable);
+    return ${context.libs.prefix(ffiImport)}.Struct.create<$returnTypeStr>(
+        $finalizableVar);
 ''');
     } else {
-      if (returnType != voidType) {
-        s.write('    ${convertReturn ? 'final _ret = ' : 'return '}');
+      final useReturn = returnType != voidType;
+      final useReturnVar = convertReturn || throwNSError;
+      if (useReturn) {
+        s.write('    ${useReturnVar ? 'final $retVar = ' : 'return '}');
       }
       s.write(msgSend!.invoke(context, targetStr, sel, msgSendParams));
       s.write(';\n');
-      if (convertReturn) {
-        final result = returnType.convertFfiDartTypeToDartType(
+      if (throwNSError) {
+        final nsErrorException = ObjCBuiltInFunctions.nsErrorException.gen(
           context,
-          '_ret',
-          objCRetain: !returnsRetained,
-          objCEnclosingClass: targetType,
         );
+        s.write('    $nsErrorException.checkErrorPointer($errVar.value);\n');
+      }
+      if (useReturnVar) {
+        final result = convertReturn
+            ? returnType.convertFfiDartTypeToDartType(
+                context,
+                retVar,
+                objCRetain: !returnsRetained,
+                objCEnclosingClass: targetType,
+              )
+            : retVar;
         s.write('    return $result;');
       }
+    }
+    if (throwNSError) {
+      s.write('''
+    } finally {
+      $calloc.free($errVar);
+    }
+''');
     }
 
     s.write('\n  }\n');

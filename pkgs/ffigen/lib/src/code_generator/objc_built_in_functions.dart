@@ -55,6 +55,7 @@ class ObjCBuiltInFunctions {
   static const unimplementedOptionalMethodException = ObjCImport(
     'UnimplementedOptionalMethodException',
   );
+  static const nsErrorException = ObjCImport('NSErrorException');
   static const checkOsVersion = ObjCImport('checkOsVersionInternal');
 
   // TODO(https://github.com/dart-lang/native/issues/1173): Ideally this check
@@ -70,6 +71,7 @@ class ObjCBuiltInFunctions {
   bool isBuiltInCategory(String name) =>
       !generateForPackageObjectiveC && objCBuiltInCategories.contains(name);
   static bool isNSObject(String name) => name == 'NSObject';
+  static bool isNSError(String name) => name == 'NSError';
 
   // We need to load a separate instance of objc_msgSend for each signature. If
   // the return type is a struct, we need to use objc_msgSend_stret instead, and

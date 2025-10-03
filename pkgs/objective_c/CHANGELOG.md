@@ -7,6 +7,7 @@
 - Add `autoReleasePool` function.
 - Fix a [bug](https://github.com/dart-lang/native/issues/2627) where
   `NSMutableDictionary.of` returned a `NSDictionary`.
+- Add `NSErrorException` class.
 
 ## 8.1.0
 

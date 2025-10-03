@@ -275,12 +275,12 @@ class TestOtherClassWrapper extends objc.NSObject {
 
   /// alloc
   static TestOtherClassWrapper alloc() {
-    final _ret = _objc_msgSend_151sglz(
+    final $ret = _objc_msgSend_151sglz(
       _class_TestOtherClassWrapper,
       _sel_alloc,
     );
     return TestOtherClassWrapper.castFromPointer(
-      _ret,
+      $ret,
       retain: false,
       release: true,
     );
@@ -288,13 +288,13 @@ class TestOtherClassWrapper extends objc.NSObject {
 
   /// allocWithZone:
   static TestOtherClassWrapper allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final _ret = _objc_msgSend_1cwp428(
+    final $ret = _objc_msgSend_1cwp428(
       _class_TestOtherClassWrapper,
       _sel_allocWithZone_,
       zone,
     );
     return TestOtherClassWrapper.castFromPointer(
-      _ret,
+      $ret,
       retain: false,
       release: true,
     );
@@ -302,9 +302,9 @@ class TestOtherClassWrapper extends objc.NSObject {
 
   /// new
   static TestOtherClassWrapper new$() {
-    final _ret = _objc_msgSend_151sglz(_class_TestOtherClassWrapper, _sel_new);
+    final $ret = _objc_msgSend_151sglz(_class_TestOtherClassWrapper, _sel_new);
     return TestOtherClassWrapper.castFromPointer(
-      _ret,
+      $ret,
       retain: false,
       release: true,
     );
@@ -317,9 +317,9 @@ class TestOtherClassWrapper extends objc.NSObject {
 extension TestOtherClassWrapper$Methods on TestOtherClassWrapper {
   /// autorelease
   TestOtherClassWrapper autorelease() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
+    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
     return TestOtherClassWrapper.castFromPointer(
-      _ret,
+      $ret,
       retain: true,
       release: true,
     );
@@ -332,12 +332,12 @@ extension TestOtherClassWrapper$Methods on TestOtherClassWrapper {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final _ret = _objc_msgSend_151sglz(
+    final $ret = _objc_msgSend_151sglz(
       this.ref.retainAndReturnPointer(),
       _sel_init,
     );
     return TestOtherClassWrapper.castFromPointer(
-      _ret,
+      $ret,
       retain: false,
       release: true,
     );
@@ -345,9 +345,9 @@ extension TestOtherClassWrapper$Methods on TestOtherClassWrapper {
 
   /// retain
   TestOtherClassWrapper retain() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
+    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
     return TestOtherClassWrapper.castFromPointer(
-      _ret,
+      $ret,
       retain: true,
       release: true,
     );
@@ -355,9 +355,9 @@ extension TestOtherClassWrapper$Methods on TestOtherClassWrapper {
 
   /// self
   TestOtherClassWrapper self() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
+    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
     return TestOtherClassWrapper.castFromPointer(
-      _ret,
+      $ret,
       retain: true,
       release: true,
     );
@@ -401,30 +401,30 @@ class TestClassWrapper extends objc.NSObject {
 
   /// alloc
   static TestClassWrapper alloc() {
-    final _ret = _objc_msgSend_151sglz(_class_TestClassWrapper, _sel_alloc);
-    return TestClassWrapper.castFromPointer(_ret, retain: false, release: true);
+    final $ret = _objc_msgSend_151sglz(_class_TestClassWrapper, _sel_alloc);
+    return TestClassWrapper.castFromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static TestClassWrapper allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final _ret = _objc_msgSend_1cwp428(
+    final $ret = _objc_msgSend_1cwp428(
       _class_TestClassWrapper,
       _sel_allocWithZone_,
       zone,
     );
-    return TestClassWrapper.castFromPointer(_ret, retain: false, release: true);
+    return TestClassWrapper.castFromPointer($ret, retain: false, release: true);
   }
 
   /// create
   static TestClassWrapper create() {
-    final _ret = _objc_msgSend_151sglz(_class_TestClassWrapper, _sel_create);
-    return TestClassWrapper.castFromPointer(_ret, retain: true, release: true);
+    final $ret = _objc_msgSend_151sglz(_class_TestClassWrapper, _sel_create);
+    return TestClassWrapper.castFromPointer($ret, retain: true, release: true);
   }
 
   /// new
   static TestClassWrapper new$() {
-    final _ret = _objc_msgSend_151sglz(_class_TestClassWrapper, _sel_new);
-    return TestClassWrapper.castFromPointer(_ret, retain: false, release: true);
+    final $ret = _objc_msgSend_151sglz(_class_TestClassWrapper, _sel_new);
+    return TestClassWrapper.castFromPointer($ret, retain: false, release: true);
   }
 
   /// Returns a new instance of TestClassWrapper constructed with the default `new` method.
@@ -434,8 +434,8 @@ class TestClassWrapper extends objc.NSObject {
 extension TestClassWrapper$Methods on TestClassWrapper {
   /// autorelease
   TestClassWrapper autorelease() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return TestClassWrapper.castFromPointer(_ret, retain: true, release: true);
+    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
+    return TestClassWrapper.castFromPointer($ret, retain: true, release: true);
   }
 
   /// init
@@ -445,18 +445,18 @@ extension TestClassWrapper$Methods on TestClassWrapper {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final _ret = _objc_msgSend_151sglz(
+    final $ret = _objc_msgSend_151sglz(
       this.ref.retainAndReturnPointer(),
       _sel_init,
     );
-    return TestClassWrapper.castFromPointer(_ret, retain: false, release: true);
+    return TestClassWrapper.castFromPointer($ret, retain: false, release: true);
   }
 
   /// myMethod
   TestOtherClassWrapper myMethod() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_myMethod);
+    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_myMethod);
     return TestOtherClassWrapper.castFromPointer(
-      _ret,
+      $ret,
       retain: true,
       release: true,
     );
@@ -464,13 +464,13 @@ extension TestClassWrapper$Methods on TestClassWrapper {
 
   /// retain
   TestClassWrapper retain() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return TestClassWrapper.castFromPointer(_ret, retain: true, release: true);
+    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
+    return TestClassWrapper.castFromPointer($ret, retain: true, release: true);
   }
 
   /// self
   TestClassWrapper self() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return TestClassWrapper.castFromPointer(_ret, retain: true, release: true);
+    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
+    return TestClassWrapper.castFromPointer($ret, retain: true, release: true);
   }
 }

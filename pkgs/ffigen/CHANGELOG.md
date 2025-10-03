@@ -26,6 +26,9 @@
 - __Breaking_change__: The name collision resolution system has been overhauled
   to fix various bugs, and make the renaming more consistent. As a result, in
   some cases different names may be chosen when resolving collisions.
+- __Breaking_change__: Detect the ObjC error raising pattern, where the last
+  param is `NSError** error`, capture any error returned, and throw it as a Dart
+  `NSErrorException`.
 - Fix for opaque dependencies for struct/union const arrays.
 
 ## 19.1.0

@@ -20,19 +20,21 @@ class Scope {
   final String _debugName;
   final _symbols = <Symbol>[];
   final _children = <Scope>[];
+  final Scope? _parent;
   final Set<String> _preUsedNames;
   Namer? _namer;
 
-  Scope._(this._debugName, this._preUsedNames);
+  Scope._(this._parent, this._debugName, this._preUsedNames);
 
-  static Scope createRoot(String debugName) => Scope._(debugName, const {});
+  static Scope createRoot(String debugName) =>
+      Scope._(null, debugName, const {});
 
   /// Create a new [Scope] as a child of this one.
   ///
   /// [fillNames] must not have been called yet.
   Scope addChild(String debugName, {Set<String> preUsedNames = const {}}) {
     assert(!_filled);
-    final ns = Scope._(debugName, preUsedNames);
+    final ns = Scope._(this, debugName, preUsedNames);
     _children.add(ns);
     return ns;
   }
@@ -66,9 +68,11 @@ class Scope {
     return _namer!.add(name);
   }
 
-  /// Fill in the names of all the [Symbol]s in this [Scope] and its
-  /// children.
-  void fillNames() => _fillNames(const {});
+  /// Fill in the names of all the [Symbol]s in this [Scope] and its children.
+  void fillNames() {
+    assert(_parent == null);
+    _fillNames(const {});
+  }
 
   void _fillNames(Set<String> parentUsedNames) {
     assert(!_filled);
@@ -103,6 +107,12 @@ class Scope {
       ns.debugPrint(newDepth);
     }
     print('$depth}');
+  }
+
+  int debugStackPrint() {
+    final depth = _parent?.debugStackPrint() ?? 0;
+    print('${'  ' * depth}$_debugName');
+    return depth + 1;
   }
 
   @override
