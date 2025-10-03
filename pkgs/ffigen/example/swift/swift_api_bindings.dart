@@ -282,24 +282,24 @@ class SwiftClass extends objc.NSObject {
 
   /// alloc
   static SwiftClass alloc() {
-    final _ret = _objc_msgSend_151sglz(_class_SwiftClass, _sel_alloc);
-    return SwiftClass.castFromPointer(_ret, retain: false, release: true);
+    final $ret = _objc_msgSend_151sglz(_class_SwiftClass, _sel_alloc);
+    return SwiftClass.castFromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
   static SwiftClass allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final _ret = _objc_msgSend_1cwp428(
+    final $ret = _objc_msgSend_1cwp428(
       _class_SwiftClass,
       _sel_allocWithZone_,
       zone,
     );
-    return SwiftClass.castFromPointer(_ret, retain: false, release: true);
+    return SwiftClass.castFromPointer($ret, retain: false, release: true);
   }
 
   /// new
   static SwiftClass new$() {
-    final _ret = _objc_msgSend_151sglz(_class_SwiftClass, _sel_new);
-    return SwiftClass.castFromPointer(_ret, retain: false, release: true);
+    final $ret = _objc_msgSend_151sglz(_class_SwiftClass, _sel_new);
+    return SwiftClass.castFromPointer($ret, retain: false, release: true);
   }
 
   /// Returns a new instance of SwiftClass constructed with the default `new` method.
@@ -309,8 +309,8 @@ class SwiftClass extends objc.NSObject {
 extension SwiftClass$Methods on SwiftClass {
   /// autorelease
   SwiftClass autorelease() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return SwiftClass.castFromPointer(_ret, retain: true, release: true);
+    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
+    return SwiftClass.castFromPointer($ret, retain: true, release: true);
   }
 
   /// init
@@ -320,29 +320,29 @@ extension SwiftClass$Methods on SwiftClass {
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 0, 0)),
     );
-    final _ret = _objc_msgSend_151sglz(
+    final $ret = _objc_msgSend_151sglz(
       this.ref.retainAndReturnPointer(),
       _sel_init,
     );
-    return SwiftClass.castFromPointer(_ret, retain: false, release: true);
+    return SwiftClass.castFromPointer($ret, retain: false, release: true);
   }
 
   /// retain
   SwiftClass retain() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return SwiftClass.castFromPointer(_ret, retain: true, release: true);
+    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
+    return SwiftClass.castFromPointer($ret, retain: true, release: true);
   }
 
   /// sayHello
   objc.NSString sayHello() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_sayHello);
-    return objc.NSString.castFromPointer(_ret, retain: true, release: true);
+    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_sayHello);
+    return objc.NSString.castFromPointer($ret, retain: true, release: true);
   }
 
   /// self
   SwiftClass self() {
-    final _ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return SwiftClass.castFromPointer(_ret, retain: true, release: true);
+    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
+    return SwiftClass.castFromPointer($ret, retain: true, release: true);
   }
 
   /// setSomeField:

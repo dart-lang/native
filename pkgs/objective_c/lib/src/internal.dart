@@ -79,6 +79,18 @@ final class ObjCRuntimeError extends Error {
   String toString() => '$runtimeType: $message';
 }
 
+/// Wrapper [Exception] around an Objective-C `NSError`.
+///
+/// In Dart, an "exception" is an ordinary runtime failure that can be caught
+/// and handled, while an "error" is a program failure that the programmer
+/// should have avoided (and catching [Error]s is bad practice).
+///
+/// Objective-C inverts this nomenclature. Ordinary runtime failures are
+/// signaled using `NSError`, so these are analogous to Dart's [Exception]s,
+/// though they're returned by reference rather than thrown. On the other hand,
+/// `NSException` is intended to be used in an `@throw` statement, and not
+/// intended to be caught (in fact Objective-C doesn't intend throwing and
+/// catching to be part of an ordinary control flow at all).
 final class NSErrorException implements Exception {
   final objc.NSError error;
   NSErrorException(this.error);

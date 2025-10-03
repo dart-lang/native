@@ -377,13 +377,15 @@ class ObjCMethod extends AstNode with HasLocalScope {
     return false;
   }
 
+  // Whether this method returns an `NSError` out param.
+  //
+  // In ObjC, the pattern for returning an error is to return it as an out
+  // param. Specifically, the last param is named error, and is a NSError**.
+  // The same pattern is used when translating Swift methods that throw into
+  // ObjC methods. We don't need to handle subtypes of NSError, as there are
+  // no known APIs that return subtypes of NSError (in fact the Swift bridging
+  // relies on the type always being exactly NSError).
   bool get returnsNSErrorByOutParam {
-    // In ObjC, the pattern for returning an error is to return it as an out
-    // param. Specifically, the last param is named error, and is a NSError**.
-    // The same pattern is used when translating Swift methods that throw into
-    // ObjC methods. We don't need to handle subtypes of NSError, as there are
-    // no known APIs that return subtypes of NSError (in fact the Swift bridging
-    // relies on the type always being exactly NSError).
     final p = _params.lastOrNull;
     if (p == null || p.originalName != 'error') return false;
     final t = p.type;
@@ -427,10 +429,10 @@ class ObjCMethod extends AstNode with HasLocalScope {
     final params = throwNSError
         ? _params.sublist(0, _params.length - 1)
         : _params;
-    final retVar = localScope.addPrivate('_ret');
-    final ptrVar = localScope.addPrivate('_ptr');
-    final finalizableVar = localScope.addPrivate('_finalizable');
-    final errVar = localScope.addPrivate('_err');
+    const retVar = '\$ret';
+    const ptrVar = '\$ptr';
+    const finalizableVar = '\$finalizable';
+    const errVar = '\$err';
 
     final s = StringBuffer();
     final targetType = target.getDartType(context);
