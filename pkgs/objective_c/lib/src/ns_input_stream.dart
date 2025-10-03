@@ -68,8 +68,8 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
         inputStream.setError(
           NSError.errorWithDomain(
             'DartError'.toNSString(),
-            code: 0,
-            userInfo: d,
+            code$1: 0,
+            userInfo$1: d,
           ),
         );
         inputStream.ref.release();
