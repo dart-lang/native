@@ -27,7 +27,6 @@ external ffi.Pointer<objc.ObjCObject> _SwiftLibrary_protocolTrampoline_1mbt9g9(
   ffi.Pointer<ffi.Void> arg0,
 );
 
-late final _class_SwiftClass = objc.getClass("swift_module.SwiftClass");
 late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
 final _objc_msgSend_19nvye5 = objc.msgSendPointer
     .cast<
@@ -46,7 +45,16 @@ final _objc_msgSend_19nvye5 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObject>,
       )
     >();
+typedef instancetype = ffi.Pointer<objc.ObjCObject>;
+typedef Dartinstancetype = objc.ObjCObjectBase;
+late final _sel_init = objc.registerName("init");
+late final _sel_new = objc.registerName("new");
+late final _sel_alloc = objc.registerName("alloc");
+late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
+late final _class_SwiftClass = objc.getClass("swift_module.SwiftClass");
 late final _sel_sayHello = objc.registerName("sayHello");
+late final _sel_someField = objc.registerName("someField");
+late final _sel_setSomeField_ = objc.registerName("setSomeField:");
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -62,7 +70,6 @@ final _objc_msgSend_151sglz = objc.msgSendPointer
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
-late final _sel_someField = objc.registerName("someField");
 final _objc_msgSend_1hz7y9r = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -75,7 +82,6 @@ final _objc_msgSend_1hz7y9r = objc.msgSendPointer
     .asFunction<
       int Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)
     >();
-late final _sel_setSomeField_ = objc.registerName("setSomeField:");
 final _objc_msgSend_4sp4xj = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -93,11 +99,6 @@ final _objc_msgSend_4sp4xj = objc.msgSendPointer
         int,
       )
     >();
-typedef instancetype = ffi.Pointer<objc.ObjCObject>;
-typedef Dartinstancetype = objc.ObjCObjectBase;
-late final _sel_init = objc.registerName("init");
-late final _sel_new = objc.registerName("new");
-late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
 final _objc_msgSend_1cwp428 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -115,7 +116,6 @@ final _objc_msgSend_1cwp428 = objc.msgSendPointer
         ffi.Pointer<objc.NSZone>,
       )
     >();
-late final _sel_alloc = objc.registerName("alloc");
 late final _sel_self = objc.registerName("self");
 
 /// Construction methods for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>`.
@@ -287,11 +287,11 @@ class SwiftClass extends objc.NSObject {
   }
 
   /// allocWithZone:
-  static SwiftClass allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+  static SwiftClass allocWithZone(ffi.Pointer<objc.NSZone> zone$1) {
     final $ret = _objc_msgSend_1cwp428(
       _class_SwiftClass,
       _sel_allocWithZone_,
-      zone,
+      zone$1,
     );
     return SwiftClass.castFromPointer($ret, retain: false, release: true);
   }

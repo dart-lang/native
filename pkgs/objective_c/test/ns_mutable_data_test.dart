@@ -58,7 +58,7 @@ void main() {
           bytes[1] = 2;
           bytes[2] = 3;
 
-          final data = NSMutableData.dataWithBytes(bytes.cast(), length: 3);
+          final data = NSMutableData.dataWithBytes(bytes.cast(), length$1: 3);
           expect(data.toList(), [1, 2, 3]);
         });
       });
@@ -72,7 +72,7 @@ void main() {
           bytes[1] = 2;
           bytes[2] = 3;
 
-          final data = NSMutableData.dataWithBytes(bytes.cast(), length: 3);
+          final data = NSMutableData.dataWithBytes(bytes.cast(), length$1: 3);
           data[0] = 4;
           data[1] = 5;
           data[2] = 6;
@@ -89,7 +89,7 @@ void main() {
           bytes[1] = 2;
           bytes[2] = 3;
 
-          final data = NSMutableData.dataWithBytes(bytes.cast(), length: 3);
+          final data = NSMutableData.dataWithBytes(bytes.cast(), length$1: 3);
           expect(() => data[3] = 2, throwsRangeError);
           expect(() => data[-1] = 1, throwsRangeError);
           expect(data[0], 1);
@@ -105,7 +105,7 @@ void main() {
           bytes[1] = 2;
           bytes[2] = 3;
 
-          final data = NSMutableData.dataWithBytes(bytes.cast(), length: 3);
+          final data = NSMutableData.dataWithBytes(bytes.cast(), length$1: 3);
           data[0] = 256;
           data[1] = 257;
           data[2] = -1;
@@ -131,7 +131,7 @@ void main() {
           bytes[1] = 2;
           bytes[2] = 3;
 
-          final data = NSMutableData.dataWithBytes(bytes.cast(), length: 3);
+          final data = NSMutableData.dataWithBytes(bytes.cast(), length$1: 3);
           data.addAll([]);
 
           expect(data.length, 3);
@@ -148,7 +148,7 @@ void main() {
           bytes[1] = 2;
           bytes[2] = 3;
 
-          final data = NSMutableData.dataWithBytes(bytes.cast(), length: 3);
+          final data = NSMutableData.dataWithBytes(bytes.cast(), length$1: 3);
           data.addAll([4, 5, 6]);
 
           expect(data.length, 6);
@@ -168,7 +168,7 @@ void main() {
           bytes[1] = 2;
           bytes[2] = 3;
 
-          final data = NSMutableData.dataWithBytes(bytes.cast(), length: 3);
+          final data = NSMutableData.dataWithBytes(bytes.cast(), length$1: 3);
           data.addAll([-1, 256, 257]);
 
           expect(data.length, 6);

@@ -21,17 +21,21 @@ class FixOverriddenMethodsVisitation extends Visitation {
 
   @override
   void visitObjCInterface(ObjCInterface node) {
-    // Visit the supertype, then perform all AST mutations, then visit the other
-    // children. That way we can be sure that the supertype's AST mutations have
-    // been completed before this node's mutations (this is important for
-    // _fixContravariantReturns).
-    visitor.visit(node.superType);
+    node.visitChildren(visitor, typeGraphOnly: true);
 
     _fixMethodVariance(node);
     _fixMethodsVsProperties(node);
     _fixMethodSymbols(node);
+  }
 
-    node.visitChildren(visitor);
+  @override
+  void visitObjCCategory(ObjCCategory node) {
+    node.visitChildren(visitor, typeGraphOnly: true);
+  }
+
+  @override
+  void visitObjCProtocol(ObjCProtocol node) {
+    node.visitChildren(visitor, typeGraphOnly: true);
   }
 
   (ObjCInterface?, ObjCMethod?) _findNearestWithMethod(

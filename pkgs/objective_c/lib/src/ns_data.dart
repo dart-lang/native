@@ -42,7 +42,7 @@ extension NSDataListExtension on List<int> {
     final buffer = malloc<Uint8>(length);
     buffer.asTypedList(length).setAll(0, this);
 
-    final nsData = NSData.dataWithBytes(buffer.cast(), length: length);
+    final nsData = NSData.dataWithBytes(buffer.cast(), length$1: length);
     malloc.free(buffer);
 
     return nsData;
