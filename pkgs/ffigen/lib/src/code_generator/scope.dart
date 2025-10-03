@@ -86,7 +86,10 @@ class Scope {
         // multiple scopes. It's fine as long as the name isn't used by a
         // different symbol earlier in this scope.
         namer.markUsed(symbol._name!);
-        assert(!_symbols.any((s) => s != symbol && s._name == symbol._name));
+        assert(
+          !_symbols.any((s) => s != symbol && s._name == symbol._name),
+          symbol.oldName,
+        );
       }
     }
     for (final ns in _children) {

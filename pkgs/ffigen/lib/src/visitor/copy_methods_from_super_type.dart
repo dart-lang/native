@@ -86,15 +86,10 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
     void Function(ObjCMethod) addMethod,
   ) {
     // Copy all methods from all the protocols.
-    final isNSObject = ObjCBuiltInFunctions.isNSObject(node.originalName);
     for (final proto in protocols) {
-      if (!ObjCBuiltInFunctions.isNSObject(proto.originalName)) {
-        for (final m in proto.methods) {
-          if (isNSObject) {
-            addMethod(m);
-          } else if (!_excludedNSObjectMethods.contains(m.originalName)) {
-            addMethod(m);
-          }
+      for (final m in proto.methods) {
+        if (!_excludedNSObjectMethods.contains(m.originalName)) {
+          addMethod(m);
         }
       }
     }
