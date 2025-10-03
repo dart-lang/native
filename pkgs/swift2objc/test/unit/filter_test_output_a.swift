@@ -21,7 +21,7 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc init(type: String, horsepower: Int) {
+  @objc public init(type: String, horsepower: Int) {
     wrappedInstance = Engine(type: type, horsepower: horsepower)
   }
 

@@ -21,7 +21,7 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc init(y: Int) throws {
+  @objc public init(y: Int) throws {
     wrappedInstance = try MyClass(y: y)
   }
 

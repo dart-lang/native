@@ -30,11 +30,11 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc init(outerLabel representableProperty: Int, customProperty: MyOtherStructWrapper) {
+  @objc public init(outerLabel representableProperty: Int, customProperty: MyOtherStructWrapper) {
     wrappedInstance = MyStruct(outerLabel: representableProperty, customProperty: customProperty.wrappedInstance)
   }
 
-  @objc init?(outerLabel x: Int) {
+  @objc public init?(outerLabel x: Int) {
     if let instance = MyStruct(outerLabel: x) {
       wrappedInstance = instance
     } else {
@@ -42,7 +42,7 @@ import Foundation
     }
   }
 
-  @objc init(label1 name1: Int, label2: Int, _ name3: Int) {
+  @objc public init(label1 name1: Int, label2: Int, _ name3: Int) {
     wrappedInstance = MyStruct(label1: name1, label2: label2, name3)
   }
 
