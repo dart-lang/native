@@ -162,15 +162,35 @@ List<String> _findObjectiveCSysroot() => [
   firstLineOfStdout('xcrun', ['--show-sdk-path']),
 ];
 
+void __debug(Iterable<Binding> bb) {
+  const _cls = {
+    'UIView',
+    'UIScrollView',
+    'UIWindow',
+  };
+  print('>>>>>>');
+  for (final b in bb) {
+    if (b is ObjCInterface) {
+      print('${b.originalName} : ${b.superType?.originalName}');
+      for (final m in b.methods) {
+        print('    ${m.symbol}   ${m.symbol.hashCode}    $m');
+      }
+    }
+  }
+}
+
 @visibleForTesting
 List<Binding> transformBindings(List<Binding> bindings, Context context) {
   final config = context.config;
-  visit(context, CopyMethodsFromSuperTypesVisitation(), bindings);
-  visit(context, FixOverriddenMethodsVisitation(context), bindings);
-  visit(context, FillMethodDependenciesVisitation(), bindings);
+
+  final allBindings = visit(context, FindTransitiveDepsVisitation(), bindings).transitives;
+
+  visit(context, CopyMethodsFromSuperTypesVisitation(), allBindings);
+  visit(context, FixOverriddenMethodsVisitation(context), allBindings);
+  visit(context, FillMethodDependenciesVisitation(), allBindings);
 
   final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(config);
-  visit(context, applyConfigFiltersVisitation, bindings);
+  visit(context, applyConfigFiltersVisitation, allBindings);
   final directlyIncluded = applyConfigFiltersVisitation.directlyIncluded;
   final included = directlyIncluded.union(
     applyConfigFiltersVisitation.indirectlyIncluded,
@@ -184,7 +204,7 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
   visit(
     context,
     ClearOpaqueCompoundMembersVisitation(config, byValueCompounds, included),
-    bindings,
+    allBindings,
   );
 
   final transitives = visit(
@@ -201,12 +221,14 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
   final finalBindings = visit(
     context,
     ListBindingsVisitation(config, included, transitives, directTransitives),
-    bindings,
+    allBindings,
   ).bindings;
-  visit(context, MarkBindingsVisitation(finalBindings), bindings);
+  visit(context, MarkBindingsVisitation(finalBindings), allBindings);
 
   visit(context, MarkImportsVisitation(context), finalBindings);
 
+
+  __debug(allBindings);
   _nameAllSymbols(context, finalBindings);
 
   /// Sort bindings.
@@ -254,8 +276,11 @@ void _nameAllSymbols(Context context, Set<Binding> bindings) {
     SorterVisitation(bindings, SorterVisitation.originalNameSortKey),
     bindings,
   ).sorted;
+  __debug(namingOrder);
 
   visit(context, FindSymbolsVisitation(context, bindings), namingOrder);
+
+  context.rootScope.debugPrint();
 
   context.extraSymbols = _createExtraSymbols(context);
   context.libs.createSymbols(context.rootScope);
@@ -281,4 +306,24 @@ ExtraSymbols _createExtraSymbols(Context context) {
   context.rootScope.add(extraSymbols.lookupFuncName);
   context.rootScope.add(extraSymbols.symbolAddressVariableName);
   return extraSymbols;
+}
+
+bool _isSuperInterface(Binding a, Binding b) {
+  if (a is! ObjCInterface) return false;
+  ObjCInterface? s = switch(b) {
+    ObjCInterface() => b.superType,
+    ObjCCategory() => b.parent,
+    _ => null,
+  };
+  for (; s != null; s = s.superType) {
+    if (s == a) return true;
+  }
+  return false;
+}
+
+int _superInterfaceFirstComparator(Binding a, Binding b) {
+  if (a == b) return 0;
+  if (_isSuperInterface(a, b)) return -1;
+  if (_isSuperInterface(b, a)) return 1;
+  return 0;
 }

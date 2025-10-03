@@ -46,7 +46,7 @@ final class Visitor {
   void debugPrintStack() {
     var indent = '';
     for (final node in _debugStack) {
-      context.logger.info('$indent${node.runtimeType}: $node');
+      print('$indent${node.runtimeType}: $node');
       indent += '  ';
     }
   }

@@ -36,7 +36,7 @@ const _excludedNSObjectMethods = {
 class CopyMethodsFromSuperTypesVisitation extends Visitation {
   @override
   void visitObjCInterface(ObjCInterface node) {
-    node.visitChildren(visitor);
+    node.visitChildren(visitor, typeGraphOnly: true);
 
     final isNSObject = ObjCBuiltInFunctions.isNSObject(node.originalName);
 
@@ -100,7 +100,7 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
 
   @override
   void visitObjCCategory(ObjCCategory node) {
-    node.visitChildren(visitor);
+    node.visitChildren(visitor, typeGraphOnly: true);
 
     // Copy all methods from all the category's protocols.
     _copyMethodFromProtocols(node, node.protocols, node.addMethod);
@@ -108,7 +108,7 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
-    node.visitChildren(visitor);
+    node.visitChildren(visitor, typeGraphOnly: true);
 
     for (final superProtocol in node.superProtocols) {
       if (ObjCBuiltInFunctions.isNSObject(superProtocol.originalName)) {

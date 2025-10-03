@@ -96,15 +96,25 @@ class FindSymbolsVisitation extends Visitation {
 
   @override
   void visitObjCCategory(ObjCCategory node) {
-    if (!bindings.contains(node)) return;
-    fillObjCInterfaceScopes(node.parent);
+    if (!bindings.contains(node)) return;  // TODO: Still needed???
+    node.visitChildren(visitor, typeGraphOnly: true);
     visitBindingHasLocalScope(node, node.parent.localScope);
   }
 
   @override
   void visitObjCInterface(ObjCInterface node) {
+    if (node.generateAsStub) {
+      // The supertype heirarchy is generated even if this is a stub.
+      visitor.visit(node.superType);
+    } else {
+      node.visitChildren(visitor, typeGraphOnly: true);
+    }
+    node.localScope = (node.superType?.localScope ?? context.rootScope)
+        .addChild(node.originalName, preUsedNames: objCObjectBaseMethods);
+    print('\n>>>\n$node');
+    visitor.debugPrintStack();
+    print('');
     context.rootScope.add(node.symbol);
-    fillObjCInterfaceScopes(node.superType);
     if (!node.generateAsStub) {
       visitBindingHasLocalScope(
         node,
@@ -115,6 +125,9 @@ class FindSymbolsVisitation extends Visitation {
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
+    if (!node.generateAsStub) {
+      node.visitChildren(visitor, typeGraphOnly: true);
+    }
     context.rootScope.add(node.symbol);
     node.localScope = context.rootScope.addChild(
       node.originalName,
@@ -138,12 +151,5 @@ class FindSymbolsVisitation extends Visitation {
     currentScope.add(node.symbol);
     currentScope.add(node.protocolMethodName);
     visitHasLocalScope(node, context.rootScope, node.originalName);
-  }
-
-  void fillObjCInterfaceScopes(ObjCInterface? node) {
-    if (node == null || node.localScopeFilled) return;
-    fillObjCInterfaceScopes(node.superType);
-    node.localScope = (node.superType?.localScope ?? context.rootScope)
-        .addChild(node.originalName, preUsedNames: objCObjectBaseMethods);
   }
 }
