@@ -861,12 +861,6 @@ class DOBJCObservation extends NSObject {
 }
 
 extension DOBJCObservation$Methods on DOBJCObservation {
-  /// autorelease
-  DOBJCObservation autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return DOBJCObservation.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// dealloc
   void dealloc() {
     _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_dealloc);
@@ -914,18 +908,6 @@ extension DOBJCObservation$Methods on DOBJCObservation {
   /// remove
   void remove() {
     _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_remove);
-  }
-
-  /// retain
-  DOBJCObservation retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return DOBJCObservation.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  DOBJCObservation self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return DOBJCObservation.castFromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -1081,16 +1063,6 @@ extension DartInputStreamAdapter$Methods on DartInputStreamAdapter {
     );
   }
 
-  /// autorelease
-  DartInputStreamAdapter autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return DartInputStreamAdapter.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
-  }
-
   /// init
   DartInputStreamAdapter init() {
     objc.checkOsVersionInternal(
@@ -1158,26 +1130,6 @@ extension DartInputStreamAdapter$Methods on DartInputStreamAdapter {
             retain: false,
             release: true,
           );
-  }
-
-  /// retain
-  DartInputStreamAdapter retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return DartInputStreamAdapter.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
-  }
-
-  /// self
-  DartInputStreamAdapter self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return DartInputStreamAdapter.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
   }
 
   /// setDone
@@ -1309,16 +1261,6 @@ extension DartInputStreamAdapterWeakHolder$Methods
     );
   }
 
-  /// autorelease
-  DartInputStreamAdapterWeakHolder autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return DartInputStreamAdapterWeakHolder.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
-  }
-
   /// init
   DartInputStreamAdapterWeakHolder init() {
     objc.checkOsVersionInternal(
@@ -1333,26 +1275,6 @@ extension DartInputStreamAdapterWeakHolder$Methods
     return DartInputStreamAdapterWeakHolder.castFromPointer(
       $ret,
       retain: false,
-      release: true,
-    );
-  }
-
-  /// retain
-  DartInputStreamAdapterWeakHolder retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return DartInputStreamAdapterWeakHolder.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
-  }
-
-  /// self
-  DartInputStreamAdapterWeakHolder self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return DartInputStreamAdapterWeakHolder.castFromPointer(
-      $ret,
-      retain: true,
       release: true,
     );
   }
@@ -1413,12 +1335,6 @@ class DartProtocol extends NSObject {
 }
 
 extension DartProtocol$Methods on DartProtocol {
-  /// autorelease
-  DartProtocol autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return DartProtocol.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// dealloc
   void dealloc() {
     _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_dealloc);
@@ -1462,18 +1378,6 @@ extension DartProtocol$Methods on DartProtocol {
       withDisposePort,
     );
     return DartProtocol.castFromPointer($ret, retain: false, release: true);
-  }
-
-  /// retain
-  DartProtocol retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return DartProtocol.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  DartProtocol self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return DartProtocol.castFromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -1560,16 +1464,6 @@ extension DartProtocolBuilder$Methods on DartProtocolBuilder {
     );
   }
 
-  /// autorelease
-  DartProtocolBuilder autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return DartProtocolBuilder.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
-  }
-
   /// buildInstance:
   DartProtocol buildInstance(int port) {
     final $ret = _objc_msgSend_1ya1kjn(
@@ -1632,26 +1526,6 @@ extension DartProtocolBuilder$Methods on DartProtocolBuilder {
   /// registerClass
   void registerClass() {
     _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_registerClass);
-  }
-
-  /// retain
-  DartProtocolBuilder retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return DartProtocolBuilder.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
-  }
-
-  /// self
-  DartProtocolBuilder self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return DartProtocolBuilder.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
   }
 }
 
@@ -1804,12 +1678,6 @@ class NSArray extends NSObject
 }
 
 extension NSArray$Methods on NSArray {
-  /// autorelease
-  NSArray autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSArray.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// count
   int get count {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_count);
@@ -1918,18 +1786,6 @@ extension NSArray$Methods on NSArray {
       index,
     );
     return objc.ObjCObjectBase($ret, retain: true, release: true);
-  }
-
-  /// retain
-  NSArray retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSArray.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSArray self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSArray.castFromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -2136,16 +1992,6 @@ extension NSAttributedString$Methods on NSAttributedString {
       effectiveRange,
     );
     return NSDictionary.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// autorelease
-  NSAttributedString autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSAttributedString.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
   }
 
   /// encodeWithCoder:
@@ -2406,26 +2252,6 @@ extension NSAttributedString$Methods on NSAttributedString {
     );
   }
 
-  /// retain
-  NSAttributedString retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSAttributedString.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
-  }
-
-  /// self
-  NSAttributedString self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSAttributedString.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
-  }
-
   /// string
   NSString get string {
     objc.checkOsVersionInternal(
@@ -2608,16 +2434,6 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
     );
   }
 
-  /// autorelease
-  NSAttributedStringMarkdownParsingOptions autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSAttributedStringMarkdownParsingOptions.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
-  }
-
   /// iOS: introduced 15.0.0
   /// macOS: introduced 12.0.0
   NSAttributedStringMarkdownParsingFailurePolicy get failurePolicy {
@@ -2672,26 +2488,6 @@ extension NSAttributedStringMarkdownParsingOptions$Methods
     return $ret.address == 0
         ? null
         : NSString.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// retain
-  NSAttributedStringMarkdownParsingOptions retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSAttributedStringMarkdownParsingOptions.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
-  }
-
-  /// self
-  NSAttributedStringMarkdownParsingOptions self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSAttributedStringMarkdownParsingOptions.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
   }
 
   /// iOS: introduced 15.0.0
@@ -3143,12 +2939,6 @@ extension NSBundle$Methods on NSBundle {
         : NSURL.castFromPointer($ret, retain: true, release: true);
   }
 
-  /// autorelease
-  NSBundle autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSBundle.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// builtInPlugInsPath
   NSString? get builtInPlugInsPath {
     final $ret = _objc_msgSend_151sglz(
@@ -3580,18 +3370,6 @@ extension NSBundle$Methods on NSBundle {
         : NSURL.castFromPointer($ret, retain: true, release: true);
   }
 
-  /// retain
-  NSBundle retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSBundle.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSBundle self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSBundle.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// sharedFrameworksPath
   NSString? get sharedFrameworksPath {
     final $ret = _objc_msgSend_151sglz(
@@ -3895,12 +3673,6 @@ class NSCharacterSet extends NSObject
 }
 
 extension NSCharacterSet$Methods on NSCharacterSet {
-  /// autorelease
-  NSCharacterSet autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSCharacterSet.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// bitmapRepresentation
   NSData get bitmapRepresentation {
     final $ret = _objc_msgSend_151sglz(
@@ -3986,18 +3758,6 @@ extension NSCharacterSet$Methods on NSCharacterSet {
       theLongChar,
     );
   }
-
-  /// retain
-  NSCharacterSet retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSCharacterSet.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSCharacterSet self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSCharacterSet.castFromPointer($ret, retain: true, release: true);
-  }
 }
 
 /// NSCoder
@@ -4055,12 +3815,6 @@ class NSCoder extends NSObject {
 }
 
 extension NSCoder$Methods on NSCoder {
-  /// autorelease
-  NSCoder autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSCoder.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// decodeDataObject
   NSData? decodeDataObject() {
     final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_decodeDataObject);
@@ -4123,18 +3877,6 @@ extension NSCoder$Methods on NSCoder {
       _sel_init,
     );
     return NSCoder.castFromPointer($ret, retain: false, release: true);
-  }
-
-  /// retain
-  NSCoder retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSCoder.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSCoder self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSCoder.castFromPointer($ret, retain: true, release: true);
   }
 
   /// versionForClassName:
@@ -4655,12 +4397,6 @@ class NSData extends NSObject
 }
 
 extension NSData$Methods on NSData {
-  /// autorelease
-  NSData autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSData.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// bytes
   ffi.Pointer<ffi.Void> get bytes {
     return _objc_msgSend_6ex6p5(this.ref.pointer, _sel_bytes);
@@ -4925,18 +4661,6 @@ extension NSData$Methods on NSData {
   int get length {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_length);
   }
-
-  /// retain
-  NSData retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSData.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSData self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSData.castFromPointer($ret, retain: true, release: true);
-  }
 }
 
 sealed class NSDataBase64DecodingOptions {
@@ -5112,12 +4836,6 @@ class NSDate extends NSObject implements NSCopying, NSSecureCoding {
 }
 
 extension NSDate$Methods on NSDate {
-  /// autorelease
-  NSDate autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSDate.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// dateByAddingTimeInterval:
   NSDate dateByAddingTimeInterval(double ti) {
     objc.checkOsVersionInternal(
@@ -5210,18 +4928,6 @@ extension NSDate$Methods on NSDate {
       ti,
     );
     return NSDate.castFromPointer($ret, retain: false, release: true);
-  }
-
-  /// retain
-  NSDate retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSDate.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSDate self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSDate.castFromPointer($ret, retain: true, release: true);
   }
 
   /// timeIntervalSinceReferenceDate
@@ -5424,12 +5130,6 @@ class NSDictionary extends NSObject
 }
 
 extension NSDictionary$Methods on NSDictionary {
-  /// autorelease
-  NSDictionary autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSDictionary.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// count
   int get count {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_count);
@@ -5563,18 +5263,6 @@ extension NSDictionary$Methods on NSDictionary {
         ? null
         : objc.ObjCObjectBase($ret, retain: true, release: true);
   }
-
-  /// retain
-  NSDictionary retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSDictionary.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSDictionary self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSDictionary.castFromPointer($ret, retain: true, release: true);
-  }
 }
 
 final class NSEdgeInsets extends ffi.Struct {
@@ -5664,12 +5352,6 @@ class NSEnumerator extends NSObject
 }
 
 extension NSEnumerator$Methods on NSEnumerator {
-  /// autorelease
-  NSEnumerator autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSEnumerator.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// countByEnumeratingWithState:objects:count:
   int countByEnumeratingWithState(
     ffi.Pointer<NSFastEnumerationState> state, {
@@ -5705,18 +5387,6 @@ extension NSEnumerator$Methods on NSEnumerator {
     return $ret.address == 0
         ? null
         : objc.ObjCObjectBase($ret, retain: true, release: true);
-  }
-
-  /// retain
-  NSEnumerator retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSEnumerator.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSEnumerator self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSEnumerator.castFromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -5845,12 +5515,6 @@ class NSError extends NSObject implements NSCopying, NSSecureCoding {
 }
 
 extension NSError$Methods on NSError {
-  /// autorelease
-  NSError autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSError.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// code
   int get code {
     return _objc_msgSend_1hz7y9r(this.ref.pointer, _sel_code);
@@ -5972,18 +5636,6 @@ extension NSError$Methods on NSError {
     return $ret.address == 0
         ? null
         : objc.ObjCObjectBase($ret, retain: true, release: true);
-  }
-
-  /// retain
-  NSError retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSError.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSError self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSError.castFromPointer($ret, retain: true, release: true);
   }
 
   /// iOS: introduced 14.5.0
@@ -8992,12 +8644,6 @@ class NSIndexSet extends NSObject
 }
 
 extension NSIndexSet$Methods on NSIndexSet {
-  /// autorelease
-  NSIndexSet autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSIndexSet.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// containsIndex:
   bool containsIndex(int value) {
     return _objc_msgSend_6peh6o(this.ref.pointer, _sel_containsIndex_, value);
@@ -9425,18 +9071,6 @@ extension NSIndexSet$Methods on NSIndexSet {
   int get lastIndex {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_lastIndex);
   }
-
-  /// retain
-  NSIndexSet retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSIndexSet.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSIndexSet self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSIndexSet.castFromPointer($ret, retain: true, release: true);
-  }
 }
 
 /// NSInputStream
@@ -9535,12 +9169,6 @@ class NSInputStream extends NSStream {
 }
 
 extension NSInputStream$Methods on NSInputStream {
-  /// autorelease
-  NSInputStream autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSInputStream.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// getBuffer:length:
   bool getBuffer(
     ffi.Pointer<ffi.Pointer<ffi.Uint8>> buffer, {
@@ -9621,18 +9249,6 @@ extension NSInputStream$Methods on NSInputStream {
       maxLength,
     );
   }
-
-  /// retain
-  NSInputStream retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSInputStream.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSInputStream self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSInputStream.castFromPointer($ret, retain: true, release: true);
-  }
 }
 
 /// NSInvocation
@@ -9705,12 +9321,6 @@ extension NSInvocation$Methods on NSInvocation {
     return _objc_msgSend_91o635(this.ref.pointer, _sel_argumentsRetained);
   }
 
-  /// autorelease
-  NSInvocation autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSInvocation.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// getArgument:atIndex:
   void getArgument(
     ffi.Pointer<ffi.Void> argumentLocation, {
@@ -9770,12 +9380,6 @@ extension NSInvocation$Methods on NSInvocation {
     return NSMethodSignature.castFromPointer($ret, retain: true, release: true);
   }
 
-  /// retain
-  NSInvocation retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSInvocation.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// retainArguments
   void retainArguments() {
     _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_retainArguments);
@@ -9784,12 +9388,6 @@ extension NSInvocation$Methods on NSInvocation {
   /// selector
   ffi.Pointer<objc.ObjCSelector> get selector {
     return _objc_msgSend_1ovaulg(this.ref.pointer, _sel_selector);
-  }
-
-  /// self
-  NSInvocation self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSInvocation.castFromPointer($ret, retain: true, release: true);
   }
 
   /// setArgument:atIndex:
@@ -9894,12 +9492,6 @@ class NSItemProvider extends NSObject implements NSCopying {
 }
 
 extension NSItemProvider$Methods on NSItemProvider {
-  /// autorelease
-  NSItemProvider autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSItemProvider.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// canLoadObjectOfClass:
   bool canLoadObjectOfClass(NSItemProviderReading aClass) {
     objc.checkOsVersionInternal(
@@ -10263,18 +9855,6 @@ extension NSItemProvider$Methods on NSItemProvider {
       fileOptions,
     );
     return NSArray.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// retain
-  NSItemProvider retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSItemProvider.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSItemProvider self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSItemProvider.castFromPointer($ret, retain: true, release: true);
   }
 
   /// setSuggestedName:
@@ -10726,12 +10306,6 @@ class NSLocale extends NSObject implements NSCopying, NSSecureCoding {
 }
 
 extension NSLocale$Methods on NSLocale {
-  /// autorelease
-  NSLocale autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSLocale.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// displayNameForKey:value:
   NSString? displayNameForKey(
     NSString key, {
@@ -10803,18 +10377,6 @@ extension NSLocale$Methods on NSLocale {
     return $ret.address == 0
         ? null
         : objc.ObjCObjectBase($ret, retain: true, release: true);
-  }
-
-  /// retain
-  NSLocale retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSLocale.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSLocale self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSLocale.castFromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -10921,12 +10483,6 @@ class NSMethodSignature extends NSObject {
 }
 
 extension NSMethodSignature$Methods on NSMethodSignature {
-  /// autorelease
-  NSMethodSignature autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSMethodSignature.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// frameLength
   int get frameLength {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_frameLength);
@@ -10977,18 +10533,6 @@ extension NSMethodSignature$Methods on NSMethodSignature {
   /// numberOfArguments
   int get numberOfArguments {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_numberOfArguments);
-  }
-
-  /// retain
-  NSMethodSignature retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSMethodSignature.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSMethodSignature self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSMethodSignature.castFromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -11158,12 +10702,6 @@ extension NSMutableArray$Methods on NSMutableArray {
     );
   }
 
-  /// autorelease
-  NSMutableArray autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSMutableArray.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// init
   NSMutableArray init() {
     objc.checkOsVersionInternal(
@@ -11276,18 +10814,6 @@ extension NSMutableArray$Methods on NSMutableArray {
       index,
       withObject.ref.pointer,
     );
-  }
-
-  /// retain
-  NSMutableArray retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSMutableArray.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSMutableArray self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSMutableArray.castFromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -11598,12 +11124,6 @@ class NSMutableData extends NSData {
 }
 
 extension NSMutableData$Methods on NSMutableData {
-  /// autorelease
-  NSMutableData autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSMutableData.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// compressedDataUsingAlgorithm:error:
   ///
   /// iOS: introduced 13.0.0
@@ -11890,18 +11410,6 @@ extension NSMutableData$Methods on NSMutableData {
     return _objc_msgSend_6ex6p5(this.ref.pointer, _sel_mutableBytes);
   }
 
-  /// retain
-  NSMutableData retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSMutableData.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSMutableData self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSMutableData.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// setLength:
   set length$1(int value) {
     _objc_msgSend_1i9r4xy(this.ref.pointer, _sel_setLength_, value);
@@ -12124,16 +11632,6 @@ class NSMutableDictionary extends NSDictionary {
 }
 
 extension NSMutableDictionary$Methods on NSMutableDictionary {
-  /// autorelease
-  NSMutableDictionary autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSMutableDictionary.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
-  }
-
   /// init
   NSMutableDictionary init() {
     objc.checkOsVersionInternal(
@@ -12275,26 +11773,6 @@ extension NSMutableDictionary$Methods on NSMutableDictionary {
     );
   }
 
-  /// retain
-  NSMutableDictionary retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSMutableDictionary.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
-  }
-
-  /// self
-  NSMutableDictionary self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSMutableDictionary.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
-  }
-
   /// setObject:forKey:
   void setObject(objc.ObjCObjectBase anObject, {required NSCopying forKey}) {
     _objc_msgSend_pfv6jd(
@@ -12426,12 +11904,6 @@ extension NSMutableIndexSet$Methods on NSMutableIndexSet {
     _objc_msgSend_1e3pm0z(this.ref.pointer, _sel_addIndexesInRange_, range);
   }
 
-  /// autorelease
-  NSMutableIndexSet autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSMutableIndexSet.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// init
   NSMutableIndexSet init() {
     objc.checkOsVersionInternal(
@@ -12526,18 +11998,6 @@ extension NSMutableIndexSet$Methods on NSMutableIndexSet {
   /// removeIndexesInRange:
   void removeIndexesInRange(NSRange range) {
     _objc_msgSend_1e3pm0z(this.ref.pointer, _sel_removeIndexesInRange_, range);
-  }
-
-  /// retain
-  NSMutableIndexSet retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSMutableIndexSet.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSMutableIndexSet self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSMutableIndexSet.castFromPointer($ret, retain: true, release: true);
   }
 
   /// shiftIndexesStartingAtIndex:by:
@@ -12862,16 +12322,6 @@ class NSMutableOrderedSet extends NSOrderedSet {
 }
 
 extension NSMutableOrderedSet$Methods on NSMutableOrderedSet {
-  /// autorelease
-  NSMutableOrderedSet autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSMutableOrderedSet.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
-  }
-
   /// init
   NSMutableOrderedSet init() {
     objc.checkOsVersionInternal(
@@ -13198,26 +12648,6 @@ extension NSMutableOrderedSet$Methods on NSMutableOrderedSet {
       withObject.ref.pointer,
     );
   }
-
-  /// retain
-  NSMutableOrderedSet retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSMutableOrderedSet.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
-  }
-
-  /// self
-  NSMutableOrderedSet self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSMutableOrderedSet.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
-  }
 }
 
 /// NSMutableSet
@@ -13377,12 +12807,6 @@ extension NSMutableSet$Methods on NSMutableSet {
     _objc_msgSend_xtuoz7(this.ref.pointer, _sel_addObject_, object.ref.pointer);
   }
 
-  /// autorelease
-  NSMutableSet autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSMutableSet.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// init
   NSMutableSet init() {
     objc.checkOsVersionInternal(
@@ -13481,18 +12905,6 @@ extension NSMutableSet$Methods on NSMutableSet {
       _sel_removeObject_,
       object.ref.pointer,
     );
-  }
-
-  /// retain
-  NSMutableSet retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSMutableSet.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSMutableSet self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSMutableSet.castFromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -13757,12 +13169,6 @@ class NSMutableString extends NSString {
 }
 
 extension NSMutableString$Methods on NSMutableString {
-  /// autorelease
-  NSMutableString autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSMutableString.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// init
   NSMutableString init() {
     objc.checkOsVersionInternal(
@@ -14109,18 +13515,6 @@ extension NSMutableString$Methods on NSMutableString {
       withString.ref.pointer,
     );
   }
-
-  /// retain
-  NSMutableString retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSMutableString.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSMutableString self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSMutableString.castFromPointer($ret, retain: true, release: true);
-  }
 }
 
 /// NSNotification
@@ -14208,12 +13602,6 @@ class NSNotification extends NSObject implements NSCopying, NSCoding {
 }
 
 extension NSNotification$Methods on NSNotification {
-  /// autorelease
-  NSNotification autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSNotification.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// encodeWithCoder:
   void encodeWithCoder(NSCoder coder) {
     _objc_msgSend_xtuoz7(
@@ -14277,18 +13665,6 @@ extension NSNotification$Methods on NSNotification {
     return $ret.address == 0
         ? null
         : objc.ObjCObjectBase($ret, retain: true, release: true);
-  }
-
-  /// retain
-  NSNotification retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSNotification.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSNotification self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSNotification.castFromPointer($ret, retain: true, release: true);
   }
 
   /// userInfo
@@ -14366,12 +13742,6 @@ class NSNull extends NSObject implements NSCopying, NSSecureCoding {
 }
 
 extension NSNull$Methods on NSNull {
-  /// autorelease
-  NSNull autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSNull.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// encodeWithCoder:
   void encodeWithCoder(NSCoder coder) {
     _objc_msgSend_xtuoz7(
@@ -14405,18 +13775,6 @@ extension NSNull$Methods on NSNull {
     return $ret.address == 0
         ? null
         : NSNull.castFromPointer($ret, retain: false, release: true);
-  }
-
-  /// retain
-  NSNull retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSNull.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSNull self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSNull.castFromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -14480,12 +13838,6 @@ class NSNumber extends NSValue {
 }
 
 extension NSNumber$Methods on NSNumber {
-  /// autorelease
-  NSNumber autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSNumber.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// boolValue
   bool get boolValue {
     return _objc_msgSend_91o635(this.ref.pointer, _sel_boolValue);
@@ -14762,18 +14114,6 @@ extension NSNumber$Methods on NSNumber {
   /// longValue
   int get longValue {
     return _objc_msgSend_1hz7y9r(this.ref.pointer, _sel_longValue);
-  }
-
-  /// retain
-  NSNumber retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSNumber.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSNumber self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSNumber.castFromPointer($ret, retain: true, release: true);
   }
 
   /// shortValue
@@ -15253,12 +14593,6 @@ class NSObject extends objc.ObjCObjectBase implements NSObjectProtocol {
 }
 
 extension NSObject$Methods on NSObject {
-  /// autorelease
-  NSObject autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSObject.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// copy
   objc.ObjCObjectBase copy() {
     objc.checkOsVersionInternal(
@@ -15440,28 +14774,6 @@ extension NSObject$Methods on NSObject {
       withObject$1.ref.pointer,
     );
     return objc.ObjCObjectBase($ret, retain: true, release: true);
-  }
-
-  /// release
-  void release() {
-    _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_release);
-  }
-
-  /// retain
-  NSObject retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSObject.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// retainCount
-  int retainCount() {
-    return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_retainCount);
-  }
-
-  /// self
-  NSObject self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSObject.castFromPointer($ret, retain: true, release: true);
   }
 
   /// zone
@@ -16664,16 +15976,6 @@ extension NSOrderedCollectionChange$Methods on NSOrderedCollectionChange {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_associatedIndex);
   }
 
-  /// autorelease
-  NSOrderedCollectionChange autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSOrderedCollectionChange.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
-  }
-
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   NSCollectionChangeType get changeType {
@@ -16786,26 +16088,6 @@ extension NSOrderedCollectionChange$Methods on NSOrderedCollectionChange {
         ? null
         : objc.ObjCObjectBase($ret, retain: true, release: true);
   }
-
-  /// retain
-  NSOrderedCollectionChange retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSOrderedCollectionChange.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
-  }
-
-  /// self
-  NSOrderedCollectionChange self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSOrderedCollectionChange.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
-  }
 }
 
 /// NSOrderedCollectionDifference
@@ -16894,16 +16176,6 @@ class NSOrderedCollectionDifference extends NSObject
 
 extension NSOrderedCollectionDifference$Methods
     on NSOrderedCollectionDifference {
-  /// autorelease
-  NSOrderedCollectionDifference autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSOrderedCollectionDifference.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
-  }
-
   /// countByEnumeratingWithState:objects:count:
   int countByEnumeratingWithState(
     ffi.Pointer<NSFastEnumerationState> state, {
@@ -17102,26 +16374,6 @@ extension NSOrderedCollectionDifference$Methods
     );
     final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_removals);
     return NSArray.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// retain
-  NSOrderedCollectionDifference retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSOrderedCollectionDifference.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
-  }
-
-  /// self
-  NSOrderedCollectionDifference self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSOrderedCollectionDifference.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
   }
 }
 
@@ -17366,12 +16618,6 @@ class NSOrderedSet extends NSObject
 }
 
 extension NSOrderedSet$Methods on NSOrderedSet {
-  /// autorelease
-  NSOrderedSet autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSOrderedSet.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// count
   int get count {
     objc.checkOsVersionInternal(
@@ -17647,18 +16893,6 @@ extension NSOrderedSet$Methods on NSOrderedSet {
     );
     return objc.ObjCObjectBase($ret, retain: true, release: true);
   }
-
-  /// retain
-  NSOrderedSet retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSOrderedSet.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSOrderedSet self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSOrderedSet.castFromPointer($ret, retain: true, release: true);
-  }
 }
 
 /// NSOutputStream
@@ -17774,12 +17008,6 @@ class NSOutputStream extends NSStream {
 }
 
 extension NSOutputStream$Methods on NSOutputStream {
-  /// autorelease
-  NSOutputStream autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSOutputStream.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// hasSpaceAvailable
   bool get hasSpaceAvailable {
     return _objc_msgSend_91o635(this.ref.pointer, _sel_hasSpaceAvailable);
@@ -17851,18 +17079,6 @@ extension NSOutputStream$Methods on NSOutputStream {
     return $ret.address == 0
         ? null
         : NSOutputStream.castFromPointer($ret, retain: false, release: true);
-  }
-
-  /// retain
-  NSOutputStream retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSOutputStream.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSOutputStream self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSOutputStream.castFromPointer($ret, retain: true, release: true);
   }
 
   /// write:maxLength:
@@ -17937,12 +17153,6 @@ class NSPort extends NSObject implements NSCopying, NSCoding {
 }
 
 extension NSPort$Methods on NSPort {
-  /// autorelease
-  NSPort autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSPort.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// delegate
   NSPortDelegate? delegate() {
     final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_delegate);
@@ -18011,12 +17221,6 @@ extension NSPort$Methods on NSPort {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_reservedSpaceLength);
   }
 
-  /// retain
-  NSPort retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSPort.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// scheduleInRunLoop:forMode:
   void scheduleInRunLoop(NSRunLoop runLoop, {required NSString forMode}) {
     _objc_msgSend_pfv6jd(
@@ -18025,12 +17229,6 @@ extension NSPort$Methods on NSPort {
       runLoop.ref.pointer,
       forMode.ref.pointer,
     );
-  }
-
-  /// self
-  NSPort self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSPort.castFromPointer($ret, retain: true, release: true);
   }
 
   /// sendBeforeDate:components:from:reserved:
@@ -18309,12 +17507,6 @@ class NSPortMessage extends NSObject {
 }
 
 extension NSPortMessage$Methods on NSPortMessage {
-  /// autorelease
-  NSPortMessage autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSPortMessage.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// components
   NSArray? get components {
     final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_components);
@@ -18364,18 +17556,6 @@ extension NSPortMessage$Methods on NSPortMessage {
     return $ret.address == 0
         ? null
         : NSPort.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// retain
-  NSPortMessage retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSPortMessage.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSPortMessage self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSPortMessage.castFromPointer($ret, retain: true, release: true);
   }
 
   /// sendBeforeDate:
@@ -18575,12 +17755,6 @@ extension NSProgress$Methods on NSProgress {
       child.ref.pointer,
       withPendingUnitCount,
     );
-  }
-
-  /// autorelease
-  NSProgress autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSProgress.castFromPointer($ret, retain: true, release: true);
   }
 
   /// becomeCurrentWithPendingUnitCount:
@@ -18949,18 +18123,6 @@ extension NSProgress$Methods on NSProgress {
     return $ret.address == 0
         ? null
         : ObjCBlock_ffiVoid.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// retain
-  NSProgress retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSProgress.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSProgress self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSProgress.castFromPointer($ret, retain: true, release: true);
   }
 
   /// setCancellable:
@@ -19383,12 +18545,6 @@ extension NSRunLoop$Methods on NSRunLoop {
     );
   }
 
-  /// autorelease
-  NSRunLoop autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSRunLoop.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// currentMode
   NSString? get currentMode {
     final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_currentMode);
@@ -19436,18 +18592,6 @@ extension NSRunLoop$Methods on NSRunLoop {
       aPort.ref.pointer,
       forMode.ref.pointer,
     );
-  }
-
-  /// retain
-  NSRunLoop retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSRunLoop.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSRunLoop self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSRunLoop.castFromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -19818,12 +18962,6 @@ class NSSet extends NSObject
 }
 
 extension NSSet$Methods on NSSet {
-  /// autorelease
-  NSSet autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSSet.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// count
   int get count {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_count);
@@ -19951,18 +19089,6 @@ extension NSSet$Methods on NSSet {
     final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_objectEnumerator);
     return NSEnumerator.castFromPointer($ret, retain: true, release: true);
   }
-
-  /// retain
-  NSSet retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSSet.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSSet self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSSet.castFromPointer($ret, retain: true, release: true);
-  }
 }
 
 sealed class NSSortOptions {
@@ -20025,12 +19151,6 @@ class NSStream extends NSObject {
 }
 
 extension NSStream$Methods on NSStream {
-  /// autorelease
-  NSStream autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSStream.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// close
   void close() {
     _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_close);
@@ -20085,12 +19205,6 @@ extension NSStream$Methods on NSStream {
     );
   }
 
-  /// retain
-  NSStream retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSStream.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// scheduleInRunLoop:forMode:
   void scheduleInRunLoop(NSRunLoop aRunLoop, {required NSString forMode}) {
     _objc_msgSend_pfv6jd(
@@ -20099,12 +19213,6 @@ extension NSStream$Methods on NSStream {
       aRunLoop.ref.pointer,
       forMode.ref.pointer,
     );
-  }
-
-  /// self
-  NSStream self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSStream.castFromPointer($ret, retain: true, release: true);
   }
 
   /// setDelegate:
@@ -20624,12 +19732,6 @@ class NSString extends NSObject
 }
 
 extension NSString$Methods on NSString {
-  /// autorelease
-  NSString autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSString.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// characterAtIndex:
   int characterAtIndex(int index) {
     return _objc_msgSend_1deg8x(
@@ -20983,18 +20085,6 @@ extension NSString$Methods on NSString {
   /// length
   int get length {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_length);
-  }
-
-  /// retain
-  NSString retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSString.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSString self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSString.castFromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -22356,12 +21446,6 @@ class NSTimer extends NSObject {
 }
 
 extension NSTimer$Methods on NSTimer {
-  /// autorelease
-  NSTimer autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSTimer.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// fire
   void fire() {
     _objc_msgSend_1pl9qdv(this.ref.pointer, _sel_fire);
@@ -22440,18 +21524,6 @@ extension NSTimer$Methods on NSTimer {
   /// isValid
   bool get isValid {
     return _objc_msgSend_91o635(this.ref.pointer, _sel_isValid);
-  }
-
-  /// retain
-  NSTimer retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSTimer.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSTimer self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSTimer.castFromPointer($ret, retain: true, release: true);
   }
 
   /// setFireDate:
@@ -22857,12 +21929,6 @@ extension NSURL$Methods on NSURL {
     return $ret.address == 0
         ? null
         : NSURL.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// autorelease
-  NSURL autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSURL.castFromPointer($ret, retain: true, release: true);
   }
 
   /// baseURL
@@ -23376,24 +22442,12 @@ extension NSURL$Methods on NSURL {
         : NSDictionary.castFromPointer($ret, retain: true, release: true);
   }
 
-  /// retain
-  NSURL retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSURL.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// scheme
   NSString? get scheme {
     final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_scheme);
     return $ret.address == 0
         ? null
         : NSString.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSURL self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSURL.castFromPointer($ret, retain: true, release: true);
   }
 
   /// setResourceValue:forKey:error:
@@ -23566,12 +22620,6 @@ class NSURLHandle extends NSObject {
 }
 
 extension NSURLHandle$Methods on NSURLHandle {
-  /// autorelease
-  NSURLHandle autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSURLHandle.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// init
   NSURLHandle init() {
     objc.checkOsVersionInternal(
@@ -23584,18 +22632,6 @@ extension NSURLHandle$Methods on NSURLHandle {
       _sel_init,
     );
     return NSURLHandle.castFromPointer($ret, retain: false, release: true);
-  }
-
-  /// retain
-  NSURLHandle retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSURLHandle.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSURLHandle self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSURLHandle.castFromPointer($ret, retain: true, release: true);
   }
 }
 
@@ -23677,12 +22713,6 @@ class NSValue extends NSObject implements NSCopying, NSSecureCoding {
 }
 
 extension NSValue$Methods on NSValue {
-  /// autorelease
-  NSValue autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return NSValue.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// encodeWithCoder:
   void encodeWithCoder(NSCoder coder) {
     _objc_msgSend_xtuoz7(
@@ -23745,18 +22775,6 @@ extension NSValue$Methods on NSValue {
   /// objCType
   ffi.Pointer<ffi.Char> get objCType {
     return _objc_msgSend_1fuqfwb(this.ref.pointer, _sel_objCType);
-  }
-
-  /// retain
-  NSValue retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return NSValue.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  NSValue self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return NSValue.castFromPointer($ret, retain: true, release: true);
   }
 }
 

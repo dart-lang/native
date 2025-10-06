@@ -50,12 +50,6 @@ id objc_retainBlock(id);
 
 
 Protocol* _AVFAudio_AVAudioPlayerDelegate(void) { return @protocol(AVAudioPlayerDelegate); }
-
-typedef id  (^_ProtocolTrampoline)(void * sel);
-__attribute__((visibility("default"))) __attribute__((used))
-id  _AVFAudio_protocolTrampoline_1mbt9g9(id target, void * sel) {
-  return ((_ProtocolTrampoline)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel);
-}
 #undef BLOCKING_BLOCK_IMPL
 
 #pragma clang diagnostic pop
