@@ -22,89 +22,90 @@ This guide demonstrates how to call a custom Java API from a Flutter application
 created via `flutter create in_app_java`.
 
 1. Run `flutter build apk` at least once to build an APK for your app. This is necessary so that `jnigen` can get 
-classpaths of Android Gradle libraries.
+   classpaths of Android Gradle libraries.
 
 2. Add the helper package `package:jni` as a dependency and the bindings generator `package:jnigen` as a dev_dependency
-to the pubspec of your app by running:
+   to the pubspec of your app by running:
 
-```shell
-flutter pub add jni  
-flutter pub add --dev jnigen
-```
+   ```shell
+   flutter pub add jni  
+   flutter pub add --dev jnigen
+   ```
 
 3. Write the Java code and place it in the `android/` subproject of your app. For this example, we'll place the
-following code under `android/app/src/main/java/com/example/in_app_java/AndroidUtils.java`. It defines a simple Java API
-to show a native Android toast from within an app.
+   following code under `android/app/src/main/java/com/example/in_app_java/AndroidUtils.java`. It defines a simple Java
+   API to show a native Android toast from within an app.
 
-```java
-package com.example.in_app_java;
+   ```java
+   package com.example.in_app_java;
 
-import android.app.Activity;
-import android.widget.Toast;
-import androidx.annotation.Keep;
+   import android.app.Activity;
+   import android.widget.Toast;
+   import androidx.annotation.Keep;
 
-@Keep
-public abstract class AndroidUtils { 
-    private AndroidUtils() {} // Hide constructor
+   @Keep
+   public abstract class AndroidUtils { 
+       private AndroidUtils() {} // Hide constructor
 
-    public static void showToast(Activity mainActivity, CharSequence text, int duration) {
-        mainActivity.runOnUiThread(() -> Toast.makeText(mainActivity, text, duration).show());
-    }
-}
-```
+       public static void showToast(Activity mainActivity, CharSequence text, int duration) {
+           mainActivity.runOnUiThread(() -> Toast.makeText(mainActivity, text, duration).show());
+       }
+   }
+   ```
 
-4. Next, we will write a script using `jnigen` to generate the bindings and places it under `tool/jnigen.dart`. The 
-script constructs a `Config` object and passes it to `generateJniBindings`. The `Config` object configures the bindings
-that `jnigen` will generate for the Java code. Refer to the code comments below and the API docs to learn more about
-available configuration options.
+4. Next, we will write a script using `jnigen` to generate the bindings and place it under `tool/jnigen.dart`. The 
+   script constructs a `Config` object and passes it to `generateJniBindings`. The `Config` object configures the
+   bindings that `jnigen` will generate for the Java code. Refer to the code comments below and the API docs to learn
+   more about available configuration options.
 
-```dart
-import 'dart:io';
+   ```dart
+   import 'dart:io';
 
-import 'package:jnigen/jnigen.dart';
+   import 'package:jnigen/jnigen.dart';
 
-void main(List<String> args) {
-  final packageRoot = Platform.script.resolve('../');
-  generateJniBindings(
-    Config(
-      outputConfig: OutputConfig(
-        dartConfig: DartCodeOutputConfig(
-          // Required. Output path for generated bindings.
-          path: packageRoot.resolve('lib/android_utils.g.dart'),
-          // Optional. Write bindings into a single file (instead of one file per class).
-          structure: OutputStructure.singleFile,
-        ),
-      ),
-      // Optional. Configuration to search for Android SDK libraries.
-      androidSdkConfig: AndroidSdkConfig(addGradleDeps: true),
-      // Optional. List of directories that contain the source files for which to generate bindings.
-      sourcePath: [packageRoot.resolve('android/app/src/main/java')],
-      // Required. List of classes or packages for which bindings should be generated.
-      classes: ['com.example.in_app_java'],
-    ),
-  );
-}
-```
+   void main(List<String> args) {
+     final packageRoot = Platform.script.resolve('../');
+     generateJniBindings(
+       Config(
+         outputConfig: OutputConfig(
+           dartConfig: DartCodeOutputConfig(
+             // Required. Output path for generated bindings.
+             path: packageRoot.resolve('lib/android_utils.g.dart'),
+             // Optional. Write bindings into a single file (instead of one file per class).
+             structure: OutputStructure.singleFile,
+           ),
+         ),
+         // Optional. Configuration to search for Android SDK libraries.
+         androidSdkConfig: AndroidSdkConfig(addGradleDeps: true),
+         // Optional. List of directories that contain the source files for which to generate bindings.
+         sourcePath: [packageRoot.resolve('android/app/src/main/java')],
+         // Required. List of classes or packages for which bindings should be generated.
+         classes: ['com.example.in_app_java'],
+       ),
+     );
+   }
+   ```
 
 5. Run the script with `dart run tool/jnigen.dart` to generate the bindings. This will create the output
-`android_utils.g.dart` file, which can be imported by Dart code to access the Java APIs. This command must be re-run
-whenever the `jnigen` configuration (in `tool/jnigen.dart`) or the Java sources for which bindings are generated change.
+   `android_utils.g.dart` file, which can be imported by Dart code to access the Java APIs. This command must be re-run
+   whenever the `jnigen` configuration (in `tool/jnigen.dart`) or the Java sources for which bindings are generated
+   change.
 
 6. Import `android_utils.g.dart` in your Flutter app and call the generated methods to access the native Java API:
 
-```dart
-import 'package:jni/jni.dart';
+   ```dart
+   import 'package:jni/jni.dart';
 
-import 'android_utils.g.dart';
+   import 'android_utils.g.dart';
 
-// ...
+   // ...
 
-void showToast() {
-  JObject activity = JObject.fromReference(Jni.getCurrentActivity());
-  final message = 'This is a native toast shown from a Flutter app via JNI.';
-  AndroidUtils.showToast(activity, message.toJString(), 0);
-}
-```
+   void showToast() {
+     JObject activity = JObject.fromReference(Jni.getCurrentActivity());
+     final message = 'This is a native toast shown from a Flutter app via JNI.';
+     AndroidUtils.showToast(activity, message.toJString(), 0);
+   }
+   ```
 
 That's it! The complete example can be found in [jnigen/example/in_app_java](example/in_app_java), which adds a few more
 classes to demonstrate using classes from Gradle JAR and source dependencies.
@@ -124,7 +125,7 @@ bindings for Kotlin) can be found in the [examples](example/) directory.
 | MacOS    | Supported       | Not Yet   |
 
 On Android, the Flutter application runs embedded in the Android JVM. On other platforms, a JVM needs to be explicitly
-spawned using `Jni.spawn`. THe helper package `package:jni` provides the infrastructure for initializing and managing
+spawned using `Jni.spawn`. The helper package `package:jni` provides the infrastructure for initializing and managing
 the JNI on both Android and non-Android platforms.
 
 ## Java features support
