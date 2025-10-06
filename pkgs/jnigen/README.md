@@ -303,7 +303,8 @@ Having said that, there are two caveats to this caveat:
   incomplete sources.
 * The API can't process the `java.**` namespaces in the Android SDK stubs, because it expects a module layout. So if you
   want to generate bindings for, say, `java.lang.Math`, you cannot use the Android SDK stubs. OpenJDK sources can be 
-  used instead. See [Generate bindings for built-in types](#generate-bindings-for-built-in-types) above for instructions on how to use OpenJDK sources.
+  used instead. See [Generate bindings for built-in types](#generate-bindings-for-built-in-types) above for instructions
+  on how to use OpenJDK sources.
 
 The JAR files (`$SDK_ROOT/platforms/android-$VERSION/android.jar`) can be used instead. But compiled JARs do not include
 JavaDoc and method parameter names. This JAR is automatically included by Gradle when 
