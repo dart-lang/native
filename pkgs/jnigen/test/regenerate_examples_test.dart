@@ -14,7 +14,7 @@ import 'test_util/test_util.dart';
 /// Generates bindings using jnigen config in [exampleName] and compares
 /// them to provided reference outputs.
 ///
-/// [dartOutput] and [cOutput] are relative paths from example project dir.
+/// [dartOutput] is a relative path from the example project dir.
 ///
 /// Pass [isLargeTest] as true if the test will take considerable time.
 void testExample(String exampleName, String dartOutput,
