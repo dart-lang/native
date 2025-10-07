@@ -168,7 +168,9 @@ format, the `dart` command must be from the Flutter SDK and not Dart SDK. See
 ### Java tooling
 
 Use JDK versions 11 to 17. The newer versions will not work because of their
-lack of [compatibility](https://docs.gradle.org/current/userguide/compatibility.html) with Gradle.
+lack of
+[compatibility](https://docs.gradle.org/current/userguide/compatibility.html)
+with Gradle.
 
 #### Windows
 
@@ -245,8 +247,9 @@ class lookup happens in runtime, this leads to ClassNotFound errors in release
 mode even if the dependency is included in Gradle.
 [in_app_java example](example/in_app_java/) discusses two mechanisms to prevent
 this: using `Keep` annotation (`androidx.annotation.Keep`) for the code written
-in the application itself, and [proguard-rules file](example/in_app_java/android/app/proguard-rules.pro) for external
-libraries.
+in the application itself, and
+[proguard-rules file](example/in_app_java/android/app/proguard-rules.pro) for
+external libraries.
 
 Lastly, some libraries such as `java.awt` do not exist in Android. Attempting to
 use libraries which depend on them can also lead to ClassNotFound errors.
@@ -337,5 +340,5 @@ This JAR is automatically included by Gradle when
 `android_sdk_config` >> `add_gradle_deps` is specified.
 
 ## Contributing
-See [CONTRIBUTING.md](../../CONTRIBUTING.md) in the root of the repository for information on how
-to contribute.
+See [CONTRIBUTING.md](../../CONTRIBUTING.md) in the root of the repository for
+information on how to contribute.
