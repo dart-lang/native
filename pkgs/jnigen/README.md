@@ -130,13 +130,6 @@ platforms, a JVM needs to be explicitly spawned using `Jni.spawn`. The helper
 package `package:jni` provides the infrastructure for initializing and managing
 the JNI on both Android and non-Android platforms.
 
-## Java features support
-
-Currently basic features of the Java language are supported in the bindings.
-Each Java class is mapped to a Dart class. Bindings are generated for methods,
-constructors, and fields. Exceptions thrown in Java are rethrown in Dart with 
-stack trace from Java.
-
 ## Dart (standalone) target
 
 `package:jni` is an FFI plugin containing native code, and any bindings
