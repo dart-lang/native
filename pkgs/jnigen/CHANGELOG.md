@@ -6,9 +6,10 @@
 
 ## 0.14.2
 
+- **Breaking Change**: Throw when output folder contains non JNIgen files.
+  Users with existing package bindings will need to delete them once for it to
+  start working.
 - The name `factory` can now also be used in a method name without renaming.
-- Throw when output folder contains non JNIgen files. Users with existing
-  package bindings will need to delete them once for it to start working.
 - Added the ability to generate classes in Java SDK (`java.core`) module without
   providing the class path.
 - Added gradle support for new Flutter projects that use `build.gradle.kts`
