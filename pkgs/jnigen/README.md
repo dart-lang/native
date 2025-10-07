@@ -21,7 +21,7 @@ functionality and base classes are provided through the support library, `packag
 This guide demonstrates how to call a custom Java API from a Flutter application. It assumes that the Flutter app was
 created via `flutter create in_app_java`.
 
-1. Run `flutter build apk` at least once to build an APK for your app. This is necessary so that `jnigen` can get 
+1. Run `flutter build apk` at least once to build an APK for your app. This is necessary so that `jnigen` can get the
    classpaths of Android Gradle libraries.
 
 2. Add the helper package `package:jni` as a dependency and the bindings generator `package:jnigen` as a dev_dependency
@@ -34,7 +34,7 @@ created via `flutter create in_app_java`.
 
 3. Write the Java code and place it in the `android/` subproject of your app. For this example, we'll place the
    following code under `android/app/src/main/java/com/example/in_app_java/AndroidUtils.java`. It defines a simple Java
-   API to show a native Android toast from within an app.
+   API to show a native Android toast.
 
    ```java
    package com.example.in_app_java;
@@ -53,7 +53,7 @@ created via `flutter create in_app_java`.
    }
    ```
 
-4. Next, we will write a script using `jnigen` to generate the bindings and place it under `tool/jnigen.dart`. The 
+4. To generate the bindings we will write a script using `jnigen` and place it under `tool/jnigen.dart`. The 
    script constructs a `Config` object and passes it to `generateJniBindings`. The `Config` object configures the
    bindings that `jnigen` will generate for the Java code. Refer to the code comments below and the API docs to learn
    more about available configuration options.
