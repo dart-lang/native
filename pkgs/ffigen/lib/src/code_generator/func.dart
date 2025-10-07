@@ -75,10 +75,10 @@ class Func extends LookUpBinding with HasLocalScope {
          parameters: parameters,
          varArgParameters: varArgParameters,
        ),
-       super(name: name) {
+       super(symbol: Symbol(name, SymbolKind.method)) {
     for (var i = 0; i < functionType.parameters.length; i++) {
       if (functionType.parameters[i].symbol.oldName.isEmpty) {
-        functionType.parameters[i].symbol = Symbol('arg$i');
+        functionType.parameters[i].symbol = Symbol('arg$i', SymbolKind.field);
       }
     }
 
@@ -250,7 +250,7 @@ class Parameter extends AstNode {
     required Type type,
     required this.objCConsumed,
   }) : originalName = originalName ?? name,
-       symbol = Symbol(name),
+       symbol = Symbol(name, SymbolKind.field),
        // A [NativeFunc] is wrapped with a pointer because this is a shorthand
        // used in C for Pointer to function.
        type = type.typealiasType is NativeFunc ? PointerType(type) : type;

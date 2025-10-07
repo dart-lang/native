@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../visitor/ast.dart';
-import 'dart_keywords.dart';
 
 /// Holds [Symbol]s and assigns unique names to them.
 ///
@@ -21,7 +20,7 @@ class Scope {
   final _symbols = <Symbol>{};
   final _children = <Scope>[];
   final Scope? _parent;
-  final Set<String> _preUsedNames;
+  final UsedNames _preUsedNames;
   Namer? _namer;
 
   Scope._(this._parent, this._debugName, this._preUsedNames);
@@ -32,7 +31,7 @@ class Scope {
   /// Create a new [Scope] as a child of this one.
   ///
   /// [fillNames] must not have been called yet.
-  Scope addChild(String debugName, {Set<String> preUsedNames = const {}}) {
+  Scope addChild(String debugName, {UsedNames preUsedNames = const {}}) {
     assert(!_filled);
     final ns = Scope._(this, debugName, preUsedNames);
     _children.add(ns);
@@ -62,10 +61,10 @@ class Scope {
   ///
   /// To help ensure correct use, only names beginning with '_' are allowed.
   /// [fillNames] must have been called already.
-  String addPrivate(String name) {
+  String addPrivate(String name, {SymbolKind kind = SymbolKind.field}) {
     assert(_filled);
     assert(name.startsWith('_'));
-    return _namer!.add(name);
+    return _namer!.add(name, kind);
   }
 
   /// Fill in the names of all the [Symbol]s in this [Scope] and its children.
@@ -74,18 +73,18 @@ class Scope {
     _fillNames(const {});
   }
 
-  void _fillNames(Set<String> parentUsedNames) {
+  void _fillNames(UsedNames parentUsedNames) {
     assert(!_filled);
-    final namer = Namer(parentUsedNames.union(_preUsedNames));
+    final namer = Namer(Namer._mergeUsed(parentUsedNames, _preUsedNames));
     _namer = namer;
     for (final symbol in _symbols) {
       if (symbol._name == null) {
-        symbol._name = namer.add(symbol.oldName);
+        symbol._name = namer.add(symbol.oldName, symbol.kind);
       } else {
         // Symbol already has a name. This can happen if the symbol is in
         // multiple scopes. It's fine as long as the name isn't used by a
         // different symbol earlier in this scope.
-        namer.markUsed(symbol._name!);
+        namer.markUsed(symbol._name!, symbol.kind);
         assert(
           !_symbols.any((s) => s != symbol && s._name == symbol._name),
           symbol.oldName,
@@ -127,26 +126,25 @@ class Scope {
 /// This class is used internally by [Scope] to name [Symbol]s, and 99% of the
 /// time you should use those instead of this.
 class Namer {
-  final Set<String> _used;
+  final UsedNames _used;
 
   Namer(this._used);
 
-  String add(String name) {
+  String add(String name, SymbolKind kind) {
     if (name.isEmpty) name = 'unnamed';
 
-    // TODO(https://github.com/dart-lang/native/issues/2054): Relax this.
-    final isKeyword = keywords.contains(name);
-
-    var newName = isKeyword ? '$name\$' : name;
-    for (var i = 1; _used.contains(newName); ++i) {
+    var newName = _isUsed(_keywords, name, kind.mask) ? '$name\$' : name;
+    for (var i = 1; isUsed(newName, kind); ++i) {
       newName = '$name\$$i';
     }
 
-    markUsed(newName);
+    markUsed(newName, kind);
     return newName;
   }
 
-  void markUsed(String name) => _used.add(name);
+  bool isUsed(String name, SymbolKind kind) => _isUsed(_used, name, kind.mask);
+  void markUsed(String name, SymbolKind kind) =>
+      _markUsed(_used, name, kind.mask);
 
   /// Returns a version of [name] that can safely be used in C code. Not
   /// guaranteed to be unique.
@@ -154,6 +152,19 @@ class Namer {
 
   /// Returns a version of [name] suitable for inclusion in a string literal.
   static String stringLiteral(String name) => name.replaceAll('\$', '\\\$');
+
+  static UsedNames _mergeUsed(UsedNames a, UsedNames b) {
+    final c = UsedNames.from(a);
+    for (final MapEntry(:key, :value) in b.entries) {
+      _markUsed(c, key, value);
+    }
+    return c;
+  }
+
+  static bool _isUsed(UsedNames used, String name, Allowed allowed) =>
+      ((used[name] ?? 0) & allowed) != 0;
+  static void _markUsed(UsedNames used, String name, Allowed allowed) =>
+      used[name] = (used[name] ?? 0) | allowed;
 }
 
 /// A renamable string used to assign names to variables, types, etc.
@@ -162,12 +173,13 @@ class Namer {
 /// transformation phase.
 class Symbol extends AstNode {
   final String oldName;
+  final SymbolKind kind;
   String? _name;
 
   /// Only valid if [Scope.fillNames] has been called already.
   String get name => _name!;
 
-  Symbol(this.oldName);
+  Symbol(this.oldName, this.kind);
 
   bool get isFilled => _name != null;
 
@@ -190,3 +202,86 @@ mixin HasLocalScope on AstNode {
 
   bool get localScopeFilled => _localScope != null;
 }
+
+typedef Allowed = int;
+typedef UsedNames = Map<String, Allowed>;
+
+class _Allowed {
+  static const none = 0;
+  static const fields = 1 << 0;
+  static const methods = 1 << 1;
+}
+
+enum SymbolKind {
+  field(_Allowed.fields),
+  method(_Allowed.methods),
+  klass(_Allowed.fields | _Allowed.methods),
+  lib(_Allowed.fields | _Allowed.methods);
+
+  const SymbolKind(this.mask);
+
+  final Allowed mask;
+}
+
+// Source: https://dart.dev/guides/language/language-tour#keywords.
+const _keywords = {
+  '_': _Allowed.none,
+  'abstract': _Allowed.fields | _Allowed.methods,
+  'as': _Allowed.fields | _Allowed.methods,
+  'assert': _Allowed.none,
+  'await': _Allowed.none, // Cannot be used in async context
+  'break': _Allowed.none,
+  'case': _Allowed.none,
+  'catch': _Allowed.none,
+  'class': _Allowed.none,
+  'const': _Allowed.none,
+  'continue': _Allowed.none,
+  'covariant': _Allowed.fields | _Allowed.methods,
+  'default': _Allowed.none,
+  'deferred': _Allowed.fields | _Allowed.methods,
+  'do': _Allowed.none,
+  'dynamic': _Allowed.fields | _Allowed.methods,
+  'else': _Allowed.none,
+  'enum': _Allowed.none,
+  'export': _Allowed.fields | _Allowed.methods,
+  'extends': _Allowed.none,
+  'extension': _Allowed.fields | _Allowed.methods,
+  'external': _Allowed.fields | _Allowed.methods,
+  'factory': _Allowed.fields | _Allowed.methods,
+  'false': _Allowed.none,
+  'final': _Allowed.none,
+  'finally': _Allowed.none,
+  'for': _Allowed.none,
+  'Function': _Allowed.fields | _Allowed.methods,
+  'get': _Allowed.fields | _Allowed.methods,
+  'if': _Allowed.none,
+  'implements': _Allowed.fields | _Allowed.methods,
+  'import': _Allowed.methods,
+  'in': _Allowed.none,
+  'interface': _Allowed.fields | _Allowed.methods,
+  'is': _Allowed.none,
+  'late': _Allowed.fields | _Allowed.methods,
+  'library': _Allowed.fields | _Allowed.methods,
+  'mixin': _Allowed.fields | _Allowed.methods,
+  'new': _Allowed.none,
+  'null': _Allowed.none,
+  'operator': _Allowed.fields | _Allowed.methods,
+  'part': _Allowed.fields | _Allowed.methods,
+  'required': _Allowed.fields | _Allowed.methods,
+  'rethrow': _Allowed.none,
+  'return': _Allowed.none,
+  'set': _Allowed.fields | _Allowed.methods,
+  'static': _Allowed.fields | _Allowed.methods,
+  'super': _Allowed.none,
+  'switch': _Allowed.none,
+  'this': _Allowed.none,
+  'throw': _Allowed.none,
+  'true': _Allowed.none,
+  'try': _Allowed.none,
+  'typedef': _Allowed.fields | _Allowed.methods,
+  'var': _Allowed.none,
+  'void': _Allowed.none,
+  'while': _Allowed.none,
+  'with': _Allowed.none,
+  'yield': _Allowed.none, // Cannot be used in async context
+};

@@ -39,7 +39,7 @@ class CreateScopesVisitation extends Visitation {
     HasLocalScope node,
     Scope parentScope,
     String debugName, {
-    Set<String> preUsedNames = const {},
+    UsedNames preUsedNames = const {},
   }) {
     if (!node.localScopeFilled) {
       node.localScope = parentScope.addChild(
@@ -72,12 +72,12 @@ class CreateScopesVisitation extends Visitation {
   void visitObjCMsgSendFunc(ObjCMsgSendFunc node) =>
       visitHasLocalScope(node, 'objc_msgSend');
 
-  static const objCObjectBaseMethods = {
-    'ref',
-    'toString',
-    'hashCode',
-    'runtimeType',
-    'noSuchMethod',
+  static final objCObjectBaseMethods = {
+    'ref': SymbolKind.method.mask,
+    'toString': SymbolKind.method.mask,
+    'hashCode': SymbolKind.method.mask,
+    'runtimeType': SymbolKind.method.mask,
+    'noSuchMethod': SymbolKind.method.mask,
   };
 
   void visitObjCMethods(

@@ -287,13 +287,13 @@ ExtraSymbols _createExtraSymbols(Context context) {
   Symbol? wrapperClassName;
   Symbol? lookupFuncName;
   if (bindingStyle is DynamicLibraryBindings) {
-    wrapperClassName = Symbol(bindingStyle.wrapperName);
-    lookupFuncName = Symbol('_lookup');
+    wrapperClassName = Symbol(bindingStyle.wrapperName, SymbolKind.klass);
+    lookupFuncName = Symbol('_lookup', SymbolKind.field);
   }
   final extraSymbols = (
     wrapperClassName: wrapperClassName,
     lookupFuncName: lookupFuncName,
-    symbolAddressVariableName: Symbol('addresses'),
+    symbolAddressVariableName: Symbol('addresses', SymbolKind.field),
   );
   context.rootScope.add(extraSymbols.wrapperClassName);
   context.rootScope.add(extraSymbols.lookupFuncName);
