@@ -28,7 +28,12 @@ sealed class HookInput {
   /// The directory in which output and intermediate artifacts that are unique
   /// to the [config] can be placed.
   ///
-  /// This directory is unique per hook and per [config].
+  /// This directory is unique per hook and per [config]. The directory is
+  /// nested inside [outputDirectoryShared] and has a short checksum to avoid
+  /// running out of path lenght on Winddows.
+  ///
+  /// Note: Prefer using a sub directory of [outputDirectoryShared] with a
+  /// checksum of the parts on the [config] that influence your assets.
   ///
   /// The contents of this directory will not be modified by anything else than
   /// the hook itself.
@@ -55,7 +60,10 @@ sealed class HookInput {
   /// The directory in which shared output and intermediate artifacts can be
   /// placed.
   ///
-  /// This directory is unique per hook.
+  /// This directory is unique per hook. Using a sub directory of
+  /// [outputDirectoryShared] with a checksum of the parts on the [config] that
+  /// influence your assets. Ensure your checksum is relatively short to avoid
+  /// running out of path lengths on Windows.
   ///
   /// The contents of this directory will not be modified by anything else than
   /// the hook itself.
@@ -194,10 +202,12 @@ String _jsonChecksum(Map<String, Object?> json) {
   final hash = sha256
       .convert(const JsonEncoder().fuse(const Utf8Encoder()).convert(json))
       .toString()
-      // 256 bit hashes lead to 64 hex character strings.
-      // To avoid overflowing file paths limits, only use 32.
-      // Using 16 hex characters would also be unlikely to have collisions.
-      .substring(0, 32);
+      // 256 bit hashes lead to 64 hex character strings. To avoid overflowing
+      // file paths limits on Windows, only use 10. 10 hex characters with 1000
+      // different configs leads to a one in a million collision chance. On
+      // collision, we'd get a cache miss and rerun the hooks and throw away the
+      // cache for the colliding configuration.
+      .substring(0, 10);
   return hash;
 }
 

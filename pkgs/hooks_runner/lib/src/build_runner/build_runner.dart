@@ -383,7 +383,7 @@ class NativeAssetsBuildRunner {
   ) => _timeAsync('_setupDirectories', () async {
     final buildDirName = inputBuilder.computeChecksum();
     final packageName = package.name;
-    final buildDirUri = packageLayout.dartToolNativeAssetsBuilder.resolve(
+    final buildDirUri = packageLayout.dartToolHooksRunner.resolve(
       '$packageName/$buildDirName/',
     );
     final outDirUri = buildDirUri.resolve('out/');
@@ -392,7 +392,7 @@ class NativeAssetsBuildRunner {
       // TODO(https://dartbug.com/50565): Purge old or unused folders.
       await outDir.create(recursive: true);
     }
-    final outDirSharedUri = packageLayout.dartToolNativeAssetsBuilder.resolve(
+    final outDirSharedUri = packageLayout.dartToolHooksRunner.resolve(
       'shared/${package.name}/${hook.name}/',
     );
     final outDirShared = _fileSystem.directory(outDirSharedUri);

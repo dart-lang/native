@@ -1,3 +1,8 @@
+## 0.23.1
+
+- Change the length of the checksum used for `outputDirectory` to 10 hexadecimal
+  characters to avoid running out of path length on Windows.
+
 ## 0.23.0
 
 - **Breaking change**: Replaced `NativeAssetsBuildRunner.hookEnvironmentVariablesFilter`
