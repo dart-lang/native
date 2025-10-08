@@ -19,7 +19,10 @@ This guide demonstrates how to call a custom Java API from a Flutter
 application targeting Android. It assumes that Flutter has been set up to build
 apps for Android 
 ([instructions](https://docs.flutter.dev/platform-integration/android/setup))
-and that the Flutter app was created via `flutter create in_app_java`.
+and that the Flutter app was created via `flutter create in_app_java`. If you
+encounter any issues running the commands below, check the
+[Requirements](#requirements) section below for additional platform-specific
+instructions.
 
 1. Run `flutter build apk` at least once to build an APK for your app. This is 
    necessary so that `jnigen` can get the classpaths of Android Gradle
@@ -108,15 +111,18 @@ and that the Flutter app was created via `flutter create in_app_java`.
    }
    ```
 
-That's it! The complete example can be found in
+That's it! Run your app with `flutter run` on an Android device to see it in
+action.
+
+The complete example can be found in
 [jnigen/example/in_app_java](example/in_app_java), which adds a few more classes
 to demonstrate using classes from Gradle JAR and source dependencies.
 
 ## More Examples
 
 Additional examples showcasing how `jnigen` can be used in different scenarios
-(e.g. without Flutter or to generate bindings for Kotlin) can be found in the
-[examples](example/) directory.
+(e.g. to generate bindings for Kotlin) can be found in the [examples](example/)
+directory.
 
 ## Supported platforms
 
@@ -125,7 +131,7 @@ Additional examples showcasing how `jnigen` can be used in different scenarios
 | Android  | n/a             | Supported |
 | Linux    | Supported       | Supported |
 | Windows  | Supported       | Supported |
-| MacOS    | Supported       | Not Yet   |
+| macOS    | Supported       | Not Yet   |
 
 On Android, the Flutter application runs embedded in the Android JVM. On other
 platforms, a JVM needs to be explicitly spawned using `Jni.spawn`. The helper
@@ -135,7 +141,7 @@ the JNI on both Android and non-Android platforms.
 ## Dart (standalone) target
 
 `package:jni` is an FFI plugin containing native code, and any bindings
-generated from jnigen contains native code too.
+generated from jnigen contain native code too.
 
 On Flutter targets, native libraries are built automatically and bundled. On
 standalone platforms, no such infrastructure exists yet. As a stopgap solution,
@@ -154,6 +160,7 @@ set again using `Jni.setDylibDir`.
 ## Requirements
 
 ### SDK
+
 Flutter SDK is required.
 
 Dart standalone target is supported, but due to some problems with pubspec
@@ -183,6 +190,7 @@ variable in Control Panel. If java is installed through a package manager, there
 may be a more automatic way to do this. (e.g. `scoop reset`).
 
 ### C tooling
+
 CMake and a standard C toolchain are required to build `package:jni`.
 
 ## YAML Configuration Reference
