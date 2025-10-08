@@ -16,8 +16,10 @@ functionality and base classes are provided through the support library,
 ## Getting Started
 
 This guide demonstrates how to call a custom Java API from a Flutter
-application. It assumes that the Flutter app was created via
-`flutter create in_app_java`.
+application targeting Android. It assumes that Flutter has been set up to build
+apps for Android 
+([instructions](https://docs.flutter.dev/platform-integration/android/setup))
+and that the Flutter app was created via `flutter create in_app_java`.
 
 1. Run `flutter build apk` at least once to build an APK for your app. This is 
    necessary so that `jnigen` can get the classpaths of Android Gradle
