@@ -30,10 +30,13 @@ sealed class HookInput {
   ///
   /// This directory is unique per hook and per [config]. The directory is
   /// nested inside [outputDirectoryShared] and has a short checksum to avoid
-  /// running out of path lenght on Winddows.
+  /// running out of path length on Winddows.
   ///
-  /// Note: Prefer using a sub directory of [outputDirectoryShared] with a
-  /// checksum of the parts on the [config] that influence your assets.
+  /// Prefer using a sub directory in [outputDirectoryShared] with a
+  /// checksum of the fields on the [config] that influence your build. Reusing
+  /// a precise subdirectory only dependent on what influences your build avoids
+  /// cache misses for [config]s that differ in fields irrelevant for your
+  /// build.
   ///
   /// The contents of this directory will not be modified by anything else than
   /// the hook itself.
@@ -63,7 +66,9 @@ sealed class HookInput {
   /// This directory is unique per hook. Using a sub directory of
   /// [outputDirectoryShared] with a checksum of the parts on the [config] that
   /// influence your assets. Ensure your checksum is relatively short to avoid
-  /// running out of path lengths on Windows.
+  /// running out of path lengths on Windows. Reusing a precise subdirectory
+  /// only dependent on what influences your build avoids cache misses for
+  /// [config]s that differ in fields irrelevant for your build.
   ///
   /// The contents of this directory will not be modified by anything else than
   /// the hook itself.
