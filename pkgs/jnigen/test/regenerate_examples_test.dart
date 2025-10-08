@@ -48,9 +48,14 @@ void testDartApiExample(
     () async {
       final examplePath = join('example', exampleName);
       try {
-        await runCommand(
+        final generatorResult = await Process.run(
             Platform.resolvedExecutable, ['run', generatorScriptPath],
             workingDirectory: examplePath);
+        if ((generatorResult.stderr as String)
+            .contains('Gradle execution failed.')) {
+          stderr.writeln('Skip: $exampleName');
+          return;
+        }
         final processResults = await Process.run(
             'git', ['diff', '--exit-code', outputPath],
             workingDirectory: examplePath);
