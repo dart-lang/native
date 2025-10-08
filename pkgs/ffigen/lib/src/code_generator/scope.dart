@@ -161,10 +161,10 @@ class Namer {
     return c;
   }
 
-  static bool _isUsed(UsedNames used, String name, Allowed allowed) =>
-      ((used[name] ?? 0) & allowed) != 0;
-  static void _markUsed(UsedNames used, String name, Allowed allowed) =>
-      used[name] = (used[name] ?? 0) | allowed;
+  static bool _isUsed(UsedNames used, String name, UsedMask mask) =>
+      ((used[name] ?? 0) & mask) != 0;
+  static void _markUsed(UsedNames used, String name, UsedMask mask) =>
+      used[name] = (used[name] ?? 0) | mask;
 }
 
 /// A renamable string used to assign names to variables, types, etc.
@@ -203,31 +203,36 @@ mixin HasLocalScope on AstNode {
   bool get localScopeFilled => _localScope != null;
 }
 
-typedef Allowed = int;
-typedef UsedNames = Map<String, Allowed>;
+typedef UsedMask = int;
+typedef UsedNames = Map<String, UsedMask>;
 
-class _Allowed {
-  static const none = 0;
+class _UsedMask {
   static const fields = 1 << 0;
   static const methods = 1 << 1;
+  static const classes = 1 << 2;
 }
 
 enum SymbolKind {
-  field(_Allowed.fields),
-  method(_Allowed.methods),
-  klass(_Allowed.fields | _Allowed.methods),
-  lib(_Allowed.fields | _Allowed.methods);
+  field(_UsedMask.fields),
+  method(_UsedMask.methods),
+  klass(_UsedMask.fields | _UsedMask.methods | _UsedMask.classes),
+  lib(_UsedMask.fields | _UsedMask.methods | _UsedMask.classes);
 
   const SymbolKind(this.mask);
 
-  final Allowed mask;
+  final UsedMask mask;
+}
+
+class _Allowed {
+  static const fieldsAndMethods = _UsedMask.classes;
+  static const none = _UsedMask.fields | _UsedMask.methods | _UsedMask.classes;
 }
 
 // Source: https://dart.dev/guides/language/language-tour#keywords.
 const _keywords = {
   '_': _Allowed.none,
-  'abstract': _Allowed.fields | _Allowed.methods,
-  'as': _Allowed.fields | _Allowed.methods,
+  'abstract': _Allowed.fieldsAndMethods,
+  'as': _Allowed.fieldsAndMethods,
   'assert': _Allowed.none,
   'await': _Allowed.none, // Cannot be used in async context
   'break': _Allowed.none,
@@ -236,49 +241,49 @@ const _keywords = {
   'class': _Allowed.none,
   'const': _Allowed.none,
   'continue': _Allowed.none,
-  'covariant': _Allowed.fields | _Allowed.methods,
+  'covariant': _Allowed.fieldsAndMethods,
   'default': _Allowed.none,
-  'deferred': _Allowed.fields | _Allowed.methods,
+  'deferred': _Allowed.fieldsAndMethods,
   'do': _Allowed.none,
-  'dynamic': _Allowed.fields | _Allowed.methods,
+  'dynamic': _Allowed.fieldsAndMethods,
   'else': _Allowed.none,
   'enum': _Allowed.none,
-  'export': _Allowed.fields | _Allowed.methods,
+  'export': _Allowed.fieldsAndMethods,
   'extends': _Allowed.none,
-  'extension': _Allowed.fields | _Allowed.methods,
-  'external': _Allowed.fields | _Allowed.methods,
-  'factory': _Allowed.fields | _Allowed.methods,
+  'extension': _Allowed.fieldsAndMethods,
+  'external': _Allowed.fieldsAndMethods,
+  'factory': _Allowed.fieldsAndMethods,
   'false': _Allowed.none,
   'final': _Allowed.none,
   'finally': _Allowed.none,
   'for': _Allowed.none,
-  'Function': _Allowed.fields | _Allowed.methods,
-  'get': _Allowed.fields | _Allowed.methods,
+  'Function': _Allowed.fieldsAndMethods,
+  'get': _Allowed.fieldsAndMethods,
   'if': _Allowed.none,
-  'implements': _Allowed.fields | _Allowed.methods,
-  'import': _Allowed.methods,
+  'implements': _Allowed.fieldsAndMethods,
+  'import': _UsedMask.methods,
   'in': _Allowed.none,
-  'interface': _Allowed.fields | _Allowed.methods,
+  'interface': _Allowed.fieldsAndMethods,
   'is': _Allowed.none,
-  'late': _Allowed.fields | _Allowed.methods,
-  'library': _Allowed.fields | _Allowed.methods,
-  'mixin': _Allowed.fields | _Allowed.methods,
+  'late': _Allowed.fieldsAndMethods,
+  'library': _Allowed.fieldsAndMethods,
+  'mixin': _Allowed.fieldsAndMethods,
   'new': _Allowed.none,
   'null': _Allowed.none,
-  'operator': _Allowed.fields | _Allowed.methods,
-  'part': _Allowed.fields | _Allowed.methods,
-  'required': _Allowed.fields | _Allowed.methods,
+  'operator': _Allowed.fieldsAndMethods,
+  'part': _Allowed.fieldsAndMethods,
+  'required': _Allowed.fieldsAndMethods,
   'rethrow': _Allowed.none,
   'return': _Allowed.none,
-  'set': _Allowed.fields | _Allowed.methods,
-  'static': _Allowed.fields | _Allowed.methods,
+  'set': _Allowed.fieldsAndMethods,
+  'static': _Allowed.fieldsAndMethods,
   'super': _Allowed.none,
   'switch': _Allowed.none,
   'this': _Allowed.none,
   'throw': _Allowed.none,
   'true': _Allowed.none,
   'try': _Allowed.none,
-  'typedef': _Allowed.fields | _Allowed.methods,
+  'typedef': _Allowed.fieldsAndMethods,
   'var': _Allowed.none,
   'void': _Allowed.none,
   'while': _Allowed.none,

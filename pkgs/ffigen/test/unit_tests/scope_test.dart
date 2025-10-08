@@ -9,52 +9,64 @@ void main() {
   group('Namer', () {
     test('ordinary renaming', () {
       final namer = Namer({});
-      expect(namer.add('foo'), 'foo');
-      expect(namer.add('foo'), 'foo\$1');
-      expect(namer.add('foo'), 'foo\$2');
-      expect(namer.add('foo'), 'foo\$3');
+      expect(namer.add('foo', SymbolKind.field), 'foo');
+      expect(namer.add('foo', SymbolKind.field), 'foo\$1');
+      expect(namer.add('foo', SymbolKind.field), 'foo\$2');
+      expect(namer.add('foo', SymbolKind.field), 'foo\$3');
     });
 
     test('keyword renaming', () {
       final namer = Namer({});
-      expect(namer.add('for'), 'for\$');
-      expect(namer.add('for'), 'for\$1');
-      expect(namer.add('for'), 'for\$2');
-      expect(namer.add('for'), 'for\$3');
+      expect(namer.add('for', SymbolKind.field), 'for\$');
+      expect(namer.add('for', SymbolKind.field), 'for\$1');
+      expect(namer.add('for', SymbolKind.field), 'for\$2');
+      expect(namer.add('for', SymbolKind.field), 'for\$3');
     });
 
     test('unnamed renaming', () {
       final namer = Namer({});
-      expect(namer.add(''), 'unnamed');
-      expect(namer.add(''), 'unnamed\$1');
-      expect(namer.add(''), 'unnamed\$2');
-      expect(namer.add(''), 'unnamed\$3');
+      expect(namer.add('', SymbolKind.field), 'unnamed');
+      expect(namer.add('', SymbolKind.field), 'unnamed\$1');
+      expect(namer.add('', SymbolKind.field), 'unnamed\$2');
+      expect(namer.add('', SymbolKind.field), 'unnamed\$3');
     });
 
     test('mark used', () {
-      final namer = Namer({'foo', 'bar'});
-      namer.markUsed('baz');
+      final namer = Namer({
+        'foo': SymbolKind.field.mask,
+        'bar': SymbolKind.field.mask,
+      });
+      namer.markUsed('baz', SymbolKind.field);
 
-      expect(namer.add('foo'), 'foo\$1');
-      expect(namer.add('bar'), 'bar\$1');
-      expect(namer.add('baz'), 'baz\$1');
-      expect(namer.add('blah'), 'blah');
+      expect(namer.add('foo', SymbolKind.field), 'foo\$1');
+      expect(namer.add('bar', SymbolKind.field), 'bar\$1');
+      expect(namer.add('baz', SymbolKind.field), 'baz\$1');
+      expect(namer.add('blah', SymbolKind.field), 'blah');
     });
 
     test('cSafeName', () {
       final namer = Namer({});
-      expect(Namer.cSafeName(namer.add('foo')), 'foo');
-      expect(Namer.cSafeName(namer.add('foo')), 'foo_1');
-      expect(Namer.cSafeName(namer.add('foo')), 'foo_2');
-      expect(Namer.cSafeName(namer.add('foo')), 'foo_3');
+      expect(Namer.cSafeName(namer.add('foo', SymbolKind.field)), 'foo');
+      expect(Namer.cSafeName(namer.add('foo', SymbolKind.field)), 'foo_1');
+      expect(Namer.cSafeName(namer.add('foo', SymbolKind.field)), 'foo_2');
+      expect(Namer.cSafeName(namer.add('foo', SymbolKind.field)), 'foo_3');
     });
 
     test('stringLiteral', () {
       final namer = Namer({});
-      expect(Namer.stringLiteral(namer.add('foo')), 'foo');
-      expect(Namer.stringLiteral(namer.add('foo')), 'foo\\\$1');
-      expect(Namer.stringLiteral(namer.add('foo')), 'foo\\\$2');
-      expect(Namer.stringLiteral(namer.add('foo')), 'foo\\\$3');
+      expect(Namer.stringLiteral(namer.add('foo', SymbolKind.field)), 'foo');
+      expect(
+        Namer.stringLiteral(namer.add('foo', SymbolKind.field)),
+        'foo\\\$1',
+      );
+      expect(
+        Namer.stringLiteral(namer.add('foo', SymbolKind.field)),
+        'foo\\\$2',
+      );
+      expect(
+        Namer.stringLiteral(namer.add('foo', SymbolKind.field)),
+        'foo\\\$3',
+      );
     });
   });
 
@@ -65,10 +77,10 @@ void main() {
       final child = parent.addChild('child');
       final uncle = root.addChild('uncle');
 
-      final rootSymbol = Symbol('foo');
-      final parentSymbol = Symbol('foo');
-      final childSymbol = Symbol('foo');
-      final uncleSymbol = Symbol('foo');
+      final rootSymbol = Symbol('foo', SymbolKind.field);
+      final parentSymbol = Symbol('foo', SymbolKind.field);
+      final childSymbol = Symbol('foo', SymbolKind.field);
+      final uncleSymbol = Symbol('foo', SymbolKind.field);
 
       root.add(rootSymbol);
       parent.add(parentSymbol);
@@ -92,13 +104,16 @@ void main() {
 
     test('preUsedNames', () {
       final root = Scope.createRoot('root');
-      final parent = root.addChild('parent', preUsedNames: {'bar'});
+      final parent = root.addChild(
+        'parent',
+        preUsedNames: {'bar': SymbolKind.field.mask},
+      );
       final child = parent.addChild('child');
       final uncle = root.addChild('uncle');
 
-      final parentSymbol = Symbol('bar');
-      final childSymbol = Symbol('bar');
-      final uncleSymbol = Symbol('bar');
+      final parentSymbol = Symbol('bar', SymbolKind.field);
+      final childSymbol = Symbol('bar', SymbolKind.field);
+      final uncleSymbol = Symbol('bar', SymbolKind.field);
 
       parent.add(parentSymbol);
       child.add(childSymbol);

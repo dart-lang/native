@@ -48,9 +48,12 @@ extension LibraryTestExt on Library {
   void forceFillNamesForTesting() {
     visit(context, _FakeRenamer(), bindings);
     context.extraSymbols = (
-      wrapperClassName: Symbol('NativeLibrary')..forceFillForTesting(),
-      lookupFuncName: Symbol('_lookup')..forceFillForTesting(),
-      symbolAddressVariableName: Symbol('addresses')..forceFillForTesting(),
+      wrapperClassName: Symbol('NativeLibrary', SymbolKind.klass)
+        ..forceFillForTesting(),
+      lookupFuncName: Symbol('_lookup', SymbolKind.field)
+        ..forceFillForTesting(),
+      symbolAddressVariableName: Symbol('addresses', SymbolKind.field)
+        ..forceFillForTesting(),
     );
     context.libs.forceFillForTesting();
     context.rootScope.fillNames();
