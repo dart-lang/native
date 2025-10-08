@@ -2,7 +2,7 @@ name: hooks_runner
 description: >-
   This package is the backend that invokes build hooks.
 
-version: 0.23.0
+version: 0.23.1
 
 repository: https://github.com/dart-lang/native/tree/main/pkgs/hooks_runner
 
