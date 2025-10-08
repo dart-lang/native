@@ -63,7 +63,7 @@ sealed class HookInput {
   /// The directory in which shared output and intermediate artifacts can be
   /// placed.
   ///
-  /// This directory is unique per hook. Using a sub directory of
+  /// This directory is unique per hook. Use a sub directory of
   /// [outputDirectoryShared] with a checksum of the parts on the [config] that
   /// influence your assets. Ensure your checksum is relatively short to avoid
   /// running out of path lengths on Windows. Reusing a precise subdirectory
