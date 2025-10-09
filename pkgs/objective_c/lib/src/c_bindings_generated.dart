@@ -230,12 +230,12 @@ final class DOBJC_Context extends ffi.Struct {
   external int version;
 
   external ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>
-  newWaiter$1;
+  newWaiter;
 
   external ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
   >
-  awaitWaiter$1;
+  awaitWaiter;
 
   external ffi.Pointer<
     ffi.NativeFunction<ffi.Pointer<_Dart_Isolate> Function()>

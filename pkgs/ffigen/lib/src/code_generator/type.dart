@@ -5,6 +5,7 @@
 import '../code_generator.dart';
 import '../context.dart';
 import '../visitor/ast.dart';
+import 'scope.dart';
 
 /// Type class for return types, variable types, etc.
 ///
@@ -168,10 +169,10 @@ abstract class BindingType extends NoLookUpBinding implements Type {
   BindingType({
     super.usr,
     super.originalName,
-    required super.name,
+    required String name,
     super.dartDoc,
     super.isInternal,
-  });
+  }) : super(symbol: Symbol(name, SymbolKind.klass));
 
   @override
   Type get baseType => this;

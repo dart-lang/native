@@ -8,6 +8,7 @@ import 'binding_string.dart';
 import 'compound.dart';
 import 'imports.dart';
 import 'pointer.dart';
+import 'scope.dart';
 import 'type.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -33,13 +34,13 @@ class Global extends LookUpBinding {
   Global({
     super.usr,
     super.originalName,
-    required super.name,
+    required String name,
     required this.type,
     super.dartDoc,
     this.exposeSymbolAddress = false,
     this.constant = false,
     this.loadFromNativeAsset = false,
-  });
+  }) : super(symbol: Symbol(name, SymbolKind.field));
 
   @override
   BindingString toBindingString(Writer w) {

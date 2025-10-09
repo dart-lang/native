@@ -270,7 +270,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
       // rest to each of the params after the first.
       name = chunks[0];
       for (var i = 1; i < params.length; ++i) {
-        params[i].symbol = Symbol(chunks[i]);
+        params[i].symbol = Symbol(chunks[i], SymbolKind.field);
       }
     } else {
       // There are a few methods that don't obey these rules, eg due to variadic
@@ -283,7 +283,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
     return ObjCMethod.withSymbol(
       context: context,
       originalName: originalName,
-      symbol: Symbol(name),
+      symbol: Symbol(name, SymbolKind.method),
       protocolMethodName: protocolMethodName,
       dartDoc: dartDoc,
       kind: kind,
@@ -327,7 +327,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
     )..fillProtocolTrampoline();
     protocolMethodName ??= symbol.oldName == originalProtocolMethodName
         ? symbol
-        : Symbol(originalProtocolMethodName);
+        : Symbol(originalProtocolMethodName, SymbolKind.method);
   }
 
   bool sameAs(ObjCMethod other) {

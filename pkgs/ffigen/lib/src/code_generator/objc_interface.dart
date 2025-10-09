@@ -239,16 +239,25 @@ ${generateInstanceMethodBindings(w, this)}
   @override
   void visit(Visitation visitation) => visitation.visitObjCInterface(this);
 
+  // Set typeGraphOnly to true to skip iterating methods and other children, and
+  // just iterate the DAG of interfaces, categories, and protocols. This is
+  // useful for visitors that need to ensure super types are visited first.
   @override
-  void visitChildren(Visitor visitor) {
-    super.visitChildren(visitor);
+  void visitChildren(Visitor visitor, {bool typeGraphOnly = false}) {
+    if (!typeGraphOnly) {
+      super.visitChildren(visitor);
+      visitor.visit(classObject);
+      visitor.visit(_isKindOfClass);
+      visitor.visit(_isKindOfClassMsgSend);
+      visitMethods(visitor);
+      visitor.visit(objcPkgImport);
+
+      // In the type DAG, categories link to their parent interface, not the
+      // other way around. So don't iterate these categories as part of the DAG.
+      visitor.visitAll(categories);
+    }
+
     visitor.visit(superType);
-    visitor.visit(classObject);
-    visitor.visit(_isKindOfClass);
-    visitor.visit(_isKindOfClassMsgSend);
-    visitMethods(visitor);
-    visitor.visit(objcPkgImport);
-    visitor.visitAll(categories);
     visitor.visitAll(protocols);
 
     // Note: Don't visit subtypes here, because they shouldn't affect transitive

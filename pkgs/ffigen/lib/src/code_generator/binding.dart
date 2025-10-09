@@ -40,10 +40,10 @@ abstract class Binding extends AstNode implements Declaration {
   Binding({
     required this.usr,
     required this.originalName,
-    required String name,
+    required Symbol symbol,
     this.dartDoc,
     this.isInternal = false,
-  }) : _symbol = Symbol(name);
+  }) : _symbol = symbol;
 
   /// Converts a Binding to its actual string representation.
   ///
@@ -72,10 +72,13 @@ abstract class LookUpBinding extends Binding {
   LookUpBinding({
     String? usr,
     String? originalName,
-    required super.name,
+    required super.symbol,
     super.dartDoc,
     super.isInternal,
-  }) : super(usr: usr ?? name, originalName: originalName ?? name);
+  }) : super(
+         usr: usr ?? symbol.oldName,
+         originalName: originalName ?? symbol.oldName,
+       );
 
   @override
   void visit(Visitation visitation) => visitation.visitLookUpBinding(this);
@@ -88,10 +91,13 @@ abstract class NoLookUpBinding extends Binding {
   NoLookUpBinding({
     String? usr,
     String? originalName,
-    required super.name,
+    required super.symbol,
     super.dartDoc,
     super.isInternal,
-  }) : super(usr: usr ?? name, originalName: originalName ?? name);
+  }) : super(
+         usr: usr ?? symbol.oldName,
+         originalName: originalName ?? symbol.oldName,
+       );
 
   @override
   void visit(Visitation visitation) => visitation.visitNoLookUpBinding(this);

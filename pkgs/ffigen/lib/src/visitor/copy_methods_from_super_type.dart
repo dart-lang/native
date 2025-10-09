@@ -11,9 +11,11 @@ import 'ast.dart';
 // these are still accessible via inheritance from NSObject.
 const _excludedNSObjectMethods = {
   'allocWithZone:',
+  'autorelease',
   'class',
   'conformsToProtocol:',
   'copyWithZone:',
+  'dealloc',
   'debugDescription',
   'description',
   'hash',
@@ -25,9 +27,13 @@ const _excludedNSObjectMethods = {
   'load',
   'mutableCopyWithZone:',
   'poseAsClass:',
+  'release',
   'resolveClassMethod:',
   'resolveInstanceMethod:',
   'respondsToSelector:',
+  'retain',
+  'retainCount',
+  'self',
   'setVersion:',
   'superclass',
   'version',
@@ -36,7 +42,7 @@ const _excludedNSObjectMethods = {
 class CopyMethodsFromSuperTypesVisitation extends Visitation {
   @override
   void visitObjCInterface(ObjCInterface node) {
-    node.visitChildren(visitor);
+    node.visitChildren(visitor, typeGraphOnly: true);
 
     final isNSObject = ObjCBuiltInFunctions.isNSObject(node.originalName);
 
@@ -86,12 +92,9 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
     void Function(ObjCMethod) addMethod,
   ) {
     // Copy all methods from all the protocols.
-    final isNSObject = ObjCBuiltInFunctions.isNSObject(node.originalName);
     for (final proto in protocols) {
       for (final m in proto.methods) {
-        if (isNSObject) {
-          addMethod(m);
-        } else if (!_excludedNSObjectMethods.contains(m.originalName)) {
+        if (!_excludedNSObjectMethods.contains(m.originalName)) {
           addMethod(m);
         }
       }
@@ -100,7 +103,7 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
 
   @override
   void visitObjCCategory(ObjCCategory node) {
-    node.visitChildren(visitor);
+    node.visitChildren(visitor, typeGraphOnly: true);
 
     // Copy all methods from all the category's protocols.
     _copyMethodFromProtocols(node, node.protocols, node.addMethod);
@@ -108,7 +111,7 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
-    node.visitChildren(visitor);
+    node.visitChildren(visitor, typeGraphOnly: true);
 
     for (final superProtocol in node.superProtocols) {
       if (ObjCBuiltInFunctions.isNSObject(superProtocol.originalName)) {
