@@ -19,8 +19,6 @@ code of a package. The
 API is an extension to this package and is available in
 [`package:code_assets`](https://pub.dev/packages/code_assets).
 
-
-
 When compiling C, C++ or Objective-C code from source, consider using
 [`package:native_toolchain_c`](https://pub.dev/packages/native_toolchain_c):
 
@@ -52,7 +50,7 @@ void main(List<String> args) async {
 See the full example in [package:code_assets
 example/sqlite/](../code_assets/example/sqlite/).
 
-For more info see [dart.dev/tools/hooks](https://dart.dev/tools/hooks).
+For more information see [dart.dev/tools/hooks](https://dart.dev/tools/hooks).
 
 ## Status: In Preview
 

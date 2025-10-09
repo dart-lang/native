@@ -8,7 +8,8 @@ This package provides the API for code assets to be used with
 
 A code asset is an asset containing executable code which respects the native
 application binary interface (ABI). These assets are bundled with a Dart or
-Flutter application. They can be produced by compiling C, C++, or Rust code.
+Flutter application. They can be produced by compiling C, C++, Objective-C,
+Rust, or Go code for example.
 
 This package is used in a build hook (`hook/build.dart`) to inform the Dart
 and Flutter SDKs about the code assets that need to be bundled with an
@@ -105,7 +106,7 @@ void main(List<String> args) async {
 
 See the full example in [example/host_name/](example/host_name/).
 
-For more info see [dart.dev/tools/hooks](https://dart.dev/tools/hooks).
+For more information see [dart.dev/tools/hooks](https://dart.dev/tools/hooks).
 
 ## Status: In Preview
 
