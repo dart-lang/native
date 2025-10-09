@@ -187,6 +187,18 @@ String updateSnippets(String oldContent, Uri fileUri, List<String> errors) {
     if (extractedMatch != null) {
       newSnippetText = extractedMatch.group(1)!;
     }
+    final copyrightRegex = RegExp(r'''
+// Copyright \(c\) [0-9]*, the Dart project authors.  Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+''');
+    final copyrightHeader = copyrightRegex.firstMatch(newSnippetText);
+    if (copyrightHeader != null) {
+      newSnippetText = newSnippetText.replaceFirst(
+        copyrightHeader.group(0)!,
+        '',
+      );
+    }
     newSnippetText = newSnippetText.trim();
 
     final newContentForBlock = newSnippetText
