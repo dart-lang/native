@@ -395,15 +395,20 @@ Protocol* _${wrapName}_$originalName(void) { return @protocol($originalName); }
   @override
   void visit(Visitation visitation) => visitation.visitObjCProtocol(this);
 
+  // Set typeGraphOnly to true to skip iterating methods and other children, and
+  // just iterate the DAG of interfaces, categories, and protocols. This is
+  // useful for visitors that need to ensure super types are visited first.
   @override
-  void visitChildren(Visitor visitor) {
-    super.visitChildren(visitor);
-    visitor.visit(_protocolPointer);
+  void visitChildren(Visitor visitor, {bool typeGraphOnly = false}) {
+    if (!typeGraphOnly) {
+      super.visitChildren(visitor);
+      visitor.visit(_protocolPointer);
+      visitor.visit(_conformsTo);
+      visitor.visit(_conformsToMsgSend);
+      visitMethods(visitor);
+      visitor.visit(ffiImport);
+      visitor.visit(objcPkgImport);
+    }
     visitor.visitAll(superProtocols);
-    visitor.visit(_conformsTo);
-    visitor.visit(_conformsToMsgSend);
-    visitMethods(visitor);
-    visitor.visit(ffiImport);
-    visitor.visit(objcPkgImport);
   }
 }

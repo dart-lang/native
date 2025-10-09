@@ -64,13 +64,18 @@ ${generateMethodBindings(w, parent)}
   @override
   void visit(Visitation visitation) => visitation.visitObjCCategory(this);
 
+  // Set typeGraphOnly to true to skip iterating methods and other children, and
+  // just iterate the DAG of interfaces, categories, and protocols. This is
+  // useful for visitors that need to ensure super types are visited first.
   @override
-  void visitChildren(Visitor visitor) {
-    super.visitChildren(visitor);
+  void visitChildren(Visitor visitor, {bool typeGraphOnly = false}) {
+    if (!typeGraphOnly) {
+      super.visitChildren(visitor);
+      visitor.visit(classObject);
+      visitMethods(visitor);
+      visitor.visit(objcPkgImport);
+    }
     visitor.visit(parent);
-    visitor.visit(classObject);
-    visitMethods(visitor);
-    visitor.visit(objcPkgImport);
     visitor.visitAll(protocols);
   }
 }

@@ -206,5 +206,26 @@ void main() {
       expect(childMethod.name, 'method\$1');
       expect(categoryMethod.name, 'method\$2');
     });
+
+    test('iteration order bug', () {
+      // Regression test for https://github.com/dart-lang/native/issues/2656
+      final instanceTypeMethod = makeMethod('m1', instanceType, []);
+
+      final parent = makeInterface('Parent', null, [instanceTypeMethod]);
+      final child = makeInterface('Child', parent, []);
+      final grandChild = makeInterface('GrandChild', child, []);
+
+      final grandChildMethod = makeMethod('m2', grandChild, []);
+      parent.addMethod(grandChildMethod);
+
+      final bindings = transformBindings([child, parent, grandChild], context);
+
+      expect(bindings, contains(parent));
+      expect(bindings, contains(child));
+      expect(bindings, contains(grandChild));
+
+      expect(child.methods, contains(instanceTypeMethod));
+      expect(grandChild.methods, contains(instanceTypeMethod));
+    });
   });
 }
