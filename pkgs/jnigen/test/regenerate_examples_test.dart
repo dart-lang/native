@@ -14,10 +14,10 @@ import 'test_util/test_util.dart';
 /// Generates bindings using jnigen config in [exampleName] and compares
 /// them to provided reference outputs.
 ///
-/// [dartOutput] and [cOutput] are relative paths from example project dir.
+/// [dartOutput] is a relative path from the example project dir.
 ///
 /// Pass [isLargeTest] as true if the test will take considerable time.
-void testExample(String exampleName, String dartOutput, String? cOutput,
+void testExample(String exampleName, String dartOutput,
     {bool isLargeTest = false}) {
   test(
     'Generate and compare bindings for $exampleName',
@@ -37,30 +37,65 @@ void testExample(String exampleName, String dartOutput, String? cOutput,
   );
 }
 
+void testDartApiExample(
+    {required String exampleName,
+    required String generatorScriptPath,
+    required String outputPath,
+    bool isLargeTest = false}) {
+  test(
+    'Generate and compare bindings for $exampleName',
+    timeout: const Timeout.factor(3),
+    () async {
+      final examplePath = join('example', exampleName);
+      try {
+        final generatorResult = await Process.run(
+            Platform.resolvedExecutable, ['run', generatorScriptPath],
+            workingDirectory: examplePath);
+        if ((generatorResult.stderr as String)
+            .contains('Gradle execution failed.')) {
+          stderr.writeln('Skip: $exampleName');
+          return;
+        }
+        final processResults = await Process.run(
+            'git', ['diff', '--exit-code', outputPath],
+            workingDirectory: examplePath);
+        if (processResults.exitCode == 1) {
+          fail('The checked-in bindings of $exampleName are out of date. Run '
+              'the generator script ($generatorScriptPath) and commit the '
+              'changes.\n\n${processResults.stdout}');
+        } else if (processResults.exitCode != 0) {
+          throw Exception(
+              'Invocation of "git diff" failed:\n${processResults.stderr}');
+        }
+      } on GradleException catch (_) {
+        stderr.writeln('Skip: $exampleName');
+      }
+    },
+    tags: isLargeTest ? largeTestTag : null,
+  );
+}
+
 void main() async {
   await checkLocallyBuiltDependencies();
-  testExample(
-    'in_app_java',
-    join('lib', 'android_utils.dart'),
-    join('src', 'android_utils'),
+  testDartApiExample(
+    exampleName: 'in_app_java',
+    generatorScriptPath: 'tool/jnigen.dart',
+    outputPath: join('lib', 'android_utils.g.dart'),
     isLargeTest: true,
   );
   testExample(
     'pdfbox_plugin',
     join('lib', 'src', 'third_party'),
-    'src',
     isLargeTest: false,
   );
   testExample(
     'notification_plugin',
     join('lib', 'notifications.dart'),
-    'src',
     isLargeTest: true,
   );
   testExample(
     'kotlin_plugin',
     join('lib', 'kotlin_bindings.dart'),
-    'src',
     isLargeTest: true,
   );
 }
