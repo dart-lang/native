@@ -174,6 +174,26 @@ class PackageSummary {
     }
     return buffer.toString();
   }
+
+  List<String> getRAGSummaries() {
+    final summaries = <String>[];
+    final topLevelDeclerations = StringBuffer();
+
+    if (packageName.isNotEmpty) {
+      topLevelDeclerations.writeln('// From: $packageName');
+    }
+    for (final function in topLevelFunctions) {
+      topLevelDeclerations.writeln('$function;');
+    }
+    for (final variable in topLevelVariables) {
+      topLevelDeclerations.writeln('$variable;');
+    }
+
+    summaries.add(topLevelDeclerations.toString());
+    summaries.addAll(classesSummaries.map((c) => c.toDartLikeRepresentation()));
+
+    return summaries;
+  }
 }
 
 class LibraryClassSummary {
