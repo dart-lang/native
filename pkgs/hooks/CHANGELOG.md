@@ -1,3 +1,7 @@
+## 0.20.3
+
+- Polished README.md, Dartdocs, and examples.
+
 ## 0.20.2
 
 - Change the length of the checksum used for `outputDirectory` to 10 hexadecimal
