@@ -18,7 +18,7 @@
 /// and Flutter SDKs about the code assets that need to be bundled with an
 /// application.
 ///
-/// [CodeAsset] can be added to the [BuildOutputBuilder] a build hook as
+/// A [CodeAsset] can be added to the [BuildOutputBuilder] in a build hook as
 /// follows:
 ///
 /// <!-- file://./../example/api/code_assets_snippet.dart -->
