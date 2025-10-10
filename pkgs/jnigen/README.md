@@ -54,7 +54,7 @@ instructions.
    }
    ```
 
-4. To generate the bindings we will write a script using `jnigen` and place it
+4. To generate the bindings, we will write a script using `jnigen` and place it
    under `tool/jnigen.dart`. The script constructs a `Config` object and passes
    it to `generateJniBindings`. The `Config` object configures the bindings that
    `jnigen` will generate for the Java code. Refer to the code comments below
@@ -121,7 +121,7 @@ to demonstrate using classes from Gradle JAR and source dependencies.
 ## More Examples
 
 Additional examples showcasing how `jnigen` can be used in different scenarios
-(e.g. to generate bindings for Kotlin) can be found in the [examples](example/)
+(e.g. to generate bindings for Kotlin) can be found in the [example](example/)
 directory.
 
 ## Supported platforms
