@@ -173,9 +173,7 @@ Java_com_github_dart_1lang_jni_JniPlugin_setJniActivity(JNIEnv* env,
 #ifdef _WIN32
 SRWLOCK spawnLock = SRWLOCK_INIT;
 
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,
-                    DWORD fdwReason,
-                    LPVOID lpReserved) {
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpReserved) {
   switch (fdwReason) {
     case DLL_THREAD_DETACH:
       if (jniEnv != NULL) {
@@ -465,7 +463,7 @@ Java_com_github_dart_1lang_jni_PortProxyBuilder__1invoke(
     if (mustEnterIsolate) {
       Dart_EnterIsolate_DL((Dart_Isolate)isolateId);
     }
-    result->object = ((jobject(*)(uint64_t, jobject, jobject))functionPtr)(
+    result->object = ((jobject (*)(uint64_t, jobject, jobject))functionPtr)(
         port, (*env)->NewGlobalRef(env, methodDescriptor),
         (*env)->NewGlobalRef(env, args));
     if (mustEnterIsolate) {
