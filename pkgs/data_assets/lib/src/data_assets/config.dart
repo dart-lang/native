@@ -23,9 +23,12 @@ extension BuildOutputBuilderAddDataAssetsDirectories on BuildOutputBuilder {
   ///
   /// When recursive is set to true, the method will also add all subdirectories
   /// and their files as dependencies.
+  ///
+  /// Should only be used if [HookConfigDataConfig.buildDataAssets] in [input]
+  /// is true.
   Future<void> addDataAssetDirectories(
     List<String> paths, {
-    required BuildInput input,
+    required HookInput input,
     bool recursive = false,
     AssetRouting routing = const ToAppBundle(),
   }) async {
@@ -104,6 +107,8 @@ extension LinkInputDataAssets on LinkInputAssets {
 /// Extension on [BuildOutputBuilder] to add [DataAsset]s.
 extension BuildOutputAssetsBuilderData on BuildOutputAssetsBuilder {
   /// Provides access to emitting data assets.
+  ///
+  /// Should only be used if [HookConfigDataConfig.buildDataAssets] is true.
   BuildOutputDataAssetsBuilder get data => BuildOutputDataAssetsBuilder._(this);
 }
 

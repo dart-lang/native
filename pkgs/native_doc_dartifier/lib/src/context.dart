@@ -14,8 +14,10 @@ import 'package:path/path.dart' as p;
 
 import 'ast.dart';
 import 'public_abstractor.dart';
+import 'rag.dart';
 
 class Context {
+  late final RAG? rag;
   final String projectAbsolutePath;
   final String bindingsFileAbsolutePath;
   final List<String> importedPackages = [];
@@ -29,12 +31,14 @@ class Context {
 
   static Future<Context> create(
     String projectAbsolutePath,
-    String bindingsFileAbsolutePath,
-  ) async {
+    String bindingsFileAbsolutePath, {
+    bool usingRag = false,
+  }) async {
     final context = Context._(
       projectAbsolutePath: projectAbsolutePath,
       bindingsFileAbsolutePath: bindingsFileAbsolutePath,
     );
+    context.rag = usingRag ? await RAG.create() : null;
     await context._init();
     return context;
   }
@@ -46,15 +50,17 @@ class Context {
       exit(1);
     }
 
-    // Get the bindings file summary
-    final abstractor = PublicAbstractor();
-    parseString(
-      content: await bindingsFile.readAsString(),
-    ).unit.visitChildren(abstractor);
-    bindingsSummary.addAll(abstractor.getBindingsClassesSummary());
+    if (rag == null) {
+      // Get the bindings file summary
+      final abstractor = PublicAbstractor();
+      parseString(
+        content: await bindingsFile.readAsString(),
+      ).unit.visitChildren(abstractor);
+      bindingsSummary.addAll(abstractor.getBindingsClassesSummary());
 
-    // Get the packages classes summary, that are imported in the bindings file
-    await _getLibrariesSummary(projectAbsolutePath, bindingsFileAbsolutePath);
+      // Get packages classes summary, that are imported in the bindings file
+      await _getLibrariesSummary(projectAbsolutePath, bindingsFileAbsolutePath);
+    }
   }
 
   Future<void> _getLibrariesSummary(
@@ -155,14 +161,24 @@ class Context {
     return;
   }
 
-  String toDartLikeRepresentation() {
+  /// It will return the full context,
+  /// If [rag] is null or the given [querySnippet] is empty.
+  Future<String> toDartLikeRepresentation(String querySnippet) async {
     final buffer = StringBuffer();
-    for (final classSummary in bindingsSummary) {
-      buffer.writeln(classSummary.toDartLikeRepresentation());
+    if (rag != null && querySnippet.isNotEmpty) {
+      final documents = await rag!.queryRAG(querySnippet);
+      for (final classSummary in documents) {
+        buffer.writeln(classSummary);
+      }
+    } else {
+      for (final classSummary in bindingsSummary) {
+        buffer.writeln(classSummary.toDartLikeRepresentation());
+      }
+      for (final packageSummary in packageSummaries) {
+        buffer.writeln(packageSummary.toDartLikeRepresentation());
+      }
     }
-    for (final packageSummary in packageSummaries) {
-      buffer.writeln(packageSummary.toDartLikeRepresentation());
-    }
+
     final dartLikeRepresentation = buffer.toString().replaceAll('jni\$_.', '');
     return dartLikeRepresentation;
   }

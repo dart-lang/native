@@ -1,3 +1,8 @@
+## 0.20.2
+
+- Change the length of the checksum used for `outputDirectory` to 10 hexadecimal
+  characters to avoid running out of path length on Windows.
+
 ## 0.20.1
 
 - Update outdated documentation.

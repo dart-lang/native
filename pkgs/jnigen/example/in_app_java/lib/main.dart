@@ -7,7 +7,7 @@ import 'package:jni/jni.dart';
 
 // The hierarchy created in generated code will mirror the java package
 // structure.
-import 'android_utils.dart';
+import 'android_utils.g.dart';
 
 JObject activity = JObject.fromReference(Jni.getCurrentActivity());
 JObject context = JObject.fromReference(Jni.getCachedApplicationContext());

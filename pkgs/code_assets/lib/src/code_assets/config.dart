@@ -16,6 +16,8 @@ import 'syntax.g.dart';
 /// to code assets (only available if code assets are supported).
 extension HookConfigCodeConfig on HookConfig {
   /// Code asset specific configuration.
+  ///
+  /// Only available if [buildCodeAssets] is true.
   CodeConfig get code => CodeConfig._fromJson(json, path);
 
   /// Whether the hook invoker (e.g. the Dart or Flutter SDK) expects this
@@ -28,6 +30,8 @@ extension HookConfigCodeConfig on HookConfig {
 /// code assets are supported).
 extension LinkInputCodeAssets on LinkInputAssets {
   /// The [CodeAsset]s in this [LinkInputAssets.encodedAssets].
+  ///
+  /// Only available if [HookConfigCodeConfig.buildCodeAssets] is true.
   ///
   /// NOTE: If the linker implementation depends on the contents of the files
   /// the code assets refer (e.g. looks at static archives and links them) then
@@ -148,6 +152,8 @@ final class MacOSCodeConfig {
 /// Extension on [BuildOutputBuilder] to add [CodeAsset]s.
 extension BuildOutputAssetsBuilderCode on BuildOutputAssetsBuilder {
   /// Provides access to emitting code assets.
+  ///
+  /// Should only be used if [HookConfigCodeConfig.buildCodeAssets] is true.
   BuildOutputCodeAssetBuilder get code => BuildOutputCodeAssetBuilder._(this);
 }
 

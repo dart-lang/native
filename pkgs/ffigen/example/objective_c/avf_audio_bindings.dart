@@ -672,11 +672,11 @@ class AVAudioPlayer extends objc.NSObject {
   }
 
   /// allocWithZone:
-  static AVAudioPlayer allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+  static AVAudioPlayer allocWithZone(ffi.Pointer<objc.NSZone> zone$1) {
     final $ret = _objc_msgSend_1cwp428(
       _class_AVAudioPlayer,
       _sel_allocWithZone_,
-      zone,
+      zone$1,
     );
     return AVAudioPlayer.castFromPointer($ret, retain: false, release: true);
   }
@@ -844,7 +844,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
 
   /// initWithContentsOfURL:error:
   AVAudioPlayer? initWithContentsOfURL(
-    objc.NSURL url, {
+    objc.NSURL url$1, {
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
   }) {
     objc.checkOsVersionInternal(
@@ -855,7 +855,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
     final $ret = _objc_msgSend_1lhpu4m(
       this.ref.retainAndReturnPointer(),
       _sel_initWithContentsOfURL_error_,
-      url.ref.pointer,
+      url$1.ref.pointer,
       error,
     );
     return $ret.address == 0
@@ -865,7 +865,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
 
   /// initWithContentsOfURL:fileTypeHint:error:
   AVAudioPlayer? initWithContentsOfURL$1(
-    objc.NSURL url, {
+    objc.NSURL url$1, {
     objc.NSString? fileTypeHint,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
   }) {
@@ -877,7 +877,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
     final $ret = _objc_msgSend_1pnyuds(
       this.ref.retainAndReturnPointer(),
       _sel_initWithContentsOfURL_fileTypeHint_error_,
-      url.ref.pointer,
+      url$1.ref.pointer,
       fileTypeHint?.ref.pointer ?? ffi.nullptr,
       error,
     );
@@ -888,7 +888,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
 
   /// initWithData:error:
   AVAudioPlayer? initWithData(
-    objc.NSData data, {
+    objc.NSData data$1, {
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
   }) {
     objc.checkOsVersionInternal(
@@ -899,7 +899,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
     final $ret = _objc_msgSend_1lhpu4m(
       this.ref.retainAndReturnPointer(),
       _sel_initWithData_error_,
-      data.ref.pointer,
+      data$1.ref.pointer,
       error,
     );
     return $ret.address == 0
@@ -909,7 +909,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
 
   /// initWithData:fileTypeHint:error:
   AVAudioPlayer? initWithData$1(
-    objc.NSData data, {
+    objc.NSData data$1, {
     objc.NSString? fileTypeHint,
     required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
   }) {
@@ -921,7 +921,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
     final $ret = _objc_msgSend_1pnyuds(
       this.ref.retainAndReturnPointer(),
       _sel_initWithData_fileTypeHint_error_,
-      data.ref.pointer,
+      data$1.ref.pointer,
       fileTypeHint?.ref.pointer ?? ffi.nullptr,
       error,
     );
@@ -1199,7 +1199,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
   }
 
   /// setVolume:fadeDuration:
-  void setVolume(double volume, {required double fadeDuration}) {
+  void setVolume(double volume$1, {required double fadeDuration}) {
     objc.checkOsVersionInternal(
       'AVAudioPlayer.setVolume:fadeDuration:',
       iOS: (false, (10, 0, 0)),
@@ -1208,7 +1208,7 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
     _objc_msgSend_1p4uk9e(
       this.ref.pointer,
       _sel_setVolume_fadeDuration_,
-      volume,
+      volume$1,
       fadeDuration,
     );
   }

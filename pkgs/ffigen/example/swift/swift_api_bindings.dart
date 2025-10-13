@@ -141,11 +141,11 @@ class SwiftClass extends objc.NSObject {
   }
 
   /// allocWithZone:
-  static SwiftClass allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+  static SwiftClass allocWithZone(ffi.Pointer<objc.NSZone> zone$1) {
     final $ret = _objc_msgSend_1cwp428(
       _class_SwiftClass,
       _sel_allocWithZone_,
-      zone,
+      zone$1,
     );
     return SwiftClass.castFromPointer($ret, retain: false, release: true);
   }
