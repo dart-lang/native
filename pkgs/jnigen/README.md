@@ -90,7 +90,7 @@ instructions.
    ```
 
 5. Run the script with `dart run tool/jnigen.dart` to generate the bindings.
-   This will create the output `android_utils.g.dart` file, which can be
+   This will create the output `lib/android_utils.g.dart` file, which can be
    imported by Dart code to access the Java APIs. This command must be re-run
    whenever the JNIgen configuration (in `tool/jnigen.dart`) or the Java
    sources for which bindings are generated change.

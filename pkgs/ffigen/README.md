@@ -74,10 +74,10 @@ app has been created via `dart create ffigen_example`.
    ```
 
 4. Run the script with `dart run tool/ffigen.dart` to generate the bindings.
-   This will create the output `add.g.dart` file, which can be imported by Dart
-   code to access the C APIs. This command must be re-run whenever the FFIgen
-   configuration (in `tool/ffigen.dart`) or the C sources for which bindings are
-   generated change.
+   This will create the output `lib/add.g.dart` file, which can be imported by
+   Dart code to access the C APIs. This command must be re-run whenever the
+   FFIgen configuration (in `tool/ffigen.dart`) or the C sources for which
+   bindings are generated change.
 
 5. Import `add.g.dart` in your Dart app and call the generated methods to access
    the native C API:
