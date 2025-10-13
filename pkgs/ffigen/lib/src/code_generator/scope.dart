@@ -20,7 +20,7 @@ class Scope {
   final _symbols = <Symbol>{};
   final _children = <Scope>[];
   final Scope? _parent;
-  final UsedNames _preUsedNames;
+  final Set<String> _preUsedNames;
   Namer? _namer;
 
   Scope._(this._parent, this._debugName, this._preUsedNames);
@@ -31,7 +31,7 @@ class Scope {
   /// Create a new [Scope] as a child of this one.
   ///
   /// [fillNames] must not have been called yet.
-  Scope addChild(String debugName, {UsedNames preUsedNames = const {}}) {
+  Scope addChild(String debugName, {Set<String> preUsedNames = const {}}) {
     assert(!_filled);
     final ns = Scope._(this, debugName, preUsedNames);
     _children.add(ns);
@@ -73,9 +73,9 @@ class Scope {
     _fillNames(const {});
   }
 
-  void _fillNames(UsedNames parentUsedNames) {
+  void _fillNames(Set<String> parentUsedNames) {
     assert(!_filled);
-    final namer = Namer(Namer._mergeUsed(parentUsedNames, _preUsedNames));
+    final namer = Namer(parentUsedNames.union(_preUsedNames));
     _namer = namer;
     for (final symbol in _symbols) {
       if (symbol._name == null) {
@@ -84,7 +84,7 @@ class Scope {
         // Symbol already has a name. This can happen if the symbol is in
         // multiple scopes. It's fine as long as the name isn't used by a
         // different symbol earlier in this scope.
-        namer.markUsed(symbol._name!, symbol.kind);
+        namer.markUsed(symbol._name!);
         assert(
           !_symbols.any((s) => s != symbol && s._name == symbol._name),
           symbol.oldName,
@@ -126,25 +126,25 @@ class Scope {
 /// This class is used internally by [Scope] to name [Symbol]s, and 99% of the
 /// time you should use those instead of this.
 class Namer {
-  final UsedNames _used;
+  final Set<String> _used;
 
   Namer(this._used);
 
   String add(String name, SymbolKind kind) {
     if (name.isEmpty) name = 'unnamed';
 
-    var newName = _isUsed(_keywords, name, kind.mask) ? '$name\$' : name;
-    for (var i = 1; isUsed(newName, kind); ++i) {
+    final isKeyword = ((_keywords[name] ?? ~0) & kind.mask) == 0;
+    var newName = isKeyword ? '$name\$' : name;
+    for (var i = 1; isUsed(newName); ++i) {
       newName = '$name\$$i';
     }
 
-    markUsed(newName, kind);
+    markUsed(newName);
     return newName;
   }
 
-  bool isUsed(String name, SymbolKind kind) => _isUsed(_used, name, kind.mask);
-  void markUsed(String name, SymbolKind kind) =>
-      _markUsed(_used, name, kind.mask);
+  bool isUsed(String name) => _used.contains(name);
+  void markUsed(String name) => _used.add(name);
 
   /// Returns a version of [name] that can safely be used in C code. Not
   /// guaranteed to be unique.
@@ -152,19 +152,6 @@ class Namer {
 
   /// Returns a version of [name] suitable for inclusion in a string literal.
   static String stringLiteral(String name) => name.replaceAll('\$', '\\\$');
-
-  static UsedNames _mergeUsed(UsedNames a, UsedNames b) {
-    final c = UsedNames.from(a);
-    for (final MapEntry(:key, :value) in b.entries) {
-      _markUsed(c, key, value);
-    }
-    return c;
-  }
-
-  static bool _isUsed(UsedNames used, String name, UsedMask mask) =>
-      ((used[name] ?? 0) & mask) != 0;
-  static void _markUsed(UsedNames used, String name, UsedMask mask) =>
-      used[name] = (used[name] ?? 0) | mask;
 }
 
 /// A renamable string used to assign names to variables, types, etc.
@@ -203,32 +190,34 @@ mixin HasLocalScope on AstNode {
   bool get localScopeFilled => _localScope != null;
 }
 
-typedef UsedMask = int;
-typedef UsedNames = Map<String, UsedMask>;
-
-class _UsedMask {
+class _Allowed {
   static const fields = 1 << 0;
   static const methods = 1 << 1;
   static const classes = 1 << 2;
+
+  static const fieldsAndMethods = fields | methods;
+  static const none = 0;
 }
 
 enum SymbolKind {
-  field(_UsedMask.fields),
-  method(_UsedMask.methods),
-  klass(_UsedMask.fields | _UsedMask.methods | _UsedMask.classes),
-  lib(_UsedMask.fields | _UsedMask.methods | _UsedMask.classes);
+  /// Fields and variables.
+  field(_Allowed.fields),
+
+  // Methods and functions.
+  method(_Allowed.methods),
+
+  // Classes, structs, typedefs etc.
+  klass(_Allowed.classes),
+
+  // Library import prefixes.
+  lib(_Allowed.classes);
 
   const SymbolKind(this.mask);
 
-  final UsedMask mask;
+  final int mask;
 }
 
-class _Allowed {
-  static const fieldsAndMethods = _UsedMask.classes;
-  static const none = _UsedMask.fields | _UsedMask.methods | _UsedMask.classes;
-}
-
-// Source: https://dart.dev/guides/language/language-tour#keywords.
+// Source: https://dart.dev/language/keywords
 const _keywords = {
   '_': _Allowed.none,
   'abstract': _Allowed.fieldsAndMethods,
@@ -261,7 +250,7 @@ const _keywords = {
   'get': _Allowed.fieldsAndMethods,
   'if': _Allowed.none,
   'implements': _Allowed.fieldsAndMethods,
-  'import': _UsedMask.methods,
+  'import': _Allowed.fieldsAndMethods,
   'in': _Allowed.none,
   'interface': _Allowed.fieldsAndMethods,
   'is': _Allowed.none,

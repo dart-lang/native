@@ -91,11 +91,8 @@ Map<String, ImportedType> symbolFileImportExtractor(
       exit(1);
     }
     final uniqueNamer = Namer({
-      for (final lib in [
-        ...libraryImports.keys,
-        strings.defaultSymbolFileImportPrefix,
-      ])
-        lib: SymbolKind.lib.mask,
+      ...libraryImports.keys,
+      strings.defaultSymbolFileImportPrefix,
     });
     final files = symbolFile[strings.files] as YamlMap;
     for (final file in files.keys) {

@@ -32,11 +32,8 @@ void main() {
     });
 
     test('mark used', () {
-      final namer = Namer({
-        'foo': SymbolKind.field.mask,
-        'bar': SymbolKind.field.mask,
-      });
-      namer.markUsed('baz', SymbolKind.field);
+      final namer = Namer({'foo', 'bar'});
+      namer.markUsed('baz');
 
       expect(namer.add('foo', SymbolKind.field), 'foo\$1');
       expect(namer.add('bar', SymbolKind.field), 'bar\$1');
@@ -67,6 +64,35 @@ void main() {
         Namer.stringLiteral(namer.add('foo', SymbolKind.field)),
         'foo\\\$3',
       );
+    });
+
+    test('keywords', () {
+      List<String> names(String name, SymbolKind kind) {
+        final namer = Namer({});
+        return [
+          namer.add(name, kind),
+          namer.add(name, kind),
+          namer.add(name, kind),
+        ];
+      }
+
+      // Not a keyword.
+      expect(names('foo', SymbolKind.field), ['foo', 'foo\$1', 'foo\$2']);
+      expect(names('foo', SymbolKind.method), ['foo', 'foo\$1', 'foo\$2']);
+      expect(names('foo', SymbolKind.klass), ['foo', 'foo\$1', 'foo\$2']);
+      expect(names('foo', SymbolKind.lib), ['foo', 'foo\$1', 'foo\$2']);
+
+      // Keyword never allowed as a symbol.
+      expect(names('for', SymbolKind.field), ['for\$', 'for\$1', 'for\$2']);
+      expect(names('for', SymbolKind.method), ['for\$', 'for\$1', 'for\$2']);
+      expect(names('for', SymbolKind.klass), ['for\$', 'for\$1', 'for\$2']);
+      expect(names('for', SymbolKind.lib), ['for\$', 'for\$1', 'for\$2']);
+
+      // Keyword allowed as methods or fields.
+      expect(names('get', SymbolKind.field), ['get', 'get\$1', 'get\$2']);
+      expect(names('get', SymbolKind.method), ['get', 'get\$1', 'get\$2']);
+      expect(names('get', SymbolKind.klass), ['get\$', 'get\$1', 'get\$2']);
+      expect(names('get', SymbolKind.lib), ['get\$', 'get\$1', 'get\$2']);
     });
   });
 
@@ -104,10 +130,7 @@ void main() {
 
     test('preUsedNames', () {
       final root = Scope.createRoot('root');
-      final parent = root.addChild(
-        'parent',
-        preUsedNames: {'bar': SymbolKind.field.mask},
-      );
+      final parent = root.addChild('parent', preUsedNames: {'bar'});
       final child = parent.addChild('child');
       final uncle = root.addChild('uncle');
 

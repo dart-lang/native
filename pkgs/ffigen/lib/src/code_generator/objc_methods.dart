@@ -24,6 +24,7 @@ import 'writer.dart';
 mixin ObjCMethods {
   Map<String, ObjCMethod> _methods = <String, ObjCMethod>{};
   List<String> _order = <String>[];
+  Scope? methodNameScope;
 
   Iterable<ObjCMethod> get methods =>
       _order.map((key) => _methods[key]).nonNulls;
@@ -195,10 +196,12 @@ class ObjCMethod extends AstNode with HasLocalScope {
   Symbol? protocolMethodName;
 
   @override
-  void visitChildren(Visitor visitor) {
+  void visitChildren(Visitor visitor, {bool omitMethodName = false}) {
     super.visitChildren(visitor);
-    visitor.visit(symbol);
-    visitor.visit(protocolMethodName);
+    if (!omitMethodName) {
+      visitor.visit(symbol);
+      visitor.visit(protocolMethodName);
+    }
     visitor.visit(returnType);
     visitor.visitAll(_params);
     visitor.visit(selObject);
