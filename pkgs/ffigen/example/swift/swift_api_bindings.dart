@@ -16,17 +16,6 @@ import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
-@ffi.Native<
-  ffi.Pointer<objc.ObjCObject> Function(
-    ffi.Pointer<objc.ObjCObject>,
-    ffi.Pointer<ffi.Void>,
-  )
->()
-external ffi.Pointer<objc.ObjCObject> _SwiftLibrary_protocolTrampoline_1mbt9g9(
-  ffi.Pointer<objc.ObjCObject> target,
-  ffi.Pointer<ffi.Void> arg0,
-);
-
 late final _class_SwiftClass = objc.getClass("swift_module.SwiftClass");
 late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
 final _objc_msgSend_19nvye5 = objc.msgSendPointer
@@ -116,141 +105,6 @@ final _objc_msgSend_1cwp428 = objc.msgSendPointer
       )
     >();
 late final _sel_alloc = objc.registerName("alloc");
-late final _sel_self = objc.registerName("self");
-
-/// Construction methods for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>`.
-abstract final class ObjCBlock_objcObjCObject_ffiVoid {
-  /// Returns a block that wraps the given raw block pointer.
-  static objc.ObjCBlock<
-    ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
-  >
-  castFromPointer(
-    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
-    bool retain = false,
-    bool release = false,
-  }) =>
-      objc.ObjCBlock<
-        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
-      >(pointer, retain: retain, release: release);
-
-  /// Creates a block from a C function pointer.
-  ///
-  /// This block must be invoked by native code running on the same thread as
-  /// the isolate that registered it. Invoking the block on the wrong thread
-  /// will result in a crash.
-  static objc.ObjCBlock<
-    ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
-  >
-  fromFunctionPointer(
-    ffi.Pointer<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void> arg0)
-      >
-    >
-    ptr,
-  ) =>
-      objc.ObjCBlock<
-        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
-      >(
-        objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
-        retain: false,
-        release: true,
-      );
-
-  /// Creates a block from a Dart function.
-  ///
-  /// This block must be invoked by native code running on the same thread as
-  /// the isolate that registered it. Invoking the block on the wrong thread
-  /// will result in a crash.
-  ///
-  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
-  /// until it is garbage collected by both Dart and ObjC.
-  static objc.ObjCBlock<
-    ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
-  >
-  fromFunction(
-    objc.ObjCObjectBase Function(ffi.Pointer<ffi.Void>) fn, {
-    bool keepIsolateAlive = true,
-  }) =>
-      objc.ObjCBlock<
-        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
-      >(
-        objc.newClosureBlock(
-          _closureCallable,
-          (ffi.Pointer<ffi.Void> arg0) => fn(arg0).ref.retainAndAutorelease(),
-          keepIsolateAlive,
-        ),
-        retain: false,
-        release: true,
-      );
-
-  static ffi.Pointer<objc.ObjCObject> _fnPtrTrampoline(
-    ffi.Pointer<objc.ObjCBlockImpl> block,
-    ffi.Pointer<ffi.Void> arg0,
-  ) => block.ref.target
-      .cast<
-        ffi.NativeFunction<
-          ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void> arg0)
-        >
-      >()
-      .asFunction<
-        ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
-      >()(arg0);
-  static ffi.Pointer<ffi.Void> _fnPtrCallable =
-      ffi.Pointer.fromFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<ffi.Void>,
-            )
-          >(_fnPtrTrampoline)
-          .cast();
-  static ffi.Pointer<objc.ObjCObject> _closureTrampoline(
-    ffi.Pointer<objc.ObjCBlockImpl> block,
-    ffi.Pointer<ffi.Void> arg0,
-  ) =>
-      (objc.getBlockClosure(block)
-          as ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>))(
-        arg0,
-      );
-  static ffi.Pointer<ffi.Void> _closureCallable =
-      ffi.Pointer.fromFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<ffi.Void>,
-            )
-          >(_closureTrampoline)
-          .cast();
-}
-
-/// Call operator for `objc.ObjCBlock<ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)>`.
-extension ObjCBlock_objcObjCObject_ffiVoid$CallExtension
-    on
-        objc.ObjCBlock<
-          ffi.Pointer<objc.ObjCObject> Function(ffi.Pointer<ffi.Void>)
-        > {
-  objc.ObjCObjectBase call(ffi.Pointer<ffi.Void> arg0) => objc.ObjCObjectBase(
-    ref.pointer.ref.invoke
-        .cast<
-          ffi.NativeFunction<
-            ffi.Pointer<objc.ObjCObject> Function(
-              ffi.Pointer<objc.ObjCBlockImpl> block,
-              ffi.Pointer<ffi.Void> arg0,
-            )
-          >
-        >()
-        .asFunction<
-          ffi.Pointer<objc.ObjCObject> Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-          )
-        >()(ref.pointer, arg0),
-    retain: true,
-    release: true,
-  );
-}
-
-late final _sel_retain = objc.registerName("retain");
-late final _sel_autorelease = objc.registerName("autorelease");
 
 /// SwiftClass
 class SwiftClass extends objc.NSObject {
@@ -287,11 +141,11 @@ class SwiftClass extends objc.NSObject {
   }
 
   /// allocWithZone:
-  static SwiftClass allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+  static SwiftClass allocWithZone(ffi.Pointer<objc.NSZone> zone$1) {
     final $ret = _objc_msgSend_1cwp428(
       _class_SwiftClass,
       _sel_allocWithZone_,
-      zone,
+      zone$1,
     );
     return SwiftClass.castFromPointer($ret, retain: false, release: true);
   }
@@ -307,12 +161,6 @@ class SwiftClass extends objc.NSObject {
 }
 
 extension SwiftClass$Methods on SwiftClass {
-  /// autorelease
-  SwiftClass autorelease() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_autorelease);
-    return SwiftClass.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// init
   SwiftClass init() {
     objc.checkOsVersionInternal(
@@ -327,22 +175,10 @@ extension SwiftClass$Methods on SwiftClass {
     return SwiftClass.castFromPointer($ret, retain: false, release: true);
   }
 
-  /// retain
-  SwiftClass retain() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_retain);
-    return SwiftClass.castFromPointer($ret, retain: true, release: true);
-  }
-
   /// sayHello
   objc.NSString sayHello() {
     final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_sayHello);
     return objc.NSString.castFromPointer($ret, retain: true, release: true);
-  }
-
-  /// self
-  SwiftClass self() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_self);
-    return SwiftClass.castFromPointer($ret, retain: true, release: true);
   }
 
   /// setSomeField:

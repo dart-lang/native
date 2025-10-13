@@ -18,6 +18,7 @@ import '../strings.dart' as strings;
 import '../visitor/apply_config_filters.dart';
 import '../visitor/ast.dart';
 import '../visitor/copy_methods_from_super_type.dart';
+import '../visitor/create_scopes.dart';
 import '../visitor/fill_method_dependencies.dart';
 import '../visitor/find_symbols.dart';
 import '../visitor/find_transitive_deps.dart';
@@ -165,12 +166,19 @@ List<String> _findObjectiveCSysroot() => [
 @visibleForTesting
 List<Binding> transformBindings(List<Binding> bindings, Context context) {
   final config = context.config;
-  visit(context, CopyMethodsFromSuperTypesVisitation(), bindings);
-  visit(context, FixOverriddenMethodsVisitation(context), bindings);
-  visit(context, FillMethodDependenciesVisitation(), bindings);
+
+  final allBindings = visit(
+    context,
+    FindTransitiveDepsVisitation(),
+    bindings,
+  ).transitives;
+
+  visit(context, CopyMethodsFromSuperTypesVisitation(), allBindings);
+  visit(context, FixOverriddenMethodsVisitation(context), allBindings);
+  visit(context, FillMethodDependenciesVisitation(), allBindings);
 
   final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(config);
-  visit(context, applyConfigFiltersVisitation, bindings);
+  visit(context, applyConfigFiltersVisitation, allBindings);
   final directlyIncluded = applyConfigFiltersVisitation.directlyIncluded;
   final included = directlyIncluded.union(
     applyConfigFiltersVisitation.indirectlyIncluded,
@@ -184,7 +192,7 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
   visit(
     context,
     ClearOpaqueCompoundMembersVisitation(config, byValueCompounds, included),
-    bindings,
+    allBindings,
   );
 
   final transitives = visit(
@@ -203,7 +211,7 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
     ListBindingsVisitation(config, included, transitives, directTransitives),
     bindings,
   ).bindings;
-  visit(context, MarkBindingsVisitation(finalBindings), bindings);
+  visit(context, MarkBindingsVisitation(finalBindings), allBindings);
 
   visit(context, MarkImportsVisitation(context), finalBindings);
 
@@ -255,6 +263,16 @@ void _nameAllSymbols(Context context, Set<Binding> bindings) {
     bindings,
   ).sorted;
 
+  visit(
+    context,
+    CreateScopesVisitation(context, bindings, orderedPass: true),
+    namingOrder,
+  );
+  visit(
+    context,
+    CreateScopesVisitation(context, bindings, orderedPass: false),
+    namingOrder,
+  );
   visit(context, FindSymbolsVisitation(context, bindings), namingOrder);
 
   context.extraSymbols = _createExtraSymbols(context);
