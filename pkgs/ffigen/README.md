@@ -55,21 +55,17 @@ app has been created via `dart create ffigen_example`.
    import 'dart:io';
 
    import 'package:ffigen/ffigen.dart';
-   import 'package:logging/logging.dart'; // Add dependency with `dart pub add logging`.
    
    void main() {
      final packageRoot = Platform.script.resolve('../');
-     final generator = FfiGenerator(
+     FfiGenerator(
        // Required. Output path for the generated bindings.
        output: Output(dartFile: packageRoot.resolve('lib/add.g.dart')),
        // Optional. Where to look for header files.
        headers: Headers(entryPoints: [packageRoot.resolve('src/add.h')]),
        // Optional. What functions to generate bindings for.
        functions: Functions.includeSet({'add'}),
-     );
-     generator.generate(
-       logger: Logger('')..onRecord.listen((record) => print(record.message)),
-     );
+     ).generate();
    }
    ```
 
