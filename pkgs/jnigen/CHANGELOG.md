@@ -186,7 +186,7 @@
 - Added `enable_experiment` option to config.
 - Created an experiment called `interface_implementation` which creates a
   `.implement` method for interfaces, so you can implement them using Dart.
-- Save all `jnigen` logs to a file in `.dart_tool/jnigen/logs/`. This is useful
+- Save all JNIgen logs to a file in `.dart_tool/jnigen/logs/`. This is useful
   for debugging.
 
 ## 0.5.0

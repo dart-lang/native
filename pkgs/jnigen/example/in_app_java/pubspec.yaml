@@ -1,6 +1,6 @@
 name: in_app_java
 description: |
-  Example on how to use jnigen to bridge between java and dart in a flutter
+  Example on how to use JNIgen to bridge between java and dart in a flutter
   project.
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev

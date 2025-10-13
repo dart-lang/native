@@ -9,7 +9,7 @@ import 'package:swift2objc/swift2objc.dart' as swift2objc;
 /// bindings to interop with that API.
 ///
 /// Dart's interop with Swift is built on Objective-C interop. Swift APIs can be
-/// accessed through Objective-C, and Dart can access Objective-C using ffigen.
+/// accessed through Objective-C, and Dart can access Objective-C using FFIgen.
 ///
 /// Swift -> Objective-C -> Dart
 ///
@@ -19,7 +19,7 @@ import 'package:swift2objc/swift2objc.dart' as swift2objc;
 /// is compatible. This wrapper will be automatically generated if you use
 /// [SwiftFileInput] or [SwiftModuleInput]. The generated wrapper must be
 /// compiled into your final app or plugin, along with any bindings generated
-/// by ffigen.
+/// by FFIgen.
 class SwiftGenerator {
   /// The target OS and SDK version to compile against.
   final Target target;
@@ -33,7 +33,7 @@ class SwiftGenerator {
   /// Configuration for the output files.
   final Output output;
 
-  /// Configuration for the ffigen pass.
+  /// Configuration for the FFIgen pass.
   final FfiGeneratorOptions ffigen;
 
   static bool _defaultInclude(swift2objc.Declaration _) => true;

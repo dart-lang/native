@@ -230,7 +230,7 @@ abstract final class Jni {
       JGlobalReference(_bindings.GetClassLoader());
 }
 
-/// Extensions for use by `jnigen` generated code.
+/// Extensions for use by JNIgen generated code.
 @internal
 extension ProtectedJniExtensions on Jni {
   static bool _initialized = false;

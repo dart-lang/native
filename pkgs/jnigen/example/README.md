@@ -1,26 +1,26 @@
-## jnigen examples
+## JNIgen examples
 
-This directory contains examples on how to use jnigen.
+This directory contains examples on how to use JNIgen.
 
 | Directory                                   | Description                                                                                                                                    |
 | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------- |
-| [in_app_java](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/example/in_app_java/)                 | Demonstrates how to include custom Java code in Flutter application and call that using jnigen                                                 |
+| [in_app_java](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/example/in_app_java/)                 | Demonstrates how to include custom Java code in Flutter application and call that using JNIgen                                                 |
 | [pdfbox_plugin](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/example/pdfbox_plugin/)             | Example of a flutter plugin which provides bindings to Apache PDFBox library. Currently works on Flutter desktop and Dart standalone on linux. |
 | [notification_plugin](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/example/notification_plugin/) | Example of a reusable Flutter plugin with custom Java code which uses Android libraries.                                                       |
-| [kotlin_plugin](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/example/kotlin_plugin)             | Example of using jnigen to generate bindings for Kotlin.                                                                                       |
+| [kotlin_plugin](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/example/kotlin_plugin)             | Example of using JNIgen to generate bindings for Kotlin.                                                                                       |
 
 We intend to cover few more use cases in future.
 
-## Creating a jnigen-based plugin from scratch
+## Creating a JNIgen-based plugin from scratch
 
 ### Dart package (Standalone only)
 
 - Create dart package, add `jni` as dependency and `jnigen` as dev dependency.
-- Write the jnigen config similar to [the one in pdfbox_plugin](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/example/pdfbox_plugin/jnigen.yaml).
+- Write the JNIgen config similar to [the one in pdfbox_plugin](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/example/pdfbox_plugin/jnigen.yaml).
 - Generate JNI bindings by running `dart run jnigen --config jnigen.yaml`.
 
 - In the CLI project which uses this package, add this package, and `jni` as a dependency.
-- Run `dart run jni:setup` to build native libraries for JNI base library and jnigen generated package.
+- Run `dart run jni:setup` to build native libraries for JNI base library and JNIgen generated package.
 - Import the package. See [pdf_info.dart](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/example/pdfbox_plugin/dart_example/bin/pdf_info.dart) for an example of using JNI from dart standalone.
 
 ### Flutter FFI plugin
@@ -30,7 +30,7 @@ Flutter FFI plugin has the advantage of bundling the required native libraries a
 To create an FFI plugin with JNI bindings:
 
 - Create a plugin using `plugin_ffi` template.
-- Remove ffigen-specific files and stubs.
+- Remove FFIgen-specific files and stubs.
 - Follow the above steps to generate JNI bindings. The plugin can be used from a flutter project.
 
 - It may be desirable to generate the bindings into a private directory (Eg: `lib/src/third_party`) and re-export the classes from the top level dart file.
@@ -40,7 +40,7 @@ To create an FFI plugin with JNI bindings:
 ### Android plugin with custom Java code
 
 - Create an FFI plugin with Android as the only platform.
-- Build the example/ Android project using command `flutter build apk`. After a release build is done, jnigen can use a gradle stub to collect compile classpaths.
+- Build the example/ Android project using command `flutter build apk`. After a release build is done, JNIgen can use a gradle stub to collect compile classpaths.
 - Write your custom Java code in `android/src/main/java` hierarchy of the plugin.
 - Generate JNI bindings as described above. See [notification_plugin/jnigen.yaml](https://github.com/dart-lang/native/tree/main/pkgs/jnigen/example/notification_plugin/jnigen.yaml) for example configuration.
 

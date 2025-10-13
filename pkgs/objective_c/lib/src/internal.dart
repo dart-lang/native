@@ -112,7 +112,7 @@ extension GetProtocolName on Pointer<c.ObjCProtocol> {
   String get name => c.getProtocolName(this).cast<Utf8>().toDartString();
 }
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 Pointer<c.ObjCSelector> registerName(String name) {
   final cstr = name.toNativeUtf8();
   final sel = c.registerName(cstr.cast());
@@ -120,7 +120,7 @@ Pointer<c.ObjCSelector> registerName(String name) {
   return sel;
 }
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 ObjectPtr getClass(String name) {
   final cstr = name.toNativeUtf8();
   final clazz = c.getClass(cstr.cast());
@@ -131,7 +131,7 @@ ObjectPtr getClass(String name) {
   return clazz;
 }
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 Pointer<c.ObjCProtocol> getProtocol(String name) {
   final cstr = name.toNativeUtf8();
   final clazz = c.getProtocol(cstr.cast());
@@ -142,7 +142,7 @@ Pointer<c.ObjCProtocol> getProtocol(String name) {
   return clazz;
 }
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 Pointer<Char>? getProtocolMethodSignature(
   Pointer<c.ObjCProtocol> protocol,
   Pointer<c.ObjCSelector> sel, {
@@ -155,26 +155,26 @@ Pointer<Char>? getProtocolMethodSignature(
   return sig == nullptr ? null : sig;
 }
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 final msgSendPointer = Native.addressOf<NativeFunction<Void Function()>>(
   c.msgSend,
 );
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 final msgSendFpretPointer = Native.addressOf<NativeFunction<Void Function()>>(
   c.msgSendFpret,
 );
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 final msgSendStretPointer = Native.addressOf<NativeFunction<Void Function()>>(
   c.msgSendStret,
 );
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 final useMsgSendVariants =
     Abi.current() == Abi.iosX64 || Abi.current() == Abi.macosX64;
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 bool respondsToSelector(ObjectPtr obj, Pointer<c.ObjCSelector> sel) =>
     _objcMsgSendRespondsToSelector(obj, _selRespondsToSelector, sel);
 final _selRespondsToSelector = registerName('respondsToSelector:');
@@ -297,7 +297,7 @@ abstract final class _ObjCReference<T extends NativeType>
 }
 
 // Wrapper around ObjCObjectRef/ObjCBlockRef. This is needed because
-// deeply-immutable classes must be final, but the ffigen bindings need to
+// deeply-immutable classes must be final, but the FFIgen bindings need to
 // extend ObjCObjectBase/ObjCBlockBase.
 class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>> {
   final Ref ref;
@@ -323,7 +323,7 @@ final class ObjCObjectRef extends _ObjCReference<c.ObjCObject> {
   bool _isValid(ObjectPtr ptr) => _isValidObject(ptr);
 }
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 class ObjCObjectBase extends _ObjCRefHolder<c.ObjCObject, ObjCObjectRef> {
   ObjCObjectBase(ObjectPtr ptr, {required bool retain, required bool release})
     : super(ObjCObjectRef(ptr, retain: retain, release: release));
@@ -360,7 +360,7 @@ bool _isValidClass(ObjectPtr clazz, {bool forceReloadClasses = false}) {
   return _allClasses.contains(clazz);
 }
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 class ObjCProtocolBase extends ObjCObjectBase {
   ObjCProtocolBase(super.ptr, {required super.retain, required super.release});
 }
@@ -377,7 +377,7 @@ final class ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
   bool _isValid(BlockPtr ptr) => c.isValidBlock(ptr);
 }
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 class ObjCBlockBase extends _ObjCRefHolder<c.ObjCBlockImpl, ObjCBlockRef> {
   ObjCBlockBase(BlockPtr ptr, {required bool retain, required bool release})
     : super(ObjCBlockRef(ptr, retain: retain, release: release));
@@ -430,7 +430,7 @@ BlockPtr _newBlock(
 
 const int _blockHasCopyDispose = 1 << 25;
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 BlockPtr newClosureBlock(VoidPtr invoke, Function fn, bool keepIsolateAlive) =>
     _newBlock(
       invoke,
@@ -440,7 +440,7 @@ BlockPtr newClosureBlock(VoidPtr invoke, Function fn, bool keepIsolateAlive) =>
       _blockHasCopyDispose,
     );
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 BlockPtr newPointerBlock(VoidPtr invoke, VoidPtr target) =>
     _newBlock(invoke, target, _pointerBlockDesc, 0, 0);
 
@@ -470,14 +470,14 @@ VoidPtr _registerBlockClosure(Function closure, bool keepIsolateAlive) {
   return VoidPtr.fromAddress(_blockClosureRegistryLastId);
 }
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 Function getBlockClosure(BlockPtr block) {
   var id = block.ref.target.address;
   assert(_blockClosureRegistry.containsKey(id));
   return _blockClosureRegistry[id]!.closure;
 }
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 final Pointer<c.DOBJC_Context> objCContext = c.fillContext(
   calloc<c.DOBJC_Context>(),
 );

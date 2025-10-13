@@ -24,7 +24,7 @@ external-versions:
   macos:
     min: 10.14.0
 objc-interfaces:
-  # Keep in sync with ffigen's ObjCBuiltInFunctions.builtInInterfaces.
+  # Keep in sync with FFIgen's ObjCBuiltInFunctions.builtInInterfaces.
   include:
     - DOBJCDartInputStreamAdapter
     - DOBJCDartInputStreamAdapterWeakHolder

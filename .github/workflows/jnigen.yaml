@@ -224,7 +224,7 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: ./pkgs/jni/coverage/lcov.info
-      # TODO(https://github.com/dart-lang/ffigen/issues/555): Ffigen generated
+      # TODO(https://github.com/dart-lang/ffigen/issues/555): FFIgen generated
       # on my machine has macOS specific stuff and CI does not.
       # We should just generate the struct as opaque, but we currently can't.
       #

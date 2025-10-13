@@ -19,7 +19,7 @@ import '../test_utils.dart';
 
 void generateBindingsForCoverage(String testName, [Logger? logger]) {
   // The ObjC test bindings are generated in setup.dart (see #362), which means
-  // that the ObjC related bits of ffigen are missed by test coverage. So this
+  // that the ObjC related bits of FFIgen are missed by test coverage. So this
   // function just regenerates those bindings. It doesn't test anything except
   // that the generation succeeded, by asserting the file exists.
   final path = p.join(

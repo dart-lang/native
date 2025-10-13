@@ -27,7 +27,7 @@ void run({required TestRunnerCallback testRunner}) {
   // And thus can be too verbose for simple experimenting and one-off uses
   // JClass API provides an easier way to perform some common operations.
   //
-  // However, if binding generation using jnigen is possible, that should be
+  // However, if binding generation using JNIgen is possible, that should be
   // the first choice.
   testRunner('Long.intValue() using JClass', () {
     // JClass wraps a local class reference, and

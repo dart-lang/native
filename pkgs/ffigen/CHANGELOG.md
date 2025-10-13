@@ -77,7 +77,7 @@
   [a bug](https://github.com/dart-lang/http/issues/1702), by removing all uses
   of `NSProxy`.
 - __Breaking change__: Change how duplicate identifiers are renamed to match
-  jnigen. The main change is that `$` is used as a delimiter now, to avoid
+  JNIgen. The main change is that `$` is used as a delimiter now, to avoid
   renamed identifiers from colliding with other identifiers. For example, `foo`
   is renamed to `foo$1` if there's already a `foo` in the namespace.
 - Fix [a bug](https://github.com/dart-lang/native/issues/1967) where blocking
@@ -178,7 +178,7 @@
 
 ## 14.0.0
 
-- Create a public facing API for ffigen that can be invoked as a library:
+- Create a public facing API for FFIgen that can be invoked as a library:
   `void generate(Config config)`. Make `Config` an implementatble interface,
   rather than needing to be parsed from yaml.
 - Add a `external-versions` config option. Setting the minimum target
@@ -194,7 +194,7 @@
 - __Breaking change__: Generated ObjC code has been migrated to ARC (Automatic
   Reference Counting), and must now be compiled with ARC enabled. For example,
   if you had a line like `s.requires_arc = []` in your podspec, this should
-  either be removed, or you should add the ffigen generated ObjC code to the
+  either be removed, or you should add the FFIgen generated ObjC code to the
   list. If you're compiling directly with clang, add the `-fobjc-arc` flag.
 - __Breaking change__: Structs with enum members now generate their members
   as Dart enum values as well. For example, with an enum `MyEnum` and a struct
@@ -258,11 +258,11 @@
     https://github.com/dart-lang/native/issues/1068 is fixed).
   - Core classes such as `NSString` have been moved into `package:objective_c`.
   - ObjC class methods don't need the ubiquitous `lib` argument anymore. In
-    fact, ffigen won't even generate the native library class (unless it needs
+    fact, FFIgen won't even generate the native library class (unless it needs
     to bind top level functions without using `@Native`). It is still necessary
     to `DynamicLibrary.open` the dylib though, to load the classes and methods.
   - Adapting to this change:
-    - Update ffigen and re-run the code generation. If the generated code no
+    - Update FFIgen and re-run the code generation. If the generated code no
       longer contains the native library class, it means it isn't needed
       anymore. So `final lib = FooNativeLib(DynamicLibrary.open('foo.dylib'));`
       must be changed to `DynamicLibrary.open('foo.dylib');`.
@@ -272,7 +272,7 @@
     - If core ObjC classes such as `NSString` are being used,
       `package:objective_c` must be imported, as they won't be exported by the
       generated bindings.
-- Add --[no-]format option to ffigen command line, which controls whether the
+- Add --[no-]format option to FFIgen command line, which controls whether the
   formatting step happens. Defaults to true.
 - Delete Dart functions associated with ObjC closure blocks when the block is
   destroyed. Fixes https://github.com/dart-lang/native/issues/204
@@ -412,7 +412,7 @@ and examples/shared_bindings).
 
 ## 7.0.0-dev
 
-- Relative paths in ffigen config files are now assumed to be relative to the
+- Relative paths in FFIgen config files are now assumed to be relative to the
   config file, rather than the working directory of the tool invocation.
 
 ## 6.1.2
@@ -569,7 +569,7 @@ automatically but can be overriden using `structs -> pack` config.
 
 ## 2.2.3
 - Added new subkey `dependency-only` (options - `full (default) | opaque`) under `structs`.
-When set to `opaque`, ffigen will generate empty `Opaque` structs if structs
+When set to `opaque`, FFIgen will generate empty `Opaque` structs if structs
 were excluded in config (i.e added because they were a dependency) and
 only passed by reference(pointer).
 
@@ -613,7 +613,7 @@ structs having `Opaque` members.
 - Removed the usage of `--no-sound-null-safety` flag.
 
 ## 2.0.0-dev.2
-- Removed setup phase for ffigen. Added new optional config key `llvm-lib`
+- Removed setup phase for FFIgen. Added new optional config key `llvm-lib`
 to specify path to `llvm/lib` folder.
 
 ## 2.0.0-dev.1
@@ -668,7 +668,7 @@ to specify path to `llvm/lib` folder.
 - Added config `dart-bool` (default: true) to use dart bool instead of int in function parameters and return type.
 
 ## 0.2.3+3
-- Wrapper dynamic library version now uses ffigen version from its pubspec.yaml file.
+- Wrapper dynamic library version now uses FFIgen version from its pubspec.yaml file.
 
 ## 0.2.3+2
 - Handle code formatting using dartfmt by finding dart-sdk.

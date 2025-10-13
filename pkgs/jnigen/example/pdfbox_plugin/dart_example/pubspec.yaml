@@ -1,5 +1,5 @@
 name: pdf_info
-description: Dart standalone example using jnigen PDFBox bindings.
+description: Dart standalone example using JNIgen PDFBox bindings.
 version: 1.0.0
 publish_to: none
 # homepage: https://www.example.com

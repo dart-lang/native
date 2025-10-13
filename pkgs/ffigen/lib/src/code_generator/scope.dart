@@ -57,7 +57,7 @@ class Scope {
   /// This is meant to be used during code generation, for generating unique
   /// names for internal use only. It shouldn't be used for user visible names,
   /// or for names that need to be used in multiple disparate places throughout
-  /// ffigen. If you're storing the name in a long term variable, you should
+  /// FFIgen. If you're storing the name in a long term variable, you should
   /// probably be using a proper [Symbol].
   ///
   /// To help ensure correct use, only names beginning with '_' are allowed.

@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 // This file exposes a subset of the Objective C runtime. Ideally we'd just run
-// ffigen directly on the runtime headers that come with XCode, but those
+// FFIgen directly on the runtime headers that come with XCode, but those
 // headers don't have everything we need (e.g. the ObjCBlockImpl struct).
 
 #ifndef OBJECTIVE_C_SRC_OBJECTIVE_C_RUNTIME_H_

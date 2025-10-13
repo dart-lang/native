@@ -62,7 +62,7 @@ bool hasVarArgs(String name) {
       RegExp(r'^Call(Static|Nonvirtual|)[A-Z][a-z]+Method$').hasMatch(name);
 }
 
-/// Get C name of a type from its ffigen representation.
+/// Get C name of a type from its FFIgen representation.
 String getCType(Type type) {
   if (type is PointerType) {
     return '${getCType(type.child)}*';

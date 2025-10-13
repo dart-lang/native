@@ -1,6 +1,6 @@
-# Errors in ffigen
+# Errors in FFIgen
 
-This file documents various errors and their potential fixes related to ffigen.
+This file documents various errors and their potential fixes related to FFIgen.
 
 ## Errors in source header files
 
@@ -43,7 +43,7 @@ Since Dart doesn't support method overloading, the method may have been renamed
 to avoid collisions. Again the best approach is to search for the ObjC method
 name.
 
-When ffigen generates bindings for an ObjC interface, eg `Foo`, it generates a
+When FFIgen generates bindings for an ObjC interface, eg `Foo`, it generates a
 Dart class `Foo`, which contains the constructor and static methods. The
 instance methods are generated in an extension, `Foo$Methods`.
 

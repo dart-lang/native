@@ -44,7 +44,7 @@ final class YamlConfig {
   SymbolFile? get symbolFile => _symbolFile;
   late SymbolFile? _symbolFile;
 
-  /// Language that ffigen is consuming.
+  /// Language that FFIgen is consuming.
   Language get language => _language;
   late Language _language;
 

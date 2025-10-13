@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// This script generates all FFIGEN-based bindings we require to use JNI, which
+// This script generates all FFIgen-based bindings we require to use JNI, which
 // includes some C wrappers over `JNIEnv` type and some Dart extension methods.
 
 import 'dart:io';
@@ -25,7 +25,7 @@ void main(List<String> args) {
     ..addOption(
       'verbose',
       defaultsTo: 'severe',
-      help: 'set ffigen log verbosity',
+      help: 'set FFIgen log verbosity',
       allowed: levels.keys,
     )
     ..addFlag(
