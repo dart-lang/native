@@ -47,23 +47,23 @@
 #ifdef _WIN32
 #include <windows.h>
 
-typedef CRITICAL_SECTION MutexLock;
+typedef SRWLOCK MutexLock;
 typedef CONDITION_VARIABLE ConditionVariable;
 
 static inline void init_lock(MutexLock* lock) {
-  InitializeCriticalSection(lock);
+  InitializeSRWLock(lock);
 }
 
 static inline void acquire_lock(MutexLock* lock) {
-  EnterCriticalSection(lock);
+  AcquireSRWLockExclusive(lock);
 }
 
 static inline void release_lock(MutexLock* lock) {
-  LeaveCriticalSection(lock);
+  ReleaseSRWLockExclusive(lock);
 }
 
 static inline void destroy_lock(MutexLock* lock) {
-  DeleteCriticalSection(lock);
+  // Not available on Windows.
 }
 
 static inline void init_cond(ConditionVariable* cond) {
@@ -75,11 +75,11 @@ static inline void signal_cond(ConditionVariable* cond) {
 }
 
 static inline void wait_for(ConditionVariable* cond, MutexLock* lock) {
-  SleepConditionVariableCS(cond, lock, INFINITE);
+  SleepConditionVariableSRW(cond, lock, INFINITE, 0);
 }
 
 static inline void destroy_cond(ConditionVariable* cond) {
-  // Not available.
+  // Not available on Windows.
 }
 
 static inline void free_mem(void* mem) {

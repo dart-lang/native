@@ -171,31 +171,19 @@ Java_com_github_dart_1lang_jni_JniPlugin_setJniActivity(JNIEnv* env,
 // on Android NDK. So IFDEF is required.
 #else
 #ifdef _WIN32
-// Pre-initialization of critical section on windows - this is required because
-// there's no coordination between multiple isolates calling Spawn.
-//
-// Taken from https://stackoverflow.com/a/12858955
-CRITICAL_SECTION spawnLock = {0};
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,   // handle to DLL module
-                    DWORD fdwReason,      // reason for calling function
-                    LPVOID lpReserved) {  // reserved
+SRWLOCK spawnLock = SRWLOCK_INIT;
+
+BOOL WINAPI DllMain(HINSTANCE hinstDLL,
+                    DWORD fdwReason,
+                    LPVOID lpReserved) {
   switch (fdwReason) {
-    case DLL_PROCESS_ATTACH:
-      // Initialize once for each new process.
-      // Return FALSE to fail DLL load.
-      InitializeCriticalSection(&spawnLock);
-      break;
     case DLL_THREAD_DETACH:
       if (jniEnv != NULL) {
         detach_thread(jniEnv);
       }
       break;
-    case DLL_PROCESS_DETACH:
-      // Perform any necessary cleanup.
-      DeleteCriticalSection(&spawnLock);
-      break;
   }
-  return TRUE;  // Successful DLL_PROCESS_ATTACH.
+  return TRUE;
 }
 #else
 pthread_mutex_t spawnLock = PTHREAD_MUTEX_INITIALIZER;
