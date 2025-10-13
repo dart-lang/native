@@ -9,6 +9,8 @@
 /// https://pub.dev/packages/ffigen for details.
 ///
 /// {@category Errors}
+///
+/// @docImport 'src/config_provider.dart';
 library;
 
 export 'src/code_generator/imports.dart' show ImportedType, LibraryImport;
