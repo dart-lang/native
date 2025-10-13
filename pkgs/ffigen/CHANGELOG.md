@@ -1,4 +1,4 @@
-## 20.0.0-dev.1-wip
+## 20.0.0-dev.1.wip
 
 - Make the `Logger` argument of `FfiGenerator.generate` optional. It defaults to
   a logger printing to stdout and stderr.
