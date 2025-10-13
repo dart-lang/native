@@ -1,0 +1,17 @@
+name: add
+description: A simple end-to-end example showcasing FFIgen.
+publish_to: none
+
+environment:
+  sdk: ^3.10.0-285.0.dev
+
+dependencies:
+  code_assets: any
+  ffi: ^2.1.4
+  hooks: any
+  native_toolchain_c: any
+
+dev_dependencies:
+  ffigen:
+    path: '../../'
+  test: ^1.25.15
