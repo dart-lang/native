@@ -15,8 +15,7 @@ import 'dart:ffi' as ffi;
 import '' as self;
 
 /// Adds 2 integers. dsfgsdfg
-@ffi.Native<ffi.Int Function(ffi.Int, 
-                             ffi.Int)>()
+@ffi.Native<ffi.Int Function(ffi.Int, ffi.Int)>()
 external int sum(int a, int b);
 
 /// Subtracts 2 integers.
