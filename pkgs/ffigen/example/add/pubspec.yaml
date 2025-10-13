@@ -3,7 +3,7 @@ description: A simple end-to-end example showcasing FFIgen.
 publish_to: none
 
 environment:
-  sdk: ^3.10.0-285.0.dev
+  sdk: '>=3.8.0 <4.0.0'
 
 dependencies:
   code_assets: any
