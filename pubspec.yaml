@@ -1,4 +1,5 @@
 name: dart_lang_native_workspace
+# TODO(goderbauer): reevaluate after https://github.com/dart-lang/ecosystem/issues/377 is resolved.
 publish_to: none
 
 environment:
