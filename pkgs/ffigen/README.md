@@ -7,13 +7,13 @@
 
 Bindings generator for [FFI](https://dart.dev/guides/libraries/c-interop) bindings.
 
-> Note: `ffigen` only supports parsing `C` headers, not `C++` headers.
+> Note: FFIgen only supports parsing `C` headers, not `C++` headers.
 
 This bindings generator can be used to call C code or code in another language
 that compiles to C modules that follow the C calling convention, such as Go or 
 Rust. For more details, see https://dart.dev/guides/libraries/c-interop.
 
-`ffigen` also has experimental support for calling ObjC and Swift code;
+FFIgen also has experimental support for calling ObjC and Swift code;
 for details see https://dart.dev/guides/libraries/objective-c-interop.
 
 ## Getting Started
@@ -46,8 +46,8 @@ app has been created via `dart create ffigen_example`.
    }
    ```
 
-3. To generate the bindings, we will write a script using `ffigen` and place it
-   under `tool/ffigen.dart`. The script instantiates and configures a
+3. To generate the bindings, we will write a script using `package:ffigen` and
+   place it under `tool/ffigen.dart`. The script instantiates and configures a
    `FfiGenerator`. Refer to the code comments below and the API docs to learn
    more about available configuration options.
 
@@ -59,7 +59,7 @@ app has been created via `dart create ffigen_example`.
    
    void main() {
      final packageRoot = Platform.script.resolve('../');
-     final FfiGenerator generator = FfiGenerator(
+     final generator = FfiGenerator(
        // Required. Output path for the generated bindings.
        output: Output(dartFile: packageRoot.resolve('lib/add.g.dart')),
        // Optional. Where to look for header files.
@@ -75,7 +75,7 @@ app has been created via `dart create ffigen_example`.
 
 4. Run the script with `dart run tool/ffigen.dart` to generate the bindings.
    This will create the output `add.g.dart` file, which can be imported by Dart
-   code to access the C APIs. This command must be re-run whenever the `ffigen`
+   code to access the C APIs. This command must be re-run whenever the FFIgen
    configuration (in `tool/ffigen.dart`) or the C sources for which bindings are
    generated change.
 
@@ -124,7 +124,7 @@ That's it! Run your app with `dart run` to see it in action!
 ## More Examples
 
 The `code_asset` package contains [comprehensive examples](../code_assets/example)
-that showcase `ffigen`. Additional examples that show how `ffigen` can be used
+that showcase FFIgen. Additional examples that show how FFIgen can be used
 in different scenarios can also be found in the [example](example/) directory.
 
 ## Requirements
@@ -151,7 +151,7 @@ in the following way:
 
 ## YAML Configuration Reference
 
-In addition to the Dart API shown in the "Getting Started" section, `ffigen` can
+In addition to the Dart API shown in the "Getting Started" section, FFIgen can
 also be configured via YAML. Support for the YAML configuration will be
 eventually phased out, and using the Dart API is recommended.
 
@@ -194,11 +194,11 @@ output:
   </tr>
   <tr>
     <td>llvm-path</td>
-    <td>Path to <i>llvm</i> folder.<br> ffigen will sequentially search
+    <td>Path to <i>llvm</i> folder.<br> FFIgen will sequentially search
     for `lib/libclang.so` on linux, `lib/libclang.dylib` on macOS and
     `bin\libclang.dll` on windows, in the specified paths.<br><br>
     Complete path to the dynamic library can also be supplied.<br>
-    <i>Required</i> if ffigen is unable to find this at default locations.</td>
+    <i>Required</i> if FFIgen is unable to find this at default locations.</td>
     <td>
 
 ```yaml
@@ -214,7 +214,7 @@ llvm-path:
   <tr>
     <td>headers<br><i><b>(Required)</b></i></td>
     <td>The header entry-points and include-directives. Glob syntax is allowed.<br>
-    If include-directives are not specified ffigen will generate everything directly/transitively under the entry-points.</td>
+    If include-directives are not specified FFIgen will generate everything directly/transitively under the entry-points.</td>
     <td>
 
 ```yaml
@@ -681,7 +681,7 @@ ffi-native:
       <b>WARNING:</b> Other language support is EXPERIMENTAL. The API may change
       in a breaking way without notice.
       <br><br>
-      Choose the input langauge. Must be one of 'c', or 'objc'. Defaults to 'c'.
+      Choose the input language. Must be one of 'c', or 'objc'. Defaults to 'c'.
     </td>
     <td>
 
@@ -960,9 +960,9 @@ include-transitive-objc-categories: false
 
 ## FAQ
 
-### Can `ffigen` be used for removing underscores or renaming declarations?
+### Can FFIgen be used for removing underscores or renaming declarations?
 
-`ffigen` supports **regexp-based renaming**. The regexp must be a full match.
+FFIgen supports **regexp-based renaming**. The regexp must be a full match.
 For renaming you can use regexp groups (`$1` means group 1).
 
 To renaming `clang_dispose_string` to `string_dispose` we can match it using
@@ -995,9 +995,9 @@ headers:
   include-directives:
     - '**my_header.h' # This glob pattern matches the header path.
 ```
-### Can `ffigen` filter declarations by name?
+### Can FFIgen filter declarations by name?
 
-`ffigen` supports including/excluding declarations using full regexp matching.
+FFIgen supports including/excluding declarations using full regexp matching.
 
 Here's an example to filter functions using names:
 
@@ -1013,9 +1013,9 @@ This will include `clang_help`. But will exclude `clang_dispose`.
 
 Note: exclude overrides include.
 
-### How does `ffigen` handle C Strings?
+### How does FFIgen handle C Strings?
 
-`ffigen` treats `char*` just as any other pointer (`Pointer<Int8>`).
+FFIgen treats `char*` just as any other pointer (`Pointer<Int8>`).
 To convert these to/from `String`, you can use [package:ffi](https://pub.dev/packages/ffi).
 Use `ptr.cast<Utf8>().toDartString()` to convert `char*` to dart `string` and
 `"str".toNativeUtf8()` to convert `string` to `char*`.
@@ -1048,8 +1048,8 @@ However, if a native library adds another possible enum value after you generate
 your bindings, and this new value is passed to your Dart code, this will result
 in an `ArgumentError` at runtime. To fix this, you can regenerate the bindings
 on the new header file, but if you wish to avoid this issue entirely, you can
-tell `ffigen` to generate plain Dart integers for your enum instead. To do this,
-simply list your enum's name in the `as-int` section of your `ffigen` config:
+tell FFIgen to generate plain Dart integers for your enum instead. To do this,
+simply list your enum's name in the `as-int` section of your FFIgen config:
 
 ```yaml
 enums:
@@ -1072,7 +1072,7 @@ This happens when an excluded struct/union is a dependency to some included
 declaration. (A dependency means a struct is being passed/returned by a function
 or is member of another struct in some way.)
 
-Note: If you supply `structs.dependency-only` as `opaque` `ffigen` will generate
+Note: If you supply `structs.dependency-only` as `opaque` FFIgen will generate
 these struct dependencies as `Opaque` if they were only passed by reference 
 (pointer).
 
@@ -1115,7 +1115,7 @@ functions:
   expose-typedefs:
     include:
       - 'myFunc' # Match function name.
-      - '.*' # Do this to expose types for all function.
+      - '.*' # Do this to expose types for all functions.
     exclude: # If you only use exclude, then everything not excluded is generated.
       - 'dispose'
 ```
@@ -1135,28 +1135,28 @@ The following typedefs are not generated:
 
 ### How are macros handled?
 
-`ffigen` uses `clang`'s own compiler frontend to parse and traverse the `C`
-header files. `ffigen` expands the macros using `clang`'s macro expansion and
-then traverses the expanded code. To do this, `ffigen` generates temporary files
+FFIgen uses `clang`'s own compiler frontend to parse and traverse the `C`
+header files. FFIgen expands the macros using `clang`'s macro expansion and
+then traverses the expanded code. To do this, FFIgen generates temporary files
 in a system tmp directory.
 
 A custom temporary directory can be specified by setting the `TEST_TMPDIR`
 environment variable.
 
-### What are these logs generated by `ffigen` and how to fix them?
+### What are these logs generated by FFIgen and how to fix them?
 
-`ffigen` can sometimes generate a lot of logs, especially when it's parsing a lot
+FFIgen can sometimes generate a lot of logs, especially when it's parsing a lot
 of code.
 - `SEVERE` logs are something you *definitely need to address*. They can be
   caused due to syntax errors, or more generally missing header files
   (which need to be specified using `compiler-opts` in config).
 - `WARNING` logs are something *you can ignore*, but should probably look into.
-  These are mostly indications of declarations `ffigen` couldn't generate due
+  These are mostly indications of declarations FFIgen couldn't generate due
   to limitations of `dart:ffi`, private declarations (which can be resolved
-  by renaming them via `ffigen` config) or other minor issues in the config
+  by renaming them via FFIgen's config) or other minor issues in the config
   file itself.
 - Everything else can be safely ignored. Its purpose is to simply let you know
-  what `ffigen` is doing.
+  what FFIgen is doing.
 - The verbosity of the logs can be changed by adding a flag with
   the log level, e.g. `dart run ffigen --verbose <level>`.
   Level options are `[all, fine, info (default), warning, severe]`.
@@ -1165,11 +1165,11 @@ of code.
 
 ### How can type definitions be shared?
 
-`ffigen` can share type definitions using symbol files.
+FFIgen can share type definitions using symbol files.
 - A package can generate a symbol file using the `output.symbol-file` config.
 - And another package can then import this, using `import.symbol-files` config.
 - Doing so will reuse all the types such as Struct/Unions, and will automatically
-  exclude generating other types (E.g functions, enums, macros).
+  exclude generating other types (E.g. functions, enums, macros).
 
 Checkout `examples/shared_bindings` for details.
 
@@ -1242,7 +1242,7 @@ the filters. The protocol filtering rules live in
 
 It can be tricky to locate header files containing Apple's ObjC frameworks, and
 the paths can vary between computers depending on which version of Xcode you are
-using and where it is installed. So `ffigen` provides the following variable
+using and where it is installed. So FFIgen provides the following variable
 substitutions that can be used in the `headers.entry-points` list:
 
 - `$XCODE`: Replaced with the result of `xcode-select -p`, which is the

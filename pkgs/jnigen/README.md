@@ -7,7 +7,7 @@
 
 Bindings generator to call Java APIs from Dart code via `dart:ffi` and JNI.
 
-`jnigen` scans compiled JAR files or Java source code to generate a description
+JNIgen scans compiled JAR files or Java source code to generate a description
 of the API, then uses that to generate Dart bindings. The Dart bindings call the
 C bindings, which in-turn call the Java functions through JNI. Shared 
 functionality and base classes are provided through the support library,
@@ -25,7 +25,7 @@ encounter any issues running the commands below, check the
 instructions.
 
 1. Run `flutter build apk` at least once to build an APK for your app. This is 
-   necessary so that `jnigen` can get the classpaths of Android Gradle
+   necessary so that JNIgen can get the classpaths of Android Gradle
    libraries.
 
 2. Add the helper package `package:jni` as a dependency and the bindings
@@ -54,11 +54,12 @@ instructions.
    }
    ```
 
-4. To generate the bindings, we will write a script using `jnigen` and place it
-   under `tool/jnigen.dart`. The script constructs a `Config` object and passes
-   it to `generateJniBindings`. The `Config` object configures the bindings that
-   `jnigen` will generate for the Java code. Refer to the code comments below
-   and the API docs to learn more about available configuration options.
+4. To generate the bindings, we will write a script using `package:jnigen` and 
+   place it under `tool/jnigen.dart`. The script constructs a `Config` object
+   and passes it to `generateJniBindings`. The `Config` object configures the
+   bindings that JNIgen will generate for the Java code. Refer to the code
+   comments below and the API docs to learn more about available configuration
+   options.
 
    ```dart
    import 'dart:io';
@@ -91,7 +92,7 @@ instructions.
 5. Run the script with `dart run tool/jnigen.dart` to generate the bindings.
    This will create the output `android_utils.g.dart` file, which can be
    imported by Dart code to access the Java APIs. This command must be re-run
-   whenever the `jnigen` configuration (in `tool/jnigen.dart`) or the Java
+   whenever the JNIgen configuration (in `tool/jnigen.dart`) or the Java
    sources for which bindings are generated change.
 
 6. Import `android_utils.g.dart` in your Flutter app and call the generated
@@ -120,7 +121,7 @@ to demonstrate using classes from Gradle JAR and source dependencies.
 
 ## More Examples
 
-Additional examples showcasing how `jnigen` can be used in different scenarios
+Additional examples showcasing how JNIgen can be used in different scenarios
 (e.g. to generate bindings for Kotlin) can be found in the [example](example/)
 directory.
 
@@ -141,7 +142,7 @@ the JNI on both Android and non-Android platforms.
 ## Dart (standalone) target
 
 `package:jni` is an FFI plugin containing native code, and any bindings
-generated from jnigen contain native code too.
+generated from JNIgen contain native code too.
 
 On Flutter targets, native libraries are built automatically and bundled. On
 standalone platforms, no such infrastructure exists yet. As a stopgap solution,
@@ -195,7 +196,7 @@ CMake and a standard C toolchain are required to build `package:jni`.
 
 ## YAML Configuration Reference
 
-In addition to the Dart API shown in the "Getting Started" section, `jnigen` can
+In addition to the Dart API shown in the "Getting Started" section, JNIgen can
 also be configured via a YAML configuration file. Support for the YAML
 configuration will be eventually phased out, and using the Dart API is 
 recommended. To generate bindings with a YAML configuration stored in
@@ -232,7 +233,7 @@ with a colon (`:`) denote subsections. A `*` denotes a required configuration.
 | `maven_downloads:` >> `jar_dir`            | Path                                                                      | Directory to store downloaded JARs. Defaults to `mvn_jar`.                                                                                                                                                                                                                                                                                                                                |
 | `log_level`                                | Logging level                                                             | Configure logging level. Defaults to `info`.                                                                                                                                                                                                                                                                                                                                              |
 | `android_sdk_config:`                      | (Subsection)                                                              | Configuration for autodetection of Android dependencies and SDK. Note that this is more experimental than others, and very likely subject to change.                                                                                                                                                                                                                                      |
-| `android_sdk_config:` >> `add_gradle_deps` | Boolean                                                                   | If true, run a Gradle stub during `jnigen` invocation, and add Android compile classpath to the classpath of `jnigen`. This requires a release build to have happened before, so that all dependencies are cached appropriately.                                                                                                                                                          |
+| `android_sdk_config:` >> `add_gradle_deps` | Boolean                                                                   | If true, run a Gradle stub during JNIgen invocation, and add Android compile classpath to the classpath of JNIgen. This requires a release build to have happened before, so that all dependencies are cached appropriately.                                                                                                                                                              |
 | `android_sdk_config:` >> `android_example` | Directory path                                                            | In case of an Android plugin project, the plugin itself cannot be built and `add_gradle_deps` is not directly feasible. This property can be set to relative path of package example app (usually `example/` so that Gradle dependencies can be collected by running a stub in this directory. See [notification_plugin example](example/notification_plugin/jnigen.yaml) for an example. |
 | `summarizer:`                              | (Subsection)                                                              | Configuration specific to summarizer component, which builds API descriptions from Java sources or JAR files.                                                                                                                                                                                                                                                                             |
 | `summarizer:` >> `backend`                 | `auto`, `doclet` or `asm`                                                 | Specifies the backend to use in API summary generation. `doclet` uses OpenJDK Doclet API to build summary from sources. `asm` uses ASM library to build summary from classes in `class_path` JARs. `auto` attempts to find the class in sources, and falls back to using ASM.                                                                                                             |
@@ -241,7 +242,7 @@ with a colon (`:`) denote subsections. A `*` denotes a required configuration.
 ## FAQs
 
 #### I am getting ClassNotFoundError at runtime.
-`jnigen` does not handle getting the classes into application. It has to be done
+JNIgen does not handle getting the classes into application. It has to be done
 by target-specific mechanism. Such as adding a Gradle dependency on Android, or
 manually providing classpath to `Jni.spawn` on desktop / standalone targets.
 
@@ -257,7 +258,7 @@ external libraries.
 Lastly, some libraries such as `java.awt` do not exist in Android. Attempting to
 use libraries which depend on them can also lead to ClassNotFound errors.
 
-#### `jnigen` is not finding classes.
+#### JNIgen is not finding classes.
 Ensure you are providing the correct source and class paths, and they follow the
 standard directory structure. If your class name is `com.abc.MyClass`,
 `MyClass` must be in `com/abc/MyClass.java` relative to one of the source paths,
@@ -266,7 +267,7 @@ or `com/abc/MyClass.class` relative to one of the class paths specified in YAML.
 If the classes are in JAR file, make sure to provide the path to the JAR file
 itself, and not to the containing directory.
 
-#### `jnigen` is unable to parse sources.
+#### JNIgen is unable to parse sources.
 If the errors are similar to `symbol not found`, ensure all dependencies of the
 source are available. If such dependency is compiled, it can be included in
 `class_path`.
