@@ -7,7 +7,7 @@ building and bundling.
 
 ## Documentation
 
-See the [docs](docs/README.md) directory for more documentation.
+See the [doc](doc/) directory for more documentation.
 
 ## Packages
 
