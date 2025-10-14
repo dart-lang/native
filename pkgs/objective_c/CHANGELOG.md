@@ -1,6 +1,6 @@
 ## 9.0.0-dev.0
 
-- Use ffigen 20.0.0
+- Use FFIgen 20.0.0
 - Fix missing `NSNumber` category includes in iOS and macOS `objective_c.m`
   files.
 - Add `NSBundle` and `NSNull` to the bindings.
@@ -19,7 +19,7 @@
 
 ## 8.0.0
 
-- Use ffigen 19.0.0
+- Use FFIgen 19.0.0
 - `NSArray` is now a Dart `Iterable` and `NSMutableArray` is now a Dart `List`.
 - `NSDictionary` and `NSMutableDictionary` are now Dart `Map`s.
 - `NSSet` and `NSMutableSet` are now Dart `Set`s.
@@ -33,11 +33,11 @@
 
 ## 7.1.0
 
-- Use ffigen 18.1.0
+- Use FFIgen 18.1.0
 
 ## 7.0.0
 
-- Use ffigen 18.0.0
+- Use FFIgen 18.0.0
 - `ObjCProtocolBuilder` supports implementing protocol methods directly using a
   block.
 - Change how `ObjCProtocolBuilder` is implemented to fix
@@ -49,14 +49,14 @@
     `DOBJCDartProxyBuilder` to `DOBJCDartProtocolBuilder` and `DOBJCDartProxy`
     to `DOBJCDartProtocol` and change their APIs. Users should not be using
     these classes.
-- __Breaking change__: Some API names have changed due to ffigen's new duplicate
-  identifier renaming logic. `$` is now used as a delimiter, to match jnigen's
+- __Breaking change__: Some API names have changed due to FFIgen's new duplicate
+  identifier renaming logic. `$` is now used as a delimiter, to match JNIgen's
   renaming logic.
 - Added a `checkOsVersion` function.
 
 ## 6.0.0
 
-- Use ffigen 17.0.0
+- Use FFIgen 17.0.0
 
 ## 5.0.0
 
@@ -72,7 +72,7 @@
 
 ## 4.1.0
 
-- Use ffigen 16.1.0
+- Use FFIgen 16.1.0
 - Reduces the chances of duplicate symbols by adding a `DOBJC_` prefix.
 - Ensure that required symbols are available to FFI even when the final binary
   is linked with `-dead_strip`.
@@ -80,9 +80,9 @@
 
 ## 4.0.0
 
-- Use ffigen 16.0.0
+- Use FFIgen 16.0.0
 - Add `NSOrderedCollectionDifference` to the package.
-- __Breaking change__: As part of ffigen 16.0.0, the way ObjC categories are
+- __Breaking change__: As part of FFIgen 16.0.0, the way ObjC categories are
   generated has changed. Instead of inserting their methods into the interface,
   categories now generate Dart extension methods. For ordinary methods this
   makes no difference, but static methods now need to be invoked on the
@@ -148,7 +148,7 @@
   `DartProxyBuilder`.
 - Add `ObjCProtocolMethod`, which contains all the information that
   `ObjCProtocolBuilder` needs to implement a method. These objects are created
-  by the ffigen bindings for a protocol.
+  by the FFIgen bindings for a protocol.
 - Make all of the code-genned structs and enums public so they can be reused by
   user bindings.
 - Use `package:dart_flutter_team_lints`.
@@ -159,7 +159,7 @@
 
 ## 1.0.0
 
-- Move sharable code from ffigen's generated code into this package, including
+- Move sharable code from FFIgen's generated code into this package, including
   `ObjCObjectBase`, and `ObjCBlockBase`, as well as the core Objective C runtime
   functions (except `objc_msgSend`, which is library specific).
 - Move core ObjC classes such as `NSString` into this package.

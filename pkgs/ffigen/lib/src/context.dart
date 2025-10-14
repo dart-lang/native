@@ -14,7 +14,7 @@ import 'config_provider/spec_utils.dart';
 import 'header_parser/clang_bindings/clang_bindings.dart' show Clang;
 import 'header_parser/utils.dart';
 
-/// Wrapper around various ffigen-wide variables.
+/// Wrapper around various FFIgen-wide variables.
 class Context {
   final Logger logger;
   final Config config;
@@ -53,7 +53,7 @@ class Context {
 //
 // Ideally this would be in the Context, but the plumbing needed would be
 // excessive. The point of putting globals in the Context is to allow multiple
-// concurrent FfiGen runs without any risk of clobbering global state. The
+// concurrent FFIgen runs without any risk of clobbering global state. The
 // clang bindings are loaded from a dylib specified by the config, so it's
 // possible that two different versions of clang could be loaded. But since we
 // interact with clang through a stable API, there's no real danger of version

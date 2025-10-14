@@ -45,7 +45,7 @@ mixin JAccessible<JavaT, DartT> on JTypeBase<JavaT> {
   void _instanceSet(JObjectPtr obj, JFieldIDPtr fieldID, DartT val);
 }
 
-/// Only used for jnigen.
+/// Only used for JNIgen.
 ///
 /// Makes constructing objects easier inside the generated bindings by allowing
 /// a [JReference] to be created. This allows [JObject]s to use constructors

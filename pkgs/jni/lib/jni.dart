@@ -5,7 +5,7 @@
 /// Package jni provides dart bindings for the Java Native Interface (JNI) on
 /// Android and desktop platforms.
 ///
-/// It's intended as a supplement to the jnigen tool, a Java wrapper generator
+/// It's intended as a supplement to the JNIgen tool, a Java wrapper generator
 /// using JNI. The goal of this package is to provide sufficiently complete
 /// and ergonomic access to underlying JNI APIs.
 ///
@@ -31,8 +31,8 @@
 /// standalone:
 ///
 /// * Run `dart run jni:setup` to build the shared library. This command builds
-/// all dependency libraries with native code (package:jni and jnigen-generated)
-/// libraries if any.
+/// all dependency libraries with native code (package:jni and JNIgen-generated
+/// libraries if any).
 ///
 /// The default output directory is build/jni_libs, which can be changed
 /// using `-B` switch.

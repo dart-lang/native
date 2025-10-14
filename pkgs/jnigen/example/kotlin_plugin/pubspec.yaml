@@ -3,7 +3,7 @@
 # BSD-style license that can be found in the LICENSE file.
 
 name: kotlin_plugin
-description: Example of using jnigen to generate bindings for Kotlin.
+description: Example of using JNIgen to generate bindings for Kotlin.
 version: 0.0.1
 publish_to: none
 

@@ -11,7 +11,7 @@ import 'package:test/test.dart';
 
 import 'test_util/test_util.dart';
 
-/// Generates bindings using jnigen config in [exampleName] and compares
+/// Generates bindings using JNIgen config in [exampleName] and compares
 /// them to provided reference outputs.
 ///
 /// [dartOutput] is a relative path from the example project dir.

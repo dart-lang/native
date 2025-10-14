@@ -2,7 +2,7 @@
 ## for details. All rights reserved. Use of this source code is governed by a
 ## BSD-style license that can be found in the LICENSE file.
 
-## This file defines test groups for jnigen. This will be helpful to exclude
+## This file defines test groups for JNIgen. This will be helpful to exclude
 ## lengthy tests by using -x flag.
 
 tags:

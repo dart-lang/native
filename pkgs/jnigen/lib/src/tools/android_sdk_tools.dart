@@ -62,7 +62,7 @@ class AndroidSdkTools {
       'This might be because no APK build has happened yet.';
 
   static const _leftOverStubWarning = 'If you are seeing this error in '
-      '`flutter build` output, it is likely that `jnigen` left some stubs in '
+      '`flutter build` output, it is likely that JNIgen left some stubs in '
       'the build.gradle file. Please restore that file from your version '
       'control system or manually remove the stub functions named '
       '$_gradleGetClasspathTaskName and / or $_gradleGetSourcesTaskName.';
@@ -74,7 +74,7 @@ class AndroidSdkTools {
   static const _gradleGetClasspathTaskName = 'getReleaseCompileClasspath';
 
   static const _gradleGetClasspathStub = '''
-// Gradle stub for listing dependencies in jnigen. If found in
+// Gradle stub for listing dependencies in JNIgen. If found in
 // android/build.gradle, please delete the following function.
 task $_gradleGetClasspathTaskName(type: Copy) {
   project.afterEvaluate {
@@ -98,7 +98,7 @@ task $_gradleGetClasspathTaskName(type: Copy) {
 ''';
 
   static const _gradleGetClasspathStubKt = '''
-// Gradle stub for listing dependencies in jnigen. If found in
+// Gradle stub for listing dependencies in JNIgen. If found in
 // android/build.gradle.kts, please delete the following function.
 tasks.register<DefaultTask>("$_gradleGetClasspathTaskName") {
     doLast {
@@ -130,7 +130,7 @@ tasks.register<DefaultTask>("$_gradleGetClasspathTaskName") {
   // there is no JAR equivalent for `org.gradle.language.base.Artifact`.
   // So it appears different methods should be used for JAR artifacts.
   static const _gradleGetSourcesStub = '''
-// Gradle stub for fetching source dependencies in jnigen. If found in
+// Gradle stub for fetching source dependencies in JNIgen. If found in
 // android/build.gradle, please delete the following function.
 task $_gradleGetSourcesTaskName(type: Copy) {
   project.afterEvaluate {
@@ -159,7 +159,7 @@ task $_gradleGetSourcesTaskName(type: Copy) {
 ''';
 
   static const _gradleGetSourcesStubKt = '''
-// Gradle stub for fetching source dependencies in jnigen. If found in
+// Gradle stub for fetching source dependencies in JNIgen. If found in
 // android/build.gradle.kts, please delete the following function.
 
 tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
@@ -293,7 +293,7 @@ Run `flutter build apk`$inAndroidProject and try again.
 Execution failed for task ':gradle:compileGroovy'.
 > BUG! exception in phase 'semantic analysis' ...  Unsupported class file major version
 
-Then the JDK versions used by jnigen and flutter are not compatible. Try
+Then the JDK versions used by JNIgen and Flutter are not compatible. Try
 changing the default JDK version e.g. with `export JAVA_VERSION=11` on macOS and
 `sudo update-alternatives --config java` on Ubuntu.
 
