@@ -12,10 +12,10 @@ The goal of this layer is to provide a no-compromise, high-performance layer to
 make non-Dart APIs and libraries accessible from Dart. This layer is designed to
 be unopinionated, allowing threading, data transfer, and isolate life cycle to
 be built upon it. The APIs provided and generated are very thin Dart wrappers
-around the native APIs. They favor zero-cost abstractions such as extension types.
+around the native APIs. They favor zero-cost abstractions such as [extension types][extension-types].
 While using this layer directly offers the most possibilities, it can lead to
 writing creole and presents footguns regarding memory management, threading, and
-the isolate and VM life cycle.
+the [isolate and VM life cycle][isolate-lifecycle].
 
 **Technologies in this layer:**
 * Low-level SDK libraries for calling native code, such as [`dart:ffi`][dart-ffi] and
@@ -46,9 +46,9 @@ as `Map` and `List`.
 
 **Design principles for tech in this layer:**
 * APIs should have the feel of Dart APIs. No layer 1 types should be exposed,
-  and Effective Dart guidelines should be followed.
-* Users should not need to worry about the underlying native code. Native
-  finalizers should be used to free resources.
+  and [Effective Dart][effective-dart] guidelines should be followed.
+* Users should not need to worry about the underlying native code. [Native
+  finalizers][native-finalizers] should be used to free resources.
 * APIs should be structured to work with Dart's threading and isolate life
   cycle.
 * This layer is typically hand-crafted or built with a generator that has a high
@@ -64,9 +64,9 @@ This layer is optional. If a solution can be provided as a layer 2 solution, it
 should be, as this makes it reusable across multiple SDKs.
 
 **Technologies in this layer:**
-* Flutter Plugin API: Provides access to Flutter-defined elements such as App
+* [Flutter Plugin API][flutter-plugin-api]: Provides access to Flutter-defined elements such as App
   lifecycle, Android Context, etc.
-* Flutter Plugins: These can, for example, hide the Android Context from the API
+* [Flutter Plugins][flutter-plugins]: These can, for example, hide the Android Context from the API
   they expose to a Dart developer.
 
 ## Cross-layer design principles
@@ -77,8 +77,14 @@ being updated.
 
 [dart-ffi]: https://api.dart.dev/dart-ffi/
 [dart-js-interop]: https://api.dart.dev/dart-js_interop/
+[effective-dart]: https://dart.dev/guides/language/effective-dart
+[extension-types]: https://dart.dev/language/extension-types
 [ffigen]: ../pkgs/ffigen/
+[flutter-plugin-api]: https://docs.flutter.dev/packages-and-plugins/developing-packages
+[flutter-plugins]: https://docs.flutter.dev/packages-and-plugins/using-packages
+[isolate-lifecycle]: https://dart.dev/language/concurrency
 [jnigen]: ../pkgs/jnigen/
+[native-finalizers]: https://api.dart.dev/dart-ffi/NativeFinalizer-class.html
 [pigeon]: https://pub.dev/packages/pigeon
 [sqlite3]: https://pub.dev/packages/sqlite3
 [web-generator]: https://github.com/dart-lang/web/tree/main/web_generator
