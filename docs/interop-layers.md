@@ -14,7 +14,7 @@ be unopinionated, allowing threading, data transfer, and isolate life cycle to
 be built upon it. The APIs provided and generated are very thin Dart wrappers
 around the native APIs. They favor zero-cost abstractions such as [extension types][extension-types].
 While using this layer directly offers the most possibilities, it can lead to
-writing creole and presents footguns regarding memory management, threading, and
+writing creole[^1] and presents footguns regarding memory management, threading, and
 the [isolate and VM life cycle][isolate-lifecycle].
 
 **Technologies in this layer:**
@@ -74,6 +74,12 @@ should be, as this makes it reusable across multiple SDKs.
 Layer 2 solutions have the option to provide "native escape hatches" to layer 1.
 This allows layer 1 to give immediate access to new OS APIs while layer 2 is
 being updated.
+
+[^1]: A "creole" language, in this context, refers to code that is technically
+    Dart but is written using the objects and patterns of the underlying native
+    language (e.g., Objective-C). This creates a "mixed" language with its own
+    learning curve and challenges, particularly around memory management and
+    concurrency.
 
 [android-context]: https://developer.android.com/reference/android/content/Context
 [app-lifecycle]: https://api.flutter.dev/flutter/widgets/AppLifecycleListener-class.html
