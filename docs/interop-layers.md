@@ -20,7 +20,7 @@ the isolate and VM life cycle.
 **Technologies in this layer:**
 * Low-level SDK libraries for calling native code, such as [`dart:ffi`][dart-ffi] and
   [`dart:js_interop`][dart-js-interop].
-* Code generators such as [FFIgen][ffigen], [JNIgen][jnigen], and web_generator.
+* Code generators such as [FFIgen][ffigen], [JNIgen][jnigen], and [web_generator][web-generator].
 
 **Design principles for tech in this layer:**
 * Performance comes first, usability second.
@@ -81,3 +81,4 @@ being updated.
 [jnigen]: ../pkgs/jnigen/
 [pigeon]: https://pub.dev/packages/pigeon
 [sqlite3]: https://pub.dev/packages/sqlite3
+[web-generator]: https://github.com/dart-lang/web/tree/main/web_generator
