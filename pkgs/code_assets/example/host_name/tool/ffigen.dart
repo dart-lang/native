@@ -52,7 +52,5 @@ void main() {
       ),
     );
   }
-  generator.generate(
-    logger: Logger('')..onRecord.listen((record) => print(record.message)),
-  );
+  generator.generate();
 }
