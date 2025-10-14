@@ -267,7 +267,11 @@ class ObjCInternalGlobal extends NoLookUpBinding {
   final String Function() makeValue;
 
   ObjCInternalGlobal(String name, this.makeValue)
-    : super(originalName: name, name: name, isInternal: true);
+    : super(
+        originalName: name,
+        symbol: Symbol(name, SymbolKind.field),
+        isInternal: true,
+      );
 
   @override
   BindingString toBindingString(Writer w) {
@@ -299,12 +303,12 @@ class ObjCMsgSendVariantFunc extends NoLookUpBinding {
   FunctionType type;
 
   ObjCMsgSendVariantFunc._({
-    required super.name,
+    required String name,
     required this.variant,
     required Type returnType,
     required List<Parameter> parameters,
   }) : type = FunctionType(returnType: returnType, parameters: parameters),
-       super(isInternal: true);
+       super(isInternal: true, symbol: Symbol(name, SymbolKind.method));
 
   @override
   BindingString toBindingString(Writer w) {

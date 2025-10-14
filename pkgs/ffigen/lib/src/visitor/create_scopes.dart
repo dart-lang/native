@@ -35,17 +35,9 @@ class CreateScopesVisitation extends Visitation {
     required this.orderedPass,
   });
 
-  Scope createScope(
-    HasLocalScope node,
-    Scope parentScope,
-    String debugName, {
-    Set<String> preUsedNames = const {},
-  }) {
+  Scope createScope(HasLocalScope node, Scope parentScope, String debugName) {
     if (!node.localScopeFilled) {
-      node.localScope = parentScope.addChild(
-        debugName,
-        preUsedNames: preUsedNames,
-      );
+      node.localScope = parentScope.addChild(debugName);
     }
     return node.localScope;
   }
@@ -85,6 +77,8 @@ class CreateScopesVisitation extends Visitation {
     ObjCInterface? superType,
     Scope classScope,
   ) {
+    node.methodNameScope ??= (superType?.methodNameScope ?? classScope)
+        .addChild('\$methods', preUsedNames: objCObjectBaseMethods);
     for (final m in node.methods) {
       final parentScope =
           _findRootWithMethod(superType, m)?.localScope ?? classScope;
@@ -99,12 +93,7 @@ class CreateScopesVisitation extends Visitation {
     visitObjCMethods(
       node,
       node.parent,
-      createScope(
-        node,
-        node.parent.localScope,
-        node.originalName,
-        preUsedNames: objCObjectBaseMethods,
-      ),
+      createScope(node, node.parent.localScope, node.originalName),
     );
   }
 
@@ -123,7 +112,6 @@ class CreateScopesVisitation extends Visitation {
         node,
         node.superType?.localScope ?? context.rootScope,
         node.originalName,
-        preUsedNames: objCObjectBaseMethods,
       ),
     );
   }
@@ -136,12 +124,7 @@ class CreateScopesVisitation extends Visitation {
     visitObjCMethods(
       node,
       null,
-      createScope(
-        node,
-        context.rootScope,
-        node.originalName,
-        preUsedNames: objCObjectBaseMethods,
-      ),
+      createScope(node, context.rootScope, node.originalName),
     );
   }
 

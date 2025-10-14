@@ -9,52 +9,90 @@ void main() {
   group('Namer', () {
     test('ordinary renaming', () {
       final namer = Namer({});
-      expect(namer.add('foo'), 'foo');
-      expect(namer.add('foo'), 'foo\$1');
-      expect(namer.add('foo'), 'foo\$2');
-      expect(namer.add('foo'), 'foo\$3');
+      expect(namer.add('foo', SymbolKind.field), 'foo');
+      expect(namer.add('foo', SymbolKind.field), 'foo\$1');
+      expect(namer.add('foo', SymbolKind.field), 'foo\$2');
+      expect(namer.add('foo', SymbolKind.field), 'foo\$3');
     });
 
     test('keyword renaming', () {
       final namer = Namer({});
-      expect(namer.add('for'), 'for\$');
-      expect(namer.add('for'), 'for\$1');
-      expect(namer.add('for'), 'for\$2');
-      expect(namer.add('for'), 'for\$3');
+      expect(namer.add('for', SymbolKind.field), 'for\$');
+      expect(namer.add('for', SymbolKind.field), 'for\$1');
+      expect(namer.add('for', SymbolKind.field), 'for\$2');
+      expect(namer.add('for', SymbolKind.field), 'for\$3');
     });
 
     test('unnamed renaming', () {
       final namer = Namer({});
-      expect(namer.add(''), 'unnamed');
-      expect(namer.add(''), 'unnamed\$1');
-      expect(namer.add(''), 'unnamed\$2');
-      expect(namer.add(''), 'unnamed\$3');
+      expect(namer.add('', SymbolKind.field), 'unnamed');
+      expect(namer.add('', SymbolKind.field), 'unnamed\$1');
+      expect(namer.add('', SymbolKind.field), 'unnamed\$2');
+      expect(namer.add('', SymbolKind.field), 'unnamed\$3');
     });
 
     test('mark used', () {
       final namer = Namer({'foo', 'bar'});
       namer.markUsed('baz');
 
-      expect(namer.add('foo'), 'foo\$1');
-      expect(namer.add('bar'), 'bar\$1');
-      expect(namer.add('baz'), 'baz\$1');
-      expect(namer.add('blah'), 'blah');
+      expect(namer.add('foo', SymbolKind.field), 'foo\$1');
+      expect(namer.add('bar', SymbolKind.field), 'bar\$1');
+      expect(namer.add('baz', SymbolKind.field), 'baz\$1');
+      expect(namer.add('blah', SymbolKind.field), 'blah');
     });
 
     test('cSafeName', () {
       final namer = Namer({});
-      expect(Namer.cSafeName(namer.add('foo')), 'foo');
-      expect(Namer.cSafeName(namer.add('foo')), 'foo_1');
-      expect(Namer.cSafeName(namer.add('foo')), 'foo_2');
-      expect(Namer.cSafeName(namer.add('foo')), 'foo_3');
+      expect(Namer.cSafeName(namer.add('foo', SymbolKind.field)), 'foo');
+      expect(Namer.cSafeName(namer.add('foo', SymbolKind.field)), 'foo_1');
+      expect(Namer.cSafeName(namer.add('foo', SymbolKind.field)), 'foo_2');
+      expect(Namer.cSafeName(namer.add('foo', SymbolKind.field)), 'foo_3');
     });
 
     test('stringLiteral', () {
       final namer = Namer({});
-      expect(Namer.stringLiteral(namer.add('foo')), 'foo');
-      expect(Namer.stringLiteral(namer.add('foo')), 'foo\\\$1');
-      expect(Namer.stringLiteral(namer.add('foo')), 'foo\\\$2');
-      expect(Namer.stringLiteral(namer.add('foo')), 'foo\\\$3');
+      expect(Namer.stringLiteral(namer.add('foo', SymbolKind.field)), 'foo');
+      expect(
+        Namer.stringLiteral(namer.add('foo', SymbolKind.field)),
+        'foo\\\$1',
+      );
+      expect(
+        Namer.stringLiteral(namer.add('foo', SymbolKind.field)),
+        'foo\\\$2',
+      );
+      expect(
+        Namer.stringLiteral(namer.add('foo', SymbolKind.field)),
+        'foo\\\$3',
+      );
+    });
+
+    test('keywords', () {
+      List<String> names(String name, SymbolKind kind) {
+        final namer = Namer({});
+        return [
+          namer.add(name, kind),
+          namer.add(name, kind),
+          namer.add(name, kind),
+        ];
+      }
+
+      // Not a keyword.
+      expect(names('foo', SymbolKind.field), ['foo', 'foo\$1', 'foo\$2']);
+      expect(names('foo', SymbolKind.method), ['foo', 'foo\$1', 'foo\$2']);
+      expect(names('foo', SymbolKind.klass), ['foo', 'foo\$1', 'foo\$2']);
+      expect(names('foo', SymbolKind.lib), ['foo', 'foo\$1', 'foo\$2']);
+
+      // Keyword never allowed as a symbol.
+      expect(names('for', SymbolKind.field), ['for\$', 'for\$1', 'for\$2']);
+      expect(names('for', SymbolKind.method), ['for\$', 'for\$1', 'for\$2']);
+      expect(names('for', SymbolKind.klass), ['for\$', 'for\$1', 'for\$2']);
+      expect(names('for', SymbolKind.lib), ['for\$', 'for\$1', 'for\$2']);
+
+      // Keyword allowed as methods or fields.
+      expect(names('get', SymbolKind.field), ['get', 'get\$1', 'get\$2']);
+      expect(names('get', SymbolKind.method), ['get', 'get\$1', 'get\$2']);
+      expect(names('get', SymbolKind.klass), ['get\$', 'get\$1', 'get\$2']);
+      expect(names('get', SymbolKind.lib), ['get\$', 'get\$1', 'get\$2']);
     });
   });
 
@@ -65,10 +103,10 @@ void main() {
       final child = parent.addChild('child');
       final uncle = root.addChild('uncle');
 
-      final rootSymbol = Symbol('foo');
-      final parentSymbol = Symbol('foo');
-      final childSymbol = Symbol('foo');
-      final uncleSymbol = Symbol('foo');
+      final rootSymbol = Symbol('foo', SymbolKind.field);
+      final parentSymbol = Symbol('foo', SymbolKind.field);
+      final childSymbol = Symbol('foo', SymbolKind.field);
+      final uncleSymbol = Symbol('foo', SymbolKind.field);
 
       root.add(rootSymbol);
       parent.add(parentSymbol);
@@ -96,9 +134,9 @@ void main() {
       final child = parent.addChild('child');
       final uncle = root.addChild('uncle');
 
-      final parentSymbol = Symbol('bar');
-      final childSymbol = Symbol('bar');
-      final uncleSymbol = Symbol('bar');
+      final parentSymbol = Symbol('bar', SymbolKind.field);
+      final childSymbol = Symbol('bar', SymbolKind.field);
+      final uncleSymbol = Symbol('bar', SymbolKind.field);
 
       parent.add(parentSymbol);
       child.add(childSymbol);

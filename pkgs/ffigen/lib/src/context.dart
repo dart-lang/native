@@ -87,7 +87,7 @@ class LibraryImports {
   // for all the library prefixes used for codegen.
   void createSymbols(Scope scope) {
     for (final lib in _used) {
-      scope.add(_prefixes[lib] = Symbol(lib.name));
+      scope.add(_prefixes[lib] = Symbol(lib.name, SymbolKind.lib));
     }
 
     _prefixesFilled = true;
@@ -111,7 +111,7 @@ class LibraryImports {
   void forceFillForTesting() {
     _used.addAll(builtInLibraries.values);
     for (final lib in _used) {
-      _prefixes[lib] = Symbol(lib.name)..forceFillForTesting();
+      _prefixes[lib] = Symbol(lib.name, SymbolKind.lib)..forceFillForTesting();
     }
     _prefixesFilled = true;
   }

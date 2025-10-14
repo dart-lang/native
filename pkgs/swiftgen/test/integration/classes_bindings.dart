@@ -141,11 +141,11 @@ class TestOtherClassWrapper extends objc.NSObject {
   }
 
   /// allocWithZone:
-  static TestOtherClassWrapper allocWithZone(ffi.Pointer<objc.NSZone> zone$1) {
+  static TestOtherClassWrapper allocWithZone(ffi.Pointer<objc.NSZone> zone) {
     final $ret = _objc_msgSend_1cwp428(
       _class_TestOtherClassWrapper,
       _sel_allocWithZone_,
-      zone$1,
+      zone,
     );
     return TestOtherClassWrapper.castFromPointer(
       $ret,
@@ -230,11 +230,11 @@ class TestClassWrapper extends objc.NSObject {
   }
 
   /// allocWithZone:
-  static TestClassWrapper allocWithZone(ffi.Pointer<objc.NSZone> zone$1) {
+  static TestClassWrapper allocWithZone(ffi.Pointer<objc.NSZone> zone) {
     final $ret = _objc_msgSend_1cwp428(
       _class_TestClassWrapper,
       _sel_allocWithZone_,
-      zone$1,
+      zone,
     );
     return TestClassWrapper.castFromPointer($ret, retain: false, release: true);
   }

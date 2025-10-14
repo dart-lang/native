@@ -49,8 +49,8 @@ class LibClang {
       .asFunction<DartClang_disposeString>();
 
   /// Free the given string set.
-  void clang_disposeStringSet(ffi.Pointer<CXStringSet> set$) {
-    return _clang_disposeStringSet(set$);
+  void clang_disposeStringSet(ffi.Pointer<CXStringSet> set) {
+    return _clang_disposeStringSet(set);
   }
 
   late final _clang_disposeStringSetPtr =

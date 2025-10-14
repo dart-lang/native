@@ -167,7 +167,7 @@ class CompoundMember extends AstNode {
     required this.type,
     this.dartDoc,
   }) : originalName = originalName ?? name,
-       _symbol = Symbol(name);
+       _symbol = Symbol(name, SymbolKind.field);
 
   @override
   void visitChildren(Visitor visitor) {

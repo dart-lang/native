@@ -76,27 +76,27 @@ class FindSymbolsVisitation extends Visitation {
       visitInsideScope(node, node.localScope);
 
   @override
-  void visitObjCMethod(ObjCMethod node) =>
-      visitInsideScope(node, node.localScope);
+  void visitObjCMethod(ObjCMethod node) => insideScope(
+    node.localScope,
+    () => node.visitChildren(visitor, omitMethodName: true),
+  );
 
-  void visitObjCMethods(ObjCMethods node, Scope localScope) {
-    visitBinding(node as Binding); // All ObjCMethods are Bindings.
-
+  void visitObjCMethods(ObjCMethods node) {
     // Since the methods are AST nodes, the visitor dedupes our implicit visits
     // to them. But we want to add each method's symbols to all its classes's,
     // so we explicitly visit them here.
-    insideScope(localScope, () {
-      for (final m in node.methods) {
-        currentScope.add(m.symbol);
-        currentScope.add(m.protocolMethodName);
-      }
-    });
+    for (final m in node.methods) {
+      node.methodNameScope!.add(m.symbol);
+      node.methodNameScope!.add(m.protocolMethodName);
+    }
+
+    visitBinding(node as Binding); // All ObjCMethods are Bindings.
   }
 
   @override
   void visitObjCCategory(ObjCCategory node) {
     if (!bindings.contains(node)) return;
-    visitObjCMethods(node, node.localScope);
+    visitObjCMethods(node);
   }
 
   @override
@@ -106,7 +106,7 @@ class FindSymbolsVisitation extends Visitation {
       // The supertype heirarchy is generated even if this is a stub.
       visitor.visit(node.superType);
     } else {
-      visitObjCMethods(node, node.localScope);
+      visitObjCMethods(node);
     }
   }
 
@@ -114,7 +114,7 @@ class FindSymbolsVisitation extends Visitation {
   void visitObjCProtocol(ObjCProtocol node) {
     context.rootScope.add(node.symbol);
     if (!node.generateAsStub) {
-      visitObjCMethods(node, node.localScope);
+      visitObjCMethods(node);
     }
   }
 }

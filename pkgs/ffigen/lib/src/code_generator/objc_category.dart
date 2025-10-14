@@ -26,7 +26,7 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods, HasLocalScope {
     super.dartDoc,
     required this.context,
   }) : classObject = parent.classObject,
-       super(name: name ?? originalName);
+       super(symbol: Symbol(name ?? originalName, SymbolKind.klass));
 
   void addProtocol(ObjCProtocol? proto) {
     if (proto != null) protocols.add(proto);

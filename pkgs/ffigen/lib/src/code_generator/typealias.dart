@@ -79,10 +79,12 @@ class Typealias extends BindingType {
     required this.type,
     bool genFfiDartType = false,
     super.isInternal,
-  }) : _ffiDartAliasName = genFfiDartType ? Symbol('Dart$name') : null,
+  }) : _ffiDartAliasName = genFfiDartType
+           ? Symbol('Dart$name', SymbolKind.klass)
+           : null,
        dartAliasName =
            (!genFfiDartType && type is! Typealias && !type.sameDartAndCType)
-           ? Symbol('Dart$name')
+           ? Symbol('Dart$name', SymbolKind.klass)
            : null,
        super(name: genFfiDartType ? 'Native$name' : name);
 

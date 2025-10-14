@@ -301,7 +301,7 @@ class EnumConstant extends AstNode {
     required this.value,
     this.dartDoc,
   }) : originalName = originalName ?? name,
-       _symbol = Symbol(name);
+       _symbol = Symbol(name, SymbolKind.field);
 
   @override
   void visitChildren(Visitor visitor) {
