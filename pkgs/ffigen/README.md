@@ -117,6 +117,8 @@ app has been created via `dart create ffigen_example`.
 
 That's it! Run your app with `dart run` to see it in action!
 
+The complete and runnable example can be found in [example/add](example/add).
+
 ## More Examples
 
 The `code_asset` package contains [comprehensive examples](../code_assets/example)
