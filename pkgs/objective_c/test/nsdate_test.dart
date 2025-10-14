@@ -23,7 +23,7 @@ void main() {
     test('from DateTime', () {
       final dartFirstAppeared = DateTime.utc(2011, 10, 10);
       final nsDate = dartFirstAppeared.toNSDate();
-      expect(nsDate.description$1.toDartString(), '2011-10-10 00:00:00 +0000');
+      expect(nsDate.description.toDartString(), '2011-10-10 00:00:00 +0000');
     });
 
     test('to DateTime', () {

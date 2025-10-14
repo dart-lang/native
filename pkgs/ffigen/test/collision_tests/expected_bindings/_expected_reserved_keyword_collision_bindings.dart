@@ -18,39 +18,39 @@ class NativeLibrary {
     ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
   ) : _lookup = lookup;
 
-  void implements$(int dynamic$, int in$, int deferred$) {
-    return _implements$(dynamic$, in$, deferred$);
+  void implements(int dynamic, int in$, int deferred) {
+    return _implements(dynamic, in$, deferred);
   }
 
-  late final _implements$Ptr =
+  late final _implementsPtr =
       _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int, ffi.Int, ffi.Int)>>(
         'implements',
       );
-  late final _implements$ = _implements$Ptr
+  late final _implements = _implementsPtr
       .asFunction<void Function(int, int, int)>();
 
-  late final ffi.Pointer<ffi.Int> _import$ = _lookup<ffi.Int>('import');
+  late final ffi.Pointer<ffi.Int> _import = _lookup<ffi.Int>('import');
 
-  int get import$ => _import$.value;
+  int get import => _import.value;
 
-  set import$(int value) => _import$.value = value;
+  set import(int value) => _import.value = value;
 }
 
 final class abstract$ extends ffi.Opaque {}
 
 enum export$ {
-  covariant$(0);
+  covariant(0);
 
   final int value;
   const export$(this.value);
 
   static export$ fromValue(int value) => switch (value) {
-    0 => covariant$,
+    0 => covariant,
     _ => throw ArgumentError('Unknown value for export\$: $value'),
   };
 }
 
-final class show$ extends ffi.Opaque {}
+final class show extends ffi.Opaque {}
 
 typedef var$ = ffi.Void;
 typedef Dartvar = void;

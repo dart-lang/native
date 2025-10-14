@@ -31,7 +31,7 @@ void main() {
       expect(
         output,
         contains(
-          'AVAudioPlayer? initWithContentsOfURL(objc.NSURL url\$1, '
+          'AVAudioPlayer? initWithContentsOfURL(objc.NSURL url, '
           '{required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error}) {',
         ),
       );

@@ -77,10 +77,8 @@ class CreateScopesVisitation extends Visitation {
     ObjCInterface? superType,
     Scope classScope,
   ) {
-    node.methodNameScope ??= classScope.addChild(
-      '\$methods',
-      preUsedNames: objCObjectBaseMethods,
-    );
+    node.methodNameScope ??= (superType?.methodNameScope ?? classScope)
+        .addChild('\$methods', preUsedNames: objCObjectBaseMethods);
     for (final m in node.methods) {
       final parentScope =
           _findRootWithMethod(superType, m)?.localScope ?? classScope;

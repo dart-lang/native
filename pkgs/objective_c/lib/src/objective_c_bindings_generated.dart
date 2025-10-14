@@ -3108,7 +3108,7 @@ extension NSBundle$Methods on NSBundle {
   }
 
   /// load
-  bool load() {
+  bool load$1() {
     return _objc_msgSend_91o635(this.ref.pointer, _sel_load);
   }
 
@@ -5699,7 +5699,7 @@ extension NSExtendedArray on NSArray {
   }
 
   /// description
-  NSString get description {
+  NSString get description$1 {
     final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_description);
     return NSString.castFromPointer($ret, retain: true, release: true);
   }
@@ -6289,7 +6289,7 @@ extension NSExtendedArray on NSArray {
 /// NSExtendedData
 extension NSExtendedData on NSData {
   /// description
-  NSString get description {
+  NSString get description$1 {
     final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_description);
     return NSString.castFromPointer($ret, retain: true, release: true);
   }
@@ -6446,7 +6446,7 @@ extension NSExtendedDate on NSDate {
   }
 
   /// description
-  NSString get description {
+  NSString get description$1 {
     final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_description);
     return NSString.castFromPointer($ret, retain: true, release: true);
   }
@@ -6526,7 +6526,7 @@ extension NSExtendedDate on NSDate {
   }
 
   /// timeIntervalSinceReferenceDate
-  static double getTimeIntervalSinceReferenceDate() {
+  static double getTimeIntervalSinceReferenceDate$1() {
     return objc.useMsgSendVariants
         ? _objc_msgSend_1ukqyt8Fpret(
             _class_NSDate,
@@ -6564,7 +6564,7 @@ extension NSExtendedDictionary on NSDictionary {
   }
 
   /// description
-  NSString get description {
+  NSString get description$1 {
     final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_description);
     return NSString.castFromPointer($ret, retain: true, release: true);
   }
@@ -7200,7 +7200,7 @@ extension NSExtendedMutableDictionary on NSMutableDictionary {
   }
 
   /// setObject:forKeyedSubscript:
-  void setObject(
+  void setObject$1(
     objc.ObjCObjectBase? obj, {
     required NSCopying forKeyedSubscript,
   }) {
@@ -7663,7 +7663,7 @@ extension NSExtendedOrderedSet on NSOrderedSet {
   }
 
   /// description
-  NSString get description {
+  NSString get description$1 {
     objc.checkOsVersionInternal(
       'NSOrderedSet.description',
       iOS: (false, (5, 0, 0)),
@@ -7809,7 +7809,7 @@ extension NSExtendedOrderedSet on NSOrderedSet {
   }
 
   /// indexOfObject:inSortedRange:options:usingComparator:
-  int indexOfObject(
+  int indexOfObject$1(
     objc.ObjCObjectBase object, {
     required NSRange inSortedRange,
     required int options,
@@ -8227,7 +8227,7 @@ extension NSExtendedSet on NSSet {
   }
 
   /// description
-  NSString get description {
+  NSString get description$1 {
     final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_description);
     return NSString.castFromPointer($ret, retain: true, release: true);
   }
@@ -20333,7 +20333,7 @@ extension NSStringExtensionMethods on NSString {
   }
 
   /// description
-  NSString get description {
+  NSString get description$1 {
     final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_description);
     return NSString.castFromPointer($ret, retain: true, release: true);
   }
@@ -20500,7 +20500,7 @@ extension NSStringExtensionMethods on NSString {
   }
 
   /// hash
-  int get hash {
+  int get hash$1 {
     return _objc_msgSend_xw2lbc(this.ref.pointer, _sel_hash);
   }
 
