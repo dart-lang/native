@@ -64,8 +64,8 @@ This layer is optional. If a solution can be provided as a layer 2 solution, it
 should be, as this makes it reusable across multiple SDKs.
 
 **Technologies in this layer:**
-* [Flutter Plugin API][flutter-plugin-api]: Provides access to Flutter-defined elements such as App
-  lifecycle, Android Context, etc.
+* [Flutter Plugin API][flutter-plugin-api]: Provides access to Flutter-defined elements such as [App
+  lifecycle][app-lifecycle], [Android Context][android-context], etc.
 * [Flutter Plugins][flutter-plugins]: These can, for example, hide the Android Context from the API
   they expose to a Dart developer.
 
@@ -75,6 +75,8 @@ Layer 2 solutions have the option to provide "native escape hatches" to layer 1.
 This allows layer 1 to give immediate access to new OS APIs while layer 2 is
 being updated.
 
+[android-context]: https://developer.android.com/reference/android/content/Context
+[app-lifecycle]: https://api.flutter.dev/flutter/widgets/AppLifecycleListener-class.html
 [dart-ffi]: https://api.dart.dev/dart-ffi/
 [dart-js-interop]: https://api.dart.dev/dart-js_interop/
 [effective-dart]: https://dart.dev/guides/language/effective-dart
