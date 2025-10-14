@@ -12,9 +12,22 @@ project. The hook runner generates a unique folder for each hook execution,
 containing temporary and output files.
 
 You can find the most important debugging files in a subdirectory specific to
-your hook's execution. For example:
-`.dart_tool/hooks_runner/sqlite/221e109fbc/`. The last part of the path is a
-hash of the hook's configuration. Inside this directory, you will find:
+your hook's execution. The path is of the form
+`.dart_tool/hooks_runner/<package_name>/<some_hash>/`, where `<package_name>`
+is the name of the package containing the hook. For example, for a hook in a
+package named `sqlite`, it would be
+`.dart_tool/hooks_runner/sqlite/221e109fbc/`.
+
+When you run a build, hooks for all dependencies are executed, so you might see
+multiple package directories.
+
+The `<some_hash>` is a checksum of the hook's configuration. If you are unsure
+which hash directory to inspect within your package's hook directory, you can
+delete the `.dart_tool/hooks_runner/<package_name>/` directory and re-run the
+command that failed. The newly created directory will be for the latest
+invocation.
+
+Inside this directory, you will find:
 
 * `input.json`: Contains the exact configuration and data passed *into* your
   build hook. Reviewing this helps confirm if the hook is receiving the expected
