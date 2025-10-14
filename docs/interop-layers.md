@@ -18,9 +18,9 @@ writing creole and presents footguns regarding memory management, threading, and
 the isolate and VM life cycle.
 
 **Technologies in this layer:**
-* Low-level SDK libraries for calling native code, such as `dart:ffi` and
-  `dart:js_interop`.
-* Code generators such as FFIgen, JNIgen, and web_generator.
+* Low-level SDK libraries for calling native code, such as [`dart:ffi`][dart-ffi] and
+  [`dart:js_interop`][dart-js-interop].
+* Code generators such as [FFIgen][ffigen], [JNIgen][jnigen], and web_generator.
 
 **Design principles for tech in this layer:**
 * Performance comes first, usability second.
@@ -41,9 +41,8 @@ as `Map` and `List`.
 
 **Technologies in this layer:**
 * Hand-written Dart wrappers around a layer 1 API for C libraries, such as
-  SQLite3.
-* Pigeon, which decides on a full serialization and concurrency model.
-* (JNIgen_fancy, if a decision is made to build it).
+  [SQLite3][sqlite3].
+* [Pigeon][pigeon], which decides on a full serialization and concurrency model.
 
 **Design principles for tech in this layer:**
 * APIs should have the feel of Dart APIs. No layer 1 types should be exposed,
@@ -75,3 +74,10 @@ should be, as this makes it reusable across multiple SDKs.
 Layer 2 solutions have the option to provide "native escape hatches" to layer 1.
 This allows layer 1 to give immediate access to new OS APIs while layer 2 is
 being updated.
+
+[dart-ffi]: https://api.dart.dev/dart-ffi/
+[dart-js-interop]: https://api.dart.dev/dart-js_interop/
+[ffigen]: ../pkgs/ffigen/
+[jnigen]: ../pkgs/jnigen/
+[pigeon]: https://pub.dev/packages/pigeon
+[sqlite3]: https://pub.dev/packages/sqlite3
