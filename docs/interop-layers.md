@@ -5,7 +5,6 @@ Dart native interop can be structured into three layers:
 * Dart-y API
 * SDK-tailoring
 
-
 ## Layer 1: Low level interop
 
 The goal of this layer is to provide a no-compromise, high-performance layer to

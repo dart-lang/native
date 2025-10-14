@@ -5,6 +5,10 @@
 This repository is home to Dart packages related to FFI and native assets
 building and bundling.
 
+## Documentation
+
+See the [docs](docs/README.md) directory for more documentation.
+
 ## Packages
 
 | Package | Description | Issues | Version |
