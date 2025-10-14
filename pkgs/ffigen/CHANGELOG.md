@@ -1,3 +1,8 @@
+## 20.0.0-dev.1
+
+- Make the `Logger` argument of `FfiGenerator.generate` optional. It defaults to
+  a logger printing to stdout and stderr.
+
 ## 20.0.0-dev.0
 
 - __Breaking change__: Completely rewrite the public Dart API for FFIgen.

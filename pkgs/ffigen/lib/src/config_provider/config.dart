@@ -118,7 +118,10 @@ final class FfiGenerator {
   });
 
   /// Run this generator.
-  void generate({required Logger? logger, Uri? libclangDylib}) {
+  ///
+  /// If provided, uses [logger] to output logs. Otherwise, uses a default
+  /// logger that streams [Level.WARNING] to stdout and higher levels to stderr.
+  void generate({Logger? logger, Uri? libclangDylib}) {
     return FfiGenGenerator(
       this,
     ).generate(logger: logger, libclangDylib: libclangDylib);

@@ -10,13 +10,17 @@ import 'package:logging/logging.dart';
 import 'config_provider.dart' show Config, FfiGenerator;
 import 'context.dart';
 import 'header_parser.dart' show parse;
+import 'logger.dart';
 
 final _ansi = Ansi(Ansi.terminalSupportsAnsi);
 
 extension FfiGenGenerator on FfiGenerator {
   /// Runs the entire generation pipeline for the given config.
-  void generate({required Logger? logger, Uri? libclangDylib}) {
-    logger ??= Logger.detached('dev/null')..level = Level.OFF;
+  ///
+  /// If provided, uses [logger] to output logs. Otherwise, uses a default
+  /// logger that streams [Level.WARNING] to stdout and higher levels to stderr.
+  void generate({Logger? logger, Uri? libclangDylib}) {
+    logger ??= createDefaultLogger();
     final config = Config(this);
     final context = Context(logger, config, libclangDylib: libclangDylib);
 
