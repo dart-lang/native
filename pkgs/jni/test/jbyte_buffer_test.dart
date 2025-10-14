@@ -195,22 +195,6 @@ void run({required TestRunnerCallback testRunner}) {
     });
   });
 
-  testRunner('type hashCode, ==', () {
-    using((arena) {
-      final a = testDataBuffer(arena);
-      final b = testDataBuffer(arena);
-      expect(a.$type, b.$type);
-      expect(a.$type.hashCode, b.$type.hashCode);
-      final c = JBuffer.fromReference(a.reference);
-      final d = JBuffer.fromReference(b.reference);
-      expect(c.$type, d.$type);
-      expect(c.$type.hashCode, d.$type.hashCode);
-
-      expect(a.$type, isNot(c.$type));
-      expect(a.$type.hashCode, isNot(c.$type.hashCode));
-    });
-  });
-
   testRunner('asUint8List releasing original', () {
     using((arena) {
       // Used as an example in [JByteBuffer].

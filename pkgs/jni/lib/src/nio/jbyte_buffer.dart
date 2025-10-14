@@ -16,63 +16,11 @@ import '../types.dart';
 import 'jbuffer.dart';
 
 @internal
-final class $JByteBuffer$NullableType$ extends JType<JByteBuffer?> {
-  const $JByteBuffer$NullableType$();
-
-  @override
-  String get signature => r'Ljava/nio/ByteBuffer;';
-
-  @override
-  JByteBuffer? fromReference(JReference reference) =>
-      reference.isNull ? null : JByteBuffer.fromReference(reference);
-
-  @override
-  JType get superType => const $JByteBuffer$NullableType$();
-
-  @override
-  JType<JByteBuffer?> get nullableType => this;
-
-  @override
-  final superCount = 2;
-
-  @override
-  int get hashCode => ($JByteBuffer$NullableType$).hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == $JByteBuffer$NullableType$ &&
-        other is $JByteBuffer$NullableType$;
-  }
-}
-
-@internal
 final class $JByteBuffer$Type$ extends JType<JByteBuffer> {
   const $JByteBuffer$Type$();
 
   @override
   String get signature => r'Ljava/nio/ByteBuffer;';
-
-  @override
-  JByteBuffer fromReference(JReference reference) =>
-      JByteBuffer.fromReference(reference);
-
-  @override
-  JType get superType => const $JBuffer$Type$();
-
-  @override
-  JType<JByteBuffer?> get nullableType => const $JByteBuffer$NullableType$();
-
-  @override
-  final superCount = 2;
-
-  @override
-  int get hashCode => ($JByteBuffer$Type$).hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == $JByteBuffer$Type$ &&
-        other is $JByteBuffer$Type$;
-  }
 }
 
 /// A byte [JBuffer].
@@ -124,23 +72,11 @@ final class $JByteBuffer$Type$ extends JType<JByteBuffer> {
 /// final data2 = directBuffer.asUint8List(releaseOriginal: true);
 /// // directBuffer.nextByte = 42; // throws [UseAfterReleaseException]!
 /// ```
-class JByteBuffer extends JBuffer {
-  @internal
-  @override
-  // ignore: overridden_fields
-  final JType<JByteBuffer> $type = type;
-
-  JByteBuffer.fromReference(
-    super.reference,
-  ) : super.fromReference();
-
+extension type JByteBuffer._(JObject _$this) implements JBuffer {
   static final _class = JClass.forName(r'java/nio/ByteBuffer');
 
   /// The type which includes information such as the signature of this class.
   static const JType<JByteBuffer> type = $JByteBuffer$Type$();
-
-  /// The type which includes information such as the signature of this class.
-  static const JType<JByteBuffer?> nullableType = $JByteBuffer$NullableType$();
 
   static final _allocateDirectId =
       _class.staticMethodId(r'allocateDirect', r'(I)Ljava/nio/ByteBuffer;');
@@ -260,7 +196,6 @@ class JByteBuffer extends JBuffer {
 
   static final _arrayId = _class.instanceMethodId(r'array', r'()[B');
 
-  @override
   JByteArray get array {
     return _arrayId(this, JByteArray.type, [])!;
   }

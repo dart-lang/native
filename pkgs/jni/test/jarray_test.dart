@@ -158,7 +158,7 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       final array = JShortArray(3)..releasedBy(arena);
       var counter = 0;
-      for (final element in array) {
+      for (final element in array.asDartList) {
         expect(element, array[counter]);
         ++counter;
       }

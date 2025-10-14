@@ -66,7 +66,7 @@ export 'src/errors.dart';
 export 'src/jarray.dart'
     hide
         $JArray$NullableType$,
-        $JArray$Type$,
+        _$JArray$Type$,
         $JBooleanArray$NullableType$,
         $JBooleanArray$Type$,
         $JByteArray$NullableType$,

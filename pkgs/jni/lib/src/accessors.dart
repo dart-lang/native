@@ -10,7 +10,6 @@ import 'jni.dart';
 import 'jobject.dart';
 import 'jreference.dart';
 import 'third_party/generated_bindings.dart';
-import 'types.dart';
 
 void _check(JThrowablePtr exception) {
   if (exception != nullptr) {
@@ -72,8 +71,8 @@ extension JniResultMethods on JniResult {
     return pointer == nullptr ? jNullReference : JGlobalReference(pointer);
   }
 
-  T object<T extends JObject?>(JType<T> type) {
-    return type.fromReference(reference);
+  T object<T extends JObject?>() {
+    return JObject.fromReference(reference) as T;
   }
 
   bool get boolean {

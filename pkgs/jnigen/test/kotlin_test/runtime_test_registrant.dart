@@ -145,8 +145,6 @@ void registerTests(String groupName, TestRunnerCallback test) {
           null,
           'hello'.toJString(),
           null,
-          T: JString.nullableType,
-          U: JString.type,
         )..releasedBy(arena);
       }
 
@@ -211,7 +209,6 @@ void registerTests(String groupName, TestRunnerCallback test) {
             obj
                 .methodGenericEcho(
                   'hello'.toJString()..releasedBy(arena),
-                  V: JString.type,
                 )
                 .toDartString(releaseOriginal: true),
             'hello',
@@ -220,13 +217,12 @@ void registerTests(String groupName, TestRunnerCallback test) {
             obj
                 .methodGenericNullableEcho(
                   'hello'.toJString()..releasedBy(arena),
-                  V: JString.nullableType,
-                )!
+                )
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
-            obj.methodGenericNullableEcho(null, V: JString.nullableType),
+            obj.methodGenericNullableEcho(null),
             null,
           );
           expect(
@@ -264,15 +260,14 @@ void registerTests(String groupName, TestRunnerCallback test) {
           );
           expect(
             obj
-                .methodGenericNullableListOf(
+                .methodGenericNullableListOf<JString?>(
                   'hello'.toJString()..releasedBy(arena),
-                  V: JString.nullableType,
                 )[0]!
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
-            obj.methodGenericNullableListOf(null, V: JString.nullableType)[0],
+            obj.methodGenericNullableListOf(null)[0],
             null,
           );
           expect(
