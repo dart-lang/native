@@ -116,7 +116,7 @@ That's it! Run your app with `flutter run` on an Android device to see it in
 action.
 
 The complete example can be found in
-[jnigen/example/in_app_java](example/in_app_java), which adds a few more classes
+[example/in_app_java](example/in_app_java), which adds a few more classes
 to demonstrate using classes from Gradle JAR and source dependencies.
 
 ## More Examples
