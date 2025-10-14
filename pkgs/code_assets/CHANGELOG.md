@@ -1,3 +1,7 @@
+## 0.19.8
+
+- Polished README.md, Dartdocs, and examples.
+
 ## 0.19.7
 
 - Bump examples to use `package:ffigen` 20.0.0-dev.0.
