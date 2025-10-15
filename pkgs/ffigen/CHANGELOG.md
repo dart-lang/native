@@ -23,6 +23,10 @@
     object may change, but the underlying ObjC object will still be the same.
     In any case, you should be using `Foo.isInstance(x)` instead of `x is Foo`
     to check the runtime type of an ObjC object.
+- __Breaking change__: Change how ObjC protocols are generated, splitting the
+  methods related to constructing instances into a separate `Foo$Builder` class.
+  The protocol's instance methods are now directly invokable from the built
+  object.
 - __Breaking change__: Minor breaking change where ObjC enums declared using
   `NS_OPTIONS` now default to generating int constants instead of a Dart enum.
   Users who cared about this distinction were likely already using
