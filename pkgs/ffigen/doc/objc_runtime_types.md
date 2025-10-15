@@ -19,7 +19,7 @@ When doing Objective-C interop (or Java interop for that matter),
 another layer of typing is added to each variable. As well as the
 Dart static type and runtime type, there is also the Objective-C
 runtime type to consider. The (Dart static/Dart runtime/Objective-C runtime)
-types could come in just about any combination eg (`Base`/`Child`/`Child`),
+types could come in just about any combination, e.g. (`Base`/`Child`/`Child`),
 (`Base`/`Base`/`Child`), or even (`Base`/`Child`/`Grandchild`).
 
 Just like in the pure Dart case, the Dart static type determines

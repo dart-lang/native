@@ -1,9 +1,9 @@
 # Dealing with Objective-C API versioning
 
-Objective-C uses the `@available` annotation to allow developers to write if
+Objective-C uses the `@available` annotation to allow developers to write `if`
 statements that do different things on different OS versions. It also generates
 a compiler warning if the developer uses an API that is only available in
-particular OS versions, without guarding it with an `@available` if statement.
+particular OS versions, without guarding it with an `@available` `if` statement.
 
 ```obj-c
 if (@available(iOS 18, *)) {
@@ -38,5 +38,5 @@ than the given version.
 
 FFIgen's generated code includes version checks that will throw an
 `OsVersionError` if the API is not available in the current OS version. But it's
-better to write if statements like above, rather than trying to catch this
+better to write `if` statements like above, rather than trying to catch this
 error.
