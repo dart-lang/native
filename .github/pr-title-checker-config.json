@@ -3,6 +3,7 @@
         "prefixes": [
             "[code_assets] ",
             "[data_assets] ",
+            "[doc] ",
             "[ffi] ",
             "[ffigen] ",
             "[hooks_runner] ",
