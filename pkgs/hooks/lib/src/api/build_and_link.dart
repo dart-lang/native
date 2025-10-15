@@ -112,8 +112,37 @@ import '../validation.dart';
 /// from its source file and providing the `input.json` via the `--config` flag:
 ///
 /// ```sh
-/// dart run hook/build.dart --config .dart_tool/hooks_runner/<hook_name>/<some_hash>/input.json
+/// dart run hook/build.dart --config .dart_tool/hooks_runner/<package_name>/<some_hash>/input.json
 /// ```
+///
+/// To debug in VS Code, you can create a `launch.json` file in a `.vscode`
+/// directory in your project root. This allows you to run your hook with a
+/// debugger attached.
+///
+/// Here is an example configuration:
+///
+/// ```json
+/// {
+///   "version": "0.2.0",
+///   "configurations": [
+///     {
+///       "name": "Debug Build Hook",
+///       "type": "dart",
+///       "request": "launch",
+///       "program": "hook/build.dart",
+///       "args": [
+///         "--config",
+///         ".dart_tool/hooks_runner/your_package_name/some_hash/input.json"
+///       ]
+///     }
+///   ]
+/// }
+/// ```
+///
+/// Again, make sure to replace `your_package_name`, and `some_hash` with the
+/// actual paths from your project. After setting this up, you can run the
+/// "Debug Build Hook" configuration from the "Run and Debug" view in VS Code.
+
 Future<void> build(
   List<String> arguments,
   Future<void> Function(BuildInput input, BuildOutputBuilder output) builder,
@@ -214,8 +243,37 @@ Future<void> build(
 /// its source file and providing the `input.json` via the `--config` flag:
 ///
 /// ```sh
-/// dart run hook/link.dart --config .dart_tool/hooks_runner/<hook_name>/<some_hash>/input.json
+/// dart run hook/link.dart --config .dart_tool/hooks_runner/<package_name>/<some_hash>/input.json
 /// ```
+///
+/// To debug in VS Code, you can create a `launch.json` file in a `.vscode`
+/// directory in your project root. This allows you to run your hook with a
+/// debugger attached.
+///
+/// Here is an example configuration:
+///
+/// ```json
+/// {
+///   "version": "0.2.0",
+///   "configurations": [
+///     {
+///       "name": "Debug Link Hook",
+///       "type": "dart",
+///       "request": "launch",
+///       "program": "hook/link.dart",
+///       "args": [
+///         "--config",
+///         ".dart_tool/hooks_runner/your_package_name/some_hash/input.json"
+///       ]
+///     }
+///   ]
+/// }
+/// ```
+///
+/// Again, make sure to replace `your_package_name`, and `some_hash` with the
+/// actual paths from your project. After setting this up, you can run the
+/// "Debug Link Hook" configuration from the "Run and Debug" view in VS Code.
+
 Future<void> link(
   List<String> arguments,
   Future<void> Function(LinkInput input, LinkOutputBuilder output) linker,

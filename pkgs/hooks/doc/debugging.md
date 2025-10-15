@@ -48,8 +48,39 @@ set breakpoints in your IDE and inspect the hook's execution.
 For example:
 
 ```sh
-dart run path/to/your/hook/build.dart --config .dart_tool/hooks_runner/your_hook_name/some_hash/input.json
+dart run hook/build.dart --config .dart_tool/hooks_runner/your_package_name/some_hash/input.json
 ```
 
-Make sure to replace `path/to/your/hook/build.dart`, `your_hook_name`, and
+Make sure to replace `hook/build.dart`, `your_package_name`, and
 `some_hash` with the actual paths from your project.
+
+## VS Code Launch Configuration
+
+To debug in VS Code, you can create a `launch.json` file in a `.vscode`
+directory in your project root. This allows you to run your hook with a
+debugger attached.
+
+Here is an example configuration:
+
+```json
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Debug Hook",
+      "type": "dart",
+      "request": "launch",
+      "program": "path/to/your/hook/build.dart",
+      "args": [
+        "--config",
+        ".dart_tool/hooks_runner/your_package_name/some_hash/input.json"
+      ]
+    }
+  ]
+}
+```
+
+Again, make sure to replace `path/to/your/hook/build.dart`,
+`your_package_name`, and `some_hash` with the actual paths from your project.
+After setting this up, you can run the "Debug Hook" configuration from the
+"Run and Debug" view in VS Code.
