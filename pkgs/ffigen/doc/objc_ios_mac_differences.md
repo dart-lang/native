@@ -60,7 +60,7 @@ if (Platform.isMacOS) {
 }
 ```
 
-If renaming isn't practical (eg there would be too many renames or `Platform`
+If renaming isn't practical (e.g. there would be too many renames or `Platform`
 checks), then you can write separate Dart classes for each platform that
 implement a shared interface:
 
