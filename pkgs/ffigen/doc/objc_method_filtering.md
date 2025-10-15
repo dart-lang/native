@@ -1,6 +1,7 @@
 # Objective-C method filtering
 
-Methods and properties on ObjC interfaces and protocols can be filtered using
+Methods and properties on ObjC interfaces, protocols,
+and categories can be filtered using
 the `member-filter` option under `objc-interfaces`, `objc-protocols`, and
 `objc-categories`. For simplicity we'll focus on interface methods,
 but the same rules apply to properties, protocols, and categories.
