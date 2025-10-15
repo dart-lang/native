@@ -52,6 +52,11 @@ example/sqlite/](../code_assets/example/sqlite/).
 
 For more information see [dart.dev/tools/hooks](https://dart.dev/tools/hooks).
 
+## Documentation
+
+For detailed documentation on debugging and the configuration schema, see the
+[documentation](./doc/README.md).
+
 ## Status: In Preview
 
 **NOTE**: This package is currently in preview and published under the
