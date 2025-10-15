@@ -16,6 +16,8 @@ Rust. For more details, see https://dart.dev/guides/libraries/c-interop.
 FFIgen also has experimental support for calling ObjC and Swift code;
 for details see https://dart.dev/guides/libraries/objective-c-interop.
 
+More FFIgen documentation can be found [here](doc/README.md).
+
 ## Getting Started
 
 This guide demonstrates how to call a custom C API from a standalone Dart
