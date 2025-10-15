@@ -38,5 +38,5 @@ than the given version.
 
 FFIgen's generated code includes version checks that will throw an
 `OsVersionError` if the API is not available in the current OS version. But it's
-better to write if statements like above, rather than trying to catch this
+better to write `if` statements like above, rather than trying to catch this
 error.
