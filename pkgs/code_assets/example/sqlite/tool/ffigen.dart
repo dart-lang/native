@@ -5,7 +5,6 @@
 import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
-import 'package:logging/logging.dart';
 
 void main() {
   final packageRoot = Platform.script.resolve('../');
