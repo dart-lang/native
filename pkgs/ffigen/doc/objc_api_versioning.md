@@ -3,7 +3,7 @@
 Objective-C uses the `@available` annotation to allow developers to write `if`
 statements that do different things on different OS versions. It also generates
 a compiler warning if the developer uses an API that is only available in
-particular OS versions, without guarding it with an `@available` if statement.
+particular OS versions, without guarding it with an `@available` `if` statement.
 
 ```obj-c
 if (@available(iOS 18, *)) {
