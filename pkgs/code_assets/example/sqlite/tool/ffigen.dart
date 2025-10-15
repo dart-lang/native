@@ -5,11 +5,10 @@
 import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
-import 'package:logging/logging.dart';
 
 void main() {
   final packageRoot = Platform.script.resolve('../');
-  final generator = FfiGenerator(
+  FfiGenerator(
     headers: Headers(
       entryPoints: [packageRoot.resolve('third_party/sqlite/sqlite3.h')],
     ),
@@ -26,8 +25,5 @@ void main() {
 
 ''',
     ),
-  );
-  generator.generate(
-    logger: Logger('')..onRecord.listen((record) => print(record.message)),
-  );
+  ).generate();
 }

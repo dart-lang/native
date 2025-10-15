@@ -16,7 +16,7 @@ dependencies:
   native_toolchain_c: any
 
 dev_dependencies:
-  ffigen: ^20.0.0-dev.0
+  ffigen: ^20.0.0-dev.1
   lints: ^6.0.0
   some_dev_dep:
     path: ../some_dev_dep/
