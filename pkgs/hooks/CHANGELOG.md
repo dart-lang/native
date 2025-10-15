@@ -1,3 +1,7 @@
+## 0.20.4
+
+- Improved documentation on debugging and added a documentation index.
+
 ## 0.20.3
 
 - Polished README.md, Dartdocs, and examples.
