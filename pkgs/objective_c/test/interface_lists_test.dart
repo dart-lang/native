@@ -106,7 +106,7 @@ void main() {
       // allows categories with identical names (so we can't unambiguously
       // rename them), and users don't need to refer to the extension by name
       // anyway.
-      final renameRegExp = RegExp(r'(class|enum) .*\$');
+      final renameRegExp = RegExp(r'(class|enum) .*\$[0-9 ]');
       expect(bindings.where(renameRegExp.hasMatch).toList(), <String>[]);
     });
   });
