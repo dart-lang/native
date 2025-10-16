@@ -48,6 +48,17 @@ String firstLineOfStdout(String cmd, List<String> args) {
       .first;
 }
 
+/// The directory where Xcode's APIs are installed.
+///
+/// This is the result of the command `xcode-select -p`.
 String get xcodePath => _xcode.value;
+
+/// The directory within [xcodePath] where the iOS SDK is installed.
+///
+/// This is the result of the command `xcrun --show-sdk-path --sdk iphoneos`.
 String get iosSdkPath => _iosSdk.value;
+
+/// The directory within [xcodePath] where the macOS SDK is installed.
+///
+/// This is the result of the command `xcrun --show-sdk-path --sdk macosx`.
 String get macSdkPath => _macSdk.value;
