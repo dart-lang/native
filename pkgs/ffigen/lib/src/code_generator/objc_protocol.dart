@@ -139,12 +139,12 @@ ${generateInstanceMethodBindings(w, this)}
 ''');
     }
 
-    final builder = '$name\$Builder';
-    s.write('''
-interface class $builder {
-''');
-
     if (!generateAsStub) {
+      final builder = '$name\$Builder';
+      s.write('''
+  interface class $builder {
+  ''');
+
       final buildArgs = <String>[];
       final buildImplementations = StringBuffer();
       final buildListenerImplementations = StringBuffer();
@@ -308,11 +308,9 @@ interface class $builder {
   $builders
   $listenerBuilders
   $methodFields
-''');
-    }
-    s.write('''
 }
 ''');
+    }
 
     return BindingString(
       type: BindingStringType.objcProtocol,
