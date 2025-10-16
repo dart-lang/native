@@ -44,4 +44,7 @@ export 'src/config_provider.dart'
         VarArgFunction,
         Versions,
         YamlConfig,
-        defaultCompilerOpts;
+        defaultCompilerOpts,
+        iosSdkPath,
+        macSdkPath,
+        xcodePath;

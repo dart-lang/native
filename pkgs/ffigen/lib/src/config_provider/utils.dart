@@ -9,7 +9,7 @@ export 'overrideable_utils.dart';
 
 /// Replaces any variable names in the path with the corresponding value.
 String substituteVars(String path) {
-  for (final variable in _variables) {
+  for (final variable in [_xcode, _iosSdk, _macSdk]) {
     final key = '\$${variable.key}';
     if (path.contains(key)) {
       path = path.replaceAll(key, variable.value);
@@ -27,11 +27,17 @@ class _LazyVariable {
   String get value => _value ??= firstLineOfStdout(_cmd, _args);
 }
 
-final _variables = <_LazyVariable>[
-  _LazyVariable('XCODE', 'xcode-select', ['-p']),
-  _LazyVariable('IOS_SDK', 'xcrun', ['--show-sdk-path', '--sdk', 'iphoneos']),
-  _LazyVariable('MACOS_SDK', 'xcrun', ['--show-sdk-path', '--sdk', 'macosx']),
-];
+final _xcode = _LazyVariable('XCODE', 'xcode-select', ['-p']);
+final _iosSdk = _LazyVariable('IOS_SDK', 'xcrun', [
+  '--show-sdk-path',
+  '--sdk',
+  'iphoneos',
+]);
+final _macSdk = _LazyVariable('MACOS_SDK', 'xcrun', [
+  '--show-sdk-path',
+  '--sdk',
+  'macosx',
+]);
 
 String firstLineOfStdout(String cmd, List<String> args) {
   final result = Process.runSync(cmd, args);
@@ -41,3 +47,7 @@ String firstLineOfStdout(String cmd, List<String> args) {
       .where((line) => line.isNotEmpty)
       .first;
 }
+
+String get xcodePath => _xcode.value;
+String get iosSdkPath => _iosSdk.value;
+String get macSdkPath => _macSdk.value;

@@ -8,4 +8,5 @@ library;
 export 'config_provider/config.dart';
 export 'config_provider/config_types.dart';
 export 'config_provider/path_finder.dart';
+export 'config_provider/utils.dart' show iosSdkPath, macSdkPath, xcodePath;
 export 'config_provider/yaml_config.dart';

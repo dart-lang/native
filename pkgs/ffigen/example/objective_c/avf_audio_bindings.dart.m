@@ -49,7 +49,7 @@ id objc_retainBlock(id);
   };
 
 
-Protocol* _AVFAudio_AVAudioPlayerDelegate(void) { return @protocol(AVAudioPlayerDelegate); }
+Protocol* _NativeLibrary_AVAudioPlayerDelegate(void) { return @protocol(AVAudioPlayerDelegate); }
 #undef BLOCKING_BLOCK_IMPL
 
 #pragma clang diagnostic pop
