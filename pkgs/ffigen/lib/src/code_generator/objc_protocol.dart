@@ -110,11 +110,6 @@ interface class $name extends $protocolBase $impls{
 ''');
 
     if (!generateAsStub) {
-      final builder = '$name\$Builder';
-      s.write('''
-  interface class $builder {
-  ''');
-
       final buildArgs = <String>[];
       final buildImplementations = StringBuffer();
       final buildListenerImplementations = StringBuffer();
@@ -288,9 +283,11 @@ interface class $name extends $protocolBase $impls{
   $builders
   $listenerBuilders
   $methodFields
-}
 ''');
     }
+    s.write('''
+}
+''');
 
     return BindingString(
       type: BindingStringType.objcProtocol,
