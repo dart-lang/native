@@ -5,11 +5,10 @@
 import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
-import 'package:logging/logging.dart';
 
 void main() {
   final packageRoot = Platform.script.resolve('../');
-  final generator = FfiGenerator(
+  FfiGenerator(
     headers: Headers(
       entryPoints: [packageRoot.resolve('third_party/stb_image.h')],
     ),
@@ -35,8 +34,5 @@ void main() {
 // WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 ''',
     ),
-  );
-  generator.generate(
-    logger: Logger('')..onRecord.listen((record) => print(record.message)),
-  );
+  ).generate();
 }

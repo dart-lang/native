@@ -12,96 +12,9 @@ import 'dart:ffi' as ffi;
 import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
-final class AudioStreamBasicDescription extends ffi.Struct {
-  @ffi.Double()
-  external double mSampleRate;
+final class AudioStreamBasicDescription extends ffi.Opaque {}
 
-  @ffi.UnsignedInt()
-  external int mFormatID;
-
-  @ffi.UnsignedInt()
-  external int mFormatFlags;
-
-  @ffi.UnsignedInt()
-  external int mBytesPerPacket;
-
-  @ffi.UnsignedInt()
-  external int mFramesPerPacket;
-
-  @ffi.UnsignedInt()
-  external int mBytesPerFrame;
-
-  @ffi.UnsignedInt()
-  external int mChannelsPerFrame;
-
-  @ffi.UnsignedInt()
-  external int mBitsPerChannel;
-
-  @ffi.UnsignedInt()
-  external int mReserved;
-}
-
-sealed class AudioChannelBitmap {
-  static const kAudioChannelBit_Left = 1;
-  static const kAudioChannelBit_Right = 2;
-  static const kAudioChannelBit_Center = 4;
-  static const kAudioChannelBit_LFEScreen = 8;
-  static const kAudioChannelBit_LeftSurround = 16;
-  static const kAudioChannelBit_RightSurround = 32;
-  static const kAudioChannelBit_LeftCenter = 64;
-  static const kAudioChannelBit_RightCenter = 128;
-  static const kAudioChannelBit_CenterSurround = 256;
-  static const kAudioChannelBit_LeftSurroundDirect = 512;
-  static const kAudioChannelBit_RightSurroundDirect = 1024;
-  static const kAudioChannelBit_TopCenterSurround = 2048;
-  static const kAudioChannelBit_VerticalHeightLeft = 4096;
-  static const kAudioChannelBit_VerticalHeightCenter = 8192;
-  static const kAudioChannelBit_VerticalHeightRight = 16384;
-  static const kAudioChannelBit_TopBackLeft = 32768;
-  static const kAudioChannelBit_TopBackCenter = 65536;
-  static const kAudioChannelBit_TopBackRight = 131072;
-  static const kAudioChannelBit_LeftTopFront = 4096;
-  static const kAudioChannelBit_CenterTopFront = 8192;
-  static const kAudioChannelBit_RightTopFront = 16384;
-  static const kAudioChannelBit_LeftTopMiddle = 2097152;
-  static const kAudioChannelBit_CenterTopMiddle = 2048;
-  static const kAudioChannelBit_RightTopMiddle = 8388608;
-  static const kAudioChannelBit_LeftTopRear = 16777216;
-  static const kAudioChannelBit_CenterTopRear = 33554432;
-  static const kAudioChannelBit_RightTopRear = 67108864;
-}
-
-sealed class AudioChannelFlags {
-  static const kAudioChannelFlags_AllOff = 0;
-  static const kAudioChannelFlags_RectangularCoordinates = 1;
-  static const kAudioChannelFlags_SphericalCoordinates = 2;
-  static const kAudioChannelFlags_Meters = 4;
-}
-
-final class AudioChannelDescription extends ffi.Struct {
-  @ffi.UnsignedInt()
-  external int mChannelLabel;
-
-  @ffi.UnsignedInt()
-  external int mChannelFlags;
-
-  @ffi.Array.multi([3])
-  external ffi.Array<ffi.Float> mCoordinates;
-}
-
-final class AudioChannelLayout extends ffi.Struct {
-  @ffi.UnsignedInt()
-  external int mChannelLayoutTag;
-
-  @ffi.UnsignedInt()
-  external int mChannelBitmap;
-
-  @ffi.UnsignedInt()
-  external int mNumberChannelDescriptions;
-
-  @ffi.Array.multi([1])
-  external ffi.Array<AudioChannelDescription> mChannelDescriptions;
-}
+final class AudioChannelLayout extends ffi.Opaque {}
 
 final class opaqueCMFormatDescription extends ffi.Opaque {}
 
@@ -579,36 +492,6 @@ late final _sel_channelAssignments = objc.registerName("channelAssignments");
 late final _sel_setChannelAssignments_ = objc.registerName(
   "setChannelAssignments:",
 );
-
-/// WARNING: CASpatialAudioExperience is a stub. To generate bindings for this class, include
-/// CASpatialAudioExperience in your config's objc-interfaces list.
-///
-/// CASpatialAudioExperience
-class CASpatialAudioExperience extends objc.ObjCObjectBase {
-  CASpatialAudioExperience._(
-    ffi.Pointer<objc.ObjCObject> pointer, {
-    bool retain = false,
-    bool release = false,
-  }) : super(pointer, retain: retain, release: release);
-
-  /// Constructs a [CASpatialAudioExperience] that points to the same underlying object as [other].
-  CASpatialAudioExperience.castFrom(objc.ObjCObjectBase other)
-    : this._(other.ref.pointer, retain: true, release: true);
-
-  /// Constructs a [CASpatialAudioExperience] that wraps the given raw object pointer.
-  CASpatialAudioExperience.castFromPointer(
-    ffi.Pointer<objc.ObjCObject> other, {
-    bool retain = false,
-    bool release = false,
-  }) : this._(other, retain: retain, release: release);
-}
-
-late final _sel_intendedSpatialExperience = objc.registerName(
-  "intendedSpatialExperience",
-);
-late final _sel_setIntendedSpatialExperience_ = objc.registerName(
-  "setIntendedSpatialExperience:",
-);
 late final _sel_init = objc.registerName("init");
 late final _sel_new = objc.registerName("new");
 late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
@@ -930,24 +813,6 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
         : AVAudioPlayer.castFromPointer($ret, retain: false, release: true);
   }
 
-  /// intendedSpatialExperience
-  CASpatialAudioExperience get intendedSpatialExperience {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.intendedSpatialExperience',
-      iOS: (true, null),
-      macOS: (true, null),
-    );
-    final $ret = _objc_msgSend_151sglz(
-      this.ref.pointer,
-      _sel_intendedSpatialExperience,
-    );
-    return CASpatialAudioExperience.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
-  }
-
   /// isMeteringEnabled
   bool get isMeteringEnabled {
     objc.checkOsVersionInternal(
@@ -1132,20 +997,6 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
       macOS: (false, (10, 8, 0)),
     );
     _objc_msgSend_1s56lr9(this.ref.pointer, _sel_setEnableRate_, value);
-  }
-
-  /// setIntendedSpatialExperience:
-  set intendedSpatialExperience(CASpatialAudioExperience value) {
-    objc.checkOsVersionInternal(
-      'AVAudioPlayer.setIntendedSpatialExperience:',
-      iOS: (true, null),
-      macOS: (true, null),
-    );
-    _objc_msgSend_xtuoz7(
-      this.ref.pointer,
-      _sel_setIntendedSpatialExperience_,
-      value.ref.pointer,
-    );
   }
 
   /// setMeteringEnabled:
