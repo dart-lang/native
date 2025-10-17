@@ -8,9 +8,9 @@ library;
 
 import 'package:ffigen/src/header_parser.dart';
 import 'package:logging/logging.dart';
-import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
+import '../../example/objective_c/generate_code.dart' show config;
 import '../test_utils.dart';
 
 void main() {
@@ -20,9 +20,6 @@ void main() {
     });
 
     test('objective_c', () {
-      final config = testConfigFromPath(
-        path.join(packagePathForTests, 'example', 'objective_c', 'config.yaml'),
-      );
       final output = parse(testContext(config)).generate();
 
       // Verify that the output contains all the methods and classes that the

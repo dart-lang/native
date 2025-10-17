@@ -19,3 +19,6 @@ headers:
   entry-points:
     - '$MACOS_SDK/System/Library/Frameworks/Foundation.framework/Headers/NSDate.h'
 ```
+
+In the Dart API you can use these getters:
+`xcodePath`, `iosSdkPath`, and `macSdkPath`.
