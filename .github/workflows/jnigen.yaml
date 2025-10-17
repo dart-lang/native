@@ -221,6 +221,10 @@ jobs:
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: ./pkgs/jni/coverage/lcov.info
+      - name: building the example project succeeds
+        working-directory: ./pkgs/jni/example/
+        run: |
+          flutter build apk
       - name: regenerate & compare jnigen bindings
         run: |
           dart run tool/generate_jni_bindings.dart
