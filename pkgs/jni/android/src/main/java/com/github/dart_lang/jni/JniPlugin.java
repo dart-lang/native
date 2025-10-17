@@ -10,9 +10,9 @@ import androidx.annotation.NonNull;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class JniPlugin implements FlutterPlugin, ActivityAware {
@@ -21,7 +21,7 @@ public class JniPlugin implements FlutterPlugin, ActivityAware {
   private long engineId;
   private Context context;
   private Activity activity;
-  private final List<ActivityListener> activityListeners = new ArrayList<>();
+  private final Set<ActivityListener> activityListeners = new HashSet<>();
 
   public static @NonNull Context getApplicationContext(long engineId) {
     return Objects.requireNonNull(pluginMap.get(engineId)).context;
