@@ -83,6 +83,10 @@ void* getClass(id object) {
   return 5432;
 }
 
+- (id<MyProtocol>)returnsMyProtocol {
+  return self;
+}
+
 @end
 
 

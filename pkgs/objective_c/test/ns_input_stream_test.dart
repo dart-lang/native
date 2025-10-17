@@ -292,7 +292,7 @@ void main() {
       test('non-self delegate', () async {
         final events = <int>[];
 
-        inputStream.delegate = NSStreamDelegate.implement(
+        inputStream.delegate = NSStreamDelegate$Builder.implement(
           stream_handleEvent_: (stream, event) => events.add(event),
         );
         inputStream.stream(
