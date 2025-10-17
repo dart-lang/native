@@ -35,8 +35,8 @@
 // ignore_for_file: unused_shown_name
 // ignore_for_file: use_super_parameters
 
-import 'dart:core' show Object, String, bool, double, int;
 import 'dart:core' as core$_;
+import 'dart:core' show Object, String, bool, double, int;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
@@ -45,7 +45,7 @@ import 'package:jni/jni.dart' as jni$_;
 class JniPlugin$ActivityListener extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<JniPlugin$ActivityListener> $type;
+  final jni$_.JType<JniPlugin$ActivityListener> $type;
 
   @jni$_.internal
   JniPlugin$ActivityListener.fromReference(
@@ -57,8 +57,12 @@ class JniPlugin$ActivityListener extends jni$_.JObject {
       r'com/github/dart_lang/jni/JniPlugin$ActivityListener');
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = $JniPlugin$ActivityListener$NullableType();
-  static const type = $JniPlugin$ActivityListener$Type();
+  static const jni$_.JType<JniPlugin$ActivityListener?> nullableType =
+      $JniPlugin$ActivityListener$NullableType$();
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<JniPlugin$ActivityListener> type =
+      $JniPlugin$ActivityListener$Type$();
   static final _id_onActivityChanged = _class.instanceMethodId(
     r'onActivityChanged',
     r'(Landroid/app/Activity;)V',
@@ -117,7 +121,7 @@ class JniPlugin$ActivityListener extends jni$_.JObject {
       final $a = $i.args;
       if ($d == r'onActivityChanged(Landroid/app/Activity;)V') {
         _$impls[$p]!.onActivityChanged(
-          $a![0]?.as(const jni$_.JObjectType(), releaseOriginal: true),
+          $a![0]?.as(const jni$_.$JObject$Type$(), releaseOriginal: true),
         );
         return jni$_.nullptr;
       }
@@ -190,10 +194,10 @@ final class _$JniPlugin$ActivityListener with $JniPlugin$ActivityListener {
   }
 }
 
-final class $JniPlugin$ActivityListener$NullableType
-    extends jni$_.JObjType<JniPlugin$ActivityListener?> {
+final class $JniPlugin$ActivityListener$NullableType$
+    extends jni$_.JType<JniPlugin$ActivityListener?> {
   @jni$_.internal
-  const $JniPlugin$ActivityListener$NullableType();
+  const $JniPlugin$ActivityListener$NullableType$();
 
   @jni$_.internal
   @core$_.override
@@ -210,30 +214,30 @@ final class $JniPlugin$ActivityListener$NullableType
             );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+  jni$_.JType get superType => const jni$_.$JObject$NullableType$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<JniPlugin$ActivityListener?> get nullableType => this;
+  jni$_.JType<JniPlugin$ActivityListener?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($JniPlugin$ActivityListener$NullableType).hashCode;
+  int get hashCode => ($JniPlugin$ActivityListener$NullableType$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($JniPlugin$ActivityListener$NullableType) &&
-        other is $JniPlugin$ActivityListener$NullableType;
+    return other.runtimeType == ($JniPlugin$ActivityListener$NullableType$) &&
+        other is $JniPlugin$ActivityListener$NullableType$;
   }
 }
 
-final class $JniPlugin$ActivityListener$Type
-    extends jni$_.JObjType<JniPlugin$ActivityListener> {
+final class $JniPlugin$ActivityListener$Type$
+    extends jni$_.JType<JniPlugin$ActivityListener> {
   @jni$_.internal
-  const $JniPlugin$ActivityListener$Type();
+  const $JniPlugin$ActivityListener$Type$();
 
   @jni$_.internal
   @core$_.override
@@ -248,24 +252,24 @@ final class $JniPlugin$ActivityListener$Type
       );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+  jni$_.JType get superType => const jni$_.$JObject$NullableType$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<JniPlugin$ActivityListener?> get nullableType =>
-      const $JniPlugin$ActivityListener$NullableType();
+  jni$_.JType<JniPlugin$ActivityListener?> get nullableType =>
+      const $JniPlugin$ActivityListener$NullableType$();
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($JniPlugin$ActivityListener$Type).hashCode;
+  int get hashCode => ($JniPlugin$ActivityListener$Type$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($JniPlugin$ActivityListener$Type) &&
-        other is $JniPlugin$ActivityListener$Type;
+    return other.runtimeType == ($JniPlugin$ActivityListener$Type$) &&
+        other is $JniPlugin$ActivityListener$Type$;
   }
 }
 
@@ -273,7 +277,7 @@ final class $JniPlugin$ActivityListener$Type
 class JniPlugin extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<JniPlugin> $type;
+  final jni$_.JType<JniPlugin> $type;
 
   @jni$_.internal
   JniPlugin.fromReference(
@@ -285,8 +289,11 @@ class JniPlugin extends jni$_.JObject {
       jni$_.JClass.forName(r'com/github/dart_lang/jni/JniPlugin');
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = $JniPlugin$NullableType();
-  static const type = $JniPlugin$Type();
+  static const jni$_.JType<JniPlugin?> nullableType =
+      $JniPlugin$NullableType$();
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<JniPlugin> type = $JniPlugin$Type$();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -332,7 +339,7 @@ class JniPlugin extends jni$_.JObject {
   ) {
     return _getApplicationContext(_class.reference.pointer,
             _id_getApplicationContext as jni$_.JMethodIDPtr, j)
-        .object<jni$_.JObject>(const jni$_.JObjectType());
+        .object<jni$_.JObject>(const jni$_.$JObject$Type$());
   }
 
   static final _id_addActivityListener = _class.staticMethodId(
@@ -562,9 +569,9 @@ class JniPlugin extends jni$_.JObject {
   }
 }
 
-final class $JniPlugin$NullableType extends jni$_.JObjType<JniPlugin?> {
+final class $JniPlugin$NullableType$ extends jni$_.JType<JniPlugin?> {
   @jni$_.internal
-  const $JniPlugin$NullableType();
+  const $JniPlugin$NullableType$();
 
   @jni$_.internal
   @core$_.override
@@ -579,29 +586,29 @@ final class $JniPlugin$NullableType extends jni$_.JObjType<JniPlugin?> {
         );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+  jni$_.JType get superType => const jni$_.$JObject$NullableType$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<JniPlugin?> get nullableType => this;
+  jni$_.JType<JniPlugin?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($JniPlugin$NullableType).hashCode;
+  int get hashCode => ($JniPlugin$NullableType$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($JniPlugin$NullableType) &&
-        other is $JniPlugin$NullableType;
+    return other.runtimeType == ($JniPlugin$NullableType$) &&
+        other is $JniPlugin$NullableType$;
   }
 }
 
-final class $JniPlugin$Type extends jni$_.JObjType<JniPlugin> {
+final class $JniPlugin$Type$ extends jni$_.JType<JniPlugin> {
   @jni$_.internal
-  const $JniPlugin$Type();
+  const $JniPlugin$Type$();
 
   @jni$_.internal
   @core$_.override
@@ -615,22 +622,21 @@ final class $JniPlugin$Type extends jni$_.JObjType<JniPlugin> {
       );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+  jni$_.JType get superType => const jni$_.$JObject$NullableType$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<JniPlugin?> get nullableType =>
-      const $JniPlugin$NullableType();
+  jni$_.JType<JniPlugin?> get nullableType => const $JniPlugin$NullableType$();
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($JniPlugin$Type).hashCode;
+  int get hashCode => ($JniPlugin$Type$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($JniPlugin$Type) && other is $JniPlugin$Type;
+    return other.runtimeType == ($JniPlugin$Type$) && other is $JniPlugin$Type$;
   }
 }

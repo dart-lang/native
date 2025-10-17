@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import 'package:jnigen/jnigen.dart';
 
 void main() {
@@ -13,7 +15,8 @@ void main() {
       ),
       outputConfig: OutputConfig(
         dartConfig: DartCodeOutputConfig(
-          path: Uri.file('lib/src/plugin/generated_plugin.dart'),
+          path: Platform.script
+              .resolve('../lib/src/plugin/generated_plugin.dart'),
           structure: OutputStructure.singleFile,
         ),
       ),

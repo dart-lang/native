@@ -228,13 +228,13 @@ abstract final class Jni {
     late final StreamController<JObject?> androidActivitiesController;
     final activityListener = JniPlugin$ActivityListener.implement(
       $JniPlugin$ActivityListener(
+        onActivityChanged$async: true,
         onActivityChanged: (activity) {
           androidActivitiesController.add(activity);
         },
       ),
     );
     androidActivitiesController = StreamController(
-      sync: true,
       onListen: () {
         JniPlugin.addActivityListener(engineId, activityListener);
       },
