@@ -151,8 +151,6 @@ BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpReserved) {
   }
   return TRUE;
 }
-#else
-pthread_mutex_t spawnLock = PTHREAD_MUTEX_INITIALIZER;
 #endif
 FFI_PLUGIN_EXPORT
 JniErrorCode SpawnJvm(JavaVMInitArgs* initArgs) {
