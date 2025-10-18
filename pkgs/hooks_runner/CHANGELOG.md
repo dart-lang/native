@@ -1,3 +1,6 @@
+## 0.23.2
+- Add `LIBCLANG_PATH` to the environment variables allowlist.
+
 ## 0.23.1
 
 - Change the length of the checksum used for `outputDirectory` to 10 hexadecimal
