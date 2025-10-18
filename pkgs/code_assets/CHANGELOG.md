@@ -1,3 +1,7 @@
+## 0.19.9
+
+- Document that asset file paths must be absolute.
+
 ## 0.19.8
 
 - Polished README.md, Dartdocs, and examples.

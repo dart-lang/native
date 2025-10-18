@@ -60,10 +60,11 @@ final class CodeAsset {
   /// Either dynamic loading or static linking.
   final LinkMode linkMode;
 
-  /// The file to be bundled with the Dart or Flutter application.
+  /// The native library to be bundled with the Dart or Flutter application.
   ///
   /// If the [linkMode] is [DynamicLoadingBundled], the file must be provided
-  /// and exist.
+  /// and exist. The path must be an absolute path. Prefer constructing the path
+  /// via [HookInput.outputDirectoryShared] or [HookInput.outputDirectory].
   ///
   /// If the [linkMode] is [DynamicLoadingSystem], the file must be provided,
   /// and not exist.

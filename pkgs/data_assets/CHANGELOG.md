@@ -1,3 +1,7 @@
+## 0.19.4
+
+- Document that asset file paths must be absolute.
+
 ## 0.19.3
 
 - Added a library comment detailing how to use the package.

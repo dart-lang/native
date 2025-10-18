@@ -119,10 +119,20 @@ final class BuildOutputDataAssetsBuilder {
   BuildOutputDataAssetsBuilder._(this._output);
 
   /// Adds the given [asset] to the hook output with [routing].
+  ///
+  /// The [DataAsset.file] must be an absolute path. Prefer constructing the
+  /// path via [HookInput.outputDirectoryShared] or [HookInput.outputDirectory]
+  /// for files emitted during a hook, and via [HookInput.packageRoot] for files
+  /// which are part of the package.
   void add(DataAsset asset, {AssetRouting routing = const ToAppBundle()}) =>
       _output.addEncodedAsset(asset.encode(), routing: routing);
 
   /// Adds the given [assets] to the hook output with [routing].
+  ///
+  /// The [DataAsset.file]s must be absolute paths. Prefer constructing the
+  /// path via [HookInput.outputDirectoryShared] or [HookInput.outputDirectory]
+  /// for files emitted during a hook, and via [HookInput.packageRoot] for files
+  /// which are part of the package.
   void addAll(
     Iterable<DataAsset> assets, {
     AssetRouting routing = const ToAppBundle(),

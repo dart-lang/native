@@ -165,10 +165,18 @@ final class BuildOutputCodeAssetBuilder {
   BuildOutputCodeAssetBuilder._(this._output);
 
   /// Adds the given [asset] to the hook output with [routing].
+  ///
+  /// The [CodeAsset.file], if provided, must be an absolute path. Prefer
+  /// constructing the path via [HookInput.outputDirectoryShared] or
+  /// [HookInput.outputDirectory].
   void add(CodeAsset asset, {AssetRouting routing = const ToAppBundle()}) =>
       _output.addEncodedAsset(asset.encode(), routing: routing);
 
   /// Adds the given [assets] to the hook output with [routing].
+  ///
+  /// The [CodeAsset.file]s, if provided, must be absolute paths. Prefer
+  /// constructing the paths via [HookInput.outputDirectoryShared] or
+  /// [HookInput.outputDirectory].
   void addAll(
     Iterable<CodeAsset> assets, {
     AssetRouting routing = const ToAppBundle(),
