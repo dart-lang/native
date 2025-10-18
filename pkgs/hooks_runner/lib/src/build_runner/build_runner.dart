@@ -546,6 +546,7 @@ class NativeAssetsBuildRunner {
     const staticVariablesFilter = {
       'ANDROID_HOME', // Needed for the NDK.
       'HOME', // Needed to find tools in default install locations.
+      'LIBCLANG_PATH', // Needed for Rust's bindgen + clang-sys.
       'PATH', // Needed to invoke native tools.
       'PROGRAMDATA', // Needed for vswhere.exe.
       'SYSTEMDRIVE', // Needed for CMake.
