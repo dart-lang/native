@@ -1,4 +1,5 @@
 ## 0.23.2
+
 - Add `LIBCLANG_PATH` to the environment variables allowlist.
 
 ## 0.23.1
