@@ -117,10 +117,10 @@ mixin ObjCMethods {
   String generateStaticMethodBindings(Writer w, ObjCInterface target) =>
       _generateMethods(w, target, true);
 
-  String generateInstanceMethodBindings(Writer w, ObjCInterface target) =>
+  String generateInstanceMethodBindings(Writer w, BindingType target) =>
       _generateMethods(w, target, false);
 
-  String _generateMethods(Writer w, ObjCInterface target, bool? staticMethods) {
+  String _generateMethods(Writer w, BindingType target, bool? staticMethods) {
     return [
       for (final m in methods)
         if (staticMethods == null || staticMethods == m.isClassMethod)
@@ -423,7 +423,10 @@ class ObjCMethod extends AstNode with HasLocalScope {
     return '${_paramToStr(context, params.first)}, {$named}';
   }
 
-  String generateBindings(Writer w, ObjCInterface target) {
+  String generateBindings(Writer w, BindingType target) {
+    // Class methods are only supported for ObjCInterface targets.
+    assert(target is ObjCInterface || !isClassMethod);
+
     final context = w.context;
     final methodName = symbol.name;
     final upperName = methodName[0].toUpperCase() + methodName.substring(1);
@@ -446,7 +449,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
     s.write('\n  ${makeDartDoc(dartDoc)}  ');
     late String targetStr;
     if (isClassMethod) {
-      targetStr = target.classObject.name;
+      targetStr = (target as ObjCInterface).classObject.name;
       switch (kind) {
         case ObjCMethodKind.method:
           s.write('static $returnTypeStr $methodName($paramStr)');

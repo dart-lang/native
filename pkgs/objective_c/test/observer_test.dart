@@ -28,7 +28,7 @@ void main() {
       expect(observed.totalUnitCount, 123);
 
       final values = <dynamic>[];
-      final observer = Observer.implement(
+      final observer = Observer$Builder.implement(
         observeValueForKeyPath_ofObject_change_context_:
             (
               NSString keyPath,
@@ -69,7 +69,7 @@ void main() {
       final observed = NSProgress();
 
       final values = <dynamic>[];
-      final observer = Observer.implement(
+      final observer = Observer$Builder.implement(
         observeValueForKeyPath_ofObject_change_context_:
             (
               NSString keyPath,
@@ -108,7 +108,7 @@ void main() {
       Observation? observation;
       autoReleasePool(() {
         observed = NSProgress();
-        observer = Observer.implement(
+        observer = Observer$Builder.implement(
           observeValueForKeyPath_ofObject_change_context_:
               (
                 NSString keyPath,
@@ -165,7 +165,7 @@ void main() {
       Observation? observation;
       autoReleasePool(() {
         observed = NSProgress();
-        observer = Observer.implement(
+        observer = Observer$Builder.implement(
           observeValueForKeyPath_ofObject_change_context_:
               (
                 NSString keyPath,
