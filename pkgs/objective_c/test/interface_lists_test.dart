@@ -42,13 +42,14 @@ void main() {
     Set<String> findBindings(RegExp re) =>
         bindings.map(re.firstMatch).nonNulls.map((match) => match[1]!).toSet();
 
-    Set<String> allClassNames() => findBindings(RegExp(r'^class ([^_]\w*) '));
-
     test('All code genned interfaces are included in the list', () {
+      final allClassNames = findBindings(
+        RegExp(r'^extension type ([^_]\w*)\.castFrom\(objc\.ObjCObjectBase '),
+      );
       expectSetsEqual(
         'generated classes',
         objCBuiltInInterfaces.values.toSet(),
-        allClassNames(),
+        allClassNames,
       );
     });
 
@@ -71,7 +72,9 @@ void main() {
     });
 
     test('All code genned protocols are included in the list', () {
-      final allProtocolNames = findBindings(RegExp(r'^interface class (\w+) '));
+      final allProtocolNames = findBindings(
+        RegExp(r'^extension type ([^_]\w*)\.castFrom\(objc\.ObjCProtocolBase '),
+      );
       expectSetsEqual(
         'generated protocols',
         objCBuiltInProtocols.values.toSet(),

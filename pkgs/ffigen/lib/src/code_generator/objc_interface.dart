@@ -98,24 +98,18 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
 
     final rawObjType = PointerType(objCObjectType).getCType(context);
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(context);
-    final protos = protocols.map((p) => p.getDartType(context)).join(', ');
-    final protoImpl = protocols.isEmpty ? '' : 'implements $protos ';
+    final protos =
+        [
+        wrapObjType,
+        ...[superType, ...protocols].nonNulls.map((p) => p.getDartType(context)),
+          ];
 
-    final superTypeDartType = superType?.getDartType(context) ?? wrapObjType;
-    final superCtor = superType == null ? 'super' : 'super.castFromPointer';
     s.write('''
-class $name extends $superTypeDartType $protoImpl{
-  $name._($rawObjType pointer, {bool retain = false, bool release = false}) :
-      $superCtor(pointer, retain: retain, release: release)$ctorBody
-
-  /// Constructs a [$name] that points to the same underlying object as [other].
-  $name.castFrom($wrapObjType other) :
-      this._(other.ref.pointer, retain: true, release: true);
-
+extension type $name.castFrom($wrapObjType _\$) implements ${protos.join(',')} {
   /// Constructs a [$name] that wraps the given raw object pointer.
   $name.castFromPointer($rawObjType other,
       {bool retain = false, bool release = false}) :
-      this._(other, retain: retain, release: release);
+      this.castFrom($wrapObjType(other, retain: retain, release: release));
 
 ${generateAsStub ? '' : _generateStaticMethods(w)}
 }
@@ -163,7 +157,7 @@ ${generateInstanceMethodBindings(w, this)}
     if (newMethod != null && originalName != 'NSString') {
       s.write('''
   /// Returns a new instance of $name constructed with the default `new` method.
-  factory $name() => ${newMethod.name}();
+  $name() : this.castFrom(${newMethod.name}()._\$);
 ''');
     }
 

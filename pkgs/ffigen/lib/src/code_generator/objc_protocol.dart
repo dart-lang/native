@@ -91,21 +91,13 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
     }
     s.write(makeDartDoc(dartDoc ?? originalName));
 
-    final sp = superProtocols.map((p) => p.getDartType(context));
-    final impls = superProtocols.isEmpty ? '' : 'implements ${sp.join(', ')}';
+    final sp = [protocolBase, ...superProtocols.map((p) => p.getDartType(context))];
     s.write('''
-interface class $name extends $protocolBase $impls{
-  $name._($rawObjType pointer, {bool retain = false, bool release = false}) :
-          super(pointer, retain: retain, release: release);
-
-  /// Constructs a [$name] that points to the same underlying object as [other].
-  $name.castFrom($objectBase other) :
-      this._(other.ref.pointer, retain: true, release: true);
-
+extension type $name.castFrom($protocolBase _\$) implements ${sp.join(', ')} {
   /// Constructs a [$name] that wraps the given raw object pointer.
   $name.castFromPointer($rawObjType other,
       {bool retain = false, bool release = false}) :
-      this._(other, retain: retain, release: release);
+      this.castFrom($protocolBase(other, retain: retain, release: release));
 ''');
 
     if (!generateAsStub) {
