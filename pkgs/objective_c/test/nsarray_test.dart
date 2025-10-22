@@ -22,7 +22,7 @@ void main() {
 
     test('filled', () {
       final obj = NSObject();
-      final array = NSArray.filled(3, obj);
+      final array = NSArray.filled(3, obj).toDart();
 
       expect(array.length, 3);
 
@@ -42,7 +42,7 @@ void main() {
       final obj4 = NSObject();
       final obj5 = NSObject();
       final expected = [obj1, obj2, obj3, obj4, obj5];
-      final array = NSArray.of(expected);
+      final array = NSArray.of(expected).toDart();
 
       expect(array.length, 5);
 
@@ -60,7 +60,7 @@ void main() {
       final obj4 = NSObject();
       final obj5 = NSObject();
       final expected = [obj1, obj2, obj3, obj4, obj5];
-      final array = NSArray.of(expected);
+      final array = NSArray.of(expected).toDart();
 
       expect(array.isNotEmpty, isTrue);
       expect(array.first, obj1);

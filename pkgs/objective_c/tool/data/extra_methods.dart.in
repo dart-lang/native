@@ -11,7 +11,7 @@
 // declarations, so it's important that they remain unformatted, even if that
 // means going over the 80 char width limit. The class bodies may be formatted.
 
-extension type NSString {
+extension type NSString.castFrom(objc.ObjCObjectBase _$) {
   NSString(String str) : this.castFrom(_stringToNSString$(str));
 
   static NSString _stringToNSString$(String str) {
@@ -20,4 +20,105 @@ extension type NSString {
     pkg_ffi.calloc.free(cstr);
     return nsstr;
   }
+}
+
+extension type NSArray.castFrom(objc.ObjCObjectBase _$) {
+  /// Creates a [NSArray] of the given length with [fill] at each position.
+  ///
+  /// The [length] must be a non-negative integer.
+  static NSArray filled(int length, objc.ObjCObjectBase fill) =>
+      NSMutableArray.filled(length, fill);
+
+  /// Creates a [NSArray] from [elements].
+  static NSArray of(Iterable<objc.ObjCObjectBase> elements) =>
+      NSMutableArray.of(elements);
+
+  /// Wraps this [NSArray] in an adapter that implements [Iterable].
+  objc.NSArrayAdapter toDart() => objc.NSArrayAdapter(this);
+}
+
+extension type NSMutableArray.castFrom(objc.ObjCObjectBase _$) {
+  /// Creates a [NSMutableArray] of the given length with [fill] at each
+  /// position.
+  ///
+  /// The [length] must be a non-negative integer.
+  static NSMutableArray filled(int length, objc.ObjCObjectBase fill) {
+    final a = arrayWithCapacity(length);
+    for (var i = 0; i < length; ++i) a.addObject(fill);
+    return a;
+  }
+
+  /// Creates a [NSMutableArray] from [elements].
+  static NSMutableArray of(Iterable<objc.ObjCObjectBase> elements) {
+    final a = arrayWithCapacity(elements.length);
+    for (final e in elements) a.addObject(e);
+    return a;
+  }
+
+  /// Wraps this [NSMutableArray] in an adapter that implements [List].
+  objc.NSMutableArrayAdapter toDart() => objc.NSMutableArrayAdapter(this);
+}
+
+extension type NSDictionary.castFrom(objc.ObjCObjectBase _$) {
+  /// Creates a [NSDictionary] from [other].
+  static NSDictionary of(Map<NSCopying, objc.ObjCObjectBase> other) =>
+      NSMutableDictionary.of(other);
+
+  /// Creates a [NSDictionary] from [entries].
+  static NSDictionary fromEntries(
+    Iterable<MapEntry<NSCopying, objc.ObjCObjectBase>> entries,
+  ) => NSMutableDictionary.fromEntries(entries);
+
+  /// Wraps this [NSDictionary] in an adapter that implements [Map].
+  objc.NSDictionaryAdapter toDart() => objc.NSDictionaryAdapter(this);
+}
+
+extension type NSMutableDictionary.castFrom(objc.ObjCObjectBase _$) {
+  /// Creates a [NSMutableDictionary] from [other].
+  static NSMutableDictionary of(Map<NSCopying, objc.ObjCObjectBase> other) =>
+      NSMutableDictionary.fromEntries(other.entries);
+
+  /// Creates a [NSMutableDictionary] from [entries].
+  static NSMutableDictionary fromEntries(
+    Iterable<MapEntry<NSCopying, objc.ObjCObjectBase>> entries,
+  ) {
+    final dict = dictionaryWithCapacity(entries.length);
+    for (final MapEntry(:key, :value) in entries) {
+      dict.setObject(
+        value,
+        forKey: NSCopying.castFrom(key),
+      );
+    }
+    return dict;
+  }
+
+  /// Wraps this [NSMutableDictionary] in an adapter that implements [Map].
+  objc.NSMutableDictionaryAdapter toDart() =>
+      objc.NSMutableDictionaryAdapter(this);
+}
+
+extension type NSEnumerator.castFrom(objc.ObjCObjectBase _$) {
+  /// Wraps this [NSEnumerator] in an adapter that implements [Iterator].
+  objc.NSEnumeratorAdapter toDart() => objc.NSEnumeratorAdapter(this);
+}
+
+extension type NSSet.castFrom(objc.ObjCObjectBase _$) {
+  /// Creates a [NSSet] from [elements].
+  static NSSet of(Iterable<objc.ObjCObjectBase> elements) =>
+      NSMutableSet.of(elements);
+
+  /// Wraps this [NSSet] in an adapter that implements [Set].
+  objc.NSSetAdapter toDart() => objc.NSSetAdapter(this);
+}
+
+extension type NSMutableSet.castFrom(objc.ObjCObjectBase _$) {
+  /// Creates a [NSMutableSet] from [elements].
+  static NSMutableSet of(Iterable<objc.ObjCObjectBase> elements) {
+    final set = setWithCapacity(elements.length);
+    for (final e in elements) set.addObject(e);
+    return set;
+  }
+
+  /// Wraps this [NSMutableSet] in an adapter that implements [Set].
+  objc.NSMutableSetAdapter toDart() => objc.NSMutableSetAdapter(this);
 }

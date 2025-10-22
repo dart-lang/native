@@ -107,9 +107,7 @@ extension type TestOtherClassWrapper.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [TestOtherClassWrapper].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -196,9 +194,7 @@ extension type TestClassWrapper.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [TestClassWrapper].
   static bool isInstance(objc.ObjCObjectBase obj) {

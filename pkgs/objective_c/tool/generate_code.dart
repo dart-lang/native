@@ -168,13 +168,13 @@ Future<void> run({required bool format}) async {
   print('Generating objective_c_bindings_exported.dart...');
   writeExports(exports, objcExports);
 
-  print('Running tests...');
-  dartCmd(['test', interfaceListTest]);
-
   if (format) {
     print('Formatting bindings...');
     dartCmd(['format', cBindings, objcBindings, builtInTypes, objcExports]);
   }
+
+  print('Running tests...');
+  dartCmd(['test', interfaceListTest]);
 }
 
 Future<void> main(List<String> args) async {

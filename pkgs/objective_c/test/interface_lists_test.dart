@@ -30,6 +30,11 @@ void expectSetsEqual(String name, Set<String> expected, Set<String> actual) {
   );
 }
 
+void mergeLinewithNext(List<String> lines, String toMerge) {
+  final i = lines.indexOf(toMerge);
+  lines[i] += lines.removeAt(i + 1);
+}
+
 void main() {
   group('Verify interface lists', () {
     late final List<String> bindings;
@@ -37,6 +42,14 @@ void main() {
       bindings = File(
         p.join(pkgDir, 'lib', 'src', 'objective_c_bindings_generated.dart'),
       ).readAsLinesSync().toList();
+
+      // HACK: NSAttributedStringMarkdownParsingOptions is such a long class
+      // name that its definition wraps, and the regex doesn't match. So find
+      // that line and merge it with the following one.
+      mergeLinewithNext(
+        bindings,
+        'extension type NSAttributedStringMarkdownParsingOptions.castFrom(',
+      );
     });
 
     Set<String> findBindings(RegExp re) =>
@@ -44,7 +57,7 @@ void main() {
 
     test('All code genned interfaces are included in the list', () {
       final allClassNames = findBindings(
-        RegExp(r'^extension type ([^_]\w*)\.castFrom\(objc\.ObjCObjectBase '),
+        RegExp(r'^extension type ([^_]\w*)\.castFrom\( *objc\.ObjCObjectBase '),
       );
       expectSetsEqual(
         'generated classes',
