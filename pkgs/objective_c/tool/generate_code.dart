@@ -71,10 +71,7 @@ Map<String, String> parseExtraMethods(String filename) {
   return extraMethods;
 }
 
-void mergeExtraMethods(
-  String filename,
-  Map<String, String> extraMethods,
-) {
+void mergeExtraMethods(String filename, Map<String, String> extraMethods) {
   final out = StringBuffer();
   for (final line in File(filename).readAsLinesSync()) {
     out.writeln(line);

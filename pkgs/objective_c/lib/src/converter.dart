@@ -7,6 +7,7 @@ import 'ns_date.dart';
 import 'ns_number.dart';
 import 'ns_string.dart';
 import 'objective_c_bindings_generated.dart';
+
 /*
 ObjCObjectBase _defaultObjCConverter(Object o) =>
     throw UnimplementedError('No conversion for $o');

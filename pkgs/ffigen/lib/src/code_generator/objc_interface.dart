@@ -98,18 +98,17 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
 
     final rawObjType = PointerType(objCObjectType).getCType(context);
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(context);
-    final protos =
-        [
-        wrapObjType,
-        ...[superType, ...protocols].nonNulls.map((p) => p.getDartType(context)),
-          ];
+    final protos = [
+      wrapObjType,
+      ...[superType, ...protocols].nonNulls.map((p) => p.getDartType(context)),
+    ];
 
     s.write('''
 extension type $name.castFrom($wrapObjType _\$) implements ${protos.join(',')} {
   /// Constructs a [$name] that wraps the given raw object pointer.
   $name.castFromPointer($rawObjType other,
       {bool retain = false, bool release = false}) :
-      this.castFrom($wrapObjType(other, retain: retain, release: release));
+          _\$ = $wrapObjType(other, retain: retain, release: release)$ctorBody
 
 ${generateAsStub ? '' : _generateStaticMethods(w)}
 }

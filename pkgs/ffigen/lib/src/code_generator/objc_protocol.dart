@@ -91,7 +91,10 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
     }
     s.write(makeDartDoc(dartDoc ?? originalName));
 
-    final sp = [protocolBase, ...superProtocols.map((p) => p.getDartType(context))];
+    final sp = [
+      protocolBase,
+      ...superProtocols.map((p) => p.getDartType(context)),
+    ];
     s.write('''
 extension type $name.castFrom($protocolBase _\$) implements ${sp.join(', ')} {
   /// Constructs a [$name] that wraps the given raw object pointer.

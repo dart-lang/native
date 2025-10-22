@@ -814,9 +814,7 @@ extension type DOBJCObservation.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [DOBJCObservation].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -912,9 +910,7 @@ extension type DartInputStreamAdapter.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [DartInputStreamAdapter].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -1153,9 +1149,7 @@ extension type DartInputStreamAdapterWeakHolder.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [DartInputStreamAdapterWeakHolder].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -1267,9 +1261,7 @@ extension type DartProtocol.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [DartProtocol].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -1362,9 +1354,7 @@ extension type DartProtocolBuilder.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [DartProtocolBuilder].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -1524,9 +1514,7 @@ extension type NSArray.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSArray].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -1743,9 +1731,13 @@ extension type NSAttributedString.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release) {
+    objc.checkOsVersionInternal(
+      'NSAttributedString',
+      iOS: (false, (3, 2, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+  }
 
   /// Returns whether [obj] is an instance of [NSAttributedString].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -2265,9 +2257,13 @@ extension type NSAttributedStringMarkdownParsingOptions.castFrom(
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release) {
+    objc.checkOsVersionInternal(
+      'NSAttributedStringMarkdownParsingOptions',
+      iOS: (false, (15, 0, 0)),
+      macOS: (false, (12, 0, 0)),
+    );
+  }
 
   /// Returns whether [obj] is an instance of [NSAttributedStringMarkdownParsingOptions].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -2493,9 +2489,7 @@ extension type NSBundle.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSBundle].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -3338,9 +3332,7 @@ extension type NSCharacterSet.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSCharacterSet].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -3663,9 +3655,7 @@ extension type NSCoder.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSCoder].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -4154,9 +4144,7 @@ extension type NSData.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSData].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -4656,9 +4644,7 @@ extension type NSDate.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSDate].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -4889,9 +4875,7 @@ extension type NSDictionary.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSDictionary].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -5168,9 +5152,7 @@ extension type NSEnumerator.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSEnumerator].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -5254,9 +5236,7 @@ extension type NSError.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSError].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -8390,9 +8370,7 @@ extension type NSIndexSet.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSIndexSet].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -8898,9 +8876,7 @@ extension type NSInputStream.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSInputStream].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -9069,9 +9045,7 @@ extension type NSInvocation.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSInvocation].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -9242,9 +9216,13 @@ extension type NSItemProvider.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release) {
+    objc.checkOsVersionInternal(
+      'NSItemProvider',
+      iOS: (false, (8, 0, 0)),
+      macOS: (false, (10, 10, 0)),
+    );
+  }
 
   /// Returns whether [obj] is an instance of [NSItemProvider].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -10089,9 +10067,7 @@ extension type NSLocale.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSLocale].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -10253,9 +10229,7 @@ extension type NSMethodSignature.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSMethodSignature].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -10380,9 +10354,7 @@ extension type NSMutableArray.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSMutableArray].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -10723,9 +10695,7 @@ extension type NSMutableData.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSMutableData].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -11215,9 +11185,7 @@ extension type NSMutableDictionary.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSMutableDictionary].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -11548,9 +11516,7 @@ extension type NSMutableIndexSet.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSMutableIndexSet].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -11768,9 +11734,13 @@ extension type NSMutableOrderedSet.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release) {
+    objc.checkOsVersionInternal(
+      'NSMutableOrderedSet',
+      iOS: (false, (5, 0, 0)),
+      macOS: (false, (10, 7, 0)),
+    );
+  }
 
   /// Returns whether [obj] is an instance of [NSMutableOrderedSet].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -12394,9 +12364,7 @@ extension type NSMutableSet.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSMutableSet].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -12623,9 +12591,7 @@ extension type NSMutableString.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSMutableString].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -13225,9 +13191,7 @@ extension type NSNotification.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSNotification].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -13377,9 +13341,7 @@ extension type NSNull.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSNull].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -13472,9 +13434,7 @@ extension type NSNumber.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSNumber].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -14021,9 +13981,13 @@ extension type NSObject.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release) {
+    objc.checkOsVersionInternal(
+      'NSObject',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+  }
 
   /// Returns whether [obj] is an instance of [NSObject].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -15713,9 +15677,13 @@ extension type NSOrderedCollectionChange.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release) {
+    objc.checkOsVersionInternal(
+      'NSOrderedCollectionChange',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (10, 15, 0)),
+    );
+  }
 
   /// Returns whether [obj] is an instance of [NSOrderedCollectionChange].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -15965,9 +15933,13 @@ extension type NSOrderedCollectionDifference.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release) {
+    objc.checkOsVersionInternal(
+      'NSOrderedCollectionDifference',
+      iOS: (false, (13, 0, 0)),
+      macOS: (false, (10, 15, 0)),
+    );
+  }
 
   /// Returns whether [obj] is an instance of [NSOrderedCollectionDifference].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -16244,9 +16216,13 @@ extension type NSOrderedSet.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release) {
+    objc.checkOsVersionInternal(
+      'NSOrderedSet',
+      iOS: (false, (5, 0, 0)),
+      macOS: (false, (10, 7, 0)),
+    );
+  }
 
   /// Returns whether [obj] is an instance of [NSOrderedSet].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -16740,9 +16716,7 @@ extension type NSOutputStream.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSOutputStream].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -16930,9 +16904,7 @@ extension type NSPort.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSPort].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -17300,9 +17272,7 @@ extension type NSPortMessage.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSPortMessage].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -17422,9 +17392,7 @@ extension type NSProgress.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSProgress].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -18268,9 +18236,7 @@ extension type NSRunLoop.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSRunLoop].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -18656,9 +18622,7 @@ extension type NSSet.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSSet].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -18899,9 +18863,7 @@ extension type NSStream.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSStream].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -19291,9 +19253,7 @@ extension type NSString.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSString].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -21077,9 +21037,7 @@ extension type NSTimer.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSTimer].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -21362,9 +21320,7 @@ extension type NSURL.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSURL].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -22334,9 +22290,7 @@ extension type NSURLHandle.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSURLHandle].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -22415,9 +22369,7 @@ extension type NSValue.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [NSValue].
   static bool isInstance(objc.ObjCObjectBase obj) {
@@ -35029,9 +34981,7 @@ extension type Protocol.castFrom(objc.ObjCObjectBase _$)
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : this.castFrom(
-         objc.ObjCObjectBase(other, retain: retain, release: release),
-       );
+  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release);
 
   /// Returns whether [obj] is an instance of [Protocol].
   static bool isInstance(objc.ObjCObjectBase obj) {
