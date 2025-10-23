@@ -98,7 +98,7 @@ int objectRetainCount(Pointer<ObjCObject> object) {
   // isValidObject broke due to a runtime update.
   // These constants are the ISA_MASK macro defined in runtime/objc-private.h.
   const maskX64 = 0x00007ffffffffff8;
-  const maskArm = 0x00000001fffffff8;
+  const maskArm = 0x0000000ffffffff8;
   final mask = Abi.current() == Abi.macosX64 ? maskX64 : maskArm;
   final clazz = Pointer<ObjCObject>.fromAddress(header & mask);
 
