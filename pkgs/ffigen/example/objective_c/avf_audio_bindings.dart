@@ -492,6 +492,36 @@ late final _sel_channelAssignments = objc.registerName("channelAssignments");
 late final _sel_setChannelAssignments_ = objc.registerName(
   "setChannelAssignments:",
 );
+
+/// WARNING: CASpatialAudioExperience is a stub. To generate bindings for this class, include
+/// CASpatialAudioExperience in your config's objc-interfaces list.
+///
+/// CASpatialAudioExperience
+class CASpatialAudioExperience extends objc.ObjCObjectBase {
+  CASpatialAudioExperience._(
+    ffi.Pointer<objc.ObjCObject> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) : super(pointer, retain: retain, release: release);
+
+  /// Constructs a [CASpatialAudioExperience] that points to the same underlying object as [other].
+  CASpatialAudioExperience.castFrom(objc.ObjCObjectBase other)
+    : this._(other.ref.pointer, retain: true, release: true);
+
+  /// Constructs a [CASpatialAudioExperience] that wraps the given raw object pointer.
+  CASpatialAudioExperience.castFromPointer(
+    ffi.Pointer<objc.ObjCObject> other, {
+    bool retain = false,
+    bool release = false,
+  }) : this._(other, retain: retain, release: release);
+}
+
+late final _sel_intendedSpatialExperience = objc.registerName(
+  "intendedSpatialExperience",
+);
+late final _sel_setIntendedSpatialExperience_ = objc.registerName(
+  "setIntendedSpatialExperience:",
+);
 late final _sel_init = objc.registerName("init");
 late final _sel_new = objc.registerName("new");
 late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
@@ -813,6 +843,24 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
         : AVAudioPlayer.castFromPointer($ret, retain: false, release: true);
   }
 
+  /// intendedSpatialExperience
+  CASpatialAudioExperience get intendedSpatialExperience {
+    objc.checkOsVersionInternal(
+      'AVAudioPlayer.intendedSpatialExperience',
+      iOS: (true, null),
+      macOS: (true, null),
+    );
+    final $ret = _objc_msgSend_151sglz(
+      this.ref.pointer,
+      _sel_intendedSpatialExperience,
+    );
+    return CASpatialAudioExperience.castFromPointer(
+      $ret,
+      retain: true,
+      release: true,
+    );
+  }
+
   /// isMeteringEnabled
   bool get isMeteringEnabled {
     objc.checkOsVersionInternal(
@@ -997,6 +1045,20 @@ extension AVAudioPlayer$Methods on AVAudioPlayer {
       macOS: (false, (10, 8, 0)),
     );
     _objc_msgSend_1s56lr9(this.ref.pointer, _sel_setEnableRate_, value);
+  }
+
+  /// setIntendedSpatialExperience:
+  set intendedSpatialExperience(CASpatialAudioExperience value) {
+    objc.checkOsVersionInternal(
+      'AVAudioPlayer.setIntendedSpatialExperience:',
+      iOS: (true, null),
+      macOS: (true, null),
+    );
+    _objc_msgSend_xtuoz7(
+      this.ref.pointer,
+      _sel_setIntendedSpatialExperience_,
+      value.ref.pointer,
+    );
   }
 
   /// setMeteringEnabled:
