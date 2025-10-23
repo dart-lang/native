@@ -32,9 +32,6 @@ extension type NSArray.castFrom(objc.ObjCObjectBase _$) {
   /// Creates a [NSArray] from [elements].
   static NSArray of(Iterable<objc.ObjCObjectBase> elements) =>
       NSMutableArray.of(elements);
-
-  /// Wraps this [NSArray] in an adapter that implements [Iterable].
-  objc.NSArrayAdapter toDart() => objc.NSArrayAdapter(this);
 }
 
 extension type NSMutableArray.castFrom(objc.ObjCObjectBase _$) {
@@ -54,9 +51,6 @@ extension type NSMutableArray.castFrom(objc.ObjCObjectBase _$) {
     for (final e in elements) a.addObject(e);
     return a;
   }
-
-  /// Wraps this [NSMutableArray] in an adapter that implements [List].
-  objc.NSMutableArrayAdapter toDart() => objc.NSMutableArrayAdapter(this);
 }
 
 extension type NSDictionary.castFrom(objc.ObjCObjectBase _$) {
@@ -68,9 +62,6 @@ extension type NSDictionary.castFrom(objc.ObjCObjectBase _$) {
   static NSDictionary fromEntries(
     Iterable<MapEntry<NSCopying, objc.ObjCObjectBase>> entries,
   ) => NSMutableDictionary.fromEntries(entries);
-
-  /// Wraps this [NSDictionary] in an adapter that implements [Map].
-  objc.NSDictionaryAdapter toDart() => objc.NSDictionaryAdapter(this);
 }
 
 extension type NSMutableDictionary.castFrom(objc.ObjCObjectBase _$) {
@@ -91,24 +82,12 @@ extension type NSMutableDictionary.castFrom(objc.ObjCObjectBase _$) {
     }
     return dict;
   }
-
-  /// Wraps this [NSMutableDictionary] in an adapter that implements [Map].
-  objc.NSMutableDictionaryAdapter toDart() =>
-      objc.NSMutableDictionaryAdapter(this);
-}
-
-extension type NSEnumerator.castFrom(objc.ObjCObjectBase _$) {
-  /// Wraps this [NSEnumerator] in an adapter that implements [Iterator].
-  objc.NSEnumeratorAdapter toDart() => objc.NSEnumeratorAdapter(this);
 }
 
 extension type NSSet.castFrom(objc.ObjCObjectBase _$) {
   /// Creates a [NSSet] from [elements].
   static NSSet of(Iterable<objc.ObjCObjectBase> elements) =>
       NSMutableSet.of(elements);
-
-  /// Wraps this [NSSet] in an adapter that implements [Set].
-  objc.NSSetAdapter toDart() => objc.NSSetAdapter(this);
 }
 
 extension type NSMutableSet.castFrom(objc.ObjCObjectBase _$) {
@@ -118,7 +97,4 @@ extension type NSMutableSet.castFrom(objc.ObjCObjectBase _$) {
     for (final e in elements) set.addObject(e);
     return set;
   }
-
-  /// Wraps this [NSMutableSet] in an adapter that implements [Set].
-  objc.NSMutableSetAdapter toDart() => objc.NSMutableSetAdapter(this);
 }

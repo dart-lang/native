@@ -4,58 +4,87 @@
 
 import 'dart:collection';
 
-import 'package:ffi/ffi.dart';
-
+import 'converter.dart';
 import 'internal.dart';
 import 'objective_c_bindings_generated.dart';
 
-class NSArrayAdapter with Iterable<ObjCObjectBase> {
-  final NSArray array;
+class _NSArrayAdapter with ListBase<ObjCObjectBase> {
+  final NSArray _array;
 
-  NSArrayAdapter(this.array);
-
-  @override
-  int get length => array.count;
+  _NSArrayAdapter(this._array);
 
   @override
-  ObjCObjectBase elementAt(int index) => array.objectAtIndex(index);
+  int get length => _array.count;
+
+  @override
+  ObjCObjectBase elementAt(int index) => _array.objectAtIndex(index);
 
   @override
   Iterator<ObjCObjectBase> get iterator => _NSArrayIterator(this);
 
-  ObjCObjectBase operator [](int index) => array.objectAtIndex(index);
-}
-
-class NSMutableArrayAdapter with ListBase<ObjCObjectBase> {
-  final NSMutableArray array;
-
-  NSMutableArrayAdapter(this.array);
+  @override
+  ObjCObjectBase operator [](int index) => _array.objectAtIndex(index);
 
   @override
-  int get length => array.count;
+  set length(int newLength) => throw UnsupportedError('Cannot modify NSArray');
+
+  @override
+  void operator []=(int index, ObjCObjectBase value) =>
+      throw UnsupportedError('Cannot modify NSArray');
+
+  @override
+  void add(ObjCObjectBase value) =>
+      throw UnsupportedError('Cannot modify NSArray');
+}
+
+extension NSArrayToAdapter on NSArray {
+  /// Wraps this [NSArray] in an adapter that implements an immutable [List].
+  ///
+  /// This is not a conversion, doesn't create a new list, or change the
+  /// elements. For deep conversion, use [toDartList].
+  List<ObjCObjectBase> toDart() => _NSArrayAdapter(this);
+}
+
+class _NSMutableArrayAdapter with ListBase<ObjCObjectBase> {
+  final NSMutableArray _array;
+
+  _NSMutableArrayAdapter(this._array);
+
+  @override
+  int get length => _array.count;
 
   @override
   set length(int newLength) {
     var len = length;
     RangeError.checkValueInInterval(newLength, 0, len);
-    for (; len > newLength; --len) array.removeLastObject();
+    for (; len > newLength; --len) {
+      _array.removeLastObject();
+    }
   }
 
   @override
-  ObjCObjectBase elementAt(int index) => array.objectAtIndex(index);
+  ObjCObjectBase elementAt(int index) => _array.objectAtIndex(index);
 
   @override
   Iterator<ObjCObjectBase> get iterator => _NSArrayIterator(this);
 
   @override
-  ObjCObjectBase operator [](int index) => array.objectAtIndex(index);
+  ObjCObjectBase operator [](int index) => _array.objectAtIndex(index);
 
   @override
   void operator []=(int index, ObjCObjectBase value) =>
-      array.replaceObjectAtIndex(index, withObject: value);
+      _array.replaceObjectAtIndex(index, withObject: value);
 
   @override
-  void add(ObjCObjectBase value) => array.addObject(value);
+  void add(ObjCObjectBase value) => _array.addObject(value);
+}
+
+extension NSMutableArrayToAdapter on NSMutableArray {
+  /// Wraps this [NSMutableArray] in an adapter that implements [List].
+  ///
+  /// This is not a conversion, doesn't create a new list, or change the
+  /// elements. For deep conversion, use [toDartList].
+  List<ObjCObjectBase> toDart() => _NSMutableArrayAdapter(this);
 }
 
 class _NSArrayIterator implements Iterator<ObjCObjectBase> {

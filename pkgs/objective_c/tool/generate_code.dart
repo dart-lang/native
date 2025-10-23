@@ -82,7 +82,7 @@ void mergeExtraMethods(String filename, Map<String, String> extraMethods) {
       extraMethods.remove(cls);
     }
   }
-  assert(extraMethods.length == 0);
+  assert(extraMethods.isEmpty);
 
   File(filename).writeAsStringSync(out.toString());
 }

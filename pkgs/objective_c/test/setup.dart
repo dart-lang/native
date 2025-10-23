@@ -95,9 +95,9 @@ void main(List<String> arguments) {
   lib.lookup('_ObjectiveCBindings_wrapListenerBlock_ovsamd');
 
   // Sanity check that the executable can find FFI symbols.
-  // _linkMain([...objFiles, cMain], '$cMain.exe');
-  // final result = Process.runSync('$cMain.exe', []);
-  // if (result.exitCode != 0) {
-  //   throw Exception('Missing symbols from executable:\n${result.stderr}');
-  // }
+  _linkMain([...objFiles, cMain], '$cMain.exe');
+  final result = Process.runSync('$cMain.exe', []);
+  if (result.exitCode != 0) {
+    throw Exception('Missing symbols from executable:\n${result.stderr}');
+  }
 }

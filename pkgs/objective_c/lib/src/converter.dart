@@ -3,12 +3,14 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'internal.dart';
+import 'ns_array.dart';
 import 'ns_date.dart';
+import 'ns_dictionary.dart';
 import 'ns_number.dart';
+import 'ns_set.dart';
 import 'ns_string.dart';
 import 'objective_c_bindings_generated.dart';
 
-/*
 ObjCObjectBase _defaultObjCConverter(Object o) =>
     throw UnimplementedError('No conversion for $o');
 
@@ -116,22 +118,39 @@ Object? toNullableDartObject(
 }
 
 extension NSArrayToDartList on NSArray {
+  /// Deep converts this [NSArray] to a Dart [List].
+  ///
+  /// This creates a new [List], converts all the [NSArray] elements, and adds
+  /// them to the [List]. If you only need iteration and element access,
+  /// [toDart] is much more efficient.
   List<Object> toDartList({
     Object Function(ObjCObjectBase) convertOther = _defaultDartConverter,
-  }) => map((o) => toDartObject(o, convertOther: convertOther)).toList();
+  }) =>
+      toDart().map((o) => toDartObject(o, convertOther: convertOther)).toList();
 }
 
 extension NSSetToDartSet on NSSet {
+  /// Deep converts this [NSSet] to a Dart [Set].
+  ///
+  /// This creates a new [Set], converts all the [NSSet] elements, and adds
+  /// them to the [Set]. If you only need iteration and element access,
+  /// [toDart] is much more efficient.
   Set<Object> toDartSet({
     Object Function(ObjCObjectBase) convertOther = _defaultDartConverter,
-  }) => map((o) => toDartObject(o, convertOther: convertOther)).toSet();
+  }) =>
+      toDart().map((o) => toDartObject(o, convertOther: convertOther)).toSet();
 }
 
 extension NSDictionaryToDartMap on NSDictionary {
+  /// Deep converts this [NSDictionary] to a Dart [Map].
+  ///
+  /// This creates a new [Map], converts all the [NSDictionary] elements, and
+  /// adds them to the [Map]. If you only need iteration and element access,
+  /// [toDart] is much more efficient.
   Map<Object, Object> toDartMap({
     Object Function(ObjCObjectBase) convertOther = _defaultDartConverter,
   }) => Map.fromEntries(
-    entries.map(
+    toDart().entries.map(
       (kv) => MapEntry(
         toDartObject(kv.key, convertOther: convertOther),
         toDartObject(kv.value, convertOther: convertOther),
@@ -139,4 +158,3 @@ extension NSDictionaryToDartMap on NSDictionary {
     ),
   );
 }
-*/

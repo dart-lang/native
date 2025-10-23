@@ -12,7 +12,6 @@
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 // coverage:ignore-file
-import 'dart:collection';
 
 // AUTO GENERATED FILE, DO NOT EDIT.
 //
@@ -1518,9 +1517,6 @@ extension type NSArray.castFrom(objc.ObjCObjectBase _$)
   /// Creates a [NSArray] from [elements].
   static NSArray of(Iterable<objc.ObjCObjectBase> elements) =>
       NSMutableArray.of(elements);
-
-  /// Wraps this [NSArray] in an adapter that implements [Iterable].
-  objc.NSArrayAdapter toDart() => objc.NSArrayAdapter(this);
 
   /// Constructs a [NSArray] that wraps the given raw object pointer.
   NSArray.castFromPointer(
@@ -4892,9 +4888,6 @@ extension type NSDictionary.castFrom(objc.ObjCObjectBase _$)
     Iterable<MapEntry<NSCopying, objc.ObjCObjectBase>> entries,
   ) => NSMutableDictionary.fromEntries(entries);
 
-  /// Wraps this [NSDictionary] in an adapter that implements [Map].
-  objc.NSDictionaryAdapter toDart() => objc.NSDictionaryAdapter(this);
-
   /// Constructs a [NSDictionary] that wraps the given raw object pointer.
   NSDictionary.castFromPointer(
     ffi.Pointer<objc.ObjCObject> other, {
@@ -5172,9 +5165,6 @@ sealed class NSEnumerationOptions {
 /// NSEnumerator
 extension type NSEnumerator.castFrom(objc.ObjCObjectBase _$)
     implements objc.ObjCObjectBase, NSObject, NSFastEnumeration {
-  /// Wraps this [NSEnumerator] in an adapter that implements [Iterator].
-  objc.NSEnumeratorAdapter toDart() => objc.NSEnumeratorAdapter(this);
-
   /// Constructs a [NSEnumerator] that wraps the given raw object pointer.
   NSEnumerator.castFromPointer(
     ffi.Pointer<objc.ObjCObject> other, {
@@ -10394,9 +10384,6 @@ extension type NSMutableArray.castFrom(objc.ObjCObjectBase _$)
     return a;
   }
 
-  /// Wraps this [NSMutableArray] in an adapter that implements [List].
-  objc.NSMutableArrayAdapter toDart() => objc.NSMutableArrayAdapter(this);
-
   /// Constructs a [NSMutableArray] that wraps the given raw object pointer.
   NSMutableArray.castFromPointer(
     ffi.Pointer<objc.ObjCObject> other, {
@@ -11242,10 +11229,6 @@ extension type NSMutableDictionary.castFrom(objc.ObjCObjectBase _$)
     }
     return dict;
   }
-
-  /// Wraps this [NSMutableDictionary] in an adapter that implements [Map].
-  objc.NSMutableDictionaryAdapter toDart() =>
-      objc.NSMutableDictionaryAdapter(this);
 
   /// Constructs a [NSMutableDictionary] that wraps the given raw object pointer.
   NSMutableDictionary.castFromPointer(
@@ -12432,9 +12415,6 @@ extension type NSMutableSet.castFrom(objc.ObjCObjectBase _$)
     for (final e in elements) set.addObject(e);
     return set;
   }
-
-  /// Wraps this [NSMutableSet] in an adapter that implements [Set].
-  objc.NSMutableSetAdapter toDart() => objc.NSMutableSetAdapter(this);
 
   /// Constructs a [NSMutableSet] that wraps the given raw object pointer.
   NSMutableSet.castFromPointer(
@@ -18697,9 +18677,6 @@ extension type NSSet.castFrom(objc.ObjCObjectBase _$)
   /// Creates a [NSSet] from [elements].
   static NSSet of(Iterable<objc.ObjCObjectBase> elements) =>
       NSMutableSet.of(elements);
-
-  /// Wraps this [NSSet] in an adapter that implements [Set].
-  objc.NSSetAdapter toDart() => objc.NSSetAdapter(this);
 
   /// Constructs a [NSSet] that wraps the given raw object pointer.
   NSSet.castFromPointer(

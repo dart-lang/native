@@ -53,12 +53,12 @@ void main() {
       final dartList = [123, 'abc', obj];
 
       expect(toObjCObject(dartList), isA<NSArray>());
-      final objCList = toObjCObject(dartList) as NSArray;
-      expect(objCList.length, 3);
+      final objCList = NSArray.castFrom(toObjCObject(dartList));
+      expect(objCList.toDart().length, 3);
 
-      expect(toDartObject(objCList[0]), 123);
-      expect(toDartObject(objCList[1]), 'abc');
-      expect(toDartObject(objCList[2]), obj);
+      expect(toDartObject(objCList.toDart()[0]), 123);
+      expect(toDartObject(objCList.toDart()[1]), 'abc');
+      expect(toDartObject(objCList.toDart()[2]), obj);
 
       expect(toDartObject(objCList), dartList);
 
@@ -79,12 +79,12 @@ void main() {
       final dartSet = {123, 'abc', obj};
 
       expect(toObjCObject(dartSet), isA<NSSet>());
-      final objCSet = toObjCObject(dartSet) as NSSet;
-      expect(objCSet.length, 3);
+      final objCSet = NSSet.castFrom(toObjCObject(dartSet));
+      expect(objCSet.toDart().length, 3);
 
-      expect(objCSet.contains(toObjCObject(123)), isTrue);
-      expect(objCSet.contains(toObjCObject('abc')), isTrue);
-      expect(objCSet.contains(toObjCObject(obj)), isTrue);
+      expect(objCSet.toDart().contains(toObjCObject(123)), isTrue);
+      expect(objCSet.toDart().contains(toObjCObject('abc')), isTrue);
+      expect(objCSet.toDart().contains(toObjCObject(obj)), isTrue);
 
       expect(toDartObject(objCSet), dartSet);
 
@@ -105,12 +105,12 @@ void main() {
       final dartMap = {123: 'abc', 'def': 456, 789: obj};
 
       expect(toObjCObject(dartMap), isA<NSDictionary>());
-      final objCMap = toObjCObject(dartMap) as NSDictionary;
-      expect(objCMap.length, 3);
+      final objCMap = NSDictionary.castFrom(toObjCObject(dartMap));
+      expect(objCMap.toDart().length, 3);
 
-      expect(toDartObject(objCMap[toObjCObject(123)]!), 'abc');
-      expect(toDartObject(objCMap[toObjCObject('def')]!), 456);
-      expect(toDartObject(objCMap[toObjCObject(789)]!), obj);
+      expect(toDartObject(objCMap.toDart()[toObjCObject(123)]!), 'abc');
+      expect(toDartObject(objCMap.toDart()[toObjCObject('def')]!), 456);
+      expect(toDartObject(objCMap.toDart()[toObjCObject(789)]!), obj);
 
       expect(toDartObject(objCMap), dartMap);
 
