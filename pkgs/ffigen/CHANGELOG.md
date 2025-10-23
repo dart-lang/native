@@ -1,3 +1,10 @@
+## 20.0.0-dev.2
+
+- __Breaking change__: Change how ObjC protocols are generated, splitting the
+  methods related to constructing instances into a separate `Foo$Builder` class.
+  The protocol's instance methods are now directly invokable from the built
+  object.
+
 ## 20.0.0-dev.1
 
 - Make the `Logger` argument of `FfiGenerator.generate` optional. It defaults to
@@ -13,10 +20,6 @@
   With this breaking change, also some defaults changed: (1) `@Native` bindings
   are now the default, and (2) struct/unions refered to by pointer will be
   generated as `Opaque` by default.
-- __Breaking change__: Change how ObjC protocols are generated, splitting the
-  methods related to constructing instances into a separate `Foo$Builder` class.
-  The protocol's instance methods are now directly invokable from the built
-  object.
 - __Breaking change__: Minor breaking change in the way that ObjC interface
   methods are generated. Interface methods are now generated as extension
   methods instead of being part of the class. This shouldn't require any code

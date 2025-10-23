@@ -1,6 +1,10 @@
+## 9.0.0-dev.1
+
+- Use FFIgen 20.0.0-dev.2
+
 ## 9.0.0-dev.0
 
-- Use FFIgen 20.0.0
+- Use FFIgen 20.0.0-dev.0
 - Fix missing `NSNumber` category includes in iOS and macOS `objective_c.m`
   files.
 - Add `NSBundle` and `NSNull` to the bindings.
