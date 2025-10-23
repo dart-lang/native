@@ -52,8 +52,7 @@ void main() {
       globalObject = NSObject();
       final obj1raw = globalObject!.ref.pointer;
 
-      // TODO(https://github.com/dart-lang/native/issues/1435): Fix flakiness.
-      // expect(objectRetainCount(obj1raw), greaterThan(0));
+      expect(objectRetainCount(obj1raw), greaterThan(0));
 
       return obj1raw;
     }

@@ -26,6 +26,7 @@ void main() {
         {
           final object = NSObject();
           pointer = object.ref.retainAndAutorelease();
+          expect(objectRetainCount(pointer), greaterThan(0));
         }
         doGC();
         expect(objectRetainCount(pointer), greaterThan(0));
@@ -45,6 +46,7 @@ void main() {
           {
             final object = NSObject();
             pointer = object.ref.retainAndAutorelease();
+            expect(objectRetainCount(pointer), greaterThan(0));
           }
           doGC();
           expect(objectRetainCount(pointer), greaterThan(0));
