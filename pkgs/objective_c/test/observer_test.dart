@@ -39,7 +39,9 @@ void main() {
               expect(keyPath.toDartString(), 'totalUnitCount');
               expect(object, observed);
               expect(context.address, 0x1234);
-              values.add(toDartObject(change[NSKeyValueChangeNewKey]!));
+              values.add(
+                toDartObject(change.toDart()[NSKeyValueChangeNewKey]!),
+              );
             },
       );
       final observation = observed.addObserver(
@@ -77,7 +79,9 @@ void main() {
               NSDictionary change,
               Pointer<Void> context,
             ) {
-              values.add(toDartObject(change[NSKeyValueChangeNewKey]!));
+              values.add(
+                toDartObject(change.toDart()[NSKeyValueChangeNewKey]!),
+              );
             },
       );
 
@@ -116,7 +120,9 @@ void main() {
                 NSDictionary change,
                 Pointer<Void> context,
               ) {
-                values.add(toDartObject(change[NSKeyValueChangeNewKey]!));
+                values.add(
+                  toDartObject(change.toDart()[NSKeyValueChangeNewKey]!),
+                );
 
                 // This is testing that a captured reference from the observer
                 // to the observed object does not cause leak.

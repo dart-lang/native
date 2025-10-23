@@ -27,7 +27,7 @@ void main() {
       final obj4 = NSObject();
       final obj5 = NSObject();
       final expected = {obj1, obj2, obj3, obj4, obj5};
-      final s = NSSet.of(expected);
+      final s = NSSet.of(expected).toDart();
 
       expect(s.length, 5);
 
@@ -60,7 +60,9 @@ void main() {
       // NSSet.of actually returns a NSMutableSet, so our immutability tests
       // wouldn't actually work. So convert it to a real NSSet using an ObjC
       // constructor.
-      final s = NSSet.setWithSet(NSSet.of({obj1, obj2, obj3, obj4, obj5}));
+      final s = NSSet.setWithSet(
+        NSSet.of({obj1, obj2, obj3, obj4, obj5}),
+      ).toDart();
 
       expect(() => s.add(NSObject()), throwsUnsupportedError);
       expect(() => s.remove(obj3), throwsUnsupportedError);
@@ -74,7 +76,7 @@ void main() {
       final obj4 = NSObject();
       final obj5 = NSObject();
       final expected = {obj1, obj2, obj3, obj4, obj5};
-      final s = NSSet.of(expected);
+      final s = NSSet.of(expected).toDart();
 
       expect(s.isNotEmpty, isTrue);
       expect(s.intersection({obj5, obj2, null, 123}), {obj5, obj2});

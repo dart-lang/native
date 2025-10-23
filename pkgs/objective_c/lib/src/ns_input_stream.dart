@@ -64,7 +64,7 @@ extension NSInputStreamStreamExtension on Stream<List<int>> {
       onError: (Object e) {
         final inputStream = weakInputStream.adapter;
         final d = NSMutableDictionary();
-        d[NSLocalizedDescriptionKey] = e.toString().toNSString();
+        // d[NSLocalizedDescriptionKey] = e.toString().toNSString();
         inputStream.setError(
           NSError.errorWithDomain(
             'DartError'.toNSString(),

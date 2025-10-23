@@ -361,9 +361,9 @@ bool _isValidClass(ObjectPtr clazz, {bool forceReloadClasses = false}) {
 }
 
 /// Only for use by FFIgen bindings.
-class ObjCProtocolBase extends ObjCObjectBase {
-  ObjCProtocolBase(super.ptr, {required super.retain, required super.release});
-}
+// This exists so that interface_lists_test.dart can tell the difference between
+// a protocol and an interface.
+typedef ObjCProtocolBase = ObjCObjectBase;
 
 @pragma('vm:deeply-immutable')
 final class ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
