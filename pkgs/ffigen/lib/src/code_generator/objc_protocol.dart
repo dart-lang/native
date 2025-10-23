@@ -106,10 +106,45 @@ interface class $name extends $protocolBase $impls{
   $name.castFromPointer($rawObjType other,
       {bool retain = false, bool release = false}) :
       this._(other, retain: retain, release: release);
+''');
+
+    if (!generateAsStub) {
+      final msgSendInvoke = _conformsToMsgSend.invoke(
+        context,
+        'obj.ref.pointer',
+        _conformsTo.name,
+        [_protocolPointer.name],
+      );
+
+      s.write('''
+
+  /// Returns whether [obj] is an instance of [$name].
+  static bool conformsTo($objectBase obj) {
+    return $msgSendInvoke;
+  }
+''');
+    }
+
+    s.write('''
+}
 
 ''');
 
     if (!generateAsStub) {
+      s.write('''
+extension $name\$Methods on $name {
+${generateInstanceMethodBindings(w, this)}
+}
+
+''');
+    }
+
+    if (!generateAsStub) {
+      final builder = '$name\$Builder';
+      s.write('''
+  interface class $builder {
+  ''');
+
       final buildArgs = <String>[];
       final buildImplementations = StringBuffer();
       final buildListenerImplementations = StringBuffer();
@@ -163,11 +198,11 @@ interface class $name extends $protocolBase $impls{
         }
 
         buildImplementations.write('''
-    $name.$fieldName.implement(builder, $argName);''');
+    $builder.$fieldName.implement(builder, $argName);''');
         buildListenerImplementations.write('''
-    $name.$fieldName.$maybeImplementAsListener(builder, $argName);''');
+    $builder.$fieldName.$maybeImplementAsListener(builder, $argName);''');
         buildBlockingImplementations.write('''
-    $name.$fieldName.$maybeImplementAsBlocking(builder, $argName);''');
+    $builder.$fieldName.$maybeImplementAsBlocking(builder, $argName);''');
 
         methodFields.write(makeDartDoc(method.dartDoc ?? method.originalName));
         methodFields.write('''static final $fieldName = $methodClass<$funcType>(
@@ -268,26 +303,14 @@ interface class $name extends $protocolBase $impls{
 ''';
       }
 
-      final msgSendInvoke = _conformsToMsgSend.invoke(
-        context,
-        'obj.ref.pointer',
-        _conformsTo.name,
-        [_protocolPointer.name],
-      );
       s.write('''
-  /// Returns whether [obj] is an instance of [$name].
-  static bool conformsTo($objectBase obj) {
-    return $msgSendInvoke;
-  }
 
   $builders
   $listenerBuilders
   $methodFields
-''');
-    }
-    s.write('''
 }
 ''');
+    }
 
     return BindingString(
       type: BindingStringType.objcProtocol,

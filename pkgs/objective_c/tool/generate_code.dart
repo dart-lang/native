@@ -185,7 +185,9 @@ ${elements.join('\n')}
   exports.addAll([for (final name in interfaces) '$name\$Methods']);
   writeDecls('objCBuiltInCompounds', 'structs');
   writeDecls('objCBuiltInEnums', 'enums');
-  writeDecls('objCBuiltInProtocols', 'objc-protocols');
+  final protocols = writeDecls('objCBuiltInProtocols', 'objc-protocols');
+  exports.addAll([for (final name in protocols) '$name\$Methods']);
+  exports.addAll([for (final name in protocols) '$name\$Builder']);
   writeDecls('objCBuiltInCategories', 'objc-categories');
   writeDecls('objCBuiltInGlobals', 'globals');
 

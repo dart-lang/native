@@ -63,6 +63,9 @@ typedef struct {
 @optional
 - (nullable instancetype)returnsInstanceType;
 
+@optional
+- (id<MyProtocol>)returnsMyProtocol;
+
 @end
 
 @protocol EmptyProtocol

@@ -31,6 +31,7 @@ class FillMethodDependenciesVisitation extends Visitation {
 
     for (final method in node.methods) {
       method.fillProtocolBlock();
+      method.fillMsgSend();
     }
   }
 }
