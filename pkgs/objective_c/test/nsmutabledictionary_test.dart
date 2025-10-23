@@ -28,7 +28,11 @@ void main() {
       final obj5 = 'obj5'.toNSString();
       final obj6 = 'obj6'.toNSString();
 
-      final dict = NSMutableDictionary.of({obj1: obj2, obj3: obj4, obj5: obj6});
+      final dict = NSMutableDictionary.of({
+        obj1: obj2,
+        obj3: obj4,
+        obj5: obj6,
+      }).toDart();
 
       expect(dict.length, 3);
       expect(dict[obj1], obj2);
@@ -58,7 +62,11 @@ void main() {
       final obj5 = 'obj5'.toNSString();
       final obj6 = 'obj6'.toNSString();
 
-      final dict = NSMutableDictionary.of({obj1: obj2, obj3: obj4, obj5: obj6});
+      final dict = NSMutableDictionary.of({
+        obj1: obj2,
+        obj3: obj4,
+        obj5: obj6,
+      }).toDart();
 
       dict[obj3] = obj1;
       expect(dict, {obj1: obj2, obj3: obj1, obj5: obj6});
@@ -80,7 +88,11 @@ void main() {
       final obj5 = 'obj5'.toNSString();
       final obj6 = 'obj6'.toNSString();
 
-      final dict = NSMutableDictionary.of({obj1: obj2, obj3: obj4, obj5: obj6});
+      final dict = NSMutableDictionary.of({
+        obj1: obj2,
+        obj3: obj4,
+        obj5: obj6,
+      }).toDart();
 
       expect(dict.isNotEmpty, isTrue);
       expect(dict.containsKey(obj1), isTrue);
