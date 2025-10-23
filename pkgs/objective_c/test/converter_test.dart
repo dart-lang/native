@@ -155,7 +155,7 @@ void main() {
 
       expect(toDartObject(obj, convertOther: conv), future);
 
-      final list = toObjCObject(['abc', obj]);
+      final list = toObjCObject(<Object>['abc', obj]);
       expect(toDartObject(list, convertOther: conv), ['abc', future]);
     });
   });
