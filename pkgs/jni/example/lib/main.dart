@@ -5,6 +5,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:jni/jni.dart';
@@ -31,12 +32,13 @@ String backAndForth() {
   return dartString;
 }
 
-void quit() {
-  JObject.fromReference(Jni.getCurrentActivity()).use((ac) =>
-      ac.jClass.instanceMethodId("finish", "()V").call(ac, jvoid.type, []));
+void quit(JObject activity) {
+  activity.jClass
+      .instanceMethodId("finish", "()V")
+      .call(activity, jvoid.type, []);
 }
 
-void showToast(String text) {
+void showToast(String text, JObject activity) {
   // This is example for calling your app's custom java code.
   // Place the Toaster class in the app's android/ source Folder, with a Keep
   // annotation or appropriate proguard rules to retain classes in release mode.
@@ -51,9 +53,9 @@ void showToast(String text) {
       '(Landroid/app/Activity;Landroid/content/Context;'
           'Ljava/lang/CharSequence;I)'
           'Lcom/github/dart_lang/jni_example/Toaster;');
-  final toaster = makeText.call(toasterClass, JObject.type, [
-    Jni.getCurrentActivity(),
-    Jni.getCachedApplicationContext(),
+  final toaster = makeText(toasterClass, JObject.type, [
+    activity,
+    Jni.androidApplicationContext(PlatformDispatcher.instance.engineId!),
     '😀'.toJString(),
     0,
   ]);
@@ -62,16 +64,17 @@ void showToast(String text) {
 }
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   if (!Platform.isAndroid) {
     Jni.spawn();
   }
   final examples = [
-    Example("Math.random()", () => randomDouble(), runInitially: false),
+    Example("Math.random()", (_) => randomDouble(), runInitially: false),
     if (Platform.isAndroid) ...[
       Example("Minutes of usage since reboot",
-          () => (uptime() / (60 * 1000)).floor()),
-      Example("Back and forth string conversion", () => backAndForth()),
-      Example("Device name", () {
+          (_) => (uptime() / (60 * 1000)).floor()),
+      Example("Back and forth string conversion", (_) => backAndForth()),
+      Example("Device name", (_) {
         final buildClass = JClass.forName("android/os/Build");
         return buildClass
             .staticFieldId("DEVICE", JString.type.signature)
@@ -80,13 +83,15 @@ void main() {
       }),
       Example(
         "Package name",
-        () => JObject.fromReference(Jni.getCurrentActivity()).use((activity) =>
-            activity.jClass
-                .instanceMethodId("getPackageName", "()Ljava/lang/String;")
-                .call(activity, JString.type, [])),
+        (activity) => activity.jClass
+            .instanceMethodId("getPackageName", "()Ljava/lang/String;")
+            .call(activity, JString.type, []),
       ),
-      Example("Show toast", () => showToast("Hello from JNI!"),
-          runInitially: false),
+      Example(
+        "Show toast",
+        (activity) => showToast("Hello from JNI!", activity),
+        runInitially: false,
+      ),
       Example(
         "Quit",
         quit,
@@ -99,7 +104,7 @@ void main() {
 
 class Example {
   String title;
-  dynamic Function() callback;
+  dynamic Function(JObject activity) callback;
   bool runInitially;
   Example(this.title, this.callback, {this.runInitially = true});
 }
@@ -113,8 +118,12 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
+  late Stream<JObject?> activityStream;
+
   @override
   void initState() {
+    activityStream =
+        Jni.androidActivities(PlatformDispatcher.instance.engineId!);
     super.initState();
   }
 
@@ -125,11 +134,19 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('JNI Examples'),
         ),
-        body: ListView.builder(
-            itemCount: widget.examples.length,
-            itemBuilder: (context, i) {
-              final eg = widget.examples[i];
-              return ExampleCard(eg);
+        body: StreamBuilder(
+            stream: activityStream,
+            builder: (_, snapshot) {
+              if (!snapshot.hasData || snapshot.data == null) {
+                return Container();
+              }
+              return ListView.builder(
+                itemCount: widget.examples.length,
+                itemBuilder: (context, i) {
+                  final eg = widget.examples[i];
+                  return ExampleCard(eg, snapshot.data!);
+                },
+              );
             }),
       ),
     );
@@ -137,8 +154,9 @@ class _MyAppState extends State<MyApp> {
 }
 
 class ExampleCard extends StatefulWidget {
-  const ExampleCard(this.example, {super.key});
+  const ExampleCard(this.example, this.activity, {super.key});
   final Example example;
+  final JObject activity;
 
   @override
   _ExampleCardState createState() => _ExampleCardState();
@@ -165,7 +183,7 @@ class _ExampleCardState extends State<ExampleCard> {
     var hasError = false;
     if (_run) {
       try {
-        result = eg.callback().toString();
+        result = eg.callback(widget.activity).toString();
       } on Exception catch (e) {
         hasError = true;
         result = e.toString();
