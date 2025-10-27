@@ -4,6 +4,8 @@
 
 // ignore_for_file: unused_local_variable
 
+// dart format width=76
+
 // snippet-start
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
@@ -12,15 +14,15 @@ void main(List<String> args) async {
   await build(args, (input, output) async {
     if (input.config.buildCodeAssets) {
       final packageName = input.packageName;
-      final assetPath = input.packageRoot.resolve('...');
-      final assetPathDownloaded = input.outputDirectoryShared.resolve('...');
+      final assetPathInPackage = input.packageRoot.resolve('...');
+      final assetPathDownload = input.outputDirectoryShared.resolve('...');
 
       output.assets.code.add(
         CodeAsset(
           package: packageName,
           name: '...',
           linkMode: DynamicLoadingBundled(),
-          file: assetPath,
+          file: assetPathInPackage,
         ),
       );
     }

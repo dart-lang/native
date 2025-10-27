@@ -54,15 +54,15 @@
 ///   await build(args, (input, output) async {
 ///     if (input.config.buildCodeAssets) {
 ///       final packageName = input.packageName;
-///       final assetPath = input.packageRoot.resolve('...');
-///       final assetPathDownloaded = input.outputDirectoryShared.resolve('...');
+///       final assetPathInPackage = input.packageRoot.resolve('...');
+///       final assetPathDownload = input.outputDirectoryShared.resolve('...');
 ///
 ///       output.assets.code.add(
 ///         CodeAsset(
 ///           package: packageName,
 ///           name: '...',
 ///           linkMode: DynamicLoadingBundled(),
-///           file: assetPath,
+///           file: assetPathInPackage,
 ///         ),
 ///       );
 ///     }

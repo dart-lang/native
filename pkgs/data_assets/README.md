@@ -20,13 +20,15 @@ void main(List<String> args) async {
   await build(args, (input, output) async {
     if (input.config.buildDataAssets) {
       final packageName = input.packageName;
-      final assetPath = input.packageRoot.resolve('...');
-      final assetPathDownloaded = input.outputDirectoryShared.resolve(
-        '...',
-      );
+      final assetPathInPackage = input.packageRoot.resolve('...');
+      final assetPathDownload = input.outputDirectoryShared.resolve('...');
 
       output.assets.data.add(
-        DataAsset(package: packageName, name: '...', file: assetPath),
+        DataAsset(
+          package: packageName,
+          name: '...',
+          file: assetPathInPackage,
+        ),
       );
     }
   });
