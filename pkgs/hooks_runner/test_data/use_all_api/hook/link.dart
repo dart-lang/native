@@ -18,6 +18,7 @@ void main(List<String> args) async {
     // b. hook-specific
     input.assets.code; // link only
     input.assets.data; // link only
+    // ignore: experimental_member_use
     input.recordedUsagesFile; // link only
     // c. target config
     // c.2. per asset

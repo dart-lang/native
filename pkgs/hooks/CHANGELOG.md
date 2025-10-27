@@ -1,3 +1,7 @@
+## 0.20.5
+
+- Document `input.packageRoot` in more places.
+
 ## 0.20.4
 
 - Improved documentation on debugging and added a documentation index.
