@@ -50,6 +50,33 @@ void main(List<String> args) async {
 See the full example in [package:code_assets
 example/sqlite/](../code_assets/example/sqlite/).
 
+When bundling precompiled dynamic libraries, use `package:code_assets` directly:
+
+<!-- file://./../code_assets/example/api/code_assets_snippet.dart -->
+```dart
+import 'package:code_assets/code_assets.dart';
+import 'package:hooks/hooks.dart';
+
+void main(List<String> args) async {
+  await build(args, (input, output) async {
+    if (input.config.buildCodeAssets) {
+      final packageName = input.packageName;
+      final assetPath = input.packageRoot.resolve('...');
+      final assetPathDownloaded = input.outputDirectoryShared.resolve('...');
+
+      output.assets.code.add(
+        CodeAsset(
+          package: packageName,
+          name: '...',
+          linkMode: DynamicLoadingBundled(),
+          file: assetPath,
+        ),
+      );
+    }
+  });
+}
+```
+
 For more information see [dart.dev/tools/hooks](https://dart.dev/tools/hooks).
 
 ## Documentation

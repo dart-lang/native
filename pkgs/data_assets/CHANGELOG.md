@@ -1,3 +1,7 @@
+## 0.19.5
+
+- Document `input.packageRoot` in more places.
+
 ## 0.19.4
 
 - Document that asset file paths must be absolute.
