@@ -53,6 +53,11 @@ import 'syntax.g.dart';
 /// specified location on the current system into the application bundle.
 final class CodeAsset {
   /// The id of this code asset.
+  ///
+  /// The identifier is a uri `package:<package>/<name>`. In build hooks,
+  /// `<package>` must be the name of the package containing the build hook.
+  /// Code assets are name-spaced in their own package to avoid naming
+  /// conflicts.
   final String id;
 
   /// The link mode for this native code.
@@ -71,18 +76,23 @@ final class CodeAsset {
   ///
   /// If the [linkMode] is [LookupInProcess], or [LookupInExecutable] the file
   /// must be omitted in the [BuildOutput].
+  ///
+  /// Code assets with [DynamicLoadingBundled] may not have conflicting file
+  /// names, the dynamic linker treats them as a single namespace.
   final Uri? file;
 
   /// Constructs a native code asset.
   ///
   /// The [id] of this asset is a uri `package:<package>/<name>` from [package]
-  /// and [name].
+  /// and [name]. In build hooks, [package] must be the name of the package
+  /// containing the build hook. Code assets are name-spaced in their own
+  /// package to avoid naming conflicts.
   CodeAsset({
     required String package,
     required String name,
-    required LinkMode linkMode,
-    Uri? file,
-  }) : this._(id: 'package:$package/$name', linkMode: linkMode, file: file);
+    required this.linkMode,
+    this.file,
+  }) : id = 'package:$package/$name';
 
   CodeAsset._({required this.id, required this.linkMode, required this.file});
 
