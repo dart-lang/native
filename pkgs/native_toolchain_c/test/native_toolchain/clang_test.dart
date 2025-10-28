@@ -31,7 +31,7 @@ void main() {
       clang,
       minimumVersion: Version(14, 0, 0, pre: '0'),
     );
-    final resolved = await clang.defaultResolver!.resolve(logger: logger);
+    final resolved = await clang.defaultResolver!.resolve(systemContext);
     expect(resolved.isNotEmpty, true);
     final satisfied = requirement.satisfy(resolved);
     expect(satisfied?.length, 1);
@@ -53,7 +53,7 @@ void main() {
 
   test('llvm-ar smoke test', () async {
     final requirement = ToolRequirement(llvmAr);
-    final resolved = await llvmAr.defaultResolver!.resolve(logger: logger);
+    final resolved = await llvmAr.defaultResolver!.resolve(systemContext);
     expect(resolved.isNotEmpty, true);
     final satisfied = requirement.satisfy(resolved);
     expect(satisfied?.length, 1);
@@ -61,7 +61,7 @@ void main() {
 
   test('ld test', () async {
     final requirement = ToolRequirement(lld);
-    final resolved = await lld.defaultResolver!.resolve(logger: logger);
+    final resolved = await lld.defaultResolver!.resolve(systemContext);
     expect(resolved.isNotEmpty, true);
     final satisfied = requirement.satisfy(resolved);
     expect(satisfied?.length, 1);
