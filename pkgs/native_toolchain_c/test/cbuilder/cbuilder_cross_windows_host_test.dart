@@ -30,12 +30,10 @@ void main() async {
     // Clang on Windows.
     clang: () async => CCompilerConfig(
       archiver: (await llvmAr.defaultResolver!.resolve(
-        logger: logger,
+        systemContext,
       )).first.uri,
-      compiler: (await clang.defaultResolver!.resolve(
-        logger: logger,
-      )).first.uri,
-      linker: (await lld.defaultResolver!.resolve(logger: logger)).first.uri,
+      compiler: (await clang.defaultResolver!.resolve(systemContext)).first.uri,
+      linker: (await lld.defaultResolver!.resolve(systemContext)).first.uri,
       windows: WindowsCCompilerConfig(),
     ),
   };
@@ -51,7 +49,7 @@ void main() async {
 
   setUp(() async {
     dumpbinUri = (await dumpbin.defaultResolver!.resolve(
-      logger: logger,
+      systemContext,
     )).first.uri;
   });
 
