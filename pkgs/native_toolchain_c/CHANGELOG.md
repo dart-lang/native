@@ -1,3 +1,7 @@
+## 0.17.3-wip
+
+- Search for NDK in `ANDROID_HOME` and `ANDROID_NDK` environment variables.
+
 ## 0.17.2
 
 - Made `CBuilder.run` `Logger` argument optional. It now defaults to a logger
