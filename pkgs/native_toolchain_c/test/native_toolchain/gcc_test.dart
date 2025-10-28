@@ -27,7 +27,7 @@ void main() {
         for (final tool in tools) tool.defaultResolver!,
       ]);
 
-      final resolved = await resolver.resolve(logger: logger);
+      final resolved = await resolver.resolve(systemContext);
       printOnFailure(resolved.toString());
       expect(resolved.isNotEmpty, true);
 
