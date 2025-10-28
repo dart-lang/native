@@ -258,10 +258,9 @@ Tool _msvcTool({
 
 class VisualStudioResolver implements ToolResolver {
   @override
-  Future<List<ToolInstance>> resolve({required Logger? logger}) async {
-    final vswhereInstances = await vswhere.defaultResolver!.resolve(
-      logger: logger,
-    );
+  Future<List<ToolInstance>> resolve(ToolResolvingContext context) async {
+    final vswhereInstances = await vswhere.defaultResolver!.resolve(context);
+    final logger = context.logger;
 
     final result = <ToolInstance>[];
     for (final vswhereInstance in vswhereInstances.take(1)) {

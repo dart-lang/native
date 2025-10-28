@@ -4,7 +4,9 @@
 
 import 'package:native_toolchain_c/src/native_toolchain/android_ndk.dart';
 import 'package:native_toolchain_c/src/tool/tool_requirement.dart';
+import 'package:native_toolchain_c/src/tool/tool_resolver.dart';
 import 'package:test/test.dart';
+import 'package:test_descriptor/test_descriptor.dart' as d;
 
 import '../helpers.dart';
 
@@ -16,9 +18,47 @@ void main() {
       ToolRequirement(androidNdkLlvmAr),
       ToolRequirement(androidNdkLld),
     ]);
-    final resolved = await androidNdk.defaultResolver!.resolve(logger: logger);
+    final resolved = await androidNdk.defaultResolver!.resolve(systemContext);
     printOnFailure(resolved.toString());
     final satisfied = requirement.satisfy(resolved);
     expect(satisfied?.length, 4);
+  });
+
+  test('discovers NDK in ANDROID_HOME', () async {
+    await d.dir('fake_android', [
+      d.dir('ndk', [d.dir('1.3.37')]),
+    ]).create();
+
+    final resolved = await androidNdk.defaultResolver!.resolve(
+      ToolResolvingContext(
+        logger: logger,
+        environment: {'ANDROID_HOME': d.path('fake_android')},
+      ),
+    );
+    resolved.retainWhere((e) => e.tool.name == androidNdk.name);
+
+    expect(
+      resolved.map((e) => e.uri.toFilePath()),
+      contains(d.path('fake_android/ndk/1.3.37/')),
+    );
+  });
+
+  test('discovers NDK in ANDROID_NDK_HOME', () async {
+    await d.dir('weird', [
+      d.dir('ndk', [d.dir('directory')]),
+    ]).create();
+
+    final resolved = await androidNdk.defaultResolver!.resolve(
+      ToolResolvingContext(
+        logger: logger,
+        environment: {'ANDROID_NDK_HOME': d.path('weird/ndk/directory')},
+      ),
+    );
+    resolved.retainWhere((e) => e.tool.name == androidNdk.name);
+
+    expect(
+      resolved.map((e) => e.uri.toFilePath()),
+      contains(d.path('weird/ndk/directory/')),
+    );
   });
 }

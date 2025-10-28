@@ -12,6 +12,7 @@ import 'package:logging/logging.dart';
 import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
 import 'package:native_toolchain_c/src/native_toolchain/msvc.dart';
+import 'package:native_toolchain_c/src/tool/tool_resolver.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
 
@@ -66,6 +67,8 @@ Logger get logger => _logger ??= () {
   addTearDown(() => _logger = null);
   return _createTestLogger();
 }();
+
+ToolResolvingContext get systemContext => ToolResolvingContext(logger: logger);
 
 Logger? _logger;
 
@@ -148,7 +151,7 @@ extension on String {
 /// Because `otool` output multiple names, [libraryName] as search parameter.
 Future<String> runOtoolInstallName(Uri libraryUri, String libraryName) async {
   final otoolUri = (await otool.defaultResolver!.resolve(
-    logger: logger,
+    systemContext,
   )).first.uri;
   final otoolResult = await runProcess(
     executable: otoolUri,
@@ -234,7 +237,7 @@ Future<RunProcessResult?> _runDumpbin(
   List<String> arguments,
   Uri libUri,
 ) async {
-  final dumpbinTools = await dumpbin.defaultResolver!.resolve(logger: logger);
+  final dumpbinTools = await dumpbin.defaultResolver!.resolve(systemContext);
   if (dumpbinTools.isEmpty) {
     logger.info('Unable to locate dumpbin tool. Some expects may be skipped.');
     return null;
