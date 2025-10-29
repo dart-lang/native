@@ -556,8 +556,20 @@ class NativeAssetsBuildRunner {
   ///
   /// This allows environment variables needed to run mainstream compilers.
   static bool includeHookEnvironmentVariable(String environmentVariableName) {
+    // Typically, we'd find the NDK through ANDROID_HOME alone. In some cases
+    // where users have an NDK in nonstandard locations, these environment
+    // variables are used as well, e.g. in
+    // https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md#environment-variables-2
+    const nonStandardNdkEnvironmentVariables = {
+      'ANDROID_NDK',
+      'ANDROID_NDK_HOME',
+      'ANDROID_NDK_LATEST_HOME',
+      'ANDROID_NDK_ROOT',
+    };
+
     const staticVariablesFilter = {
       'ANDROID_HOME', // Needed for the NDK.
+      ...nonStandardNdkEnvironmentVariables,
       'HOME', // Needed to find tools in default install locations.
       'LIBCLANG_PATH', // Needed for Rust's bindgen + clang-sys.
       'PATH', // Needed to invoke native tools.

@@ -28,6 +28,9 @@ abstract class ToolResolver {
 /// global state not available in this context. Not all resolvers adhere to that
 /// though, since some need to run subprocesses to resolve tools.
 final class ToolResolvingContext {
+  // TODO: Expose package:file and package:process environments here and use
+  // them in resolvers to consistently mock external state.
+
   final Logger? logger;
   final Map<String, String> environment;
 
@@ -200,6 +203,7 @@ class ToolResolvers implements ToolResolver {
   ];
 }
 
+/// A tool resolver that looks for tools in a glob of [paths] if they exist.
 class InstallLocationResolver implements ToolResolver {
   final String toolName;
   final List<String> paths;
@@ -260,6 +264,61 @@ class InstallLocationResolver implements ToolResolver {
     if (path == null) return null;
     return Directory(path).uri;
   }();
+}
+
+/// A tool resolver considering environment variables such as `ANDROID_HOME`.
+class EnvironmentVariableResolver implements ToolResolver {
+  final String toolName;
+
+  /// Considered environment variables, mapped to a [Glob] identifying paths in
+  /// the variable to consider.
+  ///
+  /// For instance, `{'ANDROID_HOME': Glob('ndk/*/')}` would report one tool
+  /// instance per sub-directory of `$ANDROID_HOME/ndk/` if that environment
+  /// variable is set.
+  ///
+  /// A null value would consider the key itself as a directory.
+  final Map<String, Glob?> keys;
+
+  EnvironmentVariableResolver({required this.toolName, required this.keys});
+
+  @override
+  Future<List<ToolInstance>> resolve(ToolResolvingContext context) async {
+    final logger = context.logger;
+    final foundTools = <ToolInstance>[];
+    for (final MapEntry(:key, value: glob) in keys.entries) {
+      logger?.fine('Looking for $toolName in environment variable $key');
+      if (context.environment[key] case final found?) {
+        final fileSystemEntities = switch (glob) {
+          null => [Directory(found)],
+          final glob =>
+            await glob
+                .list(root: found)
+                .where(
+                  // If the path ends in /, only consider directories
+                  (entity) =>
+                      entity is Directory || !glob.pattern.endsWith('/'),
+                )
+                .toList(),
+        };
+
+        for (final fileSystemEntity in fileSystemEntities) {
+          if (!await fileSystemEntity.exists()) {
+            continue;
+          }
+
+          foundTools.add(
+            ToolInstance(
+              tool: Tool(name: toolName),
+              uri: fileSystemEntity.uri,
+            ),
+          );
+        }
+      }
+    }
+
+    return foundTools;
+  }
 }
 
 class RelativeToolResolver implements ToolResolver {
