@@ -26,6 +26,9 @@ void main() {
           targetArchitecture: Architecture.current,
           targetOS: OS.current,
           linkModePreference: LinkModePreference.preferDynamic,
+          macOS: OS.current == OS.macOS
+              ? MacOSCodeConfig(targetVersion: 13)
+              : null,
         ),
       ],
       check: expectAsync2((_, _) {}, count: 0),
@@ -40,7 +43,10 @@ void main() {
           contains(
             'output validation issues: [Code asset '
             '"package:foreign_package/foo.dart" does not start with '
-            '"package:hooks',
+            // We don't know the expected prefix here because this test can be
+            // run from the hooks package or the workspace. We just want to
+            // assert some message related to outputs gets thrown.
+            '"package:',
           ),
         ),
       ),
