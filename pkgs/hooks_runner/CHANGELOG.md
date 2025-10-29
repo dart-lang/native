@@ -1,3 +1,8 @@
+## 1.0.1-wip
+
+- Add `ANDROID_NDK`, `ANDROID_NDK_HOME`, `ANDROID_NDK_LATEST_HOME` and
+  `ANDROID_NDK_ROOT` to the environment variables allowlist.
+
 ## 1.0.0
 
 - Stable release.
