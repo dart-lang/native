@@ -5,8 +5,8 @@
 import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
+import 'package:glob/glob.dart';
 import 'package:logging/logging.dart';
-import 'package:path/path.dart' as p;
 
 import '../tool/tool.dart';
 import '../tool/tool_instance.dart';
@@ -14,7 +14,7 @@ import '../tool/tool_resolver.dart';
 import 'clang.dart';
 
 final androidNdk = Tool(
-  name: 'Android NDK',
+  name: _AndroidNdkResolver._toolName,
   defaultResolver: _AndroidNdkResolver(),
 );
 
@@ -37,46 +37,43 @@ final androidNdkLld = Tool(
 );
 
 class _AndroidNdkResolver implements ToolResolver {
-  ToolResolver installLocationResolver(ToolResolvingContext context) =>
-      PathVersionResolver(
-        wrappedResolver: ToolResolvers([
-          RelativeToolResolver(
-            toolName: 'Android NDK',
-            wrappedResolver: PathToolResolver(
-              toolName: 'ndk-build',
-              executableName: Platform.isWindows
-                  ? 'ndk-build.cmd'
-                  : 'ndk-build',
-            ),
-            relativePath: Uri(path: ''),
-          ),
-          InstallLocationResolver(
-            toolName: 'Android NDK',
-            paths: [
-              if (context.environment['ANDROID_HOME'] case final androidHome?)
-                p.join(androidHome, 'ndk/*/'),
-              for (final ndkHomeKey in _ndkHomeEnvironmentVariables)
-                if (context.environment[ndkHomeKey] case final home?) home,
-
-              if (Platform.isLinux) ...[
-                '\$HOME/.androidsdkroot/ndk/*/', // Firebase Studio
-                '\$HOME/Android/Sdk/ndk/*/',
-                '\$HOME/Android/Sdk/ndk-bundle/',
-              ],
-              if (Platform.isMacOS) ...['\$HOME/Library/Android/sdk/ndk/*/'],
-              if (Platform.isWindows) ...[
-                '\$HOME/AppData/Local/Android/Sdk/ndk/*/',
-              ],
-            ],
-          ),
-        ]),
-      );
+  static final installLocationResolver = PathVersionResolver(
+    wrappedResolver: ToolResolvers([
+      RelativeToolResolver(
+        toolName: _toolName,
+        wrappedResolver: PathToolResolver(
+          toolName: 'ndk-build',
+          executableName: Platform.isWindows ? 'ndk-build.cmd' : 'ndk-build',
+        ),
+        relativePath: Uri(path: ''),
+      ),
+      InstallLocationResolver(
+        toolName: _toolName,
+        paths: [
+          if (Platform.isLinux) ...[
+            '\$HOME/.androidsdkroot/ndk/*/', // Firebase Studio
+            '\$HOME/Android/Sdk/ndk/*/',
+            '\$HOME/Android/Sdk/ndk-bundle/',
+          ],
+          if (Platform.isMacOS) ...['\$HOME/Library/Android/sdk/ndk/*/'],
+          if (Platform.isWindows) ...[
+            '\$HOME/AppData/Local/Android/Sdk/ndk/*/',
+          ],
+        ],
+      ),
+      EnvironmentVariableResolver(
+        toolName: _toolName,
+        keys: {
+          'ANDROID_HOME': Glob('ndk/*/'),
+          for (final ndkHome in _ndkHomeEnvironmentVariables) ndkHome: null,
+        },
+      ),
+    ]),
+  );
 
   @override
   Future<List<ToolInstance>> resolve(ToolResolvingContext context) async {
-    final ndkInstances = await installLocationResolver(
-      context,
-    ).resolve(context);
+    final ndkInstances = await installLocationResolver.resolve(context);
 
     return [
       for (final ndkInstance in ndkInstances) ...[
@@ -146,4 +143,6 @@ class _AndroidNdkResolver implements ToolResolver {
     'ANDROID_NDK_LATEST_HOME',
     'ANDROID_NDK_ROOT',
   ];
+
+  static const _toolName = 'Android NDK';
 }
