@@ -35,7 +35,7 @@ void main() {
       ).readAsStringSync();
       expect(objcBindings, contains('class NSObject'));
       expect(objcBindings, contains('class NSString'));
-      expect(objcBindings, contains('factory NSString(String str)'));
+      expect(objcBindings, contains('NSString(String str)'));
     });
   });
 }

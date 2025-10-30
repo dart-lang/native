@@ -23,11 +23,15 @@ export 'src/cf_string.dart';
 export 'src/converter.dart';
 export 'src/internal.dart'
     hide blockHasRegisteredClosure, isValidBlock, isValidClass, isValidObject;
+export 'src/ns_array.dart';
 export 'src/ns_data.dart';
 export 'src/ns_date.dart';
+export 'src/ns_dictionary.dart';
+export 'src/ns_enumerator.dart';
 export 'src/ns_input_stream.dart';
 export 'src/ns_mutable_data.dart';
 export 'src/ns_number.dart';
+export 'src/ns_set.dart';
 export 'src/ns_string.dart';
 export 'src/objective_c_bindings_exported.dart';
 export 'src/observer.dart';
