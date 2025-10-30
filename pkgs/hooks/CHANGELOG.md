@@ -1,3 +1,7 @@
+## 0.20.6-wip
+
+- Fix `testBuildHook` to emit output validation errors if there are any.
+
 ## 0.20.5
 
 - Document `input.packageRoot` in more places.
