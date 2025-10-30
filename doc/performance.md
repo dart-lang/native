@@ -12,6 +12,8 @@ How to assess performance of Dart and native code, and how to improve it.
 | [Android Studio Profiler (CPU)]         | Android   | Profiles native C/C++ CPU execution     | No                           | Yes (traces C++ calls)   | No                   | No                                                               |
 | [Perfetto (heapprofd)]                  | Android   | Advanced native heap profiling          | No                           | No                       | No                   | Yes (traces malloc/free call stacks)                             |
 | [Linux perf]                            | Linux     | Unified Dart AOT + Native CPU profiling | Yes (requires special flags) | Yes                      | No                   | No                                                               |
+| [Visual Studio CPU Usage Profiler]    | Windows   | Profiles native C/C++ CPU execution     | No                           | Yes (traces C++ calls)   | No                   | No                                                               |
+| [WPA (Heap Analysis)]                 | Windows   | Advanced native heap profiling          | No                           | No                       | No                   | Yes (traces malloc/free call stacks)                             |
 
 <!-- TODO: Add documentation for the other tools. -->
 
@@ -100,5 +102,7 @@ There are some typical patterns to improve performance:
 [FfiCall benchmark]: https://github.com/dart-lang/sdk/blob/main/benchmarks/FfiCall/dart/FfiCall.dart
 [Linux perf]: https://perfwiki.github.io/main/
 [Perfetto (heapprofd)]: https://perfetto.dev/
+[Visual Studio CPU Usage Profiler]: https://learn.microsoft.com/en-us/visualstudio/profiling/cpu-usage
+[WPA (Heap Analysis)]: https://learn.microsoft.com/en-us/windows-hardware/test/wpt/windows-performance-analyzer
 [Xcode Instruments (Leaks/Allocations)]: https://developer.apple.com/documentation/xcode/gathering-information-about-memory-use
 [Xcode Instruments (Time Profiler)]: https://developer.apple.com/tutorials/instruments
