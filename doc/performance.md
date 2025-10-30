@@ -91,6 +91,13 @@ There are some typical patterns to improve performance:
   A single call that is native-leaf takes 28 ns, while an `asFunction`-non-leaf
   takes 235 ns. So for calls taking ~1000 ns that's a 20% speedup.
 
+## Community sources
+
+* (Video) Using Dart FFI for Compute-Heavy Tasks:
+  https://www.youtube.com/watch?v=eJR5C0VRCjU
+* (Video) Maximize Speed with Dart FFI: Beginner’s Guide to High-Performance
+  Integration https://www.youtube.com/watch?v=HF8gHAakb1Q
+
 [`address`]: https://api.dart.dev/dart-ffi/StructAddress/address.html
 [`asTypedList`]: https://api.dart.dev/dart-ffi/Uint8Pointer/asTypedList.html
 [`DynamicLibrary.lookupFunction`]: https://api.dart.dev/dart-ffi/DynamicLibraryExtension/lookupFunction.html
