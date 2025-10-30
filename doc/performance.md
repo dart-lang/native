@@ -4,15 +4,14 @@ How to assess performance of Dart and native code, and how to improve it.
 
 ## Profiling Performance
 
-
-| Tool                                  | Platform  | Primary Use Case                        | Measures (Dart CPU)          | Measures (Native CPU)    | Measures (Dart Heap) | Measures (Native Heap)                                           |
-| ------------------------------------- | --------- | --------------------------------------- | ---------------------------- | ------------------------ | -------------------- | ---------------------------------------------------------------- |
-| Dart DevTools                         | All       | Profiles Dart VM, UI jank, Dart heap    | Yes                          | Opaque "Native" block    | Yes                  | Tracks "External" VM-aware memory only; Misses native-heap leaks |
-| Xcode Instruments (Time Profiler)     | iOS/macOS | Profiles native CPU call stacks         | No                           | Yes (full symbolication) | No                   | No                                                               |
-| Xcode Instruments (Leaks/Allocations) | iOS/macOS | Profiles native heap (malloc, mmap)     | No                           | No                       | No                   | Yes                                                              |
-| Android Studio Profiler (CPU)         | Android   | Profiles native C/C++ CPU execution     | No                           | Yes (traces C++ calls)   | No                   | No                                                               |
-| Perfetto (heapprofd)                  | Android   | Advanced native heap profiling          | No                           | No                       | No                   | Yes (traces malloc/free call stacks)                             |
-| Linux perf                            | Linux     | Unified Dart AOT + Native CPU profiling | Yes (requires special flags) | Yes                      | No                   | No                                                               |
+| Tool                                    | Platform  | Primary Use Case                        | Measures (Dart CPU)          | Measures (Native CPU)    | Measures (Dart Heap) | Measures (Native Heap)                                           |
+| --------------------------------------- | --------- | --------------------------------------- | ---------------------------- | ------------------------ | -------------------- | ---------------------------------------------------------------- |
+| [Dart DevTools]                         | All       | Profiles Dart VM, UI jank, Dart heap    | Yes                          | Opaque "Native" block    | Yes                  | Tracks "External" VM-aware memory only; Misses native-heap leaks |
+| [Xcode Instruments (Time Profiler)]     | iOS/macOS | Profiles native CPU call stacks         | No                           | Yes (full symbolication) | No                   | No                                                               |
+| [Xcode Instruments (Leaks/Allocations)] | iOS/macOS | Profiles native heap (malloc, mmap)     | No                           | No                       | No                   | Yes                                                              |
+| [Android Studio Profiler (CPU)]         | Android   | Profiles native C/C++ CPU execution     | No                           | Yes (traces C++ calls)   | No                   | No                                                               |
+| [Perfetto (heapprofd)]                  | Android   | Advanced native heap profiling          | No                           | No                       | No                   | Yes (traces malloc/free call stacks)                             |
+| [Linux perf]                            | Linux     | Unified Dart AOT + Native CPU profiling | Yes (requires special flags) | Yes                      | No                   | No                                                               |
 
 <!-- TODO: Add documentation for the other tools. -->
 
@@ -29,12 +28,12 @@ For synchronous FFI calls you can add synchronous timeline events, and for
 asynchronous code (using async callbacks or helper isolates) you can use async
 events.
 
-### `perf` On Linux
+### `perf` on Linux
 
 To see both Dart and native symbols in a flame graph, you can use `perf` on
 Linux.
 
-For JIT:
+To run the [FfiCall benchmark] in JIT mode with `perf`:  
 
 ```
 $ perf record -g out/DebugX64/dart-sdk/bin/dart --generate-perf-events-symbols benchmarks/FfiCall/dart/FfiCall.dart
@@ -48,6 +47,9 @@ yet](https://github.com/dart-lang/sdk/issues/54254). You need to use
 $ pkg/vm/tool/precompiler2 --packages=.packages benchmarks/FfiCall/dart/FfiCall.dart benchmarks/FfiCall/dart/FfiCall.dart.bin && \
 perf record -g pkg/vm/tool/dart_precompiled_runtime2 --generate-perf-events-symbols --profile-period=10000 benchmarks/FfiCall/dart/FfiCall.dart.bin
 ```
+
+To analyze a performance issue in Flutter, it is best to reproduce the issue in
+Dart standalone.
 
 ## Improving performance
 
@@ -68,10 +70,10 @@ There are some typical patterns to improve performance:
   considered for calls of up to 10 us.
   * Use leaf calls ([`isLeaf`][], [`isLeaf` (2)][], [`isLeaf` (3)][]).
   * Prefer using [build hooks][] with [`Native`] `external`
-  functions over [`DynamicLibrary.lookupFunction`][] and
-  [`Pointer.asFunction`][].
+    functions over [`DynamicLibrary.lookupFunction`][] and
+    [`Pointer.asFunction`][].
   
-  For reference, this benchmark reports a 1000 FFI calls in AOT on Linux x64.
+  For reference, the [FfiCall benchmark][] reports 1000 FFI calls in AOT on Linux x64:
   ```
   FfiCall.Uint8x01(RunTime): 234.61104068226345 us.
   FfiCall.Uint8x01Leaf(RunTime): 71.9994712538334 us.
@@ -92,6 +94,11 @@ There are some typical patterns to improve performance:
 [`Pointer.asFunction`]: https://api.dart.dev/dart-ffi/NativeFunctionPointer/asFunction.html
 [`Pointer`]: https://api.dart.dev/dart-ffi/Pointer-class.html
 [`TypedData`]: https://api.dart.dev/dart-typed_data/TypedData-class.html
+[Android Studio Profiler (CPU)]: https://developer.android.com/studio/profile
 [build hooks]: https://dart.dev/tools/hooks
-
-
+[Dart DevTools]: https://dart.dev/tools/dart-devtools
+[FfiCall benchmark]: https://github.com/dart-lang/sdk/blob/main/benchmarks/FfiCall/dart/FfiCall.dart
+[Linux perf]: https://perfwiki.github.io/main/
+[Perfetto (heapprofd)]: https://perfetto.dev/
+[Xcode Instruments (Leaks/Allocations)]: https://developer.apple.com/documentation/xcode/gathering-information-about-memory-use
+[Xcode Instruments (Time Profiler)]: https://developer.apple.com/tutorials/instruments
