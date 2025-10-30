@@ -12,8 +12,8 @@ How to assess performance of Dart and native code, and how to improve it.
 | [Android Studio Profiler (CPU)]         | Android   | Profiles native C/C++ CPU execution     | No                           | Yes (traces C++ calls)   | No                   | No                                                               |
 | [Perfetto (heapprofd)]                  | Android   | Advanced native heap profiling          | No                           | No                       | No                   | Yes (traces malloc/free call stacks)                             |
 | [Linux perf]                            | Linux     | Unified Dart AOT + Native CPU profiling | Yes (requires special flags) | Yes                      | No                   | No                                                               |
-| [Visual Studio CPU Usage Profiler]    | Windows   | Profiles native C/C++ CPU execution     | No                           | Yes (traces C++ calls)   | No                   | No                                                               |
-| [WPA (Heap Analysis)]                 | Windows   | Advanced native heap profiling          | No                           | No                       | No                   | Yes (traces malloc/free call stacks)                             |
+| [Visual Studio CPU Usage Profiler]      | Windows   | Profiles native C/C++ CPU execution     | No                           | Yes (traces C++ calls)   | No                   | No                                                               |
+| [WPA (Heap Analysis)]                   | Windows   | Advanced native heap profiling          | No                           | No                       | No                   | Yes (traces malloc/free call stacks)                             |
 
 <!-- TODO: Add documentation for the other tools. -->
 
@@ -38,16 +38,22 @@ Linux.
 To run the [FfiCall benchmark] in JIT mode with `perf`:  
 
 ```
-$ perf record -g out/DebugX64/dart-sdk/bin/dart --generate-perf-events-symbols benchmarks/FfiCall/dart/FfiCall.dart
+$ perf record -g dart --generate-perf-events-symbols benchmarks/FfiCall/dart/FfiCall.dart && \
+perf report --hierarchy
 ```
+
+Note that Flutter apps are deployed in AOT mode. So prefer profiling in AOT
+mode.
 
 For AOT, we currently don't have a [single command
 yet](https://github.com/dart-lang/sdk/issues/54254). You need to use
-`precompiler2` command from the Dart SDK:
+`precompiler2` command from the Dart SDK. See [building the Dart SDK] for how to
+build the Dart SDK.
 
 ```
-$ pkg/vm/tool/precompiler2 --packages=.packages benchmarks/FfiCall/dart/FfiCall.dart benchmarks/FfiCall/dart/FfiCall.dart.bin && \
-perf record -g pkg/vm/tool/dart_precompiled_runtime2 --generate-perf-events-symbols --profile-period=10000 benchmarks/FfiCall/dart/FfiCall.dart.bin
+$ pkg/vm/tool/precompiler2 benchmarks/FfiCall/dart/FfiCall.dart benchmarks/FfiCall/dart/FfiCall.dart.bin && \
+perf record -g pkg/vm/tool/dart_precompiled_runtime2 --generate-perf-events-symbols benchmarks/FfiCall/dart/FfiCall.dart.bin && \
+perf report --hierarchy
 ```
 
 To analyze a performance issue in Flutter, it is best to reproduce the issue in
@@ -98,6 +104,7 @@ There are some typical patterns to improve performance:
 [`TypedData`]: https://api.dart.dev/dart-typed_data/TypedData-class.html
 [Android Studio Profiler (CPU)]: https://developer.android.com/studio/profile
 [build hooks]: https://dart.dev/tools/hooks
+[building the Dart SDK]: https://github.com/dart-lang/sdk/blob/main/docs/Building.md
 [Dart DevTools]: https://dart.dev/tools/dart-devtools
 [FfiCall benchmark]: https://github.com/dart-lang/sdk/blob/main/benchmarks/FfiCall/dart/FfiCall.dart
 [Linux perf]: https://perfwiki.github.io/main/
