@@ -48,7 +48,7 @@ jobs:
         run: sudo apt-get update && sudo apt-get install gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf gcc-riscv64-linux-gnu
 
       - name: Install rust for pkgs/native_toolchain_c/test/clinker/rust_test.dart
-        uses: actions-rust-lang/setup-rust-toolchain@02be93da58aa71fb456aa9c43b301149248829d8
+        uses: actions-rust-lang/setup-rust-toolchain@1780873c7b576612439a134613cc4cc74ce5538c
 
       - run: git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
       - run: echo "$PWD/depot_tools" >> $GITHUB_PATH
