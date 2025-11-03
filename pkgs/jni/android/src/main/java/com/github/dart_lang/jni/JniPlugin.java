@@ -7,42 +7,30 @@ package com.github.dart_lang.jni;
 import android.app.Activity;
 import android.content.Context;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class JniPlugin implements FlutterPlugin, ActivityAware {
   private static final ConcurrentHashMap<Long, JniPlugin> pluginMap = new ConcurrentHashMap<>();
 
   private long engineId;
-  private Context context;
-  private Activity activity;
-  private final Set<ActivityListener> activityListeners = new HashSet<>();
+  private volatile Context context;
+  private volatile Activity activity;
 
   public static @NonNull Context getApplicationContext(long engineId) {
     return Objects.requireNonNull(pluginMap.get(engineId)).context;
   }
 
-  public interface ActivityListener {
-    void onActivityChanged(Activity activity);
-  }
-
-  public static void addActivityListener(long engineId, @NonNull ActivityListener listener) {
-    var plugin = Objects.requireNonNull(pluginMap.get(engineId));
-    plugin.activityListeners.add(listener);
-    listener.onActivityChanged(plugin.activity);
-  }
-
-  public static void removeActivityListener(long engineId, @NonNull ActivityListener listener) {
-    var plugin = Objects.requireNonNull(pluginMap.get(engineId));
-    plugin.activityListeners.remove(listener);
+  public static @Nullable Activity getActivity(long engineId) {
+    return Objects.requireNonNull(pluginMap.get(engineId)).activity;
   }
 
   @Override
+  @SuppressWarnings("deprecation")
   public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
     //noinspection deprecation
     engineId = binding.getFlutterEngine().getEngineId();
@@ -57,15 +45,8 @@ public class JniPlugin implements FlutterPlugin, ActivityAware {
     pluginMap.remove(engineId);
   }
 
-  private void notifyActivityListeners() {
-    for (var listener : activityListeners) {
-      listener.onActivityChanged(activity);
-    }
-  }
-
   private void setActivity(Activity newActivity) {
     activity = newActivity;
-    notifyActivityListeners();
   }
 
   @Override

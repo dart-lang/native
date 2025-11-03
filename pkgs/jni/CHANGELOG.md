@@ -6,8 +6,7 @@
 - **Breaking Change**: Removed `Jni.getApplicationClassLoader()`,
   `Jni.getCurrentActivity()`, and `Jni.getCachedApplicationContext()`. Instead
   use `Jni.androidApplicationContext(engineId)` to access the application
-  context and listen to `Jni.androidActivities(engineId)` to acccess the
-  activity.
+  context and use `Jni.androidActivity(engineId)` to acccess the activity.
 - Update to the latest lints.
 
 ## 0.14.2

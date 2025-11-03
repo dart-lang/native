@@ -32,20 +32,18 @@ String backAndForth() {
   return dartString;
 }
 
-void quit(JObject activity) {
+void quit() {
+  final activity = Jni.androidActivity(PlatformDispatcher.instance.engineId!);
+  if (activity == null) return;
   activity.jClass
       .instanceMethodId("finish", "()V")
       .call(activity, jvoid.type, []);
+  activity.release();
 }
 
-void showToast(String text, JObject activity) {
-  // This is example for calling your app's custom java code.
-  // Place the Toaster class in the app's android/ source Folder, with a Keep
-  // annotation or appropriate proguard rules to retain classes in release mode.
-  //
-  // In this example, Toaster class wraps android.widget.Toast so that it
-  // can be called from any thread. See
-  // android/app/src/main/java/com/github/dart_lang/jni_example/Toaster.java
+void showToast(String text) {
+  final activity = Jni.androidActivity(PlatformDispatcher.instance.engineId!);
+  if (activity == null) return;
   final toasterClass =
       JClass.forName('com/github/dart_lang/jni_example/Toaster');
   final makeText = toasterClass.staticMethodId(
@@ -53,14 +51,20 @@ void showToast(String text, JObject activity) {
       '(Landroid/app/Activity;Landroid/content/Context;'
           'Ljava/lang/CharSequence;I)'
           'Lcom/github/dart_lang/jni_example/Toaster;');
+  final applicationContext =
+      Jni.androidApplicationContext(PlatformDispatcher.instance.engineId!);
   final toaster = makeText(toasterClass, JObject.type, [
     activity,
-    Jni.androidApplicationContext(PlatformDispatcher.instance.engineId!),
-    '😀'.toJString(),
+    applicationContext,
+    text.toJString(),
     0,
   ]);
   final show = toasterClass.instanceMethodId('show', '()V');
   show(toaster, jvoid.type, []);
+  toaster.release();
+  applicationContext.release();
+  activity.release();
+  text.toJString().release();
 }
 
 void main() {
@@ -69,12 +73,12 @@ void main() {
     Jni.spawn();
   }
   final examples = [
-    Example("Math.random()", (_) => randomDouble(), runInitially: false),
+    Example("Math.random()", () => randomDouble(), runInitially: false),
     if (Platform.isAndroid) ...[
       Example("Minutes of usage since reboot",
-          (_) => (uptime() / (60 * 1000)).floor()),
-      Example("Back and forth string conversion", (_) => backAndForth()),
-      Example("Device name", (_) {
+          () => (uptime() / (60 * 1000)).floor()),
+      Example("Back and forth string conversion", () => backAndForth()),
+      Example("Device name", () {
         final buildClass = JClass.forName("android/os/Build");
         return buildClass
             .staticFieldId("DEVICE", JString.type.signature)
@@ -83,13 +87,20 @@ void main() {
       }),
       Example(
         "Package name",
-        (activity) => activity.jClass
-            .instanceMethodId("getPackageName", "()Ljava/lang/String;")
-            .call(activity, JString.type, []),
+        () {
+          final activity =
+              Jni.androidActivity(PlatformDispatcher.instance.engineId!);
+          if (activity == null) return "Activity not available";
+          final packageName = activity.jClass
+              .instanceMethodId("getPackageName", "()Ljava/lang/String;")
+              .call(activity, JString.type, []);
+          activity.release();
+          return packageName;
+        },
       ),
       Example(
         "Show toast",
-        (activity) => showToast("Hello from JNI!", activity),
+        () => showToast("Hello from JNI!"),
         runInitially: false,
       ),
       Example(
@@ -104,28 +115,14 @@ void main() {
 
 class Example {
   String title;
-  dynamic Function(JObject activity) callback;
+  dynamic Function() callback;
   bool runInitially;
   Example(this.title, this.callback, {this.runInitially = true});
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp(this.examples, {super.key});
   final List<Example> examples;
-
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  late Stream<JObject?> activityStream;
-
-  @override
-  void initState() {
-    activityStream =
-        Jni.androidActivities(PlatformDispatcher.instance.engineId!);
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -134,29 +131,21 @@ class _MyAppState extends State<MyApp> {
         appBar: AppBar(
           title: const Text('JNI Examples'),
         ),
-        body: StreamBuilder(
-            stream: activityStream,
-            builder: (_, snapshot) {
-              if (!snapshot.hasData || snapshot.data == null) {
-                return Container();
-              }
-              return ListView.builder(
-                itemCount: widget.examples.length,
-                itemBuilder: (context, i) {
-                  final eg = widget.examples[i];
-                  return ExampleCard(eg, snapshot.data!);
-                },
-              );
-            }),
+        body: ListView.builder(
+          itemCount: examples.length,
+          itemBuilder: (context, i) {
+            final eg = examples[i];
+            return ExampleCard(eg);
+          },
+        ),
       ),
     );
   }
 }
 
 class ExampleCard extends StatefulWidget {
-  const ExampleCard(this.example, this.activity, {super.key});
+  const ExampleCard(this.example, {super.key});
   final Example example;
-  final JObject activity;
 
   @override
   _ExampleCardState createState() => _ExampleCardState();
@@ -183,7 +172,7 @@ class _ExampleCardState extends State<ExampleCard> {
     var hasError = false;
     if (_run) {
       try {
-        result = eg.callback(widget.activity).toString();
+        result = eg.callback().toString();
       } on Exception catch (e) {
         hasError = true;
         result = e.toString();

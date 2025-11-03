@@ -35,243 +35,11 @@
 // ignore_for_file: unused_shown_name
 // ignore_for_file: use_super_parameters
 
-import 'dart:core' show Object, String, bool, double, int;
 import 'dart:core' as core$_;
+import 'dart:core' show Object, String, bool, double, int;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
-
-/// from: `com.github.dart_lang.jni.JniPlugin$ActivityListener`
-class JniPlugin$ActivityListener extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<JniPlugin$ActivityListener> $type;
-
-  @jni$_.internal
-  JniPlugin$ActivityListener.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
-  static final _class = jni$_.JClass.forName(
-      r'com/github/dart_lang/jni/JniPlugin$ActivityListener');
-
-  /// The type which includes information such as the signature of this class.
-  static const jni$_.JType<JniPlugin$ActivityListener?> nullableType =
-      $JniPlugin$ActivityListener$NullableType$();
-
-  /// The type which includes information such as the signature of this class.
-  static const jni$_.JType<JniPlugin$ActivityListener> type =
-      $JniPlugin$ActivityListener$Type$();
-  static final _id_onActivityChanged = _class.instanceMethodId(
-    r'onActivityChanged',
-    r'(Landroid/app/Activity;)V',
-  );
-
-  static final _onActivityChanged = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract void onActivityChanged(android.app.Activity activity)`
-  void onActivityChanged(
-    jni$_.JObject? activity,
-  ) {
-    final _$activity = activity?.reference ?? jni$_.jNullReference;
-    _onActivityChanged(reference.pointer,
-            _id_onActivityChanged as jni$_.JMethodIDPtr, _$activity.pointer)
-        .check();
-  }
-
-  /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $JniPlugin$ActivityListener> _$impls = {};
-  static jni$_.JObjectPtr _$invoke(
-    int port,
-    jni$_.JObjectPtr descriptor,
-    jni$_.JObjectPtr args,
-  ) {
-    return _$invokeMethod(
-      port,
-      jni$_.MethodInvocation.fromAddresses(
-        0,
-        descriptor.address,
-        args.address,
-      ),
-    );
-  }
-
-  static final jni$_.Pointer<
-          jni$_.NativeFunction<
-              jni$_.JObjectPtr Function(
-                  jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)>>
-      _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
-
-  static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
-    jni$_.MethodInvocation $i,
-  ) {
-    try {
-      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
-      final $a = $i.args;
-      if ($d == r'onActivityChanged(Landroid/app/Activity;)V') {
-        _$impls[$p]!.onActivityChanged(
-          $a![0]?.as(const jni$_.$JObject$Type$(), releaseOriginal: true),
-        );
-        return jni$_.nullptr;
-      }
-    } catch (e) {
-      return jni$_.ProtectedJniExtensions.newDartException(e);
-    }
-    return jni$_.nullptr;
-  }
-
-  static void implementIn(
-    jni$_.JImplementer implementer,
-    $JniPlugin$ActivityListener $impl,
-  ) {
-    late final jni$_.RawReceivePort $p;
-    $p = jni$_.RawReceivePort(($m) {
-      if ($m == null) {
-        _$impls.remove($p.sendPort.nativePort);
-        $p.close();
-        return;
-      }
-      final $i = jni$_.MethodInvocation.fromMessage($m);
-      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
-      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
-    });
-    implementer.add(
-      r'com.github.dart_lang.jni.JniPlugin$ActivityListener',
-      $p,
-      _$invokePointer,
-      [
-        if ($impl.onActivityChanged$async)
-          r'onActivityChanged(Landroid/app/Activity;)V',
-      ],
-    );
-    final $a = $p.sendPort.nativePort;
-    _$impls[$a] = $impl;
-  }
-
-  factory JniPlugin$ActivityListener.implement(
-    $JniPlugin$ActivityListener $impl,
-  ) {
-    final $i = jni$_.JImplementer();
-    implementIn($i, $impl);
-    return JniPlugin$ActivityListener.fromReference(
-      $i.implementReference(),
-    );
-  }
-}
-
-abstract base mixin class $JniPlugin$ActivityListener {
-  factory $JniPlugin$ActivityListener({
-    required void Function(jni$_.JObject? activity) onActivityChanged,
-    bool onActivityChanged$async,
-  }) = _$JniPlugin$ActivityListener;
-
-  void onActivityChanged(jni$_.JObject? activity);
-  bool get onActivityChanged$async => false;
-}
-
-final class _$JniPlugin$ActivityListener with $JniPlugin$ActivityListener {
-  _$JniPlugin$ActivityListener({
-    required void Function(jni$_.JObject? activity) onActivityChanged,
-    this.onActivityChanged$async = false,
-  }) : _onActivityChanged = onActivityChanged;
-
-  final void Function(jni$_.JObject? activity) _onActivityChanged;
-  final bool onActivityChanged$async;
-
-  void onActivityChanged(jni$_.JObject? activity) {
-    return _onActivityChanged(activity);
-  }
-}
-
-final class $JniPlugin$ActivityListener$NullableType$
-    extends jni$_.JType<JniPlugin$ActivityListener?> {
-  @jni$_.internal
-  const $JniPlugin$ActivityListener$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  String get signature =>
-      r'Lcom/github/dart_lang/jni/JniPlugin$ActivityListener;';
-
-  @jni$_.internal
-  @core$_.override
-  JniPlugin$ActivityListener? fromReference(jni$_.JReference reference) =>
-      reference.isNull
-          ? null
-          : JniPlugin$ActivityListener.fromReference(
-              reference,
-            );
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType get superType => const jni$_.$JObject$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType<JniPlugin$ActivityListener?> get nullableType => this;
-
-  @jni$_.internal
-  @core$_.override
-  final superCount = 1;
-
-  @core$_.override
-  int get hashCode => ($JniPlugin$ActivityListener$NullableType$).hashCode;
-
-  @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($JniPlugin$ActivityListener$NullableType$) &&
-        other is $JniPlugin$ActivityListener$NullableType$;
-  }
-}
-
-final class $JniPlugin$ActivityListener$Type$
-    extends jni$_.JType<JniPlugin$ActivityListener> {
-  @jni$_.internal
-  const $JniPlugin$ActivityListener$Type$();
-
-  @jni$_.internal
-  @core$_.override
-  String get signature =>
-      r'Lcom/github/dart_lang/jni/JniPlugin$ActivityListener;';
-
-  @jni$_.internal
-  @core$_.override
-  JniPlugin$ActivityListener fromReference(jni$_.JReference reference) =>
-      JniPlugin$ActivityListener.fromReference(
-        reference,
-      );
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType get superType => const jni$_.$JObject$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType<JniPlugin$ActivityListener?> get nullableType =>
-      const $JniPlugin$ActivityListener$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  final superCount = 1;
-
-  @core$_.override
-  int get hashCode => ($JniPlugin$ActivityListener$Type$).hashCode;
-
-  @core$_.override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($JniPlugin$ActivityListener$Type$) &&
-        other is $JniPlugin$ActivityListener$Type$;
-  }
-}
 
 /// from: `com.github.dart_lang.jni.JniPlugin`
 class JniPlugin extends jni$_.JObject {
@@ -342,66 +110,28 @@ class JniPlugin extends jni$_.JObject {
         .object<jni$_.JObject>(const jni$_.$JObject$Type$());
   }
 
-  static final _id_addActivityListener = _class.staticMethodId(
-    r'addActivityListener',
-    r'(JLcom/github/dart_lang/jni/JniPlugin$ActivityListener;)V',
+  static final _id_getActivity = _class.staticMethodId(
+    r'getActivity',
+    r'(J)Landroid/app/Activity;',
   );
 
-  static final _addActivityListener = jni$_.ProtectedJniExtensions.lookup<
+  static final _getActivity = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_
-                          .VarArgs<(jni$_.Int64, jni$_.Pointer<jni$_.Void>)>)>>(
-          'globalEnv_CallStaticVoidMethod')
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int64,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
       .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `static public void addActivityListener(long j, com.github.dart_lang.jni.JniPlugin$ActivityListener activityListener)`
-  static void addActivityListener(
+  /// from: `static public android.app.Activity getActivity(long j)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni$_.JObject? getActivity(
     int j,
-    JniPlugin$ActivityListener activityListener,
   ) {
-    final _$activityListener = activityListener.reference;
-    _addActivityListener(
-            _class.reference.pointer,
-            _id_addActivityListener as jni$_.JMethodIDPtr,
-            j,
-            _$activityListener.pointer)
-        .check();
-  }
-
-  static final _id_removeActivityListener = _class.staticMethodId(
-    r'removeActivityListener',
-    r'(JLcom/github/dart_lang/jni/JniPlugin$ActivityListener;)V',
-  );
-
-  static final _removeActivityListener = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_
-                          .VarArgs<(jni$_.Int64, jni$_.Pointer<jni$_.Void>)>)>>(
-          'globalEnv_CallStaticVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `static public void removeActivityListener(long j, com.github.dart_lang.jni.JniPlugin$ActivityListener activityListener)`
-  static void removeActivityListener(
-    int j,
-    JniPlugin$ActivityListener activityListener,
-  ) {
-    final _$activityListener = activityListener.reference;
-    _removeActivityListener(
-            _class.reference.pointer,
-            _id_removeActivityListener as jni$_.JMethodIDPtr,
-            j,
-            _$activityListener.pointer)
-        .check();
+    return _getActivity(
+            _class.reference.pointer, _id_getActivity as jni$_.JMethodIDPtr, j)
+        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
   }
 
   static final _id_onAttachedToEngine = _class.instanceMethodId(
