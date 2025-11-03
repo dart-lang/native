@@ -329,6 +329,8 @@ ${generateInstanceMethodBindings(w, this)}
 
   @override
   BindingString? toObjCBindingString(Writer w) {
+    if (generateAsStub) return null;
+
     final wrapName = context.objCBuiltInFunctions.wrapperName;
     final mainString =
         '''
