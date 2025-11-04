@@ -464,7 +464,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
     } else {
       targetStr = target.convertDartTypeToFfiDartType(
         context,
-        '_\$',
+        'object\$',
         objCRetain: consumesSelf,
         objCAutorelease: false,
       );

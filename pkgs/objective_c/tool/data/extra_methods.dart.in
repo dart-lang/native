@@ -11,7 +11,7 @@
 // declarations, so it's important that they remain unformatted, even if that
 // means going over the 80 char width limit. The class bodies may be formatted.
 
-extension type NSString.castFrom(objc.ObjCObjectBase _$) {
+extension type NSString.castFrom(objc.ObjCObjectBase object$) {
   NSString(String str) : this.castFrom(_stringToNSString$(str));
 
   static NSString _stringToNSString$(String str) {
@@ -22,7 +22,7 @@ extension type NSString.castFrom(objc.ObjCObjectBase _$) {
   }
 }
 
-extension type NSArray.castFrom(objc.ObjCObjectBase _$) {
+extension type NSArray.castFrom(objc.ObjCObjectBase object$) {
   /// Creates a [NSArray] of the given length with [fill] at each position.
   ///
   /// The [length] must be a non-negative integer.
@@ -34,7 +34,7 @@ extension type NSArray.castFrom(objc.ObjCObjectBase _$) {
       NSMutableArray.of(elements);
 }
 
-extension type NSMutableArray.castFrom(objc.ObjCObjectBase _$) {
+extension type NSMutableArray.castFrom(objc.ObjCObjectBase object$) {
   /// Creates a [NSMutableArray] of the given length with [fill] at each
   /// position.
   ///
@@ -53,7 +53,7 @@ extension type NSMutableArray.castFrom(objc.ObjCObjectBase _$) {
   }
 }
 
-extension type NSDictionary.castFrom(objc.ObjCObjectBase _$) {
+extension type NSDictionary.castFrom(objc.ObjCObjectBase object$) {
   /// Creates a [NSDictionary] from [other].
   static NSDictionary of(Map<NSCopying, objc.ObjCObjectBase> other) =>
       NSMutableDictionary.of(other);
@@ -64,7 +64,7 @@ extension type NSDictionary.castFrom(objc.ObjCObjectBase _$) {
   ) => NSMutableDictionary.fromEntries(entries);
 }
 
-extension type NSMutableDictionary.castFrom(objc.ObjCObjectBase _$) {
+extension type NSMutableDictionary.castFrom(objc.ObjCObjectBase object$) {
   /// Creates a [NSMutableDictionary] from [other].
   static NSMutableDictionary of(Map<NSCopying, objc.ObjCObjectBase> other) =>
       NSMutableDictionary.fromEntries(other.entries);
@@ -84,13 +84,13 @@ extension type NSMutableDictionary.castFrom(objc.ObjCObjectBase _$) {
   }
 }
 
-extension type NSSet.castFrom(objc.ObjCObjectBase _$) {
+extension type NSSet.castFrom(objc.ObjCObjectBase object$) {
   /// Creates a [NSSet] from [elements].
   static NSSet of(Iterable<objc.ObjCObjectBase> elements) =>
       NSMutableSet.of(elements);
 }
 
-extension type NSMutableSet.castFrom(objc.ObjCObjectBase _$) {
+extension type NSMutableSet.castFrom(objc.ObjCObjectBase object$) {
   /// Creates a [NSMutableSet] from [elements].
   static NSMutableSet of(Iterable<objc.ObjCObjectBase> elements) {
     final set = setWithCapacity(elements.length);

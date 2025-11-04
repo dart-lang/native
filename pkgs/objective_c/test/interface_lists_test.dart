@@ -48,7 +48,7 @@ void main() {
       // that line and merge it with the following one.
       mergeLinewithNext(
         bindings,
-        'extension type NSAttributedStringMarkdownParsingOptions.castFrom(',
+        'extension type NSAttributedStringMarkdownParsingOptions._(',
       );
     });
 
@@ -57,7 +57,7 @@ void main() {
 
     test('All code genned interfaces are included in the list', () {
       final allClassNames = findBindings(
-        RegExp(r'^extension type ([^_]\w*)\.castFrom\( *objc\.ObjCObjectBase '),
+        RegExp(r'^extension type ([^_]\w*)\._\( *objc\.ObjCObjectBase '),
       );
       expectSetsEqual(
         'generated classes',
@@ -86,7 +86,7 @@ void main() {
 
     test('All code genned protocols are included in the list', () {
       final allProtocolNames = findBindings(
-        RegExp(r'^extension type ([^_]\w*)\.castFrom\(objc\.ObjCProtocolBase '),
+        RegExp(r'^extension type ([^_]\w*)\._\(objc\.ObjCProtocolBase '),
       );
       expectSetsEqual(
         'generated protocols',

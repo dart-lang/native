@@ -96,11 +96,14 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
       ...superProtocols.map((p) => p.getDartType(context)),
     ];
     s.write('''
-extension type $name.castFrom($protocolBase _\$) implements ${sp.join(', ')} {
+extension type $name._($protocolBase object\$) implements ${sp.join(', ')} {
+  /// Constructs a [$name] that points to the same underlying object as [other].
+  $name.castFrom($objectBase other) : object\$ = other;
+
   /// Constructs a [$name] that wraps the given raw object pointer.
   $name.castFromPointer($rawObjType other,
       {bool retain = false, bool release = false}) :
-      this.castFrom($protocolBase(other, retain: retain, release: release));
+      object\$ = $protocolBase(other, retain: retain, release: release);
 ''');
 
     if (!generateAsStub) {

@@ -90,11 +90,12 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
     }
     s.write(makeDartDoc(dartDoc));
 
-    final versionCheck = apiAvailability.runtimeCheck(
+    final ctorBody = [apiAvailability.runtimeCheck(
       ObjCBuiltInFunctions.checkOsVersion.gen(context),
       originalName,
-    );
-    final ctorBody = versionCheck == null ? ';' : ' { $versionCheck }';
+    ),
+    'assert(isInstance(object\$));',
+    ].nonNulls.join('\n    ');
 
     final rawObjType = PointerType(objCObjectType).getCType(context);
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(context);
@@ -104,11 +105,18 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
     ];
 
     s.write('''
-extension type $name.castFrom($wrapObjType _\$) implements ${protos.join(',')} {
+extension type $name._($wrapObjType object\$) implements ${protos.join(',')} {
+  /// Constructs a [$name] that points to the same underlying object as [other].
+  $name.castFrom($wrapObjType other) : object\$ = other {
+    $ctorBody
+  }
+
   /// Constructs a [$name] that wraps the given raw object pointer.
   $name.castFromPointer($rawObjType other,
       {bool retain = false, bool release = false}) :
-          _\$ = $wrapObjType(other, retain: retain, release: release)$ctorBody
+          object\$ = $wrapObjType(other, retain: retain, release: release) {
+    $ctorBody
+  }
 
 ${generateAsStub ? '' : _generateStaticMethods(w)}
 }
@@ -134,11 +142,12 @@ ${generateInstanceMethodBindings(w, this)}
     final context = w.context;
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(context);
     final s = StringBuffer();
+    final isKindOfClass = _isKindOfClassMsgSend.invoke(context, 'obj.ref.pointer', _isKindOfClass.name, [classObject.name]);
 
     s.write('''
   /// Returns whether [obj] is an instance of [$name].
   static bool isInstance($wrapObjType obj) {
-    return ${_isKindOfClassMsgSend.invoke(context, 'obj.ref.pointer', _isKindOfClass.name, [classObject.name])};
+    return $isKindOfClass;
   }
 ''');
 
@@ -156,7 +165,7 @@ ${generateInstanceMethodBindings(w, this)}
     if (newMethod != null && originalName != 'NSString') {
       s.write('''
   /// Returns a new instance of $name constructed with the default `new` method.
-  $name() : this.castFrom(${newMethod.name}()._\$);
+  $name() : this.castFrom(${newMethod.name}().object\$);
 ''');
     }
 
