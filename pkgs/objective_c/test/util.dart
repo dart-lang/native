@@ -43,7 +43,7 @@ external int _isReadableMemory(Pointer<Void> ptr);
 )
 external int _getObjectRetainCount(Pointer<Void> object);
 
-int objectRetainCount(Pointer<ObjCObject> object) {
+int objectRetainCount(Pointer<ObjCObjectImpl> object) {
   if (_isReadableMemory(object.cast()) == 0) return 0;
   final header = object.cast<Uint64>().value;
 
@@ -61,7 +61,7 @@ int objectRetainCount(Pointer<ObjCObject> object) {
   const maskX64 = 0x00007ffffffffff8;
   const maskArm = 0x0000000ffffffff8;
   final mask = Abi.current() == Abi.macosX64 ? maskX64 : maskArm;
-  final clazz = Pointer<ObjCObject>.fromAddress(header & mask);
+  final clazz = Pointer<ObjCObjectImpl>.fromAddress(header & mask);
 
   if (!internal_for_testing.isValidClass(clazz)) return 0;
   return _getObjectRetainCount(object.cast());

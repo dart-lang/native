@@ -57,7 +57,7 @@ void main() {
 
     test('All code genned interfaces are included in the list', () {
       final allClassNames = findBindings(
-        RegExp(r'^extension type ([^_]\w*)\._\( *objc\.ObjCObjectBase '),
+        RegExp(r'^extension type ([^_]\w*)\._\( *objc\.ObjCObject '),
       );
       expectSetsEqual(
         'generated classes',
@@ -86,7 +86,7 @@ void main() {
 
     test('All code genned protocols are included in the list', () {
       final allProtocolNames = findBindings(
-        RegExp(r'^extension type ([^_]\w*)\._\(objc\.ObjCProtocolBase '),
+        RegExp(r'^extension type ([^_]\w*)\._\(objc\.ObjCProtocol '),
       );
       expectSetsEqual(
         'generated protocols',

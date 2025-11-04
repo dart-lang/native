@@ -51,7 +51,7 @@ void main() {
       expect(objectRetainCount(Pointer.fromAddress(0x1234)), 0);
     });
 
-    (Pointer<ObjCObject>, Pointer<ObjCObject>) newMethodsInner(
+    (Pointer<ObjCObjectImpl>, Pointer<ObjCObjectImpl>) newMethodsInner(
       Pointer<Int32> counter,
     ) {
       final obj1 = RefCountTestObject();
@@ -66,14 +66,14 @@ void main() {
       expect(objectRetainCount(obj1raw), greaterThan(0));
       expect(objectRetainCount(obj2raw), greaterThan(0));
 
-      final obj2b = RefCountTestObject.castFromPointer(
+      final obj2b = RefCountTestObject.fromPointer(
         obj2raw,
         retain: true,
         release: true,
       );
       expect(objectRetainCount(obj2b.ref.pointer), greaterThan(0));
 
-      final obj2c = RefCountTestObject.castFromPointer(
+      final obj2c = RefCountTestObject.fromPointer(
         obj2raw,
         retain: true,
         release: true,
@@ -96,13 +96,11 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
-    (Pointer<ObjCObject>, Pointer<ObjCObject>, Pointer<ObjCObject>)
+    (Pointer<ObjCObjectImpl>, Pointer<ObjCObjectImpl>, Pointer<ObjCObjectImpl>)
     allocMethodsInner(Pointer<Int32> counter) {
       final obj1 = RefCountTestObject.alloc().initWithCounter(counter);
       expect(counter.value, 1);
-      final obj2 = RefCountTestObject.castFrom(
-        RefCountTestObject.alloc().init(),
-      );
+      final obj2 = RefCountTestObject.as(RefCountTestObject.alloc().init());
       obj2.setCounter(counter);
       expect(counter.value, 2);
       final obj3 = RefCountTestObject.allocTheThing().initWithCounter(counter);
@@ -136,15 +134,15 @@ void main() {
     }, skip: !canDoGC);
 
     (
-      Pointer<ObjCObject>,
-      Pointer<ObjCObject>,
-      Pointer<ObjCObject>,
-      Pointer<ObjCObject>,
-      Pointer<ObjCObject>,
-      Pointer<ObjCObject>,
-      Pointer<ObjCObject>,
-      Pointer<ObjCObject>,
-      Pointer<ObjCObject>,
+      Pointer<ObjCObjectImpl>,
+      Pointer<ObjCObjectImpl>,
+      Pointer<ObjCObjectImpl>,
+      Pointer<ObjCObjectImpl>,
+      Pointer<ObjCObjectImpl>,
+      Pointer<ObjCObjectImpl>,
+      Pointer<ObjCObjectImpl>,
+      Pointer<ObjCObjectImpl>,
+      Pointer<ObjCObjectImpl>,
     )
     copyMethodsInner(Pointer<Int32> counter) {
       final pool = lib.objc_autoreleasePoolPush();
@@ -247,7 +245,7 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
-    Pointer<ObjCObject> autoreleaseMethodsInner(Pointer<Int32> counter) {
+    Pointer<ObjCObjectImpl> autoreleaseMethodsInner(Pointer<Int32> counter) {
       final obj1 = RefCountTestObject.makeAndAutorelease(counter);
       expect(counter.value, 1);
 
@@ -289,7 +287,7 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
-    Pointer<ObjCObject> assignPropertiesInnerInner(
+    Pointer<ObjCObjectImpl> assignPropertiesInnerInner(
       Pointer<Int32> counter,
       RefCountTestObject outerObj,
     ) {
@@ -308,7 +306,7 @@ void main() {
       return assignObjRaw;
     }
 
-    (Pointer<ObjCObject>, Pointer<ObjCObject>) assignPropertiesInner(
+    (Pointer<ObjCObjectImpl>, Pointer<ObjCObjectImpl>) assignPropertiesInner(
       Pointer<Int32> counter,
     ) {
       final outerObj = RefCountTestObject.newWithCounter(counter);
@@ -336,7 +334,7 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
-    Pointer<ObjCObject> retainPropertiesInnerInner(
+    Pointer<ObjCObjectImpl> retainPropertiesInnerInner(
       Pointer<Int32> counter,
       RefCountTestObject outerObj,
     ) {
@@ -351,7 +349,7 @@ void main() {
       return retainObjRaw;
     }
 
-    (Pointer<ObjCObject>, Pointer<ObjCObject>) retainPropertiesInner(
+    (Pointer<ObjCObjectImpl>, Pointer<ObjCObjectImpl>) retainPropertiesInner(
       Pointer<Int32> counter,
     ) {
       final outerObj = RefCountTestObject.newWithCounter(counter);
@@ -386,7 +384,7 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
-    (Pointer<ObjCObject>, Pointer<ObjCObject>, Pointer<ObjCObject>)
+    (Pointer<ObjCObjectImpl>, Pointer<ObjCObjectImpl>, Pointer<ObjCObjectImpl>)
     copyPropertiesInner(Pointer<Int32> counter) {
       final outerObj = RefCountTestObject.newWithCounter(counter);
       expect(counter.value, 1);
@@ -437,15 +435,15 @@ void main() {
     }, skip: !canDoGC);
 
     castFromPointerInnerReleaseAndRetain(int address) {
-      final fromCast = RefCounted.castFromPointer(
-        Pointer<ObjCObject>.fromAddress(address),
+      final fromCast = RefCounted.fromPointer(
+        Pointer<ObjCObjectImpl>.fromAddress(address),
         release: true,
         retain: true,
       );
       expect(fromCast.refCount, 2);
     }
 
-    test('castFromPointer - release and retain', () {
+    test('fromPointer - release and retain', () {
       final obj1 = RefCounted();
       expect(obj1.refCount, 1);
 
@@ -455,15 +453,15 @@ void main() {
     }, skip: !canDoGC);
 
     castFromPointerInnerNoReleaseAndRetain(int address) {
-      final fromCast = RefCounted.castFromPointer(
-        Pointer<ObjCObject>.fromAddress(address),
+      final fromCast = RefCounted.fromPointer(
+        Pointer<ObjCObjectImpl>.fromAddress(address),
         release: false,
         retain: false,
       );
       expect(fromCast.refCount, 1);
     }
 
-    test('castFromPointer - no release and retain', () {
+    test('fromPointer - no release and retain', () {
       final obj1 = RefCounted();
       expect(obj1.refCount, 1);
 
@@ -504,7 +502,7 @@ void main() {
       expect(objectRetainCount(obj3raw), 0);
     });
 
-    Pointer<ObjCObject> manualRetainInner(Pointer<Int32> counter) {
+    Pointer<ObjCObjectImpl> manualRetainInner(Pointer<Int32> counter) {
       final obj = RefCountTestObject.newWithCounter(counter);
       expect(counter.value, 1);
       final objRaw = obj.ref.retainAndReturnPointer();
@@ -512,8 +510,8 @@ void main() {
       return objRaw;
     }
 
-    manualRetainInner2(Pointer<Int32> counter, Pointer<ObjCObject> objRaw) {
-      final obj = RefCountTestObject.castFromPointer(
+    manualRetainInner2(Pointer<Int32> counter, Pointer<ObjCObjectImpl> objRaw) {
+      final obj = RefCountTestObject.fromPointer(
         objRaw,
         retain: false,
         release: true,
@@ -557,7 +555,7 @@ void main() {
       return obj1b;
     }
 
-    Pointer<ObjCObject> unownedReferenceInner(Pointer<Int32> counter) {
+    Pointer<ObjCObjectImpl> unownedReferenceInner(Pointer<Int32> counter) {
       final obj1b = unownedReferenceInner2(counter);
       doGC(); // Collect obj1 and obj2.
       // The underlying object obj1 and obj1b points to still exists, because
@@ -589,7 +587,7 @@ void main() {
         final expectedCount = i < 128 ? i : 128;
         expect(objectRetainCount(obj.ref.pointer), expectedCount);
         objRefs.add(
-          RefCountTestObject.castFromPointer(
+          RefCountTestObject.fromPointer(
             obj.ref.pointer,
             retain: true,
             release: true,

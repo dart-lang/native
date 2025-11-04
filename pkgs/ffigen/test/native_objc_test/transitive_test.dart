@@ -86,7 +86,7 @@ void main() {
 
     Inclusion incItf(String name) {
       final classDef = bindings.contains(
-        'extension type $name._(objc.ObjCObjectBase ',
+        'extension type $name._(objc.ObjCObject ',
       );
       final stubWarn = bindings.contains('WARNING: $name is a stub.');
       final isInst = bindings.contains(
@@ -103,7 +103,7 @@ void main() {
 
     Inclusion incProto(String name) {
       final classDef = bindings.contains(
-        'extension type $name._(objc.ObjCProtocolBase ',
+        'extension type $name._(objc.ObjCProtocol ',
       );
       final stubWarn = bindings.contains('WARNING: $name is a stub.');
       final hasImpl = bindings.contains(

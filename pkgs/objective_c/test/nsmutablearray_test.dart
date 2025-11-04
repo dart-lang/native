@@ -46,7 +46,7 @@ void main() {
 
       expect(array.length, 5);
 
-      final actual = <ObjCObjectBase>[];
+      final actual = <ObjCObject>[];
       for (final value in array) {
         actual.add(value);
       }

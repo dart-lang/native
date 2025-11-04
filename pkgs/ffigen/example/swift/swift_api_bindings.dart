@@ -22,32 +22,32 @@ final _objc_msgSend_19nvye5 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
         ffi.Bool Function(
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
         )
       >
     >()
     .asFunction<
       bool Function(
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
 late final _sel_sayHello = objc.registerName("sayHello");
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObject> Function(
-          ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
         )
       >
     >()
     .asFunction<
-      ffi.Pointer<objc.ObjCObject> Function(
-        ffi.Pointer<objc.ObjCObject>,
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
@@ -56,20 +56,23 @@ final _objc_msgSend_1hz7y9r = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
         ffi.Long Function(
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
         )
       >
     >()
     .asFunction<
-      int Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)
+      int Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+      )
     >();
 late final _sel_setSomeField_ = objc.registerName("setSomeField:");
 final _objc_msgSend_4sp4xj = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
         ffi.Void Function(
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
           ffi.Long,
         )
@@ -77,29 +80,29 @@ final _objc_msgSend_4sp4xj = objc.msgSendPointer
     >()
     .asFunction<
       void Function(
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         int,
       )
     >();
-typedef instancetype = ffi.Pointer<objc.ObjCObject>;
-typedef Dartinstancetype = objc.ObjCObjectBase;
+typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
+typedef Dartinstancetype = objc.ObjCObject;
 late final _sel_init = objc.registerName("init");
 late final _sel_new = objc.registerName("new");
 late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
 final _objc_msgSend_1cwp428 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObject> Function(
-          ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
           ffi.Pointer<objc.NSZone>,
         )
       >
     >()
     .asFunction<
-      ffi.Pointer<objc.ObjCObject> Function(
-        ffi.Pointer<objc.ObjCObject>,
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         ffi.Pointer<objc.NSZone>,
       )
@@ -107,37 +110,33 @@ final _objc_msgSend_1cwp428 = objc.msgSendPointer
 late final _sel_alloc = objc.registerName("alloc");
 
 /// SwiftClass
-class SwiftClass extends objc.NSObject {
-  SwiftClass._(
-    ffi.Pointer<objc.ObjCObject> pointer, {
-    bool retain = false,
-    bool release = false,
-  }) : super.castFromPointer(pointer, retain: retain, release: release);
-
+extension type SwiftClass._(objc.ObjCObject object$)
+    implements objc.ObjCObject, objc.NSObject {
   /// Constructs a [SwiftClass] that points to the same underlying object as [other].
-  SwiftClass.castFrom(objc.ObjCObjectBase other)
-    : this._(other.ref.pointer, retain: true, release: true);
+  SwiftClass.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
 
   /// Constructs a [SwiftClass] that wraps the given raw object pointer.
-  SwiftClass.castFromPointer(
-    ffi.Pointer<objc.ObjCObject> other, {
+  SwiftClass.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
     bool retain = false,
     bool release = false,
-  }) : this._(other, retain: retain, release: release);
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
 
   /// Returns whether [obj] is an instance of [SwiftClass].
-  static bool isInstance(objc.ObjCObjectBase obj) {
-    return _objc_msgSend_19nvye5(
-      obj.ref.pointer,
-      _sel_isKindOfClass_,
-      _class_SwiftClass,
-    );
-  }
+  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
+    obj.ref.pointer,
+    _sel_isKindOfClass_,
+    _class_SwiftClass,
+  );
 
   /// alloc
   static SwiftClass alloc() {
     final $ret = _objc_msgSend_151sglz(_class_SwiftClass, _sel_alloc);
-    return SwiftClass.castFromPointer($ret, retain: false, release: true);
+    return SwiftClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
@@ -147,17 +146,17 @@ class SwiftClass extends objc.NSObject {
       _sel_allocWithZone_,
       zone,
     );
-    return SwiftClass.castFromPointer($ret, retain: false, release: true);
+    return SwiftClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// new
   static SwiftClass new$() {
     final $ret = _objc_msgSend_151sglz(_class_SwiftClass, _sel_new);
-    return SwiftClass.castFromPointer($ret, retain: false, release: true);
+    return SwiftClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// Returns a new instance of SwiftClass constructed with the default `new` method.
-  factory SwiftClass() => new$();
+  SwiftClass() : this.as(new$().object$);
 }
 
 extension SwiftClass$Methods on SwiftClass {
@@ -169,25 +168,25 @@ extension SwiftClass$Methods on SwiftClass {
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      this.ref.retainAndReturnPointer(),
+      object$.ref.retainAndReturnPointer(),
       _sel_init,
     );
-    return SwiftClass.castFromPointer($ret, retain: false, release: true);
+    return SwiftClass.fromPointer($ret, retain: false, release: true);
   }
 
   /// sayHello
   objc.NSString sayHello() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_sayHello);
-    return objc.NSString.castFromPointer($ret, retain: true, release: true);
+    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_sayHello);
+    return objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 
   /// setSomeField:
   set someField(int value) {
-    _objc_msgSend_4sp4xj(this.ref.pointer, _sel_setSomeField_, value);
+    _objc_msgSend_4sp4xj(object$.ref.pointer, _sel_setSomeField_, value);
   }
 
   /// someField
   int get someField {
-    return _objc_msgSend_1hz7y9r(this.ref.pointer, _sel_someField);
+    return _objc_msgSend_1hz7y9r(object$.ref.pointer, _sel_someField);
   }
 }

@@ -47,7 +47,7 @@ void main() {
       expect(actualKeys, unorderedEquals(['obj1', 'obj3', 'obj5']));
 
       // Values are stored by reference, so we can compare the actual objects.
-      final actualValues = <ObjCObjectBase>[];
+      final actualValues = <ObjCObject>[];
       for (final value in dict.values) {
         actualValues.add(value);
       }
@@ -96,7 +96,7 @@ void main() {
 
       expect(
         dict.map(
-          (key, value) => MapEntry<ObjCObjectBase, ObjCObjectBase>(value, key),
+          (key, value) => MapEntry<ObjCObject, ObjCObject>(value, key),
         ),
         {obj2: obj1, obj4: obj3, obj6: obj5},
       );

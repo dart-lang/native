@@ -9,7 +9,7 @@ import 'internal.dart';
 import 'ns_enumerator.dart';
 import 'objective_c_bindings_generated.dart';
 
-class _NSSetAdapter with SetBase<ObjCObjectBase> {
+class _NSSetAdapter with SetBase<ObjCObject> {
   final NSSet _set;
 
   _NSSetAdapter(this._set);
@@ -19,20 +19,20 @@ class _NSSetAdapter with SetBase<ObjCObjectBase> {
 
   @override
   bool contains(Object? element) =>
-      element is ObjCObjectBase ? _set.containsObject(element) : false;
+      element is ObjCObject ? _set.containsObject(element) : false;
 
   @override
-  ObjCObjectBase? lookup(Object? element) =>
-      element is ObjCObjectBase ? _set.member(element) : null;
+  ObjCObject? lookup(Object? element) =>
+      element is ObjCObject ? _set.member(element) : null;
 
   @override
-  Iterator<ObjCObjectBase> get iterator => _set.objectEnumerator().toDart();
+  Iterator<ObjCObject> get iterator => _set.objectEnumerator().toDart();
 
   @override
-  Set<ObjCObjectBase> toSet() => {...this};
+  Set<ObjCObject> toSet() => {...this};
 
   @override
-  bool add(ObjCObjectBase value) =>
+  bool add(ObjCObject value) =>
       throw UnsupportedError('Cannot modify NSSet');
 
   @override
@@ -47,10 +47,10 @@ extension NSSetToAdapter on NSSet {
   ///
   /// This is not a conversion, doesn't create a new set, or change the
   /// elements. For deep conversion, use [toDartSet].
-  Set<ObjCObjectBase> toDart() => _NSSetAdapter(this);
+  Set<ObjCObject> toDart() => _NSSetAdapter(this);
 }
 
-class _NSMutableSetAdapter with SetBase<ObjCObjectBase> {
+class _NSMutableSetAdapter with SetBase<ObjCObject> {
   final NSMutableSet _set;
 
   _NSMutableSetAdapter(this._set);
@@ -60,20 +60,20 @@ class _NSMutableSetAdapter with SetBase<ObjCObjectBase> {
 
   @override
   bool contains(Object? element) =>
-      element is ObjCObjectBase ? _set.containsObject(element) : false;
+      element is ObjCObject ? _set.containsObject(element) : false;
 
   @override
-  ObjCObjectBase? lookup(Object? element) =>
-      element is ObjCObjectBase ? _set.member(element) : null;
+  ObjCObject? lookup(Object? element) =>
+      element is ObjCObject ? _set.member(element) : null;
 
   @override
-  Iterator<ObjCObjectBase> get iterator => _set.objectEnumerator().toDart();
+  Iterator<ObjCObject> get iterator => _set.objectEnumerator().toDart();
 
   @override
-  Set<ObjCObjectBase> toSet() => {...this};
+  Set<ObjCObject> toSet() => {...this};
 
   @override
-  bool add(ObjCObjectBase value) {
+  bool add(ObjCObject value) {
     final alreadyContains = contains(value);
     _set.addObject(value);
     return !alreadyContains;
@@ -81,7 +81,7 @@ class _NSMutableSetAdapter with SetBase<ObjCObjectBase> {
 
   @override
   bool remove(Object? value) {
-    if (value is! ObjCObjectBase) return false;
+    if (value is! ObjCObject) return false;
     final alreadyContains = contains(value);
     _set.removeObject(value);
     return alreadyContains;
@@ -96,5 +96,5 @@ extension NSMutableSetToAdapter on NSMutableSet {
   ///
   /// This is not a conversion, doesn't create a new set, or change the
   /// elements. For deep conversion, use [toDartSet].
-  Set<ObjCObjectBase> toDart() => _NSMutableSetAdapter(this);
+  Set<ObjCObject> toDart() => _NSMutableSetAdapter(this);
 }

@@ -8,7 +8,7 @@ import 'converter.dart';
 import 'internal.dart';
 import 'objective_c_bindings_generated.dart';
 
-class _NSArrayAdapter with ListBase<ObjCObjectBase> {
+class _NSArrayAdapter with ListBase<ObjCObject> {
   final NSArray _array;
 
   _NSArrayAdapter(this._array);
@@ -17,23 +17,23 @@ class _NSArrayAdapter with ListBase<ObjCObjectBase> {
   int get length => _array.count;
 
   @override
-  ObjCObjectBase elementAt(int index) => _array.objectAtIndex(index);
+  ObjCObject elementAt(int index) => _array.objectAtIndex(index);
 
   @override
-  Iterator<ObjCObjectBase> get iterator => _NSArrayIterator(this);
+  Iterator<ObjCObject> get iterator => _NSArrayIterator(this);
 
   @override
-  ObjCObjectBase operator [](int index) => _array.objectAtIndex(index);
+  ObjCObject operator [](int index) => _array.objectAtIndex(index);
 
   @override
   set length(int newLength) => throw UnsupportedError('Cannot modify NSArray');
 
   @override
-  void operator []=(int index, ObjCObjectBase value) =>
+  void operator []=(int index, ObjCObject value) =>
       throw UnsupportedError('Cannot modify NSArray');
 
   @override
-  void add(ObjCObjectBase value) =>
+  void add(ObjCObject value) =>
       throw UnsupportedError('Cannot modify NSArray');
 }
 
@@ -42,10 +42,10 @@ extension NSArrayToAdapter on NSArray {
   ///
   /// This is not a conversion, doesn't create a new list, or change the
   /// elements. For deep conversion, use [toDartList].
-  List<ObjCObjectBase> toDart() => _NSArrayAdapter(this);
+  List<ObjCObject> toDart() => _NSArrayAdapter(this);
 }
 
-class _NSMutableArrayAdapter with ListBase<ObjCObjectBase> {
+class _NSMutableArrayAdapter with ListBase<ObjCObject> {
   final NSMutableArray _array;
 
   _NSMutableArrayAdapter(this._array);
@@ -63,20 +63,20 @@ class _NSMutableArrayAdapter with ListBase<ObjCObjectBase> {
   }
 
   @override
-  ObjCObjectBase elementAt(int index) => _array.objectAtIndex(index);
+  ObjCObject elementAt(int index) => _array.objectAtIndex(index);
 
   @override
-  Iterator<ObjCObjectBase> get iterator => _NSArrayIterator(this);
+  Iterator<ObjCObject> get iterator => _NSArrayIterator(this);
 
   @override
-  ObjCObjectBase operator [](int index) => _array.objectAtIndex(index);
+  ObjCObject operator [](int index) => _array.objectAtIndex(index);
 
   @override
-  void operator []=(int index, ObjCObjectBase value) =>
+  void operator []=(int index, ObjCObject value) =>
       _array.replaceObjectAtIndex(index, withObject: value);
 
   @override
-  void add(ObjCObjectBase value) => _array.addObject(value);
+  void add(ObjCObject value) => _array.addObject(value);
 }
 
 extension NSMutableArrayToAdapter on NSMutableArray {
@@ -84,22 +84,22 @@ extension NSMutableArrayToAdapter on NSMutableArray {
   ///
   /// This is not a conversion, doesn't create a new list, or change the
   /// elements. For deep conversion, use [toDartList].
-  List<ObjCObjectBase> toDart() => _NSMutableArrayAdapter(this);
+  List<ObjCObject> toDart() => _NSMutableArrayAdapter(this);
 }
 
-class _NSArrayIterator implements Iterator<ObjCObjectBase> {
-  final Iterable<ObjCObjectBase> _iterable;
+class _NSArrayIterator implements Iterator<ObjCObject> {
+  final Iterable<ObjCObject> _iterable;
   final int _length;
   int _index;
-  ObjCObjectBase? _current;
+  ObjCObject? _current;
 
-  _NSArrayIterator(Iterable<ObjCObjectBase> iterable)
+  _NSArrayIterator(Iterable<ObjCObject> iterable)
     : _iterable = iterable,
       _length = iterable.length,
       _index = 0;
 
   @override
-  ObjCObjectBase get current => _current!;
+  ObjCObject get current => _current!;
 
   @override
   @pragma('vm:prefer-inline')

@@ -10,7 +10,7 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
-import 'package:objective_c/objective_c.dart';
+import 'package:objective_c/objective_c.dart' hide ObjCProtocolImpl;
 import 'package:objective_c/src/internal.dart' show getProtocol;
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
@@ -184,9 +184,10 @@ void main() {
           },
         );
         final protocolImpl = protocolBuilder.build();
-        final MyProtocol asMyProtocol = MyProtocol.castFrom(protocolImpl);
-        final SecondaryProtocol asSecondaryProtocol =
-            SecondaryProtocol.castFrom(protocolImpl);
+        final MyProtocol asMyProtocol = MyProtocol.as(protocolImpl);
+        final SecondaryProtocol asSecondaryProtocol = SecondaryProtocol.as(
+          protocolImpl,
+        );
 
         expect(MyProtocol.conformsTo(protocolImpl), isTrue);
         expect(SecondaryProtocol.conformsTo(protocolImpl), isTrue);
@@ -221,9 +222,10 @@ void main() {
           },
         );
         final protocolImpl = protocolBuilder.build();
-        final MyProtocol asMyProtocol = MyProtocol.castFrom(protocolImpl);
-        final SecondaryProtocol asSecondaryProtocol =
-            SecondaryProtocol.castFrom(protocolImpl);
+        final MyProtocol asMyProtocol = MyProtocol.as(protocolImpl);
+        final SecondaryProtocol asSecondaryProtocol = SecondaryProtocol.as(
+          protocolImpl,
+        );
 
         // Required instance method.
         final result = consumer.callInstanceMethod(asMyProtocol);
@@ -298,9 +300,10 @@ void main() {
           },
         );
         final protocolImpl = protocolBuilder.build();
-        final MyProtocol asMyProtocol = MyProtocol.castFrom(protocolImpl);
-        final SecondaryProtocol asSecondaryProtocol =
-            SecondaryProtocol.castFrom(protocolImpl);
+        final MyProtocol asMyProtocol = MyProtocol.as(protocolImpl);
+        final SecondaryProtocol asSecondaryProtocol = SecondaryProtocol.as(
+          protocolImpl,
+        );
 
         // Required instance method.
         final result = consumer.callInstanceMethod(asMyProtocol);
@@ -370,9 +373,10 @@ void main() {
           },
         );
         final protocolImpl = protocolBuilder.build();
-        final MyProtocol asMyProtocol = MyProtocol.castFrom(protocolImpl);
-        final SecondaryProtocol asSecondaryProtocol =
-            SecondaryProtocol.castFrom(protocolImpl);
+        final MyProtocol asMyProtocol = MyProtocol.as(protocolImpl);
+        final SecondaryProtocol asSecondaryProtocol = SecondaryProtocol.as(
+          protocolImpl,
+        );
 
         // Required instance method from secondary protocol.
         final otherIntResult = consumer.callOtherMethod(asSecondaryProtocol);
@@ -394,7 +398,7 @@ void main() {
                 'DirectImpl: ${s.toDartString()}: $x'.toNSString(),
           ),
         );
-        final myProtocol = MyProtocol.castFrom(builder.build());
+        final myProtocol = MyProtocol.as(builder.build());
 
         // Required instance method.
         final result = consumer.callInstanceMethod(myProtocol);
@@ -481,7 +485,7 @@ void main() {
       });
 
       final protocol = protocolBuilder.build();
-      final MyProtocol asMyProtocol = MyProtocol.castFrom(protocol);
+      final MyProtocol asMyProtocol = MyProtocol.as(protocol);
 
       for (int i = 0; i < 1000; ++i) {
         consumer.callMethodOnRandomThread(asMyProtocol);

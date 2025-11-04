@@ -32,7 +32,7 @@ void main() {
         observeValueForKeyPath_ofObject_change_context_:
             (
               NSString keyPath,
-              ObjCObjectBase object,
+              ObjCObject object,
               NSDictionary change,
               Pointer<Void> context,
             ) {
@@ -75,7 +75,7 @@ void main() {
         observeValueForKeyPath_ofObject_change_context_:
             (
               NSString keyPath,
-              ObjCObjectBase object,
+              ObjCObject object,
               NSDictionary change,
               Pointer<Void> context,
             ) {
@@ -116,7 +116,7 @@ void main() {
           observeValueForKeyPath_ofObject_change_context_:
               (
                 NSString keyPath,
-                ObjCObjectBase object,
+                ObjCObject object,
                 NSDictionary change,
                 Pointer<Void> context,
               ) {
@@ -175,7 +175,7 @@ void main() {
           observeValueForKeyPath_ofObject_change_context_:
               (
                 NSString keyPath,
-                ObjCObjectBase object,
+                ObjCObject object,
                 NSDictionary change,
                 Pointer<Void> context,
               ) {},

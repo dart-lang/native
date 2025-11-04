@@ -12,7 +12,7 @@ import 'objective_c_bindings_generated.dart';
 // Ideally we'd mixin UnmodifiableMapBase, but it's an ordinary class. So
 // instead we mixin MapBase and then throw in all the modifying methods (which
 // is essentially what UnmodifiableMapBase does anyway).
-class _NSDictionaryAdapter with MapBase<NSCopying, ObjCObjectBase> {
+class _NSDictionaryAdapter with MapBase<NSCopying, ObjCObject> {
   final NSDictionary _dictionary;
 
   _NSDictionaryAdapter(this._dictionary);
@@ -21,27 +21,27 @@ class _NSDictionaryAdapter with MapBase<NSCopying, ObjCObjectBase> {
   int get length => _dictionary.count;
 
   @override
-  ObjCObjectBase? operator [](Object? key) =>
+  ObjCObject? operator [](Object? key) =>
       key is NSCopying ? _dictionary.objectForKey(key) : null;
 
   @override
   Iterable<NSCopying> get keys => _NSDictionaryKeyIterable(this);
 
   @override
-  Iterable<ObjCObjectBase> get values => _NSDictionaryValueIterable(this);
+  Iterable<ObjCObject> get values => _NSDictionaryValueIterable(this);
 
   @override
   bool containsKey(Object? key) => this[key] != null;
 
   @override
-  void operator []=(NSCopying key, ObjCObjectBase value) =>
+  void operator []=(NSCopying key, ObjCObject value) =>
       throw UnsupportedError('Cannot modify NSDictionary');
 
   @override
   void clear() => throw UnsupportedError('Cannot modify NSDictionary');
 
   @override
-  ObjCObjectBase? remove(Object? key) =>
+  ObjCObject? remove(Object? key) =>
       throw UnsupportedError('Cannot modify NSDictionary');
 }
 
@@ -51,10 +51,10 @@ extension NSDictionaryToAdapter on NSDictionary {
   ///
   /// This is not a conversion, doesn't create a new map, or change the
   /// elements. For deep conversion, use [toDartMap].
-  Map<NSCopying, ObjCObjectBase> toDart() => _NSDictionaryAdapter(this);
+  Map<NSCopying, ObjCObject> toDart() => _NSDictionaryAdapter(this);
 }
 
-class _NSMutableDictionaryAdapter with MapBase<NSCopying, ObjCObjectBase> {
+class _NSMutableDictionaryAdapter with MapBase<NSCopying, ObjCObject> {
   final NSMutableDictionary _dictionary;
 
   _NSMutableDictionaryAdapter(this._dictionary);
@@ -63,20 +63,20 @@ class _NSMutableDictionaryAdapter with MapBase<NSCopying, ObjCObjectBase> {
   int get length => _dictionary.count;
 
   @override
-  ObjCObjectBase? operator [](Object? key) =>
+  ObjCObject? operator [](Object? key) =>
       key is NSCopying ? _dictionary.objectForKey(key) : null;
 
   @override
-  void operator []=(NSCopying key, ObjCObjectBase value) =>
+  void operator []=(NSCopying key, ObjCObject value) =>
       NSMutableDictionary$Methods(
         _dictionary,
-      ).setObject(value, forKey: NSCopying.castFrom(key));
+      ).setObject(value, forKey: NSCopying.as(key));
 
   @override
   Iterable<NSCopying> get keys => _NSDictionaryAdapter(_dictionary).keys;
 
   @override
-  Iterable<ObjCObjectBase> get values =>
+  Iterable<ObjCObject> get values =>
       _NSDictionaryAdapter(_dictionary).values;
 
   @override
@@ -86,7 +86,7 @@ class _NSMutableDictionaryAdapter with MapBase<NSCopying, ObjCObjectBase> {
   void clear() => _dictionary.removeAllObjects();
 
   @override
-  ObjCObjectBase? remove(Object? key) {
+  ObjCObject? remove(Object? key) {
     if (key is! NSCopying) return null;
     final old = this[key];
     _dictionary.removeObjectForKey(key);
@@ -99,7 +99,7 @@ extension NSMutableDictionaryToAdapter on NSMutableDictionary {
   ///
   /// This is not a conversion, doesn't create a new map, or change the
   /// elements. For deep conversion, use [toDartMap].
-  Map<NSCopying, ObjCObjectBase> toDart() => _NSMutableDictionaryAdapter(this);
+  Map<NSCopying, ObjCObject> toDart() => _NSMutableDictionaryAdapter(this);
 }
 
 class _NSDictionaryKeyIterable with Iterable<NSCopying> {
@@ -119,19 +119,19 @@ class _NSDictionaryKeyIterable with Iterable<NSCopying> {
 }
 
 class _NSDictionaryKeyIterator implements Iterator<NSCopying> {
-  final Iterator<ObjCObjectBase> _iterator;
+  final Iterator<ObjCObject> _iterator;
 
   _NSDictionaryKeyIterator(this._iterator);
 
   @override
-  NSCopying get current => NSCopying.castFrom(_iterator.current);
+  NSCopying get current => NSCopying.as(_iterator.current);
 
   @override
   @pragma('vm:prefer-inline')
   bool moveNext() => _iterator.moveNext();
 }
 
-class _NSDictionaryValueIterable with Iterable<ObjCObjectBase> {
+class _NSDictionaryValueIterable with Iterable<ObjCObject> {
   final _NSDictionaryAdapter _adapter;
 
   _NSDictionaryValueIterable(this._adapter);
@@ -140,6 +140,6 @@ class _NSDictionaryValueIterable with Iterable<ObjCObjectBase> {
   int get length => _adapter.length;
 
   @override
-  Iterator<ObjCObjectBase> get iterator =>
+  Iterator<ObjCObject> get iterator =>
       _adapter._dictionary.objectEnumerator().toDart();
 }

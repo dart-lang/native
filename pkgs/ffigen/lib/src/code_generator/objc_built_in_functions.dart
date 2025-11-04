@@ -41,8 +41,8 @@ class ObjCBuiltInFunctions {
   static const objectRelease = ObjCImport('objectRelease');
   static const signalWaiter = ObjCImport('signalWaiter');
   static const objCContext = ObjCImport('objCContext');
-  static const objectBase = ObjCImport('ObjCObjectBase');
-  static const protocolBase = ObjCImport('ObjCProtocolBase');
+  static const objectBase = ObjCImport('ObjCObject');
+  static const protocolBase = ObjCImport('ObjCProtocol');
   static const blockType = ObjCImport('ObjCBlock');
   static const consumedType = ObjCImport('Consumed');
   static const retainedType = ObjCImport('Retained');

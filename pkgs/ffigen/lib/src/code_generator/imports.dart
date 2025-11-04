@@ -238,8 +238,8 @@ final wCharType = ImportedType(
 
 final objCObjectType = ImportedType(
   objcPkgImport,
-  'ObjCObject',
-  'ObjCObject',
+  'ObjCObjectImpl',
+  'ObjCObjectImpl',
   'void',
 );
 final objCSelType = ImportedType(
@@ -256,8 +256,8 @@ final objCBlockType = ImportedType(
 );
 final objCProtocolType = ImportedType(
   objcPkgImport,
-  'ObjCProtocol',
-  'ObjCProtocol',
+  'ObjCProtocolImpl',
+  'ObjCProtocolImpl',
   'void',
 );
 final objCContextType = ImportedType(

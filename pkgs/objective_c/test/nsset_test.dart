@@ -41,7 +41,7 @@ void main() {
       expect((s as Set).lookup(123), null);
       expect(s.lookup(null), null);
 
-      final actual = <ObjCObjectBase>[];
+      final actual = <ObjCObject>[];
       for (final value in s) {
         actual.add(value);
       }

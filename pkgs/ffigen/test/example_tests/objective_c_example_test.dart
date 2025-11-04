@@ -26,13 +26,13 @@ void main() {
       // example app uses.
       expect(
         output,
-        contains('extension type AVAudioPlayer._(objc.ObjCObjectBase '),
+        contains('extension type AVAudioPlayer._(objc.ObjCObject '),
       );
       expect(
         output,
         contains(
           'AVAudioPlayer? initWithContentsOfURL(objc.NSURL url, '
-          '{required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error}) {',
+          '{required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error}) {',
         ),
       );
       expect(output, contains('double get duration {'));

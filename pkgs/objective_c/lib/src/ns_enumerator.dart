@@ -5,14 +5,14 @@
 import 'internal.dart';
 import 'objective_c_bindings_generated.dart';
 
-class _NSEnumeratorAdapter implements Iterator<ObjCObjectBase> {
+class _NSEnumeratorAdapter implements Iterator<ObjCObject> {
   final NSEnumerator enumerator;
-  ObjCObjectBase? _current;
+  ObjCObject? _current;
 
   _NSEnumeratorAdapter(this.enumerator);
 
   @override
-  ObjCObjectBase get current => _current!;
+  ObjCObject get current => _current!;
 
   @override
   @pragma('vm:prefer-inline')
@@ -24,5 +24,5 @@ class _NSEnumeratorAdapter implements Iterator<ObjCObjectBase> {
 
 extension NSEnumeratorToAdapter on NSEnumerator {
   /// Wraps this [NSEnumerator] in an adapter that implements [Iterator].
-  Iterator<ObjCObjectBase> toDart() => _NSEnumeratorAdapter(this);
+  Iterator<ObjCObject> toDart() => _NSEnumeratorAdapter(this);
 }

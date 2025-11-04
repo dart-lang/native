@@ -95,7 +95,7 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
         ObjCBuiltInFunctions.checkOsVersion.gen(context),
         originalName,
       ),
-      if (!generateAsStub) 'assert(isInstance(object\$));',
+      if (!generateAsStub) 'assert(isA(object\$));',
     ].nonNulls.join('\n    ');
 
     final rawObjType = PointerType(objCObjectType).getCType(context);
@@ -108,12 +108,12 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
     s.write('''
 extension type $name._($wrapObjType object\$) implements ${protos.join(',')} {
   /// Constructs a [$name] that points to the same underlying object as [other].
-  $name.castFrom($wrapObjType other) : object\$ = other {
+  $name.as($wrapObjType other) : object\$ = other {
     $ctorBody
   }
 
   /// Constructs a [$name] that wraps the given raw object pointer.
-  $name.castFromPointer($rawObjType other,
+  $name.fromPointer($rawObjType other,
       {bool retain = false, bool release = false}) :
           object\$ = $wrapObjType(other, retain: retain, release: release) {
     $ctorBody
@@ -152,9 +152,7 @@ ${generateInstanceMethodBindings(w, this)}
 
     s.write('''
   /// Returns whether [obj] is an instance of [$name].
-  static bool isInstance($wrapObjType obj) {
-    return $isKindOfClass;
-  }
+  static bool isA($wrapObjType obj) => $isKindOfClass;
 ''');
 
     s.write(generateStaticMethodBindings(w, this));
@@ -171,7 +169,7 @@ ${generateInstanceMethodBindings(w, this)}
     if (newMethod != null && originalName != 'NSString') {
       s.write('''
   /// Returns a new instance of $name constructed with the default `new` method.
-  $name() : this.castFrom(${newMethod.name}().object\$);
+  $name() : this.as(${newMethod.name}().object\$);
 ''');
     }
 
@@ -237,7 +235,7 @@ ${generateInstanceMethodBindings(w, this)}
     bool objCRetain,
   ) {
     final ownershipFlags = 'retain: $objCRetain, release: true';
-    return '$className.castFromPointer($value, $ownershipFlags)';
+    return '$className.fromPointer($value, $ownershipFlags)';
   }
 
   @override

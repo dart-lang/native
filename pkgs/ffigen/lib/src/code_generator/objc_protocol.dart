@@ -98,10 +98,10 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
     s.write('''
 extension type $name._($protocolBase object\$) implements ${sp.join(', ')} {
   /// Constructs a [$name] that points to the same underlying object as [other].
-  $name.castFrom($objectBase other) : object\$ = other;
+  $name.as($objectBase other) : object\$ = other;
 
   /// Constructs a [$name] that wraps the given raw object pointer.
-  $name.castFromPointer($rawObjType other,
+  $name.fromPointer($rawObjType other,
       {bool retain = false, bool release = false}) :
       object\$ = $protocolBase(other, retain: retain, release: release);
 ''');
@@ -225,7 +225,7 @@ ${generateInstanceMethodBindings(w, this)}
           '''
   /// Returns the [$protocolClass] object for this protocol.
   static $protocolClass get \$protocol =>
-      $protocolClass.castFromPointer(${_protocolPointer.name}.cast());
+      $protocolClass.fromPointer(${_protocolPointer.name}.cast());
 
   /// Builds an object that implements the $originalName protocol. To implement
   /// multiple protocols, use [addToBuilder] or [$protocolBuilder] directly.
@@ -236,7 +236,7 @@ ${generateInstanceMethodBindings(w, this)}
     final builder = $protocolBuilder(debugName: '$originalName');
     $buildImplementations
     builder.addProtocol(\$protocol);
-    return $name.castFrom(builder.build(keepIsolateAlive: \$keepIsolateAlive));
+    return $name.as(builder.build(keepIsolateAlive: \$keepIsolateAlive));
   }
 
   /// Adds the implementation of the $originalName protocol to an existing
@@ -263,7 +263,7 @@ ${generateInstanceMethodBindings(w, this)}
     final builder = $protocolBuilder(debugName: '$originalName');
     $buildListenerImplementations
     builder.addProtocol(\$protocol);
-    return $name.castFrom(builder.build(keepIsolateAlive: \$keepIsolateAlive));
+    return $name.as(builder.build(keepIsolateAlive: \$keepIsolateAlive));
   }
 
   /// Adds the implementation of the $originalName protocol to an existing
@@ -286,7 +286,7 @@ ${generateInstanceMethodBindings(w, this)}
     final builder = $protocolBuilder(debugName: '$originalName');
     $buildBlockingImplementations
     builder.addProtocol(\$protocol);
-    return $name.castFrom(builder.build(keepIsolateAlive: \$keepIsolateAlive));
+    return $name.as(builder.build(keepIsolateAlive: \$keepIsolateAlive));
   }
 
   /// Adds the implementation of the $originalName protocol to an existing

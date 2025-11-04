@@ -48,7 +48,7 @@ void main() {
       globalString = 'Hello World'.toNSString();
     });
 
-    Pointer<ObjCObject> globalObjectRefCountingInner() {
+    Pointer<ObjCObjectImpl> globalObjectRefCountingInner() {
       globalObject = NSObject();
       final obj1raw = globalObject!.ref.pointer;
 

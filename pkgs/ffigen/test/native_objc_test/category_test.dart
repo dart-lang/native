@@ -60,22 +60,22 @@ void main() {
 
     test('Instancetype', () {
       Thing thing1 = Thing();
-      expect(Thing.isInstance(thing1), isTrue);
-      expect(ChildOfThing.isInstance(thing1), isFalse);
+      expect(Thing.isA(thing1), isTrue);
+      expect(ChildOfThing.isA(thing1), isFalse);
 
       Thing thing2 = thing1.instancetypeMethod();
       expect(thing2, isNot(thing1));
-      expect(Thing.isInstance(thing2), isTrue);
-      expect(ChildOfThing.isInstance(thing2), isFalse);
+      expect(Thing.isA(thing2), isTrue);
+      expect(ChildOfThing.isA(thing2), isFalse);
 
       ChildOfThing child1 = ChildOfThing();
-      expect(Thing.isInstance(child1), isTrue);
-      expect(ChildOfThing.isInstance(child1), isTrue);
+      expect(Thing.isA(child1), isTrue);
+      expect(ChildOfThing.isA(child1), isTrue);
 
       ChildOfThing child2 = child1.instancetypeMethod();
       expect(child2, isNot(child1));
-      expect(Thing.isInstance(child2), isTrue);
-      expect(ChildOfThing.isInstance(child2), isTrue);
+      expect(Thing.isA(child2), isTrue);
+      expect(ChildOfThing.isA(child2), isTrue);
     });
 
     test('Category on built-in type', () {

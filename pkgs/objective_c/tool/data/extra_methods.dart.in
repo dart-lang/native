@@ -11,8 +11,8 @@
 // declarations, so it's important that they remain unformatted, even if that
 // means going over the 80 char width limit. The class bodies may be formatted.
 
-extension type NSString.castFrom(objc.ObjCObjectBase object$) {
-  NSString(String str) : this.castFrom(_stringToNSString$(str));
+extension type NSString._(objc.ObjCObject object$) {
+  NSString(String str) : this.as(_stringToNSString$(str));
 
   static NSString _stringToNSString$(String str) {
     final cstr = str.toNativeUtf16();
@@ -22,77 +22,77 @@ extension type NSString.castFrom(objc.ObjCObjectBase object$) {
   }
 }
 
-extension type NSArray.castFrom(objc.ObjCObjectBase object$) {
+extension type NSArray._(objc.ObjCObject object$) {
   /// Creates a [NSArray] of the given length with [fill] at each position.
   ///
   /// The [length] must be a non-negative integer.
-  static NSArray filled(int length, objc.ObjCObjectBase fill) =>
+  static NSArray filled(int length, objc.ObjCObject fill) =>
       NSMutableArray.filled(length, fill);
 
   /// Creates a [NSArray] from [elements].
-  static NSArray of(Iterable<objc.ObjCObjectBase> elements) =>
+  static NSArray of(Iterable<objc.ObjCObject> elements) =>
       NSMutableArray.of(elements);
 }
 
-extension type NSMutableArray.castFrom(objc.ObjCObjectBase object$) {
+extension type NSMutableArray._(objc.ObjCObject object$) {
   /// Creates a [NSMutableArray] of the given length with [fill] at each
   /// position.
   ///
   /// The [length] must be a non-negative integer.
-  static NSMutableArray filled(int length, objc.ObjCObjectBase fill) {
+  static NSMutableArray filled(int length, objc.ObjCObject fill) {
     final a = arrayWithCapacity(length);
     for (var i = 0; i < length; ++i) a.addObject(fill);
     return a;
   }
 
   /// Creates a [NSMutableArray] from [elements].
-  static NSMutableArray of(Iterable<objc.ObjCObjectBase> elements) {
+  static NSMutableArray of(Iterable<objc.ObjCObject> elements) {
     final a = arrayWithCapacity(elements.length);
     for (final e in elements) a.addObject(e);
     return a;
   }
 }
 
-extension type NSDictionary.castFrom(objc.ObjCObjectBase object$) {
+extension type NSDictionary._(objc.ObjCObject object$) {
   /// Creates a [NSDictionary] from [other].
-  static NSDictionary of(Map<NSCopying, objc.ObjCObjectBase> other) =>
+  static NSDictionary of(Map<NSCopying, objc.ObjCObject> other) =>
       NSMutableDictionary.of(other);
 
   /// Creates a [NSDictionary] from [entries].
   static NSDictionary fromEntries(
-    Iterable<MapEntry<NSCopying, objc.ObjCObjectBase>> entries,
+    Iterable<MapEntry<NSCopying, objc.ObjCObject>> entries,
   ) => NSMutableDictionary.fromEntries(entries);
 }
 
-extension type NSMutableDictionary.castFrom(objc.ObjCObjectBase object$) {
+extension type NSMutableDictionary._(objc.ObjCObject object$) {
   /// Creates a [NSMutableDictionary] from [other].
-  static NSMutableDictionary of(Map<NSCopying, objc.ObjCObjectBase> other) =>
+  static NSMutableDictionary of(Map<NSCopying, objc.ObjCObject> other) =>
       NSMutableDictionary.fromEntries(other.entries);
 
   /// Creates a [NSMutableDictionary] from [entries].
   static NSMutableDictionary fromEntries(
-    Iterable<MapEntry<NSCopying, objc.ObjCObjectBase>> entries,
+    Iterable<MapEntry<NSCopying, objc.ObjCObject>> entries,
   ) {
     final dict = dictionaryWithCapacity(entries.length);
     for (final MapEntry(:key, :value) in entries) {
       dict.setObject(
         value,
-        forKey: NSCopying.castFrom(key),
+        forKey: NSCopying.as(key),
       );
     }
     return dict;
   }
 }
 
-extension type NSSet.castFrom(objc.ObjCObjectBase object$) {
+extension type NSSet._(objc.ObjCObject object$) {
   /// Creates a [NSSet] from [elements].
-  static NSSet of(Iterable<objc.ObjCObjectBase> elements) =>
+  static NSSet of(Iterable<objc.ObjCObject> elements) =>
       NSMutableSet.of(elements);
 }
 
-extension type NSMutableSet.castFrom(objc.ObjCObjectBase object$) {
+extension type NSMutableSet._(objc.ObjCObject object$) {
   /// Creates a [NSMutableSet] from [elements].
-  static NSMutableSet of(Iterable<objc.ObjCObjectBase> elements) {
+  static NSMutableSet of(Iterable<objc.ObjCObject> elements) {
     final set = setWithCapacity(elements.length);
     for (final e in elements) set.addObject(e);
     return set;

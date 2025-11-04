@@ -139,7 +139,7 @@ void main() {
       final future = Future<void>.value();
       final obj = NSObject();
 
-      ObjCObjectBase conv(Object _) => obj;
+      ObjCObject conv(Object _) => obj;
 
       expect(toObjCObject(future, convertOther: conv), obj);
 
@@ -151,7 +151,7 @@ void main() {
       final future = Future<void>.value();
       final obj = NSObject();
 
-      Object conv(ObjCObjectBase _) => future;
+      Object conv(ObjCObject _) => future;
 
       expect(toDartObject(obj, convertOther: conv), future);
 

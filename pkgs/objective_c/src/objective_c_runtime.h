@@ -12,18 +12,18 @@
 #include "include/dart_api_dl.h"
 
 typedef struct _ObjCSelector ObjCSelector;
-typedef struct _ObjCObject ObjCObject;
-typedef struct _ObjCProtocol ObjCProtocol;
+typedef struct _ObjCObjectImpl ObjCObjectImpl;
+typedef struct _ObjCProtocolImpl ObjCProtocolImpl;
 
 ObjCSelector *sel_registerName(const char *name);
 const char * sel_getName(ObjCSelector* sel);
-ObjCObject *objc_getClass(const char *name);
-ObjCObject *objc_retain(ObjCObject *object);
-ObjCObject *objc_retainBlock(const ObjCObject *object);
-void objc_release(ObjCObject *object);
-ObjCObject *objc_autorelease(ObjCObject *object);
-ObjCObject *object_getClass(ObjCObject *object);
-ObjCObject** objc_copyClassList(unsigned int* count);
+ObjCObjectImpl *objc_getClass(const char *name);
+ObjCObjectImpl *objc_retain(ObjCObjectImpl *object);
+ObjCObjectImpl *objc_retainBlock(const ObjCObjectImpl *object);
+void objc_release(ObjCObjectImpl *object);
+ObjCObjectImpl *objc_autorelease(ObjCObjectImpl *object);
+ObjCObjectImpl *object_getClass(ObjCObjectImpl *object);
+ObjCObjectImpl** objc_copyClassList(unsigned int* count);
 void *objc_autoreleasePoolPush(void);
 void objc_autoreleasePoolPop(void *pool);
 
@@ -67,10 +67,10 @@ typedef struct _ObjCMethodDesc {
   const char* types;
 } ObjCMethodDesc;
 
-ObjCProtocol* objc_getProtocol(const char* name);
+ObjCProtocolImpl* objc_getProtocol(const char* name);
 ObjCMethodDesc protocol_getMethodDescription(
-    ObjCProtocol* protocol, ObjCSelector* sel, bool isRequiredMethod,
+    ObjCProtocolImpl* protocol, ObjCSelector* sel, bool isRequiredMethod,
     bool isInstanceMethod);
-const char *protocol_getName(ObjCProtocol *proto);
+const char *protocol_getName(ObjCProtocolImpl *proto);
 
 #endif  // OBJECTIVE_C_SRC_OBJECTIVE_C_RUNTIME_H_

@@ -59,16 +59,20 @@ external ffi.Pointer<ffi.Void> autoreleasePoolPush();
 )
 external void awaitWaiter(ffi.Pointer<ffi.Void> waiter);
 
-@ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
+@ffi.Native<ffi.Pointer<ObjCObjectImpl> Function(ffi.Pointer<ObjCObjectImpl>)>(
   symbol: 'objc_retainBlock',
   isLeaf: true,
 )
-external ffi.Pointer<ObjCObject> blockRetain(ffi.Pointer<ObjCObject> object);
+external ffi.Pointer<ObjCObjectImpl> blockRetain(
+  ffi.Pointer<ObjCObjectImpl> object,
+);
 
 @ffi.Native<
-  ffi.Pointer<ffi.Pointer<ObjCObject>> Function(ffi.Pointer<ffi.UnsignedInt>)
+  ffi.Pointer<ffi.Pointer<ObjCObjectImpl>> Function(
+    ffi.Pointer<ffi.UnsignedInt>,
+  )
 >(symbol: 'objc_copyClassList', isLeaf: true)
-external ffi.Pointer<ffi.Pointer<ObjCObject>> copyClassList(
+external ffi.Pointer<ffi.Pointer<ObjCObjectImpl>> copyClassList(
   ffi.Pointer<ffi.UnsignedInt> count,
 );
 
@@ -93,22 +97,22 @@ external ffi.Pointer<DOBJC_Context> fillContext(
   ffi.Pointer<DOBJC_Context> context,
 );
 
-@ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ffi.Char>)>(
+@ffi.Native<ffi.Pointer<ObjCObjectImpl> Function(ffi.Pointer<ffi.Char>)>(
   symbol: 'objc_getClass',
   isLeaf: true,
 )
-external ffi.Pointer<ObjCObject> getClass(ffi.Pointer<ffi.Char> name);
+external ffi.Pointer<ObjCObjectImpl> getClass(ffi.Pointer<ffi.Char> name);
 
 @ffi.Native<
   ObjCMethodDesc Function(
-    ffi.Pointer<ObjCProtocol>,
+    ffi.Pointer<ObjCProtocolImpl>,
     ffi.Pointer<ObjCSelector>,
     ffi.Bool,
     ffi.Bool,
   )
 >(symbol: 'protocol_getMethodDescription', isLeaf: true)
 external ObjCMethodDesc getMethodDescription(
-  ffi.Pointer<ObjCProtocol> protocol,
+  ffi.Pointer<ObjCProtocolImpl> protocol,
   ffi.Pointer<ObjCSelector> sel,
   bool isRequiredMethod,
   bool isInstanceMethod,
@@ -120,27 +124,31 @@ external ObjCMethodDesc getMethodDescription(
 )
 external ffi.Pointer<ffi.Char> getName(ffi.Pointer<ObjCSelector> sel);
 
-@ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
+@ffi.Native<ffi.Pointer<ObjCObjectImpl> Function(ffi.Pointer<ObjCObjectImpl>)>(
   symbol: 'object_getClass',
   isLeaf: true,
 )
-external ffi.Pointer<ObjCObject> getObjectClass(ffi.Pointer<ObjCObject> object);
+external ffi.Pointer<ObjCObjectImpl> getObjectClass(
+  ffi.Pointer<ObjCObjectImpl> object,
+);
 
 /// Returns the MacOS/iOS version we're running on.
 @ffi.Native<_Version Function()>(symbol: 'DOBJC_getOsVesion', isLeaf: true)
 external _Version getOsVesion();
 
-@ffi.Native<ffi.Pointer<ObjCProtocol> Function(ffi.Pointer<ffi.Char>)>(
+@ffi.Native<ffi.Pointer<ObjCProtocolImpl> Function(ffi.Pointer<ffi.Char>)>(
   symbol: 'objc_getProtocol',
   isLeaf: true,
 )
-external ffi.Pointer<ObjCProtocol> getProtocol(ffi.Pointer<ffi.Char> name);
+external ffi.Pointer<ObjCProtocolImpl> getProtocol(ffi.Pointer<ffi.Char> name);
 
-@ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ObjCProtocol>)>(
+@ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ObjCProtocolImpl>)>(
   symbol: 'protocol_getName',
   isLeaf: true,
 )
-external ffi.Pointer<ffi.Char> getProtocolName(ffi.Pointer<ObjCProtocol> proto);
+external ffi.Pointer<ffi.Char> getProtocolName(
+  ffi.Pointer<ObjCProtocolImpl> proto,
+);
 
 @ffi.Native<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>(
   symbol: 'DOBJC_initializeApi',
@@ -169,11 +177,11 @@ external void msgSendStret();
 external ffi.Pointer<ffi.Bool> newFinalizableBool(Object owner);
 
 @ffi.Native<
-  Dart_FinalizableHandle Function(ffi.Handle, ffi.Pointer<ObjCObject>)
+  Dart_FinalizableHandle Function(ffi.Handle, ffi.Pointer<ObjCObjectImpl>)
 >(symbol: 'DOBJC_newFinalizableHandle')
 external Dart_FinalizableHandle newFinalizableHandle(
   Object owner,
-  ffi.Pointer<ObjCObject> object,
+  ffi.Pointer<ObjCObjectImpl> object,
 );
 
 @ffi.Native<ffi.Pointer<ffi.Void> Function()>(
@@ -182,25 +190,27 @@ external Dart_FinalizableHandle newFinalizableHandle(
 )
 external ffi.Pointer<ffi.Void> newWaiter();
 
-@ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
+@ffi.Native<ffi.Pointer<ObjCObjectImpl> Function(ffi.Pointer<ObjCObjectImpl>)>(
   symbol: 'objc_autorelease',
   isLeaf: true,
 )
-external ffi.Pointer<ObjCObject> objectAutorelease(
-  ffi.Pointer<ObjCObject> object,
+external ffi.Pointer<ObjCObjectImpl> objectAutorelease(
+  ffi.Pointer<ObjCObjectImpl> object,
 );
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCObject>)>(
+@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCObjectImpl>)>(
   symbol: 'objc_release',
   isLeaf: true,
 )
-external void objectRelease(ffi.Pointer<ObjCObject> object);
+external void objectRelease(ffi.Pointer<ObjCObjectImpl> object);
 
-@ffi.Native<ffi.Pointer<ObjCObject> Function(ffi.Pointer<ObjCObject>)>(
+@ffi.Native<ffi.Pointer<ObjCObjectImpl> Function(ffi.Pointer<ObjCObjectImpl>)>(
   symbol: 'objc_retain',
   isLeaf: true,
 )
-external ffi.Pointer<ObjCObject> objectRetain(ffi.Pointer<ObjCObject> object);
+external ffi.Pointer<ObjCObjectImpl> objectRetain(
+  ffi.Pointer<ObjCObjectImpl> object,
+);
 
 @ffi.Native<ffi.Pointer<ObjCSelector> Function(ffi.Pointer<ffi.Char>)>(
   symbol: 'sel_registerName',
@@ -308,9 +318,9 @@ final class ObjCMethodDesc extends ffi.Struct {
   external ffi.Pointer<ffi.Char> types;
 }
 
-final class ObjCObject extends ffi.Opaque {}
+final class ObjCObjectImpl extends ffi.Opaque {}
 
-final class ObjCProtocol extends ffi.Opaque {}
+final class ObjCProtocolImpl extends ffi.Opaque {}
 
 final class ObjCSelector extends ffi.Opaque {}
 

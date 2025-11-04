@@ -91,7 +91,7 @@ class ObjCProtocolBuilder {
 /// want to implement. The generated bindings will include a
 /// [ObjCProtocolMethod] for each method of the protocol.
 class ObjCProtocolMethod<T extends Function> {
-  final Pointer<c.ObjCProtocol> _proto;
+  final Pointer<c.ObjCProtocolImpl> _proto;
   final Pointer<c.ObjCSelector> _sel;
   final Pointer<Void> _trampoline;
   final Pointer<Char>? _signature;

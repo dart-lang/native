@@ -51,7 +51,7 @@ void main() {
       expect(objectRetainCount(Pointer.fromAddress(0x1234)), 0);
     });
 
-    (Pointer<ObjCObject>, Pointer<ObjCObject>) newMethodsInner(
+    (Pointer<ObjCObjectImpl>, Pointer<ObjCObjectImpl>) newMethodsInner(
       Pointer<Int32> counter,
     ) {
       final obj1 = ArcTestObject();
@@ -66,14 +66,14 @@ void main() {
       expect(objectRetainCount(obj1raw), greaterThan(0));
       expect(objectRetainCount(obj2raw), greaterThan(0));
 
-      final obj2b = ArcTestObject.castFromPointer(
+      final obj2b = ArcTestObject.fromPointer(
         obj2raw,
         retain: true,
         release: true,
       );
       expect(objectRetainCount(obj2b.ref.pointer), greaterThan(0));
 
-      final obj2c = ArcTestObject.castFromPointer(
+      final obj2c = ArcTestObject.fromPointer(
         obj2raw,
         retain: true,
         release: true,
@@ -96,11 +96,11 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
-    (Pointer<ObjCObject>, Pointer<ObjCObject>, Pointer<ObjCObject>)
+    (Pointer<ObjCObjectImpl>, Pointer<ObjCObjectImpl>, Pointer<ObjCObjectImpl>)
     allocMethodsInner(Pointer<Int32> counter) {
       final obj1 = ArcTestObject.alloc().initWithCounter(counter);
       expect(counter.value, 1);
-      final obj2 = ArcTestObject.castFrom(ArcTestObject.alloc().init());
+      final obj2 = ArcTestObject.as(ArcTestObject.alloc().init());
       obj2.setCounter(counter);
       expect(counter.value, 2);
       final obj3 = ArcTestObject.allocTheThing().initWithCounter(counter);
@@ -134,15 +134,15 @@ void main() {
     }, skip: !canDoGC);
 
     (
-      Pointer<ObjCObject>,
-      Pointer<ObjCObject>,
-      Pointer<ObjCObject>,
-      Pointer<ObjCObject>,
-      Pointer<ObjCObject>,
-      Pointer<ObjCObject>,
-      Pointer<ObjCObject>,
-      Pointer<ObjCObject>,
-      Pointer<ObjCObject>,
+      Pointer<ObjCObjectImpl>,
+      Pointer<ObjCObjectImpl>,
+      Pointer<ObjCObjectImpl>,
+      Pointer<ObjCObjectImpl>,
+      Pointer<ObjCObjectImpl>,
+      Pointer<ObjCObjectImpl>,
+      Pointer<ObjCObjectImpl>,
+      Pointer<ObjCObjectImpl>,
+      Pointer<ObjCObjectImpl>,
     )
     copyMethodsInner(Pointer<Int32> counter) {
       final pool = lib.objc_autoreleasePoolPush();
@@ -239,7 +239,7 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
-    Pointer<ObjCObject> autoreleaseMethodsInner(Pointer<Int32> counter) {
+    Pointer<ObjCObjectImpl> autoreleaseMethodsInner(Pointer<Int32> counter) {
       final obj1 = ArcTestObject.makeAndAutorelease(counter);
       expect(counter.value, 1);
 
@@ -281,7 +281,7 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
-    Pointer<ObjCObject> assignPropertiesInnerInner(
+    Pointer<ObjCObjectImpl> assignPropertiesInnerInner(
       Pointer<Int32> counter,
       ArcTestObject outerObj,
     ) {
@@ -300,7 +300,7 @@ void main() {
       return assignObjRaw;
     }
 
-    (Pointer<ObjCObject>, Pointer<ObjCObject>) assignPropertiesInner(
+    (Pointer<ObjCObjectImpl>, Pointer<ObjCObjectImpl>) assignPropertiesInner(
       Pointer<Int32> counter,
     ) {
       final outerObj = ArcTestObject.newWithCounter(counter);
@@ -328,7 +328,7 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
-    Pointer<ObjCObject> retainPropertiesInnerInner(
+    Pointer<ObjCObjectImpl> retainPropertiesInnerInner(
       Pointer<Int32> counter,
       ArcTestObject outerObj,
     ) {
@@ -343,7 +343,7 @@ void main() {
       return retainObjRaw;
     }
 
-    (Pointer<ObjCObject>, Pointer<ObjCObject>) retainPropertiesInner(
+    (Pointer<ObjCObjectImpl>, Pointer<ObjCObjectImpl>) retainPropertiesInner(
       Pointer<Int32> counter,
     ) {
       final outerObj = ArcTestObject.newWithCounter(counter);
@@ -378,7 +378,7 @@ void main() {
       calloc.free(counter);
     }, skip: !canDoGC);
 
-    (Pointer<ObjCObject>, Pointer<ObjCObject>, Pointer<ObjCObject>)
+    (Pointer<ObjCObjectImpl>, Pointer<ObjCObjectImpl>, Pointer<ObjCObjectImpl>)
     copyPropertiesInner(Pointer<Int32> counter) {
       final outerObj = ArcTestObject.newWithCounter(counter);
       expect(counter.value, 1);
@@ -468,7 +468,7 @@ void main() {
         final expectedCount = i < 128 ? i : 128;
         expect(objectRetainCount(obj.ref.pointer), expectedCount);
         objRefs.add(
-          ArcTestObject.castFromPointer(
+          ArcTestObject.fromPointer(
             obj.ref.pointer,
             retain: true,
             release: true,
