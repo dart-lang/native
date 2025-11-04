@@ -65,7 +65,31 @@ jobs:
       - name: Install coverage
         run: dart pub global activate coverage
       - name: Run VM tests and collect coverage
-        run: dart pub global run coverage:test_with_coverage --scope-output=ffigen --scope-output=objective_c
+        # TODO(https://github.com/dart-lang/sdk/issues/61791): Due to a compiler
+        # crash, we have to run all tests individually. Once the fix lands in
+        # Flutter beta, switch back to running tests with a single command.
+        run: |
+            dart test --coverage ./coverage test/autorelease_test.dart
+            dart test --coverage ./coverage test/cf_string_test.dart
+            dart test --coverage ./coverage test/converter_test.dart
+            dart test --coverage ./coverage test/generate_code_test.dart
+            dart test --coverage ./coverage test/interface_lists_test.dart
+            dart test --coverage ./coverage test/ns_input_stream_test.dart
+            dart test --coverage ./coverage test/ns_mutable_data_test.dart
+            dart test --coverage ./coverage test/nsarray_test.dart
+            dart test --coverage ./coverage test/nsdata_test.dart
+            dart test --coverage ./coverage test/nsdate_test.dart
+            dart test --coverage ./coverage test/nsdictionary_test.dart
+            dart test --coverage ./coverage test/nsmutablearray_test.dart
+            dart test --coverage ./coverage test/nsmutabledictionary_test.dart
+            dart test --coverage ./coverage test/nsmutableset_test.dart
+            dart test --coverage ./coverage test/nsnumber_test.dart
+            dart test --coverage ./coverage test/nsset_test.dart
+            dart test --coverage ./coverage test/nsstring_test.dart
+            dart test --coverage ./coverage test/observer_test.dart
+            dart test --coverage ./coverage test/os_version_test.dart
+            dart test --coverage ./coverage test/selector_test.dart
+            dart pub global run coverage:format_coverage --report-on=lib --lcov -o ./coverage/lcov.info -i ./coverage
       - name: Verify generated code is up to date
         # test/generate_code_test.dart runs the code generator, so if there are
         # any git-diffs at this point, it means the generated code is outdated.
