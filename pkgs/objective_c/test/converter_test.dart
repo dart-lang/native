@@ -50,7 +50,7 @@ void main() {
 
     test('list', () {
       final obj = NSObject();
-      final dartList = [123, 'abc', obj];
+      final dartList = <Object>[123, 'abc', obj];
 
       expect(toObjCObject(dartList), isA<NSArray>());
       final objCList = NSArray.castFrom(toObjCObject(dartList));
@@ -76,7 +76,7 @@ void main() {
 
     test('set', () {
       final obj = NSObject();
-      final dartSet = {123, 'abc', obj};
+      final dartSet = <Object>{123, 'abc', obj};
 
       expect(toObjCObject(dartSet), isA<NSSet>());
       final objCSet = NSSet.castFrom(toObjCObject(dartSet));
@@ -102,7 +102,7 @@ void main() {
 
     test('map', () {
       final obj = NSObject();
-      final dartMap = {123: 'abc', 'def': 456, 789: obj};
+      final dartMap = <Object, Object>{123: 'abc', 'def': 456, 789: obj};
 
       expect(toObjCObject(dartMap), isA<NSDictionary>());
       final objCMap = NSDictionary.castFrom(toObjCObject(dartMap));
@@ -144,7 +144,7 @@ void main() {
       expect(toObjCObject(future, convertOther: conv), obj);
 
       final list = toObjCObject([123, future], convertOther: conv);
-      expect(toDartObject(list), [123, obj]);
+      expect(toDartObject(list), <Object>[123, obj]);
     });
 
     test('custom converter in toDartObject', () {

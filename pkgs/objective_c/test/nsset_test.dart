@@ -26,7 +26,7 @@ void main() {
       final obj3 = NSObject();
       final obj4 = NSObject();
       final obj5 = NSObject();
-      final expected = {obj1, obj2, obj3, obj4, obj5};
+      final expected = <NSObject>{obj1, obj2, obj3, obj4, obj5};
       final s = NSSet.of(expected).toDart();
 
       expect(s.length, 5);
@@ -61,7 +61,7 @@ void main() {
       // wouldn't actually work. So convert it to a real NSSet using an ObjC
       // constructor.
       final s = NSSet.setWithSet(
-        NSSet.of({obj1, obj2, obj3, obj4, obj5}),
+        NSSet.of(<NSObject>{obj1, obj2, obj3, obj4, obj5}),
       ).toDart();
 
       expect(() => s.add(NSObject()), throwsUnsupportedError);
@@ -75,11 +75,11 @@ void main() {
       final obj3 = NSObject();
       final obj4 = NSObject();
       final obj5 = NSObject();
-      final expected = {obj1, obj2, obj3, obj4, obj5};
+      final expected = <NSObject>{obj1, obj2, obj3, obj4, obj5};
       final s = NSSet.of(expected).toDart();
 
       expect(s.isNotEmpty, isTrue);
-      expect(s.intersection({obj5, obj2, null, 123}), {obj5, obj2});
+      expect(s.intersection(<Object?>{obj5, obj2, null, 123}), {obj5, obj2});
       expect(s.toList(), expected);
     });
   });
