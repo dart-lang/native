@@ -90,11 +90,12 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
     }
     s.write(makeDartDoc(dartDoc));
 
-    final ctorBody = [apiAvailability.runtimeCheck(
-      ObjCBuiltInFunctions.checkOsVersion.gen(context),
-      originalName,
-    ),
-    'assert(isInstance(object\$));',
+    final ctorBody = [
+      apiAvailability.runtimeCheck(
+        ObjCBuiltInFunctions.checkOsVersion.gen(context),
+        originalName,
+      ),
+      if (!generateAsStub) 'assert(isInstance(object\$));',
     ].nonNulls.join('\n    ');
 
     final rawObjType = PointerType(objCObjectType).getCType(context);
@@ -142,7 +143,12 @@ ${generateInstanceMethodBindings(w, this)}
     final context = w.context;
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(context);
     final s = StringBuffer();
-    final isKindOfClass = _isKindOfClassMsgSend.invoke(context, 'obj.ref.pointer', _isKindOfClass.name, [classObject.name]);
+    final isKindOfClass = _isKindOfClassMsgSend.invoke(
+      context,
+      'obj.ref.pointer',
+      _isKindOfClass.name,
+      [classObject.name],
+    );
 
     s.write('''
   /// Returns whether [obj] is an instance of [$name].

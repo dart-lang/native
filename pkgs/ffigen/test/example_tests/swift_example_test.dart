@@ -47,7 +47,10 @@ void main() {
 
       // Verify that the output contains all the methods and classes that the
       // example app uses.
-      expect(output, contains('class SwiftClass extends objc.NSObject {'));
+      expect(
+        output,
+        contains('extension type SwiftClass._(objc.ObjCObjectBase '),
+      );
       expect(output, contains('static SwiftClass new\$() {'));
       expect(output, contains('NSString sayHello() {'));
       expect(output, contains('int get someField {'));

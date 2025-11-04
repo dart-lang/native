@@ -23,14 +23,22 @@ import 'package:ffi/ffi.dart' as pkg_ffi;
 /// AVAudioFormatWrapper in your config's objc-interfaces list.
 ///
 /// AVAudioFormatWrapper
-extension type AVAudioFormatWrapper.castFrom(objc.ObjCObjectBase _$)
+extension type AVAudioFormatWrapper._(objc.ObjCObjectBase object$)
     implements objc.ObjCObjectBase, objc.NSObject {
+  /// Constructs a [AVAudioFormatWrapper] that points to the same underlying object as [other].
+  AVAudioFormatWrapper.castFrom(objc.ObjCObjectBase other) : object$ = other {
+    objc.checkOsVersionInternal(
+      'AVAudioFormatWrapper',
+      macOS: (false, (10, 10, 0)),
+    );
+  }
+
   /// Constructs a [AVAudioFormatWrapper] that wraps the given raw object pointer.
   AVAudioFormatWrapper.castFromPointer(
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release) {
+  }) : object$ = objc.ObjCObjectBase(other, retain: retain, release: release) {
     objc.checkOsVersionInternal(
       'AVAudioFormatWrapper',
       macOS: (false, (10, 10, 0)),
@@ -446,18 +454,28 @@ final _objc_msgSend_1cwp428 = objc.msgSendPointer
 late final _sel_alloc = objc.registerName("alloc");
 
 /// AVAudioPlayerWrapper
-extension type AVAudioPlayerWrapper.castFrom(objc.ObjCObjectBase _$)
+extension type AVAudioPlayerWrapper._(objc.ObjCObjectBase object$)
     implements objc.ObjCObjectBase, objc.NSObject {
+  /// Constructs a [AVAudioPlayerWrapper] that points to the same underlying object as [other].
+  AVAudioPlayerWrapper.castFrom(objc.ObjCObjectBase other) : object$ = other {
+    objc.checkOsVersionInternal(
+      'AVAudioPlayerWrapper',
+      macOS: (false, (10, 7, 0)),
+    );
+    assert(isInstance(object$));
+  }
+
   /// Constructs a [AVAudioPlayerWrapper] that wraps the given raw object pointer.
   AVAudioPlayerWrapper.castFromPointer(
     ffi.Pointer<objc.ObjCObject> other, {
     bool retain = false,
     bool release = false,
-  }) : _$ = objc.ObjCObjectBase(other, retain: retain, release: release) {
+  }) : object$ = objc.ObjCObjectBase(other, retain: retain, release: release) {
     objc.checkOsVersionInternal(
       'AVAudioPlayerWrapper',
       macOS: (false, (10, 7, 0)),
     );
+    assert(isInstance(object$));
   }
 
   /// Returns whether [obj] is an instance of [AVAudioPlayerWrapper].
@@ -504,7 +522,7 @@ extension type AVAudioPlayerWrapper.castFrom(objc.ObjCObjectBase _$)
   }
 
   /// Returns a new instance of AVAudioPlayerWrapper constructed with the default `new` method.
-  AVAudioPlayerWrapper() : this.castFrom(new$()._$);
+  AVAudioPlayerWrapper() : this.castFrom(new$().object$);
 }
 
 extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
@@ -516,12 +534,12 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
     );
     return objc.useMsgSendVariants
         ? _objc_msgSend_1o3b4v9Fpret(
-            _$.ref.pointer,
+            object$.ref.pointer,
             _sel_averagePowerForChannel_,
             channelNumber,
           )
         : _objc_msgSend_1o3b4v9(
-            _$.ref.pointer,
+            object$.ref.pointer,
             _sel_averagePowerForChannel_,
             channelNumber,
           );
@@ -533,7 +551,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       'AVAudioPlayerWrapper.currentDevice',
       macOS: (false, (10, 13, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$.ref.pointer, _sel_currentDevice);
+    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_currentDevice);
     return $ret.address == 0
         ? null
         : objc.NSString.castFromPointer($ret, retain: true, release: true);
@@ -546,8 +564,8 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       macOS: (false, (10, 7, 0)),
     );
     return objc.useMsgSendVariants
-        ? _objc_msgSend_1ukqyt8Fpret(_$.ref.pointer, _sel_currentTime)
-        : _objc_msgSend_1ukqyt8(_$.ref.pointer, _sel_currentTime);
+        ? _objc_msgSend_1ukqyt8Fpret(object$.ref.pointer, _sel_currentTime)
+        : _objc_msgSend_1ukqyt8(object$.ref.pointer, _sel_currentTime);
   }
 
   /// data
@@ -556,7 +574,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       'AVAudioPlayerWrapper.data',
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$.ref.pointer, _sel_data);
+    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_data);
     return $ret.address == 0
         ? null
         : objc.NSData.castFromPointer($ret, retain: true, release: true);
@@ -569,8 +587,11 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       macOS: (false, (10, 7, 0)),
     );
     return objc.useMsgSendVariants
-        ? _objc_msgSend_1ukqyt8Fpret(_$.ref.pointer, _sel_deviceCurrentTime)
-        : _objc_msgSend_1ukqyt8(_$.ref.pointer, _sel_deviceCurrentTime);
+        ? _objc_msgSend_1ukqyt8Fpret(
+            object$.ref.pointer,
+            _sel_deviceCurrentTime,
+          )
+        : _objc_msgSend_1ukqyt8(object$.ref.pointer, _sel_deviceCurrentTime);
   }
 
   /// duration
@@ -580,8 +601,8 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       macOS: (false, (10, 7, 0)),
     );
     return objc.useMsgSendVariants
-        ? _objc_msgSend_1ukqyt8Fpret(_$.ref.pointer, _sel_duration)
-        : _objc_msgSend_1ukqyt8(_$.ref.pointer, _sel_duration);
+        ? _objc_msgSend_1ukqyt8Fpret(object$.ref.pointer, _sel_duration)
+        : _objc_msgSend_1ukqyt8(object$.ref.pointer, _sel_duration);
   }
 
   /// enableRate
@@ -590,7 +611,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       'AVAudioPlayerWrapper.enableRate',
       macOS: (false, (10, 8, 0)),
     );
-    return _objc_msgSend_91o635(_$.ref.pointer, _sel_enableRate);
+    return _objc_msgSend_91o635(object$.ref.pointer, _sel_enableRate);
   }
 
   /// format
@@ -599,7 +620,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       'AVAudioPlayerWrapper.format',
       macOS: (false, (10, 12, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$.ref.pointer, _sel_format);
+    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_format);
     return AVAudioFormatWrapper.castFromPointer(
       $ret,
       retain: true,
@@ -615,7 +636,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      _$.ref.retainAndReturnPointer(),
+      object$.ref.retainAndReturnPointer(),
       _sel_init,
     );
     return AVAudioPlayerWrapper.castFromPointer(
@@ -635,7 +656,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       macOS: (false, (10, 7, 0)),
     );
     final $ret = _objc_msgSend_1lhpu4m(
-      _$.ref.retainAndReturnPointer(),
+      object$.ref.retainAndReturnPointer(),
       _sel_initWithContentsOf_error_,
       url.ref.pointer,
       error,
@@ -660,7 +681,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       macOS: (false, (10, 9, 0)),
     );
     final $ret = _objc_msgSend_1pnyuds(
-      _$.ref.retainAndReturnPointer(),
+      object$.ref.retainAndReturnPointer(),
       _sel_initWithContentsOf_fileTypeHint_error_,
       url.ref.pointer,
       fileTypeHint?.ref.pointer ?? ffi.nullptr,
@@ -685,7 +706,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       macOS: (false, (10, 7, 0)),
     );
     final $ret = _objc_msgSend_1lhpu4m(
-      _$.ref.retainAndReturnPointer(),
+      object$.ref.retainAndReturnPointer(),
       _sel_initWithData_error_,
       data.ref.pointer,
       error,
@@ -710,7 +731,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       macOS: (false, (10, 9, 0)),
     );
     final $ret = _objc_msgSend_1pnyuds(
-      _$.ref.retainAndReturnPointer(),
+      object$.ref.retainAndReturnPointer(),
       _sel_initWithData_fileTypeHint_error_,
       data.ref.pointer,
       fileTypeHint?.ref.pointer ?? ffi.nullptr,
@@ -731,7 +752,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       'AVAudioPlayerWrapper.isMeteringEnabled',
       macOS: (false, (10, 7, 0)),
     );
-    return _objc_msgSend_91o635(_$.ref.pointer, _sel_isMeteringEnabled);
+    return _objc_msgSend_91o635(object$.ref.pointer, _sel_isMeteringEnabled);
   }
 
   /// isPlaying
@@ -740,7 +761,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       'AVAudioPlayerWrapper.isPlaying',
       macOS: (false, (10, 7, 0)),
     );
-    return _objc_msgSend_91o635(_$.ref.pointer, _sel_isPlaying);
+    return _objc_msgSend_91o635(object$.ref.pointer, _sel_isPlaying);
   }
 
   /// numberOfChannels
@@ -749,7 +770,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       'AVAudioPlayerWrapper.numberOfChannels',
       macOS: (false, (10, 7, 0)),
     );
-    return _objc_msgSend_1hz7y9r(_$.ref.pointer, _sel_numberOfChannels);
+    return _objc_msgSend_1hz7y9r(object$.ref.pointer, _sel_numberOfChannels);
   }
 
   /// numberOfLoops
@@ -758,7 +779,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       'AVAudioPlayerWrapper.numberOfLoops',
       macOS: (false, (10, 7, 0)),
     );
-    return _objc_msgSend_1hz7y9r(_$.ref.pointer, _sel_numberOfLoops);
+    return _objc_msgSend_1hz7y9r(object$.ref.pointer, _sel_numberOfLoops);
   }
 
   /// pan
@@ -768,8 +789,8 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       macOS: (false, (10, 7, 0)),
     );
     return objc.useMsgSendVariants
-        ? _objc_msgSend_2cgrxlFpret(_$.ref.pointer, _sel_pan)
-        : _objc_msgSend_2cgrxl(_$.ref.pointer, _sel_pan);
+        ? _objc_msgSend_2cgrxlFpret(object$.ref.pointer, _sel_pan)
+        : _objc_msgSend_2cgrxl(object$.ref.pointer, _sel_pan);
   }
 
   /// pause
@@ -778,7 +799,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       'AVAudioPlayerWrapper.pause',
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_1pl9qdv(_$.ref.pointer, _sel_pause);
+    _objc_msgSend_1pl9qdv(object$.ref.pointer, _sel_pause);
   }
 
   /// peakPowerForChannel:
@@ -789,12 +810,12 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
     );
     return objc.useMsgSendVariants
         ? _objc_msgSend_1o3b4v9Fpret(
-            _$.ref.pointer,
+            object$.ref.pointer,
             _sel_peakPowerForChannel_,
             channelNumber,
           )
         : _objc_msgSend_1o3b4v9(
-            _$.ref.pointer,
+            object$.ref.pointer,
             _sel_peakPowerForChannel_,
             channelNumber,
           );
@@ -806,7 +827,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       'AVAudioPlayerWrapper.play',
       macOS: (false, (10, 7, 0)),
     );
-    return _objc_msgSend_91o635(_$.ref.pointer, _sel_play);
+    return _objc_msgSend_91o635(object$.ref.pointer, _sel_play);
   }
 
   /// playAtTime:
@@ -815,7 +836,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       'AVAudioPlayerWrapper.playAtTime:',
       macOS: (false, (10, 7, 0)),
     );
-    return _objc_msgSend_18chyc(_$.ref.pointer, _sel_playAtTime_, time);
+    return _objc_msgSend_18chyc(object$.ref.pointer, _sel_playAtTime_, time);
   }
 
   /// prepareToPlay
@@ -824,7 +845,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       'AVAudioPlayerWrapper.prepareToPlay',
       macOS: (false, (10, 7, 0)),
     );
-    return _objc_msgSend_91o635(_$.ref.pointer, _sel_prepareToPlay);
+    return _objc_msgSend_91o635(object$.ref.pointer, _sel_prepareToPlay);
   }
 
   /// rate
@@ -834,8 +855,8 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       macOS: (false, (10, 8, 0)),
     );
     return objc.useMsgSendVariants
-        ? _objc_msgSend_2cgrxlFpret(_$.ref.pointer, _sel_rate)
-        : _objc_msgSend_2cgrxl(_$.ref.pointer, _sel_rate);
+        ? _objc_msgSend_2cgrxlFpret(object$.ref.pointer, _sel_rate)
+        : _objc_msgSend_2cgrxl(object$.ref.pointer, _sel_rate);
   }
 
   /// setCurrentDevice:
@@ -845,7 +866,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       macOS: (false, (10, 13, 0)),
     );
     _objc_msgSend_xtuoz7(
-      _$.ref.pointer,
+      object$.ref.pointer,
       _sel_setCurrentDevice_,
       value?.ref.pointer ?? ffi.nullptr,
     );
@@ -857,7 +878,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       'AVAudioPlayerWrapper.setCurrentTime:',
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_hwm8nu(_$.ref.pointer, _sel_setCurrentTime_, value);
+    _objc_msgSend_hwm8nu(object$.ref.pointer, _sel_setCurrentTime_, value);
   }
 
   /// setEnableRate:
@@ -866,7 +887,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       'AVAudioPlayerWrapper.setEnableRate:',
       macOS: (false, (10, 8, 0)),
     );
-    _objc_msgSend_1s56lr9(_$.ref.pointer, _sel_setEnableRate_, value);
+    _objc_msgSend_1s56lr9(object$.ref.pointer, _sel_setEnableRate_, value);
   }
 
   /// setIsMeteringEnabled:
@@ -875,7 +896,11 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       'AVAudioPlayerWrapper.setIsMeteringEnabled:',
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_1s56lr9(_$.ref.pointer, _sel_setIsMeteringEnabled_, value);
+    _objc_msgSend_1s56lr9(
+      object$.ref.pointer,
+      _sel_setIsMeteringEnabled_,
+      value,
+    );
   }
 
   /// setNumberOfLoops:
@@ -884,7 +909,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       'AVAudioPlayerWrapper.setNumberOfLoops:',
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_4sp4xj(_$.ref.pointer, _sel_setNumberOfLoops_, value);
+    _objc_msgSend_4sp4xj(object$.ref.pointer, _sel_setNumberOfLoops_, value);
   }
 
   /// setPan:
@@ -893,7 +918,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       'AVAudioPlayerWrapper.setPan:',
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_v5hmet(_$.ref.pointer, _sel_setPan_, value);
+    _objc_msgSend_v5hmet(object$.ref.pointer, _sel_setPan_, value);
   }
 
   /// setRate:
@@ -902,7 +927,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       'AVAudioPlayerWrapper.setRate:',
       macOS: (false, (10, 8, 0)),
     );
-    _objc_msgSend_v5hmet(_$.ref.pointer, _sel_setRate_, value);
+    _objc_msgSend_v5hmet(object$.ref.pointer, _sel_setRate_, value);
   }
 
   /// setVolume:
@@ -911,7 +936,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       'AVAudioPlayerWrapper.setVolume:',
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_v5hmet(_$.ref.pointer, _sel_setVolume_, value);
+    _objc_msgSend_v5hmet(object$.ref.pointer, _sel_setVolume_, value);
   }
 
   /// setVolume:fadeDuration:
@@ -921,7 +946,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       macOS: (false, (10, 12, 0)),
     );
     _objc_msgSend_1p4uk9e(
-      _$.ref.pointer,
+      object$.ref.pointer,
       _sel_setVolume_fadeDuration_,
       volume,
       fadeDuration,
@@ -934,7 +959,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       'AVAudioPlayerWrapper.stop',
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_1pl9qdv(_$.ref.pointer, _sel_stop);
+    _objc_msgSend_1pl9qdv(object$.ref.pointer, _sel_stop);
   }
 
   /// updateMeters
@@ -943,7 +968,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       'AVAudioPlayerWrapper.updateMeters',
       macOS: (false, (10, 7, 0)),
     );
-    _objc_msgSend_1pl9qdv(_$.ref.pointer, _sel_updateMeters);
+    _objc_msgSend_1pl9qdv(object$.ref.pointer, _sel_updateMeters);
   }
 
   /// url
@@ -952,7 +977,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       'AVAudioPlayerWrapper.url',
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_151sglz(_$.ref.pointer, _sel_url);
+    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_url);
     return $ret.address == 0
         ? null
         : objc.NSURL.castFromPointer($ret, retain: true, release: true);
@@ -965,7 +990,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       macOS: (false, (10, 7, 0)),
     );
     return objc.useMsgSendVariants
-        ? _objc_msgSend_2cgrxlFpret(_$.ref.pointer, _sel_volume)
-        : _objc_msgSend_2cgrxl(_$.ref.pointer, _sel_volume);
+        ? _objc_msgSend_2cgrxlFpret(object$.ref.pointer, _sel_volume)
+        : _objc_msgSend_2cgrxl(object$.ref.pointer, _sel_volume);
   }
 }
