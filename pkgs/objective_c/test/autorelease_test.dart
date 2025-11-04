@@ -21,7 +21,7 @@ void main() {
     });
 
     test('basics', () async {
-      late Pointer<ObjCObject> pointer;
+      late Pointer<ObjCObjectImpl> pointer;
       autoReleasePool(() {
         {
           final object = NSObject();
@@ -40,7 +40,7 @@ void main() {
     });
 
     test('exception safe', () async {
-      late Pointer<ObjCObject> pointer;
+      late Pointer<ObjCObjectImpl> pointer;
       expect(
         () => autoReleasePool(() {
           {

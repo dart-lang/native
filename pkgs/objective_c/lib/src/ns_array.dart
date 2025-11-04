@@ -33,8 +33,7 @@ class _NSArrayAdapter with ListBase<ObjCObject> {
       throw UnsupportedError('Cannot modify NSArray');
 
   @override
-  void add(ObjCObject value) =>
-      throw UnsupportedError('Cannot modify NSArray');
+  void add(ObjCObject value) => throw UnsupportedError('Cannot modify NSArray');
 }
 
 extension NSArrayToAdapter on NSArray {

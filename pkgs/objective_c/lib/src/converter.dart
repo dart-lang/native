@@ -96,9 +96,7 @@ Object toDartObject(
     return NSSet.as(objCObject).toDartSet(convertOther: convertOther);
   }
   if (NSDictionary.isA(objCObject)) {
-    return NSDictionary.as(
-      objCObject,
-    ).toDartMap(convertOther: convertOther);
+    return NSDictionary.as(objCObject).toDartMap(convertOther: convertOther);
   }
   return convertOther(objCObject);
 }

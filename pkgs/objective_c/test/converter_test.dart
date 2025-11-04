@@ -53,7 +53,7 @@ void main() {
       final dartList = <Object>[123, 'abc', obj];
 
       expect(toObjCObject(dartList), isA<NSArray>());
-      final objCList = NSArray.castFrom(toObjCObject(dartList));
+      final objCList = NSArray.as(toObjCObject(dartList));
       expect(objCList.toDart().length, 3);
 
       expect(toDartObject(objCList.toDart()[0]), 123);
@@ -79,7 +79,7 @@ void main() {
       final dartSet = <Object>{123, 'abc', obj};
 
       expect(toObjCObject(dartSet), isA<NSSet>());
-      final objCSet = NSSet.castFrom(toObjCObject(dartSet));
+      final objCSet = NSSet.as(toObjCObject(dartSet));
       expect(objCSet.toDart().length, 3);
 
       expect(objCSet.toDart().contains(toObjCObject(123)), isTrue);
@@ -105,7 +105,7 @@ void main() {
       final dartMap = <Object, Object>{123: 'abc', 'def': 456, 789: obj};
 
       expect(toObjCObject(dartMap), isA<NSDictionary>());
-      final objCMap = NSDictionary.castFrom(toObjCObject(dartMap));
+      final objCMap = NSDictionary.as(toObjCObject(dartMap));
       expect(objCMap.toDart().length, 3);
 
       expect(toDartObject(objCMap.toDart()[toObjCObject(123)]!), 'abc');

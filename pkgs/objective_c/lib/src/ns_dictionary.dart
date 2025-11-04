@@ -76,8 +76,7 @@ class _NSMutableDictionaryAdapter with MapBase<NSCopying, ObjCObject> {
   Iterable<NSCopying> get keys => _NSDictionaryAdapter(_dictionary).keys;
 
   @override
-  Iterable<ObjCObject> get values =>
-      _NSDictionaryAdapter(_dictionary).values;
+  Iterable<ObjCObject> get values => _NSDictionaryAdapter(_dictionary).values;
 
   @override
   bool containsKey(Object? key) => this[key] != null;

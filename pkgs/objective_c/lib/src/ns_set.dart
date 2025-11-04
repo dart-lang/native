@@ -32,8 +32,7 @@ class _NSSetAdapter with SetBase<ObjCObject> {
   Set<ObjCObject> toSet() => {...this};
 
   @override
-  bool add(ObjCObject value) =>
-      throw UnsupportedError('Cannot modify NSSet');
+  bool add(ObjCObject value) => throw UnsupportedError('Cannot modify NSSet');
 
   @override
   bool remove(Object? value) => throw UnsupportedError('Cannot modify NSSet');

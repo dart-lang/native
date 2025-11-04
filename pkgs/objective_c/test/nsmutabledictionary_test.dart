@@ -42,7 +42,7 @@ void main() {
       // Keys are copied, so compare the string values.
       final actualKeys = <String>[];
       for (final key in dict.keys) {
-        actualKeys.add(NSString.castFrom(key).toDartString());
+        actualKeys.add(NSString.as(key).toDartString());
       }
       expect(actualKeys, unorderedEquals(['obj1', 'obj3', 'obj5']));
 
@@ -101,13 +101,11 @@ void main() {
       expect(dict.containsValue(obj3), isFalse);
 
       expect(
-        dict.map(
-          (key, value) => MapEntry<ObjCObject, ObjCObject>(value, key),
-        ),
+        dict.map((key, value) => MapEntry<ObjCObject, ObjCObject>(value, key)),
         {obj2: obj1, obj4: obj3, obj6: obj5},
       );
       expect(
-        dict.keys.map((key) => NSString.castFrom(key).toDartString()).toList(),
+        dict.keys.map((key) => NSString.as(key).toDartString()).toList(),
         unorderedEquals(['obj1', 'obj3', 'obj5']),
       );
       expect(dict.values.toList(), unorderedEquals([obj2, obj4, obj6]));

@@ -23,10 +23,10 @@ import 'package:ffi/ffi.dart' as pkg_ffi;
 /// AVAudioFormatWrapper in your config's objc-interfaces list.
 ///
 /// AVAudioFormatWrapper
-extension type AVAudioFormatWrapper._(objc.ObjCObjectBase object$)
-    implements objc.ObjCObjectBase, objc.NSObject {
+extension type AVAudioFormatWrapper._(objc.ObjCObject object$)
+    implements objc.ObjCObject, objc.NSObject {
   /// Constructs a [AVAudioFormatWrapper] that points to the same underlying object as [other].
-  AVAudioFormatWrapper.castFrom(objc.ObjCObjectBase other) : object$ = other {
+  AVAudioFormatWrapper.as(objc.ObjCObject other) : object$ = other {
     objc.checkOsVersionInternal(
       'AVAudioFormatWrapper',
       macOS: (false, (10, 10, 0)),
@@ -34,11 +34,11 @@ extension type AVAudioFormatWrapper._(objc.ObjCObjectBase object$)
   }
 
   /// Constructs a [AVAudioFormatWrapper] that wraps the given raw object pointer.
-  AVAudioFormatWrapper.castFromPointer(
-    ffi.Pointer<objc.ObjCObject> other, {
+  AVAudioFormatWrapper.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
     bool retain = false,
     bool release = false,
-  }) : object$ = objc.ObjCObjectBase(other, retain: retain, release: release) {
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
     objc.checkOsVersionInternal(
       'AVAudioFormatWrapper',
       macOS: (false, (10, 10, 0)),
@@ -54,32 +54,32 @@ final _objc_msgSend_19nvye5 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
         ffi.Bool Function(
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
         )
       >
     >()
     .asFunction<
       bool Function(
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
 late final _sel_currentDevice = objc.registerName("currentDevice");
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObject> Function(
-          ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
         )
       >
     >()
     .asFunction<
-      ffi.Pointer<objc.ObjCObject> Function(
-        ffi.Pointer<objc.ObjCObject>,
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
@@ -88,17 +88,17 @@ final _objc_msgSend_xtuoz7 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
         ffi.Void Function(
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
         )
       >
     >()
     .asFunction<
       void Function(
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
 late final _sel_currentTime = objc.registerName("currentTime");
@@ -106,14 +106,14 @@ final _objc_msgSend_1ukqyt8 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
         ffi.Double Function(
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
         )
       >
     >()
     .asFunction<
       double Function(
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
@@ -121,14 +121,14 @@ final _objc_msgSend_1ukqyt8Fpret = objc.msgSendFpretPointer
     .cast<
       ffi.NativeFunction<
         ffi.Double Function(
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
         )
       >
     >()
     .asFunction<
       double Function(
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
@@ -137,7 +137,7 @@ final _objc_msgSend_hwm8nu = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
         ffi.Void Function(
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
           ffi.Double,
         )
@@ -145,7 +145,7 @@ final _objc_msgSend_hwm8nu = objc.msgSendPointer
     >()
     .asFunction<
       void Function(
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         double,
       )
@@ -158,14 +158,14 @@ final _objc_msgSend_91o635 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
         ffi.Bool Function(
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
         )
       >
     >()
     .asFunction<
       bool Function(
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
@@ -174,7 +174,7 @@ final _objc_msgSend_1s56lr9 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
         ffi.Void Function(
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
           ffi.Bool,
         )
@@ -182,7 +182,7 @@ final _objc_msgSend_1s56lr9 = objc.msgSendPointer
     >()
     .asFunction<
       void Function(
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         bool,
       )
@@ -197,13 +197,16 @@ final _objc_msgSend_1hz7y9r = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
         ffi.Long Function(
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
         )
       >
     >()
     .asFunction<
-      int Function(ffi.Pointer<objc.ObjCObject>, ffi.Pointer<objc.ObjCSelector>)
+      int Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+      )
     >();
 late final _sel_numberOfLoops = objc.registerName("numberOfLoops");
 late final _sel_setNumberOfLoops_ = objc.registerName("setNumberOfLoops:");
@@ -211,7 +214,7 @@ final _objc_msgSend_4sp4xj = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
         ffi.Void Function(
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
           ffi.Long,
         )
@@ -219,7 +222,7 @@ final _objc_msgSend_4sp4xj = objc.msgSendPointer
     >()
     .asFunction<
       void Function(
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         int,
       )
@@ -229,14 +232,14 @@ final _objc_msgSend_2cgrxl = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
         ffi.Float Function(
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
         )
       >
     >()
     .asFunction<
       double Function(
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
@@ -244,14 +247,14 @@ final _objc_msgSend_2cgrxlFpret = objc.msgSendFpretPointer
     .cast<
       ffi.NativeFunction<
         ffi.Float Function(
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
         )
       >
     >()
     .asFunction<
       double Function(
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
@@ -260,7 +263,7 @@ final _objc_msgSend_v5hmet = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
         ffi.Void Function(
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
           ffi.Float,
         )
@@ -268,7 +271,7 @@ final _objc_msgSend_v5hmet = objc.msgSendPointer
     >()
     .asFunction<
       void Function(
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         double,
       )
@@ -279,28 +282,28 @@ late final _sel_setRate_ = objc.registerName("setRate:");
 late final _sel_url = objc.registerName("url");
 late final _sel_volume = objc.registerName("volume");
 late final _sel_setVolume_ = objc.registerName("setVolume:");
-typedef instancetype = ffi.Pointer<objc.ObjCObject>;
-typedef Dartinstancetype = objc.ObjCObjectBase;
+typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
+typedef Dartinstancetype = objc.ObjCObject;
 late final _sel_initWithContentsOf_error_ = objc.registerName(
   "initWithContentsOf:error:",
 );
 final _objc_msgSend_1lhpu4m = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObject> Function(
-          ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>>,
         )
       >
     >()
     .asFunction<
-      ffi.Pointer<objc.ObjCObject> Function(
-        ffi.Pointer<objc.ObjCObject>,
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>>,
       )
     >();
 late final _sel_initWithContentsOf_fileTypeHint_error_ = objc.registerName(
@@ -309,22 +312,22 @@ late final _sel_initWithContentsOf_fileTypeHint_error_ = objc.registerName(
 final _objc_msgSend_1pnyuds = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObject> Function(
-          ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<objc.ObjCObject>,
-          ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>>,
         )
       >
     >()
     .asFunction<
-      ffi.Pointer<objc.ObjCObject> Function(
-        ffi.Pointer<objc.ObjCObject>,
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<objc.ObjCObject>,
-        ffi.Pointer<ffi.Pointer<objc.ObjCObject>>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>>,
       )
     >();
 late final _sel_initWithData_error_ = objc.registerName("initWithData:error:");
@@ -338,7 +341,7 @@ final _objc_msgSend_1o3b4v9 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
         ffi.Float Function(
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
           ffi.Long,
         )
@@ -346,7 +349,7 @@ final _objc_msgSend_1o3b4v9 = objc.msgSendPointer
     >()
     .asFunction<
       double Function(
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         int,
       )
@@ -355,7 +358,7 @@ final _objc_msgSend_1o3b4v9Fpret = objc.msgSendFpretPointer
     .cast<
       ffi.NativeFunction<
         ffi.Float Function(
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
           ffi.Long,
         )
@@ -363,7 +366,7 @@ final _objc_msgSend_1o3b4v9Fpret = objc.msgSendFpretPointer
     >()
     .asFunction<
       double Function(
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         int,
       )
@@ -373,14 +376,14 @@ final _objc_msgSend_1pl9qdv = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
         ffi.Void Function(
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
         )
       >
     >()
     .asFunction<
       void Function(
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
@@ -393,7 +396,7 @@ final _objc_msgSend_18chyc = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
         ffi.Bool Function(
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
           ffi.Double,
         )
@@ -401,7 +404,7 @@ final _objc_msgSend_18chyc = objc.msgSendPointer
     >()
     .asFunction<
       bool Function(
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         double,
       )
@@ -414,7 +417,7 @@ final _objc_msgSend_1p4uk9e = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
         ffi.Void Function(
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
           ffi.Float,
           ffi.Double,
@@ -423,7 +426,7 @@ final _objc_msgSend_1p4uk9e = objc.msgSendPointer
     >()
     .asFunction<
       void Function(
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         double,
         double,
@@ -437,16 +440,16 @@ late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
 final _objc_msgSend_1cwp428 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObject> Function(
-          ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
           ffi.Pointer<objc.NSZone>,
         )
       >
     >()
     .asFunction<
-      ffi.Pointer<objc.ObjCObject> Function(
-        ffi.Pointer<objc.ObjCObject>,
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         ffi.Pointer<objc.NSZone>,
       )
@@ -454,47 +457,41 @@ final _objc_msgSend_1cwp428 = objc.msgSendPointer
 late final _sel_alloc = objc.registerName("alloc");
 
 /// AVAudioPlayerWrapper
-extension type AVAudioPlayerWrapper._(objc.ObjCObjectBase object$)
-    implements objc.ObjCObjectBase, objc.NSObject {
+extension type AVAudioPlayerWrapper._(objc.ObjCObject object$)
+    implements objc.ObjCObject, objc.NSObject {
   /// Constructs a [AVAudioPlayerWrapper] that points to the same underlying object as [other].
-  AVAudioPlayerWrapper.castFrom(objc.ObjCObjectBase other) : object$ = other {
+  AVAudioPlayerWrapper.as(objc.ObjCObject other) : object$ = other {
     objc.checkOsVersionInternal(
       'AVAudioPlayerWrapper',
       macOS: (false, (10, 7, 0)),
     );
-    assert(isInstance(object$));
+    assert(isA(object$));
   }
 
   /// Constructs a [AVAudioPlayerWrapper] that wraps the given raw object pointer.
-  AVAudioPlayerWrapper.castFromPointer(
-    ffi.Pointer<objc.ObjCObject> other, {
+  AVAudioPlayerWrapper.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
     bool retain = false,
     bool release = false,
-  }) : object$ = objc.ObjCObjectBase(other, retain: retain, release: release) {
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
     objc.checkOsVersionInternal(
       'AVAudioPlayerWrapper',
       macOS: (false, (10, 7, 0)),
     );
-    assert(isInstance(object$));
+    assert(isA(object$));
   }
 
   /// Returns whether [obj] is an instance of [AVAudioPlayerWrapper].
-  static bool isInstance(objc.ObjCObjectBase obj) {
-    return _objc_msgSend_19nvye5(
-      obj.ref.pointer,
-      _sel_isKindOfClass_,
-      _class_AVAudioPlayerWrapper,
-    );
-  }
+  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
+    obj.ref.pointer,
+    _sel_isKindOfClass_,
+    _class_AVAudioPlayerWrapper,
+  );
 
   /// alloc
   static AVAudioPlayerWrapper alloc() {
     final $ret = _objc_msgSend_151sglz(_class_AVAudioPlayerWrapper, _sel_alloc);
-    return AVAudioPlayerWrapper.castFromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return AVAudioPlayerWrapper.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
@@ -504,25 +501,17 @@ extension type AVAudioPlayerWrapper._(objc.ObjCObjectBase object$)
       _sel_allocWithZone_,
       zone,
     );
-    return AVAudioPlayerWrapper.castFromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return AVAudioPlayerWrapper.fromPointer($ret, retain: false, release: true);
   }
 
   /// new
   static AVAudioPlayerWrapper new$() {
     final $ret = _objc_msgSend_151sglz(_class_AVAudioPlayerWrapper, _sel_new);
-    return AVAudioPlayerWrapper.castFromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return AVAudioPlayerWrapper.fromPointer($ret, retain: false, release: true);
   }
 
   /// Returns a new instance of AVAudioPlayerWrapper constructed with the default `new` method.
-  AVAudioPlayerWrapper() : this.castFrom(new$().object$);
+  AVAudioPlayerWrapper() : this.as(new$().object$);
 }
 
 extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
@@ -554,7 +543,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
     final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_currentDevice);
     return $ret.address == 0
         ? null
-        : objc.NSString.castFromPointer($ret, retain: true, release: true);
+        : objc.NSString.fromPointer($ret, retain: true, release: true);
   }
 
   /// currentTime
@@ -577,7 +566,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
     final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_data);
     return $ret.address == 0
         ? null
-        : objc.NSData.castFromPointer($ret, retain: true, release: true);
+        : objc.NSData.fromPointer($ret, retain: true, release: true);
   }
 
   /// deviceCurrentTime
@@ -621,11 +610,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       macOS: (false, (10, 12, 0)),
     );
     final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_format);
-    return AVAudioFormatWrapper.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
+    return AVAudioFormatWrapper.fromPointer($ret, retain: true, release: true);
   }
 
   /// init
@@ -639,17 +624,13 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
       object$.ref.retainAndReturnPointer(),
       _sel_init,
     );
-    return AVAudioPlayerWrapper.castFromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
+    return AVAudioPlayerWrapper.fromPointer($ret, retain: false, release: true);
   }
 
   /// initWithContentsOf:error:
   AVAudioPlayerWrapper? initWithContentsOf(
     objc.NSURL url, {
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
+    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     objc.checkOsVersionInternal(
       'AVAudioPlayerWrapper.initWithContentsOf:error:',
@@ -663,18 +644,14 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
     );
     return $ret.address == 0
         ? null
-        : AVAudioPlayerWrapper.castFromPointer(
-            $ret,
-            retain: false,
-            release: true,
-          );
+        : AVAudioPlayerWrapper.fromPointer($ret, retain: false, release: true);
   }
 
   /// initWithContentsOf:fileTypeHint:error:
   AVAudioPlayerWrapper? initWithContentsOf$1(
     objc.NSURL url, {
     objc.NSString? fileTypeHint,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
+    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     objc.checkOsVersionInternal(
       'AVAudioPlayerWrapper.initWithContentsOf:fileTypeHint:error:',
@@ -689,17 +666,13 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
     );
     return $ret.address == 0
         ? null
-        : AVAudioPlayerWrapper.castFromPointer(
-            $ret,
-            retain: false,
-            release: true,
-          );
+        : AVAudioPlayerWrapper.fromPointer($ret, retain: false, release: true);
   }
 
   /// initWithData:error:
   AVAudioPlayerWrapper? initWithData(
     objc.NSData data, {
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
+    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     objc.checkOsVersionInternal(
       'AVAudioPlayerWrapper.initWithData:error:',
@@ -713,18 +686,14 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
     );
     return $ret.address == 0
         ? null
-        : AVAudioPlayerWrapper.castFromPointer(
-            $ret,
-            retain: false,
-            release: true,
-          );
+        : AVAudioPlayerWrapper.fromPointer($ret, retain: false, release: true);
   }
 
   /// initWithData:fileTypeHint:error:
   AVAudioPlayerWrapper? initWithData$1(
     objc.NSData data, {
     objc.NSString? fileTypeHint,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error,
+    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     objc.checkOsVersionInternal(
       'AVAudioPlayerWrapper.initWithData:fileTypeHint:error:',
@@ -739,11 +708,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
     );
     return $ret.address == 0
         ? null
-        : AVAudioPlayerWrapper.castFromPointer(
-            $ret,
-            retain: false,
-            release: true,
-          );
+        : AVAudioPlayerWrapper.fromPointer($ret, retain: false, release: true);
   }
 
   /// isMeteringEnabled
@@ -980,7 +945,7 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
     final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_url);
     return $ret.address == 0
         ? null
-        : objc.NSURL.castFromPointer($ret, retain: true, release: true);
+        : objc.NSURL.fromPointer($ret, retain: true, release: true);
   }
 
   /// volume

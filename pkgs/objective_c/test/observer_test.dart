@@ -149,7 +149,7 @@ void main() {
       // expect(objectRetainCount(observedRaw), greaterThan(0));
       // expect(objectRetainCount(observerRaw), greaterThan(0));
 
-      NSProgress.castFromPointer(observedRaw).totalUnitCount = 456;
+      NSProgress.fromPointer(observedRaw).totalUnitCount = 456;
       expect(values, [123, 456]);
 
       // Force observation to stay in scope.
