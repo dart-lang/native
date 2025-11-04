@@ -15,7 +15,8 @@
 /// The second hook available in this API is the link hook  (`hook/link.dart`).
 /// The main entrypoint for link hooks is [link].
 ///
-/// Hooks can for example be used to bundle native code with a Dart package:
+/// Hooks can for example be used to bundle native source code with a Dart
+/// package:
 ///
 /// <!-- file://./../../code_assets/example/sqlite/hook/build.dart -->
 /// ```dart
@@ -37,6 +38,33 @@
 ///         },
 ///       );
 ///       await builder.run(input: input, output: output);
+///     }
+///   });
+/// }
+/// ```
+///
+/// Hooks can also be used to bundle precompiled native code with a package:
+///
+/// <!-- file://./../../code_assets/example/api/code_assets_snippet.dart -->
+/// ```dart
+/// import 'package:code_assets/code_assets.dart';
+/// import 'package:hooks/hooks.dart';
+///
+/// void main(List<String> args) async {
+///   await build(args, (input, output) async {
+///     if (input.config.buildCodeAssets) {
+///       final packageName = input.packageName;
+///       final assetPathInPackage = input.packageRoot.resolve('...');
+///       final assetPathDownload = input.outputDirectoryShared.resolve('...');
+///
+///       output.assets.code.add(
+///         CodeAsset(
+///           package: packageName,
+///           name: '...',
+///           linkMode: DynamicLoadingBundled(),
+///           file: assetPathInPackage,
+///         ),
+///       );
 ///     }
 ///   });
 /// }

@@ -106,7 +106,7 @@ Future<void> testBuildHook({
     ];
     if (outputErrors.isNotEmpty) {
       throw ValidationFailure(
-        'Encountered build output validation issues: $inputErrors',
+        'Encountered build output validation issues: $outputErrors',
       );
     }
 

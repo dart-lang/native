@@ -3,6 +3,7 @@
 ## Documentation applicable to all interop
 
 - [3 Layers in Dart Interop](interop-layers.md)
+- [Performance analysis and improvements](performance.md)
 
 ## Guides
 

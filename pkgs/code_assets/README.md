@@ -24,17 +24,20 @@ import 'package:hooks/hooks.dart';
 
 void main(List<String> args) async {
   await build(args, (input, output) async {
-    final packageName = input.packageName;
-    final assetPath = input.outputDirectory.resolve('...');
+    if (input.config.buildCodeAssets) {
+      final packageName = input.packageName;
+      final assetPathInPackage = input.packageRoot.resolve('...');
+      final assetPathDownload = input.outputDirectoryShared.resolve('...');
 
-    output.assets.code.add(
-      CodeAsset(
-        package: packageName,
-        name: '...',
-        linkMode: DynamicLoadingBundled(),
-        file: assetPath,
-      ),
-    );
+      output.assets.code.add(
+        CodeAsset(
+          package: packageName,
+          name: '...',
+          linkMode: DynamicLoadingBundled(),
+          file: assetPathInPackage,
+        ),
+      );
+    }
   });
 }
 ```

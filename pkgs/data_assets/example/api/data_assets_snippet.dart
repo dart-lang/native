@@ -4,18 +4,27 @@
 
 // dart format width=76
 
+// ignore_for_file: unused_local_variable
+
 // snippet-start
 import 'package:data_assets/data_assets.dart';
 import 'package:hooks/hooks.dart';
 
 void main(List<String> args) async {
   await build(args, (input, output) async {
-    final packageName = input.packageName;
-    final assetPath = input.outputDirectory.resolve('...');
+    if (input.config.buildDataAssets) {
+      final packageName = input.packageName;
+      final assetPathInPackage = input.packageRoot.resolve('...');
+      final assetPathDownload = input.outputDirectoryShared.resolve('...');
 
-    output.assets.data.add(
-      DataAsset(package: packageName, name: '...', file: assetPath),
-    );
+      output.assets.data.add(
+        DataAsset(
+          package: packageName,
+          name: '...',
+          file: assetPathInPackage,
+        ),
+      );
+    }
   });
 }
 

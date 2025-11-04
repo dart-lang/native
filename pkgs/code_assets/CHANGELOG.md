@@ -1,3 +1,8 @@
+## 0.19.10
+
+- Document `input.packageRoot` in more places.
+- Document `CodeAsset.id` package namespacing.
+
 ## 0.19.9
 
 - Document that asset file paths must be absolute.
