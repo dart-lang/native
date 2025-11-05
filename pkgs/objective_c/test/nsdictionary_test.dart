@@ -104,5 +104,48 @@ void main() {
       );
       expect(dict.values.toList(), unorderedEquals([obj2, obj4, obj6]));
     });
+
+    test('ref counting', () async {
+      final pointers = <Pointer<ObjCObjectImpl>>[];
+      Map<NSCopying, ObjCObject>? map;
+
+      autoReleasePool(() {
+        // The dictionary key has to implement NSCopying. NSString is used in
+        // the other tests because it's easy to construct. But it isn't ref
+        // counted in the same way as other objects, so here we use NSArray.
+        final obj1 = NSArray.of(['apple'.toNSString()]);
+        final obj2 = NSObject();
+        final obj3 = NSArray.of(['banana'.toNSString()]);
+        final obj4 = NSObject();
+        final obj5 = NSArray.of(['carrot'.toNSString()]);
+        final obj6 = NSObject();
+        final objects = {obj1: obj2, obj3: obj4, obj5: obj6};
+        final objCMap = NSDictionary.of(objects);
+        map = objCMap.asDart();
+
+        pointers.addAll(map!.keys.map((o) => o.ref.pointer));
+        pointers.addAll(map!.values.map((o) => o.ref.pointer));
+        pointers.add(objCMap.ref.pointer);
+
+        for (final pointer in pointers) {
+          expect(objectRetainCount(pointer), greaterThan(0));
+        }
+      });
+
+      doGC();
+      await Future<void>.delayed(Duration.zero);
+      doGC();
+      for (final pointer in pointers) {
+        expect(objectRetainCount(pointer), greaterThan(0));
+      }
+      map = null;
+
+      doGC();
+      await Future<void>.delayed(Duration.zero);
+      doGC();
+      for (final pointer in pointers) {
+        expect(objectRetainCount(pointer), 0);
+      }
+    });
   });
 }

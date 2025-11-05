@@ -82,5 +82,43 @@ void main() {
       expect(s.intersection(<Object?>{obj5, obj2, null, 123}), {obj5, obj2});
       expect(s.toList(), expected);
     });
+
+    test('ref counting', () async {
+      final pointers = <Pointer<ObjCObjectImpl>>[];
+      Set<ObjCObject>? set;
+
+      autoReleasePool(() {
+        final obj1 = NSObject();
+        final obj2 = NSObject();
+        final obj3 = NSObject();
+        final obj4 = NSObject();
+        final obj5 = NSObject();
+        final objects = [obj1, obj2, obj3, obj4, obj5];
+        final objCSet = NSSet.of(objects);
+        set = objCSet.asDart();
+
+        pointers.addAll(objects.map((o) => o.ref.pointer));
+        pointers.add(objCSet.ref.pointer);
+
+        for (final pointer in pointers) {
+          expect(objectRetainCount(pointer), greaterThan(0));
+        }
+      });
+
+      doGC();
+      await Future<void>.delayed(Duration.zero);
+      doGC();
+      for (final pointer in pointers) {
+        expect(objectRetainCount(pointer), greaterThan(0));
+      }
+      set = null;
+
+      doGC();
+      await Future<void>.delayed(Duration.zero);
+      doGC();
+      for (final pointer in pointers) {
+        expect(objectRetainCount(pointer), 0);
+      }
+    });
   });
 }
