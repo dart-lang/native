@@ -97,7 +97,7 @@ void main() {
         final objCSet = NSSet.of(objects);
         set = objCSet.asDart();
 
-        pointers.addAll(objects.map((o) => o.ref.pointer));
+        pointers.addAll(set!.map((o) => o.ref.pointer));
         pointers.add(objCSet.ref.pointer);
 
         for (final pointer in pointers) {

@@ -81,7 +81,7 @@ void main() {
         final objCArray = NSArray.of(objects);
         array = objCArray.asDart();
 
-        pointers.addAll(objects.map((o) => o.ref.pointer));
+        pointers.addAll(array!.map((o) => o.ref.pointer));
         pointers.add(objCArray.ref.pointer);
 
         for (final pointer in pointers) {
