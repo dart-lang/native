@@ -12,11 +12,16 @@ import 'package:notification_plugin/notifications.dart';
 
 int i = 0;
 
-void showNotification(String title, String text, JObject activity) {
+void showNotification(String title, String text) {
   i = i + 1;
   var jTitle = JString.fromString(title);
   var jText = JString.fromString(text);
-  Notifications.showNotification(activity, i, jTitle, jText);
+  Notifications.showNotification(
+    Jni.androidActivity(PlatformDispatcher.instance.engineId!),
+    i,
+    jTitle,
+    jText,
+  );
   jTitle.release();
   jText.release();
 }
@@ -40,75 +45,48 @@ class MyApp extends StatelessWidget {
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
+class MyHomePage extends StatelessWidget {
+  MyHomePage({super.key, required this.title});
 
   final String title;
 
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
   final _title = TextEditingController(text: 'Hello from JNI');
   final _text = TextEditingController(text: '😀');
-  final activityStream =
-      Jni.androidActivities(PlatformDispatcher.instance.engineId!);
-
-  @override
-  void dispose() {
-    _title.dispose();
-    _text.dispose();
-    super.dispose();
-  }
 
   @override
   Widget build(BuildContext context) {
-    return StreamBuilder(
-      stream: activityStream,
-      builder: (context, asyncSnapshot) {
-        if (!asyncSnapshot.hasData || asyncSnapshot.data == null) {
-          return Container();
-        }
-        final activity = asyncSnapshot.data!;
-        return Scaffold(
-          appBar: AppBar(
-            title: Text(widget.title),
-          ),
-          body: Center(
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextFormField(
-                    controller: _title,
-                    textCapitalization: TextCapitalization.sentences,
-                    decoration:
-                        const InputDecoration(labelText: 'Notification title'),
-                  ),
-                  TextFormField(
-                    controller: _text,
-                    keyboardType: TextInputType.multiline,
-                    minLines: 1,
-                    maxLines: 4,
-                    decoration:
-                        const InputDecoration(labelText: 'Notification text'),
-                  ),
-                  ElevatedButton(
-                    child: const Text('Show Notification'),
-                    onPressed: () => showNotification(
-                      _title.text,
-                      _text.text,
-                      activity,
-                    ),
-                  ),
-                ],
+    return Scaffold(
+      appBar: AppBar(
+        title: Text(title),
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              TextFormField(
+                controller: _title,
+                textCapitalization: TextCapitalization.sentences,
+                decoration:
+                    const InputDecoration(labelText: 'Notification title'),
               ),
-            ),
+              TextFormField(
+                controller: _text,
+                keyboardType: TextInputType.multiline,
+                minLines: 1,
+                maxLines: 4,
+                decoration:
+                    const InputDecoration(labelText: 'Notification text'),
+              ),
+              ElevatedButton(
+                child: const Text('Show Notification'),
+                onPressed: () => showNotification(_title.text, _text.text),
+              ),
+            ],
           ),
-        );
-      },
+        ),
+      ),
     );
   }
 }
