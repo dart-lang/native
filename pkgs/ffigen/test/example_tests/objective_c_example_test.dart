@@ -27,10 +27,7 @@ void main() {
       expect(output, contains('class AVAudioPlayer extends objc.NSObject {'));
       expect(
         output,
-        contains(
-          'AVAudioPlayer? initWithContentsOfURL(objc.NSURL url, '
-          '{required ffi.Pointer<ffi.Pointer<objc.ObjCObject>> error}) {',
-        ),
+        contains('AVAudioPlayer? initWithContentsOfURL(objc.NSURL url) {'),
       );
       expect(output, contains('double get duration {'));
       expect(output, contains('bool play() {'));
