@@ -58,5 +58,20 @@ void main() {
         throwsA(isA<NSErrorException>()),
       );
     });
+
+    test("Error method with param named outError", () {
+      final obj = ErrorMethodTestObject();
+      expect(obj.outErrorMethod(true), isTrue);
+      expect(() => obj.outErrorMethod(false), throwsA(isA<NSErrorException>()));
+    });
+
+    test("Error method with nullable error", () {
+      final obj = ErrorMethodTestObject();
+      expect(obj.nullableErrorMethod(true), isTrue);
+      expect(
+        () => obj.nullableErrorMethod(false),
+        throwsA(isA<NSErrorException>()),
+      );
+    });
   });
 }
