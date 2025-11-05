@@ -41,7 +41,7 @@ extension NSArrayToAdapter on NSArray {
   ///
   /// This is not a conversion, doesn't create a new list, or change the
   /// elements. For deep conversion, use [toDartList].
-  List<ObjCObject> toDart() => _NSArrayAdapter(this);
+  List<ObjCObject> asDart() => _NSArrayAdapter(this);
 }
 
 class _NSMutableArrayAdapter with ListBase<ObjCObject> {
@@ -83,7 +83,7 @@ extension NSMutableArrayToAdapter on NSMutableArray {
   ///
   /// This is not a conversion, doesn't create a new list, or change the
   /// elements. For deep conversion, use [toDartList].
-  List<ObjCObject> toDart() => _NSMutableArrayAdapter(this);
+  List<ObjCObject> asDart() => _NSMutableArrayAdapter(this);
 }
 
 class _NSArrayIterator implements Iterator<ObjCObject> {

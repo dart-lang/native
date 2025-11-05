@@ -27,7 +27,7 @@ void main() {
       final obj4 = NSObject();
       final obj5 = NSObject();
       final expected = <NSObject>{obj1, obj2, obj3, obj4, obj5};
-      final s = NSSet.of(expected).toDart();
+      final s = NSSet.of(expected).asDart();
 
       expect(s.length, 5);
 
@@ -62,7 +62,7 @@ void main() {
       // constructor.
       final s = NSSet.setWithSet(
         NSSet.of(<NSObject>{obj1, obj2, obj3, obj4, obj5}),
-      ).toDart();
+      ).asDart();
 
       expect(() => s.add(NSObject()), throwsUnsupportedError);
       expect(() => s.remove(obj3), throwsUnsupportedError);
@@ -76,7 +76,7 @@ void main() {
       final obj4 = NSObject();
       final obj5 = NSObject();
       final expected = <NSObject>{obj1, obj2, obj3, obj4, obj5};
-      final s = NSSet.of(expected).toDart();
+      final s = NSSet.of(expected).asDart();
 
       expect(s.isNotEmpty, isTrue);
       expect(s.intersection(<Object?>{obj5, obj2, null, 123}), {obj5, obj2});

@@ -22,7 +22,7 @@ void main() {
 
     test('filled', () {
       final obj = NSObject();
-      final array = NSMutableArray.filled(3, obj).toDart();
+      final array = NSMutableArray.filled(3, obj).asDart();
 
       expect(array.length, 3);
 
@@ -42,7 +42,7 @@ void main() {
       final obj4 = NSObject();
       final obj5 = NSObject();
       final expected = [obj1, obj2, obj3, obj4, obj5];
-      final array = NSMutableArray.of(expected).toDart();
+      final array = NSMutableArray.of(expected).asDart();
 
       expect(array.length, 5);
 
@@ -54,7 +54,7 @@ void main() {
     });
 
     test('length setter', () {
-      final array = NSMutableArray.filled(3, NSObject()).toDart();
+      final array = NSMutableArray.filled(3, NSObject()).asDart();
       expect(array.length, 3);
       expect(() => array.length = 4, throwsA(isA<RangeError>()));
       expect(() => array.length = -1, throwsA(isA<RangeError>()));
@@ -72,7 +72,7 @@ void main() {
       final obj3 = NSObject();
       final obj4 = NSObject();
       final obj5 = NSObject();
-      final array = NSMutableArray.of([obj1, obj2, obj3]).toDart();
+      final array = NSMutableArray.of([obj1, obj2, obj3]).asDart();
 
       array[1] = obj4;
       expect(array, [obj1, obj4, obj3]);
@@ -87,7 +87,7 @@ void main() {
       final obj3 = NSObject();
       final obj4 = NSObject();
       final obj5 = NSObject();
-      final array = NSMutableArray().toDart();
+      final array = NSMutableArray().asDart();
 
       expect(array.length, 0);
 
@@ -109,7 +109,7 @@ void main() {
       final obj3 = NSObject();
       final obj4 = NSObject();
       final obj5 = NSObject();
-      final array = NSMutableArray.of([obj1, obj2, obj3, obj4, obj5]).toDart();
+      final array = NSMutableArray.of([obj1, obj2, obj3, obj4, obj5]).asDart();
 
       array.setRange(1, 4, [obj5, obj1, obj2]);
       expect(array, [obj1, obj5, obj1, obj2, obj5]);

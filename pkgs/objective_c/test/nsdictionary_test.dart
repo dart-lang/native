@@ -32,7 +32,7 @@ void main() {
         obj1: obj2,
         obj3: obj4,
         obj5: obj6,
-      }).toDart();
+      }).asDart();
 
       expect(dict.length, 3);
       expect(dict[obj1], obj2);
@@ -67,7 +67,7 @@ void main() {
       // NSDictionary using an ObjC constructor.
       final dict = NSDictionary.dictionaryWithDictionary(
         NSDictionary.of({obj1: obj2, obj3: obj4, obj5: obj6}),
-      ).toDart();
+      ).asDart();
 
       expect(() => dict[obj3] = obj1, throwsUnsupportedError);
       expect(dict.clear, throwsUnsupportedError);
@@ -86,7 +86,7 @@ void main() {
         obj1: obj2,
         obj3: obj4,
         obj5: obj6,
-      }).toDart();
+      }).asDart();
 
       expect(dict.isNotEmpty, isTrue);
       expect(dict.containsKey(obj1), isTrue);

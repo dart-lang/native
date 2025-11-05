@@ -4,15 +4,17 @@
 
 import 'dart:collection';
 
+import 'package:collection/collection.dart';
+
 import 'converter.dart';
 import 'internal.dart';
 import 'ns_enumerator.dart';
 import 'objective_c_bindings_generated.dart';
 
-// Ideally we'd mixin UnmodifiableMapBase, but it's an ordinary class. So
-// instead we mixin MapBase and then throw in all the modifying methods (which
-// is essentially what UnmodifiableMapBase does anyway).
-class _NSDictionaryAdapter with MapBase<NSCopying, ObjCObject> {
+class _NSDictionaryAdapter
+    with
+        MapBase<NSCopying, ObjCObject>,
+        UnmodifiableMapMixin<NSCopying, ObjCObject> {
   final NSDictionary _dictionary;
 
   _NSDictionaryAdapter(this._dictionary);
@@ -32,17 +34,6 @@ class _NSDictionaryAdapter with MapBase<NSCopying, ObjCObject> {
 
   @override
   bool containsKey(Object? key) => this[key] != null;
-
-  @override
-  void operator []=(NSCopying key, ObjCObject value) =>
-      throw UnsupportedError('Cannot modify NSDictionary');
-
-  @override
-  void clear() => throw UnsupportedError('Cannot modify NSDictionary');
-
-  @override
-  ObjCObject? remove(Object? key) =>
-      throw UnsupportedError('Cannot modify NSDictionary');
 }
 
 extension NSDictionaryToAdapter on NSDictionary {
@@ -51,7 +42,7 @@ extension NSDictionaryToAdapter on NSDictionary {
   ///
   /// This is not a conversion, doesn't create a new map, or change the
   /// elements. For deep conversion, use [toDartMap].
-  Map<NSCopying, ObjCObject> toDart() => _NSDictionaryAdapter(this);
+  Map<NSCopying, ObjCObject> asDart() => _NSDictionaryAdapter(this);
 }
 
 class _NSMutableDictionaryAdapter with MapBase<NSCopying, ObjCObject> {
@@ -98,7 +89,7 @@ extension NSMutableDictionaryToAdapter on NSMutableDictionary {
   ///
   /// This is not a conversion, doesn't create a new map, or change the
   /// elements. For deep conversion, use [toDartMap].
-  Map<NSCopying, ObjCObject> toDart() => _NSMutableDictionaryAdapter(this);
+  Map<NSCopying, ObjCObject> asDart() => _NSMutableDictionaryAdapter(this);
 }
 
 class _NSDictionaryKeyIterable with Iterable<NSCopying> {
@@ -111,7 +102,7 @@ class _NSDictionaryKeyIterable with Iterable<NSCopying> {
 
   @override
   Iterator<NSCopying> get iterator =>
-      _NSDictionaryKeyIterator(_adapter._dictionary.keyEnumerator().toDart());
+      _NSDictionaryKeyIterator(_adapter._dictionary.keyEnumerator().asDart());
 
   @override
   bool contains(Object? key) => _adapter.containsKey(key);
@@ -140,5 +131,5 @@ class _NSDictionaryValueIterable with Iterable<ObjCObject> {
 
   @override
   Iterator<ObjCObject> get iterator =>
-      _adapter._dictionary.objectEnumerator().toDart();
+      _adapter._dictionary.objectEnumerator().asDart();
 }

@@ -120,11 +120,11 @@ extension NSArrayToDartList on NSArray {
   ///
   /// This creates a new [List], converts all the [NSArray] elements, and adds
   /// them to the [List]. If you only need iteration and element access,
-  /// [toDart] is much more efficient.
+  /// [asDart] is much more efficient.
   List<Object> toDartList({
     Object Function(ObjCObject) convertOther = _defaultDartConverter,
   }) =>
-      toDart().map((o) => toDartObject(o, convertOther: convertOther)).toList();
+      asDart().map((o) => toDartObject(o, convertOther: convertOther)).toList();
 }
 
 extension NSSetToDartSet on NSSet {
@@ -132,11 +132,11 @@ extension NSSetToDartSet on NSSet {
   ///
   /// This creates a new [Set], converts all the [NSSet] elements, and adds
   /// them to the [Set]. If you only need iteration and element access,
-  /// [toDart] is much more efficient.
+  /// [asDart] is much more efficient.
   Set<Object> toDartSet({
     Object Function(ObjCObject) convertOther = _defaultDartConverter,
   }) =>
-      toDart().map((o) => toDartObject(o, convertOther: convertOther)).toSet();
+      asDart().map((o) => toDartObject(o, convertOther: convertOther)).toSet();
 }
 
 extension NSDictionaryToDartMap on NSDictionary {
@@ -144,11 +144,11 @@ extension NSDictionaryToDartMap on NSDictionary {
   ///
   /// This creates a new [Map], converts all the [NSDictionary] elements, and
   /// adds them to the [Map]. If you only need iteration and element access,
-  /// [toDart] is much more efficient.
+  /// [asDart] is much more efficient.
   Map<Object, Object> toDartMap({
     Object Function(ObjCObject) convertOther = _defaultDartConverter,
   }) => Map.fromEntries(
-    toDart().entries.map(
+    asDart().entries.map(
       (kv) => MapEntry(
         toDartObject(kv.key, convertOther: convertOther),
         toDartObject(kv.value, convertOther: convertOther),

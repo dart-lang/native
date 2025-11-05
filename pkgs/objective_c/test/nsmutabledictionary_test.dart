@@ -32,7 +32,7 @@ void main() {
         obj1: obj2,
         obj3: obj4,
         obj5: obj6,
-      }).toDart();
+      }).asDart();
 
       expect(dict.length, 3);
       expect(dict[obj1], obj2);
@@ -66,7 +66,7 @@ void main() {
         obj1: obj2,
         obj3: obj4,
         obj5: obj6,
-      }).toDart();
+      }).asDart();
 
       dict[obj3] = obj1;
       expect(dict, {obj1: obj2, obj3: obj1, obj5: obj6});
@@ -92,7 +92,7 @@ void main() {
         obj1: obj2,
         obj3: obj4,
         obj5: obj6,
-      }).toDart();
+      }).asDart();
 
       expect(dict.isNotEmpty, isTrue);
       expect(dict.containsKey(obj1), isTrue);

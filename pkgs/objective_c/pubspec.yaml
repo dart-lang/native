@@ -19,6 +19,7 @@ environment:
   flutter: '>=3.32.0'
 
 dependencies:
+  collection: ^1.19.1
   ffi: ^2.1.0
   flutter:
     sdk: flutter

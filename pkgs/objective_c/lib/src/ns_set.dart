@@ -4,12 +4,14 @@
 
 import 'dart:collection';
 
+import 'package:collection/collection.dart';
+
 import 'converter.dart';
 import 'internal.dart';
 import 'ns_enumerator.dart';
 import 'objective_c_bindings_generated.dart';
 
-class _NSSetAdapter with SetBase<ObjCObject> {
+class _NSSetAdapter with SetBase<ObjCObject>, UnmodifiableSetMixin<ObjCObject> {
   final NSSet _set;
 
   _NSSetAdapter(this._set);
@@ -26,19 +28,10 @@ class _NSSetAdapter with SetBase<ObjCObject> {
       element is ObjCObject ? _set.member(element) : null;
 
   @override
-  Iterator<ObjCObject> get iterator => _set.objectEnumerator().toDart();
+  Iterator<ObjCObject> get iterator => _set.objectEnumerator().asDart();
 
   @override
   Set<ObjCObject> toSet() => {...this};
-
-  @override
-  bool add(ObjCObject value) => throw UnsupportedError('Cannot modify NSSet');
-
-  @override
-  bool remove(Object? value) => throw UnsupportedError('Cannot modify NSSet');
-
-  @override
-  void clear() => throw UnsupportedError('Cannot modify NSSet');
 }
 
 extension NSSetToAdapter on NSSet {
@@ -46,7 +39,7 @@ extension NSSetToAdapter on NSSet {
   ///
   /// This is not a conversion, doesn't create a new set, or change the
   /// elements. For deep conversion, use [toDartSet].
-  Set<ObjCObject> toDart() => _NSSetAdapter(this);
+  Set<ObjCObject> asDart() => _NSSetAdapter(this);
 }
 
 class _NSMutableSetAdapter with SetBase<ObjCObject> {
@@ -66,7 +59,7 @@ class _NSMutableSetAdapter with SetBase<ObjCObject> {
       element is ObjCObject ? _set.member(element) : null;
 
   @override
-  Iterator<ObjCObject> get iterator => _set.objectEnumerator().toDart();
+  Iterator<ObjCObject> get iterator => _set.objectEnumerator().asDart();
 
   @override
   Set<ObjCObject> toSet() => {...this};
@@ -95,5 +88,5 @@ extension NSMutableSetToAdapter on NSMutableSet {
   ///
   /// This is not a conversion, doesn't create a new set, or change the
   /// elements. For deep conversion, use [toDartSet].
-  Set<ObjCObject> toDart() => _NSMutableSetAdapter(this);
+  Set<ObjCObject> asDart() => _NSMutableSetAdapter(this);
 }

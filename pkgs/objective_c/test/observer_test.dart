@@ -40,7 +40,7 @@ void main() {
               expect(object, observed);
               expect(context.address, 0x1234);
               values.add(
-                toDartObject(change.toDart()[NSKeyValueChangeNewKey]!),
+                toDartObject(change.asDart()[NSKeyValueChangeNewKey]!),
               );
             },
       );
@@ -80,7 +80,7 @@ void main() {
               Pointer<Void> context,
             ) {
               values.add(
-                toDartObject(change.toDart()[NSKeyValueChangeNewKey]!),
+                toDartObject(change.asDart()[NSKeyValueChangeNewKey]!),
               );
             },
       );
@@ -121,7 +121,7 @@ void main() {
                 Pointer<Void> context,
               ) {
                 values.add(
-                  toDartObject(change.toDart()[NSKeyValueChangeNewKey]!),
+                  toDartObject(change.asDart()[NSKeyValueChangeNewKey]!),
                 );
 
                 // This is testing that a captured reference from the observer

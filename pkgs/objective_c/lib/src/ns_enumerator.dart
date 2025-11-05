@@ -24,5 +24,5 @@ class _NSEnumeratorAdapter implements Iterator<ObjCObject> {
 
 extension NSEnumeratorToAdapter on NSEnumerator {
   /// Wraps this [NSEnumerator] in an adapter that implements [Iterator].
-  Iterator<ObjCObject> toDart() => _NSEnumeratorAdapter(this);
+  Iterator<ObjCObject> asDart() => _NSEnumeratorAdapter(this);
 }

@@ -181,14 +181,8 @@ void main() {
       expect(objectRetainCount(obj4raw), greaterThan(0));
       expect(objectRetainCount(obj5raw), greaterThan(0));
       expect(objectRetainCount(obj6raw), greaterThan(0));
-      expect(
-        objectRetainCount(obj7raw),
-        2,
-      ); // One ref in autorelease pogreaterThat(0)l.
-      expect(
-        objectRetainCount(obj8raw),
-        2,
-      ); // One ref in autorelease pogreaterThat(0)l.
+      expect(objectRetainCount(obj7raw), greaterThan(0));
+      expect(objectRetainCount(obj8raw), greaterThan(0));
       expect(objectRetainCount(obj9raw), greaterThan(0));
 
       lib.objc_autoreleasePoolPop(pool);

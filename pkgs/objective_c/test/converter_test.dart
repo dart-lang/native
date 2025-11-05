@@ -54,11 +54,11 @@ void main() {
 
       expect(toObjCObject(dartList), isA<NSArray>());
       final objCList = NSArray.as(toObjCObject(dartList));
-      expect(objCList.toDart().length, 3);
+      expect(objCList.asDart().length, 3);
 
-      expect(toDartObject(objCList.toDart()[0]), 123);
-      expect(toDartObject(objCList.toDart()[1]), 'abc');
-      expect(toDartObject(objCList.toDart()[2]), obj);
+      expect(toDartObject(objCList.asDart()[0]), 123);
+      expect(toDartObject(objCList.asDart()[1]), 'abc');
+      expect(toDartObject(objCList.asDart()[2]), obj);
 
       expect(toDartObject(objCList), dartList);
 
@@ -80,11 +80,11 @@ void main() {
 
       expect(toObjCObject(dartSet), isA<NSSet>());
       final objCSet = NSSet.as(toObjCObject(dartSet));
-      expect(objCSet.toDart().length, 3);
+      expect(objCSet.asDart().length, 3);
 
-      expect(objCSet.toDart().contains(toObjCObject(123)), isTrue);
-      expect(objCSet.toDart().contains(toObjCObject('abc')), isTrue);
-      expect(objCSet.toDart().contains(toObjCObject(obj)), isTrue);
+      expect(objCSet.asDart().contains(toObjCObject(123)), isTrue);
+      expect(objCSet.asDart().contains(toObjCObject('abc')), isTrue);
+      expect(objCSet.asDart().contains(toObjCObject(obj)), isTrue);
 
       expect(toDartObject(objCSet), dartSet);
 
@@ -106,11 +106,11 @@ void main() {
 
       expect(toObjCObject(dartMap), isA<NSDictionary>());
       final objCMap = NSDictionary.as(toObjCObject(dartMap));
-      expect(objCMap.toDart().length, 3);
+      expect(objCMap.asDart().length, 3);
 
-      expect(toDartObject(objCMap.toDart()[toObjCObject(123)]!), 'abc');
-      expect(toDartObject(objCMap.toDart()[toObjCObject('def')]!), 456);
-      expect(toDartObject(objCMap.toDart()[toObjCObject(789)]!), obj);
+      expect(toDartObject(objCMap.asDart()[toObjCObject(123)]!), 'abc');
+      expect(toDartObject(objCMap.asDart()[toObjCObject('def')]!), 456);
+      expect(toDartObject(objCMap.asDart()[toObjCObject(789)]!), obj);
 
       expect(toDartObject(objCMap), dartMap);
 
