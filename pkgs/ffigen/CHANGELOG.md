@@ -1,9 +1,4 @@
-## 20.0.0-dev.1
-
-- Make the `Logger` argument of `FfiGenerator.generate` optional. It defaults to
-  a logger printing to stdout and stderr.
-
-## 20.0.0-dev.0
+## 20.0.0
 
 - __Breaking change__: Completely rewrite the public Dart API for FFIgen.
   The new API is focused on a declartive configuration: `FfiGenerate(...)` with
@@ -45,6 +40,8 @@
   param is `NSError** error`, capture any error returned, and throw it as a Dart
   `NSErrorException`.
 - Fix for opaque dependencies for struct/union const arrays.
+- Make the `Logger` argument of `FfiGenerator.generate` optional. It defaults to
+  a logger printing to stdout and stderr.
 
 ## 19.1.0
 

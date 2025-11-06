@@ -1,18 +1,16 @@
-## 9.0.0-dev.1
-
-- The collection classes, `NSArray`, `NSSet`, `NSDictionary`, and their mutable
-  counterparts, no longer directly implement the corresponding Dart collections.
-  Instead they each have a `.toDart()` method that wraps the class in an adapter
-  that implements the Dart collection. Note that this is a *shallow* conversion.
-  For deep conversions, continue using `toObjCObject` and `toDartObject`.
-- Rename the internal C types `ObjCObject` and `ObjCProtocol` to
-  `ObjCObjectImpl` and `ObjCProtocolImpl` respectively.
-- Rename the internal Dart types `ObjCObjectBase` and `ObjCProtocolBase` to
-  `ObjObject` and `ObjCProtocol` respectively.
-
-## 9.0.0-dev.0
+## 9.0.0
 
 - Use FFIgen 20.0.0
+- __Breaking change__: The collection classes, `NSArray`, `NSSet`,
+  `NSDictionary`, and their mutable counterparts, no longer directly implement
+  the corresponding Dart collections. Instead they each have a `.toDart()`
+  method that wraps the class in an adapter that implements the Dart collection.
+  Note that this is a *shallow* conversion. For deep conversions, continue using
+  `toObjCObject` and `toDartObject`.
+- __Breaking change__: Rename the internal C types `ObjCObject` and
+  `ObjCProtocol` to `ObjCObjectImpl` and `ObjCProtocolImpl` respectively.
+- __Breaking change__: Rename the internal Dart types `ObjCObjectBase` and
+  `ObjCProtocolBase` to `ObjObject` and `ObjCProtocol` respectively.
 - Fix missing `NSNumber` category includes in iOS and macOS `objective_c.m`
   files.
 - Add `NSBundle` and `NSNull` to the bindings.
