@@ -5,10 +5,6 @@
 // Bindings for `src/objective_c.h` and `src/objective_c_runtime.h`.
 // Regenerate bindings with `dart run tool/generate_code.dart`.
 
-// ignore_for_file: always_specify_types
-// ignore_for_file: camel_case_types
-// ignore_for_file: non_constant_identifier_names
-// ignore_for_file: unused_element
 // coverage:ignore-file
 
 // AUTO GENERATED FILE, DO NOT EDIT.

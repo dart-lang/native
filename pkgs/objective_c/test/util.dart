@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// ignore_for_file: avoid_catching_errors
-
 import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
@@ -21,7 +19,7 @@ final _executeInternalCommand = () {
           'Dart_ExecuteInternalCommand',
         )
         .asFunction<void Function(Pointer<Char>, Pointer<Void>)>();
-  } on ArgumentError {
+  } on ArgumentError { // ignore: avoid_catching_errors
     return null;
   }
 }();
