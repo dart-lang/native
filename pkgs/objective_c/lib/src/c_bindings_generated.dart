@@ -21,10 +21,42 @@ library;
 import 'dart:ffi' as ffi;
 
 @ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
+  symbol: 'objc_autoreleasePoolPop',
+  isLeaf: true,
+)
+external void autoreleasePoolPop(ffi.Pointer<ffi.Void> pool);
+
+@ffi.Native<ffi.Pointer<ffi.Void> Function()>(
+  symbol: 'objc_autoreleasePoolPush',
+  isLeaf: true,
+)
+external ffi.Pointer<ffi.Void> autoreleasePoolPush();
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
   symbol: 'DOBJC_awaitWaiter',
 )
 external void awaitWaiter(ffi.Pointer<ffi.Void> waiter);
 
+<<<<<<< HEAD
+=======
+@ffi.Native<ffi.Pointer<ObjCObjectImpl> Function(ffi.Pointer<ObjCObjectImpl>)>(
+  symbol: 'objc_retainBlock',
+  isLeaf: true,
+)
+external ffi.Pointer<ObjCObjectImpl> blockRetain(
+  ffi.Pointer<ObjCObjectImpl> object,
+);
+
+@ffi.Native<
+  ffi.Pointer<ffi.Pointer<ObjCObjectImpl>> Function(
+    ffi.Pointer<ffi.UnsignedInt>,
+  )
+>(symbol: 'objc_copyClassList', isLeaf: true)
+external ffi.Pointer<ffi.Pointer<ObjCObjectImpl>> copyClassList(
+  ffi.Pointer<ffi.UnsignedInt> count,
+);
+
+>>>>>>> main
 @ffi.Native<ffi.Void Function(Dart_FinalizableHandle, ffi.Handle)>(
   symbol: 'DOBJC_deleteFinalizableHandle',
 )
@@ -46,10 +78,65 @@ external ffi.Pointer<DOBJC_Context> fillContext(
   ffi.Pointer<DOBJC_Context> context,
 );
 
+<<<<<<< HEAD
+=======
+@ffi.Native<ffi.Pointer<ObjCObjectImpl> Function(ffi.Pointer<ffi.Char>)>(
+  symbol: 'objc_getClass',
+  isLeaf: true,
+)
+external ffi.Pointer<ObjCObjectImpl> getClass(ffi.Pointer<ffi.Char> name);
+
+@ffi.Native<
+  ObjCMethodDesc Function(
+    ffi.Pointer<ObjCProtocolImpl>,
+    ffi.Pointer<ObjCSelector>,
+    ffi.Bool,
+    ffi.Bool,
+  )
+>(symbol: 'protocol_getMethodDescription', isLeaf: true)
+external ObjCMethodDesc getMethodDescription(
+  ffi.Pointer<ObjCProtocolImpl> protocol,
+  ffi.Pointer<ObjCSelector> sel,
+  bool isRequiredMethod,
+  bool isInstanceMethod,
+);
+
+@ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ObjCSelector>)>(
+  symbol: 'sel_getName',
+  isLeaf: true,
+)
+external ffi.Pointer<ffi.Char> getName(ffi.Pointer<ObjCSelector> sel);
+
+@ffi.Native<ffi.Pointer<ObjCObjectImpl> Function(ffi.Pointer<ObjCObjectImpl>)>(
+  symbol: 'object_getClass',
+  isLeaf: true,
+)
+external ffi.Pointer<ObjCObjectImpl> getObjectClass(
+  ffi.Pointer<ObjCObjectImpl> object,
+);
+
+>>>>>>> main
 /// Returns the MacOS/iOS version we're running on.
 @ffi.Native<_Version Function()>(symbol: 'DOBJC_getOsVesion', isLeaf: true)
 external _Version getOsVesion();
 
+<<<<<<< HEAD
+=======
+@ffi.Native<ffi.Pointer<ObjCProtocolImpl> Function(ffi.Pointer<ffi.Char>)>(
+  symbol: 'objc_getProtocol',
+  isLeaf: true,
+)
+external ffi.Pointer<ObjCProtocolImpl> getProtocol(ffi.Pointer<ffi.Char> name);
+
+@ffi.Native<ffi.Pointer<ffi.Char> Function(ffi.Pointer<ObjCProtocolImpl>)>(
+  symbol: 'protocol_getName',
+  isLeaf: true,
+)
+external ffi.Pointer<ffi.Char> getProtocolName(
+  ffi.Pointer<ObjCProtocolImpl> proto,
+);
+
+>>>>>>> main
 @ffi.Native<ffi.IntPtr Function(ffi.Pointer<ffi.Void>)>(
   symbol: 'DOBJC_initializeApi',
   isLeaf: true,
@@ -68,11 +155,11 @@ external bool isValidBlock(ffi.Pointer<ObjCBlockImpl> block);
 external ffi.Pointer<ffi.Bool> newFinalizableBool(Object owner);
 
 @ffi.Native<
-  Dart_FinalizableHandle Function(ffi.Handle, ffi.Pointer<ObjCObject>)
+  Dart_FinalizableHandle Function(ffi.Handle, ffi.Pointer<ObjCObjectImpl>)
 >(symbol: 'DOBJC_newFinalizableHandle')
 external Dart_FinalizableHandle newFinalizableHandle(
   Object owner,
-  ffi.Pointer<ObjCObject> object,
+  ffi.Pointer<ObjCObjectImpl> object,
 );
 
 @ffi.Native<ffi.Pointer<ffi.Void> Function()>(
@@ -81,6 +168,37 @@ external Dart_FinalizableHandle newFinalizableHandle(
 )
 external ffi.Pointer<ffi.Void> newWaiter();
 
+<<<<<<< HEAD
+=======
+@ffi.Native<ffi.Pointer<ObjCObjectImpl> Function(ffi.Pointer<ObjCObjectImpl>)>(
+  symbol: 'objc_autorelease',
+  isLeaf: true,
+)
+external ffi.Pointer<ObjCObjectImpl> objectAutorelease(
+  ffi.Pointer<ObjCObjectImpl> object,
+);
+
+@ffi.Native<ffi.Void Function(ffi.Pointer<ObjCObjectImpl>)>(
+  symbol: 'objc_release',
+  isLeaf: true,
+)
+external void objectRelease(ffi.Pointer<ObjCObjectImpl> object);
+
+@ffi.Native<ffi.Pointer<ObjCObjectImpl> Function(ffi.Pointer<ObjCObjectImpl>)>(
+  symbol: 'objc_retain',
+  isLeaf: true,
+)
+external ffi.Pointer<ObjCObjectImpl> objectRetain(
+  ffi.Pointer<ObjCObjectImpl> object,
+);
+
+@ffi.Native<ffi.Pointer<ObjCSelector> Function(ffi.Pointer<ffi.Char>)>(
+  symbol: 'sel_registerName',
+  isLeaf: true,
+)
+external ffi.Pointer<ObjCSelector> registerName(ffi.Pointer<ffi.Char> name);
+
+>>>>>>> main
 @ffi.Native<
   ffi.Void Function(
     ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>,
@@ -103,12 +221,12 @@ final class DOBJC_Context extends ffi.Struct {
   external int version;
 
   external ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>
-  newWaiter;
+  newWaiter$1;
 
   external ffi.Pointer<
     ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
   >
-  awaitWaiter;
+  awaitWaiter$1;
 
   external ffi.Pointer<
     ffi.NativeFunction<ffi.Pointer<_Dart_Isolate> Function()>
@@ -175,8 +293,23 @@ final class ObjCBlockImpl extends ffi.Struct {
   external int dispose_port;
 }
 
+<<<<<<< HEAD
 final class ObjCObject extends ffi.Opaque {}
 
+=======
+final class ObjCMethodDesc extends ffi.Struct {
+  external ffi.Pointer<ObjCSelector> name;
+
+  external ffi.Pointer<ffi.Char> types;
+}
+
+final class ObjCObjectImpl extends ffi.Opaque {}
+
+final class ObjCProtocolImpl extends ffi.Opaque {}
+
+final class ObjCSelector extends ffi.Opaque {}
+
+>>>>>>> main
 final class _Dart_Isolate extends ffi.Opaque {}
 
 final class _Version extends ffi.Struct {

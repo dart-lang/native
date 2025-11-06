@@ -18,8 +18,9 @@ void main() {
     setUpAll(() {
       logWarnings(Level.SEVERE);
       actual = parser.parse(
-        YamlConfig.fromYaml(
-          yaml.loadYaml('''
+        testContext(
+          YamlConfig.fromYaml(
+            yaml.loadYaml('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Function pointer fields in structs Test'
 ${strings.output}: 'unused'
@@ -27,7 +28,9 @@ ${strings.headers}:
   ${strings.entryPoints}:
     - '${absPath('test/header_parser_tests/struct_fptr_fields.h')}'
         ''')
-              as yaml.YamlMap,
+                as yaml.YamlMap,
+            Logger.root,
+          ).configAdapter(),
         ),
       );
     });

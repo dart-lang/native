@@ -19,8 +19,7 @@ void main() {
   group('rename_test', () {
     setUpAll(() {
       logWarnings();
-      expected = expectedLibrary();
-      actual = parser.parse(
+      final context = testContext(
         testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Rename Test'
@@ -79,6 +78,8 @@ ${strings.typedefs}:
     'Struct5_Alias': 'Struct5_Alias_Renamed'
     '''),
       );
+      expected = expectedLibrary();
+      actual = parser.parse(context);
     });
 
     test('Function addPrefix', () {
@@ -199,14 +200,16 @@ ${strings.typedefs}:
 }
 
 Library expectedLibrary() {
-  final struct1 = Struct(name: '${structPrefix}Struct1');
-  final struct2 = Struct(name: 'Struct2');
-  final struct3 = Struct(name: 'Struct3');
+  final context = testContext();
+  final struct1 = Struct(context: context, name: '${structPrefix}Struct1');
+  final struct2 = Struct(context: context, name: 'Struct2');
+  final struct3 = Struct(context: context, name: 'Struct3');
   final struct5Alias = Typealias(
     name: 'Struct5_Alias_Renamed',
-    type: Struct(name: '${structPrefix}Struct5'),
+    type: Struct(context: context, name: '${structPrefix}Struct5'),
   );
   return Library(
+    context: context,
     name: 'Bindings',
     bindings: [
       Func(
@@ -259,6 +262,7 @@ Library expectedLibrary() {
       struct2,
       struct3,
       Struct(
+        context: context,
         name: '${structPrefix}MemberRenameStruct4',
         members: [
           CompoundMember(name: 'underscore', type: intType),
@@ -266,38 +270,43 @@ Library expectedLibrary() {
         ],
       ),
       Struct(
+        context: context,
         name: '${structPrefix}AnyMatchStruct5',
         members: [CompoundMember(name: 'underscore', type: intType)],
       ),
       EnumClass(
+        context: context,
         name: '${enumPrefix}Enum1',
         enumConstants: [
-          const EnumConstant(name: 'a', value: 0),
-          const EnumConstant(name: 'b', value: 1),
-          const EnumConstant(name: 'c', value: 2),
+          EnumConstant(name: 'a', value: 0),
+          EnumConstant(name: 'b', value: 1),
+          EnumConstant(name: 'c', value: 2),
         ],
       ),
       EnumClass(
+        context: context,
         name: 'Enum2',
         enumConstants: [
-          const EnumConstant(name: 'e', value: 0),
-          const EnumConstant(name: 'f', value: 1),
-          const EnumConstant(name: 'g', value: 2),
+          EnumConstant(name: 'e', value: 0),
+          EnumConstant(name: 'f', value: 1),
+          EnumConstant(name: 'g', value: 2),
         ],
       ),
       EnumClass(
+        context: context,
         name: 'Enum3',
         enumConstants: [
-          const EnumConstant(name: 'i', value: 0),
-          const EnumConstant(name: 'j', value: 1),
-          const EnumConstant(name: 'k', value: 2),
+          EnumConstant(name: 'i', value: 0),
+          EnumConstant(name: 'j', value: 1),
+          EnumConstant(name: 'k', value: 2),
         ],
       ),
       EnumClass(
+        context: context,
         name: '${enumPrefix}MemberRenameEnum4',
         enumConstants: [
-          const EnumConstant(name: 'underscore', value: 0),
-          const EnumConstant(name: 'fullMatchSuccess', value: 1),
+          EnumConstant(name: 'underscore', value: 0),
+          EnumConstant(name: 'fullMatchSuccess', value: 1),
         ],
       ),
       Constant(name: '${macroPrefix}Macro1', rawType: 'int', rawValue: '1'),
@@ -307,5 +316,5 @@ Library expectedLibrary() {
       Constant(name: 'unnamedFullMatchSuccess', rawType: 'int', rawValue: '1'),
       struct5Alias,
     ],
-  );
+  )..forceFillNamesForTesting();
 }

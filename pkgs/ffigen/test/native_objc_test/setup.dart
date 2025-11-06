@@ -74,6 +74,7 @@ Future<void> _buildSwift(
 }
 
 Future<void> _runDart(List<String> args) async {
+  args = ['--enable-asserts', ...args];
   final process = await Process.start(
     Platform.executable,
     args,
@@ -110,7 +111,7 @@ List<String> _getTestNames() {
 }
 
 Future<void> build(List<String> testNames) async {
-  // Swift build comes first because the generated header is consumed by ffigen.
+  // Swift build comes first because the generated header is consumed by FFIgen.
   print('Building Dynamic Library and Header for Swift Tests...');
   for (final name in testNames) {
     final swiftFile = '${name}_test.swift';
@@ -123,7 +124,7 @@ Future<void> build(List<String> testNames) async {
     }
   }
 
-  // Ffigen comes next because it may generate an ObjC file that is compiled
+  // FFIgen comes next because it may generate an ObjC file that is compiled
   // into the dylib.
   print('Generating Bindings for Objective C Native Tests...');
   for (final name in testNames) {

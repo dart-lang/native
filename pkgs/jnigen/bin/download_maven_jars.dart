@@ -8,7 +8,7 @@ import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/tools/gradle_tools.dart';
 import 'package:jnigen/tools.dart';
 
-/// Downloads maven dependencies downloaded by equivalent jnigen invocation.
+/// Downloads maven dependencies downloaded by equivalent JNIgen invocation.
 ///
 /// Useful for running standalone examples on already generated sources.
 void main(List<String> args) async {

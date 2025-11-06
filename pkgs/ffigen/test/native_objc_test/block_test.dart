@@ -39,8 +39,8 @@ typedef StructListenerBlock = ObjCBlock_ffiVoid_Vec2_Vec4_NSObject;
 typedef NSStringListenerBlock = ObjCBlock_ffiVoid_NSString;
 typedef NoTrampolineListenerBlock = ObjCBlock_ffiVoid_Int32_Vec4_ffiChar;
 typedef BlockBlock = ObjCBlock_IntBlock_IntBlock;
-typedef IntPtrBlock = ObjCBlock_ffiVoid_Int32;
-typedef ResultBlock = ObjCBlock_ffiVoid_Int32$1;
+typedef IntPtrBlock = ObjCBlock_ffiVoid_Int32$1;
+typedef ResultBlock = ObjCBlock_ffiVoid_Int32;
 
 bool get hasIsolateOwnershipApi =>
     DynamicLibrary.process().providesSymbol('Dart_SetCurrentThreadOwnsIsolate');
@@ -481,7 +481,7 @@ void main() {
     }
 
     int blockManualRetainRefCountTest2(Pointer<ObjCBlockImpl> rawBlock) {
-      final block = IntBlock.castFromPointer(
+      final block = IntBlock.fromPointer(
         rawBlock.cast(),
         retain: false,
         release: true,
@@ -918,9 +918,8 @@ void main() {
       expect(objCBindings, contains('Vec4'));
     });
 
-    (BlockTester, Pointer<ObjCBlockImpl>, Pointer<ObjCObject>) regress1571Inner(
-      Completer<void> completer,
-    ) {
+    (BlockTester, Pointer<ObjCBlockImpl>, Pointer<ObjCObjectImpl>)
+    regress1571Inner(Completer<void> completer) {
       final dummyObject = DummyObject();
       DartObjectListenerBlock? block = ObjectListenerBlock.listener((
         DummyObject obj,

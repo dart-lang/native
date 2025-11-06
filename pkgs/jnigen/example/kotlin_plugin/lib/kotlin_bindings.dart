@@ -40,7 +40,7 @@ import 'package:jni/jni.dart' as jni$_;
 class Example extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<Example> $type;
+  final jni$_.JType<Example> $type;
 
   @jni$_.internal
   Example.fromReference(
@@ -51,8 +51,10 @@ class Example extends jni$_.JObject {
   static final _class = jni$_.JClass.forName(r'Example');
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = $Example$NullableType();
-  static const type = $Example$Type();
+  static const jni$_.JType<Example?> nullableType = $Example$NullableType$();
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<Example> type = $Example$Type$();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -93,7 +95,7 @@ class Example extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public final java.lang.Object thinkBeforeAnswering(kotlin.coroutines.Continuation<? super java.lang.String> continuation)`
+  /// from: `public suspend fun thinkBeforeAnswering(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString> thinkBeforeAnswering() async {
     final $p = jni$_.ReceivePort();
@@ -103,7 +105,7 @@ class Example extends jni$_.JObject {
             reference.pointer,
             _id_thinkBeforeAnswering as jni$_.JMethodIDPtr,
             _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.JObjectType());
+        .object<jni$_.JObject>(const jni$_.$JObject$Type$());
     _$continuation.release();
     final jni$_.JObject $o;
     if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
@@ -113,7 +115,7 @@ class Example extends jni$_.JObject {
           jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
       if ($o.isInstanceOf(jni$_.result$FailureClass)) {
         final $e =
-            jni$_.failureExceptionField.get($o, const jni$_.JObjectType());
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
         $o.release();
         jni$_.Jni.throwException($e.reference.toPointer());
       }
@@ -121,15 +123,15 @@ class Example extends jni$_.JObject {
       $o = $r;
     }
     return $o.as<jni$_.JString>(
-      const jni$_.JStringType(),
+      const jni$_.$JString$Type$(),
       releaseOriginal: true,
     );
   }
 }
 
-final class $Example$NullableType extends jni$_.JObjType<Example?> {
+final class $Example$NullableType$ extends jni$_.JType<Example?> {
   @jni$_.internal
-  const $Example$NullableType();
+  const $Example$NullableType$();
 
   @jni$_.internal
   @core$_.override
@@ -144,29 +146,29 @@ final class $Example$NullableType extends jni$_.JObjType<Example?> {
         );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectType();
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Example?> get nullableType => this;
+  jni$_.JType<Example?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($Example$NullableType).hashCode;
+  int get hashCode => ($Example$NullableType$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Example$NullableType) &&
-        other is $Example$NullableType;
+    return other.runtimeType == ($Example$NullableType$) &&
+        other is $Example$NullableType$;
   }
 }
 
-final class $Example$Type extends jni$_.JObjType<Example> {
+final class $Example$Type$ extends jni$_.JType<Example> {
   @jni$_.internal
-  const $Example$Type();
+  const $Example$Type$();
 
   @jni$_.internal
   @core$_.override
@@ -179,21 +181,21 @@ final class $Example$Type extends jni$_.JObjType<Example> {
       );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectType();
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<Example?> get nullableType => const $Example$NullableType();
+  jni$_.JType<Example?> get nullableType => const $Example$NullableType$();
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($Example$Type).hashCode;
+  int get hashCode => ($Example$Type$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($Example$Type) && other is $Example$Type;
+    return other.runtimeType == ($Example$Type$) && other is $Example$Type$;
   }
 }

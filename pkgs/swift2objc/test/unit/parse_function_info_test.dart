@@ -4,20 +4,23 @@
 
 import 'dart:convert';
 
+import 'package:logging/logging.dart';
 import 'package:swift2objc/src/ast/_core/shared/parameter.dart';
 import 'package:swift2objc/src/ast/_core/shared/referred_type.dart';
 import 'package:swift2objc/src/ast/declarations/built_in/built_in_declaration.dart';
+import 'package:swift2objc/src/context.dart';
 import 'package:swift2objc/src/parser/_core/json.dart';
 import 'package:swift2objc/src/parser/_core/parsed_symbolgraph.dart';
 import 'package:swift2objc/src/parser/parsers/declaration_parsers/parse_function_declaration.dart';
 import 'package:test/test.dart';
 
 void main() {
+  final context = Context(Logger.root);
   final parsedSymbols = {
     for (final decl in builtInDeclarations)
-      decl.id: ParsedSymbol(json: Json(null), declaration: decl)
+      decl.id: ParsedSymbol(source: null, json: Json(null), declaration: decl),
   };
-  final emptySymbolgraph = ParsedSymbolgraph(parsedSymbols, {});
+  final emptySymbolgraph = ParsedSymbolgraph(symbols: parsedSymbols);
   group('Function Valid json', () {
     void expectEqualParams(
       List<Parameter> actualParams,
@@ -36,8 +39,8 @@ void main() {
     }
 
     test('Two params with one internal name', () {
-      final json = Json(jsonDecode(
-        '''
+      final json = Json(
+        jsonDecode('''
         [
           { "kind": "keyword", "spelling": "init" },
           { "kind": "text", "spelling": "(" },
@@ -60,10 +63,10 @@ void main() {
           },
           { "kind": "text", "spelling": ")" }
         ]
-        ''',
-      ));
+        '''),
+      );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
       final expectedParams = [
         Parameter(
@@ -71,10 +74,7 @@ void main() {
           internalName: 'internalLabel',
           type: intType,
         ),
-        Parameter(
-          name: 'singleLabel',
-          type: intType,
-        ),
+        Parameter(name: 'singleLabel', type: intType),
       ];
 
       expectEqualParams(info.params, expectedParams);
@@ -83,8 +83,8 @@ void main() {
     });
 
     test('Three params with some optional', () {
-      final json = Json(jsonDecode(
-        '''
+      final json = Json(
+        jsonDecode('''
         [
           { "kind": "keyword", "spelling": "init" },
           { "kind": "text", "spelling": "(" },
@@ -117,10 +117,10 @@ void main() {
           },
           { "kind": "text", "spelling": "?)" }
         ]
-        ''',
-      ));
+        '''),
+      );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
       final expectedParams = [
         Parameter(
@@ -128,10 +128,7 @@ void main() {
           internalName: 'param1',
           type: OptionalType(intType),
         ),
-        Parameter(
-          name: 'label2',
-          type: intType,
-        ),
+        Parameter(name: 'label2', type: intType),
         Parameter(
           name: 'label3',
           internalName: 'param3',
@@ -145,8 +142,8 @@ void main() {
     });
 
     test('One param', () {
-      final json = Json(jsonDecode(
-        '''
+      final json = Json(
+        jsonDecode('''
         [
           { "kind": "keyword", "spelling": "init" },
           { "kind": "text", "spelling": "(" },
@@ -159,17 +156,12 @@ void main() {
           },
           { "kind": "text", "spelling": ")" }
         ]
-        ''',
-      ));
+        '''),
+      );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
-      final expectedParams = [
-        Parameter(
-          name: 'parameter',
-          type: intType,
-        ),
-      ];
+      final expectedParams = [Parameter(name: 'parameter', type: intType)];
 
       expectEqualParams(info.params, expectedParams);
       expect(info.throws, isFalse);
@@ -177,16 +169,16 @@ void main() {
     });
 
     test('No params', () {
-      final json = Json(jsonDecode(
-        '''
+      final json = Json(
+        jsonDecode('''
         [
           { "kind": "keyword", "spelling": "init" },
           { "kind": "text", "spelling": "()" }
         ]
-        ''',
-      ));
+        '''),
+      );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
       expectEqualParams(info.params, []);
       expect(info.throws, isFalse);
@@ -196,8 +188,8 @@ void main() {
     test('Function with return type', () {
       // parseFunctionInfo doesn't parse the return type, but it should be able
       // to cope with one.
-      final json = Json(jsonDecode(
-        '''
+      final json = Json(
+        jsonDecode('''
         [
           { "kind": "keyword", "spelling": "func" },
           { "kind": "text", "spelling": " " },
@@ -217,17 +209,12 @@ void main() {
             "preciseIdentifier": "s:Si"
           }
         ]
-        ''',
-      ));
+        '''),
+      );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
-      final expectedParams = [
-        Parameter(
-          name: 'parameter',
-          type: intType,
-        ),
-      ];
+      final expectedParams = [Parameter(name: 'parameter', type: intType)];
 
       expectEqualParams(info.params, expectedParams);
       expect(info.throws, isFalse);
@@ -235,8 +222,8 @@ void main() {
     });
 
     test('Function with no params with return type', () {
-      final json = Json(jsonDecode(
-        '''
+      final json = Json(
+        jsonDecode('''
         [
           { "kind": "keyword", "spelling": "func" },
           { "kind": "text", "spelling": " " },
@@ -248,10 +235,10 @@ void main() {
             "preciseIdentifier": "s:Si"
           }
         ]
-        ''',
-      ));
+        '''),
+      );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
       expectEqualParams(info.params, []);
       expect(info.throws, isFalse);
@@ -259,18 +246,18 @@ void main() {
     });
 
     test('Function with no params and no return type', () {
-      final json = Json(jsonDecode(
-        '''
+      final json = Json(
+        jsonDecode('''
         [
           { "kind": "keyword", "spelling": "func" },
           { "kind": "text", "spelling": " " },
           { "kind": "identifier", "spelling": "foo" },
           { "kind": "text", "spelling": "()" }
         ]
-        ''',
-      ));
+        '''),
+      );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
       expectEqualParams(info.params, []);
       expect(info.throws, isFalse);
@@ -278,8 +265,8 @@ void main() {
     });
 
     test('Function with return type that throws', () {
-      final json = Json(jsonDecode(
-        '''
+      final json = Json(
+        jsonDecode('''
         [
           { "kind": "keyword", "spelling": "func" },
           { "kind": "text", "spelling": " " },
@@ -301,17 +288,12 @@ void main() {
             "preciseIdentifier": "s:Si"
           }
         ]
-        ''',
-      ));
+        '''),
+      );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
-      final expectedParams = [
-        Parameter(
-          name: 'parameter',
-          type: intType,
-        ),
-      ];
+      final expectedParams = [Parameter(name: 'parameter', type: intType)];
 
       expectEqualParams(info.params, expectedParams);
       expect(info.throws, isTrue);
@@ -319,8 +301,8 @@ void main() {
     });
 
     test('Function with no return type that throws', () {
-      final json = Json(jsonDecode(
-        '''
+      final json = Json(
+        jsonDecode('''
         [
           { "kind": "keyword", "spelling": "func" },
           { "kind": "text", "spelling": " " },
@@ -336,17 +318,12 @@ void main() {
           { "kind": "text", "spelling": ") " },
           { "kind": "keyword", "spelling": "throws" }
         ]
-        ''',
-      ));
+        '''),
+      );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
-      final expectedParams = [
-        Parameter(
-          name: 'parameter',
-          type: intType,
-        ),
-      ];
+      final expectedParams = [Parameter(name: 'parameter', type: intType)];
 
       expectEqualParams(info.params, expectedParams);
       expect(info.throws, isTrue);
@@ -354,8 +331,8 @@ void main() {
     });
 
     test('Function with no params that throws', () {
-      final json = Json(jsonDecode(
-        '''
+      final json = Json(
+        jsonDecode('''
         [
           { "kind": "keyword", "spelling": "func" },
           { "kind": "text", "spelling": " " },
@@ -363,10 +340,10 @@ void main() {
           { "kind": "text", "spelling": "() " },
           { "kind": "keyword", "spelling": "throws" }
         ]
-        ''',
-      ));
+        '''),
+      );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
       expectEqualParams(info.params, []);
       expect(info.throws, isTrue);
@@ -374,8 +351,8 @@ void main() {
     });
 
     test('Function with async annotation', () {
-      final json = Json(jsonDecode(
-        '''
+      final json = Json(
+        jsonDecode('''
         [
           { "kind": "keyword", "spelling": "func" },
           { "kind": "text", "spelling": " " },
@@ -397,17 +374,12 @@ void main() {
             "preciseIdentifier": "s:Si"
           }
         ]
-        ''',
-      ));
+        '''),
+      );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
-      final expectedParams = [
-        Parameter(
-          name: 'parameter',
-          type: intType,
-        ),
-      ];
+      final expectedParams = [Parameter(name: 'parameter', type: intType)];
 
       expectEqualParams(info.params, expectedParams);
       expect(info.throws, isFalse);
@@ -415,8 +387,8 @@ void main() {
     });
 
     test('Function with async and throws annotations', () {
-      final json = Json(jsonDecode(
-        '''
+      final json = Json(
+        jsonDecode('''
         [
           { "kind": "keyword", "spelling": "func" },
           { "kind": "text", "spelling": " " },
@@ -440,17 +412,12 @@ void main() {
             "preciseIdentifier": "s:Si"
           }
         ]
-        ''',
-      ));
+        '''),
+      );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
-      final expectedParams = [
-        Parameter(
-          name: 'parameter',
-          type: intType,
-        ),
-      ];
+      final expectedParams = [Parameter(name: 'parameter', type: intType)];
 
       expectEqualParams(info.params, expectedParams);
       expect(info.throws, isTrue);
@@ -458,7 +425,8 @@ void main() {
     });
 
     test('Mutating Function that throws', () {
-      final json = Json(jsonDecode('''
+      final json = Json(
+        jsonDecode('''
         [
                 {
                     "kind": "keyword",
@@ -539,9 +507,10 @@ void main() {
                     "spelling": "throws"
                 }
             ]
-        '''));
+        '''),
+      );
 
-      final info = parseFunctionInfo(json, emptySymbolgraph);
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
 
       expect(info.throws, isTrue);
       expect(info.mutating, isTrue);
@@ -550,8 +519,8 @@ void main() {
 
   group('Invalid json', () {
     test('Parameter with no outer label', () {
-      final json = Json(jsonDecode(
-        '''
+      final json = Json(
+        jsonDecode('''
         [
           { "kind": "keyword", "spelling": "init" },
           { "kind": "text", "spelling": "(" },
@@ -564,18 +533,18 @@ void main() {
           },
           { "kind": "text", "spelling": ")" }
         ]
-        ''',
-      ));
+        '''),
+      );
 
       expect(
-        () => parseFunctionInfo(json, emptySymbolgraph),
+        () => parseFunctionInfo(context, json, emptySymbolgraph),
         throwsA(isA<Exception>()),
       );
     });
 
     test('Parameter with no type', () {
-      final json = Json(jsonDecode(
-        '''
+      final json = Json(
+        jsonDecode('''
         [
           { "kind": "keyword", "spelling": "init" },
           { "kind": "text", "spelling": "(" },
@@ -584,18 +553,18 @@ void main() {
           { "kind": "internalParam", "spelling": "internalLabel" },
           { "kind": "text", "spelling": ")" }
         ]
-        ''',
-      ));
+        '''),
+      );
 
       expect(
-        () => parseFunctionInfo(json, emptySymbolgraph),
+        () => parseFunctionInfo(context, json, emptySymbolgraph),
         throwsA(isA<Exception>()),
       );
     });
 
     test('Parameter with just a type (no label)', () {
-      final json = Json(jsonDecode(
-        '''
+      final json = Json(
+        jsonDecode('''
         [
           { "kind": "keyword", "spelling": "init" },
           { "kind": "text", "spelling": "(" },
@@ -607,11 +576,11 @@ void main() {
           },
           { "kind": "text", "spelling": ")" }
         ]
-        ''',
-      ));
+        '''),
+      );
 
       expect(
-        () => parseFunctionInfo(json, emptySymbolgraph),
+        () => parseFunctionInfo(context, json, emptySymbolgraph),
         throwsA(isA<Exception>()),
       );
     });

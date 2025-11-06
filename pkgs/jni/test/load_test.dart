@@ -11,6 +11,7 @@ import 'dart:math';
 
 import 'package:ffi/ffi.dart';
 import 'package:jni/jni.dart';
+import 'package:jni/src/third_party/generated_bindings.dart';
 import 'package:test/test.dart';
 
 import 'test_util/test_util.dart';
@@ -96,7 +97,7 @@ void run({required TestRunnerCallback testRunner}) {
     final random = newRandom();
     final nextInt = randomClass.instanceMethodId('nextInt', '()I');
     for (var i = 0; i < k256; i++) {
-      final rInt = nextInt(random, const jintType(), []);
+      final rInt = nextInt(random, jint.type, []);
       expect(rInt, isA<int>());
     }
   });
@@ -122,7 +123,7 @@ void run({required TestRunnerCallback testRunner}) {
       doGC();
       sleep(Duration(seconds: delayInSeconds));
       expect(
-        nextInt(random, const jintType(), []),
+        nextInt(random, jint.type, []),
         isA<int>(),
       );
       expect(

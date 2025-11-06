@@ -8,9 +8,11 @@ import 'dart:isolate';
 import 'package:ffi/ffi.dart';
 
 import 'c_bindings_generated.dart' as c;
+import 'ns_string.dart';
 import 'runtime_bindings_generated.dart' as r;
+import 'objective_c_bindings_generated.dart' as objc;
 
-typedef ObjectPtr = Pointer<r.ObjCObject>;
+typedef ObjectPtr = Pointer<r.ObjCObjectImpl>;
 typedef BlockPtr = Pointer<c.ObjCBlockImpl>;
 typedef VoidPtr = Pointer<Void>;
 
@@ -78,7 +80,35 @@ final class ObjCRuntimeError extends Error {
   String toString() => '$runtimeType: $message';
 }
 
-extension GetProtocolName on Pointer<r.ObjCProtocol> {
+/// Wrapper [Exception] around an Objective-C `NSError`.
+///
+/// In Dart, an "exception" is an ordinary runtime failure that can be caught
+/// and handled, while an "error" is a program failure that the programmer
+/// should have avoided (and catching [Error]s is bad practice).
+///
+/// Objective-C inverts this nomenclature. Ordinary runtime failures are
+/// signaled using `NSError`, so these are analogous to Dart's [Exception]s,
+/// though they're returned by reference rather than thrown. On the other hand,
+/// `NSException` is intended to be used in an `@throw` statement, and not
+/// intended to be caught (in fact Objective-C doesn't intend throwing and
+/// catching to be part of an ordinary control flow at all).
+final class NSErrorException implements Exception {
+  final objc.NSError error;
+  NSErrorException(this.error);
+
+  static void checkErrorPointer(ObjectPtr pointer) {
+    if (pointer.address != 0) {
+      throw NSErrorException(
+        objc.NSError.fromPointer(pointer, retain: true, release: true),
+      );
+    }
+  }
+
+  @override
+  String toString() => 'NSError: ${error.localizedDescription.toDartString()}';
+}
+
+extension GetProtocolName on Pointer<c.ObjCProtocolImpl> {
   /// Returns the name of the protocol.
   String get name => r.getProtocolName(this).cast<Utf8>().toDartString();
 }
@@ -92,7 +122,7 @@ Pointer<r.ObjCSelector> registerName(String name) {
   return sel;
 }
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 ObjectPtr getClass(String name) {
   _ensureDartAPI();
   final cstr = name.toNativeUtf8();
@@ -105,7 +135,7 @@ ObjectPtr getClass(String name) {
 }
 
 /// Only for use by ffigen bindings.
-Pointer<r.ObjCProtocol> getProtocol(String name) {
+Pointer<r.ObjCProtocolImpl> getProtocol(String name) {
   _ensureDartAPI();
   final cstr = name.toNativeUtf8();
   final clazz = r.getProtocol(cstr.cast());
@@ -116,9 +146,9 @@ Pointer<r.ObjCProtocol> getProtocol(String name) {
   return clazz;
 }
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 Pointer<Char>? getProtocolMethodSignature(
-  Pointer<r.ObjCProtocol> protocol,
+  Pointer<r.ObjCProtocolImpl> protocol,
   Pointer<r.ObjCSelector> sel, {
   required bool isRequired,
   required bool isInstanceMethod,
@@ -130,22 +160,22 @@ Pointer<Char>? getProtocolMethodSignature(
   return sig == nullptr ? null : sig;
 }
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 final msgSendPointer = Native.addressOf<NativeFunction<Void Function()>>(
   r.msgSend,
 );
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 final msgSendFpretPointer = Native.addressOf<NativeFunction<Void Function()>>(
   r.msgSendFpret,
 );
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 final msgSendStretPointer = Native.addressOf<NativeFunction<Void Function()>>(
   r.msgSendStret,
 );
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 final useMsgSendVariants =
     Abi.current() == Abi.iosX64 || Abi.current() == Abi.macosX64;
 
@@ -272,8 +302,8 @@ abstract final class _ObjCReference<T extends NativeType>
 }
 
 // Wrapper around ObjCObjectRef/ObjCBlockRef. This is needed because
-// deeply-immutable classes must be final, but the ffigen bindings need to
-// extend ObjCObjectBase/ObjCBlockBase.
+// deeply-immutable classes must be final, but the FFIgen bindings need to
+// extend ObjCObject/ObjCBlockBase.
 class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>> {
   final Ref ref;
 
@@ -287,7 +317,7 @@ class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>> {
 }
 
 @pragma('vm:deeply-immutable')
-final class ObjCObjectRef extends _ObjCReference<r.ObjCObject> {
+final class ObjCObjectRef extends _ObjCReference<r.ObjCObjectImpl> {
   ObjCObjectRef(ObjectPtr ptr, {required super.retain, required super.release})
     : super(_FinalizablePointer(ptr));
 
@@ -299,8 +329,8 @@ final class ObjCObjectRef extends _ObjCReference<r.ObjCObject> {
 }
 
 /// Only for use by ffigen bindings.
-class ObjCObjectBase extends _ObjCRefHolder<r.ObjCObject, ObjCObjectRef> {
-  ObjCObjectBase(ObjectPtr ptr, {required bool retain, required bool release})
+class ObjCObject extends _ObjCRefHolder<r.ObjCObjectImpl, ObjCObjectRef> {
+  ObjCObject(ObjectPtr ptr, {required bool retain, required bool release})
     : super(ObjCObjectRef(ptr, retain: retain, release: release));
 }
 
@@ -335,10 +365,10 @@ bool _isValidClass(ObjectPtr clazz, {bool forceReloadClasses = false}) {
   return _allClasses.contains(clazz);
 }
 
-/// Only for use by ffigen bindings.
-class ObjCProtocolBase extends ObjCObjectBase {
-  ObjCProtocolBase(super.ptr, {required super.retain, required super.release});
-}
+/// Only for use by FFIgen bindings.
+// This exists so that interface_lists_test.dart can tell the difference between
+// a protocol and an interface.
+typedef ObjCProtocol = ObjCObject;
 
 @pragma('vm:deeply-immutable')
 final class ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
@@ -352,7 +382,7 @@ final class ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
   bool _isValid(BlockPtr ptr) => c.isValidBlock(ptr);
 }
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 class ObjCBlockBase extends _ObjCRefHolder<c.ObjCBlockImpl, ObjCBlockRef> {
   ObjCBlockBase(BlockPtr ptr, {required bool retain, required bool release})
     : super(ObjCBlockRef(ptr, retain: retain, release: release));
@@ -405,7 +435,7 @@ BlockPtr _newBlock(
 
 const int _blockHasCopyDispose = 1 << 25;
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 BlockPtr newClosureBlock(VoidPtr invoke, Function fn, bool keepIsolateAlive) =>
     _newBlock(
       invoke,
@@ -415,7 +445,7 @@ BlockPtr newClosureBlock(VoidPtr invoke, Function fn, bool keepIsolateAlive) =>
       _blockHasCopyDispose,
     );
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 BlockPtr newPointerBlock(VoidPtr invoke, VoidPtr target) =>
     _newBlock(invoke, target, _pointerBlockDesc, 0, 0);
 
@@ -445,14 +475,14 @@ VoidPtr _registerBlockClosure(Function closure, bool keepIsolateAlive) {
   return VoidPtr.fromAddress(_blockClosureRegistryLastId);
 }
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 Function getBlockClosure(BlockPtr block) {
   var id = block.ref.target.address;
   assert(_blockClosureRegistry.containsKey(id));
   return _blockClosureRegistry[id]!.closure;
 }
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 final Pointer<c.DOBJC_Context> objCContext = c.fillContext(
   calloc<c.DOBJC_Context>(),
 );

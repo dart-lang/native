@@ -1,0 +1,22 @@
+{
+  "configVersion": 2,
+  "flutterRoot": "file:///Users/some_user/src/flutter/flutter",
+  "flutterVersion": "3.33.0-1.0.pre-1146",
+  "generator": "pub",
+  "generatorVersion": "3.10.0-28.0.dev",
+  "packages": [
+    {
+      "languageVersion": "3.5",
+      "name": "analyzer",
+      "packageUri": "lib/",
+      "rootUri": "file:///Users/some_user/.pub-cache/hosted/pub.dev/analyzer-7.4.5"
+    },
+    {
+      "languageVersion": "3.9",
+      "name": "code_assets",
+      "packageUri": "lib/",
+      "rootUri": "../pkgs/code_assets"
+    }
+  ],
+  "pubCache": "file:///Users/some_user/.pub-cache"
+}

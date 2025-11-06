@@ -8,72 +8,62 @@ import '../jobject.dart';
 import '../jreference.dart';
 import '../types.dart';
 
-final class JBooleanNullableType extends JObjType<JBoolean?> {
-  @internal
-  const JBooleanNullableType();
+@internal
+final class $JBoolean$NullableType$ extends JType<JBoolean?> {
+  const $JBoolean$NullableType$();
 
-  @internal
   @override
   String get signature => r'Ljava/lang/Boolean;';
 
-  @internal
   @override
   JBoolean? fromReference(JReference reference) =>
       reference.isNull ? null : JBoolean.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectNullableType();
+  JType get superType => const $JObject$NullableType$();
 
-  @internal
   @override
-  JObjType<JBoolean?> get nullableType => this;
+  JType<JBoolean?> get nullableType => this;
 
-  @internal
   @override
   final superCount = 2;
 
   @override
-  int get hashCode => (JBooleanNullableType).hashCode;
+  int get hashCode => ($JBoolean$NullableType$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JBooleanNullableType &&
-        other is JBooleanNullableType;
+    return other.runtimeType == $JBoolean$NullableType$ &&
+        other is $JBoolean$NullableType$;
   }
 }
 
-final class JBooleanType extends JObjType<JBoolean> {
-  @internal
-  const JBooleanType();
+@internal
+final class $JBoolean$Type$ extends JType<JBoolean> {
+  const $JBoolean$Type$();
 
-  @internal
   @override
   String get signature => r'Ljava/lang/Boolean;';
 
-  @internal
   @override
   JBoolean fromReference(JReference reference) =>
       JBoolean.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectType();
+  JType get superType => const $JObject$Type$();
 
-  @internal
   @override
-  JObjType<JBoolean?> get nullableType => const JBooleanNullableType();
+  JType<JBoolean?> get nullableType => const $JBoolean$NullableType$();
 
-  @internal
   @override
   final superCount = 2;
 
   @override
-  int get hashCode => (JBooleanType).hashCode;
+  int get hashCode => ($JBoolean$Type$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JBooleanType && other is JBooleanType;
+    return other.runtimeType == $JBoolean$Type$ && other is $JBoolean$Type$;
   }
 }
 
@@ -81,17 +71,17 @@ class JBoolean extends JObject {
   @internal
   @override
   // ignore: overridden_fields
-  final JObjType<JBoolean> $type = type;
+  final JType<JBoolean> $type = type;
 
   JBoolean.fromReference(
     super.reference,
   ) : super.fromReference();
 
   /// The type which includes information such as the signature of this class.
-  static const type = JBooleanType();
+  static const JType<JBoolean> type = $JBoolean$Type$();
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = JBooleanNullableType();
+  static const JType<JBoolean?> nullableType = $JBoolean$NullableType$();
 
   static final _class = JClass.forName(r'java/lang/Boolean');
 

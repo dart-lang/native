@@ -7,9 +7,10 @@ import 'dart:io';
 
 import 'package:path/path.dart' as p;
 
+import 'imports.dart';
 import 'pointer.dart';
+import 'scope.dart';
 import 'type.dart';
-import 'unique_namer.dart';
 import 'writer.dart';
 
 /// Converts [text] to a dart doc comment(`///`).
@@ -46,14 +47,15 @@ String makeNativeAnnotation(
 }) {
   final args = <(String, String)>[];
   if (dartName != nativeSymbolName) {
-    args.add(('symbol', "'${UniqueNamer.stringLiteral(nativeSymbolName)}'"));
+    args.add(('symbol', "'${Namer.stringLiteral(nativeSymbolName)}'"));
   }
   if (isLeaf) {
     args.add(('isLeaf', 'true'));
   }
 
   final combinedArgs = args.map((e) => '${e.$1}: ${e.$2}').join(', ');
-  return '@${w.ffiLibraryPrefix}.Native<$nativeType>($combinedArgs)';
+  final ffiPrefix = w.context.libs.prefix(ffiImport);
+  return '@$ffiPrefix.Native<$nativeType>($combinedArgs)';
 }
 
 String makeArrayAnnotation(Writer w, ConstantArray arrayType) {
@@ -64,7 +66,8 @@ String makeArrayAnnotation(Writer w, ConstantArray arrayType) {
     type = type.child;
   }
 
-  return '@${w.ffiLibraryPrefix}.Array.multi([${dimensions.join(', ')}])';
+  final ffiPrefix = w.context.libs.prefix(ffiImport);
+  return '@$ffiPrefix.Array.multi([${dimensions.join(', ')}])';
 }
 
 /// 32-bit FNV-1a hash function.
@@ -81,7 +84,9 @@ int fnvHash32(String input) {
 /// This is usually just Platform.resolvedExecutable. But when running flutter
 /// tests, the resolvedExecutable will be flutter_tester, and Dart will be in a
 /// directory a few levels up from it.
-String findDart() {
+final String dartExecutable = _findDart();
+
+String _findDart() {
   var path = Platform.resolvedExecutable;
   if (p.basenameWithoutExtension(path) == 'dart') return path;
   final dartExe = 'dart${p.extension(path)}';

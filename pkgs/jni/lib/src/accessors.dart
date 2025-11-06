@@ -72,7 +72,7 @@ extension JniResultMethods on JniResult {
     return pointer == nullptr ? jNullReference : JGlobalReference(pointer);
   }
 
-  T object<T extends JObject?>(JObjType<T> type) {
+  T object<T extends JObject?>(JType<T> type) {
     return type.fromReference(reference);
   }
 

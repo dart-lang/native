@@ -23,6 +23,7 @@ class CLinker extends CTool implements Linker {
 
   CLinker.library({
     required super.name,
+    super.packageName,
     super.assetName,
     required this.linkerOptions,
     super.sources = const [],
@@ -99,7 +100,7 @@ class CLinker extends CTool implements Linker {
     if (assetName != null) {
       output.assets.code.add(
         CodeAsset(
-          package: input.packageName,
+          package: packageName ?? input.packageName,
           name: assetName!,
           file: libUri,
           linkMode: linkMode,
@@ -115,7 +116,7 @@ class CLinker extends CTool implements Linker {
         )
         .toList();
 
-    output.addDependencies({
+    output.dependencies.addAll({
       // Note: We use a Set here to deduplicate the dependencies.
       ...sources,
       ...includeFiles,

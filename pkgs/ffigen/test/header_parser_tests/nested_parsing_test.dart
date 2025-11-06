@@ -15,8 +15,7 @@ void main() {
   group('nested_parsing_test', () {
     setUpAll(() {
       logWarnings();
-      expected = expectedLibrary();
-      actual = parser.parse(
+      final context = testContext(
         testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Nested Parsing Test'
@@ -29,6 +28,8 @@ ${strings.structs}:
     - Struct2
         '''),
       );
+      expected = expectedLibrary();
+      actual = parser.parse(context);
     });
 
     test('Total bindings count', () {
@@ -75,7 +76,9 @@ ${strings.structs}:
 }
 
 Library expectedLibrary() {
+  final context = testContext();
   final struct2 = Struct(
+    context: context,
     name: 'Struct2',
     members: [
       CompoundMember(name: 'e', type: intType),
@@ -83,25 +86,30 @@ Library expectedLibrary() {
     ],
   );
   final unnamedInternalStruct = Struct(
-    name: 'UnnamedStruct1',
+    context: context,
+    name: 'UnnamedStruct',
     members: [
       CompoundMember(name: 'a', type: intType),
       CompoundMember(name: 'b', type: intType),
     ],
   );
   final unnamedUnion1 = Union(
-    name: 'UnnamedUnion1',
+    context: context,
+    name: 'UnnamedUnion',
     members: [CompoundMember(name: 'a', type: floatType)],
   );
   final unnamedUnion2 = Union(
-    name: 'UnnamedUnion2',
+    context: context,
+    name: 'UnnamedUnion\$1',
     members: [CompoundMember(name: 'b', type: floatType)],
   );
   final unnamedUnion3 = Union(
-    name: 'UnnamedUnion3',
+    context: context,
+    name: 'UnnamedUnion\$2',
     members: [CompoundMember(name: 'd', type: floatType)],
   );
   return Library(
+    context: context,
     name: 'Bindings',
     bindings: [
       unnamedInternalStruct,
@@ -110,6 +118,7 @@ Library expectedLibrary() {
       unnamedUnion3,
       struct2,
       Struct(
+        context: context,
         name: 'Struct1',
         members: [
           CompoundMember(name: 'a', type: intType),
@@ -118,23 +127,25 @@ Library expectedLibrary() {
         ],
       ),
       Struct(
+        context: context,
         name: 'Struct3',
         members: [
           CompoundMember(name: 'a', type: intType),
           CompoundMember(name: 'b', type: unnamedInternalStruct),
         ],
       ),
-      Struct(name: 'EmptyStruct'),
-      Struct(name: 'Struct4'),
-      Struct(name: 'Struct5'),
+      Struct(context: context, name: 'EmptyStruct'),
+      Struct(context: context, name: 'Struct4'),
+      Struct(context: context, name: 'Struct5'),
       Struct(
+        context: context,
         name: 'Struct6',
         members: [
-          CompoundMember(name: '', type: unnamedUnion1),
+          CompoundMember(name: 'unnamed', type: unnamedUnion1),
           CompoundMember(name: 'c', type: unnamedUnion2),
           CompoundMember(name: 'e', type: unnamedUnion3),
         ],
       ),
     ],
-  );
+  )..forceFillNamesForTesting();
 }

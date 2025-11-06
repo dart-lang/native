@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:hooks/hooks.dart';
-import 'package:logging/logging.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 void main(List<String> arguments) async {
@@ -14,14 +13,6 @@ void main(List<String> arguments) async {
       assetName: 'src/${packageName}_bindings_generated.dart',
       sources: ['src/$packageName.c', 'src/dart_api_dl.c'],
     );
-    await cbuilder.run(
-      input: input,
-      output: output,
-      logger: Logger('')
-        ..level = Level.ALL
-        ..onRecord.listen((record) {
-          print('${record.level.name}: ${record.time}: ${record.message}');
-        }),
-    );
+    await cbuilder.run(input: input, output: output);
   });
 }

@@ -6,6 +6,7 @@ import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
 import 'package:ffigen/src/strings.dart' as strings;
+import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart' as yaml;
 
@@ -18,8 +19,9 @@ void main() {
     setUpAll(() {
       logWarnings();
       actual = parser.parse(
-        YamlConfig.fromYaml(
-          yaml.loadYaml('''
+        testContext(
+          YamlConfig.fromYaml(
+            yaml.loadYaml('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'VarArgs Test'
 ${strings.output}: 'unused'
@@ -45,7 +47,9 @@ ${strings.functions}:
 ${strings.preamble}: |
   // ignore_for_file: camel_case_types
         ''')
-              as yaml.YamlMap,
+                as yaml.YamlMap,
+            Logger.root,
+          ).configAdapter(),
         ),
       );
     });

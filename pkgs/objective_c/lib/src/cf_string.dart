@@ -7,7 +7,7 @@ import 'objective_c_bindings_generated.dart';
 
 extension CFStringRefConversions on CFStringRef {
   NSString toNSString() =>
-      NSString.castFromPointer(cast(), retain: true, release: true);
+      NSString.fromPointer(cast(), retain: true, release: true);
 
-  String toDartString() => NSString.castFromPointer(cast()).toDartString();
+  String toDartString() => NSString.fromPointer(cast()).toDartString();
 }

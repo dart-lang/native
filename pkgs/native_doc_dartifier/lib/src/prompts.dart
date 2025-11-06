@@ -76,9 +76,8 @@ JNIgen handles various syntactic and semantic differences between Java/Kotlin an
         * Pass each interface method as a named closure argument within the `\$InterfaceName` factory constructor.
         * Example: `InterfaceName.implement(\$InterfaceName(method1: (param1) { /* ... */ }))`
     * **Reusable Implementations:**
-        * If the Java/Kotlin code defines a class that `implements` an interface, translate it to a Dart `final class` that `with` (mixes in) the corresponding `\$`-prefixed interface (e.g., `final class MyPrinter with \$Runnable`).
-        * The Dart class should override the interface methods as required.
-        * Instantiate and pass this class to the `implement` factory: `InterfaceName.implement(MyClassImplementingInterface(...))`
+        * If the Java/Kotlin code defines a class that `implements` an interface, To translate it to Dart make this class to be 'final class with', Don't make it to implements InterfaceName only use the mixin class.
+        * Example: `public class MyClass implements Comparable` becomes `final class MyClass with \$Comparable`.
     * **Asynchronous Listener Methods:**
         * For `void`-returning methods in implemented interfaces that should be non-blocking (listeners), explicitly set the `<methodName>\$async` parameter to `true` when using the inline implementation (e.g., `run\$async: true`).
         * If using a reusable class (mixin), override the `<methodName>\$async` getter to return `true` (e.g., `bool get run\$async => true;`).
@@ -108,13 +107,95 @@ $_schema
 
   @override
   String getParsedResponse(String response) {
+    response = response.replaceAll(r'\$', r'$').replaceAll('\\\'', '\'');
     print('Response: $response');
-    final json = jsonDecode(response) as Map<String, dynamic>;
-    if (!json.containsKey('dartCode')) {
+    try {
+      final json = jsonDecode(response) as Map<String, dynamic>;
+      if (!json.containsKey('dartCode')) {
+        return '';
+      }
+      final dartCode = json['dartCode'].toString();
+      print('Dart Code: $dartCode');
+      return dartCode;
+    } catch (e) {
+      print('Error decoding JSON: $e');
       return '';
     }
-    final dartCode = json['dartCode'].toString();
-    print('Dart Code: $dartCode');
-    return dartCode;
   }
+}
+
+class FixPrompt implements Prompt {
+  final String mainDartCode;
+  final String helperDartCode;
+  final String analysisResult;
+
+  FixPrompt(this.mainDartCode, this.helperDartCode, this.analysisResult);
+
+  // Change this will require changing the getParsedResponse() method.
+  final String _schema = '''
+Output the response in JSON format:
+{
+  "thinking": "Your thinking process here",
+  "mainDartCode": "Dart code here",
+  "helperDartCode": "Dart code here"
+}
+  ''';
+
+  @override
+  String get prompt => '''
+I need your help fixing some analyzer errors in the Dart code you generated for me.
+
+also provide your thinking process. Explain your approach to fixing the errors, identify the specific issues, and describe how you will use the previously shared bindings and code to solve them.
+
+---
+
+**Instructions:**
+
+1.  **Use Previous Bindings:** Please use the JNIgen bindings to correctly resolve the remaining errors, for example use the correct class name, or use the correct method with the given number and types of parameters.
+2.  **Prioritize Helper File:** Make changes to the **helper Dart file** first.
+3.  **Modify Main File as a Last Resort:** Only alter the **main Dart file** if the problems cannot be resolved within the helper file.
+4.  **Minimalist Fixes:** Add only the code necessary to fix the remaining errors in the **helper Dart file**. Do not write a complete or fully initialized implementation for example you can initialize missing declerations like (late final Foo;).
+5.  **Valid Dart Syntax:** Ensure all generated Dart code is valid. Avoid using backslashes (`\\`) before dollar signs (`\$`).
+
+---
+
+Here is the main Dart file code that needs fixing:
+$mainDartCode
+
+Here is the helper Dart file that you can use to add initialization code or other necessary imports to fix the issues in the main Dart code file:
+$helperDartCode
+
+Here are the issues found in the main Dart code:
+$analysisResult
+
+$_schema
+''';
+
+  @override
+  FixResponse getParsedResponse(String response) {
+    response = response.replaceAll(r'\$', r'$').replaceAll('\\\'', '\'');
+    print('Response: $response');
+    try {
+      final json = jsonDecode(response) as Map<String, dynamic>;
+      var mainDartCode = '';
+      var tempDartCode = '';
+      if (json.containsKey('mainDartCode')) {
+        mainDartCode = json['mainDartCode'].toString();
+      }
+      if (json.containsKey('helperDartCode')) {
+        tempDartCode = json['helperDartCode'].toString();
+      }
+      return FixResponse(mainCode: mainDartCode, helperCode: tempDartCode);
+    } catch (e) {
+      print('Error decoding JSON: $e');
+      return FixResponse(mainCode: '', helperCode: '');
+    }
+  }
+}
+
+class FixResponse {
+  final String mainCode;
+  final String helperCode;
+
+  FixResponse({required this.mainCode, required this.helperCode});
 }

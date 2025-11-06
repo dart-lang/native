@@ -3,7 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/config_provider/config_types.dart';
+import 'package:ffigen/src/config_provider/config.dart';
+import 'package:ffigen/src/context.dart';
+import 'package:ffigen/src/header_parser/parser.dart';
 import 'package:meta/meta.dart';
 import 'package:test/test.dart';
 
@@ -16,39 +18,58 @@ void main() {
 // BSD-style license that can be found in the LICENSE file.
 ''';
 
+  Context makeContext({Output? output}) => testContext(
+    FfiGenerator(
+      output:
+          output ??
+          Output(
+            dartFile: Uri.file('unused'),
+            style: const DynamicLibraryBindings(wrapperName: 'Bindings'),
+          ),
+      enums: Enums.includeAll,
+      functions: Functions.includeAll,
+      globals: Globals.includeAll,
+      macros: Macros.includeAll,
+      structs: Structs.includeAll,
+      typedefs: Typedefs.includeAll,
+      unions: Unions.includeAll,
+      unnamedEnums: UnnamedEnums.includeAll,
+    ),
+  );
+
   group('code_generator: ', () {
     @isTestGroup
-    void withAndWithoutNative(
-      String description,
-      void Function(FfiNativeConfig) runTest,
-    ) {
+    void withAndWithoutNative(String description, void Function(bool) runTest) {
       group(description, () {
-        test(
-          'without Native',
-          () => runTest(const FfiNativeConfig(enabled: false)),
-        );
-        test(
-          'with Native',
-          () => runTest(const FfiNativeConfig(enabled: true, assetId: 'test')),
-        );
+        test('without Native', () => runTest(false));
+        test('with Native', () => runTest(true));
       });
     }
 
     withAndWithoutNative('Function Binding (primitives, pointers)', (
-      nativeConfig,
+      loadFromNativeAsset,
     ) {
+      final nativeContext = makeContext(
+        output: Output(
+          dartFile: Uri.file('unused'),
+          style: loadFromNativeAsset
+              ? const NativeExternalBindings(assetId: 'test')
+              : const DynamicLibraryBindings(wrapperName: 'Bindings'),
+        ),
+      );
       final library = Library(
+        context: nativeContext,
         name: 'Bindings',
         header: licenseHeader,
-        bindings: [
+        bindings: transformBindings([
           Func(
-            ffiNativeConfig: nativeConfig,
+            loadFromNativeAsset: loadFromNativeAsset,
             name: 'noParam',
             dartDoc: 'Just a test function\nheres another line',
             returnType: NativeType(SupportedNativeType.int32),
           ),
           Func(
-            ffiNativeConfig: nativeConfig,
+            loadFromNativeAsset: loadFromNativeAsset,
             name: 'withPrimitiveParam',
             parameters: [
               Parameter(
@@ -65,7 +86,7 @@ void main() {
             returnType: NativeType(SupportedNativeType.char),
           ),
           Func(
-            ffiNativeConfig: nativeConfig,
+            loadFromNativeAsset: loadFromNativeAsset,
             name: 'withPointerParam',
             parameters: [
               Parameter(
@@ -84,7 +105,7 @@ void main() {
             returnType: PointerType(NativeType(SupportedNativeType.double)),
           ),
           Func(
-            ffiNativeConfig: nativeConfig,
+            loadFromNativeAsset: loadFromNativeAsset,
             isLeaf: true,
             name: 'leafFunc',
             dartDoc: 'A function with isLeaf: true',
@@ -97,25 +118,29 @@ void main() {
             ],
             returnType: NativeType(SupportedNativeType.int32),
           ),
-        ],
+        ], nativeContext),
       );
 
       _matchLib(
         library,
-        nativeConfig.enabled ? 'function_ffiNative' : 'function',
+        loadFromNativeAsset ? 'function_ffiNative' : 'function',
       );
     });
 
     test('Struct Binding (primitives, pointers)', () {
+      final context = makeContext();
       final library = Library(
+        context: context,
         name: 'Bindings',
         header: licenseHeader,
-        bindings: [
+        bindings: transformBindings([
           Struct(
+            context: context,
             name: 'NoMember',
             dartDoc: 'Just a test struct\nheres another line',
           ),
           Struct(
+            context: context,
             name: 'WithPrimitiveMember',
             members: [
               CompoundMember(
@@ -133,6 +158,7 @@ void main() {
             ],
           ),
           Struct(
+            context: context,
             name: 'WithPointerMember',
             members: [
               CompoundMember(
@@ -152,6 +178,7 @@ void main() {
             ],
           ),
           Struct(
+            context: context,
             name: 'WithIntPtrUintPtr',
             members: [
               CompoundMember(
@@ -166,14 +193,16 @@ void main() {
               ),
             ],
           ),
-        ],
+        ], context),
       );
 
       _matchLib(library, 'struct');
     });
 
     test('Function and Struct Binding (pointer to Struct)', () {
+      final context = makeContext();
       final structSome = Struct(
+        context: context,
         name: 'SomeStruct',
         members: [
           CompoundMember(
@@ -188,9 +217,10 @@ void main() {
         ],
       );
       final library = Library(
+        context: context,
         name: 'Bindings',
         header: licenseHeader,
-        bindings: [
+        bindings: transformBindings([
           structSome,
           Func(
             name: 'someFunc',
@@ -203,144 +233,169 @@ void main() {
             ],
             returnType: PointerType(structSome),
           ),
-        ],
+        ], context),
       );
 
       _matchLib(library, 'function_n_struct');
     });
 
     withAndWithoutNative('global (primitives, pointers, pointer to struct)', (
-      nativeConfig,
+      loadFromNativeAsset,
     ) {
-      final structSome = Struct(name: 'Some');
-      final emptyGlobalStruct = Struct(name: 'EmptyStruct');
+      final nativeContext = makeContext(
+        output: Output(
+          dartFile: Uri.file('unused'),
+          style: loadFromNativeAsset
+              ? const NativeExternalBindings(assetId: 'test')
+              : const DynamicLibraryBindings(wrapperName: 'Bindings'),
+        ),
+      );
+
+      final structSome = Struct(context: nativeContext, name: 'Some');
+      final emptyGlobalStruct = Struct(
+        context: nativeContext,
+        name: 'EmptyStruct',
+      );
 
       final library = Library(
+        context: nativeContext,
         name: 'Bindings',
         header: licenseHeader,
-        bindings: [
+        bindings: transformBindings([
           Global(
-            nativeConfig: nativeConfig,
+            loadFromNativeAsset: loadFromNativeAsset,
             name: 'test1',
             type: NativeType(SupportedNativeType.int32),
           ),
           Global(
-            nativeConfig: nativeConfig,
+            loadFromNativeAsset: loadFromNativeAsset,
             name: 'test2',
             type: PointerType(NativeType(SupportedNativeType.float)),
             constant: true,
           ),
           Global(
-            nativeConfig: nativeConfig,
+            loadFromNativeAsset: loadFromNativeAsset,
             name: 'test3',
             type: ConstantArray(
               10,
               NativeType(SupportedNativeType.float),
-              useArrayType: nativeConfig.enabled,
+              useArrayType: loadFromNativeAsset,
             ),
             constant: true,
           ),
           structSome,
           Global(
-            nativeConfig: nativeConfig,
+            loadFromNativeAsset: loadFromNativeAsset,
             name: 'test5',
             type: PointerType(structSome),
           ),
           emptyGlobalStruct,
           Global(
-            nativeConfig: nativeConfig,
+            loadFromNativeAsset: loadFromNativeAsset,
             name: 'globalStruct',
             type: emptyGlobalStruct,
           ),
-        ],
+        ], nativeContext),
       );
-      _matchLib(library, nativeConfig.enabled ? 'global_native' : 'global');
+      _matchLib(library, loadFromNativeAsset ? 'global_native' : 'global');
     });
 
     test('constant', () {
+      final context = makeContext();
       final library = Library(
+        context: context,
         name: 'Bindings',
         header: '$licenseHeader\n// ignore_for_file: unused_import\n',
-        bindings: [
-          Constant(name: 'test1', rawType: 'int', rawValue: '20'),
-          Constant(name: 'test2', rawType: 'double', rawValue: '20.0'),
-        ],
+        bindings: transformBindings([
+          MacroConstant(name: 'test1', rawType: 'int', rawValue: '20'),
+          MacroConstant(name: 'test2', rawType: 'double', rawValue: '20.0'),
+        ], context),
       );
       _matchLib(library, 'constant');
     });
 
     test('enum_class', () {
+      final context = makeContext();
       final library = Library(
+        context: context,
         name: 'Bindings',
         header: '$licenseHeader\n// ignore_for_file: unused_import\n',
-        bindings: [
+        bindings: transformBindings([
           EnumClass(
+            context: context,
             name: 'Constants',
             dartDoc: 'test line 1\ntest line 2',
             enumConstants: [
-              const EnumConstant(name: 'a', value: 10),
-              const EnumConstant(name: 'b', value: -1, dartDoc: 'negative'),
+              EnumConstant(name: 'a', value: 10),
+              EnumConstant(name: 'b', value: -1, dartDoc: 'negative'),
             ],
           ),
-        ],
+        ], context),
       );
       _matchLib(library, 'enumclass');
     });
 
     test('enum_class with duplicates', () {
+      final context = makeContext();
       final library = Library(
+        context: context,
         name: 'Bindings',
         header: '$licenseHeader\n// ignore_for_file: unused_import\n',
-        bindings: [
+        bindings: transformBindings([
           EnumClass(
+            context: context,
             name: 'Duplicates',
             dartDoc: 'test line 1\ntest line 2',
             enumConstants: [
-              const EnumConstant(
+              EnumConstant(
                 name: 'a',
                 value: 0,
                 dartDoc: 'This is a unique value',
               ),
-              const EnumConstant(
+              EnumConstant(
                 name: 'b',
                 value: 1,
                 dartDoc: 'This is an original value',
               ),
-              const EnumConstant(
+              EnumConstant(
                 name: 'c',
                 value: 1,
                 dartDoc: 'This is a duplicate value',
               ),
             ],
           ),
-        ],
+        ], context),
       );
       _matchLib(library, 'enumclass_duplicates');
     });
 
     test('enum_class as integers', () {
+      final context = makeContext();
       final enum1 = EnumClass(
+        context: context,
         name: 'MyEnum',
         enumConstants: [
-          const EnumConstant(name: 'value1', value: 0),
-          const EnumConstant(name: 'value2', value: 1),
-          const EnumConstant(name: 'value3', value: 2),
+          EnumConstant(name: 'value1', value: 0),
+          EnumConstant(name: 'value2', value: 1),
+          EnumConstant(name: 'value3', value: 2),
         ],
       );
       final enum2 = EnumClass(
+        context: context,
         name: 'MyIntegerEnum',
-        generateAsInt: true,
+        style: EnumStyle.intConstants,
         enumConstants: [
-          const EnumConstant(name: 'int1', value: 1),
-          const EnumConstant(name: 'int2', value: 2),
-          const EnumConstant(name: 'int3', value: 10),
+          EnumConstant(name: 'int1', value: 1),
+          EnumConstant(name: 'int2', value: 2),
+          EnumConstant(name: 'int3', value: 10),
         ],
       );
       final library = Library(
+        context: context,
         name: 'Bindings',
         header: '$licenseHeader\n// ignore_for_file: unused_import\n',
         silenceEnumWarning: true,
-        bindings: [
+        bindings: transformBindings([
           enum1,
           enum2,
           Func(
@@ -357,24 +412,27 @@ void main() {
               Parameter(name: 'value', type: enum2, objCConsumed: false),
             ],
           ),
-        ],
+        ], context),
       );
       _matchLib(library, 'enumclass_integers');
     });
 
     test('enum in structs and functions', () {
+      final context = makeContext();
       final enum1 = EnumClass(
+        context: context,
         name: 'Enum1',
-        enumConstants: const [
+        enumConstants: [
           EnumConstant(name: 'a', value: 0),
           EnumConstant(name: 'b', value: 1),
           EnumConstant(name: 'c', value: 2),
         ],
       );
       final enum2 = EnumClass(
+        context: context,
         name: 'Enum2',
-        generateAsInt: true,
-        enumConstants: const [
+        style: EnumStyle.intConstants,
+        enumConstants: [
           EnumConstant(name: 'value1', value: 0),
           EnumConstant(name: 'value2', value: 1),
           EnumConstant(name: 'value3', value: 2),
@@ -403,6 +461,7 @@ void main() {
         ],
       );
       final struct1 = Struct(
+        context: context,
         name: 'StructWithEnums',
         members: [
           CompoundMember(name: 'enum1', type: enum1),
@@ -417,20 +476,36 @@ void main() {
         ],
       );
       final lib = Library(
+        context: context,
         name: 'Bindings',
         header: '$licenseHeader\n// ignore_for_file: unused_import\n',
         silenceEnumWarning: true,
-        bindings: [enum1, enum2, struct1, func1, func2, func3, func4],
+        bindings: transformBindings([
+          enum1,
+          enum2,
+          struct1,
+          func1,
+          func2,
+          func3,
+          func4,
+        ], context),
       );
       _matchLib(lib, 'enumclass_func_and_struct');
     });
 
     test('Internal conflict resolution', () {
+      final context = makeContext(
+        output: Output(
+          dartFile: Uri.file('unused'),
+          style: const DynamicLibraryBindings(wrapperName: 'init_dylib'),
+        ),
+      );
       final library = Library(
+        context: context,
         name: 'init_dylib',
         header:
             '$licenseHeader\n// ignore_for_file: unused_element, camel_case_types, non_constant_identifier_names\n',
-        bindings: [
+        bindings: transformBindings([
           Func(
             name: 'test',
             returnType: NativeType(SupportedNativeType.voidType),
@@ -448,6 +523,7 @@ void main() {
             returnType: NativeType(SupportedNativeType.voidType),
           ),
           Struct(
+            context: context,
             name: '_Test',
             members: [
               CompoundMember(
@@ -462,47 +538,56 @@ void main() {
               ),
             ],
           ),
-          Struct(name: 'ArrayHelperPrefixCollisionTest'),
+          Struct(context: context, name: 'ArrayHelperPrefixCollisionTest'),
           Func(
             name: 'Test',
             returnType: NativeType(SupportedNativeType.voidType),
           ),
-          EnumClass(name: '_c_Test'),
-          EnumClass(name: 'init_dylib'),
-        ],
+          EnumClass(context: context, name: '_c_Test'),
+          EnumClass(context: context, name: 'init_dylib'),
+        ], context),
       );
       _matchLib(library, 'internal_conflict_resolution');
     });
 
     test('Adds Native symbol on mismatch', () {
-      final nativeConfig = const FfiNativeConfig(enabled: true);
+      final context = makeContext(
+        output: Output(
+          dartFile: Uri.file('unused'),
+          style: const NativeExternalBindings(assetId: 'test'),
+        ),
+      );
       final library = Library(
+        context: context,
         name: 'init_dylib',
         header:
             '$licenseHeader\n// ignore_for_file: unused_element, camel_case_types, non_constant_identifier_names\n',
-        bindings: [
+        bindings: transformBindings([
           Func(
-            ffiNativeConfig: nativeConfig,
+            loadFromNativeAsset: true,
             name: 'test',
             originalName: '_test',
             returnType: NativeType(SupportedNativeType.voidType),
           ),
           Global(
-            nativeConfig: nativeConfig,
+            loadFromNativeAsset: true,
             name: 'testField',
             originalName: '_testField',
             type: NativeType(SupportedNativeType.int16),
           ),
-        ],
+        ], context),
       );
       _matchLib(library, 'native_symbol');
     });
   });
+
   test('boolean_dartBool', () {
+    final context = makeContext();
     final library = Library(
+      context: context,
       name: 'Bindings',
       header: licenseHeader,
-      bindings: [
+      bindings: transformBindings([
         Func(
           name: 'test1',
           returnType: BooleanType(),
@@ -516,19 +601,24 @@ void main() {
           ],
         ),
         Struct(
+          context: context,
           name: 'Test2',
           members: [CompoundMember(name: 'a', type: BooleanType())],
         ),
-      ],
+      ], context),
     );
     _matchLib(library, 'boolean_dartbool');
   });
+
   test('Pack Structs', () {
+    final context = makeContext();
     final library = Library(
+      context: context,
       name: 'Bindings',
       header: licenseHeader,
-      bindings: [
+      bindings: transformBindings([
         Struct(
+          context: context,
           name: 'NoPacking',
           pack: null,
           members: [
@@ -539,6 +629,7 @@ void main() {
           ],
         ),
         Struct(
+          context: context,
           name: 'Pack1',
           pack: 1,
           members: [
@@ -549,6 +640,7 @@ void main() {
           ],
         ),
         Struct(
+          context: context,
           name: 'Pack2',
           pack: 2,
           members: [
@@ -559,6 +651,7 @@ void main() {
           ],
         ),
         Struct(
+          context: context,
           name: 'Pack4',
           pack: 4,
           members: [
@@ -569,6 +662,7 @@ void main() {
           ],
         ),
         Struct(
+          context: context,
           name: 'Pack8',
           pack: 8,
           members: [
@@ -579,6 +673,7 @@ void main() {
           ],
         ),
         Struct(
+          context: context,
           name: 'Pack16',
           pack: 16,
           members: [
@@ -588,27 +683,33 @@ void main() {
             ),
           ],
         ),
-      ],
+      ], context),
     );
     _matchLib(library, 'packed_structs');
   });
+
   test('Union Bindings', () {
+    final context = makeContext();
     final struct1 = Struct(
+      context: context,
       name: 'Struct1',
       members: [CompoundMember(name: 'a', type: charType)],
     );
     final union1 = Union(
+      context: context,
       name: 'Union1',
       members: [CompoundMember(name: 'a', type: charType)],
     );
     final library = Library(
+      context: context,
       name: 'Bindings',
       header: licenseHeader,
-      bindings: [
+      bindings: transformBindings([
         struct1,
         union1,
-        Union(name: 'EmptyUnion'),
+        Union(context: context, name: 'EmptyUnion'),
         Union(
+          context: context,
           name: 'Primitives',
           members: [
             CompoundMember(name: 'a', type: charType),
@@ -618,6 +719,7 @@ void main() {
           ],
         ),
         Union(
+          context: context,
           name: 'PrimitivesWithPointers',
           members: [
             CompoundMember(name: 'a', type: charType),
@@ -628,6 +730,7 @@ void main() {
           ],
         ),
         Union(
+          context: context,
           name: 'WithArray',
           members: [
             CompoundMember(
@@ -648,28 +751,33 @@ void main() {
             ),
           ],
         ),
-      ],
+      ], context),
     );
     _matchLib(library, 'unions');
   });
+
   test('Typealias Bindings', () {
+    final context = makeContext();
     final struct2 = Struct(
+      context: context,
       name: 'Struct2',
       members: [CompoundMember(name: 'a', type: doubleType)],
     );
     final struct2Typealias = Typealias(name: 'Struct2Typealias', type: struct2);
-    final struct3 = Struct(name: 'Struct3');
+    final struct3 = Struct(context: context, name: 'Struct3');
     final struct3Typealias = Typealias(name: 'Struct3Typealias', type: struct3);
     final library = Library(
+      context: context,
       name: 'Bindings',
       header:
           '$licenseHeader\n// ignore_for_file: non_constant_identifier_names\n',
-      bindings: [
+      bindings: transformBindings([
         Typealias(
           name: 'RawUnused',
-          type: Struct(name: 'Struct1'),
+          type: Struct(context: context, name: 'Struct1'),
         ),
         Struct(
+          context: context,
           name: 'WithTypealiasStruct',
           members: [CompoundMember(name: 't', type: struct2Typealias)],
         ),
@@ -691,7 +799,7 @@ void main() {
         struct2Typealias,
         struct3,
         struct3Typealias,
-      ],
+      ], context),
     );
     _matchLib(library, 'typealias');
   });

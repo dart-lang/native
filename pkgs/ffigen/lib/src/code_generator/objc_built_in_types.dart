@@ -6,10 +6,15 @@
 
 const objCBuiltInInterfaces = {
   'DOBJCDartInputStreamAdapter': 'DartInputStreamAdapter',
+  'DOBJCDartInputStreamAdapterWeakHolder': 'DartInputStreamAdapterWeakHolder',
   'DOBJCObservation': 'DOBJCObservation',
   'DOBJCDartProtocolBuilder': 'DartProtocolBuilder',
   'DOBJCDartProtocol': 'DartProtocol',
   'NSArray': 'NSArray',
+  'NSAttributedString': 'NSAttributedString',
+  'NSAttributedStringMarkdownParsingOptions':
+      'NSAttributedStringMarkdownParsingOptions',
+  'NSBundle': 'NSBundle',
   'NSCharacterSet': 'NSCharacterSet',
   'NSCoder': 'NSCoder',
   'NSData': 'NSData',
@@ -31,6 +36,7 @@ const objCBuiltInInterfaces = {
   'NSMutableSet': 'NSMutableSet',
   'NSMutableString': 'NSMutableString',
   'NSNotification': 'NSNotification',
+  'NSNull': 'NSNull',
   'NSNumber': 'NSNumber',
   'NSObject': 'NSObject',
   'NSOutputStream': 'NSOutputStream',
@@ -67,6 +73,10 @@ const objCBuiltInCompounds = {
 
 const objCBuiltInEnums = {
   'NSAppleEventSendOptions',
+  'NSAttributedStringEnumerationOptions',
+  'NSAttributedStringFormattingOptions',
+  'NSAttributedStringMarkdownInterpretedSyntax',
+  'NSAttributedStringMarkdownParsingFailurePolicy',
   'NSBinarySearchingOptions',
   'NSCollectionChangeType',
   'NSComparisonResult',

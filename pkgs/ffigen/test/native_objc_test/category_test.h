@@ -54,3 +54,8 @@
 @interface NSString (NSStringCategory)
 -(int32_t)excludedExtensionMethod;
 @end
+
+@interface Thing (StaticAndInstanceMethodsWithSameNameCategory)
+-(int32_t)sameNameMethod;
++(int32_t)sameNameMethod;
+@end

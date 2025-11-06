@@ -21,20 +21,25 @@ final _primitiveWrappers = List<(ReferredType, ReferredType)>.unmodifiable([
 ]);
 
 ReferredType _createWrapperClass(DeclaredType primitiveType) {
+  final availability = primitiveType.declaration.availability;
   final property = PropertyDeclaration(
     id: primitiveType.id.addIdSuffix('wrappedInstance'),
     name: 'wrappedInstance',
+    source: primitiveType.declaration.source,
+    availability: availability,
     type: primitiveType,
   );
   return ClassDeclaration(
-          id: primitiveType.id.addIdSuffix('wrapper'),
-          name: '${primitiveType.name}Wrapper',
-          hasObjCAnnotation: true,
-          superClass: objectType,
-          isWrapper: true,
-          wrappedInstance: property,
-          wrapperInitializer: buildWrapperInitializer(property))
-      .asDeclaredType;
+    id: primitiveType.id.addIdSuffix('wrapper'),
+    name: '${primitiveType.name}Wrapper',
+    source: primitiveType.declaration.source,
+    availability: availability,
+    hasObjCAnnotation: true,
+    superClass: objectType,
+    isWrapper: true,
+    wrappedInstance: property,
+    wrapperInitializer: buildWrapperInitializer(property),
+  ).asDeclaredType;
 }
 
 // Support Optional primitives as return Type
@@ -43,7 +48,7 @@ ReferredType _createWrapperClass(DeclaredType primitiveType) {
 (ReferredType, bool) maybeGetPrimitiveWrapper(
   ReferredType type,
   bool shouldWrapPrimitives,
-  TransformationMap transformationMap,
+  TransformationState state,
 ) {
   if (type is! DeclaredType || !shouldWrapPrimitives) {
     return (type, false);
@@ -54,7 +59,7 @@ ReferredType _createWrapperClass(DeclaredType primitiveType) {
     return (type, false);
   }
 
-  transformationMap[type.declaration] = (wrapper as DeclaredType).declaration;
+  state.map[type.declaration] = (wrapper as DeclaredType).declaration;
   return (wrapper, true);
 }
 

@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../../config.dart';
+import '../../_core/interfaces/availability.dart';
 import '../../_core/interfaces/enum_declaration.dart';
 import '../../_core/interfaces/nestable_declaration.dart';
 import '../../_core/interfaces/parameterizable.dart';
@@ -20,6 +22,12 @@ class AssociatedValueEnumDeclaration extends AstNode
   String name;
 
   @override
+  InputConfig? source;
+
+  @override
+  List<AvailabilityInfo> availability;
+
+  @override
   covariant List<AssociatedValueEnumCase> cases;
 
   @override
@@ -29,14 +37,16 @@ class AssociatedValueEnumDeclaration extends AstNode
   List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
 
   @override
-  NestableDeclaration? nestingParent;
+  OuterNestableDeclaration? nestingParent;
 
   @override
-  List<NestableDeclaration> nestedDeclarations;
+  List<InnerNestableDeclaration> nestedDeclarations;
 
   AssociatedValueEnumDeclaration({
     required this.id,
     required this.name,
+    required this.source,
+    required this.availability,
     required this.cases,
     required this.typeParams,
     required this.conformedProtocols,
@@ -69,11 +79,19 @@ class AssociatedValueEnumCase extends AstNode
   String name;
 
   @override
+  InputConfig? source;
+
+  @override
+  List<AvailabilityInfo> availability;
+
+  @override
   covariant List<AssociatedValueParam> params;
 
   AssociatedValueEnumCase({
     required this.id,
     required this.name,
+    required this.source,
+    required this.availability,
     required this.params,
   });
 
@@ -95,10 +113,7 @@ class AssociatedValueParam extends AstNode implements Parameter {
   @override
   covariant Null internalName;
 
-  AssociatedValueParam({
-    required this.name,
-    required this.type,
-  });
+  AssociatedValueParam({required this.name, required this.type});
 
   @override
   void visitChildren(Visitor visitor) {

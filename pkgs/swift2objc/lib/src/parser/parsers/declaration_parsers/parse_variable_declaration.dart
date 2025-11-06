@@ -5,22 +5,26 @@
 import '../../../ast/_core/shared/referred_type.dart';
 import '../../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../../ast/declarations/globals/globals.dart';
+import '../../../context.dart';
 import '../../_core/json.dart';
 import '../../_core/parsed_symbolgraph.dart';
 import '../../_core/token_list.dart';
 import '../../_core/utils.dart';
 
 PropertyDeclaration parsePropertyDeclaration(
-  Json propertySymbolJson,
+  Context context,
+  ParsedSymbol symbol,
   ParsedSymbolgraph symbolgraph, {
   bool isStatic = false,
 }) {
-  final info = parsePropertyInfo(propertySymbolJson['declarationFragments']);
+  final info = parsePropertyInfo(symbol.json['declarationFragments']);
   return PropertyDeclaration(
-    id: parseSymbolId(propertySymbolJson),
-    name: parseSymbolName(propertySymbolJson),
-    type: _parseVariableType(propertySymbolJson, symbolgraph),
-    hasObjCAnnotation: parseSymbolHasObjcAnnotation(propertySymbolJson),
+    id: parseSymbolId(symbol.json),
+    name: parseSymbolName(symbol.json),
+    source: symbol.source,
+    availability: parseAvailability(symbol.json),
+    type: _parseVariableType(context, symbol.json, symbolgraph),
+    hasObjCAnnotation: parseSymbolHasObjcAnnotation(symbol.json),
     isConstant: info.constant,
     isStatic: isStatic,
     throws: info.throws,
@@ -33,15 +37,18 @@ PropertyDeclaration parsePropertyDeclaration(
 }
 
 GlobalVariableDeclaration parseGlobalVariableDeclaration(
-  Json variableSymbolJson,
+  Context context,
+  ParsedSymbol symbol,
   ParsedSymbolgraph symbolgraph, {
   bool isStatic = false,
 }) {
-  final info = parsePropertyInfo(variableSymbolJson['declarationFragments']);
+  final info = parsePropertyInfo(symbol.json['declarationFragments']);
   return GlobalVariableDeclaration(
-    id: parseSymbolId(variableSymbolJson),
-    name: parseSymbolName(variableSymbolJson),
-    type: _parseVariableType(variableSymbolJson, symbolgraph),
+    id: parseSymbolId(symbol.json),
+    name: parseSymbolName(symbol.json),
+    source: symbol.source,
+    availability: parseAvailability(symbol.json),
+    type: _parseVariableType(context, symbol.json, symbolgraph),
     isConstant: info.constant || !info.setter,
     throws: info.throws,
     async: info.async,
@@ -49,11 +56,14 @@ GlobalVariableDeclaration parseGlobalVariableDeclaration(
 }
 
 ReferredType _parseVariableType(
-  Json propertySymbolJson,
+  Context context,
+  Json symbolJson,
   ParsedSymbolgraph symbolgraph,
-) =>
-    parseTypeAfterSeparator(
-        TokenList(propertySymbolJson['names']['subHeading']), symbolgraph);
+) => parseTypeAfterSeparator(
+  context,
+  TokenList(symbolJson['names']['subHeading']),
+  symbolgraph,
+);
 
 bool _parseVariableIsConstant(Json fragmentsJson) {
   final declarationKeyword = fragmentsJson.firstWhere(
@@ -95,7 +105,7 @@ ParsedPropertyInfo parsePropertyInfo(Json json) {
     lazy: _findKeywordInFragments(json, 'lazy'),
     getter: getter,
     setter: setter,
-    mutating: _findKeywordInFragments(json, 'mutating')
+    mutating: _findKeywordInFragments(json, 'mutating'),
   );
 }
 
@@ -105,10 +115,12 @@ ParsedPropertyInfo parsePropertyInfo(Json json) {
     return (true, false);
   }
 
-  final hasExplicitSetter =
-      fragmentsJson.any((frag) => matchFragment(frag, 'keyword', 'set'));
-  final hasExplicitGetter =
-      fragmentsJson.any((frag) => matchFragment(frag, 'keyword', 'get'));
+  final hasExplicitSetter = fragmentsJson.any(
+    (frag) => matchFragment(frag, 'keyword', 'set'),
+  );
+  final hasExplicitGetter = fragmentsJson.any(
+    (frag) => matchFragment(frag, 'keyword', 'get'),
+  );
 
   if (hasExplicitGetter) {
     if (hasExplicitSetter) {

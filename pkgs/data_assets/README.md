@@ -6,6 +6,38 @@
 A library to use in build hooks (`hook/build.dart`) for building and bundling
 data assets.
 
+A data asset is an asset bundled as data (String or bytes) with a Dart or
+Flutter application.
+
+Data assets can be added in a build hook as follows:
+
+<!-- file://./example/api/data_assets_snippet.dart -->
+```dart
+import 'package:data_assets/data_assets.dart';
+import 'package:hooks/hooks.dart';
+
+void main(List<String> args) async {
+  await build(args, (input, output) async {
+    if (input.config.buildDataAssets) {
+      final packageName = input.packageName;
+      final assetPathInPackage = input.packageRoot.resolve('...');
+      final assetPathDownload = input.outputDirectoryShared.resolve('...');
+
+      output.assets.data.add(
+        DataAsset(
+          package: packageName,
+          name: '...',
+          file: assetPathInPackage,
+        ),
+      );
+    }
+  });
+}
+```
+
+For more documentation of hooks, refer to the API docs of
+[`package:hooks`](https://pub.dev/packages/hooks).
+
 ## Status: Experimental
 
 **NOTE**: This package is currently experimental and published under the

@@ -18,7 +18,7 @@ void main() {
       final obj4 = NSObject();
       final obj5 = NSObject();
       final expected = {obj1, obj2, obj3, obj4, obj5};
-      final s = NSMutableSet.of(expected);
+      final s = NSMutableSet.of(expected).asDart();
 
       expect(s.length, 5);
 
@@ -32,7 +32,7 @@ void main() {
       expect((s as Set).lookup(123), null);
       expect(s.lookup(null), null);
 
-      final actual = <ObjCObjectBase>[];
+      final actual = <ObjCObject>[];
       for (final value in s) {
         actual.add(value);
       }
@@ -48,7 +48,7 @@ void main() {
       final obj4 = NSObject();
       final obj5 = NSObject();
 
-      final s = NSMutableSet.of({obj1, obj2, obj3, obj4, obj5});
+      final s = NSMutableSet.of({obj1, obj2, obj3, obj4, obj5}).asDart();
 
       final obj6 = NSObject();
       expect(s.add(obj1), isFalse);
@@ -73,7 +73,7 @@ void main() {
       final obj4 = NSObject();
       final obj5 = NSObject();
       final expected = {obj1, obj2, obj3, obj4, obj5};
-      final s = NSMutableSet.of(expected);
+      final s = NSMutableSet.of(expected).asDart();
 
       expect(s.isNotEmpty, isTrue);
       expect(s.intersection({obj5, obj2, null, 123}), {obj5, obj2});

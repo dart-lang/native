@@ -4,7 +4,6 @@
 
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
-import 'package:logging/logging.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 void main(List<String> arguments) async {
@@ -12,11 +11,6 @@ void main(List<String> arguments) async {
     if (!input.config.linkingEnabled) {
       throw Exception('Link hook must be run!');
     }
-    final logger = Logger('')
-      ..level = Level.ALL
-      ..onRecord.listen((record) {
-        print('${record.level.name}: ${record.time}: ${record.message}');
-      });
     await CBuilder.library(
       name: 'add',
       assetName: 'dylib_add_build',
@@ -25,7 +19,6 @@ void main(List<String> arguments) async {
     ).run(
       input: input,
       output: output,
-      logger: logger,
       routing: const [ToLinkHook('add_asset_link')],
     );
   });

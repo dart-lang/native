@@ -3,26 +3,20 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:io';
+
 import 'package:google_generative_ai/google_generative_ai.dart';
+
+import 'code_processor.dart';
+import 'context.dart';
 import 'prompts.dart';
-import 'public_abstractor.dart';
 
-Future<String> dartifyNativeCode(String sourceCode, String bindingsPath) async {
-  final file = File(bindingsPath);
-
-  if (!await file.exists()) {
-    stderr.writeln('File not found: $bindingsPath');
-    exit(1);
-  }
-
+Future<String> dartifyNativeCode(String sourceCode, Context context) async {
   final apiKey = Platform.environment['GEMINI_API_KEY'];
 
   if (apiKey == null) {
     stderr.writeln(r'No $GEMINI_API_KEY environment variable');
     exit(1);
   }
-
-  final bindings = await file.readAsString();
 
   final model = GenerativeModel(
     model: 'gemini-2.0-flash',
@@ -38,15 +32,50 @@ Future<String> dartifyNativeCode(String sourceCode, String bindingsPath) async {
 
   final translatePrompt = TranslatePrompt(
     sourceCode,
-    generateBindingsSummary(bindings),
+    await context.toDartLikeRepresentation(sourceCode),
   );
 
-  print('Prompt:\n${translatePrompt.prompt}\n');
+  final chatSession = model.startChat();
 
-  final content = [Content.text(translatePrompt.prompt)];
+  final response = await chatSession.sendMessage(
+    Content.text(translatePrompt.prompt),
+  );
+  var mainCode = translatePrompt.getParsedResponse(response.text ?? '');
+  var helperCode = '';
 
-  final response = await model.generateContent(content);
-  final dartCode = translatePrompt.getParsedResponse(response.text ?? '');
+  final codeProcessor = CodeProcessor();
 
-  return dartCode;
+  mainCode = codeProcessor.addImports(mainCode, [
+    ...context.importedPackages,
+    context.bindingsFileAbsolutePath,
+  ]);
+
+  var bestResult = mainCode;
+  var currentBestErrorCount = double.maxFinite.toInt();
+
+  for (var i = 0; i < 3; i++) {
+    final errorMessages = await codeProcessor.analyzeCode(mainCode, helperCode);
+    final errorMessage = errorMessages.join('\n\n');
+    final numberOfErrors = errorMessages.length;
+
+    if (numberOfErrors < currentBestErrorCount) {
+      currentBestErrorCount = numberOfErrors;
+      bestResult = mainCode;
+      if (numberOfErrors == 0) {
+        break;
+      }
+    }
+
+    stderr.writeln('Dart analysis found issues: $errorMessage');
+    final fixPrompt = FixPrompt(mainCode, helperCode, errorMessage);
+    final fixResponse = await chatSession.sendMessage(
+      Content.text(fixPrompt.prompt),
+    );
+    final fixedCode = fixPrompt.getParsedResponse(fixResponse.text ?? '');
+
+    mainCode = fixedCode.mainCode;
+    helperCode = fixedCode.helperCode;
+  }
+  bestResult = codeProcessor.removeHelperCodeImport(mainCode);
+  return bestResult;
 }

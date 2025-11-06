@@ -1,17 +1,38 @@
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import 'dart:io';
 
+import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 
 import 'config.dart';
+import 'context.dart';
 import 'generator/generator.dart';
-import 'parser/_core/utils.dart';
 import 'parser/parser.dart';
 import 'transformer/transform.dart';
+import 'utils.dart';
 
-/// Used to generate the wrapper swift file.
-Future<void> generateWrapper(Config config) async {
+extension Swift2ObjCGeneratorMethod on Swift2ObjCGenerator {
+  /// Used to generate the wrapper swift file.
+  Future<void> generate({required Logger? logger}) => _generateWrapper(
+    this,
+    Context(logger ?? (Logger.detached('dev/null')..level = Level.OFF)),
+  );
+}
+
+Future<void> _generateWrapper(
+  Swift2ObjCGenerator config,
+  Context context,
+) async {
   final Directory tempDir;
   final bool deleteTempDirWhenDone;
+
+  var lazyTarget = config.target;
+  Future<String> target() async => lazyTarget ??= await hostTargetTriple;
+  var lazySdkPath = config.sdk;
+  Future<Uri> sdkPath() async => lazySdkPath ??= await hostSdk;
 
   if (config.tempDir == null) {
     tempDir = Directory.systemTemp.createTempSync(defaultTempDirPrefix);
@@ -21,36 +42,47 @@ Future<void> generateWrapper(Config config) async {
     deleteTempDirWhenDone = false;
   }
 
-  final input = config.input;
+  final sourceModules = <String?>[];
+  final mergedSymbolgraph = ParsedSymbolgraph();
 
-  final symbolgraphCommand = input.symbolgraphCommand;
-  if (symbolgraphCommand != null) {
-    await _generateSymbolgraphJson(
-      symbolgraphCommand,
-      tempDir,
-    );
+  final allInputConfigs = [...config.inputs, builtInInputConfig];
+
+  for (final input in allInputConfigs) {
+    if (input is HasSymbolgraphCommand) {
+      await _generateSymbolgraphJson(
+        (input as HasSymbolgraphCommand).symbolgraphCommand(
+          await target(),
+          path.absolute((await sdkPath()).path),
+        ),
+        tempDir,
+      );
+    }
+
+    final symbolgraphFileName = switch (input) {
+      FilesInputConfig() => '${input.tempModuleName}$symbolgraphFileSuffix',
+      ModuleInputConfig() => '${input.module}$symbolgraphFileSuffix',
+      JsonFileInputConfig() => path.absolute(input.jsonFile.path),
+    };
+    final symbolgraphJsonPath = path.join(tempDir.path, symbolgraphFileName);
+    final symbolgraphJson = readJsonFile(symbolgraphJsonPath);
+
+    sourceModules.add(switch (input) {
+      FilesInputConfig() => null,
+      ModuleInputConfig() => input.module,
+      JsonFileInputConfig() => parseModuleName(symbolgraphJson),
+    });
+    mergedSymbolgraph.merge(parseSymbolgraph(input, symbolgraphJson));
   }
 
-  final symbolgraphFileName = switch (input) {
-    FilesInputConfig() => '${input.generatedModuleName}$symbolgraphFileSuffix',
-    ModuleInputConfig() => '${input.module}$symbolgraphFileSuffix',
-    JsonFileInputConfig() => path.absolute(input.jsonFile.path),
-  };
-  final symbolgraphJsonPath = path.join(tempDir.path, symbolgraphFileName);
-  final symbolgraphJson = readJsonFile(symbolgraphJsonPath);
-
-  final sourceModule = switch (input) {
-    FilesInputConfig() => null,
-    ModuleInputConfig() => input.module,
-    JsonFileInputConfig() => parseModuleName(symbolgraphJson),
-  };
-
-  final declarations = parseAst(symbolgraphJson);
-  final transformedDeclarations =
-      transform(declarations, filter: config.include);
+  final declarations = parseDeclarations(context, mergedSymbolgraph);
+  final transformedDeclarations = transform(
+    context,
+    declarations,
+    filter: config.include,
+  );
   final wrapperCode = generate(
     transformedDeclarations,
-    moduleName: sourceModule,
+    importedModuleNames: sourceModules.nonNulls.toList(),
     preamble: config.preamble,
   );
 

@@ -14,7 +14,7 @@ extension StringToSelector on String {
   ///
   /// This is equivalent to the Objective-C `@selector()` directive, or the
   /// `NSSelectorFromString` function.
-  Pointer<r.ObjCSelector> toSelector() => registerName(this);
+  Pointer<r.ObjCSelector> toSelector() => objc.registerName(this);
 }
 
 extension SelectorToString on Pointer<r.ObjCSelector> {
@@ -22,4 +22,9 @@ extension SelectorToString on Pointer<r.ObjCSelector> {
   ///
   /// This is equivalent to the Objective-C `NSSelectorFromString` function.
   String toDartString() => r.getName(this).cast<Utf8>().toDartString();
+}
+
+extension RespondsToSelector on objc.ObjCObject {
+  bool respondsToSelector(Pointer<c.ObjCSelector> sel) =>
+      objc.respondsToSelector(ref.pointer, sel);
 }

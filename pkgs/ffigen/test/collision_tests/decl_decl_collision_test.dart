@@ -15,23 +15,28 @@ void main() {
       logWarnings(Level.SEVERE);
     });
     test('declaration conflict', () {
-      final config = Config(
-        entryPoints: [],
-        output: Uri(),
-        functionDecl: DeclarationFilters.includeAll,
-        structDecl: DeclarationFilters.includeAll,
-        enumClassDecl: DeclarationFilters.includeAll,
-        globals: DeclarationFilters.includeAll,
-        macroDecl: DeclarationFilters.includeAll,
-        typedefs: DeclarationFilters.includeAll,
+      final context = testContext(
+        FfiGenerator(
+          output: Output(
+            dartFile: Uri.file('unused'),
+            style: const DynamicLibraryBindings(wrapperName: 'Bindings'),
+          ),
+          functions: Functions.includeAll,
+          structs: Structs.includeAll,
+          enums: Enums.includeAll,
+          globals: Globals.includeAll,
+          macros: Macros.includeAll,
+          typedefs: Typedefs.includeAll,
+        ),
       );
       final library = Library(
+        context: context,
         name: 'Bindings',
-        bindings: transformBindings(config, [
-          Struct(name: 'TestStruct'),
-          Struct(name: 'TestStruct'),
-          EnumClass(name: 'TestEnum'),
-          EnumClass(name: 'TestEnum'),
+        bindings: transformBindings([
+          Struct(context: context, name: 'TestStruct'),
+          Struct(context: context, name: 'TestStruct'),
+          EnumClass(context: context, name: 'TestEnum'),
+          EnumClass(context: context, name: 'TestEnum'),
           Func(
             name: 'testFunc',
             returnType: NativeType(SupportedNativeType.voidType),
@@ -62,25 +67,25 @@ void main() {
           ),
 
           /// Conflicts across declarations.
-          Struct(name: 'testCrossDecl'),
+          Struct(context: context, name: 'testCrossDecl'),
           Func(
             name: 'testCrossDecl',
             returnType: NativeType(SupportedNativeType.voidType),
           ),
           MacroConstant(name: 'testCrossDecl', rawValue: '0', rawType: 'int'),
-          EnumClass(name: 'testCrossDecl'),
+          EnumClass(context: context, name: 'testCrossDecl'),
           Typealias(
             name: 'testCrossDecl',
             type: NativeType(SupportedNativeType.voidType),
           ),
 
           /// Conflicts with ffi library prefix, name of prefix is changed.
-          Struct(name: 'ffi'),
+          Struct(context: context, name: 'ffi'),
           Func(
             name: 'ffi\$1',
             returnType: NativeType(SupportedNativeType.voidType),
           ),
-        ]),
+        ], context),
       );
       matchLibraryWithExpected(
         library,

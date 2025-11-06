@@ -3,7 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/header_parser.dart' as parser;
+import 'package:ffigen/src/config_provider/config.dart';
+import 'package:ffigen/src/header_parser/parser.dart' as parser;
 import 'package:ffigen/src/strings.dart' as strings;
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
@@ -18,7 +19,8 @@ void main() {
       logWarnings(Level.SEVERE);
       expected = expectedLibrary();
       actual = parser.parse(
-        testConfig('''
+        testContext(
+          testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Function And Struct Test'
 ${strings.output}: 'unused'
@@ -27,6 +29,7 @@ ${strings.headers}:
   ${strings.entryPoints}:
     - '${absPath('test/header_parser_tests/function_n_struct.h')}'
         '''),
+        ),
       );
     });
 
@@ -79,18 +82,37 @@ ${strings.headers}:
 }
 
 Library expectedLibrary() {
+  final context = testContext(
+    FfiGenerator(
+      output: Output(
+        dartFile: Uri.file('unused'),
+        style: const DynamicLibraryBindings(),
+      ),
+      enums: Enums.includeAll,
+      functions: Functions.includeAll,
+      globals: Globals.includeAll,
+      macros: Macros.includeAll,
+      structs: Structs.includeAll,
+      typedefs: Typedefs.includeAll,
+      unions: Unions.includeAll,
+      unnamedEnums: UnnamedEnums.includeAll,
+    ),
+  );
   final struct1 = Struct(
+    context: context,
     name: 'Struct1',
     members: [CompoundMember(name: 'a', type: intType)],
   );
   final struct2 = Struct(
+    context: context,
     name: 'Struct2',
     members: [CompoundMember(name: 'a', type: struct1)],
   );
-  final struct3 = Struct(name: 'Struct3');
+  final struct3 = Struct(context: context, name: 'Struct3');
   return Library(
+    context: context,
     name: 'Bindings',
-    bindings: [
+    bindings: parser.transformBindings([
       struct1,
       struct2,
       struct3,
@@ -115,9 +137,10 @@ Library expectedLibrary() {
         ],
         returnType: NativeType(SupportedNativeType.voidType),
       ),
-      Struct(name: 'Struct4'),
-      Struct(name: 'Struct5'),
+      Struct(context: context, name: 'Struct4'),
+      Struct(context: context, name: 'Struct5'),
       Struct(
+        context: context,
         name: 'Struct6',
         members: [
           CompoundMember(
@@ -130,7 +153,7 @@ Library expectedLibrary() {
           ),
         ],
       ),
-      Struct(name: 'Struct7'),
-    ],
+      Struct(context: context, name: 'Struct7'),
+    ], context),
   );
 }

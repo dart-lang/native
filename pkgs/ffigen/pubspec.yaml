@@ -3,7 +3,7 @@
 # BSD-style license that can be found in the LICENSE file.
 
 name: ffigen
-version: 19.1.0-wip
+version: 20.0.0
 description: >
   Generator for FFI bindings, using LibClang to parse C, Objective-C, and Swift
   files.
@@ -37,10 +37,10 @@ dependencies:
 
 dev_dependencies:
   async: ^2.11.0
-  dart_flutter_team_lints: ^2.0.0
+  dart_flutter_team_lints: ^3.5.2
   json_schema: ^5.1.1
   leak_tracker: ^10.0.7
-  objective_c: ^8.1.0
+  objective_c: ^9.0.0
   test: ^1.26.2
 
 dependency_overrides:

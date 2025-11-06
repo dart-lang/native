@@ -68,7 +68,7 @@ import '../pdmodel/PDDocument.dart' as pddocument$_;
 class PDFTextStripper extends jni$_.JObject {
   @jni$_.internal
   @core$_.override
-  final jni$_.JObjType<PDFTextStripper> $type;
+  final jni$_.JType<PDFTextStripper> $type;
 
   @jni$_.internal
   PDFTextStripper.fromReference(
@@ -80,8 +80,11 @@ class PDFTextStripper extends jni$_.JObject {
       jni$_.JClass.forName(r'org/apache/pdfbox/text/PDFTextStripper');
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = $PDFTextStripper$NullableType();
-  static const type = $PDFTextStripper$Type();
+  static const jni$_.JType<PDFTextStripper?> nullableType =
+      $PDFTextStripper$NullableType$();
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<PDFTextStripper> type = $PDFTextStripper$Type$();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -144,7 +147,7 @@ class PDFTextStripper extends jni$_.JObject {
     final _$doc = doc?.reference ?? jni$_.jNullReference;
     return _getText(
             reference.pointer, _id_getText as jni$_.JMethodIDPtr, _$doc.pointer)
-        .object<jni$_.JString?>(const jni$_.JStringNullableType());
+        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
   }
 
   static final _id_writeText = _class.instanceMethodId(
@@ -382,7 +385,7 @@ class PDFTextStripper extends jni$_.JObject {
   jni$_.JString? getLineSeparator() {
     return _getLineSeparator(
             reference.pointer, _id_getLineSeparator as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.JStringNullableType());
+        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
   }
 
   static final _id_getWordSeparator = _class.instanceMethodId(
@@ -410,7 +413,7 @@ class PDFTextStripper extends jni$_.JObject {
   jni$_.JString? getWordSeparator() {
     return _getWordSeparator(
             reference.pointer, _id_getWordSeparator as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.JStringNullableType());
+        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
   }
 
   static final _id_setWordSeparator = _class.instanceMethodId(
@@ -586,7 +589,7 @@ class PDFTextStripper extends jni$_.JObject {
   jni$_.JObject? getEndBookmark() {
     return _getEndBookmark(
             reference.pointer, _id_getEndBookmark as jni$_.JMethodIDPtr)
-        .object<jni$_.JObject?>(const jni$_.JObjectNullableType());
+        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
   }
 
   static final _id_setEndBookmark = _class.instanceMethodId(
@@ -643,7 +646,7 @@ class PDFTextStripper extends jni$_.JObject {
   jni$_.JObject? getStartBookmark() {
     return _getStartBookmark(
             reference.pointer, _id_getStartBookmark as jni$_.JMethodIDPtr)
-        .object<jni$_.JObject?>(const jni$_.JObjectNullableType());
+        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
   }
 
   static final _id_setStartBookmark = _class.instanceMethodId(
@@ -1052,7 +1055,7 @@ class PDFTextStripper extends jni$_.JObject {
   jni$_.JString? getParagraphStart() {
     return _getParagraphStart(
             reference.pointer, _id_getParagraphStart as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.JStringNullableType());
+        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
   }
 
   static final _id_setParagraphStart = _class.instanceMethodId(
@@ -1109,7 +1112,7 @@ class PDFTextStripper extends jni$_.JObject {
   jni$_.JString? getParagraphEnd() {
     return _getParagraphEnd(
             reference.pointer, _id_getParagraphEnd as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.JStringNullableType());
+        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
   }
 
   static final _id_setParagraphEnd = _class.instanceMethodId(
@@ -1166,7 +1169,7 @@ class PDFTextStripper extends jni$_.JObject {
   jni$_.JString? getPageStart() {
     return _getPageStart(
             reference.pointer, _id_getPageStart as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.JStringNullableType());
+        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
   }
 
   static final _id_setPageStart = _class.instanceMethodId(
@@ -1222,7 +1225,7 @@ class PDFTextStripper extends jni$_.JObject {
   ///@return the page end string
   jni$_.JString? getPageEnd() {
     return _getPageEnd(reference.pointer, _id_getPageEnd as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.JStringNullableType());
+        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
   }
 
   static final _id_setPageEnd = _class.instanceMethodId(
@@ -1279,7 +1282,7 @@ class PDFTextStripper extends jni$_.JObject {
   jni$_.JString? getArticleStart() {
     return _getArticleStart(
             reference.pointer, _id_getArticleStart as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.JStringNullableType());
+        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
   }
 
   static final _id_setArticleStart = _class.instanceMethodId(
@@ -1339,7 +1342,7 @@ class PDFTextStripper extends jni$_.JObject {
   jni$_.JString? getArticleEnd() {
     return _getArticleEnd(
             reference.pointer, _id_getArticleEnd as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.JStringNullableType());
+        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
   }
 
   static final _id_setArticleEnd = _class.instanceMethodId(
@@ -1373,10 +1376,10 @@ class PDFTextStripper extends jni$_.JObject {
   }
 }
 
-final class $PDFTextStripper$NullableType
-    extends jni$_.JObjType<PDFTextStripper?> {
+final class $PDFTextStripper$NullableType$
+    extends jni$_.JType<PDFTextStripper?> {
   @jni$_.internal
-  const $PDFTextStripper$NullableType();
+  const $PDFTextStripper$NullableType$();
 
   @jni$_.internal
   @core$_.override
@@ -1391,29 +1394,29 @@ final class $PDFTextStripper$NullableType
         );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+  jni$_.JType get superType => const jni$_.$JObject$NullableType$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<PDFTextStripper?> get nullableType => this;
+  jni$_.JType<PDFTextStripper?> get nullableType => this;
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($PDFTextStripper$NullableType).hashCode;
+  int get hashCode => ($PDFTextStripper$NullableType$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($PDFTextStripper$NullableType) &&
-        other is $PDFTextStripper$NullableType;
+    return other.runtimeType == ($PDFTextStripper$NullableType$) &&
+        other is $PDFTextStripper$NullableType$;
   }
 }
 
-final class $PDFTextStripper$Type extends jni$_.JObjType<PDFTextStripper> {
+final class $PDFTextStripper$Type$ extends jni$_.JType<PDFTextStripper> {
   @jni$_.internal
-  const $PDFTextStripper$Type();
+  const $PDFTextStripper$Type$();
 
   @jni$_.internal
   @core$_.override
@@ -1427,23 +1430,23 @@ final class $PDFTextStripper$Type extends jni$_.JObjType<PDFTextStripper> {
       );
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType get superType => const jni$_.JObjectNullableType();
+  jni$_.JType get superType => const jni$_.$JObject$NullableType$();
 
   @jni$_.internal
   @core$_.override
-  jni$_.JObjType<PDFTextStripper?> get nullableType =>
-      const $PDFTextStripper$NullableType();
+  jni$_.JType<PDFTextStripper?> get nullableType =>
+      const $PDFTextStripper$NullableType$();
 
   @jni$_.internal
   @core$_.override
   final superCount = 1;
 
   @core$_.override
-  int get hashCode => ($PDFTextStripper$Type).hashCode;
+  int get hashCode => ($PDFTextStripper$Type$).hashCode;
 
   @core$_.override
   bool operator ==(Object other) {
-    return other.runtimeType == ($PDFTextStripper$Type) &&
-        other is $PDFTextStripper$Type;
+    return other.runtimeType == ($PDFTextStripper$Type$) &&
+        other is $PDFTextStripper$Type$;
   }
 }

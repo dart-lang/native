@@ -1,16 +1,25 @@
 name: dart_lang_native_workspace
+# TODO(goderbauer): reevaluate after https://github.com/dart-lang/ecosystem/issues/377 is resolved.
+publish_to: none
 
 environment:
-  sdk: '>=3.8.0 <4.0.0'
+  sdk: '>=3.9.0 <4.0.0'
 
 workspace:
   - pkgs/code_assets
+  - pkgs/code_assets/example/host_name
+  - pkgs/code_assets/example/mini_audio
+  - pkgs/code_assets/example/sqlite
+  - pkgs/code_assets/example/sqlite_prebuilt
+  - pkgs/code_assets/example/stb_image
   - pkgs/data_assets
   - pkgs/hooks
   - pkgs/hooks_runner
   - pkgs/hooks_runner/test_data/add_asset_link
   - pkgs/hooks_runner/test_data/complex_link
   - pkgs/hooks_runner/test_data/complex_link_helper
+  - pkgs/hooks_runner/test_data/cyclic_link_package_1
+  - pkgs/hooks_runner/test_data/cyclic_link_package_2
   - pkgs/hooks_runner/test_data/cyclic_package_1
   - pkgs/hooks_runner/test_data/cyclic_package_2
   - pkgs/hooks_runner/test_data/dart_app
@@ -22,6 +31,12 @@ workspace:
   - pkgs/hooks_runner/test_data/fail_on_os_sdk_version
   - pkgs/hooks_runner/test_data/fail_on_os_sdk_version_link
   - pkgs/hooks_runner/test_data/fail_on_os_sdk_version_linker
+  - pkgs/hooks_runner/test_data/flag_app
+  - pkgs/hooks_runner/test_data/flag_enthusiast_1
+  - pkgs/hooks_runner/test_data/flag_enthusiast_2
+  - pkgs/hooks_runner/test_data/fun_with_flags
+  - pkgs/hooks_runner/test_data/link_inverse_app
+  - pkgs/hooks_runner/test_data/link_inverse_package
   - pkgs/hooks_runner/test_data/native_add
   - pkgs/hooks_runner/test_data/native_add_add_source
   - pkgs/hooks_runner/test_data/native_add_duplicate
@@ -57,7 +72,9 @@ workspace:
   - pkgs/hooks/example/link/app_with_asset_treeshaking
   - pkgs/hooks/example/link/package_with_assets
   - pkgs/json_syntax_generator
+  - pkgs/native_test_helpers
   - pkgs/native_toolchain_c
+  - pkgs/pub_formats
   - pkgs/repo_lint_rules
 
 # Hook user-defines are specified in the pub workspace.

@@ -2,19 +2,21 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:logging/logging.dart';
-
 import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
+import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
-import '../data.dart';
 import '../utils.dart';
 import 'api_availability.dart';
 
-final _logger = Logger('ffigen.header_parser.functiondecl_parser');
-
 /// Parses a function declaration.
-List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
+List<Func> parseFunctionDeclaration(
+  Context context,
+  clang_types.CXCursor cursor,
+) {
+  final config = context.config;
+  final logger = context.logger;
+
   /// Multiple values are since there may be more than one instance of the
   /// same base C function with different variadic arguments.
   final funcs = <Func>[];
@@ -22,20 +24,20 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
   final funcUsr = cursor.usr();
   final funcName = cursor.spelling();
 
-  final apiAvailability = ApiAvailability.fromCursor(cursor);
+  final apiAvailability = ApiAvailability.fromCursor(cursor, context);
   if (apiAvailability.availability == Availability.none) {
-    _logger.info('Omitting deprecated function $funcName');
+    logger.info('Omitting deprecated function $funcName');
     return funcs;
   }
 
   final decl = Declaration(usr: funcUsr, originalName: funcName);
-  final cachedFunc = bindingsIndex.getSeenFunc(funcUsr);
+  final cachedFunc = context.bindingsIndex.getSeenFunc(funcUsr);
   if (cachedFunc != null) {
     funcs.add(cachedFunc);
   } else {
-    _logger.fine('++++ Adding Function: ${cursor.completeStringRepr()}');
+    logger.fine('++++ Adding Function: ${cursor.completeStringRepr()}');
 
-    final returnType = cursor.returnType().toCodeGenType();
+    final returnType = cursor.returnType().toCodeGenType(context);
 
     final parameters = <Parameter>[];
     var incompleteStructParameter = false;
@@ -44,13 +46,13 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
     for (var i = 0; i < totalArgs; i++) {
       final paramCursor = clang.clang_Cursor_getArgument(cursor, i);
 
-      _logger.finer('===== parameter: ${paramCursor.completeStringRepr()}');
+      logger.finer('===== parameter: ${paramCursor.completeStringRepr()}');
 
-      final paramType = paramCursor.toCodeGenType();
+      final paramType = paramCursor.toCodeGenType(context);
       if (paramType.isIncompleteCompound) {
         incompleteStructParameter = true;
       } else if (paramType.baseType is UnimplementedType) {
-        _logger.finer('Unimplemented type: ${paramType.baseType}');
+        logger.finer('Unimplemented type: ${paramType.baseType}');
         unimplementedParameterType = true;
       }
 
@@ -59,11 +61,10 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
         clang_types.CXCursorKind.CXCursor_NSConsumed,
       );
 
-      /// If [paramName] is null or empty, its set to `arg$i` by code_generator.
       parameters.add(
         Parameter(
           originalName: paramName,
-          name: config.functionDecl.renameMember(decl, paramName),
+          name: config.functions.renameMember(decl, paramName),
           type: paramType,
           objCConsumed: objCConsumed,
         ),
@@ -73,11 +74,11 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
     if (clang.clang_Cursor_isFunctionInlined(cursor) != 0 &&
         clang.clang_Cursor_getStorageClass(cursor) !=
             clang_types.CX_StorageClass.CX_SC_Extern) {
-      _logger.fine(
+      logger.fine(
         '---- Removed Function, reason: inline function: '
         '${cursor.completeStringRepr()}',
       );
-      _logger.warning(
+      logger.warning(
         "Skipped Function '$funcName', inline functions are not supported.",
       );
       // Returning empty so that [addToBindings] function excludes this.
@@ -85,11 +86,11 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
     }
 
     if (returnType.isIncompleteCompound || incompleteStructParameter) {
-      _logger.fine(
+      logger.fine(
         '---- Removed Function, reason: Incomplete struct pass/return by '
         'value: ${cursor.completeStringRepr()}',
       );
-      _logger.warning(
+      logger.warning(
         "Skipped Function '$funcName', Incomplete struct pass/return by "
         'value not supported.',
       );
@@ -99,11 +100,11 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
 
     if (returnType.baseType is UnimplementedType ||
         unimplementedParameterType) {
-      _logger.fine(
+      logger.fine(
         '---- Removed Function, reason: unsupported return type or '
         'parameter type: ${cursor.completeStringRepr()}',
       );
-      _logger.warning(
+      logger.warning(
         "Skipped Function '$funcName', function has unsupported return type "
         'or parameter type.',
       );
@@ -118,11 +119,11 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
 
     // Initialized with a single value with no prefix and empty var args.
     var varArgFunctions = [VarArgFunction('', [])];
-    if (config.varArgFunctions.containsKey(funcName)) {
+    if (config.functions.varArgs.containsKey(funcName)) {
       if (clang.clang_isFunctionTypeVariadic(cursor.type()) == 1) {
-        varArgFunctions = config.varArgFunctions[funcName]!;
+        varArgFunctions = config.functions.varArgs[funcName]!;
       } else {
-        _logger.warning(
+        logger.warning(
           'Skipping variadic-argument config for function '
           "'$funcName' since its not variadic.",
         );
@@ -132,29 +133,29 @@ List<Func> parseFunctionDeclaration(clang_types.CXCursor cursor) {
       funcs.add(
         Func(
           dartDoc: getCursorDocComment(
+            context,
             cursor,
             indent: nesting.length + commentPrefix.length,
             availability: apiAvailability.dartDoc,
           ),
           usr: funcUsr + vaFunc.postfix,
-          name: config.functionDecl.rename(decl) + vaFunc.postfix,
+          name: config.functions.rename(decl) + vaFunc.postfix,
           originalName: funcName,
           returnType: returnType,
           parameters: parameters,
-          varArgParameters: vaFunc.types
-              .map((ta) => Parameter(type: ta, name: 'va', objCConsumed: false))
-              .toList(),
-          exposeSymbolAddress: config.functionDecl.shouldIncludeSymbolAddress(
-            decl,
-          ),
-          exposeFunctionTypedefs: config.shouldExposeFunctionTypedef(decl),
-          isLeaf: config.isLeafFunction(decl),
+          varArgParameters: [
+            for (final ta in vaFunc.types)
+              Parameter(type: ta, name: 'va', objCConsumed: false),
+          ],
+          exposeSymbolAddress: config.functions.includeSymbolAddress(decl),
+          exposeFunctionTypedefs: config.functions.includeTypedef(decl),
+          isLeaf: config.functions.isLeaf(decl),
           objCReturnsRetained: objCReturnsRetained,
-          ffiNativeConfig: config.ffiNativeConfig,
+          loadFromNativeAsset: config.ffiNativeConfig.enabled,
         ),
       );
     }
-    bindingsIndex.addFuncToSeen(funcUsr, funcs.last);
+    context.bindingsIndex.addFuncToSeen(funcUsr, funcs.last);
   }
 
   return funcs;

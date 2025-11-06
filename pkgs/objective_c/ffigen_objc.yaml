@@ -27,13 +27,17 @@ external-versions:
   macos:
     min: 10.14.0
 objc-interfaces:
-  # Keep in sync with ffigen's ObjCBuiltInFunctions.builtInInterfaces.
+  # Keep in sync with FFIgen's ObjCBuiltInFunctions.builtInInterfaces.
   include:
     - DOBJCDartInputStreamAdapter
+    - DOBJCDartInputStreamAdapterWeakHolder
     - DOBJCObservation
     - DOBJCDartProtocolBuilder
     - DOBJCDartProtocol
     - NSArray
+    - NSAttributedString
+    - NSAttributedStringMarkdownParsingOptions
+    - NSBundle
     - NSCharacterSet
     - NSCoder
     - NSData
@@ -55,6 +59,7 @@ objc-interfaces:
     - NSMutableSet
     - NSMutableString
     - NSNotification
+    - NSNull
     - NSNumber
     - NSObject
     - NSOutputStream
@@ -75,8 +80,15 @@ objc-interfaces:
     - Protocol
   rename:
     'DOBJCDartInputStreamAdapter': 'DartInputStreamAdapter'
+    'DOBJCDartInputStreamAdapterWeakHolder' : 'DartInputStreamAdapterWeakHolder'
     'DOBJCDartProtocolBuilder': 'DartProtocolBuilder'
     'DOBJCDartProtocol': 'DartProtocol'
+  member-filter:
+    NSBundle:
+      exclude:
+        # This method is only present in some SDKs, leading to inconsistent
+        # code generation.
+        - 'localizedStringForKey:value:table:localizations:'
 objc-protocols:
   include:
     - NSCoding
@@ -131,6 +143,10 @@ structs:
 enums:
   include:
     - NSAppleEventSendOptions
+    - NSAttributedStringEnumerationOptions
+    - NSAttributedStringFormattingOptions
+    - NSAttributedStringMarkdownInterpretedSyntax
+    - NSAttributedStringMarkdownParsingFailurePolicy
     - NSBinarySearchingOptions
     - NSCollectionChangeType
     - NSComparisonResult

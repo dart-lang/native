@@ -5,7 +5,7 @@
 /// Package jni provides dart bindings for the Java Native Interface (JNI) on
 /// Android and desktop platforms.
 ///
-/// It's intended as a supplement to the jnigen tool, a Java wrapper generator
+/// It's intended as a supplement to the JNIgen tool, a Java wrapper generator
 /// using JNI. The goal of this package is to provide sufficiently complete
 /// and ergonomic access to underlying JNI APIs.
 ///
@@ -31,8 +31,8 @@
 /// standalone:
 ///
 /// * Run `dart run jni:setup` to build the shared library. This command builds
-/// all dependency libraries with native code (package:jni and jnigen-generated)
-/// libraries if any.
+/// all dependency libraries with native code (package:jni and JNIgen-generated
+/// libraries if any).
 ///
 /// The default output directory is build/jni_libs, which can be changed
 /// using `-B` switch.
@@ -63,22 +63,33 @@ library;
 export 'package:ffi/ffi.dart' show Arena, using;
 
 export 'src/errors.dart';
-export 'src/jarray.dart';
+export 'src/jarray.dart'
+    hide
+        $JArray$NullableType$,
+        $JArray$Type$,
+        $JBooleanArray$NullableType$,
+        $JBooleanArray$Type$,
+        $JByteArray$NullableType$,
+        $JByteArray$Type$,
+        $JCharArray$NullableType$,
+        $JCharArray$Type$,
+        $JDoubleArray$NullableType$,
+        $JDoubleArray$Type$,
+        $JFloatArray$NullableType$,
+        $JFloatArray$Type$,
+        $JIntArray$NullableType$,
+        $JIntArray$Type$,
+        $JLongArray$NullableType$,
+        $JLongArray$Type$,
+        $JShortArray$NullableType$,
+        $JShortArray$Type$;
 export 'src/jimplementer.dart';
-export 'src/jni.dart' hide ProtectedJniExtensions, StringMethodsForJni;
-export 'src/jobject.dart';
+export 'src/jni.dart'
+    hide InternalJniExtension, ProtectedJniExtensions, StringMethodsForJni;
+export 'src/jobject.dart' hide $JObject$NullableType$, $JObject$Type$;
 export 'src/jreference.dart' hide ProtectedJReference;
 export 'src/jvalues.dart';
 export 'src/lang/lang.dart';
 export 'src/nio/nio.dart';
-export 'src/third_party/generated_bindings.dart'
-    hide JniBindings, JniEnv, JniEnv1, JniExceptionDetails;
-export 'src/types.dart'
-    hide
-        JAccessible,
-        JCallable,
-        JConstructable,
-        JObjType,
-        JType,
-        lowestCommonSuperType;
+export 'src/types.dart' hide JTypeBase, lowestCommonSuperType;
 export 'src/util/util.dart';

@@ -14,13 +14,11 @@ import 'package:quiver/pattern.dart' as quiver;
 import 'package:yaml/yaml.dart';
 
 import '../code_generator.dart';
-import '../code_generator/unique_namer.dart';
+import '../code_generator/scope.dart';
 import '../header_parser/type_extractor/cxtypekindmap.dart';
 import '../strings.dart' as strings;
 import 'config_types.dart';
 import 'utils.dart';
-
-final _logger = Logger('ffigen.config_provider.spec_utils');
 
 Map<String, LibraryImport> libraryImportsExtractor(
   Map<String, String>? typeMap,
@@ -68,6 +66,7 @@ YamlMap loadSymbolFile(
 }
 
 Map<String, ImportedType> symbolFileImportExtractor(
+  Logger logger,
   List<String> yamlConfig,
   Map<String, LibraryImport> libraryImports,
   String? configFileName,
@@ -85,23 +84,25 @@ Map<String, ImportedType> symbolFileImportExtractor(
     final formatVersion = symbolFile[strings.formatVersion] as String;
     if (formatVersion.split('.')[0] !=
         strings.symbolFileFormatVersion.split('.')[0]) {
-      _logger.severe(
+      logger.severe(
         'Incompatible format versions for file $symbolFilePath: '
         '${strings.symbolFileFormatVersion}(ours), $formatVersion(theirs).',
       );
       exit(1);
     }
-    final uniqueNamer = UniqueNamer()
-      ..markAllUsed(libraryImports.keys)
-      ..markUsed(strings.defaultSymbolFileImportPrefix);
+    final uniqueNamer = Namer({
+      ...libraryImports.keys,
+      strings.defaultSymbolFileImportPrefix,
+    });
     final files = symbolFile[strings.files] as YamlMap;
     for (final file in files.keys) {
       final existingImports = libraryImports.values.where(
         (element) => element.importPath(false) == file,
       );
       if (existingImports.isEmpty) {
-        final name = uniqueNamer.makeUnique(
+        final name = uniqueNamer.add(
           strings.defaultSymbolFileImportPrefix,
+          SymbolKind.lib,
         );
         libraryImports[name] = LibraryImport(name, file as String);
       }
@@ -141,9 +142,9 @@ Map<String, ImportedType> makeImportTypeMapping(
     final cType = rawTypeMappings[key]![1];
     final dartType = rawTypeMappings[key]![2];
     final nativeType = key;
-    if (strings.predefinedLibraryImports.containsKey(lib)) {
+    if (builtInLibraries.containsKey(lib)) {
       typeMappings[key] = ImportedType(
-        strings.predefinedLibraryImports[lib]!,
+        builtInLibraries[lib]!,
         cType,
         dartType,
         nativeType,
@@ -215,8 +216,7 @@ Type makeTypeFromRawVarArgType(
     } else if (rawVarArgTypeSplit.length == 2) {
       final lib = rawVarArgTypeSplit[0];
       final libraryImport =
-          strings.predefinedLibraryImports[lib] ??
-          libraryImportsMap[rawVarArgTypeSplit[0]];
+          builtInLibraries[lib] ?? libraryImportsMap[rawVarArgTypeSplit[0]];
       if (libraryImport == null) {
         throw Exception('Please declare $lib in library-imports.');
       }
@@ -288,6 +288,7 @@ List<String> compilerOptsExtractor(List<String> value) {
 }
 
 YamlHeaders headersExtractor(
+  Logger logger,
   Map<dynamic, List<String>> yamlConfig,
   String? configFilename,
 ) {
@@ -301,7 +302,7 @@ YamlHeaders headersExtractor(
         if (File(headerGlob).existsSync()) {
           final osSpecificPath = headerGlob;
           entryPoints.add(osSpecificPath);
-          _logger.fine('Adding header/file: $headerGlob');
+          logger.fine('Adding header/file: $headerGlob');
         } else {
           final glob = Glob(headerGlob);
           for (final file in glob.listFileSystemSync(
@@ -310,7 +311,7 @@ YamlHeaders headersExtractor(
           )) {
             final fixedPath = file.path;
             entryPoints.add(fixedPath);
-            _logger.fine('Adding header/file: $fixedPath');
+            logger.fine('Adding header/file: $fixedPath');
           }
         }
       }
@@ -345,7 +346,7 @@ String? _findLibInConda() {
 
 /// Returns location of dynamic library by searching default locations. Logs
 /// error and throws an Exception if not found.
-String findDylibAtDefaultLocations() {
+String findDylibAtDefaultLocations(Logger logger) {
   for (final libclangPath in libclangOverridePaths) {
     final overridableLib = findLibclangDylib(libclangPath);
     if (overridableLib != null) return overridableLib;
@@ -360,7 +361,6 @@ String findDylibAtDefaultLocations() {
       final linuxLib = findLibclangDylib(l);
       if (linuxLib != null) return linuxLib;
     }
-    Process.runSync('ldconfig', ['-p']);
     final ldConfigResult = Process.runSync('ldconfig', ['-p']);
     if (ldConfigResult.exitCode == 0) {
       final lines = (ldConfigResult.stdout as String).split('\n');
@@ -417,8 +417,18 @@ String findDylibAtDefaultLocations() {
     throw Exception('Unsupported Platform.');
   }
 
-  _logger.severe("Couldn't find dynamic library in default locations.");
-  _logger.severe(
+  final clangPrintFileNameResult = Process.runSync('clang', [
+    '-print-file-name=${strings.dylibFileName}',
+  ]);
+  if (clangPrintFileNameResult.exitCode == 0) {
+    final path = (clangPrintFileNameResult.stdout as String).trim();
+    if (File(path).existsSync()) {
+      return path;
+    }
+  }
+
+  logger.severe("Couldn't find dynamic library in default locations.");
+  logger.severe(
     "Please supply one or more path/to/llvm in ffigen's config under the key '${strings.llvmPath}'.",
   );
   throw Exception("Couldn't find dynamic library in default locations.");
@@ -433,42 +443,42 @@ String? findLibclangDylib(String parentFolder) {
   }
 }
 
-String llvmPathExtractor(List<String> value) {
+String llvmPathExtractor(Logger logger, List<String> value) {
   // Extract libclang's dylib from user specified paths.
   for (final path in value) {
     final dylibPath = findLibclangDylib(
       p.join(path, strings.dynamicLibParentName),
     );
     if (dylibPath != null) {
-      _logger.fine('Found dynamic library at: $dylibPath');
+      logger.fine('Found dynamic library at: $dylibPath');
       return dylibPath;
     }
     // Check if user has specified complete path to dylib.
     final completeDylibPath = path;
     if (p.extension(completeDylibPath).isNotEmpty &&
         File(completeDylibPath).existsSync()) {
-      _logger.info(
+      logger.info(
         'Using complete dylib path: $completeDylibPath from llvm-path.',
       );
       return completeDylibPath;
     }
   }
-  _logger.fine(
+  logger.fine(
     "Couldn't find dynamic library under paths specified by "
     '${strings.llvmPath}.',
   );
   // Extract path from default locations.
   try {
-    final res = findDylibAtDefaultLocations();
-    return res;
+    return findDylibAtDefaultLocations(logger);
   } catch (e) {
     final path = p.join(strings.dynamicLibParentName, strings.dylibFileName);
-    _logger.severe("Couldn't find $path in specified locations.");
+    logger.severe("Couldn't find $path in specified locations.");
     exit(1);
   }
 }
 
 OutputConfig outputExtractor(
+  Logger logger,
   dynamic value,
   String? configFilename,
   PackageConfig? packageConfig,
@@ -484,6 +494,7 @@ OutputConfig outputExtractor(
         : null,
     value.containsKey(strings.symbolFile)
         ? symbolFileOutputExtractor(
+            logger,
             value[strings.symbolFile],
             configFilename,
             packageConfig,
@@ -493,6 +504,7 @@ OutputConfig outputExtractor(
 }
 
 SymbolFile symbolFileOutputExtractor(
+  Logger logger,
   dynamic value,
   String? configFilename,
   PackageConfig? packageConfig,
@@ -500,7 +512,7 @@ SymbolFile symbolFileOutputExtractor(
   value = value as Map;
   var output = Uri.parse(value[strings.output] as String);
   if (output.scheme != 'package') {
-    _logger.warning(
+    logger.warning(
       'Consider using a Package Uri for ${strings.symbolFile} -> '
       '${strings.output}: $output so that external packages can use it.',
     );
@@ -510,7 +522,7 @@ SymbolFile symbolFileOutputExtractor(
   }
   final importPath = Uri.parse(value[strings.importPath] as String);
   if (importPath.scheme != 'package') {
-    _logger.warning(
+    logger.warning(
       'Consider using a Package Uri for ${strings.symbolFile} -> '
       '${strings.importPath}: $importPath so that external packages '
       'can use it.',
@@ -704,14 +716,14 @@ StructPackingOverride structPackingOverrideExtractor(
   return StructPackingOverride(matcherMap);
 }
 
-FfiNativeConfig ffiNativeExtractor(dynamic yamlConfig) {
+FfiNativeConfig ffiNativeExtractor(Logger logger, dynamic yamlConfig) {
   final yamlMap = yamlConfig as Map?;
 
   // Use the old 'assetId' key if present but give a deprecation warning
   if (yamlMap != null &&
       !yamlMap.containsKey(strings.ffiNativeAsset) &&
       yamlMap.containsKey('assetId')) {
-    _logger.warning("DEPRECATION WARNING: use 'asset-id' instead of 'assetId'");
+    logger.warning("DEPRECATION WARNING: use 'asset-id' instead of 'assetId'");
     return FfiNativeConfig(
       enabled: true,
       assetId: yamlMap['assetId'] as String?,

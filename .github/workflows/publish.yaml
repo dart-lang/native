@@ -25,3 +25,4 @@ jobs:
     with:
       write-comments: false
       sdk: dev # use beta/stable after 3.3.0
+      ignore-packages: pkgs/objective_c,pkgs/ffigen,pkgs/jni,pkgs/jnigen

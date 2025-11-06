@@ -1,14 +1,50 @@
+## 0.20.6-wip
+
+- Fix `testBuildHook` to emit output validation errors if there are any.
+
+## 0.20.5
+
+- Document `input.packageRoot` in more places.
+
+## 0.20.4
+
+- Improved documentation on debugging and added a documentation index.
+
+## 0.20.3
+
+- Polished README.md, Dartdocs, and examples.
+
+## 0.20.2
+
+- Change the length of the checksum used for `outputDirectory` to 10 hexadecimal
+  characters to avoid running out of path length on Windows.
+
+## 0.20.1
+
+- Update outdated documentation.
+- Deprecate `HookOutputBuilder.addDependency` and
+  `HookOutputBuilder.addDependencies` in favor of
+  `HookOutputBuilder.dependencies.add` and
+  `HookOutputBuilder.dependencies.addAll`.  
+
+## 0.20.0
+
+- **Breaking change**  Rename `EncodedAsset.jsonPath` to
+  `EncodedAsset.encodingJsonPath`. This field only governs the `EncodedAsset.encoding` field, not the whole object.
+- Enable passing metadata from link hooks of a package to the link hooks in 
+  dependencies, by fixing the link hook execution order.
+
 ## 0.19.5
 
-* Stop leaking unexported symbols.
+- Stop leaking unexported symbols.
 
 ## 0.19.4
 
-* Add doc comments to all public members.
+- Add doc comments to all public members.
 
 ## 0.19.3
 
-* Mark this package as in preview.
+- Mark this package as in preview.
 
 ## 0.19.1
 

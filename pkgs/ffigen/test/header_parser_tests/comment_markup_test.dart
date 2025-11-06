@@ -16,7 +16,8 @@ void main() {
     setUpAll(() {
       logWarnings(Level.SEVERE);
       actual = parser.parse(
-        testConfig('''
+        testContext(
+          testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Comment Markup Test'
 ${strings.output}: 'unused'
@@ -27,6 +28,7 @@ ${strings.comments}:
   ${strings.style}: ${strings.any}
   ${strings.length}: ${strings.full}
         '''),
+        ),
       );
     });
 

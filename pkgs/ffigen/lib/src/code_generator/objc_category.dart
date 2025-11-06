@@ -3,13 +3,16 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../context.dart';
 import '../visitor/ast.dart';
-
 import 'binding_string.dart';
+import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-class ObjCCategory extends NoLookUpBinding with ObjCMethods {
+class ObjCCategory extends NoLookUpBinding with ObjCMethods, HasLocalScope {
+  @override
+  final Context context;
   final ObjCInterface parent;
   final ObjCInternalGlobal classObject;
 
@@ -21,9 +24,9 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods {
     String? name,
     required this.parent,
     super.dartDoc,
-    required this.builtInFunctions,
+    required this.context,
   }) : classObject = parent.classObject,
-       super(name: name ?? originalName);
+       super(symbol: Symbol(name ?? originalName, SymbolKind.klass));
 
   void addProtocol(ObjCProtocol? proto) {
     if (proto != null) protocols.add(proto);
@@ -35,13 +38,8 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods {
   }
 
   @override
-  bool get isObjCImport => builtInFunctions.isBuiltInCategory(originalName);
-
-  @override
-  final ObjCBuiltInFunctions builtInFunctions;
-
-  @override
-  void sort() => sortMethods();
+  bool get isObjCImport =>
+      context.objCBuiltInFunctions.isBuiltInCategory(originalName);
 
   @override
   BindingString toBindingString(Writer w) {
@@ -49,7 +47,7 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods {
     s.write('\n');
     s.write(makeDartDoc(dartDoc));
     s.write('''
-extension $name on ${parent.getDartType(w)} {
+extension $name on ${parent.getDartType(context)} {
 ${generateMethodBindings(w, parent)}
 }
 
@@ -66,12 +64,18 @@ ${generateMethodBindings(w, parent)}
   @override
   void visit(Visitation visitation) => visitation.visitObjCCategory(this);
 
+  // Set typeGraphOnly to true to skip iterating methods and other children, and
+  // just iterate the DAG of interfaces, categories, and protocols. This is
+  // useful for visitors that need to ensure super types are visited first.
   @override
-  void visitChildren(Visitor visitor) {
-    super.visitChildren(visitor);
+  void visitChildren(Visitor visitor, {bool typeGraphOnly = false}) {
+    if (!typeGraphOnly) {
+      super.visitChildren(visitor);
+      visitor.visit(classObject);
+      visitMethods(visitor);
+      visitor.visit(objcPkgImport);
+    }
     visitor.visit(parent);
-    visitor.visit(classObject);
     visitor.visitAll(protocols);
-    visitMethods(visitor);
   }
 }

@@ -14,7 +14,7 @@ void main(List<String> arguments) async {
   await build(arguments, (input, output) async {
     final dataDirectory = Directory.fromUri(input.packageRoot.resolve('data/'));
     // If data are added, rerun hook.
-    output.addDependency(dataDirectory.uri);
+    output.dependencies.add(dataDirectory.uri);
 
     var transformedFiles = 0;
     var cachedFiles = 0;
@@ -58,7 +58,7 @@ void main(List<String> arguments) async {
       output.assets.data.add(
         DataAsset(package: input.packageName, name: name, file: targetFile.uri),
       );
-      output.addDependency(sourceFile.uri);
+      output.dependencies.add(sourceFile.uri);
     }
 
     await hashesFile.writeAsString(json.encoder.convert(newHashes));

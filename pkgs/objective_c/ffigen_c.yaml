@@ -27,6 +27,31 @@ functions:
       - 'DOBJC_awaitWaiter'
   rename:
     'DOBJC_(.*)': '$1'
+<<<<<<< HEAD
+=======
+    'sel_registerName': 'registerName'
+    'sel_getName': 'getName'
+    'objc_getClass': 'getClass'
+    'objc_retain': 'objectRetain'
+    'objc_retainBlock': 'blockRetain'
+    'objc_release': 'objectRelease'
+    'objc_autorelease': 'objectAutorelease'
+    'objc_msgSend': 'msgSend'
+    'objc_msgSend_fpret': 'msgSendFpret'
+    'objc_msgSend_stret': 'msgSendStret'
+    'object_getClass': 'getObjectClass'
+    'objc_copyClassList': 'copyClassList'
+    'objc_getProtocol': 'getProtocol'
+    'objc_autoreleasePoolPush': 'autoreleasePoolPush'
+    'objc_autoreleasePoolPop': 'autoreleasePoolPop'
+    'protocol_getMethodDescription': 'getMethodDescription'
+    'protocol_getName': 'getProtocolName'
+globals:
+  include:
+    - '_NSConcrete.*Block'
+  rename:
+    '_(.*)': '$1'
+>>>>>>> main
 typedefs:
   include:
     - 'Dart_FinalizableHandle'

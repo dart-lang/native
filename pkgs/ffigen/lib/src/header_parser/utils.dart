@@ -10,11 +10,9 @@ import 'package:pub_semver/pub_semver.dart';
 
 import '../code_generator.dart';
 import '../config_provider/config_types.dart';
+import '../context.dart';
 import 'clang_bindings/clang_bindings.dart' as clang_types;
-import 'data.dart';
 import 'type_extractor/extractor.dart';
-
-final _logger = Logger('ffigen.header_parser.utils');
 
 const exceptionalVisitorReturn =
     clang_types.CXChildVisitResult.CXChildVisit_Break;
@@ -25,7 +23,7 @@ typedef _CursorVisitorCallback =
 /// Logs the warnings/errors returned by clang for a translation unit.
 void logTuDiagnostics(
   Pointer<clang_types.CXTranslationUnitImpl> tu,
-  Logger logger,
+  Context context,
   String header, {
   Level logLevel = Level.SEVERE,
 }) {
@@ -33,12 +31,15 @@ void logTuDiagnostics(
   if (total == 0) {
     return;
   }
-  logger.log(logLevel, 'Header $header: Total errors/warnings: $total.');
+  context.logger.log(
+    logLevel,
+    'Header $header: Total errors/warnings: $total.',
+  );
   for (var i = 0; i < total; i++) {
     final diag = clang.clang_getDiagnostic(tu, i);
     if (clang.clang_getDiagnosticSeverity(diag) >=
         clang_types.CXDiagnosticSeverity.CXDiagnostic_Warning) {
-      hasSourceErrors = true;
+      context.hasSourceErrors = true;
     }
     final cxstring = clang.clang_formatDiagnostic(
       diag,
@@ -50,12 +51,35 @@ void logTuDiagnostics(
               .CXDiagnosticDisplayOptions
               .CXDiagnostic_DisplayCategoryName,
     );
-    logger.log(logLevel, '    ${cxstring.toStringAndDispose()}');
+    context.logger.log(logLevel, '    ${cxstring.toStringAndDispose()}');
     clang.clang_disposeDiagnostic(diag);
   }
 }
 
-extension CXSourceRangeExt on Pointer<clang_types.CXSourceRange> {
+extension CXSourceLocationExt on clang_types.CXSourceLocation {
+  (String, int) get fileAndOffset {
+    final filePtr = calloc<Pointer<Void>>();
+    final offsetPtr = calloc<UnsignedInt>();
+
+    clang.clang_getFileLocation(this, filePtr, nullptr, nullptr, offsetPtr);
+    final file = clang.clang_getFileName(filePtr.value).toStringAndDispose();
+    final offset = offsetPtr.value;
+
+    calloc.free(filePtr);
+    calloc.free(offsetPtr);
+
+    return (file, offset);
+  }
+}
+
+extension CXSourceRangeExt on clang_types.CXSourceRange {
+  clang_types.CXSourceLocation get start => clang.clang_getRangeStart(this);
+  clang_types.CXSourceLocation get end => clang.clang_getRangeEnd(this);
+  ((String, int), (String, int)) toTuple() =>
+      (start.fileAndOffset, end.fileAndOffset);
+}
+
+extension CXSourceRangePtrExt on Pointer<clang_types.CXSourceRange> {
   void dispose() {
     calloc.free(this);
   }
@@ -88,8 +112,8 @@ extension CXCursorExt on clang_types.CXCursor {
   }
 
   /// Get code_gen [Type] representation of [clang_types.CXType].
-  Type toCodeGenType() {
-    return getCodeGenType(type(), originalCursor: this);
+  Type toCodeGenType(Context context) {
+    return getCodeGenType(context, type(), originalCursor: this);
   }
 
   /// for debug: returns [spelling] [kind] [kindSpelling] type typeSpelling.
@@ -250,15 +274,13 @@ extension CXCursorExt on clang_types.CXCursor {
 const commentPrefix = '/// ';
 const nesting = '  ';
 
-/// Stores the [clang_types.CXSourceRange] of the last comment.
-clang_types.CXSourceRange? lastCommentRange;
-
 /// Returns a cursor's associated comment.
 ///
 /// The given string is wrapped at line width = 80 - [indent]. The [indent] is
 /// [commentPrefix].length by default because a comment starts with
 /// [commentPrefix].
 String? getCursorDocComment(
+  Context context,
   clang_types.CXCursor cursor, {
   int indent = commentPrefix.length,
   String? fallbackComment,
@@ -267,13 +289,11 @@ String? getCursorDocComment(
   String? formattedDocComment;
   final currentCommentRange = clang.clang_Cursor_getCommentRange(cursor);
 
-  // See if this comment and the last comment both point to the same source
-  // range.
-  if (lastCommentRange != null &&
-      clang.clang_equalRanges(lastCommentRange!, currentCommentRange) != 0) {
+  // Only report the comment if we haven't reported this comment before.
+  if (!context.reportedCommentRanges.add(currentCommentRange.toTuple())) {
     formattedDocComment = null;
   } else {
-    switch (config.commentType.length) {
+    switch (context.config.commentType.length) {
       case CommentLength.full:
         formattedDocComment = removeRawCommentMarkups(
           clang.clang_Cursor_getRawCommentText(cursor).toStringAndDispose(),
@@ -289,7 +309,6 @@ String? getCursorDocComment(
         formattedDocComment = null;
     }
   }
-  lastCommentRange = currentCommentRange;
   final docs = [formattedDocComment ?? fallbackComment, availability].nonNulls;
   return docs.isEmpty ? null : docs.join('\n\n');
 }
@@ -350,8 +369,12 @@ String? removeRawCommentMarkups(String? string) {
 
 extension CXTypeExt on clang_types.CXType {
   /// Get code_gen [Type] representation of [clang_types.CXType].
-  Type toCodeGenType({bool supportNonInlineArray = false}) {
-    return getCodeGenType(this, supportNonInlineArray: supportNonInlineArray);
+  Type toCodeGenType(Context context, {bool supportNonInlineArray = false}) {
+    return getCodeGenType(
+      context,
+      this,
+      supportNonInlineArray: supportNonInlineArray,
+    );
   }
 
   /// Spelling for a [clang_types.CXTypeKind], useful for debug purposes.
@@ -457,18 +480,6 @@ class Stack<T> {
   void push(T item) => _stack.add(item);
 }
 
-class IncrementalNamer {
-  final _incrementedStringCounters = <String, int>{};
-
-  /// Appends `<int>` to base. <int> is incremented on every call.
-  String name(String base) {
-    var i = _incrementedStringCounters[base] ?? 0;
-    i++;
-    _incrementedStringCounters[base] = i;
-    return '$base$i';
-  }
-}
-
 class Macro {
   final String usr;
   final String? originalName;
@@ -533,7 +544,10 @@ class BindingsIndex {
 }
 
 class CursorIndex {
+  final Logger _logger;
   final _usrCursorDefinition = <String, clang_types.CXCursor>{};
+
+  CursorIndex(this._logger);
 
   /// Returns the Cursor definition (if found) or itself.
   clang_types.CXCursor getDefinition(clang_types.CXCursor cursor) {

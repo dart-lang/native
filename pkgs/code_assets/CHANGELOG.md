@@ -1,3 +1,30 @@
+## 0.19.10
+
+- Document `input.packageRoot` in more places.
+- Document `CodeAsset.id` package namespacing.
+
+## 0.19.9
+
+- Document that asset file paths must be absolute.
+
+## 0.19.8
+
+- Polished README.md, Dartdocs, and examples.
+
+## 0.19.7
+
+- Bump examples to use `package:ffigen` 20.0.0-dev.0.
+
+## 0.19.6
+
+- Added a library comment detailing how to use the package.
+- Fixed duplicate asset id detection with assets coming from both build and
+  link hooks.
+
+## 0.19.5
+
+- Bump `package:hooks` to 0.20.0.
+
 ## 0.19.4
 
 * Add doc comments to all public members.

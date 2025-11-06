@@ -112,17 +112,15 @@ class PackageLayout {
   /// https://dart.dev/tools/pub/package-layout#project-specific-caching-for-tools
   late final Uri dartTool = packageConfigUri.resolve('./');
 
-  /// The directory where `package:hooks` stores all persistent
+  /// The directory where `package:hooks_runner` stores all persistent
   /// information.
   ///
-  /// This folder is owned by `package:hooks`, no other package
+  /// This folder is owned by `package:hooks_runnner`, no other package
   /// should read or modify it.
   /// https://dart.dev/tools/pub/package-layout#project-specific-caching-for-tools
   ///
   /// `$rootPackageRoot/.dart_tool/hooks_runner/`.
-  late final Uri dartToolNativeAssetsBuilder = dartTool.resolve(
-    'hooks_runner/',
-  );
+  late final Uri dartToolHooksRunner = dartTool.resolve('hooks_runner/');
 
   /// The root of `package:$packageName`.
   ///

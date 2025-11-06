@@ -10,7 +10,9 @@ class PropertyInfo {
   final String name;
 
   /// The Dart validate method name.
-  String get validateName => '_validate${_ucFirst(name)}';
+  String get validateName => validatorPrivate
+      ? '_validate${_ucFirst(name)}'
+      : 'validate${_ucFirst(name)}';
 
   /// The key in the json object for this property.
   final String jsonKey;
@@ -35,12 +37,21 @@ class PropertyInfo {
   /// meal. See [SchemaAnalyzer.publicSetters].
   final bool setterPrivate;
 
+  /// Whether the validate method is private.
+  ///
+  /// By default, the validate methods for individual fields are hidden, only
+  /// the validate method for all fields is public. However, in some use cases
+  /// it can be useful to have access to the validators for individual fields.
+  /// See [SchemaAnalyzer.publicValidators].
+  final bool validatorPrivate;
+
   PropertyInfo({
     required this.name,
     required this.jsonKey,
     required this.type,
     this.isOverride = false,
     this.setterPrivate = true,
+    this.validatorPrivate = true,
   });
 
   @override
@@ -49,7 +60,7 @@ class PropertyInfo {
 PropertyInfo(
   name: $name,
   jsonKey: $jsonKey,
-  type: $type,
+  type: ${type.toSerializedString()},
   isOverride: $isOverride,
   setterPrivate: $setterPrivate,
 )''';

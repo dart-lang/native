@@ -10,7 +10,7 @@ import 'dart:io';
 import 'dart:isolate';
 
 import 'package:ffi/ffi.dart';
-import 'package:objective_c/objective_c.dart';
+import 'package:objective_c/objective_c.dart' hide ObjCProtocolImpl;
 import 'package:objective_c/src/internal.dart' show getProtocol;
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
@@ -133,7 +133,7 @@ void main() {
       test('Method implementation', () {
         final consumer = ProtocolConsumer();
 
-        final MyProtocol myProtocol = MyProtocol.implement(
+        final MyProtocol myProtocol = MyProtocol$Builder.implement(
           instanceMethod_withDouble_: (NSString s, double x) {
             return 'MyProtocol: ${s.toDartString()}: $x'.toNSString();
           },
@@ -158,7 +158,7 @@ void main() {
         final consumer = ProtocolConsumer();
 
         final protocolBuilder = ObjCProtocolBuilder();
-        MyProtocol.addToBuilder(
+        MyProtocol$Builder.addToBuilder(
           protocolBuilder,
           instanceMethod_withDouble_: (NSString s, double x) {
             return 'ProtocolBuilder: ${s.toDartString()}: $x'.toNSString();
@@ -167,16 +167,17 @@ void main() {
             return s.y - s.x;
           },
         );
-        SecondaryProtocol.addToBuilder(
+        SecondaryProtocol$Builder.addToBuilder(
           protocolBuilder,
           otherMethod_b_c_d_: (int a, int b, int c, int d) {
             return a * b * c * d;
           },
         );
         final protocolImpl = protocolBuilder.build();
-        final MyProtocol asMyProtocol = MyProtocol.castFrom(protocolImpl);
-        final SecondaryProtocol asSecondaryProtocol =
-            SecondaryProtocol.castFrom(protocolImpl);
+        final MyProtocol asMyProtocol = MyProtocol.as(protocolImpl);
+        final SecondaryProtocol asSecondaryProtocol = SecondaryProtocol.as(
+          protocolImpl,
+        );
 
         expect(MyProtocol.conformsTo(protocolImpl), isTrue);
         expect(SecondaryProtocol.conformsTo(protocolImpl), isTrue);
@@ -198,24 +199,23 @@ void main() {
         final consumer = ProtocolConsumer();
 
         final protocolBuilder = ObjCProtocolBuilder();
-        MyProtocol.instanceMethod_withDouble_.implement(protocolBuilder, (
-          NSString s,
-          double x,
-        ) {
-          return 'ProtocolBuilder: ${s.toDartString()}: $x'.toNSString();
-        });
-        SecondaryProtocol.otherMethod_b_c_d_.implement(protocolBuilder, (
-          int a,
-          int b,
-          int c,
-          int d,
-        ) {
-          return a * b * c * d;
-        });
+        MyProtocol$Builder.instanceMethod_withDouble_.implement(
+          protocolBuilder,
+          (NSString s, double x) {
+            return 'ProtocolBuilder: ${s.toDartString()}: $x'.toNSString();
+          },
+        );
+        SecondaryProtocol$Builder.otherMethod_b_c_d_.implement(
+          protocolBuilder,
+          (int a, int b, int c, int d) {
+            return a * b * c * d;
+          },
+        );
         final protocolImpl = protocolBuilder.build();
-        final MyProtocol asMyProtocol = MyProtocol.castFrom(protocolImpl);
-        final SecondaryProtocol asSecondaryProtocol =
-            SecondaryProtocol.castFrom(protocolImpl);
+        final MyProtocol asMyProtocol = MyProtocol.as(protocolImpl);
+        final SecondaryProtocol asSecondaryProtocol = SecondaryProtocol.as(
+          protocolImpl,
+        );
 
         // Required instance method.
         final result = consumer.callInstanceMethod(asMyProtocol);
@@ -229,7 +229,7 @@ void main() {
       test('Unimplemented method', () {
         final consumer = ProtocolConsumer();
 
-        final MyProtocol myProtocol = MyProtocol.implement(
+        final MyProtocol myProtocol = MyProtocol$Builder.implement(
           instanceMethod_withDouble_: (NSString s, double x) {
             throw UnimplementedError();
           },
@@ -244,7 +244,7 @@ void main() {
         final consumer = ProtocolConsumer();
 
         final listenerCompleter = Completer<int>();
-        final MyProtocol myProtocol = MyProtocol.implementAsListener(
+        final MyProtocol myProtocol = MyProtocol$Builder.implementAsListener(
           instanceMethod_withDouble_: (NSString s, double x) {
             return 'MyProtocol: ${s.toDartString()}: $x'.toNSString();
           },
@@ -274,7 +274,7 @@ void main() {
 
         final listenerCompleter = Completer<int>();
         final protocolBuilder = ObjCProtocolBuilder();
-        MyProtocol.addToBuilderAsListener(
+        MyProtocol$Builder.addToBuilderAsListener(
           protocolBuilder,
           instanceMethod_withDouble_: (NSString s, double x) {
             return 'ProtocolBuilder: ${s.toDartString()}: $x'.toNSString();
@@ -283,16 +283,17 @@ void main() {
             listenerCompleter.complete(x);
           },
         );
-        SecondaryProtocol.addToBuilder(
+        SecondaryProtocol$Builder.addToBuilder(
           protocolBuilder,
           otherMethod_b_c_d_: (int a, int b, int c, int d) {
             return a * b * c * d;
           },
         );
         final protocolImpl = protocolBuilder.build();
-        final MyProtocol asMyProtocol = MyProtocol.castFrom(protocolImpl);
-        final SecondaryProtocol asSecondaryProtocol =
-            SecondaryProtocol.castFrom(protocolImpl);
+        final MyProtocol asMyProtocol = MyProtocol.as(protocolImpl);
+        final SecondaryProtocol asSecondaryProtocol = SecondaryProtocol.as(
+          protocolImpl,
+        );
 
         // Required instance method.
         final result = consumer.callInstanceMethod(asMyProtocol);
@@ -319,7 +320,7 @@ void main() {
         final consumer = ProtocolConsumer();
 
         final listenerCompleter = Completer<int>();
-        final MyProtocol myProtocol = MyProtocol.implementAsBlocking(
+        final MyProtocol myProtocol = MyProtocol$Builder.implementAsBlocking(
           instanceMethod_withDouble_: (NSString s, double x) {
             throw UnimplementedError();
           },
@@ -342,7 +343,7 @@ void main() {
 
         final listenerCompleter = Completer<int>();
         final protocolBuilder = ObjCProtocolBuilder();
-        MyProtocol.addToBuilderAsBlocking(
+        MyProtocol$Builder.addToBuilderAsBlocking(
           protocolBuilder,
           instanceMethod_withDouble_: (NSString s, double x) {
             throw UnimplementedError();
@@ -355,16 +356,17 @@ void main() {
             ptr.value = 98765;
           },
         );
-        SecondaryProtocol.addToBuilder(
+        SecondaryProtocol$Builder.addToBuilder(
           protocolBuilder,
           otherMethod_b_c_d_: (int a, int b, int c, int d) {
             return a * b * c * d;
           },
         );
         final protocolImpl = protocolBuilder.build();
-        final MyProtocol asMyProtocol = MyProtocol.castFrom(protocolImpl);
-        final SecondaryProtocol asSecondaryProtocol =
-            SecondaryProtocol.castFrom(protocolImpl);
+        final MyProtocol asMyProtocol = MyProtocol.as(protocolImpl);
+        final SecondaryProtocol asSecondaryProtocol = SecondaryProtocol.as(
+          protocolImpl,
+        );
 
         // Required instance method from secondary protocol.
         final otherIntResult = consumer.callOtherMethod(asSecondaryProtocol);
@@ -379,14 +381,14 @@ void main() {
         final consumer = ProtocolConsumer();
 
         final builder = ObjCProtocolBuilder();
-        MyProtocol.instanceMethod_withDouble_.implementWithBlock(
+        MyProtocol$Builder.instanceMethod_withDouble_.implementWithBlock(
           builder,
           ObjCBlock_NSString_ffiVoid_NSString_ffiDouble.fromFunction(
             (Pointer<Void> _, NSString s, double x) =>
                 'DirectImpl: ${s.toDartString()}: $x'.toNSString(),
           ),
         );
-        final myProtocol = MyProtocol.castFrom(builder.build());
+        final myProtocol = MyProtocol.as(builder.build());
 
         // Required instance method.
         final result = consumer.callInstanceMethod(myProtocol);
@@ -430,18 +432,18 @@ void main() {
 
     test('Unused protocol', () {
       // Regression test for https://github.com/dart-lang/native/issues/1672.
-      final proto = UnusedProtocol.implement(someMethod: () => 123);
+      final proto = UnusedProtocol$Builder.implement(someMethod: () => 123);
       expect(proto, isNotNull);
     });
 
     test('Disabled method', () {
       // Regression test for https://github.com/dart-lang/native/issues/1702.
-      expect(MyProtocol.instanceMethod_withDouble_.isAvailable, isTrue);
-      expect(MyProtocol.optionalMethod_.isAvailable, isTrue);
-      expect(MyProtocol.disabledMethod.isAvailable, isFalse);
+      expect(MyProtocol$Builder.instanceMethod_withDouble_.isAvailable, isTrue);
+      expect(MyProtocol$Builder.optionalMethod_.isAvailable, isTrue);
+      expect(MyProtocol$Builder.disabledMethod.isAvailable, isFalse);
 
       expect(
-        () => MyProtocol.disabledMethod.implement(
+        () => MyProtocol$Builder.disabledMethod.implement(
           ObjCProtocolBuilder(),
           () => 123,
         ),
@@ -464,14 +466,16 @@ void main() {
       int count = 0;
 
       final protocolBuilder = ObjCProtocolBuilder();
-      MyProtocol.voidMethod_.implementAsListener(protocolBuilder, (int x) {
+      MyProtocol$Builder.voidMethod_.implementAsListener(protocolBuilder, (
+        int x,
+      ) {
         expect(x, 123);
         ++count;
         if (count == 1000) completer.complete();
       });
 
       final protocol = protocolBuilder.build();
-      final MyProtocol asMyProtocol = MyProtocol.castFrom(protocol);
+      final MyProtocol asMyProtocol = MyProtocol.as(protocol);
 
       for (int i = 0; i < 1000; ++i) {
         consumer.callMethodOnRandomThread(asMyProtocol);
@@ -487,7 +491,7 @@ void main() {
       final block = InstanceMethodBlock.fromFunction(
         (Pointer<Void> p, NSString s, double x) => 'Hello'.toNSString(),
       );
-      MyProtocol.instanceMethod_withDouble_.implementWithBlock(
+      MyProtocol$Builder.instanceMethod_withDouble_.implementWithBlock(
         protocolBuilder,
         block,
       );
@@ -645,7 +649,7 @@ void main() {
     test('adding more methods after build', () {
       final protocolBuilder = ObjCProtocolBuilder();
 
-      MyProtocol.addToBuilder(
+      MyProtocol$Builder.addToBuilder(
         protocolBuilder,
         instanceMethod_withDouble_: (NSString s, double x) {
           return 'ProtocolBuilder: ${s.toDartString()}: $x'.toNSString();
@@ -658,7 +662,7 @@ void main() {
       final protocolImpl = protocolBuilder.build();
 
       expect(
-        () => SecondaryProtocol.addToBuilder(
+        () => SecondaryProtocol$Builder.addToBuilder(
           protocolBuilder,
           otherMethod_b_c_d_: (int a, int b, int c, int d) {
             return a * b * c * d;
@@ -666,6 +670,17 @@ void main() {
         ),
         throwsA(isA<StateError>()),
       );
+    });
+
+    test('calling methods on a protocol instance', () {
+      final protoImpl = ObjCProtocolImpl();
+
+      final MyProtocol myProto = protoImpl.returnsMyProtocol();
+      final result = myProto.instanceMethod(
+        "abc".toNSString(),
+        withDouble: 123,
+      );
+      expect(result.toDartString(), 'ObjCProtocolImpl: abc: 123.00');
     });
   });
 }

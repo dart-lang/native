@@ -6,12 +6,17 @@ on:
     branches: [main, stable]
     paths:
       - '.github/workflows/swiftgen.yaml'
+      - 'pkgs/ffigen/**'
+      - 'pkgs/native_test_helpers/**'
+      - 'pkgs/objective_c/**'
+      - 'pkgs/swift2objc/**'
       - 'pkgs/swiftgen/**'
   pull_request:
     branches: [main, stable]
     paths:
       - '.github/workflows/swiftgen.yaml'
       - 'pkgs/ffigen/**'
+      - 'pkgs/native_test_helpers/**'
       - 'pkgs/objective_c/**'
       - 'pkgs/swift2objc/**'
       - 'pkgs/swiftgen/**'
@@ -31,8 +36,8 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           channel: 'stable'
       - id: install
@@ -52,8 +57,8 @@ jobs:
       run:
         working-directory: pkgs/swiftgen/
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           channel: 'stable'
       - name: Install dependencies

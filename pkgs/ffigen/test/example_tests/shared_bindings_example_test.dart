@@ -25,10 +25,10 @@ void main() {
           'a_shared_base.yaml',
         ),
       );
-      final library = parse(config);
+      final library = parse(testContext(config));
 
       matchLibraryWithExpected(library, 'example_shared_bindings.dart', [
-        config.output.toFilePath(),
+        config.output.dartFile.toFilePath(),
       ]);
     });
 
@@ -42,12 +42,12 @@ void main() {
           'base.yaml',
         ),
       );
-      final library = parse(config);
+      final library = parse(testContext(config));
       matchLibrarySymbolFileWithExpected(
         library,
         'example_shared_bindings.yaml',
-        [config.symbolFile!.output.toFilePath()],
-        config.symbolFile!.importPath.toString(),
+        [config.output.symbolFile!.output.toFilePath()],
+        config.output.symbolFile!.importPath.toString(),
       );
     });
   });

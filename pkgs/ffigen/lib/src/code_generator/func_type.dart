@@ -3,13 +3,12 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../context.dart';
 import '../visitor/ast.dart';
-
-import 'unique_namer.dart';
-import 'writer.dart';
+import 'scope.dart';
 
 /// Represents a function type.
-class FunctionType extends Type {
+class FunctionType extends Type with HasLocalScope {
   final Type returnType;
   final List<Parameter> parameters;
   final List<Parameter> varArgParameters;
@@ -17,6 +16,7 @@ class FunctionType extends Type {
   /// Get all the parameters for generating the dart type. This includes both
   /// [parameters] and [varArgParameters].
   List<Parameter> get dartTypeParameters => parameters + varArgParameters;
+  int get numDartTypeParameters => parameters.length + varArgParameters.length;
 
   FunctionType({
     required this.returnType,
@@ -30,17 +30,14 @@ class FunctionType extends Type {
     String? varArgWrapper,
   }) {
     final params = varArgWrapper != null ? parameters : dartTypeParameters;
+    String paramToString(Parameter p) =>
+        '${typeToString(p.type)} ${writeArgumentNames ? p.originalName : ""}';
     String? varArgPack;
     if (varArgWrapper != null && varArgParameters.isNotEmpty) {
       final varArgPackBuf = StringBuffer();
       varArgPackBuf.write('$varArgWrapper<(');
       varArgPackBuf.write(
-        varArgParameters
-            .map<String>(
-              (p) =>
-                  '${typeToString(p.type)} ${writeArgumentNames ? p.name : ""}',
-            )
-            .join(', '),
+        varArgParameters.map<String>(paramToString).join(', '),
       );
       varArgPackBuf.write(',)>');
       varArgPack = varArgPackBuf.toString();
@@ -54,9 +51,7 @@ class FunctionType extends Type {
     sb.write(' Function(');
     sb.write(
       [
-        ...params.map<String>((p) {
-          return '${typeToString(p.type)} ${writeArgumentNames ? p.name : ""}';
-        }),
+        ...params.map<String>(paramToString),
         if (varArgPack != null) varArgPack,
       ].join(', '),
     );
@@ -66,19 +61,20 @@ class FunctionType extends Type {
   }
 
   @override
-  String getCType(Writer w, {bool writeArgumentNames = true}) => _getTypeImpl(
-    writeArgumentNames,
-    (Type t) => t.getCType(w),
-    varArgWrapper: '${w.ffiLibraryPrefix}.VarArgs',
-  );
+  String getCType(Context context, {bool writeArgumentNames = true}) =>
+      _getTypeImpl(
+        writeArgumentNames,
+        (Type t) => t.getCType(context),
+        varArgWrapper: '${context.libs.prefix(ffiImport)}.VarArgs',
+      );
 
   @override
-  String getFfiDartType(Writer w, {bool writeArgumentNames = true}) =>
-      _getTypeImpl(writeArgumentNames, (Type t) => t.getFfiDartType(w));
+  String getFfiDartType(Context context, {bool writeArgumentNames = true}) =>
+      _getTypeImpl(writeArgumentNames, (Type t) => t.getFfiDartType(context));
 
   @override
-  String getDartType(Writer w, {bool writeArgumentNames = true}) =>
-      _getTypeImpl(writeArgumentNames, (Type t) => t.getDartType(w));
+  String getDartType(Context context, {bool writeArgumentNames = true}) =>
+      _getTypeImpl(writeArgumentNames, (Type t) => t.getDartType(context));
 
   @override
   String getNativeType({String varName = ''}) {
@@ -111,13 +107,10 @@ class FunctionType extends Type {
     if (names.length != parameters.length) {
       return;
     }
-    final paramNamer = UniqueNamer();
     for (var i = 0; i < parameters.length; i++) {
-      final finalName = paramNamer.makeUnique(names[i]);
       parameters[i] = Parameter(
         type: parameters[i].type,
-        originalName: names[i],
-        name: finalName,
+        name: names[i],
         objCConsumed: false,
       );
     }
@@ -129,7 +122,11 @@ class FunctionType extends Type {
     visitor.visit(returnType);
     visitor.visitAll(parameters);
     visitor.visitAll(varArgParameters);
+    visitor.visit(ffiImport);
   }
+
+  @override
+  void visit(Visitation visitation) => visitation.visitFunctionType(this);
 
   @override
   bool isSupertypeOf(Type other) {
@@ -148,7 +145,7 @@ class FunctionType extends Type {
   }
 }
 
-/// Represents a NativeFunction<Function>.
+/// Represents a `NativeFunction<Function>`.
 class NativeFunc extends Type {
   // Either a FunctionType or a Typealias of a FunctionType.
   final Type _type;
@@ -163,16 +160,16 @@ class NativeFunc extends Type {
   }
 
   @override
-  String getCType(Writer w, {bool writeArgumentNames = true}) {
+  String getCType(Context context, {bool writeArgumentNames = true}) {
     final funcType = _type is FunctionType
-        ? _type.getCType(w, writeArgumentNames: writeArgumentNames)
-        : _type.getCType(w);
-    return '${w.ffiLibraryPrefix}.NativeFunction<$funcType>';
+        ? _type.getCType(context, writeArgumentNames: writeArgumentNames)
+        : _type.getCType(context);
+    return '${context.libs.prefix(ffiImport)}.NativeFunction<$funcType>';
   }
 
   @override
-  String getFfiDartType(Writer w, {bool writeArgumentNames = true}) =>
-      getCType(w, writeArgumentNames: writeArgumentNames);
+  String getFfiDartType(Context context, {bool writeArgumentNames = true}) =>
+      getCType(context, writeArgumentNames: writeArgumentNames);
 
   @override
   String getNativeType({String varName = ''}) =>

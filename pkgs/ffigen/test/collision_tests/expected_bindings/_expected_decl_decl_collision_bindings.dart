@@ -71,11 +71,11 @@ typedef DarttestAlias = void;
 typedef testAlias$1 = ffi$2.Void;
 typedef DarttestAlias$1 = void;
 
-final class testCrossDecl extends ffi$2.Opaque {}
+final class testCrossDecl$3 extends ffi$2.Opaque {}
 
 const int testCrossDecl$2 = 0;
 
-sealed class testCrossDecl$3 {}
+sealed class testCrossDecl {}
 
 typedef testCrossDecl$4 = ffi$2.Void;
 typedef DarttestCrossDecl = void;

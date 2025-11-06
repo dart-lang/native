@@ -56,7 +56,7 @@ class MavenDownloads {
 /// actual compile classpath of the `android/` subproject.
 /// This will fail if there was no previous build of the project, or if a
 /// `clean` task was run either through flutter or gradle wrapper. In such case,
-/// it's required to run `flutter build apk` & retry running `jnigen`.
+/// it's required to run `flutter build apk` & retry running JNIgen.
 ///
 /// A configuration is invalid if [versions] is unspecified or empty, and gradle
 /// options are also false. If [sdkRoot] is not specified but versions is
@@ -93,7 +93,7 @@ class AndroidSdkConfig {
   /// stub in android subproject of this project.
   ///
   /// An Android build must have happened before we are able to obtain classpath
-  /// of Gradle dependencies. Run `flutter build apk` before running a jnigen
+  /// of Gradle dependencies. Run `flutter build apk` before running a JNIgen
   /// script with this option.
   ///
   /// For the same reason, if the flutter project is a plugin instead of
@@ -256,7 +256,7 @@ void _validateClassName(String className) {
   }
 }
 
-/// Configuration for jnigen binding generation.
+/// Configuration for JNIgen binding generation.
 class Config {
   Config(
       {required this.outputConfig,
@@ -400,8 +400,6 @@ class Config {
           )
             ..path = '$importPath/$filePath'
             ..finalName = decl['name'] as String
-            ..typeClassName = decl['type_class'] as String
-            ..nullableTypeClassName = decl['nullable_type_class'] as String
             ..superCount = decl['super_count'] as int
             ..allTypeParams = []
             // TODO(https://github.com/dart-lang/native/issues/746): include

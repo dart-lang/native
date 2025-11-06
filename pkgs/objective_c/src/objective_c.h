@@ -43,7 +43,7 @@ FFI_EXPORT bool DOBJC_isValidBlock(ObjCBlockImpl *block);
 // Returns a new Dart_FinalizableHandle that will clean up the object when the
 // Dart owner is garbage collected.
 FFI_EXPORT Dart_FinalizableHandle
-DOBJC_newFinalizableHandle(Dart_Handle owner, ObjCObject *object);
+DOBJC_newFinalizableHandle(Dart_Handle owner, ObjCObjectImpl *object);
 
 // Delete a finalizable handle. Doesn't run the finalization callback, so
 // doesn't clean up the assocated pointer.
@@ -66,10 +66,10 @@ FFI_EXPORT void *DOBJC_newWaiter(void);
 FFI_EXPORT void DOBJC_signalWaiter(void *waiter);
 FFI_EXPORT void DOBJC_awaitWaiter(void *waiter);
 
-// Context object containing functions needed by the ffigen bindings. Any
+// Context object containing functions needed by the FFIgen bindings. Any
 // changes to this struct should bump the `version` field filled in by
-// package:objective_c, and checked by ffigen. Never change or delete existing
-// fields. Keep in sync with the struct defined in ffigen's writer.dart.
+// package:objective_c, and checked by FFIgen. Never change or delete existing
+// fields. Keep in sync with the struct defined in FFIgen's writer.dart.
 typedef struct _DOBJC_Context {
   int64_t version;
   void* (*newWaiter)(void);

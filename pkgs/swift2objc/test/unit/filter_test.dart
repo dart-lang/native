@@ -4,6 +4,8 @@
 
 import 'dart:io';
 
+import 'package:args/args.dart';
+import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 import 'package:swift2objc/src/ast/declarations/compounds/class_declaration.dart';
 import 'package:swift2objc/swift2objc.dart';
@@ -11,117 +13,100 @@ import 'package:test/test.dart';
 
 import '../utils.dart';
 
-void main() {
+void main([List<String>? args]) {
+  final regen = args == null
+      ? false
+      : (ArgParser()..addFlag('regen')).parse(args).flag('regen');
+
   group('Unit test for filter', () {
     final thisDir = p.join(testDir, 'unit');
+    final tempDir = p.join(thisDir, 'temp');
+    final inputFile = p.join(thisDir, 'filter_test_input.swift');
 
-    final file = p.join(thisDir, 'filter_test_input.swift');
-    test('A: Specific Files', () async {
-      final output = p.join(thisDir, 'filter_test_output_a.swift');
-      final actualOutputFile = p.join(
-        thisDir,
-        '${p.basenameWithoutExtension(output)}.test${p.extension(output)}',
-      );
+    void filterTest(
+      String name,
+      String expectedOutputFile,
+      bool Function(Declaration declaration) include,
+    ) {
+      test(name, () async {
+        final output = p.join(thisDir, expectedOutputFile);
+        final actualOutputFile = p.join(
+          tempDir,
+          '${p.basenameWithoutExtension(output)}.g.swift',
+        );
 
-      await generateWrapper(
-        Config(
-          input: FilesInputConfig(files: [Uri.file(file)]),
+        await Swift2ObjCGenerator(
+          inputs: [
+            FilesInputConfig(files: [Uri.file(inputFile)]),
+          ],
           outputFile: Uri.file(actualOutputFile),
-          tempDir: Directory(thisDir).uri,
+          tempDir: Directory(tempDir).uri,
           preamble: '// Test preamble text',
-          include: (declaration) => declaration.name == 'Engine',
-        ),
-      );
+          include: include,
+        ).generate(logger: Logger.root);
 
-      final actualOutput = await File(actualOutputFile).readAsString();
-      final expectedOutput = File(output).readAsStringSync();
+        if (regen) {
+          File(actualOutputFile).copySync(output);
+        } else {
+          final actualOutput = File(actualOutputFile).readAsStringSync();
+          final expectedOutput = File(output).readAsStringSync();
 
-      expectString(actualOutput, expectedOutput);
-    });
+          expectString(actualOutput, expectedOutput);
+        }
+        await expectValidSwift([inputFile, actualOutputFile]);
+      }, timeout: const Timeout(Duration(minutes: 5)));
+    }
 
-    test('B: Declarations of a specific type', () async {
-      final output = p.join(thisDir, 'filter_test_output_b.swift');
-      final actualOutputFile = p.join(
-        thisDir,
-        '${p.basenameWithoutExtension(output)}.test${p.extension(output)}',
-      );
+    filterTest(
+      'A: Filtering by name',
+      'filter_test_output_a.swift',
+      (declaration) => declaration.name == 'Engine',
+    );
 
-      await generateWrapper(
-        Config(
-          input: FilesInputConfig(files: [Uri.file(file)]),
-          outputFile: Uri.file(actualOutputFile),
-          tempDir: Directory(thisDir).uri,
-          preamble: '// Test preamble text',
-          include: (declaration) => declaration is ClassDeclaration,
-        ),
-      );
+    filterTest(
+      'B: Filtering by type',
+      'filter_test_output_b.swift',
+      (declaration) => declaration is ClassDeclaration,
+    );
 
-      final actualOutput = await File(actualOutputFile).readAsString();
-      final expectedOutput = File(output).readAsStringSync();
+    filterTest(
+      'C: Nonexistent declaration',
+      'filter_test_output_c.swift',
+      (declaration) => declaration.name == 'Ship',
+    );
 
-      expectString(actualOutput, expectedOutput);
-    });
+    filterTest(
+      'D: Stubbed declarations',
+      'filter_test_output_d.swift',
+      (declaration) => declaration.name == 'Vehicle',
+    );
 
-    test('C: Nonexistent declaration', () async {
-      final output = p.join(thisDir, 'filter_test_output_c.swift');
-      final actualOutputFile = p.join(
-        thisDir,
-        '${p.basenameWithoutExtension(output)}.test${p.extension(output)}',
-      );
+    // Parent should be stubbed.
+    filterTest(
+      'E: Nested declarations, child included, parent excluded',
+      'filter_test_output_e.swift',
+      (declaration) => declaration.name == 'Door',
+    );
 
-      await generateWrapper(
-        Config(
-          input: FilesInputConfig(files: [Uri.file(file)]),
-          outputFile: Uri.file(actualOutputFile),
-          tempDir: Directory(thisDir).uri,
-          preamble: '// Test preamble text',
-          // The following declaration does not exist,
-          // so none are produced in output
-          include: (declaration) => declaration.name == 'Ship',
-        ),
-      );
+    // Parent should be stubbed.
+    filterTest(
+      'F: Nested declarations, child stubbed, parent excluded',
+      'filter_test_output_f.swift',
+      (declaration) => declaration.name == 'openDoor',
+    );
 
-      final actualOutput = await File(actualOutputFile).readAsString();
-      final expectedOutput = File(output).readAsStringSync();
+    // Child should be stubbed.
+    filterTest(
+      'G: Nested declarations, child excluded, parent included',
+      'filter_test_output_g.swift',
+      (declaration) => declaration.name == 'Garage',
+    );
 
-      expectString(actualOutput, expectedOutput);
-    });
-
-    tearDown(() {
-      if (File(p.join(thisDir, 'symbolgraph_module.abi.json')).existsSync()) {
-        File(p.join(thisDir, 'symbolgraph_module.abi.json')).deleteSync();
-      }
-      if (File(p.join(thisDir, 'symbolgraph_module.swiftdoc')).existsSync()) {
-        File(p.join(thisDir, 'symbolgraph_module.swiftdoc')).deleteSync();
-      }
-      if (File(
-        p.join(thisDir, 'symbolgraph_module.swiftmodule'),
-      ).existsSync()) {
-        File(p.join(thisDir, 'symbolgraph_module.swiftmodule')).deleteSync();
-      }
-      if (File(
-        p.join(thisDir, 'symbolgraph_module.swiftsource'),
-      ).existsSync()) {
-        File(p.join(thisDir, 'symbolgraph_module.swiftsource')).deleteSync();
-      }
-      if (File(
-        p.join(thisDir, 'symbolgraph_module.symbols.json'),
-      ).existsSync()) {
-        File(p.join(thisDir, 'symbolgraph_module.symbols.json')).deleteSync();
-      }
-      if (File(
-        p.join(thisDir, 'symbolgraph_module.swiftsourceinfo'),
-      ).existsSync()) {
-        File(
-          p.join(thisDir, 'symbolgraph_module.swiftsourceinfo'),
-        ).deleteSync();
-      }
-
-      for (final file in Directory(
-        thisDir,
-      ).listSync().where((t) => p.extension(t.path, 2) == '.test.swift')) {
-        if (file is File) file.deleteSync();
-      }
-    });
+    // Child should be omitted.
+    filterTest(
+      'H: Nested declarations, child excluded, parent stubbed',
+      'filter_test_output_h.swift',
+      (declaration) => declaration.name == 'listGarageVehicles',
+    );
   });
 }

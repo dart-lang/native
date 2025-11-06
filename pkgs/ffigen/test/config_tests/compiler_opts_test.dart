@@ -37,7 +37,7 @@ ${strings.compilerOptsAuto}:
     ${strings.includeCStdLib}: false
         ''');
       expect(
-        config.compilerOpts,
+        config.headers.compilerOptions,
         equals([if (Platform.isMacOS) '-Wno-nullability-completeness']),
       );
     });

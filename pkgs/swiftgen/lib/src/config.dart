@@ -3,139 +3,259 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/ffigen.dart' as ffigen;
+import 'package:swift2objc/swift2objc.dart' as swift2objc;
 
-import 'util.dart';
-
-/// Config options for swiftgen.
-class SwiftGen {
+/// Config options for swiftgen. Takes a Swift API as input, and generates Dart
+/// bindings to interop with that API.
+///
+/// Dart's interop with Swift is built on Objective-C interop. Swift APIs can be
+/// accessed through Objective-C, and Dart can access Objective-C using FFIgen.
+///
+/// Swift -> Objective-C -> Dart
+///
+/// The Swift -> Objective-C step requires that the Swift API is compatible with
+/// Objective-C. If your API is compatible, you can use
+/// [ObjCCompatibleSwiftFileInput]. Otherwise, you'll need a wrapper layer that
+/// is compatible. This wrapper will be automatically generated if you use
+/// [SwiftFileInput] or [SwiftModuleInput]. The generated wrapper must be
+/// compiled into your final app or plugin, along with any bindings generated
+/// by FFIgen.
+class SwiftGenerator {
+  /// The target OS and SDK version to compile against.
   final Target target;
-  final SwiftGenInput input;
-  final Uri tempDir;
-  final String? outputModule;
-  final FfiGenConfig ffigen;
 
-  SwiftGen({
+  /// The input Swift APIs.
+  final List<SwiftGenInput> inputs;
+
+  /// Determines whether a Swift API included in the generated bindings.
+  final bool Function(swift2objc.Declaration declaration) include;
+
+  /// Configuration for the output files.
+  final Output output;
+
+  /// Configuration for the FFIgen pass.
+  final FfiGeneratorOptions ffigen;
+
+  static bool _defaultInclude(swift2objc.Declaration _) => true;
+
+  const SwiftGenerator({
     required this.target,
-    required this.input,
-    Uri? tempDirectory,
-    this.outputModule,
+    required this.inputs,
+    this.include = _defaultInclude,
+    required this.output,
     required this.ffigen,
-  }) : tempDir = tempDirectory ?? createTempDirectory();
+  });
 }
 
-/// A target is a target triple string and an iOS/macOS SDK directory.
+/// Configuration for the output files.
+class Output {
+  /// Configuration for the Objective-C compatible wrapper API.
+  ///
+  /// This must be present if the original Swift API is not Objective-C
+  /// compatible. That is, if you're using [SwiftFileInput] or
+  /// [SwiftModuleInput]. If all your inputs are [ObjCCompatibleSwiftFileInput]
+  /// you do not need to set this field.
+  final SwiftWrapperFile? swiftWrapperFile;
+
+  /// The name of the output Swift module.
+  ///
+  /// The Dart bindings use this to look up the Swift symbols. So it's important
+  /// that this matches the name of module that the Swift source code, including
+  /// the wrapper API, is compiled into. For a Flutter plugin, this is simply
+  /// the plugin name.
+  final String module;
+
+  /// The output Dart file for the generated bindings.
+  final Uri dartFile;
+
+  /// The output Objective-C file for the generated Objective-C bindings.
+  final Uri objectiveCFile;
+
+  /// Extra code inserted at the top of the generated Dart bindings.
+  final String? preamble;
+
+  /// The asset id to use for the @Native annotations.
+  ///
+  /// If omitted, it will not be generated.
+  final String? assetId;
+
+  const Output({
+    this.swiftWrapperFile,
+    required this.module,
+    required this.dartFile,
+    required this.objectiveCFile,
+    this.preamble,
+    this.assetId,
+  });
+}
+
+/// Configuration for the Objective-C compatible wrapper API.
+///
+/// This is a generated Swift API that wraps another Swift API and makes it
+/// Objective-C compatible.
+class SwiftWrapperFile {
+  /// The output path for the wrapper API.
+  final Uri path;
+
+  /// Extra code inserted at the top of the generated Swift file.
+  final String? preamble;
+
+  const SwiftWrapperFile({required this.path, this.preamble});
+}
+
+/// The target defines the OS (ie macOS or iOS), SDK version, and architecture
+/// being targeted by the bindings.
+///
+/// The architecture almost never matters for the purposes of generating Dart
+/// bindings. Also, since the bindings include OS version checks, it's usually
+/// fine to just target the latest SDK version.
+///
+/// Typically the only thing to decide is whether you're targeting iOS or macOS.
+/// So for most use cases you can simply use either [iOSArm64Latest] or
+/// [macOSArm64Latest].
 class Target {
-  String triple;
-  Uri sdk;
+  /// The target triple, eg x86_64-apple-ios17.0.
+  final String triple;
 
-  Target({required this.triple, required this.sdk});
+  /// The path to the iOS/macOS SDK.
+  final Uri sdk;
 
-  static Future<Target> host() => getHostTarget();
+  const Target({required this.triple, required this.sdk});
+
+  /// Returns the [Target] corresponding to the host OS.
+  static Future<Target> host() async => Target(
+    triple: await swift2objc.hostTargetTriple,
+    sdk: await swift2objc.hostSdk,
+  );
+
+  /// Returns the [Target] for the latest installed iOS SDK on arm.
+  static Future<Target> iOSArmLatest() async => Target(
+    triple: await swift2objc.iOSArmTargetTripleLatest,
+    sdk: await swift2objc.iOSSdk,
+  );
+
+  /// Returns the [Target] for the latest installed iOS SDK on arm64.
+  static Future<Target> iOSArm64Latest() async => Target(
+    triple: await swift2objc.iOSArm64TargetTripleLatest,
+    sdk: await swift2objc.iOSSdk,
+  );
+
+  /// Returns the [Target] for the latest installed iOS SDK on x64.
+  static Future<Target> iOSX64Latest() async => Target(
+    triple: await swift2objc.iOSX64TargetTripleLatest,
+    sdk: await swift2objc.iOSSdk,
+  );
+
+  /// Returns the [Target] for the latest installed macOS SDK on arm64.
+  static Future<Target> macOSArm64Latest() async => Target(
+    triple: await swift2objc.macOSArm64TargetTripleLatest,
+    sdk: await swift2objc.macOSSdk,
+  );
+
+  /// Returns the [Target] for the latest installed macOS SDK on x64.
+  static Future<Target> macOSX64Latest() async => Target(
+    triple: await swift2objc.macOSX64TargetTripleLatest,
+    sdk: await swift2objc.macOSSdk,
+  );
 }
 
 /// Describes the inputs to the swiftgen pipeline.
 abstract interface class SwiftGenInput {
-  String get module;
+  swift2objc.InputConfig? get swift2ObjCConfig;
   Iterable<Uri> get files;
-  Iterable<String> get compileArgs;
 }
 
 /// Input swift files that are already annotated with @objc.
 class ObjCCompatibleSwiftFileInput implements SwiftGenInput {
-  @override
-  final String module;
-
+  /// A list of paths to the Objective-C compatible Swift files to generate
+  /// bindings for.
   @override
   final List<Uri> files;
 
-  ObjCCompatibleSwiftFileInput({required this.module, required this.files});
-
   @override
-  Iterable<String> get compileArgs => const <String>[];
+  swift2objc.InputConfig? get swift2ObjCConfig => null;
+
+  const ObjCCompatibleSwiftFileInput({required this.files});
 }
 
-/// Selected options from [ffigen.Config].
-class FfiGenConfig {
-  /// [ffigen.Config.output]
-  final Uri output;
+/// Input swift files that are not necessarily Objective C compatible.
+class SwiftFileInput implements SwiftGenInput {
+  /// A list of paths to the Swift files to generate bindings for.
+  @override
+  final List<Uri> files;
 
-  /// [ffigen.Config.outputObjC]
-  final Uri outputObjC;
+  /// The name of the temporary module generated while analyzing the input
+  /// files. The name doesn't matter, and won't appear in generated code. But if
+  /// your project involves multiple Swift modules, their names must be unique.
+  final String tempModuleName;
 
-  /// [ffigen.Config.wrapperName]
-  /// Defaults to the swift module name.
-  final String? wrapperName;
+  const SwiftFileInput({
+    required this.files,
+    this.tempModuleName = 'symbolgraph_module',
+  });
 
-  /// [ffigen.Config.wrapperDocComment]
-  final String? wrapperDocComment;
+  @override
+  swift2objc.InputConfig? get swift2ObjCConfig =>
+      swift2objc.FilesInputConfig(files: files, tempModuleName: tempModuleName);
+}
 
-  /// [ffigen.Config.preamble]
-  final String? preamble;
+/// A precompiled swift module input.
+class SwiftModuleInput implements SwiftGenInput {
+  /// The name of the module to generate bindings for.
+  final String module;
 
-  /// [ffigen.Config.functionDecl]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? functionDecl;
+  const SwiftModuleInput({required this.module});
 
-  /// [ffigen.Config.structDecl]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? structDecl;
+  @override
+  swift2objc.InputConfig? get swift2ObjCConfig =>
+      swift2objc.ModuleInputConfig(module: module);
 
-  /// [ffigen.Config.unionDecl]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? unionDecl;
+  @override
+  Iterable<Uri> get files => const <Uri>[];
+}
 
-  /// [ffigen.Config.enumClassDecl]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? enumClassDecl;
+/// Selected options from [ffigen.FfiGenerator].
+class FfiGeneratorOptions {
+  /// [ffigen.FfiGenerator.functions]
+  final ffigen.Functions functions;
 
-  /// [ffigen.Config.unnamedEnumConstants]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? unnamedEnumConstants;
+  /// [ffigen.FfiGenerator.structs]
+  final ffigen.Structs structs;
 
-  /// [ffigen.Config.globals]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? globals;
+  /// [ffigen.FfiGenerator.unions]
+  final ffigen.Unions unions;
 
-  /// [ffigen.Config.macroDecl]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? macroDecl;
+  /// [ffigen.FfiGenerator.enums]
+  final ffigen.Enums enums;
 
-  /// [ffigen.Config.typedefs]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? typedefs;
+  /// [ffigen.FfiGenerator.unnamedEnums]
+  final ffigen.UnnamedEnums unnamedEnums;
 
-  /// [ffigen.Config.objcInterfaces]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? objcInterfaces;
+  /// [ffigen.FfiGenerator.globals]
+  final ffigen.Globals globals;
 
-  /// [ffigen.Config.objcProtocols]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? objcProtocols;
+  /// Configuration for integer types.
+  final ffigen.Integers integers;
 
-  /// [ffigen.Config.objcCategories]
-  /// Defaults to [ffigen.DeclarationFilters.excludeAll]
-  final ffigen.DeclarationFilters? objcCategories;
+  /// [ffigen.FfiGenerator.macros]
+  final ffigen.Macros macros;
 
-  /// [ffigen.Config.externalVersions]
-  final ffigen.ExternalVersions externalVersions;
+  /// [ffigen.FfiGenerator.typedefs]
+  final ffigen.Typedefs typedefs;
 
-  FfiGenConfig({
-    required this.output,
-    required this.outputObjC,
-    this.wrapperName,
-    this.wrapperDocComment,
-    this.preamble,
-    this.functionDecl,
-    this.structDecl,
-    this.unionDecl,
-    this.enumClassDecl,
-    this.unnamedEnumConstants,
-    this.globals,
-    this.macroDecl,
-    this.typedefs,
-    this.objcInterfaces,
-    this.objcProtocols,
-    this.objcCategories,
-    this.externalVersions = const ffigen.ExternalVersions(),
+  /// [ffigen.FfiGenerator.objectiveC]
+  final ffigen.ObjectiveC objectiveC;
+
+  const FfiGeneratorOptions({
+    this.functions = ffigen.Functions.excludeAll,
+    this.structs = ffigen.Structs.excludeAll,
+    this.unions = ffigen.Unions.excludeAll,
+    this.enums = ffigen.Enums.excludeAll,
+    this.unnamedEnums = ffigen.UnnamedEnums.excludeAll,
+    this.globals = ffigen.Globals.excludeAll,
+    this.integers = const ffigen.Integers(),
+    this.macros = ffigen.Macros.excludeAll,
+    this.typedefs = ffigen.Typedefs.excludeAll,
+    this.objectiveC = const ffigen.ObjectiveC(),
   });
 }

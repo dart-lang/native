@@ -19,10 +19,10 @@ void main() {
       final config = testConfigFromPath(
         path.join(packagePathForTests, 'example', 'ffinative', 'config.yaml'),
       );
-      final library = parse(config);
+      final library = parse(testContext(config));
 
       matchLibraryWithExpected(library, 'example_ffinative.dart', [
-        config.output.toFilePath(),
+        config.output.dartFile.toFilePath(),
       ]);
     });
   });

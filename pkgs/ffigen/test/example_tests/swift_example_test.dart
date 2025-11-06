@@ -43,11 +43,11 @@ void main() {
       final config = testConfigFromPath(
         path.join(packagePathForTests, 'example', 'swift', 'config.yaml'),
       );
-      final output = parse(config).generate();
+      final output = parse(testContext(config)).generate();
 
       // Verify that the output contains all the methods and classes that the
       // example app uses.
-      expect(output, contains('class SwiftClass extends objc.NSObject {'));
+      expect(output, contains('extension type SwiftClass._(objc.ObjCObject '));
       expect(output, contains('static SwiftClass new\$() {'));
       expect(output, contains('NSString sayHello() {'));
       expect(output, contains('int get someField {'));

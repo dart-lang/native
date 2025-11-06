@@ -27,12 +27,14 @@ const _core = r'core$_';
 const _override = '@$_core.override';
 
 // package:jni types.
-const _jType = '$_jni.JObjType';
+const _jType = '$_jni.JType';
 const _jPointer = '$_jni.JObjectPtr';
 const _jReference = '$_jni.JReference';
 const _jGlobalReference = '$_jni.JGlobalReference';
 const _jArray = '$_jni.JArray';
+const _jArrayTypePrefix = '$_jni.\$JArray\$';
 const _jObject = '$_jni.JObject';
+const _jObjectTypePrefix = '$_jni.\$JObject\$';
 const _jResult = '$_jni.JniResult';
 const _jThrowable = '$_jni.JThrowablePtr';
 const _methodInvocation = '$_jni.MethodInvocation';
@@ -419,19 +421,19 @@ class $name$typeParamsDef extends $superName {
     final classRef = writeClassRef(node);
 
     // Static TypeClass getter.
-    s.writeln(
-      '  /// The type which includes information such as the signature of this class.',
-    );
     void generateTypeClassGetter({required bool isNullable}) {
+      s.writeln(
+        '  /// The type which includes information such as the signature of this class.',
+      );
       final typeClassName =
           isNullable ? node.nullableTypeClassName : node.typeClassName;
       final typeClassGetterName =
           isNullable ? 'nullableType' : staticTypeGetter;
+      final questionMark = isNullable ? '?' : '';
       if (typeParams.isEmpty) {
-        s.writeln(
-          'static const $typeClassGetterName = '
-          '$typeClassName$typeParamsCall();',
-        );
+        s.write('''
+  static const $_jType<$name$typeParamsCall$questionMark> $typeClassGetterName = $typeClassName$typeParamsCall();
+''');
       } else {
         final staticTypeGetterTypeClassesDef = typeParams
             .map(
@@ -442,7 +444,7 @@ class $name$typeParamsDef extends $superName {
             .map((typeParam) => '$typeParam,')
             .join(_newLine(depth: 3));
         s.write('''
-  static $typeClassName$typeParamsCall $typeClassGetterName$typeParamsDef(
+  static $_jType<$name$typeParamsCall$questionMark> $typeClassGetterName$typeParamsDef(
     $staticTypeGetterTypeClassesDef
   ) {
     return $typeClassName$typeParamsCall(
@@ -972,12 +974,12 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
         : 'Type';
     if (node.elementType is PrimitiveType) {
       return _TypeClass(
-        '$ifConst$_jni.J${innerType}Array$type()',
+        '$ifConst$_jni.\$J${innerType}Array\$$type\$()',
         innerTypeClass.canBeConst,
       );
     }
     return _TypeClass(
-      '$ifConst$_jArray$type<$innerType>(${innerTypeClass.name})',
+      '$ifConst$_jArrayTypePrefix$type\$<$innerType>(${innerTypeClass.name})',
       innerTypeClass.canBeConst,
     );
   }
@@ -1039,8 +1041,10 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
   @override
   _TypeClass visitPrimitiveType(PrimitiveType node) {
     final ifConst = isConst ? 'const ' : '';
-    final name = boxPrimitives ? 'J${node.boxedName}' : 'j${node.name}';
-    return _TypeClass('$ifConst$_jni.${name}Type()', true);
+    final name = boxPrimitives
+        ? '$_jni.\$J${node.boxedName}\$Type\$'
+        : '$_jni.j${node.name}Type';
+    return _TypeClass('$ifConst$name()', true);
   }
 
   @override
@@ -1056,7 +1060,7 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
             : '';
     if (typeErasure) {
       final ifConst = isConst ? 'const ' : '';
-      return _TypeClass('$ifConst$_jObject$type()', true);
+      return _TypeClass('$ifConst$_jObjectTypePrefix$type\$()', true);
     }
     if (forInterfaceImplementation) {
       if (node.origin.parent is ClassDecl) {
@@ -1066,7 +1070,7 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
         );
       }
       final ifConst = isConst ? 'const ' : '';
-      return _TypeClass('$ifConst$_jObject$type()', true);
+      return _TypeClass('$ifConst$_jObjectTypePrefix$type\$()', true);
     }
     return _TypeClass('${node.name}$convertToNullable', false);
   }
@@ -1097,7 +1101,7 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
     final type = includeNullability && node.isNullable && isTopTypeNullable
         ? 'NullableType'
         : 'Type';
-    return _TypeClass('$ifConst$_jObject$type()', true);
+    return _TypeClass('$ifConst$_jObjectTypePrefix$type\$()', true);
   }
 }
 
@@ -1365,10 +1369,15 @@ ${modifier}final _$name = $_protectedExtension
 
     // Docs
     s.write('  /// from: `');
-    s.writeAll(node.modifiers.map((m) => '$m '));
-    s.write('${node.returnType} ${node.name}(');
-    s.writeAll(node.params.map((p) => '${p.type} ${p.name}'), ', ');
-    s.writeln(')`');
+    if (node.kotlinFunction != null) {
+      _writeKotlinSignature(node);
+      s.writeln('`');
+    } else {
+      s.writeAll(node.modifiers.map((m) => '$m '));
+      s.write('${node.returnType} ${node.name}(');
+      s.writeAll(node.params.map((p) => '${p.type} ${p.name}'), ', ');
+      s.writeln(')`');
+    }
     if (node.returnType is! PrimitiveType || node.isConstructor) {
       s.writeln(_releaseInstruction);
     }
@@ -1485,7 +1494,7 @@ ${modifier}final _$name = $_protectedExtension
           $_jGlobalReference($_jPointer.fromAddress(\$a)));
       if (${isNullable ? '\$o != null && ' : ''}\$o.isInstanceOf($_jni.result\$FailureClass)) {
         final \$e =
-            $_jni.failureExceptionField.get(\$o, const ${_jObject}Type());
+            $_jni.failureExceptionField.get(\$o, const ${_jObjectTypePrefix}Type\$());
         \$o.release();
         $_jni.Jni.throwException(\$e.reference.toPointer());
       }
@@ -1507,6 +1516,67 @@ ${modifier}final _$name = $_protectedExtension
     $returning;
   }
 ''');
+    }
+  }
+
+  void _writeKotlinSignature(Method node) {
+    final kotlinFunction = node.kotlinFunction!;
+    final typeParams = [
+      ...node.classDecl.allTypeParams,
+      ...node.typeParams,
+    ];
+
+    if (kotlinFunction.isPublic) {
+      s.write('public ');
+    }
+    if (kotlinFunction.isPrivate) {
+      s.write('private ');
+    }
+    if (kotlinFunction.isProtected) {
+      s.write('protected ');
+    }
+    if (kotlinFunction.isInternal) {
+      s.write('internal ');
+    }
+    if (kotlinFunction.isSuspend) {
+      s.write('suspend ');
+    }
+    if (kotlinFunction.isOperator) {
+      s.write('operator ');
+    }
+    s.write('fun ');
+    final whereClauses = <String>[];
+    if (kotlinFunction.typeParameters.isNotEmpty) {
+      s.write('<');
+      for (final t in kotlinFunction.typeParameters) {
+        final typeParameters = t.upperBounds
+            .map((bound) => '${t.name} : ${bound.toDocComment(typeParams)}');
+        if (typeParameters.length == 1) {
+          s.write(typeParameters.single);
+        } else {
+          s.write(t.name);
+          whereClauses.addAll(typeParameters);
+        }
+      }
+      s.write('> ');
+    }
+    s.write('${kotlinFunction.kotlinName}(');
+    s.writeAll(kotlinFunction.valueParameters.map((p) {
+      final KotlinType type;
+      final String prefix;
+      if (p.varargElementType != null) {
+        prefix = 'vararg ';
+        type = p.varargElementType!;
+      } else {
+        prefix = '';
+        type = p.type;
+      }
+      return '$prefix${p.name}: ${type.toDocComment(typeParams)}';
+    }), ', ');
+    s.write('): ${kotlinFunction.returnType.toDocComment(typeParams)}');
+    if (whereClauses.isNotEmpty) {
+      s.write(' where ');
+      s.writeAll(whereClauses, ', ');
     }
   }
 }
@@ -1981,7 +2051,7 @@ class _InterfaceReturnBox extends TypeVisitor<String> {
     // Casting is done to create a new global reference. The user might
     // use the original reference elsewhere and so the original object
     // should not be `setAsReleased`.
-    return '(\$r as $_jObject?)?.as(const ${_jObject}Type())'
+    return '(\$r as $_jObject?)?.as(const ${_jObjectTypePrefix}Type\$())'
         '.reference.toPointer() ?? $_jni.nullptr';
   }
 

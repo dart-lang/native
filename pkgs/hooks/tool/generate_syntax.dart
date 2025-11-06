@@ -8,6 +8,7 @@ import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:json_syntax_generator/json_syntax_generator.dart';
+import 'package:native_test_helpers/native_test_helpers.dart';
 
 import '../test/json_schema/helpers.dart';
 
@@ -63,7 +64,7 @@ void main(List<String> args) {
         'HookOutput',
         'LinkOutput',
       ],
-      visbleUnionTagValues: ['Asset'],
+      publicUnionTagValues: ['Asset'],
     ).analyze();
     final textDumpFile = File.fromUri(
       packageUri.resolve('../$packageName/lib/src/$packageName/syntax.g.txt'),
@@ -89,6 +90,7 @@ void main(List<String> args) {
 
     final output = SyntaxGenerator(
       analyzedSchema,
+      requireNullableParameters: true,
       header:
           '''
 // This file is generated, do not edit.

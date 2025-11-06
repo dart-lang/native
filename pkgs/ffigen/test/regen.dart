@@ -6,9 +6,9 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:args/args.dart';
-import 'package:ffigen/ffigen.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
+import '../example/objective_c/generate_code.dart' as example_objective_c;
 import 'test_utils.dart';
 
 const usage = r'''Regenerates the Dart FFI bindings used in tests and examples.
@@ -19,11 +19,10 @@ e.g. with this command:
 $ dart run test/setup.dart && dart run test/regen.dart && dart test
 ''';
 
-void _regenConfig(FfiGen ffigen, String yamlConfigPath) {
+void _regenConfig(Logger logger, String yamlConfigPath) {
   final path = p.join(packagePathForTests, yamlConfigPath);
   withChDir(path, () {
-    final config = testConfigFromPath(path);
-    ffigen.run(config);
+    testConfigFromPath(path).generate(logger: logger);
   });
 }
 
@@ -46,12 +45,14 @@ Future<void> main(List<String> args) async {
     exit(1);
   }
 
-  final ffigen = FfiGen(logLevel: Level.WARNING);
+  final logger = Logger.root..level = Level.WARNING;
 
-  _regenConfig(ffigen, 'test/native_test/config.yaml');
-  _regenConfig(ffigen, 'example/libclang-example/config.yaml');
-  _regenConfig(ffigen, 'example/simple/config.yaml');
-  _regenConfig(ffigen, 'example/c_json/config.yaml');
-  _regenConfig(ffigen, 'example/swift/config.yaml');
-  _regenConfig(ffigen, 'example/objective_c/config.yaml');
+  _regenConfig(logger, 'test/native_test/config.yaml');
+  _regenConfig(logger, 'example/libclang-example/config.yaml');
+  _regenConfig(logger, 'example/simple/config.yaml');
+  _regenConfig(logger, 'example/c_json/config.yaml');
+  if (Platform.isMacOS) {
+    _regenConfig(logger, 'example/swift/config.yaml');
+    example_objective_c.main();
+  }
 }

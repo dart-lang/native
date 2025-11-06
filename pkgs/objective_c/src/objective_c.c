@@ -30,7 +30,7 @@ FFI_EXPORT void DOBJC_finalizeObject(void* isolate_callback_data, void* peer) {
 }
 
 FFI_EXPORT Dart_FinalizableHandle
-DOBJC_newFinalizableHandle(Dart_Handle owner, ObjCObject* object) {
+DOBJC_newFinalizableHandle(Dart_Handle owner, ObjCObjectImpl* object) {
   return Dart_NewFinalizableHandle_DL(owner, object, 0, DOBJC_finalizeObject);
 }
 

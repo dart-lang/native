@@ -3,9 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../visitor/ast.dart';
-
 import 'binding.dart';
 import 'binding_string.dart';
+import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
 
@@ -32,11 +32,11 @@ class Constant extends NoLookUpBinding {
   Constant({
     super.usr,
     super.originalName,
-    required super.name,
+    required String name,
     super.dartDoc,
     required this.rawType,
     required this.rawValue,
-  });
+  }) : super(symbol: Symbol(name, SymbolKind.field));
 
   @override
   BindingString toBindingString(Writer w) {

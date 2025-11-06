@@ -9,70 +9,61 @@ import '../jvalues.dart';
 import '../types.dart';
 import 'jnumber.dart';
 
-final class JByteNullableType extends JObjType<JByte?> {
-  @internal
-  const JByteNullableType();
+@internal
+final class $JByte$NullableType$ extends JType<JByte?> {
+  const $JByte$NullableType$();
 
-  @internal
   @override
   String get signature => r'Ljava/lang/Byte;';
 
-  @internal
   @override
   JByte? fromReference(JReference reference) =>
       reference.isNull ? null : JByte.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JNumberNullableType();
+  JType get superType => const $JNumber$NullableType$();
 
-  @internal
   @override
-  JObjType<JByte?> get nullableType => this;
+  JType<JByte?> get nullableType => this;
 
-  @internal
   @override
   final superCount = 2;
 
   @override
-  int get hashCode => (JByteNullableType).hashCode;
+  int get hashCode => ($JByte$NullableType$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JByteNullableType && other is JByteNullableType;
+    return other.runtimeType == $JByte$NullableType$ &&
+        other is $JByte$NullableType$;
   }
 }
 
-final class JByteType extends JObjType<JByte> {
-  @internal
-  const JByteType();
+@internal
+final class $JByte$Type$ extends JType<JByte> {
+  const $JByte$Type$();
 
-  @internal
   @override
   String get signature => r'Ljava/lang/Byte;';
 
-  @internal
   @override
   JByte fromReference(JReference reference) => JByte.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JNumberType();
+  JType get superType => const $JNumber$Type$();
 
-  @internal
   @override
-  JObjType<JByte?> get nullableType => const JByteNullableType();
+  JType<JByte?> get nullableType => const $JByte$NullableType$();
 
-  @internal
   @override
   final superCount = 2;
 
   @override
-  int get hashCode => (JByteType).hashCode;
+  int get hashCode => ($JByte$Type$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JByteType && other is JByteType;
+    return other.runtimeType == $JByte$Type$ && other is $JByte$Type$;
   }
 }
 
@@ -80,17 +71,17 @@ class JByte extends JNumber {
   @internal
   @override
   // ignore: overridden_fields
-  final JObjType<JByte> $type = type;
+  final JType<JByte> $type = type;
 
   JByte.fromReference(
     super.reference,
   ) : super.fromReference();
 
   /// The type which includes information such as the signature of this class.
-  static const type = JByteType();
+  static const JType<JByte> type = $JByte$Type$();
 
   /// The type which includes information such as the signature of this class.
-  static const nullableType = JByteNullableType();
+  static const JType<JByte?> nullableType = $JByte$NullableType$();
 
   static final _class = JClass.forName(r'java/lang/Byte');
 

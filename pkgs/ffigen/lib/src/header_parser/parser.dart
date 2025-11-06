@@ -5,55 +5,47 @@
 import 'dart:ffi';
 import 'dart:io';
 
-import 'package:collection/collection.dart';
 import 'package:ffi/ffi.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
 import '../code_generator.dart';
-import '../code_generator/unique_namer.dart';
+import '../code_generator/scope.dart';
 import '../config_provider.dart';
 import '../config_provider/utils.dart';
+import '../context.dart';
 import '../strings.dart' as strings;
 import '../visitor/apply_config_filters.dart';
 import '../visitor/ast.dart';
 import '../visitor/copy_methods_from_super_type.dart';
+import '../visitor/create_scopes.dart';
 import '../visitor/fill_method_dependencies.dart';
+import '../visitor/find_symbols.dart';
 import '../visitor/find_transitive_deps.dart';
 import '../visitor/fix_overridden_methods.dart';
 import '../visitor/list_bindings.dart';
+import '../visitor/mark_imports.dart';
 import '../visitor/opaque_compounds.dart';
+import '../visitor/sorter.dart';
 import 'clang_bindings/clang_bindings.dart' as clang_types;
-import 'data.dart';
 import 'sub_parsers/macro_parser.dart';
 import 'translation_unit_parser.dart';
 import 'utils.dart';
 
 /// Main entrypoint for header_parser.
-Library parse(Config config) {
-  initParser(config);
-
-  return Library.fromConfig(
-    config: config,
-    bindings: transformBindings(config, parseToBindings(config)),
-  );
-}
+Library parse(Context context) => Library.fromContext(
+  bindings: transformBindings(parseToBindings(context), context),
+  context: context,
+);
 
 // =============================================================================
 //           BELOW FUNCTIONS ARE MEANT FOR INTERNAL USE AND TESTING
 // =============================================================================
 
-final _logger = Logger('ffigen.header_parser.parser');
-
-/// Initializes parser, clears any previous values.
-void initParser(Config c) {
-  // Initialize global variables.
-  initializeGlobals(config: c);
-}
-
 /// Parses source files and returns the bindings.
-List<Binding> parseToBindings(Config c) {
+List<Binding> parseToBindings(Context context) {
   final index = clang.clang_createIndex(0, 0);
+  final config = context.config;
 
   Pointer<Pointer<Utf8>> clangCmdArgs = nullptr;
   final compilerOpts = <String>[
@@ -69,10 +61,10 @@ List<Binding> parseToBindings(Config c) {
     ],
 
     // Add the user options last so they can override any other options.
-    ...config.compilerOpts,
+    ...context.compilerOpts,
   ];
 
-  _logger.fine('CompilerOpts used: $compilerOpts');
+  context.logger.fine('CompilerOpts used: $compilerOpts');
   clangCmdArgs = createDynamicStringArray(compilerOpts);
   final cmdLen = compilerOpts.length;
 
@@ -80,14 +72,14 @@ List<Binding> parseToBindings(Config c) {
   final bindings = <Binding>{};
 
   // Log all headers for user.
-  _logger.info('Input Headers: ${config.entryPoints}');
+  context.logger.info('Input Headers: ${config.entryPoints}');
 
   final tuList = <Pointer<clang_types.CXTranslationUnitImpl>>[];
 
   // Parse all translation units from entry points.
   for (final headerLocationUri in config.entryPoints) {
     final headerLocation = headerLocationUri.toFilePath();
-    _logger.fine('Creating TranslationUnit for header: $headerLocation');
+    context.logger.fine('Creating TranslationUnit for header: $headerLocation');
 
     final tu = clang.clang_parseTranslationUnit(
       index,
@@ -106,28 +98,30 @@ List<Binding> parseToBindings(Config c) {
     );
 
     if (tu == nullptr) {
-      _logger.severe(
+      context.logger.severe(
         "Skipped header/file: $headerLocation, couldn't parse source.",
       );
       // Skip parsing this header.
       continue;
     }
 
-    logTuDiagnostics(tu, _logger, headerLocation);
+    logTuDiagnostics(tu, context, headerLocation);
     tuList.add(tu);
   }
 
-  if (hasSourceErrors) {
-    _logger.warning('The compiler found warnings/errors in source files.');
-    _logger.warning('This will likely generate invalid bindings.');
+  if (context.hasSourceErrors) {
+    context.logger.warning(
+      'The compiler found warnings/errors in source files.',
+    );
+    context.logger.warning('This will likely generate invalid bindings.');
     if (config.ignoreSourceErrors) {
-      _logger.warning(
+      context.logger.warning(
         'Ignored source errors. (User supplied --ignore-source-errors)',
       );
     } else if (config.language == Language.objc) {
-      _logger.warning('Ignored source errors. (ObjC)');
+      context.logger.warning('Ignored source errors. (ObjC)');
     } else {
-      _logger.severe(
+      context.logger.severe(
         'Skipped generating bindings due to errors in source files. See https://github.com/dart-lang/native/blob/main/pkgs/ffigen/doc/errors.md.',
       );
       exit(1);
@@ -140,12 +134,12 @@ List<Binding> parseToBindings(Config c) {
 
   // Build usr to CXCusror map from translation units.
   for (final rootCursor in tuCursors) {
-    buildUsrCursorDefinitionMap(rootCursor);
+    buildUsrCursorDefinitionMap(context, rootCursor);
   }
 
   // Parse definitions from translation units.
   for (final rootCursor in tuCursors) {
-    bindings.addAll(parseTranslationUnit(rootCursor));
+    bindings.addAll(parseTranslationUnit(context, rootCursor));
   }
 
   // Dispose translation units.
@@ -154,10 +148,10 @@ List<Binding> parseToBindings(Config c) {
   }
 
   // Add all saved unnamed enums.
-  bindings.addAll(unnamedEnumConstants);
+  bindings.addAll(context.unnamedEnumConstants);
 
   // Parse all saved macros.
-  bindings.addAll(parseSavedMacros());
+  bindings.addAll(parseSavedMacros(context));
 
   clangCmdArgs.dispose(cmdLen);
   clang.clang_disposeIndex(index);
@@ -170,61 +164,79 @@ List<String> _findObjectiveCSysroot() => [
 ];
 
 @visibleForTesting
-List<Binding> transformBindings(Config config, List<Binding> bindings) {
-  visit(CopyMethodsFromSuperTypesVisitation(), bindings);
-  visit(FixOverriddenMethodsVisitation(), bindings);
-  visit(FillMethodDependenciesVisitation(), bindings);
+List<Binding> transformBindings(List<Binding> bindings, Context context) {
+  final config = context.config;
 
-  final filterResults = visit(ApplyConfigFiltersVisitation(config), bindings);
-  final directlyIncluded = filterResults.directlyIncluded;
-  final included = directlyIncluded.union(filterResults.indirectlyIncluded);
+  final allBindings = visit(
+    context,
+    FindTransitiveDepsVisitation(),
+    bindings,
+  ).transitives;
+
+  visit(context, CopyMethodsFromSuperTypesVisitation(), allBindings);
+  visit(context, FixOverriddenMethodsVisitation(context), allBindings);
+  visit(context, FillMethodDependenciesVisitation(), allBindings);
+
+  final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(config);
+  visit(context, applyConfigFiltersVisitation, allBindings);
+  final directlyIncluded = applyConfigFiltersVisitation.directlyIncluded;
+  final included = directlyIncluded.union(
+    applyConfigFiltersVisitation.indirectlyIncluded,
+  );
 
   final byValueCompounds = visit(
+    context,
     FindByValueCompoundsVisitation(),
     FindByValueCompoundsVisitation.rootNodes(included),
   ).byValueCompounds;
   visit(
+    context,
     ClearOpaqueCompoundMembersVisitation(config, byValueCompounds, included),
-    bindings,
+    allBindings,
   );
 
   final transitives = visit(
+    context,
     FindTransitiveDepsVisitation(),
     included,
   ).transitives;
   final directTransitives = visit(
+    context,
     FindDirectTransitiveDepsVisitation(config, included, directlyIncluded),
     included,
   ).directTransitives;
 
   final finalBindings = visit(
+    context,
     ListBindingsVisitation(config, included, transitives, directTransitives),
     bindings,
   ).bindings;
-  visit(MarkBindingsVisitation(finalBindings), bindings);
+  visit(context, MarkBindingsVisitation(finalBindings), allBindings);
 
-  final finalBindingsList = finalBindings.toList();
+  visit(context, MarkImportsVisitation(context), finalBindings);
+
+  _nameAllSymbols(context, finalBindings);
 
   /// Sort bindings.
+  var finalBindingsList = finalBindings.toList();
   if (config.sort) {
-    finalBindingsList.sortBy((b) => b.name);
-    for (final b in finalBindingsList) {
-      b.sort();
-    }
+    finalBindingsList = visit(
+      context,
+      SorterVisitation(finalBindings, SorterVisitation.nameSortKey),
+      finalBindings,
+    ).sorted;
   }
 
   /// Handle any declaration-declaration name conflicts and emit warnings.
-  final declConflictHandler = UniqueNamer();
   for (final b in finalBindingsList) {
-    _warnIfPrivateDeclaration(b);
-    _resolveIfNameConflicts(declConflictHandler, b);
+    _warnIfPrivateDeclaration(b, context.logger);
   }
 
   // Override pack values according to config. We do this after declaration
   // conflicts have been handled so that users can target the generated names.
   for (final b in finalBindingsList) {
     if (b is Struct) {
-      final pack = config.structPackingOverride(b);
+      final pack = config.structs.packingOverride(b);
       if (pack != null) {
         b.pack = pack.value;
       }
@@ -235,24 +247,56 @@ List<Binding> transformBindings(Config config, List<Binding> bindings) {
 }
 
 /// Logs a warning if generated declaration will be private.
-void _warnIfPrivateDeclaration(Binding b) {
+void _warnIfPrivateDeclaration(Binding b, Logger logger) {
   if (b.name.startsWith('_') && !b.isInternal) {
-    _logger.warning(
+    logger.warning(
       "Generated declaration '${b.name}' starts with '_' "
       'and therefore will be private.',
     );
   }
 }
 
-/// Resolves name conflict(if any) and logs a warning.
-void _resolveIfNameConflicts(UniqueNamer namer, Binding b) {
-  // Print warning if name was conflicting and has been changed.
-  final oldName = b.name;
-  b.name = namer.makeUnique(b.name);
-  if (oldName != b.name) {
-    _logger.warning(
-      "Resolved name conflict: Declaration '$oldName' "
-      "and has been renamed to '${b.name}'.",
-    );
+void _nameAllSymbols(Context context, Set<Binding> bindings) {
+  final namingOrder = visit(
+    context,
+    SorterVisitation(bindings, SorterVisitation.originalNameSortKey),
+    bindings,
+  ).sorted;
+
+  visit(
+    context,
+    CreateScopesVisitation(context, bindings, orderedPass: true),
+    namingOrder,
+  );
+  visit(
+    context,
+    CreateScopesVisitation(context, bindings, orderedPass: false),
+    namingOrder,
+  );
+  visit(context, FindSymbolsVisitation(context, bindings), namingOrder);
+
+  context.extraSymbols = _createExtraSymbols(context);
+  context.libs.createSymbols(context.rootScope);
+
+  context.rootScope.fillNames();
+  context.rootObjCScope.fillNames();
+}
+
+ExtraSymbols _createExtraSymbols(Context context) {
+  final bindingStyle = context.config.outputStyle;
+  Symbol? wrapperClassName;
+  Symbol? lookupFuncName;
+  if (bindingStyle is DynamicLibraryBindings) {
+    wrapperClassName = Symbol(bindingStyle.wrapperName, SymbolKind.klass);
+    lookupFuncName = Symbol('_lookup', SymbolKind.field);
   }
+  final extraSymbols = (
+    wrapperClassName: wrapperClassName,
+    lookupFuncName: lookupFuncName,
+    symbolAddressVariableName: Symbol('addresses', SymbolKind.field),
+  );
+  context.rootScope.add(extraSymbols.wrapperClassName);
+  context.rootScope.add(extraSymbols.lookupFuncName);
+  context.rootScope.add(extraSymbols.symbolAddressVariableName);
+  return extraSymbols;
 }

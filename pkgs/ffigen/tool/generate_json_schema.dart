@@ -11,13 +11,14 @@ import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/strings.dart' as strings;
+import 'package:logging/logging.dart';
 
 void main() async {
   final actualJsonSchema =
       const JsonEncoder.withIndent(strings.ffigenJsonSchemaIndent).convert(
-        YamlConfig.getsRootConfigSpec().generateJsonSchema(
-          strings.ffigenJsonSchemaId,
-        ),
+        YamlConfig.getsRootConfigSpec(
+          Logger.root,
+        ).generateJsonSchema(strings.ffigenJsonSchemaId),
       );
 
   final file = File(strings.ffigenJsonSchemaFileName);

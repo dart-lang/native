@@ -95,9 +95,9 @@ void main() {
 
     test('Regress #1268', () {
       // Test for https://github.com/dart-lang/native/issues/1268
-      NSArray array = PropertyInterface.getRegressGH1268();
+      final array = PropertyInterface.getRegressGH1268().asDart();
       expect(array.length, 1);
-      expect(NSString.castFrom(array[0]).toDartString(), "hello");
+      expect(NSString.as(array[0]).toDartString(), "hello");
     });
   });
 }

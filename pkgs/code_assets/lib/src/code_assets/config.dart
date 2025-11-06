@@ -16,6 +16,8 @@ import 'syntax.g.dart';
 /// to code assets (only available if code assets are supported).
 extension HookConfigCodeConfig on HookConfig {
   /// Code asset specific configuration.
+  ///
+  /// Only available if [buildCodeAssets] is true.
   CodeConfig get code => CodeConfig._fromJson(json, path);
 
   /// Whether the hook invoker (e.g. the Dart or Flutter SDK) expects this
@@ -29,10 +31,12 @@ extension HookConfigCodeConfig on HookConfig {
 extension LinkInputCodeAssets on LinkInputAssets {
   /// The [CodeAsset]s in this [LinkInputAssets.encodedAssets].
   ///
+  /// Only available if [HookConfigCodeConfig.buildCodeAssets] is true.
+  ///
   /// NOTE: If the linker implementation depends on the contents of the files
   /// the code assets refer (e.g. looks at static archives and links them) then
   /// the linker script has to add those files as dependencies via
-  /// [HookOutputBuilder.addDependencies] to ensure the linker script will be
+  /// [HookOutputBuilder.dependencies] to ensure the linker script will be
   /// re-run if the content of the files changes.
   Iterable<CodeAsset> get code =>
       encodedAssets.where((e) => e.isCodeAsset).map(CodeAsset.fromEncoded);
@@ -148,6 +152,8 @@ final class MacOSCodeConfig {
 /// Extension on [BuildOutputBuilder] to add [CodeAsset]s.
 extension BuildOutputAssetsBuilderCode on BuildOutputAssetsBuilder {
   /// Provides access to emitting code assets.
+  ///
+  /// Should only be used if [HookConfigCodeConfig.buildCodeAssets] is true.
   BuildOutputCodeAssetBuilder get code => BuildOutputCodeAssetBuilder._(this);
 }
 
@@ -159,10 +165,26 @@ final class BuildOutputCodeAssetBuilder {
   BuildOutputCodeAssetBuilder._(this._output);
 
   /// Adds the given [asset] to the hook output with [routing].
+  ///
+  /// The [CodeAsset.file], if provided, must be an absolute path. Prefer
+  /// constructing the path via [HookInput.outputDirectoryShared] or
+  /// [HookInput.outputDirectory].
+  ///
+  /// The [CodeAsset.id] must be starting with `package:<package>/` where
+  /// `<package>` is the package name of the build hook where this method is
+  /// called.
   void add(CodeAsset asset, {AssetRouting routing = const ToAppBundle()}) =>
       _output.addEncodedAsset(asset.encode(), routing: routing);
 
   /// Adds the given [assets] to the hook output with [routing].
+  ///
+  /// The [CodeAsset.file]s, if provided, must be absolute paths. Prefer
+  /// constructing the paths via [HookInput.outputDirectoryShared] or
+  /// [HookInput.outputDirectory].
+  ///
+  /// The [CodeAsset.id]s must be starting with `package:<package>/` where
+  /// `<package>` is the package name of the build hook where this method is
+  /// called.
   void addAll(
     Iterable<CodeAsset> assets, {
     AssetRouting routing = const ToAppBundle(),
@@ -185,11 +207,19 @@ final class LinkOutputCodeAssetBuilder {
 
   LinkOutputCodeAssetBuilder._(this._output);
 
-  /// Adds the given [asset] to the link hook output.
-  void add(CodeAsset asset) => _output.addEncodedAsset(asset.encode());
+  /// Adds the given [asset] to the hook output with [routing].
+  void add(CodeAsset asset, {LinkAssetRouting routing = const ToAppBundle()}) =>
+      _output.addEncodedAsset(asset.encode(), routing: routing);
 
-  /// Adds the given [assets] to the link hook output.
-  void addAll(Iterable<CodeAsset> assets) => assets.forEach(add);
+  /// Adds the given [assets] to the hook output with [routing].
+  void addAll(
+    Iterable<CodeAsset> assets, {
+    LinkAssetRouting routing = const ToAppBundle(),
+  }) {
+    for (final asset in assets) {
+      add(asset, routing: routing);
+    }
+  }
 }
 
 /// Extension to initialize code specific configuration on link/build inputs.

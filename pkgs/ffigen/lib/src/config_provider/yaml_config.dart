@@ -18,151 +18,123 @@ import 'config_spec.dart';
 import 'config_types.dart';
 import 'spec_utils.dart';
 
-final _logger = Logger('ffigen.config_provider.config');
-
 /// Provides configurations to other modules.
 ///
 /// Handles validation, extraction of configurations from a yaml file.
-class YamlConfig implements Config {
+final class YamlConfig {
   /// Input config filename, if any.
-  @override
   final Uri? filename;
 
   /// Package config.
-  @override
   final PackageConfig? packageConfig;
 
   /// Path to the clang library.
-  @override
   Uri get libclangDylib => Uri.file(_libclangDylib);
   late String _libclangDylib;
 
   /// Output file name.
-  @override
   Uri get output => Uri.file(_output);
   late String _output;
 
   /// Output ObjC file name.
-  @override
   Uri get outputObjC => Uri.file(_outputObjC ?? '$_output.m');
   String? _outputObjC;
 
   /// Symbol file config.
-  @override
   SymbolFile? get symbolFile => _symbolFile;
   late SymbolFile? _symbolFile;
 
-  /// Language that ffigen is consuming.
-  @override
+  /// Language that FFIgen is consuming.
   Language get language => _language;
   late Language _language;
 
   /// Path to headers. May not contain globs.
-  @override
   List<Uri> get entryPoints => _headers.entryPoints;
 
   /// Whether to include a specific header. This exists in addition to
   /// [entryPoints] to allow filtering of transitively included headers.
-  @override
   bool shouldIncludeHeader(Uri header) =>
       _headers.includeFilter.shouldInclude(header);
   late YamlHeaders _headers;
 
   /// CommandLine Arguments to pass to clang_compiler.
-  @override
   List<String> get compilerOpts => _compilerOpts;
   late List<String> _compilerOpts;
 
   /// VarArg function handling.
-  @override
   Map<String, List<VarArgFunction>> get varArgFunctions => _varArgFunctions;
   late Map<String, List<VarArgFunction>> _varArgFunctions = {};
 
   /// Declaration config for Functions.
-  @override
-  DeclarationFilters get functionDecl => _functionDecl;
-  late DeclarationFilters _functionDecl;
+  YamlDeclarationFilters get functionDecl => _functionDecl;
+  late YamlDeclarationFilters _functionDecl;
 
   /// Declaration config for Structs.
-  @override
-  DeclarationFilters get structDecl => _structDecl;
-  late DeclarationFilters _structDecl;
+  YamlDeclarationFilters get structDecl => _structDecl;
+  late YamlDeclarationFilters _structDecl;
 
   /// Declaration config for Unions.
-  @override
-  DeclarationFilters get unionDecl => _unionDecl;
-  late DeclarationFilters _unionDecl;
+  YamlDeclarationFilters get unionDecl => _unionDecl;
+  late YamlDeclarationFilters _unionDecl;
 
   /// Declaration config for Enums.
-  @override
-  DeclarationFilters get enumClassDecl => _enumClassDecl;
-  late DeclarationFilters _enumClassDecl;
+  YamlDeclarationFilters get enumClassDecl => _enumClassDecl;
+  late YamlDeclarationFilters _enumClassDecl;
 
   /// Declaration config for Unnamed enum constants.
-  @override
-  DeclarationFilters get unnamedEnumConstants => _unnamedEnumConstants;
-  late DeclarationFilters _unnamedEnumConstants;
+  YamlDeclarationFilters get unnamedEnumConstants => _unnamedEnumConstants;
+  late YamlDeclarationFilters _unnamedEnumConstants;
 
   /// Declaration config for Globals.
-  @override
-  DeclarationFilters get globals => _globals;
-  late DeclarationFilters _globals;
+  YamlDeclarationFilters get globals => _globals;
+  late YamlDeclarationFilters _globals;
 
   /// Declaration config for Macro constants.
-  @override
-  DeclarationFilters get macroDecl => _macroDecl;
-  late DeclarationFilters _macroDecl;
+  YamlDeclarationFilters get macroDecl => _macroDecl;
+  late YamlDeclarationFilters _macroDecl;
 
   /// Declaration config for Typedefs.
-  @override
-  DeclarationFilters get typedefs => _typedefs;
-  late DeclarationFilters _typedefs;
+  YamlDeclarationFilters get typedefs => _typedefs;
+  late YamlDeclarationFilters _typedefs;
 
   /// Declaration config for Objective C interfaces.
-  @override
-  DeclarationFilters get objcInterfaces => _objcInterfaces;
-  late DeclarationFilters _objcInterfaces;
+  YamlDeclarationFilters get objcInterfaces => _objcInterfaces;
+  late YamlDeclarationFilters _objcInterfaces;
 
   /// Declaration config for Objective C protocols.
-  @override
-  DeclarationFilters get objcProtocols => _objcProtocols;
-  late DeclarationFilters _objcProtocols;
+  YamlDeclarationFilters get objcProtocols => _objcProtocols;
+  late YamlDeclarationFilters _objcProtocols;
 
   /// Declaration config for Objective C categories.
-  @override
-  DeclarationFilters get objcCategories => _objcCategories;
-  late DeclarationFilters _objcCategories;
+  YamlDeclarationFilters get objcCategories => _objcCategories;
+  late YamlDeclarationFilters _objcCategories;
 
   /// If enabled, the default behavior of all declaration filters is to exclude
   /// everything, rather than include everything.
   late bool _excludeAllByDefault;
 
   /// If enabled, unused typedefs will also be generated.
-  @override
   bool get includeUnusedTypedefs => _includeUnusedTypedefs;
   late bool _includeUnusedTypedefs;
 
-  /// If enabled, Objective C interfaces that are not explicitly included by
-  /// the [DeclarationFilters], but are transitively included by other bindings,
+  /// If enabled, Objective C interfaces that are not explicitly included by the
+  /// [YamlDeclarationFilters], but are transitively included by other bindings,
   /// will be code-genned as if they were included. If disabled, these
   /// transitively included interfaces will be generated as stubs instead.
-  @override
   bool get includeTransitiveObjCInterfaces => _includeTransitiveObjCInterfaces;
   late bool _includeTransitiveObjCInterfaces;
 
-  /// If enabled, Objective C protocols that are not explicitly included by
-  /// the [DeclarationFilters], but are transitively included by other bindings,
+  /// If enabled, Objective C protocols that are not explicitly included by the
+  /// [YamlDeclarationFilters], but are transitively included by other bindings,
   /// will be code-genned as if they were included. If disabled, these
   /// transitively included protocols will not be generated at all.
-  @override
   bool get includeTransitiveObjCProtocols => _includeTransitiveObjCProtocols;
   late bool _includeTransitiveObjCProtocols;
 
   /// If enabled, Objective C categories that are not explicitly included by
-  /// the [DeclarationFilters], but extend interfaces that are included,
+  /// the [YamlDeclarationFilters], but extend interfaces that are included,
   /// will be code-genned as if they were included. If disabled, these
   /// transitively included categories will not be generated at all.
-  @override
   bool get includeTransitiveObjCCategories => _includeTransitiveObjCCategories;
   late bool _includeTransitiveObjCCategories;
 
@@ -171,151 +143,123 @@ class YamlConfig implements Config {
   /// package:objective_c (the default) or code genned like any other class.
   /// This is necessary because package:objective_c can't import NSObject from
   /// itself.
-  @override
   bool get generateForPackageObjectiveC => _generateForPackageObjectiveC;
   late bool _generateForPackageObjectiveC;
 
   /// If generated bindings should be sorted alphabetically.
-  @override
   bool get sort => _sort;
   late bool _sort;
 
   /// If typedef of supported types(int8_t) should be directly used.
-  @override
   bool get useSupportedTypedefs => _useSupportedTypedefs;
   late bool _useSupportedTypedefs;
 
   /// Stores all the library imports specified by user including those for ffi
   /// and pkg_ffi.
-  @override
   Map<String, LibraryImport> get libraryImports => _libraryImports;
   late Map<String, LibraryImport> _libraryImports;
 
   /// Stores all the symbol file maps name to ImportedType mappings specified by
   /// user.
-  @override
   Map<String, ImportedType> get usrTypeMappings => _usrTypeMappings;
   late Map<String, ImportedType> _usrTypeMappings;
 
   /// Stores typedef name to ImportedType mappings specified by user.
-  @override
   Map<String, ImportedType> get typedefTypeMappings => _typedefTypeMappings;
   late Map<String, ImportedType> _typedefTypeMappings;
 
   /// Stores struct name to ImportedType mappings specified by user.
-  @override
   Map<String, ImportedType> get structTypeMappings => _structTypeMappings;
   late Map<String, ImportedType> _structTypeMappings;
 
   /// Stores union name to ImportedType mappings specified by user.
-  @override
   Map<String, ImportedType> get unionTypeMappings => _unionTypeMappings;
   late Map<String, ImportedType> _unionTypeMappings;
 
   /// Stores native int name to ImportedType mappings specified by user.
-  @override
   Map<String, ImportedType> get nativeTypeMappings => _nativeTypeMappings;
   late Map<String, ImportedType> _nativeTypeMappings;
 
   /// Extracted Doc comment type.
-  @override
   CommentType get commentType => _commentType;
   late CommentType _commentType;
 
   /// Whether structs that are dependencies should be included.
-  @override
   CompoundDependencies get structDependencies => _structDependencies;
   late CompoundDependencies _structDependencies;
 
   /// Whether unions that are dependencies should be included.
-  @override
   CompoundDependencies get unionDependencies => _unionDependencies;
   late CompoundDependencies _unionDependencies;
 
   /// Holds config for how struct packing should be overriden.
-  @override
   PackingValue? structPackingOverride(Declaration declaration) =>
       _structPackingOverride.getOverridenPackValue(declaration.originalName);
   late StructPackingOverride _structPackingOverride;
 
   /// The module that the ObjC interface belongs to.
-  @override
   String? interfaceModule(Declaration declaration) =>
       _objcInterfaceModules.getModule(declaration.originalName);
   late ObjCModules _objcInterfaceModules;
 
   /// The module that the ObjC protocols belongs to.
-  @override
   String? protocolModule(Declaration declaration) =>
       _objcProtocolModules.getModule(declaration.originalName);
   late ObjCModules _objcProtocolModules;
 
   /// Name of the wrapper class.
-  @override
   String get wrapperName => _wrapperName;
   late String _wrapperName;
 
   /// Doc comment for the wrapper class.
-  @override
   String? get wrapperDocComment => _wrapperDocComment;
   String? _wrapperDocComment;
 
   /// Header of the generated bindings.
-  @override
   String? get preamble => _preamble;
   String? _preamble;
 
   /// If `Dart_Handle` should be mapped with Handle/Object.
-  @override
   bool get useDartHandle => _useDartHandle;
   late bool _useDartHandle;
 
   /// Where to silence warning for enum integer type mimicking.
-  @override
   bool get silenceEnumWarning => _silenceEnumWarning;
   late bool _silenceEnumWarning;
 
   /// Whether to expose the function typedef for a given function.
-  @override
   bool shouldExposeFunctionTypedef(Declaration declaration) =>
       _exposeFunctionTypedefs.shouldInclude(declaration.originalName);
   late YamlIncluder _exposeFunctionTypedefs;
 
   /// Whether the given function is a leaf function.
-  @override
   bool isLeafFunction(Declaration declaration) =>
       _leafFunctions.shouldInclude(declaration.originalName);
   late YamlIncluder _leafFunctions;
 
   /// Whether to generate the given enum as a series of int constants, rather
   /// than a real Dart enum.
-  @override
   bool enumShouldBeInt(Declaration declaration) =>
       _enumsAsInt.shouldInclude(declaration.originalName);
   late YamlIncluder _enumsAsInt;
 
   /// Whether to generate the given unnamed enum as a series of int constants,
   /// rather than a real Dart enum.
-  @override
   bool unnamedEnumsShouldBeInt(Declaration declaration) =>
       _unnamedEnumsAsInt.shouldInclude(declaration.originalName);
   late YamlIncluder _unnamedEnumsAsInt;
 
-  @override
   FfiNativeConfig get ffiNativeConfig => _ffiNativeConfig;
   late FfiNativeConfig _ffiNativeConfig;
 
   /// Where to ignore compiler warnings/errors in source header files.
-  @override
   bool ignoreSourceErrors = false;
 
   /// Whether to format the output file.
-  @override
   bool formatOutput = true;
 
   /// Minimum target versions for ObjC APIs, per OS. APIs that were deprecated
   /// before this version will not be generated.
-  @override
   ExternalVersions get externalVersions => _externalVersions;
   late ExternalVersions _externalVersions;
 
@@ -323,7 +267,8 @@ class YamlConfig implements Config {
 
   /// Create config from Yaml map.
   factory YamlConfig.fromYaml(
-    YamlMap map, {
+    YamlMap map,
+    Logger logger, {
     String? filename,
     PackageConfig? packageConfig,
   }) {
@@ -331,10 +276,10 @@ class YamlConfig implements Config {
       filename: filename == null ? null : Uri.file(filename),
       packageConfig: packageConfig,
     );
-    _logger.finest('Config Map: $map');
+    logger.finest('Config Map: $map');
 
-    final ffigenConfigSpec = config._getRootConfigSpec();
-    final result = ffigenConfigSpec.validate(map);
+    final ffigenConfigSpec = config._getRootConfigSpec(logger);
+    final result = ffigenConfigSpec.validate(map, logger);
     if (!result) {
       throw const FormatException('Invalid configurations provided.');
     }
@@ -344,21 +289,26 @@ class YamlConfig implements Config {
   }
 
   /// Create config from a file.
-  factory YamlConfig.fromFile(File file, {PackageConfig? packageConfig}) {
+  factory YamlConfig.fromFile(
+    File file,
+    Logger logger, {
+    PackageConfig? packageConfig,
+  }) {
     // Throws a [YamlException] if it's unable to parse the Yaml.
     final configYaml = loadYaml(file.readAsStringSync()) as YamlMap;
 
     return YamlConfig.fromYaml(
       configYaml,
+      logger,
       filename: file.path,
       packageConfig: packageConfig,
     );
   }
 
   /// Returns the root ConfigSpec object.
-  static ConfigSpec getsRootConfigSpec() {
+  static ConfigSpec getsRootConfigSpec(Logger logger) {
     final configspecs = YamlConfig._(filename: null, packageConfig: null);
-    return configspecs._getRootConfigSpec();
+    return configspecs._getRootConfigSpec(logger);
   }
 
   /// Add compiler options for clang. If [highPriority] is true these are added
@@ -374,7 +324,7 @@ class YamlConfig implements Config {
     }
   }
 
-  ConfigSpec _getRootConfigSpec() {
+  ConfigSpec _getRootConfigSpec(Logger logger) {
     return HeterogeneousMapConfigSpec(
       entries: [
         HeterogeneousMapEntry(
@@ -387,9 +337,9 @@ class YamlConfig implements Config {
           key: strings.llvmPath,
           valueConfigSpec: ListConfigSpec<String, String>(
             childConfigSpec: StringConfigSpec(),
-            transform: (node) => llvmPathExtractor(node.value),
+            transform: (node) => llvmPathExtractor(logger, node.value),
           ),
-          defaultValue: (node) => findDylibAtDefaultLocations(),
+          defaultValue: (node) => findDylibAtDefaultLocations(logger),
           resultOrDefault: (node) => _libclangDylib = node.value as String,
         ),
         HeterogeneousMapEntry(
@@ -401,6 +351,7 @@ class YamlConfig implements Config {
               _outputFullConfigSpec(),
             ],
             transform: (node) => outputExtractor(
+              logger,
               node.value,
               filename?.toFilePath(),
               packageConfig,
@@ -447,8 +398,11 @@ class YamlConfig implements Config {
                     ),
                   ),
                 ],
-                transform: (node) =>
-                    headersExtractor(node.value, filename?.toFilePath()),
+                transform: (node) => headersExtractor(
+                  logger,
+                  node.value,
+                  filename?.toFilePath(),
+                ),
                 result: (node) => _headers = node.value,
               ),
         ),
@@ -498,7 +452,7 @@ class YamlConfig implements Config {
                       as bool,
             ),
             result: (node) => _compilerOpts.addAll(
-              (node.value as CompilerOptsAuto).extractCompilerOpts(),
+              (node.value as CompilerOptsAuto).extractCompilerOpts(logger),
             ),
           ),
         ),
@@ -508,7 +462,8 @@ class YamlConfig implements Config {
             keyValueConfigSpecs: [
               (keyRegexp: '.*', valueConfigSpec: StringConfigSpec()),
             ],
-            customValidation: _libraryImportsPredefinedValidation,
+            customValidation: (node) =>
+                _libraryImportsPredefinedValidation(node, logger),
             transform: (node) => libraryImportsExtractor(node.value.cast()),
           ),
           defaultValue: (node) => <String, LibraryImport>{},
@@ -778,6 +733,7 @@ class YamlConfig implements Config {
                     ListConfigSpec<String, Map<String, ImportedType>>(
                       childConfigSpec: StringConfigSpec(),
                       transform: (node) => symbolFileImportExtractor(
+                        logger,
                         node.value,
                         _libraryImports,
                         filename?.toFilePath(),
@@ -890,14 +846,14 @@ class YamlConfig implements Config {
         HeterogeneousMapEntry(
           key: strings.comments,
           valueConfigSpec: _commentConfigSpec(),
-          defaultValue: (node) => CommentType.def(),
+          defaultValue: (node) => const CommentType.def(),
           resultOrDefault: (node) => _commentType = node.value as CommentType,
         ),
         HeterogeneousMapEntry(
           key: strings.name,
           valueConfigSpec: _dartClassNameStringConfigSpec(),
           defaultValue: (node) {
-            _logger.warning(
+            logger.warning(
               "Prefer adding Key '${node.pathString}' to your config.",
             );
             return 'NativeLibrary';
@@ -908,7 +864,7 @@ class YamlConfig implements Config {
           key: strings.description,
           valueConfigSpec: _nonEmptyStringConfigSpec(),
           defaultValue: (node) {
-            _logger.warning(
+            logger.warning(
               "Prefer adding Key '${node.pathString}' to your config.",
             );
             return null;
@@ -952,7 +908,7 @@ class YamlConfig implements Config {
                 ],
               ),
             ],
-            transform: (node) => ffiNativeExtractor(node.value),
+            transform: (node) => ffiNativeExtractor(logger, node.value),
           ),
           defaultValue: (node) => const FfiNativeConfig(enabled: false),
           resultOrDefault: (node) =>
@@ -992,13 +948,16 @@ class YamlConfig implements Config {
     );
   }
 
-  bool _libraryImportsPredefinedValidation(ConfigValue<Object?> node) {
+  bool _libraryImportsPredefinedValidation(
+    ConfigValue<Object?> node,
+    Logger logger,
+  ) {
     if (node.value is YamlMap) {
       return (node.value as YamlMap).keys.where((key) {
-        if (strings.predefinedLibraryImports.containsKey(key)) {
-          _logger.severe(
+        if (builtInLibraries.containsKey(key)) {
+          logger.severe(
             '${node.pathString} -> $key should not collide with any '
-            'predefined imports - ${strings.predefinedLibraryImports.keys}.',
+            'predefined imports - ${builtInLibraries.keys}.',
           );
           return true;
         }
@@ -1012,8 +971,9 @@ class YamlConfig implements Config {
     return OneOfConfigSpec(
       childConfigSpecs: [
         BoolConfigSpec(
-          transform: (node) =>
-              (node.value == true) ? CommentType.def() : CommentType.none(),
+          transform: (node) => (node.value == true)
+              ? const CommentType.def()
+              : const CommentType.none(),
         ),
         HeterogeneousMapConfigSpec(
           entries: [
@@ -1275,4 +1235,133 @@ class YamlConfig implements Config {
       transform: (node) => ObjCModules(node.value.cast<String, String>()),
     );
   }
+
+  FfiGenerator configAdapter() => FfiGenerator(
+    headers: Headers(
+      compilerOptions: compilerOpts,
+      entryPoints: entryPoints,
+      include: shouldIncludeHeader,
+      ignoreSourceErrors: ignoreSourceErrors,
+    ),
+    output: Output(
+      dartFile: output,
+      objectiveCFile: outputObjC,
+      symbolFile: symbolFile,
+      sort: sort,
+      commentType: commentType,
+      preamble: preamble,
+      format: formatOutput,
+      style: ffiNativeConfig.enabled
+          ? NativeExternalBindings(
+              assetId: ffiNativeConfig.assetId,
+              // ignore: deprecated_member_use_from_same_package
+              wrapperName: wrapperName,
+            )
+          : DynamicLibraryBindings(
+              wrapperName: wrapperName,
+              wrapperDocComment: wrapperDocComment,
+            ),
+    ),
+    functions: Functions(
+      include: functionDecl.shouldInclude,
+      includeSymbolAddress: functionDecl.shouldIncludeSymbolAddress,
+      rename: functionDecl.rename,
+      renameMember: functionDecl.renameMember,
+      varArgs: varArgFunctions,
+      includeTypedef: shouldExposeFunctionTypedef,
+      isLeaf: isLeafFunction,
+    ),
+    structs: Structs(
+      include: _structDecl.shouldInclude,
+      rename: _structDecl.rename,
+      renameMember: _structDecl.renameMember,
+      dependencies: _structDependencies,
+      packingOverride: (decl) =>
+          _structPackingOverride.getOverridenPackValue(decl.originalName),
+      // ignore: deprecated_member_use_from_same_package
+      imported: structTypeMappings.values.toList(),
+    ),
+    enums: Enums(
+      include: _enumClassDecl.shouldInclude,
+      rename: _enumClassDecl.rename,
+      renameMember: _enumClassDecl.renameMember,
+      silenceWarning: silenceEnumWarning,
+      style: (e, suggestedStyle) {
+        if (suggestedStyle != null) return suggestedStyle;
+        return switch (enumShouldBeInt(e)) {
+          true => EnumStyle.intConstants,
+          false => EnumStyle.dartEnum,
+        };
+      },
+    ),
+    unions: Unions(
+      include: _unionDecl.shouldInclude,
+      rename: _unionDecl.rename,
+      renameMember: _unionDecl.renameMember,
+      dependencies: _unionDependencies,
+      // ignore: deprecated_member_use_from_same_package
+      imported: unionTypeMappings.values.toList(),
+    ),
+    unnamedEnums: UnnamedEnums(
+      include: _unnamedEnumConstants.shouldInclude,
+      rename: _unnamedEnumConstants.rename,
+    ),
+    globals: Globals(
+      include: globals.shouldInclude,
+      includeSymbolAddress: globals.shouldIncludeSymbolAddress,
+      rename: globals.rename,
+    ),
+    macros: Macros(include: macroDecl.shouldInclude, rename: macroDecl.rename),
+    typedefs: Typedefs(
+      include: typedefs.shouldInclude,
+      rename: typedefs.rename,
+      useSupportedTypedefs: useSupportedTypedefs,
+      includeUnused: includeUnusedTypedefs,
+      // ignore: deprecated_member_use_from_same_package
+      imported: typedefTypeMappings.values.toList(),
+    ),
+    objectiveC: language == Language.objc
+        ? ObjectiveC(
+            interfaces: Interfaces(
+              include: objcInterfaces.shouldInclude,
+              includeSymbolAddress: objcInterfaces.shouldIncludeSymbolAddress,
+              includeMember: objcInterfaces.shouldIncludeMember,
+              rename: objcInterfaces.rename,
+              renameMember: objcInterfaces.renameMember,
+              includeTransitive: includeTransitiveObjCInterfaces,
+              module: interfaceModule,
+            ),
+            protocols: Protocols(
+              include: objcProtocols.shouldInclude,
+              includeSymbolAddress: objcProtocols.shouldIncludeSymbolAddress,
+              includeMember: objcProtocols.shouldIncludeMember,
+              rename: objcProtocols.rename,
+              renameMember: objcProtocols.renameMember,
+              includeTransitive: includeTransitiveObjCProtocols,
+              module: protocolModule,
+            ),
+            categories: Categories(
+              include: objcCategories.shouldInclude,
+              includeSymbolAddress: objcCategories.shouldIncludeSymbolAddress,
+              includeMember: objcCategories.shouldIncludeMember,
+              rename: objcCategories.rename,
+              renameMember: objcCategories.renameMember,
+              includeTransitive: includeTransitiveObjCCategories,
+            ),
+            externalVersions: externalVersions,
+            // ignore: deprecated_member_use_from_same_package
+            generateForPackageObjectiveC: generateForPackageObjectiveC,
+          )
+        : null,
+    // ignore: deprecated_member_use_from_same_package
+    libraryImports: libraryImports.values.toList(),
+    // ignore: deprecated_member_use_from_same_package
+    importedTypesByUsr: usrTypeMappings,
+    // ignore: deprecated_member_use_from_same_package
+    integers: Integers(imported: nativeTypeMappings.values.toList()),
+    // ignore: deprecated_member_use_from_same_package
+    useDartHandle: useDartHandle,
+    // ignore: deprecated_member_use_from_same_package
+    libclangDylib: libclangDylib,
+  );
 }

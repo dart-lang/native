@@ -30,11 +30,19 @@ struct D
     struct NoDefinitionStructInD* nds;
 };
 
+// Full (excluded, but used by value in an array).
+struct DArray
+{
+    int a;
+    struct NoDefinitionStructInD* nds;
+};
+
 // Full (included)
 struct E
 {
     struct C *c;
     struct D d;
+    struct DArray dArray[10];
 };
 
 // Opaque.
@@ -63,9 +71,16 @@ union UD
     int a;
 };
 
+// Full (excluded, but used by value in array).
+union UDArray
+{
+    int a;
+};
+
 // Full (included)
 union UE
 {
     union UC *c;
     union UD d;
+    union UDArray dArray[10];
 };

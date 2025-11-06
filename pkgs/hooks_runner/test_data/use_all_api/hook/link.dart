@@ -18,6 +18,7 @@ void main(List<String> args) async {
     // b. hook-specific
     input.assets.code; // link only
     input.assets.data; // link only
+    // ignore: experimental_member_use
     input.recordedUsagesFile; // link only
     // c. target config
     // c.2. per asset
@@ -36,6 +37,6 @@ void main(List<String> args) async {
     output.assets.code.addAll(input.assets.code);
     output.assets.data.addAll(input.assets.data);
 
-    output.addDependency(input.packageRoot.resolve('x.txt'));
+    output.dependencies.add(input.packageRoot.resolve('x.txt'));
   });
 }

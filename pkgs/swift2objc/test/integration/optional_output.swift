@@ -53,11 +53,11 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc init(label param: MyClassWrapper?) {
+  @objc public init(label param: MyClassWrapper?) {
     wrappedInstance = MyClass(label: param?.wrappedInstance)
   }
 
-  @objc init(label1 param1: MyClassWrapper?, label2: Int, label3 param3: MyStructWrapper?) {
+  @objc public init(label1 param1: MyClassWrapper?, label2: Int, label3 param3: MyStructWrapper?) {
     wrappedInstance = MyClass(label1: param1?.wrappedInstance, label2: label2, label3: param3?.wrappedInstance)
   }
 
@@ -88,7 +88,7 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc init(label param: MyClassWrapper?) {
+  @objc public init(label param: MyClassWrapper?) {
     wrappedInstance = MyStruct(label: param?.wrappedInstance)
   }
 

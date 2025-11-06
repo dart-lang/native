@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../../config.dart';
+import '../../_core/interfaces/availability.dart';
 import '../../_core/interfaces/function_declaration.dart';
 import '../../_core/interfaces/variable_declaration.dart';
 import '../../_core/shared/parameter.dart';
@@ -14,10 +16,7 @@ class Globals {
   List<GlobalFunctionDeclaration> functions;
   List<GlobalVariableDeclaration> variables;
 
-  Globals({
-    required this.functions,
-    required this.variables,
-  });
+  Globals({required this.functions, required this.variables});
 }
 
 /// Describes a globally defined function.
@@ -27,6 +26,12 @@ class GlobalFunctionDeclaration extends AstNode implements FunctionDeclaration {
 
   @override
   String name;
+
+  @override
+  InputConfig? source;
+
+  @override
+  List<AvailabilityInfo> availability;
 
   @override
   List<Parameter> params;
@@ -49,6 +54,8 @@ class GlobalFunctionDeclaration extends AstNode implements FunctionDeclaration {
   GlobalFunctionDeclaration({
     required this.id,
     required this.name,
+    required this.source,
+    required this.availability,
     required this.params,
     required this.returnType,
     this.typeParams = const [],
@@ -56,6 +63,10 @@ class GlobalFunctionDeclaration extends AstNode implements FunctionDeclaration {
     this.throws = false,
     this.async = false,
   });
+
+  @override
+  void visit(Visitation visitation) =>
+      visitation.visitGlobalFunctionDeclaration(this);
 
   @override
   void visitChildren(Visitor visitor) {
@@ -75,6 +86,12 @@ class GlobalVariableDeclaration extends AstNode implements VariableDeclaration {
   String name;
 
   @override
+  InputConfig? source;
+
+  @override
+  List<AvailabilityInfo> availability;
+
+  @override
   ReferredType type;
 
   @override
@@ -89,11 +106,17 @@ class GlobalVariableDeclaration extends AstNode implements VariableDeclaration {
   GlobalVariableDeclaration({
     required this.id,
     required this.name,
+    required this.source,
+    required this.availability,
     required this.type,
     required this.isConstant,
     required this.throws,
     required this.async,
   }) : assert(!(throws && !isConstant));
+
+  @override
+  void visit(Visitation visitation) =>
+      visitation.visitGlobalVariableDeclaration(this);
 
   @override
   void visitChildren(Visitor visitor) {

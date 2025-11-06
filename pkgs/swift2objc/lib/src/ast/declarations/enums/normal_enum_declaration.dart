@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../../config.dart';
+import '../../_core/interfaces/availability.dart';
 import '../../_core/interfaces/enum_declaration.dart';
 import '../../_core/interfaces/nestable_declaration.dart';
 import '../../_core/shared/referred_type.dart';
@@ -18,6 +20,12 @@ class NormalEnumDeclaration extends AstNode implements EnumDeclaration {
   String name;
 
   @override
+  InputConfig? source;
+
+  @override
+  List<AvailabilityInfo> availability;
+
+  @override
   covariant List<NormalEnumCase> cases;
 
   @override
@@ -27,14 +35,16 @@ class NormalEnumDeclaration extends AstNode implements EnumDeclaration {
   List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
 
   @override
-  NestableDeclaration? nestingParent;
+  OuterNestableDeclaration? nestingParent;
 
   @override
-  List<NestableDeclaration> nestedDeclarations;
+  List<InnerNestableDeclaration> nestedDeclarations;
 
   NormalEnumDeclaration({
     required this.id,
     required this.name,
+    required this.source,
+    required this.availability,
     required this.cases,
     required this.typeParams,
     required this.conformedProtocols,
@@ -66,8 +76,16 @@ class NormalEnumCase extends AstNode implements EnumCase {
   @override
   String name;
 
+  @override
+  InputConfig? source;
+
+  @override
+  List<AvailabilityInfo> availability;
+
   NormalEnumCase({
     required this.id,
     required this.name,
+    required this.source,
+    required this.availability,
   });
 }

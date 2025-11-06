@@ -20,8 +20,7 @@ extension Observed on NSObject {
   Observation addObserver(
     Observer observer, {
     required NSString forKeyPath,
-    NSKeyValueObservingOptions options =
-        NSKeyValueObservingOptions.NSKeyValueObservingOptionNew,
+    int options = NSKeyValueObservingOptions.NSKeyValueObservingOptionNew,
     Pointer<Void>? context,
   }) => Observation._(
     DOBJCObservation().initForKeyPath(

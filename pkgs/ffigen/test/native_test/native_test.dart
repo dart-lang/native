@@ -42,18 +42,18 @@ void main() {
         ),
       ).absolute;
 
-      late Config config;
+      late FfiGenerator config;
       withChDir(configFile.path, () {
         config = testConfigFromPath(configFile.path);
       });
-      final library = parse(config);
+      final library = parse(testContext(config));
 
       library.generateFile(outFile);
 
       try {
         final actual = outFile.readAsStringSync().replaceAll('\r', '');
         final expected = File(
-          path.join(config.output.toFilePath()),
+          path.join(config.output.dartFile.toFilePath()),
         ).readAsStringSync().replaceAll('\r', '');
         expect(actual, expected);
         if (outFile.existsSync()) {

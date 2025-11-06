@@ -1,4 +1,4 @@
-# ffigen testing
+# FFIgen testing
 
 ## Running Tests
 

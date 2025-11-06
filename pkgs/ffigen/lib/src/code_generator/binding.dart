@@ -4,8 +4,8 @@
 
 import '../config_provider/config_types.dart' show Declaration;
 import '../visitor/ast.dart';
-
 import 'binding_string.dart';
+import 'scope.dart';
 import 'writer.dart';
 
 /// Base class for all Bindings.
@@ -20,8 +20,14 @@ abstract class Binding extends AstNode implements Declaration {
   @override
   final String originalName;
 
-  /// Binding name to generate, may get changed to resolve name conflicts.
-  String name;
+  Symbol _symbol;
+  Symbol get symbol => _symbol;
+  set symbol(Symbol newSymbol) {
+    assert(!_symbol.isFilled);
+    _symbol = newSymbol;
+  }
+
+  String get name => _symbol.name;
 
   final String? dartDoc;
   final bool isInternal;
@@ -34,10 +40,10 @@ abstract class Binding extends AstNode implements Declaration {
   Binding({
     required this.usr,
     required this.originalName,
-    required this.name,
+    required Symbol symbol,
     this.dartDoc,
     this.isInternal = false,
-  });
+  }) : _symbol = symbol;
 
   /// Converts a Binding to its actual string representation.
   ///
@@ -48,12 +54,14 @@ abstract class Binding extends AstNode implements Declaration {
   /// Returns the Objective C bindings, if any.
   BindingString? toObjCBindingString(Writer w) => null;
 
-  /// Sort members of this binding, if possible. For example, sort the methods
-  /// of a ObjCInterface.
-  void sort() {}
-
   @override
   void visit(Visitation visitation) => visitation.visitBinding(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(_symbol);
+  }
 
   /// Returns whether this type is imported from package:objective_c.
   bool get isObjCImport => false;
@@ -64,13 +72,18 @@ abstract class LookUpBinding extends Binding {
   LookUpBinding({
     String? usr,
     String? originalName,
-    required super.name,
+    required super.symbol,
     super.dartDoc,
     super.isInternal,
-  }) : super(usr: usr ?? name, originalName: originalName ?? name);
+  }) : super(
+         usr: usr ?? symbol.oldName,
+         originalName: originalName ?? symbol.oldName,
+       );
 
   @override
   void visit(Visitation visitation) => visitation.visitLookUpBinding(this);
+
+  bool get loadFromNativeAsset;
 }
 
 /// Base class for bindings which don't look up symbols in dynamic library.
@@ -78,10 +91,13 @@ abstract class NoLookUpBinding extends Binding {
   NoLookUpBinding({
     String? usr,
     String? originalName,
-    required super.name,
+    required super.symbol,
     super.dartDoc,
     super.isInternal,
-  }) : super(usr: usr ?? name, originalName: originalName ?? name);
+  }) : super(
+         usr: usr ?? symbol.oldName,
+         originalName: originalName ?? symbol.oldName,
+       );
 
   @override
   void visit(Visitation visitation) => visitation.visitNoLookUpBinding(this);

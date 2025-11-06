@@ -5,6 +5,9 @@
 
 package com.github.dart_lang.jnigen
 
+interface CanDoA { fun doA() }
+interface CanDoB { fun doB() }
+
 public class Nullability<T, U : Any>(val t: T, val u: U, var nullableU: U?) {
     public fun self(): Nullability<*, *> {
         return this
@@ -84,6 +87,14 @@ public class Nullability<T, U : Any>(val t: T, val u: U, var nullableU: U?) {
 
     public fun <V> methodGenericNullableListOf(element: V): List<V> {
         return listOf(element)
+    }
+
+    public fun methodWithVarArgs(vararg argument: String): Int {
+        return 42
+    }
+
+    public fun <V> methodWithWhere(element: V): Int where V: CanDoA, V: CanDoB {
+        return 42
     }
 
     public inner class InnerClass<V> {

@@ -22,7 +22,7 @@ jobs:
     strategy:
       matrix:
         os: [ubuntu]
-        sdk: [dev]
+        sdk: [dev, stable]
         package: [native_toolchain_c]
 
     runs-on: ${{ matrix.os }}-latest
@@ -32,7 +32,7 @@ jobs:
         working-directory: pkgs/${{ matrix.package }}
 
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
 
       - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
@@ -46,6 +46,9 @@ jobs:
 
       - name: Install native toolchains
         run: sudo apt-get update && sudo apt-get install gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf gcc-riscv64-linux-gnu
+
+      - name: Install rust for pkgs/native_toolchain_c/test/clinker/rust_test.dart
+        uses: actions-rust-lang/setup-rust-toolchain@1780873c7b576612439a134613cc4cc74ce5538c
 
       - run: git clone https://chromium.googlesource.com/chromium/tools/depot_tools.git
       - run: echo "$PWD/depot_tools" >> $GITHUB_PATH

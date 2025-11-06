@@ -1,0 +1,241 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$ref": "#/definitions/PubspecYamlFile",
+  "title": "Pubspec YAML File Schema",
+  "description": "Schema for a Dart pubspec.yaml file. Note that this is reverse engineered and not the source of truth for pubspecs.",
+  "definitions": {
+    "Dependencies": {
+      "description": "A map of package names to their version constraints or source descriptions.",
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-zA-Z_]\\w*$": {
+          "$ref": "#/definitions/DependencySource"
+        }
+      }
+    },
+    "DependencySource": {
+      "description": "Source details for a dependency (git, path, hosted, or SDK).",
+      "type": "object"
+    },
+    "Environment": {
+      "description": "Constraints on the Dart SDK and other SDKs.",
+      "type": "object",
+      "properties": {
+        "flutter": {
+          "description": "The Flutter SDK version constraint (if applicable).",
+          "type": "string"
+        },
+        "sdk": {
+          "description": "The Dart SDK version constraint.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sdk"
+      ],
+      "additionalProperties": false
+    },
+    "Executables": {
+      "description": "A map of executable names to their corresponding Dart entrypoint files.",
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-zA-Z_]\\w*(-[a-zA-Z_]\\w*)*$": {
+          "oneOf": [
+            {
+              "description": "If null, the main file is lib/<package_name>.dart.",
+              "type": "null"
+            },
+            {
+              "description": "The path to the main Dart file for the executable.",
+              "type": "string",
+              "pattern": "^[^/\\\\]*$"
+            }
+          ]
+        }
+      }
+    },
+    "GitDependencySource": {
+      "description": "A dependency from a Git repository.",
+      "type": "object",
+      "properties": {
+        "git": {
+          "type": "object",
+          "properties": {
+            "path": {
+              "description": "The path to the package within the repository (if not at root).",
+              "type": "string"
+            },
+            "ref": {
+              "description": "The Git reference (branch, tag, or commit hash).",
+              "type": "string"
+            },
+            "url": {
+              "description": "The URL of the Git repository.",
+              "type": "string"
+            }
+          },
+          "required": [
+            "url"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "git"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "$ref": "#/definitions/DependencySource"
+        }
+      ]
+    },
+    "HookUserDefines": {
+      "description": "User-defined configurations for indexed by package name.",
+      "type": "object",
+      "additionalProperties": false,
+      "patternProperties": {
+        "^[a-zA-Z_]\\w*$": {
+          "description": "User-defined key-value pairs for a specific package.",
+          "type": "object",
+          "additionalProperties": true
+        }
+      }
+    },
+    "Hooks": {
+      "description": "Hooks configurations for the workspace.",
+      "type": "object",
+      "properties": {
+        "user_defines": {
+          "$ref": "#/definitions/HookUserDefines"
+        }
+      }
+    },
+    "HostedDependencySource": {
+      "description": "A dependency from a custom hosted package server.",
+      "type": "object",
+      "properties": {
+        "hosted": {
+          "description": "The URL of the custom package server.",
+          "type": "string"
+        },
+        "version": {
+          "description": "The version constraint for the package on the custom hosted server.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "version"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "$ref": "#/definitions/DependencySource"
+        }
+      ]
+    },
+    "PathDependencySource": {
+      "description": "A dependency from a local file system path.",
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "The path to the local package. Can be relative or absolute.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "$ref": "#/definitions/DependencySource"
+        }
+      ]
+    },
+    "PubspecYamlFile": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "description": "A brief description of the package (60 to 180 characters).",
+          "type": "string"
+        },
+        "dependencies": {
+          "$ref": "#/definitions/Dependencies"
+        },
+        "dependency_overrides": {
+          "$ref": "#/definitions/Dependencies"
+        },
+        "dev_dependencies": {
+          "$ref": "#/definitions/Dependencies"
+        },
+        "documentation": {
+          "description": "A URL for additional package documentation.",
+          "type": "string"
+        },
+        "environment": {
+          "$ref": "#/definitions/Environment"
+        },
+        "executables": {
+          "$ref": "#/definitions/Executables"
+        },
+        "homepage": {
+          "description": "A URL pointing to the package's website.",
+          "type": "string"
+        },
+        "hooks": {
+          "$ref": "#/definitions/Hooks"
+        },
+        "issue_tracker": {
+          "description": "A URL for the package's issue tracker.",
+          "type": "string"
+        },
+        "name": {
+          "$ref": "#/definitions/packageName"
+        },
+        "publish_to": {
+          "type": "string"
+        },
+        "repository": {
+          "description": "A URL pointing to the package's source code repository.",
+          "type": "string"
+        },
+        "version": {
+          "description": "The version of the package, following semantic versioning. Required for publishing.",
+          "type": "string",
+          "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[a-zA-Z0-9.]+)?(?:\\+[a-zA-Z0-9.]+)?$"
+        }
+      },
+      "required": [
+        "environment",
+        "name"
+      ]
+    },
+    "SdkDependencySource": {
+      "description": "A dependency from a specific SDK (e.g., Flutter).",
+      "type": "object",
+      "properties": {
+        "sdk": {
+          "description": "The name of the SDK (e.g., 'flutter').",
+          "type": "string"
+        }
+      },
+      "required": [
+        "sdk"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "$ref": "#/definitions/DependencySource"
+        }
+      ]
+    },
+    "packageName": {
+      "description": "The name of the package. Must be a valid Dart identifier.",
+      "type": "string",
+      "pattern": "^[a-zA-Z_]\\w*$"
+    }
+  }
+}

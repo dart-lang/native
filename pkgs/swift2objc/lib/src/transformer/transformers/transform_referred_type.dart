@@ -4,6 +4,7 @@
 
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/shared/referred_type.dart';
+import '../../ast/declarations/typealias_declaration.dart';
 import '../_core/unique_namer.dart';
 import '../transform.dart';
 
@@ -13,21 +14,20 @@ import '../transform.dart';
 ReferredType transformReferredType(
   ReferredType type,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap,
+  TransformationState state,
 ) {
   if (type.isObjCRepresentable) return type;
 
   if (type is GenericType) {
     throw UnimplementedError('Generic types are not supported yet');
   } else if (type is DeclaredType) {
-    return transformDeclaration(
-      type.declaration,
-      globalNamer,
-      transformationMap,
-    ).asDeclaredType;
+    final decl = type.declaration;
+    if (decl is TypealiasDeclaration) {
+      return transformReferredType(decl.target, globalNamer, state);
+    }
+    return transformDeclaration(decl, globalNamer, state).asDeclaredType;
   } else if (type is OptionalType) {
-    return OptionalType(
-        transformReferredType(type.child, globalNamer, transformationMap));
+    return OptionalType(transformReferredType(type.child, globalNamer, state));
   } else {
     throw UnimplementedError('Unknown type: $type');
   }

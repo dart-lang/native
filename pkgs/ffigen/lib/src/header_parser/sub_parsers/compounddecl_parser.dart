@@ -2,21 +2,50 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:logging/logging.dart';
-
 import '../../code_generator.dart';
 import '../../config_provider/config.dart';
 import '../../config_provider/config_types.dart';
+import '../../context.dart';
 import '../../strings.dart' as strings;
 import '../clang_bindings/clang_bindings.dart' as clang_types;
-import '../data.dart';
 import '../utils.dart';
 import 'api_availability.dart';
 
-final _logger = Logger('ffigen.header_parser.compounddecl_parser');
+Compound? parseStructDeclaration(
+  clang_types.CXCursor cursor,
+  Context context, {
+
+  /// To track if the declaration was used by reference(i.e T*). (Used to only
+  /// generate these as opaque if `dependency-only` was set to opaque).
+  bool pointerReference = false,
+}) => _parseCompoundDeclaration(
+  cursor,
+  context,
+  pointerReference,
+  'Struct',
+  context.config.structs,
+  Struct.new,
+);
+
+Compound? parseUnionDeclaration(
+  clang_types.CXCursor cursor,
+  Context context, {
+
+  /// To track if the declaration was used by reference(i.e T*). (Used to only
+  /// generate these as opaque if `dependency-only` was set to opaque).
+  bool pointerReference = false,
+}) => _parseCompoundDeclaration(
+  cursor,
+  context,
+  pointerReference,
+  'Union',
+  context.config.unions,
+  Union.new,
+);
 
 /// Holds temporary information regarding [compound] while parsing.
 class _ParsedCompound {
+  final Context context;
   Compound compound;
   bool unimplementedMemberType = false;
   bool flexibleArrayMember = false;
@@ -24,13 +53,13 @@ class _ParsedCompound {
   bool dartHandleMember = false;
   bool incompleteCompoundMember = false;
 
-  _ParsedCompound(this.compound);
+  _ParsedCompound(this.context, this.compound);
 
   bool get isIncomplete =>
       unimplementedMemberType ||
       flexibleArrayMember ||
       bitFieldMember ||
-      (dartHandleMember && config.useDartHandle) ||
+      (dartHandleMember && context.config.useDartHandle) ||
       incompleteCompoundMember ||
       alignment == clang_types.CXTypeLayoutError.CXTypeLayoutError_Incomplete;
 
@@ -54,16 +83,19 @@ class _ParsedCompound {
     return maxChildAlignment > alignment;
   }
 
+  Declarations get compoundConfig =>
+      compound is Struct ? context.config.structs : context.config.unions;
+
   /// Returns pack value of a struct depending on config, returns null for no
   /// packing.
   int? get packValue {
-    if (compound.isStruct && _isPacked && !isIncomplete) {
+    if (compound is Struct && _isPacked && !isIncomplete) {
       if (strings.packingValuesMap.containsKey(alignment)) {
         return alignment;
       } else {
-        _logger.warning(
+        context.logger.warning(
           'Unsupported pack value "$alignment" for Struct '
-          '"${compound.name}".',
+          '"${compound.originalName}".',
         );
         return null;
       }
@@ -74,26 +106,22 @@ class _ParsedCompound {
 }
 
 /// Parses a compound declaration.
-Compound? parseCompoundDeclaration(
+Compound? _parseCompoundDeclaration(
   clang_types.CXCursor cursor,
-  CompoundType compoundType, {
-
-  /// To track if the declaration was used by reference(i.e T*). (Used to only
-  /// generate these as opaque if `dependency-only` was set to opaque).
-  bool pointerReference = false,
-}) {
-  // Set includer functions according to compoundType.
-  final DeclarationFilters configDecl;
-  final className = _compoundTypeDebugName(compoundType);
-  switch (compoundType) {
-    case CompoundType.struct:
-      configDecl = config.structDecl;
-      break;
-    case CompoundType.union:
-      configDecl = config.unionDecl;
-      break;
-  }
-
+  Context context,
+  bool pointerReference,
+  String className,
+  Declarations configDecl,
+  Compound Function({
+    String? usr,
+    String? originalName,
+    required String name,
+    String? dartDoc,
+    required Context context,
+    String? nativeType,
+  })
+  constructor,
+) {
   // Parse the cursor definition instead, if this is a forward declaration.
   final declUsr = cursor.usr();
   final String declName;
@@ -110,42 +138,41 @@ Compound? parseCompoundDeclaration(
     declName = '';
   }
 
-  final apiAvailability = ApiAvailability.fromCursor(cursor);
+  final apiAvailability = ApiAvailability.fromCursor(cursor, context);
   if (apiAvailability.availability == Availability.none) {
-    _logger.info('Omitting deprecated $className $declName');
+    context.logger.info('Omitting deprecated $className $declName');
     return null;
   }
 
   final decl = Declaration(usr: declUsr, originalName: declName);
   if (declName.isEmpty) {
-    cursor = cursorIndex.getDefinition(cursor);
-    return Compound.fromType(
-      type: compoundType,
-      name: incrementalNamer.name('Unnamed$className'),
+    cursor = context.cursorIndex.getDefinition(cursor);
+    return constructor(
+      name: 'Unnamed$className',
       usr: declUsr,
       dartDoc: getCursorDocComment(
+        context,
         cursor,
         availability: apiAvailability.dartDoc,
       ),
-      objCBuiltInFunctions: objCBuiltInFunctions,
+      context: context,
       nativeType: cursor.type().spelling(),
     );
   } else {
-    cursor = cursorIndex.getDefinition(cursor);
-    _logger.fine(
-      '++++ Adding $className: Name: $declName, '
-      '${cursor.completeStringRepr()}',
+    cursor = context.cursorIndex.getDefinition(cursor);
+    context.logger.fine(
+      '++++ Adding $className: Name: $declName, ${cursor.completeStringRepr()}',
     );
-    return Compound.fromType(
-      type: compoundType,
+    return constructor(
       usr: declUsr,
       originalName: declName,
       name: configDecl.rename(decl),
       dartDoc: getCursorDocComment(
+        context,
         cursor,
         availability: apiAvailability.dartDoc,
       ),
-      objCBuiltInFunctions: objCBuiltInFunctions,
+      context: context,
       nativeType: cursor.type().spelling(),
     );
   }
@@ -153,76 +180,79 @@ Compound? parseCompoundDeclaration(
 
 void fillCompoundMembersIfNeeded(
   Compound compound,
-  clang_types.CXCursor cursor, {
+  clang_types.CXCursor cursor,
+  Context context, {
 
   /// To track if the declaration was used by reference(i.e T*). (Used to only
   /// generate these as opaque if `dependency-only` was set to opaque).
   bool pointerReference = false,
 }) {
   if (compound.parsedDependencies) return;
-  final compoundType = compound.compoundType;
+  final logger = context.logger;
 
-  cursor = cursorIndex.getDefinition(cursor);
+  cursor = context.cursorIndex.getDefinition(cursor);
 
-  final parsed = _ParsedCompound(compound);
-  final className = _compoundTypeDebugName(compoundType);
+  final parsed = _ParsedCompound(context, compound);
+  final className = compound is Struct ? 'Struct' : 'Union';
   parsed.hasAttr = clang.clang_Cursor_hasAttrs(cursor) != 0;
   parsed.alignment = cursor.type().alignment();
   compound.parsedDependencies = true; // Break cycles.
 
   cursor.visitChildren((cursor) => _compoundMembersVisitor(cursor, parsed));
 
-  _logger.finest(
+  logger.finest(
     'Opaque: ${parsed.isIncomplete}, HasAttr: ${parsed.hasAttr}, '
     'AlignValue: ${parsed.alignment}, '
     'MaxChildAlignValue: ${parsed.maxChildAlignment}, '
     'PackValue: ${parsed.packValue}.',
   );
-  compound.pack = parsed.packValue;
+  if (compound is Struct) {
+    compound.pack = parsed.packValue;
+  }
 
   if (parsed.unimplementedMemberType) {
-    _logger.fine(
+    logger.fine(
       '---- Removed $className members, reason: member with '
       'unimplementedtype ${cursor.completeStringRepr()}',
     );
-    _logger.warning(
-      'Removed All $className Members from ${compound.name}'
+    logger.warning(
+      'Removed All $className Members from ${compound.originalName}'
       '(${compound.originalName}), struct member has an unsupported type.',
     );
   } else if (parsed.flexibleArrayMember) {
-    _logger.fine(
+    logger.fine(
       '---- Removed $className members, reason: incomplete array '
       'member ${cursor.completeStringRepr()}',
     );
-    _logger.warning(
-      'Removed All $className Members from ${compound.name}'
+    logger.warning(
+      'Removed All $className Members from ${compound.originalName}'
       '(${compound.originalName}), Flexible array members not supported.',
     );
   } else if (parsed.bitFieldMember) {
-    _logger.fine(
+    logger.fine(
       '---- Removed $className members, reason: bitfield members '
       '${cursor.completeStringRepr()}',
     );
-    _logger.warning(
-      'Removed All $className Members from ${compound.name}'
+    logger.warning(
+      'Removed All $className Members from ${compound.originalName}'
       '(${compound.originalName}), Bit Field members not supported.',
     );
-  } else if (parsed.dartHandleMember && config.useDartHandle) {
-    _logger.fine(
+  } else if (parsed.dartHandleMember && context.config.useDartHandle) {
+    logger.fine(
       '---- Removed $className members, reason: Dart_Handle member. '
       '${cursor.completeStringRepr()}',
     );
-    _logger.warning(
-      'Removed All $className Members from ${compound.name}'
+    logger.warning(
+      'Removed All $className Members from ${compound.originalName}'
       '(${compound.originalName}), Dart_Handle member not supported.',
     );
   } else if (parsed.incompleteCompoundMember) {
-    _logger.fine(
+    logger.fine(
       '---- Removed $className members, reason: Incomplete Nested Struct '
       'member. ${cursor.completeStringRepr()}',
     );
-    _logger.warning(
-      'Removed All $className Members from ${compound.name}'
+    logger.warning(
+      'Removed All $className Members from ${compound.originalName}'
       '(${compound.originalName}), Incomplete Nested Struct member not '
       'supported.',
     );
@@ -247,6 +277,8 @@ void _compoundMembersVisitor(
   clang_types.CXCursor cursor,
   _ParsedCompound parsed,
 ) {
+  final context = parsed.context;
+  final compoundConf = parsed.compoundConfig;
   final decl = Declaration(
     usr: parsed.compound.usr,
     originalName: parsed.compound.originalName,
@@ -254,7 +286,7 @@ void _compoundMembersVisitor(
   try {
     switch (cursor.kind) {
       case clang_types.CXCursorKind.CXCursor_FieldDecl:
-        _logger.finer('===== member: ${cursor.completeStringRepr()}');
+        context.logger.finer('===== member: ${cursor.completeStringRepr()}');
 
         // Set maxChildAlignValue.
         final align = cursor.type().alignment();
@@ -262,7 +294,7 @@ void _compoundMembersVisitor(
           parsed.maxChildAlignment = align;
         }
 
-        final mt = cursor.toCodeGenType();
+        final mt = cursor.toCodeGenType(context);
         if (mt is IncompleteArray) {
           // TODO(https://github.com/dart-lang/ffigen/issues/68): Structs with
           // flexible Array Members are not supported.
@@ -285,11 +317,12 @@ void _compoundMembersVisitor(
         parsed.compound.members.add(
           CompoundMember(
             dartDoc: getCursorDocComment(
+              context,
               cursor,
               indent: nesting.length + commentPrefix.length,
             ),
             originalName: cursor.spelling(),
-            name: config.structDecl.renameMember(decl, cursor.spelling()),
+            name: compoundConf.renameMember(decl, cursor.spelling()),
             type: mt,
           ),
         );
@@ -306,7 +339,7 @@ void _compoundMembersVisitor(
         // otherwise they will be added in the next iteration.
         if (!cursor.isAnonymousRecordDecl()) break;
 
-        final mt = cursor.toCodeGenType();
+        final mt = cursor.toCodeGenType(context);
         if (mt.isIncompleteCompound) {
           parsed.incompleteCompoundMember = true;
         }
@@ -319,11 +352,12 @@ void _compoundMembersVisitor(
         parsed.compound.members.add(
           CompoundMember(
             dartDoc: getCursorDocComment(
+              context,
               cursor,
               indent: nesting.length + commentPrefix.length,
             ),
             originalName: spelling,
-            name: config.structDecl.renameMember(decl, spelling),
+            name: compoundConf.renameMember(decl, spelling),
             type: mt,
           ),
         );
@@ -331,12 +365,8 @@ void _compoundMembersVisitor(
         break;
     }
   } catch (e, s) {
-    _logger.severe(e);
-    _logger.severe(s);
+    context.logger.severe(e);
+    context.logger.severe(s);
     rethrow;
   }
-}
-
-String _compoundTypeDebugName(CompoundType compoundType) {
-  return compoundType == CompoundType.struct ? 'Struct' : 'Union';
 }

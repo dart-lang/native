@@ -24,7 +24,7 @@ MethodDeclaration? transformMethod(
   MethodDeclaration originalMethod,
   PropertyDeclaration wrappedClassInstance,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap,
+  TransformationState state,
 ) {
   if (disallowedMethods.contains(originalMethod.name)) {
     return null;
@@ -33,7 +33,7 @@ MethodDeclaration? transformMethod(
   return _transformFunction(
     originalMethod,
     globalNamer,
-    transformationMap,
+    state,
     wrapperMethodName: originalMethod.name,
     originalCallStatementGenerator: (arguments) {
       final methodSource = originalMethod.isStatic
@@ -47,15 +47,13 @@ MethodDeclaration? transformMethod(
 MethodDeclaration transformGlobalFunction(
   GlobalFunctionDeclaration globalFunction,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap,
+  TransformationState state,
 ) {
   return _transformFunction(
     globalFunction,
     globalNamer,
-    transformationMap,
-    wrapperMethodName: globalNamer.makeUnique(
-      '${globalFunction.name}Wrapper',
-    ),
+    state,
+    wrapperMethodName: globalNamer.makeUnique('${globalFunction.name}Wrapper'),
     originalCallStatementGenerator: (arguments) =>
         '${globalFunction.name}($arguments)',
   );
@@ -66,7 +64,7 @@ MethodDeclaration transformGlobalFunction(
 MethodDeclaration _transformFunction(
   FunctionDeclaration originalFunction,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap, {
+  TransformationState state, {
   required String wrapperMethodName,
   required String Function(String arguments) originalCallStatementGenerator,
 }) {
@@ -75,11 +73,7 @@ MethodDeclaration _transformFunction(
         (param) => Parameter(
           name: param.name,
           internalName: param.internalName,
-          type: transformReferredType(
-            param.type,
-            globalNamer,
-            transformationMap,
-          ),
+          type: transformReferredType(param.type, globalNamer, state),
         ),
       )
       .toList();
@@ -88,12 +82,18 @@ MethodDeclaration _transformFunction(
   final resultName = localNamer.makeUnique('result');
 
   final (wrapperResult, type) = maybeWrapValue(
-      originalFunction.returnType, resultName, globalNamer, transformationMap,
-      shouldWrapPrimitives: originalFunction.throws);
+    originalFunction.returnType,
+    resultName,
+    globalNamer,
+    state,
+    shouldWrapPrimitives: originalFunction.throws,
+  );
 
   final transformedMethod = MethodDeclaration(
     id: originalFunction.id,
     name: wrapperMethodName,
+    source: originalFunction.source,
+    availability: originalFunction.availability,
     returnType: type,
     params: transformedParams,
     hasObjCAnnotation: true,
@@ -111,15 +111,18 @@ MethodDeclaration _transformFunction(
     localNamer,
     resultName,
     wrapperResult,
-    transformationMap,
+    state,
     originalCallGenerator: originalCallStatementGenerator,
   );
 
   return transformedMethod;
 }
 
-String generateInvocationParams(UniqueNamer localNamer,
-    List<Parameter> originalParams, List<Parameter> transformedParams) {
+String generateInvocationParams(
+  UniqueNamer localNamer,
+  List<Parameter> originalParams,
+  List<Parameter> transformedParams,
+) {
   assert(originalParams.length == transformedParams.length);
 
   final argumentsList = <String>[];
@@ -127,8 +130,9 @@ String generateInvocationParams(UniqueNamer localNamer,
     final originalParam = originalParams[i];
     final transformedParam = transformedParams[i];
 
-    final transformedParamName = localNamer
-        .makeUnique(transformedParam.internalName ?? transformedParam.name);
+    final transformedParamName = localNamer.makeUnique(
+      transformedParam.internalName ?? transformedParam.name,
+    );
 
     final (unwrappedParamValue, unwrappedType) = maybeUnwrapValue(
       transformedParam.type,
@@ -137,9 +141,11 @@ String generateInvocationParams(UniqueNamer localNamer,
 
     assert(unwrappedType.sameAs(originalParam.type));
 
-    argumentsList.add(originalParam.name == '_'
-        ? unwrappedParamValue
-        : '${originalParam.name}: $unwrappedParamValue');
+    argumentsList.add(
+      originalParam.name == '_'
+          ? unwrappedParamValue
+          : '${originalParam.name}: $unwrappedParamValue',
+    );
   }
   return argumentsList.join(', ');
 }
@@ -151,11 +157,14 @@ List<String> _generateStatements(
   UniqueNamer localNamer,
   String resultName,
   String wrappedResult,
-  TransformationMap transformationMap, {
+  TransformationState state, {
   required String Function(String arguments) originalCallGenerator,
 }) {
   final arguments = generateInvocationParams(
-      localNamer, originalFunction.params, transformedMethod.params);
+    localNamer,
+    originalFunction.params,
+    transformedMethod.params,
+  );
   var originalMethodCall = originalCallGenerator(arguments);
   if (transformedMethod.async) {
     originalMethodCall = 'await $originalMethodCall';
@@ -172,8 +181,5 @@ List<String> _generateStatements(
     throw UnimplementedError('Generic types are not implemented yet');
   }
 
-  return [
-    'let $resultName = $originalMethodCall',
-    'return $wrappedResult',
-  ];
+  return ['let $resultName = $originalMethodCall', 'return $wrappedResult'];
 }

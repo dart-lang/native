@@ -5,10 +5,6 @@
 @OnPlatform({'mac-os': Timeout.factor(2), 'windows': Timeout.factor(10)})
 library;
 
-import 'dart:io';
-
-import 'package:data_assets/data_assets.dart';
-import 'package:file_testing/file_testing.dart';
 import 'package:hooks_runner/hooks_runner.dart';
 import 'package:hooks_runner/src/build_runner/build_runner.dart';
 import 'package:test/test.dart';
@@ -38,13 +34,7 @@ void main() async {
         userDefines: UserDefines(workspacePubspec: pubspecUri),
       )).success;
 
-      final dataAssets = result.encodedAssets
-          .map((e) => e.asDataAsset)
-          .toList();
-      expect(dataAssets.length, 2);
-      for (final dataAsset in dataAssets) {
-        expect(File.fromUri(dataAsset.file), exists);
-      }
+      expect(result.encodedAssets.length, 0);
 
       // The native assets build runner must be reinvoked if the pubspec
       // changes, as the pubspec could contain user-defines.

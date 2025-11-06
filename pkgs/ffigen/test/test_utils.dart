@@ -5,9 +5,13 @@
 import 'dart:io';
 
 import 'package:ffigen/src/code_generator.dart';
+import 'package:ffigen/src/code_generator/scope.dart';
+import 'package:ffigen/src/code_generator/utils.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/utils.dart';
 import 'package:ffigen/src/config_provider/yaml_config.dart';
+import 'package:ffigen/src/context.dart';
+import 'package:ffigen/src/visitor/ast.dart';
 import 'package:logging/logging.dart';
 import 'package:package_config/package_config_types.dart';
 import 'package:path/path.dart' as path;
@@ -15,6 +19,11 @@ import 'package:test/test.dart';
 import 'package:yaml/yaml.dart' as yaml;
 
 export 'package:ffigen/src/config_provider/utils.dart';
+
+Context testContext([FfiGenerator? generator]) => Context(
+  Logger.root,
+  generator ?? FfiGenerator(output: Output(dartFile: Uri.file('unused'))),
+);
 
 extension LibraryTestExt on Library {
   /// Get a [Binding]'s generated string with a given name.
@@ -29,6 +38,40 @@ extension LibraryTestExt on Library {
     } catch (e) {
       throw NotFoundException("Binding '$name' not found.");
     }
+  }
+
+  /// Runs a fake version of the Symbol renaming step that usually happens
+  /// during the transformation pipeline. The Symbol names aren't actually
+  /// renamed to avoid collisions, the name is just filled from oldName without
+  /// regard for the other names in the namespace. This lets us access the names
+  /// for testing, without running whole transformation pipeline.
+  void forceFillNamesForTesting() {
+    visit(context, _FakeRenamer(), bindings);
+    context.extraSymbols = (
+      wrapperClassName: Symbol('NativeLibrary', SymbolKind.klass)
+        ..forceFillForTesting(),
+      lookupFuncName: Symbol('_lookup', SymbolKind.field)
+        ..forceFillForTesting(),
+      symbolAddressVariableName: Symbol('addresses', SymbolKind.field)
+        ..forceFillForTesting(),
+    );
+    context.libs.forceFillForTesting();
+    context.rootScope.fillNames();
+    context.rootObjCScope.fillNames();
+  }
+}
+
+class _FakeRenamer extends Visitation {
+  @override
+  void visitSymbol(Symbol node) => node.forceFillForTesting();
+
+  @override
+  void visitBinding(Binding node) {
+    if (node is HasLocalScope) {
+      (node as HasLocalScope).localScope = Scope.createRoot('test')
+        ..fillNames();
+    }
+    node.visitChildren(visitor);
   }
 }
 
@@ -129,6 +172,7 @@ void _matchFileWithExpected({
       codeNormalizer,
     );
     expect(actual.split('\n'), expected.split('\n'));
+    _expectNoAnalysisErrors(expectedPath);
     if (file.existsSync()) {
       file.delete();
     }
@@ -140,6 +184,19 @@ void _matchFileWithExpected({
     }
     rethrow;
   }
+}
+
+void _expectNoAnalysisErrors(String file) {
+  Process.runSync(dartExecutable, [
+    'pub',
+    'get',
+  ], workingDirectory: path.dirname(file));
+  final result = Process.runSync(dartExecutable, [
+    'analyze',
+    file,
+  ], workingDirectory: path.dirname(file));
+  if (result.exitCode != 0) print(result.stdout);
+  expect(result.exitCode, 0);
 }
 
 class NotFoundException implements Exception {
@@ -155,20 +212,24 @@ class NotFoundException implements Exception {
 void logWarnings([Level level = Level.WARNING]) {
   Logger.root.level = level;
   Logger.root.onRecord.listen((record) {
-    print('${record.level.name.padRight(8)}: ${record.message}');
+    printOnFailure('${record.level.name.padRight(8)}: ${record.message}');
   });
 }
 
-void logToArray(List<String> logArr, Level level) {
+Logger logToArray(List<String> logArr, Level level) {
   Logger.root.level = level;
-  Logger.root.onRecord.listen((record) {
+  Logger.root.onRecord.listen((record) {});
+  final logger = Logger('ffigen.test');
+  logger.onRecord.listen((record) {
     logArr.add('${record.level.name.padRight(8)}: ${record.message}');
   });
+  return logger;
 }
 
-Config testConfig(String yamlBody, {String? filename}) {
+FfiGenerator testConfig(String yamlBody, {String? filename, Logger? logger}) {
   return YamlConfig.fromYaml(
     yaml.loadYaml(yamlBody) as yaml.YamlMap,
+    logger ?? Logger.root,
     filename: filename,
     packageConfig: PackageConfig([
       Package(
@@ -178,10 +239,10 @@ Config testConfig(String yamlBody, {String? filename}) {
         ),
       ),
     ]),
-  );
+  ).configAdapter();
 }
 
-Config testConfigFromPath(String path) {
+FfiGenerator testConfigFromPath(String path) {
   final file = File(path);
   final yamlBody = file.readAsStringSync();
   return testConfig(yamlBody, filename: path);

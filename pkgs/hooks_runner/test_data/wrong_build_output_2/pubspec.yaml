@@ -7,11 +7,11 @@ publish_to: none
 resolution: workspace
 
 environment:
-  sdk: '>=3.8.0 <4.0.0'
+  sdk: '>=3.9.0 <4.0.0'
 
 dependencies:
   code_assets: any
   hooks: any
 
 dev_dependencies:
-  lints: ^5.1.1
+  lints: ^6.0.0

@@ -14,6 +14,7 @@ on:
 
 env:
   PUB_ENVIRONMENT: bot.github
+  GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
 
 jobs:
   analyze_and_test:
@@ -26,10 +27,14 @@ jobs:
       matrix:
         sdk: [stable]
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           channel: ${{ matrix.sdk }}
+
+      - name: Download ObjectBox DB .so file
+        run: bash <(curl -s https://raw.githubusercontent.com/objectbox/objectbox-dart/main/install.sh)
+
       - id: install
         name: Install dependencies
         run: flutter pub get
@@ -39,6 +44,15 @@ jobs:
       - name: Analyze code
         run: dart analyze --fatal-infos
         if: always() && steps.install.outcome == 'success'
+      - name: Compile Java code
+        run: dart run tool/compile_java.dart
+        if: always() && steps.install.outcome == 'success'
       - name: Run VM tests
+        run: dart test --platform vm
+        if: always() && steps.install.outcome == 'success'
+      - name: Regenerate bindings and dartified snippets
+        run: dart run tool/prepare_dartify_test.dart
+        if: always() && steps.install.outcome == 'success'
+      - name: Run VM tests again
         run: dart test --platform vm
         if: always() && steps.install.outcome == 'success'

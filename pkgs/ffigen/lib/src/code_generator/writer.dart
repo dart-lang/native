@@ -2,18 +2,17 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 
 import '../code_generator.dart';
+import '../context.dart';
 import '../strings.dart' as strings;
-import 'unique_namer.dart';
+import '../visitor/visitor.dart';
 import 'utils.dart';
-
-final _logger = Logger('ffigen.code_generator.writer');
 
 /// To store generated String bindings.
 class Writer {
+  final Context context;
   final String? header;
 
   /// Holds bindings, which lookup symbols.
@@ -29,93 +28,13 @@ class Writer {
   final String? nativeAssetId;
 
   /// Manages the `_SymbolAddress` class.
-  final symbolAddressWriter = SymbolAddressWriter();
-
-  late String _className;
-  String get className => _className;
+  final SymbolAddressWriter symbolAddressWriter;
 
   final String? classDocComment;
 
   final bool generateForPackageObjectiveC;
 
   final List<String> nativeEntryPoints;
-
-  /// Tracks the enums for which enumType.getCType is called. Reset everytime
-  /// [generate] is called.
-  final usedEnumCTypes = <EnumClass>{};
-
-  String? _ffiLibraryPrefix;
-  String get ffiLibraryPrefix {
-    if (_ffiLibraryPrefix != null) {
-      return _ffiLibraryPrefix!;
-    }
-
-    final import = _usedImports.firstWhere(
-      (element) => element.name == ffiImport.name,
-      orElse: () => ffiImport,
-    );
-    _usedImports.add(import);
-    return _ffiLibraryPrefix = import.prefix;
-  }
-
-  String? _ffiPkgLibraryPrefix;
-  String get ffiPkgLibraryPrefix {
-    if (_ffiPkgLibraryPrefix != null) {
-      return _ffiPkgLibraryPrefix!;
-    }
-
-    final import = _usedImports.firstWhere(
-      (element) => element.name == ffiPkgImport.name,
-      orElse: () => ffiPkgImport,
-    );
-    _usedImports.add(import);
-    return _ffiPkgLibraryPrefix = import.prefix;
-  }
-
-  String? _objcPkgPrefix;
-  String get objcPkgPrefix {
-    if (_objcPkgPrefix != null) {
-      return _objcPkgPrefix!;
-    }
-
-    final import = _usedImports.firstWhere(
-      (element) => element.name == objcPkgImport.name,
-      orElse: () => objcPkgImport,
-    );
-    _usedImports.add(import);
-    return _objcPkgPrefix = import.prefix;
-  }
-
-  late String selfImportPrefix = () {
-    final import = _usedImports.firstWhere(
-      (element) => element.name == self.name,
-      orElse: () => self,
-    );
-    _usedImports.add(import);
-    return import.prefix;
-  }();
-
-  final Set<LibraryImport> _usedImports = {};
-
-  late String _lookupFuncIdentifier;
-  String get lookupFuncIdentifier => _lookupFuncIdentifier;
-
-  late String _symbolAddressClassName;
-  late String _symbolAddressVariableName;
-  late String _symbolAddressLibraryVarName;
-
-  /// Initial namers set after running constructor. Namers are reset to this
-  /// initial state everytime [generate] is called.
-  late UniqueNamer _initialTopLevelUniqueNamer;
-  late UniqueNamer _initialWrapperLevelUniqueNamer;
-
-  /// Used by [Binding]s for generating required code.
-  late UniqueNamer _topLevelUniqueNamer;
-  UniqueNamer get topLevelUniqueNamer => _topLevelUniqueNamer;
-  late UniqueNamer _wrapperLevelUniqueNamer;
-  UniqueNamer get wrapperLevelUniqueNamer => _wrapperLevelUniqueNamer;
-  late UniqueNamer _objCLevelUniqueNamer;
-  UniqueNamer get objCLevelUniqueNamer => _objCLevelUniqueNamer;
 
   /// Set true after calling [generate]. Indicates if
   /// [generateSymbolOutputYamlMap] can be called.
@@ -128,7 +47,6 @@ class Writer {
     required this.lookUpBindings,
     required this.ffiNativeBindings,
     required this.noLookUpBindings,
-    required String className,
     required this.nativeAssetId,
     List<LibraryImport> additionalImports = const <LibraryImport>[],
     this.classDocComment,
@@ -136,87 +54,8 @@ class Writer {
     required this.generateForPackageObjectiveC,
     required this.silenceEnumWarning,
     required this.nativeEntryPoints,
-  }) {
-    final globalLevelNames = noLookUpBindings.map((e) => e.name);
-    final wrapperLevelNames = lookUpBindings.map((e) => e.name);
-
-    _initialTopLevelUniqueNamer = UniqueNamer()..markAllUsed(globalLevelNames);
-    _initialWrapperLevelUniqueNamer = UniqueNamer()
-      ..markAllUsed(wrapperLevelNames);
-    final allLevelsUniqueNamer = UniqueNamer()
-      ..markAllUsed(globalLevelNames)
-      ..markAllUsed(wrapperLevelNames);
-
-    /// Wrapper class name must be unique among all names.
-    _className = _resolveNameConflict(
-      name: className,
-      makeUnique: allLevelsUniqueNamer,
-      markUsed: [_initialWrapperLevelUniqueNamer, _initialTopLevelUniqueNamer],
-    );
-
-    /// Library imports prefix should be unique unique among all names.
-    for (final lib in [...additionalImports, ...allLibraries]) {
-      lib.prefix = _resolveNameConflict(
-        name: lib.prefix,
-        makeUnique: allLevelsUniqueNamer,
-        markUsed: [
-          _initialWrapperLevelUniqueNamer,
-          _initialTopLevelUniqueNamer,
-        ],
-      );
-    }
-    additionalImports.forEach(markImportUsed);
-
-    /// [_lookupFuncIdentifier] should be unique in top level.
-    _lookupFuncIdentifier = _resolveNameConflict(
-      name: '_lookup',
-      makeUnique: _initialTopLevelUniqueNamer,
-    );
-
-    /// Resolve name conflicts of identifiers used for SymbolAddresses.
-    _symbolAddressClassName = _resolveNameConflict(
-      name: '_SymbolAddresses',
-      makeUnique: allLevelsUniqueNamer,
-      markUsed: [_initialWrapperLevelUniqueNamer, _initialTopLevelUniqueNamer],
-    );
-    _symbolAddressVariableName = _resolveNameConflict(
-      name: 'addresses',
-      makeUnique: _initialWrapperLevelUniqueNamer,
-    );
-    _symbolAddressLibraryVarName = _resolveNameConflict(
-      name: '_library',
-      makeUnique: _initialWrapperLevelUniqueNamer,
-    );
-
-    _resetUniqueNamers();
-  }
-
-  /// Resolved name conflict using [makeUnique] and marks the result as used in
-  /// all [markUsed].
-  String _resolveNameConflict({
-    required String name,
-    required UniqueNamer makeUnique,
-    List<UniqueNamer> markUsed = const [],
-  }) {
-    final s = makeUnique.makeUnique(name);
-    for (final un in markUsed) {
-      un.markUsed(s);
-    }
-    return s;
-  }
-
-  /// Resets the namers to initial state. Namers are reset before generating.
-  void _resetUniqueNamers() {
-    _topLevelUniqueNamer = UniqueNamer(parent: _initialTopLevelUniqueNamer);
-    _wrapperLevelUniqueNamer = UniqueNamer(
-      parent: _initialWrapperLevelUniqueNamer,
-    );
-    _objCLevelUniqueNamer = UniqueNamer();
-  }
-
-  void markImportUsed(LibraryImport import) {
-    _usedImports.add(import);
-  }
+    required this.context,
+  }) : symbolAddressWriter = SymbolAddressWriter(context);
 
   /// Writes all bindings to a String.
   String generate() {
@@ -225,12 +64,6 @@ class Writer {
     // We write the source first to determine which imports are actually
     // referenced. Headers and [s] are then combined into the final result.
     final result = StringBuffer();
-
-    // Reset unique namers to initial state.
-    _resetUniqueNamers();
-
-    // Reset [usedEnumCTypes].
-    usedEnumCTypes.clear();
 
     // Write file header (if any).
     if (header != null) {
@@ -255,44 +88,48 @@ class Writer {
     // Since the annotation goes on a `library;` directive, it needs to appear
     // before other definitions in the file.
     if (ffiNativeBindings.isNotEmpty && nativeAssetId != null) {
+      final ffiPrefix = context.libs.prefix(ffiImport);
       result
-        ..writeln("@$ffiLibraryPrefix.DefaultAsset('$nativeAssetId')")
+        ..writeln("@$ffiPrefix.DefaultAsset('$nativeAssetId')")
         ..writeln('library;\n');
     }
 
     /// Write [lookUpBindings].
     if (lookUpBindings.isNotEmpty) {
+      final ffiPrefix = context.libs.prefix(ffiImport);
+      final className = context.extraSymbols.wrapperClassName!.name;
+      final lookupFn = context.extraSymbols.lookupFuncName!.name;
       // Write doc comment for wrapper class.
       s.write(makeDartDoc(classDocComment));
-      // Write wrapper classs.
-      s.write('class $_className{\n');
+      // Write wrapper class.
+      s.write('class $className{\n');
       // Write dylib.
       s.write('/// Holds the symbol lookup function.\n');
       s.write(
-        'final $ffiLibraryPrefix.Pointer<T> Function<T extends '
-        '$ffiLibraryPrefix.NativeType>(String symbolName) '
-        '$lookupFuncIdentifier;\n',
+        'final $ffiPrefix.Pointer<T> Function<T extends '
+        '$ffiPrefix.NativeType>(String symbolName) $lookupFn;\n',
       );
       s.write('\n');
       //Write doc comment for wrapper class constructor.
       s.write(makeDartDoc('The symbols are looked up in [dynamicLibrary].'));
       // Write wrapper class constructor.
       s.write(
-        '$_className($ffiLibraryPrefix.DynamicLibrary dynamicLibrary): '
-        '$lookupFuncIdentifier = dynamicLibrary.lookup;\n\n',
+        '$className($ffiPrefix.DynamicLibrary dynamicLibrary): '
+        '$lookupFn = dynamicLibrary.lookup;\n\n',
       );
       //Write doc comment for wrapper class named constructor.
       s.write(makeDartDoc('The symbols are looked up with [lookup].'));
       // Write wrapper class named constructor.
       s.write(
-        '$_className.fromLookup($ffiLibraryPrefix.Pointer<T> '
-        'Function<T extends $ffiLibraryPrefix.NativeType>('
-        'String symbolName) lookup): $lookupFuncIdentifier = lookup;\n\n',
+        '$className.fromLookup($ffiPrefix.Pointer<T> '
+        'Function<T extends $ffiPrefix.NativeType>('
+        'String symbolName) lookup): $lookupFn = lookup;\n\n',
       );
       for (final b in lookUpBindings) {
         s.write(b.toBindingString(this).string);
       }
-      if (symbolAddressWriter.shouldGenerate) {
+      if (symbolAddressWriter.shouldGenerate &&
+          symbolAddressWriter.hasNonNativeAddress) {
         s.write(symbolAddressWriter.writeObject(this));
       }
 
@@ -303,13 +140,12 @@ class Writer {
       for (final b in ffiNativeBindings) {
         s.write(b.toBindingString(this).string);
       }
-
-      if (symbolAddressWriter.shouldGenerate) {
-        s.write(symbolAddressWriter.writeObject(this));
-      }
     }
 
     if (symbolAddressWriter.shouldGenerate) {
+      if (!symbolAddressWriter.hasNonNativeAddress) {
+        s.write(symbolAddressWriter.writeObject(this));
+      }
       s.write(symbolAddressWriter.writeClass(this));
     }
 
@@ -319,24 +155,32 @@ class Writer {
     }
 
     // Write neccesary imports.
-    for (final lib in _usedImports) {
+    final libs = context.libs.used.toList()
+      ..sort((l1, l2) => l1.name.compareTo(l2.name));
+    for (final lib in libs) {
       final path = lib.importPath(generateForPackageObjectiveC);
-      result.write("import '$path' as ${lib.prefix};\n");
+      result.write("import '$path' as ${context.libs.prefix(lib)};\n");
     }
     result.write(s);
 
     // Warn about Enum usage in API surface.
-    if (!silenceEnumWarning && usedEnumCTypes.isNotEmpty) {
-      final names = usedEnumCTypes.map((e) => e.originalName).toList()..sort();
-      _logger.severe(
-        'The integer type used for enums is '
-        'implementation-defined. FFIgen tries to mimic the integer sizes '
-        'chosen by the most common compilers for the various OS and '
-        'architecture combinations. To prevent any crashes, remove the '
-        'enums from your API surface. To rely on the (unsafe!) mimicking, '
-        'you can silence this warning by adding silence-enum-warning: true '
-        'to the FFIgen config. Affected enums:\n\t${names.join('\n\t')}',
+    if (!silenceEnumWarning) {
+      final notEnums = _allBindings.where(
+        (b) => b is! Type || (b as Type).typealiasType is! EnumClass,
       );
+      final usedEnums = visit(context, _FindEnumsVisitation(), notEnums).enums;
+      if (usedEnums.isNotEmpty) {
+        final names = usedEnums.map((e) => e.originalName).toList()..sort();
+        context.logger.severe(
+          'The integer type used for enums is '
+          'implementation-defined. FFIgen tries to mimic the integer sizes '
+          'chosen by the most common compilers for the various OS and '
+          'architecture combinations. To prevent any crashes, remove the '
+          'enums from your API surface. To rely on the (unsafe!) mimicking, '
+          'you can silence this warning by adding silence-enum-warning: true '
+          'to the FFIgen config. Affected enums:\n\t${names.join('\n\t')}',
+        );
+      }
     }
 
     _canGenerateSymbolOutput = true;
@@ -363,7 +207,7 @@ class Writer {
       (element) => element is Constant && element.usr.contains('@macro@'),
     );
     if (hasMacroBindings) {
-      _logger.info(
+      context.logger.info(
         'Removing all Macros from symbol file since they cannot '
         'be cross referenced reliably.',
       );
@@ -379,7 +223,7 @@ class Writer {
     bindings.sort((a, b) => a.usr.compareTo(b.usr));
 
     final usesFfiNative = bindings.whereType<Func>().any(
-      (element) => element.ffiNativeConfig.enabled,
+      (element) => element.loadFromNativeAsset,
     );
 
     return {
@@ -405,7 +249,7 @@ class Writer {
 
   String? getTypedefDartAliasName(Type b) {
     if (b is! Typealias) return null;
-    return b.dartAliasName ?? getTypedefDartAliasName(b.type);
+    return b.dartAliasName?.name ?? getTypedefDartAliasName(b.type);
   }
 
   static String _objcImport(String entryPoint, String outDir) {
@@ -507,18 +351,26 @@ id objc_retainBlock(id);
 
 /// Manages the generated `_SymbolAddress` class.
 class SymbolAddressWriter {
+  final Context context;
   final List<_SymbolAddressUnit> _addresses = [];
 
   /// Used to check if we need to generate `_SymbolAddress` class.
   bool get shouldGenerate => _addresses.isNotEmpty;
 
-  bool get hasNonNativeAddress => _addresses.any((e) => !e.native);
+  bool hasNonNativeAddress = false;
+
+  SymbolAddressWriter(this.context);
+
+  late final _symbolAddressClassName = context.rootScope.addPrivate(
+    '_SymbolAddresses',
+  );
 
   void addSymbol({
     required String type,
     required String name,
     required String ptrName,
   }) {
+    hasNonNativeAddress = true;
     _addresses.add(_SymbolAddressUnit(type, name, ptrName, false));
   }
 
@@ -527,47 +379,45 @@ class SymbolAddressWriter {
   }
 
   String writeObject(Writer w) {
-    final className = w._symbolAddressClassName;
-    final fieldName = w._symbolAddressVariableName;
+    final fieldName = context.extraSymbols.symbolAddressVariableName.name;
 
     if (hasNonNativeAddress) {
-      return 'late final $fieldName = $className(this);';
+      return 'late final $fieldName = $_symbolAddressClassName(this);';
     } else {
-      return 'const $fieldName = $className();';
+      return 'const $fieldName = $_symbolAddressClassName();';
     }
   }
 
   String writeClass(Writer w) {
     final sb = StringBuffer();
-    sb.write('class ${w._symbolAddressClassName} {\n');
+    sb.write('class $_symbolAddressClassName {\n');
 
+    late final libraryVarName = context.rootScope.addPrivate('_library');
     if (hasNonNativeAddress) {
       // Write Library object.
-      sb.write('final ${w._className} ${w._symbolAddressLibraryVarName};\n');
+      final wrapperClassName = context.extraSymbols.wrapperClassName!.name;
+      sb.write('  final $wrapperClassName $libraryVarName;\n');
       // Write Constructor.
-      sb.write(
-        '${w._symbolAddressClassName}('
-        'this.${w._symbolAddressLibraryVarName});\n',
-      );
+      sb.write('  $_symbolAddressClassName(this.$libraryVarName);\n');
     } else {
       // Native bindings are top-level, so we don't need a field here.
-      sb.write('const ${w._symbolAddressClassName}();');
+      sb.write('  const $_symbolAddressClassName();');
     }
 
     for (final address in _addresses) {
-      sb.write('${address.type} get ${address.name} => ');
+      sb.write('  ${address.type} get ${address.name} => ');
 
       if (address.native) {
         // For native fields and functions, we can use Native.addressOf to look
         // up their address.
         // The name of address getter shadows the actual element in the library,
         // so we need to use a self-import.
-        final arg = '${w.selfImportPrefix}.${address.name}';
-        sb.writeln('${w.ffiLibraryPrefix}.Native.addressOf($arg);');
+        final arg = '${context.libs.prefix(selfImport)}.${address.name}';
+        sb.writeln('${context.libs.prefix(ffiImport)}.Native.addressOf($arg);');
       } else {
         // For other elements, the generator will write a private field of type
         // Pointer which we can reference here.
-        sb.writeln('${w._symbolAddressLibraryVarName}.${address.ptrName};');
+        sb.writeln('$libraryVarName.${address.ptrName};');
       }
     }
     sb.write('}\n');
@@ -583,4 +433,14 @@ class _SymbolAddressUnit {
   final bool native;
 
   _SymbolAddressUnit(this.type, this.name, this.ptrName, this.native);
+}
+
+class _FindEnumsVisitation extends Visitation {
+  final enums = <EnumClass>{};
+
+  @override
+  void visitEnumClass(EnumClass node) {
+    node.visitChildren(visitor);
+    enums.add(node);
+  }
 }

@@ -17,7 +17,8 @@ void main() {
       logWarnings();
       expected = expectedLibrary();
       actual = parser.parse(
-        testConfig('''
+        testContext(
+          testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Unnamed Enums Test'
 ${strings.output}: 'unused'
@@ -31,6 +32,7 @@ ${strings.unnamedEnums}:
   ${strings.exclude}:
     - B
         '''),
+        ),
       );
     });
 
@@ -62,10 +64,11 @@ ${strings.unnamedEnums}:
 
 Library expectedLibrary() {
   return Library(
+    context: testContext(),
     name: 'Bindings',
     bindings: [
       Constant(name: 'A', rawType: 'int', rawValue: '1'),
       Constant(name: 'C', rawType: 'int', rawValue: '3'),
     ],
-  );
+  )..forceFillNamesForTesting();
 }

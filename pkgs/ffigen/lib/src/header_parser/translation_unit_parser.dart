@@ -2,11 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:logging/logging.dart';
-
 import '../code_generator.dart';
+import '../context.dart';
 import 'clang_bindings/clang_bindings.dart' as clang_types;
-import 'data.dart';
 import 'sub_parsers/functiondecl_parser.dart';
 import 'sub_parsers/macro_parser.dart';
 import 'sub_parsers/objccategorydecl_parser.dart';
@@ -15,50 +13,58 @@ import 'sub_parsers/var_parser.dart';
 import 'type_extractor/extractor.dart';
 import 'utils.dart';
 
-final _logger = Logger('ffigen.header_parser.translation_unit_parser');
-
 /// Parses the translation unit and returns the generated bindings.
-Set<Binding> parseTranslationUnit(clang_types.CXCursor translationUnitCursor) {
+Set<Binding> parseTranslationUnit(
+  Context context,
+  clang_types.CXCursor translationUnitCursor,
+) {
   final bindings = <Binding>{};
+  final logger = context.logger;
 
   translationUnitCursor.visitChildren((cursor) {
     try {
-      if (shouldIncludeRootCursor(cursor.sourceFileName())) {
-        _logger.finest('rootCursorVisitor: ${cursor.completeStringRepr()}');
+      if (shouldIncludeRootCursor(context, cursor.sourceFileName())) {
+        logger.finest('rootCursorVisitor: ${cursor.completeStringRepr()}');
         switch (clang.clang_getCursorKind(cursor)) {
           case clang_types.CXCursorKind.CXCursor_FunctionDecl:
-            bindings.addAll(parseFunctionDeclaration(cursor));
+            bindings.addAll(parseFunctionDeclaration(context, cursor));
             break;
           case clang_types.CXCursorKind.CXCursor_StructDecl:
           case clang_types.CXCursorKind.CXCursor_UnionDecl:
           case clang_types.CXCursorKind.CXCursor_EnumDecl:
           case clang_types.CXCursorKind.CXCursor_ObjCInterfaceDecl:
           case clang_types.CXCursorKind.CXCursor_TypedefDecl:
-            addToBindings(bindings, _getCodeGenTypeFromCursor(cursor));
+            addToBindings(bindings, _getCodeGenTypeFromCursor(context, cursor));
             break;
           case clang_types.CXCursorKind.CXCursor_ObjCCategoryDecl:
-            addToBindings(bindings, parseObjCCategoryDeclaration(cursor));
+            addToBindings(
+              bindings,
+              parseObjCCategoryDeclaration(context, cursor),
+            );
             break;
           case clang_types.CXCursorKind.CXCursor_ObjCProtocolDecl:
-            addToBindings(bindings, parseObjCProtocolDeclaration(cursor));
+            addToBindings(
+              bindings,
+              parseObjCProtocolDeclaration(context, cursor),
+            );
             break;
           case clang_types.CXCursorKind.CXCursor_MacroDefinition:
-            saveMacroDefinition(cursor);
+            saveMacroDefinition(context, cursor);
             break;
           case clang_types.CXCursorKind.CXCursor_VarDecl:
-            addToBindings(bindings, parseVarDeclaration(cursor));
+            addToBindings(bindings, parseVarDeclaration(context, cursor));
             break;
           default:
-            _logger.finer('rootCursorVisitor: CursorKind not implemented');
+            logger.finer('rootCursorVisitor: CursorKind not implemented');
         }
       } else {
-        _logger.finest(
+        logger.finest(
           'rootCursorVisitor:(not included) ${cursor.completeStringRepr()}',
         );
       }
     } catch (e, s) {
-      _logger.severe(e);
-      _logger.severe(s);
+      logger.severe(e);
+      logger.severe(s);
       rethrow;
     }
   });
@@ -74,19 +80,26 @@ void addToBindings(Set<Binding> bindings, Binding? b) {
   }
 }
 
-BindingType? _getCodeGenTypeFromCursor(clang_types.CXCursor cursor) {
-  final t = getCodeGenType(cursor.type());
+BindingType? _getCodeGenTypeFromCursor(
+  Context context,
+  clang_types.CXCursor cursor,
+) {
+  final t = getCodeGenType(context, cursor.type());
   return t is BindingType ? t : null;
 }
 
 /// Visits all cursors and builds a map of usr and [clang_types.CXCursor].
-void buildUsrCursorDefinitionMap(clang_types.CXCursor translationUnitCursor) {
+void buildUsrCursorDefinitionMap(
+  Context context,
+  clang_types.CXCursor translationUnitCursor,
+) {
+  final logger = context.logger;
   translationUnitCursor.visitChildren((cursor) {
     try {
-      cursorIndex.saveDefinition(cursor);
+      context.cursorIndex.saveDefinition(cursor);
     } catch (e, s) {
-      _logger.severe(e);
-      _logger.severe(s);
+      logger.severe(e);
+      logger.severe(s);
       rethrow;
     }
   });
@@ -94,19 +107,19 @@ void buildUsrCursorDefinitionMap(clang_types.CXCursor translationUnitCursor) {
 
 /// True if a cursor should be included based on headers config, used on root
 /// declarations.
-bool shouldIncludeRootCursor(String sourceFile) {
+bool shouldIncludeRootCursor(Context context, String sourceFile) {
   // Handle empty string in case of system headers or macros.
   if (sourceFile.isEmpty) {
     return false;
   }
 
   // Add header to seen if it's not.
-  if (!bindingsIndex.isSeenHeader(sourceFile)) {
-    bindingsIndex.addHeaderToSeen(
+  if (!context.bindingsIndex.isSeenHeader(sourceFile)) {
+    context.bindingsIndex.addHeaderToSeen(
       sourceFile,
-      config.shouldIncludeHeader(Uri.file(sourceFile)),
+      context.config.shouldIncludeHeader(Uri.file(sourceFile)),
     );
   }
 
-  return bindingsIndex.getSeenHeaderStatus(sourceFile)!;
+  return context.bindingsIndex.getSeenHeaderStatus(sourceFile)!;
 }

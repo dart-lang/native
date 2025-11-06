@@ -4,7 +4,7 @@
 
 name: objective_c
 description: 'A library to access Objective C from Flutter that acts as a support library for package:ffigen.'
-version: 8.1.0-wip
+version: 9.0.0
 repository: https://github.com/dart-lang/native/tree/main/pkgs/objective_c
 issue_tracker: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Aobjective_c
 
@@ -19,6 +19,7 @@ environment:
 
 dependencies:
   code_assets: ^0.19.0
+  collection: ^1.19.1
   ffi: ^2.1.0
   hooks: ^0.19.0
   logging: ^1.3.0
@@ -27,8 +28,10 @@ dependencies:
 
 dev_dependencies:
   args: ^2.6.0
-  dart_flutter_team_lints: ^3.5.1
-  ffigen: ^19.1.0
+  dart_flutter_team_lints: ^3.5.2
+  ffigen: ^20.0.0
+  native_test_helpers:
+    path: ../native_test_helpers/
   path: ^1.9.0
   test: ^1.26.2
   yaml: ^3.1.0

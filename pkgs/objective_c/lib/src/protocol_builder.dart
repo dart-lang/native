@@ -88,17 +88,17 @@ class ObjCProtocolBuilder {
 /// A method in an ObjC protocol.
 ///
 /// Do not try to construct this class directly. The recommended way of getting
-/// a method object is to use ffigen to generate bindings for the protocol you
+/// a method object is to use FFIgen to generate bindings for the protocol you
 /// want to implement. The generated bindings will include a
 /// [ObjCProtocolMethod] for each method of the protocol.
 class ObjCProtocolMethod<T extends Function> {
-  final Pointer<r.ObjCProtocol> _proto;
+  final Pointer<r.ObjCProtocolImpl> _proto;
   final Pointer<r.ObjCSelector> _sel;
   final Pointer<Void> _trampoline;
   final Pointer<Char>? _signature;
   final ObjCBlockBase Function(T) _createBlock;
 
-  /// Only for use by ffigen bindings.
+  /// Only for use by FFIgen bindings.
   ObjCProtocolMethod(
     this._proto,
     this._sel,
@@ -143,7 +143,7 @@ class ObjCProtocolMethod<T extends Function> {
 /// A method in an ObjC protocol that can be implemented as a listener.
 ///
 /// Do not try to construct this class directly. The recommended way of getting
-/// a method object is to use ffigen to generate bindings for the protocol you
+/// a method object is to use FFIgen to generate bindings for the protocol you
 /// want to implement. The generated bindings will include a
 /// [ObjCProtocolMethod] for each method of the protocol.
 class ObjCProtocolListenableMethod<T extends Function>
@@ -151,7 +151,7 @@ class ObjCProtocolListenableMethod<T extends Function>
   final ObjCBlockBase Function(T) _createListenerBlock;
   final ObjCBlockBase Function(T) _createBlockingBlock;
 
-  /// Only for use by ffigen bindings.
+  /// Only for use by FFIgen bindings.
   ObjCProtocolListenableMethod(
     super._proto,
     super._sel,

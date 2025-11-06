@@ -209,6 +209,7 @@ abstract final class Jni {
   ///
   /// It provides an indirection over [JniEnv] so that it can be used from
   /// any thread, and always returns global object references.
+  @internal
   static final env = GlobalJniEnv(_fetchGlobalEnv());
 
   /// Returns current application context on Android.
@@ -229,7 +230,7 @@ abstract final class Jni {
       JGlobalReference(_bindings.GetClassLoader());
 }
 
-/// Extensions for use by `jnigen` generated code.
+/// Extensions for use by JNIgen generated code.
 @internal
 extension ProtectedJniExtensions on Jni {
   static bool _initialized = false;
@@ -286,12 +287,19 @@ extension ProtectedJniExtensions on Jni {
     }
   }
 
+  static Pointer<T> Function<T extends NativeType>(String) get lookup =>
+      Jni._dylib.lookup;
+}
+
+/// Used only inside `package:jni`.
+@internal
+extension InternalJniExtension on Jni {
   static Dart_FinalizableHandle newJObjectFinalizableHandle(
     Object object,
     Pointer<Void> reference,
     JObjectRefType refType,
   ) {
-    ensureInitialized();
+    ProtectedJniExtensions.ensureInitialized();
     return Jni._bindings
         .newJObjectFinalizableHandle(object, reference, refType);
   }
@@ -300,18 +308,15 @@ extension ProtectedJniExtensions on Jni {
     Object object,
     Pointer<Bool> reference,
   ) {
-    ensureInitialized();
+    ProtectedJniExtensions.ensureInitialized();
     return Jni._bindings.newBooleanFinalizableHandle(object, reference);
   }
 
   static void deleteFinalizableHandle(
       Dart_FinalizableHandle finalizableHandle, Object object) {
-    ensureInitialized();
+    ProtectedJniExtensions.ensureInitialized();
     Jni._bindings.deleteFinalizableHandle(finalizableHandle, object);
   }
-
-  static Pointer<T> Function<T extends NativeType>(String) get lookup =>
-      Jni._dylib.lookup;
 }
 
 extension AdditionalEnvMethods on GlobalJniEnv {

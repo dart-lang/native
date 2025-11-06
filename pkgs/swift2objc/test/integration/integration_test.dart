@@ -62,14 +62,17 @@ void main([List<String>? args]) {
             ? expectedOutputFile
             : path.join(tempDir, '$name$outputSuffix');
 
-        await generateWrapper(
-          Config(
-            input: FilesInputConfig(files: [Uri.file(inputFile)]),
-            outputFile: Uri.file(actualOutputFile),
-            tempDir: Directory(tempDir).uri,
-            preamble: '// Test preamble text',
-          ),
-        );
+        await Swift2ObjCGenerator(
+          inputs: [
+            FilesInputConfig(
+              files: [Uri.file(inputFile)],
+              tempModuleName: 'temp_$name',
+            ),
+          ],
+          outputFile: Uri.file(actualOutputFile),
+          tempDir: Directory(tempDir).uri,
+          preamble: '// Test preamble text',
+        ).generate(logger: Logger.root);
 
         final actualOutput = await File(actualOutputFile).readAsString();
         final expectedOutput = File(expectedOutputFile).readAsStringSync();
@@ -77,26 +80,8 @@ void main([List<String>? args]) {
         expect(actualOutput, expectedOutput);
         expect(loggedErrors, 0);
 
-        // Try generating symbolgraph for input & output files
-        // to make sure the result compiles. Input file must be included cause
-        // it contains the definition of the entities the output code wraps.
-        final symbolgraphCommand = FilesInputConfig(
-          files: [Uri.file(inputFile), Uri.file(actualOutputFile)],
-          generatedModuleName: 'output_file_symbolgraph',
-        ).symbolgraphCommand!;
-
-        final processResult = await Process.run(
-          symbolgraphCommand.executable,
-          symbolgraphCommand.args,
-          workingDirectory: tempDir,
-        );
-
-        if (processResult.exitCode != 0) {
-          print(processResult.stdout);
-          print(processResult.stderr);
-        }
-        expect(processResult.exitCode, 0);
-      });
+        await expectValidSwift([inputFile, actualOutputFile]);
+      }, timeout: const Timeout(Duration(minutes: 2)));
     }
   });
 }

@@ -11,8 +11,10 @@
 // declarations, so it's important that they remain unformatted, even if that
 // means going over the 80 char width limit. The class bodies may be formatted.
 
-class NSString {
-  factory NSString(String str) {
+extension type NSString._(objc.ObjCObject object$) {
+  NSString(String str) : this.as(_stringToNSString$(str));
+
+  static NSString _stringToNSString$(String str) {
     final cstr = str.toNativeUtf16();
     final nsstr = stringWithCharacters(cstr.cast(), length: str.length);
     pkg_ffi.calloc.free(cstr);
@@ -20,271 +22,79 @@ class NSString {
   }
 }
 
-class NSArray with Iterable<objc.ObjCObjectBase> {
+extension type NSArray._(objc.ObjCObject object$) {
   /// Creates a [NSArray] of the given length with [fill] at each position.
   ///
   /// The [length] must be a non-negative integer.
-  static NSArray filled(int length, objc.ObjCObjectBase fill) =>
+  static NSArray filled(int length, objc.ObjCObject fill) =>
       NSMutableArray.filled(length, fill);
 
   /// Creates a [NSArray] from [elements].
-  static NSArray of(Iterable<objc.ObjCObjectBase> elements) =>
+  static NSArray of(Iterable<objc.ObjCObject> elements) =>
       NSMutableArray.of(elements);
-
-  @override
-  int get length => count;
-
-  @override
-  objc.ObjCObjectBase elementAt(int index) => objectAtIndex(index);
-
-  @override
-  Iterator<objc.ObjCObjectBase> get iterator => _NSArrayIterator(this);
-
-  objc.ObjCObjectBase operator [](int index) => objectAtIndex(index);
 }
 
-class NSMutableArray with collection.ListBase<objc.ObjCObjectBase> {
+extension type NSMutableArray._(objc.ObjCObject object$) {
   /// Creates a [NSMutableArray] of the given length with [fill] at each
   /// position.
   ///
   /// The [length] must be a non-negative integer.
-  static NSMutableArray filled(int length, objc.ObjCObjectBase fill) {
+  static NSMutableArray filled(int length, objc.ObjCObject fill) {
     final a = arrayWithCapacity(length);
-    for (var i = 0; i < length; ++i) a.add(fill);
+    for (var i = 0; i < length; ++i) a.addObject(fill);
     return a;
   }
 
   /// Creates a [NSMutableArray] from [elements].
-  static NSMutableArray of(Iterable<objc.ObjCObjectBase> elements) =>
-      arrayWithCapacity(elements.length)..addAll(elements);
-
-  @override
-  set length(int newLength) {
-    var len = length;
-    RangeError.checkValueInInterval(newLength, 0, len);
-    for (; len > newLength; --len) removeLastObject();
-  }
-
-  @override
-  Iterator<objc.ObjCObjectBase> get iterator => _NSArrayIterator(this);
-
-  @override
-  objc.ObjCObjectBase operator [](int index) => objectAtIndex(index);
-
-  @override
-  void operator []=(int index, objc.ObjCObjectBase value) =>
-      replaceObjectAtIndex(index, withObject: value);
-
-  @override
-  void add(objc.ObjCObjectBase value) => addObject(value);
-}
-
-class _NSArrayIterator implements Iterator<objc.ObjCObjectBase> {
-  final Iterable<objc.ObjCObjectBase> _iterable;
-  final int _length;
-  int _index;
-  objc.ObjCObjectBase? _current;
-
-  _NSArrayIterator(Iterable<objc.ObjCObjectBase> iterable)
-      : _iterable = iterable,
-        _length = iterable.length,
-        _index = 0;
-
-  @override
-  objc.ObjCObjectBase get current => _current!;
-
-  @override
-  @pragma('vm:prefer-inline')
-  bool moveNext() {
-    final length = _iterable.length;
-    if (_length != length) {
-      throw ConcurrentModificationError(_iterable);
-    }
-    if (_index >= length) {
-      _current = null;
-      return false;
-    }
-    _current = _iterable.elementAt(_index);
-    _index++;
-    return true;
+  static NSMutableArray of(Iterable<objc.ObjCObject> elements) {
+    final a = arrayWithCapacity(elements.length);
+    for (final e in elements) a.addObject(e);
+    return a;
   }
 }
 
-// Ideally we'd mixin UnmodifiableMapBase, but it's an ordinary class. So
-// instead we mixin MapBase and then throw in all the modifying methods (which
-// is essentially what UnmodifiableMapBase does anyway).
-class NSDictionary with collection.MapBase<NSCopying, objc.ObjCObjectBase> {
+extension type NSDictionary._(objc.ObjCObject object$) {
   /// Creates a [NSDictionary] from [other].
-  static NSDictionary of(Map<NSCopying, objc.ObjCObjectBase> other) =>
+  static NSDictionary of(Map<NSCopying, objc.ObjCObject> other) =>
       NSMutableDictionary.of(other);
 
   /// Creates a [NSDictionary] from [entries].
   static NSDictionary fromEntries(
-          Iterable<MapEntry<NSCopying, objc.ObjCObjectBase>> entries) =>
-      NSMutableDictionary.fromEntries(entries);
-
-  @override
-  int get length => count;
-
-  @override
-  objc.ObjCObjectBase? operator [](Object? key) =>
-      key is NSCopying ? objectForKey(key) : null;
-
-  @override
-  Iterable<NSCopying> get keys => _NSDictionaryKeyIterable(this);
-
-  @override
-  Iterable<objc.ObjCObjectBase> get values => _NSDictionaryValueIterable(this);
-
-  @override
-  bool containsKey(Object? key) => this[key] != null;
-
-  @override
-  void operator []=(NSCopying key, objc.ObjCObjectBase value) =>
-      throw UnsupportedError("Cannot modify NSDictionary");
-
-  @override
-  void clear() => throw UnsupportedError("Cannot modify NSDictionary");
-
-  @override
-  objc.ObjCObjectBase? remove(Object? key) =>
-      throw UnsupportedError("Cannot modify NSDictionary");
+    Iterable<MapEntry<NSCopying, objc.ObjCObject>> entries,
+  ) => NSMutableDictionary.fromEntries(entries);
 }
 
-class NSMutableDictionary {
+extension type NSMutableDictionary._(objc.ObjCObject object$) {
   /// Creates a [NSMutableDictionary] from [other].
-  static NSDictionary of(Map<NSCopying, objc.ObjCObjectBase> other) =>
-      NSMutableDictionary.dictionaryWithCapacity(other.length)..addAll(other);
+  static NSMutableDictionary of(Map<NSCopying, objc.ObjCObject> other) =>
+      NSMutableDictionary.fromEntries(other.entries);
 
   /// Creates a [NSMutableDictionary] from [entries].
   static NSMutableDictionary fromEntries(
-          Iterable<MapEntry<NSCopying, objc.ObjCObjectBase>> entries) =>
-      NSMutableDictionary.dictionaryWithCapacity(entries.length)
-        ..addEntries(entries);
-
-  @override
-  void clear() => removeAllObjects();
-
-  @override
-  objc.ObjCObjectBase? remove(Object? key) {
-    if (key is! NSCopying) return null;
-    final old = this[key];
-    removeObjectForKey(key);
-    return old;
-  }
-
-  @override
-  void operator []=(NSCopying key, objc.ObjCObjectBase value) =>
-      setObject(value, forKey: NSCopying.castFrom(key));
-}
-
-class _NSDictionaryKeyIterable with Iterable<NSCopying> {
-  NSDictionary _dictionary;
-
-  _NSDictionaryKeyIterable(this._dictionary);
-
-  @override
-  int get length => _dictionary.length;
-
-  @override
-  Iterator<NSCopying> get iterator =>
-      _NSDictionaryKeyIterator(_dictionary.keyEnumerator());
-
-  @override
-  bool contains(Object? key) => _dictionary.containsKey(key);
-}
-
-class _NSDictionaryValueIterable with Iterable<objc.ObjCObjectBase> {
-  NSDictionary _dictionary;
-
-  _NSDictionaryValueIterable(this._dictionary);
-
-  @override
-  int get length => _dictionary.length;
-
-  @override
-  Iterator<objc.ObjCObjectBase> get iterator => _dictionary.objectEnumerator();
-}
-
-class NSEnumerator implements Iterator<objc.ObjCObjectBase> {
-  objc.ObjCObjectBase? _current;
-
-  @override
-  objc.ObjCObjectBase get current => _current!;
-
-  @override
-  @pragma('vm:prefer-inline')
-  bool moveNext() {
-    _current = nextObject();
-    return _current != null;
+    Iterable<MapEntry<NSCopying, objc.ObjCObject>> entries,
+  ) {
+    final dict = dictionaryWithCapacity(entries.length);
+    for (final MapEntry(:key, :value) in entries) {
+      dict.setObject(
+        value,
+        forKey: NSCopying.as(key),
+      );
+    }
+    return dict;
   }
 }
 
-class _NSDictionaryKeyIterator implements Iterator<NSCopying> {
-  final Iterator<objc.ObjCObjectBase> _iterator;
-  _NSDictionaryKeyIterator(this._iterator);
-
-  @override
-  NSCopying get current => NSCopying.castFrom(_iterator.current);
-
-  @override
-  @pragma('vm:prefer-inline')
-  bool moveNext() => _iterator.moveNext();
-}
-
-class NSSet with collection.SetBase<objc.ObjCObjectBase> {
+extension type NSSet._(objc.ObjCObject object$) {
   /// Creates a [NSSet] from [elements].
-  static NSSet of(Iterable<objc.ObjCObjectBase> elements) =>
+  static NSSet of(Iterable<objc.ObjCObject> elements) =>
       NSMutableSet.of(elements);
-
-  @override
-  int get length => count;
-
-  @override
-  bool contains(Object? element) =>
-      element is objc.ObjCObjectBase ? containsObject(element) : false;
-
-  @override
-  objc.ObjCObjectBase? lookup(Object? element) =>
-      element is objc.ObjCObjectBase ? member(element) : null;
-
-  @override
-  Iterator<objc.ObjCObjectBase> get iterator => objectEnumerator();
-
-  @override
-  Set<objc.ObjCObjectBase> toSet() => {...this};
-
-  @override
-  bool add(objc.ObjCObjectBase value) =>
-      throw UnsupportedError("Cannot modify NSSet");
-
-  @override
-  bool remove(Object? value) => throw UnsupportedError("Cannot modify NSSet");
-
-  @override
-  void clear() => throw UnsupportedError("Cannot modify NSSet");
 }
 
-class NSMutableSet {
+extension type NSMutableSet._(objc.ObjCObject object$) {
   /// Creates a [NSMutableSet] from [elements].
-  static NSMutableSet of(Iterable<objc.ObjCObjectBase> elements) =>
-      setWithCapacity(elements.length)..addAll(elements);
-
-  @override
-  bool add(objc.ObjCObjectBase value) {
-    final alreadyContains = contains(value);
-    addObject(value);
-    return !alreadyContains;
+  static NSMutableSet of(Iterable<objc.ObjCObject> elements) {
+    final set = setWithCapacity(elements.length);
+    for (final e in elements) set.addObject(e);
+    return set;
   }
-
-  @override
-  bool remove(Object? value) {
-    if (value is! objc.ObjCObjectBase) return false;
-    final alreadyContains = contains(value);
-    removeObject(value);
-    return alreadyContains;
-  }
-
-  @override
-  void clear() => removeAllObjects();
 }

@@ -3,8 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-
-import 'writer.dart';
+import '../context.dart';
+import '../visitor/ast.dart';
 
 enum SupportedNativeType {
   voidType,
@@ -67,10 +67,11 @@ class NativeType extends Type {
   factory NativeType(SupportedNativeType type) => _primitives[type]!;
 
   @override
-  String getCType(Writer w) => '${w.ffiLibraryPrefix}.$_cType';
+  String getCType(Context context) =>
+      '${context.libs.prefix(ffiImport)}.$_cType';
 
   @override
-  String getFfiDartType(Writer w) => _dartType;
+  String getFfiDartType(Context context) => _dartType;
 
   @override
   String getNativeType({String varName = ''}) => '$_nativeType $varName';
@@ -85,7 +86,13 @@ class NativeType extends Type {
   String cacheKey() => _cType;
 
   @override
-  String? getDefaultValue(Writer w) => _defaultValue;
+  String? getDefaultValue(Context context) => _defaultValue;
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(ffiImport);
+  }
 }
 
 class BooleanType extends NativeType {

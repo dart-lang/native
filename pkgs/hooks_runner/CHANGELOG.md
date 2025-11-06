@@ -1,3 +1,35 @@
+## 0.23.2
+
+- Add `LIBCLANG_PATH` to the environment variables allowlist.
+
+## 0.23.1
+
+- Change the length of the checksum used for `outputDirectory` to 10 hexadecimal
+  characters to avoid running out of path length on Windows.
+
+## 0.23.0
+
+- **Breaking change**: Replaced `NativeAssetsBuildRunner.hookEnvironmentVariablesFilter`
+  with `NativeAssetsBuildRunner.includeHookEnvironmentVariable` to account for
+  environment variables that start with a particular prefix (i.e., `NIX_`).
+
+## 0.22.1
+
+* Fix caches not being invalidated on (1) user-defines changing, (2) metadata
+  changing, and (3) assets sent to link hooks.
+  
+
+## 0.22.0
+
+* Bump `package:hooks` to 0.20.0.
+* Enable passing metadata from link hooks of a package to the link hooks in 
+  depending packages, by fixing the link hook execution order. This brings an
+  order in which the link hooks are run - reverse to the build hook run order.
+  Starting at the application link hook, then it's dependencies, and so on. This
+  enables us to pass information from on link hook to another as
+  `MetadataAsset`s - but also means that now link hooks must be invoked,
+  regardless of whether assets are sent to the from a build hook.
+
 ## 0.21.0
 
 * Add `includeDevDependencies` param to `BuildLayout` to enable building the
