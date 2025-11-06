@@ -5,8 +5,8 @@
 // These tests validate summary generation in various scenarios.
 // Currently, no validation of the summary content itself is done.
 
-// ignore: library_annotations
 @Tags(['summarizer_test'])
+library;
 
 import 'dart:math';
 

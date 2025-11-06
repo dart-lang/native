@@ -46,7 +46,7 @@ import 'dart:ffi' as ffi;
 ///
 /// However, functions prefixed JNI_ are not usable because they are in a different shared library.
 ///
-/// Regenerate bindings with `flutter pub run ffigen.dart --config ffigen.yaml`.
+/// Regenerate bindings with `flutter pub run ffigen --config ffigen.yaml`.
 ///
 class JniBindings {
   /// Holds the symbol lookup function.
