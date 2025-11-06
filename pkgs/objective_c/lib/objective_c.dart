@@ -28,7 +28,6 @@ export 'src/ns_number.dart';
 export 'src/ns_set.dart';
 export 'src/ns_string.dart';
 export 'src/objective_c_bindings_exported.dart';
-export 'src/objective_c_bindings_generated.dart';
 export 'src/observer.dart';
 export 'src/os_version.dart';
 export 'src/protocol_builder.dart';
