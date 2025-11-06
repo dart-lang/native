@@ -13,6 +13,12 @@
   With this breaking change, also some defaults changed: (1) `@Native` bindings
   are now the default, and (2) struct/unions refered to by pointer will be
   generated as `Opaque` by default.
+- __Breaking change__: Rename some ObjC interface built in methods. Rename
+  `isInstance` to `isA`, `castFrom` to `as`, and `castFromPointer` to
+  `fromPointer`.
+- __Breaking change__: Change ObjC interfaces and protocols to generate as
+  [extension types](https://dart.dev/language/extension-types). This gives a
+  small performance boost, and in most cases won't require any code changes.
 - __Breaking change__: Change how ObjC protocols are generated, splitting the
   methods related to constructing instances into a separate `Foo$Builder` class.
   The protocol's instance methods are now directly invokable from the built

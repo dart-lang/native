@@ -45,30 +45,12 @@ void dartCmd(List<String> args) {
   }
 }
 
-typedef ClassInfo = ({
-  String name,
-  String? ext,
-  List<String> mix,
-  List<String> impl,
-});
-final _clsDecl = RegExp(
-  r'^class (.*?)(?: extends (.*?))?(?: with (.*?))?(?: implements (.*?))? {',
-);
-ClassInfo? parseClassDecl(String line) {
-  final match = _clsDecl.firstMatch(line);
-  if (match == null) return null;
-  return (
-    name: match[1]!,
-    ext: match[2],
-    mix: match[3]?.split(', ') ?? [],
-    impl: match[4]?.split(', ') ?? [],
-  );
-}
+final _clsDecl = RegExp(r'^extension type (\w+)\W');
+String? parseClassDecl(String line) => _clsDecl.firstMatch(line)?[1];
 
-typedef ExtraMethods = ({ClassInfo cls, String methods});
-Map<String, ExtraMethods> parseExtraMethods(String filename) {
-  final extraMethods = <String, ExtraMethods>{};
-  ClassInfo? currentClass;
+Map<String, String> parseExtraMethods(String filename) {
+  final extraMethods = <String, String>{};
+  String? currentClass;
   late StringBuffer methods;
   for (final line in File(filename).readAsLinesSync()) {
     if (currentClass == null) {
@@ -79,10 +61,7 @@ Map<String, ExtraMethods> parseExtraMethods(String filename) {
       }
     } else {
       if (line == '}') {
-        extraMethods[currentClass.name] = (
-          cls: currentClass,
-          methods: methods.toString(),
-        );
+        extraMethods[currentClass] = methods.toString();
         currentClass = null;
       } else {
         methods.writeln(line);
@@ -92,53 +71,18 @@ Map<String, ExtraMethods> parseExtraMethods(String filename) {
   return extraMethods;
 }
 
-String classDecl(
-  String name,
-  String? ext,
-  List<String> mix,
-  List<String> impl,
-) => [
-  'class $name',
-  if (ext != null) 'extends $ext',
-  if (mix.isNotEmpty) 'with ${mix.join(', ')}',
-  if (impl.isNotEmpty) 'implements ${impl.join(', ')}',
-  '{',
-].join(' ');
-
-void mergeExtraMethods(
-  String filename,
-  Map<String, ExtraMethods> extraMethods,
-) {
+void mergeExtraMethods(String filename, Map<String, String> extraMethods) {
   final out = StringBuffer();
   for (final line in File(filename).readAsLinesSync()) {
+    out.writeln(line);
     final cls = parseClassDecl(line);
-    final extra = cls == null ? null : extraMethods[cls.name];
-    if (cls == null || extra == null) {
-      out.writeln(line);
-    } else {
-      out.writeln(
-        classDecl(
-          cls.name,
-          extra.cls.ext ?? cls.ext,
-          [...cls.mix, ...extra.cls.mix],
-          [...cls.impl, ...extra.cls.impl],
-        ),
-      );
-      out.writeln(extra.methods);
-      extraMethods.remove(cls.name);
+    final extra = cls == null ? null : extraMethods[cls];
+    if (cls != null && extra != null) {
+      out.writeln(extra);
+      extraMethods.remove(cls);
     }
   }
-
-  // Matching classes have been removed from extraMethods. Write all the
-  // remaining classes separately.
-  for (final extra in extraMethods.values) {
-    out.writeln('\n');
-    out.writeln(
-      classDecl(extra.cls.name, extra.cls.ext, extra.cls.mix, extra.cls.impl),
-    );
-    out.writeln(extra.methods);
-    out.writeln('}');
-  }
+  assert(extraMethods.isEmpty);
 
   File(filename).writeAsStringSync(out.toString());
 }

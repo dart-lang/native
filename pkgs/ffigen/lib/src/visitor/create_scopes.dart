@@ -35,9 +35,17 @@ class CreateScopesVisitation extends Visitation {
     required this.orderedPass,
   });
 
-  Scope createScope(HasLocalScope node, Scope parentScope, String debugName) {
+  Scope createScope(
+    HasLocalScope node,
+    Scope parentScope,
+    String debugName, {
+    Set<String> preUsedNames = const {},
+  }) {
     if (!node.localScopeFilled) {
-      node.localScope = parentScope.addChild(debugName);
+      node.localScope = parentScope.addChild(
+        debugName,
+        preUsedNames: preUsedNames,
+      );
     }
     return node.localScope;
   }
@@ -64,7 +72,7 @@ class CreateScopesVisitation extends Visitation {
   void visitObjCMsgSendFunc(ObjCMsgSendFunc node) =>
       visitHasLocalScope(node, 'objc_msgSend');
 
-  static const objCObjectBaseMethods = {
+  static const objCReservedMethods = {
     'ref',
     'toString',
     'hashCode',
@@ -72,13 +80,15 @@ class CreateScopesVisitation extends Visitation {
     'noSuchMethod',
   };
 
+  static const objCReservedFields = {'object\$'};
+
   void visitObjCMethods(
     ObjCMethods node,
     ObjCInterface? superType,
     Scope classScope,
   ) {
     node.methodNameScope ??= (superType?.methodNameScope ?? classScope)
-        .addChild('\$methods', preUsedNames: objCObjectBaseMethods);
+        .addChild('\$methods', preUsedNames: objCReservedMethods);
     for (final m in node.methods) {
       final parentScope =
           _findRootWithMethod(superType, m)?.localScope ?? classScope;
@@ -112,6 +122,7 @@ class CreateScopesVisitation extends Visitation {
         node,
         node.superType?.localScope ?? context.rootScope,
         node.originalName,
+        preUsedNames: objCReservedFields,
       ),
     );
   }
@@ -124,7 +135,12 @@ class CreateScopesVisitation extends Visitation {
     visitObjCMethods(
       node,
       null,
-      createScope(node, context.rootScope, node.originalName),
+      createScope(
+        node,
+        context.rootScope,
+        node.originalName,
+        preUsedNames: objCReservedFields,
+      ),
     );
   }
 

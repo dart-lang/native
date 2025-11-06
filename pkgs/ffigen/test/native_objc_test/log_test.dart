@@ -52,9 +52,9 @@ void main() {
     test('Instancetype method overridden by id method', () {
       // Test that we keep the instancetype version of the method. Specifically,
       // LogSpamChildClass.instancetypeMethod returns LogSpamChildClass rather
-      // than ObjCObjectBase.
+      // than ObjCObject.
       final LogSpamChildClass obj = LogSpamChildClass.instancetypeMethod();
-      expect(LogSpamChildClass.isInstance(obj), isTrue);
+      expect(LogSpamChildClass.isA(obj), isTrue);
     });
   });
 }

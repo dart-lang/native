@@ -32,14 +32,16 @@ void main() {
         observeValueForKeyPath_ofObject_change_context_:
             (
               NSString keyPath,
-              ObjCObjectBase object,
+              ObjCObject object,
               NSDictionary change,
               Pointer<Void> context,
             ) {
               expect(keyPath.toDartString(), 'totalUnitCount');
               expect(object, observed);
               expect(context.address, 0x1234);
-              values.add(toDartObject(change[NSKeyValueChangeNewKey]!));
+              values.add(
+                toDartObject(change.asDart()[NSKeyValueChangeNewKey]!),
+              );
             },
       );
       final observation = observed.addObserver(
@@ -73,11 +75,13 @@ void main() {
         observeValueForKeyPath_ofObject_change_context_:
             (
               NSString keyPath,
-              ObjCObjectBase object,
+              ObjCObject object,
               NSDictionary change,
               Pointer<Void> context,
             ) {
-              values.add(toDartObject(change[NSKeyValueChangeNewKey]!));
+              values.add(
+                toDartObject(change.asDart()[NSKeyValueChangeNewKey]!),
+              );
             },
       );
 
@@ -112,11 +116,13 @@ void main() {
           observeValueForKeyPath_ofObject_change_context_:
               (
                 NSString keyPath,
-                ObjCObjectBase object,
+                ObjCObject object,
                 NSDictionary change,
                 Pointer<Void> context,
               ) {
-                values.add(toDartObject(change[NSKeyValueChangeNewKey]!));
+                values.add(
+                  toDartObject(change.asDart()[NSKeyValueChangeNewKey]!),
+                );
 
                 // This is testing that a captured reference from the observer
                 // to the observed object does not cause leak.
@@ -143,7 +149,7 @@ void main() {
       // expect(objectRetainCount(observedRaw), greaterThan(0));
       // expect(objectRetainCount(observerRaw), greaterThan(0));
 
-      NSProgress.castFromPointer(observedRaw).totalUnitCount = 456;
+      NSProgress.fromPointer(observedRaw).totalUnitCount = 456;
       expect(values, [123, 456]);
 
       // Force observation to stay in scope.
@@ -169,7 +175,7 @@ void main() {
           observeValueForKeyPath_ofObject_change_context_:
               (
                 NSString keyPath,
-                ObjCObjectBase object,
+                ObjCObject object,
                 NSDictionary change,
                 Pointer<Void> context,
               ) {},

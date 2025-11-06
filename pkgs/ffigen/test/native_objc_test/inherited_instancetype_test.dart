@@ -66,7 +66,7 @@ void main() {
       // is a ChildClass.
       final BaseClass sameChild = base.getSelf();
       expect(sameChild, isA<BaseClass>());
-      expect(ChildClass.isInstance(sameChild), isTrue);
+      expect(ChildClass.isA(sameChild), isTrue);
     });
   });
 }

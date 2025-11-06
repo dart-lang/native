@@ -24,7 +24,10 @@ void main() {
 
       // Verify that the output contains all the methods and classes that the
       // example app uses.
-      expect(output, contains('class AVAudioPlayer extends objc.NSObject {'));
+      expect(
+        output,
+        contains('extension type AVAudioPlayer._(objc.ObjCObject '),
+      );
       expect(
         output,
         contains('AVAudioPlayer? initWithContentsOfURL(objc.NSURL url) {'),

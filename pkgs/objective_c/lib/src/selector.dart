@@ -24,7 +24,7 @@ extension SelectorToString on Pointer<c.ObjCSelector> {
   String toDartString() => c.getName(this).cast<Utf8>().toDartString();
 }
 
-extension RespondsToSelector on objc.ObjCObjectBase {
+extension RespondsToSelector on objc.ObjCObject {
   bool respondsToSelector(Pointer<c.ObjCSelector> sel) =>
       objc.respondsToSelector(ref.pointer, sel);
 }

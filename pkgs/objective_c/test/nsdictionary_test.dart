@@ -28,7 +28,11 @@ void main() {
       final obj5 = 'obj5'.toNSString();
       final obj6 = 'obj6'.toNSString();
 
-      final dict = NSDictionary.of({obj1: obj2, obj3: obj4, obj5: obj6});
+      final dict = NSDictionary.of({
+        obj1: obj2,
+        obj3: obj4,
+        obj5: obj6,
+      }).asDart();
 
       expect(dict.length, 3);
       expect(dict[obj1], obj2);
@@ -38,12 +42,12 @@ void main() {
       // Keys are copied, so compare the string values.
       final actualKeys = <String>[];
       for (final key in dict.keys) {
-        actualKeys.add(NSString.castFrom(key).toDartString());
+        actualKeys.add(NSString.as(key).toDartString());
       }
       expect(actualKeys, unorderedEquals(['obj1', 'obj3', 'obj5']));
 
       // Values are stored by reference, so we can compare the actual objects.
-      final actualValues = <ObjCObjectBase>[];
+      final actualValues = <ObjCObject>[];
       for (final value in dict.values) {
         actualValues.add(value);
       }
@@ -63,7 +67,7 @@ void main() {
       // NSDictionary using an ObjC constructor.
       final dict = NSDictionary.dictionaryWithDictionary(
         NSDictionary.of({obj1: obj2, obj3: obj4, obj5: obj6}),
-      );
+      ).asDart();
 
       expect(() => dict[obj3] = obj1, throwsUnsupportedError);
       expect(dict.clear, throwsUnsupportedError);
@@ -78,7 +82,11 @@ void main() {
       final obj5 = 'obj5'.toNSString();
       final obj6 = 'obj6'.toNSString();
 
-      final dict = NSDictionary.of({obj1: obj2, obj3: obj4, obj5: obj6});
+      final dict = NSDictionary.of({
+        obj1: obj2,
+        obj3: obj4,
+        obj5: obj6,
+      }).asDart();
 
       expect(dict.isNotEmpty, isTrue);
       expect(dict.containsKey(obj1), isTrue);
@@ -87,16 +95,57 @@ void main() {
       expect(dict.containsValue(obj3), isFalse);
 
       expect(
-        dict.map(
-          (key, value) => MapEntry<ObjCObjectBase, ObjCObjectBase>(value, key),
-        ),
+        dict.map((key, value) => MapEntry<ObjCObject, ObjCObject>(value, key)),
         {obj2: obj1, obj4: obj3, obj6: obj5},
       );
       expect(
-        dict.keys.map((key) => NSString.castFrom(key).toDartString()).toList(),
+        dict.keys.map((key) => NSString.as(key).toDartString()).toList(),
         unorderedEquals(['obj1', 'obj3', 'obj5']),
       );
       expect(dict.values.toList(), unorderedEquals([obj2, obj4, obj6]));
+    });
+
+    test('ref counting', () async {
+      final pointers = <Pointer<ObjCObjectImpl>>[];
+      Map<NSCopying, ObjCObject>? map;
+
+      autoReleasePool(() {
+        // The dictionary key has to implement NSCopying. NSString is used in
+        // the other tests because it's easy to construct. But it isn't ref
+        // counted in the same way as other objects, so here we use NSArray.
+        final obj1 = NSArray.of(['apple'.toNSString()]);
+        final obj2 = NSObject();
+        final obj3 = NSArray.of(['banana'.toNSString()]);
+        final obj4 = NSObject();
+        final obj5 = NSArray.of(['carrot'.toNSString()]);
+        final obj6 = NSObject();
+        final objects = {obj1: obj2, obj3: obj4, obj5: obj6};
+        final objCMap = NSDictionary.of(objects);
+        map = objCMap.asDart();
+
+        pointers.addAll(map!.keys.map((o) => o.ref.pointer));
+        pointers.addAll(map!.values.map((o) => o.ref.pointer));
+        pointers.add(objCMap.ref.pointer);
+
+        for (final pointer in pointers) {
+          expect(objectRetainCount(pointer), greaterThan(0));
+        }
+      });
+
+      doGC();
+      await Future<void>.delayed(Duration.zero);
+      doGC();
+      for (final pointer in pointers) {
+        expect(objectRetainCount(pointer), greaterThan(0));
+      }
+      map = null;
+
+      doGC();
+      await Future<void>.delayed(Duration.zero);
+      doGC();
+      for (final pointer in pointers) {
+        expect(objectRetainCount(pointer), 0);
+      }
     });
   });
 }

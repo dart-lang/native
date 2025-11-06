@@ -51,7 +51,7 @@ void main() {
       final renamed = Renamed();
 
       renamed.property = 123;
-      expect(renamed.toString(), "Instance of 'Renamed'");
+      expect(renamed.toString(), "Instance of 'ObjCObject'");
       expect(renamed.toString$1().toDartString(), "123");
     });
 

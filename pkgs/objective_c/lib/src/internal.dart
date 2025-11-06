@@ -11,7 +11,7 @@ import 'c_bindings_generated.dart' as c;
 import 'ns_string.dart';
 import 'objective_c_bindings_generated.dart' as objc;
 
-typedef ObjectPtr = Pointer<c.ObjCObject>;
+typedef ObjectPtr = Pointer<c.ObjCObjectImpl>;
 typedef BlockPtr = Pointer<c.ObjCBlockImpl>;
 typedef VoidPtr = Pointer<Void>;
 
@@ -98,7 +98,7 @@ final class NSErrorException implements Exception {
   static void checkErrorPointer(ObjectPtr pointer) {
     if (pointer.address != 0) {
       throw NSErrorException(
-        objc.NSError.castFromPointer(pointer, retain: true, release: true),
+        objc.NSError.fromPointer(pointer, retain: true, release: true),
       );
     }
   }
@@ -107,7 +107,7 @@ final class NSErrorException implements Exception {
   String toString() => 'NSError: ${error.localizedDescription.toDartString()}';
 }
 
-extension GetProtocolName on Pointer<c.ObjCProtocol> {
+extension GetProtocolName on Pointer<c.ObjCProtocolImpl> {
   /// Returns the name of the protocol.
   String get name => c.getProtocolName(this).cast<Utf8>().toDartString();
 }
@@ -132,7 +132,7 @@ ObjectPtr getClass(String name) {
 }
 
 /// Only for use by FFIgen bindings.
-Pointer<c.ObjCProtocol> getProtocol(String name) {
+Pointer<c.ObjCProtocolImpl> getProtocol(String name) {
   final cstr = name.toNativeUtf8();
   final clazz = c.getProtocol(cstr.cast());
   calloc.free(cstr);
@@ -144,7 +144,7 @@ Pointer<c.ObjCProtocol> getProtocol(String name) {
 
 /// Only for use by FFIgen bindings.
 Pointer<Char>? getProtocolMethodSignature(
-  Pointer<c.ObjCProtocol> protocol,
+  Pointer<c.ObjCProtocolImpl> protocol,
   Pointer<c.ObjCSelector> sel, {
   required bool isRequired,
   required bool isInstanceMethod,
@@ -298,7 +298,7 @@ abstract final class _ObjCReference<T extends NativeType>
 
 // Wrapper around ObjCObjectRef/ObjCBlockRef. This is needed because
 // deeply-immutable classes must be final, but the FFIgen bindings need to
-// extend ObjCObjectBase/ObjCBlockBase.
+// extend ObjCObject/ObjCBlockBase.
 class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>> {
   final Ref ref;
 
@@ -312,7 +312,7 @@ class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>> {
 }
 
 @pragma('vm:deeply-immutable')
-final class ObjCObjectRef extends _ObjCReference<c.ObjCObject> {
+final class ObjCObjectRef extends _ObjCReference<c.ObjCObjectImpl> {
   ObjCObjectRef(ObjectPtr ptr, {required super.retain, required super.release})
     : super(_FinalizablePointer(ptr));
 
@@ -324,8 +324,8 @@ final class ObjCObjectRef extends _ObjCReference<c.ObjCObject> {
 }
 
 /// Only for use by FFIgen bindings.
-class ObjCObjectBase extends _ObjCRefHolder<c.ObjCObject, ObjCObjectRef> {
-  ObjCObjectBase(ObjectPtr ptr, {required bool retain, required bool release})
+class ObjCObject extends _ObjCRefHolder<c.ObjCObjectImpl, ObjCObjectRef> {
+  ObjCObject(ObjectPtr ptr, {required bool retain, required bool release})
     : super(ObjCObjectRef(ptr, retain: retain, release: release));
 }
 
@@ -361,9 +361,9 @@ bool _isValidClass(ObjectPtr clazz, {bool forceReloadClasses = false}) {
 }
 
 /// Only for use by FFIgen bindings.
-class ObjCProtocolBase extends ObjCObjectBase {
-  ObjCProtocolBase(super.ptr, {required super.retain, required super.release});
-}
+// This exists so that interface_lists_test.dart can tell the difference between
+// a protocol and an interface.
+typedef ObjCProtocol = ObjCObject;
 
 @pragma('vm:deeply-immutable')
 final class ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {

@@ -22,7 +22,7 @@ void main() {
 
     test('filled', () {
       final obj = NSObject();
-      final array = NSArray.filled(3, obj);
+      final array = NSArray.filled(3, obj).asDart();
 
       expect(array.length, 3);
 
@@ -42,11 +42,11 @@ void main() {
       final obj4 = NSObject();
       final obj5 = NSObject();
       final expected = [obj1, obj2, obj3, obj4, obj5];
-      final array = NSArray.of(expected);
+      final array = NSArray.of(expected).asDart();
 
       expect(array.length, 5);
 
-      final actual = <ObjCObjectBase>[];
+      final actual = <ObjCObject>[];
       for (final value in array) {
         actual.add(value);
       }
@@ -60,11 +60,49 @@ void main() {
       final obj4 = NSObject();
       final obj5 = NSObject();
       final expected = [obj1, obj2, obj3, obj4, obj5];
-      final array = NSArray.of(expected);
+      final array = NSArray.of(expected).asDart();
 
       expect(array.isNotEmpty, isTrue);
       expect(array.first, obj1);
       expect(array.toList(), expected);
+    });
+
+    test('ref counting', () async {
+      final pointers = <Pointer<ObjCObjectImpl>>[];
+      List<ObjCObject>? array;
+
+      autoReleasePool(() {
+        final obj1 = NSObject();
+        final obj2 = NSObject();
+        final obj3 = NSObject();
+        final obj4 = NSObject();
+        final obj5 = NSObject();
+        final objects = [obj1, obj2, obj3, obj4, obj5];
+        final objCArray = NSArray.of(objects);
+        array = objCArray.asDart();
+
+        pointers.addAll(array!.map((o) => o.ref.pointer));
+        pointers.add(objCArray.ref.pointer);
+
+        for (final pointer in pointers) {
+          expect(objectRetainCount(pointer), greaterThan(0));
+        }
+      });
+
+      doGC();
+      await Future<void>.delayed(Duration.zero);
+      doGC();
+      for (final pointer in pointers) {
+        expect(objectRetainCount(pointer), greaterThan(0));
+      }
+      array = null;
+
+      doGC();
+      await Future<void>.delayed(Duration.zero);
+      doGC();
+      for (final pointer in pointers) {
+        expect(objectRetainCount(pointer), 0);
+      }
     });
   });
 }

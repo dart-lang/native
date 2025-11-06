@@ -42,6 +42,7 @@ Future<void> main() async {
 // ignore_for_file: unnecessary_non_null_assertion
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
+// ignore_for_file: unused_import
 // coverage:ignore-file
 ''',
     ),

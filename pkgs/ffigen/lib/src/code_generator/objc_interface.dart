@@ -90,32 +90,34 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
     }
     s.write(makeDartDoc(dartDoc));
 
-    final versionCheck = apiAvailability.runtimeCheck(
-      ObjCBuiltInFunctions.checkOsVersion.gen(context),
-      originalName,
-    );
-    final ctorBody = versionCheck == null ? ';' : ' { $versionCheck }';
+    final ctorBody = [
+      apiAvailability.runtimeCheck(
+        ObjCBuiltInFunctions.checkOsVersion.gen(context),
+        originalName,
+      ),
+      if (!generateAsStub) 'assert(isA(object\$));',
+    ].nonNulls.join('\n    ');
 
     final rawObjType = PointerType(objCObjectType).getCType(context);
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(context);
-    final protos = protocols.map((p) => p.getDartType(context)).join(', ');
-    final protoImpl = protocols.isEmpty ? '' : 'implements $protos ';
+    final protos = [
+      wrapObjType,
+      ...[superType, ...protocols].nonNulls.map((p) => p.getDartType(context)),
+    ];
 
-    final superTypeDartType = superType?.getDartType(context) ?? wrapObjType;
-    final superCtor = superType == null ? 'super' : 'super.castFromPointer';
     s.write('''
-class $name extends $superTypeDartType $protoImpl{
-  $name._($rawObjType pointer, {bool retain = false, bool release = false}) :
-      $superCtor(pointer, retain: retain, release: release)$ctorBody
-
+extension type $name._($wrapObjType object\$) implements ${protos.join(',')} {
   /// Constructs a [$name] that points to the same underlying object as [other].
-  $name.castFrom($wrapObjType other) :
-      this._(other.ref.pointer, retain: true, release: true);
+  $name.as($wrapObjType other) : object\$ = other {
+    $ctorBody
+  }
 
   /// Constructs a [$name] that wraps the given raw object pointer.
-  $name.castFromPointer($rawObjType other,
+  $name.fromPointer($rawObjType other,
       {bool retain = false, bool release = false}) :
-      this._(other, retain: retain, release: release);
+          object\$ = $wrapObjType(other, retain: retain, release: release) {
+    $ctorBody
+  }
 
 ${generateAsStub ? '' : _generateStaticMethods(w)}
 }
@@ -141,12 +143,16 @@ ${generateInstanceMethodBindings(w, this)}
     final context = w.context;
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(context);
     final s = StringBuffer();
+    final isKindOfClass = _isKindOfClassMsgSend.invoke(
+      context,
+      'obj.ref.pointer',
+      _isKindOfClass.name,
+      [classObject.name],
+    );
 
     s.write('''
   /// Returns whether [obj] is an instance of [$name].
-  static bool isInstance($wrapObjType obj) {
-    return ${_isKindOfClassMsgSend.invoke(context, 'obj.ref.pointer', _isKindOfClass.name, [classObject.name])};
-  }
+  static bool isA($wrapObjType obj) => $isKindOfClass;
 ''');
 
     s.write(generateStaticMethodBindings(w, this));
@@ -163,7 +169,7 @@ ${generateInstanceMethodBindings(w, this)}
     if (newMethod != null && originalName != 'NSString') {
       s.write('''
   /// Returns a new instance of $name constructed with the default `new` method.
-  factory $name() => ${newMethod.name}();
+  $name() : this.as(${newMethod.name}().object\$);
 ''');
     }
 
@@ -229,7 +235,7 @@ ${generateInstanceMethodBindings(w, this)}
     bool objCRetain,
   ) {
     final ownershipFlags = 'retain: $objCRetain, release: true';
-    return '$className.castFromPointer($value, $ownershipFlags)';
+    return '$className.fromPointer($value, $ownershipFlags)';
   }
 
   @override

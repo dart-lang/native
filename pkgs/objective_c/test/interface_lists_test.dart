@@ -30,6 +30,11 @@ void expectSetsEqual(String name, Set<String> expected, Set<String> actual) {
   );
 }
 
+void mergeLinewithNext(List<String> lines, String toMerge) {
+  final i = lines.indexOf(toMerge);
+  lines[i] += lines.removeAt(i + 1);
+}
+
 void main() {
   group('Verify interface lists', () {
     late final List<String> bindings;
@@ -37,18 +42,27 @@ void main() {
       bindings = File(
         p.join(pkgDir, 'lib', 'src', 'objective_c_bindings_generated.dart'),
       ).readAsLinesSync().toList();
+
+      // HACK: NSAttributedStringMarkdownParsingOptions is such a long class
+      // name that its definition wraps, and the regex doesn't match. So find
+      // that line and merge it with the following one.
+      mergeLinewithNext(
+        bindings,
+        'extension type NSAttributedStringMarkdownParsingOptions._(',
+      );
     });
 
     Set<String> findBindings(RegExp re) =>
         bindings.map(re.firstMatch).nonNulls.map((match) => match[1]!).toSet();
 
-    Set<String> allClassNames() => findBindings(RegExp(r'^class ([^_]\w*) '));
-
     test('All code genned interfaces are included in the list', () {
+      final allClassNames = findBindings(
+        RegExp(r'^extension type ([^_]\w*)\._\( *objc\.ObjCObject '),
+      );
       expectSetsEqual(
         'generated classes',
         objCBuiltInInterfaces.values.toSet(),
-        allClassNames(),
+        allClassNames,
       );
     });
 
@@ -71,7 +85,9 @@ void main() {
     });
 
     test('All code genned protocols are included in the list', () {
-      final allProtocolNames = findBindings(RegExp(r'^interface class (\w+) '));
+      final allProtocolNames = findBindings(
+        RegExp(r'^extension type ([^_]\w*)\._\(objc\.ObjCProtocol '),
+      );
       expectSetsEqual(
         'generated protocols',
         objCBuiltInProtocols.values.toSet(),

@@ -326,7 +326,7 @@ void main() {
       });
       test('with self delegate', () async {
         late DartInputStreamAdapter? inputStream;
-        late Pointer<ObjCObject> ptr;
+        late Pointer<ObjCObjectImpl> ptr;
         autoReleasePool(() {
           inputStream =
               Stream.fromIterable([
@@ -353,7 +353,7 @@ void main() {
 
       test('with non-self delegate', () async {
         late DartInputStreamAdapter? inputStream;
-        late Pointer<ObjCObject> ptr;
+        late Pointer<ObjCObjectImpl> ptr;
         autoReleasePool(() {
           inputStream =
               Stream.fromIterable([
@@ -361,7 +361,7 @@ void main() {
                   ]).toNSInputStream()
                   as DartInputStreamAdapter;
 
-          inputStream!.delegate = NSStreamDelegate.castFrom(NSObject());
+          inputStream!.delegate = NSStreamDelegate.as(NSObject());
           expect(inputStream!.delegate, isNot(inputStream));
 
           ptr = inputStream!.ref.pointer;

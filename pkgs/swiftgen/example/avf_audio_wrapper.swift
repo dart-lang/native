@@ -152,22 +152,22 @@ import Foundation
   }
 
   @available(macOS, introduced: 10.7)
-  @objc init(contentsOf url: URL) throws {
+  @objc public init(contentsOf url: URL) throws {
     wrappedInstance = try AVAudioPlayer(contentsOf: url)
   }
 
   @available(macOS, introduced: 10.9)
-  @objc init(contentsOf url: URL, fileTypeHint utiString: String?) throws {
+  @objc public init(contentsOf url: URL, fileTypeHint utiString: String?) throws {
     wrappedInstance = try AVAudioPlayer(contentsOf: url, fileTypeHint: utiString)
   }
 
   @available(macOS, introduced: 10.7)
-  @objc init(data: Data) throws {
+  @objc public init(data: Data) throws {
     wrappedInstance = try AVAudioPlayer(data: data)
   }
 
   @available(macOS, introduced: 10.9)
-  @objc init(data: Data, fileTypeHint utiString: String?) throws {
+  @objc public init(data: Data, fileTypeHint utiString: String?) throws {
     wrappedInstance = try AVAudioPlayer(data: data, fileTypeHint: utiString)
   }
 

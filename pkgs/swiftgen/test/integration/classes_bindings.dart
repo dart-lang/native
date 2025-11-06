@@ -25,32 +25,32 @@ final _objc_msgSend_19nvye5 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
         ffi.Bool Function(
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
         )
       >
     >()
     .asFunction<
       bool Function(
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
 late final _sel_create = objc.registerName("create");
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObject> Function(
-          ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
         )
       >
     >()
     .asFunction<
-      ffi.Pointer<objc.ObjCObject> Function(
-        ffi.Pointer<objc.ObjCObject>,
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
@@ -62,7 +62,7 @@ final _objc_msgSend_12hwf9n = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
         ffi.Long Function(
-          ffi.Pointer<objc.ObjCObject>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
           ffi.Long,
         )
@@ -70,29 +70,29 @@ final _objc_msgSend_12hwf9n = objc.msgSendPointer
     >()
     .asFunction<
       int Function(
-        ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         int,
       )
     >();
-typedef instancetype = ffi.Pointer<objc.ObjCObject>;
-typedef Dartinstancetype = objc.ObjCObjectBase;
+typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
+typedef Dartinstancetype = objc.ObjCObject;
 late final _sel_init = objc.registerName("init");
 late final _sel_new = objc.registerName("new");
 late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
 final _objc_msgSend_1cwp428 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObject> Function(
-          ffi.Pointer<objc.ObjCObject>,
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
           ffi.Pointer<objc.NSZone>,
         )
       >
     >()
     .asFunction<
-      ffi.Pointer<objc.ObjCObject> Function(
-        ffi.Pointer<objc.ObjCObject>,
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         ffi.Pointer<objc.NSZone>,
       )
@@ -100,32 +100,28 @@ final _objc_msgSend_1cwp428 = objc.msgSendPointer
 late final _sel_alloc = objc.registerName("alloc");
 
 /// TestOtherClassWrapper
-class TestOtherClassWrapper extends objc.NSObject {
-  TestOtherClassWrapper._(
-    ffi.Pointer<objc.ObjCObject> pointer, {
-    bool retain = false,
-    bool release = false,
-  }) : super.castFromPointer(pointer, retain: retain, release: release);
-
+extension type TestOtherClassWrapper._(objc.ObjCObject object$)
+    implements objc.ObjCObject, objc.NSObject {
   /// Constructs a [TestOtherClassWrapper] that points to the same underlying object as [other].
-  TestOtherClassWrapper.castFrom(objc.ObjCObjectBase other)
-    : this._(other.ref.pointer, retain: true, release: true);
+  TestOtherClassWrapper.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
 
   /// Constructs a [TestOtherClassWrapper] that wraps the given raw object pointer.
-  TestOtherClassWrapper.castFromPointer(
-    ffi.Pointer<objc.ObjCObject> other, {
+  TestOtherClassWrapper.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
     bool retain = false,
     bool release = false,
-  }) : this._(other, retain: retain, release: release);
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
 
   /// Returns whether [obj] is an instance of [TestOtherClassWrapper].
-  static bool isInstance(objc.ObjCObjectBase obj) {
-    return _objc_msgSend_19nvye5(
-      obj.ref.pointer,
-      _sel_isKindOfClass_,
-      _class_TestOtherClassWrapper,
-    );
-  }
+  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
+    obj.ref.pointer,
+    _sel_isKindOfClass_,
+    _class_TestOtherClassWrapper,
+  );
 
   /// alloc
   static TestOtherClassWrapper alloc() {
@@ -133,7 +129,7 @@ class TestOtherClassWrapper extends objc.NSObject {
       _class_TestOtherClassWrapper,
       _sel_alloc,
     );
-    return TestOtherClassWrapper.castFromPointer(
+    return TestOtherClassWrapper.fromPointer(
       $ret,
       retain: false,
       release: true,
@@ -147,7 +143,7 @@ class TestOtherClassWrapper extends objc.NSObject {
       _sel_allocWithZone_,
       zone,
     );
-    return TestOtherClassWrapper.castFromPointer(
+    return TestOtherClassWrapper.fromPointer(
       $ret,
       retain: false,
       release: true,
@@ -157,7 +153,7 @@ class TestOtherClassWrapper extends objc.NSObject {
   /// new
   static TestOtherClassWrapper new$() {
     final $ret = _objc_msgSend_151sglz(_class_TestOtherClassWrapper, _sel_new);
-    return TestOtherClassWrapper.castFromPointer(
+    return TestOtherClassWrapper.fromPointer(
       $ret,
       retain: false,
       release: true,
@@ -165,7 +161,7 @@ class TestOtherClassWrapper extends objc.NSObject {
   }
 
   /// Returns a new instance of TestOtherClassWrapper constructed with the default `new` method.
-  factory TestOtherClassWrapper() => new$();
+  TestOtherClassWrapper() : this.as(new$().object$);
 }
 
 extension TestOtherClassWrapper$Methods on TestOtherClassWrapper {
@@ -177,10 +173,10 @@ extension TestOtherClassWrapper$Methods on TestOtherClassWrapper {
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      this.ref.retainAndReturnPointer(),
+      object$.ref.retainAndReturnPointer(),
       _sel_init,
     );
-    return TestOtherClassWrapper.castFromPointer(
+    return TestOtherClassWrapper.fromPointer(
       $ret,
       retain: false,
       release: true,
@@ -189,44 +185,40 @@ extension TestOtherClassWrapper$Methods on TestOtherClassWrapper {
 
   /// times10WithX:
   int times10WithX(int x) {
-    return _objc_msgSend_12hwf9n(this.ref.pointer, _sel_times10WithX_, x);
+    return _objc_msgSend_12hwf9n(object$.ref.pointer, _sel_times10WithX_, x);
   }
 }
 
 late final _sel_myMethod = objc.registerName("myMethod");
 
 /// TestClassWrapper
-class TestClassWrapper extends objc.NSObject {
-  TestClassWrapper._(
-    ffi.Pointer<objc.ObjCObject> pointer, {
-    bool retain = false,
-    bool release = false,
-  }) : super.castFromPointer(pointer, retain: retain, release: release);
-
+extension type TestClassWrapper._(objc.ObjCObject object$)
+    implements objc.ObjCObject, objc.NSObject {
   /// Constructs a [TestClassWrapper] that points to the same underlying object as [other].
-  TestClassWrapper.castFrom(objc.ObjCObjectBase other)
-    : this._(other.ref.pointer, retain: true, release: true);
+  TestClassWrapper.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
 
   /// Constructs a [TestClassWrapper] that wraps the given raw object pointer.
-  TestClassWrapper.castFromPointer(
-    ffi.Pointer<objc.ObjCObject> other, {
+  TestClassWrapper.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
     bool retain = false,
     bool release = false,
-  }) : this._(other, retain: retain, release: release);
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
 
   /// Returns whether [obj] is an instance of [TestClassWrapper].
-  static bool isInstance(objc.ObjCObjectBase obj) {
-    return _objc_msgSend_19nvye5(
-      obj.ref.pointer,
-      _sel_isKindOfClass_,
-      _class_TestClassWrapper,
-    );
-  }
+  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
+    obj.ref.pointer,
+    _sel_isKindOfClass_,
+    _class_TestClassWrapper,
+  );
 
   /// alloc
   static TestClassWrapper alloc() {
     final $ret = _objc_msgSend_151sglz(_class_TestClassWrapper, _sel_alloc);
-    return TestClassWrapper.castFromPointer($ret, retain: false, release: true);
+    return TestClassWrapper.fromPointer($ret, retain: false, release: true);
   }
 
   /// allocWithZone:
@@ -236,23 +228,23 @@ class TestClassWrapper extends objc.NSObject {
       _sel_allocWithZone_,
       zone,
     );
-    return TestClassWrapper.castFromPointer($ret, retain: false, release: true);
+    return TestClassWrapper.fromPointer($ret, retain: false, release: true);
   }
 
   /// create
   static TestClassWrapper create() {
     final $ret = _objc_msgSend_151sglz(_class_TestClassWrapper, _sel_create);
-    return TestClassWrapper.castFromPointer($ret, retain: true, release: true);
+    return TestClassWrapper.fromPointer($ret, retain: true, release: true);
   }
 
   /// new
   static TestClassWrapper new$() {
     final $ret = _objc_msgSend_151sglz(_class_TestClassWrapper, _sel_new);
-    return TestClassWrapper.castFromPointer($ret, retain: false, release: true);
+    return TestClassWrapper.fromPointer($ret, retain: false, release: true);
   }
 
   /// Returns a new instance of TestClassWrapper constructed with the default `new` method.
-  factory TestClassWrapper() => new$();
+  TestClassWrapper() : this.as(new$().object$);
 }
 
 extension TestClassWrapper$Methods on TestClassWrapper {
@@ -264,19 +256,15 @@ extension TestClassWrapper$Methods on TestClassWrapper {
       macOS: (false, (10, 0, 0)),
     );
     final $ret = _objc_msgSend_151sglz(
-      this.ref.retainAndReturnPointer(),
+      object$.ref.retainAndReturnPointer(),
       _sel_init,
     );
-    return TestClassWrapper.castFromPointer($ret, retain: false, release: true);
+    return TestClassWrapper.fromPointer($ret, retain: false, release: true);
   }
 
   /// myMethod
   TestOtherClassWrapper myMethod() {
-    final $ret = _objc_msgSend_151sglz(this.ref.pointer, _sel_myMethod);
-    return TestOtherClassWrapper.castFromPointer(
-      $ret,
-      retain: true,
-      release: true,
-    );
+    final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_myMethod);
+    return TestOtherClassWrapper.fromPointer($ret, retain: true, release: true);
   }
 }

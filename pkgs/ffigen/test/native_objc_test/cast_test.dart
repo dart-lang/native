@@ -44,15 +44,15 @@ void main() {
       generateBindingsForCoverage('cast');
     });
 
-    test('castFrom', () {
-      final fromCast = Castaway.castFrom(testInstance!.meAsNSObject());
+    test('as', () {
+      final fromCast = Castaway.as(testInstance!.meAsNSObject());
       expect(fromCast, testInstance!);
     });
 
-    test('castFromPointer', () {
+    test('fromPointer', () {
       final meAsInt = testInstance!.meAsInt();
-      final fromCast = Castaway.castFromPointer(
-        Pointer<ObjCObject>.fromAddress(meAsInt),
+      final fromCast = Castaway.fromPointer(
+        Pointer<ObjCObjectImpl>.fromAddress(meAsInt),
       );
       expect(fromCast, testInstance!);
     });
@@ -64,16 +64,16 @@ void main() {
 
     test('equality equals', () {
       final meAsInt = testInstance!.meAsInt();
-      final fromCast = Castaway.castFromPointer(
-        Pointer<ObjCObject>.fromAddress(meAsInt),
+      final fromCast = Castaway.fromPointer(
+        Pointer<ObjCObjectImpl>.fromAddress(meAsInt),
       );
       expect(fromCast, testInstance!);
     });
 
     test('equality not equals', () {
       final meAsInt = testInstance!.meAsInt();
-      final fromCast = Castaway.castFromPointer(
-        Pointer<ObjCObject>.fromAddress(meAsInt),
+      final fromCast = Castaway.fromPointer(
+        Pointer<ObjCObjectImpl>.fromAddress(meAsInt),
       );
       expect(fromCast, isNot(equals(NSObject())));
     });

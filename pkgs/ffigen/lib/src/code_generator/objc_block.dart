@@ -198,7 +198,7 @@ class ObjCBlock extends BindingType with HasLocalScope {
 /// Construction methods for `$blockType`.
 abstract final class $name {
   /// Returns a block that wraps the given raw block pointer.
-  static $blockType castFromPointer($blockCType pointer,
+  static $blockType fromPointer($blockCType pointer,
       {bool retain = false, bool release = false}) =>
       $blockType(pointer, retain: retain, release: release);
 

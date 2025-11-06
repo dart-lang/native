@@ -8,6 +8,7 @@ import 'dart:io';
 import 'package:args/args.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
+import '../example/objective_c/generate_code.dart' as example_objective_c;
 import 'test_utils.dart';
 
 const usage = r'''Regenerates the Dart FFI bindings used in tests and examples.
@@ -52,6 +53,6 @@ Future<void> main(List<String> args) async {
   _regenConfig(logger, 'example/c_json/config.yaml');
   if (Platform.isMacOS) {
     _regenConfig(logger, 'example/swift/config.yaml');
-    _regenConfig(logger, 'example/objective_c/config.yaml');
+    example_objective_c.main();
   }
 }

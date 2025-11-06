@@ -22,7 +22,7 @@ FFI_EXPORT bool DOBJC_isValidBlock(ObjCBlockImpl *block);
 // Returns a new Dart_FinalizableHandle that will clean up the object when the
 // Dart owner is garbage collected.
 FFI_EXPORT Dart_FinalizableHandle
-DOBJC_newFinalizableHandle(Dart_Handle owner, ObjCObject *object);
+DOBJC_newFinalizableHandle(Dart_Handle owner, ObjCObjectImpl *object);
 
 // Delete a finalizable handle. Doesn't run the finalization callback, so
 // doesn't clean up the assocated pointer.

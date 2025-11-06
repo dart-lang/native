@@ -26,8 +26,8 @@ void main() {
       final obj3 = NSObject();
       final obj4 = NSObject();
       final obj5 = NSObject();
-      final expected = {obj1, obj2, obj3, obj4, obj5};
-      final s = NSSet.of(expected);
+      final expected = <NSObject>{obj1, obj2, obj3, obj4, obj5};
+      final s = NSSet.of(expected).asDart();
 
       expect(s.length, 5);
 
@@ -41,7 +41,7 @@ void main() {
       expect((s as Set).lookup(123), null);
       expect(s.lookup(null), null);
 
-      final actual = <ObjCObjectBase>[];
+      final actual = <ObjCObject>[];
       for (final value in s) {
         actual.add(value);
       }
@@ -60,7 +60,9 @@ void main() {
       // NSSet.of actually returns a NSMutableSet, so our immutability tests
       // wouldn't actually work. So convert it to a real NSSet using an ObjC
       // constructor.
-      final s = NSSet.setWithSet(NSSet.of({obj1, obj2, obj3, obj4, obj5}));
+      final s = NSSet.setWithSet(
+        NSSet.of(<NSObject>{obj1, obj2, obj3, obj4, obj5}),
+      ).asDart();
 
       expect(() => s.add(NSObject()), throwsUnsupportedError);
       expect(() => s.remove(obj3), throwsUnsupportedError);
@@ -73,12 +75,50 @@ void main() {
       final obj3 = NSObject();
       final obj4 = NSObject();
       final obj5 = NSObject();
-      final expected = {obj1, obj2, obj3, obj4, obj5};
-      final s = NSSet.of(expected);
+      final expected = <NSObject>{obj1, obj2, obj3, obj4, obj5};
+      final s = NSSet.of(expected).asDart();
 
       expect(s.isNotEmpty, isTrue);
-      expect(s.intersection({obj5, obj2, null, 123}), {obj5, obj2});
+      expect(s.intersection(<Object?>{obj5, obj2, null, 123}), {obj5, obj2});
       expect(s.toList(), expected);
+    });
+
+    test('ref counting', () async {
+      final pointers = <Pointer<ObjCObjectImpl>>[];
+      Set<ObjCObject>? set;
+
+      autoReleasePool(() {
+        final obj1 = NSObject();
+        final obj2 = NSObject();
+        final obj3 = NSObject();
+        final obj4 = NSObject();
+        final obj5 = NSObject();
+        final objects = [obj1, obj2, obj3, obj4, obj5];
+        final objCSet = NSSet.of(objects);
+        set = objCSet.asDart();
+
+        pointers.addAll(set!.map((o) => o.ref.pointer));
+        pointers.add(objCSet.ref.pointer);
+
+        for (final pointer in pointers) {
+          expect(objectRetainCount(pointer), greaterThan(0));
+        }
+      });
+
+      doGC();
+      await Future<void>.delayed(Duration.zero);
+      doGC();
+      for (final pointer in pointers) {
+        expect(objectRetainCount(pointer), greaterThan(0));
+      }
+      set = null;
+
+      doGC();
+      await Future<void>.delayed(Duration.zero);
+      doGC();
+      for (final pointer in pointers) {
+        expect(objectRetainCount(pointer), 0);
+      }
     });
   });
 }

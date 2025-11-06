@@ -125,7 +125,7 @@ class ObjCObjectPointer extends PointerType {
 
   @override
   String getDartType(Context context) =>
-      '${context.libs.prefix(objcPkgImport)}.ObjCObjectBase';
+      '${context.libs.prefix(objcPkgImport)}.ObjCObject';
 
   @override
   String getNativeType({String varName = ''}) => 'id $varName';

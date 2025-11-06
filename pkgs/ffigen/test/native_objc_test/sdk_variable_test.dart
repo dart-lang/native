@@ -49,15 +49,15 @@ void main() {
     });
 
     test('XCODE', () {
-      expect(bindings, contains('class NSColorPicker '));
+      expect(bindings, contains('extension type NSColorPicker.'));
     });
 
     test('IOS_SDK', () {
-      expect(bindings, contains('class UIPickerView '));
+      expect(bindings, contains('extension type UIPickerView.'));
     });
 
     test('MACOS_SDK', () {
-      expect(bindings, contains('class NSTextList '));
+      expect(bindings, contains('extension type NSTextList.'));
     });
   });
 }
