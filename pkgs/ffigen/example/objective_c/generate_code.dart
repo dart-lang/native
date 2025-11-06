@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import 'package:ffigen/ffigen.dart';
 import 'package:logging/logging.dart';
 
@@ -27,16 +29,13 @@ final config = FfiGenerator(
 
   output: Output(
     // The Dart file where the bindings will be generated.
-    dartFile: Uri.file('avf_audio_bindings.dart'),
+    dartFile: Platform.script.resolve('avf_audio_bindings.dart'),
 
     // Preamble text to put at the top of the generated file.
     preamble: '''
 // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
-
-// TODO(https://github.com/dart-lang/native/issues/2748): Remove this ignore.
-// ignore_for_file: unused_import
 ''',
   ),
 );
