@@ -37,9 +37,6 @@ void main() {
             wrapperName: 'LibClang',
             wrapperDocComment: 'Bindings to LibClang.',
           ),
-          preamble: '''
-// ignore_for_file: camel_case_types, non_constant_identifier_names
-''',
         ),
         headers: Headers(
           compilerOptions: [
@@ -137,9 +134,6 @@ void main() {
             wrapperName: 'CJson',
             wrapperDocComment: 'Bindings to Cjson.',
           ),
-          preamble: '''
-// ignore_for_file: camel_case_types, non_constant_identifier_names
-''',
         ),
         headers: Headers(
           entryPoints: [
@@ -179,9 +173,6 @@ void main() {
             wrapperDocComment: 'Bindings to SQLite.',
           ),
           commentType: const CommentType(CommentStyle.any, CommentLength.full),
-          preamble: '''
-// ignore_for_file: camel_case_types, non_constant_identifier_names
-''',
         ),
         headers: Headers(
           entryPoints: [

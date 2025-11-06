@@ -36,9 +36,6 @@ ${strings.functions}:
   ${strings.leafFunctions}:
     ${strings.include}:
       - func1
-
-${strings.preamble}: |
-  // ignore_for_file: camel_case_types
         '''),
         ),
       );
