@@ -1,4 +1,4 @@
-## 0.15.0-wip
+## 0.15.0
 
 - Changed the names of internal type classes.
 - **Breaking Change**: Removed `exclude` from config.
