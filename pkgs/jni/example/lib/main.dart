@@ -5,6 +5,7 @@
 // ignore_for_file: library_private_types_in_public_api
 
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:jni/jni.dart';
@@ -32,18 +33,17 @@ String backAndForth() {
 }
 
 void quit() {
-  JObject.fromReference(Jni.getCurrentActivity()).use((ac) =>
-      ac.jClass.instanceMethodId("finish", "()V").call(ac, jvoid.type, []));
+  final activity = Jni.androidActivity(PlatformDispatcher.instance.engineId!);
+  if (activity == null) return;
+  activity.jClass
+      .instanceMethodId("finish", "()V")
+      .call(activity, jvoid.type, []);
+  activity.release();
 }
 
 void showToast(String text) {
-  // This is example for calling your app's custom java code.
-  // Place the Toaster class in the app's android/ source Folder, with a Keep
-  // annotation or appropriate proguard rules to retain classes in release mode.
-  //
-  // In this example, Toaster class wraps android.widget.Toast so that it
-  // can be called from any thread. See
-  // android/app/src/main/java/com/github/dart_lang/jni_example/Toaster.java
+  final activity = Jni.androidActivity(PlatformDispatcher.instance.engineId!);
+  if (activity == null) return;
   final toasterClass =
       JClass.forName('com/github/dart_lang/jni_example/Toaster');
   final makeText = toasterClass.staticMethodId(
@@ -51,17 +51,24 @@ void showToast(String text) {
       '(Landroid/app/Activity;Landroid/content/Context;'
           'Ljava/lang/CharSequence;I)'
           'Lcom/github/dart_lang/jni_example/Toaster;');
-  final toaster = makeText.call(toasterClass, JObject.type, [
-    Jni.getCurrentActivity(),
-    Jni.getCachedApplicationContext(),
-    '😀'.toJString(),
+  final applicationContext =
+      Jni.androidApplicationContext(PlatformDispatcher.instance.engineId!);
+  final toaster = makeText(toasterClass, JObject.type, [
+    activity,
+    applicationContext,
+    text.toJString(),
     0,
   ]);
   final show = toasterClass.instanceMethodId('show', '()V');
   show(toaster, jvoid.type, []);
+  toaster.release();
+  applicationContext.release();
+  activity.release();
+  text.toJString().release();
 }
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   if (!Platform.isAndroid) {
     Jni.spawn();
   }
@@ -80,13 +87,22 @@ void main() {
       }),
       Example(
         "Package name",
-        () => JObject.fromReference(Jni.getCurrentActivity()).use((activity) =>
-            activity.jClass
-                .instanceMethodId("getPackageName", "()Ljava/lang/String;")
-                .call(activity, JString.type, [])),
+        () {
+          final activity =
+              Jni.androidActivity(PlatformDispatcher.instance.engineId!);
+          if (activity == null) return "Activity not available";
+          final packageName = activity.jClass
+              .instanceMethodId("getPackageName", "()Ljava/lang/String;")
+              .call(activity, JString.type, []);
+          activity.release();
+          return packageName;
+        },
       ),
-      Example("Show toast", () => showToast("Hello from JNI!"),
-          runInitially: false),
+      Example(
+        "Show toast",
+        () => showToast("Hello from JNI!"),
+        runInitially: false,
+      ),
       Example(
         "Quit",
         quit,
@@ -104,19 +120,9 @@ class Example {
   Example(this.title, this.callback, {this.runInitially = true});
 }
 
-class MyApp extends StatefulWidget {
+class MyApp extends StatelessWidget {
   const MyApp(this.examples, {super.key});
   final List<Example> examples;
-
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  @override
-  void initState() {
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -126,11 +132,12 @@ class _MyAppState extends State<MyApp> {
           title: const Text('JNI Examples'),
         ),
         body: ListView.builder(
-            itemCount: widget.examples.length,
-            itemBuilder: (context, i) {
-              final eg = widget.examples[i];
-              return ExampleCard(eg);
-            }),
+          itemCount: examples.length,
+          itemBuilder: (context, i) {
+            final eg = examples[i];
+            return ExampleCard(eg);
+          },
+        ),
       ),
     );
   }

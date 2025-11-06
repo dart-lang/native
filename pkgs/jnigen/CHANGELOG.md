@@ -2,7 +2,8 @@
 
 - Changed the names of internal type classes.
 - **Breaking Change**: Removed `exclude` from config.
-- Update to the latest lints.
+- Updated to the latest lints.
+- Sorted imports.
 
 ## 0.14.2
 

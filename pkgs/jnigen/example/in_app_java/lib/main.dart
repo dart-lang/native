@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jni/jni.dart';
 
@@ -9,8 +10,8 @@ import 'package:jni/jni.dart';
 // structure.
 import 'android_utils.g.dart';
 
-JObject activity = JObject.fromReference(Jni.getCurrentActivity());
-JObject context = JObject.fromReference(Jni.getCachedApplicationContext());
+JObject context =
+    Jni.androidApplicationContext(PlatformDispatcher.instance.engineId!);
 
 final hashmap = HashMap(K: JString.type, V: JString.type);
 
@@ -38,7 +39,11 @@ void showToast() {
       : ':cool:';
   final message =
       '${newToastCount.toDartString()} - ${Build.MODEL!.toDartString()} $emoji';
-  AndroidUtils.showToast(activity, message.toJString(), 0);
+  AndroidUtils.showToast(
+    Jni.androidActivity(PlatformDispatcher.instance.engineId!),
+    message.toJString(),
+    0,
+  );
 }
 
 void main() {

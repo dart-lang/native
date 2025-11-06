@@ -7,48 +7,72 @@ package com.github.dart_lang.jni;
 import android.app.Activity;
 import android.content.Context;
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 import io.flutter.embedding.engine.plugins.activity.ActivityAware;
 import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
+import java.util.Objects;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class JniPlugin implements FlutterPlugin, ActivityAware {
+  private static final ConcurrentHashMap<Long, JniPlugin> pluginMap = new ConcurrentHashMap<>();
+
+  private long engineId;
+  private volatile Context context;
+  private volatile Activity activity;
+
+  public static @NonNull Context getApplicationContext(long engineId) {
+    return Objects.requireNonNull(pluginMap.get(engineId)).context;
+  }
+
+  public static @Nullable Activity getActivity(long engineId) {
+    return Objects.requireNonNull(pluginMap.get(engineId)).activity;
+  }
 
   @Override
+  @SuppressWarnings("deprecation")
   public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {
-    setup(binding.getApplicationContext());
-  }
-
-  private void setup(Context context) {
-    initializeJni(context, getClass().getClassLoader());
+    //noinspection deprecation
+    engineId = binding.getFlutterEngine().getEngineId();
+    context = binding.getApplicationContext();
+    pluginMap.put(engineId, this);
   }
 
   @Override
-  public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {}
+  public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
+    context = null;
+    activity = null;
+    pluginMap.remove(engineId);
+  }
 
-  // Activity handling methods
+  private void setActivity(Activity newActivity) {
+    activity = newActivity;
+  }
+
   @Override
   public void onAttachedToActivity(@NonNull ActivityPluginBinding binding) {
-    Activity activity = binding.getActivity();
-    setJniActivity(activity, activity.getApplicationContext());
+    setActivity(binding.getActivity());
   }
 
   @Override
-  public void onDetachedFromActivityForConfigChanges() {}
+  public void onDetachedFromActivityForConfigChanges() {
+    setActivity(null);
+  }
 
   @Override
   public void onReattachedToActivityForConfigChanges(@NonNull ActivityPluginBinding binding) {
-    Activity activity = binding.getActivity();
-    setJniActivity(activity, activity.getApplicationContext());
+    setActivity(binding.getActivity());
   }
 
   @Override
-  public void onDetachedFromActivity() {}
+  public void onDetachedFromActivity() {
+    setActivity(null);
+  }
 
-  native void initializeJni(Context context, ClassLoader classLoader);
-
-  native void setJniActivity(Activity activity, Context context);
+  static native void setClassLoader(ClassLoader classLoader);
 
   static {
     System.loadLibrary("dartjni");
+    setClassLoader(JniPlugin.class.getClassLoader());
   }
 }

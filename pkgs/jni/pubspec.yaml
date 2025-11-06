@@ -17,7 +17,7 @@ topics:
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
-  flutter: '>=2.11.0'
+  flutter: '>=3.35.6'
 
 dependencies:
   args: ^2.5.0
@@ -31,6 +31,8 @@ dev_dependencies:
   dart_flutter_team_lints: ^3.5.2
   ffigen:
     path: ../ffigen
+  jnigen:
+    path: ../jnigen
   logging: ^1.2.0
   test: ^1.25.8
 
