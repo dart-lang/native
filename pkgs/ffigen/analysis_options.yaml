@@ -10,8 +10,6 @@ analyzer:
 
     # Exclude anything that uses package:objective_c, due to flutter dependency.
     # https://github.com/dart-lang/native/issues/1068
-    - example/objective_c/**
-    - example/swift/**
     - test_flutter/native_objc_test/**
     - test/native_objc_test/**
   language:

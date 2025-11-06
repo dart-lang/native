@@ -3,14 +3,15 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
+
 import 'package:objective_c/objective_c.dart';
-import 'swift_api_bindings.dart';
 
 // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-import '../../../objective_c/test/setup.dart' as objCSetup;
+import '../../../objective_c/test/setup.dart' as objc_setup;
+import 'swift_api_bindings.dart';
 
 void main() {
-  objCSetup.main([]);
+  objc_setup.main([]);
 
   // TODO(https://github.com/dart-lang/ffigen/issues/443): Add a test for this.
   DynamicLibrary.open('libswiftapi.dylib');

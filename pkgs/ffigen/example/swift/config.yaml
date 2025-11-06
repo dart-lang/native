@@ -18,8 +18,5 @@ preamble: |
   // for details. All rights reserved. Use of this source code is governed by a
   // BSD-style license that can be found in the LICENSE file.
 
-  // ignore_for_file: camel_case_types, non_constant_identifier_names
-  // ignore_for_file: unused_element, unused_field, return_of_invalid_type
-  // ignore_for_file: void_checks, annotate_overrides
-  // ignore_for_file: no_leading_underscores_for_local_identifiers
-  // ignore_for_file: library_private_types_in_public_api
+  // TODO(https://github.com/dart-lang/native/issues/2748): Remove this ignore.
+  // ignore_for_file: unused_import
