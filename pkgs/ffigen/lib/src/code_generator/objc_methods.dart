@@ -390,13 +390,17 @@ class ObjCMethod extends AstNode with HasLocalScope {
   // relies on the type always being exactly NSError).
   bool get returnsNSErrorByOutParam {
     final p = _params.lastOrNull;
-    if (p == null || p.originalName != 'error') return false;
+    if (p == null) return false;
+    if (!_errorOutParamNames.contains(p.originalName)) return false;
     final t = p.type;
     if (t is! PointerType) return false;
-    final c = t.child;
+    var c = t.child;
+    if (c is ObjCNullable) c = c.child;
     if (c is! ObjCInterface) return false;
     return ObjCBuiltInFunctions.isNSError(c.originalName);
   }
+
+  static const _errorOutParamNames = {'error', 'outError'};
 
   String _getConvertedReturnType(Context context, String instanceType) {
     if (returnType is ObjCInstanceType) return instanceType;

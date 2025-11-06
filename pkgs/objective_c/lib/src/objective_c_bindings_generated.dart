@@ -1970,24 +1970,29 @@ extension NSAttributedString$Methods on NSAttributedString {
     NSURL markdownFile, {
     NSAttributedStringMarkdownParsingOptions? options,
     NSURL? baseURL,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     objc.checkOsVersionInternal(
       'NSAttributedString.initWithContentsOfMarkdownFileAtURL:options:baseURL:error:',
       iOS: (false, (15, 0, 0)),
       macOS: (false, (12, 0, 0)),
     );
-    final $ret = _objc_msgSend_1k0ezzm(
-      object$.ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfMarkdownFileAtURL_options_baseURL_error_,
-      markdownFile.ref.pointer,
-      options?.ref.pointer ?? ffi.nullptr,
-      baseURL?.ref.pointer ?? ffi.nullptr,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSAttributedString.fromPointer($ret, retain: false, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1k0ezzm(
+        object$.ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfMarkdownFileAtURL_options_baseURL_error_,
+        markdownFile.ref.pointer,
+        options?.ref.pointer ?? ffi.nullptr,
+        baseURL?.ref.pointer ?? ffi.nullptr,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSAttributedString.fromPointer($ret, retain: false, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// initWithFormat:options:locale:
@@ -2048,24 +2053,29 @@ extension NSAttributedString$Methods on NSAttributedString {
     NSData markdown, {
     NSAttributedStringMarkdownParsingOptions? options,
     NSURL? baseURL,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     objc.checkOsVersionInternal(
       'NSAttributedString.initWithMarkdown:options:baseURL:error:',
       iOS: (false, (15, 0, 0)),
       macOS: (false, (12, 0, 0)),
     );
-    final $ret = _objc_msgSend_1k0ezzm(
-      object$.ref.retainAndReturnPointer(),
-      _sel_initWithMarkdown_options_baseURL_error_,
-      markdown.ref.pointer,
-      options?.ref.pointer ?? ffi.nullptr,
-      baseURL?.ref.pointer ?? ffi.nullptr,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSAttributedString.fromPointer($ret, retain: false, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1k0ezzm(
+        object$.ref.retainAndReturnPointer(),
+        _sel_initWithMarkdown_options_baseURL_error_,
+        markdown.ref.pointer,
+        options?.ref.pointer ?? ffi.nullptr,
+        baseURL?.ref.pointer ?? ffi.nullptr,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSAttributedString.fromPointer($ret, retain: false, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// initWithMarkdownString:options:baseURL:error:
@@ -2076,24 +2086,29 @@ extension NSAttributedString$Methods on NSAttributedString {
     NSString markdownString, {
     NSAttributedStringMarkdownParsingOptions? options,
     NSURL? baseURL,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     objc.checkOsVersionInternal(
       'NSAttributedString.initWithMarkdownString:options:baseURL:error:',
       iOS: (false, (15, 0, 0)),
       macOS: (false, (12, 0, 0)),
     );
-    final $ret = _objc_msgSend_1k0ezzm(
-      object$.ref.retainAndReturnPointer(),
-      _sel_initWithMarkdownString_options_baseURL_error_,
-      markdownString.ref.pointer,
-      options?.ref.pointer ?? ffi.nullptr,
-      baseURL?.ref.pointer ?? ffi.nullptr,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSAttributedString.fromPointer($ret, retain: false, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1k0ezzm(
+        object$.ref.retainAndReturnPointer(),
+        _sel_initWithMarkdownString_options_baseURL_error_,
+        markdownString.ref.pointer,
+        options?.ref.pointer ?? ffi.nullptr,
+        baseURL?.ref.pointer ?? ffi.nullptr,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSAttributedString.fromPointer($ret, retain: false, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// initWithString:
@@ -3005,17 +3020,24 @@ extension NSBundle$Methods on NSBundle {
   }
 
   /// loadAndReturnError:
-  bool loadAndReturnError(ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error) {
+  bool loadAndReturnError() {
     objc.checkOsVersionInternal(
       'NSBundle.loadAndReturnError:',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    return _objc_msgSend_1dom33q(
-      object$.ref.pointer,
-      _sel_loadAndReturnError_,
-      error,
-    );
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1dom33q(
+        object$.ref.pointer,
+        _sel_loadAndReturnError_,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret;
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// localizations
@@ -3187,19 +3209,24 @@ extension NSBundle$Methods on NSBundle {
   }
 
   /// preflightAndReturnError:
-  bool preflightAndReturnError(
-    ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
-  ) {
+  bool preflightAndReturnError() {
     objc.checkOsVersionInternal(
       'NSBundle.preflightAndReturnError:',
       iOS: (false, (2, 0, 0)),
       macOS: (false, (10, 5, 0)),
     );
-    return _objc_msgSend_1dom33q(
-      object$.ref.pointer,
-      _sel_preflightAndReturnError_,
-      error,
-    );
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1dom33q(
+        object$.ref.pointer,
+        _sel_preflightAndReturnError_,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret;
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// principalClass
@@ -4328,48 +4355,54 @@ extension NSData$Methods on NSData {
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  NSData? compressedDataUsingAlgorithm(
-    NSDataCompressionAlgorithm algorithm, {
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
-  }) {
+  NSData? compressedDataUsingAlgorithm(NSDataCompressionAlgorithm algorithm) {
     objc.checkOsVersionInternal(
       'NSData.compressedDataUsingAlgorithm:error:',
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
-    final $ret = _objc_msgSend_1vnlaqg(
-      object$.ref.pointer,
-      _sel_compressedDataUsingAlgorithm_error_,
-      algorithm.value,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSData.fromPointer($ret, retain: true, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1vnlaqg(
+        object$.ref.pointer,
+        _sel_compressedDataUsingAlgorithm_error_,
+        algorithm.value,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSData.fromPointer($ret, retain: true, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// decompressedDataUsingAlgorithm:error:
   ///
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
-  NSData? decompressedDataUsingAlgorithm(
-    NSDataCompressionAlgorithm algorithm, {
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
-  }) {
+  NSData? decompressedDataUsingAlgorithm(NSDataCompressionAlgorithm algorithm) {
     objc.checkOsVersionInternal(
       'NSData.decompressedDataUsingAlgorithm:error:',
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
-    final $ret = _objc_msgSend_1vnlaqg(
-      object$.ref.pointer,
-      _sel_decompressedDataUsingAlgorithm_error_,
-      algorithm.value,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSData.fromPointer($ret, retain: true, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1vnlaqg(
+        object$.ref.pointer,
+        _sel_decompressedDataUsingAlgorithm_error_,
+        algorithm.value,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSData.fromPointer($ret, retain: true, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// encodeWithCoder:
@@ -6146,21 +6179,25 @@ extension NSExtendedArray on NSArray {
   }
 
   /// writeToURL:error:
-  bool writeToURL(
-    NSURL url, {
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
-  }) {
+  bool writeToURL(NSURL url) {
     objc.checkOsVersionInternal(
       'NSArray.writeToURL:error:',
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    return _objc_msgSend_l9p60w(
-      object$.ref.pointer,
-      _sel_writeToURL_error_,
-      url.ref.pointer,
-      error,
-    );
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_l9p60w(
+        object$.ref.pointer,
+        _sel_writeToURL_error_,
+        url.ref.pointer,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret;
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 }
 
@@ -6716,21 +6753,25 @@ extension NSExtendedDictionary on NSDictionary {
   }
 
   /// writeToURL:error:
-  bool writeToURL(
-    NSURL url, {
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
-  }) {
+  bool writeToURL(NSURL url) {
     objc.checkOsVersionInternal(
       'NSDictionary.writeToURL:error:',
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    return _objc_msgSend_l9p60w(
-      object$.ref.pointer,
-      _sel_writeToURL_error_,
-      url.ref.pointer,
-      error,
-    );
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_l9p60w(
+        object$.ref.pointer,
+        _sel_writeToURL_error_,
+        url.ref.pointer,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret;
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 }
 
@@ -11071,23 +11112,28 @@ extension NSMutableData$Methods on NSMutableData {
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   NSMutableData? compressedDataUsingAlgorithm(
-    NSDataCompressionAlgorithm algorithm, {
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
-  }) {
+    NSDataCompressionAlgorithm algorithm,
+  ) {
     objc.checkOsVersionInternal(
       'NSMutableData.compressedDataUsingAlgorithm:error:',
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
-    final $ret = _objc_msgSend_1vnlaqg(
-      object$.ref.pointer,
-      _sel_compressedDataUsingAlgorithm_error_,
-      algorithm.value,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableData.fromPointer($ret, retain: true, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1vnlaqg(
+        object$.ref.pointer,
+        _sel_compressedDataUsingAlgorithm_error_,
+        algorithm.value,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSMutableData.fromPointer($ret, retain: true, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// decompressedDataUsingAlgorithm:error:
@@ -11095,23 +11141,28 @@ extension NSMutableData$Methods on NSMutableData {
   /// iOS: introduced 13.0.0
   /// macOS: introduced 10.15.0
   NSMutableData? decompressedDataUsingAlgorithm(
-    NSDataCompressionAlgorithm algorithm, {
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
-  }) {
+    NSDataCompressionAlgorithm algorithm,
+  ) {
     objc.checkOsVersionInternal(
       'NSMutableData.decompressedDataUsingAlgorithm:error:',
       iOS: (false, (13, 0, 0)),
       macOS: (false, (10, 15, 0)),
     );
-    final $ret = _objc_msgSend_1vnlaqg(
-      object$.ref.pointer,
-      _sel_decompressedDataUsingAlgorithm_error_,
-      algorithm.value,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableData.fromPointer($ret, retain: true, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1vnlaqg(
+        object$.ref.pointer,
+        _sel_decompressedDataUsingAlgorithm_error_,
+        algorithm.value,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSMutableData.fromPointer($ret, retain: true, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// init
@@ -12655,23 +12706,28 @@ extension type NSMutableString._(objc.ObjCObject object$)
   static NSMutableString? localizedStringWithValidatedFormat(
     NSString format, {
     required NSString validFormatSpecifiers,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     objc.checkOsVersionInternal(
       'NSMutableString.localizedStringWithValidatedFormat:validFormatSpecifiers:error:',
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    final $ret = _objc_msgSend_1pnyuds(
-      _class_NSMutableString,
-      _sel_localizedStringWithValidatedFormat_validFormatSpecifiers_error_,
-      format.ref.pointer,
-      validFormatSpecifiers.ref.pointer,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableString.fromPointer($ret, retain: true, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1pnyuds(
+        _class_NSMutableString,
+        _sel_localizedStringWithValidatedFormat_validFormatSpecifiers_error_,
+        format.ref.pointer,
+        validFormatSpecifiers.ref.pointer,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSMutableString.fromPointer($ret, retain: true, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// new
@@ -12720,72 +12776,92 @@ extension type NSMutableString._(objc.ObjCObject object$)
   static NSMutableString? stringWithContentsOfFile(
     NSString path, {
     required int encoding,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
-    final $ret = _objc_msgSend_1nomli1(
-      _class_NSMutableString,
-      _sel_stringWithContentsOfFile_encoding_error_,
-      path.ref.pointer,
-      encoding,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableString.fromPointer($ret, retain: true, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1nomli1(
+        _class_NSMutableString,
+        _sel_stringWithContentsOfFile_encoding_error_,
+        path.ref.pointer,
+        encoding,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSMutableString.fromPointer($ret, retain: true, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// stringWithContentsOfFile:usedEncoding:error:
   static NSMutableString? stringWithContentsOfFile$1(
     NSString path, {
     required ffi.Pointer<ffi.UnsignedLong> usedEncoding,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
-    final $ret = _objc_msgSend_1alewu7(
-      _class_NSMutableString,
-      _sel_stringWithContentsOfFile_usedEncoding_error_,
-      path.ref.pointer,
-      usedEncoding,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableString.fromPointer($ret, retain: true, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1alewu7(
+        _class_NSMutableString,
+        _sel_stringWithContentsOfFile_usedEncoding_error_,
+        path.ref.pointer,
+        usedEncoding,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSMutableString.fromPointer($ret, retain: true, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// stringWithContentsOfURL:encoding:error:
   static NSMutableString? stringWithContentsOfURL(
     NSURL url, {
     required int encoding,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
-    final $ret = _objc_msgSend_1nomli1(
-      _class_NSMutableString,
-      _sel_stringWithContentsOfURL_encoding_error_,
-      url.ref.pointer,
-      encoding,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableString.fromPointer($ret, retain: true, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1nomli1(
+        _class_NSMutableString,
+        _sel_stringWithContentsOfURL_encoding_error_,
+        url.ref.pointer,
+        encoding,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSMutableString.fromPointer($ret, retain: true, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// stringWithContentsOfURL:usedEncoding:error:
   static NSMutableString? stringWithContentsOfURL$1(
     NSURL url, {
     required ffi.Pointer<ffi.UnsignedLong> usedEncoding,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
-    final $ret = _objc_msgSend_1alewu7(
-      _class_NSMutableString,
-      _sel_stringWithContentsOfURL_usedEncoding_error_,
-      url.ref.pointer,
-      usedEncoding,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableString.fromPointer($ret, retain: true, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1alewu7(
+        _class_NSMutableString,
+        _sel_stringWithContentsOfURL_usedEncoding_error_,
+        url.ref.pointer,
+        usedEncoding,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSMutableString.fromPointer($ret, retain: true, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// stringWithFormat:
@@ -12826,23 +12902,28 @@ extension type NSMutableString._(objc.ObjCObject object$)
   static NSMutableString? stringWithValidatedFormat(
     NSString format, {
     required NSString validFormatSpecifiers,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     objc.checkOsVersionInternal(
       'NSMutableString.stringWithValidatedFormat:validFormatSpecifiers:error:',
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    final $ret = _objc_msgSend_1pnyuds(
-      _class_NSMutableString,
-      _sel_stringWithValidatedFormat_validFormatSpecifiers_error_,
-      format.ref.pointer,
-      validFormatSpecifiers.ref.pointer,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableString.fromPointer($ret, retain: true, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1pnyuds(
+        _class_NSMutableString,
+        _sel_stringWithValidatedFormat_validFormatSpecifiers_error_,
+        format.ref.pointer,
+        validFormatSpecifiers.ref.pointer,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSMutableString.fromPointer($ret, retain: true, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// supportsSecureCoding
@@ -13012,72 +13093,89 @@ extension NSMutableString$Methods on NSMutableString {
   NSMutableString? initWithContentsOfFile(
     NSString path, {
     required int encoding,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
-    final $ret = _objc_msgSend_1nomli1(
-      object$.ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfFile_encoding_error_,
-      path.ref.pointer,
-      encoding,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableString.fromPointer($ret, retain: false, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1nomli1(
+        object$.ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfFile_encoding_error_,
+        path.ref.pointer,
+        encoding,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSMutableString.fromPointer($ret, retain: false, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// initWithContentsOfFile:usedEncoding:error:
   NSMutableString? initWithContentsOfFile$1(
     NSString path, {
     required ffi.Pointer<ffi.UnsignedLong> usedEncoding,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
-    final $ret = _objc_msgSend_1alewu7(
-      object$.ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfFile_usedEncoding_error_,
-      path.ref.pointer,
-      usedEncoding,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableString.fromPointer($ret, retain: false, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1alewu7(
+        object$.ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfFile_usedEncoding_error_,
+        path.ref.pointer,
+        usedEncoding,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSMutableString.fromPointer($ret, retain: false, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// initWithContentsOfURL:encoding:error:
-  NSMutableString? initWithContentsOfURL(
-    NSURL url, {
-    required int encoding,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
-  }) {
-    final $ret = _objc_msgSend_1nomli1(
-      object$.ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfURL_encoding_error_,
-      url.ref.pointer,
-      encoding,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableString.fromPointer($ret, retain: false, release: true);
+  NSMutableString? initWithContentsOfURL(NSURL url, {required int encoding}) {
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1nomli1(
+        object$.ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfURL_encoding_error_,
+        url.ref.pointer,
+        encoding,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSMutableString.fromPointer($ret, retain: false, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// initWithContentsOfURL:usedEncoding:error:
   NSMutableString? initWithContentsOfURL$1(
     NSURL url, {
     required ffi.Pointer<ffi.UnsignedLong> usedEncoding,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
-    final $ret = _objc_msgSend_1alewu7(
-      object$.ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfURL_usedEncoding_error_,
-      url.ref.pointer,
-      usedEncoding,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableString.fromPointer($ret, retain: false, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1alewu7(
+        object$.ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfURL_usedEncoding_error_,
+        url.ref.pointer,
+        usedEncoding,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSMutableString.fromPointer($ret, retain: false, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// initWithData:encoding:
@@ -13145,23 +13243,28 @@ extension NSMutableString$Methods on NSMutableString {
   NSMutableString? initWithValidatedFormat(
     NSString format, {
     required NSString validFormatSpecifiers,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     objc.checkOsVersionInternal(
       'NSMutableString.initWithValidatedFormat:validFormatSpecifiers:error:',
       iOS: (false, (16, 0, 0)),
       macOS: (false, (13, 0, 0)),
     );
-    final $ret = _objc_msgSend_1pnyuds(
-      object$.ref.retainAndReturnPointer(),
-      _sel_initWithValidatedFormat_validFormatSpecifiers_error_,
-      format.ref.pointer,
-      validFormatSpecifiers.ref.pointer,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableString.fromPointer($ret, retain: false, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1pnyuds(
+        object$.ref.retainAndReturnPointer(),
+        _sel_initWithValidatedFormat_validFormatSpecifiers_error_,
+        format.ref.pointer,
+        validFormatSpecifiers.ref.pointer,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSMutableString.fromPointer($ret, retain: false, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// initWithValidatedFormat:validFormatSpecifiers:locale:error:
@@ -13172,24 +13275,29 @@ extension NSMutableString$Methods on NSMutableString {
     NSString format, {
     required NSString validFormatSpecifiers,
     objc.ObjCObject? locale,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     objc.checkOsVersionInternal(
       'NSMutableString.initWithValidatedFormat:validFormatSpecifiers:locale:error:',
       iOS: (false, (16, 0, 0)),
       macOS: (false, (13, 0, 0)),
     );
-    final $ret = _objc_msgSend_1k0ezzm(
-      object$.ref.retainAndReturnPointer(),
-      _sel_initWithValidatedFormat_validFormatSpecifiers_locale_error_,
-      format.ref.pointer,
-      validFormatSpecifiers.ref.pointer,
-      locale?.ref.pointer ?? ffi.nullptr,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSMutableString.fromPointer($ret, retain: false, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1k0ezzm(
+        object$.ref.retainAndReturnPointer(),
+        _sel_initWithValidatedFormat_validFormatSpecifiers_locale_error_,
+        format.ref.pointer,
+        validFormatSpecifiers.ref.pointer,
+        locale?.ref.pointer ?? ffi.nullptr,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSMutableString.fromPointer($ret, retain: false, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// replaceCharactersInRange:withString:
@@ -19445,23 +19553,28 @@ extension type NSString._(objc.ObjCObject object$)
   static NSString? localizedStringWithValidatedFormat(
     NSString format, {
     required NSString validFormatSpecifiers,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     objc.checkOsVersionInternal(
       'NSString.localizedStringWithValidatedFormat:validFormatSpecifiers:error:',
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    final $ret = _objc_msgSend_1pnyuds(
-      _class_NSString,
-      _sel_localizedStringWithValidatedFormat_validFormatSpecifiers_error_,
-      format.ref.pointer,
-      validFormatSpecifiers.ref.pointer,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1pnyuds(
+        _class_NSString,
+        _sel_localizedStringWithValidatedFormat_validFormatSpecifiers_error_,
+        format.ref.pointer,
+        validFormatSpecifiers.ref.pointer,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// new
@@ -19510,72 +19623,89 @@ extension type NSString._(objc.ObjCObject object$)
   static NSString? stringWithContentsOfFile(
     NSString path, {
     required int encoding,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
-    final $ret = _objc_msgSend_1nomli1(
-      _class_NSString,
-      _sel_stringWithContentsOfFile_encoding_error_,
-      path.ref.pointer,
-      encoding,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1nomli1(
+        _class_NSString,
+        _sel_stringWithContentsOfFile_encoding_error_,
+        path.ref.pointer,
+        encoding,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// stringWithContentsOfFile:usedEncoding:error:
   static NSString? stringWithContentsOfFile$1(
     NSString path, {
     required ffi.Pointer<ffi.UnsignedLong> usedEncoding,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
-    final $ret = _objc_msgSend_1alewu7(
-      _class_NSString,
-      _sel_stringWithContentsOfFile_usedEncoding_error_,
-      path.ref.pointer,
-      usedEncoding,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1alewu7(
+        _class_NSString,
+        _sel_stringWithContentsOfFile_usedEncoding_error_,
+        path.ref.pointer,
+        usedEncoding,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// stringWithContentsOfURL:encoding:error:
-  static NSString? stringWithContentsOfURL(
-    NSURL url, {
-    required int encoding,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
-  }) {
-    final $ret = _objc_msgSend_1nomli1(
-      _class_NSString,
-      _sel_stringWithContentsOfURL_encoding_error_,
-      url.ref.pointer,
-      encoding,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+  static NSString? stringWithContentsOfURL(NSURL url, {required int encoding}) {
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1nomli1(
+        _class_NSString,
+        _sel_stringWithContentsOfURL_encoding_error_,
+        url.ref.pointer,
+        encoding,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// stringWithContentsOfURL:usedEncoding:error:
   static NSString? stringWithContentsOfURL$1(
     NSURL url, {
     required ffi.Pointer<ffi.UnsignedLong> usedEncoding,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
-    final $ret = _objc_msgSend_1alewu7(
-      _class_NSString,
-      _sel_stringWithContentsOfURL_usedEncoding_error_,
-      url.ref.pointer,
-      usedEncoding,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1alewu7(
+        _class_NSString,
+        _sel_stringWithContentsOfURL_usedEncoding_error_,
+        url.ref.pointer,
+        usedEncoding,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// stringWithFormat:
@@ -19616,23 +19746,28 @@ extension type NSString._(objc.ObjCObject object$)
   static NSString? stringWithValidatedFormat(
     NSString format, {
     required NSString validFormatSpecifiers,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     objc.checkOsVersionInternal(
       'NSString.stringWithValidatedFormat:validFormatSpecifiers:error:',
       iOS: (false, (11, 0, 0)),
       macOS: (false, (10, 13, 0)),
     );
-    final $ret = _objc_msgSend_1pnyuds(
-      _class_NSString,
-      _sel_stringWithValidatedFormat_validFormatSpecifiers_error_,
-      format.ref.pointer,
-      validFormatSpecifiers.ref.pointer,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: true, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1pnyuds(
+        _class_NSString,
+        _sel_stringWithValidatedFormat_validFormatSpecifiers_error_,
+        format.ref.pointer,
+        validFormatSpecifiers.ref.pointer,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: true, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// supportsSecureCoding
@@ -19811,75 +19946,89 @@ extension NSString$Methods on NSString {
   }
 
   /// initWithContentsOfFile:encoding:error:
-  NSString? initWithContentsOfFile(
-    NSString path, {
-    required int encoding,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
-  }) {
-    final $ret = _objc_msgSend_1nomli1(
-      object$.ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfFile_encoding_error_,
-      path.ref.pointer,
-      encoding,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: false, release: true);
+  NSString? initWithContentsOfFile(NSString path, {required int encoding}) {
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1nomli1(
+        object$.ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfFile_encoding_error_,
+        path.ref.pointer,
+        encoding,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: false, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// initWithContentsOfFile:usedEncoding:error:
   NSString? initWithContentsOfFile$1(
     NSString path, {
     required ffi.Pointer<ffi.UnsignedLong> usedEncoding,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
-    final $ret = _objc_msgSend_1alewu7(
-      object$.ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfFile_usedEncoding_error_,
-      path.ref.pointer,
-      usedEncoding,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: false, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1alewu7(
+        object$.ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfFile_usedEncoding_error_,
+        path.ref.pointer,
+        usedEncoding,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: false, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// initWithContentsOfURL:encoding:error:
-  NSString? initWithContentsOfURL(
-    NSURL url, {
-    required int encoding,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
-  }) {
-    final $ret = _objc_msgSend_1nomli1(
-      object$.ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfURL_encoding_error_,
-      url.ref.pointer,
-      encoding,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: false, release: true);
+  NSString? initWithContentsOfURL(NSURL url, {required int encoding}) {
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1nomli1(
+        object$.ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfURL_encoding_error_,
+        url.ref.pointer,
+        encoding,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: false, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// initWithContentsOfURL:usedEncoding:error:
   NSString? initWithContentsOfURL$1(
     NSURL url, {
     required ffi.Pointer<ffi.UnsignedLong> usedEncoding,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
-    final $ret = _objc_msgSend_1alewu7(
-      object$.ref.retainAndReturnPointer(),
-      _sel_initWithContentsOfURL_usedEncoding_error_,
-      url.ref.pointer,
-      usedEncoding,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: false, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1alewu7(
+        object$.ref.retainAndReturnPointer(),
+        _sel_initWithContentsOfURL_usedEncoding_error_,
+        url.ref.pointer,
+        usedEncoding,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: false, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// initWithData:encoding:
@@ -19945,23 +20094,28 @@ extension NSString$Methods on NSString {
   NSString? initWithValidatedFormat(
     NSString format, {
     required NSString validFormatSpecifiers,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     objc.checkOsVersionInternal(
       'NSString.initWithValidatedFormat:validFormatSpecifiers:error:',
       iOS: (false, (16, 0, 0)),
       macOS: (false, (13, 0, 0)),
     );
-    final $ret = _objc_msgSend_1pnyuds(
-      object$.ref.retainAndReturnPointer(),
-      _sel_initWithValidatedFormat_validFormatSpecifiers_error_,
-      format.ref.pointer,
-      validFormatSpecifiers.ref.pointer,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: false, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1pnyuds(
+        object$.ref.retainAndReturnPointer(),
+        _sel_initWithValidatedFormat_validFormatSpecifiers_error_,
+        format.ref.pointer,
+        validFormatSpecifiers.ref.pointer,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: false, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// initWithValidatedFormat:validFormatSpecifiers:locale:error:
@@ -19972,24 +20126,29 @@ extension NSString$Methods on NSString {
     NSString format, {
     required NSString validFormatSpecifiers,
     objc.ObjCObject? locale,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     objc.checkOsVersionInternal(
       'NSString.initWithValidatedFormat:validFormatSpecifiers:locale:error:',
       iOS: (false, (16, 0, 0)),
       macOS: (false, (13, 0, 0)),
     );
-    final $ret = _objc_msgSend_1k0ezzm(
-      object$.ref.retainAndReturnPointer(),
-      _sel_initWithValidatedFormat_validFormatSpecifiers_locale_error_,
-      format.ref.pointer,
-      validFormatSpecifiers.ref.pointer,
-      locale?.ref.pointer ?? ffi.nullptr,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSString.fromPointer($ret, retain: false, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1k0ezzm(
+        object$.ref.retainAndReturnPointer(),
+        _sel_initWithValidatedFormat_validFormatSpecifiers_locale_error_,
+        format.ref.pointer,
+        validFormatSpecifiers.ref.pointer,
+        locale?.ref.pointer ?? ffi.nullptr,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSString.fromPointer($ret, retain: false, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// length
@@ -21140,16 +21299,22 @@ extension NSStringExtensionMethods on NSString {
     NSString path, {
     required bool atomically,
     required int encoding,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
-    return _objc_msgSend_dv3z6r(
-      object$.ref.pointer,
-      _sel_writeToFile_atomically_encoding_error_,
-      path.ref.pointer,
-      atomically,
-      encoding,
-      error,
-    );
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_dv3z6r(
+        object$.ref.pointer,
+        _sel_writeToFile_atomically_encoding_error_,
+        path.ref.pointer,
+        atomically,
+        encoding,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret;
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// writeToURL:atomically:encoding:error:
@@ -21157,16 +21322,22 @@ extension NSStringExtensionMethods on NSString {
     NSURL url, {
     required bool atomically,
     required int encoding,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
-    return _objc_msgSend_dv3z6r(
-      object$.ref.pointer,
-      _sel_writeToURL_atomically_encoding_error_,
-      url.ref.pointer,
-      atomically,
-      encoding,
-      error,
-    );
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_dv3z6r(
+        object$.ref.pointer,
+        _sel_writeToURL_atomically_encoding_error_,
+        url.ref.pointer,
+        atomically,
+        encoding,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret;
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// availableStringEncodings
@@ -21510,23 +21681,28 @@ extension type NSURL._(objc.ObjCObject object$)
   static NSURL? URLByResolvingAliasFileAtURL(
     NSURL url, {
     required int options,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     objc.checkOsVersionInternal(
       'NSURL.URLByResolvingAliasFileAtURL:options:error:',
       iOS: (false, (8, 0, 0)),
       macOS: (false, (10, 10, 0)),
     );
-    final $ret = _objc_msgSend_1tiux5i(
-      _class_NSURL,
-      _sel_URLByResolvingAliasFileAtURL_options_error_,
-      url.ref.pointer,
-      options,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1tiux5i(
+        _class_NSURL,
+        _sel_URLByResolvingAliasFileAtURL_options_error_,
+        url.ref.pointer,
+        options,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// URLByResolvingBookmarkData:options:relativeToURL:bookmarkDataIsStale:error:
@@ -21535,25 +21711,30 @@ extension type NSURL._(objc.ObjCObject object$)
     required int options,
     NSURL? relativeToURL,
     required ffi.Pointer<ffi.Bool> bookmarkDataIsStale,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     objc.checkOsVersionInternal(
       'NSURL.URLByResolvingBookmarkData:options:relativeToURL:bookmarkDataIsStale:error:',
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_1ceswyu(
-      _class_NSURL,
-      _sel_URLByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_,
-      bookmarkData.ref.pointer,
-      options,
-      relativeToURL?.ref.pointer ?? ffi.nullptr,
-      bookmarkDataIsStale,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: true, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1ceswyu(
+        _class_NSURL,
+        _sel_URLByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_,
+        bookmarkData.ref.pointer,
+        options,
+        relativeToURL?.ref.pointer ?? ffi.nullptr,
+        bookmarkDataIsStale,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: true, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// URLWithDataRepresentation:relativeToURL:
@@ -21653,24 +21834,27 @@ extension type NSURL._(objc.ObjCObject object$)
   }
 
   /// bookmarkDataWithContentsOfURL:error:
-  static NSData? bookmarkDataWithContentsOfURL(
-    NSURL bookmarkFileURL, {
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
-  }) {
+  static NSData? bookmarkDataWithContentsOfURL(NSURL bookmarkFileURL) {
     objc.checkOsVersionInternal(
       'NSURL.bookmarkDataWithContentsOfURL:error:',
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_1lhpu4m(
-      _class_NSURL,
-      _sel_bookmarkDataWithContentsOfURL_error_,
-      bookmarkFileURL.ref.pointer,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSData.fromPointer($ret, retain: true, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1lhpu4m(
+        _class_NSURL,
+        _sel_bookmarkDataWithContentsOfURL_error_,
+        bookmarkFileURL.ref.pointer,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSData.fromPointer($ret, retain: true, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// fileURLWithFileSystemRepresentation:isDirectory:relativeToURL:
@@ -21794,21 +21978,27 @@ extension type NSURL._(objc.ObjCObject object$)
     NSData bookmarkData, {
     required NSURL toURL,
     required int options,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     objc.checkOsVersionInternal(
       'NSURL.writeBookmarkData:toURL:options:error:',
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    return _objc_msgSend_1vxoo9h(
-      _class_NSURL,
-      _sel_writeBookmarkData_toURL_options_error_,
-      bookmarkData.ref.pointer,
-      toURL.ref.pointer,
-      options,
-      error,
-    );
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1vxoo9h(
+        _class_NSURL,
+        _sel_writeBookmarkData_toURL_options_error_,
+        bookmarkData.ref.pointer,
+        toURL.ref.pointer,
+        options,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret;
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// Returns a new instance of NSURL constructed with the default `new` method.
@@ -21848,24 +22038,29 @@ extension NSURL$Methods on NSURL {
     int options, {
     NSArray? includingResourceValuesForKeys,
     NSURL? relativeToURL,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     objc.checkOsVersionInternal(
       'NSURL.bookmarkDataWithOptions:includingResourceValuesForKeys:relativeToURL:error:',
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_1wt9a7r(
-      object$.ref.pointer,
-      _sel_bookmarkDataWithOptions_includingResourceValuesForKeys_relativeToURL_error_,
-      options,
-      includingResourceValuesForKeys?.ref.pointer ?? ffi.nullptr,
-      relativeToURL?.ref.pointer ?? ffi.nullptr,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSData.fromPointer($ret, retain: true, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1wt9a7r(
+        object$.ref.pointer,
+        _sel_bookmarkDataWithOptions_includingResourceValuesForKeys_relativeToURL_error_,
+        options,
+        includingResourceValuesForKeys?.ref.pointer ?? ffi.nullptr,
+        relativeToURL?.ref.pointer ?? ffi.nullptr,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSData.fromPointer($ret, retain: true, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// dataRepresentation
@@ -21963,20 +22158,26 @@ extension NSURL$Methods on NSURL {
   bool getResourceValue(
     ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> value, {
     required NSString forKey,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     objc.checkOsVersionInternal(
       'NSURL.getResourceValue:forKey:error:',
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    return _objc_msgSend_1j9bhml(
-      object$.ref.pointer,
-      _sel_getResourceValue_forKey_error_,
-      value,
-      forKey.ref.pointer,
-      error,
-    );
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1j9bhml(
+        object$.ref.pointer,
+        _sel_getResourceValue_forKey_error_,
+        value,
+        forKey.ref.pointer,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret;
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// hasDirectoryPath
@@ -22036,25 +22237,30 @@ extension NSURL$Methods on NSURL {
     required int options,
     NSURL? relativeToURL,
     required ffi.Pointer<ffi.Bool> bookmarkDataIsStale,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     objc.checkOsVersionInternal(
       'NSURL.initByResolvingBookmarkData:options:relativeToURL:bookmarkDataIsStale:error:',
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_1ceswyu(
-      object$.ref.retainAndReturnPointer(),
-      _sel_initByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_,
-      bookmarkData.ref.pointer,
-      options,
-      relativeToURL?.ref.pointer ?? ffi.nullptr,
-      bookmarkDataIsStale,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSURL.fromPointer($ret, retain: false, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1ceswyu(
+        object$.ref.retainAndReturnPointer(),
+        _sel_initByResolvingBookmarkData_options_relativeToURL_bookmarkDataIsStale_error_,
+        bookmarkData.ref.pointer,
+        options,
+        relativeToURL?.ref.pointer ?? ffi.nullptr,
+        bookmarkDataIsStale,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSURL.fromPointer($ret, retain: false, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// initFileURLWithFileSystemRepresentation:isDirectory:relativeToURL:
@@ -22338,24 +22544,27 @@ extension NSURL$Methods on NSURL {
   }
 
   /// resourceValuesForKeys:error:
-  NSDictionary? resourceValuesForKeys(
-    NSArray keys, {
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
-  }) {
+  NSDictionary? resourceValuesForKeys(NSArray keys) {
     objc.checkOsVersionInternal(
       'NSURL.resourceValuesForKeys:error:',
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    final $ret = _objc_msgSend_1lhpu4m(
-      object$.ref.pointer,
-      _sel_resourceValuesForKeys_error_,
-      keys.ref.pointer,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : NSDictionary.fromPointer($ret, retain: true, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1lhpu4m(
+        object$.ref.pointer,
+        _sel_resourceValuesForKeys_error_,
+        keys.ref.pointer,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : NSDictionary.fromPointer($ret, retain: true, release: true);
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// scheme
@@ -22367,41 +22576,48 @@ extension NSURL$Methods on NSURL {
   }
 
   /// setResourceValue:forKey:error:
-  bool setResourceValue(
-    objc.ObjCObject? value, {
-    required NSString forKey,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
-  }) {
+  bool setResourceValue(objc.ObjCObject? value, {required NSString forKey}) {
     objc.checkOsVersionInternal(
       'NSURL.setResourceValue:forKey:error:',
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    return _objc_msgSend_6z4k82(
-      object$.ref.pointer,
-      _sel_setResourceValue_forKey_error_,
-      value?.ref.pointer ?? ffi.nullptr,
-      forKey.ref.pointer,
-      error,
-    );
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_6z4k82(
+        object$.ref.pointer,
+        _sel_setResourceValue_forKey_error_,
+        value?.ref.pointer ?? ffi.nullptr,
+        forKey.ref.pointer,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret;
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// setResourceValues:error:
-  bool setResourceValues(
-    NSDictionary keyedValues, {
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
-  }) {
+  bool setResourceValues(NSDictionary keyedValues) {
     objc.checkOsVersionInternal(
       'NSURL.setResourceValues:error:',
       iOS: (false, (4, 0, 0)),
       macOS: (false, (10, 6, 0)),
     );
-    return _objc_msgSend_l9p60w(
-      object$.ref.pointer,
-      _sel_setResourceValues_error_,
-      keyedValues.ref.pointer,
-      error,
-    );
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_l9p60w(
+        object$.ref.pointer,
+        _sel_setResourceValues_error_,
+        keyedValues.ref.pointer,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret;
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// setTemporaryResourceValue:forKey:

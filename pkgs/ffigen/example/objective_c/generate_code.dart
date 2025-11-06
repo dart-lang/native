@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/ffigen.dart';
+import 'package:logging/logging.dart';
 
 final config = FfiGenerator(
   headers: Headers(
@@ -47,4 +48,7 @@ final config = FfiGenerator(
   ),
 );
 
-void main() => config.generate();
+void main() {
+  Logger.root.level = Level.SEVERE;
+  config.generate(logger: Logger.root);
+}

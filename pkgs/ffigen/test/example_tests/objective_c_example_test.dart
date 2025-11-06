@@ -30,10 +30,7 @@ void main() {
       );
       expect(
         output,
-        contains(
-          'AVAudioPlayer? initWithContentsOfURL(objc.NSURL url, '
-          '{required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error}) {',
-        ),
+        contains('AVAudioPlayer? initWithContentsOfURL(objc.NSURL url) {'),
       );
       expect(output, contains('double get duration {'));
       expect(output, contains('bool play() {'));
