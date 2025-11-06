@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// ignore_for_file: library_private_types_in_public_api
-
 import 'dart:io';
 import 'dart:ui';
 
@@ -148,7 +146,7 @@ class ExampleCard extends StatefulWidget {
   final Example example;
 
   @override
-  _ExampleCardState createState() => _ExampleCardState();
+  State<ExampleCard> createState() => _ExampleCardState();
 }
 
 class _ExampleCardState extends State<ExampleCard> {
