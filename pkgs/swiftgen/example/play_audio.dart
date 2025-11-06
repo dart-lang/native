@@ -26,9 +26,7 @@ void main(List<String> args) async {
     final fileStr = NSString(file);
     print('Loading ${fileStr.toDartString()}');
     final fileUrl = NSURL.fileURLWithPath(fileStr);
-    final player = AVAudioPlayerWrapper.alloc().initWithContentsOf(
-      fileUrl,
-    );
+    final player = AVAudioPlayerWrapper.alloc().initWithContentsOf(fileUrl);
     if (player == null) {
       print('Failed to load audio');
       continue;
