@@ -108,7 +108,7 @@ final class NSErrorException implements Exception {
   String toString() => 'NSError: ${error.localizedDescription.toDartString()}';
 }
 
-extension GetProtocolName on Pointer<c.ObjCProtocolImpl> {
+extension GetProtocolName on Pointer<r.ObjCProtocolImpl> {
   /// Returns the name of the protocol.
   String get name => r.getProtocolName(this).cast<Utf8>().toDartString();
 }

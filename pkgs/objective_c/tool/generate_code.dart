@@ -27,17 +27,6 @@ const interfaceListTest = 'test/interface_lists_test.dart';
 
 const ffigenFlags = ['--no-format', '-v', 'severe', '--config'];
 
-const privateInterfaces = <String>{
-  'DartInputStreamAdapter',
-  'DartInputStreamAdapterWeakHolder',
-  'DOBJCObservation',
-};
-
-final privateMethods = <String>{
-  for (final name in privateInterfaces) '$name\$Methods',
-};
-final privateClasses = privateInterfaces.union(privateMethods);
-
 void dartCmd(List<String> args) {
   final exec = Platform.resolvedExecutable;
   final proc = Process.runSync(exec, args, runInShell: true);

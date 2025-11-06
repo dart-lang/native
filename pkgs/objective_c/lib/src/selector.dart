@@ -6,7 +6,7 @@ import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
 
-import 'internal.dart';
+import 'internal.dart' as objc;
 import 'runtime_bindings_generated.dart' as r;
 
 extension StringToSelector on String {
@@ -25,6 +25,6 @@ extension SelectorToString on Pointer<r.ObjCSelector> {
 }
 
 extension RespondsToSelector on objc.ObjCObject {
-  bool respondsToSelector(Pointer<c.ObjCSelector> sel) =>
+  bool respondsToSelector(Pointer<r.ObjCSelector> sel) =>
       objc.respondsToSelector(ref.pointer, sel);
 }

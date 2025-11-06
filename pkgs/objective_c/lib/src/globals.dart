@@ -6,37 +6,37 @@ import 'objective_c_bindings_generated.dart';
 import 'runtime_bindings_generated.dart' as r;
 
 
-NSString get NSKeyValueChangeIndexesKey => NSString.castFromPointer(
+NSString get NSKeyValueChangeIndexesKey => NSString.fromPointer(
   r.NSKeyValueChangeIndexesKey,
   retain: true,
   release: true,
 );
 
-NSString get NSKeyValueChangeKindKey => NSString.castFromPointer(
+NSString get NSKeyValueChangeKindKey => NSString.fromPointer(
   r.NSKeyValueChangeKindKey,
   retain: true,
   release: true,
 );
 
-NSString get NSKeyValueChangeNewKey => NSString.castFromPointer(
+NSString get NSKeyValueChangeNewKey => NSString.fromPointer(
   r.NSKeyValueChangeNewKey,
   retain: true,
   release: true,
 );
 
-NSString get NSKeyValueChangeNotificationIsPriorKey => NSString.castFromPointer(
+NSString get NSKeyValueChangeNotificationIsPriorKey => NSString.fromPointer(
   r.NSKeyValueChangeNotificationIsPriorKey,
   retain: true,
   release: true,
 );
 
-NSString get NSKeyValueChangeOldKey => NSString.castFromPointer(
+NSString get NSKeyValueChangeOldKey => NSString.fromPointer(
   r.NSKeyValueChangeOldKey,
   retain: true,
   release: true,
 );
 
-NSString get NSLocalizedDescriptionKey => NSString.castFromPointer(
+NSString get NSLocalizedDescriptionKey => NSString.fromPointer(
   r.NSLocalizedDescriptionKey,
   retain: true,
   release: true,
