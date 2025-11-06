@@ -64,9 +64,9 @@ void main(List<String> args) async {
     ]);
     await builder.linkLib(objectFiles, assetPath.toFilePath());
 
-    output.addDependencies(cFiles.map(Uri.file));
-    output.addDependencies(mFiles.map(Uri.file));
-    output.addDependencies(hFiles.map(Uri.file));
+    output.dependencies.addAll(cFiles.map(Uri.file));
+    output.dependencies.addAll(mFiles.map(Uri.file));
+    output.dependencies.addAll(hFiles.map(Uri.file));
 
     output.assets.code.add(
       CodeAsset(

@@ -9,8 +9,8 @@ import 'package:ffi/ffi.dart';
 
 import 'c_bindings_generated.dart' as c;
 import 'ns_string.dart';
-import 'runtime_bindings_generated.dart' as r;
 import 'objective_c_bindings_generated.dart' as objc;
+import 'runtime_bindings_generated.dart' as r;
 
 typedef ObjectPtr = Pointer<r.ObjCObjectImpl>;
 typedef BlockPtr = Pointer<c.ObjCBlockImpl>;
