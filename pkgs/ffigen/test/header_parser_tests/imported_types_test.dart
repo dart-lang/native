@@ -27,9 +27,6 @@ ${strings.headers}:
     - '${absPath('test/header_parser_tests/imported_types.h')}'
   ${strings.includeDirectives}:
     - '**imported_types.h'
-
-${strings.preamble}: |
-  // ignore_for_file: camel_case_types
         '''),
         ),
       );
