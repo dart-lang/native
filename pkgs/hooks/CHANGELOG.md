@@ -1,3 +1,7 @@
+## 1.0.0
+
+- Stable release.
+
 ## 0.20.6-wip
 
 - Fix `testBuildHook` to emit output validation errors if there are any.

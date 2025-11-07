@@ -1,3 +1,7 @@
+## 1.0.0
+
+- Stable release.
+
 ## 0.23.2
 
 - Add `LIBCLANG_PATH` to the environment variables allowlist.

@@ -35,6 +35,7 @@ workspace:
   - pkgs/hooks_runner/test_data/flag_enthusiast_1
   - pkgs/hooks_runner/test_data/flag_enthusiast_2
   - pkgs/hooks_runner/test_data/fun_with_flags
+  - pkgs/hooks_runner/test_data/infra_failure/
   - pkgs/hooks_runner/test_data/link_inverse_app
   - pkgs/hooks_runner/test_data/link_inverse_package
   - pkgs/hooks_runner/test_data/native_add
