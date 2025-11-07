@@ -1,4 +1,4 @@
-## 0.15.0-wip
+## 0.15.0
 
 - **Breaking Change**: Made `Jni.env` internal.
 - **Breaking Change**: Renamed `JObjType` to `JType`.
