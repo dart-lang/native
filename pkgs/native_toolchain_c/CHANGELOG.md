@@ -1,3 +1,7 @@
+## 0.17.3
+
+- Bump `package:hooks` and `package:code_assets`to 1.0.0.
+
 ## 0.17.2
 
 - Made `CBuilder.run` `Logger` argument optional. It now defaults to a logger
