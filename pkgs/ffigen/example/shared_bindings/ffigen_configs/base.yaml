@@ -15,5 +15,3 @@ output:
 headers:
   entry-points:
     - '../headers/base.h'
-preamble: |
-  // ignore_for_file: non_constant_identifier_names, camel_case_types

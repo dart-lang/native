@@ -5,8 +5,6 @@
 // Runs the FFIgen configs, then merges tool/data/extra_methods.dart.in into the
 // Objective C bindings.
 
-// ignore_for_file: avoid_print
-
 import 'dart:io';
 
 import 'package:args/args.dart';

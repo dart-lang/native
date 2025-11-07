@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// ignore_for_file: undefined_hidden_name
-
 import 'package:hooks_runner/src/model/kernel_assets.dart';
 import 'package:hooks_runner/src/model/target.dart';
 import 'package:test/test.dart';

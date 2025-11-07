@@ -2,6 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jni/jni.dart';
 // The hierarchy created in generated code will mirror the java package
@@ -9,15 +10,18 @@ import 'package:jni/jni.dart';
 // more customization in future.
 import 'package:notification_plugin/notifications.dart';
 
-JObject activity = JObject.fromReference(Jni.getCurrentActivity());
-
 int i = 0;
 
 void showNotification(String title, String text) {
   i = i + 1;
   var jTitle = JString.fromString(title);
   var jText = JString.fromString(text);
-  Notifications.showNotification(activity, i, jTitle, jText);
+  Notifications.showNotification(
+    Jni.androidActivity(PlatformDispatcher.instance.engineId!),
+    i,
+    jTitle,
+    jText,
+  );
   jTitle.release();
   jText.release();
 }

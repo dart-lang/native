@@ -92,9 +92,6 @@ void main() {
         format: false,
         style: const DynamicLibraryBindings(wrapperName: 'LargeObjCLibrary'),
         preamble: '''
-// ignore_for_file: camel_case_types
-// ignore_for_file: non_constant_identifier_names
-// ignore_for_file: unnecessary_non_null_assertion
 // ignore_for_file: unused_element
 // ignore_for_file: unused_field
 ''',

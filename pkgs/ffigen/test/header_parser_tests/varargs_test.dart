@@ -43,9 +43,6 @@ ${strings.functions}:
       - [Struct_WithLong_Name_test*, float*]
       - types: [Struct_WithLong_Name_test]
         postfix: _custompostfix2
-
-${strings.preamble}: |
-  // ignore_for_file: camel_case_types
         ''')
                 as yaml.YamlMap,
             Logger.root,

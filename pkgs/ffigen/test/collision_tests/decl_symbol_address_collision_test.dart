@@ -7,6 +7,7 @@ import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/header_parser/parser.dart';
 import 'package:logging/logging.dart';
 import 'package:test/test.dart';
+
 import '../test_utils.dart';
 
 late Library actual;
@@ -31,8 +32,7 @@ void main() {
       actual = Library(
         context: context,
         name: 'Bindings',
-        header:
-            '// ignore_for_file: unused_element, camel_case_types, non_constant_identifier_names\n',
+        header: '// ignore_for_file: unused_element\n',
         bindings: transformBindings([
           Struct(context: context, name: 'addresses'),
           Struct(context: context, name: '_SymbolAddresses'),

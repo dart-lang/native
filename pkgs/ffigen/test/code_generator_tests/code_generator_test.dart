@@ -305,7 +305,7 @@ void main() {
       final library = Library(
         context: context,
         name: 'Bindings',
-        header: '$licenseHeader\n// ignore_for_file: unused_import\n',
+        header: '$licenseHeader\n',
         bindings: transformBindings([
           MacroConstant(name: 'test1', rawType: 'int', rawValue: '20'),
           MacroConstant(name: 'test2', rawType: 'double', rawValue: '20.0'),
@@ -319,7 +319,7 @@ void main() {
       final library = Library(
         context: context,
         name: 'Bindings',
-        header: '$licenseHeader\n// ignore_for_file: unused_import\n',
+        header: '$licenseHeader\n',
         bindings: transformBindings([
           EnumClass(
             context: context,
@@ -340,7 +340,7 @@ void main() {
       final library = Library(
         context: context,
         name: 'Bindings',
-        header: '$licenseHeader\n// ignore_for_file: unused_import\n',
+        header: '$licenseHeader\n',
         bindings: transformBindings([
           EnumClass(
             context: context,
@@ -393,7 +393,7 @@ void main() {
       final library = Library(
         context: context,
         name: 'Bindings',
-        header: '$licenseHeader\n// ignore_for_file: unused_import\n',
+        header: '$licenseHeader\n',
         silenceEnumWarning: true,
         bindings: transformBindings([
           enum1,
@@ -478,7 +478,7 @@ void main() {
       final lib = Library(
         context: context,
         name: 'Bindings',
-        header: '$licenseHeader\n// ignore_for_file: unused_import\n',
+        header: '$licenseHeader\n',
         silenceEnumWarning: true,
         bindings: transformBindings([
           enum1,
@@ -503,8 +503,7 @@ void main() {
       final library = Library(
         context: context,
         name: 'init_dylib',
-        header:
-            '$licenseHeader\n// ignore_for_file: unused_element, camel_case_types, non_constant_identifier_names\n',
+        header: '$licenseHeader\n// ignore_for_file: unused_element\n',
         bindings: transformBindings([
           Func(
             name: 'test',
@@ -560,8 +559,7 @@ void main() {
       final library = Library(
         context: context,
         name: 'init_dylib',
-        header:
-            '$licenseHeader\n// ignore_for_file: unused_element, camel_case_types, non_constant_identifier_names\n',
+        header: '$licenseHeader\n',
         bindings: transformBindings([
           Func(
             loadFromNativeAsset: true,
@@ -769,8 +767,7 @@ void main() {
     final library = Library(
       context: context,
       name: 'Bindings',
-      header:
-          '$licenseHeader\n// ignore_for_file: non_constant_identifier_names\n',
+      header: '$licenseHeader\n',
       bindings: transformBindings([
         Typealias(
           name: 'RawUnused',

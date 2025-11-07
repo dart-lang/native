@@ -24,8 +24,6 @@ ${strings.output}: 'unused'
 ${strings.headers}:
   ${strings.entryPoints}:
     - '${absPath('test/collision_tests/decl_type_name_collision.h')}'
-${strings.preamble}: |
-    // ignore_for_file: non_constant_identifier_names, 
         '''),
         ),
       );

@@ -78,8 +78,17 @@ class Writer {
     );
 
     // Write lint ignore if not specified by user already.
-    if (!RegExp(r'ignore_for_file:\s*type\s*=\s*lint').hasMatch(header ?? '')) {
-      result.write(makeDoc('ignore_for_file: type=lint'));
+    final ignores = <String>[
+      if (!RegExp(r'ignore_for_file:\s*type\s*=\s*lint').hasMatch(header ?? ''))
+        'type=lint',
+      // TODO(https://github.com/dart-lang/native/issues/2748): Remove the
+      //   unused_import ignore once we can guarantee that we don't generate
+      //   unused imports.
+      if (!RegExp(r'ignore_for_file:\s*unused_import').hasMatch(header ?? ''))
+        'unused_import',
+    ];
+    if (ignores.isNotEmpty) {
+      result.write(makeDoc('ignore_for_file: ${ignores.join(', ')}'));
     }
 
     // If there are any @Native bindings, the file needs to have an
