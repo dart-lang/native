@@ -7,8 +7,6 @@
 // we can't use Flutter's build system. So this script builds a dylib containing
 // all that native code.
 
-// ignore_for_file: avoid_print
-
 import 'dart:ffi';
 import 'dart:io';
 
