@@ -13,15 +13,19 @@
 /// @docImport 'src/config_provider.dart';
 library;
 
+export 'package:pub_semver/pub_semver.dart' show Version;
 export 'src/code_generator/imports.dart' show ImportedType, LibraryImport;
 export 'src/config_provider.dart'
     show
         BindingStyle,
         Categories,
+        CommentLength,
+        CommentStyle,
         CommentType,
         CompoundDependencies,
         Declaration,
         DynamicLibraryBindings,
+        EnumStyle,
         Enums,
         ExternalVersions,
         FfiGenerator,
