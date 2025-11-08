@@ -1,3 +1,8 @@
+## 20.0.1
+
+- Fix missing package exports used in the `FfiGenerator`
+  ([#2765](https://github.com/dart-lang/native/issues/2765)).
+
 ## 20.0.0
 
 - __Breaking change__: Completely rewrite the public Dart API for FFIgen.
