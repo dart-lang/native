@@ -1,3 +1,7 @@
+## 1.0.0
+
+- Stable release.
+
 ## 0.19.10
 
 - Document `input.packageRoot` in more places.

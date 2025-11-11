@@ -1,3 +1,7 @@
+## 0.19.6
+
+- Bump `package:hooks` to 1.0.0.
+
 ## 0.19.5
 
 - Document `input.packageRoot` in more places.

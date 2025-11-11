@@ -13,8 +13,8 @@ This bindings generator can be used to call C code or code in another language
 that compiles to C modules that follow the C calling convention, such as Go or 
 Rust. For more details, see https://dart.dev/guides/libraries/c-interop.
 
-FFIgen also has experimental support for calling ObjC and Swift code;
-for details see https://dart.dev/guides/libraries/objective-c-interop.
+FFIgen also supports calling ObjC code.
+For details see https://dart.dev/guides/libraries/objective-c-interop.
 
 More FFIgen documentation can be found [here](doc/README.md).
 
