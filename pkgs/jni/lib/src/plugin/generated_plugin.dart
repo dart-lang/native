@@ -88,25 +88,26 @@ class JniPlugin extends jni$_.JObject {
 
   static final _id_getApplicationContext = _class.staticMethodId(
     r'getApplicationContext',
-    r'(J)Landroid/content/Context;',
+    r'()Landroid/content/Context;',
   );
 
   static final _getApplicationContext = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int64,)>)>>(
-          'globalEnv_CallStaticObjectMethod')
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
-  /// from: `static public android.content.Context getApplicationContext(long j)`
+  /// from: `static public android.content.Context getApplicationContext()`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject getApplicationContext(
-    int j,
-  ) {
+  static jni$_.JObject getApplicationContext() {
     return _getApplicationContext(_class.reference.pointer,
-            _id_getApplicationContext as jni$_.JMethodIDPtr, j)
+            _id_getApplicationContext as jni$_.JMethodIDPtr)
         .object<jni$_.JObject>(const jni$_.$JObject$Type$());
   }
 

@@ -1,3 +1,9 @@
+## 0.15.1
+
+- **Breaking Change**: Removed the `engineId` argument from
+  `Jni.androidApplicationContext` as the application context is not dependant on
+  the engine ID.
+
 ## 0.15.0
 
 - **Breaking Change**: Made `Jni.env` internal.
