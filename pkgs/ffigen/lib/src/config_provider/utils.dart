@@ -62,3 +62,18 @@ String get iosSdkPath => _iosSdk.value;
 ///
 /// This is the result of the command `xcrun --show-sdk-path --sdk macosx`.
 String get macSdkPath => _macSdk.value;
+
+/// The directory where Xcode's APIs are installed.
+///
+/// This is the result of the command `xcode-select -p`.
+Uri get xcodeUri => Uri.directory(xcodePath);
+
+/// The directory within [xcodePath] where the iOS SDK is installed.
+///
+/// This is the result of the command `xcrun --show-sdk-path --sdk iphoneos`.
+Uri get iosSdkUri => Uri.directory(iosSdkPath);
+
+/// The directory within [xcodePath] where the macOS SDK is installed.
+///
+/// This is the result of the command `xcrun --show-sdk-path --sdk macosx`.
+Uri get macSdkUri => Uri.directory(macSdkPath);

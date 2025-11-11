@@ -18,10 +18,13 @@ export 'src/config_provider.dart'
     show
         BindingStyle,
         Categories,
+        CommentLength,
+        CommentStyle,
         CommentType,
         CompoundDependencies,
         Declaration,
         DynamicLibraryBindings,
+        EnumStyle,
         Enums,
         ExternalVersions,
         FfiGenerator,
@@ -42,9 +45,13 @@ export 'src/config_provider.dart'
         Unions,
         UnnamedEnums,
         VarArgFunction,
+        Version,
         Versions,
         YamlConfig,
         defaultCompilerOpts,
         iosSdkPath,
+        iosSdkUri,
         macSdkPath,
-        xcodePath;
+        macSdkUri,
+        xcodePath,
+        xcodeUri;
