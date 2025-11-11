@@ -41,6 +41,7 @@ Future<void> _generateWrapper(
     tempDir = Directory.fromUri(config.tempDir!);
     deleteTempDirWhenDone = false;
   }
+  tempDir.createSync();
 
   final sourceModules = <String?>[];
   final mergedSymbolgraph = ParsedSymbolgraph();

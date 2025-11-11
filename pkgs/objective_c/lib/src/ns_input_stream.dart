@@ -2,7 +2,11 @@ import 'dart:async';
 import 'dart:ffi';
 import 'dart:isolate';
 
-import '../objective_c.dart';
+import 'autorelease.dart';
+import 'globals.dart';
+import 'ns_data.dart';
+import 'ns_dictionary.dart';
+import 'ns_string.dart';
 
 import 'objective_c_bindings_generated.dart';
 

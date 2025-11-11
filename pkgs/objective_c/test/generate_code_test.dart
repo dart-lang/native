@@ -22,13 +22,22 @@ void main() {
       await expectLater(generate_code.run(format: true), completes);
 
       // Sanity check the generated code.
+      final rBindings = File(
+        'lib/src/runtime_bindings_generated.dart',
+      ).readAsStringSync();
+      expect(rBindings, contains('sel_registerName'));
+      expect(rBindings, contains('objc_msgSend'));
+      expect(rBindings, contains('_NSConcreteGlobalBlock'));
+      expect(rBindings, contains('ObjCObject'));
+
       final cBindings = File(
         'lib/src/c_bindings_generated.dart',
       ).readAsStringSync();
-      expect(cBindings, contains('sel_registerName'));
-      expect(cBindings, contains('objc_msgSend'));
-      expect(cBindings, contains('_NSConcreteGlobalBlock'));
-      expect(cBindings, contains('ObjCBlock'));
+      expect(cBindings, contains('fillContext'));
+      expect(cBindings, contains('DOBJC_Context'));
+      expect(cBindings, contains('Dart_FinalizableHandle'));
+      expect(cBindings, contains('ILLEGAL_PORT'));
+      expect(cBindings, contains('ObjCBlockImpl'));
 
       final objcBindings = File(
         'lib/src/objective_c_bindings_generated.dart',
