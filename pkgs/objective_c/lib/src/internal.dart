@@ -323,7 +323,7 @@ final class ObjCObjectRef extends _ObjCReference<c.ObjCObjectImpl> {
   bool _isValid(ObjectPtr ptr) => _isValidObject(ptr);
 }
 
-/// Only for use by FFIgen bindings.
+/// Base class for all Objective-C objects.
 class ObjCObject extends _ObjCRefHolder<c.ObjCObjectImpl, ObjCObjectRef> {
   ObjCObject(ObjectPtr ptr, {required bool retain, required bool release})
     : super(ObjCObjectRef(ptr, retain: retain, release: release));
@@ -360,7 +360,7 @@ bool _isValidClass(ObjectPtr clazz, {bool forceReloadClasses = false}) {
   return _allClasses.contains(clazz);
 }
 
-/// Only for use by FFIgen bindings.
+/// Base class for all Objective-C protocols.
 // This exists so that interface_lists_test.dart can tell the difference between
 // a protocol and an interface.
 typedef ObjCProtocol = ObjCObject;

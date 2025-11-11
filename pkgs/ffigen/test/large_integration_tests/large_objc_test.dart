@@ -16,7 +16,6 @@ import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/code_generator/utils.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
-import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
