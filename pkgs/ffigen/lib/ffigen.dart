@@ -21,6 +21,7 @@ export 'src/config_provider.dart'
         CommentType,
         CompoundDependencies,
         Declaration,
+        Declarations,
         DynamicLibraryBindings,
         Enums,
         ExternalVersions,
