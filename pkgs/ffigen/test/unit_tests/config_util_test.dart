@@ -34,7 +34,9 @@ void main() {
     });
 
     test('renameMemberWithMap', () {
-      final renamer = Declarations.renameMemberWithMap({'foo': {'bar': 'baz'}});
+      final renamer = Declarations.renameMemberWithMap({
+        'foo': {'bar': 'baz'},
+      });
       expect(renamer(decl('foo'), 'bar'), 'baz');
       expect(renamer(decl('foo'), 'baz'), 'baz');
       expect(renamer(decl('foo'), 'bop'), 'bop');
