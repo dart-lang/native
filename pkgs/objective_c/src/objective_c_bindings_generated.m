@@ -127,7 +127,7 @@ BOOL  _ObjectiveCBindings_protocolTrampoline_w1e3k0(id target, void * sel, struc
   return ((_ProtocolTrampoline_8)((id (*)(id, SEL, SEL))objc_msgSend)(target, @selector(getDOBJCDartProtocolMethodForSelector:), sel))(sel, arg1);
 }
 
-typedef void  (^_ListenerTrampoline)();
+typedef void  (^_ListenerTrampoline)(void);
 __attribute__((visibility("default"))) __attribute__((used))
 _ListenerTrampoline _ObjectiveCBindings_wrapListenerBlock_1pl9qdv(_ListenerTrampoline block) NS_RETURNS_RETAINED {
   return ^void() {
