@@ -69,13 +69,6 @@ class TestGenerator {
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// ignore_for_file: always_specify_types
-// ignore_for_file: camel_case_types
-// ignore_for_file: non_constant_identifier_names
-// ignore_for_file: unnecessary_non_null_assertion
-// ignore_for_file: unused_element
-// ignore_for_file: unused_field
-// ignore_for_file: unused_import
 // coverage:ignore-file
 ''',
         ),

@@ -9,7 +9,6 @@ import 'package:glob/glob.dart';
 import 'package:logging/logging.dart';
 import 'package:package_config/package_config.dart';
 import 'package:path/path.dart' as p;
-import 'package:pub_semver/pub_semver.dart';
 import 'package:quiver/pattern.dart' as quiver;
 import 'package:yaml/yaml.dart';
 

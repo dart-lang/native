@@ -1,3 +1,15 @@
+## 20.1.0
+
+- Add `xcodeUri`, `iosSdkUri`, and `macSdkUri`, to mirror `xcodePath`,
+  `iosSdkPath`, and `macSdkPath`.
+- Export some missing elements from the config API.
+- Provide more convenience utils for building FFIgen configs:
+  `Declarations.excludeAll`, `Declarations.includeAll`,
+  `Declarations.includeSet`, `Declarations.includeAllMembers`,
+  `Declarations.includeMemberSet`, `Declarations.useOriginalName`,
+  `Declarations.renameWithMap`, `Declarations.useMemberOriginalName`, and
+  `Declarations.renameMemberWithMap`.
+
 ## 20.0.0
 
 - __Breaking change__: Completely rewrite the public Dart API for FFIgen.

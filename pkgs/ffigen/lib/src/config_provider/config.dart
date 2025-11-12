@@ -163,6 +163,17 @@ final class Declarations {
   /// ```
   final bool Function(Declaration declaration) include;
 
+  /// A function to pass to [include] that excludes all declarations.
+  static bool excludeAll(Declaration declaration) => false;
+
+  /// A function to pass to [include] that includes all declarations.
+  static bool includeAll(Declaration declaration) => true;
+
+  /// Returns a function to pass to [include] that includes all declarations
+  /// whose `originalName`s are in [names].
+  static bool Function(Declaration) includeSet(Set<String> names) =>
+      (Declaration decl) => names.contains(decl.originalName);
+
   /// Whether the member of the declaration should be included.
   ///
   /// Only used for [Categories], [Interfaces], and [Protocols] methods and
@@ -180,8 +191,20 @@ final class Declarations {
   // TODO(https://github.com/dart-lang/native/issues/2770): Merge with include.
   final bool Function(Declaration declaration, String member) includeMember;
 
-  static bool _includeAllMembers(Declaration declaration, String member) =>
-      true;
+  /// A function to pass to [includeMember] that includes all members of all
+  /// declarations.
+  static bool includeAllMembers(Declaration declaration, String member) => true;
+
+  /// A function to pass to [includeMember] that includes specific members.
+  ///
+  /// The map key is the declaration's `originalName`, and the value is the set
+  /// of member names to include. If the declaration is not in the map, all its
+  /// members are included.
+  static bool Function(Declaration, String) includeMemberSet(
+    Map<String, Set<String>> members,
+  ) =>
+      (Declaration decl, String member) =>
+          members[decl.originalName]?.contains(member) ?? true;
 
   /// Whether the symbol address should be exposed for this declaration.
   ///
@@ -197,8 +220,20 @@ final class Declarations {
   /// ```
   final String Function(Declaration declaration) rename;
 
-  static String _useOriginalName(Declaration declaration) =>
+  /// A function to pass to [rename] that doesn't rename the declaration.
+  static String useOriginalName(Declaration declaration) =>
       declaration.originalName;
+
+  /// A function to pass to [rename] that applies a rename map.
+  ///
+  /// The key of the map is the declaration's `originalName`, and the value is
+  /// the new name to use. If the declaration is not in the map, it is not
+  /// renamed.
+  static String Function(Declaration) renameWithMap(
+    Map<String, String> renames,
+  ) =>
+      (Declaration declaration) =>
+          renames[declaration.originalName] ?? declaration.originalName;
 
   /// Returns a new name for the member of the declaration, to replace its
   /// `originalName`.
@@ -217,17 +252,28 @@ final class Declarations {
   /// ```
   final String Function(Declaration declaration, String member) renameMember;
 
-  static String _useMemberOriginalName(
-    Declaration declaration,
-    String member,
-  ) => member;
+  /// A function to pass to [renameMember] that doesn't rename the member.
+  static String useMemberOriginalName(Declaration declaration, String member) =>
+      member;
+
+  /// A function to pass to [renameMember] that applies a rename map.
+  ///
+  /// The key of the map is the declaration's `originalName`, and the value is
+  /// a map from member name to renamed member name. If the declaration is not
+  /// in the map, or the member isn't in the declaration's map, the member is
+  /// not renamed.
+  static String Function(Declaration, String) renameMemberWithMap(
+    Map<String, Map<String, String>> renames,
+  ) =>
+      (Declaration declaration, String member) =>
+          renames[declaration.originalName]?[member] ?? member;
 
   const Declarations({
-    this.include = _excludeAll,
-    this.includeMember = _includeAllMembers,
-    this.includeSymbolAddress = _excludeAll,
-    this.rename = _useOriginalName,
-    this.renameMember = _useMemberOriginalName,
+    this.include = excludeAll,
+    this.includeMember = includeAllMembers,
+    this.includeSymbolAddress = excludeAll,
+    this.rename = useOriginalName,
+    this.renameMember = useMemberOriginalName,
   });
 }
 
@@ -267,12 +313,12 @@ final class Enums extends Declarations {
     this.silenceWarning = false,
   });
 
-  static const excludeAll = Enums(include: _excludeAll);
+  static const excludeAll = Enums(include: Declarations.excludeAll);
 
-  static const includeAll = Enums(include: _includeAll);
+  static const includeAll = Enums(include: Declarations.includeAll);
 
   static Enums includeSet(Set<String> names) =>
-      Enums(include: (Declaration decl) => names.contains(decl.originalName));
+      Enums(include: Declarations.includeSet(names));
 }
 
 /// Configuration for how to generate enums.
@@ -320,25 +366,24 @@ final class Functions extends Declarations {
     this.varArgs = const <String, List<VarArgFunction>>{},
   });
 
-  static const excludeAll = Functions(include: _excludeAll);
+  static const excludeAll = Functions(include: Declarations.excludeAll);
 
-  static const includeAll = Functions(include: _includeAll);
+  static const includeAll = Functions(include: Declarations.includeAll);
 
-  static Functions includeSet(Set<String> names) => Functions(
-    include: (Declaration decl) => names.contains(decl.originalName),
-  );
+  static Functions includeSet(Set<String> names) =>
+      Functions(include: Declarations.includeSet(names));
 }
 
 /// Configuration for globals.
 final class Globals extends Declarations {
   const Globals({super.rename, super.include, super.includeSymbolAddress});
 
-  static const excludeAll = Globals(include: _excludeAll);
+  static const excludeAll = Globals(include: Declarations.excludeAll);
 
-  static const includeAll = Globals(include: _includeAll);
+  static const includeAll = Globals(include: Declarations.includeAll);
 
   static Globals includeSet(Set<String> names) =>
-      Globals(include: (Declaration decl) => names.contains(decl.originalName));
+      Globals(include: Declarations.includeSet(names));
 }
 
 /// Configuration for integer types.
@@ -364,12 +409,12 @@ final class Integers {
 final class Macros extends Declarations {
   const Macros({super.rename, super.include});
 
-  static const excludeAll = Macros(include: _excludeAll);
+  static const excludeAll = Macros(include: Declarations.excludeAll);
 
-  static const includeAll = Macros(include: _includeAll);
+  static const includeAll = Macros(include: Declarations.includeAll);
 
   static Macros includeSet(Set<String> names) =>
-      Macros(include: (Declaration decl) => names.contains(decl.originalName));
+      Macros(include: Declarations.includeSet(names));
 }
 
 /// Configuration for struct declarations.
@@ -403,12 +448,12 @@ final class Structs extends Declarations {
     this.packingOverride = _packingOverrideDefault,
   });
 
-  static const excludeAll = Structs(include: _excludeAll);
+  static const excludeAll = Structs(include: Declarations.excludeAll);
 
-  static const includeAll = Structs(include: _includeAll);
+  static const includeAll = Structs(include: Declarations.includeAll);
 
   static Structs includeSet(Set<String> names) =>
-      Structs(include: (Declaration decl) => names.contains(decl.originalName));
+      Structs(include: Declarations.includeSet(names));
 }
 
 /// Configuration for typedefs.
@@ -438,13 +483,12 @@ final class Typedefs extends Declarations {
     this.useSupportedTypedefs = true,
   });
 
-  static const Typedefs excludeAll = Typedefs(include: _excludeAll);
+  static const Typedefs excludeAll = Typedefs(include: Declarations.excludeAll);
 
-  static const Typedefs includeAll = Typedefs(include: _includeAll);
+  static const Typedefs includeAll = Typedefs(include: Declarations.includeAll);
 
-  static Typedefs includeSet(Set<String> names) => Typedefs(
-    include: (Declaration decl) => names.contains(decl.originalName),
-  );
+  static Typedefs includeSet(Set<String> names) =>
+      Typedefs(include: Declarations.includeSet(names));
 }
 
 /// Configuration for union declarations.
@@ -471,25 +515,24 @@ final class Unions extends Declarations {
     this.imported = const <ImportedType>[],
   });
 
-  static const excludeAll = Unions(include: _excludeAll);
+  static const excludeAll = Unions(include: Declarations.excludeAll);
 
-  static const includeAll = Unions(include: _includeAll);
+  static const includeAll = Unions(include: Declarations.includeAll);
 
   static Unions includeSet(Set<String> names) =>
-      Unions(include: (Declaration decl) => names.contains(decl.originalName));
+      Unions(include: Declarations.includeSet(names));
 }
 
 /// Configuration for unnamed enum constants.
 final class UnnamedEnums extends Declarations {
   const UnnamedEnums({super.include, super.rename, super.renameMember});
 
-  static const excludeAll = UnnamedEnums(include: _excludeAll);
+  static const excludeAll = UnnamedEnums(include: Declarations.excludeAll);
 
-  static const includeAll = UnnamedEnums(include: _includeAll);
+  static const includeAll = UnnamedEnums(include: Declarations.includeAll);
 
-  static UnnamedEnums includeSet(Set<String> names) => UnnamedEnums(
-    include: (Declaration decl) => names.contains(decl.originalName),
-  );
+  static UnnamedEnums includeSet(Set<String> names) =>
+      UnnamedEnums(include: Declarations.includeSet(names));
 }
 
 /// Configuration for Objective-C.
@@ -542,13 +585,12 @@ final class Categories extends Declarations {
     this.includeTransitive = true,
   });
 
-  static const excludeAll = Categories(include: _excludeAll);
+  static const excludeAll = Categories(include: Declarations.excludeAll);
 
-  static const includeAll = Categories(include: _includeAll);
+  static const includeAll = Categories(include: Declarations.includeAll);
 
-  static Categories includeSet(Set<String> names) => Categories(
-    include: (Declaration decl) => names.contains(decl.originalName),
-  );
+  static Categories includeSet(Set<String> names) =>
+      Categories(include: Declarations.includeSet(names));
 }
 
 /// Configuration for Objective-C interfaces.
@@ -572,13 +614,12 @@ final class Interfaces extends Declarations {
     this.module = noModule,
   });
 
-  static const excludeAll = Interfaces(include: _excludeAll);
+  static const excludeAll = Interfaces(include: Declarations.excludeAll);
 
-  static const includeAll = Interfaces(include: _includeAll);
+  static const includeAll = Interfaces(include: Declarations.includeAll);
 
-  static Interfaces includeSet(Set<String> names) => Interfaces(
-    include: (Declaration decl) => names.contains(decl.originalName),
-  );
+  static Interfaces includeSet(Set<String> names) =>
+      Interfaces(include: Declarations.includeSet(names));
 
   static String? noModule(Declaration declaration) => null;
 }
@@ -604,13 +645,12 @@ final class Protocols extends Declarations {
     this.module = noModule,
   });
 
-  static const excludeAll = Protocols(include: _excludeAll);
+  static const excludeAll = Protocols(include: Declarations.excludeAll);
 
-  static const includeAll = Protocols(include: _includeAll);
+  static const includeAll = Protocols(include: Declarations.includeAll);
 
-  static Protocols includeSet(Set<String> names) => Protocols(
-    include: (Declaration decl) => names.contains(decl.originalName),
-  );
+  static Protocols includeSet(Set<String> names) =>
+      Protocols(include: Declarations.includeSet(names));
 
   static String? noModule(Declaration declaration) => null;
 }
@@ -813,7 +853,3 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
 
   Language get language => objectiveC != null ? Language.objc : Language.c;
 }
-
-bool _excludeAll(Declaration declaration) => false;
-
-bool _includeAll(Declaration d) => true;
