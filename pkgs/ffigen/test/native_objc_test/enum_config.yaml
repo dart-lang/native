@@ -7,6 +7,9 @@ enums:
   include:
     - Fruit
     - CoffeeOptions
+objc-interfaces:
+  include:
+    - EnumTestInterface
 headers:
   entry-points:
     - 'enum_test.m'
