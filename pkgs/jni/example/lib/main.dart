@@ -49,8 +49,7 @@ void showToast(String text) {
       '(Landroid/app/Activity;Landroid/content/Context;'
           'Ljava/lang/CharSequence;I)'
           'Lcom/github/dart_lang/jni_example/Toaster;');
-  final applicationContext =
-      Jni.androidApplicationContext(PlatformDispatcher.instance.engineId!);
+  final applicationContext = Jni.androidApplicationContext;
   final toaster = makeText(toasterClass, JObject.type, [
     activity,
     applicationContext,

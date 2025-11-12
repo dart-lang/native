@@ -4,6 +4,7 @@
 
 package com.github.dart_lang.jni;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import androidx.annotation.NonNull;
@@ -18,11 +19,14 @@ public class JniPlugin implements FlutterPlugin, ActivityAware {
   private static final ConcurrentHashMap<Long, JniPlugin> pluginMap = new ConcurrentHashMap<>();
 
   private long engineId;
-  private volatile Context context;
+
+  @SuppressLint("StaticFieldLeak")
+  private static Context context;
+
   private volatile Activity activity;
 
-  public static @NonNull Context getApplicationContext(long engineId) {
-    return Objects.requireNonNull(pluginMap.get(engineId)).context;
+  public static @NonNull Context getApplicationContext() {
+    return context;
   }
 
   public static @Nullable Activity getActivity(long engineId) {
@@ -40,7 +44,6 @@ public class JniPlugin implements FlutterPlugin, ActivityAware {
 
   @Override
   public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {
-    context = null;
     activity = null;
     pluginMap.remove(engineId);
   }

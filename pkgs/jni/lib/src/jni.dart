@@ -216,13 +216,10 @@ abstract final class Jni {
   /// Retrieves the global Android `ApplicationContext` associated with a
   /// Flutter engine.
   ///
-  /// Pass `PlatformDispatcher.instance.engineId` to the [engineId] field.
-  ///
   /// The `ApplicationContext` is a long-lived singleton tied to the
-  /// application's lifecycle. It is safe to store and use from any thread
-  /// for non-UI tasks.
-  static JObject androidApplicationContext(int engineId) {
-    return JniPlugin.getApplicationContext(engineId);
+  /// application's lifecycle. It is safe to store and use from any thread.
+  static JObject get androidApplicationContext {
+    return JniPlugin.getApplicationContext();
   }
 
   /// Retrieves the current Android `Activity` associated with a Flutter engine.
