@@ -7,6 +7,15 @@ enums:
   include:
     - Fruit
     - CoffeeOptions
+unnamed-enums:
+  include:
+    - UnnamedEnumValue
+macros:
+  include:
+    - SOME_MACRO
 headers:
   entry-points:
+    # Multiple includes to repro https://github.com/dart-lang/native/issues/2782
+    - 'enum_test.m'
+    - 'enum_test.m'
     - 'enum_test.m'

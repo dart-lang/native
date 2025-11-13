@@ -9,6 +9,8 @@
   `Declarations.includeMemberSet`, `Declarations.useOriginalName`,
   `Declarations.renameWithMap`, `Declarations.useMemberOriginalName`, and
   `Declarations.renameMemberWithMap`.
+- Fix [a bug](https://github.com/dart-lang/native/issues/2782) where unnamed
+  enum constants were being multiply defined.
 
 ## 20.0.0
 

@@ -17,3 +17,9 @@ typedef NS_OPTIONS(NSUInteger, CoffeeOptions) {
     CoffeeOptionsSugar = 1 << 1,
     CoffeeOptionsIced  = 1 << 2,
 };
+
+enum {
+  UnnamedEnumValue,
+};
+
+#define SOME_MACRO 123
