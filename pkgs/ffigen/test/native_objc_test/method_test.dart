@@ -37,10 +37,10 @@ void main() {
           'objc_test.dylib',
         ),
       );
-      // verifySetupFile(dylib);
+      verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       testInstance = MethodInterface();
-      // generateBindingsForCoverage('method');
+      generateBindingsForCoverage('method');
     });
 
     group('Instance methods', () {

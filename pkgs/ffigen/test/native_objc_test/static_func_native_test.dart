@@ -192,5 +192,11 @@ void main() {
       expect(counter.value, 0);
       calloc.free(counter);
     }, skip: !canDoGC);
+
+    test('Internal variable conflict resolution', () {
+      // Regression test for https://github.com/dart-lang/native/issues/2760
+      expect(foo(123), 1230);
+      expect(fooPtr(123), 12300);
+    });
   });
 }

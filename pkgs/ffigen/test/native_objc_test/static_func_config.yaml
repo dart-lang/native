@@ -5,6 +5,8 @@ output: 'static_func_bindings.dart'
 exclude-all-by-default: true
 functions:
   include:
+    - foo
+    - fooPtr
     - staticFuncOfObject
     - staticFuncOfNullableObject
     - staticFuncOfBlock
