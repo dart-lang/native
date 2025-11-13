@@ -18,6 +18,26 @@ import 'util.dart';
 void main() {
   group('enum', () {
     setUpAll(() {
+      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
+      DynamicLibrary.open(
+        path.join(
+          packagePathForTests,
+          '..',
+          'objective_c',
+          'test',
+          'objective_c.dylib',
+        ),
+      );
+      final dylib = File(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'objc_test.dylib',
+        ),
+      );
+      verifySetupFile(dylib);
+      DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('enum');
     });
 
@@ -47,6 +67,23 @@ void main() {
 
       expect(bindings, isNot(contains('UnnamedEnumValue\$1')));
       expect(bindings, isNot(contains('SOME_MACRO\$1')));
+    });
+    
+    test('Imported enum', () {
+      // Regression test for https://github.com/dart-lang/native/issues/2761
+      expect(
+        EnumTestInterface.useImportedNSEnum(
+          NSQualityOfService.NSQualityOfServiceUtility,
+        ),
+        17,
+      );
+      expect(
+        EnumTestInterface.useImportedNSOptions(
+          NSOrderedCollectionDifferenceCalculationOptions
+              .NSOrderedCollectionDifferenceCalculationOmitInsertedObjects,
+        ),
+        1,
+      );
     });
   });
 }
