@@ -48,7 +48,10 @@ class Scope {
   /// [fillNames] must not have been called yet.
   void add(Symbol? symbol) {
     assert(!_filled);
-    if (symbol != null) _symbols.add(symbol);
+    if (symbol != null && symbol._scope == null) {
+      _symbols.add(symbol);
+      symbol.scope = this;
+    }
   }
 
   /// Add an ad-hoc name to the [Scope].
@@ -161,6 +164,7 @@ class Namer {
 class Symbol extends AstNode {
   final String oldName;
   final SymbolKind kind;
+  Scope? _scope;
   String? _name;
 
   /// Only valid if [Scope.fillNames] has been called already.
