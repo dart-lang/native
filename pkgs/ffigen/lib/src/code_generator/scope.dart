@@ -50,7 +50,7 @@ class Scope {
     assert(!_filled);
     if (symbol != null && symbol._scope == null) {
       _symbols.add(symbol);
-      symbol.scope = this;
+      symbol._scope = this;
     }
   }
 
