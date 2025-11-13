@@ -99,3 +99,5 @@ jobs:
         run: flutter pub get
       - name: Build the example app
         run: flutter build macos
+      - name: Check for xcode for analyzer warnings
+        run: xcodebuild analyze -workspace macos/Runner.xcworkspace -scheme Runner -configuration Debug GCC_TREAT_WARNINGS_AS_ERRORS=YES
