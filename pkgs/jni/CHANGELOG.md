@@ -1,3 +1,7 @@
+## 0.15.2
+
+- Do not fail `flutter build` if JDK is not found for desktop.
+
 ## 0.15.1
 
 - **Breaking Change**: Removed the `engineId` argument from
