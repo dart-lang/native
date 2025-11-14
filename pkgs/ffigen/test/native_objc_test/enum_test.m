@@ -19,6 +19,12 @@ typedef NS_OPTIONS(NSUInteger, CoffeeOptions) {
     CoffeeOptionsIced  = 1 << 2,
 };
 
+enum {
+  UnnamedEnumValue,
+};
+
+#define SOME_MACRO 123
+
 @interface EnumTestInterface : NSObject {}
 
 +(int32_t)useImportedNSEnum:(NSQualityOfService)x;

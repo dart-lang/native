@@ -54,6 +54,21 @@ void main() {
       );
     });
 
+    test('Multi def regression test', () {
+      // Regression test for https://github.com/dart-lang/native/issues/2782
+      final bindings = File(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'enum_bindings.dart',
+        ),
+      ).readAsStringSync();
+
+      expect(bindings, isNot(contains('UnnamedEnumValue\$1')));
+      expect(bindings, isNot(contains('SOME_MACRO\$1')));
+    });
+
     test('Imported enum', () {
       // Regression test for https://github.com/dart-lang/native/issues/2761
       expect(
