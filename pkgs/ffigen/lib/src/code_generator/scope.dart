@@ -40,18 +40,26 @@ class Scope {
 
   /// Add a [Symbol] to this [Scope].
   ///
-  /// It's fine to add the [Symbol] to this [Scope] multiple times. It's
-  /// also fine to add the [Symbol] to multiple [Scope]s, as long as one of
-  /// the [Scope]s is an ancestor of all the others (this is checked during
-  /// [fillNames]).
+  /// [Symbol]s can only be in one [Scope], so this call does nothing if the
+  /// symbol is already in a scope, unless this scope is an ancestor of the
+  /// symbol's existing scope.
   ///
   /// [fillNames] must not have been called yet.
   void add(Symbol? symbol) {
     assert(!_filled);
-    if (symbol != null && symbol._scope == null) {
+    if (symbol == null) return;
+    final existingScope = symbol._scope;
+    if (existingScope == null || _isAncestor(existingScope)) {
       _symbols.add(symbol);
       symbol._scope = this;
     }
+  }
+
+  bool _isAncestor(Scope other) {
+    for (Scope? s = other; s != null; s = s._parent) {
+      if (s == this) return true;
+    }
+    return false;
   }
 
   /// Add an ad-hoc name to the [Scope].
