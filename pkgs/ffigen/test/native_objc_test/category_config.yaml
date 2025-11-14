@@ -8,6 +8,7 @@ objc-interfaces:
     - Thing
     - ChildOfThing
     - NSURL
+    - ChildOfNSString
 objc-categories:
   include:
     - Sub
@@ -16,6 +17,7 @@ objc-categories:
     - InstanceTypeCategory
     - InterfaceOnBuiltInType
     - StaticAndInstanceMethodsWithSameNameCategory
+    - NSString
 headers:
   entry-points:
     - 'category_test.h'
