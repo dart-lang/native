@@ -263,6 +263,59 @@ jobs:
       - run: dart run jni:setup
       - run: dart test --test-randomize-ordering-seed random
 
+  # Not having Java installed on a Desktop will not fail Flutter build.
+  test_no_jdk_fallback:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            target: linux
+          - os: windows-latest
+            target: windows
+
+    steps:
+      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
+        with:
+          channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+
+      - name: Create Test App Directory
+        run: mkdir test_app
+
+      - name: Create New Flutter App
+        run: flutter create .
+        working-directory: test_app
+
+      - name: Add JNI Plugin (using relative path to link local source)
+        run: flutter pub add jni --path ../
+        working-directory: test_app
+
+      - name: Clear JAVA_HOME to Simulate Missing JDK
+        run: echo "JAVA_HOME=" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Install Linux Build Dependencies and Enable Desktop (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y ninja-build libgtk-3-dev
+          flutter config --enable-linux-desktop
+        working-directory: test_app
+
+      - name: Enable Windows Desktop (Windows)
+        if: matrix.os == 'windows-latest'
+        run: flutter config --enable-windows-desktop
+        working-directory: test_app
+        
+      - name: Run Build (Must succeed without JDK installed)
+        run: flutter build ${{ matrix.target }}
+        working-directory: test_app
+
   test_jnigen_windows_minimal:
     needs: [analyze_jnigen]
     runs-on: windows-latest
