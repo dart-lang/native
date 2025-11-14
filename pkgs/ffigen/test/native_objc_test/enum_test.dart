@@ -68,7 +68,7 @@ void main() {
       expect(bindings, isNot(contains('UnnamedEnumValue\$1')));
       expect(bindings, isNot(contains('SOME_MACRO\$1')));
     });
-    
+
     test('Imported enum', () {
       // Regression test for https://github.com/dart-lang/native/issues/2761
       expect(
