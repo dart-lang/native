@@ -266,6 +266,9 @@ jobs:
   # Not having Java installed on a Desktop will not fail Flutter build.
   test_no_jdk_fallback:
     runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: ./pkgs/jni
     strategy:
       fail-fast: false
       matrix:
