@@ -270,6 +270,10 @@ void main(List<String> arguments) async {
     final tempDir = await jniDir.createTemp('jni_native_build_');
     final cmakeArgs = <String>[];
     cmakeArgs.addAll(options.cmakeArgs);
+
+    // Force JNI to be required for standalone builds
+    cmakeArgs.add('-DREQUIRE_JNI=ON');
+
     // Pass absolute path of srcDir because cmake command is run in temp dir
     cmakeArgs.add(srcDir.absolute.path);
     await runCommand('cmake', cmakeArgs, tempDir.path);
