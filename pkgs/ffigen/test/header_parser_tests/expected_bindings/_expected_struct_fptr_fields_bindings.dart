@@ -33,11 +33,11 @@ final class S extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Int Function(
-        ffi.Int unnamed,
-        ffi.Int unnamed$1,
-        ffi.Int unnamed$2,
-        ffi.Float unnamed$3,
-        ffi.Pointer<ffi.Char> unnamed$4,
+        ffi.Int,
+        ffi.Int,
+        ffi.Int,
+        ffi.Float,
+        ffi.Pointer<ffi.Char>,
       )
     >
   >
@@ -66,9 +66,7 @@ final class S extends ffi.Struct {
   sortBy;
 
   external ffi.Pointer<
-    ffi.NativeFunction<
-      ffi.Void Function(ffi.Int unnamed, ffi.Int unnamed$1, ffi.Char unnamed$2)
-    >
+    ffi.NativeFunction<ffi.Void Function(ffi.Int, ffi.Int, ffi.Char)>
   >
   improperlyDeclaredParams;
 
@@ -87,30 +85,22 @@ final class S extends ffi.Struct {
 
   @ffi.Array.multi([2])
   external ffi.Array<
-    ffi.Pointer<
-      ffi.NativeFunction<
-        ffi.Void Function(ffi.Char unnamed, ffi.Char unnamed$1)
-      >
-    >
+    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Char, ffi.Char)>>
   >
   manyFunctions;
 
   external ffi.Pointer<
     ffi.NativeFunction<
-      ffi.Pointer<
-        ffi.NativeFunction<ffi.Int Function(ffi.Int unnamed, ffi.Int unnamed$1)>
-      >
-      Function(ffi.Int unnamed, ffi.Int unnamed$1)
+      ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int, ffi.Int)>>
+      Function(ffi.Int, ffi.Int)
     >
   >
   functionReturningFunction;
 
   external ffi.Pointer<
     ffi.NativeFunction<
-      ffi.Pointer<
-        ffi.NativeFunction<ffi.Int Function(ffi.Int unnamed, ffi.Int unnamed$1)>
-      >
-      Function(ffi.Int unnamed, ffi.Int unnamed$1)
+      ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int, ffi.Int)>>
+      Function(ffi.Int, ffi.Int)
     >
   >
   functionReturningFunctionImproper;

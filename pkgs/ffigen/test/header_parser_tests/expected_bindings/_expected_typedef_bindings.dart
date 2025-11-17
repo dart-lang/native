@@ -22,7 +22,7 @@ class Bindings {
 
   NamedFunctionProto func1(
     NamedFunctionProto named,
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Int unnamed)>> unnamed,
+    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Int)>> unnamed,
   ) {
     return _func1(named, unnamed);
   }
@@ -32,7 +32,7 @@ class Bindings {
         ffi.NativeFunction<
           NamedFunctionProto Function(
             NamedFunctionProto,
-            ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Int unnamed)>>,
+            ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Int)>>,
           )
         >
       >('func1');
@@ -40,7 +40,7 @@ class Bindings {
       .asFunction<
         NamedFunctionProto Function(
           NamedFunctionProto,
-          ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Int unnamed)>>,
+          ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Int)>>,
         )
       >();
 
