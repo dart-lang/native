@@ -8,3 +8,8 @@ enum export { covariant };
 void implements(int dynamic, int in, int deferred) {}
 int import = 123;
 typedef void var;
+
+// Regression test for https://github.com/dart-lang/native/issues/2795
+struct Repro2795 {
+  void (*var)(void* in);
+};

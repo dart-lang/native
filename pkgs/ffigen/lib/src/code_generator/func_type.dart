@@ -31,7 +31,7 @@ class FunctionType extends Type with HasLocalScope {
   }) {
     final params = varArgWrapper != null ? parameters : dartTypeParameters;
     String paramToString(Parameter p) =>
-        '${typeToString(p.type)} ${writeArgumentNames ? p.originalName : ""}';
+        '${typeToString(p.type)} ${writeArgumentNames ? p.name : ""}';
     String? varArgPack;
     if (varArgWrapper != null && varArgParameters.isNotEmpty) {
       final varArgPackBuf = StringBuffer();
