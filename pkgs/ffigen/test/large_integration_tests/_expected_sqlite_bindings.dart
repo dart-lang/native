@@ -278,10 +278,10 @@ class SQLite {
     ffi.Pointer<
       ffi.NativeFunction<
         ffi.Int Function(
-          ffi.Pointer<ffi.Void>,
-          ffi.Int,
-          ffi.Pointer<ffi.Pointer<ffi.Char>>,
-          ffi.Pointer<ffi.Pointer<ffi.Char>>,
+          ffi.Pointer<ffi.Void> unnamed,
+          ffi.Int unnamed$1,
+          ffi.Pointer<ffi.Pointer<ffi.Char>> unnamed$2,
+          ffi.Pointer<ffi.Pointer<ffi.Char>> unnamed$3,
         )
       >
     >
@@ -301,10 +301,10 @@ class SQLite {
             ffi.Pointer<
               ffi.NativeFunction<
                 ffi.Int Function(
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Int,
-                  ffi.Pointer<ffi.Pointer<ffi.Char>>,
-                  ffi.Pointer<ffi.Pointer<ffi.Char>>,
+                  ffi.Pointer<ffi.Void> unnamed,
+                  ffi.Int unnamed$1,
+                  ffi.Pointer<ffi.Pointer<ffi.Char>> unnamed$2,
+                  ffi.Pointer<ffi.Pointer<ffi.Char>> unnamed$3,
                 )
               >
             >,
@@ -321,10 +321,10 @@ class SQLite {
           ffi.Pointer<
             ffi.NativeFunction<
               ffi.Int Function(
-                ffi.Pointer<ffi.Void>,
-                ffi.Int,
-                ffi.Pointer<ffi.Pointer<ffi.Char>>,
-                ffi.Pointer<ffi.Pointer<ffi.Char>>,
+                ffi.Pointer<ffi.Void> unnamed,
+                ffi.Int unnamed$1,
+                ffi.Pointer<ffi.Pointer<ffi.Char>> unnamed$2,
+                ffi.Pointer<ffi.Pointer<ffi.Char>> unnamed$3,
               )
             >
           >,
@@ -876,7 +876,9 @@ class SQLite {
   int sqlite3_busy_handler(
     ffi.Pointer<sqlite3> arg0,
     ffi.Pointer<
-      ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void>, ffi.Int)>
+      ffi.NativeFunction<
+        ffi.Int Function(ffi.Pointer<ffi.Void> unnamed, ffi.Int unnamed$1)
+      >
     >
     arg1,
     ffi.Pointer<ffi.Void> arg2,
@@ -891,7 +893,10 @@ class SQLite {
             ffi.Pointer<sqlite3>,
             ffi.Pointer<
               ffi.NativeFunction<
-                ffi.Int Function(ffi.Pointer<ffi.Void>, ffi.Int)
+                ffi.Int Function(
+                  ffi.Pointer<ffi.Void> unnamed,
+                  ffi.Int unnamed$1,
+                )
               >
             >,
             ffi.Pointer<ffi.Void>,
@@ -903,7 +908,9 @@ class SQLite {
         int Function(
           ffi.Pointer<sqlite3>,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void>, ffi.Int)>
+            ffi.NativeFunction<
+              ffi.Int Function(ffi.Pointer<ffi.Void> unnamed, ffi.Int unnamed$1)
+            >
           >,
           ffi.Pointer<ffi.Void>,
         )
@@ -1448,12 +1455,12 @@ class SQLite {
     ffi.Pointer<
       ffi.NativeFunction<
         ffi.Int Function(
-          ffi.Pointer<ffi.Void>,
-          ffi.Int,
-          ffi.Pointer<ffi.Char>,
-          ffi.Pointer<ffi.Char>,
-          ffi.Pointer<ffi.Char>,
-          ffi.Pointer<ffi.Char>,
+          ffi.Pointer<ffi.Void> unnamed,
+          ffi.Int unnamed$1,
+          ffi.Pointer<ffi.Char> unnamed$2,
+          ffi.Pointer<ffi.Char> unnamed$3,
+          ffi.Pointer<ffi.Char> unnamed$4,
+          ffi.Pointer<ffi.Char> unnamed$5,
         )
       >
     >
@@ -1471,12 +1478,12 @@ class SQLite {
             ffi.Pointer<
               ffi.NativeFunction<
                 ffi.Int Function(
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Int,
-                  ffi.Pointer<ffi.Char>,
-                  ffi.Pointer<ffi.Char>,
-                  ffi.Pointer<ffi.Char>,
-                  ffi.Pointer<ffi.Char>,
+                  ffi.Pointer<ffi.Void> unnamed,
+                  ffi.Int unnamed$1,
+                  ffi.Pointer<ffi.Char> unnamed$2,
+                  ffi.Pointer<ffi.Char> unnamed$3,
+                  ffi.Pointer<ffi.Char> unnamed$4,
+                  ffi.Pointer<ffi.Char> unnamed$5,
                 )
               >
             >,
@@ -1491,12 +1498,12 @@ class SQLite {
           ffi.Pointer<
             ffi.NativeFunction<
               ffi.Int Function(
-                ffi.Pointer<ffi.Void>,
-                ffi.Int,
-                ffi.Pointer<ffi.Char>,
-                ffi.Pointer<ffi.Char>,
-                ffi.Pointer<ffi.Char>,
-                ffi.Pointer<ffi.Char>,
+                ffi.Pointer<ffi.Void> unnamed,
+                ffi.Int unnamed$1,
+                ffi.Pointer<ffi.Char> unnamed$2,
+                ffi.Pointer<ffi.Char> unnamed$3,
+                ffi.Pointer<ffi.Char> unnamed$4,
+                ffi.Pointer<ffi.Char> unnamed$5,
               )
             >
           >,
@@ -1538,7 +1545,10 @@ class SQLite {
     ffi.Pointer<sqlite3> arg0,
     ffi.Pointer<
       ffi.NativeFunction<
-        ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Char>)
+        ffi.Void Function(
+          ffi.Pointer<ffi.Void> unnamed,
+          ffi.Pointer<ffi.Char> unnamed$1,
+        )
       >
     >
     xTrace,
@@ -1554,7 +1564,10 @@ class SQLite {
             ffi.Pointer<sqlite3>,
             ffi.Pointer<
               ffi.NativeFunction<
-                ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Char>)
+                ffi.Void Function(
+                  ffi.Pointer<ffi.Void> unnamed,
+                  ffi.Pointer<ffi.Char> unnamed$1,
+                )
               >
             >,
             ffi.Pointer<ffi.Void>,
@@ -1567,7 +1580,10 @@ class SQLite {
           ffi.Pointer<sqlite3>,
           ffi.Pointer<
             ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.Pointer<ffi.Char>)
+              ffi.Void Function(
+                ffi.Pointer<ffi.Void> unnamed,
+                ffi.Pointer<ffi.Char> unnamed$1,
+              )
             >
           >,
           ffi.Pointer<ffi.Void>,
@@ -1579,9 +1595,9 @@ class SQLite {
     ffi.Pointer<
       ffi.NativeFunction<
         ffi.Void Function(
-          ffi.Pointer<ffi.Void>,
-          ffi.Pointer<ffi.Char>,
-          sqlite3_uint64,
+          ffi.Pointer<ffi.Void> unnamed,
+          ffi.Pointer<ffi.Char> unnamed$1,
+          sqlite3_uint64 unnamed$2,
         )
       >
     >
@@ -1599,9 +1615,9 @@ class SQLite {
             ffi.Pointer<
               ffi.NativeFunction<
                 ffi.Void Function(
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Char>,
-                  sqlite3_uint64,
+                  ffi.Pointer<ffi.Void> unnamed,
+                  ffi.Pointer<ffi.Char> unnamed$1,
+                  sqlite3_uint64 unnamed$2,
                 )
               >
             >,
@@ -1616,9 +1632,9 @@ class SQLite {
           ffi.Pointer<
             ffi.NativeFunction<
               ffi.Void Function(
-                ffi.Pointer<ffi.Void>,
-                ffi.Pointer<ffi.Char>,
-                sqlite3_uint64,
+                ffi.Pointer<ffi.Void> unnamed,
+                ffi.Pointer<ffi.Char> unnamed$1,
+                sqlite3_uint64 unnamed$2,
               )
             >
           >,
@@ -1659,10 +1675,10 @@ class SQLite {
     ffi.Pointer<
       ffi.NativeFunction<
         ffi.Int Function(
-          ffi.UnsignedInt,
-          ffi.Pointer<ffi.Void>,
-          ffi.Pointer<ffi.Void>,
-          ffi.Pointer<ffi.Void>,
+          ffi.UnsignedInt unnamed,
+          ffi.Pointer<ffi.Void> unnamed$1,
+          ffi.Pointer<ffi.Void> unnamed$2,
+          ffi.Pointer<ffi.Void> unnamed$3,
         )
       >
     >
@@ -1681,10 +1697,10 @@ class SQLite {
             ffi.Pointer<
               ffi.NativeFunction<
                 ffi.Int Function(
-                  ffi.UnsignedInt,
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<ffi.Void>,
+                  ffi.UnsignedInt unnamed,
+                  ffi.Pointer<ffi.Void> unnamed$1,
+                  ffi.Pointer<ffi.Void> unnamed$2,
+                  ffi.Pointer<ffi.Void> unnamed$3,
                 )
               >
             >,
@@ -1700,10 +1716,10 @@ class SQLite {
           ffi.Pointer<
             ffi.NativeFunction<
               ffi.Int Function(
-                ffi.UnsignedInt,
-                ffi.Pointer<ffi.Void>,
-                ffi.Pointer<ffi.Void>,
-                ffi.Pointer<ffi.Void>,
+                ffi.UnsignedInt unnamed,
+                ffi.Pointer<ffi.Void> unnamed$1,
+                ffi.Pointer<ffi.Void> unnamed$2,
+                ffi.Pointer<ffi.Void> unnamed$3,
               )
             >
           >,
@@ -1743,7 +1759,9 @@ class SQLite {
   void sqlite3_progress_handler(
     ffi.Pointer<sqlite3> arg0,
     int arg1,
-    ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     arg2,
     ffi.Pointer<ffi.Void> arg3,
   ) {
@@ -1757,7 +1775,9 @@ class SQLite {
             ffi.Pointer<sqlite3>,
             ffi.Int,
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Int Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
             ffi.Pointer<ffi.Void>,
           )
@@ -1769,7 +1789,7 @@ class SQLite {
           ffi.Pointer<sqlite3>,
           int,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void>)>
+            ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void> unnamed)>
           >,
           ffi.Pointer<ffi.Void>,
         )
@@ -3193,7 +3213,9 @@ class SQLite {
     int arg1,
     ffi.Pointer<ffi.Void> arg2,
     int n,
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     arg4,
   ) {
     return _sqlite3_bind_blob(arg0, arg1, arg2, n, arg4);
@@ -3208,7 +3230,9 @@ class SQLite {
             ffi.Pointer<ffi.Void>,
             ffi.Int,
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
           )
         >
@@ -3221,7 +3245,7 @@ class SQLite {
           ffi.Pointer<ffi.Void>,
           int,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
           >,
         )
       >();
@@ -3231,7 +3255,9 @@ class SQLite {
     int arg1,
     ffi.Pointer<ffi.Void> arg2,
     int arg3,
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     arg4,
   ) {
     return _sqlite3_bind_blob64(arg0, arg1, arg2, arg3, arg4);
@@ -3246,7 +3272,9 @@ class SQLite {
             ffi.Pointer<ffi.Void>,
             sqlite3_uint64,
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
           )
         >
@@ -3259,7 +3287,7 @@ class SQLite {
           ffi.Pointer<ffi.Void>,
           int,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
           >,
         )
       >();
@@ -3323,7 +3351,9 @@ class SQLite {
     int arg1,
     ffi.Pointer<ffi.Char> arg2,
     int arg3,
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     arg4,
   ) {
     return _sqlite3_bind_text(arg0, arg1, arg2, arg3, arg4);
@@ -3338,7 +3368,9 @@ class SQLite {
             ffi.Pointer<ffi.Char>,
             ffi.Int,
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
           )
         >
@@ -3351,7 +3383,7 @@ class SQLite {
           ffi.Pointer<ffi.Char>,
           int,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
           >,
         )
       >();
@@ -3361,7 +3393,9 @@ class SQLite {
     int arg1,
     ffi.Pointer<ffi.Void> arg2,
     int arg3,
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     arg4,
   ) {
     return _sqlite3_bind_text16(arg0, arg1, arg2, arg3, arg4);
@@ -3376,7 +3410,9 @@ class SQLite {
             ffi.Pointer<ffi.Void>,
             ffi.Int,
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
           )
         >
@@ -3389,7 +3425,7 @@ class SQLite {
           ffi.Pointer<ffi.Void>,
           int,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
           >,
         )
       >();
@@ -3399,7 +3435,9 @@ class SQLite {
     int arg1,
     ffi.Pointer<ffi.Char> arg2,
     int arg3,
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     arg4,
     int encoding,
   ) {
@@ -3415,7 +3453,9 @@ class SQLite {
             ffi.Pointer<ffi.Char>,
             sqlite3_uint64,
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
             ffi.UnsignedChar,
           )
@@ -3429,7 +3469,7 @@ class SQLite {
           ffi.Pointer<ffi.Char>,
           int,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
           >,
           int,
         )
@@ -3463,7 +3503,9 @@ class SQLite {
     int arg1,
     ffi.Pointer<ffi.Void> arg2,
     ffi.Pointer<ffi.Char> arg3,
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     arg4,
   ) {
     return _sqlite3_bind_pointer(arg0, arg1, arg2, arg3, arg4);
@@ -3478,7 +3520,9 @@ class SQLite {
             ffi.Pointer<ffi.Void>,
             ffi.Pointer<ffi.Char>,
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
           )
         >
@@ -3491,7 +3535,7 @@ class SQLite {
           ffi.Pointer<ffi.Void>,
           ffi.Pointer<ffi.Char>,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
           >,
         )
       >();
@@ -4617,9 +4661,9 @@ class SQLite {
     ffi.Pointer<
       ffi.NativeFunction<
         ffi.Void Function(
-          ffi.Pointer<sqlite3_context>,
-          ffi.Int,
-          ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+          ffi.Pointer<sqlite3_context> unnamed,
+          ffi.Int unnamed$1,
+          ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
         )
       >
     >
@@ -4627,15 +4671,17 @@ class SQLite {
     ffi.Pointer<
       ffi.NativeFunction<
         ffi.Void Function(
-          ffi.Pointer<sqlite3_context>,
-          ffi.Int,
-          ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+          ffi.Pointer<sqlite3_context> unnamed,
+          ffi.Int unnamed$1,
+          ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
         )
       >
     >
     xStep,
     ffi.Pointer<
-      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_context>)>
+      ffi.NativeFunction<
+        ffi.Void Function(ffi.Pointer<sqlite3_context> unnamed)
+      >
     >
     xFinal,
   ) {
@@ -4663,24 +4709,24 @@ class SQLite {
             ffi.Pointer<
               ffi.NativeFunction<
                 ffi.Void Function(
-                  ffi.Pointer<sqlite3_context>,
-                  ffi.Int,
-                  ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+                  ffi.Pointer<sqlite3_context> unnamed,
+                  ffi.Int unnamed$1,
+                  ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
                 )
               >
             >,
             ffi.Pointer<
               ffi.NativeFunction<
                 ffi.Void Function(
-                  ffi.Pointer<sqlite3_context>,
-                  ffi.Int,
-                  ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+                  ffi.Pointer<sqlite3_context> unnamed,
+                  ffi.Int unnamed$1,
+                  ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
                 )
               >
             >,
             ffi.Pointer<
               ffi.NativeFunction<
-                ffi.Void Function(ffi.Pointer<sqlite3_context>)
+                ffi.Void Function(ffi.Pointer<sqlite3_context> unnamed)
               >
             >,
           )
@@ -4697,23 +4743,25 @@ class SQLite {
           ffi.Pointer<
             ffi.NativeFunction<
               ffi.Void Function(
-                ffi.Pointer<sqlite3_context>,
-                ffi.Int,
-                ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+                ffi.Pointer<sqlite3_context> unnamed,
+                ffi.Int unnamed$1,
+                ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
               )
             >
           >,
           ffi.Pointer<
             ffi.NativeFunction<
               ffi.Void Function(
-                ffi.Pointer<sqlite3_context>,
-                ffi.Int,
-                ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+                ffi.Pointer<sqlite3_context> unnamed,
+                ffi.Int unnamed$1,
+                ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
               )
             >
           >,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_context>)>
+            ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<sqlite3_context> unnamed)
+            >
           >,
         )
       >();
@@ -4727,9 +4775,9 @@ class SQLite {
     ffi.Pointer<
       ffi.NativeFunction<
         ffi.Void Function(
-          ffi.Pointer<sqlite3_context>,
-          ffi.Int,
-          ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+          ffi.Pointer<sqlite3_context> unnamed,
+          ffi.Int unnamed$1,
+          ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
         )
       >
     >
@@ -4737,15 +4785,17 @@ class SQLite {
     ffi.Pointer<
       ffi.NativeFunction<
         ffi.Void Function(
-          ffi.Pointer<sqlite3_context>,
-          ffi.Int,
-          ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+          ffi.Pointer<sqlite3_context> unnamed,
+          ffi.Int unnamed$1,
+          ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
         )
       >
     >
     xStep,
     ffi.Pointer<
-      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_context>)>
+      ffi.NativeFunction<
+        ffi.Void Function(ffi.Pointer<sqlite3_context> unnamed)
+      >
     >
     xFinal,
   ) {
@@ -4773,24 +4823,24 @@ class SQLite {
             ffi.Pointer<
               ffi.NativeFunction<
                 ffi.Void Function(
-                  ffi.Pointer<sqlite3_context>,
-                  ffi.Int,
-                  ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+                  ffi.Pointer<sqlite3_context> unnamed,
+                  ffi.Int unnamed$1,
+                  ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
                 )
               >
             >,
             ffi.Pointer<
               ffi.NativeFunction<
                 ffi.Void Function(
-                  ffi.Pointer<sqlite3_context>,
-                  ffi.Int,
-                  ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+                  ffi.Pointer<sqlite3_context> unnamed,
+                  ffi.Int unnamed$1,
+                  ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
                 )
               >
             >,
             ffi.Pointer<
               ffi.NativeFunction<
-                ffi.Void Function(ffi.Pointer<sqlite3_context>)
+                ffi.Void Function(ffi.Pointer<sqlite3_context> unnamed)
               >
             >,
           )
@@ -4807,23 +4857,25 @@ class SQLite {
           ffi.Pointer<
             ffi.NativeFunction<
               ffi.Void Function(
-                ffi.Pointer<sqlite3_context>,
-                ffi.Int,
-                ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+                ffi.Pointer<sqlite3_context> unnamed,
+                ffi.Int unnamed$1,
+                ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
               )
             >
           >,
           ffi.Pointer<
             ffi.NativeFunction<
               ffi.Void Function(
-                ffi.Pointer<sqlite3_context>,
-                ffi.Int,
-                ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+                ffi.Pointer<sqlite3_context> unnamed,
+                ffi.Int unnamed$1,
+                ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
               )
             >
           >,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_context>)>
+            ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<sqlite3_context> unnamed)
+            >
           >,
         )
       >();
@@ -4837,9 +4889,9 @@ class SQLite {
     ffi.Pointer<
       ffi.NativeFunction<
         ffi.Void Function(
-          ffi.Pointer<sqlite3_context>,
-          ffi.Int,
-          ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+          ffi.Pointer<sqlite3_context> unnamed,
+          ffi.Int unnamed$1,
+          ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
         )
       >
     >
@@ -4847,18 +4899,22 @@ class SQLite {
     ffi.Pointer<
       ffi.NativeFunction<
         ffi.Void Function(
-          ffi.Pointer<sqlite3_context>,
-          ffi.Int,
-          ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+          ffi.Pointer<sqlite3_context> unnamed,
+          ffi.Int unnamed$1,
+          ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
         )
       >
     >
     xStep,
     ffi.Pointer<
-      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_context>)>
+      ffi.NativeFunction<
+        ffi.Void Function(ffi.Pointer<sqlite3_context> unnamed)
+      >
     >
     xFinal,
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     xDestroy,
   ) {
     return _sqlite3_create_function_v2(
@@ -4886,28 +4942,30 @@ class SQLite {
             ffi.Pointer<
               ffi.NativeFunction<
                 ffi.Void Function(
-                  ffi.Pointer<sqlite3_context>,
-                  ffi.Int,
-                  ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+                  ffi.Pointer<sqlite3_context> unnamed,
+                  ffi.Int unnamed$1,
+                  ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
                 )
               >
             >,
             ffi.Pointer<
               ffi.NativeFunction<
                 ffi.Void Function(
-                  ffi.Pointer<sqlite3_context>,
-                  ffi.Int,
-                  ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+                  ffi.Pointer<sqlite3_context> unnamed,
+                  ffi.Int unnamed$1,
+                  ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
                 )
               >
             >,
             ffi.Pointer<
               ffi.NativeFunction<
-                ffi.Void Function(ffi.Pointer<sqlite3_context>)
+                ffi.Void Function(ffi.Pointer<sqlite3_context> unnamed)
               >
             >,
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
           )
         >
@@ -4923,26 +4981,28 @@ class SQLite {
           ffi.Pointer<
             ffi.NativeFunction<
               ffi.Void Function(
-                ffi.Pointer<sqlite3_context>,
-                ffi.Int,
-                ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+                ffi.Pointer<sqlite3_context> unnamed,
+                ffi.Int unnamed$1,
+                ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
               )
             >
           >,
           ffi.Pointer<
             ffi.NativeFunction<
               ffi.Void Function(
-                ffi.Pointer<sqlite3_context>,
-                ffi.Int,
-                ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+                ffi.Pointer<sqlite3_context> unnamed,
+                ffi.Int unnamed$1,
+                ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
               )
             >
           >,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_context>)>
+            ffi.NativeFunction<
+              ffi.Void Function(ffi.Pointer<sqlite3_context> unnamed)
+            >
           >,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
           >,
         )
       >();
@@ -4956,32 +5016,38 @@ class SQLite {
     ffi.Pointer<
       ffi.NativeFunction<
         ffi.Void Function(
-          ffi.Pointer<sqlite3_context>,
-          ffi.Int,
-          ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+          ffi.Pointer<sqlite3_context> unnamed,
+          ffi.Int unnamed$1,
+          ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
         )
       >
     >
     xStep,
     ffi.Pointer<
-      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_context>)>
+      ffi.NativeFunction<
+        ffi.Void Function(ffi.Pointer<sqlite3_context> unnamed)
+      >
     >
     xFinal,
     ffi.Pointer<
-      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_context>)>
+      ffi.NativeFunction<
+        ffi.Void Function(ffi.Pointer<sqlite3_context> unnamed)
+      >
     >
     xValue,
     ffi.Pointer<
       ffi.NativeFunction<
         ffi.Void Function(
-          ffi.Pointer<sqlite3_context>,
-          ffi.Int,
-          ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+          ffi.Pointer<sqlite3_context> unnamed,
+          ffi.Int unnamed$1,
+          ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
         )
       >
     >
     xInverse,
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     xDestroy,
   ) {
     return _sqlite3_create_window_function(
@@ -5010,33 +5076,35 @@ class SQLite {
             ffi.Pointer<
               ffi.NativeFunction<
                 ffi.Void Function(
-                  ffi.Pointer<sqlite3_context>,
-                  ffi.Int,
-                  ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+                  ffi.Pointer<sqlite3_context> unnamed,
+                  ffi.Int unnamed$1,
+                  ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
                 )
               >
             >,
             ffi.Pointer<
               ffi.NativeFunction<
-                ffi.Void Function(ffi.Pointer<sqlite3_context>)
+                ffi.Void Function(ffi.Pointer<sqlite3_context> unnamed)
               >
             >,
             ffi.Pointer<
               ffi.NativeFunction<
-                ffi.Void Function(ffi.Pointer<sqlite3_context>)
+                ffi.Void Function(ffi.Pointer<sqlite3_context> unnamed)
               >
             >,
             ffi.Pointer<
               ffi.NativeFunction<
                 ffi.Void Function(
-                  ffi.Pointer<sqlite3_context>,
-                  ffi.Int,
-                  ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+                  ffi.Pointer<sqlite3_context> unnamed,
+                  ffi.Int unnamed$1,
+                  ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
                 )
               >
             >,
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
           )
         >
@@ -5053,33 +5121,35 @@ class SQLite {
               ffi.Pointer<
                 ffi.NativeFunction<
                   ffi.Void Function(
-                    ffi.Pointer<sqlite3_context>,
-                    ffi.Int,
-                    ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+                    ffi.Pointer<sqlite3_context> unnamed,
+                    ffi.Int unnamed$1,
+                    ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
                   )
                 >
               >,
               ffi.Pointer<
                 ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<sqlite3_context>)
+                  ffi.Void Function(ffi.Pointer<sqlite3_context> unnamed)
                 >
               >,
               ffi.Pointer<
                 ffi.NativeFunction<
-                  ffi.Void Function(ffi.Pointer<sqlite3_context>)
+                  ffi.Void Function(ffi.Pointer<sqlite3_context> unnamed)
                 >
               >,
               ffi.Pointer<
                 ffi.NativeFunction<
                   ffi.Void Function(
-                    ffi.Pointer<sqlite3_context>,
-                    ffi.Int,
-                    ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+                    ffi.Pointer<sqlite3_context> unnamed,
+                    ffi.Int unnamed$1,
+                    ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
                   )
                 >
               >,
               ffi.Pointer<
-                ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+                ffi.NativeFunction<
+                  ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)
+                >
               >,
             )
           >();
@@ -5147,7 +5217,11 @@ class SQLite {
   int sqlite3_memory_alarm(
     ffi.Pointer<
       ffi.NativeFunction<
-        ffi.Void Function(ffi.Pointer<ffi.Void>, sqlite3_int64, ffi.Int)
+        ffi.Void Function(
+          ffi.Pointer<ffi.Void> unnamed,
+          sqlite3_int64 unnamed$1,
+          ffi.Int unnamed$2,
+        )
       >
     >
     arg0,
@@ -5163,7 +5237,11 @@ class SQLite {
           ffi.Int Function(
             ffi.Pointer<
               ffi.NativeFunction<
-                ffi.Void Function(ffi.Pointer<ffi.Void>, sqlite3_int64, ffi.Int)
+                ffi.Void Function(
+                  ffi.Pointer<ffi.Void> unnamed,
+                  sqlite3_int64 unnamed$1,
+                  ffi.Int unnamed$2,
+                )
               >
             >,
             ffi.Pointer<ffi.Void>,
@@ -5176,7 +5254,11 @@ class SQLite {
         int Function(
           ffi.Pointer<
             ffi.NativeFunction<
-              ffi.Void Function(ffi.Pointer<ffi.Void>, sqlite3_int64, ffi.Int)
+              ffi.Void Function(
+                ffi.Pointer<ffi.Void> unnamed,
+                sqlite3_int64 unnamed$1,
+                ffi.Int unnamed$2,
+              )
             >
           >,
           ffi.Pointer<ffi.Void>,
@@ -5752,7 +5834,9 @@ class SQLite {
     ffi.Pointer<sqlite3_context> arg0,
     int N,
     ffi.Pointer<ffi.Void> arg2,
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     arg3,
   ) {
     return _sqlite3_set_auxdata(arg0, N, arg2, arg3);
@@ -5766,7 +5850,9 @@ class SQLite {
             ffi.Int,
             ffi.Pointer<ffi.Void>,
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
           )
         >
@@ -5778,7 +5864,7 @@ class SQLite {
           int,
           ffi.Pointer<ffi.Void>,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
           >,
         )
       >();
@@ -5931,7 +6017,9 @@ class SQLite {
     ffi.Pointer<sqlite3_context> arg0,
     ffi.Pointer<ffi.Void> arg1,
     int arg2,
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     arg3,
   ) {
     return _sqlite3_result_blob(arg0, arg1, arg2, arg3);
@@ -5945,7 +6033,9 @@ class SQLite {
             ffi.Pointer<ffi.Void>,
             ffi.Int,
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
           )
         >
@@ -5957,7 +6047,7 @@ class SQLite {
           ffi.Pointer<ffi.Void>,
           int,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
           >,
         )
       >();
@@ -5966,7 +6056,9 @@ class SQLite {
     ffi.Pointer<sqlite3_context> arg0,
     ffi.Pointer<ffi.Void> arg1,
     int arg2,
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     arg3,
   ) {
     return _sqlite3_result_blob64(arg0, arg1, arg2, arg3);
@@ -5980,7 +6072,9 @@ class SQLite {
             ffi.Pointer<ffi.Void>,
             sqlite3_uint64,
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
           )
         >
@@ -5992,7 +6086,7 @@ class SQLite {
           ffi.Pointer<ffi.Void>,
           int,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
           >,
         )
       >();
@@ -6132,7 +6226,9 @@ class SQLite {
     ffi.Pointer<sqlite3_context> arg0,
     ffi.Pointer<ffi.Char> arg1,
     int arg2,
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     arg3,
   ) {
     return _sqlite3_result_text(arg0, arg1, arg2, arg3);
@@ -6146,7 +6242,9 @@ class SQLite {
             ffi.Pointer<ffi.Char>,
             ffi.Int,
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
           )
         >
@@ -6158,7 +6256,7 @@ class SQLite {
           ffi.Pointer<ffi.Char>,
           int,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
           >,
         )
       >();
@@ -6167,7 +6265,9 @@ class SQLite {
     ffi.Pointer<sqlite3_context> arg0,
     ffi.Pointer<ffi.Char> arg1,
     int arg2,
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     arg3,
     int encoding,
   ) {
@@ -6182,7 +6282,9 @@ class SQLite {
             ffi.Pointer<ffi.Char>,
             sqlite3_uint64,
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
             ffi.UnsignedChar,
           )
@@ -6195,7 +6297,7 @@ class SQLite {
           ffi.Pointer<ffi.Char>,
           int,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
           >,
           int,
         )
@@ -6205,7 +6307,9 @@ class SQLite {
     ffi.Pointer<sqlite3_context> arg0,
     ffi.Pointer<ffi.Void> arg1,
     int arg2,
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     arg3,
   ) {
     return _sqlite3_result_text16(arg0, arg1, arg2, arg3);
@@ -6219,7 +6323,9 @@ class SQLite {
             ffi.Pointer<ffi.Void>,
             ffi.Int,
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
           )
         >
@@ -6231,7 +6337,7 @@ class SQLite {
           ffi.Pointer<ffi.Void>,
           int,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
           >,
         )
       >();
@@ -6240,7 +6346,9 @@ class SQLite {
     ffi.Pointer<sqlite3_context> arg0,
     ffi.Pointer<ffi.Void> arg1,
     int arg2,
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     arg3,
   ) {
     return _sqlite3_result_text16le(arg0, arg1, arg2, arg3);
@@ -6254,7 +6362,9 @@ class SQLite {
             ffi.Pointer<ffi.Void>,
             ffi.Int,
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
           )
         >
@@ -6266,7 +6376,7 @@ class SQLite {
           ffi.Pointer<ffi.Void>,
           int,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
           >,
         )
       >();
@@ -6275,7 +6385,9 @@ class SQLite {
     ffi.Pointer<sqlite3_context> arg0,
     ffi.Pointer<ffi.Void> arg1,
     int arg2,
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     arg3,
   ) {
     return _sqlite3_result_text16be(arg0, arg1, arg2, arg3);
@@ -6289,7 +6401,9 @@ class SQLite {
             ffi.Pointer<ffi.Void>,
             ffi.Int,
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
           )
         >
@@ -6301,7 +6415,7 @@ class SQLite {
           ffi.Pointer<ffi.Void>,
           int,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
           >,
         )
       >();
@@ -6331,7 +6445,9 @@ class SQLite {
     ffi.Pointer<sqlite3_context> arg0,
     ffi.Pointer<ffi.Void> arg1,
     ffi.Pointer<ffi.Char> arg2,
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     arg3,
   ) {
     return _sqlite3_result_pointer(arg0, arg1, arg2, arg3);
@@ -6345,7 +6461,9 @@ class SQLite {
             ffi.Pointer<ffi.Void>,
             ffi.Pointer<ffi.Char>,
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
           )
         >
@@ -6357,7 +6475,7 @@ class SQLite {
           ffi.Pointer<ffi.Void>,
           ffi.Pointer<ffi.Char>,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
           >,
         )
       >();
@@ -6498,11 +6616,11 @@ class SQLite {
     ffi.Pointer<
       ffi.NativeFunction<
         ffi.Int Function(
-          ffi.Pointer<ffi.Void>,
-          ffi.Int,
-          ffi.Pointer<ffi.Void>,
-          ffi.Int,
-          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<ffi.Void> unnamed,
+          ffi.Int unnamed$1,
+          ffi.Pointer<ffi.Void> unnamed$2,
+          ffi.Int unnamed$3,
+          ffi.Pointer<ffi.Void> unnamed$4,
         )
       >
     >
@@ -6522,11 +6640,11 @@ class SQLite {
             ffi.Pointer<
               ffi.NativeFunction<
                 ffi.Int Function(
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Int,
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Int,
-                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void> unnamed,
+                  ffi.Int unnamed$1,
+                  ffi.Pointer<ffi.Void> unnamed$2,
+                  ffi.Int unnamed$3,
+                  ffi.Pointer<ffi.Void> unnamed$4,
                 )
               >
             >,
@@ -6543,11 +6661,11 @@ class SQLite {
           ffi.Pointer<
             ffi.NativeFunction<
               ffi.Int Function(
-                ffi.Pointer<ffi.Void>,
-                ffi.Int,
-                ffi.Pointer<ffi.Void>,
-                ffi.Int,
-                ffi.Pointer<ffi.Void>,
+                ffi.Pointer<ffi.Void> unnamed,
+                ffi.Int unnamed$1,
+                ffi.Pointer<ffi.Void> unnamed$2,
+                ffi.Int unnamed$3,
+                ffi.Pointer<ffi.Void> unnamed$4,
               )
             >
           >,
@@ -6562,16 +6680,18 @@ class SQLite {
     ffi.Pointer<
       ffi.NativeFunction<
         ffi.Int Function(
-          ffi.Pointer<ffi.Void>,
-          ffi.Int,
-          ffi.Pointer<ffi.Void>,
-          ffi.Int,
-          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<ffi.Void> unnamed,
+          ffi.Int unnamed$1,
+          ffi.Pointer<ffi.Void> unnamed$2,
+          ffi.Int unnamed$3,
+          ffi.Pointer<ffi.Void> unnamed$4,
         )
       >
     >
     xCompare,
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     xDestroy,
   ) {
     return _sqlite3_create_collation_v2(
@@ -6595,16 +6715,18 @@ class SQLite {
             ffi.Pointer<
               ffi.NativeFunction<
                 ffi.Int Function(
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Int,
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Int,
-                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void> unnamed,
+                  ffi.Int unnamed$1,
+                  ffi.Pointer<ffi.Void> unnamed$2,
+                  ffi.Int unnamed$3,
+                  ffi.Pointer<ffi.Void> unnamed$4,
                 )
               >
             >,
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
           )
         >
@@ -6619,16 +6741,16 @@ class SQLite {
           ffi.Pointer<
             ffi.NativeFunction<
               ffi.Int Function(
-                ffi.Pointer<ffi.Void>,
-                ffi.Int,
-                ffi.Pointer<ffi.Void>,
-                ffi.Int,
-                ffi.Pointer<ffi.Void>,
+                ffi.Pointer<ffi.Void> unnamed,
+                ffi.Int unnamed$1,
+                ffi.Pointer<ffi.Void> unnamed$2,
+                ffi.Int unnamed$3,
+                ffi.Pointer<ffi.Void> unnamed$4,
               )
             >
           >,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
           >,
         )
       >();
@@ -6641,11 +6763,11 @@ class SQLite {
     ffi.Pointer<
       ffi.NativeFunction<
         ffi.Int Function(
-          ffi.Pointer<ffi.Void>,
-          ffi.Int,
-          ffi.Pointer<ffi.Void>,
-          ffi.Int,
-          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<ffi.Void> unnamed,
+          ffi.Int unnamed$1,
+          ffi.Pointer<ffi.Void> unnamed$2,
+          ffi.Int unnamed$3,
+          ffi.Pointer<ffi.Void> unnamed$4,
         )
       >
     >
@@ -6665,11 +6787,11 @@ class SQLite {
             ffi.Pointer<
               ffi.NativeFunction<
                 ffi.Int Function(
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Int,
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Int,
-                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void> unnamed,
+                  ffi.Int unnamed$1,
+                  ffi.Pointer<ffi.Void> unnamed$2,
+                  ffi.Int unnamed$3,
+                  ffi.Pointer<ffi.Void> unnamed$4,
                 )
               >
             >,
@@ -6686,11 +6808,11 @@ class SQLite {
           ffi.Pointer<
             ffi.NativeFunction<
               ffi.Int Function(
-                ffi.Pointer<ffi.Void>,
-                ffi.Int,
-                ffi.Pointer<ffi.Void>,
-                ffi.Int,
-                ffi.Pointer<ffi.Void>,
+                ffi.Pointer<ffi.Void> unnamed,
+                ffi.Int unnamed$1,
+                ffi.Pointer<ffi.Void> unnamed$2,
+                ffi.Int unnamed$3,
+                ffi.Pointer<ffi.Void> unnamed$4,
               )
             >
           >,
@@ -6728,10 +6850,10 @@ class SQLite {
     ffi.Pointer<
       ffi.NativeFunction<
         ffi.Void Function(
-          ffi.Pointer<ffi.Void>,
-          ffi.Pointer<sqlite3>,
-          ffi.Int,
-          ffi.Pointer<ffi.Char>,
+          ffi.Pointer<ffi.Void> unnamed,
+          ffi.Pointer<sqlite3> unnamed$1,
+          ffi.Int unnamed$2,
+          ffi.Pointer<ffi.Char> unnamed$3,
         )
       >
     >
@@ -6749,10 +6871,10 @@ class SQLite {
             ffi.Pointer<
               ffi.NativeFunction<
                 ffi.Void Function(
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<sqlite3>,
-                  ffi.Int,
-                  ffi.Pointer<ffi.Char>,
+                  ffi.Pointer<ffi.Void> unnamed,
+                  ffi.Pointer<sqlite3> unnamed$1,
+                  ffi.Int unnamed$2,
+                  ffi.Pointer<ffi.Char> unnamed$3,
                 )
               >
             >,
@@ -6767,10 +6889,10 @@ class SQLite {
           ffi.Pointer<
             ffi.NativeFunction<
               ffi.Void Function(
-                ffi.Pointer<ffi.Void>,
-                ffi.Pointer<sqlite3>,
-                ffi.Int,
-                ffi.Pointer<ffi.Char>,
+                ffi.Pointer<ffi.Void> unnamed,
+                ffi.Pointer<sqlite3> unnamed$1,
+                ffi.Int unnamed$2,
+                ffi.Pointer<ffi.Char> unnamed$3,
               )
             >
           >,
@@ -6783,10 +6905,10 @@ class SQLite {
     ffi.Pointer<
       ffi.NativeFunction<
         ffi.Void Function(
-          ffi.Pointer<ffi.Void>,
-          ffi.Pointer<sqlite3>,
-          ffi.Int,
-          ffi.Pointer<ffi.Void>,
+          ffi.Pointer<ffi.Void> unnamed,
+          ffi.Pointer<sqlite3> unnamed$1,
+          ffi.Int unnamed$2,
+          ffi.Pointer<ffi.Void> unnamed$3,
         )
       >
     >
@@ -6804,10 +6926,10 @@ class SQLite {
             ffi.Pointer<
               ffi.NativeFunction<
                 ffi.Void Function(
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<sqlite3>,
-                  ffi.Int,
-                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<ffi.Void> unnamed,
+                  ffi.Pointer<sqlite3> unnamed$1,
+                  ffi.Int unnamed$2,
+                  ffi.Pointer<ffi.Void> unnamed$3,
                 )
               >
             >,
@@ -6822,10 +6944,10 @@ class SQLite {
           ffi.Pointer<
             ffi.NativeFunction<
               ffi.Void Function(
-                ffi.Pointer<ffi.Void>,
-                ffi.Pointer<sqlite3>,
-                ffi.Int,
-                ffi.Pointer<ffi.Void>,
+                ffi.Pointer<ffi.Void> unnamed,
+                ffi.Pointer<sqlite3> unnamed$1,
+                ffi.Int unnamed$2,
+                ffi.Pointer<ffi.Void> unnamed$3,
               )
             >
           >,
@@ -7226,7 +7348,9 @@ class SQLite {
   /// See also the [sqlite3_update_hook()] interface.
   ffi.Pointer<ffi.Void> sqlite3_commit_hook(
     ffi.Pointer<sqlite3> arg0,
-    ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     arg1,
     ffi.Pointer<ffi.Void> arg2,
   ) {
@@ -7239,7 +7363,9 @@ class SQLite {
           ffi.Pointer<ffi.Void> Function(
             ffi.Pointer<sqlite3>,
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Int Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
             ffi.Pointer<ffi.Void>,
           )
@@ -7250,7 +7376,7 @@ class SQLite {
         ffi.Pointer<ffi.Void> Function(
           ffi.Pointer<sqlite3>,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void>)>
+            ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void> unnamed)>
           >,
           ffi.Pointer<ffi.Void>,
         )
@@ -7258,7 +7384,9 @@ class SQLite {
 
   ffi.Pointer<ffi.Void> sqlite3_rollback_hook(
     ffi.Pointer<sqlite3> arg0,
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     arg1,
     ffi.Pointer<ffi.Void> arg2,
   ) {
@@ -7271,7 +7399,9 @@ class SQLite {
           ffi.Pointer<ffi.Void> Function(
             ffi.Pointer<sqlite3>,
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
             ffi.Pointer<ffi.Void>,
           )
@@ -7282,7 +7412,7 @@ class SQLite {
         ffi.Pointer<ffi.Void> Function(
           ffi.Pointer<sqlite3>,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
           >,
           ffi.Pointer<ffi.Void>,
         )
@@ -7340,11 +7470,11 @@ class SQLite {
     ffi.Pointer<
       ffi.NativeFunction<
         ffi.Void Function(
-          ffi.Pointer<ffi.Void>,
-          ffi.Int,
-          ffi.Pointer<ffi.Char>,
-          ffi.Pointer<ffi.Char>,
-          sqlite3_int64,
+          ffi.Pointer<ffi.Void> unnamed,
+          ffi.Int unnamed$1,
+          ffi.Pointer<ffi.Char> unnamed$2,
+          ffi.Pointer<ffi.Char> unnamed$3,
+          sqlite3_int64 unnamed$4,
         )
       >
     >
@@ -7362,11 +7492,11 @@ class SQLite {
             ffi.Pointer<
               ffi.NativeFunction<
                 ffi.Void Function(
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Int,
-                  ffi.Pointer<ffi.Char>,
-                  ffi.Pointer<ffi.Char>,
-                  sqlite3_int64,
+                  ffi.Pointer<ffi.Void> unnamed,
+                  ffi.Int unnamed$1,
+                  ffi.Pointer<ffi.Char> unnamed$2,
+                  ffi.Pointer<ffi.Char> unnamed$3,
+                  sqlite3_int64 unnamed$4,
                 )
               >
             >,
@@ -7381,11 +7511,11 @@ class SQLite {
           ffi.Pointer<
             ffi.NativeFunction<
               ffi.Void Function(
-                ffi.Pointer<ffi.Void>,
-                ffi.Int,
-                ffi.Pointer<ffi.Char>,
-                ffi.Pointer<ffi.Char>,
-                sqlite3_int64,
+                ffi.Pointer<ffi.Void> unnamed,
+                ffi.Int unnamed$1,
+                ffi.Pointer<ffi.Char> unnamed$2,
+                ffi.Pointer<ffi.Char> unnamed$3,
+                sqlite3_int64 unnamed$4,
               )
             >
           >,
@@ -7971,7 +8101,9 @@ class SQLite {
     ffi.Pointer<ffi.Char> zName,
     ffi.Pointer<sqlite3_module> p,
     ffi.Pointer<ffi.Void> pClientData,
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     xDestroy,
   ) {
     return _sqlite3_create_module_v2(db, zName, p, pClientData, xDestroy);
@@ -7986,7 +8118,9 @@ class SQLite {
             ffi.Pointer<sqlite3_module>,
             ffi.Pointer<ffi.Void>,
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
           )
         >
@@ -7999,7 +8133,7 @@ class SQLite {
           ffi.Pointer<sqlite3_module>,
           ffi.Pointer<ffi.Void>,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
           >,
         )
       >();
@@ -9876,10 +10010,10 @@ class SQLite {
     ffi.Pointer<
       ffi.NativeFunction<
         ffi.Int Function(
-          ffi.Pointer<ffi.Void>,
-          ffi.Pointer<sqlite3>,
-          ffi.Pointer<ffi.Char>,
-          ffi.Int,
+          ffi.Pointer<ffi.Void> unnamed,
+          ffi.Pointer<sqlite3> unnamed$1,
+          ffi.Pointer<ffi.Char> unnamed$2,
+          ffi.Int unnamed$3,
         )
       >
     >
@@ -9897,10 +10031,10 @@ class SQLite {
             ffi.Pointer<
               ffi.NativeFunction<
                 ffi.Int Function(
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<sqlite3>,
-                  ffi.Pointer<ffi.Char>,
-                  ffi.Int,
+                  ffi.Pointer<ffi.Void> unnamed,
+                  ffi.Pointer<sqlite3> unnamed$1,
+                  ffi.Pointer<ffi.Char> unnamed$2,
+                  ffi.Int unnamed$3,
                 )
               >
             >,
@@ -9915,10 +10049,10 @@ class SQLite {
           ffi.Pointer<
             ffi.NativeFunction<
               ffi.Int Function(
-                ffi.Pointer<ffi.Void>,
-                ffi.Pointer<sqlite3>,
-                ffi.Pointer<ffi.Char>,
-                ffi.Int,
+                ffi.Pointer<ffi.Void> unnamed,
+                ffi.Pointer<sqlite3> unnamed$1,
+                ffi.Pointer<ffi.Char> unnamed$2,
+                ffi.Int unnamed$3,
               )
             >
           >,
@@ -10732,10 +10866,10 @@ class SQLite {
     ffi.Pointer<
       ffi.NativeFunction<
         ffi.Int Function(
-          ffi.Pointer<sqlite3_rtree_geometry>,
-          ffi.Int,
-          ffi.Pointer<sqlite3_rtree_dbl>,
-          ffi.Pointer<ffi.Int>,
+          ffi.Pointer<sqlite3_rtree_geometry> unnamed,
+          ffi.Int unnamed$1,
+          ffi.Pointer<sqlite3_rtree_dbl> unnamed$2,
+          ffi.Pointer<ffi.Int> unnamed$3,
         )
       >
     >
@@ -10754,10 +10888,10 @@ class SQLite {
             ffi.Pointer<
               ffi.NativeFunction<
                 ffi.Int Function(
-                  ffi.Pointer<sqlite3_rtree_geometry>,
-                  ffi.Int,
-                  ffi.Pointer<sqlite3_rtree_dbl>,
-                  ffi.Pointer<ffi.Int>,
+                  ffi.Pointer<sqlite3_rtree_geometry> unnamed,
+                  ffi.Int unnamed$1,
+                  ffi.Pointer<sqlite3_rtree_dbl> unnamed$2,
+                  ffi.Pointer<ffi.Int> unnamed$3,
                 )
               >
             >,
@@ -10774,10 +10908,10 @@ class SQLite {
               ffi.Pointer<
                 ffi.NativeFunction<
                   ffi.Int Function(
-                    ffi.Pointer<sqlite3_rtree_geometry>,
-                    ffi.Int,
-                    ffi.Pointer<sqlite3_rtree_dbl>,
-                    ffi.Pointer<ffi.Int>,
+                    ffi.Pointer<sqlite3_rtree_geometry> unnamed,
+                    ffi.Int unnamed$1,
+                    ffi.Pointer<sqlite3_rtree_dbl> unnamed$2,
+                    ffi.Pointer<ffi.Int> unnamed$3,
                   )
                 >
               >,
@@ -10794,12 +10928,14 @@ class SQLite {
     ffi.Pointer<ffi.Char> zQueryFunc,
     ffi.Pointer<
       ffi.NativeFunction<
-        ffi.Int Function(ffi.Pointer<sqlite3_rtree_query_info>)
+        ffi.Int Function(ffi.Pointer<sqlite3_rtree_query_info> unnamed)
       >
     >
     xQueryFunc,
     ffi.Pointer<ffi.Void> pContext,
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     xDestructor,
   ) {
     return _sqlite3_rtree_query_callback(
@@ -10819,12 +10955,14 @@ class SQLite {
             ffi.Pointer<ffi.Char>,
             ffi.Pointer<
               ffi.NativeFunction<
-                ffi.Int Function(ffi.Pointer<sqlite3_rtree_query_info>)
+                ffi.Int Function(ffi.Pointer<sqlite3_rtree_query_info> unnamed)
               >
             >,
             ffi.Pointer<ffi.Void>,
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
           )
         >
@@ -10836,12 +10974,12 @@ class SQLite {
           ffi.Pointer<ffi.Char>,
           ffi.Pointer<
             ffi.NativeFunction<
-              ffi.Int Function(ffi.Pointer<sqlite3_rtree_query_info>)
+              ffi.Int Function(ffi.Pointer<sqlite3_rtree_query_info> unnamed)
             >
           >,
           ffi.Pointer<ffi.Void>,
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
           >,
         )
       >();
@@ -10857,17 +10995,17 @@ typedef sqlite3_int64 = sqlite_int64;
 typedef sqlite3_uint64 = sqlite_uint64;
 typedef sqlite3_callbackFunction =
     ffi.Int Function(
-      ffi.Pointer<ffi.Void>,
-      ffi.Int,
-      ffi.Pointer<ffi.Pointer<ffi.Char>>,
-      ffi.Pointer<ffi.Pointer<ffi.Char>>,
+      ffi.Pointer<ffi.Void> unnamed,
+      ffi.Int unnamed$1,
+      ffi.Pointer<ffi.Pointer<ffi.Char>> unnamed$2,
+      ffi.Pointer<ffi.Pointer<ffi.Char>> unnamed$3,
     );
 typedef Dartsqlite3_callbackFunction =
     int Function(
-      ffi.Pointer<ffi.Void>,
-      int,
-      ffi.Pointer<ffi.Pointer<ffi.Char>>,
-      ffi.Pointer<ffi.Pointer<ffi.Char>>,
+      ffi.Pointer<ffi.Void> unnamed,
+      int unnamed$1,
+      ffi.Pointer<ffi.Pointer<ffi.Char>> unnamed$2,
+      ffi.Pointer<ffi.Pointer<ffi.Char>> unnamed$3,
     );
 
 /// The type for a callback function.
@@ -10917,11 +11055,11 @@ final class sqlite3_vfs extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Int Function(
-        ffi.Pointer<sqlite3_vfs>,
-        ffi.Pointer<ffi.Char>,
-        ffi.Pointer<sqlite3_file>,
-        ffi.Int,
-        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<sqlite3_vfs> unnamed,
+        ffi.Pointer<ffi.Char> unnamed$1,
+        ffi.Pointer<sqlite3_file> unnamed$2,
+        ffi.Int unnamed$3,
+        ffi.Pointer<ffi.Int> unnamed$4,
       )
     >
   >
@@ -10929,7 +11067,11 @@ final class sqlite3_vfs extends ffi.Struct {
 
   external ffi.Pointer<
     ffi.NativeFunction<
-      ffi.Int Function(ffi.Pointer<sqlite3_vfs>, ffi.Pointer<ffi.Char>, ffi.Int)
+      ffi.Int Function(
+        ffi.Pointer<sqlite3_vfs> unnamed,
+        ffi.Pointer<ffi.Char> unnamed$1,
+        ffi.Int unnamed$2,
+      )
     >
   >
   xDelete;
@@ -10937,10 +11079,10 @@ final class sqlite3_vfs extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Int Function(
-        ffi.Pointer<sqlite3_vfs>,
-        ffi.Pointer<ffi.Char>,
-        ffi.Int,
-        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<sqlite3_vfs> unnamed,
+        ffi.Pointer<ffi.Char> unnamed$1,
+        ffi.Int unnamed$2,
+        ffi.Pointer<ffi.Int> unnamed$3,
       )
     >
   >
@@ -10949,10 +11091,10 @@ final class sqlite3_vfs extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Int Function(
-        ffi.Pointer<sqlite3_vfs>,
-        ffi.Pointer<ffi.Char>,
-        ffi.Int,
-        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<sqlite3_vfs> unnamed,
+        ffi.Pointer<ffi.Char> unnamed$1,
+        ffi.Int unnamed$2,
+        ffi.Pointer<ffi.Char> unnamed$3,
       )
     >
   >
@@ -10961,8 +11103,8 @@ final class sqlite3_vfs extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Pointer<ffi.Void> Function(
-        ffi.Pointer<sqlite3_vfs>,
-        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<sqlite3_vfs> unnamed,
+        ffi.Pointer<ffi.Char> unnamed$1,
       )
     >
   >
@@ -10971,9 +11113,9 @@ final class sqlite3_vfs extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Void Function(
-        ffi.Pointer<sqlite3_vfs>,
-        ffi.Int,
-        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<sqlite3_vfs> unnamed,
+        ffi.Int unnamed$1,
+        ffi.Pointer<ffi.Char> unnamed$2,
       )
     >
   >
@@ -10982,9 +11124,9 @@ final class sqlite3_vfs extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> Function(
-        ffi.Pointer<sqlite3_vfs>,
-        ffi.Pointer<ffi.Void>,
-        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<sqlite3_vfs> unnamed,
+        ffi.Pointer<ffi.Void> unnamed$1,
+        ffi.Pointer<ffi.Char> unnamed$2,
       )
     >
   >
@@ -10992,33 +11134,49 @@ final class sqlite3_vfs extends ffi.Struct {
 
   external ffi.Pointer<
     ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<sqlite3_vfs>, ffi.Pointer<ffi.Void>)
+      ffi.Void Function(
+        ffi.Pointer<sqlite3_vfs> unnamed,
+        ffi.Pointer<ffi.Void> unnamed$1,
+      )
     >
   >
   xDlClose;
 
   external ffi.Pointer<
     ffi.NativeFunction<
-      ffi.Int Function(ffi.Pointer<sqlite3_vfs>, ffi.Int, ffi.Pointer<ffi.Char>)
+      ffi.Int Function(
+        ffi.Pointer<sqlite3_vfs> unnamed,
+        ffi.Int unnamed$1,
+        ffi.Pointer<ffi.Char> unnamed$2,
+      )
     >
   >
   xRandomness;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<sqlite3_vfs>, ffi.Int)>
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<sqlite3_vfs> unnamed, ffi.Int unnamed$1)
+    >
   >
   xSleep;
 
   external ffi.Pointer<
     ffi.NativeFunction<
-      ffi.Int Function(ffi.Pointer<sqlite3_vfs>, ffi.Pointer<ffi.Double>)
+      ffi.Int Function(
+        ffi.Pointer<sqlite3_vfs> unnamed,
+        ffi.Pointer<ffi.Double> unnamed$1,
+      )
     >
   >
   xCurrentTime;
 
   external ffi.Pointer<
     ffi.NativeFunction<
-      ffi.Int Function(ffi.Pointer<sqlite3_vfs>, ffi.Int, ffi.Pointer<ffi.Char>)
+      ffi.Int Function(
+        ffi.Pointer<sqlite3_vfs> unnamed,
+        ffi.Int unnamed$1,
+        ffi.Pointer<ffi.Char> unnamed$2,
+      )
     >
   >
   xGetLastError;
@@ -11027,7 +11185,10 @@ final class sqlite3_vfs extends ffi.Struct {
   /// definition.  Those that follow are added in version 2 or later
   external ffi.Pointer<
     ffi.NativeFunction<
-      ffi.Int Function(ffi.Pointer<sqlite3_vfs>, ffi.Pointer<sqlite3_int64>)
+      ffi.Int Function(
+        ffi.Pointer<sqlite3_vfs> unnamed,
+        ffi.Pointer<sqlite3_int64> unnamed$1,
+      )
     >
   >
   xCurrentTimeInt64;
@@ -11037,9 +11198,9 @@ final class sqlite3_vfs extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Int Function(
-        ffi.Pointer<sqlite3_vfs>,
-        ffi.Pointer<ffi.Char>,
-        sqlite3_syscall_ptr,
+        ffi.Pointer<sqlite3_vfs> unnamed,
+        ffi.Pointer<ffi.Char> unnamed$1,
+        sqlite3_syscall_ptr unnamed$2,
       )
     >
   >
@@ -11048,8 +11209,8 @@ final class sqlite3_vfs extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       sqlite3_syscall_ptr Function(
-        ffi.Pointer<sqlite3_vfs>,
-        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<sqlite3_vfs> unnamed,
+        ffi.Pointer<ffi.Char> unnamed$1,
       )
     >
   >
@@ -11058,8 +11219,8 @@ final class sqlite3_vfs extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Pointer<ffi.Char> Function(
-        ffi.Pointer<sqlite3_vfs>,
-        ffi.Pointer<ffi.Char>,
+        ffi.Pointer<sqlite3_vfs> unnamed,
+        ffi.Pointer<ffi.Char> unnamed$1,
       )
     >
   >
@@ -11069,42 +11230,46 @@ final class sqlite3_vfs extends ffi.Struct {
 final class sqlite3_mem_methods extends ffi.Struct {
   /// Memory allocation function
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Int)>
+    ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Int unnamed)>
   >
   xMalloc;
 
   /// Free a prior allocation
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
   >
   xFree;
 
   /// Resize an allocation
   external ffi.Pointer<
     ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(ffi.Pointer<ffi.Void>, ffi.Int)
+      ffi.Pointer<ffi.Void> Function(
+        ffi.Pointer<ffi.Void> unnamed,
+        ffi.Int unnamed$1,
+      )
     >
   >
   xRealloc;
 
   /// Return the size of an allocation
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void>)>
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void> unnamed)>
   >
   xSize;
 
   /// Round up request size to allocation size
-  external ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int)>> xRoundup;
+  external ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int unnamed)>>
+  xRoundup;
 
   /// Initialize the memory allocator
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void>)>
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void> unnamed)>
   >
   xInit;
 
   /// Deinitialize the memory allocator
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
   >
   xShutdown;
 
@@ -11119,9 +11284,9 @@ final class sqlite3_value extends ffi.Opaque {}
 final class sqlite3_context extends ffi.Opaque {}
 
 typedef sqlite3_destructor_typeFunction =
-    ffi.Void Function(ffi.Pointer<ffi.Void>);
+    ffi.Void Function(ffi.Pointer<ffi.Void> unnamed);
 typedef Dartsqlite3_destructor_typeFunction =
-    void Function(ffi.Pointer<ffi.Void>);
+    void Function(ffi.Pointer<ffi.Void> unnamed);
 
 /// CAPI3REF: Constants Defining Special Destructor Behavior
 ///
@@ -11367,12 +11532,12 @@ final class sqlite3_module extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Int Function(
-        ffi.Pointer<sqlite3>,
-        ffi.Pointer<ffi.Void>,
-        ffi.Int,
-        ffi.Pointer<ffi.Pointer<ffi.Char>>,
-        ffi.Pointer<ffi.Pointer<sqlite3_vtab>>,
-        ffi.Pointer<ffi.Pointer<ffi.Char>>,
+        ffi.Pointer<sqlite3> unnamed,
+        ffi.Pointer<ffi.Void> unnamed$1,
+        ffi.Int unnamed$2,
+        ffi.Pointer<ffi.Pointer<ffi.Char>> unnamed$3,
+        ffi.Pointer<ffi.Pointer<sqlite3_vtab>> unnamed$4,
+        ffi.Pointer<ffi.Pointer<ffi.Char>> unnamed$5,
       )
     >
   >
@@ -11381,12 +11546,12 @@ final class sqlite3_module extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Int Function(
-        ffi.Pointer<sqlite3>,
-        ffi.Pointer<ffi.Void>,
-        ffi.Int,
-        ffi.Pointer<ffi.Pointer<ffi.Char>>,
-        ffi.Pointer<ffi.Pointer<sqlite3_vtab>>,
-        ffi.Pointer<ffi.Pointer<ffi.Char>>,
+        ffi.Pointer<sqlite3> unnamed,
+        ffi.Pointer<ffi.Void> unnamed$1,
+        ffi.Int unnamed$2,
+        ffi.Pointer<ffi.Pointer<ffi.Char>> unnamed$3,
+        ffi.Pointer<ffi.Pointer<sqlite3_vtab>> unnamed$4,
+        ffi.Pointer<ffi.Pointer<ffi.Char>> unnamed$5,
       )
     >
   >
@@ -11395,8 +11560,8 @@ final class sqlite3_module extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Int Function(
-        ffi.Pointer<sqlite3_vtab>,
-        ffi.Pointer<sqlite3_index_info>,
+        ffi.Pointer<sqlite3_vtab> unnamed,
+        ffi.Pointer<sqlite3_index_info> unnamed$1,
       )
     >
   >
@@ -11423,39 +11588,45 @@ final class sqlite3_module extends ffi.Struct {
   xOpen;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<sqlite3_vtab_cursor>)>
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<sqlite3_vtab_cursor> unnamed)
+    >
   >
   xClose;
 
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Int Function(
-        ffi.Pointer<sqlite3_vtab_cursor>,
-        ffi.Int,
-        ffi.Pointer<ffi.Char>,
-        ffi.Int,
-        ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+        ffi.Pointer<sqlite3_vtab_cursor> unnamed,
+        ffi.Int unnamed$1,
+        ffi.Pointer<ffi.Char> unnamed$2,
+        ffi.Int unnamed$3,
+        ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$4,
       )
     >
   >
   xFilter;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<sqlite3_vtab_cursor>)>
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<sqlite3_vtab_cursor> unnamed)
+    >
   >
   xNext;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<sqlite3_vtab_cursor>)>
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<sqlite3_vtab_cursor> unnamed)
+    >
   >
   xEof;
 
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Int Function(
-        ffi.Pointer<sqlite3_vtab_cursor>,
-        ffi.Pointer<sqlite3_context>,
-        ffi.Int,
+        ffi.Pointer<sqlite3_vtab_cursor> unnamed,
+        ffi.Pointer<sqlite3_context> unnamed$1,
+        ffi.Int unnamed$2,
       )
     >
   >
@@ -11464,8 +11635,8 @@ final class sqlite3_module extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Int Function(
-        ffi.Pointer<sqlite3_vtab_cursor>,
-        ffi.Pointer<sqlite3_int64>,
+        ffi.Pointer<sqlite3_vtab_cursor> unnamed,
+        ffi.Pointer<sqlite3_int64> unnamed$1,
       )
     >
   >
@@ -11474,10 +11645,10 @@ final class sqlite3_module extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Int Function(
-        ffi.Pointer<sqlite3_vtab>,
-        ffi.Int,
-        ffi.Pointer<ffi.Pointer<sqlite3_value>>,
-        ffi.Pointer<sqlite3_int64>,
+        ffi.Pointer<sqlite3_vtab> unnamed,
+        ffi.Int unnamed$1,
+        ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
+        ffi.Pointer<sqlite3_int64> unnamed$3,
       )
     >
   >
@@ -11513,9 +11684,9 @@ final class sqlite3_module extends ffi.Struct {
           ffi.Pointer<
             ffi.NativeFunction<
               ffi.Void Function(
-                ffi.Pointer<sqlite3_context>,
-                ffi.Int,
-                ffi.Pointer<ffi.Pointer<sqlite3_value>>,
+                ffi.Pointer<sqlite3_context> unnamed,
+                ffi.Int unnamed$1,
+                ffi.Pointer<ffi.Pointer<sqlite3_value>> unnamed$2,
               )
             >
           >
@@ -11540,24 +11711,30 @@ final class sqlite3_module extends ffi.Struct {
   /// The methods above are in version 1 of the sqlite_module object. Those
   /// below are for version 2 and greater.
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<sqlite3_vtab>, ffi.Int)>
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<sqlite3_vtab> unnamed, ffi.Int unnamed$1)
+    >
   >
   xSavepoint;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<sqlite3_vtab>, ffi.Int)>
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<sqlite3_vtab> unnamed, ffi.Int unnamed$1)
+    >
   >
   xRelease;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<sqlite3_vtab>, ffi.Int)>
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<sqlite3_vtab> unnamed, ffi.Int unnamed$1)
+    >
   >
   xRollbackTo;
 
   /// The methods above are in versions 1 and 2 of the sqlite_module object.
   /// Those below are for version 3 and greater.
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Char>)>
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Char> unnamed)>
   >
   xShadowName;
 }
@@ -11598,37 +11775,37 @@ final class sqlite3_mutex_methods extends ffi.Struct {
   external ffi.Pointer<ffi.NativeFunction<ffi.Int Function()>> xMutexEnd;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Pointer<sqlite3_mutex> Function(ffi.Int)>
+    ffi.NativeFunction<ffi.Pointer<sqlite3_mutex> Function(ffi.Int unnamed)>
   >
   xMutexAlloc;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_mutex>)>
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_mutex> unnamed)>
   >
   xMutexFree;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_mutex>)>
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_mutex> unnamed)>
   >
   xMutexEnter;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<sqlite3_mutex>)>
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<sqlite3_mutex> unnamed)>
   >
   xMutexTry;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_mutex>)>
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_mutex> unnamed)>
   >
   xMutexLeave;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<sqlite3_mutex>)>
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<sqlite3_mutex> unnamed)>
   >
   xMutexHeld;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<sqlite3_mutex>)>
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<sqlite3_mutex> unnamed)>
   >
   xMutexNotheld;
 }
@@ -11652,12 +11829,12 @@ final class sqlite3_pcache_methods2 extends ffi.Struct {
   external ffi.Pointer<ffi.Void> pArg;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void>)>
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void> unnamed)>
   >
   xInit;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
   >
   xShutdown;
 
@@ -11673,21 +11850,23 @@ final class sqlite3_pcache_methods2 extends ffi.Struct {
   xCreate;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_pcache>, ffi.Int)>
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<sqlite3_pcache> unnamed, ffi.Int unnamed$1)
+    >
   >
   xCachesize;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<sqlite3_pcache>)>
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<sqlite3_pcache> unnamed)>
   >
   xPagecount;
 
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Pointer<sqlite3_pcache_page> Function(
-        ffi.Pointer<sqlite3_pcache>,
-        ffi.UnsignedInt,
-        ffi.Int,
+        ffi.Pointer<sqlite3_pcache> unnamed,
+        ffi.UnsignedInt unnamed$1,
+        ffi.Int unnamed$2,
       )
     >
   >
@@ -11696,9 +11875,9 @@ final class sqlite3_pcache_methods2 extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Void Function(
-        ffi.Pointer<sqlite3_pcache>,
-        ffi.Pointer<sqlite3_pcache_page>,
-        ffi.Int,
+        ffi.Pointer<sqlite3_pcache> unnamed,
+        ffi.Pointer<sqlite3_pcache_page> unnamed$1,
+        ffi.Int unnamed$2,
       )
     >
   >
@@ -11707,10 +11886,10 @@ final class sqlite3_pcache_methods2 extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Void Function(
-        ffi.Pointer<sqlite3_pcache>,
-        ffi.Pointer<sqlite3_pcache_page>,
-        ffi.UnsignedInt,
-        ffi.UnsignedInt,
+        ffi.Pointer<sqlite3_pcache> unnamed,
+        ffi.Pointer<sqlite3_pcache_page> unnamed$1,
+        ffi.UnsignedInt unnamed$2,
+        ffi.UnsignedInt unnamed$3,
       )
     >
   >
@@ -11718,18 +11897,21 @@ final class sqlite3_pcache_methods2 extends ffi.Struct {
 
   external ffi.Pointer<
     ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<sqlite3_pcache>, ffi.UnsignedInt)
+      ffi.Void Function(
+        ffi.Pointer<sqlite3_pcache> unnamed,
+        ffi.UnsignedInt unnamed$1,
+      )
     >
   >
   xTruncate;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_pcache>)>
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_pcache> unnamed)>
   >
   xDestroy;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_pcache>)>
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_pcache> unnamed)>
   >
   xShrink;
 }
@@ -11738,12 +11920,12 @@ final class sqlite3_pcache_methods extends ffi.Struct {
   external ffi.Pointer<ffi.Void> pArg;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void>)>
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void> unnamed)>
   >
   xInit;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
   >
   xShutdown;
 
@@ -11755,21 +11937,23 @@ final class sqlite3_pcache_methods extends ffi.Struct {
   xCreate;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_pcache>, ffi.Int)>
+    ffi.NativeFunction<
+      ffi.Void Function(ffi.Pointer<sqlite3_pcache> unnamed, ffi.Int unnamed$1)
+    >
   >
   xCachesize;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<sqlite3_pcache>)>
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<sqlite3_pcache> unnamed)>
   >
   xPagecount;
 
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Pointer<ffi.Void> Function(
-        ffi.Pointer<sqlite3_pcache>,
-        ffi.UnsignedInt,
-        ffi.Int,
+        ffi.Pointer<sqlite3_pcache> unnamed,
+        ffi.UnsignedInt unnamed$1,
+        ffi.Int unnamed$2,
       )
     >
   >
@@ -11778,9 +11962,9 @@ final class sqlite3_pcache_methods extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Void Function(
-        ffi.Pointer<sqlite3_pcache>,
-        ffi.Pointer<ffi.Void>,
-        ffi.Int,
+        ffi.Pointer<sqlite3_pcache> unnamed,
+        ffi.Pointer<ffi.Void> unnamed$1,
+        ffi.Int unnamed$2,
       )
     >
   >
@@ -11789,10 +11973,10 @@ final class sqlite3_pcache_methods extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Void Function(
-        ffi.Pointer<sqlite3_pcache>,
-        ffi.Pointer<ffi.Void>,
-        ffi.UnsignedInt,
-        ffi.UnsignedInt,
+        ffi.Pointer<sqlite3_pcache> unnamed,
+        ffi.Pointer<ffi.Void> unnamed$1,
+        ffi.UnsignedInt unnamed$2,
+        ffi.UnsignedInt unnamed$3,
       )
     >
   >
@@ -11800,13 +11984,16 @@ final class sqlite3_pcache_methods extends ffi.Struct {
 
   external ffi.Pointer<
     ffi.NativeFunction<
-      ffi.Void Function(ffi.Pointer<sqlite3_pcache>, ffi.UnsignedInt)
+      ffi.Void Function(
+        ffi.Pointer<sqlite3_pcache> unnamed,
+        ffi.UnsignedInt unnamed$1,
+      )
     >
   >
   xTruncate;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_pcache>)>
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_pcache> unnamed)>
   >
   xDestroy;
 }
@@ -11857,7 +12044,7 @@ final class sqlite3_rtree_geometry extends ffi.Struct {
 
   /// Called by SQLite to clean up pUser
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
   >
   xDelUser;
 }
@@ -11885,7 +12072,7 @@ final class sqlite3_rtree_query_info extends ffi.Struct {
 
   /// function to free pUser
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
   >
   xDelUser;
 
@@ -12154,18 +12341,23 @@ final class Fts5ExtensionApi extends ffi.Struct {
   external int iVersion;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Pointer<Fts5Context>)>
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(ffi.Pointer<Fts5Context> unnamed)
+    >
   >
   xUserData;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<Fts5Context>)>
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<Fts5Context> unnamed)>
   >
   xColumnCount;
 
   external ffi.Pointer<
     ffi.NativeFunction<
-      ffi.Int Function(ffi.Pointer<Fts5Context>, ffi.Pointer<sqlite3_int64>)
+      ffi.Int Function(
+        ffi.Pointer<Fts5Context> unnamed,
+        ffi.Pointer<sqlite3_int64> unnamed$1,
+      )
     >
   >
   xRowCount;
@@ -12173,9 +12365,9 @@ final class Fts5ExtensionApi extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Int Function(
-        ffi.Pointer<Fts5Context>,
-        ffi.Int,
-        ffi.Pointer<sqlite3_int64>,
+        ffi.Pointer<Fts5Context> unnamed,
+        ffi.Int unnamed$1,
+        ffi.Pointer<sqlite3_int64> unnamed$2,
       )
     >
   >
@@ -12184,40 +12376,46 @@ final class Fts5ExtensionApi extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Int Function(
-        ffi.Pointer<Fts5Context>,
-        ffi.Pointer<ffi.Char>,
-        ffi.Int,
-        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<Fts5Context> unnamed,
+        ffi.Pointer<ffi.Char> unnamed$1,
+        ffi.Int unnamed$2,
+        ffi.Pointer<ffi.Void> unnamed$3,
         ffi.Pointer<
           ffi.NativeFunction<
             ffi.Int Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Int,
-              ffi.Pointer<ffi.Char>,
-              ffi.Int,
-              ffi.Int,
-              ffi.Int,
+              ffi.Pointer<ffi.Void> unnamed,
+              ffi.Int unnamed$1,
+              ffi.Pointer<ffi.Char> unnamed$2,
+              ffi.Int unnamed$3,
+              ffi.Int unnamed$4,
+              ffi.Int unnamed$5,
             )
           >
-        >,
+        >
+        unnamed$4,
       )
     >
   >
   xTokenize;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<Fts5Context>)>
+    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<Fts5Context> unnamed)>
   >
   xPhraseCount;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Int Function(ffi.Pointer<Fts5Context>, ffi.Int)>
+    ffi.NativeFunction<
+      ffi.Int Function(ffi.Pointer<Fts5Context> unnamed, ffi.Int unnamed$1)
+    >
   >
   xPhraseSize;
 
   external ffi.Pointer<
     ffi.NativeFunction<
-      ffi.Int Function(ffi.Pointer<Fts5Context>, ffi.Pointer<ffi.Int>)
+      ffi.Int Function(
+        ffi.Pointer<Fts5Context> unnamed,
+        ffi.Pointer<ffi.Int> unnamed$1,
+      )
     >
   >
   xInstCount;
@@ -12225,28 +12423,28 @@ final class Fts5ExtensionApi extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Int Function(
-        ffi.Pointer<Fts5Context>,
-        ffi.Int,
-        ffi.Pointer<ffi.Int>,
-        ffi.Pointer<ffi.Int>,
-        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<Fts5Context> unnamed,
+        ffi.Int unnamed$1,
+        ffi.Pointer<ffi.Int> unnamed$2,
+        ffi.Pointer<ffi.Int> unnamed$3,
+        ffi.Pointer<ffi.Int> unnamed$4,
       )
     >
   >
   xInst;
 
   external ffi.Pointer<
-    ffi.NativeFunction<sqlite3_int64 Function(ffi.Pointer<Fts5Context>)>
+    ffi.NativeFunction<sqlite3_int64 Function(ffi.Pointer<Fts5Context> unnamed)>
   >
   xRowid;
 
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Int Function(
-        ffi.Pointer<Fts5Context>,
-        ffi.Int,
-        ffi.Pointer<ffi.Pointer<ffi.Char>>,
-        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<Fts5Context> unnamed,
+        ffi.Int unnamed$1,
+        ffi.Pointer<ffi.Pointer<ffi.Char>> unnamed$2,
+        ffi.Pointer<ffi.Int> unnamed$3,
       )
     >
   >
@@ -12254,7 +12452,11 @@ final class Fts5ExtensionApi extends ffi.Struct {
 
   external ffi.Pointer<
     ffi.NativeFunction<
-      ffi.Int Function(ffi.Pointer<Fts5Context>, ffi.Int, ffi.Pointer<ffi.Int>)
+      ffi.Int Function(
+        ffi.Pointer<Fts5Context> unnamed,
+        ffi.Int unnamed$1,
+        ffi.Pointer<ffi.Int> unnamed$2,
+      )
     >
   >
   xColumnSize;
@@ -12262,18 +12464,19 @@ final class Fts5ExtensionApi extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Int Function(
-        ffi.Pointer<Fts5Context>,
-        ffi.Int,
-        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<Fts5Context> unnamed,
+        ffi.Int unnamed$1,
+        ffi.Pointer<ffi.Void> unnamed$2,
         ffi.Pointer<
           ffi.NativeFunction<
             ffi.Int Function(
-              ffi.Pointer<Fts5ExtensionApi>,
-              ffi.Pointer<Fts5Context>,
-              ffi.Pointer<ffi.Void>,
+              ffi.Pointer<Fts5ExtensionApi> unnamed,
+              ffi.Pointer<Fts5Context> unnamed$1,
+              ffi.Pointer<ffi.Void> unnamed$2,
             )
           >
-        >,
+        >
+        unnamed$3,
       )
     >
   >
@@ -12282,11 +12485,12 @@ final class Fts5ExtensionApi extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Int Function(
-        ffi.Pointer<Fts5Context>,
-        ffi.Pointer<ffi.Void>,
+        ffi.Pointer<Fts5Context> unnamed,
+        ffi.Pointer<ffi.Void> unnamed$1,
         ffi.Pointer<
-          ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
-        >,
+          ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+        >
+        unnamed$2,
       )
     >
   >
@@ -12294,7 +12498,10 @@ final class Fts5ExtensionApi extends ffi.Struct {
 
   external ffi.Pointer<
     ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(ffi.Pointer<Fts5Context>, ffi.Int)
+      ffi.Pointer<ffi.Void> Function(
+        ffi.Pointer<Fts5Context> unnamed,
+        ffi.Int unnamed$1,
+      )
     >
   >
   xGetAuxdata;
@@ -12302,11 +12509,11 @@ final class Fts5ExtensionApi extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Int Function(
-        ffi.Pointer<Fts5Context>,
-        ffi.Int,
-        ffi.Pointer<Fts5PhraseIter>,
-        ffi.Pointer<ffi.Int>,
-        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<Fts5Context> unnamed,
+        ffi.Int unnamed$1,
+        ffi.Pointer<Fts5PhraseIter> unnamed$2,
+        ffi.Pointer<ffi.Int> unnamed$3,
+        ffi.Pointer<ffi.Int> unnamed$4,
       )
     >
   >
@@ -12315,10 +12522,10 @@ final class Fts5ExtensionApi extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Void Function(
-        ffi.Pointer<Fts5Context>,
-        ffi.Pointer<Fts5PhraseIter>,
-        ffi.Pointer<ffi.Int>,
-        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<Fts5Context> unnamed,
+        ffi.Pointer<Fts5PhraseIter> unnamed$1,
+        ffi.Pointer<ffi.Int> unnamed$2,
+        ffi.Pointer<ffi.Int> unnamed$3,
       )
     >
   >
@@ -12327,10 +12534,10 @@ final class Fts5ExtensionApi extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Int Function(
-        ffi.Pointer<Fts5Context>,
-        ffi.Int,
-        ffi.Pointer<Fts5PhraseIter>,
-        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<Fts5Context> unnamed,
+        ffi.Int unnamed$1,
+        ffi.Pointer<Fts5PhraseIter> unnamed$2,
+        ffi.Pointer<ffi.Int> unnamed$3,
       )
     >
   >
@@ -12339,9 +12546,9 @@ final class Fts5ExtensionApi extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Void Function(
-        ffi.Pointer<Fts5Context>,
-        ffi.Pointer<Fts5PhraseIter>,
-        ffi.Pointer<ffi.Int>,
+        ffi.Pointer<Fts5Context> unnamed,
+        ffi.Pointer<Fts5PhraseIter> unnamed$1,
+        ffi.Pointer<ffi.Int> unnamed$2,
       )
     >
   >
@@ -12373,40 +12580,41 @@ final class fts5_tokenizer extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Int Function(
-        ffi.Pointer<ffi.Void>,
-        ffi.Pointer<ffi.Pointer<ffi.Char>>,
-        ffi.Int,
-        ffi.Pointer<ffi.Pointer<Fts5Tokenizer>>,
+        ffi.Pointer<ffi.Void> unnamed,
+        ffi.Pointer<ffi.Pointer<ffi.Char>> unnamed$1,
+        ffi.Int unnamed$2,
+        ffi.Pointer<ffi.Pointer<Fts5Tokenizer>> unnamed$3,
       )
     >
   >
   xCreate;
 
   external ffi.Pointer<
-    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<Fts5Tokenizer>)>
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<Fts5Tokenizer> unnamed)>
   >
   xDelete;
 
   external ffi.Pointer<
     ffi.NativeFunction<
       ffi.Int Function(
-        ffi.Pointer<Fts5Tokenizer>,
-        ffi.Pointer<ffi.Void>,
-        ffi.Int,
-        ffi.Pointer<ffi.Char>,
-        ffi.Int,
+        ffi.Pointer<Fts5Tokenizer> unnamed,
+        ffi.Pointer<ffi.Void> unnamed$1,
+        ffi.Int unnamed$2,
+        ffi.Pointer<ffi.Char> unnamed$3,
+        ffi.Int unnamed$4,
         ffi.Pointer<
           ffi.NativeFunction<
             ffi.Int Function(
-              ffi.Pointer<ffi.Void>,
-              ffi.Int,
-              ffi.Pointer<ffi.Char>,
-              ffi.Int,
-              ffi.Int,
-              ffi.Int,
+              ffi.Pointer<ffi.Void> unnamed,
+              ffi.Int unnamed$1,
+              ffi.Pointer<ffi.Char> unnamed$2,
+              ffi.Int unnamed$3,
+              ffi.Int unnamed$4,
+              ffi.Int unnamed$5,
             )
           >
-        >,
+        >
+        unnamed$5,
       )
     >
   >
@@ -12427,7 +12635,7 @@ final class fts5_api extends ffi.Struct {
         ffi.Pointer<ffi.Void> pContext,
         ffi.Pointer<fts5_tokenizer> pTokenizer,
         ffi.Pointer<
-          ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+          ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
         >
         xDestroy,
       )
@@ -12457,7 +12665,7 @@ final class fts5_api extends ffi.Struct {
         ffi.Pointer<ffi.Void> pContext,
         fts5_extension_function xFunction,
         ffi.Pointer<
-          ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+          ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
         >
         xDestroy,
       )

@@ -4182,7 +4182,9 @@ class LibClang {
       .asFunction<void Function()>();
 
   void clang_executeOnThread(
-    ffi.Pointer<ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>>
+    ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
+    >
     fn,
     ffi.Pointer<ffi.Void> user_data,
     int stack_size,
@@ -4195,7 +4197,9 @@ class LibClang {
         ffi.NativeFunction<
           ffi.Void Function(
             ffi.Pointer<
-              ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+              ffi.NativeFunction<
+                ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)
+              >
             >,
             ffi.Pointer<ffi.Void>,
             ffi.UnsignedInt,
@@ -4206,7 +4210,7 @@ class LibClang {
       .asFunction<
         void Function(
           ffi.Pointer<
-            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+            ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> unnamed)>
           >,
           ffi.Pointer<ffi.Void>,
           int,
@@ -8280,7 +8284,11 @@ final class CXCursorAndRangeVisitor extends ffi.Struct {
 
   external ffi.Pointer<
     ffi.NativeFunction<
-      ffi.UnsignedInt Function(ffi.Pointer<ffi.Void>, CXCursor, CXSourceRange)
+      ffi.UnsignedInt Function(
+        ffi.Pointer<ffi.Void> unnamed,
+        CXCursor unnamed$1,
+        CXSourceRange unnamed$2,
+      )
     >
   >
   visit;
@@ -8780,7 +8788,11 @@ final class IndexerCallbacks extends ffi.Struct {
   /// Called at the end of indexing; passes the complete diagnostic set.
   external ffi.Pointer<
     ffi.NativeFunction<
-      ffi.Void Function(CXClientData, CXDiagnosticSet, ffi.Pointer<ffi.Void>)
+      ffi.Void Function(
+        CXClientData unnamed,
+        CXDiagnosticSet unnamed$1,
+        ffi.Pointer<ffi.Void> unnamed$2,
+      )
     >
   >
   diagnostic;
@@ -8799,7 +8811,10 @@ final class IndexerCallbacks extends ffi.Struct {
   /// Called when a file gets #included/#imported.
   external ffi.Pointer<
     ffi.NativeFunction<
-      CXIdxClientFile Function(CXClientData, ffi.Pointer<CXIdxIncludedFileInfo>)
+      CXIdxClientFile Function(
+        CXClientData unnamed,
+        ffi.Pointer<CXIdxIncludedFileInfo> unnamed$1,
+      )
     >
   >
   ppIncludedFile;
@@ -8808,8 +8823,8 @@ final class IndexerCallbacks extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
       CXIdxClientASTFile Function(
-        CXClientData,
-        ffi.Pointer<CXIdxImportedASTFileInfo>,
+        CXClientData unnamed,
+        ffi.Pointer<CXIdxImportedASTFileInfo> unnamed$1,
       )
     >
   >
@@ -8828,7 +8843,10 @@ final class IndexerCallbacks extends ffi.Struct {
 
   external ffi.Pointer<
     ffi.NativeFunction<
-      ffi.Void Function(CXClientData, ffi.Pointer<CXIdxDeclInfo>)
+      ffi.Void Function(
+        CXClientData unnamed,
+        ffi.Pointer<CXIdxDeclInfo> unnamed$1,
+      )
     >
   >
   indexDeclaration;
@@ -8836,7 +8854,10 @@ final class IndexerCallbacks extends ffi.Struct {
   /// Called to index a reference of an entity.
   external ffi.Pointer<
     ffi.NativeFunction<
-      ffi.Void Function(CXClientData, ffi.Pointer<CXIdxEntityRefInfo>)
+      ffi.Void Function(
+        CXClientData unnamed,
+        ffi.Pointer<CXIdxEntityRefInfo> unnamed$1,
+      )
     >
   >
   indexEntityReference;
