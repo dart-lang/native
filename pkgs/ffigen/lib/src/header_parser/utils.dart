@@ -6,7 +6,6 @@ import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
 import 'package:logging/logging.dart';
-import 'package:pub_semver/pub_semver.dart';
 
 import '../code_generator.dart';
 import '../config_provider/config_types.dart';
@@ -511,8 +510,6 @@ class BindingsIndex {
   bool isSeenFunc(String usr) => _functions.containsKey(usr);
   void addFuncToSeen(String usr, Func func) => _functions[usr] = func;
   Func? getSeenFunc(String usr) => _functions[usr];
-  bool isSeenUnnamedEnumConstant(String usr) =>
-      _unnamedEnumConstants.containsKey(usr);
   void addUnnamedEnumConstantToSeen(String usr, Constant enumConstant) =>
       _unnamedEnumConstants[usr] = enumConstant;
   Constant? getSeenUnnamedEnumConstant(String usr) =>
@@ -522,7 +519,6 @@ class BindingsIndex {
   Global? getSeenGlobalVar(String usr) => _globals[usr];
   bool isSeenMacro(String usr) => _macros.containsKey(usr);
   void addMacroToSeen(String usr, String macro) => _macros[usr] = macro;
-  String? getSeenMacro(String usr) => _macros[usr];
   bool isSeenUnsupportedTypealias(String usr) =>
       _unsupportedTypealiases.contains(usr);
   void addUnsupportedTypealiasToSeen(String usr) =>

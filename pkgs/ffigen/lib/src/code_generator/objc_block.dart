@@ -400,6 +400,7 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
     final blockingListenerRetains = [_waiterParam.name, ...retains];
 
     final argStr = argsReceived.join(', ');
+    final declArgStr = argStr.isEmpty ? 'void' : argStr;
     final blockingArgStr = [
       _waiterParam.getNativeType(varName: _waiterParam.name),
       ...argsReceived,
@@ -416,7 +417,7 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
 
     return '''
 
-typedef ${returnType.getNativeType()} (^$listenerName)($argStr);
+typedef ${returnType.getNativeType()} (^$listenerName)($declArgStr);
 __attribute__((visibility("default"))) __attribute__((used))
 $listenerName $listenerWrapper($listenerName block) NS_RETURNS_RETAINED {
   return ^void($argStr) {

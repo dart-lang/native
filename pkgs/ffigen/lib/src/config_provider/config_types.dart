@@ -15,6 +15,8 @@ import '../code_generator.dart';
 import 'config.dart';
 import 'path_finder.dart';
 
+export 'package:pub_semver/pub_semver.dart' show Version;
+
 enum Language { c, objc }
 
 class CommentType {

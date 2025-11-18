@@ -58,3 +58,6 @@ void staticFuncConsumesArg(StaticFuncTestObj* __attribute((ns_consumed)) a) {
   if (counter != nil) --*counter;
 }
 @end
+
+int foo(int x) { return 10 * x; }
+int fooPtr(int x) { return 100 * x; }

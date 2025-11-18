@@ -83,8 +83,8 @@ FFI_EXPORT Version DOBJC_getOsVesion(void) {
   NSOperatingSystemVersion objc_version =
       [[NSProcessInfo processInfo] operatingSystemVersion];
   Version c_version;
-  c_version.major = objc_version.majorVersion;
-  c_version.minor = objc_version.minorVersion;
-  c_version.patch = objc_version.patchVersion;
+  c_version.major = (int)objc_version.majorVersion;
+  c_version.minor = (int)objc_version.minorVersion;
+  c_version.patch = (int)objc_version.patchVersion;
   return c_version;
 }

@@ -96,3 +96,5 @@ jobs:
         run: dart pub get
       - name: Run the example app
         run: dart run lib/main.dart
+      - name: Check for xcode for analyzer warnings
+        run: xcodebuild analyze -workspace macos/Runner.xcworkspace -scheme Runner -configuration Debug GCC_TREAT_WARNINGS_AS_ERRORS=YES

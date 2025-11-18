@@ -6,7 +6,6 @@ import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
-import 'package:pub_semver/pub_semver.dart';
 
 import '../../config_provider/config_types.dart';
 import '../../context.dart';

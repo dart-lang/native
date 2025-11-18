@@ -48,6 +48,13 @@ Constant? _addUnNamedEnumConstant(
   final logger = context.logger;
   final config = context.config;
   final bindingsIndex = context.bindingsIndex;
+
+  final usr = cursor.usr();
+  final oldConstant = bindingsIndex.getSeenUnnamedEnumConstant(usr);
+  if (oldConstant != null) {
+    return oldConstant;
+  }
+
   final unnamedEnumConstants = context.unnamedEnumConstants;
   final apiAvailability = ApiAvailability.fromCursor(cursor, context);
   if (apiAvailability.availability == Availability.none) {
@@ -59,7 +66,7 @@ Constant? _addUnNamedEnumConstant(
     '++++ Adding Constant from unnamed enum: ${cursor.completeStringRepr()}',
   );
   final constant = UnnamedEnumConstant(
-    usr: cursor.usr(),
+    usr: usr,
     originalName: cursor.spelling(),
     name: config.unnamedEnums.rename(
       Declaration(usr: cursor.usr(), originalName: cursor.spelling()),

@@ -129,7 +129,7 @@ jobs:
           brew: clang-format
       - name: Build test dylib and bindings
         run: dart --enable-asserts test/setup.dart
-      - name: Run VM tests and collect coverage
+      - name: Run VM tests
         run: dart test
 
   test-mac-flutter:

@@ -235,10 +235,10 @@ class EnumClass extends BindingType with HasLocalScope {
 
   @override
   String getDartType(Context context) {
-    if (isObjCImport) {
-      return '${context.libs.prefix(objcPkgImport)}.$name';
-    } else if (style == EnumStyle.intConstants) {
+    if (style == EnumStyle.intConstants) {
       return nativeType.getDartType(context);
+    } else if (isObjCImport) {
+      return '${context.libs.prefix(objcPkgImport)}.$name';
     } else {
       return name;
     }

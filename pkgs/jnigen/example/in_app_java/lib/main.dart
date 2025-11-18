@@ -10,8 +10,7 @@ import 'package:jni/jni.dart';
 // structure.
 import 'android_utils.g.dart';
 
-JObject context =
-    Jni.androidApplicationContext(PlatformDispatcher.instance.engineId!);
+JObject context = Jni.androidApplicationContext;
 
 final hashmap = HashMap(K: JString.type, V: JString.type);
 
