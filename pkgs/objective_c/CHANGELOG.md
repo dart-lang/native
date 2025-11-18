@@ -1,6 +1,8 @@
 ## 9.1.0
 
 - Use FFIgen 20.1.0
+- Migrate to from a Flutter plugin to native assets. This enables
+  package:objective_c to be used in command line apps.
 
 ## 9.0.0
 
