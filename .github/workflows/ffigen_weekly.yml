@@ -30,7 +30,7 @@ jobs:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
       - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
-          channel: master
+          channel: stable
       - name: Install dependencies
         run: dart pub get && dart pub get --directory="../objective_c" && flutter pub get --directory="../jni"
       - name: Install clang-format
