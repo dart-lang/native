@@ -329,7 +329,7 @@ final class ObjCObjectRef extends _ObjCReference<r.ObjCObjectImpl> {
 }
 
 /// Base class for all Objective-C objects.
-class ObjCObject extends _ObjCRefHolder<c.ObjCObjectImpl, ObjCObjectRef> {
+class ObjCObject extends _ObjCRefHolder<r.ObjCObjectImpl, ObjCObjectRef> {
   ObjCObject(ObjectPtr ptr, {required bool retain, required bool release})
     : super(ObjCObjectRef(ptr, retain: retain, release: release));
 }
