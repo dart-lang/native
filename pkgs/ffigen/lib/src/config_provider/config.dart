@@ -139,7 +139,7 @@ final class Headers {
 
   static bool _includeDefault(Uri header) => true;
 
-  /// CommandLine Arguments to pass to clang_compiler.
+  /// Command line arguments to pass to clang_compiler.
   final List<String>? compilerOptions;
 
   /// Where to ignore compiler warnings/errors in source header files.
@@ -155,7 +155,12 @@ final class Headers {
 
 /// Configuration for declarations.
 final class Declarations {
-  /// Checks if a name is allowed by a filter.
+  /// Whether to include the given declaration.
+  ///
+  /// ```dart
+  /// // This includes `Foo`, and nothing else:
+  /// include: (Declaration decl) => decl.originalName == 'Foo'
+  /// ```
   final bool Function(Declaration declaration) include;
 
   /// A function to pass to [include] that excludes all declarations.
@@ -169,10 +174,21 @@ final class Declarations {
   static bool Function(Declaration) includeSet(Set<String> names) =>
       (Declaration decl) => names.contains(decl.originalName);
 
-  /// Whether a member of a declaration should be included.
+  /// Whether the member of the declaration should be included.
   ///
   /// Only used for [Categories], [Interfaces], and [Protocols] methods and
-  /// properties.
+  /// properties. For Objective-C methods, this is the method selector, eg
+  /// `"arrayWithObjects:count:"`.
+  ///
+  /// Note that using [includeMember] to include a member of a class doesn't
+  /// affect whether the class is included. You'll also need to set [include]
+  /// for the class (this will be fixed in a future version of the API).
+  ///
+  /// ```dart
+  /// // This includes `Foo.bar`, and no other methods of `Foo`:
+  /// includeMember: (Declaration declaration, String member) =>
+  /// ```
+  // TODO(https://github.com/dart-lang/native/issues/2770): Merge with include.
   final bool Function(Declaration declaration, String member) includeMember;
 
   /// A function to pass to [includeMember] that includes all members of all
@@ -190,10 +206,18 @@ final class Declarations {
       (Declaration decl, String member) =>
           members[decl.originalName]?.contains(member) ?? true;
 
-  /// Checks if the symbol address should be included for this name.
+  /// Whether the symbol address should be exposed for this declaration.
+  ///
+  /// The address is exposed as an FFI pointer.
   final bool Function(Declaration declaration) includeSymbolAddress;
 
-  /// Applies renaming and returns the result.
+  /// Returns a new name for the declaration, to replace its `originalName`.
+  ///
+  /// ```dart
+  /// // This renames `Foo` to `Bar`, and nothing else:
+  /// rename: (Declaration decl) =>
+  ///     decl.originalName == 'Foo' ? 'Bar' : decl.originalName
+  /// ```
   final String Function(Declaration declaration) rename;
 
   /// A function to pass to [rename] that doesn't rename the declaration.
@@ -211,9 +235,21 @@ final class Declarations {
       (Declaration declaration) =>
           renames[declaration.originalName] ?? declaration.originalName;
 
-  /// Applies member renaming and returns the result. Used for struct/union
-  /// fields, enum elements, function params, and ObjC
-  /// interface/protocol/category methods/properties.
+  /// Returns a new name for the member of the declaration, to replace its
+  /// `originalName`.
+  ///
+  /// Used for struct/union fields, enum elements, function params, and
+  /// Objective-C interface/protocol/category methods/properties.
+  ///
+  /// ```dart
+  /// // This renames `Foo.bar` to `Foo.baz`, and nothing else:
+  /// rename: (Declaration decl, String member) {
+  ///   if (decl.originalName == 'Foo' && member == 'baz') {
+  ///     return 'baz';
+  ///   }
+  ///   return member;
+  /// }
+  /// ```
   final String Function(Declaration declaration, String member) renameMember;
 
   /// A function to pass to [renameMember] that doesn't rename the member.
@@ -246,8 +282,18 @@ final class Enums extends Declarations {
   /// The [EnumStyle] to use for the given enum declaration.
   ///
   /// The `suggestedStyle` is a suggested [EnumStyle] based on the declaration
-  /// of the enum, if any. For example, ObjC enums declared using NS_OPTIONS
-  /// are suggested to use [EnumStyle.intConstants].
+  /// of the enum, if any. For example, Objective-C enums declared using
+  /// NS_OPTIONS are suggested to use [EnumStyle.intConstants].
+  ///
+  /// ```dart
+  /// // This uses `intConstants` for `Foo`, and the default style otherwise:
+  /// style: (Declaration decl, EnumStyle? suggestedStyle) {
+  ///   if (decl.originalName == 'Foo') {
+  ///     return EnumStyle.intConstants;
+  ///   }
+  ///   return suggestedStyle ?? EnumStyle.dartEnum;
+  /// }
+  /// ```
   final EnumStyle Function(Declaration declaration, EnumStyle? suggestedStyle)
   style;
 
@@ -288,17 +334,26 @@ enum EnumStyle {
 
 /// Configuration for function declarations.
 final class Functions extends Declarations {
-  /// Whether to expose the function typedef for a given function.
+  /// Whether to generate a typedef for a given function's native type.
   final bool Function(Declaration declaration) includeTypedef;
 
   static bool _includeTypedefDefault(Declaration declaration) => false;
 
   /// Whether the given function is a leaf function.
+  ///
+  /// This corresponds to the `isLeaf` parameter of FFI's `lookupFunction`.
+  /// For more details, its documentation is here:
+  /// https://api.dart.dev/dart-ffi/DynamicLibraryExtension/lookupFunction.html
   final bool Function(Declaration declaration) isLeaf;
 
   static bool _isLeafDefault(Declaration declaration) => false;
 
-  /// VarArg function handling.
+  /// Map from function's original name to [VarArgFunction]s.
+  ///
+  /// Dart doesn't support variadic functions. Instead, variadic functions are
+  /// handled by generating multiple versions of the same function, with
+  /// different signatures. Each [VarArgFunction] represents one of those
+  /// signatures.
   final Map<String, List<VarArgFunction>> varArgs;
 
   const Functions({
@@ -491,11 +546,11 @@ final class ObjectiveC {
   /// Declaration filters for Objective-C protocols.
   final Protocols protocols;
 
-  /// Undocumented option that changes code generation for package:objective_c.
-  /// The main difference is whether NSObject etc are imported from
-  /// package:objective_c (the default) or code genned like any other class.
-  /// This is necessary because package:objective_c can't import NSObject from
-  /// itself.
+  // Undocumented option that changes code generation for package:objective_c.
+  // The main difference is whether NSObject etc are imported from
+  // package:objective_c (the default) or code genned like any other class.
+  // This is necessary because package:objective_c can't import NSObject from
+  // itself.
   @Deprecated('Only for internal use.')
   final bool generateForPackageObjectiveC;
 
