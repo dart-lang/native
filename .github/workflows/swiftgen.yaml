@@ -3,7 +3,7 @@ name: swiftgen
 on:
   # Run on PRs and pushes to the default branch.
   push:
-    branches: [main, stable]
+    branches: [main]
     paths:
       - '.github/workflows/swiftgen.yaml'
       - 'pkgs/ffigen/**'
@@ -12,7 +12,7 @@ on:
       - 'pkgs/swift2objc/**'
       - 'pkgs/swiftgen/**'
   pull_request:
-    branches: [main, stable]
+    branches: [main]
     paths:
       - '.github/workflows/swiftgen.yaml'
       - 'pkgs/ffigen/**'

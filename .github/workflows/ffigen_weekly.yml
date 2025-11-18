@@ -6,11 +6,11 @@ name: ffigen_weekly
 on:
   # Run once a week.
   push:
-    branches: [main, stable]
+    branches: [main]
     paths:
       - '.github/workflows/ffigen_weekly.yml'
   pull_request:
-    branches: [main, stable]
+    branches: [main]
     paths:
       - '.github/workflows/ffigen_weekly.yml'
   schedule:

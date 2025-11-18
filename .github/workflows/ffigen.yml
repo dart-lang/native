@@ -10,7 +10,7 @@ on:
       - 'pkgs/ffigen/**'
       - 'pkgs/objective_c/**'
   pull_request:
-    branches: [main, stable]
+    branches: [main]
     paths:
       - '.github/workflows/ffigen.yml'
       - 'pkgs/ffigen/**'
@@ -92,10 +92,7 @@ jobs:
       - name: Install coverage
         run: dart pub global activate coverage
       - name: Run VM tests and collect coverage
-        run: |
-          dart --pause-isolates-on-exit --disable-service-auth-codes --enable-vm-service=8181 test &
-          dart pub global run coverage:collect_coverage --wait-paused --resume-isolates --uri=http://127.0.0.1:8181/ --scope-output=ffigen --scope-output=objective_c -o coverage/coverage.json
-          dart pub global run coverage:format_coverage --packages=.dart_tool/package_config.json --lcov -i coverage/coverage.json -o coverage/lcov.info
+        run: dart test --coverage-path=./coverage/lcov.info
       - name: Generate package:jni bindings
         run: dart --enable-asserts run tool/generate_ffi_bindings.dart
         working-directory: pkgs/jni/
