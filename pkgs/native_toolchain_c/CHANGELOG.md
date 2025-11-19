@@ -1,3 +1,8 @@
+## 0.17.4
+
+- Fixed resolution of C compiler and tools on macOS when `swiftly` is installed.
+- Broaden compiler tool discovery on macOS.
+
 ## 0.17.3
 
 - Bump `package:hooks` and `package:code_assets`to 1.0.0.
