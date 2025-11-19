@@ -97,7 +97,7 @@ jobs:
       - name: Build the example app for macos
         run: flutter build macos
       - name: Build the example app for ios
-        run: flutter build ios
+        run: flutter build ios --no-codesign
       - name: Check for xcode for analyzer warnings
         run: xcodebuild analyze -workspace macos/Runner.xcworkspace -scheme Runner -configuration Debug GCC_TREAT_WARNINGS_AS_ERRORS=YES
 
