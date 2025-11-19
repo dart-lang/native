@@ -6,20 +6,11 @@
 @TestOn('mac-os')
 library;
 
-import 'dart:ffi';
-
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 
-import 'util.dart';
-
 void main() {
   group('NSNumber', () {
-    setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open(testDylib);
-    });
-
     test('from double', () {
       final n = 1.23.toNSNumber();
 

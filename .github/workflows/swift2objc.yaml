@@ -3,13 +3,13 @@ name: swift2objc
 on:
   # Run on PRs and pushes to the default branch.
   push:
-    branches: [main, stable]
+    branches: [main]
     paths:
       - '.github/workflows/swift2objc.yaml'
       - 'pkgs/native_test_helpers/**'
       - 'pkgs/swift2objc/**'
   pull_request:
-    branches: [main, stable]
+    branches: [main]
     paths:
       - '.github/workflows/swift2objc.yaml'
       - 'pkgs/native_test_helpers/**'

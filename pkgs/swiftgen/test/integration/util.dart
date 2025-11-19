@@ -14,15 +14,6 @@ import 'package:test/test.dart';
 
 String pkgDir = findPackageRoot('swiftgen').toFilePath();
 
-// TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-String objCTestDylib = path.join(
-  pkgDir,
-  '..',
-  'objective_c',
-  'test',
-  'objective_c.dylib',
-);
-
 Future<Target> hostTarget = Target.host();
 
 class TestGenerator {

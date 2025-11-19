@@ -3,7 +3,7 @@ name: swiftgen
 on:
   # Run on PRs and pushes to the default branch.
   push:
-    branches: [main, stable]
+    branches: [main]
     paths:
       - '.github/workflows/swiftgen.yaml'
       - 'pkgs/ffigen/**'
@@ -12,7 +12,7 @@ on:
       - 'pkgs/swift2objc/**'
       - 'pkgs/swiftgen/**'
   pull_request:
-    branches: [main, stable]
+    branches: [main]
     paths:
       - '.github/workflows/swiftgen.yaml'
       - 'pkgs/ffigen/**'
@@ -39,10 +39,10 @@ jobs:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
       - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
-          channel: 'stable'
+          channel: master
       - id: install
         name: Install dependencies
-        run: flutter pub get
+        run: dart pub get && dart pub get --directory="example"
       - name: Check formatting
         run: dart format --output=none --set-exit-if-changed .
         if: always() && steps.install.outcome == 'success'
@@ -60,16 +60,9 @@ jobs:
       - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
       - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
-          channel: 'stable'
+          channel: master
       - name: Install dependencies
-        run: flutter pub get
-      - name: Install ObjC dependencies
-        working-directory: pkgs/objective_c/
-        run: flutter pub get
-      - name: Build ObjC test dylib
-        working-directory: pkgs/objective_c/
-        # TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-        run: dart test/setup.dart
+        run: dart pub get
       - name: Install coverage
         run: dart pub global activate coverage
       - name: Run VM tests and collect coverage

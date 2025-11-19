@@ -13,10 +13,13 @@ headers:
     - 'src/observer.h'
     - 'src/protocol.h'
 ffi-native:
+  asset-id: 'package:objective_c/objective_c.dylib'
 exclude-all-by-default: true
 include-transitive-objc-categories: false
 generate-for-package-objective-c: true
 sort: true
+library-imports:
+  collection: 'dart:collection'
 external-versions:
   # See https://docs.flutter.dev/reference/supported-platforms.
   ios:
@@ -174,14 +177,6 @@ enums:
     - NSURLBookmarkCreationOptions
     - NSURLBookmarkResolutionOptions
     - NSURLHandleStatus
-globals:
-  include:
-    - NSKeyValueChangeIndexesKey
-    - NSKeyValueChangeKindKey
-    - NSKeyValueChangeNewKey
-    - NSKeyValueChangeNotificationIsPriorKey
-    - NSKeyValueChangeOldKey
-    - NSLocalizedDescriptionKey
 typedefs:
   include:
     - 'CFStringRef'
@@ -190,7 +185,7 @@ preamble: |
   // for details. All rights reserved. Use of this source code is governed by a
   // BSD-style license that can be found in the LICENSE file.
 
-  // Bindings for `src/foundation.h`.
+  // Bindings for package:objective_c's ObjC code and the Foundation framework.
   // Regenerate bindings with `dart run tool/generate_code.dart`.
 
   // coverage:ignore-file

@@ -18,9 +18,6 @@ void main() {
       final gen = TestGenerator('classes');
       await gen.generateAndVerifyBindings();
       DynamicLibrary.open(gen.dylibFile);
-
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open(objCTestDylib);
     });
 
     test('method invocation', () {

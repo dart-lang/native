@@ -7,9 +7,6 @@ import 'dart:io';
 
 import 'package:objective_c/objective_c.dart';
 
-// TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-import '../../objective_c/test/setup.dart' as objc_setup;
-
 import 'avf_audio_bindings.dart';
 
 const _dylibPath =
@@ -23,17 +20,13 @@ void main(List<String> args) async {
     return;
   }
 
-  objc_setup.main([]);
   DynamicLibrary.open(_dylibPath);
   DynamicLibrary.open(Platform.script.resolve(_wrapperDylib).toFilePath());
   for (final file in args) {
     final fileStr = NSString(file);
     print('Loading ${fileStr.toDartString()}');
     final fileUrl = NSURL.fileURLWithPath(fileStr);
-    final player = AVAudioPlayerWrapper.alloc().initWithContentsOf(
-      fileUrl,
-      error: nullptr,
-    );
+    final player = AVAudioPlayerWrapper.alloc().initWithContentsOf(fileUrl);
     if (player == null) {
       print('Failed to load audio');
       continue;
