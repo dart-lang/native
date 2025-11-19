@@ -94,8 +94,10 @@ jobs:
           channel: stable
       - name: Install dependencies
         run: flutter pub get
-      - name: Build the example app
+      - name: Build the example app for macos
         run: flutter build macos
+      - name: Build the example app for ios
+        run: flutter build ios
       - name: Check for xcode for analyzer warnings
         run: xcodebuild analyze -workspace macos/Runner.xcworkspace -scheme Runner -configuration Debug GCC_TREAT_WARNINGS_AS_ERRORS=YES
 

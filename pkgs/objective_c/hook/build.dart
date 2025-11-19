@@ -12,7 +12,6 @@ import 'package:native_toolchain_c/src/cbuilder/compiler_resolver.dart';
 const objCFlags = ['-x', 'objective-c', '-fobjc-arc'];
 
 String sdkPath = firstLineOfStdout('xcrun', ['--show-sdk-path']);
-final cFlags = <String>['-isysroot', sdkPath];
 
 const assetName = 'objective_c.dylib';
 
@@ -29,7 +28,8 @@ final logger = Logger('')
 void main(List<String> args) async {
   await build(args, (input, output) async {
     const supportedOSs = {OS.iOS, OS.macOS};
-    if (!supportedOSs.contains(input.config.code.targetOS)) {
+    final os = input.config.code.targetOS;
+    if (!supportedOSs.contains(os)) {
       // Nothing to do.
       return;
     }
@@ -41,6 +41,9 @@ void main(List<String> args) async {
     final packageName = input.packageName;
     final assetPath = input.outputDirectory.resolve(assetName);
     final srcDir = Directory.fromUri(input.packageRoot.resolve('src/'));
+
+    final arch = input.config.code.targetArchitecture;
+    final target = '${clangArchName(arch)}-apple-${os.name}';
 
     final cFiles = <String>[];
     final mFiles = <String>[];
@@ -56,7 +59,9 @@ void main(List<String> args) async {
 
     cFiles.addAll(extraCFiles.map((f) => input.packageRoot.resolve(f).path));
 
+    final cFlags = <String>['-isysroot', sdkPath, '-target', target];
     final mFlags = [...cFlags, ...objCFlags];
+    final linkFlags = cFlags;
 
     final builder = await Builder.create(input, input.packageRoot.path);
 
@@ -64,7 +69,7 @@ void main(List<String> args) async {
       for (final src in cFiles) builder.buildObject(src, cFlags),
       for (final src in mFiles) builder.buildObject(src, mFlags),
     ]);
-    await builder.linkLib(objectFiles, assetPath.toFilePath());
+    await builder.linkLib(objectFiles, assetPath.toFilePath(), linkFlags);
 
     output.dependencies.addAll(cFiles.map(Uri.file));
     output.dependencies.addAll(mFiles.map(Uri.file));
@@ -108,11 +113,15 @@ class Builder {
     return output;
   }
 
-  Future<void> linkLib(List<String> objects, String output) => _compile([
+  Future<void> linkLib(
+    List<String> objects,
+    String output,
+    List<String> flags,
+  ) => _compile([
     '-shared',
     '-undefined',
     'dynamic_lookup',
-    ...cFlags,
+    ...flags,
     ...objects,
   ], output);
 
@@ -138,3 +147,6 @@ String firstLineOfStdout(String cmd, List<String> args) {
       .where((line) => line.isNotEmpty)
       .first;
 }
+
+String clangArchName(Architecture arch) =>
+    arch == Architecture.x64 ? 'x86_64' : arch.name;
