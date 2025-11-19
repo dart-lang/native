@@ -7,7 +7,7 @@
 import 'dart:ffi';
 import 'dart:io';
 
-import 'package:objective_c/objective_c.dart';
+import 'package:objective_c/objective_c.dart' as objc;
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
@@ -77,14 +77,14 @@ void main() {
         'GoodbyeWorld!',
       );
 
-      NSString str2 = str.instancetypeMethod();
+      objc.NSString str2 = str.instancetypeMethod();
       expect(str2.toDartString(), 'Hello');
     });
 
     test('Transitive category on built-in type', () {
       // Regression test for https://github.com/dart-lang/native/issues/1820.
       // Include transitive category of explicitly included buit-in type.
-      expect(NSURL.alloc().extensionMethod(), 555);
+      expect(objc.NSURL.alloc().extensionMethod(), 555);
 
       // Don't include transitive category of built-in type that hasn't been
       // explicitly included.
@@ -100,6 +100,30 @@ void main() {
 
       // This method is from an NSObject extension, which shouldn't be included.
       expect(bindings, isNot(contains('autoContentAccessingProxy')));
+    });
+
+    test('Category that has the same name as an imported type that is the '
+        'supertype of another type in the same file', () {
+      // Regression test for https://github.com/dart-lang/native/issues/2762.
+      final bindings = File(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'category_bindings.dart',
+        ),
+      ).readAsStringSync();
+
+      // Neither the NSString category, nor the NSString that's a supertype of
+      // ChildOfNSString, have been renamed to NSString$1.
+      expect(bindings, contains('extension NSString on Thing {'));
+      expect(
+        bindings,
+        contains('''
+extension type ChildOfNSString._(objc.ObjCObject object\$)
+    implements objc.ObjCObject, objc.NSString {
+'''),
+      );
     });
   });
 }
