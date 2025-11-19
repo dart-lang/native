@@ -10,6 +10,7 @@ import 'package:logging/logging.dart';
 import 'package:native_toolchain_c/src/cbuilder/compiler_resolver.dart';
 
 const objCFlags = ['-x', 'objective-c', '-fobjc-arc'];
+const cFlags = <String>[];
 
 const assetName = 'objective_c.dylib';
 
@@ -53,7 +54,6 @@ void main(List<String> args) async {
 
     cFiles.addAll(extraCFiles.map((f) => input.packageRoot.resolve(f).path));
 
-    final cFlags = <String>[];
     final mFlags = [...cFlags, ...objCFlags];
 
     final builder = await Builder.create(input, input.packageRoot.path);
