@@ -10,7 +10,9 @@ import 'package:logging/logging.dart';
 import 'package:native_toolchain_c/src/cbuilder/compiler_resolver.dart';
 
 const objCFlags = ['-x', 'objective-c', '-fobjc-arc'];
-const cFlags = <String>[];
+
+String sdkPath = firstLineOfStdout('xcrun', ['--show-sdk-path']);
+final cFlags = <String>['-isysroot', sdkPath];
 
 const assetName = 'objective_c.dylib';
 
@@ -106,8 +108,13 @@ class Builder {
     return output;
   }
 
-  Future<void> linkLib(List<String> objects, String output) =>
-      _compile(['-shared', '-undefined', 'dynamic_lookup', ...objects], output);
+  Future<void> linkLib(List<String> objects, String output) => _compile([
+    '-shared',
+    '-undefined',
+    'dynamic_lookup',
+    ...cFlags,
+    ...objects,
+  ], output);
 
   Future<void> _compile(List<String> flags, String output) async {
     final args = [...flags, '-o', output];
@@ -121,4 +128,13 @@ class Builder {
     }
     logger.info('Generated $output');
   }
+}
+
+String firstLineOfStdout(String cmd, List<String> args) {
+  final result = Process.runSync(cmd, args);
+  assert(result.exitCode == 0);
+  return (result.stdout as String)
+      .split('\n')
+      .where((line) => line.isNotEmpty)
+      .first;
 }

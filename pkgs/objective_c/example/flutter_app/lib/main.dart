@@ -23,7 +23,7 @@ class _MainAppState extends State<MainApp> {
   void initState() {
     super.initState();
 
-    message = NSString('Hello World!').toString();
+    message = NSString('Hello World!').toDartString();
   }
 
   @override
