@@ -1,3 +1,7 @@
+## 20.1.1
+
+- Update tests and examples now that package:objective_c is using native assets.
+
 ## 20.1.0
 
 - Add `xcodeUri`, `iosSdkUri`, and `macSdkUri`, to mirror `xcodePath`,
