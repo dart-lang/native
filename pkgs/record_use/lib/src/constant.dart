@@ -121,6 +121,7 @@ final class BoolConstant extends PrimitiveConstant<bool> {
   static const _type = 'bool';
 
   /// Creates a [BoolConstant] object with the given boolean [value].
+  // ignore: avoid_positional_boolean_parameters
   const BoolConstant(super.value);
 
   @override

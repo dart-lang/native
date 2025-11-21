@@ -7,7 +7,7 @@ analyzer:
 linter:
   rules:
     - avoid_positional_boolean_parameters
-    - public_member_api_docs
+    # - public_member_api_docs
     - prefer_const_declarations
     - prefer_expression_function_bodies
     - prefer_final_in_for_each

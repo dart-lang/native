@@ -9,8 +9,8 @@ environment:
 resolution: workspace
 
 dependencies:
-  hooks: any
   data_assets: any
+  hooks: any
   logging: any
   meta: any
   record_use: any

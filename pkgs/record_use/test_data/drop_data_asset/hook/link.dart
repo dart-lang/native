@@ -14,7 +14,8 @@ void main(List<String> arguments) async {
     final recordedUsagesFile = input.recordedUsagesFile;
     if (recordedUsagesFile == null) {
       throw ArgumentError(
-        'Enable the --enable-experiments=record-use experiment to use this app.',
+        'Enable the --enable-experiments=record-use experiment'
+        ' to use this app.',
       );
     }
     final usages = await recordedUsages(recordedUsagesFile);

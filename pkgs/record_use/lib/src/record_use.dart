@@ -117,7 +117,7 @@ extension type RecordedUsages._(Recordings _recordings) {
       (_recordings.calls[identifier] ?? []).any(
         (element) => switch (element) {
           CallTearOff() => true,
-          CallWithArguments call => call.positionalArguments.any(
+          final CallWithArguments call => call.positionalArguments.any(
             (argument) => argument == null,
           ),
         },

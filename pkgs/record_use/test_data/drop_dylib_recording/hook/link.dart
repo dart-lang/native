@@ -5,8 +5,8 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:hooks/hooks.dart';
 import 'package:code_assets/code_assets.dart';
+import 'package:hooks/hooks.dart';
 import 'package:record_use/record_use.dart';
 
 void main(List<String> arguments) async {
@@ -14,7 +14,8 @@ void main(List<String> arguments) async {
     final recordedUsagesFile = input.recordedUsagesFile;
     if (recordedUsagesFile == null) {
       throw ArgumentError(
-        'Enable the --enable-experiments=record-use experiment to use this app.',
+        'Enable the --enable-experiments=record-use experiment'
+        ' to use this app.',
       );
     }
     final usages = await recordedUsages(recordedUsagesFile);
@@ -68,7 +69,7 @@ void main(List<String> arguments) async {
     print('Keeping only ${neededCodeAssets.map((e) => e.id).join(', ')}.');
     output.assets.code.addAll(neededCodeAssets);
 
-    output.addDependency(recordedUsagesFile);
+    output.dependencies.add(recordedUsagesFile);
   });
 }
 

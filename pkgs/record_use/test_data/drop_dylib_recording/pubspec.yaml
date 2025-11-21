@@ -10,10 +10,10 @@ environment:
 resolution: workspace
 
 dependencies:
+  code_assets: any
+  hooks: any
   logging: ^1.1.1
   meta: any
-  hooks: any
-  code_assets: any
   native_toolchain_c: any
   record_use: any
 
