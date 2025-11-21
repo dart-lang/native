@@ -1,3 +1,7 @@
+## 0.17.4-wip
+
+- Search for NDK in `ANDROID_HOME` and `ANDROID_NDK` environment variables.
+
 ## 0.17.3
 
 - Bump `package:hooks` and `package:code_assets`to 1.0.0.
