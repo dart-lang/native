@@ -20,9 +20,9 @@ void main(List<String> args) async {
   await link(args, (input, output) async {
     final usages = input.usages;
 
-    final usedAssets = (usages.instancesOf(multiplyIdentifier) ?? []).map(
-      (e) => (e.instanceConstant.fields.values.first as StringConstant).value,
-    );
+    final usedAssets = usages
+        .constantsOf(multiplyIdentifier)
+        .map((e) => e['assetName'] as String);
 
     output.assets.data.addAll(
       input.assets.data.where(
