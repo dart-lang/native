@@ -27,12 +27,12 @@ sealed class Constant {
   /// Converts this [Constant] to the value it represents.
   Object? toValue() => switch (this) {
     NullConstant() => null,
-    PrimitiveConstant p => p.value,
-    ListConstant<Constant> l => l.value.map((c) => c.toValue()).toList(),
-    MapConstant<Constant> m => m.value.map(
+    final PrimitiveConstant p => p.value,
+    final ListConstant<Constant> l => l.value.map((c) => c.toValue()).toList(),
+    final MapConstant<Constant> m => m.value.map(
       (key, value) => MapEntry(key, value.toValue()),
     ),
-    InstanceConstant i => i.fields.map(
+    final InstanceConstant i => i.fields.map(
       (key, value) => MapEntry(key, value.toValue()),
     ),
   };
@@ -227,13 +227,11 @@ final class InstanceConstant extends Constant {
   factory InstanceConstant.fromJson(
     Map<String, Object?> json,
     List<Constant> constants,
-  ) {
-    return InstanceConstant(
-      fields: json.map(
-        (key, constantIndex) => MapEntry(key, constants[constantIndex as int]),
-      ),
-    );
-  }
+  ) => InstanceConstant(
+    fields: json.map(
+      (key, constantIndex) => MapEntry(key, constants[constantIndex as int]),
+    ),
+  );
 
   @override
   Map<String, Object?> toJson(Map<Constant, int> constants) => _toJson(
@@ -258,6 +256,7 @@ final class InstanceConstant extends Constant {
 
 /// Helper to create the JSON structure of constants by storing the value with
 /// the type.
-Map<String, Object?> _toJson(String type, Object? value) {
-  return {_typeKey: type, if (value != null) _valueKey: value};
-}
+Map<String, Object?> _toJson(String type, Object? value) => {
+  _typeKey: type,
+  if (value != null) _valueKey: value,
+};

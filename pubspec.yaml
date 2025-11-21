@@ -77,6 +77,8 @@ workspace:
   - pkgs/native_toolchain_c
   - pkgs/pub_formats
   - pkgs/record_use
+  - pkgs/record_use/test_data/drop_data_asset
+  - pkgs/record_use/test_data/drop_dylib_recording
   - pkgs/repo_lint_rules
 
 # Hook user-defines are specified in the pub workspace.

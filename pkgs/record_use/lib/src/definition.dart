@@ -14,14 +14,12 @@ class Definition {
   static const _identifierKey = 'identifier';
   static const _loadingUnitKey = 'loading_unit';
 
-  factory Definition.fromJson(Map<String, Object?> json) {
-    return Definition(
-      identifier: Identifier.fromJson(
-        json[_identifierKey] as Map<String, Object?>,
-      ),
-      loadingUnit: json[_loadingUnitKey] as String?,
-    );
-  }
+  factory Definition.fromJson(Map<String, Object?> json) => Definition(
+    identifier: Identifier.fromJson(
+      json[_identifierKey] as Map<String, Object?>,
+    ),
+    loadingUnit: json[_loadingUnitKey] as String?,
+  );
 
   Map<String, Object?> toJson() => {
     _identifierKey: identifier.toJson(),

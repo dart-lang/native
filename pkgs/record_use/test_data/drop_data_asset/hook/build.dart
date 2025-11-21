@@ -7,7 +7,7 @@ import 'package:hooks/hooks.dart';
 
 void main(List<String> arguments) async {
   await build(arguments, (input, output) async {
-    for (var element in ['add', 'multiply', 'double', 'square']) {
+    for (final element in ['add', 'multiply', 'double', 'square']) {
       output.assets.data.add(
         DataAsset(
           file: input.packageRoot.resolve('assets/$element.txt'),

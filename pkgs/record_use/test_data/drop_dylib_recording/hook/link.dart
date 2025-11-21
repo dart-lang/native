@@ -37,7 +37,7 @@ void main(List<String> arguments) async {
           name: methodName,
         ),
       );
-      for (var call in calls) {
+      for (final call in calls) {
         dataLines.add(
           'A call was made to "$methodName" with the arguments ('
           '${call.positional[0] as int},${call.positional[1] as int})',
@@ -50,7 +50,7 @@ void main(List<String> arguments) async {
 
     // Tree-shake unused assets
     final instances = usages.constantsOf(
-      Identifier(
+      const Identifier(
         importUri: 'package:drop_dylib_recording/src/drop_dylib_recording.dart',
         name: 'RecordCallToC',
       ),

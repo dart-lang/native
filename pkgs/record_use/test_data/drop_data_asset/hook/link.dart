@@ -32,7 +32,6 @@ void main(List<String> arguments) async {
           scope: 'MyMath',
           name: methodName,
         ),
-        'int add(int a, int b)',
       );
       print('Checking calls to $methodName...');
       for (final call in calls) {
@@ -65,7 +64,7 @@ void main(List<String> arguments) async {
     print('Keeping only ${neededCodeAssets.map((e) => e.id).join(', ')}.');
     output.assets.data.addAll(neededCodeAssets);
 
-    output.addDependency(recordedUsagesFile);
+    output.dependencies.add(recordedUsagesFile);
   });
 }
 

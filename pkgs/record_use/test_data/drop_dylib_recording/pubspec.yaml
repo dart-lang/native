@@ -5,24 +5,18 @@ version: 1.0.0
 publish_to: none
 
 environment:
-  sdk: ^3.0.0
+  sdk: '>=3.9.0 <4.0.0'
+
+resolution: workspace
 
 dependencies:
   logging: ^1.1.1
   meta: any
-  hooks:
-    path: ../../../../third_party/pkg/native/pkgs/hooks/
-  code_assets:
-    path: ../../../../third_party/pkg/native/pkgs/code_assets/
-  native_toolchain_c:
-    path: ../../../../third_party/pkg/native/pkgs/native_toolchain_c/
-  record_use:
-    path: ../../../record_use/
+  hooks: any
+  code_assets: any
+  native_toolchain_c: any
+  record_use: any
 
 dev_dependencies:
   lints: any
   test: any
-
-dependency_overrides:
-  meta:
-    path: ../../../meta/

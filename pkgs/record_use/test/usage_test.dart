@@ -57,7 +57,7 @@ void main() {
   });
 
   test('Specific API calls', () {
-    var arguments =
+    final arguments =
         RecordedUsages.fromJson(
               jsonDecode(recordedUsesJson) as Map<String, Object?>,
             )
@@ -71,10 +71,10 @@ void main() {
               ),
             )
             .toList();
-    var (named: named0, positional: positional0) = arguments[0];
+    final (named: named0, positional: positional0) = arguments[0];
     expect(named0, const {'freddy': 'mercury', 'leroy': 'jenkins'});
     expect(positional0, const ['lib_SHA1', false, 1]);
-    var (named: named1, positional: positional1) = arguments[1];
+    final (named: named1, positional: positional1) = arguments[1];
     expect(named1, const {'freddy': 0, 'leroy': 'jenkins'});
     expect(positional1, const [
       'lib_SHA1',

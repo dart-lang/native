@@ -62,9 +62,9 @@ class Recordings {
   /// allowing them to be referenced by index in the `recordings` map.
   factory Recordings.fromJson(Map<String, Object?> json) {
     if (json case {
-      _constantsKey: List<Object?>? constantJsons,
-      _locationsKey: List<Object?>? locationJsons,
-      _recordingsKey: List<Object?>? recordingJsons,
+      _constantsKey: final List<Object?>? constantJsons,
+      _locationsKey: final List<Object?>? locationJsons,
+      _recordingsKey: final List<Object?>? recordingJsons,
     }) {
       final constants = <Constant>[];
       for (final constantJsonObj in constantJsons ?? []) {

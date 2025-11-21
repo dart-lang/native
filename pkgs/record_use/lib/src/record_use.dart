@@ -50,19 +50,18 @@ extension type RecordedUsages._(Recordings _recordings) {
   ///       ]
   /// ```
   Iterable<({Map<String, Object?> named, List<Object?> positional})>
-  constArgumentsFor(Identifier identifier) {
-    return _recordings.calls[identifier]?.whereType<CallWithArguments>().map(
-          (call) => (
-            named: call.namedArguments.map(
-              (name, argument) => MapEntry(name, argument?.toValue()),
-            ),
-            positional: call.positionalArguments
-                .map((argument) => argument?.toValue())
-                .toList(),
+  constArgumentsFor(Identifier identifier) =>
+      _recordings.calls[identifier]?.whereType<CallWithArguments>().map(
+        (call) => (
+          named: call.namedArguments.map(
+            (name, argument) => MapEntry(name, argument?.toValue()),
           ),
-        ) ??
-        [];
-  }
+          positional: call.positionalArguments
+              .map((argument) => argument?.toValue())
+              .toList(),
+        ),
+      ) ??
+      [];
 
   /// Finds all constant fields of a const instance of the class [identifier].
   ///
@@ -102,12 +101,11 @@ extension type RecordedUsages._(Recordings _recordings) {
   ///
   /// What kinds of fields can be recorded depends on the implementation of
   /// https://dart-review.googlesource.com/c/sdk/+/369620/13/pkg/vm/lib/transformations/record_use/record_instance.dart
-  Iterable<ConstantInstance> constantsOf(Identifier identifier) {
-    return _recordings.instances[identifier]?.map(
-          (reference) => ConstantInstance(reference.instanceConstant.fields),
-        ) ??
-        [];
-  }
+  Iterable<ConstantInstance> constantsOf(Identifier identifier) =>
+      _recordings.instances[identifier]?.map(
+        (reference) => ConstantInstance(reference.instanceConstant.fields),
+      ) ??
+      [];
 
   /// Checks if any call to [identifier] has non-const arguments, or if any
   /// tear-off was recorded.
@@ -115,16 +113,15 @@ extension type RecordedUsages._(Recordings _recordings) {
   /// The definition must be annotated with `@RecordUse()`. If there are no
   /// calls to the definition, either because it was treeshaken, because it was
   /// not annotated, or because it does not exist, returns `false`.
-  bool hasNonConstArguments(Identifier identifier) {
-    return (_recordings.calls[identifier] ?? []).any(
-      (element) => switch (element) {
-        CallTearOff() => true,
-        CallWithArguments call => call.positionalArguments.any(
-          (argument) => argument == null,
-        ),
-      },
-    );
-  }
+  bool hasNonConstArguments(Identifier identifier) =>
+      (_recordings.calls[identifier] ?? []).any(
+        (element) => switch (element) {
+          CallTearOff() => true,
+          CallWithArguments call => call.positionalArguments.any(
+            (argument) => argument == null,
+          ),
+        },
+      );
 }
 
 extension type ConstantInstance(Map<String, Constant> _fields) {

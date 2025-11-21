@@ -13,21 +13,17 @@ class Location {
   static const _lineKey = 'line';
   static const _columnKey = 'column';
 
-  factory Location.fromJson(Map<String, Object?> map) {
-    return Location(
-      uri: map[_uriKey] as String,
-      line: map[_lineKey] as int?,
-      column: map[_columnKey] as int?,
-    );
-  }
+  factory Location.fromJson(Map<String, Object?> map) => Location(
+    uri: map[_uriKey] as String,
+    line: map[_lineKey] as int?,
+    column: map[_columnKey] as int?,
+  );
 
-  Map<String, Object?> toJson() {
-    return {
-      _uriKey: uri,
-      if (line != null) _lineKey: line,
-      if (line != null) _columnKey: column,
-    };
-  }
+  Map<String, Object?> toJson() => {
+    _uriKey: uri,
+    if (line != null) _lineKey: line,
+    if (line != null) _columnKey: column,
+  };
 
   @override
   bool operator ==(Object other) {

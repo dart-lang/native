@@ -105,7 +105,7 @@ final recordedUses2 = Recordings(
   instancesForDefinition: {},
 );
 
-final recordedUsesJson = '''{
+const recordedUsesJson = '''{
   "metadata": {
     "version": "1.6.2-wip+5.-.2.z",
     "comment": "Recorded references at compile time and their argument values, as far as known, to definitions annotated with @RecordUse"
@@ -266,7 +266,7 @@ final recordedUsesJson = '''{
   ]
 }''';
 
-final recordedUsesJson2 = '''{
+const recordedUsesJson2 = '''{
   "metadata": {
     "version": "1.6.2-wip+5.-.2.z",
     "comment": "Recorded references at compile time and their argument values, as far as known, to definitions annotated with @RecordUse"

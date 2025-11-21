@@ -143,9 +143,7 @@ final class CallTearOff extends CallReference {
   Map<String, Object?> toJson(
     Map<Constant, int> constants,
     Map<Location, int> locations,
-  ) {
-    return {_typeKey: 'tearoff', ...super.toJson(constants, locations)};
-  }
+  ) => {_typeKey: 'tearoff', ...super.toJson(constants, locations)};
 }
 
 final class InstanceReference extends Reference {

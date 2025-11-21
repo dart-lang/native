@@ -2,9 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:logging/logging.dart';
-import 'package:hooks/hooks.dart';
 import 'package:code_assets/code_assets.dart';
+import 'package:hooks/hooks.dart';
+import 'package:logging/logging.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 void main(List<String> arguments) async {
@@ -14,8 +14,8 @@ void main(List<String> arguments) async {
       ..onRecord.listen((record) {
         print('${record.level.name}: ${record.time}: ${record.message}');
       });
-    final List<AssetRouting> routing = input.config.linkingEnabled
-        ? [ToLinkHook(input.packageName)]
+    final routing = input.config.linkingEnabled
+        ? <AssetRouting>[ToLinkHook(input.packageName)]
         : const [ToAppBundle()];
     await CBuilder.library(
       name: 'add',
