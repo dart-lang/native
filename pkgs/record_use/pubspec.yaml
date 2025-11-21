@@ -2,7 +2,7 @@ name: record_use
 description: >
   The serialization logic and API for the usage recording SDK feature.
 version: 0.5.0-wip
-repository: https://github.com/dart-lang/sdk/tree/main/pkg/record_use
+repository: https://github.com/dart-lang/native/tree/main/pkgs/record_use
 
 environment:
   sdk: '>=3.9.0 <4.0.0'
@@ -10,10 +10,9 @@ environment:
 resolution: workspace
 
 dependencies:
-  collection: ^1.18.0
-  pub_semver: ^2.1.4
+  collection: ^1.19.1
+  pub_semver: ^2.2.0
 
 dev_dependencies:
-  dart_flutter_team_lints: any
-  lints: any
-  test: any
+  dart_flutter_team_lints: ^3.5.2
+  test: ^1.25.15
