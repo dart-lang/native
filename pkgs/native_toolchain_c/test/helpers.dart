@@ -71,15 +71,19 @@ Logger? _logger;
 Logger createCapturingLogger(List<String> capturedMessages) =>
     _createTestLogger(capturedMessages: capturedMessages);
 
-Logger _createTestLogger({List<String>? capturedMessages}) =>
-    Logger.detached('')
-      ..level = Level.ALL
-      ..onRecord.listen((record) {
-        printOnFailure(
-          '${record.level.name}: ${record.time}: ${record.message}',
-        );
-        capturedMessages?.add(record.message);
-      });
+Logger createCapturingRecordLogger(List<LogRecord> capturedLogs) =>
+    _createTestLogger(capturedLogs: capturedLogs);
+
+Logger _createTestLogger({
+  List<String>? capturedMessages,
+  List<LogRecord>? capturedLogs,
+}) => Logger.detached('')
+  ..level = Level.ALL
+  ..onRecord.listen((record) {
+    printOnFailure('${record.level.name}: ${record.time}: ${record.message}');
+    capturedMessages?.add(record.message);
+    capturedLogs?.add(record);
+  });
 
 Uri packageUri = findPackageRoot('native_toolchain_c');
 
