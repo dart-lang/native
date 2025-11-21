@@ -17,6 +17,7 @@
             "[native_toolchain_c] ",
             "[objective_c] ",
             "[pub_formats] ",
+            "[record_use] ",
             "[swift2objc] ",
             "[swiftgen] "
         ],
