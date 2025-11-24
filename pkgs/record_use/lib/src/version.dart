@@ -4,4 +4,7 @@
 
 import 'package:pub_semver/pub_semver.dart' show Version;
 
+// TODO: Delete this version number. Instead of relying on versions, we want to
+//   lazy read JSONs so that we don't break on versions that might be
+//   incompatible but we don't access any of the incompatible fields.
 final version = Version(0, 4, 0);

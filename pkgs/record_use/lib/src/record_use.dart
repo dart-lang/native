@@ -25,13 +25,13 @@ extension type RecordedUsages._(Recordings _recordings) {
   ///
   /// Example:
   /// ```dart
-  /// import 'package:meta/meta.dart' show ResourceIdentifier;
+  /// import 'package:meta/meta.dart' show RecordUse;
   /// void main() {
   ///   print(SomeClass.someStaticMethod(42));
   /// }
   ///
   /// class SomeClass {
-  ///   @ResourceIdentifier('id')
+  ///   @RecordUse('id')
   ///   static someStaticMethod(int i) {
   ///     return i + 1;
   ///   }
@@ -40,14 +40,13 @@ extension type RecordedUsages._(Recordings _recordings) {
   ///
   /// Would mean that
   /// ```
-  /// argumentsTo(Identifier(
-  ///           uri: 'path/to/file.dart',
-  ///           parent: 'SomeClass',
-  ///           name: 'someStaticMethod'),
-  ///       ).first ==
-  ///       [
-  ///         {1: 42}
-  ///       ]
+  /// constArgumentsFor(
+  ///           Identifier(
+  ///             importUri: 'path/to/file.dart',
+  ///             scope: 'SomeClass',
+  ///             name: 'someStaticMethod',
+  ///           ),
+  ///         ).first.positional[0] == 42
   /// ```
   Iterable<({Map<String, Object?> named, List<Object?> positional})>
   constArgumentsFor(Identifier identifier) =>
@@ -68,8 +67,6 @@ extension type RecordedUsages._(Recordings _recordings) {
   /// The definition must be annotated with `@RecordUse()`. If there are
   /// no instances of the definition, either because it was treeshaken, because
   /// it was not annotated, or because it does not exist, returns empty.
-  ///
-  /// The types of fields supported are defined at
   ///
   /// Example:
   /// ```dart
@@ -93,8 +90,9 @@ extension type RecordedUsages._(Recordings _recordings) {
   ///
   /// Would mean that
   /// ```
-  /// constantsOf(Identifier(
-  ///           uri: 'path/to/file.dart',
+  /// constantsOf(
+  ///       Identifier(
+  ///           importUri: 'path/to/file.dart',
   ///           name: 'AnnotationClass'),
   ///       ).first['s'] == 'freddie';
   /// ```

@@ -4,7 +4,7 @@
 
 import 'identifier.dart' show Identifier;
 
-/// A defintion is an [identifier] with its [loadingUnit].
+/// A definition is an [identifier] with its [loadingUnit].
 class Definition {
   final Identifier identifier;
   final String? loadingUnit;
