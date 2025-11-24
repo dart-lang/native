@@ -543,6 +543,17 @@ class NativeAssetsBuildRunner {
   ///
   /// This allows environment variables needed to run mainstream compilers.
   static bool includeHookEnvironmentVariable(String environmentVariableName) {
+    // These variables are respected by HttpClient.findProxyFromEnvironment in
+    // dart:io. We forward them to allow hooks to make HTTP requests in
+    // environments where a proxy is required.
+    const proxyVariablesFilter = {
+      'http_proxy',
+      'https_proxy',
+      'no_proxy',
+      'HTTP_PROXY',
+      'HTTPS_PROXY',
+      'NO_PROXY',
+    };
     const staticVariablesFilter = {
       'ANDROID_HOME', // Needed for the NDK.
       'HOME', // Needed to find tools in default install locations.
@@ -556,6 +567,7 @@ class NativeAssetsBuildRunner {
       'TMPDIR', // Needed for temp dirs in Dart process.
       'USERPROFILE', // Needed to find tools in default install locations.
       'WINDIR', // Needed for CMake.
+      ...proxyVariablesFilter,
     };
     const variablePrefixesFilter = {
       'NIX_', // Needed for Nix-installed toolchains.
