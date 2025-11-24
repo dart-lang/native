@@ -16,7 +16,3 @@ dependencies:
   meta: any
   native_toolchain_c: any
   record_use: any
-
-dev_dependencies:
-  lints: any
-  test: any

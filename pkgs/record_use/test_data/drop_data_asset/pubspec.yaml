@@ -14,7 +14,3 @@ dependencies:
   logging: any
   meta: any
   record_use: any
-
-dev_dependencies:
-  lints: any
-  test: any
