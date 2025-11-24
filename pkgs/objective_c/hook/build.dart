@@ -41,9 +41,7 @@ void main(List<String> args) async {
     final packageName = input.packageName;
     final assetPath = input.outputDirectory.resolve(assetName);
     final srcDir = Directory.fromUri(input.packageRoot.resolve('src/'));
-
-    final arch = input.config.code.targetArchitecture;
-    final target = '${clangArchName(arch)}-apple-${os.name}';
+    final target = toTargetTriple(input.config.code);
 
     final cFiles = <String>[];
     final mFiles = <String>[];
@@ -148,5 +146,24 @@ String firstLineOfStdout(String cmd, List<String> args) {
       .first;
 }
 
-String clangArchName(Architecture arch) =>
-    arch == Architecture.x64 ? 'x86_64' : arch.name;
+String toTargetTriple(CodeConfig codeConfig) {
+  final architecture = codeConfig.targetArchitecture;
+  if (codeConfig.targetOS == OS.iOS) {
+    return appleClangIosTargetFlags[architecture]![codeConfig.iOS.targetSdk]!;
+  }
+  assert(codeConfig.targetOS == OS.macOS);
+  return appleClangMacosTargetFlags[architecture]!;
+}
+
+const appleClangMacosTargetFlags = {
+  Architecture.arm64: 'arm64-apple-darwin',
+  Architecture.x64: 'x86_64-apple-darwin',
+};
+
+const appleClangIosTargetFlags = {
+  Architecture.arm64: {
+    IOSSdk.iPhoneOS: 'arm64-apple-ios',
+    IOSSdk.iPhoneSimulator: 'arm64-apple-ios-simulator',
+  },
+  Architecture.x64: {IOSSdk.iPhoneSimulator: 'x86_64-apple-ios-simulator'},
+};
