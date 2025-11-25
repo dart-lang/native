@@ -139,6 +139,8 @@
 - native_subtract/src/native_subtract.h
 - no_asset_for_link/hook/link.dart
 - no_asset_for_link/pubspec.yaml
+- no_build_output/hook/build.dart
+- no_build_output/pubspec.yaml
 - no_hook/lib/no_hook.dart
 - no_hook/pubspec.yaml
 - package_reading_metadata/hook/build.dart
