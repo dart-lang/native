@@ -27,6 +27,11 @@ final logger = Logger('')
 
 void main(List<String> args) async {
   await build(args, (input, output) async {
+    if (!input.config.buildCodeAssets) {
+      // Don't build any other asset types.
+      return;
+    }
+
     const supportedOSs = {OS.iOS, OS.macOS};
     final os = input.config.code.targetOS;
     if (!supportedOSs.contains(os)) {

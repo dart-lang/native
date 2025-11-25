@@ -1,3 +1,8 @@
+## 9.2.0+1
+
+- Fix [bug](https://github.com/dart-lang/native/issues/2824) where the build
+  hook was trying to access the code config if it was not provided.
+
 ## 9.2.0
 
 - Migrate to from a Flutter plugin to native assets. This enables
