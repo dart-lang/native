@@ -1,0 +1,14 @@
+name: download_assets
+description: Has a build hook downloading a code asset, used to verify proxy env variables working.
+version: 0.1.0
+
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.9.0 <4.0.0'
+
+dependencies:
+  code_assets: any
+  hooks: any
