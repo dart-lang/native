@@ -1,3 +1,7 @@
+## 1.0.1
+
+- Ensure build fails if a build hook does not produce an output file.
+
 ## 1.0.0
 
 - Stable release.

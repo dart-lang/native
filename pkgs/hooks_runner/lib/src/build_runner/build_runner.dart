@@ -961,7 +961,17 @@ ${e.message}''');
     String packageName,
   ) async {
     final file = hookOutputFile;
-    final fileContents = await file.readAsString();
+    final String fileContents;
+    try {
+      fileContents = await file.readAsString();
+    } on FileSystemException catch (e) {
+      logger.severe('''
+Building assets for package:$packageName failed.
+Error reading ${hookOutputFile.uri.toFilePath()}.
+
+${e.message}''');
+      return const Failure(HooksRunnerFailure.hookRun);
+    }
     logger.info('output.json contents:\n$fileContents');
     final Map<String, Object?> hookOutputJson;
     try {
