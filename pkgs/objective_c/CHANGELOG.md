@@ -1,7 +1,8 @@
-## 9.2.0+1
+## 9.2.1
 
 - Fix [bug](https://github.com/dart-lang/native/issues/2824) where the build
   hook was trying to access the code config if it was not provided.
+- Bump minimum Dart version to 3.10.0.
 
 ## 9.2.0
 
