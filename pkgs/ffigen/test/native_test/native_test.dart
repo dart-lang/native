@@ -42,10 +42,7 @@ void main() {
         ),
       ).absolute;
 
-      late FfiGenerator config;
-      withChDir(configFile.path, () {
-        config = testConfigFromPath(configFile.path);
-      });
+      final config = testConfigFromPath(configFile.path);
       final library = parse(testContext(config));
 
       library.generateFile(outFile);

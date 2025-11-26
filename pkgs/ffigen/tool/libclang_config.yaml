@@ -64,6 +64,7 @@ functions:
     - clang_getDiagnosticSeverity
     - clang_disposeDiagnostic
     - clang_parseTranslationUnit
+    - clang_parseTranslationUnit2FullArgv
     - clang_disposeTranslationUnit
     - clang_EvalResult_getKind
     - clang_EvalResult_getAsInt

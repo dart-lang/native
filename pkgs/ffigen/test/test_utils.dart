@@ -11,6 +11,7 @@ import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/utils.dart';
 import 'package:ffigen/src/config_provider/yaml_config.dart';
 import 'package:ffigen/src/context.dart';
+import 'package:ffigen/src/logger.dart';
 import 'package:ffigen/src/visitor/ast.dart';
 import 'package:logging/logging.dart';
 import 'package:package_config/package_config_types.dart';
@@ -21,7 +22,7 @@ import 'package:yaml/yaml.dart' as yaml;
 export 'package:ffigen/src/config_provider/utils.dart';
 
 Context testContext([FfiGenerator? generator]) => Context(
-  Logger.root,
+  createDefaultLogger(Level.SEVERE),
   generator ?? FfiGenerator(output: Output(dartFile: Uri.file('unused'))),
 );
 
@@ -246,21 +247,6 @@ FfiGenerator testConfigFromPath(String path) {
   final file = File(path);
   final yamlBody = file.readAsStringSync();
   return testConfig(yamlBody, filename: path);
-}
-
-T withChDir<T>(String path, T Function() inner) {
-  final oldDir = Directory.current;
-  Directory.current = File(path).parent;
-
-  late T result;
-
-  try {
-    result = inner();
-  } finally {
-    Directory.current = oldDir;
-  }
-
-  return result;
 }
 
 bool isFlutterTester = Platform.resolvedExecutable.contains('flutter_tester');

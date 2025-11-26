@@ -5,6 +5,7 @@
 import 'package:ffigen/src/code_generator/imports.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
+import 'package:ffigen/src/context.dart';
 import 'package:ffigen/src/header_parser.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
@@ -25,7 +26,7 @@ void main() {
         'include',
       );
       final logArr = <String>[];
-      logToArray(logArr, Level.SEVERE);
+      final logger = logToArray(logArr, Level.SEVERE);
       final generator = FfiGenerator(
         output: Output(
           dartFile: Uri.file('unused'),
@@ -75,7 +76,7 @@ void main() {
           imported: [ImportedType(ffiImport, 'Int64', 'int', 'time_t')],
         ),
       );
-      final library = parse(testContext(generator));
+      final library = parse(Context(logger, generator));
 
       matchLibraryWithExpected(
         library,
