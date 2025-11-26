@@ -15,7 +15,6 @@ late Library actual;
 void main() {
   group('sort_test', () {
     setUpAll(() {
-      logWarnings();
       actual = parser.parse(
         testContext(
           FfiGenerator(

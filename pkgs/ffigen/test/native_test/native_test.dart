@@ -16,7 +16,6 @@ void main() {
   late NativeLibrary bindings;
   group('native_test', () {
     setUpAll(() {
-      logWarnings();
       var dylibName = 'test/native_test/native_test.so';
       if (Platform.isMacOS) {
         dylibName = 'test/native_test/native_test.dylib';

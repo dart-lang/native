@@ -15,9 +15,6 @@ import '../test_utils.dart';
 
 void main() {
   group('large_test', () {
-    setUpAll(() {
-      logWarnings(Level.SEVERE);
-    });
     test('Libclang test', () {
       final includeDir = path.join(
         packagePathForTests,
@@ -26,7 +23,10 @@ void main() {
         'include',
       );
       final logArr = <String>[];
-      final logger = logToArray(logArr, Level.SEVERE);
+      final logger = createTestLogger(
+        capturedMessages: logArr,
+        level: Level.SEVERE,
+      );
       final generator = FfiGenerator(
         output: Output(
           dartFile: Uri.file('unused'),
@@ -40,10 +40,7 @@ void main() {
           ),
         ),
         headers: Headers(
-          compilerOptions: [
-            ...defaultCompilerOpts(Logger.root),
-            '-I$includeDir',
-          ],
+          compilerOptions: [...defaultCompilerOpts(logger), '-I$includeDir'],
           entryPoints: [
             Uri.file(
               path.join(

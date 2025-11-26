@@ -14,7 +14,6 @@ late Library actual;
 void main() {
   group('imported_types_test', () {
     setUpAll(() {
-      logWarnings();
       actual = parser.parse(
         testContext(
           testConfig('''

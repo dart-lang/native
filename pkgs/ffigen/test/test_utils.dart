@@ -11,7 +11,6 @@ import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/utils.dart';
 import 'package:ffigen/src/config_provider/yaml_config.dart';
 import 'package:ffigen/src/context.dart';
-import 'package:ffigen/src/logger.dart';
 import 'package:ffigen/src/visitor/ast.dart';
 import 'package:logging/logging.dart';
 import 'package:package_config/package_config_types.dart';
@@ -22,9 +21,19 @@ import 'package:yaml/yaml.dart' as yaml;
 export 'package:ffigen/src/config_provider/utils.dart';
 
 Context testContext([FfiGenerator? generator]) => Context(
-  createDefaultLogger(Level.SEVERE),
+  createTestLogger(),
   generator ?? FfiGenerator(output: Output(dartFile: Uri.file('unused'))),
 );
+
+Logger createTestLogger({
+  List<String>? capturedMessages,
+  Level level = Level.ALL,
+}) => Logger.detached('')
+  ..level = level
+  ..onRecord.listen((record) {
+    printOnFailure('${record.level.name}: ${record.time}: ${record.message}');
+    capturedMessages?.add(record.message);
+  });
 
 extension LibraryTestExt on Library {
   /// Get a [Binding]'s generated string with a given name.
@@ -210,27 +219,10 @@ class NotFoundException implements Exception {
   }
 }
 
-void logWarnings([Level level = Level.WARNING]) {
-  Logger.root.level = level;
-  Logger.root.onRecord.listen((record) {
-    printOnFailure('${record.level.name.padRight(8)}: ${record.message}');
-  });
-}
-
-Logger logToArray(List<String> logArr, Level level) {
-  Logger.root.level = level;
-  Logger.root.onRecord.listen((record) {});
-  final logger = Logger('ffigen.test');
-  logger.onRecord.listen((record) {
-    logArr.add('${record.level.name.padRight(8)}: ${record.message}');
-  });
-  return logger;
-}
-
 FfiGenerator testConfig(String yamlBody, {String? filename, Logger? logger}) {
   return YamlConfig.fromYaml(
     yaml.loadYaml(yamlBody) as yaml.YamlMap,
-    logger ?? Logger.root,
+    logger ?? createTestLogger(),
     filename: filename,
     packageConfig: PackageConfig([
       Package(
