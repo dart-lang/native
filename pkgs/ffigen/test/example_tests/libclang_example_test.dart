@@ -4,10 +4,7 @@
 
 import 'dart:io';
 
-import 'package:ffigen/src/code_generator/library.dart';
-import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/header_parser.dart';
-import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
@@ -32,7 +29,7 @@ void main() {
       // yaml code. To support concurrent tests, we can't set Directory.current.
       // As a workaround, add an extra '-I' option that uses the absolute path.
       generator.headers.compilerOptions!.add(
-        '-I${path.join(packagePathForTests, 'third_party/libclang/include')}'
+        '-I${path.join(packagePathForTests, 'third_party/libclang/include')}',
       );
 
       final context = testContext(generator);
