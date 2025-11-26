@@ -6,7 +6,6 @@ import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
 import 'package:ffigen/src/strings.dart' as strings;
-import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart' as yaml;
 
@@ -17,7 +16,6 @@ late Library actual;
 void main() {
   group('varargs_test', () {
     setUpAll(() {
-      logWarnings();
       actual = parser.parse(
         testContext(
           YamlConfig.fromYaml(
@@ -45,7 +43,7 @@ ${strings.functions}:
         postfix: _custompostfix2
         ''')
                 as yaml.YamlMap,
-            Logger.root,
+            createTestLogger(),
           ).configAdapter(),
         ),
       );

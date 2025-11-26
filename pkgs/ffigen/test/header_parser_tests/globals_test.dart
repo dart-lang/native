@@ -15,7 +15,6 @@ late Library actual, expected;
 void main() {
   group('globals_test', () {
     setUpAll(() {
-      logWarnings();
       expected = expectedLibrary();
       actual = parser.parse(
         testContext(

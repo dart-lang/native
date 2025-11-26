@@ -32,7 +32,7 @@ void generateBindingsForCoverage(String testName, [Logger? logger]) {
     '${testName}_config.yaml',
   );
   final config = testConfig(File(path).readAsStringSync(), filename: path);
-  config.generate(logger: logger ?? (Logger.root..level = Level.SEVERE));
+  config.generate(logger: logger ?? createTestLogger());
 }
 
 final _executeInternalCommand = () {

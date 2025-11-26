@@ -18,7 +18,6 @@ final macroPrefix = 'mmm';
 void main() {
   group('rename_test', () {
     setUpAll(() {
-      logWarnings();
       final context = testContext(
         testConfig('''
 ${strings.name}: 'NativeLibrary'

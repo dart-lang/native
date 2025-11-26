@@ -74,7 +74,7 @@ String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
       'normalUnnamedEnum',
       'deprecatedUnnamedEnum',
     }),
-  ).generate(logger: Logger.root..level = Level.SEVERE);
+  ).generate(logger: createTestLogger());
   return File(
     path.join(
       packagePathForTests,

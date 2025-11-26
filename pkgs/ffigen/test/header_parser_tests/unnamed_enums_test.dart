@@ -14,7 +14,6 @@ late Library actual, expected;
 void main() {
   group('unnamed_enums_test', () {
     setUpAll(() {
-      logWarnings();
       expected = expectedLibrary();
       actual = parser.parse(
         testContext(

@@ -14,7 +14,6 @@ late Library actual;
 void main() {
   group('functions_test', () {
     setUpAll(() {
-      logWarnings();
       actual = parser.parse(
         testContext(
           testConfig('''

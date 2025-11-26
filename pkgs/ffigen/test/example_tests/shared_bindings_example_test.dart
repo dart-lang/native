@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/header_parser.dart';
-import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
@@ -11,10 +10,6 @@ import '../test_utils.dart';
 
 void main() {
   group('shared_bindings_example', () {
-    setUpAll(() {
-      logWarnings(Level.SEVERE);
-    });
-
     test('a_shared_base bindings', () {
       final config = testConfigFromPath(
         path.join(

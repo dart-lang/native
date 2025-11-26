@@ -33,7 +33,10 @@ void main() {
 
     test('Duplicate method log spam', () {
       final logs = <String>[];
-      final logger = logToArray(logs, Level.SEVERE);
+      final logger = createTestLogger(
+        capturedMessages: logs,
+        level: Level.SEVERE,
+      );
       generateBindingsForCoverage('log', logger);
       expect(logs, isNot(contains(contains('matchingMethod'))));
       expect(logs, isNot(contains(contains('instancetypeMethod'))));
