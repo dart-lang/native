@@ -35,7 +35,7 @@ void main() {
         executable: dartExecutable,
         arguments: [
           pkgNativeAssetsBuilderUri
-              .resolve('test/build_runner/concurrency_shared_test_helper.dart')
+              .resolve('test/build_runner/build_process_helper.dart')
               .toFilePath(),
           packageUri.toFilePath(),
           Target.current.toString(),

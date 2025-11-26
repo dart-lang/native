@@ -1,6 +1,5 @@
 import 'dart:io';
 
-import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 
 void main(List<String> args) async {
@@ -22,14 +21,5 @@ void main(List<String> args) async {
     }
 
     await response.pipe(file.openWrite());
-
-    output.assets.code.add(
-      CodeAsset(
-        package: 'download_assets',
-        name: 'testing',
-        linkMode: DynamicLoadingBundled(),
-        file: file.uri,
-      ),
-    );
   });
 }
