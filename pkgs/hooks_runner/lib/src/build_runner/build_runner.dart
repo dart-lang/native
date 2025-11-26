@@ -5,7 +5,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io' show Platform;
+import 'dart:io' show HttpClient, Platform;
 
 import 'package:collection/collection.dart';
 import 'package:file/file.dart';
@@ -538,6 +538,19 @@ class NativeAssetsBuildRunner {
     ),
   );
 
+  /// Environment variables respected by [HttpClient.findProxyFromEnvironment].
+  ///
+  /// We forward them to allow hooks to make HTTP requests in environments where
+  /// a proxy is required.
+  static const _httpProxyEnvironmentVariables = {
+    'http_proxy',
+    'https_proxy',
+    'no_proxy',
+    'HTTP_PROXY',
+    'HTTPS_PROXY',
+    'NO_PROXY',
+  };
+
   /// Determines whether to allow an environment variable through
   /// if [hookEnvironment] is not passed in.
   ///
@@ -556,6 +569,7 @@ class NativeAssetsBuildRunner {
       'TMPDIR', // Needed for temp dirs in Dart process.
       'USERPROFILE', // Needed to find tools in default install locations.
       'WINDIR', // Needed for CMake.
+      ..._httpProxyEnvironmentVariables,
     };
     const variablePrefixesFilter = {
       'NIX_', // Needed for Nix-installed toolchains.
