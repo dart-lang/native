@@ -1,3 +1,7 @@
+## 1.0.2-wip
+
+- Pass `HTTP(S)_PROXY` and related environment variables to hooks.
+
 ## 1.0.1
 
 - Ensure build fails if a build hook does not produce an output file.

@@ -10,7 +10,10 @@ import 'package:logging/logging.dart';
 
 import '../helpers.dart';
 
-// Is invoked concurrently multiple times in separate processes.
+/// Runs the build process for a test package.
+///
+/// Extracted into a separate file so that this can be invoked as an independent
+/// process to patch environment variables or to test concurrency.
 void main(List<String> args) async {
   final packageUri = Uri.directory(args[0]);
   final packageName = packageUri.pathSegments.lastWhere((e) => e.isNotEmpty);

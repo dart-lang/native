@@ -27,7 +27,10 @@ Future<File> downloadAsset(
     createTargetName(targetOS.name, targetArchitecture.name, iOSSdk?.type),
   );
   final uri = downloadUri(targetName);
-  final request = await HttpClient().getUrl(uri);
+  final client = HttpClient()
+    // Respect the http(s)_proxy environment variables.
+    ..findProxy = HttpClient.findProxyFromEnvironment;
+  final request = await client.getUrl(uri);
   final response = await request.close();
   if (response.statusCode != 200) {
     throw ArgumentError('The request to $uri failed.');
