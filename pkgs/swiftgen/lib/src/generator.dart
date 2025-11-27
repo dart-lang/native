@@ -102,7 +102,6 @@ extension SwiftGenGenerator on SwiftGenerator {
         interfaces: fg.Interfaces(
           include: interfaces.include,
           includeMember: interfaces.includeMember,
-          includeSymbolAddress: interfaces.includeSymbolAddress,
           rename: interfaces.rename,
           renameMember: interfaces.renameMember,
           includeTransitive: interfaces.includeTransitive,
@@ -113,7 +112,6 @@ extension SwiftGenGenerator on SwiftGenerator {
         protocols: fg.Protocols(
           include: protocols.include,
           includeMember: protocols.includeMember,
-          includeSymbolAddress: protocols.includeSymbolAddress,
           rename: protocols.rename,
           renameMember: protocols.renameMember,
           includeTransitive: protocols.includeTransitive,
