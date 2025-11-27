@@ -709,16 +709,7 @@ final class NativeExternalBindings implements BindingStyle {
   /// If omitted, it will not be generated.
   final String? assetId;
 
-  /// The prefix for the generated Objective-C functions.
-  // TODO(https://github.com/dart-lang/native/issues/2580): Remove this.
-  @Deprecated('Will be replaced by a hash.')
-  final String wrapperName;
-
-  const NativeExternalBindings({
-    this.assetId,
-    @Deprecated('Will be replaced by a hash.')
-    this.wrapperName = 'NativeLibrary',
-  });
+  const NativeExternalBindings({this.assetId});
 }
 
 /// Generate bindings which take a [DynamicLibrary] or [DynamicLibrary.lookup]
@@ -764,11 +755,8 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
   bool get useDartHandle => ffiGen.useDartHandle;
   // ignore: deprecated_member_use_from_same_package
   Map<String, ImportedType> get importedTypesByUsr => ffiGen.importedTypesByUsr;
-  String get wrapperName => switch (ffiGen.output.style) {
-    final DynamicLibraryBindings e => e.wrapperName,
-    // ignore: deprecated_member_use_from_same_package
-    final NativeExternalBindings e => e.wrapperName,
-  };
+  String get wrapperName =>
+      (ffiGen.output.style as DynamicLibraryBindings).wrapperName;
 
   String? get wrapperDocComment => switch (ffiGen.output.style) {
     final DynamicLibraryBindings e => e.wrapperDocComment,

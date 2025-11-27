@@ -29,7 +29,6 @@ void main() {
       );
       actual = Library(
         context: context,
-        name: 'Bindings',
         header: '// ignore_for_file: unused_element\n',
         bindings: transformBindings([
           Struct(context: context, name: 'addresses'),

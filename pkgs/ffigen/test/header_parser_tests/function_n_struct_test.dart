@@ -109,7 +109,6 @@ Library expectedLibrary() {
   final struct3 = Struct(context: context, name: 'Struct3');
   return Library(
     context: context,
-    name: 'Bindings',
     bindings: parser.transformBindings([
       struct1,
       struct2,
