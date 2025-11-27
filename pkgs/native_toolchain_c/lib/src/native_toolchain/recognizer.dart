@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:code_assets/code_assets.dart';
-import 'package:logging/logging.dart';
 
 import '../tool/tool.dart';
 import '../tool/tool_instance.dart';
@@ -19,7 +18,8 @@ class CompilerRecognizer implements ToolResolver {
   CompilerRecognizer(this.uri);
 
   @override
-  Future<List<ToolInstance>> resolve({required Logger? logger}) async {
+  Future<List<ToolInstance>> resolve(ToolResolvingContext context) async {
+    final logger = context.logger;
     final os = OS.current;
     logger?.finer('Trying to recognize $uri.');
     final filePath = uri.toFilePath();
@@ -64,7 +64,8 @@ class LinkerRecognizer implements ToolResolver {
   LinkerRecognizer(this.uri);
 
   @override
-  Future<List<ToolInstance>> resolve({required Logger? logger}) async {
+  Future<List<ToolInstance>> resolve(ToolResolvingContext context) async {
+    final logger = context.logger;
     final os = OS.current;
     logger?.finer('Trying to recognize $uri.');
     final filePath = uri.toFilePath();
@@ -111,7 +112,8 @@ class ArchiverRecognizer implements ToolResolver {
   ArchiverRecognizer(this.uri);
 
   @override
-  Future<List<ToolInstance>> resolve({required Logger? logger}) async {
+  Future<List<ToolInstance>> resolve(ToolResolvingContext context) async {
+    final logger = context.logger;
     logger?.finer('Trying to recognize $uri.');
     final os = OS.current;
     final filePath = uri.toFilePath();
