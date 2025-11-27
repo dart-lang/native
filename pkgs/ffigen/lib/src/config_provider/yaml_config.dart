@@ -219,10 +219,6 @@ final class YamlConfig {
   String? get preamble => _preamble;
   String? _preamble;
 
-  /// If `Dart_Handle` should be mapped with Handle/Object.
-  bool get useDartHandle => _useDartHandle;
-  late bool _useDartHandle;
-
   /// Where to silence warning for enum integer type mimicking.
   bool get silenceEnumWarning => _silenceEnumWarning;
   late bool _silenceEnumWarning;
@@ -878,12 +874,6 @@ final class YamlConfig {
           ),
         ),
         HeterogeneousMapEntry(
-          key: strings.useDartHandle,
-          valueConfigSpec: BoolConfigSpec(),
-          defaultValue: (node) => true,
-          resultOrDefault: (node) => _useDartHandle = node.value as bool,
-        ),
-        HeterogeneousMapEntry(
           key: strings.ffiNative,
           valueConfigSpec: OneOfConfigSpec(
             childConfigSpecs: [
@@ -1356,8 +1346,6 @@ final class YamlConfig {
     importedTypesByUsr: usrTypeMappings,
     // ignore: deprecated_member_use_from_same_package
     integers: Integers(imported: nativeTypeMappings.values.toList()),
-    // ignore: deprecated_member_use_from_same_package
-    useDartHandle: useDartHandle,
     // ignore: deprecated_member_use_from_same_package
     libclangDylib: libclangDylib,
   );

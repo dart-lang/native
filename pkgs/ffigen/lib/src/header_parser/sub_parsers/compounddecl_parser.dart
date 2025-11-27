@@ -59,7 +59,7 @@ class _ParsedCompound {
       unimplementedMemberType ||
       flexibleArrayMember ||
       bitFieldMember ||
-      (dartHandleMember && context.config.useDartHandle) ||
+      dartHandleMember ||
       incompleteCompoundMember ||
       alignment == clang_types.CXTypeLayoutError.CXTypeLayoutError_Incomplete;
 
@@ -237,7 +237,7 @@ void fillCompoundMembersIfNeeded(
       'Removed All $className Members from ${compound.originalName}'
       '(${compound.originalName}), Bit Field members not supported.',
     );
-  } else if (parsed.dartHandleMember && context.config.useDartHandle) {
+  } else if (parsed.dartHandleMember) {
     logger.fine(
       '---- Removed $className members, reason: Dart_Handle member. '
       '${cursor.completeStringRepr()}',

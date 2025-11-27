@@ -72,14 +72,6 @@ final class FfiGenerator {
   )
   final List<LibraryImport> libraryImports;
 
-  /// Whether `Dart_Handle` should be mapped with Handle/Object.
-  // TODO(https://github.com/dart-lang/native/issues/2594): Remove this.
-  @Deprecated(
-    'Will be removed in a future version. Please reply in '
-    'https://github.com/dart-lang/native/issues/2594 if you rely on this.',
-  )
-  final bool useDartHandle;
-
   /// Path to the clang library.
   ///
   /// Only visible for YamlConfig plumbing.
@@ -109,11 +101,6 @@ final class FfiGenerator {
       'https://github.com/dart-lang/native/issues/2597.',
     )
     this.libraryImports = const <LibraryImport>[],
-    @Deprecated(
-      'Will be removed in a future version. Please reply in '
-      'https://github.com/dart-lang/native/issues/2594 if you rely on this.',
-    )
-    this.useDartHandle = true,
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
   });
 
@@ -757,8 +744,6 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
   Interfaces get objcInterfaces => _objectiveC.interfaces;
   Protocols get objcProtocols => _objectiveC.protocols;
   ExternalVersions get externalVersions => _objectiveC.externalVersions;
-  // ignore: deprecated_member_use_from_same_package
-  bool get useDartHandle => ffiGen.useDartHandle;
   // ignore: deprecated_member_use_from_same_package
   Map<String, ImportedType> get importedTypesByUsr => ffiGen.importedTypesByUsr;
   String get wrapperName => switch (ffiGen.output.style) {
