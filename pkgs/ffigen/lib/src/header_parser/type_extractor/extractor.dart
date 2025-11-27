@@ -123,9 +123,7 @@ Type getCodeGenType(
       );
 
       // Replace Pointer<_Dart_Handle> with Handle.
-      if (context.config.useDartHandle &&
-          s is Struct &&
-          s.usr == strings.dartHandleUsr) {
+      if (s is Struct && s.usr == strings.dartHandleUsr) {
         return HandleType();
       }
       return PointerType(s);

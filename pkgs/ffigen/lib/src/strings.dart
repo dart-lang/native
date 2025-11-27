@@ -212,7 +212,6 @@ const supportedNativeTypeMappings = <String, SupportedNativeType>{
 // Boolean flags.
 const sort = 'sort';
 const useSupportedTypedefs = 'use-supported-typedefs';
-const useDartHandle = 'use-dart-handle';
 const silenceEnumWarning = 'silence-enum-warning';
 const ignoreSourceErrors = 'ignore-source-errors';
 
