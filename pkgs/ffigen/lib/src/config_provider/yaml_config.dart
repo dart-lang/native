@@ -1324,7 +1324,6 @@ final class YamlConfig {
         ? ObjectiveC(
             interfaces: Interfaces(
               include: objcInterfaces.shouldInclude,
-              includeSymbolAddress: objcInterfaces.shouldIncludeSymbolAddress,
               includeMember: objcInterfaces.shouldIncludeMember,
               rename: objcInterfaces.rename,
               renameMember: objcInterfaces.renameMember,
@@ -1333,7 +1332,6 @@ final class YamlConfig {
             ),
             protocols: Protocols(
               include: objcProtocols.shouldInclude,
-              includeSymbolAddress: objcProtocols.shouldIncludeSymbolAddress,
               includeMember: objcProtocols.shouldIncludeMember,
               rename: objcProtocols.rename,
               renameMember: objcProtocols.renameMember,
@@ -1342,7 +1340,6 @@ final class YamlConfig {
             ),
             categories: Categories(
               include: objcCategories.shouldInclude,
-              includeSymbolAddress: objcCategories.shouldIncludeSymbolAddress,
               includeMember: objcCategories.shouldIncludeMember,
               rename: objcCategories.rename,
               renameMember: objcCategories.renameMember,

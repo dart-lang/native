@@ -579,7 +579,6 @@ final class Categories extends Declarations {
   const Categories({
     super.include,
     super.includeMember,
-    super.includeSymbolAddress,
     super.rename,
     super.renameMember,
     this.includeTransitive = true,
@@ -607,7 +606,6 @@ final class Interfaces extends Declarations {
   const Interfaces({
     super.include,
     super.includeMember,
-    super.includeSymbolAddress,
     super.rename,
     super.renameMember,
     this.includeTransitive = false,
@@ -638,7 +636,6 @@ final class Protocols extends Declarations {
   const Protocols({
     super.include,
     super.includeMember,
-    super.includeSymbolAddress,
     super.rename,
     super.renameMember,
     this.includeTransitive = false,

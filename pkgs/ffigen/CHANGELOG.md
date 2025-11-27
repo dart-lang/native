@@ -1,3 +1,8 @@
+## 21.0.0
+
+- __Breaking change__: Remove unused `includeSymbolAddress` field from
+  `Categories`, `Interfaces`, and `Protocols`.
+
 ## 20.1.1
 
 - Update tests and examples now that package:objective_c is using native assets.
