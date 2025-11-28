@@ -13,11 +13,15 @@ on:
       - "pkgs/code_assets/**"
       - "pkgs/data_assets/**"
       - 'pkgs/ffi/**'
-      - "pkgs/hooks_runner/**"
+      - 'pkgs/ffigen/**'
       - "pkgs/hooks/**"
+      - "pkgs/hooks_runner/**"
       - "pkgs/json_syntax_generator/**"
       - "pkgs/native_test_helpers/**"
       - "pkgs/native_toolchain_c/**"
+      - "pkgs/objective_c/**"
+      - "pkgs/pub_formats/**"
+      - "pkgs/record_use/**"
       - "pkgs/repo_lint_rules/**"
       - "tool/**"
   push:
@@ -27,11 +31,15 @@ on:
       - "pkgs/code_assets/**"
       - "pkgs/data_assets/**"
       - 'pkgs/ffi/**'
-      - "pkgs/hooks_runner/**"
+      - 'pkgs/ffigen/**'
       - "pkgs/hooks/**"
+      - "pkgs/hooks_runner/**"
       - "pkgs/json_syntax_generator/**"
       - "pkgs/native_test_helpers/**"
       - "pkgs/native_toolchain_c/**"
+      - "pkgs/objective_c/**"
+      - "pkgs/pub_formats/**"
+      - "pkgs/record_use/**"
       - "pkgs/repo_lint_rules/**"
       - "tool/**"
   schedule:
