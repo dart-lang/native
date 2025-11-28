@@ -15,6 +15,8 @@ topics:
   - ffi
   - codegen
 
+resolution: workspace
+
 environment:
   sdk: '>=3.8.0 <4.0.0'
 
@@ -42,13 +44,3 @@ dev_dependencies:
   leak_tracker: ^11.0.2
   objective_c: ^9.2.1
   test: ^1.26.2
-
-dependency_overrides:
-  code_assets:
-    path: ../code_assets
-  hooks:
-    path: ../hooks
-  native_toolchain_c:
-    path: ../native_toolchain_c
-  objective_c:
-    path: ../objective_c

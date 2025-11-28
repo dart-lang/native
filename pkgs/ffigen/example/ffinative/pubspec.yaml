@@ -4,6 +4,8 @@
 
 name: ffinative_example
 
+resolution: workspace
+
 environment:
   sdk: '>=3.8.0 <4.0.0'
 
