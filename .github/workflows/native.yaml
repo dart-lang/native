@@ -12,8 +12,8 @@ on:
       - ".github/workflows/native.yaml"
       - "pkgs/code_assets/**"
       - "pkgs/data_assets/**"
-      - 'pkgs/ffi/**'
-      - 'pkgs/ffigen/**'
+      - "pkgs/ffi/**"
+      - "pkgs/ffigen/**"
       - "pkgs/hooks/**"
       - "pkgs/hooks_runner/**"
       - "pkgs/json_syntax_generator/**"
@@ -30,8 +30,8 @@ on:
       - ".github/workflows/native.yaml"
       - "pkgs/code_assets/**"
       - "pkgs/data_assets/**"
-      - 'pkgs/ffi/**'
-      - 'pkgs/ffigen/**'
+      - "pkgs/ffi/**"
+      - "pkgs/ffigen/**"
       - "pkgs/hooks/**"
       - "pkgs/hooks_runner/**"
       - "pkgs/json_syntax_generator/**"
@@ -80,14 +80,8 @@ jobs:
       - name: Build test dylib and bindings
         run: dart --enable-asserts pkgs/ffigen/test/setup.dart
 
-      - name: Run pub get, analysis, formatting, generators, and tests.
-        # Don't run examples on stable, the experiment is not available on stable.
-        run: dart tool/ci.dart --all --no-example
-        if: ${{ matrix.sdk == 'stable' }}
-
       - name: Run pub get, analysis, formatting, generators, tests, and examples.
         run: dart tool/ci.dart --all
-        if: ${{ matrix.sdk != 'stable' }}
 
       - name: Upload coverage
         uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
