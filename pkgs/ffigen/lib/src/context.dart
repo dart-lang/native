@@ -36,7 +36,6 @@ class Context {
       cursorIndex = CursorIndex(logger) {
     objCBuiltInFunctions = ObjCBuiltInFunctions(
       this,
-      config.wrapperName,
       // ignore: deprecated_member_use_from_same_package
       generator.objectiveC?.generateForPackageObjectiveC ?? false,
     );
