@@ -27,7 +27,6 @@ class Library {
     required List<Binding> bindings,
     required Context context,
   }) => Library(
-    name: context.config.wrapperName,
     description: context.config.wrapperDocComment,
     bindings: bindings,
     header: context.config.preamble,
@@ -43,7 +42,6 @@ class Library {
   );
 
   factory Library({
-    required String name,
     String? description,
     required List<Binding> bindings,
     String? header,

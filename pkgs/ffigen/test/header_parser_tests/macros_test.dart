@@ -147,7 +147,6 @@ void main() {
 Library expectedLibrary() {
   return Library(
     context: testContext(),
-    name: 'NativeLibrary',
     bindings: [
       Constant(name: 'TEST1', rawType: 'double', rawValue: '1.1'),
       Constant(name: 'TEST2', rawType: 'int', rawValue: '10'),

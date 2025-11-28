@@ -27,7 +27,7 @@ import 'package:ffi/ffi.dart' as pkg_ffi;
     ffi.UnsignedLong,
   )
 >()
-external int _ObjectiveCBindings_protocolTrampoline_17ap02x(
+external int _1wx624s_protocolTrampoline_17ap02x(
   ffi.Pointer<objc.ObjCObjectImpl> target,
   ffi.Pointer<ffi.Void> arg0,
   ffi.Pointer<NSFastEnumerationState> arg1,
@@ -42,8 +42,7 @@ external int _ObjectiveCBindings_protocolTrampoline_17ap02x(
     ffi.Pointer<NSZone>,
   )
 >()
-external ffi.Pointer<objc.ObjCObjectImpl>
-_ObjectiveCBindings_protocolTrampoline_18nsem0(
+external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_protocolTrampoline_18nsem0(
   ffi.Pointer<objc.ObjCObjectImpl> target,
   ffi.Pointer<ffi.Void> arg0,
   ffi.Pointer<NSZone> arg1,
@@ -56,7 +55,7 @@ _ObjectiveCBindings_protocolTrampoline_18nsem0(
     ffi.Pointer<objc.ObjCObjectImpl>,
   )
 >()
-external void _ObjectiveCBindings_protocolTrampoline_18v1jvf(
+external void _1wx624s_protocolTrampoline_18v1jvf(
   ffi.Pointer<objc.ObjCObjectImpl> target,
   ffi.Pointer<ffi.Void> arg0,
   ffi.Pointer<objc.ObjCObjectImpl> arg1,
@@ -68,7 +67,7 @@ external void _ObjectiveCBindings_protocolTrampoline_18v1jvf(
     ffi.Pointer<ffi.Void>,
   )
 >()
-external ffi.Pointer<NSZone> _ObjectiveCBindings_protocolTrampoline_1a8cl66(
+external ffi.Pointer<NSZone> _1wx624s_protocolTrampoline_1a8cl66(
   ffi.Pointer<objc.ObjCObjectImpl> target,
   ffi.Pointer<ffi.Void> arg0,
 );
@@ -79,7 +78,7 @@ external ffi.Pointer<NSZone> _ObjectiveCBindings_protocolTrampoline_1a8cl66(
     ffi.Pointer<ffi.Void>,
   )
 >()
-external int _ObjectiveCBindings_protocolTrampoline_1ckyi24(
+external int _1wx624s_protocolTrampoline_1ckyi24(
   ffi.Pointer<objc.ObjCObjectImpl> target,
   ffi.Pointer<ffi.Void> arg0,
 );
@@ -91,7 +90,7 @@ external int _ObjectiveCBindings_protocolTrampoline_1ckyi24(
     ffi.Pointer<objc.ObjCObjectImpl>,
   )
 >()
-external int _ObjectiveCBindings_protocolTrampoline_1ldqghh(
+external int _1wx624s_protocolTrampoline_1ldqghh(
   ffi.Pointer<objc.ObjCObjectImpl> target,
   ffi.Pointer<ffi.Void> arg0,
   ffi.Pointer<objc.ObjCObjectImpl> arg1,
@@ -103,8 +102,7 @@ external int _ObjectiveCBindings_protocolTrampoline_1ldqghh(
     ffi.Pointer<ffi.Void>,
   )
 >()
-external ffi.Pointer<objc.ObjCObjectImpl>
-_ObjectiveCBindings_protocolTrampoline_1mbt9g9(
+external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_protocolTrampoline_1mbt9g9(
   ffi.Pointer<objc.ObjCObjectImpl> target,
   ffi.Pointer<ffi.Void> arg0,
 );
@@ -117,8 +115,7 @@ _ObjectiveCBindings_protocolTrampoline_1mbt9g9(
     ffi.Pointer<objc.ObjCObjectImpl>,
   )
 >()
-external ffi.Pointer<objc.ObjCObjectImpl>
-_ObjectiveCBindings_protocolTrampoline_1mllhpc(
+external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_protocolTrampoline_1mllhpc(
   ffi.Pointer<objc.ObjCObjectImpl> target,
   ffi.Pointer<ffi.Void> arg0,
   ffi.Pointer<objc.ObjCSelector> arg1,
@@ -133,8 +130,7 @@ _ObjectiveCBindings_protocolTrampoline_1mllhpc(
     ffi.Pointer<objc.ObjCBlockImpl>,
   )
 >()
-external ffi.Pointer<objc.ObjCObjectImpl>
-_ObjectiveCBindings_protocolTrampoline_1q0i84(
+external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_protocolTrampoline_1q0i84(
   ffi.Pointer<objc.ObjCObjectImpl> target,
   ffi.Pointer<ffi.Void> arg0,
   ffi.Pointer<objc.ObjCObjectImpl> arg1,
@@ -151,7 +147,7 @@ _ObjectiveCBindings_protocolTrampoline_1q0i84(
     ffi.Pointer<ffi.Void>,
   )
 >()
-external void _ObjectiveCBindings_protocolTrampoline_1sr3ozv(
+external void _1wx624s_protocolTrampoline_1sr3ozv(
   ffi.Pointer<objc.ObjCObjectImpl> target,
   ffi.Pointer<ffi.Void> arg0,
   ffi.Pointer<objc.ObjCObjectImpl> arg1,
@@ -167,7 +163,7 @@ external void _ObjectiveCBindings_protocolTrampoline_1sr3ozv(
     ffi.Pointer<objc.ObjCObjectImpl>,
   )
 >()
-external bool _ObjectiveCBindings_protocolTrampoline_3su7tt(
+external bool _1wx624s_protocolTrampoline_3su7tt(
   ffi.Pointer<objc.ObjCObjectImpl> target,
   ffi.Pointer<ffi.Void> arg0,
   ffi.Pointer<objc.ObjCObjectImpl> arg1,
@@ -180,8 +176,7 @@ external bool _ObjectiveCBindings_protocolTrampoline_3su7tt(
     ffi.Pointer<objc.ObjCSelector>,
   )
 >()
-external ffi.Pointer<objc.ObjCObjectImpl>
-_ObjectiveCBindings_protocolTrampoline_50as9u(
+external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_protocolTrampoline_50as9u(
   ffi.Pointer<objc.ObjCObjectImpl> target,
   ffi.Pointer<ffi.Void> arg0,
   ffi.Pointer<objc.ObjCSelector> arg1,
@@ -196,8 +191,7 @@ _ObjectiveCBindings_protocolTrampoline_50as9u(
     ffi.Pointer<objc.ObjCObjectImpl>,
   )
 >()
-external ffi.Pointer<objc.ObjCObjectImpl>
-_ObjectiveCBindings_protocolTrampoline_c7gk2u(
+external ffi.Pointer<objc.ObjCObjectImpl> _1wx624s_protocolTrampoline_c7gk2u(
   ffi.Pointer<objc.ObjCObjectImpl> target,
   ffi.Pointer<ffi.Void> arg0,
   ffi.Pointer<objc.ObjCSelector> arg1,
@@ -208,7 +202,7 @@ _ObjectiveCBindings_protocolTrampoline_c7gk2u(
 @ffi.Native<
   ffi.Bool Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<ffi.Void>)
 >()
-external bool _ObjectiveCBindings_protocolTrampoline_e3qsqz(
+external bool _1wx624s_protocolTrampoline_e3qsqz(
   ffi.Pointer<objc.ObjCObjectImpl> target,
   ffi.Pointer<ffi.Void> arg0,
 );
@@ -221,7 +215,7 @@ external bool _ObjectiveCBindings_protocolTrampoline_e3qsqz(
     ffi.UnsignedLong,
   )
 >()
-external void _ObjectiveCBindings_protocolTrampoline_hoampi(
+external void _1wx624s_protocolTrampoline_hoampi(
   ffi.Pointer<objc.ObjCObjectImpl> target,
   ffi.Pointer<ffi.Void> arg0,
   ffi.Pointer<objc.ObjCObjectImpl> arg1,
@@ -231,7 +225,7 @@ external void _ObjectiveCBindings_protocolTrampoline_hoampi(
 @ffi.Native<
   ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<ffi.Void>)
 >()
-external void _ObjectiveCBindings_protocolTrampoline_ovsamd(
+external void _1wx624s_protocolTrampoline_ovsamd(
   ffi.Pointer<objc.ObjCObjectImpl> target,
   ffi.Pointer<ffi.Void> arg0,
 );
@@ -243,7 +237,7 @@ external void _ObjectiveCBindings_protocolTrampoline_ovsamd(
     ffi.Pointer<objc.ObjCSelector>,
   )
 >()
-external bool _ObjectiveCBindings_protocolTrampoline_w1e3k0(
+external bool _1wx624s_protocolTrampoline_w1e3k0(
   ffi.Pointer<objc.ObjCObjectImpl> target,
   ffi.Pointer<ffi.Void> arg0,
   ffi.Pointer<objc.ObjCSelector> arg1,
@@ -256,7 +250,7 @@ external bool _ObjectiveCBindings_protocolTrampoline_w1e3k0(
     ffi.Pointer<objc.ObjCObjectImpl>,
   )
 >()
-external instancetype _ObjectiveCBindings_protocolTrampoline_xr62hr(
+external instancetype _1wx624s_protocolTrampoline_xr62hr(
   ffi.Pointer<objc.ObjCObjectImpl> target,
   ffi.Pointer<ffi.Void> arg0,
   ffi.Pointer<objc.ObjCObjectImpl> arg1,
@@ -269,8 +263,7 @@ external instancetype _ObjectiveCBindings_protocolTrampoline_xr62hr(
     ffi.Pointer<objc.DOBJC_Context>,
   )
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapBlockingBlock_18v1jvf(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapBlockingBlock_18v1jvf(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
   ffi.Pointer<objc.DOBJC_Context> context,
@@ -283,8 +276,7 @@ _ObjectiveCBindings_wrapBlockingBlock_18v1jvf(
     ffi.Pointer<objc.DOBJC_Context>,
   )
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapBlockingBlock_1b3bb6a(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapBlockingBlock_1b3bb6a(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
   ffi.Pointer<objc.DOBJC_Context> context,
@@ -297,8 +289,7 @@ _ObjectiveCBindings_wrapBlockingBlock_1b3bb6a(
     ffi.Pointer<objc.DOBJC_Context>,
   )
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapBlockingBlock_1o83rbn(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapBlockingBlock_1o83rbn(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
   ffi.Pointer<objc.DOBJC_Context> context,
@@ -311,8 +302,7 @@ _ObjectiveCBindings_wrapBlockingBlock_1o83rbn(
     ffi.Pointer<objc.DOBJC_Context>,
   )
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapBlockingBlock_1p9ui4q(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapBlockingBlock_1p9ui4q(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
   ffi.Pointer<objc.DOBJC_Context> context,
@@ -325,8 +315,7 @@ _ObjectiveCBindings_wrapBlockingBlock_1p9ui4q(
     ffi.Pointer<objc.DOBJC_Context>,
   )
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapBlockingBlock_1pl9qdv(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapBlockingBlock_1pl9qdv(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
   ffi.Pointer<objc.DOBJC_Context> context,
@@ -339,8 +328,7 @@ _ObjectiveCBindings_wrapBlockingBlock_1pl9qdv(
     ffi.Pointer<objc.DOBJC_Context>,
   )
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapBlockingBlock_1q8ia8l(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapBlockingBlock_1q8ia8l(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
   ffi.Pointer<objc.DOBJC_Context> context,
@@ -353,8 +341,7 @@ _ObjectiveCBindings_wrapBlockingBlock_1q8ia8l(
     ffi.Pointer<objc.DOBJC_Context>,
   )
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapBlockingBlock_1sr3ozv(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapBlockingBlock_1sr3ozv(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
   ffi.Pointer<objc.DOBJC_Context> context,
@@ -367,8 +354,7 @@ _ObjectiveCBindings_wrapBlockingBlock_1sr3ozv(
     ffi.Pointer<objc.DOBJC_Context>,
   )
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapBlockingBlock_hoampi(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapBlockingBlock_hoampi(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
   ffi.Pointer<objc.DOBJC_Context> context,
@@ -381,8 +367,7 @@ _ObjectiveCBindings_wrapBlockingBlock_hoampi(
     ffi.Pointer<objc.DOBJC_Context>,
   )
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapBlockingBlock_lmc3p5(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapBlockingBlock_lmc3p5(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
   ffi.Pointer<objc.DOBJC_Context> context,
@@ -395,8 +380,7 @@ _ObjectiveCBindings_wrapBlockingBlock_lmc3p5(
     ffi.Pointer<objc.DOBJC_Context>,
   )
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapBlockingBlock_ovsamd(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapBlockingBlock_ovsamd(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
   ffi.Pointer<objc.DOBJC_Context> context,
@@ -409,8 +393,7 @@ _ObjectiveCBindings_wrapBlockingBlock_ovsamd(
     ffi.Pointer<objc.DOBJC_Context>,
   )
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapBlockingBlock_pfv6jd(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapBlockingBlock_pfv6jd(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
   ffi.Pointer<objc.DOBJC_Context> context,
@@ -423,8 +406,7 @@ _ObjectiveCBindings_wrapBlockingBlock_pfv6jd(
     ffi.Pointer<objc.DOBJC_Context>,
   )
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapBlockingBlock_q5jeyk(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapBlockingBlock_q5jeyk(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
   ffi.Pointer<objc.DOBJC_Context> context,
@@ -437,8 +419,7 @@ _ObjectiveCBindings_wrapBlockingBlock_q5jeyk(
     ffi.Pointer<objc.DOBJC_Context>,
   )
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapBlockingBlock_rnu2c5(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapBlockingBlock_rnu2c5(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
   ffi.Pointer<objc.DOBJC_Context> context,
@@ -451,8 +432,7 @@ _ObjectiveCBindings_wrapBlockingBlock_rnu2c5(
     ffi.Pointer<objc.DOBJC_Context>,
   )
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapBlockingBlock_t8l8el(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapBlockingBlock_t8l8el(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
   ffi.Pointer<objc.DOBJC_Context> context,
@@ -465,8 +445,7 @@ _ObjectiveCBindings_wrapBlockingBlock_t8l8el(
     ffi.Pointer<objc.DOBJC_Context>,
   )
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapBlockingBlock_vhbh5h(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapBlockingBlock_vhbh5h(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
   ffi.Pointer<objc.DOBJC_Context> context,
@@ -479,8 +458,7 @@ _ObjectiveCBindings_wrapBlockingBlock_vhbh5h(
     ffi.Pointer<objc.DOBJC_Context>,
   )
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapBlockingBlock_xtuoz7(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapBlockingBlock_xtuoz7(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
   ffi.Pointer<objc.DOBJC_Context> context,
@@ -493,8 +471,7 @@ _ObjectiveCBindings_wrapBlockingBlock_xtuoz7(
     ffi.Pointer<objc.DOBJC_Context>,
   )
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapBlockingBlock_zkjmn1(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapBlockingBlock_zkjmn1(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
   ffi.Pointer<objc.DOBJC_Context> context,
@@ -507,8 +484,7 @@ _ObjectiveCBindings_wrapBlockingBlock_zkjmn1(
     ffi.Pointer<objc.DOBJC_Context>,
   )
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapBlockingBlock_zuf90e(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapBlockingBlock_zuf90e(
   ffi.Pointer<objc.ObjCBlockImpl> block,
   ffi.Pointer<objc.ObjCBlockImpl> listnerBlock,
   ffi.Pointer<objc.DOBJC_Context> context,
@@ -517,144 +493,126 @@ _ObjectiveCBindings_wrapBlockingBlock_zuf90e(
 @ffi.Native<
   ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapListenerBlock_18v1jvf(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_18v1jvf(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapListenerBlock_1b3bb6a(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_1b3bb6a(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapListenerBlock_1o83rbn(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_1o83rbn(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapListenerBlock_1p9ui4q(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_1p9ui4q(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapListenerBlock_1pl9qdv(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_1pl9qdv(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapListenerBlock_1q8ia8l(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_1q8ia8l(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapListenerBlock_1sr3ozv(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_1sr3ozv(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapListenerBlock_hoampi(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_hoampi(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapListenerBlock_lmc3p5(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_lmc3p5(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapListenerBlock_ovsamd(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_ovsamd(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapListenerBlock_pfv6jd(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_pfv6jd(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapListenerBlock_q5jeyk(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_q5jeyk(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapListenerBlock_rnu2c5(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_rnu2c5(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapListenerBlock_t8l8el(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_t8l8el(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapListenerBlock_vhbh5h(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_vhbh5h(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapListenerBlock_xtuoz7(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_xtuoz7(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapListenerBlock_zkjmn1(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_zkjmn1(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 @ffi.Native<
   ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
 >(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl>
-_ObjectiveCBindings_wrapListenerBlock_zuf90e(
+external ffi.Pointer<objc.ObjCBlockImpl> _1wx624s_wrapListenerBlock_zuf90e(
   ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
@@ -3876,7 +3834,7 @@ interface class NSCoding$Builder {
                   ffi.Pointer<objc.ObjCObjectImpl>,
                 )
               >
-            >(_ObjectiveCBindings_protocolTrampoline_18v1jvf)
+            >(_1wx624s_protocolTrampoline_18v1jvf)
             .cast(),
         objc.getProtocolMethodSignature(
           _protocol_NSCoding,
@@ -3911,7 +3869,7 @@ interface class NSCoding$Builder {
                   ffi.Pointer<objc.ObjCObjectImpl>,
                 )
               >
-            >(_ObjectiveCBindings_protocolTrampoline_xr62hr)
+            >(_1wx624s_protocolTrampoline_xr62hr)
             .cast(),
         objc.getProtocolMethodSignature(
           _protocol_NSCoding,
@@ -4041,7 +3999,7 @@ interface class NSCopying$Builder {
                   ffi.Pointer<NSZone>,
                 )
               >
-            >(_ObjectiveCBindings_protocolTrampoline_18nsem0)
+            >(_1wx624s_protocolTrampoline_18nsem0)
             .cast(),
         objc.getProtocolMethodSignature(
           _protocol_NSCopying,
@@ -8376,7 +8334,7 @@ interface class NSFastEnumeration$Builder {
                   ffi.UnsignedLong,
                 )
               >
-            >(_ObjectiveCBindings_protocolTrampoline_17ap02x)
+            >(_1wx624s_protocolTrampoline_17ap02x)
             .cast(),
         objc.getProtocolMethodSignature(
           _protocol_NSFastEnumeration,
@@ -10016,7 +9974,7 @@ interface class NSItemProviderWriting$Builder {
                   ffi.Pointer<objc.ObjCObjectImpl>,
                 )
               >
-            >(_ObjectiveCBindings_protocolTrampoline_1ldqghh)
+            >(_1wx624s_protocolTrampoline_1ldqghh)
             .cast(),
         objc.getProtocolMethodSignature(
           _protocol_NSItemProviderWriting,
@@ -10049,7 +10007,7 @@ interface class NSItemProviderWriting$Builder {
                   ffi.Pointer<objc.ObjCBlockImpl>,
                 )
               >
-            >(_ObjectiveCBindings_protocolTrampoline_1q0i84)
+            >(_1wx624s_protocolTrampoline_1q0i84)
             .cast(),
         objc.getProtocolMethodSignature(
           _protocol_NSItemProviderWriting,
@@ -10085,7 +10043,7 @@ interface class NSItemProviderWriting$Builder {
                   ffi.Pointer<ffi.Void>,
                 )
               >
-            >(_ObjectiveCBindings_protocolTrampoline_1mbt9g9)
+            >(_1wx624s_protocolTrampoline_1mbt9g9)
             .cast(),
         objc.getProtocolMethodSignature(
           _protocol_NSItemProviderWriting,
@@ -10780,7 +10738,7 @@ interface class NSMutableCopying$Builder {
                   ffi.Pointer<NSZone>,
                 )
               >
-            >(_ObjectiveCBindings_protocolTrampoline_18nsem0)
+            >(_1wx624s_protocolTrampoline_18nsem0)
             .cast(),
         objc.getProtocolMethodSignature(
           _protocol_NSMutableCopying,
@@ -15167,7 +15125,7 @@ interface class NSObjectProtocol$Builder {
                   ffi.Pointer<ffi.Void>,
                 )
               >
-            >(_ObjectiveCBindings_protocolTrampoline_1mbt9g9)
+            >(_1wx624s_protocolTrampoline_1mbt9g9)
             .cast(),
         objc.getProtocolMethodSignature(
           _protocol_NSObject,
@@ -15192,7 +15150,7 @@ interface class NSObjectProtocol$Builder {
               ffi.Pointer<ffi.Void>,
             )
           >
-        >(_ObjectiveCBindings_protocolTrampoline_1mbt9g9)
+        >(_1wx624s_protocolTrampoline_1mbt9g9)
         .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
@@ -15219,7 +15177,7 @@ interface class NSObjectProtocol$Builder {
                   ffi.Pointer<objc.ObjCObjectImpl>,
                 )
               >
-            >(_ObjectiveCBindings_protocolTrampoline_3su7tt)
+            >(_1wx624s_protocolTrampoline_3su7tt)
             .cast(),
         objc.getProtocolMethodSignature(
           _protocol_NSObject,
@@ -15244,7 +15202,7 @@ interface class NSObjectProtocol$Builder {
               ffi.Pointer<ffi.Void>,
             )
           >
-        >(_ObjectiveCBindings_protocolTrampoline_1mbt9g9)
+        >(_1wx624s_protocolTrampoline_1mbt9g9)
         .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
@@ -15268,7 +15226,7 @@ interface class NSObjectProtocol$Builder {
               ffi.Pointer<ffi.Void>,
             )
           >
-        >(_ObjectiveCBindings_protocolTrampoline_1mbt9g9)
+        >(_1wx624s_protocolTrampoline_1mbt9g9)
         .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
@@ -15292,7 +15250,7 @@ interface class NSObjectProtocol$Builder {
               ffi.Pointer<ffi.Void>,
             )
           >
-        >(_ObjectiveCBindings_protocolTrampoline_1ckyi24)
+        >(_1wx624s_protocolTrampoline_1ckyi24)
         .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
@@ -15318,7 +15276,7 @@ interface class NSObjectProtocol$Builder {
                   ffi.Pointer<objc.ObjCObjectImpl>,
                 )
               >
-            >(_ObjectiveCBindings_protocolTrampoline_3su7tt)
+            >(_1wx624s_protocolTrampoline_3su7tt)
             .cast(),
         objc.getProtocolMethodSignature(
           _protocol_NSObject,
@@ -15345,7 +15303,7 @@ interface class NSObjectProtocol$Builder {
                   ffi.Pointer<objc.ObjCObjectImpl>,
                 )
               >
-            >(_ObjectiveCBindings_protocolTrampoline_3su7tt)
+            >(_1wx624s_protocolTrampoline_3su7tt)
             .cast(),
         objc.getProtocolMethodSignature(
           _protocol_NSObject,
@@ -15372,7 +15330,7 @@ interface class NSObjectProtocol$Builder {
                   ffi.Pointer<objc.ObjCObjectImpl>,
                 )
               >
-            >(_ObjectiveCBindings_protocolTrampoline_3su7tt)
+            >(_1wx624s_protocolTrampoline_3su7tt)
             .cast(),
         objc.getProtocolMethodSignature(
           _protocol_NSObject,
@@ -15397,7 +15355,7 @@ interface class NSObjectProtocol$Builder {
               ffi.Pointer<ffi.Void>,
             )
           >
-        >(_ObjectiveCBindings_protocolTrampoline_e3qsqz)
+        >(_1wx624s_protocolTrampoline_e3qsqz)
         .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
@@ -15425,7 +15383,7 @@ interface class NSObjectProtocol$Builder {
                   ffi.Pointer<objc.ObjCSelector>,
                 )
               >
-            >(_ObjectiveCBindings_protocolTrampoline_50as9u)
+            >(_1wx624s_protocolTrampoline_50as9u)
             .cast(),
         objc.getProtocolMethodSignature(
           _protocol_NSObject,
@@ -15459,7 +15417,7 @@ interface class NSObjectProtocol$Builder {
                   ffi.Pointer<objc.ObjCObjectImpl>,
                 )
               >
-            >(_ObjectiveCBindings_protocolTrampoline_1mllhpc)
+            >(_1wx624s_protocolTrampoline_1mllhpc)
             .cast(),
         objc.getProtocolMethodSignature(
           _protocol_NSObject,
@@ -15504,7 +15462,7 @@ interface class NSObjectProtocol$Builder {
                   ffi.Pointer<objc.ObjCObjectImpl>,
                 )
               >
-            >(_ObjectiveCBindings_protocolTrampoline_c7gk2u)
+            >(_1wx624s_protocolTrampoline_c7gk2u)
             .cast(),
         objc.getProtocolMethodSignature(
           _protocol_NSObject,
@@ -15541,7 +15499,7 @@ interface class NSObjectProtocol$Builder {
               ffi.Pointer<ffi.Void>,
             )
           >
-        >(_ObjectiveCBindings_protocolTrampoline_ovsamd)
+        >(_1wx624s_protocolTrampoline_ovsamd)
         .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
@@ -15571,7 +15529,7 @@ interface class NSObjectProtocol$Builder {
                   ffi.Pointer<objc.ObjCSelector>,
                 )
               >
-            >(_ObjectiveCBindings_protocolTrampoline_w1e3k0)
+            >(_1wx624s_protocolTrampoline_w1e3k0)
             .cast(),
         objc.getProtocolMethodSignature(
           _protocol_NSObject,
@@ -15597,7 +15555,7 @@ interface class NSObjectProtocol$Builder {
               ffi.Pointer<ffi.Void>,
             )
           >
-        >(_ObjectiveCBindings_protocolTrampoline_1mbt9g9)
+        >(_1wx624s_protocolTrampoline_1mbt9g9)
         .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
@@ -15622,7 +15580,7 @@ interface class NSObjectProtocol$Builder {
               ffi.Pointer<ffi.Void>,
             )
           >
-        >(_ObjectiveCBindings_protocolTrampoline_1ckyi24)
+        >(_1wx624s_protocolTrampoline_1ckyi24)
         .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
@@ -15646,7 +15604,7 @@ interface class NSObjectProtocol$Builder {
               ffi.Pointer<ffi.Void>,
             )
           >
-        >(_ObjectiveCBindings_protocolTrampoline_1mbt9g9)
+        >(_1wx624s_protocolTrampoline_1mbt9g9)
         .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
@@ -15671,7 +15629,7 @@ interface class NSObjectProtocol$Builder {
               ffi.Pointer<ffi.Void>,
             )
           >
-        >(_ObjectiveCBindings_protocolTrampoline_1mbt9g9)
+        >(_1wx624s_protocolTrampoline_1mbt9g9)
         .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
@@ -15696,7 +15654,7 @@ interface class NSObjectProtocol$Builder {
               ffi.Pointer<ffi.Void>,
             )
           >
-        >(_ObjectiveCBindings_protocolTrampoline_1a8cl66)
+        >(_1wx624s_protocolTrampoline_1a8cl66)
         .cast(),
     objc.getProtocolMethodSignature(
       _protocol_NSObject,
@@ -17330,7 +17288,7 @@ interface class NSPortDelegate$Builder {
                   ffi.Pointer<objc.ObjCObjectImpl>,
                 )
               >
-            >(_ObjectiveCBindings_protocolTrampoline_18v1jvf)
+            >(_1wx624s_protocolTrampoline_18v1jvf)
             .cast(),
         objc.getProtocolMethodSignature(
           _protocol_NSPortDelegate,
@@ -18685,7 +18643,7 @@ interface class NSSecureCoding$Builder {
                   ffi.Pointer<objc.ObjCObjectImpl>,
                 )
               >
-            >(_ObjectiveCBindings_protocolTrampoline_18v1jvf)
+            >(_1wx624s_protocolTrampoline_18v1jvf)
             .cast(),
         objc.getProtocolMethodSignature(
           _protocol_NSSecureCoding,
@@ -18720,7 +18678,7 @@ interface class NSSecureCoding$Builder {
                   ffi.Pointer<objc.ObjCObjectImpl>,
                 )
               >
-            >(_ObjectiveCBindings_protocolTrampoline_xr62hr)
+            >(_1wx624s_protocolTrampoline_xr62hr)
             .cast(),
         objc.getProtocolMethodSignature(
           _protocol_NSSecureCoding,
@@ -19315,7 +19273,7 @@ interface class NSStreamDelegate$Builder {
                   ffi.UnsignedLong,
                 )
               >
-            >(_ObjectiveCBindings_protocolTrampoline_hoampi)
+            >(_1wx624s_protocolTrampoline_hoampi)
             .cast(),
         objc.getProtocolMethodSignature(
           _protocol_NSStreamDelegate,
@@ -26114,7 +26072,7 @@ abstract final class ObjCBlock_ffiVoid {
       () => fn(),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_1pl9qdv(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_1pl9qdv(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function()>(
       wrapper,
@@ -26147,7 +26105,7 @@ abstract final class ObjCBlock_ffiVoid {
       () => fn(),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_1pl9qdv(
+    final wrapper = _1wx624s_wrapBlockingBlock_1pl9qdv(
       raw,
       rawListener,
       objc.objCContext,
@@ -26376,7 +26334,7 @@ abstract final class ObjCBlock_ffiVoid_KeyType_ObjectType_bool {
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_1o83rbn(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_1o83rbn(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(
@@ -26434,7 +26392,7 @@ abstract final class ObjCBlock_ffiVoid_KeyType_ObjectType_bool {
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_1o83rbn(
+    final wrapper = _1wx624s_wrapBlockingBlock_1o83rbn(
       raw,
       rawListener,
       objc.objCContext,
@@ -26729,7 +26687,7 @@ abstract final class ObjCBlock_ffiVoid_NSData_NSError {
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_pfv6jd(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_pfv6jd(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(NSData?, NSError?)>(
       wrapper,
@@ -26782,7 +26740,7 @@ abstract final class ObjCBlock_ffiVoid_NSData_NSError {
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_pfv6jd(
+    final wrapper = _1wx624s_wrapBlockingBlock_pfv6jd(
       raw,
       rawListener,
       objc.objCContext,
@@ -27127,7 +27085,7 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_1b3bb6a(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_1b3bb6a(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(
@@ -27204,7 +27162,7 @@ abstract final class ObjCBlock_ffiVoid_NSItemProviderCompletionHandler_objcObjCO
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_1b3bb6a(
+    final wrapper = _1wx624s_wrapBlockingBlock_1b3bb6a(
       raw,
       rawListener,
       objc.objCContext,
@@ -27486,7 +27444,7 @@ abstract final class ObjCBlock_ffiVoid_NSRange_bool {
       (NSRange arg0, ffi.Pointer<ffi.Bool> arg1) => fn(arg0, arg1),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_zkjmn1(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_zkjmn1(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(NSRange, ffi.Pointer<ffi.Bool>)>(
       wrapper,
@@ -27520,7 +27478,7 @@ abstract final class ObjCBlock_ffiVoid_NSRange_bool {
       (NSRange arg0, ffi.Pointer<ffi.Bool> arg1) => fn(arg0, arg1),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_zkjmn1(
+    final wrapper = _1wx624s_wrapBlockingBlock_zkjmn1(
       raw,
       rawListener,
       objc.objCContext,
@@ -27788,7 +27746,7 @@ abstract final class ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool {
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_lmc3p5(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_lmc3p5(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(NSString?, NSRange, NSRange, ffi.Pointer<ffi.Bool>)
@@ -27846,7 +27804,7 @@ abstract final class ObjCBlock_ffiVoid_NSString_NSRange_NSRange_bool {
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_lmc3p5(
+    final wrapper = _1wx624s_wrapBlockingBlock_lmc3p5(
       raw,
       rawListener,
       objc.objCContext,
@@ -28138,7 +28096,7 @@ abstract final class ObjCBlock_ffiVoid_NSString_bool {
           fn(NSString.fromPointer(arg0, retain: false, release: true), arg1),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_t8l8el(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_t8l8el(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(NSString, ffi.Pointer<ffi.Bool>)>(
       wrapper,
@@ -28174,7 +28132,7 @@ abstract final class ObjCBlock_ffiVoid_NSString_bool {
           fn(NSString.fromPointer(arg0, retain: false, release: true), arg1),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_t8l8el(
+    final wrapper = _1wx624s_wrapBlockingBlock_t8l8el(
       raw,
       rawListener,
       objc.objCContext,
@@ -28412,7 +28370,7 @@ abstract final class ObjCBlock_ffiVoid_NSTimer {
           fn(NSTimer.fromPointer(arg0, retain: false, release: true)),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_xtuoz7(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_xtuoz7(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(NSTimer)>(
       wrapper,
@@ -28447,7 +28405,7 @@ abstract final class ObjCBlock_ffiVoid_NSTimer {
           fn(NSTimer.fromPointer(arg0, retain: false, release: true)),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_xtuoz7(
+    final wrapper = _1wx624s_wrapBlockingBlock_xtuoz7(
       raw,
       rawListener,
       objc.objCContext,
@@ -28672,7 +28630,7 @@ abstract final class ObjCBlock_ffiVoid_NSUInteger_bool {
       (int arg0, ffi.Pointer<ffi.Bool> arg1) => fn(arg0, arg1),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_q5jeyk(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_q5jeyk(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)
@@ -28706,7 +28664,7 @@ abstract final class ObjCBlock_ffiVoid_NSUInteger_bool {
       (int arg0, ffi.Pointer<ffi.Bool> arg1) => fn(arg0, arg1),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_q5jeyk(
+    final wrapper = _1wx624s_wrapBlockingBlock_q5jeyk(
       raw,
       rawListener,
       objc.objCContext,
@@ -28955,7 +28913,7 @@ abstract final class ObjCBlock_ffiVoid_NSURL_NSError {
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_pfv6jd(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_pfv6jd(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(NSURL?, NSError?)>(
       wrapper,
@@ -29008,7 +28966,7 @@ abstract final class ObjCBlock_ffiVoid_NSURL_NSError {
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_pfv6jd(
+    final wrapper = _1wx624s_wrapBlockingBlock_pfv6jd(
       raw,
       rawListener,
       objc.objCContext,
@@ -29283,7 +29241,7 @@ abstract final class ObjCBlock_ffiVoid_NSURL_bool_NSError {
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_rnu2c5(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_rnu2c5(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(NSURL?, ffi.Bool, NSError?)>(
       wrapper,
@@ -29340,7 +29298,7 @@ abstract final class ObjCBlock_ffiVoid_NSURL_bool_NSError {
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_rnu2c5(
+    final wrapper = _1wx624s_wrapBlockingBlock_rnu2c5(
       raw,
       rawListener,
       objc.objCContext,
@@ -29665,7 +29623,7 @@ abstract final class ObjCBlock_ffiVoid_ObjectType_NSUInteger_bool {
       ) => fn(objc.ObjCObject(arg0, retain: false, release: true), arg1, arg2),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_1p9ui4q(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_1p9ui4q(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(
@@ -29715,7 +29673,7 @@ abstract final class ObjCBlock_ffiVoid_ObjectType_NSUInteger_bool {
       ) => fn(objc.ObjCObject(arg0, retain: false, release: true), arg1, arg2),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_1p9ui4q(
+    final wrapper = _1wx624s_wrapBlockingBlock_1p9ui4q(
       raw,
       rawListener,
       objc.objCContext,
@@ -30016,7 +29974,7 @@ abstract final class ObjCBlock_ffiVoid_ObjectType_bool {
           fn(objc.ObjCObject(arg0, retain: false, release: true), arg1),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_t8l8el(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_t8l8el(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<ffi.Bool>)
@@ -30052,7 +30010,7 @@ abstract final class ObjCBlock_ffiVoid_ObjectType_bool {
           fn(objc.ObjCObject(arg0, retain: false, release: true), arg1),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_t8l8el(
+    final wrapper = _1wx624s_wrapBlockingBlock_t8l8el(
       raw,
       rawListener,
       objc.objCContext,
@@ -30294,7 +30252,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
       (ffi.Pointer<ffi.Void> arg0) => fn(arg0),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_ovsamd(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_ovsamd(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>)>(
       wrapper,
@@ -30327,7 +30285,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid {
       (ffi.Pointer<ffi.Void> arg0) => fn(arg0),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_ovsamd(
+    final wrapper = _1wx624s_wrapBlockingBlock_ovsamd(
       raw,
       rawListener,
       objc.objCContext,
@@ -30534,7 +30492,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
           fn(arg0, NSCoder.fromPointer(arg1, retain: false, release: true)),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_18v1jvf(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_18v1jvf(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, NSCoder)>(
       wrapper,
@@ -30570,7 +30528,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSCoder {
           fn(arg0, NSCoder.fromPointer(arg1, retain: false, release: true)),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_18v1jvf(
+    final wrapper = _1wx624s_wrapBlockingBlock_18v1jvf(
       raw,
       rawListener,
       objc.objCContext,
@@ -30819,7 +30777,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSPortMessage {
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_18v1jvf(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_18v1jvf(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<ffi.Void>, NSPortMessage)
@@ -30857,7 +30815,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSPortMessage {
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_18v1jvf(
+    final wrapper = _1wx624s_wrapBlockingBlock_18v1jvf(
       raw,
       rawListener,
       objc.objCContext,
@@ -31120,7 +31078,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSRange_bool {
           fn(arg0, arg1, arg2),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_1q8ia8l(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_1q8ia8l(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<ffi.Void>, NSRange, ffi.Pointer<ffi.Bool>)
@@ -31156,7 +31114,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSRange_bool {
           fn(arg0, arg1, arg2),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_1q8ia8l(
+    final wrapper = _1wx624s_wrapBlockingBlock_1q8ia8l(
       raw,
       rawListener,
       objc.objCContext,
@@ -31456,7 +31414,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_hoampi(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_hoampi(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<ffi.Void>, NSStream, ffi.UnsignedLong)
@@ -31506,7 +31464,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSStream_NSStreamEvent {
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_hoampi(
+    final wrapper = _1wx624s_wrapBlockingBlock_hoampi(
       raw,
       rawListener,
       objc.objCContext,
@@ -31871,7 +31829,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSString_objcObjCObjectImpl_NSDic
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_1sr3ozv(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_1sr3ozv(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(
@@ -31948,7 +31906,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSString_objcObjCObjectImpl_NSDic
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_1sr3ozv(
+    final wrapper = _1wx624s_wrapBlockingBlock_1sr3ozv(
       raw,
       rawListener,
       objc.objCContext,
@@ -32288,7 +32246,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSUInteger {
       (ffi.Pointer<ffi.Void> arg0, int arg1) => fn(arg0, arg1),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_zuf90e(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_zuf90e(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<ffi.Void>, ffi.UnsignedLong)
@@ -32322,7 +32280,7 @@ abstract final class ObjCBlock_ffiVoid_ffiVoid_NSUInteger {
       (ffi.Pointer<ffi.Void> arg0, int arg1) => fn(arg0, arg1),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_zuf90e(
+    final wrapper = _1wx624s_wrapBlockingBlock_zuf90e(
       raw,
       rawListener,
       objc.objCContext,
@@ -32595,7 +32553,7 @@ abstract final class ObjCBlock_ffiVoid_idNSItemProviderReading_NSError {
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_pfv6jd(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_pfv6jd(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>?, NSError?)
@@ -32657,7 +32615,7 @@ abstract final class ObjCBlock_ffiVoid_idNSItemProviderReading_NSError {
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_pfv6jd(
+    final wrapper = _1wx624s_wrapBlockingBlock_pfv6jd(
       raw,
       rawListener,
       objc.objCContext,
@@ -32950,7 +32908,7 @@ abstract final class ObjCBlock_ffiVoid_idNSItemProviderWriting_NSError {
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_pfv6jd(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_pfv6jd(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>?, NSError?)
@@ -33012,7 +32970,7 @@ abstract final class ObjCBlock_ffiVoid_idNSItemProviderWriting_NSError {
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_pfv6jd(
+    final wrapper = _1wx624s_wrapBlockingBlock_pfv6jd(
       raw,
       rawListener,
       objc.objCContext,
@@ -33293,7 +33251,7 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_pfv6jd(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_pfv6jd(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>?, NSError)
@@ -33343,7 +33301,7 @@ abstract final class ObjCBlock_ffiVoid_idNSSecureCoding_NSError {
       ),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_pfv6jd(
+    final wrapper = _1wx624s_wrapBlockingBlock_pfv6jd(
       raw,
       rawListener,
       objc.objCContext,
@@ -33603,7 +33561,7 @@ abstract final class ObjCBlock_ffiVoid_unichar_NSUInteger {
       (ffi.Pointer<ffi.UnsignedShort> arg0, int arg1) => fn(arg0, arg1),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapListenerBlock_vhbh5h(raw);
+    final wrapper = _1wx624s_wrapListenerBlock_vhbh5h(raw);
     objc.objectRelease(raw.cast());
     return objc.ObjCBlock<
       ffi.Void Function(ffi.Pointer<ffi.UnsignedShort>, ffi.UnsignedLong)
@@ -33637,7 +33595,7 @@ abstract final class ObjCBlock_ffiVoid_unichar_NSUInteger {
       (ffi.Pointer<ffi.UnsignedShort> arg0, int arg1) => fn(arg0, arg1),
       keepIsolateAlive,
     );
-    final wrapper = _ObjectiveCBindings_wrapBlockingBlock_vhbh5h(
+    final wrapper = _1wx624s_wrapBlockingBlock_vhbh5h(
       raw,
       rawListener,
       objc.objCContext,
@@ -35288,7 +35246,7 @@ interface class Observer$Builder {
                   ffi.Pointer<ffi.Void>,
                 )
               >
-            >(_ObjectiveCBindings_protocolTrampoline_1sr3ozv)
+            >(_1wx624s_protocolTrampoline_1sr3ozv)
             .cast(),
         objc.getProtocolMethodSignature(
           _protocol_Observer,

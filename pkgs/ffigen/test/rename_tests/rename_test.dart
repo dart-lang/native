@@ -209,7 +209,6 @@ Library expectedLibrary() {
   );
   return Library(
     context: context,
-    name: 'Bindings',
     bindings: [
       Func(
         name: '${functionPrefix}func1',

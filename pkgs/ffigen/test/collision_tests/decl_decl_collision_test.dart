@@ -27,7 +27,6 @@ void main() {
       );
       final library = Library(
         context: context,
-        name: 'Bindings',
         bindings: transformBindings([
           Struct(context: context, name: 'TestStruct'),
           Struct(context: context, name: 'TestStruct'),

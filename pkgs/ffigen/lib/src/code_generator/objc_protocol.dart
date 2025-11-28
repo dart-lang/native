@@ -329,11 +329,11 @@ ${generateInstanceMethodBindings(w, this)}
   BindingString? toObjCBindingString(Writer w) {
     if (generateAsStub) return null;
 
-    final wrapName = context.objCBuiltInFunctions.wrapperName;
+    final libraryId = context.objCBuiltInFunctions.libraryId;
     final mainString =
         '''
 
-Protocol* _${wrapName}_$originalName(void) { return @protocol($originalName); }
+Protocol* _${libraryId}_$originalName(void) { return @protocol($originalName); }
 ''';
 
     return BindingString(

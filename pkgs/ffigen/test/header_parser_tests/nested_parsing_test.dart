@@ -109,7 +109,6 @@ Library expectedLibrary() {
   );
   return Library(
     context: context,
-    name: 'Bindings',
     bindings: [
       unnamedInternalStruct,
       unnamedUnion1,

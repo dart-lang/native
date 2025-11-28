@@ -112,7 +112,6 @@ Library expectedLibrary() {
   );
   return Library(
     context: context,
-    name: 'Bindings',
     bindings: parser.transformBindings([
       Global(type: BooleanType(), name: 'coolGlobal'),
       Global(

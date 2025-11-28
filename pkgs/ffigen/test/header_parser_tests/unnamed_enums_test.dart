@@ -64,7 +64,6 @@ ${strings.unnamedEnums}:
 Library expectedLibrary() {
   return Library(
     context: testContext(),
-    name: 'Bindings',
     bindings: [
       Constant(name: 'A', rawType: 'int', rawValue: '1'),
       Constant(name: 'C', rawType: 'int', rawValue: '3'),
