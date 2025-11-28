@@ -104,7 +104,7 @@ workspace:
   - pkgs/native_toolchain_c
   - pkgs/objective_c
   - pkgs/objective_c/example/command_line
-  - pkgs/objective_c/example/flutter_app
+  # - pkgs/objective_c/example/flutter_app # Requires Flutter.
   - pkgs/pub_formats
   - pkgs/record_use
   - pkgs/record_use/test_data/drop_data_asset
