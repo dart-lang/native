@@ -12,6 +12,7 @@ on:
       - ".github/workflows/native.yaml"
       - "pkgs/code_assets/**"
       - "pkgs/data_assets/**"
+      - 'pkgs/ffi/**'
       - "pkgs/hooks_runner/**"
       - "pkgs/hooks/**"
       - "pkgs/json_syntax_generator/**"
@@ -25,6 +26,7 @@ on:
       - ".github/workflows/native.yaml"
       - "pkgs/code_assets/**"
       - "pkgs/data_assets/**"
+      - 'pkgs/ffi/**'
       - "pkgs/hooks_runner/**"
       - "pkgs/hooks/**"
       - "pkgs/json_syntax_generator/**"
