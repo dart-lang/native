@@ -67,6 +67,9 @@ jobs:
 
       - run: dart pub get
 
+      - name: Build test dylib and bindings
+        run: dart --enable-asserts pkgs/ffigen/test/setup.dart
+
       - name: Run pub get, analysis, formatting, generators, and tests.
         # Don't run examples on stable, the experiment is not available on stable.
         run: dart tool/ci.dart --all --no-example
