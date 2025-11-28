@@ -14,6 +14,15 @@ workspace:
   - pkgs/code_assets/example/stb_image
   - pkgs/data_assets
   - pkgs/hooks
+  - pkgs/hooks/example/build/download_asset
+  - pkgs/hooks/example/build/local_asset
+  - pkgs/hooks/example/build/native_add_app
+  - pkgs/hooks/example/build/native_add_library
+  - pkgs/hooks/example/build/native_dynamic_linking
+  - pkgs/hooks/example/build/system_library
+  - pkgs/hooks/example/build/use_dart_api
+  - pkgs/hooks/example/link/app_with_asset_treeshaking
+  - pkgs/hooks/example/link/package_with_assets
   - pkgs/hooks_runner
   - pkgs/hooks_runner/test_data/add_asset_link
   - pkgs/hooks_runner/test_data/complex_link
@@ -45,6 +54,7 @@ workspace:
   - pkgs/hooks_runner/test_data/native_dynamic_linking
   - pkgs/hooks_runner/test_data/native_subtract
   - pkgs/hooks_runner/test_data/no_asset_for_link
+  - pkgs/hooks_runner/test_data/no_build_output
   - pkgs/hooks_runner/test_data/no_hook
   - pkgs/hooks_runner/test_data/package_reading_metadata
   - pkgs/hooks_runner/test_data/package_with_metadata
@@ -64,15 +74,6 @@ workspace:
   - pkgs/hooks_runner/test_data/wrong_build_output_3
   - pkgs/hooks_runner/test_data/wrong_linker
   - pkgs/hooks_runner/test_data/wrong_namespace_asset
-  - pkgs/hooks/example/build/download_asset
-  - pkgs/hooks/example/build/local_asset
-  - pkgs/hooks/example/build/native_add_app
-  - pkgs/hooks/example/build/native_add_library
-  - pkgs/hooks/example/build/native_dynamic_linking
-  - pkgs/hooks/example/build/system_library
-  - pkgs/hooks/example/build/use_dart_api
-  - pkgs/hooks/example/link/app_with_asset_treeshaking
-  - pkgs/hooks/example/link/package_with_assets
   - pkgs/json_syntax_generator
   - pkgs/native_test_helpers
   - pkgs/native_toolchain_c
