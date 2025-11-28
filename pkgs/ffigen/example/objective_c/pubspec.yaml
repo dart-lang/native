@@ -4,6 +4,8 @@
 
 name: objective_c_example
 
+resolution: workspace
+
 environment:
   sdk: '>=3.8.0 <4.0.0'
 
@@ -15,9 +17,4 @@ dependencies:
 
 dev_dependencies:
   dart_flutter_team_lints: ^3.5.2
-  ffigen:
-    path: ../../
-
-dependency_overrides:
-  objective_c:
-    path: ../../../objective_c/
+  ffigen: ^20.1.1

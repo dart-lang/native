@@ -13,6 +13,16 @@ workspace:
   - pkgs/code_assets/example/sqlite_prebuilt
   - pkgs/code_assets/example/stb_image
   - pkgs/data_assets
+  - pkgs/ffi/
+  - pkgs/ffigen
+  - pkgs/ffigen/example/add
+  - pkgs/ffigen/example/c_json
+  - pkgs/ffigen/example/ffinative
+  - pkgs/ffigen/example/libclang-example
+  - pkgs/ffigen/example/objective_c
+  - pkgs/ffigen/example/shared_bindings
+  - pkgs/ffigen/example/simple
+  - pkgs/ffigen/example/swift
   - pkgs/hooks
   - pkgs/hooks/example/build/download_asset
   - pkgs/hooks/example/build/local_asset
@@ -51,6 +61,8 @@ workspace:
   - pkgs/hooks_runner/test_data/native_add
   - pkgs/hooks_runner/test_data/native_add_add_source
   - pkgs/hooks_runner/test_data/native_add_duplicate
+  # - pkgs/hooks_runner/test_data/native_add_version_skew # TODO
+  # - pkgs/hooks_runner/test_data/native_add_version_skew_2 # TODO
   - pkgs/hooks_runner/test_data/native_dynamic_linking
   - pkgs/hooks_runner/test_data/native_subtract
   - pkgs/hooks_runner/test_data/no_asset_for_link
@@ -74,14 +86,33 @@ workspace:
   - pkgs/hooks_runner/test_data/wrong_build_output_3
   - pkgs/hooks_runner/test_data/wrong_linker
   - pkgs/hooks_runner/test_data/wrong_namespace_asset
+  # - pkgs/jni # TODO
+  # - pkgs/jni/example # TODO
+  # - pkgs/jnigen # TODO
+  # - pkgs/jnigen/android_test_runner # TODO
+  # - pkgs/jnigen/example/in_app_java # TODO
+  # - pkgs/jnigen/example/kotlin_plugin # TODO
+  # - pkgs/jnigen/example/kotlin_plugin/example # TODO
+  # - pkgs/jnigen/example/notification_plugin # TODO
+  # - pkgs/jnigen/example/notification_plugin/example # TODO
+  # - pkgs/jnigen/example/pdfbox_plugin # TODO
+  # - pkgs/jnigen/example/pdfbox_plugin/dart_example # TODO
+  # - pkgs/jnigen/example/pdfbox_plugin/example # TODO
   - pkgs/json_syntax_generator
+  # - pkgs/native_doc_dartifier # TODO
   - pkgs/native_test_helpers
   - pkgs/native_toolchain_c
+  - pkgs/objective_c
+  - pkgs/objective_c/example/command_line
+  - pkgs/objective_c/example/flutter_app
   - pkgs/pub_formats
   - pkgs/record_use
   - pkgs/record_use/test_data/drop_data_asset
   - pkgs/record_use/test_data/drop_dylib_recording
   - pkgs/repo_lint_rules
+  # - pkgs/swift2objc # TODO
+  # - pkgs/swiftgen # TODO
+  # - pkgs/swiftgen/example # TODO
 
 # Hook user-defines are specified in the pub workspace.
 hooks:
