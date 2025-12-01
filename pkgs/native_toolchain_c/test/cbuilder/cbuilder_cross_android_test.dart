@@ -91,11 +91,7 @@ void main() {
       linkMode,
       flags: ['-Wl,-z,max-page-size=$pageSize'],
     );
-    if (Platform.isMacOS || Platform.isLinux) {
-      final address = await textSectionAddress(libUri);
-      expect(address, greaterThanOrEqualTo(pageSize));
-      expect(address, isNot(greaterThanOrEqualTo(pageSize * 4)));
-    }
+    await expectPageSize(libUri, pageSize);
   });
 }
 
