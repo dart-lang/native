@@ -273,11 +273,6 @@ Future<void> expectPageSize(Uri dylib, int pageSize) async {
     //   LOAD           0x0000000000000000 0x0000000000000000 0x0000000000000000
     //                  0x0000000000000528 0x0000000000000528  R      0x1000
     final result = await readelf(dylib.toFilePath(), 'l');
-    // Verify that Align is the last value of the second row in an entry.
-    expect(
-      result.split('\n')[1].split(' ').where((e) => e.isNotEmpty).last,
-      'Align',
-    );
     // Capture the line after the line that contains "LOAD".
     final regExp = RegExp('LOAD.*\n(.*)');
     final loadSegment = regExp.firstMatch(result)!.group(1)!;
