@@ -262,11 +262,8 @@ Future<void> expectPageSize(Uri dylib, int pageSize) async {
     final parsed = loadHeader.split(' ').where((e) => e.isNotEmpty).toList();
     expect(parsed[7], 'align');
     expect(parsed[8], startsWith('2**'));
-    final actualPageSize = math.pow(
-      2,
-      int.parse(parsed[8].substring('2**'.length)),
-    );
-    expect(actualPageSize, pageSize);
+    final alignment = math.pow(2, int.parse(parsed[8].substring('2**'.length)));
+    expect(alignment, pageSize);
   }
   if (Platform.isLinux) {
     // Find the line in the readelf output that looks like:
@@ -274,16 +271,16 @@ Future<void> expectPageSize(Uri dylib, int pageSize) async {
     //                  FileSiz            MemSiz              Flags  Align
     //   LOAD           0x0000000000000000 0x0000000000000000 0x0000000000000000
     //                  0x0000000000000528 0x0000000000000528  R      0x1000
-    final result = await runProcess(
-      executable: Uri.file('readelf'),
-      arguments: ['-l', dylib.toFilePath()],
-      logger: logger,
+    final result = await readelf(dylib.toFilePath(), 'l');
+    // Verify that Align is the last value of the second row in an entry.
+    expect(
+      result.split('\n')[1].split(' ').where((e) => e.isNotEmpty).last,
+      'Align',
     );
-    expect(result.exitCode, 0);
     // Capture the line after the line that contains "LOAD".
     final regExp = RegExp('LOAD.*\n(.*)');
-    final loadSegment = regExp.firstMatch(result.stdout)!.group(1)!;
-    final actualPageSize = int.parse(
+    final loadSegment = regExp.firstMatch(result)!.group(1)!;
+    final alignment = int.parse(
       loadSegment
           .split(' ')
           .where((e) => e.isNotEmpty)
@@ -291,7 +288,7 @@ Future<void> expectPageSize(Uri dylib, int pageSize) async {
           .substring('0x'.length),
       radix: 16,
     );
-    expect(actualPageSize, pageSize);
+    expect(alignment, pageSize);
   }
 }
 
