@@ -4,6 +4,8 @@
   `FfiGenerator`.
 - __Breaking change__: Remove unused `includeSymbolAddress` field from
   `Categories`, `Interfaces`, and `Protocols`.
+- __Breaking change__: Remove deprecated `wrapperName` field from
+  `NativeExternalBindings`.
 
 ## 20.1.1
 

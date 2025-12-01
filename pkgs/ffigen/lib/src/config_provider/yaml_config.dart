@@ -1242,11 +1242,7 @@ final class YamlConfig {
       preamble: preamble,
       format: formatOutput,
       style: ffiNativeConfig.enabled
-          ? NativeExternalBindings(
-              assetId: ffiNativeConfig.assetId,
-              // ignore: deprecated_member_use_from_same_package
-              wrapperName: wrapperName,
-            )
+          ? NativeExternalBindings(assetId: ffiNativeConfig.assetId)
           : DynamicLibraryBindings(
               wrapperName: wrapperName,
               wrapperDocComment: wrapperDocComment,

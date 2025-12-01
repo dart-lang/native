@@ -83,11 +83,7 @@ extension SwiftGenGenerator on SwiftGenerator {
         dartFile: output.dartFile,
         objectiveCFile: output.objectiveCFile,
         preamble: output.preamble,
-        style: fg.NativeExternalBindings(
-          assetId: output.assetId,
-          // ignore: deprecated_member_use
-          wrapperName: output.assetId ?? output.module,
-        ),
+        style: fg.NativeExternalBindings(assetId: output.assetId),
       ),
       functions: ffigen.functions,
       structs: ffigen.structs,
