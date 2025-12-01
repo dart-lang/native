@@ -117,7 +117,7 @@ bool shouldIncludeRootCursor(Context context, String sourceFile) {
   if (!context.bindingsIndex.isSeenHeader(sourceFile)) {
     context.bindingsIndex.addHeaderToSeen(
       sourceFile,
-      context.config.shouldIncludeHeader(Uri.file(sourceFile)),
+      context.config.headers.include(Uri.file(sourceFile)),
     );
   }
 

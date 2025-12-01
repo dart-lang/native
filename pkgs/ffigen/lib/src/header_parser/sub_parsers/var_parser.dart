@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../code_generator.dart';
+import '../../config_provider/config.dart';
 import '../../config_provider/config_types.dart';
 import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
@@ -12,6 +13,7 @@ import '../utils.dart';
 Global? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
   final logger = context.logger;
   final config = context.config;
+  final nativeOutputStyle = config.output.style is NativeExternalBindings;
   final bindingsIndex = context.bindingsIndex;
   final name = cursor.spelling();
   final usr = cursor.usr();
@@ -28,7 +30,7 @@ Global? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
     context,
     // Native fields can be arrays, but if we use the lookup based method of
     // reading fields there's no way to turn a Pointer into an array.
-    supportNonInlineArray: config.ffiNativeConfig.enabled,
+    supportNonInlineArray: nativeOutputStyle,
   );
   if (type.baseType is UnimplementedType) {
     logger.fine(
@@ -47,7 +49,7 @@ Global? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
     dartDoc: getCursorDocComment(context, cursor),
     exposeSymbolAddress: config.globals.includeSymbolAddress(decl),
     constant: cType.isConstQualified,
-    loadFromNativeAsset: config.ffiNativeConfig.enabled,
+    loadFromNativeAsset: nativeOutputStyle,
   );
   bindingsIndex.addGlobalVarToSeen(usr, global);
 

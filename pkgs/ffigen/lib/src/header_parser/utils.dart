@@ -292,7 +292,7 @@ String? getCursorDocComment(
   if (!context.reportedCommentRanges.add(currentCommentRange.toTuple())) {
     formattedDocComment = null;
   } else {
-    switch (context.config.commentType.length) {
+    switch (context.config.output.commentType.length) {
       case CommentLength.full:
         formattedDocComment = removeRawCommentMarkups(
           clang.clang_Cursor_getRawCommentText(cursor).toStringAndDispose(),

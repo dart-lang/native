@@ -39,11 +39,13 @@ class ApplyConfigFiltersVisitation extends Visitation {
   @override
   void visitObjCInterface(ObjCInterface node) {
     if (node.unavailable) return;
+    final objcInterfaces = config.objectiveC?.interfaces;
+    if (objcInterfaces == null) return;
 
     node.filterMethods(
-      (m) => config.objcInterfaces.includeMember(node, m.originalName),
+      (m) => objcInterfaces.includeMember(node, m.originalName),
     );
-    _visitImpl(node, config.objcInterfaces);
+    _visitImpl(node, objcInterfaces);
 
     // If this node is included, include all its super types.
     if (directlyIncluded.contains(node)) {
@@ -55,16 +57,20 @@ class ApplyConfigFiltersVisitation extends Visitation {
 
   @override
   void visitObjCCategory(ObjCCategory node) {
+    final objcCategories = config.objectiveC?.categories;
+    if (objcCategories == null) return;
     node.filterMethods((m) {
       if (node.shouldCopyMethodToInterface(m)) return false;
-      return config.objcCategories.includeMember(node, m.originalName);
+      return objcCategories.includeMember(node, m.originalName);
     });
-    _visitImpl(node, config.objcCategories);
+    _visitImpl(node, objcCategories);
   }
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
     if (node.unavailable) return;
+    final objcProtocols = config.objectiveC?.protocols;
+    if (objcProtocols == null) return;
 
     node.filterMethods((m) {
       // TODO(https://github.com/dart-lang/native/issues/1149): Support class
@@ -73,9 +79,9 @@ class ApplyConfigFiltersVisitation extends Visitation {
       // copied to any interfaces that implement the protocol.
       if (m.isClassMethod) return false;
 
-      return config.objcProtocols.includeMember(node, m.originalName);
+      return objcProtocols.includeMember(node, m.originalName);
     });
-    _visitImpl(node, config.objcProtocols);
+    _visitImpl(node, objcProtocols);
   }
 
   @override
