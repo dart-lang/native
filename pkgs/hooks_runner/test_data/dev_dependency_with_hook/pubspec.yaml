@@ -12,7 +12,7 @@ environment:
 dependencies: {}
 
 dev_dependencies:
-  ffigen: ^20.0.0-dev.1
+  ffigen: ^21.0.0-wip
   lints: ^6.0.0
   native_add:
     path: ../native_add/

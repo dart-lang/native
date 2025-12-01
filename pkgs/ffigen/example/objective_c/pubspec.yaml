@@ -17,4 +17,4 @@ dependencies:
 
 dev_dependencies:
   dart_flutter_team_lints: ^3.5.2
-  ffigen: ^20.1.1
+  ffigen: ^21.0.0-wip

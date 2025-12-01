@@ -16,5 +16,5 @@ dependencies:
   hooks: any
 
 dev_dependencies:
-  ffigen: ^20.0.0-dev.1
+  ffigen: ^21.0.0-wip
   test: ^1.25.15
