@@ -1,5 +1,9 @@
 ## 21.0.0
 
+- __Breaking change__: Remove deprecated `useDartHandle` field from
+  `FfiGenerator`.
+- __Breaking change__: Remove unused `includeSymbolAddress` field from
+  `Categories`, `Interfaces`, and `Protocols`.
 - __Breaking change__: Remove deprecated `wrapperName` field from
   `NativeExternalBindings`.
 
