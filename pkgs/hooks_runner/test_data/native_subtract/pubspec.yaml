@@ -16,6 +16,6 @@ dependencies:
   native_toolchain_c: any
 
 dev_dependencies:
-  ffigen: ^21.0.0-wip
+  ffigen: any
   lints: ^6.0.0
   test: ^1.25.15
