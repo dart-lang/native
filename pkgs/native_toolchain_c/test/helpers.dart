@@ -266,9 +266,10 @@ Future<void> expectPageSize(Uri dylib, int pageSize) async {
     expect(alignment, pageSize);
   }
   if (Platform.isLinux) {
-    // Find the line in the readelf output that looks like:
+    // The readelf output has the following structure:
     //   Type           Offset             VirtAddr           PhysAddr
     //                  FileSiz            MemSiz              Flags  Align
+    // Find the line in the readelf output that looks like:
     //   LOAD           0x0000000000000000 0x0000000000000000 0x0000000000000000
     //                  0x0000000000000528 0x0000000000000528  R      0x1000
     final result = await readelf(dylib.toFilePath(), 'l');
