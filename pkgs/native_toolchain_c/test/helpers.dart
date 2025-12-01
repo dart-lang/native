@@ -270,24 +270,19 @@ Future<void> expectPageSize(Uri dylib, int pageSize) async {
   }
   if (Platform.isLinux) {
     // Find the line in the readelf output that looks like:
-    // Type           Offset             VirtAddr           PhysAddr           FileSiz            MemSiz              Flags  Align   // ignore: lines_longer_than_80_chars
-    // LOAD           0x0000000000000000 0x0000000000000000 0x0000000000000000 0x00028a70         0x00028a70          R E    0x1000  // ignore: lines_longer_than_80_chars
+    //   Type           Offset             VirtAddr           PhysAddr
+    //                  FileSiz            MemSiz              Flags  Align
+    //   LOAD           0x0000000000000000 0x0000000000000000 0x0000000000000000
+    //                  0x0000000000000528 0x0000000000000528  R      0x1000
     final result = await runProcess(
       executable: Uri.file('readelf'),
       arguments: ['-l', dylib.toFilePath()],
       logger: logger,
     );
     expect(result.exitCode, 0);
-    final tableHeader = result.stdout
-        .split('\n')
-        .first
-        .split(' ')
-        .where((e) => e.isNotEmpty);
-    expect(tableHeader.last, 'Align');
-    final loadSegment = result.stdout
-        .split('\n')
-        .firstWhere((e) => e.contains('LOAD'));
-    print(loadSegment);
+    // Capture the line after the line that contains "LOAD".
+    final regExp = RegExp('LOAD.*\n(.*)');
+    final loadSegment = regExp.firstMatch(result.stdout)!.group(1)!;
     final actualPageSize = int.parse(
       loadSegment.split(' ').where((e) => e.isNotEmpty).last,
       radix: 16,
