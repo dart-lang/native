@@ -284,7 +284,11 @@ Future<void> expectPageSize(Uri dylib, int pageSize) async {
     final regExp = RegExp('LOAD.*\n(.*)');
     final loadSegment = regExp.firstMatch(result.stdout)!.group(1)!;
     final actualPageSize = int.parse(
-      loadSegment.split(' ').where((e) => e.isNotEmpty).last,
+      loadSegment
+          .split(' ')
+          .where((e) => e.isNotEmpty)
+          .last
+          .substring('0x'.length),
       radix: 16,
     );
     expect(actualPageSize, pageSize);
