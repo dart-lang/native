@@ -114,7 +114,7 @@ class ObjCBlock extends BindingType with HasLocalScope {
       '${returnType.cacheKey()} ${returnsRetained ? 'R' : ''}',
       for (final param in params)
         '${param.type.cacheKey()} ${param.objCConsumed ? 'C' : ''}',
-    ].join(strings.synthUsrChar);
+    ].join(' ');
   }
 
   bool get hasListener => returnType == voidType;
