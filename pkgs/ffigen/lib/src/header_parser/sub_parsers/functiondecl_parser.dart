@@ -5,6 +5,7 @@
 import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
 import '../../context.dart';
+import '../../strings.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
 import 'api_availability.dart';
@@ -118,7 +119,7 @@ List<Func> parseFunctionDeclaration(
     );
 
     // Initialized with a single value with no prefix and empty var args.
-    var varArgFunctions = [VarArgFunction('', [])];
+    var varArgFunctions = <VarArgFunction?>[null];
     if (config.functions.varArgs.containsKey(funcName)) {
       if (clang.clang_isFunctionTypeVariadic(cursor.type()) == 1) {
         varArgFunctions = config.functions.varArgs[funcName]!;
@@ -130,6 +131,8 @@ List<Func> parseFunctionDeclaration(
       }
     }
     for (final vaFunc in varArgFunctions) {
+      var usr = funcUsr;
+      if (vaFunc != null) usr += '$synthUsrChar vaFunc: ${vaFunc.postfix}';
       funcs.add(
         Func(
           dartDoc: getCursorDocComment(
@@ -138,13 +141,13 @@ List<Func> parseFunctionDeclaration(
             indent: nesting.length + commentPrefix.length,
             availability: apiAvailability.dartDoc,
           ),
-          usr: funcUsr + vaFunc.postfix,
-          name: config.functions.rename(decl) + vaFunc.postfix,
+          usr: usr,
+          name: config.functions.rename(decl) + (vaFunc?.postfix ?? ''),
           originalName: funcName,
           returnType: returnType,
           parameters: parameters,
           varArgParameters: [
-            for (final ta in vaFunc.types)
+            for (final ta in vaFunc?.types ?? const <Type>[])
               Parameter(type: ta, name: 'va', objCConsumed: false),
           ],
           exposeSymbolAddress: config.functions.includeSymbolAddress(decl),

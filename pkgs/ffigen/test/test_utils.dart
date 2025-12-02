@@ -235,10 +235,10 @@ FfiGenerator testConfig(String yamlBody, {String? filename, Logger? logger}) {
   ).configAdapter();
 }
 
-FfiGenerator testConfigFromPath(String path) {
+FfiGenerator testConfigFromPath(String path, {Logger? logger}) {
   final file = File(path);
   final yamlBody = file.readAsStringSync();
-  return testConfig(yamlBody, filename: path);
+  return testConfig(yamlBody, filename: path, logger: logger);
 }
 
 bool isFlutterTester = Platform.resolvedExecutable.contains('flutter_tester');

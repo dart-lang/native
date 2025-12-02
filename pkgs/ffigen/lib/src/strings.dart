@@ -274,6 +274,9 @@ const doubleNaN = 'double.nan';
 /// USR for struct `_Dart_Handle`.
 const dartHandleUsr = 'c:@S@_Dart_Handle';
 
+// A character that will never appear in real USRs, for making synthetic USRs.
+const synthUsrChar = '~';
+
 const ffiNative = 'ffi-native';
 const ffiNativeAsset = 'asset-id';
 
