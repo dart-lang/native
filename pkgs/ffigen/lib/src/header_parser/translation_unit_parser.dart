@@ -36,7 +36,8 @@ void _parseTranslationUnit(
     if (file.isEmpty) return;
     if (headers[file] ??= context.config.shouldIncludeHeader(Uri.file(file))) {
       try {
-        _parseCursor();
+        final entry = context.bindingsIndex.getOrInsert(cursor.usr());
+        entry.bindings ??= _parseCursor(context, entry.definition ?? cursor);
       } catch (e, s) {
         logger.severe(e);
         logger.severe(s);
@@ -50,47 +51,31 @@ void _parseTranslationUnit(
   });
 }
 
-void _parseCursor(
-  Context context,
-  clang_types.CXCursor cursor,
-) {
-  final usr = cursor.usr();
-  final entry = context.bindingsIndex[usr];
-  if (entry == null || entry.filled) return;
-
+List<Binding> _parseCursor(Context context, clang_types.CXCursor cursor) {
   logger.finest('rootCursorVisitor: ${cursor.completeStringRepr()}');
   switch (clang.clang_getCursorKind(cursor)) {
     case clang_types.CXCursorKind.CXCursor_FunctionDecl:
-      bindings.addAll(parseFunctionDeclaration(context, cursor));
-      break;
+      return parseFunctionDeclaration(context, cursor);
     case clang_types.CXCursorKind.CXCursor_StructDecl:
     case clang_types.CXCursorKind.CXCursor_UnionDecl:
     case clang_types.CXCursorKind.CXCursor_EnumDecl:
     case clang_types.CXCursorKind.CXCursor_ObjCInterfaceDecl:
     case clang_types.CXCursorKind.CXCursor_TypedefDecl:
-      addToBindings(bindings, _getCodeGenTypeFromCursor(context, cursor));
-      break;
+      return [_getCodeGenTypeFromCursor(context, cursor)];
     case clang_types.CXCursorKind.CXCursor_ObjCCategoryDecl:
-      addToBindings(
-        bindings,
-        parseObjCCategoryDeclaration(context, cursor),
-      );
-      break;
+      return [parseObjCCategoryDeclaration(context, cursor)];
     case clang_types.CXCursorKind.CXCursor_ObjCProtocolDecl:
-      addToBindings(
-        bindings,
-        parseObjCProtocolDeclaration(context, cursor),
-      );
-      break;
+      return [parseObjCProtocolDeclaration(context, cursor)];
     case clang_types.CXCursorKind.CXCursor_MacroDefinition:
+      // TODO: Return a binding?
       saveMacroDefinition(context, cursor);
-      break;
+      return [];
     case clang_types.CXCursorKind.CXCursor_VarDecl:
-      addToBindings(bindings, parseVarDeclaration(context, cursor));
-      break;
+      return [parseVarDeclaration(context, cursor)];
     default:
       logger.finer('rootCursorVisitor: CursorKind not implemented');
   }
+  return [];
 }
 
 BindingType? _getCodeGenTypeFromCursor(

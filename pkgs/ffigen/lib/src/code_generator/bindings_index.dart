@@ -2,6 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'binding.dart';
+import '../header_parser/clang_bindings/clang_bindings.dart' as clang_types;
+import '../header_parser/utils.dart';
+
 class BindingsIndex {
   final _entries = <String, IndexEntry>{};
 
@@ -12,18 +16,19 @@ class BindingsIndex {
     if (cursor.isNull) return;
     final usr = cursor.usr();
     if (usr.isEmpty) return;
-    _entries[usr] ??= IndexEntry(cursor);
+    _entries[usr] ??= IndexEntry(definition: cursor);
   }
 
   IndexEntry? operator [](String usr) => _entries[usr];
+  IndexEntry getOrInsert(String usr) => _entries[usr] ?? IndexEntry();
 
-  Iterable<Binding> get bindings =>
-      _entries.values.map((e) => e.binding).nonNulls;
+  Set<Binding> get bindings => {
+    for (final b in _entries.values.map((e) => e.bindings).nonNulls) ...b,
+  };
 }
 
 class IndexEntry {
-  clang_types.CXCursor definition;
-  bool filled = false;
-  Binding? binding;
-  IndexEntry(this.definition);
+  clang_types.CXCursor? definition;
+  List<Binding>? bindings;
+  IndexEntry({this.definition});
 }
