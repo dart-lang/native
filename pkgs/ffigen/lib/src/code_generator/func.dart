@@ -239,7 +239,6 @@ class Parameter extends AstNode {
   final String originalName;
   Type type;
   final bool objCConsumed;
-  bool isCovariant = false;
 
   Symbol symbol;
   String get name => symbol.name;
