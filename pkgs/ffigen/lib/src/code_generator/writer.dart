@@ -212,6 +212,7 @@ class Writer {
     }
 
     // Warn for macros.
+    // TODO: Use runtime type, not USR.
     final hasMacroBindings = bindings.any(
       (element) => element is Constant && element.usr.contains('@macro@'),
     );
@@ -223,6 +224,7 @@ class Writer {
     }
 
     // Remove internal bindings and macros.
+    // TODO: Use runtime type, not USR.
     bindings.removeWhere((element) {
       return element.isInternal ||
           (element is Constant && element.usr.contains('@macro@'));

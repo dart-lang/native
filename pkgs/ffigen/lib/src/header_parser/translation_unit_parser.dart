@@ -13,53 +13,30 @@ import 'sub_parsers/var_parser.dart';
 import 'type_extractor/extractor.dart';
 import 'utils.dart';
 
-/// Parses the translation unit and returns the generated bindings.
-Set<Binding> parseTranslationUnit(
+/// Parses the translation units and adds all the bindings to the context's
+/// bindingsIndex.
+void parseTranslationUnits(
   Context context,
-  clang_types.CXCursor translationUnitCursor,
+  List<clang_types.CXCursor> translationUnitCursors,
 ) {
-  final bindings = <Binding>{};
-  final logger = context.logger;
   final headers = <String, bool>{};
+  for (final translationUnitCursor in translationUnitCursors) {
+    _parseTranslationUnits(context, translationUnitCursor, headers);
+  }
+}
 
+void _parseTranslationUnit(
+  Context context,
+  List<clang_types.CXCursor> translationUnitCursors,
+  Map<String, bool> headers,
+) {
+  final logger = context.logger;
   translationUnitCursor.visitChildren((cursor) {
     final file = cursor.sourceFileName();
     if (file.isEmpty) return;
     if (headers[file] ??= context.config.shouldIncludeHeader(Uri.file(file))) {
       try {
-        logger.finest('rootCursorVisitor: ${cursor.completeStringRepr()}');
-        switch (clang.clang_getCursorKind(cursor)) {
-          case clang_types.CXCursorKind.CXCursor_FunctionDecl:
-            bindings.addAll(parseFunctionDeclaration(context, cursor));
-            break;
-          case clang_types.CXCursorKind.CXCursor_StructDecl:
-          case clang_types.CXCursorKind.CXCursor_UnionDecl:
-          case clang_types.CXCursorKind.CXCursor_EnumDecl:
-          case clang_types.CXCursorKind.CXCursor_ObjCInterfaceDecl:
-          case clang_types.CXCursorKind.CXCursor_TypedefDecl:
-            addToBindings(bindings, _getCodeGenTypeFromCursor(context, cursor));
-            break;
-          case clang_types.CXCursorKind.CXCursor_ObjCCategoryDecl:
-            addToBindings(
-              bindings,
-              parseObjCCategoryDeclaration(context, cursor),
-            );
-            break;
-          case clang_types.CXCursorKind.CXCursor_ObjCProtocolDecl:
-            addToBindings(
-              bindings,
-              parseObjCProtocolDeclaration(context, cursor),
-            );
-            break;
-          case clang_types.CXCursorKind.CXCursor_MacroDefinition:
-            saveMacroDefinition(context, cursor);
-            break;
-          case clang_types.CXCursorKind.CXCursor_VarDecl:
-            addToBindings(bindings, parseVarDeclaration(context, cursor));
-            break;
-          default:
-            logger.finer('rootCursorVisitor: CursorKind not implemented');
-        }
+        _parseCursor();
       } catch (e, s) {
         logger.severe(e);
         logger.severe(s);
@@ -71,15 +48,48 @@ Set<Binding> parseTranslationUnit(
       );
     }
   });
-
-  return bindings;
 }
 
-/// Adds to binding if unseen and not null.
-void addToBindings(Set<Binding> bindings, Binding? b) {
-  if (b != null) {
-    // This is a set, and hence will not have duplicates.
-    bindings.add(b);
+void _parseCursor(
+  Context context,
+  clang_types.CXCursor cursor,
+) {
+  final usr = cursor.usr();
+  final entry = context.bindingsIndex[usr];
+  if (entry == null || entry.filled) return;
+
+  logger.finest('rootCursorVisitor: ${cursor.completeStringRepr()}');
+  switch (clang.clang_getCursorKind(cursor)) {
+    case clang_types.CXCursorKind.CXCursor_FunctionDecl:
+      bindings.addAll(parseFunctionDeclaration(context, cursor));
+      break;
+    case clang_types.CXCursorKind.CXCursor_StructDecl:
+    case clang_types.CXCursorKind.CXCursor_UnionDecl:
+    case clang_types.CXCursorKind.CXCursor_EnumDecl:
+    case clang_types.CXCursorKind.CXCursor_ObjCInterfaceDecl:
+    case clang_types.CXCursorKind.CXCursor_TypedefDecl:
+      addToBindings(bindings, _getCodeGenTypeFromCursor(context, cursor));
+      break;
+    case clang_types.CXCursorKind.CXCursor_ObjCCategoryDecl:
+      addToBindings(
+        bindings,
+        parseObjCCategoryDeclaration(context, cursor),
+      );
+      break;
+    case clang_types.CXCursorKind.CXCursor_ObjCProtocolDecl:
+      addToBindings(
+        bindings,
+        parseObjCProtocolDeclaration(context, cursor),
+      );
+      break;
+    case clang_types.CXCursorKind.CXCursor_MacroDefinition:
+      saveMacroDefinition(context, cursor);
+      break;
+    case clang_types.CXCursorKind.CXCursor_VarDecl:
+      addToBindings(bindings, parseVarDeclaration(context, cursor));
+      break;
+    default:
+      logger.finer('rootCursorVisitor: CursorKind not implemented');
   }
 }
 

@@ -483,7 +483,7 @@ class Macro {
 }
 
 /// Tracks if a binding is 'seen' or not.
-class BindingsIndex {
+/*class BindingsIndex {
   // Tracks if bindings are already seen, Map key is USR obtained from libclang.
   final Map<String, Type> _declaredTypes = {};
   final Map<String, Func> _functions = {};
@@ -573,4 +573,4 @@ class CursorIndex {
         }
     }
   }
-}
+}*/

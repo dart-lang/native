@@ -18,7 +18,6 @@ import 'header_parser/utils.dart';
 class Context {
   final Logger logger;
   final Config config;
-  final CursorIndex cursorIndex;
   final bindingsIndex = BindingsIndex();
   final savedMacros = <String, Macro>{};
   final unnamedEnumConstants = <Constant>[];
@@ -32,8 +31,7 @@ class Context {
   late final ExtraSymbols extraSymbols;
 
   Context(this.logger, FfiGenerator generator, {Uri? libclangDylib})
-    : config = Config(generator),
-      cursorIndex = CursorIndex(logger) {
+    : config = Config(generator) {
     objCBuiltInFunctions = ObjCBuiltInFunctions(
       this,
       // ignore: deprecated_member_use_from_same_package
