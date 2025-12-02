@@ -92,61 +92,12 @@ class FixOverriddenMethodsVisitation extends Visitation {
     }
   }
 
-  void _fixCoavariantArgs(
-    ObjCInterface node,
-    ObjCMethod method,
-    ObjCInterface superType,
-    ObjCMethod superMethod,
-  ) {
-    // In Dart, method arg types are contravariant, but ObjC allows them to be
-    // covariant. So fix these cases by adding the `covariant` keyword to the
-    // parameter.
-    final logger = context.logger;
-    final n = method.params.length;
-    if (n != superMethod.params.length) {
-      logger.severe(
-        '${node.originalName} is a subtype of ${superType.originalName} but '
-        'their ${method.originalName} methods have a different number of '
-        'parameters',
-      );
-      return;
-    }
-
-    for (var i = 0; i < n; ++i) {
-      final pt = method.params.elementAt(i).type;
-      final st = superMethod.params.elementAt(i).type;
-
-      if (st.isSubtypeOf(pt)) {
-        // Contravariant param, nothing to fix.
-        continue;
-      }
-
-      if (!pt.isSubtypeOf(st)) {
-        // Types are unrelated, so this can't be sensibly fixed.
-        logger.severe(
-          '${node.originalName} is a subtype of ${superType.originalName} '
-          'but their ${method.originalName} methods have a parameter at '
-          'position ${i + 1} with an unrelated type',
-        );
-        return;
-      }
-
-      logger.info(
-        'Set the parameter of '
-        '${node.originalName}.${method.originalName} at position ${i + 1} to '
-        'be covariant',
-      );
-      method.params.elementAt(i).isCovariant = true;
-    }
-  }
-
   void _fixMethodVariance(ObjCInterface node) {
     for (final method in node.methods) {
       if (method.isClassMethod) continue;
       final (superType, superMethod) = _findNearestWithMethod(node, method);
       if (superType != null && superMethod != null) {
         _fixContravariantReturns(node, method, superType, superMethod);
-        _fixCoavariantArgs(node, method, superType, superMethod);
       }
     }
   }
