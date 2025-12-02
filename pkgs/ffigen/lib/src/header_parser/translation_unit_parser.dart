@@ -20,10 +20,13 @@ Set<Binding> parseTranslationUnit(
 ) {
   final bindings = <Binding>{};
   final logger = context.logger;
+  final headers = <String, bool>{};
 
   translationUnitCursor.visitChildren((cursor) {
-    try {
-      if (shouldIncludeRootCursor(context, cursor.sourceFileName())) {
+    final file = cursor.sourceFileName();
+    if (file.isEmpty) return;
+    if (headers[file] ??= context.config.shouldIncludeHeader(Uri.file(file))) {
+      try {
         logger.finest('rootCursorVisitor: ${cursor.completeStringRepr()}');
         switch (clang.clang_getCursorKind(cursor)) {
           case clang_types.CXCursorKind.CXCursor_FunctionDecl:
@@ -57,15 +60,15 @@ Set<Binding> parseTranslationUnit(
           default:
             logger.finer('rootCursorVisitor: CursorKind not implemented');
         }
-      } else {
-        logger.finest(
-          'rootCursorVisitor:(not included) ${cursor.completeStringRepr()}',
-        );
+      } catch (e, s) {
+        logger.severe(e);
+        logger.severe(s);
+        rethrow;
       }
-    } catch (e, s) {
-      logger.severe(e);
-      logger.severe(s);
-      rethrow;
+    } else {
+      logger.finest(
+        'rootCursorVisitor:(not included) ${cursor.completeStringRepr()}',
+      );
     }
   });
 
@@ -103,23 +106,4 @@ void buildUsrCursorDefinitionMap(
       rethrow;
     }
   });
-}
-
-/// True if a cursor should be included based on headers config, used on root
-/// declarations.
-bool shouldIncludeRootCursor(Context context, String sourceFile) {
-  // Handle empty string in case of system headers or macros.
-  if (sourceFile.isEmpty) {
-    return false;
-  }
-
-  // Add header to seen if it's not.
-  if (!context.bindingsIndex.isSeenHeader(sourceFile)) {
-    context.bindingsIndex.addHeaderToSeen(
-      sourceFile,
-      context.config.shouldIncludeHeader(Uri.file(sourceFile)),
-    );
-  }
-
-  return context.bindingsIndex.getSeenHeaderStatus(sourceFile)!;
 }
