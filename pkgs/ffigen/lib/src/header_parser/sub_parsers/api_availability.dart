@@ -27,7 +27,7 @@ class ApiAvailability {
     this.alwaysUnavailable = false,
     this.ios,
     this.macos,
-    required ExternalVersions externalVersions,
+    required ExternalVersions? externalVersions,
   }) {
     availability = _getAvailability(externalVersions);
   }
@@ -88,7 +88,7 @@ class ApiAvailability {
       alwaysUnavailable: alwaysUnavailable.value != 0,
       ios: ios,
       macos: macos,
-      externalVersions: context.config.externalVersions,
+      externalVersions: context.config.objectiveC?.externalVersions,
     );
 
     for (var i = 0; i < platformsLength; ++i) {
@@ -101,9 +101,9 @@ class ApiAvailability {
     return api;
   }
 
-  Availability _getAvailability(ExternalVersions externalVersions) {
-    final macosVer = _normalizeVersions(externalVersions.macos);
-    final iosVer = _normalizeVersions(externalVersions.ios);
+  Availability _getAvailability(ExternalVersions? externalVersions) {
+    final macosVer = _normalizeVersions(externalVersions?.macos);
+    final iosVer = _normalizeVersions(externalVersions?.ios);
 
     // If no versions are specified, everything is available.
     if (iosVer == null && macosVer == null) {
