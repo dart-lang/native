@@ -65,8 +65,8 @@ Type getCodeGenType(
           final protocols = <ObjCProtocol>[];
           for (var i = 0; i < numProtocols; ++i) {
             final pdecl = clang.clang_Type_getObjCProtocolDecl(pt, i);
-            final p = parseObjCProtocolDeclaration(context, pdecl);
-            if (p != null) protocols.add(p);
+            final p = parseCursor(context, pdecl);
+            if (p != null) protocols.add(p as ObjCProtocol);
           }
           if (protocols.isNotEmpty) {
             return ObjCObjectPointerWithProtocols(protocols);

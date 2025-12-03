@@ -35,7 +35,7 @@ void _parseTranslationUnit(
     final file = cursor.sourceFileName();
     if (file.isEmpty) return;
     if (headers[file] ??= context.config.shouldIncludeHeader(Uri.file(file))) {
-      context.bindingsIndex.cache(cursor, (def) => parseCursor(context, def));
+      parseCursor(context, def);
     } else {
       logger.finest(
         'rootCursorVisitor:(not included) ${cursor.completeStringRepr()}',
@@ -44,7 +44,10 @@ void _parseTranslationUnit(
   });
 }
 
-Binding? parseCursor(Context context, clang_types.CXCursor cursor) {
+Binding? parseCursor(Context context, clang_types.CXCursor cursor) =>
+    context.bindingsIndex.cache(cursor, (def) => _parseCursor(context, def));
+
+Binding? _parseCursor(Context context, clang_types.CXCursor cursor) {
   final logger = context.logger;
   logger.finest('rootCursorVisitor: ${cursor.completeStringRepr()}');
   try {
