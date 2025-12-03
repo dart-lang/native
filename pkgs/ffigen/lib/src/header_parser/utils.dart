@@ -86,6 +86,10 @@ extension CXSourceRangePtrExt on Pointer<clang_types.CXSourceRange> {
 }
 
 extension CXCursorExt on clang_types.CXCursor {
+  bool get isNull => clang.clang_Cursor_isNull(this) != 0;
+  bool get isDefinition => clang.clang_isCursorDefinition(this) != 0;
+  clang_types.CXCursor get definition => clang.clang_getCursorDefinition(this);
+
   String usr() {
     var res = clang.clang_getCursorUSR(this).toStringAndDispose();
     assert(!res.contains(synthUsrChar));
@@ -473,14 +477,6 @@ extension DynamicCStringArray on Pointer<Pointer<Utf8>> {
   }
 }
 
-class Stack<T> {
-  final _stack = <T>[];
-
-  T get top => _stack.last;
-  T pop() => _stack.removeLast();
-  void push(T item) => _stack.add(item);
-}
-
 class Macro {
   final String usr;
   final String? originalName;
@@ -503,9 +499,6 @@ class BindingsIndex {
   /// Contains usr for typedefs which cannot be generated.
   final Set<String> _unsupportedTypealiases = {};
 
-  /// Index for headers.
-  final Map<String, bool> _headerCache = {};
-
   bool isSeenType(String usr) => _declaredTypes.containsKey(usr);
   void addTypeToSeen(String usr, Type type) => _declaredTypes[usr] = type;
   Type? getSeenType(String usr) => _declaredTypes[usr];
@@ -525,10 +518,6 @@ class BindingsIndex {
       _unsupportedTypealiases.contains(usr);
   void addUnsupportedTypealiasToSeen(String usr) =>
       _unsupportedTypealiases.add(usr);
-  bool isSeenHeader(String source) => _headerCache.containsKey(source);
-  void addHeaderToSeen(String source, bool includeStatus) =>
-      _headerCache[source] = includeStatus;
-  bool? getSeenHeaderStatus(String source) => _headerCache[source];
   void addObjCBlockToSeen(String key, ObjCBlock t) => _objcBlocks[key] = t;
   ObjCBlock? getSeenObjCBlock(String key) => _objcBlocks[key];
   void addObjCProtocolToSeen(String usr, ObjCProtocol t) =>
