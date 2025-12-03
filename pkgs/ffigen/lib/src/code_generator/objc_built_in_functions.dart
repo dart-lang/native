@@ -220,9 +220,9 @@ class ObjCBuiltInFunctions {
   // a hash of parts of the config.
   static String _libraryIdFromConfigHash(Config config) => fnvHash32(
     [
-      ...config.entryPoints,
-      config.output,
-      config.outputObjC,
+      ...config.headers.entryPoints,
+      config.output.dartFile,
+      config.output.objCFile,
     ].map((uri) => path.basename(uri.toFilePath())).join('\n'),
   ).toRadixString(36);
 }

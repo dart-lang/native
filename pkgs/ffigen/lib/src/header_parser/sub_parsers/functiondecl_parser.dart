@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../code_generator.dart';
+import '../../config_provider/config.dart';
 import '../../config_provider/config_types.dart';
 import '../../context.dart';
 import '../../strings.dart';
@@ -154,7 +155,7 @@ List<Func> parseFunctionDeclaration(
           exposeFunctionTypedefs: config.functions.includeTypedef(decl),
           isLeaf: config.functions.isLeaf(decl),
           objCReturnsRetained: objCReturnsRetained,
-          loadFromNativeAsset: config.ffiNativeConfig.enabled,
+          loadFromNativeAsset: config.output.style is NativeExternalBindings,
         ),
       );
     }
