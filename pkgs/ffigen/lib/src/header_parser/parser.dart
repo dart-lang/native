@@ -68,9 +68,6 @@ List<Binding> parseToBindings(Context context) {
   clangCmdArgs = createDynamicStringArray(compilerOpts);
   final cmdLen = compilerOpts.length;
 
-  // Contains all bindings. A set ensures we never have duplicates.
-  final bindings = <Binding>{};
-
   // Log all headers for user.
   context.logger.info('Input Headers: ${config.entryPoints}');
 

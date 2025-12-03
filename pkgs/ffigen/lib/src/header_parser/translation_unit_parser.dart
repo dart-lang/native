@@ -17,7 +17,7 @@ import 'utils.dart';
 /// bindingsIndex.
 void parseTranslationUnits(
   Context context,
-  List<clang_types.CXCursor> translationUnitCursors,
+  Iterable<clang_types.CXCursor> translationUnitCursors,
 ) {
   final headers = <String, bool>{};
   for (final translationUnitCursor in translationUnitCursors) {
@@ -27,7 +27,7 @@ void parseTranslationUnits(
 
 void _parseTranslationUnit(
   Context context,
-  List<clang_types.CXCursor> translationUnitCursors,
+  clang_types.CXCursor translationUnitCursor,
   Map<String, bool> headers,
 ) {
   final logger = context.logger;
@@ -35,13 +35,23 @@ void _parseTranslationUnit(
     final file = cursor.sourceFileName();
     if (file.isEmpty) return;
     if (headers[file] ??= context.config.shouldIncludeHeader(Uri.file(file))) {
-      try {
-        final entry = context.bindingsIndex.getOrInsert(cursor.usr());
-        entry.bindings ??= _parseCursor(context, entry.definition ?? cursor);
-      } catch (e, s) {
-        logger.severe(e);
-        logger.severe(s);
-        rethrow;
+      final usr = cursor.usr();
+      if (usr.isEmpty) return;
+      final entry = context.bindingsIndex.getOrInsert(usr);
+      if (!entry.filled) {
+        final bindings = _parseCursor(context, entry.definition ?? cursor);
+        if (bindings.isEmpty) {
+          entry.filled = true;
+        } else {
+          for (final b in bindings) {
+            final e = context.bindingsIndex.getOrInsert(b.usr);
+            assert(!e.filled);
+            e.filled = true;
+            e.binding = b;
+          }
+          // One of the the bindings must have the same USR as the cursor.
+          assert(entry.filled);
+        }
       }
     } else {
       logger.finest(
@@ -51,31 +61,37 @@ void _parseTranslationUnit(
   });
 }
 
-List<Binding> _parseCursor(Context context, clang_types.CXCursor cursor) {
+Binding? parseCursor(Context context, clang_types.CXCursor cursor) {
+  final logger = context.logger;
   logger.finest('rootCursorVisitor: ${cursor.completeStringRepr()}');
-  switch (clang.clang_getCursorKind(cursor)) {
-    case clang_types.CXCursorKind.CXCursor_FunctionDecl:
-      return parseFunctionDeclaration(context, cursor);
-    case clang_types.CXCursorKind.CXCursor_StructDecl:
-    case clang_types.CXCursorKind.CXCursor_UnionDecl:
-    case clang_types.CXCursorKind.CXCursor_EnumDecl:
-    case clang_types.CXCursorKind.CXCursor_ObjCInterfaceDecl:
-    case clang_types.CXCursorKind.CXCursor_TypedefDecl:
-      return [_getCodeGenTypeFromCursor(context, cursor)];
-    case clang_types.CXCursorKind.CXCursor_ObjCCategoryDecl:
-      return [parseObjCCategoryDeclaration(context, cursor)];
-    case clang_types.CXCursorKind.CXCursor_ObjCProtocolDecl:
-      return [parseObjCProtocolDeclaration(context, cursor)];
-    case clang_types.CXCursorKind.CXCursor_MacroDefinition:
-      // TODO: Return a binding?
-      saveMacroDefinition(context, cursor);
-      return [];
-    case clang_types.CXCursorKind.CXCursor_VarDecl:
-      return [parseVarDeclaration(context, cursor)];
-    default:
-      logger.finer('rootCursorVisitor: CursorKind not implemented');
+  try {
+    switch (clang.clang_getCursorKind(cursor)) {
+      case clang_types.CXCursorKind.CXCursor_FunctionDecl:
+        return parseFunctionDeclaration(context, cursor);
+      case clang_types.CXCursorKind.CXCursor_StructDecl:
+      case clang_types.CXCursorKind.CXCursor_UnionDecl:
+      case clang_types.CXCursorKind.CXCursor_EnumDecl:
+      case clang_types.CXCursorKind.CXCursor_ObjCInterfaceDecl:
+      case clang_types.CXCursorKind.CXCursor_TypedefDecl:
+        return _getCodeGenTypeFromCursor(context, cursor);
+      case clang_types.CXCursorKind.CXCursor_ObjCCategoryDecl:
+        return parseObjCCategoryDeclaration(context, cursor);
+      case clang_types.CXCursorKind.CXCursor_ObjCProtocolDecl:
+        return parseObjCProtocolDeclaration(context, cursor);
+      case clang_types.CXCursorKind.CXCursor_MacroDefinition:
+        saveMacroDefinition(context, cursor);
+        return null;
+      case clang_types.CXCursorKind.CXCursor_VarDecl:
+        return parseVarDeclaration(context, cursor);
+      default:
+        logger.finer('rootCursorVisitor: CursorKind not implemented');
+    }
+    return null;
+  } catch (e, s) {
+    logger.severe(e);
+    logger.severe(s);
+    rethrow;
   }
-  return [];
 }
 
 BindingType? _getCodeGenTypeFromCursor(

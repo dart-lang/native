@@ -19,16 +19,22 @@ class BindingsIndex {
     _entries[usr] ??= IndexEntry(definition: cursor);
   }
 
-  IndexEntry? operator [](String usr) => _entries[usr];
-  IndexEntry getOrInsert(String usr) => _entries[usr] ?? IndexEntry();
+  Binding? addBinding(Context context, clang_types.CXCursor cursor) {
+  }
 
-  Set<Binding> get bindings => {
-    for (final b in _entries.values.map((e) => e.bindings).nonNulls) ...b,
-  };
+  IndexEntry? operator [](String usr) => _entries[usr];
+  IndexEntry getOrInsert(String usr) {
+    assert(usr.isNotEmpty);
+    return _entries[usr] ?? IndexEntry();
+  }
+
+  Set<Binding> get bindings =>
+      _entries.values.map((e) => e.binding).nonNulls.toSet();
 }
 
 class IndexEntry {
   clang_types.CXCursor? definition;
-  List<Binding>? bindings;
+  bool filled = false;
+  Binding? binding;
   IndexEntry({this.definition});
 }

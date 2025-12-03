@@ -122,7 +122,7 @@ Compound? _parseCompoundDeclaration(
   })
   constructor,
 ) {
-  // Parse the cursor definition instead, if this is a forward declaration.
+  assert(cursor.isDefinition);
   final declUsr = cursor.usr();
   final String declName;
 
@@ -146,7 +146,6 @@ Compound? _parseCompoundDeclaration(
 
   final decl = Declaration(usr: declUsr, originalName: declName);
   if (declName.isEmpty) {
-    cursor = context.cursorIndex.getDefinition(cursor);
     return constructor(
       name: 'Unnamed$className',
       usr: declUsr,
@@ -159,7 +158,6 @@ Compound? _parseCompoundDeclaration(
       nativeType: cursor.type().spelling(),
     );
   } else {
-    cursor = context.cursorIndex.getDefinition(cursor);
     context.logger.fine(
       '++++ Adding $className: Name: $declName, ${cursor.completeStringRepr()}',
     );
@@ -190,8 +188,7 @@ void fillCompoundMembersIfNeeded(
   if (compound.parsedDependencies) return;
   final logger = context.logger;
 
-  cursor = context.cursorIndex.getDefinition(cursor);
-
+  assert(cursor.isDefinition);
   final parsed = _ParsedCompound(context, compound);
   final className = compound is Struct ? 'Struct' : 'Union';
   parsed.hasAttr = clang.clang_Cursor_hasAttrs(cursor) != 0;

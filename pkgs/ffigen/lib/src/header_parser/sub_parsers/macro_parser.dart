@@ -19,11 +19,7 @@ import '../utils.dart';
 
 /// Adds a macro definition to be parsed later.
 void saveMacroDefinition(Context context, clang_types.CXCursor cursor) {
-  final bindingsIndex = context.bindingsIndex;
   final macroUsr = cursor.usr();
-  if (bindingsIndex.isSeenMacro(macroUsr)) {
-    return;
-  }
   final originalMacroName = cursor.spelling();
   final decl = Declaration(usr: macroUsr, originalName: originalMacroName);
   if (clang.clang_Cursor_isMacroBuiltin(cursor) == 0 &&
@@ -34,7 +30,6 @@ void saveMacroDefinition(Context context, clang_types.CXCursor cursor) {
       '${cursor.completeStringRepr()}',
     );
     final prefixedName = context.config.macros.rename(decl);
-    bindingsIndex.addMacroToSeen(macroUsr, prefixedName);
     _saveMacro(prefixedName, macroUsr, originalMacroName, context);
   }
 }

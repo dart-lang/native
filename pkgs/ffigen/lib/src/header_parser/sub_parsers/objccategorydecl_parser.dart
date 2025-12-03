@@ -69,8 +69,6 @@ ObjCCategory? parseObjCCategoryDeclaration(
     context: context,
   );
 
-  context.bindingsIndex.addObjCCategoryToSeen(usr, category);
-
   cursor.visitChildren((child) {
     switch (child.kind) {
       case clang_types.CXCursorKind.CXCursor_ObjCProtocolRef:

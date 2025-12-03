@@ -21,8 +21,7 @@ import 'unnamed_enumdecl_parser.dart';
   final config = context.config;
   final logger = context.logger;
   EnumClass? enumClass;
-  // Parse the cursor definition instead, if this is a forward declaration.
-  cursor = context.cursorIndex.getDefinition(cursor);
+  assert(cursor.isDefinition);
 
   final enumUsr = cursor.usr();
   final String enumName;
