@@ -6,6 +6,9 @@
   `Categories`, `Interfaces`, and `Protocols`.
 - __Breaking change__: Remove deprecated `wrapperName` field from
   `NativeExternalBindings`.
+- __Breaking change__: Certain synthetic USRs have been modified to ensure they
+  cannot collide with real USRs. It's very unlikely that any user facing USRs
+  are affected.
 
 ## 20.1.1
 

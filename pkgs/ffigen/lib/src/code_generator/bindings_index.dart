@@ -19,7 +19,26 @@ class BindingsIndex {
     _entries[usr] ??= IndexEntry(definition: cursor);
   }
 
-  Binding? addBinding(Context context, clang_types.CXCursor cursor) {
+  void fillBinding(Binding binding) {
+    final entry = getOrInsert(binding.usr);
+    assert(!entry.filled);
+    entry.binding = binding;
+    entry.filled = true;
+  }
+
+  Binding? cache(
+    clang_types.CXCursor cursor,
+    Binding? Function(clang_types.CXCursor cursor) builder,
+  ) {
+    final usr = cursor.usr();
+    if (usr.isEmpty) return null;
+    final entry = getOrInsert(usr);
+    if (!entry.filled) {
+      final binding = builder(entry.definition ?? cursor);
+      if (binding != null) entry.binding = binding;
+      entry.filled = true;
+    }
+    return entry.binding;
   }
 
   IndexEntry? operator [](String usr) => _entries[usr];

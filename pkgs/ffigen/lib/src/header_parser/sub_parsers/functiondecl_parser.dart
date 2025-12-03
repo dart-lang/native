@@ -5,15 +5,13 @@
 import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
 import '../../context.dart';
+import '../../strings.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
 import 'api_availability.dart';
 
 /// Parses a function declaration.
-Func? parseFunctionDeclaration(
-  Context context,
-  clang_types.CXCursor cursor,
-) {
+void parseFunctionDeclaration(Context context, clang_types.CXCursor cursor) {
   final config = context.config;
   final logger = context.logger;
 
@@ -23,7 +21,7 @@ Func? parseFunctionDeclaration(
   final apiAvailability = ApiAvailability.fromCursor(cursor, context);
   if (apiAvailability.availability == Availability.none) {
     logger.info('Omitting deprecated function $funcName');
-    return null;
+    return;
   }
 
   final decl = Declaration(usr: funcUsr, originalName: funcName);
@@ -73,8 +71,7 @@ Func? parseFunctionDeclaration(
     logger.warning(
       "Skipped Function '$funcName', inline functions are not supported.",
     );
-    // Returning empty so that [addToBindings] function excludes this.
-    return null;
+    return;
   }
 
   if (returnType.isIncompleteCompound || incompleteStructParameter) {
@@ -86,8 +83,7 @@ Func? parseFunctionDeclaration(
       "Skipped Function '$funcName', Incomplete struct pass/return by "
       'value not supported.',
     );
-    // Returning null so that [addToBindings] function excludes this.
-    return null;
+    return;
   }
 
   if (returnType.baseType is UnimplementedType || unimplementedParameterType) {
@@ -99,8 +95,7 @@ Func? parseFunctionDeclaration(
       "Skipped Function '$funcName', function has unsupported return type "
       'or parameter type.',
     );
-    // Returning null so that [addToBindings] function excludes this.
-    return null;
+    return;
   }
 
   // Look for any annotations on the function.
@@ -109,7 +104,7 @@ Func? parseFunctionDeclaration(
   );
 
   // Initialized with a single value with no prefix and empty var args.
-  var varArgFunctions = [VarArgFunction('', [])];
+  var varArgFunctions = <VarArgFunction?>[null];
   if (config.functions.varArgs.containsKey(funcName)) {
     if (clang.clang_isFunctionTypeVariadic(cursor.type()) == 1) {
       varArgFunctions = config.functions.varArgs[funcName]!;
@@ -121,10 +116,10 @@ Func? parseFunctionDeclaration(
     }
   }
 
-  /// Multiple values are since there may be more than one instance of the
-  /// same base C function with different variadic arguments.
   for (final vaFunc in varArgFunctions) {
-    funcs.add(
+    var usr = funcUsr;
+    if (vaFunc != null) usr += '$synthUsrChar vaFunc: ${vaFunc.postfix}';
+    context.bindingsIndex.fillBinding(
       Func(
         dartDoc: getCursorDocComment(
           context,
@@ -132,13 +127,13 @@ Func? parseFunctionDeclaration(
           indent: nesting.length + commentPrefix.length,
           availability: apiAvailability.dartDoc,
         ),
-        usr: funcUsr + vaFunc.postfix,
-        name: config.functions.rename(decl) + vaFunc.postfix,
+        usr: usr,
+        name: config.functions.rename(decl) + (vaFunc?.postfix ?? ''),
         originalName: funcName,
         returnType: returnType,
         parameters: parameters,
         varArgParameters: [
-          for (final ta in vaFunc.types)
+          for (final ta in vaFunc?.types ?? const <Type>[])
             Parameter(type: ta, name: 'va', objCConsumed: false),
         ],
         exposeSymbolAddress: config.functions.includeSymbolAddress(decl),
@@ -149,6 +144,4 @@ Func? parseFunctionDeclaration(
       ),
     );
   }
-
-  return funcs;
 }

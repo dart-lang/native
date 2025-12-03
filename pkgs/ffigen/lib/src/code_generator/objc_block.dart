@@ -4,6 +4,7 @@
 
 import '../code_generator.dart';
 import '../context.dart';
+import '../strings.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
@@ -101,14 +102,12 @@ class ObjCBlock extends BindingType with HasLocalScope {
   ) {
     // Create a fake USR code for the block. This code is used to dedupe blocks
     // with the same signature. Not intended to be human readable.
-    final usr = StringBuffer();
-    usr.write(
-      'objcBlock: ${returnType.cacheKey()} ${returnsRetained ? 'R' : ''}',
-    );
-    for (final param in params) {
-      usr.write(' ${param.type.cacheKey()} ${param.objCConsumed ? 'C' : ''}');
-    }
-    return usr.toString();
+    return [
+      '$synthUsrChar objcBlock:',
+      '${returnType.cacheKey()} ${returnsRetained ? 'R' : ''}',
+      for (final param in params)
+        '${param.type.cacheKey()} ${param.objCConsumed ? 'C' : ''}',
+    ].join(synthUsrChar);
   }
 
   bool get hasListener => returnType == voidType;

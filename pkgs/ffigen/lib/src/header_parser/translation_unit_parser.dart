@@ -35,24 +35,7 @@ void _parseTranslationUnit(
     final file = cursor.sourceFileName();
     if (file.isEmpty) return;
     if (headers[file] ??= context.config.shouldIncludeHeader(Uri.file(file))) {
-      final usr = cursor.usr();
-      if (usr.isEmpty) return;
-      final entry = context.bindingsIndex.getOrInsert(usr);
-      if (!entry.filled) {
-        final bindings = _parseCursor(context, entry.definition ?? cursor);
-        if (bindings.isEmpty) {
-          entry.filled = true;
-        } else {
-          for (final b in bindings) {
-            final e = context.bindingsIndex.getOrInsert(b.usr);
-            assert(!e.filled);
-            e.filled = true;
-            e.binding = b;
-          }
-          // One of the the bindings must have the same USR as the cursor.
-          assert(entry.filled);
-        }
-      }
+      context.bindingsIndex.cache(cursor, (def) => parseCursor(context, def));
     } else {
       logger.finest(
         'rootCursorVisitor:(not included) ${cursor.completeStringRepr()}',
@@ -67,7 +50,11 @@ Binding? parseCursor(Context context, clang_types.CXCursor cursor) {
   try {
     switch (clang.clang_getCursorKind(cursor)) {
       case clang_types.CXCursorKind.CXCursor_FunctionDecl:
-        return parseFunctionDeclaration(context, cursor);
+        // Due to variadic functions, we may get multiple bindings from a single
+        // cursor, each with different USRs. So parseFunctionDeclaration is
+        // responsible for filling its own index entries.
+        parseFunctionDeclaration(context, cursor);
+        return null;
       case clang_types.CXCursorKind.CXCursor_StructDecl:
       case clang_types.CXCursorKind.CXCursor_UnionDecl:
       case clang_types.CXCursorKind.CXCursor_EnumDecl:
