@@ -2,6 +2,8 @@ name: add
 description: A simple end-to-end example showcasing FFIgen.
 publish_to: none
 
+resolution: workspace
+
 environment:
   sdk: '>=3.8.0 <4.0.0'
 
