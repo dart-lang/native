@@ -10,6 +10,7 @@ import 'package:logging/logging.dart';
 import '../code_generator.dart';
 import '../config_provider/config_types.dart';
 import '../context.dart';
+import '../strings.dart';
 import 'clang_bindings/clang_bindings.dart' as clang_types;
 import 'type_extractor/extractor.dart';
 
@@ -91,8 +92,9 @@ extension CXCursorExt on clang_types.CXCursor {
 
   String usr() {
     var res = clang.clang_getCursorUSR(this).toStringAndDispose();
+    assert(!res.contains(synthUsrChar));
     if (isAnonymousRecordDecl()) {
-      res += '@offset:${sourceFileOffset()}';
+      res += '$synthUsrChar anonRec: offset:${sourceFileOffset()}';
     }
     return res;
   }
