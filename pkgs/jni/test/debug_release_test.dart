@@ -48,6 +48,46 @@ void main() {
     }
   });
 
+  test('Debug mode captures arena stack trace', () {
+    Jni.captureStackTraceOnRelease = true;
+    addTearDown(() {
+      Jni.captureStackTraceOnRelease = false;
+    });
+
+    final s = 'hello'.toJString();
+
+    s.release();
+    using(s.releasedBy);
+    using(s.releasedBy);
+
+    try {
+      s.toDartString();
+      // ignore: avoid_catching_errors
+    } on UseAfterReleaseError catch (e) {
+      expect(
+          e.toString(),
+          stringContainsInOrder([
+            'Object was released at:',
+            'Object was registered to be released',
+            'Object was registered to be released'
+          ]));
+      expect(e.toString(), contains('debug_release_test.dart'));
+    }
+    try {
+      s.release();
+      // ignore: avoid_catching_errors
+    } on DoubleReleaseError catch (e) {
+      expect(
+          e.toString(),
+          stringContainsInOrder([
+            'Object was released at:',
+            'Object was registered to be released',
+            'Object was registered to be released'
+          ]));
+      expect(e.toString(), contains('debug_release_test.dart'));
+    }
+  });
+
   test('Hint is shown when debug mode is disabled', () {
     Jni.captureStackTraceOnRelease = false;
 

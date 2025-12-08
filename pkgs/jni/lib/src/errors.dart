@@ -12,13 +12,13 @@ import 'third_party/generated_bindings.dart';
 // CHANGELOG.
 
 mixin _ExplainsRelease on StateError {
-  StackTrace? get releaseStackTrace;
+  String? get releaseStackTrace;
 
   @override
   String toString() {
     final sb = StringBuffer(super.toString());
     if (releaseStackTrace != null) {
-      sb.writeln('\nObject was released at:');
+      sb.write('\n');
       sb.write(releaseStackTrace);
     } else {
       sb.writeln('\nTo see where the object was released, '
@@ -30,7 +30,7 @@ mixin _ExplainsRelease on StateError {
 
 final class UseAfterReleaseError extends StateError with _ExplainsRelease {
   @override
-  final StackTrace? releaseStackTrace;
+  final String? releaseStackTrace;
 
   UseAfterReleaseError([this.releaseStackTrace])
       : super('Use after release error');
@@ -43,7 +43,7 @@ final class JNullError extends StateError {
 
 final class DoubleReleaseError extends StateError with _ExplainsRelease {
   @override
-  final StackTrace? releaseStackTrace;
+  final String? releaseStackTrace;
 
   DoubleReleaseError([this.releaseStackTrace]) : super('Double release error');
 }
