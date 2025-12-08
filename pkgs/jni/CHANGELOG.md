@@ -1,3 +1,11 @@
+## 0.15.3-wip
+
+- Added `Jni.captureStackTraceOnRelease` which defaults to `false`. When this is
+  set, the stack traces of the release points will be stored for `JObject`s to
+  help debug `DoubleReleaseError` and `UseAfterReleaseError`s. This includes the
+  points where `JObject`s have been registered to be released by an `arena` via
+  `JObject.releaseBy`.
+
 ## 0.15.2
 
 - Do not fail `flutter build` if JDK is not found for desktop.
