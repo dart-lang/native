@@ -83,33 +83,65 @@ final class JGlobalReference extends JReference {
   /// The finalizable handle that deletes [_JFinalizable.pointer].
   final Dart_FinalizableHandle _jobjectFinalizableHandle;
   final Pointer<Bool> _isReleased;
+  final Pointer<Pointer<Char>> _releasedStackTracePointer;
 
-  JGlobalReference._(
-      super.finalizable, this._jobjectFinalizableHandle, this._isReleased)
+  JGlobalReference._(super.finalizable, this._jobjectFinalizableHandle,
+      this._isReleased, this._releasedStackTracePointer)
       : super._();
 
   factory JGlobalReference(Pointer<Void> pointer) {
     final finalizable = _JFinalizable(pointer);
     final isReleased = calloc<Bool>();
+    var releasedStackTracePointer = nullptr.cast<Pointer<Char>>();
     final jobjectFinalizableHandle =
         InternalJniExtension.newJObjectFinalizableHandle(
             finalizable, finalizable.pointer, JObjectRefType.JNIGlobalRefType);
     InternalJniExtension.newBooleanFinalizableHandle(finalizable, isReleased);
-    return JGlobalReference._(
-        finalizable, jobjectFinalizableHandle, isReleased);
+    assert(() {
+      releasedStackTracePointer = calloc<Pointer<Char>>();
+      InternalJniExtension.newStackTraceFinalizableHandle(
+          finalizable, releasedStackTracePointer.cast());
+      return true;
+    }());
+    return JGlobalReference._(finalizable, jobjectFinalizableHandle, isReleased,
+        releasedStackTracePointer);
   }
 
   @override
   bool get isNull => pointer == nullptr;
 
   @override
+  JObjectPtr get pointer {
+    if (isReleased) {
+      throw UseAfterReleaseError(_releasedStackTrace);
+    }
+    return _finalizable.pointer;
+  }
+
+  @override
   void _setAsReleased() {
     if (isReleased) {
-      throw DoubleReleaseError();
+      throw DoubleReleaseError(_releasedStackTrace);
     }
     _isReleased.value = true;
     InternalJniExtension.deleteFinalizableHandle(
         _jobjectFinalizableHandle, _finalizable);
+    assert(() {
+      if (Jni.captureStackTraceOnRelease) {
+        final stackTrace = StackTrace.current.toString();
+        final nativeStr = stackTrace.toNativeUtf8();
+        _releasedStackTracePointer.value = nativeStr.cast();
+      }
+      return true;
+    }());
+  }
+
+  StackTrace? get _releasedStackTrace {
+    if (_releasedStackTracePointer.value != nullptr) {
+      return StackTrace.fromString(
+          _releasedStackTracePointer.value.cast<Utf8>().toDartString());
+    }
+    return null;
   }
 
   @override
