@@ -18,9 +18,13 @@ Type? parseObjCInterfaceDeclaration(
   Context context,
   clang_types.CXCursor cursor,
 ) {
-  final itfUsr = cursor.usr();
-  final itfName = cursor.spelling();
-  final decl = Declaration(usr: itfUsr, originalName: itfName);
+  final usr = cursor.usr();
+
+  final cachedItf = context.bindingsIndex.getSeenObjCInterface(usr);
+  if (cachedItf != null) return cachedItf;
+
+  final name = cursor.spelling();
+  final decl = Declaration(usr: usr, originalName: name);
   final apiAvailability = ApiAvailability.fromCursor(cursor, context);
 
   final config = context.config;
@@ -31,23 +35,25 @@ Type? parseObjCInterfaceDeclaration(
 
   context.logger.fine(
     '++++ Adding ObjC interface: '
-    'Name: $itfName, ${cursor.completeStringRepr()}',
+    'Name: $name, ${cursor.completeStringRepr()}',
   );
 
-  return ObjCInterface(
+  final itf = ObjCInterface(
     context: context,
-    usr: itfUsr,
-    originalName: itfName,
+    usr: usr,
+    originalName: name,
     name: objcInterfaces.rename(decl),
-    lookupName: applyModulePrefix(itfName, objcInterfaces.module(decl)),
+    lookupName: applyModulePrefix(name, objcInterfaces.module(decl)),
     dartDoc: getCursorDocComment(
       context,
       cursor,
-      fallbackComment: itfName,
+      fallbackComment: name,
       availability: apiAvailability.dartDoc,
     ),
     apiAvailability: apiAvailability,
   );
+  context.bindingsIndex.addObjCInterfaceToSeen(usr, itf);
+  return itf;
 }
 
 void fillObjCInterfaceMethodsIfNeeded(
