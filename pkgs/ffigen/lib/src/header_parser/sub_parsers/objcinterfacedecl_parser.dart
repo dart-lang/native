@@ -27,6 +27,12 @@ Type? parseObjCInterfaceDeclaration(
   final decl = Declaration(usr: usr, originalName: name);
   final apiAvailability = ApiAvailability.fromCursor(cursor, context);
 
+  final config = context.config;
+  final objcInterfaces = config.objectiveC?.interfaces;
+  if (objcInterfaces == null) {
+    return null;
+  }
+
   context.logger.fine(
     '++++ Adding ObjC interface: '
     'Name: $name, ${cursor.completeStringRepr()}',
@@ -37,7 +43,7 @@ Type? parseObjCInterfaceDeclaration(
     context: context,
     usr: usr,
     originalName: name,
-    name: config.objcInterfaces.rename(decl),
+    name: objcInterfaces.rename(decl),
     lookupName: applyModulePrefix(name, config.interfaceModule(decl)),
     dartDoc: getCursorDocComment(
       context,
@@ -65,6 +71,8 @@ void fillObjCInterfaceMethodsIfNeeded(
   if (itf.filled) return;
   itf.filled = true; // Break cycles.
 
+  final objcInterfaces = context.config.objectiveC!.interfaces;
+
   context.logger.fine(
     '++++ Filling ObjC interface: '
     'Name: ${itf.originalName}, ${cursor.completeStringRepr()}',
@@ -85,21 +93,14 @@ void fillObjCInterfaceMethodsIfNeeded(
           context,
           child,
           itfDecl,
-          context.config.objcInterfaces,
+          objcInterfaces,
         );
         itf.addMethod(getter);
         itf.addMethod(setter);
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
       case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
-        itf.addMethod(
-          parseObjCMethod(
-            context,
-            child,
-            itfDecl,
-            context.config.objcInterfaces,
-          ),
-        );
+        itf.addMethod(parseObjCMethod(context, child, itfDecl, objcInterfaces));
         break;
     }
   });

@@ -10,6 +10,7 @@ import 'package:logging/logging.dart';
 import '../code_generator.dart';
 import '../config_provider/config_types.dart';
 import '../context.dart';
+import '../strings.dart';
 import 'clang_bindings/clang_bindings.dart' as clang_types;
 import 'type_extractor/extractor.dart';
 
@@ -85,10 +86,15 @@ extension CXSourceRangePtrExt on Pointer<clang_types.CXSourceRange> {
 }
 
 extension CXCursorExt on clang_types.CXCursor {
+  bool get isNull => clang.clang_Cursor_isNull(this) != 0;
+  bool get isDefinition => clang.clang_isCursorDefinition(this) != 0;
+  clang_types.CXCursor get definition => clang.clang_getCursorDefinition(this);
+
   String usr() {
     var res = clang.clang_getCursorUSR(this).toStringAndDispose();
+    assert(!res.contains(synthUsrChar));
     if (isAnonymousRecordDecl()) {
-      res += '@offset:${sourceFileOffset()}';
+      res += '$synthUsrChar anonRec: offset:${sourceFileOffset()}';
     }
     return res;
   }
@@ -292,7 +298,7 @@ String? getCursorDocComment(
   if (!context.reportedCommentRanges.add(currentCommentRange.toTuple())) {
     formattedDocComment = null;
   } else {
-    switch (context.config.commentType.length) {
+    switch (context.config.output.commentType.length) {
       case CommentLength.full:
         formattedDocComment = removeRawCommentMarkups(
           clang.clang_Cursor_getRawCommentText(cursor).toStringAndDispose(),
@@ -471,14 +477,6 @@ extension DynamicCStringArray on Pointer<Pointer<Utf8>> {
   }
 }
 
-class Stack<T> {
-  final _stack = <T>[];
-
-  T get top => _stack.last;
-  T pop() => _stack.removeLast();
-  void push(T item) => _stack.add(item);
-}
-
 class Macro {
   final String usr;
   final String? originalName;
@@ -503,9 +501,6 @@ class BindingsIndex {
 
   /// Contains usr for typedefs which cannot be generated.
   final Set<String> _unsupportedTypealiases = {};
-
-  /// Index for headers.
-  final Map<String, bool> _headerCache = {};
 
   bool isSeenFunc(String usr) => _functions.containsKey(usr);
   void addFuncToSeen(String usr, Func func) => _functions[usr] = func;
@@ -532,10 +527,6 @@ class BindingsIndex {
       _unsupportedTypealiases.contains(usr);
   void addUnsupportedTypealiasToSeen(String usr) =>
       _unsupportedTypealiases.add(usr);
-  bool isSeenHeader(String source) => _headerCache.containsKey(source);
-  void addHeaderToSeen(String source, bool includeStatus) =>
-      _headerCache[source] = includeStatus;
-  bool? getSeenHeaderStatus(String source) => _headerCache[source];
   void addObjCBlockToSeen(String key, ObjCBlock t) => _objcBlocks[key] = t;
   ObjCBlock? getSeenObjCBlock(String key) => _objcBlocks[key];
   void addObjCInterfaceToSeen(String usr, ObjCInterface t) =>

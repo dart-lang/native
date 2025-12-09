@@ -647,8 +647,7 @@ final class Output {
   /// The output Objective-C file for the generated Objective-C bindings.
   final Uri? objectiveCFile;
 
-  Uri get _objectiveCFile =>
-      objectiveCFile ?? Uri.file('${dartFile.toFilePath()}.m');
+  Uri get objCFile => objectiveCFile ?? Uri.file('${dartFile.toFilePath()}.m');
 
   /// The config for the symbol file.
   final SymbolFile? symbolFile;
@@ -717,74 +716,8 @@ final class DynamicLibraryBindings implements BindingStyle {
 }
 
 extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
-  ObjectiveC get _objectiveC => ffiGen.objectiveC ?? const ObjectiveC();
-  bool get includeTransitiveObjCInterfaces =>
-      _objectiveC.interfaces.includeTransitive;
-  bool get includeTransitiveObjCProtocols =>
-      _objectiveC.protocols.includeTransitive;
-  bool get includeTransitiveObjCCategories =>
-      _objectiveC.categories.includeTransitive;
-  String? Function(Declaration declaration) get interfaceModule =>
-      (declaration) => _objectiveC.interfaces.module(declaration);
-  String? Function(Declaration declaration) get protocolModule =>
-      (declaration) => _objectiveC.protocols.module(declaration);
-  bool get generateForPackageObjectiveC =>
-      // ignore: deprecated_member_use_from_same_package
-      _objectiveC.generateForPackageObjectiveC;
-  Categories get objcCategories => _objectiveC.categories;
-  Interfaces get objcInterfaces => _objectiveC.interfaces;
-  Protocols get objcProtocols => _objectiveC.protocols;
-  ExternalVersions get externalVersions => _objectiveC.externalVersions;
   // ignore: deprecated_member_use_from_same_package
   Map<String, ImportedType> get importedTypesByUsr => ffiGen.importedTypesByUsr;
-  String get wrapperName =>
-      (ffiGen.output.style as DynamicLibraryBindings).wrapperName;
-
-  String? get wrapperDocComment => switch (ffiGen.output.style) {
-    final DynamicLibraryBindings e => e.wrapperDocComment,
-    _ => null,
-  };
-
-  FfiNativeConfig get ffiNativeConfig => FfiNativeConfig(
-    enabled: ffiGen.output.style is NativeExternalBindings,
-    assetId: switch (ffiGen.output.style) {
-      final NativeExternalBindings e => e.assetId,
-      _ => null,
-    },
-  );
-
-  bool shouldIncludeHeader(Uri header) => ffiGen.headers.include(header);
-
-  bool get ignoreSourceErrors => ffiGen.headers.ignoreSourceErrors;
-
-  List<String>? get compilerOpts => ffiGen.headers.compilerOptions;
-
-  List<Uri> get entryPoints => ffiGen.headers.entryPoints;
-
-  Uri get output => ffiGen.output.dartFile;
-
-  Uri get outputObjC => ffiGen.output._objectiveCFile;
-
-  BindingStyle get outputStyle => ffiGen.output.style;
-
-  SymbolFile? get symbolFile => ffiGen.output.symbolFile;
-
-  bool get sort => ffiGen.output.sort;
-
-  CommentType get commentType => ffiGen.output.commentType;
-
-  String? get preamble => ffiGen.output.preamble;
-
-  bool get formatOutput => ffiGen.output.format;
-
-  // Override declarative user spec with what FFIgen internals expect.
-  Map<String, LibraryImport> get libraryImports =>
-      Map<String, LibraryImport>.fromEntries(
-        // ignore: deprecated_member_use_from_same_package
-        ffiGen.libraryImports.map(
-          (import) => MapEntry<String, LibraryImport>(import.name, import),
-        ),
-      );
 
   // Override declarative user spec with what FFIgen internals expect.
   Map<String, ImportedType> get typedefTypeMappings =>
@@ -820,6 +753,4 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
           (import) => MapEntry<String, ImportedType>(import.nativeType, import),
         ),
       );
-
-  Language get language => objectiveC != null ? Language.objc : Language.c;
 }

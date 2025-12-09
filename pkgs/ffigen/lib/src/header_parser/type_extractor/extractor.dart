@@ -6,7 +6,6 @@
 library;
 
 import '../../code_generator.dart';
-import '../../config_provider/config_types.dart';
 import '../../context.dart';
 import '../../strings.dart' as strings;
 import '../clang_bindings/clang_bindings.dart' as clang_types;
@@ -52,7 +51,7 @@ Type getCodeGenType(
 
   // These basic Objective C types skip the cache, and are conditional on the
   // language flag.
-  if (context.config.language == Language.objc) {
+  if (context.config.objectiveC != null) {
     switch (cxtype.kind) {
       case clang_types.CXTypeKind.CXType_ObjCObjectPointer:
         final pt = clang.clang_getPointeeType(cxtype);
@@ -197,7 +196,7 @@ Type? _createTypeFromCursor(
   switch (cxtype.kind) {
     case clang_types.CXTypeKind.CXType_Typedef:
       final spelling = clang.clang_getTypedefName(cxtype).toStringAndDispose();
-      if (config.language == Language.objc && spelling == strings.objcBOOL) {
+      if (config.objectiveC != null && spelling == strings.objcBOOL) {
         // Objective C's BOOL type can be either bool or signed char, depending
         // on the platform. We want to present a consistent API to the user, and
         // those two types are ABI compatible, so just return bool regardless.
