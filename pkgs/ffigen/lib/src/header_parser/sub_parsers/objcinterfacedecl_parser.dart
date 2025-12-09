@@ -38,13 +38,12 @@ Type? parseObjCInterfaceDeclaration(
     'Name: $name, ${cursor.completeStringRepr()}',
   );
 
-  final config = context.config;
   final itf = ObjCInterface(
     context: context,
     usr: usr,
     originalName: name,
     name: objcInterfaces.rename(decl),
-    lookupName: applyModulePrefix(name, config.interfaceModule(decl)),
+    lookupName: applyModulePrefix(name, objcInterfaces.module(decl)),
     dartDoc: getCursorDocComment(
       context,
       cursor,
