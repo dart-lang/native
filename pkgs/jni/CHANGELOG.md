@@ -5,6 +5,9 @@
   help debug `DoubleReleaseError` and `UseAfterReleaseError`s. This includes the
   points where `JObject`s have been registered to be released by an `arena` via
   `JObject.releaseBy`.
+- Changed the behavior of `JObject.releasedBy`. It now does not throw a
+  `DoubleReleaseError` if the object was manually released before the end of
+  arena.
 
 ## 0.15.2
 

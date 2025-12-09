@@ -119,13 +119,12 @@ final class JGlobalReference extends JReference {
   }
 
   void _appendToStackTrace(String stackTrace) {
-    if (Jni.captureStackTraceOnRelease) {
-      final nativeStr = stackTrace.toNativeUtf8();
-      if (_releasedStackTracePointer != nullptr) {
-        malloc.free(_releasedStackTracePointer.value);
-      }
-      _releasedStackTracePointer.value = nativeStr.cast();
+    final previousStackTrace = _releasedStackTrace ?? '';
+    final nativeStr = '$previousStackTrace$stackTrace'.toNativeUtf8();
+    if (_releasedStackTracePointer != nullptr) {
+      malloc.free(_releasedStackTracePointer.value);
     }
+    _releasedStackTracePointer.value = nativeStr.cast();
   }
 
   @override
@@ -138,8 +137,7 @@ final class JGlobalReference extends JReference {
         _jobjectFinalizableHandle, _finalizable);
     assert(() {
       if (Jni.captureStackTraceOnRelease) {
-        _appendToStackTrace('${_releasedStackTrace ?? ''}'
-            'Object was released at:\n${StackTrace.current}\n');
+        _appendToStackTrace('Object was released at:\n${StackTrace.current}\n');
       }
       return true;
     }());
@@ -148,7 +146,7 @@ final class JGlobalReference extends JReference {
   @internal
   void registeredInArena() {
     if (Jni.captureStackTraceOnRelease) {
-      _appendToStackTrace('${_releasedStackTrace ?? ''}'
+      _appendToStackTrace(
           'Object was registered to be released by an arena at:\n'
           '${StackTrace.current}\n');
     }
