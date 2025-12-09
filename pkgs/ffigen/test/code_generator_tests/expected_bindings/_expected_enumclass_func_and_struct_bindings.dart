@@ -87,6 +87,7 @@ final class StructWithEnums extends ffi.Struct {
   external int enum1AsInt;
 
   Enum1 get enum1 => Enum1.fromValue(enum1AsInt);
+  set enum1(Enum1 value) => enum1AsInt = value.value;
 
   @ffi.Int()
   external int enum2;
