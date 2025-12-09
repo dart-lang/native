@@ -341,3 +341,13 @@ Dart_FinalizableHandle newBooleanFinalizableHandle(Dart_Handle object,
 FFI_PLUGIN_EXPORT
 void deleteFinalizableHandle(Dart_FinalizableHandle finalizableHandle,
                              Dart_Handle object);
+
+FFI_PLUGIN_EXPORT
+void setCaptureStackTraceOnRelease(int8_t value);
+
+FFI_PLUGIN_EXPORT
+int8_t getCaptureStackTraceOnRelease();
+
+FFI_PLUGIN_EXPORT
+Dart_FinalizableHandle newStackTraceFinalizableHandle(Dart_Handle object,
+                                                      char* reference);
