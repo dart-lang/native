@@ -28,8 +28,9 @@ Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
   final decl = Declaration(usr: usr, originalName: name);
   final cType = cursor.type();
 
-  // Try to evaluate as a constant first.
-  if (cType.isConstQualified) {
+  // Try to evaluate as a constant first,
+  // unless the config asks for the variable's address.
+  if (cType.isConstQualified && !config.globals.includeSymbolAddress(decl)) {
     final evalResult = clang.clang_Cursor_Evaluate(cursor);
     final evalKind = clang.clang_EvalResult_getKind(evalResult);
     Constant? constant;
