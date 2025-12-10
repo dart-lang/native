@@ -9,6 +9,7 @@
 - __Breaking change__: Certain synthetic USRs have been modified to ensure they
   cannot collide with real USRs. It's very unlikely that any user facing USRs
   are affected.
+- Enum struct members now have setters.
 
 ## 20.1.1
 

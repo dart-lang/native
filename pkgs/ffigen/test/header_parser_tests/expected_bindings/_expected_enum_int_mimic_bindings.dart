@@ -77,6 +77,7 @@ final class Test extends ffi.Struct {
   external int simpleAsInt;
 
   Simple get simple => Simple.fromValue(simpleAsInt);
+  set simple(Simple value) => simpleAsInt = value.value;
 
   external ffi.Pointer<ffi.Int> simpleWithNegative;
 
@@ -97,12 +98,16 @@ final class Test extends ffi.Struct {
 
   PositiveIntOverflow get positiveIntOverflow =>
       PositiveIntOverflow.fromValue(positiveIntOverflowAsInt);
+  set positiveIntOverflow(PositiveIntOverflow value) =>
+      positiveIntOverflowAsInt = value.value;
 
   @ffi.Uint16()
   external int explicitTypeWithOverflowAsInt;
 
   ExplicitTypeWithOverflow get explicitTypeWithOverflow =>
       ExplicitTypeWithOverflow.fromValue(explicitTypeWithOverflowAsInt);
+  set explicitTypeWithOverflow(ExplicitTypeWithOverflow value) =>
+      explicitTypeWithOverflowAsInt = value.value;
 }
 
 const int ANONYMOUS1 = 0;

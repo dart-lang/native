@@ -6076,6 +6076,7 @@ final class CXTUResourceUsageEntry extends ffi.Struct {
   external int kindAsInt;
 
   CXTUResourceUsageKind get kind => CXTUResourceUsageKind.fromValue(kindAsInt);
+  set kind(CXTUResourceUsageKind value) => kindAsInt = value.value;
 
   @ffi.UnsignedLong()
   external int amount;
@@ -7040,6 +7041,7 @@ final class CXCursor extends ffi.Struct {
   external int kindAsInt;
 
   CXCursorKind get kind => CXCursorKind.fromValue(kindAsInt);
+  set kind(CXCursorKind value) => kindAsInt = value.value;
 
   @ffi.Int()
   external int xdata;
@@ -7500,6 +7502,7 @@ final class CXType extends ffi.Struct {
   external int kindAsInt;
 
   CXTypeKind get kind => CXTypeKind.fromValue(kindAsInt);
+  set kind(CXTypeKind value) => kindAsInt = value.value;
 
   @ffi.Array.multi([2])
   external ffi.Array<ffi.Pointer<ffi.Void>> data;
@@ -7932,6 +7935,7 @@ final class CXCompletionResult extends ffi.Struct {
   external int CursorKindAsInt;
 
   CXCursorKind get CursorKind => CXCursorKind.fromValue(CursorKindAsInt);
+  set CursorKind(CXCursorKind value) => CursorKindAsInt = value.value;
 
   /// The code-completion string that describes how to insert this
   /// code-completion result into the editing buffer.
@@ -8500,6 +8504,7 @@ final class CXIdxAttrInfo extends ffi.Struct {
   external int kindAsInt;
 
   CXIdxAttrKind get kind => CXIdxAttrKind.fromValue(kindAsInt);
+  set kind(CXIdxAttrKind value) => kindAsInt = value.value;
 
   external CXCursor cursor;
 
@@ -8511,17 +8516,21 @@ final class CXIdxEntityInfo extends ffi.Struct {
   external int kindAsInt;
 
   CXIdxEntityKind get kind => CXIdxEntityKind.fromValue(kindAsInt);
+  set kind(CXIdxEntityKind value) => kindAsInt = value.value;
 
   @ffi.UnsignedInt()
   external int templateKindAsInt;
 
   CXIdxEntityCXXTemplateKind get templateKind =>
       CXIdxEntityCXXTemplateKind.fromValue(templateKindAsInt);
+  set templateKind(CXIdxEntityCXXTemplateKind value) =>
+      templateKindAsInt = value.value;
 
   @ffi.UnsignedInt()
   external int langAsInt;
 
   CXIdxEntityLanguage get lang => CXIdxEntityLanguage.fromValue(langAsInt);
+  set lang(CXIdxEntityLanguage value) => langAsInt = value.value;
 
   external ffi.Pointer<ffi.Char> name;
 
@@ -8625,6 +8634,7 @@ final class CXIdxObjCContainerDeclInfo extends ffi.Struct {
 
   CXIdxObjCContainerKind get kind =>
       CXIdxObjCContainerKind.fromValue(kindAsInt);
+  set kind(CXIdxObjCContainerKind value) => kindAsInt = value.value;
 }
 
 final class CXIdxBaseClassInfo extends ffi.Struct {
@@ -8743,6 +8753,7 @@ final class CXIdxEntityRefInfo extends ffi.Struct {
   external int kindAsInt;
 
   CXIdxEntityRefKind get kind => CXIdxEntityRefKind.fromValue(kindAsInt);
+  set kind(CXIdxEntityRefKind value) => kindAsInt = value.value;
 
   /// Reference cursor.
   external CXCursor cursor;
@@ -8763,6 +8774,7 @@ final class CXIdxEntityRefInfo extends ffi.Struct {
   external int roleAsInt;
 
   CXSymbolRole get role => CXSymbolRole.fromValue(roleAsInt);
+  set role(CXSymbolRole value) => roleAsInt = value.value;
 }
 
 /// A group of callbacks used by #clang_indexSourceFile and
