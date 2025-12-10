@@ -7,6 +7,7 @@ import 'dart:io';
 import 'package:ffigen/ffigen.dart' as fg;
 import 'package:logging/logging.dart';
 import 'package:pub_semver/pub_semver.dart';
+import 'package:swift2objc/swift2objc.dart' as swift2objc;
 import 'package:swiftgen/swiftgen.dart';
 
 Future<void> main() async {
@@ -23,7 +24,7 @@ Future<void> main() async {
       ),
     ),
     inputs: const [SwiftModuleInput(module: 'AVFAudio')],
-    include: (d) => d.name == 'AVAudioPlayer',
+    include: (swift2objc.Declaration d) => d.name == 'AVAudioPlayer',
     output: Output(
       swiftWrapperFile: SwiftWrapperFile(
         path: Uri.file('avf_audio_wrapper.swift'),
