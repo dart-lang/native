@@ -81,29 +81,38 @@ class Example extends jni$_.JObject {
 
   static final _id_thinkBeforeAnswering = _class.instanceMethodId(
     r'thinkBeforeAnswering',
-    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+    r'(LThinker;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
   );
 
   static final _thinkBeforeAnswering = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallObjectMethod')
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public suspend fun thinkBeforeAnswering(): kotlin.String`
+  /// from: `public suspend fun thinkBeforeAnswering(thinker: Thinker): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
-  core$_.Future<jni$_.JString> thinkBeforeAnswering() async {
+  core$_.Future<jni$_.JString> thinkBeforeAnswering(
+    Thinker thinker,
+  ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
-
+    final _$thinker = thinker.reference;
     final $r = _thinkBeforeAnswering(
             reference.pointer,
             _id_thinkBeforeAnswering as jni$_.JMethodIDPtr,
+            _$thinker.pointer,
             _$continuation.pointer)
         .object<jni$_.JObject>(const jni$_.$JObject$Type$());
     _$continuation.release();
@@ -197,5 +206,248 @@ final class $Example$Type$ extends jni$_.JType<Example> {
   @core$_.override
   bool operator ==(Object other) {
     return other.runtimeType == ($Example$Type$) && other is $Example$Type$;
+  }
+}
+
+/// from: `Thinker`
+class Thinker extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JType<Thinker> $type;
+
+  @jni$_.internal
+  Thinker.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class = jni$_.JClass.forName(r'Thinker');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<Thinker?> nullableType = $Thinker$NullableType$();
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<Thinker> type = $Thinker$Type$();
+  static final _id_message = _class.instanceMethodId(
+    r'message',
+    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _message = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public suspend fun message(): kotlin.String`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JString> message() async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _message(reference.pointer, _id_message as jni$_.JMethodIDPtr,
+            _$continuation.pointer)
+        .object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    final jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
+      if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JString>(
+      const jni$_.$JString$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  /// Maps a specific port to the implemented interface.
+  static final core$_.Map<int, $Thinker> _$impls = {};
+  static jni$_.JObjectPtr _$invoke(
+    int port,
+    jni$_.JObjectPtr descriptor,
+    jni$_.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      jni$_.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final jni$_.Pointer<
+          jni$_.NativeFunction<
+              jni$_.JObjectPtr Function(
+                  jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)>>
+      _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
+
+  static jni$_.Pointer<jni$_.Void> _$invokeMethod(
+    int $p,
+    jni$_.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d ==
+          r'message(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r = _$impls[$p]!.message(
+          $a![0]!.as(const jni$_.$JObject$Type$(), releaseOriginal: true),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+    } catch (e) {
+      return jni$_.ProtectedJniExtensions.newDartException(e);
+    }
+    return jni$_.nullptr;
+  }
+
+  static void implementIn(
+    jni$_.JImplementer implementer,
+    $Thinker $impl,
+  ) {
+    late final jni$_.RawReceivePort $p;
+    $p = jni$_.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = jni$_.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'Thinker',
+      $p,
+      _$invokePointer,
+      [],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory Thinker.implement(
+    $Thinker $impl,
+  ) {
+    final $i = jni$_.JImplementer();
+    implementIn($i, $impl);
+    return Thinker.fromReference(
+      $i.implementReference(),
+    );
+  }
+}
+
+abstract base mixin class $Thinker {
+  factory $Thinker({
+    required core$_.Future<jni$_.JString> Function() message,
+  }) = _$Thinker;
+
+  jni$_.JObject message(jni$_.JObject continuation);
+}
+
+final class _$Thinker with $Thinker {
+  _$Thinker({
+    required core$_.Future<jni$_.JString> Function() message,
+  }) : _message = message;
+
+  final core$_.Future<jni$_.JString> Function() _message;
+
+  jni$_.JObject message(jni$_.JObject continuation) {
+    return jni$_.KotlinContinuation.fromReference(continuation.reference)
+        .resumeWithFuture(_message().then((jni$_.JString result) {
+      return jni$_.JString.fromString("Bindings(" + result.toDartString() + ")");
+    }));
+  }
+}
+
+final class $Thinker$NullableType$ extends jni$_.JType<Thinker?> {
+  @jni$_.internal
+  const $Thinker$NullableType$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'LThinker;';
+
+  @jni$_.internal
+  @core$_.override
+  Thinker? fromReference(jni$_.JReference reference) => reference.isNull
+      ? null
+      : Thinker.fromReference(
+          reference,
+        );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JType<Thinker?> get nullableType => this;
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($Thinker$NullableType$).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Thinker$NullableType$) &&
+        other is $Thinker$NullableType$;
+  }
+}
+
+final class $Thinker$Type$ extends jni$_.JType<Thinker> {
+  @jni$_.internal
+  const $Thinker$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'LThinker;';
+
+  @jni$_.internal
+  @core$_.override
+  Thinker fromReference(jni$_.JReference reference) => Thinker.fromReference(
+        reference,
+      );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JType<Thinker?> get nullableType => const $Thinker$NullableType$();
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($Thinker$Type$).hashCode;
+
+  @core$_.override
+  bool operator ==(Object other) {
+    return other.runtimeType == ($Thinker$Type$) && other is $Thinker$Type$;
   }
 }
