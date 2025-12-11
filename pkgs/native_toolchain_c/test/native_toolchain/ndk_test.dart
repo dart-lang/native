@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
 import 'package:native_toolchain_c/src/native_toolchain/android_ndk.dart';
 import 'package:native_toolchain_c/src/tool/tool_requirement.dart';
 import 'package:native_toolchain_c/src/tool/tool_resolver.dart';
@@ -39,7 +41,11 @@ void main() {
 
     expect(
       resolved.map((e) => e.uri.toFilePath()),
-      contains(d.path('fake_android/ndk/1.3.37/')),
+      contains(
+        Directory(
+          d.sandbox,
+        ).uri.resolve('fake_android/ndk/1.3.37/').toFilePath(),
+      ),
     );
   });
 
@@ -58,7 +64,9 @@ void main() {
 
     expect(
       resolved.map((e) => e.uri.toFilePath()),
-      contains(d.path('weird/ndk/directory/')),
+      contains(
+        Directory(d.sandbox).uri.resolve('weird/ndk/directory/').toFilePath(),
+      ),
     );
   });
 }
