@@ -49,14 +49,13 @@ final Tool appleLd = Tool(
       wrappedResolver: appleClang.defaultResolver!,
       relativePath: Uri.file('ld'),
     ),
-    PathToolResolver(
-      toolName: 'Apple linker',
-      executableName: OS.current.executableFileName('ld'),
-    ),
-    RelativeToolResolver(
-      toolName: 'Apple linker',
-      wrappedResolver: appleClang.defaultResolver!,
-      relativePath: Uri.file(OS.current.executableFileName('ld.lld')),
+    CliFilter(
+      wrappedResolver: PathToolResolver(
+        toolName: 'Apple linker',
+        executableName: OS.current.executableFileName('ld'),
+      ),
+      cliArguments: ['-v'],
+      keepIf: ({required String stdout}) => stdout.contains('Apple TAPI'),
     ),
   ]),
 );
