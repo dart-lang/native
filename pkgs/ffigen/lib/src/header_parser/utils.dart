@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
+import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart';
 import 'package:logging/logging.dart';
@@ -11,6 +12,7 @@ import '../code_generator.dart';
 import '../config_provider/config_types.dart';
 import '../context.dart';
 import '../strings.dart';
+import '../strings.dart' as strings;
 import 'clang_bindings/clang_bindings.dart' as clang_types;
 import 'type_extractor/extractor.dart';
 
@@ -487,21 +489,22 @@ class Macro {
 /// Tracks if a binding is 'seen' or not.
 class BindingsIndex {
   // Tracks if bindings are already seen, Map key is USR obtained from libclang.
-  final Map<String, Type> _declaredTypes = {};
   final Map<String, Func> _functions = {};
   final Map<String, Constant> _unnamedEnumConstants = {};
   final Map<String, String> _macros = {};
   final Map<String, Global> _globals = {};
+  final Map<String, Constant> _variableConstants = {};
+  final Map<String, Typealias> _typealiases = {};
+  final Map<String, EnumClass> _enums = {};
+  final Map<String, Compound> _compounds = {};
   final Map<String, ObjCBlock> _objcBlocks = {};
+  final Map<String, ObjCInterface> _objcInterfaces = {};
   final Map<String, ObjCProtocol> _objcProtocols = {};
   final Map<String, ObjCCategory> _objcCategories = {};
 
   /// Contains usr for typedefs which cannot be generated.
   final Set<String> _unsupportedTypealiases = {};
 
-  bool isSeenType(String usr) => _declaredTypes.containsKey(usr);
-  void addTypeToSeen(String usr, Type type) => _declaredTypes[usr] = type;
-  Type? getSeenType(String usr) => _declaredTypes[usr];
   bool isSeenFunc(String usr) => _functions.containsKey(usr);
   void addFuncToSeen(String usr, Func func) => _functions[usr] = func;
   Func? getSeenFunc(String usr) => _functions[usr];
@@ -512,6 +515,20 @@ class BindingsIndex {
   bool isSeenGlobalVar(String usr) => _globals.containsKey(usr);
   void addGlobalVarToSeen(String usr, Global global) => _globals[usr] = global;
   Global? getSeenGlobalVar(String usr) => _globals[usr];
+  bool isSeenVariableConstant(String usr) =>
+      _variableConstants.containsKey(usr);
+  void addVariableConstantToSeen(String usr, Constant constant) =>
+      _variableConstants[usr] = constant;
+  Constant? getSeenVariableConstant(String usr) => _variableConstants[usr];
+  bool isSeenTypealias(String usr) => _typealiases.containsKey(usr);
+  void addTypealiasToSeen(String usr, Typealias t) => _typealiases[usr] = t;
+  Typealias? getSeenTypealias(String usr) => _typealiases[usr];
+  bool isSeenEnum(String usr) => _enums.containsKey(usr);
+  void addEnumToSeen(String usr, EnumClass t) => _enums[usr] = t;
+  EnumClass? getSeenEnum(String usr) => _enums[usr];
+  bool isSeenCompound(String usr) => _compounds.containsKey(usr);
+  void addCompoundToSeen(String usr, Compound t) => _compounds[usr] = t;
+  Compound? getSeenCompound(String usr) => _compounds[usr];
   bool isSeenMacro(String usr) => _macros.containsKey(usr);
   void addMacroToSeen(String usr, String macro) => _macros[usr] = macro;
   bool isSeenUnsupportedTypealias(String usr) =>
@@ -520,6 +537,10 @@ class BindingsIndex {
       _unsupportedTypealiases.add(usr);
   void addObjCBlockToSeen(String key, ObjCBlock t) => _objcBlocks[key] = t;
   ObjCBlock? getSeenObjCBlock(String key) => _objcBlocks[key];
+  void addObjCInterfaceToSeen(String usr, ObjCInterface t) =>
+      _objcInterfaces[usr] = t;
+  ObjCInterface? getSeenObjCInterface(String usr) => _objcInterfaces[usr];
+  bool isSeenObjCInterface(String usr) => _objcInterfaces.containsKey(usr);
   void addObjCProtocolToSeen(String usr, ObjCProtocol t) =>
       _objcProtocols[usr] = t;
   ObjCProtocol? getSeenObjCProtocol(String usr) => _objcProtocols[usr];
@@ -575,4 +596,109 @@ class CursorIndex {
         }
     }
   }
+}
+
+/// Converts a double to a string, handling cases like Infinity and NaN.
+String writeDoubleAsString(double d) {
+  if (d.isFinite) {
+    return d.toString();
+  } else {
+    // The only Non-Finite numbers are Infinity, NegativeInfinity and NaN.
+    if (d.isInfinite) {
+      return d.isNegative
+          ? strings.doubleNegativeInfinity
+          : strings.doubleInfinity;
+    }
+    return strings.doubleNaN;
+  }
+}
+
+/// Gets a written representation string of a C string.
+///
+/// E.g- For a string "Hello\nWorld", The new line character is converted to \n.
+/// Note: The string is considered to be Utf8, but is treated as Extended ASCII,
+/// if the conversion fails.
+String getWrittenStringRepresentation(
+  String varName,
+  Pointer<Char> strPtr,
+  Context context,
+) {
+  final sb = StringBuffer();
+  try {
+    // Consider string to be Utf8 encoded by default.
+    sb.clear();
+    // This throws a Format Exception if string isn't Utf8 so that we handle it
+    // in the catch block.
+    final result = strPtr.cast<Utf8>().toDartString();
+    for (final s in result.runes) {
+      sb.write(_getWritableChar(s));
+    }
+  } catch (e) {
+    // Handle string if it isn't Utf8. String is considered to be
+    // Extended ASCII in this case.
+    context.logger.warning(
+      "Couldn't decode string value for '$varName' as Utf8, using "
+      'ASCII instead.',
+    );
+    sb.clear();
+    final length = strPtr.cast<Utf8>().length;
+    final charList = Uint8List.view(
+      strPtr.cast<Uint8>().asTypedList(length).buffer,
+      0,
+      length,
+    );
+
+    for (final char in charList) {
+      sb.write(_getWritableChar(char, utf8: false));
+    }
+  }
+
+  return sb.toString();
+}
+
+/// Creates a writable char from [char] code.
+///
+/// E.g- `\` is converted to `\\`.
+String _getWritableChar(int char, {bool utf8 = true}) {
+  /// Handle control characters.
+  if (char >= 0 && char < 32 || char == 127) {
+    /// Handle these - `\b \t \n \v \f \r` as special cases.
+    switch (char) {
+      case 8: // \b
+        return r'\b';
+      case 9: // \t
+        return r'\t';
+      case 10: // \n
+        return r'\n';
+      case 11: // \v
+        return r'\v';
+      case 12: // \f
+        return r'\f';
+      case 13: // \r
+        return r'\r';
+      default:
+        final h = char.toRadixString(16).toUpperCase().padLeft(2, '0');
+        return '\\x$h';
+    }
+  }
+
+  /// Handle characters - `$ ' \` these need to be escaped when writing to file.
+  switch (char) {
+    case 36: // $
+      return r'\$';
+    case 39: // '
+      return r"\'";
+    case 92: // \
+      return r'\\';
+  }
+
+  /// In case encoding is not Utf8, we know all characters will fall in [0..255]
+  /// Print range [128..255] as `\xHH`.
+  if (!utf8) {
+    final h = char.toRadixString(16).toUpperCase().padLeft(2, '0');
+    return '\\x$h';
+  }
+
+  /// In all other cases, simply convert to string.
+  return String.fromCharCode(char);
 }

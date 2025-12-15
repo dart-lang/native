@@ -1,3 +1,7 @@
+## 0.15.1-wip
+
+- Add docs about debugging.
+
 ## 0.15.0
 
 - Changed the names of internal type classes.
