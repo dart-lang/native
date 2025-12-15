@@ -50,12 +50,12 @@ List<Binding> parseToBindings(Context context) {
   Pointer<Pointer<Utf8>> clangCmdArgs = nullptr;
   final compilerOpts = <String>[
     // Add compiler opt for comment parsing for clang based on config.
-    if (config.commentType.length != CommentLength.none &&
-        config.commentType.style == CommentStyle.any)
+    if (config.output.commentType.length != CommentLength.none &&
+        config.output.commentType.style == CommentStyle.any)
       strings.fparseAllComments,
 
     // If the config targets Objective C, add a compiler opt for it.
-    if (config.language == Language.objc) ...[
+    if (config.objectiveC != null) ...[
       ...strings.clangLangObjC,
       ..._findObjectiveCSysroot(),
     ],
@@ -69,12 +69,12 @@ List<Binding> parseToBindings(Context context) {
   final cmdLen = compilerOpts.length;
 
   // Log all headers for user.
-  context.logger.info('Input Headers: ${config.entryPoints}');
+  context.logger.info('Input Headers: ${config.headers.entryPoints}');
 
   final tuList = <Pointer<clang_types.CXTranslationUnitImpl>>[];
 
   // Parse all translation units from entry points.
-  for (final headerLocationUri in config.entryPoints) {
+  for (final headerLocationUri in config.headers.entryPoints) {
     final headerLocation = headerLocationUri.toFilePath();
     context.logger.fine('Creating TranslationUnit for header: $headerLocation');
 
@@ -111,11 +111,11 @@ List<Binding> parseToBindings(Context context) {
       'The compiler found warnings/errors in source files.',
     );
     context.logger.warning('This will likely generate invalid bindings.');
-    if (config.ignoreSourceErrors) {
+    if (config.headers.ignoreSourceErrors) {
       context.logger.warning(
         'Ignored source errors. (User supplied --ignore-source-errors)',
       );
-    } else if (config.language == Language.objc) {
+    } else if (config.objectiveC != null) {
       context.logger.warning('Ignored source errors. (ObjC)');
     } else {
       context.logger.severe(
@@ -217,7 +217,7 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
 
   /// Sort bindings.
   var finalBindingsList = finalBindings.toList();
-  if (config.sort) {
+  if (config.output.sort) {
     finalBindingsList = visit(
       context,
       SorterVisitation(finalBindings, SorterVisitation.nameSortKey),
@@ -281,7 +281,7 @@ void _nameAllSymbols(Context context, Set<Binding> bindings) {
 }
 
 ExtraSymbols _createExtraSymbols(Context context) {
-  final bindingStyle = context.config.outputStyle;
+  final bindingStyle = context.config.output.style;
   Symbol? wrapperClassName;
   Symbol? lookupFuncName;
   if (bindingStyle is DynamicLibraryBindings) {

@@ -23,14 +23,18 @@ import 'unnamed_enumdecl_parser.dart';
   EnumClass? enumClass;
   assert(cursor.isDefinition);
 
-  final enumUsr = cursor.usr();
+  final usr = cursor.usr();
+
+  final cachedEnum = context.bindingsIndex.getSeenEnum(usr);
+  if (cachedEnum != null) return (cachedEnum, cachedEnum.nativeType);
+
   final String enumName;
   // Only set name using USR if the type is not Anonymous (i.e not inside
   // any typedef and declared inplace inside another type).
   if (clang.clang_Cursor_isAnonymous(cursor) == 0) {
     // This gives the significant name, i.e name of the enum if defined or
     // name of the first typedef declaration that refers to it.
-    enumName = enumUsr.split('@').last;
+    enumName = usr.split('@').last;
   } else {
     enumName = '';
   }
@@ -50,7 +54,7 @@ import 'unnamed_enumdecl_parser.dart';
     return (null, nativeType);
   }
 
-  final decl = Declaration(usr: enumUsr, originalName: enumName);
+  final decl = Declaration(usr: usr, originalName: enumName);
   if (enumName.isEmpty) {
     logger.fine('Saving anonymous enum.');
     final addedConstants = saveUnNamedEnum(context, cursor);
@@ -60,7 +64,7 @@ import 'unnamed_enumdecl_parser.dart';
   } else {
     logger.fine('++++ Adding Enum: ${cursor.completeStringRepr()}');
     enumClass = EnumClass(
-      usr: enumUsr,
+      usr: usr,
       dartDoc: getCursorDocComment(
         context,
         cursor,
@@ -110,12 +114,13 @@ import 'unnamed_enumdecl_parser.dart';
     });
     final suggestedStyle = isNSOptions ? EnumStyle.intConstants : null;
     enumClass.style = config.enums.style(decl, suggestedStyle);
+    context.bindingsIndex.addEnumToSeen(usr, enumClass);
   }
 
   if (hasNegativeEnumConstants) {
     // Change enum native type to signed type.
     logger.fine(
-      'For enum $enumUsr - using signed type for $nativeType : '
+      'For enum $usr - using signed type for $nativeType : '
       '${unsignedToSignedNativeIntType[nativeType]}',
     );
     nativeType = unsignedToSignedNativeIntType[nativeType] ?? nativeType;

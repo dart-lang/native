@@ -132,7 +132,7 @@ Compound? _parseCompoundDeclaration(
   if (clang.clang_Cursor_isAnonymous(cursor) == 0) {
     // This gives the significant name, i.e name of the struct if defined or
     // name of the first typedef declaration that refers to it.
-    declName = declUsr.split('@').last;
+    declName = usr.split('@').last;
   } else {
     // Empty names are treated as inline declarations.
     declName = '';
@@ -144,11 +144,12 @@ Compound? _parseCompoundDeclaration(
     return null;
   }
 
-  final decl = Declaration(usr: declUsr, originalName: declName);
+  final decl = Declaration(usr: usr, originalName: declName);
+  final Compound compound;
   if (declName.isEmpty) {
     return constructor(
       name: 'Unnamed$className',
-      usr: declUsr,
+      usr: usr,
       dartDoc: getCursorDocComment(
         context,
         cursor,
@@ -162,7 +163,7 @@ Compound? _parseCompoundDeclaration(
       '++++ Adding $className: Name: $declName, ${cursor.completeStringRepr()}',
     );
     return constructor(
-      usr: declUsr,
+      usr: usr,
       originalName: declName,
       name: configDecl.rename(decl),
       dartDoc: getCursorDocComment(

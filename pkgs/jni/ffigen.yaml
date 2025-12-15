@@ -26,6 +26,9 @@ enums:
     'JniType': 'JniCallType'
     'jobjectRefType': 'JObjectRefType'
 functions:
+  rename:
+    'FindClass': 'JniFindClass'
+    'GetJavaVM': 'JniGetJavaVM'
   exclude:
     # Exclude init functions supposed to be defined in loaded DLL, not JNI
     - 'JNI_.*'

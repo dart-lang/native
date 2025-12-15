@@ -4,7 +4,6 @@
 
 import '../code_generator.dart';
 import '../config_provider/config.dart' show Config;
-import '../config_provider/config_types.dart' show Language;
 import '../strings.dart' as strings;
 
 import 'ast.dart';
@@ -67,7 +66,7 @@ class ListBindingsVisitation extends Visitation {
         node.unavailable ||
         !_visitImpl(
           node,
-          config.includeTransitiveObjCInterfaces
+          config.objectiveC?.interfaces.includeTransitive ?? false
               ? _IncludeBehavior.configOrTransitive
               : _IncludeBehavior.configOnly,
         );
@@ -80,7 +79,7 @@ class ListBindingsVisitation extends Visitation {
   @override
   void visitObjCCategory(ObjCCategory node) => _visitImpl(
     node,
-    config.includeTransitiveObjCCategories
+    config.objectiveC?.categories.includeTransitive ?? false
         ? _IncludeBehavior.configOrDirectTransitive
         : _IncludeBehavior.configOnly,
   );
@@ -91,7 +90,7 @@ class ListBindingsVisitation extends Visitation {
         node.unavailable ||
         !_visitImpl(
           node,
-          config.includeTransitiveObjCProtocols
+          config.objectiveC?.protocols.includeTransitive ?? false
               ? _IncludeBehavior.configOrTransitive
               : _IncludeBehavior.configOnly,
         );
@@ -111,7 +110,7 @@ class ListBindingsVisitation extends Visitation {
     );
 
     // Objective C has some core typedefs that are important to keep.
-    if (config.language == Language.objc &&
+    if (config.objectiveC != null &&
         node.originalName == strings.objcInstanceType) {
       _add(node);
     }

@@ -9,6 +9,7 @@
 /// {@category Lifecycle}
 /// {@category Threading}
 /// {@category Interface Implementation}
+/// {@category Debugging}
 ///
 /// @docImport 'src/config/config.dart';
 /// @docImport 'src/generate_bindings.dart';

@@ -31,10 +31,10 @@ completely irrelevant when doing Objective-C interop.
 Dart's `is` keyword checks the Dart runtime type. You shouldn't use
 this on Objective-C objects, because the Dart runtime type is irrelevant, and
 often won't match the Objective-C runtime type. Instead of `x is Foo`,
-use `Foo.isInstance(x)`.
+use `Foo.isA(x)`.
 
 Dart's `as` keyword changes the static type of an object (and also
 checks its runtime type). You shouldn't use this on Objective-C objects,
 because the runtime type check may fail since the Dart runtime
 type often won't match the Objective-C runtime type. Instead of `x as Foo`,
-use `Foo.castFrom(x)`.
+use `Foo.as(x)`.
