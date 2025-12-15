@@ -25,9 +25,18 @@ final result$FailureClass = JClass.forName(r'kotlin/Result$Failure');
 final failureExceptionField =
     result$FailureClass.instanceFieldId('exception', 'Ljava/lang/Throwable;');
 
-final _coroutineSuspended = coroutineSingletonsClass.staticFieldId(
-    'COROUTINE_SUSPENDED', 'Lkotlin/coroutines/intrinsics/CoroutineSingletons')
-    .get(coroutineSingletonsClass, const $JObject$Type$());
+@internal
+final result$Class = JClass.forName(r'kotlin/Result');
+
+@internal
+final resultValueField =
+    result$Class.instanceFieldId('value', 'Ljava/lang/Object;');
+
+final _coroutineIntrinsicsClass =
+    JClass.forName('kotlin/coroutines/intrinsics/IntrinsicsKt');
+final _coroutineSuspended = _coroutineIntrinsicsClass.staticMethodId(
+    'getCOROUTINE_SUSPENDED', '()Ljava/lang/Object;')(
+    _coroutineIntrinsicsClass, const $JObject$Type$(), [])!;
 
 @internal
 class KotlinContinuation extends JObject {
@@ -44,11 +53,7 @@ class KotlinContinuation extends JObject {
   }
 
   JObject resumeWithFuture(Future<JObject> future) {
-    future.then((JObject result) {
-        final r = _Result(result);
-        print(r);
-        resumeWith(r);
-      }, onError: (error) {
+    future.then(resumeWith, onError: (error) {
         // TODO
       });
     return _coroutineSuspended;

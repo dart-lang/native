@@ -67,15 +67,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   answer = () async {
                     final _thinker = $Thinker(
                       message: () async {
-                        await Future.delayed(Duration(seconds: 3));
+                        await Future.delayed(Duration(milliseconds: 300));
                         return JString.fromString("App");
                       }
                     );
                     final thinker = Thinker.implement(_thinker);
                     final value1 = (await example.thinkBeforeAnswering(thinker)).toDartString(releaseOriginal: true);
-                    final value2 = '-';//_thinker.message(JObject.fromReference(jNullReference)).as(const $JString$Type$()).toDartString();
-                    final value3 = '-'; //(await thinker.message()).toDartString();
-                    return value1 + '\n' + value2 + '\n' + value3;
+                    final value2 = (await thinker.message()).toDartString();
+                    return value1 + '\n' + value2;
                   }();
                 });
               },
