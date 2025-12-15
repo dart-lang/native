@@ -26,7 +26,8 @@ class Context {
   bool hasSourceErrors = false;
   final reportedCommentRanges = <((String, int), (String, int))>{};
   final libs = LibraryImports();
-  late final compilerOpts = config.compilerOpts ?? defaultCompilerOpts(logger);
+  late final compilerOpts =
+      config.headers.compilerOptions ?? defaultCompilerOpts(logger);
   final Scope rootScope = Scope.createRoot('root');
   final Scope rootObjCScope = Scope.createRoot('objc_root');
   late final ExtraSymbols extraSymbols;
@@ -36,7 +37,6 @@ class Context {
       cursorIndex = CursorIndex(logger) {
     objCBuiltInFunctions = ObjCBuiltInFunctions(
       this,
-      config.wrapperName,
       // ignore: deprecated_member_use_from_same_package
       generator.objectiveC?.generateForPackageObjectiveC ?? false,
     );

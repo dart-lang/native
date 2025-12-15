@@ -141,12 +141,3 @@ const objCBuiltInCategories = {
   'NSNumberIsFloat',
   'NSStringExtensionMethods',
 };
-
-const objCBuiltInGlobals = {
-  'NSKeyValueChangeIndexesKey',
-  'NSKeyValueChangeKindKey',
-  'NSKeyValueChangeNewKey',
-  'NSKeyValueChangeNotificationIsPriorKey',
-  'NSKeyValueChangeOldKey',
-  'NSLocalizedDescriptionKey',
-};

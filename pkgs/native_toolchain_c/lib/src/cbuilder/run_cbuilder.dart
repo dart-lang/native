@@ -399,6 +399,7 @@ class RunCBuilder {
       environment: environment,
       logger: logger,
       captureOutput: false,
+      stdoutLogLevel: Level.INFO,
       throwOnUnexpectedExitCode: true,
     );
 
@@ -410,6 +411,7 @@ class RunCBuilder {
         environment: environment,
         logger: logger,
         captureOutput: false,
+        stdoutLogLevel: Level.INFO,
         throwOnUnexpectedExitCode: true,
       );
     }

@@ -5,7 +5,6 @@
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
 import 'package:ffigen/src/strings.dart' as strings;
-import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
@@ -16,7 +15,6 @@ late Library actual, expected;
 void main() {
   group('macros_test', () {
     setUpAll(() {
-      logWarnings(Level.WARNING);
       expected = expectedLibrary();
       actual = parser.parse(
         testContext(
@@ -149,7 +147,6 @@ void main() {
 Library expectedLibrary() {
   return Library(
     context: testContext(),
-    name: 'NativeLibrary',
     bindings: [
       Constant(name: 'TEST1', rawType: 'double', rawValue: '1.1'),
       Constant(name: 'TEST2', rawType: 'int', rawValue: '10'),

@@ -10,7 +10,6 @@ import 'package:ffigen/src/strings.dart' as strings;
 import 'package:file/local.dart';
 import 'package:glob/glob.dart';
 import 'package:json_schema/json_schema.dart';
-import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
@@ -20,14 +19,14 @@ import '../test_utils.dart';
 void main() {
   group('json_schema_test', () {
     final schema = YamlConfig.getsRootConfigSpec(
-      Logger.root,
+      createTestLogger(),
     ).generateJsonSchema(strings.ffigenJsonSchemaId);
 
     test('Schema Changes', () {
       final actualJsonSchema =
           const JsonEncoder.withIndent(strings.ffigenJsonSchemaIndent).convert(
             YamlConfig.getsRootConfigSpec(
-              Logger.root,
+              createTestLogger(),
             ).generateJsonSchema(strings.ffigenJsonSchemaId),
           );
       final expectedJsonSchema = File(

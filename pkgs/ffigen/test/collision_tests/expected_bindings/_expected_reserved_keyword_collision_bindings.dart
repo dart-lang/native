@@ -36,6 +36,13 @@ class NativeLibrary {
   set import(int value) => _import.value = value;
 }
 
+final class Repro2795 extends ffi.Struct {
+  external ffi.Pointer<
+    ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> in$)>
+  >
+  var$1;
+}
+
 final class abstract$ extends ffi.Opaque {}
 
 enum export$ {

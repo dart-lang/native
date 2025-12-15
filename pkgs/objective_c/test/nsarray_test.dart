@@ -15,11 +15,6 @@ import 'util.dart';
 
 void main() {
   group('NSArray', () {
-    setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open(testDylib);
-    });
-
     test('filled', () {
       final obj = NSObject();
       final array = NSArray.filled(3, obj).asDart();

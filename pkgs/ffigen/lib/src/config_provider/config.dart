@@ -72,14 +72,6 @@ final class FfiGenerator {
   )
   final List<LibraryImport> libraryImports;
 
-  /// Whether `Dart_Handle` should be mapped with Handle/Object.
-  // TODO(https://github.com/dart-lang/native/issues/2594): Remove this.
-  @Deprecated(
-    'Will be removed in a future version. Please reply in '
-    'https://github.com/dart-lang/native/issues/2594 if you rely on this.',
-  )
-  final bool useDartHandle;
-
   /// Path to the clang library.
   ///
   /// Only visible for YamlConfig plumbing.
@@ -109,11 +101,6 @@ final class FfiGenerator {
       'https://github.com/dart-lang/native/issues/2597.',
     )
     this.libraryImports = const <LibraryImport>[],
-    @Deprecated(
-      'Will be removed in a future version. Please reply in '
-      'https://github.com/dart-lang/native/issues/2594 if you rely on this.',
-    )
-    this.useDartHandle = true,
     @Deprecated('Only visible for YamlConfig plumbing.') this.libclangDylib,
   });
 
@@ -139,7 +126,7 @@ final class Headers {
 
   static bool _includeDefault(Uri header) => true;
 
-  /// CommandLine Arguments to pass to clang_compiler.
+  /// Command line arguments to pass to clang_compiler.
   final List<String>? compilerOptions;
 
   /// Where to ignore compiler warnings/errors in source header files.
@@ -155,7 +142,12 @@ final class Headers {
 
 /// Configuration for declarations.
 final class Declarations {
-  /// Checks if a name is allowed by a filter.
+  /// Whether to include the given declaration.
+  ///
+  /// ```dart
+  /// // This includes `Foo`, and nothing else:
+  /// include: (Declaration decl) => decl.originalName == 'Foo'
+  /// ```
   final bool Function(Declaration declaration) include;
 
   /// A function to pass to [include] that excludes all declarations.
@@ -169,10 +161,21 @@ final class Declarations {
   static bool Function(Declaration) includeSet(Set<String> names) =>
       (Declaration decl) => names.contains(decl.originalName);
 
-  /// Whether a member of a declaration should be included.
+  /// Whether the member of the declaration should be included.
   ///
   /// Only used for [Categories], [Interfaces], and [Protocols] methods and
-  /// properties.
+  /// properties. For Objective-C methods, this is the method selector, eg
+  /// `"arrayWithObjects:count:"`.
+  ///
+  /// Note that using [includeMember] to include a member of a class doesn't
+  /// affect whether the class is included. You'll also need to set [include]
+  /// for the class (this will be fixed in a future version of the API).
+  ///
+  /// ```dart
+  /// // This includes `Foo.bar`, and no other methods of `Foo`:
+  /// includeMember: (Declaration declaration, String member) =>
+  /// ```
+  // TODO(https://github.com/dart-lang/native/issues/2770): Merge with include.
   final bool Function(Declaration declaration, String member) includeMember;
 
   /// A function to pass to [includeMember] that includes all members of all
@@ -190,10 +193,18 @@ final class Declarations {
       (Declaration decl, String member) =>
           members[decl.originalName]?.contains(member) ?? true;
 
-  /// Checks if the symbol address should be included for this name.
+  /// Whether the symbol address should be exposed for this declaration.
+  ///
+  /// The address is exposed as an FFI pointer.
   final bool Function(Declaration declaration) includeSymbolAddress;
 
-  /// Applies renaming and returns the result.
+  /// Returns a new name for the declaration, to replace its `originalName`.
+  ///
+  /// ```dart
+  /// // This renames `Foo` to `Bar`, and nothing else:
+  /// rename: (Declaration decl) =>
+  ///     decl.originalName == 'Foo' ? 'Bar' : decl.originalName
+  /// ```
   final String Function(Declaration declaration) rename;
 
   /// A function to pass to [rename] that doesn't rename the declaration.
@@ -211,9 +222,21 @@ final class Declarations {
       (Declaration declaration) =>
           renames[declaration.originalName] ?? declaration.originalName;
 
-  /// Applies member renaming and returns the result. Used for struct/union
-  /// fields, enum elements, function params, and ObjC
-  /// interface/protocol/category methods/properties.
+  /// Returns a new name for the member of the declaration, to replace its
+  /// `originalName`.
+  ///
+  /// Used for struct/union fields, enum elements, function params, and
+  /// Objective-C interface/protocol/category methods/properties.
+  ///
+  /// ```dart
+  /// // This renames `Foo.bar` to `Foo.baz`, and nothing else:
+  /// rename: (Declaration decl, String member) {
+  ///   if (decl.originalName == 'Foo' && member == 'baz') {
+  ///     return 'baz';
+  ///   }
+  ///   return member;
+  /// }
+  /// ```
   final String Function(Declaration declaration, String member) renameMember;
 
   /// A function to pass to [renameMember] that doesn't rename the member.
@@ -246,8 +269,18 @@ final class Enums extends Declarations {
   /// The [EnumStyle] to use for the given enum declaration.
   ///
   /// The `suggestedStyle` is a suggested [EnumStyle] based on the declaration
-  /// of the enum, if any. For example, ObjC enums declared using NS_OPTIONS
-  /// are suggested to use [EnumStyle.intConstants].
+  /// of the enum, if any. For example, Objective-C enums declared using
+  /// NS_OPTIONS are suggested to use [EnumStyle.intConstants].
+  ///
+  /// ```dart
+  /// // This uses `intConstants` for `Foo`, and the default style otherwise:
+  /// style: (Declaration decl, EnumStyle? suggestedStyle) {
+  ///   if (decl.originalName == 'Foo') {
+  ///     return EnumStyle.intConstants;
+  ///   }
+  ///   return suggestedStyle ?? EnumStyle.dartEnum;
+  /// }
+  /// ```
   final EnumStyle Function(Declaration declaration, EnumStyle? suggestedStyle)
   style;
 
@@ -288,17 +321,26 @@ enum EnumStyle {
 
 /// Configuration for function declarations.
 final class Functions extends Declarations {
-  /// Whether to expose the function typedef for a given function.
+  /// Whether to generate a typedef for a given function's native type.
   final bool Function(Declaration declaration) includeTypedef;
 
   static bool _includeTypedefDefault(Declaration declaration) => false;
 
   /// Whether the given function is a leaf function.
+  ///
+  /// This corresponds to the `isLeaf` parameter of FFI's `lookupFunction`.
+  /// For more details, its documentation is here:
+  /// https://api.dart.dev/dart-ffi/DynamicLibraryExtension/lookupFunction.html
   final bool Function(Declaration declaration) isLeaf;
 
   static bool _isLeafDefault(Declaration declaration) => false;
 
-  /// VarArg function handling.
+  /// Map from function's original name to [VarArgFunction]s.
+  ///
+  /// Dart doesn't support variadic functions. Instead, variadic functions are
+  /// handled by generating multiple versions of the same function, with
+  /// different signatures. Each [VarArgFunction] represents one of those
+  /// signatures.
   final Map<String, List<VarArgFunction>> varArgs;
 
   const Functions({
@@ -491,11 +533,11 @@ final class ObjectiveC {
   /// Declaration filters for Objective-C protocols.
   final Protocols protocols;
 
-  /// Undocumented option that changes code generation for package:objective_c.
-  /// The main difference is whether NSObject etc are imported from
-  /// package:objective_c (the default) or code genned like any other class.
-  /// This is necessary because package:objective_c can't import NSObject from
-  /// itself.
+  // Undocumented option that changes code generation for package:objective_c.
+  // The main difference is whether NSObject etc are imported from
+  // package:objective_c (the default) or code genned like any other class.
+  // This is necessary because package:objective_c can't import NSObject from
+  // itself.
   @Deprecated('Only for internal use.')
   final bool generateForPackageObjectiveC;
 
@@ -524,7 +566,6 @@ final class Categories extends Declarations {
   const Categories({
     super.include,
     super.includeMember,
-    super.includeSymbolAddress,
     super.rename,
     super.renameMember,
     this.includeTransitive = true,
@@ -552,7 +593,6 @@ final class Interfaces extends Declarations {
   const Interfaces({
     super.include,
     super.includeMember,
-    super.includeSymbolAddress,
     super.rename,
     super.renameMember,
     this.includeTransitive = false,
@@ -583,7 +623,6 @@ final class Protocols extends Declarations {
   const Protocols({
     super.include,
     super.includeMember,
-    super.includeSymbolAddress,
     super.rename,
     super.renameMember,
     this.includeTransitive = false,
@@ -608,8 +647,7 @@ final class Output {
   /// The output Objective-C file for the generated Objective-C bindings.
   final Uri? objectiveCFile;
 
-  Uri get _objectiveCFile =>
-      objectiveCFile ?? Uri.file('${dartFile.toFilePath()}.m');
+  Uri get objCFile => objectiveCFile ?? Uri.file('${dartFile.toFilePath()}.m');
 
   /// The config for the symbol file.
   final SymbolFile? symbolFile;
@@ -654,16 +692,7 @@ final class NativeExternalBindings implements BindingStyle {
   /// If omitted, it will not be generated.
   final String? assetId;
 
-  /// The prefix for the generated Objective-C functions.
-  // TODO(https://github.com/dart-lang/native/issues/2580): Remove this.
-  @Deprecated('Will be replaced by a hash.')
-  final String wrapperName;
-
-  const NativeExternalBindings({
-    this.assetId,
-    @Deprecated('Will be replaced by a hash.')
-    this.wrapperName = 'NativeLibrary',
-  });
+  const NativeExternalBindings({this.assetId});
 }
 
 /// Generate bindings which take a [DynamicLibrary] or [DynamicLibrary.lookup]
@@ -687,79 +716,8 @@ final class DynamicLibraryBindings implements BindingStyle {
 }
 
 extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
-  ObjectiveC get _objectiveC => ffiGen.objectiveC ?? const ObjectiveC();
-  bool get includeTransitiveObjCInterfaces =>
-      _objectiveC.interfaces.includeTransitive;
-  bool get includeTransitiveObjCProtocols =>
-      _objectiveC.protocols.includeTransitive;
-  bool get includeTransitiveObjCCategories =>
-      _objectiveC.categories.includeTransitive;
-  String? Function(Declaration declaration) get interfaceModule =>
-      (declaration) => _objectiveC.interfaces.module(declaration);
-  String? Function(Declaration declaration) get protocolModule =>
-      (declaration) => _objectiveC.protocols.module(declaration);
-  bool get generateForPackageObjectiveC =>
-      // ignore: deprecated_member_use_from_same_package
-      _objectiveC.generateForPackageObjectiveC;
-  Categories get objcCategories => _objectiveC.categories;
-  Interfaces get objcInterfaces => _objectiveC.interfaces;
-  Protocols get objcProtocols => _objectiveC.protocols;
-  ExternalVersions get externalVersions => _objectiveC.externalVersions;
-  // ignore: deprecated_member_use_from_same_package
-  bool get useDartHandle => ffiGen.useDartHandle;
   // ignore: deprecated_member_use_from_same_package
   Map<String, ImportedType> get importedTypesByUsr => ffiGen.importedTypesByUsr;
-  String get wrapperName => switch (ffiGen.output.style) {
-    final DynamicLibraryBindings e => e.wrapperName,
-    // ignore: deprecated_member_use_from_same_package
-    final NativeExternalBindings e => e.wrapperName,
-  };
-
-  String? get wrapperDocComment => switch (ffiGen.output.style) {
-    final DynamicLibraryBindings e => e.wrapperDocComment,
-    _ => null,
-  };
-
-  FfiNativeConfig get ffiNativeConfig => FfiNativeConfig(
-    enabled: ffiGen.output.style is NativeExternalBindings,
-    assetId: switch (ffiGen.output.style) {
-      final NativeExternalBindings e => e.assetId,
-      _ => null,
-    },
-  );
-
-  bool shouldIncludeHeader(Uri header) => ffiGen.headers.include(header);
-
-  bool get ignoreSourceErrors => ffiGen.headers.ignoreSourceErrors;
-
-  List<String>? get compilerOpts => ffiGen.headers.compilerOptions;
-
-  List<Uri> get entryPoints => ffiGen.headers.entryPoints;
-
-  Uri get output => ffiGen.output.dartFile;
-
-  Uri get outputObjC => ffiGen.output._objectiveCFile;
-
-  BindingStyle get outputStyle => ffiGen.output.style;
-
-  SymbolFile? get symbolFile => ffiGen.output.symbolFile;
-
-  bool get sort => ffiGen.output.sort;
-
-  CommentType get commentType => ffiGen.output.commentType;
-
-  String? get preamble => ffiGen.output.preamble;
-
-  bool get formatOutput => ffiGen.output.format;
-
-  // Override declarative user spec with what FFIgen internals expect.
-  Map<String, LibraryImport> get libraryImports =>
-      Map<String, LibraryImport>.fromEntries(
-        // ignore: deprecated_member_use_from_same_package
-        ffiGen.libraryImports.map(
-          (import) => MapEntry<String, LibraryImport>(import.name, import),
-        ),
-      );
 
   // Override declarative user spec with what FFIgen internals expect.
   Map<String, ImportedType> get typedefTypeMappings =>
@@ -795,6 +753,4 @@ extension type Config(FfiGenerator ffiGen) implements FfiGenerator {
           (import) => MapEntry<String, ImportedType>(import.nativeType, import),
         ),
       );
-
-  Language get language => objectiveC != null ? Language.objc : Language.c;
 }

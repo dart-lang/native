@@ -15,11 +15,6 @@ import 'util.dart';
 
 void main() {
   group('autoReleasePool', () {
-    setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open(testDylib);
-    });
-
     test('basics', () async {
       late Pointer<ObjCObjectImpl> pointer;
       autoReleasePool(() {

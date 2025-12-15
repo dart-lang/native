@@ -1,3 +1,14 @@
+## 9.2.1
+
+- Fix [bug](https://github.com/dart-lang/native/issues/2824) where the build
+  hook was trying to access the code config if it was not provided.
+- Bump minimum Dart version to 3.10.0.
+
+## 9.2.0
+
+- Migrate to from a Flutter plugin to native assets. This enables
+  package:objective_c to be used in command line apps.
+
 ## 9.1.0
 
 - Use FFIgen 20.1.0

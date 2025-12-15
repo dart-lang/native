@@ -67,7 +67,7 @@ String generate({
         includeTransitive: includeTransitiveObjCCategories,
       ),
     ),
-  ).generate(logger: Logger.root..level = Level.SEVERE);
+  ).generate(logger: createTestLogger());
   return File(
     path.join(
       packagePathForTests,

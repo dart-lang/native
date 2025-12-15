@@ -21,9 +21,19 @@ import 'package:yaml/yaml.dart' as yaml;
 export 'package:ffigen/src/config_provider/utils.dart';
 
 Context testContext([FfiGenerator? generator]) => Context(
-  Logger.root,
+  createTestLogger(),
   generator ?? FfiGenerator(output: Output(dartFile: Uri.file('unused'))),
 );
+
+Logger createTestLogger({
+  List<String>? capturedMessages,
+  Level level = Level.ALL,
+}) => Logger.detached('')
+  ..level = level
+  ..onRecord.listen((record) {
+    printOnFailure('${record.level.name}: ${record.time}: ${record.message}');
+    capturedMessages?.add(record.message);
+  });
 
 extension LibraryTestExt on Library {
   /// Get a [Binding]'s generated string with a given name.
@@ -209,27 +219,10 @@ class NotFoundException implements Exception {
   }
 }
 
-void logWarnings([Level level = Level.WARNING]) {
-  Logger.root.level = level;
-  Logger.root.onRecord.listen((record) {
-    printOnFailure('${record.level.name.padRight(8)}: ${record.message}');
-  });
-}
-
-Logger logToArray(List<String> logArr, Level level) {
-  Logger.root.level = level;
-  Logger.root.onRecord.listen((record) {});
-  final logger = Logger('ffigen.test');
-  logger.onRecord.listen((record) {
-    logArr.add('${record.level.name.padRight(8)}: ${record.message}');
-  });
-  return logger;
-}
-
 FfiGenerator testConfig(String yamlBody, {String? filename, Logger? logger}) {
   return YamlConfig.fromYaml(
     yaml.loadYaml(yamlBody) as yaml.YamlMap,
-    logger ?? Logger.root,
+    logger ?? createTestLogger(),
     filename: filename,
     packageConfig: PackageConfig([
       Package(
@@ -242,25 +235,10 @@ FfiGenerator testConfig(String yamlBody, {String? filename, Logger? logger}) {
   ).configAdapter();
 }
 
-FfiGenerator testConfigFromPath(String path) {
+FfiGenerator testConfigFromPath(String path, {Logger? logger}) {
   final file = File(path);
   final yamlBody = file.readAsStringSync();
-  return testConfig(yamlBody, filename: path);
-}
-
-T withChDir<T>(String path, T Function() inner) {
-  final oldDir = Directory.current;
-  Directory.current = File(path).parent;
-
-  late T result;
-
-  try {
-    result = inner();
-  } finally {
-    Directory.current = oldDir;
-  }
-
-  return result;
+  return testConfig(yamlBody, filename: path, logger: logger);
 }
 
 bool isFlutterTester = Platform.resolvedExecutable.contains('flutter_tester');

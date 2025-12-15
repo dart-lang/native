@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+@DefaultAsset('package:objective_c/objective_c.dylib')
+library;
+
 import 'dart:ffi';
 import 'dart:io';
 
@@ -29,7 +32,7 @@ void generateBindingsForCoverage(String testName, [Logger? logger]) {
     '${testName}_config.yaml',
   );
   final config = testConfig(File(path).readAsStringSync(), filename: path);
-  config.generate(logger: logger ?? (Logger.root..level = Level.SEVERE));
+  config.generate(logger: logger ?? createTestLogger());
 }
 
 final _executeInternalCommand = () {

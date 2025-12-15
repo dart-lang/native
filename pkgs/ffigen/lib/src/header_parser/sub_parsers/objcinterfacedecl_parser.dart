@@ -18,31 +18,42 @@ Type? parseObjCInterfaceDeclaration(
   Context context,
   clang_types.CXCursor cursor,
 ) {
-  final itfUsr = cursor.usr();
-  final itfName = cursor.spelling();
-  final decl = Declaration(usr: itfUsr, originalName: itfName);
+  final usr = cursor.usr();
+
+  final cachedItf = context.bindingsIndex.getSeenObjCInterface(usr);
+  if (cachedItf != null) return cachedItf;
+
+  final name = cursor.spelling();
+  final decl = Declaration(usr: usr, originalName: name);
   final apiAvailability = ApiAvailability.fromCursor(cursor, context);
+
+  final config = context.config;
+  final objcInterfaces = config.objectiveC?.interfaces;
+  if (objcInterfaces == null) {
+    return null;
+  }
 
   context.logger.fine(
     '++++ Adding ObjC interface: '
-    'Name: $itfName, ${cursor.completeStringRepr()}',
+    'Name: $name, ${cursor.completeStringRepr()}',
   );
 
-  final config = context.config;
-  return ObjCInterface(
+  final itf = ObjCInterface(
     context: context,
-    usr: itfUsr,
-    originalName: itfName,
-    name: config.objcInterfaces.rename(decl),
-    lookupName: applyModulePrefix(itfName, config.interfaceModule(decl)),
+    usr: usr,
+    originalName: name,
+    name: objcInterfaces.rename(decl),
+    lookupName: applyModulePrefix(name, objcInterfaces.module(decl)),
     dartDoc: getCursorDocComment(
       context,
       cursor,
-      fallbackComment: itfName,
+      fallbackComment: name,
       availability: apiAvailability.dartDoc,
     ),
     apiAvailability: apiAvailability,
   );
+  context.bindingsIndex.addObjCInterfaceToSeen(usr, itf);
+  return itf;
 }
 
 void fillObjCInterfaceMethodsIfNeeded(
@@ -58,6 +69,8 @@ void fillObjCInterfaceMethodsIfNeeded(
 
   if (itf.filled) return;
   itf.filled = true; // Break cycles.
+
+  final objcInterfaces = context.config.objectiveC!.interfaces;
 
   context.logger.fine(
     '++++ Filling ObjC interface: '
@@ -79,21 +92,14 @@ void fillObjCInterfaceMethodsIfNeeded(
           context,
           child,
           itfDecl,
-          context.config.objcInterfaces,
+          objcInterfaces,
         );
         itf.addMethod(getter);
         itf.addMethod(setter);
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
       case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
-        itf.addMethod(
-          parseObjCMethod(
-            context,
-            child,
-            itfDecl,
-            context.config.objcInterfaces,
-          ),
-        );
+        itf.addMethod(parseObjCMethod(context, child, itfDecl, objcInterfaces));
         break;
     }
   });

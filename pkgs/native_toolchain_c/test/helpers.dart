@@ -5,6 +5,7 @@
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
+import 'dart:math' as math;
 
 import 'package:code_assets/code_assets.dart';
 import 'package:logging/logging.dart';
@@ -71,15 +72,19 @@ Logger? _logger;
 Logger createCapturingLogger(List<String> capturedMessages) =>
     _createTestLogger(capturedMessages: capturedMessages);
 
-Logger _createTestLogger({List<String>? capturedMessages}) =>
-    Logger.detached('')
-      ..level = Level.ALL
-      ..onRecord.listen((record) {
-        printOnFailure(
-          '${record.level.name}: ${record.time}: ${record.message}',
-        );
-        capturedMessages?.add(record.message);
-      });
+Logger createCapturingRecordLogger(List<LogRecord> capturedLogs) =>
+    _createTestLogger(capturedLogs: capturedLogs);
+
+Logger _createTestLogger({
+  List<String>? capturedMessages,
+  List<LogRecord>? capturedLogs,
+}) => Logger.detached('')
+  ..level = Level.ALL
+  ..onRecord.listen((record) {
+    printOnFailure('${record.level.name}: ${record.time}: ${record.message}');
+    capturedMessages?.add(record.message);
+    capturedLogs?.add(record);
+  });
 
 Uri packageUri = findPackageRoot('native_toolchain_c');
 
@@ -241,47 +246,45 @@ Future<RunProcessResult?> _runDumpbin(
   );
 }
 
-Future<int> textSectionAddress(Uri dylib) async {
+Future<void> expectPageSize(Uri dylib, int pageSize) async {
   if (Platform.isMacOS) {
     // Find the line in the objdump output that looks like:
-    //  11 .text               00000046 00000000000045a0 TEXT
+    //   LOAD off    0x00000000 vaddr 0x00000000 paddr 0x00000000 align 2**14
     final result = await runProcess(
       executable: Uri.file('objdump'),
-      arguments: ['--headers', dylib.toFilePath()],
+      arguments: ['-p', dylib.toFilePath()],
       logger: logger,
     );
     expect(result.exitCode, 0);
-    final textSection = result.stdout
+    final loadHeader = result.stdout
         .split('\n')
-        .firstWhere((e) => e.contains('.text'));
-    final parsed = textSection.split(' ').where((e) => e.isNotEmpty).toList();
-    expect(parsed[1], '.text');
-    expect(parsed[4], 'TEXT');
-    final vma = int.parse(parsed[3], radix: 16);
-    return vma;
+        .firstWhere((e) => e.contains('LOAD'));
+    final parsed = loadHeader.split(' ').where((e) => e.isNotEmpty).toList();
+    expect(parsed[7], 'align');
+    expect(parsed[8], startsWith('2**'));
+    final alignment = math.pow(2, int.parse(parsed[8].substring('2**'.length)));
+    expect(alignment, pageSize);
   }
   if (Platform.isLinux) {
+    // The readelf output has the following structure:
+    //   Type           Offset             VirtAddr           PhysAddr
+    //                  FileSiz            MemSiz              Flags  Align
     // Find the line in the readelf output that looks like:
-    // [11] .text             PROGBITS   00004328 000328 000064 00  AX  0   0  4
-    final result = await readelf(dylib.toFilePath(), 'S');
-    final textSection = result
-        .split('\n')
-        .firstWhere((e) => e.contains('.text'));
-    final parsed = textSection.split(' ').where((e) => e.isNotEmpty).toList();
-    expect(parsed[1], '.text');
-    expect(parsed[2], 'PROGBITS');
-    final addr = int.parse(parsed[3], radix: 16);
-    return addr;
-  }
-  throw UnimplementedError();
-}
-
-Future<void> expectPageSize(Uri dylib, int pageSize) async {
-  if (Platform.isMacOS || Platform.isLinux) {
-    // If page size is 16kb, the `.text` section address should be
-    // above 0x4000. With smaller page sizes it's above 0x1000.
-    final vma = await textSectionAddress(dylib);
-    expect(vma, greaterThanOrEqualTo(pageSize));
+    //   LOAD           0x0000000000000000 0x0000000000000000 0x0000000000000000
+    //                  0x0000000000000528 0x0000000000000528  R      0x1000
+    final result = await readelf(dylib.toFilePath(), 'l');
+    // Capture the line after the line that contains "LOAD".
+    final regExp = RegExp('LOAD.*\n(.*)');
+    final loadSegment = regExp.firstMatch(result)!.group(1)!;
+    final alignment = int.parse(
+      loadSegment
+          .split(' ')
+          .where((e) => e.isNotEmpty)
+          .last
+          .substring('0x'.length),
+      radix: 16,
+    );
+    expect(alignment, pageSize);
   }
 }
 

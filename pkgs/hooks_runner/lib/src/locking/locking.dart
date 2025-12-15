@@ -87,6 +87,7 @@ Future<T> _runUnderFileLock<T>(
   if (!await file.exists()) await file.create(recursive: true);
   final randomAccessFile = await file.open(mode: FileMode.write);
   var printed = false;
+  var errorFromCallback = false;
   final stopwatch = Stopwatch()..start();
   while (timeout == null || stopwatch.elapsed < timeout) {
     try {
@@ -96,11 +97,19 @@ Future<T> _runUnderFileLock<T>(
           'Last acquired by ${Platform.resolvedExecutable} '
           '(pid $pid) running ${Platform.script} on ${DateTime.now()}.',
         );
-        return await callback();
+        try {
+          return await callback();
+        } on FileSystemException {
+          errorFromCallback = true;
+          rethrow;
+        }
       } finally {
         await randomAccessFile.unlock();
       }
     } on FileSystemException {
+      if (errorFromCallback) {
+        rethrow;
+      }
       if (!printed) {
         logger?.finer(
           'Waiting to be able to obtain lock of directory: ${file.path}.',

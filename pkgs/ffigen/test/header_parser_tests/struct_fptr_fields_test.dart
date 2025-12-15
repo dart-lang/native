@@ -6,7 +6,6 @@ import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
 import 'package:ffigen/src/strings.dart' as strings;
-import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart' as yaml;
 
@@ -16,7 +15,6 @@ late Library actual;
 void main() {
   group('Function pointer parameters parsing test', () {
     setUpAll(() {
-      logWarnings(Level.SEVERE);
       actual = parser.parse(
         testContext(
           YamlConfig.fromYaml(
@@ -29,7 +27,7 @@ ${strings.headers}:
     - '${absPath('test/header_parser_tests/struct_fptr_fields.h')}'
         ''')
                 as yaml.YamlMap,
-            Logger.root,
+            createTestLogger(),
           ).configAdapter(),
         ),
       );

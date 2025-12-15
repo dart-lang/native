@@ -1,0 +1,13 @@
+name: no_build_output
+description: A package with a build hook that does not produce any output.
+version: 0.1.0
+
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.9.0 <4.0.0'
+
+dependencies:
+  hooks: any

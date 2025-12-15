@@ -59,7 +59,7 @@ class _ParsedCompound {
       unimplementedMemberType ||
       flexibleArrayMember ||
       bitFieldMember ||
-      (dartHandleMember && context.config.useDartHandle) ||
+      dartHandleMember ||
       incompleteCompoundMember ||
       alignment == clang_types.CXTypeLayoutError.CXTypeLayoutError_Incomplete;
 
@@ -123,7 +123,11 @@ Compound? _parseCompoundDeclaration(
   constructor,
 ) {
   // Parse the cursor definition instead, if this is a forward declaration.
-  final declUsr = cursor.usr();
+  final usr = cursor.usr();
+
+  final cachedCompound = context.bindingsIndex.getSeenCompound(usr);
+  if (cachedCompound != null) return cachedCompound;
+
   final String declName;
 
   // Only set name using USR if the type is not Anonymous (A struct is anonymous
@@ -132,7 +136,7 @@ Compound? _parseCompoundDeclaration(
   if (clang.clang_Cursor_isAnonymous(cursor) == 0) {
     // This gives the significant name, i.e name of the struct if defined or
     // name of the first typedef declaration that refers to it.
-    declName = declUsr.split('@').last;
+    declName = usr.split('@').last;
   } else {
     // Empty names are treated as inline declarations.
     declName = '';
@@ -144,12 +148,13 @@ Compound? _parseCompoundDeclaration(
     return null;
   }
 
-  final decl = Declaration(usr: declUsr, originalName: declName);
+  final decl = Declaration(usr: usr, originalName: declName);
+  final Compound compound;
   if (declName.isEmpty) {
     cursor = context.cursorIndex.getDefinition(cursor);
-    return constructor(
+    compound = constructor(
       name: 'Unnamed$className',
-      usr: declUsr,
+      usr: usr,
       dartDoc: getCursorDocComment(
         context,
         cursor,
@@ -163,8 +168,8 @@ Compound? _parseCompoundDeclaration(
     context.logger.fine(
       '++++ Adding $className: Name: $declName, ${cursor.completeStringRepr()}',
     );
-    return constructor(
-      usr: declUsr,
+    compound = constructor(
+      usr: usr,
       originalName: declName,
       name: configDecl.rename(decl),
       dartDoc: getCursorDocComment(
@@ -176,6 +181,8 @@ Compound? _parseCompoundDeclaration(
       nativeType: cursor.type().spelling(),
     );
   }
+  context.bindingsIndex.addCompoundToSeen(usr, compound);
+  return compound;
 }
 
 void fillCompoundMembersIfNeeded(
@@ -237,7 +244,7 @@ void fillCompoundMembersIfNeeded(
       'Removed All $className Members from ${compound.originalName}'
       '(${compound.originalName}), Bit Field members not supported.',
     );
-  } else if (parsed.dartHandleMember && context.config.useDartHandle) {
+  } else if (parsed.dartHandleMember) {
     logger.fine(
       '---- Removed $className members, reason: Dart_Handle member. '
       '${cursor.completeStringRepr()}',

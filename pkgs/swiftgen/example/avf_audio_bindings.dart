@@ -628,87 +628,119 @@ extension AVAudioPlayerWrapper$Methods on AVAudioPlayerWrapper {
   }
 
   /// initWithContentsOf:error:
-  AVAudioPlayerWrapper? initWithContentsOf(
-    objc.NSURL url, {
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
-  }) {
+  AVAudioPlayerWrapper? initWithContentsOf(objc.NSURL url) {
     objc.checkOsVersionInternal(
       'AVAudioPlayerWrapper.initWithContentsOf:error:',
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1lhpu4m(
-      object$.ref.retainAndReturnPointer(),
-      _sel_initWithContentsOf_error_,
-      url.ref.pointer,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : AVAudioPlayerWrapper.fromPointer($ret, retain: false, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1lhpu4m(
+        object$.ref.retainAndReturnPointer(),
+        _sel_initWithContentsOf_error_,
+        url.ref.pointer,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : AVAudioPlayerWrapper.fromPointer(
+              $ret,
+              retain: false,
+              release: true,
+            );
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// initWithContentsOf:fileTypeHint:error:
   AVAudioPlayerWrapper? initWithContentsOf$1(
     objc.NSURL url, {
     objc.NSString? fileTypeHint,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     objc.checkOsVersionInternal(
       'AVAudioPlayerWrapper.initWithContentsOf:fileTypeHint:error:',
       macOS: (false, (10, 9, 0)),
     );
-    final $ret = _objc_msgSend_1pnyuds(
-      object$.ref.retainAndReturnPointer(),
-      _sel_initWithContentsOf_fileTypeHint_error_,
-      url.ref.pointer,
-      fileTypeHint?.ref.pointer ?? ffi.nullptr,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : AVAudioPlayerWrapper.fromPointer($ret, retain: false, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1pnyuds(
+        object$.ref.retainAndReturnPointer(),
+        _sel_initWithContentsOf_fileTypeHint_error_,
+        url.ref.pointer,
+        fileTypeHint?.ref.pointer ?? ffi.nullptr,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : AVAudioPlayerWrapper.fromPointer(
+              $ret,
+              retain: false,
+              release: true,
+            );
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// initWithData:error:
-  AVAudioPlayerWrapper? initWithData(
-    objc.NSData data, {
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
-  }) {
+  AVAudioPlayerWrapper? initWithData(objc.NSData data) {
     objc.checkOsVersionInternal(
       'AVAudioPlayerWrapper.initWithData:error:',
       macOS: (false, (10, 7, 0)),
     );
-    final $ret = _objc_msgSend_1lhpu4m(
-      object$.ref.retainAndReturnPointer(),
-      _sel_initWithData_error_,
-      data.ref.pointer,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : AVAudioPlayerWrapper.fromPointer($ret, retain: false, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1lhpu4m(
+        object$.ref.retainAndReturnPointer(),
+        _sel_initWithData_error_,
+        data.ref.pointer,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : AVAudioPlayerWrapper.fromPointer(
+              $ret,
+              retain: false,
+              release: true,
+            );
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// initWithData:fileTypeHint:error:
   AVAudioPlayerWrapper? initWithData$1(
     objc.NSData data, {
     objc.NSString? fileTypeHint,
-    required ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>> error,
   }) {
     objc.checkOsVersionInternal(
       'AVAudioPlayerWrapper.initWithData:fileTypeHint:error:',
       macOS: (false, (10, 9, 0)),
     );
-    final $ret = _objc_msgSend_1pnyuds(
-      object$.ref.retainAndReturnPointer(),
-      _sel_initWithData_fileTypeHint_error_,
-      data.ref.pointer,
-      fileTypeHint?.ref.pointer ?? ffi.nullptr,
-      error,
-    );
-    return $ret.address == 0
-        ? null
-        : AVAudioPlayerWrapper.fromPointer($ret, retain: false, release: true);
+    final $err = pkg_ffi.calloc<ffi.Pointer<objc.ObjCObjectImpl>>();
+    try {
+      final $ret = _objc_msgSend_1pnyuds(
+        object$.ref.retainAndReturnPointer(),
+        _sel_initWithData_fileTypeHint_error_,
+        data.ref.pointer,
+        fileTypeHint?.ref.pointer ?? ffi.nullptr,
+        $err,
+      );
+      objc.NSErrorException.checkErrorPointer($err.value);
+      return $ret.address == 0
+          ? null
+          : AVAudioPlayerWrapper.fromPointer(
+              $ret,
+              retain: false,
+              release: true,
+            );
+    } finally {
+      pkg_ffi.calloc.free($err);
+    }
   }
 
   /// isMeteringEnabled
