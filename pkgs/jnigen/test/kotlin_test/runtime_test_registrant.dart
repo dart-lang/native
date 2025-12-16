@@ -37,6 +37,75 @@ void registerTests(String groupName, TestRunnerCallback test) {
       });
     });
 
+    group('Interface with suspend functions', () {
+      test('return immediately', () async {
+        await using((arena) async {
+          final itf = SuspendInterface.implement($SuspendInterface(
+            sayHello: () async => JString.fromString("Hello"),
+            sayHello$1: (JString name) async =>
+                JString.fromString("Hello ${name.toDartString()}"),
+            nullableHello: (bool returnNull) async =>
+                returnNull ? null : JString.fromString("Hello"),
+            sayInt: () async => JInteger(123),
+            sayInt$1: (JInteger value) async => JInteger(10 * value.intValue()),
+            nullableInt: (bool returnNull) async =>
+                returnNull ? null : JInteger(123),
+          ));
+          expect((await itf.sayHello()).toDartString(), "Hello");
+          expect(
+              (await itf.sayHello$1(JString.fromString("Bob"))).toDartString(),
+              "Hello Bob");
+          expect((await itf.nullableHello(false))?.toDartString(), "Hello");
+          expect(await itf.nullableHello(true), null);
+          expect((await itf.sayInt()).intValue(), 123);
+          expect((await itf.sayInt$1(JInteger(456))).intValue(), 4560);
+          expect((await itf.nullableInt(false))?.intValue(), 123);
+          expect(await itf.nullableInt(true), null);
+        });
+      });
+
+      test('return delayed', () async {
+        await using((arena) async {
+          final itf = SuspendInterface.implement($SuspendInterface(
+            sayHello: () async {
+              await Future.delayed(Duration(milliseconds: 100));
+              return JString.fromString("Hello");
+            },
+            sayHello$1: (JString name) async {
+              await Future.delayed(Duration(milliseconds: 100));
+              return JString.fromString("Hello ${name.toDartString()}");
+            },
+            nullableHello: (bool returnNull) async {
+              await Future.delayed(Duration(milliseconds: 100));
+              return returnNull ? null : JString.fromString("Hello");
+            },
+            sayInt: () async {
+              await Future.delayed(Duration(milliseconds: 100));
+              return JInteger(123);
+            },
+            sayInt$1: (JInteger value) async {
+              await Future.delayed(Duration(milliseconds: 100));
+              return JInteger(10 * value.intValue());
+            },
+            nullableInt: (bool returnNull) async {
+              await Future.delayed(Duration(milliseconds: 100));
+              return returnNull ? null : JInteger(123);
+            },
+          ));
+          expect((await itf.sayHello()).toDartString(), "Hello");
+          expect(
+              (await itf.sayHello$1(JString.fromString("Bob"))).toDartString(),
+              "Hello Bob");
+          expect((await itf.nullableHello(false))?.toDartString(), "Hello");
+          expect(await itf.nullableHello(true), null);
+          expect((await itf.sayInt()).intValue(), 123);
+          expect((await itf.sayInt$1(JInteger(456))).intValue(), 4560);
+          expect((await itf.nullableInt(false))?.intValue(), 123);
+          expect(await itf.nullableInt(true), null);
+        });
+      });
+    });
+
     test('Top levels', () {
       expect(topLevel(), 42);
       expect(topLevel$1(), 42);

@@ -48,11 +48,11 @@ class KotlinContinuation extends JObject {
 
   static final _resumeWithId =
       _class.instanceMethodId(r'resumeWith', r'(Ljava/lang/Object;)V');
-  void resumeWith(JObject result) {
+  void resumeWith(JObject? result) {
     _resumeWithId(this, const jvoidType(), [result]);
   }
 
-  JObject resumeWithFuture(Future<JObject> future) {
+  JObject resumeWithFuture(Future<JObject?> future) {
     future.then(resumeWith, onError: (error) {
         // TODO
       });

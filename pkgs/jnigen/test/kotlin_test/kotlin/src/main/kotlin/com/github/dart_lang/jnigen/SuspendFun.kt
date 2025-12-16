@@ -47,3 +47,12 @@ public class SuspendFun {
         return "Hello!"
     }
 }
+
+public interface SuspendInterface {
+    suspend fun sayHello(): String
+    suspend fun sayHello(name: String): String
+    suspend fun nullableHello(returnNull: Boolean): String?
+    suspend fun sayInt(): Integer
+    suspend fun sayInt(value: Integer): Integer
+    suspend fun nullableInt(returnNull: Boolean): Integer?
+}
