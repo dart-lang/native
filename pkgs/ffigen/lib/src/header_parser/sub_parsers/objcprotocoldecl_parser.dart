@@ -10,7 +10,7 @@ import '../utils.dart';
 import 'api_availability.dart';
 import 'objcinterfacedecl_parser.dart';
 
-ObjCProtocol? parseObjCProtocolDeclaration(
+CachableBinding? parseObjCProtocolDeclaration(
   Context context,
   clang_types.CXCursor cursor,
 ) {
@@ -30,11 +30,6 @@ ObjCProtocol? parseObjCProtocolDeclaration(
   final name = cursor.spelling();
 
   final decl = Declaration(usr: usr, originalName: name);
-
-  final cachedProtocol = bindingsIndex.getSeenObjCProtocol(usr);
-  if (cachedProtocol != null) {
-    return cachedProtocol;
-  }
 
   // There's a strange shape in the AST for protocols seen in certain contexts,
   // where instead of the AST looking like (decl -> methods/etc), it looks like
@@ -74,39 +69,39 @@ ObjCProtocol? parseObjCProtocolDeclaration(
     apiAvailability: apiAvailability,
   );
 
-  // Make sure to add the protocol to the index before parsing the AST, to break
-  // cycles.
-  bindingsIndex.addObjCProtocolToSeen(usr, protocol);
-
-  cursor.visitChildren((child) {
-    switch (child.kind) {
-      case clang_types.CXCursorKind.CXCursor_ObjCProtocolRef:
-        final declCursor = clang.clang_getCursorDefinition(child);
-        logger.fine(
-          '       > Super protocol: ${declCursor.completeStringRepr()}',
-        );
-        final superProtocol = parseObjCProtocolDeclaration(context, declCursor);
-        if (superProtocol != null) {
-          protocol.superProtocols.add(superProtocol);
-        }
-        break;
-      case clang_types.CXCursorKind.CXCursor_ObjCPropertyDecl:
-        final (getter, setter) = parseObjCProperty(
-          context,
-          child,
-          decl,
-          objcProtocols,
-        );
-        protocol.addMethod(getter);
-        protocol.addMethod(setter);
-        break;
-      case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
-      case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
-        protocol.addMethod(
-          parseObjCMethod(context, child, decl, objcProtocols),
-        );
-        break;
-    }
+  return CachableBinding(protocol, () {
+    cursor.visitChildren((child) {
+      switch (child.kind) {
+        case clang_types.CXCursorKind.CXCursor_ObjCProtocolRef:
+          final declCursor = clang.clang_getCursorDefinition(child);
+          logger.fine(
+            '       > Super protocol: ${declCursor.completeStringRepr()}',
+          );
+          final superProtocol = parseObjCProtocolDeclaration(
+            context,
+            declCursor,
+          );
+          if (superProtocol != null) {
+            protocol.superProtocols.add(superProtocol);
+          }
+          break;
+        case clang_types.CXCursorKind.CXCursor_ObjCPropertyDecl:
+          final (getter, setter) = parseObjCProperty(
+            context,
+            child,
+            decl,
+            objcProtocols,
+          );
+          protocol.addMethod(getter);
+          protocol.addMethod(setter);
+          break;
+        case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
+        case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
+          protocol.addMethod(
+            parseObjCMethod(context, child, decl, objcProtocols),
+          );
+          break;
+      }
+    });
   });
-  return protocol;
 }

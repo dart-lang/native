@@ -39,9 +39,6 @@ Typealias? parseTypedefDeclaration(
   final name = cursor.spelling();
   final usr = cursor.usr();
 
-  final cachedType = bindingsIndex.getSeenTypealias(usr);
-  if (cachedType != null) return cachedType;
-
   final decl = Declaration(usr: usr, originalName: name);
   final ct = clang.clang_getTypedefDeclUnderlyingType(cursor);
   final s = getCodeGenType(
@@ -51,37 +48,29 @@ Typealias? parseTypedefDeclaration(
     originalCursor: cursor,
   );
 
-  if (bindingsIndex.isSeenUnsupportedTypealias(usr)) {
-    // Do not process unsupported typealiases again.
-  } else if (s is UnimplementedType) {
+  if (s is UnimplementedType) {
     logger.fine(
       "Skipped Typedef '$name': "
       'Unimplemented type referred.',
     );
-    bindingsIndex.addUnsupportedTypealiasToSeen(usr);
   } else if (s is Compound && s.originalName == name) {
     // Ignore typedef if it refers to a compound with the same original name.
-    bindingsIndex.addUnsupportedTypealiasToSeen(usr);
     logger.fine(
       "Skipped Typedef '$name': "
       'Name matches with referred struct/union.',
     );
   } else if (s is EnumClass) {
     // Ignore typedefs to Enum.
-    bindingsIndex.addUnsupportedTypealiasToSeen(usr);
     logger.fine("Skipped Typedef '$name': typedef to enum.");
   } else if (s is HandleType) {
     // Ignore typedefs to Handle.
     logger.fine("Skipped Typedef '$name': typedef to Dart Handle.");
-    bindingsIndex.addUnsupportedTypealiasToSeen(usr);
   } else if (s is ConstantArray || s is IncompleteArray) {
     // Ignore typedefs to Constant Array.
     logger.fine("Skipped Typedef '$name': typedef to array.");
-    bindingsIndex.addUnsupportedTypealiasToSeen(usr);
   } else if (s is BooleanType) {
     // Ignore typedefs to Boolean.
     logger.fine("Skipped Typedef '$name': typedef to bool.");
-    bindingsIndex.addUnsupportedTypealiasToSeen(usr);
   } else {
     // Create typealias.
     final type = Typealias(
@@ -91,7 +80,6 @@ Typealias? parseTypedefDeclaration(
       type: s,
       dartDoc: getCursorDocComment(context, cursor),
     );
-    bindingsIndex.addTypealiasToSeen(usr, type);
     return type;
   }
   return null;

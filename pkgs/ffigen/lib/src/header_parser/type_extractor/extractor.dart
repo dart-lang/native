@@ -93,11 +93,7 @@ Type getCodeGenType(
       cursor,
       pointerReference,
     );
-    if (type == null) {
-      return UnimplementedType('${cxtype.kindSpelling()} not implemented');
-    }
-    _fillFromCursorIfNeeded(context, type, cursor, pointerReference);
-    return type;
+    return type ?? UnimplementedType('${cxtype.kindSpelling()} not implemented');
   }
 
   // If the type doesn't have a declaration cursor, then it's a basic type such

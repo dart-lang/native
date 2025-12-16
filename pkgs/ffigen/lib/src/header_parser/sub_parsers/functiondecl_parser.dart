@@ -141,7 +141,7 @@ void parseFunctionDeclaration(Context context, clang_types.CXCursor cursor) {
         exposeFunctionTypedefs: config.functions.includeTypedef(decl),
         isLeaf: config.functions.isLeaf(decl),
         objCReturnsRetained: objCReturnsRetained,
-        loadFromNativeAsset: config.ffiNativeConfig.enabled,
+        loadFromNativeAsset: config.output.style is NativeExternalBindings,
       ),
     );
   }

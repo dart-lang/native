@@ -6,12 +6,13 @@ import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
 import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
+import '../translation_unit_parser.dart';
 import '../utils.dart';
 import 'api_availability.dart';
 import 'objcinterfacedecl_parser.dart';
 import 'objcprotocoldecl_parser.dart';
 
-ObjCCategory? parseObjCCategoryDeclaration(
+CachableBinding? parseObjCCategoryDeclaration(
   Context context,
   clang_types.CXCursor cursor,
 ) {
@@ -25,11 +26,6 @@ ObjCCategory? parseObjCCategoryDeclaration(
   final name = cursor.spelling();
 
   final decl = Declaration(usr: usr, originalName: name);
-
-  final cachedCategory = context.bindingsIndex.getSeenObjCCategory(usr);
-  if (cachedCategory != null) {
-    return cachedCategory;
-  }
 
   final apiAvailability = ApiAvailability.fromCursor(cursor, context);
   if (apiAvailability.availability == Availability.none) {
@@ -72,39 +68,40 @@ ObjCCategory? parseObjCCategoryDeclaration(
     ),
     context: context,
   );
-
-  cursor.visitChildren((child) {
-    switch (child.kind) {
-      case clang_types.CXCursorKind.CXCursor_ObjCProtocolRef:
-        final protoCursor = clang.clang_getCursorDefinition(child);
-        category.addProtocol(
-          parseObjCProtocolDeclaration(context, protoCursor),
-        );
-        break;
-      case clang_types.CXCursorKind.CXCursor_ObjCPropertyDecl:
-        final (getter, setter) = parseObjCProperty(
-          context,
-          child,
-          decl,
-          objcCategories,
-        );
-        category.addMethod(getter);
-        category.addMethod(setter);
-        break;
-      case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
-      case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
-        category.addMethod(
-          parseObjCMethod(context, child, decl, objcCategories),
-        );
-        break;
-    }
-  });
-
-  logger.fine(
-    '++++ Finished ObjC category: '
-    'Name: $name, ${cursor.completeStringRepr()}',
-  );
-
   parentInterface.categories.add(category);
-  return category;
+
+  return CachableBinding(category, () {
+    cursor.visitChildren((child) {
+      switch (child.kind) {
+        case clang_types.CXCursorKind.CXCursor_ObjCProtocolRef:
+          final protoCursor = clang.clang_getCursorDefinition(child);
+          final protocol = parseCursor(context, protoCursor);
+          if (protocol != null) {
+            category.addProtocol(protocol as ObjCProtocol);
+          }
+          break;
+        case clang_types.CXCursorKind.CXCursor_ObjCPropertyDecl:
+          final (getter, setter) = parseObjCProperty(
+            context,
+            child,
+            decl,
+            objcCategories,
+          );
+          category.addMethod(getter);
+          category.addMethod(setter);
+          break;
+        case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
+        case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
+          category.addMethod(
+            parseObjCMethod(context, child, decl, objcCategories),
+          );
+          break;
+      }
+    });
+
+    logger.fine(
+      '++++ Finished ObjC category: '
+      'Name: $name, ${cursor.completeStringRepr()}',
+    );
+  });
 }

@@ -21,7 +21,7 @@ void parseTranslationUnits(
 ) {
   final headers = <String, bool>{};
   for (final translationUnitCursor in translationUnitCursors) {
-    _parseTranslationUnits(context, translationUnitCursor, headers);
+    _parseTranslationUnit(context, translationUnitCursor, headers);
   }
 }
 
@@ -34,8 +34,8 @@ void _parseTranslationUnit(
   translationUnitCursor.visitChildren((cursor) {
     final file = cursor.sourceFileName();
     if (file.isEmpty) return;
-    if (headers[file] ??= context.config.shouldIncludeHeader(Uri.file(file))) {
-      parseCursor(context, def);
+    if (headers[file] ??= context.config.headers.include(Uri.file(file))) {
+      parseCursor(context, cursor);
     } else {
       logger.finest(
         'rootCursorVisitor:(not included) ${cursor.completeStringRepr()}',
@@ -47,7 +47,7 @@ void _parseTranslationUnit(
 Binding? parseCursor(Context context, clang_types.CXCursor cursor) =>
     context.bindingsIndex.cache(cursor, (def) => _parseCursor(context, def));
 
-Binding? _parseCursor(Context context, clang_types.CXCursor cursor) {
+CachableBinding? _parseCursor(Context context, clang_types.CXCursor cursor) {
   final logger = context.logger;
   logger.finest('rootCursorVisitor: ${cursor.completeStringRepr()}');
   try {
@@ -72,7 +72,7 @@ Binding? _parseCursor(Context context, clang_types.CXCursor cursor) {
         saveMacroDefinition(context, cursor);
         return null;
       case clang_types.CXCursorKind.CXCursor_VarDecl:
-        return parseVarDeclaration(context, cursor);
+        return CachableBinding(parseVarDeclaration(context, cursor));
       default:
         logger.finer('rootCursorVisitor: CursorKind not implemented');
     }
@@ -100,7 +100,7 @@ void buildUsrCursorDefinitionMap(
   final logger = context.logger;
   translationUnitCursor.visitChildren((cursor) {
     try {
-      context.cursorIndex.saveDefinition(cursor);
+      context.bindingsIndex.addDefinition(cursor);
     } catch (e, s) {
       logger.severe(e);
       logger.severe(s);

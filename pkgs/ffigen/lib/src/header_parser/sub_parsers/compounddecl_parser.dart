@@ -123,7 +123,7 @@ Compound? _parseCompoundDeclaration(
   constructor,
 ) {
   assert(cursor.isDefinition);
-  final declUsr = cursor.usr();
+  final usr = cursor.usr();
   final String declName;
 
   // Only set name using USR if the type is not Anonymous (A struct is anonymous
@@ -145,7 +145,6 @@ Compound? _parseCompoundDeclaration(
   }
 
   final decl = Declaration(usr: usr, originalName: declName);
-  final Compound compound;
   if (declName.isEmpty) {
     return constructor(
       name: 'Unnamed$className',

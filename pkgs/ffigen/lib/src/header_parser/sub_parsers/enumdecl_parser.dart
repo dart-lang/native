@@ -25,9 +25,6 @@ import 'unnamed_enumdecl_parser.dart';
 
   final usr = cursor.usr();
 
-  final cachedEnum = context.bindingsIndex.getSeenEnum(usr);
-  if (cachedEnum != null) return (cachedEnum, cachedEnum.nativeType);
-
   final String enumName;
   // Only set name using USR if the type is not Anonymous (i.e not inside
   // any typedef and declared inplace inside another type).
@@ -114,7 +111,6 @@ import 'unnamed_enumdecl_parser.dart';
     });
     final suggestedStyle = isNSOptions ? EnumStyle.intConstants : null;
     enumClass.style = config.enums.style(decl, suggestedStyle);
-    context.bindingsIndex.addEnumToSeen(usr, enumClass);
   }
 
   if (hasNegativeEnumConstants) {

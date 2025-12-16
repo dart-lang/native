@@ -12,10 +12,7 @@ import '../code_generator.dart';
 import '../config_provider/config_types.dart';
 import '../context.dart';
 import '../strings.dart';
-<<<<<<< HEAD
-=======
 import '../strings.dart' as strings;
->>>>>>> main
 import 'clang_bindings/clang_bindings.dart' as clang_types;
 import 'type_extractor/extractor.dart';
 

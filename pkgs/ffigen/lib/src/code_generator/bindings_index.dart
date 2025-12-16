@@ -19,26 +19,29 @@ class BindingsIndex {
     _entries[usr] ??= IndexEntry(definition: cursor);
   }
 
-  void fillBinding(Binding binding) {
-    final entry = getOrInsert(binding.usr);
-    assert(!entry.filled);
-    entry.binding = binding;
-    entry.filled = true;
-  }
-
   Binding? cache(
     clang_types.CXCursor cursor,
-    Binding? Function(clang_types.CXCursor cursor) builder,
+    CachableBinding? Function(clang_types.CXCursor cursor) builder,
   ) {
     final usr = cursor.usr();
     if (usr.isEmpty) return null;
     final entry = getOrInsert(usr);
     if (!entry.filled) {
-      final binding = builder(entry.definition ?? cursor);
-      if (binding != null) entry.binding = binding;
+      final cachable = builder(entry.definition ?? cursor);
       entry.filled = true;
+      if (cachable != null) {
+        entry.binding = cachable.binding;
+        cachable.filler();
+      }
     }
     return entry.binding;
+  }
+
+  void fillBinding(Binding binding) {
+    final entry = getOrInsert(binding.usr);
+    assert(!entry.filled);
+    entry.binding = binding;
+    entry.filled = true;
   }
 
   IndexEntry? operator [](String usr) => _entries[usr];
@@ -56,4 +59,14 @@ class IndexEntry {
   bool filled = false;
   Binding? binding;
   IndexEntry({this.definition});
+}
+
+// Some bindings need to split intial creation from filling, to avoid cycles.
+// In that case they can provide a filler function that will be called after the
+// cache entry is created.
+class CachableBinding {
+  Binding binding;
+  void Function() filler;
+  CachableBinding(this.binding, [this.filler = _defaultFiller]);
+  static void _defaultFiller() {}
 }

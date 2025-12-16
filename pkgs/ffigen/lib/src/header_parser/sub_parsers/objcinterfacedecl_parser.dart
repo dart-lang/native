@@ -20,9 +20,6 @@ Type? parseObjCInterfaceDeclaration(
 ) {
   final usr = cursor.usr();
 
-  final cachedItf = context.bindingsIndex.getSeenObjCInterface(usr);
-  if (cachedItf != null) return cachedItf;
-
   final name = cursor.spelling();
   final decl = Declaration(usr: usr, originalName: name);
   final apiAvailability = ApiAvailability.fromCursor(cursor, context);
@@ -52,7 +49,6 @@ Type? parseObjCInterfaceDeclaration(
     ),
     apiAvailability: apiAvailability,
   );
-  context.bindingsIndex.addObjCInterfaceToSeen(usr, itf);
   return itf;
 }
 
