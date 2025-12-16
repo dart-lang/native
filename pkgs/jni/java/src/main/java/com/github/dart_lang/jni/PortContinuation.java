@@ -26,7 +26,7 @@ public class PortContinuation<T> implements Continuation<T> {
 
   @Override
   public CoroutineContext getContext() {
-    return (CoroutineContext) Dispatchers.getDefault();
+    return (CoroutineContext) Dispatchers.getIO();
   }
 
   @Override

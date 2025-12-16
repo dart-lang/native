@@ -65,14 +65,13 @@ class _MyHomePageState extends State<MyHomePage> {
               onPressed: () {
                 setState(() {
                   answer = () async {
-                    final _thinker = $Thinker(
-                      message: () async {
-                        await Future.delayed(Duration(milliseconds: 300));
-                        return JString.fromString("App");
-                      }
-                    );
+                    final _thinker = $Thinker(message: () async {
+                      await Future.delayed(Duration(milliseconds: 300));
+                      return JString.fromString("App");
+                    });
                     final thinker = Thinker.implement(_thinker);
-                    final value1 = (await example.thinkBeforeAnswering(thinker)).toDartString(releaseOriginal: true);
+                    final value1 = (await example.thinkBeforeAnswering(thinker))
+                        .toDartString(releaseOriginal: true);
                     final value2 = (await thinker.message()).toDartString();
                     return value1 + '\n' + value2;
                   }();

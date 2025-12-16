@@ -84,10 +84,9 @@ extension on DeclaredType {
 extension on Method {
   bool get isSuspendFun => asyncReturnType != null;
 
-  String returnTypeMaybeAsync(_TypeGenerator generator) =>
-      isSuspendFun
-          ? '$_core.Future<${asyncReturnType!.accept(generator)}>'
-          : returnType.accept(generator);
+  String returnTypeMaybeAsync(_TypeGenerator generator) => isSuspendFun
+      ? '$_core.Future<${asyncReturnType!.accept(generator)}>'
+      : returnType.accept(generator);
 
   List<Param> get paramsMaybeAsync {
     final p = params.toList();
@@ -1874,7 +1873,8 @@ class _ConcreteImplClosureDef extends Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    final returnType = node.returnTypeMaybeAsync(_TypeGenerator(resolver, forInterfaceImplementation: true));
+    final returnType = node.returnTypeMaybeAsync(
+        _TypeGenerator(resolver, forInterfaceImplementation: true));
     final name = node.finalName;
     final args = node.paramsMaybeAsync
         .accept(_ParamDef(resolver, methodGenericErasure: true))
