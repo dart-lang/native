@@ -11,13 +11,11 @@ import 'package:native_toolchain_c/src/cbuilder/compiler_resolver.dart';
 
 const objCFlags = ['-x', 'objective-c', '-fobjc-arc'];
 
-String sdkPath = firstLineOfStdout('xcrun', ['--show-sdk-path']);
-
 const assetName = 'objective_c.dylib';
 
 // TODO(https://github.com/dart-lang/native/issues/2272): Remove this from the
 // main build.
-const extraCFiles = ['test/util.c'];
+const testFiles = ['test/util.c'];
 
 final logger = Logger('')
   ..level = Level.INFO
@@ -33,20 +31,21 @@ void main(List<String> args) async {
     }
 
     const supportedOSs = {OS.iOS, OS.macOS};
-    final os = input.config.code.targetOS;
+    final codeConfig = input.config.code;
+    final os = codeConfig.targetOS;
     if (!supportedOSs.contains(os)) {
       // Nothing to do.
       return;
     }
 
-    if (input.config.code.linkModePreference == LinkModePreference.static) {
+    if (codeConfig.linkModePreference == LinkModePreference.static) {
       throw UnsupportedError('LinkModePreference.static is not supported.');
     }
 
     final packageName = input.packageName;
     final assetPath = input.outputDirectory.resolve(assetName);
     final srcDir = Directory.fromUri(input.packageRoot.resolve('src/'));
-    final target = toTargetTriple(input.config.code);
+    final target = toTargetTriple(codeConfig);
 
     final cFiles = <String>[];
     final mFiles = <String>[];
@@ -60,9 +59,14 @@ void main(List<String> args) async {
       }
     }
 
-    cFiles.addAll(extraCFiles.map((f) => input.packageRoot.resolve(f).path));
+    // Only include the test utils on mac OS. They contain memory functions that
+    // aren't supported on iOS, and we don't need them on iOS anyway.
+    if (os == OS.macOS) {
+      cFiles.addAll(testFiles.map((f) => input.packageRoot.resolve(f).path));
+    }
 
-    final cFlags = <String>['-isysroot', sdkPath, '-target', target];
+    final sysroot = sdkPath(codeConfig);
+    final cFlags = <String>['-isysroot', sysroot, '-target', target];
     final mFlags = [...cFlags, ...objCFlags];
     final linkFlags = cFlags;
 
@@ -140,6 +144,21 @@ class Builder {
     }
     logger.info('Generated $output');
   }
+}
+
+String sdkPath(CodeConfig codeConfig) {
+  final target;
+  if (codeConfig.targetOS == OS.iOS) {
+    if (codeConfig.iOS.targetSdk == IOSSdk.iPhoneOS) {
+      target = 'iphoneos';
+    } else {
+      target = 'iphonesimulator';
+    }
+  } else {
+    assert(codeConfig.targetOS == OS.macOS);
+    target = 'macosx';
+  }
+  return firstLineOfStdout('xcrun', ['--show-sdk-path', '--sdk', target]);
 }
 
 String firstLineOfStdout(String cmd, List<String> args) {
