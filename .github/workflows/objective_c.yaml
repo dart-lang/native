@@ -87,11 +87,17 @@ jobs:
     defaults:
       run:
         working-directory: pkgs/objective_c/example/flutter_app
+    strategy:
+      fail-fast: false
+      matrix:
+        xcode_version: ["16.1", "26.1.1"]
     steps:
       - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
       - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           channel: stable
+      - name: Select the XCode version
+        run: sudo xcode-select -switch /Applications/Xcode_${{ matrix.xcode_version }}.app/Contents/Developer
       - name: Install dependencies
         run: flutter pub get
       - name: Build the example app for macos
