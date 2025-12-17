@@ -147,7 +147,7 @@ class Builder {
 }
 
 String sdkPath(CodeConfig codeConfig) {
-  final target;
+  final String target;
   if (codeConfig.targetOS == OS.iOS) {
     if (codeConfig.iOS.targetSdk == IOSSdk.iPhoneOS) {
       target = 'iphoneos';
