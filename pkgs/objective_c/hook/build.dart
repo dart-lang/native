@@ -59,8 +59,9 @@ void main(List<String> args) async {
       }
     }
 
-    // Only include the test utils on mac OS. They contain memory functions that
-    // aren't supported on iOS, and we don't need them on iOS anyway.
+    // Only include the test utils on mac OS. They use memory functions that
+    // aren't supported on iOS, like mach_vm_region. We don't need them on iOS
+    // anyway since we only run memory tests on mac.
     if (os == OS.macOS) {
       cFiles.addAll(testFiles.map((f) => input.packageRoot.resolve(f).path));
     }
