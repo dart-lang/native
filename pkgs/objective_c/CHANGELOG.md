@@ -1,3 +1,8 @@
+## 9.2.2
+
+- Fix a [bug](https://github.com/dart-lang/http/issues/1861) where the build
+  failed on older versions of XCode.
+
 ## 9.2.1
 
 - Fix [bug](https://github.com/dart-lang/native/issues/2824) where the build
