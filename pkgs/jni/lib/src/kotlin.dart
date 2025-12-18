@@ -52,37 +52,17 @@ class KotlinContinuation extends JObject {
     _resumeWithId(this, const jvoidType(), [result]);
   }
 
-  JObject resumeWithFuture(Future<JObject?> future) {
-    future.then(resumeWith, onError: (error) {
-        // TODO
-      });
-    return _coroutineSuspended;
+  static final _result$FailureConstructor =
+      result$FailureClass.constructorId(r'(Ljava/lang/Throwable;)V');
+  void resumeWithException(Object dartException, StackTrace stackTrace) {
+    resumeWith(_result$FailureConstructor(
+      result$FailureClass, JObject.type, [
+        ProtectedJniExtensions.newDartException('$dartException\n$stackTrace'),
+      ]));
   }
-}
 
-class _Result extends JObject {
-  _Result.fromReference(
-    super.reference,
-  ) : super.fromReference();
-
-  static final _class = JClass.forName(r'kotlin/Result');
-
-  static final _id_new$ = _class.constructorId(
-    r'(Ljava/lang/Object;)V',
-  );
-
-  static final _new$ = ProtectedJniExtensions.lookup<
-              NativeFunction<
-                  JniResult Function(
-                      Pointer<Void>,
-                      JMethodIDPtr,
-                      VarArgs<(Pointer<Void>,)>)>>(
-          'globalEnv_NewObject')
-      .asFunction<
-          JniResult Function(Pointer<Void>,
-              JMethodIDPtr, Pointer<Void>)>();
-
-  factory _Result(JObject object) {
-    return _Result.fromReference(_id_new$(_class, referenceType, [object]));
+  JObject resumeWithFuture(Future<JObject?> future) {
+    future.then(resumeWith, onError: resumeWithException);
+    return _coroutineSuspended;
   }
 }
