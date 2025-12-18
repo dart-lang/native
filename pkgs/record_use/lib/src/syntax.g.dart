@@ -962,7 +962,7 @@ class WithArgumentsCallSyntax extends CallSyntax {
 
   set _named(Map<String, int>? value) {
     _checkArgumentMapKeys(value);
-    json['named'] = value;
+    json.setOrRemove('named', value);
   }
 
   List<String> _validateNamed() => _reader.validateMap<int>('named');

@@ -425,7 +425,7 @@ $dartType get $fieldName => _reader.optionalMap<${dartType.valueType}>('$jsonKey
 
 set $setterName($dartType value) {
   _checkArgumentMapKeys(value, $keyPattern);
-  json['$jsonKey'] = value;
+  json.setOrRemove('$jsonKey', value);
   $sortOnKey
 }
 

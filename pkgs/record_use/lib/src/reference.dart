@@ -130,9 +130,9 @@ final class CallWithArguments extends CallReference {
       at: locations[location]!,
       loadingUnit: loadingUnit!,
       named: namedArgs.isNotEmpty ? namedArgs : null,
-      positional: positionalArguments
-          .map((constant) => constants[constant])
-          .toList(),
+      positional: positionalArguments.isEmpty
+          ? null
+          : positionalArguments.map((constant) => constants[constant]).toList(),
     );
   }
 
