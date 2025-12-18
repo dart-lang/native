@@ -2,16 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:ffi';
-
 import 'package:meta/meta.dart' show internal;
 
 import 'jni.dart';
 import 'jobject.dart';
-import 'lang/jstring.dart';
-import 'jreference.dart';
-import 'jvalues.dart';
-import 'third_party/generated_bindings.dart';
 import 'types.dart';
 
 @internal
@@ -36,7 +30,7 @@ final _coroutineIntrinsicsClass =
     JClass.forName('kotlin/coroutines/intrinsics/IntrinsicsKt');
 final _coroutineSuspended = _coroutineIntrinsicsClass.staticMethodId(
         'getCOROUTINE_SUSPENDED', '()Ljava/lang/Object;')(
-    _coroutineIntrinsicsClass, const $JObject$Type$(), [])!;
+    _coroutineIntrinsicsClass, const $JObject$Type$(), []);
 
 @internal
 class KotlinContinuation extends JObject {
