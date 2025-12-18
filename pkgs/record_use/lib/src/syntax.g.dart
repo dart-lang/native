@@ -958,7 +958,7 @@ class WithArgumentsCallSyntax extends CallSyntax {
     json.sortOnKey();
   }
 
-  Map<String, int>? get named => _reader.map$<int>('named');
+  Map<String, int>? get named => _reader.optionalMap<int>('named');
 
   set _named(Map<String, int>? value) {
     _checkArgumentMapKeys(value);

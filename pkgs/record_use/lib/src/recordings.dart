@@ -57,7 +57,7 @@ class Recordings {
     try {
       final syntax = RecordedUsesSyntax.fromJson(json);
       return Recordings._fromSyntax(syntax);
-    } on Exception catch (e) {
+    } on FormatException catch (e) {
       throw ArgumentError('''
 Invalid JSON format for Recordings:
 ${const JsonEncoder.withIndent('  ').convert(json)}

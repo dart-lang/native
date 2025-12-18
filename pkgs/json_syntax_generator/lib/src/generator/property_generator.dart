@@ -421,7 +421,7 @@ List<String> $validateName() => _reader.validateOptionalMap<${dartType.valueType
           }
         } else {
           buffer.writeln('''
-$dartType get $fieldName => _reader.map\$<${dartType.valueType}>('$jsonKey', $keyPattern);
+$dartType get $fieldName => _reader.optionalMap<${dartType.valueType}>('$jsonKey', $keyPattern);
 
 set $setterName($dartType value) {
   _checkArgumentMapKeys(value, $keyPattern);
