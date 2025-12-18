@@ -192,13 +192,15 @@ Error: $e
 
     return RecordedUsesSyntax(
       metadata: metadata.toSyntax(),
-      constants: constantsIndex.keys
-          .map((constant) => constant.toSyntax(constantsIndex))
-          .toList(),
-      locations: locationsIndex.keys
-          .map((location) => location.toSyntax())
-          .toList(),
-      recordings: recordings,
+      constants: constantsIndex.isEmpty
+          ? null
+          : constantsIndex.keys
+                .map((constant) => constant.toSyntax(constantsIndex))
+                .toList(),
+      locations: locationsIndex.isEmpty
+          ? null
+          : locationsIndex.keys.map((location) => location.toSyntax()).toList(),
+      recordings: recordings.isEmpty ? null : recordings,
     );
   }
 
