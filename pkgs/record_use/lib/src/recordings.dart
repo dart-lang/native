@@ -9,9 +9,10 @@ import 'constant.dart';
 import 'definition.dart';
 import 'helper.dart';
 import 'identifier.dart';
-import 'location.dart' show Location;
+import 'location.dart';
 import 'metadata.dart';
 import 'reference.dart';
+import 'syntax.g.dart';
 
 /// [Recordings] combines recordings of calls and instances with metadata.
 ///
@@ -41,14 +42,6 @@ class Recordings {
         (definition, instances) => MapEntry(definition.identifier, instances),
       );
 
-  static const _metadataKey = 'metadata';
-  static const _constantsKey = 'constants';
-  static const _locationsKey = 'locations';
-  static const _recordingsKey = 'recordings';
-  static const _callsKey = 'calls';
-  static const _instancesKey = 'instances';
-  static const _definitionKey = 'definition';
-
   Recordings({
     required this.metadata,
     required this.callsForDefinition,
@@ -61,82 +54,82 @@ class Recordings {
   /// efficiency. Identifiers and constants are stored in separate tables,
   /// allowing them to be referenced by index in the `recordings` map.
   factory Recordings.fromJson(Map<String, Object?> json) {
-    if (json case {
-      _constantsKey: final List<Object?>? constantJsons,
-      _locationsKey: final List<Object?>? locationJsons,
-      _recordingsKey: final List<Object?>? recordingJsons,
-    }) {
-      final constants = <Constant>[];
-      for (final constantJsonObj in constantJsons ?? []) {
-        final constantJson = constantJsonObj as Map<String, Object?>;
-        final constant = Constant.fromJson(constantJson, constants);
-        if (!constants.contains(constant)) {
-          constants.add(constant);
-        }
-      }
-      final locations = <Location>[];
-      for (final locationJsonObj in locationJsons ?? []) {
-        final locationJson = locationJsonObj as Map<String, Object?>;
-        final location = Location.fromJson(locationJson);
-        if (!locations.contains(location)) {
-          locations.add(location);
-        }
-      }
-
-      final recordings =
-          recordingJsons?.whereType<Map<String, Object?>>() ?? [];
-
-      final recordedCalls = recordings.where(
-        (recording) => recording[_callsKey] != null,
-      );
-      final recordedInstances = recordings.where(
-        (recording) => recording[_instancesKey] != null,
-      );
-
-      return Recordings(
-        metadata: Metadata.fromJson(json[_metadataKey] as Map<String, Object?>),
-        callsForDefinition: {
-          for (final recording in recordedCalls)
-            Definition.fromJson(
-              recording[_definitionKey] as Map<String, Object?>,
-            ): (recording[_callsKey] as List)
-                .map(
-                  (json) => CallReference.fromJson(
-                    json as Map<String, Object?>,
-                    constants,
-                    locations,
-                  ),
-                )
-                .toList(),
-        },
-        instancesForDefinition: {
-          for (final recording in recordedInstances)
-            Definition.fromJson(
-              recording[_definitionKey] as Map<String, Object?>,
-            ): (recording[_instancesKey] as List)
-                .map(
-                  (json) => InstanceReference.fromJson(
-                    json as Map<String, Object?>,
-                    constants,
-                    locations,
-                  ),
-                )
-                .toList(),
-        },
-      );
-    } else {
+    try {
+      final syntax = RecordedUsesSyntax.fromJson(json);
+      return Recordings._fromSyntax(syntax);
+    } on Exception catch (e) {
       throw ArgumentError('''
 Invalid JSON format for Recordings:
 ${const JsonEncoder.withIndent('  ').convert(json)}
+Error: $e
 ''');
     }
+  }
+
+  factory Recordings._fromSyntax(RecordedUsesSyntax syntax) {
+    final constants = <Constant>[];
+    for (final constantSyntax in syntax.constants ?? <ConstantSyntax>[]) {
+      final constant = ConstantProtected.fromSyntax(constantSyntax, constants);
+      if (!constants.contains(constant)) {
+        constants.add(constant);
+      }
+    }
+
+    final locations = <Location>[];
+    for (final locationSyntax in syntax.locations ?? <LocationSyntax>[]) {
+      final location = LocationProtected.fromSyntax(locationSyntax);
+      if (!locations.contains(location)) {
+        locations.add(location);
+      }
+    }
+
+    final callsForDefinition = <Definition, List<CallReference>>{};
+    final instancesForDefinition = <Definition, List<InstanceReference>>{};
+
+    for (final recordingSyntax in syntax.recordings ?? <RecordingSyntax>[]) {
+      final definition = DefinitionProtected.fromSyntax(
+        recordingSyntax.definition,
+      );
+      if (recordingSyntax.calls case final callSyntaxes?) {
+        final callReferences = callSyntaxes
+            .map<CallReference>(
+              (callSyntax) => CallReferenceProtected.fromSyntax(
+                callSyntax,
+                constants,
+                locations,
+              ),
+            )
+            .toList();
+        callsForDefinition[definition] = callReferences;
+      }
+      if (recordingSyntax.instances case final instanceSyntaxes?) {
+        final instanceReferences = instanceSyntaxes
+            .map<InstanceReference>(
+              (instanceSyntax) => InstanceReferenceProtected.fromSyntax(
+                instanceSyntax,
+                constants,
+                locations,
+              ),
+            )
+            .toList();
+        instancesForDefinition[definition] = instanceReferences;
+      }
+    }
+
+    return Recordings(
+      metadata: MetadataProtected.fromSyntax(syntax.metadata),
+      callsForDefinition: callsForDefinition,
+      instancesForDefinition: instancesForDefinition,
+    );
   }
 
   /// Encodes this object into a JSON representation.
   ///
   /// This method normalizes identifiers and constants for storage efficiency.
-  Map<String, Object?> toJson() {
-    final constants = {
+  Map<String, Object?> toJson() => _toSyntax().json;
+
+  RecordedUsesSyntax _toSyntax() {
+    final constantsIndex = {
       ...callsForDefinition.values
           .expand((calls) => calls)
           .whereType<CallWithArguments>()
@@ -156,7 +149,8 @@ ${const JsonEncoder.withIndent('  ').convert(json)}
             },
           ),
     }.flatten().asMapToIndices;
-    final locations = {
+
+    final locationsIndex = {
       ...callsForDefinition.values
           .expand((calls) => calls)
           .map((call) => call.location)
@@ -166,38 +160,46 @@ ${const JsonEncoder.withIndent('  ').convert(json)}
           .map((instance) => instance.location)
           .nonNulls,
     }.asMapToIndices;
-    return {
-      _metadataKey: metadata.json,
-      if (constants.isNotEmpty)
-        _constantsKey: constants.keys
-            .map((constant) => constant.toJson(constants))
-            .toList(),
-      if (locations.isNotEmpty)
-        _locationsKey: locations.keys
-            .map((location) => location.toJson())
-            .toList(),
-      if (callsForDefinition.isNotEmpty || instancesForDefinition.isNotEmpty)
-        _recordingsKey: [
-          if (callsForDefinition.isNotEmpty)
-            ...callsForDefinition.entries.map(
-              (entry) => {
-                _definitionKey: entry.key.toJson(),
-                _callsKey: entry.value
-                    .map((call) => call.toJson(constants, locations))
-                    .toList(),
-              },
-            ),
-          if (instancesForDefinition.isNotEmpty)
-            ...instancesForDefinition.entries.map(
-              (entry) => {
-                _definitionKey: entry.key.toJson(),
-                _instancesKey: entry.value
-                    .map((instance) => instance.toJson(constants, locations))
-                    .toList(),
-              },
-            ),
-        ],
-    };
+
+    final recordings = <RecordingSyntax>[];
+    if (callsForDefinition.isNotEmpty) {
+      recordings.addAll(
+        callsForDefinition.entries.map(
+          (entry) => RecordingSyntax(
+            definition: entry.key.toSyntax(),
+            calls: entry.value
+                .map((call) => call.toSyntax(constantsIndex, locationsIndex))
+                .toList(),
+          ),
+        ),
+      );
+    }
+    if (instancesForDefinition.isNotEmpty) {
+      recordings.addAll(
+        instancesForDefinition.entries.map(
+          (entry) => RecordingSyntax(
+            definition: entry.key.toSyntax(),
+            instances: entry.value
+                .map(
+                  (instance) =>
+                      instance.toSyntax(constantsIndex, locationsIndex),
+                )
+                .toList(),
+          ),
+        ),
+      );
+    }
+
+    return RecordedUsesSyntax(
+      metadata: metadata.toSyntax(),
+      constants: constantsIndex.keys
+          .map((constant) => constant.toSyntax(constantsIndex))
+          .toList(),
+      locations: locationsIndex.keys
+          .map((location) => location.toSyntax())
+          .toList(),
+      recordings: recordings,
+    );
   }
 
   @override

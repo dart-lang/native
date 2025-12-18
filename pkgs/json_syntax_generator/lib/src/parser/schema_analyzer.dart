@@ -300,28 +300,33 @@ class SchemaAnalyzer {
     bool required, {
     bool allowEnum = true,
   }) {
-    final type = schemas.type;
+    final (type, typeIsNullable) = schemas.typeAndNullable;
+    final isNullable = typeIsNullable || !required;
+
     final DartType dartType;
     switch (type) {
       case null:
-        dartType = ObjectDartType(isNullable: !required);
+        dartType = ObjectDartType(isNullable: isNullable);
       case SchemaType.boolean:
-        dartType = BoolDartType(isNullable: !required);
+        dartType = BoolDartType(isNullable: isNullable);
       case SchemaType.integer:
-        dartType = IntDartType(isNullable: !required);
+        dartType = IntDartType(isNullable: isNullable);
       case SchemaType.string:
         if (schemas.generateUri) {
-          dartType = UriDartType(isNullable: !required);
+          dartType = UriDartType(isNullable: isNullable);
         } else if (schemas.generateEnum && allowEnum) {
           _analyzeEnumClass(schemas);
           final classInfo = _classes[schemas.className]!;
-          dartType = ClassDartType(classInfo: classInfo, isNullable: !required);
+          dartType = ClassDartType(
+            classInfo: classInfo,
+            isNullable: isNullable,
+          );
         } else {
           if (schemas.patterns.length > 1) {
             throw UnsupportedError('Only one pattern is supported.');
           }
           final pattern = schemas.patterns.firstOrNull;
-          dartType = StringDartType(isNullable: !required, pattern: pattern);
+          dartType = StringDartType(isNullable: isNullable, pattern: pattern);
         }
       case SchemaType.object:
         final additionalPropertiesSchema =
@@ -352,7 +357,7 @@ class SchemaAnalyzer {
                       ),
                       isNullable: false,
                     ),
-                    isNullable: !required,
+                    isNullable: isNullable,
                   );
                 default:
                   throw UnimplementedError(itemType.toString());
@@ -366,7 +371,7 @@ class SchemaAnalyzer {
                 dartType = MapDartType(
                   keyType: keyDartType,
                   valueType: ClassDartType(classInfo: clazz, isNullable: false),
-                  isNullable: !required,
+                  isNullable: isNullable,
                 );
               } else {
                 dartType = MapDartType(
@@ -375,17 +380,21 @@ class SchemaAnalyzer {
                     valueType: ObjectDartType(isNullable: true),
                     isNullable: false,
                   ),
-                  isNullable: !required,
+                  isNullable: isNullable,
                 );
               }
             case null:
               if (schemas.additionalPropertiesBool == true) {
                 dartType = ClassDartType(
                   classInfo: jsonObjectClassInfo,
-                  isNullable: !required,
+                  isNullable: isNullable,
                 );
               } else {
                 final oneOfs = additionalPropertiesSchema.oneOfs;
+                if (oneOfs.isEmpty) {
+                  // No type information.
+                  return const ObjectDartType(isNullable: true);
+                }
                 if (oneOfs.length != 1) {
                   throw UnimplementedError();
                 }
@@ -413,7 +422,7 @@ class SchemaAnalyzer {
                       isNullable: true,
                       pattern: stringPattern,
                     ),
-                    isNullable: !required,
+                    isNullable: isNullable,
                   );
                 } else {
                   throw UnimplementedError();
@@ -423,7 +432,13 @@ class SchemaAnalyzer {
               dartType = MapDartType(
                 keyType: keyDartType,
                 valueType: const StringDartType(isNullable: false),
-                isNullable: !required,
+                isNullable: isNullable,
+              );
+            case SchemaType.integer:
+              dartType = MapDartType(
+                keyType: keyDartType,
+                valueType: const IntDartType(isNullable: false),
+                isNullable: isNullable,
               );
             default:
               throw UnimplementedError(additionalPropertiesType.toString());
@@ -433,31 +448,60 @@ class SchemaAnalyzer {
           typeName ??= _ucFirst(_snakeToCamelCase(propertyKey));
           _analyzeClass(schemas, name: typeName);
           final classInfo = _classes[typeName]!;
-          dartType = ClassDartType(classInfo: classInfo, isNullable: !required);
+          dartType = ClassDartType(
+            classInfo: classInfo,
+            isNullable: isNullable,
+          );
         }
       case SchemaType.array:
         final items = schemas.items;
-        final itemType = items.type;
+        final (itemType, itemNullable) = items.typeAndNullable;
         switch (itemType) {
           case SchemaType.string:
             if (items.generateUri) {
               dartType = ListDartType(
-                itemType: const UriDartType(isNullable: false),
-                isNullable: !required,
+                itemType: UriDartType(isNullable: itemNullable),
+                isNullable: isNullable,
               );
             } else {
               dartType = ListDartType(
-                itemType: const StringDartType(isNullable: false),
-                isNullable: !required,
+                itemType: StringDartType(isNullable: itemNullable),
+                isNullable: isNullable,
               );
             }
-          case SchemaType.object:
-            final typeName = items.className!;
-            _analyzeClass(items);
-            final classInfo = _classes[typeName]!;
+          case SchemaType.integer:
             dartType = ListDartType(
-              itemType: ClassDartType(classInfo: classInfo, isNullable: false),
-              isNullable: !required,
+              itemType: IntDartType(isNullable: itemNullable),
+              isNullable: isNullable,
+            );
+          case SchemaType.object:
+            final typeName = items.className;
+            if (typeName != null) {
+              _analyzeClass(items);
+              final classInfo = _classes[typeName]!;
+              dartType = ListDartType(
+                itemType: ClassDartType(
+                  classInfo: classInfo,
+                  isNullable: itemNullable,
+                ),
+                isNullable: isNullable,
+              );
+            } else if (items.generateMapOf) {
+              dartType = const ListDartType(
+                itemType: MapDartType(
+                  valueType: ObjectDartType(isNullable: true),
+                  isNullable: true,
+                ),
+                isNullable: true,
+              );
+            } else {
+              throw UnimplementedError(itemType.toString());
+            }
+          case null:
+            // No type information.
+            dartType = const ListDartType(
+              itemType: ObjectDartType(isNullable: true),
+              isNullable: true,
             );
           default:
             throw UnimplementedError(itemType.toString());
@@ -550,7 +594,7 @@ extension type JsonSchemas._(List<JsonSchema> _schemas) {
     for (final schema in _schemas) ...schema.requiredProperties ?? [],
   }.toList()..sort();
 
-  SchemaType? get type {
+  Set<SchemaType> get types {
     final types = <SchemaType>{};
     for (final schema in _schemas) {
       final schemaTypes = schema.typeList;
@@ -560,10 +604,25 @@ extension type JsonSchemas._(List<JsonSchema> _schemas) {
         }
       }
     }
+    return types;
+  }
+
+  SchemaType? get type {
     if (types.length > 1) {
       throw StateError('Multiple types found');
     }
     return types.singleOrNull;
+  }
+
+  (SchemaType?, bool) get typeAndNullable {
+    if (types.length <= 1) {
+      return (types.singleOrNull, false);
+    } else if (types.length == 2 && types.contains(SchemaType.nullValue)) {
+      final type = types.firstWhere((t) => t != SchemaType.nullValue);
+      return (type, true);
+    } else {
+      throw UnsupportedError('Multiple types: $types.');
+    }
   }
 
   List<RegExp> get patterns {
@@ -745,10 +804,6 @@ extension on JsonSchemas {
 
   String? get generateSubClassesKey {
     if (type != SchemaType.object) return null;
-    // A tagged union either has only a key, or a key and an encoding.
-    // Classes with more than 2 properties have their a property that has
-    // predefined values generated as an enum class.
-    if (propertyKeys.length > 2) return null;
     for (final p in propertyKeys) {
       final propertySchemas = property(p);
       if (propertySchemas.anyOfs.isNotEmpty) {
@@ -785,7 +840,10 @@ extension on JsonSchemas {
     if (path.contains('#/definitions/')) {
       final splits = path.split('/');
       final indexOf = splits.indexOf('definitions');
-      final nameParts = splits.skip(indexOf + 1).where((e) => e.isNotEmpty);
+      final nameParts = splits
+          .skip(indexOf + 1)
+          .where((e) => e.isNotEmpty)
+          .toList();
       if (nameParts.length == 1 && nameParts.single.startsWithUpperCase()) {
         return nameParts.single;
       }

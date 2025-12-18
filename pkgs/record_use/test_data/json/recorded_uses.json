@@ -1,0 +1,96 @@
+{
+  "$schema": "../../doc/schema/record_use.schema.json",
+  "metadata": {
+    "comment": "Recorded usages of objects tagged with a `RecordUse` annotation",
+    "version": "0.4.0"
+  },
+  "constants": [
+    {
+      "type": "int",
+      "value": 42
+    },
+    {
+      "type": "String",
+      "value": "42"
+    },
+    {
+      "type": "bool",
+      "value": false
+    },
+    {
+      "type": "map",
+      "value": {
+        "h": 2
+      }
+    },
+    {
+      "type": "list",
+      "value": [
+        6
+      ]
+    },
+    {
+      "type": "Null"
+    },
+    {
+      "type": "Instance",
+      "value": {
+        "i": 0
+      }
+    }
+  ],
+  "locations": [
+    {
+      "uri": "complex.dart",
+      "line": 12,
+      "column": 30
+    }
+  ],
+  "recordings": [
+    {
+      "definition": {
+        "identifier": {
+          "uri": "complex.dart",
+          "scope": "OtherClass",
+          "name": "generate"
+        },
+        "loading_unit": "1"
+      },
+      "calls": [
+        {
+          "type": "with_arguments",
+          "named": {
+            "a": 2,
+            "b": 4,
+            "c": 0
+          },
+          "positional": [
+            0,
+            null,
+            null,
+            null,
+            0
+          ],
+          "loading_unit": "1",
+          "@": 0
+        }
+      ]
+    },
+    {
+      "definition": {
+        "identifier": {
+          "uri": "instance_class.dart",
+          "name": "MyClass"
+        },
+        "loading_unit": "1"
+      },
+      "instances": [
+        {
+          "constant_index": 1,
+          "loading_unit": "1",
+          "@": 0
+        }
+      ]
+    }
+  ]
+}

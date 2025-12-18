@@ -420,7 +420,17 @@ List<String> $validateName() => _reader.validateOptionalMap<${dartType.valueType
 ''');
           }
         } else {
-          throw UnimplementedError(valueType.toString());
+          buffer.writeln('''
+$dartType get $fieldName => _reader.map\$<${dartType.valueType}>('$jsonKey', $keyPattern);
+
+set $setterName($dartType value) {
+  _checkArgumentMapKeys(value, $keyPattern);
+  json['$jsonKey'] = value;
+  $sortOnKey
+}
+
+List<String> $validateName() => _reader.validateMap<${dartType.valueType}>('$jsonKey', $keyPattern);
+''');
         }
       default:
         throw UnimplementedError(valueType.toString());
@@ -536,6 +546,25 @@ set $setterName($dartType value) {
 List<String> $validateName() => _reader.$jsonValidate('$jsonKey');
 ''');
 
+          case 'Object':
+          case 'int':
+            final jsonRead = isNullable
+                ? 'optionalList<$itemType>'
+                : 'list<$itemType>';
+            final jsonValidate = isNullable
+                ? 'validateOptionalList<$itemType>'
+                : 'validateList<$itemType>';
+            final setter = setOrRemove(dartType, jsonKey);
+            buffer.writeln('''
+$dartType get $fieldName => _reader.$jsonRead('$jsonKey');
+
+set $setterName($dartType value) {
+  $setter
+  $sortOnKey
+}
+
+List<String> $validateName() => _reader.$jsonValidate('$jsonKey');
+''');
           default:
             throw UnimplementedError(itemType.toString());
         }

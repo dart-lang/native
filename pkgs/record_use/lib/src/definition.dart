@@ -2,7 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'identifier.dart' show Identifier;
+import 'identifier.dart';
+import 'syntax.g.dart';
 
 /// A definition is an [identifier] with its [loadingUnit].
 class Definition {
@@ -11,20 +12,20 @@ class Definition {
 
   const Definition({required this.identifier, this.loadingUnit});
 
-  static const _identifierKey = 'identifier';
-  static const _loadingUnitKey = 'loading_unit';
+  factory Definition.fromJson(Map<String, Object?> json) =>
+      Definition._fromSyntax(DefinitionSyntax.fromJson(json));
 
-  factory Definition.fromJson(Map<String, Object?> json) => Definition(
-    identifier: Identifier.fromJson(
-      json[_identifierKey] as Map<String, Object?>,
-    ),
-    loadingUnit: json[_loadingUnitKey] as String?,
+  factory Definition._fromSyntax(DefinitionSyntax syntax) => Definition(
+    identifier: IdentifierProtected.fromSyntax(syntax.identifier),
+    loadingUnit: syntax.loadingUnit,
   );
 
-  Map<String, Object?> toJson() => {
-    _identifierKey: identifier.toJson(),
-    if (loadingUnit != null) _loadingUnitKey: loadingUnit,
-  };
+  Map<String, Object?> toJson() => _toSyntax().json;
+
+  DefinitionSyntax _toSyntax() => DefinitionSyntax(
+    identifier: identifier.toSyntax(),
+    loadingUnit: loadingUnit,
+  );
 
   @override
   bool operator ==(Object other) {
@@ -37,4 +38,15 @@ class Definition {
 
   @override
   int get hashCode => Object.hash(identifier, loadingUnit);
+}
+
+/// Package private (protected) methods for [Definition].
+///
+/// This avoids bloating the public API and public API docs and prevents
+/// internal types from leaking from the API.
+extension DefinitionProtected on Definition {
+  DefinitionSyntax toSyntax() => _toSyntax();
+
+  static Definition fromSyntax(DefinitionSyntax syntax) =>
+      Definition._fromSyntax(syntax);
 }
