@@ -3581,6 +3581,123 @@ final class $SuspendFun$Type$ extends jni$_.JType<SuspendFun> {
   }
 }
 
+final _SuspendFunKtClass =
+    jni$_.JClass.forName(r'com/github/dart_lang/jnigen/SuspendFunKt');
+
+final _id_consumeOnAnotherThread = _SuspendFunKtClass.staticMethodId(
+  r'consumeOnAnotherThread',
+  r'(Lcom/github/dart_lang/jnigen/SuspendInterface;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+);
+
+final _consumeOnAnotherThread = jni$_.ProtectedJniExtensions.lookup<
+        jni$_.NativeFunction<
+            jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                    (
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.Pointer<jni$_.Void>
+                    )>)>>('globalEnv_CallStaticObjectMethod')
+    .asFunction<
+        jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr,
+            jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)>();
+
+/// from: `public suspend fun consumeOnAnotherThread(itf: com.github.dart_lang.jnigen.SuspendInterface): kotlin.String`
+/// The returned object must be released after use, by calling the [release] method.
+core$_.Future<jni$_.JString> consumeOnAnotherThread(
+  SuspendInterface suspendInterface,
+) async {
+  final $p = jni$_.ReceivePort();
+  final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+  final _$suspendInterface = suspendInterface.reference;
+  final $r = _consumeOnAnotherThread(
+          _SuspendFunKtClass.reference.pointer,
+          _id_consumeOnAnotherThread as jni$_.JMethodIDPtr,
+          _$suspendInterface.pointer,
+          _$continuation.pointer)
+      .object<jni$_.JObject>(const jni$_.$JObject$Type$());
+  _$continuation.release();
+  jni$_.JObject $o;
+  if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+    $r.release();
+    final $a = await $p.first;
+    $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
+    if ($o.isInstanceOf(jni$_.result$Class)) {
+      $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+    } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+      final $e =
+          jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
+      $o.release();
+      jni$_.Jni.throwException($e.reference.toPointer());
+    }
+  } else {
+    $o = $r;
+  }
+  return $o.as<jni$_.JString>(
+    const jni$_.$JString$Type$(),
+    releaseOriginal: true,
+  );
+}
+
+final _id_consumeOnSameThread = _SuspendFunKtClass.staticMethodId(
+  r'consumeOnSameThread',
+  r'(Lcom/github/dart_lang/jnigen/SuspendInterface;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+);
+
+final _consumeOnSameThread = jni$_.ProtectedJniExtensions.lookup<
+        jni$_.NativeFunction<
+            jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                    (
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.Pointer<jni$_.Void>
+                    )>)>>('globalEnv_CallStaticObjectMethod')
+    .asFunction<
+        jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr,
+            jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)>();
+
+/// from: `public suspend fun consumeOnSameThread(itf: com.github.dart_lang.jnigen.SuspendInterface): kotlin.String`
+/// The returned object must be released after use, by calling the [release] method.
+core$_.Future<jni$_.JString> consumeOnSameThread(
+  SuspendInterface suspendInterface,
+) async {
+  final $p = jni$_.ReceivePort();
+  final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+  final _$suspendInterface = suspendInterface.reference;
+  final $r = _consumeOnSameThread(
+          _SuspendFunKtClass.reference.pointer,
+          _id_consumeOnSameThread as jni$_.JMethodIDPtr,
+          _$suspendInterface.pointer,
+          _$continuation.pointer)
+      .object<jni$_.JObject>(const jni$_.$JObject$Type$());
+  _$continuation.release();
+  jni$_.JObject $o;
+  if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+    $r.release();
+    final $a = await $p.first;
+    $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
+    if ($o.isInstanceOf(jni$_.result$Class)) {
+      $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+    } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+      final $e =
+          jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
+      $o.release();
+      jni$_.Jni.throwException($e.reference.toPointer());
+    }
+  } else {
+    $o = $r;
+  }
+  return $o.as<jni$_.JString>(
+    const jni$_.$JString$Type$(),
+    releaseOriginal: true,
+  );
+}
+
 /// from: `com.github.dart_lang.jnigen.SuspendInterface`
 class SuspendInterface extends jni$_.JObject {
   @jni$_.internal

@@ -370,6 +370,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             nullableInt: (bool returnNull) async =>
                 returnNull ? null : JInteger(123),
           ));
+
           expect((await itf.sayHello()).toDartString(), 'Hello');
           expect(
               (await itf.sayHello$1(JString.fromString('Bob'))).toDartString(),
@@ -380,6 +381,29 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect((await itf.sayInt$1(JInteger(456))).intValue(), 4560);
           expect((await itf.nullableInt(false))?.intValue(), 123);
           expect(await itf.nullableInt(true), null);
+
+          expect(
+              (await consumeOnSameThread(itf)).toDartString(),
+              '''
+Hello
+Hello Alice
+Hello
+123
+7890
+123
+'''
+                  .trim());
+          expect(
+              (await consumeOnAnotherThread(itf)).toDartString(),
+              '''
+Hello
+Hello Alice
+Hello
+123
+7890
+123
+'''
+                  .trim());
         });
       });
 
@@ -411,6 +435,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
               return returnNull ? null : JInteger(123);
             },
           ));
+
           expect((await itf.sayHello()).toDartString(), 'Hello');
           expect(
               (await itf.sayHello$1(JString.fromString('Bob'))).toDartString(),
@@ -421,6 +446,29 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect((await itf.sayInt$1(JInteger(456))).intValue(), 4560);
           expect((await itf.nullableInt(false))?.intValue(), 123);
           expect(await itf.nullableInt(true), null);
+
+          expect(
+              (await consumeOnSameThread(itf)).toDartString(),
+              '''
+Hello
+Hello Alice
+Hello
+123
+7890
+123
+'''
+                  .trim());
+          expect(
+              (await consumeOnAnotherThread(itf)).toDartString(),
+              '''
+Hello
+Hello Alice
+Hello
+123
+7890
+123
+'''
+                  .trim());
         });
       });
 
@@ -434,6 +482,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             sayInt$1: (JInteger value) async => throw Exception(),
             nullableInt: (bool returnNull) async => throw Exception(),
           ));
+
           await expectLater(itf.sayHello(), throwsA(isA<JniException>()));
           await expectLater(itf.sayHello$1(JString.fromString('Bob')),
               throwsA(isA<JniException>()));
@@ -444,6 +493,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
               itf.sayInt$1(JInteger(456)), throwsA(isA<JniException>()));
           await expectLater(
               itf.nullableInt(false), throwsA(isA<JniException>()));
+
+          await expectLater(
+              consumeOnSameThread(itf), throwsA(isA<JniException>()));
+          await expectLater(
+              consumeOnAnotherThread(itf), throwsA(isA<JniException>()));
         });
       });
 
@@ -475,6 +529,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
               throw Exception();
             },
           ));
+
           await expectLater(itf.sayHello(), throwsA(isA<JniException>()));
           await expectLater(itf.sayHello$1(JString.fromString('Bob')),
               throwsA(isA<JniException>()));
@@ -485,6 +540,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
               itf.sayInt$1(JInteger(456)), throwsA(isA<JniException>()));
           await expectLater(
               itf.nullableInt(false), throwsA(isA<JniException>()));
+
+          await expectLater(
+              consumeOnSameThread(itf), throwsA(isA<JniException>()));
+          await expectLater(
+              consumeOnAnotherThread(itf), throwsA(isA<JniException>()));
         });
       });
     });
