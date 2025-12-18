@@ -35,7 +35,7 @@ final resultValueField =
 final _coroutineIntrinsicsClass =
     JClass.forName('kotlin/coroutines/intrinsics/IntrinsicsKt');
 final _coroutineSuspended = _coroutineIntrinsicsClass.staticMethodId(
-    'getCOROUTINE_SUSPENDED', '()Ljava/lang/Object;')(
+        'getCOROUTINE_SUSPENDED', '()Ljava/lang/Object;')(
     _coroutineIntrinsicsClass, const $JObject$Type$(), [])!;
 
 @internal
@@ -55,10 +55,9 @@ class KotlinContinuation extends JObject {
   static final _result$FailureConstructor =
       result$FailureClass.constructorId(r'(Ljava/lang/Throwable;)V');
   void resumeWithException(Object dartException, StackTrace stackTrace) {
-    resumeWith(_result$FailureConstructor(
-      result$FailureClass, JObject.type, [
-        ProtectedJniExtensions.newDartException('$dartException\n$stackTrace'),
-      ]));
+    resumeWith(_result$FailureConstructor(result$FailureClass, JObject.type, [
+      ProtectedJniExtensions.newDartException('$dartException\n$stackTrace'),
+    ]));
   }
 
   JObject resumeWithFuture(Future<JObject?> future) {

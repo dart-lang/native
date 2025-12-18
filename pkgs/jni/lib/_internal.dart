@@ -52,8 +52,13 @@ export 'src/jni.dart' show ProtectedJniExtensions;
 export 'src/jobject.dart' show $JObject$NullableType$, $JObject$Type$;
 export 'src/jreference.dart';
 export 'src/kotlin.dart'
-    show coroutineSingletonsClass, failureExceptionField,
-    result$FailureClass, result$Class, resultValueField, KotlinContinuation;
+    show
+        coroutineSingletonsClass,
+        failureExceptionField,
+        result$FailureClass,
+        result$Class,
+        resultValueField,
+        KotlinContinuation;
 export 'src/lang/jboolean.dart' show $JBoolean$NullableType$, $JBoolean$Type$;
 export 'src/lang/jbyte.dart' show $JByte$NullableType$, $JByte$Type$;
 export 'src/lang/jcharacter.dart'
