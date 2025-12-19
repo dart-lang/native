@@ -41,6 +41,7 @@ class CLinker extends CTool implements Linker {
     super.cppLinkStdLib,
     super.linkModePreference,
     super.optimizationLevel = OptimizationLevel.o3,
+    super.runInShell,
   }) : super(type: OutputType.library);
 
   /// Runs the C Linker with on this C build spec.
@@ -94,6 +95,7 @@ class CLinker extends CTool implements Linker {
       language: language,
       cppLinkStdLib: cppLinkStdLib,
       optimizationLevel: optimizationLevel,
+      runInShell: runInShell,
     );
     await task.run();
 

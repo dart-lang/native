@@ -79,6 +79,7 @@ class CBuilder extends CTool implements Builder {
     super.linkModePreference,
     super.optimizationLevel = OptimizationLevel.o3,
     this.buildMode = BuildMode.release,
+    super.runInShell,
   }) : super(type: OutputType.library);
 
   CBuilder.executable({
@@ -105,6 +106,7 @@ class CBuilder extends CTool implements Builder {
     super.cppLinkStdLib,
     super.optimizationLevel = OptimizationLevel.o3,
     this.buildMode = BuildMode.release,
+    super.runInShell,
   }) : super(
          type: OutputType.executable,
          assetName: null,
@@ -203,6 +205,7 @@ class CBuilder extends CTool implements Builder {
       language: language,
       cppLinkStdLib: cppLinkStdLib,
       optimizationLevel: optimizationLevel,
+      runInShell: runInShell,
     );
     await task.run();
 

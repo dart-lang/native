@@ -50,6 +50,7 @@ class RunCBuilder {
   final Language language;
   final String? cppLinkStdLib;
   final OptimizationLevel optimizationLevel;
+  final bool? runInShell;
 
   RunCBuilder({
     required this.input,
@@ -73,6 +74,7 @@ class RunCBuilder {
     this.language = Language.c,
     this.cppLinkStdLib,
     required this.optimizationLevel,
+    this.runInShell,
   }) : outDir = input.outputDirectory,
        assert(
          [executable, dynamicLibrary, staticLibrary].whereType<Uri>().length ==
@@ -196,6 +198,7 @@ class RunCBuilder {
         captureOutput: false,
         throwOnUnexpectedExitCode: true,
         environment: environment,
+        runInShell: runInShell,
       );
     } else {
       await _compile(
@@ -343,6 +346,7 @@ class RunCBuilder {
       logger: logger,
       captureOutput: false,
       throwOnUnexpectedExitCode: true,
+      runInShell: runInShell,
     );
   }
 
@@ -401,6 +405,7 @@ class RunCBuilder {
       captureOutput: false,
       stdoutLogLevel: Level.INFO,
       throwOnUnexpectedExitCode: true,
+      runInShell: runInShell,
     );
 
     if (staticLibrary != null) {

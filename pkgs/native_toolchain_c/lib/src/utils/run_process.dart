@@ -22,6 +22,7 @@ Future<RunProcessResult> runProcess({
   Level stdoutLogLevel = Level.FINE,
   int expectedExitCode = 0,
   bool throwOnUnexpectedExitCode = false,
+  bool? runInShell,
 }) async {
   final printWorkingDir =
       workingDirectory != null && workingDirectory != Directory.current.uri;
@@ -41,7 +42,7 @@ Future<RunProcessResult> runProcess({
     arguments,
     workingDirectory: workingDirectory?.toFilePath(),
     environment: environment,
-    runInShell: Platform.isWindows && workingDirectory != null,
+    runInShell: runInShell ?? Platform.isWindows && workingDirectory != null,
   );
 
   final stdoutSub = process.stdout.listen((List<int> data) {

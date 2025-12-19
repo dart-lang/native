@@ -166,6 +166,12 @@ abstract class CTool {
   /// What optimization level should be used for compiling.
   final OptimizationLevel optimizationLevel;
 
+  /// Whether to run the process in a shell.
+  ///
+  /// If the path to cl.exe contains spaces, this option needs to be set to
+  /// false.
+  final bool? runInShell;
+
   CTool({
     required this.name,
     required this.packageName,
@@ -186,5 +192,6 @@ abstract class CTool {
     required this.linkModePreference,
     required this.type,
     required this.optimizationLevel,
+    this.runInShell,
   });
 }
