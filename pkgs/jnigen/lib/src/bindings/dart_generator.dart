@@ -81,6 +81,22 @@ extension on DeclaredType {
   }
 }
 
+extension on Method {
+  bool get isSuspendFun => asyncReturnType != null;
+
+  String returnTypeMaybeAsync(_TypeGenerator generator) => isSuspendFun
+      ? '$_core.Future<${asyncReturnType!.accept(generator)}>'
+      : returnType.accept(generator);
+
+  List<Param> get paramsMaybeAsync {
+    final p = params.toList();
+    if (isSuspendFun) {
+      p.removeLast();
+    }
+    return p;
+  }
+}
+
 String _newLine({int depth = 0}) {
   return '\n${'  ' * depth}';
 }
@@ -1337,10 +1353,6 @@ ${modifier}final _$name = $_protectedExtension
 ''');
   }
 
-  bool isSuspendFun(Method node) {
-    return node.asyncReturnType != null;
-  }
-
   String constructor(Method node) {
     final name = node.finalName;
     final params = [
@@ -1447,10 +1459,7 @@ ${modifier}final _$name = $_protectedExtension
     }
 
     final name = node.finalName;
-    final returnType = isSuspendFun(node)
-        ? '$_core.Future<'
-            '${node.asyncReturnType!.accept(_TypeGenerator(resolver))}>'
-        : node.returnType.accept(_TypeGenerator(resolver));
+    final returnType = node.returnTypeMaybeAsync(_TypeGenerator(resolver));
     final ifStatic = node.isStatic && !isTopLevel ? 'static ' : '';
     final defArgs = node.params.accept(_ParamDef(resolver)).toList();
     final typeClassDef = node.typeParams
@@ -1465,14 +1474,14 @@ ${modifier}final _$name = $_protectedExtension
         .accept(const _TypeParamDef())
         .join(', ')
         .encloseIfNotEmpty('<', '>');
-    if (isSuspendFun(node)) {
+    if (node.isSuspendFun) {
       defArgs.removeLast();
       localReferences.removeLast();
     }
     final params = defArgs.delimited(', ');
     s.write('  $ifStatic$returnType $name$typeParamsDef($params$typeClassDef)');
     final callExpr = methodCall(node);
-    if (isSuspendFun(node)) {
+    if (node.isSuspendFun) {
       final returningType =
           node.asyncReturnType!.accept(_TypeGenerator(resolver));
       final returningTypeClass =
@@ -1486,13 +1495,15 @@ ${modifier}final _$name = $_protectedExtension
     ${localReferences.join(_newLine(depth: 2))}
     final \$r = $callExpr;
     _\$$continuation.release();
-    final $_jObject${isNullable ? '?' : ''} \$o;
+    $_jObject${isNullable ? '?' : ''} \$o;
     if (${isNullable ? '\$r != null && ' : ''}\$r.isInstanceOf($_jni.coroutineSingletonsClass)) {
       \$r.release();
       final \$a = await \$p.first;
       \$o = ${isNullable ? '\$a == 0 ? null :' : ''}$_jObject.fromReference(
           $_jGlobalReference($_jPointer.fromAddress(\$a)));
-      if (${isNullable ? '\$o != null && ' : ''}\$o.isInstanceOf($_jni.result\$FailureClass)) {
+      if (${isNullable ? '\$o != null && ' : ''}\$o.isInstanceOf($_jni.result\$Class)) {
+        \$o = $_jni.resultValueField.get(\$o, const ${_jObjectTypePrefix}Type\$());
+      } else if (${isNullable ? '\$o != null && ' : ''}\$o.isInstanceOf($_jni.result\$FailureClass)) {
         final \$e =
             $_jni.failureExceptionField.get(\$o, const ${_jObjectTypePrefix}Type\$());
         \$o.release();
@@ -1862,11 +1873,10 @@ class _ConcreteImplClosureDef extends Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    final returnType = node.returnType.accept(
-      _TypeGenerator(resolver, forInterfaceImplementation: true),
-    );
+    final returnType = node.returnTypeMaybeAsync(
+        _TypeGenerator(resolver, forInterfaceImplementation: true));
     final name = node.finalName;
-    final args = node.params
+    final args = node.paramsMaybeAsync
         .accept(_ParamDef(resolver, methodGenericErasure: true))
         .join(', ');
     s.writeln('  final $returnType Function($args) _$name;');
@@ -1885,11 +1895,11 @@ class _AbstractImplFactoryArg extends Visitor<Method, String> {
 
   @override
   String visit(Method node) {
-    final returnType = node.returnType.accept(
+    final returnType = node.returnTypeMaybeAsync(
       _TypeGenerator(resolver, forInterfaceImplementation: true),
     );
     final name = node.finalName;
-    final args = node.params
+    final args = node.paramsMaybeAsync
         .accept(_ParamDef(resolver, methodGenericErasure: true))
         .join(', ');
     final functionArg = 'required $returnType Function($args) $name,';
@@ -1909,11 +1919,11 @@ class _ConcreteImplClosureCtorArg extends Visitor<Method, String> {
 
   @override
   String visit(Method node) {
-    final returnType = node.returnType.accept(
+    final returnType = node.returnTypeMaybeAsync(
       _TypeGenerator(resolver, forInterfaceImplementation: true),
     );
     final name = node.finalName;
-    final args = node.params
+    final args = node.paramsMaybeAsync
         .accept(_ParamDef(resolver, methodGenericErasure: true))
         .join(', ');
     final functionArg = 'required $returnType Function($args) $name,';
@@ -1940,11 +1950,21 @@ class _ConcreteImplMethod extends Visitor<Method, void> {
     final argsDef = node.params
         .accept(_ParamDef(resolver, methodGenericErasure: true))
         .join(', ');
-    final argsCall = node.params.map((param) => param.finalName).join(', ');
-    s.write('''
+    final argsCall =
+        node.paramsMaybeAsync.map((param) => param.finalName).join(', ');
+    if (node.isSuspendFun) {
+      final contArg = node.params.last.finalName;
+      s.write('''
+  $returnType $name($argsDef) {
+    return $_jni.KotlinContinuation.fromReference($contArg.reference)
+        .resumeWithFuture(_$name($argsCall));
+  }''');
+    } else {
+      s.write('''
   $returnType $name($argsDef) {
     return _$name($argsCall);
   }''');
+    }
   }
 }
 

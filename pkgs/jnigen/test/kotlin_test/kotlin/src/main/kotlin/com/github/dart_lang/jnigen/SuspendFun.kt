@@ -5,7 +5,7 @@
 
 package com.github.dart_lang.jnigen
 
-import kotlinx.coroutines.delay
+import kotlinx.coroutines.*
 import kotlin.coroutines.Continuation
 
 public class SuspendFun {
@@ -46,4 +46,30 @@ public class SuspendFun {
         }
         return "Hello!"
     }
+}
+
+public interface SuspendInterface {
+    suspend fun sayHello(): String
+    suspend fun sayHello(name: String): String
+    suspend fun nullableHello(returnNull: Boolean): String?
+    suspend fun sayInt(): Integer
+    suspend fun sayInt(value: Integer): Integer
+    suspend fun nullableInt(returnNull: Boolean): Integer?
+}
+
+suspend fun consumeOnAnotherThread(itf: SuspendInterface): String {
+    return withContext(Dispatchers.Default) {
+        consumeOnSameThread(itf)
+    }
+}
+
+suspend fun consumeOnSameThread(itf: SuspendInterface): String {
+    return """
+${itf.sayHello()}
+${itf.sayHello("Alice")}
+${itf.nullableHello(false)}
+${itf.sayInt()}
+${itf.sayInt(Integer(789))}
+${itf.nullableInt(false)}
+""".trim();
 }
