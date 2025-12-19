@@ -5,6 +5,7 @@
 import 'package:pub_semver/pub_semver.dart';
 
 import 'helper.dart';
+import 'syntax.g.dart';
 
 /// Metadata attached to a recorded usages file.
 ///
@@ -12,17 +13,24 @@ import 'helper.dart';
 /// applied to not include non-deterministic or dynamic data such as timestamps,
 /// as this would mess with the usage recording caching.
 class Metadata {
-  /// The underlying data.
-  ///
-  /// Together with the metadata extension [MetadataExt], this makes the
-  /// metadata extensible by the user implementing the recording. For example,
-  /// dart2js might want to store different metadata than the Dart VM.
-  final Map<String, Object?> json;
+  final MetadataSyntax _syntax;
 
-  const Metadata._({required this.json});
+  const Metadata._(this._syntax);
 
   factory Metadata.fromJson(Map<String, Object?> json) =>
-      Metadata._(json: json);
+      Metadata._(MetadataSyntax.fromJson(json));
+
+  /// The underlying data.
+  ///
+  /// This makes the metadata extensible by the user implementing the recording.
+  /// For example, dart2js might want to store different metadata than the Dart
+  /// VM.
+  Map<String, Object?> get json => _syntax.json;
+
+  Map<String, Object?> toJson() => _syntax.json;
+
+  Version get version => Version.parse(_syntax.version);
+  String get comment => _syntax.comment;
 
   @override
   bool operator ==(covariant Metadata other) {
@@ -35,7 +43,12 @@ class Metadata {
   int get hashCode => deepHash(json);
 }
 
-extension MetadataExt on Metadata {
-  Version get version => Version.parse(json['version'] as String);
-  String get comment => json['comment'] as String;
+/// Package private (protected) methods for [Metadata].
+///
+/// This avoids bloating the public API and public API docs and prevents
+/// internal types from leaking from the API.
+extension MetadataProtected on Metadata {
+  MetadataSyntax toSyntax() => _syntax;
+
+  static Metadata fromSyntax(MetadataSyntax syntax) => Metadata._(syntax);
 }
