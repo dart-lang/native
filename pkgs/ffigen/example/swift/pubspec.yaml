@@ -4,19 +4,16 @@
 
 name: swift_example
 
+resolution: workspace
+
 environment:
   sdk: '>=3.8.0 <4.0.0'
 
 dependencies:
   args: ^2.6.0
   ffi: ^2.0.1
-  objective_c: ^0.0.1
+  objective_c: ^9.2.1
 
 dev_dependencies:
   dart_flutter_team_lints: ^3.5.2
-  ffigen:
-    path: ../../
-
-dependency_overrides:
-  objective_c:
-    path: ../../../objective_c/
+  ffigen: ^21.0.0-wip
