@@ -2,13 +2,23 @@
 
 ## Overview
 
-This repository is home to Dart packages related to FFI and native assets
-building and bundling.
+This repository hosts Dart packages for working with FFI and for building, bundling, and managing native assets efficiently.
 
 ## Documentation
 
-See the [doc](doc/) directory for more documentation.
+Detailed documentation is available in the [doc](doc/) directory.
 
+## Quick Setup
+
+To use any package, navigate to its directory and run:
+
+```bash
+dart pub get
+```
+To run tests for a package:
+```
+dart test
+```
 ## Packages
 
 | Package | Description | Issues | Version |
