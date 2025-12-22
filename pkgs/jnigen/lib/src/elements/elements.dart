@@ -132,12 +132,6 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
 
   String get packageName => (binaryName.split('.')..removeLast()).join('.');
 
-  /// The number of super classes this type has.
-  ///
-  /// Populated by [Linker].
-  @JsonKey(includeFromJson: false)
-  late int superCount;
-
   /// Final name of this class.
   ///
   /// Populated by [Renamer].
@@ -148,9 +142,6 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   /// Name of the type class.
   @JsonKey(includeFromJson: false)
   String get typeClassName => '\$$finalName\$Type\$';
-
-  /// Name of the nullable type class.
-  String get nullableTypeClassName => '\$$finalName\$NullableType\$';
 
   /// Type parameters including the ones from its outer classes.
   ///
@@ -217,7 +208,7 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
       .split('.')
       .last;
 
-  bool get isObject => superCount == 0;
+  bool get isObject => binaryName == DeclaredType.object.binaryName;
 
   @JsonKey(includeFromJson: false)
   bool get isNested => outerClassBinaryName != null;

@@ -6,8 +6,21 @@ import 'dart:io';
 
 import 'package:jnigen/jnigen.dart';
 
-void main() {
-  generateJniBindings(
+Future<void> main() async {
+  // final classes = [
+  //   'java.util.List',
+  //   'java.util.Iterator',
+  // ];
+  // await generateJniBindings(
+  //   Config(
+  //     outputConfig: OutputConfig(
+  //         dartConfig:
+  //             DartCodeOutputConfig(path: Uri.directory('lib/core_bindings'))),
+  //     classes: classes,
+  //     hide: classes,
+  //   ),
+  // );
+  await generateJniBindings(
     Config(
       androidSdkConfig: AndroidSdkConfig(
         addGradleDeps: true,
