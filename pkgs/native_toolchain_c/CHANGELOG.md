@@ -1,3 +1,8 @@
+## 0.17.5
+
+- Fixed resolution of C compiler and tools on macOS when `swiftly` is installed.
+- Broaden compiler tool discovery on macOS.
+
 ## 0.17.4
 
 - For Windows, include errors from the standard output of `cl` in the logger's
