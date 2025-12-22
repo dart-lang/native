@@ -1,7 +1,7 @@
 import '../elements/elements.dart';
 import 'visitor.dart';
 
-class Printer extends Visitor<Classes, void> {
+class Printer extends ElementVisitor<Classes, void> {
   const Printer();
   @override
   void visit(Classes node) {
@@ -13,7 +13,7 @@ class Printer extends Visitor<Classes, void> {
   }
 }
 
-class _ClassPrinter extends Visitor<ClassDecl, void> {
+class _ClassPrinter extends ElementVisitor<ClassDecl, void> {
   const _ClassPrinter();
   @override
   void visit(ClassDecl node) {
@@ -31,7 +31,7 @@ class _ClassPrinter extends Visitor<ClassDecl, void> {
   }
 }
 
-class _MethodPrinter extends Visitor<Method, void> {
+class _MethodPrinter extends ElementVisitor<Method, void> {
   const _MethodPrinter();
   @override
   void visit(Method node) {
@@ -48,7 +48,7 @@ class _MethodPrinter extends Visitor<Method, void> {
   }
 }
 
-class _FieldPrinter extends Visitor<Field, void> {
+class _FieldPrinter extends ElementVisitor<Field, void> {
   const _FieldPrinter();
   @override
   void visit(Field node) {
@@ -58,7 +58,7 @@ class _FieldPrinter extends Visitor<Field, void> {
   }
 }
 
-class _ParamPrinter extends Visitor<Param, void> {
+class _ParamPrinter extends ElementVisitor<Param, void> {
   const _ParamPrinter();
 
   @override
@@ -132,12 +132,9 @@ class _TypePrinter extends TypeVisitor<void> {
     printAnnotation(node);
     print('${' ' * depth}</*>');
   }
-
-  @override
-  void visitNonPrimitiveType(ReferredType node) {}
 }
 
-class _AnnotationPrinter extends Visitor<Annotation, void> {
+class _AnnotationPrinter extends ElementVisitor<Annotation, void> {
   int depth;
 
   _AnnotationPrinter(this.depth);
