@@ -3,6 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 export 'src/identifier.dart' show Identifier;
-export 'src/metadata.dart' show Metadata, MetadataExt;
+export 'src/metadata.dart' show Metadata;
 export 'src/record_use.dart' show ConstantInstance, RecordedUsages;
 export 'src/recorded_usage_from_file.dart' show parseFromFile;
