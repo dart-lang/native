@@ -258,6 +258,8 @@ String getGlobalEnvExtension(
     }
   }
   final extensionFunctions = env.members
+      // ignore ones that get va_list
+      .where((member) => !member.name.endsWith('V'))
       .map((member) => getGlobalEnvExtensionFunction(
             library.context,
             member,

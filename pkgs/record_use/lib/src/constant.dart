@@ -3,9 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'helper.dart';
-
-const _typeKey = 'type';
-const _valueKey = 'value';
+import 'syntax.g.dart';
 
 /// A constant value that can be recorded and serialized.
 ///
@@ -22,7 +20,11 @@ sealed class Constant {
   ///
   /// [constants] needs to be passed, as the [Constant]s are normalized and
   /// stored separately in the JSON.
-  Map<String, Object?> toJson(Map<Constant, int> constants);
+  Map<String, Object?> toJson(Map<Constant, int> constants) =>
+      _toSyntax(constants).json;
+
+  /// Converts this [Constant] object to a syntax representation.
+  ConstantSyntax _toSyntax(Map<Constant, int> constants);
 
   /// Converts this [Constant] to the value it represents.
   Object? toValue() => switch (this) {
@@ -44,44 +46,40 @@ sealed class Constant {
   static Constant fromJson(
     Map<String, Object?> value,
     List<Constant> constants,
-  ) => switch (value[_typeKey] as String) {
-    NullConstant._type => const NullConstant(),
-    BoolConstant._type => BoolConstant(value[_valueKey] as bool),
-    IntConstant._type => IntConstant(value[_valueKey] as int),
-    StringConstant._type => StringConstant(value[_valueKey] as String),
-    ListConstant._type => ListConstant(
-      (value[_valueKey] as List<dynamic>)
-          .map((value) => value as int)
-          .map((value) => constants[value])
-          .toList(),
+  ) => _fromSyntax(ConstantSyntax.fromJson(value), constants);
+
+  /// Creates a [Constant] object from its syntax representation.
+  static Constant _fromSyntax(
+    ConstantSyntax syntax,
+    List<Constant> constants,
+  ) => switch (syntax) {
+    NullConstantSyntax() => const NullConstant(),
+    BoolConstantSyntax(:final value) => BoolConstant(value),
+    IntConstantSyntax(:final value) => IntConstant(value),
+    StringConstantSyntax(:final value) => StringConstant(value),
+    ListConstantSyntax(:final value) => ListConstant(
+      value!.cast<int>().map((i) => constants[i]).toList(),
     ),
-    MapConstant._type => MapConstant(
-      (value[_valueKey] as Map<String, Object?>).map(
+    MapConstantSyntax(:final value) => MapConstant(
+      value.json.map((key, value) => MapEntry(key, constants[value as int])),
+    ),
+    InstanceConstantSyntax(value: final value) => InstanceConstant(
+      fields: (value?.json ?? {}).map(
         (key, value) => MapEntry(key, constants[value as int]),
       ),
     ),
-    InstanceConstant._type => InstanceConstant(
-      fields: (value[_valueKey] as Map<String, Object?>? ?? {}).map(
-        (key, value) => MapEntry(key, constants[value as int]),
-      ),
-    ),
-    String() => throw UnimplementedError(
-      'This type is not a supported constant',
-    ),
+    _ => throw UnimplementedError('This type is not a supported constant'),
   };
 }
 
 /// Represents the `null` constant value.
 final class NullConstant extends Constant {
-  /// The type identifier for JSON serialization.
-  static const _type = 'Null';
-
   /// Creates a [NullConstant] object.
   const NullConstant() : super();
 
   @override
-  Map<String, Object?> toJson(Map<Constant, int> constants) =>
-      _toJson(_type, null);
+  NullConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+      NullConstantSyntax();
 
   @override
   bool operator ==(Object other) => other is NullConstant;
@@ -107,56 +105,41 @@ sealed class PrimitiveConstant<T extends Object> extends Constant {
 
     return other is PrimitiveConstant<T> && other.value == value;
   }
-
-  @override
-  Map<String, Object?> toJson(Map<Constant, int> constants) => valueToJson();
-
-  /// Converts this primitive constant to a JSON representation.
-  Map<String, Object?> valueToJson();
 }
 
 /// Represents a constant boolean value.
 final class BoolConstant extends PrimitiveConstant<bool> {
-  /// The type identifier for JSON serialization.
-  static const _type = 'bool';
-
   /// Creates a [BoolConstant] object with the given boolean [value].
   // ignore: avoid_positional_boolean_parameters
   const BoolConstant(super.value);
 
   @override
-  Map<String, Object?> valueToJson() => _toJson(_type, value);
+  BoolConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+      BoolConstantSyntax(value: value);
 }
 
 /// Represents a constant integer value.
 final class IntConstant extends PrimitiveConstant<int> {
-  /// The type identifier for JSON serialization.
-  static const _type = 'int';
-
   /// Creates an [IntConstant] object with the given integer [value].
   const IntConstant(super.value);
 
   @override
-  Map<String, Object?> valueToJson() => _toJson(_type, value);
+  IntConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+      IntConstantSyntax(value: value);
 }
 
 /// Represents a constant string value.
 final class StringConstant extends PrimitiveConstant<String> {
-  /// The type identifier for JSON serialization.
-  static const _type = 'String';
-
   /// Creates a [StringConstant] object with the given string [value].
   const StringConstant(super.value);
 
   @override
-  Map<String, Object?> valueToJson() => _toJson(_type, value);
+  StringConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+      StringConstantSyntax(value: value);
 }
 
 /// Represents a constant list of [Constant] values.
 final class ListConstant<T extends Constant> extends Constant {
-  /// The type identifier for JSON serialization.
-  static const _type = 'list';
-
   /// The underlying list of constant values.
   final List<T> value;
 
@@ -174,15 +157,14 @@ final class ListConstant<T extends Constant> extends Constant {
   }
 
   @override
-  Map<String, Object?> toJson(Map<Constant, int> constants) =>
-      _toJson(_type, value.map((constant) => constants[constant]).toList());
+  ListConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+      ListConstantSyntax(
+        value: value.map((constant) => constants[constant]).toList(),
+      );
 }
 
 /// Represents a constant map from string keys to [Constant] values.
 final class MapConstant<T extends Constant> extends Constant {
-  /// The type identifier for JSON serialization.
-  static const _type = 'map';
-
   /// The underlying map of constant values.
   final Map<String, T> value;
 
@@ -200,10 +182,12 @@ final class MapConstant<T extends Constant> extends Constant {
   }
 
   @override
-  Map<String, Object?> toJson(Map<Constant, int> constants) => _toJson(
-    _type,
-    value.map((key, constant) => MapEntry(key, constants[constant]!)),
-  );
+  MapConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+      MapConstantSyntax(
+        value: JsonObjectSyntax.fromJson(
+          value.map((key, constant) => MapEntry(key, constants[constant]!)),
+        ),
+      );
 }
 
 /// A constant instance of a class with its fields
@@ -211,38 +195,23 @@ final class MapConstant<T extends Constant> extends Constant {
 /// Only as far as they can also be represented by constants. This is more or
 /// less the same as a [MapConstant].
 final class InstanceConstant extends Constant {
-  /// The type identifier for JSON serialization.
-  static const _type = 'Instance';
-
   /// The fields of this instance, mapped from field name to [Constant] value.
   final Map<String, Constant> fields;
 
   /// Creates an [InstanceConstant] object with the given [fields].
   const InstanceConstant({required this.fields});
 
-  /// Creates an [InstanceConstant] object from JSON.
-  ///
-  /// [json] is a map representing the JSON structure.
-  /// [constants] is a list of [Constant] objects that are referenced by index
-  /// in the JSON.
-  factory InstanceConstant.fromJson(
-    Map<String, Object?> json,
-    List<Constant> constants,
-  ) => InstanceConstant(
-    fields: json.map(
-      (key, constantIndex) => MapEntry(key, constants[constantIndex as int]),
-    ),
-  );
-
   @override
-  Map<String, Object?> toJson(Map<Constant, int> constants) => _toJson(
-    _type,
-    fields.isNotEmpty
-        ? fields.map(
-            (name, constantIndex) => MapEntry(name, constants[constantIndex]!),
-          )
-        : null,
-  );
+  InstanceConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+      InstanceConstantSyntax(
+        value: fields.isNotEmpty
+            ? JsonObjectSyntax.fromJson(
+                fields.map(
+                  (name, constant) => MapEntry(name, constants[constant]!),
+                ),
+              )
+            : null,
+      );
 
   @override
   bool operator ==(Object other) {
@@ -255,9 +224,13 @@ final class InstanceConstant extends Constant {
   int get hashCode => deepHash(fields);
 }
 
-/// Helper to create the JSON structure of constants by storing the value with
-/// the type.
-Map<String, Object?> _toJson(String type, Object? value) => {
-  _typeKey: type,
-  if (value != null) _valueKey: value,
-};
+/// Package private (protected) methods for [Constant].
+///
+/// This avoids bloating the public API and public API docs and prevents
+/// internal types from leaking from the API.
+extension ConstantProtected on Constant {
+  ConstantSyntax toSyntax(Map<Constant, int> constants) => _toSyntax(constants);
+
+  static Constant fromSyntax(ConstantSyntax syntax, List<Constant> constants) =>
+      Constant._fromSyntax(syntax, constants);
+}

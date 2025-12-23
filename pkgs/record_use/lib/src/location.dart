@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'syntax.g.dart';
+
 class Location {
   final String uri;
   final int? line;
@@ -9,21 +11,16 @@ class Location {
 
   const Location({required this.uri, this.line, this.column});
 
-  static const _uriKey = 'uri';
-  static const _lineKey = 'line';
-  static const _columnKey = 'column';
+  factory Location.fromJson(Map<String, Object?> map) =>
+      Location._fromSyntax(LocationSyntax.fromJson(map));
 
-  factory Location.fromJson(Map<String, Object?> map) => Location(
-    uri: map[_uriKey] as String,
-    line: map[_lineKey] as int?,
-    column: map[_columnKey] as int?,
-  );
+  factory Location._fromSyntax(LocationSyntax syntax) =>
+      Location(uri: syntax.uri, line: syntax.line, column: syntax.column);
 
-  Map<String, Object?> toJson() => {
-    _uriKey: uri,
-    if (line != null) _lineKey: line,
-    if (line != null) _columnKey: column,
-  };
+  Map<String, Object?> toJson() => _toSyntax().json;
+
+  LocationSyntax _toSyntax() =>
+      LocationSyntax(uri: uri, line: line, column: column);
 
   @override
   bool operator ==(Object other) {
@@ -37,4 +34,15 @@ class Location {
 
   @override
   int get hashCode => Object.hash(uri, line, column);
+}
+
+/// Package private (protected) methods for [Location].
+///
+/// This avoids bloating the public API and public API docs and prevents
+/// internal types from leaking from the API.
+extension LocationProtected on Location {
+  LocationSyntax toSyntax() => _toSyntax();
+
+  static Location fromSyntax(LocationSyntax syntax) =>
+      Location._fromSyntax(syntax);
 }

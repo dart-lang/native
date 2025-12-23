@@ -22,7 +22,7 @@ $ dart run test/setup.dart && dart run test/regen.dart && dart test
 void _regenConfig(Logger logger, String yamlConfigPath) {
   final path = p.join(packagePathForTests, yamlConfigPath);
   Directory.current = File(path).parent;
-  testConfigFromPath(path).generate(logger: logger);
+  testConfigFromPath(path, logger: logger).generate(logger: logger);
 }
 
 Future<void> main(List<String> args) async {
