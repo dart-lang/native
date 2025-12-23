@@ -14,4 +14,3 @@ log_level: all
 
 classes:
   - 'Example'
-  - 'Thinker'
