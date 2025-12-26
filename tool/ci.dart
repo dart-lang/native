@@ -179,6 +179,7 @@ class GenerateTask extends Task {
       'pkgs/hooks/tool/normalize.dart',
       'pkgs/hooks/tool/update_snippets.dart',
       'pkgs/pub_formats/tool/generate.dart',
+      'pkgs/record_use/tool/generate_syntax.dart',
     ];
     for (final generator in generators) {
       await _runProcess('dart', [generator, '--set-exit-if-changed']);

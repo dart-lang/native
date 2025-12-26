@@ -39,7 +39,7 @@ final recordedUses = Recordings(
           'leroy': StringConstant('jenkins'),
         },
         loadingUnit: 'o.js',
-        location: Location(uri: 'lib/test.dart'),
+        location: Location(uri: 'lib/test.dart', line: 12, column: 36),
       ),
       const CallWithArguments(
         positionalArguments: [
@@ -193,7 +193,9 @@ const recordedUsesJson = '''{
   ],
   "locations": [
     {
-      "uri": "lib/test.dart"
+      "uri": "lib/test.dart",
+      "line": 12,
+      "column": 36
     },
     {
       "uri": "lib/test2.dart"
