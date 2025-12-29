@@ -12,8 +12,10 @@ import 'package:test_descriptor/test_descriptor.dart' as d;
 
 import '../helpers.dart';
 
+const Timeout longTimeout = Timeout(Duration(minutes: 5));
+
 void main() {
-  test('NDK smoke test', () async {
+  test('NDK smoke test', timeout: longTimeout, () async {
     final requirement = RequireAll([
       ToolRequirement(androidNdk),
       ToolRequirement(androidNdkClang),
