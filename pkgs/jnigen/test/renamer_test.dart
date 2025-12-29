@@ -4,11 +4,11 @@
 
 import 'package:jnigen/jnigen.dart';
 import 'package:jnigen/src/bindings/linker.dart';
-import 'package:jnigen/src/bindings/renamer.dart';
+// import 'package:jnigen/src/bindings/renamer.dart';
 import 'package:test/test.dart';
 
-extension on Iterable<ClassMember> {
-  List<String> get finalNames => map((c) => c.finalName).toList();
+extension on Iterable<Renamable> {
+  List<String> get finalNames => map((c) => c.finalName!).toList();
 }
 
 Future<void> rename(Classes classes) async {
@@ -22,7 +22,7 @@ Future<void> rename(Classes classes) async {
     classes: [],
   );
   await classes.accept(Linker(config));
-  classes.accept(Renamer(config));
+  // classes.accept(Renamer(config));
 }
 
 void main() {

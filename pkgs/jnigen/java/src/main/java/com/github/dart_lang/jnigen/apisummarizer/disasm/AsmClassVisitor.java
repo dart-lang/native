@@ -87,6 +87,7 @@ public class AsmClassVisitor extends ClassVisitor {
     var field = new Field();
     field.name = name;
     field.type = TypeUtils.typeUsage(Type.getType(descriptor));
+    field.descriptor = descriptor;
     field.defaultValue = value;
     field.modifiers = TypeUtils.access(access);
     if ((access & ACC_ENUM) != 0) {
