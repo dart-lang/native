@@ -16,6 +16,7 @@ import '../native_toolchain/recognizer.dart';
 import '../tool/tool.dart';
 import '../tool/tool_error.dart';
 import '../tool/tool_instance.dart';
+import '../tool/tool_resolver.dart';
 import '../utils/env_from_bat.dart';
 
 // TODO(dacoharkes): This should support alternatives.
@@ -25,6 +26,7 @@ class CompilerResolver {
   final Logger? logger;
   final OS hostOS;
   final Architecture hostArchitecture;
+  final ToolResolvingContext context;
 
   CompilerResolver({
     required this.codeConfig,
@@ -32,7 +34,8 @@ class CompilerResolver {
     OS? hostOS, // Only visible for testing.
     Architecture? hostArchitecture, // Only visible for testing.
   }) : hostOS = hostOS ?? OS.current,
-       hostArchitecture = hostArchitecture ?? Architecture.current;
+       hostArchitecture = hostArchitecture ?? Architecture.current,
+       context = ToolResolvingContext(logger: logger);
 
   Future<ToolInstance> resolveCompiler() async {
     // First, check if the launcher provided a direct path to the compiler.
@@ -96,9 +99,7 @@ class CompilerResolver {
         'Using compiler ${inputCcUri.toFilePath()} '
         'from BuildInput.cCompiler.cc.',
       );
-      return (await CompilerRecognizer(
-        inputCcUri,
-      ).resolve(logger: logger)).first;
+      return (await CompilerRecognizer(inputCcUri).resolve(context)).first;
     }
     logger?.finer('No compiler set in BuildInput.cCompiler.cc.');
     return null;
@@ -106,7 +107,7 @@ class CompilerResolver {
 
   Future<ToolInstance?> _tryLoadToolFromNativeToolchain(Tool tool) async {
     final resolved = (await tool.defaultResolver!.resolve(
-      logger: logger,
+      context,
     )).where((i) => i.tool == tool).toList()..sort();
     return resolved.isEmpty ? null : resolved.first;
   }
@@ -183,9 +184,7 @@ class CompilerResolver {
         'Using archiver ${inputArUri.toFilePath()} '
         'from BuildInput.cCompiler.ar.',
       );
-      return (await ArchiverRecognizer(
-        inputArUri,
-      ).resolve(logger: logger)).first;
+      return (await ArchiverRecognizer(inputArUri).resolve(context)).first;
     }
     logger?.finer('No archiver set in BuildInput.cCompiler.ar.');
     return null;
@@ -221,7 +220,7 @@ class CompilerResolver {
     }
     final vcvarsScript = (await vcvars(
       compiler,
-    ).defaultResolver!.resolve(logger: logger)).first;
+    ).defaultResolver!.resolve(context)).first;
     return await environmentFromBatchFile(
       vcvarsScript.uri,
       arguments: [

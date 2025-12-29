@@ -1,3 +1,7 @@
+## 0.17.5-wip
+
+- Search for NDK in `ANDROID_HOME` and `ANDROID_NDK` environment variables.
+
 ## 0.17.4
 
 - For Windows, include errors from the standard output of `cl` in the logger's
