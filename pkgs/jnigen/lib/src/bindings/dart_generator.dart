@@ -84,7 +84,7 @@ extension on DeclaredType {
 extension on Method {
   bool get isSuspendFun => asyncReturnType != null;
 
-  String returnTypeMaybeAsync(_TypeGenerator generator) => isSuspendFun
+  String returnTypeMaybeAsync(TypeVisitor<String> generator) => isSuspendFun
       ? '$_core.Future<${asyncReturnType!.accept(generator)}>'
       : returnType.accept(generator);
 
@@ -1850,11 +1850,11 @@ class _AbstractImplMethod extends Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    final returnType = node.returnType.accept(
+    final returnType = node.returnTypeMaybeAsync(
       _TypeGenerator(resolver, forInterfaceImplementation: true),
     );
     final name = node.finalName;
-    final args = node.params
+    final args = node.paramsMaybeAsync
         .accept(_ParamDef(resolver, methodGenericErasure: true))
         .join(', ');
     s.writeln('  $returnType $name($args);');
@@ -1943,28 +1943,19 @@ class _ConcreteImplMethod extends Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    final returnType = node.returnType.accept(
+    final returnType = node.returnTypeMaybeAsync(
       _TypeGenerator(resolver, forInterfaceImplementation: true),
     );
     final name = node.finalName;
-    final argsDef = node.params
+    final argsDef = node.paramsMaybeAsync
         .accept(_ParamDef(resolver, methodGenericErasure: true))
         .join(', ');
     final argsCall =
         node.paramsMaybeAsync.map((param) => param.finalName).join(', ');
-    if (node.isSuspendFun) {
-      final contArg = node.params.last.finalName;
-      s.write('''
-  $returnType $name($argsDef) {
-    return $_jni.KotlinContinuation.fromReference($contArg.reference)
-        .resumeWithFuture(_$name($argsCall));
-  }''');
-    } else {
-      s.write('''
+    s.write('''
   $returnType $name($argsDef) {
     return _$name($argsCall);
   }''');
-    }
   }
 }
 
@@ -1975,23 +1966,50 @@ class _InterfaceMethodIf extends Visitor<Method, void> {
 
   _InterfaceMethodIf(this.resolver, this.s);
 
+  static String _invoke(Resolver resolver, Method node) {
+    final name = node.finalName;
+    final params = node.paramsMaybeAsync;
+    final out = StringBuffer();
+    out.write('_\$impls[\$p]!.$name(');
+    for (var i = 0; i < params.length; ++i) {
+      params[i].accept(_InterfaceParamCast(resolver, out, paramIndex: i));
+      out.writeln(',');
+    }
+    out.write(')');
+    return out.toString();
+  }
+
   @override
   void visit(Method node) {
-    final isVoid = node.returnType.name == 'void';
     final signature = node.javaSig;
-    final saveResult = isVoid ? '' : 'final \$r = ';
-    final name = node.finalName;
     s.write('''
         if (\$d == r'$signature') {
-          ${saveResult}_\$impls[\$p]!.$name(
 ''');
-    for (var i = 0; i < node.params.length; ++i) {
-      node.params[i].accept(_InterfaceParamCast(resolver, s, paramIndex: i));
+    final result = _invoke(resolver, node);
+    const returnBox = const _InterfaceReturnBox();
+    final returnValue = node.returnType.accept(returnBox);
+
+    if (node.isSuspendFun) {
+      final params = node.paramsMaybeAsync;
+      final contArg = StringBuffer();
+      node.params.last.accept(_InterfaceParamCast(resolver, contArg,
+          paramIndex: node.params.length - 1));
+      s.write('''
+          final \$r = $_jni.KotlinContinuation.fromReference($contArg.reference)
+              .resumeWithFuture($result);
+          return $returnValue;
+''');
+    } else {
+      final isVoid = node.returnType.name == 'void';
+      final saveResult = isVoid ? '' : 'final \$r = ';
+      s.write('''
+          $saveResult$result
+''');
+      s.write(''';
+          return $returnValue;
+''');
     }
-    const returnBox = _InterfaceReturnBox();
     s.write('''
-          );
-          return ${node.returnType.accept(returnBox)};
         }
 ''');
   }
@@ -2046,7 +2064,6 @@ class _InterfaceParamCast extends Visitor<Param, void> {
       final name = node.type.name;
       s.write('.${name}Value(releaseOriginal: true)');
     }
-    s.writeln(',');
   }
 }
 

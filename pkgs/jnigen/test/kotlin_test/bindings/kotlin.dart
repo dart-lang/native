@@ -4080,9 +4080,10 @@ class SuspendInterface extends jni$_.JObject {
       final $a = $i.args;
       if ($d ==
           r'sayHello(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = _$impls[$p]!.sayHello(
-          $a![0]!.as(const jni$_.$JObject$Type$(), releaseOriginal: true),
-        );
+        final $r = jni$_.KotlinContinuation.fromReference($a![0]!
+                .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                .reference)
+            .resumeWithFuture(_$impls[$p]!.sayHello());
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
                 .reference
@@ -4091,10 +4092,12 @@ class SuspendInterface extends jni$_.JObject {
       }
       if ($d ==
           r'sayHello(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = _$impls[$p]!.sayHello$1(
+        final $r = jni$_.KotlinContinuation.fromReference($a![1]!
+                .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                .reference)
+            .resumeWithFuture(_$impls[$p]!.sayHello$1(
           $a![0]!.as(const jni$_.$JString$Type$(), releaseOriginal: true),
-          $a![1]!.as(const jni$_.$JObject$Type$(), releaseOriginal: true),
-        );
+        ));
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
                 .reference
@@ -4103,12 +4106,14 @@ class SuspendInterface extends jni$_.JObject {
       }
       if ($d ==
           r'nullableHello(ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = _$impls[$p]!.nullableHello(
+        final $r = jni$_.KotlinContinuation.fromReference($a![1]!
+                .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                .reference)
+            .resumeWithFuture(_$impls[$p]!.nullableHello(
           $a![0]!
               .as(const jni$_.$JBoolean$Type$(), releaseOriginal: true)
               .booleanValue(releaseOriginal: true),
-          $a![1]!.as(const jni$_.$JObject$Type$(), releaseOriginal: true),
-        );
+        ));
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
                 .reference
@@ -4116,9 +4121,10 @@ class SuspendInterface extends jni$_.JObject {
             jni$_.nullptr;
       }
       if ($d == r'sayInt(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = _$impls[$p]!.sayInt(
-          $a![0]!.as(const jni$_.$JObject$Type$(), releaseOriginal: true),
-        );
+        final $r = jni$_.KotlinContinuation.fromReference($a![0]!
+                .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                .reference)
+            .resumeWithFuture(_$impls[$p]!.sayInt());
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
                 .reference
@@ -4127,10 +4133,12 @@ class SuspendInterface extends jni$_.JObject {
       }
       if ($d ==
           r'sayInt(Ljava/lang/Integer;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = _$impls[$p]!.sayInt$1(
+        final $r = jni$_.KotlinContinuation.fromReference($a![1]!
+                .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                .reference)
+            .resumeWithFuture(_$impls[$p]!.sayInt$1(
           $a![0]!.as(const jni$_.$JInteger$Type$(), releaseOriginal: true),
-          $a![1]!.as(const jni$_.$JObject$Type$(), releaseOriginal: true),
-        );
+        ));
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
                 .reference
@@ -4139,12 +4147,14 @@ class SuspendInterface extends jni$_.JObject {
       }
       if ($d ==
           r'nullableInt(ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = _$impls[$p]!.nullableInt(
+        final $r = jni$_.KotlinContinuation.fromReference($a![1]!
+                .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                .reference)
+            .resumeWithFuture(_$impls[$p]!.nullableInt(
           $a![0]!
               .as(const jni$_.$JBoolean$Type$(), releaseOriginal: true)
               .booleanValue(releaseOriginal: true),
-          $a![1]!.as(const jni$_.$JObject$Type$(), releaseOriginal: true),
-        );
+        ));
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
                 .reference
@@ -4205,12 +4215,12 @@ abstract base mixin class $SuspendInterface {
     required core$_.Future<jni$_.JInteger?> Function(bool z) nullableInt,
   }) = _$SuspendInterface;
 
-  jni$_.JObject sayHello(jni$_.JObject continuation);
-  jni$_.JObject sayHello$1(jni$_.JString string, jni$_.JObject continuation);
-  jni$_.JObject? nullableHello(bool z, jni$_.JObject continuation);
-  jni$_.JObject sayInt(jni$_.JObject continuation);
-  jni$_.JObject sayInt$1(jni$_.JInteger integer, jni$_.JObject continuation);
-  jni$_.JObject? nullableInt(bool z, jni$_.JObject continuation);
+  core$_.Future<jni$_.JString> sayHello();
+  core$_.Future<jni$_.JString> sayHello$1(jni$_.JString string);
+  core$_.Future<jni$_.JString?> nullableHello(bool z);
+  core$_.Future<jni$_.JInteger> sayInt();
+  core$_.Future<jni$_.JInteger> sayInt$1(jni$_.JInteger integer);
+  core$_.Future<jni$_.JInteger?> nullableInt(bool z);
 }
 
 final class _$SuspendInterface with $SuspendInterface {
@@ -4238,34 +4248,28 @@ final class _$SuspendInterface with $SuspendInterface {
       _sayInt$1;
   final core$_.Future<jni$_.JInteger?> Function(bool z) _nullableInt;
 
-  jni$_.JObject sayHello(jni$_.JObject continuation) {
-    return jni$_.KotlinContinuation.fromReference(continuation.reference)
-        .resumeWithFuture(_sayHello());
+  core$_.Future<jni$_.JString> sayHello() {
+    return _sayHello();
   }
 
-  jni$_.JObject sayHello$1(jni$_.JString string, jni$_.JObject continuation) {
-    return jni$_.KotlinContinuation.fromReference(continuation.reference)
-        .resumeWithFuture(_sayHello$1(string));
+  core$_.Future<jni$_.JString> sayHello$1(jni$_.JString string) {
+    return _sayHello$1(string);
   }
 
-  jni$_.JObject? nullableHello(bool z, jni$_.JObject continuation) {
-    return jni$_.KotlinContinuation.fromReference(continuation.reference)
-        .resumeWithFuture(_nullableHello(z));
+  core$_.Future<jni$_.JString?> nullableHello(bool z) {
+    return _nullableHello(z);
   }
 
-  jni$_.JObject sayInt(jni$_.JObject continuation) {
-    return jni$_.KotlinContinuation.fromReference(continuation.reference)
-        .resumeWithFuture(_sayInt());
+  core$_.Future<jni$_.JInteger> sayInt() {
+    return _sayInt();
   }
 
-  jni$_.JObject sayInt$1(jni$_.JInteger integer, jni$_.JObject continuation) {
-    return jni$_.KotlinContinuation.fromReference(continuation.reference)
-        .resumeWithFuture(_sayInt$1(integer));
+  core$_.Future<jni$_.JInteger> sayInt$1(jni$_.JInteger integer) {
+    return _sayInt$1(integer);
   }
 
-  jni$_.JObject? nullableInt(bool z, jni$_.JObject continuation) {
-    return jni$_.KotlinContinuation.fromReference(continuation.reference)
-        .resumeWithFuture(_nullableInt(z));
+  core$_.Future<jni$_.JInteger?> nullableInt(bool z) {
+    return _nullableInt(z);
   }
 }
 
