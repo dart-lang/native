@@ -35,9 +35,14 @@ ClassDeclaration? transformGlobals(
       .map((variable) => transformGlobalVariable(variable, globalNamer, state))
       .toList();
 
-  final transformedMethods = globals.functions
-      .map((function) => transformGlobalFunction(function, globalNamer, state))
-      .toList();
+  final transformedMethods = <MethodDeclaration>[];
+  for (final fn in globals.functions) {
+    final main = transformGlobalFunction(fn, globalNamer, state);
+    transformedMethods.add(main);
+    transformedMethods.addAll(
+      buildDefaultOverloadsForGlobalFunction(fn, main, globalNamer, state),
+    );
+  }
 
   transformedGlobals.properties =
       transformedProperties.whereType<PropertyDeclaration>().toList()

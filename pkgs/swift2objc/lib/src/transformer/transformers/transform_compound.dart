@@ -81,28 +81,47 @@ ClassDeclaration transformCompound(
         .nonNulls
         .toList();
 
-    final transformedInitializers = originalCompound.initializers
-        .map(
-          (initializer) => transformInitializer(
-            initializer,
-            wrappedCompoundInstance,
-            parentNamer,
-            state,
-          ),
-        )
-        .toList();
+    final transformedInitializers = <Declaration>[];
+    for (final init in originalCompound.initializers) {
+      final main = transformInitializer(
+        init,
+        wrappedCompoundInstance,
+        parentNamer,
+        state,
+      );
+      transformedInitializers.add(main);
+      transformedInitializers.addAll(
+        buildDefaultOverloadsForInitializer(
+          init,
+          wrappedCompoundInstance,
+          parentNamer,
+          state,
+          baseTransformed: main,
+        ),
+      );
+    }
 
-    final transformedMethods = originalCompound.methods
-        .map(
-          (method) => transformMethod(
+    final transformedMethods = <MethodDeclaration>[];
+    for (final method in originalCompound.methods) {
+      final main = transformMethod(
+        method,
+        wrappedCompoundInstance,
+        parentNamer,
+        state,
+      );
+      if (main != null) {
+        transformedMethods.add(main);
+        transformedMethods.addAll(
+          buildDefaultOverloadsForMethod(
             method,
             wrappedCompoundInstance,
             parentNamer,
             state,
+            baseTransformed: main,
           ),
-        )
-        .nonNulls
-        .toList();
+        );
+      }
+    }
 
     transformedCompound.properties =
         transformedProperties.whereType<PropertyDeclaration>().toList()

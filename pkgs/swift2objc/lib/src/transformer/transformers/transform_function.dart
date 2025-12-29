@@ -74,6 +74,7 @@ MethodDeclaration _transformFunction(
           name: param.name,
           internalName: param.internalName,
           type: transformReferredType(param.type, globalNamer, state),
+          defaultValue: param.defaultValue,
         ),
       )
       .toList();
@@ -160,10 +161,36 @@ List<String> _generateStatements(
   TransformationState state, {
   required String Function(String arguments) originalCallGenerator,
 }) {
+  return _generateStatementsWithParamSubset(
+    originalFunction,
+    transformedMethod,
+    globalNamer,
+    localNamer,
+    resultName,
+    wrappedResult,
+    state,
+    originalCallGenerator: originalCallGenerator,
+    originalParamsForCall: originalFunction.params,
+    transformedParamsForCall: transformedMethod.params,
+  );
+}
+
+List<String> _generateStatementsWithParamSubset(
+  FunctionDeclaration originalFunction,
+  MethodDeclaration transformedMethod,
+  UniqueNamer globalNamer,
+  UniqueNamer localNamer,
+  String resultName,
+  String wrappedResult,
+  TransformationState state, {
+  required String Function(String arguments) originalCallGenerator,
+  required List<Parameter> originalParamsForCall,
+  required List<Parameter> transformedParamsForCall,
+}) {
   final arguments = generateInvocationParams(
     localNamer,
-    originalFunction.params,
-    transformedMethod.params,
+    originalParamsForCall,
+    transformedParamsForCall,
   );
   var originalMethodCall = originalCallGenerator(arguments);
   if (transformedMethod.async) {
@@ -182,4 +209,124 @@ List<String> _generateStatements(
   }
 
   return ['let $resultName = $originalMethodCall', 'return $wrappedResult'];
+}
+
+int _trailingDefaultCount(List<Parameter> params) {
+  var count = 0;
+  for (var i = params.length - 1; i >= 0; --i) {
+    if (params[i].defaultValue != null) {
+      count++;
+    } else {
+      break;
+    }
+  }
+  return count;
+}
+
+List<MethodDeclaration> buildDefaultOverloadsForMethod(
+  MethodDeclaration originalMethod,
+  PropertyDeclaration wrappedClassInstance,
+  UniqueNamer globalNamer,
+  TransformationState state, {
+  required MethodDeclaration baseTransformed,
+}) {
+  final defaults = _trailingDefaultCount(originalMethod.params);
+  if (defaults == 0) return const [];
+
+  final overloads = <MethodDeclaration>[];
+  for (var drop = 1; drop <= defaults; ++drop) {
+    final keep = originalMethod.params.length - drop;
+    final transformedSubset = baseTransformed.params.sublist(0, keep);
+
+    final over = MethodDeclaration(
+      id: '${originalMethod.id}-default$drop',
+      name: baseTransformed.name,
+      source: originalMethod.source,
+      availability: originalMethod.availability,
+      returnType: baseTransformed.returnType,
+      params: transformedSubset,
+      hasObjCAnnotation: true,
+      isStatic: originalMethod.isStatic,
+      throws: originalMethod.throws,
+      async: originalMethod.async,
+    );
+
+    final localNamer = UniqueNamer();
+    final resultName = localNamer.makeUnique('result');
+    final (wrapperResult, _) = maybeWrapValue(
+      originalMethod.returnType,
+      resultName,
+      globalNamer,
+      state,
+      shouldWrapPrimitives: originalMethod.throws,
+    );
+    final methodSource = originalMethod.isStatic
+        ? wrappedClassInstance.type.swiftType
+        : wrappedClassInstance.name;
+    over.statements = _generateStatementsWithParamSubset(
+      originalMethod,
+      over,
+      globalNamer,
+      localNamer,
+      resultName,
+      wrapperResult,
+      state,
+      originalCallGenerator: (args) => '$methodSource.${originalMethod.name}($args)',
+      originalParamsForCall: originalMethod.params.sublist(0, keep),
+      transformedParamsForCall: transformedSubset,
+    );
+    overloads.add(over);
+  }
+  return overloads;
+}
+
+List<MethodDeclaration> buildDefaultOverloadsForGlobalFunction(
+  GlobalFunctionDeclaration globalFunction,
+  MethodDeclaration baseTransformed,
+  UniqueNamer globalNamer,
+  TransformationState state,
+) {
+  final defaults = _trailingDefaultCount(globalFunction.params);
+  if (defaults == 0) return const [];
+  final overloads = <MethodDeclaration>[];
+  for (var drop = 1; drop <= defaults; ++drop) {
+    final keep = globalFunction.params.length - drop;
+    final subset = baseTransformed.params.sublist(0, keep);
+    final over = MethodDeclaration(
+      id: '${globalFunction.id}-default$drop',
+      name: baseTransformed.name,
+      source: globalFunction.source,
+      availability: globalFunction.availability,
+      returnType: baseTransformed.returnType,
+      params: subset,
+      hasObjCAnnotation: true,
+      isStatic: true,
+      throws: globalFunction.throws,
+      async: globalFunction.async,
+    );
+
+    final localNamer = UniqueNamer();
+    final resultName = localNamer.makeUnique('result');
+    final (wrapperResult, _) = maybeWrapValue(
+      globalFunction.returnType,
+      resultName,
+      globalNamer,
+      state,
+      shouldWrapPrimitives: globalFunction.throws,
+    );
+    over.statements = _generateStatementsWithParamSubset(
+      globalFunction,
+      over,
+      globalNamer,
+      localNamer,
+      resultName,
+      wrapperResult,
+      state,
+      originalCallGenerator: (args) => '${globalFunction.name}($args)',
+      originalParamsForCall: globalFunction.params.sublist(0, keep),
+      transformedParamsForCall: subset,
+    );
+    overloads.add(over);
+  }
+  return overloads;
 }

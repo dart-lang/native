@@ -35,6 +35,7 @@ void main() {
         expect(actualParam.name, expectedParam.name);
         expect(actualParam.internalName, expectedParam.internalName);
         expect(actualParam.type.sameAs(expectedParam.type), isTrue);
+        expect(actualParam.defaultValue, expectedParam.defaultValue);
       }
     }
 
@@ -514,6 +515,127 @@ void main() {
 
       expect(info.throws, isTrue);
       expect(info.mutating, isTrue);
+    });
+
+    test('Parameter with default value', () {
+      final json = Json(
+        jsonDecode('''
+        [
+          { "kind": "keyword", "spelling": "func" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "foo" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "externalParam", "spelling": "param" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": " = " },
+          { "kind": "number", "spelling": "12" },
+          { "kind": "text", "spelling": ")" }
+        ]
+        '''),
+      );
+
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
+
+      final expectedParams = [
+        Parameter(name: 'param', type: intType, defaultValue: '12'),
+      ];
+
+      expectEqualParams(info.params, expectedParams);
+      expect(info.throws, isFalse);
+      expect(info.async, isFalse);
+    });
+
+    test('Multiple parameters with trailing defaults', () {
+      final json = Json(
+        jsonDecode('''
+        [
+          { "kind": "keyword", "spelling": "func" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "bar" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "externalParam", "spelling": "a" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ", " },
+          { "kind": "externalParam", "spelling": "b" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": " = " },
+          { "kind": "number", "spelling": "10" },
+          { "kind": "text", "spelling": ", " },
+          { "kind": "externalParam", "spelling": "c" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "String",
+            "preciseIdentifier": "s:SS"
+          },
+          { "kind": "text", "spelling": " = " },
+          { "kind": "string", "spelling": "\\"hello\\"" },
+          { "kind": "text", "spelling": ")" }
+        ]
+        '''),
+      );
+
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
+
+      expect(info.params.length, 3);
+      expect(info.params[0].name, 'a');
+      expect(info.params[0].defaultValue, isNull);
+      expect(info.params[1].name, 'b');
+      expect(info.params[1].defaultValue, '10');
+      expect(info.params[2].name, 'c');
+      expect(info.params[2].defaultValue, '\"hello\"');
+    });
+
+    test('Parameter with string default value', () {
+      final json = Json(
+        jsonDecode('''
+        [
+          { "kind": "keyword", "spelling": "func" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "greet" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "externalParam", "spelling": "name" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "String",
+            "preciseIdentifier": "s:SS"
+          },
+          { "kind": "text", "spelling": " = " },
+          { "kind": "string", "spelling": "\\"World\\"" },
+          { "kind": "text", "spelling": ")" }
+        ]
+        '''),
+      );
+
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
+
+      final expectedParams = [
+        Parameter(
+          name: 'name',
+          type: stringType,
+          defaultValue: '\"World\"',
+        ),
+      ];
+
+      expectEqualParams(info.params, expectedParams);
+      expect(info.throws, isFalse);
+      expect(info.async, isFalse);
     });
   });
 

@@ -155,3 +155,146 @@ List<String> _generateMethodStatements(
   }
   return (instanceConstruction, localNamer);
 }
+
+int _trailingDefaultCount(List<Parameter> params) {
+  var count = 0;
+  for (var i = params.length - 1; i >= 0; --i) {
+    if (params[i].defaultValue != null) {
+      count++;
+    } else {
+      break;
+    }
+  }
+  return count;
+}
+
+List<Declaration> buildDefaultOverloadsForInitializer(
+  InitializerDeclaration originalInitializer,
+  PropertyDeclaration wrappedClassInstance,
+  UniqueNamer globalNamer,
+  TransformationState state, {
+  required Declaration baseTransformed,
+}) {
+  final defaults = _trailingDefaultCount(originalInitializer.params);
+  if (defaults == 0) return const [];
+
+  final overloads = <Declaration>[];
+  for (var drop = 1; drop <= defaults; ++drop) {
+    final keep = originalInitializer.params.length - drop;
+    final transformedSubsetParams = originalInitializer.params
+        .sublist(0, keep)
+        .map(
+          (param) => Parameter(
+            name: param.name,
+            internalName: param.internalName,
+            type: transformReferredType(param.type, globalNamer, state),
+            defaultValue: param.defaultValue,
+          ),
+        )
+        .toList();
+
+    if (originalInitializer.async) {
+      // Generate async method wrapper overload
+      final methodReturnType = transformReferredType(
+        wrappedClassInstance.type,
+        globalNamer,
+        state,
+      );
+
+      final over = MethodDeclaration(
+        id: '${originalInitializer.id}-default$drop',
+        name: '${originalInitializer.name}Wrapper',
+        source: originalInitializer.source,
+        availability: originalInitializer.availability,
+        returnType: originalInitializer.isFailable
+            ? OptionalType(methodReturnType)
+            : methodReturnType,
+        params: transformedSubsetParams,
+        hasObjCAnnotation: true,
+        throws: originalInitializer.throws,
+        async: originalInitializer.async,
+        isStatic: true,
+      );
+
+      over.statements = _generateMethodStatements(
+        originalInitializer,
+        wrappedClassInstance,
+        methodReturnType,
+        transformedSubsetParams,
+      );
+      overloads.add(over);
+    } else {
+      // Generate regular initializer overload
+      final over = InitializerDeclaration(
+        id: '${originalInitializer.id}-default$drop',
+        source: originalInitializer.source,
+        availability: originalInitializer.availability,
+        params: transformedSubsetParams,
+        hasObjCAnnotation: true,
+        isFailable: originalInitializer.isFailable,
+        throws: originalInitializer.throws,
+        async: originalInitializer.async,
+        isOverriding: transformedSubsetParams.isEmpty,
+      );
+
+      over.statements = _generateInitializerStatementsWithSubset(
+        originalInitializer,
+        wrappedClassInstance,
+        over,
+        originalInitializer.params.sublist(0, keep),
+      );
+      overloads.add(over);
+    }
+  }
+  return overloads;
+}
+
+List<String> _generateInitializerStatementsWithSubset(
+  InitializerDeclaration originalInitializer,
+  PropertyDeclaration wrappedClassInstance,
+  InitializerDeclaration transformedInitializer,
+  List<Parameter> originalParamsSubset,
+) {
+  final (instanceConstruction, localNamer) =
+      _generateInstanceConstructionWithSubset(
+    originalInitializer,
+    wrappedClassInstance,
+    transformedInitializer.params,
+    originalParamsSubset,
+  );
+  if (originalInitializer.isFailable) {
+    final instance = localNamer.makeUnique('instance');
+    return [
+      'if let $instance = $instanceConstruction {',
+      '  ${wrappedClassInstance.name} = $instance',
+      '} else {',
+      '  return nil',
+      '}',
+    ];
+  } else {
+    return ['${wrappedClassInstance.name} = $instanceConstruction'];
+  }
+}
+
+(String, UniqueNamer) _generateInstanceConstructionWithSubset(
+  InitializerDeclaration originalInitializer,
+  PropertyDeclaration wrappedClassInstance,
+  List<Parameter> transformedParams,
+  List<Parameter> originalParamsSubset,
+) {
+  final localNamer = UniqueNamer();
+  final arguments = generateInvocationParams(
+    localNamer,
+    originalParamsSubset,
+    transformedParams,
+  );
+  var instanceConstruction =
+      '${wrappedClassInstance.type.swiftType}($arguments)';
+  if (originalInitializer.async) {
+    instanceConstruction = 'await $instanceConstruction';
+  }
+  if (originalInitializer.throws) {
+    instanceConstruction = 'try $instanceConstruction';
+  }
+  return (instanceConstruction, localNamer);
+}
