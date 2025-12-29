@@ -11,7 +11,6 @@ import 'package:meta/meta.dart' show internal;
 import 'accessors.dart';
 import 'jni.dart';
 import 'jobject.dart';
-import 'jreference.dart';
 import 'lang/jstring.dart';
 import 'third_party/generated_bindings.dart';
 import 'types.dart';
@@ -83,9 +82,7 @@ class JImplementer extends JObject {
         binaryNameRef.pointer,
         port.sendPort.nativePort,
         pointer.address,
-        (asyncMethods
-                .map((m) => m.toJString()..releasedBy(arena))
-                .toJList(JString.type)
+        (asyncMethods.map((m) => m.toJString()..releasedBy(arena)).toJList()
               ..releasedBy(arena))
             .reference
             .pointer,
@@ -114,17 +111,7 @@ class JImplementer extends JObject {
   /// added interfaces with the given implementations.
   ///
   /// Releases this implementer.
-  T implement<T extends JObject>(JType<T> type) {
-    return type.fromReference(implementReference());
-  }
-
-  /// Used in the JNIgen generated code.
-  ///
-  /// It is unnecessary to construct the type object when the code is generated.
-  @internal
-  JReference implementReference() {
-    final ref = _build(reference.pointer, _buildId as JMethodIDPtr).reference;
-    release();
-    return ref;
+  T implement<T extends JObject>() {
+    return _build(reference.pointer, _buildId as JMethodIDPtr).object<T>();
   }
 }
