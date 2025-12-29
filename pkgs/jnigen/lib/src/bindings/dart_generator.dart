@@ -1986,11 +1986,10 @@ class _InterfaceMethodIf extends Visitor<Method, void> {
         if (\$d == r'$signature') {
 ''');
     final result = _invoke(resolver, node);
-    const returnBox = const _InterfaceReturnBox();
+    const returnBox = _InterfaceReturnBox();
     final returnValue = node.returnType.accept(returnBox);
 
     if (node.isSuspendFun) {
-      final params = node.paramsMaybeAsync;
       final contArg = StringBuffer();
       node.params.last.accept(_InterfaceParamCast(resolver, contArg,
           paramIndex: node.params.length - 1));
