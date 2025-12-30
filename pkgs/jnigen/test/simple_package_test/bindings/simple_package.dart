@@ -3352,14 +3352,14 @@ class Colors extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `static public com.github.dart_lang.jnigen.enums.Colors valueOf(java.lang.String synthetic)`
+  /// from: `static public com.github.dart_lang.jnigen.enums.Colors valueOf(java.lang.String string)`
   /// The returned object must be released after use, by calling the [release] method.
   static Colors? valueOf(
-    jni$_.JString? synthetic,
+    jni$_.JString? string,
   ) {
-    final _$synthetic = synthetic?.reference ?? jni$_.jNullReference;
+    final _$string = string?.reference ?? jni$_.jNullReference;
     return _valueOf(_class.reference.pointer, _id_valueOf as jni$_.JMethodIDPtr,
-            _$synthetic.pointer)
+            _$string.pointer)
         .object<Colors?>(const $Colors$NullableType$());
   }
 
@@ -3766,11 +3766,11 @@ class GrandParent$Parent$Child<
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$Parent<T, S> $outerClass, U synthetic)`
+  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$Parent<T, S> $outerClass, U object)`
   /// The returned object must be released after use, by calling the [release] method.
   factory GrandParent$Parent$Child(
     GrandParent$Parent<$T?, $S?> $outerClass,
-    $U? synthetic, {
+    $U? object, {
     jni$_.JType<$T>? T,
     jni$_.JType<$S>? S,
     required jni$_.JType<$U> U,
@@ -3786,13 +3786,13 @@ class GrandParent$Parent$Child<
           .S,
     ]) as jni$_.JType<$S>;
     final _$$outerClass = $outerClass.reference;
-    final _$synthetic = synthetic?.reference ?? jni$_.jNullReference;
+    final _$object = object?.reference ?? jni$_.jNullReference;
     return GrandParent$Parent$Child<$T, $S, $U>.fromReference(
         T,
         S,
         U,
         _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr,
-                _$$outerClass.pointer, _$synthetic.pointer)
+                _$$outerClass.pointer, _$object.pointer)
             .reference);
   }
 }
@@ -4016,11 +4016,11 @@ class GrandParent$Parent<$T extends jni$_.JObject?, $S extends jni$_.JObject?>
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent<T> $outerClass, S synthetic)`
+  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent<T> $outerClass, S object)`
   /// The returned object must be released after use, by calling the [release] method.
   factory GrandParent$Parent(
     GrandParent<$T?> $outerClass,
-    $S? synthetic, {
+    $S? object, {
     jni$_.JType<$T>? T,
     required jni$_.JType<$S> S,
   }) {
@@ -4028,12 +4028,12 @@ class GrandParent$Parent<$T extends jni$_.JObject?, $S extends jni$_.JObject?>
       ($outerClass.$type as $GrandParent$Type$<core$_.dynamic>).T,
     ]) as jni$_.JType<$T>;
     final _$$outerClass = $outerClass.reference;
-    final _$synthetic = synthetic?.reference ?? jni$_.jNullReference;
+    final _$object = object?.reference ?? jni$_.jNullReference;
     return GrandParent$Parent<$T, $S>.fromReference(
         T,
         S,
         _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr,
-                _$$outerClass.pointer, _$synthetic.pointer)
+                _$$outerClass.pointer, _$object.pointer)
             .reference);
   }
 }
@@ -4242,12 +4242,12 @@ class GrandParent$StaticParent$Child<$S extends jni$_.JObject?,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$StaticParent<S> $outerClass, S synthetic, U synthetic)`
+  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$StaticParent<S> $outerClass, S object, U object1)`
   /// The returned object must be released after use, by calling the [release] method.
   factory GrandParent$StaticParent$Child(
     GrandParent$StaticParent<$S?> $outerClass,
-    $S? synthetic,
-    $U? synthetic, {
+    $S? object,
+    $U? object1, {
     jni$_.JType<$S>? S,
     required jni$_.JType<$U> U,
   }) {
@@ -4255,13 +4255,13 @@ class GrandParent$StaticParent$Child<$S extends jni$_.JObject?,
       ($outerClass.$type as $GrandParent$StaticParent$Type$<core$_.dynamic>).S,
     ]) as jni$_.JType<$S>;
     final _$$outerClass = $outerClass.reference;
-    final _$synthetic = synthetic?.reference ?? jni$_.jNullReference;
-    final _$synthetic = synthetic?.reference ?? jni$_.jNullReference;
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return GrandParent$StaticParent$Child<$S, $U>.fromReference(
         S,
         U,
         _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr,
-                _$$outerClass.pointer, _$synthetic.pointer, _$synthetic.pointer)
+                _$$outerClass.pointer, _$object.pointer, _$object1.pointer)
             .reference);
   }
 }
@@ -4961,12 +4961,12 @@ class MyMap$MyEntry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.MyMap<K, V> $outerClass, K synthetic, V synthetic)`
+  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.MyMap<K, V> $outerClass, K object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
   factory MyMap$MyEntry(
     MyMap<$K?, $V?> $outerClass,
-    $K? synthetic,
-    $V? synthetic, {
+    $K? object,
+    $V? object1, {
     jni$_.JType<$K>? K,
     jni$_.JType<$V>? V,
   }) {
@@ -4977,13 +4977,13 @@ class MyMap$MyEntry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
       ($outerClass.$type as $MyMap$Type$<core$_.dynamic, core$_.dynamic>).V,
     ]) as jni$_.JType<$V>;
     final _$$outerClass = $outerClass.reference;
-    final _$synthetic = synthetic?.reference ?? jni$_.jNullReference;
-    final _$synthetic = synthetic?.reference ?? jni$_.jNullReference;
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return MyMap$MyEntry<$K, $V>.fromReference(
         K,
         V,
         _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr,
-                _$$outerClass.pointer, _$synthetic.pointer, _$synthetic.pointer)
+                _$$outerClass.pointer, _$object.pointer, _$object1.pointer)
             .reference);
   }
 }
@@ -10450,11 +10450,11 @@ class Annotated$Nested<$T extends jni$_.JObject?, $U extends jni$_.JObject,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(com.github.dart_lang.jnigen.annotations.Annotated<T, U, W> $outerClass, V synthetic)`
+  /// from: `public void <init>(com.github.dart_lang.jnigen.annotations.Annotated<T, U, W> $outerClass, V object)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Annotated$Nested(
     Annotated<$T?, $U, $W> $outerClass,
-    $V? synthetic, {
+    $V? object, {
     jni$_.JType<$T>? T,
     jni$_.JType<$U>? U,
     jni$_.JType<$W>? W,
@@ -10476,14 +10476,14 @@ class Annotated$Nested<$T extends jni$_.JObject?, $U extends jni$_.JObject,
           .W,
     ]) as jni$_.JType<$W>;
     final _$$outerClass = $outerClass.reference;
-    final _$synthetic = synthetic?.reference ?? jni$_.jNullReference;
+    final _$object = object?.reference ?? jni$_.jNullReference;
     return Annotated$Nested<$T, $U, $W, $V>.fromReference(
         T,
         U,
         W,
         V,
         _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr,
-                _$$outerClass.pointer, _$synthetic.pointer)
+                _$$outerClass.pointer, _$object.pointer)
             .reference);
   }
 }
@@ -12648,14 +12648,14 @@ class JsonSerializable$Case extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `static public com.github.dart_lang.jnigen.annotations.JsonSerializable$Case valueOf(java.lang.String synthetic)`
+  /// from: `static public com.github.dart_lang.jnigen.annotations.JsonSerializable$Case valueOf(java.lang.String string)`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonSerializable$Case? valueOf(
-    jni$_.JString? synthetic,
+    jni$_.JString? string,
   ) {
-    final _$synthetic = synthetic?.reference ?? jni$_.jNullReference;
+    final _$string = string?.reference ?? jni$_.jNullReference;
     return _valueOf(_class.reference.pointer, _id_valueOf as jni$_.JMethodIDPtr,
-            _$synthetic.pointer)
+            _$string.pointer)
         .object<JsonSerializable$Case?>(
             const $JsonSerializable$Case$NullableType$());
   }
