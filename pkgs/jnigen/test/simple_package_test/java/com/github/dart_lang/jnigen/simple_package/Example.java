@@ -245,6 +245,7 @@ public class Example {
   public boolean bool(boolean x) {
     return x;
   }
+
   public double num(double x) {
     return x;
   }
