@@ -1,0 +1,5 @@
+analyzer:
+  exclude:
+    # The following packages require Flutter and therefore cannot be analyzed as
+    # part of `dart analyze` for the workspace.
+    - pkgs/objective_c/example/flutter_app
