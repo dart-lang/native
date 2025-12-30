@@ -3,6 +3,8 @@
 - Add docs about debugging.
 - Add support for Kotlin interfaces with suspend functions. These can now be
   implemented using Dart functions that return a `Future`.
+- Namespace primitive types to avoid collisions with generated API names, eg
+  `bool`.
 
 ## 0.15.0
 
