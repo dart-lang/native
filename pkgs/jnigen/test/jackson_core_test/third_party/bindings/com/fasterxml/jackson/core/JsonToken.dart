@@ -336,7 +336,7 @@ class JsonToken extends jni$_.JObject {
           )>();
 
   /// from: `public final int id()`
-  int id() {
+  core$_.int id() {
     return _id(reference.pointer, _id_id as jni$_.JMethodIDPtr).integer;
   }
 
@@ -435,7 +435,7 @@ class JsonToken extends jni$_.JObject {
   ///
   /// @return {@code True} if this token is {@code VALUE_NUMBER_INT} or {@code VALUE_NUMBER_FLOAT},
   ///   {@code false} otherwise
-  bool isNumeric() {
+  core$_.bool isNumeric() {
     return _isNumeric(reference.pointer, _id_isNumeric as jni$_.JMethodIDPtr)
         .boolean;
   }
@@ -466,7 +466,7 @@ class JsonToken extends jni$_.JObject {
   ///@return {@code True} if this token is {@code START_OBJECT} or {@code START_ARRAY},
   ///   {@code false} otherwise
   ///@since 2.3
-  bool isStructStart() {
+  core$_.bool isStructStart() {
     return _isStructStart(
             reference.pointer, _id_isStructStart as jni$_.JMethodIDPtr)
         .boolean;
@@ -498,7 +498,7 @@ class JsonToken extends jni$_.JObject {
   ///@return {@code True} if this token is {@code END_OBJECT} or {@code END_ARRAY},
   ///   {@code false} otherwise
   ///@since 2.3
-  bool isStructEnd() {
+  core$_.bool isStructEnd() {
     return _isStructEnd(
             reference.pointer, _id_isStructEnd as jni$_.JMethodIDPtr)
         .boolean;
@@ -529,7 +529,7 @@ class JsonToken extends jni$_.JObject {
   /// {@code FIELD_NAME}.
   ///@return {@code True} if this token is a scalar value token (one of
   ///   {@code VALUE_xxx} tokens), {@code false} otherwise
-  bool isScalarValue() {
+  core$_.bool isScalarValue() {
     return _isScalarValue(
             reference.pointer, _id_isScalarValue as jni$_.JMethodIDPtr)
         .boolean;
@@ -556,7 +556,7 @@ class JsonToken extends jni$_.JObject {
   ///
   /// @return {@code True} if this token is {@code VALUE_TRUE} or {@code VALUE_FALSE},
   ///   {@code false} otherwise
-  bool isBoolean() {
+  core$_.bool isBoolean() {
     return _isBoolean(reference.pointer, _id_isBoolean as jni$_.JMethodIDPtr)
         .boolean;
   }

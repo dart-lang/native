@@ -240,4 +240,12 @@ public class Example {
       public static int ZERO = 0;
     }
   }
+
+  // Regression test for https://github.com/dart-lang/native/issues/2903
+  public boolean bool(boolean x) {
+    return x;
+  }
+  public double num(double x) {
+    return x;
+  }
 }

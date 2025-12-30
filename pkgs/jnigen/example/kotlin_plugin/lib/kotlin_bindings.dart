@@ -107,13 +107,15 @@ class Example extends jni$_.JObject {
             _$continuation.pointer)
         .object<jni$_.JObject>(const jni$_.$JObject$Type$());
     _$continuation.release();
-    final jni$_.JObject $o;
+    jni$_.JObject $o;
     if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
       $r.release();
       final $a = await $p.first;
       $o = jni$_.JObject.fromReference(
           jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
-      if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
         final $e =
             jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
         $o.release();

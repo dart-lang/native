@@ -68,10 +68,10 @@ class Example$Nested$NestedTwice extends jni$_.JObject {
   );
 
   /// from: `static public int ZERO`
-  static int get ZERO => _id_ZERO.get(_class, const jni$_.jintType());
+  static core$_.int get ZERO => _id_ZERO.get(_class, const jni$_.jintType());
 
   /// from: `static public int ZERO`
-  static set ZERO(int value) =>
+  static set ZERO(core$_.int value) =>
       _id_ZERO.set(_class, const jni$_.jintType(), value);
 
   static final _id_new$ = _class.constructorId(
@@ -216,7 +216,7 @@ class Example$Nested extends jni$_.JObject {
   /// from: `public void <init>(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example$Nested(
-    bool z,
+    core$_.bool z,
   ) {
     return Example$Nested.fromReference(_new$(
             _class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -265,7 +265,7 @@ class Example$Nested extends jni$_.JObject {
           )>();
 
   /// from: `public boolean getValue()`
-  bool getValue() {
+  core$_.bool getValue() {
     return _getValue(reference.pointer, _id_getValue as jni$_.JMethodIDPtr)
         .boolean;
   }
@@ -287,7 +287,7 @@ class Example$Nested extends jni$_.JObject {
 
   /// from: `public void setValue(boolean z)`
   void setValue(
-    bool z,
+    core$_.bool z,
   ) {
     _setValue(reference.pointer, _id_setValue as jni$_.JMethodIDPtr, z ? 1 : 0)
         .check();
@@ -398,10 +398,11 @@ class Example$NonStaticNested extends jni$_.JObject {
   );
 
   /// from: `public boolean ok`
-  bool get ok => _id_ok.get(this, const jni$_.jbooleanType());
+  core$_.bool get ok => _id_ok.get(this, const jni$_.jbooleanType());
 
   /// from: `public boolean ok`
-  set ok(bool value) => _id_ok.set(this, const jni$_.jbooleanType(), value);
+  set ok(core$_.bool value) =>
+      _id_ok.set(this, const jni$_.jbooleanType(), value);
 
   static final _id_new$ = _class.constructorId(
     r'(Lcom/github/dart_lang/jnigen/simple_package/Example;)V',
@@ -579,7 +580,7 @@ class Example extends jni$_.JObject {
           )>();
 
   /// from: `static public int getAmount()`
-  static int getAmount() {
+  static core$_.int getAmount() {
     return _getAmount(
             _class.reference.pointer, _id_getAmount as jni$_.JMethodIDPtr)
         .integer;
@@ -603,7 +604,7 @@ class Example extends jni$_.JObject {
           )>();
 
   /// from: `static public double getPi()`
-  static double getPi() {
+  static core$_.double getPi() {
     return _getPi(_class.reference.pointer, _id_getPi as jni$_.JMethodIDPtr)
         .doubleFloat;
   }
@@ -626,7 +627,7 @@ class Example extends jni$_.JObject {
           )>();
 
   /// from: `static public char getAsterisk()`
-  static int getAsterisk() {
+  static core$_.int getAsterisk() {
     return _getAsterisk(
             _class.reference.pointer, _id_getAsterisk as jni$_.JMethodIDPtr)
         .char;
@@ -697,7 +698,7 @@ class Example extends jni$_.JObject {
 
   /// from: `static public void setAmount(int i)`
   static void setAmount(
-    int i,
+    core$_.int i,
   ) {
     _setAmount(_class.reference.pointer, _id_setAmount as jni$_.JMethodIDPtr, i)
         .check();
@@ -777,11 +778,11 @@ class Example extends jni$_.JObject {
               jni$_.JMethodIDPtr, int, int, int, int)>();
 
   /// from: `static public int max4(int i, int i1, int i2, int i3)`
-  static int max4(
-    int i,
-    int i1,
-    int i2,
-    int i3,
+  static core$_.int max4(
+    core$_.int i,
+    core$_.int i1,
+    core$_.int i2,
+    core$_.int i3,
   ) {
     return _max4(_class.reference.pointer, _id_max4 as jni$_.JMethodIDPtr, i,
             i1, i2, i3)
@@ -814,15 +815,15 @@ class Example extends jni$_.JObject {
               jni$_.JMethodIDPtr, int, int, int, int, int, int, int, int)>();
 
   /// from: `static public int max8(int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7)`
-  static int max8(
-    int i,
-    int i1,
-    int i2,
-    int i3,
-    int i4,
-    int i5,
-    int i6,
-    int i7,
+  static core$_.int max8(
+    core$_.int i,
+    core$_.int i1,
+    core$_.int i2,
+    core$_.int i3,
+    core$_.int i4,
+    core$_.int i5,
+    core$_.int i6,
+    core$_.int i7,
   ) {
     return _max8(_class.reference.pointer, _id_max8 as jni$_.JMethodIDPtr, i,
             i1, i2, i3, i4, i5, i6, i7)
@@ -847,7 +848,7 @@ class Example extends jni$_.JObject {
           )>();
 
   /// from: `public int getNumber()`
-  int getNumber() {
+  core$_.int getNumber() {
     return _getNumber(reference.pointer, _id_getNumber as jni$_.JMethodIDPtr)
         .integer;
   }
@@ -869,7 +870,7 @@ class Example extends jni$_.JObject {
 
   /// from: `public void setNumber(int i)`
   void setNumber(
-    int i,
+    core$_.int i,
   ) {
     _setNumber(reference.pointer, _id_setNumber as jni$_.JMethodIDPtr, i)
         .check();
@@ -893,7 +894,7 @@ class Example extends jni$_.JObject {
           )>();
 
   /// from: `public boolean getIsUp()`
-  bool getIsUp() {
+  core$_.bool getIsUp() {
     return _getIsUp(reference.pointer, _id_getIsUp as jni$_.JMethodIDPtr)
         .boolean;
   }
@@ -915,7 +916,7 @@ class Example extends jni$_.JObject {
 
   /// from: `public void setUp(boolean z)`
   void setUp(
-    bool z,
+    core$_.bool z,
   ) {
     _setUp(reference.pointer, _id_setUp as jni$_.JMethodIDPtr, z ? 1 : 0)
         .check();
@@ -1040,7 +1041,7 @@ class Example extends jni$_.JObject {
           )>();
 
   /// from: `public long getRandomLong()`
-  int getRandomLong() {
+  core$_.int getRandomLong() {
     return _getRandomLong(
             reference.pointer, _id_getRandomLong as jni$_.JMethodIDPtr)
         .long;
@@ -1068,11 +1069,11 @@ class Example extends jni$_.JObject {
               jni$_.JMethodIDPtr, int, int, int, int)>();
 
   /// from: `public long add4Longs(long j, long j1, long j2, long j3)`
-  int add4Longs(
-    int j,
-    int j1,
-    int j2,
-    int j3,
+  core$_.int add4Longs(
+    core$_.int j,
+    core$_.int j1,
+    core$_.int j2,
+    core$_.int j3,
   ) {
     return _add4Longs(reference.pointer, _id_add4Longs as jni$_.JMethodIDPtr, j,
             j1, j2, j3)
@@ -1105,15 +1106,15 @@ class Example extends jni$_.JObject {
               jni$_.JMethodIDPtr, int, int, int, int, int, int, int, int)>();
 
   /// from: `public long add8Longs(long j, long j1, long j2, long j3, long j4, long j5, long j6, long j7)`
-  int add8Longs(
-    int j,
-    int j1,
-    int j2,
-    int j3,
-    int j4,
-    int j5,
-    int j6,
-    int j7,
+  core$_.int add8Longs(
+    core$_.int j,
+    core$_.int j1,
+    core$_.int j2,
+    core$_.int j3,
+    core$_.int j4,
+    core$_.int j5,
+    core$_.int j6,
+    core$_.int j7,
   ) {
     return _add8Longs(reference.pointer, _id_add8Longs as jni$_.JMethodIDPtr, j,
             j1, j2, j3, j4, j5, j6, j7)
@@ -1266,7 +1267,7 @@ class Example extends jni$_.JObject {
 
   /// from: `public void methodWithSeveralParams(char c, java.lang.String string, int[] is, T charSequence, java.util.List<T> list, java.util.Map<java.lang.String, ? extends java.lang.CharSequence> map)`
   void methodWithSeveralParams<$T extends jni$_.JObject?>(
-    int c,
+    core$_.int c,
     jni$_.JString? string,
     jni$_.JIntArray? is$,
     $T? charSequence,
@@ -1332,7 +1333,7 @@ class Example extends jni$_.JObject {
   /// from: `public void <init>(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example.new$1(
-    int i,
+    core$_.int i,
   ) {
     return Example.fromReference(
         _new$1(_class.reference.pointer, _id_new$1 as jni$_.JMethodIDPtr, i)
@@ -1357,8 +1358,8 @@ class Example extends jni$_.JObject {
   /// from: `public void <init>(int i, boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example.new$2(
-    int i,
-    bool z,
+    core$_.int i,
+    core$_.bool z,
   ) {
     return Example.fromReference(_new$2(_class.reference.pointer,
             _id_new$2 as jni$_.JMethodIDPtr, i, z ? 1 : 0)
@@ -1387,8 +1388,8 @@ class Example extends jni$_.JObject {
   /// from: `public void <init>(int i, boolean z, java.lang.String string)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example.new$3(
-    int i,
-    bool z,
+    core$_.int i,
+    core$_.bool z,
     jni$_.JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -1424,14 +1425,14 @@ class Example extends jni$_.JObject {
   /// from: `public void <init>(int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example.new$4(
-    int i,
-    int i1,
-    int i2,
-    int i3,
-    int i4,
-    int i5,
-    int i6,
-    int i7,
+    core$_.int i,
+    core$_.int i1,
+    core$_.int i2,
+    core$_.int i3,
+    core$_.int i4,
+    core$_.int i5,
+    core$_.int i6,
+    core$_.int i7,
   ) {
     return Example.fromReference(_new$4(_class.reference.pointer,
             _id_new$4 as jni$_.JMethodIDPtr, i, i1, i2, i3, i4, i5, i6, i7)
@@ -1456,7 +1457,7 @@ class Example extends jni$_.JObject {
           )>();
 
   /// from: `public int whichExample()`
-  int whichExample() {
+  core$_.int whichExample() {
     return _whichExample(
             reference.pointer, _id_whichExample as jni$_.JMethodIDPtr)
         .integer;
@@ -1479,9 +1480,9 @@ class Example extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
 
   /// from: `static public int addInts(int i, int i1)`
-  static int addInts(
-    int i,
-    int i1,
+  static core$_.int addInts(
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _addInts(
             _class.reference.pointer, _id_addInts as jni$_.JMethodIDPtr, i, i1)
@@ -1529,7 +1530,7 @@ class Example extends jni$_.JObject {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `static public int addAll(int[] is)`
-  static int addAll(
+  static core$_.int addAll(
     jni$_.JIntArray? is$,
   ) {
     final _$is$ = is$?.reference ?? jni$_.jNullReference;
@@ -1628,7 +1629,7 @@ class Example extends jni$_.JObject {
 
   /// from: `public void overloaded(int i, java.lang.String string)`
   void overloaded$1(
-    int i,
+    core$_.int i,
     jni$_.JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -1654,7 +1655,7 @@ class Example extends jni$_.JObject {
 
   /// from: `public void overloaded(int i)`
   void overloaded$2(
-    int i,
+    core$_.int i,
   ) {
     _overloaded$2(reference.pointer, _id_overloaded$2 as jni$_.JMethodIDPtr, i)
         .check();
@@ -1718,6 +1719,54 @@ class Example extends jni$_.JObject {
     _overloaded$4(reference.pointer, _id_overloaded$4 as jni$_.JMethodIDPtr,
             _$list.pointer)
         .check();
+  }
+
+  static final _id_bool = _class.instanceMethodId(
+    r'bool',
+    r'(Z)Z',
+  );
+
+  static final _bool = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_
+                      .VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public boolean bool(boolean z)`
+  core$_.bool bool(
+    core$_.bool z,
+  ) {
+    return _bool(reference.pointer, _id_bool as jni$_.JMethodIDPtr, z ? 1 : 0)
+        .boolean;
+  }
+
+  static final _id_num = _class.instanceMethodId(
+    r'num',
+    r'(D)D',
+  );
+
+  static final _num = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_
+                      .VarArgs<(jni$_.Double,)>)>>('globalEnv_CallDoubleMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `public double num(double d)`
+  core$_.double num(
+    core$_.double d,
+  ) {
+    return _num(reference.pointer, _id_num as jni$_.JMethodIDPtr, d)
+        .doubleFloat;
   }
 }
 
@@ -1856,7 +1905,7 @@ class Exceptions extends jni$_.JObject {
   /// from: `public void <init>(float f)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Exceptions.new$1(
-    double f,
+    core$_.double f,
   ) {
     return Exceptions.fromReference(
         _new$1(_class.reference.pointer, _id_new$1 as jni$_.JMethodIDPtr, f)
@@ -1888,12 +1937,12 @@ class Exceptions extends jni$_.JObject {
   /// from: `public void <init>(int i, int i1, int i2, int i3, int i4, int i5)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Exceptions.new$2(
-    int i,
-    int i1,
-    int i2,
-    int i3,
-    int i4,
-    int i5,
+    core$_.int i,
+    core$_.int i1,
+    core$_.int i2,
+    core$_.int i3,
+    core$_.int i4,
+    core$_.int i5,
   ) {
     return Exceptions.fromReference(_new$2(_class.reference.pointer,
             _id_new$2 as jni$_.JMethodIDPtr, i, i1, i2, i3, i4, i5)
@@ -1943,7 +1992,7 @@ class Exceptions extends jni$_.JObject {
           )>();
 
   /// from: `static public int staticIntMethod()`
-  static int staticIntMethod() {
+  static core$_.int staticIntMethod() {
     return _staticIntMethod(
             _class.reference.pointer, _id_staticIntMethod as jni$_.JMethodIDPtr)
         .integer;
@@ -2044,7 +2093,7 @@ class Exceptions extends jni$_.JObject {
           )>();
 
   /// from: `public int intMethod()`
-  int intMethod() {
+  core$_.int intMethod() {
     return _intMethod(reference.pointer, _id_intMethod as jni$_.JMethodIDPtr)
         .integer;
   }
@@ -2119,7 +2168,7 @@ class Exceptions extends jni$_.JObject {
           )>();
 
   /// from: `public int throwNullPointerException()`
-  int throwNullPointerException() {
+  core$_.int throwNullPointerException() {
     return _throwNullPointerException(reference.pointer,
             _id_throwNullPointerException as jni$_.JMethodIDPtr)
         .integer;
@@ -2194,7 +2243,7 @@ class Exceptions extends jni$_.JObject {
           )>();
 
   /// from: `public int throwArrayIndexException()`
-  int throwArrayIndexException() {
+  core$_.int throwArrayIndexException() {
     return _throwArrayIndexException(reference.pointer,
             _id_throwArrayIndexException as jni$_.JMethodIDPtr)
         .integer;
@@ -2218,7 +2267,7 @@ class Exceptions extends jni$_.JObject {
           )>();
 
   /// from: `public int throwArithmeticException()`
-  int throwArithmeticException() {
+  core$_.int throwArithmeticException() {
     return _throwArithmeticException(reference.pointer,
             _id_throwArithmeticException as jni$_.JMethodIDPtr)
         .integer;
@@ -2352,10 +2401,10 @@ class Fields$Nested extends jni$_.JObject {
   );
 
   /// from: `public long hundred`
-  int get hundred => _id_hundred.get(this, const jni$_.jlongType());
+  core$_.int get hundred => _id_hundred.get(this, const jni$_.jlongType());
 
   /// from: `public long hundred`
-  set hundred(int value) =>
+  set hundred(core$_.int value) =>
       _id_hundred.set(this, const jni$_.jlongType(), value);
 
   static final _id_BEST_GOD = _class.staticFieldId(
@@ -2500,10 +2549,11 @@ class Fields extends jni$_.JObject {
   );
 
   /// from: `static public int amount`
-  static int get amount => _id_amount.get(_class, const jni$_.jintType());
+  static core$_.int get amount =>
+      _id_amount.get(_class, const jni$_.jintType());
 
   /// from: `static public int amount`
-  static set amount(int value) =>
+  static set amount(core$_.int value) =>
       _id_amount.set(_class, const jni$_.jintType(), value);
 
   static final _id_pi = _class.staticFieldId(
@@ -2512,10 +2562,10 @@ class Fields extends jni$_.JObject {
   );
 
   /// from: `static public double pi`
-  static double get pi => _id_pi.get(_class, const jni$_.jdoubleType());
+  static core$_.double get pi => _id_pi.get(_class, const jni$_.jdoubleType());
 
   /// from: `static public double pi`
-  static set pi(double value) =>
+  static set pi(core$_.double value) =>
       _id_pi.set(_class, const jni$_.jdoubleType(), value);
 
   static final _id_asterisk = _class.staticFieldId(
@@ -2524,10 +2574,11 @@ class Fields extends jni$_.JObject {
   );
 
   /// from: `static public char asterisk`
-  static int get asterisk => _id_asterisk.get(_class, const jni$_.jcharType());
+  static core$_.int get asterisk =>
+      _id_asterisk.get(_class, const jni$_.jcharType());
 
   /// from: `static public char asterisk`
-  static set asterisk(int value) =>
+  static set asterisk(core$_.int value) =>
       _id_asterisk.set(_class, const jni$_.jcharType(), value);
 
   static final _id_name = _class.staticFieldId(
@@ -2566,10 +2617,10 @@ class Fields extends jni$_.JObject {
   );
 
   /// from: `public long trillion`
-  int get trillion => _id_trillion.get(this, const jni$_.jlongType());
+  core$_.int get trillion => _id_trillion.get(this, const jni$_.jlongType());
 
   /// from: `public long trillion`
-  set trillion(int value) =>
+  set trillion(core$_.int value) =>
       _id_trillion.set(this, const jni$_.jlongType(), value);
 
   static final _id_isAchillesDead = _class.instanceFieldId(
@@ -2578,11 +2629,11 @@ class Fields extends jni$_.JObject {
   );
 
   /// from: `public boolean isAchillesDead`
-  bool get isAchillesDead =>
+  core$_.bool get isAchillesDead =>
       _id_isAchillesDead.get(this, const jni$_.jbooleanType());
 
   /// from: `public boolean isAchillesDead`
-  set isAchillesDead(bool value) =>
+  set isAchillesDead(core$_.bool value) =>
       _id_isAchillesDead.set(this, const jni$_.jbooleanType(), value);
 
   static final _id_bestFighterInGreece = _class.instanceFieldId(
@@ -2621,11 +2672,11 @@ class Fields extends jni$_.JObject {
   );
 
   /// from: `static public char euroSymbol`
-  static int get euroSymbol =>
+  static core$_.int get euroSymbol =>
       _id_euroSymbol.get(_class, const jni$_.jcharType());
 
   /// from: `static public char euroSymbol`
-  static set euroSymbol(int value) =>
+  static set euroSymbol(core$_.int value) =>
       _id_euroSymbol.set(_class, const jni$_.jcharType(), value);
 
   static final _id_new$ = _class.constructorId(
@@ -2752,10 +2803,11 @@ class C2 extends jni$_.JObject {
   );
 
   /// from: `static public int CONSTANT`
-  static int get CONSTANT => _id_CONSTANT.get(_class, const jni$_.jintType());
+  static core$_.int get CONSTANT =>
+      _id_CONSTANT.get(_class, const jni$_.jintType());
 
   /// from: `static public int CONSTANT`
-  static set CONSTANT(int value) =>
+  static set CONSTANT(core$_.int value) =>
       _id_CONSTANT.set(_class, const jni$_.jintType(), value);
 
   static final _id_new$ = _class.constructorId(
@@ -2917,7 +2969,7 @@ class Example$1 extends jni$_.JObject {
           )>();
 
   /// from: `public int whichExample()`
-  int whichExample() {
+  core$_.int whichExample() {
     return _whichExample(
             reference.pointer, _id_whichExample as jni$_.JMethodIDPtr)
         .integer;
@@ -3023,10 +3075,10 @@ class Colors$RGB extends jni$_.JObject {
   );
 
   /// from: `public int red`
-  int get red => _id_red.get(this, const jni$_.jintType());
+  core$_.int get red => _id_red.get(this, const jni$_.jintType());
 
   /// from: `public int red`
-  set red(int value) => _id_red.set(this, const jni$_.jintType(), value);
+  set red(core$_.int value) => _id_red.set(this, const jni$_.jintType(), value);
 
   static final _id_green = _class.instanceFieldId(
     r'green',
@@ -3034,10 +3086,11 @@ class Colors$RGB extends jni$_.JObject {
   );
 
   /// from: `public int green`
-  int get green => _id_green.get(this, const jni$_.jintType());
+  core$_.int get green => _id_green.get(this, const jni$_.jintType());
 
   /// from: `public int green`
-  set green(int value) => _id_green.set(this, const jni$_.jintType(), value);
+  set green(core$_.int value) =>
+      _id_green.set(this, const jni$_.jintType(), value);
 
   static final _id_blue = _class.instanceFieldId(
     r'blue',
@@ -3045,10 +3098,11 @@ class Colors$RGB extends jni$_.JObject {
   );
 
   /// from: `public int blue`
-  int get blue => _id_blue.get(this, const jni$_.jintType());
+  core$_.int get blue => _id_blue.get(this, const jni$_.jintType());
 
   /// from: `public int blue`
-  set blue(int value) => _id_blue.set(this, const jni$_.jintType(), value);
+  set blue(core$_.int value) =>
+      _id_blue.set(this, const jni$_.jintType(), value);
 
   static final _id_new$ = _class.constructorId(
     r'(III)V',
@@ -3068,9 +3122,9 @@ class Colors$RGB extends jni$_.JObject {
   /// from: `public void <init>(int i, int i1, int i2)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Colors$RGB(
-    int i,
-    int i1,
-    int i2,
+    core$_.int i,
+    core$_.int i1,
+    core$_.int i2,
   ) {
     return Colors$RGB.fromReference(_new$(
             _class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr, i, i1, i2)
@@ -3094,7 +3148,7 @@ class Colors$RGB extends jni$_.JObject {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public boolean equals(java.lang.Object object)`
-  bool equals(
+  core$_.bool equals(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -3121,7 +3175,7 @@ class Colors$RGB extends jni$_.JObject {
           )>();
 
   /// from: `public int hashCode()`
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1 as jni$_.JMethodIDPtr)
         .integer;
   }
@@ -3254,7 +3308,7 @@ class Colors extends jni$_.JObject {
   );
 
   /// from: `public final int code`
-  int get code => _id_code.get(this, const jni$_.jintType());
+  core$_.int get code => _id_code.get(this, const jni$_.jintType());
 
   static final _id_values = _class.staticMethodId(
     r'values',
@@ -3298,14 +3352,14 @@ class Colors extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `static public com.github.dart_lang.jnigen.enums.Colors valueOf(java.lang.String string)`
+  /// from: `static public com.github.dart_lang.jnigen.enums.Colors valueOf(java.lang.String synthetic)`
   /// The returned object must be released after use, by calling the [release] method.
   static Colors? valueOf(
-    jni$_.JString? string,
+    jni$_.JString? synthetic,
   ) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
+    final _$synthetic = synthetic?.reference ?? jni$_.jNullReference;
     return _valueOf(_class.reference.pointer, _id_valueOf as jni$_.JMethodIDPtr,
-            _$string.pointer)
+            _$synthetic.pointer)
         .object<Colors?>(const $Colors$NullableType$());
   }
 
@@ -3712,11 +3766,11 @@ class GrandParent$Parent$Child<
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$Parent<T, S> $outerClass, U object)`
+  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$Parent<T, S> $outerClass, U synthetic)`
   /// The returned object must be released after use, by calling the [release] method.
   factory GrandParent$Parent$Child(
     GrandParent$Parent<$T?, $S?> $outerClass,
-    $U? object, {
+    $U? synthetic, {
     jni$_.JType<$T>? T,
     jni$_.JType<$S>? S,
     required jni$_.JType<$U> U,
@@ -3732,13 +3786,13 @@ class GrandParent$Parent$Child<
           .S,
     ]) as jni$_.JType<$S>;
     final _$$outerClass = $outerClass.reference;
-    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$synthetic = synthetic?.reference ?? jni$_.jNullReference;
     return GrandParent$Parent$Child<$T, $S, $U>.fromReference(
         T,
         S,
         U,
         _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr,
-                _$$outerClass.pointer, _$object.pointer)
+                _$$outerClass.pointer, _$synthetic.pointer)
             .reference);
   }
 }
@@ -3962,11 +4016,11 @@ class GrandParent$Parent<$T extends jni$_.JObject?, $S extends jni$_.JObject?>
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent<T> $outerClass, S object)`
+  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent<T> $outerClass, S synthetic)`
   /// The returned object must be released after use, by calling the [release] method.
   factory GrandParent$Parent(
     GrandParent<$T?> $outerClass,
-    $S? object, {
+    $S? synthetic, {
     jni$_.JType<$T>? T,
     required jni$_.JType<$S> S,
   }) {
@@ -3974,12 +4028,12 @@ class GrandParent$Parent<$T extends jni$_.JObject?, $S extends jni$_.JObject?>
       ($outerClass.$type as $GrandParent$Type$<core$_.dynamic>).T,
     ]) as jni$_.JType<$T>;
     final _$$outerClass = $outerClass.reference;
-    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$synthetic = synthetic?.reference ?? jni$_.jNullReference;
     return GrandParent$Parent<$T, $S>.fromReference(
         T,
         S,
         _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr,
-                _$$outerClass.pointer, _$object.pointer)
+                _$$outerClass.pointer, _$synthetic.pointer)
             .reference);
   }
 }
@@ -4188,12 +4242,12 @@ class GrandParent$StaticParent$Child<$S extends jni$_.JObject?,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$StaticParent<S> $outerClass, S object, U object1)`
+  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.GrandParent$StaticParent<S> $outerClass, S synthetic, U synthetic)`
   /// The returned object must be released after use, by calling the [release] method.
   factory GrandParent$StaticParent$Child(
     GrandParent$StaticParent<$S?> $outerClass,
-    $S? object,
-    $U? object1, {
+    $S? synthetic,
+    $U? synthetic, {
     jni$_.JType<$S>? S,
     required jni$_.JType<$U> U,
   }) {
@@ -4201,13 +4255,13 @@ class GrandParent$StaticParent$Child<$S extends jni$_.JObject?,
       ($outerClass.$type as $GrandParent$StaticParent$Type$<core$_.dynamic>).S,
     ]) as jni$_.JType<$S>;
     final _$$outerClass = $outerClass.reference;
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    final _$object1 = object1?.reference ?? jni$_.jNullReference;
+    final _$synthetic = synthetic?.reference ?? jni$_.jNullReference;
+    final _$synthetic = synthetic?.reference ?? jni$_.jNullReference;
     return GrandParent$StaticParent$Child<$S, $U>.fromReference(
         S,
         U,
         _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr,
-                _$$outerClass.pointer, _$object.pointer, _$object1.pointer)
+                _$$outerClass.pointer, _$synthetic.pointer, _$synthetic.pointer)
             .reference);
   }
 }
@@ -4907,12 +4961,12 @@ class MyMap$MyEntry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.MyMap<K, V> $outerClass, K object, V object1)`
+  /// from: `public void <init>(com.github.dart_lang.jnigen.generics.MyMap<K, V> $outerClass, K synthetic, V synthetic)`
   /// The returned object must be released after use, by calling the [release] method.
   factory MyMap$MyEntry(
     MyMap<$K?, $V?> $outerClass,
-    $K? object,
-    $V? object1, {
+    $K? synthetic,
+    $V? synthetic, {
     jni$_.JType<$K>? K,
     jni$_.JType<$V>? V,
   }) {
@@ -4923,13 +4977,13 @@ class MyMap$MyEntry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
       ($outerClass.$type as $MyMap$Type$<core$_.dynamic, core$_.dynamic>).V,
     ]) as jni$_.JType<$V>;
     final _$$outerClass = $outerClass.reference;
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    final _$object1 = object1?.reference ?? jni$_.jNullReference;
+    final _$synthetic = synthetic?.reference ?? jni$_.jNullReference;
+    final _$synthetic = synthetic?.reference ?? jni$_.jNullReference;
     return MyMap$MyEntry<$K, $V>.fromReference(
         K,
         V,
         _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr,
-                _$$outerClass.pointer, _$object.pointer, _$object1.pointer)
+                _$$outerClass.pointer, _$synthetic.pointer, _$synthetic.pointer)
             .reference);
   }
 }
@@ -5589,7 +5643,7 @@ class MyStack<$T extends jni$_.JObject?> extends jni$_.JObject {
           )>();
 
   /// from: `public int size()`
-  int size() {
+  core$_.int size() {
     return _size(reference.pointer, _id_size as jni$_.JMethodIDPtr).integer;
   }
 }
@@ -6974,11 +7028,11 @@ class InheritedFromMyInterface extends jni$_.JObject {
               jni$_.JMethodIDPtr, int, int, int, double)>();
 
   /// from: `public abstract long manyPrimitives(int i, boolean z, char c, double d)`
-  int manyPrimitives(
-    int i,
-    bool z,
-    int c,
-    double d,
+  core$_.int manyPrimitives(
+    core$_.int i,
+    core$_.bool z,
+    core$_.int c,
+    core$_.double d,
   ) {
     return _manyPrimitives(reference.pointer,
             _id_manyPrimitives as jni$_.JMethodIDPtr, i, z ? 1 : 0, c, d)
@@ -7108,14 +7162,17 @@ abstract base mixin class $InheritedFromMyInterface {
     bool voidCallback$async,
     required jni$_.JString? Function(jni$_.JString? string) stringCallback,
     required jni$_.JString? Function(jni$_.JString? object) varCallback,
-    required int Function(int i, bool z, int c, double d) manyPrimitives,
+    required core$_.int Function(
+            core$_.int i, core$_.bool z, core$_.int c, core$_.double d)
+        manyPrimitives,
   }) = _$InheritedFromMyInterface;
 
   void voidCallback(jni$_.JString? string);
   bool get voidCallback$async => false;
   jni$_.JString? stringCallback(jni$_.JString? string);
   jni$_.JString? varCallback(jni$_.JString? object);
-  int manyPrimitives(int i, bool z, int c, double d);
+  core$_.int manyPrimitives(
+      core$_.int i, core$_.bool z, core$_.int c, core$_.double d);
 }
 
 final class _$InheritedFromMyInterface with $InheritedFromMyInterface {
@@ -7124,7 +7181,9 @@ final class _$InheritedFromMyInterface with $InheritedFromMyInterface {
     this.voidCallback$async = false,
     required jni$_.JString? Function(jni$_.JString? string) stringCallback,
     required jni$_.JString? Function(jni$_.JString? object) varCallback,
-    required int Function(int i, bool z, int c, double d) manyPrimitives,
+    required core$_.int Function(
+            core$_.int i, core$_.bool z, core$_.int c, core$_.double d)
+        manyPrimitives,
   })  : _voidCallback = voidCallback,
         _stringCallback = stringCallback,
         _varCallback = varCallback,
@@ -7134,7 +7193,9 @@ final class _$InheritedFromMyInterface with $InheritedFromMyInterface {
   final bool voidCallback$async;
   final jni$_.JString? Function(jni$_.JString? string) _stringCallback;
   final jni$_.JString? Function(jni$_.JString? object) _varCallback;
-  final int Function(int i, bool z, int c, double d) _manyPrimitives;
+  final core$_.int Function(
+          core$_.int i, core$_.bool z, core$_.int c, core$_.double d)
+      _manyPrimitives;
 
   void voidCallback(jni$_.JString? string) {
     return _voidCallback(string);
@@ -7148,7 +7209,8 @@ final class _$InheritedFromMyInterface with $InheritedFromMyInterface {
     return _varCallback(object);
   }
 
-  int manyPrimitives(int i, bool z, int c, double d) {
+  core$_.int manyPrimitives(
+      core$_.int i, core$_.bool z, core$_.int c, core$_.double d) {
     return _manyPrimitives(i, z, c, d);
   }
 }
@@ -7596,11 +7658,11 @@ class MyInterface<$T extends jni$_.JObject?> extends jni$_.JObject {
               jni$_.JMethodIDPtr, int, int, int, double)>();
 
   /// from: `public abstract long manyPrimitives(int i, boolean z, char c, double d)`
-  int manyPrimitives(
-    int i,
-    bool z,
-    int c,
-    double d,
+  core$_.int manyPrimitives(
+    core$_.int i,
+    core$_.bool z,
+    core$_.int c,
+    core$_.double d,
   ) {
     return _manyPrimitives(reference.pointer,
             _id_manyPrimitives as jni$_.JMethodIDPtr, i, z ? 1 : 0, c, d)
@@ -7733,7 +7795,9 @@ abstract base mixin class $MyInterface<$T extends jni$_.JObject?> {
     bool voidCallback$async,
     required jni$_.JString? Function(jni$_.JString? string) stringCallback,
     required $T? Function($T? object) varCallback,
-    required int Function(int i, bool z, int c, double d) manyPrimitives,
+    required core$_.int Function(
+            core$_.int i, core$_.bool z, core$_.int c, core$_.double d)
+        manyPrimitives,
   }) = _$MyInterface<$T>;
 
   jni$_.JType<$T> get T;
@@ -7742,7 +7806,8 @@ abstract base mixin class $MyInterface<$T extends jni$_.JObject?> {
   bool get voidCallback$async => false;
   jni$_.JString? stringCallback(jni$_.JString? string);
   $T? varCallback($T? object);
-  int manyPrimitives(int i, bool z, int c, double d);
+  core$_.int manyPrimitives(
+      core$_.int i, core$_.bool z, core$_.int c, core$_.double d);
 }
 
 final class _$MyInterface<$T extends jni$_.JObject?> with $MyInterface<$T> {
@@ -7752,7 +7817,9 @@ final class _$MyInterface<$T extends jni$_.JObject?> with $MyInterface<$T> {
     this.voidCallback$async = false,
     required jni$_.JString? Function(jni$_.JString? string) stringCallback,
     required $T? Function($T? object) varCallback,
-    required int Function(int i, bool z, int c, double d) manyPrimitives,
+    required core$_.int Function(
+            core$_.int i, core$_.bool z, core$_.int c, core$_.double d)
+        manyPrimitives,
   })  : _voidCallback = voidCallback,
         _stringCallback = stringCallback,
         _varCallback = varCallback,
@@ -7765,7 +7832,9 @@ final class _$MyInterface<$T extends jni$_.JObject?> with $MyInterface<$T> {
   final bool voidCallback$async;
   final jni$_.JString? Function(jni$_.JString? string) _stringCallback;
   final $T? Function($T? object) _varCallback;
-  final int Function(int i, bool z, int c, double d) _manyPrimitives;
+  final core$_.int Function(
+          core$_.int i, core$_.bool z, core$_.int c, core$_.double d)
+      _manyPrimitives;
 
   void voidCallback(jni$_.JString? string) {
     return _voidCallback(string);
@@ -7779,7 +7848,8 @@ final class _$MyInterface<$T extends jni$_.JObject?> with $MyInterface<$T> {
     return _varCallback(object);
   }
 
-  int manyPrimitives(int i, bool z, int c, double d) {
+  core$_.int manyPrimitives(
+      core$_.int i, core$_.bool z, core$_.int c, core$_.double d) {
     return _manyPrimitives(i, z, c, d);
   }
 }
@@ -7958,10 +8028,10 @@ class MyInterfaceConsumer extends jni$_.JObject {
   static void consumeOnAnotherThread<$T extends jni$_.JObject?>(
     MyInterface<$T?>? myInterface,
     jni$_.JString? string,
-    int i,
-    bool z,
-    int c,
-    double d,
+    core$_.int i,
+    core$_.bool z,
+    core$_.int c,
+    core$_.double d,
     $T? object, {
     required jni$_.JType<$T> T,
   }) {
@@ -8017,10 +8087,10 @@ class MyInterfaceConsumer extends jni$_.JObject {
   static void consumeOnSameThread<$T extends jni$_.JObject?>(
     MyInterface<$T?>? myInterface,
     jni$_.JString? string,
-    int i,
-    bool z,
-    int c,
-    double d,
+    core$_.int i,
+    core$_.bool z,
+    core$_.int c,
+    core$_.double d,
     $T? object, {
     required jni$_.JType<$T> T,
   }) {
@@ -8723,7 +8793,7 @@ class StringConverter extends jni$_.JObject {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public abstract int parseToInt(java.lang.String string)`
-  int parseToInt(
+  core$_.int parseToInt(
     jni$_.JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -8812,20 +8882,20 @@ class StringConverter extends jni$_.JObject {
 
 abstract base mixin class $StringConverter {
   factory $StringConverter({
-    required int Function(jni$_.JString? string) parseToInt,
+    required core$_.int Function(jni$_.JString? string) parseToInt,
   }) = _$StringConverter;
 
-  int parseToInt(jni$_.JString? string);
+  core$_.int parseToInt(jni$_.JString? string);
 }
 
 final class _$StringConverter with $StringConverter {
   _$StringConverter({
-    required int Function(jni$_.JString? string) parseToInt,
+    required core$_.int Function(jni$_.JString? string) parseToInt,
   }) : _parseToInt = parseToInt;
 
-  final int Function(jni$_.JString? string) _parseToInt;
+  final core$_.int Function(jni$_.JString? string) _parseToInt;
 
-  int parseToInt(jni$_.JString? string) {
+  core$_.int parseToInt(jni$_.JString? string) {
     return _parseToInt(string);
   }
 }
@@ -10380,11 +10450,11 @@ class Annotated$Nested<$T extends jni$_.JObject?, $U extends jni$_.JObject,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public void <init>(com.github.dart_lang.jnigen.annotations.Annotated<T, U, W> $outerClass, V object)`
+  /// from: `public void <init>(com.github.dart_lang.jnigen.annotations.Annotated<T, U, W> $outerClass, V synthetic)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Annotated$Nested(
     Annotated<$T?, $U, $W> $outerClass,
-    $V? object, {
+    $V? synthetic, {
     jni$_.JType<$T>? T,
     jni$_.JType<$U>? U,
     jni$_.JType<$W>? W,
@@ -10406,14 +10476,14 @@ class Annotated$Nested<$T extends jni$_.JObject?, $U extends jni$_.JObject,
           .W,
     ]) as jni$_.JType<$W>;
     final _$$outerClass = $outerClass.reference;
-    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$synthetic = synthetic?.reference ?? jni$_.jNullReference;
     return Annotated$Nested<$T, $U, $W, $V>.fromReference(
         T,
         U,
         W,
         V,
         _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr,
-                _$$outerClass.pointer, _$object.pointer)
+                _$$outerClass.pointer, _$synthetic.pointer)
             .reference);
   }
 }
@@ -10771,7 +10841,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.lang.String nullableHello(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? nullableHello(
-    bool z,
+    core$_.bool z,
   ) {
     return _nullableHello(reference.pointer,
             _id_nullableHello as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -10902,7 +10972,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.lang.String[] nullableArray(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<jni$_.JString>? nullableArray(
-    bool z,
+    core$_.bool z,
   ) {
     return _nullableArray(reference.pointer,
             _id_nullableArray as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -10929,7 +10999,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.lang.String[] nullableArrayOfNullable(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<jni$_.JString?>? nullableArrayOfNullable(
-    bool z,
+    core$_.bool z,
   ) {
     return _nullableArrayOfNullable(reference.pointer,
             _id_nullableArrayOfNullable as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -11008,7 +11078,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.util.List<java.lang.String> nullableList(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JString>? nullableList(
-    bool z,
+    core$_.bool z,
   ) {
     return _nullableList(reference.pointer,
             _id_nullableList as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -11035,7 +11105,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.util.List<java.lang.String> nullableListOfNullable(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JString?>? nullableListOfNullable(
-    bool z,
+    core$_.bool z,
   ) {
     return _nullableListOfNullable(reference.pointer,
             _id_nullableListOfNullable as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -11214,7 +11284,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// The returned object must be released after use, by calling the [release] method.
   $V? nullableReturnMethodGenericEcho<$V extends jni$_.JObject?>(
     $V object,
-    bool z, {
+    core$_.bool z, {
     required jni$_.JType<$V> V,
   }) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -11250,7 +11320,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// The returned object must be released after use, by calling the [release] method.
   $V? nullableReturnMethodGenericEcho2<$V extends jni$_.JObject>(
     $V object,
-    bool z, {
+    core$_.bool z, {
     jni$_.JType<$V>? V,
   }) {
     V ??= jni$_.lowestCommonSuperType([
@@ -11426,7 +11496,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.util.List<T> nullableClassGenericList(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$T>? nullableClassGenericList(
-    bool z,
+    core$_.bool z,
   ) {
     return _nullableClassGenericList(reference.pointer,
             _id_nullableClassGenericList as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -11451,7 +11521,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.util.List<T> nullableClassGenericListOfNullable(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$T?>? nullableClassGenericListOfNullable(
-    bool z,
+    core$_.bool z,
   ) {
     return _nullableClassGenericListOfNullable(
             reference.pointer,
@@ -11538,7 +11608,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$V>? nullableMethodGenericList<$V extends jni$_.JObject?>(
     $V object,
-    bool z, {
+    core$_.bool z, {
     required jni$_.JType<$V> V,
   }) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -11570,7 +11640,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$V?>?
       nullableMethodGenericListOfNullable<$V extends jni$_.JObject?>(
-    bool z, {
+    core$_.bool z, {
     required jni$_.JType<$V> V,
   }) {
     return _nullableMethodGenericListOfNullable(
@@ -12169,7 +12239,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public W nullableGetW(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   $W? nullableGetW(
-    bool z,
+    core$_.bool z,
   ) {
     return _nullableGetW(reference.pointer,
             _id_nullableGetW as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -12273,7 +12343,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.util.List<java.util.List<java.util.List<U>>> list3dOfNullableU(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JList<jni$_.JList<$U?>>> list3dOfNullableU(
-    bool z,
+    core$_.bool z,
   ) {
     return _list3dOfNullableU(reference.pointer,
             _id_list3dOfNullableU as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -12301,7 +12371,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.util.List<java.util.List<java.util.List<W>>> list3dOfNullableW(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JList<jni$_.JList<$W?>>> list3dOfNullableW(
-    bool z,
+    core$_.bool z,
   ) {
     return _list3dOfNullableW(reference.pointer,
             _id_list3dOfNullableW as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -12578,14 +12648,14 @@ class JsonSerializable$Case extends jni$_.JObject {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `static public com.github.dart_lang.jnigen.annotations.JsonSerializable$Case valueOf(java.lang.String string)`
+  /// from: `static public com.github.dart_lang.jnigen.annotations.JsonSerializable$Case valueOf(java.lang.String synthetic)`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonSerializable$Case? valueOf(
-    jni$_.JString? string,
+    jni$_.JString? synthetic,
   ) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
+    final _$synthetic = synthetic?.reference ?? jni$_.jNullReference;
     return _valueOf(_class.reference.pointer, _id_valueOf as jni$_.JMethodIDPtr,
-            _$string.pointer)
+            _$synthetic.pointer)
         .object<JsonSerializable$Case?>(
             const $JsonSerializable$Case$NullableType$());
   }

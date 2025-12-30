@@ -242,7 +242,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// document, if the start page is 1 then all pages will be extracted. If the start page is 4 then pages 4 and 5 will
   /// be extracted. The default value is 1.
   ///@return Value of property startPage.
-  int getStartPage() {
+  core$_.int getStartPage() {
     return _getStartPage(
             reference.pointer, _id_getStartPage as jni$_.JMethodIDPtr)
         .integer;
@@ -268,7 +268,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// This will set the first page to be extracted by this class.
   ///@param startPageValue New value of 1-based startPage property.
   void setStartPage(
-    int startPageValue,
+    core$_.int startPageValue,
   ) {
     _setStartPage(reference.pointer, _id_setStartPage as jni$_.JMethodIDPtr,
             startPageValue)
@@ -298,7 +298,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// value of 5 would extract the entire document, an end page of 2 would extract pages 1 and 2. This defaults to
   /// Integer.MAX_VALUE such that all pages of the pdf will be extracted.
   ///@return Value of property endPage.
-  int getEndPage() {
+  core$_.int getEndPage() {
     return _getEndPage(reference.pointer, _id_getEndPage as jni$_.JMethodIDPtr)
         .integer;
   }
@@ -323,7 +323,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// This will set the last page to be extracted by this class.
   ///@param endPageValue New value of 1-based endPage property.
   void setEndPage(
-    int endPageValue,
+    core$_.int endPageValue,
   ) {
     _setEndPage(reference.pointer, _id_setEndPage as jni$_.JMethodIDPtr,
             endPageValue)
@@ -470,7 +470,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// from: `public boolean getSuppressDuplicateOverlappingText()`
   ///
   /// @return Returns the suppressDuplicateOverlappingText.
-  bool getSuppressDuplicateOverlappingText() {
+  core$_.bool getSuppressDuplicateOverlappingText() {
     return _getSuppressDuplicateOverlappingText(reference.pointer,
             _id_getSuppressDuplicateOverlappingText as jni$_.JMethodIDPtr)
         .boolean;
@@ -499,7 +499,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// means that certain sections will be duplicated, but better performance will be noticed.
   ///@param suppressDuplicateOverlappingTextValue The suppressDuplicateOverlappingText to set.
   void setSuppressDuplicateOverlappingText(
-    bool suppressDuplicateOverlappingTextValue,
+    core$_.bool suppressDuplicateOverlappingTextValue,
   ) {
     _setSuppressDuplicateOverlappingText(
             reference.pointer,
@@ -529,7 +529,7 @@ class PDFTextStripper extends jni$_.JObject {
   ///
   /// This will tell if the text stripper should separate by beads.
   ///@return If the text will be grouped by beads.
-  bool getSeparateByBeads() {
+  core$_.bool getSeparateByBeads() {
     return _getSeparateByBeads(
             reference.pointer, _id_getSeparateByBeads as jni$_.JMethodIDPtr)
         .boolean;
@@ -555,7 +555,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// Set if the text stripper should group the text output by a list of beads. The default value is true!
   ///@param aShouldSeparateByBeads The new grouping of beads.
   void setShouldSeparateByBeads(
-    bool aShouldSeparateByBeads,
+    core$_.bool aShouldSeparateByBeads,
   ) {
     _setShouldSeparateByBeads(
             reference.pointer,
@@ -701,7 +701,7 @@ class PDFTextStripper extends jni$_.JObject {
   ///
   /// This will tell if the text stripper should add some more text formatting.
   ///@return true if some more text formatting will be added
-  bool getAddMoreFormatting() {
+  core$_.bool getAddMoreFormatting() {
     return _getAddMoreFormatting(
             reference.pointer, _id_getAddMoreFormatting as jni$_.JMethodIDPtr)
         .boolean;
@@ -727,7 +727,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// There will some additional text formatting be added if addMoreFormatting is set to true. Default is false.
   ///@param newAddMoreFormatting Tell PDFBox to add some more text formatting
   void setAddMoreFormatting(
-    bool newAddMoreFormatting,
+    core$_.bool newAddMoreFormatting,
   ) {
     _setAddMoreFormatting(
             reference.pointer,
@@ -757,7 +757,7 @@ class PDFTextStripper extends jni$_.JObject {
   ///
   /// This will tell if the text stripper should sort the text tokens before writing to the stream.
   ///@return true If the text tokens will be sorted before being written.
-  bool getSortByPosition() {
+  core$_.bool getSortByPosition() {
     return _getSortByPosition(
             reference.pointer, _id_getSortByPosition as jni$_.JMethodIDPtr)
         .boolean;
@@ -789,7 +789,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// the text tokens before processing them due to performance reasons.
   ///@param newSortByPosition Tell PDFBox to sort the text positions.
   void setSortByPosition(
-    bool newSortByPosition,
+    core$_.bool newSortByPosition,
   ) {
     _setSortByPosition(
             reference.pointer,
@@ -820,7 +820,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// Get the current space width-based tolerance value that is being used to estimate where spaces in text should be
   /// added. Note that the default value for this has been determined from trial and error.
   ///@return The current tolerance / scaling factor
-  double getSpacingTolerance() {
+  core$_.double getSpacingTolerance() {
     return _getSpacingTolerance(
             reference.pointer, _id_getSpacingTolerance as jni$_.JMethodIDPtr)
         .float;
@@ -848,7 +848,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// the number of spaces added.
   ///@param spacingToleranceValue tolerance / scaling factor to use
   void setSpacingTolerance(
-    double spacingToleranceValue,
+    core$_.double spacingToleranceValue,
   ) {
     _setSpacingTolerance(
             reference.pointer,
@@ -879,7 +879,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// Get the current character width-based tolerance value that is being used to estimate where spaces in text should
   /// be added. Note that the default value for this has been determined from trial and error.
   ///@return The current tolerance / scaling factor
-  double getAverageCharTolerance() {
+  core$_.double getAverageCharTolerance() {
     return _getAverageCharTolerance(reference.pointer,
             _id_getAverageCharTolerance as jni$_.JMethodIDPtr)
         .float;
@@ -907,7 +907,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// the number of spaces added.
   ///@param averageCharToleranceValue average tolerance / scaling factor to use
   void setAverageCharTolerance(
-    double averageCharToleranceValue,
+    core$_.double averageCharToleranceValue,
   ) {
     _setAverageCharTolerance(
             reference.pointer,
@@ -938,7 +938,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// returns the multiple of whitespace character widths for the current text which the current line start can be
   /// indented from the previous line start beyond which the current line start is considered to be a paragraph start.
   ///@return the number of whitespace character widths to use when detecting paragraph indents.
-  double getIndentThreshold() {
+  core$_.double getIndentThreshold() {
     return _getIndentThreshold(
             reference.pointer, _id_getIndentThreshold as jni$_.JMethodIDPtr)
         .float;
@@ -966,7 +966,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// The default value is 2.0.
   ///@param indentThresholdValue the number of whitespace character widths to use when detecting paragraph indents.
   void setIndentThreshold(
-    double indentThresholdValue,
+    core$_.double indentThresholdValue,
   ) {
     _setIndentThreshold(reference.pointer,
             _id_setIndentThreshold as jni$_.JMethodIDPtr, indentThresholdValue)
@@ -995,7 +995,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// the minimum whitespace, as a multiple of the max height of the current characters beyond which the current line
   /// start is considered to be a paragraph start.
   ///@return the character height multiple for max allowed whitespace between lines in the same paragraph.
-  double getDropThreshold() {
+  core$_.double getDropThreshold() {
     return _getDropThreshold(
             reference.pointer, _id_getDropThreshold as jni$_.JMethodIDPtr)
         .float;
@@ -1023,7 +1023,7 @@ class PDFTextStripper extends jni$_.JObject {
   ///@param dropThresholdValue the character height multiple for max allowed whitespace between lines in the same
   /// paragraph.
   void setDropThreshold(
-    double dropThresholdValue,
+    core$_.double dropThresholdValue,
   ) {
     _setDropThreshold(reference.pointer,
             _id_setDropThreshold as jni$_.JMethodIDPtr, dropThresholdValue)

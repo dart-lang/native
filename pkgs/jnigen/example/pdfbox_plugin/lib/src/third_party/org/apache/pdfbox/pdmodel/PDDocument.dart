@@ -570,7 +570,7 @@ class PDDocument extends jni$_.JObject {
   /// Remove the page from the document.
   ///@param pageNumber 0 based index to page number.
   void removePage$1(
-    int pageNumber,
+    core$_.int pageNumber,
   ) {
     _removePage$1(reference.pointer, _id_removePage$1 as jni$_.JMethodIDPtr,
             pageNumber)
@@ -771,7 +771,7 @@ class PDDocument extends jni$_.JObject {
   ///
   /// This will tell if this document is encrypted or not.
   ///@return true If this document is encrypted.
-  bool isEncrypted() {
+  core$_.bool isEncrypted() {
     return _isEncrypted(
             reference.pointer, _id_isEncrypted as jni$_.JMethodIDPtr)
         .boolean;
@@ -2031,7 +2031,7 @@ class PDDocument extends jni$_.JObject {
   ///@param pageIndex the 0-based page index
   ///@return the page at the given index.
   jni$_.JObject? getPage(
-    int pageIndex,
+    core$_.int pageIndex,
   ) {
     return _getPage(
             reference.pointer, _id_getPage as jni$_.JMethodIDPtr, pageIndex)
@@ -2086,7 +2086,7 @@ class PDDocument extends jni$_.JObject {
   ///
   /// This will return the total page count of the PDF document.
   ///@return The total number of pages in the PDF document.
-  int getNumberOfPages() {
+  core$_.int getNumberOfPages() {
     return _getNumberOfPages(
             reference.pointer, _id_getNumberOfPages as jni$_.JMethodIDPtr)
         .integer;
@@ -2207,7 +2207,7 @@ class PDDocument extends jni$_.JObject {
   ///
   /// Indicates if all security is removed or not when writing the pdf.
   ///@return returns true if all security shall be removed otherwise false
-  bool isAllSecurityToBeRemoved() {
+  core$_.bool isAllSecurityToBeRemoved() {
     return _isAllSecurityToBeRemoved(reference.pointer,
             _id_isAllSecurityToBeRemoved as jni$_.JMethodIDPtr)
         .boolean;
@@ -2233,7 +2233,7 @@ class PDDocument extends jni$_.JObject {
   /// Activates/Deactivates the removal of all security when writing the pdf.
   ///@param removeAllSecurity remove all security if set to true
   void setAllSecurityToBeRemoved(
-    bool removeAllSecurity,
+    core$_.bool removeAllSecurity,
   ) {
     _setAllSecurityToBeRemoved(
             reference.pointer,
@@ -2320,7 +2320,7 @@ class PDDocument extends jni$_.JObject {
   ///
   /// Returns the PDF specification version this document conforms to.
   ///@return the PDF version (e.g. 1.4f)
-  double getVersion() {
+  core$_.double getVersion() {
     return _getVersion(reference.pointer, _id_getVersion as jni$_.JMethodIDPtr)
         .float;
   }
@@ -2345,7 +2345,7 @@ class PDDocument extends jni$_.JObject {
   /// Sets the PDF specification version for this document.
   ///@param newVersion the new PDF version (e.g. 1.4f)
   void setVersion(
-    double newVersion,
+    core$_.double newVersion,
   ) {
     _setVersion(
             reference.pointer, _id_setVersion as jni$_.JMethodIDPtr, newVersion)

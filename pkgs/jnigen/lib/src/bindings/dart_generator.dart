@@ -871,7 +871,10 @@ class _TypeGenerator extends TypeVisitor<String> {
     if (arrayType) {
       return node.name.capitalize();
     }
-    return node.dartType;
+    if (node.name == 'void') {
+      return node.dartType;
+    }
+    return '$_core.${node.dartType}';
   }
 
   @override
