@@ -37,8 +37,9 @@ class TokenList extends Iterable<Json> {
   /// a parameter has a default value: " = value) -> returnType" becomes a
   /// single text token. This method splits such tokens by:
   ///   1. Repeatedly extracting splittables from the start
-  ///   2. Extracting any splittables from the end (yielding in reverse order)
-  ///   3. Returning the remaining content as a single text token
+  ///   2. For the remaining content, pull splittables from the end
+  ///   3. Store removed suffix tokens and yield them in reverse order
+  ///   4. Yield any remaining non-splittable content as a single text token
   ///
   /// This approach preserves the correct token sequence and ensures that even
   /// complex cases like " = foo) -> " are properly tokenized.
