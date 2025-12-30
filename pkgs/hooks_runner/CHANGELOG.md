@@ -1,6 +1,8 @@
 ## 1.0.2-wip
 
 - Pass `HTTP(S)_PROXY` and related environment variables to hooks.
+- Add `ANDROID_NDK`, `ANDROID_NDK_HOME`, `ANDROID_NDK_LATEST_HOME` and
+  `ANDROID_NDK_ROOT` to the environment variables allowlist.
 
 ## 1.0.1
 
