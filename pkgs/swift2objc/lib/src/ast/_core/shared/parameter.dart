@@ -20,7 +20,9 @@ class Parameter extends AstNode {
   });
 
   @override
-  String toString() => '$name $internalName: $type${defaultValue != null ? ' = $defaultValue' : ''}';
+  String toString() =>
+      '$name $internalName: $type'
+      '${defaultValue != null ? ' = $defaultValue' : ''}';
 
   @override
   void visitChildren(Visitor visitor) {

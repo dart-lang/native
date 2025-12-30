@@ -149,29 +149,29 @@ ParsedFunctionInfo parseFunctionInfo(
       // Optional: parse a default argument if present.
       // Swift symbol graph can emit defaults in these formats:
       // 1. Separate tokens: [": ", type..., " = ", value, ", "]
-      // 2. Combined: [": ", type..., " = value, "] or [": ", type..., " = value)"]
-      // 3. With return: [": ", type..., " = value) -> "]
+      // 2. Combined: [":", type..., " = value, "] or
+      //    [":", type..., " = value)"]
+      // 3. With return: [":", type..., " = value) -> "]
+      //
+      // We carefully preserve string literals during parsing to avoid
+      // splitting on delimiters that appear inside quoted strings
+      // (e.g., the ") -> " in the string literal "World ) -> ").
       String? defaultValue;
       String? endToken;
       var afterType = maybeConsume('text');
-      
+
       if (afterType != null) {
         // Check if this text token contains '='
         var remaining = afterType.trim();
         if (remaining.startsWith('=')) {
           // Extract default value from this token
           remaining = remaining.substring(1).trim();
-          
+
           // Check for delimiters: ',' or ')' (possibly followed by ' ->')
           if (remaining.contains(')')) {
             final parenIndex = remaining.indexOf(')');
             defaultValue = remaining.substring(0, parenIndex).trim();
             endToken = ')';
-            // If there's content after ), put it back as a token
-            final afterParen = remaining.substring(parenIndex + 1).trim();
-            if (afterParen.isNotEmpty) {
-              // We consumed too much; this is OK, the parser will handle it
-            }
           } else if (remaining.contains(',')) {
             final commaIndex = remaining.indexOf(',');
             defaultValue = remaining.substring(0, commaIndex).trim();
@@ -183,12 +183,17 @@ ParsedFunctionInfo parseFunctionInfo(
           } else {
             // '=' alone, collect tokens until delimiter
             final parts = <String>[];
-            while (!tokens.isEmpty) {
+            while (tokens.isNotEmpty) {
               final tok = tokens[0];
+              final kind = tok['kind'].get<String?>();
               final spelling = tok['spelling'].get<String?>();
               if (spelling != null) {
                 final s = spelling.trim();
-                if (s == ',' || s == ')') {
+                // String tokens should be kept whole, not split on delimiters
+                if (kind == 'string') {
+                  parts.add(spelling);
+                  tokens = tokens.slice(1);
+                } else if (s == ',' || s == ')') {
                   endToken = s;
                   tokens = tokens.slice(1);
                   break;

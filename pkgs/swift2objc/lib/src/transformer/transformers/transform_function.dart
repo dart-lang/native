@@ -8,17 +8,21 @@ import '../../ast/_core/shared/referred_type.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../ast/declarations/globals/globals.dart';
+import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
 import '../_core/utils.dart';
 import '../transform.dart';
 import 'const.dart';
 import 'transform_referred_type.dart';
 
-// The main difference between generating a wrapper method for a global function
-// and a compound method is the way the original function/method is referenced.
-// In compound method case, the original method is referenced through the
-// wrapped class instance in the wrapper class. In global function case,
-// it can be referenced directly since it's not a member of any entity.
+/// Wrapper generation strategy: For both methods and global functions, we
+/// create a primary wrapper with all parameters, then additional overloads
+/// that omit trailing parameters with default values. This allows ObjC
+/// callers to avoid passing default arguments explicitly.
+///
+/// The key difference:
+///   - Methods reference the original through a wrapped class instance
+///   - Global functions reference the original directly
 
 MethodDeclaration? transformMethod(
   MethodDeclaration originalMethod,
@@ -28,6 +32,32 @@ MethodDeclaration? transformMethod(
 ) {
   if (disallowedMethods.contains(originalMethod.name)) {
     return null;
+  }
+
+  final methods = _transformFunction(
+    originalMethod,
+    globalNamer,
+    state,
+    wrapperMethodName: originalMethod.name,
+    originalCallStatementGenerator: (arguments) {
+      final methodSource = originalMethod.isStatic
+          ? wrappedClassInstance.type.swiftType
+          : wrappedClassInstance.name;
+      return '$methodSource.${originalMethod.name}($arguments)';
+    },
+  );
+
+  return methods.isEmpty ? null : methods.first;
+}
+
+List<MethodDeclaration> transformMethodWithOverloads(
+  MethodDeclaration originalMethod,
+  PropertyDeclaration wrappedClassInstance,
+  UniqueNamer globalNamer,
+  TransformationState state,
+) {
+  if (disallowedMethods.contains(originalMethod.name)) {
+    return const [];
   }
 
   return _transformFunction(
@@ -49,6 +79,22 @@ MethodDeclaration transformGlobalFunction(
   UniqueNamer globalNamer,
   TransformationState state,
 ) {
+  final methods = _transformFunction(
+    globalFunction,
+    globalNamer,
+    state,
+    wrapperMethodName: globalNamer.makeUnique('${globalFunction.name}Wrapper'),
+    originalCallStatementGenerator: (arguments) =>
+        '${globalFunction.name}($arguments)',
+  );
+  return methods.first;
+}
+
+List<MethodDeclaration> transformGlobalFunctionWithOverloads(
+  GlobalFunctionDeclaration globalFunction,
+  UniqueNamer globalNamer,
+  TransformationState state,
+) {
   return _transformFunction(
     globalFunction,
     globalNamer,
@@ -59,9 +105,33 @@ MethodDeclaration transformGlobalFunction(
   );
 }
 
-// -------------------------- Core Implementation --------------------------
+/// Counts the number of trailing parameters with default values.
+///
+/// ObjC doesn't support default parameters, so we generate overloads
+/// omitting each combination of trailing defaults. For example, a function
+/// with signature `foo(a, b=1, c=2)` generates overloads for `foo(a, b)`
+/// and `foo(a)`.
+int _trailingDefaultCount(List<Parameter> params) {
+  var count = 0;
+  for (var i = params.length - 1; i >= 0; --i) {
+    if (params[i].defaultValue != null) {
+      count++;
+    } else {
+      break;
+    }
+  }
+  return count;
+}
 
-MethodDeclaration _transformFunction(
+/// Transforms a Swift function/method into one or more ObjC wrapper methods.
+///
+/// Returns a list containing:
+///   - The primary wrapper with all parameters
+///   - Zero or more overloads omitting trailing default parameters
+///
+/// This centralized implementation eliminates duplication between method,
+/// initializer, and global function transformation paths.
+List<MethodDeclaration> _transformFunction(
   FunctionDeclaration originalFunction,
   UniqueNamer globalNamer,
   TransformationState state, {
@@ -116,7 +186,66 @@ MethodDeclaration _transformFunction(
     originalCallGenerator: originalCallStatementGenerator,
   );
 
-  return transformedMethod;
+  // Generate overloads for trailing default parameters. Each overload omits
+  // one more trailing default, allowing ObjC callers to use them without
+  // explicitly passing default arguments.
+  final trailingDefaults = _trailingDefaultCount(originalFunction.params);
+  if (trailingDefaults == 0) {
+    return [transformedMethod];
+  }
+
+  final allMethods = <MethodDeclaration>[transformedMethod];
+
+  for (
+    var parametersToOmit = 1;
+    parametersToOmit <= trailingDefaults;
+    ++parametersToOmit
+  ) {
+    final parameterCount = originalFunction.params.length - parametersToOmit;
+    final overloadParams = transformedMethod.params.sublist(0, parameterCount);
+
+    final overloadNamer = UniqueNamer();
+    final overloadResultName = overloadNamer.makeUnique('result');
+    final (overloadWrapperResult, _) = maybeWrapValue(
+      originalFunction.returnType,
+      overloadResultName,
+      globalNamer,
+      state,
+      shouldWrapPrimitives: originalFunction.throws,
+    );
+
+    final overload = MethodDeclaration(
+      id: originalFunction.id.addIdSuffix('default$parametersToOmit'),
+      name: wrapperMethodName,
+      source: originalFunction.source,
+      availability: originalFunction.availability,
+      returnType: transformedMethod.returnType,
+      params: overloadParams,
+      hasObjCAnnotation: true,
+      isStatic: originalFunction is MethodDeclaration
+          ? originalFunction.isStatic
+          : true,
+      throws: originalFunction.throws,
+      async: originalFunction.async,
+    );
+
+    overload.statements = _generateStatementsWithParamSubset(
+      originalFunction,
+      overload,
+      globalNamer,
+      overloadNamer,
+      overloadResultName,
+      overloadWrapperResult,
+      state,
+      originalCallGenerator: originalCallStatementGenerator,
+      originalParamsForCall: originalFunction.params.sublist(0, parameterCount),
+      transformedParamsForCall: overloadParams,
+    );
+
+    allMethods.add(overload);
+  }
+
+  return allMethods;
 }
 
 String generateInvocationParams(
@@ -209,124 +338,4 @@ List<String> _generateStatementsWithParamSubset(
   }
 
   return ['let $resultName = $originalMethodCall', 'return $wrappedResult'];
-}
-
-int _trailingDefaultCount(List<Parameter> params) {
-  var count = 0;
-  for (var i = params.length - 1; i >= 0; --i) {
-    if (params[i].defaultValue != null) {
-      count++;
-    } else {
-      break;
-    }
-  }
-  return count;
-}
-
-List<MethodDeclaration> buildDefaultOverloadsForMethod(
-  MethodDeclaration originalMethod,
-  PropertyDeclaration wrappedClassInstance,
-  UniqueNamer globalNamer,
-  TransformationState state, {
-  required MethodDeclaration baseTransformed,
-}) {
-  final defaults = _trailingDefaultCount(originalMethod.params);
-  if (defaults == 0) return const [];
-
-  final overloads = <MethodDeclaration>[];
-  for (var drop = 1; drop <= defaults; ++drop) {
-    final keep = originalMethod.params.length - drop;
-    final transformedSubset = baseTransformed.params.sublist(0, keep);
-
-    final over = MethodDeclaration(
-      id: '${originalMethod.id}-default$drop',
-      name: baseTransformed.name,
-      source: originalMethod.source,
-      availability: originalMethod.availability,
-      returnType: baseTransformed.returnType,
-      params: transformedSubset,
-      hasObjCAnnotation: true,
-      isStatic: originalMethod.isStatic,
-      throws: originalMethod.throws,
-      async: originalMethod.async,
-    );
-
-    final localNamer = UniqueNamer();
-    final resultName = localNamer.makeUnique('result');
-    final (wrapperResult, _) = maybeWrapValue(
-      originalMethod.returnType,
-      resultName,
-      globalNamer,
-      state,
-      shouldWrapPrimitives: originalMethod.throws,
-    );
-    final methodSource = originalMethod.isStatic
-        ? wrappedClassInstance.type.swiftType
-        : wrappedClassInstance.name;
-    over.statements = _generateStatementsWithParamSubset(
-      originalMethod,
-      over,
-      globalNamer,
-      localNamer,
-      resultName,
-      wrapperResult,
-      state,
-      originalCallGenerator: (args) => '$methodSource.${originalMethod.name}($args)',
-      originalParamsForCall: originalMethod.params.sublist(0, keep),
-      transformedParamsForCall: transformedSubset,
-    );
-    overloads.add(over);
-  }
-  return overloads;
-}
-
-List<MethodDeclaration> buildDefaultOverloadsForGlobalFunction(
-  GlobalFunctionDeclaration globalFunction,
-  MethodDeclaration baseTransformed,
-  UniqueNamer globalNamer,
-  TransformationState state,
-) {
-  final defaults = _trailingDefaultCount(globalFunction.params);
-  if (defaults == 0) return const [];
-  final overloads = <MethodDeclaration>[];
-  for (var drop = 1; drop <= defaults; ++drop) {
-    final keep = globalFunction.params.length - drop;
-    final subset = baseTransformed.params.sublist(0, keep);
-    final over = MethodDeclaration(
-      id: '${globalFunction.id}-default$drop',
-      name: baseTransformed.name,
-      source: globalFunction.source,
-      availability: globalFunction.availability,
-      returnType: baseTransformed.returnType,
-      params: subset,
-      hasObjCAnnotation: true,
-      isStatic: true,
-      throws: globalFunction.throws,
-      async: globalFunction.async,
-    );
-
-    final localNamer = UniqueNamer();
-    final resultName = localNamer.makeUnique('result');
-    final (wrapperResult, _) = maybeWrapValue(
-      globalFunction.returnType,
-      resultName,
-      globalNamer,
-      state,
-      shouldWrapPrimitives: globalFunction.throws,
-    );
-    over.statements = _generateStatementsWithParamSubset(
-      globalFunction,
-      over,
-      globalNamer,
-      localNamer,
-      resultName,
-      wrapperResult,
-      state,
-      originalCallGenerator: (args) => '${globalFunction.name}($args)',
-      originalParamsForCall: globalFunction.params.sublist(0, keep),
-      transformedParamsForCall: subset,
-    );
-    overloads.add(over);
-  }
-  return overloads;
 }

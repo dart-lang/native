@@ -37,10 +37,8 @@ ClassDeclaration? transformGlobals(
 
   final transformedMethods = <MethodDeclaration>[];
   for (final fn in globals.functions) {
-    final main = transformGlobalFunction(fn, globalNamer, state);
-    transformedMethods.add(main);
     transformedMethods.addAll(
-      buildDefaultOverloadsForGlobalFunction(fn, main, globalNamer, state),
+      transformGlobalFunctionWithOverloads(fn, globalNamer, state),
     );
   }
 

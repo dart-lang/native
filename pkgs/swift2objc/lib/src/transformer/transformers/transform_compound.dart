@@ -83,44 +83,26 @@ ClassDeclaration transformCompound(
 
     final transformedInitializers = <Declaration>[];
     for (final init in originalCompound.initializers) {
-      final main = transformInitializer(
-        init,
-        wrappedCompoundInstance,
-        parentNamer,
-        state,
-      );
-      transformedInitializers.add(main);
       transformedInitializers.addAll(
-        buildDefaultOverloadsForInitializer(
+        transformInitializerWithOverloads(
           init,
           wrappedCompoundInstance,
           parentNamer,
           state,
-          baseTransformed: main,
         ),
       );
     }
 
     final transformedMethods = <MethodDeclaration>[];
     for (final method in originalCompound.methods) {
-      final main = transformMethod(
-        method,
-        wrappedCompoundInstance,
-        parentNamer,
-        state,
+      transformedMethods.addAll(
+        transformMethodWithOverloads(
+          method,
+          wrappedCompoundInstance,
+          parentNamer,
+          state,
+        ),
       );
-      if (main != null) {
-        transformedMethods.add(main);
-        transformedMethods.addAll(
-          buildDefaultOverloadsForMethod(
-            method,
-            wrappedCompoundInstance,
-            parentNamer,
-            state,
-            baseTransformed: main,
-          ),
-        );
-      }
     }
 
     transformedCompound.properties =

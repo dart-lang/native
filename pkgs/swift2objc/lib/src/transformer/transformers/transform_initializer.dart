@@ -8,6 +8,7 @@ import '../../ast/_core/shared/referred_type.dart';
 import '../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
+import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
 import '../transform.dart';
 import 'transform_function.dart';
@@ -19,15 +20,33 @@ Declaration transformInitializer(
   UniqueNamer globalNamer,
   TransformationState state,
 ) {
+  final declarations = transformInitializerWithOverloads(
+    originalInitializer,
+    wrappedClassInstance,
+    globalNamer,
+    state,
+  );
+  return declarations.first;
+}
+
+List<Declaration> transformInitializerWithOverloads(
+  InitializerDeclaration originalInitializer,
+  PropertyDeclaration wrappedClassInstance,
+  UniqueNamer globalNamer,
+  TransformationState state,
+) {
   final transformedParams = originalInitializer.params
       .map(
         (param) => Parameter(
           name: param.name,
           internalName: param.internalName,
           type: transformReferredType(param.type, globalNamer, state),
+          defaultValue: param.defaultValue,
         ),
       )
       .toList();
+
+  final Declaration mainDeclaration;
 
   if (originalInitializer.async) {
     final methodReturnType = transformReferredType(
@@ -36,7 +55,7 @@ Declaration transformInitializer(
       state,
     );
 
-    return MethodDeclaration(
+    mainDeclaration = MethodDeclaration(
       id: originalInitializer.id,
       name: '${originalInitializer.name}Wrapper',
       source: originalInitializer.source,
@@ -56,30 +75,105 @@ Declaration transformInitializer(
       async: originalInitializer.async,
       isStatic: true,
     );
+  } else {
+    final transformedInitializer = InitializerDeclaration(
+      id: originalInitializer.id,
+      source: originalInitializer.source,
+      availability: originalInitializer.availability,
+      params: transformedParams,
+      hasObjCAnnotation: true,
+      isFailable: originalInitializer.isFailable,
+      throws: originalInitializer.throws,
+      async: originalInitializer.async,
+      isOverriding: transformedParams.isEmpty,
+    );
+
+    transformedInitializer.statements = _generateInitializerStatements(
+      originalInitializer,
+      wrappedClassInstance,
+      transformedInitializer,
+    );
+
+    mainDeclaration = transformedInitializer;
   }
 
-  final transformedInitializer = InitializerDeclaration(
-    id: originalInitializer.id,
-    source: originalInitializer.source,
-    availability: originalInitializer.availability,
-    params: transformedParams,
-    hasObjCAnnotation: true,
-    isFailable: originalInitializer.isFailable,
-    throws: originalInitializer.throws,
-    async: originalInitializer.async,
-    // Because the wrapper class extends NSObject that has an initializer with
-    // no parameters. If we make a similar parameterless initializer we need
-    // to add `override` keyword.
-    isOverriding: transformedParams.isEmpty,
-  );
+  // Generate overloads for trailing default parameters
+  final defaults = _trailingDefaultCount(originalInitializer.params);
+  if (defaults == 0) {
+    return [mainDeclaration];
+  }
 
-  transformedInitializer.statements = _generateInitializerStatements(
-    originalInitializer,
-    wrappedClassInstance,
-    transformedInitializer,
-  );
+  final declarations = <Declaration>[mainDeclaration];
 
-  return transformedInitializer;
+  for (var drop = 1; drop <= defaults; ++drop) {
+    final keep = originalInitializer.params.length - drop;
+    final transformedSubsetParams = originalInitializer.params
+        .sublist(0, keep)
+        .map(
+          (param) => Parameter(
+            name: param.name,
+            internalName: param.internalName,
+            type: transformReferredType(param.type, globalNamer, state),
+            defaultValue: param.defaultValue,
+          ),
+        )
+        .toList();
+
+    if (originalInitializer.async) {
+      // Generate async method wrapper overload
+      final methodReturnType = transformReferredType(
+        wrappedClassInstance.type,
+        globalNamer,
+        state,
+      );
+
+      final over = MethodDeclaration(
+        id: originalInitializer.id.addIdSuffix('default$drop'),
+        name: '${originalInitializer.name}Wrapper',
+        source: originalInitializer.source,
+        availability: originalInitializer.availability,
+        returnType: originalInitializer.isFailable
+            ? OptionalType(methodReturnType)
+            : methodReturnType,
+        params: transformedSubsetParams,
+        hasObjCAnnotation: true,
+        throws: originalInitializer.throws,
+        async: originalInitializer.async,
+        isStatic: true,
+      );
+
+      over.statements = _generateMethodStatements(
+        originalInitializer,
+        wrappedClassInstance,
+        methodReturnType,
+        transformedSubsetParams,
+      );
+      declarations.add(over);
+    } else {
+      // Generate regular initializer overload
+      final over = InitializerDeclaration(
+        id: originalInitializer.id.addIdSuffix('default$drop'),
+        source: originalInitializer.source,
+        availability: originalInitializer.availability,
+        params: transformedSubsetParams,
+        hasObjCAnnotation: true,
+        isFailable: originalInitializer.isFailable,
+        throws: originalInitializer.throws,
+        async: originalInitializer.async,
+        isOverriding: transformedSubsetParams.isEmpty,
+      );
+
+      over.statements = _generateInitializerStatementsWithSubset(
+        originalInitializer,
+        wrappedClassInstance,
+        over,
+        originalInitializer.params.sublist(0, keep),
+      );
+      declarations.add(over);
+    }
+  }
+
+  return declarations;
 }
 
 List<String> _generateInitializerStatements(
@@ -168,95 +262,16 @@ int _trailingDefaultCount(List<Parameter> params) {
   return count;
 }
 
-List<Declaration> buildDefaultOverloadsForInitializer(
-  InitializerDeclaration originalInitializer,
-  PropertyDeclaration wrappedClassInstance,
-  UniqueNamer globalNamer,
-  TransformationState state, {
-  required Declaration baseTransformed,
-}) {
-  final defaults = _trailingDefaultCount(originalInitializer.params);
-  if (defaults == 0) return const [];
-
-  final overloads = <Declaration>[];
-  for (var drop = 1; drop <= defaults; ++drop) {
-    final keep = originalInitializer.params.length - drop;
-    final transformedSubsetParams = originalInitializer.params
-        .sublist(0, keep)
-        .map(
-          (param) => Parameter(
-            name: param.name,
-            internalName: param.internalName,
-            type: transformReferredType(param.type, globalNamer, state),
-            defaultValue: param.defaultValue,
-          ),
-        )
-        .toList();
-
-    if (originalInitializer.async) {
-      // Generate async method wrapper overload
-      final methodReturnType = transformReferredType(
-        wrappedClassInstance.type,
-        globalNamer,
-        state,
-      );
-
-      final over = MethodDeclaration(
-        id: '${originalInitializer.id}-default$drop',
-        name: '${originalInitializer.name}Wrapper',
-        source: originalInitializer.source,
-        availability: originalInitializer.availability,
-        returnType: originalInitializer.isFailable
-            ? OptionalType(methodReturnType)
-            : methodReturnType,
-        params: transformedSubsetParams,
-        hasObjCAnnotation: true,
-        throws: originalInitializer.throws,
-        async: originalInitializer.async,
-        isStatic: true,
-      );
-
-      over.statements = _generateMethodStatements(
-        originalInitializer,
-        wrappedClassInstance,
-        methodReturnType,
-        transformedSubsetParams,
-      );
-      overloads.add(over);
-    } else {
-      // Generate regular initializer overload
-      final over = InitializerDeclaration(
-        id: '${originalInitializer.id}-default$drop',
-        source: originalInitializer.source,
-        availability: originalInitializer.availability,
-        params: transformedSubsetParams,
-        hasObjCAnnotation: true,
-        isFailable: originalInitializer.isFailable,
-        throws: originalInitializer.throws,
-        async: originalInitializer.async,
-        isOverriding: transformedSubsetParams.isEmpty,
-      );
-
-      over.statements = _generateInitializerStatementsWithSubset(
-        originalInitializer,
-        wrappedClassInstance,
-        over,
-        originalInitializer.params.sublist(0, keep),
-      );
-      overloads.add(over);
-    }
-  }
-  return overloads;
-}
-
 List<String> _generateInitializerStatementsWithSubset(
   InitializerDeclaration originalInitializer,
   PropertyDeclaration wrappedClassInstance,
   InitializerDeclaration transformedInitializer,
   List<Parameter> originalParamsSubset,
 ) {
-  final (instanceConstruction, localNamer) =
-      _generateInstanceConstructionWithSubset(
+  final (
+    instanceConstruction,
+    localNamer,
+  ) = _generateInstanceConstructionWithSubset(
     originalInitializer,
     wrappedClassInstance,
     transformedInitializer.params,
