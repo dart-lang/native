@@ -128,7 +128,7 @@ class JniPlugin extends jni$_.JObject {
   /// from: `static public android.app.Activity getActivity(long j)`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JObject? getActivity(
-    int j,
+    core$_.int j,
   ) {
     return _getActivity(
             _class.reference.pointer, _id_getActivity as jni$_.JMethodIDPtr, j)

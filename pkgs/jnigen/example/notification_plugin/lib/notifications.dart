@@ -114,7 +114,7 @@ class Notifications extends jni$_.JObject {
   /// from: `static public void showNotification(android.content.Context context, int notificationID, java.lang.String title, java.lang.String text)`
   static void showNotification(
     jni$_.JObject? context,
-    int notificationID,
+    core$_.int notificationID,
     jni$_.JString? title,
     jni$_.JString? text,
   ) {
