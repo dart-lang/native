@@ -216,7 +216,7 @@ class Example$Nested extends jni$_.JObject {
   /// from: `public void <init>(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example$Nested(
-    bool z,
+    core$_.bool z,
   ) {
     return Example$Nested.fromReference(_new$(
             _class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -265,7 +265,7 @@ class Example$Nested extends jni$_.JObject {
           )>();
 
   /// from: `public boolean getValue()`
-  bool getValue() {
+  core$_.bool getValue() {
     return _getValue(reference.pointer, _id_getValue as jni$_.JMethodIDPtr)
         .boolean;
   }
@@ -287,7 +287,7 @@ class Example$Nested extends jni$_.JObject {
 
   /// from: `public void setValue(boolean z)`
   void setValue(
-    bool z,
+    core$_.bool z,
   ) {
     _setValue(reference.pointer, _id_setValue as jni$_.JMethodIDPtr, z ? 1 : 0)
         .check();
@@ -398,10 +398,11 @@ class Example$NonStaticNested extends jni$_.JObject {
   );
 
   /// from: `public boolean ok`
-  bool get ok => _id_ok.get(this, const jni$_.jbooleanType());
+  core$_.bool get ok => _id_ok.get(this, const jni$_.jbooleanType());
 
   /// from: `public boolean ok`
-  set ok(bool value) => _id_ok.set(this, const jni$_.jbooleanType(), value);
+  set ok(core$_.bool value) =>
+      _id_ok.set(this, const jni$_.jbooleanType(), value);
 
   static final _id_new$ = _class.constructorId(
     r'(Lcom/github/dart_lang/jnigen/simple_package/Example;)V',
@@ -893,7 +894,7 @@ class Example extends jni$_.JObject {
           )>();
 
   /// from: `public boolean getIsUp()`
-  bool getIsUp() {
+  core$_.bool getIsUp() {
     return _getIsUp(reference.pointer, _id_getIsUp as jni$_.JMethodIDPtr)
         .boolean;
   }
@@ -915,7 +916,7 @@ class Example extends jni$_.JObject {
 
   /// from: `public void setUp(boolean z)`
   void setUp(
-    bool z,
+    core$_.bool z,
   ) {
     _setUp(reference.pointer, _id_setUp as jni$_.JMethodIDPtr, z ? 1 : 0)
         .check();
@@ -1358,7 +1359,7 @@ class Example extends jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   factory Example.new$2(
     int i,
-    bool z,
+    core$_.bool z,
   ) {
     return Example.fromReference(_new$2(_class.reference.pointer,
             _id_new$2 as jni$_.JMethodIDPtr, i, z ? 1 : 0)
@@ -1388,7 +1389,7 @@ class Example extends jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   factory Example.new$3(
     int i,
-    bool z,
+    core$_.bool z,
     jni$_.JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -1737,8 +1738,8 @@ class Example extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
   /// from: `public boolean bool(boolean z)`
-  bool bool(
-    bool z,
+  core$_.bool bool(
+    core$_.bool z,
   ) {
     return _bool(reference.pointer, _id_bool as jni$_.JMethodIDPtr, z ? 1 : 0)
         .boolean;
@@ -2626,11 +2627,11 @@ class Fields extends jni$_.JObject {
   );
 
   /// from: `public boolean isAchillesDead`
-  bool get isAchillesDead =>
+  core$_.bool get isAchillesDead =>
       _id_isAchillesDead.get(this, const jni$_.jbooleanType());
 
   /// from: `public boolean isAchillesDead`
-  set isAchillesDead(bool value) =>
+  set isAchillesDead(core$_.bool value) =>
       _id_isAchillesDead.set(this, const jni$_.jbooleanType(), value);
 
   static final _id_bestFighterInGreece = _class.instanceFieldId(
@@ -3142,7 +3143,7 @@ class Colors$RGB extends jni$_.JObject {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public boolean equals(java.lang.Object object)`
-  bool equals(
+  core$_.bool equals(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -7024,7 +7025,7 @@ class InheritedFromMyInterface extends jni$_.JObject {
   /// from: `public abstract long manyPrimitives(int i, boolean z, char c, double d)`
   int manyPrimitives(
     int i,
-    bool z,
+    core$_.bool z,
     int c,
     double d,
   ) {
@@ -7156,14 +7157,14 @@ abstract base mixin class $InheritedFromMyInterface {
     core$_.bool voidCallback$async,
     required jni$_.JString? Function(jni$_.JString? string) stringCallback,
     required jni$_.JString? Function(jni$_.JString? object) varCallback,
-    required int Function(int i, bool z, int c, double d) manyPrimitives,
+    required int Function(int i, core$_.bool z, int c, double d) manyPrimitives,
   }) = _$InheritedFromMyInterface;
 
   void voidCallback(jni$_.JString? string);
   core$_.bool get voidCallback$async => false;
   jni$_.JString? stringCallback(jni$_.JString? string);
   jni$_.JString? varCallback(jni$_.JString? object);
-  int manyPrimitives(int i, bool z, int c, double d);
+  int manyPrimitives(int i, core$_.bool z, int c, double d);
 }
 
 final class _$InheritedFromMyInterface with $InheritedFromMyInterface {
@@ -7172,7 +7173,7 @@ final class _$InheritedFromMyInterface with $InheritedFromMyInterface {
     this.voidCallback$async = false,
     required jni$_.JString? Function(jni$_.JString? string) stringCallback,
     required jni$_.JString? Function(jni$_.JString? object) varCallback,
-    required int Function(int i, bool z, int c, double d) manyPrimitives,
+    required int Function(int i, core$_.bool z, int c, double d) manyPrimitives,
   })  : _voidCallback = voidCallback,
         _stringCallback = stringCallback,
         _varCallback = varCallback,
@@ -7182,7 +7183,7 @@ final class _$InheritedFromMyInterface with $InheritedFromMyInterface {
   final core$_.bool voidCallback$async;
   final jni$_.JString? Function(jni$_.JString? string) _stringCallback;
   final jni$_.JString? Function(jni$_.JString? object) _varCallback;
-  final int Function(int i, bool z, int c, double d) _manyPrimitives;
+  final int Function(int i, core$_.bool z, int c, double d) _manyPrimitives;
 
   void voidCallback(jni$_.JString? string) {
     return _voidCallback(string);
@@ -7196,7 +7197,7 @@ final class _$InheritedFromMyInterface with $InheritedFromMyInterface {
     return _varCallback(object);
   }
 
-  int manyPrimitives(int i, bool z, int c, double d) {
+  int manyPrimitives(int i, core$_.bool z, int c, double d) {
     return _manyPrimitives(i, z, c, d);
   }
 }
@@ -7646,7 +7647,7 @@ class MyInterface<$T extends jni$_.JObject?> extends jni$_.JObject {
   /// from: `public abstract long manyPrimitives(int i, boolean z, char c, double d)`
   int manyPrimitives(
     int i,
-    bool z,
+    core$_.bool z,
     int c,
     double d,
   ) {
@@ -7781,7 +7782,7 @@ abstract base mixin class $MyInterface<$T extends jni$_.JObject?> {
     core$_.bool voidCallback$async,
     required jni$_.JString? Function(jni$_.JString? string) stringCallback,
     required $T? Function($T? object) varCallback,
-    required int Function(int i, bool z, int c, double d) manyPrimitives,
+    required int Function(int i, core$_.bool z, int c, double d) manyPrimitives,
   }) = _$MyInterface<$T>;
 
   jni$_.JType<$T> get T;
@@ -7790,7 +7791,7 @@ abstract base mixin class $MyInterface<$T extends jni$_.JObject?> {
   core$_.bool get voidCallback$async => false;
   jni$_.JString? stringCallback(jni$_.JString? string);
   $T? varCallback($T? object);
-  int manyPrimitives(int i, bool z, int c, double d);
+  int manyPrimitives(int i, core$_.bool z, int c, double d);
 }
 
 final class _$MyInterface<$T extends jni$_.JObject?> with $MyInterface<$T> {
@@ -7800,7 +7801,7 @@ final class _$MyInterface<$T extends jni$_.JObject?> with $MyInterface<$T> {
     this.voidCallback$async = false,
     required jni$_.JString? Function(jni$_.JString? string) stringCallback,
     required $T? Function($T? object) varCallback,
-    required int Function(int i, bool z, int c, double d) manyPrimitives,
+    required int Function(int i, core$_.bool z, int c, double d) manyPrimitives,
   })  : _voidCallback = voidCallback,
         _stringCallback = stringCallback,
         _varCallback = varCallback,
@@ -7813,7 +7814,7 @@ final class _$MyInterface<$T extends jni$_.JObject?> with $MyInterface<$T> {
   final core$_.bool voidCallback$async;
   final jni$_.JString? Function(jni$_.JString? string) _stringCallback;
   final $T? Function($T? object) _varCallback;
-  final int Function(int i, bool z, int c, double d) _manyPrimitives;
+  final int Function(int i, core$_.bool z, int c, double d) _manyPrimitives;
 
   void voidCallback(jni$_.JString? string) {
     return _voidCallback(string);
@@ -7827,7 +7828,7 @@ final class _$MyInterface<$T extends jni$_.JObject?> with $MyInterface<$T> {
     return _varCallback(object);
   }
 
-  int manyPrimitives(int i, bool z, int c, double d) {
+  int manyPrimitives(int i, core$_.bool z, int c, double d) {
     return _manyPrimitives(i, z, c, d);
   }
 }
@@ -8007,7 +8008,7 @@ class MyInterfaceConsumer extends jni$_.JObject {
     MyInterface<$T?>? myInterface,
     jni$_.JString? string,
     int i,
-    bool z,
+    core$_.bool z,
     int c,
     double d,
     $T? object, {
@@ -8066,7 +8067,7 @@ class MyInterfaceConsumer extends jni$_.JObject {
     MyInterface<$T?>? myInterface,
     jni$_.JString? string,
     int i,
-    bool z,
+    core$_.bool z,
     int c,
     double d,
     $T? object, {
@@ -10819,7 +10820,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.lang.String nullableHello(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? nullableHello(
-    bool z,
+    core$_.bool z,
   ) {
     return _nullableHello(reference.pointer,
             _id_nullableHello as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -10950,7 +10951,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.lang.String[] nullableArray(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<jni$_.JString>? nullableArray(
-    bool z,
+    core$_.bool z,
   ) {
     return _nullableArray(reference.pointer,
             _id_nullableArray as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -10977,7 +10978,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.lang.String[] nullableArrayOfNullable(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<jni$_.JString?>? nullableArrayOfNullable(
-    bool z,
+    core$_.bool z,
   ) {
     return _nullableArrayOfNullable(reference.pointer,
             _id_nullableArrayOfNullable as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -11056,7 +11057,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.util.List<java.lang.String> nullableList(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JString>? nullableList(
-    bool z,
+    core$_.bool z,
   ) {
     return _nullableList(reference.pointer,
             _id_nullableList as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -11083,7 +11084,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.util.List<java.lang.String> nullableListOfNullable(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JString?>? nullableListOfNullable(
-    bool z,
+    core$_.bool z,
   ) {
     return _nullableListOfNullable(reference.pointer,
             _id_nullableListOfNullable as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -11262,7 +11263,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// The returned object must be released after use, by calling the [release] method.
   $V? nullableReturnMethodGenericEcho<$V extends jni$_.JObject?>(
     $V object,
-    bool z, {
+    core$_.bool z, {
     required jni$_.JType<$V> V,
   }) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -11298,7 +11299,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// The returned object must be released after use, by calling the [release] method.
   $V? nullableReturnMethodGenericEcho2<$V extends jni$_.JObject>(
     $V object,
-    bool z, {
+    core$_.bool z, {
     jni$_.JType<$V>? V,
   }) {
     V ??= jni$_.lowestCommonSuperType([
@@ -11474,7 +11475,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.util.List<T> nullableClassGenericList(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$T>? nullableClassGenericList(
-    bool z,
+    core$_.bool z,
   ) {
     return _nullableClassGenericList(reference.pointer,
             _id_nullableClassGenericList as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -11499,7 +11500,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.util.List<T> nullableClassGenericListOfNullable(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$T?>? nullableClassGenericListOfNullable(
-    bool z,
+    core$_.bool z,
   ) {
     return _nullableClassGenericListOfNullable(
             reference.pointer,
@@ -11586,7 +11587,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$V>? nullableMethodGenericList<$V extends jni$_.JObject?>(
     $V object,
-    bool z, {
+    core$_.bool z, {
     required jni$_.JType<$V> V,
   }) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -11618,7 +11619,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$V?>?
       nullableMethodGenericListOfNullable<$V extends jni$_.JObject?>(
-    bool z, {
+    core$_.bool z, {
     required jni$_.JType<$V> V,
   }) {
     return _nullableMethodGenericListOfNullable(
@@ -12217,7 +12218,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public W nullableGetW(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   $W? nullableGetW(
-    bool z,
+    core$_.bool z,
   ) {
     return _nullableGetW(reference.pointer,
             _id_nullableGetW as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -12321,7 +12322,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.util.List<java.util.List<java.util.List<U>>> list3dOfNullableU(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JList<jni$_.JList<$U?>>> list3dOfNullableU(
-    bool z,
+    core$_.bool z,
   ) {
     return _list3dOfNullableU(reference.pointer,
             _id_list3dOfNullableU as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -12349,7 +12350,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.util.List<java.util.List<java.util.List<W>>> list3dOfNullableW(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JList<jni$_.JList<$W?>>> list3dOfNullableW(
-    bool z,
+    core$_.bool z,
   ) {
     return _list3dOfNullableW(reference.pointer,
             _id_list3dOfNullableW as jni$_.JMethodIDPtr, z ? 1 : 0)

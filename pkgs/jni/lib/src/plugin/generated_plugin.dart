@@ -331,7 +331,7 @@ final class $JniPlugin$NullableType$ extends jni$_.JType<JniPlugin?> {
   int get hashCode => ($JniPlugin$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($JniPlugin$NullableType$) &&
         other is $JniPlugin$NullableType$;
   }
@@ -367,7 +367,7 @@ final class $JniPlugin$Type$ extends jni$_.JType<JniPlugin> {
   int get hashCode => ($JniPlugin$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($JniPlugin$Type$) && other is $JniPlugin$Type$;
   }
 }

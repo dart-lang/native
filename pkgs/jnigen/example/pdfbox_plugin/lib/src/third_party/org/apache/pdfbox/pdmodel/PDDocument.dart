@@ -771,7 +771,7 @@ class PDDocument extends jni$_.JObject {
   ///
   /// This will tell if this document is encrypted or not.
   ///@return true If this document is encrypted.
-  bool isEncrypted() {
+  core$_.bool isEncrypted() {
     return _isEncrypted(
             reference.pointer, _id_isEncrypted as jni$_.JMethodIDPtr)
         .boolean;
@@ -2207,7 +2207,7 @@ class PDDocument extends jni$_.JObject {
   ///
   /// Indicates if all security is removed or not when writing the pdf.
   ///@return returns true if all security shall be removed otherwise false
-  bool isAllSecurityToBeRemoved() {
+  core$_.bool isAllSecurityToBeRemoved() {
     return _isAllSecurityToBeRemoved(reference.pointer,
             _id_isAllSecurityToBeRemoved as jni$_.JMethodIDPtr)
         .boolean;
@@ -2233,7 +2233,7 @@ class PDDocument extends jni$_.JObject {
   /// Activates/Deactivates the removal of all security when writing the pdf.
   ///@param removeAllSecurity remove all security if set to true
   void setAllSecurityToBeRemoved(
-    bool removeAllSecurity,
+    core$_.bool removeAllSecurity,
   ) {
     _setAllSecurityToBeRemoved(
             reference.pointer,

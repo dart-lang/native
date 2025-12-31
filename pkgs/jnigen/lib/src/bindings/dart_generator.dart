@@ -871,7 +871,7 @@ class _TypeGenerator extends TypeVisitor<String> {
     if (arrayType) {
       return node.name.capitalize();
     }
-    if (node.name == 'bool') {
+    if (node.name == 'boolean') {
       return '$_core.${node.dartType}';
     }
     return node.dartType;

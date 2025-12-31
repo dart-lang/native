@@ -470,7 +470,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// from: `public boolean getSuppressDuplicateOverlappingText()`
   ///
   /// @return Returns the suppressDuplicateOverlappingText.
-  bool getSuppressDuplicateOverlappingText() {
+  core$_.bool getSuppressDuplicateOverlappingText() {
     return _getSuppressDuplicateOverlappingText(reference.pointer,
             _id_getSuppressDuplicateOverlappingText as jni$_.JMethodIDPtr)
         .boolean;
@@ -499,7 +499,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// means that certain sections will be duplicated, but better performance will be noticed.
   ///@param suppressDuplicateOverlappingTextValue The suppressDuplicateOverlappingText to set.
   void setSuppressDuplicateOverlappingText(
-    bool suppressDuplicateOverlappingTextValue,
+    core$_.bool suppressDuplicateOverlappingTextValue,
   ) {
     _setSuppressDuplicateOverlappingText(
             reference.pointer,
@@ -529,7 +529,7 @@ class PDFTextStripper extends jni$_.JObject {
   ///
   /// This will tell if the text stripper should separate by beads.
   ///@return If the text will be grouped by beads.
-  bool getSeparateByBeads() {
+  core$_.bool getSeparateByBeads() {
     return _getSeparateByBeads(
             reference.pointer, _id_getSeparateByBeads as jni$_.JMethodIDPtr)
         .boolean;
@@ -555,7 +555,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// Set if the text stripper should group the text output by a list of beads. The default value is true!
   ///@param aShouldSeparateByBeads The new grouping of beads.
   void setShouldSeparateByBeads(
-    bool aShouldSeparateByBeads,
+    core$_.bool aShouldSeparateByBeads,
   ) {
     _setShouldSeparateByBeads(
             reference.pointer,
@@ -701,7 +701,7 @@ class PDFTextStripper extends jni$_.JObject {
   ///
   /// This will tell if the text stripper should add some more text formatting.
   ///@return true if some more text formatting will be added
-  bool getAddMoreFormatting() {
+  core$_.bool getAddMoreFormatting() {
     return _getAddMoreFormatting(
             reference.pointer, _id_getAddMoreFormatting as jni$_.JMethodIDPtr)
         .boolean;
@@ -727,7 +727,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// There will some additional text formatting be added if addMoreFormatting is set to true. Default is false.
   ///@param newAddMoreFormatting Tell PDFBox to add some more text formatting
   void setAddMoreFormatting(
-    bool newAddMoreFormatting,
+    core$_.bool newAddMoreFormatting,
   ) {
     _setAddMoreFormatting(
             reference.pointer,
@@ -757,7 +757,7 @@ class PDFTextStripper extends jni$_.JObject {
   ///
   /// This will tell if the text stripper should sort the text tokens before writing to the stream.
   ///@return true If the text tokens will be sorted before being written.
-  bool getSortByPosition() {
+  core$_.bool getSortByPosition() {
     return _getSortByPosition(
             reference.pointer, _id_getSortByPosition as jni$_.JMethodIDPtr)
         .boolean;
@@ -789,7 +789,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// the text tokens before processing them due to performance reasons.
   ///@param newSortByPosition Tell PDFBox to sort the text positions.
   void setSortByPosition(
-    bool newSortByPosition,
+    core$_.bool newSortByPosition,
   ) {
     _setSortByPosition(
             reference.pointer,
