@@ -60,7 +60,7 @@ class Arena implements Allocator {
   ///
   /// Returns [resource] again, to allow for easily inserting
   /// `arena.using(resource, ...)` where the resource is allocated.
-  T using<T>(T resource, void Function(T) releaseCallback) {
+  T using<T>(T resource, void Function(T resource) releaseCallback) {
     _ensureInUse();
     releaseCallback = Zone.current.bindUnaryCallback(releaseCallback);
     _managedResourceReleaseCallbacks.add(() => releaseCallback(resource));
@@ -118,7 +118,7 @@ class Arena implements Allocator {
 /// If the isolate is shut down, through `Isolate.kill()`, resources are _not_
 /// cleaned up.
 R using<R>(
-  R Function(Arena) computation, [
+  R Function(Arena arena) computation, [
   Allocator wrappedAllocator = calloc,
 ]) {
   final arena = Arena(wrappedAllocator);
