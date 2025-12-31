@@ -44,8 +44,8 @@ final Tool iPhoneSimulatorSdk = Tool(
 
 class XCodeSdkResolver implements ToolResolver {
   @override
-  Future<List<ToolInstance>> resolve({required Logger? logger}) async {
-    final xcrunInstances = await xcrun.defaultResolver!.resolve(logger: logger);
+  Future<List<ToolInstance>> resolve(ToolResolvingContext context) async {
+    final xcrunInstances = await xcrun.defaultResolver!.resolve(context);
 
     return [
       for (final xcrunInstance in xcrunInstances) ...[
@@ -53,19 +53,19 @@ class XCodeSdkResolver implements ToolResolver {
           xcrunInstance: xcrunInstance,
           sdk: 'macosx',
           tool: macosxSdk,
-          logger: logger,
+          logger: context.logger,
         ),
         ...await tryResolveSdk(
           xcrunInstance: xcrunInstance,
           sdk: 'iphoneos',
           tool: iPhoneOSSdk,
-          logger: logger,
+          logger: context.logger,
         ),
         ...await tryResolveSdk(
           xcrunInstance: xcrunInstance,
           sdk: 'iphonesimulator',
           tool: iPhoneSimulatorSdk,
-          logger: logger,
+          logger: context.logger,
         ),
       ],
       // xcrun --sdk macosx --show-sdk-path)

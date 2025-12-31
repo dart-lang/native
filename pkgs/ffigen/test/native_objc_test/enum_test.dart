@@ -18,6 +18,16 @@ import 'util.dart';
 void main() {
   group('enum', () {
     setUpAll(() {
+      final dylib = File(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'objc_test.dylib',
+        ),
+      );
+      verifySetupFile(dylib);
+      DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('enum');
     });
 
@@ -31,6 +41,38 @@ void main() {
       expect(
         CoffeeOptions.CoffeeOptionsMilk | CoffeeOptions.CoffeeOptionsIced,
         5,
+      );
+    });
+
+    test('Multi def regression test', () {
+      // Regression test for https://github.com/dart-lang/native/issues/2782
+      final bindings = File(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'enum_bindings.dart',
+        ),
+      ).readAsStringSync();
+
+      expect(bindings, isNot(contains('UnnamedEnumValue\$1')));
+      expect(bindings, isNot(contains('SOME_MACRO\$1')));
+    });
+
+    test('Imported enum', () {
+      // Regression test for https://github.com/dart-lang/native/issues/2761
+      expect(
+        EnumTestInterface.useImportedNSEnum(
+          NSQualityOfService.NSQualityOfServiceUtility,
+        ),
+        17,
+      );
+      expect(
+        EnumTestInterface.useImportedNSOptions(
+          NSOrderedCollectionDifferenceCalculationOptions
+              .NSOrderedCollectionDifferenceCalculationOmitInsertedObjects,
+        ),
+        1,
       );
     });
   });

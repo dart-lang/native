@@ -11,8 +11,10 @@ import 'package:args/args.dart';
 import 'package:ffigen/src/executables/ffigen.dart' as ffigen;
 import 'package:yaml/yaml.dart';
 
+const runtimeConfig = 'ffigen_runtime.yaml';
 const cConfig = 'ffigen_c.yaml';
 const objcConfig = 'ffigen_objc.yaml';
+const runtimeBindings = 'lib/src/runtime_bindings_generated.dart';
 const cBindings = 'lib/src/c_bindings_generated.dart';
 const objcBindings = 'lib/src/objective_c_bindings_generated.dart';
 const objcExports = 'lib/src/objective_c_bindings_exported.dart';
@@ -21,16 +23,7 @@ const builtInTypes =
     '../ffigen/lib/src/code_generator/objc_built_in_types.dart';
 const interfaceListTest = 'test/interface_lists_test.dart';
 
-const privateInterfaces = <String>{
-  'DartInputStreamAdapter',
-  'DartInputStreamAdapterWeakHolder',
-  'DOBJCObservation',
-};
-
-final privateMethods = <String>{
-  for (final name in privateInterfaces) '$name\$Methods',
-};
-final privateClasses = privateInterfaces.union(privateMethods);
+const ffigenFlags = ['--no-format', '-v', 'severe', '--config'];
 
 void dartCmd(List<String> args) {
   final exec = Platform.resolvedExecutable;
@@ -131,11 +124,10 @@ ${elements.join('\n')}
   exports.addAll([for (final name in protocols) '$name\$Methods']);
   exports.addAll([for (final name in protocols) '$name\$Builder']);
   writeDecls('objCBuiltInCategories', 'objc-categories');
-  writeDecls('objCBuiltInGlobals', 'globals');
 
   File(out).writeAsStringSync(s.toString());
 
-  return exports.difference(privateClasses).toList()..sort();
+  return exports.toList()..sort();
 }
 
 void writeExports(List<String> exports, String out) {
@@ -153,22 +145,32 @@ export 'objective_c_bindings_generated.dart'
 }
 
 Future<void> run({required bool format}) async {
+  print('Generating runtime bindings...');
+  await ffigen.main([...ffigenFlags, runtimeConfig]);
+
   print('Generating C bindings...');
-  await ffigen.main(['--no-format', '-v', 'severe', '--config', cConfig]);
+  await ffigen.main([...ffigenFlags, cConfig]);
 
   print('Generating ObjC bindings...');
-  await ffigen.main(['--no-format', '-v', 'severe', '--config', objcConfig]);
+  await ffigen.main([...ffigenFlags, objcConfig]);
   mergeExtraMethods(objcBindings, parseExtraMethods(extraMethodsFile));
 
   print('Generating objc_built_in_types.dart...');
   final exports = writeBuiltInTypes(objcConfig, builtInTypes);
 
-  print('Generating objective_c_bindings_exported.dart...');
+  print('Generating objc_bindings_exported.dart...');
   writeExports(exports, objcExports);
 
   if (format) {
     print('Formatting bindings...');
-    dartCmd(['format', cBindings, objcBindings, builtInTypes, objcExports]);
+    dartCmd([
+      'format',
+      runtimeBindings,
+      cBindings,
+      objcBindings,
+      builtInTypes,
+      objcExports,
+    ]);
   }
 
   print('Running tests...');

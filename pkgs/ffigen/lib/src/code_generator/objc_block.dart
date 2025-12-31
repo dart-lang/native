@@ -4,6 +4,7 @@
 
 import '../code_generator.dart';
 import '../context.dart';
+import '../strings.dart' as strings;
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
@@ -108,14 +109,12 @@ class ObjCBlock extends BindingType with HasLocalScope {
   ) {
     // Create a fake USR code for the block. This code is used to dedupe blocks
     // with the same signature. Not intended to be human readable.
-    final usr = StringBuffer();
-    usr.write(
-      'objcBlock: ${returnType.cacheKey()} ${returnsRetained ? 'R' : ''}',
-    );
-    for (final param in params) {
-      usr.write(' ${param.type.cacheKey()} ${param.objCConsumed ? 'C' : ''}');
-    }
-    return usr.toString();
+    return [
+      '${strings.synthUsrChar} objcBlock:',
+      '${returnType.cacheKey()} ${returnsRetained ? 'R' : ''}',
+      for (final param in params)
+        '${param.type.cacheKey()} ${param.objCConsumed ? 'C' : ''}',
+    ].join(' ');
   }
 
   bool get hasListener => returnType == voidType;
@@ -400,6 +399,7 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
     final blockingListenerRetains = [_waiterParam.name, ...retains];
 
     final argStr = argsReceived.join(', ');
+    final declArgStr = argStr.isEmpty ? 'void' : argStr;
     final blockingArgStr = [
       _waiterParam.getNativeType(varName: _waiterParam.name),
       ...argsReceived,
@@ -416,7 +416,7 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
 
     return '''
 
-typedef ${returnType.getNativeType()} (^$listenerName)($argStr);
+typedef ${returnType.getNativeType()} (^$listenerName)($declArgStr);
 __attribute__((visibility("default"))) __attribute__((used))
 $listenerName $listenerWrapper($listenerName block) NS_RETURNS_RETAINED {
   return ^void($argStr) {

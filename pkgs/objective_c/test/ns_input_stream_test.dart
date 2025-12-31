@@ -15,8 +15,6 @@ import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
-import 'package:objective_c/src/objective_c_bindings_generated.dart'
-    show DartInputStreamAdapter, DartInputStreamAdapter$Methods;
 import 'package:test/test.dart';
 
 import 'util.dart';
@@ -42,11 +40,6 @@ Future<(int, Uint8List, bool, NSStreamStatus, NSError?)> read(
 
 void main() {
   group('NSInputStream', () {
-    setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open(testDylib);
-    });
-
     group('toNSInputStream', () {
       group('empty', () {
         late NSInputStream inputStream;

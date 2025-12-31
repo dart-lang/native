@@ -1,3 +1,24 @@
+## 0.15.3-wip
+
+- Added `Jni.captureStackTraceOnRelease` which defaults to `false`. When this is
+  set, the stack traces of the release points will be stored for `JObject`s to
+  help debug `DoubleReleaseError` and `UseAfterReleaseError`s. This includes the
+  points where `JObject`s have been registered to be released by an `arena` via
+  `JObject.releaseBy`.
+- Changed the behavior of `JObject.releasedBy`. It now does not throw a
+  `DoubleReleaseError` if the object was manually released before the end of
+  arena.
+
+## 0.15.2
+
+- Do not fail `flutter build` if JDK is not found for desktop.
+
+## 0.15.1
+
+- **Breaking Change**: Removed the `engineId` argument from
+  `Jni.androidApplicationContext` as the application context is not dependant on
+  the engine ID.
+
 ## 0.15.0
 
 - **Breaking Change**: Made `Jni.env` internal.

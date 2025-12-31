@@ -8,20 +8,26 @@
 #import <dispatch/dispatch.h>
 
 #include "ffi.h"
+#include "include/dart_api_dl.h"
 #include "os_version.h"
 
+_Atomic bool _mainThreadIsListening = false;
+
+FFI_EXPORT intptr_t DOBJC_initializeApi(void* data) {
+  dispatch_async(dispatch_get_main_queue(), ^{
+    _mainThreadIsListening = true;
+  });
+  return Dart_InitializeApiDL(data);
+}
+
 FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg) {
-#ifdef NO_MAIN_THREAD_DISPATCH
-  fn(arg);
-#else
-  if ([NSThread isMainThread]) {
+  if (!_mainThreadIsListening || [NSThread isMainThread]) {
     fn(arg);
   } else {
     dispatch_async(dispatch_get_main_queue(), ^{
       fn(arg);
     });
   }
-#endif
 }
 
 @interface DOBJCWaiter : NSObject {}
@@ -77,8 +83,8 @@ FFI_EXPORT Version DOBJC_getOsVesion(void) {
   NSOperatingSystemVersion objc_version =
       [[NSProcessInfo processInfo] operatingSystemVersion];
   Version c_version;
-  c_version.major = objc_version.majorVersion;
-  c_version.minor = objc_version.minorVersion;
-  c_version.patch = objc_version.patchVersion;
+  c_version.major = (int)objc_version.majorVersion;
+  c_version.minor = (int)objc_version.minorVersion;
+  c_version.patch = (int)objc_version.patchVersion;
   return c_version;
 }

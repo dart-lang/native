@@ -40,6 +40,8 @@
 - depend_on_fail_build_app/pubspec.yaml
 - dev_dependency_with_hook/pubspec.yaml
 - dev_dependency_with_hook/test/my_test.dart
+- download_assets/hook/build.dart
+- download_assets/pubspec.yaml
 - drop_dylib_link/bin/drop_dylib_link.dart
 - drop_dylib_link/hook/build.dart
 - drop_dylib_link/hook/link.dart
@@ -139,6 +141,8 @@
 - native_subtract/src/native_subtract.h
 - no_asset_for_link/hook/link.dart
 - no_asset_for_link/pubspec.yaml
+- no_build_output/hook/build.dart
+- no_build_output/pubspec.yaml
 - no_hook/lib/no_hook.dart
 - no_hook/pubspec.yaml
 - package_reading_metadata/hook/build.dart

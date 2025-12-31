@@ -25,16 +25,6 @@ void main() {
 
   group('static functions', () {
     setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open(
-        path.join(
-          packagePathForTests,
-          '..',
-          'objective_c',
-          'test',
-          'objective_c.dylib',
-        ),
-      );
       final dylib = File(
         path.join(
           packagePathForTests,
@@ -194,5 +184,11 @@ void main() {
       expect(counter.value, 0);
       calloc.free(counter);
     }, skip: !canDoGC);
+
+    test('Internal variable conflict resolution', () {
+      // Regression test for https://github.com/dart-lang/native/issues/2760
+      expect(lib.foo(123), 1230);
+      expect(lib.fooPtr(123), 12300);
+    });
   });
 }

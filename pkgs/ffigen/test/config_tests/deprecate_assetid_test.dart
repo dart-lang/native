@@ -14,8 +14,13 @@ import '../test_utils.dart';
 void main() {
   group('deprecate_assetId_test', () {
     final logArr = <String>[];
-    final logger = logToArray(logArr, Level.WARNING);
-    final config = testConfig('''
+    late FfiGenerator config;
+    setUpAll(() {
+      final logger = createTestLogger(
+        capturedMessages: logArr,
+        level: Level.WARNING,
+      );
+      config = testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Deprecation warning if assetId is used instead of ${strings.ffiNativeAsset}'
 ${strings.output}: 'unused'
@@ -25,9 +30,9 @@ ${strings.headers}:
   ${strings.entryPoints}:
     - '${absPath('test/header_parser_tests/comment_markup.h')}'
 ''', logger: logger);
-    parse(Context(logger, config));
+      parse(Context(logger, config));
+    });
 
-    final logStr = logArr.join('\n');
     test('asset-id is correctly set', () {
       expect(config.output.style is NativeExternalBindings, true);
       expect(
@@ -37,7 +42,7 @@ ${strings.headers}:
     });
 
     test('Deprecation Warning is logged', () {
-      expect(logStr.contains('DEPRECATION WARNING'), true);
+      expect(logArr.join('\n').contains('DEPRECATION WARNING'), true);
     });
   });
 }

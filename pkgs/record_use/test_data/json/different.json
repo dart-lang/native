@@ -1,0 +1,7 @@
+{
+  "$schema": "../../doc/schema/record_use.schema.json",
+  "metadata": {
+    "comment": "Recorded usages of objects tagged with a `RecordUse` annotation",
+    "version": "0.4.0"
+  }
+}

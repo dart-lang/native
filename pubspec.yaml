@@ -26,6 +26,7 @@ workspace:
   - pkgs/hooks_runner/test_data/depend_on_fail_build
   - pkgs/hooks_runner/test_data/depend_on_fail_build_app
   - pkgs/hooks_runner/test_data/dev_dependency_with_hook
+  - pkgs/hooks_runner/test_data/download_assets
   - pkgs/hooks_runner/test_data/drop_dylib_link
   - pkgs/hooks_runner/test_data/fail_build
   - pkgs/hooks_runner/test_data/fail_on_os_sdk_version
@@ -76,6 +77,9 @@ workspace:
   - pkgs/native_test_helpers
   - pkgs/native_toolchain_c
   - pkgs/pub_formats
+  - pkgs/record_use
+  - pkgs/record_use/test_data/drop_data_asset
+  - pkgs/record_use/test_data/drop_dylib_recording
   - pkgs/repo_lint_rules
 
 # Hook user-defines are specified in the pub workspace.

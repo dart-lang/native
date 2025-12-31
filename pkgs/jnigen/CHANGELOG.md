@@ -1,3 +1,9 @@
+## 0.15.1-wip
+
+- Add docs about debugging.
+- Add support for Kotlin interfaces with suspend functions. These can now be
+  implemented using Dart functions that return a `Future`.
+
 ## 0.15.0
 
 - Changed the names of internal type classes.

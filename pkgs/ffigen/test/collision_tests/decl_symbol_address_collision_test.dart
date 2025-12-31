@@ -5,7 +5,6 @@
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/header_parser/parser.dart';
-import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -14,7 +13,6 @@ late Library actual;
 void main() {
   group('decl_symbol_address_collision_test', () {
     setUpAll(() {
-      logWarnings(Level.SEVERE);
       final context = testContext(
         FfiGenerator(
           output: Output(
@@ -31,7 +29,6 @@ void main() {
       );
       actual = Library(
         context: context,
-        name: 'Bindings',
         header: '// ignore_for_file: unused_element\n',
         bindings: transformBindings([
           Struct(context: context, name: 'addresses'),

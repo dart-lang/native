@@ -51,7 +51,7 @@ void main() {
                 {'SFTranscriptionSegment'}.contains(decl.originalName),
           ),
         ),
-      ).generate(logger: Logger.root..level = Level.SEVERE);
+      ).generate(logger: createTestLogger());
       bindings = File(
         path.join(
           packagePathForTests,

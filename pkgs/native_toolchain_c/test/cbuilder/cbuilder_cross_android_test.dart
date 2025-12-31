@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+@Timeout.factor(4)
+library;
+
 import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
@@ -91,11 +94,7 @@ void main() {
       linkMode,
       flags: ['-Wl,-z,max-page-size=$pageSize'],
     );
-    if (Platform.isMacOS || Platform.isLinux) {
-      final address = await textSectionAddress(libUri);
-      expect(address, greaterThanOrEqualTo(pageSize));
-      expect(address, isNot(greaterThanOrEqualTo(pageSize * 4)));
-    }
+    await expectPageSize(libUri, pageSize);
   });
 }
 

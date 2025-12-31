@@ -15,11 +15,6 @@ import 'util.dart';
 
 void main() {
   group('NSDictionary', () {
-    setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open(testDylib);
-    });
-
     test('of', () {
       final obj1 = 'obj1'.toNSString();
       final obj2 = 'obj2'.toNSString();

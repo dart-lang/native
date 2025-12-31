@@ -1,3 +1,13 @@
+## 0.17.5-wip
+
+- Search for NDK in `ANDROID_HOME` and `ANDROID_NDK` environment variables.
+
+## 0.17.4
+
+- For Windows, include errors from the standard output of `cl` in the logger's
+  output of CBuilder.
+  ([#2809](https://github.com/dart-lang/native/issues/2809)) 
+
 ## 0.17.3
 
 - Bump `package:hooks` and `package:code_assets`to 1.0.0.

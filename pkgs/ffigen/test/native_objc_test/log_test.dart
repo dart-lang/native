@@ -18,16 +18,6 @@ import 'util.dart';
 void main() {
   group('log_test', () {
     setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open(
-        path.join(
-          packagePathForTests,
-          '..',
-          'objective_c',
-          'test',
-          'objective_c.dylib',
-        ),
-      );
       final dylib = File(
         path.join(
           packagePathForTests,
@@ -43,7 +33,10 @@ void main() {
 
     test('Duplicate method log spam', () {
       final logs = <String>[];
-      final logger = logToArray(logs, Level.SEVERE);
+      final logger = createTestLogger(
+        capturedMessages: logs,
+        level: Level.SEVERE,
+      );
       generateBindingsForCoverage('log', logger);
       expect(logs, isNot(contains(contains('matchingMethod'))));
       expect(logs, isNot(contains(contains('instancetypeMethod'))));

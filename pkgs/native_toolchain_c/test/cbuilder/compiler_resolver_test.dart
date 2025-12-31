@@ -22,22 +22,22 @@ void main() {
     final tempUri = await tempDirForTest();
     final tempUri2 = await tempDirForTest();
     final ar = [
-      ...await appleAr.defaultResolver!.resolve(logger: logger),
-      ...await msvc.lib.defaultResolver!.resolve(logger: logger),
-      ...await llvmAr.defaultResolver!.resolve(logger: logger),
+      ...await appleAr.defaultResolver!.resolve(systemContext),
+      ...await msvc.lib.defaultResolver!.resolve(systemContext),
+      ...await llvmAr.defaultResolver!.resolve(systemContext),
     ].first.uri;
     final cc = [
-      ...await appleClang.defaultResolver!.resolve(logger: logger),
-      ...await msvc.cl.defaultResolver!.resolve(logger: logger),
-      ...await clang.defaultResolver!.resolve(logger: logger),
+      ...await appleClang.defaultResolver!.resolve(systemContext),
+      ...await msvc.cl.defaultResolver!.resolve(systemContext),
+      ...await clang.defaultResolver!.resolve(systemContext),
     ].first.uri;
     final ld = [
-      ...await appleLd.defaultResolver!.resolve(logger: logger),
-      ...await msvc.msvcLink.defaultResolver!.resolve(logger: logger),
-      ...await lld.defaultResolver!.resolve(logger: logger),
+      ...await appleLd.defaultResolver!.resolve(systemContext),
+      ...await msvc.msvcLink.defaultResolver!.resolve(systemContext),
+      ...await lld.defaultResolver!.resolve(systemContext),
     ].first.uri;
     final envScript = [
-      ...await msvc.vcvars64.defaultResolver!.resolve(logger: logger),
+      ...await msvc.vcvars64.defaultResolver!.resolve(systemContext),
     ].firstOrNull?.uri;
 
     final targetOS = OS.current;

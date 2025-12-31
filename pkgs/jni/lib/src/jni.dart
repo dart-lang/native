@@ -70,6 +70,18 @@ abstract final class Jni {
     }
   }
 
+  /// Whether to capture the stack trace when an object is released.
+  ///
+  /// This is useful for debugging [DoubleReleaseError] and
+  /// [UseAfterReleaseError].
+  ///
+  /// Defaults to `false`.
+  static bool get captureStackTraceOnRelease =>
+      _bindings.getCaptureStackTraceOnRelease() != 0;
+
+  static set captureStackTraceOnRelease(bool value) =>
+      _bindings.setCaptureStackTraceOnRelease(value ? 1 : 0);
+
   /// Spawn an instance of JVM using JNI. This method should be called at the
   /// beginning of the program with appropriate options, before other isolates
   /// are spawned.
@@ -170,7 +182,7 @@ abstract final class Jni {
 
   /// Returns pointer to current JNI JavaVM instance
   Pointer<JavaVM> getJavaVM() {
-    return _bindings.GetJavaVM();
+    return _bindings.JniGetJavaVM();
   }
 
   /// Finds the class from its [name].
@@ -178,7 +190,7 @@ abstract final class Jni {
   /// Uses the correct class loader on Android.
   /// Prefer this over `Jni.env.FindClass`.
   static JClassPtr findClass(String name) {
-    return using((arena) => _bindings.FindClass(name.toNativeChars(arena)))
+    return using((arena) => _bindings.JniFindClass(name.toNativeChars(arena)))
         .checkedClassRef;
   }
 
@@ -216,13 +228,10 @@ abstract final class Jni {
   /// Retrieves the global Android `ApplicationContext` associated with a
   /// Flutter engine.
   ///
-  /// Pass `PlatformDispatcher.instance.engineId` to the [engineId] field.
-  ///
   /// The `ApplicationContext` is a long-lived singleton tied to the
-  /// application's lifecycle. It is safe to store and use from any thread
-  /// for non-UI tasks.
-  static JObject androidApplicationContext(int engineId) {
-    return JniPlugin.getApplicationContext(engineId);
+  /// application's lifecycle. It is safe to store and use from any thread.
+  static JObject get androidApplicationContext {
+    return JniPlugin.getApplicationContext();
   }
 
   /// Retrieves the current Android `Activity` associated with a Flutter engine.
@@ -366,6 +375,14 @@ extension InternalJniExtension on Jni {
   ) {
     ProtectedJniExtensions.ensureInitialized();
     return Jni._bindings.newBooleanFinalizableHandle(object, reference);
+  }
+
+  static Dart_FinalizableHandle newStackTraceFinalizableHandle(
+    Object object,
+    Pointer<Char> reference,
+  ) {
+    ProtectedJniExtensions.ensureInitialized();
+    return Jni._bindings.newStackTraceFinalizableHandle(object, reference);
   }
 
   static void deleteFinalizableHandle(

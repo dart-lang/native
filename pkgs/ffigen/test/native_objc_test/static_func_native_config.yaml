@@ -6,6 +6,8 @@ exclude-all-by-default: true
 ffi-native:
 functions:
   include:
+    - foo
+    - fooPtr
     - staticFuncOfObject
     - staticFuncOfNullableObject
     - staticFuncOfBlock

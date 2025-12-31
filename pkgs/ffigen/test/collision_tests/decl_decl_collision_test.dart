@@ -5,15 +5,11 @@
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/header_parser/parser.dart';
-import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 import '../test_utils.dart';
 
 void main() {
   group('decl_decl_collision_test', () {
-    setUpAll(() {
-      logWarnings(Level.SEVERE);
-    });
     test('declaration conflict', () {
       final context = testContext(
         FfiGenerator(
@@ -31,7 +27,6 @@ void main() {
       );
       final library = Library(
         context: context,
-        name: 'Bindings',
         bindings: transformBindings([
           Struct(context: context, name: 'TestStruct'),
           Struct(context: context, name: 'TestStruct'),

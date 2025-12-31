@@ -3,14 +3,14 @@ name: objective_c
 on:
   # Run on PRs and pushes to the default branch.
   push:
-    branches: [main, stable]
+    branches: [main]
     paths:
       - '.github/workflows/objective_c.yaml'
       - 'pkgs/ffigen/**'
       - 'pkgs/native_test_helpers/**'
       - 'pkgs/objective_c/**'
   pull_request:
-    branches: [main, stable]
+    branches: [main]
     paths:
       - '.github/workflows/objective_c.yaml'
       - 'pkgs/ffigen/**'
@@ -32,13 +32,13 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
       - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
-          channel: 'stable'
+          channel: stable
       - id: install
         name: Install dependencies
-        run: flutter pub get
+        run: flutter pub get && flutter pub get --directory="example/command_line" && flutter pub get --directory="example/flutter_app"
       - name: Check formatting
         run: dart format --output=none --set-exit-if-changed .
         if: always() && steps.install.outcome == 'success'
@@ -53,15 +53,12 @@ jobs:
       run:
         working-directory: pkgs/objective_c/
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
-      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
+      - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
-          channel: 'beta'
+          sdk: stable
       - name: Install dependencies
-        run: flutter pub get
-      - name: Build test dylib
-        # TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-        run: dart --enable-asserts test/setup.dart
+        run: dart pub get
       - name: Install coverage
         run: dart pub global activate coverage
       - name: Run VM tests and collect coverage
@@ -71,31 +68,62 @@ jobs:
         # any git-diffs at this point, it means the generated code is outdated.
         run: if [[ -n $(git status --porcelain | tee /dev/stderr) ]]; then echo -e "\nDIFF:"; git diff; false; fi
       - name: Upload coverage
-        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
         with:
           flag-name: objective_c
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: pkgs/objective_c/coverage/lcov.info
       - name: Upload coverage
-        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
         with:
           carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen"
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
 
-  build-example:
+  build-flutter-example:
     needs: analyze
     runs-on: 'macos-latest'
     defaults:
       run:
-        working-directory: pkgs/objective_c/example/
+        working-directory: pkgs/objective_c/example/flutter_app
+    strategy:
+      fail-fast: false
+      matrix:
+        xcode_version: ["16.1", "26.1.1"]
+        ios_version: ["18.1"]
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
       - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
-          channel: 'stable'
+          channel: stable
+      - name: Select the XCode version
+        run: sudo xcode-select -switch /Applications/Xcode_${{ matrix.xcode_version }}.app/Contents/Developer
+      - name: Install iOS SDK
+        run: xcodebuild -downloadPlatform iOS -buildVersion ${{ matrix.ios_version }}
       - name: Install dependencies
         run: flutter pub get
-      - name: Build the example app
+      - name: Build the example app for macos
         run: flutter build macos
+      - name: Build the example app for ios
+        run: flutter build ios --no-codesign
+      - name: Check for xcode for analyzer warnings
+        run: xcodebuild analyze -workspace macos/Runner.xcworkspace -scheme Runner -configuration Debug GCC_TREAT_WARNINGS_AS_ERRORS=YES
+
+  build-command-line-example:
+    needs: analyze
+    runs-on: 'macos-latest'
+    defaults:
+      run:
+        working-directory: pkgs/objective_c/example/command_line
+    steps:
+      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
+      - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+        with:
+          sdk: stable
+      - name: Install dependencies
+        run: dart pub get
+      - name: Run the example app
+        run: dart run lib/main.dart
+
+

@@ -28,13 +28,13 @@ extension FfiGenGenerator on FfiGenerator {
     final library = parse(context);
 
     // Generate files for the parsed bindings.
-    final gen = File(config.output.toFilePath());
-    library.generateFile(gen, format: config.formatOutput);
+    final gen = File(config.output.dartFile.toFilePath());
+    library.generateFile(gen, format: config.ffiGen.output.format);
     logger.info(
       _successPen('Finished, Bindings generated in ${gen.absolute.path}'),
     );
 
-    final objCGen = File(config.outputObjC.toFilePath());
+    final objCGen = File(config.output.objCFile.toFilePath());
     if (library.generateObjCFile(objCGen)) {
       logger.info(
         _successPen(
@@ -44,11 +44,12 @@ extension FfiGenGenerator on FfiGenerator {
       );
     }
 
-    if (config.symbolFile != null) {
-      final symbolFileGen = File(config.symbolFile!.output.toFilePath());
+    final symbolFile = config.output.symbolFile;
+    if (symbolFile != null) {
+      final symbolFileGen = File(symbolFile.output.toFilePath());
       library.generateSymbolOutputFile(
         symbolFileGen,
-        config.symbolFile!.importPath.toString(),
+        symbolFile.importPath.toString(),
       );
       logger.info(
         _successPen(

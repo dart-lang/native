@@ -15,7 +15,11 @@ ObjCCategory? parseObjCCategoryDeclaration(
   Context context,
   clang_types.CXCursor cursor,
 ) {
-  final config = context.config;
+  final objcCategories = context.config.objectiveC?.categories;
+  if (objcCategories == null) {
+    return null;
+  }
+
   final logger = context.logger;
   final usr = cursor.usr();
   final name = cursor.spelling();
@@ -58,7 +62,7 @@ ObjCCategory? parseObjCCategoryDeclaration(
   final category = ObjCCategory(
     usr: usr,
     originalName: name,
-    name: config.objcCategories.rename(decl),
+    name: objcCategories.rename(decl),
     parent: parentInterface,
     dartDoc: getCursorDocComment(
       context,
@@ -84,7 +88,7 @@ ObjCCategory? parseObjCCategoryDeclaration(
           context,
           child,
           decl,
-          config.objcCategories,
+          objcCategories,
         );
         category.addMethod(getter);
         category.addMethod(setter);
@@ -92,7 +96,7 @@ ObjCCategory? parseObjCCategoryDeclaration(
       case clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl:
       case clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl:
         category.addMethod(
-          parseObjCMethod(context, child, decl, config.objcCategories),
+          parseObjCMethod(context, child, decl, objcCategories),
         );
         break;
     }

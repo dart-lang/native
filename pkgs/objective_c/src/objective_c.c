@@ -50,10 +50,6 @@ FFI_EXPORT bool* DOBJC_newFinalizableBool(Dart_Handle owner) {
   return pointer;
 }
 
-FFI_EXPORT intptr_t DOBJC_initializeApi(void* data) {
-  return Dart_InitializeApiDL(data);
-}
-
 FFI_EXPORT DOBJC_Context* DOBJC_fillContext(DOBJC_Context* context) {
   context->version = 1;
   context->newWaiter = DOBJC_newWaiter;
