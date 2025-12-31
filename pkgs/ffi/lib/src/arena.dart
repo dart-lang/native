@@ -60,7 +60,7 @@ class Arena implements Allocator {
   ///
   /// Returns [resource] again, to allow for easily inserting
   /// `arena.using(resource, ...)` where the resource is allocated.
-  T using<T>(T resource, void Function(T res) releaseCallback) {
+  T using<T>(T resource, void Function(T resource) releaseCallback) {
     _ensureInUse();
     releaseCallback = Zone.current.bindUnaryCallback(releaseCallback);
     _managedResourceReleaseCallbacks.add(() => releaseCallback(resource));
