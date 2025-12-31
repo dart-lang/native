@@ -1321,27 +1321,25 @@ class EmojiCompat$GlyphChecker extends jni$_.JObject {
 
 abstract base mixin class $EmojiCompat$GlyphChecker {
   factory $EmojiCompat$GlyphChecker({
-    required core$_.bool Function(jni$_.JObject charSequence, int i,
-            int i1, int i2)
+    required core$_.bool Function(
+            jni$_.JObject charSequence, int i, int i1, int i2)
         hasGlyph,
   }) = _$EmojiCompat$GlyphChecker;
 
-  core$_.bool hasGlyph(
-      jni$_.JObject charSequence, int i, int i1, int i2);
+  core$_.bool hasGlyph(jni$_.JObject charSequence, int i, int i1, int i2);
 }
 
 final class _$EmojiCompat$GlyphChecker with $EmojiCompat$GlyphChecker {
   _$EmojiCompat$GlyphChecker({
-    required core$_.bool Function(jni$_.JObject charSequence, int i,
-            int i1, int i2)
+    required core$_.bool Function(
+            jni$_.JObject charSequence, int i, int i1, int i2)
         hasGlyph,
   }) : _hasGlyph = hasGlyph;
 
-  final core$_.bool Function(jni$_.JObject charSequence, int i,
-      int i1, int i2) _hasGlyph;
+  final core$_.bool Function(jni$_.JObject charSequence, int i, int i1, int i2)
+      _hasGlyph;
 
-  core$_.bool hasGlyph(
-      jni$_.JObject charSequence, int i, int i1, int i2) {
+  core$_.bool hasGlyph(jni$_.JObject charSequence, int i, int i1, int i2) {
     return _hasGlyph(charSequence, i, i1, i2);
   }
 }
@@ -4830,8 +4828,7 @@ class Build$VERSION extends jni$_.JObject {
   );
 
   /// from: `static public final int SDK_INT`
-  static int get SDK_INT =>
-      _id_SDK_INT.get(_class, const jni$_.jintType());
+  static int get SDK_INT => _id_SDK_INT.get(_class, const jni$_.jintType());
 
   static final _id_SDK_INT_FULL = _class.staticFieldId(
     r'SDK_INT_FULL',
