@@ -35,7 +35,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' as core$_;
-import 'dart:core' show Object, String, bool, double, int;
+import 'dart:core' show Object, String, double, int;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
@@ -163,11 +163,11 @@ class CanDoA extends jni$_.JObject {
 abstract base mixin class $CanDoA {
   factory $CanDoA({
     required void Function() doA,
-    bool doA$async,
+    core$_.bool doA$async,
   }) = _$CanDoA;
 
   void doA();
-  bool get doA$async => false;
+  core$_.bool get doA$async => false;
 }
 
 final class _$CanDoA with $CanDoA {
@@ -177,7 +177,7 @@ final class _$CanDoA with $CanDoA {
   }) : _doA = doA;
 
   final void Function() _doA;
-  final bool doA$async;
+  final core$_.bool doA$async;
 
   void doA() {
     return _doA();
@@ -215,7 +215,7 @@ final class $CanDoA$NullableType$ extends jni$_.JType<CanDoA?> {
   int get hashCode => ($CanDoA$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($CanDoA$NullableType$) &&
         other is $CanDoA$NullableType$;
   }
@@ -250,7 +250,7 @@ final class $CanDoA$Type$ extends jni$_.JType<CanDoA> {
   int get hashCode => ($CanDoA$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($CanDoA$Type$) && other is $CanDoA$Type$;
   }
 }
@@ -378,11 +378,11 @@ class CanDoB extends jni$_.JObject {
 abstract base mixin class $CanDoB {
   factory $CanDoB({
     required void Function() doB,
-    bool doB$async,
+    core$_.bool doB$async,
   }) = _$CanDoB;
 
   void doB();
-  bool get doB$async => false;
+  core$_.bool get doB$async => false;
 }
 
 final class _$CanDoB with $CanDoB {
@@ -392,7 +392,7 @@ final class _$CanDoB with $CanDoB {
   }) : _doB = doB;
 
   final void Function() _doB;
-  final bool doB$async;
+  final core$_.bool doB$async;
 
   void doB() {
     return _doB();
@@ -430,7 +430,7 @@ final class $CanDoB$NullableType$ extends jni$_.JType<CanDoB?> {
   int get hashCode => ($CanDoB$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($CanDoB$NullableType$) &&
         other is $CanDoB$NullableType$;
   }
@@ -465,7 +465,7 @@ final class $CanDoB$Type$ extends jni$_.JType<CanDoB> {
   int get hashCode => ($CanDoB$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($CanDoB$Type$) && other is $CanDoB$Type$;
   }
 }
@@ -525,7 +525,7 @@ class Measure<$T extends jni$_.JObject> extends jni$_.JObject {
           )>();
 
   /// from: `public float getValue()`
-  core$_.double getValue() {
+  double getValue() {
     return _getValue(reference.pointer, _id_getValue as jni$_.JMethodIDPtr)
         .float;
   }
@@ -571,7 +571,7 @@ class Measure<$T extends jni$_.JObject> extends jni$_.JObject {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public fun convertValue(unit: T): kotlin.Float`
-  core$_.double convertValue(
+  double convertValue(
     $T measureUnit,
   ) {
     final _$measureUnit = measureUnit.reference;
@@ -619,7 +619,7 @@ final class $Measure$NullableType$<$T extends jni$_.JObject>
   int get hashCode => Object.hash($Measure$NullableType$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Measure$NullableType$<$T>) &&
         other is $Measure$NullableType$<$T> &&
         T == other.T;
@@ -663,7 +663,7 @@ final class $Measure$Type$<$T extends jni$_.JObject>
   int get hashCode => Object.hash($Measure$Type$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Measure$Type$<$T>) &&
         other is $Measure$Type$<$T> &&
         T == other.T;
@@ -733,7 +733,7 @@ class MeasureUnit extends jni$_.JObject {
           )>();
 
   /// from: `public abstract float getCoefficient()`
-  core$_.double getCoefficient() {
+  double getCoefficient() {
     return _getCoefficient(
             reference.pointer, _id_getCoefficient as jni$_.JMethodIDPtr)
         .float;
@@ -826,28 +826,28 @@ class MeasureUnit extends jni$_.JObject {
 abstract base mixin class $MeasureUnit {
   factory $MeasureUnit({
     required jni$_.JString Function() getSign,
-    required core$_.double Function() getCoefficient,
+    required double Function() getCoefficient,
   }) = _$MeasureUnit;
 
   jni$_.JString getSign();
-  core$_.double getCoefficient();
+  double getCoefficient();
 }
 
 final class _$MeasureUnit with $MeasureUnit {
   _$MeasureUnit({
     required jni$_.JString Function() getSign,
-    required core$_.double Function() getCoefficient,
+    required double Function() getCoefficient,
   })  : _getSign = getSign,
         _getCoefficient = getCoefficient;
 
   final jni$_.JString Function() _getSign;
-  final core$_.double Function() _getCoefficient;
+  final double Function() _getCoefficient;
 
   jni$_.JString getSign() {
     return _getSign();
   }
 
-  core$_.double getCoefficient() {
+  double getCoefficient() {
     return _getCoefficient();
   }
 }
@@ -883,7 +883,7 @@ final class $MeasureUnit$NullableType$ extends jni$_.JType<MeasureUnit?> {
   int get hashCode => ($MeasureUnit$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($MeasureUnit$NullableType$) &&
         other is $MeasureUnit$NullableType$;
   }
@@ -920,7 +920,7 @@ final class $MeasureUnit$Type$ extends jni$_.JType<MeasureUnit> {
   int get hashCode => ($MeasureUnit$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($MeasureUnit$Type$) &&
         other is $MeasureUnit$Type$;
   }
@@ -1119,7 +1119,7 @@ final class $Nullability$InnerClass$NullableType$<$T extends jni$_.JObject?,
       Object.hash($Nullability$InnerClass$NullableType$, T, U, V);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType ==
             ($Nullability$InnerClass$NullableType$<$T, $U, $V>) &&
         other is $Nullability$InnerClass$NullableType$<$T, $U, $V> &&
@@ -1180,7 +1180,7 @@ final class $Nullability$InnerClass$Type$<$T extends jni$_.JObject?,
   int get hashCode => Object.hash($Nullability$InnerClass$Type$, T, U, V);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Nullability$InnerClass$Type$<$T, $U, $V>) &&
         other is $Nullability$InnerClass$Type$<$T, $U, $V> &&
         T == other.T &&
@@ -1450,7 +1450,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
   /// from: `public fun nullableHello(returnNull: kotlin.Boolean): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? nullableHello(
-    core$_.bool z,
+    bool z,
   ) {
     return _nullableHello(reference.pointer,
             _id_nullableHello as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -1969,7 +1969,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public fun methodWithVarArgs(vararg argument: kotlin.String): kotlin.Int`
-  core$_.int methodWithVarArgs(
+  int methodWithVarArgs(
     jni$_.JArray<jni$_.JString> strings,
   ) {
     final _$strings = strings.reference;
@@ -1995,7 +1995,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public fun <V> methodWithWhere(element: V): kotlin.Int where V : com.github.dart_lang.jnigen.CanDoA, V : com.github.dart_lang.jnigen.CanDoB`
-  core$_.int methodWithWhere<$V extends jni$_.JObject>(
+  int methodWithWhere<$V extends jni$_.JObject>(
     $V canDoA, {
     jni$_.JType<$V>? V,
   }) {
@@ -2053,7 +2053,7 @@ final class $Nullability$NullableType$<$T extends jni$_.JObject?,
   int get hashCode => Object.hash($Nullability$NullableType$, T, U);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Nullability$NullableType$<$T, $U>) &&
         other is $Nullability$NullableType$<$T, $U> &&
         T == other.T &&
@@ -2104,7 +2104,7 @@ final class $Nullability$Type$<$T extends jni$_.JObject?,
   int get hashCode => Object.hash($Nullability$Type$, T, U);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Nullability$Type$<$T, $U>) &&
         other is $Nullability$Type$<$T, $U> &&
         T == other.T &&
@@ -2150,7 +2150,7 @@ class Operators extends jni$_.JObject {
   /// from: `public void <init>(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Operators(
-    core$_.int i,
+    int i,
   ) {
     return Operators.fromReference(
         _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr, i)
@@ -2175,7 +2175,7 @@ class Operators extends jni$_.JObject {
           )>();
 
   /// from: `public final int getValue()`
-  core$_.int getValue() {
+  int getValue() {
     return _getValue(reference.pointer, _id_getValue as jni$_.JMethodIDPtr)
         .integer;
   }
@@ -2197,7 +2197,7 @@ class Operators extends jni$_.JObject {
 
   /// from: `public final void setValue(int i)`
   void setValue(
-    core$_.int i,
+    int i,
   ) {
     _setValue(reference.pointer, _id_setValue as jni$_.JMethodIDPtr, i).check();
   }
@@ -2247,7 +2247,7 @@ class Operators extends jni$_.JObject {
   /// from: `public operator fun plus(int: kotlin.Int): com.github.dart_lang.jnigen.Operators`
   /// The returned object must be released after use, by calling the [release] method.
   Operators plus$1(
-    core$_.int i,
+    int i,
   ) {
     return _plus$1(reference.pointer, _id_plus$1 as jni$_.JMethodIDPtr, i)
         .object<Operators>(const $Operators$Type$());
@@ -2378,8 +2378,8 @@ class Operators extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
   /// from: `public operator fun get(index: kotlin.Int): kotlin.Boolean`
-  core$_.bool get(
-    core$_.int i,
+  bool get(
+    int i,
   ) {
     return _get(reference.pointer, _id_get as jni$_.JMethodIDPtr, i).boolean;
   }
@@ -2402,8 +2402,8 @@ class Operators extends jni$_.JObject {
 
   /// from: `public operator fun set(index: kotlin.Int, bit: kotlin.Boolean): kotlin.Unit`
   void set(
-    core$_.int i,
-    core$_.bool z,
+    int i,
+    bool z,
   ) {
     _set(reference.pointer, _id_set as jni$_.JMethodIDPtr, i, z ? 1 : 0)
         .check();
@@ -2426,7 +2426,7 @@ class Operators extends jni$_.JObject {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public fun compareTo(op: com.github.dart_lang.jnigen.Operators): kotlin.Int`
-  core$_.int compareTo(
+  int compareTo(
     Operators operators,
   ) {
     final _$operators = operators.reference;
@@ -2455,27 +2455,27 @@ class Operators extends jni$_.JObject {
     return rem(operators);
   }
 
-  core$_.bool operator [](core$_.int i) {
+  bool operator [](int i) {
     return get(i);
   }
 
-  void operator []=(core$_.int i, core$_.bool z) {
+  void operator []=(int i, bool z) {
     set(i, z);
   }
 
-  bool operator <(Operators operators) {
+  core$_.bool operator <(Operators operators) {
     return compareTo(operators) < 0;
   }
 
-  bool operator <=(Operators operators) {
+  core$_.bool operator <=(Operators operators) {
     return compareTo(operators) <= 0;
   }
 
-  bool operator >(Operators operators) {
+  core$_.bool operator >(Operators operators) {
     return compareTo(operators) > 0;
   }
 
-  bool operator >=(Operators operators) {
+  core$_.bool operator >=(Operators operators) {
     return compareTo(operators) >= 0;
   }
 }
@@ -2511,7 +2511,7 @@ final class $Operators$NullableType$ extends jni$_.JType<Operators?> {
   int get hashCode => ($Operators$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Operators$NullableType$) &&
         other is $Operators$NullableType$;
   }
@@ -2547,7 +2547,7 @@ final class $Operators$Type$ extends jni$_.JType<Operators> {
   int get hashCode => ($Operators$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Operators$Type$) && other is $Operators$Type$;
   }
 }
@@ -2593,7 +2593,7 @@ class Speed extends Measure<SpeedUnit> {
   /// from: `public void <init>(float f, com.github.dart_lang.jnigen.SpeedUnit speedUnit)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Speed(
-    core$_.double f,
+    double f,
     SpeedUnit speedUnit,
   ) {
     final _$speedUnit = speedUnit.reference;
@@ -2620,7 +2620,7 @@ class Speed extends Measure<SpeedUnit> {
           )>();
 
   /// from: `public float getValue()`
-  core$_.double getValue() {
+  double getValue() {
     return _getValue(reference.pointer, _id_getValue as jni$_.JMethodIDPtr)
         .float;
   }
@@ -2691,7 +2691,7 @@ class Speed extends Measure<SpeedUnit> {
           )>();
 
   /// from: `public operator fun component1(): kotlin.Float`
-  core$_.double component1() {
+  double component1() {
     return _component1(reference.pointer, _id_component1 as jni$_.JMethodIDPtr)
         .float;
   }
@@ -2742,7 +2742,7 @@ class Speed extends Measure<SpeedUnit> {
   /// from: `public fun copy(value: kotlin.Float, unit: com.github.dart_lang.jnigen.SpeedUnit): com.github.dart_lang.jnigen.Speed`
   /// The returned object must be released after use, by calling the [release] method.
   Speed copy(
-    core$_.double f,
+    double f,
     SpeedUnit speedUnit,
   ) {
     final _$speedUnit = speedUnit.reference;
@@ -2769,7 +2769,7 @@ class Speed extends Measure<SpeedUnit> {
           )>();
 
   /// from: `public fun hashCode(): kotlin.Int`
-  core$_.int hashCode$1() {
+  int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1 as jni$_.JMethodIDPtr)
         .integer;
   }
@@ -2791,7 +2791,7 @@ class Speed extends Measure<SpeedUnit> {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public operator fun equals(other: kotlin.Any?): kotlin.Boolean`
-  core$_.bool equals(
+  bool equals(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -2833,7 +2833,7 @@ final class $Speed$NullableType$ extends jni$_.JType<Speed?> {
   int get hashCode => ($Speed$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Speed$NullableType$) &&
         other is $Speed$NullableType$;
   }
@@ -2869,7 +2869,7 @@ final class $Speed$Type$ extends jni$_.JType<Speed> {
   int get hashCode => ($Speed$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Speed$Type$) && other is $Speed$Type$;
   }
 }
@@ -2957,7 +2957,7 @@ class SpeedUnit extends jni$_.JObject {
           )>();
 
   /// from: `public float getCoefficient()`
-  core$_.double getCoefficient() {
+  double getCoefficient() {
     return _getCoefficient(
             reference.pointer, _id_getCoefficient as jni$_.JMethodIDPtr)
         .float;
@@ -3048,7 +3048,7 @@ final class $SpeedUnit$NullableType$ extends jni$_.JType<SpeedUnit?> {
   int get hashCode => ($SpeedUnit$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($SpeedUnit$NullableType$) &&
         other is $SpeedUnit$NullableType$;
   }
@@ -3084,7 +3084,7 @@ final class $SpeedUnit$Type$ extends jni$_.JType<SpeedUnit> {
   int get hashCode => ($SpeedUnit$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($SpeedUnit$Type$) && other is $SpeedUnit$Type$;
   }
 }
@@ -3412,7 +3412,7 @@ class SuspendFun extends jni$_.JObject {
   /// from: `public suspend fun nullableHello(returnNull: kotlin.Boolean): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString?> nullableHello(
-    core$_.bool z,
+    bool z,
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
@@ -3469,7 +3469,7 @@ class SuspendFun extends jni$_.JObject {
   /// from: `public suspend fun nullableHelloWithoutDelay(returnNull: kotlin.Boolean): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString?> nullableHelloWithoutDelay(
-    core$_.bool z,
+    bool z,
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
@@ -3538,7 +3538,7 @@ final class $SuspendFun$NullableType$ extends jni$_.JType<SuspendFun?> {
   int get hashCode => ($SuspendFun$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($SuspendFun$NullableType$) &&
         other is $SuspendFun$NullableType$;
   }
@@ -3575,7 +3575,7 @@ final class $SuspendFun$Type$ extends jni$_.JType<SuspendFun> {
   int get hashCode => ($SuspendFun$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($SuspendFun$Type$) &&
         other is $SuspendFun$Type$;
   }
@@ -3848,7 +3848,7 @@ class SuspendInterface extends jni$_.JObject {
   /// from: `public suspend fun nullableHello(returnNull: kotlin.Boolean): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString?> nullableHello(
-    core$_.bool z,
+    bool z,
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
@@ -4011,7 +4011,7 @@ class SuspendInterface extends jni$_.JObject {
   /// from: `public suspend fun nullableInt(returnNull: kotlin.Boolean): java.lang.Integer?`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JInteger?> nullableInt(
-    core$_.bool z,
+    bool z,
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
@@ -4208,20 +4208,19 @@ abstract base mixin class $SuspendInterface {
     required core$_.Future<jni$_.JString> Function() sayHello,
     required core$_.Future<jni$_.JString> Function(jni$_.JString string)
         sayHello$1,
-    required core$_.Future<jni$_.JString?> Function(core$_.bool z)
-        nullableHello,
+    required core$_.Future<jni$_.JString?> Function(bool z) nullableHello,
     required core$_.Future<jni$_.JInteger> Function() sayInt,
     required core$_.Future<jni$_.JInteger> Function(jni$_.JInteger integer)
         sayInt$1,
-    required core$_.Future<jni$_.JInteger?> Function(core$_.bool z) nullableInt,
+    required core$_.Future<jni$_.JInteger?> Function(bool z) nullableInt,
   }) = _$SuspendInterface;
 
   core$_.Future<jni$_.JString> sayHello();
   core$_.Future<jni$_.JString> sayHello$1(jni$_.JString string);
-  core$_.Future<jni$_.JString?> nullableHello(core$_.bool z);
+  core$_.Future<jni$_.JString?> nullableHello(bool z);
   core$_.Future<jni$_.JInteger> sayInt();
   core$_.Future<jni$_.JInteger> sayInt$1(jni$_.JInteger integer);
-  core$_.Future<jni$_.JInteger?> nullableInt(core$_.bool z);
+  core$_.Future<jni$_.JInteger?> nullableInt(bool z);
 }
 
 final class _$SuspendInterface with $SuspendInterface {
@@ -4229,12 +4228,11 @@ final class _$SuspendInterface with $SuspendInterface {
     required core$_.Future<jni$_.JString> Function() sayHello,
     required core$_.Future<jni$_.JString> Function(jni$_.JString string)
         sayHello$1,
-    required core$_.Future<jni$_.JString?> Function(core$_.bool z)
-        nullableHello,
+    required core$_.Future<jni$_.JString?> Function(bool z) nullableHello,
     required core$_.Future<jni$_.JInteger> Function() sayInt,
     required core$_.Future<jni$_.JInteger> Function(jni$_.JInteger integer)
         sayInt$1,
-    required core$_.Future<jni$_.JInteger?> Function(core$_.bool z) nullableInt,
+    required core$_.Future<jni$_.JInteger?> Function(bool z) nullableInt,
   })  : _sayHello = sayHello,
         _sayHello$1 = sayHello$1,
         _nullableHello = nullableHello,
@@ -4244,11 +4242,11 @@ final class _$SuspendInterface with $SuspendInterface {
 
   final core$_.Future<jni$_.JString> Function() _sayHello;
   final core$_.Future<jni$_.JString> Function(jni$_.JString string) _sayHello$1;
-  final core$_.Future<jni$_.JString?> Function(core$_.bool z) _nullableHello;
+  final core$_.Future<jni$_.JString?> Function(bool z) _nullableHello;
   final core$_.Future<jni$_.JInteger> Function() _sayInt;
   final core$_.Future<jni$_.JInteger> Function(jni$_.JInteger integer)
       _sayInt$1;
-  final core$_.Future<jni$_.JInteger?> Function(core$_.bool z) _nullableInt;
+  final core$_.Future<jni$_.JInteger?> Function(bool z) _nullableInt;
 
   core$_.Future<jni$_.JString> sayHello() {
     return _sayHello();
@@ -4258,7 +4256,7 @@ final class _$SuspendInterface with $SuspendInterface {
     return _sayHello$1(string);
   }
 
-  core$_.Future<jni$_.JString?> nullableHello(core$_.bool z) {
+  core$_.Future<jni$_.JString?> nullableHello(bool z) {
     return _nullableHello(z);
   }
 
@@ -4270,7 +4268,7 @@ final class _$SuspendInterface with $SuspendInterface {
     return _sayInt$1(integer);
   }
 
-  core$_.Future<jni$_.JInteger?> nullableInt(core$_.bool z) {
+  core$_.Future<jni$_.JInteger?> nullableInt(bool z) {
     return _nullableInt(z);
   }
 }
@@ -4308,7 +4306,7 @@ final class $SuspendInterface$NullableType$
   int get hashCode => ($SuspendInterface$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($SuspendInterface$NullableType$) &&
         other is $SuspendInterface$NullableType$;
   }
@@ -4345,9 +4343,464 @@ final class $SuspendInterface$Type$ extends jni$_.JType<SuspendInterface> {
   int get hashCode => ($SuspendInterface$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($SuspendInterface$Type$) &&
         other is $SuspendInterface$Type$;
+  }
+}
+
+/// from: `com.github.dart_lang.jnigen.SuspendInterfaceResultImpl`
+class SuspendInterfaceResultImpl extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JType<SuspendInterfaceResultImpl> $type;
+
+  @jni$_.internal
+  SuspendInterfaceResultImpl.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class = jni$_.JClass.forName(
+      r'com/github/dart_lang/jnigen/SuspendInterfaceResultImpl');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<SuspendInterfaceResultImpl?> nullableType =
+      $SuspendInterfaceResultImpl$NullableType$();
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<SuspendInterfaceResultImpl> type =
+      $SuspendInterfaceResultImpl$Type$();
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory SuspendInterfaceResultImpl() {
+    return SuspendInterfaceResultImpl.fromReference(
+        _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
+            .reference);
+  }
+
+  static final _id_sayHello = _class.instanceMethodId(
+    r'sayHello',
+    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _sayHello = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public suspend fun sayHello(): kotlin.String`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JString> sayHello() async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _sayHello(reference.pointer, _id_sayHello as jni$_.JMethodIDPtr,
+            _$continuation.pointer)
+        .object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JString>(
+      const jni$_.$JString$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_sayHello$1 = _class.instanceMethodId(
+    r'sayHello',
+    r'(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _sayHello$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public suspend fun sayHello(name: kotlin.String): kotlin.String`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JString> sayHello$1(
+    jni$_.JString string,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$string = string.reference;
+    final $r = _sayHello$1(
+            reference.pointer,
+            _id_sayHello$1 as jni$_.JMethodIDPtr,
+            _$string.pointer,
+            _$continuation.pointer)
+        .object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JString>(
+      const jni$_.$JString$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_nullableHello = _class.instanceMethodId(
+    r'nullableHello',
+    r'(ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _nullableHello = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public suspend fun nullableHello(returnNull: kotlin.Boolean): kotlin.String?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JString?> nullableHello(
+    bool z,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _nullableHello(
+            reference.pointer,
+            _id_nullableHello as jni$_.JMethodIDPtr,
+            z ? 1 : 0,
+            _$continuation.pointer)
+        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JString?>(
+      const jni$_.$JString$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_sayInt = _class.instanceMethodId(
+    r'sayInt',
+    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _sayInt = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public suspend fun sayInt(): java.lang.Integer`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JInteger> sayInt() async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _sayInt(reference.pointer, _id_sayInt as jni$_.JMethodIDPtr,
+            _$continuation.pointer)
+        .object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JInteger>(
+      const jni$_.$JInteger$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_sayInt$1 = _class.instanceMethodId(
+    r'sayInt',
+    r'(Ljava/lang/Integer;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _sayInt$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public suspend fun sayInt(value: java.lang.Integer): java.lang.Integer`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JInteger> sayInt$1(
+    jni$_.JInteger integer,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$integer = integer.reference;
+    final $r = _sayInt$1(reference.pointer, _id_sayInt$1 as jni$_.JMethodIDPtr,
+            _$integer.pointer, _$continuation.pointer)
+        .object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JInteger>(
+      const jni$_.$JInteger$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_nullableInt = _class.instanceMethodId(
+    r'nullableInt',
+    r'(ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _nullableInt = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public suspend fun nullableInt(returnNull: kotlin.Boolean): java.lang.Integer?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JInteger?> nullableInt(
+    bool z,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _nullableInt(
+            reference.pointer,
+            _id_nullableInt as jni$_.JMethodIDPtr,
+            z ? 1 : 0,
+            _$continuation.pointer)
+        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JInteger?>(
+      const jni$_.$JInteger$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+}
+
+final class $SuspendInterfaceResultImpl$NullableType$
+    extends jni$_.JType<SuspendInterfaceResultImpl?> {
+  @jni$_.internal
+  const $SuspendInterfaceResultImpl$NullableType$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/SuspendInterfaceResultImpl;';
+
+  @jni$_.internal
+  @core$_.override
+  SuspendInterfaceResultImpl? fromReference(jni$_.JReference reference) =>
+      reference.isNull
+          ? null
+          : SuspendInterfaceResultImpl.fromReference(
+              reference,
+            );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JType get superType => const jni$_.$JObject$NullableType$();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JType<SuspendInterfaceResultImpl?> get nullableType => this;
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($SuspendInterfaceResultImpl$NullableType$).hashCode;
+
+  @core$_.override
+  core$_.bool operator ==(Object other) {
+    return other.runtimeType == ($SuspendInterfaceResultImpl$NullableType$) &&
+        other is $SuspendInterfaceResultImpl$NullableType$;
+  }
+}
+
+final class $SuspendInterfaceResultImpl$Type$
+    extends jni$_.JType<SuspendInterfaceResultImpl> {
+  @jni$_.internal
+  const $SuspendInterfaceResultImpl$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/SuspendInterfaceResultImpl;';
+
+  @jni$_.internal
+  @core$_.override
+  SuspendInterfaceResultImpl fromReference(jni$_.JReference reference) =>
+      SuspendInterfaceResultImpl.fromReference(
+        reference,
+      );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JType get superType => const jni$_.$JObject$NullableType$();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JType<SuspendInterfaceResultImpl?> get nullableType =>
+      const $SuspendInterfaceResultImpl$NullableType$();
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($SuspendInterfaceResultImpl$Type$).hashCode;
+
+  @core$_.override
+  core$_.bool operator ==(Object other) {
+    return other.runtimeType == ($SuspendInterfaceResultImpl$Type$) &&
+        other is $SuspendInterfaceResultImpl$Type$;
   }
 }
 
@@ -4372,7 +4825,7 @@ final _getTopLevelField = jni$_.ProtectedJniExtensions.lookup<
         )>();
 
 /// from: `static public final int getTopLevelField()`
-core$_.int getTopLevelField() {
+int getTopLevelField() {
   return _getTopLevelField(_TopLevelKtClass.reference.pointer,
           _id_getTopLevelField as jni$_.JMethodIDPtr)
       .integer;
@@ -4394,7 +4847,7 @@ final _setTopLevelField = jni$_.ProtectedJniExtensions.lookup<
 
 /// from: `static public final void setTopLevelField(int i)`
 void setTopLevelField(
-  core$_.int i,
+  int i,
 ) {
   _setTopLevelField(_TopLevelKtClass.reference.pointer,
           _id_setTopLevelField as jni$_.JMethodIDPtr, i)
@@ -4419,7 +4872,7 @@ final _topLevel = jni$_.ProtectedJniExtensions.lookup<
         )>();
 
 /// from: `public fun topLevel(): kotlin.Int`
-core$_.int topLevel() {
+int topLevel() {
   return _topLevel(_TopLevelKtClass.reference.pointer,
           _id_topLevel as jni$_.JMethodIDPtr)
       .integer;
@@ -4442,9 +4895,9 @@ final _topLevelSum = jni$_.ProtectedJniExtensions.lookup<
             jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
 
 /// from: `public fun topLevelSum(a: kotlin.Int, b: kotlin.Int): kotlin.Int`
-core$_.int topLevelSum(
-  core$_.int i,
-  core$_.int i1,
+int topLevelSum(
+  int i,
+  int i1,
 ) {
   return _topLevelSum(_TopLevelKtClass.reference.pointer,
           _id_topLevelSum as jni$_.JMethodIDPtr, i, i1)
@@ -4472,7 +4925,7 @@ final _getTopLevelField$1 = jni$_.ProtectedJniExtensions.lookup<
         )>();
 
 /// from: `static public final int getTopLevelField()`
-core$_.int getTopLevelField$1() {
+int getTopLevelField$1() {
   return _getTopLevelField$1(_TopLevelKt$1Class.reference.pointer,
           _id_getTopLevelField$1 as jni$_.JMethodIDPtr)
       .integer;
@@ -4494,7 +4947,7 @@ final _setTopLevelField$1 = jni$_.ProtectedJniExtensions.lookup<
 
 /// from: `static public final void setTopLevelField(int i)`
 void setTopLevelField$1(
-  core$_.int i,
+  int i,
 ) {
   _setTopLevelField$1(_TopLevelKt$1Class.reference.pointer,
           _id_setTopLevelField$1 as jni$_.JMethodIDPtr, i)
@@ -4519,7 +4972,7 @@ final _topLevel$1 = jni$_.ProtectedJniExtensions.lookup<
         )>();
 
 /// from: `public fun topLevel(): kotlin.Int`
-core$_.int topLevel$1() {
+int topLevel$1() {
   return _topLevel$1(_TopLevelKt$1Class.reference.pointer,
           _id_topLevel$1 as jni$_.JMethodIDPtr)
       .integer;

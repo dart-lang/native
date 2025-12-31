@@ -48,7 +48,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' as core$_;
-import 'dart:core' show Object, String, bool, double, int;
+import 'dart:core' show Object, String, double, int;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
@@ -513,7 +513,7 @@ class JsonParser$Feature extends jni$_.JObject {
   /// Method that calculates bit set (flags) of all features that
   /// are enabled by default.
   ///@return Bit mask of all features that are enabled by default
-  static core$_.int collectDefaults() {
+  static int collectDefaults() {
     return _collectDefaults(
             _class.reference.pointer, _id_collectDefaults as jni$_.JMethodIDPtr)
         .integer;
@@ -537,7 +537,7 @@ class JsonParser$Feature extends jni$_.JObject {
           )>();
 
   /// from: `public boolean enabledByDefault()`
-  core$_.bool enabledByDefault() {
+  bool enabledByDefault() {
     return _enabledByDefault(
             reference.pointer, _id_enabledByDefault as jni$_.JMethodIDPtr)
         .boolean;
@@ -560,8 +560,8 @@ class JsonParser$Feature extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
   /// from: `public boolean enabledIn(int flags)`
-  core$_.bool enabledIn(
-    core$_.int flags,
+  bool enabledIn(
+    int flags,
   ) {
     return _enabledIn(
             reference.pointer, _id_enabledIn as jni$_.JMethodIDPtr, flags)
@@ -586,7 +586,7 @@ class JsonParser$Feature extends jni$_.JObject {
           )>();
 
   /// from: `public int getMask()`
-  core$_.int getMask() {
+  int getMask() {
     return _getMask(reference.pointer, _id_getMask as jni$_.JMethodIDPtr)
         .integer;
   }
@@ -625,7 +625,7 @@ final class $JsonParser$Feature$NullableType$
   int get hashCode => ($JsonParser$Feature$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($JsonParser$Feature$NullableType$) &&
         other is $JsonParser$Feature$NullableType$;
   }
@@ -662,7 +662,7 @@ final class $JsonParser$Feature$Type$ extends jni$_.JType<JsonParser$Feature> {
   int get hashCode => ($JsonParser$Feature$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($JsonParser$Feature$Type$) &&
         other is $JsonParser$Feature$Type$;
   }
@@ -841,7 +841,7 @@ final class $JsonParser$NumberType$NullableType$
   int get hashCode => ($JsonParser$NumberType$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($JsonParser$NumberType$NullableType$) &&
         other is $JsonParser$NumberType$NullableType$;
   }
@@ -879,7 +879,7 @@ final class $JsonParser$NumberType$Type$
   int get hashCode => ($JsonParser$NumberType$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($JsonParser$NumberType$Type$) &&
         other is $JsonParser$NumberType$Type$;
   }
@@ -1207,7 +1207,7 @@ class JsonParser extends jni$_.JObject {
   /// this parser (using \#setSchema).
   ///@param schema Schema to check
   ///@return True if this parser can use given schema; false if not
-  core$_.bool canUseSchema(
+  bool canUseSchema(
     jni$_.JObject? schema,
   ) {
     final _$schema = schema?.reference ?? jni$_.jNullReference;
@@ -1243,7 +1243,7 @@ class JsonParser extends jni$_.JObject {
   ///@return True if format-specific codec is needed with this parser; false if a general
   ///   ObjectCodec is enough
   ///@since 2.1
-  core$_.bool requiresCustomCodec() {
+  bool requiresCustomCodec() {
     return _requiresCustomCodec(
             reference.pointer, _id_requiresCustomCodec as jni$_.JMethodIDPtr)
         .boolean;
@@ -1279,7 +1279,7 @@ class JsonParser extends jni$_.JObject {
   /// input is read by blocking
   ///@return True if this is a non-blocking ("asynchronous") parser
   ///@since 2.9
-  core$_.bool canParseAsync() {
+  bool canParseAsync() {
     return _canParseAsync(
             reference.pointer, _id_canParseAsync as jni$_.JMethodIDPtr)
         .boolean;
@@ -1438,7 +1438,7 @@ class JsonParser extends jni$_.JObject {
   /// call to \#close or because parser has encountered
   /// end of input.
   ///@return {@code True} if this parser instance has been closed
-  core$_.bool isClosed() {
+  bool isClosed() {
     return _isClosed(reference.pointer, _id_isClosed as jni$_.JMethodIDPtr)
         .boolean;
   }
@@ -1770,7 +1770,7 @@ class JsonParser extends jni$_.JObject {
   ///    (that is, input can not be sent to OutputStream;
   ///    otherwise number of bytes released (0 if there was nothing to release)
   ///@throws IOException if write to stream threw exception
-  core$_.int releaseBuffered(
+  int releaseBuffered(
     jni$_.JObject? out,
   ) {
     final _$out = out?.reference ?? jni$_.jNullReference;
@@ -1809,7 +1809,7 @@ class JsonParser extends jni$_.JObject {
   ///    (that is, input can not be sent to Writer;
   ///    otherwise number of chars released (0 if there was nothing to release)
   ///@throws IOException if write using Writer threw exception
-  core$_.int releaseBuffered$1(
+  int releaseBuffered$1(
     jni$_.JObject? w,
   ) {
     final _$w = w?.reference ?? jni$_.jNullReference;
@@ -1909,7 +1909,7 @@ class JsonParser extends jni$_.JObject {
   ///@return This parser, to allow call chaining
   JsonParser? configure(
     JsonParser$Feature? f,
-    core$_.bool state,
+    bool state,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
     return _configure(reference.pointer, _id_configure as jni$_.JMethodIDPtr,
@@ -1938,7 +1938,7 @@ class JsonParser extends jni$_.JObject {
   /// Method for checking whether specified Feature is enabled.
   ///@param f Feature to check
   ///@return {@code True} if feature is enabled; {@code false} otherwise
-  core$_.bool isEnabled(
+  bool isEnabled(
     JsonParser$Feature? f,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
@@ -1969,7 +1969,7 @@ class JsonParser extends jni$_.JObject {
   ///@param f Feature to check
   ///@return {@code True} if feature is enabled; {@code false} otherwise
   ///@since 2.10
-  core$_.bool isEnabled$1(
+  bool isEnabled$1(
     jni$_.JObject? f,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
@@ -2000,7 +2000,7 @@ class JsonParser extends jni$_.JObject {
   /// Bulk access method for getting state of all standard Features.
   ///@return Bit mask that defines current states of all standard Features.
   ///@since 2.3
-  core$_.int getFeatureMask() {
+  int getFeatureMask() {
     return _getFeatureMask(
             reference.pointer, _id_getFeatureMask as jni$_.JMethodIDPtr)
         .integer;
@@ -2030,7 +2030,7 @@ class JsonParser extends jni$_.JObject {
   ///@since 2.3
   ///@deprecated Since 2.7, use \#overrideStdFeatures(int, int) instead
   JsonParser? setFeatureMask(
-    core$_.int mask,
+    int mask,
   ) {
     return _setFeatureMask(
             reference.pointer, _id_setFeatureMask as jni$_.JMethodIDPtr, mask)
@@ -2069,8 +2069,8 @@ class JsonParser extends jni$_.JObject {
   ///@return This parser, to allow call chaining
   ///@since 2.6
   JsonParser? overrideStdFeatures(
-    core$_.int values,
-    core$_.int mask,
+    int values,
+    int mask,
   ) {
     return _overrideStdFeatures(reference.pointer,
             _id_overrideStdFeatures as jni$_.JMethodIDPtr, values, mask)
@@ -2100,7 +2100,7 @@ class JsonParser extends jni$_.JObject {
   /// on/off configuration settings.
   ///@return Bit mask that defines current states of all standard FormatFeatures.
   ///@since 2.6
-  core$_.int getFormatFeatures() {
+  int getFormatFeatures() {
     return _getFormatFeatures(
             reference.pointer, _id_getFormatFeatures as jni$_.JMethodIDPtr)
         .integer;
@@ -2136,8 +2136,8 @@ class JsonParser extends jni$_.JObject {
   ///@return This parser, to allow call chaining
   ///@since 2.6
   JsonParser? overrideFormatFeatures(
-    core$_.int values,
-    core$_.int mask,
+    int values,
+    int mask,
   ) {
     return _overrideFormatFeatures(reference.pointer,
             _id_overrideFormatFeatures as jni$_.JMethodIDPtr, values, mask)
@@ -2253,7 +2253,7 @@ class JsonParser extends jni$_.JObject {
   ///    specified name; {@code false} otherwise (different token or non-matching name)
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  core$_.bool nextFieldName(
+  bool nextFieldName(
     jni$_.JObject? str,
   ) {
     final _$str = str?.reference ?? jni$_.jNullReference;
@@ -2369,8 +2369,8 @@ class JsonParser extends jni$_.JObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@throws InputCoercionException if integer number does not fit in Java {@code int}
-  core$_.int nextIntValue(
-    core$_.int defaultValue,
+  int nextIntValue(
+    int defaultValue,
   ) {
     return _nextIntValue(reference.pointer,
             _id_nextIntValue as jni$_.JMethodIDPtr, defaultValue)
@@ -2411,8 +2411,8 @@ class JsonParser extends jni$_.JObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@throws InputCoercionException if integer number does not fit in Java {@code long}
-  core$_.int nextLongValue(
-    core$_.int defaultValue,
+  int nextLongValue(
+    int defaultValue,
   ) {
     return _nextLongValue(reference.pointer,
             _id_nextLongValue as jni$_.JMethodIDPtr, defaultValue)
@@ -2603,7 +2603,7 @@ class JsonParser extends jni$_.JObject {
   /// to profile performance before deciding to use this method.
   ///@since 2.8
   ///@return {@code int} matching one of constants from JsonTokenId.
-  core$_.int currentTokenId() {
+  int currentTokenId() {
     return _currentTokenId(
             reference.pointer, _id_currentTokenId as jni$_.JMethodIDPtr)
         .integer;
@@ -2662,7 +2662,7 @@ class JsonParser extends jni$_.JObject {
   /// Deprecated alias for \#currentTokenId().
   ///@return {@code int} matching one of constants from JsonTokenId.
   ///@deprecated Since 2.12 use \#currentTokenId instead
-  core$_.int getCurrentTokenId() {
+  int getCurrentTokenId() {
     return _getCurrentTokenId(
             reference.pointer, _id_getCurrentTokenId as jni$_.JMethodIDPtr)
         .integer;
@@ -2695,7 +2695,7 @@ class JsonParser extends jni$_.JObject {
   ///   was just constructed, encountered end-of-input
   ///   and returned null from \#nextToken, or the token
   ///   has been consumed)
-  core$_.bool hasCurrentToken() {
+  bool hasCurrentToken() {
     return _hasCurrentToken(
             reference.pointer, _id_hasCurrentToken as jni$_.JMethodIDPtr)
         .boolean;
@@ -2731,8 +2731,8 @@ class JsonParser extends jni$_.JObject {
   ///@param id Token id to match (from (@link JsonTokenId})
   ///@return {@code True} if the parser current points to specified token
   ///@since 2.5
-  core$_.bool hasTokenId(
-    core$_.int id,
+  bool hasTokenId(
+    int id,
   ) {
     return _hasTokenId(
             reference.pointer, _id_hasTokenId as jni$_.JMethodIDPtr, id)
@@ -2769,7 +2769,7 @@ class JsonParser extends jni$_.JObject {
   ///@param t Token to match
   ///@return {@code True} if the parser current points to specified token
   ///@since 2.6
-  core$_.bool hasToken(
+  bool hasToken(
     jsontoken$_.JsonToken? t,
   ) {
     final _$t = t?.reference ?? jni$_.jNullReference;
@@ -2813,7 +2813,7 @@ class JsonParser extends jni$_.JObject {
   ///@return True if the current token can be considered as a
   ///   start-array marker (such JsonToken\#START_ARRAY);
   ///   {@code false} if not
-  core$_.bool isExpectedStartArrayToken() {
+  bool isExpectedStartArrayToken() {
     return _isExpectedStartArrayToken(reference.pointer,
             _id_isExpectedStartArrayToken as jni$_.JMethodIDPtr)
         .boolean;
@@ -2845,7 +2845,7 @@ class JsonParser extends jni$_.JObject {
   ///   start-array marker (such JsonToken\#START_OBJECT);
   ///   {@code false} if not
   ///@since 2.5
-  core$_.bool isExpectedStartObjectToken() {
+  bool isExpectedStartObjectToken() {
     return _isExpectedStartObjectToken(reference.pointer,
             _id_isExpectedStartObjectToken as jni$_.JMethodIDPtr)
         .boolean;
@@ -2879,7 +2879,7 @@ class JsonParser extends jni$_.JObject {
   ///   start-array marker (such JsonToken\#VALUE_NUMBER_INT);
   ///   {@code false} if not
   ///@since 2.12
-  core$_.bool isExpectedNumberIntToken() {
+  bool isExpectedNumberIntToken() {
     return _isExpectedNumberIntToken(reference.pointer,
             _id_isExpectedNumberIntToken as jni$_.JMethodIDPtr)
         .boolean;
@@ -2916,7 +2916,7 @@ class JsonParser extends jni$_.JObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@since 2.9
-  core$_.bool isNaN() {
+  bool isNaN() {
     return _isNaN(reference.pointer, _id_isNaN as jni$_.JMethodIDPtr).boolean;
   }
 
@@ -3154,7 +3154,7 @@ class JsonParser extends jni$_.JObject {
   ///   {@code writer}, or
   ///   JsonParseException for decoding problems
   ///@since 2.8
-  core$_.int getText$1(
+  int getText$1(
     jni$_.JObject? writer,
   ) {
     final _$writer = writer?.reference ?? jni$_.jNullReference;
@@ -3242,7 +3242,7 @@ class JsonParser extends jni$_.JObject {
   ///   textual content of the current token.
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  core$_.int getTextLength() {
+  int getTextLength() {
     return _getTextLength(
             reference.pointer, _id_getTextLength as jni$_.JMethodIDPtr)
         .integer;
@@ -3274,7 +3274,7 @@ class JsonParser extends jni$_.JObject {
   ///   textual content of the current token.
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  core$_.int getTextOffset() {
+  int getTextOffset() {
     return _getTextOffset(
             reference.pointer, _id_getTextOffset as jni$_.JMethodIDPtr)
         .integer;
@@ -3313,7 +3313,7 @@ class JsonParser extends jni$_.JObject {
   ///@return True if parser currently has character array that can
   ///   be efficiently returned via \#getTextCharacters; false
   ///   means that it may or may not exist
-  core$_.bool hasTextCharacters() {
+  bool hasTextCharacters() {
     return _hasTextCharacters(
             reference.pointer, _id_hasTextCharacters as jni$_.JMethodIDPtr)
         .boolean;
@@ -3469,7 +3469,7 @@ class JsonParser extends jni$_.JObject {
   ///   range of {@code [-128, 255]}); otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  core$_.int getByteValue() {
+  int getByteValue() {
     return _getByteValue(
             reference.pointer, _id_getByteValue as jni$_.JMethodIDPtr)
         .byte;
@@ -3509,7 +3509,7 @@ class JsonParser extends jni$_.JObject {
   ///   Java 16-bit signed {@code short} range); otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  core$_.int getShortValue() {
+  int getShortValue() {
     return _getShortValue(
             reference.pointer, _id_getShortValue as jni$_.JMethodIDPtr)
         .short;
@@ -3549,7 +3549,7 @@ class JsonParser extends jni$_.JObject {
   ///   Java 32-bit signed {@code int} range); otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  core$_.int getIntValue() {
+  int getIntValue() {
     return _getIntValue(
             reference.pointer, _id_getIntValue as jni$_.JMethodIDPtr)
         .integer;
@@ -3589,7 +3589,7 @@ class JsonParser extends jni$_.JObject {
   ///   Java 32-bit signed {@code long} range); otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  core$_.int getLongValue() {
+  int getLongValue() {
     return _getLongValue(
             reference.pointer, _id_getLongValue as jni$_.JMethodIDPtr)
         .long;
@@ -3666,7 +3666,7 @@ class JsonParser extends jni$_.JObject {
   ///   Java {@code float} range); otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  core$_.double getFloatValue() {
+  double getFloatValue() {
     return _getFloatValue(
             reference.pointer, _id_getFloatValue as jni$_.JMethodIDPtr)
         .float;
@@ -3706,7 +3706,7 @@ class JsonParser extends jni$_.JObject {
   ///   Java {@code double} range); otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  core$_.double getDoubleValue() {
+  double getDoubleValue() {
     return _getDoubleValue(
             reference.pointer, _id_getDoubleValue as jni$_.JMethodIDPtr)
         .doubleFloat;
@@ -3776,7 +3776,7 @@ class JsonParser extends jni$_.JObject {
   ///   otherwise throws JsonParseException
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  core$_.bool getBooleanValue() {
+  bool getBooleanValue() {
     return _getBooleanValue(
             reference.pointer, _id_getBooleanValue as jni$_.JMethodIDPtr)
         .boolean;
@@ -3931,7 +3931,7 @@ class JsonParser extends jni$_.JObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@since 2.1
-  core$_.int readBinaryValue(
+  int readBinaryValue(
     jni$_.JObject? out,
   ) {
     final _$out = out?.reference ?? jni$_.jNullReference;
@@ -3972,7 +3972,7 @@ class JsonParser extends jni$_.JObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@since 2.1
-  core$_.int readBinaryValue$1(
+  int readBinaryValue$1(
     jni$_.JObject? bv,
     jni$_.JObject? out,
   ) {
@@ -4018,7 +4018,7 @@ class JsonParser extends jni$_.JObject {
   ///    otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  core$_.int getValueAsInt() {
+  int getValueAsInt() {
     return _getValueAsInt(
             reference.pointer, _id_getValueAsInt as jni$_.JMethodIDPtr)
         .integer;
@@ -4054,8 +4054,8 @@ class JsonParser extends jni$_.JObject {
   ///@return {@code int} value current token is converted to, if possible; {@code def} otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  core$_.int getValueAsInt$1(
-    core$_.int def,
+  int getValueAsInt$1(
+    int def,
   ) {
     return _getValueAsInt$1(
             reference.pointer, _id_getValueAsInt$1 as jni$_.JMethodIDPtr, def)
@@ -4094,7 +4094,7 @@ class JsonParser extends jni$_.JObject {
   ///    otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  core$_.int getValueAsLong() {
+  int getValueAsLong() {
     return _getValueAsLong(
             reference.pointer, _id_getValueAsLong as jni$_.JMethodIDPtr)
         .long;
@@ -4130,8 +4130,8 @@ class JsonParser extends jni$_.JObject {
   ///@return {@code long} value current token is converted to, if possible; {@code def} otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  core$_.int getValueAsLong$1(
-    core$_.int def,
+  int getValueAsLong$1(
+    int def,
   ) {
     return _getValueAsLong$1(
             reference.pointer, _id_getValueAsLong$1 as jni$_.JMethodIDPtr, def)
@@ -4170,7 +4170,7 @@ class JsonParser extends jni$_.JObject {
   ///    otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  core$_.double getValueAsDouble() {
+  double getValueAsDouble() {
     return _getValueAsDouble(
             reference.pointer, _id_getValueAsDouble as jni$_.JMethodIDPtr)
         .doubleFloat;
@@ -4207,8 +4207,8 @@ class JsonParser extends jni$_.JObject {
   ///@return {@code double} value current token is converted to, if possible; {@code def} otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  core$_.double getValueAsDouble$1(
-    core$_.double def,
+  double getValueAsDouble$1(
+    double def,
   ) {
     return _getValueAsDouble$1(reference.pointer,
             _id_getValueAsDouble$1 as jni$_.JMethodIDPtr, def)
@@ -4247,7 +4247,7 @@ class JsonParser extends jni$_.JObject {
   ///    otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  core$_.bool getValueAsBoolean() {
+  bool getValueAsBoolean() {
     return _getValueAsBoolean(
             reference.pointer, _id_getValueAsBoolean as jni$_.JMethodIDPtr)
         .boolean;
@@ -4284,8 +4284,8 @@ class JsonParser extends jni$_.JObject {
   ///@return {@code boolean} value current token is converted to, if possible; {@code def} otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  core$_.bool getValueAsBoolean$1(
-    core$_.bool def,
+  bool getValueAsBoolean$1(
+    bool def,
   ) {
     return _getValueAsBoolean$1(reference.pointer,
             _id_getValueAsBoolean$1 as jni$_.JMethodIDPtr, def ? 1 : 0)
@@ -4399,7 +4399,7 @@ class JsonParser extends jni$_.JObject {
   ///@return {@code True} if the format being read supports native Object Ids;
   ///    {@code false} if not
   ///@since 2.3
-  core$_.bool canReadObjectId() {
+  bool canReadObjectId() {
     return _canReadObjectId(
             reference.pointer, _id_canReadObjectId as jni$_.JMethodIDPtr)
         .boolean;
@@ -4435,7 +4435,7 @@ class JsonParser extends jni$_.JObject {
   ///@return {@code True} if the format being read supports native Type Ids;
   ///    {@code false} if not
   ///@since 2.3
-  core$_.bool canReadTypeId() {
+  bool canReadTypeId() {
     return _canReadTypeId(
             reference.pointer, _id_canReadTypeId as jni$_.JMethodIDPtr)
         .boolean;
@@ -4768,7 +4768,7 @@ final class $JsonParser$NullableType$ extends jni$_.JType<JsonParser?> {
   int get hashCode => ($JsonParser$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($JsonParser$NullableType$) &&
         other is $JsonParser$NullableType$;
   }
@@ -4805,7 +4805,7 @@ final class $JsonParser$Type$ extends jni$_.JType<JsonParser> {
   int get hashCode => ($JsonParser$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($JsonParser$Type$) &&
         other is $JsonParser$Type$;
   }

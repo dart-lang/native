@@ -35,7 +35,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' as core$_;
-import 'dart:core' show Object, String, bool, double, int;
+import 'dart:core' show Object, String, double, int;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
@@ -68,10 +68,10 @@ class Example$Nested$NestedTwice extends jni$_.JObject {
   );
 
   /// from: `static public int ZERO`
-  static core$_.int get ZERO => _id_ZERO.get(_class, const jni$_.jintType());
+  static int get ZERO => _id_ZERO.get(_class, const jni$_.jintType());
 
   /// from: `static public int ZERO`
-  static set ZERO(core$_.int value) =>
+  static set ZERO(int value) =>
       _id_ZERO.set(_class, const jni$_.jintType(), value);
 
   static final _id_new$ = _class.constructorId(
@@ -133,7 +133,7 @@ final class $Example$Nested$NestedTwice$NullableType$
   int get hashCode => ($Example$Nested$NestedTwice$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Example$Nested$NestedTwice$NullableType$) &&
         other is $Example$Nested$NestedTwice$NullableType$;
   }
@@ -172,7 +172,7 @@ final class $Example$Nested$NestedTwice$Type$
   int get hashCode => ($Example$Nested$NestedTwice$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Example$Nested$NestedTwice$Type$) &&
         other is $Example$Nested$NestedTwice$Type$;
   }
@@ -216,7 +216,7 @@ class Example$Nested extends jni$_.JObject {
   /// from: `public void <init>(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example$Nested(
-    core$_.bool z,
+    bool z,
   ) {
     return Example$Nested.fromReference(_new$(
             _class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -265,7 +265,7 @@ class Example$Nested extends jni$_.JObject {
           )>();
 
   /// from: `public boolean getValue()`
-  core$_.bool getValue() {
+  bool getValue() {
     return _getValue(reference.pointer, _id_getValue as jni$_.JMethodIDPtr)
         .boolean;
   }
@@ -287,7 +287,7 @@ class Example$Nested extends jni$_.JObject {
 
   /// from: `public void setValue(boolean z)`
   void setValue(
-    core$_.bool z,
+    bool z,
   ) {
     _setValue(reference.pointer, _id_setValue as jni$_.JMethodIDPtr, z ? 1 : 0)
         .check();
@@ -326,7 +326,7 @@ final class $Example$Nested$NullableType$ extends jni$_.JType<Example$Nested?> {
   int get hashCode => ($Example$Nested$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Example$Nested$NullableType$) &&
         other is $Example$Nested$NullableType$;
   }
@@ -364,7 +364,7 @@ final class $Example$Nested$Type$ extends jni$_.JType<Example$Nested> {
   int get hashCode => ($Example$Nested$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Example$Nested$Type$) &&
         other is $Example$Nested$Type$;
   }
@@ -398,11 +398,10 @@ class Example$NonStaticNested extends jni$_.JObject {
   );
 
   /// from: `public boolean ok`
-  core$_.bool get ok => _id_ok.get(this, const jni$_.jbooleanType());
+  bool get ok => _id_ok.get(this, const jni$_.jbooleanType());
 
   /// from: `public boolean ok`
-  set ok(core$_.bool value) =>
-      _id_ok.set(this, const jni$_.jbooleanType(), value);
+  set ok(bool value) => _id_ok.set(this, const jni$_.jbooleanType(), value);
 
   static final _id_new$ = _class.constructorId(
     r'(Lcom/github/dart_lang/jnigen/simple_package/Example;)V',
@@ -465,7 +464,7 @@ final class $Example$NonStaticNested$NullableType$
   int get hashCode => ($Example$NonStaticNested$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Example$NonStaticNested$NullableType$) &&
         other is $Example$NonStaticNested$NullableType$;
   }
@@ -504,7 +503,7 @@ final class $Example$NonStaticNested$Type$
   int get hashCode => ($Example$NonStaticNested$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Example$NonStaticNested$Type$) &&
         other is $Example$NonStaticNested$Type$;
   }
@@ -580,7 +579,7 @@ class Example extends jni$_.JObject {
           )>();
 
   /// from: `static public int getAmount()`
-  static core$_.int getAmount() {
+  static int getAmount() {
     return _getAmount(
             _class.reference.pointer, _id_getAmount as jni$_.JMethodIDPtr)
         .integer;
@@ -604,7 +603,7 @@ class Example extends jni$_.JObject {
           )>();
 
   /// from: `static public double getPi()`
-  static core$_.double getPi() {
+  static double getPi() {
     return _getPi(_class.reference.pointer, _id_getPi as jni$_.JMethodIDPtr)
         .doubleFloat;
   }
@@ -627,7 +626,7 @@ class Example extends jni$_.JObject {
           )>();
 
   /// from: `static public char getAsterisk()`
-  static core$_.int getAsterisk() {
+  static int getAsterisk() {
     return _getAsterisk(
             _class.reference.pointer, _id_getAsterisk as jni$_.JMethodIDPtr)
         .char;
@@ -698,7 +697,7 @@ class Example extends jni$_.JObject {
 
   /// from: `static public void setAmount(int i)`
   static void setAmount(
-    core$_.int i,
+    int i,
   ) {
     _setAmount(_class.reference.pointer, _id_setAmount as jni$_.JMethodIDPtr, i)
         .check();
@@ -778,11 +777,11 @@ class Example extends jni$_.JObject {
               jni$_.JMethodIDPtr, int, int, int, int)>();
 
   /// from: `static public int max4(int i, int i1, int i2, int i3)`
-  static core$_.int max4(
-    core$_.int i,
-    core$_.int i1,
-    core$_.int i2,
-    core$_.int i3,
+  static int max4(
+    int i,
+    int i1,
+    int i2,
+    int i3,
   ) {
     return _max4(_class.reference.pointer, _id_max4 as jni$_.JMethodIDPtr, i,
             i1, i2, i3)
@@ -815,15 +814,15 @@ class Example extends jni$_.JObject {
               jni$_.JMethodIDPtr, int, int, int, int, int, int, int, int)>();
 
   /// from: `static public int max8(int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7)`
-  static core$_.int max8(
-    core$_.int i,
-    core$_.int i1,
-    core$_.int i2,
-    core$_.int i3,
-    core$_.int i4,
-    core$_.int i5,
-    core$_.int i6,
-    core$_.int i7,
+  static int max8(
+    int i,
+    int i1,
+    int i2,
+    int i3,
+    int i4,
+    int i5,
+    int i6,
+    int i7,
   ) {
     return _max8(_class.reference.pointer, _id_max8 as jni$_.JMethodIDPtr, i,
             i1, i2, i3, i4, i5, i6, i7)
@@ -848,7 +847,7 @@ class Example extends jni$_.JObject {
           )>();
 
   /// from: `public int getNumber()`
-  core$_.int getNumber() {
+  int getNumber() {
     return _getNumber(reference.pointer, _id_getNumber as jni$_.JMethodIDPtr)
         .integer;
   }
@@ -870,7 +869,7 @@ class Example extends jni$_.JObject {
 
   /// from: `public void setNumber(int i)`
   void setNumber(
-    core$_.int i,
+    int i,
   ) {
     _setNumber(reference.pointer, _id_setNumber as jni$_.JMethodIDPtr, i)
         .check();
@@ -894,7 +893,7 @@ class Example extends jni$_.JObject {
           )>();
 
   /// from: `public boolean getIsUp()`
-  core$_.bool getIsUp() {
+  bool getIsUp() {
     return _getIsUp(reference.pointer, _id_getIsUp as jni$_.JMethodIDPtr)
         .boolean;
   }
@@ -916,7 +915,7 @@ class Example extends jni$_.JObject {
 
   /// from: `public void setUp(boolean z)`
   void setUp(
-    core$_.bool z,
+    bool z,
   ) {
     _setUp(reference.pointer, _id_setUp as jni$_.JMethodIDPtr, z ? 1 : 0)
         .check();
@@ -1041,7 +1040,7 @@ class Example extends jni$_.JObject {
           )>();
 
   /// from: `public long getRandomLong()`
-  core$_.int getRandomLong() {
+  int getRandomLong() {
     return _getRandomLong(
             reference.pointer, _id_getRandomLong as jni$_.JMethodIDPtr)
         .long;
@@ -1069,11 +1068,11 @@ class Example extends jni$_.JObject {
               jni$_.JMethodIDPtr, int, int, int, int)>();
 
   /// from: `public long add4Longs(long j, long j1, long j2, long j3)`
-  core$_.int add4Longs(
-    core$_.int j,
-    core$_.int j1,
-    core$_.int j2,
-    core$_.int j3,
+  int add4Longs(
+    int j,
+    int j1,
+    int j2,
+    int j3,
   ) {
     return _add4Longs(reference.pointer, _id_add4Longs as jni$_.JMethodIDPtr, j,
             j1, j2, j3)
@@ -1106,15 +1105,15 @@ class Example extends jni$_.JObject {
               jni$_.JMethodIDPtr, int, int, int, int, int, int, int, int)>();
 
   /// from: `public long add8Longs(long j, long j1, long j2, long j3, long j4, long j5, long j6, long j7)`
-  core$_.int add8Longs(
-    core$_.int j,
-    core$_.int j1,
-    core$_.int j2,
-    core$_.int j3,
-    core$_.int j4,
-    core$_.int j5,
-    core$_.int j6,
-    core$_.int j7,
+  int add8Longs(
+    int j,
+    int j1,
+    int j2,
+    int j3,
+    int j4,
+    int j5,
+    int j6,
+    int j7,
   ) {
     return _add8Longs(reference.pointer, _id_add8Longs as jni$_.JMethodIDPtr, j,
             j1, j2, j3, j4, j5, j6, j7)
@@ -1267,7 +1266,7 @@ class Example extends jni$_.JObject {
 
   /// from: `public void methodWithSeveralParams(char c, java.lang.String string, int[] is, T charSequence, java.util.List<T> list, java.util.Map<java.lang.String, ? extends java.lang.CharSequence> map)`
   void methodWithSeveralParams<$T extends jni$_.JObject?>(
-    core$_.int c,
+    int c,
     jni$_.JString? string,
     jni$_.JIntArray? is$,
     $T? charSequence,
@@ -1333,7 +1332,7 @@ class Example extends jni$_.JObject {
   /// from: `public void <init>(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example.new$1(
-    core$_.int i,
+    int i,
   ) {
     return Example.fromReference(
         _new$1(_class.reference.pointer, _id_new$1 as jni$_.JMethodIDPtr, i)
@@ -1358,8 +1357,8 @@ class Example extends jni$_.JObject {
   /// from: `public void <init>(int i, boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example.new$2(
-    core$_.int i,
-    core$_.bool z,
+    int i,
+    bool z,
   ) {
     return Example.fromReference(_new$2(_class.reference.pointer,
             _id_new$2 as jni$_.JMethodIDPtr, i, z ? 1 : 0)
@@ -1388,8 +1387,8 @@ class Example extends jni$_.JObject {
   /// from: `public void <init>(int i, boolean z, java.lang.String string)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example.new$3(
-    core$_.int i,
-    core$_.bool z,
+    int i,
+    bool z,
     jni$_.JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -1425,14 +1424,14 @@ class Example extends jni$_.JObject {
   /// from: `public void <init>(int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example.new$4(
-    core$_.int i,
-    core$_.int i1,
-    core$_.int i2,
-    core$_.int i3,
-    core$_.int i4,
-    core$_.int i5,
-    core$_.int i6,
-    core$_.int i7,
+    int i,
+    int i1,
+    int i2,
+    int i3,
+    int i4,
+    int i5,
+    int i6,
+    int i7,
   ) {
     return Example.fromReference(_new$4(_class.reference.pointer,
             _id_new$4 as jni$_.JMethodIDPtr, i, i1, i2, i3, i4, i5, i6, i7)
@@ -1457,7 +1456,7 @@ class Example extends jni$_.JObject {
           )>();
 
   /// from: `public int whichExample()`
-  core$_.int whichExample() {
+  int whichExample() {
     return _whichExample(
             reference.pointer, _id_whichExample as jni$_.JMethodIDPtr)
         .integer;
@@ -1480,9 +1479,9 @@ class Example extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
 
   /// from: `static public int addInts(int i, int i1)`
-  static core$_.int addInts(
-    core$_.int i,
-    core$_.int i1,
+  static int addInts(
+    int i,
+    int i1,
   ) {
     return _addInts(
             _class.reference.pointer, _id_addInts as jni$_.JMethodIDPtr, i, i1)
@@ -1530,7 +1529,7 @@ class Example extends jni$_.JObject {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `static public int addAll(int[] is)`
-  static core$_.int addAll(
+  static int addAll(
     jni$_.JIntArray? is$,
   ) {
     final _$is$ = is$?.reference ?? jni$_.jNullReference;
@@ -1629,7 +1628,7 @@ class Example extends jni$_.JObject {
 
   /// from: `public void overloaded(int i, java.lang.String string)`
   void overloaded$1(
-    core$_.int i,
+    int i,
     jni$_.JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -1655,7 +1654,7 @@ class Example extends jni$_.JObject {
 
   /// from: `public void overloaded(int i)`
   void overloaded$2(
-    core$_.int i,
+    int i,
   ) {
     _overloaded$2(reference.pointer, _id_overloaded$2 as jni$_.JMethodIDPtr, i)
         .check();
@@ -1738,8 +1737,8 @@ class Example extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
   /// from: `public boolean bool(boolean z)`
-  core$_.bool bool(
-    core$_.bool z,
+  bool bool(
+    bool z,
   ) {
     return _bool(reference.pointer, _id_bool as jni$_.JMethodIDPtr, z ? 1 : 0)
         .boolean;
@@ -1762,8 +1761,8 @@ class Example extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
 
   /// from: `public double num(double d)`
-  core$_.double num(
-    core$_.double d,
+  double num(
+    double d,
   ) {
     return _num(reference.pointer, _id_num as jni$_.JMethodIDPtr, d)
         .doubleFloat;
@@ -1802,7 +1801,7 @@ final class $Example$NullableType$ extends jni$_.JType<Example?> {
   int get hashCode => ($Example$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Example$NullableType$) &&
         other is $Example$NullableType$;
   }
@@ -1838,7 +1837,7 @@ final class $Example$Type$ extends jni$_.JType<Example> {
   int get hashCode => ($Example$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Example$Type$) && other is $Example$Type$;
   }
 }
@@ -1905,7 +1904,7 @@ class Exceptions extends jni$_.JObject {
   /// from: `public void <init>(float f)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Exceptions.new$1(
-    core$_.double f,
+    double f,
   ) {
     return Exceptions.fromReference(
         _new$1(_class.reference.pointer, _id_new$1 as jni$_.JMethodIDPtr, f)
@@ -1937,12 +1936,12 @@ class Exceptions extends jni$_.JObject {
   /// from: `public void <init>(int i, int i1, int i2, int i3, int i4, int i5)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Exceptions.new$2(
-    core$_.int i,
-    core$_.int i1,
-    core$_.int i2,
-    core$_.int i3,
-    core$_.int i4,
-    core$_.int i5,
+    int i,
+    int i1,
+    int i2,
+    int i3,
+    int i4,
+    int i5,
   ) {
     return Exceptions.fromReference(_new$2(_class.reference.pointer,
             _id_new$2 as jni$_.JMethodIDPtr, i, i1, i2, i3, i4, i5)
@@ -1992,7 +1991,7 @@ class Exceptions extends jni$_.JObject {
           )>();
 
   /// from: `static public int staticIntMethod()`
-  static core$_.int staticIntMethod() {
+  static int staticIntMethod() {
     return _staticIntMethod(
             _class.reference.pointer, _id_staticIntMethod as jni$_.JMethodIDPtr)
         .integer;
@@ -2093,7 +2092,7 @@ class Exceptions extends jni$_.JObject {
           )>();
 
   /// from: `public int intMethod()`
-  core$_.int intMethod() {
+  int intMethod() {
     return _intMethod(reference.pointer, _id_intMethod as jni$_.JMethodIDPtr)
         .integer;
   }
@@ -2168,7 +2167,7 @@ class Exceptions extends jni$_.JObject {
           )>();
 
   /// from: `public int throwNullPointerException()`
-  core$_.int throwNullPointerException() {
+  int throwNullPointerException() {
     return _throwNullPointerException(reference.pointer,
             _id_throwNullPointerException as jni$_.JMethodIDPtr)
         .integer;
@@ -2243,7 +2242,7 @@ class Exceptions extends jni$_.JObject {
           )>();
 
   /// from: `public int throwArrayIndexException()`
-  core$_.int throwArrayIndexException() {
+  int throwArrayIndexException() {
     return _throwArrayIndexException(reference.pointer,
             _id_throwArrayIndexException as jni$_.JMethodIDPtr)
         .integer;
@@ -2267,7 +2266,7 @@ class Exceptions extends jni$_.JObject {
           )>();
 
   /// from: `public int throwArithmeticException()`
-  core$_.int throwArithmeticException() {
+  int throwArithmeticException() {
     return _throwArithmeticException(reference.pointer,
             _id_throwArithmeticException as jni$_.JMethodIDPtr)
         .integer;
@@ -2330,7 +2329,7 @@ final class $Exceptions$NullableType$ extends jni$_.JType<Exceptions?> {
   int get hashCode => ($Exceptions$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Exceptions$NullableType$) &&
         other is $Exceptions$NullableType$;
   }
@@ -2368,7 +2367,7 @@ final class $Exceptions$Type$ extends jni$_.JType<Exceptions> {
   int get hashCode => ($Exceptions$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Exceptions$Type$) &&
         other is $Exceptions$Type$;
   }
@@ -2401,10 +2400,10 @@ class Fields$Nested extends jni$_.JObject {
   );
 
   /// from: `public long hundred`
-  core$_.int get hundred => _id_hundred.get(this, const jni$_.jlongType());
+  int get hundred => _id_hundred.get(this, const jni$_.jlongType());
 
   /// from: `public long hundred`
-  set hundred(core$_.int value) =>
+  set hundred(int value) =>
       _id_hundred.set(this, const jni$_.jlongType(), value);
 
   static final _id_BEST_GOD = _class.staticFieldId(
@@ -2479,7 +2478,7 @@ final class $Fields$Nested$NullableType$ extends jni$_.JType<Fields$Nested?> {
   int get hashCode => ($Fields$Nested$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Fields$Nested$NullableType$) &&
         other is $Fields$Nested$NullableType$;
   }
@@ -2517,7 +2516,7 @@ final class $Fields$Nested$Type$ extends jni$_.JType<Fields$Nested> {
   int get hashCode => ($Fields$Nested$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Fields$Nested$Type$) &&
         other is $Fields$Nested$Type$;
   }
@@ -2549,11 +2548,10 @@ class Fields extends jni$_.JObject {
   );
 
   /// from: `static public int amount`
-  static core$_.int get amount =>
-      _id_amount.get(_class, const jni$_.jintType());
+  static int get amount => _id_amount.get(_class, const jni$_.jintType());
 
   /// from: `static public int amount`
-  static set amount(core$_.int value) =>
+  static set amount(int value) =>
       _id_amount.set(_class, const jni$_.jintType(), value);
 
   static final _id_pi = _class.staticFieldId(
@@ -2562,10 +2560,10 @@ class Fields extends jni$_.JObject {
   );
 
   /// from: `static public double pi`
-  static core$_.double get pi => _id_pi.get(_class, const jni$_.jdoubleType());
+  static double get pi => _id_pi.get(_class, const jni$_.jdoubleType());
 
   /// from: `static public double pi`
-  static set pi(core$_.double value) =>
+  static set pi(double value) =>
       _id_pi.set(_class, const jni$_.jdoubleType(), value);
 
   static final _id_asterisk = _class.staticFieldId(
@@ -2574,11 +2572,10 @@ class Fields extends jni$_.JObject {
   );
 
   /// from: `static public char asterisk`
-  static core$_.int get asterisk =>
-      _id_asterisk.get(_class, const jni$_.jcharType());
+  static int get asterisk => _id_asterisk.get(_class, const jni$_.jcharType());
 
   /// from: `static public char asterisk`
-  static set asterisk(core$_.int value) =>
+  static set asterisk(int value) =>
       _id_asterisk.set(_class, const jni$_.jcharType(), value);
 
   static final _id_name = _class.staticFieldId(
@@ -2617,10 +2614,10 @@ class Fields extends jni$_.JObject {
   );
 
   /// from: `public long trillion`
-  core$_.int get trillion => _id_trillion.get(this, const jni$_.jlongType());
+  int get trillion => _id_trillion.get(this, const jni$_.jlongType());
 
   /// from: `public long trillion`
-  set trillion(core$_.int value) =>
+  set trillion(int value) =>
       _id_trillion.set(this, const jni$_.jlongType(), value);
 
   static final _id_isAchillesDead = _class.instanceFieldId(
@@ -2629,11 +2626,11 @@ class Fields extends jni$_.JObject {
   );
 
   /// from: `public boolean isAchillesDead`
-  core$_.bool get isAchillesDead =>
+  bool get isAchillesDead =>
       _id_isAchillesDead.get(this, const jni$_.jbooleanType());
 
   /// from: `public boolean isAchillesDead`
-  set isAchillesDead(core$_.bool value) =>
+  set isAchillesDead(bool value) =>
       _id_isAchillesDead.set(this, const jni$_.jbooleanType(), value);
 
   static final _id_bestFighterInGreece = _class.instanceFieldId(
@@ -2672,11 +2669,11 @@ class Fields extends jni$_.JObject {
   );
 
   /// from: `static public char euroSymbol`
-  static core$_.int get euroSymbol =>
+  static int get euroSymbol =>
       _id_euroSymbol.get(_class, const jni$_.jcharType());
 
   /// from: `static public char euroSymbol`
-  static set euroSymbol(core$_.int value) =>
+  static set euroSymbol(int value) =>
       _id_euroSymbol.set(_class, const jni$_.jcharType(), value);
 
   static final _id_new$ = _class.constructorId(
@@ -2736,7 +2733,7 @@ final class $Fields$NullableType$ extends jni$_.JType<Fields?> {
   int get hashCode => ($Fields$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Fields$NullableType$) &&
         other is $Fields$NullableType$;
   }
@@ -2772,7 +2769,7 @@ final class $Fields$Type$ extends jni$_.JType<Fields> {
   int get hashCode => ($Fields$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Fields$Type$) && other is $Fields$Type$;
   }
 }
@@ -2803,11 +2800,10 @@ class C2 extends jni$_.JObject {
   );
 
   /// from: `static public int CONSTANT`
-  static core$_.int get CONSTANT =>
-      _id_CONSTANT.get(_class, const jni$_.jintType());
+  static int get CONSTANT => _id_CONSTANT.get(_class, const jni$_.jintType());
 
   /// from: `static public int CONSTANT`
-  static set CONSTANT(core$_.int value) =>
+  static set CONSTANT(int value) =>
       _id_CONSTANT.set(_class, const jni$_.jintType(), value);
 
   static final _id_new$ = _class.constructorId(
@@ -2866,7 +2862,7 @@ final class $C2$NullableType$ extends jni$_.JType<C2?> {
   int get hashCode => ($C2$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($C2$NullableType$) &&
         other is $C2$NullableType$;
   }
@@ -2901,7 +2897,7 @@ final class $C2$Type$ extends jni$_.JType<C2> {
   int get hashCode => ($C2$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($C2$Type$) && other is $C2$Type$;
   }
 }
@@ -2969,7 +2965,7 @@ class Example$1 extends jni$_.JObject {
           )>();
 
   /// from: `public int whichExample()`
-  core$_.int whichExample() {
+  int whichExample() {
     return _whichExample(
             reference.pointer, _id_whichExample as jni$_.JMethodIDPtr)
         .integer;
@@ -3007,7 +3003,7 @@ final class $Example$1$NullableType$ extends jni$_.JType<Example$1?> {
   int get hashCode => ($Example$1$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Example$1$NullableType$) &&
         other is $Example$1$NullableType$;
   }
@@ -3043,7 +3039,7 @@ final class $Example$1$Type$ extends jni$_.JType<Example$1> {
   int get hashCode => ($Example$1$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Example$1$Type$) && other is $Example$1$Type$;
   }
 }
@@ -3075,10 +3071,10 @@ class Colors$RGB extends jni$_.JObject {
   );
 
   /// from: `public int red`
-  core$_.int get red => _id_red.get(this, const jni$_.jintType());
+  int get red => _id_red.get(this, const jni$_.jintType());
 
   /// from: `public int red`
-  set red(core$_.int value) => _id_red.set(this, const jni$_.jintType(), value);
+  set red(int value) => _id_red.set(this, const jni$_.jintType(), value);
 
   static final _id_green = _class.instanceFieldId(
     r'green',
@@ -3086,11 +3082,10 @@ class Colors$RGB extends jni$_.JObject {
   );
 
   /// from: `public int green`
-  core$_.int get green => _id_green.get(this, const jni$_.jintType());
+  int get green => _id_green.get(this, const jni$_.jintType());
 
   /// from: `public int green`
-  set green(core$_.int value) =>
-      _id_green.set(this, const jni$_.jintType(), value);
+  set green(int value) => _id_green.set(this, const jni$_.jintType(), value);
 
   static final _id_blue = _class.instanceFieldId(
     r'blue',
@@ -3098,11 +3093,10 @@ class Colors$RGB extends jni$_.JObject {
   );
 
   /// from: `public int blue`
-  core$_.int get blue => _id_blue.get(this, const jni$_.jintType());
+  int get blue => _id_blue.get(this, const jni$_.jintType());
 
   /// from: `public int blue`
-  set blue(core$_.int value) =>
-      _id_blue.set(this, const jni$_.jintType(), value);
+  set blue(int value) => _id_blue.set(this, const jni$_.jintType(), value);
 
   static final _id_new$ = _class.constructorId(
     r'(III)V',
@@ -3122,9 +3116,9 @@ class Colors$RGB extends jni$_.JObject {
   /// from: `public void <init>(int i, int i1, int i2)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Colors$RGB(
-    core$_.int i,
-    core$_.int i1,
-    core$_.int i2,
+    int i,
+    int i1,
+    int i2,
   ) {
     return Colors$RGB.fromReference(_new$(
             _class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr, i, i1, i2)
@@ -3148,7 +3142,7 @@ class Colors$RGB extends jni$_.JObject {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public boolean equals(java.lang.Object object)`
-  core$_.bool equals(
+  bool equals(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -3175,7 +3169,7 @@ class Colors$RGB extends jni$_.JObject {
           )>();
 
   /// from: `public int hashCode()`
-  core$_.int hashCode$1() {
+  int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1 as jni$_.JMethodIDPtr)
         .integer;
   }
@@ -3212,7 +3206,7 @@ final class $Colors$RGB$NullableType$ extends jni$_.JType<Colors$RGB?> {
   int get hashCode => ($Colors$RGB$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Colors$RGB$NullableType$) &&
         other is $Colors$RGB$NullableType$;
   }
@@ -3249,7 +3243,7 @@ final class $Colors$RGB$Type$ extends jni$_.JType<Colors$RGB> {
   int get hashCode => ($Colors$RGB$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Colors$RGB$Type$) &&
         other is $Colors$RGB$Type$;
   }
@@ -3308,7 +3302,7 @@ class Colors extends jni$_.JObject {
   );
 
   /// from: `public final int code`
-  core$_.int get code => _id_code.get(this, const jni$_.jintType());
+  int get code => _id_code.get(this, const jni$_.jintType());
 
   static final _id_values = _class.staticMethodId(
     r'values',
@@ -3419,7 +3413,7 @@ final class $Colors$NullableType$ extends jni$_.JType<Colors?> {
   int get hashCode => ($Colors$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Colors$NullableType$) &&
         other is $Colors$NullableType$;
   }
@@ -3454,7 +3448,7 @@ final class $Colors$Type$ extends jni$_.JType<Colors> {
   int get hashCode => ($Colors$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Colors$Type$) && other is $Colors$Type$;
   }
 }
@@ -3582,7 +3576,7 @@ final class $GenericTypeParams$NullableType$<$S extends jni$_.JObject?,
   int get hashCode => Object.hash($GenericTypeParams$NullableType$, S, K);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($GenericTypeParams$NullableType$<$S, $K>) &&
         other is $GenericTypeParams$NullableType$<$S, $K> &&
         S == other.S &&
@@ -3634,7 +3628,7 @@ final class $GenericTypeParams$Type$<$S extends jni$_.JObject?,
   int get hashCode => Object.hash($GenericTypeParams$Type$, S, K);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($GenericTypeParams$Type$<$S, $K>) &&
         other is $GenericTypeParams$Type$<$S, $K> &&
         S == other.S &&
@@ -3850,7 +3844,7 @@ final class $GrandParent$Parent$Child$NullableType$<$T extends jni$_.JObject?,
       Object.hash($GrandParent$Parent$Child$NullableType$, T, S, U);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType ==
             ($GrandParent$Parent$Child$NullableType$<$T, $S, $U>) &&
         other is $GrandParent$Parent$Child$NullableType$<$T, $S, $U> &&
@@ -3911,7 +3905,7 @@ final class $GrandParent$Parent$Child$Type$<$T extends jni$_.JObject?,
   int get hashCode => Object.hash($GrandParent$Parent$Child$Type$, T, S, U);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($GrandParent$Parent$Child$Type$<$T, $S, $U>) &&
         other is $GrandParent$Parent$Child$Type$<$T, $S, $U> &&
         T == other.T &&
@@ -4084,7 +4078,7 @@ final class $GrandParent$Parent$NullableType$<$T extends jni$_.JObject?,
   int get hashCode => Object.hash($GrandParent$Parent$NullableType$, T, S);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($GrandParent$Parent$NullableType$<$T, $S>) &&
         other is $GrandParent$Parent$NullableType$<$T, $S> &&
         T == other.T &&
@@ -4136,7 +4130,7 @@ final class $GrandParent$Parent$Type$<$T extends jni$_.JObject?,
   int get hashCode => Object.hash($GrandParent$Parent$Type$, T, S);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($GrandParent$Parent$Type$<$T, $S>) &&
         other is $GrandParent$Parent$Type$<$T, $S> &&
         T == other.T &&
@@ -4314,7 +4308,7 @@ final class $GrandParent$StaticParent$Child$NullableType$<
       Object.hash($GrandParent$StaticParent$Child$NullableType$, S, U);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType ==
             ($GrandParent$StaticParent$Child$NullableType$<$S, $U>) &&
         other is $GrandParent$StaticParent$Child$NullableType$<$S, $U> &&
@@ -4369,7 +4363,7 @@ final class $GrandParent$StaticParent$Child$Type$<$S extends jni$_.JObject?,
   int get hashCode => Object.hash($GrandParent$StaticParent$Child$Type$, S, U);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType ==
             ($GrandParent$StaticParent$Child$Type$<$S, $U>) &&
         other is $GrandParent$StaticParent$Child$Type$<$S, $U> &&
@@ -4501,7 +4495,7 @@ final class $GrandParent$StaticParent$NullableType$<$S extends jni$_.JObject?>
   int get hashCode => Object.hash($GrandParent$StaticParent$NullableType$, S);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($GrandParent$StaticParent$NullableType$<$S>) &&
         other is $GrandParent$StaticParent$NullableType$<$S> &&
         S == other.S;
@@ -4547,7 +4541,7 @@ final class $GrandParent$StaticParent$Type$<$S extends jni$_.JObject?>
   int get hashCode => Object.hash($GrandParent$StaticParent$Type$, S);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($GrandParent$StaticParent$Type$<$S>) &&
         other is $GrandParent$StaticParent$Type$<$S> &&
         S == other.S;
@@ -4812,7 +4806,7 @@ final class $GrandParent$NullableType$<$T extends jni$_.JObject?>
   int get hashCode => Object.hash($GrandParent$NullableType$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($GrandParent$NullableType$<$T>) &&
         other is $GrandParent$NullableType$<$T> &&
         T == other.T;
@@ -4857,7 +4851,7 @@ final class $GrandParent$Type$<$T extends jni$_.JObject?>
   int get hashCode => Object.hash($GrandParent$Type$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($GrandParent$Type$<$T>) &&
         other is $GrandParent$Type$<$T> &&
         T == other.T;
@@ -5033,7 +5027,7 @@ final class $MyMap$MyEntry$NullableType$<$K extends jni$_.JObject?,
   int get hashCode => Object.hash($MyMap$MyEntry$NullableType$, K, V);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($MyMap$MyEntry$NullableType$<$K, $V>) &&
         other is $MyMap$MyEntry$NullableType$<$K, $V> &&
         K == other.K &&
@@ -5085,7 +5079,7 @@ final class $MyMap$MyEntry$Type$<$K extends jni$_.JObject?,
   int get hashCode => Object.hash($MyMap$MyEntry$Type$, K, V);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($MyMap$MyEntry$Type$<$K, $V>) &&
         other is $MyMap$MyEntry$Type$<$K, $V> &&
         K == other.K &&
@@ -5303,7 +5297,7 @@ final class $MyMap$NullableType$<$K extends jni$_.JObject?,
   int get hashCode => Object.hash($MyMap$NullableType$, K, V);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($MyMap$NullableType$<$K, $V>) &&
         other is $MyMap$NullableType$<$K, $V> &&
         K == other.K &&
@@ -5354,7 +5348,7 @@ final class $MyMap$Type$<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   int get hashCode => Object.hash($MyMap$Type$, K, V);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($MyMap$Type$<$K, $V>) &&
         other is $MyMap$Type$<$K, $V> &&
         K == other.K &&
@@ -5643,7 +5637,7 @@ class MyStack<$T extends jni$_.JObject?> extends jni$_.JObject {
           )>();
 
   /// from: `public int size()`
-  core$_.int size() {
+  int size() {
     return _size(reference.pointer, _id_size as jni$_.JMethodIDPtr).integer;
   }
 }
@@ -5686,7 +5680,7 @@ final class $MyStack$NullableType$<$T extends jni$_.JObject?>
   int get hashCode => Object.hash($MyStack$NullableType$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($MyStack$NullableType$<$T>) &&
         other is $MyStack$NullableType$<$T> &&
         T == other.T;
@@ -5730,7 +5724,7 @@ final class $MyStack$Type$<$T extends jni$_.JObject?>
   int get hashCode => Object.hash($MyStack$Type$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($MyStack$Type$<$T>) &&
         other is $MyStack$Type$<$T> &&
         T == other.T;
@@ -5846,7 +5840,7 @@ final class $StringKeyedMap$NullableType$<$V extends jni$_.JObject?>
   int get hashCode => Object.hash($StringKeyedMap$NullableType$, V);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($StringKeyedMap$NullableType$<$V>) &&
         other is $StringKeyedMap$NullableType$<$V> &&
         V == other.V;
@@ -5893,7 +5887,7 @@ final class $StringKeyedMap$Type$<$V extends jni$_.JObject?>
   int get hashCode => Object.hash($StringKeyedMap$Type$, V);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($StringKeyedMap$Type$<$V>) &&
         other is $StringKeyedMap$Type$<$V> &&
         V == other.V;
@@ -5979,7 +5973,7 @@ final class $StringMap$NullableType$ extends jni$_.JType<StringMap?> {
   int get hashCode => ($StringMap$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($StringMap$NullableType$) &&
         other is $StringMap$NullableType$;
   }
@@ -6017,7 +6011,7 @@ final class $StringMap$Type$ extends jni$_.JType<StringMap> {
   int get hashCode => ($StringMap$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($StringMap$Type$) && other is $StringMap$Type$;
   }
 }
@@ -6100,7 +6094,7 @@ final class $StringStack$NullableType$ extends jni$_.JType<StringStack?> {
   int get hashCode => ($StringStack$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($StringStack$NullableType$) &&
         other is $StringStack$NullableType$;
   }
@@ -6138,7 +6132,7 @@ final class $StringStack$Type$ extends jni$_.JType<StringStack> {
   int get hashCode => ($StringStack$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($StringStack$Type$) &&
         other is $StringStack$Type$;
   }
@@ -6253,7 +6247,7 @@ final class $StringValuedMap$NullableType$<$K extends jni$_.JObject?>
   int get hashCode => Object.hash($StringValuedMap$NullableType$, K);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($StringValuedMap$NullableType$<$K>) &&
         other is $StringValuedMap$NullableType$<$K> &&
         K == other.K;
@@ -6300,7 +6294,7 @@ final class $StringValuedMap$Type$<$K extends jni$_.JObject?>
   int get hashCode => Object.hash($StringValuedMap$Type$, K);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($StringValuedMap$Type$<$K>) &&
         other is $StringValuedMap$Type$<$K> &&
         K == other.K;
@@ -6851,7 +6845,7 @@ final class $GenericInterface$NullableType$<$T extends jni$_.JObject?>
   int get hashCode => Object.hash($GenericInterface$NullableType$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($GenericInterface$NullableType$<$T>) &&
         other is $GenericInterface$NullableType$<$T> &&
         T == other.T;
@@ -6897,7 +6891,7 @@ final class $GenericInterface$Type$<$T extends jni$_.JObject?>
   int get hashCode => Object.hash($GenericInterface$Type$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($GenericInterface$Type$<$T>) &&
         other is $GenericInterface$Type$<$T> &&
         T == other.T;
@@ -7028,11 +7022,11 @@ class InheritedFromMyInterface extends jni$_.JObject {
               jni$_.JMethodIDPtr, int, int, int, double)>();
 
   /// from: `public abstract long manyPrimitives(int i, boolean z, char c, double d)`
-  core$_.int manyPrimitives(
-    core$_.int i,
-    core$_.bool z,
-    core$_.int c,
-    core$_.double d,
+  int manyPrimitives(
+    int i,
+    bool z,
+    int c,
+    double d,
   ) {
     return _manyPrimitives(reference.pointer,
             _id_manyPrimitives as jni$_.JMethodIDPtr, i, z ? 1 : 0, c, d)
@@ -7159,20 +7153,17 @@ class InheritedFromMyInterface extends jni$_.JObject {
 abstract base mixin class $InheritedFromMyInterface {
   factory $InheritedFromMyInterface({
     required void Function(jni$_.JString? string) voidCallback,
-    bool voidCallback$async,
+    core$_.bool voidCallback$async,
     required jni$_.JString? Function(jni$_.JString? string) stringCallback,
     required jni$_.JString? Function(jni$_.JString? object) varCallback,
-    required core$_.int Function(
-            core$_.int i, core$_.bool z, core$_.int c, core$_.double d)
-        manyPrimitives,
+    required int Function(int i, bool z, int c, double d) manyPrimitives,
   }) = _$InheritedFromMyInterface;
 
   void voidCallback(jni$_.JString? string);
-  bool get voidCallback$async => false;
+  core$_.bool get voidCallback$async => false;
   jni$_.JString? stringCallback(jni$_.JString? string);
   jni$_.JString? varCallback(jni$_.JString? object);
-  core$_.int manyPrimitives(
-      core$_.int i, core$_.bool z, core$_.int c, core$_.double d);
+  int manyPrimitives(int i, bool z, int c, double d);
 }
 
 final class _$InheritedFromMyInterface with $InheritedFromMyInterface {
@@ -7181,21 +7172,17 @@ final class _$InheritedFromMyInterface with $InheritedFromMyInterface {
     this.voidCallback$async = false,
     required jni$_.JString? Function(jni$_.JString? string) stringCallback,
     required jni$_.JString? Function(jni$_.JString? object) varCallback,
-    required core$_.int Function(
-            core$_.int i, core$_.bool z, core$_.int c, core$_.double d)
-        manyPrimitives,
+    required int Function(int i, bool z, int c, double d) manyPrimitives,
   })  : _voidCallback = voidCallback,
         _stringCallback = stringCallback,
         _varCallback = varCallback,
         _manyPrimitives = manyPrimitives;
 
   final void Function(jni$_.JString? string) _voidCallback;
-  final bool voidCallback$async;
+  final core$_.bool voidCallback$async;
   final jni$_.JString? Function(jni$_.JString? string) _stringCallback;
   final jni$_.JString? Function(jni$_.JString? object) _varCallback;
-  final core$_.int Function(
-          core$_.int i, core$_.bool z, core$_.int c, core$_.double d)
-      _manyPrimitives;
+  final int Function(int i, bool z, int c, double d) _manyPrimitives;
 
   void voidCallback(jni$_.JString? string) {
     return _voidCallback(string);
@@ -7209,8 +7196,7 @@ final class _$InheritedFromMyInterface with $InheritedFromMyInterface {
     return _varCallback(object);
   }
 
-  core$_.int manyPrimitives(
-      core$_.int i, core$_.bool z, core$_.int c, core$_.double d) {
+  int manyPrimitives(int i, bool z, int c, double d) {
     return _manyPrimitives(i, z, c, d);
   }
 }
@@ -7249,7 +7235,7 @@ final class $InheritedFromMyInterface$NullableType$
   int get hashCode => ($InheritedFromMyInterface$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($InheritedFromMyInterface$NullableType$) &&
         other is $InheritedFromMyInterface$NullableType$;
   }
@@ -7288,7 +7274,7 @@ final class $InheritedFromMyInterface$Type$
   int get hashCode => ($InheritedFromMyInterface$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($InheritedFromMyInterface$Type$) &&
         other is $InheritedFromMyInterface$Type$;
   }
@@ -7419,11 +7405,11 @@ class InheritedFromMyRunnable extends jni$_.JObject {
 abstract base mixin class $InheritedFromMyRunnable {
   factory $InheritedFromMyRunnable({
     required void Function() run,
-    bool run$async,
+    core$_.bool run$async,
   }) = _$InheritedFromMyRunnable;
 
   void run();
-  bool get run$async => false;
+  core$_.bool get run$async => false;
 }
 
 final class _$InheritedFromMyRunnable with $InheritedFromMyRunnable {
@@ -7433,7 +7419,7 @@ final class _$InheritedFromMyRunnable with $InheritedFromMyRunnable {
   }) : _run = run;
 
   final void Function() _run;
-  final bool run$async;
+  final core$_.bool run$async;
 
   void run() {
     return _run();
@@ -7474,7 +7460,7 @@ final class $InheritedFromMyRunnable$NullableType$
   int get hashCode => ($InheritedFromMyRunnable$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($InheritedFromMyRunnable$NullableType$) &&
         other is $InheritedFromMyRunnable$NullableType$;
   }
@@ -7513,7 +7499,7 @@ final class $InheritedFromMyRunnable$Type$
   int get hashCode => ($InheritedFromMyRunnable$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($InheritedFromMyRunnable$Type$) &&
         other is $InheritedFromMyRunnable$Type$;
   }
@@ -7658,11 +7644,11 @@ class MyInterface<$T extends jni$_.JObject?> extends jni$_.JObject {
               jni$_.JMethodIDPtr, int, int, int, double)>();
 
   /// from: `public abstract long manyPrimitives(int i, boolean z, char c, double d)`
-  core$_.int manyPrimitives(
-    core$_.int i,
-    core$_.bool z,
-    core$_.int c,
-    core$_.double d,
+  int manyPrimitives(
+    int i,
+    bool z,
+    int c,
+    double d,
   ) {
     return _manyPrimitives(reference.pointer,
             _id_manyPrimitives as jni$_.JMethodIDPtr, i, z ? 1 : 0, c, d)
@@ -7792,22 +7778,19 @@ abstract base mixin class $MyInterface<$T extends jni$_.JObject?> {
   factory $MyInterface({
     required jni$_.JType<$T> T,
     required void Function(jni$_.JString? string) voidCallback,
-    bool voidCallback$async,
+    core$_.bool voidCallback$async,
     required jni$_.JString? Function(jni$_.JString? string) stringCallback,
     required $T? Function($T? object) varCallback,
-    required core$_.int Function(
-            core$_.int i, core$_.bool z, core$_.int c, core$_.double d)
-        manyPrimitives,
+    required int Function(int i, bool z, int c, double d) manyPrimitives,
   }) = _$MyInterface<$T>;
 
   jni$_.JType<$T> get T;
 
   void voidCallback(jni$_.JString? string);
-  bool get voidCallback$async => false;
+  core$_.bool get voidCallback$async => false;
   jni$_.JString? stringCallback(jni$_.JString? string);
   $T? varCallback($T? object);
-  core$_.int manyPrimitives(
-      core$_.int i, core$_.bool z, core$_.int c, core$_.double d);
+  int manyPrimitives(int i, bool z, int c, double d);
 }
 
 final class _$MyInterface<$T extends jni$_.JObject?> with $MyInterface<$T> {
@@ -7817,9 +7800,7 @@ final class _$MyInterface<$T extends jni$_.JObject?> with $MyInterface<$T> {
     this.voidCallback$async = false,
     required jni$_.JString? Function(jni$_.JString? string) stringCallback,
     required $T? Function($T? object) varCallback,
-    required core$_.int Function(
-            core$_.int i, core$_.bool z, core$_.int c, core$_.double d)
-        manyPrimitives,
+    required int Function(int i, bool z, int c, double d) manyPrimitives,
   })  : _voidCallback = voidCallback,
         _stringCallback = stringCallback,
         _varCallback = varCallback,
@@ -7829,12 +7810,10 @@ final class _$MyInterface<$T extends jni$_.JObject?> with $MyInterface<$T> {
   final jni$_.JType<$T> T;
 
   final void Function(jni$_.JString? string) _voidCallback;
-  final bool voidCallback$async;
+  final core$_.bool voidCallback$async;
   final jni$_.JString? Function(jni$_.JString? string) _stringCallback;
   final $T? Function($T? object) _varCallback;
-  final core$_.int Function(
-          core$_.int i, core$_.bool z, core$_.int c, core$_.double d)
-      _manyPrimitives;
+  final int Function(int i, bool z, int c, double d) _manyPrimitives;
 
   void voidCallback(jni$_.JString? string) {
     return _voidCallback(string);
@@ -7848,8 +7827,7 @@ final class _$MyInterface<$T extends jni$_.JObject?> with $MyInterface<$T> {
     return _varCallback(object);
   }
 
-  core$_.int manyPrimitives(
-      core$_.int i, core$_.bool z, core$_.int c, core$_.double d) {
+  int manyPrimitives(int i, bool z, int c, double d) {
     return _manyPrimitives(i, z, c, d);
   }
 }
@@ -7893,7 +7871,7 @@ final class $MyInterface$NullableType$<$T extends jni$_.JObject?>
   int get hashCode => Object.hash($MyInterface$NullableType$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($MyInterface$NullableType$<$T>) &&
         other is $MyInterface$NullableType$<$T> &&
         T == other.T;
@@ -7939,7 +7917,7 @@ final class $MyInterface$Type$<$T extends jni$_.JObject?>
   int get hashCode => Object.hash($MyInterface$Type$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($MyInterface$Type$<$T>) &&
         other is $MyInterface$Type$<$T> &&
         T == other.T;
@@ -8028,10 +8006,10 @@ class MyInterfaceConsumer extends jni$_.JObject {
   static void consumeOnAnotherThread<$T extends jni$_.JObject?>(
     MyInterface<$T?>? myInterface,
     jni$_.JString? string,
-    core$_.int i,
-    core$_.bool z,
-    core$_.int c,
-    core$_.double d,
+    int i,
+    bool z,
+    int c,
+    double d,
     $T? object, {
     required jni$_.JType<$T> T,
   }) {
@@ -8087,10 +8065,10 @@ class MyInterfaceConsumer extends jni$_.JObject {
   static void consumeOnSameThread<$T extends jni$_.JObject?>(
     MyInterface<$T?>? myInterface,
     jni$_.JString? string,
-    core$_.int i,
-    core$_.bool z,
-    core$_.int c,
-    core$_.double d,
+    int i,
+    bool z,
+    int c,
+    double d,
     $T? object, {
     required jni$_.JType<$T> T,
   }) {
@@ -8145,7 +8123,7 @@ final class $MyInterfaceConsumer$NullableType$
   int get hashCode => ($MyInterfaceConsumer$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($MyInterfaceConsumer$NullableType$) &&
         other is $MyInterfaceConsumer$NullableType$;
   }
@@ -8184,7 +8162,7 @@ final class $MyInterfaceConsumer$Type$
   int get hashCode => ($MyInterfaceConsumer$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($MyInterfaceConsumer$Type$) &&
         other is $MyInterfaceConsumer$Type$;
   }
@@ -8315,11 +8293,11 @@ class MyRunnable extends jni$_.JObject {
 abstract base mixin class $MyRunnable {
   factory $MyRunnable({
     required void Function() run,
-    bool run$async,
+    core$_.bool run$async,
   }) = _$MyRunnable;
 
   void run();
-  bool get run$async => false;
+  core$_.bool get run$async => false;
 }
 
 final class _$MyRunnable with $MyRunnable {
@@ -8329,7 +8307,7 @@ final class _$MyRunnable with $MyRunnable {
   }) : _run = run;
 
   final void Function() _run;
-  final bool run$async;
+  final core$_.bool run$async;
 
   void run() {
     return _run();
@@ -8368,7 +8346,7 @@ final class $MyRunnable$NullableType$ extends jni$_.JType<MyRunnable?> {
   int get hashCode => ($MyRunnable$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($MyRunnable$NullableType$) &&
         other is $MyRunnable$NullableType$;
   }
@@ -8406,7 +8384,7 @@ final class $MyRunnable$Type$ extends jni$_.JType<MyRunnable> {
   int get hashCode => ($MyRunnable$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($MyRunnable$Type$) &&
         other is $MyRunnable$Type$;
   }
@@ -8581,7 +8559,7 @@ final class $MyRunnableRunner$NullableType$
   int get hashCode => ($MyRunnableRunner$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($MyRunnableRunner$NullableType$) &&
         other is $MyRunnableRunner$NullableType$;
   }
@@ -8619,7 +8597,7 @@ final class $MyRunnableRunner$Type$ extends jni$_.JType<MyRunnableRunner> {
   int get hashCode => ($MyRunnableRunner$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($MyRunnableRunner$Type$) &&
         other is $MyRunnableRunner$Type$;
   }
@@ -8710,7 +8688,7 @@ final class $StringConversionException$NullableType$
   int get hashCode => ($StringConversionException$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($StringConversionException$NullableType$) &&
         other is $StringConversionException$NullableType$;
   }
@@ -8749,7 +8727,7 @@ final class $StringConversionException$Type$
   int get hashCode => ($StringConversionException$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($StringConversionException$Type$) &&
         other is $StringConversionException$Type$;
   }
@@ -8793,7 +8771,7 @@ class StringConverter extends jni$_.JObject {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public abstract int parseToInt(java.lang.String string)`
-  core$_.int parseToInt(
+  int parseToInt(
     jni$_.JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -8882,20 +8860,20 @@ class StringConverter extends jni$_.JObject {
 
 abstract base mixin class $StringConverter {
   factory $StringConverter({
-    required core$_.int Function(jni$_.JString? string) parseToInt,
+    required int Function(jni$_.JString? string) parseToInt,
   }) = _$StringConverter;
 
-  core$_.int parseToInt(jni$_.JString? string);
+  int parseToInt(jni$_.JString? string);
 }
 
 final class _$StringConverter with $StringConverter {
   _$StringConverter({
-    required core$_.int Function(jni$_.JString? string) parseToInt,
+    required int Function(jni$_.JString? string) parseToInt,
   }) : _parseToInt = parseToInt;
 
-  final core$_.int Function(jni$_.JString? string) _parseToInt;
+  final int Function(jni$_.JString? string) _parseToInt;
 
-  core$_.int parseToInt(jni$_.JString? string) {
+  int parseToInt(jni$_.JString? string) {
     return _parseToInt(string);
   }
 }
@@ -8933,7 +8911,7 @@ final class $StringConverter$NullableType$
   int get hashCode => ($StringConverter$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($StringConverter$NullableType$) &&
         other is $StringConverter$NullableType$;
   }
@@ -8971,7 +8949,7 @@ final class $StringConverter$Type$ extends jni$_.JType<StringConverter> {
   int get hashCode => ($StringConverter$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($StringConverter$Type$) &&
         other is $StringConverter$Type$;
   }
@@ -9136,7 +9114,7 @@ final class $StringConverterConsumer$NullableType$
   int get hashCode => ($StringConverterConsumer$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($StringConverterConsumer$NullableType$) &&
         other is $StringConverterConsumer$NullableType$;
   }
@@ -9175,7 +9153,7 @@ final class $StringConverterConsumer$Type$
   int get hashCode => ($StringConverterConsumer$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($StringConverterConsumer$Type$) &&
         other is $StringConverterConsumer$Type$;
   }
@@ -9285,7 +9263,7 @@ final class $BaseClass$NullableType$<$T extends jni$_.JObject?>
   int get hashCode => Object.hash($BaseClass$NullableType$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($BaseClass$NullableType$<$T>) &&
         other is $BaseClass$NullableType$<$T> &&
         T == other.T;
@@ -9331,7 +9309,7 @@ final class $BaseClass$Type$<$T extends jni$_.JObject?>
   int get hashCode => Object.hash($BaseClass$Type$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($BaseClass$Type$<$T>) &&
         other is $BaseClass$Type$<$T> &&
         T == other.T;
@@ -9549,7 +9527,7 @@ final class $BaseGenericInterface$NullableType$<$T extends jni$_.JObject?>
   int get hashCode => Object.hash($BaseGenericInterface$NullableType$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($BaseGenericInterface$NullableType$<$T>) &&
         other is $BaseGenericInterface$NullableType$<$T> &&
         T == other.T;
@@ -9595,7 +9573,7 @@ final class $BaseGenericInterface$Type$<$T extends jni$_.JObject?>
   int get hashCode => Object.hash($BaseGenericInterface$Type$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($BaseGenericInterface$Type$<$T>) &&
         other is $BaseGenericInterface$Type$<$T> &&
         T == other.T;
@@ -9779,7 +9757,7 @@ final class $BaseInterface$NullableType$ extends jni$_.JType<BaseInterface?> {
   int get hashCode => ($BaseInterface$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($BaseInterface$NullableType$) &&
         other is $BaseInterface$NullableType$;
   }
@@ -9817,7 +9795,7 @@ final class $BaseInterface$Type$ extends jni$_.JType<BaseInterface> {
   int get hashCode => ($BaseInterface$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($BaseInterface$Type$) &&
         other is $BaseInterface$Type$;
   }
@@ -10002,7 +9980,7 @@ final class $DerivedInterface$NullableType$
   int get hashCode => ($DerivedInterface$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($DerivedInterface$NullableType$) &&
         other is $DerivedInterface$NullableType$;
   }
@@ -10040,7 +10018,7 @@ final class $DerivedInterface$Type$ extends jni$_.JType<DerivedInterface> {
   int get hashCode => ($DerivedInterface$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($DerivedInterface$Type$) &&
         other is $DerivedInterface$Type$;
   }
@@ -10152,7 +10130,7 @@ final class $GenericDerivedClass$NullableType$<$T extends jni$_.JObject?>
   int get hashCode => Object.hash($GenericDerivedClass$NullableType$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($GenericDerivedClass$NullableType$<$T>) &&
         other is $GenericDerivedClass$NullableType$<$T> &&
         T == other.T;
@@ -10198,7 +10176,7 @@ final class $GenericDerivedClass$Type$<$T extends jni$_.JObject?>
   int get hashCode => Object.hash($GenericDerivedClass$Type$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($GenericDerivedClass$Type$<$T>) &&
         other is $GenericDerivedClass$Type$<$T> &&
         T == other.T;
@@ -10287,7 +10265,7 @@ final class $SpecificDerivedClass$NullableType$
   int get hashCode => ($SpecificDerivedClass$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($SpecificDerivedClass$NullableType$) &&
         other is $SpecificDerivedClass$NullableType$;
   }
@@ -10327,7 +10305,7 @@ final class $SpecificDerivedClass$Type$
   int get hashCode => ($SpecificDerivedClass$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($SpecificDerivedClass$Type$) &&
         other is $SpecificDerivedClass$Type$;
   }
@@ -10547,7 +10525,7 @@ final class $Annotated$Nested$NullableType$<
   int get hashCode => Object.hash($Annotated$Nested$NullableType$, T, U, W, V);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType ==
             ($Annotated$Nested$NullableType$<$T, $U, $W, $V>) &&
         other is $Annotated$Nested$NullableType$<$T, $U, $W, $V> &&
@@ -10616,7 +10594,7 @@ final class $Annotated$Nested$Type$<
   int get hashCode => Object.hash($Annotated$Nested$Type$, T, U, W, V);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Annotated$Nested$Type$<$T, $U, $W, $V>) &&
         other is $Annotated$Nested$Type$<$T, $U, $W, $V> &&
         T == other.T &&
@@ -10841,7 +10819,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.lang.String nullableHello(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? nullableHello(
-    core$_.bool z,
+    bool z,
   ) {
     return _nullableHello(reference.pointer,
             _id_nullableHello as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -10972,7 +10950,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.lang.String[] nullableArray(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<jni$_.JString>? nullableArray(
-    core$_.bool z,
+    bool z,
   ) {
     return _nullableArray(reference.pointer,
             _id_nullableArray as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -10999,7 +10977,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.lang.String[] nullableArrayOfNullable(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<jni$_.JString?>? nullableArrayOfNullable(
-    core$_.bool z,
+    bool z,
   ) {
     return _nullableArrayOfNullable(reference.pointer,
             _id_nullableArrayOfNullable as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -11078,7 +11056,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.util.List<java.lang.String> nullableList(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JString>? nullableList(
-    core$_.bool z,
+    bool z,
   ) {
     return _nullableList(reference.pointer,
             _id_nullableList as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -11105,7 +11083,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.util.List<java.lang.String> nullableListOfNullable(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JString?>? nullableListOfNullable(
-    core$_.bool z,
+    bool z,
   ) {
     return _nullableListOfNullable(reference.pointer,
             _id_nullableListOfNullable as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -11284,7 +11262,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// The returned object must be released after use, by calling the [release] method.
   $V? nullableReturnMethodGenericEcho<$V extends jni$_.JObject?>(
     $V object,
-    core$_.bool z, {
+    bool z, {
     required jni$_.JType<$V> V,
   }) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -11320,7 +11298,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// The returned object must be released after use, by calling the [release] method.
   $V? nullableReturnMethodGenericEcho2<$V extends jni$_.JObject>(
     $V object,
-    core$_.bool z, {
+    bool z, {
     jni$_.JType<$V>? V,
   }) {
     V ??= jni$_.lowestCommonSuperType([
@@ -11496,7 +11474,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.util.List<T> nullableClassGenericList(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$T>? nullableClassGenericList(
-    core$_.bool z,
+    bool z,
   ) {
     return _nullableClassGenericList(reference.pointer,
             _id_nullableClassGenericList as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -11521,7 +11499,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.util.List<T> nullableClassGenericListOfNullable(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$T?>? nullableClassGenericListOfNullable(
-    core$_.bool z,
+    bool z,
   ) {
     return _nullableClassGenericListOfNullable(
             reference.pointer,
@@ -11608,7 +11586,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$V>? nullableMethodGenericList<$V extends jni$_.JObject?>(
     $V object,
-    core$_.bool z, {
+    bool z, {
     required jni$_.JType<$V> V,
   }) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -11640,7 +11618,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<$V?>?
       nullableMethodGenericListOfNullable<$V extends jni$_.JObject?>(
-    core$_.bool z, {
+    bool z, {
     required jni$_.JType<$V> V,
   }) {
     return _nullableMethodGenericListOfNullable(
@@ -12239,7 +12217,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public W nullableGetW(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   $W? nullableGetW(
-    core$_.bool z,
+    bool z,
   ) {
     return _nullableGetW(reference.pointer,
             _id_nullableGetW as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -12343,7 +12321,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.util.List<java.util.List<java.util.List<U>>> list3dOfNullableU(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JList<jni$_.JList<$U?>>> list3dOfNullableU(
-    core$_.bool z,
+    bool z,
   ) {
     return _list3dOfNullableU(reference.pointer,
             _id_list3dOfNullableU as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -12371,7 +12349,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.util.List<java.util.List<java.util.List<W>>> list3dOfNullableW(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JList<jni$_.JList<$W?>>> list3dOfNullableW(
-    core$_.bool z,
+    bool z,
   ) {
     return _list3dOfNullableW(reference.pointer,
             _id_list3dOfNullableW as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -12485,7 +12463,7 @@ final class $Annotated$NullableType$<
   int get hashCode => Object.hash($Annotated$NullableType$, T, U, W);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Annotated$NullableType$<$T, $U, $W>) &&
         other is $Annotated$NullableType$<$T, $U, $W> &&
         T == other.T &&
@@ -12545,7 +12523,7 @@ final class $Annotated$Type$<
   int get hashCode => Object.hash($Annotated$Type$, T, U, W);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Annotated$Type$<$T, $U, $W>) &&
         other is $Annotated$Type$<$T, $U, $W> &&
         T == other.T &&
@@ -12695,7 +12673,7 @@ final class $JsonSerializable$Case$NullableType$
   int get hashCode => ($JsonSerializable$Case$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($JsonSerializable$Case$NullableType$) &&
         other is $JsonSerializable$Case$NullableType$;
   }
@@ -12734,7 +12712,7 @@ final class $JsonSerializable$Case$Type$
   int get hashCode => ($JsonSerializable$Case$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($JsonSerializable$Case$Type$) &&
         other is $JsonSerializable$Case$Type$;
   }
@@ -12921,7 +12899,7 @@ final class $JsonSerializable$NullableType$
   int get hashCode => ($JsonSerializable$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($JsonSerializable$NullableType$) &&
         other is $JsonSerializable$NullableType$;
   }
@@ -12959,7 +12937,7 @@ final class $JsonSerializable$Type$ extends jni$_.JType<JsonSerializable> {
   int get hashCode => ($JsonSerializable$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($JsonSerializable$Type$) &&
         other is $JsonSerializable$Type$;
   }
@@ -13043,7 +13021,7 @@ final class $MyDataClass$NullableType$ extends jni$_.JType<MyDataClass?> {
   int get hashCode => ($MyDataClass$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($MyDataClass$NullableType$) &&
         other is $MyDataClass$NullableType$;
   }
@@ -13081,7 +13059,7 @@ final class $MyDataClass$Type$ extends jni$_.JType<MyDataClass> {
   int get hashCode => ($MyDataClass$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($MyDataClass$Type$) &&
         other is $MyDataClass$Type$;
   }
@@ -13219,7 +13197,7 @@ final class $NotNull$NullableType$ extends jni$_.JType<NotNull?> {
   int get hashCode => ($NotNull$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($NotNull$NullableType$) &&
         other is $NotNull$NullableType$;
   }
@@ -13254,7 +13232,7 @@ final class $NotNull$Type$ extends jni$_.JType<NotNull> {
   int get hashCode => ($NotNull$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($NotNull$Type$) && other is $NotNull$Type$;
   }
 }
@@ -13391,7 +13369,7 @@ final class $Nullable$NullableType$ extends jni$_.JType<Nullable?> {
   int get hashCode => ($Nullable$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Nullable$NullableType$) &&
         other is $Nullable$NullableType$;
   }
@@ -13426,7 +13404,7 @@ final class $Nullable$Type$ extends jni$_.JType<Nullable> {
   int get hashCode => ($Nullable$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Nullable$Type$) && other is $Nullable$Type$;
   }
 }
@@ -13560,11 +13538,11 @@ class R2250$Child extends jni$_.JObject {
 abstract base mixin class $R2250$Child {
   factory $R2250$Child({
     required void Function(jni$_.JObject? object) foo,
-    bool foo$async,
+    core$_.bool foo$async,
   }) = _$R2250$Child;
 
   void foo(jni$_.JObject? object);
-  bool get foo$async => false;
+  core$_.bool get foo$async => false;
 }
 
 final class _$R2250$Child with $R2250$Child {
@@ -13574,7 +13552,7 @@ final class _$R2250$Child with $R2250$Child {
   }) : _foo = foo;
 
   final void Function(jni$_.JObject? object) _foo;
-  final bool foo$async;
+  final core$_.bool foo$async;
 
   void foo(jni$_.JObject? object) {
     return _foo(object);
@@ -13613,7 +13591,7 @@ final class $R2250$Child$NullableType$ extends jni$_.JType<R2250$Child?> {
   int get hashCode => ($R2250$Child$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($R2250$Child$NullableType$) &&
         other is $R2250$Child$NullableType$;
   }
@@ -13651,7 +13629,7 @@ final class $R2250$Child$Type$ extends jni$_.JType<R2250$Child> {
   int get hashCode => ($R2250$Child$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($R2250$Child$Type$) &&
         other is $R2250$Child$Type$;
   }
@@ -13804,13 +13782,13 @@ abstract base mixin class $R2250<$T extends jni$_.JObject?> {
   factory $R2250({
     required jni$_.JType<$T> T,
     required void Function($T? object) foo,
-    bool foo$async,
+    core$_.bool foo$async,
   }) = _$R2250<$T>;
 
   jni$_.JType<$T> get T;
 
   void foo($T? object);
-  bool get foo$async => false;
+  core$_.bool get foo$async => false;
 }
 
 final class _$R2250<$T extends jni$_.JObject?> with $R2250<$T> {
@@ -13824,7 +13802,7 @@ final class _$R2250<$T extends jni$_.JObject?> with $R2250<$T> {
   final jni$_.JType<$T> T;
 
   final void Function($T? object) _foo;
-  final bool foo$async;
+  final core$_.bool foo$async;
 
   void foo($T? object) {
     return _foo(object);
@@ -13869,7 +13847,7 @@ final class $R2250$NullableType$<$T extends jni$_.JObject?>
   int get hashCode => Object.hash($R2250$NullableType$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($R2250$NullableType$<$T>) &&
         other is $R2250$NullableType$<$T> &&
         T == other.T;
@@ -13913,7 +13891,7 @@ final class $R2250$Type$<$T extends jni$_.JObject?>
   int get hashCode => Object.hash($R2250$Type$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($R2250$Type$<$T>) &&
         other is $R2250$Type$<$T> &&
         T == other.T;
@@ -13999,7 +13977,7 @@ final class $R693$Child$NullableType$ extends jni$_.JType<R693$Child?> {
   int get hashCode => ($R693$Child$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($R693$Child$NullableType$) &&
         other is $R693$Child$NullableType$;
   }
@@ -14038,7 +14016,7 @@ final class $R693$Child$Type$ extends jni$_.JType<R693$Child> {
   int get hashCode => ($R693$Child$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($R693$Child$Type$) &&
         other is $R693$Child$Type$;
   }
@@ -14147,7 +14125,7 @@ final class $R693$NullableType$<$T extends jni$_.JObject?>
   int get hashCode => Object.hash($R693$NullableType$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($R693$NullableType$<$T>) &&
         other is $R693$NullableType$<$T> &&
         T == other.T;
@@ -14190,7 +14168,7 @@ final class $R693$Type$<$T extends jni$_.JObject?>
   int get hashCode => Object.hash($R693$Type$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($R693$Type$<$T>) &&
         other is $R693$Type$<$T> &&
         T == other.T;

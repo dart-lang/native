@@ -48,7 +48,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' as core$_;
-import 'dart:core' show Object, String, bool, double, int;
+import 'dart:core' show Object, String, double, int;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
@@ -245,7 +245,7 @@ class JsonFactory$Feature extends jni$_.JObject {
   /// Method that calculates bit set (flags) of all features that
   /// are enabled by default.
   ///@return Bit field of features enabled by default
-  static core$_.int collectDefaults() {
+  static int collectDefaults() {
     return _collectDefaults(
             _class.reference.pointer, _id_collectDefaults as jni$_.JMethodIDPtr)
         .integer;
@@ -269,7 +269,7 @@ class JsonFactory$Feature extends jni$_.JObject {
           )>();
 
   /// from: `public boolean enabledByDefault()`
-  core$_.bool enabledByDefault() {
+  bool enabledByDefault() {
     return _enabledByDefault(
             reference.pointer, _id_enabledByDefault as jni$_.JMethodIDPtr)
         .boolean;
@@ -292,8 +292,8 @@ class JsonFactory$Feature extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
   /// from: `public boolean enabledIn(int flags)`
-  core$_.bool enabledIn(
-    core$_.int flags,
+  bool enabledIn(
+    int flags,
   ) {
     return _enabledIn(
             reference.pointer, _id_enabledIn as jni$_.JMethodIDPtr, flags)
@@ -318,7 +318,7 @@ class JsonFactory$Feature extends jni$_.JObject {
           )>();
 
   /// from: `public int getMask()`
-  core$_.int getMask() {
+  int getMask() {
     return _getMask(reference.pointer, _id_getMask as jni$_.JMethodIDPtr)
         .integer;
   }
@@ -357,7 +357,7 @@ final class $JsonFactory$Feature$NullableType$
   int get hashCode => ($JsonFactory$Feature$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($JsonFactory$Feature$NullableType$) &&
         other is $JsonFactory$Feature$NullableType$;
   }
@@ -395,7 +395,7 @@ final class $JsonFactory$Feature$Type$
   int get hashCode => ($JsonFactory$Feature$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($JsonFactory$Feature$Type$) &&
         other is $JsonFactory$Feature$Type$;
   }
@@ -689,7 +689,7 @@ class JsonFactory extends jni$_.JObject {
   ///@return Whether format supported by this factory
   ///   requires Object properties to be ordered.
   ///@since 2.3
-  core$_.bool requiresPropertyOrdering() {
+  bool requiresPropertyOrdering() {
     return _requiresPropertyOrdering(reference.pointer,
             _id_requiresPropertyOrdering as jni$_.JMethodIDPtr)
         .boolean;
@@ -725,7 +725,7 @@ class JsonFactory extends jni$_.JObject {
   ///@return Whether format supported by this factory
   ///    supports native binary content
   ///@since 2.3
-  core$_.bool canHandleBinaryNatively() {
+  bool canHandleBinaryNatively() {
     return _canHandleBinaryNatively(reference.pointer,
             _id_canHandleBinaryNatively as jni$_.JMethodIDPtr)
         .boolean;
@@ -761,7 +761,7 @@ class JsonFactory extends jni$_.JObject {
   ///@return Whether access to decoded textual content can be efficiently
   ///   accessed using parser method {@code getTextCharacters()}.
   ///@since 2.4
-  core$_.bool canUseCharArrays() {
+  bool canUseCharArrays() {
     return _canUseCharArrays(
             reference.pointer, _id_canUseCharArrays as jni$_.JMethodIDPtr)
         .boolean;
@@ -793,7 +793,7 @@ class JsonFactory extends jni$_.JObject {
   ///@return Whether this factory supports non-blocking ("async") parsing or
   ///    not (and consequently whether {@code createNonBlockingXxx()} method(s) work)
   ///@since 2.9
-  core$_.bool canParseAsync() {
+  bool canParseAsync() {
     return _canParseAsync(
             reference.pointer, _id_canParseAsync as jni$_.JMethodIDPtr)
         .boolean;
@@ -876,7 +876,7 @@ class JsonFactory extends jni$_.JObject {
   ///@param schema Schema instance to check
   ///@return Whether parsers and generators constructed by this factory
   ///   can use specified format schema instance
-  core$_.bool canUseSchema(
+  bool canUseSchema(
     jni$_.JObject? schema,
   ) {
     final _$schema = schema?.reference ?? jni$_.jNullReference;
@@ -972,7 +972,7 @@ class JsonFactory extends jni$_.JObject {
   ///   generators created by this factory; false if a general
   ///   ObjectCodec is enough
   ///@since 2.1
-  core$_.bool requiresCustomCodec() {
+  bool requiresCustomCodec() {
     return _requiresCustomCodec(
             reference.pointer, _id_requiresCustomCodec as jni$_.JMethodIDPtr)
         .boolean;
@@ -1030,7 +1030,7 @@ class JsonFactory extends jni$_.JObject {
   ///@deprecated since 2.10 use JsonFactoryBuilder\#configure(JsonFactory.Feature, boolean) instead
   JsonFactory? configure(
     JsonFactory$Feature? f,
-    core$_.bool state,
+    bool state,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
     return _configure(reference.pointer, _id_configure as jni$_.JMethodIDPtr,
@@ -1125,7 +1125,7 @@ class JsonFactory extends jni$_.JObject {
   /// Checked whether specified parser feature is enabled.
   ///@param f Feature to check
   ///@return True if the specified feature is enabled
-  core$_.bool isEnabled(
+  bool isEnabled(
     JsonFactory$Feature? f,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
@@ -1152,7 +1152,7 @@ class JsonFactory extends jni$_.JObject {
           )>();
 
   /// from: `public final int getParserFeatures()`
-  core$_.int getParserFeatures() {
+  int getParserFeatures() {
     return _getParserFeatures(
             reference.pointer, _id_getParserFeatures as jni$_.JMethodIDPtr)
         .integer;
@@ -1176,7 +1176,7 @@ class JsonFactory extends jni$_.JObject {
           )>();
 
   /// from: `public final int getGeneratorFeatures()`
-  core$_.int getGeneratorFeatures() {
+  int getGeneratorFeatures() {
     return _getGeneratorFeatures(
             reference.pointer, _id_getGeneratorFeatures as jni$_.JMethodIDPtr)
         .integer;
@@ -1200,7 +1200,7 @@ class JsonFactory extends jni$_.JObject {
           )>();
 
   /// from: `public int getFormatParserFeatures()`
-  core$_.int getFormatParserFeatures() {
+  int getFormatParserFeatures() {
     return _getFormatParserFeatures(reference.pointer,
             _id_getFormatParserFeatures as jni$_.JMethodIDPtr)
         .integer;
@@ -1225,7 +1225,7 @@ class JsonFactory extends jni$_.JObject {
               )>();
 
   /// from: `public int getFormatGeneratorFeatures()`
-  core$_.int getFormatGeneratorFeatures() {
+  int getFormatGeneratorFeatures() {
     return _getFormatGeneratorFeatures(reference.pointer,
             _id_getFormatGeneratorFeatures as jni$_.JMethodIDPtr)
         .integer;
@@ -1258,7 +1258,7 @@ class JsonFactory extends jni$_.JObject {
   ///@return This factory instance (to allow call chaining)
   JsonFactory? configure$1(
     jsonparser$_.JsonParser$Feature? f,
-    core$_.bool state,
+    bool state,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
     return _configure$1(reference.pointer,
@@ -1351,7 +1351,7 @@ class JsonFactory extends jni$_.JObject {
   /// Method for checking if the specified parser feature is enabled.
   ///@param f Feature to check
   ///@return True if specified feature is enabled
-  core$_.bool isEnabled$1(
+  bool isEnabled$1(
     jsonparser$_.JsonParser$Feature? f,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
@@ -1382,7 +1382,7 @@ class JsonFactory extends jni$_.JObject {
   ///@param f Feature to check
   ///@return True if specified feature is enabled
   ///@since 2.10
-  core$_.bool isEnabled$2(
+  bool isEnabled$2(
     jni$_.JObject? f,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
@@ -1479,7 +1479,7 @@ class JsonFactory extends jni$_.JObject {
   ///@return This factory instance (to allow call chaining)
   JsonFactory? configure$2(
     jni$_.JObject? f,
-    core$_.bool state,
+    bool state,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
     return _configure$2(reference.pointer,
@@ -1572,7 +1572,7 @@ class JsonFactory extends jni$_.JObject {
   /// Check whether specified generator feature is enabled.
   ///@param f Feature to check
   ///@return Whether specified feature is enabled
-  core$_.bool isEnabled$3(
+  bool isEnabled$3(
     jni$_.JObject? f,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
@@ -1603,7 +1603,7 @@ class JsonFactory extends jni$_.JObject {
   ///@param f Feature to check
   ///@return Whether specified feature is enabled
   ///@since 2.10
-  core$_.bool isEnabled$4(
+  bool isEnabled$4(
     jni$_.JObject? f,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
@@ -2090,8 +2090,8 @@ class JsonFactory extends jni$_.JObject {
   ///@since 2.1
   jsonparser$_.JsonParser? createParser$5(
     jni$_.JByteArray? data,
-    core$_.int offset,
-    core$_.int len,
+    int offset,
+    int len,
   ) {
     final _$data = data?.reference ?? jni$_.jNullReference;
     return _createParser$5(
@@ -2195,8 +2195,8 @@ class JsonFactory extends jni$_.JObject {
   ///@since 2.4
   jsonparser$_.JsonParser? createParser$8(
     jni$_.JCharArray? content,
-    core$_.int offset,
-    core$_.int len,
+    int offset,
+    int len,
   ) {
     final _$content = content?.reference ?? jni$_.jNullReference;
     return _createParser$8(
@@ -2793,8 +2793,8 @@ class JsonFactory extends jni$_.JObject {
   ///@deprecated Since 2.2, use \#createParser(byte[],int,int) instead.
   jsonparser$_.JsonParser? createJsonParser$5(
     jni$_.JByteArray? data,
-    core$_.int offset,
-    core$_.int len,
+    int offset,
+    int len,
   ) {
     final _$data = data?.reference ?? jni$_.jNullReference;
     return _createJsonParser$5(
@@ -3042,7 +3042,7 @@ final class $JsonFactory$NullableType$ extends jni$_.JType<JsonFactory?> {
   int get hashCode => ($JsonFactory$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($JsonFactory$NullableType$) &&
         other is $JsonFactory$NullableType$;
   }
@@ -3079,7 +3079,7 @@ final class $JsonFactory$Type$ extends jni$_.JType<JsonFactory> {
   int get hashCode => ($JsonFactory$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($JsonFactory$Type$) &&
         other is $JsonFactory$Type$;
   }

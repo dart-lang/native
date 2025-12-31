@@ -161,7 +161,7 @@ class DartGenerator extends Visitor<Classes, Future<void>> {
       'DO NOT EDIT!\n';
   static const defaultImports = '''
 import 'dart:core' as $_core;
-import 'dart:core' show Object, String, bool, double, int;
+import 'dart:core' show Object, String, double, int;
 
 import 'package:jni/_internal.dart' as $_jni;
 import 'package:jni/jni.dart' as $_jni;
@@ -746,7 +746,7 @@ final class $typeClassName$typeParamsDef extends $_jType<$name$typeParamsCall$nu
   int get hashCode => $hashCode;
 
   $_override
-  bool operator ==(Object other) {
+  $_core.bool operator ==(Object other) {
     return other.runtimeType == ($typeClassName$typeParamsCall) &&
         other is $typeClassName$typeParamsCall$equalityTypeClasses;
   }
@@ -871,10 +871,10 @@ class _TypeGenerator extends TypeVisitor<String> {
     if (arrayType) {
       return node.name.capitalize();
     }
-    if (node.name == 'void') {
-      return node.dartType;
+    if (node.name == 'bool') {
+      return '$_core.${node.dartType}';
     }
-    return '$_core.${node.dartType}';
+    return node.dartType;
   }
 
   @override
@@ -1862,7 +1862,7 @@ class _AbstractImplMethod extends Visitor<Method, void> {
         .join(', ');
     s.writeln('  $returnType $name($args);');
     if (returnType == 'void') {
-      s.writeln('  bool get $name\$async => false;');
+      s.writeln('  $_core.bool get $name\$async => false;');
     }
   }
 }
@@ -1884,7 +1884,7 @@ class _ConcreteImplClosureDef extends Visitor<Method, void> {
         .join(', ');
     s.writeln('  final $returnType Function($args) _$name;');
     if (returnType == 'void') {
-      s.writeln('  final bool $name\$async;');
+      s.writeln('  final $_core.bool $name\$async;');
     }
   }
 }
@@ -1907,7 +1907,7 @@ class _AbstractImplFactoryArg extends Visitor<Method, String> {
         .join(', ');
     final functionArg = 'required $returnType Function($args) $name,';
     if (node.returnType.name == 'void') {
-      return '$functionArg bool $name\$async,';
+      return '$functionArg $_core.bool $name\$async,';
     }
     return functionArg;
   }
@@ -2155,19 +2155,19 @@ class _ComparatorGenerator extends Visitor<Method, void> {
     final paramsCall = node.params.map((param) => param.finalName).join(', ');
     final name = node.finalName;
     s.write('''
-  bool operator <($paramsDef) {
+  $_core.bool operator <($paramsDef) {
     return $name($paramsCall) < 0;
   }
 
-  bool operator <=($paramsDef) {
+  $_core.bool operator <=($paramsDef) {
     return $name($paramsCall) <= 0;
   }
 
-  bool operator >($paramsDef) {
+  $_core.bool operator >($paramsDef) {
     return $name($paramsCall) > 0;
   }
 
-  bool operator >=($paramsDef) {
+  $_core.bool operator >=($paramsDef) {
     return $name($paramsCall) >= 0;
   }
 ''');

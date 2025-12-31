@@ -36,7 +36,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' as core$_;
-import 'dart:core' show Object, String, bool, double, int;
+import 'dart:core' show Object, String, double, int;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
@@ -128,7 +128,7 @@ class JniPlugin extends jni$_.JObject {
   /// from: `static public android.app.Activity getActivity(long j)`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JObject? getActivity(
-    core$_.int j,
+    int j,
   ) {
     return _getActivity(
             _class.reference.pointer, _id_getActivity as jni$_.JMethodIDPtr, j)
