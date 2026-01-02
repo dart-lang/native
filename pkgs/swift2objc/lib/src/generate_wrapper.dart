@@ -5,7 +5,7 @@
 import 'dart:io';
 
 import 'package:logging/logging.dart';
-import 'package:path/path.dart' as path;
+import 'package:path/path.dart' as p;
 
 import 'config.dart';
 import 'context.dart';
@@ -45,15 +45,24 @@ Future<void> _generateWrapper(
 
   final sourceModules = <String?>[];
   final mergedSymbolgraph = ParsedSymbolgraph();
-
   final allInputConfigs = [...config.inputs, builtInInputConfig];
 
   for (final input in allInputConfigs) {
+    final isFoundation =
+        input is ModuleInputConfig && input.module == 'Foundation';
+
+    // Use JSON cache for Foundation to speed up generation
+    if (isFoundation && await _tryLoadFoundationCache(mergedSymbolgraph)) {
+      sourceModules.add('Foundation');
+      continue;
+    }
+
+    // Generate symbolgraph or use provided JSON
     if (input is HasSymbolgraphCommand) {
       await _generateSymbolgraphJson(
         (input as HasSymbolgraphCommand).symbolgraphCommand(
           await target(),
-          path.absolute((await sdkPath()).path),
+          p.absolute((await sdkPath()).path),
         ),
         tempDir,
       );
@@ -62,9 +71,10 @@ Future<void> _generateWrapper(
     final symbolgraphFileName = switch (input) {
       FilesInputConfig() => '${input.tempModuleName}$symbolgraphFileSuffix',
       ModuleInputConfig() => '${input.module}$symbolgraphFileSuffix',
-      JsonFileInputConfig() => path.absolute(input.jsonFile.path),
+      JsonFileInputConfig() => p.absolute(input.jsonFile.path),
     };
-    final symbolgraphJsonPath = path.join(tempDir.path, symbolgraphFileName);
+
+    final symbolgraphJsonPath = p.join(tempDir.path, symbolgraphFileName);
     final symbolgraphJson = readJsonFile(symbolgraphJsonPath);
 
     sourceModules.add(switch (input) {
@@ -81,6 +91,7 @@ Future<void> _generateWrapper(
     declarations,
     filter: config.include,
   );
+
   final wrapperCode = generate(
     transformedDeclarations,
     importedModuleNames: sourceModules.nonNulls.toList(),
@@ -111,4 +122,51 @@ Future<void> _generateSymbolgraphJson(
       'Error generating symbol graph \n${result.stdout} \n${result.stderr}',
     );
   }
+}
+
+/// Find the Foundation cache directory.
+Directory? _findFoundationCacheDir() {
+  final cacheRelativePath = p.join('lib', 'src', 'foundation_cache');
+
+  // Check current directory
+  var cacheDir = Directory(p.join(Directory.current.path, cacheRelativePath));
+  if (cacheDir.existsSync()) return cacheDir;
+
+  // Walk up directory tree looking for pubspec.yaml
+  var dir = Directory.current;
+  while (true) {
+    if (File(p.join(dir.path, 'pubspec.yaml')).existsSync()) {
+      cacheDir = Directory(p.join(dir.path, cacheRelativePath));
+      if (cacheDir.existsSync()) return cacheDir;
+    }
+    final parent = dir.parent;
+    if (parent.path == dir.path) break;
+    dir = parent;
+  }
+  return null;
+}
+
+/// Try to load Foundation symbolgraph from cache.
+///
+/// Loads ALL Foundation*.symbols.json files (including extensions) to preserve
+/// relationships needed for nested type assertions.
+Future<bool> _tryLoadFoundationCache(ParsedSymbolgraph target) async {
+  final cacheDir = _findFoundationCacheDir();
+  if (cacheDir == null) return false;
+
+  // Load all Foundation*.symbols.json files
+  final files = cacheDir
+      .listSync()
+      .whereType<File>()
+      .where((f) => f.path.endsWith('.symbols.json'))
+      .toList();
+
+  if (files.isEmpty) return false;
+
+  for (final file in files) {
+    final json = readJsonFile(file.path);
+    target.merge(parseSymbolgraph(builtInInputConfig, json));
+  }
+
+  return true;
 }

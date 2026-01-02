@@ -5,15 +5,15 @@ on:
   push:
     branches: [main]
     paths:
-      - '.github/workflows/swift2objc.yaml'
-      - 'pkgs/native_test_helpers/**'
-      - 'pkgs/swift2objc/**'
+      - ".github/workflows/swift2objc.yaml"
+      - "pkgs/native_test_helpers/**"
+      - "pkgs/swift2objc/**"
   pull_request:
     branches: [main]
     paths:
-      - '.github/workflows/swift2objc.yaml'
-      - 'pkgs/native_test_helpers/**'
-      - 'pkgs/swift2objc/**'
+      - ".github/workflows/swift2objc.yaml"
+      - "pkgs/native_test_helpers/**"
+      - "pkgs/swift2objc/**"
   schedule:
     - cron: "0 0 * * 0"
 
@@ -43,10 +43,13 @@ jobs:
       - name: Analyze code
         run: dart analyze --fatal-infos
         if: always() && steps.install.outcome == 'success'
+      - name: Verify Foundation cache
+        run: dart run tool/generate_foundation_ast.dart --verify
+        if: always() && steps.install.outcome == 'success'
 
   test-mac:
     needs: analyze
-    runs-on: 'macos-latest'
+    runs-on: "macos-latest"
     defaults:
       run:
         working-directory: pkgs/swift2objc/
