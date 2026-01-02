@@ -31,7 +31,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' as core$_;
-import 'dart:core' show Object, String, bool, double, int;
+import 'dart:core' show Object, String, double, int;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
@@ -162,7 +162,7 @@ final class $Example$NullableType$ extends jni$_.JType<Example?> {
   int get hashCode => ($Example$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Example$NullableType$) &&
         other is $Example$NullableType$;
   }
@@ -197,7 +197,7 @@ final class $Example$Type$ extends jni$_.JType<Example> {
   int get hashCode => ($Example$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Example$Type$) && other is $Example$Type$;
   }
 }
