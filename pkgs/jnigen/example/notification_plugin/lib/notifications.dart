@@ -35,7 +35,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' as core$_;
-import 'dart:core' show Object, String, bool, double, int;
+import 'dart:core' show Object, String, double, int;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
@@ -114,7 +114,7 @@ class Notifications extends jni$_.JObject {
   /// from: `static public void showNotification(android.content.Context context, int notificationID, java.lang.String title, java.lang.String text)`
   static void showNotification(
     jni$_.JObject? context,
-    core$_.int notificationID,
+    int notificationID,
     jni$_.JString? title,
     jni$_.JString? text,
   ) {
@@ -163,7 +163,7 @@ final class $Notifications$NullableType$ extends jni$_.JType<Notifications?> {
   int get hashCode => ($Notifications$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_bool operator ==(Object other) {
     return other.runtimeType == ($Notifications$NullableType$) &&
         other is $Notifications$NullableType$;
   }
@@ -200,7 +200,7 @@ final class $Notifications$Type$ extends jni$_.JType<Notifications> {
   int get hashCode => ($Notifications$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_bool operator ==(Object other) {
     return other.runtimeType == ($Notifications$Type$) &&
         other is $Notifications$Type$;
   }
