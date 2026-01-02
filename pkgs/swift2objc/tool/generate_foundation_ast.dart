@@ -67,25 +67,31 @@ Future<void> _extractFoundation(String? outputPath) async {
       exit(1);
     }
 
-    // Read the generated symbolgraph
-    final extractedFile = File(
-      path.join(tempDir.path, 'Foundation.symbols.json'),
-    );
+    // Copy ALL Foundation*.symbols.json files
+    final destinationDir = outputPath != null
+        ? Directory(outputPath)
+        : Directory(path.join('lib', 'src', 'foundation_cache'));
 
-    if (!extractedFile.existsSync()) {
-      stderr.writeln('Error: Expected Foundation.symbols.json not found');
-      exit(1);
+    if (!destinationDir.existsSync()) {
+      destinationDir.createSync(recursive: true);
     }
 
-    // Copy to destination
-    final destination =
-        outputPath ??
-        path.join('lib', 'src', 'foundation_cache', 'Foundation.symbols.json');
+    final symbolgraphFiles = tempDir.listSync().whereType<File>().where(
+      (f) => f.path.endsWith('.symbols.json'),
+    );
 
-    await extractedFile.copy(destination);
-    final sizeMB = extractedFile.lengthSync() / (1024 * 1024);
-    print('✓ Foundation symbolgraph saved to $destination');
-    print('  Size: ${sizeMB.toStringAsFixed(1)}MB');
+    var totalSize = 0;
+    for (final file in symbolgraphFiles) {
+      final fileName = path.basename(file.path);
+      final destination = File(path.join(destinationDir.path, fileName));
+      await file.copy(destination.path);
+      totalSize += file.lengthSync();
+      print('  ✓ $fileName');
+    }
+
+    final sizeMB = totalSize / (1024 * 1024);
+    print('✓ Foundation symbolgraph saved to ${destinationDir.path}');
+    print('  Total size: ${sizeMB.toStringAsFixed(1)}MB');
   } finally {
     tempDir.deleteSync(recursive: true);
   }
@@ -95,12 +101,10 @@ Future<void> _extractFoundation(String? outputPath) async {
 Future<void> _verifyCache() async {
   print('Verifying Foundation cache...');
 
-  final cachedFile = File(
-    path.join('lib', 'src', 'foundation_cache', 'Foundation.symbols.json'),
-  );
+  final cacheDir = Directory(path.join('lib', 'src', 'foundation_cache'));
 
-  if (!cachedFile.existsSync()) {
-    stderr.writeln('Error: Cached Foundation.symbols.json not found');
+  if (!cacheDir.existsSync()) {
+    stderr.writeln('Error: Cache directory not found');
     exit(1);
   }
 
@@ -126,25 +130,41 @@ Future<void> _verifyCache() async {
       exit(1);
     }
 
-    final freshFile = File(path.join(tempDir.path, 'Foundation.symbols.json'));
+    // Get all fresh files
+    final freshFiles = tempDir
+        .listSync()
+        .whereType<File>()
+        .where((f) => f.path.endsWith('.symbols.json'))
+        .toList();
 
-    if (!freshFile.existsSync()) {
-      stderr.writeln('Error: Expected Foundation.symbols.json not found');
+    if (freshFiles.isEmpty) {
+      stderr.writeln('Error: No symbolgraph files extracted');
       exit(1);
     }
 
-    // Compare using JSON normalization (ignoring whitespace differences)
-    final cachedJson = jsonDecode(await cachedFile.readAsString());
-    final freshJson = jsonDecode(await freshFile.readAsString());
+    // Compare each file
+    var allMatch = true;
+    for (final freshFile in freshFiles) {
+      final fileName = path.basename(freshFile.path);
+      final cachedFile = File(path.join(cacheDir.path, fileName));
 
-    final cachedNormalized = _normalizeJson(cachedJson);
-    final freshNormalized = _normalizeJson(freshJson);
+      if (!cachedFile.existsSync()) {
+        stderr.writeln('❌ Missing cached file: $fileName');
+        allMatch = false;
+        continue;
+      }
 
-    if (cachedNormalized != freshNormalized) {
-      stderr.writeln('❌ Foundation cache is out of date!');
-      stderr.writeln('');
-      stderr.writeln('The cached Foundation.symbols.json does not match');
-      stderr.writeln('the freshly extracted version.');
+      // Compare using JSON normalization
+      final cachedJson = jsonDecode(await cachedFile.readAsString());
+      final freshJson = jsonDecode(await freshFile.readAsString());
+
+      if (_normalizeJson(cachedJson) != _normalizeJson(freshJson)) {
+        stderr.writeln('❌ File out of date: $fileName');
+        allMatch = false;
+      }
+    }
+
+    if (!allMatch) {
       stderr.writeln('');
       stderr.writeln('To update the cache, run:');
       stderr.writeln('  cd pkgs/swift2objc');
@@ -152,7 +172,7 @@ Future<void> _verifyCache() async {
       exit(1);
     }
 
-    print('✓ Foundation cache is up to date');
+    print('✓ All ${freshFiles.length} Foundation cache files are up to date');
   } finally {
     tempDir.deleteSync(recursive: true);
   }

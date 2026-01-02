@@ -5,7 +5,7 @@
 import 'dart:io';
 
 import 'package:logging/logging.dart';
-import 'package:path/path.dart' as path;
+import 'package:path/path.dart' as p;
 
 import 'config.dart';
 import 'context.dart';
@@ -51,47 +51,38 @@ Future<void> _generateWrapper(
     final isFoundation =
         input is ModuleInputConfig && input.module == 'Foundation';
 
-    ParsedSymbolgraph? cachedSymbolgraph;
-
     // Use JSON cache for Foundation to speed up generation
-    if (isFoundation) {
-      cachedSymbolgraph = await _tryLoadCachedSymbolgraph(
-        'Foundation',
-        symbolgraphFileSuffix,
-        context,
+    if (isFoundation && await _tryLoadFoundationCache(mergedSymbolgraph)) {
+      sourceModules.add('Foundation');
+      continue;
+    }
+
+    // Generate symbolgraph or use provided JSON
+    if (input is HasSymbolgraphCommand) {
+      await _generateSymbolgraphJson(
+        (input as HasSymbolgraphCommand).symbolgraphCommand(
+          await target(),
+          p.absolute((await sdkPath()).path),
+        ),
+        tempDir,
       );
     }
 
-    if (cachedSymbolgraph != null) {
-      sourceModules.add('Foundation');
-      mergedSymbolgraph.merge(cachedSymbolgraph);
-    } else {
-      if (input is HasSymbolgraphCommand) {
-        await _generateSymbolgraphJson(
-          (input as HasSymbolgraphCommand).symbolgraphCommand(
-            await target(),
-            path.absolute((await sdkPath()).path),
-          ),
-          tempDir,
-        );
-      }
+    final symbolgraphFileName = switch (input) {
+      FilesInputConfig() => '${input.tempModuleName}$symbolgraphFileSuffix',
+      ModuleInputConfig() => '${input.module}$symbolgraphFileSuffix',
+      JsonFileInputConfig() => p.absolute(input.jsonFile.path),
+    };
 
-      final symbolgraphFileName = switch (input) {
-        FilesInputConfig() => '${input.tempModuleName}$symbolgraphFileSuffix',
-        ModuleInputConfig() => '${input.module}$symbolgraphFileSuffix',
-        JsonFileInputConfig() => path.absolute(input.jsonFile.path),
-      };
+    final symbolgraphJsonPath = p.join(tempDir.path, symbolgraphFileName);
+    final symbolgraphJson = readJsonFile(symbolgraphJsonPath);
 
-      final symbolgraphJsonPath = path.join(tempDir.path, symbolgraphFileName);
-      final symbolgraphJson = readJsonFile(symbolgraphJsonPath);
-
-      sourceModules.add(switch (input) {
-        FilesInputConfig() => null,
-        ModuleInputConfig() => input.module,
-        JsonFileInputConfig() => parseModuleName(symbolgraphJson),
-      });
-      mergedSymbolgraph.merge(parseSymbolgraph(input, symbolgraphJson));
-    }
+    sourceModules.add(switch (input) {
+      FilesInputConfig() => null,
+      ModuleInputConfig() => input.module,
+      JsonFileInputConfig() => parseModuleName(symbolgraphJson),
+    });
+    mergedSymbolgraph.merge(parseSymbolgraph(input, symbolgraphJson));
   }
 
   final declarations = parseDeclarations(context, mergedSymbolgraph);
@@ -133,51 +124,49 @@ Future<void> _generateSymbolgraphJson(
   }
 }
 
-/// Helper to resolve the cache file path from local source or script location.
-File? _findCacheFile(String moduleName, String suffix) {
-  final fileName = '$moduleName$suffix';
-  final pathsToTry = [
-    path.join(
-      Directory.current.path,
-      'lib',
-      'src',
-      'foundation_cache',
-      fileName,
-    ),
-    path.join(
-      path.dirname(path.fromUri(Platform.script)),
-      '..',
-      'lib',
-      'src',
-      'foundation_cache',
-      fileName,
-    ),
-  ];
+/// Find the Foundation cache directory.
+Directory? _findFoundationCacheDir() {
+  final cacheRelativePath = p.join('lib', 'src', 'foundation_cache');
 
-  for (final p in pathsToTry) {
-    final file = File(path.normalize(p));
-    if (file.existsSync()) return file;
+  // Check current directory
+  var cacheDir = Directory(p.join(Directory.current.path, cacheRelativePath));
+  if (cacheDir.existsSync()) return cacheDir;
+
+  // Walk up directory tree looking for pubspec.yaml
+  var dir = Directory.current;
+  while (true) {
+    if (File(p.join(dir.path, 'pubspec.yaml')).existsSync()) {
+      cacheDir = Directory(p.join(dir.path, cacheRelativePath));
+      if (cacheDir.existsSync()) return cacheDir;
+    }
+    final parent = dir.parent;
+    if (parent.path == dir.path) break;
+    dir = parent;
   }
   return null;
 }
 
-Future<ParsedSymbolgraph?> _tryLoadCachedSymbolgraph(
-  String moduleName,
-  String suffix,
-  Context context,
-) async {
-  try {
-    final cacheFile = _findCacheFile(moduleName, suffix);
-    if (cacheFile != null) {
-      return parseSymbolgraph(
-        ModuleInputConfig(module: moduleName),
-        readJsonFile(cacheFile.path),
-      );
-    }
-  } catch (e) {
-    context.logger.warning(
-      'Failed to load cached symbolgraph for $moduleName: $e',
-    );
+/// Try to load Foundation symbolgraph from cache.
+///
+/// Loads ALL Foundation*.symbols.json files (including extensions) to preserve
+/// relationships needed for nested type assertions.
+Future<bool> _tryLoadFoundationCache(ParsedSymbolgraph target) async {
+  final cacheDir = _findFoundationCacheDir();
+  if (cacheDir == null) return false;
+
+  // Load all Foundation*.symbols.json files
+  final files = cacheDir
+      .listSync()
+      .whereType<File>()
+      .where((f) => f.path.endsWith('.symbols.json'))
+      .toList();
+
+  if (files.isEmpty) return false;
+
+  for (final file in files) {
+    final json = readJsonFile(file.path);
+    target.merge(parseSymbolgraph(builtInInputConfig, json));
   }
-  return null;
+
+  return true;
 }
