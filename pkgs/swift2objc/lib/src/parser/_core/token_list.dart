@@ -30,42 +30,79 @@ class TokenList extends Iterable<Json> {
     return TokenList._(list, 0, list.length);
   }
 
+  /// Splits a single token on splittable characters, handling both prefix and
+  /// suffix cases.
+  ///
+  /// Swift's symbol graph concatenates some tokens together, for example when
+  /// a parameter has a default value: " = value) -> returnType" becomes a
+  /// single text token. This method splits such tokens by:
+  ///   1. Repeatedly extracting splittables from the start
+  ///   2. For the remaining content, pull splittables from the end
+  ///   3. Store removed suffix tokens and yield them in reverse order
+  ///   4. Yield any remaining non-splittable content as a single text token
+  ///
+  /// This approach preserves the correct token sequence and ensures that even
+  /// complex cases like " = foo) -> " are properly tokenized.
   @visibleForTesting
   static Iterable<Json> splitToken(Json token) sync* {
-    const splittables = ['(', ')', '?', ',', '->'];
+    const splittables = ['(', ')', '?', ',', '->', '='];
     Json textToken(String text) =>
         Json({'kind': 'text', 'spelling': text}, token.pathSegments);
 
     final text = getSpellingForKind(token, 'text')?.trim();
     if (text == null) {
-      // Not a text token. Pass it though unchanged.
+      // Not a text token. Pass it through unchanged.
       yield token;
       return;
     }
 
     if (text.isEmpty) {
-      // Input text token was nothing but whitespace. The loop below would yield
-      // nothing, but we still need it as a separator.
+      // Input text token was nothing but whitespace. We still need it as a
+      // separator for the parser.
       yield textToken(text);
       return;
     }
 
-    var suffix = text;
+    var remaining = text;
     while (true) {
-      var any = false;
-      for (final prefix in splittables) {
-        if (suffix.startsWith(prefix)) {
-          yield textToken(prefix);
-          suffix = suffix.substring(prefix.length).trim();
-          any = true;
+      var foundPrefix = false;
+      for (final splittable in splittables) {
+        if (remaining.startsWith(splittable)) {
+          yield textToken(splittable);
+          remaining = remaining.substring(splittable.length).trim();
+          foundPrefix = true;
           break;
         }
       }
-      if (!any) {
-        // Remaining text isn't splittable.
-        if (suffix.isNotEmpty) yield textToken(suffix);
-        break;
+
+      if (foundPrefix) continue;
+
+      // No more prefix splittables found; extract any trailing ones.
+      // We collect them in a list and yield in reverse order to maintain
+      // the original token sequence.
+      final trailingTokens = <String>[];
+      var currentSuffix = remaining;
+      while (currentSuffix.isNotEmpty) {
+        var foundSuffix = false;
+        for (final splittable in splittables) {
+          if (currentSuffix.endsWith(splittable)) {
+            trailingTokens.add(splittable);
+            currentSuffix = currentSuffix
+                .substring(0, currentSuffix.length - splittable.length)
+                .trim();
+            foundSuffix = true;
+            break;
+          }
+        }
+        if (!foundSuffix) break;
       }
+
+      // Yield the core content, then trailing splittables in reverse order.
+      if (currentSuffix.isNotEmpty) yield textToken(currentSuffix);
+      for (var i = trailingTokens.length - 1; i >= 0; i--) {
+        yield textToken(trailingTokens[i]);
+      }
+      break;
     }
   }
 
