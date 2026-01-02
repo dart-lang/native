@@ -163,7 +163,7 @@ final class $Notifications$NullableType$ extends jni$_.JType<Notifications?> {
   int get hashCode => ($Notifications$NullableType$).hashCode;
 
   @core$_.override
-  core$_bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Notifications$NullableType$) &&
         other is $Notifications$NullableType$;
   }
@@ -200,7 +200,7 @@ final class $Notifications$Type$ extends jni$_.JType<Notifications> {
   int get hashCode => ($Notifications$Type$).hashCode;
 
   @core$_.override
-  core$_bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Notifications$Type$) &&
         other is $Notifications$Type$;
   }
