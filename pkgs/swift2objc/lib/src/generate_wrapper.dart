@@ -10,7 +10,6 @@ import 'package:path/path.dart' as path;
 import 'config.dart';
 import 'context.dart';
 import 'generator/generator.dart';
-import 'parser/_core/binary_serialization.dart';
 import 'parser/parser.dart';
 import 'transformer/transform.dart';
 import 'utils.dart';
@@ -52,51 +51,42 @@ Future<void> _generateWrapper(
 
   final allInputConfigs = [...config.inputs, builtInInputConfig];
 
-  // Parse symbolgraph
+  // Parse symbolgraph (baseline: no caching)
   final parseScope = scope.child('parse symbolgraph');
   for (final input in allInputConfigs) {
-    final isFoundation =
-        input is ModuleInputConfig && input.module == 'Foundation';
-
-    ParsedSymbolgraph? foundationSymbolgraph;
-
-    // Phase 2: Try binary cache for Foundation
-    if (isFoundation) {
-      foundationSymbolgraph = await _tryLoadFoundationBinary(context);
+    // Always generate symbolgraph JSON (baseline measurement)
+    if (input is HasSymbolgraphCommand) {
+      final extractTimer = scope.child('symbolgraph extraction');
+      await _generateSymbolgraphJson(
+        (input as HasSymbolgraphCommand).symbolgraphCommand(
+          await target(),
+          path.absolute((await sdkPath()).path),
+        ),
+        tempDir,
+      );
+      extractTimer.close();
     }
 
-    // If binary loaded, use it; otherwise generate/use JSON
-    if (foundationSymbolgraph != null) {
-      // Use binary-loaded symbolgraph (Phase 2)
-      sourceModules.add('Foundation');
-      mergedSymbolgraph.merge(foundationSymbolgraph);
-    } else {
-      // Generate/use JSON (Phase 1 fallback or non-Foundation input)
-      if (input is HasSymbolgraphCommand) {
-        await _generateSymbolgraphJson(
-          (input as HasSymbolgraphCommand).symbolgraphCommand(
-            await target(),
-            path.absolute((await sdkPath()).path),
-          ),
-          tempDir,
-        );
-      }
+    final symbolgraphFileName = switch (input) {
+      FilesInputConfig() => '${input.tempModuleName}$symbolgraphFileSuffix',
+      ModuleInputConfig() => '${input.module}$symbolgraphFileSuffix',
+      JsonFileInputConfig() => path.absolute(input.jsonFile.path),
+    };
+    final symbolgraphJsonPath = path.join(tempDir.path, symbolgraphFileName);
 
-      final symbolgraphFileName = switch (input) {
-        FilesInputConfig() => '${input.tempModuleName}$symbolgraphFileSuffix',
-        ModuleInputConfig() => '${input.module}$symbolgraphFileSuffix',
-        JsonFileInputConfig() => path.absolute(input.jsonFile.path),
-      };
-      final symbolgraphJsonPath = path.join(tempDir.path, symbolgraphFileName);
-      final symbolgraphJson = readJsonFile(symbolgraphJsonPath);
+    final parseTimer = scope.child('json parse');
+    final symbolgraphJson = readJsonFile(symbolgraphJsonPath);
+    parseTimer.close();
 
-      sourceModules.add(switch (input) {
-        FilesInputConfig() => null,
-        ModuleInputConfig() => input.module,
-        JsonFileInputConfig() => parseModuleName(symbolgraphJson),
-      });
-      mergedSymbolgraph.merge(parseSymbolgraph(input, symbolgraphJson));
-    }
+    sourceModules.add(switch (input) {
+      FilesInputConfig() => null,
+      ModuleInputConfig() => input.module,
+      JsonFileInputConfig() => parseModuleName(symbolgraphJson),
+    });
+
+    final mergeTimer = scope.child('symbolgraph merge');
+    mergedSymbolgraph.merge(parseSymbolgraph(input, symbolgraphJson));
+    mergeTimer.close();
   }
   parseScope.close();
 
@@ -148,105 +138,5 @@ Future<void> _generateSymbolgraphJson(
       symbolgraphCommand.args,
       'Error generating symbol graph \n${result.stdout} \n${result.stderr}',
     );
-  }
-}
-
-/// Try to load Foundation symbolgraph from binary cache (Phase 2).
-///
-/// Returns ParsedSymbolgraph if binary cache found, null otherwise.
-/// Binary deserialization is 10-50x faster than JSON parsing.
-Future<ParsedSymbolgraph?> _tryLoadFoundationBinary(Context context) async {
-  try {
-    // Try multiple search strategies to find the binary cache
-    final searchPaths = [
-      // Strategy 1: Relative to current working directory (common in tests)
-      path.join(
-        Directory.current.path,
-        'lib',
-        'src',
-        'foundation_cache',
-        'Foundation.symbols.bin',
-      ),
-      // Strategy 2: Relative to script directory (CLI usage)
-      path.join(
-        path.dirname(path.fromUri(Platform.script)),
-        '..',
-        'lib',
-        'src',
-        'foundation_cache',
-        'Foundation.symbols.bin',
-      ),
-      // Strategy 3: Explicit absolute path (for installed packages)
-      '/Users/divyaprakash/dart/native/pkgs/swift2objc/lib/src/foundation_cache/Foundation.symbols.bin',
-    ];
-
-    for (final binPath in searchPaths) {
-      final normalized = path.normalize(binPath);
-      final binFile = File(normalized);
-      if (binFile.existsSync()) {
-        try {
-          final binaryTimer = PerfTimer.start('binary_load', context.logger);
-          final binData = await binFile.readAsBytes();
-          final sizeMB = binData.length ~/ (1024 * 1024);
-          context.logger.info(
-            'Loading Foundation from binary cache (${sizeMB}MB)...',
-          );
-          final symbolgraph = deserializeSymbolgraph(binData);
-          binaryTimer.stop();
-          context.logger.info('✓ Loaded Foundation from binary cache');
-          return symbolgraph;
-        } catch (e) {
-          context.logger.warning('Failed to deserialize binary cache: $e');
-          // Fall through to JSON cache
-        }
-      }
-    }
-
-    // Try JSON cache (Phase 1) as fallback
-    final jsonSearchPaths = [
-      path.join(
-        Directory.current.path,
-        'lib',
-        'src',
-        'foundation_cache',
-        'Foundation$symbolgraphFileSuffix',
-      ),
-      path.join(
-        path.dirname(path.fromUri(Platform.script)),
-        '..',
-        'lib',
-        'src',
-        'foundation_cache',
-        'Foundation$symbolgraphFileSuffix',
-      ),
-    ];
-
-    File? cachedFile;
-    for (final jsonPath in jsonSearchPaths) {
-      final normalized = path.normalize(jsonPath);
-      final file = File(normalized);
-      if (file.existsSync()) {
-        cachedFile = file;
-        break;
-      }
-    }
-
-    if (cachedFile != null) {
-      context.logger.info(
-        'Using cached Foundation symbolgraph (JSON Phase 1 fallback)',
-      );
-      final jsonTimer = PerfTimer.start('json_load', context.logger);
-      final symbolgraph = parseSymbolgraph(
-        const ModuleInputConfig(module: 'Foundation'),
-        readJsonFile(cachedFile.path),
-      );
-      jsonTimer.stop();
-      return symbolgraph;
-    }
-
-    return null;
-  } catch (e) {
-    context.logger.warning('Failed to load Foundation from cache: $e');
-    return null;
   }
 }
