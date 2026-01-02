@@ -35,7 +35,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' as core$_;
-import 'dart:core' show Object, String, bool, double, int;
+import 'dart:core' show Object, String, double, int;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
@@ -163,11 +163,11 @@ class CanDoA extends jni$_.JObject {
 abstract base mixin class $CanDoA {
   factory $CanDoA({
     required void Function() doA,
-    bool doA$async,
+    core$_.bool doA$async,
   }) = _$CanDoA;
 
   void doA();
-  bool get doA$async => false;
+  core$_.bool get doA$async => false;
 }
 
 final class _$CanDoA with $CanDoA {
@@ -177,7 +177,7 @@ final class _$CanDoA with $CanDoA {
   }) : _doA = doA;
 
   final void Function() _doA;
-  final bool doA$async;
+  final core$_.bool doA$async;
 
   void doA() {
     return _doA();
@@ -215,7 +215,7 @@ final class $CanDoA$NullableType$ extends jni$_.JType<CanDoA?> {
   int get hashCode => ($CanDoA$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($CanDoA$NullableType$) &&
         other is $CanDoA$NullableType$;
   }
@@ -250,7 +250,7 @@ final class $CanDoA$Type$ extends jni$_.JType<CanDoA> {
   int get hashCode => ($CanDoA$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($CanDoA$Type$) && other is $CanDoA$Type$;
   }
 }
@@ -378,11 +378,11 @@ class CanDoB extends jni$_.JObject {
 abstract base mixin class $CanDoB {
   factory $CanDoB({
     required void Function() doB,
-    bool doB$async,
+    core$_.bool doB$async,
   }) = _$CanDoB;
 
   void doB();
-  bool get doB$async => false;
+  core$_.bool get doB$async => false;
 }
 
 final class _$CanDoB with $CanDoB {
@@ -392,7 +392,7 @@ final class _$CanDoB with $CanDoB {
   }) : _doB = doB;
 
   final void Function() _doB;
-  final bool doB$async;
+  final core$_.bool doB$async;
 
   void doB() {
     return _doB();
@@ -430,7 +430,7 @@ final class $CanDoB$NullableType$ extends jni$_.JType<CanDoB?> {
   int get hashCode => ($CanDoB$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($CanDoB$NullableType$) &&
         other is $CanDoB$NullableType$;
   }
@@ -465,7 +465,7 @@ final class $CanDoB$Type$ extends jni$_.JType<CanDoB> {
   int get hashCode => ($CanDoB$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($CanDoB$Type$) && other is $CanDoB$Type$;
   }
 }
@@ -619,7 +619,7 @@ final class $Measure$NullableType$<$T extends jni$_.JObject>
   int get hashCode => Object.hash($Measure$NullableType$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Measure$NullableType$<$T>) &&
         other is $Measure$NullableType$<$T> &&
         T == other.T;
@@ -663,7 +663,7 @@ final class $Measure$Type$<$T extends jni$_.JObject>
   int get hashCode => Object.hash($Measure$Type$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Measure$Type$<$T>) &&
         other is $Measure$Type$<$T> &&
         T == other.T;
@@ -883,7 +883,7 @@ final class $MeasureUnit$NullableType$ extends jni$_.JType<MeasureUnit?> {
   int get hashCode => ($MeasureUnit$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($MeasureUnit$NullableType$) &&
         other is $MeasureUnit$NullableType$;
   }
@@ -920,7 +920,7 @@ final class $MeasureUnit$Type$ extends jni$_.JType<MeasureUnit> {
   int get hashCode => ($MeasureUnit$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($MeasureUnit$Type$) &&
         other is $MeasureUnit$Type$;
   }
@@ -1119,7 +1119,7 @@ final class $Nullability$InnerClass$NullableType$<$T extends jni$_.JObject?,
       Object.hash($Nullability$InnerClass$NullableType$, T, U, V);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType ==
             ($Nullability$InnerClass$NullableType$<$T, $U, $V>) &&
         other is $Nullability$InnerClass$NullableType$<$T, $U, $V> &&
@@ -1180,7 +1180,7 @@ final class $Nullability$InnerClass$Type$<$T extends jni$_.JObject?,
   int get hashCode => Object.hash($Nullability$InnerClass$Type$, T, U, V);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Nullability$InnerClass$Type$<$T, $U, $V>) &&
         other is $Nullability$InnerClass$Type$<$T, $U, $V> &&
         T == other.T &&
@@ -1450,7 +1450,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
   /// from: `public fun nullableHello(returnNull: kotlin.Boolean): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? nullableHello(
-    bool z,
+    core$_.bool z,
   ) {
     return _nullableHello(reference.pointer,
             _id_nullableHello as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -2053,7 +2053,7 @@ final class $Nullability$NullableType$<$T extends jni$_.JObject?,
   int get hashCode => Object.hash($Nullability$NullableType$, T, U);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Nullability$NullableType$<$T, $U>) &&
         other is $Nullability$NullableType$<$T, $U> &&
         T == other.T &&
@@ -2104,7 +2104,7 @@ final class $Nullability$Type$<$T extends jni$_.JObject?,
   int get hashCode => Object.hash($Nullability$Type$, T, U);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Nullability$Type$<$T, $U>) &&
         other is $Nullability$Type$<$T, $U> &&
         T == other.T &&
@@ -2378,7 +2378,7 @@ class Operators extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
   /// from: `public operator fun get(index: kotlin.Int): kotlin.Boolean`
-  bool get(
+  core$_.bool get(
     int i,
   ) {
     return _get(reference.pointer, _id_get as jni$_.JMethodIDPtr, i).boolean;
@@ -2403,7 +2403,7 @@ class Operators extends jni$_.JObject {
   /// from: `public operator fun set(index: kotlin.Int, bit: kotlin.Boolean): kotlin.Unit`
   void set(
     int i,
-    bool z,
+    core$_.bool z,
   ) {
     _set(reference.pointer, _id_set as jni$_.JMethodIDPtr, i, z ? 1 : 0)
         .check();
@@ -2455,27 +2455,27 @@ class Operators extends jni$_.JObject {
     return rem(operators);
   }
 
-  bool operator [](int i) {
+  core$_.bool operator [](int i) {
     return get(i);
   }
 
-  void operator []=(int i, bool z) {
+  void operator []=(int i, core$_.bool z) {
     set(i, z);
   }
 
-  bool operator <(Operators operators) {
+  core$_.bool operator <(Operators operators) {
     return compareTo(operators) < 0;
   }
 
-  bool operator <=(Operators operators) {
+  core$_.bool operator <=(Operators operators) {
     return compareTo(operators) <= 0;
   }
 
-  bool operator >(Operators operators) {
+  core$_.bool operator >(Operators operators) {
     return compareTo(operators) > 0;
   }
 
-  bool operator >=(Operators operators) {
+  core$_.bool operator >=(Operators operators) {
     return compareTo(operators) >= 0;
   }
 }
@@ -2511,7 +2511,7 @@ final class $Operators$NullableType$ extends jni$_.JType<Operators?> {
   int get hashCode => ($Operators$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Operators$NullableType$) &&
         other is $Operators$NullableType$;
   }
@@ -2547,7 +2547,7 @@ final class $Operators$Type$ extends jni$_.JType<Operators> {
   int get hashCode => ($Operators$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Operators$Type$) && other is $Operators$Type$;
   }
 }
@@ -2791,7 +2791,7 @@ class Speed extends Measure<SpeedUnit> {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public operator fun equals(other: kotlin.Any?): kotlin.Boolean`
-  bool equals(
+  core$_.bool equals(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -2833,7 +2833,7 @@ final class $Speed$NullableType$ extends jni$_.JType<Speed?> {
   int get hashCode => ($Speed$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Speed$NullableType$) &&
         other is $Speed$NullableType$;
   }
@@ -2869,7 +2869,7 @@ final class $Speed$Type$ extends jni$_.JType<Speed> {
   int get hashCode => ($Speed$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Speed$Type$) && other is $Speed$Type$;
   }
 }
@@ -3048,7 +3048,7 @@ final class $SpeedUnit$NullableType$ extends jni$_.JType<SpeedUnit?> {
   int get hashCode => ($SpeedUnit$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($SpeedUnit$NullableType$) &&
         other is $SpeedUnit$NullableType$;
   }
@@ -3084,7 +3084,7 @@ final class $SpeedUnit$Type$ extends jni$_.JType<SpeedUnit> {
   int get hashCode => ($SpeedUnit$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($SpeedUnit$Type$) && other is $SpeedUnit$Type$;
   }
 }
@@ -3412,7 +3412,7 @@ class SuspendFun extends jni$_.JObject {
   /// from: `public suspend fun nullableHello(returnNull: kotlin.Boolean): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString?> nullableHello(
-    bool z,
+    core$_.bool z,
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
@@ -3469,7 +3469,7 @@ class SuspendFun extends jni$_.JObject {
   /// from: `public suspend fun nullableHelloWithoutDelay(returnNull: kotlin.Boolean): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString?> nullableHelloWithoutDelay(
-    bool z,
+    core$_.bool z,
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
@@ -3538,7 +3538,7 @@ final class $SuspendFun$NullableType$ extends jni$_.JType<SuspendFun?> {
   int get hashCode => ($SuspendFun$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($SuspendFun$NullableType$) &&
         other is $SuspendFun$NullableType$;
   }
@@ -3575,7 +3575,7 @@ final class $SuspendFun$Type$ extends jni$_.JType<SuspendFun> {
   int get hashCode => ($SuspendFun$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($SuspendFun$Type$) &&
         other is $SuspendFun$Type$;
   }
@@ -3848,7 +3848,7 @@ class SuspendInterface extends jni$_.JObject {
   /// from: `public suspend fun nullableHello(returnNull: kotlin.Boolean): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString?> nullableHello(
-    bool z,
+    core$_.bool z,
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
@@ -4011,7 +4011,7 @@ class SuspendInterface extends jni$_.JObject {
   /// from: `public suspend fun nullableInt(returnNull: kotlin.Boolean): java.lang.Integer?`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JInteger?> nullableInt(
-    bool z,
+    core$_.bool z,
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
@@ -4208,19 +4208,20 @@ abstract base mixin class $SuspendInterface {
     required core$_.Future<jni$_.JString> Function() sayHello,
     required core$_.Future<jni$_.JString> Function(jni$_.JString string)
         sayHello$1,
-    required core$_.Future<jni$_.JString?> Function(bool z) nullableHello,
+    required core$_.Future<jni$_.JString?> Function(core$_.bool z)
+        nullableHello,
     required core$_.Future<jni$_.JInteger> Function() sayInt,
     required core$_.Future<jni$_.JInteger> Function(jni$_.JInteger integer)
         sayInt$1,
-    required core$_.Future<jni$_.JInteger?> Function(bool z) nullableInt,
+    required core$_.Future<jni$_.JInteger?> Function(core$_.bool z) nullableInt,
   }) = _$SuspendInterface;
 
   core$_.Future<jni$_.JString> sayHello();
   core$_.Future<jni$_.JString> sayHello$1(jni$_.JString string);
-  core$_.Future<jni$_.JString?> nullableHello(bool z);
+  core$_.Future<jni$_.JString?> nullableHello(core$_.bool z);
   core$_.Future<jni$_.JInteger> sayInt();
   core$_.Future<jni$_.JInteger> sayInt$1(jni$_.JInteger integer);
-  core$_.Future<jni$_.JInteger?> nullableInt(bool z);
+  core$_.Future<jni$_.JInteger?> nullableInt(core$_.bool z);
 }
 
 final class _$SuspendInterface with $SuspendInterface {
@@ -4228,11 +4229,12 @@ final class _$SuspendInterface with $SuspendInterface {
     required core$_.Future<jni$_.JString> Function() sayHello,
     required core$_.Future<jni$_.JString> Function(jni$_.JString string)
         sayHello$1,
-    required core$_.Future<jni$_.JString?> Function(bool z) nullableHello,
+    required core$_.Future<jni$_.JString?> Function(core$_.bool z)
+        nullableHello,
     required core$_.Future<jni$_.JInteger> Function() sayInt,
     required core$_.Future<jni$_.JInteger> Function(jni$_.JInteger integer)
         sayInt$1,
-    required core$_.Future<jni$_.JInteger?> Function(bool z) nullableInt,
+    required core$_.Future<jni$_.JInteger?> Function(core$_.bool z) nullableInt,
   })  : _sayHello = sayHello,
         _sayHello$1 = sayHello$1,
         _nullableHello = nullableHello,
@@ -4242,11 +4244,11 @@ final class _$SuspendInterface with $SuspendInterface {
 
   final core$_.Future<jni$_.JString> Function() _sayHello;
   final core$_.Future<jni$_.JString> Function(jni$_.JString string) _sayHello$1;
-  final core$_.Future<jni$_.JString?> Function(bool z) _nullableHello;
+  final core$_.Future<jni$_.JString?> Function(core$_.bool z) _nullableHello;
   final core$_.Future<jni$_.JInteger> Function() _sayInt;
   final core$_.Future<jni$_.JInteger> Function(jni$_.JInteger integer)
       _sayInt$1;
-  final core$_.Future<jni$_.JInteger?> Function(bool z) _nullableInt;
+  final core$_.Future<jni$_.JInteger?> Function(core$_.bool z) _nullableInt;
 
   core$_.Future<jni$_.JString> sayHello() {
     return _sayHello();
@@ -4256,7 +4258,7 @@ final class _$SuspendInterface with $SuspendInterface {
     return _sayHello$1(string);
   }
 
-  core$_.Future<jni$_.JString?> nullableHello(bool z) {
+  core$_.Future<jni$_.JString?> nullableHello(core$_.bool z) {
     return _nullableHello(z);
   }
 
@@ -4268,7 +4270,7 @@ final class _$SuspendInterface with $SuspendInterface {
     return _sayInt$1(integer);
   }
 
-  core$_.Future<jni$_.JInteger?> nullableInt(bool z) {
+  core$_.Future<jni$_.JInteger?> nullableInt(core$_.bool z) {
     return _nullableInt(z);
   }
 }
@@ -4306,7 +4308,7 @@ final class $SuspendInterface$NullableType$
   int get hashCode => ($SuspendInterface$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($SuspendInterface$NullableType$) &&
         other is $SuspendInterface$NullableType$;
   }
@@ -4343,7 +4345,7 @@ final class $SuspendInterface$Type$ extends jni$_.JType<SuspendInterface> {
   int get hashCode => ($SuspendInterface$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($SuspendInterface$Type$) &&
         other is $SuspendInterface$Type$;
   }

@@ -49,7 +49,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' as core$_;
-import 'dart:core' show Object, String, bool, double, int;
+import 'dart:core' show Object, String, double, int;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
@@ -854,7 +854,7 @@ final class $PDDocumentInformation$NullableType$
   int get hashCode => ($PDDocumentInformation$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($PDDocumentInformation$NullableType$) &&
         other is $PDDocumentInformation$NullableType$;
   }
@@ -892,7 +892,7 @@ final class $PDDocumentInformation$Type$
   int get hashCode => ($PDDocumentInformation$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($PDDocumentInformation$Type$) &&
         other is $PDDocumentInformation$Type$;
   }
