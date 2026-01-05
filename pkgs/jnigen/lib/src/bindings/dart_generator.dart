@@ -83,10 +83,13 @@ extension on DeclaredType {
 
 extension on Method {
   bool get isSuspendFun => asyncReturnType != null;
+  bool get isAsyncVoid => asyncReturnType?.name == 'kotlin.Unit';
 
-  String returnTypeMaybeAsync(TypeVisitor<String> generator) => isSuspendFun
-      ? '$_core.Future<${asyncReturnType!.accept(generator)}>'
-      : returnType.accept(generator);
+  String returnTypeMaybeAsync(TypeVisitor<String> generator) => isAsyncVoid
+      ? '$_core.Future<void>'
+      : isSuspendFun
+          ? '$_core.Future<${asyncReturnType!.accept(generator)}>'
+          : returnType.accept(generator);
 
   List<Param> get paramsMaybeAsync {
     final p = params.toList();
@@ -1462,10 +1465,7 @@ ${modifier}final _$name = $_protectedExtension
     }
 
     final name = node.finalName;
-    final asyncVoid = node.asyncReturnType?.name == 'kotlin.Unit';
-    final returnType = asyncVoid
-        ? '$_core.Future<void>'
-        : node.returnTypeMaybeAsync(_TypeGenerator(resolver));
+    final returnType = node.returnTypeMaybeAsync(_TypeGenerator(resolver));
     final ifStatic = node.isStatic && !isTopLevel ? 'static ' : '';
     final defArgs = node.params.accept(_ParamDef(resolver)).toList();
     final typeClassDef = node.typeParams
@@ -1517,7 +1517,7 @@ ${modifier}final _$name = $_protectedExtension
     }
 ''');
 
-      if (asyncVoid) {
+      if (node.isAsyncVoid) {
         s.write('    return;');
       } else {
         final returningType = asyncReturnType.accept(_TypeGenerator(resolver));
@@ -2005,12 +2005,14 @@ class _InterfaceMethodIf extends Visitor<Method, void> {
     final returnValue = node.returnType.accept(returnBox);
 
     if (node.isSuspendFun) {
+      final resume =
+          node.isAsyncVoid ? 'resumeWithVoidFuture' : 'resumeWithFuture';
       final contArg = StringBuffer();
       node.params.last.accept(_InterfaceParamCast(resolver, contArg,
           paramIndex: node.params.length - 1));
       s.write('''
           final \$r = $_jni.KotlinContinuation.fromReference($contArg.reference)
-              .resumeWithFuture($result);
+              .$resume($result);
           return $returnValue;
 ''');
     } else {

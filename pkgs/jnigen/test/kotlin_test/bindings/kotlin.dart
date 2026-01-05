@@ -4140,6 +4140,52 @@ class SuspendInterface extends jni$_.JObject {
     );
   }
 
+  static final _id_noReturn = _class.instanceMethodId(
+    r'noReturn',
+    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _noReturn = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public suspend fun noReturn(): kotlin.Unit`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<void> noReturn() async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _noReturn(reference.pointer, _id_noReturn as jni$_.JMethodIDPtr,
+            _$continuation.pointer)
+        .object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return;
+  }
+
   /// Maps a specific port to the implemented interface.
   static final core$_.Map<int, $SuspendInterface> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
@@ -4253,6 +4299,18 @@ class SuspendInterface extends jni$_.JObject {
                 .toPointer() ??
             jni$_.nullptr;
       }
+      if ($d ==
+          r'noReturn(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r = jni$_.KotlinContinuation.fromReference($a![0]!
+                .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                .reference)
+            .resumeWithVoidFuture(_$impls[$p]!.noReturn());
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
     } catch (e) {
       return jni$_.ProtectedJniExtensions.newDartException(e);
     }
@@ -4306,6 +4364,7 @@ abstract base mixin class $SuspendInterface {
     required core$_.Future<jni$_.JInteger> Function(jni$_.JInteger integer)
         sayInt$1,
     required core$_.Future<jni$_.JInteger?> Function(core$_.bool z) nullableInt,
+    required core$_.Future<void> Function() noReturn,
   }) = _$SuspendInterface;
 
   core$_.Future<jni$_.JString> sayHello();
@@ -4314,6 +4373,7 @@ abstract base mixin class $SuspendInterface {
   core$_.Future<jni$_.JInteger> sayInt();
   core$_.Future<jni$_.JInteger> sayInt$1(jni$_.JInteger integer);
   core$_.Future<jni$_.JInteger?> nullableInt(core$_.bool z);
+  core$_.Future<void> noReturn();
 }
 
 final class _$SuspendInterface with $SuspendInterface {
@@ -4327,12 +4387,14 @@ final class _$SuspendInterface with $SuspendInterface {
     required core$_.Future<jni$_.JInteger> Function(jni$_.JInteger integer)
         sayInt$1,
     required core$_.Future<jni$_.JInteger?> Function(core$_.bool z) nullableInt,
+    required core$_.Future<void> Function() noReturn,
   })  : _sayHello = sayHello,
         _sayHello$1 = sayHello$1,
         _nullableHello = nullableHello,
         _sayInt = sayInt,
         _sayInt$1 = sayInt$1,
-        _nullableInt = nullableInt;
+        _nullableInt = nullableInt,
+        _noReturn = noReturn;
 
   final core$_.Future<jni$_.JString> Function() _sayHello;
   final core$_.Future<jni$_.JString> Function(jni$_.JString string) _sayHello$1;
@@ -4341,6 +4403,7 @@ final class _$SuspendInterface with $SuspendInterface {
   final core$_.Future<jni$_.JInteger> Function(jni$_.JInteger integer)
       _sayInt$1;
   final core$_.Future<jni$_.JInteger?> Function(core$_.bool z) _nullableInt;
+  final core$_.Future<void> Function() _noReturn;
 
   core$_.Future<jni$_.JString> sayHello() {
     return _sayHello();
@@ -4364,6 +4427,10 @@ final class _$SuspendInterface with $SuspendInterface {
 
   core$_.Future<jni$_.JInteger?> nullableInt(core$_.bool z) {
     return _nullableInt(z);
+  }
+
+  core$_.Future<void> noReturn() {
+    return _noReturn();
   }
 }
 

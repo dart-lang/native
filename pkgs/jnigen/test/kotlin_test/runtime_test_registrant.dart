@@ -365,6 +365,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
     group('Interface with suspend functions', () {
       test('return immediately', () async {
+        var result = 0;
         final itf = SuspendInterface.implement($SuspendInterface(
           sayHello: () async => JString.fromString('Hello'),
           sayHello$1: (JString name) async =>
@@ -375,6 +376,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           sayInt$1: (JInteger value) async => JInteger(10 * value.intValue()),
           nullableInt: (bool returnNull) async =>
               returnNull ? null : JInteger(123),
+          noReturn: () async => result = 123,
         ));
 
         expect((await itf.sayHello()).toDartString(), 'Hello');
@@ -386,6 +388,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
         expect((await itf.sayInt$1(JInteger(456))).intValue(), 4560);
         expect((await itf.nullableInt(false))?.intValue(), 123);
         expect(await itf.nullableInt(true), null);
+        await itf.noReturn();
+        expect(result, 123);
 
         expect(
             (await consumeOnSameThread(itf)).toDartString(),
@@ -396,6 +400,7 @@ Hello
 123
 7890
 123
+kotlin.Unit
 '''
                 .trim());
         expect(
@@ -407,11 +412,13 @@ Hello
 123
 7890
 123
+kotlin.Unit
 '''
                 .trim());
       });
 
       test('return delayed', () async {
+        var result = 0;
         final itf = SuspendInterface.implement($SuspendInterface(
           sayHello: () async {
             await Future<void>.delayed(const Duration(milliseconds: 100));
@@ -437,6 +444,10 @@ Hello
             await Future<void>.delayed(const Duration(milliseconds: 100));
             return returnNull ? null : JInteger(123);
           },
+          noReturn: () async {
+            await Future<void>.delayed(const Duration(milliseconds: 100));
+            result = 123;
+          },
         ));
 
         expect((await itf.sayHello()).toDartString(), 'Hello');
@@ -448,6 +459,8 @@ Hello
         expect((await itf.sayInt$1(JInteger(456))).intValue(), 4560);
         expect((await itf.nullableInt(false))?.intValue(), 123);
         expect(await itf.nullableInt(true), null);
+        await itf.noReturn();
+        expect(result, 123);
 
         expect(
             (await consumeOnSameThread(itf)).toDartString(),
@@ -458,6 +471,7 @@ Hello
 123
 7890
 123
+kotlin.Unit
 '''
                 .trim());
         expect(
@@ -469,6 +483,7 @@ Hello
 123
 7890
 123
+kotlin.Unit
 '''
                 .trim());
       });
@@ -481,6 +496,7 @@ Hello
           sayInt: () async => throw Exception(),
           sayInt$1: (JInteger value) async => throw Exception(),
           nullableInt: (bool returnNull) async => throw Exception(),
+          noReturn: () async => throw Exception(),
         ));
 
         await expectLater(itf.sayHello(), throwsA(isA<JniException>()));
@@ -492,6 +508,7 @@ Hello
         await expectLater(
             itf.sayInt$1(JInteger(456)), throwsA(isA<JniException>()));
         await expectLater(itf.nullableInt(false), throwsA(isA<JniException>()));
+        await expectLater(itf.noReturn(), throwsA(isA<JniException>()));
 
         await expectLater(
             consumeOnSameThread(itf), throwsA(isA<JniException>()));
@@ -525,6 +542,10 @@ Hello
             await Future<void>.delayed(const Duration(milliseconds: 100));
             throw Exception();
           },
+          noReturn: () async {
+            await Future<void>.delayed(const Duration(milliseconds: 100));
+            throw Exception();
+          },
         ));
 
         await expectLater(itf.sayHello(), throwsA(isA<JniException>()));
@@ -536,6 +557,7 @@ Hello
         await expectLater(
             itf.sayInt$1(JInteger(456)), throwsA(isA<JniException>()));
         await expectLater(itf.nullableInt(false), throwsA(isA<JniException>()));
+        await expectLater(itf.noReturn(), throwsA(isA<JniException>()));
 
         await expectLater(
             consumeOnSameThread(itf), throwsA(isA<JniException>()));
