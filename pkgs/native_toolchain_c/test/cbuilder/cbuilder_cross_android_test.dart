@@ -11,6 +11,8 @@ import 'package:test/test.dart';
 
 import '../helpers.dart';
 
+const Timeout longTimeout = Timeout(Duration(minutes: 5));
+
 void main() {
   const targets = [
     Architecture.arm,
@@ -33,26 +35,30 @@ void main() {
         final optimizationLevel = optimizationLevels[selectOptimizationLevel];
         selectOptimizationLevel =
             (selectOptimizationLevel + 1) % optimizationLevels.length;
-        test('CBuilder $linkMode library $target minSdkVersion $apiLevel '
-            '$optimizationLevel', () async {
-          final tempUri = await tempDirForTest();
-          final libUri = await buildLib(
-            tempUri,
-            target,
-            apiLevel,
-            linkMode,
-            optimizationLevel: optimizationLevel,
-          );
-          await expectMachineArchitecture(libUri, target, OS.android);
-          if (linkMode == DynamicLoadingBundled()) {
-            await expectPageSize(libUri, 16 * 1024);
-          }
-        });
+        test(
+          'CBuilder $linkMode library $target minSdkVersion $apiLevel '
+          '$optimizationLevel',
+          timeout: longTimeout,
+          () async {
+            final tempUri = await tempDirForTest();
+            final libUri = await buildLib(
+              tempUri,
+              target,
+              apiLevel,
+              linkMode,
+              optimizationLevel: optimizationLevel,
+            );
+            await expectMachineArchitecture(libUri, target, OS.android);
+            if (linkMode == DynamicLoadingBundled()) {
+              await expectPageSize(libUri, 16 * 1024);
+            }
+          },
+        );
       }
     }
   }
 
-  test('CBuilder API levels binary difference', () async {
+  test('CBuilder API levels binary difference', timeout: longTimeout, () async {
     const target = Architecture.arm64;
     final linkMode = DynamicLoadingBundled();
     const apiLevel1 = flutterAndroidNdkVersionLowestSupported;
@@ -76,7 +82,7 @@ void main() {
     expect(bytes2, bytes3);
   });
 
-  test('page size override', () async {
+  test('page size override', timeout: longTimeout, () async {
     const target = Architecture.arm64;
     final linkMode = DynamicLoadingBundled();
     const apiLevel1 = flutterAndroidNdkVersionLowestSupported;

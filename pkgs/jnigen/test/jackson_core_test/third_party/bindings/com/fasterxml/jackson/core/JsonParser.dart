@@ -48,7 +48,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' as core$_;
-import 'dart:core' show Object, String, bool, double, int;
+import 'dart:core' show Object, String, double, int;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
@@ -537,7 +537,7 @@ class JsonParser$Feature extends jni$_.JObject {
           )>();
 
   /// from: `public boolean enabledByDefault()`
-  bool enabledByDefault() {
+  core$_.bool enabledByDefault() {
     return _enabledByDefault(
             reference.pointer, _id_enabledByDefault as jni$_.JMethodIDPtr)
         .boolean;
@@ -560,7 +560,7 @@ class JsonParser$Feature extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
   /// from: `public boolean enabledIn(int flags)`
-  bool enabledIn(
+  core$_.bool enabledIn(
     int flags,
   ) {
     return _enabledIn(
@@ -625,7 +625,7 @@ final class $JsonParser$Feature$NullableType$
   int get hashCode => ($JsonParser$Feature$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($JsonParser$Feature$NullableType$) &&
         other is $JsonParser$Feature$NullableType$;
   }
@@ -662,7 +662,7 @@ final class $JsonParser$Feature$Type$ extends jni$_.JType<JsonParser$Feature> {
   int get hashCode => ($JsonParser$Feature$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($JsonParser$Feature$Type$) &&
         other is $JsonParser$Feature$Type$;
   }
@@ -841,7 +841,7 @@ final class $JsonParser$NumberType$NullableType$
   int get hashCode => ($JsonParser$NumberType$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($JsonParser$NumberType$NullableType$) &&
         other is $JsonParser$NumberType$NullableType$;
   }
@@ -879,7 +879,7 @@ final class $JsonParser$NumberType$Type$
   int get hashCode => ($JsonParser$NumberType$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($JsonParser$NumberType$Type$) &&
         other is $JsonParser$NumberType$Type$;
   }
@@ -1207,7 +1207,7 @@ class JsonParser extends jni$_.JObject {
   /// this parser (using \#setSchema).
   ///@param schema Schema to check
   ///@return True if this parser can use given schema; false if not
-  bool canUseSchema(
+  core$_.bool canUseSchema(
     jni$_.JObject? schema,
   ) {
     final _$schema = schema?.reference ?? jni$_.jNullReference;
@@ -1243,7 +1243,7 @@ class JsonParser extends jni$_.JObject {
   ///@return True if format-specific codec is needed with this parser; false if a general
   ///   ObjectCodec is enough
   ///@since 2.1
-  bool requiresCustomCodec() {
+  core$_.bool requiresCustomCodec() {
     return _requiresCustomCodec(
             reference.pointer, _id_requiresCustomCodec as jni$_.JMethodIDPtr)
         .boolean;
@@ -1279,7 +1279,7 @@ class JsonParser extends jni$_.JObject {
   /// input is read by blocking
   ///@return True if this is a non-blocking ("asynchronous") parser
   ///@since 2.9
-  bool canParseAsync() {
+  core$_.bool canParseAsync() {
     return _canParseAsync(
             reference.pointer, _id_canParseAsync as jni$_.JMethodIDPtr)
         .boolean;
@@ -1438,7 +1438,7 @@ class JsonParser extends jni$_.JObject {
   /// call to \#close or because parser has encountered
   /// end of input.
   ///@return {@code True} if this parser instance has been closed
-  bool isClosed() {
+  core$_.bool isClosed() {
     return _isClosed(reference.pointer, _id_isClosed as jni$_.JMethodIDPtr)
         .boolean;
   }
@@ -1909,7 +1909,7 @@ class JsonParser extends jni$_.JObject {
   ///@return This parser, to allow call chaining
   JsonParser? configure(
     JsonParser$Feature? f,
-    bool state,
+    core$_.bool state,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
     return _configure(reference.pointer, _id_configure as jni$_.JMethodIDPtr,
@@ -1938,7 +1938,7 @@ class JsonParser extends jni$_.JObject {
   /// Method for checking whether specified Feature is enabled.
   ///@param f Feature to check
   ///@return {@code True} if feature is enabled; {@code false} otherwise
-  bool isEnabled(
+  core$_.bool isEnabled(
     JsonParser$Feature? f,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
@@ -1969,7 +1969,7 @@ class JsonParser extends jni$_.JObject {
   ///@param f Feature to check
   ///@return {@code True} if feature is enabled; {@code false} otherwise
   ///@since 2.10
-  bool isEnabled$1(
+  core$_.bool isEnabled$1(
     jni$_.JObject? f,
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
@@ -2253,7 +2253,7 @@ class JsonParser extends jni$_.JObject {
   ///    specified name; {@code false} otherwise (different token or non-matching name)
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  bool nextFieldName(
+  core$_.bool nextFieldName(
     jni$_.JObject? str,
   ) {
     final _$str = str?.reference ?? jni$_.jNullReference;
@@ -2695,7 +2695,7 @@ class JsonParser extends jni$_.JObject {
   ///   was just constructed, encountered end-of-input
   ///   and returned null from \#nextToken, or the token
   ///   has been consumed)
-  bool hasCurrentToken() {
+  core$_.bool hasCurrentToken() {
     return _hasCurrentToken(
             reference.pointer, _id_hasCurrentToken as jni$_.JMethodIDPtr)
         .boolean;
@@ -2731,7 +2731,7 @@ class JsonParser extends jni$_.JObject {
   ///@param id Token id to match (from (@link JsonTokenId})
   ///@return {@code True} if the parser current points to specified token
   ///@since 2.5
-  bool hasTokenId(
+  core$_.bool hasTokenId(
     int id,
   ) {
     return _hasTokenId(
@@ -2769,7 +2769,7 @@ class JsonParser extends jni$_.JObject {
   ///@param t Token to match
   ///@return {@code True} if the parser current points to specified token
   ///@since 2.6
-  bool hasToken(
+  core$_.bool hasToken(
     jsontoken$_.JsonToken? t,
   ) {
     final _$t = t?.reference ?? jni$_.jNullReference;
@@ -2813,7 +2813,7 @@ class JsonParser extends jni$_.JObject {
   ///@return True if the current token can be considered as a
   ///   start-array marker (such JsonToken\#START_ARRAY);
   ///   {@code false} if not
-  bool isExpectedStartArrayToken() {
+  core$_.bool isExpectedStartArrayToken() {
     return _isExpectedStartArrayToken(reference.pointer,
             _id_isExpectedStartArrayToken as jni$_.JMethodIDPtr)
         .boolean;
@@ -2845,7 +2845,7 @@ class JsonParser extends jni$_.JObject {
   ///   start-array marker (such JsonToken\#START_OBJECT);
   ///   {@code false} if not
   ///@since 2.5
-  bool isExpectedStartObjectToken() {
+  core$_.bool isExpectedStartObjectToken() {
     return _isExpectedStartObjectToken(reference.pointer,
             _id_isExpectedStartObjectToken as jni$_.JMethodIDPtr)
         .boolean;
@@ -2879,7 +2879,7 @@ class JsonParser extends jni$_.JObject {
   ///   start-array marker (such JsonToken\#VALUE_NUMBER_INT);
   ///   {@code false} if not
   ///@since 2.12
-  bool isExpectedNumberIntToken() {
+  core$_.bool isExpectedNumberIntToken() {
     return _isExpectedNumberIntToken(reference.pointer,
             _id_isExpectedNumberIntToken as jni$_.JMethodIDPtr)
         .boolean;
@@ -2916,7 +2916,7 @@ class JsonParser extends jni$_.JObject {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@since 2.9
-  bool isNaN() {
+  core$_.bool isNaN() {
     return _isNaN(reference.pointer, _id_isNaN as jni$_.JMethodIDPtr).boolean;
   }
 
@@ -3313,7 +3313,7 @@ class JsonParser extends jni$_.JObject {
   ///@return True if parser currently has character array that can
   ///   be efficiently returned via \#getTextCharacters; false
   ///   means that it may or may not exist
-  bool hasTextCharacters() {
+  core$_.bool hasTextCharacters() {
     return _hasTextCharacters(
             reference.pointer, _id_hasTextCharacters as jni$_.JMethodIDPtr)
         .boolean;
@@ -3776,7 +3776,7 @@ class JsonParser extends jni$_.JObject {
   ///   otherwise throws JsonParseException
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  bool getBooleanValue() {
+  core$_.bool getBooleanValue() {
     return _getBooleanValue(
             reference.pointer, _id_getBooleanValue as jni$_.JMethodIDPtr)
         .boolean;
@@ -4247,7 +4247,7 @@ class JsonParser extends jni$_.JObject {
   ///    otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  bool getValueAsBoolean() {
+  core$_.bool getValueAsBoolean() {
     return _getValueAsBoolean(
             reference.pointer, _id_getValueAsBoolean as jni$_.JMethodIDPtr)
         .boolean;
@@ -4284,8 +4284,8 @@ class JsonParser extends jni$_.JObject {
   ///@return {@code boolean} value current token is converted to, if possible; {@code def} otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  bool getValueAsBoolean$1(
-    bool def,
+  core$_.bool getValueAsBoolean$1(
+    core$_.bool def,
   ) {
     return _getValueAsBoolean$1(reference.pointer,
             _id_getValueAsBoolean$1 as jni$_.JMethodIDPtr, def ? 1 : 0)
@@ -4399,7 +4399,7 @@ class JsonParser extends jni$_.JObject {
   ///@return {@code True} if the format being read supports native Object Ids;
   ///    {@code false} if not
   ///@since 2.3
-  bool canReadObjectId() {
+  core$_.bool canReadObjectId() {
     return _canReadObjectId(
             reference.pointer, _id_canReadObjectId as jni$_.JMethodIDPtr)
         .boolean;
@@ -4435,7 +4435,7 @@ class JsonParser extends jni$_.JObject {
   ///@return {@code True} if the format being read supports native Type Ids;
   ///    {@code false} if not
   ///@since 2.3
-  bool canReadTypeId() {
+  core$_.bool canReadTypeId() {
     return _canReadTypeId(
             reference.pointer, _id_canReadTypeId as jni$_.JMethodIDPtr)
         .boolean;
@@ -4768,7 +4768,7 @@ final class $JsonParser$NullableType$ extends jni$_.JType<JsonParser?> {
   int get hashCode => ($JsonParser$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($JsonParser$NullableType$) &&
         other is $JsonParser$NullableType$;
   }
@@ -4805,7 +4805,7 @@ final class $JsonParser$Type$ extends jni$_.JType<JsonParser> {
   int get hashCode => ($JsonParser$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($JsonParser$Type$) &&
         other is $JsonParser$Type$;
   }

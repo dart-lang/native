@@ -1,0 +1,347 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$ref": "#/definitions/RecordedUses",
+  "definitions": {
+    "Call": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "anyOf": [
+            {
+              "enum": [
+                "tearoff",
+                "with_arguments"
+              ]
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "@": {
+          "type": "integer"
+        },
+        "loading_unit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "loading_unit",
+        "type"
+      ],
+      "if": {
+        "properties": {
+          "type": {
+            "const": "with_arguments"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "named": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "integer"
+            }
+          },
+          "positional": {
+            "type": "array",
+            "items": {
+              "type": [
+                "integer",
+                "null"
+              ]
+            }
+          }
+        }
+      }
+    },
+    "Constant": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "anyOf": [
+            {
+              "enum": [
+                "Instance",
+                "Null",
+                "String",
+                "bool",
+                "int",
+                "list",
+                "map"
+              ]
+            },
+            {
+              "type": "string"
+            }
+          ]
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "Instance"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "Null"
+              }
+            }
+          },
+          "then": {
+            "not": {
+              "required": [
+                "value"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "String"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "value"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "bool"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "value"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "int"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "value"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "list"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "array"
+              }
+            },
+            "required": [
+              "value"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "map"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            },
+            "required": [
+              "value"
+            ]
+          }
+        }
+      ]
+    },
+    "Identifier": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "scope": {
+          "type": "string"
+        },
+        "uri": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "uri"
+      ]
+    },
+    "Instance": {
+      "type": "object",
+      "properties": {
+        "@": {
+          "type": "integer"
+        },
+        "constant_index": {
+          "type": "integer"
+        },
+        "loading_unit": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "constant_index",
+        "loading_unit"
+      ]
+    },
+    "Location": {
+      "type": "object",
+      "properties": {
+        "column": {
+          "type": "integer"
+        },
+        "line": {
+          "type": "integer"
+        },
+        "uri": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "uri"
+      ]
+    },
+    "RecordedUses": {
+      "type": "object",
+      "properties": {
+        "constants": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Constant"
+          }
+        },
+        "locations": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Location"
+          }
+        },
+        "metadata": {
+          "type": "object",
+          "properties": {
+            "comment": {
+              "type": "string"
+            },
+            "version": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "comment",
+            "version"
+          ]
+        },
+        "recordings": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Recording"
+          }
+        }
+      },
+      "required": [
+        "metadata"
+      ]
+    },
+    "Recording": {
+      "type": "object",
+      "properties": {
+        "calls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Call"
+          }
+        },
+        "definition": {
+          "type": "object",
+          "properties": {
+            "identifier": {
+              "$ref": "#/definitions/Identifier"
+            },
+            "loading_unit": {
+              "type": "string"
+            }
+          },
+          "required": [
+            "identifier"
+          ]
+        },
+        "instances": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Instance"
+          }
+        }
+      },
+      "required": [
+        "definition"
+      ]
+    }
+  }
+}

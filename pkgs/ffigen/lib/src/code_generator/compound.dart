@@ -110,7 +110,11 @@ abstract class Compound extends BindingType with HasLocalScope {
         final memberName = m.name;
         s.write(
           '$enumName get $memberName => '
-          '$enumName.fromValue(${memberName}AsInt);\n\n',
+          '$enumName.fromValue(${memberName}AsInt);\n',
+        );
+        s.write(
+          'set $memberName($enumName value) => '
+          '${memberName}AsInt = value.value;\n\n',
         );
       }
     }

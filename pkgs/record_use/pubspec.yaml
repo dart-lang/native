@@ -15,4 +15,7 @@ dependencies:
 
 dev_dependencies:
   dart_flutter_team_lints: ^3.5.2
+  json_schema: ^5.2.2
+  json_syntax_generator: ^0.1.0-wip
+  native_test_helpers: ^0.1.0-wip
   test: ^1.25.15

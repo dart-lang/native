@@ -9,6 +9,7 @@
 - __Breaking change__: Certain synthetic USRs have been modified to ensure they
   cannot collide with real USRs. It's very unlikely that any user facing USRs
   are affected.
+- Enum struct members now have setters.
 - __Breaking change__: Dart const values will be generated for global variables
   marked const in C (e.g. static const int) instead of symbol lookups. This
   supports integers, doubles, and string literals. Including the variable name

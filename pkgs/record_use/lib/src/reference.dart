@@ -6,8 +6,7 @@ import 'constant.dart';
 import 'helper.dart';
 import 'identifier.dart';
 import 'location.dart' show Location;
-
-const _loadingUnitKey = 'loading_unit';
+import 'syntax.g.dart';
 
 /// A reference to *something*.
 ///
@@ -37,13 +36,13 @@ sealed class Reference {
   Map<String, Object?> toJson(
     Map<Constant, int> constants,
     Map<Location, int> locations,
-  ) => {_loadingUnitKey: loadingUnit, _locationKey: locations[location]};
-}
+  ) => _toSyntax(constants, locations).json;
 
-const _locationKey = '@';
-const _positionalKey = 'positional';
-const _namedKey = 'named';
-const _typeKey = 'type';
+  JsonObjectSyntax _toSyntax(
+    Map<Constant, int> constants,
+    Map<Location, int> locations,
+  );
+}
 
 /// A reference to a call to some [Identifier].
 ///
@@ -56,32 +55,47 @@ sealed class CallReference extends Reference {
     Map<String, Object?> json,
     List<Constant> constants,
     List<Location> locations,
+  ) => _fromSyntax(CallSyntax.fromJson(json), constants, locations);
+
+  static CallReference _fromSyntax(
+    CallSyntax syntax,
+    List<Constant> constants,
+    List<Location> locations,
   ) {
-    final loadingUnit = json[_loadingUnitKey] as String?;
-    final locationIndex = json[_locationKey] as int?;
+    final locationIndex = syntax.at;
     final location = locationIndex == null ? null : locations[locationIndex];
-    return json[_typeKey] == 'tearoff'
-        ? CallTearOff(loadingUnit: loadingUnit, location: location)
-        : CallWithArguments(
-            positionalArguments: (json[_positionalKey] as List<dynamic>? ?? [])
-                .whereType<int?>()
-                .map(
-                  (constantsIndex) =>
-                      constantsIndex != null ? constants[constantsIndex] : null,
-                )
-                .toList(),
-            namedArguments: (json[_namedKey] as Map<String, Object?>? ?? {})
-                .map((key, value) => MapEntry(key, value as int?))
-                .map(
-                  (name, constantsIndex) => MapEntry(
-                    name,
+    return switch (syntax) {
+      TearoffCallSyntax() => CallTearOff(
+        loadingUnit: syntax.loadingUnit,
+        location: location,
+      ),
+      WithArgumentsCallSyntax(
+        :final named,
+        :final positional,
+        :final loadingUnit,
+      ) =>
+        CallWithArguments(
+          positionalArguments: (positional ?? [])
+              .map(
+                (constantsIndex) =>
                     constantsIndex != null ? constants[constantsIndex] : null,
-                  ),
-                ),
-            loadingUnit: loadingUnit,
-            location: location,
-          );
+              )
+              .toList(),
+          namedArguments: (named ?? {}).map(
+            (name, constantsIndex) => MapEntry(name, constants[constantsIndex]),
+          ),
+          loadingUnit: loadingUnit,
+          location: location,
+        ),
+      _ => throw UnimplementedError('Unknown CallSyntax type'),
+    };
   }
+
+  @override
+  CallSyntax _toSyntax(
+    Map<Constant, int> constants,
+    Map<Location, int> locations,
+  );
 }
 
 /// A reference to a call to some [Identifier] with [positionalArguments] and
@@ -98,22 +112,28 @@ final class CallWithArguments extends CallReference {
   });
 
   @override
-  Map<String, Object?> toJson(
+  WithArgumentsCallSyntax _toSyntax(
     Map<Constant, int> constants,
     Map<Location, int> locations,
   ) {
-    final positionalJson = positionalArguments
-        .map((constant) => constants[constant])
-        .toList();
-    final namedJson = namedArguments.map(
-      (name, constant) => MapEntry(name, constants[constant]),
+    final namedArgs = <String, int>{};
+    for (final entry in namedArguments.entries) {
+      if (entry.value != null) {
+        final index = constants[entry.value!];
+        if (index != null) {
+          namedArgs[entry.key] = index;
+        }
+      }
+    }
+
+    return WithArgumentsCallSyntax(
+      at: locations[location]!,
+      loadingUnit: loadingUnit!,
+      named: namedArgs.isNotEmpty ? namedArgs : null,
+      positional: positionalArguments.isEmpty
+          ? null
+          : positionalArguments.map((constant) => constants[constant]).toList(),
     );
-    return {
-      _typeKey: 'with_arguments',
-      if (positionalJson.isNotEmpty) _positionalKey: positionalJson,
-      if (namedJson.isNotEmpty) _namedKey: namedJson,
-      ...super.toJson(constants, locations),
-    };
   }
 
   @override
@@ -140,10 +160,10 @@ final class CallTearOff extends CallReference {
   const CallTearOff({required super.loadingUnit, required super.location});
 
   @override
-  Map<String, Object?> toJson(
+  TearoffCallSyntax _toSyntax(
     Map<Constant, int> constants,
     Map<Location, int> locations,
-  ) => {_typeKey: 'tearoff', ...super.toJson(constants, locations)};
+  ) => TearoffCallSyntax(at: locations[location]!, loadingUnit: loadingUnit!);
 }
 
 final class InstanceReference extends Reference {
@@ -155,30 +175,35 @@ final class InstanceReference extends Reference {
     required super.location,
   });
 
-  static const _constantKey = 'constant_index';
-
   factory InstanceReference.fromJson(
     Map<String, Object?> json,
     List<Constant> constants,
     List<Location> locations,
+  ) => _fromSyntax(InstanceSyntax.fromJson(json), constants, locations);
+
+  static InstanceReference _fromSyntax(
+    InstanceSyntax syntax,
+    List<Constant> constants,
+    List<Location> locations,
   ) {
-    final locationIndex = json[_locationKey] as int?;
+    final locationIndex = syntax.at;
+    final location = locationIndex == null ? null : locations[locationIndex];
     return InstanceReference(
-      instanceConstant:
-          constants[json[_constantKey] as int] as InstanceConstant,
-      loadingUnit: json[_loadingUnitKey] as String?,
-      location: locationIndex == null ? null : locations[locationIndex],
+      instanceConstant: constants[syntax.constantIndex] as InstanceConstant,
+      loadingUnit: syntax.loadingUnit,
+      location: location,
     );
   }
 
   @override
-  Map<String, Object?> toJson(
+  InstanceSyntax _toSyntax(
     Map<Constant, int> constants,
     Map<Location, int> locations,
-  ) => {
-    _constantKey: constants[instanceConstant]!,
-    ...super.toJson(constants, locations),
-  };
+  ) => InstanceSyntax(
+    at: locations[location]!,
+    constantIndex: constants[instanceConstant]!,
+    loadingUnit: loadingUnit!,
+  );
 
   @override
   bool operator ==(Object other) {
@@ -191,4 +216,38 @@ final class InstanceReference extends Reference {
 
   @override
   int get hashCode => Object.hash(instanceConstant, super.hashCode);
+}
+
+/// Package private (protected) methods for [CallReference].
+///
+/// This avoids bloating the public API and public API docs and prevents
+/// internal types from leaking from the API.
+extension CallReferenceProtected on CallReference {
+  CallSyntax toSyntax(
+    Map<Constant, int> constants,
+    Map<Location, int> locations,
+  ) => _toSyntax(constants, locations);
+
+  static CallReference fromSyntax(
+    CallSyntax syntax,
+    List<Constant> constants,
+    List<Location> locations,
+  ) => CallReference._fromSyntax(syntax, constants, locations);
+}
+
+/// Package private (protected) methods for [InstanceReference].
+///
+/// This avoids bloating the public API and public API docs and prevents
+/// internal types from leaking from the API.
+extension InstanceReferenceProtected on InstanceReference {
+  InstanceSyntax toSyntax(
+    Map<Constant, int> constants,
+    Map<Location, int> locations,
+  ) => _toSyntax(constants, locations);
+
+  static InstanceReference fromSyntax(
+    InstanceSyntax syntax,
+    List<Constant> constants,
+    List<Location> locations,
+  ) => InstanceReference._fromSyntax(syntax, constants, locations);
 }

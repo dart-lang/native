@@ -66,6 +66,7 @@ Future<void> buildSummarizerIfNotExists({bool force = false}) async {
   // that when one process is building summarizer JAR, other process waits using
   // exponential backoff.
   final jarExists = await File(jarFile).exists();
+  final targetJarExists = await File(targetJarFile).exists();
   final isJarStale = jarExists &&
       await isPackageModifiedAfter(
           'jnigen', await File(jarFile).lastModified(), 'java/');
@@ -78,7 +79,7 @@ Future<void> buildSummarizerIfNotExists({bool force = false}) async {
         'This might take some time. '
         'The build will be cached for subsequent runs.');
   }
-  if (!jarExists || isJarStale || force) {
+  if (!jarExists || !targetJarExists || isJarStale || force) {
     await buildApiSummarizer();
   } else {
     log.info('ApiSummarizer.jar exists. Skipping build..');
