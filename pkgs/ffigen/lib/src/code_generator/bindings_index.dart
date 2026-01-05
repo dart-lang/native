@@ -31,6 +31,7 @@ class BindingsIndex {
       entry.filled = true;
       if (cachable != null) {
         entry.binding = cachable.binding;
+        // Note: Filler may re-enter this cache method.
         cachable.filler();
       }
     }

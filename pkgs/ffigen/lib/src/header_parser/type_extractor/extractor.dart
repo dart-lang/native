@@ -93,7 +93,8 @@ Type getCodeGenType(
       cursor,
       pointerReference,
     );
-    return type ?? UnimplementedType('${cxtype.kindSpelling()} not implemented');
+    return type ??
+        UnimplementedType('${cxtype.kindSpelling()} not implemented');
   }
 
   // If the type doesn't have a declaration cursor, then it's a basic type such
@@ -175,7 +176,7 @@ Type getCodeGenType(
       }
   }
 }
-
+/*
 Type? _createTypeFromCursor(
   Context context,
   clang_types.CXType cxtype,
@@ -244,7 +245,8 @@ Type? _createTypeFromCursor(
       return UnimplementedType('Unknown type: ${cxtype.completeStringRepr()}');
   }
 }
-
+*/
+/*
 void _fillFromCursorIfNeeded(
   Context context,
   Type? type,
@@ -263,7 +265,7 @@ void _fillFromCursorIfNeeded(
     fillObjCInterfaceMethodsIfNeeded(context, type, cursor);
   }
 }
-
+*/
 Type? _extractfromRecord(
   Context context,
   clang_types.CXType cxtype,
