@@ -31,7 +31,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' as core$_;
-import 'dart:core' show Object, String, bool, double, int;
+import 'dart:core' show Object, String, double, int;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
@@ -102,7 +102,7 @@ final class $R$drawable$NullableType$ extends jni$_.JType<R$drawable?> {
   int get hashCode => ($R$drawable$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($R$drawable$NullableType$) &&
         other is $R$drawable$NullableType$;
   }
@@ -139,7 +139,7 @@ final class $R$drawable$Type$ extends jni$_.JType<R$drawable> {
   int get hashCode => ($R$drawable$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($R$drawable$Type$) &&
         other is $R$drawable$Type$;
   }
@@ -210,7 +210,7 @@ final class $R$mipmap$NullableType$ extends jni$_.JType<R$mipmap?> {
   int get hashCode => ($R$mipmap$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($R$mipmap$NullableType$) &&
         other is $R$mipmap$NullableType$;
   }
@@ -245,7 +245,7 @@ final class $R$mipmap$Type$ extends jni$_.JType<R$mipmap> {
   int get hashCode => ($R$mipmap$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($R$mipmap$Type$) && other is $R$mipmap$Type$;
   }
 }
@@ -328,7 +328,7 @@ final class $R$style$NullableType$ extends jni$_.JType<R$style?> {
   int get hashCode => ($R$style$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($R$style$NullableType$) &&
         other is $R$style$NullableType$;
   }
@@ -363,7 +363,7 @@ final class $R$style$Type$ extends jni$_.JType<R$style> {
   int get hashCode => ($R$style$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($R$style$Type$) && other is $R$style$Type$;
   }
 }
@@ -420,7 +420,7 @@ final class $R$NullableType$ extends jni$_.JType<R?> {
   int get hashCode => ($R$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($R$NullableType$) && other is $R$NullableType$;
   }
 }
@@ -454,7 +454,7 @@ final class $R$Type$ extends jni$_.JType<R> {
   int get hashCode => ($R$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($R$Type$) && other is $R$Type$;
   }
 }
@@ -602,7 +602,7 @@ final class $EmojiCompat$CodepointSequenceMatchResult$NullableType$
       ($EmojiCompat$CodepointSequenceMatchResult$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType ==
             ($EmojiCompat$CodepointSequenceMatchResult$NullableType$) &&
         other is $EmojiCompat$CodepointSequenceMatchResult$NullableType$;
@@ -644,7 +644,7 @@ final class $EmojiCompat$CodepointSequenceMatchResult$Type$
       ($EmojiCompat$CodepointSequenceMatchResult$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType ==
             ($EmojiCompat$CodepointSequenceMatchResult$Type$) &&
         other is $EmojiCompat$CodepointSequenceMatchResult$Type$;
@@ -749,7 +749,7 @@ class EmojiCompat$Config extends jni$_.JObject {
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setReplaceAll(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   EmojiCompat$Config setReplaceAll(
-    bool z,
+    core$_.bool z,
   ) {
     return _setReplaceAll(reference.pointer,
             _id_setReplaceAll as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -774,7 +774,7 @@ class EmojiCompat$Config extends jni$_.JObject {
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setUseEmojiAsDefaultStyle(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   EmojiCompat$Config setUseEmojiAsDefaultStyle(
-    bool z,
+    core$_.bool z,
   ) {
     return _setUseEmojiAsDefaultStyle(reference.pointer,
             _id_setUseEmojiAsDefaultStyle as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -804,7 +804,7 @@ class EmojiCompat$Config extends jni$_.JObject {
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setUseEmojiAsDefaultStyle(boolean z, java.util.List<java.lang.Integer> list)`
   /// The returned object must be released after use, by calling the [release] method.
   EmojiCompat$Config setUseEmojiAsDefaultStyle$1(
-    bool z,
+    core$_.bool z,
     jni$_.JList<jni$_.JInteger?>? list,
   ) {
     final _$list = list?.reference ?? jni$_.jNullReference;
@@ -834,7 +834,7 @@ class EmojiCompat$Config extends jni$_.JObject {
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setEmojiSpanIndicatorEnabled(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   EmojiCompat$Config setEmojiSpanIndicatorEnabled(
-    bool z,
+    core$_.bool z,
   ) {
     return _setEmojiSpanIndicatorEnabled(reference.pointer,
             _id_setEmojiSpanIndicatorEnabled as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -979,7 +979,7 @@ final class $EmojiCompat$Config$NullableType$
   int get hashCode => ($EmojiCompat$Config$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($EmojiCompat$Config$NullableType$) &&
         other is $EmojiCompat$Config$NullableType$;
   }
@@ -1016,7 +1016,7 @@ final class $EmojiCompat$Config$Type$ extends jni$_.JType<EmojiCompat$Config> {
   int get hashCode => ($EmojiCompat$Config$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($EmojiCompat$Config$Type$) &&
         other is $EmojiCompat$Config$Type$;
   }
@@ -1130,7 +1130,7 @@ final class $EmojiCompat$DefaultSpanFactory$NullableType$
   int get hashCode => ($EmojiCompat$DefaultSpanFactory$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType ==
             ($EmojiCompat$DefaultSpanFactory$NullableType$) &&
         other is $EmojiCompat$DefaultSpanFactory$NullableType$;
@@ -1170,7 +1170,7 @@ final class $EmojiCompat$DefaultSpanFactory$Type$
   int get hashCode => ($EmojiCompat$DefaultSpanFactory$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($EmojiCompat$DefaultSpanFactory$Type$) &&
         other is $EmojiCompat$DefaultSpanFactory$Type$;
   }
@@ -1220,7 +1220,7 @@ class EmojiCompat$GlyphChecker extends jni$_.JObject {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int, int)>();
 
   /// from: `public abstract boolean hasGlyph(java.lang.CharSequence charSequence, int i, int i1, int i2)`
-  bool hasGlyph(
+  core$_.bool hasGlyph(
     jni$_.JObject charSequence,
     int i,
     int i1,
@@ -1321,23 +1321,25 @@ class EmojiCompat$GlyphChecker extends jni$_.JObject {
 
 abstract base mixin class $EmojiCompat$GlyphChecker {
   factory $EmojiCompat$GlyphChecker({
-    required bool Function(jni$_.JObject charSequence, int i, int i1, int i2)
+    required core$_.bool Function(
+            jni$_.JObject charSequence, int i, int i1, int i2)
         hasGlyph,
   }) = _$EmojiCompat$GlyphChecker;
 
-  bool hasGlyph(jni$_.JObject charSequence, int i, int i1, int i2);
+  core$_.bool hasGlyph(jni$_.JObject charSequence, int i, int i1, int i2);
 }
 
 final class _$EmojiCompat$GlyphChecker with $EmojiCompat$GlyphChecker {
   _$EmojiCompat$GlyphChecker({
-    required bool Function(jni$_.JObject charSequence, int i, int i1, int i2)
+    required core$_.bool Function(
+            jni$_.JObject charSequence, int i, int i1, int i2)
         hasGlyph,
   }) : _hasGlyph = hasGlyph;
 
-  final bool Function(jni$_.JObject charSequence, int i, int i1, int i2)
+  final core$_.bool Function(jni$_.JObject charSequence, int i, int i1, int i2)
       _hasGlyph;
 
-  bool hasGlyph(jni$_.JObject charSequence, int i, int i1, int i2) {
+  core$_.bool hasGlyph(jni$_.JObject charSequence, int i, int i1, int i2) {
     return _hasGlyph(charSequence, i, i1, i2);
   }
 }
@@ -1375,7 +1377,7 @@ final class $EmojiCompat$GlyphChecker$NullableType$
   int get hashCode => ($EmojiCompat$GlyphChecker$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($EmojiCompat$GlyphChecker$NullableType$) &&
         other is $EmojiCompat$GlyphChecker$NullableType$;
   }
@@ -1413,7 +1415,7 @@ final class $EmojiCompat$GlyphChecker$Type$
   int get hashCode => ($EmojiCompat$GlyphChecker$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($EmojiCompat$GlyphChecker$Type$) &&
         other is $EmojiCompat$GlyphChecker$Type$;
   }
@@ -1524,7 +1526,7 @@ final class $EmojiCompat$InitCallback$NullableType$
   int get hashCode => ($EmojiCompat$InitCallback$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($EmojiCompat$InitCallback$NullableType$) &&
         other is $EmojiCompat$InitCallback$NullableType$;
   }
@@ -1562,7 +1564,7 @@ final class $EmojiCompat$InitCallback$Type$
   int get hashCode => ($EmojiCompat$InitCallback$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($EmojiCompat$InitCallback$Type$) &&
         other is $EmojiCompat$InitCallback$Type$;
   }
@@ -1704,7 +1706,7 @@ final class $EmojiCompat$LoadStrategy$NullableType$
   int get hashCode => ($EmojiCompat$LoadStrategy$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($EmojiCompat$LoadStrategy$NullableType$) &&
         other is $EmojiCompat$LoadStrategy$NullableType$;
   }
@@ -1742,7 +1744,7 @@ final class $EmojiCompat$LoadStrategy$Type$
   int get hashCode => ($EmojiCompat$LoadStrategy$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($EmojiCompat$LoadStrategy$Type$) &&
         other is $EmojiCompat$LoadStrategy$Type$;
   }
@@ -1884,11 +1886,11 @@ abstract base mixin class $EmojiCompat$MetadataRepoLoader {
     required void Function(
             EmojiCompat$MetadataRepoLoaderCallback metadataRepoLoaderCallback)
         load,
-    bool load$async,
+    core$_.bool load$async,
   }) = _$EmojiCompat$MetadataRepoLoader;
 
   void load(EmojiCompat$MetadataRepoLoaderCallback metadataRepoLoaderCallback);
-  bool get load$async => false;
+  core$_.bool get load$async => false;
 }
 
 final class _$EmojiCompat$MetadataRepoLoader
@@ -1902,7 +1904,7 @@ final class _$EmojiCompat$MetadataRepoLoader
 
   final void Function(
       EmojiCompat$MetadataRepoLoaderCallback metadataRepoLoaderCallback) _load;
-  final bool load$async;
+  final core$_.bool load$async;
 
   void load(EmojiCompat$MetadataRepoLoaderCallback metadataRepoLoaderCallback) {
     return _load(metadataRepoLoaderCallback);
@@ -1943,7 +1945,7 @@ final class $EmojiCompat$MetadataRepoLoader$NullableType$
   int get hashCode => ($EmojiCompat$MetadataRepoLoader$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType ==
             ($EmojiCompat$MetadataRepoLoader$NullableType$) &&
         other is $EmojiCompat$MetadataRepoLoader$NullableType$;
@@ -1983,7 +1985,7 @@ final class $EmojiCompat$MetadataRepoLoader$Type$
   int get hashCode => ($EmojiCompat$MetadataRepoLoader$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($EmojiCompat$MetadataRepoLoader$Type$) &&
         other is $EmojiCompat$MetadataRepoLoader$Type$;
   }
@@ -2100,7 +2102,7 @@ final class $EmojiCompat$MetadataRepoLoaderCallback$NullableType$
       ($EmojiCompat$MetadataRepoLoaderCallback$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType ==
             ($EmojiCompat$MetadataRepoLoaderCallback$NullableType$) &&
         other is $EmojiCompat$MetadataRepoLoaderCallback$NullableType$;
@@ -2141,7 +2143,7 @@ final class $EmojiCompat$MetadataRepoLoaderCallback$Type$
   int get hashCode => ($EmojiCompat$MetadataRepoLoaderCallback$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType ==
             ($EmojiCompat$MetadataRepoLoaderCallback$Type$) &&
         other is $EmojiCompat$MetadataRepoLoaderCallback$Type$;
@@ -2284,7 +2286,7 @@ final class $EmojiCompat$ReplaceStrategy$NullableType$
   int get hashCode => ($EmojiCompat$ReplaceStrategy$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($EmojiCompat$ReplaceStrategy$NullableType$) &&
         other is $EmojiCompat$ReplaceStrategy$NullableType$;
   }
@@ -2322,7 +2324,7 @@ final class $EmojiCompat$ReplaceStrategy$Type$
   int get hashCode => ($EmojiCompat$ReplaceStrategy$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($EmojiCompat$ReplaceStrategy$Type$) &&
         other is $EmojiCompat$ReplaceStrategy$Type$;
   }
@@ -2516,7 +2518,7 @@ final class $EmojiCompat$SpanFactory$NullableType$
   int get hashCode => ($EmojiCompat$SpanFactory$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($EmojiCompat$SpanFactory$NullableType$) &&
         other is $EmojiCompat$SpanFactory$NullableType$;
   }
@@ -2554,7 +2556,7 @@ final class $EmojiCompat$SpanFactory$Type$
   int get hashCode => ($EmojiCompat$SpanFactory$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($EmojiCompat$SpanFactory$Type$) &&
         other is $EmojiCompat$SpanFactory$Type$;
   }
@@ -2747,7 +2749,7 @@ class EmojiCompat extends jni$_.JObject {
           )>();
 
   /// from: `static public boolean isConfigured()`
-  static bool isConfigured() {
+  static core$_.bool isConfigured() {
     return _isConfigured(
             _class.reference.pointer, _id_isConfigured as jni$_.JMethodIDPtr)
         .boolean;
@@ -2824,7 +2826,7 @@ class EmojiCompat extends jni$_.JObject {
 
   /// from: `static public void skipDefaultConfigurationLookup(boolean z)`
   static void skipDefaultConfigurationLookup(
-    bool z,
+    core$_.bool z,
   ) {
     _skipDefaultConfigurationLookup(_class.reference.pointer,
             _id_skipDefaultConfigurationLookup as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -2976,7 +2978,7 @@ class EmojiCompat extends jni$_.JObject {
               )>();
 
   /// from: `public boolean isEmojiSpanIndicatorEnabled()`
-  bool isEmojiSpanIndicatorEnabled() {
+  core$_.bool isEmojiSpanIndicatorEnabled() {
     return _isEmojiSpanIndicatorEnabled(reference.pointer,
             _id_isEmojiSpanIndicatorEnabled as jni$_.JMethodIDPtr)
         .boolean;
@@ -3088,7 +3090,7 @@ class EmojiCompat extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `static public boolean handleOnKeyDown(android.text.Editable editable, int i, android.view.KeyEvent keyEvent)`
-  static bool handleOnKeyDown(
+  static core$_.bool handleOnKeyDown(
     jni$_.JObject editable,
     int i,
     jni$_.JObject keyEvent,
@@ -3134,12 +3136,12 @@ class EmojiCompat extends jni$_.JObject {
                   int)>();
 
   /// from: `static public boolean handleDeleteSurroundingText(android.view.inputmethod.InputConnection inputConnection, android.text.Editable editable, int i, int i1, boolean z)`
-  static bool handleDeleteSurroundingText(
+  static core$_.bool handleDeleteSurroundingText(
     jni$_.JObject inputConnection,
     jni$_.JObject editable,
     int i,
     int i1,
-    bool z,
+    core$_.bool z,
   ) {
     final _$inputConnection = inputConnection.reference;
     final _$editable = editable.reference;
@@ -3171,7 +3173,7 @@ class EmojiCompat extends jni$_.JObject {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public boolean hasEmojiGlyph(java.lang.CharSequence charSequence)`
-  bool hasEmojiGlyph(
+  core$_.bool hasEmojiGlyph(
     jni$_.JObject charSequence,
   ) {
     final _$charSequence = charSequence.reference;
@@ -3198,7 +3200,7 @@ class EmojiCompat extends jni$_.JObject {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
 
   /// from: `public boolean hasEmojiGlyph(java.lang.CharSequence charSequence, int i)`
-  bool hasEmojiGlyph$1(
+  core$_.bool hasEmojiGlyph$1(
     jni$_.JObject charSequence,
     int i,
   ) {
@@ -3460,7 +3462,7 @@ final class $EmojiCompat$NullableType$ extends jni$_.JType<EmojiCompat?> {
   int get hashCode => ($EmojiCompat$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($EmojiCompat$NullableType$) &&
         other is $EmojiCompat$NullableType$;
   }
@@ -3497,7 +3499,7 @@ final class $EmojiCompat$Type$ extends jni$_.JType<EmojiCompat> {
   int get hashCode => ($EmojiCompat$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($EmojiCompat$Type$) &&
         other is $EmojiCompat$Type$;
   }
@@ -3629,7 +3631,7 @@ final class $DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory$NullableTy
           .hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType ==
             ($DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory$NullableType$) &&
         other
@@ -3675,7 +3677,7 @@ final class $DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory$Type$
           .hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType ==
             ($DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory$Type$) &&
         other
@@ -3888,7 +3890,7 @@ final class $DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper$NullableTyp
           .hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType ==
             ($DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper$NullableType$) &&
         other
@@ -3933,7 +3935,7 @@ final class $DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper$Type$
       ($DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType ==
             ($DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper$Type$) &&
         other is $DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper$Type$;
@@ -4108,7 +4110,7 @@ final class $DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19$Nulla
           .hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType ==
             ($DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19$NullableType$) &&
         other
@@ -4156,7 +4158,7 @@ final class $DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19$Type$
           .hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType ==
             ($DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19$Type$) &&
         other
@@ -4300,7 +4302,7 @@ final class $DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28$Nulla
           .hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType ==
             ($DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28$NullableType$) &&
         other
@@ -4348,7 +4350,7 @@ final class $DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28$Type$
           .hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType ==
             ($DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28$Type$) &&
         other
@@ -4439,7 +4441,7 @@ final class $DefaultEmojiCompatConfig$NullableType$
   int get hashCode => ($DefaultEmojiCompatConfig$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($DefaultEmojiCompatConfig$NullableType$) &&
         other is $DefaultEmojiCompatConfig$NullableType$;
   }
@@ -4477,7 +4479,7 @@ final class $DefaultEmojiCompatConfig$Type$
   int get hashCode => ($DefaultEmojiCompatConfig$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($DefaultEmojiCompatConfig$Type$) &&
         other is $DefaultEmojiCompatConfig$Type$;
   }
@@ -4530,7 +4532,7 @@ class Build$Partition extends jni$_.JObject {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public boolean equals(java.lang.Object object)`
-  bool equals(
+  core$_.bool equals(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -4668,7 +4670,7 @@ final class $Build$Partition$NullableType$
   int get hashCode => ($Build$Partition$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Build$Partition$NullableType$) &&
         other is $Build$Partition$NullableType$;
   }
@@ -4705,7 +4707,7 @@ final class $Build$Partition$Type$ extends jni$_.JType<Build$Partition> {
   int get hashCode => ($Build$Partition$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Build$Partition$Type$) &&
         other is $Build$Partition$Type$;
   }
@@ -4903,7 +4905,7 @@ final class $Build$VERSION$NullableType$ extends jni$_.JType<Build$VERSION?> {
   int get hashCode => ($Build$VERSION$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Build$VERSION$NullableType$) &&
         other is $Build$VERSION$NullableType$;
   }
@@ -4940,7 +4942,7 @@ final class $Build$VERSION$Type$ extends jni$_.JType<Build$VERSION> {
   int get hashCode => ($Build$VERSION$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Build$VERSION$Type$) &&
         other is $Build$VERSION$Type$;
   }
@@ -5136,7 +5138,7 @@ final class $Build$VERSION_CODES$NullableType$
   int get hashCode => ($Build$VERSION_CODES$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Build$VERSION_CODES$NullableType$) &&
         other is $Build$VERSION_CODES$NullableType$;
   }
@@ -5174,7 +5176,7 @@ final class $Build$VERSION_CODES$Type$
   int get hashCode => ($Build$VERSION_CODES$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Build$VERSION_CODES$Type$) &&
         other is $Build$VERSION_CODES$Type$;
   }
@@ -5345,7 +5347,7 @@ final class $Build$VERSION_CODES_FULL$NullableType$
   int get hashCode => ($Build$VERSION_CODES_FULL$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Build$VERSION_CODES_FULL$NullableType$) &&
         other is $Build$VERSION_CODES_FULL$NullableType$;
   }
@@ -5383,7 +5385,7 @@ final class $Build$VERSION_CODES_FULL$Type$
   int get hashCode => ($Build$VERSION_CODES_FULL$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Build$VERSION_CODES_FULL$Type$) &&
         other is $Build$VERSION_CODES_FULL$Type$;
   }
@@ -5875,7 +5877,7 @@ final class $Build$NullableType$ extends jni$_.JType<Build?> {
   int get hashCode => ($Build$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Build$NullableType$) &&
         other is $Build$NullableType$;
   }
@@ -5910,7 +5912,7 @@ final class $Build$Type$ extends jni$_.JType<Build> {
   int get hashCode => ($Build$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Build$Type$) && other is $Build$Type$;
   }
 }
@@ -6254,7 +6256,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public boolean containsKey(java.lang.Object object)`
-  bool containsKey(
+  core$_.bool containsKey(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -6280,7 +6282,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public boolean containsValue(java.lang.Object object)`
-  bool containsValue(
+  core$_.bool containsValue(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -6424,7 +6426,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
           )>();
 
   /// from: `public boolean isEmpty()`
-  bool isEmpty() {
+  core$_.bool isEmpty() {
     return _isEmpty(reference.pointer, _id_isEmpty as jni$_.JMethodIDPtr)
         .boolean;
   }
@@ -6669,7 +6671,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
               jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public boolean remove(java.lang.Object object, java.lang.Object object1)`
-  bool remove$1(
+  core$_.bool remove$1(
     jni$_.JObject? object,
     jni$_.JObject? object1,
   ) {
@@ -6740,7 +6742,7 @@ class HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
               jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public boolean replace(K object, V object1, V object2)`
-  bool replace$1(
+  core$_.bool replace$1(
     $K? object,
     $V? object1,
     $V? object2,
@@ -6869,7 +6871,7 @@ final class $HashMap$NullableType$<$K extends jni$_.JObject?,
   int get hashCode => Object.hash($HashMap$NullableType$, K, V);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($HashMap$NullableType$<$K, $V>) &&
         other is $HashMap$NullableType$<$K, $V> &&
         K == other.K &&
@@ -6920,7 +6922,7 @@ final class $HashMap$Type$<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   int get hashCode => Object.hash($HashMap$Type$, K, V);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($HashMap$Type$<$K, $V>) &&
         other is $HashMap$Type$<$K, $V> &&
         K == other.K &&
@@ -7018,7 +7020,7 @@ final class $AndroidUtils$NullableType$ extends jni$_.JType<AndroidUtils?> {
   int get hashCode => ($AndroidUtils$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($AndroidUtils$NullableType$) &&
         other is $AndroidUtils$NullableType$;
   }
@@ -7055,7 +7057,7 @@ final class $AndroidUtils$Type$ extends jni$_.JType<AndroidUtils> {
   int get hashCode => ($AndroidUtils$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($AndroidUtils$Type$) &&
         other is $AndroidUtils$Type$;
   }
