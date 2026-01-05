@@ -14,7 +14,7 @@ The following compiler optimizations can influence the recorded API usage:
     example, `dart compile exe` might tree-shake a call, while `dart2js` might
     not.
 *   **Constant propagation and inlining:** Constant propagation and inlining of
-    other code might lead to `record-use` annotated API calls receiving more
+    other code might lead to record-use annotated API calls receiving more
     constant arguments or being promoted to static calls. These optimizations
     might also lead to tearoffs being promoted to static calls or const values
     showing up for call sites that were propagated there by the compiler. (The
