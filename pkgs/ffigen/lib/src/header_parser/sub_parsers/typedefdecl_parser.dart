@@ -30,9 +30,8 @@ import '../utils.dart';
 /// by the config.
 Typealias? parseTypedefDeclaration(
   Context context,
-  clang_types.CXCursor cursor, {
-  bool pointerReference = false,
-}) {
+  clang_types.CXCursor cursor,
+) {
   final logger = context.logger;
   final config = context.config;
   final bindingsIndex = context.bindingsIndex;
@@ -44,12 +43,7 @@ Typealias? parseTypedefDeclaration(
 
   final decl = Declaration(usr: usr, originalName: name);
   final ct = clang.clang_getTypedefDeclUnderlyingType(cursor);
-  final s = getCodeGenType(
-    context,
-    ct,
-    pointerReference: pointerReference,
-    originalCursor: cursor,
-  );
+  final s = getCodeGenType(context, ct, originalCursor: cursor);
 
   if (bindingsIndex.isSeenUnsupportedTypealias(usr)) {
     // Do not process unsupported typealiases again.
