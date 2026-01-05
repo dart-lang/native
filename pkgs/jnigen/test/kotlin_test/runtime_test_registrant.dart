@@ -34,6 +34,13 @@ void registerTests(String groupName, TestRunnerCallback test) {
         expect(noDelayNull, null);
         final asyncNull = await suspendFun.nullableHello(true);
         expect(asyncNull, null);
+
+        expect(suspendFun.getResult(), 0);
+        final voidFuture = suspendFun.noReturn();
+        expect(voidFuture, isA<Future<void>>());
+        expect(voidFuture, isNot(isA<Future<JObject>>()));
+        await voidFuture;
+        expect(suspendFun.getResult(), 123);
       });
     });
 

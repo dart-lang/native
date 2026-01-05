@@ -46,6 +46,12 @@ public class SuspendFun {
         }
         return "Hello!"
     }
+
+    var result: Int = 0
+    suspend fun noReturn() {
+        delay(100L)
+        this.result = 123
+    }
 }
 
 public interface SuspendInterface {

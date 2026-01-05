@@ -1462,7 +1462,10 @@ ${modifier}final _$name = $_protectedExtension
     }
 
     final name = node.finalName;
-    final returnType = node.returnTypeMaybeAsync(_TypeGenerator(resolver));
+    final asyncVoid = node.asyncReturnType?.name == 'kotlin.Unit';
+    final returnType = asyncVoid
+        ? '$_core.Future<void>'
+        : node.returnTypeMaybeAsync(_TypeGenerator(resolver));
     final ifStatic = node.isStatic && !isTopLevel ? 'static ' : '';
     final defArgs = node.params.accept(_ParamDef(resolver)).toList();
     final typeClassDef = node.typeParams
@@ -1485,11 +1488,8 @@ ${modifier}final _$name = $_protectedExtension
     s.write('  $ifStatic$returnType $name$typeParamsDef($params$typeClassDef)');
     final callExpr = methodCall(node);
     if (node.isSuspendFun) {
-      final returningType =
-          node.asyncReturnType!.accept(_TypeGenerator(resolver));
-      final returningTypeClass =
-          node.asyncReturnType!.accept(_TypeClassGenerator(resolver)).name;
-      final isNullable = node.asyncReturnType!.isNullable;
+      final asyncReturnType = node.asyncReturnType!;
+      final isNullable = asyncReturnType.isNullable;
       final continuation = node.params.last.finalName;
       s.write('''async {
     $typeInference
@@ -1515,10 +1515,22 @@ ${modifier}final _$name = $_protectedExtension
     } else {
       \$o = \$r;
     }
+''');
+
+      if (asyncVoid) {
+        s.write('    return;');
+      } else {
+        final returningType = asyncReturnType.accept(_TypeGenerator(resolver));
+        final returningTypeClass =
+            asyncReturnType.accept(_TypeClassGenerator(resolver)).name;
+        s.write('''
     return \$o${isNullable ? '?' : ''}.as<$returningType>(
       $returningTypeClass,
       releaseOriginal: true,
-    );
+    );''');
+      }
+
+      s.write('''
   }
 
 ''');

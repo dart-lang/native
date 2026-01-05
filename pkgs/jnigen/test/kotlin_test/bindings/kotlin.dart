@@ -3505,6 +3505,98 @@ class SuspendFun extends jni$_.JObject {
       releaseOriginal: true,
     );
   }
+
+  static final _id_getResult = _class.instanceMethodId(
+    r'getResult',
+    r'()I',
+  );
+
+  static final _getResult = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final int getResult()`
+  int getResult() {
+    return _getResult(reference.pointer, _id_getResult as jni$_.JMethodIDPtr)
+        .integer;
+  }
+
+  static final _id_setResult = _class.instanceMethodId(
+    r'setResult',
+    r'(I)V',
+  );
+
+  static final _setResult = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public final void setResult(int i)`
+  void setResult(
+    int i,
+  ) {
+    _setResult(reference.pointer, _id_setResult as jni$_.JMethodIDPtr, i)
+        .check();
+  }
+
+  static final _id_noReturn = _class.instanceMethodId(
+    r'noReturn',
+    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _noReturn = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public suspend fun noReturn(): kotlin.Unit`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<void> noReturn() async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _noReturn(reference.pointer, _id_noReturn as jni$_.JMethodIDPtr,
+            _$continuation.pointer)
+        .object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return;
+  }
 }
 
 final class $SuspendFun$NullableType$ extends jni$_.JType<SuspendFun?> {
