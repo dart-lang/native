@@ -234,10 +234,9 @@ Type? _createTypeFromCursor(
     case clang_types.CXTypeKind.CXType_Record:
       return _extractfromRecord(context, cxtype, cursor, pointerReference);
     case clang_types.CXTypeKind.CXType_Enum:
-      final (enumClass, nativeType) = parseEnumDeclaration(cursor, context);
-      if (enumClass == null) {
-        // Handle anonymous enum declarations within another declaration.
-        return nativeType;
+      final enumClass = parseEnumDeclaration(cursor, context);
+      if (enumClass.isAnonymous) {
+        return enumClass.nativeType;
       } else {
         return enumClass;
       }
