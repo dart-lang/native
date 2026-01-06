@@ -186,6 +186,7 @@ class EnumClass extends BindingType with HasLocalScope {
 
   @override
   BindingString toBindingString(Writer w) {
+    assert(!isAnonymous);
     final s = StringBuffer();
 
     final uniqueToDuplicates = <EnumConstant, List<EnumConstant>>{};
