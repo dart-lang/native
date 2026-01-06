@@ -23,15 +23,17 @@ CachableBinding? parseStructDeclaration(
   Struct.new,
 );
 
-CachableBinding? parseUnionDeclaration(clang_types.CXCursor cursor, Context context) =>
-    _parseCompoundDeclaration(
-      cursor,
-      context,
-      'Union',
-      context.config.unions,
-      context.config.unionTypeMappings,
-      Union.new,
-    );
+CachableBinding? parseUnionDeclaration(
+  clang_types.CXCursor cursor,
+  Context context,
+) => _parseCompoundDeclaration(
+  cursor,
+  context,
+  'Union',
+  context.config.unions,
+  context.config.unionTypeMappings,
+  Union.new,
+);
 
 /// Holds temporary information regarding [compound] while parsing.
 class _ParsedCompound {
@@ -96,7 +98,7 @@ class _ParsedCompound {
 }
 
 /// Parses a compound declaration.
-Compound? _parseCompoundDeclaration(
+CachableBinding? _parseCompoundDeclaration(
   clang_types.CXCursor cursor,
   Context context,
   String className,
@@ -116,7 +118,7 @@ Compound? _parseCompoundDeclaration(
 
   final mappedType = configTypeMappings[cursor.spelling()];
   if (mappedType != null) {
-    logger.fine('  Type Mapped from type-map: ${cursor.spelling()}');
+    context.logger.fine('  Type Mapped from type-map: ${cursor.spelling()}');
     return CachableBinding(mappedType);
   }
 
@@ -172,7 +174,10 @@ Compound? _parseCompoundDeclaration(
       nativeType: cursor.type().spelling(),
     );
   }
-  return CachableBinding(compound, fillCompoundMembersIfNeeded(compound, cursor, context));
+  return CachableBinding(
+    compound,
+    () => fillCompoundMembersIfNeeded(compound, cursor, context),
+  );
 }
 
 void fillCompoundMembersIfNeeded(

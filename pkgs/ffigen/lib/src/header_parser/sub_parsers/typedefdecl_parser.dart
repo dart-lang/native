@@ -47,7 +47,8 @@ Typealias parseTypedefDeclaration(
   }
 
   if (config.typedefs.useSupportedTypedefs) {
-    final supportedTypedef = suportedTypedefToSuportedNativeType[name] ??
+    final supportedTypedef =
+        suportedTypedefToSuportedNativeType[name] ??
         supportedTypedefToImportedType[name];
     if (supportedTypedef != null) {
       logger.fine('  Type Mapped from supported typedef');

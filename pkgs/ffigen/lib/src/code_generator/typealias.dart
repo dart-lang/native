@@ -21,7 +21,6 @@ class Typealias extends BindingType {
   final Type type;
   Symbol? _ffiDartAliasName;
   Symbol? dartAliasName;
-  bool isAnonymous;
 
   // Don't code gen this alias at all, just use the [type] directly.
   bool isAnonymous;

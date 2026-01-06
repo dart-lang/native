@@ -7,6 +7,7 @@ import '../../config_provider/config.dart';
 import '../../config_provider/config_types.dart';
 import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
+import '../translation_unit_parser.dart';
 import '../utils.dart';
 import 'api_availability.dart';
 import 'objcprotocoldecl_parser.dart';
@@ -50,7 +51,9 @@ CachableBinding? parseObjCInterfaceDeclaration(
     apiAvailability: apiAvailability,
   );
   return CachableBinding(
-      itf, () => fillObjCInterfaceMethodsIfNeeded(context, itf, cursor));
+    itf,
+    () => fillObjCInterfaceMethodsIfNeeded(context, itf, cursor),
+  );
 }
 
 void fillObjCInterfaceMethodsIfNeeded(
@@ -81,8 +84,10 @@ void fillObjCInterfaceMethodsIfNeeded(
         _parseSuperType(context, child, itf);
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCProtocolRef:
-        final protoCursor = clang.clang_getCursorDefinition(child);
-        itf.addProtocol(parseObjCProtocolDeclaration(context, protoCursor));
+        final p = parseCursor(context, clang.clang_getCursorDefinition(child));
+        if (p is ObjCProtocol) {
+          itf.addProtocol(p);
+        }
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCPropertyDecl:
         final (getter, setter) = parseObjCProperty(

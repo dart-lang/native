@@ -166,46 +166,17 @@ Type _createTypeFromCursor(Context context, clang_types.CXCursor cursor) {
     return importedType;
   }
 
-  final binding = parseCursor(context, cursor);
-  if (binding is Type) {
-    if (binding is EnumClass && binding.isAnonymous) {
-      return binding.nativeType;
-    } else if
-    return binding;
+  final type = parseCursor(context, cursor);
+  if (type is Type) {
+    if (type is EnumClass && type.isAnonymous) {
+      return type.nativeType;
+    } else if (type is Typealias && type.isAnonymous) {
+      return type.type;
+    }
+    return type;
   }
   return UnimplementedType('Unknown type: ${cursor.completeStringRepr()}');
-
-  switch (cxtype.kind) {
-    case clang_types.CXTypeKind.CXType_Typedef:
-      final spelling = clang.clang_getTypedefName(cxtype).toStringAndDispose();
-
-      final typealias = parseTypedefDeclaration(context, cursor);
-
-      if (typealias.isAnonymous) {
-        // Use underlying type if typealias couldn't be created or if the user
-        // excluded this typedef.
-        final ct = clang.clang_getTypedefDeclUnderlyingType(cursor);
-        return getCodeGenType(context, ct);
-      } else {
-        return typealias;
-      }
-  }
 }
-
-/*
-void _fillFromCursorIfNeeded(
-  Context context,
-  Type? type,
-  clang_types.CXCursor cursor,
-) {
-  if (type == null) return;
-  if (type is Compound) {
-    fillCompoundMembersIfNeeded(type, cursor, context);
-  } else if (type is ObjCInterface) {
-    fillObjCInterfaceMethodsIfNeeded(context, type, cursor);
-  }
-}
-*/
 
 // Used for function pointer arguments.
 Type _extractFromFunctionProto(

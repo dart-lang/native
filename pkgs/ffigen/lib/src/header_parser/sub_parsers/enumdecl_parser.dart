@@ -120,12 +120,13 @@ CachableBinding? parseEnumDeclaration(
   }
 
   return CachableBinding(
-    enumClass ?? EnumClass(
-      usr: usr,
-      name: enumName,
-      nativeType: nativeType,
-      context: context,
-      isAnonymous: true,
-    )
+    enumClass ??
+        EnumClass(
+          usr: usr,
+          name: enumName,
+          nativeType: nativeType,
+          context: context,
+          isAnonymous: true,
+        ),
   );
 }
