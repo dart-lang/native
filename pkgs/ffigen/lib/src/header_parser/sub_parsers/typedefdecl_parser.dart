@@ -34,9 +34,29 @@ Typealias? parseTypedefDeclaration(
 ) {
   final logger = context.logger;
   final config = context.config;
-  final bindingsIndex = context.bindingsIndex;
   final name = cursor.spelling();
   final usr = cursor.usr();
+
+  if (config.objectiveC != null && name == strings.objcBOOL) {
+    // Objective C's BOOL type can be either bool or signed char, depending
+    // on the platform. We want to present a consistent API to the user, and
+    // those two types are ABI compatible, so just return bool regardless.
+    return BooleanType();
+  }
+
+  if (config.typedefTypeMappings.containsKey(name)) {
+    logger.fine('  Type $name mapped from type-map');
+    return config.typedefTypeMappings[name]!;
+  }
+
+  if (config.typedefs.useSupportedTypedefs) {
+    final supportedTypedef = suportedTypedefToSuportedNativeType[name] ??
+        supportedTypedefToImportedType[name];
+    if (supportedTypedef != null) {
+      logger.fine('  Type Mapped from supported typedef');
+      return NativeType(supportedTypedef);
+    }
+  }
 
   final decl = Declaration(usr: usr, originalName: name);
   final ct = clang.clang_getTypedefDeclUnderlyingType(cursor);
@@ -67,14 +87,13 @@ Typealias? parseTypedefDeclaration(
     logger.fine("Skipped Typedef '$name': typedef to bool.");
   } else {
     // Create typealias.
-    final type = Typealias(
+    return Typealias(
       usr: usr,
       originalName: name,
       name: config.typedefs.rename(decl),
       type: s,
       dartDoc: getCursorDocComment(context, cursor),
     );
-    return type;
   }
-  return null;
+  return Typealias.anonymous(usr: usr, name: name, type: s);
 }

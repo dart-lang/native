@@ -13,7 +13,6 @@ import 'api_availability.dart';
 import 'unnamed_enumdecl_parser.dart';
 
 /// Parses an enum declaration.
-(EnumClass? enumClass, Type nativeType)
 CachableBinding? parseEnumDeclaration(
   clang_types.CXCursor cursor,
   Context context,

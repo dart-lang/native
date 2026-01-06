@@ -21,6 +21,7 @@ class Typealias extends BindingType {
   final Type type;
   Symbol? _ffiDartAliasName;
   Symbol? dartAliasName;
+  bool isAnonymous;
 
   /// Creates a Typealias.
   ///
@@ -71,6 +72,12 @@ class Typealias extends BindingType {
     );
   }
 
+  Typealias.anonymous({
+    required String usr,
+    required String name,
+    required Type type,
+  }) : this._(usr: usr, name: name, type: type, isAnonymous: true);
+
   Typealias._({
     super.usr,
     super.originalName,
@@ -79,6 +86,7 @@ class Typealias extends BindingType {
     required this.type,
     bool genFfiDartType = false,
     super.isInternal,
+    bool isAnonymous = false,
   }) : _ffiDartAliasName = genFfiDartType
            ? Symbol('Dart$name', SymbolKind.klass)
            : null,

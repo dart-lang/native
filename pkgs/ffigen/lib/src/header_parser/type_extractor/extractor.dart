@@ -166,38 +166,18 @@ Type _createTypeFromCursor(Context context, clang_types.CXCursor cursor) {
     return importedType;
   }
 
-  final binding = parseCursor(context, cursor) as BindingType?;
-  if (binding == null) {
-    return UnimplementedType('Unknown type: ${cursor.completeStringRepr()}');
+  final binding = parseCursor(context, cursor);
+  if (binding is Type) {
+    if (binding is EnumClass && binding.isAnonymous) {
+      return binding.nativeType;
+    } else if
+    return binding;
   }
-  if (binding is EnumClass && binding.isOmitted) {
-    return binding.nativeType;
-  }
-  return binding;
+  return UnimplementedType('Unknown type: ${cursor.completeStringRepr()}');
 
   switch (cxtype.kind) {
     case clang_types.CXTypeKind.CXType_Typedef:
       final spelling = clang.clang_getTypedefName(cxtype).toStringAndDispose();
-      if (config.objectiveC != null && spelling == strings.objcBOOL) {
-        // Objective C's BOOL type can be either bool or signed char, depending
-        // on the platform. We want to present a consistent API to the user, and
-        // those two types are ABI compatible, so just return bool regardless.
-        return BooleanType();
-      }
-      if (config.typedefTypeMappings.containsKey(spelling)) {
-        logger.fine('  Type $spelling mapped from type-map');
-        return config.typedefTypeMappings[spelling]!;
-      }
-      // Get name from supported typedef name if config allows.
-      if (config.typedefs.useSupportedTypedefs) {
-        if (suportedTypedefToSuportedNativeType.containsKey(spelling)) {
-          logger.fine('  Type Mapped from supported typedef');
-          return NativeType(suportedTypedefToSuportedNativeType[spelling]!);
-        } else if (supportedTypedefToImportedType.containsKey(spelling)) {
-          logger.fine('  Type Mapped from supported typedef');
-          return supportedTypedefToImportedType[spelling]!;
-        }
-      }
 
       final typealias = parseTypedefDeclaration(context, cursor);
 
