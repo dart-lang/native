@@ -22,6 +22,9 @@ class Typealias extends BindingType {
   Symbol? _ffiDartAliasName;
   Symbol? dartAliasName;
 
+  // Don't code gen this alias at all, just use the [type] directly.
+  bool isAnonymous;
+
   /// Creates a Typealias.
   ///
   /// If [genFfiDartType] is true, a binding is generated for the Ffi Dart type
@@ -71,6 +74,12 @@ class Typealias extends BindingType {
     );
   }
 
+  Typealias.anonymous({
+    required String usr,
+    required String name,
+    required Type type,
+  }) : this._(usr: usr, name: name, type: type, isAnonymous: true);
+
   Typealias._({
     super.usr,
     super.originalName,
@@ -79,6 +88,7 @@ class Typealias extends BindingType {
     required this.type,
     bool genFfiDartType = false,
     super.isInternal,
+    this.isAnonymous = false,
   }) : _ffiDartAliasName = genFfiDartType
            ? Symbol('Dart$name', SymbolKind.klass)
            : null,
@@ -97,6 +107,7 @@ class Typealias extends BindingType {
 
   @override
   BindingString toBindingString(Writer w) {
+    assert(!isAnonymous);
     final context = w.context;
     final sb = StringBuffer();
     sb.write(makeDartDoc(dartDoc));
