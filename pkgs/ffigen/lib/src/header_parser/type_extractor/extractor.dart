@@ -28,9 +28,6 @@ Type getCodeGenType(
   Context context,
   clang_types.CXType cxtype, {
 
-  /// Passed on if a value was marked as a pointer before this one.
-  bool pointerReference = false,
-
   /// Cursor of the declaration, currently this is useful only to extract
   /// parameter names in function types.
   clang_types.CXCursor? originalCursor,
@@ -42,11 +39,7 @@ Type getCodeGenType(
 
   // Special case: Elaborated types just refer to another type.
   if (cxtype.kind == clang_types.CXTypeKind.CXType_Elaborated) {
-    return getCodeGenType(
-      context,
-      clang.clang_Type_getNamedType(cxtype),
-      pointerReference: pointerReference,
-    );
+    return getCodeGenType(context, clang.clang_Type_getNamedType(cxtype));
   }
 
   // These basic Objective C types skip the cache, and are conditional on the
@@ -55,7 +48,7 @@ Type getCodeGenType(
     switch (cxtype.kind) {
       case clang_types.CXTypeKind.CXType_ObjCObjectPointer:
         final pt = clang.clang_getPointeeType(cxtype);
-        final s = getCodeGenType(context, pt, pointerReference: true);
+        final s = getCodeGenType(context, pt);
         if (s is ObjCInterface) {
           return s;
         }
@@ -87,16 +80,11 @@ Type getCodeGenType(
   // any potential cycles, and dedupe the Type.
   final cursor = clang.clang_getTypeDeclaration(cxtype);
   if (cursor.kind != clang_types.CXCursorKind.CXCursor_NoDeclFound) {
-    final type = _createTypeFromCursor(
-      context,
-      cxtype,
-      cursor,
-      pointerReference,
-    );
+    final type = _createTypeFromCursor(context, cxtype, cursor);
     if (type == null) {
       return UnimplementedType('${cxtype.kindSpelling()} not implemented');
     }
-    _fillFromCursorIfNeeded(context, type, cursor, pointerReference);
+    _fillFromCursorIfNeeded(context, type, cursor);
     return type;
   }
 
@@ -106,12 +94,7 @@ Type getCodeGenType(
   switch (cxtype.kind) {
     case clang_types.CXTypeKind.CXType_Pointer:
       final pt = clang.clang_getPointeeType(cxtype);
-      final s = getCodeGenType(
-        context,
-        pt,
-        pointerReference: true,
-        originalCursor: originalCursor,
-      );
+      final s = getCodeGenType(context, pt, originalCursor: originalCursor);
 
       // Replace Pointer<_Dart_Handle> with Handle.
       if (s is Struct && s.usr == strings.dartHandleUsr) {
@@ -184,7 +167,6 @@ Type? _createTypeFromCursor(
   Context context,
   clang_types.CXType cxtype,
   clang_types.CXCursor cursor,
-  bool pointerReference,
 ) {
   final logger = context.logger;
   final config = context.config;
@@ -217,11 +199,7 @@ Type? _createTypeFromCursor(
         }
       }
 
-      final typealias = parseTypedefDeclaration(
-        context,
-        cursor,
-        pointerReference: pointerReference,
-      );
+      final typealias = parseTypedefDeclaration(context, cursor);
 
       if (typealias != null) {
         return typealias;
@@ -229,10 +207,10 @@ Type? _createTypeFromCursor(
         // Use underlying type if typealias couldn't be created or if the user
         // excluded this typedef.
         final ct = clang.clang_getTypedefDeclUnderlyingType(cursor);
-        return getCodeGenType(context, ct, pointerReference: pointerReference);
+        return getCodeGenType(context, ct);
       }
     case clang_types.CXTypeKind.CXType_Record:
-      return _extractfromRecord(context, cxtype, cursor, pointerReference);
+      return _extractfromRecord(context, cxtype, cursor);
     case clang_types.CXTypeKind.CXType_Enum:
       final (enumClass, nativeType) = parseEnumDeclaration(cursor, context);
       if (enumClass == null) {
@@ -253,16 +231,10 @@ void _fillFromCursorIfNeeded(
   Context context,
   Type? type,
   clang_types.CXCursor cursor,
-  bool pointerReference,
 ) {
   if (type == null) return;
   if (type is Compound) {
-    fillCompoundMembersIfNeeded(
-      type,
-      cursor,
-      context,
-      pointerReference: pointerReference,
-    );
+    fillCompoundMembersIfNeeded(type, cursor, context);
   } else if (type is ObjCInterface) {
     fillObjCInterfaceMethodsIfNeeded(context, type, cursor);
   }
@@ -272,7 +244,6 @@ Type? _extractfromRecord(
   Context context,
   clang_types.CXType cxtype,
   clang_types.CXCursor cursor,
-  bool pointerReference,
 ) {
   final logger = context.logger;
   final config = context.config;
@@ -285,21 +256,13 @@ Type? _extractfromRecord(
       logger.fine('  Type Mapped from type-map');
       return config.structTypeMappings[declSpelling]!;
     }
-    return parseStructDeclaration(
-      cursor,
-      context,
-      pointerReference: pointerReference,
-    );
+    return parseStructDeclaration(cursor, context);
   } else if (cursorKind == clang_types.CXCursorKind.CXCursor_UnionDecl) {
     if (config.unionTypeMappings.containsKey(declSpelling)) {
       logger.fine('  Type Mapped from type-map');
       return config.unionTypeMappings[declSpelling]!;
     }
-    return parseUnionDeclaration(
-      cursor,
-      context,
-      pointerReference: pointerReference,
-    );
+    return parseUnionDeclaration(cursor, context);
   }
 
   logger.fine(
