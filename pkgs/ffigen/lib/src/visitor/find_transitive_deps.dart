@@ -16,7 +16,7 @@ class FindTransitiveDepsVisitation extends Visitation {
     node.visitChildren(visitor);
     transitives.add(node);
   }
-  
+
   @override
   void visitEnumClass(EnumClass node) {
     if (node.isAnonymous) return;
