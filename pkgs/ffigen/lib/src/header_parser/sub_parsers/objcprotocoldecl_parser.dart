@@ -6,6 +6,7 @@ import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
 import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
+import '../translation_unit_parser.dart';
 import '../utils.dart';
 import 'api_availability.dart';
 import 'objcinterfacedecl_parser.dart';
@@ -73,15 +74,9 @@ CachableBinding? parseObjCProtocolDeclaration(
     cursor.visitChildren((child) {
       switch (child.kind) {
         case clang_types.CXCursorKind.CXCursor_ObjCProtocolRef:
-          final declCursor = clang.clang_getCursorDefinition(child);
-          logger.fine(
-            '       > Super protocol: ${declCursor.completeStringRepr()}',
-          );
-          final superProtocol = parseObjCProtocolDeclaration(
-            context,
-            declCursor,
-          );
-          if (superProtocol != null) {
+          logger.fine('       > Super protocol: ${child.completeStringRepr()}');
+          final superProtocol = parseCursor(context, child);
+          if (superProtocol is ObjCProtocol) {
             protocol.superProtocols.add(superProtocol);
           }
           break;

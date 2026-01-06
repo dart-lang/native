@@ -205,7 +205,7 @@ Type makeTypeFromRawVarArgType(
   } else if (supportedTypedefToImportedType.containsKey(rawBaseType)) {
     baseType = supportedTypedefToImportedType[rawBaseType]!;
   } else if (suportedTypedefToSuportedNativeType.containsKey(rawBaseType)) {
-    baseType = NativeType(suportedTypedefToSuportedNativeType[rawBaseType]!);
+    baseType = suportedTypedefToSuportedNativeType[rawBaseType]!;
   } else {
     // Use library import if specified (E.g - ffi.UintPtr or custom.MyStruct)
     final rawVarArgTypeSplit = rawBaseType.split('.');

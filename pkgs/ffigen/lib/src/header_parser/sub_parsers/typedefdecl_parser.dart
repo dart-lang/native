@@ -5,7 +5,9 @@
 import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
 import '../../context.dart';
+import '../../strings.dart' as strings;
 import '../clang_bindings/clang_bindings.dart' as clang_types;
+import '../type_extractor/cxtypekindmap.dart';
 import '../type_extractor/extractor.dart';
 import '../utils.dart';
 
@@ -25,10 +27,7 @@ import '../utils.dart';
 ///
 /// typedef A D; // Typeref.
 /// ```
-Typealias parseTypedefDeclaration(
-  Context context,
-  clang_types.CXCursor cursor,
-) {
+Type parseTypedefDeclaration(Context context, clang_types.CXCursor cursor) {
   final logger = context.logger;
   final config = context.config;
   final name = cursor.spelling();
@@ -52,7 +51,7 @@ Typealias parseTypedefDeclaration(
         supportedTypedefToImportedType[name];
     if (supportedTypedef != null) {
       logger.fine('  Type Mapped from supported typedef');
-      return NativeType(supportedTypedef);
+      return supportedTypedef;
     }
   }
 

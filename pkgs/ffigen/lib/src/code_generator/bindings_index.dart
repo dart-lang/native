@@ -5,6 +5,7 @@
 import 'binding.dart';
 import '../header_parser/clang_bindings/clang_bindings.dart' as clang_types;
 import '../header_parser/utils.dart';
+import '../visitor/ast.dart';
 
 class BindingsIndex {
   final _entries = <String, IndexEntry>{};
@@ -19,7 +20,7 @@ class BindingsIndex {
     _entries[usr] ??= IndexEntry(definition: cursor);
   }
 
-  Binding? cache(
+  AstNode? cache(
     clang_types.CXCursor cursor,
     CachableBinding? Function(clang_types.CXCursor cursor) builder,
   ) {
@@ -30,18 +31,18 @@ class BindingsIndex {
       final cachable = builder(entry.definition ?? cursor);
       entry.filled = true;
       if (cachable != null) {
-        entry.binding = cachable.binding;
+        entry.node = cachable.node;
         // Note: Filler may re-enter this cache method.
         cachable.filler();
       }
     }
-    return entry.binding;
+    return entry.node;
   }
 
   void fillBinding(Binding binding) {
     final entry = getOrInsert(binding.usr);
     assert(!entry.filled);
-    entry.binding = binding;
+    entry.node = binding;
     entry.filled = true;
   }
 
@@ -52,13 +53,13 @@ class BindingsIndex {
   }
 
   Set<Binding> get bindings =>
-      _entries.values.map((e) => e.binding).nonNulls.toSet();
+      _entries.values.map((e) => e.node).whereType<Binding>().toSet();
 }
 
 class IndexEntry {
   clang_types.CXCursor? definition;
   bool filled = false;
-  Binding? binding;
+  AstNode? node;
   IndexEntry({this.definition});
 }
 
@@ -66,8 +67,8 @@ class IndexEntry {
 // In that case they can provide a filler function that will be called after the
 // cache entry is created.
 class CachableBinding {
-  Binding binding;
+  AstNode node;
   void Function() filler;
-  CachableBinding(this.binding, [this.filler = _defaultFiller]);
+  CachableBinding(this.node, [this.filler = _defaultFiller]);
   static void _defaultFiller() {}
 }
