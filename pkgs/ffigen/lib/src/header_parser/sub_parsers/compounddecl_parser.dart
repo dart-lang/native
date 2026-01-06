@@ -11,7 +11,7 @@ import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
 import 'api_availability.dart';
 
-Compound? parseStructDeclaration(
+CachableBinding? parseStructDeclaration(
   clang_types.CXCursor cursor,
   Context context,
 ) => _parseCompoundDeclaration(
@@ -19,15 +19,17 @@ Compound? parseStructDeclaration(
   context,
   'Struct',
   context.config.structs,
+  context.config.structTypeMappings,
   Struct.new,
 );
 
-Compound? parseUnionDeclaration(clang_types.CXCursor cursor, Context context) =>
+CachableBinding? parseUnionDeclaration(clang_types.CXCursor cursor, Context context) =>
     _parseCompoundDeclaration(
       cursor,
       context,
       'Union',
       context.config.unions,
+      context.config.unionTypeMappings,
       Union.new,
     );
 
@@ -99,6 +101,7 @@ Compound? _parseCompoundDeclaration(
   Context context,
   String className,
   Declarations configDecl,
+  Map<String, ImportedType> configTypeMappings,
   Compound Function({
     String? usr,
     String? originalName,
@@ -110,6 +113,13 @@ Compound? _parseCompoundDeclaration(
   constructor,
 ) {
   assert(cursor.isDefinition);
+
+  final mappedType = configTypeMappings[cursor.spelling()];
+  if (mappedType != null) {
+    logger.fine('  Type Mapped from type-map: ${cursor.spelling()}');
+    return CachableBinding(mappedType);
+  }
+
   final usr = cursor.usr();
   final String declName;
 
@@ -132,8 +142,9 @@ Compound? _parseCompoundDeclaration(
   }
 
   final decl = Declaration(usr: usr, originalName: declName);
+  Compound compound;
   if (declName.isEmpty) {
-    return constructor(
+    compound = constructor(
       name: 'Unnamed$className',
       usr: usr,
       dartDoc: getCursorDocComment(
@@ -148,7 +159,7 @@ Compound? _parseCompoundDeclaration(
     context.logger.fine(
       '++++ Adding $className: Name: $declName, ${cursor.completeStringRepr()}',
     );
-    return constructor(
+    compound = constructor(
       usr: usr,
       originalName: declName,
       name: configDecl.rename(decl),
@@ -161,6 +172,7 @@ Compound? _parseCompoundDeclaration(
       nativeType: cursor.type().spelling(),
     );
   }
+  return CachableBinding(compound, fillCompoundMembersIfNeeded(compound, cursor, context));
 }
 
 void fillCompoundMembersIfNeeded(

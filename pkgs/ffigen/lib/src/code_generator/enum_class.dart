@@ -51,6 +51,8 @@ class EnumClass extends BindingType with HasLocalScope {
   /// Whether this enum should be generated as a collection of integers.
   EnumStyle style;
 
+  bool isAnonymous;
+
   EnumClass({
     super.usr,
     super.originalName,
@@ -60,6 +62,7 @@ class EnumClass extends BindingType with HasLocalScope {
     List<EnumConstant>? enumConstants,
     required this.context,
     this.style = EnumStyle.dartEnum,
+    this.isAnonymous = false,
   }) : nativeType = nativeType ?? intType,
        enumConstants = enumConstants ?? [];
 

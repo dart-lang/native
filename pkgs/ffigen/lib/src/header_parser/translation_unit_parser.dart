@@ -59,9 +59,13 @@ CachableBinding? _parseCursor(Context context, clang_types.CXCursor cursor) {
         parseFunctionDeclaration(context, cursor);
         return null;
       case clang_types.CXCursorKind.CXCursor_StructDecl:
+        return parseStructDeclaration(cursor, context);
       case clang_types.CXCursorKind.CXCursor_UnionDecl:
+        return parseUnionDeclaration(cursor, context);
       case clang_types.CXCursorKind.CXCursor_EnumDecl:
+        return parseEnumDeclaration(cursor, context);
       case clang_types.CXCursorKind.CXCursor_ObjCInterfaceDecl:
+        return parseObjCInterfaceDeclaration(context, cursor);
       case clang_types.CXCursorKind.CXCursor_TypedefDecl:
         return _getCodeGenTypeFromCursor(context, cursor);
       case clang_types.CXCursorKind.CXCursor_ObjCCategoryDecl:
@@ -72,7 +76,7 @@ CachableBinding? _parseCursor(Context context, clang_types.CXCursor cursor) {
         saveMacroDefinition(context, cursor);
         return null;
       case clang_types.CXCursorKind.CXCursor_VarDecl:
-        return CachableBinding(parseVarDeclaration(context, cursor));
+        return parseVarDeclaration(context, cursor);
       default:
         logger.finer('rootCursorVisitor: CursorKind not implemented');
     }

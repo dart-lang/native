@@ -80,13 +80,7 @@ Type getCodeGenType(
   // any potential cycles, and dedupe the Type.
   final cursor = clang.clang_getTypeDeclaration(cxtype);
   if (cursor.kind != clang_types.CXCursorKind.CXCursor_NoDeclFound) {
-    final type = _createTypeFromCursor(
-      context,
-      cxtype,
-      cursor,
-    );
-    return type ??
-        UnimplementedType('${cxtype.kindSpelling()} not implemented');
+    return _createTypeFromCursor(context, cursor);
   }
 
   // If the type doesn't have a declaration cursor, then it's a basic type such
@@ -163,19 +157,24 @@ Type getCodeGenType(
       }
   }
 }
-/*
-Type? _createTypeFromCursor(
-  Context context,
-  clang_types.CXType cxtype,
-  clang_types.CXCursor cursor,
-) {
-  final logger = context.logger;
-  final config = context.config;
+
+Type _createTypeFromCursor(Context context, clang_types.CXCursor cursor) {
   final usr = cursor.usr();
-  if (config.importedTypesByUsr.containsKey(usr)) {
-    logger.fine('  Type $usr mapped from usr');
-    return config.importedTypesByUsr[usr]!;
+  final importedType = context.config.importedTypesByUsr[usr];
+  if (importedType != null) {
+    context.logger.fine('  Type $usr mapped from usr');
+    return importedType;
   }
+
+  final binding = parseCursor(context, cursor) as BindingType?;
+  if (binding == null) {
+    return UnimplementedType('Unknown type: ${cursor.completeStringRepr()}');
+  }
+  if (binding is EnumClass && binding.isOmitted) {
+    return binding.nativeType;
+  }
+  return binding;
+
   switch (cxtype.kind) {
     case clang_types.CXTypeKind.CXType_Typedef:
       final spelling = clang.clang_getTypedefName(cxtype).toStringAndDispose();
@@ -210,24 +209,9 @@ Type? _createTypeFromCursor(
         final ct = clang.clang_getTypedefDeclUnderlyingType(cursor);
         return getCodeGenType(context, ct);
       }
-    case clang_types.CXTypeKind.CXType_Record:
-      return _extractfromRecord(context, cxtype, cursor);
-    case clang_types.CXTypeKind.CXType_Enum:
-      final (enumClass, nativeType) = parseEnumDeclaration(cursor, context);
-      if (enumClass == null) {
-        // Handle anonymous enum declarations within another declaration.
-        return nativeType;
-      } else {
-        return enumClass;
-      }
-    case clang_types.CXTypeKind.CXType_ObjCInterface:
-    case clang_types.CXTypeKind.CXType_ObjCObject:
-      return parseObjCInterfaceDeclaration(context, cursor);
-    default:
-      return UnimplementedType('Unknown type: ${cxtype.completeStringRepr()}');
   }
 }
-*/
+
 /*
 void _fillFromCursorIfNeeded(
   Context context,
@@ -242,37 +226,6 @@ void _fillFromCursorIfNeeded(
   }
 }
 */
-Type? _extractfromRecord(
-  Context context,
-  clang_types.CXType cxtype,
-  clang_types.CXCursor cursor,
-) {
-  final logger = context.logger;
-  final config = context.config;
-  logger.fine('${_padding}_extractfromRecord: ${cursor.completeStringRepr()}');
-
-  final declSpelling = cursor.spelling();
-  final cursorKind = clang.clang_getCursorKind(cursor);
-  if (cursorKind == clang_types.CXCursorKind.CXCursor_StructDecl) {
-    if (config.structTypeMappings.containsKey(declSpelling)) {
-      logger.fine('  Type Mapped from type-map');
-      return config.structTypeMappings[declSpelling]!;
-    }
-    return parseStructDeclaration(cursor, context);
-  } else if (cursorKind == clang_types.CXCursorKind.CXCursor_UnionDecl) {
-    if (config.unionTypeMappings.containsKey(declSpelling)) {
-      logger.fine('  Type Mapped from type-map');
-      return config.unionTypeMappings[declSpelling]!;
-    }
-    return parseUnionDeclaration(cursor, context);
-  }
-
-  logger.fine(
-    'typedeclarationCursorVisitor: _extractfromRecord: '
-    'Not Implemented, ${cursor.completeStringRepr()}',
-  );
-  return UnimplementedType('${cxtype.kindSpelling()} not implemented');
-}
 
 // Used for function pointer arguments.
 Type _extractFromFunctionProto(

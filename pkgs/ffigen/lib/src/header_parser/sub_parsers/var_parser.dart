@@ -10,7 +10,7 @@ import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
 
 /// Parses a global variable
-Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
+CachableBinding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
   final logger = context.logger;
   final config = context.config;
   final nativeOutputStyle = config.output.style is NativeExternalBindings;
@@ -69,7 +69,7 @@ Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
       logger.fine(
         '++++ Adding Constant from Global: ${cursor.completeStringRepr()}',
       );
-      return constant;
+      return CachableBinding(constant);
     }
   }
 
@@ -101,5 +101,5 @@ Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
     loadFromNativeAsset: nativeOutputStyle,
   );
 
-  return global;
+  return CachableBinding(global);
 }

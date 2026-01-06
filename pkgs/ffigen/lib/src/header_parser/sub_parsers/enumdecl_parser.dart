@@ -12,9 +12,9 @@ import '../utils.dart';
 import 'api_availability.dart';
 import 'unnamed_enumdecl_parser.dart';
 
-/// Parses an enum declaration. Returns (enumClass, nativeType). enumClass
-/// is null for anonymous enums.
-(EnumClass? enumClass, Type nativeType) parseEnumDeclaration(
+/// Parses an enum declaration.
+(EnumClass? enumClass, Type nativeType)
+CachableBinding? parseEnumDeclaration(
   clang_types.CXCursor cursor,
   Context context,
 ) {
@@ -48,17 +48,14 @@ import 'unnamed_enumdecl_parser.dart';
   final apiAvailability = ApiAvailability.fromCursor(cursor, context);
   if (apiAvailability.availability == Availability.none) {
     logger.info('Omitting deprecated enum $enumName');
-    return (null, nativeType);
-  }
-
-  final decl = Declaration(usr: usr, originalName: enumName);
-  if (enumName.isEmpty) {
+  } else if (enumName.isEmpty) {
     logger.fine('Saving anonymous enum.');
     final addedConstants = saveUnNamedEnum(context, cursor);
     hasNegativeEnumConstants = addedConstants
         .where((c) => c.rawValue.startsWith('-'))
         .isNotEmpty;
   } else {
+    final decl = Declaration(usr: usr, originalName: enumName);
     logger.fine('++++ Adding Enum: ${cursor.completeStringRepr()}');
     enumClass = EnumClass(
       usr: usr,
@@ -123,5 +120,13 @@ import 'unnamed_enumdecl_parser.dart';
     enumClass?.nativeType = nativeType;
   }
 
-  return (enumClass, nativeType);
+  return CachableBinding(
+    enumClass ?? EnumClass(
+      usr: usr,
+      name: enumName,
+      nativeType: nativeType,
+      context: context,
+      isAnonymous: true,
+    )
+  );
 }

@@ -14,7 +14,7 @@ import 'objcprotocoldecl_parser.dart';
 String applyModulePrefix(String name, String? module) =>
     module == null ? name : '$module.$name';
 
-Type? parseObjCInterfaceDeclaration(
+CachableBinding? parseObjCInterfaceDeclaration(
   Context context,
   clang_types.CXCursor cursor,
 ) {
@@ -49,7 +49,8 @@ Type? parseObjCInterfaceDeclaration(
     ),
     apiAvailability: apiAvailability,
   );
-  return itf;
+  return CachableBinding(
+      itf, () => fillObjCInterfaceMethodsIfNeeded(context, itf, cursor));
 }
 
 void fillObjCInterfaceMethodsIfNeeded(
