@@ -13,35 +13,23 @@ import 'api_availability.dart';
 
 Compound? parseStructDeclaration(
   clang_types.CXCursor cursor,
-  Context context, {
-
-  /// To track if the declaration was used by reference(i.e T*). (Used to only
-  /// generate these as opaque if `dependency-only` was set to opaque).
-  bool pointerReference = false,
-}) => _parseCompoundDeclaration(
+  Context context,
+) => _parseCompoundDeclaration(
   cursor,
   context,
-  pointerReference,
   'Struct',
   context.config.structs,
   Struct.new,
 );
 
-Compound? parseUnionDeclaration(
-  clang_types.CXCursor cursor,
-  Context context, {
-
-  /// To track if the declaration was used by reference(i.e T*). (Used to only
-  /// generate these as opaque if `dependency-only` was set to opaque).
-  bool pointerReference = false,
-}) => _parseCompoundDeclaration(
-  cursor,
-  context,
-  pointerReference,
-  'Union',
-  context.config.unions,
-  Union.new,
-);
+Compound? parseUnionDeclaration(clang_types.CXCursor cursor, Context context) =>
+    _parseCompoundDeclaration(
+      cursor,
+      context,
+      'Union',
+      context.config.unions,
+      Union.new,
+    );
 
 /// Holds temporary information regarding [compound] while parsing.
 class _ParsedCompound {
@@ -109,7 +97,6 @@ class _ParsedCompound {
 Compound? _parseCompoundDeclaration(
   clang_types.CXCursor cursor,
   Context context,
-  bool pointerReference,
   String className,
   Declarations configDecl,
   Compound Function({
@@ -188,12 +175,8 @@ Compound? _parseCompoundDeclaration(
 void fillCompoundMembersIfNeeded(
   Compound compound,
   clang_types.CXCursor cursor,
-  Context context, {
-
-  /// To track if the declaration was used by reference(i.e T*). (Used to only
-  /// generate these as opaque if `dependency-only` was set to opaque).
-  bool pointerReference = false,
-}) {
+  Context context,
+) {
   if (compound.parsedDependencies) return;
   final logger = context.logger;
 
