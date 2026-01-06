@@ -223,13 +223,13 @@ Type? _createTypeFromCursor(
         pointerReference: pointerReference,
       );
 
-      if (typealias != null) {
-        return typealias;
-      } else {
+      if (typealias.isAnonymous) {
         // Use underlying type if typealias couldn't be created or if the user
         // excluded this typedef.
         final ct = clang.clang_getTypedefDeclUnderlyingType(cursor);
         return getCodeGenType(context, ct, pointerReference: pointerReference);
+      } else {
+        return typealias;
       }
     case clang_types.CXTypeKind.CXType_Record:
       return _extractfromRecord(context, cxtype, cursor, pointerReference);

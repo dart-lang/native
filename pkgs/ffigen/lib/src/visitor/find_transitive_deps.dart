@@ -16,6 +16,12 @@ class FindTransitiveDepsVisitation extends Visitation {
     node.visitChildren(visitor);
     transitives.add(node);
   }
+
+  @override
+  void visitTypealias(Typealias node) {
+    if (node.isAnonymous) return;
+    visitBinding(node);
+  }
 }
 
 class FindDirectTransitiveDepsVisitation extends Visitation {

@@ -99,5 +99,8 @@ class ApplyConfigFiltersVisitation extends Visitation {
   }
 
   @override
-  void visitTypealias(Typealias node) => _visitImpl(node, config.typedefs);
+  void visitTypealias(Typealias node) {
+    if (node.isAnonymous) return;
+    _visitImpl(node, config.typedefs);
+  }
 }
