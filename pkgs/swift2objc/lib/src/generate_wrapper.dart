@@ -13,6 +13,7 @@ import 'generator/generator.dart';
 import 'parser/parser.dart';
 import 'transformer/transform.dart';
 import 'utils.dart';
+import 'utils/perf_timer.dart';
 
 extension Swift2ObjCGeneratorMethod on Swift2ObjCGenerator {
   /// Used to generate the wrapper swift file.
@@ -26,6 +27,8 @@ Future<void> _generateWrapper(
   Swift2ObjCGenerator config,
   Context context,
 ) async {
+  final scope = PerfScope('swift2objc generation', logger: context.logger);
+
   final Directory tempDir;
   final bool deleteTempDirWhenDone;
 
@@ -48,8 +51,12 @@ Future<void> _generateWrapper(
 
   final allInputConfigs = [...config.inputs, builtInInputConfig];
 
+  // Parse symbolgraph (baseline: no caching)
+  final parseScope = scope.child('parse symbolgraph');
   for (final input in allInputConfigs) {
+    // Always generate symbolgraph JSON (baseline measurement)
     if (input is HasSymbolgraphCommand) {
+      final extractTimer = scope.child('symbolgraph extraction');
       await _generateSymbolgraphJson(
         (input as HasSymbolgraphCommand).symbolgraphCommand(
           await target(),
@@ -57,6 +64,7 @@ Future<void> _generateWrapper(
         ),
         tempDir,
       );
+      extractTimer.close();
     }
 
     final symbolgraphFileName = switch (input) {
@@ -65,33 +73,53 @@ Future<void> _generateWrapper(
       JsonFileInputConfig() => path.absolute(input.jsonFile.path),
     };
     final symbolgraphJsonPath = path.join(tempDir.path, symbolgraphFileName);
+
+    final parseTimer = scope.child('json parse');
     final symbolgraphJson = readJsonFile(symbolgraphJsonPath);
+    parseTimer.close();
 
     sourceModules.add(switch (input) {
       FilesInputConfig() => null,
       ModuleInputConfig() => input.module,
       JsonFileInputConfig() => parseModuleName(symbolgraphJson),
     });
-    mergedSymbolgraph.merge(parseSymbolgraph(input, symbolgraphJson));
-  }
 
+    final mergeTimer = scope.child('symbolgraph merge');
+    mergedSymbolgraph.merge(parseSymbolgraph(input, symbolgraphJson));
+    mergeTimer.close();
+  }
+  parseScope.close();
+
+  // Parse declarations
+  final declScope = scope.child('parse declarations');
   final declarations = parseDeclarations(context, mergedSymbolgraph);
+  declScope.close();
+
+  // Transform declarations
+  final transformScope = scope.child('transform');
   final transformedDeclarations = transform(
     context,
     declarations,
     filter: config.include,
   );
+  transformScope.close();
+
+  // Generate code
+  final genScope = scope.child('generate');
   final wrapperCode = generate(
     transformedDeclarations,
     importedModuleNames: sourceModules.nonNulls.toList(),
     preamble: config.preamble,
   );
+  genScope.close();
 
   File.fromUri(config.outputFile).writeAsStringSync(wrapperCode);
 
   if (deleteTempDirWhenDone) {
     tempDir.deleteSync(recursive: true);
   }
+
+  scope.close();
 }
 
 Future<void> _generateSymbolgraphJson(
