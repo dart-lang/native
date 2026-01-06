@@ -22,6 +22,12 @@ class FindTransitiveDepsVisitation extends Visitation {
     if (node.isAnonymous) return;
     visitBinding(node);
   }
+
+  @override
+  void visitTypealias(Typealias node) {
+    if (node.isAnonymous) return;
+    visitBinding(node);
+  }
 }
 
 class FindDirectTransitiveDepsVisitation extends Visitation {

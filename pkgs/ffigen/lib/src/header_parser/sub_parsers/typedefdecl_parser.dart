@@ -25,10 +25,7 @@ import '../utils.dart';
 ///
 /// typedef A D; // Typeref.
 /// ```
-///
-/// Returns `null` if the typedef could not be generated or has been excluded
-/// by the config.
-Typealias? parseTypedefDeclaration(
+Typealias parseTypedefDeclaration(
   Context context,
   clang_types.CXCursor cursor,
 ) {
@@ -88,5 +85,5 @@ Typealias? parseTypedefDeclaration(
     bindingsIndex.addTypealiasToSeen(usr, type);
     return type;
   }
-  return null;
+  return Typealias.anonymous(usr: usr, name: name, type: s);
 }
