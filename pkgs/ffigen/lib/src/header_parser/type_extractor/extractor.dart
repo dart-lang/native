@@ -181,13 +181,13 @@ Type _createTypeFromCursor(Context context, clang_types.CXCursor cursor) {
 
       final typealias = parseTypedefDeclaration(context, cursor);
 
-      if (typealias != null) {
-        return typealias;
-      } else {
+      if (typealias.isAnonymous) {
         // Use underlying type if typealias couldn't be created or if the user
         // excluded this typedef.
         final ct = clang.clang_getTypedefDeclUnderlyingType(cursor);
         return getCodeGenType(context, ct);
+      } else {
+        return typealias;
       }
   }
 }
