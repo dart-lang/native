@@ -17,7 +17,6 @@ CachableBinding? parseObjCProtocolDeclaration(
 ) {
   final logger = context.logger;
   final config = context.config;
-  final bindingsIndex = context.bindingsIndex;
   if (cursor.kind != clang_types.CXCursorKind.CXCursor_ObjCProtocolDecl) {
     return null;
   }

@@ -47,8 +47,6 @@ Constant? _addUnNamedEnumConstant(
 ) {
   final logger = context.logger;
   final config = context.config;
-  final bindingsIndex = context.bindingsIndex;
-
   final usr = cursor.usr();
 
   final unnamedEnumConstants = context.unnamedEnumConstants;

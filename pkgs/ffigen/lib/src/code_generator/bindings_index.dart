@@ -2,10 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'binding.dart';
 import '../header_parser/clang_bindings/clang_bindings.dart' as clang_types;
 import '../header_parser/utils.dart';
 import '../visitor/ast.dart';
+import 'binding.dart';
 
 class BindingsIndex {
   final _entries = <String, IndexEntry>{};

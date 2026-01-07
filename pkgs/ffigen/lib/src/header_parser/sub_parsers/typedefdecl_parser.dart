@@ -27,7 +27,10 @@ import '../utils.dart';
 ///
 /// typedef A D; // Typeref.
 /// ```
-Type parseTypedefDeclaration(Context context, clang_types.CXCursor cursor) {
+CachableBinding parseTypedefDeclaration(
+  Context context,
+  clang_types.CXCursor cursor,
+) {
   final logger = context.logger;
   final config = context.config;
   final name = cursor.spelling();
@@ -37,12 +40,12 @@ Type parseTypedefDeclaration(Context context, clang_types.CXCursor cursor) {
     // Objective C's BOOL type can be either bool or signed char, depending
     // on the platform. We want to present a consistent API to the user, and
     // those two types are ABI compatible, so just return bool regardless.
-    return BooleanType();
+    return CachableBinding(BooleanType());
   }
 
   if (config.typedefTypeMappings.containsKey(name)) {
     logger.fine('  Type $name mapped from type-map');
-    return config.typedefTypeMappings[name]!;
+    return CachableBinding(config.typedefTypeMappings[name]!);
   }
 
   if (config.typedefs.useSupportedTypedefs) {
@@ -51,7 +54,7 @@ Type parseTypedefDeclaration(Context context, clang_types.CXCursor cursor) {
         supportedTypedefToImportedType[name];
     if (supportedTypedef != null) {
       logger.fine('  Type Mapped from supported typedef');
-      return supportedTypedef;
+      return CachableBinding(supportedTypedef);
     }
   }
 
@@ -84,13 +87,15 @@ Type parseTypedefDeclaration(Context context, clang_types.CXCursor cursor) {
     logger.fine("Skipped Typedef '$name': typedef to bool.");
   } else {
     // Create typealias.
-    return Typealias(
-      usr: usr,
-      originalName: name,
-      name: config.typedefs.rename(decl),
-      type: s,
-      dartDoc: getCursorDocComment(context, cursor),
+    return CachableBinding(
+      Typealias(
+        usr: usr,
+        originalName: name,
+        name: config.typedefs.rename(decl),
+        type: s,
+        dartDoc: getCursorDocComment(context, cursor),
+      ),
     );
   }
-  return Typealias.anonymous(usr: usr, name: name, type: s);
+  return CachableBinding(Typealias.anonymous(usr: usr, name: name, type: s));
 }

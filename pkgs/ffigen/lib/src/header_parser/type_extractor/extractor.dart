@@ -9,13 +9,9 @@ import '../../code_generator.dart';
 import '../../context.dart';
 import '../../strings.dart' as strings;
 import '../clang_bindings/clang_bindings.dart' as clang_types;
-import '../sub_parsers/compounddecl_parser.dart';
-import '../sub_parsers/enumdecl_parser.dart';
 import '../sub_parsers/function_type_param_parser.dart';
 import '../sub_parsers/objc_block_parser.dart';
-import '../sub_parsers/objcinterfacedecl_parser.dart';
-import '../sub_parsers/objcprotocoldecl_parser.dart';
-import '../sub_parsers/typedefdecl_parser.dart';
+import '../translation_unit_parser.dart';
 import '../type_extractor/cxtypekindmap.dart';
 import '../utils.dart';
 

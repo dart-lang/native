@@ -7,7 +7,6 @@ import 'dart:ffi';
 import 'package:logging/logging.dart';
 
 import 'code_generator.dart';
-import 'code_generator/bindings_index.dart';
 import 'code_generator/scope.dart';
 import 'config_provider/config.dart';
 import 'config_provider/config_types.dart';

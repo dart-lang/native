@@ -4,13 +4,17 @@
 
 import '../code_generator.dart';
 import '../context.dart';
+import '../visitor/ast.dart';
 import 'clang_bindings/clang_bindings.dart' as clang_types;
+import 'sub_parsers/compounddecl_parser.dart';
+import 'sub_parsers/enumdecl_parser.dart';
 import 'sub_parsers/functiondecl_parser.dart';
 import 'sub_parsers/macro_parser.dart';
 import 'sub_parsers/objccategorydecl_parser.dart';
+import 'sub_parsers/objcinterfacedecl_parser.dart';
 import 'sub_parsers/objcprotocoldecl_parser.dart';
+import 'sub_parsers/typedefdecl_parser.dart';
 import 'sub_parsers/var_parser.dart';
-import 'type_extractor/extractor.dart';
 import 'utils.dart';
 
 /// Parses the translation units and adds all the bindings to the context's
@@ -44,7 +48,7 @@ void _parseTranslationUnit(
   });
 }
 
-Binding? parseCursor(Context context, clang_types.CXCursor cursor) =>
+AstNode? parseCursor(Context context, clang_types.CXCursor cursor) =>
     context.bindingsIndex.cache(cursor, (def) => _parseCursor(context, def));
 
 CachableBinding? _parseCursor(Context context, clang_types.CXCursor cursor) {
@@ -67,7 +71,7 @@ CachableBinding? _parseCursor(Context context, clang_types.CXCursor cursor) {
       case clang_types.CXCursorKind.CXCursor_ObjCInterfaceDecl:
         return parseObjCInterfaceDeclaration(context, cursor);
       case clang_types.CXCursorKind.CXCursor_TypedefDecl:
-        return _getCodeGenTypeFromCursor(context, cursor);
+        return parseTypedefDeclaration(context, cursor);
       case clang_types.CXCursorKind.CXCursor_ObjCCategoryDecl:
         return parseObjCCategoryDeclaration(context, cursor);
       case clang_types.CXCursorKind.CXCursor_ObjCProtocolDecl:
@@ -86,14 +90,6 @@ CachableBinding? _parseCursor(Context context, clang_types.CXCursor cursor) {
     logger.severe(s);
     rethrow;
   }
-}
-
-BindingType? _getCodeGenTypeFromCursor(
-  Context context,
-  clang_types.CXCursor cursor,
-) {
-  final t = getCodeGenType(context, cursor.type());
-  return t is BindingType ? t : null;
 }
 
 /// Visits all cursors and builds a map of usr and [clang_types.CXCursor].

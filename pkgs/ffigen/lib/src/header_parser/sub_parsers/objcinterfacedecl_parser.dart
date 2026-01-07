@@ -10,7 +10,6 @@ import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../translation_unit_parser.dart';
 import '../utils.dart';
 import 'api_availability.dart';
-import 'objcprotocoldecl_parser.dart';
 
 String applyModulePrefix(String name, String? module) =>
     module == null ? name : '$module.$name';

@@ -10,7 +10,6 @@ import '../translation_unit_parser.dart';
 import '../utils.dart';
 import 'api_availability.dart';
 import 'objcinterfacedecl_parser.dart';
-import 'objcprotocoldecl_parser.dart';
 
 CachableBinding? parseObjCCategoryDeclaration(
   Context context,
