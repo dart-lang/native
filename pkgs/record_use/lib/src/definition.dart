@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart';
+
 import 'identifier.dart';
 import 'syntax.g.dart';
 
@@ -39,6 +41,7 @@ class Definition {
   @override
   int get hashCode => Object.hash(identifier, loadingUnit);
 
+  @visibleForTesting
   bool semanticEquals(
     Definition other, {
     bool allowLoadingUnitNull = false,
@@ -57,6 +60,7 @@ class Definition {
         return false;
       }
     }
+    // ignore: invalid_use_of_visible_for_testing_member
     return identifier.semanticEquals(
       other.identifier,
       uriMapping: uriMapping,

@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart';
+
 import 'syntax.g.dart';
 
 class Location {
@@ -35,6 +37,7 @@ class Location {
   @override
   int get hashCode => Object.hash(uri, line, column);
 
+  @visibleForTesting
   bool semanticEquals(
     Location other, {
     String Function(String)? uriMapping,

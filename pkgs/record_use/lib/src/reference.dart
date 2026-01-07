@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart';
+
 import 'constant.dart';
 import 'helper.dart';
 import 'identifier.dart';
@@ -60,6 +62,7 @@ sealed class Reference {
     }
     if (location != null &&
         other.location != null &&
+        // ignore: invalid_use_of_visible_for_testing_member
         !location!.semanticEquals(
           other.location!,
           uriMapping: uriMapping,
@@ -124,6 +127,7 @@ sealed class CallReference extends Reference {
     Map<Location, int> locations,
   );
 
+  @visibleForTesting
   bool semanticEquals(
     CallReference other, {
     bool allowTearOffToStaticPromotion = false,
@@ -190,6 +194,7 @@ final class CallWithArguments extends CallReference {
   );
 
   @override
+  @visibleForTesting
   bool semanticEquals(
     CallReference other, {
     bool allowTearOffToStaticPromotion = false,
@@ -242,6 +247,7 @@ final class CallTearOff extends CallReference {
   ) => TearoffCallSyntax(at: locations[location]!, loadingUnit: loadingUnit!);
 
   @override
+  @visibleForTesting
   bool semanticEquals(
     CallReference other, {
     bool allowTearOffToStaticPromotion = false,
@@ -315,6 +321,7 @@ final class InstanceReference extends Reference {
   @override
   int get hashCode => Object.hash(instanceConstant, super.hashCode);
 
+  @visibleForTesting
   bool semanticEquals(
     InstanceReference other, {
     Map<String, String>? loadingUnitMapping,

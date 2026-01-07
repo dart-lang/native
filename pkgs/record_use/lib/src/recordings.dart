@@ -5,6 +5,8 @@
 
 import 'dart:convert';
 
+import 'package:meta/meta.dart';
+
 import 'constant.dart';
 import 'definition.dart';
 import 'helper.dart';
@@ -264,6 +266,7 @@ Error: $e
   ///
   /// - [allowMetadataMismatch]: If `true`, the [metadata] does not need to
   ///   match.
+  @visibleForTesting
   bool semanticEquals(
     Recordings expected, {
     bool expectedIsSubset = false,
@@ -279,18 +282,21 @@ Error: $e
     if (!allowMetadataMismatch && metadata != expected.metadata) {
       return false;
     }
+    // ignore: invalid_use_of_visible_for_testing_member
+    bool definitionMatches(Definition a, Definition b) => a.semanticEquals(
+      b,
+      allowLoadingUnitNull: allowDefinitionLoadingUnitNull,
+      loadingUnitMapping: loadingUnitMapping,
+      uriMapping: uriMapping,
+    );
 
     if (!_compareUsageMap(
       actual: callsForDefinition,
       expected: expected.callsForDefinition,
       expectedIsSubset: expectedIsSubset,
       allowDeadCodeElimination: allowDeadCodeElimination,
-      definitionMatches: (Definition a, Definition b) => a.semanticEquals(
-        b,
-        allowLoadingUnitNull: allowDefinitionLoadingUnitNull,
-        loadingUnitMapping: loadingUnitMapping,
-        uriMapping: uriMapping,
-      ),
+      definitionMatches: definitionMatches,
+      // ignore: invalid_use_of_visible_for_testing_member
       referenceMatches: (CallReference a, CallReference b) => a.semanticEquals(
         b,
         allowTearOffToStaticPromotion: allowTearOffToStaticPromotion,
@@ -308,13 +314,9 @@ Error: $e
       expected: expected.instancesForDefinition,
       expectedIsSubset: expectedIsSubset,
       allowDeadCodeElimination: allowDeadCodeElimination,
-      definitionMatches: (Definition a, Definition b) => a.semanticEquals(
-        b,
-        allowLoadingUnitNull: allowDefinitionLoadingUnitNull,
-        loadingUnitMapping: loadingUnitMapping,
-        uriMapping: uriMapping,
-      ),
+      definitionMatches: definitionMatches,
       referenceMatches: (InstanceReference a, InstanceReference b) =>
+          // ignore: invalid_use_of_visible_for_testing_member
           a.semanticEquals(
             b,
             allowLocationNull: allowLocationNull,
@@ -367,7 +369,7 @@ Error: $e
           final referencesMatch = _matchReferences(
             actual: actualUsage.value,
             expected: expectedUsage.value,
-            oneToOne: true,
+            allowDeadCodeElimination: allowDeadCodeElimination,
             matches: referenceMatches,
           );
 
@@ -398,15 +400,13 @@ Error: $e
   /// Tries to find a pairing for each [expected] item from the [actual] items.
   ///
   /// Each item from [actual] can be matched at most once.
-  /// If [oneToOne] is true, requires a 1-to-1 mapping, so all [actual] items
-  /// must be matched as well.
   static bool _matchReferences<R extends Reference>({
     required List<R> actual,
     required List<R> expected,
     required bool Function(R, R) matches,
-    required bool oneToOne,
+    required bool allowDeadCodeElimination,
   }) {
-    if (oneToOne && actual.length != expected.length) {
+    if (!allowDeadCodeElimination && actual.length != expected.length) {
       return false;
     }
     if (actual.length < expected.length) {
@@ -432,12 +432,6 @@ Error: $e
       } else {
         return false; // No match for expectedItem.
       }
-    }
-
-    if (oneToOne && matchedActualIndices.length != actual.length) {
-      // Should be unreachable if lengths are equal and all expected items found
-      // a match.
-      return false;
     }
 
     return true;

@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart';
+
 import 'syntax.g.dart';
 
 /// Represents a unique identifier for a code element, such as a class, method,
@@ -65,6 +67,7 @@ class Identifier {
   @override
   int get hashCode => Object.hash(importUri, scope, name);
 
+  @visibleForTesting
   bool semanticEquals(
     Identifier other, {
     String Function(String)? uriMapping,
