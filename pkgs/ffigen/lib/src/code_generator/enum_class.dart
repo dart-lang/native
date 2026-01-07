@@ -51,6 +51,7 @@ class EnumClass extends BindingType with HasLocalScope {
   /// Whether this enum should be generated as a collection of integers.
   EnumStyle style;
 
+  /// Don't code gen this alias at all, just use the [nativeType] directly.
   bool isAnonymous;
 
   EnumClass({
@@ -186,6 +187,7 @@ class EnumClass extends BindingType with HasLocalScope {
 
   @override
   BindingString toBindingString(Writer w) {
+    assert(!isAnonymous);
     final s = StringBuffer();
 
     final uniqueToDuplicates = <EnumConstant, List<EnumConstant>>{};
