@@ -44,7 +44,9 @@ jobs:
         run: dart analyze --fatal-infos
         if: always() && steps.install.outcome == 'success'
       - name: Verify Foundation cache
-        run: dart run tool/generate_foundation_ast.dart --verify
+        run: |
+          dart run tool/generate_foundation_ast.dart
+          git diff --exit-code
         if: always() && steps.install.outcome == 'success'
 
   test-mac:
