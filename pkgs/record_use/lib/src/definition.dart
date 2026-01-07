@@ -61,8 +61,8 @@ class Definition {
     if (!skipLoadingUnitComparison) {
       final mappedLoadingUnit =
           loadingUnit == null || loadingUnitMapping == null
-              ? loadingUnit
-              : loadingUnitMapping(loadingUnit!);
+          ? loadingUnit
+          : loadingUnitMapping(loadingUnit!);
       if (other.loadingUnit != mappedLoadingUnit) {
         return false;
       }

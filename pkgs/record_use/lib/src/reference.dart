@@ -51,10 +51,9 @@ sealed class Reference {
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
   }) {
-    final mappedLoadingUnit =
-        loadingUnit == null || loadingUnitMapping == null
-            ? loadingUnit
-            : loadingUnitMapping(loadingUnit!);
+    final mappedLoadingUnit = loadingUnit == null || loadingUnitMapping == null
+        ? loadingUnit
+        : loadingUnitMapping(loadingUnit!);
     if (other.loadingUnit != mappedLoadingUnit) {
       return false;
     }
