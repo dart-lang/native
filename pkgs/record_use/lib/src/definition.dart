@@ -38,6 +38,30 @@ class Definition {
 
   @override
   int get hashCode => Object.hash(identifier, loadingUnit);
+
+  bool semanticEquals(
+    Definition other, {
+    bool allowLoadingUnitNull = false,
+    Map<String, String>? loadingUnitMapping,
+    String Function(String)? uriMapping,
+  }) {
+    final skipLoadingUnitComparison =
+        allowLoadingUnitNull &&
+        (loadingUnit == null || other.loadingUnit == null);
+    if (!skipLoadingUnitComparison) {
+      final mappedLoadingUnit =
+          loadingUnit == null || loadingUnitMapping == null
+          ? loadingUnit
+          : loadingUnitMapping[loadingUnit];
+      if (other.loadingUnit != mappedLoadingUnit) {
+        return false;
+      }
+    }
+    return identifier.semanticEquals(
+      other.identifier,
+      uriMapping: uriMapping,
+    );
+  }
 }
 
 /// Package private (protected) methods for [Definition].

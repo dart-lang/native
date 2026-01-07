@@ -34,6 +34,22 @@ class Location {
 
   @override
   int get hashCode => Object.hash(uri, line, column);
+
+  bool semanticEquals(
+    Location other, {
+    String Function(String)? uriMapping,
+    // Allow a source location mismatch if either one is null.
+    bool allowLocationNull = false,
+  }) {
+    if (!((line == other.line && column == other.column) ||
+        (allowLocationNull &&
+            (line == null && column == null ||
+                other.line == null && other.column == null)))) {
+      return false;
+    }
+    final mappedUri = uriMapping == null ? uri : uriMapping(uri);
+    return mappedUri == other.uri;
+  }
 }
 
 /// Package private (protected) methods for [Location].

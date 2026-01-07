@@ -42,6 +42,33 @@ sealed class Reference {
     Map<Constant, int> constants,
     Map<Location, int> locations,
   );
+
+  bool _semanticEqualsShared(
+    Reference other,
+    Map<String, String>? loadingUnitMapping,
+    String Function(String)? uriMapping,
+    bool allowLocationNull,
+  ) {
+    final mappedLoadingUnit = loadingUnit == null || loadingUnitMapping == null
+        ? loadingUnit
+        : loadingUnitMapping[loadingUnit];
+    if (other.loadingUnit != mappedLoadingUnit) {
+      return false;
+    }
+    if ((location == null) != (other.location == null)) {
+      return false;
+    }
+    if (location != null &&
+        other.location != null &&
+        !location!.semanticEquals(
+          other.location!,
+          uriMapping: uriMapping,
+          allowLocationNull: allowLocationNull,
+        )) {
+      return false;
+    }
+    return true;
+  }
 }
 
 /// A reference to a call to some [Identifier].
@@ -96,6 +123,15 @@ sealed class CallReference extends Reference {
     Map<Constant, int> constants,
     Map<Location, int> locations,
   );
+
+  bool semanticEquals(
+    CallReference other, {
+    bool allowTearOffToStaticPromotion = false,
+    bool allowMoreConstArguments = false,
+    Map<String, String>? loadingUnitMapping,
+    String Function(String)? uriMapping,
+    bool allowLocationNull = false,
+  });
 }
 
 /// A reference to a call to some [Identifier] with [positionalArguments] and
@@ -152,6 +188,46 @@ final class CallWithArguments extends CallReference {
     deepHash(namedArguments),
     super.hashCode,
   );
+
+  @override
+  bool semanticEquals(
+    CallReference other, {
+    bool allowTearOffToStaticPromotion = false,
+    bool allowMoreConstArguments = false,
+    Map<String, String>? loadingUnitMapping,
+    String Function(String)? uriMapping,
+    bool allowLocationNull = false,
+  }) {
+    switch (other) {
+      case CallWithArguments():
+        for (final (index, argument) in other.positionalArguments.indexed) {
+          if (argument == null && allowMoreConstArguments) {
+            continue;
+          }
+          if (argument != positionalArguments[index]) {
+            return false;
+          }
+        }
+        for (final entry in other.namedArguments.entries) {
+          final name = entry.key;
+          final argument = entry.value;
+          if (argument == null && allowMoreConstArguments) {
+            continue;
+          }
+          if (argument != namedArguments[name]) {
+            return false;
+          }
+        }
+        return _semanticEqualsShared(
+          other,
+          loadingUnitMapping,
+          uriMapping,
+          allowLocationNull,
+        );
+      case CallTearOff():
+        return allowTearOffToStaticPromotion;
+    }
+  }
 }
 
 /// A reference to a tear-off use of the [Identifier]. This means that we can't
@@ -164,6 +240,28 @@ final class CallTearOff extends CallReference {
     Map<Constant, int> constants,
     Map<Location, int> locations,
   ) => TearoffCallSyntax(at: locations[location]!, loadingUnit: loadingUnit!);
+
+  @override
+  bool semanticEquals(
+    CallReference other, {
+    bool allowTearOffToStaticPromotion = false,
+    bool allowMoreConstArguments = false,
+    Map<String, String>? loadingUnitMapping,
+    String Function(String)? uriMapping,
+    bool allowLocationNull = false,
+  }) {
+    switch (other) {
+      case CallWithArguments():
+        return false;
+      case CallTearOff():
+        return _semanticEqualsShared(
+          other,
+          loadingUnitMapping,
+          uriMapping,
+          allowLocationNull,
+        );
+    }
+  }
 }
 
 final class InstanceReference extends Reference {
@@ -216,6 +314,23 @@ final class InstanceReference extends Reference {
 
   @override
   int get hashCode => Object.hash(instanceConstant, super.hashCode);
+
+  bool semanticEquals(
+    InstanceReference other, {
+    Map<String, String>? loadingUnitMapping,
+    String Function(String)? uriMapping,
+    bool allowLocationNull = false,
+  }) {
+    if (!deepEquals(instanceConstant, other.instanceConstant)) {
+      return false;
+    }
+    return _semanticEqualsShared(
+      other,
+      loadingUnitMapping,
+      uriMapping,
+      allowLocationNull,
+    );
+  }
 }
 
 /// Package private (protected) methods for [CallReference].

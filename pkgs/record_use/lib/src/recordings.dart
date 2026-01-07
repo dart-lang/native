@@ -219,6 +219,229 @@ Error: $e
     deepHash(callsForDefinition),
     deepHash(instancesForDefinition),
   );
+
+  /// Checks if this set of usages ('actual') is semantically equivalent to the
+  /// [expected] set ('expected'), according to the given boolean flags.
+  ///
+  /// This method performs a configurable semantic comparison that can account
+  /// for variations in compiler optimizations. Its behavior is controlled by
+  /// the named parameters.
+  ///
+  /// Note that this method is quadratic in input size.
+  ///
+  /// **Parameters:**
+  ///
+  /// - [expected]: The set of expected recorded usages to compare against.
+  ///
+  /// - [expectedIsSubset]: If `true`, performs a subsumption check instead of a
+  ///   strict one-to-one equality check.
+  ///
+  /// - [uriMapping]: A function to map URIs before comparison. Useful when
+  ///   compilers use different schemes (e.g., `package:` vs `file:`).
+  ///
+  /// - [loadingUnitMapping]: A map to align loading unit identifiers between
+  ///   two sets of recordings.
+  ///
+  /// - [allowDeadCodeElimination]: If `true`, the comparison will pass even if
+  ///   a usage from [expected] cannot be found in `this`, simulating the effect
+  ///   of a compiler optimizing away a call entirely.
+  ///
+  /// - [allowTearOffToStaticPromotion]: If `true`, allows an [expected]
+  ///   function tear-off to match an `actual` static call.
+  ///
+  /// - [allowLocationNull]: If `true`, having a `null` in one and a column and
+  ///   line number in the other is considered semantically equal. Useful for if
+  ///   one compiler does not provide source locations but the other does.
+  ///
+  /// - [allowDefinitionLoadingUnitNull]: If `true`, allows a definition's
+  ///   loading unit to be `null` in one set but not the other. This handles
+  ///   cases where a compiler might not emit loading unit information for all
+  ///   definitions.
+  ///
+  /// - [allowMoreConstArguments]: If `true`, `null` arguments in an `expected`
+  ///   call are ignored during comparison. This can be used to accommodate
+  ///   differences in how compilers handle default or optional arguments.
+  ///
+  /// - [allowMetadataMismatch]: If `true`, the [metadata] does not need to
+  ///   match.
+  bool semanticEquals(
+    Recordings expected, {
+    bool expectedIsSubset = false,
+    String Function(String)? uriMapping,
+    Map<String, String>? loadingUnitMapping,
+    bool allowDeadCodeElimination = false,
+    bool allowTearOffToStaticPromotion = false,
+    bool allowLocationNull = false,
+    bool allowDefinitionLoadingUnitNull = false,
+    bool allowMoreConstArguments = false,
+    bool allowMetadataMismatch = false,
+  }) {
+    if (!allowMetadataMismatch && metadata != expected.metadata) {
+      return false;
+    }
+
+    if (!_compareUsageMap(
+      actual: callsForDefinition,
+      expected: expected.callsForDefinition,
+      expectedIsSubset: expectedIsSubset,
+      allowDeadCodeElimination: allowDeadCodeElimination,
+      definitionMatches: (Definition a, Definition b) => a.semanticEquals(
+        b,
+        allowLoadingUnitNull: allowDefinitionLoadingUnitNull,
+        loadingUnitMapping: loadingUnitMapping,
+        uriMapping: uriMapping,
+      ),
+      referenceMatches: (CallReference a, CallReference b) => a.semanticEquals(
+        b,
+        allowTearOffToStaticPromotion: allowTearOffToStaticPromotion,
+        allowLocationNull: allowLocationNull,
+        loadingUnitMapping: loadingUnitMapping,
+        uriMapping: uriMapping,
+        allowMoreConstArguments: allowMoreConstArguments,
+      ),
+    )) {
+      return false;
+    }
+
+    if (!_compareUsageMap(
+      actual: instancesForDefinition,
+      expected: expected.instancesForDefinition,
+      expectedIsSubset: expectedIsSubset,
+      allowDeadCodeElimination: allowDeadCodeElimination,
+      definitionMatches: (Definition a, Definition b) => a.semanticEquals(
+        b,
+        allowLoadingUnitNull: allowDefinitionLoadingUnitNull,
+        loadingUnitMapping: loadingUnitMapping,
+        uriMapping: uriMapping,
+      ),
+      referenceMatches: (InstanceReference a, InstanceReference b) =>
+          a.semanticEquals(
+            b,
+            allowLocationNull: allowLocationNull,
+            loadingUnitMapping: loadingUnitMapping,
+            uriMapping: uriMapping,
+          ),
+    )) {
+      return false;
+    }
+
+    return true;
+  }
+
+  /// Returns true if [expected] is a semantic subset of [actual].
+  static bool _compareUsageMap<R extends Reference>({
+    required Map<Definition, List<R>> actual,
+    required Map<Definition, List<R>> expected,
+    required bool expectedIsSubset,
+    required bool allowDeadCodeElimination,
+    required bool Function(Definition, Definition) definitionMatches,
+    required bool Function(R, R) referenceMatches,
+  }) {
+    final actualUsages = actual.entries.toList();
+    final expectedUsages = expected.entries.toList();
+
+    if (!expectedIsSubset &&
+        !allowDeadCodeElimination &&
+        actualUsages.length != expectedUsages.length) {
+      return false;
+    }
+
+    final matchedActualIndices = <int>{};
+
+    for (final expectedUsage in expectedUsages) {
+      int? foundMatchIndex;
+      for (var i = 0; i < actualUsages.length; i++) {
+        if (matchedActualIndices.contains(i)) {
+          continue;
+        }
+
+        final actualUsage = actualUsages[i];
+
+        if (definitionMatches(
+          actualUsage.key,
+          expectedUsage.key,
+        )) {
+          // Definitions match semantically. Now check the references.
+          // The list of references for this definition must be an exact
+          // semantic match.
+          final referencesMatch = _matchReferences(
+            actual: actualUsage.value,
+            expected: expectedUsage.value,
+            oneToOne: true,
+            matches: referenceMatches,
+          );
+
+          if (referencesMatch) {
+            foundMatchIndex = i;
+            break;
+          }
+        }
+      }
+
+      if (foundMatchIndex != null) {
+        matchedActualIndices.add(foundMatchIndex);
+      } else if (!allowDeadCodeElimination) {
+        // No match found for this expected usage, and DCE not allowed.
+        return false;
+      }
+    }
+
+    // In one-to-one mode, all actual usages must have been matched.
+    if (!expectedIsSubset &&
+        matchedActualIndices.length != actualUsages.length) {
+      return false;
+    }
+
+    return true;
+  }
+
+  /// Tries to find a pairing for each [expected] item from the [actual] items.
+  ///
+  /// Each item from [actual] can be matched at most once.
+  /// If [oneToOne] is true, requires a 1-to-1 mapping, so all [actual] items
+  /// must be matched as well.
+  static bool _matchReferences<R extends Reference>({
+    required List<R> actual,
+    required List<R> expected,
+    required bool Function(R, R) matches,
+    required bool oneToOne,
+  }) {
+    if (oneToOne && actual.length != expected.length) {
+      return false;
+    }
+    if (actual.length < expected.length) {
+      return false;
+    }
+
+    final matchedActualIndices = <int>{};
+
+    for (final expectedItem in expected) {
+      int? foundMatchIndex;
+      for (var i = 0; i < actual.length; i++) {
+        if (matchedActualIndices.contains(i)) {
+          continue;
+        }
+        if (matches(actual[i], expectedItem)) {
+          foundMatchIndex = i;
+          break;
+        }
+      }
+
+      if (foundMatchIndex != null) {
+        matchedActualIndices.add(foundMatchIndex);
+      } else {
+        return false; // No match for expectedItem.
+      }
+    }
+
+    if (oneToOne && matchedActualIndices.length != actual.length) {
+      // Should be unreachable if lengths are equal and all expected items found
+      // a match.
+      return false;
+    }
+
+    return true;
+  }
 }
 
 extension FlattenConstantsExtension on Iterable<Constant> {

@@ -64,6 +64,18 @@ class Identifier {
 
   @override
   int get hashCode => Object.hash(importUri, scope, name);
+
+  bool semanticEquals(
+    Identifier other, {
+    String Function(String)? uriMapping,
+  }) {
+    if (other.scope != scope) return false;
+    if (other.name != name) return false;
+    final mappedImportUri = uriMapping == null
+        ? importUri
+        : uriMapping(importUri);
+    return mappedImportUri == other.importUri;
+  }
 }
 
 /// Package private (protected) methods for [Identifier].
