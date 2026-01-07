@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart';
+
 import 'syntax.g.dart';
 
 class Location {
@@ -34,6 +36,28 @@ class Location {
 
   @override
   int get hashCode => Object.hash(uri, line, column);
+
+  /// Compares this [Location] with [other] for semantic equality.
+  ///
+  /// The [uri] can be mapped using [uriMapping] before comparison.
+  ///
+  /// If [allowLocationNull] is true, a null [line] and [column] is considered
+  /// equal to any other line and column.
+  @visibleForTesting
+  bool semanticEquals(
+    Location other, {
+    bool allowLocationNull = false,
+    String Function(String)? uriMapping,
+  }) {
+    if (!((line == other.line && column == other.column) ||
+        (allowLocationNull &&
+            (line == null && column == null ||
+                other.line == null && other.column == null)))) {
+      return false;
+    }
+    final mappedUri = uriMapping == null ? uri : uriMapping(uri);
+    return mappedUri == other.uri;
+  }
 }
 
 /// Package private (protected) methods for [Location].

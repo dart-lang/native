@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart';
+
 import 'syntax.g.dart';
 
 /// Represents a unique identifier for a code element, such as a class, method,
@@ -64,6 +66,22 @@ class Identifier {
 
   @override
   int get hashCode => Object.hash(importUri, scope, name);
+
+  /// Compares this [Identifier] with [other] for semantic equality.
+  ///
+  /// The [importUri] can be mapped using [uriMapping] before comparison.
+  @visibleForTesting
+  bool semanticEquals(
+    Identifier other, {
+    String Function(String)? uriMapping,
+  }) {
+    if (other.scope != scope) return false;
+    if (other.name != name) return false;
+    final mappedImportUri = uriMapping == null
+        ? importUri
+        : uriMapping(importUri);
+    return mappedImportUri == other.importUri;
+  }
 }
 
 /// Package private (protected) methods for [Identifier].
