@@ -48,7 +48,7 @@ class BindingsIndex {
   IndexEntry? operator [](String usr) => _entries[usr];
   IndexEntry getOrInsert(String usr) {
     assert(usr.isNotEmpty);
-    return _entries[usr] ?? IndexEntry();
+    return _entries[usr] ??= IndexEntry();
   }
 
   Set<Binding> get bindings =>
@@ -60,6 +60,7 @@ class IndexEntry {
   bool filled = false;
   AstNode? node;
   IndexEntry({this.definition});
+  String toString() => '$node';
 }
 
 // Some bindings need to split intial creation from filling, to avoid cycles.
