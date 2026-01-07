@@ -4,6 +4,9 @@ analyzer:
   language:
     strict-raw-types: true
 
+formatter:
+  trailing_commas: preserve
+
 linter:
   rules:
     - avoid_positional_boolean_parameters
