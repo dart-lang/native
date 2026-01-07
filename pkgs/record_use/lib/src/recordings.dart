@@ -222,8 +222,8 @@ Error: $e
     deepHash(instancesForDefinition),
   );
 
-  /// Checks if this set of usages ('actual') is semantically equivalent to the
-  /// [expected] set ('expected'), according to the given boolean flags.
+  /// Compares this set of usages ('actual') with the [expected] set
+  /// ('expected') for semantic equality.
   ///
   /// This method performs a configurable semantic comparison that can account
   /// for variations in compiler optimizations. Its behavior is controlled by
@@ -231,41 +231,37 @@ Error: $e
   ///
   /// Note that this method is quadratic in input size.
   ///
-  /// **Parameters:**
+  /// If [expectedIsSubset] is `true`, performs a subsumption check instead of a
+  /// strict one-to-one equality check.
   ///
-  /// - [expected]: The set of expected recorded usages to compare against.
+  /// The [uriMapping] is a function to map URIs before comparison. Useful when
+  /// compilers use different schemes (e.g., `package:` vs `file:`).
   ///
-  /// - [expectedIsSubset]: If `true`, performs a subsumption check instead of a
-  ///   strict one-to-one equality check.
+  /// The [loadingUnitMapping] is a map to align loading unit identifiers
+  /// between two sets of recordings.
   ///
-  /// - [uriMapping]: A function to map URIs before comparison. Useful when
-  ///   compilers use different schemes (e.g., `package:` vs `file:`).
+  /// If [allowDeadCodeElimination] is `true`, the comparison will pass even if
+  /// a usage from [expected] cannot be found in `this`, simulating the effect
+  /// of a compiler optimizing away a call entirely.
   ///
-  /// - [loadingUnitMapping]: A map to align loading unit identifiers between
-  ///   two sets of recordings.
+  /// If [allowTearOffToStaticPromotion] is `true`, allows an [expected]
+  /// function tear-off to match an `actual` static call.
   ///
-  /// - [allowDeadCodeElimination]: If `true`, the comparison will pass even if
-  ///   a usage from [expected] cannot be found in `this`, simulating the effect
-  ///   of a compiler optimizing away a call entirely.
+  /// If [allowLocationNull] is `true`, having a `null` in one and a column and
+  /// line number in the other is considered semantically equal. Useful for if
+  /// one compiler does not provide source locations but the other does.
   ///
-  /// - [allowTearOffToStaticPromotion]: If `true`, allows an [expected]
-  ///   function tear-off to match an `actual` static call.
-  ///
-  /// - [allowLocationNull]: If `true`, having a `null` in one and a column and
-  ///   line number in the other is considered semantically equal. Useful for if
-  ///   one compiler does not provide source locations but the other does.
-  ///
-  /// - [allowDefinitionLoadingUnitNull]: If `true`, allows a definition's
-  ///   loading unit to be `null` in one set but not the other. This handles
-  ///   cases where a compiler might not emit loading unit information for all
+  /// If [allowDefinitionLoadingUnitNull] is `true`, allows a definition's
+  /// loading unit to be `null` in one set but not the other. This handles
+  /// cases where a compiler might not emit loading unit information for all
   ///   definitions.
   ///
-  /// - [allowMoreConstArguments]: If `true`, `null` arguments in an `expected`
-  ///   call are ignored during comparison. This can be used to accommodate
-  ///   differences in how compilers handle default or optional arguments.
+  /// If [allowMoreConstArguments] is `true`, `null` arguments in an `expected`
+  /// call are ignored during comparison. This can be used to accommodate
+  /// differences in how compilers handle default or optional arguments.
   ///
-  /// - [allowMetadataMismatch]: If `true`, the [metadata] does not need to
-  ///   match.
+  /// If [allowMetadataMismatch] is `true`, the [metadata] does not need to
+  /// match.
   @visibleForTesting
   bool semanticEquals(
     Recordings expected, {

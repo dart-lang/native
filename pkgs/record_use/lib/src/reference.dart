@@ -127,6 +127,20 @@ sealed class CallReference extends Reference {
     Map<Location, int> locations,
   );
 
+  /// Compares this [CallWithArguments] with [other] for semantic equality.
+  ///
+  /// If [allowTearOffToStaticPromotion] is true, this may be equal to a
+  /// [CallTearOff].
+  ///
+  /// If [allowMoreConstArguments] is true, `null` arguments in [other]
+  /// are ignored during comparison.
+  ///
+  /// The loading unit can be mapped with [loadingUnitMapping].
+  ///
+  /// The URI in the location can be mapped with [uriMapping].
+  ///
+  /// If [allowLocationNull] is true, a null location is considered equal to
+  /// any other location.
   @visibleForTesting
   bool semanticEquals(
     CallReference other, {
@@ -321,6 +335,14 @@ final class InstanceReference extends Reference {
   @override
   int get hashCode => Object.hash(instanceConstant, super.hashCode);
 
+  /// Compares this [InstanceReference] with [other] for semantic equality.
+  ///
+  /// The loading unit can be mapped with [loadingUnitMapping].
+  ///
+  /// The URI in the location can be mapped with [uriMapping].
+  ///
+  /// If [allowLocationNull] is true, a null location is considered equal to
+  /// any other location.
   @visibleForTesting
   bool semanticEquals(
     InstanceReference other, {

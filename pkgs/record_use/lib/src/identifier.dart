@@ -67,6 +67,9 @@ class Identifier {
   @override
   int get hashCode => Object.hash(importUri, scope, name);
 
+  /// Compares this [Identifier] with [other] for semantic equality.
+  ///
+  /// The [importUri] can be mapped using [uriMapping] before comparison.
   @visibleForTesting
   bool semanticEquals(
     Identifier other, {

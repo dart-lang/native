@@ -41,6 +41,13 @@ class Definition {
   @override
   int get hashCode => Object.hash(identifier, loadingUnit);
 
+  /// Compares this [Definition] with [other] for semantic equality.
+  ///
+  /// The [loadingUnit] can be mapped using [loadingUnitMapping].
+  /// If [allowLoadingUnitNull] is true, a null [loadingUnit] is considered
+  /// equal to any other loading unit.
+  ///
+  /// The [uriMapping] is passed on to the comparison of the [identifier].
   @visibleForTesting
   bool semanticEquals(
     Definition other, {

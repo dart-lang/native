@@ -37,11 +37,16 @@ class Location {
   @override
   int get hashCode => Object.hash(uri, line, column);
 
+  /// Compares this [Location] with [other] for semantic equality.
+  ///
+  /// The [uri] can be mapped using [uriMapping] before comparison.
+  ///
+  /// If [allowLocationNull] is true, a null [line] and [column] is considered
+  /// equal to any other line and column.
   @visibleForTesting
   bool semanticEquals(
     Location other, {
     String Function(String)? uriMapping,
-    // Allow a source location mismatch if either one is null.
     bool allowLocationNull = false,
   }) {
     if (!((line == other.line && column == other.column) ||
