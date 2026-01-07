@@ -1,6 +1,7 @@
-## 2.1.5-wip
+## 2.1.5
 
 - Update to the latest lints.
+- Add default parameter names for callbacks.
 
 ## 2.1.4
 
