@@ -69,3 +69,12 @@
 // https://github.com/dart-lang/native/issues/2762
 @interface ChildOfNSString : NSString {}
 @end
+
+// Test categories for filtering
+@interface Thing (IncludedCategory)
+-(int32_t)includedMethod;
+@end
+
+@interface Thing (ExcludedCategory)
+-(int32_t)excludedMethod;
+@end

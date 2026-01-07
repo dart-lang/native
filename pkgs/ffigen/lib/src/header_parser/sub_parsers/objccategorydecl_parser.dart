@@ -4,6 +4,7 @@
 
 import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
+import '../../config_provider/config.dart';
 import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
@@ -23,9 +24,8 @@ ObjCCategory? parseObjCCategoryDeclaration(
   final logger = context.logger;
   final usr = cursor.usr();
   final name = cursor.spelling();
-
   final decl = Declaration(usr: usr, originalName: name);
-
+  if (!objcCategories.include(decl)) return null;
   final cachedCategory = context.bindingsIndex.getSeenObjCCategory(usr);
   if (cachedCategory != null) {
     return cachedCategory;

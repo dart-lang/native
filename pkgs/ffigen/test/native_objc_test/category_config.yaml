@@ -18,6 +18,9 @@ objc-categories:
     - InterfaceOnBuiltInType
     - StaticAndInstanceMethodsWithSameNameCategory
     - NSString
+    - IncludedCategory
+  exclude:
+    - ExcludedCategory
 headers:
   entry-points:
     - 'category_test.h'

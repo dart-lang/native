@@ -82,3 +82,15 @@
   return 999;
 }
 @end
+
+@implementation Thing (IncludedCategory)
+-(int32_t)includedMethod {
+  return 111;
+}
+@end
+
+@implementation Thing (ExcludedCategory)
+-(int32_t)excludedMethod {
+  return 999;
+}
+@end

@@ -125,5 +125,22 @@ extension type ChildOfNSString._(objc.ObjCObject object\$)
 '''),
       );
     });
+  test('Category filtering - include and exclude', () {
+    final bindings = File(
+      path.join(
+        packagePathForTests,
+        'test',
+        'native_objc_test',
+        'category_bindings.dart',
+      ),
+    ).readAsStringSync();
+
+    // Verify included category IS in the bindings
+    expect(bindings, contains('IncludedCategory'));
+    expect(bindings, contains('includedMethod'));
+
+    // Verify excluded category is NOT in the bindings
+    expect(bindings, isNot(contains('ExcludedCategory')));
+    expect(bindings, isNot(contains('excludedMethod')));
   });
 }
