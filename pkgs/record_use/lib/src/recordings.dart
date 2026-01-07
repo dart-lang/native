@@ -280,11 +280,11 @@ Error: $e
     }
     // ignore: invalid_use_of_visible_for_testing_member
     bool definitionMatches(Definition a, Definition b) => a.semanticEquals(
-          b,
-          allowLoadingUnitNull: allowDefinitionLoadingUnitNull,
-          uriMapping: uriMapping,
-          loadingUnitMapping: loadingUnitMapping,
-        );
+      b,
+      allowLoadingUnitNull: allowDefinitionLoadingUnitNull,
+      uriMapping: uriMapping,
+      loadingUnitMapping: loadingUnitMapping,
+    );
 
     if (!_compareUsageMap(
       actual: callsForDefinition,
