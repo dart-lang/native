@@ -47,10 +47,10 @@ sealed class Reference {
 
   bool _semanticEqualsShared(
     Reference other,
-    String Function(String)? loadingUnitMapping,
+    bool allowLocationNull, {
     String Function(String)? uriMapping,
-    bool allowLocationNull,
-  ) {
+    String Function(String)? loadingUnitMapping,
+  }) {
     final mappedLoadingUnit =
         loadingUnit == null || loadingUnitMapping == null
             ? loadingUnit
@@ -66,8 +66,8 @@ sealed class Reference {
         // ignore: invalid_use_of_visible_for_testing_member
         !location!.semanticEquals(
           other.location!,
-          uriMapping: uriMapping,
           allowLocationNull: allowLocationNull,
+          uriMapping: uriMapping,
         )) {
       return false;
     }
@@ -147,9 +147,9 @@ sealed class CallReference extends Reference {
     CallReference other, {
     bool allowTearOffToStaticPromotion = false,
     bool allowMoreConstArguments = false,
-    String Function(String)? loadingUnitMapping,
-    String Function(String)? uriMapping,
     bool allowLocationNull = false,
+    String Function(String)? uriMapping,
+    String Function(String)? loadingUnitMapping,
   });
 }
 
@@ -214,9 +214,9 @@ final class CallWithArguments extends CallReference {
     CallReference other, {
     bool allowTearOffToStaticPromotion = false,
     bool allowMoreConstArguments = false,
-    String Function(String)? loadingUnitMapping,
-    String Function(String)? uriMapping,
     bool allowLocationNull = false,
+    String Function(String)? uriMapping,
+    String Function(String)? loadingUnitMapping,
   }) {
     switch (other) {
       case CallWithArguments():
@@ -240,9 +240,9 @@ final class CallWithArguments extends CallReference {
         }
         return _semanticEqualsShared(
           other,
-          loadingUnitMapping,
-          uriMapping,
           allowLocationNull,
+          uriMapping: uriMapping,
+          loadingUnitMapping: loadingUnitMapping,
         );
       case CallTearOff():
         return allowTearOffToStaticPromotion;
@@ -267,9 +267,9 @@ final class CallTearOff extends CallReference {
     CallReference other, {
     bool allowTearOffToStaticPromotion = false,
     bool allowMoreConstArguments = false,
-    String Function(String)? loadingUnitMapping,
-    String Function(String)? uriMapping,
     bool allowLocationNull = false,
+    String Function(String)? uriMapping,
+    String Function(String)? loadingUnitMapping,
   }) {
     switch (other) {
       case CallWithArguments():
@@ -277,9 +277,9 @@ final class CallTearOff extends CallReference {
       case CallTearOff():
         return _semanticEqualsShared(
           other,
-          loadingUnitMapping,
-          uriMapping,
           allowLocationNull,
+          uriMapping: uriMapping,
+          loadingUnitMapping: loadingUnitMapping,
         );
     }
   }
@@ -347,18 +347,18 @@ final class InstanceReference extends Reference {
   @visibleForTesting
   bool semanticEquals(
     InstanceReference other, {
-    String Function(String)? loadingUnitMapping,
-    String Function(String)? uriMapping,
     bool allowLocationNull = false,
+    String Function(String)? uriMapping,
+    String Function(String)? loadingUnitMapping,
   }) {
     if (!deepEquals(instanceConstant, other.instanceConstant)) {
       return false;
     }
     return _semanticEqualsShared(
       other,
-      loadingUnitMapping,
-      uriMapping,
       allowLocationNull,
+      uriMapping: uriMapping,
+      loadingUnitMapping: loadingUnitMapping,
     );
   }
 }

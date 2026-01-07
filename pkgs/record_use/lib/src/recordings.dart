@@ -266,25 +266,25 @@ Error: $e
   bool semanticEquals(
     Recordings expected, {
     bool expectedIsSubset = false,
-    String Function(String)? uriMapping,
-    String Function(String)? loadingUnitMapping,
     bool allowDeadCodeElimination = false,
     bool allowTearOffToStaticPromotion = false,
     bool allowLocationNull = false,
     bool allowDefinitionLoadingUnitNull = false,
     bool allowMoreConstArguments = false,
     bool allowMetadataMismatch = false,
+    String Function(String)? uriMapping,
+    String Function(String)? loadingUnitMapping,
   }) {
     if (!allowMetadataMismatch && metadata != expected.metadata) {
       return false;
     }
     // ignore: invalid_use_of_visible_for_testing_member
     bool definitionMatches(Definition a, Definition b) => a.semanticEquals(
-      b,
-      allowLoadingUnitNull: allowDefinitionLoadingUnitNull,
-      loadingUnitMapping: loadingUnitMapping,
-      uriMapping: uriMapping,
-    );
+          b,
+          allowLoadingUnitNull: allowDefinitionLoadingUnitNull,
+          uriMapping: uriMapping,
+          loadingUnitMapping: loadingUnitMapping,
+        );
 
     if (!_compareUsageMap(
       actual: callsForDefinition,
@@ -297,9 +297,9 @@ Error: $e
         b,
         allowTearOffToStaticPromotion: allowTearOffToStaticPromotion,
         allowLocationNull: allowLocationNull,
-        loadingUnitMapping: loadingUnitMapping,
-        uriMapping: uriMapping,
         allowMoreConstArguments: allowMoreConstArguments,
+        uriMapping: uriMapping,
+        loadingUnitMapping: loadingUnitMapping,
       ),
     )) {
       return false;
@@ -316,8 +316,8 @@ Error: $e
           a.semanticEquals(
             b,
             allowLocationNull: allowLocationNull,
-            loadingUnitMapping: loadingUnitMapping,
             uriMapping: uriMapping,
+            loadingUnitMapping: loadingUnitMapping,
           ),
     )) {
       return false;

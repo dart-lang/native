@@ -46,8 +46,8 @@ class Location {
   @visibleForTesting
   bool semanticEquals(
     Location other, {
-    String Function(String)? uriMapping,
     bool allowLocationNull = false,
+    String Function(String)? uriMapping,
   }) {
     if (!((line == other.line && column == other.column) ||
         (allowLocationNull &&
