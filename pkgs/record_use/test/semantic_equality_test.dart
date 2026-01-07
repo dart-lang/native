@@ -86,7 +86,8 @@ void main() {
     expect(
       definition1.semanticEquals(
         definition1differentLoadingUnit,
-        loadingUnitMapping: {'1': '2'},
+        loadingUnitMapping: (String unit) =>
+            const <String, String>{'1': '2'}[unit] ?? unit,
       ),
       isTrue,
     );

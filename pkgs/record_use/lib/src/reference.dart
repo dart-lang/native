@@ -47,13 +47,14 @@ sealed class Reference {
 
   bool _semanticEqualsShared(
     Reference other,
-    Map<String, String>? loadingUnitMapping,
+    String Function(String)? loadingUnitMapping,
     String Function(String)? uriMapping,
     bool allowLocationNull,
   ) {
-    final mappedLoadingUnit = loadingUnit == null || loadingUnitMapping == null
-        ? loadingUnit
-        : loadingUnitMapping[loadingUnit];
+    final mappedLoadingUnit =
+        loadingUnit == null || loadingUnitMapping == null
+            ? loadingUnit
+            : loadingUnitMapping(loadingUnit!);
     if (other.loadingUnit != mappedLoadingUnit) {
       return false;
     }
@@ -146,7 +147,7 @@ sealed class CallReference extends Reference {
     CallReference other, {
     bool allowTearOffToStaticPromotion = false,
     bool allowMoreConstArguments = false,
-    Map<String, String>? loadingUnitMapping,
+    String Function(String)? loadingUnitMapping,
     String Function(String)? uriMapping,
     bool allowLocationNull = false,
   });
@@ -213,7 +214,7 @@ final class CallWithArguments extends CallReference {
     CallReference other, {
     bool allowTearOffToStaticPromotion = false,
     bool allowMoreConstArguments = false,
-    Map<String, String>? loadingUnitMapping,
+    String Function(String)? loadingUnitMapping,
     String Function(String)? uriMapping,
     bool allowLocationNull = false,
   }) {
@@ -266,7 +267,7 @@ final class CallTearOff extends CallReference {
     CallReference other, {
     bool allowTearOffToStaticPromotion = false,
     bool allowMoreConstArguments = false,
-    Map<String, String>? loadingUnitMapping,
+    String Function(String)? loadingUnitMapping,
     String Function(String)? uriMapping,
     bool allowLocationNull = false,
   }) {
@@ -346,7 +347,7 @@ final class InstanceReference extends Reference {
   @visibleForTesting
   bool semanticEquals(
     InstanceReference other, {
-    Map<String, String>? loadingUnitMapping,
+    String Function(String)? loadingUnitMapping,
     String Function(String)? uriMapping,
     bool allowLocationNull = false,
   }) {

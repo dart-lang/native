@@ -237,7 +237,7 @@ Error: $e
   /// The [uriMapping] is a function to map URIs before comparison. Useful when
   /// compilers use different schemes (e.g., `package:` vs `file:`).
   ///
-  /// The [loadingUnitMapping] is a map to align loading unit identifiers
+  /// The [loadingUnitMapping] is a function to align loading unit identifiers
   /// between two sets of recordings.
   ///
   /// If [allowDeadCodeElimination] is `true`, the comparison will pass even if
@@ -267,7 +267,7 @@ Error: $e
     Recordings expected, {
     bool expectedIsSubset = false,
     String Function(String)? uriMapping,
-    Map<String, String>? loadingUnitMapping,
+    String Function(String)? loadingUnitMapping,
     bool allowDeadCodeElimination = false,
     bool allowTearOffToStaticPromotion = false,
     bool allowLocationNull = false,

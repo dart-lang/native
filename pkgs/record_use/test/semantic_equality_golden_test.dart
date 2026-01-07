@@ -66,10 +66,12 @@ void main() {
       if (!uses.semanticEquals(
         expectedUses,
         allowMetadataMismatch: true,
-        loadingUnitMapping: {
-          'out': '1',
-          'out_1': '2',
-        },
+        loadingUnitMapping: (String unit) =>
+            const <String, String>{
+              'out': '1',
+              'out_1': '2',
+            }[unit] ??
+            unit,
         uriMapping: (String uri) =>
             uri.replaceFirst('memory:sdk/tests/web/native/', ''),
         // Definition loading units are not working in dart2js backend.

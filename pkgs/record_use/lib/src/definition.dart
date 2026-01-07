@@ -52,7 +52,7 @@ class Definition {
   bool semanticEquals(
     Definition other, {
     bool allowLoadingUnitNull = false,
-    Map<String, String>? loadingUnitMapping,
+    String Function(String)? loadingUnitMapping,
     String Function(String)? uriMapping,
   }) {
     final skipLoadingUnitComparison =
@@ -61,8 +61,8 @@ class Definition {
     if (!skipLoadingUnitComparison) {
       final mappedLoadingUnit =
           loadingUnit == null || loadingUnitMapping == null
-          ? loadingUnit
-          : loadingUnitMapping[loadingUnit];
+              ? loadingUnit
+              : loadingUnitMapping(loadingUnit!);
       if (other.loadingUnit != mappedLoadingUnit) {
         return false;
       }
