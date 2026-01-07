@@ -39,6 +39,11 @@ final _coroutineSuspended = _coroutineIntrinsicsClass.staticMethodId(
   '()Ljava/lang/Object;',
 )(_coroutineIntrinsicsClass, const $JObject$Type$(), []);
 
+final _unitClass = JClass.forName('kotlin/Unit');
+final _unit = _unitClass
+    .staticFieldId('INSTANCE', 'Lkotlin/Unit;')
+    .get(_unitClass, const $JObject$Type$());
+
 @internal
 class KotlinContinuation extends JObject {
   KotlinContinuation.fromReference(super.reference) : super.fromReference();
@@ -68,4 +73,7 @@ class KotlinContinuation extends JObject {
     future.then(resumeWith, onError: resumeWithException);
     return _coroutineSuspended;
   }
+
+  JObject resumeWithVoidFuture(Future<void> future) =>
+      resumeWithFuture(future.then((_) => _unit));
 }
