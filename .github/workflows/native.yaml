@@ -9,31 +9,33 @@ on:
   pull_request:
     # No `branches:` to enable stacked PRs on GitHub.
     paths:
-      - ".github/workflows/native.yaml"
-      - "pkgs/code_assets/**"
-      - "pkgs/data_assets/**"
-      - "pkgs/hooks_runner/**"
-      - "pkgs/hooks/**"
-      - "pkgs/json_syntax_generator/**"
-      - "pkgs/native_test_helpers/**"
-      - "pkgs/native_toolchain_c/**"
-      - "pkgs/repo_lint_rules/**"
-      - "tool/**"
+      - '.github/workflows/native.yaml'
+      - 'pkgs/code_assets/**'
+      - 'pkgs/data_assets/**'
+      - 'pkgs/hooks_runner/**'
+      - 'pkgs/hooks/**'
+      - 'pkgs/json_syntax_generator/**'
+      - 'pkgs/native_test_helpers/**'
+      - 'pkgs/native_toolchain_c/**'
+      - 'pkgs/record_use/**'
+      - 'pkgs/repo_lint_rules/**'
+      - 'tool/**'
   push:
     branches: [main]
     paths:
-      - ".github/workflows/native.yaml"
-      - "pkgs/code_assets/**"
-      - "pkgs/data_assets/**"
-      - "pkgs/hooks_runner/**"
-      - "pkgs/hooks/**"
-      - "pkgs/json_syntax_generator/**"
-      - "pkgs/native_test_helpers/**"
-      - "pkgs/native_toolchain_c/**"
-      - "pkgs/repo_lint_rules/**"
-      - "tool/**"
+      - '.github/workflows/native.yaml'
+      - 'pkgs/code_assets/**'
+      - 'pkgs/data_assets/**'
+      - 'pkgs/hooks_runner/**'
+      - 'pkgs/hooks/**'
+      - 'pkgs/json_syntax_generator/**'
+      - 'pkgs/native_test_helpers/**'
+      - 'pkgs/native_toolchain_c/**'
+      - 'pkgs/record_use/**'
+      - 'pkgs/repo_lint_rules/**'
+      - 'tool/**'
   schedule:
-    - cron: "0 0 * * 0" # weekly
+    - cron: '0 0 * * 0' # weekly
 
 jobs:
   build:
@@ -90,6 +92,6 @@ jobs:
       - name: Upload coverage
         uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
         with:
-          carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen"
+          carryforward: 'ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen'
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true
