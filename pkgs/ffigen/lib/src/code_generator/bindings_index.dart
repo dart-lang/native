@@ -16,7 +16,12 @@ class BindingsIndex {
     if (!definition.isNull) cursor = definition;
     final usr = cursor.usr();
     if (usr.isEmpty) return;
-    _entries[usr] ??= IndexEntry(definition: cursor);
+    final existingEntry = _entries[usr];
+    if (existingEntry == null) {
+      _entries[usr] = IndexEntry(definition: cursor);
+    } else if (!(existingEntry.definition?.isDefinition ?? false)) {
+      existingEntry.definition = cursor;
+    }
   }
 
   AstNode? cache(
@@ -60,6 +65,8 @@ class IndexEntry {
   bool filled = false;
   AstNode? node;
   IndexEntry({this.definition});
+
+  @override
   String toString() => '$node';
 }
 

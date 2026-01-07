@@ -89,6 +89,7 @@ extension CXSourceRangePtrExt on Pointer<clang_types.CXSourceRange> {
 
 extension CXCursorExt on clang_types.CXCursor {
   bool get isNull => clang.clang_Cursor_isNull(this) != 0;
+  bool get isDefinition => clang.clang_isCursorDefinition(this) != 0;
   clang_types.CXCursor get definition => clang.clang_getCursorDefinition(this);
 
   String usr() {
