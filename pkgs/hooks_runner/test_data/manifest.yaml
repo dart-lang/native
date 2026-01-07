@@ -149,6 +149,13 @@
 - package_reading_metadata/pubspec.yaml
 - package_with_metadata/hook/build.dart
 - package_with_metadata/pubspec.yaml
+- recursive_invocation/bin/subprocess.dart
+- recursive_invocation/hook/build.dart
+- recursive_invocation/lib/recursive_invocation.dart
+- recursive_invocation/lib/src/recursive_invocation.dart
+- recursive_invocation/pubspec.yaml
+- recursive_invocation/src/recursive_invocation.c
+- recursive_invocation/src/recursive_invocation.h
 - relative_path/assets/test_asset.txt
 - relative_path/hook/build.dart
 - relative_path/pubspec.yaml
