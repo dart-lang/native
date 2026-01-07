@@ -89,7 +89,6 @@ extension CXSourceRangePtrExt on Pointer<clang_types.CXSourceRange> {
 
 extension CXCursorExt on clang_types.CXCursor {
   bool get isNull => clang.clang_Cursor_isNull(this) != 0;
-  bool get isDefinition => clang.clang_isCursorDefinition(this) != 0;
   clang_types.CXCursor get definition => clang.clang_getCursorDefinition(this);
 
   String usr() {
@@ -485,121 +484,6 @@ class Macro {
 
   Macro(this.usr, this.originalName);
 }
-
-/// Tracks if a binding is 'seen' or not.
-/*class BindingsIndex {
-  // Tracks if bindings are already seen, Map key is USR obtained from libclang.
-  final Map<String, Func> _functions = {};
-  final Map<String, Constant> _unnamedEnumConstants = {};
-  final Map<String, String> _macros = {};
-  final Map<String, Global> _globals = {};
-  final Map<String, Constant> _variableConstants = {};
-  final Map<String, Typealias> _typealiases = {};
-  final Map<String, EnumClass> _enums = {};
-  final Map<String, Compound> _compounds = {};
-  final Map<String, ObjCBlock> _objcBlocks = {};
-  final Map<String, ObjCInterface> _objcInterfaces = {};
-  final Map<String, ObjCProtocol> _objcProtocols = {};
-  final Map<String, ObjCCategory> _objcCategories = {};
-
-  /// Contains usr for typedefs which cannot be generated.
-  final Set<String> _unsupportedTypealiases = {};
-
-  bool isSeenType(String usr) => _declaredTypes.containsKey(usr);
-  void addTypeToSeen(String usr, Type type) => _declaredTypes[usr] = type;
-  Type? getSeenType(String usr) => _declaredTypes[usr];
-  bool isSeenFunc(String usr) => _functions.containsKey(usr);
-  void addFuncToSeen(String usr, Func func) => _functions[usr] = func;
-  Func? getSeenFunc(String usr) => _functions[usr];
-  void addUnnamedEnumConstantToSeen(String usr, Constant enumConstant) =>
-      _unnamedEnumConstants[usr] = enumConstant;
-  Constant? getSeenUnnamedEnumConstant(String usr) =>
-      _unnamedEnumConstants[usr];
-  bool isSeenGlobalVar(String usr) => _globals.containsKey(usr);
-  void addGlobalVarToSeen(String usr, Global global) => _globals[usr] = global;
-  Global? getSeenGlobalVar(String usr) => _globals[usr];
-  bool isSeenVariableConstant(String usr) =>
-      _variableConstants.containsKey(usr);
-  void addVariableConstantToSeen(String usr, Constant constant) =>
-      _variableConstants[usr] = constant;
-  Constant? getSeenVariableConstant(String usr) => _variableConstants[usr];
-  bool isSeenTypealias(String usr) => _typealiases.containsKey(usr);
-  void addTypealiasToSeen(String usr, Typealias t) => _typealiases[usr] = t;
-  Typealias? getSeenTypealias(String usr) => _typealiases[usr];
-  bool isSeenEnum(String usr) => _enums.containsKey(usr);
-  void addEnumToSeen(String usr, EnumClass t) => _enums[usr] = t;
-  EnumClass? getSeenEnum(String usr) => _enums[usr];
-  bool isSeenCompound(String usr) => _compounds.containsKey(usr);
-  void addCompoundToSeen(String usr, Compound t) => _compounds[usr] = t;
-  Compound? getSeenCompound(String usr) => _compounds[usr];
-  bool isSeenMacro(String usr) => _macros.containsKey(usr);
-  void addMacroToSeen(String usr, String macro) => _macros[usr] = macro;
-  bool isSeenUnsupportedTypealias(String usr) =>
-      _unsupportedTypealiases.contains(usr);
-  void addUnsupportedTypealiasToSeen(String usr) =>
-      _unsupportedTypealiases.add(usr);
-  void addObjCBlockToSeen(String key, ObjCBlock t) => _objcBlocks[key] = t;
-  ObjCBlock? getSeenObjCBlock(String key) => _objcBlocks[key];
-  void addObjCInterfaceToSeen(String usr, ObjCInterface t) =>
-      _objcInterfaces[usr] = t;
-  ObjCInterface? getSeenObjCInterface(String usr) => _objcInterfaces[usr];
-  bool isSeenObjCInterface(String usr) => _objcInterfaces.containsKey(usr);
-  void addObjCProtocolToSeen(String usr, ObjCProtocol t) =>
-      _objcProtocols[usr] = t;
-  ObjCProtocol? getSeenObjCProtocol(String usr) => _objcProtocols[usr];
-  bool isSeenObjCProtocol(String usr) => _objcProtocols.containsKey(usr);
-  void addObjCCategoryToSeen(String usr, ObjCCategory t) =>
-      _objcCategories[usr] = t;
-  ObjCCategory? getSeenObjCCategory(String usr) => _objcCategories[usr];
-  bool isSeenObjCCategory(String usr) => _objcCategories.containsKey(usr);
-}
-
-class CursorIndex {
-  final Logger _logger;
-  final _usrCursorDefinition = <String, clang_types.CXCursor>{};
-
-  CursorIndex(this._logger);
-
-  /// Returns the Cursor definition (if found) or itself.
-  clang_types.CXCursor getDefinition(clang_types.CXCursor cursor) {
-    final cursorDefinition = clang.clang_getCursorDefinition(cursor);
-    if (clang.clang_Cursor_isNull(cursorDefinition) == 0) {
-      return cursorDefinition;
-    } else {
-      final usr = cursor.usr();
-      if (_usrCursorDefinition.containsKey(usr)) {
-        return _usrCursorDefinition[cursor.usr()]!;
-      } else {
-        _logger.warning(
-          'No definition found for declaration -'
-          '${cursor.completeStringRepr()}',
-        );
-        return cursor;
-      }
-    }
-  }
-
-  /// Saves cursor definition based on its kind.
-  void saveDefinition(clang_types.CXCursor cursor) {
-    switch (cursor.kind) {
-      case clang_types.CXCursorKind.CXCursor_StructDecl:
-      case clang_types.CXCursorKind.CXCursor_UnionDecl:
-      case clang_types.CXCursorKind.CXCursor_EnumDecl:
-        final usr = cursor.usr();
-        if (!_usrCursorDefinition.containsKey(usr)) {
-          final cursorDefinition = clang.clang_getCursorDefinition(cursor);
-          if (clang.clang_Cursor_isNull(cursorDefinition) == 0) {
-            _usrCursorDefinition[usr] = cursorDefinition;
-          } else {
-            _logger.finest(
-              'Missing cursor definition in current translation unit: '
-              '${cursor.completeStringRepr()}',
-            );
-          }
-        }
-    }
-  }
-}*/
 
 /// Converts a double to a string, handling cases like Infinity and NaN.
 String writeDoubleAsString(double d) {

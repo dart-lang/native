@@ -20,7 +20,6 @@ CachableBinding? parseEnumDeclaration(
   final config = context.config;
   final logger = context.logger;
   EnumClass? enumClass;
-  assert(cursor.isDefinition);
 
   final usr = cursor.usr();
 

@@ -11,10 +11,9 @@ class BindingsIndex {
   final _entries = <String, IndexEntry>{};
 
   void addDefinition(clang_types.CXCursor cursor) {
-    if (!cursor.isDefinition) {
-      cursor = cursor.definition;
-    }
     if (cursor.isNull) return;
+    final definition = cursor.definition;
+    if (!definition.isNull) cursor = definition;
     final usr = cursor.usr();
     if (usr.isEmpty) return;
     _entries[usr] ??= IndexEntry(definition: cursor);

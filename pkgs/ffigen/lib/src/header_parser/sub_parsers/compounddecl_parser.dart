@@ -114,8 +114,6 @@ CachableBinding? _parseCompoundDeclaration(
   })
   constructor,
 ) {
-  assert(cursor.isDefinition);
-
   final mappedType = configTypeMappings[cursor.spelling()];
   if (mappedType != null) {
     context.logger.fine('  Type Mapped from type-map: ${cursor.spelling()}');
@@ -188,7 +186,6 @@ void fillCompoundMembersIfNeeded(
   if (compound.parsedDependencies) return;
   final logger = context.logger;
 
-  assert(cursor.isDefinition);
   final parsed = _ParsedCompound(context, compound);
   final className = compound is Struct ? 'Struct' : 'Union';
   parsed.hasAttr = clang.clang_Cursor_hasAttrs(cursor) != 0;

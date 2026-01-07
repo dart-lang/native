@@ -120,7 +120,6 @@ functions:
     - clang_getFieldDeclBitWidth
     - clang_Cursor_isFunctionInlined
     - clang_getCursorDefinition
-    - clang_isCursorDefinition
     - clang_getCursorAvailability
     - clang_getCursorPlatformAvailability
     - clang_disposeCXPlatformAvailability

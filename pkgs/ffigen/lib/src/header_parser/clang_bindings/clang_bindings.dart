@@ -1156,19 +1156,6 @@ class Clang {
   late final _clang_getCursorDefinition = _clang_getCursorDefinitionPtr
       .asFunction<CXCursor Function(CXCursor)>();
 
-  /// Determine whether the declaration pointed to by this cursor
-  /// is also a definition of that entity.
-  int clang_isCursorDefinition(CXCursor arg0) {
-    return _clang_isCursorDefinition(arg0);
-  }
-
-  late final _clang_isCursorDefinitionPtr =
-      _lookup<ffi.NativeFunction<ffi.UnsignedInt Function(CXCursor)>>(
-        'clang_isCursorDefinition',
-      );
-  late final _clang_isCursorDefinition = _clang_isCursorDefinitionPtr
-      .asFunction<int Function(CXCursor)>();
-
   /// Given a cursor that represents a property declaration, return the
   /// associated property attributes. The bits are formed from
   /// \c CXObjCPropertyAttrKind.
@@ -1393,6 +1380,10 @@ class Clang {
   late final _clang_EvalResult_dispose = _clang_EvalResult_disposePtr
       .asFunction<void Function(CXEvalResult)>();
 }
+
+typedef __time_t = ffi.Long;
+typedef Dart__time_t = int;
+typedef time_t = __time_t;
 
 /// A character string.
 ///
