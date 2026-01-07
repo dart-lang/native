@@ -10,20 +10,15 @@ import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
 
 /// Parses a global variable
-Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
+CachableBinding? parseVarDeclaration(
+  Context context,
+  clang_types.CXCursor cursor,
+) {
   final logger = context.logger;
   final config = context.config;
   final nativeOutputStyle = config.output.style is NativeExternalBindings;
-  final bindingsIndex = context.bindingsIndex;
   final name = cursor.spelling();
   final usr = cursor.usr();
-
-  if (bindingsIndex.isSeenGlobalVar(usr)) {
-    return bindingsIndex.getSeenGlobalVar(usr);
-  }
-  if (bindingsIndex.isSeenVariableConstant(usr)) {
-    return bindingsIndex.getSeenVariableConstant(usr);
-  }
 
   final decl = Declaration(usr: usr, originalName: name);
   final cType = cursor.type();
@@ -77,8 +72,7 @@ Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
       logger.fine(
         '++++ Adding Constant from Global: ${cursor.completeStringRepr()}',
       );
-      bindingsIndex.addVariableConstantToSeen(usr, constant);
-      return constant;
+      return CachableBinding(constant);
     }
   }
 
@@ -109,7 +103,6 @@ Binding? parseVarDeclaration(Context context, clang_types.CXCursor cursor) {
     constant: cType.isConstQualified,
     loadFromNativeAsset: nativeOutputStyle,
   );
-  bindingsIndex.addGlobalVarToSeen(usr, global);
 
-  return global;
+  return CachableBinding(global);
 }
