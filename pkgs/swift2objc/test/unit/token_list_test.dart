@@ -85,11 +85,11 @@ void main() {
     // point), and we haven't seen a symbolgraph where that's necessary yet.
     expect(
       spelling(split('{ "kind": "text", "spelling": "?)>-??" }')),
-      '["?", ")", ">-??"]',
+      '["?", ")", ">-", "?", "?"]',
     );
     expect(
       spelling(split('{ "kind": "text", "spelling": "?)abc??" }')),
-      '["?", ")", "abc??"]',
+      '["?", ")", "abc", "?", "?"]',
     );
   });
 

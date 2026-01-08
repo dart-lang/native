@@ -10,11 +10,19 @@ class Parameter extends AstNode {
   String name;
   String? internalName;
   ReferredType type;
+  String? defaultValue;
 
-  Parameter({required this.name, this.internalName, required this.type});
+  Parameter({
+    required this.name,
+    this.internalName,
+    required this.type,
+    this.defaultValue,
+  });
 
   @override
-  String toString() => '$name $internalName: $type';
+  String toString() =>
+      '$name $internalName: $type'
+      '${defaultValue != null ? ' = $defaultValue' : ''}';
 
   @override
   void visitChildren(Visitor visitor) {
