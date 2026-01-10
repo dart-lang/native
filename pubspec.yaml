@@ -48,6 +48,7 @@ workspace:
   - pkgs/hooks_runner/test_data/no_hook
   - pkgs/hooks_runner/test_data/package_reading_metadata
   - pkgs/hooks_runner/test_data/package_with_metadata
+  - pkgs/hooks_runner/test_data/recursive_invocation
   - pkgs/hooks_runner/test_data/relative_path
   - pkgs/hooks_runner/test_data/reusable_dynamic_library
   - pkgs/hooks_runner/test_data/reuse_dynamic_library

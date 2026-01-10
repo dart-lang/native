@@ -12,6 +12,7 @@ import '../native_toolchain/msvc.dart';
 import '../native_toolchain/tool_likeness.dart';
 import '../native_toolchain/xcode.dart';
 import '../tool/tool_instance.dart';
+import '../tool/tool_resolver.dart';
 import '../utils/run_process.dart';
 import 'compiler_resolver.dart';
 import 'language.dart';
@@ -96,21 +97,21 @@ class RunCBuilder {
 
   Future<Uri> archiver() async => (await _resolver.resolveArchiver()).uri;
 
-  Future<Uri> iosSdk(IOSSdk iosSdk, {required Logger? logger}) async {
+  Future<Uri> iosSdk(IOSSdk iosSdk, ToolResolvingContext context) async {
     if (iosSdk == IOSSdk.iPhoneOS) {
       return (await iPhoneOSSdk.defaultResolver!.resolve(
-        logger: logger,
+        context,
       )).where((i) => i.tool == iPhoneOSSdk).first.uri;
     }
     assert(iosSdk == IOSSdk.iPhoneSimulator);
     return (await iPhoneSimulatorSdk.defaultResolver!.resolve(
-      logger: logger,
+      context,
     )).where((i) => i.tool == iPhoneSimulatorSdk).first.uri;
   }
 
-  Future<Uri> macosSdk({required Logger? logger}) async =>
+  Future<Uri> macosSdk(ToolResolvingContext context) async =>
       (await macosxSdk.defaultResolver!.resolve(
-        logger: logger,
+        context,
       )).where((i) => i.tool == macosxSdk).first.uri;
 
   Uri androidSysroot(ToolInstance compiler) =>
@@ -224,6 +225,8 @@ class RunCBuilder {
     Uri? outFile,
     Map<String, String> environment,
   ) async {
+    final context = ToolResolvingContext(logger: logger);
+
     await runProcess(
       executable: toolInstance.uri,
       environment: environment,
@@ -245,11 +248,11 @@ class RunCBuilder {
           '-mmacos-version-min=$targetMacOSVersion',
         if (codeConfig.targetOS == OS.iOS) ...[
           '-isysroot',
-          (await iosSdk(targetIosSdk!, logger: logger)).toFilePath(),
+          (await iosSdk(targetIosSdk!, context)).toFilePath(),
         ],
         if (codeConfig.targetOS == OS.macOS) ...[
           '-isysroot',
-          (await macosSdk(logger: logger)).toFilePath(),
+          (await macosSdk(context)).toFilePath(),
         ],
         if (installName != null) ...[
           '-install_name',

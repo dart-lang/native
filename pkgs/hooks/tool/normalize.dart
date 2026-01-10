@@ -68,7 +68,7 @@ ProcessDirectoryResult processDirectory(Directory directory) {
         // Don't sort recorded uses files, they have ordered arrays.
         !entity.uri
             .toFilePath(windows: false)
-            .contains('pkgs/record_use/test_data/json/')) {
+            .contains('pkgs/record_use/test_data/json')) {
       processedCount++;
       if (processFile(entity)) {
         changedCount += 1;

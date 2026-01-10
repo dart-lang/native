@@ -1,7 +1,11 @@
-## 0.17.5
+## 0.17.6
 
 - Fixed resolution of C compiler and tools on macOS when `swiftly` is installed.
 - Broaden compiler tool discovery on macOS.
+
+## 0.17.5-wip
+
+- Search for NDK in `ANDROID_HOME` and `ANDROID_NDK` environment variables.
 
 ## 0.17.4
 

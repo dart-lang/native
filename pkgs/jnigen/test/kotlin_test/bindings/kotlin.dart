@@ -35,7 +35,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' as core$_;
-import 'dart:core' show Object, String, bool, double, int;
+import 'dart:core' show Object, String, double, int;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
@@ -163,11 +163,11 @@ class CanDoA extends jni$_.JObject {
 abstract base mixin class $CanDoA {
   factory $CanDoA({
     required void Function() doA,
-    bool doA$async,
+    core$_.bool doA$async,
   }) = _$CanDoA;
 
   void doA();
-  bool get doA$async => false;
+  core$_.bool get doA$async => false;
 }
 
 final class _$CanDoA with $CanDoA {
@@ -177,7 +177,7 @@ final class _$CanDoA with $CanDoA {
   }) : _doA = doA;
 
   final void Function() _doA;
-  final bool doA$async;
+  final core$_.bool doA$async;
 
   void doA() {
     return _doA();
@@ -215,7 +215,7 @@ final class $CanDoA$NullableType$ extends jni$_.JType<CanDoA?> {
   int get hashCode => ($CanDoA$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($CanDoA$NullableType$) &&
         other is $CanDoA$NullableType$;
   }
@@ -250,7 +250,7 @@ final class $CanDoA$Type$ extends jni$_.JType<CanDoA> {
   int get hashCode => ($CanDoA$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($CanDoA$Type$) && other is $CanDoA$Type$;
   }
 }
@@ -378,11 +378,11 @@ class CanDoB extends jni$_.JObject {
 abstract base mixin class $CanDoB {
   factory $CanDoB({
     required void Function() doB,
-    bool doB$async,
+    core$_.bool doB$async,
   }) = _$CanDoB;
 
   void doB();
-  bool get doB$async => false;
+  core$_.bool get doB$async => false;
 }
 
 final class _$CanDoB with $CanDoB {
@@ -392,7 +392,7 @@ final class _$CanDoB with $CanDoB {
   }) : _doB = doB;
 
   final void Function() _doB;
-  final bool doB$async;
+  final core$_.bool doB$async;
 
   void doB() {
     return _doB();
@@ -430,7 +430,7 @@ final class $CanDoB$NullableType$ extends jni$_.JType<CanDoB?> {
   int get hashCode => ($CanDoB$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($CanDoB$NullableType$) &&
         other is $CanDoB$NullableType$;
   }
@@ -465,7 +465,7 @@ final class $CanDoB$Type$ extends jni$_.JType<CanDoB> {
   int get hashCode => ($CanDoB$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($CanDoB$Type$) && other is $CanDoB$Type$;
   }
 }
@@ -619,7 +619,7 @@ final class $Measure$NullableType$<$T extends jni$_.JObject>
   int get hashCode => Object.hash($Measure$NullableType$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Measure$NullableType$<$T>) &&
         other is $Measure$NullableType$<$T> &&
         T == other.T;
@@ -663,7 +663,7 @@ final class $Measure$Type$<$T extends jni$_.JObject>
   int get hashCode => Object.hash($Measure$Type$, T);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Measure$Type$<$T>) &&
         other is $Measure$Type$<$T> &&
         T == other.T;
@@ -883,7 +883,7 @@ final class $MeasureUnit$NullableType$ extends jni$_.JType<MeasureUnit?> {
   int get hashCode => ($MeasureUnit$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($MeasureUnit$NullableType$) &&
         other is $MeasureUnit$NullableType$;
   }
@@ -920,7 +920,7 @@ final class $MeasureUnit$Type$ extends jni$_.JType<MeasureUnit> {
   int get hashCode => ($MeasureUnit$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($MeasureUnit$Type$) &&
         other is $MeasureUnit$Type$;
   }
@@ -1119,7 +1119,7 @@ final class $Nullability$InnerClass$NullableType$<$T extends jni$_.JObject?,
       Object.hash($Nullability$InnerClass$NullableType$, T, U, V);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType ==
             ($Nullability$InnerClass$NullableType$<$T, $U, $V>) &&
         other is $Nullability$InnerClass$NullableType$<$T, $U, $V> &&
@@ -1180,7 +1180,7 @@ final class $Nullability$InnerClass$Type$<$T extends jni$_.JObject?,
   int get hashCode => Object.hash($Nullability$InnerClass$Type$, T, U, V);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Nullability$InnerClass$Type$<$T, $U, $V>) &&
         other is $Nullability$InnerClass$Type$<$T, $U, $V> &&
         T == other.T &&
@@ -1450,7 +1450,7 @@ class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
   /// from: `public fun nullableHello(returnNull: kotlin.Boolean): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? nullableHello(
-    bool z,
+    core$_.bool z,
   ) {
     return _nullableHello(reference.pointer,
             _id_nullableHello as jni$_.JMethodIDPtr, z ? 1 : 0)
@@ -2053,7 +2053,7 @@ final class $Nullability$NullableType$<$T extends jni$_.JObject?,
   int get hashCode => Object.hash($Nullability$NullableType$, T, U);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Nullability$NullableType$<$T, $U>) &&
         other is $Nullability$NullableType$<$T, $U> &&
         T == other.T &&
@@ -2104,7 +2104,7 @@ final class $Nullability$Type$<$T extends jni$_.JObject?,
   int get hashCode => Object.hash($Nullability$Type$, T, U);
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Nullability$Type$<$T, $U>) &&
         other is $Nullability$Type$<$T, $U> &&
         T == other.T &&
@@ -2378,7 +2378,7 @@ class Operators extends jni$_.JObject {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
   /// from: `public operator fun get(index: kotlin.Int): kotlin.Boolean`
-  bool get(
+  core$_.bool get(
     int i,
   ) {
     return _get(reference.pointer, _id_get as jni$_.JMethodIDPtr, i).boolean;
@@ -2403,7 +2403,7 @@ class Operators extends jni$_.JObject {
   /// from: `public operator fun set(index: kotlin.Int, bit: kotlin.Boolean): kotlin.Unit`
   void set(
     int i,
-    bool z,
+    core$_.bool z,
   ) {
     _set(reference.pointer, _id_set as jni$_.JMethodIDPtr, i, z ? 1 : 0)
         .check();
@@ -2455,27 +2455,27 @@ class Operators extends jni$_.JObject {
     return rem(operators);
   }
 
-  bool operator [](int i) {
+  core$_.bool operator [](int i) {
     return get(i);
   }
 
-  void operator []=(int i, bool z) {
+  void operator []=(int i, core$_.bool z) {
     set(i, z);
   }
 
-  bool operator <(Operators operators) {
+  core$_.bool operator <(Operators operators) {
     return compareTo(operators) < 0;
   }
 
-  bool operator <=(Operators operators) {
+  core$_.bool operator <=(Operators operators) {
     return compareTo(operators) <= 0;
   }
 
-  bool operator >(Operators operators) {
+  core$_.bool operator >(Operators operators) {
     return compareTo(operators) > 0;
   }
 
-  bool operator >=(Operators operators) {
+  core$_.bool operator >=(Operators operators) {
     return compareTo(operators) >= 0;
   }
 }
@@ -2511,7 +2511,7 @@ final class $Operators$NullableType$ extends jni$_.JType<Operators?> {
   int get hashCode => ($Operators$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Operators$NullableType$) &&
         other is $Operators$NullableType$;
   }
@@ -2547,7 +2547,7 @@ final class $Operators$Type$ extends jni$_.JType<Operators> {
   int get hashCode => ($Operators$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Operators$Type$) && other is $Operators$Type$;
   }
 }
@@ -2791,7 +2791,7 @@ class Speed extends Measure<SpeedUnit> {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public operator fun equals(other: kotlin.Any?): kotlin.Boolean`
-  bool equals(
+  core$_.bool equals(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -2833,7 +2833,7 @@ final class $Speed$NullableType$ extends jni$_.JType<Speed?> {
   int get hashCode => ($Speed$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Speed$NullableType$) &&
         other is $Speed$NullableType$;
   }
@@ -2869,7 +2869,7 @@ final class $Speed$Type$ extends jni$_.JType<Speed> {
   int get hashCode => ($Speed$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($Speed$Type$) && other is $Speed$Type$;
   }
 }
@@ -3048,7 +3048,7 @@ final class $SpeedUnit$NullableType$ extends jni$_.JType<SpeedUnit?> {
   int get hashCode => ($SpeedUnit$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($SpeedUnit$NullableType$) &&
         other is $SpeedUnit$NullableType$;
   }
@@ -3084,7 +3084,7 @@ final class $SpeedUnit$Type$ extends jni$_.JType<SpeedUnit> {
   int get hashCode => ($SpeedUnit$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($SpeedUnit$Type$) && other is $SpeedUnit$Type$;
   }
 }
@@ -3162,13 +3162,15 @@ class SuspendFun extends jni$_.JObject {
             _$continuation.pointer)
         .object<jni$_.JObject>(const jni$_.$JObject$Type$());
     _$continuation.release();
-    final jni$_.JObject $o;
+    jni$_.JObject $o;
     if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
       $r.release();
       final $a = await $p.first;
       $o = jni$_.JObject.fromReference(
           jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
-      if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
         final $e =
             jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
         $o.release();
@@ -3209,13 +3211,15 @@ class SuspendFun extends jni$_.JObject {
             _id_failWithoutDelay as jni$_.JMethodIDPtr, _$continuation.pointer)
         .object<jni$_.JObject>(const jni$_.$JObject$Type$());
     _$continuation.release();
-    final jni$_.JObject $o;
+    jni$_.JObject $o;
     if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
       $r.release();
       final $a = await $p.first;
       $o = jni$_.JObject.fromReference(
           jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
-      if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
         final $e =
             jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
         $o.release();
@@ -3256,13 +3260,15 @@ class SuspendFun extends jni$_.JObject {
             _$continuation.pointer)
         .object<jni$_.JObject>(const jni$_.$JObject$Type$());
     _$continuation.release();
-    final jni$_.JObject $o;
+    jni$_.JObject $o;
     if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
       $r.release();
       final $a = await $p.first;
       $o = jni$_.JObject.fromReference(
           jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
-      if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
         final $e =
             jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
         $o.release();
@@ -3303,13 +3309,15 @@ class SuspendFun extends jni$_.JObject {
             _$continuation.pointer)
         .object<jni$_.JObject>(const jni$_.$JObject$Type$());
     _$continuation.release();
-    final jni$_.JObject $o;
+    jni$_.JObject $o;
     if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
       $r.release();
       final $a = await $p.first;
       $o = jni$_.JObject.fromReference(
           jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
-      if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
         final $e =
             jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
         $o.release();
@@ -3361,13 +3369,15 @@ class SuspendFun extends jni$_.JObject {
             _$continuation.pointer)
         .object<jni$_.JObject>(const jni$_.$JObject$Type$());
     _$continuation.release();
-    final jni$_.JObject $o;
+    jni$_.JObject $o;
     if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
       $r.release();
       final $a = await $p.first;
       $o = jni$_.JObject.fromReference(
           jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
-      if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
         final $e =
             jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
         $o.release();
@@ -3402,7 +3412,7 @@ class SuspendFun extends jni$_.JObject {
   /// from: `public suspend fun nullableHello(returnNull: kotlin.Boolean): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString?> nullableHello(
-    bool z,
+    core$_.bool z,
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
@@ -3414,7 +3424,7 @@ class SuspendFun extends jni$_.JObject {
             _$continuation.pointer)
         .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
     _$continuation.release();
-    final jni$_.JObject? $o;
+    jni$_.JObject? $o;
     if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
       $r.release();
       final $a = await $p.first;
@@ -3422,7 +3432,9 @@ class SuspendFun extends jni$_.JObject {
           ? null
           : jni$_.JObject.fromReference(
               jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
-      if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
         final $e =
             jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
         $o.release();
@@ -3457,7 +3469,7 @@ class SuspendFun extends jni$_.JObject {
   /// from: `public suspend fun nullableHelloWithoutDelay(returnNull: kotlin.Boolean): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
   core$_.Future<jni$_.JString?> nullableHelloWithoutDelay(
-    bool z,
+    core$_.bool z,
   ) async {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
@@ -3469,7 +3481,7 @@ class SuspendFun extends jni$_.JObject {
             _$continuation.pointer)
         .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
     _$continuation.release();
-    final jni$_.JObject? $o;
+    jni$_.JObject? $o;
     if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
       $r.release();
       final $a = await $p.first;
@@ -3477,7 +3489,9 @@ class SuspendFun extends jni$_.JObject {
           ? null
           : jni$_.JObject.fromReference(
               jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
-      if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
         final $e =
             jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
         $o.release();
@@ -3524,7 +3538,7 @@ final class $SuspendFun$NullableType$ extends jni$_.JType<SuspendFun?> {
   int get hashCode => ($SuspendFun$NullableType$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($SuspendFun$NullableType$) &&
         other is $SuspendFun$NullableType$;
   }
@@ -3561,9 +3575,779 @@ final class $SuspendFun$Type$ extends jni$_.JType<SuspendFun> {
   int get hashCode => ($SuspendFun$Type$).hashCode;
 
   @core$_.override
-  bool operator ==(Object other) {
+  core$_.bool operator ==(Object other) {
     return other.runtimeType == ($SuspendFun$Type$) &&
         other is $SuspendFun$Type$;
+  }
+}
+
+final _SuspendFunKtClass =
+    jni$_.JClass.forName(r'com/github/dart_lang/jnigen/SuspendFunKt');
+
+final _id_consumeOnAnotherThread = _SuspendFunKtClass.staticMethodId(
+  r'consumeOnAnotherThread',
+  r'(Lcom/github/dart_lang/jnigen/SuspendInterface;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+);
+
+final _consumeOnAnotherThread = jni$_.ProtectedJniExtensions.lookup<
+        jni$_.NativeFunction<
+            jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                    (
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.Pointer<jni$_.Void>
+                    )>)>>('globalEnv_CallStaticObjectMethod')
+    .asFunction<
+        jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr,
+            jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)>();
+
+/// from: `public suspend fun consumeOnAnotherThread(itf: com.github.dart_lang.jnigen.SuspendInterface): kotlin.String`
+/// The returned object must be released after use, by calling the [release] method.
+core$_.Future<jni$_.JString> consumeOnAnotherThread(
+  SuspendInterface suspendInterface,
+) async {
+  final $p = jni$_.ReceivePort();
+  final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+  final _$suspendInterface = suspendInterface.reference;
+  final $r = _consumeOnAnotherThread(
+          _SuspendFunKtClass.reference.pointer,
+          _id_consumeOnAnotherThread as jni$_.JMethodIDPtr,
+          _$suspendInterface.pointer,
+          _$continuation.pointer)
+      .object<jni$_.JObject>(const jni$_.$JObject$Type$());
+  _$continuation.release();
+  jni$_.JObject $o;
+  if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+    $r.release();
+    final $a = await $p.first;
+    $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
+    if ($o.isInstanceOf(jni$_.result$Class)) {
+      $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+    } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+      final $e =
+          jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
+      $o.release();
+      jni$_.Jni.throwException($e.reference.toPointer());
+    }
+  } else {
+    $o = $r;
+  }
+  return $o.as<jni$_.JString>(
+    const jni$_.$JString$Type$(),
+    releaseOriginal: true,
+  );
+}
+
+final _id_consumeOnSameThread = _SuspendFunKtClass.staticMethodId(
+  r'consumeOnSameThread',
+  r'(Lcom/github/dart_lang/jnigen/SuspendInterface;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+);
+
+final _consumeOnSameThread = jni$_.ProtectedJniExtensions.lookup<
+        jni$_.NativeFunction<
+            jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                    (
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.Pointer<jni$_.Void>
+                    )>)>>('globalEnv_CallStaticObjectMethod')
+    .asFunction<
+        jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr,
+            jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)>();
+
+/// from: `public suspend fun consumeOnSameThread(itf: com.github.dart_lang.jnigen.SuspendInterface): kotlin.String`
+/// The returned object must be released after use, by calling the [release] method.
+core$_.Future<jni$_.JString> consumeOnSameThread(
+  SuspendInterface suspendInterface,
+) async {
+  final $p = jni$_.ReceivePort();
+  final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+  final _$suspendInterface = suspendInterface.reference;
+  final $r = _consumeOnSameThread(
+          _SuspendFunKtClass.reference.pointer,
+          _id_consumeOnSameThread as jni$_.JMethodIDPtr,
+          _$suspendInterface.pointer,
+          _$continuation.pointer)
+      .object<jni$_.JObject>(const jni$_.$JObject$Type$());
+  _$continuation.release();
+  jni$_.JObject $o;
+  if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+    $r.release();
+    final $a = await $p.first;
+    $o = jni$_.JObject.fromReference(
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
+    if ($o.isInstanceOf(jni$_.result$Class)) {
+      $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+    } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+      final $e =
+          jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
+      $o.release();
+      jni$_.Jni.throwException($e.reference.toPointer());
+    }
+  } else {
+    $o = $r;
+  }
+  return $o.as<jni$_.JString>(
+    const jni$_.$JString$Type$(),
+    releaseOriginal: true,
+  );
+}
+
+/// from: `com.github.dart_lang.jnigen.SuspendInterface`
+class SuspendInterface extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JType<SuspendInterface> $type;
+
+  @jni$_.internal
+  SuspendInterface.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static final _class =
+      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/SuspendInterface');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<SuspendInterface?> nullableType =
+      $SuspendInterface$NullableType$();
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<SuspendInterface> type = $SuspendInterface$Type$();
+  static final _id_sayHello = _class.instanceMethodId(
+    r'sayHello',
+    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _sayHello = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public suspend fun sayHello(): kotlin.String`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JString> sayHello() async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _sayHello(reference.pointer, _id_sayHello as jni$_.JMethodIDPtr,
+            _$continuation.pointer)
+        .object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JString>(
+      const jni$_.$JString$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_sayHello$1 = _class.instanceMethodId(
+    r'sayHello',
+    r'(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _sayHello$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public suspend fun sayHello(name: kotlin.String): kotlin.String`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JString> sayHello$1(
+    jni$_.JString string,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$string = string.reference;
+    final $r = _sayHello$1(
+            reference.pointer,
+            _id_sayHello$1 as jni$_.JMethodIDPtr,
+            _$string.pointer,
+            _$continuation.pointer)
+        .object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JString>(
+      const jni$_.$JString$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_nullableHello = _class.instanceMethodId(
+    r'nullableHello',
+    r'(ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _nullableHello = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public suspend fun nullableHello(returnNull: kotlin.Boolean): kotlin.String?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JString?> nullableHello(
+    core$_.bool z,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _nullableHello(
+            reference.pointer,
+            _id_nullableHello as jni$_.JMethodIDPtr,
+            z ? 1 : 0,
+            _$continuation.pointer)
+        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JString?>(
+      const jni$_.$JString$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_sayInt = _class.instanceMethodId(
+    r'sayInt',
+    r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _sayInt = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public suspend fun sayInt(): java.lang.Integer`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JInteger> sayInt() async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _sayInt(reference.pointer, _id_sayInt as jni$_.JMethodIDPtr,
+            _$continuation.pointer)
+        .object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JInteger>(
+      const jni$_.$JInteger$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_sayInt$1 = _class.instanceMethodId(
+    r'sayInt',
+    r'(Ljava/lang/Integer;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _sayInt$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public suspend fun sayInt(value: java.lang.Integer): java.lang.Integer`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JInteger> sayInt$1(
+    jni$_.JInteger integer,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$integer = integer.reference;
+    final $r = _sayInt$1(reference.pointer, _id_sayInt$1 as jni$_.JMethodIDPtr,
+            _$integer.pointer, _$continuation.pointer)
+        .object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    _$continuation.release();
+    jni$_.JObject $o;
+    if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = jni$_.JObject.fromReference(
+          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
+      if ($o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o.as<jni$_.JInteger>(
+      const jni$_.$JInteger$Type$(),
+      releaseOriginal: true,
+    );
+  }
+
+  static final _id_nullableInt = _class.instanceMethodId(
+    r'nullableInt',
+    r'(ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _nullableInt = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public suspend fun nullableInt(returnNull: kotlin.Boolean): java.lang.Integer?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JInteger?> nullableInt(
+    core$_.bool z,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+
+    final $r = _nullableInt(
+            reference.pointer,
+            _id_nullableInt as jni$_.JMethodIDPtr,
+            z ? 1 : 0,
+            _$continuation.pointer)
+        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JInteger?>(
+      const jni$_.$JInteger$NullableType$(),
+      releaseOriginal: true,
+    );
+  }
+
+  /// Maps a specific port to the implemented interface.
+  static final core$_.Map<int, $SuspendInterface> _$impls = {};
+  static jni$_.JObjectPtr _$invoke(
+    int port,
+    jni$_.JObjectPtr descriptor,
+    jni$_.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      jni$_.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final jni$_.Pointer<
+          jni$_.NativeFunction<
+              jni$_.JObjectPtr Function(
+                  jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)>>
+      _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
+
+  static jni$_.Pointer<jni$_.Void> _$invokeMethod(
+    int $p,
+    jni$_.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d ==
+          r'sayHello(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r = jni$_.KotlinContinuation.fromReference($a![0]!
+                .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                .reference)
+            .resumeWithFuture(_$impls[$p]!.sayHello());
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'sayHello(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r = jni$_.KotlinContinuation.fromReference($a![1]!
+                .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                .reference)
+            .resumeWithFuture(_$impls[$p]!.sayHello$1(
+          $a![0]!.as(const jni$_.$JString$Type$(), releaseOriginal: true),
+        ));
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'nullableHello(ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r = jni$_.KotlinContinuation.fromReference($a![1]!
+                .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                .reference)
+            .resumeWithFuture(_$impls[$p]!.nullableHello(
+          $a![0]!
+              .as(const jni$_.$JBoolean$Type$(), releaseOriginal: true)
+              .booleanValue(releaseOriginal: true),
+        ));
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'sayInt(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r = jni$_.KotlinContinuation.fromReference($a![0]!
+                .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                .reference)
+            .resumeWithFuture(_$impls[$p]!.sayInt());
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'sayInt(Ljava/lang/Integer;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r = jni$_.KotlinContinuation.fromReference($a![1]!
+                .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                .reference)
+            .resumeWithFuture(_$impls[$p]!.sayInt$1(
+          $a![0]!.as(const jni$_.$JInteger$Type$(), releaseOriginal: true),
+        ));
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'nullableInt(ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r = jni$_.KotlinContinuation.fromReference($a![1]!
+                .as(const jni$_.$JObject$Type$(), releaseOriginal: true)
+                .reference)
+            .resumeWithFuture(_$impls[$p]!.nullableInt(
+          $a![0]!
+              .as(const jni$_.$JBoolean$Type$(), releaseOriginal: true)
+              .booleanValue(releaseOriginal: true),
+        ));
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+    } catch (e) {
+      return jni$_.ProtectedJniExtensions.newDartException(e);
+    }
+    return jni$_.nullptr;
+  }
+
+  static void implementIn(
+    jni$_.JImplementer implementer,
+    $SuspendInterface $impl,
+  ) {
+    late final jni$_.RawReceivePort $p;
+    $p = jni$_.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = jni$_.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.github.dart_lang.jnigen.SuspendInterface',
+      $p,
+      _$invokePointer,
+      [],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory SuspendInterface.implement(
+    $SuspendInterface $impl,
+  ) {
+    final $i = jni$_.JImplementer();
+    implementIn($i, $impl);
+    return SuspendInterface.fromReference(
+      $i.implementReference(),
+    );
+  }
+}
+
+abstract base mixin class $SuspendInterface {
+  factory $SuspendInterface({
+    required core$_.Future<jni$_.JString> Function() sayHello,
+    required core$_.Future<jni$_.JString> Function(jni$_.JString string)
+        sayHello$1,
+    required core$_.Future<jni$_.JString?> Function(core$_.bool z)
+        nullableHello,
+    required core$_.Future<jni$_.JInteger> Function() sayInt,
+    required core$_.Future<jni$_.JInteger> Function(jni$_.JInteger integer)
+        sayInt$1,
+    required core$_.Future<jni$_.JInteger?> Function(core$_.bool z) nullableInt,
+  }) = _$SuspendInterface;
+
+  core$_.Future<jni$_.JString> sayHello();
+  core$_.Future<jni$_.JString> sayHello$1(jni$_.JString string);
+  core$_.Future<jni$_.JString?> nullableHello(core$_.bool z);
+  core$_.Future<jni$_.JInteger> sayInt();
+  core$_.Future<jni$_.JInteger> sayInt$1(jni$_.JInteger integer);
+  core$_.Future<jni$_.JInteger?> nullableInt(core$_.bool z);
+}
+
+final class _$SuspendInterface with $SuspendInterface {
+  _$SuspendInterface({
+    required core$_.Future<jni$_.JString> Function() sayHello,
+    required core$_.Future<jni$_.JString> Function(jni$_.JString string)
+        sayHello$1,
+    required core$_.Future<jni$_.JString?> Function(core$_.bool z)
+        nullableHello,
+    required core$_.Future<jni$_.JInteger> Function() sayInt,
+    required core$_.Future<jni$_.JInteger> Function(jni$_.JInteger integer)
+        sayInt$1,
+    required core$_.Future<jni$_.JInteger?> Function(core$_.bool z) nullableInt,
+  })  : _sayHello = sayHello,
+        _sayHello$1 = sayHello$1,
+        _nullableHello = nullableHello,
+        _sayInt = sayInt,
+        _sayInt$1 = sayInt$1,
+        _nullableInt = nullableInt;
+
+  final core$_.Future<jni$_.JString> Function() _sayHello;
+  final core$_.Future<jni$_.JString> Function(jni$_.JString string) _sayHello$1;
+  final core$_.Future<jni$_.JString?> Function(core$_.bool z) _nullableHello;
+  final core$_.Future<jni$_.JInteger> Function() _sayInt;
+  final core$_.Future<jni$_.JInteger> Function(jni$_.JInteger integer)
+      _sayInt$1;
+  final core$_.Future<jni$_.JInteger?> Function(core$_.bool z) _nullableInt;
+
+  core$_.Future<jni$_.JString> sayHello() {
+    return _sayHello();
+  }
+
+  core$_.Future<jni$_.JString> sayHello$1(jni$_.JString string) {
+    return _sayHello$1(string);
+  }
+
+  core$_.Future<jni$_.JString?> nullableHello(core$_.bool z) {
+    return _nullableHello(z);
+  }
+
+  core$_.Future<jni$_.JInteger> sayInt() {
+    return _sayInt();
+  }
+
+  core$_.Future<jni$_.JInteger> sayInt$1(jni$_.JInteger integer) {
+    return _sayInt$1(integer);
+  }
+
+  core$_.Future<jni$_.JInteger?> nullableInt(core$_.bool z) {
+    return _nullableInt(z);
+  }
+}
+
+final class $SuspendInterface$NullableType$
+    extends jni$_.JType<SuspendInterface?> {
+  @jni$_.internal
+  const $SuspendInterface$NullableType$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/SuspendInterface;';
+
+  @jni$_.internal
+  @core$_.override
+  SuspendInterface? fromReference(jni$_.JReference reference) =>
+      reference.isNull
+          ? null
+          : SuspendInterface.fromReference(
+              reference,
+            );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JType<SuspendInterface?> get nullableType => this;
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($SuspendInterface$NullableType$).hashCode;
+
+  @core$_.override
+  core$_.bool operator ==(Object other) {
+    return other.runtimeType == ($SuspendInterface$NullableType$) &&
+        other is $SuspendInterface$NullableType$;
+  }
+}
+
+final class $SuspendInterface$Type$ extends jni$_.JType<SuspendInterface> {
+  @jni$_.internal
+  const $SuspendInterface$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/SuspendInterface;';
+
+  @jni$_.internal
+  @core$_.override
+  SuspendInterface fromReference(jni$_.JReference reference) =>
+      SuspendInterface.fromReference(
+        reference,
+      );
+  @jni$_.internal
+  @core$_.override
+  jni$_.JType get superType => const jni$_.$JObject$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  jni$_.JType<SuspendInterface?> get nullableType =>
+      const $SuspendInterface$NullableType$();
+
+  @jni$_.internal
+  @core$_.override
+  final superCount = 1;
+
+  @core$_.override
+  int get hashCode => ($SuspendInterface$Type$).hashCode;
+
+  @core$_.override
+  core$_.bool operator ==(Object other) {
+    return other.runtimeType == ($SuspendInterface$Type$) &&
+        other is $SuspendInterface$Type$;
   }
 }
 

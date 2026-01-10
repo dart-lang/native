@@ -81,6 +81,22 @@ extension on DeclaredType {
   }
 }
 
+extension on Method {
+  bool get isSuspendFun => asyncReturnType != null;
+
+  String returnTypeMaybeAsync(TypeVisitor<String> generator) => isSuspendFun
+      ? '$_core.Future<${asyncReturnType!.accept(generator)}>'
+      : returnType.accept(generator);
+
+  List<Param> get paramsMaybeAsync {
+    final p = params.toList();
+    if (isSuspendFun) {
+      p.removeLast();
+    }
+    return p;
+  }
+}
+
 String _newLine({int depth = 0}) {
   return '\n${'  ' * depth}';
 }
@@ -145,7 +161,7 @@ class DartGenerator extends Visitor<Classes, Future<void>> {
       'DO NOT EDIT!\n';
   static const defaultImports = '''
 import 'dart:core' as $_core;
-import 'dart:core' show Object, String, bool, double, int;
+import 'dart:core' show Object, String, double, int;
 
 import 'package:jni/_internal.dart' as $_jni;
 import 'package:jni/jni.dart' as $_jni;
@@ -730,7 +746,7 @@ final class $typeClassName$typeParamsDef extends $_jType<$name$typeParamsCall$nu
   int get hashCode => $hashCode;
 
   $_override
-  bool operator ==(Object other) {
+  $_core.bool operator ==(Object other) {
     return other.runtimeType == ($typeClassName$typeParamsCall) &&
         other is $typeClassName$typeParamsCall$equalityTypeClasses;
   }
@@ -854,6 +870,9 @@ class _TypeGenerator extends TypeVisitor<String> {
   String visitPrimitiveType(PrimitiveType node) {
     if (arrayType) {
       return node.name.capitalize();
+    }
+    if (node.name == 'boolean') {
+      return '$_core.${node.dartType}';
     }
     return node.dartType;
   }
@@ -1337,10 +1356,6 @@ ${modifier}final _$name = $_protectedExtension
 ''');
   }
 
-  bool isSuspendFun(Method node) {
-    return node.asyncReturnType != null;
-  }
-
   String constructor(Method node) {
     final name = node.finalName;
     final params = [
@@ -1447,10 +1462,7 @@ ${modifier}final _$name = $_protectedExtension
     }
 
     final name = node.finalName;
-    final returnType = isSuspendFun(node)
-        ? '$_core.Future<'
-            '${node.asyncReturnType!.accept(_TypeGenerator(resolver))}>'
-        : node.returnType.accept(_TypeGenerator(resolver));
+    final returnType = node.returnTypeMaybeAsync(_TypeGenerator(resolver));
     final ifStatic = node.isStatic && !isTopLevel ? 'static ' : '';
     final defArgs = node.params.accept(_ParamDef(resolver)).toList();
     final typeClassDef = node.typeParams
@@ -1465,14 +1477,14 @@ ${modifier}final _$name = $_protectedExtension
         .accept(const _TypeParamDef())
         .join(', ')
         .encloseIfNotEmpty('<', '>');
-    if (isSuspendFun(node)) {
+    if (node.isSuspendFun) {
       defArgs.removeLast();
       localReferences.removeLast();
     }
     final params = defArgs.delimited(', ');
     s.write('  $ifStatic$returnType $name$typeParamsDef($params$typeClassDef)');
     final callExpr = methodCall(node);
-    if (isSuspendFun(node)) {
+    if (node.isSuspendFun) {
       final returningType =
           node.asyncReturnType!.accept(_TypeGenerator(resolver));
       final returningTypeClass =
@@ -1486,13 +1498,15 @@ ${modifier}final _$name = $_protectedExtension
     ${localReferences.join(_newLine(depth: 2))}
     final \$r = $callExpr;
     _\$$continuation.release();
-    final $_jObject${isNullable ? '?' : ''} \$o;
+    $_jObject${isNullable ? '?' : ''} \$o;
     if (${isNullable ? '\$r != null && ' : ''}\$r.isInstanceOf($_jni.coroutineSingletonsClass)) {
       \$r.release();
       final \$a = await \$p.first;
       \$o = ${isNullable ? '\$a == 0 ? null :' : ''}$_jObject.fromReference(
           $_jGlobalReference($_jPointer.fromAddress(\$a)));
-      if (${isNullable ? '\$o != null && ' : ''}\$o.isInstanceOf($_jni.result\$FailureClass)) {
+      if (${isNullable ? '\$o != null && ' : ''}\$o.isInstanceOf($_jni.result\$Class)) {
+        \$o = $_jni.resultValueField.get(\$o, const ${_jObjectTypePrefix}Type\$());
+      } else if (${isNullable ? '\$o != null && ' : ''}\$o.isInstanceOf($_jni.result\$FailureClass)) {
         final \$e =
             $_jni.failureExceptionField.get(\$o, const ${_jObjectTypePrefix}Type\$());
         \$o.release();
@@ -1839,16 +1853,16 @@ class _AbstractImplMethod extends Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    final returnType = node.returnType.accept(
+    final returnType = node.returnTypeMaybeAsync(
       _TypeGenerator(resolver, forInterfaceImplementation: true),
     );
     final name = node.finalName;
-    final args = node.params
+    final args = node.paramsMaybeAsync
         .accept(_ParamDef(resolver, methodGenericErasure: true))
         .join(', ');
     s.writeln('  $returnType $name($args);');
     if (returnType == 'void') {
-      s.writeln('  bool get $name\$async => false;');
+      s.writeln('  $_core.bool get $name\$async => false;');
     }
   }
 }
@@ -1862,16 +1876,15 @@ class _ConcreteImplClosureDef extends Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    final returnType = node.returnType.accept(
-      _TypeGenerator(resolver, forInterfaceImplementation: true),
-    );
+    final returnType = node.returnTypeMaybeAsync(
+        _TypeGenerator(resolver, forInterfaceImplementation: true));
     final name = node.finalName;
-    final args = node.params
+    final args = node.paramsMaybeAsync
         .accept(_ParamDef(resolver, methodGenericErasure: true))
         .join(', ');
     s.writeln('  final $returnType Function($args) _$name;');
     if (returnType == 'void') {
-      s.writeln('  final bool $name\$async;');
+      s.writeln('  final $_core.bool $name\$async;');
     }
   }
 }
@@ -1885,16 +1898,16 @@ class _AbstractImplFactoryArg extends Visitor<Method, String> {
 
   @override
   String visit(Method node) {
-    final returnType = node.returnType.accept(
+    final returnType = node.returnTypeMaybeAsync(
       _TypeGenerator(resolver, forInterfaceImplementation: true),
     );
     final name = node.finalName;
-    final args = node.params
+    final args = node.paramsMaybeAsync
         .accept(_ParamDef(resolver, methodGenericErasure: true))
         .join(', ');
     final functionArg = 'required $returnType Function($args) $name,';
     if (node.returnType.name == 'void') {
-      return '$functionArg bool $name\$async,';
+      return '$functionArg $_core.bool $name\$async,';
     }
     return functionArg;
   }
@@ -1909,11 +1922,11 @@ class _ConcreteImplClosureCtorArg extends Visitor<Method, String> {
 
   @override
   String visit(Method node) {
-    final returnType = node.returnType.accept(
+    final returnType = node.returnTypeMaybeAsync(
       _TypeGenerator(resolver, forInterfaceImplementation: true),
     );
     final name = node.finalName;
-    final args = node.params
+    final args = node.paramsMaybeAsync
         .accept(_ParamDef(resolver, methodGenericErasure: true))
         .join(', ');
     final functionArg = 'required $returnType Function($args) $name,';
@@ -1933,14 +1946,15 @@ class _ConcreteImplMethod extends Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    final returnType = node.returnType.accept(
+    final returnType = node.returnTypeMaybeAsync(
       _TypeGenerator(resolver, forInterfaceImplementation: true),
     );
     final name = node.finalName;
-    final argsDef = node.params
+    final argsDef = node.paramsMaybeAsync
         .accept(_ParamDef(resolver, methodGenericErasure: true))
         .join(', ');
-    final argsCall = node.params.map((param) => param.finalName).join(', ');
+    final argsCall =
+        node.paramsMaybeAsync.map((param) => param.finalName).join(', ');
     s.write('''
   $returnType $name($argsDef) {
     return _$name($argsCall);
@@ -1955,23 +1969,49 @@ class _InterfaceMethodIf extends Visitor<Method, void> {
 
   _InterfaceMethodIf(this.resolver, this.s);
 
+  static String _invoke(Resolver resolver, Method node) {
+    final name = node.finalName;
+    final params = node.paramsMaybeAsync;
+    final out = StringBuffer();
+    out.write('_\$impls[\$p]!.$name(');
+    for (var i = 0; i < params.length; ++i) {
+      params[i].accept(_InterfaceParamCast(resolver, out, paramIndex: i));
+      out.writeln(',');
+    }
+    out.write(')');
+    return out.toString();
+  }
+
   @override
   void visit(Method node) {
-    final isVoid = node.returnType.name == 'void';
     final signature = node.javaSig;
-    final saveResult = isVoid ? '' : 'final \$r = ';
-    final name = node.finalName;
     s.write('''
         if (\$d == r'$signature') {
-          ${saveResult}_\$impls[\$p]!.$name(
 ''');
-    for (var i = 0; i < node.params.length; ++i) {
-      node.params[i].accept(_InterfaceParamCast(resolver, s, paramIndex: i));
-    }
+    final result = _invoke(resolver, node);
     const returnBox = _InterfaceReturnBox();
+    final returnValue = node.returnType.accept(returnBox);
+
+    if (node.isSuspendFun) {
+      final contArg = StringBuffer();
+      node.params.last.accept(_InterfaceParamCast(resolver, contArg,
+          paramIndex: node.params.length - 1));
+      s.write('''
+          final \$r = $_jni.KotlinContinuation.fromReference($contArg.reference)
+              .resumeWithFuture($result);
+          return $returnValue;
+''');
+    } else {
+      final isVoid = node.returnType.name == 'void';
+      final saveResult = isVoid ? '' : 'final \$r = ';
+      s.write('''
+          $saveResult$result
+''');
+      s.write(''';
+          return $returnValue;
+''');
+    }
     s.write('''
-          );
-          return ${node.returnType.accept(returnBox)};
         }
 ''');
   }
@@ -2026,7 +2066,6 @@ class _InterfaceParamCast extends Visitor<Param, void> {
       final name = node.type.name;
       s.write('.${name}Value(releaseOriginal: true)');
     }
-    s.writeln(',');
   }
 }
 
@@ -2116,19 +2155,19 @@ class _ComparatorGenerator extends Visitor<Method, void> {
     final paramsCall = node.params.map((param) => param.finalName).join(', ');
     final name = node.finalName;
     s.write('''
-  bool operator <($paramsDef) {
+  $_core.bool operator <($paramsDef) {
     return $name($paramsCall) < 0;
   }
 
-  bool operator <=($paramsDef) {
+  $_core.bool operator <=($paramsDef) {
     return $name($paramsCall) <= 0;
   }
 
-  bool operator >($paramsDef) {
+  $_core.bool operator >($paramsDef) {
     return $name($paramsCall) > 0;
   }
 
-  bool operator >=($paramsDef) {
+  $_core.bool operator >=($paramsDef) {
     return $name($paramsCall) >= 0;
   }
 ''');
