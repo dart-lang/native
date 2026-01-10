@@ -18,6 +18,41 @@ on:
     - cron: "0 0 * * 0" # weekly
 
 jobs:
+  dart-swiftly-clang:
+    strategy:
+      matrix:
+        os: [ubuntu]
+        sdk: [dev, stable]
+        package: [native_toolchain_c]
+    
+    runs-on: ${{ matrix.os }}-latest
+
+    defaults:
+      run:
+        working-directory: pkgs/${{ matrix.package }}
+    
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+
+      - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
+        with:
+          sdk: ${{ matrix.sdk }}
+      
+      - run: |
+          curl -O https://download.swift.org/swiftly/linux/swiftly-$(uname -m).tar.gz && \
+          tar zxf swiftly-$(uname -m).tar.gz && \
+          ./swiftly init --quiet-shell-followup -y && \
+          . "${SWIFTLY_HOME_DIR:-$HOME/.local/share/swiftly}/env.sh" && \
+          hash -r
+      
+      - name: Install the latest Swift toolchain
+        run: swiftly install latest
+      
+      - run: echo "$SWIFTLY_BIN_DIR" >> $GITHUB_PATH
+
+      - run: clang --version
+
+      - run: dart test
   dart-sdk-clang:
     strategy:
       matrix:
