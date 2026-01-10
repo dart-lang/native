@@ -5,11 +5,13 @@
 import '../../ast/_core/interfaces/compound_declaration.dart';
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/interfaces/nestable_declaration.dart';
+import '../../ast/_core/shared/parameter.dart';
 import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
 import '../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
+import '../../ast/declarations/compounds/struct_declaration.dart';
 import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
 import '../_core/utils.dart';
@@ -79,7 +81,42 @@ ClassDeclaration transformCompound(
         .nonNulls
         .toList();
 
-    final transformedInitializers = originalCompound.initializers
+    final initializersToTransform = <InitializerDeclaration>[
+      ...originalCompound.initializers,
+    ];
+
+    if (originalCompound is StructDeclaration &&
+        originalCompound.initializers.isEmpty) {
+      final storedProperties = originalCompound.properties
+          .where((prop) => prop.hasSetter && !prop.isStatic)
+          .toList();
+
+      if (storedProperties.isNotEmpty) {
+        final implicitInit = InitializerDeclaration(
+          id: '${originalCompound.id}::implicit_init',
+          source: originalCompound.source,
+          availability: originalCompound.availability,
+          params: storedProperties
+              .map(
+                (prop) => Parameter(
+                  name: prop.name,
+                  internalName: prop.name,
+                  type: prop.type,
+                ),
+              )
+              .toList(),
+          hasObjCAnnotation: true,
+          isOverriding: false,
+          throws: false,
+          async: false,
+          isFailable: false,
+        );
+
+        initializersToTransform.add(implicitInit);
+      }
+    }
+
+    final transformedInitializers = initializersToTransform
         .map(
           (initializer) => transformInitializer(
             initializer,
