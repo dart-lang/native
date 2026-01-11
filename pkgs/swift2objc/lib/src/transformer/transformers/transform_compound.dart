@@ -36,7 +36,9 @@ ClassDeclaration transformCompound(
 
   final transformedCompound = ClassDeclaration(
     id: originalCompound.id.addIdSuffix('wrapper'),
-    name: parentNamer.makeUnique('${originalCompound.name}Wrapper'),
+    name: parentNamer.makeUnique(
+      '${originalCompound.name}${state.wrapperSuffix}',
+    ),
     source: originalCompound.source,
     availability: originalCompound.availability,
     hasObjCAnnotation: true,
