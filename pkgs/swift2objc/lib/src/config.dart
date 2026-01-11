@@ -50,6 +50,19 @@ class Swift2ObjCGenerator {
   /// Includes all declarations by default
   final bool Function(Declaration declaration) include;
 
+  ///Suffix to append to wrapper class names.
+  ///
+  /// For example, with the default suffix of 'Wrapper', a Swift class named
+  /// `MyClass` will generate a wrapper class named `MyClassWrapper`.
+  ///
+  /// You can customize this to use different naming conventions:
+  /// - `'ObjC'` -> `MyClassObjC`
+  /// - `'_Wrapper'` -> `MyClass_Wrapper`
+  /// - `''` -> `MyClass` (no suffix, may cause naming conflicts)
+  ///
+  /// Defaults to 'Wrapper' for backward compatibility.
+  final String wrapperSuffix;
+
   static bool _defaultInclude(Declaration _) => true;
 
   const Swift2ObjCGenerator({
@@ -60,6 +73,7 @@ class Swift2ObjCGenerator {
     this.tempDir,
     this.preamble,
     this.include = Swift2ObjCGenerator._defaultInclude,
+    this.wrapperSuffix = 'Wrapper',
   });
 }
 

@@ -80,6 +80,7 @@ Future<void> _generateWrapper(
     context,
     declarations,
     filter: config.include,
+    wrapperSuffix: config.wrapperSuffix,
   );
   final wrapperCode = generate(
     transformedDeclarations,

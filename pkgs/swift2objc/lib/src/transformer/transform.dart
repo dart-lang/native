@@ -24,6 +24,9 @@ class TransformationState {
 
   // All the bindings to be generated.
   final bindings = <Declaration>{};
+  // Suffix to append to wrapper class names.
+  final String wrapperSuffix;
+  TransformationState({this.wrapperSuffix = 'Wrapper'});
 
   // Bindings that will be generated as stubs.
   final stubs = <Declaration>{};
@@ -34,6 +37,7 @@ List<Declaration> transform(
   Context context,
   List<Declaration> declarations, {
   required bool Function(Declaration) filter,
+  String wrapperSuffix = 'Wrapper',
 }) {
   final state = TransformationState();
 
