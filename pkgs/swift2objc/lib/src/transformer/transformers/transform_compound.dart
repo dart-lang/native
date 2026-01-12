@@ -81,42 +81,7 @@ ClassDeclaration transformCompound(
         .nonNulls
         .toList();
 
-    final initializersToTransform = <InitializerDeclaration>[
-      ...originalCompound.initializers,
-    ];
-
-    if (originalCompound is StructDeclaration &&
-        originalCompound.initializers.isEmpty) {
-      final storedProperties = originalCompound.properties
-          .where((prop) => prop.hasSetter && !prop.isStatic)
-          .toList();
-
-      if (storedProperties.isNotEmpty) {
-        final implicitInit = InitializerDeclaration(
-          id: '${originalCompound.id}::implicit_init',
-          source: originalCompound.source,
-          availability: originalCompound.availability,
-          params: storedProperties
-              .map(
-                (prop) => Parameter(
-                  name: prop.name,
-                  internalName: prop.name,
-                  type: prop.type,
-                ),
-              )
-              .toList(),
-          hasObjCAnnotation: true,
-          isOverriding: false,
-          throws: false,
-          async: false,
-          isFailable: false,
-        );
-
-        initializersToTransform.add(implicitInit);
-      }
-    }
-
-    final transformedInitializers = initializersToTransform
+    final transformedInitializers = _compoundInitializers(originalCompound)
         .map(
           (initializer) => transformInitializer(
             initializer,
@@ -158,4 +123,42 @@ ClassDeclaration transformCompound(
   }
 
   return transformedCompound;
+}
+
+List<InitializerDeclaration> _compoundInitializers(
+  CompoundDeclaration originalCompound,
+) {
+  final initializers = originalCompound.initializers;
+  if (originalCompound is! StructDeclaration || initializers.isNotEmpty) {
+    return initializers;
+  }
+  final storedProperties = originalCompound.properties
+      .where((prop) => prop.hasSetter && !prop.isStatic)
+      .toList();
+
+  if (storedProperties.isEmpty) {
+    return initializers;
+  }
+
+  final implicitInit = InitializerDeclaration(
+    id: originalCompound.id.addIdSuffix('implicit_init'),
+    source: originalCompound.source,
+    availability: originalCompound.availability,
+    params: storedProperties
+        .map(
+          (prop) => Parameter(
+            name: prop.name,
+            internalName: prop.name,
+            type: prop.type,
+          ),
+        )
+        .toList(),
+    hasObjCAnnotation: true,
+    isOverriding: false,
+    throws: false,
+    async: false,
+    isFailable: false,
+  );
+
+  return [implicitInit];
 }
