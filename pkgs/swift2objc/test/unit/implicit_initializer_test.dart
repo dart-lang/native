@@ -14,7 +14,6 @@ import 'package:test/test.dart';
 void main() {
   group('Implicit Initializer Generation', () {
     test('generates implicit init for struct with stored properties', () {
-      // Arrange
       final struct = StructDeclaration(
         id: 'TestStruct',
         name: 'Person',
@@ -43,11 +42,9 @@ void main() {
         initializers: [],
       );
 
-      // Act
       final state = TransformationState();
       final result = transformCompound(struct, UniqueNamer(), state);
 
-      // Assert
       expect(result.initializers.length, equals(1));
       expect(result.initializers.first.params.length, equals(2));
       expect(result.initializers.first.params[0].name, equals('name'));
@@ -55,7 +52,6 @@ void main() {
     });
 
     test('does not generate implicit init when explicit init exists', () {
-      // Arrange - struct with explicit initializer
       final struct = StructDeclaration(
         id: 'TestStruct',
         name: 'Person',
@@ -88,16 +84,13 @@ void main() {
         ],
       );
 
-      // Act
       final state = TransformationState();
       final result = transformCompound(struct, UniqueNamer(), state);
 
-      // Assert - should only have the 1 explicit init, not generate implicit
       expect(result.initializers.length, equals(1));
     });
 
     test('excludes static properties from implicit init', () {
-      // Arrange
       final struct = StructDeclaration(
         id: 'TestStruct',
         name: 'Config',
@@ -120,24 +113,21 @@ void main() {
             availability: [],
             type: stringType,
             hasSetter: true,
-            isStatic: true, // Static property
+            isStatic: true,
           ),
         ],
         initializers: [],
       );
 
-      // Act
       final state = TransformationState();
       final result = transformCompound(struct, UniqueNamer(), state);
 
-      // Assert - should only have 1 parameter (non-static one)
       expect(result.initializers.length, equals(1));
       expect(result.initializers.first.params.length, equals(1));
       expect(result.initializers.first.params[0].name, equals('name'));
     });
 
     test('excludes computed properties (no setter) from implicit init', () {
-      // Arrange
       final struct = StructDeclaration(
         id: 'TestStruct',
         name: 'Person',
@@ -159,18 +149,16 @@ void main() {
             source: null,
             availability: [],
             type: stringType,
-            hasSetter: false, // Computed property - no setter
+            hasSetter: false,
             isStatic: false,
           ),
         ],
         initializers: [],
       );
 
-      // Act
       final state = TransformationState();
       final result = transformCompound(struct, UniqueNamer(), state);
 
-      // Assert - should only have 1 parameter (stored property)
       expect(result.initializers.length, equals(1));
       expect(result.initializers.first.params.length, equals(1));
       expect(result.initializers.first.params[0].name, equals('firstName'));
