@@ -146,11 +146,8 @@ List<InitializerDeclaration> _compoundInitializers(
     availability: originalCompound.availability,
     params: storedProperties
         .map(
-          (prop) => Parameter(
-            name: prop.name,
-            internalName: prop.name,
-            type: prop.type,
-          ),
+          (prop) =>
+              Parameter(name: prop.name, internalName: null, type: prop.type),
         )
         .toList(),
     hasObjCAnnotation: true,
