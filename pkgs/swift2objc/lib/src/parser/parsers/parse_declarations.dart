@@ -104,7 +104,8 @@ Declaration parseDeclaration(
       parsedSymbol,
       symbolgraph,
     ),
-    _ => throw Exception('Symbol of type $symbolType is not implemented yet.'),
+    _ => throw Exception('Symbol of type $symbolType is not implemented yet: '
+        '${parseSymbolId(symbolJson)}'),
   };
 
   return parsedSymbol.declaration!;
