@@ -8,8 +8,8 @@ library;
 import 'dart:async';
 import 'dart:ffi';
 
-import 'package:test/test.dart';
 import 'package:objective_c/objective_c.dart';
+import 'package:test/test.dart';
 
 import 'callbacks_bindings.dart';
 import 'util.dart';
@@ -25,13 +25,11 @@ void main() {
     test('callback', () async {
       final result = Completer<String>();
       TestMessageService.fetchGreetingWithCompletion(
-        ObjCBlock_ffiVoid_NSString.listener(
-          (NSString msg) {
-            result.complete(msg.toDartString());
-          }
-        ),
+        ObjCBlock_ffiVoid_NSString.listener((NSString msg) {
+          result.complete(msg.toDartString());
+        }),
       );
-      expect(await result.future, "Hello from Swift!");
+      expect(await result.future, 'Hello from Swift!');
     });
   });
 }

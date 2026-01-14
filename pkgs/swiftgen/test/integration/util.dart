@@ -39,8 +39,8 @@ class TestGenerator {
   late final String actualOutputFile;
   final bool isObjCCompatible;
 
-  TestGenerator(this.name) :
-      isObjCCompatible = objCCompatibleTests.contains(name) {
+  TestGenerator(this.name)
+    : isObjCCompatible = objCCompatibleTests.contains(name) {
     testDir = path.absolute(path.join(pkgDir, 'test/integration'));
     tempDir = path.join(testDir, 'temp');
     inputFile = path.join(testDir, '$name.swift');
@@ -58,12 +58,14 @@ class TestGenerator {
       await SwiftGenerator(
         target: await hostTarget,
         inputs: [
-        isObjCCompatible ?
-          ObjCCompatibleSwiftFileInput(files: [Uri.file(inputFile)]) :
-          SwiftFileInput(files: [Uri.file(inputFile)]),
+          isObjCCompatible
+              ? ObjCCompatibleSwiftFileInput(files: [Uri.file(inputFile)])
+              : SwiftFileInput(files: [Uri.file(inputFile)]),
         ],
         output: Output(
-          swiftWrapperFile: isObjCCompatible?null:SwiftWrapperFile(path: Uri.file(wrapperFile)),
+          swiftWrapperFile: isObjCCompatible
+              ? null
+              : SwiftWrapperFile(path: Uri.file(wrapperFile)),
           module: name,
           dartFile: Uri.file(outputFile),
           objectiveCFile: Uri.file(outputObjCFile),

@@ -8,8 +8,8 @@ library;
 import 'dart:async';
 import 'dart:ffi';
 
-import 'package:test/test.dart';
 import 'package:objective_c/objective_c.dart';
+import 'package:test/test.dart';
 
 import 'protocols_bindings.dart';
 import 'util.dart';
@@ -27,10 +27,10 @@ void main() {
       final delegate = TestWeatherServiceDelegate$Builder.implementAsListener(
         didUpdateWeather_: (NSString msg) {
           result.complete(msg.toDartString());
-        }
+        },
       );
       TestWeatherService.fetchWeatherWithDelegate(delegate);
-      expect(await result.future, "Sunny, 25°C");
+      expect(await result.future, 'Sunny, 25°C');
     });
   });
 }
