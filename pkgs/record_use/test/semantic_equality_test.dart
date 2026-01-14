@@ -267,4 +267,39 @@ void main() {
       isFalse,
     );
   });
+
+  test('CallWithArguments positional arguments different length', () {
+    final recordings1 = Recordings(
+      metadata: metadata,
+      callsForDefinition: {
+        definition1: [
+          const CallWithArguments(
+            positionalArguments: [IntConstant(1)],
+            namedArguments: {},
+            loadingUnit: null,
+            location: Location(uri: 'package:a/a.dart', line: 1, column: 1),
+          ),
+        ],
+      },
+      instancesForDefinition: const {},
+    );
+    final recordings2 = Recordings(
+      metadata: metadata,
+      callsForDefinition: {
+        definition1: [
+          const CallWithArguments(
+            positionalArguments: [IntConstant(1), IntConstant(2)],
+            namedArguments: {},
+            loadingUnit: null,
+            location: Location(uri: 'package:a/a.dart', line: 1, column: 1),
+          ),
+        ],
+      },
+      instancesForDefinition: const {},
+    );
+    expect(
+      recordings1.semanticEquals(recordings2),
+      isFalse,
+    );
+  });
 }
