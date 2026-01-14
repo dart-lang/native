@@ -4,11 +4,17 @@
 
 import '../../../config.dart';
 import '../../_core/interfaces/availability.dart';
-import '../../_core/interfaces/enum_declaration.dart';
+import '../../_core/interfaces/compound_declaration.dart';
+import '../../_core/interfaces/declaration.dart';
 import '../../_core/interfaces/nestable_declaration.dart';
+import '../../_core/interfaces/parameterizable.dart';
+import '../../_core/shared/parameter.dart';
 import '../../_core/shared/referred_type.dart';
 import '../../ast_node.dart';
-import '../compounds/protocol_declaration.dart';
+import 'members/initializer_declaration.dart';
+import 'members/method_declaration.dart';
+import 'members/property_declaration.dart';
+import 'protocol_declaration.dart';
 
 /// Describes the declaration of a Swift enum.
 class EnumDeclaration extends AstNode implements CompoundDeclaration {
@@ -24,7 +30,7 @@ class EnumDeclaration extends AstNode implements CompoundDeclaration {
   @override
   List<AvailabilityInfo> availability;
 
-  List<EnumCase> cases;
+  List<EnumCaseDeclaration> cases;
 
   @override
   List<PropertyDeclaration> properties;
@@ -56,15 +62,14 @@ class EnumDeclaration extends AstNode implements CompoundDeclaration {
     required this.properties,
     required this.methods,
     required this.initializers,
-    required this.typeParams,
-    required this.conformedProtocols,
+    this.conformedProtocols = const [],
+    this.typeParams = const [],
     this.nestingParent,
     this.nestedDeclarations = const [],
   });
 
   @override
-  void visit(Visitation visitation) =>
-      visitation.visitEnumDeclaration(this);
+  void visit(Visitation visitation) => visitation.visitEnumDeclaration(this);
 
   @override
   void visitChildren(Visitor visitor) {
@@ -81,7 +86,8 @@ class EnumDeclaration extends AstNode implements CompoundDeclaration {
 }
 
 /// Describes the declaration of a Swift enum case.
-class EnumCase extends AstNode implements Declaration, Parameterizable {
+class EnumCaseDeclaration extends AstNode
+    implements Declaration, Parameterizable {
   @override
   String id;
 
@@ -97,12 +103,22 @@ class EnumCase extends AstNode implements Declaration, Parameterizable {
   @override
   List<EnumCaseParam> params;
 
-  EnumCase({
+  EnumCaseDeclaration({
     required this.id,
     required this.name,
     required this.source,
     required this.availability,
+    required this.params,
   });
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visitAll(params);
+  }
+
+  @override
+  String toString() => '$name(${params.map((p) => '$p').join(', ')})';
 }
 
 /// Describes an associated value of a Swift enum case.
@@ -123,4 +139,7 @@ class EnumCaseParam extends AstNode implements Parameter {
     super.visitChildren(visitor);
     visitor.visit(type);
   }
+
+  @override
+  String toString() => '${name == '' ? '' : '$name: '}$type';
 }

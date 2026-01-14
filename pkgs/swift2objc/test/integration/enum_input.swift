@@ -26,7 +26,7 @@ public enum Status: String {
 
 // Enum with associated values.
 public enum Barcode {
-    case upc(Int, Int, Int, Int)
+    case upc(numberSystem: Int, manufacturer: Int, product: Int, check: Int)
     case qrCode(String)
 }
 
@@ -48,14 +48,10 @@ public enum TrafficLight {
 
     public init?(colorName: String) {
         switch colorName.lowercased() {
-        case "red":
-            self = .red
-        case "yellow":
-            self = .yellow
-        case "green":
-            self = .green
-        default:
-            return nil
+            case "red": self = .red
+            case "yellow": self = .yellow
+            case "green": self = .green
+            default: return nil
         }
     }
 

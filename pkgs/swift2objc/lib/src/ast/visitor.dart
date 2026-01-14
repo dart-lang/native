@@ -11,12 +11,12 @@ import '_core/shared/referred_type.dart';
 import 'ast_node.dart';
 import 'declarations/built_in/built_in_declaration.dart';
 import 'declarations/compounds/class_declaration.dart';
+import 'declarations/compounds/enum_declaration.dart';
 import 'declarations/compounds/members/initializer_declaration.dart';
 import 'declarations/compounds/members/method_declaration.dart';
 import 'declarations/compounds/members/property_declaration.dart';
 import 'declarations/compounds/protocol_declaration.dart';
 import 'declarations/compounds/struct_declaration.dart';
-import 'declarations/compounds/enum_declaration.dart';
 import 'declarations/globals/globals.dart';
 import 'declarations/typealias_declaration.dart';
 

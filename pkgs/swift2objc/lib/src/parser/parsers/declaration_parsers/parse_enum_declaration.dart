@@ -2,10 +2,14 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../../../ast/_core/interfaces/enum_declaration.dart';
-import '../../../ast/declarations/enums/associated_value_enum_declaration.dart';
-import '../../../ast/declarations/enums/normal_enum_declaration.dart';
-import '../../../ast/declarations/enums/raw_value_enum_declaration.dart';
+import '../../../ast/_core/interfaces/availability.dart';
+import '../../../ast/declarations/compounds/enum_declaration.dart';
+import '../../../config.dart';
+import '../../../context.dart';
+import '../../_core/parsed_symbolgraph.dart';
+import '../../_core/utils.dart';
+import 'parse_compound_declaration.dart';
+import 'parse_function_declaration.dart';
 
 EnumDeclaration parseEnumDeclaration(
   Context context,
@@ -33,9 +37,7 @@ EnumDeclaration parseEnumDeclaration(
       nestedDeclarations: [],
     ),
   );
-  enumDecl.cases.addAll(
-    excessMembers.removeWhereType<EnumCaseDeclaration>(),
-  );
+  enumDecl.cases.addAll(excessMembers.removeWhereType<EnumCaseDeclaration>());
   return enumDecl;
 }
 
@@ -44,4 +46,19 @@ EnumCaseDeclaration parseEnumCaseDeclaration(
   ParsedSymbol symbol,
   ParsedSymbolgraph symbolgraph,
 ) {
+  return EnumCaseDeclaration(
+    id: parseSymbolId(symbol.json),
+    name: parseSymbolName(symbol.json),
+    source: symbol.source,
+    availability: parseAvailability(symbol.json),
+    params:
+        parseFunctionInfo(
+              context,
+              symbol.json['declarationFragments'],
+              symbolgraph,
+              isEnumCase: true,
+            ).params
+            .map((param) => EnumCaseParam(name: param.name, type: param.type))
+            .toList(),
+  );
 }

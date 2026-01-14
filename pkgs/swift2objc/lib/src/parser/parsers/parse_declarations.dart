@@ -114,21 +114,21 @@ Declaration parseDeclaration(
       parsedSymbol,
       symbolgraph,
     ),
-    'swift.enum' => parseEnumDeclaration(
-      context,
-      parsedSymbol,
-      symbolgraph,
-    ),
+    'swift.enum' => parseEnumDeclaration(context, parsedSymbol, symbolgraph),
     'swift.enum.case' => parseEnumCaseDeclaration(
       context,
       parsedSymbol,
       symbolgraph,
     ),
-    'swift.func.op' =>
-        throw UnsupportedSymbolException('Operator overloading is not supported yet: '
-        '${parseSymbolId(symbolJson)}', isWarning: true),
-    _ => throw UnsupportedSymbolException('Symbol of type $symbolType is not supported yet: '
-        '${parseSymbolId(symbolJson)}'),
+    'swift.func.op' => throw UnsupportedSymbolException(
+      'Operator overloading is not supported yet: '
+      '${parseSymbolId(symbolJson)}',
+      isWarning: true,
+    ),
+    _ => throw UnsupportedSymbolException(
+      'Symbol of type $symbolType is not supported yet: '
+      '${parseSymbolId(symbolJson)}',
+    ),
   };
 
   return parsedSymbol.declaration!;

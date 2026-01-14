@@ -4,6 +4,7 @@
 
 import '../../../ast/_core/interfaces/availability.dart';
 import '../../../ast/_core/interfaces/compound_declaration.dart';
+import '../../../ast/_core/interfaces/declaration.dart';
 import '../../../ast/_core/interfaces/nestable_declaration.dart';
 import '../../../ast/declarations/compounds/class_declaration.dart';
 import '../../../ast/declarations/compounds/members/initializer_declaration.dart';
@@ -24,10 +25,7 @@ typedef CompoundTearOff<T extends CompoundDeclaration> =
       required List<AvailabilityInfo> availability,
     });
 
-typedef ParsedCompound<T> = ({
-  T compound,
-  List<Declaration> excessMembers,
-});
+typedef ParsedCompound<T> = ({T compound, List<Declaration> excessMembers});
 
 ParsedCompound<T> parseCompoundDeclaration<T extends CompoundDeclaration>(
   Context context,
@@ -86,7 +84,7 @@ ParsedCompound<T> parseCompoundDeclaration<T extends CompoundDeclaration>(
 
   compound.nestedDeclarations.fillNestingParents(compound);
 
-  return (compound, memberDeclarations);
+  return (compound: compound, excessMembers: memberDeclarations);
 }
 
 ClassDeclaration parseClassDeclaration(
