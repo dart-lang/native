@@ -219,6 +219,9 @@ final class CallWithArguments extends CallReference {
   }) {
     switch (other) {
       case CallWithArguments():
+        if (positionalArguments.length != other.positionalArguments.length) {
+          return false;
+        }
         for (final (index, argument) in other.positionalArguments.indexed) {
           if (argument == null && allowMoreConstArguments) {
             continue;
