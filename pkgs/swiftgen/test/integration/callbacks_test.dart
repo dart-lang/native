@@ -31,5 +31,15 @@ void main() {
       );
       expect(await result.future, 'Hello from Swift!');
     });
+
+    test('async', () async {
+      final result = Completer<String>();
+      TestMessageService.fetchGreetingAsyncWithCompletionHandler(
+        ObjCBlock_ffiVoid_NSString.listener((NSString msg) {
+          result.complete(msg.toDartString());
+        }),
+      );
+      expect(await result.future, 'Hello from Swift async!');
+    });
   });
 }

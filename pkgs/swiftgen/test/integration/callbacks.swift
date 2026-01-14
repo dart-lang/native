@@ -6,4 +6,9 @@ import Foundation
             completion("Hello from Swift!")
         }
     }
+
+    @objc static func fetchGreetingAsync() async -> String {
+        try? await Task.sleep(for: .seconds(0.1))
+        return "Hello from Swift async!"
+    }
 }

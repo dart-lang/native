@@ -319,6 +319,9 @@ final _objc_msgSend_f167m6 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCBlockImpl>,
       )
     >();
+late final _sel_fetchGreetingAsyncWithCompletionHandler_ = objc.registerName(
+  "fetchGreetingAsyncWithCompletionHandler:",
+);
 typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
 typedef Dartinstancetype = objc.ObjCObject;
 late final _sel_init = objc.registerName("init");
@@ -396,6 +399,17 @@ extension type TestMessageService._(objc.ObjCObject object$)
       zone,
     );
     return TestMessageService.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// fetchGreetingAsyncWithCompletionHandler:
+  static void fetchGreetingAsyncWithCompletionHandler(
+    objc.ObjCBlock<ffi.Void Function(objc.NSString)> completionHandler,
+  ) {
+    _objc_msgSend_f167m6(
+      _class_TestMessageService,
+      _sel_fetchGreetingAsyncWithCompletionHandler_,
+      completionHandler.ref.pointer,
+    );
   }
 
   /// fetchGreetingWithCompletion:
