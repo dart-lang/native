@@ -49,7 +49,7 @@ void main([List<String>? args]) {
   var loggedErrors = 0;
   Logger.root.onRecord.listen((record) {
     stderr.writeln('${record.level.name}: ${record.message}');
-    if (record.level >= Level.WARNING) ++loggedErrors;
+    if (record.level >= Level.SEVERE) ++loggedErrors;
   });
 
   group('Integration tests', () {

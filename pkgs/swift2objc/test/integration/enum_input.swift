@@ -46,6 +46,19 @@ public enum Beverage: CaseIterable {
 public enum TrafficLight {
     case red, yellow, green
 
+    public init?(colorName: String) {
+        switch colorName.lowercased() {
+        case "red":
+            self = .red
+        case "yellow":
+            self = .yellow
+        case "green":
+            self = .green
+        default:
+            return nil
+        }
+    }
+
     public var instruction: String {
         switch self {
             case .red: return "Stop"

@@ -22,17 +22,18 @@ typedef CompoundTearOff<T extends CompoundDeclaration> =
       required String name,
       required InputConfig? source,
       required List<AvailabilityInfo> availability,
-      required List<PropertyDeclaration> properties,
-      required List<MethodDeclaration> methods,
-      required List<InitializerDeclaration> initializers,
-      required List<InnerNestableDeclaration> nestedDeclarations,
     });
 
-T _parseCompoundDeclaration<T extends CompoundDeclaration>(
+typedef ParsedCompound<T> = ({
+  T compound,
+  List<Declaration> excessMembers,
+});
+
+ParsedCompound<T> parseCompoundDeclaration<T extends CompoundDeclaration>(
   Context context,
   ParsedSymbol symbol,
-  CompoundTearOff<T> tearoffConstructor,
   ParsedSymbolgraph symbolgraph,
+  CompoundTearOff<T> tearoffConstructor,
 ) {
   final compoundId = parseSymbolId(symbol.json);
 
@@ -44,10 +45,6 @@ T _parseCompoundDeclaration<T extends CompoundDeclaration>(
     name: parseSymbolName(symbol.json),
     source: symbol.source,
     availability: parseAvailability(symbol.json),
-    methods: [],
-    properties: [],
-    initializers: [],
-    nestedDeclarations: [],
   );
 
   symbol.declaration = compound;
@@ -71,25 +68,25 @@ T _parseCompoundDeclaration<T extends CompoundDeclaration>(
       .toList();
 
   compound.methods.addAll(
-    memberDeclarations.whereType<MethodDeclaration>().dedupeBy(
+    memberDeclarations.removeWhereType<MethodDeclaration>().dedupeBy(
       (m) => m.fullName,
     ),
   );
   compound.properties.addAll(
-    memberDeclarations.whereType<PropertyDeclaration>(),
+    memberDeclarations.removeWhereType<PropertyDeclaration>(),
   );
   compound.initializers.addAll(
-    memberDeclarations.whereType<InitializerDeclaration>().dedupeBy(
+    memberDeclarations.removeWhereType<InitializerDeclaration>().dedupeBy(
       (m) => m.fullName,
     ),
   );
   compound.nestedDeclarations.addAll(
-    memberDeclarations.whereType<InnerNestableDeclaration>(),
+    memberDeclarations.removeWhereType<InnerNestableDeclaration>(),
   );
 
   compound.nestedDeclarations.fillNestingParents(compound);
 
-  return compound;
+  return (compound, memberDeclarations);
 }
 
 ClassDeclaration parseClassDeclaration(
@@ -97,12 +94,26 @@ ClassDeclaration parseClassDeclaration(
   ParsedSymbol classSymbol,
   ParsedSymbolgraph symbolgraph,
 ) {
-  return _parseCompoundDeclaration(
+  return parseCompoundDeclaration(
     context,
     classSymbol,
-    ClassDeclaration.new,
     symbolgraph,
-  );
+    ({
+      required String id,
+      required String name,
+      required InputConfig? source,
+      required List<AvailabilityInfo> availability,
+    }) => ClassDeclaration(
+      id: id,
+      name: name,
+      source: source,
+      availability: availability,
+      properties: [],
+      methods: [],
+      initializers: [],
+      nestedDeclarations: [],
+    ),
+  ).compound;
 }
 
 StructDeclaration parseStructDeclaration(
@@ -110,10 +121,24 @@ StructDeclaration parseStructDeclaration(
   ParsedSymbol classSymbol,
   ParsedSymbolgraph symbolgraph,
 ) {
-  return _parseCompoundDeclaration(
+  return parseCompoundDeclaration(
     context,
     classSymbol,
-    StructDeclaration.new,
     symbolgraph,
-  );
+    ({
+      required String id,
+      required String name,
+      required InputConfig? source,
+      required List<AvailabilityInfo> availability,
+    }) => StructDeclaration(
+      id: id,
+      name: name,
+      source: source,
+      availability: availability,
+      properties: [],
+      methods: [],
+      initializers: [],
+      nestedDeclarations: [],
+    ),
+  ).compound;
 }
