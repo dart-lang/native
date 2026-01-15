@@ -6,6 +6,7 @@
 library;
 
 export 'code_generator/binding.dart';
+export 'code_generator/bindings_index.dart';
 export 'code_generator/compound.dart';
 export 'code_generator/constant.dart';
 export 'code_generator/enum_class.dart';

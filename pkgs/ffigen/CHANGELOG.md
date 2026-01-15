@@ -13,9 +13,8 @@
 - __Breaking change__: Dart const values will be generated for global variables
   marked const in C (e.g. static const int) instead of symbol lookups. This
   supports integers, doubles, and string literals. Including the variable name
-  in the globals -> symbol-address configuration will still generate symbol 
+  in the globals -> symbol-address configuration will still generate symbol
   lookups.
-
 
 ## 20.1.1
 

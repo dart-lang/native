@@ -9,13 +9,9 @@ import '../../code_generator.dart';
 import '../../context.dart';
 import '../../strings.dart' as strings;
 import '../clang_bindings/clang_bindings.dart' as clang_types;
-import '../sub_parsers/compounddecl_parser.dart';
-import '../sub_parsers/enumdecl_parser.dart';
 import '../sub_parsers/function_type_param_parser.dart';
 import '../sub_parsers/objc_block_parser.dart';
-import '../sub_parsers/objcinterfacedecl_parser.dart';
-import '../sub_parsers/objcprotocoldecl_parser.dart';
-import '../sub_parsers/typedefdecl_parser.dart';
+import '../translation_unit_parser.dart';
 import '../type_extractor/cxtypekindmap.dart';
 import '../utils.dart';
 
@@ -57,8 +53,8 @@ Type getCodeGenType(
           final protocols = <ObjCProtocol>[];
           for (var i = 0; i < numProtocols; ++i) {
             final pdecl = clang.clang_Type_getObjCProtocolDecl(pt, i);
-            final p = parseObjCProtocolDeclaration(context, pdecl);
-            if (p != null) protocols.add(p);
+            final p = parseCursor(context, pdecl);
+            if (p != null) protocols.add(p as ObjCProtocol);
           }
           if (protocols.isNotEmpty) {
             return ObjCObjectPointerWithProtocols(protocols);
@@ -80,12 +76,7 @@ Type getCodeGenType(
   // any potential cycles, and dedupe the Type.
   final cursor = clang.clang_getTypeDeclaration(cxtype);
   if (cursor.kind != clang_types.CXCursorKind.CXCursor_NoDeclFound) {
-    final type = _createTypeFromCursor(context, cxtype, cursor);
-    if (type == null) {
-      return UnimplementedType('${cxtype.kindSpelling()} not implemented');
-    }
-    _fillFromCursorIfNeeded(context, type, cursor);
-    return type;
+    return _createTypeFromCursor(context, cursor);
   }
 
   // If the type doesn't have a declaration cursor, then it's a basic type such
@@ -163,112 +154,24 @@ Type getCodeGenType(
   }
 }
 
-Type? _createTypeFromCursor(
-  Context context,
-  clang_types.CXType cxtype,
-  clang_types.CXCursor cursor,
-) {
-  final logger = context.logger;
-  final config = context.config;
+Type _createTypeFromCursor(Context context, clang_types.CXCursor cursor) {
   final usr = cursor.usr();
-  if (config.importedTypesByUsr.containsKey(usr)) {
-    logger.fine('  Type $usr mapped from usr');
-    return config.importedTypesByUsr[usr]!;
+  final importedType = context.config.importedTypesByUsr[usr];
+  if (importedType != null) {
+    context.logger.fine('  Type $usr mapped from usr');
+    return importedType;
   }
-  switch (cxtype.kind) {
-    case clang_types.CXTypeKind.CXType_Typedef:
-      final spelling = clang.clang_getTypedefName(cxtype).toStringAndDispose();
-      if (config.objectiveC != null && spelling == strings.objcBOOL) {
-        // Objective C's BOOL type can be either bool or signed char, depending
-        // on the platform. We want to present a consistent API to the user, and
-        // those two types are ABI compatible, so just return bool regardless.
-        return BooleanType();
-      }
-      if (config.typedefTypeMappings.containsKey(spelling)) {
-        logger.fine('  Type $spelling mapped from type-map');
-        return config.typedefTypeMappings[spelling]!;
-      }
-      // Get name from supported typedef name if config allows.
-      if (config.typedefs.useSupportedTypedefs) {
-        if (suportedTypedefToSuportedNativeType.containsKey(spelling)) {
-          logger.fine('  Type Mapped from supported typedef');
-          return NativeType(suportedTypedefToSuportedNativeType[spelling]!);
-        } else if (supportedTypedefToImportedType.containsKey(spelling)) {
-          logger.fine('  Type Mapped from supported typedef');
-          return supportedTypedefToImportedType[spelling]!;
-        }
-      }
 
-      final typealias = parseTypedefDeclaration(context, cursor);
-
-      if (typealias.isAnonymous) {
-        // Use underlying type if typealias couldn't be created or if the user
-        // excluded this typedef.
-        final ct = clang.clang_getTypedefDeclUnderlyingType(cursor);
-        return getCodeGenType(context, ct);
-      } else {
-        return typealias;
-      }
-    case clang_types.CXTypeKind.CXType_Record:
-      return _extractfromRecord(context, cxtype, cursor);
-    case clang_types.CXTypeKind.CXType_Enum:
-      final enumClass = parseEnumDeclaration(cursor, context);
-      if (enumClass.isAnonymous) {
-        return enumClass.nativeType;
-      } else {
-        return enumClass;
-      }
-    case clang_types.CXTypeKind.CXType_ObjCInterface:
-    case clang_types.CXTypeKind.CXType_ObjCObject:
-      return parseObjCInterfaceDeclaration(context, cursor);
-    default:
-      return UnimplementedType('Unknown type: ${cxtype.completeStringRepr()}');
-  }
-}
-
-void _fillFromCursorIfNeeded(
-  Context context,
-  Type? type,
-  clang_types.CXCursor cursor,
-) {
-  if (type == null) return;
-  if (type is Compound) {
-    fillCompoundMembersIfNeeded(type, cursor, context);
-  } else if (type is ObjCInterface) {
-    fillObjCInterfaceMethodsIfNeeded(context, type, cursor);
-  }
-}
-
-Type? _extractfromRecord(
-  Context context,
-  clang_types.CXType cxtype,
-  clang_types.CXCursor cursor,
-) {
-  final logger = context.logger;
-  final config = context.config;
-  logger.fine('${_padding}_extractfromRecord: ${cursor.completeStringRepr()}');
-
-  final declSpelling = cursor.spelling();
-  final cursorKind = clang.clang_getCursorKind(cursor);
-  if (cursorKind == clang_types.CXCursorKind.CXCursor_StructDecl) {
-    if (config.structTypeMappings.containsKey(declSpelling)) {
-      logger.fine('  Type Mapped from type-map');
-      return config.structTypeMappings[declSpelling]!;
+  final type = parseCursor(context, cursor);
+  if (type is Type) {
+    if (type is EnumClass && type.isAnonymous) {
+      return type.nativeType;
+    } else if (type is Typealias && type.isAnonymous) {
+      return type.type;
     }
-    return parseStructDeclaration(cursor, context);
-  } else if (cursorKind == clang_types.CXCursorKind.CXCursor_UnionDecl) {
-    if (config.unionTypeMappings.containsKey(declSpelling)) {
-      logger.fine('  Type Mapped from type-map');
-      return config.unionTypeMappings[declSpelling]!;
-    }
-    return parseUnionDeclaration(cursor, context);
+    return type;
   }
-
-  logger.fine(
-    'typedeclarationCursorVisitor: _extractfromRecord: '
-    'Not Implemented, ${cursor.completeStringRepr()}',
-  );
-  return UnimplementedType('${cxtype.kindSpelling()} not implemented');
+  return UnimplementedType('Unknown type: ${cursor.completeStringRepr()}');
 }
 
 // Used for function pointer arguments.

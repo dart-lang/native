@@ -7,21 +7,18 @@ import '../../config_provider/config.dart';
 import '../../config_provider/config_types.dart';
 import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
+import '../translation_unit_parser.dart';
 import '../utils.dart';
 import 'api_availability.dart';
-import 'objcprotocoldecl_parser.dart';
 
 String applyModulePrefix(String name, String? module) =>
     module == null ? name : '$module.$name';
 
-Type? parseObjCInterfaceDeclaration(
+CachableBinding? parseObjCInterfaceDeclaration(
   Context context,
   clang_types.CXCursor cursor,
 ) {
   final usr = cursor.usr();
-
-  final cachedItf = context.bindingsIndex.getSeenObjCInterface(usr);
-  if (cachedItf != null) return cachedItf;
 
   final name = cursor.spelling();
   final decl = Declaration(usr: usr, originalName: name);
@@ -52,8 +49,10 @@ Type? parseObjCInterfaceDeclaration(
     ),
     apiAvailability: apiAvailability,
   );
-  context.bindingsIndex.addObjCInterfaceToSeen(usr, itf);
-  return itf;
+  return CachableBinding(
+    itf,
+    () => fillObjCInterfaceMethodsIfNeeded(context, itf, cursor),
+  );
 }
 
 void fillObjCInterfaceMethodsIfNeeded(
@@ -84,8 +83,10 @@ void fillObjCInterfaceMethodsIfNeeded(
         _parseSuperType(context, child, itf);
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCProtocolRef:
-        final protoCursor = clang.clang_getCursorDefinition(child);
-        itf.addProtocol(parseObjCProtocolDeclaration(context, protoCursor));
+        final p = parseCursor(context, clang.clang_getCursorDefinition(child));
+        if (p is ObjCProtocol) {
+          itf.addProtocol(p);
+        }
         break;
       case clang_types.CXCursorKind.CXCursor_ObjCPropertyDecl:
         final (getter, setter) = parseObjCProperty(
