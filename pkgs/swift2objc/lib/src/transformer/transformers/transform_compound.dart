@@ -49,21 +49,19 @@ ClassDeclaration transformCompound(
 
   state.map[originalCompound] = transformedCompound;
 
-  transformedCompound.nestedDeclarations =
-      originalCompound.nestedDeclarations
-          .map(
-            (nested) =>
-                maybeTransformDeclaration(
-                      nested,
-                      compoundNamer,
-                      state,
-                      nested: true,
-                    )
-                    as InnerNestableDeclaration?,
-          )
-          .nonNulls
-          .toList()
-        ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+  transformedCompound.nestedDeclarations = originalCompound.nestedDeclarations
+      .map(
+        (nested) =>
+            maybeTransformDeclaration(
+                  nested,
+                  compoundNamer,
+                  state,
+                  nested: true,
+                )
+                as InnerNestableDeclaration?,
+      )
+      .nonNulls
+      .sortedById();
   transformedCompound.nestedDeclarations.fillNestingParents(
     transformedCompound,
   );
@@ -104,19 +102,22 @@ ClassDeclaration transformCompound(
         .nonNulls
         .toList();
 
-    transformedCompound.properties =
-        transformedProperties.whereType<PropertyDeclaration>().toList()
-          ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+    transformedCompound.properties = transformedProperties
+        .removeWhereType<PropertyDeclaration>()
+        .sortedById();
 
-    transformedCompound.initializers =
-        transformedInitializers.whereType<InitializerDeclaration>().toList()
-          ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+    transformedCompound.initializers = transformedInitializers
+        .removeWhereType<InitializerDeclaration>()
+        .sortedById();
 
-    transformedCompound.methods =
-        (transformedMethods +
-              transformedProperties.whereType<MethodDeclaration>().toList() +
-              transformedInitializers.whereType<MethodDeclaration>().toList())
-          ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+    transformedCompound.methods = [
+      ...transformedMethods,
+      ...transformedProperties.removeWhereType<MethodDeclaration>(),
+      ...transformedInitializers.removeWhereType<MethodDeclaration>(),
+    ].sortedById();
+
+    assert(transformedProperties.isEmpty);
+    assert(transformedInitializers.isEmpty);
   }
 
   return transformedCompound;

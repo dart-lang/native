@@ -103,7 +103,8 @@ abstract class Visitation {
       visitCompoundDeclaration(node);
   void visitStructDeclaration(StructDeclaration node) =>
       visitCompoundDeclaration(node);
-  void visitEnumDeclaration(EnumDeclaration node) => visitDeclaration(node);
+  void visitEnumDeclaration(EnumDeclaration node) =>
+      visitCompoundDeclaration(node);
   void visitTypealiasDeclaration(TypealiasDeclaration node) =>
       visitDeclaration(node);
 
