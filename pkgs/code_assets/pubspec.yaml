@@ -24,7 +24,7 @@ dependencies:
   hooks: ^1.0.0
 
 dev_dependencies:
-  custom_lint: ^0.7.5
+  custom_lint: ^0.8.1
   dart_flutter_team_lints: ^3.5.2
   json_schema: ^5.2.0 # May only be used in tool/ and test/json_schema/.
   native_test_helpers:
