@@ -61,6 +61,19 @@ MethodDeclaration transformGlobalFunction(
 
 // -------------------------- Core Implementation --------------------------
 
+Parameter _transformParam(
+  int index,
+  Parameter p,
+  UniqueNamer globalNamer,
+  TransformationState state,
+) => Parameter(
+  name: p.name.isEmpty ? '_' : p.name,
+  internalName: p.name.isEmpty && p.internalName == null
+      ? 'arg$index'
+      : p.internalName,
+  type: transformReferredType(p.type, globalNamer, state),
+);
+
 MethodDeclaration _transformFunction(
   FunctionDeclaration originalFunction,
   UniqueNamer globalNamer,
@@ -68,15 +81,10 @@ MethodDeclaration _transformFunction(
   required String wrapperMethodName,
   required String Function(String arguments) originalCallStatementGenerator,
 }) {
-  final transformedParams = originalFunction.params
-      .map(
-        (param) => Parameter(
-          name: param.name,
-          internalName: param.internalName,
-          type: transformReferredType(param.type, globalNamer, state),
-        ),
-      )
-      .toList();
+  final transformedParams = [
+    for (var i = 0; i < originalFunction.params.length; ++i)
+      _transformParam(i, originalFunction.params[i], globalNamer, state),
+  ];
 
   final localNamer = UniqueNamer();
   final resultName = localNamer.makeUnique('result');
@@ -142,7 +150,7 @@ String generateInvocationParams(
     assert(unwrappedType.sameAs(originalParam.type));
 
     argumentsList.add(
-      originalParam.name == '_'
+      originalParam.name.isEmpty || originalParam.name == '_'
           ? unwrappedParamValue
           : '${originalParam.name}: $unwrappedParamValue',
     );
