@@ -162,8 +162,8 @@ class WorkspaceTask extends Task {
         ..addAll(notInWorkspacePubspec.map((package) => ' - $package'))
         ..add(
             'Please add them to the workspace. If that is not possible, add a '
-            'commented out entry to the root pubspec explaining why they '
-            'cannot be part of the workspace.')
+            'commented out entry to the root pubspec and provide a reason why '
+            'they cannot be part of the workspace as a trailing comment.')
         ..add('');
     }
     if (error.isNotEmpty) {
