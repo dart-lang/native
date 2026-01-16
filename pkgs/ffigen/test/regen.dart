@@ -20,10 +20,12 @@ $ dart run test/setup.dart && dart run test/regen.dart && dart test
 ''';
 
 void _regenConfig(Logger logger, String yamlConfigPath) {
+  logger.info('Regenerating: $yamlConfigPath');
   final path = p.join(packagePathForTests, yamlConfigPath);
   Directory.current = File(path).parent;
   testConfigFromPath(path, logger: logger).generate(logger: logger);
 }
+
 
 Future<void> main(List<String> args) async {
   final parser = ArgParser();
@@ -44,9 +46,14 @@ Future<void> main(List<String> args) async {
     exit(1);
   }
 
-  final logger = Logger.root..level = Level.WARNING;
+  final logger = Logger.root..level = Level.INFO;
+
+logger.onRecord.listen((record) {
+  print('${record.level.name}: ${record.message}');
+});
 
   _regenConfig(logger, 'test/native_test/config.yaml');
+_regenConfig(logger, 'example/ffinative/config.yaml');
   _regenConfig(logger, 'example/libclang-example/config.yaml');
   _regenConfig(logger, 'example/simple/config.yaml');
   _regenConfig(logger, 'example/c_json/config.yaml');
@@ -55,3 +62,6 @@ Future<void> main(List<String> args) async {
     example_objective_c.main();
   }
 }
+
+
+
