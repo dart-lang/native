@@ -6,7 +6,22 @@ import '../../ast/_core/interfaces/compound_declaration.dart';
 
 class UniqueNamer {
   final Set<String> _usedNames;
-
+  static const _operatorNames = {
+    '+': 'plus',
+    '-': 'minus',
+    '*': 'multiply',
+    '/': 'divide',
+    '=': 'equal',
+    '>': 'greaterThan',
+    '<': 'lessThan',
+    '!': 'not',
+    '&': 'and',
+    '|': 'or',
+    '^': 'xor',
+    '%': 'modulo',
+    '?': 'question',
+    '.': 'dot',
+  };
   UniqueNamer([Iterable<String> usedNames = const <String>[]])
     : _usedNames = usedNames.toSet();
 
@@ -17,24 +32,45 @@ class UniqueNamer {
       };
 
   String makeUnique(String name) {
-    if (name.isEmpty) {
-      name = 'unamed';
-    }
+    var uniqueName = _sanitize(name);
 
-    if (!_usedNames.contains(name)) {
-      _usedNames.add(name);
-      return name;
+    if (!_usedNames.contains(uniqueName)) {
+      _usedNames.add(uniqueName);
+      return uniqueName;
     }
 
     var counter = 0;
-    var uniqueName = name;
+    var candidateName = uniqueName;
 
     do {
       counter++;
-      uniqueName = '$name$counter';
-    } while (_usedNames.contains(uniqueName));
+      candidateName = '$uniqueName$counter';
+    } while (_usedNames.contains(candidateName));
 
-    _usedNames.add(uniqueName);
-    return uniqueName;
+    _usedNames.add(candidateName);
+    return candidateName;
+  }
+
+  String _sanitize(String name) {
+    if (name.isEmpty) return 'unnamed';
+
+    final buffer = StringBuffer();
+    for (var i = 0; i < name.length; i++) {
+      final char = name[i];
+
+      if (RegExp(r'[a-zA-Z0-9_]').hasMatch(char)) {
+        buffer.write(char);
+      } else {
+        buffer.write(_operatorNames[char] ?? 'op${char.codeUnitAt(0)}');
+      }
+    }
+
+    var sanitized = buffer.toString();
+
+    if (RegExp(r'^[0-9]').hasMatch(sanitized)) {
+      sanitized = 'n$sanitized';
+    }
+
+    return sanitized;
   }
 }
