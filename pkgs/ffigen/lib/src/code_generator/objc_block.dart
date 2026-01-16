@@ -99,8 +99,13 @@ class ObjCBlock extends BindingType with HasLocalScope {
   static String _getBlockName(Type returnType, Iterable<Type> argTypes) =>
       'ObjCBlock_${[returnType, ...argTypes].map(_typeName).join('_')}';
   static String _typeName(Type type) =>
-      type.toString().replaceAll(_illegalNameChar, '');
+      _reducedType(type).toString().replaceAll(_illegalNameChar, '');
   static final _illegalNameChar = RegExp(r'[^0-9a-zA-Z]');
+  static Type _reducedType(Type type) {
+    if (type.baseType != type) return _reducedType(type.baseType);
+    if (type.typealiasType != type) return _reducedType(type.typealiasType);
+    return type;
+  }
 
   static String _getBlockUsr(
     Type returnType,

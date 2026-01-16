@@ -324,7 +324,7 @@ late final _sel_fetchGreetingAsyncWithCompletionHandler_ = objc.registerName(
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(objc.NSObject?)>`.
-abstract final class ObjCBlock_ffiVoid_dispatchdatat {
+abstract final class ObjCBlock_ffiVoid_NSObject {
   /// Returns a block that wraps the given raw block pointer.
   static objc.ObjCBlock<ffi.Void Function(objc.NSObject?)> fromPointer(
     ffi.Pointer<objc.ObjCBlockImpl> pointer, {
@@ -561,7 +561,7 @@ abstract final class ObjCBlock_ffiVoid_dispatchdatat {
 }
 
 /// Call operator for `objc.ObjCBlock<ffi.Void Function(objc.NSObject?)>`.
-extension ObjCBlock_ffiVoid_dispatchdatat$CallExtension
+extension ObjCBlock_ffiVoid_NSObject$CallExtension
     on objc.ObjCBlock<ffi.Void Function(objc.NSObject?)> {
   void call(objc.NSObject? arg0) => ref.pointer.ref.invoke
       .cast<
@@ -680,6 +680,20 @@ extension type TestMessageService._(objc.ObjCObject object$)
     return TestMessageService.fromPointer($ret, retain: false, release: true);
   }
 
+  /// echoAsyncObjectWithAnObject:completionHandler:
+  static void echoAsyncObjectWithAnObject(
+    objc.NSObject anObject, {
+    required objc.ObjCBlock<ffi.Void Function(objc.NSObject?)>
+    completionHandler,
+  }) {
+    _objc_msgSend_o762yo(
+      _class_TestMessageService,
+      _sel_echoAsyncObjectWithAnObject_completionHandler_,
+      anObject.ref.pointer,
+      completionHandler.ref.pointer,
+    );
+  }
+
   /// fetchGreetingAsyncWithCompletionHandler:
   static void fetchGreetingAsyncWithCompletionHandler(
     objc.ObjCBlock<ffi.Void Function(objc.NSString)> completionHandler,
@@ -713,20 +727,6 @@ extension type TestMessageService._(objc.ObjCObject object$)
 }
 
 extension TestMessageService$Methods on TestMessageService {
-  /// echoAsyncObjectWithAnObject:completionHandler:
-  void echoAsyncObjectWithAnObject(
-    objc.NSObject anObject, {
-    required objc.ObjCBlock<ffi.Void Function(objc.NSObject?)>
-    completionHandler,
-  }) {
-    _objc_msgSend_o762yo(
-      object$.ref.pointer,
-      _sel_echoAsyncObjectWithAnObject_completionHandler_,
-      anObject.ref.pointer,
-      completionHandler.ref.pointer,
-    );
-  }
-
   /// init
   TestMessageService init() {
     objc.checkOsVersionInternal(

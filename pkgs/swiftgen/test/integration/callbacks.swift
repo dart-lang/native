@@ -12,7 +12,7 @@ import Foundation
         return "Hello from Swift async!"
     }
 
-    @objc func echoAsyncObject(anObject: NSObject) async -> NSObject? {
+    @objc static func echoAsyncObject(anObject: NSObject) async -> NSObject? {
       return anObject
     }
 }
