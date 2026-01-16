@@ -41,5 +41,16 @@ void main() {
       );
       expect(await result.future, 'Hello from Swift async!');
     });
+
+    test('regress #2592', () async {
+      // Regression test for https://github.com/dart-lang/native/issues/2952.
+      final theObject = NSObject();
+      final result = Completer<NSObject?>();
+      TestMessageService.echoAsyncObjectWithAnObject(
+        theObject,
+        completionHandler: ObjCBlock_ffiVoid_NSObject.listener(result.complete),
+      );
+      expect(await result.future, theObject);
+    });
   });
 }

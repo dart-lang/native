@@ -11,4 +11,8 @@ import Foundation
         try? await Task.sleep(for: .seconds(0.1))
         return "Hello from Swift async!"
     }
+
+    @objc static func echoAsyncObject(anObject: NSObject) async -> NSObject? {
+      return anObject
+    }
 }
