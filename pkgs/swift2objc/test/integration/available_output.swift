@@ -112,6 +112,13 @@ import Foundation
 
   @available(macOS, introduced: 123.0.0)
   @available(iOS, introduced: 100)
+  @objc public init(prop1: Int, prop2: Int) {
+    wrappedInstance = NewStruct(prop1: prop1, prop2: prop2)
+  }
+
+
+  @available(macOS, introduced: 123.0.0)
+  @available(iOS, introduced: 100)
   @objc public func method1() -> Int {
     return wrappedInstance.method1()
   }
