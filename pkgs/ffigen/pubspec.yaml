@@ -39,8 +39,8 @@ dev_dependencies:
   async: ^2.11.0
   dart_flutter_team_lints: ^3.5.2
   json_schema: ^5.1.1
-  leak_tracker: ^10.0.7
-  objective_c: ^9.2.0
+  leak_tracker: ^11.0.2
+  objective_c: ^9.2.2
   test: ^1.26.2
 
 dependency_overrides:
