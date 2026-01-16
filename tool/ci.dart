@@ -2,10 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:path/path.dart' as p;
 import 'package:yaml/yaml.dart';
 
 void main(List<String> arguments) async {
@@ -96,17 +97,133 @@ abstract class Task {
   });
 }
 
+/// Ensures all packages are included in the pub workspace or a reason is
+/// provided why they cannot be part of the workspace.
+class WorkspaceTask extends Task {
+  const WorkspaceTask()
+      : super(
+          name: 'workspace',
+          helpMessage:
+              'Check that all packages are included in the pub workspace.',
+        );
+
+  @override
+  Future<void> run({
+    required List<String> packages,
+    required ArgResults argResults,
+  }) async {
+    final packagesInRepository = _packagesInRepository();
+    final packagesInWorkspacePubspec = _packagesInWorkspacePubspec();
+
+    final error = <String>[];
+
+    if (packagesInWorkspacePubspec.missingReason.isNotEmpty) {
+      error
+        ..add('The following packages are commented out in the workspace '
+            'pubspec, but no reason is given why they cannot be part of the '
+            'workspace:')
+        ..addAll(packagesInWorkspacePubspec.missingReason
+            .map((package) => ' - $package'))
+        ..add('Please add a trailing comment to their entry providing a reason '
+            'for their exclusion from the workspace.')
+        ..add('');
+    }
+
+    final notInRepository =
+        packagesInWorkspacePubspec.packages.difference(packagesInRepository);
+    if (notInRepository.isNotEmpty) {
+      error
+        ..add('The following packages are listed in the workspace pubspec, but '
+            'do not exist in the repository:')
+        ..addAll(notInRepository.map((package) => ' - $package'))
+        ..add('Please remove them from the workspace pubspec.')
+        ..add('');
+    }
+
+    final notInWorkspacePubspec =
+        packagesInRepository.difference(packagesInWorkspacePubspec.packages);
+    if (notInWorkspacePubspec.isNotEmpty) {
+      error
+        ..add(
+            'The following packages exist in the repository, but are not part '
+            'of the workspace:')
+        ..addAll(notInWorkspacePubspec.map((package) => ' - $package'))
+        ..add(
+            'Please add them to the workspace. If that is not possible, add a '
+            'commented out entry to the root pubspec explaining why they '
+            'cannot be part of the workspace.')
+        ..add('');
+    }
+    if (error.isNotEmpty) {
+      print(error.join('\n'));
+      exit(1);
+    }
+  }
+
+  Set<String> _packagesInRepository() {
+    final packages = <String>{};
+    final rootDir = Directory.fromUri(repositoryRoot.resolve('pkgs'));
+    for (final entity in rootDir.listSync(recursive: true)) {
+      if (entity is File && entity.path.endsWith('pubspec.yaml')) {
+        packages.add(p.relative(entity.parent.path, from: repositoryRoot.path));
+      }
+    }
+    return packages;
+  }
+
+  ({Set<String> packages, List<String> missingReason})
+      _packagesInWorkspacePubspec() {
+    final pubspecLines = File.fromUri(repositoryRoot.resolve('pubspec.yaml'))
+        .readAsStringSync()
+        .split('\n');
+    final workspaceEntries = pubspecLines
+        .skipWhile((line) => !line.trim().startsWith('workspace:'))
+        .skip(1)
+        .takeWhile((line) =>
+            line.trim().startsWith('- ') || line.trim().startsWith('# - '));
+
+    final packages = Set<String>();
+    final packagesWithMissingReason = <String>[];
+
+    // Regex breakdown:
+    // ^\s*       : Start of line and any leading whitespace
+    // (#\s*)?    : Optional leading '#' followed by optional whitespace (Group 1)
+    // -\s+       : The YAML list dash '-' and at least one space
+    // ([^\s#]+)  : The actual path - any characters that aren't space or '#' (Group 2)
+    // (\s*#.*)?  : Optional trailing '#' and everything after it (Group 3)
+    final regex = RegExp(r'^\s*(#\s*)?-\s+([^\s#]+)(\s*#.*)?');
+
+    for (String entry in workspaceEntries) {
+      final match = regex.firstMatch(entry);
+
+      if (match != null) {
+        final hasLeadingHash = match.group(1) != null;
+        final path = match.group(2);
+        final trailingComment = match.group(3);
+
+        if (hasLeadingHash) {
+          if (trailingComment == null || trailingComment.trim().length < 6) {
+            packagesWithMissingReason.add(path!);
+          }
+        }
+        packages.add(path!);
+      }
+    }
+    return (packages: packages, missingReason: packagesWithMissingReason);
+  }
+}
+
 /// Fetches dependencies using `dart pub get`.
 ///
 /// This is a prerequisite for most other tasks.
 class PubTask extends Task {
   const PubTask()
-    : super(
-        name: 'pub',
-        helpMessage:
-            'Run `dart pub get` on the root and non-workspace packages.\n'
-            'Run `dart pub global activate coverage`.',
-      );
+      : super(
+          name: 'pub',
+          helpMessage:
+              'Run `dart pub get` on the root and non-workspace packages.\n'
+              'Run `dart pub global activate coverage`.',
+        );
 
   @override
   Future<void> run({
@@ -127,10 +244,10 @@ class PubTask extends Task {
 /// Runs `dart analyze` to find static analysis issues.
 class AnalyzeTask extends Task {
   const AnalyzeTask()
-    : super(
-        name: 'analyze',
-        helpMessage: 'Run `dart analyze` on the packages.',
-      );
+      : super(
+          name: 'analyze',
+          helpMessage: 'Run `dart analyze` on the packages.',
+        );
 
   @override
   Future<void> run({
@@ -144,7 +261,10 @@ class AnalyzeTask extends Task {
 /// Checks for code formatting issues with `dart format`.
 class FormatTask extends Task {
   const FormatTask()
-    : super(name: 'format', helpMessage: 'Run `dart format` on the packages.');
+      : super(
+          name: 'format',
+          helpMessage: 'Run `dart format` on the packages.',
+        );
 
   @override
   Future<void> run({
@@ -165,7 +285,10 @@ class FormatTask extends Task {
 /// This is used to keep generated files in sync with their sources.
 class GenerateTask extends Task {
   const GenerateTask()
-    : super(name: 'generate', helpMessage: 'Run code generation scripts.');
+      : super(
+          name: 'generate',
+          helpMessage: 'Run code generation scripts.',
+        );
 
   @override
   Future<void> run({
@@ -190,12 +313,11 @@ class GenerateTask extends Task {
 /// Runs the main test suite for all packages.
 class TestTask extends Task {
   const TestTask()
-    : super(
-        name: 'test',
-        helpMessage:
-            'Run `dart test` on the packages.\n'
-            'Implied by --coverage.',
-      );
+      : super(
+          name: 'test',
+          helpMessage: 'Run `dart test` on the packages.\n'
+              'Implied by --coverage.',
+        );
 
   @override
   bool shouldRun(ArgResults argResults) {
@@ -222,10 +344,10 @@ class TestTask extends Task {
 /// Ensures that the examples are working and up-to-date.
 class ExampleTask extends Task {
   const ExampleTask()
-    : super(
-        name: 'example',
-        helpMessage: 'Run tests and executables for examples.',
-      );
+      : super(
+          name: 'example',
+          helpMessage: 'Run tests and executables for examples.',
+        );
 
   @override
   Future<void> run({
@@ -282,12 +404,11 @@ class ExampleTask extends Task {
 /// Depends on `pub` being run to activate the `coverage` package.
 class CoverageTask extends Task {
   const CoverageTask()
-    : super(
-        name: 'coverage',
-        helpMessage:
-            'Collect coverage information on the packages.\n'
-            'Implies --test.',
-      );
+      : super(
+          name: 'coverage',
+          helpMessage: 'Collect coverage information on the packages.\n'
+              'Implies --test.',
+        );
 
   @override
   Future<void> run({
@@ -323,6 +444,7 @@ const generateTask = GenerateTask();
 const testTask = TestTask();
 const exampleTask = ExampleTask();
 const coverageTask = CoverageTask();
+const workspaceTask = WorkspaceTask();
 
 // The order of tasks is intentional.
 final tasks = [
@@ -333,6 +455,7 @@ final tasks = [
   testTask,
   exampleTask,
   coverageTask,
+  workspaceTask,
 ];
 
 final Uri repositoryRoot = Platform.script.resolve('../');
@@ -360,9 +483,9 @@ List<String> getUriInPackage(List<String> packages, String subdir) {
     ).uri.resolve('$subdir/');
     if (Directory.fromUri(packageTestDirectory).existsSync()) {
       final relativePath = packageTestDirectory.toFilePath().replaceAll(
-        repositoryRoot.toFilePath(),
-        '',
-      );
+            repositoryRoot.toFilePath(),
+            '',
+          );
       testUris.add(relativePath);
     }
   }
