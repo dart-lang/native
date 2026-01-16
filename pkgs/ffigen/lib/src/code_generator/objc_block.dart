@@ -41,15 +41,30 @@ class ObjCBlock extends BindingType with HasLocalScope {
 
     final usr = _getBlockUsr(returnType, renamedParams, returnsRetained);
 
+    final newBlockName = _getBlockName(
+      returnType,
+      renamedParams.map((a) => a.type),
+      reduced: false,
+    );
     final oldBlock = context.bindingsIndex.getSeenObjCBlock(usr);
     if (oldBlock != null) {
+      if (oldBlock.symbol.oldName != newBlockName) {
+        // Block with matching signature, but a different name. This is usually
+        // due to type aliases. Replace the name with the reduced name, so that
+        // it makes sense as a name for all blocks shaing this signature.
+        oldBlock.symbol.oldName = _getBlockName(
+          returnType,
+          renamedParams.map((a) => a.type),
+          reduced: true,
+        );
+      }
       return oldBlock;
     }
 
     final block = ObjCBlock._(
       context,
       usr: usr,
-      name: _getBlockName(returnType, renamedParams.map((a) => a.type)),
+      name: newBlockName,
       returnType: returnType,
       params: renamedParams,
       returnsRetained: returnsRetained,
@@ -96,10 +111,20 @@ class ObjCBlock extends BindingType with HasLocalScope {
   // type. These names will be pretty verbose and unweildy, but they're at least
   // sensible and stable. Users can always add their own typedef with a simpler
   // name if necessary.
-  static String _getBlockName(Type returnType, Iterable<Type> argTypes) =>
-      'ObjCBlock_${[returnType, ...argTypes].map(_typeName).join('_')}';
-  static String _typeName(Type type) =>
-      _reducedType(type).toString().replaceAll(_illegalNameChar, '');
+  static String _getBlockName(
+    Type returnType,
+    Iterable<Type> argTypes, {
+    required bool reduced,
+  }) {
+    final types = [returnType, ...argTypes].map((t) => _typeName(t, reduced));
+    return 'ObjCBlock_${types.join('_')}';
+  }
+
+  static String _typeName(Type type, bool reduced) =>
+      (reduced ? _reducedType(type) : type).toString().replaceAll(
+        _illegalNameChar,
+        '',
+      );
   static final _illegalNameChar = RegExp(r'[^0-9a-zA-Z]');
   static Type _reducedType(Type type) {
     if (type.baseType != type) return _reducedType(type.baseType);
