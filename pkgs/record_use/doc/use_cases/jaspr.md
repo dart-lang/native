@@ -73,8 +73,6 @@ components that are annotated with `@RecordUse`.
 By collecting this information, a tool can build a complete picture of which
 styling primitives are used in an application and generate an optimized CSS file.
 
-
-
 ## Links
 
 * https://github.com/schultek/jaspr
