@@ -208,8 +208,14 @@ $dartReturnType $enclosingFuncName($dartArgDeclString) {
       final lookupStr = Namer.stringLiteral(lookupName);
       final lookupFn = context.extraSymbols.lookupFuncName!.name;
       s.write('''
-late final $funcPointerName = $lookupFn<
-    ${context.libs.prefix(ffiImport)}.NativeFunction<$cType>>('$lookupStr');
+late final $funcPointerName = () {
+  try {
+    return $lookupFn<
+        ${context.libs.prefix(ffiImport)}.NativeFunction<$cType>>('$lookupStr');
+  } catch (e) {
+    throw ArgumentError("Failed to look up symbol '$lookupStr'. This is likely because the native library is not linked or the symbol is missing. Error: \$e");
+  }
+}();
 late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
 
 ''');

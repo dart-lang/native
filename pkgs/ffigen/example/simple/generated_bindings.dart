@@ -24,8 +24,17 @@ class NativeLibrary {
     return _sum(a, b);
   }
 
-  late final _sumPtr =
-      _lookup<ffi.NativeFunction<ffi.Int Function(ffi.Int, ffi.Int)>>('sum');
+  late final _sumPtr = () {
+    try {
+      return _lookup<ffi.NativeFunction<ffi.Int Function(ffi.Int, ffi.Int)>>(
+        'sum',
+      );
+    } catch (e) {
+      throw ArgumentError(
+        "Failed to look up symbol 'sum'. This is likely because the native library is not linked or the symbol is missing. Error: $e",
+      );
+    }
+  }();
   late final _sum = _sumPtr.asFunction<int Function(int, int)>();
 
   /// Subtracts 2 integers.
@@ -33,10 +42,17 @@ class NativeLibrary {
     return _subtract(a, b);
   }
 
-  late final _subtractPtr =
-      _lookup<
+  late final _subtractPtr = () {
+    try {
+      return _lookup<
         ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Int>, ffi.Int)>
       >('subtract');
+    } catch (e) {
+      throw ArgumentError(
+        "Failed to look up symbol 'subtract'. This is likely because the native library is not linked or the symbol is missing. Error: $e",
+      );
+    }
+  }();
   late final _subtract = _subtractPtr
       .asFunction<int Function(ffi.Pointer<ffi.Int>, int)>();
 
@@ -45,10 +61,17 @@ class NativeLibrary {
     return _multiply(a, b);
   }
 
-  late final _multiplyPtr =
-      _lookup<
+  late final _multiplyPtr = () {
+    try {
+      return _lookup<
         ffi.NativeFunction<ffi.Pointer<ffi.Int> Function(ffi.Int, ffi.Int)>
       >('multiply');
+    } catch (e) {
+      throw ArgumentError(
+        "Failed to look up symbol 'multiply'. This is likely because the native library is not linked or the symbol is missing. Error: $e",
+      );
+    }
+  }();
   late final _multiply = _multiplyPtr
       .asFunction<ffi.Pointer<ffi.Int> Function(int, int)>();
 
@@ -57,10 +80,17 @@ class NativeLibrary {
     return _divide(a, b);
   }
 
-  late final _dividePtr =
-      _lookup<
+  late final _dividePtr = () {
+    try {
+      return _lookup<
         ffi.NativeFunction<ffi.Pointer<ffi.Float> Function(ffi.Int, ffi.Int)>
       >('divide');
+    } catch (e) {
+      throw ArgumentError(
+        "Failed to look up symbol 'divide'. This is likely because the native library is not linked or the symbol is missing. Error: $e",
+      );
+    }
+  }();
   late final _divide = _dividePtr
       .asFunction<ffi.Pointer<ffi.Float> Function(int, int)>();
 
@@ -72,8 +102,9 @@ class NativeLibrary {
     return _dividePrecision(a, b);
   }
 
-  late final _dividePrecisionPtr =
-      _lookup<
+  late final _dividePrecisionPtr = () {
+    try {
+      return _lookup<
         ffi.NativeFunction<
           ffi.Pointer<ffi.Double> Function(
             ffi.Pointer<ffi.Float>,
@@ -81,6 +112,12 @@ class NativeLibrary {
           )
         >
       >('dividePrecision');
+    } catch (e) {
+      throw ArgumentError(
+        "Failed to look up symbol 'dividePrecision'. This is likely because the native library is not linked or the symbol is missing. Error: $e",
+      );
+    }
+  }();
   late final _dividePrecision = _dividePrecisionPtr
       .asFunction<
         ffi.Pointer<ffi.Double> Function(
