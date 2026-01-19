@@ -2,17 +2,61 @@
 
 import Foundation
 
-@objc public class MyComputedStructWrapper: NSObject {
-  var wrappedInstance: MyComputedStruct
+@objc public class MyCustomStructWrapper: NSObject {
+  var wrappedInstance: MyCustomStruct
 
-  @objc public var firstName: String {
+  @objc public var data: Int {
     get {
-      wrappedInstance.firstName
+      wrappedInstance.data
     }
     set {
-      wrappedInstance.firstName = newValue
+      wrappedInstance.data = newValue
     }
   }
+
+  init(_ wrappedInstance: MyCustomStruct) {
+    self.wrappedInstance = wrappedInstance
+  }
+
+  @objc public init(value: Int) {
+    wrappedInstance = MyCustomStruct(value: value)
+  }
+
+}
+
+@objc public class MyStaticStructWrapper: NSObject {
+  var wrappedInstance: MyStaticStruct
+
+  @objc static public var defaultName: String {
+    get {
+      MyStaticStruct.defaultName
+    }
+    set {
+      MyStaticStruct.defaultName = newValue
+    }
+  }
+
+  @objc public var name: String {
+    get {
+      wrappedInstance.name
+    }
+    set {
+      wrappedInstance.name = newValue
+    }
+  }
+
+  init(_ wrappedInstance: MyStaticStruct) {
+    self.wrappedInstance = wrappedInstance
+  }
+
+  @objc public init(name: String) {
+    wrappedInstance = MyStaticStruct(name: name)
+  }
+
+}
+
+@objc public class MyComputedStructWrapper: NSObject {
+  var wrappedInstance: MyComputedStruct
 
   @objc public var fullName: String {
     get {
@@ -26,6 +70,15 @@ import Foundation
     }
     set {
       wrappedInstance.lastName = newValue
+    }
+  }
+
+  @objc public var firstName: String {
+    get {
+      wrappedInstance.firstName
+    }
+    set {
+      wrappedInstance.firstName = newValue
     }
   }
 
@@ -51,15 +104,6 @@ import Foundation
     }
   }
 
-  @objc public var enabled: Bool {
-    get {
-      wrappedInstance.enabled
-    }
-    set {
-      wrappedInstance.enabled = newValue
-    }
-  }
-
   @objc public var title: String {
     get {
       wrappedInstance.title
@@ -69,34 +113,21 @@ import Foundation
     }
   }
 
+  @objc public var enabled: Bool {
+    get {
+      wrappedInstance.enabled
+    }
+    set {
+      wrappedInstance.enabled = newValue
+    }
+  }
+
   init(_ wrappedInstance: MyConfig) {
     self.wrappedInstance = wrappedInstance
   }
 
   @objc public init(title: String, count: Int, enabled: Bool) {
     wrappedInstance = MyConfig(title: title, count: count, enabled: enabled)
-  }
-
-}
-
-@objc public class MyCustomStructWrapper: NSObject {
-  var wrappedInstance: MyCustomStruct
-
-  @objc public var data: Int {
-    get {
-      wrappedInstance.data
-    }
-    set {
-      wrappedInstance.data = newValue
-    }
-  }
-
-  init(_ wrappedInstance: MyCustomStruct) {
-    self.wrappedInstance = wrappedInstance
-  }
-
-  @objc public init(value: Int) {
-    wrappedInstance = MyCustomStruct(value: value)
   }
 
 }
@@ -132,33 +163,3 @@ import Foundation
 
 }
 
-@objc public class MyStaticStructWrapper: NSObject {
-  var wrappedInstance: MyStaticStruct
-
-  @objc static public var defaultName: String {
-    get {
-      MyStaticStruct.defaultName
-    }
-    set {
-      MyStaticStruct.defaultName = newValue
-    }
-  }
-
-  @objc public var name: String {
-    get {
-      wrappedInstance.name
-    }
-    set {
-      wrappedInstance.name = newValue
-    }
-  }
-
-  init(_ wrappedInstance: MyStaticStruct) {
-    self.wrappedInstance = wrappedInstance
-  }
-
-  @objc public init(name: String) {
-    wrappedInstance = MyStaticStruct(name: name)
-  }
-
-}
