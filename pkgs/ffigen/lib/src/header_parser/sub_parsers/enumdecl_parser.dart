@@ -13,17 +13,15 @@ import 'api_availability.dart';
 import 'unnamed_enumdecl_parser.dart';
 
 /// Parses an enum declaration.
-EnumClass parseEnumDeclaration(clang_types.CXCursor cursor, Context context) {
+CachableBinding? parseEnumDeclaration(
+  clang_types.CXCursor cursor,
+  Context context,
+) {
   final config = context.config;
   final logger = context.logger;
   EnumClass? enumClass;
-  // Parse the cursor definition instead, if this is a forward declaration.
-  cursor = context.cursorIndex.getDefinition(cursor);
 
   final usr = cursor.usr();
-
-  final cachedEnum = context.bindingsIndex.getSeenEnum(usr);
-  if (cachedEnum != null) return cachedEnum;
 
   final String enumName;
   // Only set name using USR if the type is not Anonymous (i.e not inside
@@ -108,7 +106,6 @@ EnumClass parseEnumDeclaration(clang_types.CXCursor cursor, Context context) {
     });
     final suggestedStyle = isNSOptions ? EnumStyle.intConstants : null;
     enumClass.style = config.enums.style(decl, suggestedStyle);
-    context.bindingsIndex.addEnumToSeen(usr, enumClass);
   }
 
   if (hasNegativeEnumConstants) {
@@ -121,12 +118,14 @@ EnumClass parseEnumDeclaration(clang_types.CXCursor cursor, Context context) {
     enumClass?.nativeType = nativeType;
   }
 
-  return enumClass ??
-      EnumClass(
-        usr: usr,
-        name: enumName,
-        nativeType: nativeType,
-        context: context,
-        isAnonymous: true,
-      );
+  return CachableBinding(
+    enumClass ??
+        EnumClass(
+          usr: usr,
+          name: enumName,
+          nativeType: nativeType,
+          context: context,
+          isAnonymous: true,
+        ),
+  );
 }

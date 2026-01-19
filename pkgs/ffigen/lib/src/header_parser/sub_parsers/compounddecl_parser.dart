@@ -11,7 +11,7 @@ import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
 import 'api_availability.dart';
 
-Compound? parseStructDeclaration(
+CachableBinding? parseStructDeclaration(
   clang_types.CXCursor cursor,
   Context context,
 ) => _parseCompoundDeclaration(
@@ -19,17 +19,21 @@ Compound? parseStructDeclaration(
   context,
   'Struct',
   context.config.structs,
+  context.config.structTypeMappings,
   Struct.new,
 );
 
-Compound? parseUnionDeclaration(clang_types.CXCursor cursor, Context context) =>
-    _parseCompoundDeclaration(
-      cursor,
-      context,
-      'Union',
-      context.config.unions,
-      Union.new,
-    );
+CachableBinding? parseUnionDeclaration(
+  clang_types.CXCursor cursor,
+  Context context,
+) => _parseCompoundDeclaration(
+  cursor,
+  context,
+  'Union',
+  context.config.unions,
+  context.config.unionTypeMappings,
+  Union.new,
+);
 
 /// Holds temporary information regarding [compound] while parsing.
 class _ParsedCompound {
@@ -94,11 +98,12 @@ class _ParsedCompound {
 }
 
 /// Parses a compound declaration.
-Compound? _parseCompoundDeclaration(
+CachableBinding? _parseCompoundDeclaration(
   clang_types.CXCursor cursor,
   Context context,
   String className,
   Declarations configDecl,
+  Map<String, ImportedType> configTypeMappings,
   Compound Function({
     String? usr,
     String? originalName,
@@ -109,12 +114,13 @@ Compound? _parseCompoundDeclaration(
   })
   constructor,
 ) {
-  // Parse the cursor definition instead, if this is a forward declaration.
+  final mappedType = configTypeMappings[cursor.spelling()];
+  if (mappedType != null) {
+    context.logger.fine('  Type Mapped from type-map: ${cursor.spelling()}');
+    return CachableBinding(mappedType);
+  }
+
   final usr = cursor.usr();
-
-  final cachedCompound = context.bindingsIndex.getSeenCompound(usr);
-  if (cachedCompound != null) return cachedCompound;
-
   final String declName;
 
   // Only set name using USR if the type is not Anonymous (A struct is anonymous
@@ -136,9 +142,8 @@ Compound? _parseCompoundDeclaration(
   }
 
   final decl = Declaration(usr: usr, originalName: declName);
-  final Compound compound;
+  Compound compound;
   if (declName.isEmpty) {
-    cursor = context.cursorIndex.getDefinition(cursor);
     compound = constructor(
       name: 'Unnamed$className',
       usr: usr,
@@ -151,7 +156,6 @@ Compound? _parseCompoundDeclaration(
       nativeType: cursor.type().spelling(),
     );
   } else {
-    cursor = context.cursorIndex.getDefinition(cursor);
     context.logger.fine(
       '++++ Adding $className: Name: $declName, ${cursor.completeStringRepr()}',
     );
@@ -168,8 +172,10 @@ Compound? _parseCompoundDeclaration(
       nativeType: cursor.type().spelling(),
     );
   }
-  context.bindingsIndex.addCompoundToSeen(usr, compound);
-  return compound;
+  return CachableBinding(
+    compound,
+    () => fillCompoundMembersIfNeeded(compound, cursor, context),
+  );
 }
 
 void fillCompoundMembersIfNeeded(
@@ -179,8 +185,6 @@ void fillCompoundMembersIfNeeded(
 ) {
   if (compound.parsedDependencies) return;
   final logger = context.logger;
-
-  cursor = context.cursorIndex.getDefinition(cursor);
 
   final parsed = _ParsedCompound(context, compound);
   final className = compound is Struct ? 'Struct' : 'Union';

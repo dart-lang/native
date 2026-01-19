@@ -41,22 +41,15 @@ class ObjCBlock extends BindingType with HasLocalScope {
 
     final usr = _getBlockUsr(returnType, renamedParams, returnsRetained);
 
-    final oldBlock = context.bindingsIndex.getSeenObjCBlock(usr);
-    if (oldBlock != null) {
-      return oldBlock;
-    }
-
-    final block = ObjCBlock._(
-      context,
-      usr: usr,
-      name: _getBlockName(returnType, renamedParams.map((a) => a.type)),
-      returnType: returnType,
-      params: renamedParams,
-      returnsRetained: returnsRetained,
-    );
-    context.bindingsIndex.addObjCBlockToSeen(usr, block);
-
-    return block;
+    return (context.bindingsIndex.getOrInsert(usr).node ??= ObjCBlock._(
+          context,
+          usr: usr,
+          name: _getBlockName(returnType, renamedParams.map((a) => a.type)),
+          returnType: returnType,
+          params: renamedParams,
+          returnsRetained: returnsRetained,
+        ))
+        as ObjCBlock;
   }
 
   ObjCBlock._(

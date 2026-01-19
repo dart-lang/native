@@ -68,9 +68,6 @@ List<Binding> parseToBindings(Context context) {
   clangCmdArgs = createDynamicStringArray(compilerOpts);
   final cmdLen = compilerOpts.length;
 
-  // Contains all bindings. A set ensures we never have duplicates.
-  final bindings = <Binding>{};
-
   // Log all headers for user.
   context.logger.info('Input Headers: ${config.headers.entryPoints}');
 
@@ -138,9 +135,8 @@ List<Binding> parseToBindings(Context context) {
   }
 
   // Parse definitions from translation units.
-  for (final rootCursor in tuCursors) {
-    bindings.addAll(parseTranslationUnit(context, rootCursor));
-  }
+  parseTranslationUnits(context, tuCursors);
+  final bindings = context.bindingsIndex.bindings;
 
   // Dispose translation units.
   for (final tu in tuList) {
@@ -148,9 +144,11 @@ List<Binding> parseToBindings(Context context) {
   }
 
   // Add all saved unnamed enums.
+  // TODO: Store these directly in the bindingsIndex.
   bindings.addAll(context.unnamedEnumConstants);
 
   // Parse all saved macros.
+  // TODO: Store these directly in the bindingsIndex.
   bindings.addAll(parseSavedMacros(context));
 
   clangCmdArgs.dispose(cmdLen);

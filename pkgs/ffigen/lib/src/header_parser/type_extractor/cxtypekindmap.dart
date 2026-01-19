@@ -5,6 +5,7 @@
 import 'package:collection/collection.dart';
 import '../../code_generator.dart' show SupportedNativeType, Type;
 import '../../code_generator/imports.dart';
+import '../../code_generator/native_type.dart';
 
 Map<String, ImportedType> cxTypeKindToImportedTypes = {
   'void': voidType,
@@ -45,17 +46,17 @@ Map<Type, ImportedType?> signedToUnsignedNativeIntType = Map.fromEntries(
       ),
 );
 
-Map<String, SupportedNativeType> suportedTypedefToSuportedNativeType = {
-  'uint8_t': SupportedNativeType.uint8,
-  'uint16_t': SupportedNativeType.uint16,
-  'uint32_t': SupportedNativeType.uint32,
-  'uint64_t': SupportedNativeType.uint64,
-  'int8_t': SupportedNativeType.int8,
-  'int16_t': SupportedNativeType.int16,
-  'int32_t': SupportedNativeType.int32,
-  'int64_t': SupportedNativeType.int64,
-  'intptr_t': SupportedNativeType.intPtr,
-  'uintptr_t': SupportedNativeType.uintPtr,
+Map<String, NativeType> suportedTypedefToSuportedNativeType = {
+  'uint8_t': NativeType(SupportedNativeType.uint8),
+  'uint16_t': NativeType(SupportedNativeType.uint16),
+  'uint32_t': NativeType(SupportedNativeType.uint32),
+  'uint64_t': NativeType(SupportedNativeType.uint64),
+  'int8_t': NativeType(SupportedNativeType.int8),
+  'int16_t': NativeType(SupportedNativeType.int16),
+  'int32_t': NativeType(SupportedNativeType.int32),
+  'int64_t': NativeType(SupportedNativeType.int64),
+  'intptr_t': NativeType(SupportedNativeType.intPtr),
+  'uintptr_t': NativeType(SupportedNativeType.uintPtr),
 };
 
 Map<String, ImportedType> supportedTypedefToImportedType = {

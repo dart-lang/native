@@ -4,91 +4,92 @@
 
 import '../code_generator.dart';
 import '../context.dart';
+import '../visitor/ast.dart';
 import 'clang_bindings/clang_bindings.dart' as clang_types;
+import 'sub_parsers/compounddecl_parser.dart';
+import 'sub_parsers/enumdecl_parser.dart';
 import 'sub_parsers/functiondecl_parser.dart';
 import 'sub_parsers/macro_parser.dart';
 import 'sub_parsers/objccategorydecl_parser.dart';
+import 'sub_parsers/objcinterfacedecl_parser.dart';
 import 'sub_parsers/objcprotocoldecl_parser.dart';
+import 'sub_parsers/typedefdecl_parser.dart';
 import 'sub_parsers/var_parser.dart';
-import 'type_extractor/extractor.dart';
 import 'utils.dart';
 
-/// Parses the translation unit and returns the generated bindings.
-Set<Binding> parseTranslationUnit(
+/// Parses the translation units and adds all the bindings to the context's
+/// bindingsIndex.
+void parseTranslationUnits(
+  Context context,
+  Iterable<clang_types.CXCursor> translationUnitCursors,
+) {
+  final headers = <String, bool>{};
+  for (final translationUnitCursor in translationUnitCursors) {
+    _parseTranslationUnit(context, translationUnitCursor, headers);
+  }
+}
+
+void _parseTranslationUnit(
   Context context,
   clang_types.CXCursor translationUnitCursor,
+  Map<String, bool> headers,
 ) {
-  final bindings = <Binding>{};
   final logger = context.logger;
-  final headers = <String, bool>{};
-
   translationUnitCursor.visitChildren((cursor) {
     final file = cursor.sourceFileName();
     if (file.isEmpty) return;
     if (headers[file] ??= context.config.headers.include(Uri.file(file))) {
-      try {
-        logger.finest('rootCursorVisitor: ${cursor.completeStringRepr()}');
-        switch (clang.clang_getCursorKind(cursor)) {
-          case clang_types.CXCursorKind.CXCursor_FunctionDecl:
-            bindings.addAll(parseFunctionDeclaration(context, cursor));
-            break;
-          case clang_types.CXCursorKind.CXCursor_StructDecl:
-          case clang_types.CXCursorKind.CXCursor_UnionDecl:
-          case clang_types.CXCursorKind.CXCursor_EnumDecl:
-          case clang_types.CXCursorKind.CXCursor_ObjCInterfaceDecl:
-          case clang_types.CXCursorKind.CXCursor_TypedefDecl:
-            addToBindings(bindings, _getCodeGenTypeFromCursor(context, cursor));
-            break;
-          case clang_types.CXCursorKind.CXCursor_ObjCCategoryDecl:
-            addToBindings(
-              bindings,
-              parseObjCCategoryDeclaration(context, cursor),
-            );
-            break;
-          case clang_types.CXCursorKind.CXCursor_ObjCProtocolDecl:
-            addToBindings(
-              bindings,
-              parseObjCProtocolDeclaration(context, cursor),
-            );
-            break;
-          case clang_types.CXCursorKind.CXCursor_MacroDefinition:
-            saveMacroDefinition(context, cursor);
-            break;
-          case clang_types.CXCursorKind.CXCursor_VarDecl:
-            addToBindings(bindings, parseVarDeclaration(context, cursor));
-            break;
-          default:
-            logger.finer('rootCursorVisitor: CursorKind not implemented');
-        }
-      } catch (e, s) {
-        logger.severe(e);
-        logger.severe(s);
-        rethrow;
-      }
+      parseCursor(context, cursor);
     } else {
       logger.finest(
         'rootCursorVisitor:(not included) ${cursor.completeStringRepr()}',
       );
     }
   });
-
-  return bindings;
 }
 
-/// Adds to binding if unseen and not null.
-void addToBindings(Set<Binding> bindings, Binding? b) {
-  if (b != null) {
-    // This is a set, and hence will not have duplicates.
-    bindings.add(b);
+AstNode? parseCursor(Context context, clang_types.CXCursor cursor) =>
+    context.bindingsIndex.cache(cursor, (def) => _parseCursor(context, def));
+
+CachableBinding? _parseCursor(Context context, clang_types.CXCursor cursor) {
+  final logger = context.logger;
+  logger.finest('rootCursorVisitor: ${cursor.completeStringRepr()}');
+  try {
+    switch (clang.clang_getCursorKind(cursor)) {
+      case clang_types.CXCursorKind.CXCursor_FunctionDecl:
+        // Due to variadic functions, we may get multiple bindings from a single
+        // cursor, each with different USRs. So parseFunctionDeclaration is
+        // responsible for filling its own index entries.
+        parseFunctionDeclaration(context, cursor);
+        return null;
+      case clang_types.CXCursorKind.CXCursor_StructDecl:
+        return parseStructDeclaration(cursor, context);
+      case clang_types.CXCursorKind.CXCursor_UnionDecl:
+        return parseUnionDeclaration(cursor, context);
+      case clang_types.CXCursorKind.CXCursor_EnumDecl:
+        return parseEnumDeclaration(cursor, context);
+      case clang_types.CXCursorKind.CXCursor_ObjCInterfaceDecl:
+        return parseObjCInterfaceDeclaration(context, cursor);
+      case clang_types.CXCursorKind.CXCursor_TypedefDecl:
+        return parseTypedefDeclaration(context, cursor);
+      case clang_types.CXCursorKind.CXCursor_ObjCCategoryDecl:
+        return parseObjCCategoryDeclaration(context, cursor);
+      case clang_types.CXCursorKind.CXCursor_ObjCProtocolDecl:
+        return parseObjCProtocolDeclaration(context, cursor);
+      case clang_types.CXCursorKind.CXCursor_MacroDefinition:
+        saveMacroDefinition(context, cursor);
+        return null;
+      case clang_types.CXCursorKind.CXCursor_VarDecl:
+        return parseVarDeclaration(context, cursor);
+      default:
+        logger.finer('rootCursorVisitor: CursorKind not implemented');
+    }
+    return null;
+  } catch (e, s) {
+    logger.severe(e);
+    logger.severe(s);
+    rethrow;
   }
-}
-
-BindingType? _getCodeGenTypeFromCursor(
-  Context context,
-  clang_types.CXCursor cursor,
-) {
-  final t = getCodeGenType(context, cursor.type());
-  return t is BindingType ? t : null;
 }
 
 /// Visits all cursors and builds a map of usr and [clang_types.CXCursor].
@@ -99,7 +100,7 @@ void buildUsrCursorDefinitionMap(
   final logger = context.logger;
   translationUnitCursor.visitChildren((cursor) {
     try {
-      context.cursorIndex.saveDefinition(cursor);
+      context.bindingsIndex.addDefinition(cursor);
     } catch (e, s) {
       logger.severe(e);
       logger.severe(s);

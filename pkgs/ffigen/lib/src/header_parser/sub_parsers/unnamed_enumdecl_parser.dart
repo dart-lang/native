@@ -47,13 +47,7 @@ Constant? _addUnNamedEnumConstant(
 ) {
   final logger = context.logger;
   final config = context.config;
-  final bindingsIndex = context.bindingsIndex;
-
   final usr = cursor.usr();
-  final oldConstant = bindingsIndex.getSeenUnnamedEnumConstant(usr);
-  if (oldConstant != null) {
-    return oldConstant;
-  }
 
   final unnamedEnumConstants = context.unnamedEnumConstants;
   final apiAvailability = ApiAvailability.fromCursor(cursor, context);
@@ -75,7 +69,6 @@ Constant? _addUnNamedEnumConstant(
     rawType: 'int',
     rawValue: clang.clang_getEnumConstantDeclValue(cursor).toString(),
   );
-  bindingsIndex.addUnnamedEnumConstantToSeen(cursor.usr(), constant);
   unnamedEnumConstants.add(constant);
   return constant;
 }

@@ -5,7 +5,9 @@
 import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
 import '../../context.dart';
+import '../../strings.dart' as strings;
 import '../clang_bindings/clang_bindings.dart' as clang_types;
+import '../type_extractor/cxtypekindmap.dart';
 import '../type_extractor/extractor.dart';
 import '../utils.dart';
 
@@ -25,65 +27,75 @@ import '../utils.dart';
 ///
 /// typedef A D; // Typeref.
 /// ```
-Typealias parseTypedefDeclaration(
+CachableBinding parseTypedefDeclaration(
   Context context,
   clang_types.CXCursor cursor,
 ) {
   final logger = context.logger;
   final config = context.config;
-  final bindingsIndex = context.bindingsIndex;
   final name = cursor.spelling();
   final usr = cursor.usr();
 
-  final cachedType = bindingsIndex.getSeenTypealias(usr);
-  if (cachedType != null) return cachedType;
+  if (config.objectiveC != null && name == strings.objcBOOL) {
+    // Objective C's BOOL type can be either bool or signed char, depending
+    // on the platform. We want to present a consistent API to the user, and
+    // those two types are ABI compatible, so just return bool regardless.
+    return CachableBinding(BooleanType());
+  }
+
+  if (config.typedefTypeMappings.containsKey(name)) {
+    logger.fine('  Type $name mapped from type-map');
+    return CachableBinding(config.typedefTypeMappings[name]!);
+  }
+
+  if (config.typedefs.useSupportedTypedefs) {
+    final supportedTypedef =
+        suportedTypedefToSuportedNativeType[name] ??
+        supportedTypedefToImportedType[name];
+    if (supportedTypedef != null) {
+      logger.fine('  Type Mapped from supported typedef');
+      return CachableBinding(supportedTypedef);
+    }
+  }
 
   final decl = Declaration(usr: usr, originalName: name);
   final ct = clang.clang_getTypedefDeclUnderlyingType(cursor);
   final s = getCodeGenType(context, ct, originalCursor: cursor);
 
-  if (bindingsIndex.isSeenUnsupportedTypealias(usr)) {
-    // Do not process unsupported typealiases again.
-  } else if (s is UnimplementedType) {
+  if (s is UnimplementedType) {
     logger.fine(
       "Skipped Typedef '$name': "
       'Unimplemented type referred.',
     );
-    bindingsIndex.addUnsupportedTypealiasToSeen(usr);
   } else if (s is Compound && s.originalName == name) {
     // Ignore typedef if it refers to a compound with the same original name.
-    bindingsIndex.addUnsupportedTypealiasToSeen(usr);
     logger.fine(
       "Skipped Typedef '$name': "
       'Name matches with referred struct/union.',
     );
   } else if (s is EnumClass) {
     // Ignore typedefs to Enum.
-    bindingsIndex.addUnsupportedTypealiasToSeen(usr);
     logger.fine("Skipped Typedef '$name': typedef to enum.");
   } else if (s is HandleType) {
     // Ignore typedefs to Handle.
     logger.fine("Skipped Typedef '$name': typedef to Dart Handle.");
-    bindingsIndex.addUnsupportedTypealiasToSeen(usr);
   } else if (s is ConstantArray || s is IncompleteArray) {
     // Ignore typedefs to Constant Array.
     logger.fine("Skipped Typedef '$name': typedef to array.");
-    bindingsIndex.addUnsupportedTypealiasToSeen(usr);
   } else if (s is BooleanType) {
     // Ignore typedefs to Boolean.
     logger.fine("Skipped Typedef '$name': typedef to bool.");
-    bindingsIndex.addUnsupportedTypealiasToSeen(usr);
   } else {
     // Create typealias.
-    final type = Typealias(
-      usr: usr,
-      originalName: name,
-      name: config.typedefs.rename(decl),
-      type: s,
-      dartDoc: getCursorDocComment(context, cursor),
+    return CachableBinding(
+      Typealias(
+        usr: usr,
+        originalName: name,
+        name: config.typedefs.rename(decl),
+        type: s,
+        dartDoc: getCursorDocComment(context, cursor),
+      ),
     );
-    bindingsIndex.addTypealiasToSeen(usr, type);
-    return type;
   }
-  return Typealias.anonymous(usr: usr, name: name, type: s);
+  return CachableBinding(Typealias.anonymous(usr: usr, name: name, type: s));
 }
