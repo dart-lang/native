@@ -24,7 +24,7 @@ The calls to the translate methods are almost always generated. Either by a
 transformer as a compiler plugin or by an external code generator that generates
 the API for the translations.
 
-If a transformer use used, the pre-transform code looks something like:
+If a transformer is used, the pre-transform code looks something like:
 
 ```dart
 class Intl {

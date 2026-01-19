@@ -31,10 +31,9 @@ abstract final class GalleryIcons {
 Const instances inside Dart code (const instances inside annotations are not
 reachable at runtime, and thus can never be used).
 
-Note that the Dart language does currently not have facilities to force all the
-calls of a const constructor to be const. So for this feature to be reliable
-we'd need to both call const instances (reachable from code), and
-const-constructor calls.
+Note that `const` constructors can be called in non-`const` contexts. To
+reliably track all uses, we need to record both `const` instances and all calls
+to `const` constructors, regardless of whether the call site is `const`.
 
 * https://github.com/dart-lang/native/issues/2911
 

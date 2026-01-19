@@ -1,8 +1,9 @@
 # JNIgen record_use
 
-JNIgen generates bindings to Java/Kotlin code. After tree-shaking the generated
-code not all Java/Kotlin code is reachable. For this we want to generate
-ProGuard rules that list all the reachable classes, methods, and fields.
+JNIgen generates Dart bindings to Java/Kotlin code. After tree-shaking the generated
+Dart code not all Java/Kotlin code is reachable. To tree-shake the unreachable
+Java/Kotlin code we want to generate ProGuard rules that list all the
+reachable Java/Kotlin classes, methods, and fields.
 
 ## Information needed for tree-shaking
 
@@ -34,7 +35,6 @@ Because the `JObjects` are wrappers around native pointers, none of the JNIgen
 generated classes will ever have const constructors.
 
 ### 2. Which methods, getters and setters are reachable.
-
 
 ```dart
 class PDDocument extends jni$_.JObject {
