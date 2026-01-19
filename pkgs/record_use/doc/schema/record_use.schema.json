@@ -65,13 +65,13 @@
           "anyOf": [
             {
               "enum": [
-                "Instance",
-                "Null",
-                "String",
                 "bool",
+                "instance",
                 "int",
                 "list",
-                "map"
+                "map",
+                "null",
+                "string"
               ]
             },
             {
@@ -84,58 +84,6 @@
         "type"
       ],
       "allOf": [
-        {
-          "if": {
-            "properties": {
-              "type": {
-                "const": "Instance"
-              }
-            }
-          },
-          "then": {
-            "properties": {
-              "value": {
-                "type": "object",
-                "additionalProperties": true
-              }
-            }
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "type": {
-                "const": "Null"
-              }
-            }
-          },
-          "then": {
-            "not": {
-              "required": [
-                "value"
-              ]
-            }
-          }
-        },
-        {
-          "if": {
-            "properties": {
-              "type": {
-                "const": "String"
-              }
-            }
-          },
-          "then": {
-            "properties": {
-              "value": {
-                "type": "string"
-              }
-            },
-            "required": [
-              "value"
-            ]
-          }
-        },
         {
           "if": {
             "properties": {
@@ -153,6 +101,23 @@
             "required": [
               "value"
             ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "instance"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "object",
+                "additionalProperties": true
+              }
+            }
           }
         },
         {
@@ -206,6 +171,41 @@
               "value": {
                 "type": "object",
                 "additionalProperties": true
+              }
+            },
+            "required": [
+              "value"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "null"
+              }
+            }
+          },
+          "then": {
+            "not": {
+              "required": [
+                "value"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "string"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "string"
               }
             },
             "required": [

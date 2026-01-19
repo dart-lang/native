@@ -68,7 +68,9 @@ sealed class Constant {
         (key, value) => MapEntry(key, constants[value as int]),
       ),
     ),
-    _ => throw UnimplementedError('This type is not a supported constant'),
+    _ => throw UnimplementedError(
+      '"${syntax.type}" is not a supported constant type',
+    ),
   };
 }
 

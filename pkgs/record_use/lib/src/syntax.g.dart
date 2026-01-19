@@ -125,17 +125,11 @@ class ConstantSyntax extends JsonObjectSyntax {
     List<Object> path = const [],
   }) {
     final result = ConstantSyntax._fromJson(json, path: path);
-    if (result.isInstanceConstant) {
-      return result.asInstanceConstant;
-    }
-    if (result.isNullConstant) {
-      return result.asNullConstant;
-    }
-    if (result.isStringConstant) {
-      return result.asStringConstant;
-    }
     if (result.isBoolConstant) {
       return result.asBoolConstant;
+    }
+    if (result.isInstanceConstant) {
+      return result.asInstanceConstant;
     }
     if (result.isIntConstant) {
       return result.asIntConstant;
@@ -145,6 +139,12 @@ class ConstantSyntax extends JsonObjectSyntax {
     }
     if (result.isMapConstant) {
       return result.asMapConstant;
+    }
+    if (result.isNullConstant) {
+      return result.asNullConstant;
+    }
+    if (result.isStringConstant) {
+      return result.asStringConstant;
     }
     return result;
   }
@@ -344,7 +344,7 @@ class InstanceConstantSyntax extends ConstantSyntax {
   }) : super._fromJson();
 
   InstanceConstantSyntax({JsonObjectSyntax? value, super.path = const []})
-    : super(type: 'Instance') {
+    : super(type: 'instance') {
     _value = value;
     json.sortOnKey();
   }
@@ -382,7 +382,7 @@ class InstanceConstantSyntax extends ConstantSyntax {
 }
 
 extension InstanceConstantSyntaxExtension on ConstantSyntax {
-  bool get isInstanceConstant => type == 'Instance';
+  bool get isInstanceConstant => type == 'instance';
 
   InstanceConstantSyntax get asInstanceConstant =>
       InstanceConstantSyntax.fromJson(json, path: path);
@@ -624,7 +624,7 @@ class NullConstantSyntax extends ConstantSyntax {
     super.path,
   }) : super._fromJson();
 
-  NullConstantSyntax({super.path = const []}) : super(type: 'Null');
+  NullConstantSyntax({super.path = const []}) : super(type: 'null');
 
   @override
   List<String> validate() => [
@@ -636,7 +636,7 @@ class NullConstantSyntax extends ConstantSyntax {
 }
 
 extension NullConstantSyntaxExtension on ConstantSyntax {
-  bool get isNullConstant => type == 'Null';
+  bool get isNullConstant => type == 'null';
 
   NullConstantSyntax get asNullConstant =>
       NullConstantSyntax.fromJson(json, path: path);
@@ -916,7 +916,7 @@ class StringConstantSyntax extends ConstantSyntax {
   }) : super._fromJson();
 
   StringConstantSyntax({required String value, super.path = const []})
-    : super(type: 'String') {
+    : super(type: 'string') {
     _value = value;
     json.sortOnKey();
   }
@@ -944,7 +944,7 @@ class StringConstantSyntax extends ConstantSyntax {
 }
 
 extension StringConstantSyntaxExtension on ConstantSyntax {
-  bool get isStringConstant => type == 'String';
+  bool get isStringConstant => type == 'string';
 
   StringConstantSyntax get asStringConstant =>
       StringConstantSyntax.fromJson(json, path: path);
