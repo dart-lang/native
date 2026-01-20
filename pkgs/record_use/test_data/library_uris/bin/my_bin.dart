@@ -3,8 +3,11 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:library_uris/library_uris.dart';
+import 'package:library_uris_helper/library_uris_helper.dart';
 
 void main() {
   helloFoo();
-  Foo.theMethod('bar');
+  MyClass.myMethod('bar');
+  helloBar();
+  ClassInHelper.methodInHelper('bar');
 }

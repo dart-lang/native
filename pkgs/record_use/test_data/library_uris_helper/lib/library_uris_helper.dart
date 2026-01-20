@@ -2,12 +2,5 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:meta/meta.dart';
-
-class MyClass {
-  // ignore: experimental_member_use
-  @RecordUse()
-  static void myMethod(String argument) {
-    print('Hello $argument');
-  }
-}
+export 'src/helper_call.dart';
+export 'src/helper_definition.dart';

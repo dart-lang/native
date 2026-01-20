@@ -2,12 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:meta/meta.dart';
+import 'package:library_uris_helper/library_uris_helper.dart';
 
-class MyClass {
-  // ignore: experimental_member_use
-  @RecordUse()
-  static void myMethod(String argument) {
-    print('Hello $argument');
-  }
+import 'definition.dart';
+
+void helloFoo() {
+  MyClass.myMethod('foo');
+  ClassInHelper.methodInHelper('foo');
+  helloBar();
 }
