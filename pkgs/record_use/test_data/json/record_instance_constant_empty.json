@@ -2,10 +2,10 @@
   "$schema": "../../doc/schema/record_use.schema.json",
   "constants": [
     {
-      "type": "Instance"
+      "type": "instance"
     },
     {
-      "type": "Instance",
+      "type": "instance",
       "value": {
         "a": 0
       }

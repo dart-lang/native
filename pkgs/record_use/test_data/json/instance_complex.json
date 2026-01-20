@@ -6,7 +6,7 @@
       "value": 15
     },
     {
-      "type": "String",
+      "type": "string",
       "value": "s"
     },
     {
@@ -40,10 +40,10 @@
       ]
     },
     {
-      "type": "Null"
+      "type": "null"
     },
     {
-      "type": "Instance",
+      "type": "instance",
       "value": {
         "i": 0,
         "s": 1,
