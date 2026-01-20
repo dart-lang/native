@@ -19,6 +19,11 @@ class ObjCBlock extends BindingType with HasLocalScope {
   ObjCBlockWrapperFuncs? _blockWrappers;
   ObjCProtocolMethodTrampoline? protocolTrampoline;
 
+  /// Whether this block needs helper methods generated.
+  /// Set to false by default if generating for package:objective_c, but can be
+  /// set to true if the block is referenced by a protocol.
+  bool needsHelper;
+
   final Parameter _blockParam;
   final Parameter _waiterParam;
   late final _FnHelper _helper;
@@ -66,7 +71,8 @@ class ObjCBlock extends BindingType with HasLocalScope {
     required this.returnType,
     required this.params,
     required this.returnsRetained,
-  }) : _waiterParam = Parameter(
+  }) : needsHelper = !context.objCBuiltInFunctions.generateForPackageObjectiveC,
+       _waiterParam = Parameter(
          name: 'waiter',
          type: PointerType(voidType),
          objCConsumed: false,
@@ -90,6 +96,8 @@ class ObjCBlock extends BindingType with HasLocalScope {
   void fillProtocolTrampoline() {
     protocolTrampoline ??= context.objCBuiltInFunctions
         .getProtocolMethodTrampoline(this);
+    // Blocks referenced by protocols need helpers even in package:objective_c.
+    needsHelper = true;
   }
 
   // Generates a human readable name for the block based on the args and return
@@ -142,8 +150,8 @@ class ObjCBlock extends BindingType with HasLocalScope {
 
     final context = w.context;
 
-    // Don't generate block helpers for package:objective_c.
-    if (context.objCBuiltInFunctions.generateForPackageObjectiveC) {
+    // Don't generate block helpers unless they're needed.
+    if (!needsHelper) {
       return BindingString(
         type: BindingStringType.objcBlock,
         string: '',
@@ -380,8 +388,8 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
 
   @override
   BindingString? toObjCBindingString(Writer w) {
-    // Don't generate block helpers for package:objective_c.
-    if (w.context.objCBuiltInFunctions.generateForPackageObjectiveC) {
+    // Don't generate block helpers unless they're needed.
+    if (!needsHelper) {
       return null;
     }
 
