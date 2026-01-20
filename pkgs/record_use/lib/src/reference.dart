@@ -233,6 +233,43 @@ final class CallWithArguments extends CallReference {
         return allowTearOffToStaticPromotion;
     }
   }
+
+  @override
+  String toString() {
+    var result = 'CallWithArguments(';
+    var first = true;
+    if (positionalArguments.isNotEmpty) {
+      result += 'positional: ';
+      result += positionalArguments.map((a) => a.toString()).join(' ,');
+      first = false;
+    }
+    if (namedArguments.isNotEmpty) {
+      if (!first) {
+        result += ', ';
+        first = false;
+      }
+      result += 'named: ';
+      result += namedArguments.entries
+          .map((e) => '${e.key}=${e.value}')
+          .join(', ');
+    }
+    if (location != null) {
+      if (!first) {
+        result += ', ';
+        first = false;
+      }
+      result += 'location: $location';
+    }
+    if (loadingUnit != null) {
+      if (!first) {
+        result += ', ';
+        first = false;
+      }
+      result += 'loadingUnit: $loadingUnit';
+    }
+    result += ')';
+    return result;
+  }
 }
 
 /// A reference to a tear-off use of the [Identifier]. This means that we can't

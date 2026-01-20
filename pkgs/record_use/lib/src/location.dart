@@ -53,6 +53,14 @@ class Location {
     final mappedUri = uriMapping == null ? uri : uriMapping(uri);
     return mappedUri == other.uri;
   }
+
+  @override
+  String toString() {
+    var result = 'Location(uri: ';
+    result += uri;
+    result += ')';
+    return result;
+  }
 }
 
 /// Package private (protected) methods for [Location].
