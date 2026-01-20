@@ -51,7 +51,7 @@ class ObjCBlock extends BindingType with HasLocalScope {
       if (oldBlock.symbol.oldName != newBlockName) {
         // Block with matching signature, but a different name. This is usually
         // due to type aliases. Replace the name with the reduced name, so that
-        // it makes sense as a name for all blocks shaing this signature.
+        // it makes sense as a name for all blocks sharing this signature.
         oldBlock.symbol.oldName = _getBlockName(
           returnType,
           renamedParams.map((a) => a.type),
