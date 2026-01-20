@@ -2,7 +2,7 @@
   "$schema": "../../doc/schema/record_use.schema.json",
   "constants": [
     {
-      "type": "Instance"
+      "type": "instance"
     }
   ],
   "locations": [

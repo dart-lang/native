@@ -112,7 +112,7 @@ const recordedUsesJson = '''{
   },
   "constants": [
     {
-      "type": "String",
+      "type": "string",
       "value": "lib_SHA1"
     },
     {
@@ -124,11 +124,11 @@ const recordedUsesJson = '''{
       "value": 1
     },
     {
-      "type": "String",
+      "type": "string",
       "value": "mercury"
     },
     {
-      "type": "String",
+      "type": "string",
       "value": "jenkins"
     },
     {
@@ -142,15 +142,15 @@ const recordedUsesJson = '''{
       }
     },
     {
-      "type": "String",
+      "type": "string",
       "value": "camus"
     },
     {
-      "type": "String",
+      "type": "string",
       "value": "einstein"
     },
     {
-      "type": "String",
+      "type": "string",
       "value": "insert"
     },
     {
@@ -178,17 +178,17 @@ const recordedUsesJson = '''{
       "value": 42
     },
     {
-      "type": "Null"
+      "type": "null"
     },
     {
-      "type": "Instance",
+      "type": "instance",
       "value": {
         "a": 13,
         "b": 14
       }
     },
     {
-      "type": "Instance"
+      "type": "instance"
     }
   ],
   "locations": [
@@ -283,7 +283,7 @@ const recordedUsesJson2 = '''{
       "value": 1
     },
     {
-      "type": "String",
+      "type": "string",
       "value": "mercury"
     },
     {
