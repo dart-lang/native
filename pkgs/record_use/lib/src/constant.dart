@@ -16,13 +16,6 @@ sealed class Constant {
   /// Creates a [Constant] object.
   const Constant();
 
-  /// Converts this [Constant] object to a JSON representation.
-  ///
-  /// [constants] needs to be passed, as the [Constant]s are normalized and
-  /// stored separately in the JSON.
-  Map<String, Object?> toJson(Map<Constant, int> constants) =>
-      _toSyntax(constants).json;
-
   /// Converts this [Constant] object to a syntax representation.
   ConstantSyntax _toSyntax(Map<Constant, int> constants);
 
@@ -38,15 +31,6 @@ sealed class Constant {
       (key, value) => MapEntry(key, value.toValue()),
     ),
   };
-
-  /// Creates a [Constant] object from its JSON representation.
-  ///
-  /// [constants] needs to be passed, as the [Constant]s are normalized and
-  /// stored separately in the JSON.
-  static Constant fromJson(
-    Map<String, Object?> value,
-    List<Constant> constants,
-  ) => _fromSyntax(ConstantSyntax.fromJson(value), constants);
 
   /// Creates a [Constant] object from its syntax representation.
   static Constant _fromSyntax(
@@ -68,7 +52,9 @@ sealed class Constant {
         (key, value) => MapEntry(key, constants[value as int]),
       ),
     ),
-    _ => throw UnimplementedError('This type is not a supported constant'),
+    _ => throw UnimplementedError(
+      '"${syntax.type}" is not a supported constant type',
+    ),
   };
 }
 

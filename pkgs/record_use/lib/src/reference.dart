@@ -35,16 +35,6 @@ sealed class Reference {
   @override
   int get hashCode => Object.hash(loadingUnit, location);
 
-  Map<String, Object?> toJson(
-    Map<Constant, int> constants,
-    Map<Location, int> locations,
-  ) => _toSyntax(constants, locations).json;
-
-  JsonObjectSyntax _toSyntax(
-    Map<Constant, int> constants,
-    Map<Location, int> locations,
-  );
-
   bool _semanticEqualsShared(
     Reference other,
     bool allowLocationNull, {
@@ -81,12 +71,6 @@ sealed class Reference {
 sealed class CallReference extends Reference {
   const CallReference({required super.loadingUnit, required super.location});
 
-  static CallReference fromJson(
-    Map<String, Object?> json,
-    List<Constant> constants,
-    List<Location> locations,
-  ) => _fromSyntax(CallSyntax.fromJson(json), constants, locations);
-
   static CallReference _fromSyntax(
     CallSyntax syntax,
     List<Constant> constants,
@@ -121,7 +105,6 @@ sealed class CallReference extends Reference {
     };
   }
 
-  @override
   CallSyntax _toSyntax(
     Map<Constant, int> constants,
     Map<Location, int> locations,
@@ -296,12 +279,6 @@ final class InstanceReference extends Reference {
     required super.location,
   });
 
-  factory InstanceReference.fromJson(
-    Map<String, Object?> json,
-    List<Constant> constants,
-    List<Location> locations,
-  ) => _fromSyntax(InstanceSyntax.fromJson(json), constants, locations);
-
   static InstanceReference _fromSyntax(
     InstanceSyntax syntax,
     List<Constant> constants,
@@ -316,7 +293,6 @@ final class InstanceReference extends Reference {
     );
   }
 
-  @override
   InstanceSyntax _toSyntax(
     Map<Constant, int> constants,
     Map<Location, int> locations,

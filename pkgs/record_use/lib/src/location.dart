@@ -13,13 +13,8 @@ class Location {
 
   const Location({required this.uri, this.line, this.column});
 
-  factory Location.fromJson(Map<String, Object?> map) =>
-      Location._fromSyntax(LocationSyntax.fromJson(map));
-
   factory Location._fromSyntax(LocationSyntax syntax) =>
       Location(uri: syntax.uri, line: syntax.line, column: syntax.column);
-
-  Map<String, Object?> toJson() => _toSyntax().json;
 
   LocationSyntax _toSyntax() =>
       LocationSyntax(uri: uri, line: line, column: column);

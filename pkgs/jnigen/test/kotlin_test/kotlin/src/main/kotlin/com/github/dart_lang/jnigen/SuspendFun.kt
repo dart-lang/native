@@ -46,6 +46,12 @@ public class SuspendFun {
         }
         return "Hello!"
     }
+
+    var result: Int = 0
+    suspend fun noReturn() {
+        delay(100L)
+        this.result = 123
+    }
 }
 
 public interface SuspendInterface {
@@ -55,6 +61,7 @@ public interface SuspendInterface {
     suspend fun sayInt(): Integer
     suspend fun sayInt(value: Integer): Integer
     suspend fun nullableInt(returnNull: Boolean): Integer?
+    suspend fun noReturn()
 }
 
 suspend fun consumeOnAnotherThread(itf: SuspendInterface): String {
@@ -71,5 +78,6 @@ ${itf.nullableHello(false)}
 ${itf.sayInt()}
 ${itf.sayInt(Integer(789))}
 ${itf.nullableInt(false)}
+${itf.noReturn()}
 """.trim();
 }
