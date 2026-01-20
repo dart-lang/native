@@ -17,8 +17,21 @@ class Metadata {
 
   const Metadata._(this._syntax);
 
-  factory Metadata.fromJson(Map<String, Object?> json) =>
-      Metadata._(MetadataSyntax.fromJson(json));
+  factory Metadata({
+    required Version version,
+    required String comment,
+    Map<String, Object?>? extension,
+  }) {
+    final syntax = MetadataSyntax(
+      comment: comment,
+      version: version.toString(),
+    );
+    // TODO(https://github.com/dart-lang/native/issues/2984): Nest extension
+    // fields.
+    return Metadata._(
+      MetadataSyntax.fromJson({...syntax.json, ...?extension}),
+    );
+  }
 
   /// The underlying data.
   ///
@@ -27,10 +40,19 @@ class Metadata {
   /// VM.
   Map<String, Object?> get json => _syntax.json;
 
-  Map<String, Object?> toJson() => _syntax.json;
-
   Version get version => Version.parse(_syntax.version);
+
   String get comment => _syntax.comment;
+
+  Map<String, Object?>? get extension {
+    // TODO(https://github.com/dart-lang/native/issues/2984): Nest extension
+    // fields.
+    final dummy = MetadataSyntax(comment: comment, version: version.toString());
+    return {
+      for (final entry in _syntax.json.entries)
+        if (!dummy.json.keys.contains(entry.key)) entry.key: entry.value,
+    };
+  }
 
   @override
   bool operator ==(covariant Metadata other) {
