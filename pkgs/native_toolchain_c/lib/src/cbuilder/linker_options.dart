@@ -128,6 +128,7 @@ extension LinkerOptionsExt on LinkerOptions {
             if (_keepAllSymbols) ...sourceFiles.map((e) => '-force_load,$e'),
             ..._linkerFlags,
             ..._symbols.map((symbol) => '-u,_$symbol'),
+            '-encryptable',
             if (stripDebug) '-S',
             if (gcSections) '-dead_strip',
             if (_linkerScriptMode is ManualLinkerScript)
