@@ -141,6 +141,14 @@ class ObjCBlock extends BindingType with HasLocalScope {
     final s = StringBuffer();
 
     final context = w.context;
+
+    // Don't generate block helpers for package:objective_c.
+    if (context.objCBuiltInFunctions.generateForPackageObjectiveC) {
+      return BindingString(
+        type: BindingStringType.objcBlock,
+        string: '',
+      );
+    }
     final voidPtr = PointerType(voidType);
     final blockPtr = PointerType(objCBlockType);
 
@@ -372,6 +380,11 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
 
   @override
   BindingString? toObjCBindingString(Writer w) {
+    // Don't generate block helpers for package:objective_c.
+    if (w.context.objCBuiltInFunctions.generateForPackageObjectiveC) {
+      return null;
+    }
+
     final chunks = [
       _blockWrappersBindingString(w),
       _protocolTrampolineBindingString(w),
