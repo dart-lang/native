@@ -49,7 +49,9 @@ import 'parse_declarations.dart';
 ) {
   final token = fragments[0];
   final parselet = _prefixParsets[_tokenId(token)];
-  if (parselet == null) throw Exception('Invalid type at "${token.path}"');
+  if (parselet == null) {
+    throw Exception('Invalid type at "${token.path}": $token');
+  }
   return parselet(context, symbolgraph, token, fragments.slice(1));
 }
 
@@ -73,7 +75,10 @@ import 'parse_declarations.dart';
 // kind of 'text', and the spelling is what distinguishes them.
 String _tokenId(Json token) {
   final kind = token['kind'].get<String>();
-  return kind == 'text' ? 'text: ${token['spelling'].get<String>()}' : kind;
+  if (kind == 'text' || kind == 'keyword') {
+    return '$kind: ${token['spelling'].get<String>()}';
+  }
+  return kind;
 }
 
 // ========================
@@ -99,7 +104,7 @@ typedef PrefixParselet =
 
   if (symbol == null) {
     throw Exception(
-      'The type at "${token.path}" does not exist among parsed symbols.',
+      'The type at "${token.path}" does not exist among parsed symbols: $token',
     );
   }
 
@@ -120,9 +125,24 @@ typedef PrefixParselet =
   return (voidType, fragments.slice(1));
 }
 
+(ReferredType, TokenList) _inoutParselet(
+  Context context,
+  ParsedSymbolgraph symbolgraph,
+  Json token,
+  TokenList fragments,
+) {
+  if (_tokenId(fragments[0]) == 'text: ') {
+    fragments = fragments.slice(1);
+  }
+  // TODO(https://github.com/dart-lang/native/issues/1754): Mark the returned
+  // type as inout (maybe wrap it in a new InOutType AST node?).
+  return parseType(context, symbolgraph, fragments);
+}
+
 Map<String, PrefixParselet> _prefixParsets = {
   'typeIdentifier': _typeIdentifierParselet,
   'text: (': _tupleParselet,
+  'keyword: inout': _inoutParselet,
 };
 
 // ========================

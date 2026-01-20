@@ -129,3 +129,7 @@ InitializerDeclaration buildWrapperInitializer(
     hasObjCAnnotation: wrappedClassInstance.hasObjCAnnotation,
   );
 }
+
+extension SortById<T extends Declaration> on Iterable<T> {
+  List<T> sortedById() => toList()..sort((T a, T b) => a.id.compareTo(b.id));
+}

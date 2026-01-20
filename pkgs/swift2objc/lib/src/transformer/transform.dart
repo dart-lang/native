@@ -7,14 +7,18 @@ import '../ast/_core/interfaces/declaration.dart';
 import '../ast/_core/interfaces/nestable_declaration.dart';
 import '../ast/declarations/built_in/built_in_declaration.dart';
 import '../ast/declarations/compounds/class_declaration.dart';
+import '../ast/declarations/compounds/enum_declaration.dart';
 import '../ast/declarations/compounds/struct_declaration.dart';
 import '../ast/declarations/globals/globals.dart';
 import '../ast/declarations/typealias_declaration.dart';
 import '../ast/visitor.dart';
 import '../context.dart';
+import '../parser/_core/utils.dart';
 import '_core/dependencies.dart';
 import '_core/unique_namer.dart';
+import '_core/utils.dart';
 import 'transformers/transform_compound.dart';
+import 'transformers/transform_enum.dart';
 import 'transformers/transform_globals.dart';
 
 class TransformationState {
@@ -53,7 +57,7 @@ List<Declaration> transform(
     ListDeclsVisitation(includes, directTransitives),
     state.bindings,
   );
-  final topLevelDecls = listDecls.topLevelDecls;
+  final topLevelDecls = listDecls.topLevelDecls.toList();
   state.stubs.addAll(listDecls.stubDecls);
   state.bindings.addAll(listDecls.stubDecls);
 
@@ -62,24 +66,21 @@ List<Declaration> transform(
   );
 
   final globals = Globals(
-    functions: topLevelDecls.whereType<GlobalFunctionDeclaration>().toList(),
-    variables: topLevelDecls.whereType<GlobalVariableDeclaration>().toList(),
+    functions: topLevelDecls.removeWhereType<GlobalFunctionDeclaration>(),
+    variables: topLevelDecls.removeWhereType<GlobalVariableDeclaration>(),
   );
-  final nonGlobals = topLevelDecls
-      .where(
-        (declaration) =>
-            declaration is! GlobalFunctionDeclaration &&
-            declaration is! GlobalVariableDeclaration,
-      )
-      .toList();
 
   final transformedDeclarations = [
-    ...nonGlobals.map((d) => maybeTransformDeclaration(d, globalNamer, state)),
+    ...topLevelDecls.map(
+      (d) => maybeTransformDeclaration(d, globalNamer, state),
+    ),
     transformGlobals(globals, globalNamer, state),
   ].nonNulls.toList();
 
-  return (transformedDeclarations + _getPrimitiveWrapperClasses(state))
-    ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+  return [
+    ...transformedDeclarations,
+    ..._getPrimitiveWrapperClasses(state),
+  ].sortedById();
 }
 
 Declaration transformDeclaration(
@@ -123,15 +124,15 @@ Declaration? maybeTransformDeclaration(
       parentNamer,
       state,
     ),
+    EnumDeclaration() => transformEnum(declaration, parentNamer, state),
     TypealiasDeclaration() => null,
     _ => throw UnimplementedError(),
   };
 }
 
-List<Declaration> _getPrimitiveWrapperClasses(TransformationState state) {
-  return state.map.entries
-      .where((entry) => entry.key is BuiltInDeclaration)
-      .map((entry) => entry.value)
-      .nonNulls
-      .toList();
-}
+List<Declaration> _getPrimitiveWrapperClasses(TransformationState state) =>
+    state.map.entries
+        .where((entry) => entry.key is BuiltInDeclaration)
+        .map((entry) => entry.value)
+        .nonNulls
+        .toList();
