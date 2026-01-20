@@ -5,6 +5,8 @@
   implemented using Dart functions that return a `Future`.
 - Namespace primitive types to avoid collisions with generated API names, eg
   `bool`.
+- Kotlin suspend functions with no result (a return type of `Unit`) now return
+  `Future<void>` in Dart instead of `Future<JObject>`.
 
 ## 0.15.0
 
