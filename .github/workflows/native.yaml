@@ -9,31 +9,35 @@ on:
   pull_request:
     # No `branches:` to enable stacked PRs on GitHub.
     paths:
-      - ".github/workflows/native.yaml"
-      - "pkgs/code_assets/**"
-      - "pkgs/data_assets/**"
-      - "pkgs/hooks_runner/**"
-      - "pkgs/hooks/**"
-      - "pkgs/json_syntax_generator/**"
-      - "pkgs/native_test_helpers/**"
-      - "pkgs/native_toolchain_c/**"
-      - "pkgs/repo_lint_rules/**"
-      - "tool/**"
+      - '.github/workflows/native.yaml'
+      - 'pkgs/code_assets/**'
+      - 'pkgs/data_assets/**'
+      - 'pkgs/ffi/**'
+      - 'pkgs/hooks/**'
+      - 'pkgs/hooks_runner/**'
+      - 'pkgs/json_syntax_generator/**'
+      - 'pkgs/native_test_helpers/**'
+      - 'pkgs/native_toolchain_c/**'
+      - 'pkgs/record_use/**'
+      - 'pkgs/repo_lint_rules/**'
+      - 'tool/**'
   push:
     branches: [main]
     paths:
-      - ".github/workflows/native.yaml"
-      - "pkgs/code_assets/**"
-      - "pkgs/data_assets/**"
-      - "pkgs/hooks_runner/**"
-      - "pkgs/hooks/**"
-      - "pkgs/json_syntax_generator/**"
-      - "pkgs/native_test_helpers/**"
-      - "pkgs/native_toolchain_c/**"
-      - "pkgs/repo_lint_rules/**"
-      - "tool/**"
+      - '.github/workflows/native.yaml'
+      - 'pkgs/code_assets/**'
+      - 'pkgs/data_assets/**'
+      - 'pkgs/ffi/**'
+      - 'pkgs/hooks/**'
+      - 'pkgs/hooks_runner/**'
+      - 'pkgs/json_syntax_generator/**'
+      - 'pkgs/native_test_helpers/**'
+      - 'pkgs/native_toolchain_c/**'
+      - 'pkgs/record_use/**'
+      - 'pkgs/repo_lint_rules/**'
+      - 'tool/**'
   schedule:
-    - cron: "0 0 * * 0" # weekly
+    - cron: '0 0 * * 0' # weekly
 
 jobs:
   build:
@@ -50,7 +54,7 @@ jobs:
         working-directory: .
 
     steps:
-      - uses: actions/checkout@1af3b93b6815bc44a9784bd300feb67ff0d1eeb3
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
 
       - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
@@ -67,14 +71,8 @@ jobs:
 
       - run: dart pub get
 
-      - name: Run pub get, analysis, formatting, generators, and tests.
-        # Don't run examples on stable, the experiment is not available on stable.
-        run: dart tool/ci.dart --all --no-example
-        if: ${{ matrix.sdk == 'stable' }}
-
       - name: Run pub get, analysis, formatting, generators, tests, and examples.
         run: dart tool/ci.dart --all
-        if: ${{ matrix.sdk != 'stable' }}
 
       - name: Upload coverage
         uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
@@ -90,6 +88,6 @@ jobs:
       - name: Upload coverage
         uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
         with:
-          carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen"
+          carryforward: 'ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen'
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true

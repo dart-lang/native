@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart';
+
 import 'identifier.dart';
 import 'syntax.g.dart';
 
@@ -12,15 +14,10 @@ class Definition {
 
   const Definition({required this.identifier, this.loadingUnit});
 
-  factory Definition.fromJson(Map<String, Object?> json) =>
-      Definition._fromSyntax(DefinitionSyntax.fromJson(json));
-
   factory Definition._fromSyntax(DefinitionSyntax syntax) => Definition(
     identifier: IdentifierProtected.fromSyntax(syntax.identifier),
     loadingUnit: syntax.loadingUnit,
   );
-
-  Map<String, Object?> toJson() => _toSyntax().json;
 
   DefinitionSyntax _toSyntax() => DefinitionSyntax(
     identifier: identifier.toSyntax(),
@@ -38,6 +35,39 @@ class Definition {
 
   @override
   int get hashCode => Object.hash(identifier, loadingUnit);
+
+  /// Compares this [Definition] with [other] for semantic equality.
+  ///
+  /// The [loadingUnit] can be mapped using [loadingUnitMapping].
+  /// If [allowLoadingUnitNull] is true, a null [loadingUnit] is considered
+  /// equal to any other loading unit.
+  ///
+  /// The [uriMapping] is passed on to the comparison of the [identifier].
+  @visibleForTesting
+  bool semanticEquals(
+    Definition other, {
+    bool allowLoadingUnitNull = false,
+    String Function(String)? uriMapping,
+    String Function(String)? loadingUnitMapping,
+  }) {
+    final skipLoadingUnitComparison =
+        allowLoadingUnitNull &&
+        (loadingUnit == null || other.loadingUnit == null);
+    if (!skipLoadingUnitComparison) {
+      final mappedLoadingUnit =
+          loadingUnit == null || loadingUnitMapping == null
+          ? loadingUnit
+          : loadingUnitMapping(loadingUnit!);
+      if (other.loadingUnit != mappedLoadingUnit) {
+        return false;
+      }
+    }
+    // ignore: invalid_use_of_visible_for_testing_member
+    return identifier.semanticEquals(
+      other.identifier,
+      uriMapping: uriMapping,
+    );
+  }
 }
 
 /// Package private (protected) methods for [Definition].

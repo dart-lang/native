@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart';
+
 import 'constant.dart';
 import 'helper.dart';
 import 'identifier.dart';
@@ -33,15 +35,33 @@ sealed class Reference {
   @override
   int get hashCode => Object.hash(loadingUnit, location);
 
-  Map<String, Object?> toJson(
-    Map<Constant, int> constants,
-    Map<Location, int> locations,
-  ) => _toSyntax(constants, locations).json;
-
-  JsonObjectSyntax _toSyntax(
-    Map<Constant, int> constants,
-    Map<Location, int> locations,
-  );
+  bool _semanticEqualsShared(
+    Reference other,
+    bool allowLocationNull, {
+    String Function(String)? uriMapping,
+    String Function(String)? loadingUnitMapping,
+  }) {
+    final mappedLoadingUnit = loadingUnit == null || loadingUnitMapping == null
+        ? loadingUnit
+        : loadingUnitMapping(loadingUnit!);
+    if (other.loadingUnit != mappedLoadingUnit) {
+      return false;
+    }
+    if ((location == null) != (other.location == null)) {
+      return false;
+    }
+    if (location != null &&
+        other.location != null &&
+        // ignore: invalid_use_of_visible_for_testing_member
+        !location!.semanticEquals(
+          other.location!,
+          allowLocationNull: allowLocationNull,
+          uriMapping: uriMapping,
+        )) {
+      return false;
+    }
+    return true;
+  }
 }
 
 /// A reference to a call to some [Identifier].
@@ -50,12 +70,6 @@ sealed class Reference {
 /// tear-off, in which case we can't record the arguments.
 sealed class CallReference extends Reference {
   const CallReference({required super.loadingUnit, required super.location});
-
-  static CallReference fromJson(
-    Map<String, Object?> json,
-    List<Constant> constants,
-    List<Location> locations,
-  ) => _fromSyntax(CallSyntax.fromJson(json), constants, locations);
 
   static CallReference _fromSyntax(
     CallSyntax syntax,
@@ -91,11 +105,34 @@ sealed class CallReference extends Reference {
     };
   }
 
-  @override
   CallSyntax _toSyntax(
     Map<Constant, int> constants,
     Map<Location, int> locations,
   );
+
+  /// Compares this [CallWithArguments] with [other] for semantic equality.
+  ///
+  /// If [allowTearOffToStaticPromotion] is true, this may be equal to a
+  /// [CallTearOff].
+  ///
+  /// If [allowMoreConstArguments] is true, `null` arguments in [other]
+  /// are ignored during comparison.
+  ///
+  /// The loading unit can be mapped with [loadingUnitMapping].
+  ///
+  /// The URI in the location can be mapped with [uriMapping].
+  ///
+  /// If [allowLocationNull] is true, a null location is considered equal to
+  /// any other location.
+  @visibleForTesting
+  bool semanticEquals(
+    CallReference other, {
+    bool allowTearOffToStaticPromotion = false,
+    bool allowMoreConstArguments = false,
+    bool allowLocationNull = false,
+    String Function(String)? uriMapping,
+    String Function(String)? loadingUnitMapping,
+  });
 }
 
 /// A reference to a call to some [Identifier] with [positionalArguments] and
@@ -152,6 +189,50 @@ final class CallWithArguments extends CallReference {
     deepHash(namedArguments),
     super.hashCode,
   );
+
+  @override
+  @visibleForTesting
+  bool semanticEquals(
+    CallReference other, {
+    bool allowTearOffToStaticPromotion = false,
+    bool allowMoreConstArguments = false,
+    bool allowLocationNull = false,
+    String Function(String)? uriMapping,
+    String Function(String)? loadingUnitMapping,
+  }) {
+    switch (other) {
+      case CallWithArguments():
+        if (positionalArguments.length != other.positionalArguments.length) {
+          return false;
+        }
+        for (final (index, argument) in other.positionalArguments.indexed) {
+          if (argument == null && allowMoreConstArguments) {
+            continue;
+          }
+          if (argument != positionalArguments[index]) {
+            return false;
+          }
+        }
+        for (final entry in other.namedArguments.entries) {
+          final name = entry.key;
+          final argument = entry.value;
+          if (argument == null && allowMoreConstArguments) {
+            continue;
+          }
+          if (argument != namedArguments[name]) {
+            return false;
+          }
+        }
+        return _semanticEqualsShared(
+          other,
+          allowLocationNull,
+          uriMapping: uriMapping,
+          loadingUnitMapping: loadingUnitMapping,
+        );
+      case CallTearOff():
+        return allowTearOffToStaticPromotion;
+    }
+  }
 }
 
 /// A reference to a tear-off use of the [Identifier]. This means that we can't
@@ -164,6 +245,29 @@ final class CallTearOff extends CallReference {
     Map<Constant, int> constants,
     Map<Location, int> locations,
   ) => TearoffCallSyntax(at: locations[location]!, loadingUnit: loadingUnit!);
+
+  @override
+  @visibleForTesting
+  bool semanticEquals(
+    CallReference other, {
+    bool allowTearOffToStaticPromotion = false,
+    bool allowMoreConstArguments = false,
+    bool allowLocationNull = false,
+    String Function(String)? uriMapping,
+    String Function(String)? loadingUnitMapping,
+  }) {
+    switch (other) {
+      case CallWithArguments():
+        return false;
+      case CallTearOff():
+        return _semanticEqualsShared(
+          other,
+          allowLocationNull,
+          uriMapping: uriMapping,
+          loadingUnitMapping: loadingUnitMapping,
+        );
+    }
+  }
 }
 
 final class InstanceReference extends Reference {
@@ -174,12 +278,6 @@ final class InstanceReference extends Reference {
     required super.loadingUnit,
     required super.location,
   });
-
-  factory InstanceReference.fromJson(
-    Map<String, Object?> json,
-    List<Constant> constants,
-    List<Location> locations,
-  ) => _fromSyntax(InstanceSyntax.fromJson(json), constants, locations);
 
   static InstanceReference _fromSyntax(
     InstanceSyntax syntax,
@@ -195,7 +293,6 @@ final class InstanceReference extends Reference {
     );
   }
 
-  @override
   InstanceSyntax _toSyntax(
     Map<Constant, int> constants,
     Map<Location, int> locations,
@@ -216,6 +313,32 @@ final class InstanceReference extends Reference {
 
   @override
   int get hashCode => Object.hash(instanceConstant, super.hashCode);
+
+  /// Compares this [InstanceReference] with [other] for semantic equality.
+  ///
+  /// The loading unit can be mapped with [loadingUnitMapping].
+  ///
+  /// The URI in the location can be mapped with [uriMapping].
+  ///
+  /// If [allowLocationNull] is true, a null location is considered equal to
+  /// any other location.
+  @visibleForTesting
+  bool semanticEquals(
+    InstanceReference other, {
+    bool allowLocationNull = false,
+    String Function(String)? uriMapping,
+    String Function(String)? loadingUnitMapping,
+  }) {
+    if (!deepEquals(instanceConstant, other.instanceConstant)) {
+      return false;
+    }
+    return _semanticEqualsShared(
+      other,
+      allowLocationNull,
+      uriMapping: uriMapping,
+      loadingUnitMapping: loadingUnitMapping,
+    );
+  }
 }
 
 /// Package private (protected) methods for [CallReference].

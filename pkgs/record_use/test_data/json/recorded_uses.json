@@ -2,7 +2,7 @@
   "$schema": "../../doc/schema/record_use.schema.json",
   "constants": [
     {
-      "type": "String",
+      "type": "string",
       "value": "42"
     },
     {
@@ -16,14 +16,14 @@
       }
     },
     {
-      "type": "Null"
+      "type": "null"
     },
     {
       "type": "int",
       "value": 42
     },
     {
-      "type": "Instance",
+      "type": "instance",
       "value": {
         "i": 4
       }

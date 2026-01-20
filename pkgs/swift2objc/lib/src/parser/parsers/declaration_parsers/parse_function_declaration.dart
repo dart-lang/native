@@ -71,8 +71,9 @@ typedef ParsedFunctionInfo = ({
 ParsedFunctionInfo parseFunctionInfo(
   Context context,
   Json declarationFragments,
-  ParsedSymbolgraph symbolgraph,
-) {
+  ParsedSymbolgraph symbolgraph, {
+  bool isEnumCase = false,
+}) {
   // `declarationFragments` describes each part of the function declaration,
   // things like the `func` keyword, brackets, spaces, etc.
   // For the most part, We only care about the parameter fragments and
@@ -109,7 +110,7 @@ ParsedFunctionInfo parseFunctionInfo(
   while (true) {
     final keyword = maybeConsume('keyword');
     if (keyword != null) {
-      if (keyword == 'func' || keyword == 'init') {
+      if (keyword == 'func' || keyword == 'init' || keyword == 'case') {
         break;
       } else {
         prefixAnnotations.add(keyword);
@@ -122,37 +123,51 @@ ParsedFunctionInfo parseFunctionInfo(
   }
 
   final openParen = tokens.indexWhere((tok) => matchFragment(tok, 'text', '('));
-  if (openParen == -1) throw malformedInitializerException;
+  if (openParen != -1) {
+    tokens = tokens.slice(openParen + 1);
 
-  tokens = tokens.slice(openParen + 1);
+    // Parse parameters until we find a ')'.
+    if (maybeConsume('text') == ')') {
+      // Empty param list.
+    } else {
+      while (true) {
+        final externalParam = maybeConsume('externalParam');
+        String? internalParam;
+        if (externalParam != null) {
+          var sep = maybeConsume('text');
+          if (sep == '') {
+            internalParam = maybeConsume('internalParam');
+            if (internalParam == null) {
+              throw malformedInitializerException;
+            }
+            sep = maybeConsume('text');
+          }
 
-  // Parse parameters until we find a ')'.
-  if (maybeConsume('text') == ')') {
-    // Empty param list.
-  } else {
-    while (true) {
-      final externalParam = maybeConsume('externalParam');
-      if (externalParam == null) throw malformedInitializerException;
+          if (sep != ':') {
+            throw malformedInitializerException;
+          }
+        } else if (!isEnumCase) {
+          // Enum cases are allowed to omit both param names. Other param lists
+          // must at least specify the external name.
+          throw malformedInitializerException;
+        }
+        final (type, remainingTokens) = parseType(context, symbolgraph, tokens);
+        tokens = remainingTokens;
 
-      var sep = maybeConsume('text');
-      String? internalParam;
-      if (sep == '') {
-        internalParam = maybeConsume('internalParam');
-        if (internalParam == null) throw malformedInitializerException;
-        sep = maybeConsume('text');
+        parameters.add(
+          Parameter(
+            name: externalParam ?? '',
+            internalName: internalParam,
+            type: type,
+          ),
+        );
+
+        final end = maybeConsume('text');
+        if (end == ')') break;
+        if (end != ',') {
+          throw malformedInitializerException;
+        }
       }
-
-      if (sep != ':') throw malformedInitializerException;
-      final (type, remainingTokens) = parseType(context, symbolgraph, tokens);
-      tokens = remainingTokens;
-
-      parameters.add(
-        Parameter(name: externalParam, internalName: internalParam, type: type),
-      );
-
-      final end = maybeConsume('text');
-      if (end == ')') break;
-      if (end != ',') throw malformedInitializerException;
     }
   }
 

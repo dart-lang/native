@@ -1,5 +1,4 @@
 name: dart_lang_native_workspace
-# TODO(goderbauer): reevaluate after https://github.com/dart-lang/ecosystem/issues/377 is resolved.
 publish_to: none
 
 environment:
@@ -13,7 +12,26 @@ workspace:
   - pkgs/code_assets/example/sqlite_prebuilt
   - pkgs/code_assets/example/stb_image
   - pkgs/data_assets
+  - pkgs/ffi
+  # - pkgs/ffigen  # TODO
+  # - pkgs/ffigen/example/add  # TODO
+  # - pkgs/ffigen/example/c_json  # TODO
+  # - pkgs/ffigen/example/ffinative  # TODO
+  # - pkgs/ffigen/example/libclang-example  # TODO
+  # - pkgs/ffigen/example/objective_c  # TODO
+  # - pkgs/ffigen/example/shared_bindings  # TODO
+  # - pkgs/ffigen/example/simple  # TODO
+  # - pkgs/ffigen/example/swift  # TODO
   - pkgs/hooks
+  - pkgs/hooks/example/build/download_asset
+  - pkgs/hooks/example/build/local_asset
+  - pkgs/hooks/example/build/native_add_app
+  - pkgs/hooks/example/build/native_add_library
+  - pkgs/hooks/example/build/native_dynamic_linking
+  - pkgs/hooks/example/build/system_library
+  - pkgs/hooks/example/build/use_dart_api
+  - pkgs/hooks/example/link/app_with_asset_treeshaking
+  - pkgs/hooks/example/link/package_with_assets
   - pkgs/hooks_runner
   - pkgs/hooks_runner/test_data/add_asset_link
   - pkgs/hooks_runner/test_data/complex_link
@@ -36,18 +54,22 @@ workspace:
   - pkgs/hooks_runner/test_data/flag_enthusiast_1
   - pkgs/hooks_runner/test_data/flag_enthusiast_2
   - pkgs/hooks_runner/test_data/fun_with_flags
-  - pkgs/hooks_runner/test_data/infra_failure/
+  - pkgs/hooks_runner/test_data/infra_failure
   - pkgs/hooks_runner/test_data/link_inverse_app
   - pkgs/hooks_runner/test_data/link_inverse_package
   - pkgs/hooks_runner/test_data/native_add
   - pkgs/hooks_runner/test_data/native_add_add_source
   - pkgs/hooks_runner/test_data/native_add_duplicate
+  # - pkgs/hooks_runner/test_data/native_add_version_skew  # Intentionally uses incompatible older versions.
+  # - pkgs/hooks_runner/test_data/native_add_version_skew_2  # Intentionally uses incompatible older versions.
   - pkgs/hooks_runner/test_data/native_dynamic_linking
   - pkgs/hooks_runner/test_data/native_subtract
   - pkgs/hooks_runner/test_data/no_asset_for_link
+  - pkgs/hooks_runner/test_data/no_build_output
   - pkgs/hooks_runner/test_data/no_hook
   - pkgs/hooks_runner/test_data/package_reading_metadata
   - pkgs/hooks_runner/test_data/package_with_metadata
+  - pkgs/hooks_runner/test_data/recursive_invocation
   - pkgs/hooks_runner/test_data/relative_path
   - pkgs/hooks_runner/test_data/reusable_dynamic_library
   - pkgs/hooks_runner/test_data/reuse_dynamic_library
@@ -64,23 +86,33 @@ workspace:
   - pkgs/hooks_runner/test_data/wrong_build_output_3
   - pkgs/hooks_runner/test_data/wrong_linker
   - pkgs/hooks_runner/test_data/wrong_namespace_asset
-  - pkgs/hooks/example/build/download_asset
-  - pkgs/hooks/example/build/local_asset
-  - pkgs/hooks/example/build/native_add_app
-  - pkgs/hooks/example/build/native_add_library
-  - pkgs/hooks/example/build/native_dynamic_linking
-  - pkgs/hooks/example/build/system_library
-  - pkgs/hooks/example/build/use_dart_api
-  - pkgs/hooks/example/link/app_with_asset_treeshaking
-  - pkgs/hooks/example/link/package_with_assets
+  # - pkgs/jni  # TODO
+  # - pkgs/jni/example  # TODO
+  # - pkgs/jnigen  # TODO
+  # - pkgs/jnigen/android_test_runner  # TODO
+  # - pkgs/jnigen/example/in_app_java  # TODO
+  # - pkgs/jnigen/example/kotlin_plugin # TODO
+  # - pkgs/jnigen/example/kotlin_plugin/example  # TODO
+  # - pkgs/jnigen/example/notification_plugin  # TODO
+  # - pkgs/jnigen/example/notification_plugin/example  # TODO
+  # - pkgs/jnigen/example/pdfbox_plugin  # TODO
+  # - pkgs/jnigen/example/pdfbox_plugin/dart_example  # TODO
+  # - pkgs/jnigen/example/pdfbox_plugin/example  # TODO
   - pkgs/json_syntax_generator
+  # - pkgs/native_doc_dartifier  # Cannot update to latest dependencies due to https://github.com/dart-lang/native/issues/2839
   - pkgs/native_test_helpers
   - pkgs/native_toolchain_c
+  # - pkgs/objective_c  # TODO
+  # - pkgs/objective_c/example/command_line  # TODO
+  # - pkgs/objective_c/example/flutter_app  # Requires Flutter.
   - pkgs/pub_formats
   - pkgs/record_use
   - pkgs/record_use/test_data/drop_data_asset
   - pkgs/record_use/test_data/drop_dylib_recording
   - pkgs/repo_lint_rules
+  # - pkgs/swift2objc  # TODO
+  # - pkgs/swiftgen  # TODO
+  # - pkgs/swiftgen/example  # TODO
 
 # Hook user-defines are specified in the pub workspace.
 hooks:

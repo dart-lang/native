@@ -10,7 +10,10 @@
 import 'dart:io';
 
 class BoolConstantSyntax extends ConstantSyntax {
-  BoolConstantSyntax.fromJson(super.json, {super.path}) : super._fromJson();
+  BoolConstantSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
 
   BoolConstantSyntax({required bool value, super.path = const []})
     : super(type: 'bool') {
@@ -62,7 +65,10 @@ class CallSyntax extends JsonObjectSyntax {
     return result;
   }
 
-  CallSyntax._fromJson(super.json, {super.path = const []}) : super.fromJson();
+  CallSyntax._fromJson(
+    super.json, {
+    super.path = const [],
+  }) : super.fromJson();
 
   CallSyntax({
     int? at,
@@ -119,17 +125,11 @@ class ConstantSyntax extends JsonObjectSyntax {
     List<Object> path = const [],
   }) {
     final result = ConstantSyntax._fromJson(json, path: path);
-    if (result.isInstanceConstant) {
-      return result.asInstanceConstant;
-    }
-    if (result.isNullConstant) {
-      return result.asNullConstant;
-    }
-    if (result.isStringConstant) {
-      return result.asStringConstant;
-    }
     if (result.isBoolConstant) {
       return result.asBoolConstant;
+    }
+    if (result.isInstanceConstant) {
+      return result.asInstanceConstant;
     }
     if (result.isIntConstant) {
       return result.asIntConstant;
@@ -140,11 +140,19 @@ class ConstantSyntax extends JsonObjectSyntax {
     if (result.isMapConstant) {
       return result.asMapConstant;
     }
+    if (result.isNullConstant) {
+      return result.asNullConstant;
+    }
+    if (result.isStringConstant) {
+      return result.asStringConstant;
+    }
     return result;
   }
 
-  ConstantSyntax._fromJson(super.json, {super.path = const []})
-    : super.fromJson();
+  ConstantSyntax._fromJson(
+    super.json, {
+    super.path = const [],
+  }) : super.fromJson();
 
   ConstantSyntax({required String type, super.path = const []}) : super() {
     _type = type;
@@ -167,8 +175,10 @@ class ConstantSyntax extends JsonObjectSyntax {
 }
 
 class DefinitionSyntax extends JsonObjectSyntax {
-  DefinitionSyntax.fromJson(super.json, {super.path = const []})
-    : super.fromJson();
+  DefinitionSyntax.fromJson(
+    super.json, {
+    super.path = const [],
+  }) : super.fromJson();
 
   DefinitionSyntax({
     required IdentifierSyntax identifier,
@@ -218,8 +228,10 @@ class DefinitionSyntax extends JsonObjectSyntax {
 }
 
 class IdentifierSyntax extends JsonObjectSyntax {
-  IdentifierSyntax.fromJson(super.json, {super.path = const []})
-    : super.fromJson();
+  IdentifierSyntax.fromJson(
+    super.json, {
+    super.path = const [],
+  }) : super.fromJson();
 
   IdentifierSyntax({
     required String name,
@@ -270,8 +282,10 @@ class IdentifierSyntax extends JsonObjectSyntax {
 }
 
 class InstanceSyntax extends JsonObjectSyntax {
-  InstanceSyntax.fromJson(super.json, {super.path = const []})
-    : super.fromJson();
+  InstanceSyntax.fromJson(
+    super.json, {
+    super.path = const [],
+  }) : super.fromJson();
 
   InstanceSyntax({
     int? at,
@@ -324,10 +338,13 @@ class InstanceSyntax extends JsonObjectSyntax {
 }
 
 class InstanceConstantSyntax extends ConstantSyntax {
-  InstanceConstantSyntax.fromJson(super.json, {super.path}) : super._fromJson();
+  InstanceConstantSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
 
   InstanceConstantSyntax({JsonObjectSyntax? value, super.path = const []})
-    : super(type: 'Instance') {
+    : super(type: 'instance') {
     _value = value;
     json.sortOnKey();
   }
@@ -365,14 +382,17 @@ class InstanceConstantSyntax extends ConstantSyntax {
 }
 
 extension InstanceConstantSyntaxExtension on ConstantSyntax {
-  bool get isInstanceConstant => type == 'Instance';
+  bool get isInstanceConstant => type == 'instance';
 
   InstanceConstantSyntax get asInstanceConstant =>
       InstanceConstantSyntax.fromJson(json, path: path);
 }
 
 class IntConstantSyntax extends ConstantSyntax {
-  IntConstantSyntax.fromJson(super.json, {super.path}) : super._fromJson();
+  IntConstantSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
 
   IntConstantSyntax({required int value, super.path = const []})
     : super(type: 'int') {
@@ -410,7 +430,10 @@ extension IntConstantSyntaxExtension on ConstantSyntax {
 }
 
 class ListConstantSyntax extends ConstantSyntax {
-  ListConstantSyntax.fromJson(super.json, {super.path}) : super._fromJson();
+  ListConstantSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
 
   ListConstantSyntax({List<Object?>? value, super.path = const []})
     : super(type: 'list') {
@@ -449,8 +472,10 @@ extension ListConstantSyntaxExtension on ConstantSyntax {
 }
 
 class LocationSyntax extends JsonObjectSyntax {
-  LocationSyntax.fromJson(super.json, {super.path = const []})
-    : super.fromJson();
+  LocationSyntax.fromJson(
+    super.json, {
+    super.path = const [],
+  }) : super.fromJson();
 
   LocationSyntax({
     int? column,
@@ -501,7 +526,10 @@ class LocationSyntax extends JsonObjectSyntax {
 }
 
 class MapConstantSyntax extends ConstantSyntax {
-  MapConstantSyntax.fromJson(super.json, {super.path}) : super._fromJson();
+  MapConstantSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
 
   MapConstantSyntax({required JsonObjectSyntax value, super.path = const []})
     : super(type: 'map') {
@@ -548,8 +576,10 @@ extension MapConstantSyntaxExtension on ConstantSyntax {
 }
 
 class MetadataSyntax extends JsonObjectSyntax {
-  MetadataSyntax.fromJson(super.json, {super.path = const []})
-    : super.fromJson();
+  MetadataSyntax.fromJson(
+    super.json, {
+    super.path = const [],
+  }) : super.fromJson();
 
   MetadataSyntax({
     required String comment,
@@ -589,27 +619,34 @@ class MetadataSyntax extends JsonObjectSyntax {
 }
 
 class NullConstantSyntax extends ConstantSyntax {
-  NullConstantSyntax.fromJson(super.json, {super.path}) : super._fromJson();
+  NullConstantSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
 
-  NullConstantSyntax({super.path = const []}) : super(type: 'Null');
+  NullConstantSyntax({super.path = const []}) : super(type: 'null');
 
   @override
-  List<String> validate() => [...super.validate()];
+  List<String> validate() => [
+    ...super.validate(),
+  ];
 
   @override
   String toString() => 'NullConstantSyntax($json)';
 }
 
 extension NullConstantSyntaxExtension on ConstantSyntax {
-  bool get isNullConstant => type == 'Null';
+  bool get isNullConstant => type == 'null';
 
   NullConstantSyntax get asNullConstant =>
       NullConstantSyntax.fromJson(json, path: path);
 }
 
 class RecordedUsesSyntax extends JsonObjectSyntax {
-  RecordedUsesSyntax.fromJson(super.json, {super.path = const []})
-    : super.fromJson();
+  RecordedUsesSyntax.fromJson(
+    super.json, {
+    super.path = const [],
+  }) : super.fromJson();
 
   RecordedUsesSyntax({
     List<ConstantSyntax>? constants,
@@ -758,8 +795,10 @@ class RecordedUsesSyntax extends JsonObjectSyntax {
 }
 
 class RecordingSyntax extends JsonObjectSyntax {
-  RecordingSyntax.fromJson(super.json, {super.path = const []})
-    : super.fromJson();
+  RecordingSyntax.fromJson(
+    super.json, {
+    super.path = const [],
+  }) : super.fromJson();
 
   RecordingSyntax({
     List<CallSyntax>? calls,
@@ -871,10 +910,13 @@ class RecordingSyntax extends JsonObjectSyntax {
 }
 
 class StringConstantSyntax extends ConstantSyntax {
-  StringConstantSyntax.fromJson(super.json, {super.path}) : super._fromJson();
+  StringConstantSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
 
   StringConstantSyntax({required String value, super.path = const []})
-    : super(type: 'String') {
+    : super(type: 'string') {
     _value = value;
     json.sortOnKey();
   }
@@ -902,14 +944,17 @@ class StringConstantSyntax extends ConstantSyntax {
 }
 
 extension StringConstantSyntaxExtension on ConstantSyntax {
-  bool get isStringConstant => type == 'String';
+  bool get isStringConstant => type == 'string';
 
   StringConstantSyntax get asStringConstant =>
       StringConstantSyntax.fromJson(json, path: path);
 }
 
 class TearoffCallSyntax extends CallSyntax {
-  TearoffCallSyntax.fromJson(super.json, {super.path}) : super._fromJson();
+  TearoffCallSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
 
   TearoffCallSyntax({
     super.at,
@@ -918,7 +963,9 @@ class TearoffCallSyntax extends CallSyntax {
   }) : super(type: 'tearoff');
 
   @override
-  List<String> validate() => [...super.validate()];
+  List<String> validate() => [
+    ...super.validate(),
+  ];
 
   @override
   String toString() => 'TearoffCallSyntax($json)';
@@ -932,8 +979,10 @@ extension TearoffCallSyntaxExtension on CallSyntax {
 }
 
 class WithArgumentsCallSyntax extends CallSyntax {
-  WithArgumentsCallSyntax.fromJson(super.json, {super.path})
-    : super._fromJson();
+  WithArgumentsCallSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
 
   WithArgumentsCallSyntax({
     super.at,
@@ -958,14 +1007,20 @@ class WithArgumentsCallSyntax extends CallSyntax {
     json.sortOnKey();
   }
 
-  Map<String, int>? get named => _reader.optionalMap<int>('named');
+  Map<String, int>? get named => _reader.optionalMap<int>(
+    'named',
+  );
 
   set _named(Map<String, int>? value) {
-    _checkArgumentMapKeys(value);
+    _checkArgumentMapKeys(
+      value,
+    );
     json.setOrRemove('named', value);
   }
 
-  List<String> _validateNamed() => _reader.validateMap<int>('named');
+  List<String> _validateNamed() => _reader.validateMap<int>(
+    'named',
+  );
 
   List<int?>? get positional => _reader.optionalList<int?>('positional');
 

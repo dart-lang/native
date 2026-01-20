@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart';
+
 import 'syntax.g.dart';
 
 /// Represents a unique identifier for a code element, such as a class, method,
@@ -37,16 +39,9 @@ class Identifier {
   /// [name] is the name of the element.
   const Identifier({required this.importUri, this.scope, required this.name});
 
-  /// Creates an [Identifier] object from its JSON representation.
-  factory Identifier.fromJson(Map<String, Object?> json) =>
-      Identifier._fromSyntax(IdentifierSyntax.fromJson(json));
-
   /// Creates an [Identifier] object from its syntax representation.
   factory Identifier._fromSyntax(IdentifierSyntax syntax) =>
       Identifier(importUri: syntax.uri, scope: syntax.scope, name: syntax.name);
-
-  /// Converts this [Identifier] object to a JSON representation.
-  Map<String, Object?> toJson() => _toSyntax().json;
 
   /// Converts this [Identifier] object to a syntax representation.
   IdentifierSyntax _toSyntax() =>
@@ -64,6 +59,22 @@ class Identifier {
 
   @override
   int get hashCode => Object.hash(importUri, scope, name);
+
+  /// Compares this [Identifier] with [other] for semantic equality.
+  ///
+  /// The [importUri] can be mapped using [uriMapping] before comparison.
+  @visibleForTesting
+  bool semanticEquals(
+    Identifier other, {
+    String Function(String)? uriMapping,
+  }) {
+    if (other.scope != scope) return false;
+    if (other.name != name) return false;
+    final mappedImportUri = uriMapping == null
+        ? importUri
+        : uriMapping(importUri);
+    return mappedImportUri == other.importUri;
+  }
 }
 
 /// Package private (protected) methods for [Identifier].

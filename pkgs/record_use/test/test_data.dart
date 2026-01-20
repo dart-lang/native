@@ -20,12 +20,12 @@ final instanceId = Identifier(
 );
 
 final recordedUses = Recordings(
-  metadata: Metadata.fromJson({
-    'version': Version(1, 6, 2, pre: 'wip', build: '5.-.2.z').toString(),
-    'comment':
+  metadata: Metadata(
+    version: Version(1, 6, 2, pre: 'wip', build: '5.-.2.z'),
+    comment:
         'Recorded references at compile time and their argument values, as'
         ' far as known, to definitions annotated with @RecordUse',
-  }),
+  ),
   callsForDefinition: {
     Definition(identifier: callId, loadingUnit: 'part_15.js'): [
       const CallWithArguments(
@@ -83,12 +83,12 @@ final recordedUses = Recordings(
 );
 
 final recordedUses2 = Recordings(
-  metadata: Metadata.fromJson({
-    'version': Version(1, 6, 2, pre: 'wip', build: '5.-.2.z').toString(),
-    'comment':
+  metadata: Metadata(
+    version: Version(1, 6, 2, pre: 'wip', build: '5.-.2.z'),
+    comment:
         'Recorded references at compile time and their argument values, as'
         ' far as known, to definitions annotated with @RecordUse',
-  }),
+  ),
   callsForDefinition: {
     Definition(identifier: callId, loadingUnit: 'part_15.js'): [
       const CallWithArguments(
@@ -112,7 +112,7 @@ const recordedUsesJson = '''{
   },
   "constants": [
     {
-      "type": "String",
+      "type": "string",
       "value": "lib_SHA1"
     },
     {
@@ -124,11 +124,11 @@ const recordedUsesJson = '''{
       "value": 1
     },
     {
-      "type": "String",
+      "type": "string",
       "value": "mercury"
     },
     {
-      "type": "String",
+      "type": "string",
       "value": "jenkins"
     },
     {
@@ -142,15 +142,15 @@ const recordedUsesJson = '''{
       }
     },
     {
-      "type": "String",
+      "type": "string",
       "value": "camus"
     },
     {
-      "type": "String",
+      "type": "string",
       "value": "einstein"
     },
     {
-      "type": "String",
+      "type": "string",
       "value": "insert"
     },
     {
@@ -178,17 +178,17 @@ const recordedUsesJson = '''{
       "value": 42
     },
     {
-      "type": "Null"
+      "type": "null"
     },
     {
-      "type": "Instance",
+      "type": "instance",
       "value": {
         "a": 13,
         "b": 14
       }
     },
     {
-      "type": "Instance"
+      "type": "instance"
     }
   ],
   "locations": [
@@ -283,7 +283,7 @@ const recordedUsesJson2 = '''{
       "value": 1
     },
     {
-      "type": "String",
+      "type": "string",
       "value": "mercury"
     },
     {
