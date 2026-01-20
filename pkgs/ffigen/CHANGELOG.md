@@ -15,7 +15,10 @@
   supports integers, doubles, and string literals. Including the variable name
   in the globals -> symbol-address configuration will still generate symbol 
   lookups.
-
+- Fix [a bug](https://github.com/dart-lang/native/issues/2952) where block
+  helpers were occasionally given unexpected names. Technically a breaking
+  change because if you were affected by the bug, the block helper's name will
+  change to something more sensible.
 
 ## 20.1.1
 
