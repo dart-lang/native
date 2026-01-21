@@ -84,6 +84,17 @@ void main(List<String> arguments) async {
         // this be? We don't have library uris for bin.
         'package:library_uris/bin/my_bin.dart',
       );
+
+      // Outside the lib dir, no package: uri.
+      final methodInBinIdentifer = recordings.calls.keys.firstWhere(
+        (i) => i.name == 'methodInBin',
+      );
+      expect(
+        methodInBinIdentifer.importUri,
+        // TODO(https://github.com/dart-lang/native/issues/2891): What should
+        // this be? We don't have library uris for bin.
+        'package:library_uris/bin/my_bin.dart',
+      );
     },
   );
 }

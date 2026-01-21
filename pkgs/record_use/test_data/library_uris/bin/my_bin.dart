@@ -4,10 +4,18 @@
 
 import 'package:library_uris/library_uris.dart';
 import 'package:library_uris_helper/library_uris_helper.dart';
+import 'package:meta/meta.dart';
 
 void main() {
   helloFoo();
   MyClass.myMethod('bar');
   helloBar();
   ClassInHelper.methodInHelper('bar');
+  methodInBin();
+}
+
+// ignore: experimental_member_use
+@RecordUse()
+void methodInBin() {
+  print('The answer to the universe, life, and everything.');
 }
