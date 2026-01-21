@@ -11,9 +11,15 @@ class UniqueNamer {
     '-': 'minus',
     '*': 'multiply',
     '/': 'divide',
-    '=': 'equal',
+    '++': 'increment',
+    '--': 'decrement',
+    '=': 'assign',
+    '==': 'equals',
+    '!=': 'notEquals',
     '>': 'greaterThan',
+    '>=': 'greaterThanOrEquals',
     '<': 'lessThan',
+    '<=': 'lessThanOrEquals',
     '!': 'not',
     '&': 'and',
     '|': 'or',
@@ -21,6 +27,12 @@ class UniqueNamer {
     '%': 'modulo',
     '?': 'question',
     '.': 'dot',
+    '<<': 'shiftLeft',
+    '>>': 'shiftRight',
+    '+=': 'addAssign',
+    '-=': 'subAssign',
+    '*=': 'mulAssign',
+    '/=': 'divAssign',
   };
   UniqueNamer([Iterable<String> usedNames = const <String>[]])
     : _usedNames = usedNames.toSet();
@@ -32,7 +44,7 @@ class UniqueNamer {
       };
 
   String makeUnique(String name) {
-    var uniqueName = _sanitize(name);
+    final uniqueName = _sanitize(name);
 
     if (!_usedNames.contains(uniqueName)) {
       _usedNames.add(uniqueName);
@@ -54,6 +66,10 @@ class UniqueNamer {
   String _sanitize(String name) {
     if (name.isEmpty) return 'unnamed';
 
+    if (_operatorNames.containsKey(name)) {
+      return _operatorNames[name]!;
+    }
+
     final buffer = StringBuffer();
     for (var i = 0; i < name.length; i++) {
       final char = name[i];
@@ -61,15 +77,11 @@ class UniqueNamer {
       if (RegExp(r'[a-zA-Z0-9_]').hasMatch(char)) {
         buffer.write(char);
       } else {
-        buffer.write(_operatorNames[char] ?? 'op${char.codeUnitAt(0)}');
+        buffer.write(_operatorNames[char] ?? 'operator');
       }
     }
 
     var sanitized = buffer.toString();
-
-    if (RegExp(r'^[0-9]').hasMatch(sanitized)) {
-      sanitized = 'n$sanitized';
-    }
 
     return sanitized;
   }

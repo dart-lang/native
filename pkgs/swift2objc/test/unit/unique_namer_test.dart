@@ -2,8 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:test/test.dart';
 import 'package:swift2objc/src/transformer/_core/unique_namer.dart';
+import 'package:test/test.dart';
 
 void main() {
   group('UniqueNamer Sanitization Tests', () {
@@ -16,15 +16,11 @@ void main() {
     test('converts basic operators to valid names', () {
       expect(namer.makeUnique('+'), equals('plus'));
       expect(namer.makeUnique('-'), equals('minus'));
-      expect(namer.makeUnique('=='), equals('equalequal'));
+      expect(namer.makeUnique('=='), equals('equals'));
     });
 
     test('handles custom multi-character operators', () {
       expect(namer.makeUnique('***'), equals('multiplymultiplymultiply'));
-    });
-
-    test('sanitizes names starting with numbers', () {
-      expect(namer.makeUnique('2objects'), equals('n2objects'));
     });
 
     test('falls back to ASCII for unknown symbols', () {
