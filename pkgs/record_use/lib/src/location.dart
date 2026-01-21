@@ -53,6 +53,9 @@ class Location {
     final mappedUri = uriMapping == null ? uri : uriMapping(uri);
     return mappedUri == other.uri;
   }
+
+  @override
+  String toString() => 'Location(uri: $uri)';
 }
 
 /// Package private (protected) methods for [Location].

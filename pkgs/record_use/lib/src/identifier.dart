@@ -75,6 +75,11 @@ class Identifier {
         : uriMapping(importUri);
     return mappedImportUri == other.importUri;
   }
+
+  @override
+  String toString() => scope == null
+      ? 'Identifier($importUri, $name)'
+      : 'Identifier($importUri, $scope, $name)';
 }
 
 /// Package private (protected) methods for [Identifier].
