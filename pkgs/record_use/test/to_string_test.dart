@@ -26,16 +26,16 @@ void main() {
       );
     });
 
-    test('CallWithArguments with args', () {
+    test('CallWithArguments with multiple args', () {
       const call = CallWithArguments(
-        positionalArguments: [null],
-        namedArguments: {'bar': null},
+        positionalArguments: [null, null],
+        namedArguments: {'bar': null, 'baz': null},
         loadingUnit: 'dart.foo',
         location: Location(uri: 'package:foo/foo.dart'),
       );
       expect(
         call.toString(),
-        'CallWithArguments(positional: null, named: bar=null, location: Location(uri: package:foo/foo.dart), loadingUnit: dart.foo)',
+        'CallWithArguments(positional: null, null, named: bar=null, baz=null, location: Location(uri: package:foo/foo.dart), loadingUnit: dart.foo)',
       );
     });
   });

@@ -4,6 +4,7 @@
 
 // This hook is a test that checks that library URIs are as expected inside
 // the link hook.
+// This test is run on CI by executing `dart build cli` in this package.
 
 import 'dart:convert';
 import 'dart:io';
