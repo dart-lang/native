@@ -63,7 +63,7 @@ void main(List<String> args) async {
     // aren't supported on iOS, like mach_vm_region. We don't need them on iOS
     // anyway since we only run memory tests on mac.
     if (os == OS.macOS) {
-      cFiles.addAll(testFiles.map((f) => input.packageRoot.resolve(f).path));
+      cFiles.addAll(testFiles.map((f) => File.fromUri(input.packageRoot.resolve(f)).path));
     }
 
     final sysroot = sdkPath(codeConfig);
