@@ -6,10 +6,10 @@
       "value": 42
     },
     {
-      "type": "Null"
+      "type": "null"
     },
     {
-      "type": "String",
+      "type": "string",
       "value": "s"
     },
     {
@@ -17,11 +17,11 @@
       "value": true
     },
     {
-      "type": "String",
+      "type": "string",
       "value": "a1"
     },
     {
-      "type": "String",
+      "type": "string",
       "value": "a2"
     },
     {
@@ -32,11 +32,11 @@
       ]
     },
     {
-      "type": "String",
+      "type": "string",
       "value": "b1"
     },
     {
-      "type": "String",
+      "type": "string",
       "value": "b2"
     },
     {

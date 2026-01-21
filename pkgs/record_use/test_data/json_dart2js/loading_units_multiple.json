@@ -5,11 +5,11 @@
       "value": 42
     },
     {
-      "type": "String",
+      "type": "string",
       "value": "helper"
     },
     {
-      "type": "String",
+      "type": "string",
       "value": ""
     }
   ],

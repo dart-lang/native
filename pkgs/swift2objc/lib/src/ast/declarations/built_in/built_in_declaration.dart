@@ -60,6 +60,10 @@ const builtInDeclarations = [
   _stringDecl,
   _voidDecl,
 
+  // TODO(https://github.com/dart-lang/native/issues/2954): This shouldn't be
+  // treated as an ordinary built-in.
+  BuiltInDeclaration(id: 's:s6HasherV', name: 'Hasher'),
+
   // Certain types are toll-free bridged between Swift and ObjC. These types
   // don't need @objc compatible wrappers. There's no complete list of these
   // types in the documentation. The closest thing is this, but it's incomplete:

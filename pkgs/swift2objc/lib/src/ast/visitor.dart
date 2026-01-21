@@ -5,21 +5,18 @@
 import '../context.dart';
 import '_core/interfaces/compound_declaration.dart';
 import '_core/interfaces/declaration.dart';
-import '_core/interfaces/enum_declaration.dart';
 import '_core/interfaces/function_declaration.dart';
 import '_core/interfaces/variable_declaration.dart';
 import '_core/shared/referred_type.dart';
 import 'ast_node.dart';
 import 'declarations/built_in/built_in_declaration.dart';
 import 'declarations/compounds/class_declaration.dart';
+import 'declarations/compounds/enum_declaration.dart';
 import 'declarations/compounds/members/initializer_declaration.dart';
 import 'declarations/compounds/members/method_declaration.dart';
 import 'declarations/compounds/members/property_declaration.dart';
 import 'declarations/compounds/protocol_declaration.dart';
 import 'declarations/compounds/struct_declaration.dart';
-import 'declarations/enums/associated_value_enum_declaration.dart';
-import 'declarations/enums/normal_enum_declaration.dart';
-import 'declarations/enums/raw_value_enum_declaration.dart';
 import 'declarations/globals/globals.dart';
 import 'declarations/typealias_declaration.dart';
 
@@ -106,14 +103,8 @@ abstract class Visitation {
       visitCompoundDeclaration(node);
   void visitStructDeclaration(StructDeclaration node) =>
       visitCompoundDeclaration(node);
-  void visitEnumDeclaration(EnumDeclaration node) => visitDeclaration(node);
-  void visitAssociatedValueEnumDeclaration(
-    AssociatedValueEnumDeclaration node,
-  ) => visitEnumDeclaration(node);
-  void visitNormalEnumDeclaration(NormalEnumDeclaration node) =>
-      visitEnumDeclaration(node);
-  void visitRawValueEnumDeclaration<T>(RawValueEnumDeclaration<T> node) =>
-      visitEnumDeclaration(node);
+  void visitEnumDeclaration(EnumDeclaration node) =>
+      visitCompoundDeclaration(node);
   void visitTypealiasDeclaration(TypealiasDeclaration node) =>
       visitDeclaration(node);
 

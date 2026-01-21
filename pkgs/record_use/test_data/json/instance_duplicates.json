@@ -6,7 +6,7 @@
       "value": 42
     },
     {
-      "type": "Instance",
+      "type": "instance",
       "value": {
         "i": 0
       }
@@ -16,7 +16,7 @@
       "value": 43
     },
     {
-      "type": "Instance",
+      "type": "instance",
       "value": {
         "i": 2
       }

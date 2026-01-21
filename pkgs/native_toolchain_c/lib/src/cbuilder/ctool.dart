@@ -45,7 +45,7 @@ abstract class CTool {
   /// The sources will be reported as dependencies of the hook.
   final List<String> sources;
 
-  /// Include directories to pass to the linker.
+  /// Include directories to pass to the compiler.
   ///
   /// Resolved against [LinkInput.packageRoot].
   ///
@@ -107,7 +107,7 @@ abstract class CTool {
   @visibleForTesting
   final Uri? installName;
 
-  /// Flags to pass to the linker.
+  /// Flags to pass to the build tool (compiler or linker).
   final List<String> flags;
 
   /// Definitions of preprocessor macros.

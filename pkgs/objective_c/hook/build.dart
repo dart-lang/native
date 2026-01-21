@@ -129,6 +129,7 @@ class Builder {
     List<String> flags,
   ) => _compile([
     '-shared',
+    '-Wl,-encryptable',
     '-undefined',
     'dynamic_lookup',
     ...flags,
