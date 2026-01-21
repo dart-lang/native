@@ -1,3 +1,9 @@
+## 9.2.4
+
+- Fix a [bug](https://github.com/dart-lang/native/issues/2990) build hook path
+  issue that could pass percent-encoded cache paths to clang, leading to missing
+  source file errors.
+
 ## 9.2.3
 
 - Fix a [bug](https://github.com/dart-lang/native/issues/2973) where the
