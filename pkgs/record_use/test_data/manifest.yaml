@@ -30,8 +30,6 @@
 - library_uris/lib/library_uris.dart
 - library_uris/lib/src/call.dart
 - library_uris/lib/src/definition.dart
-- library_uris/out.js.deps
-- library_uris/out.js.map
 - library_uris/pubspec.yaml
 - library_uris_helper/lib/library_uris_helper.dart
 - library_uris_helper/lib/src/helper_call.dart
