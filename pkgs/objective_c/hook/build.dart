@@ -63,7 +63,9 @@ void main(List<String> args) async {
     // aren't supported on iOS, like mach_vm_region. We don't need them on iOS
     // anyway since we only run memory tests on mac.
     if (os == OS.macOS) {
-      cFiles.addAll(testFiles.map((f) => input.packageRoot.resolve(f).path));
+      cFiles.addAll(
+        testFiles.map((f) => input.packageRoot.resolve(f).toFilePath()),
+      );
     }
 
     final sysroot = sdkPath(codeConfig);
@@ -71,7 +73,7 @@ void main(List<String> args) async {
     final mFlags = [...cFlags, ...objCFlags];
     final linkFlags = cFlags;
 
-    final builder = await Builder.create(input, input.packageRoot.path);
+    final builder = await Builder.create(input, input.packageRoot.toFilePath());
 
     final objectFiles = await Future.wait(<Future<String>>[
       for (final src in cFiles) builder.buildObject(src, cFlags),
@@ -115,7 +117,7 @@ class Builder {
   Future<String> buildObject(String input, List<String> flags) async {
     assert(input.startsWith(_rootDir));
     final relativeInput = input.substring(_rootDir.length);
-    final output = '${_tempOutDir.resolve(relativeInput).path}.o';
+    final output = '${_tempOutDir.resolve(relativeInput).toFilePath()}.o';
     File(output).parent.createSync(recursive: true);
     await _compile([...flags, '-c', input, '-fpic', '-I', 'src'], output);
     return output;
