@@ -91,6 +91,9 @@ sealed class PrimitiveConstant<T extends Object> extends Constant {
 
     return other is PrimitiveConstant<T> && other.value == value;
   }
+
+  @override
+  String toString() => 'PrimitiveConstant($value)';
 }
 
 /// Represents a constant boolean value.
