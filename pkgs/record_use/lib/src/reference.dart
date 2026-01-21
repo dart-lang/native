@@ -236,39 +236,25 @@ final class CallWithArguments extends CallReference {
 
   @override
   String toString() {
-    var result = 'CallWithArguments(';
-    var first = true;
+    final parts = <String>[];
     if (positionalArguments.isNotEmpty) {
-      result += 'positional: ';
-      result += positionalArguments.map((a) => a.toString()).join(' ,');
-      first = false;
+      parts.add('positional: ${positionalArguments.join(', ')}');
     }
     if (namedArguments.isNotEmpty) {
-      if (!first) {
-        result += ', ';
-        first = false;
-      }
-      result += 'named: ';
-      result += namedArguments.entries
+      final namedString = namedArguments.entries
           .map((e) => '${e.key}=${e.value}')
           .join(', ');
+      parts.add(
+        'named: $namedString',
+      );
     }
     if (location != null) {
-      if (!first) {
-        result += ', ';
-        first = false;
-      }
-      result += 'location: $location';
+      parts.add('location: $location');
     }
     if (loadingUnit != null) {
-      if (!first) {
-        result += ', ';
-        first = false;
-      }
-      result += 'loadingUnit: $loadingUnit';
+      parts.add('loadingUnit: $loadingUnit');
     }
-    result += ')';
-    return result;
+    return 'CallWithArguments(${parts.join(', ')})';
   }
 }
 

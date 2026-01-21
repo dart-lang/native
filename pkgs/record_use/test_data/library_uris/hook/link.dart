@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// This hook is a test that checks that library URIs are as expected inside
+// the link hook.
+
 import 'dart:convert';
 import 'dart:io';
 
@@ -45,7 +48,7 @@ void main(List<String> arguments) async {
         callFromBin.location!.uri,
         // TODO(https://github.com/dart-lang/native/issues/2891): What should
         // this be? We don't have library uris for bin.
-        'package:library_uris/bin/my_bin.dart',
+        'package:library_uris/../bin/my_bin.dart',
       );
 
       // The helper package.
@@ -68,7 +71,7 @@ void main(List<String> arguments) async {
       );
 
       final callFromCallDotDart2 = callsToHelperMethod.firstWhere(
-        (c) => c.location!.uri.endsWith('helper_call.dart'),
+        (c) => c.location!.uri.endsWith('call.dart'),
       );
       expect(
         callFromCallDotDart2.location!.uri,
@@ -82,7 +85,7 @@ void main(List<String> arguments) async {
         callFromBin2.location!.uri,
         // TODO(https://github.com/dart-lang/native/issues/2891): What should
         // this be? We don't have library uris for bin.
-        'package:library_uris/bin/my_bin.dart',
+        'package:library_uris/../bin/my_bin.dart',
       );
 
       // Outside the lib dir, no package: uri.
@@ -93,7 +96,7 @@ void main(List<String> arguments) async {
         methodInBinIdentifer.importUri,
         // TODO(https://github.com/dart-lang/native/issues/2891): What should
         // this be? We don't have library uris for bin.
-        'package:library_uris/bin/my_bin.dart',
+        'package:library_uris/../bin/my_bin.dart',
       );
     },
   );

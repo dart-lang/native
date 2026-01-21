@@ -55,12 +55,7 @@ class Location {
   }
 
   @override
-  String toString() {
-    var result = 'Location(uri: ';
-    result += uri;
-    result += ')';
-    return result;
-  }
+  String toString() => 'Location(uri: $uri)';
 }
 
 /// Package private (protected) methods for [Location].
