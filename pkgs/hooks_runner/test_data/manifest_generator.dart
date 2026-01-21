@@ -39,14 +39,19 @@ class Counts {
 }
 
 void updateManifests(Counts counts) async {
-  final packageUri = findPackageRoot('hooks_runner');
-  final testDataUri = packageUri.resolve('test_data/');
-  final testDataDirectory = Directory.fromUri(testDataUri);
-  updateManifest(testDataDirectory, counts, allowPartialProjects: false);
-  final all = testDataDirectory.listSync(recursive: true);
-  all.whereType<Directory>().forEach(
-    (e) => updateManifest(e, counts, allowPartialProjects: true),
-  );
+  final packageUris = [
+    findPackageRoot('hooks_runner'),
+    findPackageRoot('hooks_runner').resolve('../record_use/'),
+  ];
+  for (final packageUri in packageUris) {
+    final testDataUri = packageUri.resolve('test_data/');
+    final testDataDirectory = Directory.fromUri(testDataUri);
+    updateManifest(testDataDirectory, counts, allowPartialProjects: false);
+    final all = testDataDirectory.listSync(recursive: true);
+    all.whereType<Directory>().forEach(
+      (e) => updateManifest(e, counts, allowPartialProjects: true),
+    );
+  }
 }
 
 const denyList = [
@@ -55,6 +60,8 @@ const denyList = [
   'manifest',
   'README.md',
   '.gitignore',
+  'json/',
+  'json_dart2js/',
 ];
 
 /// These just modify other test projects.
