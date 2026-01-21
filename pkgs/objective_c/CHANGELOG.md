@@ -1,3 +1,9 @@
+## 9.2.4
+
+- Fix a [bug](https://github.com/dart-lang/native/pull/2959) where the
+  objective_c framework is using path instead of toFilePath() which fails
+  to resolve file path in case of special characters in the path.
+
 ## 9.2.3
 
 - Fix a [bug](https://github.com/dart-lang/native/issues/2973) where the
