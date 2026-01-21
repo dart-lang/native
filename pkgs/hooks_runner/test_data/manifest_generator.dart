@@ -122,6 +122,7 @@ void updateManifest(
   if (newContentNormalized != oldContentNormalized) {
     manifestFile.writeAsStringSync(newContent);
     print('Generated ${manifestFile.uri} (content changed)');
+    print(newContent);
     counts.changed++;
   }
   counts.generated++;
