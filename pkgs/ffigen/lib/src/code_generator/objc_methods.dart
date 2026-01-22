@@ -311,14 +311,14 @@ class ObjCMethod extends AstNode with HasLocalScope {
   bool get isRequired => !isOptional;
   bool get isInstanceMethod => !isClassMethod;
 
-  AstNode fillMsgSend() {
+  ObjCMsgSendFunc fillMsgSend() {
     return msgSend ??= context.objCBuiltInFunctions.getMsgSendFunc(
       returnType,
       _params,
     );
   }
 
-  AstNode fillProtocolBlock() {
+  ObjCBlock fillProtocolBlock() {
     protocolMethodName ??= symbol.oldName == originalProtocolMethodName
         ? symbol
         : Symbol(originalProtocolMethodName, SymbolKind.method);

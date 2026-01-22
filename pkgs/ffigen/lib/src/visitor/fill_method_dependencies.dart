@@ -16,6 +16,11 @@ class FillMethodDependenciesVisitation extends Visitation {
   }
 
   @override
+  void visitAstNode(AstNode node) {
+    // Don't visit children by default.
+  }
+
+  @override
   void visitObjCInterface(ObjCInterface node) {
     if (!finalBindings.contains(node)) return;
 
@@ -63,16 +68,40 @@ class FillMethodDependenciesVisitation extends Visitation {
   }
 }
 
+// Adding the method deps can introduce some new bindings, so add those to the
+// final bindings set.
 class _MethodDepAdderVisitation extends Visitation {
-  final Set<Binding> _bindings;
+  final Set<Binding> finalBindings;
 
-  _MethodDepAdderVisitation(this._bindings);
+  _MethodDepAdderVisitation(this.finalBindings);
 
   @override
-  void visitBinding(Binding node) {
-    if (!_bindings.contains(node)) {
-      node.visitChildren(visitor);
-      _bindings.add(node);
-    }
+  void visitAstNode(AstNode node) {
+    // Don't visit children by default.
   }
+
+  @override
+  void visitObjCMsgSendFunc(ObjCMsgSendFunc node) =>
+      node.visitChildren(visitor);
+
+  @override
+  void visitObjCMsgSendVariantFunc(ObjCMsgSendVariantFunc node) =>
+      finalBindings.add(node);
+
+  @override
+  void visitObjCBlock(ObjCBlock node) {
+    node.visitChildren(visitor);
+    finalBindings.add(node);
+  }
+
+  @override
+  void visitFunc(Func node) => finalBindings.add(node);
+
+  @override
+  void visitObjCProtocolMethodTrampoline(ObjCProtocolMethodTrampoline node) =>
+      node.visitChildren(visitor);
+
+  @override
+  void visitObjCBlockWrapperFuncs(ObjCBlockWrapperFuncs node) =>
+      node.visitChildren(visitor);
 }
