@@ -785,3 +785,8 @@ to specify path to `llvm/lib` folder.
 - Size for ints can be specified using `size-map` in config.
 - Options to disable using supported typedefs (e.g `uint8_t => Uint8`), sort bindings.
 - Option to add a raw `preamble` which is included as is in the generated file.
+
+## 3.0.0-next
+
+- Replaced deprecated `pub run` with `dart run` in documentation and CI.
+
