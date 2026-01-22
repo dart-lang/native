@@ -7,7 +7,6 @@ import 'dart:collection';
 import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
-import 'binding.dart';
 import 'func.dart';
 import 'imports.dart';
 import 'native_type.dart';

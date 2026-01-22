@@ -10,8 +10,8 @@ class FillMethodDependenciesVisitation extends Visitation {
   final Set<Binding> finalBindings;
   late final Visitor _adder;
 
-  FillMethodDependenciesVisitation(Context context, Set<Binding> bindings) :
-      finalBindings = bindings.toSet() {
+  FillMethodDependenciesVisitation(Context context, Set<Binding> bindings)
+    : finalBindings = bindings.toSet() {
     _adder = Visitor(context, _MethodDepAdderVisitation(finalBindings));
   }
 
@@ -27,11 +27,7 @@ class FillMethodDependenciesVisitation extends Visitation {
     if (!node.generateAsStub) {
       node.visitChildren(visitor);
       for (final method in node.methods) {
-        final msgSend = method.fillMsgSend();
-        _adder.visit(msgSend);
-        if (Visitor.debuggable(msgSend)) {
-          print('!!! ${node.runtimeType}(${node.originalName})');
-        }
+        _adder.visit(method.fillMsgSend());
       }
     }
   }
@@ -42,11 +38,7 @@ class FillMethodDependenciesVisitation extends Visitation {
     node.visitChildren(visitor);
 
     for (final method in node.methods) {
-      final msgSend = method.fillMsgSend();
-      _adder.visit(msgSend);
-      if (Visitor.debuggable(msgSend)) {
-        print('!!! ${node.runtimeType}(${node.originalName})');
-      }
+      _adder.visit(method.fillMsgSend());
     }
   }
 
@@ -58,11 +50,7 @@ class FillMethodDependenciesVisitation extends Visitation {
       node.visitChildren(visitor);
       for (final method in node.methods) {
         _adder.visit(method.fillProtocolBlock());
-        final msgSend = method.fillMsgSend();
-        _adder.visit(msgSend);
-        if (Visitor.debuggable(msgSend)) {
-          print('!!! ${node.runtimeType}(${node.originalName})');
-        }
+        _adder.visit(method.fillMsgSend());
       }
     }
   }
