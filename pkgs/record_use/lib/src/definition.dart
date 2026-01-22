@@ -14,15 +14,10 @@ class Definition {
 
   const Definition({required this.identifier, this.loadingUnit});
 
-  factory Definition.fromJson(Map<String, Object?> json) =>
-      Definition._fromSyntax(DefinitionSyntax.fromJson(json));
-
   factory Definition._fromSyntax(DefinitionSyntax syntax) => Definition(
     identifier: IdentifierProtected.fromSyntax(syntax.identifier),
     loadingUnit: syntax.loadingUnit,
   );
-
-  Map<String, Object?> toJson() => _toSyntax().json;
 
   DefinitionSyntax _toSyntax() => DefinitionSyntax(
     identifier: identifier.toSyntax(),

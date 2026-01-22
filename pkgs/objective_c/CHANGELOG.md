@@ -1,3 +1,9 @@
+## 9.2.3
+
+- Fix a [bug](https://github.com/dart-lang/native/issues/2973) where the
+  objective_c framework was rejected by the Apple app store due to code signing
+  issues.
+
 ## 9.2.2
 
 - Fix a [bug](https://github.com/dart-lang/http/issues/1861) where the build

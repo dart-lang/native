@@ -302,6 +302,8 @@ class RunCBuilder {
         // Support Android 15 page size by default, can be overridden by
         // passing [flags].
         if (codeConfig.targetOS == OS.android) '-Wl,-z,max-page-size=16384',
+        if (codeConfig.targetOS == OS.iOS || codeConfig.targetOS == OS.macOS)
+          '-Wl,-encryptable',
         ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '-D$name' else '-D$name=$value',

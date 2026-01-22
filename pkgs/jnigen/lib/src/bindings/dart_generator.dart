@@ -83,10 +83,13 @@ extension on DeclaredType {
 
 extension on Method {
   bool get isSuspendFun => asyncReturnType != null;
+  bool get isAsyncVoid => asyncReturnType?.name == 'kotlin.Unit';
 
-  String returnTypeMaybeAsync(TypeVisitor<String> generator) => isSuspendFun
-      ? '$_core.Future<${asyncReturnType!.accept(generator)}>'
-      : returnType.accept(generator);
+  String returnTypeMaybeAsync(TypeVisitor<String> generator) => isAsyncVoid
+      ? '$_core.Future<void>'
+      : isSuspendFun
+          ? '$_core.Future<${asyncReturnType!.accept(generator)}>'
+          : returnType.accept(generator);
 
   List<Param> get paramsMaybeAsync {
     final p = params.toList();
@@ -1485,11 +1488,8 @@ ${modifier}final _$name = $_protectedExtension
     s.write('  $ifStatic$returnType $name$typeParamsDef($params$typeClassDef)');
     final callExpr = methodCall(node);
     if (node.isSuspendFun) {
-      final returningType =
-          node.asyncReturnType!.accept(_TypeGenerator(resolver));
-      final returningTypeClass =
-          node.asyncReturnType!.accept(_TypeClassGenerator(resolver)).name;
-      final isNullable = node.asyncReturnType!.isNullable;
+      final asyncReturnType = node.asyncReturnType!;
+      final isNullable = asyncReturnType.isNullable;
       final continuation = node.params.last.finalName;
       s.write('''async {
     $typeInference
@@ -1515,10 +1515,22 @@ ${modifier}final _$name = $_protectedExtension
     } else {
       \$o = \$r;
     }
+''');
+
+      if (node.isAsyncVoid) {
+        s.write('    return;');
+      } else {
+        final returningType = asyncReturnType.accept(_TypeGenerator(resolver));
+        final returningTypeClass =
+            asyncReturnType.accept(_TypeClassGenerator(resolver)).name;
+        s.write('''
     return \$o${isNullable ? '?' : ''}.as<$returningType>(
       $returningTypeClass,
       releaseOriginal: true,
-    );
+    );''');
+      }
+
+      s.write('''
   }
 
 ''');
@@ -1993,12 +2005,14 @@ class _InterfaceMethodIf extends Visitor<Method, void> {
     final returnValue = node.returnType.accept(returnBox);
 
     if (node.isSuspendFun) {
+      final resume =
+          node.isAsyncVoid ? 'resumeWithVoidFuture' : 'resumeWithFuture';
       final contArg = StringBuffer();
       node.params.last.accept(_InterfaceParamCast(resolver, contArg,
           paramIndex: node.params.length - 1));
       s.write('''
           final \$r = $_jni.KotlinContinuation.fromReference($contArg.reference)
-              .resumeWithFuture($result);
+              .$resume($result);
           return $returnValue;
 ''');
     } else {

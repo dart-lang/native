@@ -1,6 +1,9 @@
 ## 0.17.5-wip
 
 - Search for NDK in `ANDROID_HOME` and `ANDROID_NDK` environment variables.
+- On iOS and macOS, use the `-encryptable` linker flag. This resolves an
+  [issue](https://github.com/dart-lang/native/issues/2973) with app store
+  rejections.
 
 ## 0.17.4
 

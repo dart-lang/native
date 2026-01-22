@@ -63,10 +63,10 @@ void main() {
     loadingUnit: null,
     location: Location(uri: 'memory:a/a.dart', line: 1, column: 1),
   );
-  final metadata = Metadata.fromJson({
-    'version': Version(1, 0, 0).toString(),
-    'comment': '',
-  });
+  final metadata = Metadata(
+    version: Version(1, 0, 0),
+    comment: '',
+  );
 
   test('Definition semantic equality', () {
     expect(definition1.semanticEquals(definition1), isTrue);
