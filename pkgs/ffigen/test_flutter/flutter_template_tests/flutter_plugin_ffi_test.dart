@@ -36,7 +36,7 @@ void main() {
     );
 
     await runProcess(
-      executable: 'flutter',
+      executable: 'dart',
       arguments: ['create', '--template=plugin_ffi', projectName],
       workingDirectory: tempDirUri,
     );
@@ -51,8 +51,8 @@ void main() {
       target: bindingsGeneratedCopyUri,
     );
     await runProcess(
-      executable: 'flutter',
-      arguments: ['pub', 'run', 'ffigen', '--config', 'ffigen.yaml'],
+      executable: 'dart',
+      arguments: ['run', 'ffigen', '--config', 'ffigen.yaml'],
       workingDirectory: projectDirUri,
     );
 
