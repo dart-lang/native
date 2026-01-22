@@ -134,7 +134,8 @@ List<InitializerDeclaration> _compoundInitializers(
   }
   final storedProperties = originalCompound.properties
       .where((prop) => prop.hasSetter && !prop.isStatic)
-      .toList();
+      .toList()
+      .sortedById();
 
   if (storedProperties.isEmpty) {
     return initializers;

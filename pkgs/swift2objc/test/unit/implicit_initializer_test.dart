@@ -47,8 +47,8 @@ void main() {
 
       expect(result.initializers.length, equals(1));
       expect(result.initializers.first.params.length, equals(2));
-      expect(result.initializers.first.params[0].name, equals('name'));
-      expect(result.initializers.first.params[1].name, equals('age'));
+      expect(result.initializers.first.params[0].name, equals('age'));
+      expect(result.initializers.first.params[1].name, equals('name'));
     });
 
     test('does not generate implicit init when explicit init exists', () {
