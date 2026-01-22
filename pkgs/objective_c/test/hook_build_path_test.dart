@@ -35,9 +35,7 @@ void main() {
       );
       expect(encodedPackageRoot.toString(), contains('%2547'));
 
-      final compilerLog = tempDir.uri
-          .resolve('compiler_args.txt')
-          .toFilePath();
+      final compilerLog = tempDir.uri.resolve('compiler_args.txt').toFilePath();
       File(compilerLog).writeAsStringSync('');
       final compilerScript = tempDir.uri.resolve('clang').toFilePath();
       File(compilerScript).writeAsStringSync('''#!/bin/sh
