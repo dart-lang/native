@@ -202,8 +202,3 @@
 - Delete Dart functions associated with ObjC closure blocks when the block is
   destroyed. Fixes https://github.com/dart-lang/native/issues/204
 - Improve debuggability of memory management errors.
-
-## 3.0.0-next
-
-- Replaced deprecated `pub run` with `dart run` in documentation.
-

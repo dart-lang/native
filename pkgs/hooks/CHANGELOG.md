@@ -1,3 +1,7 @@
+## 1.0.1-wip
+
+- Replaced deprecated `pub run` with `dart run` in documentation.
+
 ## 1.0.0
 
 - Stable release.
@@ -278,8 +282,3 @@
 ## 0.1.0
 
 - Initial version.
-
-## 3.0.0-next
-
-- Replaced deprecated `pub run` with `dart run` in documentation.
-

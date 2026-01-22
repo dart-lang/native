@@ -163,8 +163,3 @@ Incorporate struct API changes, drop type argument of structs.
 ## 0.1.0
 
 * Initial release supporting Utf8
-
-## 3.0.0-next
-
-- Replaced deprecated `pub run` with `dart run` in documentation.
-
