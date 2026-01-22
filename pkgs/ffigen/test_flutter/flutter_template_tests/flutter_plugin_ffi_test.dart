@@ -36,7 +36,7 @@ void main() {
     );
 
     await runProcess(
-      executable: 'dart',
+      executable: 'flutter',
       arguments: ['create', '--template=plugin_ffi', projectName],
       workingDirectory: tempDirUri,
     );
