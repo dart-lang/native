@@ -12,6 +12,10 @@ class FindTransitiveDepsVisitation extends Visitation {
 
   @override
   void visitBinding(Binding node) {
+    if (Visitor.debuggable(node)) {
+      print('    ${node.runtimeType}(${node.originalName})');
+      visitor.debugPrintStack();
+    }
     if (node.isObjCImport) return;
     node.visitChildren(visitor);
     transitives.add(node);

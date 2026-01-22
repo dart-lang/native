@@ -7,6 +7,7 @@ import 'dart:collection';
 import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
+import 'binding.dart';
 import 'func.dart';
 import 'imports.dart';
 import 'native_type.dart';
@@ -310,15 +311,18 @@ class ObjCMethod extends AstNode with HasLocalScope {
   bool get isRequired => !isOptional;
   bool get isInstanceMethod => !isClassMethod;
 
-  void fillMsgSend() {
-    msgSend ??= context.objCBuiltInFunctions.getMsgSendFunc(
+  AstNode fillMsgSend() {
+    return msgSend ??= context.objCBuiltInFunctions.getMsgSendFunc(
       returnType,
       _params,
     );
   }
 
-  void fillProtocolBlock() {
-    protocolBlock ??= ObjCBlock(
+  AstNode fillProtocolBlock() {
+    protocolMethodName ??= symbol.oldName == originalProtocolMethodName
+        ? symbol
+        : Symbol(originalProtocolMethodName, SymbolKind.method);
+    return protocolBlock ??= ObjCBlock(
       context,
       returnType: returnType,
       params: [
@@ -328,9 +332,6 @@ class ObjCMethod extends AstNode with HasLocalScope {
       ],
       returnsRetained: returnsRetained,
     )..fillProtocolTrampoline();
-    protocolMethodName ??= symbol.oldName == originalProtocolMethodName
-        ? symbol
-        : Symbol(originalProtocolMethodName, SymbolKind.method);
   }
 
   bool sameAs(ObjCMethod other) {

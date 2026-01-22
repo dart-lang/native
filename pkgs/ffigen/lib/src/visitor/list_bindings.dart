@@ -70,9 +70,14 @@ class ListBindingsVisitation extends Visitation {
               ? _IncludeBehavior.configOrTransitive
               : _IncludeBehavior.configOnly,
         );
+
     if (omit && directTransitives.contains(node)) {
       node.generateAsStub = true;
       bindings.add(node);
+
+      // Always visit the supertypes and protocols, even if this is a stub.
+      visitor.visit(node.superType);
+      visitor.visitAll(node.protocols);
     }
   }
 
@@ -94,9 +99,13 @@ class ListBindingsVisitation extends Visitation {
               ? _IncludeBehavior.configOrTransitive
               : _IncludeBehavior.configOnly,
         );
+
     if (omit && directTransitives.contains(node)) {
       node.generateAsStub = true;
       bindings.add(node);
+
+      // Always visit the super protocols, even if this is a stub.
+      visitor.visitAll(node.superProtocols);
     }
   }
 

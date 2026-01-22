@@ -164,18 +164,19 @@ List<String> _findObjectiveCSysroot() => [
 ];
 
 @visibleForTesting
-List<Binding> transformBindings(List<Binding> bindings, Context context) {
+List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   final config = context.config;
 
+  print("\n\n======== FIND ALL BINDINGS =========");
   final allBindings = visit(
     context,
     FindTransitiveDepsVisitation(),
-    bindings,
+    rawBindings,
   ).transitives;
+  print("allBindings: " + foo(allBindings));
 
   visit(context, CopyMethodsFromSuperTypesVisitation(), allBindings);
   visit(context, FixOverriddenMethodsVisitation(context), allBindings);
-  visit(context, FillMethodDependenciesVisitation(), allBindings);
 
   final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(config);
   visit(context, applyConfigFiltersVisitation, allBindings);
@@ -195,6 +196,7 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
     allBindings,
   );
 
+  print("\n\n======== FIND TRANSITIVES =========");
   final transitives = visit(
     context,
     FindTransitiveDepsVisitation(),
@@ -206,15 +208,23 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
     included,
   ).directTransitives;
 
-  final finalBindings = visit(
+  print("");
+  print("rawBindings: " + foo(rawBindings));
+  print("included: " + foo(included));
+  print("transitives: " + foo(transitives));
+  print("directTransitives: " + foo(directTransitives));
+
+  final semiFinalBindings = visit(
     context,
     ListBindingsVisitation(config, included, transitives, directTransitives),
     included,
   ).bindings;
+  print("semiFinalBindings: " + foo(semiFinalBindings));
+  final finalBindings = visit(context, FillMethodDependenciesVisitation(context, semiFinalBindings), semiFinalBindings).finalBindings;
   visit(context, MarkBindingsVisitation(finalBindings), allBindings);
-
   visit(context, MarkImportsVisitation(context), finalBindings);
 
+  print("finalBindings: " + foo(finalBindings));
   _nameAllSymbols(context, finalBindings);
 
   /// Sort bindings.
@@ -243,8 +253,13 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
     }
   }
 
+  print("========= VISITORS DONE ==========\n");
+
   return finalBindingsList;
 }
+
+String foo(Iterable<Declaration> t) =>
+    t.where((d) => d is AstNode ? Visitor.debuggable(d as AstNode) : false).map((d) => '${d.runtimeType}(${d.originalName})').join(', ');
 
 /// Logs a warning if generated declaration will be private.
 void _warnIfPrivateDeclaration(Binding b, Logger logger) {
@@ -262,6 +277,7 @@ void _nameAllSymbols(Context context, Set<Binding> bindings) {
     SorterVisitation(bindings, SorterVisitation.originalNameSortKey),
     bindings,
   ).sorted;
+  print("namingOrder: " + foo(namingOrder));
 
   visit(
     context,

@@ -53,6 +53,7 @@ String generate({
           'DirectlyIncluded',
           'DirectlyIncludedWithProtocol',
           'DirectlyIncludedIntForCat',
+          'Bug2935DirectInterface',
         }.contains(decl.originalName),
         includeTransitive: includeTransitiveObjCInterfaces,
       ),

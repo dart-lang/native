@@ -347,8 +347,12 @@ Protocol* _${libraryId}_$originalName(void) { return @protocol($originalName); }
       PointerType(objCObjectType).getCType(context);
 
   @override
-  String getDartType(Context context) =>
-      isObjCImport ? '${context.libs.prefix(objcPkgImport)}.$name' : name;
+  String getDartType(Context context) {
+    if (!symbol.isFilled) {
+      print('    ${runtimeType}(${originalName})');
+    }
+    return isObjCImport ? '${context.libs.prefix(objcPkgImport)}.$name' : name;
+  }
 
   @override
   String getNativeType({String varName = ''}) => 'id $varName';

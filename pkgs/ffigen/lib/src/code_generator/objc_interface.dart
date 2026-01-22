@@ -100,6 +100,9 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
 
     final rawObjType = PointerType(objCObjectType).getCType(context);
     final wrapObjType = ObjCBuiltInFunctions.objectBase.gen(context);
+    if (protocols.any((p) => !p.symbol.isFilled)) {
+      print('    ${runtimeType}(${originalName})');
+    }
     final protos = [
       wrapObjType,
       ...[superType, ...protocols].nonNulls.map((p) => p.getDartType(context)),

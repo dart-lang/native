@@ -50,6 +50,36 @@ final class Visitor {
       indent += '  ';
     }
   }
+
+  static bool debuggable(AstNode node) {
+    const dbg = {
+      // "UICommand",
+      // "UIMenuLeaf",
+
+      // "UITraitCollection",
+      // "NSTextRange",
+      // "NSTextLocation",
+      // "UIViewControllerTransitionCoordinatorContext",
+
+      // "UIInputViewController",
+      // "UITextInputDelegate",
+
+      "NSScriptKeyValueCoding",
+    };
+    if (node is Binding) {
+      if (node.originalName.startsWith('Bug2935')) return true;
+      if (dbg.contains(node.originalName)) return true;
+      if (node is ObjCBlock) {
+        if ([node.returnType, ...node.params.map((p) => p.type)].any(debuggable)) {
+          return true;
+        }
+      }
+    }
+    if (node is ObjCMsgSendFunc) {
+      if (node.normalFunc.symbol.oldName.endsWith('10nfbmq')) return true;
+    }
+    return false;
+  }
 }
 
 /// Base class for all AST visitations.
