@@ -11112,6 +11112,9 @@ final class sqlite3_mem_methods extends ffi.Struct {
   external ffi.Pointer<ffi.Void> pAppData;
 }
 
+typedef __builtin_va_list = ffi.Pointer<ffi.Char>;
+typedef va_list = __builtin_va_list;
+
 final class sqlite3_stmt extends ffi.Opaque {}
 
 final class sqlite3_value extends ffi.Opaque {}
@@ -11324,6 +11327,34 @@ final class sqlite3_index_info extends ffi.Struct {
   /// Input: Mask of columns used by statement
   @sqlite3_uint64()
   external int colUsed;
+}
+
+/// CAPI3REF: Virtual Table Instance Object
+/// KEYWORDS: sqlite3_vtab
+///
+/// Every [virtual table module] implementation uses a subclass
+/// of this object to describe a particular instance
+/// of the [virtual table].  Each subclass will
+/// be tailored to the specific needs of the module implementation.
+/// The purpose of this superclass is to define certain fields that are
+/// common to all module implementations.
+///
+/// ^Virtual tables methods can set an error message by assigning a
+/// string obtained from [sqlite3_mprintf()] to zErrMsg.  The method should
+/// take care that any prior string is freed by a call to [sqlite3_free()]
+/// prior to assigning a new string to zErrMsg.  ^After the error message
+/// is delivered up to the client application, the string will be automatically
+/// freed by sqlite3_free() and the zErrMsg field will be zeroed.
+final class sqlite3_vtab extends ffi.Struct {
+  /// The module for this virtual table
+  external ffi.Pointer<sqlite3_module> pModule;
+
+  /// Number of open cursors
+  @ffi.Int()
+  external int nRef;
+
+  /// Error message from sqlite3_mprintf()
+  external ffi.Pointer<ffi.Char> zErrMsg;
 }
 
 /// CAPI3REF: Virtual Table Cursor Object
@@ -11560,34 +11591,6 @@ final class sqlite3_module extends ffi.Struct {
     ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Char>)>
   >
   xShadowName;
-}
-
-/// CAPI3REF: Virtual Table Instance Object
-/// KEYWORDS: sqlite3_vtab
-///
-/// Every [virtual table module] implementation uses a subclass
-/// of this object to describe a particular instance
-/// of the [virtual table].  Each subclass will
-/// be tailored to the specific needs of the module implementation.
-/// The purpose of this superclass is to define certain fields that are
-/// common to all module implementations.
-///
-/// ^Virtual tables methods can set an error message by assigning a
-/// string obtained from [sqlite3_mprintf()] to zErrMsg.  The method should
-/// take care that any prior string is freed by a call to [sqlite3_free()]
-/// prior to assigning a new string to zErrMsg.  ^After the error message
-/// is delivered up to the client application, the string will be automatically
-/// freed by sqlite3_free() and the zErrMsg field will be zeroed.
-final class sqlite3_vtab extends ffi.Struct {
-  /// The module for this virtual table
-  external ffi.Pointer<sqlite3_module> pModule;
-
-  /// Number of open cursors
-  @ffi.Int()
-  external int nRef;
-
-  /// Error message from sqlite3_mprintf()
-  external ffi.Pointer<ffi.Char> zErrMsg;
 }
 
 final class sqlite3_blob extends ffi.Opaque {}
