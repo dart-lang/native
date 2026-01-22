@@ -25,6 +25,233 @@ int8_t getCaptureStackTraceOnRelease() {
   return captureStackTraceOnRelease;
 }
 
+#include <string.h>
+
+typedef struct JniClassCacheNode {
+  char* name;
+  jclass value;
+  struct JniClassCacheNode* prev;
+  struct JniClassCacheNode* next;
+  struct JniClassCacheNode* hashNext;
+} JniClassCacheNode;
+
+typedef struct JniClassCache {
+  JniClassCacheNode** buckets;
+  JniClassCacheNode* head;
+  JniClassCacheNode* tail;
+  int capacity;
+  int size;
+  int bucketCount;
+  MutexLock lock;
+} JniClassCache;
+
+// Default capacity 256
+#define DEFAULT_CACHE_CAPACITY 256
+// Load factor 0.75 roughly, so buckets = capacity * 1.33
+#define DEFAULT_BUCKET_COUNT 341
+
+JniClassCache jniClassCache = {
+    .buckets = NULL,
+    .head = NULL,
+    .tail = NULL,
+    .capacity = DEFAULT_CACHE_CAPACITY,
+    .size = 0,
+    .bucketCount = DEFAULT_BUCKET_COUNT,
+};
+
+static unsigned long hash_string(const char* str) {
+  unsigned long hash = 5381;
+  int c;
+  while ((c = *str++))
+    hash = ((hash << 5) + hash) + c; /* hash * 33 + c */
+  return hash;
+}
+
+static void init_cache_if_needed() {
+  if (jniClassCache.buckets == NULL) {
+    init_lock(&jniClassCache.lock);
+    // Double checked locking
+    acquire_lock(&jniClassCache.lock);
+    if (jniClassCache.buckets == NULL) {
+      jniClassCache.buckets = (JniClassCacheNode**)calloc(
+          jniClassCache.bucketCount, sizeof(JniClassCacheNode*));
+    }
+    release_lock(&jniClassCache.lock);
+  }
+}
+
+static void remove_node(JniClassCacheNode* node) {
+  if (node->prev) {
+    node->prev->next = node->next;
+  } else {
+    jniClassCache.head = node->next;
+  }
+  if (node->next) {
+    node->next->prev = node->prev;
+  } else {
+    jniClassCache.tail = node->prev;
+  }
+}
+
+static void add_to_head(JniClassCacheNode* node) {
+  node->next = jniClassCache.head;
+  node->prev = NULL;
+  if (jniClassCache.head) {
+    jniClassCache.head->prev = node;
+  }
+  jniClassCache.head = node;
+  if (jniClassCache.tail == NULL) {
+    jniClassCache.tail = node;
+  }
+}
+
+static void move_to_head(JniClassCacheNode* node) {
+  remove_node(node);
+  add_to_head(node);
+}
+
+static void evict_tail() {
+  if (jniClassCache.tail == NULL) return;
+  JniClassCacheNode* node = jniClassCache.tail;
+
+  // Remove from list
+  remove_node(node);
+
+  // Remove from buckets
+  unsigned long hash = hash_string(node->name);
+  int index = hash % jniClassCache.bucketCount;
+  JniClassCacheNode* curr = jniClassCache.buckets[index];
+  JniClassCacheNode* prev = NULL;
+  while (curr != NULL) {
+    if (curr == node) {
+      if (prev) {
+        prev->hashNext = curr->hashNext;
+      } else {
+        jniClassCache.buckets[index] = curr->hashNext;
+      }
+      break;
+    }
+    prev = curr;
+    curr = curr->hashNext;
+  }
+
+  // Free resources
+  attach_thread();
+  (*jniEnv)->DeleteGlobalRef(jniEnv, node->value);
+  free(node->name);
+  free(node);
+  jniClassCache.size--;
+}
+
+FFI_PLUGIN_EXPORT
+void SetClassCacheSize(int size) {
+  init_cache_if_needed();
+  acquire_lock(&jniClassCache.lock);
+  jniClassCache.capacity = size;
+  while (jniClassCache.size > jniClassCache.capacity) {
+    evict_tail();
+  }
+  release_lock(&jniClassCache.lock);
+}
+
+FFI_PLUGIN_EXPORT
+JniClassLookupResult GetCachedClass(const char* name) {
+  init_cache_if_needed();
+  if (name == NULL) {
+      return (JniClassLookupResult){NULL, NULL};
+  }
+  
+  acquire_lock(&jniClassCache.lock);
+  
+  unsigned long hash = hash_string(name);
+  int index = hash % jniClassCache.bucketCount;
+  JniClassCacheNode* node = jniClassCache.buckets[index];
+  
+  while (node != NULL) {
+    if (strcmp(node->name, name) == 0) {
+      // Hit
+      move_to_head(node);
+      
+      // Return a new global ref so the caller owns one, 
+      // but the cache keeps its own global ref.
+      // Wait, requirement says "Return NewGlobalRef". 
+      // The cache holds a GlobalRef. We should hand out a NewGlobalRef 
+      // so the user can release it without affecting the cache.
+      
+      // We need to attach thread to call NewGlobalRef
+      attach_thread();
+      jclass cls = (*jniEnv)->NewGlobalRef(jniEnv, node->value);
+      release_lock(&jniClassCache.lock);
+      return (JniClassLookupResult){cls, NULL};
+    }
+    node = node->hashNext;
+  }
+  
+  // Miss
+  // Release lock while loading class to avoid holding it during JNI call
+  release_lock(&jniClassCache.lock);
+  
+  // Load class implementation (similar to FindClassUnchecked)
+  attach_thread();
+  jclass cls;
+  load_class_platform(&cls, name);
+  
+  jthrowable exception = NULL;
+  if ((*jniEnv)->ExceptionCheck(jniEnv)) {
+      exception = check_exception();
+      return (JniClassLookupResult){NULL, exception};
+  }
+  
+  // Convert local to global for the cache
+  jclass globalCls = (*jniEnv)->NewGlobalRef(jniEnv, cls);
+  (*jniEnv)->DeleteLocalRef(jniEnv, cls);
+  
+  // Create new node
+  JniClassCacheNode* newNode = (JniClassCacheNode*)malloc(sizeof(JniClassCacheNode));
+  newNode->name = strdup(name); // Need strdup
+  newNode->value = globalCls;
+  newNode->hashNext = NULL;
+  
+  // Re-acquire lock to insert
+  acquire_lock(&jniClassCache.lock);
+  
+  // Check if it was inserted while we were loading (double check)
+  // Re-calculate hash/index as they are same
+  node = jniClassCache.buckets[index];
+  while (node != NULL) {
+    if (strcmp(node->name, name) == 0) {
+      // It was inserted by another thread. Use that one.
+      move_to_head(node);
+      // Free our speculative load
+      (*jniEnv)->DeleteGlobalRef(jniEnv, newNode->value);
+      free(newNode->name);
+      free(newNode);
+      
+      jclass returnCls = (*jniEnv)->NewGlobalRef(jniEnv, node->value);
+      release_lock(&jniClassCache.lock);
+      return (JniClassLookupResult){returnCls, NULL};
+    }
+    node = node->hashNext;
+  }
+  
+  // Insert new node
+  if (jniClassCache.size >= jniClassCache.capacity) {
+    evict_tail();
+  }
+  
+  newNode->hashNext = jniClassCache.buckets[index];
+  jniClassCache.buckets[index] = newNode;
+  add_to_head(newNode);
+  jniClassCache.size++;
+  
+  // Return a new global ref for the caller
+  jclass returnCls = (*jniEnv)->NewGlobalRef(jniEnv, globalCls);
+  
+  release_lock(&jniClassCache.lock);
+  
+  return (JniClassLookupResult){returnCls, NULL};
+}
+
 jclass FindClassUnchecked(const char* name) {
   attach_thread();
   jclass cls;
