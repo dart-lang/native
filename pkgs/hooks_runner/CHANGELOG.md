@@ -4,7 +4,6 @@
 - Add `ANDROID_NDK`, `ANDROID_NDK_HOME`, `ANDROID_NDK_LATEST_HOME` and
   `ANDROID_NDK_ROOT` to the environment variables allowlist.
 
-- Replaced deprecated `pub run` with `dart run` in documentation.
 ## 1.0.1
 
 - Ensure build fails if a build hook does not produce an output file.

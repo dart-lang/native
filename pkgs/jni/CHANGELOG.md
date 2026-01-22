@@ -9,7 +9,6 @@
   `DoubleReleaseError` if the object was manually released before the end of
   arena.
 
-- Replaced deprecated `pub run` with `dart run` in documentation.
 ## 0.15.2
 
 - Do not fail `flutter build` if JDK is not found for desktop.

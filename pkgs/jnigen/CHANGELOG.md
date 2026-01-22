@@ -8,7 +8,6 @@
 - Kotlin suspend functions with no result (a return type of `Unit`) now return
   `Future<void>` in Dart instead of `Future<JObject>`.
 
-- Replaced deprecated `pub run` with `dart run` in documentation.
 ## 0.15.0
 
 - Changed the names of internal type classes.
