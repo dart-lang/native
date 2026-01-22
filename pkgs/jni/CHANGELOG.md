@@ -263,3 +263,8 @@
 ## 0.1.0
 
 - Initial version: Android and Linux support, JObject API
+
+## 3.0.0-next
+
+- Replaced deprecated `pub run` with `dart run` in documentation.
+

@@ -790,3 +790,8 @@ to specify path to `llvm/lib` folder.
 
 - Replaced deprecated `pub run` with `dart run` in documentation and CI.
 
+
+## 3.0.0-next
+
+- Replaced deprecated `pub run` with `dart run` in documentation.
+
