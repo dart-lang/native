@@ -209,7 +209,7 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
   final finalBindings = visit(
     context,
     ListBindingsVisitation(config, included, transitives, directTransitives),
-    allBindings,
+    included,
   ).bindings;
   visit(context, MarkBindingsVisitation(finalBindings), allBindings);
 
