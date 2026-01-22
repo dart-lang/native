@@ -197,4 +197,4 @@ jobs:
       - name: Build test dylib and bindings
         run: dart --enable-asserts test/setup.dart
       - name: Run VM tests
-        run: dart run test test_flutter/
+        run: dart test test_flutter/
