@@ -194,6 +194,24 @@ abstract final class Jni {
         .checkedClassRef;
   }
 
+  /// Finds the class from its [name], using an internal LRU cache.
+  ///
+  /// This is preferred for repeated lookups of the same class, as it avoids
+  /// repeated JNI calls and global reference creation.
+  static JClassPtr getCachedClass(String name) {
+    return using((arena) => _bindings.GetCachedClass(name.toNativeChars(arena)))
+        .checkedClassRef;
+  }
+
+  /// Sets the capacity of the internal LRU class cache.
+  ///
+  /// If the new size is smaller than the current number of cached classes,
+  /// the least recently used classes will be evicted and their global
+  /// references released.
+  static void setClassCacheSize(int size) {
+    _bindings.SetClassCacheSize(size);
+  }
+
   /// Throws an exception.
   // TODO(#561): Throw an actual `JThrowable`.
   @internal

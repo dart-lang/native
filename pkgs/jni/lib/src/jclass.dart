@@ -16,6 +16,11 @@ class JClass extends JObject {
   JClass.forName(String name)
       : super.fromReference(JGlobalReference(Jni.findClass(name)));
 
+  /// Constructs a [JClass] associated with the class or interface with
+  /// the given string name, using the global LRU cache.
+  JClass.forNameCached(String name)
+      : super.fromReference(JGlobalReference(Jni.getCachedClass(name)));
+
   JConstructorId constructorId(String signature) {
     return JConstructorId._(this, signature);
   }
