@@ -45,27 +45,6 @@ external void _1yx5rho_protocolTrampoline_18v1jvf(
   ffi.Pointer<objc.ObjCObjectImpl> arg1,
 );
 
-late final _class_TestWeatherService = objc.getClass(
-  "protocols.TestWeatherService",
-);
-late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
-final _objc_msgSend_19nvye5 = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Bool Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-        )
-      >
-    >()
-    .asFunction<
-      bool Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-      )
-    >();
 late final _protocol_TestWeatherServiceDelegate = objc.getProtocol(
   "protocols.TestWeatherServiceDelegate",
 );
@@ -88,10 +67,208 @@ final _objc_msgSend_e3qsqz = objc.msgSendPointer
       )
     >();
 late final _sel_didUpdateWeather_ = objc.registerName("didUpdateWeather:");
-final _objc_msgSend_xtuoz7 = objc.msgSendPointer
+
+/// TestWeatherServiceDelegate
+extension type TestWeatherServiceDelegate._(objc.ObjCProtocol object$)
+    implements objc.ObjCProtocol {
+  /// Constructs a [TestWeatherServiceDelegate] that points to the same underlying object as [other].
+  TestWeatherServiceDelegate.as(objc.ObjCObject other) : object$ = other;
+
+  /// Constructs a [TestWeatherServiceDelegate] that wraps the given raw object pointer.
+  TestWeatherServiceDelegate.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCProtocol(other, retain: retain, release: release);
+
+  /// Returns whether [obj] is an instance of [TestWeatherServiceDelegate].
+  static bool conformsTo(objc.ObjCObject obj) {
+    return _objc_msgSend_e3qsqz(
+      obj.ref.pointer,
+      _sel_conformsToProtocol_,
+      _protocol_TestWeatherServiceDelegate,
+    );
+  }
+}
+
+extension TestWeatherServiceDelegate$Methods on TestWeatherServiceDelegate {
+  /// didUpdateWeather:
+  void didUpdateWeather(objc.NSString weather) {
+    _objc_msgSend_xtuoz7(
+      object$.ref.pointer,
+      _sel_didUpdateWeather_,
+      weather.ref.pointer,
+    );
+  }
+}
+
+interface class TestWeatherServiceDelegate$Builder {
+  /// Returns the [objc.Protocol] object for this protocol.
+  static objc.Protocol get $protocol =>
+      objc.Protocol.fromPointer(_protocol_TestWeatherServiceDelegate.cast());
+
+  /// Builds an object that implements the TestWeatherServiceDelegate protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
+  static TestWeatherServiceDelegate implement({
+    required void Function(objc.NSString) didUpdateWeather_,
+    bool $keepIsolateAlive = true,
+  }) {
+    final builder = objc.ObjCProtocolBuilder(
+      debugName: 'TestWeatherServiceDelegate',
+    );
+    TestWeatherServiceDelegate$Builder.didUpdateWeather_.implement(
+      builder,
+      didUpdateWeather_,
+    );
+    builder.addProtocol($protocol);
+    return TestWeatherServiceDelegate.as(
+      builder.build(keepIsolateAlive: $keepIsolateAlive),
+    );
+  }
+
+  /// Adds the implementation of the TestWeatherServiceDelegate protocol to an existing
+  /// [objc.ObjCProtocolBuilder].
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
+  static void addToBuilder(
+    objc.ObjCProtocolBuilder builder, {
+    required void Function(objc.NSString) didUpdateWeather_,
+    bool $keepIsolateAlive = true,
+  }) {
+    TestWeatherServiceDelegate$Builder.didUpdateWeather_.implement(
+      builder,
+      didUpdateWeather_,
+    );
+    builder.addProtocol($protocol);
+  }
+
+  /// Builds an object that implements the TestWeatherServiceDelegate protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
+  /// methods that can be implemented as listeners will be.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
+  static TestWeatherServiceDelegate implementAsListener({
+    required void Function(objc.NSString) didUpdateWeather_,
+    bool $keepIsolateAlive = true,
+  }) {
+    final builder = objc.ObjCProtocolBuilder(
+      debugName: 'TestWeatherServiceDelegate',
+    );
+    TestWeatherServiceDelegate$Builder.didUpdateWeather_.implementAsListener(
+      builder,
+      didUpdateWeather_,
+    );
+    builder.addProtocol($protocol);
+    return TestWeatherServiceDelegate.as(
+      builder.build(keepIsolateAlive: $keepIsolateAlive),
+    );
+  }
+
+  /// Adds the implementation of the TestWeatherServiceDelegate protocol to an existing
+  /// [objc.ObjCProtocolBuilder]. All methods that can be implemented as listeners will
+  /// be.
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
+  static void addToBuilderAsListener(
+    objc.ObjCProtocolBuilder builder, {
+    required void Function(objc.NSString) didUpdateWeather_,
+    bool $keepIsolateAlive = true,
+  }) {
+    TestWeatherServiceDelegate$Builder.didUpdateWeather_.implementAsListener(
+      builder,
+      didUpdateWeather_,
+    );
+    builder.addProtocol($protocol);
+  }
+
+  /// Builds an object that implements the TestWeatherServiceDelegate protocol. To implement
+  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
+  /// methods that can be implemented as blocking listeners will be.
+  ///
+  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
+  /// alive until it is garbage collected by both Dart and ObjC.
+  static TestWeatherServiceDelegate implementAsBlocking({
+    required void Function(objc.NSString) didUpdateWeather_,
+    bool $keepIsolateAlive = true,
+  }) {
+    final builder = objc.ObjCProtocolBuilder(
+      debugName: 'TestWeatherServiceDelegate',
+    );
+    TestWeatherServiceDelegate$Builder.didUpdateWeather_.implementAsBlocking(
+      builder,
+      didUpdateWeather_,
+    );
+    builder.addProtocol($protocol);
+    return TestWeatherServiceDelegate.as(
+      builder.build(keepIsolateAlive: $keepIsolateAlive),
+    );
+  }
+
+  /// Adds the implementation of the TestWeatherServiceDelegate protocol to an existing
+  /// [objc.ObjCProtocolBuilder]. All methods that can be implemented as blocking
+  /// listeners will be.
+  ///
+  /// Note: You cannot call this method after you have called `builder.build`.
+  static void addToBuilderAsBlocking(
+    objc.ObjCProtocolBuilder builder, {
+    required void Function(objc.NSString) didUpdateWeather_,
+    bool $keepIsolateAlive = true,
+  }) {
+    TestWeatherServiceDelegate$Builder.didUpdateWeather_.implementAsBlocking(
+      builder,
+      didUpdateWeather_,
+    );
+    builder.addProtocol($protocol);
+  }
+
+  /// didUpdateWeather:
+  static final didUpdateWeather_ =
+      objc.ObjCProtocolListenableMethod<void Function(objc.NSString)>(
+        _protocol_TestWeatherServiceDelegate,
+        _sel_didUpdateWeather_,
+        ffi.Native.addressOf<
+              ffi.NativeFunction<
+                ffi.Void Function(
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                  ffi.Pointer<ffi.Void>,
+                  ffi.Pointer<objc.ObjCObjectImpl>,
+                )
+              >
+            >(_1yx5rho_protocolTrampoline_18v1jvf)
+            .cast(),
+        objc.getProtocolMethodSignature(
+          _protocol_TestWeatherServiceDelegate,
+          _sel_didUpdateWeather_,
+          isRequired: true,
+          isInstanceMethod: true,
+        ),
+        (void Function(objc.NSString) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSString.fromFunction(
+              (ffi.Pointer<ffi.Void> _, objc.NSString arg1) => func(arg1),
+            ),
+        (void Function(objc.NSString) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSString.listener(
+              (ffi.Pointer<ffi.Void> _, objc.NSString arg1) => func(arg1),
+            ),
+        (void Function(objc.NSString) func) =>
+            ObjCBlock_ffiVoid_ffiVoid_NSString.blocking(
+              (ffi.Pointer<ffi.Void> _, objc.NSString arg1) => func(arg1),
+            ),
+      );
+}
+
+late final _class_TestWeatherService = objc.getClass(
+  "protocols.TestWeatherService",
+);
+late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
+final _objc_msgSend_19nvye5 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
-        ffi.Void Function(
+        ffi.Bool Function(
           ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.Pointer<objc.ObjCSelector>,
           ffi.Pointer<objc.ObjCObjectImpl>,
@@ -99,12 +276,96 @@ final _objc_msgSend_xtuoz7 = objc.msgSendPointer
       >
     >()
     .asFunction<
-      void Function(
+      bool Function(
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
+late final _sel_fetchWeatherWithDelegate_ = objc.registerName(
+  "fetchWeatherWithDelegate:",
+);
+typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
+typedef Dartinstancetype = objc.ObjCObject;
+late final _sel_init = objc.registerName("init");
+late final _sel_new = objc.registerName("new");
+late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
+late final _sel_alloc = objc.registerName("alloc");
+
+/// TestWeatherService
+extension type TestWeatherService._(objc.ObjCObject object$)
+    implements objc.ObjCObject, objc.NSObject {
+  /// Constructs a [TestWeatherService] that points to the same underlying object as [other].
+  TestWeatherService.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
+
+  /// Constructs a [TestWeatherService] that wraps the given raw object pointer.
+  TestWeatherService.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [TestWeatherService].
+  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
+    obj.ref.pointer,
+    _sel_isKindOfClass_,
+    _class_TestWeatherService,
+  );
+
+  /// alloc
+  static TestWeatherService alloc() {
+    final $ret = _objc_msgSend_151sglz(_class_TestWeatherService, _sel_alloc);
+    return TestWeatherService.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// allocWithZone:
+  static TestWeatherService allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+    final $ret = _objc_msgSend_1cwp428(
+      _class_TestWeatherService,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return TestWeatherService.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// fetchWeatherWithDelegate:
+  static void fetchWeatherWithDelegate(TestWeatherServiceDelegate delegate) {
+    _objc_msgSend_xtuoz7(
+      _class_TestWeatherService,
+      _sel_fetchWeatherWithDelegate_,
+      delegate.ref.pointer,
+    );
+  }
+
+  /// new
+  static TestWeatherService new$() {
+    final $ret = _objc_msgSend_151sglz(_class_TestWeatherService, _sel_new);
+    return TestWeatherService.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// Returns a new instance of TestWeatherService constructed with the default `new` method.
+  TestWeatherService() : this.as(new$().object$);
+}
+
+extension TestWeatherService$Methods on TestWeatherService {
+  /// init
+  TestWeatherService init() {
+    objc.checkOsVersionInternal(
+      'TestWeatherService.init',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(
+      object$.ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return TestWeatherService.fromPointer($ret, retain: false, release: true);
+  }
+}
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSString)>`.
 abstract final class ObjCBlock_ffiVoid_ffiVoid_NSString {
@@ -394,205 +655,23 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSString$CallExtension
       >()(ref.pointer, arg0, arg1.ref.pointer);
 }
 
-/// TestWeatherServiceDelegate
-extension type TestWeatherServiceDelegate._(objc.ObjCProtocol object$)
-    implements objc.ObjCProtocol {
-  /// Constructs a [TestWeatherServiceDelegate] that points to the same underlying object as [other].
-  TestWeatherServiceDelegate.as(objc.ObjCObject other) : object$ = other;
-
-  /// Constructs a [TestWeatherServiceDelegate] that wraps the given raw object pointer.
-  TestWeatherServiceDelegate.fromPointer(
-    ffi.Pointer<objc.ObjCObjectImpl> other, {
-    bool retain = false,
-    bool release = false,
-  }) : object$ = objc.ObjCProtocol(other, retain: retain, release: release);
-
-  /// Returns whether [obj] is an instance of [TestWeatherServiceDelegate].
-  static bool conformsTo(objc.ObjCObject obj) {
-    return _objc_msgSend_e3qsqz(
-      obj.ref.pointer,
-      _sel_conformsToProtocol_,
-      _protocol_TestWeatherServiceDelegate,
-    );
-  }
-}
-
-extension TestWeatherServiceDelegate$Methods on TestWeatherServiceDelegate {
-  /// didUpdateWeather:
-  void didUpdateWeather(objc.NSString weather) {
-    _objc_msgSend_xtuoz7(
-      object$.ref.pointer,
-      _sel_didUpdateWeather_,
-      weather.ref.pointer,
-    );
-  }
-}
-
-interface class TestWeatherServiceDelegate$Builder {
-  /// Returns the [objc.Protocol] object for this protocol.
-  static objc.Protocol get $protocol =>
-      objc.Protocol.fromPointer(_protocol_TestWeatherServiceDelegate.cast());
-
-  /// Builds an object that implements the TestWeatherServiceDelegate protocol. To implement
-  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly.
-  ///
-  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
-  /// alive until it is garbage collected by both Dart and ObjC.
-  static TestWeatherServiceDelegate implement({
-    required void Function(objc.NSString) didUpdateWeather_,
-    bool $keepIsolateAlive = true,
-  }) {
-    final builder = objc.ObjCProtocolBuilder(
-      debugName: 'TestWeatherServiceDelegate',
-    );
-    TestWeatherServiceDelegate$Builder.didUpdateWeather_.implement(
-      builder,
-      didUpdateWeather_,
-    );
-    builder.addProtocol($protocol);
-    return TestWeatherServiceDelegate.as(
-      builder.build(keepIsolateAlive: $keepIsolateAlive),
-    );
-  }
-
-  /// Adds the implementation of the TestWeatherServiceDelegate protocol to an existing
-  /// [objc.ObjCProtocolBuilder].
-  ///
-  /// Note: You cannot call this method after you have called `builder.build`.
-  static void addToBuilder(
-    objc.ObjCProtocolBuilder builder, {
-    required void Function(objc.NSString) didUpdateWeather_,
-    bool $keepIsolateAlive = true,
-  }) {
-    TestWeatherServiceDelegate$Builder.didUpdateWeather_.implement(
-      builder,
-      didUpdateWeather_,
-    );
-    builder.addProtocol($protocol);
-  }
-
-  /// Builds an object that implements the TestWeatherServiceDelegate protocol. To implement
-  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
-  /// methods that can be implemented as listeners will be.
-  ///
-  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
-  /// alive until it is garbage collected by both Dart and ObjC.
-  static TestWeatherServiceDelegate implementAsListener({
-    required void Function(objc.NSString) didUpdateWeather_,
-    bool $keepIsolateAlive = true,
-  }) {
-    final builder = objc.ObjCProtocolBuilder(
-      debugName: 'TestWeatherServiceDelegate',
-    );
-    TestWeatherServiceDelegate$Builder.didUpdateWeather_.implementAsListener(
-      builder,
-      didUpdateWeather_,
-    );
-    builder.addProtocol($protocol);
-    return TestWeatherServiceDelegate.as(
-      builder.build(keepIsolateAlive: $keepIsolateAlive),
-    );
-  }
-
-  /// Adds the implementation of the TestWeatherServiceDelegate protocol to an existing
-  /// [objc.ObjCProtocolBuilder]. All methods that can be implemented as listeners will
-  /// be.
-  ///
-  /// Note: You cannot call this method after you have called `builder.build`.
-  static void addToBuilderAsListener(
-    objc.ObjCProtocolBuilder builder, {
-    required void Function(objc.NSString) didUpdateWeather_,
-    bool $keepIsolateAlive = true,
-  }) {
-    TestWeatherServiceDelegate$Builder.didUpdateWeather_.implementAsListener(
-      builder,
-      didUpdateWeather_,
-    );
-    builder.addProtocol($protocol);
-  }
-
-  /// Builds an object that implements the TestWeatherServiceDelegate protocol. To implement
-  /// multiple protocols, use [addToBuilder] or [objc.ObjCProtocolBuilder] directly. All
-  /// methods that can be implemented as blocking listeners will be.
-  ///
-  /// If `$keepIsolateAlive` is true, this protocol will keep this isolate
-  /// alive until it is garbage collected by both Dart and ObjC.
-  static TestWeatherServiceDelegate implementAsBlocking({
-    required void Function(objc.NSString) didUpdateWeather_,
-    bool $keepIsolateAlive = true,
-  }) {
-    final builder = objc.ObjCProtocolBuilder(
-      debugName: 'TestWeatherServiceDelegate',
-    );
-    TestWeatherServiceDelegate$Builder.didUpdateWeather_.implementAsBlocking(
-      builder,
-      didUpdateWeather_,
-    );
-    builder.addProtocol($protocol);
-    return TestWeatherServiceDelegate.as(
-      builder.build(keepIsolateAlive: $keepIsolateAlive),
-    );
-  }
-
-  /// Adds the implementation of the TestWeatherServiceDelegate protocol to an existing
-  /// [objc.ObjCProtocolBuilder]. All methods that can be implemented as blocking
-  /// listeners will be.
-  ///
-  /// Note: You cannot call this method after you have called `builder.build`.
-  static void addToBuilderAsBlocking(
-    objc.ObjCProtocolBuilder builder, {
-    required void Function(objc.NSString) didUpdateWeather_,
-    bool $keepIsolateAlive = true,
-  }) {
-    TestWeatherServiceDelegate$Builder.didUpdateWeather_.implementAsBlocking(
-      builder,
-      didUpdateWeather_,
-    );
-    builder.addProtocol($protocol);
-  }
-
-  /// didUpdateWeather:
-  static final didUpdateWeather_ =
-      objc.ObjCProtocolListenableMethod<void Function(objc.NSString)>(
-        _protocol_TestWeatherServiceDelegate,
-        _sel_didUpdateWeather_,
-        ffi.Native.addressOf<
-              ffi.NativeFunction<
-                ffi.Void Function(
-                  ffi.Pointer<objc.ObjCObjectImpl>,
-                  ffi.Pointer<ffi.Void>,
-                  ffi.Pointer<objc.ObjCObjectImpl>,
-                )
-              >
-            >(_1yx5rho_protocolTrampoline_18v1jvf)
-            .cast(),
-        objc.getProtocolMethodSignature(
-          _protocol_TestWeatherServiceDelegate,
-          _sel_didUpdateWeather_,
-          isRequired: true,
-          isInstanceMethod: true,
-        ),
-        (void Function(objc.NSString) func) =>
-            ObjCBlock_ffiVoid_ffiVoid_NSString.fromFunction(
-              (ffi.Pointer<ffi.Void> _, objc.NSString arg1) => func(arg1),
-            ),
-        (void Function(objc.NSString) func) =>
-            ObjCBlock_ffiVoid_ffiVoid_NSString.listener(
-              (ffi.Pointer<ffi.Void> _, objc.NSString arg1) => func(arg1),
-            ),
-        (void Function(objc.NSString) func) =>
-            ObjCBlock_ffiVoid_ffiVoid_NSString.blocking(
-              (ffi.Pointer<ffi.Void> _, objc.NSString arg1) => func(arg1),
-            ),
-      );
-}
-
-late final _sel_fetchWeatherWithDelegate_ = objc.registerName(
-  "fetchWeatherWithDelegate:",
-);
-typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
-typedef Dartinstancetype = objc.ObjCObject;
-late final _sel_init = objc.registerName("init");
+final _objc_msgSend_xtuoz7 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+      )
+    >();
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -608,8 +687,6 @@ final _objc_msgSend_151sglz = objc.msgSendPointer
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
-late final _sel_new = objc.registerName("new");
-late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
 final _objc_msgSend_1cwp428 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -627,79 +704,3 @@ final _objc_msgSend_1cwp428 = objc.msgSendPointer
         ffi.Pointer<objc.NSZone>,
       )
     >();
-late final _sel_alloc = objc.registerName("alloc");
-
-/// TestWeatherService
-extension type TestWeatherService._(objc.ObjCObject object$)
-    implements objc.ObjCObject, objc.NSObject {
-  /// Constructs a [TestWeatherService] that points to the same underlying object as [other].
-  TestWeatherService.as(objc.ObjCObject other) : object$ = other {
-    assert(isA(object$));
-  }
-
-  /// Constructs a [TestWeatherService] that wraps the given raw object pointer.
-  TestWeatherService.fromPointer(
-    ffi.Pointer<objc.ObjCObjectImpl> other, {
-    bool retain = false,
-    bool release = false,
-  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
-    assert(isA(object$));
-  }
-
-  /// Returns whether [obj] is an instance of [TestWeatherService].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_TestWeatherService,
-  );
-
-  /// alloc
-  static TestWeatherService alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_TestWeatherService, _sel_alloc);
-    return TestWeatherService.fromPointer($ret, retain: false, release: true);
-  }
-
-  /// allocWithZone:
-  static TestWeatherService allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_TestWeatherService,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return TestWeatherService.fromPointer($ret, retain: false, release: true);
-  }
-
-  /// fetchWeatherWithDelegate:
-  static void fetchWeatherWithDelegate(TestWeatherServiceDelegate delegate) {
-    _objc_msgSend_xtuoz7(
-      _class_TestWeatherService,
-      _sel_fetchWeatherWithDelegate_,
-      delegate.ref.pointer,
-    );
-  }
-
-  /// new
-  static TestWeatherService new$() {
-    final $ret = _objc_msgSend_151sglz(_class_TestWeatherService, _sel_new);
-    return TestWeatherService.fromPointer($ret, retain: false, release: true);
-  }
-
-  /// Returns a new instance of TestWeatherService constructed with the default `new` method.
-  TestWeatherService() : this.as(new$().object$);
-}
-
-extension TestWeatherService$Methods on TestWeatherService {
-  /// init
-  TestWeatherService init() {
-    objc.checkOsVersionInternal(
-      'TestWeatherService.init',
-      iOS: (false, (2, 0, 0)),
-      macOS: (false, (10, 0, 0)),
-    );
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return TestWeatherService.fromPointer($ret, retain: false, release: true);
-  }
-}
