@@ -54,6 +54,8 @@ abstract final class Jni {
   static final DynamicLibrary _dylib = _loadDartJniLibrary(dir: _dylibDir);
   static final JniBindings _bindings = JniBindings(_dylib);
 
+  static final _classCache = _JClassCache();
+
   /// Store dylibDir if any was used.
   static String _dylibDir = join('build', 'jni_libs');
 
@@ -199,8 +201,7 @@ abstract final class Jni {
   /// This is preferred for repeated lookups of the same class, as it avoids
   /// repeated JNI calls and global reference creation.
   static JClassPtr getCachedClass(String name) {
-    return using((arena) => _bindings.GetCachedClass(name.toNativeChars(arena)))
-        .checkedClassRef;
+    return _classCache.get(name);
   }
 
   /// Sets the capacity of the internal LRU class cache.
@@ -209,7 +210,7 @@ abstract final class Jni {
   /// the least recently used classes will be evicted and their global
   /// references released.
   static void setClassCacheSize(int size) {
-    _bindings.SetClassCacheSize(size);
+    _classCache.capacity = size;
   }
 
   /// Throws an exception.
@@ -445,8 +446,42 @@ extension AdditionalEnvMethods on GlobalJniEnv {
 
 @internal
 extension StringMethodsForJni on String {
-  /// Returns a Utf-8 encoded `Pointer<Char>` with contents same as this string.
   Pointer<Char> toNativeChars(Allocator allocator) {
     return toNativeUtf8(allocator: allocator).cast<Char>();
+  }
+}
+
+class _JClassCache {
+  int _capacity = 256;
+  final _map = <String, JClassPtr>{};
+
+  JClassPtr get(String name) {
+    final existing = _map[name];
+    if (existing != null) {
+      // Move to end (MRU)
+      _map.remove(name);
+      _map[name] = existing;
+      return Jni.env.NewGlobalRef(existing);
+    }
+
+    final cls = Jni.findClass(name);
+
+    if (_map.length >= _capacity) {
+      final keyToRemove = _map.keys.first;
+      final valueToRemove = _map.remove(keyToRemove)!;
+      Jni.env.DeleteGlobalRef(valueToRemove);
+    }
+
+    _map[name] = cls;
+    return Jni.env.NewGlobalRef(cls);
+  }
+
+  set capacity(int size) {
+    _capacity = size;
+    while (_map.length > _capacity) {
+      final keyToRemove = _map.keys.first;
+      final valueToRemove = _map.remove(keyToRemove)!;
+      Jni.env.DeleteGlobalRef(valueToRemove);
+    }
   }
 }

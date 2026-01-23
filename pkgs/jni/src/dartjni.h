@@ -204,13 +204,7 @@ typedef struct JniExceptionDetails {
 FFI_PLUGIN_EXPORT
 JniClassLookupResult FindClass(const char* name);
 
-/// Returns a global reference to the class with the given name, using an LRU cache.
-FFI_PLUGIN_EXPORT
-JniClassLookupResult GetCachedClass(const char* name);
 
-/// Sets the capacity of the LRU cache.
-FFI_PLUGIN_EXPORT
-void SetClassCacheSize(int size);
 
 FFI_PLUGIN_EXPORT
 JniExceptionDetails GetExceptionDetails(jthrowable exception);

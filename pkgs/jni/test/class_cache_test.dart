@@ -15,7 +15,6 @@ import 'test_util/test_util.dart';
 
 void main() {
   if (!Platform.isAndroid) {
-    checkDylibIsUpToDate();
     spawnJvm();
   }
   run(testRunner: test);
