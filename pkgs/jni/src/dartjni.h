@@ -204,8 +204,6 @@ typedef struct JniExceptionDetails {
 FFI_PLUGIN_EXPORT
 JniClassLookupResult FindClass(const char* name);
 
-
-
 FFI_PLUGIN_EXPORT
 JniExceptionDetails GetExceptionDetails(jthrowable exception);
 

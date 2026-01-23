@@ -25,9 +25,6 @@ int8_t getCaptureStackTraceOnRelease() {
   return captureStackTraceOnRelease;
 }
 
-#include <string.h>
-
-
 jclass FindClassUnchecked(const char* name) {
   attach_thread();
   jclass cls;
