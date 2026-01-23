@@ -255,7 +255,7 @@ abstract final class $name {
 
 ''');
 
-    // Listener block constructor is only available for void blocks.
+    /// Listener block constructor is only available for void blocks.
     if (hasListener) {
       // This snippet is the same as the convFn above, except that the params
       // don't need to be retained because they've already been retained by
@@ -294,7 +294,16 @@ abstract final class $name {
           {bool keepIsolateAlive = true}) {
     final raw = $newClosureBlock($listenerCallable.nativeFunction.cast(),
         $listenerConvFn, keepIsolateAlive);
-    final wrapper = $wrapListenerFn(raw);
+
+    dynamic wrapper;
+    try {
+      wrapper = $wrapListenerFn(raw);
+    } catch (_) {
+      $releaseFn(raw.cast());
+      throw UnsupportedError('Failed to load native trampoline. '
+          'Ensure the generated .m file is linked.');
+    }
+
     $releaseFn(raw.cast());
     return $blockType(wrapper, retain: false, release: true);
   }
@@ -316,7 +325,17 @@ abstract final class $name {
     final rawListener = $newClosureBlock(
         $blockingListenerCallable.nativeFunction.cast(),
         $listenerConvFn, keepIsolateAlive);
-    final wrapper = $wrapBlockingFn(raw, rawListener, $objCContext);
+
+    dynamic wrapper;
+    try {
+      wrapper = $wrapBlockingFn(raw, rawListener, $objCContext);
+    } catch (_) {
+      $releaseFn(raw.cast());
+      $releaseFn(rawListener.cast());
+      throw UnsupportedError('Failed to load native trampoline. '
+          'Ensure the generated .m file is linked.');
+    }
+
     $releaseFn(raw.cast());
     $releaseFn(rawListener.cast());
     return $blockType(wrapper, retain: false, release: true);
