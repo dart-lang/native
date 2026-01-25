@@ -4,6 +4,7 @@
 - On iOS and macOS, use the `-encryptable` linker flag. This resolves an
   [issue](https://github.com/dart-lang/native/issues/2973) with app store
   rejections.
+- Fix unportable link arg when cross-compiling from MacOS.
 
 ## 0.17.4
 
