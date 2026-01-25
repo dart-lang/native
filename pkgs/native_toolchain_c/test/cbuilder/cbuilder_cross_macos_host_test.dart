@@ -131,6 +131,13 @@ void main() {
                       'Unexpected linux architecture: $arch',
                     ),
                   },
+                // Only homebrew lld can link for linux, and we don't have a sysroot
+                // so we can't use stdlibs / C-runtime files.
+                if (os == OS.linux) ...[
+                  '--ld-path=ld.lld',
+                  '-nostartfiles',
+                  '-nostdlib',
+                ],
               ],
             );
             await cbuilder.run(
@@ -140,7 +147,7 @@ void main() {
             );
 
             final libUri = buildInput.outputDirectory.resolve(
-              OS.macOS.libraryFileName(name, linkMode),
+              os.libraryFileName(name, linkMode),
             );
             final result = await runProcess(
               executable: Uri.file('objdump'),
