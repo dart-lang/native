@@ -339,7 +339,7 @@ class RunCBuilder {
             // During bundling code assets are all placed in the same directory.
             // Setting this rpath allows the binary to find other code assets
             // it is linked against.
-            '-Wl,-rpath=\$ORIGIN',
+            '-Wl,-rpath,\$ORIGIN',
           for (final directory in libraryDirectories)
             '-L${directory.toFilePath()}',
           for (final library in libraries) '-l$library',
