@@ -11,6 +11,8 @@ import 'dart:io';
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
+import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
+import 'package:native_toolchain_c/src/tool/tool_resolver.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
 
@@ -22,12 +24,30 @@ void main() {
     return;
   }
 
-  const targets = [Architecture.arm64, Architecture.x64];
+  const targets = [
+    (OS.macOS, Architecture.arm64),
+    (OS.macOS, Architecture.x64),
+    (OS.linux, Architecture.arm),
+    (OS.linux, Architecture.arm64),
+    (OS.linux, Architecture.ia32),
+    (OS.linux, Architecture.x64),
+
+    // Not supported by Apple Clang right now.
+    // (OS.linux, Architecture.riscv32),
+    // (OS.linux, Architecture.riscv64),
+  ];
 
   // Dont include 'mach-o' or 'Mach-O', different spelling is used.
   const objdumpFileFormat = {
-    Architecture.arm64: 'arm64',
-    Architecture.x64: '64-bit x86-64',
+    (OS.macOS, Architecture.arm64): 'arm64',
+    (OS.macOS, Architecture.x64): '64-bit x86-64',
+    (OS.linux, Architecture.arm): 'elf32-littlearm',
+    (OS.linux, Architecture.arm64): 'elf64-littleaarch64',
+    (OS.linux, Architecture.ia32): 'elf32-i386',
+    (OS.linux, Architecture.x64): 'elf64-x86-64',
+
+    (OS.linux, Architecture.riscv32): 'elf32-riscv32',
+    (OS.linux, Architecture.riscv64): 'elf64-riscv64',
   };
 
   const optimizationLevels = OptimizationLevel.values;
@@ -35,14 +55,17 @@ void main() {
 
   for (final language in [Language.c, Language.objectiveC]) {
     for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
-      for (final target in targets) {
+      for (final (os, arch) in targets) {
+        // Don't build Objective-C targets for linux.
+        if (language == Language.objectiveC && os == OS.linux) continue;
+
         // Cycle through all optimization levels.
         final optimizationLevel = optimizationLevels[selectOptimizationLevel];
         selectOptimizationLevel =
             (selectOptimizationLevel + 1) % optimizationLevels.length;
 
         test(
-          'CBuilder $linkMode $language library $target $optimizationLevel',
+          'CBuilder $linkMode $language library $os $arch $optimizationLevel',
           () async {
             final tempUri = await tempDirForTest();
             final tempUri2 = await tempDirForTest();
@@ -57,6 +80,15 @@ void main() {
             };
             const name = 'add';
 
+            // When cross-compiling from MacOS, explicitly specify apple clang.
+            //
+            // The default tool-finding does not support macos cross compiling right now.
+            var chosenCCompiler = cCompiler;
+            if (os == OS.linux) {
+              // still respect the CI-provided compiler
+              chosenCCompiler ??= await resolveAppleToolchain();
+            }
+
             final buildInputBuilder = BuildInputBuilder()
               ..setupShared(
                 packageName: name,
@@ -67,12 +99,12 @@ void main() {
               ..config.setupBuild(linkingEnabled: false)
               ..addExtension(
                 CodeAssetExtension(
-                  targetOS: OS.macOS,
-                  targetArchitecture: target,
+                  targetOS: os,
+                  targetArchitecture: arch,
                   linkModePreference: linkMode == DynamicLoadingBundled()
                       ? LinkModePreference.dynamic
                       : LinkModePreference.static,
-                  cCompiler: cCompiler,
+                  cCompiler: chosenCCompiler,
                   macOS: MacOSCodeConfig(targetVersion: defaultMacOSVersion),
                 ),
               );
@@ -86,6 +118,20 @@ void main() {
               language: language,
               optimizationLevel: optimizationLevel,
               buildMode: BuildMode.release,
+              flags: [
+                if (os == OS.linux)
+                  switch (arch) {
+                    Architecture.arm => '--target=arm-linux-gnueabihf',
+                    Architecture.arm64 => '--target=aarch64-linux-gnu',
+                    Architecture.ia32 => '--target=i686-linux-gnu',
+                    Architecture.x64 => '--target=x86_64-linux-gnu',
+                    Architecture.riscv32 => '--target=riscv32-linux-gnu',
+                    Architecture.riscv64 => '--target=riscv64-linux-gnu',
+                    _ => throw UnsupportedError(
+                      'Unexpected linux architecture: $arch',
+                    ),
+                  },
+              ],
             );
             await cbuilder.run(
               input: buildInput,
@@ -105,7 +151,7 @@ void main() {
             final machine = result.stdout
                 .split('\n')
                 .firstWhere((e) => e.contains('file format'));
-            expect(machine, contains(objdumpFileFormat[target]));
+            expect(machine, contains(objdumpFileFormat[(os, arch)]));
           },
         );
       }
@@ -192,4 +238,19 @@ Future<Uri> buildLib(
     OS.iOS.libraryFileName(name, linkMode),
   );
   return libUri;
+}
+
+Future<CCompilerConfig> resolveAppleToolchain() async {
+  // (still respect the CI provided compiler)
+  final context = ToolResolvingContext(logger: logger);
+
+  final resolvedClang = await appleClang.defaultResolver!.resolve(context);
+  final resolvedAr = await appleAr.defaultResolver!.resolve(context);
+  final resolvedLd = await appleLd.defaultResolver!.resolve(context);
+
+  return CCompilerConfig(
+    compiler: resolvedClang.first.uri,
+    archiver: resolvedAr.first.uri,
+    linker: resolvedLd.first.uri,
+  );
 }
