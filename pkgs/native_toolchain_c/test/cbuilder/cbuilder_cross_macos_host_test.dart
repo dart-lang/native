@@ -82,7 +82,8 @@ void main() {
 
             // When cross-compiling from MacOS, explicitly specify apple clang.
             //
-            // The default tool-finding does not support macos cross compiling right now.
+            // The default tool-finding does not support macos cross compiling
+            // right now.
             var chosenCCompiler = cCompiler;
             if (os == OS.linux) {
               // still respect the CI-provided compiler
@@ -131,8 +132,8 @@ void main() {
                       'Unexpected linux architecture: $arch',
                     ),
                   },
-                // Only homebrew lld can link for linux, and we don't have a sysroot
-                // so we can't use stdlibs / C-runtime files.
+                // Only homebrew lld can link for linux, and we don't have a
+                // sysroot so we can't use stdlibs / C-runtime files.
                 if (os == OS.linux) ...[
                   '--ld-path=ld.lld',
                   '-nostartfiles',
