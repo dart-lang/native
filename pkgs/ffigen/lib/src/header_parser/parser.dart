@@ -218,14 +218,11 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
   _nameAllSymbols(context, finalBindings);
 
   /// Sort bindings.
-  var finalBindingsList = finalBindings.toList();
-  if (config.output.sort) {
-    finalBindingsList = visit(
-      context,
-      SorterVisitation(finalBindings, SorterVisitation.nameSortKey),
-      finalBindings,
-    ).sorted;
-  }
+  final finalBindingsList = visit(
+    context,
+    SorterVisitation(finalBindings, SorterVisitation.nameSortKey),
+    finalBindings,
+  ).sorted;
 
   /// Handle any declaration-declaration name conflicts and emit warnings.
   for (final b in finalBindingsList) {

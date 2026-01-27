@@ -4,43 +4,11 @@
 // ignore_for_file: type=lint, unused_import
 import 'dart:ffi' as ffi;
 
-enum Simple {
-  A0(0);
+const int ANONYMOUS1 = 0;
 
-  final int value;
-  const Simple(this.value);
+const int ANONYMOUS2 = -1000;
 
-  static Simple fromValue(int value) => switch (value) {
-    0 => A0,
-    _ => throw ArgumentError('Unknown value for Simple: $value'),
-  };
-}
-
-enum SimpleWithNegative {
-  B0(0),
-  B1(-1000);
-
-  final int value;
-  const SimpleWithNegative(this.value);
-
-  static SimpleWithNegative fromValue(int value) => switch (value) {
-    0 => B0,
-    -1000 => B1,
-    _ => throw ArgumentError('Unknown value for SimpleWithNegative: $value'),
-  };
-}
-
-enum PositiveIntOverflow {
-  C0(-2147483607);
-
-  final int value;
-  const PositiveIntOverflow(this.value);
-
-  static PositiveIntOverflow fromValue(int value) => switch (value) {
-    -2147483607 => C0,
-    _ => throw ArgumentError('Unknown value for PositiveIntOverflow: $value'),
-  };
-}
+const int ANONYMOUS3 = 0;
 
 enum ExplicitType {
   E0(0),
@@ -69,6 +37,44 @@ enum ExplicitTypeWithOverflow {
     _ => throw ArgumentError(
       'Unknown value for ExplicitTypeWithOverflow: $value',
     ),
+  };
+}
+
+enum PositiveIntOverflow {
+  C0(-2147483607);
+
+  final int value;
+  const PositiveIntOverflow(this.value);
+
+  static PositiveIntOverflow fromValue(int value) => switch (value) {
+    -2147483607 => C0,
+    _ => throw ArgumentError('Unknown value for PositiveIntOverflow: $value'),
+  };
+}
+
+enum Simple {
+  A0(0);
+
+  final int value;
+  const Simple(this.value);
+
+  static Simple fromValue(int value) => switch (value) {
+    0 => A0,
+    _ => throw ArgumentError('Unknown value for Simple: $value'),
+  };
+}
+
+enum SimpleWithNegative {
+  B0(0),
+  B1(-1000);
+
+  final int value;
+  const SimpleWithNegative(this.value);
+
+  static SimpleWithNegative fromValue(int value) => switch (value) {
+    0 => B0,
+    -1000 => B1,
+    _ => throw ArgumentError('Unknown value for SimpleWithNegative: $value'),
   };
 }
 
@@ -109,9 +115,3 @@ final class Test extends ffi.Struct {
   set explicitTypeWithOverflow(ExplicitTypeWithOverflow value) =>
       explicitTypeWithOverflowAsInt = value.value;
 }
-
-const int ANONYMOUS1 = 0;
-
-const int ANONYMOUS2 = -1000;
-
-const int ANONYMOUS3 = 0;

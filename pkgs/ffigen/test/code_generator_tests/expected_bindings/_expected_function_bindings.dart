@@ -21,6 +21,17 @@ class Bindings {
     ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
   ) : _lookup = lookup;
 
+  /// A function with isLeaf: true
+  int leafFunc(int a) {
+    return _leafFunc(a);
+  }
+
+  late final _leafFuncPtr =
+      _lookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Int32)>>('leafFunc');
+  late final _leafFunc = _leafFuncPtr.asFunction<int Function(int)>(
+    isLeaf: true,
+  );
+
   /// Just a test function
   /// heres another line
   int noParam() {
@@ -31,17 +42,6 @@ class Bindings {
     'noParam',
   );
   late final _noParam = _noParamPtr.asFunction<int Function()>();
-
-  int withPrimitiveParam(int a, int b) {
-    return _withPrimitiveParam(a, b);
-  }
-
-  late final _withPrimitiveParamPtr =
-      _lookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Int32, ffi.Uint8)>>(
-        'withPrimitiveParam',
-      );
-  late final _withPrimitiveParam = _withPrimitiveParamPtr
-      .asFunction<int Function(int, int)>();
 
   ffi.Pointer<ffi.Double> withPointerParam(
     ffi.Pointer<ffi.Int32> a,
@@ -67,14 +67,14 @@ class Bindings {
         )
       >();
 
-  /// A function with isLeaf: true
-  int leafFunc(int a) {
-    return _leafFunc(a);
+  int withPrimitiveParam(int a, int b) {
+    return _withPrimitiveParam(a, b);
   }
 
-  late final _leafFuncPtr =
-      _lookup<ffi.NativeFunction<ffi.Int32 Function(ffi.Int32)>>('leafFunc');
-  late final _leafFunc = _leafFuncPtr.asFunction<int Function(int)>(
-    isLeaf: true,
-  );
+  late final _withPrimitiveParamPtr =
+      _lookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Int32, ffi.Uint8)>>(
+        'withPrimitiveParam',
+      );
+  late final _withPrimitiveParam = _withPrimitiveParamPtr
+      .asFunction<int Function(int, int)>();
 }
