@@ -192,7 +192,11 @@ void main() {
             'sqlite3_str_vappendf',
           }.contains(declaration.originalName),
         ),
-        structs: Structs.includeAll,
+        structs: Structs(
+          include: (declaration) => !{
+            '__va_list_tag',
+          }.contains(declaration.originalName),
+        ),
         globals: Globals.includeAll,
         macros: Macros.includeAll,
         typedefs: Typedefs.includeAll,
