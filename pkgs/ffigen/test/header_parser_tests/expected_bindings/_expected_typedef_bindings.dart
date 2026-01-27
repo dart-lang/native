@@ -77,31 +77,6 @@ class Bindings {
       .asFunction<bool Function(ffi.Pointer<ffi.Bool>)>();
 }
 
-typedef NamedFunctionProtoFunction = ffi.Void Function();
-typedef DartNamedFunctionProtoFunction = void Function();
-typedef NamedFunctionProto =
-    ffi.Pointer<ffi.NativeFunction<NamedFunctionProtoFunction>>;
-
-final class Struct1 extends ffi.Struct {
-  external NamedFunctionProto named;
-
-  external ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> unnamed;
-}
-
-final class AnonymousStructInTypedef extends ffi.Opaque {}
-
-typedef Typeref1 = AnonymousStructInTypedef;
-typedef Typeref2 = AnonymousStructInTypedef;
-
-final class _NamedStructInTypedef extends ffi.Opaque {}
-
-typedef NamedStructInTypedef = _NamedStructInTypedef;
-
-final class _ExcludedStruct extends ffi.Opaque {}
-
-typedef ExcludedStruct = _ExcludedStruct;
-typedef NTyperef1 = ExcludedStruct;
-
 enum AnonymousEnumInTypedef {
   a(0);
 
@@ -116,6 +91,38 @@ enum AnonymousEnumInTypedef {
   };
 }
 
+final class AnonymousStructInTypedef extends ffi.Opaque {}
+
+typedef ExcludedStruct = _ExcludedStruct;
+typedef IncludedTypedef = ffi.Pointer<ffi.Void>;
+typedef NTyperef1 = ExcludedStruct;
+typedef NamedFunctionProto =
+    ffi.Pointer<ffi.NativeFunction<NamedFunctionProtoFunction>>;
+typedef NamedFunctionProtoFunction = ffi.Void Function();
+typedef DartNamedFunctionProtoFunction = void Function();
+typedef NamedStructInTypedef = _NamedStructInTypedef;
+typedef NestingASpecifiedType = ffi.IntPtr;
+typedef DartNestingASpecifiedType = int;
+
+final class Struct1 extends ffi.Struct {
+  external NamedFunctionProto named;
+
+  external ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> unnamed;
+}
+
+final class Struct2 extends ffi.Opaque {}
+
+typedef Struct3 = Struct2;
+typedef Typeref1 = AnonymousStructInTypedef;
+typedef Typeref2 = AnonymousStructInTypedef;
+
+final class WithBoolAlias extends ffi.Struct {
+  @ffi.Bool()
+  external bool b;
+}
+
+final class _ExcludedStruct extends ffi.Opaque {}
+
 enum _NamedEnumInTypedef {
   b(0);
 
@@ -128,16 +135,4 @@ enum _NamedEnumInTypedef {
   };
 }
 
-typedef NestingASpecifiedType = ffi.IntPtr;
-typedef DartNestingASpecifiedType = int;
-
-final class Struct2 extends ffi.Opaque {}
-
-typedef Struct3 = Struct2;
-
-final class WithBoolAlias extends ffi.Struct {
-  @ffi.Bool()
-  external bool b;
-}
-
-typedef IncludedTypedef = ffi.Pointer<ffi.Void>;
+final class _NamedStructInTypedef extends ffi.Opaque {}

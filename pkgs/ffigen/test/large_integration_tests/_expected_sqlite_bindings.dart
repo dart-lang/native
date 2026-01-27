@@ -12147,8 +12147,6 @@ const int SQLITE_WIN32_DATA_DIRECTORY_TYPE = 1;
 
 const int SQLITE_WIN32_TEMP_DIRECTORY_TYPE = 2;
 
-typedef __builtin_va_list = ffi.Pointer<ffi.Char>;
-
 final class fts5_api extends ffi.Struct {
   /// Currently always set to 2
   @ffi.Int()
@@ -13348,4 +13346,3 @@ typedef sqlite_int64 = ffi.LongLong;
 typedef Dartsqlite_int64 = int;
 typedef sqlite_uint64 = ffi.UnsignedLongLong;
 typedef Dartsqlite_uint64 = int;
-typedef va_list = __builtin_va_list;
