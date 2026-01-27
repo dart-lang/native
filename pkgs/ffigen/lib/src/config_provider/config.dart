@@ -671,7 +671,7 @@ final class Output {
     required this.dartFile,
     this.objectiveCFile,
     this.symbolFile,
-    this.sort = false,
+    this.sort = true,
     this.commentType = const CommentType.def(),
     this.preamble,
     this.format = true,
