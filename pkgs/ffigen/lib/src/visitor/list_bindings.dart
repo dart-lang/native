@@ -79,6 +79,12 @@ class ListBindingsVisitation extends Visitation {
       visitor.visit(node.superType);
       visitor.visitAll(node.protocols);
     }
+
+    if (includes.contains(node)) {
+      // Always visit the categories of explicitly included interfaces, even if
+      // they're built-in types: https://github.com/dart-lang/native/issues/1820
+      visitor.visitAll(node.categories);
+    }
   }
 
   @override
