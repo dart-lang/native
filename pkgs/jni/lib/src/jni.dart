@@ -199,16 +199,28 @@ abstract final class Jni {
   /// Finds the class from its [name], using an internal LRU cache.
   ///
   /// This is preferred for repeated lookups of the same class, as it avoids
-  /// repeated JNI calls and global reference creation.
+  /// repeated JNI calls.
+  ///
+  /// **Returns a new JGlobalReference** that the caller owns and must delete
+  /// when done (via [DeleteGlobalRef] or by wrapping in [JGlobalReference]).
+  /// Each call returns a distinct global reference, even for cache hits.
+  ///
+  /// The cache maintains its own global references internally. Deleting the
+  /// returned reference does not invalidate the cache.
   static JClassPtr getCachedClass(String name) {
     return _classCache.get(name);
   }
 
   /// Sets the capacity of the internal LRU class cache.
   ///
-  /// If the new size is smaller than the current number of cached classes,
-  /// the least recently used classes will be evicted and their global
-  /// references released.
+  /// If the new [size] is smaller than the current number of cached classes,
+  /// the least recently used classes will be **immediately evicted** and
+  /// their global references released (via [DeleteGlobalRef]).
+  ///
+  /// This does **not** affect references returned by prior [getCachedClass]
+  /// calls. Those are owned by callers and remain valid until deleted.
+  ///
+  /// The cache is isolate-local, so this only affects the current isolate.
   static void setClassCacheSize(int size) {
     _classCache.capacity = size;
   }
@@ -451,6 +463,33 @@ extension StringMethodsForJni on String {
   }
 }
 
+/// Internal LRU cache for JNI class references.
+///
+/// **GlobalRef Ownership Model:**
+///
+/// This cache is the **sole owner** of the JNI global references it stores.
+/// All stored [JClassPtr] values are global references that the cache is
+/// responsible for deleting when they are evicted.
+///
+/// **Critical Lifecycle Rules:**
+///
+/// 1. **Cache owns stored refs**: Each entry in [_map] is a JGlobalReference
+///    that belongs to the cache. The cache must call [DeleteGlobalRef] on
+///    these entries when they are evicted.
+///
+/// 2. **Callers receive duplicates**: [get] always returns a newly created
+///    global reference via [NewGlobalRef]. The caller owns this duplicate
+///    and must delete it when done. This prevents GC of caller-side
+///    [JObject]/[JClass] wrappers from invalidating cache-held references.
+///
+/// 3. **Eviction deletes owned refs**: When capacity is reduced or entries
+///    are evicted during LRU replacement, the cache calls [DeleteGlobalRef]
+///    on the evicted reference that it owns.
+///
+/// **Isolate-local**: Each isolate has its own cache instance. References
+/// are not shared across isolates.
+///
+/// **Thread-safety**: Access is inherently single-threaded per isolate.
 class _JClassCache {
   int _capacity = 256;
   final _map = <String, JClassPtr>{};
@@ -458,29 +497,39 @@ class _JClassCache {
   JClassPtr get(String name) {
     final existing = _map[name];
     if (existing != null) {
-      // Move to end (MRU)
+      // Cache hit: Move entry to end for LRU tracking.
       _map.remove(name);
       _map[name] = existing;
+      // CRITICAL: Return a duplicate GlobalRef. The cache still owns
+      // `existing`. The caller owns the returned duplicate and must delete it.
       return Jni.env.NewGlobalRef(existing);
     }
 
+    // Cache miss: Jni.findClass returns a new GlobalRef.
     final cls = Jni.findClass(name);
 
+    // Evict LRU entry if at capacity.
     if (_map.length >= _capacity) {
       final keyToRemove = _map.keys.first;
       final valueToRemove = _map.remove(keyToRemove)!;
+      // CRITICAL: Delete the GlobalRef the cache owned.
       Jni.env.DeleteGlobalRef(valueToRemove);
     }
 
+    // Store the GlobalRef. The cache now owns `cls`.
     _map[name] = cls;
+    // CRITICAL: Return a duplicate GlobalRef. The cache still owns `cls`.
+    // The caller owns the returned duplicate and must delete it.
     return Jni.env.NewGlobalRef(cls);
   }
 
   set capacity(int size) {
     _capacity = size;
+    // Evict LRU entries immediately if new capacity is smaller.
     while (_map.length > _capacity) {
       final keyToRemove = _map.keys.first;
       final valueToRemove = _map.remove(keyToRemove)!;
+      // CRITICAL: Delete the GlobalRef the cache owned.
       Jni.env.DeleteGlobalRef(valueToRemove);
     }
   }
