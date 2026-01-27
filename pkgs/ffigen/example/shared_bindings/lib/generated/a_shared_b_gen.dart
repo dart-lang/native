@@ -82,16 +82,6 @@ class NativeLibraryASharedB {
       .asFunction<void Function(imp$1.DartBaseNativeTypedef1)>();
 }
 
-final class A_Struct1 extends ffi.Struct {
-  @ffi.Int()
-  external int a;
-}
-
-final class A_Union1 extends ffi.Union {
-  @ffi.Int()
-  external int a;
-}
-
 enum A_Enum {
   A_ENUM_1(0),
   A_ENUM_2(1);
@@ -106,6 +96,16 @@ enum A_Enum {
   };
 }
 
-const int BASE_MACRO_1 = 1;
-
 const int A_MACRO_1 = 1;
+
+final class A_Struct1 extends ffi.Struct {
+  @ffi.Int()
+  external int a;
+}
+
+final class A_Union1 extends ffi.Union {
+  @ffi.Int()
+  external int a;
+}
+
+const int BASE_MACRO_1 = 1;

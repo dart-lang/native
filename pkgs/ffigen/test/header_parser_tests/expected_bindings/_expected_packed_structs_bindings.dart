@@ -9,24 +9,8 @@ final class NormalStruct1 extends ffi.Struct {
   external int a;
 }
 
-/// Should not be packed.
-final class StructWithAttr extends ffi.Struct {
-  external ffi.Pointer<ffi.Int> a;
-
-  external ffi.Pointer<ffi.Int> b;
-}
-
-/// Should be packed with 1.
-@ffi.Packed(1)
-final class PackedAttr extends ffi.Struct {
-  @ffi.Int()
-  external int a;
-}
-
-/// Should be packed with 8.
-@ffi.Packed(8)
-final class PackedAttrAlign8 extends ffi.Struct {
-  @ffi.Int()
+final class NormalStruct2 extends ffi.Struct {
+  @ffi.Char()
   external int a;
 }
 
@@ -44,7 +28,23 @@ final class Pack4WithPragma extends ffi.Struct {
   external int a;
 }
 
-final class NormalStruct2 extends ffi.Struct {
-  @ffi.Char()
+/// Should be packed with 1.
+@ffi.Packed(1)
+final class PackedAttr extends ffi.Struct {
+  @ffi.Int()
   external int a;
+}
+
+/// Should be packed with 8.
+@ffi.Packed(8)
+final class PackedAttrAlign8 extends ffi.Struct {
+  @ffi.Int()
+  external int a;
+}
+
+/// Should not be packed.
+final class StructWithAttr extends ffi.Struct {
+  external ffi.Pointer<ffi.Int> a;
+
+  external ffi.Pointer<ffi.Int> b;
 }
