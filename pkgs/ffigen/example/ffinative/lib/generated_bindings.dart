@@ -12,17 +12,9 @@ library;
 import 'dart:ffi' as ffi;
 import '' as self;
 
-/// Adds 2 integers.
-@ffi.Native<ffi.Int Function(ffi.Int, ffi.Int)>()
-external int sum(int a, int b);
-
-/// Subtracts 2 integers.
-@ffi.Native<ffi.Int Function(ffi.Int, ffi.Int)>()
-external int subtract(int a, int b);
-
-/// Multiplies 2 integers, returns pointer to an integer,.
-@ffi.Native<ffi.Pointer<ffi.Int> Function(ffi.Int, ffi.Int)>()
-external ffi.Pointer<ffi.Int> multiply(int a, int b);
+@ffi.Array.multi([5])
+@ffi.Native<ffi.Array<ffi.Int>>()
+external ffi.Array<ffi.Int> array;
 
 /// Divides 2 integers, returns pointer to a float.
 @ffi.Native<ffi.Pointer<ffi.Float> Function(ffi.Int, ffi.Int)>()
@@ -32,23 +24,31 @@ external ffi.Pointer<ffi.Float> divide(int a, int b);
 @ffi.Native<ffi.Pointer<ffi.Double> Function(ffi.Float, ffi.Float)>()
 external ffi.Pointer<ffi.Double> dividePrecision(double a, double b);
 
-@ffi.Native<ffi.Int>()
-external int log_level;
-
-@ffi.Array.multi([5])
-@ffi.Native<ffi.Array<ffi.Int>>()
-external ffi.Array<ffi.Int> array;
-
 /// Version of the native C library
 @ffi.Native<ffi.Pointer<ffi.Char>>()
 external final ffi.Pointer<ffi.Char> library_version;
+
+@ffi.Native<ffi.Int>()
+external int log_level;
+
+/// Multiplies 2 integers, returns pointer to an integer,.
+@ffi.Native<ffi.Pointer<ffi.Int> Function(ffi.Int, ffi.Int)>()
+external ffi.Pointer<ffi.Int> multiply(int a, int b);
+
+/// Subtracts 2 integers.
+@ffi.Native<ffi.Int Function(ffi.Int, ffi.Int)>()
+external int subtract(int a, int b);
+
+/// Adds 2 integers.
+@ffi.Native<ffi.Int Function(ffi.Int, ffi.Int)>()
+external int sum(int a, int b);
 
 const addresses = _SymbolAddresses();
 
 class _SymbolAddresses {
   const _SymbolAddresses();
-  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int, ffi.Int)>> get sum =>
-      ffi.Native.addressOf(self.sum);
   ffi.Pointer<ffi.Pointer<ffi.Char>> get library_version =>
       ffi.Native.addressOf(self.library_version);
+  ffi.Pointer<ffi.NativeFunction<ffi.Int Function(ffi.Int, ffi.Int)>> get sum =>
+      ffi.Native.addressOf(self.sum);
 }

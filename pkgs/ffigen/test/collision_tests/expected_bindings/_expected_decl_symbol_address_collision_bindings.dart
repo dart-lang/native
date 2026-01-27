@@ -20,15 +20,6 @@ class Bindings$1 {
     ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
   ) : _lookup = lookup;
 
-  void _library() {
-    return __library();
-  }
-
-  late final __libraryPtr = _lookup<ffi.NativeFunction<Native_library>>(
-    '_library',
-  );
-  late final __library = __libraryPtr.asFunction<Dart_library>();
-
   void _SymbolAddresses_1() {
     return __SymbolAddresses_1();
   }
@@ -38,23 +29,32 @@ class Bindings$1 {
   late final __SymbolAddresses_1 = __SymbolAddresses_1Ptr
       .asFunction<void Function()>();
 
+  void _library() {
+    return __library();
+  }
+
+  late final __libraryPtr = _lookup<ffi.NativeFunction<Native_library>>(
+    '_library',
+  );
+  late final __library = __libraryPtr.asFunction<Dart_library>();
+
   late final addresses$1 = _SymbolAddresses$1(this);
 }
 
 class _SymbolAddresses$1 {
   final Bindings$1 _library$1;
   _SymbolAddresses$1(this._library$1);
-  ffi.Pointer<ffi.NativeFunction<Native_library>> get _library =>
-      _library$1.__libraryPtr;
   ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> get _SymbolAddresses_1 =>
       _library$1.__SymbolAddresses_1Ptr;
+  ffi.Pointer<ffi.NativeFunction<Native_library>> get _library =>
+      _library$1.__libraryPtr;
 }
-
-final class addresses extends ffi.Opaque {}
-
-final class _SymbolAddresses extends ffi.Opaque {}
 
 sealed class Bindings {}
 
 typedef Native_library = ffi.Void Function();
 typedef Dart_library = void Function();
+
+final class _SymbolAddresses extends ffi.Opaque {}
+
+final class addresses extends ffi.Opaque {}

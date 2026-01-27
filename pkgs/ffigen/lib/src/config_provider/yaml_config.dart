@@ -1243,7 +1243,6 @@ final class YamlConfig {
       dartFile: output,
       objectiveCFile: outputObjC,
       symbolFile: symbolFile,
-      sort: sort,
       commentType: commentType,
       preamble: preamble,
       format: formatOutput,

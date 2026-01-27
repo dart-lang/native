@@ -13,10 +13,16 @@ import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
 @ffi.Native<
-  ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
->(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl> _1yx5rho_wrapListenerBlock_18v1jvf(
-  ffi.Pointer<objc.ObjCBlockImpl> block,
+  ffi.Void Function(
+    ffi.Pointer<objc.ObjCObjectImpl>,
+    ffi.Pointer<ffi.Void>,
+    ffi.Pointer<objc.ObjCObjectImpl>,
+  )
+>()
+external void _1yx5rho_protocolTrampoline_18v1jvf(
+  ffi.Pointer<objc.ObjCObjectImpl> target,
+  ffi.Pointer<ffi.Void> arg0,
+  ffi.Pointer<objc.ObjCObjectImpl> arg1,
 );
 
 @ffi.Native<
@@ -33,78 +39,11 @@ external ffi.Pointer<objc.ObjCBlockImpl> _1yx5rho_wrapBlockingBlock_18v1jvf(
 );
 
 @ffi.Native<
-  ffi.Void Function(
-    ffi.Pointer<objc.ObjCObjectImpl>,
-    ffi.Pointer<ffi.Void>,
-    ffi.Pointer<objc.ObjCObjectImpl>,
-  )
->()
-external void _1yx5rho_protocolTrampoline_18v1jvf(
-  ffi.Pointer<objc.ObjCObjectImpl> target,
-  ffi.Pointer<ffi.Void> arg0,
-  ffi.Pointer<objc.ObjCObjectImpl> arg1,
+  ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
+>(isLeaf: true)
+external ffi.Pointer<objc.ObjCBlockImpl> _1yx5rho_wrapListenerBlock_18v1jvf(
+  ffi.Pointer<objc.ObjCBlockImpl> block,
 );
-
-late final _class_TestWeatherService = objc.getClass(
-  "protocols.TestWeatherService",
-);
-late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
-final _objc_msgSend_19nvye5 = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Bool Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-        )
-      >
-    >()
-    .asFunction<
-      bool Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-      )
-    >();
-late final _protocol_TestWeatherServiceDelegate = objc.getProtocol(
-  "protocols.TestWeatherServiceDelegate",
-);
-late final _sel_conformsToProtocol_ = objc.registerName("conformsToProtocol:");
-final _objc_msgSend_e3qsqz = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Bool Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCProtocolImpl>,
-        )
-      >
-    >()
-    .asFunction<
-      bool Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCProtocolImpl>,
-      )
-    >();
-late final _sel_didUpdateWeather_ = objc.registerName("didUpdateWeather:");
-final _objc_msgSend_xtuoz7 = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-      )
-    >();
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.Void>, objc.NSString)>`.
 abstract final class ObjCBlock_ffiVoid_ffiVoid_NSString {
@@ -394,6 +333,81 @@ extension ObjCBlock_ffiVoid_ffiVoid_NSString$CallExtension
       >()(ref.pointer, arg0, arg1.ref.pointer);
 }
 
+/// TestWeatherService
+extension type TestWeatherService._(objc.ObjCObject object$)
+    implements objc.ObjCObject, objc.NSObject {
+  /// Constructs a [TestWeatherService] that points to the same underlying object as [other].
+  TestWeatherService.as(objc.ObjCObject other) : object$ = other {
+    assert(isA(object$));
+  }
+
+  /// Constructs a [TestWeatherService] that wraps the given raw object pointer.
+  TestWeatherService.fromPointer(
+    ffi.Pointer<objc.ObjCObjectImpl> other, {
+    bool retain = false,
+    bool release = false,
+  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
+    assert(isA(object$));
+  }
+
+  /// Returns whether [obj] is an instance of [TestWeatherService].
+  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
+    obj.ref.pointer,
+    _sel_isKindOfClass_,
+    _class_TestWeatherService,
+  );
+
+  /// alloc
+  static TestWeatherService alloc() {
+    final $ret = _objc_msgSend_151sglz(_class_TestWeatherService, _sel_alloc);
+    return TestWeatherService.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// allocWithZone:
+  static TestWeatherService allocWithZone(ffi.Pointer<objc.NSZone> zone) {
+    final $ret = _objc_msgSend_1cwp428(
+      _class_TestWeatherService,
+      _sel_allocWithZone_,
+      zone,
+    );
+    return TestWeatherService.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// fetchWeatherWithDelegate:
+  static void fetchWeatherWithDelegate(TestWeatherServiceDelegate delegate) {
+    _objc_msgSend_xtuoz7(
+      _class_TestWeatherService,
+      _sel_fetchWeatherWithDelegate_,
+      delegate.ref.pointer,
+    );
+  }
+
+  /// new
+  static TestWeatherService new$() {
+    final $ret = _objc_msgSend_151sglz(_class_TestWeatherService, _sel_new);
+    return TestWeatherService.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// Returns a new instance of TestWeatherService constructed with the default `new` method.
+  TestWeatherService() : this.as(new$().object$);
+}
+
+extension TestWeatherService$Methods on TestWeatherService {
+  /// init
+  TestWeatherService init() {
+    objc.checkOsVersionInternal(
+      'TestWeatherService.init',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(
+      object$.ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return TestWeatherService.fromPointer($ret, retain: false, release: true);
+  }
+}
+
 /// TestWeatherServiceDelegate
 extension type TestWeatherServiceDelegate._(objc.ObjCProtocol object$)
     implements objc.ObjCProtocol {
@@ -587,12 +601,9 @@ interface class TestWeatherServiceDelegate$Builder {
       );
 }
 
-late final _sel_fetchWeatherWithDelegate_ = objc.registerName(
-  "fetchWeatherWithDelegate:",
+late final _class_TestWeatherService = objc.getClass(
+  "protocols.TestWeatherService",
 );
-typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
-typedef Dartinstancetype = objc.ObjCObject;
-late final _sel_init = objc.registerName("init");
 final _objc_msgSend_151sglz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -608,8 +619,23 @@ final _objc_msgSend_151sglz = objc.msgSendPointer
         ffi.Pointer<objc.ObjCSelector>,
       )
     >();
-late final _sel_new = objc.registerName("new");
-late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
+final _objc_msgSend_19nvye5 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Bool Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      bool Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+      )
+    >();
 final _objc_msgSend_1cwp428 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -627,79 +653,52 @@ final _objc_msgSend_1cwp428 = objc.msgSendPointer
         ffi.Pointer<objc.NSZone>,
       )
     >();
+final _objc_msgSend_e3qsqz = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Bool Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCProtocolImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      bool Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCProtocolImpl>,
+      )
+    >();
+final _objc_msgSend_xtuoz7 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+      )
+    >();
+late final _protocol_TestWeatherServiceDelegate = objc.getProtocol(
+  "protocols.TestWeatherServiceDelegate",
+);
 late final _sel_alloc = objc.registerName("alloc");
-
-/// TestWeatherService
-extension type TestWeatherService._(objc.ObjCObject object$)
-    implements objc.ObjCObject, objc.NSObject {
-  /// Constructs a [TestWeatherService] that points to the same underlying object as [other].
-  TestWeatherService.as(objc.ObjCObject other) : object$ = other {
-    assert(isA(object$));
-  }
-
-  /// Constructs a [TestWeatherService] that wraps the given raw object pointer.
-  TestWeatherService.fromPointer(
-    ffi.Pointer<objc.ObjCObjectImpl> other, {
-    bool retain = false,
-    bool release = false,
-  }) : object$ = objc.ObjCObject(other, retain: retain, release: release) {
-    assert(isA(object$));
-  }
-
-  /// Returns whether [obj] is an instance of [TestWeatherService].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_TestWeatherService,
-  );
-
-  /// alloc
-  static TestWeatherService alloc() {
-    final $ret = _objc_msgSend_151sglz(_class_TestWeatherService, _sel_alloc);
-    return TestWeatherService.fromPointer($ret, retain: false, release: true);
-  }
-
-  /// allocWithZone:
-  static TestWeatherService allocWithZone(ffi.Pointer<objc.NSZone> zone) {
-    final $ret = _objc_msgSend_1cwp428(
-      _class_TestWeatherService,
-      _sel_allocWithZone_,
-      zone,
-    );
-    return TestWeatherService.fromPointer($ret, retain: false, release: true);
-  }
-
-  /// fetchWeatherWithDelegate:
-  static void fetchWeatherWithDelegate(TestWeatherServiceDelegate delegate) {
-    _objc_msgSend_xtuoz7(
-      _class_TestWeatherService,
-      _sel_fetchWeatherWithDelegate_,
-      delegate.ref.pointer,
-    );
-  }
-
-  /// new
-  static TestWeatherService new$() {
-    final $ret = _objc_msgSend_151sglz(_class_TestWeatherService, _sel_new);
-    return TestWeatherService.fromPointer($ret, retain: false, release: true);
-  }
-
-  /// Returns a new instance of TestWeatherService constructed with the default `new` method.
-  TestWeatherService() : this.as(new$().object$);
-}
-
-extension TestWeatherService$Methods on TestWeatherService {
-  /// init
-  TestWeatherService init() {
-    objc.checkOsVersionInternal(
-      'TestWeatherService.init',
-      iOS: (false, (2, 0, 0)),
-      macOS: (false, (10, 0, 0)),
-    );
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return TestWeatherService.fromPointer($ret, retain: false, release: true);
-  }
-}
+late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
+late final _sel_conformsToProtocol_ = objc.registerName("conformsToProtocol:");
+late final _sel_didUpdateWeather_ = objc.registerName("didUpdateWeather:");
+late final _sel_fetchWeatherWithDelegate_ = objc.registerName(
+  "fetchWeatherWithDelegate:",
+);
+late final _sel_init = objc.registerName("init");
+late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
+late final _sel_new = objc.registerName("new");
+typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
+typedef Dartinstancetype = objc.ObjCObject;
