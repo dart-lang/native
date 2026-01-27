@@ -193,9 +193,8 @@ void main() {
           }.contains(declaration.originalName),
         ),
         structs: Structs(
-          include: (declaration) => !{
-            '__va_list_tag',
-          }.contains(declaration.originalName),
+          include: (declaration) =>
+              !{'__va_list_tag'}.contains(declaration.originalName),
         ),
         globals: Globals.includeAll,
         macros: Macros.includeAll,
