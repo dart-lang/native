@@ -39,16 +39,9 @@ class Identifier {
   /// [name] is the name of the element.
   const Identifier({required this.importUri, this.scope, required this.name});
 
-  /// Creates an [Identifier] object from its JSON representation.
-  factory Identifier.fromJson(Map<String, Object?> json) =>
-      Identifier._fromSyntax(IdentifierSyntax.fromJson(json));
-
   /// Creates an [Identifier] object from its syntax representation.
   factory Identifier._fromSyntax(IdentifierSyntax syntax) =>
       Identifier(importUri: syntax.uri, scope: syntax.scope, name: syntax.name);
-
-  /// Converts this [Identifier] object to a JSON representation.
-  Map<String, Object?> toJson() => _toSyntax().json;
 
   /// Converts this [Identifier] object to a syntax representation.
   IdentifierSyntax _toSyntax() =>
@@ -82,6 +75,11 @@ class Identifier {
         : uriMapping(importUri);
     return mappedImportUri == other.importUri;
   }
+
+  @override
+  String toString() => scope == null
+      ? 'Identifier($importUri, $name)'
+      : 'Identifier($importUri, $scope, $name)';
 }
 
 /// Package private (protected) methods for [Identifier].
