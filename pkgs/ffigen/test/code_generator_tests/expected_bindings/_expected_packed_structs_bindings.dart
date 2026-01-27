@@ -19,6 +19,12 @@ final class Pack1 extends ffi.Struct {
   external int a;
 }
 
+@ffi.Packed(16)
+final class Pack16 extends ffi.Struct {
+  @ffi.Uint8()
+  external int a;
+}
+
 @ffi.Packed(2)
 final class Pack2 extends ffi.Struct {
   @ffi.Uint8()
@@ -33,12 +39,6 @@ final class Pack4 extends ffi.Struct {
 
 @ffi.Packed(8)
 final class Pack8 extends ffi.Struct {
-  @ffi.Uint8()
-  external int a;
-}
-
-@ffi.Packed(16)
-final class Pack16 extends ffi.Struct {
   @ffi.Uint8()
   external int a;
 }

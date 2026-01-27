@@ -11,6 +11,9 @@ library;
 
 import 'dart:ffi' as ffi;
 
+@ffi.Native<EmptyStruct>()
+external EmptyStruct globalStruct;
+
 @ffi.Native<ffi.Int32>()
 external int test1;
 
@@ -24,9 +27,6 @@ external final ffi.Array<ffi.Float> test3;
 @ffi.Native<ffi.Pointer<Some>>()
 external ffi.Pointer<Some> test5;
 
-@ffi.Native<EmptyStruct>()
-external EmptyStruct globalStruct;
+final class EmptyStruct extends ffi.Opaque {}
 
 final class Some extends ffi.Opaque {}
-
-final class EmptyStruct extends ffi.Opaque {}
