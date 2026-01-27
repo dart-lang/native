@@ -374,19 +374,24 @@ final class YamlConfig {
           defaultValue: (node) => Language.c,
           resultOrDefault: (node) => _language = node.value as Language,
         ),
-        HeterogeneousMapEntry(
-          key: strings.headers,
-          required: true,
-          valueConfigSpec:
-              HeterogeneousMapConfigSpec<List<String>, YamlHeaders>(
-                entries: [
                   HeterogeneousMapEntry(
                     key: strings.entryPoints,
                     valueConfigSpec: ListConfigSpec<String, List<String>>(
                       childConfigSpec: StringConfigSpec(),
+                      customValidation: (node) {
+                        final list = node.value as List<String>;
+                        if (list.isEmpty) {
+                          logger.severe(
+                            "'${node.pathString}' must contain at least one header path.",
+                          );
+                          return false;
+                        }
+                        return true;
+                      },
                     ),
                     required: true,
                   ),
+
                   HeterogeneousMapEntry(
                     key: strings.includeDirectives,
                     valueConfigSpec: ListConfigSpec<String, List<String>>(
@@ -401,7 +406,8 @@ final class YamlConfig {
                 ),
                 result: (node) => _headers = node.value,
               ),
-        ),
+            
+                    
         HeterogeneousMapEntry(
           key: strings.ignoreSourceErrors,
           valueConfigSpec: BoolConfigSpec(),
