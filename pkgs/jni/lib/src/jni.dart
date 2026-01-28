@@ -202,20 +202,57 @@ abstract final class Jni {
   /// repeated JNI calls.
   ///
   /// **Returns a new JGlobalReference** that the caller owns and must delete
-  /// when done (via [DeleteGlobalRef] or by wrapping in [JGlobalReference]).
+  /// when done (via `DeleteGlobalRef` or by wrapping in `JGlobalReference`).
   /// Each call returns a distinct global reference, even for cache hits.
   ///
   /// The cache maintains its own global references internally. Deleting the
   /// returned reference does not invalidate the cache.
+  ///
+  /// **Note**: This API is deprecated for direct use. Prefer
+  /// [JClass.forNameCached] which uses borrowed references to minimize
+  /// GlobalRef count.
   static JClassPtr getCachedClass(String name) {
+    final entry = _classCache.get(name);
+    return Jni.env.NewGlobalRef(entry.globalRef.pointer);
+  }
+
+  /// Internal method to get cache entry for `BorrowedReference` creation.
+  @internal
+  static JClassCacheEntry getCachedClassEntry(String name) {
+    _ensureBorrowedReferenceCallbacks();
     return _classCache.get(name);
+  }
+
+  static bool _callbacksSetup = false;
+
+  static final _entryRegistry = <int, JClassCacheEntry>{};
+
+  static void _ensureBorrowedReferenceCallbacks() {
+    if (_callbacksSetup) return;
+    _callbacksSetup = true;
+
+    BorrowedReference.onBorrowCallback = (Pointer<Void> entryId) {
+      final id = entryId.address;
+      final entry = _entryRegistry[id]!;
+      entry.borrowCount++;
+    };
+
+    BorrowedReference.onReleaseCallback = (Pointer<Void> entryId) {
+      final id = entryId.address;
+      final entry = _entryRegistry[id]!;
+      entry.borrowCount--;
+      if (entry.isEvicted && entry.borrowCount == 0) {
+        entry.globalRef.release();
+        _entryRegistry.remove(id);
+      }
+    };
   }
 
   /// Sets the capacity of the internal LRU class cache.
   ///
   /// If the new [size] is smaller than the current number of cached classes,
   /// the least recently used classes will be **immediately evicted** and
-  /// their global references released (via [DeleteGlobalRef]).
+  /// their global references released (via `DeleteGlobalRef`).
   ///
   /// This does **not** affect references returned by prior [getCachedClass]
   /// calls. Those are owned by callers and remain valid until deleted.
@@ -463,74 +500,99 @@ extension StringMethodsForJni on String {
   }
 }
 
+/// Internal cache entry for JNI class references.
+///
+/// Tracks a single JNI global reference along with metadata for reference
+/// counting and eviction.
+@internal
+class JClassCacheEntry {
+  final String name;
+  final JGlobalReference globalRef;
+  int borrowCount = 0;
+  bool isEvicted = false;
+
+  JClassCacheEntry(this.name, this.globalRef) {
+    // Register this entry for pointer-based callbacks
+    Jni._entryRegistry[identityHashCode(this)] = this;
+  }
+
+  @internal
+  Pointer<Void> get asPointer => Pointer.fromAddress(identityHashCode(this));
+}
+
 /// Internal LRU cache for JNI class references.
 ///
 /// **GlobalRef Ownership Model:**
 ///
 /// This cache is the **sole owner** of the JNI global references it stores.
-/// All stored [JClassPtr] values are global references that the cache is
-/// responsible for deleting when they are evicted.
+/// Each cache entry contains exactly one [JGlobalReference] and tracks how
+/// many wrappers are currently borrowing it via reference counting.
 ///
 /// **Critical Lifecycle Rules:**
 ///
-/// 1. **Cache owns stored refs**: Each entry in [_map] is a JGlobalReference
-///    that belongs to the cache. The cache must call [DeleteGlobalRef] on
-///    these entries when they are evicted.
+/// 1. **Cache owns GlobalRefs**: Each [JClassCacheEntry] contains a
+///    [JGlobalReference] owned by the cache. The cache is responsible for
+///    deleting it when the entry is evicted AND no wrappers are using it.
 ///
-/// 2. **Callers receive duplicates**: [get] always returns a newly created
-///    global reference via [NewGlobalRef]. The caller owns this duplicate
-///    and must delete it when done. This prevents GC of caller-side
-///    [JObject]/[JClass] wrappers from invalidating cache-held references.
+/// 2. **Callers borrow references**: [get] returns a cache entry that
+///    wrappers use to create `BorrowedReference` instances. Each borrow
+///    increments `borrowCount`, and each release decrements it.
 ///
-/// 3. **Eviction deletes owned refs**: When capacity is reduced or entries
-///    are evicted during LRU replacement, the cache calls [DeleteGlobalRef]
-///    on the evicted reference that it owns.
+/// 3. **Reference counting enables deterministic cleanup**: When an entry is
+///    evicted, it's marked as `isEvicted = true`. The underlying GlobalRef is
+///    deleted immediately if `borrowCount == 0`, or when the last borrower
+///    releases (deterministic, not GC-dependent).
+///
+/// 4. **Minimal GlobalRef usage**: Only N GlobalRefs exist (where N = number of
+///    distinct classes in use), regardless of wrapper count. This is the
+///    primary benefit over duplication-based caching.
 ///
 /// **Isolate-local**: Each isolate has its own cache instance. References
 /// are not shared across isolates.
-///
-/// **Thread-safety**: Access is inherently single-threaded per isolate.
 class _JClassCache {
   int _capacity = 256;
-  final _map = <String, JClassPtr>{};
+  final _map = <String, JClassCacheEntry>{};
 
-  JClassPtr get(String name) {
-    final existing = _map[name];
-    if (existing != null) {
+  JClassCacheEntry get(String name) {
+    var entry = _map[name];
+
+    if (entry != null) {
       // Cache hit: Move entry to end for LRU tracking.
       _map.remove(name);
-      _map[name] = existing;
-      // CRITICAL: Return a duplicate GlobalRef. The cache still owns
-      // `existing`. The caller owns the returned duplicate and must delete it.
-      return Jni.env.NewGlobalRef(existing);
+      _map[name] = entry;
+      return entry;
     }
 
-    // Cache miss: Jni.findClass returns a new GlobalRef.
-    final cls = Jni.findClass(name);
+    // Cache miss: Load class and create new entry.
+    final clsPtr = Jni.findClass(name);
+    entry = JClassCacheEntry(name, JGlobalReference(clsPtr));
 
     // Evict LRU entry if at capacity.
     if (_map.length >= _capacity) {
-      final keyToRemove = _map.keys.first;
-      final valueToRemove = _map.remove(keyToRemove)!;
-      // CRITICAL: Delete the GlobalRef the cache owned.
-      Jni.env.DeleteGlobalRef(valueToRemove);
+      final keyToEvict = _map.keys.first;
+      _evict(keyToEvict);
     }
 
-    // Store the GlobalRef. The cache now owns `cls`.
-    _map[name] = cls;
-    // CRITICAL: Return a duplicate GlobalRef. The cache still owns `cls`.
-    // The caller owns the returned duplicate and must delete it.
-    return Jni.env.NewGlobalRef(cls);
+    _map[name] = entry;
+    return entry;
+  }
+
+  void _evict(String name) {
+    final entry = _map.remove(name)!;
+    entry.isEvicted = true;
+
+    // Deterministic cleanup: If no active borrowers, delete immediately.
+    if (entry.borrowCount == 0) {
+      entry.globalRef.release();
+    }
   }
 
   set capacity(int size) {
     _capacity = size;
     // Evict LRU entries immediately if new capacity is smaller.
     while (_map.length > _capacity) {
-      final keyToRemove = _map.keys.first;
-      final valueToRemove = _map.remove(keyToRemove)!;
-      // CRITICAL: Delete the GlobalRef the cache owned.
-      Jni.env.DeleteGlobalRef(valueToRemove);
+      final keyToEvict = _map.keys.first;
+      _evict(keyToEvict);
     }
   }
 }

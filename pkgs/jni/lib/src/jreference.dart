@@ -190,3 +190,55 @@ final class _JNullReference extends JReference {
   @override
   bool get isNull => true;
 }
+
+/// A borrowed reference to a cached pointer.
+///
+/// Allows multiple wrappers to share one [JGlobalReference].
+///
+/// Lifecycle:
+/// Creation: increments cache borrow count
+/// Release: decrements count; deletes GlobalRef if evicted and count hits 0
+/// Does not delete the JNI reference in its finalizer
+@pragma('vm:deeply-immutable')
+final class BorrowedReference extends JReference {
+  final JReference _parent;
+  final Pointer<Bool> _isLocallyReleased;
+  final Pointer<Void> _entryPtr; // Points to _JClassCacheEntry
+
+  @internal
+  BorrowedReference.create({
+    required JReference parent,
+    required Pointer<Void> entryPtr,
+  })  : _parent = parent,
+        _entryPtr = entryPtr,
+        _isLocallyReleased = calloc<Bool>()..value = false,
+        super._(parent._finalizable) {
+    onBorrowCallback(entryPtr);
+  }
+
+  @override
+  bool get isReleased => _isLocallyReleased.value || _parent.isReleased;
+
+  @override
+  bool get isNull => _parent.isNull;
+
+  @override
+  void _setAsReleased() {
+    if (_isLocallyReleased.value) {
+      return;
+    }
+    _isLocallyReleased.value = true;
+    onReleaseCallback(_entryPtr);
+  }
+
+  @override
+  void _deleteReference() {
+    calloc.free(_isLocallyReleased);
+  }
+
+  // These are set by _setupBorrowedReferenceCallbacks in jni.dart
+  @internal
+  static late void Function(Pointer<Void>) onBorrowCallback;
+  @internal
+  static late void Function(Pointer<Void>) onReleaseCallback;
+}
