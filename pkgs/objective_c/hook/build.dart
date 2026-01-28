@@ -69,7 +69,14 @@ void main(List<String> args) async {
     }
 
     final sysroot = sdkPath(codeConfig);
-    final cFlags = <String>['-isysroot', sysroot, '-target', target];
+    final minVersion = minOSVersion(codeConfig);
+    final cFlags = <String>[
+      '-isysroot',
+      sysroot,
+      '-target',
+      target,
+      minVersion,
+    ];
     final mFlags = [...cFlags, ...objCFlags];
     final linkFlags = cFlags;
 
@@ -172,6 +179,16 @@ String firstLineOfStdout(String cmd, List<String> args) {
       .split('\n')
       .where((line) => line.isNotEmpty)
       .first;
+}
+
+String minOSVersion(CodeConfig codeConfig) {
+  if (codeConfig.targetOS == OS.iOS) {
+    final targetVersion = codeConfig.iOS.targetVersion;
+    return '-mios-version-min=$targetVersion';
+  }
+  assert(codeConfig.targetOS == OS.macOS);
+  final targetVersion = codeConfig.macOS.targetVersion;
+  return '-mmacos-version-min=$targetVersion';
 }
 
 String toTargetTriple(CodeConfig codeConfig) {

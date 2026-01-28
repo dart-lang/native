@@ -1,3 +1,7 @@
+## 9.2.5
+- Fix a [bug](https://github.com/dart-lang/native/issues/3011) by adding
+  minimum OS version flags to the build script.
+ 
 ## 9.2.4
 
 - Fix a [bug](https://github.com/dart-lang/native/issues/2990) build hook path
