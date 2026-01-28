@@ -7,8 +7,8 @@ import '../../ast/_core/interfaces/compound_declaration.dart';
 class UniqueNamer {
   final Set<String> _usedNames;
   static const _operatorNames = {
-    '+': 'plus',
-    '-': 'minus',
+    '+': 'add',
+    '-': 'subtract',
     '*': 'multiply',
     '/': 'divide',
     '++': 'increment',
@@ -70,19 +70,6 @@ class UniqueNamer {
       return _operatorNames[name]!;
     }
 
-    final buffer = StringBuffer();
-    for (var i = 0; i < name.length; i++) {
-      final char = name[i];
-
-      if (RegExp(r'[a-zA-Z0-9_]').hasMatch(char)) {
-        buffer.write(char);
-      } else {
-        buffer.write(_operatorNames[char] ?? 'operator');
-      }
-    }
-
-    var sanitized = buffer.toString();
-
-    return sanitized;
+    return RegExp(r'^[a-zA-Z0-9_]+$').hasMatch(name) ? name : 'operator';
   }
 }

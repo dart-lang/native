@@ -14,8 +14,8 @@ void main() {
     });
 
     test('converts basic operators to valid names', () {
-      expect(namer.makeUnique('+'), equals('plus'));
-      expect(namer.makeUnique('-'), equals('minus'));
+      expect(namer.makeUnique('+'), equals('add'));
+      expect(namer.makeUnique('-'), equals('subtract'));
       expect(namer.makeUnique('=='), equals('equals'));
     });
 
@@ -29,12 +29,12 @@ void main() {
     });
 
     test('preserves uniqueness even after sanitization', () {
-      namer.makeUnique('plus');
-      expect(namer.makeUnique('+'), equals('plus1'));
+      namer.makeUnique('add');
+      expect(namer.makeUnique('+'), equals('add1'));
     });
 
     test('handles mixed alphanumeric and symbols', () {
-      expect(namer.makeUnique('set+value'), equals('setplusvalue'));
+      expect(namer.makeUnique('set+value'), equals('setaddvalue'));
     });
 
     test('returns unnamed for empty strings', () {
