@@ -70,7 +70,13 @@ void main(List<String> args) async {
 
     final sysroot = sdkPath(codeConfig);
     final minVersion = minOSVersion(codeConfig);
-    final cFlags = <String>['-isysroot', sysroot, '-target', target, minVersion];
+    final cFlags = <String>[
+      '-isysroot',
+      sysroot,
+      '-target',
+      target,
+      minVersion,
+    ];
     final mFlags = [...cFlags, ...objCFlags];
     final linkFlags = cFlags;
 
