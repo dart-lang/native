@@ -9,9 +9,8 @@ name: Workflow Auto-Retry
 
 on:
   workflow_run:
-    workflows: ["ffigen_weekly", "objective_c_examples"]
-    types:
-      - completed
+    workflows: [ffigen_weekly, objective_c]
+    types: [completed]
 
 jobs:
   auto-retry:
