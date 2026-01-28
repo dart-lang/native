@@ -193,7 +193,9 @@ void main() {
           }.contains(declaration.originalName),
         ),
         structs: Structs(
-          include: (declaration) => declaration.originalName != '__va_list_tag',
+          // va struct is platform dependent.
+          include: (declaration) =>
+              !RegExp('[^a-z]va[^a-z]').hasMatch(declaration.originalName),
         ),
         globals: Globals.includeAll,
         macros: Macros.includeAll,
