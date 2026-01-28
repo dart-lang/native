@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:code_assets/code_assets.dart';
+
 import '../tool/tool.dart';
 import '../tool/tool_resolver.dart';
 
@@ -31,6 +33,10 @@ final Tool appleAr = Tool(
       wrappedResolver: appleClang.defaultResolver!,
       relativePath: Uri.file('ar'),
     ),
+    PathToolResolver(
+      toolName: 'Apple archiver',
+      executableName: OS.current.executableFileName('ar'),
+    ),
   ]),
 );
 
@@ -42,6 +48,14 @@ final Tool appleLd = Tool(
       toolName: 'Apple linker',
       wrappedResolver: appleClang.defaultResolver!,
       relativePath: Uri.file('ld'),
+    ),
+    CliFilter(
+      wrappedResolver: PathToolResolver(
+        toolName: 'Apple linker',
+        executableName: OS.current.executableFileName('ld'),
+      ),
+      cliArguments: ['-v'],
+      keepIf: ({required String stdout}) => stdout.contains('Apple TAPI'),
     ),
   ]),
 );
