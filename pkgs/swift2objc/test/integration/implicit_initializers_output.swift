@@ -86,8 +86,8 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc public init(firstName: String, lastName: String) {
-    wrappedInstance = MyComputedStruct(firstName: firstName, lastName: lastName)
+  @objc public init(lastName: String, firstName: String) {
+    wrappedInstance = MyComputedStruct(lastName: lastName, firstName: firstName)
   }
 
 }
@@ -126,8 +126,8 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc public init(title: String, count: Int, enabled: Bool) {
-    wrappedInstance = MyConfig(title: title, count: count, enabled: enabled)
+  @objc public init(count: Int, title: String, enabled: Bool) {
+    wrappedInstance = MyConfig(count: count, title: title, enabled: enabled)
   }
 
 }
@@ -157,8 +157,8 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc public init(name: String, age: Int) {
-    wrappedInstance = MyPerson(name: name, age: age)
+  @objc public init(age: Int, name: String) {
+    wrappedInstance = MyPerson(age: age, name: name)
   }
 
 }
