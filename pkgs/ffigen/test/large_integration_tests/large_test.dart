@@ -161,8 +161,9 @@ void main() {
     });
 
     test('SQLite test', () {
-      // Excluding functions that use 'va_list' because it can either be a
+      // Excluding functions etc that use 'va_list' because it can either be a
       // Pointer<__va_list_tag> or int depending on the OS.
+      final vaRegex = RegExp(r'(^|[^a-z])va($|[^a-z])');
       final generator = FfiGenerator(
         output: Output(
           dartFile: Uri.file('unused'),
@@ -193,13 +194,13 @@ void main() {
           }.contains(declaration.originalName),
         ),
         structs: Structs(
-          // va struct is platform dependent.
-          include: (declaration) =>
-              !RegExp('[^a-z]va[^a-z]').hasMatch(declaration.originalName),
+          include: (declaration) => !vaRegex.hasMatch(declaration.originalName),
         ),
         globals: Globals.includeAll,
         macros: Macros.includeAll,
-        typedefs: Typedefs.includeAll,
+        typedefs: Typedefs(
+          include: (declaration) => !vaRegex.hasMatch(declaration.originalName),
+        ),
       );
       final library = parse(testContext(generator));
 
