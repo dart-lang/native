@@ -159,7 +159,10 @@ void main() {
         expect(bindings.contains('notIncludedMethod'), isFalse);
         expect(bindings.contains('bug2935DirectInterfaceMethod'), isTrue);
         expect(bindings.contains('bug2935TransitiveInterfaceMethod'), isTrue);
-        expect(bindings.contains('bug2935TransitiveBlockInterfaceMethod'), isTrue);
+        expect(
+          bindings.contains('bug2935TransitiveBlockInterfaceMethod'),
+          isTrue,
+        );
       });
 
       test('stubbed', () {
@@ -193,7 +196,10 @@ void main() {
         expect(bindings.contains('notIncludedMethod'), isFalse);
         expect(bindings.contains('bug2935DirectInterfaceMethod'), isTrue);
         expect(bindings.contains('bug2935TransitiveInterfaceMethod'), isFalse);
-        expect(bindings.contains('bug2935TransitiveBlockInterfaceMethod'), isFalse);
+        expect(
+          bindings.contains('bug2935TransitiveBlockInterfaceMethod'),
+          isFalse,
+        );
       });
     });
 
