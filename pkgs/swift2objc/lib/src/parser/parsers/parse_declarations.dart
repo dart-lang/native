@@ -82,6 +82,12 @@ Declaration parseDeclaration(
       symbolgraph,
       isStatic: true,
     ),
+    'swift.func.op' => parseMethodDeclaration(
+      context,
+      parsedSymbol,
+      symbolgraph,
+      isStatic: true,
+    ),
     'swift.property' => parsePropertyDeclaration(
       context,
       parsedSymbol,
@@ -119,11 +125,6 @@ Declaration parseDeclaration(
       context,
       parsedSymbol,
       symbolgraph,
-    ),
-    'swift.func.op' => throw UnsupportedSymbolException(
-      'Operator overloading is not supported yet: '
-      '${parseSymbolId(symbolJson)}',
-      isWarning: true,
     ),
     _ => throw UnsupportedSymbolException(
       'Symbol of type $symbolType is not supported yet: '

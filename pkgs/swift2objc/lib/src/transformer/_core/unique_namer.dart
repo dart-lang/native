@@ -6,7 +6,34 @@ import '../../ast/_core/interfaces/compound_declaration.dart';
 
 class UniqueNamer {
   final Set<String> _usedNames;
-
+  static const _operatorNames = {
+    '+': 'add',
+    '-': 'subtract',
+    '*': 'multiply',
+    '/': 'divide',
+    '++': 'increment',
+    '--': 'decrement',
+    '=': 'assign',
+    '==': 'equals',
+    '!=': 'notEquals',
+    '>': 'greaterThan',
+    '>=': 'greaterThanOrEquals',
+    '<': 'lessThan',
+    '<=': 'lessThanOrEquals',
+    '!': 'not',
+    '&': 'and',
+    '|': 'or',
+    '^': 'xor',
+    '%': 'modulo',
+    '?': 'question',
+    '.': 'dot',
+    '<<': 'shiftLeft',
+    '>>': 'shiftRight',
+    '+=': 'addAssign',
+    '-=': 'subAssign',
+    '*=': 'mulAssign',
+    '/=': 'divAssign',
+  };
   UniqueNamer([Iterable<String> usedNames = const <String>[]])
     : _usedNames = usedNames.toSet();
 
@@ -17,24 +44,32 @@ class UniqueNamer {
       };
 
   String makeUnique(String name) {
-    if (name.isEmpty) {
-      name = 'unamed';
-    }
+    final uniqueName = _sanitize(name);
 
-    if (!_usedNames.contains(name)) {
-      _usedNames.add(name);
-      return name;
+    if (!_usedNames.contains(uniqueName)) {
+      _usedNames.add(uniqueName);
+      return uniqueName;
     }
 
     var counter = 0;
-    var uniqueName = name;
+    var candidateName = uniqueName;
 
     do {
       counter++;
-      uniqueName = '$name$counter';
-    } while (_usedNames.contains(uniqueName));
+      candidateName = '$uniqueName$counter';
+    } while (_usedNames.contains(candidateName));
 
-    _usedNames.add(uniqueName);
-    return uniqueName;
+    _usedNames.add(candidateName);
+    return candidateName;
+  }
+
+  String _sanitize(String name) {
+    if (name.isEmpty) return 'unnamed';
+
+    if (_operatorNames.containsKey(name)) {
+      return _operatorNames[name]!;
+    }
+
+    return RegExp(r'^[a-zA-Z0-9_]+$').hasMatch(name) ? name : 'operator';
   }
 }
