@@ -14,7 +14,9 @@ const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() async {
   test('native_add build', timeout: longTimeout, () async {
-    await inTempDir((tempUri) async {
+    // Use temp directories with spaces on purpose!
+    // https://github.com/dart-lang/native/issues/2993
+    await inTempDir(prefix: 'temp with space ', (tempUri) async {
       await copyTestProjects(targetUri: tempUri);
       final packageUri = tempUri.resolve('native_add/');
 
