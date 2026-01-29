@@ -125,5 +125,3 @@ jobs:
         run: dart pub get
       - name: Run the example app
         run: dart run lib/main.dart
-
-
