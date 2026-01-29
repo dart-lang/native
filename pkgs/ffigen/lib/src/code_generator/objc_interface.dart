@@ -81,6 +81,16 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
     final context = w.context;
     final s = StringBuffer();
     s.write('\n');
+
+    if (unavailable) {
+      s.write('''
+/// WARNING: $name is unavailable on this platform or OS version.
+/// This interface will not be usable at runtime.
+///
+''');
+    }
+
+
     if (generateAsStub) {
       s.write('''
 /// WARNING: $name is a stub. To generate bindings for this class, include
