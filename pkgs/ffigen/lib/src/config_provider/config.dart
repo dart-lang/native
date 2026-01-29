@@ -652,9 +652,6 @@ final class Output {
   /// The config for the symbol file.
   final SymbolFile? symbolFile;
 
-  /// Whether to sort the generated bindings alphabetically.
-  final bool sort;
-
   /// The type of comments to generate.
   final CommentType commentType;
 
@@ -671,7 +668,6 @@ final class Output {
     required this.dartFile,
     this.objectiveCFile,
     this.symbolFile,
-    this.sort = false,
     this.commentType = const CommentType.def(),
     this.preamble,
     this.format = true,

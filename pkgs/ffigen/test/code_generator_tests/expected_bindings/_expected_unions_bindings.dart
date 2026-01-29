@@ -8,16 +8,6 @@
 // ignore_for_file: type=lint, unused_import
 import 'dart:ffi' as ffi;
 
-final class Struct1 extends ffi.Struct {
-  @ffi.Char()
-  external int a;
-}
-
-final class Union1 extends ffi.Union {
-  @ffi.Char()
-  external int a;
-}
-
 final class EmptyUnion extends ffi.Opaque {}
 
 final class Primitives extends ffi.Union {
@@ -46,6 +36,16 @@ final class PrimitivesWithPointers extends ffi.Union {
   external ffi.Pointer<Union1> d;
 
   external ffi.Pointer<Struct1> d$1;
+}
+
+final class Struct1 extends ffi.Struct {
+  @ffi.Char()
+  external int a;
+}
+
+final class Union1 extends ffi.Union {
+  @ffi.Char()
+  external int a;
 }
 
 final class WithArray extends ffi.Union {

@@ -13,13 +13,6 @@ import 'package:objective_c/objective_c.dart' as objc;
 import 'package:ffi/ffi.dart' as pkg_ffi;
 
 @ffi.Native<
-  ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
->(isLeaf: true)
-external ffi.Pointer<objc.ObjCBlockImpl> _17w5sbb_wrapListenerBlock_xtuoz7(
-  ffi.Pointer<objc.ObjCBlockImpl> block,
-);
-
-@ffi.Native<
   ffi.Pointer<objc.ObjCBlockImpl> Function(
     ffi.Pointer<objc.ObjCBlockImpl>,
     ffi.Pointer<objc.ObjCBlockImpl>,
@@ -32,295 +25,11 @@ external ffi.Pointer<objc.ObjCBlockImpl> _17w5sbb_wrapBlockingBlock_xtuoz7(
   ffi.Pointer<objc.DOBJC_Context> context,
 );
 
-late final _class_TestMessageService = objc.getClass(
-  "callbacks.TestMessageService",
-);
-late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
-final _objc_msgSend_19nvye5 = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Bool Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-        )
-      >
-    >()
-    .asFunction<
-      bool Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-      )
-    >();
-
-/// Construction methods for `objc.ObjCBlock<ffi.Void Function(objc.NSString)>`.
-abstract final class ObjCBlock_ffiVoid_NSString {
-  /// Returns a block that wraps the given raw block pointer.
-  static objc.ObjCBlock<ffi.Void Function(objc.NSString)> fromPointer(
-    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
-    bool retain = false,
-    bool release = false,
-  }) => objc.ObjCBlock<ffi.Void Function(objc.NSString)>(
-    pointer,
-    retain: retain,
-    release: release,
-  );
-
-  /// Creates a block from a C function pointer.
-  ///
-  /// This block must be invoked by native code running on the same thread as
-  /// the isolate that registered it. Invoking the block on the wrong thread
-  /// will result in a crash.
-  static objc.ObjCBlock<ffi.Void Function(objc.NSString)> fromFunctionPointer(
-    ffi.Pointer<
-      ffi.NativeFunction<
-        ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl> arg0)
-      >
-    >
-    ptr,
-  ) => objc.ObjCBlock<ffi.Void Function(objc.NSString)>(
-    objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
-    retain: false,
-    release: true,
-  );
-
-  /// Creates a block from a Dart function.
-  ///
-  /// This block must be invoked by native code running on the same thread as
-  /// the isolate that registered it. Invoking the block on the wrong thread
-  /// will result in a crash.
-  ///
-  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
-  /// until it is garbage collected by both Dart and ObjC.
-  static objc.ObjCBlock<ffi.Void Function(objc.NSString)> fromFunction(
-    void Function(objc.NSString) fn, {
-    bool keepIsolateAlive = true,
-  }) => objc.ObjCBlock<ffi.Void Function(objc.NSString)>(
-    objc.newClosureBlock(
-      _closureCallable,
-      (ffi.Pointer<objc.ObjCObjectImpl> arg0) =>
-          fn(objc.NSString.fromPointer(arg0, retain: true, release: true)),
-      keepIsolateAlive,
-    ),
-    retain: false,
-    release: true,
-  );
-
-  /// Creates a listener block from a Dart function.
-  ///
-  /// This is based on FFI's NativeCallable.listener, and has the same
-  /// capabilities and limitations. This block can be invoked from any thread,
-  /// but only supports void functions, and is not run synchronously. See
-  /// NativeCallable.listener for more details.
-  ///
-  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
-  /// until it is garbage collected by both Dart and ObjC.
-  static objc.ObjCBlock<ffi.Void Function(objc.NSString)> listener(
-    void Function(objc.NSString) fn, {
-    bool keepIsolateAlive = true,
-  }) {
-    final raw = objc.newClosureBlock(
-      _listenerCallable.nativeFunction.cast(),
-      (ffi.Pointer<objc.ObjCObjectImpl> arg0) =>
-          fn(objc.NSString.fromPointer(arg0, retain: false, release: true)),
-      keepIsolateAlive,
-    );
-    final wrapper = _17w5sbb_wrapListenerBlock_xtuoz7(raw);
-    objc.objectRelease(raw.cast());
-    return objc.ObjCBlock<ffi.Void Function(objc.NSString)>(
-      wrapper,
-      retain: false,
-      release: true,
-    );
-  }
-
-  /// Creates a blocking block from a Dart function.
-  ///
-  /// This callback can be invoked from any native thread, and will block the
-  /// caller until the callback is handled by the Dart isolate that created
-  /// the block. Async functions are not supported.
-  ///
-  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
-  /// until it is garbage collected by both Dart and ObjC. If the owner isolate
-  /// has shut down, and the block is invoked by native code, it may block
-  /// indefinitely, or have other undefined behavior.
-  static objc.ObjCBlock<ffi.Void Function(objc.NSString)> blocking(
-    void Function(objc.NSString) fn, {
-    bool keepIsolateAlive = true,
-  }) {
-    final raw = objc.newClosureBlock(
-      _blockingCallable.nativeFunction.cast(),
-      (ffi.Pointer<objc.ObjCObjectImpl> arg0) =>
-          fn(objc.NSString.fromPointer(arg0, retain: false, release: true)),
-      keepIsolateAlive,
-    );
-    final rawListener = objc.newClosureBlock(
-      _blockingListenerCallable.nativeFunction.cast(),
-      (ffi.Pointer<objc.ObjCObjectImpl> arg0) =>
-          fn(objc.NSString.fromPointer(arg0, retain: false, release: true)),
-      keepIsolateAlive,
-    );
-    final wrapper = _17w5sbb_wrapBlockingBlock_xtuoz7(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
-    objc.objectRelease(rawListener.cast());
-    return objc.ObjCBlock<ffi.Void Function(objc.NSString)>(
-      wrapper,
-      retain: false,
-      release: true,
-    );
-  }
-
-  static void _listenerTrampoline(
-    ffi.Pointer<objc.ObjCBlockImpl> block,
-    ffi.Pointer<objc.ObjCObjectImpl> arg0,
-  ) {
-    (objc.getBlockClosure(block)
-        as void Function(ffi.Pointer<objc.ObjCObjectImpl>))(arg0);
-    objc.objectRelease(block.cast());
-  }
-
-  static ffi.NativeCallable<
-    ffi.Void Function(
-      ffi.Pointer<objc.ObjCBlockImpl>,
-      ffi.Pointer<objc.ObjCObjectImpl>,
-    )
-  >
-  _listenerCallable =
-      ffi.NativeCallable<
-          ffi.Void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-          )
-        >.listener(_listenerTrampoline)
-        ..keepIsolateAlive = false;
-  static void _blockingTrampoline(
-    ffi.Pointer<objc.ObjCBlockImpl> block,
-    ffi.Pointer<ffi.Void> waiter,
-    ffi.Pointer<objc.ObjCObjectImpl> arg0,
-  ) {
-    try {
-      (objc.getBlockClosure(block)
-          as void Function(ffi.Pointer<objc.ObjCObjectImpl>))(arg0);
-    } catch (e) {
-    } finally {
-      objc.signalWaiter(waiter);
-      objc.objectRelease(block.cast());
-    }
-  }
-
-  static ffi.NativeCallable<
-    ffi.Void Function(
-      ffi.Pointer<objc.ObjCBlockImpl>,
-      ffi.Pointer<ffi.Void>,
-      ffi.Pointer<objc.ObjCObjectImpl>,
-    )
-  >
-  _blockingCallable =
-      ffi.NativeCallable<
-          ffi.Void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-          )
-        >.isolateLocal(_blockingTrampoline)
-        ..keepIsolateAlive = false;
-  static ffi.NativeCallable<
-    ffi.Void Function(
-      ffi.Pointer<objc.ObjCBlockImpl>,
-      ffi.Pointer<ffi.Void>,
-      ffi.Pointer<objc.ObjCObjectImpl>,
-    )
-  >
-  _blockingListenerCallable =
-      ffi.NativeCallable<
-          ffi.Void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-          )
-        >.listener(_blockingTrampoline)
-        ..keepIsolateAlive = false;
-  static void _fnPtrTrampoline(
-    ffi.Pointer<objc.ObjCBlockImpl> block,
-    ffi.Pointer<objc.ObjCObjectImpl> arg0,
-  ) => block.ref.target
-      .cast<
-        ffi.NativeFunction<
-          ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl> arg0)
-        >
-      >()
-      .asFunction<void Function(ffi.Pointer<objc.ObjCObjectImpl>)>()(arg0);
-  static ffi.Pointer<ffi.Void> _fnPtrCallable =
-      ffi.Pointer.fromFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-            )
-          >(_fnPtrTrampoline)
-          .cast();
-  static void _closureTrampoline(
-    ffi.Pointer<objc.ObjCBlockImpl> block,
-    ffi.Pointer<objc.ObjCObjectImpl> arg0,
-  ) =>
-      (objc.getBlockClosure(block)
-          as void Function(ffi.Pointer<objc.ObjCObjectImpl>))(arg0);
-  static ffi.Pointer<ffi.Void> _closureCallable =
-      ffi.Pointer.fromFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-            )
-          >(_closureTrampoline)
-          .cast();
-}
-
-/// Call operator for `objc.ObjCBlock<ffi.Void Function(objc.NSString)>`.
-extension ObjCBlock_ffiVoid_NSString$CallExtension
-    on objc.ObjCBlock<ffi.Void Function(objc.NSString)> {
-  void call(objc.NSString arg0) => ref.pointer.ref.invoke
-      .cast<
-        ffi.NativeFunction<
-          ffi.Void Function(
-            ffi.Pointer<objc.ObjCBlockImpl> block,
-            ffi.Pointer<objc.ObjCObjectImpl> arg0,
-          )
-        >
-      >()
-      .asFunction<
-        void Function(
-          ffi.Pointer<objc.ObjCBlockImpl>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-        )
-      >()(ref.pointer, arg0.ref.pointer);
-}
-
-late final _sel_fetchGreetingWithCompletion_ = objc.registerName(
-  "fetchGreetingWithCompletion:",
-);
-final _objc_msgSend_f167m6 = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCBlockImpl>,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCBlockImpl>,
-      )
-    >();
-late final _sel_fetchGreetingAsyncWithCompletionHandler_ = objc.registerName(
-  "fetchGreetingAsyncWithCompletionHandler:",
+@ffi.Native<
+  ffi.Pointer<objc.ObjCBlockImpl> Function(ffi.Pointer<objc.ObjCBlockImpl>)
+>(isLeaf: true)
+external ffi.Pointer<objc.ObjCBlockImpl> _17w5sbb_wrapListenerBlock_xtuoz7(
+  ffi.Pointer<objc.ObjCBlockImpl> block,
 );
 
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(objc.NSObject?)>`.
@@ -580,65 +289,250 @@ extension ObjCBlock_ffiVoid_NSObject$CallExtension
       >()(ref.pointer, arg0?.ref.pointer ?? ffi.nullptr);
 }
 
-late final _sel_echoAsyncObjectWithAnObject_completionHandler_ = objc
-    .registerName("echoAsyncObjectWithAnObject:completionHandler:");
-final _objc_msgSend_o762yo = objc.msgSendPointer
-    .cast<
+/// Construction methods for `objc.ObjCBlock<ffi.Void Function(objc.NSString)>`.
+abstract final class ObjCBlock_ffiVoid_NSString {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<ffi.Void Function(objc.NSString)> fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) => objc.ObjCBlock<ffi.Void Function(objc.NSString)>(
+    pointer,
+    retain: retain,
+    release: release,
+  );
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<ffi.Void Function(objc.NSString)> fromFunctionPointer(
+    ffi.Pointer<
       ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl> arg0)
+      >
+    >
+    ptr,
+  ) => objc.ObjCBlock<ffi.Void Function(objc.NSString)>(
+    objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+    retain: false,
+    release: true,
+  );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<ffi.Void Function(objc.NSString)> fromFunction(
+    void Function(objc.NSString) fn, {
+    bool keepIsolateAlive = true,
+  }) => objc.ObjCBlock<ffi.Void Function(objc.NSString)>(
+    objc.newClosureBlock(
+      _closureCallable,
+      (ffi.Pointer<objc.ObjCObjectImpl> arg0) =>
+          fn(objc.NSString.fromPointer(arg0, retain: true, release: true)),
+      keepIsolateAlive,
+    ),
+    retain: false,
+    release: true,
+  );
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on FFI's NativeCallable.listener, and has the same
+  /// capabilities and limitations. This block can be invoked from any thread,
+  /// but only supports void functions, and is not run synchronously. See
+  /// NativeCallable.listener for more details.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<ffi.Void Function(objc.NSString)> listener(
+    void Function(objc.NSString) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    final raw = objc.newClosureBlock(
+      _listenerCallable.nativeFunction.cast(),
+      (ffi.Pointer<objc.ObjCObjectImpl> arg0) =>
+          fn(objc.NSString.fromPointer(arg0, retain: false, release: true)),
+      keepIsolateAlive,
+    );
+    final wrapper = _17w5sbb_wrapListenerBlock_xtuoz7(raw);
+    objc.objectRelease(raw.cast());
+    return objc.ObjCBlock<ffi.Void Function(objc.NSString)>(
+      wrapper,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// Creates a blocking block from a Dart function.
+  ///
+  /// This callback can be invoked from any native thread, and will block the
+  /// caller until the callback is handled by the Dart isolate that created
+  /// the block. Async functions are not supported.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC. If the owner isolate
+  /// has shut down, and the block is invoked by native code, it may block
+  /// indefinitely, or have other undefined behavior.
+  static objc.ObjCBlock<ffi.Void Function(objc.NSString)> blocking(
+    void Function(objc.NSString) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    final raw = objc.newClosureBlock(
+      _blockingCallable.nativeFunction.cast(),
+      (ffi.Pointer<objc.ObjCObjectImpl> arg0) =>
+          fn(objc.NSString.fromPointer(arg0, retain: false, release: true)),
+      keepIsolateAlive,
+    );
+    final rawListener = objc.newClosureBlock(
+      _blockingListenerCallable.nativeFunction.cast(),
+      (ffi.Pointer<objc.ObjCObjectImpl> arg0) =>
+          fn(objc.NSString.fromPointer(arg0, retain: false, release: true)),
+      keepIsolateAlive,
+    );
+    final wrapper = _17w5sbb_wrapBlockingBlock_xtuoz7(
+      raw,
+      rawListener,
+      objc.objCContext,
+    );
+    objc.objectRelease(raw.cast());
+    objc.objectRelease(rawListener.cast());
+    return objc.ObjCBlock<ffi.Void Function(objc.NSString)>(
+      wrapper,
+      retain: false,
+      release: true,
+    );
+  }
+
+  static void _listenerTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<objc.ObjCObjectImpl> arg0,
+  ) {
+    (objc.getBlockClosure(block)
+        as void Function(ffi.Pointer<objc.ObjCObjectImpl>))(arg0);
+    objc.objectRelease(block.cast());
+  }
+
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+    )
+  >
+  _listenerCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >.listener(_listenerTrampoline)
+        ..keepIsolateAlive = false;
+  static void _blockingTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> waiter,
+    ffi.Pointer<objc.ObjCObjectImpl> arg0,
+  ) {
+    try {
+      (objc.getBlockClosure(block)
+          as void Function(ffi.Pointer<objc.ObjCObjectImpl>))(arg0);
+    } catch (e) {
+    } finally {
+      objc.signalWaiter(waiter);
+      objc.objectRelease(block.cast());
+    }
+  }
+
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+    )
+  >
+  _blockingCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >.isolateLocal(_blockingTrampoline)
+        ..keepIsolateAlive = false;
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+    )
+  >
+  _blockingListenerCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+          )
+        >.listener(_blockingTrampoline)
+        ..keepIsolateAlive = false;
+  static void _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<objc.ObjCObjectImpl> arg0,
+  ) => block.ref.target
+      .cast<
+        ffi.NativeFunction<
+          ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl> arg0)
+        >
+      >()
+      .asFunction<void Function(ffi.Pointer<objc.ObjCObjectImpl>)>()(arg0);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_fnPtrTrampoline)
+          .cast();
+  static void _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<objc.ObjCObjectImpl> arg0,
+  ) =>
+      (objc.getBlockClosure(block)
+          as void Function(ffi.Pointer<objc.ObjCObjectImpl>))(arg0);
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+            )
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<ffi.Void Function(objc.NSString)>`.
+extension ObjCBlock_ffiVoid_NSString$CallExtension
+    on objc.ObjCBlock<ffi.Void Function(objc.NSString)> {
+  void call(objc.NSString arg0) => ref.pointer.ref.invoke
+      .cast<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl> block,
+            ffi.Pointer<objc.ObjCObjectImpl> arg0,
+          )
+        >
+      >()
+      .asFunction<
+        void Function(
           ffi.Pointer<objc.ObjCBlockImpl>,
-        )
-      >
-    >()
-    .asFunction<
-      void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCBlockImpl>,
-      )
-    >();
-typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
-typedef Dartinstancetype = objc.ObjCObject;
-late final _sel_init = objc.registerName("init");
-final _objc_msgSend_151sglz = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObjectImpl> Function(
           ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
         )
-      >
-    >()
-    .asFunction<
-      ffi.Pointer<objc.ObjCObjectImpl> Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-      )
-    >();
-late final _sel_new = objc.registerName("new");
-late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
-final _objc_msgSend_1cwp428 = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObjectImpl> Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.NSZone>,
-        )
-      >
-    >()
-    .asFunction<
-      ffi.Pointer<objc.ObjCObjectImpl> Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.NSZone>,
-      )
-    >();
-late final _sel_alloc = objc.registerName("alloc");
+      >()(ref.pointer, arg0.ref.pointer);
+}
 
 /// TestMessageService
 extension type TestMessageService._(objc.ObjCObject object$)
@@ -741,3 +635,107 @@ extension TestMessageService$Methods on TestMessageService {
     return TestMessageService.fromPointer($ret, retain: false, release: true);
   }
 }
+
+late final _class_TestMessageService = objc.getClass(
+  "callbacks.TestMessageService",
+);
+final _objc_msgSend_151sglz = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
+final _objc_msgSend_19nvye5 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Bool Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      bool Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+      )
+    >();
+final _objc_msgSend_1cwp428 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.NSZone>,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.NSZone>,
+      )
+    >();
+final _objc_msgSend_f167m6 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCBlockImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCBlockImpl>,
+      )
+    >();
+final _objc_msgSend_o762yo = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCBlockImpl>,
+        )
+      >
+    >()
+    .asFunction<
+      void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCBlockImpl>,
+      )
+    >();
+late final _sel_alloc = objc.registerName("alloc");
+late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
+late final _sel_echoAsyncObjectWithAnObject_completionHandler_ = objc
+    .registerName("echoAsyncObjectWithAnObject:completionHandler:");
+late final _sel_fetchGreetingAsyncWithCompletionHandler_ = objc.registerName(
+  "fetchGreetingAsyncWithCompletionHandler:",
+);
+late final _sel_fetchGreetingWithCompletion_ = objc.registerName(
+  "fetchGreetingWithCompletion:",
+);
+late final _sel_init = objc.registerName("init");
+late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
+late final _sel_new = objc.registerName("new");
+typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
+typedef Dartinstancetype = objc.ObjCObject;
