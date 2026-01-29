@@ -463,7 +463,6 @@ extension StringMethodsForJni on String {
 }
 
 /// Internal cache entry for JNI class references.
-@internal
 class _JClassCacheEntry {
   final String name;
   final JGlobalReference globalRef;
@@ -513,7 +512,7 @@ class _JClassCache {
   void _evict(String name) {
     final entry = _map.remove(name)!;
     // Release the GlobalRef; JClass wrapper becomes invalid but that's OK
-    // since we only hand out cached instances that should not be released by callers.
+    // since cached instances; callers must not release
     entry.globalRef.release();
   }
 
