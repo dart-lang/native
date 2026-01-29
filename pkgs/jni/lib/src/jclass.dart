@@ -16,6 +16,23 @@ class JClass extends JObject {
   JClass.forName(String name)
       : super.fromReference(JGlobalReference(Jni.findClass(name)));
 
+  /// Constructs a [JClass] associated with the class or interface with
+  /// the given string name, using the global LRU cache.
+  ///
+  /// This constructor uses borrowed references to minimize the number of
+  /// JGlobalReferences created. Multiple instances of the same class will
+  /// share a single underlying GlobalRef via reference counting.
+  JClass.forNameCached(String name)
+      : super.fromReference(_createBorrowedReference(name));
+
+  static JReference _createBorrowedReference(String name) {
+    final entry = Jni.getCachedClassEntry(name);
+    return BorrowedReference.create(
+      parent: entry.globalRef,
+      entryPtr: entry.asPointer,
+    );
+  }
+
   JConstructorId constructorId(String signature) {
     return JConstructorId._(this, signature);
   }
