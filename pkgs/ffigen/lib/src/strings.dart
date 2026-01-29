@@ -289,8 +289,8 @@ String get tmpDir {
     return Platform.environment['TEST_TMPDIR']!;
   }
 
-  _tmpDir ??= Directory.systemTemp.createTempSync();
-  return _tmpDir!.path;
+ _tmpDir ??= Directory.systemTemp.createTempSync('temp dir ');
+ return _tmpDir!.path;
 }
 
 const ffigenJsonSchemaIndent = '  ';
