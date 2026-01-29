@@ -5,10 +5,10 @@
 
 - (instancetype)initWithX:(double)x y:(double)y;
 
-+ (Vec2 *)plus:(Vec2 *)lhs rhs:(Vec2 *)rhs;
++ (Vec2 *)add:(Vec2 *)lhs rhs:(Vec2 *)rhs;
 
-+ (BOOL)equalequal:(Vec2 *)lhs rhs:(Vec2 *)rhs;
++ (BOOL)equals:(Vec2 *)lhs rhs:(Vec2 *)rhs;
 
-+ (double)multiplymultiplymultiply:(Vec2 *)lhs rhs:(Vec2 *)rhs;
++ (double)operator:(Vec2 *)lhs rhs:(Vec2 *)rhs;
 
 @end

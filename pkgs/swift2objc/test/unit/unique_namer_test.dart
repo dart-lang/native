@@ -20,12 +20,12 @@ void main() {
     });
 
     test('handles custom multi-character operators', () {
-      expect(namer.makeUnique('***'), equals('multiplymultiplymultiply'));
+      expect(namer.makeUnique('***'), equals('operator'));
     });
 
     test('falls back to ASCII for unknown symbols', () {
       final result = namer.makeUnique(r'$');
-      expect(result, equals('op36'));
+      expect(result, equals('operator'));
     });
 
     test('preserves uniqueness even after sanitization', () {
@@ -34,11 +34,16 @@ void main() {
     });
 
     test('handles mixed alphanumeric and symbols', () {
-      expect(namer.makeUnique('set+value'), equals('setaddvalue'));
+      expect(namer.makeUnique('set+value'), equals('operator'));
     });
 
     test('returns unnamed for empty strings', () {
       expect(namer.makeUnique(''), equals('unnamed'));
+    });
+
+    test('handles multiple mixed alphanumeric and symbols', () {
+      expect(namer.makeUnique('set+value'), equals('operator'));
+      expect(namer.makeUnique('get-item'), equals('operator1'));
     });
   });
 }

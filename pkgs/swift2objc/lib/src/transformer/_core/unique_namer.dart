@@ -70,6 +70,6 @@ class UniqueNamer {
       return _operatorNames[name]!;
     }
 
-    return RegExp(r'^[a-zA-Z0-9_]+$').hasMatch(name) ? name : 'operator';
+    return RegExp(r'\W').hasMatch(name) ? 'operator' : name;
   }
 }
