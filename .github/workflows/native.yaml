@@ -69,6 +69,10 @@ jobs:
         run: sudo apt-get update && sudo apt-get install clang-15 gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf gcc-riscv64-linux-gnu
         if: ${{ matrix.os == 'ubuntu' }}
 
+      - name: Install native toolchains
+        run: brew install lld
+        if: ${{ matrix.os == 'macos' }}
+
       - run: dart pub get
 
       - name: Run pub get, analysis, formatting, generators, tests, and examples.
