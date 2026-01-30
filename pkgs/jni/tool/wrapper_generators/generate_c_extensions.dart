@@ -228,6 +228,63 @@ const _noCheckException = {
   'GetObjectRefType',
 };
 
+/// Functions that can accept null parameters and should skip null checks.
+const _nullSafeFunctions = {
+  'IsSameObject',
+  'DeleteGlobalRef',
+  'DeleteLocalRef',
+  'DeleteWeakGlobalRef',
+  'NewLocalRef',
+  'NewGlobalRef',
+  'NewWeakGlobalRef',
+};
+
+/// Determines if a parameter type needs null checking.
+bool needsNullCheck(String paramType, String paramName) {
+  // Check for jobject-related types
+  if (isJRefType(paramType)) {
+    return true;
+  }
+  // Check for method/field IDs
+  if (paramType == 'jmethodID' || paramType == 'jfieldID') {
+    return true;
+  }
+  return false;
+}
+
+/// Generates null check code for parameters.
+String generateNullChecks(
+  List<Parameter> params,
+  ResultWrapper wrapper,
+  String functionName,
+) {
+  if (_nullSafeFunctions.contains(functionName) ||
+      refFunctions.contains(functionName)) {
+    return '';
+  }
+
+  final checks = StringBuffer();
+  for (final param in params) {
+    final paramType = getCType(param.type);
+    if (needsNullCheck(paramType, param.name)) {
+      checks.writeln('  if (${param.name} == NULL) {');
+      checks.writeln(
+          '    jclass nullPointerClass = (*jniEnv)->FindClass(jniEnv, "java/lang/NullPointerException");');
+      checks.writeln('    if (nullPointerClass != NULL) {');
+      checks.writeln(
+          '      (*jniEnv)->ThrowNew(jniEnv, nullPointerClass, '
+          '"Parameter ${param.name} is null");');
+      checks.writeln(
+          '      (*jniEnv)->DeleteLocalRef(jniEnv, nullPointerClass);');
+      checks.writeln('    }');
+      checks.writeln('    jthrowable $errorVar = check_exception();');
+      checks.writeln('    return ${wrapper.onError};');
+      checks.writeln('  }');
+    }
+  }
+  return checks.toString();
+}
+
 String? getWrapperFunc(CompoundMember field) {
   final fieldType = field.type;
   if (fieldType is PointerType && fieldType.child is NativeFunc) {
@@ -268,6 +325,11 @@ String? getWrapperFunc(CompoundMember field) {
 '''
         : '';
     final varArgsEnd = withVarArgs ? 'va_end(args);\n' : '';
+    final nullChecks = generateNullChecks(
+      outerFunctionType.parameters,
+      resultWrapper,
+      field.name,
+    );
     final exceptionCheck = _noCheckException.contains(field.name)
         ? ''
         : '''
@@ -280,6 +342,7 @@ String? getWrapperFunc(CompoundMember field) {
     return '$willExport'
         '${resultWrapper.returnType} $wrapperName($params) {\n'
         '  attach_thread();\n'
+        '$nullChecks'
         '$varArgsInit'
         '  $returnCapture (*jniEnv)->$callee($callParams);\n'
         '$varArgsEnd'
