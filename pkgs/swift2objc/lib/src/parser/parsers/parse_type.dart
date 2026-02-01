@@ -99,7 +99,11 @@ typedef PrefixParselet =
   Json token,
   TokenList fragments,
 ) {
-  final id = token['preciseIdentifier'].get<String>();
+  final preciseIdJson = token['preciseIdentifier'];
+  if (!preciseIdJson.exists) {
+    return (voidType, fragments);
+  }
+  final id = preciseIdJson.get<String>();
   final symbol = symbolgraph.symbols[id];
 
   if (symbol == null) {

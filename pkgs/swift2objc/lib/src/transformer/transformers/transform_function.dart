@@ -5,6 +5,7 @@
 import '../../ast/_core/interfaces/function_declaration.dart';
 import '../../ast/_core/shared/parameter.dart';
 import '../../ast/_core/shared/referred_type.dart';
+import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../ast/declarations/globals/globals.dart';
@@ -27,6 +28,10 @@ MethodDeclaration? transformMethod(
   TransformationState state,
 ) {
   if (disallowedMethods.contains(originalMethod.name)) {
+    return null;
+  }
+  if (originalMethod.isOperator &&
+      originalMethod.params.any((p) => p.type.sameAs(voidType))) {
     return null;
   }
 
@@ -110,6 +115,9 @@ MethodDeclaration _transformFunction(
         : true,
     throws: originalFunction.throws,
     async: originalFunction.async,
+    isOperator: originalFunction is MethodDeclaration
+        ? originalFunction.isOperator
+        : false,
   );
 
   transformedMethod.statements = _generateStatements(
@@ -129,8 +137,9 @@ MethodDeclaration _transformFunction(
 String generateInvocationParams(
   UniqueNamer localNamer,
   List<Parameter> originalParams,
-  List<Parameter> transformedParams,
-) {
+  List<Parameter> transformedParams, {
+  bool isOperator = false,
+}) {
   assert(originalParams.length == transformedParams.length);
 
   final argumentsList = <String>[];
@@ -150,7 +159,7 @@ String generateInvocationParams(
     assert(unwrappedType.sameAs(originalParam.type));
 
     argumentsList.add(
-      originalParam.name.isEmpty || originalParam.name == '_'
+      isOperator || originalParam.name.isEmpty || originalParam.name == '_'
           ? unwrappedParamValue
           : '${originalParam.name}: $unwrappedParamValue',
     );
@@ -172,8 +181,23 @@ List<String> _generateStatements(
     localNamer,
     originalFunction.params,
     transformedMethod.params,
+    isOperator: transformedMethod.isOperator,
   );
-  var originalMethodCall = originalCallGenerator(arguments);
+
+  String originalMethodCall;
+  if (transformedMethod.isOperator) {
+    final lhs =
+        transformedMethod.params[0].internalName ??
+        transformedMethod.params[0].name;
+    final rhs =
+        transformedMethod.params[1].internalName ??
+        transformedMethod.params[1].name;
+    originalMethodCall =
+        '$lhs.wrappedInstance ${transformedMethod.name} $rhs.wrappedInstance';
+  } else {
+    originalMethodCall = originalCallGenerator(arguments);
+  }
+
   if (transformedMethod.async) {
     originalMethodCall = 'await $originalMethodCall';
   }

@@ -127,30 +127,6 @@ import Foundation
 
 }
 
-@objc public class ArithmeticExpressionWrapper: NSObject {
-  var wrappedInstance: ArithmeticExpression
-
-  init(_ wrappedInstance: ArithmeticExpression) {
-    self.wrappedInstance = wrappedInstance
-  }
-
-  @objc static public func multiplication(_ arg0: ArithmeticExpressionWrapper, _ arg1: ArithmeticExpressionWrapper) -> ArithmeticExpressionWrapper {
-    let result = ArithmeticExpression.multiplication(arg0.wrappedInstance, arg1.wrappedInstance)
-    return ArithmeticExpressionWrapper(result)
-  }
-
-  @objc static public func number(_ arg0: Int) -> ArithmeticExpressionWrapper {
-    let result = ArithmeticExpression.number(arg0)
-    return ArithmeticExpressionWrapper(result)
-  }
-
-  @objc static public func addition(_ arg0: ArithmeticExpressionWrapper, _ arg1: ArithmeticExpressionWrapper) -> ArithmeticExpressionWrapper {
-    let result = ArithmeticExpression.addition(arg0.wrappedInstance, arg1.wrappedInstance)
-    return ArithmeticExpressionWrapper(result)
-  }
-
-}
-
 @objc public class StatusWrapper: NSObject {
   var wrappedInstance: Status
 

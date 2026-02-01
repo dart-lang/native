@@ -58,6 +58,7 @@ MethodDeclaration parseMethodDeclaration(
     throws: info.throws,
     async: info.async,
     mutating: info.mutating,
+    isOperator: info.isOperator,
   );
 }
 
@@ -66,7 +67,54 @@ typedef ParsedFunctionInfo = ({
   bool throws,
   bool async,
   bool mutating,
+  bool isOperator,
 });
+
+bool _isSwiftOperator(String text) {
+  const commonOps = {
+    '+',
+    '-',
+    '*',
+    '/',
+    '%',
+    '==',
+    '!=',
+    '<',
+    '>',
+    '<=',
+    '>=',
+    '===',
+    '!==',
+    '!',
+    '&&',
+    '||',
+    '&',
+    '|',
+    '^',
+    '~',
+    '<<',
+    '>>',
+    '=',
+    '+=',
+    '-=',
+    '*=',
+    '/=',
+    '%=',
+    '&=',
+    '|=',
+    '^=',
+    '<<=',
+    '>>=',
+    '??',
+    '?',
+    '...',
+    '..<',
+  };
+
+  if (commonOps.contains(text)) return true;
+
+  return RegExp(r'^[/=\-+!*%<>&|^~?]+$').hasMatch(text);
+}
 
 ParsedFunctionInfo parseFunctionInfo(
   Context context,
@@ -106,11 +154,28 @@ ParsedFunctionInfo parseFunctionInfo(
   }
 
   final prefixAnnotations = <String>{};
+  var isOperator = false;
 
   while (true) {
     final keyword = maybeConsume('keyword');
     if (keyword != null) {
       if (keyword == 'func' || keyword == 'init' || keyword == 'case') {
+        if (keyword == 'func') {
+          maybeConsume('text');
+
+          if (tokens.isNotEmpty) {
+            final operatorSpelling = getSpellingForKind(
+              tokens[0],
+              'identifier',
+            );
+            if (operatorSpelling != null &&
+                _isSwiftOperator(operatorSpelling)) {
+              isOperator = true;
+              maybeConsume('identifier');
+              maybeConsume('text');
+            }
+          }
+        }
         break;
       } else {
         prefixAnnotations.add(keyword);
@@ -146,6 +211,14 @@ ParsedFunctionInfo parseFunctionInfo(
           if (sep != ':') {
             throw malformedInitializerException;
           }
+        } else if (isOperator) {
+          internalParam = maybeConsume('internalParam');
+          if (internalParam == null) {
+            throw malformedInitializerException;
+          }
+          if (maybeConsume('text') != ':') {
+            throw malformedInitializerException;
+          }
         } else if (!isEnumCase) {
           // Enum cases are allowed to omit both param names. Other param lists
           // must at least specify the external name.
@@ -156,7 +229,7 @@ ParsedFunctionInfo parseFunctionInfo(
 
         parameters.add(
           Parameter(
-            name: externalParam ?? '',
+            name: externalParam ?? internalParam ?? '',
             internalName: internalParam,
             type: type,
           ),
@@ -188,6 +261,7 @@ ParsedFunctionInfo parseFunctionInfo(
     throws: annotations.contains('throws'),
     async: annotations.contains('async'),
     mutating: prefixAnnotations.contains('mutating'),
+    isOperator: isOperator,
   );
 }
 

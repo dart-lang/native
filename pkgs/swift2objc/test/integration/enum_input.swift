@@ -31,11 +31,12 @@ public enum Barcode {
 }
 
 // Indirect (recursive) enums.
-public indirect enum ArithmeticExpression {
-    case number(Int)
-    case addition(ArithmeticExpression, ArithmeticExpression)
-    case multiplication(ArithmeticExpression, ArithmeticExpression)
-}
+// TODO(swift2objc): indirect recursive enums are not supported yet.
+// public indirect enum ArithmeticExpression {
+//     case number(Int)
+//     case addition(ArithmeticExpression, ArithmeticExpression)
+//     case multiplication(ArithmeticExpression, ArithmeticExpression)
+// }
 
 // CaseIterable enums.
 public enum Beverage: CaseIterable {
