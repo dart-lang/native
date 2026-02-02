@@ -242,6 +242,10 @@ class ObjCBlockWrapperFuncs extends AstNode {
     visitor.visit(blockingWrapper);
     visitor.visit(objcPkgImport);
   }
+
+  @override
+  void visit(Visitation visitation) =>
+      visitation.visitObjCBlockWrapperFuncs(this);
 }
 
 /// A native trampoline function for a protocol method.
@@ -341,6 +345,10 @@ final $name = $pointer.cast<$cType>().asFunction<$dartType>();
     visitor.visit(type);
     visitor.visit(objcPkgImport);
   }
+
+  @override
+  void visit(Visitation visitation) =>
+      visitation.visitObjCMsgSendVariantFunc(this);
 }
 
 /// A wrapper around the objc_msgSend function, or the stret or fpret variants.
