@@ -92,13 +92,14 @@ import '../validation.dart';
 /// *   **Path and system roots:**
 ///     *   `PATH`: Invoke native tools.
 ///     *   `HOME`, `USERPROFILE`: Find tools in default install locations.
-///     *   `SYSTEMDRIVE`, `SYSTEMROOT`, `WINDIR`: Process invocations and CMake on
-///         Windows.
+///     *   `SYSTEMDRIVE`, `SYSTEMROOT`, `WINDIR`: Process invocations and CMake
+///         on Windows.
 ///     *   `PROGRAMDATA`: For `vswhere.exe` on Windows.
 /// *   **Temporary directories:**
 ///     *   `TEMP`, `TMP`, `TMPDIR`: Temporary directories.
 /// *   **HTTP proxies:**
-///     *   `HTTP_PROXY`, `HTTPS_PROXY`, `NO_PROXY`: Network access behind proxies.
+///     *   `HTTP_PROXY`, `HTTPS_PROXY`, `NO_PROXY`: Network access behind
+///         proxies.
 /// *   **Clang/LLVM:**
 ///     *   `LIBCLANG_PATH`: Rust's `bindgen` + `clang-sys`.
 /// *   **Android NDK:**
@@ -257,13 +258,14 @@ Future<void> build(
 /// *   **Path and system roots:**
 ///     *   `PATH`: Invoke native tools.
 ///     *   `HOME`, `USERPROFILE`: Find tools in default install locations.
-///     *   `SYSTEMDRIVE`, `SYSTEMROOT`, `WINDIR`: Process invocations and CMake on
-///         Windows.
+///     *   `SYSTEMDRIVE`, `SYSTEMROOT`, `WINDIR`: Process invocations and CMake
+///         on Windows.
 ///     *   `PROGRAMDATA`: For `vswhere.exe` on Windows.
 /// *   **Temporary directories:**
 ///     *   `TEMP`, `TMP`, `TMPDIR`: Temporary directories.
 /// *   **HTTP proxies:**
-///     *   `HTTP_PROXY`, `HTTPS_PROXY`, `NO_PROXY`: Network access behind proxies.
+///     *   `HTTP_PROXY`, `HTTPS_PROXY`, `NO_PROXY`: Network access behind
+///         proxies.
 /// *   **Clang/LLVM:**
 ///     *   `LIBCLANG_PATH`: Rust's `bindgen` + `clang-sys`.
 /// *   **Android NDK:**
