@@ -1,3 +1,6 @@
+## 9.3.0
+- `autoReleasePool` now returns the value produced by its callback.
+
 ## 9.2.5
 - Fix a [bug](https://github.com/dart-lang/native/issues/3011) by adding
   minimum OS version flags to the build script.
