@@ -5,7 +5,6 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 
 import '../logging/logging.dart';
@@ -40,7 +39,7 @@ class GradleTools {
 
   static Future<void> _runGradleCommand(
       List<MavenDependency> deps, String targetDir,
-      {String taskName = "copyJars"}) async {
+      {String taskName = 'copyJars'}) async {
     final gradleWrapper = await getGradleWExecutable();
     // Paths in Gradle files on Windows get improperly escaped
     final targetPath = Platform.isWindows
@@ -75,8 +74,8 @@ class GradleTools {
   /// Downloads and unpacks source files of [deps] into [targetDir].
   static Future<void> downloadMavenSources(
       List<MavenDependency> deps, String targetDir) async {
-    await _runGradleCommand(deps, taskName: "downloadSources", targetDir);
-    await _runGradleCommand(deps, taskName: "extractSourceJars", targetDir);
+    await _runGradleCommand(deps, taskName: 'downloadSources', targetDir);
+    await _runGradleCommand(deps, taskName: 'extractSourceJars', targetDir);
   }
 
   static Future<void> createStubProject(Directory rootTempDir) async {
@@ -102,8 +101,8 @@ class GradleTools {
   /// Downloads JAR files of all [deps] transitively into [targetDir].
   static Future<void> downloadMavenJars(
       List<MavenDependency> deps, String targetDir) async {
-    await _runGradleCommand(deps, taskName: "copyJars", targetDir);
-    await _runGradleCommand(deps, taskName: "extractSourceJars", targetDir);
+    await _runGradleCommand(deps, taskName: 'copyJars', targetDir);
+    await _runGradleCommand(deps, taskName: 'extractSourceJars', targetDir);
   }
 
   static String _getStubGradle(List<MavenDependency> deps, String targetDir,
