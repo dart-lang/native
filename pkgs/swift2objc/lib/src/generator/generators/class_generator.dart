@@ -109,7 +109,7 @@ List<String> _generateClassMethods(ClassDeclaration declaration) => [
 List<String> _generateClassMethod(MethodDeclaration method) {
   final header = StringBuffer();
 
-  if (method.hasObjCAnnotation && !method.isOperator) {
+  if (method.hasObjCAnnotation) {
     header.write('@objc ');
   }
 
@@ -122,8 +122,7 @@ List<String> _generateClassMethod(MethodDeclaration method) {
   }
 
   header.write(
-    'public func ${method.name}'
-    '(${generateParameters(method.params, isOperator: method.isOperator)}) ',
+    'public func ${method.name}(${generateParameters(method.params)}) ',
   );
 
   header.write(generateAnnotations(method));

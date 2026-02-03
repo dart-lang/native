@@ -31,19 +31,31 @@ MethodDeclaration? transformMethod(
     return null;
   }
   if (originalMethod.isOperator &&
-      originalMethod.params.any((p) => p.type.sameAs(voidType))) {
+      originalMethod.params.any((p) => p.type.sameAs(selfType))) {
     return null;
   }
+
+  final wrapperMethodName = originalMethod.isOperator
+      ? globalNamer.makeUnique(originalMethod.name)
+      : originalMethod.name;
 
   return _transformFunction(
     originalMethod,
     globalNamer,
     state,
-    wrapperMethodName: originalMethod.name,
+    wrapperMethodName: wrapperMethodName,
     originalCallStatementGenerator: (arguments) {
       final methodSource = originalMethod.isStatic
           ? wrappedClassInstance.type.swiftType
           : wrappedClassInstance.name;
+
+      if (originalMethod.isOperator) {
+        final params = originalMethod.params;
+        return '${params[0].internalName ?? params[0].name}.wrappedInstance '
+            '${originalMethod.name} '
+            '${params[1].internalName ?? params[1].name}.wrappedInstance';
+      }
+
       return '$methodSource.${originalMethod.name}($arguments)';
     },
   );
@@ -115,9 +127,6 @@ MethodDeclaration _transformFunction(
         : true,
     throws: originalFunction.throws,
     async: originalFunction.async,
-    isOperator: originalFunction is MethodDeclaration
-        ? originalFunction.isOperator
-        : false,
   );
 
   transformedMethod.statements = _generateStatements(
@@ -137,9 +146,8 @@ MethodDeclaration _transformFunction(
 String generateInvocationParams(
   UniqueNamer localNamer,
   List<Parameter> originalParams,
-  List<Parameter> transformedParams, {
-  bool isOperator = false,
-}) {
+  List<Parameter> transformedParams,
+) {
   assert(originalParams.length == transformedParams.length);
 
   final argumentsList = <String>[];
@@ -159,7 +167,7 @@ String generateInvocationParams(
     assert(unwrappedType.sameAs(originalParam.type));
 
     argumentsList.add(
-      isOperator || originalParam.name.isEmpty || originalParam.name == '_'
+      originalParam.name.isEmpty || originalParam.name == '_'
           ? unwrappedParamValue
           : '${originalParam.name}: $unwrappedParamValue',
     );
@@ -181,22 +189,9 @@ List<String> _generateStatements(
     localNamer,
     originalFunction.params,
     transformedMethod.params,
-    isOperator: transformedMethod.isOperator,
   );
 
-  String originalMethodCall;
-  if (transformedMethod.isOperator) {
-    final lhs =
-        transformedMethod.params[0].internalName ??
-        transformedMethod.params[0].name;
-    final rhs =
-        transformedMethod.params[1].internalName ??
-        transformedMethod.params[1].name;
-    originalMethodCall =
-        '$lhs.wrappedInstance ${transformedMethod.name} $rhs.wrappedInstance';
-  } else {
-    originalMethodCall = originalCallGenerator(arguments);
-  }
+  var originalMethodCall = originalCallGenerator(arguments);
 
   if (transformedMethod.async) {
     originalMethodCall = 'await $originalMethodCall';

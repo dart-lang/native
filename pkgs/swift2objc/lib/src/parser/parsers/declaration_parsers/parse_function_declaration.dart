@@ -40,11 +40,13 @@ MethodDeclaration parseMethodDeclaration(
   ParsedSymbol symbol,
   ParsedSymbolgraph symbolgraph, {
   bool isStatic = false,
+  bool isOperator = false,
 }) {
   final info = parseFunctionInfo(
     context,
     symbol.json['declarationFragments'],
     symbolgraph,
+    isOperator: isOperator,
   );
   return MethodDeclaration(
     id: parseSymbolId(symbol.json),
@@ -58,7 +60,7 @@ MethodDeclaration parseMethodDeclaration(
     throws: info.throws,
     async: info.async,
     mutating: info.mutating,
-    isOperator: info.isOperator,
+    isOperator: isOperator,
   );
 }
 
@@ -67,60 +69,14 @@ typedef ParsedFunctionInfo = ({
   bool throws,
   bool async,
   bool mutating,
-  bool isOperator,
 });
-
-bool _isSwiftOperator(String text) {
-  const commonOps = {
-    '+',
-    '-',
-    '*',
-    '/',
-    '%',
-    '==',
-    '!=',
-    '<',
-    '>',
-    '<=',
-    '>=',
-    '===',
-    '!==',
-    '!',
-    '&&',
-    '||',
-    '&',
-    '|',
-    '^',
-    '~',
-    '<<',
-    '>>',
-    '=',
-    '+=',
-    '-=',
-    '*=',
-    '/=',
-    '%=',
-    '&=',
-    '|=',
-    '^=',
-    '<<=',
-    '>>=',
-    '??',
-    '?',
-    '...',
-    '..<',
-  };
-
-  if (commonOps.contains(text)) return true;
-
-  return RegExp(r'^[/=\-+!*%<>&|^~?]+$').hasMatch(text);
-}
 
 ParsedFunctionInfo parseFunctionInfo(
   Context context,
   Json declarationFragments,
   ParsedSymbolgraph symbolgraph, {
   bool isEnumCase = false,
+  bool isOperator = false,
 }) {
   // `declarationFragments` describes each part of the function declaration,
   // things like the `func` keyword, brackets, spaces, etc.
@@ -154,7 +110,6 @@ ParsedFunctionInfo parseFunctionInfo(
   }
 
   final prefixAnnotations = <String>{};
-  var isOperator = false;
 
   while (true) {
     final keyword = maybeConsume('keyword');
@@ -164,13 +119,7 @@ ParsedFunctionInfo parseFunctionInfo(
           maybeConsume('text');
 
           if (tokens.isNotEmpty) {
-            final operatorSpelling = getSpellingForKind(
-              tokens[0],
-              'identifier',
-            );
-            if (operatorSpelling != null &&
-                _isSwiftOperator(operatorSpelling)) {
-              isOperator = true;
+            if (isOperator) {
               maybeConsume('identifier');
               maybeConsume('text');
             }
@@ -229,8 +178,8 @@ ParsedFunctionInfo parseFunctionInfo(
 
         parameters.add(
           Parameter(
-            name: externalParam ?? internalParam ?? '',
-            internalName: internalParam,
+            name: isOperator ? (internalParam ?? '') : (externalParam ?? ''),
+            internalName: isOperator ? null : internalParam,
             type: type,
           ),
         );
@@ -261,7 +210,6 @@ ParsedFunctionInfo parseFunctionInfo(
     throws: annotations.contains('throws'),
     async: annotations.contains('async'),
     mutating: prefixAnnotations.contains('mutating'),
-    isOperator: isOperator,
   );
 }
 

@@ -87,6 +87,7 @@ Declaration parseDeclaration(
       parsedSymbol,
       symbolgraph,
       isStatic: true,
+      isOperator: true,
     ),
     'swift.property' => parsePropertyDeclaration(
       context,

@@ -101,7 +101,14 @@ typedef PrefixParselet =
 ) {
   final preciseIdJson = token['preciseIdentifier'];
   if (!preciseIdJson.exists) {
-    return (voidType, fragments);
+    final spelling = token['spelling'].get<String>();
+    if (spelling == 'Self') {
+      return (selfType, fragments);
+    }
+    throw Exception(
+      'Type at "${token.path}" has no preciseIdentifier '
+      'and is not Self: $token',
+    );
   }
   final id = preciseIdJson.get<String>();
   final symbol = symbolgraph.symbols[id];

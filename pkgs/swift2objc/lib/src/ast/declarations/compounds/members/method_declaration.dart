@@ -54,8 +54,7 @@ class MethodDeclaration extends AstNode
   bool isStatic;
 
   bool mutating;
-
-  bool isOperator;
+  bool isOperator = false;
 
   String get fullName => [name, for (final p in params) p.name].join(':');
 

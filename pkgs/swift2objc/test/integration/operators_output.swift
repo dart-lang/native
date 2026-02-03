@@ -31,16 +31,16 @@ import Foundation
     wrappedInstance = Vec2(x: x, y: y)
   }
 
-  static public func +(lhs: Vec2Wrapper, rhs: Vec2Wrapper) -> Vec2Wrapper {
+  @objc static public func add(lhs: Vec2Wrapper, rhs: Vec2Wrapper) -> Vec2Wrapper {
     let result = lhs.wrappedInstance + rhs.wrappedInstance
     return Vec2Wrapper(result)
   }
 
-  static public func ==(lhs: Vec2Wrapper, rhs: Vec2Wrapper) -> Bool {
+  @objc static public func equals(lhs: Vec2Wrapper, rhs: Vec2Wrapper) -> Bool {
     return lhs.wrappedInstance == rhs.wrappedInstance
   }
 
-  static public func ***(lhs: Vec2Wrapper, rhs: Vec2Wrapper) -> Double {
+  @objc static public func operator915183631(lhs: Vec2Wrapper, rhs: Vec2Wrapper) -> Double {
     return lhs.wrappedInstance *** rhs.wrappedInstance
   }
 

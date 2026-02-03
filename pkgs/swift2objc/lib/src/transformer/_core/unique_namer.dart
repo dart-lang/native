@@ -6,34 +6,59 @@ import '../../ast/_core/interfaces/compound_declaration.dart';
 
 class UniqueNamer {
   final Set<String> _usedNames;
-  static const _operatorNames = {
+  final Map<String, String> operatorNames = {
     '+': 'add',
     '-': 'subtract',
     '*': 'multiply',
     '/': 'divide',
-    '++': 'increment',
-    '--': 'decrement',
-    '=': 'assign',
+    '%': 'modulo',
+
     '==': 'equals',
     '!=': 'notEquals',
-    '>': 'greaterThan',
-    '>=': 'greaterThanOrEquals',
+    '===': 'strictEquals',
+    '!==': 'strictNotEquals',
+
     '<': 'lessThan',
     '<=': 'lessThanOrEquals',
+    '>': 'greaterThan',
+    '>=': 'greaterThanOrEquals',
+
     '!': 'not',
+    '&&': 'logicalAnd',
+    '||': 'logicalOr',
+
     '&': 'and',
     '|': 'or',
     '^': 'xor',
-    '%': 'modulo',
-    '?': 'question',
-    '.': 'dot',
+    '~': 'bitwiseNot',
+
     '<<': 'shiftLeft',
     '>>': 'shiftRight',
+
+    '=': 'assign',
     '+=': 'addAssign',
-    '-=': 'subAssign',
-    '*=': 'mulAssign',
-    '/=': 'divAssign',
+    '-=': 'subtractAssign',
+    '*=': 'multiplyAssign',
+    '/=': 'divideAssign',
+    '%=': 'moduloAssign',
+    '&=': 'andAssign',
+    '|=': 'orAssign',
+    '^=': 'xorAssign',
+    '<<=': 'shiftLeftAssign',
+    '>>=': 'shiftRightAssign',
+
+    '++': 'increment',
+    '--': 'decrement',
+
+    '??': 'nilCoalescing',
+    '?': 'question',
+
+    '...': 'closedRange',
+    '..<': 'halfOpenRange',
+
+    '.': 'dot',
   };
+
   UniqueNamer([Iterable<String> usedNames = const <String>[]])
     : _usedNames = usedNames.toSet();
 
@@ -66,10 +91,10 @@ class UniqueNamer {
   String _sanitize(String name) {
     if (name.isEmpty) return 'unnamed';
 
-    if (_operatorNames.containsKey(name)) {
-      return _operatorNames[name]!;
+    if (operatorNames.containsKey(name)) {
+      return operatorNames[name]!;
     }
 
-    return RegExp(r'\W').hasMatch(name) ? 'operator' : name;
+    return RegExp(r'\W').hasMatch(name) ? 'operator${name.hashCode}' : name;
   }
 }
