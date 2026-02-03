@@ -228,7 +228,11 @@ const _noCheckException = {
   'GetObjectRefType',
 };
 
-/// Functions that can accept null parameters and should skip null checks.
+/// Functions that accept null per the JNI specification:
+/// - IsSameObject: https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/functions.html#IsSameObject
+/// - DeleteLocalRef: https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/functions.html#DeleteLocalRef
+/// - DeleteGlobalRef: https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/functions.html#DeleteGlobalRef
+/// - DeleteWeakGlobalRef: https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/functions.html#DeleteWeakGlobalRef
 const _nullSafeFunctions = {
   'IsSameObject',
   'DeleteGlobalRef',
@@ -271,8 +275,7 @@ String generateNullChecks(
       checks.writeln(
           '    jclass nullPointerClass = (*jniEnv)->FindClass(jniEnv, "java/lang/NullPointerException");');
       checks.writeln('    if (nullPointerClass != NULL) {');
-      checks.writeln(
-          '      (*jniEnv)->ThrowNew(jniEnv, nullPointerClass, '
+      checks.writeln('      (*jniEnv)->ThrowNew(jniEnv, nullPointerClass, '
           '"Parameter ${param.name} is null");');
       checks.writeln(
           '      (*jniEnv)->DeleteLocalRef(jniEnv, nullPointerClass);');
