@@ -63,7 +63,6 @@ class GradleTools {
     ];
     await _runCmd(gradleWrapper!.toFilePath(), gradleArgs);
     await Directory(tempDir.path).delete(recursive: true);
-
   }
 
   /// Create a list of [MavenDependency] objects from maven coordinates in
