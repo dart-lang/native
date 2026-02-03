@@ -6,14 +6,21 @@
       "value": "42"
     },
     {
+      "type": "string",
+      "value": "h"
+    },
+    {
       "type": "bool",
       "value": false
     },
     {
       "type": "map",
-      "value": {
-        "h": 1
-      }
+      "value": [
+        {
+          "key": 1,
+          "value": 2
+        }
+      ]
     },
     {
       "type": "null"
@@ -25,13 +32,13 @@
     {
       "type": "instance",
       "value": {
-        "i": 4
+        "i": 5
       }
     },
     {
       "type": "list",
       "value": [
-        4
+        5
       ]
     }
   ],
@@ -54,17 +61,17 @@
           "loading_unit": "1",
           "named": {
             "a": 0,
-            "b": 1,
-            "c": 4
+            "b": 2,
+            "c": 5
           },
           "positional": [
             0,
-            2,
             3,
-            null,
             4,
+            null,
             5,
-            6
+            6,
+            7
           ],
           "type": "with_arguments"
         }
@@ -89,7 +96,7 @@
       "instances": [
         {
           "@": 0,
-          "constant_index": 5,
+          "constant_index": 6,
           "loading_unit": "1"
         }
       ]
