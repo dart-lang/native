@@ -565,5 +565,68 @@ kotlin.Unit
             consumeOnAnotherThread(itf), throwsA(isA<JniException>()));
       });
     });
+
+    group('Default parameters', () {
+      test('DefaultParams - no-arg constructor', () {
+        using((arena) {
+          final obj = DefaultParams.new$2()..releasedBy(arena);
+          expect(
+              obj.greet().toDartString(releaseOriginal: true), 'x=42, y=hello');
+        });
+      });
+
+      test('DefaultParams - constructor with explicit arguments', () {
+        using((arena) {
+          final obj = DefaultParams(100, 'world'.toJString()..releasedBy(arena))
+            ..releasedBy(arena);
+          expect(obj.greet().toDartString(releaseOriginal: true),
+              'x=100, y=world');
+        });
+      });
+
+      test('MixedParams - required and optional parameters', () {
+        using((arena) {
+          // Both parameters provided
+          final obj = MixedParams('test'.toJString()..releasedBy(arena), 200)
+            ..releasedBy(arena);
+          expect(obj.describe().toDartString(releaseOriginal: true),
+              'required=test, optional=200');
+        });
+      });
+
+      test('AllDefaults - no-arg constructor', () {
+        using((arena) {
+          final obj = AllDefaults.new$2()..releasedBy(arena);
+          expect(obj.summary().toDartString(releaseOriginal: true),
+              'a=1, b=two, c=true');
+        });
+      });
+
+      test('AllDefaults - constructor with explicit arguments', () {
+        using((arena) {
+          final obj = AllDefaults(
+            42,
+            'forty-two'.toJString()..releasedBy(arena),
+            false,
+          )..releasedBy(arena);
+          expect(obj.summary().toDartString(releaseOriginal: true),
+              'a=42, b=forty-two, c=false');
+        });
+      });
+
+      test('No DefaultConstructorMarker in generated API', () {
+        // This is a compile-time check - if DefaultConstructorMarker
+        // parameter is exposed in constructors that should use defaults,
+        // it would require passing it explicitly, breaking the API.
+        // By successfully instantiating these classes using simple constructors,
+        // we prove the synthetic parameter is correctly handled internally.
+        using((arena) {
+          DefaultParams.new$2()..releasedBy(arena);
+          MixedParams('test'.toJString()..releasedBy(arena), 123)
+            ..releasedBy(arena);
+          AllDefaults.new$2()..releasedBy(arena);
+        });
+      });
+    });
   });
 }
