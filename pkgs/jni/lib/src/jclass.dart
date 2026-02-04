@@ -156,16 +156,12 @@ extension type JConstructorId._fromPointer(JMethodIDPtr pointer) {
         });
 
   /// Constructs an instance of [jClass] with the given arguments.
-  DartT call<DartT>(JClass jClass, List<dynamic> args) {
+  DartT call<JavaT, DartT>(JClass jClass,
+      JConstructable<JavaT, DartT> returnType, List<dynamic> args) {
     return using((arena) {
       final jClassRef = jClass.reference;
-      return JObject.fromReference(
-        JGlobalReference(Jni.env.NewObjectA(
-          jClassRef.pointer,
-          this as JMethodIDPtr,
-          toJValues(args, allocator: arena),
-        )),
-      ) as DartT;
+      return returnType._newObject(jClassRef.pointer, this as JMethodIDPtr,
+          toJValues(args, allocator: arena));
     });
   }
 }

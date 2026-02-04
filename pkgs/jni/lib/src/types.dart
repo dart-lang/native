@@ -41,11 +41,8 @@ mixin JAccessible<JavaT, DartT> on JTypeBase<JavaT> {
 
 class JType<T extends JObject?> extends JTypeBase<T>
     with JCallable<T, T>, JAccessible<T, T> {
-  @override
-  final String signature;
-
   @internal
-  const JType(this.signature);
+  const JType();
 
   JClass get jClass {
     return JClass.forName(signature);
@@ -87,3 +84,5 @@ class JType<T extends JObject?> extends JTypeBase<T>
     Jni.env.SetStaticObjectField(clazz, fieldID, valRef.pointer);
   }
 }
+
+typedef $JObject$Type$ = JType<JObject>;

@@ -677,10 +677,13 @@ class _TypeGenerator extends TypeVisitor<String> {
     if (node.name == 'void') {
       return 'void';
     }
+    if (boxPrimitives) {
+      return '$_jni.J${node.boxedName}';
+    }
     if (node.name == 'boolean') {
       return '$_core.${node.dartType}';
     }
-    return boxPrimitives ? '$_jni.J${node.boxedName}' : node.dartType;
+    return  node.dartType;
   }
 
   @override
@@ -940,8 +943,7 @@ ${modifier}final _id_$name =
     if (node.type is PrimitiveType) {
       typeClass = node.type.accept(_TypeClassGenerator(resolver));
     } else {
-      typeClass = 'const $_jObjectTypePrefix'
-          '${node.isNullable ? 'NullableType\$' : 'Type\$'}()';
+      typeClass = 'const ${_jObjectTypePrefix}Type\$()';
     }
     return '_id_$name.get($self, $typeClass)';
   }
@@ -953,8 +955,7 @@ ${modifier}final _id_$name =
     if (node.type is PrimitiveType) {
       typeClass = node.type.accept(_TypeClassGenerator(resolver));
     } else {
-      typeClass = 'const $_jObjectTypePrefix'
-          '${node.isNullable ? 'NullableType\$' : 'Type\$'}()';
+      typeClass = 'const ${_jObjectTypePrefix}Type\$()';
     }
     return '_id_$name.set($self, $typeClass, value)';
   }
