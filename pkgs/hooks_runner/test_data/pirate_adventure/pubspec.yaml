@@ -1,0 +1,16 @@
+name: pirate_adventure
+description: Test application for record_use filtering using pirate_speak and pirate_technology.
+version: 1.0.0
+
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.9.0 <4.0.0'
+
+dependencies:
+  pirate_speak:
+    path: ../pirate_speak
+  pirate_technology:
+    path: ../pirate_technology
