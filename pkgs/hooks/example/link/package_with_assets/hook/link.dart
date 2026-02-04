@@ -11,18 +11,31 @@ import 'package:data_assets/data_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:record_use/record_use.dart';
 
-const multiplyIdentifier = Identifier(
+const someMethodIdentifier = Identifier(
   importUri: 'package:package_with_assets/package_with_assets.dart',
-  name: 'AssetUsed',
+  name: 'someMethod',
 );
+
+const someOtherMethodIdentifier = Identifier(
+  importUri: 'package:package_with_assets/package_with_assets.dart',
+  name: 'someOtherMethod',
+);
+
+final assetMapping = {
+  someMethodIdentifier: 'assets/used_asset.json',
+  someOtherMethodIdentifier: 'assets/unused_asset.json',
+};
 
 void main(List<String> args) async {
   await link(args, (input, output) async {
     final usages = input.usages;
 
-    final usedAssets = usages
-        .constantsOf(multiplyIdentifier)
-        .map((e) => e['assetName'] as String);
+    final usedAssets = [
+      for (final entry in assetMapping.entries)
+        if (usages.constArgumentsFor(entry.key).isNotEmpty ||
+            usages.hasNonConstArguments(entry.key))
+          entry.value,
+    ];
 
     output.assets.data.addAll(
       input.assets.data.where(

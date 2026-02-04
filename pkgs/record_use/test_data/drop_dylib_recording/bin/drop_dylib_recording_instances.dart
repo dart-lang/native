@@ -5,5 +5,5 @@
 import 'package:drop_dylib_recording/drop_dylib_recording.dart';
 
 void main(List<String> arguments) {
-  print('Hello world: ${MyMath.double(3)}!');
+  print('Hello world: ${const Double(3).run()}!');
 }
