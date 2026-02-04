@@ -46,17 +46,21 @@ void main(List<String> arguments) async {
       }
     }
 
-    // Tree-shake unused assets
-    final instances = usages.constantsOf(
-      Identifier(
-        importUri: 'package:${input.packageName}/src/${input.packageName}.dart',
-        name: 'RecordCallToC',
-      ),
-    );
-    for (final instance in instances) {
-      final symbol = instance['symbol'] as String;
-      print('An instance of "$instance" was found with the field "$symbol"');
-      symbols.add(symbol);
+    // Tree-shake unused assets using instances
+    for (final className in ['Double', 'Square']) {
+      final instances = usages.constantsOf(
+        Identifier(
+          importUri:
+              'package:${input.packageName}/src/${input.packageName}.dart',
+          name: className,
+        ),
+      );
+      print('Checking instances of $className...');
+      for (final instance in instances) {
+        print('An instance of "$className" was found: $instance');
+        // Map class name to asset symbol (lowercase)
+        symbols.add(className.toLowerCase());
+      }
     }
 
     final neededCodeAssets = [
