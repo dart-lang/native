@@ -8,7 +8,7 @@ import 'package:yaml_edit/yaml_edit.dart';
 
 import '../code_generator.dart';
 import '../code_generator/utils.dart';
-import '../config_provider/config_types.dart';
+import '../config_provider/config.dart';
 import '../context.dart';
 
 import 'writer.dart';
@@ -27,23 +27,25 @@ class Library {
     required List<Binding> bindings,
     required Context context,
   }) => Library(
-    name: context.config.wrapperName,
-    description: context.config.wrapperDocComment,
+    description: switch (context.config.output.style) {
+      final DynamicLibraryBindings e => e.wrapperDocComment,
+      _ => null,
+    },
     bindings: bindings,
-    header: context.config.preamble,
+    header: context.config.output.preamble,
     generateForPackageObjectiveC:
         // ignore: deprecated_member_use_from_same_package
         context.config.objectiveC?.generateForPackageObjectiveC ?? false,
-    libraryImports: context.config.libraryImports.values.toList(),
+    // ignore: deprecated_member_use_from_same_package
+    libraryImports: context.config.libraryImports,
     silenceEnumWarning: context.config.enums.silenceWarning,
-    nativeEntryPoints: context.config.entryPoints
+    nativeEntryPoints: context.config.headers.entryPoints
         .map((uri) => uri.toFilePath())
         .toList(),
     context: context,
   );
 
   factory Library({
-    required String name,
     String? description,
     required List<Binding> bindings,
     String? header,
@@ -56,13 +58,18 @@ class Library {
     // Seperate bindings which require lookup.
     final lookupBindings = <LookUpBinding>[];
     final nativeBindings = <LookUpBinding>[];
-    FfiNativeConfig? nativeConfig;
+    String? nativeAssetId;
+
+    final outputStyle = context.config.output.style;
+    final outputStyleAssetId = outputStyle is NativeExternalBindings
+        ? outputStyle.assetId
+        : null;
 
     for (final binding in bindings.whereType<LookUpBinding>()) {
       final loadFromNativeAsset = binding.loadFromNativeAsset;
 
       // At the moment, all bindings share their native config.
-      if (loadFromNativeAsset) nativeConfig = context.config.ffiNativeConfig;
+      if (loadFromNativeAsset) nativeAssetId = outputStyleAssetId;
 
       (loadFromNativeAsset ? nativeBindings : lookupBindings).add(binding);
     }
@@ -71,7 +78,7 @@ class Library {
     final writer = Writer(
       lookUpBindings: lookupBindings,
       ffiNativeBindings: nativeBindings,
-      nativeAssetId: nativeConfig?.assetId,
+      nativeAssetId: nativeAssetId,
       noLookUpBindings: noLookUpBindings,
       classDocComment: description,
       header: header,

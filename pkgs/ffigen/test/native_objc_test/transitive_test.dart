@@ -53,6 +53,7 @@ String generate({
           'DirectlyIncluded',
           'DirectlyIncludedWithProtocol',
           'DirectlyIncludedIntForCat',
+          'Bug2935DirectInterface',
         }.contains(decl.originalName),
         includeTransitive: includeTransitiveObjCInterfaces,
       ),
@@ -67,7 +68,7 @@ String generate({
         includeTransitive: includeTransitiveObjCCategories,
       ),
     ),
-  ).generate(logger: Logger.root..level = Level.SEVERE);
+  ).generate(logger: createTestLogger());
   return File(
     path.join(
       packagePathForTests,
@@ -141,6 +142,9 @@ void main() {
         expect(incItf('NotIncludedSuperType'), Inclusion.omitted);
         expect(incItf('NotIncludedTransitive'), Inclusion.omitted);
         expect(incItf('NotIncludedSuperType'), Inclusion.omitted);
+        expect(incItf('Bug2935DirectInterface'), Inclusion.included);
+        expect(incItf('Bug2935TransitiveInterface'), Inclusion.included);
+        expect(incItf('Bug2935TransitiveBlockInterface'), Inclusion.included);
 
         expect(bindings.contains('doubleMethod'), isTrue);
         expect(bindings.contains('transitiveSuperMethod'), isTrue);
@@ -153,6 +157,12 @@ void main() {
         expect(bindings.contains('notIncludedSuperMethod'), isFalse);
         expect(bindings.contains('notIncludedTransitiveMethod'), isFalse);
         expect(bindings.contains('notIncludedMethod'), isFalse);
+        expect(bindings.contains('bug2935DirectInterfaceMethod'), isTrue);
+        expect(bindings.contains('bug2935TransitiveInterfaceMethod'), isTrue);
+        expect(
+          bindings.contains('bug2935TransitiveBlockInterfaceMethod'),
+          isTrue,
+        );
       });
 
       test('stubbed', () {
@@ -169,6 +179,9 @@ void main() {
         expect(incItf('NotIncludedSuperType'), Inclusion.omitted);
         expect(incItf('NotIncludedTransitive'), Inclusion.omitted);
         expect(incItf('NotIncludedSuperType'), Inclusion.omitted);
+        expect(incItf('Bug2935DirectInterface'), Inclusion.included);
+        expect(incItf('Bug2935TransitiveInterface'), Inclusion.stubbed);
+        expect(incItf('Bug2935TransitiveBlockInterface'), Inclusion.omitted);
 
         expect(bindings.contains('doubleMethod'), isFalse);
         expect(bindings.contains('transitiveSuperMethod'), isFalse);
@@ -181,6 +194,12 @@ void main() {
         expect(bindings.contains('notIncludedSuperMethod'), isFalse);
         expect(bindings.contains('notIncludedTransitiveMethod'), isFalse);
         expect(bindings.contains('notIncludedMethod'), isFalse);
+        expect(bindings.contains('bug2935DirectInterfaceMethod'), isTrue);
+        expect(bindings.contains('bug2935TransitiveInterfaceMethod'), isFalse);
+        expect(
+          bindings.contains('bug2935TransitiveBlockInterfaceMethod'),
+          isFalse,
+        );
       });
     });
 
@@ -203,6 +222,7 @@ void main() {
         expect(incProto('SuperFromInterfaceProtocol'), Inclusion.included);
         expect(incProto('TransitiveFromInterfaceProtocol'), Inclusion.included);
         expect(incItf('DirectlyIncludedWithProtocol'), Inclusion.included);
+        expect(incProto('Bug2935TransitiveProtocol'), Inclusion.included);
 
         expect(bindings.contains('doubleProtoMethod'), isTrue);
         expect(bindings.contains('transitiveSuperProtoMethod'), isTrue);
@@ -219,6 +239,7 @@ void main() {
         expect(bindings.contains('superFromInterfaceProtoMethod'), isTrue);
         expect(bindings.contains('transitiveFromInterfaceProtoMethod'), isTrue);
         expect(bindings.contains('directlyIncludedWithProtoMethod'), isTrue);
+        expect(bindings.contains('bug2935TransitiveProtocolMethod'), isTrue);
       });
 
       test('not included', () {
@@ -239,6 +260,7 @@ void main() {
         expect(incProto('SuperFromInterfaceProtocol'), Inclusion.stubbed);
         expect(incProto('TransitiveFromInterfaceProtocol'), Inclusion.stubbed);
         expect(incItf('DirectlyIncludedWithProtocol'), Inclusion.included);
+        expect(incProto('Bug2935TransitiveProtocol'), Inclusion.stubbed);
 
         expect(bindings.contains('doubleProtoMethod'), isFalse);
         expect(bindings.contains('transitiveSuperProtoMethod'), isFalse);
@@ -258,6 +280,7 @@ void main() {
           isFalse,
         );
         expect(bindings.contains('directlyIncludedWithProtoMethod'), isTrue);
+        expect(bindings.contains('bug2935TransitiveProtocolMethod'), isFalse);
       });
     });
 

@@ -140,7 +140,19 @@ class JObject {
   bool get isReleased => reference.isReleased;
 
   /// Registers this object to be released at the end of [arena]'s lifetime.
-  void releasedBy(Arena arena) => arena.onReleaseAll(release);
+  void releasedBy(Arena arena) {
+    assert(() {
+      if (Jni.captureStackTraceOnRelease && reference is JGlobalReference) {
+        (reference as JGlobalReference).registeredInArena();
+      }
+      return true;
+    }());
+    arena.onReleaseAll(() {
+      if (!isReleased) {
+        release();
+      }
+    });
+  }
 }
 
 extension JObjectUseExtension<T extends JObject?> on T {

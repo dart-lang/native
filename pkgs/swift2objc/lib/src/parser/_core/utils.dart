@@ -121,6 +121,20 @@ extension Deduper<T> on Iterable<T> {
       <K, T>{for (final t in this) id(t): t}.values;
 }
 
+extension Remover<T> on List<T> {
+  List<U> removeWhereType<U>() {
+    final removed = <U>[];
+    removeWhere((t) {
+      if (t is U) {
+        removed.add(t);
+        return true;
+      }
+      return false;
+    });
+    return removed;
+  }
+}
+
 ReferredType parseTypeAfterSeparator(
   Context context,
   TokenList fragments,

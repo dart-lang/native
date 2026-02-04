@@ -26,7 +26,7 @@ void main() {
       appleClang,
       minimumVersion: Version(12, 0, 0, pre: '0'),
     );
-    final resolved = await appleClang.defaultResolver!.resolve(logger: logger);
+    final resolved = await appleClang.defaultResolver!.resolve(systemContext);
     expect(resolved.isNotEmpty, true);
     final satisfied = requirement.satisfy(resolved);
     expect(satisfied?.length, 1);
@@ -34,7 +34,7 @@ void main() {
 
   test('ar test', () async {
     final requirement = ToolRequirement(appleAr);
-    final resolved = await appleAr.defaultResolver!.resolve(logger: logger);
+    final resolved = await appleAr.defaultResolver!.resolve(systemContext);
     expect(resolved.isNotEmpty, true);
     final satisfied = requirement.satisfy(resolved);
     expect(satisfied?.length, 1);
@@ -42,7 +42,7 @@ void main() {
 
   test('ld test', () async {
     final requirement = ToolRequirement(appleLd);
-    final resolved = await appleLd.defaultResolver!.resolve(logger: logger);
+    final resolved = await appleLd.defaultResolver!.resolve(systemContext);
     expect(resolved.isNotEmpty, true);
     final satisfied = requirement.satisfy(resolved);
     expect(satisfied?.length, 1);
@@ -50,7 +50,7 @@ void main() {
 
   test('otool test', () async {
     final requirement = ToolRequirement(otool);
-    final resolved = await otool.defaultResolver!.resolve(logger: logger);
+    final resolved = await otool.defaultResolver!.resolve(systemContext);
     expect(resolved.isNotEmpty, true);
     final satisfied = requirement.satisfy(resolved);
     expect(satisfied?.length, 1);

@@ -15,7 +15,10 @@ void main() {
   group('no_cursor_definition_warn_test', () {
     setUpAll(() {
       final logArr = <String>[];
-      final logger = logToArray(logArr, Level.WARNING);
+      final logger = createTestLogger(
+        capturedMessages: logArr,
+        level: Level.WARNING,
+      );
       final config = testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Warn for no cursor definition.'

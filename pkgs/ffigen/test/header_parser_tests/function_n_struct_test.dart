@@ -6,7 +6,6 @@ import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/header_parser/parser.dart' as parser;
 import 'package:ffigen/src/strings.dart' as strings;
-import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -16,7 +15,6 @@ late Library actual, expected;
 void main() {
   group('function_n_struct_test', () {
     setUpAll(() {
-      logWarnings(Level.SEVERE);
       expected = expectedLibrary();
       actual = parser.parse(
         testContext(
@@ -111,7 +109,6 @@ Library expectedLibrary() {
   final struct3 = Struct(context: context, name: 'Struct3');
   return Library(
     context: context,
-    name: 'Bindings',
     bindings: parser.transformBindings([
       struct1,
       struct2,

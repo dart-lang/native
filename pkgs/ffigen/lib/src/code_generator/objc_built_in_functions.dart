@@ -2,7 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:path/path.dart' as path;
+
 import '../code_generator.dart';
+import '../config_provider.dart';
 import '../context.dart';
 import '../visitor/ast.dart';
 
@@ -14,15 +17,12 @@ import 'writer.dart';
 
 /// Built in functions used by the Objective C bindings.
 class ObjCBuiltInFunctions {
-  ObjCBuiltInFunctions(
-    this.context,
-    this.wrapperName,
-    this.generateForPackageObjectiveC,
-  );
+  ObjCBuiltInFunctions(this.context, this.generateForPackageObjectiveC)
+    : libraryId = _libraryIdFromConfigHash(context.config);
 
   final Context context;
-  final String wrapperName;
   final bool generateForPackageObjectiveC;
+  final String libraryId;
 
   static const registerName = ObjCImport('registerName');
   static const getClass = ObjCImport('getClass');
@@ -149,9 +149,9 @@ class ObjCBuiltInFunctions {
   ObjCBlockWrapperFuncs? getBlockTrampolines(ObjCBlock block) {
     final (id, idHash) = _methodSigId(block.returnType, block.params);
     return _blockTrampolines[id] ??= ObjCBlockWrapperFuncs(
-      _blockTrampolineFunc('_${wrapperName}_wrapListenerBlock_$idHash'),
+      _blockTrampolineFunc('_${libraryId}_wrapListenerBlock_$idHash'),
       _blockTrampolineFunc(
-        '_${wrapperName}_wrapBlockingBlock_$idHash',
+        '_${libraryId}_wrapBlockingBlock_$idHash',
         blocking: true,
       ),
     );
@@ -191,7 +191,7 @@ class ObjCBuiltInFunctions {
     final (id, idHash) = _methodSigId(block.returnType, block.params);
     return _protocolTrampolines[id] ??= ObjCProtocolMethodTrampoline(
       Func(
-        name: '_${wrapperName}_protocolTrampoline_$idHash',
+        name: '_${libraryId}_protocolTrampoline_$idHash',
         returnType: block.returnType,
         parameters: [
           Parameter(
@@ -215,6 +215,16 @@ class ObjCBuiltInFunctions {
     final baseType = type.typealiasType;
     return baseType is ObjCNullable && baseType.child is ObjCInstanceType;
   }
+
+  // A unique (but not human readable) ID for the generated library based on
+  // a hash of parts of the config.
+  static String _libraryIdFromConfigHash(Config config) => fnvHash32(
+    [
+      ...config.headers.entryPoints,
+      config.output.dartFile,
+      config.output.objCFile,
+    ].map((uri) => path.basename(uri.toFilePath())).join('\n'),
+  ).toRadixString(36);
 }
 
 /// A native trampoline function for a listener block.
@@ -232,6 +242,10 @@ class ObjCBlockWrapperFuncs extends AstNode {
     visitor.visit(blockingWrapper);
     visitor.visit(objcPkgImport);
   }
+
+  @override
+  void visit(Visitation visitation) =>
+      visitation.visitObjCBlockWrapperFuncs(this);
 }
 
 /// A native trampoline function for a protocol method.
@@ -331,6 +345,10 @@ final $name = $pointer.cast<$cType>().asFunction<$dartType>();
     visitor.visit(type);
     visitor.visit(objcPkgImport);
   }
+
+  @override
+  void visit(Visitation visitation) =>
+      visitation.visitObjCMsgSendVariantFunc(this);
 }
 
 /// A wrapper around the objc_msgSend function, or the stret or fpret variants.
@@ -442,7 +460,7 @@ class ObjCMsgSendFunc extends AstNode with HasLocalScope {
     Iterable<String> params, {
     String? structRetPtr,
   }) {
-    return '''$name(${[if (structRetPtr != null) structRetPtr, target, sel, ...params].join(', ')})''';
+    return '''$name(${[?structRetPtr, target, sel, ...params].join(', ')})''';
   }
 
   @override

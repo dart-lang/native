@@ -29,6 +29,7 @@ void main(List<String> arguments) {
     Directory.fromUri(packageUri.resolve('../code_assets/')),
     Directory.fromUri(packageUri.resolve('../data_assets/')),
     Directory.fromUri(packageUri.resolve('../pub_formats/')),
+    Directory.fromUri(packageUri.resolve('../record_use/')),
   ];
   for (final directory in directories) {
     final result = processDirectory(directory);
@@ -62,7 +63,12 @@ ProcessDirectoryResult processDirectory(Directory directory) {
   for (final entity in entities) {
     if (entity is File &&
         p.extension(entity.path) == '.json' &&
-        !entity.path.contains('.dart_tool/')) {
+        // Don't sort non-source files.
+        !entity.uri.toFilePath(windows: false).contains('.dart_tool/') &&
+        // Don't sort recorded uses files, they have ordered arrays.
+        !entity.uri
+            .toFilePath(windows: false)
+            .contains('pkgs/record_use/test_data/json')) {
       processedCount++;
       if (processFile(entity)) {
         changedCount += 1;
@@ -212,15 +218,8 @@ dynamic sortJson(dynamic data, String filePath) {
     return sortedMap;
   }
   if (data is List) {
-    return data.map((item) => sortJson(item, filePath)).toList()..sort((a, b) {
-      if (a is Map && b is Map) {
-        return compareMaps(a, b);
-      }
-      if (a is String && b is String) {
-        return a.compareTo(b);
-      }
-      throw UnimplementedError('Not implemented to compare $a and $b.');
-    });
+    return data.map((item) => sortJson(item, filePath)).toList()
+      ..sort(_compareTwoItems);
   }
   return data;
 }
@@ -229,14 +228,26 @@ int _compareTwoItems(dynamic a, dynamic b) {
   if (a is Map && b is Map) {
     return compareMaps(a, b);
   }
-  if (a is String && b is String) {
-    return a.compareTo(b);
-  }
   if (a is List && b is List) {
     return compareLists(a, b);
   }
+  if (a is String && b is String) {
+    return a.compareTo(b);
+  }
   if (a is int && b is int) {
     return a.compareTo(b);
+  }
+  if (a == b) {
+    return 0;
+  }
+  if (a is bool && b is bool) {
+    return a ? 1 : -1;
+  }
+  if (a == null && b != null) {
+    return -1;
+  }
+  if (b == null && a != null) {
+    return 1;
   }
   throw UnimplementedError('Not implemented to compare $a and $b.');
 }

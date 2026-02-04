@@ -1,3 +1,13 @@
+## 0.15.1-wip
+
+- Add docs about debugging.
+- Add support for Kotlin interfaces with suspend functions. These can now be
+  implemented using Dart functions that return a `Future`.
+- Namespace primitive types to avoid collisions with generated API names, eg
+  `bool`.
+- Kotlin suspend functions with no result (a return type of `Unit`) now return
+  `Future<void>` in Dart instead of `Future<JObject>`.
+
 ## 0.15.0
 
 - Changed the names of internal type classes.

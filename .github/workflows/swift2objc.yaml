@@ -3,13 +3,13 @@ name: swift2objc
 on:
   # Run on PRs and pushes to the default branch.
   push:
-    branches: [main, stable]
+    branches: [main]
     paths:
       - '.github/workflows/swift2objc.yaml'
       - 'pkgs/native_test_helpers/**'
       - 'pkgs/swift2objc/**'
   pull_request:
-    branches: [main, stable]
+    branches: [main]
     paths:
       - '.github/workflows/swift2objc.yaml'
       - 'pkgs/native_test_helpers/**'
@@ -30,7 +30,7 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
       - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
           sdk: stable
@@ -51,7 +51,7 @@ jobs:
       run:
         working-directory: pkgs/swift2objc/
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
       - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
           sdk: stable
@@ -62,14 +62,14 @@ jobs:
       - name: Run VM tests and collect coverage
         run: dart pub global run coverage:test_with_coverage --scope-output=swift2objc
       - name: Upload coverage
-        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
         with:
           flag-name: swift2objc
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: pkgs/swift2objc/coverage/lcov.info
       - name: Upload coverage
-        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
         with:
           carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen"
           github-token: ${{ secrets.GITHUB_TOKEN }}

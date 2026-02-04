@@ -19,16 +19,6 @@ void main() {
 
   group('method calls', () {
     setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open(
-        path.join(
-          packagePathForTests,
-          '..',
-          'objective_c',
-          'test',
-          'objective_c.dylib',
-        ),
-      );
       final dylib = File(
         path.join(
           packagePathForTests,
@@ -37,10 +27,10 @@ void main() {
           'objc_test.dylib',
         ),
       );
-      // verifySetupFile(dylib);
+      verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       testInstance = MethodInterface();
-      // generateBindingsForCoverage('method');
+      generateBindingsForCoverage('method');
     });
 
     group('Instance methods', () {

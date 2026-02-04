@@ -18,7 +18,6 @@ final macroPrefix = 'mmm';
 void main() {
   group('rename_test', () {
     setUpAll(() {
-      logWarnings();
       final context = testContext(
         testConfig('''
 ${strings.name}: 'NativeLibrary'
@@ -210,7 +209,6 @@ Library expectedLibrary() {
   );
   return Library(
     context: context,
-    name: 'Bindings',
     bindings: [
       Func(
         name: '${functionPrefix}func1',

@@ -6,20 +6,11 @@
 @TestOn('mac-os')
 library;
 
-import 'dart:ffi';
-
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 
-import 'util.dart';
-
 void main() {
   group('NSMutableDictionary', () {
-    setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open(testDylib);
-    });
-
     test('of', () {
       final obj1 = 'obj1'.toNSString();
       final obj2 = 'obj2'.toNSString();

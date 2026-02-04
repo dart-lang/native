@@ -28,57 +28,27 @@ class NativeLibrary {
   late final _Function1Bool =
       _Function1BoolPtr.asFunction<bool Function(bool)>();
 
-  int Function1Uint8(int x) {
-    return _Function1Uint8(x);
+  double Function1Double(double x) {
+    return _Function1Double(x);
   }
 
-  late final _Function1Uint8Ptr =
-      _lookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Uint8)>>(
-        'Function1Uint8',
+  late final _Function1DoublePtr =
+      _lookup<ffi.NativeFunction<ffi.Double Function(ffi.Double)>>(
+        'Function1Double',
       );
-  late final _Function1Uint8 =
-      _Function1Uint8Ptr.asFunction<int Function(int)>();
+  late final _Function1Double =
+      _Function1DoublePtr.asFunction<double Function(double)>();
 
-  int Function1Uint16(int x) {
-    return _Function1Uint16(x);
+  double Function1Float(double x) {
+    return _Function1Float(x);
   }
 
-  late final _Function1Uint16Ptr =
-      _lookup<ffi.NativeFunction<ffi.Uint16 Function(ffi.Uint16)>>(
-        'Function1Uint16',
+  late final _Function1FloatPtr =
+      _lookup<ffi.NativeFunction<ffi.Float Function(ffi.Float)>>(
+        'Function1Float',
       );
-  late final _Function1Uint16 =
-      _Function1Uint16Ptr.asFunction<int Function(int)>();
-
-  int Function1Uint32(int x) {
-    return _Function1Uint32(x);
-  }
-
-  late final _Function1Uint32Ptr =
-      _lookup<ffi.NativeFunction<ffi.Uint32 Function(ffi.Uint32)>>(
-        'Function1Uint32',
-      );
-  late final _Function1Uint32 =
-      _Function1Uint32Ptr.asFunction<int Function(int)>();
-
-  int Function1Uint64(int x) {
-    return _Function1Uint64(x);
-  }
-
-  late final _Function1Uint64Ptr =
-      _lookup<ffi.NativeFunction<ffi.Uint64 Function(ffi.Uint64)>>(
-        'Function1Uint64',
-      );
-  late final _Function1Uint64 =
-      _Function1Uint64Ptr.asFunction<int Function(int)>();
-
-  int Function1Int8(int x) {
-    return _Function1Int8(x);
-  }
-
-  late final _Function1Int8Ptr =
-      _lookup<ffi.NativeFunction<ffi.Int8 Function(ffi.Int8)>>('Function1Int8');
-  late final _Function1Int8 = _Function1Int8Ptr.asFunction<int Function(int)>();
+  late final _Function1Float =
+      _Function1FloatPtr.asFunction<double Function(double)>();
 
   int Function1Int16(int x) {
     return _Function1Int16(x);
@@ -113,6 +83,14 @@ class NativeLibrary {
   late final _Function1Int64 =
       _Function1Int64Ptr.asFunction<int Function(int)>();
 
+  int Function1Int8(int x) {
+    return _Function1Int8(x);
+  }
+
+  late final _Function1Int8Ptr =
+      _lookup<ffi.NativeFunction<ffi.Int8 Function(ffi.Int8)>>('Function1Int8');
+  late final _Function1Int8 = _Function1Int8Ptr.asFunction<int Function(int)>();
+
   int Function1IntPtr(int x) {
     return _Function1IntPtr(x);
   }
@@ -124,49 +102,16 @@ class NativeLibrary {
   late final _Function1IntPtr =
       _Function1IntPtrPtr.asFunction<int Function(int)>();
 
-  int Function1UintPtr(int x) {
-    return _Function1UintPtr(x);
+  int Function1StructPassByValue(Struct3 sum_a_b_c) {
+    return _Function1StructPassByValue(sum_a_b_c);
   }
 
-  late final _Function1UintPtrPtr =
-      _lookup<ffi.NativeFunction<ffi.UintPtr Function(ffi.UintPtr)>>(
-        'Function1UintPtr',
+  late final _Function1StructPassByValuePtr =
+      _lookup<ffi.NativeFunction<ffi.Int Function(Struct3)>>(
+        'Function1StructPassByValue',
       );
-  late final _Function1UintPtr =
-      _Function1UintPtrPtr.asFunction<int Function(int)>();
-
-  double Function1Float(double x) {
-    return _Function1Float(x);
-  }
-
-  late final _Function1FloatPtr =
-      _lookup<ffi.NativeFunction<ffi.Float Function(ffi.Float)>>(
-        'Function1Float',
-      );
-  late final _Function1Float =
-      _Function1FloatPtr.asFunction<double Function(double)>();
-
-  double Function1Double(double x) {
-    return _Function1Double(x);
-  }
-
-  late final _Function1DoublePtr =
-      _lookup<ffi.NativeFunction<ffi.Double Function(ffi.Double)>>(
-        'Function1Double',
-      );
-  late final _Function1Double =
-      _Function1DoublePtr.asFunction<double Function(double)>();
-
-  ffi.Pointer<Struct1> getStruct1() {
-    return _getStruct1();
-  }
-
-  late final _getStruct1Ptr =
-      _lookup<ffi.NativeFunction<ffi.Pointer<Struct1> Function()>>(
-        'getStruct1',
-      );
-  late final _getStruct1 = _getStruct1Ptr
-      .asFunction<ffi.Pointer<Struct1> Function()>();
+  late final _Function1StructPassByValue =
+      _Function1StructPassByValuePtr.asFunction<int Function(Struct3)>();
 
   Struct3 Function1StructReturnByValue(int a, int b, int c) {
     return _Function1StructReturnByValue(a, b, c);
@@ -181,16 +126,60 @@ class NativeLibrary {
         Struct3 Function(int, int, int)
       >();
 
-  int Function1StructPassByValue(Struct3 sum_a_b_c) {
-    return _Function1StructPassByValue(sum_a_b_c);
+  int Function1Uint16(int x) {
+    return _Function1Uint16(x);
   }
 
-  late final _Function1StructPassByValuePtr =
-      _lookup<ffi.NativeFunction<ffi.Int Function(Struct3)>>(
-        'Function1StructPassByValue',
+  late final _Function1Uint16Ptr =
+      _lookup<ffi.NativeFunction<ffi.Uint16 Function(ffi.Uint16)>>(
+        'Function1Uint16',
       );
-  late final _Function1StructPassByValue =
-      _Function1StructPassByValuePtr.asFunction<int Function(Struct3)>();
+  late final _Function1Uint16 =
+      _Function1Uint16Ptr.asFunction<int Function(int)>();
+
+  int Function1Uint32(int x) {
+    return _Function1Uint32(x);
+  }
+
+  late final _Function1Uint32Ptr =
+      _lookup<ffi.NativeFunction<ffi.Uint32 Function(ffi.Uint32)>>(
+        'Function1Uint32',
+      );
+  late final _Function1Uint32 =
+      _Function1Uint32Ptr.asFunction<int Function(int)>();
+
+  int Function1Uint64(int x) {
+    return _Function1Uint64(x);
+  }
+
+  late final _Function1Uint64Ptr =
+      _lookup<ffi.NativeFunction<ffi.Uint64 Function(ffi.Uint64)>>(
+        'Function1Uint64',
+      );
+  late final _Function1Uint64 =
+      _Function1Uint64Ptr.asFunction<int Function(int)>();
+
+  int Function1Uint8(int x) {
+    return _Function1Uint8(x);
+  }
+
+  late final _Function1Uint8Ptr =
+      _lookup<ffi.NativeFunction<ffi.Uint8 Function(ffi.Uint8)>>(
+        'Function1Uint8',
+      );
+  late final _Function1Uint8 =
+      _Function1Uint8Ptr.asFunction<int Function(int)>();
+
+  int Function1UintPtr(int x) {
+    return _Function1UintPtr(x);
+  }
+
+  late final _Function1UintPtrPtr =
+      _lookup<ffi.NativeFunction<ffi.UintPtr Function(ffi.UintPtr)>>(
+        'Function1UintPtr',
+      );
+  late final _Function1UintPtr =
+      _Function1UintPtrPtr.asFunction<int Function(int)>();
 
   Enum1 funcWithEnum1(Enum1 value) {
     return Enum1.fromValue(_funcWithEnum1(value.value));
@@ -212,6 +201,17 @@ class NativeLibrary {
       );
   late final _funcWithEnum2 = _funcWithEnum2Ptr.asFunction<int Function(int)>();
 
+  ffi.Pointer<Struct1> getStruct1() {
+    return _getStruct1();
+  }
+
+  late final _getStruct1Ptr =
+      _lookup<ffi.NativeFunction<ffi.Pointer<Struct1> Function()>>(
+        'getStruct1',
+      );
+  late final _getStruct1 = _getStruct1Ptr
+      .asFunction<ffi.Pointer<Struct1> Function()>();
+
   StructWithEnums getStructWithEnums() {
     return _getStructWithEnums();
   }
@@ -228,25 +228,6 @@ class NativeLibrary {
   );
 
   ffi.Pointer<ffi.Int> get globalArray => _globalArray;
-}
-
-final class Struct1 extends ffi.Struct {
-  @ffi.Int8()
-  external int a;
-
-  @ffi.Array.multi([3, 1, 2])
-  external ffi.Array<ffi.Array<ffi.Array<ffi.Int32>>> data;
-}
-
-final class Struct3 extends ffi.Struct {
-  @ffi.Int()
-  external int a;
-
-  @ffi.Int()
-  external int b;
-
-  @ffi.Int()
-  external int c;
 }
 
 enum Enum1 {
@@ -271,11 +252,31 @@ sealed class Enum2 {
   static const enum2Value3 = 2;
 }
 
+final class Struct1 extends ffi.Struct {
+  @ffi.Int8()
+  external int a;
+
+  @ffi.Array.multi([3, 1, 2])
+  external ffi.Array<ffi.Array<ffi.Array<ffi.Int32>>> data;
+}
+
+final class Struct3 extends ffi.Struct {
+  @ffi.Int()
+  external int a;
+
+  @ffi.Int()
+  external int b;
+
+  @ffi.Int()
+  external int c;
+}
+
 final class StructWithEnums extends ffi.Struct {
   @ffi.UnsignedInt()
   external int enum1AsInt;
 
   Enum1 get enum1 => Enum1.fromValue(enum1AsInt);
+  set enum1(Enum1 value) => enum1AsInt = value.value;
 
   @ffi.Array.multi([5])
   external ffi.Array<ffi.UnsignedInt> enum1Array;

@@ -9,31 +9,35 @@ on:
   pull_request:
     # No `branches:` to enable stacked PRs on GitHub.
     paths:
-      - ".github/workflows/native.yaml"
-      - "pkgs/code_assets/**"
-      - "pkgs/data_assets/**"
-      - "pkgs/hooks_runner/**"
-      - "pkgs/hooks/**"
-      - "pkgs/json_syntax_generator/**"
-      - "pkgs/native_test_helpers/**"
-      - "pkgs/native_toolchain_c/**"
-      - "pkgs/repo_lint_rules/**"
-      - "tool/**"
+      - '.github/workflows/native.yaml'
+      - 'pkgs/code_assets/**'
+      - 'pkgs/data_assets/**'
+      - 'pkgs/ffi/**'
+      - 'pkgs/hooks/**'
+      - 'pkgs/hooks_runner/**'
+      - 'pkgs/json_syntax_generator/**'
+      - 'pkgs/native_test_helpers/**'
+      - 'pkgs/native_toolchain_c/**'
+      - 'pkgs/record_use/**'
+      - 'pkgs/repo_lint_rules/**'
+      - 'tool/**'
   push:
     branches: [main]
     paths:
-      - ".github/workflows/native.yaml"
-      - "pkgs/code_assets/**"
-      - "pkgs/data_assets/**"
-      - "pkgs/hooks_runner/**"
-      - "pkgs/hooks/**"
-      - "pkgs/json_syntax_generator/**"
-      - "pkgs/native_test_helpers/**"
-      - "pkgs/native_toolchain_c/**"
-      - "pkgs/repo_lint_rules/**"
-      - "tool/**"
+      - '.github/workflows/native.yaml'
+      - 'pkgs/code_assets/**'
+      - 'pkgs/data_assets/**'
+      - 'pkgs/ffi/**'
+      - 'pkgs/hooks/**'
+      - 'pkgs/hooks_runner/**'
+      - 'pkgs/json_syntax_generator/**'
+      - 'pkgs/native_test_helpers/**'
+      - 'pkgs/native_toolchain_c/**'
+      - 'pkgs/record_use/**'
+      - 'pkgs/repo_lint_rules/**'
+      - 'tool/**'
   schedule:
-    - cron: "0 0 * * 0" # weekly
+    - cron: '0 0 * * 0' # weekly
 
 jobs:
   build:
@@ -50,7 +54,7 @@ jobs:
         working-directory: .
 
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
 
       - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
@@ -65,19 +69,17 @@ jobs:
         run: sudo apt-get update && sudo apt-get install clang-15 gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf gcc-riscv64-linux-gnu
         if: ${{ matrix.os == 'ubuntu' }}
 
-      - run: dart pub get
+      - name: Install native toolchains
+        run: brew install lld
+        if: ${{ matrix.os == 'macos' }}
 
-      - name: Run pub get, analysis, formatting, generators, and tests.
-        # Don't run examples on stable, the experiment is not available on stable.
-        run: dart tool/ci.dart --all --no-example
-        if: ${{ matrix.sdk == 'stable' }}
+      - run: dart pub get
 
       - name: Run pub get, analysis, formatting, generators, tests, and examples.
         run: dart tool/ci.dart --all
-        if: ${{ matrix.sdk != 'stable' }}
 
       - name: Upload coverage
-        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
         with:
           flag-name: native_pkgs_${{ matrix.os }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -88,8 +90,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Upload coverage
-        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
         with:
-          carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen"
+          carryforward: 'ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen'
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true

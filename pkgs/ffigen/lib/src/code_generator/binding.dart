@@ -43,7 +43,11 @@ abstract class Binding extends AstNode implements Declaration {
     required Symbol symbol,
     this.dartDoc,
     this.isInternal = false,
-  }) : _symbol = symbol;
+  }) : _symbol = symbol {
+    // Ideally isImported would be part of the Symbol constructor, but then we
+    // wouldn't be able to use this.isObjCImport.
+    _symbol.isImported = isObjCImport;
+  }
 
   /// Converts a Binding to its actual string representation.
   ///

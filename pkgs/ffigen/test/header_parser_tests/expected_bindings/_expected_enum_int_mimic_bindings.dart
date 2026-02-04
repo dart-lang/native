@@ -4,43 +4,11 @@
 // ignore_for_file: type=lint, unused_import
 import 'dart:ffi' as ffi;
 
-enum Simple {
-  A0(0);
+const int ANONYMOUS1 = 0;
 
-  final int value;
-  const Simple(this.value);
+const int ANONYMOUS2 = -1000;
 
-  static Simple fromValue(int value) => switch (value) {
-    0 => A0,
-    _ => throw ArgumentError('Unknown value for Simple: $value'),
-  };
-}
-
-enum SimpleWithNegative {
-  B0(0),
-  B1(-1000);
-
-  final int value;
-  const SimpleWithNegative(this.value);
-
-  static SimpleWithNegative fromValue(int value) => switch (value) {
-    0 => B0,
-    -1000 => B1,
-    _ => throw ArgumentError('Unknown value for SimpleWithNegative: $value'),
-  };
-}
-
-enum PositiveIntOverflow {
-  C0(-2147483607);
-
-  final int value;
-  const PositiveIntOverflow(this.value);
-
-  static PositiveIntOverflow fromValue(int value) => switch (value) {
-    -2147483607 => C0,
-    _ => throw ArgumentError('Unknown value for PositiveIntOverflow: $value'),
-  };
-}
+const int ANONYMOUS3 = 0;
 
 enum ExplicitType {
   E0(0),
@@ -72,11 +40,50 @@ enum ExplicitTypeWithOverflow {
   };
 }
 
+enum PositiveIntOverflow {
+  C0(-2147483607);
+
+  final int value;
+  const PositiveIntOverflow(this.value);
+
+  static PositiveIntOverflow fromValue(int value) => switch (value) {
+    -2147483607 => C0,
+    _ => throw ArgumentError('Unknown value for PositiveIntOverflow: $value'),
+  };
+}
+
+enum Simple {
+  A0(0);
+
+  final int value;
+  const Simple(this.value);
+
+  static Simple fromValue(int value) => switch (value) {
+    0 => A0,
+    _ => throw ArgumentError('Unknown value for Simple: $value'),
+  };
+}
+
+enum SimpleWithNegative {
+  B0(0),
+  B1(-1000);
+
+  final int value;
+  const SimpleWithNegative(this.value);
+
+  static SimpleWithNegative fromValue(int value) => switch (value) {
+    0 => B0,
+    -1000 => B1,
+    _ => throw ArgumentError('Unknown value for SimpleWithNegative: $value'),
+  };
+}
+
 final class Test extends ffi.Struct {
   @ffi.UnsignedInt()
   external int simpleAsInt;
 
   Simple get simple => Simple.fromValue(simpleAsInt);
+  set simple(Simple value) => simpleAsInt = value.value;
 
   external ffi.Pointer<ffi.Int> simpleWithNegative;
 
@@ -97,16 +104,14 @@ final class Test extends ffi.Struct {
 
   PositiveIntOverflow get positiveIntOverflow =>
       PositiveIntOverflow.fromValue(positiveIntOverflowAsInt);
+  set positiveIntOverflow(PositiveIntOverflow value) =>
+      positiveIntOverflowAsInt = value.value;
 
   @ffi.Uint16()
   external int explicitTypeWithOverflowAsInt;
 
   ExplicitTypeWithOverflow get explicitTypeWithOverflow =>
       ExplicitTypeWithOverflow.fromValue(explicitTypeWithOverflowAsInt);
+  set explicitTypeWithOverflow(ExplicitTypeWithOverflow value) =>
+      explicitTypeWithOverflowAsInt = value.value;
 }
-
-const int ANONYMOUS1 = 0;
-
-const int ANONYMOUS2 = -1000;
-
-const int ANONYMOUS3 = 0;

@@ -1,3 +1,38 @@
+## 9.3.0
+- `autoReleasePool` now returns the value produced by its callback.
+
+## 9.2.5
+- Fix a [bug](https://github.com/dart-lang/native/issues/3011) by adding
+  minimum OS version flags to the build script.
+ 
+## 9.2.4
+
+- Fix a [bug](https://github.com/dart-lang/native/issues/2990) build hook path
+  issue that could pass percent-encoded cache paths to clang, leading to missing
+  source file errors.
+
+## 9.2.3
+
+- Fix a [bug](https://github.com/dart-lang/native/issues/2973) where the
+  objective_c framework was rejected by the Apple app store due to code signing
+  issues.
+
+## 9.2.2
+
+- Fix a [bug](https://github.com/dart-lang/http/issues/1861) where the build
+  failed on older versions of XCode.
+
+## 9.2.1
+
+- Fix [bug](https://github.com/dart-lang/native/issues/2824) where the build
+  hook was trying to access the code config if it was not provided.
+- Bump minimum Dart version to 3.10.0.
+
+## 9.2.0
+
+- Migrate to from a Flutter plugin to native assets. This enables
+  package:objective_c to be used in command line apps.
+
 ## 9.1.0
 
 - Use FFIgen 20.1.0

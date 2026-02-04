@@ -14,7 +14,6 @@ import 'dart:io';
 
 import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/code_generator/utils.dart';
-import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
@@ -136,13 +135,7 @@ void main() {
     );
 
     final timer = Stopwatch()..start();
-    generator.generate(
-      logger: Logger.root
-        ..level = Level.SEVERE
-        ..onRecord.listen((record) {
-          printOnFailure('${record.level.name.padRight(8)}: ${record.message}');
-        }),
-    );
+    generator.generate(logger: createTestLogger());
     expect(File(outFile).existsSync(), isTrue);
     expect(File(outObjCFile).existsSync(), isTrue);
 

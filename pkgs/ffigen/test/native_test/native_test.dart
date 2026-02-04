@@ -6,7 +6,6 @@ import 'dart:ffi';
 import 'dart:io';
 import 'dart:math';
 
-import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/header_parser.dart' show parse;
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
@@ -17,7 +16,6 @@ void main() {
   late NativeLibrary bindings;
   group('native_test', () {
     setUpAll(() {
-      logWarnings();
       var dylibName = 'test/native_test/native_test.so';
       if (Platform.isMacOS) {
         dylibName = 'test/native_test/native_test.dylib';
@@ -42,10 +40,7 @@ void main() {
         ),
       ).absolute;
 
-      late FfiGenerator config;
-      withChDir(configFile.path, () {
-        config = testConfigFromPath(configFile.path);
-      });
+      final config = testConfigFromPath(configFile.path);
       final library = parse(testContext(config));
 
       library.generateFile(outFile);

@@ -30,7 +30,7 @@ jobs:
         working-directory: pkgs/hooks/example/build/download_asset/
 
     steps:
-    - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+    - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
 
     - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
       with:
@@ -80,7 +80,7 @@ jobs:
         dart tool/build.dart -owindows -ax64
     
     - name: Upload artifacts
-      uses: actions/upload-artifact@330a01c490aca151604b8cf639adc76d48f6c5d4
+      uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
       with:
         name: ${{ matrix.os }}-host
         path: |
@@ -98,12 +98,12 @@ jobs:
         working-directory: pkgs/hooks/example/build/download_asset/
 
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
         with:
           submodules: true
 
       - name: Download assets
-        uses: actions/download-artifact@018cc2cf5baa6db3ef3c5f8a56943fffe632ef53
+        uses: actions/download-artifact@37930b1c2abaa49bbe596cd826c3c89aef350131
         with:
           merge-multiple: true
           path: pkgs/hooks/example/build/download_asset/.dart_tool/download_asset/
@@ -112,7 +112,7 @@ jobs:
         run: ls -R .dart_tool/download_asset/
 
       - name: Release
-        uses: softprops/action-gh-release@6da8fa9354ddfdc4aeace5fc48d7f679b5214090
+        uses: softprops/action-gh-release@a06a81a03ee405af7f2048a818ed3f03bbf83c7b
         if: startsWith(github.ref, 'refs/tags/download_asset-prebuild-assets')
         with:
           files: 'pkgs/hooks/example/build/download_asset/.dart_tool/download_asset/**'

@@ -14,16 +14,15 @@ import 'package:test/test.dart';
 
 String pkgDir = findPackageRoot('swiftgen').toFilePath();
 
-// TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-String objCTestDylib = path.join(
-  pkgDir,
-  '..',
-  'objective_c',
-  'test',
-  'objective_c.dylib',
-);
-
 Future<Target> hostTarget = Target.host();
+
+// There are language features that aren't supported in Swift2ObjC yet, but that
+// we want to test in SwiftGen. So for now we write @objc annotated bindings for
+// these features. As each of these features is supported, migrate the test to
+// stop using hand-written @objc annotations.
+// TODO(https://github.com/dart-lang/native/issues/1669): callbacks
+// TODO(https://github.com/dart-lang/native/issues/1828): protocols
+const objCCompatibleTests = {'callbacks', 'protocols'};
 
 class TestGenerator {
   final String name;
@@ -38,8 +37,10 @@ class TestGenerator {
   late final String objObjCFile;
   late final String dylibFile;
   late final String actualOutputFile;
+  final bool isObjCCompatible;
 
-  TestGenerator(this.name) {
+  TestGenerator(this.name)
+    : isObjCCompatible = objCCompatibleTests.contains(name) {
     testDir = path.absolute(path.join(pkgDir, 'test/integration'));
     tempDir = path.join(testDir, 'temp');
     inputFile = path.join(testDir, '$name.swift');
@@ -57,10 +58,14 @@ class TestGenerator {
       await SwiftGenerator(
         target: await hostTarget,
         inputs: [
-          SwiftFileInput(files: [Uri.file(inputFile)]),
+          isObjCCompatible
+              ? ObjCCompatibleSwiftFileInput(files: [Uri.file(inputFile)])
+              : SwiftFileInput(files: [Uri.file(inputFile)]),
         ],
         output: Output(
-          swiftWrapperFile: SwiftWrapperFile(path: Uri.file(wrapperFile)),
+          swiftWrapperFile: isObjCCompatible
+              ? null
+              : SwiftWrapperFile(path: Uri.file(wrapperFile)),
           module: name,
           dartFile: Uri.file(outputFile),
           objectiveCFile: Uri.file(outputObjCFile),
@@ -77,6 +82,9 @@ class TestGenerator {
             interfaces: fg.Interfaces(
               include: (decl) => decl.originalName.startsWith('Test'),
             ),
+            protocols: fg.Protocols(
+              include: (decl) => decl.originalName.startsWith('Test'),
+            ),
           ),
         ),
       ).generate(
@@ -90,7 +98,7 @@ class TestGenerator {
     await generateBindings();
 
     expect(File(inputFile).existsSync(), isTrue);
-    expect(File(wrapperFile).existsSync(), isTrue);
+    expect(File(wrapperFile).existsSync(), !isObjCCompatible);
     expect(File(outputFile).existsSync(), isTrue);
 
     // The generation pipeline also an obj file as a byproduct.
@@ -100,7 +108,7 @@ class TestGenerator {
     await run('swiftc', [
       '-c',
       inputFile,
-      wrapperFile,
+      if (!isObjCCompatible) wrapperFile,
       '-module-name',
       name,
       '-target',
@@ -131,7 +139,7 @@ class TestGenerator {
       '-framework',
       'Foundation',
       objInputFile,
-      objWrapperFile,
+      if (!isObjCCompatible) objWrapperFile,
       if (hasOutputObjCFile) objObjCFile,
       '-o',
       dylibFile,

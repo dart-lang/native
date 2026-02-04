@@ -12,26 +12,26 @@ import '../utils.dart';
 import 'api_availability.dart';
 import 'unnamed_enumdecl_parser.dart';
 
-/// Parses an enum declaration. Returns (enumClass, nativeType). enumClass
-/// is null for anonymous enums.
-(EnumClass? enumClass, Type nativeType) parseEnumDeclaration(
-  clang_types.CXCursor cursor,
-  Context context,
-) {
+/// Parses an enum declaration.
+EnumClass parseEnumDeclaration(clang_types.CXCursor cursor, Context context) {
   final config = context.config;
   final logger = context.logger;
   EnumClass? enumClass;
   // Parse the cursor definition instead, if this is a forward declaration.
   cursor = context.cursorIndex.getDefinition(cursor);
 
-  final enumUsr = cursor.usr();
+  final usr = cursor.usr();
+
+  final cachedEnum = context.bindingsIndex.getSeenEnum(usr);
+  if (cachedEnum != null) return cachedEnum;
+
   final String enumName;
   // Only set name using USR if the type is not Anonymous (i.e not inside
   // any typedef and declared inplace inside another type).
   if (clang.clang_Cursor_isAnonymous(cursor) == 0) {
     // This gives the significant name, i.e name of the enum if defined or
     // name of the first typedef declaration that refers to it.
-    enumName = enumUsr.split('@').last;
+    enumName = usr.split('@').last;
   } else {
     enumName = '';
   }
@@ -48,20 +48,17 @@ import 'unnamed_enumdecl_parser.dart';
   final apiAvailability = ApiAvailability.fromCursor(cursor, context);
   if (apiAvailability.availability == Availability.none) {
     logger.info('Omitting deprecated enum $enumName');
-    return (null, nativeType);
-  }
-
-  final decl = Declaration(usr: enumUsr, originalName: enumName);
-  if (enumName.isEmpty) {
+  } else if (enumName.isEmpty) {
     logger.fine('Saving anonymous enum.');
     final addedConstants = saveUnNamedEnum(context, cursor);
     hasNegativeEnumConstants = addedConstants
         .where((c) => c.rawValue.startsWith('-'))
         .isNotEmpty;
   } else {
+    final decl = Declaration(usr: usr, originalName: enumName);
     logger.fine('++++ Adding Enum: ${cursor.completeStringRepr()}');
     enumClass = EnumClass(
-      usr: enumUsr,
+      usr: usr,
       dartDoc: getCursorDocComment(
         context,
         cursor,
@@ -111,17 +108,25 @@ import 'unnamed_enumdecl_parser.dart';
     });
     final suggestedStyle = isNSOptions ? EnumStyle.intConstants : null;
     enumClass.style = config.enums.style(decl, suggestedStyle);
+    context.bindingsIndex.addEnumToSeen(usr, enumClass);
   }
 
   if (hasNegativeEnumConstants) {
     // Change enum native type to signed type.
     logger.fine(
-      'For enum $enumUsr - using signed type for $nativeType : '
+      'For enum $usr - using signed type for $nativeType : '
       '${unsignedToSignedNativeIntType[nativeType]}',
     );
     nativeType = unsignedToSignedNativeIntType[nativeType] ?? nativeType;
     enumClass?.nativeType = nativeType;
   }
 
-  return (enumClass, nativeType);
+  return enumClass ??
+      EnumClass(
+        usr: usr,
+        name: enumName,
+        nativeType: nativeType,
+        context: context,
+        isAnonymous: true,
+      );
 }

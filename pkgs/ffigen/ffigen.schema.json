@@ -479,9 +479,6 @@
     "preamble": {
       "type": "string"
     },
-    "use-dart-handle": {
-      "type": "boolean"
-    },
     "ffi-native": {
       "$oneOf": [
         {

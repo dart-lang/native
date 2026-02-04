@@ -1,0 +1,26 @@
+name: recursive_invocation
+version: 0.1.0
+description: |
+  A package with a bin/ script that recursively invokes itself with `dart run`.
+  Can only be run in JIT mode.
+  Cannot be run on Windows unless we address
+  https://github.com/dart-lang/native/issues/1534.
+  Can only be run on Linux after
+  https://dart-review.googlesource.com/c/sdk/+/471240.
+
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.9.0 <4.0.0'
+
+dependencies:
+  code_assets: any
+  ffi: ^2.1.4
+  hooks: any
+  native_toolchain_c: any
+
+dev_dependencies:
+  ffigen: ^20.0.0-dev.1
+  test: ^1.25.15

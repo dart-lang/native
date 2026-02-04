@@ -5,16 +5,12 @@
 import 'package:ffigen/src/config_provider.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
 import 'package:ffigen/src/strings.dart' as strings;
-import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
 
 void main() {
   group('separate_definition', () {
-    setUpAll(() {
-      logWarnings(Level.SEVERE);
-    });
     test('different header order', () {
       final entryPoints = [
         'test/header_parser_tests/separate_definition_base.h',

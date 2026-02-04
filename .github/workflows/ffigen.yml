@@ -10,7 +10,7 @@ on:
       - 'pkgs/ffigen/**'
       - 'pkgs/objective_c/**'
   pull_request:
-    branches: [main, stable]
+    branches: [main]
     paths:
       - '.github/workflows/ffigen.yml'
       - 'pkgs/ffigen/**'
@@ -31,20 +31,20 @@ jobs:
     strategy:
       fail-fast: false
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
       - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
-          channel: 'stable'
+          channel: stable
       - id: install
         name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="example/shared_bindings" && flutter pub get --directory="../objective_c" && flutter pub get --directory="example/add"
+        run: dart pub get && dart pub get --directory="example/shared_bindings" && dart pub get --directory="../objective_c" && dart pub get --directory="example/add"
       - name: Check formatting
         run: dart format --output=none --set-exit-if-changed .
         if: always() && steps.install.outcome == 'success'
       - name: Build test dylib and bindings
         run: dart --enable-asserts test/setup.dart
       - name: Analyze code
-        run: flutter analyze --fatal-infos
+        run: dart analyze --fatal-infos
 
   test-linux:
     needs: analyze
@@ -53,12 +53,12 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
       - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
-          channel: 'stable'
+          channel: stable
       - name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="../jni"
+        run: dart pub get && flutter pub get --directory="../jni"
       - name: Install libclang-14-dev
         run: sudo apt-get install libclang-14-dev
       - name: Build test dylib and bindings
@@ -77,12 +77,12 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
       - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           channel: stable
       - name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="../objective_c" && flutter pub get --directory="../jni"
+        run: dart pub get && dart pub get --directory="../objective_c" && flutter pub get --directory="../jni"
       - name: Install clang-format
         uses: ConorMacBride/install-package@3e7ad059e07782ee54fa35f827df52aae0626f30
         with:
@@ -92,19 +92,19 @@ jobs:
       - name: Install coverage
         run: dart pub global activate coverage
       - name: Run VM tests and collect coverage
-        run: dart pub global run coverage:test_with_coverage --scope-output=ffigen --scope-output=objective_c
+        run: dart test --coverage-path=./coverage/lcov.info
       - name: Generate package:jni bindings
         run: dart --enable-asserts run tool/generate_ffi_bindings.dart
         working-directory: pkgs/jni/
       - name: Upload coverage
-        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
         with:
           flag-name: ffigen
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: pkgs/ffigen/coverage/lcov.info
       - name: Upload coverage
-        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
         with:
           carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen"
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -117,19 +117,19 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
       - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
-          channel: master
+          channel: stable
       - name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="../objective_c" && flutter pub get --directory="../jni"
+        run: dart pub get && dart pub get --directory="../objective_c" && flutter pub get --directory="../jni"
       - name: Install clang-format
         uses: ConorMacBride/install-package@3e7ad059e07782ee54fa35f827df52aae0626f30
         with:
           brew: clang-format
       - name: Build test dylib and bindings
         run: dart --enable-asserts test/setup.dart
-      - name: Run VM tests and collect coverage
+      - name: Run VM tests
         run: dart test
 
   test-mac-flutter:
@@ -139,16 +139,16 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
       - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
-          channel: 'stable'
+          channel: stable
       - name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="../objective_c"
+        run: dart pub get && dart pub get --directory="../objective_c"
       - name: Build test dylib and bindings
-        run: dart --enable-asserts test/setup.dart --main-thread-dispatcher
+        run: dart --enable-asserts test/setup.dart
       - name: Run Flutter tests
-        run: flutter test
+        run: dart test
 
   test-windows:
     needs: analyze
@@ -157,12 +157,12 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
       - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
-          channel: 'stable'
+          channel: stable
       - name: Install dependencies
-        run: flutter pub get && flutter pub get --directory="../jni"
+        run: dart pub get && flutter pub get --directory="../jni"
       - name: Build test dylib and bindings
         run: dart --enable-asserts test/setup.dart
       - name: Run VM tests
@@ -188,10 +188,10 @@ jobs:
       run:
         working-directory: pkgs/ffigen/
     steps:
-      - uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
       - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
-          channel: "master"
+          channel: stable
       - name: Install dependencies
         run: flutter pub get
       - name: Build test dylib and bindings

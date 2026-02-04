@@ -16,7 +16,6 @@ late Library actual;
 void main() {
   group('dart_handle_test', () {
     setUpAll(() {
-      logWarnings();
       actual = parser.parse(
         testContext(
           testConfig('''

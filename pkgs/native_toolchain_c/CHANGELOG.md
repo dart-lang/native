@@ -1,3 +1,17 @@
+## 0.17.5-wip
+
+- Search for NDK in `ANDROID_HOME` and `ANDROID_NDK` environment variables.
+- On iOS and macOS, use the `-encryptable` linker flag. This resolves an
+  [issue](https://github.com/dart-lang/native/issues/2973) with app store
+  rejections.
+- Fix unportable link arg when cross-compiling from MacOS.
+
+## 0.17.4
+
+- For Windows, include errors from the standard output of `cl` in the logger's
+  output of CBuilder.
+  ([#2809](https://github.com/dart-lang/native/issues/2809)) 
+
 ## 0.17.3
 
 - Bump `package:hooks` and `package:code_assets`to 1.0.0.

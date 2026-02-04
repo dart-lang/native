@@ -83,11 +83,7 @@ extension SwiftGenGenerator on SwiftGenerator {
         dartFile: output.dartFile,
         objectiveCFile: output.objectiveCFile,
         preamble: output.preamble,
-        style: fg.NativeExternalBindings(
-          assetId: output.assetId,
-          // ignore: deprecated_member_use
-          wrapperName: output.assetId ?? output.module,
-        ),
+        style: fg.NativeExternalBindings(assetId: output.assetId),
       ),
       functions: ffigen.functions,
       structs: ffigen.structs,
@@ -102,7 +98,6 @@ extension SwiftGenGenerator on SwiftGenerator {
         interfaces: fg.Interfaces(
           include: interfaces.include,
           includeMember: interfaces.includeMember,
-          includeSymbolAddress: interfaces.includeSymbolAddress,
           rename: interfaces.rename,
           renameMember: interfaces.renameMember,
           includeTransitive: interfaces.includeTransitive,
@@ -113,7 +108,6 @@ extension SwiftGenGenerator on SwiftGenerator {
         protocols: fg.Protocols(
           include: protocols.include,
           includeMember: protocols.includeMember,
-          includeSymbolAddress: protocols.includeSymbolAddress,
           rename: protocols.rename,
           renameMember: protocols.renameMember,
           includeTransitive: protocols.includeTransitive,

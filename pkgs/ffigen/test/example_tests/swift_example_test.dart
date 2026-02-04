@@ -10,7 +10,6 @@ import 'dart:async';
 import 'dart:io';
 
 import 'package:ffigen/src/header_parser.dart';
-import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
@@ -18,10 +17,6 @@ import '../test_utils.dart';
 
 void main() {
   group('swift_example_test', () {
-    setUpAll(() {
-      logWarnings(Level.SEVERE);
-    });
-
     test('swift', () async {
       // Run the swiftc command from the example README, to generate the header.
       final process = await Process.start('swiftc', [

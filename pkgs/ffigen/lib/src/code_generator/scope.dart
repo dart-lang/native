@@ -79,7 +79,9 @@ class Scope {
     _namer = namer;
     for (final symbol in _symbols) {
       if (symbol._name == null) {
-        symbol._name = namer.add(symbol.oldName, symbol.kind);
+        symbol._name = symbol.isImported
+            ? symbol.oldName
+            : namer.add(symbol.oldName, symbol.kind);
       } else {
         // Symbol already has a name. This can happen if the symbol is in
         // multiple scopes. It's fine as long as the name isn't used by a
@@ -159,14 +161,23 @@ class Namer {
 /// Add the [Symbol] to a [Scope], and it will be assigned a name during the
 /// transformation phase.
 class Symbol extends AstNode {
-  final String oldName;
+  String _oldName;
   final SymbolKind kind;
+  bool isImported = false;
   String? _name;
+
+  String get oldName => _oldName;
+
+  /// Only valid if [Scope.fillNames] has not been called yet.
+  set oldName(String n) {
+    assert(!isFilled);
+    _oldName = n;
+  }
 
   /// Only valid if [Scope.fillNames] has been called already.
   String get name => _name!;
 
-  Symbol(this.oldName, this.kind);
+  Symbol(this._oldName, this.kind);
 
   bool get isFilled => _name != null;
 

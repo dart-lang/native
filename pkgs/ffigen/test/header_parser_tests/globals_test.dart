@@ -15,7 +15,6 @@ late Library actual, expected;
 void main() {
   group('globals_test', () {
     setUpAll(() {
-      logWarnings();
       expected = expectedLibrary();
       actual = parser.parse(
         testContext(
@@ -113,7 +112,6 @@ Library expectedLibrary() {
   );
   return Library(
     context: context,
-    name: 'Bindings',
     bindings: parser.transformBindings([
       Global(type: BooleanType(), name: 'coolGlobal'),
       Global(

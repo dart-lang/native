@@ -7,7 +7,6 @@
 library;
 
 import 'package:ffigen/src/header_parser.dart';
-import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
 import '../../example/objective_c/generate_code.dart' show config;
@@ -15,10 +14,6 @@ import '../test_utils.dart';
 
 void main() {
   group('objective_c_example_test', () {
-    setUpAll(() {
-      logWarnings(Level.SEVERE);
-    });
-
     test('objective_c', () {
       final output = parse(testContext(config)).generate();
 

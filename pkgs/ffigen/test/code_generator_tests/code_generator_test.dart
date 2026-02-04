@@ -59,7 +59,6 @@ void main() {
       );
       final library = Library(
         context: nativeContext,
-        name: 'Bindings',
         header: licenseHeader,
         bindings: transformBindings([
           Func(
@@ -131,7 +130,6 @@ void main() {
       final context = makeContext();
       final library = Library(
         context: context,
-        name: 'Bindings',
         header: licenseHeader,
         bindings: transformBindings([
           Struct(
@@ -218,7 +216,6 @@ void main() {
       );
       final library = Library(
         context: context,
-        name: 'Bindings',
         header: licenseHeader,
         bindings: transformBindings([
           structSome,
@@ -259,7 +256,6 @@ void main() {
 
       final library = Library(
         context: nativeContext,
-        name: 'Bindings',
         header: licenseHeader,
         bindings: transformBindings([
           Global(
@@ -304,7 +300,6 @@ void main() {
       final context = makeContext();
       final library = Library(
         context: context,
-        name: 'Bindings',
         header: '$licenseHeader\n',
         bindings: transformBindings([
           MacroConstant(name: 'test1', rawType: 'int', rawValue: '20'),
@@ -318,7 +313,6 @@ void main() {
       final context = makeContext();
       final library = Library(
         context: context,
-        name: 'Bindings',
         header: '$licenseHeader\n',
         bindings: transformBindings([
           EnumClass(
@@ -339,7 +333,6 @@ void main() {
       final context = makeContext();
       final library = Library(
         context: context,
-        name: 'Bindings',
         header: '$licenseHeader\n',
         bindings: transformBindings([
           EnumClass(
@@ -392,7 +385,6 @@ void main() {
       );
       final library = Library(
         context: context,
-        name: 'Bindings',
         header: '$licenseHeader\n',
         silenceEnumWarning: true,
         bindings: transformBindings([
@@ -477,7 +469,6 @@ void main() {
       );
       final lib = Library(
         context: context,
-        name: 'Bindings',
         header: '$licenseHeader\n',
         silenceEnumWarning: true,
         bindings: transformBindings([
@@ -502,7 +493,6 @@ void main() {
       );
       final library = Library(
         context: context,
-        name: 'init_dylib',
         header: '$licenseHeader\n// ignore_for_file: unused_element\n',
         bindings: transformBindings([
           Func(
@@ -558,7 +548,6 @@ void main() {
       );
       final library = Library(
         context: context,
-        name: 'init_dylib',
         header: '$licenseHeader\n',
         bindings: transformBindings([
           Func(
@@ -583,7 +572,6 @@ void main() {
     final context = makeContext();
     final library = Library(
       context: context,
-      name: 'Bindings',
       header: licenseHeader,
       bindings: transformBindings([
         Func(
@@ -612,7 +600,6 @@ void main() {
     final context = makeContext();
     final library = Library(
       context: context,
-      name: 'Bindings',
       header: licenseHeader,
       bindings: transformBindings([
         Struct(
@@ -700,7 +687,6 @@ void main() {
     );
     final library = Library(
       context: context,
-      name: 'Bindings',
       header: licenseHeader,
       bindings: transformBindings([
         struct1,
@@ -766,7 +752,6 @@ void main() {
     final struct3Typealias = Typealias(name: 'Struct3Typealias', type: struct3);
     final library = Library(
       context: context,
-      name: 'Bindings',
       header: '$licenseHeader\n',
       bindings: transformBindings([
         Typealias(

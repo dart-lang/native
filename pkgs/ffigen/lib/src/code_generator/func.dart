@@ -110,7 +110,7 @@ class Func extends LookUpBinding with HasLocalScope {
         functionType.getFfiDartType(context, writeArgumentNames: false);
     final needsWrapper = !functionType.sameDartAndFfiDartType && !isInternal;
 
-    final funcVarName = localScope.addPrivate('_$name');
+    final funcVarName = context.rootScope.addPrivate('_$name');
     final ffiReturnType = functionType.returnType.getFfiDartType(context);
     final ffiArgDeclString = functionType.dartTypeParameters
         .map((p) => '${p.type.getFfiDartType(context)} ${p.name},\n')
@@ -182,7 +182,7 @@ $dartReturnType $enclosingFuncName($dartArgDeclString) => $funcImplCall;
         );
       }
     } else {
-      final funcPointerName = localScope.addPrivate('_${name}Ptr');
+      final funcPointerName = context.rootScope.addPrivate('_${name}Ptr');
       final isLeafString = isLeaf ? 'isLeaf:true' : '';
 
       // Write enclosing function.
@@ -239,7 +239,6 @@ class Parameter extends AstNode {
   final String originalName;
   Type type;
   final bool objCConsumed;
-  bool isCovariant = false;
 
   Symbol symbol;
   String get name => symbol.name;

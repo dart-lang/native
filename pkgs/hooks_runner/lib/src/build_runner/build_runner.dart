@@ -5,7 +5,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:io' show Platform;
+import 'dart:io' show HttpClient, Platform;
 
 import 'package:collection/collection.dart';
 import 'package:file/file.dart';
@@ -538,13 +538,38 @@ class NativeAssetsBuildRunner {
     ),
   );
 
+  /// Environment variables respected by [HttpClient.findProxyFromEnvironment].
+  ///
+  /// We forward them to allow hooks to make HTTP requests in environments where
+  /// a proxy is required.
+  static const _httpProxyEnvironmentVariables = {
+    'http_proxy',
+    'https_proxy',
+    'no_proxy',
+    'HTTP_PROXY',
+    'HTTPS_PROXY',
+    'NO_PROXY',
+  };
+
   /// Determines whether to allow an environment variable through
   /// if [hookEnvironment] is not passed in.
   ///
   /// This allows environment variables needed to run mainstream compilers.
   static bool includeHookEnvironmentVariable(String environmentVariableName) {
+    // Typically, we'd find the NDK through ANDROID_HOME alone. In some cases
+    // where users have an NDK in nonstandard locations, these environment
+    // variables are used as well, e.g. in
+    // https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md#environment-variables-2
+    const nonStandardNdkEnvironmentVariables = {
+      'ANDROID_NDK',
+      'ANDROID_NDK_HOME',
+      'ANDROID_NDK_LATEST_HOME',
+      'ANDROID_NDK_ROOT',
+    };
+
     const staticVariablesFilter = {
       'ANDROID_HOME', // Needed for the NDK.
+      ...nonStandardNdkEnvironmentVariables,
       'HOME', // Needed to find tools in default install locations.
       'LIBCLANG_PATH', // Needed for Rust's bindgen + clang-sys.
       'PATH', // Needed to invoke native tools.
@@ -556,6 +581,7 @@ class NativeAssetsBuildRunner {
       'TMPDIR', // Needed for temp dirs in Dart process.
       'USERPROFILE', // Needed to find tools in default install locations.
       'WINDIR', // Needed for CMake.
+      ..._httpProxyEnvironmentVariables,
     };
     const variablePrefixesFilter = {
       'NIX_', // Needed for Nix-installed toolchains.
@@ -961,7 +987,17 @@ ${e.message}''');
     String packageName,
   ) async {
     final file = hookOutputFile;
-    final fileContents = await file.readAsString();
+    final String fileContents;
+    try {
+      fileContents = await file.readAsString();
+    } on FileSystemException catch (e) {
+      logger.severe('''
+Building assets for package:$packageName failed.
+Error reading ${hookOutputFile.uri.toFilePath()}.
+
+${e.message}''');
+      return const Failure(HooksRunnerFailure.hookRun);
+    }
     logger.info('output.json contents:\n$fileContents');
     final Map<String, Object?> hookOutputJson;
     try {

@@ -15,11 +15,6 @@ import 'util.dart';
 
 void main() {
   group('Observer', () {
-    setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open(testDylib);
-    });
-
     test('receive updates', () {
       // Using NSProgress here because it's already part of our generated
       // bindings and has a property with a getter and setter.

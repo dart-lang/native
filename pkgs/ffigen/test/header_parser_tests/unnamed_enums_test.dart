@@ -14,7 +14,6 @@ late Library actual, expected;
 void main() {
   group('unnamed_enums_test', () {
     setUpAll(() {
-      logWarnings();
       expected = expectedLibrary();
       actual = parser.parse(
         testContext(
@@ -65,7 +64,6 @@ ${strings.unnamedEnums}:
 Library expectedLibrary() {
   return Library(
     context: testContext(),
-    name: 'Bindings',
     bindings: [
       Constant(name: 'A', rawType: 'int', rawValue: '1'),
       Constant(name: 'C', rawType: 'int', rawValue: '3'),

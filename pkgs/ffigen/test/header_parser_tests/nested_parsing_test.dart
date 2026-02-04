@@ -14,7 +14,6 @@ late Library actual, expected;
 void main() {
   group('nested_parsing_test', () {
     setUpAll(() {
-      logWarnings();
       final context = testContext(
         testConfig('''
 ${strings.name}: 'NativeLibrary'
@@ -110,7 +109,6 @@ Library expectedLibrary() {
   );
   return Library(
     context: context,
-    name: 'Bindings',
     bindings: [
       unnamedInternalStruct,
       unnamedUnion1,

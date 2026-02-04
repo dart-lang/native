@@ -4,7 +4,6 @@
 
 import 'package:ffigen/src/config_provider.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
-import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
@@ -12,16 +11,12 @@ import '../test_utils.dart';
 
 void main() {
   group('reserved_keyword_collision_test', () {
-    setUpAll(() {
-      logWarnings(Level.SEVERE);
-    });
     test('reserved keyword collision', () {
       final library = parser.parse(
         testContext(
           FfiGenerator(
             output: Output(
               dartFile: Uri.file('unused'),
-              sort: true,
               style: const DynamicLibraryBindings(),
             ),
 

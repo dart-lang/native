@@ -7,14 +7,16 @@ import 'dart:io';
 import 'package:logging/logging.dart';
 
 /// Creates a default logger that logs to stdout and stderr.
-Logger createDefaultLogger() {
+Logger createDefaultLogger([Level level = Level.INFO]) {
   final logger = Logger.detached('FFIgen');
-  logger.level = Level.INFO;
+  logger.level = level;
   logger.onRecord.listen((record) {
+    final levelStr = '[${record.level.name}]'.padRight(9);
+    final log = '$levelStr: ${record.message}';
     if (record.level >= Level.WARNING) {
-      stderr.writeln(record.message);
+      stderr.writeln(log);
     } else {
-      stdout.writeln(record.message);
+      stdout.writeln(log);
     }
     if (record.error != null) {
       stderr.writeln(record.error);

@@ -13,6 +13,18 @@ pthread_key_t tlsKey;
 pthread_mutex_t spawnLock = PTHREAD_MUTEX_INITIALIZER;
 #endif
 
+int8_t captureStackTraceOnRelease = 0;
+
+FFI_PLUGIN_EXPORT
+void setCaptureStackTraceOnRelease(int8_t value) {
+  captureStackTraceOnRelease = value;
+}
+
+FFI_PLUGIN_EXPORT
+int8_t getCaptureStackTraceOnRelease() {
+  return captureStackTraceOnRelease;
+}
+
 jclass FindClassUnchecked(const char* name) {
   attach_thread();
   jclass cls;
@@ -348,6 +360,20 @@ FFI_PLUGIN_EXPORT
 Dart_FinalizableHandle newBooleanFinalizableHandle(Dart_Handle object,
                                                    bool* reference) {
   return Dart_NewFinalizableHandle_DL(object, reference, 1, freeBoolean);
+}
+
+void freeStackTracePtr(void* isolate_callback_data, void* peer) {
+  char** ptr = (char**)peer;
+  if (*ptr != NULL) {
+    free_mem(*ptr);
+  }
+  free_mem(peer);
+}
+
+FFI_PLUGIN_EXPORT
+Dart_FinalizableHandle newStackTraceFinalizableHandle(Dart_Handle object,
+                                                      char* reference) {
+  return Dart_NewFinalizableHandle_DL(object, reference, 1, freeStackTracePtr);
 }
 
 FFI_PLUGIN_EXPORT
