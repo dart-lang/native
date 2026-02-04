@@ -56,5 +56,25 @@ void main() {
 
       expect(objectRetainCount(pointer), 0);
     });
+
+    test('returns callback value', () async {
+      late Pointer<ObjCObjectImpl> pointer;
+
+      final returnedPointer = autoReleasePool(() {
+        final object = NSObject();
+        pointer = object.ref.retainAndAutorelease();
+        return pointer;
+      });
+
+      // Returned value should be exactly what the callback returned
+      expect(returnedPointer, same(pointer));
+
+      doGC();
+      await Future<void>.delayed(Duration.zero);
+      doGC();
+
+      // Object should be released once the pool is popped
+      expect(objectRetainCount(pointer), 0);
+    });
   });
 }
