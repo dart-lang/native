@@ -10,7 +10,7 @@ Bindings generator for [FFI](https://dart.dev/guides/libraries/c-interop) bindin
 > Note: FFIgen only supports parsing `C` headers, not `C++` headers.
 
 This bindings generator can be used to call C code or code in another language
-that compiles to C modules that follow the C calling convention, such as Go or 
+that compiles to C modules that follow the C calling convention, such as Go or
 Rust. For more details, see https://dart.dev/guides/libraries/c-interop.
 
 FFIgen also supports calling ObjC code.
@@ -21,116 +21,43 @@ More FFIgen documentation can be found [here](doc/README.md).
 ## Getting Started
 
 This guide demonstrates how to call a custom C API from a standalone Dart
-application. It assumes that Dart has been set up 
+application. It assumes that Dart has been set up
 ([instructions](https://dart.dev/get-dart)) and that LLVM is installed on the
 system ([instructions](#requirements)). Furthermore, it assumes that the Dart
 app has been created via `dart create ffigen_example`.
 
-1. Add the utility package `package:ffi` as a dependency and the bindings 
+1. Add the utility package `package:ffi` as a dependency and the bindings
    generator `package:ffigen` as a dev_dependency to the pubspec of your app by
    running: `dart pub add ffi dev:ffigen`.
 
 2. Write the C code and place it inside a subdirectory of your app. For this
    example we will place the following code in `src/add.h` and `src/add.c`
-   respectively. It defines a simple API to add two integers in C.
+   respectively.
 
-   ```C
-   // in src/add.h:
-   
+   ```c
    int add(int a, int b);
    ```
 
-   ```C
-   // in src/add.c:
-   
+   ```c
    int add(int a, int b) {
      return a + b;
    }
    ```
 
-3. To generate the bindings, we will write a script using `package:ffigen` and
-   place it under `tool/ffigen.dart`. The script instantiates and configures a
-   `FfiGenerator`. Refer to the code comments below and the API docs to learn
-   more about available configuration options.
+3. To generate the bindings, write a script using `package:ffigen` and place it
+   under `tool/ffigen.dart`.
 
-   ```dart
-   import 'dart:io';
+4. Run the script with `dart run tool/ffigen.dart`.
 
-   import 'package:ffigen/ffigen.dart';
-   
-   void main() {
-     final packageRoot = Platform.script.resolve('../');
-     FfiGenerator(
-       // Required. Output path for the generated bindings.
-       output: Output(dartFile: packageRoot.resolve('lib/add.g.dart')),
-       // Optional. Where to look for header files.
-       headers: Headers(entryPoints: [packageRoot.resolve('src/add.h')]),
-       // Optional. What functions to generate bindings for.
-       functions: Functions.includeSet({'add'}),
-     ).generate();
-   }
-   ```
-
-4. Run the script with `dart run tool/ffigen.dart` to generate the bindings.
-   This will create the output `lib/add.g.dart` file, which can be imported by
-   Dart code to access the C APIs. This command must be re-run whenever the
-   FFIgen configuration (in `tool/ffigen.dart`) or the C sources for which
-   bindings are generated change.
-
-5. Import `add.g.dart` in your Dart app and call the generated methods to access
-   the native C API:
-
-   ```dart
-   import 'add.g.dart';
-
-   // ...
-   
-   void answerToLife() {
-     print('The answer to the Ultimate Question is ${add(40, 2)}!');
-   }
-   ```
-
-6. Before we can run the app, we need to compile the C sources. There are many
-   ways to do that. For this example, we are using a
-   [build hook](https://dart.dev/tools/hooks), which we define in
-   `hook/build.dart` as follows. This build hook also requires a dependency
-   on the `hooks`, `code_assets`, and `native_toolchain_c` helper packages,
-   which we can add to our app by running
-   `dart pub add hooks code_assets native_toolchain_c`.
-
-   ```dart
-   import 'package:code_assets/code_assets.dart';
-   import 'package:hooks/hooks.dart';
-   import 'package:native_toolchain_c/native_toolchain_c.dart';
-   
-   void main(List<String> args) async {
-     await build(args, (input, output) async {
-       if (input.config.buildCodeAssets) {
-         final builder = CBuilder.library(
-           name: 'add',
-           assetName: 'add.g.dart',
-           sources: ['src/add.c'],
-         );
-         await builder.run(input: input, output: output);
-       }
-     });
-   }
-   ```
-
-That's it! Run your app with `dart run` to see it in action!
-
-The complete and runnable example can be found in [example/add](example/add).
+5. Import `add.g.dart` in your Dart app and call the generated methods.
 
 ## More Examples
 
-The `code_asset` package contains [comprehensive examples](../code_assets/example)
-that showcase FFIgen. Additional examples that show how FFIgen can be used
-in different scenarios can also be found in the [example](example/) directory.
+Examples are available in the [example](example/) directory.
 
 ## Requirements
 
-LLVM (9+) must be installed on your system to use `package:ffigen`. Install it
-in the following way:
+LLVM (9+) must be installed on your system to use `package:ffigen`.
 
 ### Linux
 
@@ -144,24 +71,52 @@ in the following way:
 2. Install [LLVM](https://releases.llvm.org/download.html) or 
    `winget install -e --id LLVM.LLVM`.
 
-#### macOS
+### macOS
 
 1. Install Xcode.
 2. Install Xcode command line tools: `xcode-select --install`.
 
+---
+
 ## YAML Configuration Reference
 
-In addition to the Dart API shown in the "Getting Started" section, FFIgen can
-also be configured via YAML. Support for the YAML configuration will be
-eventually phased out, and using the Dart API is recommended.
+FFIgen can also be configured via YAML. Using the Dart API is recommended for
+new projects.
 
-A YAML configuration can be either provided in the project's `pubspec.yaml` file
-under the key `ffigen` or via a custom YAML file. To generate bindings
-configured via YAML run either `dart run ffigen` if using the `pubspec.yaml`
-file or run `dart run ffigen --config config.yaml` where `config.yaml` is the
-path to your custom YAML file.
+### compiler-opts
 
-The following configuration options are available:
+Pass compiler options to clang.
+
+```yaml
+compiler-opts:
+  - '-I/usr/lib/llvm-9/include/'
+```
+
+#### Command-line usage
+
+When passing `compiler-opts` via the command line, the value **must** be provided
+using `=`. Passing the value as a separate argument may result in the option
+being ignored or misparsed by the argument parser.
+
+❌ **Incorrect**
+
+```bash
+dart run ffigen --compiler-opts "-I/headers"
+```
+
+✅ **Correct**
+
+```bash
+dart run ffigen --compiler-opts="-I/headers -L 'path/to/folder name/file'"
+```
+
+Multiple compiler options may be provided by repeating the flag:
+
+```bash
+dart run ffigen \
+  --compiler-opts="-I/headers" \
+  --compiler-opts="-L 'path/to/folder name/file'"
+```
 
 <table>
 <thead>
@@ -250,23 +205,6 @@ description: 'Bindings to SQLite'
   </td>
   </tr>
   <tr>
-    <td>compiler-opts</td>
-    <td>Pass compiler options to clang. You can also pass
-    these via the command line tool.</td>
-    <td>
-
-```yaml
-compiler-opts:
-  - '-I/usr/lib/llvm-9/include/'
-```
-and/or via the command line -
-```bash
-dart run ffigen --compiler-opts "-I/headers
--L 'path/to/folder name/file'"
-```
-  </td>
-  </tr>
-    <tr>
     <td>compiler-opts-automatic.macos.include-c-standard-library</td>
     <td>Tries to automatically find and add C standard library path to
     compiler-opts on macOS.<br>
@@ -779,7 +717,23 @@ external-versions:
 </tbody>
 </table>
 
-### Objective-C configuration options
+---
+
+## Objective-C configuration options
+
+### Platform version handling
+
+When generating Objective-C bindings, ffigen relies on explicit platform version
+information to determine API availability.
+
+Internally, platform versions may be represented using version-specific
+variables such as `version_x_x_x`. These variables are used to include or
+exclude APIs based on platform or SDK availability and do not affect runtime
+behavior.
+
+Refer to the Objective-C configuration options below for details.
+
+---
 
 <table>
 <thead>
