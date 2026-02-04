@@ -22,6 +22,9 @@ class Identifier {
   ///
   /// This is given in the form of its package import uri, so that it is OS- and
   /// user independent.
+  ///
+  /// For elements annotated with `@RecordUse`, this URI will always point to a
+  /// file in the `lib/` directory of a package.
   final String importUri;
 
   /// The name of the parent element (e.g., the class name for a method or

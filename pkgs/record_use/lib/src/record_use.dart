@@ -8,6 +8,10 @@ import '../record_use_internal.dart';
 ///
 /// This can be queried using the methods provided, which each take an
 /// [Identifier] which must be annotated with `@RecordUse` from `package:meta`.
+///
+/// The definition annotated with `@RecordUse` must be inside the `lib/`
+/// directory of the package. If the definition is a member of a class (e.g. a
+/// static method), the class must be in the `lib/` directory.
 extension type RecordedUsages._(Recordings _recordings) {
   RecordedUsages.fromJson(Map<String, Object?> json)
     : this._(Recordings.fromJson(json));
@@ -17,9 +21,11 @@ extension type RecordedUsages._(Recordings _recordings) {
 
   /// Finds all const arguments for calls to the [identifier].
   ///
-  /// The definition must be annotated with `@RecordUse()`. If there are no
-  /// calls to the definition, either because it was treeshaken, because it was
-  /// not annotated, or because it does not exist, returns empty.
+  /// The definition must be annotated with `@RecordUse()`. The definition (and
+  /// its enclosing class, if any) must be in the `lib/` directory of the
+  /// package. If there are no calls to the definition, either because it was
+  /// treeshaken, because it was not annotated, or because it does not exist,
+  /// this method returns an empty iterable.
   ///
   /// Returns an empty iterable if the arguments were not collected.
   ///
@@ -64,9 +70,11 @@ extension type RecordedUsages._(Recordings _recordings) {
 
   /// Finds all constant fields of a const instance of the class [identifier].
   ///
-  /// The definition must be annotated with `@RecordUse()`. If there are
-  /// no instances of the definition, either because it was treeshaken, because
-  /// it was not annotated, or because it does not exist, returns empty.
+  /// The definition must be annotated with `@RecordUse()`. The definition (and
+  /// its enclosing class, if any) must be in the `lib/` directory of the
+  /// package. If there are no instances of the definition, either because it
+  /// was treeshaken, because it was not annotated, or because it does not
+  /// exist, this method returns an empty iterable.
   ///
   /// Example:
   /// ```dart
@@ -108,9 +116,11 @@ extension type RecordedUsages._(Recordings _recordings) {
   /// Checks if any call to [identifier] has non-const arguments, or if any
   /// tear-off was recorded.
   ///
-  /// The definition must be annotated with `@RecordUse()`. If there are no
-  /// calls to the definition, either because it was treeshaken, because it was
-  /// not annotated, or because it does not exist, returns `false`.
+  /// The definition must be annotated with `@RecordUse()`. The definition (and
+  /// its enclosing class, if any) must be in the `lib/` directory of the
+  /// package. If there are no calls to the definition, either because it was
+  /// treeshaken, because it was not annotated, or because it does not exist,
+  /// this method returns `false`.
   bool hasNonConstArguments(Identifier identifier) =>
       (_recordings.calls[identifier] ?? []).any(
         (element) => switch (element) {
