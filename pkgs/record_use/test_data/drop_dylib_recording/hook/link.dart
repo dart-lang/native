@@ -51,16 +51,20 @@ void main(List<String> arguments) async {
 
     argumentsFile.writeAsStringSync(dataLines.join('\n'));
 
-    // Tree-shake unused assets
-    final instances = usages.constantsOf(
-      const Identifier(
-        importUri: 'package:drop_dylib_recording/src/drop_dylib_recording.dart',
-        name: 'RecordCallToC',
-      ),
-    );
-    for (final instance in instances) {
-      final symbol = instance['symbol'] as String;
-      symbols.add(symbol);
+    // Tree-shake unused assets using instances
+    for (final className in ['Double', 'Square']) {
+      final instances = usages.constantsOf(
+        Identifier(
+          importUri:
+              'package:drop_dylib_recording/src/drop_dylib_recording.dart',
+          name: className,
+        ),
+      );
+      for (final instance in instances) {
+        print('An instance of "$className" was found: $instance');
+        // Map class name to asset symbol (lowercase)
+        symbols.add(className.toLowerCase());
+      }
     }
 
     final neededCodeAssets = [
