@@ -1,10 +1,5 @@
 {
   "$schema": "../../doc/schema/record_use.schema.json",
-  "locations": [
-    {
-      "uri": "tearoff.dart"
-    }
-  ],
   "metadata": {
     "comment": "Recorded usages of objects tagged with a `RecordUse` annotation",
     "version": "0.4.0"
@@ -13,7 +8,6 @@
     {
       "calls": [
         {
-          "@": 0,
           "loading_unit": "1",
           "type": "tearoff"
         }

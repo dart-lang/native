@@ -1,8 +1,6 @@
 ## 0.5.0-wip
 
-- Made locations optional to accomodate for dart2js compiler not providing
-  source locations for constant instances.
-- Introduce a JSON schema for the json encoding.
+- Completely overhauled the JSON format.
 
 ## 0.4.2
 

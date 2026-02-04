@@ -129,21 +129,11 @@ final _pirateAdventureRecordings = Recordings(
     ): [
       const CallWithArguments(
         loadingUnit: 'root',
-        location: Location(
-          uri: 'package:pirate_adventure/bin/pirate_adventure.dart',
-          line: 10,
-          column: 5,
-        ),
         positionalArguments: [StringConstant('Hello')],
         namedArguments: {},
       ),
       const CallWithArguments(
         loadingUnit: 'root',
-        location: Location(
-          uri: 'package:pirate_adventure/bin/pirate_adventure.dart',
-          line: 11,
-          column: 5,
-        ),
         positionalArguments: [StringConstant('Money')],
         namedArguments: {},
       ),
@@ -156,11 +146,6 @@ final _pirateAdventureRecordings = Recordings(
     ): [
       const CallWithArguments(
         loadingUnit: 'root',
-        location: Location(
-          uri: 'package:pirate_adventure/bin/pirate_adventure.dart',
-          line: 20,
-          column: 5,
-        ),
         positionalArguments: [],
         namedArguments: {},
       ),

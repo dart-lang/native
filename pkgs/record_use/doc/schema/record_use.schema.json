@@ -19,9 +19,6 @@
             }
           ]
         },
-        "@": {
-          "type": "integer"
-        },
         "loading_unit": {
           "type": "string"
         }
@@ -238,9 +235,6 @@
     "Instance": {
       "type": "object",
       "properties": {
-        "@": {
-          "type": "integer"
-        },
         "constant_index": {
           "type": "integer"
         },
@@ -251,23 +245,6 @@
       "required": [
         "constant_index",
         "loading_unit"
-      ]
-    },
-    "Location": {
-      "type": "object",
-      "properties": {
-        "column": {
-          "type": "integer"
-        },
-        "line": {
-          "type": "integer"
-        },
-        "uri": {
-          "type": "string"
-        }
-      },
-      "required": [
-        "uri"
       ]
     },
     "MapEntry": {
@@ -292,12 +269,6 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/Constant"
-          }
-        },
-        "locations": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Location"
           }
         },
         "metadata": {
