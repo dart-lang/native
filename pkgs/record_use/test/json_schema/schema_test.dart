@@ -37,6 +37,7 @@ void main() {
 
 const constNullIndex = 4;
 const constInstanceIndex = 6;
+const constMapIndex = 3;
 List<(List<Object>, void Function(ValidationResults result))>
 recordUseFields = [
   (['constants'], expectOptionalFieldMissing),
@@ -46,6 +47,10 @@ recordUseFields = [
       (['constants', index, 'value'], expectRequiredFieldMissing),
     if (index == constInstanceIndex)
       (['constants', index, 'value'], expectOptionalFieldMissing),
+    if (index == constMapIndex) ...[
+      (['constants', index, 'value', 0, 'key'], expectRequiredFieldMissing),
+      (['constants', index, 'value', 0, 'value'], expectRequiredFieldMissing),
+    ],
     // Note the value for 'Instance' is optional because an empty map is
     // omitted. Also, Null has no value field.
   ],
