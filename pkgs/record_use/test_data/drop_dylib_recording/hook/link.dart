@@ -62,8 +62,11 @@ void main(List<String> arguments) async {
       );
       for (final instance in instances) {
         print('An instance of "$className" was found: $instance');
-        // Map class name to asset symbol (lowercase)
-        symbols.add(className.toLowerCase());
+        if (className == 'Double') {
+          symbols.add('add');
+        } else if (className == 'Square') {
+          symbols.add('multiply');
+        }
       }
     }
 
