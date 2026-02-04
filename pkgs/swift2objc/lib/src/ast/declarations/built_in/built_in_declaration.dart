@@ -42,7 +42,8 @@ const _objectDecl = BuiltInDeclaration(
   name: 'NSObject',
 );
 const _stringDecl = BuiltInDeclaration(id: 's:SS', name: 'String');
-const _selfDecl = BuiltInDeclaration(id: 'self', name: 'Self');
+const _selfDecl = BuiltInDeclaration(id: '', name: 'Self');
+
 final objectType = _objectDecl.asDeclaredType;
 final stringType = _stringDecl.asDeclaredType;
 final intType = _intDecl.asDeclaredType;
@@ -60,7 +61,6 @@ const builtInDeclarations = [
   _objectDecl,
   _stringDecl,
   _voidDecl,
-  _selfDecl,
 
   // TODO(https://github.com/dart-lang/native/issues/2954): This shouldn't be
   // treated as an ordinary built-in.
