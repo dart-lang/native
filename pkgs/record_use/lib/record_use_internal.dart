@@ -20,5 +20,12 @@ export 'src/record_use.dart' show RecordedUsages;
 export 'src/recordings.dart'
     show FlattenConstantsExtension, MapifyIterableExtension, Recordings;
 export 'src/reference.dart'
-    show CallReference, CallTearOff, CallWithArguments, InstanceReference;
+    show
+        CallReference,
+        CallTearoff,
+        CallWithArguments,
+        ConstructorTearoffReference,
+        InstanceConstantReference,
+        InstanceCreationReference,
+        InstanceReference;
 export 'src/version.dart' show version;

@@ -53,7 +53,7 @@ sealed class CallReference extends Reference {
     CallSyntax syntax,
     List<Constant> constants,
   ) => switch (syntax) {
-    TearoffCallSyntax() => CallTearOff(loadingUnit: syntax.loadingUnit),
+    TearoffCallSyntax() => CallTearoff(loadingUnit: syntax.loadingUnit),
     WithArgumentsCallSyntax(
       :final named,
       :final positional,
@@ -78,8 +78,8 @@ sealed class CallReference extends Reference {
 
   /// Compares this [CallWithArguments] with [other] for semantic equality.
   ///
-  /// If [allowTearOffToStaticPromotion] is true, this may be equal to a
-  /// [CallTearOff].
+  /// If [allowTearoffToStaticPromotion] is true, this may be equal to a
+  /// [CallTearoff].
   ///
   /// If [allowMoreConstArguments] is true, `null` arguments in [other]
   /// are ignored during comparison.
@@ -90,7 +90,7 @@ sealed class CallReference extends Reference {
   @visibleForTesting
   bool semanticEquals(
     CallReference other, {
-    bool allowTearOffToStaticPromotion = false,
+    bool allowTearoffToStaticPromotion = false,
     bool allowMoreConstArguments = false,
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
@@ -151,7 +151,7 @@ final class CallWithArguments extends CallReference {
   @visibleForTesting
   bool semanticEquals(
     CallReference other, {
-    bool allowTearOffToStaticPromotion = false,
+    bool allowTearoffToStaticPromotion = false,
     bool allowMoreConstArguments = false,
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
@@ -184,8 +184,8 @@ final class CallWithArguments extends CallReference {
           uriMapping: uriMapping,
           loadingUnitMapping: loadingUnitMapping,
         );
-      case CallTearOff():
-        return allowTearOffToStaticPromotion;
+      case CallTearoff():
+        return allowTearoffToStaticPromotion;
     }
   }
 
@@ -212,8 +212,8 @@ final class CallWithArguments extends CallReference {
 
 /// A reference to a tear-off use of the [Identifier]. This means that we can't
 /// record the arguments possibly passed to the method somewhere else.
-final class CallTearOff extends CallReference {
-  const CallTearOff({required super.loadingUnit});
+final class CallTearoff extends CallReference {
+  const CallTearoff({required super.loadingUnit});
 
   @override
   TearoffCallSyntax _toSyntax(Map<Constant, int> constants) =>
@@ -223,7 +223,7 @@ final class CallTearOff extends CallReference {
   @visibleForTesting
   bool semanticEquals(
     CallReference other, {
-    bool allowTearOffToStaticPromotion = false,
+    bool allowTearoffToStaticPromotion = false,
     bool allowMoreConstArguments = false,
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
@@ -231,7 +231,7 @@ final class CallTearOff extends CallReference {
     switch (other) {
       case CallWithArguments():
         return false;
-      case CallTearOff():
+      case CallTearoff():
         return _semanticEqualsShared(
           other,
           uriMapping: uriMapping,
@@ -241,38 +241,45 @@ final class CallTearOff extends CallReference {
   }
 }
 
-final class InstanceReference extends Reference {
-  final InstanceConstant instanceConstant;
-
-  const InstanceReference({
-    required this.instanceConstant,
-    required super.loadingUnit,
-  });
+sealed class InstanceReference extends Reference {
+  const InstanceReference({required super.loadingUnit});
 
   static InstanceReference _fromSyntax(
     InstanceSyntax syntax,
     List<Constant> constants,
-  ) => InstanceReference(
-    instanceConstant: constants[syntax.constantIndex] as InstanceConstant,
-    loadingUnit: syntax.loadingUnit,
-  );
+  ) => switch (syntax) {
+    ConstantInstanceSyntax(
+      :final constantIndex,
+      :final loadingUnit,
+    ) =>
+      InstanceConstantReference(
+        instanceConstant: constants[constantIndex] as InstanceConstant,
+        loadingUnit: loadingUnit,
+      ),
+    CreationInstanceSyntax(
+      :final named,
+      :final positional,
+      :final loadingUnit,
+    ) =>
+      InstanceCreationReference(
+        positionalArguments: (positional ?? [])
+            .map(
+              (constantsIndex) =>
+                  constantsIndex != null ? constants[constantsIndex] : null,
+            )
+            .toList(),
+        namedArguments: (named ?? {}).map(
+          (name, constantsIndex) => MapEntry(name, constants[constantsIndex]),
+        ),
+        loadingUnit: loadingUnit,
+      ),
+    TearoffInstanceSyntax(:final loadingUnit) => ConstructorTearoffReference(
+      loadingUnit: loadingUnit,
+    ),
+    _ => throw UnimplementedError('Unknown InstanceSyntax type'),
+  };
 
-  InstanceSyntax _toSyntax(Map<Constant, int> constants) => InstanceSyntax(
-    constantIndex: constants[instanceConstant]!,
-    loadingUnit: loadingUnit!,
-  );
-
-  @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-    if (!(super == other)) return false;
-
-    return other is InstanceReference &&
-        other.instanceConstant == instanceConstant;
-  }
-
-  @override
-  int get hashCode => Object.hash(instanceConstant, super.hashCode);
+  InstanceSyntax _toSyntax(Map<Constant, int> constants);
 
   /// Compares this [InstanceReference] with [other] for semantic equality.
   ///
@@ -284,10 +291,159 @@ final class InstanceReference extends Reference {
     InstanceReference other, {
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
+    bool allowMoreConstArguments = false,
+  });
+}
+
+final class InstanceConstantReference extends InstanceReference {
+  final InstanceConstant instanceConstant;
+
+  const InstanceConstantReference({
+    required this.instanceConstant,
+    required super.loadingUnit,
+  });
+
+  @override
+  ConstantInstanceSyntax _toSyntax(Map<Constant, int> constants) =>
+      ConstantInstanceSyntax(
+        constantIndex: constants[instanceConstant]!,
+        loadingUnit: loadingUnit!,
+      );
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(super == other)) return false;
+
+    return other is InstanceConstantReference &&
+        other.instanceConstant == instanceConstant;
+  }
+
+  @override
+  int get hashCode => Object.hash(instanceConstant, super.hashCode);
+
+  @override
+  @visibleForTesting
+  bool semanticEquals(
+    InstanceReference other, {
+    String Function(String)? uriMapping,
+    String Function(String)? loadingUnitMapping,
+    bool allowMoreConstArguments = false,
   }) {
+    if (other is! InstanceConstantReference) return false;
     if (!deepEquals(instanceConstant, other.instanceConstant)) {
       return false;
     }
+    return _semanticEqualsShared(
+      other,
+      uriMapping: uriMapping,
+      loadingUnitMapping: loadingUnitMapping,
+    );
+  }
+}
+
+final class InstanceCreationReference extends InstanceReference {
+  final List<Constant?> positionalArguments;
+  final Map<String, Constant?> namedArguments;
+
+  const InstanceCreationReference({
+    required this.positionalArguments,
+    required this.namedArguments,
+    required super.loadingUnit,
+  });
+
+  @override
+  CreationInstanceSyntax _toSyntax(Map<Constant, int> constants) {
+    final namedArgs = <String, int>{};
+    for (final entry in namedArguments.entries) {
+      if (entry.value != null) {
+        final index = constants[entry.value!];
+        if (index != null) {
+          namedArgs[entry.key] = index;
+        }
+      }
+    }
+
+    return CreationInstanceSyntax(
+      loadingUnit: loadingUnit!,
+      named: namedArgs.isNotEmpty ? namedArgs : null,
+      positional: positionalArguments.isEmpty
+          ? null
+          : positionalArguments.map((constant) => constants[constant]).toList(),
+    );
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(super == other)) return false;
+
+    return other is InstanceCreationReference &&
+        deepEquals(other.positionalArguments, positionalArguments) &&
+        deepEquals(other.namedArguments, namedArguments);
+  }
+
+  @override
+  int get hashCode => Object.hash(
+    deepHash(positionalArguments),
+    deepHash(namedArguments),
+    super.hashCode,
+  );
+
+  @override
+  @visibleForTesting
+  bool semanticEquals(
+    InstanceReference other, {
+    String Function(String)? uriMapping,
+    String Function(String)? loadingUnitMapping,
+    bool allowMoreConstArguments = false,
+  }) {
+    if (other is! InstanceCreationReference) return false;
+    if (positionalArguments.length != other.positionalArguments.length) {
+      return false;
+    }
+    for (final (index, argument) in other.positionalArguments.indexed) {
+      if (argument == null && allowMoreConstArguments) {
+        continue;
+      }
+      if (argument != positionalArguments[index]) {
+        return false;
+      }
+    }
+    for (final entry in other.namedArguments.entries) {
+      final name = entry.key;
+      final argument = entry.value;
+      if (argument == null && allowMoreConstArguments) {
+        continue;
+      }
+      if (argument != namedArguments[name]) {
+        return false;
+      }
+    }
+    return _semanticEqualsShared(
+      other,
+      uriMapping: uriMapping,
+      loadingUnitMapping: loadingUnitMapping,
+    );
+  }
+}
+
+final class ConstructorTearoffReference extends InstanceReference {
+  const ConstructorTearoffReference({required super.loadingUnit});
+
+  @override
+  TearoffInstanceSyntax _toSyntax(Map<Constant, int> constants) =>
+      TearoffInstanceSyntax(loadingUnit: loadingUnit!);
+
+  @override
+  @visibleForTesting
+  bool semanticEquals(
+    InstanceReference other, {
+    String Function(String)? uriMapping,
+    String Function(String)? loadingUnitMapping,
+    bool allowMoreConstArguments = false,
+  }) {
+    if (other is! ConstructorTearoffReference) return false;
     return _semanticEqualsShared(
       other,
       uriMapping: uriMapping,
