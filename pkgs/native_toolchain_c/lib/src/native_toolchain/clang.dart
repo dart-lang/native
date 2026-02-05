@@ -78,6 +78,15 @@ final Tool lld = Tool(
         wrappedResolver: clang.defaultResolver!,
         relativePath: Uri.file(OS.current.executableFileName('ld')),
       ),
+      InstallLocationResolver(
+        toolName: 'LLD',
+        paths: [
+          '/opt/homebrew/opt/lld/bin/ld.lld',
+          '/opt/homebrew/bin/ld.lld',
+          '/usr/local/opt/lld/bin/ld.lld',
+          '/usr/local/bin/ld.lld',
+        ],
+      ),
       PathToolResolver(
         toolName: 'LLD',
         executableName: OS.current.executableFileName('ld.lld'),
