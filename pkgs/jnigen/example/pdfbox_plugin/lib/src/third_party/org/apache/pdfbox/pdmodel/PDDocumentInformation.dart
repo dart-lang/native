@@ -61,23 +61,10 @@ import 'package:jni/jni.dart' as jni$_;
 /// method then it will clear the value.
 ///@author Ben Litchfield
 ///@author Gerardo Ortiz
-class PDDocumentInformation extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<PDDocumentInformation> $type;
-
-  @jni$_.internal
-  PDDocumentInformation.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type PDDocumentInformation._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static final _class =
       jni$_.JClass.forName(r'org/apache/pdfbox/pdmodel/PDDocumentInformation');
-
-  /// The type which includes information such as the signature of this class.
-  static const jni$_.JType<PDDocumentInformation?> nullableType =
-      $PDDocumentInformation$NullableType$();
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<PDDocumentInformation> type =
@@ -103,9 +90,8 @@ class PDDocumentInformation extends jni$_.JObject {
   ///
   /// Default Constructor.
   factory PDDocumentInformation() {
-    return PDDocumentInformation.fromReference(
-        _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
-            .reference);
+    return _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
+        .object<PDDocumentInformation>();
   }
 
   static final _id_new$1 = _class.constructorId(
@@ -132,9 +118,9 @@ class PDDocumentInformation extends jni$_.JObject {
     jni$_.JObject? dic,
   ) {
     final _$dic = dic?.reference ?? jni$_.jNullReference;
-    return PDDocumentInformation.fromReference(_new$1(_class.reference.pointer,
-            _id_new$1 as jni$_.JMethodIDPtr, _$dic.pointer)
-        .reference);
+    return _new$1(_class.reference.pointer, _id_new$1 as jni$_.JMethodIDPtr,
+            _$dic.pointer)
+        .object<PDDocumentInformation>();
   }
 
   static final _id_getCOSObject = _class.instanceMethodId(
@@ -162,7 +148,7 @@ class PDDocumentInformation extends jni$_.JObject {
   jni$_.JObject? getCOSObject() {
     return _getCOSObject(
             reference.pointer, _id_getCOSObject as jni$_.JMethodIDPtr)
-        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+        .object<jni$_.JObject?>();
   }
 
   static final _id_getPropertyStringValue = _class.instanceMethodId(
@@ -200,7 +186,7 @@ class PDDocumentInformation extends jni$_.JObject {
             reference.pointer,
             _id_getPropertyStringValue as jni$_.JMethodIDPtr,
             _$propertyKey.pointer)
-        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+        .object<jni$_.JObject?>();
   }
 
   static final _id_getTitle = _class.instanceMethodId(
@@ -227,7 +213,7 @@ class PDDocumentInformation extends jni$_.JObject {
   ///@return The title of the document.
   jni$_.JString? getTitle() {
     return _getTitle(reference.pointer, _id_getTitle as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+        .object<jni$_.JString?>();
   }
 
   static final _id_setTitle = _class.instanceMethodId(
@@ -283,7 +269,7 @@ class PDDocumentInformation extends jni$_.JObject {
   ///@return The author of the document.
   jni$_.JString? getAuthor() {
     return _getAuthor(reference.pointer, _id_getAuthor as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+        .object<jni$_.JString?>();
   }
 
   static final _id_setAuthor = _class.instanceMethodId(
@@ -339,7 +325,7 @@ class PDDocumentInformation extends jni$_.JObject {
   ///@return The subject of the document.
   jni$_.JString? getSubject() {
     return _getSubject(reference.pointer, _id_getSubject as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+        .object<jni$_.JString?>();
   }
 
   static final _id_setSubject = _class.instanceMethodId(
@@ -396,7 +382,7 @@ class PDDocumentInformation extends jni$_.JObject {
   jni$_.JString? getKeywords() {
     return _getKeywords(
             reference.pointer, _id_getKeywords as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+        .object<jni$_.JString?>();
   }
 
   static final _id_setKeywords = _class.instanceMethodId(
@@ -452,7 +438,7 @@ class PDDocumentInformation extends jni$_.JObject {
   ///@return The creator of the document.
   jni$_.JString? getCreator() {
     return _getCreator(reference.pointer, _id_getCreator as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+        .object<jni$_.JString?>();
   }
 
   static final _id_setCreator = _class.instanceMethodId(
@@ -509,7 +495,7 @@ class PDDocumentInformation extends jni$_.JObject {
   jni$_.JString? getProducer() {
     return _getProducer(
             reference.pointer, _id_getProducer as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+        .object<jni$_.JString?>();
   }
 
   static final _id_setProducer = _class.instanceMethodId(
@@ -566,7 +552,7 @@ class PDDocumentInformation extends jni$_.JObject {
   jni$_.JObject? getCreationDate() {
     return _getCreationDate(
             reference.pointer, _id_getCreationDate as jni$_.JMethodIDPtr)
-        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+        .object<jni$_.JObject?>();
   }
 
   static final _id_setCreationDate = _class.instanceMethodId(
@@ -623,7 +609,7 @@ class PDDocumentInformation extends jni$_.JObject {
   jni$_.JObject? getModificationDate() {
     return _getModificationDate(
             reference.pointer, _id_getModificationDate as jni$_.JMethodIDPtr)
-        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+        .object<jni$_.JObject?>();
   }
 
   static final _id_setModificationDate = _class.instanceMethodId(
@@ -680,7 +666,7 @@ class PDDocumentInformation extends jni$_.JObject {
   ///@return The trapped value for the document.
   jni$_.JString? getTrapped() {
     return _getTrapped(reference.pointer, _id_getTrapped as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+        .object<jni$_.JString?>();
   }
 
   static final _id_getMetadataKeys = _class.instanceMethodId(
@@ -709,9 +695,7 @@ class PDDocumentInformation extends jni$_.JObject {
   jni$_.JSet<jni$_.JString?>? getMetadataKeys() {
     return _getMetadataKeys(
             reference.pointer, _id_getMetadataKeys as jni$_.JMethodIDPtr)
-        .object<jni$_.JSet<jni$_.JString?>?>(
-            const jni$_.$JSet$NullableType$<jni$_.JString?>(
-                jni$_.$JString$NullableType$()));
+        .object<jni$_.JSet<jni$_.JString?>?>();
   }
 
   static final _id_getCustomMetadataValue = _class.instanceMethodId(
@@ -745,7 +729,7 @@ class PDDocumentInformation extends jni$_.JObject {
             reference.pointer,
             _id_getCustomMetadataValue as jni$_.JMethodIDPtr,
             _$fieldName.pointer)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+        .object<jni$_.JString?>();
   }
 
   static final _id_setCustomMetadataValue = _class.instanceMethodId(
@@ -821,45 +805,6 @@ class PDDocumentInformation extends jni$_.JObject {
   }
 }
 
-final class $PDDocumentInformation$NullableType$
-    extends jni$_.JType<PDDocumentInformation?> {
-  @jni$_.internal
-  const $PDDocumentInformation$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  String get signature => r'Lorg/apache/pdfbox/pdmodel/PDDocumentInformation;';
-
-  @jni$_.internal
-  @core$_.override
-  PDDocumentInformation? fromReference(jni$_.JReference reference) =>
-      reference.isNull
-          ? null
-          : PDDocumentInformation.fromReference(
-              reference,
-            );
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType get superType => const jni$_.$JObject$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType<PDDocumentInformation?> get nullableType => this;
-
-  @jni$_.internal
-  @core$_.override
-  final superCount = 1;
-
-  @core$_.override
-  int get hashCode => ($PDDocumentInformation$NullableType$).hashCode;
-
-  @core$_.override
-  core$_.bool operator ==(Object other) {
-    return other.runtimeType == ($PDDocumentInformation$NullableType$) &&
-        other is $PDDocumentInformation$NullableType$;
-  }
-}
-
 final class $PDDocumentInformation$Type$
     extends jni$_.JType<PDDocumentInformation> {
   @jni$_.internal
@@ -868,32 +813,4 @@ final class $PDDocumentInformation$Type$
   @jni$_.internal
   @core$_.override
   String get signature => r'Lorg/apache/pdfbox/pdmodel/PDDocumentInformation;';
-
-  @jni$_.internal
-  @core$_.override
-  PDDocumentInformation fromReference(jni$_.JReference reference) =>
-      PDDocumentInformation.fromReference(
-        reference,
-      );
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType get superType => const jni$_.$JObject$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType<PDDocumentInformation?> get nullableType =>
-      const $PDDocumentInformation$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  final superCount = 1;
-
-  @core$_.override
-  int get hashCode => ($PDDocumentInformation$Type$).hashCode;
-
-  @core$_.override
-  core$_.bool operator ==(Object other) {
-    return other.runtimeType == ($PDDocumentInformation$Type$) &&
-        other is $PDDocumentInformation$Type$;
-  }
 }

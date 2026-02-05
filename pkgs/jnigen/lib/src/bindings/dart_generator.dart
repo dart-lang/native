@@ -683,7 +683,7 @@ class _TypeGenerator extends TypeVisitor<String> {
     if (node.name == 'boolean') {
       return '$_core.${node.dartType}';
     }
-    return  node.dartType;
+    return node.dartType;
   }
 
   @override

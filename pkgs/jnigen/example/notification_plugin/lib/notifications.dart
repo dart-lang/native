@@ -41,23 +41,9 @@ import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
 /// from: `com.example.notification_plugin.Notifications`
-class Notifications extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<Notifications> $type;
-
-  @jni$_.internal
-  Notifications.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type Notifications._(jni$_.JObject _$this) implements jni$_.JObject {
   static final _class =
       jni$_.JClass.forName(r'com/example/notification_plugin/Notifications');
-
-  /// The type which includes information such as the signature of this class.
-  static const jni$_.JType<Notifications?> nullableType =
-      $Notifications$NullableType$();
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<Notifications> type = $Notifications$Type$();
@@ -80,9 +66,8 @@ class Notifications extends jni$_.JObject {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Notifications() {
-    return Notifications.fromReference(
-        _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
-            .reference);
+    return _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
+        .object<Notifications>();
   }
 
   static final _id_showNotification = _class.staticMethodId(
@@ -132,43 +117,6 @@ class Notifications extends jni$_.JObject {
   }
 }
 
-final class $Notifications$NullableType$ extends jni$_.JType<Notifications?> {
-  @jni$_.internal
-  const $Notifications$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  String get signature => r'Lcom/example/notification_plugin/Notifications;';
-
-  @jni$_.internal
-  @core$_.override
-  Notifications? fromReference(jni$_.JReference reference) => reference.isNull
-      ? null
-      : Notifications.fromReference(
-          reference,
-        );
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType get superType => const jni$_.$JObject$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType<Notifications?> get nullableType => this;
-
-  @jni$_.internal
-  @core$_.override
-  final superCount = 1;
-
-  @core$_.override
-  int get hashCode => ($Notifications$NullableType$).hashCode;
-
-  @core$_.override
-  core$_.bool operator ==(Object other) {
-    return other.runtimeType == ($Notifications$NullableType$) &&
-        other is $Notifications$NullableType$;
-  }
-}
-
 final class $Notifications$Type$ extends jni$_.JType<Notifications> {
   @jni$_.internal
   const $Notifications$Type$();
@@ -176,32 +124,4 @@ final class $Notifications$Type$ extends jni$_.JType<Notifications> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/example/notification_plugin/Notifications;';
-
-  @jni$_.internal
-  @core$_.override
-  Notifications fromReference(jni$_.JReference reference) =>
-      Notifications.fromReference(
-        reference,
-      );
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType get superType => const jni$_.$JObject$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType<Notifications?> get nullableType =>
-      const $Notifications$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  final superCount = 1;
-
-  @core$_.override
-  int get hashCode => ($Notifications$Type$).hashCode;
-
-  @core$_.override
-  core$_.bool operator ==(Object other) {
-    return other.runtimeType == ($Notifications$Type$) &&
-        other is $Notifications$Type$;
-  }
 }
