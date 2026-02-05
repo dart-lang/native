@@ -33,6 +33,20 @@ void main() {
       missingExpectations: field.$2,
     );
   }
+
+  final constructorInvocationDataUri = testDataUri.resolve(
+    'constructor_invocation.json',
+  );
+  for (final field in constructorInvocationFields) {
+    testField(
+      schemaUri: schemaUri,
+      dataUri: constructorInvocationDataUri,
+      schema: schema,
+      data: allTestData[constructorInvocationDataUri]!,
+      field: field.$1,
+      missingExpectations: field.$2,
+    );
+  }
 }
 
 const constNullIndex = 4;
@@ -87,6 +101,7 @@ recordUseFields = [
   (['recordings', 0, 'calls', 0, 'positional', 0], expectOptionalFieldMissing),
   (['recordings', 0, 'calls', 0, 'loading_unit'], expectRequiredFieldMissing),
   (['recordings', 1, 'instances'], expectOptionalFieldMissing),
+  (['recordings', 1, 'instances', 0, 'type'], expectRequiredFieldMissing),
   (
     ['recordings', 1, 'instances', 0, 'constant_index'],
     expectRequiredFieldMissing,
@@ -94,6 +109,26 @@ recordUseFields = [
   (
     ['recordings', 1, 'instances', 0, 'loading_unit'],
     expectRequiredFieldMissing,
+  ),
+];
+
+List<(List<Object>, void Function(ValidationResults result))>
+constructorInvocationFields = [
+  (
+    ['recordings', 0, 'instances', 0, 'loading_unit'],
+    expectRequiredFieldMissing,
+  ),
+  (
+    ['recordings', 0, 'instances', 0, 'type'],
+    expectRequiredFieldMissing,
+  ),
+  (
+    ['recordings', 0, 'instances', 0, 'positional'],
+    expectOptionalFieldMissing,
+  ),
+  (
+    ['recordings', 0, 'instances', 0, 'named'],
+    expectOptionalFieldMissing,
   ),
 ];
 

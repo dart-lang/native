@@ -70,7 +70,7 @@ void main() {
         // https://github.com/dart-lang/native/issues/2890
         allowDefinitionLoadingUnitNull: true,
         allowMoreConstArguments: true,
-        allowTearOffToStaticPromotion: true,
+        allowTearoffToStaticPromotion: true,
         expectedIsSubset: dart2jsDeferLoadedLibrary.contains(fileName),
         uriMapping: (String uri) =>
             uri.replaceFirst('memory:sdk/tests/web/native/', ''),

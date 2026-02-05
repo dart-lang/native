@@ -134,9 +134,17 @@ Error: $e
       ...instancesForDefinition.values
           .expand((instances) => instances)
           .expand(
-            (instance) => {
-              ...instance.instanceConstant.fields.values,
-              instance.instanceConstant,
+            (instance) => switch (instance) {
+              InstanceConstantReference(:final instanceConstant) => {
+                ...instanceConstant.fields.values,
+                instanceConstant,
+              },
+              InstanceCreationReference(
+                :final positionalArguments,
+                :final namedArguments,
+              ) =>
+                [...positionalArguments, ...namedArguments.values].nonNulls,
+              ConstructorTearoffReference() => <Constant>[],
             },
           ),
     }.flatten().asMapToIndices;
@@ -218,7 +226,7 @@ Error: $e
   /// a usage from [expected] cannot be found in `this`, simulating the effect
   /// of a compiler optimizing away a call entirely.
   ///
-  /// If [allowTearOffToStaticPromotion] is `true`, allows an [expected]
+  /// If [allowTearoffToStaticPromotion] is `true`, allows an [expected]
   /// function tear-off to match an `actual` static call.
   ///
   /// If [allowDefinitionLoadingUnitNull] is `true`, allows a definition's
@@ -237,7 +245,7 @@ Error: $e
     Recordings expected, {
     bool expectedIsSubset = false,
     bool allowDeadCodeElimination = false,
-    bool allowTearOffToStaticPromotion = false,
+    bool allowTearoffToStaticPromotion = false,
     bool allowDefinitionLoadingUnitNull = false,
     bool allowMoreConstArguments = false,
     bool allowMetadataMismatch = false,
@@ -264,7 +272,7 @@ Error: $e
       // ignore: invalid_use_of_visible_for_testing_member
       referenceMatches: (CallReference a, CallReference b) => a.semanticEquals(
         b,
-        allowTearOffToStaticPromotion: allowTearOffToStaticPromotion,
+        allowTearoffToStaticPromotion: allowTearoffToStaticPromotion,
         allowMoreConstArguments: allowMoreConstArguments,
         uriMapping: uriMapping,
         loadingUnitMapping: loadingUnitMapping,
@@ -285,6 +293,7 @@ Error: $e
             b,
             uriMapping: uriMapping,
             loadingUnitMapping: loadingUnitMapping,
+            allowMoreConstArguments: allowMoreConstArguments,
           ),
     )) {
       return false;

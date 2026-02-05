@@ -46,7 +46,7 @@ void main() {
     namedArguments: {},
     loadingUnit: null,
   );
-  const callDefinition1TearOff = CallTearOff(
+  const callDefinition1Tearoff = CallTearoff(
     loadingUnit: null,
   );
   const definition1differentUri2 = Definition(
@@ -192,7 +192,7 @@ void main() {
     );
   });
 
-  test('allowTearOffToStaticPromotion', () {
+  test('allowTearoffToStaticPromotion', () {
     final recordings1 = Recordings(
       metadata: metadata,
       callsForDefinition: {
@@ -203,21 +203,21 @@ void main() {
     final recordings2 = Recordings(
       metadata: metadata,
       callsForDefinition: {
-        definition1: [callDefinition1TearOff],
+        definition1: [callDefinition1Tearoff],
       },
       instancesForDefinition: const {},
     );
     expect(
       recordings1.semanticEquals(
         recordings2,
-        allowTearOffToStaticPromotion: true,
+        allowTearoffToStaticPromotion: true,
       ),
       isTrue,
     );
     expect(
       recordings1.semanticEquals(
         recordings2,
-        allowTearOffToStaticPromotion: false,
+        allowTearoffToStaticPromotion: false,
       ),
       isFalse,
     );
@@ -225,7 +225,7 @@ void main() {
     expect(
       recordings2.semanticEquals(
         recordings1,
-        allowTearOffToStaticPromotion: true,
+        allowTearoffToStaticPromotion: true,
       ),
       isFalse,
     );

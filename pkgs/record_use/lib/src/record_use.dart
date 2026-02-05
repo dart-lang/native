@@ -108,9 +108,11 @@ extension type RecordedUsages._(Recordings _recordings) {
   /// What kinds of fields can be recorded depends on the implementation of
   /// https://dart-review.googlesource.com/c/sdk/+/369620/13/pkg/vm/lib/transformations/record_use/record_instance.dart
   Iterable<ConstantInstance> constantsOf(Identifier identifier) =>
-      _recordings.instances[identifier]?.map(
-        (reference) => ConstantInstance(reference.instanceConstant.fields),
-      ) ??
+      _recordings.instances[identifier]
+          ?.whereType<InstanceConstantReference>()
+          .map(
+            (reference) => ConstantInstance(reference.instanceConstant.fields),
+          ) ??
       [];
 
   /// Checks if any call to [identifier] has non-const arguments, or if any
@@ -124,7 +126,7 @@ extension type RecordedUsages._(Recordings _recordings) {
   bool hasNonConstArguments(Identifier identifier) =>
       (_recordings.calls[identifier] ?? []).any(
         (element) => switch (element) {
-          CallTearOff() => true,
+          CallTearoff() => true,
           final CallWithArguments call => call.positionalArguments.any(
             (argument) => argument == null,
           ),
