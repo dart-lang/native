@@ -60,7 +60,7 @@ class Recordings {
       final syntax = RecordedUsesSyntax.fromJson(json);
       return Recordings._fromSyntax(syntax);
     } on FormatException catch (e) {
-      throw ArgumentError('''
+      throw FormatException('''
 Invalid JSON format for Recordings:
 ${const JsonEncoder.withIndent('  ').convert(json)}
 Error: $e
@@ -431,6 +431,35 @@ Error: $e
     }
 
     return true;
+  }
+
+  /// Returns a new [Recordings] that only contains usages of definitions
+  /// filtered by the provided criteria.
+  ///
+  /// If [definitionPackageName] is provided, only usages of definitions
+  /// defined in that package are included.
+  Recordings filter({String? definitionPackageName}) {
+    bool belongsToPackage(Definition definition) {
+      if (definitionPackageName == null) return true;
+      final uri = definition.identifier.importUri;
+      return uri.startsWith('package:$definitionPackageName/');
+    }
+
+    final newCallsForDefinition = {
+      for (final entry in callsForDefinition.entries)
+        if (belongsToPackage(entry.key)) entry.key: entry.value,
+    };
+
+    final newInstancesForDefinition = {
+      for (final entry in instancesForDefinition.entries)
+        if (belongsToPackage(entry.key)) entry.key: entry.value,
+    };
+
+    return Recordings(
+      metadata: metadata,
+      callsForDefinition: newCallsForDefinition,
+      instancesForDefinition: newInstancesForDefinition,
+    );
   }
 }
 
