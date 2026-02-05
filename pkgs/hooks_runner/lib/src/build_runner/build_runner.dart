@@ -275,11 +275,9 @@ class NativeAssetsBuildRunner {
       final file = _fileSystem.file(resourceIdentifiers);
       try {
         final content = await file.readAsString();
-        if (content.isNotEmpty) {
-          packageRecordings = Recordings.fromJson(
-            jsonDecode(content) as Map<String, Object?>,
-          );
-        }
+        packageRecordings = Recordings.fromJson(
+          jsonDecode(content) as Map<String, Object?>,
+        );
       } on FormatException catch (e) {
         logger.severe(
           'Failed to parse resource identifiers from $resourceIdentifiers: $e',

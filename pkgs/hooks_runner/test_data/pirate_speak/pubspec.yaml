@@ -4,7 +4,6 @@ description: >
   The build hook produces a JSON asset with translations.
   The link hook filters the JSON to only include translations for phrases used in the code,
   identified via @RecordUse on the `pirateSpeak` function.
-version: 1.0.0
 
 publish_to: none
 

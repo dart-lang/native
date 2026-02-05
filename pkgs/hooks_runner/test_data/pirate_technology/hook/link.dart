@@ -13,14 +13,15 @@ void main(List<String> args) async {
   await link(args, (input, output) async {
     final techAsset = _findTechAsset(input);
 
-    if (techAsset == null) return;
+    if (techAsset == null) {
+      throw StateError('Could not find technologies asset.');
+    }
 
     // ignore: experimental_member_use
     final recordedUsagesFile = input.recordedUsagesFile;
 
     if (recordedUsagesFile == null) {
       output.assets.data.add(techAsset.asDataAsset);
-
       return;
     }
 

@@ -4,7 +4,6 @@ description: >
   The build hook produces a JSON asset with tech specs.
   The link hook includes tech specs if the corresponding method is called,
   identified via @RecordUse on the tech methods. The content of the call doesn't matter, just presence.
-version: 1.0.0
 
 publish_to: none
 
