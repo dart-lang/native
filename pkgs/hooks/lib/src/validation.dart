@@ -160,7 +160,7 @@ class ProtocolBase {
             '''
 `BuildOutput.assets_for_linking` is not empty while `BuildInput.config.linkingEnabled` is `false`.
 
-The assets ${output.assets.encodedAssetsForLinking} where sent to linking, but should either be bundled with the app or linked only when linking is enabled.
+The assets ${output.assets.encodedAssetsForLinking} were sent to linking, but should either be bundled with the app or linked only when linking is enabled.
 
 This might be caused by writing something like
 
