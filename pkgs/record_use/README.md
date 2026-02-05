@@ -15,6 +15,11 @@ the method will be recorded, as far as they can be inferred at compile time.
 any constant instance of the class will be recorded. This is particularly useful
 when using the class as an annotation.
 
+> [!NOTE]
+> The `@RecordUse` annotation is only allowed on definitions within a package's
+> `lib/` directory. This includes definitions that are members of a class, such
+> as static methods.
+
 ## Example
 
 ```dart
