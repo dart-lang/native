@@ -11,7 +11,6 @@ import 'constant.dart';
 import 'definition.dart';
 import 'helper.dart';
 import 'identifier.dart';
-import 'location.dart';
 import 'metadata.dart';
 import 'reference.dart';
 import 'syntax.g.dart';
@@ -24,7 +23,7 @@ import 'syntax.g.dart';
 /// core data, associating each [Definition] with its corresponding [Reference]
 /// details.
 ///
-/// The class uses a normalized JSON format, allowing the reuse of locations and
+/// The class uses a normalized JSON format, allowing the reuse of
 /// constants across multiple recordings to optimize storage.
 class Recordings {
   /// [Metadata] such as the recording protocol version.
@@ -60,7 +59,7 @@ class Recordings {
       final syntax = RecordedUsesSyntax.fromJson(json);
       return Recordings._fromSyntax(syntax);
     } on FormatException catch (e) {
-      throw ArgumentError('''
+      throw FormatException('''
 Invalid JSON format for Recordings:
 ${const JsonEncoder.withIndent('  ').convert(json)}
 Error: $e
@@ -77,14 +76,6 @@ Error: $e
       }
     }
 
-    final locations = <Location>[];
-    for (final locationSyntax in syntax.locations ?? <LocationSyntax>[]) {
-      final location = LocationProtected.fromSyntax(locationSyntax);
-      if (!locations.contains(location)) {
-        locations.add(location);
-      }
-    }
-
     final callsForDefinition = <Definition, List<CallReference>>{};
     final instancesForDefinition = <Definition, List<InstanceReference>>{};
 
@@ -98,7 +89,6 @@ Error: $e
               (callSyntax) => CallReferenceProtected.fromSyntax(
                 callSyntax,
                 constants,
-                locations,
               ),
             )
             .toList();
@@ -110,7 +100,6 @@ Error: $e
               (instanceSyntax) => InstanceReferenceProtected.fromSyntax(
                 instanceSyntax,
                 constants,
-                locations,
               ),
             )
             .toList();
@@ -145,23 +134,20 @@ Error: $e
       ...instancesForDefinition.values
           .expand((instances) => instances)
           .expand(
-            (instance) => {
-              ...instance.instanceConstant.fields.values,
-              instance.instanceConstant,
+            (instance) => switch (instance) {
+              InstanceConstantReference(:final instanceConstant) => {
+                ...instanceConstant.fields.values,
+                instanceConstant,
+              },
+              InstanceCreationReference(
+                :final positionalArguments,
+                :final namedArguments,
+              ) =>
+                [...positionalArguments, ...namedArguments.values].nonNulls,
+              ConstructorTearoffReference() => <Constant>[],
             },
           ),
     }.flatten().asMapToIndices;
-
-    final locationsIndex = {
-      ...callsForDefinition.values
-          .expand((calls) => calls)
-          .map((call) => call.location)
-          .nonNulls,
-      ...instancesForDefinition.values
-          .expand((instances) => instances)
-          .map((instance) => instance.location)
-          .nonNulls,
-    }.asMapToIndices;
 
     final recordings = <RecordingSyntax>[];
     if (callsForDefinition.isNotEmpty) {
@@ -170,7 +156,7 @@ Error: $e
           (entry) => RecordingSyntax(
             definition: entry.key.toSyntax(),
             calls: entry.value
-                .map((call) => call.toSyntax(constantsIndex, locationsIndex))
+                .map((call) => call.toSyntax(constantsIndex))
                 .toList(),
           ),
         ),
@@ -183,8 +169,7 @@ Error: $e
             definition: entry.key.toSyntax(),
             instances: entry.value
                 .map(
-                  (instance) =>
-                      instance.toSyntax(constantsIndex, locationsIndex),
+                  (instance) => instance.toSyntax(constantsIndex),
                 )
                 .toList(),
           ),
@@ -199,9 +184,6 @@ Error: $e
           : constantsIndex.keys
                 .map((constant) => constant.toSyntax(constantsIndex))
                 .toList(),
-      locations: locationsIndex.isEmpty
-          ? null
-          : locationsIndex.keys.map((location) => location.toSyntax()).toList(),
       recordings: recordings.isEmpty ? null : recordings,
     );
   }
@@ -244,12 +226,8 @@ Error: $e
   /// a usage from [expected] cannot be found in `this`, simulating the effect
   /// of a compiler optimizing away a call entirely.
   ///
-  /// If [allowTearOffToStaticPromotion] is `true`, allows an [expected]
+  /// If [allowTearoffToStaticPromotion] is `true`, allows an [expected]
   /// function tear-off to match an `actual` static call.
-  ///
-  /// If [allowLocationNull] is `true`, having a `null` in one and a column and
-  /// line number in the other is considered semantically equal. Useful for if
-  /// one compiler does not provide source locations but the other does.
   ///
   /// If [allowDefinitionLoadingUnitNull] is `true`, allows a definition's
   /// loading unit to be `null` in one set but not the other. This handles
@@ -267,8 +245,7 @@ Error: $e
     Recordings expected, {
     bool expectedIsSubset = false,
     bool allowDeadCodeElimination = false,
-    bool allowTearOffToStaticPromotion = false,
-    bool allowLocationNull = false,
+    bool allowTearoffToStaticPromotion = false,
     bool allowDefinitionLoadingUnitNull = false,
     bool allowMoreConstArguments = false,
     bool allowMetadataMismatch = false,
@@ -295,8 +272,7 @@ Error: $e
       // ignore: invalid_use_of_visible_for_testing_member
       referenceMatches: (CallReference a, CallReference b) => a.semanticEquals(
         b,
-        allowTearOffToStaticPromotion: allowTearOffToStaticPromotion,
-        allowLocationNull: allowLocationNull,
+        allowTearoffToStaticPromotion: allowTearoffToStaticPromotion,
         allowMoreConstArguments: allowMoreConstArguments,
         uriMapping: uriMapping,
         loadingUnitMapping: loadingUnitMapping,
@@ -315,9 +291,9 @@ Error: $e
           // ignore: invalid_use_of_visible_for_testing_member
           a.semanticEquals(
             b,
-            allowLocationNull: allowLocationNull,
             uriMapping: uriMapping,
             loadingUnitMapping: loadingUnitMapping,
+            allowMoreConstArguments: allowMoreConstArguments,
           ),
     )) {
       return false;
@@ -432,6 +408,35 @@ Error: $e
 
     return true;
   }
+
+  /// Returns a new [Recordings] that only contains usages of definitions
+  /// filtered by the provided criteria.
+  ///
+  /// If [definitionPackageName] is provided, only usages of definitions
+  /// defined in that package are included.
+  Recordings filter({String? definitionPackageName}) {
+    bool belongsToPackage(Definition definition) {
+      if (definitionPackageName == null) return true;
+      final uri = definition.identifier.importUri;
+      return uri.startsWith('package:$definitionPackageName/');
+    }
+
+    final newCallsForDefinition = {
+      for (final entry in callsForDefinition.entries)
+        if (belongsToPackage(entry.key)) entry.key: entry.value,
+    };
+
+    final newInstancesForDefinition = {
+      for (final entry in instancesForDefinition.entries)
+        if (belongsToPackage(entry.key)) entry.key: entry.value,
+    };
+
+    return Recordings(
+      metadata: metadata,
+      callsForDefinition: newCallsForDefinition,
+      instancesForDefinition: newInstancesForDefinition,
+    );
+  }
 }
 
 extension FlattenConstantsExtension on Iterable<Constant> {
@@ -446,7 +451,9 @@ extension FlattenConstantsExtension on Iterable<Constant> {
   void depthFirstSearch(Constant constant, Set<Constant> collected) {
     final children = switch (constant) {
       ListConstant<Constant>() => constant.value,
-      MapConstant<Constant>() => constant.value.values,
+      MapConstant<Constant, Constant>() => constant.entries.expand(
+        (e) => [e.key, e.value],
+      ),
       InstanceConstant() => constant.fields.values,
       _ => <Constant>[],
     };

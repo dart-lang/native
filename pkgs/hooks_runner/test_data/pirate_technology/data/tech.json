@@ -1,0 +1,6 @@
+{
+  "Cannon": {"range": 100, "damage": 50},
+  "Compass": {"accuracy": 0.9},
+  "Telescope": {"zoom": 10},
+  "PegLeg": {"comfort": 2}
+}

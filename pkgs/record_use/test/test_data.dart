@@ -39,12 +39,13 @@ final recordedUses = Recordings(
           'leroy': StringConstant('jenkins'),
         },
         loadingUnit: 'o.js',
-        location: Location(uri: 'lib/test.dart', line: 12, column: 36),
       ),
       const CallWithArguments(
         positionalArguments: [
           StringConstant('lib_SHA1'),
-          MapConstant<IntConstant>({'key': IntConstant(99)}),
+          MapConstant<StringConstant, IntConstant>([
+            MapEntry(StringConstant('key'), IntConstant(99)),
+          ]),
           ListConstant([
             StringConstant('camus'),
             ListConstant([
@@ -60,23 +61,20 @@ final recordedUses = Recordings(
           'leroy': StringConstant('jenkins'),
         },
         loadingUnit: 'o.js',
-        location: Location(uri: 'lib/test2.dart'),
       ),
     ],
   },
   instancesForDefinition: {
     Definition(identifier: instanceId): [
-      const InstanceReference(
+      const InstanceConstantReference(
         instanceConstant: InstanceConstant(
           fields: {'a': IntConstant(42), 'b': NullConstant()},
         ),
         loadingUnit: '3',
-        location: Location(uri: 'lib/test3.dart'),
       ),
-      const InstanceReference(
+      const InstanceConstantReference(
         instanceConstant: InstanceConstant(fields: {}),
         loadingUnit: '3',
-        location: Location(uri: 'lib/test3.dart'),
       ),
     ],
   },
@@ -98,7 +96,6 @@ final recordedUses2 = Recordings(
           'answer': IntConstant(42),
         },
         loadingUnit: 'o.js',
-        location: Location(uri: 'lib/test3.dart'),
       ),
     ],
   },
@@ -132,14 +129,21 @@ const recordedUsesJson = '''{
       "value": "jenkins"
     },
     {
+      "type": "string",
+      "value": "key"
+    },
+    {
       "type": "int",
       "value": 99
     },
     {
       "type": "map",
-      "value": {
-        "key": 5
-      }
+      "value": [
+        {
+          "key": 5,
+          "value": 6
+        }
+      ]
     },
     {
       "type": "string",
@@ -156,17 +160,17 @@ const recordedUsesJson = '''{
     {
       "type": "list",
       "value": [
-        8,
         9,
+        10,
         1
       ]
     },
     {
       "type": "list",
       "value": [
-        7,
-        10,
-        8
+        8,
+        11,
+        9
       ]
     },
     {
@@ -183,25 +187,12 @@ const recordedUsesJson = '''{
     {
       "type": "instance",
       "value": {
-        "a": 13,
-        "b": 14
+        "a": 14,
+        "b": 15
       }
     },
     {
       "type": "instance"
-    }
-  ],
-  "locations": [
-    {
-      "uri": "lib/test.dart",
-      "line": 12,
-      "column": 36
-    },
-    {
-      "uri": "lib/test2.dart"
-    },
-    {
-      "uri": "lib/test3.dart"
     }
   ],
   "recordings": [
@@ -226,22 +217,20 @@ const recordedUsesJson = '''{
             "freddy": 3,
             "leroy": 4
           },
-          "loading_unit": "o.js",
-          "@": 0
+          "loading_unit": "o.js"
         },
         {
           "type": "with_arguments",
           "positional": [
             0,
-            6,
-            11
+            7,
+            12
           ],
           "named": {
-            "freddy": 12,
+            "freddy": 13,
             "leroy": 4
           },
-          "loading_unit": "o.js",
-          "@": 1
+          "loading_unit": "o.js"
         }
       ]
     },
@@ -254,14 +243,14 @@ const recordedUsesJson = '''{
       },
       "instances": [
         {
-          "constant_index": 15,
-          "loading_unit": "3",
-          "@": 2
+          "type": "constant",
+          "constant_index": 16,
+          "loading_unit": "3"
         },
         {
-          "constant_index": 16,
-          "loading_unit": "3",
-          "@": 2
+          "type": "constant",
+          "constant_index": 17,
+          "loading_unit": "3"
         }
       ]
     }
@@ -291,11 +280,6 @@ const recordedUsesJson2 = '''{
       "value": 42
     }
   ],
-  "locations": [
-    {
-      "uri": "lib/test3.dart"
-    }
-  ],
   "recordings": [
     {
       "definition": {
@@ -317,8 +301,7 @@ const recordedUsesJson2 = '''{
             "freddy": 2,
             "answer": 3
           },
-          "loading_unit": "o.js",
-          "@": 0
+          "loading_unit": "o.js"
         }
       ]
     }
