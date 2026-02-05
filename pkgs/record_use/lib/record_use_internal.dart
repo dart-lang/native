@@ -15,7 +15,6 @@ export 'src/constant.dart'
         StringConstant;
 export 'src/definition.dart' show Definition;
 export 'src/identifier.dart' show Identifier;
-export 'src/location.dart' show Location;
 export 'src/metadata.dart' show Metadata;
 export 'src/record_use.dart' show RecordedUsages;
 export 'src/recordings.dart'

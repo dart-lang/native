@@ -54,10 +54,6 @@ recordUseFields = [
     // Note the value for 'Instance' is optional because an empty map is
     // omitted. Also, Null has no value field.
   ],
-  (['locations'], expectOptionalFieldMissing),
-  (['locations', 0, 'uri'], expectRequiredFieldMissing),
-  (['locations', 0, 'line'], expectOptionalFieldMissing),
-  (['locations', 0, 'column'], expectOptionalFieldMissing),
   (['recordings'], expectOptionalFieldMissing),
   (['recordings', 0, 'definition'], expectRequiredFieldMissing),
   (['recordings', 0, 'definition', 'identifier'], expectRequiredFieldMissing),
@@ -90,7 +86,6 @@ recordUseFields = [
   (['recordings', 0, 'calls', 0, 'positional'], expectOptionalFieldMissing),
   (['recordings', 0, 'calls', 0, 'positional', 0], expectOptionalFieldMissing),
   (['recordings', 0, 'calls', 0, 'loading_unit'], expectRequiredFieldMissing),
-  (['recordings', 0, 'calls', 0, '@'], expectOptionalFieldMissing),
   (['recordings', 1, 'instances'], expectOptionalFieldMissing),
   (
     ['recordings', 1, 'instances', 0, 'constant_index'],
@@ -100,10 +95,6 @@ recordUseFields = [
     ['recordings', 1, 'instances', 0, 'loading_unit'],
     expectRequiredFieldMissing,
   ),
-  (['recordings', 1, 'instances', 0, '@'], expectOptionalFieldMissing),
-
-  // TODO: Locations are not always provided by dart2js for const values. So we
-  // need to make it optional.
 ];
 
 void testAllTestData(

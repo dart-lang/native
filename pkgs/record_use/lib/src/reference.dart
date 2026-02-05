@@ -7,7 +7,6 @@ import 'package:meta/meta.dart';
 import 'constant.dart';
 import 'helper.dart';
 import 'identifier.dart';
-import 'location.dart' show Location;
 import 'syntax.g.dart';
 
 /// A reference to *something*.
@@ -19,49 +18,28 @@ import 'syntax.g.dart';
 /// example all needing the same asset.
 sealed class Reference {
   final String? loadingUnit;
-  final Location? location;
 
-  const Reference({required this.loadingUnit, required this.location});
+  const Reference({required this.loadingUnit});
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is Reference &&
-        other.loadingUnit == loadingUnit &&
-        other.location == location;
+    return other is Reference && other.loadingUnit == loadingUnit;
   }
 
   @override
-  int get hashCode => Object.hash(loadingUnit, location);
+  int get hashCode => loadingUnit.hashCode;
 
   bool _semanticEqualsShared(
-    Reference other,
-    bool allowLocationNull, {
+    Reference other, {
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
-  }) {
-    final mappedLoadingUnit = loadingUnit == null || loadingUnitMapping == null
-        ? loadingUnit
-        : loadingUnitMapping(loadingUnit!);
-    if (other.loadingUnit != mappedLoadingUnit) {
-      return false;
-    }
-    if ((location == null) != (other.location == null)) {
-      return false;
-    }
-    if (location != null &&
-        other.location != null &&
-        // ignore: invalid_use_of_visible_for_testing_member
-        !location!.semanticEquals(
-          other.location!,
-          allowLocationNull: allowLocationNull,
-          uriMapping: uriMapping,
-        )) {
-      return false;
-    }
-    return true;
-  }
+  }) =>
+      (loadingUnit == null || loadingUnitMapping == null
+          ? loadingUnit
+          : loadingUnitMapping(loadingUnit!)) ==
+      other.loadingUnit;
 }
 
 /// A reference to a call to some [Identifier].
@@ -69,46 +47,34 @@ sealed class Reference {
 /// This might be an actual call, in which case we record the arguments, or a
 /// tear-off, in which case we can't record the arguments.
 sealed class CallReference extends Reference {
-  const CallReference({required super.loadingUnit, required super.location});
+  const CallReference({required super.loadingUnit});
 
   static CallReference _fromSyntax(
     CallSyntax syntax,
     List<Constant> constants,
-    List<Location> locations,
-  ) {
-    final locationIndex = syntax.at;
-    final location = locationIndex == null ? null : locations[locationIndex];
-    return switch (syntax) {
-      TearoffCallSyntax() => CallTearOff(
-        loadingUnit: syntax.loadingUnit,
-        location: location,
-      ),
-      WithArgumentsCallSyntax(
-        :final named,
-        :final positional,
-        :final loadingUnit,
-      ) =>
-        CallWithArguments(
-          positionalArguments: (positional ?? [])
-              .map(
-                (constantsIndex) =>
-                    constantsIndex != null ? constants[constantsIndex] : null,
-              )
-              .toList(),
-          namedArguments: (named ?? {}).map(
-            (name, constantsIndex) => MapEntry(name, constants[constantsIndex]),
-          ),
-          loadingUnit: loadingUnit,
-          location: location,
+  ) => switch (syntax) {
+    TearoffCallSyntax() => CallTearOff(loadingUnit: syntax.loadingUnit),
+    WithArgumentsCallSyntax(
+      :final named,
+      :final positional,
+      :final loadingUnit,
+    ) =>
+      CallWithArguments(
+        positionalArguments: (positional ?? [])
+            .map(
+              (constantsIndex) =>
+                  constantsIndex != null ? constants[constantsIndex] : null,
+            )
+            .toList(),
+        namedArguments: (named ?? {}).map(
+          (name, constantsIndex) => MapEntry(name, constants[constantsIndex]),
         ),
-      _ => throw UnimplementedError('Unknown CallSyntax type'),
-    };
-  }
+        loadingUnit: loadingUnit,
+      ),
+    _ => throw UnimplementedError('Unknown CallSyntax type'),
+  };
 
-  CallSyntax _toSyntax(
-    Map<Constant, int> constants,
-    Map<Location, int> locations,
-  );
+  CallSyntax _toSyntax(Map<Constant, int> constants);
 
   /// Compares this [CallWithArguments] with [other] for semantic equality.
   ///
@@ -121,15 +87,11 @@ sealed class CallReference extends Reference {
   /// The loading unit can be mapped with [loadingUnitMapping].
   ///
   /// The URI in the location can be mapped with [uriMapping].
-  ///
-  /// If [allowLocationNull] is true, a null location is considered equal to
-  /// any other location.
   @visibleForTesting
   bool semanticEquals(
     CallReference other, {
     bool allowTearOffToStaticPromotion = false,
     bool allowMoreConstArguments = false,
-    bool allowLocationNull = false,
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
   });
@@ -145,14 +107,10 @@ final class CallWithArguments extends CallReference {
     required this.positionalArguments,
     required this.namedArguments,
     required super.loadingUnit,
-    required super.location,
   });
 
   @override
-  WithArgumentsCallSyntax _toSyntax(
-    Map<Constant, int> constants,
-    Map<Location, int> locations,
-  ) {
+  WithArgumentsCallSyntax _toSyntax(Map<Constant, int> constants) {
     final namedArgs = <String, int>{};
     for (final entry in namedArguments.entries) {
       if (entry.value != null) {
@@ -164,7 +122,6 @@ final class CallWithArguments extends CallReference {
     }
 
     return WithArgumentsCallSyntax(
-      at: locations[location]!,
       loadingUnit: loadingUnit!,
       named: namedArgs.isNotEmpty ? namedArgs : null,
       positional: positionalArguments.isEmpty
@@ -196,7 +153,6 @@ final class CallWithArguments extends CallReference {
     CallReference other, {
     bool allowTearOffToStaticPromotion = false,
     bool allowMoreConstArguments = false,
-    bool allowLocationNull = false,
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
   }) {
@@ -225,7 +181,6 @@ final class CallWithArguments extends CallReference {
         }
         return _semanticEqualsShared(
           other,
-          allowLocationNull,
           uriMapping: uriMapping,
           loadingUnitMapping: loadingUnitMapping,
         );
@@ -248,9 +203,6 @@ final class CallWithArguments extends CallReference {
         'named: $namedString',
       );
     }
-    if (location != null) {
-      parts.add('location: $location');
-    }
     if (loadingUnit != null) {
       parts.add('loadingUnit: $loadingUnit');
     }
@@ -261,13 +213,11 @@ final class CallWithArguments extends CallReference {
 /// A reference to a tear-off use of the [Identifier]. This means that we can't
 /// record the arguments possibly passed to the method somewhere else.
 final class CallTearOff extends CallReference {
-  const CallTearOff({required super.loadingUnit, required super.location});
+  const CallTearOff({required super.loadingUnit});
 
   @override
-  TearoffCallSyntax _toSyntax(
-    Map<Constant, int> constants,
-    Map<Location, int> locations,
-  ) => TearoffCallSyntax(at: locations[location]!, loadingUnit: loadingUnit!);
+  TearoffCallSyntax _toSyntax(Map<Constant, int> constants) =>
+      TearoffCallSyntax(loadingUnit: loadingUnit!);
 
   @override
   @visibleForTesting
@@ -275,7 +225,6 @@ final class CallTearOff extends CallReference {
     CallReference other, {
     bool allowTearOffToStaticPromotion = false,
     bool allowMoreConstArguments = false,
-    bool allowLocationNull = false,
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
   }) {
@@ -285,7 +234,6 @@ final class CallTearOff extends CallReference {
       case CallTearOff():
         return _semanticEqualsShared(
           other,
-          allowLocationNull,
           uriMapping: uriMapping,
           loadingUnitMapping: loadingUnitMapping,
         );
@@ -299,28 +247,17 @@ final class InstanceReference extends Reference {
   const InstanceReference({
     required this.instanceConstant,
     required super.loadingUnit,
-    required super.location,
   });
 
   static InstanceReference _fromSyntax(
     InstanceSyntax syntax,
     List<Constant> constants,
-    List<Location> locations,
-  ) {
-    final locationIndex = syntax.at;
-    final location = locationIndex == null ? null : locations[locationIndex];
-    return InstanceReference(
-      instanceConstant: constants[syntax.constantIndex] as InstanceConstant,
-      loadingUnit: syntax.loadingUnit,
-      location: location,
-    );
-  }
+  ) => InstanceReference(
+    instanceConstant: constants[syntax.constantIndex] as InstanceConstant,
+    loadingUnit: syntax.loadingUnit,
+  );
 
-  InstanceSyntax _toSyntax(
-    Map<Constant, int> constants,
-    Map<Location, int> locations,
-  ) => InstanceSyntax(
-    at: locations[location]!,
+  InstanceSyntax _toSyntax(Map<Constant, int> constants) => InstanceSyntax(
     constantIndex: constants[instanceConstant]!,
     loadingUnit: loadingUnit!,
   );
@@ -342,13 +279,9 @@ final class InstanceReference extends Reference {
   /// The loading unit can be mapped with [loadingUnitMapping].
   ///
   /// The URI in the location can be mapped with [uriMapping].
-  ///
-  /// If [allowLocationNull] is true, a null location is considered equal to
-  /// any other location.
   @visibleForTesting
   bool semanticEquals(
     InstanceReference other, {
-    bool allowLocationNull = false,
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
   }) {
@@ -357,7 +290,6 @@ final class InstanceReference extends Reference {
     }
     return _semanticEqualsShared(
       other,
-      allowLocationNull,
       uriMapping: uriMapping,
       loadingUnitMapping: loadingUnitMapping,
     );
@@ -369,16 +301,12 @@ final class InstanceReference extends Reference {
 /// This avoids bloating the public API and public API docs and prevents
 /// internal types from leaking from the API.
 extension CallReferenceProtected on CallReference {
-  CallSyntax toSyntax(
-    Map<Constant, int> constants,
-    Map<Location, int> locations,
-  ) => _toSyntax(constants, locations);
+  CallSyntax toSyntax(Map<Constant, int> constants) => _toSyntax(constants);
 
   static CallReference fromSyntax(
     CallSyntax syntax,
     List<Constant> constants,
-    List<Location> locations,
-  ) => CallReference._fromSyntax(syntax, constants, locations);
+  ) => CallReference._fromSyntax(syntax, constants);
 }
 
 /// Package private (protected) methods for [InstanceReference].
@@ -386,14 +314,10 @@ extension CallReferenceProtected on CallReference {
 /// This avoids bloating the public API and public API docs and prevents
 /// internal types from leaking from the API.
 extension InstanceReferenceProtected on InstanceReference {
-  InstanceSyntax toSyntax(
-    Map<Constant, int> constants,
-    Map<Location, int> locations,
-  ) => _toSyntax(constants, locations);
+  InstanceSyntax toSyntax(Map<Constant, int> constants) => _toSyntax(constants);
 
   static InstanceReference fromSyntax(
     InstanceSyntax syntax,
     List<Constant> constants,
-    List<Location> locations,
-  ) => InstanceReference._fromSyntax(syntax, constants, locations);
+  ) => InstanceReference._fromSyntax(syntax, constants);
 }

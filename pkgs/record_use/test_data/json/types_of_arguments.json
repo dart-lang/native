@@ -68,11 +68,6 @@
       ]
     }
   ],
-  "locations": [
-    {
-      "uri": "types_of_arguments.dart"
-    }
-  ],
   "metadata": {
     "comment": "Recorded usages of objects tagged with a `RecordUse` annotation",
     "version": "0.4.0"
@@ -81,7 +76,6 @@
     {
       "calls": [
         {
-          "@": 0,
           "loading_unit": "1",
           "positional": [
             0
@@ -89,7 +83,6 @@
           "type": "with_arguments"
         },
         {
-          "@": 0,
           "loading_unit": "1",
           "positional": [
             1
@@ -97,7 +90,6 @@
           "type": "with_arguments"
         },
         {
-          "@": 0,
           "loading_unit": "1",
           "positional": [
             2
@@ -105,7 +97,6 @@
           "type": "with_arguments"
         },
         {
-          "@": 0,
           "loading_unit": "1",
           "positional": [
             3
@@ -113,7 +104,6 @@
           "type": "with_arguments"
         },
         {
-          "@": 0,
           "loading_unit": "1",
           "positional": [
             12
@@ -121,7 +111,6 @@
           "type": "with_arguments"
         },
         {
-          "@": 0,
           "loading_unit": "1",
           "positional": [
             null
