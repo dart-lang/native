@@ -18,6 +18,10 @@
     },
     {
       "type": "string",
+      "value": "a"
+    },
+    {
+      "type": "string",
       "value": "a1"
     },
     {
@@ -27,9 +31,13 @@
     {
       "type": "list",
       "value": [
-        4,
-        5
+        5,
+        6
       ]
+    },
+    {
+      "type": "string",
+      "value": "b"
     },
     {
       "type": "string",
@@ -42,16 +50,22 @@
     {
       "type": "list",
       "value": [
-        7,
-        8
+        9,
+        10
       ]
     },
     {
       "type": "map",
-      "value": {
-        "a": 6,
-        "b": 9
-      }
+      "value": [
+        {
+          "key": 4,
+          "value": 7
+        },
+        {
+          "key": 8,
+          "value": 11
+        }
+      ]
     }
   ],
   "locations": [
@@ -102,7 +116,7 @@
           "@": 0,
           "loading_unit": "1",
           "positional": [
-            10
+            12
           ],
           "type": "with_arguments"
         },
