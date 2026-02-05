@@ -44,7 +44,9 @@ final recordedUses = Recordings(
       const CallWithArguments(
         positionalArguments: [
           StringConstant('lib_SHA1'),
-          MapConstant<IntConstant>({'key': IntConstant(99)}),
+          MapConstant<StringConstant, IntConstant>([
+            MapEntry(StringConstant('key'), IntConstant(99)),
+          ]),
           ListConstant([
             StringConstant('camus'),
             ListConstant([
@@ -132,14 +134,21 @@ const recordedUsesJson = '''{
       "value": "jenkins"
     },
     {
+      "type": "string",
+      "value": "key"
+    },
+    {
       "type": "int",
       "value": 99
     },
     {
       "type": "map",
-      "value": {
-        "key": 5
-      }
+      "value": [
+        {
+          "key": 5,
+          "value": 6
+        }
+      ]
     },
     {
       "type": "string",
@@ -156,17 +165,17 @@ const recordedUsesJson = '''{
     {
       "type": "list",
       "value": [
-        8,
         9,
+        10,
         1
       ]
     },
     {
       "type": "list",
       "value": [
-        7,
-        10,
-        8
+        8,
+        11,
+        9
       ]
     },
     {
@@ -183,8 +192,8 @@ const recordedUsesJson = '''{
     {
       "type": "instance",
       "value": {
-        "a": 13,
-        "b": 14
+        "a": 14,
+        "b": 15
       }
     },
     {
@@ -233,11 +242,11 @@ const recordedUsesJson = '''{
           "type": "with_arguments",
           "positional": [
             0,
-            6,
-            11
+            7,
+            12
           ],
           "named": {
-            "freddy": 12,
+            "freddy": 13,
             "leroy": 4
           },
           "loading_unit": "o.js",
@@ -254,12 +263,12 @@ const recordedUsesJson = '''{
       },
       "instances": [
         {
-          "constant_index": 15,
+          "constant_index": 16,
           "loading_unit": "3",
           "@": 2
         },
         {
-          "constant_index": 16,
+          "constant_index": 17,
           "loading_unit": "3",
           "@": 2
         }

@@ -24,8 +24,10 @@ sealed class Constant {
     NullConstant() => null,
     final PrimitiveConstant p => p.value,
     final ListConstant<Constant> l => l.value.map((c) => c.toValue()).toList(),
-    final MapConstant<Constant> m => m.value.map(
-      (key, value) => MapEntry(key, value.toValue()),
+    final MapConstant<Constant, Constant> m => Map.fromEntries(
+      m.entries.map(
+        (entry) => MapEntry(entry.key.toValue(), entry.value.toValue()),
+      ),
     ),
     final InstanceConstant i => i.fields.map(
       (key, value) => MapEntry(key, value.toValue()),
@@ -45,7 +47,14 @@ sealed class Constant {
       value!.cast<int>().map((i) => constants[i]).toList(),
     ),
     MapConstantSyntax(:final value) => MapConstant(
-      value.json.map((key, value) => MapEntry(key, constants[value as int])),
+      value
+          .map(
+            (e) => MapEntry(
+              constants[e.key],
+              constants[e.value],
+            ),
+          )
+          .toList(),
     ),
     InstanceConstantSyntax(value: final value) => InstanceConstant(
       fields: (value?.json ?? {}).map(
@@ -152,30 +161,46 @@ final class ListConstant<T extends Constant> extends Constant {
       );
 }
 
-/// Represents a constant map from string keys to [Constant] values.
-final class MapConstant<T extends Constant> extends Constant {
+/// Represents a constant map from [Constant] keys to [Constant] values.
+final class MapConstant<K extends Constant, V extends Constant>
+    extends Constant {
   /// The underlying map of constant values.
-  final Map<String, T> value;
+  final List<MapEntry<K, V>> entries;
 
-  /// Creates a [MapConstant] object with the given map of [value]s.
-  const MapConstant(this.value);
+  /// Creates a [MapConstant] object with the given map of entries.
+  const MapConstant(this.entries);
 
   @override
-  int get hashCode => deepHash(value);
+  int get hashCode => Object.hashAll(
+    entries.map((e) => Object.hash(e.key, e.value)),
+  );
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is MapConstant && deepEquals(other.value, value);
+    if (other is! MapConstant) return false;
+    if (other.entries.length != entries.length) return false;
+    for (var i = 0; i < entries.length; i++) {
+      if (entries[i].key != other.entries[i].key ||
+          entries[i].value != other.entries[i].value) {
+        return false;
+      }
+    }
+    return true;
   }
 
   @override
   MapConstantSyntax _toSyntax(Map<Constant, int> constants) =>
       MapConstantSyntax(
-        value: JsonObjectSyntax.fromJson(
-          value.map((key, constant) => MapEntry(key, constants[constant]!)),
-        ),
+        value: entries
+            .map(
+              (entry) => MapEntrySyntax(
+                key: constants[entry.key]!,
+                value: constants[entry.value]!,
+              ),
+            )
+            .toList(),
       );
 }
 

@@ -531,34 +531,45 @@ class MapConstantSyntax extends ConstantSyntax {
     super.path,
   }) : super._fromJson();
 
-  MapConstantSyntax({required JsonObjectSyntax value, super.path = const []})
-    : super(type: 'map') {
+  MapConstantSyntax({
+    required List<MapEntrySyntax> value,
+    super.path = const [],
+  }) : super(type: 'map') {
     _value = value;
     json.sortOnKey();
   }
 
   /// Setup all fields for [MapConstantSyntax] that are not in
   /// [ConstantSyntax].
-  void setup({required JsonObjectSyntax value}) {
+  void setup({required List<MapEntrySyntax> value}) {
     _value = value;
     json.sortOnKey();
   }
 
-  JsonObjectSyntax get value {
-    final jsonValue = _reader.map$('value');
-    return JsonObjectSyntax.fromJson(jsonValue, path: [...path, 'value']);
+  List<MapEntrySyntax> get value {
+    final jsonValue = _reader.list('value');
+    return [
+      for (final (index, element) in jsonValue.indexed)
+        MapEntrySyntax.fromJson(
+          element as Map<String, Object?>,
+          path: [...path, 'value', index],
+        ),
+    ];
   }
 
-  set _value(JsonObjectSyntax value) {
-    json['value'] = value.json;
+  set _value(List<MapEntrySyntax> value) {
+    json['value'] = [for (final item in value) item.json];
   }
 
   List<String> _validateValue() {
-    final mapErrors = _reader.validate<Map<String, Object?>>('value');
-    if (mapErrors.isNotEmpty) {
-      return mapErrors;
+    final listErrors = _reader.validateList<Map<String, Object?>>(
+      'value',
+    );
+    if (listErrors.isNotEmpty) {
+      return listErrors;
     }
-    return value.validate();
+    final elements = value;
+    return [for (final element in elements) ...element.validate()];
   }
 
   @override
@@ -573,6 +584,46 @@ extension MapConstantSyntaxExtension on ConstantSyntax {
 
   MapConstantSyntax get asMapConstant =>
       MapConstantSyntax.fromJson(json, path: path);
+}
+
+class MapEntrySyntax extends JsonObjectSyntax {
+  MapEntrySyntax.fromJson(
+    super.json, {
+    super.path = const [],
+  }) : super.fromJson();
+
+  MapEntrySyntax({required int key, required int value, super.path = const []})
+    : super() {
+    _key = key;
+    _value = value;
+    json.sortOnKey();
+  }
+
+  int get key => _reader.get<int>('key');
+
+  set _key(int value) {
+    json.setOrRemove('key', value);
+  }
+
+  List<String> _validateKey() => _reader.validate<int>('key');
+
+  int get value => _reader.get<int>('value');
+
+  set _value(int value) {
+    json.setOrRemove('value', value);
+  }
+
+  List<String> _validateValue() => _reader.validate<int>('value');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateKey(),
+    ..._validateValue(),
+  ];
+
+  @override
+  String toString() => 'MapEntrySyntax($json)';
 }
 
 class MetadataSyntax extends JsonObjectSyntax {

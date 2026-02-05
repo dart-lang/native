@@ -446,7 +446,9 @@ extension FlattenConstantsExtension on Iterable<Constant> {
   void depthFirstSearch(Constant constant, Set<Constant> collected) {
     final children = switch (constant) {
       ListConstant<Constant>() => constant.value,
-      MapConstant<Constant>() => constant.value.values,
+      MapConstant<Constant, Constant>() => constant.entries.expand(
+        (e) => [e.key, e.value],
+      ),
       InstanceConstant() => constant.fields.values,
       _ => <Constant>[],
     };
