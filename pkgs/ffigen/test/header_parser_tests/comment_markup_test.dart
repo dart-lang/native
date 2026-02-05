@@ -5,7 +5,6 @@
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
 import 'package:ffigen/src/strings.dart' as strings;
-import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -14,9 +13,9 @@ late Library actual;
 void main() {
   group('comment_markup_test', () {
     setUpAll(() {
-      logWarnings(Level.SEVERE);
       actual = parser.parse(
-        testConfig('''
+        testContext(
+          testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Comment Markup Test'
 ${strings.output}: 'unused'
@@ -27,17 +26,21 @@ ${strings.comments}:
   ${strings.style}: ${strings.any}
   ${strings.length}: ${strings.full}
         '''),
+        ),
       );
     });
 
     test('Expected bindings', () {
       matchLibraryWithExpected(
-          actual, 'header_parser_comment_markup_test_output.dart', [
-        'test',
-        'header_parser_tests',
-        'expected_bindings',
-        '_expected_comment_markup_bindings.dart'
-      ]);
+        actual,
+        'header_parser_comment_markup_test_output.dart',
+        [
+          'test',
+          'header_parser_tests',
+          'expected_bindings',
+          '_expected_comment_markup_bindings.dart',
+        ],
+      );
     });
   });
 }

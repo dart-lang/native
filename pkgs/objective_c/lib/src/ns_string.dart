@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffi/ffi.dart';
+
 import 'objective_c_bindings_generated.dart';
 
 extension StringToNSString on String {
@@ -11,8 +12,8 @@ extension StringToNSString on String {
 
 extension NSStringToString on NSString {
   String toDartString() {
-    final data =
-        dataUsingEncoding_(0x94000100 /* NSUTF16LittleEndianStringEncoding */);
+    const nsUTF16LittleEndianStringEncoding = 0x94000100;
+    final data = dataUsingEncoding(nsUTF16LittleEndianStringEncoding);
     return data!.bytes.cast<Utf16>().toDartString(length: length);
   }
 }

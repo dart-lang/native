@@ -1,0 +1,58 @@
+name: native_doc_dartifier
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - ".github/workflows/native_doc_dartifier.yaml"
+      - "pkgs/native_doc_dartifier/**"
+  pull_request:
+    branches: [main]
+    paths:
+      - ".github/workflows/native_doc_dartifier.yaml"
+      - "pkgs/native_doc_dartifier/**"
+
+env:
+  PUB_ENVIRONMENT: bot.github
+  GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
+
+jobs:
+  analyze_and_test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: pkgs/native_doc_dartifier/
+    strategy:
+      fail-fast: false
+      matrix:
+        sdk: [stable]
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
+        with:
+          channel: ${{ matrix.sdk }}
+
+      - name: Download ObjectBox DB .so file
+        run: bash <(curl -s https://raw.githubusercontent.com/objectbox/objectbox-dart/main/install.sh)
+
+      - id: install
+        name: Install dependencies
+        run: flutter pub get
+      - name: Check formatting
+        run: dart format --output=none --set-exit-if-changed .
+        if: always() && steps.install.outcome == 'success'
+      - name: Analyze code
+        run: dart analyze --fatal-infos
+        if: always() && steps.install.outcome == 'success'
+      - name: Compile Java code
+        run: dart run tool/compile_java.dart
+        if: always() && steps.install.outcome == 'success'
+      - name: Run VM tests
+        run: dart test --platform vm
+        if: always() && steps.install.outcome == 'success'
+      - name: Regenerate bindings and dartified snippets
+        run: dart run tool/prepare_dartify_test.dart
+        if: always() && steps.install.outcome == 'success'
+      - name: Run VM tests again
+        run: dart test --platform vm
+        if: always() && steps.install.outcome == 'success'

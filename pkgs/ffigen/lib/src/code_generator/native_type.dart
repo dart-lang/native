@@ -3,8 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
-
-import 'writer.dart';
+import '../context.dart';
+import '../visitor/ast.dart';
 
 enum SupportedNativeType {
   voidType,
@@ -37,11 +37,19 @@ class NativeType extends Type {
     SupportedNativeType.uint32: NativeType._('Uint32', 'int', 'uint32_t', '0'),
     SupportedNativeType.uint64: NativeType._('Uint64', 'int', 'uint64_t', '0'),
     SupportedNativeType.float: NativeType._('Float', 'double', 'float', '0.0'),
-    SupportedNativeType.double:
-        NativeType._('Double', 'double', 'double', '0.0'),
+    SupportedNativeType.double: NativeType._(
+      'Double',
+      'double',
+      'double',
+      '0.0',
+    ),
     SupportedNativeType.intPtr: NativeType._('IntPtr', 'int', 'intptr_t', '0'),
-    SupportedNativeType.uintPtr:
-        NativeType._('UintPtr', 'int', 'uintptr_t', '0'),
+    SupportedNativeType.uintPtr: NativeType._(
+      'UintPtr',
+      'int',
+      'uintptr_t',
+      '0',
+    ),
   };
 
   final String _cType;
@@ -50,15 +58,20 @@ class NativeType extends Type {
   final String? _defaultValue;
 
   const NativeType._(
-      this._cType, this._dartType, this._nativeType, this._defaultValue);
+    this._cType,
+    this._dartType,
+    this._nativeType,
+    this._defaultValue,
+  );
 
   factory NativeType(SupportedNativeType type) => _primitives[type]!;
 
   @override
-  String getCType(Writer w) => '${w.ffiLibraryPrefix}.$_cType';
+  String getCType(Context context) =>
+      '${context.libs.prefix(ffiImport)}.$_cType';
 
   @override
-  String getFfiDartType(Writer w) => _dartType;
+  String getFfiDartType(Context context) => _dartType;
 
   @override
   String getNativeType({String varName = ''}) => '$_nativeType $varName';
@@ -73,7 +86,13 @@ class NativeType extends Type {
   String cacheKey() => _cType;
 
   @override
-  String? getDefaultValue(Writer w) => _defaultValue;
+  String? getDefaultValue(Context context) => _defaultValue;
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(ffiImport);
+  }
 }
 
 class BooleanType extends NativeType {

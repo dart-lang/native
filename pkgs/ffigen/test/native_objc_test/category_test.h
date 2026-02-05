@@ -54,3 +54,18 @@
 @interface NSString (NSStringCategory)
 -(int32_t)excludedExtensionMethod;
 @end
+
+@interface Thing (StaticAndInstanceMethodsWithSameNameCategory)
+-(int32_t)sameNameMethod;
++(int32_t)sameNameMethod;
+@end
+
+// Category with the same name as a built in type.
+@interface Thing (NSString)
+-(int32_t)nsStringExtension;
+@end
+
+// Extend the object with the same-named category.
+// https://github.com/dart-lang/native/issues/2762
+@interface ChildOfNSString : NSString {}
+@end

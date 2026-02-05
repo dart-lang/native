@@ -15,5 +15,6 @@
   "dependencies": [
     "/usr/local/google/home/dacoharkes/src/dacoharkes/playground/my_package/src/my_package.c"
   ],
+  "status": "success",
   "timestamp": "2025-02-17 17:36:39.000"
 }

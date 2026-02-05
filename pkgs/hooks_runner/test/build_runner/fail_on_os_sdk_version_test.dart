@@ -70,8 +70,9 @@ void main() async {
                   targetIOSSdk: (target.os == OS.iOS) ? IOSSdk.iPhoneOS : null,
                   targetIOSVersion: (target.os == OS.iOS) ? version : null,
                   targetMacOSVersion: (target.os == OS.macOS) ? version : null,
-                  targetAndroidNdkApi:
-                      (target.os == OS.android) ? version : null,
+                  targetAndroidNdkApi: (target.os == OS.android)
+                      ? version
+                      : null,
                   packageUri,
                   createCapturingLogger(logMessages, level: Level.SEVERE),
                   dartExecutable,

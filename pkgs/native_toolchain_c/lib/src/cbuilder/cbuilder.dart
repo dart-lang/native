@@ -13,6 +13,7 @@ import 'build_mode.dart';
 import 'ctool.dart';
 import 'language.dart';
 import 'linkmode.dart';
+import 'logger.dart';
 import 'optimization_level.dart';
 import 'output_type.dart';
 import 'run_cbuilder.dart';
@@ -53,6 +54,7 @@ class CBuilder extends CTool implements Builder {
 
   CBuilder.library({
     required super.name,
+    super.packageName,
     super.assetName,
     super.sources = const [],
     super.includes = const [],
@@ -81,6 +83,7 @@ class CBuilder extends CTool implements Builder {
 
   CBuilder.executable({
     required super.name,
+    super.packageName,
     super.sources = const [],
     super.includes = const [],
     super.forcedIncludes = const [],
@@ -113,15 +116,19 @@ class CBuilder extends CTool implements Builder {
   /// Runs the C Compiler with on this C build spec.
   ///
   /// Completes with an error if the build fails.
+  ///
+  /// If provided, uses [logger] to output logs. Otherwise, uses a default
+  /// logger that streams [Level.WARNING] to stdout and higher levels to stderr.
   @override
   Future<void> run({
     required BuildInput input,
     required BuildOutputBuilder output,
-    required Logger? logger,
+    Logger? logger,
     List<AssetRouting> routing = const [ToAppBundle()],
   }) async {
+    logger ??= createDefaultLogger();
     if (!input.config.buildCodeAssets) {
-      logger?.info(
+      logger.info(
         'config.buildAssetTypes did not contain CodeAssets, '
         'skipping CodeAsset $assetName build.',
       );
@@ -177,12 +184,11 @@ class CBuilder extends CTool implements Builder {
       libraryDirectories: libraryDirectories,
       dynamicLibrary:
           type == OutputType.library && linkMode == DynamicLoadingBundled()
-              ? libUri
-              : null,
-      staticLibrary:
-          type == OutputType.library && linkMode == StaticLinking()
-              ? libUri
-              : null,
+          ? libUri
+          : null,
+      staticLibrary: type == OutputType.library && linkMode == StaticLinking()
+          ? libUri
+          : null,
       executable: type == OutputType.executable ? exeUri : null,
       // ignore: invalid_use_of_visible_for_testing_member
       installName: installName,
@@ -204,7 +210,7 @@ class CBuilder extends CTool implements Builder {
       for (final route in routing) {
         output.assets.code.add(
           CodeAsset(
-            package: input.packageName,
+            package: packageName ?? input.packageName,
             name: assetName!,
             file: libUri,
             linkMode: linkMode,
@@ -214,17 +220,16 @@ class CBuilder extends CTool implements Builder {
       }
     }
 
-    final includeFiles =
-        await Stream.fromIterable(includes)
-            .asyncExpand(
-              (include) => Directory(include.toFilePath())
-                  .list(recursive: true)
-                  .where((entry) => entry is File)
-                  .map((file) => file.uri),
-            )
-            .toList();
+    final includeFiles = await Stream.fromIterable(includes)
+        .asyncExpand(
+          (include) => Directory(include.toFilePath())
+              .list(recursive: true)
+              .where((entry) => entry is File)
+              .map((file) => file.uri),
+        )
+        .toList();
 
-    output.addDependencies({
+    output.dependencies.addAll({
       // Note: We use a Set here to deduplicate the dependencies.
       ...sources,
       ...includeFiles,

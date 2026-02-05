@@ -92,15 +92,6 @@
           "items": {
             "$ref": "#/definitions/Asset"
           }
-        },
-        "assets_for_linking": {
-          "type": "object",
-          "additionalProperties": {
-            "type": "array",
-            "items": {
-              "$ref": "#/definitions/Asset"
-            }
-          }
         }
       },
       "allOf": [
@@ -129,6 +120,32 @@
     "ConfigExtensions": {
       "type": "object",
       "additionalProperties": true
+    },
+    "Failure": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "$ref": "#/definitions/FailureType"
+        }
+      },
+      "required": [
+        "type"
+      ]
+    },
+    "FailureType": {
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "build",
+            "infra",
+            "uncategorized"
+          ]
+        },
+        {
+          "type": "string"
+        }
+      ]
     },
     "HookInput": {
       "type": "object",
@@ -180,11 +197,26 @@
             "$ref": "#/definitions/Asset"
           }
         },
+        "assets_for_linking": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "array",
+            "items": {
+              "$ref": "#/definitions/Asset"
+            }
+          }
+        },
         "dependencies": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/absolutePath"
           }
+        },
+        "failure_details": {
+          "$ref": "#/definitions/Failure"
+        },
+        "status": {
+          "$ref": "#/definitions/OutputStatus"
         },
         "timestamp": {
           "type": "string"
@@ -192,11 +224,33 @@
       },
       "required": [
         "timestamp"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "status": {
+                "const": "failure"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "failure_details"
+            ]
+          }
+        }
       ]
     },
     "LinkInput": {
       "properties": {
         "assets": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Asset"
+          }
+        },
+        "assets_from_linking": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/Asset"
@@ -213,6 +267,7 @@
       ]
     },
     "LinkOutput": {
+      "type": "object",
       "allOf": [
         {
           "$ref": "#/definitions/HookOutput"
@@ -229,6 +284,20 @@
       },
       "required": [
         "key"
+      ]
+    },
+    "OutputStatus": {
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "failure",
+            "success"
+          ]
+        },
+        {
+          "type": "string"
+        }
       ]
     },
     "UserDefinesSource": {

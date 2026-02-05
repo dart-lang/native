@@ -25,6 +25,7 @@ void main() async {
         const LocalFileSystem(),
         nativeAddUri,
         'native_add',
+        includeDevDependencies: false,
       );
       final nativeAssetsBuildPlanner =
           await NativeAssetsBuildPlanner.fromPackageConfigUri(
@@ -36,9 +37,13 @@ void main() async {
             packageLayout: packageLayout,
             fileSystem: const LocalFileSystem(),
           );
+      final packagesWithHook = await nativeAssetsBuildPlanner.packagesWithHook(
+        Hook.build,
+      );
+      expect(packagesWithHook.length, 1);
       final buildPlan = await nativeAssetsBuildPlanner.makeBuildHookPlan();
-      expect(buildPlan!.length, 1);
-      expect(buildPlan.single.name, 'native_add');
+      expect(buildPlan.success.length, 1);
+      expect(buildPlan.success.single.name, 'native_add');
     });
   });
 
@@ -56,6 +61,7 @@ void main() async {
           const LocalFileSystem(),
           nativeAddUri,
           runPackageName,
+          includeDevDependencies: false,
         );
         final nativeAssetsBuildPlanner =
             await NativeAssetsBuildPlanner.fromPackageConfigUri(
@@ -68,7 +74,39 @@ void main() async {
               fileSystem: const LocalFileSystem(),
             );
         final buildPlan = await nativeAssetsBuildPlanner.makeBuildHookPlan();
-        expect(buildPlan!.length, 0);
+        expect(buildPlan.success.length, 0);
+      });
+    });
+  }
+
+  for (final includeDevDependencies in [true, false]) {
+    test('includeDevDependencies $includeDevDependencies', () async {
+      const runPackageName = 'dev_dependency_with_hook';
+      await inTempDir((tempUri) async {
+        await copyTestProjects(targetUri: tempUri);
+        final nativeAddUri = tempUri.resolve('$runPackageName/');
+
+        // First, run `pub get`, we need pub to resolve our dependencies.
+        await runPubGet(workingDirectory: nativeAddUri, logger: logger);
+
+        final packageLayout = await PackageLayout.fromWorkingDirectory(
+          const LocalFileSystem(),
+          nativeAddUri,
+          runPackageName,
+          includeDevDependencies: includeDevDependencies,
+        );
+        final nativeAssetsBuildPlanner =
+            await NativeAssetsBuildPlanner.fromPackageConfigUri(
+              packageConfigUri: nativeAddUri.resolve(
+                '.dart_tool/package_config.json',
+              ),
+              dartExecutable: Uri.file(Platform.resolvedExecutable),
+              logger: logger,
+              packageLayout: packageLayout,
+              fileSystem: const LocalFileSystem(),
+            );
+        final buildPlan = await nativeAssetsBuildPlanner.makeBuildHookPlan();
+        expect(buildPlan.success.length, includeDevDependencies ? 1 : 0);
       });
     });
   }

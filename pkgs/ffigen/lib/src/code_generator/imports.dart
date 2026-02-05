@@ -2,10 +2,10 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'type.dart';
-import 'writer.dart';
 
 /// A library import which will be written as an import in the generated file.
 class LibraryImport extends AstNode {
@@ -13,13 +13,12 @@ class LibraryImport extends AstNode {
   final String _importPath;
   final String? _importPathWhenImportedByPackageObjC;
 
-  String prefix;
-
-  LibraryImport(this.name, this._importPath,
-      {String? importPathWhenImportedByPackageObjC})
-      : _importPathWhenImportedByPackageObjC =
-            importPathWhenImportedByPackageObjC,
-        prefix = name;
+  const LibraryImport(
+    this.name,
+    this._importPath, {
+    String? importPathWhenImportedByPackageObjC,
+  }) : _importPathWhenImportedByPackageObjC =
+           importPathWhenImportedByPackageObjC;
 
   @override
   bool operator ==(Object other) {
@@ -35,6 +34,12 @@ class LibraryImport extends AstNode {
     if (!generateForPackageObjectiveC) return _importPath;
     return _importPathWhenImportedByPackageObjC ?? _importPath;
   }
+
+  @override
+  String toString() => '$name $_importPath';
+
+  @override
+  void visit(Visitation visitation) => visitation.visitLibraryImport(this);
 }
 
 /// An imported type which will be used in the generated code.
@@ -58,18 +63,15 @@ class ImportedType extends Type {
   });
 
   @override
-  String getCType(Writer w) {
-    w.markImportUsed(libraryImport);
-    return '${libraryImport.prefix}.$cType';
-  }
+  String getCType(Context context) =>
+      '${context.libs.prefix(libraryImport)}.$cType';
 
   @override
-  String getFfiDartType(Writer w) {
+  String getFfiDartType(Context context) {
     if (importedDartType) {
-      w.markImportUsed(libraryImport);
-      return '${libraryImport.prefix}.$dartType';
+      return '${context.libs.prefix(libraryImport)}.$dartType';
     } else {
-      return cType == dartType ? getCType(w) : dartType;
+      return cType == dartType ? getCType(context) : dartType;
     }
   }
 
@@ -83,7 +85,10 @@ class ImportedType extends Type {
   String toString() => '${libraryImport.name}.$cType';
 
   @override
-  String? getDefaultValue(Writer w) => defaultValue;
+  String? getDefaultValue(Context context) => defaultValue;
+
+  @override
+  void visit(Visitation visitation) => visitation.visitImportedType(this);
 
   @override
   void visitChildren(Visitor visitor) {
@@ -102,10 +107,10 @@ class SelfImportedType extends Type {
   SelfImportedType(this.cType, this.dartType, [this.defaultValue]);
 
   @override
-  String getCType(Writer w) => cType;
+  String getCType(Context context) => cType;
 
   @override
-  String getFfiDartType(Writer w) => dartType;
+  String getFfiDartType(Context context) => dartType;
 
   @override
   bool get sameFfiDartAndCType => cType == dartType;
@@ -114,60 +119,150 @@ class SelfImportedType extends Type {
   String toString() => cType;
 }
 
-final ffiImport = LibraryImport('ffi', 'dart:ffi');
-final ffiPkgImport = LibraryImport('pkg_ffi', 'package:ffi/ffi.dart');
-final objcPkgImport = LibraryImport(
-    'objc', 'package:objective_c/objective_c.dart',
-    importPathWhenImportedByPackageObjC: '../objective_c.dart');
-final self = LibraryImport('self', '');
-final allLibraries = [ffiImport, ffiPkgImport, objcPkgImport, self];
+const ffiImport = LibraryImport('ffi', 'dart:ffi');
+const ffiPkgImport = LibraryImport('pkg_ffi', 'package:ffi/ffi.dart');
+const objcPkgImport = LibraryImport(
+  'objc',
+  'package:objective_c/objective_c.dart',
+  importPathWhenImportedByPackageObjC: '../objective_c.dart',
+);
+const selfImport = LibraryImport('self', '');
+final builtInLibraries = {
+  for (final l in [ffiImport, ffiPkgImport, objcPkgImport, selfImport])
+    l.name: l,
+};
 
 final voidType = ImportedType(ffiImport, 'Void', 'void', 'void');
 
 final unsignedCharType = ImportedType(
-    ffiImport, 'UnsignedChar', 'int', 'unsigned char',
-    defaultValue: '0');
-final signedCharType =
-    ImportedType(ffiImport, 'SignedChar', 'int', 'char', defaultValue: '0');
-final charType =
-    ImportedType(ffiImport, 'Char', 'int', 'char', defaultValue: '0');
+  ffiImport,
+  'UnsignedChar',
+  'int',
+  'unsigned char',
+  defaultValue: '0',
+);
+final signedCharType = ImportedType(
+  ffiImport,
+  'SignedChar',
+  'int',
+  'char',
+  defaultValue: '0',
+);
+final charType = ImportedType(
+  ffiImport,
+  'Char',
+  'int',
+  'char',
+  defaultValue: '0',
+);
 final unsignedShortType = ImportedType(
-    ffiImport, 'UnsignedShort', 'int', 'unsigned short',
-    defaultValue: '0');
-final shortType =
-    ImportedType(ffiImport, 'Short', 'int', 'short', defaultValue: '0');
+  ffiImport,
+  'UnsignedShort',
+  'int',
+  'unsigned short',
+  defaultValue: '0',
+);
+final shortType = ImportedType(
+  ffiImport,
+  'Short',
+  'int',
+  'short',
+  defaultValue: '0',
+);
 final unsignedIntType = ImportedType(
-    ffiImport, 'UnsignedInt', 'int', 'unsigned',
-    defaultValue: '0');
+  ffiImport,
+  'UnsignedInt',
+  'int',
+  'unsigned',
+  defaultValue: '0',
+);
 final intType = ImportedType(ffiImport, 'Int', 'int', 'int', defaultValue: '0');
 final unsignedLongType = ImportedType(
-    ffiImport, 'UnsignedLong', 'int', 'unsigned long',
-    defaultValue: '0');
-final longType =
-    ImportedType(ffiImport, 'Long', 'int', 'long', defaultValue: '0');
+  ffiImport,
+  'UnsignedLong',
+  'int',
+  'unsigned long',
+  defaultValue: '0',
+);
+final longType = ImportedType(
+  ffiImport,
+  'Long',
+  'int',
+  'long',
+  defaultValue: '0',
+);
 final unsignedLongLongType = ImportedType(
-    ffiImport, 'UnsignedLongLong', 'int', 'unsigned long long',
-    defaultValue: '0');
-final longLongType =
-    ImportedType(ffiImport, 'LongLong', 'int', 'long long', defaultValue: '0');
+  ffiImport,
+  'UnsignedLongLong',
+  'int',
+  'unsigned long long',
+  defaultValue: '0',
+);
+final longLongType = ImportedType(
+  ffiImport,
+  'LongLong',
+  'int',
+  'long long',
+  defaultValue: '0',
+);
 
-final floatType =
-    ImportedType(ffiImport, 'Float', 'double', 'float', defaultValue: '0.0');
-final doubleType =
-    ImportedType(ffiImport, 'Double', 'double', 'double', defaultValue: '0.0');
+final floatType = ImportedType(
+  ffiImport,
+  'Float',
+  'double',
+  'float',
+  defaultValue: '0.0',
+);
+final doubleType = ImportedType(
+  ffiImport,
+  'Double',
+  'double',
+  'double',
+  defaultValue: '0.0',
+);
 
-final sizeType =
-    ImportedType(ffiImport, 'Size', 'int', 'size_t', defaultValue: '0');
-final wCharType =
-    ImportedType(ffiImport, 'WChar', 'int', 'wchar_t', defaultValue: '0');
+final sizeType = ImportedType(
+  ffiImport,
+  'Size',
+  'int',
+  'size_t',
+  defaultValue: '0',
+);
+final wCharType = ImportedType(
+  ffiImport,
+  'WChar',
+  'int',
+  'wchar_t',
+  defaultValue: '0',
+);
 
-final objCObjectType =
-    ImportedType(objcPkgImport, 'ObjCObject', 'ObjCObject', 'void');
+final objCObjectType = ImportedType(
+  objcPkgImport,
+  'ObjCObjectImpl',
+  'ObjCObjectImpl',
+  'void',
+);
 final objCSelType = ImportedType(
-    objcPkgImport, 'ObjCSelector', 'ObjCSelector', 'struct objc_selector');
-final objCBlockType =
-    ImportedType(objcPkgImport, 'ObjCBlockImpl', 'ObjCBlockImpl', 'id');
-final objCProtocolType =
-    ImportedType(objcPkgImport, 'ObjCProtocol', 'ObjCProtocol', 'void');
+  objcPkgImport,
+  'ObjCSelector',
+  'ObjCSelector',
+  'struct objc_selector',
+);
+final objCBlockType = ImportedType(
+  objcPkgImport,
+  'ObjCBlockImpl',
+  'ObjCBlockImpl',
+  'id',
+);
+final objCProtocolType = ImportedType(
+  objcPkgImport,
+  'ObjCProtocolImpl',
+  'ObjCProtocolImpl',
+  'void',
+);
 final objCContextType = ImportedType(
-    objcPkgImport, 'DOBJC_Context', 'DOBJC_Context', 'DOBJC_Context');
+  objcPkgImport,
+  'DOBJC_Context',
+  'DOBJC_Context',
+  'DOBJC_Context',
+);

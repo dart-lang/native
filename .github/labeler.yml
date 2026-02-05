@@ -36,6 +36,10 @@
   - changed-files:
     - any-glob-to-any-file: 'pkgs/hooks_runner/**'
 
+'package:native_doc_dartifier':
+  - changed-files:
+    - any-glob-to-any-file: 'pkgs/native_doc_dartifier/**'
+
 'package:native_toolchain_c':
   - changed-files:
     - any-glob-to-any-file: 'pkgs/native_toolchain_c/**'

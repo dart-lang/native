@@ -19,6 +19,7 @@ import 'syntax.g.dart';
 /// Native code assets can be accessed at runtime through native external
 /// functions via their asset [id]:
 ///
+/// <!-- file://./../../../example/api/code_asset_snippet.dart -->
 /// ```dart
 /// import 'dart:ffi';
 ///
@@ -52,6 +53,11 @@ import 'syntax.g.dart';
 /// specified location on the current system into the application bundle.
 final class CodeAsset {
   /// The id of this code asset.
+  ///
+  /// The identifier is a uri `package:<package>/<name>`. In build hooks,
+  /// `<package>` must be the name of the package containing the build hook.
+  /// Code assets are name-spaced in their own package to avoid naming
+  /// conflicts.
   final String id;
 
   /// The link mode for this native code.
@@ -59,36 +65,43 @@ final class CodeAsset {
   /// Either dynamic loading or static linking.
   final LinkMode linkMode;
 
-  /// The file to be bundled with the Dart or Flutter application.
+  /// The native library to be bundled with the Dart or Flutter application.
   ///
   /// If the [linkMode] is [DynamicLoadingBundled], the file must be provided
-  /// and exist.
+  /// and exist. The path must be an absolute path. Prefer constructing the path
+  /// via [HookInput.outputDirectoryShared] or [HookInput.outputDirectory].
   ///
   /// If the [linkMode] is [DynamicLoadingSystem], the file must be provided,
   /// and not exist.
   ///
   /// If the [linkMode] is [LookupInProcess], or [LookupInExecutable] the file
   /// must be omitted in the [BuildOutput].
+  ///
+  /// Code assets with [DynamicLoadingBundled] may not have conflicting file
+  /// names, the dynamic linker treats them as a single namespace.
   final Uri? file;
 
   /// Constructs a native code asset.
   ///
   /// The [id] of this asset is a uri `package:<package>/<name>` from [package]
-  /// and [name].
+  /// and [name]. In build hooks, [package] must be the name of the package
+  /// containing the build hook. Code assets are name-spaced in their own
+  /// package to avoid naming conflicts.
   CodeAsset({
     required String package,
     required String name,
-    required LinkMode linkMode,
-    Uri? file,
-  }) : this._(id: 'package:$package/$name', linkMode: linkMode, file: file);
+    required this.linkMode,
+    this.file,
+  }) : id = 'package:$package/$name';
 
   CodeAsset._({required this.id, required this.linkMode, required this.file});
 
+  /// Creates a [CodeAsset] from an [EncodedAsset].
   factory CodeAsset.fromEncoded(EncodedAsset asset) {
     assert(asset.isCodeAsset);
     final syntaxNode = NativeCodeAssetEncodingSyntax.fromJson(
       asset.encoding,
-      path: asset.jsonPath ?? [],
+      path: asset.encodingJsonPath ?? [],
     );
     return CodeAsset._(
       id: syntaxNode.id,
@@ -97,6 +110,7 @@ final class CodeAsset {
     );
   }
 
+  /// Creates a copy of this [CodeAsset] with the given fields replaced.
   CodeAsset copyWith({LinkMode? linkMode, String? id, Uri? file}) =>
       CodeAsset._(
         id: id ?? this.id,
@@ -115,6 +129,7 @@ final class CodeAsset {
   @override
   int get hashCode => Object.hash(id, linkMode, file);
 
+  /// Encodes this [CodeAsset] into an [EncodedAsset].
   EncodedAsset encode() {
     final encoding = NativeCodeAssetEncodingSyntax(
       file: file,
@@ -125,16 +140,22 @@ final class CodeAsset {
   }
 }
 
+/// Extension for identifying the type of a [CodeAsset].
 extension CodeAssetType on CodeAsset {
+  /// The type identifier for [CodeAsset]s in a hook input or output.
   static const String type = NativeCodeAssetNewSyntax.typeValue;
 }
 
 /// Methods on [EncodedAsset] for [CodeAsset]s.
 extension EncodedCodeAsset on EncodedAsset {
+  /// Whether this [EncodedAsset] represents a [CodeAsset].
   bool get isCodeAsset => type == CodeAssetType.type;
+
+  /// Converts this [EncodedAsset] to a [CodeAsset].
   CodeAsset get asCodeAsset => CodeAsset.fromEncoded(this);
 }
 
+/// Provides OS-specific library naming conventions.
 extension OSLibraryNaming on OS {
   /// The default dynamic library file name on this os.
   String dylibFileName(String name) {

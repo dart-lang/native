@@ -3,18 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/code_generator/writer.dart';
-
-final dummyWriter = Writer(
-  lookUpBindings: [],
-  ffiNativeBindings: [],
-  noLookUpBindings: [],
-  nativeEntryPoints: [],
-  className: 'unused',
-  silenceEnumWarning: true,
-  generateForPackageObjectiveC: false,
-  nativeAssetId: null,
-);
 
 /// Find compound having [name] in [library].
 Compound findCompound(Library library, String name) {

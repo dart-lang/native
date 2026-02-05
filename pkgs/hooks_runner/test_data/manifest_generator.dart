@@ -4,11 +4,54 @@
 
 import 'dart:io';
 
-void main(List<String> args) async {
-  final testDataDirectory = Directory.fromUri(Platform.script.resolve('.'));
-  updateManifest(testDataDirectory, false);
-  final all = testDataDirectory.listSync(recursive: true);
-  all.whereType<Directory>().forEach((e) => updateManifest(e, true));
+import 'package:args/args.dart';
+import 'package:native_test_helpers/native_test_helpers.dart';
+
+void main(List<String> args) {
+  final stopwatch = Stopwatch()..start();
+  final parser = ArgParser()
+    ..addFlag(
+      'set-exit-if-changed',
+      negatable: false,
+      help: 'Return a non-zero exit code if any files were changed.',
+    );
+  final argResults = parser.parse(args);
+  final setExitIfChanged = argResults['set-exit-if-changed'] as bool;
+
+  final counts = Counts();
+
+  updateManifests(counts);
+
+  stopwatch.stop();
+  final duration = stopwatch.elapsedMilliseconds / 1000.0;
+  print(
+    'Generated ${counts.generated} files (${counts.changed} changed) in '
+    '${duration.toStringAsFixed(2)} seconds.',
+  );
+  if (setExitIfChanged && counts.changed > 0) {
+    exit(1);
+  }
+}
+
+class Counts {
+  int generated = 0;
+  int changed = 0;
+}
+
+void updateManifests(Counts counts) async {
+  final packageUris = [
+    findPackageRoot('hooks_runner'),
+    findPackageRoot('hooks_runner').resolve('../record_use/'),
+  ];
+  for (final packageUri in packageUris) {
+    final testDataUri = packageUri.resolve('test_data/');
+    final testDataDirectory = Directory.fromUri(testDataUri);
+    updateManifest(testDataDirectory, counts, allowPartialProjects: false);
+    final all = testDataDirectory.listSync(recursive: true);
+    all.whereType<Directory>().forEach(
+      (e) => updateManifest(e, counts, allowPartialProjects: true),
+    );
+  }
 }
 
 const denyList = [
@@ -17,6 +60,9 @@ const denyList = [
   'manifest',
   'README.md',
   '.gitignore',
+  'out.js',
+  'json/',
+  'json_dart2js/',
 ];
 
 /// These just modify other test projects.
@@ -32,13 +78,17 @@ const partialProjects = [
   'simple_link_change_asset',
 ];
 
-void updateManifest(Directory directory, bool allowPartialProjects) {
+void updateManifest(
+  Directory directory,
+  Counts counts, {
+  required bool allowPartialProjects,
+}) {
   final manifestFile = File.fromUri(directory.uri.resolve('manifest.yaml'));
   if (!manifestFile.existsSync()) {
     return;
   }
   final all = directory.listSync(recursive: true);
-  final dirPath = directory.uri.toFilePath();
+  final dirPath = directory.uri.toFilePath(windows: false);
   final files =
       all
           .whereType<File>()
@@ -50,15 +100,32 @@ void updateManifest(Directory directory, bool allowPartialProjects) {
                 '$partialProject/pubspec.yaml',
               ],
             ]) {
-              if (f.path.contains(denyString)) return false;
+              if (f.uri.toFilePath(windows: false).contains(denyString)) {
+                return false;
+              }
             }
 
             return true;
           })
-          .map((e) => e.path.replaceFirst(dirPath, ''))
+          .map(
+            (e) => e.uri.toFilePath(windows: false).replaceFirst(dirPath, ''),
+          )
           .toList()
         ..sort();
-  manifestFile.writeAsStringSync(header + files.map((e) => '- $e\n').join());
+
+  var oldContent = '';
+  if (manifestFile.existsSync()) {
+    oldContent = manifestFile.readAsStringSync();
+  }
+  final newContent = header + files.map((e) => '- $e\n').join();
+  final newContentNormalized = newContent.replaceAll('\r\n', '\n');
+  final oldContentNormalized = oldContent.replaceAll('\r\n', '\n');
+  if (newContentNormalized != oldContentNormalized) {
+    manifestFile.writeAsStringSync(newContent);
+    print('Generated ${manifestFile.uri} (content changed)');
+    counts.changed++;
+  }
+  counts.generated++;
 }
 
 const header = '''

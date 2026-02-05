@@ -48,6 +48,15 @@ final Tool llvmAr = Tool(
         wrappedResolver: clang.defaultResolver!,
         relativePath: Uri.file(OS.current.executableFileName('llvm-ar')),
       ),
+      RelativeToolResolver(
+        toolName: 'LLVM archiver',
+        wrappedResolver: clang.defaultResolver!,
+        relativePath: Uri.file(OS.current.executableFileName('ar')),
+      ),
+      PathToolResolver(
+        toolName: 'LLVM archiver',
+        executableName: OS.current.executableFileName('llvm-ar'),
+      ),
     ]),
   ),
 );
@@ -63,6 +72,24 @@ final Tool lld = Tool(
         toolName: 'LLD',
         wrappedResolver: clang.defaultResolver!,
         relativePath: Uri.file(OS.current.executableFileName('ld.lld')),
+      ),
+      RelativeToolResolver(
+        toolName: 'LLD',
+        wrappedResolver: clang.defaultResolver!,
+        relativePath: Uri.file(OS.current.executableFileName('ld')),
+      ),
+      InstallLocationResolver(
+        toolName: 'LLD',
+        paths: [
+          '/opt/homebrew/opt/lld/bin/ld.lld',
+          '/opt/homebrew/bin/ld.lld',
+          '/usr/local/opt/lld/bin/ld.lld',
+          '/usr/local/bin/ld.lld',
+        ],
+      ),
+      PathToolResolver(
+        toolName: 'LLD',
+        executableName: OS.current.executableFileName('ld.lld'),
       ),
     ]),
   ),

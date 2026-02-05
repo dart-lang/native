@@ -16,24 +16,35 @@ void main() {
   group('generate_code.dart', () {
     test('Runs without exception', () async {
       // As well as testing that this returns normally, this also generates
-      // coverage info for the parts of ffigen that are gated by
+      // coverage info for the parts of FFIgen that are gated by
       // generate-for-package-objective-c. The github workflow that runs this
       // test also uses it to verify that there are no git-diffs in the output.
       await expectLater(generate_code.run(format: true), completes);
 
       // Sanity check the generated code.
-      final cBindings =
-          File('lib/src/c_bindings_generated.dart').readAsStringSync();
-      expect(cBindings, contains('sel_registerName'));
-      expect(cBindings, contains('objc_msgSend'));
-      expect(cBindings, contains('_NSConcreteGlobalBlock'));
-      expect(cBindings, contains('ObjCBlock'));
+      final rBindings = File(
+        'lib/src/runtime_bindings_generated.dart',
+      ).readAsStringSync();
+      expect(rBindings, contains('sel_registerName'));
+      expect(rBindings, contains('objc_msgSend'));
+      expect(rBindings, contains('_NSConcreteGlobalBlock'));
+      expect(rBindings, contains('ObjCObject'));
 
-      final objcBindings = File('lib/src/objective_c_bindings_generated.dart')
-          .readAsStringSync();
+      final cBindings = File(
+        'lib/src/c_bindings_generated.dart',
+      ).readAsStringSync();
+      expect(cBindings, contains('fillContext'));
+      expect(cBindings, contains('DOBJC_Context'));
+      expect(cBindings, contains('Dart_FinalizableHandle'));
+      expect(cBindings, contains('ILLEGAL_PORT'));
+      expect(cBindings, contains('ObjCBlockImpl'));
+
+      final objcBindings = File(
+        'lib/src/objective_c_bindings_generated.dart',
+      ).readAsStringSync();
       expect(objcBindings, contains('class NSObject'));
       expect(objcBindings, contains('class NSString'));
-      expect(objcBindings, contains('factory NSString(String str)'));
+      expect(objcBindings, contains('NSString(String str)'));
     });
   });
 }

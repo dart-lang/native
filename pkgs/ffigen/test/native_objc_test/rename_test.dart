@@ -4,11 +4,11 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
-
 import 'dart:ffi';
 import 'dart:io';
 
 import 'package:objective_c/objective_c.dart';
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'rename_bindings.dart';
@@ -17,9 +17,14 @@ import 'util.dart';
 void main() {
   group('rename_test', () {
     setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
-      final dylib = File('test/native_objc_test/objc_test.dylib');
+      final dylib = File(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'objc_test.dylib',
+        ),
+      );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('rename');
@@ -36,7 +41,7 @@ void main() {
       final renamed = Renamed();
 
       renamed.property = 123;
-      expect(renamed.toString(), "Instance of 'Renamed'");
+      expect(renamed.toString(), "Instance of 'ObjCObject'");
       expect(renamed.toString$1().toDartString(), "123");
     });
 
@@ -49,7 +54,7 @@ void main() {
     test('Renamed method', () {
       final renamed = Renamed();
 
-      expect(renamed.fooBarBaz(123, 456), 579);
+      expect(renamed.fooBarBaz(123, y: 456), 579);
     });
 
     test('Renamed property', () {

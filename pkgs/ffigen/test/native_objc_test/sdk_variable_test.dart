@@ -4,10 +4,10 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
-
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'util.dart';
@@ -17,26 +17,37 @@ void main() {
     late String bindings;
 
     setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
-      final dylib = File('test/native_objc_test/objc_test.dylib');
+      final dylib = File(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'objc_test.dylib',
+        ),
+      );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('rename');
-      bindings = File('test/native_objc_test/sdk_variable_bindings.dart')
-          .readAsStringSync();
+      bindings = File(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'sdk_variable_bindings.dart',
+        ),
+      ).readAsStringSync();
     });
 
     test('XCODE', () {
-      expect(bindings, contains('class NSColorPicker '));
+      expect(bindings, contains('extension type NSColorPicker.'));
     });
 
     test('IOS_SDK', () {
-      expect(bindings, contains('class UIPickerView '));
+      expect(bindings, contains('extension type UIPickerView.'));
     });
 
     test('MACOS_SDK', () {
-      expect(bindings, contains('class NSTextList '));
+      expect(bindings, contains('extension type NSTextList.'));
     });
   });
 }

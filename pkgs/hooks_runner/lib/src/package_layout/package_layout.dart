@@ -34,28 +34,39 @@ class PackageLayout {
   /// Only assets of transitive dependencies of [runPackageName] are built.
   final String runPackageName;
 
+  /// Include the dev dependencies of [runPackageName].
+  final bool includeDevDependencies;
+
   PackageLayout._(
     this.packageConfig,
     this.packageConfigUri,
-    this.runPackageName,
-  );
+    this.runPackageName, {
+    required this.includeDevDependencies,
+  });
 
   factory PackageLayout.fromPackageConfig(
     FileSystem fileSystem,
     PackageConfig packageConfig,
     Uri packageConfigUri,
-    String runPackageName,
-  ) {
+    String runPackageName, {
+    required bool includeDevDependencies,
+  }) {
     assert(fileSystem.file(packageConfigUri).existsSync());
     packageConfigUri = packageConfigUri.normalizePath();
-    return PackageLayout._(packageConfig, packageConfigUri, runPackageName);
+    return PackageLayout._(
+      packageConfig,
+      packageConfigUri,
+      runPackageName,
+      includeDevDependencies: includeDevDependencies,
+    );
   }
 
   static Future<PackageLayout> fromWorkingDirectory(
     FileSystem fileSystem,
     Uri workingDirectory,
-    String runPackgeName,
-  ) async {
+    String runPackageName, {
+    required bool includeDevDependencies,
+  }) async {
     workingDirectory = workingDirectory.normalizePath();
     final packageConfigUri = await findPackageConfig(
       fileSystem,
@@ -63,7 +74,12 @@ class PackageLayout {
     );
     assert(await fileSystem.file(packageConfigUri).exists());
     final packageConfig = await loadPackageConfigUri(packageConfigUri!);
-    return PackageLayout._(packageConfig, packageConfigUri, runPackgeName);
+    return PackageLayout._(
+      packageConfig,
+      packageConfigUri,
+      runPackageName,
+      includeDevDependencies: includeDevDependencies,
+    );
   }
 
   static Future<Uri?> findPackageConfig(
@@ -96,17 +112,15 @@ class PackageLayout {
   /// https://dart.dev/tools/pub/package-layout#project-specific-caching-for-tools
   late final Uri dartTool = packageConfigUri.resolve('./');
 
-  /// The directory where `package:hooks` stores all persistent
+  /// The directory where `package:hooks_runner` stores all persistent
   /// information.
   ///
-  /// This folder is owned by `package:hooks`, no other package
+  /// This folder is owned by `package:hooks_runnner`, no other package
   /// should read or modify it.
   /// https://dart.dev/tools/pub/package-layout#project-specific-caching-for-tools
   ///
   /// `$rootPackageRoot/.dart_tool/hooks_runner/`.
-  late final Uri dartToolNativeAssetsBuilder = dartTool.resolve(
-    'hooks_runner/',
-  );
+  late final Uri dartToolHooksRunner = dartTool.resolve('hooks_runner/');
 
   /// The root of `package:$packageName`.
   ///

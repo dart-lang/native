@@ -3,10 +3,13 @@
 // BSD-style license that can be found in the LICENSE file.
 import 'dart:ffi';
 
+import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart' show internal;
 
-import '../jni.dart';
+import 'errors.dart';
+import 'jni.dart';
 import 'jreference.dart';
+import 'lang/jstring.dart';
 import 'types.dart';
 
 // Error thrown when casting between incompatible `JObject` subclasses.
@@ -21,78 +24,68 @@ final class CastError extends Error {
   }
 }
 
-final class JObjectNullableType extends JObjType<JObject?> {
-  @internal
-  const JObjectNullableType();
+@internal
+final class $JObject$NullableType$ extends JType<JObject?> {
+  const $JObject$NullableType$();
 
-  @internal
   @override
   String get signature => 'Ljava/lang/Object;';
 
-  @internal
   @override
   JObject? fromReference(JReference reference) =>
       reference.isNull ? null : JObject.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectNullableType();
+  JType get superType => const $JObject$NullableType$();
 
-  @internal
   @override
-  JObjType get nullableType => this;
+  JType get nullableType => this;
 
   // TODO(#70): Once interface implementation lands, other than [superType],
   // we should have a list of implemented interfaces.
 
-  @internal
   @override
   final int superCount = 0;
 
   @override
-  int get hashCode => (JObjectNullableType).hashCode;
+  int get hashCode => ($JObject$NullableType$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JObjectNullableType &&
-        other is JObjectNullableType;
+    return other.runtimeType == $JObject$NullableType$ &&
+        other is $JObject$NullableType$;
   }
 }
 
-final class JObjectType extends JObjType<JObject> {
-  @internal
-  const JObjectType();
+@internal
+final class $JObject$Type$ extends JType<JObject> {
+  const $JObject$Type$();
 
-  @internal
   @override
   String get signature => 'Ljava/lang/Object;';
 
-  @internal
   @override
   JObject fromReference(JReference reference) =>
       JObject.fromReference(reference);
 
-  @internal
   @override
-  JObjType get superType => const JObjectType();
+  JType get superType => const $JObject$Type$();
 
-  @internal
   @override
-  JObjType get nullableType => const JObjectNullableType();
+  JType get nullableType => const $JObject$NullableType$();
 
   // TODO(#70): Once interface implementation lands, other than [superType],
   // we should have a list of implemented interfaces.
 
-  @internal
   @override
   final int superCount = 0;
 
   @override
-  int get hashCode => (JObjectType).hashCode;
+  int get hashCode => ($JObject$Type$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == JObjectType && other is JObjectType;
+    return other.runtimeType == $JObject$Type$ && other is $JObject$Type$;
   }
 }
 
@@ -104,12 +97,13 @@ class JObject {
   final JReference reference;
 
   @internal
-  final JObjType<JObject> $type = type;
+  final JType<JObject> $type = type;
 
   /// The type which includes information such as the signature of this class.
-  static const JObjType<JObject> type = JObjectType();
+  static const JType<JObject> type = $JObject$Type$();
 
-  static const JObjType<JObject?> nullableType = JObjectNullableType();
+  /// The type which includes information such as the signature of this class.
+  static const JType<JObject?> nullableType = $JObject$NullableType$();
 
   /// Constructs a [JObject] with the underlying [reference].
   JObject.fromReference(this.reference) {
@@ -153,7 +147,7 @@ class JObject {
   ///   ...
   /// }
   /// ```
-  bool isA<T extends JObject?>(JObjType<T> type) {
+  bool isA<T extends JObject?>(JType<T> type) {
     final targetJClass = type.jClass;
     final canBeCasted = isInstanceOf(targetJClass);
     targetJClass.release();
@@ -171,7 +165,7 @@ class JObject {
   ///
   /// Throws [CastError] if this object is not an instance of [type].
   T as<T extends JObject?>(
-    JObjType<T> type, {
+    JType<T> type, {
     bool releaseOriginal = false,
   }) {
     if (!isA(type)) {
@@ -209,14 +203,26 @@ class JObject {
       _class.instanceMethodId(r'toString', r'()Ljava/lang/String;');
   @override
   String toString() {
-    return _toStringId(this, const JStringType(), [])
+    return _toStringId(this, const $JString$Type$(), [])
         .toDartString(releaseOriginal: true);
   }
 
   bool get isReleased => reference.isReleased;
 
   /// Registers this object to be released at the end of [arena]'s lifetime.
-  void releasedBy(Arena arena) => arena.onReleaseAll(release);
+  void releasedBy(Arena arena) {
+    assert(() {
+      if (Jni.captureStackTraceOnRelease && reference is JGlobalReference) {
+        (reference as JGlobalReference).registeredInArena();
+      }
+      return true;
+    }());
+    arena.onReleaseAll(() {
+      if (!isReleased) {
+        release();
+      }
+    });
+  }
 }
 
 extension JObjectUseExtension<T extends JObject?> on T {

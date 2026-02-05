@@ -8,8 +8,11 @@ import 'dart:isolate';
 import 'package:ffi/ffi.dart';
 
 import 'c_bindings_generated.dart' as c;
+import 'ns_string.dart';
+import 'objective_c_bindings_generated.dart' as objc;
+import 'runtime_bindings_generated.dart' as r;
 
-typedef ObjectPtr = Pointer<c.ObjCObject>;
+typedef ObjectPtr = Pointer<r.ObjCObjectImpl>;
 typedef BlockPtr = Pointer<c.ObjCBlockImpl>;
 typedef VoidPtr = Pointer<Void>;
 
@@ -77,23 +80,53 @@ final class ObjCRuntimeError extends Error {
   String toString() => '$runtimeType: $message';
 }
 
-extension GetProtocolName on Pointer<c.ObjCProtocol> {
+/// Wrapper [Exception] around an Objective-C `NSError`.
+///
+/// In Dart, an "exception" is an ordinary runtime failure that can be caught
+/// and handled, while an "error" is a program failure that the programmer
+/// should have avoided (and catching [Error]s is bad practice).
+///
+/// Objective-C inverts this nomenclature. Ordinary runtime failures are
+/// signaled using `NSError`, so these are analogous to Dart's [Exception]s,
+/// though they're returned by reference rather than thrown. On the other hand,
+/// `NSException` is intended to be used in an `@throw` statement, and not
+/// intended to be caught (in fact Objective-C doesn't intend throwing and
+/// catching to be part of an ordinary control flow at all).
+final class NSErrorException implements Exception {
+  final objc.NSError error;
+  NSErrorException(this.error);
+
+  static void checkErrorPointer(ObjectPtr pointer) {
+    if (pointer.address != 0) {
+      throw NSErrorException(
+        objc.NSError.fromPointer(pointer, retain: true, release: true),
+      );
+    }
+  }
+
+  @override
+  String toString() => 'NSError: ${error.localizedDescription.toDartString()}';
+}
+
+extension GetProtocolName on Pointer<r.ObjCProtocolImpl> {
   /// Returns the name of the protocol.
-  String get name => c.getProtocolName(this).cast<Utf8>().toDartString();
+  String get name => r.getProtocolName(this).cast<Utf8>().toDartString();
 }
 
 /// Only for use by ffigen bindings.
-Pointer<c.ObjCSelector> registerName(String name) {
+Pointer<r.ObjCSelector> registerName(String name) {
+  _ensureDartAPI();
   final cstr = name.toNativeUtf8();
-  final sel = c.registerName(cstr.cast());
+  final sel = r.registerName(cstr.cast());
   calloc.free(cstr);
   return sel;
 }
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 ObjectPtr getClass(String name) {
+  _ensureDartAPI();
   final cstr = name.toNativeUtf8();
-  final clazz = c.getClass(cstr.cast());
+  final clazz = r.getClass(cstr.cast());
   calloc.free(cstr);
   if (clazz == nullptr) {
     throw FailedToLoadClassException(name);
@@ -102,9 +135,10 @@ ObjectPtr getClass(String name) {
 }
 
 /// Only for use by ffigen bindings.
-Pointer<c.ObjCProtocol> getProtocol(String name) {
+Pointer<r.ObjCProtocolImpl> getProtocol(String name) {
+  _ensureDartAPI();
   final cstr = name.toNativeUtf8();
-  final clazz = c.getProtocol(cstr.cast());
+  final clazz = r.getProtocol(cstr.cast());
   calloc.free(cstr);
   if (clazz == nullptr) {
     throw FailedToLoadProtocolException(name);
@@ -112,46 +146,56 @@ Pointer<c.ObjCProtocol> getProtocol(String name) {
   return clazz;
 }
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 Pointer<Char>? getProtocolMethodSignature(
-  Pointer<c.ObjCProtocol> protocol,
-  Pointer<c.ObjCSelector> sel, {
+  Pointer<r.ObjCProtocolImpl> protocol,
+  Pointer<r.ObjCSelector> sel, {
   required bool isRequired,
   required bool isInstanceMethod,
 }) {
-  final sig =
-      c.getMethodDescription(protocol, sel, isRequired, isInstanceMethod).types;
+  _ensureDartAPI();
+  final sig = r
+      .getMethodDescription(protocol, sel, isRequired, isInstanceMethod)
+      .types;
   return sig == nullptr ? null : sig;
 }
 
-/// Only for use by ffigen bindings.
-final msgSendPointer =
-    Native.addressOf<NativeFunction<Void Function()>>(c.msgSend);
+/// Only for use by FFIgen bindings.
+final msgSendPointer = Native.addressOf<NativeFunction<Void Function()>>(
+  r.msgSend,
+);
 
-/// Only for use by ffigen bindings.
-final msgSendFpretPointer =
-    Native.addressOf<NativeFunction<Void Function()>>(c.msgSendFpret);
+/// Only for use by FFIgen bindings.
+final msgSendFpretPointer = Native.addressOf<NativeFunction<Void Function()>>(
+  r.msgSendFpret,
+);
 
-/// Only for use by ffigen bindings.
-final msgSendStretPointer =
-    Native.addressOf<NativeFunction<Void Function()>>(c.msgSendStret);
+/// Only for use by FFIgen bindings.
+final msgSendStretPointer = Native.addressOf<NativeFunction<Void Function()>>(
+  r.msgSendStret,
+);
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 final useMsgSendVariants =
     Abi.current() == Abi.iosX64 || Abi.current() == Abi.macosX64;
 
 /// Only for use by ffigen bindings.
-bool respondsToSelector(ObjectPtr obj, Pointer<c.ObjCSelector> sel) =>
+bool respondsToSelector(ObjectPtr obj, Pointer<r.ObjCSelector> sel) =>
     _objcMsgSendRespondsToSelector(obj, _selRespondsToSelector, sel);
 final _selRespondsToSelector = registerName('respondsToSelector:');
 final _objcMsgSendRespondsToSelector = msgSendPointer
     .cast<
-        NativeFunction<
-            Bool Function(ObjectPtr, Pointer<c.ObjCSelector>,
-                Pointer<c.ObjCSelector> aSelector)>>()
+      NativeFunction<
+        Bool Function(
+          ObjectPtr,
+          Pointer<r.ObjCSelector>,
+          Pointer<r.ObjCSelector> aSelector,
+        )
+      >
+    >()
     .asFunction<
-        bool Function(
-            ObjectPtr, Pointer<c.ObjCSelector>, Pointer<c.ObjCSelector>)>();
+      bool Function(ObjectPtr, Pointer<r.ObjCSelector>, Pointer<r.ObjCSelector>)
+    >();
 
 // _FinalizablePointer exists because we can't access `this` in the initializers
 // of _ObjCReference's constructor, and we have to have an owner to attach the
@@ -172,7 +216,8 @@ void _ensureDartAPI() {
 }
 
 c.Dart_FinalizableHandle _newFinalizableHandle(
-    _FinalizablePointer finalizable) {
+  _FinalizablePointer finalizable,
+) {
   _ensureDartAPI();
   return c.newFinalizableHandle(finalizable, finalizable.ptr.cast());
 }
@@ -189,11 +234,14 @@ abstract final class _ObjCReference<T extends NativeType>
   final c.Dart_FinalizableHandle? _ptrFinalizableHandle;
   final Pointer<Bool> _isReleased;
 
-  _ObjCReference(this._finalizable,
-      {required bool retain, required bool release})
-      : _ptrFinalizableHandle =
-            release ? _newFinalizableHandle(_finalizable) : null,
-        _isReleased = _newFinalizableBool(_finalizable) {
+  _ObjCReference(
+    this._finalizable, {
+    required bool retain,
+    required bool release,
+  }) : _ptrFinalizableHandle = release
+           ? _newFinalizableHandle(_finalizable)
+           : null,
+       _isReleased = _newFinalizableBool(_finalizable) {
     assert(_isValid(_finalizable.ptr));
     if (retain) {
       _retain(_finalizable.ptr);
@@ -214,10 +262,10 @@ abstract final class _ObjCReference<T extends NativeType>
     _isReleased.value = true;
   }
 
-  void release() => _release(c.objectRelease);
+  void release() => _release(r.objectRelease);
 
   Pointer<T> autorelease() {
-    _release(c.objectAutorelease);
+    _release(r.objectAutorelease);
     return _finalizable.ptr;
   }
 
@@ -245,7 +293,7 @@ abstract final class _ObjCReference<T extends NativeType>
   Pointer<T> retainAndAutorelease() {
     final ptr = pointer;
     _retain(ptr);
-    c.objectAutorelease(ptr.cast());
+    r.objectAutorelease(ptr.cast());
     return ptr;
   }
 
@@ -254,8 +302,8 @@ abstract final class _ObjCReference<T extends NativeType>
 }
 
 // Wrapper around ObjCObjectRef/ObjCBlockRef. This is needed because
-// deeply-immutable classes must be final, but the ffigen bindings need to
-// extend ObjCObjectBase/ObjCBlockBase.
+// deeply-immutable classes must be final, but the FFIgen bindings need to
+// extend ObjCObject/ObjCBlockBase.
 class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>> {
   final Ref ref;
 
@@ -269,28 +317,28 @@ class _ObjCRefHolder<T extends NativeType, Ref extends _ObjCReference<T>> {
 }
 
 @pragma('vm:deeply-immutable')
-final class ObjCObjectRef extends _ObjCReference<c.ObjCObject> {
+final class ObjCObjectRef extends _ObjCReference<r.ObjCObjectImpl> {
   ObjCObjectRef(ObjectPtr ptr, {required super.retain, required super.release})
-      : super(_FinalizablePointer(ptr));
+    : super(_FinalizablePointer(ptr));
 
   @override
-  void _retain(ObjectPtr ptr) => c.objectRetain(ptr);
+  void _retain(ObjectPtr ptr) => r.objectRetain(ptr);
 
   @override
   bool _isValid(ObjectPtr ptr) => _isValidObject(ptr);
 }
 
-/// Only for use by ffigen bindings.
-class ObjCObjectBase extends _ObjCRefHolder<c.ObjCObject, ObjCObjectRef> {
-  ObjCObjectBase(ObjectPtr ptr, {required bool retain, required bool release})
-      : super(ObjCObjectRef(ptr, retain: retain, release: release));
+/// Base class for all Objective-C objects.
+class ObjCObject extends _ObjCRefHolder<r.ObjCObjectImpl, ObjCObjectRef> {
+  ObjCObject(ObjectPtr ptr, {required bool retain, required bool release})
+    : super(ObjCObjectRef(ptr, retain: retain, release: release));
 }
 
 // Returns whether the object is valid and live. The pointer must point to
 // readable memory, or be null. May (rarely) return false positives.
 bool _isValidObject(ObjectPtr ptr) {
   if (ptr == nullptr) return false;
-  return _isValidClass(c.getObjectClass(ptr));
+  return _isValidClass(r.getObjectClass(ptr));
 }
 
 final _allClasses = <ObjectPtr>{};
@@ -305,7 +353,7 @@ bool _isValidClass(ObjectPtr clazz, {bool forceReloadClasses = false}) {
   // enabled, and only happens more than O(1) times if there are actually
   // invalid objects in use, which shouldn't happen in correct code.
   final countPtr = calloc<UnsignedInt>();
-  final classList = c.copyClassList(countPtr);
+  final classList = r.copyClassList(countPtr);
   final count = countPtr.value;
   calloc.free(countPtr);
   _allClasses.clear();
@@ -317,31 +365,32 @@ bool _isValidClass(ObjectPtr clazz, {bool forceReloadClasses = false}) {
   return _allClasses.contains(clazz);
 }
 
-/// Only for use by ffigen bindings.
-class ObjCProtocolBase extends ObjCObjectBase {
-  ObjCProtocolBase(super.ptr, {required super.retain, required super.release});
-}
+/// Base class for all Objective-C protocols.
+// This exists so that interface_lists_test.dart can tell the difference between
+// a protocol and an interface.
+typedef ObjCProtocol = ObjCObject;
 
 @pragma('vm:deeply-immutable')
 final class ObjCBlockRef extends _ObjCReference<c.ObjCBlockImpl> {
   ObjCBlockRef(BlockPtr ptr, {required super.retain, required super.release})
-      : super(_FinalizablePointer(ptr));
+    : super(_FinalizablePointer(ptr));
 
   @override
-  void _retain(BlockPtr ptr) => c.blockRetain(ptr.cast());
+  void _retain(BlockPtr ptr) => r.blockRetain(ptr.cast());
 
   @override
   bool _isValid(BlockPtr ptr) => c.isValidBlock(ptr);
 }
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 class ObjCBlockBase extends _ObjCRefHolder<c.ObjCBlockImpl, ObjCBlockRef> {
   ObjCBlockBase(BlockPtr ptr, {required bool retain, required bool release})
-      : super(ObjCBlockRef(ptr, retain: retain, release: release));
+    : super(ObjCBlockRef(ptr, retain: retain, release: release));
 }
 
 Pointer<c.ObjCBlockDesc> _newBlockDesc(
-    Pointer<NativeFunction<Void Function(BlockPtr)>> disposeHelper) {
+  Pointer<NativeFunction<Void Function(BlockPtr)>> disposeHelper,
+) {
   final desc = calloc.allocate<c.ObjCBlockDesc>(sizeOf<c.ObjCBlockDesc>());
   desc.ref.reserved = 0;
   desc.ref.size = sizeOf<c.ObjCBlockImpl>();
@@ -353,13 +402,20 @@ Pointer<c.ObjCBlockDesc> _newBlockDesc(
 
 final _pointerBlockDesc = _newBlockDesc(nullptr);
 final _closureBlockDesc = _newBlockDesc(
-    Native.addressOf<NativeFunction<Void Function(BlockPtr)>>(
-        c.disposeObjCBlockWithClosure));
+  Native.addressOf<NativeFunction<Void Function(BlockPtr)>>(
+    c.disposeObjCBlockWithClosure,
+  ),
+);
 
-BlockPtr _newBlock(VoidPtr invoke, VoidPtr target,
-    Pointer<c.ObjCBlockDesc> descriptor, int disposePort, int flags) {
+BlockPtr _newBlock(
+  VoidPtr invoke,
+  VoidPtr target,
+  Pointer<c.ObjCBlockDesc> descriptor,
+  int disposePort,
+  int flags,
+) {
   final b = calloc.allocate<c.ObjCBlockImpl>(sizeOf<c.ObjCBlockImpl>());
-  b.ref.isa = Native.addressOf<Array<VoidPtr>>(c.NSConcreteGlobalBlock).cast();
+  b.ref.isa = Native.addressOf<Array<VoidPtr>>(r.NSConcreteGlobalBlock).cast();
   b.ref.flags = flags;
   b.ref.reserved = 0;
   b.ref.invoke = invoke;
@@ -367,33 +423,33 @@ BlockPtr _newBlock(VoidPtr invoke, VoidPtr target,
   b.ref.dispose_port = disposePort;
   b.ref.descriptor = descriptor;
   assert(c.isValidBlock(b));
-  final copy = c.blockRetain(b.cast()).cast<c.ObjCBlockImpl>();
+  final copy = r.blockRetain(b.cast()).cast<c.ObjCBlockImpl>();
   calloc.free(b);
-  assert(copy.ref.isa ==
-      Native.addressOf<Array<VoidPtr>>(c.NSConcreteMallocBlock).cast());
+  assert(
+    copy.ref.isa ==
+        Native.addressOf<Array<VoidPtr>>(r.NSConcreteMallocBlock).cast(),
+  );
   assert(c.isValidBlock(copy));
   return copy;
 }
 
 const int _blockHasCopyDispose = 1 << 25;
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 BlockPtr newClosureBlock(VoidPtr invoke, Function fn, bool keepIsolateAlive) =>
     _newBlock(
-        invoke,
-        _registerBlockClosure(fn, keepIsolateAlive),
-        _closureBlockDesc,
-        _blockClosureDisposer.sendPort.nativePort,
-        _blockHasCopyDispose);
+      invoke,
+      _registerBlockClosure(fn, keepIsolateAlive),
+      _closureBlockDesc,
+      _blockClosureDisposer.sendPort.nativePort,
+      _blockHasCopyDispose,
+    );
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 BlockPtr newPointerBlock(VoidPtr invoke, VoidPtr target) =>
     _newBlock(invoke, target, _pointerBlockDesc, 0, 0);
 
-typedef _RegEntry = ({
-  Function closure,
-  RawReceivePort? keepAlivePort,
-});
+typedef _RegEntry = ({Function closure, RawReceivePort? keepAlivePort});
 
 final _blockClosureRegistry = <int, _RegEntry>{};
 
@@ -406,8 +462,7 @@ final _blockClosureDisposer = () {
     assert(_blockClosureRegistry.containsKey(id));
     final entry = _blockClosureRegistry.remove(id)!;
     entry.keepAlivePort?.close();
-  }, 'ObjCBlockClosureDisposer')
-    ..keepIsolateAlive = false;
+  }, 'ObjCBlockClosureDisposer')..keepIsolateAlive = false;
 }();
 
 VoidPtr _registerBlockClosure(Function closure, bool keepIsolateAlive) {
@@ -420,16 +475,17 @@ VoidPtr _registerBlockClosure(Function closure, bool keepIsolateAlive) {
   return VoidPtr.fromAddress(_blockClosureRegistryLastId);
 }
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 Function getBlockClosure(BlockPtr block) {
   var id = block.ref.target.address;
   assert(_blockClosureRegistry.containsKey(id));
   return _blockClosureRegistry[id]!.closure;
 }
 
-/// Only for use by ffigen bindings.
-final Pointer<c.DOBJC_Context> objCContext =
-    c.fillContext(calloc<c.DOBJC_Context>());
+/// Only for use by FFIgen bindings.
+final Pointer<c.DOBJC_Context> objCContext = c.fillContext(
+  calloc<c.DOBJC_Context>(),
+);
 
 // Not exported by ../objective_c.dart, because they're only for testing.
 bool blockHasRegisteredClosure(BlockPtr block) =>

@@ -1,11 +1,50 @@
+## 0.15.3-wip
+
+- Added `Jni.captureStackTraceOnRelease` which defaults to `false`. When this is
+  set, the stack traces of the release points will be stored for `JObject`s to
+  help debug `DoubleReleaseError` and `UseAfterReleaseError`s. This includes the
+  points where `JObject`s have been registered to be released by an `arena` via
+  `JObject.releaseBy`.
+- Changed the behavior of `JObject.releasedBy`. It now does not throw a
+  `DoubleReleaseError` if the object was manually released before the end of
+  arena.
+
+## 0.15.2
+
+- Do not fail `flutter build` if JDK is not found for desktop.
+
+## 0.15.1
+
+- **Breaking Change**: Removed the `engineId` argument from
+  `Jni.androidApplicationContext` as the application context is not dependant on
+  the engine ID.
+
+## 0.15.0
+
+- **Breaking Change**: Made `Jni.env` internal.
+- **Breaking Change**: Renamed `JObjType` to `JType`.
+- **Breaking Change**: Made all of the type classes internal.
+- **Breaking Change**: Removed `Jni.getApplicationClassLoader()`,
+  `Jni.getCurrentActivity()`, and `Jni.getCachedApplicationContext()`. Instead
+  use `Jni.androidApplicationContext(engineId)` to access the application
+  context and use `Jni.androidActivity(engineId)` to acccess the activity.
+- Update to the latest lints.
+
+## 0.14.2
+
+- Fixed a bug where certain method of `JList`, `JSet`, and `JMap` did not work
+  with nullable elements.
+- Fixed a bug in `JList.lastIndexOf`.
+
 ## 0.14.1
 
-- Updated `bin/setup.dart` to use Gradle instead of Maven for building Java sources. Added gradle executables 
-  and bootstrap jars [#2003](https://github.com/dart-lang/native/issues/2003)
-- Added `JObject.isInstanceOf` which checks whether a `JObject` is an instance 
+- Updated `bin/setup.dart` to use Gradle instead of Maven for building Java
+  sources. Added gradle executables and bootstrap jars
+  [#2003](https://github.com/dart-lang/native/issues/2003)
+- Added `JObject.isInstanceOf` which checks whether a `JObject` is an instance
   of a java class.
-- Fixed a [bug](https://github.com/dart-lang/native/issues/1908) where
-  Java interfaces implemented in on the main thread in Dart could deadlock when
+- Fixed a [bug](https://github.com/dart-lang/native/issues/1908) where Java
+  interfaces implemented in on the main thread in Dart could deadlock when
   invoked from the main thread outside the context of a Dart isolate.
 
 ## 0.14.0

@@ -34,30 +34,54 @@ void main() {
   });
 
   BuildInputBuilder makeBuildInputBuilder() {
-    final inputBuilder =
-        BuildInputBuilder()
-          ..setupShared(
-            packageName: packageName,
-            packageRoot: tempUri,
-            outputFile: tempUri.resolve('output.json'),
-            outputDirectoryShared: outDirSharedUri,
-          )
-          ..config.setupBuild(linkingEnabled: false);
+    final inputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: packageName,
+        packageRoot: tempUri,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectoryShared: outDirSharedUri,
+      )
+      ..config.setupBuild(linkingEnabled: false);
     return inputBuilder;
   }
 
   BuildInput makeCodeBuildInput({
     LinkModePreference linkModePreference = LinkModePreference.dynamic,
   }) {
-    final builder =
-        makeBuildInputBuilder()..addExtension(
-          CodeAssetExtension(
-            targetOS: OS.linux,
-            targetArchitecture: Architecture.arm64,
-            linkModePreference: linkModePreference,
-          ),
-        );
-    return BuildInput(builder.json);
+    final builder = makeBuildInputBuilder()
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: OS.linux,
+          targetArchitecture: Architecture.arm64,
+          linkModePreference: linkModePreference,
+        ),
+      );
+    return builder.build();
+  }
+
+  LinkInputBuilder makeLinkInputBuilder() {
+    final inputBuilder = LinkInputBuilder()
+      ..setupShared(
+        packageName: packageName,
+        packageRoot: tempUri,
+        outputFile: tempUri.resolve('output.json'),
+        outputDirectoryShared: outDirSharedUri,
+      );
+    return inputBuilder;
+  }
+
+  LinkInput makeCodeLinkInput({
+    LinkModePreference linkModePreference = LinkModePreference.dynamic,
+  }) {
+    final builder = makeLinkInputBuilder()
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: OS.linux,
+          targetArchitecture: Architecture.arm64,
+          linkModePreference: linkModePreference,
+        ),
+      );
+    return builder.build();
   }
 
   test('file not set', () async {
@@ -177,21 +201,120 @@ void main() {
     expect(errors, contains(contains('Duplicate dynamic library file name')));
   });
 
+  test('duplicate asset id', () async {
+    final input = makeCodeBuildInput();
+
+    final fileName = input.config.code.targetOS.dylibFileName('foo');
+    final assetFile = File.fromUri(outDirUri.resolve(fileName));
+    await assetFile.writeAsBytes([1, 2, 3]);
+    final fileName2 = input.config.code.targetOS.dylibFileName('bar');
+    final assetFile2 = File.fromUri(outDirUri.resolve(fileName2));
+    await assetFile2.writeAsBytes([1, 2, 3]);
+    final duplicateAssetIdAssets = [
+      CodeAsset(
+        package: input.packageName,
+        name: 'src/foo.dart',
+        file: assetFile.uri,
+        linkMode: DynamicLoadingBundled(),
+      ),
+      CodeAsset(
+        package: input.packageName,
+        name: 'src/foo.dart',
+        file: assetFile2.uri,
+        linkMode: DynamicLoadingBundled(),
+      ),
+    ];
+
+    {
+      final outputBuilder = BuildOutputBuilder();
+      outputBuilder.assets.code.addAll(duplicateAssetIdAssets);
+      final errors = await validateCodeAssetBuildOutput(
+        input,
+        outputBuilder.build(),
+      );
+      expect(errors, hasLength(1));
+      expect(errors, contains(contains('Multiple assets with the same id')));
+    }
+
+    {
+      final outputBuilder = BuildOutputBuilder();
+      outputBuilder.assets.code.addAll(
+        duplicateAssetIdAssets,
+        routing: const ToBuildHooks(),
+      );
+      final errors = await validateCodeAssetBuildOutput(
+        input,
+        outputBuilder.build(),
+      );
+      expect(errors, hasLength(1));
+      expect(errors, contains(contains('Multiple assets with the same id')));
+    }
+
+    {
+      final outputBuilder = BuildOutputBuilder();
+      outputBuilder.assets.code.addAll(
+        duplicateAssetIdAssets,
+        routing: const ToLinkHook('foo'),
+      );
+      final errors = await validateCodeAssetBuildOutput(
+        input,
+        outputBuilder.build(),
+      );
+      expect(errors, hasLength(1));
+      expect(errors, contains(contains('Multiple assets with the same id')));
+    }
+
+    {
+      final linkInput = makeCodeLinkInput();
+      final outputBuilder = LinkOutputBuilder();
+      outputBuilder.assets.code.addAll(duplicateAssetIdAssets);
+      final errors = await validateCodeAssetLinkOutput(
+        linkInput,
+        outputBuilder.build(),
+      );
+      expect(errors, hasLength(1));
+      expect(errors, contains(contains('Multiple assets with the same id')));
+    }
+
+    {
+      final linkInput = makeCodeLinkInput();
+      final outputBuilder = LinkOutputBuilder();
+      outputBuilder.assets.code.addAll(
+        duplicateAssetIdAssets,
+        routing: const ToLinkHook('foo'),
+      );
+      final errors = await validateCodeAssetLinkOutput(
+        linkInput,
+        outputBuilder.build(),
+      );
+      expect(errors, hasLength(1));
+      expect(errors, contains(contains('Multiple assets with the same id')));
+    }
+
+    {
+      final errors = await validateCodeAssetInApplication(
+        duplicateAssetIdAssets.map((e) => e.encode()).toList(),
+      );
+      expect(errors, hasLength(1));
+      expect(errors, contains(contains('Multiple assets with the same id')));
+    }
+  });
+
   group('BuildInput.config.code validation', () {
     for (final propertyKey in ['target_version', 'target_sdk']) {
       test('Missing targetIOSVersion', () async {
-        final builder =
-            makeBuildInputBuilder()..addExtension(
-              CodeAssetExtension(
-                targetOS: OS.iOS,
-                targetArchitecture: Architecture.arm64,
-                linkModePreference: LinkModePreference.dynamic,
-                iOS: IOSCodeConfig(
-                  targetSdk: IOSSdk.iPhoneOS,
-                  targetVersion: 123,
-                ),
+        final builder = makeBuildInputBuilder()
+          ..addExtension(
+            CodeAssetExtension(
+              targetOS: OS.iOS,
+              targetArchitecture: Architecture.arm64,
+              linkModePreference: LinkModePreference.dynamic,
+              iOS: IOSCodeConfig(
+                targetSdk: IOSSdk.iPhoneOS,
+                targetVersion: 123,
               ),
-            );
+            ),
+          );
         traverseJson<Map<String, Object?>>(builder.json, [
           'config',
           'extensions',
@@ -214,15 +337,15 @@ void main() {
     }
 
     test('Missing targetAndroidNdkApi', () async {
-      final builder =
-          makeBuildInputBuilder()..addExtension(
-            CodeAssetExtension(
-              targetOS: OS.android,
-              targetArchitecture: Architecture.arm64,
-              linkModePreference: LinkModePreference.dynamic,
-              android: AndroidCodeConfig(targetNdkApi: 123),
-            ),
-          );
+      final builder = makeBuildInputBuilder()
+        ..addExtension(
+          CodeAssetExtension(
+            targetOS: OS.android,
+            targetArchitecture: Architecture.arm64,
+            linkModePreference: LinkModePreference.dynamic,
+            android: AndroidCodeConfig(targetNdkApi: 123),
+          ),
+        );
       traverseJson<Map<String, Object?>>(builder.json, [
         'config',
         'extensions',
@@ -242,15 +365,15 @@ void main() {
     });
 
     test('Missing config.code.macos', () async {
-      final builder =
-          makeBuildInputBuilder()..addExtension(
-            CodeAssetExtension(
-              targetOS: OS.macOS,
-              targetArchitecture: Architecture.arm64,
-              linkModePreference: LinkModePreference.dynamic,
-              macOS: MacOSCodeConfig(targetVersion: 123),
-            ),
-          );
+      final builder = makeBuildInputBuilder()
+        ..addExtension(
+          CodeAssetExtension(
+            targetOS: OS.macOS,
+            targetArchitecture: Architecture.arm64,
+            linkModePreference: LinkModePreference.dynamic,
+            macOS: MacOSCodeConfig(targetVersion: 123),
+          ),
+        );
 
       traverseJson<Map<String, Object?>>(builder.json, [
         'config',
@@ -287,25 +410,25 @@ void main() {
 
     test('CCompilerConfig validation', () async {
       final nonExistent = outDirUri.resolve('foo baz');
-      final builder =
-          makeBuildInputBuilder()..addExtension(
-            CodeAssetExtension(
-              targetOS: OS.windows,
-              targetArchitecture: Architecture.x64,
-              linkModePreference: LinkModePreference.dynamic,
-              cCompiler: CCompilerConfig(
-                compiler: nonExistent,
-                linker: nonExistent,
-                archiver: nonExistent,
-                windows: WindowsCCompilerConfig(
-                  developerCommandPrompt: DeveloperCommandPrompt(
-                    script: nonExistent,
-                    arguments: [],
-                  ),
+      final builder = makeBuildInputBuilder()
+        ..addExtension(
+          CodeAssetExtension(
+            targetOS: OS.windows,
+            targetArchitecture: Architecture.x64,
+            linkModePreference: LinkModePreference.dynamic,
+            cCompiler: CCompilerConfig(
+              compiler: nonExistent,
+              linker: nonExistent,
+              archiver: nonExistent,
+              windows: WindowsCCompilerConfig(
+                developerCommandPrompt: DeveloperCommandPrompt(
+                  script: nonExistent,
+                  arguments: [],
                 ),
               ),
             ),
-          );
+          ),
+        );
       final errors = await validateCodeAssetBuildInput(
         BuildInput(builder.json),
       );

@@ -6,19 +6,23 @@ import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/api_availability.dart';
 import 'package:test/test.dart';
+import '../test_utils.dart';
 
 void main() {
   group('subtyping', () {
-    final builtInFunctions = ObjCBuiltInFunctions('', false);
-    final availability =
-        ApiAvailability(externalVersions: const ExternalVersions());
+    final availability = ApiAvailability(
+      externalVersions: const ExternalVersions(),
+    );
 
     ObjCInterface makeInterface(
-        String name, ObjCInterface? superType, List<ObjCProtocol> protocols) {
+      String name,
+      ObjCInterface? superType,
+      List<ObjCProtocol> protocols,
+    ) {
       final itf = ObjCInterface(
+        context: testContext(),
         usr: name,
         originalName: name,
-        builtInFunctions: builtInFunctions,
         apiAvailability: availability,
       );
       if (superType != null) {
@@ -34,9 +38,9 @@ void main() {
 
     ObjCProtocol makeProtocol(String name, List<ObjCProtocol> superProtocols) {
       final proto = ObjCProtocol(
+        context: testContext(),
         usr: name,
         originalName: name,
-        builtInFunctions: builtInFunctions,
         apiAvailability: availability,
       );
       proto.superProtocols.addAll(superProtocols);
@@ -56,12 +60,13 @@ void main() {
     final child = makeInterface('Child', parent, [proto1, proto4]);
 
     ObjCBlock makeBlock(Type returnType, List<Type> argTypes) => ObjCBlock(
-        returnType: returnType,
-        params: [
-          for (final t in argTypes) Parameter(type: t, objCConsumed: false),
-        ],
-        returnsRetained: false,
-        builtInFunctions: builtInFunctions);
+      testContext(),
+      returnType: returnType,
+      params: [
+        for (final t in argTypes) Parameter(type: t, objCConsumed: false),
+      ],
+      returnsRetained: false,
+    );
 
     group('ObjCInterface', () {
       test('subtype', () {
@@ -174,9 +179,12 @@ void main() {
 
     group('FunctionType', () {
       FunctionType makeFunc(Type returnType, List<Type> argTypes) =>
-          FunctionType(returnType: returnType, parameters: [
-            for (final t in argTypes) Parameter(type: t, objCConsumed: false),
-          ]);
+          FunctionType(
+            returnType: returnType,
+            parameters: [
+              for (final t in argTypes) Parameter(type: t, objCConsumed: false),
+            ],
+          );
 
       test('covariant returns', () {
         // Return types are covariant. S Function() <: T Function() if S <: T.
@@ -202,40 +210,66 @@ void main() {
 
       test('multiple args', () {
         expect(
-            makeFunc(voidType, [parent, parent])
-                .isSubtypeOf(makeFunc(voidType, [parent, parent])),
-            isTrue);
+          makeFunc(voidType, [
+            parent,
+            parent,
+          ]).isSubtypeOf(makeFunc(voidType, [parent, parent])),
+          isTrue,
+        );
         expect(
-            makeFunc(voidType, [parent, parent])
-                .isSubtypeOf(makeFunc(voidType, [child, child])),
-            isTrue);
+          makeFunc(voidType, [
+            parent,
+            parent,
+          ]).isSubtypeOf(makeFunc(voidType, [child, child])),
+          isTrue,
+        );
         expect(
-            makeFunc(voidType, [child, child])
-                .isSubtypeOf(makeFunc(voidType, [parent, parent])),
-            isFalse);
+          makeFunc(voidType, [
+            child,
+            child,
+          ]).isSubtypeOf(makeFunc(voidType, [parent, parent])),
+          isFalse,
+        );
         expect(
-            makeFunc(voidType, [child, parent])
-                .isSubtypeOf(makeFunc(voidType, [parent, child])),
-            isFalse);
+          makeFunc(voidType, [
+            child,
+            parent,
+          ]).isSubtypeOf(makeFunc(voidType, [parent, child])),
+          isFalse,
+        );
         expect(
-            makeFunc(voidType, [parent, parent, parent])
-                .isSubtypeOf(makeFunc(voidType, [child, child])),
-            isFalse);
+          makeFunc(voidType, [
+            parent,
+            parent,
+            parent,
+          ]).isSubtypeOf(makeFunc(voidType, [child, child])),
+          isFalse,
+        );
         expect(
-            makeFunc(voidType, [parent])
-                .isSubtypeOf(makeFunc(voidType, [child, child])),
-            isFalse);
+          makeFunc(voidType, [
+            parent,
+          ]).isSubtypeOf(makeFunc(voidType, [child, child])),
+          isFalse,
+        );
       });
 
       test('args and returns', () {
-        expect(makeFunc(child, [parent]).isSubtypeOf(makeFunc(parent, [child])),
-            isTrue);
-        expect(makeFunc(parent, [parent]).isSubtypeOf(makeFunc(child, [child])),
-            isFalse);
-        expect(makeFunc(child, [child]).isSubtypeOf(makeFunc(parent, [parent])),
-            isFalse);
-        expect(makeFunc(parent, [child]).isSubtypeOf(makeFunc(child, [parent])),
-            isFalse);
+        expect(
+          makeFunc(child, [parent]).isSubtypeOf(makeFunc(parent, [child])),
+          isTrue,
+        );
+        expect(
+          makeFunc(parent, [parent]).isSubtypeOf(makeFunc(child, [child])),
+          isFalse,
+        );
+        expect(
+          makeFunc(child, [child]).isSubtypeOf(makeFunc(parent, [parent])),
+          isFalse,
+        );
+        expect(
+          makeFunc(parent, [child]).isSubtypeOf(makeFunc(child, [parent])),
+          isFalse,
+        );
       });
 
       test('NativeFunc', () {
@@ -274,44 +308,66 @@ void main() {
 
       test('multiple args', () {
         expect(
-            makeBlock(voidType, [parent, parent])
-                .isSubtypeOf(makeBlock(voidType, [parent, parent])),
-            isTrue);
+          makeBlock(voidType, [
+            parent,
+            parent,
+          ]).isSubtypeOf(makeBlock(voidType, [parent, parent])),
+          isTrue,
+        );
         expect(
-            makeBlock(voidType, [parent, parent])
-                .isSubtypeOf(makeBlock(voidType, [child, child])),
-            isTrue);
+          makeBlock(voidType, [
+            parent,
+            parent,
+          ]).isSubtypeOf(makeBlock(voidType, [child, child])),
+          isTrue,
+        );
         expect(
-            makeBlock(voidType, [child, child])
-                .isSubtypeOf(makeBlock(voidType, [parent, parent])),
-            isFalse);
+          makeBlock(voidType, [
+            child,
+            child,
+          ]).isSubtypeOf(makeBlock(voidType, [parent, parent])),
+          isFalse,
+        );
         expect(
-            makeBlock(voidType, [child, parent])
-                .isSubtypeOf(makeBlock(voidType, [parent, child])),
-            isFalse);
+          makeBlock(voidType, [
+            child,
+            parent,
+          ]).isSubtypeOf(makeBlock(voidType, [parent, child])),
+          isFalse,
+        );
         expect(
-            makeBlock(voidType, [parent, parent, parent])
-                .isSubtypeOf(makeBlock(voidType, [child, child])),
-            isFalse);
+          makeBlock(voidType, [
+            parent,
+            parent,
+            parent,
+          ]).isSubtypeOf(makeBlock(voidType, [child, child])),
+          isFalse,
+        );
         expect(
-            makeBlock(voidType, [parent])
-                .isSubtypeOf(makeBlock(voidType, [child, child])),
-            isFalse);
+          makeBlock(voidType, [
+            parent,
+          ]).isSubtypeOf(makeBlock(voidType, [child, child])),
+          isFalse,
+        );
       });
 
       test('args and returns', () {
         expect(
-            makeBlock(child, [parent]).isSubtypeOf(makeBlock(parent, [child])),
-            isTrue);
+          makeBlock(child, [parent]).isSubtypeOf(makeBlock(parent, [child])),
+          isTrue,
+        );
         expect(
-            makeBlock(parent, [parent]).isSubtypeOf(makeBlock(child, [child])),
-            isFalse);
+          makeBlock(parent, [parent]).isSubtypeOf(makeBlock(child, [child])),
+          isFalse,
+        );
         expect(
-            makeBlock(child, [child]).isSubtypeOf(makeBlock(parent, [parent])),
-            isFalse);
+          makeBlock(child, [child]).isSubtypeOf(makeBlock(parent, [parent])),
+          isFalse,
+        );
         expect(
-            makeBlock(parent, [child]).isSubtypeOf(makeBlock(child, [parent])),
-            isFalse);
+          makeBlock(parent, [child]).isSubtypeOf(makeBlock(child, [parent])),
+          isFalse,
+        );
       });
     });
 

@@ -18,9 +18,10 @@ import 'syntax.g.dart';
 final class DataAsset {
   /// The file to be bundled with the Dart or Flutter application.
   ///
-  /// The file can also be omitted for asset types which refer to an asset
-  /// already present on the target system or an asset already present in Dart
-  /// or Flutter.
+  /// The path must be an absolute path. Prefer constructing the path via
+  /// [HookInput.outputDirectoryShared] or [HookInput.outputDirectory] for files
+  /// emitted during a hook, and via [HookInput.packageRoot] for files which are
+  /// part of the package.
   final Uri file;
 
   /// The name of this asset, which must be unique for the package.
@@ -47,7 +48,7 @@ final class DataAsset {
     assert(asset.isDataAsset);
     final syntaxNode = DataAssetEncodingSyntax.fromJson(
       asset.encoding,
-      path: asset.jsonPath ?? [],
+      path: asset.encodingJsonPath ?? [],
     );
     return DataAsset(
       file: syntaxNode.file,

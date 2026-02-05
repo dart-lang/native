@@ -1,0 +1,14 @@
+name: some_test_pubspec_package_name
+
+description: >-
+  Test
+
+publish_to: none
+
+version: 0.0.1-wip
+
+environment:
+  sdk: '>=3.9.0 <4.0.0'
+
+executables:
+  'my_executable': 'path/containing/a/separator/to/script.dart'

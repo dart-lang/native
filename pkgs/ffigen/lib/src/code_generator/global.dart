@@ -2,13 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../config_provider/config_types.dart';
 import '../visitor/ast.dart';
-
 import 'binding.dart';
 import 'binding_string.dart';
 import 'compound.dart';
+import 'imports.dart';
 import 'pointer.dart';
+import 'scope.dart';
 import 'type.dart';
 import 'utils.dart';
 import 'writer.dart';
@@ -26,43 +26,54 @@ import 'writer.dart';
 class Global extends LookUpBinding {
   final Type type;
   final bool exposeSymbolAddress;
-  final FfiNativeConfig nativeConfig;
   final bool constant;
+
+  @override
+  final bool loadFromNativeAsset;
 
   Global({
     super.usr,
     super.originalName,
-    required super.name,
+    required String name,
     required this.type,
     super.dartDoc,
     this.exposeSymbolAddress = false,
     this.constant = false,
-    this.nativeConfig = const FfiNativeConfig(enabled: false),
-  });
+    this.loadFromNativeAsset = false,
+  }) : super(symbol: Symbol(name, SymbolKind.field));
 
   @override
   BindingString toBindingString(Writer w) {
     final s = StringBuffer();
     final globalVarName = name;
     s.write(makeDartDoc(dartDoc));
-    final dartType = type.getDartType(w);
-    final ffiDartType = type.getFfiDartType(w);
+    final context = w.context;
+    final dartType = type.getDartType(context);
+    final ffiDartType = type.getFfiDartType(context);
 
     // Removing pointer reference for ConstantArray cType since we always wrap
     // globals with pointer below.
-    final cType = (type is ConstantArray && !nativeConfig.enabled)
-        ? (type as ConstantArray).child.getCType(w)
-        : type.getCType(w);
+    final cType = (type is ConstantArray && !loadFromNativeAsset)
+        ? (type as ConstantArray).child.getCType(context)
+        : type.getCType(context);
+
+    final ptrType = '${context.libs.prefix(ffiImport)}.Pointer<$cType>';
 
     void generateConvertingGetterAndSetter(String pointerValue) {
-      final getValue =
-          type.convertFfiDartTypeToDartType(w, pointerValue, objCRetain: true);
+      final getValue = type.convertFfiDartTypeToDartType(
+        context,
+        pointerValue,
+        objCRetain: true,
+      );
       s.write('$dartType get $globalVarName => $getValue;\n\n');
       if (!constant) {
-        final releaseOldValue = type
-            .convertFfiDartTypeToDartType(w, pointerValue, objCRetain: false);
+        final releaseOldValue = type.convertFfiDartTypeToDartType(
+          context,
+          pointerValue,
+          objCRetain: false,
+        );
         final newValue = type.convertDartTypeToFfiDartType(
-          w,
+          context,
           'value',
           objCRetain: true,
           objCAutorelease: false,
@@ -74,23 +85,25 @@ class Global extends LookUpBinding {
       }
     }
 
-    if (nativeConfig.enabled) {
+    if (loadFromNativeAsset) {
       if (type case final ConstantArray arr) {
         s.writeln(makeArrayAnnotation(w, arr));
       }
 
       final pointerName = type.sameDartAndFfiDartType
           ? globalVarName
-          : w.wrapperLevelUniqueNamer.makeUnique('_$globalVarName');
+          : context.rootScope.addPrivate('_$globalVarName');
 
       s
-        ..writeln(makeNativeAnnotation(
-          w,
-          nativeType: cType,
-          dartName: pointerName,
-          nativeSymbolName: originalName,
-          isLeaf: false,
-        ))
+        ..writeln(
+          makeNativeAnnotation(
+            w,
+            nativeType: cType,
+            dartName: pointerName,
+            nativeSymbolName: originalName,
+            isLeaf: false,
+          ),
+        )
         ..write('external ');
       if (constant) {
         s.write('final ');
@@ -103,20 +116,20 @@ class Global extends LookUpBinding {
       }
 
       if (exposeSymbolAddress) {
-        w.symbolAddressWriter.addNativeSymbol(
-            type: '${w.ffiLibraryPrefix}.Pointer<$cType>', name: name);
+        w.symbolAddressWriter.addNativeSymbol(type: ptrType, name: name);
       }
     } else {
-      final pointerName =
-          w.wrapperLevelUniqueNamer.makeUnique('_$globalVarName');
+      final pointerName = context.rootScope.addPrivate('_$globalVarName');
+      final lookupFn = context.extraSymbols.lookupFuncName!.name;
 
-      s.write('late final ${w.ffiLibraryPrefix}.Pointer<$cType> $pointerName = '
-          "${w.lookupFuncIdentifier}<$cType>('$originalName');\n\n");
+      s.write(
+        'late final $ptrType $pointerName = '
+        "$lookupFn<$cType>('$originalName');\n\n",
+      );
       final baseTypealiasType = type.typealiasType;
       if (baseTypealiasType is Compound) {
         if (baseTypealiasType.isOpaque) {
-          s.write('${w.ffiLibraryPrefix}.Pointer<$cType> get $globalVarName =>'
-              ' $pointerName;\n\n');
+          s.write('$ptrType get $globalVarName => $pointerName;\n\n');
         } else {
           s.write('$ffiDartType get $globalVarName => $pointerName.ref;\n\n');
         }
@@ -125,8 +138,10 @@ class Global extends LookUpBinding {
       } else if (type.sameDartAndFfiDartType) {
         s.write('$dartType get $globalVarName => $pointerName.value;\n\n');
         if (!constant) {
-          s.write('set $globalVarName($dartType value) =>'
-              '$pointerName.value = value;\n\n');
+          s.write(
+            'set $globalVarName($dartType value) =>'
+            '$pointerName.value = value;\n\n',
+          );
         }
       } else {
         generateConvertingGetterAndSetter('$pointerName.value');
@@ -135,7 +150,7 @@ class Global extends LookUpBinding {
       if (exposeSymbolAddress) {
         // Add to SymbolAddress in writer.
         w.symbolAddressWriter.addSymbol(
-          type: '${w.ffiLibraryPrefix}.Pointer<$cType>',
+          type: ptrType,
           name: name,
           ptrName: pointerName,
         );
@@ -149,6 +164,10 @@ class Global extends LookUpBinding {
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(type);
+    visitor.visit(ffiImport);
+    if (loadFromNativeAsset && exposeSymbolAddress) {
+      visitor.visit(selfImport);
+    }
   }
 
   @override

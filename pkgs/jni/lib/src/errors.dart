@@ -4,13 +4,36 @@
 
 import 'dart:io';
 
+import 'package:meta/meta.dart' show internal;
+
 import 'third_party/generated_bindings.dart';
 
 // TODO(#567): Add the fact that [JException] is now a [JObject] to the
 // CHANGELOG.
 
-final class UseAfterReleaseError extends StateError {
-  UseAfterReleaseError() : super('Use after release error');
+mixin _ExplainsRelease on StateError {
+  String? get releaseStackTrace;
+
+  @override
+  String toString() {
+    final sb = StringBuffer(super.toString());
+    if (releaseStackTrace != null) {
+      sb.write('\n');
+      sb.write(releaseStackTrace);
+    } else {
+      sb.writeln('\nTo see where the object was released, '
+          'set `Jni.captureStackTraceOnRelease = true`.');
+    }
+    return sb.toString();
+  }
+}
+
+final class UseAfterReleaseError extends StateError with _ExplainsRelease {
+  @override
+  final String? releaseStackTrace;
+
+  UseAfterReleaseError([this.releaseStackTrace])
+      : super('Use after release error');
 }
 
 // TODO(#567): Use NullPointerError once it's available.
@@ -18,8 +41,11 @@ final class JNullError extends StateError {
   JNullError() : super('The reference was null');
 }
 
-final class DoubleReleaseError extends StateError {
-  DoubleReleaseError() : super('Double release error');
+final class DoubleReleaseError extends StateError with _ExplainsRelease {
+  @override
+  final String? releaseStackTrace;
+
+  DoubleReleaseError([this.releaseStackTrace]) : super('Double release error');
 }
 
 /// Represents JNI errors that might be returned by methods like `CreateJavaVM`.
@@ -37,6 +63,7 @@ sealed class JniError extends Error {
 
   JniError(this.message);
 
+  @internal
   factory JniError.of(JniErrorCode status) {
     if (!_errors.containsKey(status)) {
       status = JniErrorCode.ERR;

@@ -9,21 +9,23 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 
 void main(List<String> arguments) async {
   await link(arguments, (input, output) async {
+    final asset = input.assets.code.single;
+    final packageName = asset.id.split('/').first.replaceAll('package:', '');
+    final assetName = asset.id.split('/').skip(1).join('/');
     final linker = CLinker.library(
-      name: input.packageName,
-      assetName: input.assets.code.single.id.split('/').skip(1).join('/'),
-      linkerOptions: LinkerOptions.treeshake(symbols: ['add']),
-      sources: [input.assets.code.single.file!.toFilePath()],
+      name: packageName,
+      assetName: assetName,
+      linkerOptions: LinkerOptions.treeshake(symbolsToKeep: ['add']),
+      sources: [asset.file!.toFilePath()],
     );
     await linker.run(
       input: input,
       output: output,
-      logger:
-          Logger('')
-            ..level = Level.ALL
-            ..onRecord.listen((record) {
-              print('${record.level.name}: ${record.time}: ${record.message}');
-            }),
+      logger: Logger('')
+        ..level = Level.ALL
+        ..onRecord.listen((record) {
+          print('${record.level.name}: ${record.time}: ${record.message}');
+        }),
     );
   });
 }

@@ -9,7 +9,13 @@ import 'property_generator.dart';
 class ClassGenerator {
   final NormalClassInfo classInfo;
 
-  ClassGenerator(this.classInfo);
+  /// If true, also generate `required` named parameters for nullable fields.
+  ///
+  /// This is useful for ensuring that all fields are set when writing a
+  /// semantic Dart API that wraps a generated syntax.
+  final bool requireNullableParameters;
+
+  ClassGenerator(this.classInfo, {required this.requireNullableParameters});
 
   String generate() {
     final buffer = StringBuffer();
@@ -86,8 +92,9 @@ static const ${tagProperty}Value = '$tagValue';
     final className = classInfo.className;
 
     if (classInfo.superclass == null) {
-      final constructorName =
-          classInfo.isTaggedUnion ? '_fromJson' : 'fromJson';
+      final constructorName = classInfo.isTaggedUnion
+          ? '_fromJson'
+          : 'fromJson';
       return '''
   $className.$constructorName(super.json, {
     super.path = const [],
@@ -95,8 +102,9 @@ static const ${tagProperty}Value = '$tagValue';
 ''';
     }
 
-    final superConstructorName =
-        classInfo.isTaggedUnion ? '_fromJson' : 'fromJson';
+    final superConstructorName = classInfo.isTaggedUnion
+        ? '_fromJson'
+        : 'fromJson';
     return '''
   $className.fromJson(super.json, {
     super.path,
@@ -141,6 +149,11 @@ static const ${tagProperty}Value = '$tagValue';
     for (final propertyName in propertyNames) {
       final superClassProperty = superclass?.getProperty(propertyName);
       final thisClassProperty = classInfo.getProperty(propertyName);
+      final required =
+          !(thisClassProperty ?? superClassProperty)!.type.isNullable ||
+              requireNullableParameters
+          ? 'required'
+          : '';
 
       if (superClassProperty != null) {
         if (propertyName != classInfo.superclass?.taggedUnionProperty) {
@@ -150,19 +163,20 @@ static const ${tagProperty}Value = '$tagValue';
             // Must be passed to super constructor call.
             final dartType = thisClassProperty.type;
             final propertyName = thisClassProperty.name;
-            result.add('required $dartType $propertyName');
+            result.add('$required $dartType $propertyName');
           } else {
             // Same type on this class, emit super parameter.
             final propertyName = superClassProperty.name;
-            result.add('required super.$propertyName');
+            result.add('$required super.$propertyName');
           }
         }
       } else {
         final dartType = thisClassProperty!.type;
         final propertyName = thisClassProperty.name;
-        result.add('required $dartType $propertyName');
+        result.add('$required $dartType $propertyName');
       }
     }
+    result.add('super.path = const []');
     return result;
   }
 
@@ -271,7 +285,8 @@ static const ${tagProperty}Value = '$tagValue';
     final validateCalls = [
       for (final property in classInfo.properties)
         '...${property.validateName}()',
-      if (classInfo.extraValidation.isNotEmpty) '..._validateExtraRules()',
+      if (classInfo.extraValidation.isNotEmpty)
+        '..._validateExtraRules${classInfo.name}()',
     ];
     final validateCallsString = validateCalls.join(',\n');
 
@@ -286,13 +301,12 @@ static const ${tagProperty}Value = '$tagValue';
 
   String _generateExtraValidationMethod() {
     if (classInfo.extraValidation.isEmpty) return '';
-    final statements =
-        classInfo.extraValidation
-            .map(_generateExtraValidationStatements)
-            .join()
-            .trim();
+    final statements = classInfo.extraValidation
+        .map(_generateExtraValidationStatements)
+        .join()
+        .trim();
     return '''
-  List<String> _validateExtraRules() {
+  List<String> _validateExtraRules${classInfo.name}() {
     final result = <String>[];
     $statements
     return result;
@@ -332,7 +346,7 @@ static const ${tagProperty}Value = '$tagValue';
       if (objectErrors.isEmpty) {
         final jsonValue = _reader.get<Map<String, Object?>?>('$jsonKey0');
         if (jsonValue != null) {
-          final reader = JsonReader(jsonValue, [...path, '$jsonKey0']);
+          final reader = _JsonReader(jsonValue, [...path, '$jsonKey0']);
           result.addAll(reader.validate<Object>('$jsonKey1'));
         }
       }
@@ -376,10 +390,9 @@ extension ${className}Extension on $superclassName {
     final properties = classInfo.properties;
     final superclass = classInfo.superclass;
     return {
-        for (final property in properties) property.name,
-        if (superclass != null)
-          for (final property in superclass.properties) property.name,
-      }.toList()
-      ..sort();
+      for (final property in properties) property.name,
+      if (superclass != null)
+        for (final property in superclass.properties) property.name,
+    }.toList()..sort();
   }
 }

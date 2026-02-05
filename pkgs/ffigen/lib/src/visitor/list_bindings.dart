@@ -4,7 +4,6 @@
 
 import '../code_generator.dart';
 import '../config_provider/config.dart' show Config;
-import '../config_provider/config_types.dart' show Language;
 import '../strings.dart' as strings;
 
 import 'ast.dart';
@@ -23,9 +22,12 @@ class ListBindingsVisitation extends Visitation {
   final Set<Binding> directTransitives;
   final bindings = <Binding>{};
 
-  ListBindingsVisitation(this.config, this.includes,
-      Set<Binding> indirectTransitives, this.directTransitives)
-      : transitives = {...indirectTransitives, ...directTransitives};
+  ListBindingsVisitation(
+    this.config,
+    this.includes,
+    Set<Binding> indirectTransitives,
+    this.directTransitives,
+  ) : transitives = {...indirectTransitives, ...directTransitives};
 
   void _add(Binding node) {
     node.visitChildren(visitor);
@@ -60,49 +62,70 @@ class ListBindingsVisitation extends Visitation {
 
   @override
   void visitObjCInterface(ObjCInterface node) {
-    final omit = node.unavailable ||
+    final omit =
+        node.unavailable ||
         !_visitImpl(
-            node,
-            config.includeTransitiveObjCInterfaces
-                ? _IncludeBehavior.configOrTransitive
-                : _IncludeBehavior.configOnly);
+          node,
+          config.objectiveC?.interfaces.includeTransitive ?? false
+              ? _IncludeBehavior.configOrTransitive
+              : _IncludeBehavior.configOnly,
+        );
+
     if (omit && directTransitives.contains(node)) {
       node.generateAsStub = true;
       bindings.add(node);
+
+      // Always visit the supertypes and protocols, even if this is a stub.
+      visitor.visit(node.superType);
+      visitor.visitAll(node.protocols);
+    }
+
+    if (includes.contains(node)) {
+      // Always visit the categories of explicitly included interfaces, even if
+      // they're built-in types: https://github.com/dart-lang/native/issues/1820
+      visitor.visitAll(node.categories);
     }
   }
 
   @override
   void visitObjCCategory(ObjCCategory node) => _visitImpl(
-      node,
-      config.includeTransitiveObjCCategories
-          ? _IncludeBehavior.configOrDirectTransitive
-          : _IncludeBehavior.configOnly);
+    node,
+    config.objectiveC?.categories.includeTransitive ?? false
+        ? _IncludeBehavior.configOrDirectTransitive
+        : _IncludeBehavior.configOnly,
+  );
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
-    final omit = node.unavailable ||
+    final omit =
+        node.unavailable ||
         !_visitImpl(
-            node,
-            config.includeTransitiveObjCProtocols
-                ? _IncludeBehavior.configOrTransitive
-                : _IncludeBehavior.configOnly);
+          node,
+          config.objectiveC?.protocols.includeTransitive ?? false
+              ? _IncludeBehavior.configOrTransitive
+              : _IncludeBehavior.configOnly,
+        );
+
     if (omit && directTransitives.contains(node)) {
       node.generateAsStub = true;
       bindings.add(node);
+
+      // Always visit the super protocols, even if this is a stub.
+      visitor.visitAll(node.superProtocols);
     }
   }
 
   @override
   void visitTypealias(Typealias node) {
     _visitImpl(
-        node,
-        config.includeUnusedTypedefs
-            ? _IncludeBehavior.configOnly
-            : _IncludeBehavior.configAndTransitive);
+      node,
+      config.typedefs.includeUnused
+          ? _IncludeBehavior.configOnly
+          : _IncludeBehavior.configAndTransitive,
+    );
 
     // Objective C has some core typedefs that are important to keep.
-    if (config.language == Language.objc &&
+    if (config.objectiveC != null &&
         node.originalName == strings.objcInstanceType) {
       _add(node);
     }

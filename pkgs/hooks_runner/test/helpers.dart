@@ -11,12 +11,11 @@ import 'package:file/local.dart' show LocalFileSystem;
 import 'package:hooks/hooks.dart';
 import 'package:hooks_runner/src/utils/run_process.dart' as run_process;
 import 'package:logging/logging.dart';
+import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:test/test.dart';
 import 'package:yaml/yaml.dart';
 
 extension UriExtension on Uri {
-  String get name => pathSegments.where((e) => e != '').last;
-
   Uri get parent => File(toFilePath()).parent.uri;
 
   FileSystemEntity get fileSystemEntity {
@@ -36,8 +35,9 @@ Future<void> inTempDir(
 }) async {
   final tempDir = await Directory.systemTemp.createTemp(prefix);
   // Deal with Windows temp folder aliases.
-  final tempUri =
-      Directory(await tempDir.resolveSymbolicLinks()).uri.normalizePath();
+  final tempUri = Directory(
+    await tempDir.resolveSymbolicLinks(),
+  ).uri.normalizePath();
   try {
     await fun(tempUri);
   } finally {
@@ -60,8 +60,9 @@ Future<void> inTempDir(
 Future<Uri> tempDirForTest({String? prefix, bool keepTemp = false}) async {
   final tempDir = await Directory.systemTemp.createTemp(prefix);
   // Deal with Windows temp folder aliases.
-  final tempUri =
-      Directory(await tempDir.resolveSymbolicLinks()).uri.normalizePath();
+  final tempUri = Directory(
+    await tempDir.resolveSymbolicLinks(),
+  ).uri.normalizePath();
   if ((!Platform.environment.containsKey(keepTempKey) ||
           Platform.environment[keepTempKey]!.isEmpty) &&
       !keepTemp) {
@@ -106,45 +107,6 @@ Future<run_process.RunProcessResult> runProcess({
   throwOnUnexpectedExitCode: throwOnUnexpectedExitCode,
 );
 
-/// Test files are run in a variety of ways, find this package root in all.
-///
-/// Test files can be run from source from any working directory. The Dart SDK
-/// `tools/test.py` runs them from the root of the SDK for example.
-///
-/// Test files can be run from dill from the root of package. `package:test`
-/// does this.
-///
-/// https://github.com/dart-lang/test/issues/110
-Uri findPackageRoot(String packageName) {
-  final script = Platform.script;
-  final fileName = script.name;
-  if (fileName.endsWith('_test.dart')) {
-    // We're likely running from source.
-    var directory = script.resolve('.');
-    while (true) {
-      final dirName = directory.name;
-      if (dirName == packageName) {
-        return directory;
-      }
-      final parent = directory.resolve('..');
-      if (parent == directory) break;
-      directory = parent;
-    }
-  } else if (fileName.endsWith('.dill')) {
-    final cwd = Directory.current.uri;
-    final dirName = cwd.name;
-    if (dirName == packageName) {
-      return cwd;
-    }
-  }
-  throw StateError(
-    "Could not find package root for package '$packageName'. "
-    'Tried finding the package root via Platform.script '
-    "'${Platform.script.toFilePath()}' and Directory.current "
-    "'${Directory.current.uri.toFilePath()}'.",
-  );
-}
-
 final pkgNativeAssetsBuilderUri = findPackageRoot('hooks_runner');
 
 final testDataUri = pkgNativeAssetsBuilderUri.resolve('test_data/');
@@ -152,27 +114,27 @@ final testDataUri = pkgNativeAssetsBuilderUri.resolve('test_data/');
 /// Archiver provided by the environment.
 ///
 /// Provided on Dart CI.
-final Uri? _ar =
-    Platform.environment['DART_HOOK_TESTING_C_COMPILER__AR']?.asFileUri();
+final Uri? _ar = Platform.environment['DART_HOOK_TESTING_C_COMPILER__AR']
+    ?.asFileUri();
 
 /// Compiler provided by the environment.
 ///
 /// Provided on Dart CI.
-final Uri? _cc =
-    Platform.environment['DART_HOOK_TESTING_C_COMPILER__CC']?.asFileUri();
+final Uri? _cc = Platform.environment['DART_HOOK_TESTING_C_COMPILER__CC']
+    ?.asFileUri();
 
 /// Linker provided by the environment.
 ///
 /// Provided on Dart CI.
-final Uri? _ld =
-    Platform.environment['DART_HOOK_TESTING_C_COMPILER__LD']?.asFileUri();
+final Uri? _ld = Platform.environment['DART_HOOK_TESTING_C_COMPILER__LD']
+    ?.asFileUri();
 
 /// Path to script that sets environment variables for [_cc], [_ld], and [_ar].
 ///
 /// Provided on Dart CI.
-final Uri? _envScript =
-    Platform.environment['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT']
-        ?.asFileUri();
+final Uri? _envScript = Platform
+    .environment['DART_HOOK_TESTING_C_COMPILER__ENV_SCRIPT']
+    ?.asFileUri();
 
 /// Arguments for [_envScript] provided by environment.
 ///
@@ -184,23 +146,21 @@ final List<String>? _envScriptArgs = Platform
 /// Configuration for the native toolchain.
 ///
 /// Provided on Dart CI.
-final cCompiler =
-    (_cc == null || _ar == null || _ld == null)
-        ? null
-        : CCompilerConfig(
-          compiler: _cc!,
-          archiver: _ar!,
-          linker: _ld!,
-          windows:
-              _envScript == null
-                  ? null
-                  : WindowsCCompilerConfig(
-                    developerCommandPrompt: DeveloperCommandPrompt(
-                      script: _envScript!,
-                      arguments: _envScriptArgs ?? [],
-                    ),
-                  ),
-        );
+final cCompiler = (_cc == null || _ar == null || _ld == null)
+    ? null
+    : CCompilerConfig(
+        compiler: _cc!,
+        archiver: _ar!,
+        linker: _ld!,
+        windows: _envScript == null
+            ? null
+            : WindowsCCompilerConfig(
+                developerCommandPrompt: DeveloperCommandPrompt(
+                  script: _envScript!,
+                  arguments: _envScriptArgs ?? [],
+                ),
+              ),
+      );
 
 extension on String {
   Uri asFileUri() => Uri.file(this);
@@ -241,22 +201,20 @@ Future<void> copyTestProjects({
     for (final path in manifestYaml.contents as List<Object?>)
       Uri(path: path as String),
   ];
-  final filesToCopy =
-      manifest
-          .where(
-            (e) =>
-                !(e.pathSegments.last.startsWith('pubspec') &&
-                    e.pathSegments.last.endsWith('.yaml')),
-          )
-          .toList();
-  final filesToModify =
-      manifest
-          .where(
-            (e) =>
-                e.pathSegments.last.startsWith('pubspec') &&
-                e.pathSegments.last.endsWith('.yaml'),
-          )
-          .toList();
+  final filesToCopy = manifest
+      .where(
+        (e) =>
+            !(e.pathSegments.last.startsWith('pubspec') &&
+                e.pathSegments.last.endsWith('.yaml')),
+      )
+      .toList();
+  final filesToModify = manifest
+      .where(
+        (e) =>
+            e.pathSegments.last.startsWith('pubspec') &&
+            e.pathSegments.last.endsWith('.yaml'),
+      )
+      .toList();
 
   for (final pathToCopy in filesToCopy) {
     final sourceFile = File.fromUri(sourceUri.resolveUri(pathToCopy));
@@ -290,7 +248,8 @@ dependency_overrides:
         'native_toolchain_c',
       ];
       for (final package in packagesToOverride) {
-        sourceString += '''
+        sourceString +=
+            '''
   $package:
     path: ${pkgNativeAssetsBuilderUri.resolve('../$package/').toFilePath()}
 ''';
@@ -311,13 +270,12 @@ extension UnescapePath on String {
 }
 
 /// Logger that outputs the full trace when a test fails.
-Logger get logger =>
-    _logger ??= () {
-      // A new logger is lazily created for each test so that the messages
-      // captured by printOnFailure are scoped to the correct test.
-      addTearDown(() => _logger = null);
-      return _createTestLogger();
-    }();
+Logger get logger => _logger ??= () {
+  // A new logger is lazily created for each test so that the messages
+  // captured by printOnFailure are scoped to the correct test.
+  addTearDown(() => _logger = null);
+  return _createTestLogger();
+}();
 
 Logger? _logger;
 
@@ -329,14 +287,11 @@ Logger createCapturingLogger(
 Logger _createTestLogger({
   List<String>? capturedMessages,
   Level level = Level.ALL,
-}) =>
-    Logger.detached('')
-      ..level = level
-      ..onRecord.listen((record) {
-        printOnFailure(
-          '${record.level.name}: ${record.time}: ${record.message}',
-        );
-        capturedMessages?.add(record.message);
-      });
+}) => Logger.detached('')
+  ..level = level
+  ..onRecord.listen((record) {
+    printOnFailure('${record.level.name}: ${record.time}: ${record.message}');
+    capturedMessages?.add(record.message);
+  });
 
 final dartExecutable = File(Platform.resolvedExecutable).uri;

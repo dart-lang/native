@@ -1,0 +1,54 @@
+name: some_test_pubspec_package_name
+
+description: >-
+  Test
+
+publish_to: none
+
+version: 0.0.1-wip
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.9.0 <4.0.0'
+
+dependencies:
+  some_git_dependency:
+    git:
+      url: git@github.com:munificent/kittens.git
+      ref: some-branch
+      path: pkgs/some_git_dependency/
+  # Note we don't support having a version string in the parser right now.
+  # The parser doesn't support having string or object yet.
+  # test: ^1.25.15
+  some_hosted_dependency:
+    hosted: https://some-package-server.com
+    version: ^1.4.0
+  some_hosted_dependency_2:
+    version: ^1.4.0
+  some_hosted_dependency_3:
+    version: any
+  some_path_dependency:
+    path: ../some_path_dependency/
+
+dev_dependencies:
+  some_sdk_dependency:
+    sdk: flutter
+
+executables:
+  slidy: main
+  fvm:
+  dart-apitool: main
+
+# Hook user-defines are specified in the pub workspace.
+hooks:
+  user_defines:
+    download_asset:
+      local_build: false
+    user_defines: # package name
+      user_define_key: user_define_value
+      user_define_key2:
+        foo: bar
+      some_file: pkgs/hooks_runner/test_data/user_defines/assets/data.json
+    some_other_package: # package name
+      user_define_key3: user_define_value3

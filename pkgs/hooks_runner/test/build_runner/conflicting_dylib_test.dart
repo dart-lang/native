@@ -27,7 +27,7 @@ void main() async {
           buildAssetTypes: [BuildAssetType.code],
         );
         final fullLog = logMessages.join('\n');
-        expect(result, isNull);
+        expect(result.isFailure, isTrue);
         expect(fullLog, contains('Duplicate dynamic library file name'));
       }
     });
@@ -43,14 +43,13 @@ void main() async {
 
         await runPubGet(workingDirectory: packageUri, logger: logger);
 
-        final buildResult =
-            (await build(
-              packageUri,
-              logger,
-              linkingEnabled: true,
-              dartExecutable,
-              buildAssetTypes: [BuildAssetType.code],
-            ))!;
+        final buildResult = (await build(
+          packageUri,
+          logger,
+          linkingEnabled: true,
+          dartExecutable,
+          buildAssetTypes: [BuildAssetType.code],
+        )).success;
 
         final linkResult = await link(
           packageUri,
@@ -60,7 +59,7 @@ void main() async {
           buildAssetTypes: [BuildAssetType.code],
         );
         // Application validation error due to conflicting dylib name.
-        expect(linkResult, isNull);
+        expect(linkResult.isFailure, isTrue);
       });
     },
   );

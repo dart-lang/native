@@ -4,12 +4,11 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
-
 // Regression tests for https://github.com/dart-lang/ffigen/issues/486.
-
 import 'dart:ffi';
 import 'dart:io';
 
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 import '../test_utils.dart';
 import 'inherited_instancetype_bindings.dart';
@@ -18,9 +17,14 @@ import 'util.dart';
 void main() {
   group('inheritedInstancetype', () {
     setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
-      final dylib = File('test/native_objc_test/objc_test.dylib');
+      final dylib = File(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'objc_test.dylib',
+        ),
+      );
       verifySetupFile(dylib);
       DynamicLibrary.open(dylib.absolute.path);
       generateBindingsForCoverage('inherited_instancetype');
@@ -46,11 +50,13 @@ void main() {
       final ChildClass child = ChildClass.alloc().init();
       final BaseClass base = child;
 
-      // Calling base.getSelf() should still go through ChildClass.getSelf, so
-      // the result will have a compile time type of BaseClass, but a runtime
-      // type of ChildClass.
+      // Calling base.getSelf() goes through BaseClass.getSelf on the Dart side,
+      // but is dynamically dispatched to the ObjC method ChildClass.getSelf. So
+      // the Dart wrapper object is a BaseClass, but the underlying ObjC object
+      // is a ChildClass.
       final BaseClass sameChild = base.getSelf();
-      expect(sameChild, isA<ChildClass>());
+      expect(sameChild, isA<BaseClass>());
+      expect(ChildClass.isA(sameChild), isTrue);
     });
   });
 }

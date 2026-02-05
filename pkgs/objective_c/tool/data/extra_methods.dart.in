@@ -2,104 +2,99 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// Extra methods inserted into NSString by tool/generate_code.dart.
-class NSString {
-  factory NSString(String str) {
+// Extra code inserted into lib/src/objective_c_bindings_generated.dart by
+// tool/generate_code.dart. If a class with the same name is found in the
+// generated code, the methods etc are merged. If there is no matching class,
+// the class is added at the end of the generated code.
+
+// Note: tool/generate_code.dart uses simple regexes to parse the class
+// declarations, so it's important that they remain unformatted, even if that
+// means going over the 80 char width limit. The class bodies may be formatted.
+
+extension type NSString._(objc.ObjCObject object$) {
+  NSString(String str) : this.as(_stringToNSString$(str));
+
+  static NSString _stringToNSString$(String str) {
     final cstr = str.toNativeUtf16();
-    final nsstr = stringWithCharacters_length_(cstr.cast(), str.length);
+    final nsstr = stringWithCharacters(cstr.cast(), length: str.length);
     pkg_ffi.calloc.free(cstr);
     return nsstr;
   }
 }
 
-// Extra methods inserted into NSArray by tool/generate_code.dart.
-class NSArray with Iterable<objc.ObjCObjectBase> {
+extension type NSArray._(objc.ObjCObject object$) {
   /// Creates a [NSArray] of the given length with [fill] at each position.
   ///
   /// The [length] must be a non-negative integer.
-  static NSArray filled(int length, objc.ObjCObjectBase fill) =>
+  static NSArray filled(int length, objc.ObjCObject fill) =>
       NSMutableArray.filled(length, fill);
 
   /// Creates a [NSArray] from [elements].
-  static NSArray of(Iterable<objc.ObjCObjectBase> elements) =>
+  static NSArray of(Iterable<objc.ObjCObject> elements) =>
       NSMutableArray.of(elements);
-
-  @override
-  int get length => count;
-
-  @override
-  objc.ObjCObjectBase elementAt(int index) => objectAtIndex_(index);
-
-  @override
-  Iterator<objc.ObjCObjectBase> get iterator => _NSArrayIterator(this);
-
-  objc.ObjCObjectBase operator [](int index) => objectAtIndex_(index);
 }
 
-// Extra methods inserted into NSMutableArray by tool/generate_code.dart.
-class NSMutableArray with ListMixin<objc.ObjCObjectBase> {
+extension type NSMutableArray._(objc.ObjCObject object$) {
   /// Creates a [NSMutableArray] of the given length with [fill] at each
   /// position.
   ///
   /// The [length] must be a non-negative integer.
-  static NSMutableArray filled(int length, objc.ObjCObjectBase fill) {
-    final a = arrayWithCapacity_(length);
-    for (var i = 0; i < length; ++i) a.add(fill);
+  static NSMutableArray filled(int length, objc.ObjCObject fill) {
+    final a = arrayWithCapacity(length);
+    for (var i = 0; i < length; ++i) a.addObject(fill);
     return a;
   }
 
   /// Creates a [NSMutableArray] from [elements].
-  static NSMutableArray of(Iterable<objc.ObjCObjectBase> elements) =>
-      arrayWithCapacity_(elements.length)..addAll(elements);
-
-  @override
-  set length(int newLength) {
-    var len = length;
-    RangeError.checkValueInInterval(newLength, 0, len);
-    for (; len > newLength; --len) removeLastObject();
-  }
-
-  @override
-  void operator []=(int index, objc.ObjCObjectBase value) =>
-      replaceObjectAtIndex_withObject_(index, value);
-
-  @override
-  void add(objc.ObjCObjectBase value) => addObject_(value);
-
-  @override
-  void addAll(Iterable<objc.ObjCObjectBase> iterable) {
-    for (final value in iterable) add(value);
+  static NSMutableArray of(Iterable<objc.ObjCObject> elements) {
+    final a = arrayWithCapacity(elements.length);
+    for (final e in elements) a.addObject(e);
+    return a;
   }
 }
 
-class _NSArrayIterator implements Iterator<objc.ObjCObjectBase> {
-  final Iterable<objc.ObjCObjectBase> _iterable;
-  final int _length;
-  int _index;
-  objc.ObjCObjectBase? _current;
+extension type NSDictionary._(objc.ObjCObject object$) {
+  /// Creates a [NSDictionary] from [other].
+  static NSDictionary of(Map<NSCopying, objc.ObjCObject> other) =>
+      NSMutableDictionary.of(other);
 
-  _NSArrayIterator(Iterable<objc.ObjCObjectBase> iterable)
-      : _iterable = iterable,
-        _length = iterable.length,
-        _index = 0;
+  /// Creates a [NSDictionary] from [entries].
+  static NSDictionary fromEntries(
+    Iterable<MapEntry<NSCopying, objc.ObjCObject>> entries,
+  ) => NSMutableDictionary.fromEntries(entries);
+}
 
-  @override
-  objc.ObjCObjectBase get current => _current!;
+extension type NSMutableDictionary._(objc.ObjCObject object$) {
+  /// Creates a [NSMutableDictionary] from [other].
+  static NSMutableDictionary of(Map<NSCopying, objc.ObjCObject> other) =>
+      NSMutableDictionary.fromEntries(other.entries);
 
-  @override
-  @pragma('vm:prefer-inline')
-  bool moveNext() {
-    final length = _iterable.length;
-    if (_length != length) {
-      throw ConcurrentModificationError(_iterable);
+  /// Creates a [NSMutableDictionary] from [entries].
+  static NSMutableDictionary fromEntries(
+    Iterable<MapEntry<NSCopying, objc.ObjCObject>> entries,
+  ) {
+    final dict = dictionaryWithCapacity(entries.length);
+    for (final MapEntry(:key, :value) in entries) {
+      dict.setObject(
+        value,
+        forKey: NSCopying.as(key),
+      );
     }
-    if (_index >= length) {
-      _current = null;
-      return false;
-    }
-    _current = _iterable.elementAt(_index);
-    _index++;
-    return true;
+    return dict;
   }
 }
 
+extension type NSSet._(objc.ObjCObject object$) {
+  /// Creates a [NSSet] from [elements].
+  static NSSet of(Iterable<objc.ObjCObject> elements) =>
+      NSMutableSet.of(elements);
+}
+
+extension type NSMutableSet._(objc.ObjCObject object$) {
+  /// Creates a [NSMutableSet] from [elements].
+  static NSMutableSet of(Iterable<objc.ObjCObject> elements) {
+    final set = setWithCapacity(elements.length);
+    for (final e in elements) set.addObject(e);
+    return set;
+  }
+}

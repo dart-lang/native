@@ -20,10 +20,10 @@ import 'test_util/test_util.dart';
 class A extends JObject {
   A.fromReference(super.reference) : super.fromReference();
   @override
-  JObjType<JObject> get $type => $AType();
+  JType<JObject> get $type => $A$Type$();
 }
 
-final class $ANullableType extends JObjType<A?> {
+final class $A$NullableType$ extends JType<A?> {
   @internal
   @override
   A? fromReference(JReference reference) {
@@ -40,22 +40,22 @@ final class $ANullableType extends JObjType<A?> {
 
   @internal
   @override
-  JObjType<JObject?> get superType => JObject.nullableType;
+  JType<JObject?> get superType => JObject.nullableType;
 
   @internal
   @override
-  JObjType<A?> get nullableType => this;
+  JType<A?> get nullableType => this;
 
   @override
-  int get hashCode => ($ANullableType).hashCode;
+  int get hashCode => ($A$NullableType$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $ANullableType && other is $ANullableType;
+    return other.runtimeType == $A$NullableType$ && other is $A$NullableType$;
   }
 }
 
-final class $AType extends JObjType<A> {
+final class $A$Type$ extends JType<A> {
   @internal
   @override
   A fromReference(JReference reference) {
@@ -72,28 +72,28 @@ final class $AType extends JObjType<A> {
 
   @internal
   @override
-  JObjType<JObject> get superType => JObject.type;
+  JType<JObject> get superType => JObject.type;
 
   @internal
   @override
-  JObjType<A?> get nullableType => $ANullableType();
+  JType<A?> get nullableType => $A$NullableType$();
 
   @override
-  int get hashCode => ($AType).hashCode;
+  int get hashCode => ($A$Type$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $AType && other is $AType;
+    return other.runtimeType == $A$Type$ && other is $A$Type$;
   }
 }
 
 class B extends JObject {
   B.fromReference(super.reference) : super.fromReference();
   @override
-  JObjType<JObject> get $type => $BType();
+  JType<JObject> get $type => $B$Type$();
 }
 
-final class $BNullableType extends JObjType<B?> {
+final class $B$NullableType$ extends JType<B?> {
   @internal
   @override
   B? fromReference(JReference reference) {
@@ -110,22 +110,22 @@ final class $BNullableType extends JObjType<B?> {
 
   @internal
   @override
-  JObjType<JObject?> get superType => JObject.nullableType;
+  JType<JObject?> get superType => JObject.nullableType;
 
   @internal
   @override
-  JObjType<B?> get nullableType => this;
+  JType<B?> get nullableType => this;
 
   @override
-  int get hashCode => ($BNullableType).hashCode;
+  int get hashCode => ($B$NullableType$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $BNullableType && other is $BNullableType;
+    return other.runtimeType == $B$NullableType$ && other is $B$NullableType$;
   }
 }
 
-final class $BType extends JObjType<B> {
+final class $B$Type$ extends JType<B> {
   @internal
   @override
   B fromReference(JReference reference) {
@@ -142,18 +142,18 @@ final class $BType extends JObjType<B> {
 
   @internal
   @override
-  JObjType<JObject> get superType => JObject.type;
+  JType<JObject> get superType => JObject.type;
 
   @internal
   @override
-  JObjType<B?> get nullableType => $BNullableType();
+  JType<B?> get nullableType => $B$NullableType$();
 
   @override
-  int get hashCode => ($BType).hashCode;
+  int get hashCode => ($B$Type$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $BType && other is $BType;
+    return other.runtimeType == $B$Type$ && other is $B$Type$;
   }
 }
 
@@ -161,10 +161,10 @@ class C extends A {
   C.fromReference(super.reference) : super.fromReference();
 
   @override
-  JObjType<JObject> get $type => $CType();
+  JType<JObject> get $type => $C$Type$();
 }
 
-final class $CNullableType extends JObjType<C?> {
+final class $C$NullableType$ extends JType<C?> {
   @internal
   @override
   C? fromReference(JReference reference) {
@@ -181,22 +181,22 @@ final class $CNullableType extends JObjType<C?> {
 
   @internal
   @override
-  JObjType<JObject?> get superType => $ANullableType();
+  JType<JObject?> get superType => $A$NullableType$();
 
   @internal
   @override
-  JObjType<C?> get nullableType => this;
+  JType<C?> get nullableType => this;
 
   @override
-  int get hashCode => ($CNullableType).hashCode;
+  int get hashCode => ($C$NullableType$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $CNullableType && other is $CNullableType;
+    return other.runtimeType == $C$NullableType$ && other is $C$NullableType$;
   }
 }
 
-final class $CType extends JObjType<C> {
+final class $C$Type$ extends JType<C> {
   @internal
   @override
   C fromReference(JReference reference) {
@@ -213,18 +213,18 @@ final class $CType extends JObjType<C> {
 
   @internal
   @override
-  JObjType<JObject> get superType => $AType();
+  JType<JObject> get superType => $A$Type$();
 
   @internal
   @override
-  JObjType<C?> get nullableType => $CNullableType();
+  JType<C?> get nullableType => $C$NullableType$();
 
   @override
-  int get hashCode => ($CType).hashCode;
+  int get hashCode => ($C$Type$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $CType && other is $CType;
+    return other.runtimeType == $C$Type$ && other is $C$Type$;
   }
 }
 
@@ -232,10 +232,10 @@ class D extends A {
   D.fromReference(super.reference) : super.fromReference();
 
   @override
-  JObjType<JObject> get $type => $DType();
+  JType<JObject> get $type => $D$Type$();
 }
 
-final class $DNullableType extends JObjType<D?> {
+final class $D$NullableType$ extends JType<D?> {
   @internal
   @override
   D? fromReference(JReference reference) {
@@ -252,22 +252,22 @@ final class $DNullableType extends JObjType<D?> {
 
   @internal
   @override
-  JObjType<JObject?> get superType => $ANullableType();
+  JType<JObject?> get superType => $A$NullableType$();
 
   @internal
   @override
-  JObjType<D?> get nullableType => this;
+  JType<D?> get nullableType => this;
 
   @override
-  int get hashCode => ($DNullableType).hashCode;
+  int get hashCode => ($D$NullableType$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $DNullableType && other is $DNullableType;
+    return other.runtimeType == $D$NullableType$ && other is $D$NullableType$;
   }
 }
 
-final class $DType extends JObjType<D> {
+final class $D$Type$ extends JType<D> {
   @internal
   @override
   D fromReference(JReference reference) {
@@ -284,18 +284,18 @@ final class $DType extends JObjType<D> {
 
   @internal
   @override
-  JObjType<JObject> get superType => $AType();
+  JType<JObject> get superType => $A$Type$();
 
   @internal
   @override
-  JObjType<D?> get nullableType => $DNullableType();
+  JType<D?> get nullableType => $D$NullableType$();
 
   @override
-  int get hashCode => ($DType).hashCode;
+  int get hashCode => ($D$Type$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $DType && other is $DType;
+    return other.runtimeType == $D$Type$ && other is $D$Type$;
   }
 }
 
@@ -303,10 +303,10 @@ class E extends B {
   E.fromReference(super.reference) : super.fromReference();
 
   @override
-  JObjType<JObject> get $type => $EType();
+  JType<JObject> get $type => $E$Type$();
 }
 
-final class $ENullableType extends JObjType<E?> {
+final class $E$NullableType$ extends JType<E?> {
   @internal
   @override
   E? fromReference(JReference reference) {
@@ -323,22 +323,22 @@ final class $ENullableType extends JObjType<E?> {
 
   @internal
   @override
-  JObjType<JObject?> get superType => $BNullableType();
+  JType<JObject?> get superType => $B$NullableType$();
 
   @internal
   @override
-  JObjType<E?> get nullableType => this;
+  JType<E?> get nullableType => this;
 
   @override
-  int get hashCode => ($ENullableType).hashCode;
+  int get hashCode => ($E$NullableType$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $ENullableType && other is $ENullableType;
+    return other.runtimeType == $E$NullableType$ && other is $E$NullableType$;
   }
 }
 
-final class $EType extends JObjType<E> {
+final class $E$Type$ extends JType<E> {
   @internal
   @override
   E fromReference(JReference reference) {
@@ -355,18 +355,18 @@ final class $EType extends JObjType<E> {
 
   @internal
   @override
-  JObjType<JObject> get superType => $BType();
+  JType<JObject> get superType => $B$Type$();
 
   @internal
   @override
-  JObjType<E?> get nullableType => $ENullableType();
+  JType<E?> get nullableType => $E$NullableType$();
 
   @override
-  int get hashCode => ($EType).hashCode;
+  int get hashCode => ($E$Type$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $EType && other is $EType;
+    return other.runtimeType == $E$Type$ && other is $E$Type$;
   }
 }
 
@@ -374,10 +374,10 @@ class F extends C {
   F.fromReference(super.reference) : super.fromReference();
 
   @override
-  JObjType<JObject> get $type => $FType();
+  JType<JObject> get $type => $F$Type$();
 }
 
-final class $FNullableType extends JObjType<F?> {
+final class $F$NullableType$ extends JType<F?> {
   @internal
   @override
   F? fromReference(JReference reference) {
@@ -394,22 +394,22 @@ final class $FNullableType extends JObjType<F?> {
 
   @internal
   @override
-  JObjType<JObject?> get superType => $CNullableType();
+  JType<JObject?> get superType => $C$NullableType$();
 
   @internal
   @override
-  JObjType<F?> get nullableType => this;
+  JType<F?> get nullableType => this;
 
   @override
-  int get hashCode => ($FNullableType).hashCode;
+  int get hashCode => ($F$NullableType$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $FNullableType && other is $FNullableType;
+    return other.runtimeType == $F$NullableType$ && other is $F$NullableType$;
   }
 }
 
-final class $FType extends JObjType<F> {
+final class $F$Type$ extends JType<F> {
   @internal
   @override
   F fromReference(JReference reference) {
@@ -426,18 +426,18 @@ final class $FType extends JObjType<F> {
 
   @internal
   @override
-  JObjType<JObject> get superType => $CType();
+  JType<JObject> get superType => $C$Type$();
 
   @internal
   @override
-  JObjType<F?> get nullableType => $FNullableType();
+  JType<F?> get nullableType => $F$NullableType$();
 
   @override
-  int get hashCode => ($FType).hashCode;
+  int get hashCode => ($F$Type$).hashCode;
 
   @override
   bool operator ==(Object other) {
-    return other.runtimeType == $FType && other is $FType;
+    return other.runtimeType == $F$Type$ && other is $F$Type$;
   }
 }
 
@@ -560,17 +560,19 @@ void run({required TestRunnerCallback testRunner}) {
     //    C   D   E
     //   /
     //  F
-    expect(lowestCommonSuperType([$AType(), $BType()]), JObject.type);
-    expect(lowestCommonSuperType([$CType(), $BType()]), JObject.type);
-    expect(lowestCommonSuperType([$FType(), $BType()]), JObject.type);
-    expect(lowestCommonSuperType([$EType(), $CType(), $FType()]), JObject.type);
+    expect(lowestCommonSuperType([$A$Type$(), $B$Type$()]), JObject.type);
+    expect(lowestCommonSuperType([$C$Type$(), $B$Type$()]), JObject.type);
+    expect(lowestCommonSuperType([$F$Type$(), $B$Type$()]), JObject.type);
+    expect(lowestCommonSuperType([$E$Type$(), $C$Type$(), $F$Type$()]),
+        JObject.type);
 
-    expect(lowestCommonSuperType([$CType(), $DType()]), $AType());
-    expect(lowestCommonSuperType([$FType(), $DType()]), $AType());
-    expect(lowestCommonSuperType([$FType(), $CType(), $DType()]), $AType());
+    expect(lowestCommonSuperType([$C$Type$(), $D$Type$()]), $A$Type$());
+    expect(lowestCommonSuperType([$F$Type$(), $D$Type$()]), $A$Type$());
+    expect(lowestCommonSuperType([$F$Type$(), $C$Type$(), $D$Type$()]),
+        $A$Type$());
 
-    expect(lowestCommonSuperType([$EType(), $BType()]), $BType());
-    expect(lowestCommonSuperType([$BType(), $BType()]), $BType());
+    expect(lowestCommonSuperType([$E$Type$(), $B$Type$()]), $B$Type$());
+    expect(lowestCommonSuperType([$B$Type$(), $B$Type$()]), $B$Type$());
   });
 
   testRunner('Mocked nullable type tree', () {
@@ -582,27 +584,27 @@ void run({required TestRunnerCallback testRunner}) {
     //    C   D   E
     //   /
     //  F
-    expect(lowestCommonSuperType([$AType(), $BNullableType()]),
+    expect(lowestCommonSuperType([$A$Type$(), $B$NullableType$()]),
         JObject.nullableType);
-    expect(lowestCommonSuperType([$CNullableType(), $BType()]),
+    expect(lowestCommonSuperType([$C$NullableType$(), $B$Type$()]),
         JObject.nullableType);
-    expect(lowestCommonSuperType([$FNullableType(), $BNullableType()]),
+    expect(lowestCommonSuperType([$F$NullableType$(), $B$NullableType$()]),
         JObject.nullableType);
-    expect(lowestCommonSuperType([$ENullableType(), $CType(), $FType()]),
+    expect(lowestCommonSuperType([$E$NullableType$(), $C$Type$(), $F$Type$()]),
         JObject.nullableType);
 
-    expect(
-        lowestCommonSuperType([$CType(), $DNullableType()]), $ANullableType());
-    expect(
-        lowestCommonSuperType([$FNullableType(), $DType()]), $ANullableType());
-    expect(lowestCommonSuperType([$FType(), $CNullableType(), $DType()]),
-        $ANullableType());
+    expect(lowestCommonSuperType([$C$Type$(), $D$NullableType$()]),
+        $A$NullableType$());
+    expect(lowestCommonSuperType([$F$NullableType$(), $D$Type$()]),
+        $A$NullableType$());
+    expect(lowestCommonSuperType([$F$Type$(), $C$NullableType$(), $D$Type$()]),
+        $A$NullableType$());
 
-    expect(
-        lowestCommonSuperType([$ENullableType(), $BType()]), $BNullableType());
-    expect(
-        lowestCommonSuperType([$BNullableType(), $BType()]), $BNullableType());
-    expect(lowestCommonSuperType([$BNullableType(), $BNullableType()]),
-        $BNullableType());
+    expect(lowestCommonSuperType([$E$NullableType$(), $B$Type$()]),
+        $B$NullableType$());
+    expect(lowestCommonSuperType([$B$NullableType$(), $B$Type$()]),
+        $B$NullableType$());
+    expect(lowestCommonSuperType([$B$NullableType$(), $B$NullableType$()]),
+        $B$NullableType$());
   });
 }

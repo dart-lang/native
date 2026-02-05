@@ -1,5 +1,68 @@
-## 0.19.1-wip
+## 1.0.2
 
+- Pass `HTTP(S)_PROXY` and related environment variables to hooks.
+- Add `ANDROID_NDK`, `ANDROID_NDK_HOME`, `ANDROID_NDK_LATEST_HOME` and
+  `ANDROID_NDK_ROOT` to the environment variables allowlist.
+
+## 1.0.1
+
+- Ensure build fails if a build hook does not produce an output file.
+
+## 1.0.0
+
+- Stable release.
+
+## 0.23.2
+
+- Add `LIBCLANG_PATH` to the environment variables allowlist.
+
+## 0.23.1
+
+- Change the length of the checksum used for `outputDirectory` to 10 hexadecimal
+  characters to avoid running out of path length on Windows.
+
+## 0.23.0
+
+- **Breaking change**: Replaced `NativeAssetsBuildRunner.hookEnvironmentVariablesFilter`
+  with `NativeAssetsBuildRunner.includeHookEnvironmentVariable` to account for
+  environment variables that start with a particular prefix (i.e., `NIX_`).
+
+## 0.22.1
+
+* Fix caches not being invalidated on (1) user-defines changing, (2) metadata
+  changing, and (3) assets sent to link hooks.
+  
+
+## 0.22.0
+
+* Bump `package:hooks` to 0.20.0.
+* Enable passing metadata from link hooks of a package to the link hooks in 
+  depending packages, by fixing the link hook execution order. This brings an
+  order in which the link hooks are run - reverse to the build hook run order.
+  Starting at the application link hook, then it's dependencies, and so on. This
+  enables us to pass information from on link hook to another as
+  `MetadataAsset`s - but also means that now link hooks must be invoked,
+  regardless of whether assets are sent to the from a build hook.
+
+## 0.21.0
+
+* Add `includeDevDependencies` param to `BuildLayout` to enable building the
+  assets for dev dependencies of the `runPackage`.
+
+## 0.20.2
+
+* Add `dart:developer` `TimelineEvent`s to enable performance tracing for
+  hook invocations.
+
+## 0.20.1
+
+* Bump the SDK constraint to at least the one from `package:hooks` to fix
+  dartdoc generation on https://pub.dev.
+
+## 0.20.0
+
+- **Breaking change** Refactored error handling to use a `Result` type for more
+  explicit success/failure states.
 - Remove `package_graph.json` fallback.
 
 ## 0.19.0

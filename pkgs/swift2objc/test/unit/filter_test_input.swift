@@ -132,4 +132,16 @@ public class Garage {
             print("- \(vehicle.make) \(vehicle.model)")
         }
     }
+
+    public class Door {
+        public var isOpen: Bool = false
+    }
+}
+
+public func openDoor(door: Garage.Door) {
+  door.isOpen = true
+}
+
+public func listGarageVehicles(garage: Garage) {
+  return garage.listVehicles();
 }

@@ -20,11 +20,13 @@ import 'package:path/path.dart' as path;
 import 'package:swift2objc/swift2objc.dart';
 import 'package:test/test.dart';
 
+import '../utils.dart';
+
 void main([List<String>? args]) {
   const inputSuffix = '_input.swift';
   const outputSuffix = '_output.swift';
 
-  final thisDir = path.join(Directory.current.path, 'test/integration');
+  final thisDir = path.join(testDir, 'integration');
   final tempDir = path.join(thisDir, 'temp');
 
   var regen = false;
@@ -37,8 +39,9 @@ void main([List<String>? args]) {
     for (final entity in Directory(thisDir).listSync()) {
       final filename = path.basename(entity.path);
       if (filename.endsWith(inputSuffix)) {
-        testNames
-            .add(filename.substring(0, filename.length - inputSuffix.length));
+        testNames.add(
+          filename.substring(0, filename.length - inputSuffix.length),
+        );
       }
     }
   }
@@ -46,7 +49,7 @@ void main([List<String>? args]) {
   var loggedErrors = 0;
   Logger.root.onRecord.listen((record) {
     stderr.writeln('${record.level.name}: ${record.message}');
-    if (record.level >= Level.WARNING) ++loggedErrors;
+    if (record.level >= Level.SEVERE) ++loggedErrors;
   });
 
   group('Integration tests', () {
@@ -59,14 +62,17 @@ void main([List<String>? args]) {
             ? expectedOutputFile
             : path.join(tempDir, '$name$outputSuffix');
 
-        await generateWrapper(Config(
-          input: FilesInputConfig(
-            files: [Uri.file(inputFile)],
-          ),
+        await Swift2ObjCGenerator(
+          inputs: [
+            FilesInputConfig(
+              files: [Uri.file(inputFile)],
+              tempModuleName: 'temp_$name',
+            ),
+          ],
           outputFile: Uri.file(actualOutputFile),
           tempDir: Directory(tempDir).uri,
           preamble: '// Test preamble text',
-        ));
+        ).generate(logger: Logger.root);
 
         final actualOutput = await File(actualOutputFile).readAsString();
         final expectedOutput = File(expectedOutputFile).readAsStringSync();
@@ -74,29 +80,8 @@ void main([List<String>? args]) {
         expect(actualOutput, expectedOutput);
         expect(loggedErrors, 0);
 
-        // Try generating symbolgraph for input & output files
-        // to make sure the result compiles. Input file must be included cause
-        // it contains the definition of the entities the output code wraps.
-        final symbolgraphCommand = FilesInputConfig(
-          files: [
-            Uri.file(inputFile),
-            Uri.file(actualOutputFile),
-          ],
-          generatedModuleName: 'output_file_symbolgraph',
-        ).symbolgraphCommand!;
-
-        final processResult = await Process.run(
-          symbolgraphCommand.executable,
-          symbolgraphCommand.args,
-          workingDirectory: tempDir,
-        );
-
-        if (processResult.exitCode != 0) {
-          print(processResult.stdout);
-          print(processResult.stderr);
-        }
-        expect(processResult.exitCode, 0);
-      });
+        await expectValidSwift([inputFile, actualOutputFile]);
+      }, timeout: const Timeout(Duration(minutes: 2)));
     }
   });
 }

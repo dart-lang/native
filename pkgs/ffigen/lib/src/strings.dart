@@ -151,7 +151,7 @@ const sizemapNativeMapping = <String, int>{
   uLong: clang.CXTypeKind.CXType_ULong,
   longLong: clang.CXTypeKind.CXType_LongLong,
   uLongLong: clang.CXTypeKind.CXType_ULongLong,
-  enumType: clang.CXTypeKind.CXType_Enum
+  enumType: clang.CXTypeKind.CXType_Enum,
 };
 
 // Library imports.
@@ -180,11 +180,6 @@ const defaultSymbolFileImportPrefix = 'imp';
 const symbolFilesImport = 'symbol-files';
 // Sub-Sub keys of symbolFilesImport.
 const importPath = 'import-path';
-
-final predefinedLibraryImports = {
-  ffiImport.name: ffiImport,
-  ffiPkgImport.name: ffiPkgImport
-};
 
 const typeMap = 'type-map';
 
@@ -217,7 +212,6 @@ const supportedNativeTypeMappings = <String, SupportedNativeType>{
 // Boolean flags.
 const sort = 'sort';
 const useSupportedTypedefs = 'use-supported-typedefs';
-const useDartHandle = 'use-dart-handle';
 const silenceEnumWarning = 'silence-enum-warning';
 const ignoreSourceErrors = 'ignore-source-errors';
 
@@ -257,9 +251,7 @@ const linuxDylibLocations = {
   '/usr/lib/',
   '/usr/lib64/',
 };
-const windowsDylibLocations = {
-  r'C:\Program Files\LLVM\bin\',
-};
+const windowsDylibLocations = {r'C:\Program Files\LLVM\bin\'};
 const macOsDylibLocations = {
   // Default Xcode commandline tools installation.
   '/Library/Developer/CommandLineTools/usr/',
@@ -281,6 +273,9 @@ const doubleNaN = 'double.nan';
 
 /// USR for struct `_Dart_Handle`.
 const dartHandleUsr = 'c:@S@_Dart_Handle';
+
+// A character that will never appear in real USRs, for making synthetic USRs.
+const synthUsrChar = '~';
 
 const ffiNative = 'ffi-native';
 const ffiNativeAsset = 'asset-id';

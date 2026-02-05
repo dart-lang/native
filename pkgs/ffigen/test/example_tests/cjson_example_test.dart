@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/header_parser.dart';
-import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
@@ -11,19 +10,15 @@ import '../test_utils.dart';
 
 void main() {
   group('cjson_example_test', () {
-    setUpAll(() {
-      logWarnings(Level.SEVERE);
-    });
     test('c_json', () {
-      final config =
-          testConfigFromPath(path.join('example', 'c_json', 'config.yaml'));
-      final library = parse(config);
-
-      matchLibraryWithExpected(
-        library,
-        'example_c_json.dart',
-        [config.output.toFilePath()],
+      final config = testConfigFromPath(
+        path.join(packagePathForTests, 'example', 'c_json', 'config.yaml'),
       );
+      final library = parse(testContext(config));
+
+      matchLibraryWithExpected(library, 'example_c_json.dart', [
+        config.output.dartFile.toFilePath(),
+      ]);
     });
   });
 }

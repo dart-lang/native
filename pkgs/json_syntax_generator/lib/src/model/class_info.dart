@@ -111,7 +111,8 @@ class ConditionallyRequired {
   });
 
   @override
-  String toString() => '''
+  String toString() =>
+      '''
 ConditionallyRequired(
   path: $conditionPath,
   values: $conditionValues,
@@ -152,7 +153,8 @@ class EnumValue {
   EnumValue({required this.jsonValue, required this.name});
 
   @override
-  String toString() => '''
+  String toString() =>
+      '''
 $runtimeType(
   name: $name,
   jsonValue: $jsonValue

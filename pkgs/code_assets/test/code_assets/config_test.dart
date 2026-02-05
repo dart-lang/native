@@ -82,6 +82,17 @@ void main() async {
             },
           },
         ],
+      if (hookType == 'link')
+        'assets_from_linking': [
+          {
+            'type': 'code_assets/code',
+            'encoding': {
+              'file': 'not there',
+              'id': 'package:my_package/name2',
+              'link_mode': {'type': 'dynamic_loading_bundle'},
+            },
+          },
+        ],
       'config': {
         'build_asset_types': ['code_assets/code'],
         'extensions': {'code_assets': codeConfig},
@@ -93,6 +104,27 @@ void main() async {
       'package_root': packageRootUri.toFilePath(),
     };
   }
+
+  // Full JSON to see where the config sits in the full JSON.
+  // When removing the non-hierarchical JSON, we can change this test to only
+  // check the nested key.
+  Map<String, Object> linkOutputJson() => {
+    'assets': [
+      {'some_key': 'some_value', 'type': 'some_asset_type'},
+      {'some_other_key': 'some_value', 'type': 'some_other_asset_type'},
+    ],
+    'assets_for_linking': {
+      'package_with_linker': [
+        {
+          'encoding': {'key': 'foo', 'value': 'bar'},
+          'type': 'hooks/metadata',
+        },
+      ],
+    },
+    'dependencies': ['/assets/data_2.json', '/assets/data_3.json'],
+    'status': 'success',
+    'timestamp': '2025-02-11 11:20:20.000',
+  };
 
   void expectCorrectCodeConfig(
     CodeConfig codeCondig, {
@@ -116,34 +148,33 @@ void main() async {
   }
 
   test('BuildInput.config.code', () {
-    final inputBuilder =
-        BuildInputBuilder()
-          ..setupShared(
-            packageName: packageName,
-            packageRoot: packageRootUri,
-            outputFile: outFile,
-            outputDirectoryShared: outputDirectoryShared,
-          )
-          ..config.setupBuild(linkingEnabled: false)
-          ..addExtension(
-            CodeAssetExtension(
-              targetOS: OS.android,
-              targetArchitecture: Architecture.arm64,
-              android: AndroidCodeConfig(targetNdkApi: 30),
-              linkModePreference: LinkModePreference.preferStatic,
-              cCompiler: CCompilerConfig(
-                compiler: fakeClang,
-                linker: fakeLd,
-                archiver: fakeAr,
-                windows: WindowsCCompilerConfig(
-                  developerCommandPrompt: DeveloperCommandPrompt(
-                    script: fakeVcVars,
-                    arguments: ['arg0', 'arg1'],
-                  ),
-                ),
+    final inputBuilder = BuildInputBuilder()
+      ..setupShared(
+        packageName: packageName,
+        packageRoot: packageRootUri,
+        outputFile: outFile,
+        outputDirectoryShared: outputDirectoryShared,
+      )
+      ..config.setupBuild(linkingEnabled: false)
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: OS.android,
+          targetArchitecture: Architecture.arm64,
+          android: AndroidCodeConfig(targetNdkApi: 30),
+          linkModePreference: LinkModePreference.preferStatic,
+          cCompiler: CCompilerConfig(
+            compiler: fakeClang,
+            linker: fakeLd,
+            archiver: fakeAr,
+            windows: WindowsCCompilerConfig(
+              developerCommandPrompt: DeveloperCommandPrompt(
+                script: fakeVcVars,
+                arguments: ['arg0', 'arg1'],
               ),
             ),
-          );
+          ),
+        ),
+      );
     final input = inputBuilder.build();
     expect(input.json, inputJson());
     expectCorrectCodeConfig(input.config.code);
@@ -162,34 +193,44 @@ void main() async {
   });
 
   test('LinkInput.{code,codeAssets}', () {
-    final inputBuilder =
-        LinkInputBuilder()
-          ..setupShared(
-            packageName: packageName,
-            packageRoot: packageRootUri,
-            outputFile: outFile,
-            outputDirectoryShared: outputDirectoryShared,
-          )
-          ..setupLink(assets: assets, recordedUsesFile: null)
-          ..addExtension(
-            CodeAssetExtension(
-              targetOS: OS.android,
-              targetArchitecture: Architecture.arm64,
-              android: AndroidCodeConfig(targetNdkApi: 30),
-              linkModePreference: LinkModePreference.preferStatic,
-              cCompiler: CCompilerConfig(
-                compiler: fakeClang,
-                linker: fakeLd,
-                archiver: fakeAr,
-                windows: WindowsCCompilerConfig(
-                  developerCommandPrompt: DeveloperCommandPrompt(
-                    script: fakeVcVars,
-                    arguments: ['arg0', 'arg1'],
-                  ),
-                ),
+    final inputBuilder = LinkInputBuilder()
+      ..setupShared(
+        packageName: packageName,
+        packageRoot: packageRootUri,
+        outputFile: outFile,
+        outputDirectoryShared: outputDirectoryShared,
+      )
+      ..setupLink(
+        assets: assets,
+        recordedUsesFile: null,
+        assetsFromLinking: [
+          CodeAsset(
+            name: 'name2',
+            package: 'my_package',
+            file: Uri.file('not there'),
+            linkMode: DynamicLoadingBundled(),
+          ).encode(),
+        ],
+      )
+      ..addExtension(
+        CodeAssetExtension(
+          targetOS: OS.android,
+          targetArchitecture: Architecture.arm64,
+          android: AndroidCodeConfig(targetNdkApi: 30),
+          linkModePreference: LinkModePreference.preferStatic,
+          cCompiler: CCompilerConfig(
+            compiler: fakeClang,
+            linker: fakeLd,
+            archiver: fakeAr,
+            windows: WindowsCCompilerConfig(
+              developerCommandPrompt: DeveloperCommandPrompt(
+                script: fakeVcVars,
+                arguments: ['arg0', 'arg1'],
               ),
             ),
-          );
+          ),
+        ),
+      );
     final input = inputBuilder.build();
     expect(input.json, inputJson(hookType: 'link'));
     expectCorrectCodeConfig(input.config.code);
@@ -210,11 +251,10 @@ void main() async {
   test('BuildInput.config.code: invalid architecture', () {
     final input = inputJson();
     traverseJson<Map<String, Object?>>(input, [
-          'config',
-          'extensions',
-          'code_assets',
-        ])['target_architecture'] =
-        'invalid_architecture';
+      'config',
+      'extensions',
+      'code_assets',
+    ])['target_architecture'] = 'invalid_architecture';
     expect(
       () => BuildInput(input).config.code.targetArchitecture,
       throwsFormatException,
@@ -224,22 +264,20 @@ void main() async {
   test('LinkInput.config.code: invalid os', () {
     final input = inputJson(hookType: 'link');
     traverseJson<Map<String, Object?>>(input, [
-          'config',
-          'extensions',
-          'code_assets',
-        ])['target_os'] =
-        'invalid_os';
+      'config',
+      'extensions',
+      'code_assets',
+    ])['target_os'] = 'invalid_os';
     expect(() => LinkInput(input).config.code.targetOS, throwsFormatException);
   });
 
   test('LinkInput.config.code.target_os invalid type', () {
     final input = inputJson(hookType: 'link');
     traverseJson<Map<String, Object?>>(input, [
-          'config',
-          'extensions',
-          'code_assets',
-        ])['target_os'] =
-        123;
+      'config',
+      'extensions',
+      'code_assets',
+    ])['target_os'] = 123;
     expect(
       () => LinkInput(input).config.code.targetOS,
       throwsA(
@@ -291,8 +329,50 @@ void main() async {
         predicate(
           (e) =>
               e is FormatException &&
+              e.message.contains("""
+No value was provided for 'assets.0.encoding.link_mode'."""),
+        ),
+      ),
+    );
+  });
+
+  test('LinkInput.assets_from_linking.0.encoding.link_mode missing', () {
+    final input = inputJson(hookType: 'link');
+    traverseJson<Map<String, Object?>>(input, [
+      'assets_from_linking',
+      0,
+      'encoding',
+    ]).remove('link_mode');
+    expect(
+      () =>
+          LinkInput(input).assets.assetsFromLinking.first.asCodeAsset.linkMode,
+      throwsA(
+        predicate(
+          (e) =>
+              e is FormatException &&
+              e.message.contains("""
+No value was provided for 'assets_from_linking.0.encoding.link_mode'."""),
+        ),
+      ),
+    );
+  });
+
+  test('LinkOutput.assets_for_linking.package_with_linker.0.type missing', () {
+    final input = linkOutputJson();
+    traverseJson<Map<String, Object?>>(input, [
+      'assets_for_linking',
+      'package_with_linker',
+      0,
+    ]).remove('type');
+    expect(
+      () =>
+          LinkOutput(input).assets.encodedAssetsForLink.values.first.first.type,
+      throwsA(
+        predicate(
+          (e) =>
+              e is FormatException &&
               e.message.contains(
-                "No value was provided for 'assets.0.encoding.link_mode'.",
+                "No value was provided for 'package_with_linker.0.type'.",
               ),
         ),
       ),

@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../../../config.dart';
+import '../../../_core/interfaces/availability.dart';
 import '../../../_core/interfaces/executable.dart';
 import '../../../_core/interfaces/objc_annotatable.dart';
 import '../../../_core/interfaces/variable_declaration.dart';
@@ -19,6 +21,12 @@ class PropertyDeclaration extends AstNode
   String name;
 
   @override
+  InputConfig? source;
+
+  @override
+  List<AvailabilityInfo> availability;
+
+  @override
   bool hasObjCAnnotation;
 
   @override
@@ -33,16 +41,26 @@ class PropertyDeclaration extends AstNode
   @override
   bool async;
 
+  bool mutating;
+
   bool hasSetter;
 
   PropertyStatements? getter;
   PropertyStatements? setter;
+
+  bool unowned;
+
+  bool weak;
+
+  bool lazy;
 
   bool isStatic;
 
   PropertyDeclaration({
     required this.id,
     required this.name,
+    required this.source,
+    required this.availability,
     required this.type,
     this.hasSetter = false,
     this.isConstant = false,
@@ -52,8 +70,12 @@ class PropertyDeclaration extends AstNode
     this.isStatic = false,
     this.throws = false,
     this.async = false,
-  })  : assert(!(isConstant && hasSetter)),
-        assert(!(hasSetter && throws));
+    this.unowned = false,
+    this.weak = false,
+    this.lazy = false,
+    this.mutating = false,
+  }) : assert(!(isConstant && hasSetter)),
+       assert(!(hasSetter && throws));
 
   @override
   void visit(Visitation visitation) =>

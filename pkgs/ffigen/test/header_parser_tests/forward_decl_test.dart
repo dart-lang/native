@@ -5,7 +5,6 @@
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
 import 'package:ffigen/src/strings.dart' as strings;
-import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -14,9 +13,9 @@ late Library actual;
 void main() {
   group('forward_decl_test', () {
     setUpAll(() {
-      logWarnings(Level.SEVERE);
       actual = parser.parse(
-        testConfig('''
+        testContext(
+          testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Forward Declaration Test'
 ${strings.output}: 'unused'
@@ -25,17 +24,21 @@ ${strings.headers}:
     - '${absPath('test/header_parser_tests/forward_decl.h')}'
 ${strings.ignoreSourceErrors}: true
         '''),
+        ),
       );
     });
 
     test('Expected bindings', () {
       matchLibraryWithExpected(
-          actual, 'header_parser_forward_decl_test_output.dart', [
-        'test',
-        'header_parser_tests',
-        'expected_bindings',
-        '_expected_forward_decl_bindings.dart'
-      ]);
+        actual,
+        'header_parser_forward_decl_test_output.dart',
+        [
+          'test',
+          'header_parser_tests',
+          'expected_bindings',
+          '_expected_forward_decl_bindings.dart',
+        ],
+      );
     });
   });
 }

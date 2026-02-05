@@ -2,28 +2,23 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:logging/logging.dart';
-
-import '../ast/_core/interfaces/compound_declaration.dart';
-import '../ast/_core/interfaces/declaration.dart';
-import '../ast/_core/interfaces/enum_declaration.dart';
-import '../ast/_core/interfaces/function_declaration.dart';
-import '../ast/_core/interfaces/variable_declaration.dart';
-import '../ast/_core/shared/referred_type.dart';
-import '../ast/ast_node.dart';
-import '../ast/declarations/built_in/built_in_declaration.dart';
-import '../ast/declarations/compounds/class_declaration.dart';
-import '../ast/declarations/compounds/members/initializer_declaration.dart';
-import '../ast/declarations/compounds/members/method_declaration.dart';
-import '../ast/declarations/compounds/members/property_declaration.dart';
-import '../ast/declarations/compounds/protocol_declaration.dart';
-import '../ast/declarations/compounds/struct_declaration.dart';
-import '../ast/declarations/enums/associated_value_enum_declaration.dart';
-import '../ast/declarations/enums/normal_enum_declaration.dart';
-import '../ast/declarations/enums/raw_value_enum_declaration.dart';
-import '../ast/declarations/globals/globals.dart';
-
-final _logger = Logger('swift2objc.visitor');
+import '../context.dart';
+import '_core/interfaces/compound_declaration.dart';
+import '_core/interfaces/declaration.dart';
+import '_core/interfaces/function_declaration.dart';
+import '_core/interfaces/variable_declaration.dart';
+import '_core/shared/referred_type.dart';
+import 'ast_node.dart';
+import 'declarations/built_in/built_in_declaration.dart';
+import 'declarations/compounds/class_declaration.dart';
+import 'declarations/compounds/enum_declaration.dart';
+import 'declarations/compounds/members/initializer_declaration.dart';
+import 'declarations/compounds/members/method_declaration.dart';
+import 'declarations/compounds/members/property_declaration.dart';
+import 'declarations/compounds/protocol_declaration.dart';
+import 'declarations/compounds/struct_declaration.dart';
+import 'declarations/globals/globals.dart';
+import 'declarations/typealias_declaration.dart';
 
 /// Wrapper around [Visitation] to be used by callers.
 ///
@@ -32,10 +27,12 @@ final _logger = Logger('swift2objc.visitor');
 /// responsible for what happens at each visited node. The [Visitor] is generic
 /// and the [Visitation] contains the specific logic of the traversal.
 final class Visitor {
-  Visitor(this._visitation, {bool debug = false}) : _debug = debug {
+  Visitor(this._context, this._visitation, {bool debug = false})
+    : _debug = debug {
     _visitation.visitor = this;
   }
 
+  final Context _context;
   final Visitation _visitation;
   final _seen = <AstNode>{};
   final bool _debug;
@@ -44,7 +41,7 @@ final class Visitor {
   /// Visits a node.
   void visit(AstNode? node) {
     if (node == null) return;
-    if (_debug) _logger.info('${'  ' * _indentLevel++}$node');
+    if (_debug) _context.logger.info('${'  ' * _indentLevel++}$node');
     if (!_seen.contains(node)) {
       _seen.add(node);
       node.visit(_visitation);
@@ -106,21 +103,21 @@ abstract class Visitation {
       visitCompoundDeclaration(node);
   void visitStructDeclaration(StructDeclaration node) =>
       visitCompoundDeclaration(node);
-  void visitEnumDeclaration(EnumDeclaration node) => visitDeclaration(node);
-  void visitAssociatedValueEnumDeclaration(
-          AssociatedValueEnumDeclaration node) =>
-      visitEnumDeclaration(node);
-  void visitNormalEnumDeclaration(NormalEnumDeclaration node) =>
-      visitEnumDeclaration(node);
-  void visitRawValueEnumDeclaration<T>(RawValueEnumDeclaration<T> node) =>
-      visitEnumDeclaration(node);
+  void visitEnumDeclaration(EnumDeclaration node) =>
+      visitCompoundDeclaration(node);
+  void visitTypealiasDeclaration(TypealiasDeclaration node) =>
+      visitDeclaration(node);
 
   /// Default behavior for all visit methods.
   void visitAstNode(AstNode node) => node.visitChildren(visitor);
 }
 
-T visit<T extends Visitation>(T visitation, Iterable<AstNode> roots,
-    {bool debug = false}) {
-  Visitor(visitation, debug: debug).visitAll(roots);
+T visit<T extends Visitation>(
+  Context context,
+  T visitation,
+  Iterable<AstNode> roots, {
+  bool debug = false,
+}) {
+  Visitor(context, visitation, debug: debug).visitAll(roots);
   return visitation;
 }

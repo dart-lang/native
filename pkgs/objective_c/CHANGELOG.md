@@ -1,16 +1,92 @@
-## 7.2.0-wip
+## 9.3.0
+- `autoReleasePool` now returns the value produced by its callback.
 
-- Use ffigen 18.2.0
+## 9.2.5
+- Fix a [bug](https://github.com/dart-lang/native/issues/3011) by adding
+  minimum OS version flags to the build script.
+ 
+## 9.2.4
+
+- Fix a [bug](https://github.com/dart-lang/native/issues/2990) build hook path
+  issue that could pass percent-encoded cache paths to clang, leading to missing
+  source file errors.
+
+## 9.2.3
+
+- Fix a [bug](https://github.com/dart-lang/native/issues/2973) where the
+  objective_c framework was rejected by the Apple app store due to code signing
+  issues.
+
+## 9.2.2
+
+- Fix a [bug](https://github.com/dart-lang/http/issues/1861) where the build
+  failed on older versions of XCode.
+
+## 9.2.1
+
+- Fix [bug](https://github.com/dart-lang/native/issues/2824) where the build
+  hook was trying to access the code config if it was not provided.
+- Bump minimum Dart version to 3.10.0.
+
+## 9.2.0
+
+- Migrate to from a Flutter plugin to native assets. This enables
+  package:objective_c to be used in command line apps.
+
+## 9.1.0
+
+- Use FFIgen 20.1.0
+
+## 9.0.0
+
+- Use FFIgen 20.0.0
+- __Breaking change__: The collection classes, `NSArray`, `NSSet`,
+  `NSDictionary`, and their mutable counterparts, no longer directly implement
+  the corresponding Dart collections. Instead they each have a `.toDart()`
+  method that wraps the class in an adapter that implements the Dart collection.
+  Note that this is a *shallow* conversion. For deep conversions, continue using
+  `toObjCObject` and `toDartObject`.
+- __Breaking change__: Rename the internal C types `ObjCObject` and
+  `ObjCProtocol` to `ObjCObjectImpl` and `ObjCProtocolImpl` respectively.
+- __Breaking change__: Rename the internal Dart types `ObjCObjectBase` and
+  `ObjCProtocolBase` to `ObjObject` and `ObjCProtocol` respectively.
+- Fix missing `NSNumber` category includes in iOS and macOS `objective_c.m`
+  files.
+- Add `NSBundle` and `NSNull` to the bindings.
+- Add `autoReleasePool` function.
+- Fix a [bug](https://github.com/dart-lang/native/issues/2627) where
+  `NSMutableDictionary.of` returned a `NSDictionary`.
+- Add `NSErrorException` class.
+
+## 8.1.0
+
+- Bump minimum Dart version to 3.8.0.
+- Support the KVO pattern by adding `Observer`, `Observation`, and
+  `NSObject.addObserver`.
+- Remove a reference cycle between Dart and the `NSInputStream` returned by
+  `toNSInputStream`.
+
+## 8.0.0
+
+- Use FFIgen 19.0.0
 - `NSArray` is now a Dart `Iterable` and `NSMutableArray` is now a Dart `List`.
+- `NSDictionary` and `NSMutableDictionary` are now Dart `Map`s.
+- `NSSet` and `NSMutableSet` are now Dart `Set`s.
 - Add `.toNSNumber()` extension method to `int`, `double`, and `num`.
+- Add `DateTime.toNSDate()` and `NSDate.toDateTime()` extension methods.
+- Add `CFStringRef.toDartString()` and `CFStringRef.toNSString()`.
+- Add `toObjCObject` and `toDartObject` that automatically convert between
+  supported Objective C and Dart types.
+- Added various interfaces, protocols, categories etc to the built ins, such as
+  NSPort and NSTimer.
 
 ## 7.1.0
 
-- Use ffigen 18.1.0
+- Use FFIgen 18.1.0
 
 ## 7.0.0
 
-- Use ffigen 18.0.0
+- Use FFIgen 18.0.0
 - `ObjCProtocolBuilder` supports implementing protocol methods directly using a
   block.
 - Change how `ObjCProtocolBuilder` is implemented to fix
@@ -22,14 +98,14 @@
     `DOBJCDartProxyBuilder` to `DOBJCDartProtocolBuilder` and `DOBJCDartProxy`
     to `DOBJCDartProtocol` and change their APIs. Users should not be using
     these classes.
-- __Breaking change__: Some API names have changed due to ffigen's new duplicate
-  identifier renaming logic. `$` is now used as a delimiter, to match jnigen's
+- __Breaking change__: Some API names have changed due to FFIgen's new duplicate
+  identifier renaming logic. `$` is now used as a delimiter, to match JNIgen's
   renaming logic.
 - Added a `checkOsVersion` function.
 
 ## 6.0.0
 
-- Use ffigen 17.0.0
+- Use FFIgen 17.0.0
 
 ## 5.0.0
 
@@ -45,7 +121,7 @@
 
 ## 4.1.0
 
-- Use ffigen 16.1.0
+- Use FFIgen 16.1.0
 - Reduces the chances of duplicate symbols by adding a `DOBJC_` prefix.
 - Ensure that required symbols are available to FFI even when the final binary
   is linked with `-dead_strip`.
@@ -53,9 +129,9 @@
 
 ## 4.0.0
 
-- Use ffigen 16.0.0
+- Use FFIgen 16.0.0
 - Add `NSOrderedCollectionDifference` to the package.
-- __Breaking change__: As part of ffigen 16.0.0, the way ObjC categories are
+- __Breaking change__: As part of FFIgen 16.0.0, the way ObjC categories are
   generated has changed. Instead of inserting their methods into the interface,
   categories now generate Dart extension methods. For ordinary methods this
   makes no difference, but static methods now need to be invoked on the
@@ -121,7 +197,7 @@
   `DartProxyBuilder`.
 - Add `ObjCProtocolMethod`, which contains all the information that
   `ObjCProtocolBuilder` needs to implement a method. These objects are created
-  by the ffigen bindings for a protocol.
+  by the FFIgen bindings for a protocol.
 - Make all of the code-genned structs and enums public so they can be reused by
   user bindings.
 - Use `package:dart_flutter_team_lints`.
@@ -132,7 +208,7 @@
 
 ## 1.0.0
 
-- Move sharable code from ffigen's generated code into this package, including
+- Move sharable code from FFIgen's generated code into this package, including
   `ObjCObjectBase`, and `ObjCBlockBase`, as well as the core Objective C runtime
   functions (except `objc_msgSend`, which is library specific).
 - Move core ObjC classes such as `NSString` into this package.

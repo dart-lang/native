@@ -2,27 +2,25 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:logging/logging.dart';
-
 import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
+import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
-import '../data.dart';
 import '../utils.dart';
 import 'api_availability.dart';
 
-final _logger = Logger('ffigen.header_parser.unnamed_enumdecl_parser');
-
 /// Saves unnamed enums.
-List<Constant> saveUnNamedEnum(clang_types.CXCursor cursor) {
+List<Constant> saveUnNamedEnum(Context context, clang_types.CXCursor cursor) {
+  final logger = context.logger;
   final addedConstants = <Constant>[];
   cursor.visitChildren((child) {
     try {
-      _logger
-          .finest('  unnamedenumCursorVisitor: ${child.completeStringRepr()}');
+      logger.finest(
+        '  unnamedenumCursorVisitor: ${child.completeStringRepr()}',
+      );
       switch (clang.clang_getCursorKind(child)) {
         case clang_types.CXCursorKind.CXCursor_EnumConstantDecl:
-          final value = _addUnNamedEnumConstant(child);
+          final value = _addUnNamedEnumConstant(context, child);
           if (value != null) {
             addedConstants.add(value);
           }
@@ -31,11 +29,11 @@ List<Constant> saveUnNamedEnum(clang_types.CXCursor cursor) {
           // Ignore.
           break;
         default:
-          _logger.severe('Invalid enum constant.');
+          logger.severe('Invalid enum constant.');
       }
     } catch (e, s) {
-      _logger.severe(e);
-      _logger.severe(s);
+      logger.severe(e);
+      logger.severe(s);
       rethrow;
     }
   });
@@ -43,19 +41,34 @@ List<Constant> saveUnNamedEnum(clang_types.CXCursor cursor) {
 }
 
 /// Adds the parameter to func in functiondecl_parser.dart.
-Constant? _addUnNamedEnumConstant(clang_types.CXCursor cursor) {
-  final apiAvailability = ApiAvailability.fromCursor(cursor);
+Constant? _addUnNamedEnumConstant(
+  Context context,
+  clang_types.CXCursor cursor,
+) {
+  final logger = context.logger;
+  final config = context.config;
+  final bindingsIndex = context.bindingsIndex;
+
+  final usr = cursor.usr();
+  final oldConstant = bindingsIndex.getSeenUnnamedEnumConstant(usr);
+  if (oldConstant != null) {
+    return oldConstant;
+  }
+
+  final unnamedEnumConstants = context.unnamedEnumConstants;
+  final apiAvailability = ApiAvailability.fromCursor(cursor, context);
   if (apiAvailability.availability == Availability.none) {
-    _logger.info('Omitting deprecated unnamed enum value ${cursor.spelling()}');
+    logger.info('Omitting deprecated unnamed enum value ${cursor.spelling()}');
     return null;
   }
 
-  _logger.fine(
-      '++++ Adding Constant from unnamed enum: ${cursor.completeStringRepr()}');
+  logger.fine(
+    '++++ Adding Constant from unnamed enum: ${cursor.completeStringRepr()}',
+  );
   final constant = UnnamedEnumConstant(
-    usr: cursor.usr(),
+    usr: usr,
     originalName: cursor.spelling(),
-    name: config.unnamedEnumConstants.rename(
+    name: config.unnamedEnums.rename(
       Declaration(usr: cursor.usr(), originalName: cursor.spelling()),
     ),
     dartDoc: apiAvailability.dartDoc,

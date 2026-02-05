@@ -5,14 +5,20 @@
 import '../../ast_node.dart';
 import 'declaration.dart';
 
-/// A Swift entity that can be nested inside other declarations.
-abstract interface class NestableDeclaration implements Declaration, AstNode {
-  abstract NestableDeclaration? nestingParent;
-  abstract final List<NestableDeclaration> nestedDeclarations;
+/// A Swift entity that can contain other declarations.
+abstract interface class OuterNestableDeclaration
+    implements Declaration, AstNode {
+  abstract final List<InnerNestableDeclaration> nestedDeclarations;
 }
 
-extension FillNestingParents on List<NestableDeclaration> {
-  void fillNestingParents(NestableDeclaration parent) {
+/// A Swift entity that can be nested inside other declarations.
+abstract interface class InnerNestableDeclaration
+    implements Declaration, AstNode {
+  abstract OuterNestableDeclaration? nestingParent;
+}
+
+extension FillNestingParents on List<InnerNestableDeclaration> {
+  void fillNestingParents(OuterNestableDeclaration parent) {
     for (final nested in this) {
       assert(nested.nestingParent == null);
       nested.nestingParent = parent;

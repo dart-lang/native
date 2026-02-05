@@ -1,0 +1,19 @@
+# Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file
+# for details. All rights reserved. Use of this source code is governed by a
+# BSD-style license that can be found in the LICENSE file.
+
+# =================== GENERATING TEST BINDINGS ==================
+#    dart run ffigen --config test/error_method_test/config.yaml
+# ===============================================================
+
+name: NativeObjCLibrary
+description: 'Native Objective C test'
+language: objc
+output: 'error_method_test_bindings.dart'
+exclude-all-by-default: true
+objc-interfaces:
+  include:
+    - 'ErrorMethodTestObject'
+headers:
+  entry-points:
+    - 'error_method_test.m'

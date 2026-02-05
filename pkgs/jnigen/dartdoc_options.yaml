@@ -12,11 +12,15 @@ dartdoc:
     "Interface Implementation":
       markdown: doc/interface_implementation.md
       name: Interface implementation
+    "Debugging":
+      markdown: doc/debugging.md
+      name: Debugging
 
   categoryOrder:
     - "Java Differences"
     - "Lifecycle"
     - "Threading"
     - "Interface Implementation"
+    - "Debugging"
 
   showUndocumentedCategories: true

@@ -3,40 +3,34 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../config_provider.dart';
+import '../context.dart';
 import '../visitor/ast.dart';
 
 import 'binding_string.dart';
-import 'unique_namer.dart';
+import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-enum CompoundType { struct, union }
-
 /// A binding for Compound type - Struct/Union.
-abstract class Compound extends BindingType {
+abstract class Compound extends BindingType with HasLocalScope {
   /// Marker for if a struct definition is complete.
   ///
   /// A function can be safely pass this struct by value if it's complete.
   bool isIncomplete;
 
-  List<CompoundMember> members;
+  final List<CompoundMember> members;
 
   bool get isOpaque => members.isEmpty;
 
   /// Value for `@Packed(X)` annotation. Can be null (no packing), 1, 2, 4, 8,
   /// or 16.
-  ///
-  /// Only supported for [CompoundType.struct].
-  int? pack;
+  int? get pack;
 
   /// Marker for checking if the dependencies are parsed.
   bool parsedDependencies = false;
 
-  CompoundType compoundType;
-  bool get isStruct => compoundType == CompoundType.struct;
-  bool get isUnion => compoundType == CompoundType.union;
-
-  ObjCBuiltInFunctions? objCBuiltInFunctions;
+  final Context context;
 
   /// The way the native type is written in C source code. This isn't always the
   /// same as the originalName, because the type may need to be prefixed with
@@ -47,99 +41,48 @@ abstract class Compound extends BindingType {
     super.usr,
     super.originalName,
     required super.name,
-    required this.compoundType,
     this.isIncomplete = false,
-    this.pack,
     super.dartDoc,
     List<CompoundMember>? members,
     super.isInternal,
-    this.objCBuiltInFunctions,
+    required this.context,
     String? nativeType,
-  })  : members = members ?? [],
-        nativeType = nativeType ?? originalName ?? name;
-
-  factory Compound.fromType({
-    required CompoundType type,
-    String? usr,
-    String? originalName,
-    required String name,
-    bool isIncomplete = false,
-    int? pack,
-    String? dartDoc,
-    List<CompoundMember>? members,
-    ObjCBuiltInFunctions? objCBuiltInFunctions,
-    String? nativeType,
-  }) {
-    switch (type) {
-      case CompoundType.struct:
-        return Struct(
-          usr: usr,
-          originalName: originalName,
-          name: name,
-          isIncomplete: isIncomplete,
-          pack: pack,
-          dartDoc: dartDoc,
-          members: members,
-          objCBuiltInFunctions: objCBuiltInFunctions,
-          nativeType: nativeType,
-        );
-      case CompoundType.union:
-        return Union(
-          usr: usr,
-          originalName: originalName,
-          name: name,
-          isIncomplete: isIncomplete,
-          pack: pack,
-          dartDoc: dartDoc,
-          members: members,
-          objCBuiltInFunctions: objCBuiltInFunctions,
-          nativeType: nativeType,
-        );
-    }
-  }
+  }) : members = members ?? [],
+       nativeType = nativeType ?? originalName ?? name;
 
   String _getInlineArrayTypeString(Type type, Writer w) {
     if (type is ConstantArray) {
-      return '${w.ffiLibraryPrefix}.Array<'
+      return '${context.libs.prefix(ffiImport)}.Array<'
           '${_getInlineArrayTypeString(type.child, w)}>';
     }
-    return type.getCType(w);
+    return type.getCType(context);
   }
 
   @override
   bool get isObjCImport =>
-      objCBuiltInFunctions?.getBuiltInCompoundName(originalName) != null;
+      context.objCBuiltInFunctions.getBuiltInCompoundName(originalName) != null;
 
   @override
   BindingString toBindingString(Writer w) {
-    final bindingType =
-        isStruct ? BindingStringType.struct : BindingStringType.union;
-
     final s = StringBuffer();
     final enclosingClassName = name;
     s.write(makeDartDoc(dartDoc));
 
-    /// Adding [enclosingClassName] because dart doesn't allow class member
-    /// to have the same name as the class.
-    final localUniqueNamer = UniqueNamer()..markUsed(enclosingClassName);
-
-    /// Marking type names because dart doesn't allow class member to have the
-    /// same name as a type name used internally.
-    for (final m in members) {
-      localUniqueNamer.markUsed(m.type.getFfiDartType(w));
-    }
-
     /// Write @Packed(X) annotation if struct is packed.
-    if (isStruct && pack != null) {
-      s.write('@${w.ffiLibraryPrefix}.Packed($pack)\n');
+    final ffiPrefix = context.libs.prefix(ffiImport);
+    if (pack != null) {
+      s.write('@$ffiPrefix.Packed($pack)\n');
     }
-    final dartClassName = isStruct ? 'Struct' : 'Union';
+    final dartClassName = isOpaque
+        ? 'Opaque'
+        : this is Struct
+        ? 'Struct'
+        : 'Union';
     // Write class declaration.
     s.write('final class $enclosingClassName extends ');
-    s.write('${w.ffiLibraryPrefix}.${isOpaque ? 'Opaque' : dartClassName}{\n');
+    s.write('$ffiPrefix.$dartClassName{\n');
     const depth = '  ';
     for (final m in members) {
-      m.name = localUniqueNamer.makeUnique(m.name);
       if (m.dartDoc != null) {
         s.write('$depth/// ');
         s.writeAll(m.dartDoc!.split('\n'), '\n$depth/// ');
@@ -151,24 +94,35 @@ abstract class Compound extends BindingType {
         s.write('${m.name};\n\n');
       } else {
         if (!m.type.sameFfiDartAndCType) {
-          s.write('$depth@${m.type.getCType(w)}()\n');
+          s.write('$depth@${m.type.getCType(context)}()\n');
         }
-        final memberName =
-            m.type.sameDartAndFfiDartType ? m.name : '${m.name}AsInt';
+        final memberName = m.type.sameDartAndFfiDartType
+            ? m.name
+            : '${m.name}AsInt';
         s.write(
-            '${depth}external ${m.type.getFfiDartType(w)} $memberName;\n\n');
+          '${depth}external ${m.type.getFfiDartType(context)} $memberName;\n\n',
+        );
       }
-      if (m.type case EnumClass(:final generateAsInt) when !generateAsInt) {
-        final enumName = m.type.getDartType(w);
+      if (m.type case EnumClass(
+        :final style,
+      ) when style == EnumStyle.dartEnum) {
+        final enumName = m.type.getDartType(context);
         final memberName = m.name;
         s.write(
           '$enumName get $memberName => '
-          '$enumName.fromValue(${memberName}AsInt);\n\n',
+          '$enumName.fromValue(${memberName}AsInt);\n',
+        );
+        s.write(
+          'set $memberName($enumName value) => '
+          '${memberName}AsInt = value.value;\n\n',
         );
       }
     }
     s.write('}\n\n');
 
+    final bindingType = this is Struct
+        ? BindingStringType.struct
+        : BindingStringType.union;
     return BindingString(type: bindingType, string: s.toString());
   }
 
@@ -176,10 +130,13 @@ abstract class Compound extends BindingType {
   bool get isIncompleteCompound => isIncomplete;
 
   @override
-  String getCType(Writer w) {
-    final builtInName =
-        objCBuiltInFunctions?.getBuiltInCompoundName(originalName);
-    return builtInName != null ? '${w.objcPkgPrefix}.$builtInName' : name;
+  String getCType(Context context) {
+    final builtInName = context.objCBuiltInFunctions.getBuiltInCompoundName(
+      originalName,
+    );
+    return builtInName != null
+        ? '${context.libs.prefix(objcPkgImport)}.$builtInName'
+        : name;
   }
 
   @override
@@ -192,6 +149,8 @@ abstract class Compound extends BindingType {
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visitAll(members);
+    visitor.visit(ffiImport);
+    if (isObjCImport) visitor.visit(objcPkgImport);
   }
 
   @override
@@ -201,19 +160,23 @@ abstract class Compound extends BindingType {
 class CompoundMember extends AstNode {
   final String? dartDoc;
   final String originalName;
-  String name;
   final Type type;
+
+  final Symbol _symbol;
+  String get name => _symbol.name;
 
   CompoundMember({
     String? originalName,
-    required this.name,
+    required String name,
     required this.type,
     this.dartDoc,
-  }) : originalName = originalName ?? name;
+  }) : originalName = originalName ?? name,
+       _symbol = Symbol(name, SymbolKind.field);
 
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
+    visitor.visit(_symbol);
     visitor.visit(type);
   }
 }

@@ -45,26 +45,24 @@ void main() {
         );
         const name = 'add';
 
-        final buildInputBuilder =
-            BuildInputBuilder()
-              ..setupShared(
-                packageName: name,
-                packageRoot: tempUri,
-                outputFile: tempUri.resolve('output.json'),
-                outputDirectoryShared: tempUri2,
-              )
-              ..config.setupBuild(linkingEnabled: false)
-              ..addExtension(
-                CodeAssetExtension(
-                  targetOS: OS.linux,
-                  targetArchitecture: target,
-                  linkModePreference:
-                      linkMode == DynamicLoadingBundled()
-                          ? LinkModePreference.dynamic
-                          : LinkModePreference.static,
-                  cCompiler: cCompiler,
-                ),
-              );
+        final buildInputBuilder = BuildInputBuilder()
+          ..setupShared(
+            packageName: name,
+            packageRoot: tempUri,
+            outputFile: tempUri.resolve('output.json'),
+            outputDirectoryShared: tempUri2,
+          )
+          ..config.setupBuild(linkingEnabled: false)
+          ..addExtension(
+            CodeAssetExtension(
+              targetOS: OS.linux,
+              targetArchitecture: target,
+              linkModePreference: linkMode == DynamicLoadingBundled()
+                  ? LinkModePreference.dynamic
+                  : LinkModePreference.static,
+              cCompiler: cCompiler,
+            ),
+          );
 
         final buildInput = buildInputBuilder.build();
         final buildOutput = BuildOutputBuilder();

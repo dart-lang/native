@@ -16,6 +16,18 @@ class FindTransitiveDepsVisitation extends Visitation {
     node.visitChildren(visitor);
     transitives.add(node);
   }
+
+  @override
+  void visitEnumClass(EnumClass node) {
+    if (node.isAnonymous) return;
+    visitBinding(node);
+  }
+
+  @override
+  void visitTypealias(Typealias node) {
+    if (node.isAnonymous) return;
+    visitBinding(node);
+  }
 }
 
 class FindDirectTransitiveDepsVisitation extends Visitation {
@@ -25,7 +37,10 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
   final directTransitives = <Binding>{};
 
   FindDirectTransitiveDepsVisitation(
-      this.config, this.includes, this.directIncludes);
+    this.config,
+    this.includes,
+    this.directIncludes,
+  );
 
   void _visitImpl(Binding node, bool forceVisitChildren) {
     if (node.isObjCImport) return;
@@ -37,7 +52,7 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
 
   @override
   void visitObjCInterface(ObjCInterface node) {
-    _visitImpl(node, config.includeTransitiveObjCInterfaces);
+    _visitImpl(node, config.objectiveC?.interfaces.includeTransitive ?? false);
 
     // Always visit the super type, regardless of whether the node is directly
     // included. This ensures that super types of stubs are also stubs, rather
@@ -56,7 +71,7 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
 
   @override
   void visitObjCCategory(ObjCCategory node) {
-    _visitImpl(node, config.includeTransitiveObjCCategories);
+    _visitImpl(node, config.objectiveC?.categories.includeTransitive ?? false);
 
     // Same as visitObjCInterface's visit of superType.
     visitor.visit(node.parent);
@@ -64,7 +79,7 @@ class FindDirectTransitiveDepsVisitation extends Visitation {
 
   @override
   void visitObjCProtocol(ObjCProtocol node) {
-    _visitImpl(node, config.includeTransitiveObjCInterfaces);
+    _visitImpl(node, config.objectiveC?.interfaces.includeTransitive ?? false);
 
     // Same as visitObjCInterface's visit of superType.
     visitor.visitAll(node.superProtocols);

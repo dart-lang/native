@@ -10,10 +10,13 @@ import 'package:crypto/crypto.dart';
 import 'c_build.dart';
 import 'version.dart';
 
+/// Constructs the download URI for a given [target] file name.
 Uri downloadUri(String target) => Uri.parse(
   'https://github.com/dart-lang/native/releases/download/$version/$target',
 );
 
+/// Downloads an asset for the specified [targetOS], [targetArchitecture], and
+/// [iOSSdk].
 Future<File> downloadAsset(
   OS targetOS,
   Architecture targetArchitecture,
@@ -24,7 +27,10 @@ Future<File> downloadAsset(
     createTargetName(targetOS.name, targetArchitecture.name, iOSSdk?.type),
   );
   final uri = downloadUri(targetName);
-  final request = await HttpClient().getUrl(uri);
+  final client = HttpClient()
+    // Respect the http(s)_proxy environment variables.
+    ..findProxy = HttpClient.findProxyFromEnvironment;
+  final request = await client.getUrl(uri);
   final response = await request.close();
   if (response.statusCode != 200) {
     throw ArgumentError('The request to $uri failed.');
@@ -35,6 +41,7 @@ Future<File> downloadAsset(
   return library;
 }
 
+/// Computes the MD5 hash of the given [assetFile].
 Future<String> hashAsset(File assetFile) async {
   // TODO(dcharkes): Should this be a strong hash to not only check for download
   // integrity but also safeguard against tampering? This would protected

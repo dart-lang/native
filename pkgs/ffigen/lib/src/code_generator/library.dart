@@ -4,12 +4,12 @@
 
 import 'dart:io';
 
-import 'package:dart_style/dart_style.dart';
 import 'package:yaml_edit/yaml_edit.dart';
 
 import '../code_generator.dart';
-import '../config_provider/config.dart' show Config;
-import '../config_provider/config_types.dart';
+import '../code_generator/utils.dart';
+import '../config_provider/config.dart';
+import '../context.dart';
 
 import 'writer.dart';
 
@@ -19,27 +19,33 @@ class Library {
   final List<Binding> bindings;
 
   final Writer writer;
+  final Context context;
 
-  Library._(this.bindings, this.writer);
+  Library._(this.bindings, this.writer, this.context);
 
-  static Library fromConfig({
-    required Config config,
+  static Library fromContext({
     required List<Binding> bindings,
-  }) =>
-      Library(
-        name: config.wrapperName,
-        description: config.wrapperDocComment,
-        bindings: bindings,
-        header: config.preamble,
-        generateForPackageObjectiveC: config.generateForPackageObjectiveC,
-        libraryImports: config.libraryImports.values.toList(),
-        silenceEnumWarning: config.silenceEnumWarning,
-        nativeEntryPoints:
-            config.entryPoints.map((uri) => uri.toFilePath()).toList(),
-      );
+    required Context context,
+  }) => Library(
+    description: switch (context.config.output.style) {
+      final DynamicLibraryBindings e => e.wrapperDocComment,
+      _ => null,
+    },
+    bindings: bindings,
+    header: context.config.output.preamble,
+    generateForPackageObjectiveC:
+        // ignore: deprecated_member_use_from_same_package
+        context.config.objectiveC?.generateForPackageObjectiveC ?? false,
+    // ignore: deprecated_member_use_from_same_package
+    libraryImports: context.config.libraryImports,
+    silenceEnumWarning: context.config.enums.silenceWarning,
+    nativeEntryPoints: context.config.headers.entryPoints
+        .map((uri) => uri.toFilePath())
+        .toList(),
+    context: context,
+  );
 
   factory Library({
-    required String name,
     String? description,
     required List<Binding> bindings,
     String? header,
@@ -47,43 +53,43 @@ class Library {
     List<LibraryImport> libraryImports = const <LibraryImport>[],
     bool silenceEnumWarning = false,
     List<String> nativeEntryPoints = const <String>[],
+    required Context context,
   }) {
     // Seperate bindings which require lookup.
     final lookupBindings = <LookUpBinding>[];
     final nativeBindings = <LookUpBinding>[];
-    FfiNativeConfig? nativeConfig;
+    String? nativeAssetId;
+
+    final outputStyle = context.config.output.style;
+    final outputStyleAssetId = outputStyle is NativeExternalBindings
+        ? outputStyle.assetId
+        : null;
 
     for (final binding in bindings.whereType<LookUpBinding>()) {
-      final nativeConfigForBinding = switch (binding) {
-        Func() => binding.ffiNativeConfig,
-        Global() => binding.nativeConfig,
-        _ => null,
-      };
+      final loadFromNativeAsset = binding.loadFromNativeAsset;
 
       // At the moment, all bindings share their native config.
-      nativeConfig ??= nativeConfigForBinding;
+      if (loadFromNativeAsset) nativeAssetId = outputStyleAssetId;
 
-      final usesLookup =
-          nativeConfigForBinding == null || !nativeConfigForBinding.enabled;
-      (usesLookup ? lookupBindings : nativeBindings).add(binding);
+      (loadFromNativeAsset ? nativeBindings : lookupBindings).add(binding);
     }
     final noLookUpBindings = bindings.whereType<NoLookUpBinding>().toList();
 
     final writer = Writer(
       lookUpBindings: lookupBindings,
       ffiNativeBindings: nativeBindings,
-      nativeAssetId: nativeConfig?.assetId,
+      nativeAssetId: nativeAssetId,
       noLookUpBindings: noLookUpBindings,
-      className: name,
       classDocComment: description,
       header: header,
-      additionalImports: libraryImports,
+      additionalImports: libraryImports.map(context.libs.canonicalize).toList(),
       generateForPackageObjectiveC: generateForPackageObjectiveC,
       silenceEnumWarning: silenceEnumWarning,
       nativeEntryPoints: nativeEntryPoints,
+      context: context,
     );
 
-    return Library._(bindings, writer);
+    return Library._(bindings, writer, context);
   }
 
   /// Generates [file] by generating C bindings.
@@ -92,14 +98,18 @@ class Library {
   /// generated file.
   void generateFile(File file, {bool format = true}) {
     if (!file.existsSync()) file.createSync(recursive: true);
-    var bindings = generate();
+    file.writeAsStringSync(generate());
     if (format) {
-      final formatter = DartFormatter(
-        languageVersion: DartFormatter.latestShortStyleLanguageVersion,
-      );
-      bindings = formatter.format(bindings);
+      final result = Process.runSync(dartExecutable, [
+        'format',
+        file.absolute.path,
+      ], workingDirectory: file.parent.absolute.path);
+      if (result.exitCode != 0) {
+        context.logger.severe(
+          'Formatting failed\n${result.stdout}\n${result.stderr}',
+        );
+      }
     }
-    file.writeAsStringSync(bindings);
   }
 
   /// Generates [file] with the Objective C code needed for the bindings, if

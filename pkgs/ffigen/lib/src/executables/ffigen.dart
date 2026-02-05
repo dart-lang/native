@@ -6,13 +6,27 @@
 import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:cli_util/cli_logging.dart' show Ansi;
 import 'package:logging/logging.dart';
 import 'package:package_config/package_config.dart';
 import 'package:yaml/yaml.dart' as yaml;
 
 import '../../ffigen.dart';
 
-final _logger = Logger('ffigen.ffigen');
+final _ansi = Ansi(Ansi.terminalSupportsAnsi);
+final logger = () {
+  final l = Logger('ffigen.ffigen');
+  l.onRecord.listen((record) {
+    final levelStr = '[${record.level.name}]'.padRight(9);
+    final log = '$levelStr: ${record.message}';
+    if (record.level < Level.SEVERE) {
+      print(log);
+    } else {
+      print('${_ansi.red}$log${_ansi.none}');
+    }
+  });
+  return l;
+}();
 
 const compilerOpts = 'compiler-opts';
 const ignoreSourceErrors = 'ignore-source-errors';
@@ -32,22 +46,25 @@ Future<void> main(List<String> args) async {
   // Parses the cmd args. This will print usage and exit if --help was passed.
   final argResult = getArgResults(args);
 
-  final ffigen = FfiGen(logLevel: _parseLogLevel(argResult));
+  Logger.root.level = _parseLogLevel(argResult);
 
   // Create a config object.
-  Config config;
+  FfiGenerator generator;
   try {
-    config = getConfig(argResult, await findPackageConfig(Directory.current));
+    generator = getGenerator(
+      argResult,
+      await findPackageConfig(Directory.current),
+    );
   } on FormatException {
-    _logger.severe('Please fix configuration errors and re-run the tool.');
+    logger.severe('Please fix configuration errors and re-run the tool.');
     exit(1);
   }
 
-  ffigen.run(config);
+  generator.generate(logger: logger);
 }
 
-Config getConfig(ArgResults result, PackageConfig? packageConfig) {
-  _logger.info('Running in ${Directory.current}');
+FfiGenerator getGenerator(ArgResults result, PackageConfig? packageConfig) {
+  logger.info('Running in ${Directory.current}');
   YamlConfig config;
 
   // Parse config from yaml.
@@ -59,7 +76,7 @@ Config getConfig(ArgResults result, PackageConfig? packageConfig) {
 
   // Add compiler options from command line.
   if (result.wasParsed(compilerOpts)) {
-    _logger.fine('Passed compiler opts - "${result[compilerOpts]}"');
+    logger.fine('Passed compiler opts - "${result[compilerOpts]}"');
     config.addCompilerOpts(result[compilerOpts] as String, highPriority: true);
   }
 
@@ -69,7 +86,7 @@ Config getConfig(ArgResults result, PackageConfig? packageConfig) {
 
   config.formatOutput = result[format] as bool;
 
-  return config;
+  return config.configAdapter();
 }
 
 /// Extracts configuration from pubspec file.
@@ -77,8 +94,10 @@ YamlConfig getConfigFromPubspec(PackageConfig? packageConfig) {
   final pubspecFile = File(pubspecName);
 
   if (!pubspecFile.existsSync()) {
-    _logger.severe('Error: $pubspecName not found, please run this tool from '
-        'the root of your package.');
+    logger.severe(
+      'Error: $pubspecName not found, please run this tool from '
+      'the root of your package.',
+    );
     exit(1);
   }
 
@@ -90,24 +109,30 @@ YamlConfig getConfigFromPubspec(PackageConfig? packageConfig) {
   final bindingsConfigMap = pubspecYaml[configKey] as yaml.YamlMap?;
 
   if (bindingsConfigMap == null) {
-    _logger.severe("Couldn't find an entry for '$configKey' in $pubspecName.");
+    logger.severe("Couldn't find an entry for '$configKey' in $pubspecName.");
     exit(1);
   }
-  return YamlConfig.fromYaml(bindingsConfigMap,
-      filename: pubspecFile.path, packageConfig: packageConfig);
+  return YamlConfig.fromYaml(
+    bindingsConfigMap,
+    logger,
+    filename: pubspecFile.path,
+    packageConfig: packageConfig,
+  );
 }
 
 /// Extracts configuration from a custom yaml file.
 YamlConfig getConfigFromCustomYaml(
-    String yamlPath, PackageConfig? packageConfig) {
+  String yamlPath,
+  PackageConfig? packageConfig,
+) {
   final yamlFile = File(yamlPath);
 
   if (!yamlFile.existsSync()) {
-    _logger.severe('Error: $yamlPath not found.');
+    logger.severe('Error: $yamlPath not found.');
     exit(1);
   }
 
-  return YamlConfig.fromFile(yamlFile, packageConfig: packageConfig);
+  return YamlConfig.fromFile(yamlFile, logger, packageConfig: packageConfig);
 }
 
 /// Parses the cmd line arguments.
@@ -115,7 +140,8 @@ ArgResults getArgResults(List<String> args) {
   final parser = ArgParser(allowTrailingOptions: true);
 
   parser.addSeparator(
-      'FFIGEN: Generate dart bindings from C header files\nUsage:');
+    'FFIGEN: Generate dart bindings from C header files\nUsage:',
+  );
   parser.addOption(
     conf,
     help: 'Path to Yaml file containing configurations if not in pubspec.yaml',
@@ -124,20 +150,9 @@ ArgResults getArgResults(List<String> args) {
     verbose,
     abbr: 'v',
     defaultsTo: logInfo,
-    allowed: [
-      logAll,
-      logFine,
-      logInfo,
-      logWarning,
-      logSevere,
-    ],
+    allowed: [logAll, logFine, logInfo, logWarning, logSevere],
   );
-  parser.addFlag(
-    help,
-    abbr: 'h',
-    help: 'Prints this usage',
-    negatable: false,
-  );
+  parser.addFlag(help, abbr: 'h', help: 'Prints this usage', negatable: false);
   parser.addOption(
     compilerOpts,
     help: 'Compiler options for clang. (E.g --$compilerOpts "-I/headers -W")',

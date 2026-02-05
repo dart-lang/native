@@ -4,6 +4,7 @@
 
 package com.github.dart_lang.jnigen.regressions;
 
+// Regression test for https://github.com/dart-lang/native/issues/2250.
 public interface R2250<T> {
   public void foo(T t);
 

@@ -1404,10 +1404,10 @@ class GlobalJniEnv {
   DartJIntMarker MonitorExit(JObjectPtr obj) => _MonitorExit(obj).integer;
 
   late final _GetJavaVM = ptr.ref.GetJavaVM
-      .asFunction<JniResult Function(ffi.Pointer<ffi.Pointer<JavaVM>> vm)>(
+      .asFunction<JniResult Function(ffi.Pointer<ffi.Pointer<JavaVM$1>> vm)>(
           isLeaf: true);
 
-  DartJIntMarker GetJavaVM(ffi.Pointer<ffi.Pointer<JavaVM>> vm) =>
+  DartJIntMarker GetJavaVM(ffi.Pointer<ffi.Pointer<JavaVM$1>> vm) =>
       _GetJavaVM(vm).integer;
 
   late final _GetStringRegion = ptr.ref.GetStringRegion.asFunction<

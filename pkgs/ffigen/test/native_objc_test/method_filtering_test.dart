@@ -4,7 +4,6 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
-
 import 'dart:ffi';
 import 'dart:io';
 
@@ -13,6 +12,7 @@ import 'package:ffigen/ffigen.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:logging/logging.dart';
+import 'package:path/path.dart' as path;
 import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 import '../test_utils.dart';
@@ -24,10 +24,15 @@ void main() {
     group('no version info', () {
       late final String bindings;
       setUpAll(() {
-        // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
         generateBindingsForCoverage('method_filtering');
-        bindings = File('test/native_objc_test/method_filtering_bindings.dart')
-            .readAsStringSync();
+        bindings = File(
+          path.join(
+            packagePathForTests,
+            'test',
+            'native_objc_test',
+            'method_filtering_bindings.dart',
+          ),
+        ).readAsStringSync();
       });
 
       test('interfaces', () {

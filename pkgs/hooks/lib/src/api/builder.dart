@@ -5,7 +5,7 @@
 import 'package:logging/logging.dart';
 
 import '../config.dart';
-import 'build.dart';
+import 'build_and_link.dart';
 import 'linker.dart';
 
 /// A builder to be run in [build] in `hook/build.dart`.
@@ -23,8 +23,8 @@ import 'linker.dart';
 ///
 /// For example with a single builder from `package:native_toolchain_c`:
 ///
+/// <!-- file://./../../../example/api/builder_snippet.dart -->
 /// ```dart
-/// import 'package:logging/logging.dart';
 /// import 'package:hooks/hooks.dart';
 /// import 'package:native_toolchain_c/native_toolchain_c.dart';
 ///
@@ -34,17 +34,9 @@ import 'linker.dart';
 ///     final cbuilder = CBuilder.library(
 ///       name: packageName,
 ///       assetName: '$packageName.dart',
-///       sources: [
-///         'src/$packageName.c',
-///       ],
+///       sources: ['src/$packageName.c'],
 ///     );
-///     await cbuilder.run(
-///       buildInput: input,
-///       buildOutput: output,
-///       logger: Logger('')
-///         ..level = Level.ALL
-///         ..onRecord.listen((record) => print(record.message)),
-///     );
+///     await cbuilder.run(input: input, output: output);
 ///   });
 /// }
 /// ```

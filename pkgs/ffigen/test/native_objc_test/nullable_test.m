@@ -10,6 +10,8 @@ typedef NSString* MyString;
 +(BOOL) isNullWithExplicitNonNullableNSObjectPtrArg:(nonnull NSObject *)x;
 +(nullable NSObject *) returnNil:(BOOL)r;
 +(nullable MyString) returnNullableAlias:(BOOL)r;
++(nullable NSObject *) multipleNullableArgs:(nullable NSObject *)x
+    y:(nullable NSObject *)y z:(nullable NSObject *)z;
 
 @property (nullable, retain) NSObject *nullableObjectProperty;
 
@@ -43,6 +45,13 @@ typedef NSString* MyString;
   } else {
     return @"Hi";
   }
+}
+
++(nullable NSObject *) multipleNullableArgs:(nullable NSObject *)x
+    y:(nullable NSObject *)y z:(nullable NSObject *)z {
+  if (x != nil) return x;
+  if (y != nil) return y;
+  return z;
 }
 
 @end

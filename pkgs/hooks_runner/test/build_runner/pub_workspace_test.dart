@@ -35,12 +35,13 @@ resolution: workspace
 name: dart_lang_native_workspace
 
 environment:
-  sdk: '>=3.7.0 <4.0.0'
+  sdk: '>=3.9.0 <4.0.0'
 
 workspace:
 ''';
     for (final package in packages) {
-      workspacePubSpec += '''
+      workspacePubSpec +=
+          '''
   - $package/
 ''';
     }
@@ -55,7 +56,8 @@ dependency_overrides:
       'native_toolchain_c',
     ];
     for (final package in packagesToOverride) {
-      workspacePubSpec += '''
+      workspacePubSpec +=
+          '''
   $package:
     path: ${pkgNativeAssetsBuilderUri.resolve('../$package/').toFilePath()}
 ''';
@@ -83,7 +85,7 @@ dependency_overrides:
       'cyclic_package_2',
     ]);
 
-    (await buildCodeAssets(packageUri, runPackageName: 'native_add'))!;
+    (await buildCodeAssets(packageUri, runPackageName: 'native_add')).success;
     final buildDirectory = tempUri.resolve('.dart_tool/hooks_runner/');
     final buildDirs =
         Directory.fromUri(buildDirectory)
@@ -97,7 +99,10 @@ dependency_overrides:
     expect(buildDirs, isNot(contains('native_subtract')));
 
     final logs = <String>[];
-    (await buildCodeAssets(tempUri.resolve('dart_app/'), capturedLogs: logs))!;
+    (await buildCodeAssets(
+      tempUri.resolve('dart_app/'),
+      capturedLogs: logs,
+    )).success;
     // Reuse hook results of other packages in the same workspace
     expect(logs.join('\n'), contains('Skipping build for native_add'));
   });
@@ -121,6 +126,7 @@ dependency_overrides:
         fileSystem,
         packageUri,
         runPackageName,
+        includeDevDependencies: false,
       );
       final builderNoHook = NativeAssetsBuildRunner(
         logger: logger,

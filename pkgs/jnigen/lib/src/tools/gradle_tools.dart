@@ -68,17 +68,16 @@ class GradleTools {
   /// Downloads and unpacks source files of [deps] into [targetDir].
   static Future<void> downloadMavenSources(
       List<MavenDependency> deps, String targetDir) async {
-    for (var i = 0; i < deps.length; i++) {
-      final sourceJarLocation = deps[i].toURLString(repoLocation);
-      await File(join(targetDir, deps[i].filename()))
+    // TODO(https://github.com/dart-lang/native/issues/2579): Make this use
+    // gradle as well, instead of manually downloading deps via http.
+    for (final dep in deps) {
+      final targetFile = File(join(targetDir, dep.filename()));
+      await targetFile.parent.create(recursive: true);
+      final sourceJarLocation = dep.toURLString(repoLocation);
+      await targetFile
           .writeAsBytes(await http.readBytes(Uri.parse(sourceJarLocation)));
     }
-    // Use gradle to extract the source jars.
-    // This flow is needed because Gradle
-    // defaults to compiled jars where available.
-    final tempDir = await currentDir.createTemp('maven_temp_');
     await _runGradleCommand(deps, extractSources: true, targetDir);
-    await tempDir.delete(recursive: true);
   }
 
   static Future<void> createStubProject(Directory rootTempDir) async {
@@ -104,9 +103,7 @@ class GradleTools {
   /// Downloads JAR files of all [deps] transitively into [targetDir].
   static Future<void> downloadMavenJars(
       List<MavenDependency> deps, String targetDir) async {
-    final tempDir = await currentDir.createTemp('maven_temp_');
     await _runGradleCommand(deps, targetDir);
-    await tempDir.delete(recursive: true);
   }
 
   static String _getStubGradle(List<MavenDependency> deps, String targetDir,
@@ -132,23 +129,25 @@ class GradleTools {
     }
     
     tasks.register<Copy>("copyJars") {
-    from(configurations.runtimeClasspath)
-    into("$targetDir")
+      from(configurations.runtimeClasspath)
+      into("$targetDir")
     }
-    
+
     tasks.register<Copy>("extractSourceJars") {
       duplicatesStrategy = DuplicatesStrategy.INCLUDE
       val sourcesDir = fileTree("$targetDir")
       sourcesDir.forEach {
         if (it.name.endsWith(".jar")) {
-        from(zipTree(it))
-        into("$targetDir")
+          from(zipTree(it))
+          into("$targetDir")
         }
       }      
+      from(configurations.runtimeClasspath)
+      into("$targetDir")
     }
     
     dependencies {
-        ${depDecls.join("\n")}
+        ${depDecls.join("\n    ")}
     }''';
   }
 }

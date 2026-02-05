@@ -38,7 +38,7 @@ final class _JFinalizable implements Finalizable {
 abstract final class JReference implements Finalizable {
   final _JFinalizable _finalizable;
 
-  JReference(this._finalizable);
+  JReference._(this._finalizable);
 
   /// The underlying JNI reference.
   ///
@@ -83,32 +83,80 @@ final class JGlobalReference extends JReference {
   /// The finalizable handle that deletes [_JFinalizable.pointer].
   final Dart_FinalizableHandle _jobjectFinalizableHandle;
   final Pointer<Bool> _isReleased;
+  final Pointer<Pointer<Char>> _releasedStackTracePointer;
 
-  JGlobalReference._(
-      super._finalizable, this._jobjectFinalizableHandle, this._isReleased);
+  JGlobalReference._(super.finalizable, this._jobjectFinalizableHandle,
+      this._isReleased, this._releasedStackTracePointer)
+      : super._();
 
   factory JGlobalReference(Pointer<Void> pointer) {
     final finalizable = _JFinalizable(pointer);
     final isReleased = calloc<Bool>();
+    var releasedStackTracePointer = nullptr.cast<Pointer<Char>>();
     final jobjectFinalizableHandle =
-        ProtectedJniExtensions.newJObjectFinalizableHandle(
+        InternalJniExtension.newJObjectFinalizableHandle(
             finalizable, finalizable.pointer, JObjectRefType.JNIGlobalRefType);
-    ProtectedJniExtensions.newBooleanFinalizableHandle(finalizable, isReleased);
-    return JGlobalReference._(
-        finalizable, jobjectFinalizableHandle, isReleased);
+    InternalJniExtension.newBooleanFinalizableHandle(finalizable, isReleased);
+    assert(() {
+      releasedStackTracePointer = calloc<Pointer<Char>>();
+      InternalJniExtension.newStackTraceFinalizableHandle(
+          finalizable, releasedStackTracePointer.cast());
+      return true;
+    }());
+    return JGlobalReference._(finalizable, jobjectFinalizableHandle, isReleased,
+        releasedStackTracePointer);
   }
 
   @override
   bool get isNull => pointer == nullptr;
 
   @override
+  JObjectPtr get pointer {
+    if (isReleased) {
+      throw UseAfterReleaseError(_releasedStackTrace);
+    }
+    return _finalizable.pointer;
+  }
+
+  void _appendToStackTrace(String stackTrace) {
+    final previousStackTrace = _releasedStackTrace ?? '';
+    final nativeStr = '$previousStackTrace$stackTrace'.toNativeUtf8();
+    if (_releasedStackTracePointer != nullptr) {
+      malloc.free(_releasedStackTracePointer.value);
+    }
+    _releasedStackTracePointer.value = nativeStr.cast();
+  }
+
+  @override
   void _setAsReleased() {
     if (isReleased) {
-      throw DoubleReleaseError();
+      throw DoubleReleaseError(_releasedStackTrace);
     }
     _isReleased.value = true;
-    ProtectedJniExtensions.deleteFinalizableHandle(
+    InternalJniExtension.deleteFinalizableHandle(
         _jobjectFinalizableHandle, _finalizable);
+    assert(() {
+      if (Jni.captureStackTraceOnRelease) {
+        _appendToStackTrace('Object was released at:\n${StackTrace.current}\n');
+      }
+      return true;
+    }());
+  }
+
+  @internal
+  void registeredInArena() {
+    if (Jni.captureStackTraceOnRelease) {
+      _appendToStackTrace(
+          'Object was registered to be released by an arena at:\n'
+          '${StackTrace.current}\n');
+    }
+  }
+
+  String? get _releasedStackTrace {
+    if (_releasedStackTracePointer.value != nullptr) {
+      return _releasedStackTracePointer.value.cast<Utf8>().toDartString();
+    }
+    return null;
   }
 
   @override
@@ -124,7 +172,7 @@ final JReference jNullReference = _JNullReference();
 
 @pragma('vm:deeply-immutable')
 final class _JNullReference extends JReference {
-  _JNullReference() : super(_JFinalizable(nullptr));
+  _JNullReference() : super._(_JFinalizable(nullptr));
 
   @override
   bool get isReleased => false;

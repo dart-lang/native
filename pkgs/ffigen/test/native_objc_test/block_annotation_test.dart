@@ -2,19 +2,18 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-// ignore_for_file: unused_local_variable
-
 // Objective C support is only available on mac.
 @TestOn('mac-os')
-
 import 'dart:async';
 import 'dart:ffi';
 import 'dart:io';
 
 import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
-import 'package:objective_c/src/internal.dart' as internal_for_testing
+import 'package:objective_c/src/internal.dart'
+    as internal_for_testing
     show blockHasRegisteredClosure;
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -36,12 +35,18 @@ void main() {
     // correct block type.
 
     setUpAll(() {
-      // TODO(https://github.com/dart-lang/native/issues/1068): Remove this.
-      DynamicLibrary.open('../objective_c/test/objective_c.dylib');
-      final dylib = File('test/native_objc_test/objc_test.dylib');
+      final dylib = File(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'objc_test.dylib',
+        ),
+      );
       verifySetupFile(dylib);
-      lib =
-          BlockAnnotationTestLibrary(DynamicLibrary.open(dylib.absolute.path));
+      lib = BlockAnnotationTestLibrary(
+        DynamicLibrary.open(dylib.absolute.path),
+      );
 
       generateBindingsForCoverage('block_annotation');
     });
@@ -71,7 +76,8 @@ void main() {
       objectProducerTest(() {
         ObjCBlock<EmptyObject Function(Pointer<Void>)> blk =
             ObjCBlock_EmptyObject_ffiVoid.fromFunction(
-                (Pointer<Void> _) => EmptyObject.alloc().init());
+              (Pointer<Void> _) => EmptyObject.alloc().init(),
+            );
         return blk(nullptr);
       });
     }, skip: !canDoGC);
@@ -80,8 +86,9 @@ void main() {
       objectProducerTest(() {
         ObjCBlock<EmptyObject Function(Pointer<Void>)> blk =
             ObjCBlock_EmptyObject_ffiVoid.fromFunction(
-                (Pointer<Void> _) => EmptyObject.alloc().init());
-        return BlockAnnotationTest.invokeObjectProducer_(blk);
+              (Pointer<Void> _) => EmptyObject.alloc().init(),
+            );
+        return BlockAnnotationTest.invokeObjectProducer(blk);
       });
     }, skip: !canDoGC);
 
@@ -89,9 +96,10 @@ void main() {
       objectProducerTest(() {
         ObjCBlock<Retained<EmptyObject> Function(Pointer<Void>)> blk =
             ObjCBlock<Retained<EmptyObject> Function(Pointer<Void>)>(
-                BlockAnnotationTest.newRetainedObjectProducer().ref.pointer,
-                retain: true,
-                release: true);
+              BlockAnnotationTest.newRetainedObjectProducer().ref.pointer,
+              retain: true,
+              release: true,
+            );
         return blk(nullptr);
       });
     }, skip: !canDoGC);
@@ -100,7 +108,8 @@ void main() {
       objectProducerTest(() {
         ObjCBlock<Retained<EmptyObject> Function(Pointer<Void>)> blk =
             ObjCBlock_EmptyObject_ffiVoid$1.fromFunction(
-                (Pointer<Void> _) => EmptyObject.alloc().init());
+              (Pointer<Void> _) => EmptyObject.alloc().init(),
+            );
         return blk(nullptr);
       });
     }, skip: !canDoGC);
@@ -109,10 +118,15 @@ void main() {
       objectProducerTest(() {
         ObjCBlock<Retained<EmptyObject> Function(Pointer<Void>)> blk =
             ObjCBlock_EmptyObject_ffiVoid$1.fromFunction(
-                (Pointer<Void> _) => EmptyObject.alloc().init());
-        return BlockAnnotationTest.invokeRetainedObjectProducer_(
-            ObjCBlock<EmptyObject Function(Pointer<Void>)>(blk.ref.pointer,
-                retain: true, release: true));
+              (Pointer<Void> _) => EmptyObject.alloc().init(),
+            );
+        return BlockAnnotationTest.invokeRetainedObjectProducer(
+          ObjCBlock<EmptyObject Function(Pointer<Void>)>(
+            blk.ref.pointer,
+            retain: true,
+            release: true,
+          ),
+        );
       });
     }, skip: !canDoGC);
 
@@ -128,7 +142,8 @@ void main() {
       objectProducerTest(() {
         ObjCBlock<EmptyObject Function(Pointer<Void>, EmptyObject)> blk =
             ObjCBlock_EmptyObject_ffiVoid_EmptyObject.fromFunction(
-                (Pointer<Void> _, EmptyObject obj) => obj);
+              (Pointer<Void> _, EmptyObject obj) => obj,
+            );
         return blk(nullptr, EmptyObject.alloc().init());
       });
     }, skip: !canDoGC);
@@ -137,19 +152,23 @@ void main() {
       objectProducerTest(() {
         ObjCBlock<EmptyObject Function(Pointer<Void>, EmptyObject)> blk =
             ObjCBlock_EmptyObject_ffiVoid_EmptyObject.fromFunction(
-                (Pointer<Void> _, EmptyObject obj) => obj);
-        return BlockAnnotationTest.invokeObjectReceiver_(blk);
+              (Pointer<Void> _, EmptyObject obj) => obj,
+            );
+        return BlockAnnotationTest.invokeObjectReceiver(blk);
       });
     }, skip: !canDoGC);
 
     test('ConsumedObjectReceiver, defined objC, invoked dart', () {
       objectProducerTest(() {
         ObjCBlock<EmptyObject Function(Pointer<Void>, Consumed<EmptyObject>)>
-            blk = ObjCBlock<
-                    EmptyObject Function(Pointer<Void>, Consumed<EmptyObject>)>(
-                BlockAnnotationTest.newConsumedObjectReceiver().ref.pointer,
-                retain: true,
-                release: true);
+        blk =
+            ObjCBlock<
+              EmptyObject Function(Pointer<Void>, Consumed<EmptyObject>)
+            >(
+              BlockAnnotationTest.newConsumedObjectReceiver().ref.pointer,
+              retain: true,
+              release: true,
+            );
         return blk(nullptr, EmptyObject.alloc().init());
       });
     }, skip: !canDoGC);
@@ -157,8 +176,9 @@ void main() {
     test('ConsumedObjectReceiver, defined dart, invoked dart', () {
       objectProducerTest(() {
         ObjCBlock<EmptyObject Function(Pointer<Void>, Consumed<EmptyObject>)>
-            blk = ObjCBlock_EmptyObject_ffiVoid_EmptyObject$1.fromFunction(
-                (Pointer<Void> _, EmptyObject obj) => obj);
+        blk = ObjCBlock_EmptyObject_ffiVoid_EmptyObject$1.fromFunction(
+          (Pointer<Void> _, EmptyObject obj) => obj,
+        );
         return blk(nullptr, EmptyObject.alloc().init());
       });
     }, skip: !canDoGC);
@@ -166,18 +186,22 @@ void main() {
     test('ConsumedObjectReceiver, defined dart, invoked objC', () {
       objectProducerTest(() {
         ObjCBlock<EmptyObject Function(Pointer<Void>, Consumed<EmptyObject>)>
-            blk = ObjCBlock_EmptyObject_ffiVoid_EmptyObject$1.fromFunction(
-                (Pointer<Void> _, EmptyObject obj) => obj);
-        return BlockAnnotationTest.invokeConsumedObjectReceiver_(
-            ObjCBlock<EmptyObject Function(Pointer<Void>, EmptyObject)>(
-                blk.ref.pointer,
-                retain: true,
-                release: true));
+        blk = ObjCBlock_EmptyObject_ffiVoid_EmptyObject$1.fromFunction(
+          (Pointer<Void> _, EmptyObject obj) => obj,
+        );
+        return BlockAnnotationTest.invokeConsumedObjectReceiver(
+          ObjCBlock<EmptyObject Function(Pointer<Void>, EmptyObject)>(
+            blk.ref.pointer,
+            retain: true,
+            release: true,
+          ),
+        );
       });
     }, skip: !canDoGC);
 
     Future<void> objectListenerTest(
-        void Function(Completer<EmptyObject>) producer) async {
+      void Function(Completer<EmptyObject>) producer,
+    ) async {
       final pool = lib.objc_autoreleasePoolPush();
       Completer<EmptyObject>? completer = Completer<EmptyObject>();
       producer(completer);
@@ -199,7 +223,8 @@ void main() {
       await objectListenerTest((Completer<EmptyObject> completer) {
         ObjCBlock<Void Function(Pointer<Void>, EmptyObject)> blk =
             ObjCBlock_ffiVoid_ffiVoid_EmptyObject.listener(
-                (Pointer<Void> _, EmptyObject obj) => completer.complete(obj));
+              (Pointer<Void> _, EmptyObject obj) => completer.complete(obj),
+            );
         blk(nullptr, EmptyObject.alloc().init());
       });
     }, skip: !canDoGC);
@@ -208,8 +233,9 @@ void main() {
       await objectListenerTest((Completer<EmptyObject> completer) {
         ObjCBlock<Void Function(Pointer<Void>, EmptyObject)> blk =
             ObjCBlock_ffiVoid_ffiVoid_EmptyObject.listener(
-                (Pointer<Void> _, EmptyObject obj) => completer.complete(obj));
-        BlockAnnotationTest.invokeObjectListenerSync_(blk);
+              (Pointer<Void> _, EmptyObject obj) => completer.complete(obj),
+            );
+        BlockAnnotationTest.invokeObjectListenerSync(blk);
       });
     }, skip: !canDoGC);
 
@@ -217,8 +243,9 @@ void main() {
       await objectListenerTest((Completer<EmptyObject> completer) {
         ObjCBlock<Void Function(Pointer<Void>, EmptyObject)> blk =
             ObjCBlock_ffiVoid_ffiVoid_EmptyObject.listener(
-                (Pointer<Void> _, EmptyObject obj) => completer.complete(obj));
-        final thread = BlockAnnotationTest.invokeObjectListenerAsync_(blk);
+              (Pointer<Void> _, EmptyObject obj) => completer.complete(obj),
+            );
+        final thread = BlockAnnotationTest.invokeObjectListenerAsync(blk);
         thread.start();
       });
     }, skip: !canDoGC);
@@ -237,12 +264,15 @@ void main() {
       await objectListenerTest((Completer<EmptyObject> completer) {
         ObjCBlock<Void Function(Pointer<Void>, Consumed<EmptyObject>)> blk =
             ObjCBlock_ffiVoid_ffiVoid_EmptyObject$1.listener(
-                (Pointer<Void> _, EmptyObject obj) => completer.complete(obj));
-        BlockAnnotationTest.invokeObjectListenerSync_(
-            ObjCBlock<Void Function(Pointer<Void>, EmptyObject)>(
-                blk.ref.pointer,
-                retain: true,
-                release: true));
+              (Pointer<Void> _, EmptyObject obj) => completer.complete(obj),
+            );
+        BlockAnnotationTest.invokeObjectListenerSync(
+          ObjCBlock<Void Function(Pointer<Void>, EmptyObject)>(
+            blk.ref.pointer,
+            retain: true,
+            release: true,
+          ),
+        );
       });
     }, skip: !canDoGC);
 
@@ -250,12 +280,15 @@ void main() {
       await objectListenerTest((Completer<EmptyObject> completer) {
         ObjCBlock<Void Function(Pointer<Void>, Consumed<EmptyObject>)> blk =
             ObjCBlock_ffiVoid_ffiVoid_EmptyObject$1.listener(
-                (Pointer<Void> _, EmptyObject obj) => completer.complete(obj));
-        final thread = BlockAnnotationTest.invokeObjectListenerAsync_(
-            ObjCBlock<Void Function(Pointer<Void>, EmptyObject)>(
-                blk.ref.pointer,
-                retain: true,
-                release: true));
+              (Pointer<Void> _, EmptyObject obj) => completer.complete(obj),
+            );
+        final thread = BlockAnnotationTest.invokeObjectListenerAsync(
+          ObjCBlock<Void Function(Pointer<Void>, EmptyObject)>(
+            blk.ref.pointer,
+            retain: true,
+            release: true,
+          ),
+        );
         thread.start();
       });
     }, skip: !canDoGC);
@@ -285,7 +318,8 @@ void main() {
       blockProducerTest(() {
         ObjCBlock<DartEmptyBlock Function(Pointer<Void>)> blk =
             ObjCBlock_EmptyBlock_ffiVoid.fromFunction(
-                (Pointer<Void> _) => ObjCBlock_ffiVoid.fromFunction(() {}));
+              (Pointer<Void> _) => ObjCBlock_ffiVoid.fromFunction(() {}),
+            );
         return blk(nullptr);
       });
     }, skip: !canDoGC);
@@ -294,8 +328,9 @@ void main() {
       blockProducerTest(() {
         ObjCBlock<DartEmptyBlock Function(Pointer<Void>)> blk =
             ObjCBlock_EmptyBlock_ffiVoid.fromFunction(
-                (Pointer<Void> _) => ObjCBlock_ffiVoid.fromFunction(() {}));
-        return BlockAnnotationTest.invokeBlockProducer_(blk);
+              (Pointer<Void> _) => ObjCBlock_ffiVoid.fromFunction(() {}),
+            );
+        return BlockAnnotationTest.invokeBlockProducer(blk);
       });
     }, skip: !canDoGC);
 
@@ -303,9 +338,10 @@ void main() {
       blockProducerTest(() {
         ObjCBlock<Retained<DartEmptyBlock> Function(Pointer<Void>)> blk =
             ObjCBlock<Retained<DartEmptyBlock> Function(Pointer<Void>)>(
-                BlockAnnotationTest.newRetainedBlockProducer().ref.pointer,
-                retain: true,
-                release: true);
+              BlockAnnotationTest.newRetainedBlockProducer().ref.pointer,
+              retain: true,
+              release: true,
+            );
         return blk(nullptr);
       });
     }, skip: !canDoGC);
@@ -314,7 +350,8 @@ void main() {
       blockProducerTest(() {
         ObjCBlock<Retained<DartEmptyBlock> Function(Pointer<Void>)> blk =
             ObjCBlock_EmptyBlock_ffiVoid$1.fromFunction(
-                (Pointer<Void> _) => ObjCBlock_ffiVoid.fromFunction(() {}));
+              (Pointer<Void> _) => ObjCBlock_ffiVoid.fromFunction(() {}),
+            );
         return blk(nullptr);
       });
     }, skip: !canDoGC);
@@ -323,10 +360,15 @@ void main() {
       blockProducerTest(() {
         ObjCBlock<Retained<DartEmptyBlock> Function(Pointer<Void>)> blk =
             ObjCBlock_EmptyBlock_ffiVoid$1.fromFunction(
-                (Pointer<Void> _) => ObjCBlock_ffiVoid.fromFunction(() {}));
-        return BlockAnnotationTest.invokeRetainedBlockProducer_(
-            ObjCBlock<DartEmptyBlock Function(Pointer<Void>)>(blk.ref.pointer,
-                retain: true, release: true));
+              (Pointer<Void> _) => ObjCBlock_ffiVoid.fromFunction(() {}),
+            );
+        return BlockAnnotationTest.invokeRetainedBlockProducer(
+          ObjCBlock<DartEmptyBlock Function(Pointer<Void>)>(
+            blk.ref.pointer,
+            retain: true,
+            release: true,
+          ),
+        );
       });
     }, skip: !canDoGC);
   });

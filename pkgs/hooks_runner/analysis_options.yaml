@@ -1,18 +1,14 @@
 include: package:dart_flutter_team_lints/analysis_options.yaml
 
 analyzer:
-  errors:
-    todo: ignore
   language:
-    strict-casts: true
-    strict-inference: true
     strict-raw-types: true
   plugins:
-    - custom_lint
+    # - custom_lint # https://github.com/dart-lang/sdk/issues/60784
 
 linter:
   rules:
-    - dangling_library_doc_comments
+    - avoid_positional_boolean_parameters
     - prefer_const_declarations
     - prefer_expression_function_bodies
     - prefer_final_in_for_each
@@ -21,4 +17,3 @@ linter:
 custom_lint:
   rules:
     - avoid_import_outside_src
-

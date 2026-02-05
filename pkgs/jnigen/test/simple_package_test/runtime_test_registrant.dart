@@ -6,7 +6,6 @@ import 'dart:async';
 import 'dart:io';
 import 'dart:isolate';
 
-import 'package:jni/_internal.dart';
 import 'package:jni/jni.dart';
 import 'package:test/test.dart';
 
@@ -144,6 +143,14 @@ void registerTests(String groupName, TestRunnerCallback test) {
         e.getSelf()!.getSelf()!.getSelf()!.getSelf()!.getNumber(),
         equals(145),
       );
+      e.release();
+    });
+
+    test('Regress #2903', () {
+      // Regression test for https://github.com/dart-lang/native/issues/2903
+      final e = Example();
+      expect(e.bool(true), true);
+      expect(e.num(123), 123);
       e.release();
     });
 
@@ -294,7 +301,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             T: JString.type,
           )..releasedBy(arena);
           expect(grandParent, isA<GrandParent<JString>>());
-          expect(grandParent.$type, isA<$GrandParent$Type<JString>>());
+          expect(grandParent.$type, isA<$GrandParent$Type$<JString>>());
           expect(
             grandParent.value!.toDartString(releaseOriginal: true),
             'Hello',
@@ -340,13 +347,17 @@ void registerTests(String groupName, TestRunnerCallback test) {
           map.put('Hello'.toJString()..releasedBy(arena), helloExample);
           map.put('World'.toJString()..releasedBy(arena), worldExample);
           expect(
-            (map.get('Hello'.toJString()..releasedBy(arena))!
+            (map.get(
+              'Hello'.toJString()..releasedBy(arena),
+            )!
                   ..releasedBy(arena))
                 .getNumber(),
             1,
           );
           expect(
-            (map.get('World'.toJString()..releasedBy(arena))!
+            (map.get(
+              'World'.toJString()..releasedBy(arena),
+            )!
                   ..releasedBy(arena))
                 .getNumber(),
             2,
@@ -377,7 +388,9 @@ void registerTests(String groupName, TestRunnerCallback test) {
             final example = Example()..releasedBy(arena);
             map.put('Hello'.toJString()..releasedBy(arena), example);
             expect(
-              (map.get('Hello'.toJString()..releasedBy(arena))!
+              (map.get(
+                'Hello'.toJString()..releasedBy(arena),
+              )!
                     ..releasedBy(arena))
                   .getNumber(),
               0,
@@ -412,10 +425,15 @@ void registerTests(String groupName, TestRunnerCallback test) {
         });
       });
       test('superclass count', () {
+        // ignore: invalid_use_of_internal_member
         expect(JObject.type.superCount, 0);
+        // ignore: invalid_use_of_internal_member
         expect(MyMap.type(JObject.type, JObject.type).superCount, 1);
+        // ignore: invalid_use_of_internal_member
         expect(StringKeyedMap.type(JObject.type).superCount, 2);
+        // ignore: invalid_use_of_internal_member
         expect(StringValuedMap.type(JObject.type).superCount, 2);
+        // ignore: invalid_use_of_internal_member
         expect(StringMap.type.superCount, 3);
       });
       test('nested generics', () {
@@ -503,7 +521,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           )!
             ..releasedBy(arena);
           expect(stack, isA<MyStack<JString?>>());
-          expect(stack.$type, isA<$MyStack$Type<JString?>>());
+          expect(stack.$type, isA<$MyStack$Type$<JString?>>());
           expect(stack.pop()!.toDartString(releaseOriginal: true), 'Hello');
         });
       });
@@ -516,7 +534,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           )!
             ..releasedBy(arena);
           expect(stack, isA<MyStack<JString?>>());
-          expect(stack.$type, isA<$MyStack$Type<JString?>>());
+          expect(stack.$type, isA<$MyStack$Type$<JString?>>());
           expect(stack.pop()!.toDartString(releaseOriginal: true), 'World');
           expect(stack.pop()!.toDartString(releaseOriginal: true), 'Hello');
         });
@@ -532,7 +550,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           )!
             ..releasedBy(arena);
           expect(stack, isA<MyStack<JObject?>>());
-          expect(stack.$type, isA<$MyStack$Type<JObject?>>());
+          expect(stack.$type, isA<$MyStack$Type$<JObject?>>());
           expect(
             stack
                 .pop()!
@@ -556,7 +574,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           final stack = MyStack.fromArray(T: JString.type, array)!
             ..releasedBy(arena);
           expect(stack, isA<MyStack<JString?>>());
-          expect(stack.$type, isA<$MyStack$Type<JString?>>());
+          expect(stack.$type, isA<$MyStack$Type$<JString?>>());
           expect(stack.pop()!.toDartString(releaseOriginal: true), 'Hello');
         });
       });
@@ -575,7 +593,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           )!
             ..releasedBy(arena);
           expect(stack, isA<MyStack<JString?>>());
-          expect(stack.$type, isA<$MyStack$Type<JString?>>());
+          expect(stack.$type, isA<$MyStack$Type$<JString?>>());
           expect(stack.pop()!.toDartString(releaseOriginal: true), 'Hello');
         });
       });
@@ -798,15 +816,10 @@ void registerTests(String groupName, TestRunnerCallback test) {
                 await Future<void>.delayed(const Duration(milliseconds: 100));
               }
               expect(
-                Jni.env.IsInstanceOf(
-                  // ignore: invalid_use_of_internal_member
-                  runner.error!.reference.pointer,
+                runner.error!.isInstanceOf(
                   JClass.forName(
                     'java/lang/reflect/UndeclaredThrowableException',
-                  )
-                      // ignore: invalid_use_of_internal_member
-                      .reference
-                      .pointer,
+                  ),
                 ),
                 isTrue,
               );
@@ -815,15 +828,10 @@ void registerTests(String groupName, TestRunnerCallback test) {
                   .instanceMethodId('getCause', '()Ljava/lang/Throwable;')
                   .call(runner.error!, JObject.type, []);
               expect(
-                Jni.env.IsInstanceOf(
-                  // ignore: invalid_use_of_internal_member
-                  cause.reference.pointer,
+                cause.isInstanceOf(
                   JClass.forName(
                     'com/github/dart_lang/jni/PortProxyBuilder\$DartException',
-                  )
-                      // ignore: invalid_use_of_internal_member
-                      .reference
-                      .pointer,
+                  ),
                 ),
                 isTrue,
               );
@@ -863,8 +871,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           // TODO(#1213): remove this once we support Java futures.
           Future<$T> toDartFuture<$T extends JObject>(
             JObject future,
-            // ignore: invalid_use_of_internal_member
-            JObjType<$T> T,
+            JType<$T> T,
           ) async {
             final receivePort = ReceivePort();
             await Isolate.spawn((sendPort) {
@@ -883,8 +890,10 @@ void registerTests(String groupName, TestRunnerCallback test) {
             return (await receivePort.first) as $T;
           }
 
-          final sevenHundredBoxed =
-              consume(stringConverter, '700'.toJString())!;
+          final sevenHundredBoxed = consume(
+            stringConverter,
+            '700'.toJString(),
+          )!;
           final int sevenHundred;
           if (sevenHundredBoxed is JInteger) {
             sevenHundred = sevenHundredBoxed.intValue();
@@ -927,8 +936,9 @@ void registerTests(String groupName, TestRunnerCallback test) {
                 JMap.hash(JString.type, JObject.type)..[key!] = value,
           ),
         )..releasedBy(arena);
-        final stringArray = genericInterface
-            .arrayOf('hello'.toJString()..releasedBy(arena))!
+        final stringArray = genericInterface.arrayOf(
+          'hello'.toJString()..releasedBy(arena),
+        )!
           ..releasedBy(arena);
         expect(stringArray, hasLength(1));
         expect(stringArray[0]!.toDartString(releaseOriginal: true), 'hello');
@@ -982,17 +992,19 @@ void registerTests(String groupName, TestRunnerCallback test) {
       expect(
         $R2250.new,
         isA<
-            $R2250<$T> Function<$T extends JObject?>(
-                // ignore: invalid_use_of_internal_member
-                {required JObjType<$T> T,
-                required void Function($T?) foo,
-                bool foo$async})>(),
+            $R2250<$T> Function<$T extends JObject?>({
+              required JType<$T> T,
+              required void Function($T?) foo,
+              bool foo$async,
+            })>(),
       );
       expect(
         $R2250$Child.new,
         isA<
-            $R2250$Child Function(
-                {required void Function(JObject?) foo, bool foo$async})>(),
+            $R2250$Child Function({
+              required void Function(JObject?) foo,
+              bool foo$async,
+            })>(),
       );
     });
   });
@@ -1069,9 +1081,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
         expect((annotated.arrayOfNullable()..releasedBy(arena))[0], isNull);
         expect(annotated.nullableArray(true), isNull);
         expect(
-          (annotated.nullableArray(false)!..releasedBy(arena))[0].toDartString(
-            releaseOriginal: true,
-          ),
+          (annotated.nullableArray(
+            false,
+          )!
+                ..releasedBy(arena))[0]
+              .toDartString(releaseOriginal: true),
           'hello',
         );
         expect(annotated.nullableArrayOfNullable(true), isNull);
@@ -1094,9 +1108,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
         expect((annotated.listOfNullable()..releasedBy(arena))[0], isNull);
         expect(annotated.nullableList(true), isNull);
         expect(
-          (annotated.nullableList(false)!..releasedBy(arena))[0].toDartString(
-            releaseOriginal: true,
-          ),
+          (annotated.nullableList(
+            false,
+          )!
+                ..releasedBy(arena))[0]
+              .toDartString(releaseOriginal: true),
           'hello',
         );
         expect(annotated.nullableListOfNullable(true), isNull);
@@ -1289,14 +1305,19 @@ void registerTests(String groupName, TestRunnerCallback test) {
         );
         expect(annotated.nullableClassGenericList(true), isNull);
         expect(
-          (annotated.nullableClassGenericList(false)!..releasedBy(arena))
+          (annotated.nullableClassGenericList(
+            false,
+          )!
+                ..releasedBy(arena))
               .first
               .toDartString(releaseOriginal: true),
           'hello',
         );
         expect(annotated.nullableClassGenericListOfNullable(true), isNull);
         expect(
-          (annotated.nullableClassGenericListOfNullable(false)!
+          (annotated.nullableClassGenericListOfNullable(
+            false,
+          )!
                 ..releasedBy(arena))
               .first,
           isNull,
@@ -1314,12 +1335,18 @@ void registerTests(String groupName, TestRunnerCallback test) {
         expect(red.code, 0xFF0000);
         expect(green.code, 0x00FF00);
         expect(blue.code, 0x0000FF);
-        expect(red.toRGB()!..releasedBy(arena),
-            Colors$RGB(255, 0, 0)..releasedBy(arena));
-        expect(green.toRGB()!..releasedBy(arena),
-            Colors$RGB(0, 255, 0)..releasedBy(arena));
-        expect(blue.toRGB()!..releasedBy(arena),
-            Colors$RGB(0, 0, 255)..releasedBy(arena));
+        expect(
+          red.toRGB()!..releasedBy(arena),
+          Colors$RGB(255, 0, 0)..releasedBy(arena),
+        );
+        expect(
+          green.toRGB()!..releasedBy(arena),
+          Colors$RGB(0, 255, 0)..releasedBy(arena),
+        );
+        expect(
+          blue.toRGB()!..releasedBy(arena),
+          Colors$RGB(0, 0, 255)..releasedBy(arena),
+        );
       });
     });
   });

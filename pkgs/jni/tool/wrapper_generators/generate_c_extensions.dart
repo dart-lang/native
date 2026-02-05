@@ -62,7 +62,7 @@ bool hasVarArgs(String name) {
       RegExp(r'^Call(Static|Nonvirtual|)[A-Z][a-z]+Method$').hasMatch(name);
 }
 
-/// Get C name of a type from its ffigen representation.
+/// Get C name of a type from its FFIgen representation.
 String getCType(Type type) {
   if (type is PointerType) {
     return '${getCType(type.child)}*';
@@ -294,6 +294,8 @@ String? getWrapperFunc(CompoundMember field) {
 void writeGlobalJniEnvWrapper(Library library) {
   final jniEnvType = findCompound(library, envType);
   final fieldDecls = jniEnvType.members
+      // ignore ones that take va_list
+      .where((member) => !member.name.endsWith('V'))
       .map((member) => getFunctionFieldDecl(member, isField: true))
       .join('\n');
   final varArgsFunctions = jniEnvType.members
@@ -316,6 +318,10 @@ typedef struct $wrapperName {
   final functionWrappers = StringBuffer();
   final structInst = StringBuffer('$wrapperName globalJniEnv = {\n');
   for (final member in jniEnvType.members) {
+    if (member.name.endsWith('V')) {
+      // Ignore va_list functions.
+      continue;
+    }
     final wrapper = getWrapperFunc(member);
     if (wrapper == null) {
       structInst.writeln('.${member.name} = NULL,');

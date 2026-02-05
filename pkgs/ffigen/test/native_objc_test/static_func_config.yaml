@@ -5,6 +5,8 @@ output: 'static_func_bindings.dart'
 exclude-all-by-default: true
 functions:
   include:
+    - foo
+    - fooPtr
     - staticFuncOfObject
     - staticFuncOfNullableObject
     - staticFuncOfBlock
@@ -19,5 +21,3 @@ objc-interfaces:
 headers:
   entry-points:
     - 'static_func_test.m'
-preamble: |
-  // ignore_for_file: camel_case_types, non_constant_identifier_names, unnecessary_non_null_assertion, unused_element, unused_field

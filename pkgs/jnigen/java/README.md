@@ -4,11 +4,11 @@ An early version of ApiSummarizer.
 
 It analyzes java source code / jars and outputs a JSON representation of the public API.
 
-It's currently used in `jnigen` to get the information of the Java API.
+It's currently used in JNIgen to get the information of the Java API.
 
 ## Build
 
-When using it via `jnigen`, the `jnigen:setup` script will take care of building the jar in appropriate location.
+When using it via JNIgen, the `jnigen:setup` script will take care of building the jar in appropriate location.
 
 To build the jar manually, run `gradlew(.bat) buildFatJar` in project root. The jar will be created in `build/libs`
 directory.
@@ -35,7 +35,7 @@ Here class or package names are specified as fully qualified names, for example 
 
 Note that some options are directly forwarded to the underlying tool.
 
-ApiSummarizer's current use is in `jnigen` for obtaining public API of java packages. Only the features strictly required for that purpose are focused upon.
+ApiSummarizer's current use is in JNIgen for obtaining public API of java packages. Only the features strictly required for that purpose are focused upon.
 
 ## Running tests
 

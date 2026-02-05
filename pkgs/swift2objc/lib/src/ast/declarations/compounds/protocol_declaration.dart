@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../../config.dart';
+import '../../_core/interfaces/availability.dart';
 import '../../_core/interfaces/compound_declaration.dart';
 import '../../_core/interfaces/nestable_declaration.dart';
 import '../../_core/shared/referred_type.dart';
@@ -19,10 +21,16 @@ class ProtocolDeclaration extends AstNode implements CompoundDeclaration {
   String name;
 
   @override
-  covariant List<PropertyDeclaration> properties;
+  InputConfig? source;
 
   @override
-  covariant List<MethodDeclaration> methods;
+  List<AvailabilityInfo> availability;
+
+  @override
+  List<PropertyDeclaration> properties;
+
+  @override
+  List<MethodDeclaration> methods;
 
   @override
   List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
@@ -34,14 +42,16 @@ class ProtocolDeclaration extends AstNode implements CompoundDeclaration {
   List<InitializerDeclaration> initializers;
 
   @override
-  NestableDeclaration? nestingParent;
+  OuterNestableDeclaration? nestingParent;
 
   @override
-  List<NestableDeclaration> nestedDeclarations;
+  List<InnerNestableDeclaration> nestedDeclarations;
 
   ProtocolDeclaration({
     required this.id,
     required this.name,
+    required this.source,
+    required this.availability,
     required this.properties,
     required this.methods,
     required this.initializers,

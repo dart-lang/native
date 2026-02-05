@@ -5,7 +5,10 @@
 import 'dart:convert';
 import 'dart:io';
 
+/// Provides utility extensions on [File] for enhanced file operations.
 extension FileExtension on File {
+  /// Writes [contents] to the file, creating parent directories if they don't
+  /// exist.
   Future<File> writeAsStringCreateDirectory(
     String contents, {
     FileMode mode = FileMode.write,
@@ -24,7 +27,10 @@ extension FileExtension on File {
   }
 }
 
+/// Provides utility extensions on [FileSystemEntity] for common file system
+/// operations.
 extension FileSystemEntityExtension on FileSystemEntity {
+  /// Returns the last modified date of this file system entity.
   Future<DateTime> lastModified() async {
     final this_ = this;
     if (this_ is Link || await FileSystemEntity.isLink(this_.path)) {
@@ -44,7 +50,10 @@ extension FileSystemEntityExtension on FileSystemEntity {
   }
 }
 
+/// Provides utility extensions on an [Iterable] of [FileSystemEntity] for
+/// finding the latest modification time among them.
 extension FileSystemEntityIterable on Iterable<FileSystemEntity> {
+  /// Returns the latest [DateTime] among all entities in this iterable.
   Future<DateTime> lastModified() async {
     var last = DateTime.fromMillisecondsSinceEpoch(0);
     for (final entity in this) {
@@ -57,7 +66,11 @@ extension FileSystemEntityIterable on Iterable<FileSystemEntity> {
   }
 }
 
+/// Provides utility extensions on [Directory] for recursive last modified
+/// checks.
 extension DirectoryExtension on Directory {
+  /// Returns the latest modification [DateTime] of this directory or any of its
+  /// contents.
   Future<DateTime> lastModified() async {
     var last = DateTime.fromMillisecondsSinceEpoch(0);
     await for (final entity in list()) {

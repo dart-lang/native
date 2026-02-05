@@ -58,21 +58,21 @@ void main() async {
   test('compiler does not exist', () async {
     final tempUri = await tempDirForTest();
     final recognizer = CompilerRecognizer(tempUri.resolve('asdf'));
-    final result = await recognizer.resolve(logger: logger);
+    final result = await recognizer.resolve(systemContext);
     expect(result, <ToolInstance>[]);
   });
 
   test('linker does not exist', () async {
     final tempUri = await tempDirForTest();
     final recognizer = LinkerRecognizer(tempUri.resolve('asdf'));
-    final result = await recognizer.resolve(logger: logger);
+    final result = await recognizer.resolve(systemContext);
     expect(result, <ToolInstance>[]);
   });
 
   test('archiver does not exist', () async {
     final tempUri = await tempDirForTest();
     final recognizer = ArchiverRecognizer(tempUri.resolve('asdf'));
-    final result = await recognizer.resolve(logger: logger);
+    final result = await recognizer.resolve(systemContext);
     expect(result, <ToolInstance>[]);
   });
 }
@@ -85,10 +85,11 @@ class RecognizerTest {
   RecognizerTest(this.tool, this.recognizer);
 
   Future<void> setUp() async {
-    toolInstance =
-        (await tool.defaultResolver!.resolve(
-          logger: null /* no printOnFailure support in setup. */,
-        )).where((element) => element.tool == tool).firstOrNull;
+    toolInstance = (await tool.defaultResolver!.resolve(
+      ToolResolvingContext(
+        logger: null,
+      ) /* no printOnFailure support in setup. */,
+    )).where((element) => element.tool == tool).firstOrNull;
   }
 
   void addTest() {
@@ -101,8 +102,9 @@ class RecognizerTest {
 
     test('recognize ${tool.name}', () async {
       final recognizer_ = recognizer(toolInstance!.uri);
-      final toolInstanceAgain =
-          (await recognizer_.resolve(logger: logger)).first;
+      final toolInstanceAgain = (await recognizer_.resolve(
+        systemContext,
+      )).first;
       expect(toolInstanceAgain, toolInstance);
     });
   }

@@ -5,6 +5,7 @@
 import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
+import 'package:glob/glob.dart';
 import 'package:logging/logging.dart';
 
 import '../tool/tool.dart';
@@ -13,7 +14,7 @@ import '../tool/tool_resolver.dart';
 import 'clang.dart';
 
 final androidNdk = Tool(
-  name: 'Android NDK',
+  name: _AndroidNdkResolver._toolName,
   defaultResolver: _AndroidNdkResolver(),
 );
 
@@ -36,10 +37,10 @@ final androidNdkLld = Tool(
 );
 
 class _AndroidNdkResolver implements ToolResolver {
-  final installLocationResolver = PathVersionResolver(
+  static final installLocationResolver = PathVersionResolver(
     wrappedResolver: ToolResolvers([
       RelativeToolResolver(
-        toolName: 'Android NDK',
+        toolName: _toolName,
         wrappedResolver: PathToolResolver(
           toolName: 'ndk-build',
           executableName: Platform.isWindows ? 'ndk-build.cmd' : 'ndk-build',
@@ -47,9 +48,10 @@ class _AndroidNdkResolver implements ToolResolver {
         relativePath: Uri(path: ''),
       ),
       InstallLocationResolver(
-        toolName: 'Android NDK',
+        toolName: _toolName,
         paths: [
           if (Platform.isLinux) ...[
+            '\$HOME/.androidsdkroot/ndk/*/', // Firebase Studio
             '\$HOME/Android/Sdk/ndk/*/',
             '\$HOME/Android/Sdk/ndk-bundle/',
           ],
@@ -59,17 +61,24 @@ class _AndroidNdkResolver implements ToolResolver {
           ],
         ],
       ),
+      EnvironmentVariableResolver(
+        toolName: _toolName,
+        keys: {
+          'ANDROID_HOME': Glob('ndk/*/'),
+          for (final ndkHome in _ndkHomeEnvironmentVariables) ndkHome: null,
+        },
+      ),
     ]),
   );
 
   @override
-  Future<List<ToolInstance>> resolve({required Logger? logger}) async {
-    final ndkInstances = await installLocationResolver.resolve(logger: logger);
+  Future<List<ToolInstance>> resolve(ToolResolvingContext context) async {
+    final ndkInstances = await installLocationResolver.resolve(context);
 
     return [
       for (final ndkInstance in ndkInstances) ...[
         ndkInstance,
-        ...await tryResolveClang(ndkInstance, logger: logger),
+        ...await tryResolveClang(ndkInstance, logger: context.logger),
       ],
     ];
   }
@@ -86,8 +95,9 @@ class _AndroidNdkResolver implements ToolResolver {
     if (!prebuiltDir.existsSync()) {
       return [];
     }
-    final hostArchDirs =
-        (await prebuiltDir.list().toList()).whereType<Directory>().toList();
+    final hostArchDirs = (await prebuiltDir.list().toList())
+        .whereType<Directory>()
+        .toList();
     for (final hostArchDir in hostArchDirs) {
       final clangUri = hostArchDir.uri
           .resolve('bin/')
@@ -125,4 +135,14 @@ class _AndroidNdkResolver implements ToolResolver {
     }
     return result;
   }
+
+  static const _ndkHomeEnvironmentVariables = [
+    // https://github.com/actions/runner-images/blob/main/images/ubuntu/Ubuntu2404-Readme.md#environment-variables-2
+    'ANDROID_NDK',
+    'ANDROID_NDK_HOME',
+    'ANDROID_NDK_LATEST_HOME',
+    'ANDROID_NDK_ROOT',
+  ];
+
+  static const _toolName = 'Android NDK';
 }

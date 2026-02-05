@@ -7,6 +7,7 @@ library;
 
 import 'dart:io';
 
+import 'package:logging/logging.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:quiver/pattern.dart' as quiver;
 
@@ -14,23 +15,26 @@ import '../code_generator.dart';
 import 'config.dart';
 import 'path_finder.dart';
 
+export 'package:pub_semver/pub_semver.dart' show Version;
+
 enum Language { c, objc }
 
 class CommentType {
-  CommentStyle style;
-  CommentLength length;
-  CommentType(this.style, this.length);
+  final CommentStyle style;
+  final CommentLength length;
+
+  const CommentType(this.style, this.length);
 
   /// Sets default style as [CommentStyle.doxygen], default length as
   /// [CommentLength.full].
-  CommentType.def()
-      : style = CommentStyle.doxygen,
-        length = CommentLength.full;
+  const CommentType.def()
+    : style = CommentStyle.doxygen,
+      length = CommentLength.full;
 
   /// Disables any comments.
-  CommentType.none()
-      : style = CommentStyle.doxygen,
-        length = CommentLength.none;
+  const CommentType.none()
+    : style = CommentStyle.doxygen,
+      length = CommentLength.none;
 }
 
 enum CommentStyle { doxygen, any }
@@ -67,8 +71,8 @@ class YamlHeaders {
   final HeaderIncludeFilter includeFilter;
 
   YamlHeaders({List<String>? entryPoints, HeaderIncludeFilter? includeFilter})
-      : entryPoints = entryPoints?.map(Uri.file).toList() ?? [],
-        includeFilter = includeFilter ?? GlobHeaderFilter();
+    : entryPoints = entryPoints?.map(Uri.file).toList() ?? [],
+      includeFilter = includeFilter ?? GlobHeaderFilter();
 }
 
 abstract class HeaderIncludeFilter {
@@ -78,9 +82,7 @@ abstract class HeaderIncludeFilter {
 class GlobHeaderFilter extends HeaderIncludeFilter {
   List<quiver.Glob>? includeGlobs = [];
 
-  GlobHeaderFilter({
-    this.includeGlobs,
-  });
+  GlobHeaderFilter({this.includeGlobs});
 
   @override
   bool shouldInclude(Uri headerSourceFile) {
@@ -102,7 +104,7 @@ class GlobHeaderFilter extends HeaderIncludeFilter {
 
 /// A generic declaration config, used for Functions, Structs, Enums, Macros,
 /// unnamed Enums and Globals.
-class YamlDeclarationFilters implements DeclarationFilters {
+final class YamlDeclarationFilters {
   final YamlIncluder _includer;
   final YamlRenamer _renamer;
   final YamlMemberRenamer _memberRenamer;
@@ -117,37 +119,42 @@ class YamlDeclarationFilters implements DeclarationFilters {
     YamlIncluder? symbolAddressIncluder,
     YamlMemberIncluder? memberIncluder,
     required this.excludeAllByDefault,
-  })  : _includer = includer ?? YamlIncluder(),
-        _renamer = renamer ?? YamlRenamer(),
-        _memberRenamer = memberRenamer ?? YamlMemberRenamer(),
-        _symbolAddressIncluder =
-            symbolAddressIncluder ?? YamlIncluder.excludeByDefault(),
-        _memberIncluder = memberIncluder ?? YamlMemberIncluder();
+  }) : _includer = includer ?? YamlIncluder(),
+       _renamer = renamer ?? YamlRenamer(),
+       _memberRenamer = memberRenamer ?? YamlMemberRenamer(),
+       _symbolAddressIncluder =
+           symbolAddressIncluder ?? YamlIncluder.excludeByDefault(),
+       _memberIncluder = memberIncluder ?? YamlMemberIncluder();
 
   /// Applies renaming and returns the result.
-  @override
   String rename(Declaration declaration) =>
       _renamer.rename(declaration.originalName);
 
   /// Applies member renaming and returns the result.
-  @override
   String renameMember(Declaration declaration, String member) =>
       _memberRenamer.rename(declaration.originalName, member);
 
   /// Checks if a name is allowed by a filter.
-  @override
   bool shouldInclude(Declaration declaration) =>
       _includer.shouldInclude(declaration.originalName, excludeAllByDefault);
 
   /// Checks if the symbol address should be included for this name.
-  @override
   bool shouldIncludeSymbolAddress(Declaration declaration) =>
       _symbolAddressIncluder.shouldInclude(declaration.originalName);
 
   /// Checks if a member is allowed by a filter.
-  @override
   bool shouldIncludeMember(Declaration declaration, String member) =>
       _memberIncluder.shouldInclude(declaration.originalName, member);
+
+  Declarations configAdapter() {
+    return Declarations(
+      include: shouldInclude,
+      includeSymbolAddress: shouldIncludeSymbolAddress,
+      includeMember: shouldIncludeMember,
+      rename: rename,
+      renameMember: renameMember,
+    );
+  }
 }
 
 /// Matches `$<single_digit_int>`, value can be accessed in group 1 of match.
@@ -175,12 +182,14 @@ class RegExpRenamer {
       /// E.g for `str`: `clang_dispose` and `regExp`: `clang_(.*)`
       /// groups will be `0`: `clang_disponse`, `1`: `dispose`.
       final groups = regExpMatch.groups(
-          List.generate(regExpMatch.groupCount, (index) => index) +
-              [regExpMatch.groupCount]);
+        List.generate(regExpMatch.groupCount, (index) => index) +
+            [regExpMatch.groupCount],
+      );
 
       /// Replace all `$<int>` symbols with respective groups (if any).
-      final result =
-          replacementPattern.replaceAllMapped(replaceGroupRegexp, (match) {
+      final result = replacementPattern.replaceAllMapped(replaceGroupRegexp, (
+        match,
+      ) {
         final groupInt = int.parse(match.group(1)!);
         return groups[groupInt]!;
       });
@@ -201,11 +210,9 @@ class YamlFilter {
   final List<RegExp> _matchers;
   final Set<String> _full;
 
-  YamlFilter({
-    List<RegExp>? matchers,
-    Set<String>? full,
-  })  : _full = full ?? {},
-        _matchers = matchers ?? [];
+  YamlFilter({List<RegExp>? matchers, Set<String>? full})
+    : _full = full ?? {},
+      _matchers = matchers ?? [];
 
   bool get isEmpty => _full.isEmpty && _matchers.isEmpty;
 
@@ -224,12 +231,12 @@ class YamlIncluder {
     Set<String>? includeFull,
     List<RegExp>? excludeMatchers,
     Set<String>? excludeFull,
-  })  : _include = YamlFilter(matchers: includeMatchers, full: includeFull),
-        _exclude = YamlFilter(matchers: excludeMatchers, full: excludeFull);
+  }) : _include = YamlFilter(matchers: includeMatchers, full: includeFull),
+       _exclude = YamlFilter(matchers: excludeMatchers, full: excludeFull);
 
   YamlIncluder.excludeByDefault()
-      : _include = YamlFilter(),
-        _exclude = YamlFilter(matchers: [RegExp('.*', dotAll: true)]);
+    : _include = YamlFilter(),
+      _exclude = YamlFilter(matchers: [RegExp('.*', dotAll: true)]);
 
   /// Returns true if [name] is allowed.
   ///
@@ -255,12 +262,10 @@ class YamlRenamer {
   YamlRenamer({
     List<RegExpRenamer>? renamePatterns,
     Map<String, String>? renameFull,
-  })  : _renameMatchers = renamePatterns ?? [],
-        _renameFull = renameFull ?? {};
+  }) : _renameMatchers = renamePatterns ?? [],
+       _renameFull = renameFull ?? {};
 
-  YamlRenamer.noRename()
-      : _renameMatchers = [],
-        _renameFull = {};
+  YamlRenamer.noRename() : _renameMatchers = [], _renameFull = {};
 
   String rename(String name) {
     // Apply full rename (if any).
@@ -308,8 +313,8 @@ class YamlMemberRenamer {
   YamlMemberRenamer({
     Map<String, YamlRenamer>? memberRenameFull,
     List<RegExpMemberRenamer>? memberRenamePattern,
-  })  : _memberRenameFull = memberRenameFull ?? {},
-        _memberRenameMatchers = memberRenamePattern ?? [];
+  }) : _memberRenameFull = memberRenameFull ?? {},
+       _memberRenameMatchers = memberRenamePattern ?? [];
 
   String rename(String declaration, String member) {
     if (_cache.containsKey(declaration)) {
@@ -344,8 +349,8 @@ class YamlMemberIncluder {
   YamlMemberIncluder({
     Map<String, YamlIncluder>? memberIncluderFull,
     List<(RegExp, YamlIncluder)>? memberIncluderMatchers,
-  })  : _memberIncluderFull = memberIncluderFull ?? {},
-        _memberIncluderMatchers = memberIncluderMatchers ?? [];
+  }) : _memberIncluderFull = memberIncluderFull ?? {},
+       _memberIncluderMatchers = memberIncluderMatchers ?? [];
 
   bool shouldInclude(String declaration, String member) {
     // Full matches take priority.
@@ -364,22 +369,25 @@ class YamlMemberIncluder {
   }
 }
 
-List<String> defaultCompilerOpts({bool macIncludeStdLib = true}) => [
-      if (Platform.isMacOS && macIncludeStdLib)
-        ...getCStandardLibraryHeadersForMac(),
-      if (Platform.isMacOS) '-Wno-nullability-completeness',
-    ];
+List<String> defaultCompilerOpts(
+  Logger logger, {
+  bool macIncludeStdLib = true,
+}) => [
+  if (Platform.isMacOS && macIncludeStdLib)
+    ...getCStandardLibraryHeadersForMac(logger),
+  if (Platform.isMacOS) '-Wno-nullability-completeness',
+];
 
 /// Handles config for automatically added compiler options.
 class CompilerOptsAuto {
   final bool macIncludeStdLib;
 
   CompilerOptsAuto({bool? macIncludeStdLib})
-      : macIncludeStdLib = macIncludeStdLib ?? true;
+    : macIncludeStdLib = macIncludeStdLib ?? true;
 
   /// Extracts compiler options based on OS and config.
-  List<String> extractCompilerOpts() {
-    return defaultCompilerOpts(macIncludeStdLib: macIncludeStdLib);
+  List<String> extractCompilerOpts(Logger logger) {
+    return defaultCompilerOpts(logger, macIncludeStdLib: macIncludeStdLib);
   }
 }
 
@@ -441,8 +449,13 @@ class RawVarArgFunction {
   RawVarArgFunction(this.postfix, this.rawTypeStrings);
 }
 
+/// A specialization of a variadic function with specific argument types.
 class VarArgFunction {
+  /// A suffix to append to the function name for this variant.
   final String postfix;
+
+  /// The types that will passed as the variadic parameters, replacing the
+  /// `...` in the original definition.
   final List<Type> types;
 
   VarArgFunction(this.postfix, this.types);
@@ -453,13 +466,24 @@ class PackingValue {
   PackingValue(this.value);
 }
 
+/// A declaration, such as a function or a class.
 class Declaration {
+  /// A unique identifier for the declaration.
+  ///
+  /// USR stands for Unified Symbol Resolution. It is an ID generated by clang
+  /// that is designed to be unique, and stable across compilations, but not
+  /// human readable.
+  ///
+  /// It's usually easiest to filter the declaration by the [originalName]. But
+  /// the name alone might not be unique. If you have two different declarations
+  /// with the same [originalName], log their [usr]s, and use that to make your
+  /// filtering more specific.
   final String usr;
+
+  /// The original name of the declaration in source code, before any renaming.
   final String originalName;
-  Declaration({
-    required this.usr,
-    required this.originalName,
-  });
+
+  Declaration({required this.usr, required this.originalName});
 }
 
 class ExternalVersions {

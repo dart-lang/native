@@ -8,14 +8,24 @@ library;
 
 import 'dart:ffi';
 
+/// Allocates [size] bytes of memory.
+///
+/// Corresponds to `malloc` on POSIX systems.
 @Native<Pointer Function(IntPtr)>()
 external Pointer malloc(int size);
 
+/// Frees memory previously allocated by [malloc].
 @Native<Void Function(Pointer)>()
 external void free(Pointer pointer);
 
+/// Allocates a block of task memory in the same way that `CoTaskMemAlloc` does.
+///
+/// Only available on Windows.
 @Native<Pointer Function(Size)>(symbol: 'CoTaskMemAlloc')
 external Pointer coTaskMemAlloc(int cb);
 
+/// Frees a block of task memory previously allocated through [coTaskMemAlloc].
+///
+/// Only available on Windows.
 @Native<Void Function(Pointer)>(symbol: 'CoTaskMemFree')
 external void coTaskMemFree(Pointer pv);

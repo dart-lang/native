@@ -40,17 +40,20 @@ jobs:
       matrix:
         sdk: [stable]
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           channel: ${{ matrix.sdk }}
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: axel-op/googlejavaformat-action@c1134ebd196c4cbffb077f9476585b0be8b6afcd
-        name: 'Check Java formatting with google-java-format'
+      - uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e
         with:
-          version: 'v1.24.0'
-          args: '--set-exit-if-changed'
+          distribution: 'zulu'
+          java-version: '17'
+          cache: maven
+      - uses: ./.github/actions/java-format-check
+        with:
+          working-directory: ./pkgs/jnigen
       - id: install
         name: Install dependencies
         run: dart pub get
@@ -76,23 +79,17 @@ jobs:
         os: [ubuntu-latest]
         sdk: [stable, beta]
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           channel: ${{ matrix.sdk }}
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12
+      - uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e
         with:
           distribution: 'zulu'
           java-version: '17'
           cache: maven
-      ## Committed bindings are formatted with clang-format.
-      ## So this is required to format generated bindings identically
-      - name: install clang tools
-        run: |
-          sudo apt-get update -y
-          sudo apt-get install -y clang-format
       - name: Install dependencies
         run: dart pub get
       - name: build in_app_java APK
@@ -102,7 +99,7 @@ jobs:
         run: flutter build apk --target-platform=android-arm64
         working-directory: ./pkgs/jnigen/example/notification_plugin/example
       - name: Run summarizer tests
-        run: mvn surefire:test
+        run: ./gradlew test
         working-directory: ./pkgs/jnigen/java
       - name: Build summarizer
         run: dart run jnigen:setup
@@ -113,7 +110,7 @@ jobs:
       - name: Collect coverage
         run: dart pub global run coverage:test_with_coverage
       - name: Upload coverage
-        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
         with:
           flag-name: jnigen
           github-token: ${{ secrets.GITHUB_TOKEN }}
@@ -128,8 +125,8 @@ jobs:
       run:
         working-directory: ./pkgs/jnigen/android_test_runner
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           channel: 'stable'
           cache: true
@@ -142,7 +139,7 @@ jobs:
           sudo udevadm control --reload-rules
           sudo udevadm trigger --name-match=kvm
       - name: Run tests
-        uses: reactivecircus/android-emulator-runner@62dbb605bba737720e10b196cb4220d374026a6d
+        uses: reactivecircus/android-emulator-runner@b530d96654c385303d652368551fb075bc2f0b6b
         with:
           api-level: 26
           arch: x86_64
@@ -154,25 +151,26 @@ jobs:
       run:
         working-directory: ./pkgs/jni
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12
+      - uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e
         with:
           distribution: 'zulu'
           java-version: '17'
-      - uses: axel-op/googlejavaformat-action@c1134ebd196c4cbffb077f9476585b0be8b6afcd
-        name: 'Check Java formatting with google-java-format'
+      - uses: ./.github/actions/java-format-check
         with:
-          version: 'v1.24.0'
-          args: '--set-exit-if-changed'
+          working-directory: ./pkgs/jni
       - name: install clang tools & CMake
         run: |
+          wget https://apt.llvm.org/llvm.sh
+          chmod +x llvm.sh
+          sudo ./llvm.sh 20
           sudo apt-get update -y
-          sudo apt-get install -y clang-format build-essential cmake
+          sudo apt-get install -y clang-format-20 build-essential cmake
       - run: flutter pub get
       - name: Check formatting
         run: dart format --output=none --set-exit-if-changed .
@@ -193,13 +191,13 @@ jobs:
       run:
         working-directory: ./pkgs/jni
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12
+      - uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e
         with:
           distribution: 'zulu'
           java-version: '17'
@@ -217,13 +215,21 @@ jobs:
       - name: Collect coverage
         run: dart pub global run coverage:test_with_coverage
       - name: Upload coverage
-        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
         with:
           flag-name: jni
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
           path-to-lcov: ./pkgs/jni/coverage/lcov.info
-      # TODO(https://github.com/dart-lang/ffigen/issues/555): Ffigen generated
+      - name: building the example project succeeds
+        working-directory: ./pkgs/jni/example/
+        run: |
+          flutter build apk
+      - name: regenerate & compare jnigen bindings
+        run: |
+          dart run tool/generate_jni_bindings.dart
+          git diff --exit-code -- lib/src/plugin
+      # TODO(https://github.com/dart-lang/ffigen/issues/555): FFIgen generated
       # on my machine has macOS specific stuff and CI does not.
       # We should just generate the struct as opaque, but we currently can't.
       #
@@ -242,13 +248,13 @@ jobs:
       run:
         working-directory: ./pkgs/jni
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12
+      - uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e
         with:
           distribution: 'zulu'
           java-version: '17'
@@ -257,6 +263,62 @@ jobs:
       - run: dart run jni:setup
       - run: dart test --test-randomize-ordering-seed random
 
+  # Not having Java installed on a Desktop will not fail Flutter build.
+  test_no_jdk_fallback:
+    runs-on: ${{ matrix.os }}
+    defaults:
+      run:
+        working-directory: ./pkgs/jni
+    strategy:
+      fail-fast: false
+      matrix:
+        os: [ubuntu-latest, windows-latest]
+        include:
+          - os: ubuntu-latest
+            target: linux
+          - os: windows-latest
+            target: windows
+
+    steps:
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
+        with:
+          channel: 'stable'
+          cache: true
+          cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
+
+      - name: Create Test App Directory
+        run: mkdir test_app
+
+      - name: Create New Flutter App
+        run: flutter create .
+        working-directory: ./pkgs/jni/test_app
+
+      - name: Add JNI Plugin (using relative path to link local source)
+        run: flutter pub add jni --path ../
+        working-directory: ./pkgs/jni/test_app
+
+      - name: Clear JAVA_HOME to Simulate Missing JDK
+        run: echo "JAVA_HOME=" >> $GITHUB_ENV
+        shell: bash
+
+      - name: Install Linux Build Dependencies and Enable Desktop (Ubuntu)
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update -y
+          sudo apt-get install -y ninja-build libgtk-3-dev
+          flutter config --enable-linux-desktop
+        working-directory: ./pkgs/jni/test_app
+
+      - name: Enable Windows Desktop (Windows)
+        if: matrix.os == 'windows-latest'
+        run: flutter config --enable-windows-desktop
+        working-directory: ./pkgs/jni/test_app
+        
+      - name: Run Build (Must succeed without JDK installed)
+        run: flutter build ${{ matrix.target }}
+        working-directory: ./pkgs/jni/test_app
+
   test_jnigen_windows_minimal:
     needs: [analyze_jnigen]
     runs-on: windows-latest
@@ -264,18 +326,18 @@ jobs:
       run:
         working-directory: ./pkgs/jnigen
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
       - name: Setup clang
-        uses: egor-tensin/setup-clang@ef434b41eb33a70396fb336b1bae39c76d740c3d
+        uses: egor-tensin/setup-clang@471a6f8ef1d449dba8e1a51780e7f943572a3f99
         with:
           version: latest
           platform: x64
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12
+      - uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e
         with:
           distribution: 'zulu'
           java-version: '17'
@@ -295,13 +357,13 @@ jobs:
       run:
         working-directory: ./pkgs/jni
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12
+      - uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -316,17 +378,17 @@ jobs:
       run:
         working-directory: ./pkgs/jnigen
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
       - name: Setup clang format
         uses: ConorMacBride/install-package@3e7ad059e07782ee54fa35f827df52aae0626f30
         with:
           brew: clang-format
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12
+      - uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e
         with:
           distribution: 'temurin'
           java-version: '17'
@@ -343,13 +405,13 @@ jobs:
       run:
         working-directory: ./pkgs/jni/example
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12
+      - uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e
         with:
           distribution: 'zulu'
           java-version: '17'
@@ -367,13 +429,13 @@ jobs:
       run:
         working-directory: ./pkgs/jni/example
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12
+      - uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e
         with:
           distribution: 'zulu'
           java-version: '17'
@@ -387,12 +449,12 @@ jobs:
       run:
         working-directory: ./pkgs/jni/example
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e
         with:
           distribution: 'zulu'
           java-version: '17'
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           channel: 'stable'
           cache: true
@@ -406,19 +468,19 @@ jobs:
       run:
         working-directory: ./pkgs/jnigen/example/pdfbox_plugin
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
-      - uses: subosito/flutter-action@e938fdf56512cc96ef2f93601a5a40bde3801046
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
+      - uses: subosito/flutter-action@fd55f4c5af5b953cc57a2be44cb082c8f6635e8e
         with:
           channel: 'stable'
           cache: true
           cache-key: 'flutter-:os:-:channel:-:version:-:arch:-:hash:'
-      - uses: actions/setup-java@3a4f6e1af504cf6a31855fa899c6aa5355ba6c12
+      - uses: actions/setup-java@f2beeb24e141e01a676f977032f5a29d81c9e27e
         with:
           distribution: 'zulu'
           java-version: '17'
       - run: |
           sudo apt-get update -y
-          sudo apt-get install -y ninja-build libgtk-3-dev clang-format
+          sudo apt-get install -y ninja-build libgtk-3-dev
       - run: flutter config --enable-linux-desktop
       - run: dart pub get
       - name: Generate full bindings
@@ -445,8 +507,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Coveralls finished
-        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
         with:
-          carryforward: "ffigen,jni,jnigen,native_assets_builder_macos,native_assets_builder_ubuntu,native_assets_builder_windows,native_assets_cli_macos,native_assets_cli_ubuntu,native_assets_cli_windows,native_toolchain_c_macos,native_toolchain_c_ubuntu,native_toolchain_c_windows,objective_c,swift2objc"
+          carryforward: "ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen"
           github-token: ${{ secrets.github_token }}
           parallel-finished: true

@@ -30,7 +30,7 @@ FFI_EXPORT void DOBJC_finalizeObject(void* isolate_callback_data, void* peer) {
 }
 
 FFI_EXPORT Dart_FinalizableHandle
-DOBJC_newFinalizableHandle(Dart_Handle owner, ObjCObject* object) {
+DOBJC_newFinalizableHandle(Dart_Handle owner, ObjCObjectImpl* object) {
   return Dart_NewFinalizableHandle_DL(owner, object, 0, DOBJC_finalizeObject);
 }
 
@@ -48,10 +48,6 @@ FFI_EXPORT bool* DOBJC_newFinalizableBool(Dart_Handle owner) {
   *pointer = false;
   Dart_NewFinalizableHandle_DL(owner, pointer, 1, finalizeMalloc);
   return pointer;
-}
-
-FFI_EXPORT intptr_t DOBJC_initializeApi(void* data) {
-  return Dart_InitializeApiDL(data);
 }
 
 FFI_EXPORT DOBJC_Context* DOBJC_fillContext(DOBJC_Context* context) {

@@ -4,9 +4,9 @@
 
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
-import 'package:logging/logging.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 
+/// Builds the C code for the native_add example.
 Future<void> runBuild(BuildInput input, BuildOutputBuilder output) async {
   final name = createTargetName(
     input.config.code.targetOS.name,
@@ -20,16 +20,13 @@ Future<void> runBuild(BuildInput input, BuildOutputBuilder output) async {
     assetName: 'native_add.dart',
     sources: ['src/native_add.c'],
   );
-  await cbuilder.run(
-    input: input,
-    output: output,
-    logger:
-        Logger('')
-          ..level = Level.ALL
-          ..onRecord.listen((record) => print(record.message)),
-  );
+  await cbuilder.run(input: input, output: output);
 }
 
+/// Creates a target name based on the OS, architecture, and iOS SDK.
+///
+/// For example, `native_add_ios_arm64_iphonesimulator` or
+/// `native_add_windows_x64`.
 String createTargetName(String osString, String architecture, String? iOSSdk) {
   var targetName = 'native_add_${osString}_$architecture';
   if (iOSSdk != null) {

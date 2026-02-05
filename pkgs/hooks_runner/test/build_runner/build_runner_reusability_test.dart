@@ -27,6 +27,7 @@ void main() async {
         const LocalFileSystem(),
         packageUri,
         packageName,
+        includeDevDependencies: false,
       );
       final buildRunner = NativeAssetsBuildRunner(
         logger: logger,
@@ -40,10 +41,9 @@ void main() async {
       final extension = CodeAssetExtension(
         targetArchitecture: Architecture.current,
         targetOS: OS.current,
-        macOS:
-            targetOS == OS.macOS
-                ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
-                : null,
+        macOS: targetOS == OS.macOS
+            ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
+            : null,
         linkModePreference: LinkModePreference.dynamic,
       );
 

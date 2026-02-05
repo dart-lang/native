@@ -16,9 +16,6 @@ import 'package:test/test.dart';
 
 import '../helpers.dart';
 
-const flutteriOSHighestBestEffort = 16;
-const flutteriOSHighestSupported = 17;
-
 void main() {
   if (!Platform.isMacOS) {
     // Avoid needing status files on Dart SDK CI.
@@ -26,12 +23,6 @@ void main() {
   }
 
   const targets = [Architecture.arm64, Architecture.x64];
-
-  // Dont include 'mach-o' or 'Mach-O', different spelling is used.
-  const objdumpFileFormat = {
-    Architecture.arm64: 'arm64',
-    Architecture.x64: '64-bit x86-64',
-  };
 
   const name = 'add';
 
@@ -73,30 +64,28 @@ void main() {
                   Language() => throw UnimplementedError(),
                 };
 
-                final buildInputBuilder =
-                    BuildInputBuilder()
-                      ..setupShared(
-                        packageName: name,
-                        packageRoot: tempUri,
-                        outputFile: tempUri.resolve('output.json'),
-                        outputDirectoryShared: tempUri2,
-                      )
-                      ..config.setupBuild(linkingEnabled: false)
-                      ..addExtension(
-                        CodeAssetExtension(
-                          targetOS: OS.iOS,
-                          targetArchitecture: target,
-                          linkModePreference:
-                              linkMode == DynamicLoadingBundled()
-                                  ? LinkModePreference.dynamic
-                                  : LinkModePreference.static,
-                          iOS: IOSCodeConfig(
-                            targetSdk: targetIOSSdk,
-                            targetVersion: flutteriOSHighestBestEffort,
-                          ),
-                          cCompiler: cCompiler,
-                        ),
-                      );
+                final buildInputBuilder = BuildInputBuilder()
+                  ..setupShared(
+                    packageName: name,
+                    packageRoot: tempUri,
+                    outputFile: tempUri.resolve('output.json'),
+                    outputDirectoryShared: tempUri2,
+                  )
+                  ..config.setupBuild(linkingEnabled: false)
+                  ..addExtension(
+                    CodeAssetExtension(
+                      targetOS: OS.iOS,
+                      targetArchitecture: target,
+                      linkModePreference: linkMode == DynamicLoadingBundled()
+                          ? LinkModePreference.dynamic
+                          : LinkModePreference.static,
+                      iOS: IOSCodeConfig(
+                        targetSdk: targetIOSSdk,
+                        targetVersion: flutteriOSHighestBestEffort,
+                      ),
+                      cCompiler: cCompiler,
+                    ),
+                  );
 
                 final buildInput = buildInputBuilder.build();
                 final buildOutput = BuildOutputBuilder();
@@ -126,7 +115,7 @@ void main() {
                 final machine = objdumpResult.stdout
                     .split('\n')
                     .firstWhere((e) => e.contains('file format'));
-                expect(machine, contains(objdumpFileFormat[target]));
+                expect(machine, contains(objdumpFileFormatIOS[target]));
 
                 final otoolResult = await runProcess(
                   executable: Uri.file('otool'),
@@ -161,8 +150,9 @@ void main() {
                     // If no install path is passed, we have an absolute path.
                     final tempName = buildInput.outputDirectory.pathSegments
                         .lastWhere((e) => e != '');
-                    final pathEnding =
-                        Uri.directory(tempName).resolve(libName).toFilePath();
+                    final pathEnding = Uri.directory(
+                      tempName,
+                    ).resolve(libName).toFilePath();
                     expect(Uri.file(libInstallName).isAbsolute, true);
                     expect(libInstallName, contains(pathEnding));
                     final targetInstallName =
@@ -235,30 +225,28 @@ Future<Uri> buildLib(
   final addCUri = packageUri.resolve('test/cbuilder/testfiles/add/src/add.c');
   const name = 'add';
 
-  final buildInputBuilder =
-      BuildInputBuilder()
-        ..setupShared(
-          packageName: name,
-          packageRoot: tempUri,
-          outputFile: tempUri.resolve('output.json'),
-          outputDirectoryShared: tempUri2,
-        )
-        ..config.setupBuild(linkingEnabled: false)
-        ..addExtension(
-          CodeAssetExtension(
-            targetOS: OS.iOS,
-            targetArchitecture: targetArchitecture,
-            linkModePreference:
-                linkMode == DynamicLoadingBundled()
-                    ? LinkModePreference.dynamic
-                    : LinkModePreference.static,
-            iOS: IOSCodeConfig(
-              targetSdk: IOSSdk.iPhoneOS,
-              targetVersion: targetIOSVersion,
-            ),
-            cCompiler: cCompiler,
-          ),
-        );
+  final buildInputBuilder = BuildInputBuilder()
+    ..setupShared(
+      packageName: name,
+      packageRoot: tempUri,
+      outputFile: tempUri.resolve('output.json'),
+      outputDirectoryShared: tempUri2,
+    )
+    ..config.setupBuild(linkingEnabled: false)
+    ..addExtension(
+      CodeAssetExtension(
+        targetOS: OS.iOS,
+        targetArchitecture: targetArchitecture,
+        linkModePreference: linkMode == DynamicLoadingBundled()
+            ? LinkModePreference.dynamic
+            : LinkModePreference.static,
+        iOS: IOSCodeConfig(
+          targetSdk: IOSSdk.iPhoneOS,
+          targetVersion: targetIOSVersion,
+        ),
+        cCompiler: cCompiler,
+      ),
+    );
 
   final buildInput = buildInputBuilder.build();
   final buildOutput = BuildOutputBuilder();

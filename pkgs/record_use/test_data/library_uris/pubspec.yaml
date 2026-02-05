@@ -1,0 +1,25 @@
+name: library_uris
+description: >-
+  This is an automated CI test that checks that library uris are as expected
+  inside the link hook.
+
+  It is run on CI by executing `dart build cli` in this package.
+
+  For dart2js, `dart compile js --write-resources` and inspect the contents of
+  the file.
+
+version: 0.1.0
+
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.9.0 <4.0.0'
+
+dependencies:
+  hooks: any
+  library_uris_helper:
+    path: ../library_uris_helper
+  meta: ^1.18.0
+  record_use: any

@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:ffigen/src/config_provider.dart';
+import 'package:ffigen/src/context.dart';
 import 'package:ffigen/src/header_parser.dart' show parse;
 import 'package:ffigen/src/strings.dart' as strings;
 import 'package:logging/logging.dart';
@@ -12,8 +14,13 @@ import '../test_utils.dart';
 void main() {
   group('deprecate_assetId_test', () {
     final logArr = <String>[];
-    logToArray(logArr, Level.WARNING);
-    final config = testConfig('''
+    late FfiGenerator config;
+    setUpAll(() {
+      final logger = createTestLogger(
+        capturedMessages: logArr,
+        level: Level.WARNING,
+      );
+      config = testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Deprecation warning if assetId is used instead of ${strings.ffiNativeAsset}'
 ${strings.output}: 'unused'
@@ -22,16 +29,20 @@ ${strings.ffiNative}:
 ${strings.headers}:
   ${strings.entryPoints}:
     - '${absPath('test/header_parser_tests/comment_markup.h')}'
-''');
-    parse(config);
+''', logger: logger);
+      parse(Context(logger, config));
+    });
 
-    final logStr = logArr.join('\n');
     test('asset-id is correctly set', () {
-      expect(config.ffiNativeConfig.assetId, 'myasset');
+      expect(config.output.style is NativeExternalBindings, true);
+      expect(
+        (config.output.style as NativeExternalBindings).assetId,
+        'myasset',
+      );
     });
 
     test('Deprecation Warning is logged', () {
-      expect(logStr.contains('DEPRECATION WARNING'), true);
+      expect(logArr.join('\n').contains('DEPRECATION WARNING'), true);
     });
   });
 }

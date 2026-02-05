@@ -19,9 +19,9 @@ import '../helpers.dart';
 void main() {
   test('CliVersionResolver.executableVersion', () async {
     final toolInstances = [
-      ...await appleClang.defaultResolver!.resolve(logger: logger),
-      ...await clang.defaultResolver!.resolve(logger: logger),
-      ...await cl.defaultResolver!.resolve(logger: logger),
+      ...await appleClang.defaultResolver!.resolve(systemContext),
+      ...await clang.defaultResolver!.resolve(systemContext),
+      ...await cl.defaultResolver!.resolve(systemContext),
     ];
     expect(toolInstances.isNotEmpty, true);
     final toolInstance = toolInstances.first;
@@ -73,13 +73,19 @@ void main() {
       wrappedResolver: barResolver,
       relativePath: Uri.file(bazExeName),
     );
-    final resolvedBarInstances = await barResolver.resolve(logger: logger);
+    final resolvedBarInstances = await barResolver.resolve(systemContext);
     expect(resolvedBarInstances, [
-      ToolInstance(tool: Tool(name: 'bar'), uri: barExeUri),
+      ToolInstance(
+        tool: Tool(name: 'bar'),
+        uri: barExeUri,
+      ),
     ]);
-    final resolvedBazInstances = await bazResolver.resolve(logger: logger);
+    final resolvedBazInstances = await bazResolver.resolve(systemContext);
     expect(resolvedBazInstances, [
-      ToolInstance(tool: Tool(name: 'baz'), uri: bazExeUri),
+      ToolInstance(
+        tool: Tool(name: 'baz'),
+        uri: bazExeUri,
+      ),
     ]);
   });
 
@@ -99,8 +105,12 @@ void main() {
     );
     final barLogs = <String>[];
     final bazLogs = <String>[];
-    await barResolver.resolve(logger: createCapturingLogger(barLogs));
-    await bazResolver.resolve(logger: createCapturingLogger(bazLogs));
+    await barResolver.resolve(
+      ToolResolvingContext(logger: createCapturingLogger(barLogs)),
+    );
+    await bazResolver.resolve(
+      ToolResolvingContext(logger: createCapturingLogger(bazLogs)),
+    );
     expect(barLogs.join('\n'), contains('Found [ToolInstance(bar'));
     expect(bazLogs.join('\n'), contains('Found no baz'));
   });

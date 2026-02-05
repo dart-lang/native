@@ -7,6 +7,9 @@
 //    dart --enable-experiment=native-assets tool/generate_asset_hashes.dart
 //
 
+/// A map from asset file names to their MD5 hashes.
+///
+/// Used to verify the integrity of downloaded assets.
 const assetHashes = <String, String>{
   'libnative_add_android_arm.so': '2c38f3edc805a399dad866d619f9157d',
   'libnative_add_android_arm64.so': 'c4f0d8c4c50d1e83592e499e7434b967',

@@ -1,3 +1,8 @@
+## 2.1.5
+
+- Update to the latest lints.
+- Add default parameter names for callbacks.
+
 ## 2.1.4
 
 - Require Dart 3.7.0 or greater to opt in to tall style formatting.

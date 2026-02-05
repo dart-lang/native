@@ -23,10 +23,9 @@ final class CCompilerConfig {
 
   /// Configuration provided when [CodeConfig.targetOS] is [OS.windows].
   WindowsCCompilerConfig get windows => switch (_windows) {
-    null =>
-      throw StateError(
-        'Cannot access windows if CodeConfig.targetOS is not Windows',
-      ),
+    null => throw StateError(
+      'Cannot access windows if CodeConfig.targetOS is not Windows',
+    ),
     final c => c,
   };
 
@@ -74,8 +73,10 @@ final class CCompilerConfig {
 /// The configuration provided in [CCompilerConfig.windows] when
 /// [CodeConfig.targetOS] is [OS.windows].
 final class WindowsCCompilerConfig {
+  /// The configuration for the Windows Developer Command Prompt.
   final DeveloperCommandPrompt? developerCommandPrompt;
 
+  /// Constructs a new [WindowsCCompilerConfig].
   WindowsCCompilerConfig({this.developerCommandPrompt});
 }
 
@@ -108,10 +109,15 @@ final class DeveloperCommandPrompt {
   /// script name does not.
   final List<String> arguments;
 
+  /// Constructs a new [DeveloperCommandPrompt].
   DeveloperCommandPrompt({required this.script, required this.arguments});
 }
 
+/// Extension methods for [CCompilerConfig] to convert to and from the syntax
+/// model.
 extension CCompilerConfigSyntaxExtension on CCompilerConfig {
+  /// Converts this [CCompilerConfig] to its corresponding
+  /// [CCompilerConfigSyntax].
   CCompilerConfigSyntax toSyntax() => CCompilerConfigSyntax(
     ar: archiver,
     cc: compiler,
@@ -119,6 +125,7 @@ extension CCompilerConfigSyntaxExtension on CCompilerConfig {
     windows: _windows?.toSyntax(),
   );
 
+  /// Converts a [CCompilerConfigSyntax] to its corresponding [CCompilerConfig].
   static CCompilerConfig fromSyntax(CCompilerConfigSyntax cCompiler) =>
       CCompilerConfig(
         archiver: cCompiler.ar,
@@ -133,10 +140,15 @@ extension CCompilerConfigSyntaxExtension on CCompilerConfig {
       );
 }
 
+/// Extension methods for [WindowsCCompilerConfig] to convert to and from the
+/// syntax model.
 extension WindowsCCompilerConfigSyntaxExtension on WindowsCCompilerConfig {
+  /// Converts this [WindowsCCompilerConfig] to its corresponding
+  /// [WindowsSyntax].
   WindowsSyntax toSyntax() =>
       WindowsSyntax(developerCommandPrompt: developerCommandPrompt?.toSyntax());
 
+  /// Converts a [WindowsSyntax] to its corresponding [WindowsCCompilerConfig].
   static WindowsCCompilerConfig fromSyntax(WindowsSyntax windows) =>
       WindowsCCompilerConfig(
         developerCommandPrompt: switch (windows.developerCommandPrompt) {
@@ -146,10 +158,16 @@ extension WindowsCCompilerConfigSyntaxExtension on WindowsCCompilerConfig {
       );
 }
 
+/// Extension methods for [DeveloperCommandPrompt] to convert to and from the
+/// syntax model.
 extension DeveloperCommandPromptSyntaxExtension on DeveloperCommandPrompt {
+  /// Converts this [DeveloperCommandPrompt] to its corresponding
+  /// [DeveloperCommandPromptSyntax].
   DeveloperCommandPromptSyntax toSyntax() =>
       DeveloperCommandPromptSyntax(script: script, arguments: arguments);
 
+  /// Converts a [DeveloperCommandPromptSyntax] to its corresponding
+  /// [DeveloperCommandPrompt].
   static DeveloperCommandPrompt fromSyntax(DeveloperCommandPromptSyntax dcp) =>
       DeveloperCommandPrompt(script: dcp.script, arguments: dcp.arguments);
 }

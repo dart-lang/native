@@ -8,12 +8,15 @@
 import 'dart:async';
 import 'dart:io';
 
-import 'package:args/args.dart';
-
 Future<void> _run(String subdir, String script, List<String> flags) async {
   final dir = Platform.script.resolve('$subdir/');
   print('\nRunning $script in ${dir.toFilePath()}');
-  final args = ['run', dir.resolve(script).toFilePath(), ...flags];
+  final args = [
+    '--enable-asserts',
+    'run',
+    dir.resolve(script).toFilePath(),
+    ...flags,
+  ];
   final process = await Process.start(
     Platform.executable,
     args,
@@ -28,15 +31,9 @@ Future<void> _run(String subdir, String script, List<String> flags) async {
 }
 
 Future<void> main(List<String> arguments) async {
-  final parser = ArgParser();
-  parser.addFlag('main-thread-dispatcher');
-  final args = parser.parse(arguments);
-
   await _run('native_test', 'build_test_dylib.dart', []);
   if (Platform.isMacOS) {
-    await _run('native_objc_test', 'setup.dart', [
-      if (args.flag('main-thread-dispatcher')) '--main-thread-dispatcher',
-    ]);
+    await _run('native_objc_test', 'setup.dart', []);
   }
   print('\nSuccess :)\n');
 }

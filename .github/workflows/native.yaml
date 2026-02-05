@@ -9,25 +9,35 @@ on:
   pull_request:
     # No `branches:` to enable stacked PRs on GitHub.
     paths:
-      - ".github/workflows/native.yaml"
-      - "pkgs/code_assets/**"
-      - "pkgs/data_assets/**"
-      - "pkgs/hooks_runner/**"
-      - "pkgs/hooks/**"
-      - "pkgs/native_toolchain_c/**"
-      - "tools/**"
+      - '.github/workflows/native.yaml'
+      - 'pkgs/code_assets/**'
+      - 'pkgs/data_assets/**'
+      - 'pkgs/ffi/**'
+      - 'pkgs/hooks/**'
+      - 'pkgs/hooks_runner/**'
+      - 'pkgs/json_syntax_generator/**'
+      - 'pkgs/native_test_helpers/**'
+      - 'pkgs/native_toolchain_c/**'
+      - 'pkgs/record_use/**'
+      - 'pkgs/repo_lint_rules/**'
+      - 'tool/**'
   push:
     branches: [main]
     paths:
-      - ".github/workflows/native.yaml"
-      - "pkgs/code_assets/**"
-      - "pkgs/data_assets/**"
-      - "pkgs/hooks_runner/**"
-      - "pkgs/hooks/**"
-      - "pkgs/native_toolchain_c/**"
-      - "tools/**"
+      - '.github/workflows/native.yaml'
+      - 'pkgs/code_assets/**'
+      - 'pkgs/data_assets/**'
+      - 'pkgs/ffi/**'
+      - 'pkgs/hooks/**'
+      - 'pkgs/hooks_runner/**'
+      - 'pkgs/json_syntax_generator/**'
+      - 'pkgs/native_test_helpers/**'
+      - 'pkgs/native_toolchain_c/**'
+      - 'pkgs/record_use/**'
+      - 'pkgs/repo_lint_rules/**'
+      - 'tool/**'
   schedule:
-    - cron: "0 0 * * 0" # weekly
+    - cron: '0 0 * * 0' # weekly
 
 jobs:
   build:
@@ -35,24 +45,16 @@ jobs:
       fail-fast: false
       matrix:
         os: [ubuntu, macos, windows]
-        sdk: [dev]
-        package:
-          - code_assets
-          - data_assets
-          - hooks
-          - hooks_runner
-          - native_toolchain_c
-        # Breaking changes temporarily break the example run on the Dart SDK until hooks_runner is rolled into the Dart SDK dev build.
-        breaking-change: [false]
+        sdk: [dev, stable]
 
     runs-on: ${{ matrix.os }}-latest
 
     defaults:
       run:
-        working-directory: pkgs/${{ matrix.package }}
+        working-directory: .
 
     steps:
-      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683
+      - uses: actions/checkout@8e8c483db84b4bee98b60c0593521ed34d9990e8
 
       - uses: dart-lang/setup-dart@e51d8e571e22473a2ddebf0ef8a2123f0ab2c02c
         with:
@@ -63,75 +65,23 @@ jobs:
           ndk-version: r27
         if: ${{ matrix.os != 'macos' }}
 
-      - run: dart pub get
-
-      - run: dart pub get -C test_data/native_add_version_skew/
-        if: ${{ matrix.package == 'hooks_runner' }}
-
-      - run: dart pub get -C test_data/native_add_version_skew_2/
-        if: ${{ matrix.package == 'hooks_runner' }}
-
-      - run: dart analyze --fatal-infos
-        # Run on dev to ensure we're not depending on deprecated SDK things.
-
-      - run: dart format --output=none --set-exit-if-changed .
-
       - name: Install native toolchains
         run: sudo apt-get update && sudo apt-get install clang-15 gcc-i686-linux-gnu gcc-aarch64-linux-gnu gcc-arm-linux-gnueabihf gcc-riscv64-linux-gnu
         if: ${{ matrix.os == 'ubuntu' }}
 
-      - run: dart test
+      - name: Install native toolchains
+        run: brew install lld
+        if: ${{ matrix.os == 'macos' }}
 
-      - run: dart --enable-experiment=native-assets test
-        working-directory: pkgs/${{ matrix.package }}/example/build/native_dynamic_linking/
-        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
-      
-      - run: dart --enable-experiment=native-assets test
-        working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
-        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
+      - run: dart pub get
 
-      - run: dart --enable-experiment=native-assets run
-        working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
-        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
-
-      - run: dart --enable-experiment=native-assets build bin/native_add_app.dart
-        working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/
-        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
-
-      - run: ./native_add_app.exe
-        working-directory: pkgs/${{ matrix.package }}/example/build/native_add_app/bin/native_add_app/
-        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
-
-      - run: dart --enable-experiment=native-assets test
-        working-directory: pkgs/${{ matrix.package }}/example/build/use_dart_api/
-        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
-      
-      - run: dart --enable-experiment=native-assets test
-        working-directory: pkgs/${{ matrix.package }}/example/build/download_asset/
-        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
-      
-      - run: dart --enable-experiment=native-assets test
-        working-directory: pkgs/${{ matrix.package }}/example/build/system_library/
-        if: ${{ matrix.package == 'hooks' && matrix.sdk == 'dev' && !matrix.breaking-change }}
-
-      - run: |
-          dart tool/generate_schemas.dart
-          dart tool/generate_syntax.dart
-          dart tool/normalize.dart
-          git diff --exit-code
-        working-directory: pkgs/${{ matrix.package }}
-        if: ${{ matrix.package == 'hook' && matrix.sdk == 'dev' }}
-
-      - name: Install coverage
-        run: dart pub global activate coverage
-
-      - name: Collect coverage
-        run: dart pub global run coverage:test_with_coverage
+      - name: Run pub get, analysis, formatting, generators, tests, and examples.
+        run: dart tool/ci.dart --all
 
       - name: Upload coverage
-        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
         with:
-          flag-name: ${{ matrix.package }}_${{ matrix.os }}
+          flag-name: native_pkgs_${{ matrix.os }}
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel: true
 
@@ -140,8 +90,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Upload coverage
-        uses: coverallsapp/github-action@648a8eb78e6d50909eff900e4ec85cab4524a45b
+        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
         with:
-          carryforward: "ffigen,jni,jnigen,native_assets_builder_macos,native_assets_builder_ubuntu,native_assets_builder_windows,native_assets_cli_macos,native_assets_cli_ubuntu,native_assets_cli_windows,native_toolchain_c_macos,native_toolchain_c_ubuntu,native_toolchain_c_windows,objective_c,swift2objc"
+          carryforward: 'ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen'
           github-token: ${{ secrets.GITHUB_TOKEN }}
           parallel-finished: true

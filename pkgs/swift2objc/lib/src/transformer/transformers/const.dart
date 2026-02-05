@@ -3,6 +3,5 @@
 // BSD-style license that can be found in the LICENSE file.
 
 // Certain methods are not allowed to be overriden in swift.
-const disallowedMethods = {
-  'hashValue',
-};
+// TODO(https://github.com/dart-lang/native/issues/2954): Support hash()
+const disallowedMethods = {'hashValue', 'hash'};

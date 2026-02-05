@@ -3,9 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../context.dart';
 import '../visitor/ast.dart';
-
-import 'writer.dart';
 
 /// An ObjC type annotated with nullable. Eg:
 /// +(nullable NSObject*) methodWithNullableResult;
@@ -13,8 +12,10 @@ class ObjCNullable extends Type {
   Type child;
 
   ObjCNullable(this.child)
-      : assert(isSupported(child),
-            'Nullable ${child.typealiasType.runtimeType} is not supported');
+    : assert(
+        isSupported(child),
+        'Nullable ${child.typealiasType.runtimeType} is not supported',
+      );
 
   static bool isSupported(Type type) => _isSupported(type.typealiasType);
   static bool _isSupported(Type type) =>
@@ -27,21 +28,21 @@ class ObjCNullable extends Type {
   Type get baseType => child.baseType;
 
   @override
-  String getCType(Writer w) => child.getCType(w);
+  String getCType(Context context) => child.getCType(context);
 
   @override
-  String getFfiDartType(Writer w) => child.getFfiDartType(w);
+  String getFfiDartType(Context context) => child.getFfiDartType(context);
 
   @override
-  String getDartType(Writer w) => '${child.getDartType(w)}?';
+  String getDartType(Context context) => '${child.getDartType(context)}?';
 
   @override
   String getNativeType({String varName = ''}) =>
       child.getNativeType(varName: varName);
 
   @override
-  String getObjCBlockSignatureType(Writer w) =>
-      '${child.getObjCBlockSignatureType(w)}?';
+  String getObjCBlockSignatureType(Context context) =>
+      '${child.getObjCBlockSignatureType(context)}?';
 
   @override
   bool get sameFfiDartAndCType => child.sameFfiDartAndCType;
@@ -54,7 +55,7 @@ class ObjCNullable extends Type {
 
   @override
   String convertDartTypeToFfiDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
@@ -63,21 +64,25 @@ class ObjCNullable extends Type {
     // all the types that are allowed to be a child type. If we add more allowed
     // child types, we may have to start special casing each type. For example,
     // `value.pointer` becomes `value?.pointer ?? nullptr`.
-    final convertedValue = child.convertDartTypeToFfiDartType(w, '$value?',
-        objCRetain: objCRetain, objCAutorelease: objCAutorelease);
-    return '$convertedValue ?? ${w.ffiLibraryPrefix}.nullptr';
+    final convertedValue = child.convertDartTypeToFfiDartType(
+      context,
+      '$value?',
+      objCRetain: objCRetain,
+      objCAutorelease: objCAutorelease,
+    );
+    return '$convertedValue ?? ${context.libs.prefix(ffiImport)}.nullptr';
   }
 
   @override
   String convertFfiDartTypeToDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
   }) {
     // All currently supported child types have a Pointer as their FfiDartType.
     final convertedValue = child.convertFfiDartTypeToDartType(
-      w,
+      context,
       value,
       objCRetain: objCRetain,
       objCEnclosingClass: objCEnclosingClass,
@@ -98,6 +103,7 @@ class ObjCNullable extends Type {
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visit(child);
+    visitor.visit(ffiImport);
   }
 
   @override

@@ -14,7 +14,7 @@ void main(List<String> args) async {
       input.packageRoot.resolve('assets/'),
     );
     // If assets are added, rerun hook.
-    output.addDependency(assetDirectory.uri);
+    output.dependencies.add(assetDirectory.uri);
 
     await for (final dataAsset in assetDirectory.list()) {
       if (dataAsset is! File) {
@@ -28,12 +28,11 @@ void main(List<String> args) async {
 
       output.assets.data.add(
         DataAsset(package: packageName, name: name, file: dataAsset.uri),
-        routing:
-            input.config.linkingEnabled
-                ? ToLinkHook(packageName)
-                : const ToAppBundle(),
+        routing: input.config.linkingEnabled
+            ? ToLinkHook(packageName)
+            : const ToAppBundle(),
       );
-      output.addDependency(dataAsset.uri);
+      output.dependencies.add(dataAsset.uri);
     }
   });
 }

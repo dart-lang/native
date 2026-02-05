@@ -28,6 +28,15 @@ void run({required TestRunnerCallback testRunner}) {
       ..releasedBy(arena);
   }
 
+  JList<JString?> testNullableDataList(Arena arena) {
+    return [
+      '1'.toJString()..releasedBy(arena),
+      '2'.toJString()..releasedBy(arena),
+      null,
+    ].toJList(JString.nullableType)
+      ..releasedBy(arena);
+  }
+
   testRunner('length get', () {
     using((arena) {
       final list = testDataList(arena);
@@ -57,6 +66,14 @@ void run({required TestRunnerCallback testRunner}) {
       expect(list[2].toDartString(releaseOriginal: true), '3');
     });
   });
+  testRunner('nullable []', () {
+    using((arena) {
+      final list = testNullableDataList(arena);
+      expect(list[0]!.toDartString(releaseOriginal: true), '1');
+      expect(list[1]!.toDartString(releaseOriginal: true), '2');
+      expect(list[2], isNull);
+    });
+  });
   testRunner('[]=', () {
     using((arena) {
       final list = testDataList(arena);
@@ -65,12 +82,32 @@ void run({required TestRunnerCallback testRunner}) {
       expect(list[0].toDartString(releaseOriginal: true), '2');
     });
   });
+  testRunner('nullable []=', () {
+    using((arena) {
+      final list = testNullableDataList(arena);
+      expect(list[0]!.toDartString(releaseOriginal: true), '1');
+      list[0] = '2'.toJString()..releasedBy(arena);
+      expect(list[0]!.toDartString(releaseOriginal: true), '2');
+      list[0] = null;
+      expect(list[0], isNull);
+    });
+  });
   testRunner('add', () {
     using((arena) {
       final list = testDataList(arena);
       list.add('4'.toJString()..releasedBy(arena));
       expect(list.length, 4);
       expect(list[3].toDartString(releaseOriginal: true), '4');
+    });
+  });
+  testRunner('nullable add', () {
+    using((arena) {
+      final list = testNullableDataList(arena);
+      list.add('4'.toJString()..releasedBy(arena));
+      expect(list.length, 4);
+      expect(list[3]!.toDartString(releaseOriginal: true), '4');
+      list.add(null);
+      expect(list[3]!.toDartString(releaseOriginal: true), '4');
     });
   });
   testRunner('addAll', () {
@@ -102,6 +139,16 @@ void run({required TestRunnerCallback testRunner}) {
       expect(list.contains('4'.toJString()..releasedBy(arena)), false);
     });
   });
+  testRunner('nullable contains', () {
+    using((arena) {
+      final list = testNullableDataList(arena);
+      // ignore: collection_methods_unrelated_type
+      expect(list.contains('1'), false);
+      expect(list.contains('1'.toJString()..releasedBy(arena)), true);
+      expect(list.contains('4'.toJString()..releasedBy(arena)), false);
+      expect(list.contains(null), true);
+    });
+  });
   testRunner('getRange', () {
     using((arena) {
       final list = testDataList(arena);
@@ -119,6 +166,37 @@ void run({required TestRunnerCallback testRunner}) {
       expect(list.indexOf('2'.toJString()..toDartString()), 1);
       expect(list.indexOf('1'.toJString()..toDartString(), 1), -1);
       expect(list.indexOf('1'.toJString()..toDartString(), -1), 0);
+    });
+  });
+  testRunner('nullable indexOf', () {
+    using((arena) {
+      final list = testNullableDataList(arena);
+      expect(list.indexOf(1), -1);
+      expect(list.indexOf('1'.toJString()..toDartString()), 0);
+      expect(list.indexOf('2'.toJString()..toDartString()), 1);
+      expect(list.indexOf(null), 2);
+      expect(list.indexOf('1'.toJString()..toDartString(), 1), -1);
+      expect(list.indexOf('1'.toJString()..toDartString(), -1), 0);
+    });
+  });
+  testRunner('lastIndexOf', () {
+    using((arena) {
+      final list = testDataList(arena);
+      expect(list.lastIndexOf(1), -1);
+      expect(list.lastIndexOf('1'.toJString()..toDartString()), 0);
+      expect(list.lastIndexOf('2'.toJString()..toDartString()), 1);
+      expect(list.lastIndexOf('3'.toJString()..toDartString()), 2);
+      expect(list.lastIndexOf('3'.toJString()..toDartString(), 1), -1);
+    });
+  });
+  testRunner('nullable lastIndexOf', () {
+    using((arena) {
+      final list = testNullableDataList(arena);
+      expect(list.lastIndexOf(1), -1);
+      expect(list.lastIndexOf('1'.toJString()..toDartString()), 0);
+      expect(list.lastIndexOf('2'.toJString()..toDartString()), 1);
+      expect(list.lastIndexOf(null), 2);
+      expect(list.lastIndexOf(null, 1), -1);
     });
   });
   testRunner('insert', () {
@@ -160,6 +238,17 @@ void run({required TestRunnerCallback testRunner}) {
       expect(list.remove('3'.toJString()..releasedBy(arena)), true);
       expect(list.length, 2);
       expect(list.remove('4'.toJString()..releasedBy(arena)), false);
+      // ignore: collection_methods_unrelated_type
+      expect(list.remove(1), false);
+    });
+  });
+  testRunner('nullable remove', () {
+    using((arena) {
+      final list = testNullableDataList(arena);
+      expect(list.remove('3'.toJString()..releasedBy(arena)), false);
+      expect(list.length, 3);
+      expect(list.remove(null), true);
+      expect(list.length, 2);
       // ignore: collection_methods_unrelated_type
       expect(list.remove(1), false);
     });

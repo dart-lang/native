@@ -8,9 +8,7 @@ import 'dart:io';
 import 'package:args/args.dart';
 
 // All ObjC source files are compiled with ARC enabled except these.
-const arcDisabledFiles = <String>{
-  'ref_count_test.m',
-};
+const arcDisabledFiles = <String>{'ref_count_test.m'};
 
 Future<void> _runClang(List<String> flags, String output) async {
   final args = [...flags, '-o', output];
@@ -27,10 +25,7 @@ Future<void> _runClang(List<String> flags, String output) async {
 Future<String> _buildObject(String input, {bool objc = false}) async {
   final output = '$input.o';
   await _runClang([
-    if (objc) ...[
-      '-x',
-      'objective-c',
-    ],
+    if (objc) ...['-x', 'objective-c'],
     if (objc && !arcDisabledFiles.contains(input)) '-fobjc-arc',
     '-Wno-nullability-completeness',
     '-c',
@@ -40,12 +35,8 @@ Future<String> _buildObject(String input, {bool objc = false}) async {
   return output;
 }
 
-Future<void> _linkLib(List<String> inputs, String output) => _runClang([
-      '-shared',
-      '-framework',
-      'Foundation',
-      ...inputs,
-    ], output);
+Future<void> _linkLib(List<String> inputs, String output) =>
+    _runClang(['-shared', '-framework', 'Foundation', ...inputs], output);
 
 Future<void> _buildLib(List<String> inputs, String output) async {
   final objFiles = <String>[];
@@ -53,12 +44,16 @@ Future<void> _buildLib(List<String> inputs, String output) async {
     objFiles.add(await _buildObject(input, objc: true));
   }
   objFiles.add(
-      await _buildObject('../../../objective_c/src/include/dart_api_dl.c'));
+    await _buildObject('../../../objective_c/src/include/dart_api_dl.c'),
+  );
   await _linkLib(objFiles, output);
 }
 
 Future<void> _buildSwift(
-    String input, String outputHeader, String outputLib) async {
+  String input,
+  String outputHeader,
+  String outputLib,
+) async {
   final args = [
     '-c',
     input,
@@ -79,8 +74,12 @@ Future<void> _buildSwift(
 }
 
 Future<void> _runDart(List<String> args) async {
-  final process =
-      await Process.start(Platform.executable, args, workingDirectory: '../..');
+  args = ['--enable-asserts', ...args];
+  final process = await Process.start(
+    Platform.executable,
+    args,
+    workingDirectory: '../..',
+  );
   unawaited(stdout.addStream(process.stdout));
   unawaited(stderr.addStream(process.stderr));
   final result = await process.exitCode;
@@ -112,17 +111,20 @@ List<String> _getTestNames() {
 }
 
 Future<void> build(List<String> testNames) async {
-  // Swift build comes first because the generated header is consumed by ffigen.
+  // Swift build comes first because the generated header is consumed by FFIgen.
   print('Building Dynamic Library and Header for Swift Tests...');
   for (final name in testNames) {
     final swiftFile = '${name}_test.swift';
     if (File(swiftFile).existsSync()) {
       await _buildSwift(
-          swiftFile, '${name}_test-Swift.h', '${name}_test.dylib');
+        swiftFile,
+        '${name}_test-Swift.h',
+        '${name}_test.dylib',
+      );
     }
   }
 
-  // Ffigen comes next because it may generate an ObjC file that is compiled
+  // FFIgen comes next because it may generate an ObjC file that is compiled
   // into the dylib.
   print('Generating Bindings for Objective C Native Tests...');
   for (final name in testNames) {
@@ -164,7 +166,6 @@ Future<void> clean(List<String> testNames) async {
 Future<void> main(List<String> arguments) async {
   final parser = ArgParser();
   parser.addFlag('clean');
-  parser.addFlag('main-thread-dispatcher');
   final args = parser.parse(arguments);
 
   // Allow running this script directly from any path (or an IDE).
@@ -177,9 +178,5 @@ Future<void> main(List<String> arguments) async {
     return await clean(_getTestNames());
   }
 
-  await _runDart([
-    '../objective_c/test/setup.dart',
-    if (args.flag('main-thread-dispatcher')) '--main-thread-dispatcher',
-  ]);
   return await build(args.rest.isNotEmpty ? args.rest : _getTestNames());
 }

@@ -1,5 +1,10 @@
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/interfaces/variable_declaration.dart';
+import '../../ast/_core/shared/referred_type.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../ast/declarations/globals/globals.dart';
@@ -19,7 +24,7 @@ Declaration? transformProperty(
   PropertyDeclaration originalProperty,
   PropertyDeclaration wrappedClassInstance,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap,
+  TransformationState state,
 ) {
   if (disallowedMethods.contains(originalProperty.name)) {
     return null;
@@ -32,7 +37,8 @@ Declaration? transformProperty(
   return _transformVariable(
     originalProperty,
     globalNamer,
-    transformationMap,
+    state,
+    property: true,
     wrapperPropertyName: originalProperty.name,
     variableReferenceExpression: '$propertySource.${originalProperty.name}',
   );
@@ -41,12 +47,12 @@ Declaration? transformProperty(
 Declaration transformGlobalVariable(
   GlobalVariableDeclaration globalVariable,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap,
+  TransformationState state,
 ) {
   return _transformVariable(
     globalVariable,
     globalNamer,
-    transformationMap,
+    state,
     wrapperPropertyName: globalNamer.makeUnique(
       '${globalVariable.name}Wrapper',
     ),
@@ -59,14 +65,15 @@ Declaration transformGlobalVariable(
 Declaration _transformVariable(
   VariableDeclaration originalVariable,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap, {
+  TransformationState state, {
+  bool property = false,
   required String wrapperPropertyName,
   required String variableReferenceExpression,
 }) {
   final transformedType = transformReferredType(
     originalVariable.type,
     globalNamer,
-    transformationMap,
+    state,
   );
 
   final shouldGenerateSetter = originalVariable is PropertyDeclaration
@@ -77,19 +84,25 @@ Declaration _transformVariable(
   if (originalVariable.throws || originalVariable.async) {
     final prefix = [
       if (originalVariable.throws) 'try',
-      if (originalVariable.async) 'await'
+      if (originalVariable.async) 'await',
     ].join(' ');
 
     final localNamer = UniqueNamer();
     final resultName = localNamer.makeUnique('result');
 
     final (wrapperResult, type) = maybeWrapValue(
-        originalVariable.type, resultName, globalNamer, transformationMap,
-        shouldWrapPrimitives: originalVariable.throws);
+      originalVariable.type,
+      resultName,
+      globalNamer,
+      state,
+      shouldWrapPrimitives: originalVariable.throws,
+    );
 
     return MethodDeclaration(
       id: originalVariable.id,
       name: wrapperPropertyName,
+      source: originalVariable.source,
+      availability: originalVariable.availability,
       returnType: type,
       params: [],
       hasObjCAnnotation: true,
@@ -108,6 +121,8 @@ Declaration _transformVariable(
   final transformedProperty = PropertyDeclaration(
     id: originalVariable.id,
     name: wrapperPropertyName,
+    source: originalVariable.source,
+    availability: originalVariable.availability,
     type: transformedType,
     hasObjCAnnotation: true,
     hasSetter: shouldGenerateSetter,
@@ -117,6 +132,15 @@ Declaration _transformVariable(
     isConstant: originalVariable.isConstant,
     throws: originalVariable.throws,
     async: originalVariable.async,
+    unowned: originalVariable is PropertyDeclaration
+        ? originalVariable.unowned
+        : false,
+    lazy: originalVariable is PropertyDeclaration
+        ? originalVariable.lazy
+        : false,
+    weak: originalVariable is PropertyDeclaration
+        ? originalVariable.weak
+        : false,
   );
 
   final getterStatements = _generateGetterStatements(
@@ -124,7 +148,7 @@ Declaration _transformVariable(
     variableReferenceExpression,
     transformedProperty,
     globalNamer,
-    transformationMap,
+    state,
   );
   transformedProperty.getter = PropertyStatements(getterStatements);
 
@@ -134,7 +158,7 @@ Declaration _transformVariable(
       variableReferenceExpression,
       transformedProperty,
       globalNamer,
-      transformationMap,
+      state,
     );
     transformedProperty.setter = PropertyStatements(setterStatements);
   }
@@ -147,13 +171,13 @@ List<String> _generateGetterStatements(
   String variableReferenceExpression,
   PropertyDeclaration transformedProperty,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap,
+  TransformationState state,
 ) {
   final (wrappedValue, wrapperType) = maybeWrapValue(
     originalVariable.type,
     variableReferenceExpression,
     globalNamer,
-    transformationMap,
+    state,
   );
 
   assert(wrapperType.sameAs(transformedProperty.type));
@@ -166,15 +190,17 @@ List<String> _generateSetterStatements(
   String variableReference,
   PropertyDeclaration transformedProperty,
   UniqueNamer globalNamer,
-  TransformationMap transformationMap,
+  TransformationState state,
 ) {
   final (unwrappedValue, unwrappedType) = maybeUnwrapValue(
     transformedProperty.type,
     'newValue',
   );
 
-  assert(unwrappedType.sameAs(originalVariable.type),
-      '$unwrappedType\tvs\t${originalVariable.type}');
+  assert(
+    unwrappedType.sameAs(originalVariable.type),
+    '$unwrappedType\tvs\t${originalVariable.type}',
+  );
 
   return ['$variableReference = $unwrappedValue'];
 }

@@ -13,6 +13,8 @@ import '../generator.dart';
 
 List<String> generateClass(ClassDeclaration declaration) {
   return [
+    if (declaration.isStub) ..._generateStubComment(declaration),
+    ...generateAvailability(declaration),
     '${_generateClassHeader(declaration)} {',
     ...[
       _generateClassWrappedInstance(declaration),
@@ -22,6 +24,14 @@ List<String> generateClass(ClassDeclaration declaration) {
       ..._generateNestedDeclarations(declaration),
     ].nonNulls.indent(),
     '}\n',
+  ];
+}
+
+List<String> _generateStubComment(ClassDeclaration declaration) {
+  final wrappedType = declaration.wrappedInstance!.type.swiftType;
+  return [
+    '// This wrapper is a stub. To generate the full wrapper, add $wrappedType',
+    "// to your config's include function.",
   ];
 }
 
@@ -36,8 +46,9 @@ String _generateClassHeader(ClassDeclaration declaration) {
 
   final superClassAndProtocols = [
     declaration.superClass?.declaration.name,
-    ...declaration.conformedProtocols
-        .map((protocol) => protocol.declaration.name),
+    ...declaration.conformedProtocols.map(
+      (protocol) => protocol.declaration.name,
+    ),
   ].nonNulls;
 
   if (superClassAndProtocols.isNotEmpty) {
@@ -61,41 +72,39 @@ String? _generateClassWrappedInstance(ClassDeclaration declaration) {
 }
 
 List<String> _generateInitializers(ClassDeclaration declaration) {
-  final initializers = [
-    declaration.wrapperInitializer,
-    ...declaration.initializers,
-  ].nonNulls;
-  return [for (final init in initializers) ..._generateInitializer(init)];
+  return [
+    ..._generateInitializer(declaration.wrapperInitializer, isPublic: false),
+    for (final init in declaration.initializers)
+      ..._generateInitializer(init, isPublic: true),
+  ];
 }
 
-List<String> _generateInitializer(InitializerDeclaration initializer) {
-  final header = StringBuffer();
-
-  if (initializer.hasObjCAnnotation) {
-    header.write('@objc ');
-  }
-
-  if (initializer.isOverriding) {
-    header.write('override ');
-  }
-
-  header.write('init');
-
-  if (initializer.isFailable) {
-    header.write('?');
-  }
-
-  header.write('(${generateParameters(initializer.params)})');
+List<String> _generateInitializer(
+  InitializerDeclaration? initializer, {
+  required bool isPublic,
+}) {
+  if (initializer == null) return [];
+  final header = [
+    if (initializer.hasObjCAnnotation) '@objc ',
+    if (initializer.isOverriding) 'override ',
+    if (isPublic) 'public ',
+    'init',
+    if (initializer.isFailable) '?',
+    '(${generateParameters(initializer.params)}) ',
+    '${generateAnnotations(initializer)}{',
+  ].join('');
 
   return [
-    '$header ${generateAnnotations(initializer)}{',
+    ...generateAvailability(initializer),
+    header,
     ...initializer.statements.indent(),
     '}\n',
   ];
 }
 
-List<String> _generateClassMethods(ClassDeclaration declaration) =>
-    [for (final method in declaration.methods) ..._generateClassMethod(method)];
+List<String> _generateClassMethods(ClassDeclaration declaration) => [
+  for (final method in declaration.methods) ..._generateClassMethod(method),
+];
 
 List<String> _generateClassMethod(MethodDeclaration method) {
   final header = StringBuffer();
@@ -123,6 +132,7 @@ List<String> _generateClassMethod(MethodDeclaration method) {
   }
 
   return [
+    ...generateAvailability(method),
     '$header{',
     ...method.statements.indent(),
     '}\n',
@@ -130,9 +140,9 @@ List<String> _generateClassMethod(MethodDeclaration method) {
 }
 
 List<String> _generateClassProperties(ClassDeclaration declaration) => [
-      for (final property in declaration.properties)
-        ..._generateClassProperty(property),
-    ];
+  for (final property in declaration.properties)
+    ..._generateClassProperty(property),
+];
 
 List<String> _generateClassProperty(PropertyDeclaration property) {
   final header = StringBuffer();
@@ -144,22 +154,27 @@ List<String> _generateClassProperty(PropertyDeclaration property) {
   if (property.isStatic) {
     header.write('static ');
   }
+  final prefixes = [if (property.unowned) 'unowned', if (property.weak) 'weak'];
 
-  header.write('public var ${property.name}: ${property.type.swiftType} {');
+  var prefix = prefixes.isEmpty ? '' : '${prefixes.join(' ')} ';
+  var propSwiftType = property.type.swiftType;
+
+  header.write('public ${prefix}var ${property.name}: $propSwiftType {');
 
   final getterLines = [
     'get ${generateAnnotations(property)}{',
     ...(property.getter?.statements.indent() ?? <String>[]),
-    '}'
+    '}',
   ];
 
   final setterLines = [
     'set {',
     ...(property.setter?.statements.indent() ?? <String>[]),
-    '}'
+    '}',
   ];
 
   return [
+    ...generateAvailability(property),
     header.toString(),
     ...getterLines.indent(),
     if (property.hasSetter) ...setterLines.indent(),
@@ -168,6 +183,6 @@ List<String> _generateClassProperty(PropertyDeclaration property) {
 }
 
 List<String> _generateNestedDeclarations(ClassDeclaration declaration) => [
-      for (final nested in declaration.nestedDeclarations)
-        ...generateDeclaration(nested),
-    ];
+  for (final nested in declaration.nestedDeclarations)
+    ...generateDeclaration(nested),
+];

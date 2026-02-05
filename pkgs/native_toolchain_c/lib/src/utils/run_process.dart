@@ -19,6 +19,7 @@ Future<RunProcessResult> runProcess({
   Map<String, String>? environment,
   required Logger? logger,
   bool captureOutput = true,
+  Level stdoutLogLevel = Level.FINE,
   int expectedExitCode = 0,
   bool throwOnUnexpectedExitCode = false,
 }) async {
@@ -46,7 +47,7 @@ Future<RunProcessResult> runProcess({
   final stdoutSub = process.stdout.listen((List<int> data) {
     try {
       final decoded = systemEncoding.decode(data);
-      logger?.fine(decoded);
+      logger?.log(stdoutLogLevel, decoded);
       if (captureOutput) {
         stdoutBuffer.write(decoded);
       }
@@ -68,12 +69,11 @@ Future<RunProcessResult> runProcess({
     }
   });
 
-  final (exitCode, _, _) =
-      await (
-        process.exitCode,
-        stdoutSub.asFuture<void>(),
-        stderrSub.asFuture<void>(),
-      ).wait;
+  final (exitCode, _, _) = await (
+    process.exitCode,
+    stdoutSub.asFuture<void>(),
+    stderrSub.asFuture<void>(),
+  ).wait;
   final result = RunProcessResult(
     pid: process.pid,
     command: commandString,
@@ -114,7 +114,8 @@ class RunProcessResult {
   });
 
   @override
-  String toString() => '''command: $command
+  String toString() =>
+      '''command: $command
 exitCode: $exitCode
 stdout: $stdout
 stderr: $stderr''';

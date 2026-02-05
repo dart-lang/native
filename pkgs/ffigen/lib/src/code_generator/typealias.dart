@@ -3,10 +3,11 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../context.dart';
 import '../strings.dart' as strings;
 import '../visitor/ast.dart';
-
 import 'binding_string.dart';
+import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
 
@@ -18,8 +19,11 @@ import 'writer.dart';
 /// ```
 class Typealias extends BindingType {
   final Type type;
-  String? _ffiDartAliasName;
-  String? dartAliasName;
+  Symbol? _ffiDartAliasName;
+  Symbol? dartAliasName;
+
+  // Don't code gen this alias at all, just use the [type] directly.
+  bool isAnonymous;
 
   /// Creates a Typealias.
   ///
@@ -36,12 +40,16 @@ class Typealias extends BindingType {
   }) {
     final funcType = _getFunctionTypeFromPointer(type);
     if (funcType != null) {
-      type = PointerType(NativeFunc(Typealias._(
-        name: '${name}Function',
-        type: funcType,
-        genFfiDartType: genFfiDartType,
-        isInternal: isInternal,
-      )));
+      type = PointerType(
+        NativeFunc(
+          Typealias._(
+            name: '${name}Function',
+            type: funcType,
+            genFfiDartType: genFfiDartType,
+            isInternal: isInternal,
+          ),
+        ),
+      );
     }
     if ((originalName ?? name) == strings.objcInstanceType &&
         type is ObjCObjectPointer) {
@@ -66,6 +74,12 @@ class Typealias extends BindingType {
     );
   }
 
+  Typealias.anonymous({
+    required String usr,
+    required String name,
+    required Type type,
+  }) : this._(usr: usr, name: name, type: type, isAnonymous: true);
+
   Typealias._({
     super.usr,
     super.originalName,
@@ -74,14 +88,15 @@ class Typealias extends BindingType {
     required this.type,
     bool genFfiDartType = false,
     super.isInternal,
-  })  : _ffiDartAliasName = genFfiDartType ? 'Dart$name' : null,
-        dartAliasName =
-            (!genFfiDartType && type is! Typealias && !type.sameDartAndCType)
-                ? 'Dart$name'
-                : null,
-        super(
-          name: genFfiDartType ? 'Native$name' : name,
-        );
+    this.isAnonymous = false,
+  }) : _ffiDartAliasName = genFfiDartType
+           ? Symbol('Dart$name', SymbolKind.klass)
+           : null,
+       dartAliasName =
+           (!genFfiDartType && type is! Typealias && !type.sameDartAndCType)
+           ? Symbol('Dart$name', SymbolKind.klass)
+           : null,
+       super(name: genFfiDartType ? 'Native$name' : name);
 
   static FunctionType? _getFunctionTypeFromPointer(Type type) {
     if (type is! PointerType) return null;
@@ -92,24 +107,23 @@ class Typealias extends BindingType {
 
   @override
   BindingString toBindingString(Writer w) {
-    if (_ffiDartAliasName != null) {
-      _ffiDartAliasName = w.topLevelUniqueNamer.makeUnique(_ffiDartAliasName!);
-    }
-    if (dartAliasName != null) {
-      dartAliasName = w.topLevelUniqueNamer.makeUnique(dartAliasName!);
-    }
-
+    assert(!isAnonymous);
+    final context = w.context;
     final sb = StringBuffer();
     sb.write(makeDartDoc(dartDoc));
-    sb.write('typedef $name = ${type.getCType(w)};\n');
+    sb.write('typedef $name = ${type.getCType(context)};\n');
     if (_ffiDartAliasName != null) {
-      sb.write('typedef $_ffiDartAliasName = ${type.getFfiDartType(w)};\n');
+      final ffiDartType = type.getFfiDartType(context);
+      sb.write('typedef ${_ffiDartAliasName!.name} = $ffiDartType;\n');
     }
     if (dartAliasName != null) {
-      sb.write('typedef $dartAliasName = ${type.getDartType(w)};\n');
+      final dartType = type.getDartType(context);
+      sb.write('typedef ${dartAliasName!.name} = $dartType;\n');
     }
     return BindingString(
-        type: BindingStringType.typeDef, string: sb.toString());
+      type: BindingStringType.typeDef,
+      string: sb.toString(),
+    );
   }
 
   @override
@@ -119,39 +133,40 @@ class Typealias extends BindingType {
   bool get isIncompleteCompound => type.isIncompleteCompound;
 
   @override
-  String getCType(Writer w) => generateBindings ? name : type.getCType(w);
+  String getCType(Context context) =>
+      generateBindings ? name : type.getCType(context);
 
   @override
   String getNativeType({String varName = ''}) =>
       type.getNativeType(varName: varName);
 
   @override
-  String getFfiDartType(Writer w) {
+  String getFfiDartType(Context context) {
     if (generateBindings) {
       if (_ffiDartAliasName != null) {
-        return _ffiDartAliasName!;
+        return _ffiDartAliasName!.name;
       } else if (type.sameFfiDartAndCType) {
         return name;
       }
     }
-    return type.getFfiDartType(w);
+    return type.getFfiDartType(context);
   }
 
   @override
-  String getDartType(Writer w) {
+  String getDartType(Context context) {
     if (generateBindings) {
       if (dartAliasName != null) {
-        return dartAliasName!;
+        return dartAliasName!.name;
       } else if (type.sameDartAndCType) {
-        return getFfiDartType(w);
+        return getFfiDartType(context);
       }
     }
-    return type.getDartType(w);
+    return type.getDartType(context);
   }
 
   @override
-  String getObjCBlockSignatureType(Writer w) =>
-      type.getObjCBlockSignatureType(w);
+  String getObjCBlockSignatureType(Context context) =>
+      type.getObjCBlockSignatureType(context);
 
   @override
   bool get sameFfiDartAndCType => type.sameFfiDartAndCType;
@@ -164,31 +179,29 @@ class Typealias extends BindingType {
 
   @override
   String convertDartTypeToFfiDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
-  }) =>
-      type.convertDartTypeToFfiDartType(
-        w,
-        value,
-        objCRetain: objCRetain,
-        objCAutorelease: objCAutorelease,
-      );
+  }) => type.convertDartTypeToFfiDartType(
+    context,
+    value,
+    objCRetain: objCRetain,
+    objCAutorelease: objCAutorelease,
+  );
 
   @override
   String convertFfiDartTypeToDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
-  }) =>
-      type.convertFfiDartTypeToDartType(
-        w,
-        value,
-        objCRetain: objCRetain,
-        objCEnclosingClass: objCEnclosingClass,
-      );
+  }) => type.convertFfiDartTypeToDartType(
+    context,
+    value,
+    objCRetain: objCRetain,
+    objCEnclosingClass: objCEnclosingClass,
+  );
 
   @override
   String? generateRetain(String value) => type.generateRetain(value);
@@ -197,11 +210,13 @@ class Typealias extends BindingType {
   String cacheKey() => type.cacheKey();
 
   @override
-  String? getDefaultValue(Writer w) => type.getDefaultValue(w);
+  String? getDefaultValue(Context context) => type.getDefaultValue(context);
 
   @override
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
+    visitor.visit(_ffiDartAliasName);
+    visitor.visit(dartAliasName);
     visitor.visit(type);
   }
 
@@ -230,29 +245,30 @@ class ObjCInstanceType extends Typealias {
 
   @override
   String convertDartTypeToFfiDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
-  }) =>
-      ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
+  }) => ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
 
   @override
   String convertFfiDartTypeToDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
-  }) =>
-      objCEnclosingClass == null
-          ? super.convertFfiDartTypeToDartType(
-              w,
-              value,
-              objCRetain: objCRetain,
-              objCEnclosingClass: objCEnclosingClass,
-            )
-          : ObjCInterface.generateConstructor(
-              objCEnclosingClass, value, objCRetain);
+  }) => objCEnclosingClass == null
+      ? super.convertFfiDartTypeToDartType(
+          context,
+          value,
+          objCRetain: objCRetain,
+          objCEnclosingClass: objCEnclosingClass,
+        )
+      : ObjCInterface.generateConstructor(
+          objCEnclosingClass,
+          value,
+          objCRetain,
+        );
 
   @override
   String getNativeType({String varName = ''}) => 'id $varName';

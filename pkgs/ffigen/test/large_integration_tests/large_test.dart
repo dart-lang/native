@@ -5,53 +5,75 @@
 import 'package:ffigen/src/code_generator/imports.dart';
 import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/config_provider/config_types.dart';
+import 'package:ffigen/src/context.dart';
 import 'package:ffigen/src/header_parser.dart';
 import 'package:logging/logging.dart';
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
 
 void main() {
   group('large_test', () {
-    setUpAll(() {
-      logWarnings(Level.SEVERE);
-    });
     test('Libclang test', () {
-      final config = Config(
-        wrapperName: 'LibClang',
-        wrapperDocComment: 'Bindings to LibClang.',
-        output: Uri.file('unused'),
-        compilerOpts: [
-          ...defaultCompilerOpts(),
-          '-Ithird_party/libclang/include',
-        ],
-        commentType: CommentType(
-          CommentStyle.doxygen,
-          CommentLength.brief,
-        ),
-        entryPoints: [Uri.file('third_party/libclang/include/clang-c/Index.h')],
-        shouldIncludeHeaderFunc: (Uri header) => [
-          'BuildSystem.h',
-          'CXCompilationDatabase.h',
-          'CXErrorCode.h',
-          'CXString.h',
-          'Documentation.h',
-          'FataErrorHandler.h',
-          'Index.h',
-        ].any((filename) => header.pathSegments.last == filename),
-        functionDecl: DeclarationFilters.includeAll,
-        structDecl: DeclarationFilters.includeAll,
-        enumClassDecl: DeclarationFilters.includeAll,
-        macroDecl: DeclarationFilters.includeAll,
-        typedefs: DeclarationFilters.includeAll,
-        typedefTypeMappings: [
-          ImportedType(ffiImport, 'Int64', 'int', 'time_t'),
-        ],
-        preamble: '''
-// ignore_for_file: camel_case_types, non_constant_identifier_names
-''',
+      final includeDir = path.join(
+        packagePathForTests,
+        'third_party',
+        'libclang',
+        'include',
       );
-      final library = parse(config);
+      final logArr = <String>[];
+      final logger = createTestLogger(
+        capturedMessages: logArr,
+        level: Level.SEVERE,
+      );
+      final generator = FfiGenerator(
+        output: Output(
+          dartFile: Uri.file('unused'),
+          commentType: const CommentType(
+            CommentStyle.doxygen,
+            CommentLength.brief,
+          ),
+          style: const DynamicLibraryBindings(
+            wrapperName: 'LibClang',
+            wrapperDocComment: 'Bindings to LibClang.',
+          ),
+        ),
+        headers: Headers(
+          compilerOptions: [...defaultCompilerOpts(logger), '-I$includeDir'],
+          entryPoints: [
+            Uri.file(
+              path.join(
+                packagePathForTests,
+                'third_party',
+                'libclang',
+                'include',
+                'clang-c',
+                'Index.h',
+              ),
+            ),
+          ],
+          include: (Uri header) => [
+            'BuildSystem.h',
+            'CXCompilationDatabase.h',
+            'CXErrorCode.h',
+            'CXString.h',
+            'Documentation.h',
+            'FataErrorHandler.h',
+            'Index.h',
+          ].any((filename) => header.pathSegments.last == filename),
+        ),
+        functions: Functions.includeAll,
+        structs: Structs.includeAll,
+        enums: Enums.includeAll,
+        macros: Macros.includeAll,
+        typedefs: Typedefs(
+          include: (_) => true,
+          // ignore: deprecated_member_use_from_same_package
+          imported: [ImportedType(ffiImport, 'Int64', 'int', 'time_t')],
+        ),
+      );
+      final library = parse(Context(logger, generator));
 
       matchLibraryWithExpected(
         library,
@@ -62,69 +84,131 @@ void main() {
         codeNormalizer: (code) =>
             code.replaceAll(RegExp('[^\n]*///[^\n]*@[^\n]*\n'), ''),
       );
+
+      const expectedEnumWarnings = [
+        'CXAvailabilityKind',
+        'CXCallingConv',
+        'CXChildVisitResult',
+        'CXCompletionChunkKind',
+        'CXCursorKind',
+        'CXDiagnosticSeverity',
+        'CXErrorCode',
+        'CXEvalResultKind',
+        'CXIdxAttrKind',
+        'CXIdxEntityCXXTemplateKind',
+        'CXIdxEntityKind',
+        'CXIdxEntityLanguage',
+        'CXIdxEntityRefKind',
+        'CXIdxObjCContainerKind',
+        'CXLanguageKind',
+        'CXLinkageKind',
+        'CXLoadDiag_Error',
+        'CXPrintingPolicyProperty',
+        'CXRefQualifierKind',
+        'CXResult',
+        'CXSymbolRole',
+        'CXTLSKind',
+        'CXTUResourceUsageKind',
+        'CXTemplateArgumentKind',
+        'CXTokenKind',
+        'CXTypeKind',
+        'CXTypeNullabilityKind',
+        'CXVisibilityKind',
+        'CXVisitorResult',
+        'CX_CXXAccessSpecifier',
+        'CX_StorageClass',
+      ];
+      final actualLogs = logArr.join('\n');
+      for (final e in expectedEnumWarnings) {
+        expect(actualLogs, contains(e));
+      }
     });
 
     test('CJSON test', () {
-      final config = Config(
-        wrapperName: 'CJson',
-        wrapperDocComment: 'Bindings to Cjson.',
-        output: Uri.file('unused'),
-        entryPoints: [Uri.file('third_party/cjson_library/cJSON.h')],
-        shouldIncludeHeaderFunc: (Uri header) =>
-            header.pathSegments.last == 'cJSON.h',
-        functionDecl: DeclarationFilters.includeAll,
-        structDecl: DeclarationFilters.includeAll,
-        macroDecl: DeclarationFilters.includeAll,
-        typedefs: DeclarationFilters.includeAll,
-        preamble: '''
-// ignore_for_file: camel_case_types, non_constant_identifier_names
-''',
+      final generator = FfiGenerator(
+        output: Output(
+          dartFile: Uri.file('unused'),
+          style: const DynamicLibraryBindings(
+            wrapperName: 'CJson',
+            wrapperDocComment: 'Bindings to Cjson.',
+          ),
+        ),
+        headers: Headers(
+          entryPoints: [
+            Uri.file(
+              path.join(
+                packagePathForTests,
+                'third_party',
+                'cjson_library',
+                'cJSON.h',
+              ),
+            ),
+          ],
+          include: (Uri header) => header.pathSegments.last == 'cJSON.h',
+        ),
+        functions: Functions.includeAll,
+        structs: Structs.includeAll,
+        macros: Macros.includeAll,
+        typedefs: Typedefs.includeAll,
       );
-      final library = parse(config);
+      final library = parse(testContext(generator));
 
-      matchLibraryWithExpected(
-        library,
-        'large_test_cjson.dart',
-        ['test', 'large_integration_tests', '_expected_cjson_bindings.dart'],
-      );
+      matchLibraryWithExpected(library, 'large_test_cjson.dart', [
+        'test',
+        'large_integration_tests',
+        '_expected_cjson_bindings.dart',
+      ]);
     });
 
     test('SQLite test', () {
-      // Excluding functions that use 'va_list' because it can either be a
+      // Excluding functions etc that use 'va_list' because it can either be a
       // Pointer<__va_list_tag> or int depending on the OS.
-      final config = Config(
-        wrapperName: 'SQLite',
-        wrapperDocComment: 'Bindings to SQLite.',
-        output: Uri.file('unused'),
-        commentType: CommentType(
-          CommentStyle.any,
-          CommentLength.full,
+      final vaRegex = RegExp(r'(^|[^a-z])va($|[^a-z])');
+      final generator = FfiGenerator(
+        output: Output(
+          dartFile: Uri.file('unused'),
+          style: const DynamicLibraryBindings(
+            wrapperName: 'SQLite',
+            wrapperDocComment: 'Bindings to SQLite.',
+          ),
+          commentType: const CommentType(CommentStyle.any, CommentLength.full),
         ),
-        entryPoints: [Uri.file('third_party/sqlite/sqlite3.h')],
-        shouldIncludeHeaderFunc: (Uri header) =>
-            header.pathSegments.last == 'sqlite3.h',
-        functionDecl: DeclarationFilters(
-          shouldInclude: (declaration) => !{
+        headers: Headers(
+          entryPoints: [
+            Uri.file(
+              path.join(
+                packagePathForTests,
+                'third_party',
+                'sqlite',
+                'sqlite3.h',
+              ),
+            ),
+          ],
+          include: (Uri header) => header.pathSegments.last == 'sqlite3.h',
+        ),
+        functions: Functions(
+          include: (declaration) => !{
             'sqlite3_vmprintf',
             'sqlite3_vsnprintf',
             'sqlite3_str_vappendf',
           }.contains(declaration.originalName),
         ),
-        structDecl: DeclarationFilters.includeAll,
-        globals: DeclarationFilters.includeAll,
-        macroDecl: DeclarationFilters.includeAll,
-        typedefs: DeclarationFilters.includeAll,
-        preamble: '''
-// ignore_for_file: camel_case_types, non_constant_identifier_names
-''',
+        structs: Structs(
+          include: (declaration) => !vaRegex.hasMatch(declaration.originalName),
+        ),
+        globals: Globals.includeAll,
+        macros: Macros.includeAll,
+        typedefs: Typedefs(
+          include: (declaration) => !vaRegex.hasMatch(declaration.originalName),
+        ),
       );
-      final library = parse(config);
+      final library = parse(testContext(generator));
 
-      matchLibraryWithExpected(
-        library,
-        'large_test_sqlite.dart',
-        ['test', 'large_integration_tests', '_expected_sqlite_bindings.dart'],
-      );
+      matchLibraryWithExpected(library, 'large_test_sqlite.dart', [
+        'test',
+        'large_integration_tests',
+        '_expected_sqlite_bindings.dart',
+      ]);
     });
   });
 }

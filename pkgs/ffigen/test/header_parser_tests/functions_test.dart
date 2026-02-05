@@ -14,9 +14,9 @@ late Library actual;
 void main() {
   group('functions_test', () {
     setUpAll(() {
-      logWarnings();
       actual = parser.parse(
-        testConfig('''
+        testContext(
+          testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Functions Test'
 ${strings.output}: 'unused'
@@ -35,20 +35,21 @@ ${strings.functions}:
   ${strings.leafFunctions}:
     ${strings.include}:
       - func1
-
-${strings.preamble}: |
-  // ignore_for_file: camel_case_types
         '''),
+        ),
       );
     });
     test('Expected Bindings', () {
       matchLibraryWithExpected(
-          actual, 'header_parser_functions_test_output.dart', [
-        'test',
-        'header_parser_tests',
-        'expected_bindings',
-        '_expected_functions_bindings.dart'
-      ]);
+        actual,
+        'header_parser_functions_test_output.dart',
+        [
+          'test',
+          'header_parser_tests',
+          'expected_bindings',
+          '_expected_functions_bindings.dart',
+        ],
+      );
     });
   });
 }

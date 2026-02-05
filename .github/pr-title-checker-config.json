@@ -3,6 +3,7 @@
         "prefixes": [
             "[code_assets] ",
             "[data_assets] ",
+            "[doc] ",
             "[ffi] ",
             "[ffigen] ",
             "[hooks_runner] ",
@@ -10,8 +11,13 @@
             "[infra] ",
             "[jni] ",
             "[jnigen] ",
+            "[json_syntax_generator] ",
+            "[native_doc_dartifier] ",
+            "[native_test_helpers] ",
             "[native_toolchain_c] ",
             "[objective_c] ",
+            "[pub_formats] ",
+            "[record_use] ",
             "[swift2objc] ",
             "[swiftgen] "
         ],

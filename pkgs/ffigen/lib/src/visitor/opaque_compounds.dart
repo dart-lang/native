@@ -5,7 +5,6 @@
 import '../code_generator.dart';
 import '../config_provider/config.dart' show Config;
 import '../config_provider/config_types.dart' show CompoundDependencies;
-
 import 'ast.dart';
 
 class FindByValueCompoundsVisitation extends Visitation {
@@ -21,7 +20,7 @@ class FindByValueCompoundsVisitation extends Visitation {
 
   @override
   void visitPointerType(PointerType node) {
-    if (node.child.typealiasType is Compound) {
+    if (node.child.typealiasType is Compound && node is! ConstantArray) {
       // Don't visit compounds through pointers. We're only interested in
       // compounds that are referred to by value.
     } else {
@@ -42,7 +41,10 @@ class ClearOpaqueCompoundMembersVisitation extends Visitation {
   final Set<Binding> included;
 
   ClearOpaqueCompoundMembersVisitation(
-      this.config, this.byValueCompounds, this.included);
+    this.config,
+    this.byValueCompounds,
+    this.included,
+  );
 
   void _visitImpl(Compound node, CompoundDependencies compondDepsConfig) {
     // If a compound isn't referred to by value, isn't explicitly included by
@@ -56,8 +58,9 @@ class ClearOpaqueCompoundMembersVisitation extends Visitation {
   }
 
   @override
-  void visitStruct(Struct node) => _visitImpl(node, config.structDependencies);
+  void visitStruct(Struct node) =>
+      _visitImpl(node, config.structs.dependencies);
 
   @override
-  void visitUnion(Union node) => _visitImpl(node, config.unionDependencies);
+  void visitUnion(Union node) => _visitImpl(node, config.unions.dependencies);
 }

@@ -44,7 +44,7 @@ final class OsVersionError implements Exception {
 
 typedef PlatformAvailability = (bool unavailable, (int, int, int)? introduced);
 
-/// Only for use by ffigen bindings.
+/// Only for use by FFIgen bindings.
 void checkOsVersionInternal(
   String apiName, {
   PlatformAvailability? iOS,
@@ -55,7 +55,10 @@ void checkOsVersionInternal(
 }
 
 void _checkOsVersionInternalImpl(
-    String apiName, String osName, PlatformAvailability? availability) {
+  String apiName,
+  String osName,
+  PlatformAvailability? availability,
+) {
   if (availability == null) return;
   final (bool unavailable, (int, int, int)? introduced) = availability;
   if (unavailable) {
@@ -63,9 +66,10 @@ void _checkOsVersionInternalImpl(
   }
   if (introduced != null && osVersion < _toVersion(introduced)) {
     throw OsVersionError(
-        apiName,
-        'is not supported on $osName before version $introduced.'
-        'The current version is $osVersion');
+      apiName,
+      'is not supported on $osName before version $introduced.'
+      'The current version is $osVersion',
+    );
   }
 }
 

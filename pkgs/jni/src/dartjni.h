@@ -13,30 +13,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-#ifdef _WIN32
-#include <windows.h>
-#else
-#include <pthread.h>
-#include <unistd.h>
-#endif
-
-#ifdef _WIN32
-#define FFI_PLUGIN_EXPORT __declspec(dllexport)
-#else
-#define FFI_PLUGIN_EXPORT
-#endif
-
-#ifdef _WIN32
-#define THREAD_LOCAL __declspec(thread)
-#else
-#define THREAD_LOCAL __thread
-#endif
-
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 #include <android/log.h>
-#endif
-
-#ifdef __ANDROID__
 #define __ENVP_CAST (JNIEnv**)
 #else
 #define __ENVP_CAST (void**)
@@ -44,26 +22,28 @@
 
 /// Locking functions for windows and pthread.
 
-#ifdef _WIN32
+#if defined(_WIN32)
 #include <windows.h>
+#define FFI_PLUGIN_EXPORT __declspec(dllexport)
+#define THREAD_LOCAL __declspec(thread)
 
-typedef CRITICAL_SECTION MutexLock;
+typedef SRWLOCK MutexLock;
 typedef CONDITION_VARIABLE ConditionVariable;
 
 static inline void init_lock(MutexLock* lock) {
-  InitializeCriticalSection(lock);
+  InitializeSRWLock(lock);
 }
 
 static inline void acquire_lock(MutexLock* lock) {
-  EnterCriticalSection(lock);
+  AcquireSRWLockExclusive(lock);
 }
 
 static inline void release_lock(MutexLock* lock) {
-  LeaveCriticalSection(lock);
+  ReleaseSRWLockExclusive(lock);
 }
 
 static inline void destroy_lock(MutexLock* lock) {
-  DeleteCriticalSection(lock);
+  // Not available on Windows.
 }
 
 static inline void init_cond(ConditionVariable* cond) {
@@ -75,11 +55,11 @@ static inline void signal_cond(ConditionVariable* cond) {
 }
 
 static inline void wait_for(ConditionVariable* cond, MutexLock* lock) {
-  SleepConditionVariableCS(cond, lock, INFINITE);
+  SleepConditionVariableSRW(cond, lock, INFINITE, 0);
 }
 
 static inline void destroy_cond(ConditionVariable* cond) {
-  // Not available.
+  // Not available on Windows.
 }
 
 static inline void free_mem(void* mem) {
@@ -88,6 +68,9 @@ static inline void free_mem(void* mem) {
 
 #else
 #include <pthread.h>
+#include <unistd.h>
+#define FFI_PLUGIN_EXPORT
+#define THREAD_LOCAL __thread
 
 typedef pthread_mutex_t MutexLock;
 typedef pthread_cond_t ConditionVariable;
@@ -145,8 +128,6 @@ typedef struct JniContext {
   JavaVM* jvm;
   jobject classLoader;
   jmethodID loadClassMethod;
-  jobject currentActivity;
-  jobject appContext;
   JniLocks locks;
 } JniContext;
 
@@ -157,7 +138,7 @@ extern THREAD_LOCAL JNIEnv* jniEnv;
 extern JniContext* jni;
 
 /// Handling the lifetime of thread-local jniEnv.
-#ifndef _WIN32
+#if !defined(_WIN32)
 extern pthread_key_t tlsKey;
 #endif
 
@@ -172,7 +153,7 @@ static inline void detach_thread(void* data) {
 static inline void attach_thread() {
   if (jniEnv == NULL) {
     (*jni->jvm)->AttachCurrentThread(jni->jvm, __ENVP_CAST & jniEnv, NULL);
-#ifndef _WIN32
+#if !defined(_WIN32)
     pthread_setspecific(tlsKey, &jniEnv);
 #endif
   }
@@ -253,7 +234,7 @@ FFI_PLUGIN_EXPORT jobject GetCurrentActivity(void);
 
 /// Load class into [cls] using platform specific mechanism
 static inline void load_class_platform(jclass* cls, const char* name) {
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
   jstring className = (*jniEnv)->NewStringUTF(jniEnv, name);
   *cls = (*jniEnv)->CallObjectMethod(jniEnv, jni->classLoader,
                                      jni->loadClassMethod, className);
@@ -360,3 +341,13 @@ Dart_FinalizableHandle newBooleanFinalizableHandle(Dart_Handle object,
 FFI_PLUGIN_EXPORT
 void deleteFinalizableHandle(Dart_FinalizableHandle finalizableHandle,
                              Dart_Handle object);
+
+FFI_PLUGIN_EXPORT
+void setCaptureStackTraceOnRelease(int8_t value);
+
+FFI_PLUGIN_EXPORT
+int8_t getCaptureStackTraceOnRelease();
+
+FFI_PLUGIN_EXPORT
+Dart_FinalizableHandle newStackTraceFinalizableHandle(Dart_Handle object,
+                                                      char* reference);

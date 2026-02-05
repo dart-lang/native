@@ -17,8 +17,8 @@ void main() {
     final builder = LinkOutputBuilder();
     final after = DateTime.now().roundDownToSeconds();
 
-    builder.addDependency(uris.take(1).single);
-    builder.addDependencies(uris.skip(1).toList());
+    builder.dependencies.add(uris.take(1).single);
+    builder.dependencies.addAll(uris.skip(1).toList());
 
     builder.assets.addEncodedAsset(assets.take(1).single);
     builder.assets.addEncodedAssets(assets.skip(1).take(2).toList());

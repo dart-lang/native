@@ -4,11 +4,11 @@
 
 import 'dart:developer';
 
+import '../../config.dart';
 import '../_core/json.dart';
 import '../_core/parsed_symbolgraph.dart';
-import '../_core/utils.dart';
 
-ParsedRelationsMap parseRelationsMap(Json symbolgraphJson) {
+ParsedRelationsMap parseRelationsMap(InputConfig source, Json symbolgraphJson) {
   final ParsedRelationsMap relationsMap;
 
   relationsMap = {};
@@ -26,6 +26,7 @@ ParsedRelationsMap parseRelationsMap(Json symbolgraphJson) {
     final targetId = relationJson['target'].get<String>();
 
     final relation = ParsedRelation(
+      source: source,
       kind: relationKind,
       sourceId: sourceId,
       targetId: targetId,
@@ -33,7 +34,7 @@ ParsedRelationsMap parseRelationsMap(Json symbolgraphJson) {
     );
 
     for (final id in [sourceId, targetId]) {
-      (relationsMap[id] ??= []).add(relation);
+      (relationsMap[id] ??= {})[relation.json.toString()] = relation;
     }
   }
 

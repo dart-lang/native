@@ -7,8 +7,6 @@
 // we can't use Flutter's build system. So this script builds a dylib containing
 // all that native code.
 
-// ignore_for_file: avoid_print
-
 import 'dart:ffi';
 import 'dart:io';
 
@@ -22,15 +20,13 @@ final cFiles = [
 final cMain = _resolve('test/main.c');
 final objCFiles = [
   'src/input_stream_adapter.m',
+  'src/ns_number.m',
   'src/objective_c.m',
   'src/objective_c_bindings_generated.m',
+  'src/observer.m',
   'src/protocol.m',
 ].map(_resolve);
-const objCFlags = [
-  '-x',
-  'objective-c',
-  '-fobjc-arc',
-];
+const objCFlags = ['-x', 'objective-c', '-fobjc-arc'];
 final outputFile = _resolve('test/objective_c.dylib');
 
 final _repoDir = () {
@@ -47,11 +43,7 @@ final _pkgDir = _repoDir.resolve('pkgs/objective_c/');
 String _resolve(String file) => _pkgDir.resolve(file).toFilePath();
 
 void _runClang(List<String> flags, String output) {
-  final args = [
-    ...flags,
-    '-o',
-    output,
-  ];
+  final args = [...flags, '-o', output];
   const exec = 'clang';
   print('Running: $exec ${args.join(" ")}');
   final proc = Process.runSync(exec, args);
@@ -96,6 +88,7 @@ void main(List<String> arguments) {
   lib.lookup('DOBJC_runOnMainThread'); // objective_c.m
   lib.lookup('Dart_InitializeApiDL'); // dart_api_dl.c
   lib.lookup('OBJC_CLASS_\$_DOBJCDartProtocol'); // protocol.m
+  lib.lookup('OBJC_CLASS_\$_DOBJCObservation'); // observer.m
   // objective_c_bindings_generated.m
   lib.lookup('_ObjectiveCBindings_wrapListenerBlock_ovsamd');
 

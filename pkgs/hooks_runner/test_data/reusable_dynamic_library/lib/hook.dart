@@ -29,11 +29,10 @@ class AddLibrary {
   AddLibrary(this.input) {
     const packageName = 'reusable_dynamic_library';
     final buildAssetsFromPackage = input.assets[packageName];
-    final codeAssetsFromPackage =
-        buildAssetsFromPackage
-            .where((a) => a.isCodeAsset)
-            .map((a) => a.asCodeAsset)
-            .toList();
+    final codeAssetsFromPackage = buildAssetsFromPackage
+        .where((a) => a.isCodeAsset)
+        .map((a) => a.asCodeAsset)
+        .toList();
     if (codeAssetsFromPackage.length != 1) {
       throw Exception(
         'Did not find a build asset from $packageName:'

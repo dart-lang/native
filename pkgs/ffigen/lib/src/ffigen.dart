@@ -7,56 +7,58 @@ import 'dart:io';
 import 'package:cli_util/cli_logging.dart' show Ansi;
 import 'package:logging/logging.dart';
 
-import 'config_provider.dart' show Config;
+import 'config_provider.dart' show Config, FfiGenerator;
+import 'context.dart';
 import 'header_parser.dart' show parse;
+import 'logger.dart';
 
-final _logger = Logger('ffigen.ffigen');
 final _ansi = Ansi(Ansi.terminalSupportsAnsi);
 
-class FfiGen {
-  FfiGen({Level logLevel = Level.INFO}) {
-    Logger.root.level = logLevel;
-    Logger.root.onRecord.listen((record) {
-      final levelStr = '[${record.level.name}]'.padRight(9);
-      _printLog('$levelStr: ${record.message}', record.level);
-    });
-  }
-
+extension FfiGenGenerator on FfiGenerator {
   /// Runs the entire generation pipeline for the given config.
-  void run(Config config) {
+  ///
+  /// If provided, uses [logger] to output logs. Otherwise, uses a default
+  /// logger that streams [Level.WARNING] to stdout and higher levels to stderr.
+  void generate({Logger? logger, Uri? libclangDylib}) {
+    logger ??= createDefaultLogger();
+    final config = Config(this);
+    final context = Context(logger, config, libclangDylib: libclangDylib);
+
     // Parse the bindings according to config object provided.
-    final library = parse(config);
+    final library = parse(context);
 
     // Generate files for the parsed bindings.
-    final gen = File(config.output.toFilePath());
-    library.generateFile(gen, format: config.formatOutput);
-    _logger.info(
-        _successPen('Finished, Bindings generated in ${gen.absolute.path}'));
+    final gen = File(config.output.dartFile.toFilePath());
+    library.generateFile(gen, format: config.ffiGen.output.format);
+    logger.info(
+      _successPen('Finished, Bindings generated in ${gen.absolute.path}'),
+    );
 
-    final objCGen = File(config.outputObjC.toFilePath());
+    final objCGen = File(config.output.objCFile.toFilePath());
     if (library.generateObjCFile(objCGen)) {
-      _logger.info(_successPen('Finished, Objective C bindings generated '
-          'in ${objCGen.absolute.path}'));
+      logger.info(
+        _successPen(
+          'Finished, Objective C bindings generated '
+          'in ${objCGen.absolute.path}',
+        ),
+      );
     }
 
-    if (config.symbolFile != null) {
-      final symbolFileGen = File(config.symbolFile!.output.toFilePath());
+    final symbolFile = config.output.symbolFile;
+    if (symbolFile != null) {
+      final symbolFileGen = File(symbolFile.output.toFilePath());
       library.generateSymbolOutputFile(
-          symbolFileGen, config.symbolFile!.importPath.toString());
-      _logger.info(_successPen('Finished, Symbol Output generated in '
-          '${symbolFileGen.absolute.path}'));
-    }
-  }
-
-  static void _printLog(String log, Level level) {
-    // Prints text in red for Severe logs only.
-    if (level < Level.SEVERE) {
-      print(log);
-    } else {
-      print(_errorPen(log));
+        symbolFileGen,
+        symbolFile.importPath.toString(),
+      );
+      logger.info(
+        _successPen(
+          'Finished, Symbol Output generated in '
+          '${symbolFileGen.absolute.path}',
+        ),
+      );
     }
   }
 
   static String _successPen(String str) => '${_ansi.green}$str${_ansi.none}';
-  static String _errorPen(String str) => '${_ansi.red}$str${_ansi.none}';
 }

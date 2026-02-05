@@ -9,6 +9,27 @@
 #include "include/dart_api_dl.h"
 #include "objective_c_runtime.h"
 
+// See https://clang.llvm.org/docs/Block-ABI-Apple.html
+typedef struct _ObjCBlockDesc {
+  unsigned long int reserved;
+  unsigned long int size;  // sizeof(ObjCBlockImpl)
+  void (*copy_helper)(void *dst, void *src);
+  void (*dispose_helper)(void *src);
+  const char *signature;
+} ObjCBlockDesc;
+
+typedef struct _ObjCBlockImpl {
+  void *isa;  // _NSConcreteGlobalBlock
+  int flags;
+  int reserved;
+  void *invoke;  // RET (*invoke)(ObjCBlockImpl *, ARGS...);
+  ObjCBlockDesc *descriptor;
+
+  // Captured variables follow. These are specific to our use case.
+  void *target;
+  Dart_Port dispose_port;
+} ObjCBlockImpl;
+
 // Initialize the Dart API.
 FFI_EXPORT intptr_t DOBJC_initializeApi(void *data);
 
@@ -22,7 +43,7 @@ FFI_EXPORT bool DOBJC_isValidBlock(ObjCBlockImpl *block);
 // Returns a new Dart_FinalizableHandle that will clean up the object when the
 // Dart owner is garbage collected.
 FFI_EXPORT Dart_FinalizableHandle
-DOBJC_newFinalizableHandle(Dart_Handle owner, ObjCObject *object);
+DOBJC_newFinalizableHandle(Dart_Handle owner, ObjCObjectImpl *object);
 
 // Delete a finalizable handle. Doesn't run the finalization callback, so
 // doesn't clean up the assocated pointer.
@@ -36,10 +57,6 @@ FFI_EXPORT bool *DOBJC_newFinalizableBool(Dart_Handle owner);
 // Runs fn(arg) on the main thread. If runOnMainThread is already running on the
 // main thread, fn(arg) is invoked synchronously. Otherwise it is dispatched to
 // the main thread (ie dispatch_async(dispatch_get_main_queue(), ...)).
-//
-// This assumes that the main thread is executing its queue. If not, #define
-// NO_MAIN_THREAD_DISPATCH to disable this, and run fn(arg) synchronously. The
-// flutter runner does execute the main dispatch queue, but the Dart VM doesn't.
 FFI_EXPORT void DOBJC_runOnMainThread(void (*fn)(void *), void *arg);
 
 // Functions for creating a waiter, signaling it, and waiting for the signal. A
@@ -49,10 +66,10 @@ FFI_EXPORT void *DOBJC_newWaiter(void);
 FFI_EXPORT void DOBJC_signalWaiter(void *waiter);
 FFI_EXPORT void DOBJC_awaitWaiter(void *waiter);
 
-// Context object containing functions needed by the ffigen bindings. Any
+// Context object containing functions needed by the FFIgen bindings. Any
 // changes to this struct should bump the `version` field filled in by
-// package:objective_c, and checked by ffigen. Never change or delete existing
-// fields. Keep in sync with the struct defined in ffigen's writer.dart.
+// package:objective_c, and checked by FFIgen. Never change or delete existing
+// fields. Keep in sync with the struct defined in FFIgen's writer.dart.
 typedef struct _DOBJC_Context {
   int64_t version;
   void* (*newWaiter)(void);

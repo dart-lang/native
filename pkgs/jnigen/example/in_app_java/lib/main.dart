@@ -2,19 +2,19 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jni/jni.dart';
 
 // The hierarchy created in generated code will mirror the java package
 // structure.
-import 'android_utils.dart';
+import 'android_utils.g.dart';
 
-JObject activity = JObject.fromReference(Jni.getCurrentActivity());
-JObject context = JObject.fromReference(Jni.getCachedApplicationContext());
+JObject context = Jni.androidApplicationContext;
 
-final hashmap = HashMap.new$2(K: JString.type, V: JString.type);
+final hashmap = HashMap(K: JString.type, V: JString.type);
 
-final emojiCompat = EmojiCompat.get()!;
+final emojiCompat = EmojiCompat.get();
 
 extension IntX on int {
   JString toJString() {
@@ -27,8 +27,10 @@ const sunglassEmoji = "😎";
 /// Display device model number and the number of times this was called
 /// as Toast.
 void showToast() {
-  final toastCount =
-      hashmap.getOrDefault("toastCount".toJString(), 0.toJString());
+  final toastCount = hashmap.getOrDefault(
+    "toastCount".toJString(),
+    0.toJString(),
+  );
   final newToastCount = (int.parse(toastCount!.toDartString()) + 1).toJString();
   hashmap.put("toastCount".toJString(), newToastCount);
   final emoji = emojiCompat.hasEmojiGlyph(sunglassEmoji.toJString())
@@ -36,7 +38,11 @@ void showToast() {
       : ':cool:';
   final message =
       '${newToastCount.toDartString()} - ${Build.MODEL!.toDartString()} $emoji';
-  AndroidUtils.showToast(activity, message.toJString(), 0);
+  AndroidUtils.showToast(
+    Jni.androidActivity(PlatformDispatcher.instance.engineId!),
+    message.toJString(),
+    0,
+  );
 }
 
 void main() {
@@ -51,9 +57,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.teal,
-      ),
+      theme: ThemeData(primarySwatch: Colors.teal),
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -67,9 +71,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
+      appBar: AppBar(title: Text(title)),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,

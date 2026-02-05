@@ -7,31 +7,26 @@
 library;
 
 import 'package:ffigen/src/header_parser.dart';
-import 'package:logging/logging.dart';
-import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
+import '../../example/objective_c/generate_code.dart' show config;
 import '../test_utils.dart';
 
 void main() {
   group('objective_c_example_test', () {
-    setUpAll(() {
-      logWarnings(Level.SEVERE);
-    });
-
     test('objective_c', () {
-      final config = testConfigFromPath(
-          path.join('example', 'objective_c', 'config.yaml'));
-      final output = parse(config).generate();
+      final output = parse(testContext(config)).generate();
 
       // Verify that the output contains all the methods and classes that the
       // example app uses.
-      expect(output, contains('class AVAudioPlayer extends objc.NSObject {'));
       expect(
-          output,
-          contains(
-              'AVAudioPlayer? initWithContentsOfURL_error_(objc.NSURL url, '
-              'ffi.Pointer<ffi.Pointer<objc.ObjCObject>> outError) {'));
+        output,
+        contains('extension type AVAudioPlayer._(objc.ObjCObject '),
+      );
+      expect(
+        output,
+        contains('AVAudioPlayer? initWithContentsOfURL(objc.NSURL url) {'),
+      );
       expect(output, contains('double get duration {'));
       expect(output, contains('bool play() {'));
     });

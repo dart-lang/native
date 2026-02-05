@@ -3,17 +3,11 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:hooks/hooks.dart';
-import 'package:logging/logging.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:reusable_dynamic_library/hook.dart';
 
 void main(List<String> args) async {
   await build(args, (input, output) async {
-    final logger =
-        Logger('')
-          ..level = Level.ALL
-          ..onRecord.listen((record) => print(record.message));
-
     final addLibrary = AddLibrary(input);
     final builder = CBuilder.library(
       name: 'my_add',
@@ -28,7 +22,6 @@ void main(List<String> args) async {
     await builder.run(
       input: input,
       output: output,
-      logger: logger,
       routing: const [ToAppBundle()],
     );
   });

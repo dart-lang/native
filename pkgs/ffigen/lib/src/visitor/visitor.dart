@@ -2,40 +2,52 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:logging/logging.dart';
-
 import '../code_generator.dart';
-
+import '../code_generator/scope.dart';
+import '../context.dart';
 import 'ast.dart';
-
-final _logger = Logger('ffigen.visitor');
 
 /// Wrapper around [Visitation] to be used by callers.
 final class Visitor {
-  Visitor(this._visitation, {bool debug = false}) : _debug = debug {
+  Visitor(this.context, this._visitation, {bool debug = false})
+    : _debug = debug {
     _visitation.visitor = this;
   }
+
+  final Context context;
 
   final Visitation _visitation;
   final _seen = <AstNode>{};
   final bool _debug;
-  int _indentLevel = 0;
+  final _debugStack = <AstNode>[];
 
   /// Visits a node.
   void visit(AstNode? node) {
     if (node == null) return;
-    if (_debug) _logger.info('${'  ' * _indentLevel++}$node');
+    if (_debug) {
+      final indent = '  ' * _debugStack.length;
+      context.logger.info('$indent${node.runtimeType}: $node');
+    }
+    _debugStack.add(node);
     if (!_seen.contains(node)) {
       _seen.add(node);
       node.visit(_visitation);
     }
-    if (_debug) --_indentLevel;
+    _debugStack.removeLast();
   }
 
   /// Helper method for visiting an iterable of nodes.
   void visitAll(Iterable<AstNode> nodes) {
     for (final node in nodes) {
       visit(node);
+    }
+  }
+
+  void debugPrintStack() {
+    var indent = '';
+    for (final node in _debugStack) {
+      context.logger.info('$indent${node.runtimeType}: $node');
+      indent += '  ';
     }
   }
 }
@@ -67,15 +79,16 @@ abstract class Visitation {
   void visitBinding(Binding node) => visitAstNode(node);
   void visitLookUpBinding(LookUpBinding node) => visitBinding(node);
   void visitNoLookUpBinding(NoLookUpBinding node) => visitBinding(node);
-  void visitLibraryImport(NoLookUpBinding node) => visitBinding(node);
   void visitObjCInterface(ObjCInterface node) => visitBindingType(node);
   void visitObjCProtocol(ObjCProtocol node) => visitNoLookUpBinding(node);
   void visitObjCCategory(ObjCCategory node) => visitNoLookUpBinding(node);
+  void visitObjCBlock(ObjCBlock node) => visitBindingType(node);
   void visitStruct(Struct node) => visitCompound(node);
   void visitUnion(Union node) => visitCompound(node);
   void visitCompound(Compound node) => visitBindingType(node);
   void visitEnumClass(EnumClass node) => visitBindingType(node);
   void visitFunc(Func node) => visitLookUpBinding(node);
+  void visitFunctionType(FunctionType node) => visitType(node);
   void visitMacroConstant(MacroConstant node) => visitConstant(node);
   void visitUnnamedEnumConstant(UnnamedEnumConstant node) =>
       visitConstant(node);
@@ -85,13 +98,26 @@ abstract class Visitation {
   void visitPointerType(PointerType node) => visitType(node);
   void visitObjCProtocolMethodTrampoline(ObjCProtocolMethodTrampoline node) =>
       visitAstNode(node);
+  void visitImportedType(ImportedType node) => visitType(node);
+  void visitLibraryImport(LibraryImport node) => visitAstNode(node);
+  void visitSymbol(Symbol node) => visitAstNode(node);
+  void visitObjCMsgSendFunc(ObjCMsgSendFunc node) => visitAstNode(node);
+  void visitObjCMsgSendVariantFunc(ObjCMsgSendVariantFunc node) =>
+      visitNoLookUpBinding(node);
+  void visitObjCBlockWrapperFuncs(ObjCBlockWrapperFuncs node) =>
+      visitAstNode(node);
+  void visitObjCMethod(ObjCMethod node) => visitAstNode(node);
 
   /// Default behavior for all visit methods.
   void visitAstNode(AstNode node) => node..visitChildren(visitor);
 }
 
-T visit<T extends Visitation>(T visitation, Iterable<AstNode> roots,
-    {bool debug = false}) {
-  Visitor(visitation, debug: debug).visitAll(roots);
+T visit<T extends Visitation>(
+  Context context,
+  T visitation,
+  Iterable<AstNode> roots, {
+  bool debug = false,
+}) {
+  Visitor(context, visitation, debug: debug).visitAll(roots);
   return visitation;
 }

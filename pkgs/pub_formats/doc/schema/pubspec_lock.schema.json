@@ -1,0 +1,204 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$ref": "#/definitions/PubspecLockFile",
+  "title": "Pubspec Lock File Schema",
+  "description": "Schema for a Dart pubspec.lock file. Note that this is reverse engineered and not the source of truth for pubspec locks.",
+  "definitions": {
+    "DartSDKVersion": {
+      "description": "The Dart SDK version constraint.",
+      "type": "string"
+    },
+    "DependencyType": {
+      "description": "The type of dependency.",
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "direct main",
+            "transitive"
+          ]
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "GitPackageDescription": {
+      "description": "For git packages.",
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Path within the git repository (if applicable).",
+          "type": "string"
+        },
+        "ref": {
+          "description": "Git reference (e.g., branch, tag, or commit hash).",
+          "type": "string"
+        },
+        "resolved-ref": {
+          "description": "Resolved git commit hash.",
+          "type": "string",
+          "pattern": "^[a-f0-9]{40}$"
+        },
+        "url": {
+          "description": "URL of the git repository.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "path",
+        "ref",
+        "resolved-ref",
+        "url"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "$ref": "#/definitions/PackageDescription"
+        }
+      ]
+    },
+    "HostedPackageDescription": {
+      "description": "For hosted packages.",
+      "type": "object",
+      "properties": {
+        "name": {
+          "$ref": "#/definitions/packageName"
+        },
+        "sha256": {
+          "description": "SHA256 checksum of the package.",
+          "type": "string",
+          "pattern": "^[a-f0-9]{64}$"
+        },
+        "url": {
+          "description": "URL of the package host.",
+          "type": "string"
+        }
+      },
+      "required": [
+        "name",
+        "sha256",
+        "url"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "$ref": "#/definitions/PackageDescription"
+        }
+      ]
+    },
+    "Package": {
+      "type": "object",
+      "properties": {
+        "description": {
+          "$ref": "#/definitions/PackageDescription"
+        },
+        "dependency": {
+          "$ref": "#/definitions/DependencyType"
+        },
+        "source": {
+          "$ref": "#/definitions/PackageSource"
+        },
+        "version": {
+          "$ref": "#/definitions/PackageVersion"
+        }
+      },
+      "required": [
+        "dependency",
+        "description",
+        "source",
+        "version"
+      ],
+      "additionalProperties": false
+    },
+    "PackageDescription": {
+      "description": "Description of the package source.",
+      "type": "object"
+    },
+    "PackageSource": {
+      "description": "The source of the package.",
+      "type": "string",
+      "anyOf": [
+        {
+          "enum": [
+            "git",
+            "hosted",
+            "path"
+          ]
+        },
+        {
+          "type": "string"
+        }
+      ]
+    },
+    "PackageVersion": {
+      "description": "The locked version of the package.",
+      "type": "string",
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[a-zA-Z0-9.]+)?$"
+    },
+    "PathPackageDescription": {
+      "description": "For path packages.",
+      "type": "object",
+      "properties": {
+        "path": {
+          "description": "Absolute or relative path to the package.",
+          "type": "string"
+        },
+        "relative": {
+          "description": "Indicates if the path is relative to the lockfile.",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "path",
+        "relative"
+      ],
+      "additionalProperties": false,
+      "allOf": [
+        {
+          "$ref": "#/definitions/PackageDescription"
+        }
+      ]
+    },
+    "PubspecLockFile": {
+      "type": "object",
+      "properties": {
+        "packages": {
+          "description": "Details of the locked packages.",
+          "type": "object",
+          "additionalProperties": false,
+          "patternProperties": {
+            "^[a-zA-Z_]\\w*$": {
+              "$ref": "#/definitions/Package"
+            }
+          }
+        },
+        "sdks": {
+          "$ref": "#/definitions/SDKs"
+        }
+      },
+      "required": [
+        "sdks"
+      ],
+      "additionalProperties": false
+    },
+    "SDKs": {
+      "description": "Details of the SDKs used.",
+      "type": "object",
+      "properties": {
+        "dart": {
+          "$ref": "#/definitions/DartSDKVersion"
+        }
+      },
+      "required": [
+        "dart"
+      ],
+      "additionalProperties": false
+    },
+    "packageName": {
+      "description": "The name of the package. Must be a valid Dart identifier.",
+      "type": "string",
+      "pattern": "^[a-zA-Z_]\\w*$"
+    }
+  }
+}

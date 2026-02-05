@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/header_parser.dart';
-import 'package:logging/logging.dart';
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
@@ -11,39 +10,39 @@ import '../test_utils.dart';
 
 void main() {
   group('shared_bindings_example', () {
-    setUpAll(() {
-      logWarnings(Level.SEVERE);
-    });
-
     test('a_shared_base bindings', () {
-      final config = testConfigFromPath(path.join(
-        'example',
-        'shared_bindings',
-        'ffigen_configs',
-        'a_shared_base.yaml',
-      ));
-      final library = parse(config);
-
-      matchLibraryWithExpected(
-        library,
-        'example_shared_bindings.dart',
-        [config.output.toFilePath()],
+      final config = testConfigFromPath(
+        path.join(
+          packagePathForTests,
+          'example',
+          'shared_bindings',
+          'ffigen_configs',
+          'a_shared_base.yaml',
+        ),
       );
+      final library = parse(testContext(config));
+
+      matchLibraryWithExpected(library, 'example_shared_bindings.dart', [
+        config.output.dartFile.toFilePath(),
+      ]);
     });
 
     test('base symbol file output', () {
-      final config = testConfigFromPath(path.join(
-        'example',
-        'shared_bindings',
-        'ffigen_configs',
-        'base.yaml',
-      ));
-      final library = parse(config);
+      final config = testConfigFromPath(
+        path.join(
+          packagePathForTests,
+          'example',
+          'shared_bindings',
+          'ffigen_configs',
+          'base.yaml',
+        ),
+      );
+      final library = parse(testContext(config));
       matchLibrarySymbolFileWithExpected(
         library,
         'example_shared_bindings.yaml',
-        [config.symbolFile!.output.toFilePath()],
-        config.symbolFile!.importPath.toString(),
+        [config.output.symbolFile!.output.toFilePath()],
+        config.output.symbolFile!.importPath.toString(),
       );
     });
   });

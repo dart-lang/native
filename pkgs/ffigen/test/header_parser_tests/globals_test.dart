@@ -3,7 +3,8 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/src/code_generator.dart';
-import 'package:ffigen/src/header_parser.dart' as parser;
+import 'package:ffigen/src/config_provider/config.dart';
+import 'package:ffigen/src/header_parser/parser.dart' as parser;
 import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
@@ -14,11 +15,16 @@ late Library actual, expected;
 void main() {
   group('globals_test', () {
     setUpAll(() {
-      logWarnings();
       expected = expectedLibrary();
       actual = parser.parse(
-        testConfigFromPath(configPath(
-            path.join('test', 'header_parser_tests'), 'globals_config.yaml')),
+        testContext(
+          testConfigFromPath(
+            configPath(
+              path.join(packagePathForTests, 'test', 'header_parser_tests'),
+              'globals_config.yaml',
+            ),
+          ),
+        ),
       );
     });
 
@@ -27,27 +33,45 @@ void main() {
     });
 
     test('Parse global Values', () {
-      expect(actual.getBindingAsString('coolGlobal'),
-          expected.getBindingAsString('coolGlobal'));
-      expect(actual.getBindingAsString('myInt'),
-          expected.getBindingAsString('myInt'));
-      expect(actual.getBindingAsString('aGlobalPointer0'),
-          expected.getBindingAsString('aGlobalPointer0'));
-      expect(actual.getBindingAsString('aGlobalPointer1'),
-          expected.getBindingAsString('aGlobalPointer1'));
-      expect(actual.getBindingAsString('aGlobalPointer2'),
-          expected.getBindingAsString('aGlobalPointer2'));
-      expect(actual.getBindingAsString('aGlobalPointer3'),
-          expected.getBindingAsString('aGlobalPointer3'));
+      expect(
+        actual.getBindingAsString('coolGlobal'),
+        expected.getBindingAsString('coolGlobal'),
+      );
+      expect(
+        actual.getBindingAsString('myInt'),
+        expected.getBindingAsString('myInt'),
+      );
+      expect(
+        actual.getBindingAsString('aGlobalPointer0'),
+        expected.getBindingAsString('aGlobalPointer0'),
+      );
+      expect(
+        actual.getBindingAsString('aGlobalPointer1'),
+        expected.getBindingAsString('aGlobalPointer1'),
+      );
+      expect(
+        actual.getBindingAsString('aGlobalPointer2'),
+        expected.getBindingAsString('aGlobalPointer2'),
+      );
+      expect(
+        actual.getBindingAsString('aGlobalPointer3'),
+        expected.getBindingAsString('aGlobalPointer3'),
+      );
     });
 
     test('Ignore global values', () {
-      expect(() => actual.getBindingAsString('GlobalIgnore'),
-          throwsA(const TypeMatcher<NotFoundException>()));
-      expect(() => actual.getBindingAsString('longDouble'),
-          throwsA(const TypeMatcher<NotFoundException>()));
-      expect(() => actual.getBindingAsString('pointerToLongDouble'),
-          throwsA(const TypeMatcher<NotFoundException>()));
+      expect(
+        () => actual.getBindingAsString('GlobalIgnore'),
+        throwsA(const TypeMatcher<NotFoundException>()),
+      );
+      expect(
+        () => actual.getBindingAsString('longDouble'),
+        throwsA(const TypeMatcher<NotFoundException>()),
+      );
+      expect(
+        () => actual.getBindingAsString('pointerToLongDouble'),
+        throwsA(const TypeMatcher<NotFoundException>()),
+      );
     });
 
     test('identifies constant globals', () {
@@ -65,14 +89,30 @@ void main() {
 }
 
 Library expectedLibrary() {
-  final globalStruct = Struct(name: 'EmptyStruct');
+  final context = testContext(
+    FfiGenerator(
+      output: Output(
+        dartFile: Uri.file('unused'),
+        style: const DynamicLibraryBindings(),
+      ),
+      enums: Enums.includeAll,
+      functions: Functions.includeAll,
+      globals: Globals.includeAll,
+      macros: Macros.includeAll,
+      structs: Structs.includeAll,
+      typedefs: Typedefs.includeAll,
+      unions: Unions.includeAll,
+      unnamedEnums: UnnamedEnums.includeAll,
+    ),
+  );
+  final globalStruct = Struct(context: context, name: 'EmptyStruct');
   final globalStructAlias = Typealias(
     name: 'EmptyStruct_Alias',
     type: globalStruct,
   );
   return Library(
-    name: 'Bindings',
-    bindings: [
+    context: context,
+    bindings: parser.transformBindings([
       Global(type: BooleanType(), name: 'coolGlobal'),
       Global(
         type: NativeType(SupportedNativeType.int32),
@@ -118,7 +158,7 @@ Library expectedLibrary() {
         name: 'globalStruct_from_alias',
         type: globalStructAlias,
         exposeSymbolAddress: true,
-      )
-    ],
+      ),
+    ], context),
   );
 }

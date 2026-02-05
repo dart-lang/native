@@ -9,12 +9,17 @@ headers:
   entry-points:
     - 'src/foundation.h'
     - 'src/input_stream_adapter.h'
+    - 'src/ns_number.h'
+    - 'src/observer.h'
     - 'src/protocol.h'
 ffi-native:
+  asset-id: 'package:objective_c/objective_c.dylib'
 exclude-all-by-default: true
 include-transitive-objc-categories: false
 generate-for-package-objective-c: true
 sort: true
+library-imports:
+  collection: 'dart:collection'
 external-versions:
   # See https://docs.flutter.dev/reference/supported-platforms.
   ios:
@@ -22,12 +27,17 @@ external-versions:
   macos:
     min: 10.14.0
 objc-interfaces:
-  # Keep in sync with ffigen's ObjCBuiltInFunctions.builtInInterfaces.
+  # Keep in sync with FFIgen's ObjCBuiltInFunctions.builtInInterfaces.
   include:
     - DOBJCDartInputStreamAdapter
+    - DOBJCDartInputStreamAdapterWeakHolder
+    - DOBJCObservation
     - DOBJCDartProtocolBuilder
     - DOBJCDartProtocol
     - NSArray
+    - NSAttributedString
+    - NSAttributedStringMarkdownParsingOptions
+    - NSBundle
     - NSCharacterSet
     - NSCoder
     - NSData
@@ -49,23 +59,36 @@ objc-interfaces:
     - NSMutableSet
     - NSMutableString
     - NSNotification
+    - NSNull
     - NSNumber
     - NSObject
     - NSOutputStream
+    - NSOrderedCollectionChange
     - NSOrderedCollectionDifference
     - NSOrderedSet
+    - NSPort
+    - NSPortMessage
+    - NSProgress
     - NSRunLoop
     - NSSet
     - NSStream
     - NSString
+    - NSTimer
     - NSURL
     - NSURLHandle
     - NSValue
     - Protocol
   rename:
     'DOBJCDartInputStreamAdapter': 'DartInputStreamAdapter'
+    'DOBJCDartInputStreamAdapterWeakHolder' : 'DartInputStreamAdapterWeakHolder'
     'DOBJCDartProtocolBuilder': 'DartProtocolBuilder'
     'DOBJCDartProtocol': 'DartProtocol'
+  member-filter:
+    NSBundle:
+      exclude:
+        # This method is only present in some SDKs, leading to inconsistent
+        # code generation.
+        - 'localizedStringForKey:value:table:localizations:'
 objc-protocols:
   include:
     - NSCoding
@@ -75,8 +98,10 @@ objc-protocols:
     - NSItemProviderWriting
     - NSMutableCopying
     - NSObject
+    - NSPortDelegate
     - NSSecureCoding
     - NSStreamDelegate
+    - Observer
   rename:
     'NSObject': 'NSObjectProtocol'
 objc-categories:
@@ -95,18 +120,35 @@ objc-categories:
     - NSExtendedOrderedSet
     - NSExtendedSet
     - NSNumberCreation
+    - NSNumberIsFloat
     - NSStringExtensionMethods
 structs:
   include:
+    - AEDesc
+    - __CFRunLoop
+    - __CFString
+    - CGPoint
+    - CGRect
+    - CGSize
+    - NSEdgeInsets
+    - NSFastEnumerationState
     - _NSRange
     - _NSZone
-    - NSFastEnumerationState
+    - OpaqueAEDataStorageType
   rename:
+    __CFRunLoop: CFRunLoop
+    __CFString: CFString
     _NSRange: NSRange
     _NSZone: NSZone
 enums:
   include:
+    - NSAppleEventSendOptions
+    - NSAttributedStringEnumerationOptions
+    - NSAttributedStringFormattingOptions
+    - NSAttributedStringMarkdownInterpretedSyntax
+    - NSAttributedStringMarkdownParsingFailurePolicy
     - NSBinarySearchingOptions
+    - NSCollectionChangeType
     - NSComparisonResult
     - NSDataBase64DecodingOptions
     - NSDataBase64EncodingOptions
@@ -114,13 +156,18 @@ enums:
     - NSDataReadingOptions
     - NSDataSearchOptions
     - NSDataWritingOptions
+    - NSDecodingFailurePolicy
     - NSEnumerationOptions
     - NSItemProviderFileOptions
     - NSItemProviderRepresentationVisibility
     - NSKeyValueChange
     - NSKeyValueObservingOptions
     - NSKeyValueSetMutationKind
+    - NSLinguisticTaggerOptions
+    - NSLocaleLanguageDirection
     - NSOrderedCollectionDifferenceCalculationOptions
+    - NSPropertyListFormat
+    - NSQualityOfService
     - NSSortOptions
     - NSStreamEvent
     - NSStreamStatus
@@ -130,22 +177,15 @@ enums:
     - NSURLBookmarkCreationOptions
     - NSURLBookmarkResolutionOptions
     - NSURLHandleStatus
-globals:
+typedefs:
   include:
-    - NSLocalizedDescriptionKey
+    - 'CFStringRef'
 preamble: |
   // Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
   // for details. All rights reserved. Use of this source code is governed by a
   // BSD-style license that can be found in the LICENSE file.
 
-  // Bindings for `src/foundation.h`.
+  // Bindings for package:objective_c's ObjC code and the Foundation framework.
   // Regenerate bindings with `dart run tool/generate_code.dart`.
 
-  // ignore_for_file: always_specify_types
-  // ignore_for_file: camel_case_types
-  // ignore_for_file: non_constant_identifier_names
-  // ignore_for_file: unnecessary_non_null_assertion
-  // ignore_for_file: unused_element
-  // ignore_for_file: unused_field
   // coverage:ignore-file
-  import 'dart:collection';

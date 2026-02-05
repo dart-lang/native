@@ -4,48 +4,85 @@
 
 // Objective C support is only available on mac.
 @TestOn('mac-os')
+library;
 
-import 'dart:ffi';
 import 'dart:io';
 
-import 'package:ffi/ffi.dart';
 import 'package:ffigen/ffigen.dart';
-import 'package:ffigen/src/config_provider/config.dart';
-import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:logging/logging.dart';
+import 'package:path/path.dart' as path;
 import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 import '../test_utils.dart';
-import 'util.dart';
 
 String bindingsForVersion({Versions? iosVers, Versions? macosVers}) {
-  final config = Config(
-    wrapperName: 'DeprecatedTestObjCLibrary',
-    wrapperDocComment: 'Tests API deprecation',
-    language: Language.objc,
-    output: Uri.file('test/native_objc_test/deprecated_bindings.dart'),
-    entryPoints: [Uri.file('test/native_objc_test/deprecated_test.m')],
-    formatOutput: false,
-    includeTransitiveObjCCategories: false,
-    objcInterfaces: DeclarationFilters.include(
-        {'DeprecatedInterfaceMethods', 'DeprecatedInterface'}),
-    objcProtocols: DeclarationFilters.include(
-        {'DeprecatedProtocolMethods', 'DeprecatedProtocol'}),
-    objcCategories: DeclarationFilters.include(
-        {'DeprecatedCategoryMethods', 'DeprecatedCategory'}),
-    functionDecl:
-        DeclarationFilters.include({'normalFunction', 'deprecatedFunction'}),
-    structDecl:
-        DeclarationFilters.include({'NormalStruct', 'DeprecatedStruct'}),
-    unionDecl: DeclarationFilters.include({'NormalUnion', 'DeprecatedUnion'}),
-    enumClassDecl: DeclarationFilters.include({'NormalEnum', 'DeprecatedEnum'}),
-    unnamedEnumConstants: DeclarationFilters.include(
-        {'normalUnnamedEnum', 'deprecatedUnnamedEnum'}),
-    externalVersions: ExternalVersions(ios: iosVers, macos: macosVers),
-  );
-  FfiGen(logLevel: Level.SEVERE).run(config);
-  return File('test/native_objc_test/deprecated_bindings.dart')
-      .readAsStringSync();
+  FfiGenerator(
+    output: Output(
+      dartFile: Uri.file(
+        path.join(
+          packagePathForTests,
+          'test',
+          'native_objc_test',
+          'deprecated_bindings.dart',
+        ),
+      ),
+      format: false,
+      style: const DynamicLibraryBindings(
+        wrapperName: 'DeprecatedTestObjCLibrary',
+        wrapperDocComment: 'Tests API deprecation',
+      ),
+    ),
+    headers: Headers(
+      entryPoints: [
+        Uri.file(
+          path.join(
+            packagePathForTests,
+            'test',
+            'native_objc_test',
+            'deprecated_test.m',
+          ),
+        ),
+      ],
+    ),
+    objectiveC: ObjectiveC(
+      interfaces: Interfaces(
+        include: (decl) => {
+          'DeprecatedInterfaceMethods',
+          'DeprecatedInterface',
+        }.contains(decl.originalName),
+      ),
+      protocols: Protocols(
+        include: (decl) => {
+          'DeprecatedProtocolMethods',
+          'DeprecatedProtocol',
+        }.contains(decl.originalName),
+      ),
+      categories: Categories(
+        include: (decl) => {
+          'DeprecatedCategoryMethods',
+          'DeprecatedCategory',
+        }.contains(decl.originalName),
+        includeTransitive: false,
+      ),
+      externalVersions: ExternalVersions(ios: iosVers, macos: macosVers),
+    ),
+    functions: Functions.includeSet({'normalFunction', 'deprecatedFunction'}),
+    structs: Structs.includeSet({'NormalStruct', 'DeprecatedStruct'}),
+    unions: Unions.includeSet({'NormalUnion', 'DeprecatedUnion'}),
+    enums: Enums.includeSet({'NormalEnum', 'DeprecatedEnum'}),
+    unnamedEnums: UnnamedEnums.includeSet({
+      'normalUnnamedEnum',
+      'deprecatedUnnamedEnum',
+    }),
+  ).generate(logger: createTestLogger());
+  return File(
+    path.join(
+      packagePathForTests,
+      'test',
+      'native_objc_test',
+      'deprecated_bindings.dart',
+    ),
+  ).readAsStringSync();
 }
 
 void main() {
@@ -172,9 +209,7 @@ void main() {
     group('ios >=2.5, no macos version', () {
       late final String bindings;
       setUpAll(() {
-        bindings = bindingsForVersion(
-          iosVers: Versions(min: Version(2, 5, 0)),
-        );
+        bindings = bindingsForVersion(iosVers: Versions(min: Version(2, 5, 0)));
       });
 
       test('interfaces', () {
@@ -760,73 +795,106 @@ void main() {
       test('dart doc', () {
         final trimmed = bindings.split('\n').map((l) => l.trim()).join('\n');
 
-        expect(trimmed, contains('''
+        expect(
+          trimmed,
+          contains('''
 /// iOS: introduced 1.0.0, deprecated 2.0.0
 /// macOS: introduced 1.0.0, deprecated 2.0.0
-final class DeprecatedStruct extends ffi.Struct'''));
+final class DeprecatedStruct extends ffi.Struct'''),
+        );
 
-        expect(trimmed, contains('''
+        expect(
+          trimmed,
+          contains('''
 /// iOS: introduced 1.0.0, deprecated 2.0.0
 /// macOS: introduced 1.0.0, deprecated 2.0.0
-final class DeprecatedUnion extends ffi.Union'''));
+final class DeprecatedUnion extends ffi.Union'''),
+        );
 
-        expect(trimmed, contains('''
+        expect(
+          trimmed,
+          contains('''
 /// iOS: introduced 1.0.0, deprecated 2.0.0
 /// macOS: introduced 1.0.0, deprecated 2.0.0
-enum DeprecatedEnum'''));
+enum DeprecatedEnum'''),
+        );
 
-        expect(trimmed, contains('''
+        expect(
+          trimmed,
+          contains('''
 /// iOS: introduced 1.0.0, deprecated 2.0.0
 /// macOS: introduced 1.0.0, deprecated 2.0.0
 
 const int deprecatedUnnamedEnum = 1;
-'''));
+'''),
+        );
 
-        expect(trimmed, contains('''
+        expect(
+          trimmed,
+          contains('''
 /// iOS: introduced 1.0.0, deprecated 2.0.0
 /// macOS: introduced 1.0.0, deprecated 2.0.0
-int deprecatedFunction()'''));
+int deprecatedFunction()'''),
+        );
 
-        expect(trimmed, contains('''
+        expect(
+          trimmed,
+          contains('''
 /// DeprecatedInterface
 ///
 /// iOS: introduced 1.0.0, deprecated 2.0.0
 /// macOS: introduced 1.0.0, deprecated 2.0.0
-'''));
+'''),
+        );
 
-        expect(trimmed, contains('''
+        expect(
+          trimmed,
+          contains('''
 /// depIos2Mac2
 ///
 /// iOS: introduced 1.0.0, deprecated 2.0.0
 /// macOS: introduced 1.0.0, deprecated 2.0.0
-'''));
+'''),
+        );
 
-        expect(trimmed, contains('''
+        expect(
+          trimmed,
+          contains('''
 /// DeprecatedProtocol
 ///
 /// iOS: introduced 1.0.0, deprecated 2.0.0
 /// macOS: introduced 1.0.0, deprecated 2.0.0
-'''));
+'''),
+        );
 
-        expect(trimmed, contains('''
+        expect(
+          trimmed,
+          contains('''
 /// protDepIos3
 ///
 /// iOS: introduced 1.0.0, deprecated 3.0.0
-'''));
+'''),
+        );
 
-        expect(trimmed, contains('''
+        expect(
+          trimmed,
+          contains('''
 /// DeprecatedCategory
 ///
 /// iOS: introduced 1.0.0, deprecated 2.0.0
 /// macOS: introduced 1.0.0, deprecated 2.0.0
-'''));
+'''),
+        );
 
-        expect(trimmed, contains('''
+        expect(
+          trimmed,
+          contains('''
 /// DeprecatedCategoryMethods
 ///
 /// iOS: introduced 2.0.0
 /// macOS: introduced 10.0.0
-'''));
+'''),
+        );
       });
     });
 

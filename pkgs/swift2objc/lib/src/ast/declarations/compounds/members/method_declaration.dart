@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../../../../config.dart';
+import '../../../_core/interfaces/availability.dart';
 import '../../../_core/interfaces/function_declaration.dart';
 import '../../../_core/interfaces/objc_annotatable.dart';
 import '../../../_core/interfaces/overridable.dart';
@@ -18,6 +20,12 @@ class MethodDeclaration extends AstNode
 
   @override
   String name;
+
+  @override
+  InputConfig? source;
+
+  @override
+  List<AvailabilityInfo> availability;
 
   @override
   List<Parameter> params;
@@ -47,25 +55,24 @@ class MethodDeclaration extends AstNode
 
   bool mutating;
 
-  String get fullName => [
-        name,
-        for (final p in params) p.name,
-      ].join(':');
+  String get fullName => [name, for (final p in params) p.name].join(':');
 
-  MethodDeclaration(
-      {required this.id,
-      required this.name,
-      required this.returnType,
-      required this.params,
-      this.typeParams = const [],
-      this.hasObjCAnnotation = false,
-      this.statements = const [],
-      this.isStatic = false,
-      this.isOverriding = false,
-      this.throws = false,
-      this.async = false,
-      this.mutating = false})
-      : assert(!isStatic || !isOverriding);
+  MethodDeclaration({
+    required this.id,
+    required this.name,
+    required this.source,
+    required this.availability,
+    required this.returnType,
+    required this.params,
+    this.typeParams = const [],
+    this.hasObjCAnnotation = false,
+    this.statements = const [],
+    this.isStatic = false,
+    this.isOverriding = false,
+    this.throws = false,
+    this.async = false,
+    this.mutating = false,
+  }) : assert(!isStatic || !isOverriding);
 
   @override
   void visit(Visitation visitation) => visitation.visitMethodDeclaration(this);

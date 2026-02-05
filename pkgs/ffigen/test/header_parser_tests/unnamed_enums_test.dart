@@ -14,10 +14,10 @@ late Library actual, expected;
 void main() {
   group('unnamed_enums_test', () {
     setUpAll(() {
-      logWarnings();
       expected = expectedLibrary();
       actual = parser.parse(
-        testConfig('''
+        testContext(
+          testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Unnamed Enums Test'
 ${strings.output}: 'unused'
@@ -31,6 +31,7 @@ ${strings.unnamedEnums}:
   ${strings.exclude}:
     - B
         '''),
+        ),
       );
     });
 
@@ -44,30 +45,28 @@ ${strings.unnamedEnums}:
     });
 
     test('Ignore unnamed enums inside typedefs', () {
-      expect(() => actual.getBindingAsString('E'),
-          throwsA(const TypeMatcher<NotFoundException>()));
-      expect(() => actual.getBindingAsString('F'),
-          throwsA(const TypeMatcher<NotFoundException>()));
-      expect(() => actual.getBindingAsString('G'),
-          throwsA(const TypeMatcher<NotFoundException>()));
+      expect(
+        () => actual.getBindingAsString('E'),
+        throwsA(const TypeMatcher<NotFoundException>()),
+      );
+      expect(
+        () => actual.getBindingAsString('F'),
+        throwsA(const TypeMatcher<NotFoundException>()),
+      );
+      expect(
+        () => actual.getBindingAsString('G'),
+        throwsA(const TypeMatcher<NotFoundException>()),
+      );
     });
   });
 }
 
 Library expectedLibrary() {
   return Library(
-    name: 'Bindings',
+    context: testContext(),
     bindings: [
-      Constant(
-        name: 'A',
-        rawType: 'int',
-        rawValue: '1',
-      ),
-      Constant(
-        name: 'C',
-        rawType: 'int',
-        rawValue: '3',
-      ),
+      Constant(name: 'A', rawType: 'int', rawValue: '1'),
+      Constant(name: 'C', rawType: 'int', rawValue: '3'),
     ],
-  );
+  )..forceFillNamesForTesting();
 }

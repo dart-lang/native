@@ -8,9 +8,22 @@
 
 #include "dartjni.h"
 
-#ifndef _WIN32
+#if !defined(_WIN32)
 pthread_key_t tlsKey;
+pthread_mutex_t spawnLock = PTHREAD_MUTEX_INITIALIZER;
 #endif
+
+int8_t captureStackTraceOnRelease = 0;
+
+FFI_PLUGIN_EXPORT
+void setCaptureStackTraceOnRelease(int8_t value) {
+  captureStackTraceOnRelease = value;
+}
+
+FFI_PLUGIN_EXPORT
+int8_t getCaptureStackTraceOnRelease() {
+  return captureStackTraceOnRelease;
+}
 
 jclass FindClassUnchecked(const char* name) {
   attach_thread();
@@ -47,8 +60,6 @@ JniContext jni_context = {
     .jvm = NULL,
     .classLoader = NULL,
     .loadClassMethod = NULL,
-    .appContext = NULL,
-    .currentActivity = NULL,
 };
 
 JniContext* jni = &jni_context;
@@ -56,7 +67,7 @@ THREAD_LOCAL JNIEnv* jniEnv = NULL;
 JniExceptionMethods exceptionMethods;
 
 void init() {
-#ifndef _WIN32
+#if !defined(_WIN32)
   // Init TLS keys.
   pthread_key_create(&tlsKey, detach_thread);
 #endif
@@ -83,7 +94,7 @@ void init() {
 }
 
 void deinit() {
-#ifndef _WIN32
+#if !defined(_WIN32)
   // Delete TLS keys.
   pthread_key_delete(tlsKey);
 #endif
@@ -120,30 +131,15 @@ jobject GetClassLoader() {
   return (*jniEnv)->NewGlobalRef(jniEnv, jni_context.classLoader);
 }
 
-FFI_PLUGIN_EXPORT
-jobject GetApplicationContext() {
-  attach_thread();
-  return (*jniEnv)->NewGlobalRef(jniEnv, jni_context.appContext);
-}
-
-FFI_PLUGIN_EXPORT
-jobject GetCurrentActivity() {
-  attach_thread();
-  return (*jniEnv)->NewGlobalRef(jniEnv, jni_context.currentActivity);
-}
-
 // JNI Initialization
-
-#ifdef __ANDROID__
+#if defined(__ANDROID__)
 JNIEXPORT void JNICALL
-Java_com_github_dart_1lang_jni_JniPlugin_initializeJni(JNIEnv* env,
-                                                       jobject obj,
-                                                       jobject appContext,
-                                                       jobject classLoader) {
+Java_com_github_dart_1lang_jni_JniPlugin_setClassLoader(JNIEnv* env,
+                                                        jclass clazz,
+                                                        jobject classLoader) {
   jniEnv = env;
   (*env)->GetJavaVM(env, &jni_context.jvm);
   jni_context.classLoader = (*env)->NewGlobalRef(env, classLoader);
-  jni_context.appContext = (*env)->NewGlobalRef(env, appContext);
   jclass classLoaderClass = (*env)->GetObjectClass(env, classLoader);
   jni_context.loadClassMethod =
       (*env)->GetMethodID(env, classLoaderClass, "loadClass",
@@ -151,54 +147,22 @@ Java_com_github_dart_1lang_jni_JniPlugin_initializeJni(JNIEnv* env,
   init();
 }
 
-JNIEXPORT void JNICALL
-Java_com_github_dart_1lang_jni_JniPlugin_setJniActivity(JNIEnv* env,
-                                                        jobject obj,
-                                                        jobject activity,
-                                                        jobject context) {
-  jniEnv = env;
-  if (jni_context.currentActivity != NULL) {
-    (*env)->DeleteGlobalRef(env, jni_context.currentActivity);
-  }
-  jni_context.currentActivity = (*env)->NewGlobalRef(env, activity);
-  if (jni_context.appContext != NULL) {
-    (*env)->DeleteGlobalRef(env, jni_context.appContext);
-  }
-  jni_context.appContext = (*env)->NewGlobalRef(env, context);
-}
-
 // Sometimes you may get linker error trying to link JNI_CreateJavaVM APIs
 // on Android NDK. So IFDEF is required.
 #else
 #ifdef _WIN32
-// Pre-initialization of critical section on windows - this is required because
-// there's no coordination between multiple isolates calling Spawn.
-//
-// Taken from https://stackoverflow.com/a/12858955
-CRITICAL_SECTION spawnLock = {0};
-BOOL WINAPI DllMain(HINSTANCE hinstDLL,   // handle to DLL module
-                    DWORD fdwReason,      // reason for calling function
-                    LPVOID lpReserved) {  // reserved
+SRWLOCK spawnLock = SRWLOCK_INIT;
+
+BOOL WINAPI DllMain(HINSTANCE hinstDLL, DWORD fdwReason, LPVOID lpReserved) {
   switch (fdwReason) {
-    case DLL_PROCESS_ATTACH:
-      // Initialize once for each new process.
-      // Return FALSE to fail DLL load.
-      InitializeCriticalSection(&spawnLock);
-      break;
     case DLL_THREAD_DETACH:
       if (jniEnv != NULL) {
         detach_thread(jniEnv);
       }
       break;
-    case DLL_PROCESS_DETACH:
-      // Perform any necessary cleanup.
-      DeleteCriticalSection(&spawnLock);
-      break;
   }
-  return TRUE;  // Successful DLL_PROCESS_ATTACH.
+  return TRUE;
 }
-#else
-pthread_mutex_t spawnLock = PTHREAD_MUTEX_INITIALIZER;
 #endif
 FFI_PLUGIN_EXPORT
 JniErrorCode SpawnJvm(JavaVMInitArgs* initArgs) {
@@ -398,6 +362,20 @@ Dart_FinalizableHandle newBooleanFinalizableHandle(Dart_Handle object,
   return Dart_NewFinalizableHandle_DL(object, reference, 1, freeBoolean);
 }
 
+void freeStackTracePtr(void* isolate_callback_data, void* peer) {
+  char** ptr = (char**)peer;
+  if (*ptr != NULL) {
+    free_mem(*ptr);
+  }
+  free_mem(peer);
+}
+
+FFI_PLUGIN_EXPORT
+Dart_FinalizableHandle newStackTraceFinalizableHandle(Dart_Handle object,
+                                                      char* reference) {
+  return Dart_NewFinalizableHandle_DL(object, reference, 1, freeStackTracePtr);
+}
+
 FFI_PLUGIN_EXPORT
 void deleteFinalizableHandle(Dart_FinalizableHandle finalizableHandle,
                              Dart_Handle object) {
@@ -477,7 +455,8 @@ Java_com_github_dart_1lang_jni_PortProxyBuilder__1invoke(
     if (mustEnterIsolate) {
       Dart_EnterIsolate_DL((Dart_Isolate)isolateId);
     }
-    result->object = ((jobject(*)(uint64_t, jobject, jobject))functionPtr)(
+    typedef jobject (*DartCallback)(uint64_t, jobject, jobject);
+    result->object = ((DartCallback)functionPtr)(
         port, (*env)->NewGlobalRef(env, methodDescriptor),
         (*env)->NewGlobalRef(env, args));
     if (mustEnterIsolate) {

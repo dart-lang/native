@@ -5,7 +5,6 @@
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
 import 'package:ffigen/src/strings.dart' as strings;
-import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -14,9 +13,9 @@ late Library actual;
 void main() {
   group('packed_structs_test', () {
     setUpAll(() {
-      logWarnings(Level.SEVERE);
       actual = parser.parse(
-        testConfig('''
+        testContext(
+          testConfig('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'Packed Structs Test'
 ${strings.output}: 'unused'
@@ -24,17 +23,21 @@ ${strings.headers}:
   ${strings.entryPoints}:
     - '${absPath('test/header_parser_tests/packed_structs.h')}'
         '''),
+        ),
       );
     });
 
     test('Expected bindings', () {
       matchLibraryWithExpected(
-          actual, 'header_parser_packed_structs_test_output.dart', [
-        'test',
-        'header_parser_tests',
-        'expected_bindings',
-        '_expected_packed_structs_bindings.dart'
-      ]);
+        actual,
+        'header_parser_packed_structs_test_output.dart',
+        [
+          'test',
+          'header_parser_tests',
+          'expected_bindings',
+          '_expected_packed_structs_bindings.dart',
+        ],
+      );
     });
   });
 }

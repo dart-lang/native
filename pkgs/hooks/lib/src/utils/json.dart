@@ -2,7 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+/// Provides utility extensions for JSON encoding.
 extension MapSorting<K extends Comparable<K>, V extends Object?> on Map<K, V> {
+  /// Sorts the map entries on key.
   void sortOnKey() {
     final result = <K, V>{};
     final keysSorted = keys.toList()..sort();

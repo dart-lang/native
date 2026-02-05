@@ -146,16 +146,11 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   late String finalName;
 
   /// Name of the type class.
-  ///
-  /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
-  late String typeClassName;
+  String get typeClassName => '\$$finalName\$Type\$';
 
   /// Name of the nullable type class.
-  ///
-  /// Populated by [Renamer].
-  @JsonKey(includeFromJson: false)
-  late String nullableTypeClassName;
+  String get nullableTypeClassName => '\$$finalName\$NullableType\$';
 
   /// Type parameters including the ones from its outer classes.
   ///
@@ -1158,6 +1153,10 @@ class KotlinFunction {
     required this.flags,
     required this.isSuspend,
     required this.isOperator,
+    required this.isPublic,
+    required this.isPrivate,
+    required this.isProtected,
+    required this.isInternal,
   });
 
   /// Name in the byte code.
@@ -1175,6 +1174,10 @@ class KotlinFunction {
   final int flags;
   final bool isSuspend;
   final bool isOperator;
+  final bool isPublic;
+  final bool isPrivate;
+  final bool isProtected;
+  final bool isInternal;
 
   factory KotlinFunction.fromJson(Map<String, dynamic> json) =>
       _$KotlinFunctionFromJson(json);
@@ -1281,6 +1284,19 @@ class KotlinType implements Element<KotlinType> {
   @override
   R accept<R>(Visitor<KotlinType, R> v) {
     return v.visit(this);
+  }
+
+  String? toDocComment(List<TypeParam> typeParametersByIndex) {
+    final typeList = arguments.map((a) => switch (a) {
+          KotlinWildcard() => '*',
+          KotlinTypeProjection() => a.type.toDocComment(typeParametersByIndex),
+        });
+    final typeArgs = typeList.isNotEmpty ? '<${typeList.join(', ')}>' : '';
+    final typeName = name == null
+        ? typeParametersByIndex[id].name
+        // Translate JVM internal form (aka binary name form) to Kotlin form.
+        : name!.replaceAll('/', '.').replaceAll('\$', '.');
+    return '$typeName$typeArgs${isNullable ? '?' : ''}';
   }
 }
 

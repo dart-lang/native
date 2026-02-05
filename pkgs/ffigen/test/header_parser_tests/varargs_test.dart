@@ -16,9 +16,10 @@ late Library actual;
 void main() {
   group('varargs_test', () {
     setUpAll(() {
-      logWarnings();
       actual = parser.parse(
-        YamlConfig.fromYaml(yaml.loadYaml('''
+        testContext(
+          YamlConfig.fromYaml(
+            yaml.loadYaml('''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'VarArgs Test'
 ${strings.output}: 'unused'
@@ -40,20 +41,24 @@ ${strings.functions}:
       - [Struct_WithLong_Name_test*, float*]
       - types: [Struct_WithLong_Name_test]
         postfix: _custompostfix2
-
-${strings.preamble}: |
-  // ignore_for_file: camel_case_types
-        ''') as yaml.YamlMap),
+        ''')
+                as yaml.YamlMap,
+            createTestLogger(),
+          ).configAdapter(),
+        ),
       );
     });
     test('Expected Bindings', () {
       matchLibraryWithExpected(
-          actual, 'header_parser_varargs_test_output.dart', [
-        'test',
-        'header_parser_tests',
-        'expected_bindings',
-        '_expected_varargs_bindings.dart'
-      ]);
+        actual,
+        'header_parser_varargs_test_output.dart',
+        [
+          'test',
+          'header_parser_tests',
+          'expected_bindings',
+          '_expected_varargs_bindings.dart',
+        ],
+      );
     });
   });
 }

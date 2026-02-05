@@ -7,13 +7,13 @@ publish_to: none
 resolution: workspace
 
 environment:
-  sdk: '>=3.7.0 <4.0.0'
+  sdk: '>=3.9.0 <4.0.0'
 
 dependencies:
-  analyzer: ^7.3.0
-  custom_lint_builder: ^0.7.5
-  lints: ^5.1.1
+  analyzer: ^8.4.0
+  custom_lint_builder: ^0.8.1
+  dart_flutter_team_lints: ^3.5.2
   path: ^1.9.1
 
-dev_dependencies: 
-  custom_lint: ^0.7.5
+dev_dependencies:
+  custom_lint: ^0.8.1

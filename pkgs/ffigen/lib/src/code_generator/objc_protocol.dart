@@ -3,14 +3,17 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../code_generator.dart';
+import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
-
 import 'binding_string.dart';
+import 'scope.dart';
 import 'utils.dart';
 import 'writer.dart';
 
-class ObjCProtocol extends BindingType with ObjCMethods {
+class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
+  @override
+  final Context context;
   final superProtocols = <ObjCProtocol>[];
   final String lookupName;
   final ObjCInternalGlobal _protocolPointer;
@@ -21,56 +24,61 @@ class ObjCProtocol extends BindingType with ObjCMethods {
   // Filled by ListBindingsVisitation.
   bool generateAsStub = false;
 
-  @override
-  final ObjCBuiltInFunctions builtInFunctions;
-
   ObjCProtocol({
     super.usr,
     required String super.originalName,
     String? name,
     String? lookupName,
     super.dartDoc,
-    required this.builtInFunctions,
     required this.apiAvailability,
-  })  : lookupName = lookupName ?? originalName,
-        _protocolPointer = ObjCInternalGlobal(
-            '_protocol_$originalName',
-            (Writer w) =>
-                '${ObjCBuiltInFunctions.getProtocol.gen(w)}("$lookupName")'),
-        super(
-            name: builtInFunctions.getBuiltInProtocolName(originalName) ??
-                name ??
-                originalName) {
-    _conformsTo = builtInFunctions.getSelObject('conformsToProtocol:');
-    _conformsToMsgSend = builtInFunctions.getMsgSendFunc(BooleanType(), [
-      Parameter(
-        name: 'protocol',
-        type: PointerType(objCProtocolType),
-        objCConsumed: false,
-      )
-    ]);
+    required this.context,
+  }) : lookupName = lookupName ?? originalName,
+       _protocolPointer = ObjCInternalGlobal(
+         '_protocol_$originalName',
+         () =>
+             '${ObjCBuiltInFunctions.getProtocol.gen(context)}("$lookupName")',
+       ),
+       super(
+         name:
+             context.objCBuiltInFunctions.getBuiltInProtocolName(
+               originalName,
+             ) ??
+             name ??
+             originalName,
+       ) {
+    _conformsTo = context.objCBuiltInFunctions.getSelObject(
+      'conformsToProtocol:',
+    );
+    _conformsToMsgSend = context.objCBuiltInFunctions
+        .getMsgSendFunc(BooleanType(), [
+          Parameter(
+            name: 'protocol',
+            type: PointerType(objCProtocolType),
+            objCConsumed: false,
+          ),
+        ]);
   }
 
   @override
   bool get isObjCImport =>
-      builtInFunctions.getBuiltInProtocolName(originalName) != null;
-
-  @override
-  void sort() => sortMethods();
+      context.objCBuiltInFunctions.getBuiltInProtocolName(originalName) != null;
 
   bool get unavailable => apiAvailability.availability == Availability.none;
 
   @override
   BindingString toBindingString(Writer w) {
-    final protocolClass = ObjCBuiltInFunctions.protocolClass.gen(w);
-    final protocolBase = ObjCBuiltInFunctions.protocolBase.gen(w);
-    final protocolMethod = ObjCBuiltInFunctions.protocolMethod.gen(w);
-    final protocolListenableMethod =
-        ObjCBuiltInFunctions.protocolListenableMethod.gen(w);
-    final protocolBuilder = ObjCBuiltInFunctions.protocolBuilder.gen(w);
-    final objectBase = ObjCBuiltInFunctions.objectBase.gen(w);
-    final rawObjType = PointerType(objCObjectType).getCType(w);
-    final getSignature = ObjCBuiltInFunctions.getProtocolMethodSignature.gen(w);
+    final protocolClass = ObjCBuiltInFunctions.protocolClass.gen(context);
+    final protocolBase = ObjCBuiltInFunctions.protocolBase.gen(context);
+    final protocolMethod = ObjCBuiltInFunctions.protocolMethod.gen(context);
+    final protocolListenableMethod = ObjCBuiltInFunctions
+        .protocolListenableMethod
+        .gen(context);
+    final protocolBuilder = ObjCBuiltInFunctions.protocolBuilder.gen(context);
+    final objectBase = ObjCBuiltInFunctions.objectBase.gen(context);
+    final rawObjType = PointerType(objCObjectType).getCType(context);
+    final getSignature = ObjCBuiltInFunctions.getProtocolMethodSignature.gen(
+      context,
+    );
 
     final s = StringBuffer();
     s.write('\n');
@@ -83,49 +91,81 @@ class ObjCProtocol extends BindingType with ObjCMethods {
     }
     s.write(makeDartDoc(dartDoc ?? originalName));
 
-    final sp = superProtocols.map((p) => p.getDartType(w));
-    final impls = superProtocols.isEmpty ? '' : 'implements ${sp.join(', ')}';
+    final sp = [
+      protocolBase,
+      ...superProtocols.map((p) => p.getDartType(context)),
+    ];
     s.write('''
-interface class $name extends $protocolBase $impls{
-  $name._($rawObjType pointer, {bool retain = false, bool release = false}) :
-          super(pointer, retain: retain, release: release);
-
+extension type $name._($protocolBase object\$) implements ${sp.join(', ')} {
   /// Constructs a [$name] that points to the same underlying object as [other].
-  $name.castFrom($objectBase other) :
-      this._(other.ref.pointer, retain: true, release: true);
+  $name.as($objectBase other) : object\$ = other;
 
   /// Constructs a [$name] that wraps the given raw object pointer.
-  $name.castFromPointer($rawObjType other,
+  $name.fromPointer($rawObjType other,
       {bool retain = false, bool release = false}) :
-      this._(other, retain: retain, release: release);
+      object\$ = $protocolBase(other, retain: retain, release: release);
+''');
+
+    if (!generateAsStub) {
+      final msgSendInvoke = _conformsToMsgSend.invoke(
+        context,
+        'obj.ref.pointer',
+        _conformsTo.name,
+        [_protocolPointer.name],
+      );
+
+      s.write('''
+
+  /// Returns whether [obj] is an instance of [$name].
+  static bool conformsTo($objectBase obj) {
+    return $msgSendInvoke;
+  }
+''');
+    }
+
+    s.write('''
+}
 
 ''');
 
     if (!generateAsStub) {
+      s.write('''
+extension $name\$Methods on $name {
+${generateInstanceMethodBindings(w, this)}
+}
+
+''');
+    }
+
+    if (!generateAsStub) {
+      final builder = '$name\$Builder';
+      s.write('''
+  interface class $builder {
+  ''');
+
       final buildArgs = <String>[];
       final buildImplementations = StringBuffer();
       final buildListenerImplementations = StringBuffer();
       final buildBlockingImplementations = StringBuffer();
       final methodFields = StringBuffer();
 
-      final methodNamer = createMethodRenamer(w);
-
       var anyListeners = false;
       for (final method in methods) {
-        final methodName =
-            method.getDartMethodName(methodNamer, usePropertyNaming: false);
+        final methodName = method.protocolMethodName!.name;
         final fieldName = methodName;
         final argName = methodName;
         final block = method.protocolBlock!;
         final blockUtils = block.name;
-        final methodClass =
-            block.hasListener ? protocolListenableMethod : protocolMethod;
+        final methodClass = block.hasListener
+            ? protocolListenableMethod
+            : protocolMethod;
 
         // The function type omits the first arg of the block, which is unused.
-        final func = FunctionType(returnType: block.returnType, parameters: [
-          ...block.params.skip(1),
-        ]);
-        final funcType = func.getDartType(w, writeArgumentNames: false);
+        final func = FunctionType(
+          returnType: block.returnType,
+          parameters: [...block.params.skip(1)],
+        );
+        final funcType = func.getDartType(context, writeArgumentNames: false);
 
         if (method.isOptional) {
           buildArgs.add('$funcType? $argName');
@@ -133,9 +173,9 @@ interface class $name extends $protocolBase $impls{
           buildArgs.add('required $funcType $argName');
         }
 
-        final blockFirstArg = block.params[0].type.getDartType(w);
+        final blockFirstArg = block.params[0].type.getDartType(context);
         final argsReceived = func.parameters
-            .map((p) => '${p.type.getDartType(w)} ${p.name}')
+            .map((p) => '${p.type.getDartType(context)} ${p.name}')
             .join(', ');
         final argsPassed = func.parameters.map((p) => p.name).join(', ');
         final wrapper =
@@ -145,7 +185,8 @@ interface class $name extends $protocolBase $impls{
         var maybeImplementAsListener = 'implement';
         var maybeImplementAsBlocking = 'implement';
         if (block.hasListener) {
-          listenerBuilders = '''
+          listenerBuilders =
+              '''
     ($funcType func) => $blockUtils.listener($wrapper),
     ($funcType func) => $blockUtils.blocking($wrapper),
 ''';
@@ -155,17 +196,17 @@ interface class $name extends $protocolBase $impls{
         }
 
         buildImplementations.write('''
-    $name.$fieldName.implement(builder, $argName);''');
+    $builder.$fieldName.implement(builder, $argName);''');
         buildListenerImplementations.write('''
-    $name.$fieldName.$maybeImplementAsListener(builder, $argName);''');
+    $builder.$fieldName.$maybeImplementAsListener(builder, $argName);''');
         buildBlockingImplementations.write('''
-    $name.$fieldName.$maybeImplementAsBlocking(builder, $argName);''');
+    $builder.$fieldName.$maybeImplementAsBlocking(builder, $argName);''');
 
         methodFields.write(makeDartDoc(method.dartDoc ?? method.originalName));
         methodFields.write('''static final $fieldName = $methodClass<$funcType>(
       ${_protocolPointer.name},
       ${method.selObject.name},
-      ${_trampolineAddress(w, block)},
+      ${_trampolineAddress(block)},
       $getSignature(
           ${_protocolPointer.name},
           ${method.selObject.name},
@@ -180,10 +221,11 @@ interface class $name extends $protocolBase $impls{
 
       buildArgs.add('bool \$keepIsolateAlive = true');
       final args = '{${buildArgs.join(', ')}}';
-      final builders = '''
+      final builders =
+          '''
   /// Returns the [$protocolClass] object for this protocol.
   static $protocolClass get \$protocol =>
-      $protocolClass.castFromPointer(${_protocolPointer.name}.cast());
+      $protocolClass.fromPointer(${_protocolPointer.name}.cast());
 
   /// Builds an object that implements the $originalName protocol. To implement
   /// multiple protocols, use [addToBuilder] or [$protocolBuilder] directly.
@@ -194,7 +236,7 @@ interface class $name extends $protocolBase $impls{
     final builder = $protocolBuilder(debugName: '$originalName');
     $buildImplementations
     builder.addProtocol(\$protocol);
-    return $name.castFrom(builder.build(keepIsolateAlive: \$keepIsolateAlive));
+    return $name.as(builder.build(keepIsolateAlive: \$keepIsolateAlive));
   }
 
   /// Adds the implementation of the $originalName protocol to an existing
@@ -209,7 +251,8 @@ interface class $name extends $protocolBase $impls{
 
       var listenerBuilders = '';
       if (anyListeners) {
-        listenerBuilders = '''
+        listenerBuilders =
+            '''
   /// Builds an object that implements the $originalName protocol. To implement
   /// multiple protocols, use [addToBuilder] or [$protocolBuilder] directly. All
   /// methods that can be implemented as listeners will be.
@@ -220,7 +263,7 @@ interface class $name extends $protocolBase $impls{
     final builder = $protocolBuilder(debugName: '$originalName');
     $buildListenerImplementations
     builder.addProtocol(\$protocol);
-    return $name.castFrom(builder.build(keepIsolateAlive: \$keepIsolateAlive));
+    return $name.as(builder.build(keepIsolateAlive: \$keepIsolateAlive));
   }
 
   /// Adds the implementation of the $originalName protocol to an existing
@@ -243,7 +286,7 @@ interface class $name extends $protocolBase $impls{
     final builder = $protocolBuilder(debugName: '$originalName');
     $buildBlockingImplementations
     builder.addProtocol(\$protocol);
-    return $name.castFrom(builder.build(keepIsolateAlive: \$keepIsolateAlive));
+    return $name.as(builder.build(keepIsolateAlive: \$keepIsolateAlive));
   }
 
   /// Adds the implementation of the $originalName protocol to an existing
@@ -259,60 +302,59 @@ interface class $name extends $protocolBase $impls{
       }
 
       s.write('''
-  /// Returns whether [obj] is an instance of [$name].
-  static bool conformsTo($objectBase obj) {
-    return ${_conformsToMsgSend.invoke(
-        w,
-        'obj.ref.pointer',
-        _conformsTo.name,
-        [_protocolPointer.name],
-      )};
-  }
 
   $builders
   $listenerBuilders
   $methodFields
-''');
-    }
-    s.write('''
 }
 ''');
+    }
 
     return BindingString(
-        type: BindingStringType.objcProtocol, string: s.toString());
+      type: BindingStringType.objcProtocol,
+      string: s.toString(),
+    );
   }
 
-  static String _trampolineAddress(Writer w, ObjCBlock block) {
+  String _trampolineAddress(ObjCBlock block) {
     final func = block.protocolTrampoline!.func;
-    final type =
-        NativeFunc(func.functionType).getCType(w, writeArgumentNames: false);
-    return '${w.ffiLibraryPrefix}.Native.addressOf<$type>(${func.name}).cast()';
+    final type = NativeFunc(
+      func.functionType,
+    ).getCType(context, writeArgumentNames: false);
+    final ffiPrefix = context.libs.prefix(ffiImport);
+    return '$ffiPrefix.Native.addressOf<$type>(${func.name}).cast()';
   }
 
   @override
   BindingString? toObjCBindingString(Writer w) {
-    final wrapName = builtInFunctions.wrapperName;
-    final mainString = '''
+    if (generateAsStub) return null;
 
-Protocol* _${wrapName}_$originalName(void) { return @protocol($originalName); }
+    final libraryId = context.objCBuiltInFunctions.libraryId;
+    final mainString =
+        '''
+
+Protocol* _${libraryId}_$originalName(void) { return @protocol($originalName); }
 ''';
 
     return BindingString(
-        type: BindingStringType.objcProtocol, string: mainString);
+      type: BindingStringType.objcProtocol,
+      string: mainString,
+    );
   }
 
   @override
-  String getCType(Writer w) => PointerType(objCObjectType).getCType(w);
+  String getCType(Context context) =>
+      PointerType(objCObjectType).getCType(context);
 
   @override
-  String getDartType(Writer w) =>
-      isObjCImport ? '${w.objcPkgPrefix}.$name' : name;
+  String getDartType(Context context) =>
+      isObjCImport ? '${context.libs.prefix(objcPkgImport)}.$name' : name;
 
   @override
   String getNativeType({String varName = ''}) => 'id $varName';
 
   @override
-  String getObjCBlockSignatureType(Writer w) => getDartType(w);
+  String getObjCBlockSignatureType(Context context) => getDartType(context);
 
   @override
   bool get sameFfiDartAndCType => true;
@@ -325,21 +367,23 @@ Protocol* _${wrapName}_$originalName(void) { return @protocol($originalName); }
 
   @override
   String convertDartTypeToFfiDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     required bool objCAutorelease,
-  }) =>
-      ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
+  }) => ObjCInterface.generateGetId(value, objCRetain, objCAutorelease);
 
   @override
   String convertFfiDartTypeToDartType(
-    Writer w,
+    Context context,
     String value, {
     required bool objCRetain,
     String? objCEnclosingClass,
-  }) =>
-      ObjCInterface.generateConstructor(getDartType(w), value, objCRetain);
+  }) => ObjCInterface.generateConstructor(
+    getDartType(context),
+    value,
+    objCRetain,
+  );
 
   @override
   String? generateRetain(String value) =>
@@ -374,13 +418,20 @@ Protocol* _${wrapName}_$originalName(void) { return @protocol($originalName); }
   @override
   void visit(Visitation visitation) => visitation.visitObjCProtocol(this);
 
+  // Set typeGraphOnly to true to skip iterating methods and other children, and
+  // just iterate the DAG of interfaces, categories, and protocols. This is
+  // useful for visitors that need to ensure super types are visited first.
   @override
-  void visitChildren(Visitor visitor) {
-    super.visitChildren(visitor);
-    visitor.visit(_protocolPointer);
+  void visitChildren(Visitor visitor, {bool typeGraphOnly = false}) {
+    if (!typeGraphOnly) {
+      super.visitChildren(visitor);
+      visitor.visit(_protocolPointer);
+      visitor.visit(_conformsTo);
+      visitor.visit(_conformsToMsgSend);
+      visitMethods(visitor);
+      visitor.visit(ffiImport);
+      visitor.visit(objcPkgImport);
+    }
     visitor.visitAll(superProtocols);
-    visitor.visit(_conformsTo);
-    visitor.visit(_conformsToMsgSend);
-    visitMethods(visitor);
   }
 }

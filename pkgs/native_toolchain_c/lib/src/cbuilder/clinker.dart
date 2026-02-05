@@ -18,13 +18,12 @@ import 'output_type.dart';
 import 'run_cbuilder.dart';
 
 /// Specification for linking an artifact with a C linker.
-//TODO(mosuem): This is currently only implemented for linux.
-// See also https://github.com/dart-lang/native/issues/1376
 class CLinker extends CTool implements Linker {
   final LinkerOptions linkerOptions;
 
   CLinker.library({
     required super.name,
+    super.packageName,
     super.assetName,
     required this.linkerOptions,
     super.sources = const [],
@@ -53,12 +52,6 @@ class CLinker extends CTool implements Linker {
     required LinkOutputBuilder output,
     required Logger? logger,
   }) async {
-    if (OS.current != OS.linux || input.config.code.targetOS != OS.linux) {
-      throw UnsupportedError(
-        'Currently, only linux is supported for this '
-        'feature. See also https://github.com/dart-lang/native/issues/1376',
-      );
-    }
     final outDir = input.outputDirectory;
     final packageRoot = input.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
@@ -107,24 +100,23 @@ class CLinker extends CTool implements Linker {
     if (assetName != null) {
       output.assets.code.add(
         CodeAsset(
-          package: input.packageName,
+          package: packageName ?? input.packageName,
           name: assetName!,
           file: libUri,
           linkMode: linkMode,
         ),
       );
     }
-    final includeFiles =
-        await Stream.fromIterable(includes)
-            .asyncExpand(
-              (include) => Directory(include.toFilePath())
-                  .list(recursive: true)
-                  .where((entry) => entry is File)
-                  .map((file) => file.uri),
-            )
-            .toList();
+    final includeFiles = await Stream.fromIterable(includes)
+        .asyncExpand(
+          (include) => Directory(include.toFilePath())
+              .list(recursive: true)
+              .where((entry) => entry is File)
+              .map((file) => file.uri),
+        )
+        .toList();
 
-    output.addDependencies({
+    output.dependencies.addAll({
       // Note: We use a Set here to deduplicate the dependencies.
       ...sources,
       ...includeFiles,

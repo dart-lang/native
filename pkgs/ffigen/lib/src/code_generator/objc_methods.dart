@@ -4,21 +4,27 @@
 
 import 'dart:collection';
 
-import 'package:logging/logging.dart';
-
-import '../code_generator.dart';
+import '../context.dart';
 import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
-
-import 'unique_namer.dart';
+import 'func.dart';
+import 'imports.dart';
+import 'native_type.dart';
+import 'objc_block.dart';
+import 'objc_built_in_functions.dart';
+import 'objc_interface.dart';
+import 'objc_nullable.dart';
+import 'pointer.dart';
+import 'scope.dart';
+import 'type.dart';
+import 'typealias.dart';
 import 'utils.dart';
 import 'writer.dart';
-
-final _logger = Logger('ffigen.code_generator.objc_methods');
 
 mixin ObjCMethods {
   Map<String, ObjCMethod> _methods = <String, ObjCMethod>{};
   List<String> _order = <String>[];
+  Scope? methodNameScope;
 
   Iterable<ObjCMethod> get methods =>
       _order.map((key) => _methods[key]).nonNulls;
@@ -26,26 +32,24 @@ mixin ObjCMethods {
 
   String get originalName;
   String get name;
-  ObjCBuiltInFunctions get builtInFunctions;
+  Context get context;
 
   void addMethod(ObjCMethod? method) {
     if (method == null) return;
-    if (_shouldIncludeMethod(method)) {
-      final oldMethod = getSimilarMethod(method);
-      if (oldMethod != null) {
-        _methods[method.key] = _maybeReplaceMethod(oldMethod, method);
-      } else {
-        _methods[method.key] = method;
-        _order.add(method.key);
-      }
+    final oldMethod = getSimilarMethod(method);
+    if (oldMethod == null) {
+      _methods[method.key] = method;
+      _order.add(method.key);
+    } else if (_shouldReplaceMethod(oldMethod, method)) {
+      _methods[method.key] = method;
     }
   }
 
   void visitMethods(Visitor visitor) {
-    visitor.visitAll(_methods.values);
+    visitor.visitAll(methods);
   }
 
-  ObjCMethod _maybeReplaceMethod(ObjCMethod oldMethod, ObjCMethod newMethod) {
+  bool _shouldReplaceMethod(ObjCMethod oldMethod, ObjCMethod newMethod) {
     // Typically we ignore duplicate methods. However, property setters and
     // getters are duplicated in the AST. One copy is marked with
     // ObjCMethodKind.propertyGetter/Setter. The other copy is missing
@@ -53,25 +57,27 @@ mixin ObjCMethods {
     // existing method is an instanceMethod, and the new one is a property,
     // override it.
     if (newMethod.isProperty && !oldMethod.isProperty) {
-      return newMethod;
+      return true;
     } else if (!newMethod.isProperty && oldMethod.isProperty) {
       // Don't override, but also skip the same method check below.
-      return oldMethod;
+      return false;
     }
 
     // If one of the methods is optional, and the other is required, keep the
     // required one.
     if (newMethod.isOptional && !oldMethod.isOptional) {
-      return oldMethod;
+      return false;
     } else if (!newMethod.isOptional && oldMethod.isOptional) {
-      return newMethod;
+      return true;
     }
 
     // Check the duplicate is the same method.
     if (!newMethod.sameAs(oldMethod)) {
-      _logger.severe('Duplicate methods with different signatures: '
-          '$originalName.${newMethod.originalName}');
-      return newMethod;
+      context.logger.severe(
+        'Duplicate methods with different signatures: '
+        '$originalName.${newMethod.originalName}',
+      );
+      return true;
     }
 
     // There's a bug in some Apple APIs where an init method that should return
@@ -80,39 +86,14 @@ mixin ObjCMethods {
     // is an alias of id, the sameAs check above passes.
     if (ObjCBuiltInFunctions.isInstanceType(newMethod.returnType) &&
         !ObjCBuiltInFunctions.isInstanceType(oldMethod.returnType)) {
-      return newMethod;
+      return true;
     } else if (!ObjCBuiltInFunctions.isInstanceType(newMethod.returnType) &&
         ObjCBuiltInFunctions.isInstanceType(oldMethod.returnType)) {
-      return oldMethod;
+      return false;
     }
 
-    return newMethod;
+    return true;
   }
-
-  bool _shouldIncludeMethod(ObjCMethod method) =>
-      method.childTypes.every((Type t) {
-        t = t.typealiasType.baseType;
-
-        // Ignore methods with block args or rets when we're generating in
-        // package:objective_c.
-        // TODO(https://github.com/dart-lang/native/issues/1180): Remove this.
-        if (builtInFunctions.generateForPackageObjectiveC && t is ObjCBlock) {
-          return false;
-        }
-
-        return true;
-      });
-
-  UniqueNamer createMethodRenamer(Writer w) =>
-      UniqueNamer(parent: w.topLevelUniqueNamer)
-        ..markAllUsed([
-          name,
-          'pointer',
-          'toString',
-          'hashCode',
-          'runtimeType',
-          'noSuchMethod'
-        ]);
 
   void sortMethods() => _order.sort();
 
@@ -130,25 +111,27 @@ mixin ObjCMethods {
     _methods = newMethods;
   }
 
-  String generateMethodBindings(Writer w, ObjCInterface target) {
-    final methodNamer = createMethodRenamer(w);
+  String generateMethodBindings(Writer w, ObjCInterface target) =>
+      _generateMethods(w, target, null);
+
+  String generateStaticMethodBindings(Writer w, ObjCInterface target) =>
+      _generateMethods(w, target, true);
+
+  String generateInstanceMethodBindings(Writer w, BindingType target) =>
+      _generateMethods(w, target, false);
+
+  String _generateMethods(Writer w, BindingType target, bool? staticMethods) {
     return [
-      for (final m in methods) m.generateBindings(w, target, methodNamer),
+      for (final m in methods)
+        if (staticMethods == null || staticMethods == m.isClassMethod)
+          m.generateBindings(w, target),
     ].join('\n');
   }
 }
 
-enum ObjCMethodKind {
-  method,
-  propertyGetter,
-  propertySetter,
-}
+enum ObjCMethodKind { method, propertyGetter, propertySetter }
 
-enum ObjCMethodOwnership {
-  retained,
-  notRetained,
-  autoreleased,
-}
+enum ObjCMethodOwnership { retained, notRetained, autoreleased }
 
 // In ObjC, the name of a method affects its ref counting semantics. See
 // https://clang.llvm.org/docs/AutomaticReferenceCounting.html#method-families
@@ -163,8 +146,11 @@ enum ObjCMethodFamily {
   final bool returnsRetained;
   final bool consumesSelf;
 
-  const ObjCMethodFamily(this.name,
-      {required this.returnsRetained, required this.consumesSelf});
+  const ObjCMethodFamily(
+    this.name, {
+    required this.returnsRetained,
+    required this.consumesSelf,
+  });
 
   static ObjCMethodFamily? parse(String methodName) {
     final name = methodName.substring(_findFamilyStart(methodName));
@@ -189,50 +175,51 @@ enum ObjCMethodFamily {
   }
 }
 
-class ObjCProperty extends AstNode {
-  final String originalName;
-  final String name;
-  String? dartName;
-
-  ObjCProperty({required this.originalName, required this.name});
-}
-
-class ObjCMethod extends AstNode {
-  final ObjCBuiltInFunctions builtInFunctions;
+class ObjCMethod extends AstNode with HasLocalScope {
+  final Context context;
   final String? dartDoc;
   final String originalName;
-  final String name;
-  String? dartMethodName;
-  final ObjCProperty? property;
+  Symbol symbol;
+  final String originalProtocolMethodName;
   Type returnType;
-  final List<Parameter> params;
+  final List<Parameter> _params;
   ObjCMethodKind kind;
   final bool isClassMethod;
   final bool isOptional;
-  ObjCMethodOwnership? ownershipAttribute;
+  final ObjCMethodOwnership? ownershipAttribute;
   final ObjCMethodFamily? family;
   final ApiAvailability apiAvailability;
-  bool consumesSelfAttribute = false;
+  final bool consumesSelfAttribute;
   ObjCInternalGlobal selObject;
   ObjCMsgSendFunc? msgSend;
   ObjCBlock? protocolBlock;
+  Symbol? protocolMethodName;
 
   @override
-  void visitChildren(Visitor visitor) {
+  void visitChildren(Visitor visitor, {bool omitMethodName = false}) {
     super.visitChildren(visitor);
-    visitor.visit(property);
+    if (!omitMethodName) {
+      visitor.visit(symbol);
+      visitor.visit(protocolMethodName);
+    }
     visitor.visit(returnType);
-    visitor.visitAll(params);
+    visitor.visitAll(_params);
     visitor.visit(selObject);
     visitor.visit(msgSend);
     visitor.visit(protocolBlock);
+    visitor.visit(ffiImport);
+    visitor.visit(ffiPkgImport);
+    visitor.visit(objcPkgImport);
   }
 
-  ObjCMethod({
-    required this.builtInFunctions,
+  @override
+  void visit(Visitation visitation) => visitation.visitObjCMethod(this);
+
+  ObjCMethod.withSymbol({
+    required this.context,
     required this.originalName,
-    required this.name,
-    this.property,
+    required this.symbol,
+    required String protocolMethodName,
     this.dartDoc,
     required this.kind,
     required this.isClassMethod,
@@ -240,9 +227,82 @@ class ObjCMethod extends AstNode {
     required this.returnType,
     required this.family,
     required this.apiAvailability,
-    List<Parameter>? params_,
-  })  : params = params_ ?? [],
-        selObject = builtInFunctions.getSelObject(originalName);
+    required List<Parameter> params,
+    required this.ownershipAttribute,
+    required this.consumesSelfAttribute,
+  }) : originalProtocolMethodName = protocolMethodName.replaceAll(':', '_'),
+       _params = params,
+       selObject = context.objCBuiltInFunctions.getSelObject(originalName);
+
+  factory ObjCMethod({
+    required Context context,
+    required String originalName,
+    required String name,
+    String? dartDoc,
+    required ObjCMethodKind kind,
+    required bool isClassMethod,
+    required bool isOptional,
+    required Type returnType,
+    required ObjCMethodFamily? family,
+    required ApiAvailability apiAvailability,
+    required List<Parameter> params,
+    required ObjCMethodOwnership? ownershipAttribute,
+    required bool consumesSelfAttribute,
+  }) {
+    final protocolMethodName = name;
+
+    // Split the name at the ':'. The first chunk is the name of the method, and
+    // the rest of the chunks are named parameters. Eg NSString's
+    //   - compare:options:range:
+    // method becomes
+    //   NSComparisonResult compare(NSString string,
+    //       {required NSStringCompareOptions options, required NSRange range})
+    final chunks = name.split(':');
+
+    // Details:
+    //  - The first chunk is always the new Dart method name.
+    //  - The rest of the chunks correspond to the params, so there's always
+    //    one more chunk than the number of params.
+    //  - The correspondence between the chunks and the params is non-trivial:
+    //    - The ObjC name always ends with a ':' unless there are no ':' at all.
+    //    - The first param is an ordinary param, not a named param.
+    final correctNumParams = chunks.length == params.length + 1;
+    final lastChunkIsEmpty = chunks.length == 1 || chunks.last.isEmpty;
+    if (correctNumParams && lastChunkIsEmpty) {
+      // Take the first chunk as the name, ignore the last chunk, and map the
+      // rest to each of the params after the first.
+      name = chunks[0];
+      for (var i = 1; i < params.length; ++i) {
+        params[i].symbol = Symbol(chunks[i], SymbolKind.field);
+      }
+    } else {
+      // There are a few methods that don't obey these rules, eg due to variadic
+      // parameters. Most of these are omitted from the bindings as they're not
+      // supported yet. But as a fallback, just replace all the ':' in the name
+      // with '_', like we do for protocol methods.
+      name = name.replaceAll(':', '_');
+    }
+
+    return ObjCMethod.withSymbol(
+      context: context,
+      originalName: originalName,
+      symbol: Symbol(name, SymbolKind.method),
+      protocolMethodName: protocolMethodName,
+      dartDoc: dartDoc,
+      kind: kind,
+      isClassMethod: isClassMethod,
+      isOptional: isOptional,
+      returnType: returnType,
+      family: family,
+      apiAvailability: apiAvailability,
+      params: params,
+      ownershipAttribute: ownershipAttribute,
+      consumesSelfAttribute: consumesSelfAttribute,
+    );
+  }
+
+  String get name => symbol.name;
+  Iterable<Parameter> get params => _params;
 
   bool get isProperty =>
       kind == ObjCMethodKind.propertyGetter ||
@@ -250,44 +310,27 @@ class ObjCMethod extends AstNode {
   bool get isRequired => !isOptional;
   bool get isInstanceMethod => !isClassMethod;
 
-  void fillMsgSend() {
-    msgSend ??= builtInFunctions.getMsgSendFunc(returnType, params);
+  ObjCMsgSendFunc fillMsgSend() {
+    return msgSend ??= context.objCBuiltInFunctions.getMsgSendFunc(
+      returnType,
+      _params,
+    );
   }
 
-  void fillProtocolBlock() {
-    protocolBlock ??= ObjCBlock(
+  ObjCBlock fillProtocolBlock() {
+    protocolMethodName ??= symbol.oldName == originalProtocolMethodName
+        ? symbol
+        : Symbol(originalProtocolMethodName, SymbolKind.method);
+    return protocolBlock ??= ObjCBlock(
+      context,
       returnType: returnType,
       params: [
         // First arg of the protocol block is a void pointer that we ignore.
-        Parameter(
-          name: '_',
-          type: PointerType(voidType),
-          objCConsumed: false,
-        ),
-        ...params,
+        Parameter(name: '_', type: PointerType(voidType), objCConsumed: false),
+        ..._params,
       ],
       returnsRetained: returnsRetained,
-      builtInFunctions: builtInFunctions,
     )..fillProtocolTrampoline();
-  }
-
-  String getDartMethodName(UniqueNamer uniqueNamer,
-      {bool usePropertyNaming = true}) {
-    if (property != null && usePropertyNaming) {
-      // A getter and a setter are allowed to have the same name, so we can't
-      // just run the name through uniqueNamer. Instead they need to share
-      // the dartName, which is run through uniqueNamer.
-      if (property!.dartName == null) {
-        property!.dartName = uniqueNamer.makeUnique(property!.name);
-      }
-      return property!.dartName!;
-    }
-    // Objective C methods can look like:
-    // foo
-    // foo:
-    // foo:someArgName:
-    // So replace all ':' with '_'.
-    return uniqueNamer.makeUnique(name.replaceAll(':', '_'));
   }
 
   bool sameAs(ObjCMethod other) {
@@ -311,7 +354,7 @@ class ObjCMethod extends AstNode {
 
   Iterable<Type> get childTypes sync* {
     yield returnType;
-    for (final p in params) {
+    for (final p in _params) {
       yield p.type;
     }
   }
@@ -320,12 +363,13 @@ class ObjCMethod extends AstNode {
   // that it doesn't have method overloading, so the [originalName] is mostly
   // sufficient as the key. But unlike Dart, ObjC can have static methods and
   // instance methods with the same name, so we have to include staticness in
-  // the key.
-  String get key => '${isClassMethod ? '+' : '-'}$originalName';
+  // the key. We order instance methods before static methods alphabetically.
+  String get key => '${isClassMethod ? 'S' : 'I'} $originalName';
 
   @override
-  String toString() => '${isOptional ? '@optional ' : ''}$returnType '
-      '$originalName(${params.join(', ')})';
+  String toString() =>
+      '${isOptional ? '@optional ' : ''}$returnType '
+      '$originalName(${_params.join(', ')})';
 
   bool get returnsInstanceType {
     if (returnType is ObjCInstanceType) return true;
@@ -336,35 +380,80 @@ class ObjCMethod extends AstNode {
     return false;
   }
 
-  String _getConvertedReturnType(Writer w, String instanceType) {
+  // Whether this method returns an `NSError` out param.
+  //
+  // In ObjC, the pattern for returning an error is to return it as an out
+  // param. Specifically, the last param is named error, and is a NSError**.
+  // The same pattern is used when translating Swift methods that throw into
+  // ObjC methods. We don't need to handle subtypes of NSError, as there are
+  // no known APIs that return subtypes of NSError (in fact the Swift bridging
+  // relies on the type always being exactly NSError).
+  bool get returnsNSErrorByOutParam {
+    final p = _params.lastOrNull;
+    if (p == null) return false;
+    if (!_errorOutParamNames.contains(p.originalName)) return false;
+    final t = p.type;
+    if (t is! PointerType) return false;
+    var c = t.child;
+    if (c is ObjCNullable) c = c.child;
+    if (c is! ObjCInterface) return false;
+    return ObjCBuiltInFunctions.isNSError(c.originalName);
+  }
+
+  static const _errorOutParamNames = {'error', 'outError'};
+
+  String _getConvertedReturnType(Context context, String instanceType) {
     if (returnType is ObjCInstanceType) return instanceType;
     final baseType = returnType.typealiasType;
     if (baseType is ObjCNullable && baseType.child is ObjCInstanceType) {
       return '$instanceType?';
     }
-    return returnType.getDartType(w);
+    return returnType.getDartType(context);
   }
 
-  String generateBindings(
-      Writer w, ObjCInterface target, UniqueNamer methodNamer) {
-    dartMethodName ??= getDartMethodName(methodNamer);
-    final methodName = dartMethodName!;
-    final upperName = methodName[0].toUpperCase() + methodName.substring(1);
-    final s = StringBuffer();
+  static String _paramToStr(Context context, Parameter p) =>
+      '${p.type.getDartType(context)} ${p.name}';
 
-    final targetType = target.getDartType(w);
-    final returnTypeStr = _getConvertedReturnType(w, targetType);
-    final paramStr = <String>[
-      for (final p in params)
-        '${p.isCovariant ? 'covariant ' : ''}'
-            '${p.type.getDartType(w)} ${p.name}',
-    ].join(', ');
+  static String _paramToNamed(Context context, Parameter p) =>
+      '${p.isNullable ? '' : 'required '}${_paramToStr(context, p)}';
+
+  static String _joinParamStr(Context context, List<Parameter> params) {
+    if (params.isEmpty) return '';
+    if (params.length == 1) return _paramToStr(context, params.first);
+    final named = params
+        .sublist(1)
+        .map((p) => _paramToNamed(context, p))
+        .join(',');
+    return '${_paramToStr(context, params.first)}, {$named}';
+  }
+
+  String generateBindings(Writer w, BindingType target) {
+    // Class methods are only supported for ObjCInterface targets.
+    assert(target is ObjCInterface || !isClassMethod);
+
+    final context = w.context;
+    final methodName = symbol.name;
+    final upperName = methodName[0].toUpperCase() + methodName.substring(1);
+    final throwNSError = returnsNSErrorByOutParam;
+
+    final params = throwNSError
+        ? _params.sublist(0, _params.length - 1)
+        : _params;
+    const retVar = '\$ret';
+    const ptrVar = '\$ptr';
+    const finalizableVar = '\$finalizable';
+    const errVar = '\$err';
+
+    final s = StringBuffer();
+    final targetType = target.getDartType(context);
+    final returnTypeStr = _getConvertedReturnType(context, targetType);
+    final paramStr = _joinParamStr(context, params);
 
     // The method declaration.
     s.write('\n  ${makeDartDoc(dartDoc)}  ');
     late String targetStr;
     if (isClassMethod) {
-      targetStr = target.classObject.name;
+      targetStr = (target as ObjCInterface).classObject.name;
       switch (kind) {
         case ObjCMethodKind.method:
           s.write('static $returnTypeStr $methodName($paramStr)');
@@ -378,8 +467,8 @@ class ObjCMethod extends AstNode {
       }
     } else {
       targetStr = target.convertDartTypeToFfiDartType(
-        w,
-        'this',
+        context,
+        'object\$',
         objCRetain: consumesSelf,
         objCAutorelease: false,
       );
@@ -399,59 +488,101 @@ class ObjCMethod extends AstNode {
 
     // Implementation.
     final versionCheck = apiAvailability.runtimeCheck(
-        ObjCBuiltInFunctions.checkOsVersion.gen(w),
-        '${target.originalName}.$originalName');
+      ObjCBuiltInFunctions.checkOsVersion.gen(context),
+      '${target.originalName}.$originalName',
+    );
     if (versionCheck != null) {
       s.write('  $versionCheck\n');
     }
 
     final sel = selObject.name;
     if (isOptional) {
+      final responds = ObjCBuiltInFunctions.respondsToSelector.gen(context);
+      final unimplementedException = ObjCBuiltInFunctions
+          .unimplementedOptionalMethodException
+          .gen(context);
       s.write('''
-    if (!${ObjCBuiltInFunctions.respondsToSelector.gen(w)}($targetStr, $sel)) {
-      throw ${ObjCBuiltInFunctions.unimplementedOptionalMethodException.gen(w)}(
-          '${target.originalName}', '$originalName');
+    if (!$responds($targetStr, $sel)) {
+      throw $unimplementedException('${target.originalName}', '$originalName');
     }
 ''');
     }
-    final convertReturn = kind != ObjCMethodKind.propertySetter &&
-        !returnType.sameDartAndFfiDartType;
 
-    final msgSendParams = params.map((p) => p.type.convertDartTypeToFfiDartType(
-          w,
+    final calloc = '${context.libs.prefix(ffiPkgImport)}.calloc';
+    if (throwNSError) {
+      final rawObjType = PointerType(objCObjectType).getCType(context);
+      s.write('''
+    final $errVar = $calloc<$rawObjType>();
+    try {
+''');
+    }
+
+    final convertReturn =
+        kind != ObjCMethodKind.propertySetter &&
+        !returnType.sameDartAndFfiDartType;
+    final msgSendParams = [
+      for (final p in params)
+        p.type.convertDartTypeToFfiDartType(
+          context,
           p.name,
           objCRetain: p.objCConsumed,
           objCAutorelease: false,
-        ));
+        ),
+      if (throwNSError) errVar,
+    ];
+
     if (msgSend!.isStret) {
       assert(!convertReturn);
-      final calloc = '${w.ffiPkgLibraryPrefix}.calloc';
-      final sizeOf = '${w.ffiLibraryPrefix}.sizeOf';
-      final uint8Type = NativeType(SupportedNativeType.uint8).getCType(w);
-      final invoke = msgSend!
-          .invoke(w, targetStr, sel, msgSendParams, structRetPtr: '_ptr');
+      assert(!throwNSError);
+      final sizeOf = '${context.libs.prefix(ffiImport)}.sizeOf';
+      final uint8Type = NativeType(SupportedNativeType.uint8).getCType(context);
+      final invoke = msgSend!.invoke(
+        context,
+        targetStr,
+        sel,
+        msgSendParams,
+        structRetPtr: ptrVar,
+      );
       s.write('''
-    final _ptr = $calloc<$returnTypeStr>();
+    final $ptrVar = $calloc<$returnTypeStr>();
     $invoke;
-    final _finalizable = _ptr.cast<$uint8Type>().asTypedList(
+    final $finalizableVar = $ptrVar.cast<$uint8Type>().asTypedList(
         $sizeOf<$returnTypeStr>(), finalizer: $calloc.nativeFree);
-    return ${w.ffiLibraryPrefix}.Struct.create<$returnTypeStr>(_finalizable);
+    return ${context.libs.prefix(ffiImport)}.Struct.create<$returnTypeStr>(
+        $finalizableVar);
 ''');
     } else {
-      if (returnType != voidType) {
-        s.write('    ${convertReturn ? 'final _ret = ' : 'return '}');
+      final useReturn = returnType != voidType;
+      final useReturnVar = convertReturn || throwNSError;
+      if (useReturn) {
+        s.write('    ${useReturnVar ? 'final $retVar = ' : 'return '}');
       }
-      s.write(msgSend!.invoke(w, targetStr, sel, msgSendParams));
+      s.write(msgSend!.invoke(context, targetStr, sel, msgSendParams));
       s.write(';\n');
-      if (convertReturn) {
-        final result = returnType.convertFfiDartTypeToDartType(
-          w,
-          '_ret',
-          objCRetain: !returnsRetained,
-          objCEnclosingClass: targetType,
+      if (throwNSError) {
+        final nsErrorException = ObjCBuiltInFunctions.nsErrorException.gen(
+          context,
         );
+        s.write('    $nsErrorException.checkErrorPointer($errVar.value);\n');
+      }
+      if (useReturnVar) {
+        final result = convertReturn
+            ? returnType.convertFfiDartTypeToDartType(
+                context,
+                retVar,
+                objCRetain: !returnsRetained,
+                objCEnclosingClass: targetType,
+              )
+            : retVar;
         s.write('    return $result;');
       }
+    }
+    if (throwNSError) {
+      s.write('''
+    } finally {
+      $calloc.free($errVar);
+    }
+''');
     }
 
     s.write('\n  }\n');

@@ -7,7 +7,7 @@ description: |
 
   However, functions prefixed JNI_ are not usable because they are in a different shared library.
 
-  Regenerate bindings with `flutter pub run ffigen.dart --config ffigen.yaml`.
+  Regenerate bindings with `flutter pub run ffigen --config ffigen.yaml`.
 output: 'lib/src/third_party/jni_bindings_generated.dart'
 headers:
   entry-points:
@@ -26,13 +26,16 @@ enums:
     'JniType': 'JniCallType'
     'jobjectRefType': 'JObjectRefType'
 functions:
+  rename:
+    'FindClass': 'JniFindClass'
+    'GetJavaVM': 'JniGetJavaVM'
   exclude:
     # Exclude init functions supposed to be defined in loaded DLL, not JNI
     - 'JNI_.*'
     - 'GetJniContextPtr'
     - 'setJniGetters'
     - 'jni_log'
-    # Exclude functions with VarArgs, jnigen will generate them based on the 
+    # Exclude functions with VarArgs, JNIgen will generate them based on the
     # exact arguments needed.
     - 'globalEnv_NewObject'
     - 'globalEnv_Call(Static|Nonvirtual|)[A-Z][a-z]+Method'
@@ -72,6 +75,7 @@ structs:
     - 'CallbackResult'
   rename:
     ## opaque struct definitions, base types of jfieldID and jmethodID
+    '_Dart_FinalizableHandle': 'Dart_FinalizableHandle_'
     '_jfieldID': 'jfieldID_'
     '_jmethodID':
       'jmethodID_'

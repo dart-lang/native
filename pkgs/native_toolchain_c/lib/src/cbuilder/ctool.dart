@@ -26,6 +26,11 @@ abstract class CTool {
   /// File will be placed in [LinkInput.outputDirectory].
   final String name;
 
+  /// The package name to associate the asset with.
+  ///
+  /// If this is null, it defaults to the [HookInput.packageName].
+  final String? packageName;
+
   /// Asset identifier.
   ///
   /// Used to output the [CodeAsset].
@@ -40,7 +45,7 @@ abstract class CTool {
   /// The sources will be reported as dependencies of the hook.
   final List<String> sources;
 
-  /// Include directories to pass to the linker.
+  /// Include directories to pass to the compiler.
   ///
   /// Resolved against [LinkInput.packageRoot].
   ///
@@ -68,9 +73,8 @@ abstract class CTool {
   /// Frameworks will not be automatically reported as dependencies of the hook.
   /// Frameworks can be mentioned by name if they are available on the system,
   /// so the file path is not known. If you're depending on your own frameworks
-  /// report them as dependencies of the hook by calling
-  /// [BuildOutputBuilder.addDependency] / [LinkOutputBuilder.addDependency]
-  /// manually.
+  /// report them as dependencies of the hook by adding them to
+  /// [HookOutputBuilder.dependencies] manually.
   final List<String> frameworks;
 
   /// The default [frameworks].
@@ -103,7 +107,7 @@ abstract class CTool {
   @visibleForTesting
   final Uri? installName;
 
-  /// Flags to pass to the linker.
+  /// Flags to pass to the build tool (compiler or linker).
   final List<String> flags;
 
   /// Definitions of preprocessor macros.
@@ -164,6 +168,7 @@ abstract class CTool {
 
   CTool({
     required this.name,
+    required this.packageName,
     required this.assetName,
     required this.sources,
     required this.includes,

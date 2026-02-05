@@ -5,7 +5,6 @@
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
 import 'package:ffigen/src/strings.dart' as strings;
-import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -15,9 +14,9 @@ late Library actual;
 void main() {
   group('typedef_test', () {
     setUpAll(() {
-      logWarnings(Level.SEVERE);
       actual = parser.parse(
-        testConfig('''
+        testContext(
+          testConfig('''
 ${strings.name}: 'Bindings'
 ${strings.description}: 'Typedef Test'
 ${strings.output}: 'unused'
@@ -42,19 +41,23 @@ ${strings.typeMap}:
         c-type: 'IntPtr'
         dart-type: 'int'
 ${strings.preamble}: |
-  // ignore_for_file: unused_element, unused_field
+  // ignore_for_file: unused_element
         '''),
+        ),
       );
     });
 
     test('Expected Bindings', () {
       matchLibraryWithExpected(
-          actual, 'header_parser_typedef_test_output.dart', [
-        'test',
-        'header_parser_tests',
-        'expected_bindings',
-        '_expected_typedef_bindings.dart'
-      ]);
+        actual,
+        'header_parser_typedef_test_output.dart',
+        [
+          'test',
+          'header_parser_tests',
+          'expected_bindings',
+          '_expected_typedef_bindings.dart',
+        ],
+      );
     });
   });
 }

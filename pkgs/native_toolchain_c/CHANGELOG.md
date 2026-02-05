@@ -1,3 +1,70 @@
+## 0.17.5-wip
+
+- Search for NDK in `ANDROID_HOME` and `ANDROID_NDK` environment variables.
+- On iOS and macOS, use the `-encryptable` linker flag. This resolves an
+  [issue](https://github.com/dart-lang/native/issues/2973) with app store
+  rejections.
+- Fix unportable link arg when cross-compiling from MacOS.
+
+## 0.17.4
+
+- For Windows, include errors from the standard output of `cl` in the logger's
+  output of CBuilder.
+  ([#2809](https://github.com/dart-lang/native/issues/2809)) 
+
+## 0.17.3
+
+- Bump `package:hooks` and `package:code_assets`to 1.0.0.
+
+## 0.17.2
+
+- Made `CBuilder.run` `Logger` argument optional. It now defaults to a logger
+  printing to stdout and stderr. (Technically this is a breaking change on
+  passing `null` explicitly, but I doubt anyone is using it like that.)
+- Broaden compiler tool discovery
+
+## 0.17.1
+
+- Bump `package:hooks` and `package:code_assets`to 0.20.0.
+
+## 0.17.0
+
+* Fix treeshaking on mac.
+
+## 0.16.8
+
+* Support building assets for packages which are not the input package.
+
+## 0.16.7
+
+* Support Module Definitions for linking on Windows.
+
+## 0.16.6
+
+* Support linking for Windows.
+
+## 0.16.5
+
+* Support linking for iOS.
+
+## 0.16.4
+
+* Support linking for MacOS.
+
+## 0.16.3
+
+* Support linking for Android.
+
+## 0.16.2
+
+* Bump the SDK constraint to at least the one from `package:hooks` to fix
+  dartdoc generation on https://pub.dev.
+
+## 0.16.1
+
+- Firebase Studio NixOS support (default install locations for native
+  toolchains).
+
 ## 0.16.0
 
 - Depend on `package:code_assets` and `package:hooks` 0.19.0.

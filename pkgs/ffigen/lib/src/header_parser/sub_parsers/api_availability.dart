@@ -6,18 +6,13 @@ import 'dart:ffi';
 
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
-import 'package:pub_semver/pub_semver.dart';
 
 import '../../config_provider/config_types.dart';
+import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
-import '../data.dart';
 import '../utils.dart';
 
-enum Availability {
-  none,
-  some,
-  all,
-}
+enum Availability { none, some, all }
 
 class ApiAvailability {
   final bool alwaysDeprecated;
@@ -32,23 +27,40 @@ class ApiAvailability {
     this.alwaysUnavailable = false,
     this.ios,
     this.macos,
-    ExternalVersions? externalVersions,
+    required ExternalVersions? externalVersions,
   }) {
-    availability =
-        _getAvailability(externalVersions ?? config.externalVersions);
+    availability = _getAvailability(externalVersions);
   }
 
-  static ApiAvailability fromCursor(clang_types.CXCursor cursor) {
+  static ApiAvailability fromCursor(
+    clang_types.CXCursor cursor,
+    Context context,
+  ) {
     final platformsLength = clang.clang_getCursorPlatformAvailability(
-        cursor, nullptr, nullptr, nullptr, nullptr, nullptr, 0);
+      cursor,
+      nullptr,
+      nullptr,
+      nullptr,
+      nullptr,
+      nullptr,
+      0,
+    );
 
     final alwaysDeprecated = calloc<Int>();
     final alwaysUnavailable = calloc<Int>();
-    final platforms =
-        calloc<clang_types.CXPlatformAvailability>(platformsLength);
+    final platforms = calloc<clang_types.CXPlatformAvailability>(
+      platformsLength,
+    );
 
-    clang.clang_getCursorPlatformAvailability(cursor, alwaysDeprecated, nullptr,
-        alwaysUnavailable, nullptr, platforms, platformsLength);
+    clang.clang_getCursorPlatformAvailability(
+      cursor,
+      alwaysDeprecated,
+      nullptr,
+      alwaysUnavailable,
+      nullptr,
+      platforms,
+      platformsLength,
+    );
 
     PlatformAvailability? ios;
     PlatformAvailability? macos;
@@ -76,6 +88,7 @@ class ApiAvailability {
       alwaysUnavailable: alwaysUnavailable.value != 0,
       ios: ios,
       macos: macos,
+      externalVersions: context.config.objectiveC?.externalVersions,
     );
 
     for (var i = 0; i < platformsLength; ++i) {
@@ -88,9 +101,9 @@ class ApiAvailability {
     return api;
   }
 
-  Availability _getAvailability(ExternalVersions externalVersions) {
-    final macosVer = _normalizeVersions(externalVersions.macos);
-    final iosVer = _normalizeVersions(externalVersions.ios);
+  Availability _getAvailability(ExternalVersions? externalVersions) {
+    final macosVer = _normalizeVersions(externalVersions?.macos);
+    final iosVer = _normalizeVersions(externalVersions?.ios);
 
     // If no versions are specified, everything is available.
     if (iosVer == null && macosVer == null) {
@@ -140,7 +153,8 @@ class ApiAvailability {
   }
 
   @override
-  String toString() => '''Availability {
+  String toString() =>
+      '''Availability {
   alwaysDeprecated: $alwaysDeprecated
   alwaysUnavailable: $alwaysUnavailable
   ios: $ios
@@ -206,11 +220,13 @@ class PlatformAvailability {
     if (unavailable) {
       s.write('unavailable');
     } else {
-      s.write([
-        if (introduced != null) 'introduced $introduced',
-        if (deprecated != null) 'deprecated $deprecated',
-        if (obsoleted != null) 'obsoleted $obsoleted',
-      ].join(', '));
+      s.write(
+        [
+          if (introduced != null) 'introduced $introduced',
+          if (deprecated != null) 'deprecated $deprecated',
+          if (obsoleted != null) 'obsoleted $obsoleted',
+        ].join(', '),
+      );
     }
     return s.toString();
   }
@@ -220,6 +236,7 @@ class PlatformAvailability {
       v == null ? 'null' : '(${v.major}, ${v.minor}, ${v.patch})';
 
   @override
-  String toString() => 'introduced: $introduced, deprecated: $deprecated, '
+  String toString() =>
+      'introduced: $introduced, deprecated: $deprecated, '
       'obsoleted: $obsoleted, unavailable: $unavailable';
 }

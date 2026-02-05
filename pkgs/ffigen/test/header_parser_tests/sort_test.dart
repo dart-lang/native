@@ -5,6 +5,7 @@
 import 'package:ffigen/src/code_generator.dart';
 import 'package:ffigen/src/config_provider.dart';
 import 'package:ffigen/src/header_parser.dart' as parser;
+import 'package:path/path.dart' as path;
 import 'package:test/test.dart';
 
 import '../test_utils.dart';
@@ -14,16 +15,31 @@ late Library actual;
 void main() {
   group('sort_test', () {
     setUpAll(() {
-      logWarnings();
-      actual = parser.parse(Config(
-        output: Uri.file('unused'),
-        entryPoints: [Uri.file('test/header_parser_tests/sort.h')],
-        structDecl: DeclarationFilters.includeAll,
-        unionDecl: DeclarationFilters.includeAll,
-        typedefs: DeclarationFilters.includeAll,
-        includeUnusedTypedefs: true,
-        sort: true,
-      ));
+      actual = parser.parse(
+        testContext(
+          FfiGenerator(
+            output: Output(dartFile: Uri.file('unused')),
+            headers: Headers(
+              entryPoints: [
+                Uri.file(
+                  path.join(
+                    packagePathForTests,
+                    'test',
+                    'header_parser_tests',
+                    'sort.h',
+                  ),
+                ),
+              ],
+            ),
+            structs: Structs.includeAll,
+            unions: Unions.includeAll,
+            typedefs: Typedefs(
+              include: (Declaration decl) => true,
+              includeUnused: true,
+            ),
+          ),
+        ),
+      );
     });
     test('Expected Bindings', () {
       matchLibraryWithExpected(actual, 'header_parser_sort_test_output.dart', [

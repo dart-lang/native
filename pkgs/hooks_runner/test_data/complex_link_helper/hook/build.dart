@@ -14,7 +14,7 @@ void main(List<String> args) async {
       input.packageRoot.resolve('assets/'),
     );
     // If assets are added, rerun hook.
-    output.addDependency(assetDirectory.uri);
+    output.dependencies.add(assetDirectory.uri);
 
     await for (final dataAsset in assetDirectory.list()) {
       if (dataAsset is! File) {
@@ -29,12 +29,11 @@ void main(List<String> args) async {
       final forLinking = name.contains('2') || name.contains('3');
       output.assets.data.add(
         DataAsset(package: packageName, name: name, file: dataAsset.uri),
-        routing:
-            forLinking && input.config.linkingEnabled
-                ? const ToLinkHook('complex_link')
-                : const ToAppBundle(),
+        routing: forLinking && input.config.linkingEnabled
+            ? const ToLinkHook('complex_link')
+            : const ToAppBundle(),
       );
-      output.addDependency(dataAsset.uri);
+      output.dependencies.add(dataAsset.uri);
     }
   });
 }

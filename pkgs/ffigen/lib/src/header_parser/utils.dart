@@ -3,64 +3,100 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
+import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart';
 import 'package:logging/logging.dart';
-import 'package:pub_semver/pub_semver.dart';
 
 import '../code_generator.dart';
 import '../config_provider/config_types.dart';
+import '../context.dart';
+import '../strings.dart';
+import '../strings.dart' as strings;
 import 'clang_bindings/clang_bindings.dart' as clang_types;
-import 'data.dart';
 import 'type_extractor/extractor.dart';
-
-final _logger = Logger('ffigen.header_parser.utils');
 
 const exceptionalVisitorReturn =
     clang_types.CXChildVisitResult.CXChildVisit_Break;
 
-typedef _CursorVisitorCallback = Int32 Function(
-    clang_types.CXCursor, clang_types.CXCursor, Pointer<Void>);
+typedef _CursorVisitorCallback =
+    Int32 Function(clang_types.CXCursor, clang_types.CXCursor, Pointer<Void>);
 
 /// Logs the warnings/errors returned by clang for a translation unit.
 void logTuDiagnostics(
-    Pointer<clang_types.CXTranslationUnitImpl> tu, Logger logger, String header,
-    {Level logLevel = Level.SEVERE}) {
+  Pointer<clang_types.CXTranslationUnitImpl> tu,
+  Context context,
+  String header, {
+  Level logLevel = Level.SEVERE,
+}) {
   final total = clang.clang_getNumDiagnostics(tu);
   if (total == 0) {
     return;
   }
-  logger.log(logLevel, 'Header $header: Total errors/warnings: $total.');
+  context.logger.log(
+    logLevel,
+    'Header $header: Total errors/warnings: $total.',
+  );
   for (var i = 0; i < total; i++) {
     final diag = clang.clang_getDiagnostic(tu, i);
     if (clang.clang_getDiagnosticSeverity(diag) >=
         clang_types.CXDiagnosticSeverity.CXDiagnostic_Warning) {
-      hasSourceErrors = true;
+      context.hasSourceErrors = true;
     }
     final cxstring = clang.clang_formatDiagnostic(
       diag,
       clang_types
-              .CXDiagnosticDisplayOptions.CXDiagnostic_DisplaySourceLocation |
+              .CXDiagnosticDisplayOptions
+              .CXDiagnostic_DisplaySourceLocation |
           clang_types.CXDiagnosticDisplayOptions.CXDiagnostic_DisplayColumn |
           clang_types
-              .CXDiagnosticDisplayOptions.CXDiagnostic_DisplayCategoryName,
+              .CXDiagnosticDisplayOptions
+              .CXDiagnostic_DisplayCategoryName,
     );
-    logger.log(logLevel, '    ${cxstring.toStringAndDispose()}');
+    context.logger.log(logLevel, '    ${cxstring.toStringAndDispose()}');
     clang.clang_disposeDiagnostic(diag);
   }
 }
 
-extension CXSourceRangeExt on Pointer<clang_types.CXSourceRange> {
+extension CXSourceLocationExt on clang_types.CXSourceLocation {
+  (String, int) get fileAndOffset {
+    final filePtr = calloc<Pointer<Void>>();
+    final offsetPtr = calloc<UnsignedInt>();
+
+    clang.clang_getFileLocation(this, filePtr, nullptr, nullptr, offsetPtr);
+    final file = clang.clang_getFileName(filePtr.value).toStringAndDispose();
+    final offset = offsetPtr.value;
+
+    calloc.free(filePtr);
+    calloc.free(offsetPtr);
+
+    return (file, offset);
+  }
+}
+
+extension CXSourceRangeExt on clang_types.CXSourceRange {
+  clang_types.CXSourceLocation get start => clang.clang_getRangeStart(this);
+  clang_types.CXSourceLocation get end => clang.clang_getRangeEnd(this);
+  ((String, int), (String, int)) toTuple() =>
+      (start.fileAndOffset, end.fileAndOffset);
+}
+
+extension CXSourceRangePtrExt on Pointer<clang_types.CXSourceRange> {
   void dispose() {
     calloc.free(this);
   }
 }
 
 extension CXCursorExt on clang_types.CXCursor {
+  bool get isNull => clang.clang_Cursor_isNull(this) != 0;
+  bool get isDefinition => clang.clang_isCursorDefinition(this) != 0;
+  clang_types.CXCursor get definition => clang.clang_getCursorDefinition(this);
+
   String usr() {
     var res = clang.clang_getCursorUSR(this).toStringAndDispose();
+    assert(!res.contains(synthUsrChar));
     if (isAnonymousRecordDecl()) {
-      res += '@offset:${sourceFileOffset()}';
+      res += '$synthUsrChar anonRec: offset:${sourceFileOffset()}';
     }
     return res;
   }
@@ -83,14 +119,15 @@ extension CXCursorExt on clang_types.CXCursor {
   }
 
   /// Get code_gen [Type] representation of [clang_types.CXType].
-  Type toCodeGenType() {
-    return getCodeGenType(type(), originalCursor: this);
+  Type toCodeGenType(Context context) {
+    return getCodeGenType(context, type(), originalCursor: this);
   }
 
   /// for debug: returns [spelling] [kind] [kindSpelling] type typeSpelling.
   String completeStringRepr() {
     final cxtype = type();
-    final s = '(Cursor) spelling: ${spelling()}, kind: ${kind()}, '
+    final s =
+        '(Cursor) spelling: ${spelling()}, kind: ${kind()}, '
         'kindSpelling: ${kindSpelling()}, type: ${cxtype.kind}, '
         'typeSpelling: ${cxtype.spelling()}, usr: ${usr()}';
     return s;
@@ -155,8 +192,10 @@ extension CXCursorExt on clang_types.CXCursor {
       return true;
     });
     if (!completed) {
-      throw Exception('Exception thrown in a dart function called via C, '
-          'use --verbose to see more details');
+      throw Exception(
+        'Exception thrown in a dart function called via C, '
+        'use --verbose to see more details',
+      );
     }
   }
 
@@ -168,12 +207,12 @@ extension CXCursorExt on clang_types.CXCursor {
   ///
   /// Returns whether the iteration completed.
   bool visitChildrenMayBreak(
-          bool Function(clang_types.CXCursor child) callback) =>
-      visitChildrenMayRecurse(
-          (clang_types.CXCursor child, clang_types.CXCursor parent) =>
-              callback(child)
-                  ? clang_types.CXChildVisitResult.CXChildVisit_Continue
-                  : clang_types.CXChildVisitResult.CXChildVisit_Break);
+    bool Function(clang_types.CXCursor child) callback,
+  ) => visitChildrenMayRecurse(
+    (clang_types.CXCursor child, clang_types.CXCursor parent) => callback(child)
+        ? clang_types.CXChildVisitResult.CXChildVisit_Continue
+        : clang_types.CXChildVisitResult.CXChildVisit_Break,
+  );
 
   /// Visits all the direct children of this cursor.
   ///
@@ -184,15 +223,22 @@ extension CXCursorExt on clang_types.CXCursor {
   ///
   /// Returns whether the iteration completed.
   bool visitChildrenMayRecurse(
-      int Function(clang_types.CXCursor child, clang_types.CXCursor parent)
-          callback) {
+    int Function(clang_types.CXCursor child, clang_types.CXCursor parent)
+    callback,
+  ) {
     final visitor = NativeCallable<_CursorVisitorCallback>.isolateLocal(
-        (clang_types.CXCursor child, clang_types.CXCursor parent,
-                Pointer<Void> clientData) =>
-            callback(child, parent),
-        exceptionalReturn: exceptionalVisitorReturn);
-    final result =
-        clang.clang_visitChildren(this, visitor.nativeFunction.cast(), nullptr);
+      (
+        clang_types.CXCursor child,
+        clang_types.CXCursor parent,
+        Pointer<Void> clientData,
+      ) => callback(child, parent),
+      exceptionalReturn: exceptionalVisitorReturn,
+    );
+    final result = clang.clang_visitChildren(
+      this,
+      visitor.nativeFunction.cast(),
+      nullptr,
+    );
     visitor.close();
     return result == 0;
   }
@@ -200,7 +246,8 @@ extension CXCursorExt on clang_types.CXCursor {
   /// Returns the first child where `predicate(child)` is true, or null if there
   /// isn't one.
   clang_types.CXCursor? findChildWhere(
-      bool Function(clang_types.CXCursor) predicate) {
+    bool Function(clang_types.CXCursor) predicate,
+  ) {
     clang_types.CXCursor? result;
     visitChildrenMayBreak((child) {
       if (predicate(child)) {
@@ -234,42 +281,41 @@ extension CXCursorExt on clang_types.CXCursor {
 const commentPrefix = '/// ';
 const nesting = '  ';
 
-/// Stores the [clang_types.CXSourceRange] of the last comment.
-clang_types.CXSourceRange? lastCommentRange;
-
 /// Returns a cursor's associated comment.
 ///
 /// The given string is wrapped at line width = 80 - [indent]. The [indent] is
 /// [commentPrefix].length by default because a comment starts with
 /// [commentPrefix].
-String? getCursorDocComment(clang_types.CXCursor cursor,
-    {int indent = commentPrefix.length,
-    String? fallbackComment,
-    String? availability}) {
+String? getCursorDocComment(
+  Context context,
+  clang_types.CXCursor cursor, {
+  int indent = commentPrefix.length,
+  String? fallbackComment,
+  String? availability,
+}) {
   String? formattedDocComment;
   final currentCommentRange = clang.clang_Cursor_getCommentRange(cursor);
 
-  // See if this comment and the last comment both point to the same source
-  // range.
-  if (lastCommentRange != null &&
-      clang.clang_equalRanges(lastCommentRange!, currentCommentRange) != 0) {
+  // Only report the comment if we haven't reported this comment before.
+  if (!context.reportedCommentRanges.add(currentCommentRange.toTuple())) {
     formattedDocComment = null;
   } else {
-    switch (config.commentType.length) {
+    switch (context.config.output.commentType.length) {
       case CommentLength.full:
         formattedDocComment = removeRawCommentMarkups(
-            clang.clang_Cursor_getRawCommentText(cursor).toStringAndDispose());
+          clang.clang_Cursor_getRawCommentText(cursor).toStringAndDispose(),
+        );
         break;
       case CommentLength.brief:
         formattedDocComment = _wrapNoNewLineString(
-            clang.clang_Cursor_getBriefCommentText(cursor).toStringAndDispose(),
-            80 - indent);
+          clang.clang_Cursor_getBriefCommentText(cursor).toStringAndDispose(),
+          80 - indent,
+        );
         break;
       default:
         formattedDocComment = null;
     }
   }
-  lastCommentRange = currentCommentRange;
   final docs = [formattedDocComment ?? fallbackComment, availability].nonNulls;
   return docs.isEmpty ? null : docs.join('\n\n');
 }
@@ -330,8 +376,12 @@ String? removeRawCommentMarkups(String? string) {
 
 extension CXTypeExt on clang_types.CXType {
   /// Get code_gen [Type] representation of [clang_types.CXType].
-  Type toCodeGenType({bool supportNonInlineArray = false}) {
-    return getCodeGenType(this, supportNonInlineArray: supportNonInlineArray);
+  Type toCodeGenType(Context context, {bool supportNonInlineArray = false}) {
+    return getCodeGenType(
+      context,
+      this,
+      supportNonInlineArray: supportNonInlineArray,
+    );
   }
 
   /// Spelling for a [clang_types.CXTypeKind], useful for debug purposes.
@@ -354,7 +404,8 @@ extension CXTypeExt on clang_types.CXType {
 
   /// For debugging: returns [spelling] [kind] [kindSpelling].
   String completeStringRepr() {
-    final s = '(Type) spelling: ${spelling()}, kind: ${kind()}, '
+    final s =
+        '(Type) spelling: ${spelling()}, kind: ${kind()}, '
         'kindSpelling: ${kindSpelling()}';
     return s;
   }
@@ -428,26 +479,6 @@ extension DynamicCStringArray on Pointer<Pointer<Utf8>> {
   }
 }
 
-class Stack<T> {
-  final _stack = <T>[];
-
-  T get top => _stack.last;
-  T pop() => _stack.removeLast();
-  void push(T item) => _stack.add(item);
-}
-
-class IncrementalNamer {
-  final _incrementedStringCounters = <String, int>{};
-
-  /// Appends `<int>` to base. <int> is incremented on every call.
-  String name(String base) {
-    var i = _incrementedStringCounters[base] ?? 0;
-    i++;
-    _incrementedStringCounters[base] = i;
-    return '$base$i';
-  }
-}
-
 class Macro {
   final String usr;
   final String? originalName;
@@ -458,29 +489,25 @@ class Macro {
 /// Tracks if a binding is 'seen' or not.
 class BindingsIndex {
   // Tracks if bindings are already seen, Map key is USR obtained from libclang.
-  final Map<String, Type> _declaredTypes = {};
   final Map<String, Func> _functions = {};
   final Map<String, Constant> _unnamedEnumConstants = {};
   final Map<String, String> _macros = {};
   final Map<String, Global> _globals = {};
+  final Map<String, Constant> _variableConstants = {};
+  final Map<String, Typealias> _typealiases = {};
+  final Map<String, EnumClass> _enums = {};
+  final Map<String, Compound> _compounds = {};
   final Map<String, ObjCBlock> _objcBlocks = {};
+  final Map<String, ObjCInterface> _objcInterfaces = {};
   final Map<String, ObjCProtocol> _objcProtocols = {};
   final Map<String, ObjCCategory> _objcCategories = {};
 
   /// Contains usr for typedefs which cannot be generated.
   final Set<String> _unsupportedTypealiases = {};
 
-  /// Index for headers.
-  final Map<String, bool> _headerCache = {};
-
-  bool isSeenType(String usr) => _declaredTypes.containsKey(usr);
-  void addTypeToSeen(String usr, Type type) => _declaredTypes[usr] = type;
-  Type? getSeenType(String usr) => _declaredTypes[usr];
   bool isSeenFunc(String usr) => _functions.containsKey(usr);
   void addFuncToSeen(String usr, Func func) => _functions[usr] = func;
   Func? getSeenFunc(String usr) => _functions[usr];
-  bool isSeenUnnamedEnumConstant(String usr) =>
-      _unnamedEnumConstants.containsKey(usr);
   void addUnnamedEnumConstantToSeen(String usr, Constant enumConstant) =>
       _unnamedEnumConstants[usr] = enumConstant;
   Constant? getSeenUnnamedEnumConstant(String usr) =>
@@ -488,19 +515,32 @@ class BindingsIndex {
   bool isSeenGlobalVar(String usr) => _globals.containsKey(usr);
   void addGlobalVarToSeen(String usr, Global global) => _globals[usr] = global;
   Global? getSeenGlobalVar(String usr) => _globals[usr];
+  bool isSeenVariableConstant(String usr) =>
+      _variableConstants.containsKey(usr);
+  void addVariableConstantToSeen(String usr, Constant constant) =>
+      _variableConstants[usr] = constant;
+  Constant? getSeenVariableConstant(String usr) => _variableConstants[usr];
+  bool isSeenTypealias(String usr) => _typealiases.containsKey(usr);
+  void addTypealiasToSeen(String usr, Typealias t) => _typealiases[usr] = t;
+  Typealias? getSeenTypealias(String usr) => _typealiases[usr];
+  bool isSeenEnum(String usr) => _enums.containsKey(usr);
+  void addEnumToSeen(String usr, EnumClass t) => _enums[usr] = t;
+  EnumClass? getSeenEnum(String usr) => _enums[usr];
+  bool isSeenCompound(String usr) => _compounds.containsKey(usr);
+  void addCompoundToSeen(String usr, Compound t) => _compounds[usr] = t;
+  Compound? getSeenCompound(String usr) => _compounds[usr];
   bool isSeenMacro(String usr) => _macros.containsKey(usr);
   void addMacroToSeen(String usr, String macro) => _macros[usr] = macro;
-  String? getSeenMacro(String usr) => _macros[usr];
   bool isSeenUnsupportedTypealias(String usr) =>
       _unsupportedTypealiases.contains(usr);
   void addUnsupportedTypealiasToSeen(String usr) =>
       _unsupportedTypealiases.add(usr);
-  bool isSeenHeader(String source) => _headerCache.containsKey(source);
-  void addHeaderToSeen(String source, bool includeStatus) =>
-      _headerCache[source] = includeStatus;
-  bool? getSeenHeaderStatus(String source) => _headerCache[source];
   void addObjCBlockToSeen(String key, ObjCBlock t) => _objcBlocks[key] = t;
   ObjCBlock? getSeenObjCBlock(String key) => _objcBlocks[key];
+  void addObjCInterfaceToSeen(String usr, ObjCInterface t) =>
+      _objcInterfaces[usr] = t;
+  ObjCInterface? getSeenObjCInterface(String usr) => _objcInterfaces[usr];
+  bool isSeenObjCInterface(String usr) => _objcInterfaces.containsKey(usr);
   void addObjCProtocolToSeen(String usr, ObjCProtocol t) =>
       _objcProtocols[usr] = t;
   ObjCProtocol? getSeenObjCProtocol(String usr) => _objcProtocols[usr];
@@ -512,7 +552,10 @@ class BindingsIndex {
 }
 
 class CursorIndex {
+  final Logger _logger;
   final _usrCursorDefinition = <String, clang_types.CXCursor>{};
+
+  CursorIndex(this._logger);
 
   /// Returns the Cursor definition (if found) or itself.
   clang_types.CXCursor getDefinition(clang_types.CXCursor cursor) {
@@ -524,8 +567,10 @@ class CursorIndex {
       if (_usrCursorDefinition.containsKey(usr)) {
         return _usrCursorDefinition[cursor.usr()]!;
       } else {
-        _logger.warning('No definition found for declaration -'
-            '${cursor.completeStringRepr()}');
+        _logger.warning(
+          'No definition found for declaration -'
+          '${cursor.completeStringRepr()}',
+        );
         return cursor;
       }
     }
@@ -544,10 +589,116 @@ class CursorIndex {
             _usrCursorDefinition[usr] = cursorDefinition;
           } else {
             _logger.finest(
-                'Missing cursor definition in current translation unit: '
-                '${cursor.completeStringRepr()}');
+              'Missing cursor definition in current translation unit: '
+              '${cursor.completeStringRepr()}',
+            );
           }
         }
     }
   }
+}
+
+/// Converts a double to a string, handling cases like Infinity and NaN.
+String writeDoubleAsString(double d) {
+  if (d.isFinite) {
+    return d.toString();
+  } else {
+    // The only Non-Finite numbers are Infinity, NegativeInfinity and NaN.
+    if (d.isInfinite) {
+      return d.isNegative
+          ? strings.doubleNegativeInfinity
+          : strings.doubleInfinity;
+    }
+    return strings.doubleNaN;
+  }
+}
+
+/// Gets a written representation string of a C string.
+///
+/// E.g- For a string "Hello\nWorld", The new line character is converted to \n.
+/// Note: The string is considered to be Utf8, but is treated as Extended ASCII,
+/// if the conversion fails.
+String getWrittenStringRepresentation(
+  String varName,
+  Pointer<Char> strPtr,
+  Context context,
+) {
+  final sb = StringBuffer();
+  try {
+    // Consider string to be Utf8 encoded by default.
+    sb.clear();
+    // This throws a Format Exception if string isn't Utf8 so that we handle it
+    // in the catch block.
+    final result = strPtr.cast<Utf8>().toDartString();
+    for (final s in result.runes) {
+      sb.write(_getWritableChar(s));
+    }
+  } catch (e) {
+    // Handle string if it isn't Utf8. String is considered to be
+    // Extended ASCII in this case.
+    context.logger.warning(
+      "Couldn't decode string value for '$varName' as Utf8, using "
+      'ASCII instead.',
+    );
+    sb.clear();
+    final length = strPtr.cast<Utf8>().length;
+    final charList = Uint8List.view(
+      strPtr.cast<Uint8>().asTypedList(length).buffer,
+      0,
+      length,
+    );
+
+    for (final char in charList) {
+      sb.write(_getWritableChar(char, utf8: false));
+    }
+  }
+
+  return sb.toString();
+}
+
+/// Creates a writable char from [char] code.
+///
+/// E.g- `\` is converted to `\\`.
+String _getWritableChar(int char, {bool utf8 = true}) {
+  /// Handle control characters.
+  if (char >= 0 && char < 32 || char == 127) {
+    /// Handle these - `\b \t \n \v \f \r` as special cases.
+    switch (char) {
+      case 8: // \b
+        return r'\b';
+      case 9: // \t
+        return r'\t';
+      case 10: // \n
+        return r'\n';
+      case 11: // \v
+        return r'\v';
+      case 12: // \f
+        return r'\f';
+      case 13: // \r
+        return r'\r';
+      default:
+        final h = char.toRadixString(16).toUpperCase().padLeft(2, '0');
+        return '\\x$h';
+    }
+  }
+
+  /// Handle characters - `$ ' \` these need to be escaped when writing to file.
+  switch (char) {
+    case 36: // $
+      return r'\$';
+    case 39: // '
+      return r"\'";
+    case 92: // \
+      return r'\\';
+  }
+
+  /// In case encoding is not Utf8, we know all characters will fall in [0..255]
+  /// Print range [128..255] as `\xHH`.
+  if (!utf8) {
+    final h = char.toRadixString(16).toUpperCase().padLeft(2, '0');
+    return '\\x$h';
+  }
+
+  /// In all other cases, simply convert to string.
+  return String.fromCharCode(char);
 }

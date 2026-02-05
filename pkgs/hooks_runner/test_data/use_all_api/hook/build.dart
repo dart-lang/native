@@ -47,11 +47,10 @@ void main(List<String> args) async {
         name: 'name',
         package: 'package',
       ),
-      routing:
-          input.config.linkingEnabled
-              ? const ToLinkHook('foo')
-              : const ToAppBundle(),
+      routing: input.config.linkingEnabled
+          ? const ToLinkHook('foo')
+          : const ToAppBundle(),
     );
-    output.addDependency(input.packageRoot.resolve('x.txt'));
+    output.dependencies.add(input.packageRoot.resolve('x.txt'));
   });
 }

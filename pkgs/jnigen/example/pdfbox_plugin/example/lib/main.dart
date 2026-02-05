@@ -158,9 +158,9 @@ class PDFFileInfo {
     // Since java.io is not directly available, use package:jni API to
     // create a java.io.File object.
     final fileClass = JClass.forName("java/io/File");
-    final inputFile = fileClass
-        .constructorId("(Ljava/lang/String;)V")
-        .call(fileClass, JObject.type, [filename]);
+    final fileConstructor = fileClass.constructorId("(Ljava/lang/String;)V");
+    final inputFile = fileConstructor(
+        fileClass, JObject.type, [JString.fromString(filename)]);
     // Static method call PDDocument.load -> PDDocument
     final pdf = PDDocument.load(inputFile)!;
     // Instance method call getNumberOfPages() -> int

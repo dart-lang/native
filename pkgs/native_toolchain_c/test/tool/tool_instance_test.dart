@@ -52,12 +52,18 @@ void main() {
         version: Version(1, 0, 0),
         uri: Uri.file('path/to/bar'),
       ),
-      ToolInstance(tool: Tool(name: 'bar'), uri: Uri.file('path/to/bar')),
+      ToolInstance(
+        tool: Tool(name: 'bar'),
+        uri: Uri.file('path/to/bar'),
+      ),
       ToolInstance(
         tool: Tool(name: 'bar'),
         uri: Uri.file('path/to/some/other/bar'),
       ),
-      ToolInstance(tool: Tool(name: 'baz'), uri: Uri.file('path/to/baz')),
+      ToolInstance(
+        tool: Tool(name: 'baz'),
+        uri: Uri.file('path/to/baz'),
+      ),
     ];
 
     final toolInstancesSorted = [...toolInstances]..sort();

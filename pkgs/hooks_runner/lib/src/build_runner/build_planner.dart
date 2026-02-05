@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:convert';
+import 'dart:developer';
 
 import 'package:file/file.dart';
 import 'package:graphs/graphs.dart' as graphs;
@@ -11,9 +12,16 @@ import 'package:meta/meta.dart';
 import 'package:package_config/package_config.dart';
 
 import '../package_layout/package_layout.dart';
+import 'failure.dart';
+import 'result.dart';
+
+/// The order in which packages' build hooks should be run.
+typedef BuildPlan = List<Package>;
 
 @internal
 class NativeAssetsBuildPlanner {
+  final TimelineTask task;
+
   final PackageGraph packageGraph;
   final Uri dartExecutable;
   final Logger logger;
@@ -21,6 +29,7 @@ class NativeAssetsBuildPlanner {
   final FileSystem fileSystem;
 
   NativeAssetsBuildPlanner._({
+    required this.task,
     required this.packageGraph,
     required this.dartExecutable,
     required this.logger,
@@ -34,14 +43,17 @@ class NativeAssetsBuildPlanner {
     required Logger logger,
     required PackageLayout packageLayout,
     required FileSystem fileSystem,
+    TimelineTask? task,
   }) async {
     final packageGraphJsonFile = fileSystem.file(
       packageConfigUri.resolve('package_graph.json'),
     );
-    assert(packageGraphJsonFile.existsSync());
+    assert(await packageGraphJsonFile.exists());
     final packageGraphJson = await packageGraphJsonFile.readAsString();
     final packageGraph = PackageGraph.fromPackageGraphJsonString(
       packageGraphJson,
+      packageLayout.runPackageName,
+      includeDevDependencies: packageLayout.includeDevDependencies,
     );
     final packageGraphFromRunPackage = packageGraph.subGraph(
       packageLayout.runPackageName,
@@ -52,6 +64,7 @@ class NativeAssetsBuildPlanner {
       logger: logger,
       packageLayout: packageLayout,
       fileSystem: fileSystem,
+      task: task ?? TimelineTask(),
     );
   }
 
@@ -59,10 +72,14 @@ class NativeAssetsBuildPlanner {
   ///
   /// Whether a package has native assets is defined by whether it contains
   /// a `hook/build.dart` or `hook/link.dart`.
-  Future<List<Package>> packagesWithHook(Hook hook) async => switch (hook) {
-    Hook.build => _packagesWithBuildHook ??= await _runPackagesWithHook(hook),
-    Hook.link => _packagesWithLinkHook ??= await _runPackagesWithHook(hook),
-  };
+  Future<List<Package>> packagesWithHook(Hook hook) async => _timeAsync(
+    'BuildPlanner.packagesWithHook',
+    arguments: {'hook': hook.toString()},
+    () async => switch (hook) {
+      Hook.build => _packagesWithBuildHook ??= await _runPackagesWithHook(hook),
+      Hook.link => _packagesWithLinkHook ??= await _runPackagesWithHook(hook),
+    },
+  );
 
   List<Package>? _packagesWithBuildHook;
   List<Package>? _packagesWithLinkHook;
@@ -70,12 +87,15 @@ class NativeAssetsBuildPlanner {
   Future<List<Package>> _runPackagesWithHook(Hook hook) async {
     final packageNamesInDependencies = packageGraph.vertices.toSet();
     final result = <Package>[];
+    final watch = Stopwatch()..start();
+    var length = 0;
     for (final package in packageLayout.packageConfig.packages) {
       if (!packageNamesInDependencies.contains(package.name)) {
         continue;
       }
       final packageRoot = package.root;
       if (packageRoot.scheme == 'file') {
+        length++;
         if (await fileSystem
             .file(packageRoot.resolve('hook/').resolve(hook.scriptName))
             .exists()) {
@@ -83,44 +103,120 @@ class NativeAssetsBuildPlanner {
         }
       }
     }
+    watch.stop();
+    logger.finest(
+      'Checking $length packages for hook/${hook.scriptName} '
+      'took ${watch.elapsedMilliseconds} ms.',
+    );
     return result;
   }
 
-  List<Package>? _buildHookPlan;
+  BuildPlan? _buildHookPlan;
+  BuildPlan? _linkHookPlan;
 
   /// Plans in what order to run build hooks.
   ///
   /// [PackageLayout.runPackageName] provides the entry-point in the graph. The
   /// hooks of packages not in the transitive dependencies of
   /// [PackageLayout.runPackageName] will not be run.
-  Future<List<Package>?> makeBuildHookPlan() async {
-    if (_buildHookPlan != null) return _buildHookPlan;
-    final packagesWithNativeAssets = await packagesWithHook(Hook.build);
+  ///
+  /// Returns a [Future] that completes with a [Result]. On success, the
+  /// [Result] is a [Success] containing the [BuildPlan], which is a list of
+  /// packages in the order their build hooks should be executed. On failure, if
+  /// a cyclic dependency is detected among packages with native asset build
+  /// hooks, the [Result] is a [Failure] containing a
+  /// [HooksRunnerFailure.projectConfig].
+  Future<Result<BuildPlan, HooksRunnerFailure>> makeBuildHookPlan() async =>
+      _timeAsync(
+        'BuildPlanner.makeBuildHookPlan',
+        () async => _makeHookPlan(
+          hookType: Hook.build,
+          cachedPlan: _buildHookPlan,
+          setCachedPlan: (plan) => _buildHookPlan = plan,
+          reverseOrder: false,
+        ),
+      );
+
+  /// Plans in what order to run link hooks.
+  ///
+  /// [PackageLayout.runPackageName] provides the entry-point in the graph. The
+  /// hooks of packages not in the transitive dependencies of
+  /// [PackageLayout.runPackageName] will not be run.
+  ///
+  /// Returns a [Future] that completes with a [Result]. On success, the
+  /// [Result] is a [Success] containing the [BuildPlan], which is a list of
+  /// packages in the order their link hooks should be executed. On failure, if
+  /// a cyclic dependency is detected among packages with native asset link
+  /// hooks, the [Result] is a [Failure] containing a
+  /// [HooksRunnerFailure.projectConfig].
+  Future<Result<BuildPlan, HooksRunnerFailure>> makeLinkHookPlan() async =>
+      _timeAsync(
+        'BuildPlanner.makeLinkHookPlan',
+        () async => _makeHookPlan(
+          hookType: Hook.link,
+          cachedPlan: _linkHookPlan,
+          setCachedPlan: (plan) => _linkHookPlan = plan,
+          reverseOrder: true, // Key difference from [makeBuildHookPlan]
+        ),
+      );
+
+  Future<Result<BuildPlan, HooksRunnerFailure>> _makeHookPlan({
+    required Hook hookType,
+    required BuildPlan? cachedPlan,
+    required void Function(BuildPlan) setCachedPlan,
+    required bool reverseOrder,
+  }) async {
+    if (cachedPlan != null) return Success(cachedPlan);
+
+    final packagesWithNativeAssets = await packagesWithHook(hookType);
+    if (packagesWithNativeAssets.isEmpty) {
+      return const Success([]);
+    }
+
     final packageMap = {
       for (final package in packagesWithNativeAssets) package.name: package,
     };
-    final packagesToBuild = packageMap.keys.toSet();
-    final stronglyConnectedComponents = packageGraph.computeStrongComponents();
+    final packagesToProcess = packageMap.keys.toSet();
+
+    final stronglyConnectedComponents = reverseOrder
+        ? packageGraph.computeStrongComponents().reversed
+        : packageGraph.computeStrongComponents();
+
     final result = <Package>[];
     for (final stronglyConnectedComponent in stronglyConnectedComponents) {
       final stronglyConnectedComponentWithNativeAssets = [
         for (final packageName in stronglyConnectedComponent)
-          if (packagesToBuild.contains(packageName)) packageName,
+          if (packagesToProcess.contains(packageName)) packageName,
       ];
+
       if (stronglyConnectedComponentWithNativeAssets.length > 1) {
         logger.severe(
-          'Cyclic dependency for native asset builds in the following '
-          'packages: $stronglyConnectedComponentWithNativeAssets.',
+          'Cyclic dependency for ${hookType.name} hooks in the '
+          'following packages: $stronglyConnectedComponentWithNativeAssets.',
         );
-        return null;
+        return const Failure(HooksRunnerFailure.projectConfig);
       } else if (stronglyConnectedComponentWithNativeAssets.length == 1) {
         result.add(
           packageMap[stronglyConnectedComponentWithNativeAssets.single]!,
         );
       }
     }
-    _buildHookPlan = result;
-    return result;
+
+    setCachedPlan(result);
+    return Success(result);
+  }
+
+  Future<T> _timeAsync<T>(
+    String name,
+    Future<T> Function() function, {
+    Map<String, Object>? arguments,
+  }) async {
+    task.start(name, arguments: arguments);
+    try {
+      return await function();
+    } finally {
+      task.finish();
+    }
   }
 }
 
@@ -130,30 +226,65 @@ class NativeAssetsBuildPlanner {
 /// dependencies.
 class PackageGraph {
   final Map<String, List<String>> map;
+  late final Map<String, List<String>> _inverseMap = _computeInverseMap(map);
 
   PackageGraph(this.map);
 
-  factory PackageGraph.fromPackageGraphJsonString(String json) =>
-      PackageGraph.fromPackageGraphJson(
-        jsonDecode(json) as Map<dynamic, dynamic>,
-      );
+  /// Instead of a map of package -> dependencies, get the map of package ->
+  /// dependents.
+  static Map<String, List<String>> _computeInverseMap(
+    Map<String, List<String>> graphMap,
+  ) {
+    final inverse = <String, List<String>>{};
+    for (final packageName in graphMap.keys) {
+      inverse.putIfAbsent(packageName, () => []);
+      for (final dependency in graphMap[packageName]!) {
+        inverse.putIfAbsent(dependency, () => []).add(packageName);
+      }
+    }
+    return inverse;
+  }
 
-  factory PackageGraph.fromPackageGraphJson(Map<dynamic, dynamic> map) {
+  factory PackageGraph.fromPackageGraphJsonString(
+    String json,
+    String runPackageName, {
+    required bool includeDevDependencies,
+  }) => PackageGraph.fromPackageGraphJson(
+    jsonDecode(json) as Map<dynamic, dynamic>,
+    runPackageName,
+    includeDevDependencies: includeDevDependencies,
+  );
+
+  factory PackageGraph.fromPackageGraphJson(
+    Map<dynamic, dynamic> map,
+    String runPackageName, {
+    required bool includeDevDependencies,
+  }) {
     final result = <String, List<String>>{};
     final packages = map['packages'] as List<dynamic>;
     for (final package in packages) {
       final package_ = package as Map<dynamic, dynamic>;
       final name = package_['name'] as String;
-      final dependencies =
-          (package_['dependencies'] as List<dynamic>)
-              .whereType<String>()
-              .toList();
+      final dependencies = (package_['dependencies'] as List<dynamic>)
+          .whereType<String>()
+          .toList();
+      if (name == runPackageName && includeDevDependencies) {
+        final devDependencies =
+            (package_['devDependencies'] as List<dynamic>?)
+                ?.whereType<String>()
+                .toList() ??
+            [];
+        dependencies.addAll(devDependencies);
+      }
       result[name] = dependencies;
     }
     return PackageGraph(result);
   }
 
   Iterable<String> neighborsOf(String vertex) => map[vertex] ?? [];
+
+  Iterable<String> inverseNeighborsOf(String vertex) =>
+      _inverseMap[vertex] ?? [];
 
   Iterable<String> get vertices => map.keys;
 

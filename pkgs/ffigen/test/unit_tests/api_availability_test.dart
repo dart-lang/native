@@ -4,41 +4,50 @@
 
 import 'package:ffigen/src/config_provider/config_types.dart';
 import 'package:ffigen/src/header_parser/sub_parsers/api_availability.dart';
-import 'package:pub_semver/pub_semver.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('PlatformAvailability.deprecatedOrObsoleted', () {
     expect(PlatformAvailability().deprecatedOrObsoleted, null);
     expect(
-        PlatformAvailability(deprecated: Version(1, 2, 3))
-            .deprecatedOrObsoleted,
-        Version(1, 2, 3));
+      PlatformAvailability(deprecated: Version(1, 2, 3)).deprecatedOrObsoleted,
+      Version(1, 2, 3),
+    );
     expect(
-        PlatformAvailability(obsoleted: Version(1, 2, 3)).deprecatedOrObsoleted,
-        Version(1, 2, 3));
+      PlatformAvailability(obsoleted: Version(1, 2, 3)).deprecatedOrObsoleted,
+      Version(1, 2, 3),
+    );
     expect(
-        PlatformAvailability(
-                deprecated: Version(1, 2, 3), obsoleted: Version(4, 5, 6))
-            .deprecatedOrObsoleted,
-        Version(1, 2, 3));
+      PlatformAvailability(
+        deprecated: Version(1, 2, 3),
+        obsoleted: Version(4, 5, 6),
+      ).deprecatedOrObsoleted,
+      Version(1, 2, 3),
+    );
     expect(
-        PlatformAvailability(
-                deprecated: Version(4, 5, 6), obsoleted: Version(1, 2, 3))
-            .deprecatedOrObsoleted,
-        Version(1, 2, 3));
+      PlatformAvailability(
+        deprecated: Version(4, 5, 6),
+        obsoleted: Version(1, 2, 3),
+      ).deprecatedOrObsoleted,
+      Version(1, 2, 3),
+    );
   });
 
   test('PlatformAvailability.getAvailability', () {
     expect(
-        PlatformAvailability(unavailable: true)
-            .getAvailability(const Versions()),
-        Availability.none);
+      PlatformAvailability(unavailable: true).getAvailability(const Versions()),
+      Availability.none,
+    );
 
-    Availability getAvailability(Version? apiMin, Version? apiMax,
-            Version? confMin, Version? confMax) =>
-        PlatformAvailability(introduced: apiMin, deprecated: apiMax)
-            .getAvailability(Versions(min: confMin, max: confMax));
+    Availability getAvailability(
+      Version? apiMin,
+      Version? apiMax,
+      Version? confMin,
+      Version? confMax,
+    ) => PlatformAvailability(
+      introduced: apiMin,
+      deprecated: apiMax,
+    ).getAvailability(Versions(min: confMin, max: confMax));
 
     final v1 = Version(1, 0, 0);
     final v2 = Version(2, 0, 0);
@@ -108,90 +117,112 @@ void main() {
   group('Availability.getAvailability', () {
     test('empty', () {
       expect(
-          ApiAvailability(externalVersions: const ExternalVersions())
-              .availability,
-          Availability.all);
+        ApiAvailability(
+          externalVersions: const ExternalVersions(),
+        ).availability,
+        Availability.all,
+      );
       expect(
-          ApiAvailability(
-              externalVersions: ExternalVersions(
+        ApiAvailability(
+          externalVersions: ExternalVersions(
             ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
-          )).availability,
-          Availability.all);
+          ),
+        ).availability,
+        Availability.all,
+      );
       expect(
-          ApiAvailability(
-              externalVersions: ExternalVersions(
+        ApiAvailability(
+          externalVersions: ExternalVersions(
             macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
-          )).availability,
-          Availability.all);
+          ),
+        ).availability,
+        Availability.all,
+      );
       expect(
-          ApiAvailability(
-              externalVersions: ExternalVersions(
+        ApiAvailability(
+          externalVersions: ExternalVersions(
             ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
             macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
-          )).availability,
-          Availability.all);
+          ),
+        ).availability,
+        Availability.all,
+      );
     });
 
     test('always deprecated', () {
       expect(
-          ApiAvailability(
-                  alwaysDeprecated: true,
-                  externalVersions: const ExternalVersions())
-              .availability,
-          Availability.all);
+        ApiAvailability(
+          alwaysDeprecated: true,
+          externalVersions: const ExternalVersions(),
+        ).availability,
+        Availability.all,
+      );
       expect(
-          ApiAvailability(
-              alwaysDeprecated: true,
-              externalVersions: ExternalVersions(
-                ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
-              )).availability,
-          Availability.none);
+        ApiAvailability(
+          alwaysDeprecated: true,
+          externalVersions: ExternalVersions(
+            ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
+          ),
+        ).availability,
+        Availability.none,
+      );
       expect(
-          ApiAvailability(
-              alwaysDeprecated: true,
-              externalVersions: ExternalVersions(
-                macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
-              )).availability,
-          Availability.none);
+        ApiAvailability(
+          alwaysDeprecated: true,
+          externalVersions: ExternalVersions(
+            macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
+          ),
+        ).availability,
+        Availability.none,
+      );
       expect(
-          ApiAvailability(
-              alwaysDeprecated: true,
-              externalVersions: ExternalVersions(
-                ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
-                macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
-              )).availability,
-          Availability.none);
+        ApiAvailability(
+          alwaysDeprecated: true,
+          externalVersions: ExternalVersions(
+            ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
+            macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
+          ),
+        ).availability,
+        Availability.none,
+      );
     });
 
     test('always unavailable', () {
       expect(
-          ApiAvailability(
-                  alwaysUnavailable: true,
-                  externalVersions: const ExternalVersions())
-              .availability,
-          Availability.all);
+        ApiAvailability(
+          alwaysUnavailable: true,
+          externalVersions: const ExternalVersions(),
+        ).availability,
+        Availability.all,
+      );
       expect(
-          ApiAvailability(
-              alwaysUnavailable: true,
-              externalVersions: ExternalVersions(
-                ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
-              )).availability,
-          Availability.none);
+        ApiAvailability(
+          alwaysUnavailable: true,
+          externalVersions: ExternalVersions(
+            ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
+          ),
+        ).availability,
+        Availability.none,
+      );
       expect(
-          ApiAvailability(
-              alwaysUnavailable: true,
-              externalVersions: ExternalVersions(
-                macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
-              )).availability,
-          Availability.none);
+        ApiAvailability(
+          alwaysUnavailable: true,
+          externalVersions: ExternalVersions(
+            macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
+          ),
+        ).availability,
+        Availability.none,
+      );
       expect(
-          ApiAvailability(
-              alwaysUnavailable: true,
-              externalVersions: ExternalVersions(
-                ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
-                macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
-              )).availability,
-          Availability.none);
+        ApiAvailability(
+          alwaysUnavailable: true,
+          externalVersions: ExternalVersions(
+            ios: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
+            macos: Versions(min: Version(1, 2, 3), max: Version(4, 5, 6)),
+          ),
+        ).availability,
+        Availability.none,
+      );
     });
 
     test('versions', () {
@@ -209,16 +240,15 @@ void main() {
       final verEmpty = const Versions();
 
       Availability getAvail(
-              PlatformAvailability? iosAvail,
-              PlatformAvailability? macosAvail,
-              Versions? iosVer,
-              Versions? macosVer) =>
-          ApiAvailability(
-                  ios: iosAvail,
-                  macos: macosAvail,
-                  externalVersions:
-                      ExternalVersions(ios: iosVer, macos: macosVer))
-              .availability;
+        PlatformAvailability? iosAvail,
+        PlatformAvailability? macosAvail,
+        Versions? iosVer,
+        Versions? macosVer,
+      ) => ApiAvailability(
+        ios: iosAvail,
+        macos: macosAvail,
+        externalVersions: ExternalVersions(ios: iosVer, macos: macosVer),
+      ).availability;
 
       expect(getAvail(null, null, null, null), Availability.all);
       expect(getAvail(null, null, verEmpty, verEmpty), Availability.all);
@@ -273,107 +303,113 @@ void main() {
 
   test('ApiAvailability.dartDoc', () {
     expect(
-        ApiAvailability(
-          ios: PlatformAvailability(
-            name: 'iOS',
-            introduced: Version(1, 2, 3),
-            deprecated: Version(4, 5, 6),
-            obsoleted: Version(7, 8, 9),
-          ),
-          macos: PlatformAvailability(
-            name: 'macOS',
-            deprecated: Version(10, 11, 12),
-          ),
-          externalVersions: const ExternalVersions(),
-        ).dartDoc,
-        isNull);
+      ApiAvailability(
+        ios: PlatformAvailability(
+          name: 'iOS',
+          introduced: Version(1, 2, 3),
+          deprecated: Version(4, 5, 6),
+          obsoleted: Version(7, 8, 9),
+        ),
+        macos: PlatformAvailability(
+          name: 'macOS',
+          deprecated: Version(10, 11, 12),
+        ),
+        externalVersions: const ExternalVersions(),
+      ).dartDoc,
+      isNull,
+    );
 
     expect(
-        ApiAvailability(
-          ios: PlatformAvailability(
-            name: 'iOS',
-            introduced: Version(1, 2, 3),
-            deprecated: Version(4, 5, 6),
-            obsoleted: Version(7, 8, 9),
-          ),
-          macos: PlatformAvailability(
-            name: 'macOS',
-            deprecated: Version(10, 11, 12),
-          ),
-          externalVersions: ExternalVersions(
-            ios: Versions(max: Version(1, 0, 0)),
-          ),
-        ).dartDoc,
-        isNull);
+      ApiAvailability(
+        ios: PlatformAvailability(
+          name: 'iOS',
+          introduced: Version(1, 2, 3),
+          deprecated: Version(4, 5, 6),
+          obsoleted: Version(7, 8, 9),
+        ),
+        macos: PlatformAvailability(
+          name: 'macOS',
+          deprecated: Version(10, 11, 12),
+        ),
+        externalVersions: ExternalVersions(
+          ios: Versions(max: Version(1, 0, 0)),
+        ),
+      ).dartDoc,
+      isNull,
+    );
 
     expect(
-        ApiAvailability(
-          ios: PlatformAvailability(
-            name: 'iOS',
-            introduced: Version(1, 2, 3),
-            deprecated: Version(4, 5, 6),
-            obsoleted: Version(7, 8, 9),
-          ),
-          macos: PlatformAvailability(
-            name: 'macOS',
-            deprecated: Version(10, 11, 12),
-          ),
-          externalVersions: ExternalVersions(
-            ios: Versions(min: Version(1, 2, 3), max: Version(1, 3, 5)),
-            macos: Versions(max: Version(4, 5, 6)),
-          ),
-        ).dartDoc,
-        isNull);
+      ApiAvailability(
+        ios: PlatformAvailability(
+          name: 'iOS',
+          introduced: Version(1, 2, 3),
+          deprecated: Version(4, 5, 6),
+          obsoleted: Version(7, 8, 9),
+        ),
+        macos: PlatformAvailability(
+          name: 'macOS',
+          deprecated: Version(10, 11, 12),
+        ),
+        externalVersions: ExternalVersions(
+          ios: Versions(min: Version(1, 2, 3), max: Version(1, 3, 5)),
+          macos: Versions(max: Version(4, 5, 6)),
+        ),
+      ).dartDoc,
+      isNull,
+    );
 
     expect(
-        ApiAvailability(
-          ios: PlatformAvailability(
-            name: 'iOS',
-            introduced: Version(1, 2, 3),
-            deprecated: Version(4, 5, 6),
-            obsoleted: Version(7, 8, 9),
-          ),
-          macos: PlatformAvailability(
-            name: 'macOS',
-            deprecated: Version(10, 11, 12),
-          ),
-          externalVersions: ExternalVersions(
-            ios: Versions(min: Version(1, 2, 3), max: Version(1, 3, 5)),
-            macos: Versions(max: Version(11, 12, 13)),
-          ),
-        ).dartDoc,
-        '''
+      ApiAvailability(
+        ios: PlatformAvailability(
+          name: 'iOS',
+          introduced: Version(1, 2, 3),
+          deprecated: Version(4, 5, 6),
+          obsoleted: Version(7, 8, 9),
+        ),
+        macos: PlatformAvailability(
+          name: 'macOS',
+          deprecated: Version(10, 11, 12),
+        ),
+        externalVersions: ExternalVersions(
+          ios: Versions(min: Version(1, 2, 3), max: Version(1, 3, 5)),
+          macos: Versions(max: Version(11, 12, 13)),
+        ),
+      ).dartDoc,
+      '''
 iOS: introduced 1.2.3, deprecated 4.5.6, obsoleted 7.8.9
-macOS: deprecated 10.11.12''');
+macOS: deprecated 10.11.12''',
+    );
 
     expect(
-        ApiAvailability(
-          ios: PlatformAvailability(
-            name: 'iOS',
-            introduced: Version(1, 2, 3),
-            obsoleted: Version(4, 5, 6),
-          ),
-          externalVersions:
-              ExternalVersions(ios: Versions(max: Version(2, 3, 4))),
-        ).dartDoc,
-        'iOS: introduced 1.2.3, obsoleted 4.5.6');
+      ApiAvailability(
+        ios: PlatformAvailability(
+          name: 'iOS',
+          introduced: Version(1, 2, 3),
+          obsoleted: Version(4, 5, 6),
+        ),
+        externalVersions: ExternalVersions(
+          ios: Versions(max: Version(2, 3, 4)),
+        ),
+      ).dartDoc,
+      'iOS: introduced 1.2.3, obsoleted 4.5.6',
+    );
 
     expect(
-        ApiAvailability(
-          ios: PlatformAvailability(
-            name: 'macOS',
-            unavailable: true,
-          ),
-          externalVersions: ExternalVersions(
-              ios: Versions(max: Version(1, 2, 3)),
-              macos: Versions(max: Version(2, 3, 4))),
-        ).dartDoc,
-        'macOS: unavailable');
+      ApiAvailability(
+        ios: PlatformAvailability(name: 'macOS', unavailable: true),
+        externalVersions: ExternalVersions(
+          ios: Versions(max: Version(1, 2, 3)),
+          macos: Versions(max: Version(2, 3, 4)),
+        ),
+      ).dartDoc,
+      'macOS: unavailable',
+    );
 
     expect(
-        ApiAvailability(
-                externalVersions: const ExternalVersions(ios: Versions()))
-            .dartDoc,
-        isNull);
+      ApiAvailability(
+        externalVersions: const ExternalVersions(ios: Versions()),
+      ).dartDoc,
+      isNull,
+    );
   });
 }

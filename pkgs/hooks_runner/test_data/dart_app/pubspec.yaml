@@ -5,10 +5,13 @@ publish_to: none
 resolution: workspace
 
 environment:
-  sdk: '>=3.7.0 <4.0.0'
+  sdk: '>=3.9.0 <4.0.0'
 
 dependencies:
   native_add:
     path: ../native_add
   native_subtract:
     path: ../native_subtract
+
+executables:
+  dart_app:

@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:ffigen/ffigen.dart';
+import 'package:ffigen/src/config_provider/config.dart';
 import 'package:ffigen/src/header_parser.dart' show parse;
 import 'package:ffigen/src/strings.dart' as strings;
 import 'package:test/test.dart';
@@ -24,26 +25,31 @@ void main() {
     for (final f in fieldsAndNameMap.keys) {
       test('include $f', () {
         final config = _makeFieldIncludeExcludeConfig(
-            field: f, include: fieldsAndNameMap[f]);
-        final library = parse(config);
+          field: f,
+          include: fieldsAndNameMap[f],
+        );
+        final library = parse(testContext(config));
         expect(library.getBinding(fieldsAndNameMap[f]!), isNotNull);
       });
       test('exclude $f', () {
         final config = _makeFieldIncludeExcludeConfig(
-            field: f, exclude: fieldsAndNameMap[f]);
-        final library = parse(config);
+          field: f,
+          exclude: fieldsAndNameMap[f],
+        );
+        final library = parse(testContext(config));
         expect(() => library.getBinding(fieldsAndNameMap[f]!), throwsException);
       });
     }
   });
 }
 
-Config _makeFieldIncludeExcludeConfig({
+FfiGenerator _makeFieldIncludeExcludeConfig({
   required String field,
   String? include,
   String? exclude,
 }) {
-  var templateString = '''
+  var templateString =
+      '''
 ${strings.name}: 'NativeLibrary'
 ${strings.description}: 'include_exclude test'
 ${strings.output}: 'unused'
@@ -52,17 +58,20 @@ ${strings.headers}:
     - '${absPath('test/config_tests/include_exclude.h')}'
 ''';
   if (include != null || exclude != null) {
-    templateString += '''
+    templateString +=
+        '''
 $field:
 ''';
     if (include != null) {
-      templateString += '''
+      templateString +=
+          '''
   ${strings.include}:
     - $include
 ''';
     }
     if (exclude != null) {
-      templateString += '''
+      templateString +=
+          '''
   ${strings.exclude}:
     - $exclude
 ''';
