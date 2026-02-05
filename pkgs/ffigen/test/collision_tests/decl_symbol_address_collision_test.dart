@@ -49,7 +49,9 @@ void main() {
       );
     });
     test('declaration and symbol address conflict', () {
+      final context = testContext();
       matchLibraryWithExpected(
+        context,
         actual,
         'collision_test_decl_symbol_address_collision_output.dart',
         [

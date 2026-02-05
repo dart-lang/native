@@ -35,7 +35,9 @@ ${strings.unions}:
       );
     });
     test('Expected bindings', () {
+      final context = testContext();
       matchLibraryWithExpected(
+        context,
         actual,
         'header_parser_opaque_dependencies_test_output.dart',
         [

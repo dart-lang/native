@@ -82,7 +82,9 @@ void main() {
           ),
         ], context),
       );
+      final context = testContext();
       matchLibraryWithExpected(
+        context,
         library,
         'decl_decl_collision_test_output.dart',
         [

@@ -29,7 +29,9 @@ ${strings.headers}:
     });
 
     test('Expected bindings', () {
+      final context = testContext();
       matchLibraryWithExpected(
+        context,
         actual,
         'header_parser_regress_384_test_output.dart',
         [

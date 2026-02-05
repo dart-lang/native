@@ -28,7 +28,9 @@ ${strings.headers}:
     });
 
     test('Expected bindings', () {
+      final context = testContext();
       matchLibraryWithExpected(
+        context,
         actual,
         'header_parser_packed_structs_test_output.dart',
         [

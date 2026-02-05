@@ -35,7 +35,7 @@ void main() {
       final context = testContext(generator);
       final library = parse(context);
 
-      matchLibraryWithExpected(library, 'example_libclang.dart', [
+      matchLibraryWithExpected(context, library, 'example_libclang.dart', [
         generator.output.dartFile.toFilePath(),
       ]);
     });
