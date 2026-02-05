@@ -71,24 +71,14 @@ class CallSyntax extends JsonObjectSyntax {
   }) : super.fromJson();
 
   CallSyntax({
-    int? at,
     required String loadingUnit,
     required String type,
     super.path = const [],
   }) : super() {
-    _at = at;
     _loadingUnit = loadingUnit;
     _type = type;
     json.sortOnKey();
   }
-
-  int? get at => _reader.get<int?>('@');
-
-  set _at(int? value) {
-    json.setOrRemove('@', value);
-  }
-
-  List<String> _validateAt() => _reader.validate<int?>('@');
 
   String get loadingUnit => _reader.get<String>('loading_unit');
 
@@ -110,7 +100,6 @@ class CallSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [
     ...super.validate(),
-    ..._validateAt(),
     ..._validateLoadingUnit(),
     ..._validateType(),
   ];
@@ -288,24 +277,14 @@ class InstanceSyntax extends JsonObjectSyntax {
   }) : super.fromJson();
 
   InstanceSyntax({
-    int? at,
     required int constantIndex,
     required String loadingUnit,
     super.path = const [],
   }) : super() {
-    _at = at;
     _constantIndex = constantIndex;
     _loadingUnit = loadingUnit;
     json.sortOnKey();
   }
-
-  int? get at => _reader.get<int?>('@');
-
-  set _at(int? value) {
-    json.setOrRemove('@', value);
-  }
-
-  List<String> _validateAt() => _reader.validate<int?>('@');
 
   int get constantIndex => _reader.get<int>('constant_index');
 
@@ -328,7 +307,6 @@ class InstanceSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [
     ...super.validate(),
-    ..._validateAt(),
     ..._validateConstantIndex(),
     ..._validateLoadingUnit(),
   ];
@@ -469,60 +447,6 @@ extension ListConstantSyntaxExtension on ConstantSyntax {
 
   ListConstantSyntax get asListConstant =>
       ListConstantSyntax.fromJson(json, path: path);
-}
-
-class LocationSyntax extends JsonObjectSyntax {
-  LocationSyntax.fromJson(
-    super.json, {
-    super.path = const [],
-  }) : super.fromJson();
-
-  LocationSyntax({
-    int? column,
-    int? line,
-    required String uri,
-    super.path = const [],
-  }) : super() {
-    _column = column;
-    _line = line;
-    _uri = uri;
-    json.sortOnKey();
-  }
-
-  int? get column => _reader.get<int?>('column');
-
-  set _column(int? value) {
-    json.setOrRemove('column', value);
-  }
-
-  List<String> _validateColumn() => _reader.validate<int?>('column');
-
-  int? get line => _reader.get<int?>('line');
-
-  set _line(int? value) {
-    json.setOrRemove('line', value);
-  }
-
-  List<String> _validateLine() => _reader.validate<int?>('line');
-
-  String get uri => _reader.get<String>('uri');
-
-  set _uri(String value) {
-    json.setOrRemove('uri', value);
-  }
-
-  List<String> _validateUri() => _reader.validate<String>('uri');
-
-  @override
-  List<String> validate() => [
-    ...super.validate(),
-    ..._validateColumn(),
-    ..._validateLine(),
-    ..._validateUri(),
-  ];
-
-  @override
-  String toString() => 'LocationSyntax($json)';
 }
 
 class MapConstantSyntax extends ConstantSyntax {
@@ -701,13 +625,11 @@ class RecordedUsesSyntax extends JsonObjectSyntax {
 
   RecordedUsesSyntax({
     List<ConstantSyntax>? constants,
-    List<LocationSyntax>? locations,
     required MetadataSyntax metadata,
     List<RecordingSyntax>? recordings,
     super.path = const [],
   }) : super() {
     _constants = constants;
-    _locations = locations;
     _metadata = metadata;
     _recordings = recordings;
     json.sortOnKey();
@@ -741,40 +663,6 @@ class RecordedUsesSyntax extends JsonObjectSyntax {
       return listErrors;
     }
     final elements = constants;
-    if (elements == null) {
-      return [];
-    }
-    return [for (final element in elements) ...element.validate()];
-  }
-
-  List<LocationSyntax>? get locations {
-    final jsonValue = _reader.optionalList('locations');
-    if (jsonValue == null) return null;
-    return [
-      for (final (index, element) in jsonValue.indexed)
-        LocationSyntax.fromJson(
-          element as Map<String, Object?>,
-          path: [...path, 'locations', index],
-        ),
-    ];
-  }
-
-  set _locations(List<LocationSyntax>? value) {
-    if (value == null) {
-      json.remove('locations');
-    } else {
-      json['locations'] = [for (final item in value) item.json];
-    }
-  }
-
-  List<String> _validateLocations() {
-    final listErrors = _reader.validateOptionalList<Map<String, Object?>>(
-      'locations',
-    );
-    if (listErrors.isNotEmpty) {
-      return listErrors;
-    }
-    final elements = locations;
     if (elements == null) {
       return [];
     }
@@ -836,7 +724,6 @@ class RecordedUsesSyntax extends JsonObjectSyntax {
   List<String> validate() => [
     ...super.validate(),
     ..._validateConstants(),
-    ..._validateLocations(),
     ..._validateMetadata(),
     ..._validateRecordings(),
   ];
@@ -1007,11 +894,8 @@ class TearoffCallSyntax extends CallSyntax {
     super.path,
   }) : super._fromJson();
 
-  TearoffCallSyntax({
-    super.at,
-    required super.loadingUnit,
-    super.path = const [],
-  }) : super(type: 'tearoff');
+  TearoffCallSyntax({required super.loadingUnit, super.path = const []})
+    : super(type: 'tearoff');
 
   @override
   List<String> validate() => [
@@ -1036,7 +920,6 @@ class WithArgumentsCallSyntax extends CallSyntax {
   }) : super._fromJson();
 
   WithArgumentsCallSyntax({
-    super.at,
     required super.loadingUnit,
     Map<String, int>? named,
     List<int?>? positional,

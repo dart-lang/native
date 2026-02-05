@@ -11,7 +11,6 @@ import 'constant.dart';
 import 'definition.dart';
 import 'helper.dart';
 import 'identifier.dart';
-import 'location.dart';
 import 'metadata.dart';
 import 'reference.dart';
 import 'syntax.g.dart';
@@ -24,7 +23,7 @@ import 'syntax.g.dart';
 /// core data, associating each [Definition] with its corresponding [Reference]
 /// details.
 ///
-/// The class uses a normalized JSON format, allowing the reuse of locations and
+/// The class uses a normalized JSON format, allowing the reuse of
 /// constants across multiple recordings to optimize storage.
 class Recordings {
   /// [Metadata] such as the recording protocol version.
@@ -77,14 +76,6 @@ Error: $e
       }
     }
 
-    final locations = <Location>[];
-    for (final locationSyntax in syntax.locations ?? <LocationSyntax>[]) {
-      final location = LocationProtected.fromSyntax(locationSyntax);
-      if (!locations.contains(location)) {
-        locations.add(location);
-      }
-    }
-
     final callsForDefinition = <Definition, List<CallReference>>{};
     final instancesForDefinition = <Definition, List<InstanceReference>>{};
 
@@ -98,7 +89,6 @@ Error: $e
               (callSyntax) => CallReferenceProtected.fromSyntax(
                 callSyntax,
                 constants,
-                locations,
               ),
             )
             .toList();
@@ -110,7 +100,6 @@ Error: $e
               (instanceSyntax) => InstanceReferenceProtected.fromSyntax(
                 instanceSyntax,
                 constants,
-                locations,
               ),
             )
             .toList();
@@ -152,17 +141,6 @@ Error: $e
           ),
     }.flatten().asMapToIndices;
 
-    final locationsIndex = {
-      ...callsForDefinition.values
-          .expand((calls) => calls)
-          .map((call) => call.location)
-          .nonNulls,
-      ...instancesForDefinition.values
-          .expand((instances) => instances)
-          .map((instance) => instance.location)
-          .nonNulls,
-    }.asMapToIndices;
-
     final recordings = <RecordingSyntax>[];
     if (callsForDefinition.isNotEmpty) {
       recordings.addAll(
@@ -170,7 +148,7 @@ Error: $e
           (entry) => RecordingSyntax(
             definition: entry.key.toSyntax(),
             calls: entry.value
-                .map((call) => call.toSyntax(constantsIndex, locationsIndex))
+                .map((call) => call.toSyntax(constantsIndex))
                 .toList(),
           ),
         ),
@@ -183,8 +161,7 @@ Error: $e
             definition: entry.key.toSyntax(),
             instances: entry.value
                 .map(
-                  (instance) =>
-                      instance.toSyntax(constantsIndex, locationsIndex),
+                  (instance) => instance.toSyntax(constantsIndex),
                 )
                 .toList(),
           ),
@@ -199,9 +176,6 @@ Error: $e
           : constantsIndex.keys
                 .map((constant) => constant.toSyntax(constantsIndex))
                 .toList(),
-      locations: locationsIndex.isEmpty
-          ? null
-          : locationsIndex.keys.map((location) => location.toSyntax()).toList(),
       recordings: recordings.isEmpty ? null : recordings,
     );
   }
@@ -247,10 +221,6 @@ Error: $e
   /// If [allowTearOffToStaticPromotion] is `true`, allows an [expected]
   /// function tear-off to match an `actual` static call.
   ///
-  /// If [allowLocationNull] is `true`, having a `null` in one and a column and
-  /// line number in the other is considered semantically equal. Useful for if
-  /// one compiler does not provide source locations but the other does.
-  ///
   /// If [allowDefinitionLoadingUnitNull] is `true`, allows a definition's
   /// loading unit to be `null` in one set but not the other. This handles
   /// cases where a compiler might not emit loading unit information for all
@@ -268,7 +238,6 @@ Error: $e
     bool expectedIsSubset = false,
     bool allowDeadCodeElimination = false,
     bool allowTearOffToStaticPromotion = false,
-    bool allowLocationNull = false,
     bool allowDefinitionLoadingUnitNull = false,
     bool allowMoreConstArguments = false,
     bool allowMetadataMismatch = false,
@@ -296,7 +265,6 @@ Error: $e
       referenceMatches: (CallReference a, CallReference b) => a.semanticEquals(
         b,
         allowTearOffToStaticPromotion: allowTearOffToStaticPromotion,
-        allowLocationNull: allowLocationNull,
         allowMoreConstArguments: allowMoreConstArguments,
         uriMapping: uriMapping,
         loadingUnitMapping: loadingUnitMapping,
@@ -315,7 +283,6 @@ Error: $e
           // ignore: invalid_use_of_visible_for_testing_member
           a.semanticEquals(
             b,
-            allowLocationNull: allowLocationNull,
             uriMapping: uriMapping,
             loadingUnitMapping: loadingUnitMapping,
           ),

@@ -39,7 +39,6 @@ final recordedUses = Recordings(
           'leroy': StringConstant('jenkins'),
         },
         loadingUnit: 'o.js',
-        location: Location(uri: 'lib/test.dart', line: 12, column: 36),
       ),
       const CallWithArguments(
         positionalArguments: [
@@ -62,7 +61,6 @@ final recordedUses = Recordings(
           'leroy': StringConstant('jenkins'),
         },
         loadingUnit: 'o.js',
-        location: Location(uri: 'lib/test2.dart'),
       ),
     ],
   },
@@ -73,12 +71,10 @@ final recordedUses = Recordings(
           fields: {'a': IntConstant(42), 'b': NullConstant()},
         ),
         loadingUnit: '3',
-        location: Location(uri: 'lib/test3.dart'),
       ),
       const InstanceReference(
         instanceConstant: InstanceConstant(fields: {}),
         loadingUnit: '3',
-        location: Location(uri: 'lib/test3.dart'),
       ),
     ],
   },
@@ -100,7 +96,6 @@ final recordedUses2 = Recordings(
           'answer': IntConstant(42),
         },
         loadingUnit: 'o.js',
-        location: Location(uri: 'lib/test3.dart'),
       ),
     ],
   },
@@ -200,19 +195,6 @@ const recordedUsesJson = '''{
       "type": "instance"
     }
   ],
-  "locations": [
-    {
-      "uri": "lib/test.dart",
-      "line": 12,
-      "column": 36
-    },
-    {
-      "uri": "lib/test2.dart"
-    },
-    {
-      "uri": "lib/test3.dart"
-    }
-  ],
   "recordings": [
     {
       "definition": {
@@ -235,8 +217,7 @@ const recordedUsesJson = '''{
             "freddy": 3,
             "leroy": 4
           },
-          "loading_unit": "o.js",
-          "@": 0
+          "loading_unit": "o.js"
         },
         {
           "type": "with_arguments",
@@ -249,8 +230,7 @@ const recordedUsesJson = '''{
             "freddy": 13,
             "leroy": 4
           },
-          "loading_unit": "o.js",
-          "@": 1
+          "loading_unit": "o.js"
         }
       ]
     },
@@ -264,13 +244,11 @@ const recordedUsesJson = '''{
       "instances": [
         {
           "constant_index": 16,
-          "loading_unit": "3",
-          "@": 2
+          "loading_unit": "3"
         },
         {
           "constant_index": 17,
-          "loading_unit": "3",
-          "@": 2
+          "loading_unit": "3"
         }
       ]
     }
@@ -300,11 +278,6 @@ const recordedUsesJson2 = '''{
       "value": 42
     }
   ],
-  "locations": [
-    {
-      "uri": "lib/test3.dart"
-    }
-  ],
   "recordings": [
     {
       "definition": {
@@ -326,8 +299,7 @@ const recordedUsesJson2 = '''{
             "freddy": 2,
             "answer": 3
           },
-          "loading_unit": "o.js",
-          "@": 0
+          "loading_unit": "o.js"
         }
       ]
     }
