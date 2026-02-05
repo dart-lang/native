@@ -12,17 +12,20 @@ class MyMath {
 
   @RecordUse()
   static int multiply(int a, int b) => a * b;
-
-  @RecordCallToC('double')
-  static int double(int a) => a + a;
-
-  @RecordCallToC('square')
-  static int square(int a) => a * a;
 }
 
 @RecordUse()
-class RecordCallToC {
-  final String symbol;
+class Double {
+  final int value;
+  const Double(this.value);
 
-  const RecordCallToC(this.symbol);
+  int run() => value + value;
+}
+
+@RecordUse()
+class Square {
+  final int value;
+  const Square(this.value);
+
+  int run() => value * value;
 }
