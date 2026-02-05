@@ -1,0 +1,45 @@
+{
+  "$schema": "../../doc/schema/record_use.schema.json",
+  "constants": [
+    {
+      "type": "int",
+      "value": 1
+    },
+    {
+      "type": "int",
+      "value": 2
+    },
+    {
+      "type": "string",
+      "value": "named_arg_value"
+    }
+  ],
+  "metadata": {
+    "comment": "Constructor invocation recording",
+    "version": "1.0.0"
+  },
+  "recordings": [
+    {
+      "definition": {
+        "identifier": {
+          "name": "MyClass",
+          "uri": "package:test/test.dart"
+        },
+        "loading_unit": "root"
+      },
+      "instances": [
+        {
+          "loading_unit": "root",
+          "named": {
+            "param": 2
+          },
+          "positional": [
+            0,
+            1
+          ],
+          "type": "creation"
+        }
+      ]
+    }
+  ]
+}

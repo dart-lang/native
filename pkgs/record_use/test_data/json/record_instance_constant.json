@@ -34,7 +34,8 @@
       "instances": [
         {
           "constant_index": 2,
-          "loading_unit": "1"
+          "loading_unit": "1",
+          "type": "constant"
         }
       ]
     }
