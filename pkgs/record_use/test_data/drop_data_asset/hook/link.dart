@@ -38,10 +38,14 @@ void main(List<String> arguments) async {
       );
       print('Checking calls to $methodName...');
       for (final call in calls) {
-        print(
-          'A call was made to "$methodName" with the arguments ('
-          '${call.positional[0] as int},${call.positional[1] as int})',
-        );
+        if (call.positional case [
+          IntConstant(value: final v0),
+          IntConstant(value: final v1),
+        ]) {
+          print(
+            'A call was made to "$methodName" with the arguments ($v0,$v1)',
+          );
+        }
         symbols.add(methodName);
       }
     }

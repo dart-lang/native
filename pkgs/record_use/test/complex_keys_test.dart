@@ -49,7 +49,7 @@ void main() {
     expect(backAgain, recordings);
   });
 
-  test('toValue() with InstanceConstant keys', () {
+  test('MapConstant equality with InstanceConstant keys', () {
     const instanceKey = InstanceConstant(
       fields: {
         'id': IntConstant(1),
@@ -61,13 +61,16 @@ void main() {
       MapEntry(instanceKey, StringConstant('value')),
     ]);
 
-    final mapValue = mapConstant.toValue() as Map;
-
-    expect(mapValue.keys.first, {
-      'id': 1,
-      'tag': 'key',
-    });
-    expect(mapValue.values.first, 'value');
+    expect(
+      mapConstant.entries.first.key,
+      const InstanceConstant(
+        fields: {
+          'id': IntConstant(1),
+          'tag': StringConstant('key'),
+        },
+      ),
+    );
+    expect(mapConstant.entries.first.value, const StringConstant('value'));
   });
 
   test('Deeply nested MapConstant with complex keys round-trip', () {
@@ -111,7 +114,7 @@ void main() {
     expect(backAgain, recordings);
   });
 
-  test('toValue() with deeply nested complex keys', () {
+  test('Deeply nested complex keys structure', () {
     const listKey = ListConstant([IntConstant(1), IntConstant(2)]);
     const mapKey = MapConstant([
       MapEntry(StringConstant('inner'), IntConstant(3)),
@@ -122,12 +125,27 @@ void main() {
       MapEntry(mapKey, listKey),
     ]);
 
-    final mapValue = complexMap.toValue() as Map;
-    expect(mapValue.length, 2);
-    final entries = mapValue.entries.toList();
-    expect(entries[0].key, [1, 2]);
-    expect(entries[0].value, {'inner': 3});
-    expect(entries[1].key, {'inner': 3});
-    expect(entries[1].value, [1, 2]);
+    expect(complexMap.entries, hasLength(2));
+    final entries = complexMap.entries;
+    expect(
+      entries[0].key,
+      const ListConstant([IntConstant(1), IntConstant(2)]),
+    );
+    expect(
+      entries[0].value,
+      const MapConstant([
+        MapEntry(StringConstant('inner'), IntConstant(3)),
+      ]),
+    );
+    expect(
+      entries[1].key,
+      const MapConstant([
+        MapEntry(StringConstant('inner'), IntConstant(3)),
+      ]),
+    );
+    expect(
+      entries[1].value,
+      const ListConstant([IntConstant(1), IntConstant(2)]),
+    );
   });
 }

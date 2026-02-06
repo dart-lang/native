@@ -59,9 +59,8 @@ Set<String> _extractUsedPhrases(Recordings recordings) {
 
   for (final call in usages.constArgumentsFor(pirateSpeakId)) {
     if (call.positional.isNotEmpty) {
-      final phrase = call.positional.first;
-      if (phrase is String) {
-        usedPhrases.add(phrase);
+      if (call.positional.first case StringConstant(:final value)) {
+        usedPhrases.add(value);
       }
     }
   }

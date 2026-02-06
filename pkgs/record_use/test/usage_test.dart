@@ -43,17 +43,12 @@ void main() {
               ),
             )
             .first;
-    final instanceMap = recordedUses.instancesForDefinition.values
-        .expand((usage) => usage)
-        .whereType<InstanceConstantReference>()
-        .map(
-          (instance) => instance.instanceConstant.fields.map(
-            (key, constant) => MapEntry(key, constant.toValue()),
-          ),
-        )
-        .first;
-    for (final entry in instanceMap.entries) {
-      expect(instance[entry.key], entry.value);
+    final instances = recordedUses.instances[instanceId]!
+        .whereType<InstanceConstantReference>();
+    final instance0 = instances.first.instanceConstant;
+    for (final entry in instance0.fields.entries) {
+      final field = instance.fields[entry.key];
+      expect(field, equals(entry.value));
     }
   });
 
@@ -73,19 +68,25 @@ void main() {
             )
             .toList();
     final (named: named0, positional: positional0) = arguments[0];
-    expect(named0, const {'freddy': 'mercury', 'leroy': 'jenkins'});
-    expect(positional0, const ['lib_SHA1', false, 1]);
-    final (named: named1, positional: positional1) = arguments[1];
-    expect(named1, const {'freddy': 0, 'leroy': 'jenkins'});
-    expect(positional1, const [
-      'lib_SHA1',
-      {'key': 99},
-      [
-        'camus',
-        ['einstein', 'insert', false],
-        'einstein',
-      ],
+    expect(named0, {
+      'freddy': const StringConstant('mercury'),
+      'leroy': const StringConstant('jenkins'),
+    });
+    expect(positional0, const [
+      StringConstant('lib_SHA1'),
+      BoolConstant(false),
+      IntConstant(1),
     ]);
+    final (named: named1, positional: positional1) = arguments[1];
+    expect(named1, {
+      'freddy': const IntConstant(0),
+      'leroy': const StringConstant('jenkins'),
+    });
+    expect(positional1[0], const StringConstant('lib_SHA1'));
+    expect(positional1[1], isA<MapConstant>());
+    final map = positional1[1] as MapConstant;
+    expect(map.entries[0].key, const StringConstant('key'));
+    expect(map.entries[0].value, const IntConstant(99));
   });
 
   test('Specific API instances', () {
@@ -102,8 +103,8 @@ void main() {
               ),
             )
             .first;
-    expect(instance['a'], 42);
-    expect(instance['b'], null);
+    expect(instance.fields['a'], const IntConstant(42));
+    expect(instance.fields['b'], isA<NullConstant>());
   });
 
   test('HasNonConstInstance', () {

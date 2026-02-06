@@ -40,6 +40,10 @@
       "value": [
         5
       ]
+    },
+    {
+      "message": "Record",
+      "type": "unsupported"
     }
   ],
   "metadata": {
@@ -54,7 +58,8 @@
           "named": {
             "a": 0,
             "b": 2,
-            "c": 5
+            "c": 5,
+            "d": null
           },
           "positional": [
             0,
@@ -63,7 +68,8 @@
             null,
             5,
             6,
-            7
+            7,
+            8
           ],
           "type": "with_arguments"
         }
