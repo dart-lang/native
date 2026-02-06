@@ -35,23 +35,19 @@ void main() {
     positionalArguments: [],
     namedArguments: {},
     loadingUnit: null,
-    location: Location(uri: 'package:a/a.dart', line: 1, column: 1),
   );
   const callDefintion1Static2 = CallWithArguments(
     positionalArguments: [],
     namedArguments: {},
     loadingUnit: null,
-    location: Location(uri: 'package:a/a.dart', line: 3, column: 1),
   );
   const callDefinition2Static = CallWithArguments(
     positionalArguments: [],
     namedArguments: {},
     loadingUnit: null,
-    location: Location(uri: 'package:a/a.dart', line: 2, column: 2),
   );
-  const callDefinition1TearOff = CallTearOff(
+  const callDefinition1Tearoff = CallTearoff(
     loadingUnit: null,
-    location: Location(uri: 'package:a/a.dart', line: 1, column: 1),
   );
   const definition1differentUri2 = Definition(
     identifier: Identifier(importUri: 'memory:a/a.dart', name: 'definition1'),
@@ -61,7 +57,6 @@ void main() {
     positionalArguments: [],
     namedArguments: {},
     loadingUnit: null,
-    location: Location(uri: 'memory:a/a.dart', line: 1, column: 1),
   );
   final metadata = Metadata(
     version: Version(1, 0, 0),
@@ -197,7 +192,7 @@ void main() {
     );
   });
 
-  test('allowTearOffToStaticPromotion', () {
+  test('allowTearoffToStaticPromotion', () {
     final recordings1 = Recordings(
       metadata: metadata,
       callsForDefinition: {
@@ -208,21 +203,21 @@ void main() {
     final recordings2 = Recordings(
       metadata: metadata,
       callsForDefinition: {
-        definition1: [callDefinition1TearOff],
+        definition1: [callDefinition1Tearoff],
       },
       instancesForDefinition: const {},
     );
     expect(
       recordings1.semanticEquals(
         recordings2,
-        allowTearOffToStaticPromotion: true,
+        allowTearoffToStaticPromotion: true,
       ),
       isTrue,
     );
     expect(
       recordings1.semanticEquals(
         recordings2,
-        allowTearOffToStaticPromotion: false,
+        allowTearoffToStaticPromotion: false,
       ),
       isFalse,
     );
@@ -230,7 +225,7 @@ void main() {
     expect(
       recordings2.semanticEquals(
         recordings1,
-        allowTearOffToStaticPromotion: true,
+        allowTearoffToStaticPromotion: true,
       ),
       isFalse,
     );
@@ -277,7 +272,6 @@ void main() {
             positionalArguments: [IntConstant(1)],
             namedArguments: {},
             loadingUnit: null,
-            location: Location(uri: 'package:a/a.dart', line: 1, column: 1),
           ),
         ],
       },
@@ -291,7 +285,6 @@ void main() {
             positionalArguments: [IntConstant(1), IntConstant(2)],
             namedArguments: {},
             loadingUnit: null,
-            location: Location(uri: 'package:a/a.dart', line: 1, column: 1),
           ),
         ],
       },

@@ -45,6 +45,7 @@ void main() {
             .first;
     final instanceMap = recordedUses.instancesForDefinition.values
         .expand((usage) => usage)
+        .whereType<InstanceConstantReference>()
         .map(
           (instance) => instance.instanceConstant.fields.map(
             (key, constant) => MapEntry(key, constant.toValue()),

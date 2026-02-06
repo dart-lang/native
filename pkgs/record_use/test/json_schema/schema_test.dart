@@ -33,26 +33,41 @@ void main() {
       missingExpectations: field.$2,
     );
   }
+
+  final constructorInvocationDataUri = testDataUri.resolve(
+    'constructor_invocation.json',
+  );
+  for (final field in constructorInvocationFields) {
+    testField(
+      schemaUri: schemaUri,
+      dataUri: constructorInvocationDataUri,
+      schema: schema,
+      data: allTestData[constructorInvocationDataUri]!,
+      field: field.$1,
+      missingExpectations: field.$2,
+    );
+  }
 }
 
-const constNullIndex = 3;
-const constInstanceIndex = 5;
+const constNullIndex = 4;
+const constInstanceIndex = 6;
+const constMapIndex = 3;
 List<(List<Object>, void Function(ValidationResults result))>
 recordUseFields = [
   (['constants'], expectOptionalFieldMissing),
-  for (var index = 0; index < 7; index++) ...[
+  for (var index = 0; index < 8; index++) ...[
     (['constants', index, 'type'], expectRequiredFieldMissing),
     if (index != constNullIndex && index != constInstanceIndex)
       (['constants', index, 'value'], expectRequiredFieldMissing),
     if (index == constInstanceIndex)
       (['constants', index, 'value'], expectOptionalFieldMissing),
+    if (index == constMapIndex) ...[
+      (['constants', index, 'value', 0, 'key'], expectRequiredFieldMissing),
+      (['constants', index, 'value', 0, 'value'], expectRequiredFieldMissing),
+    ],
     // Note the value for 'Instance' is optional because an empty map is
     // omitted. Also, Null has no value field.
   ],
-  (['locations'], expectOptionalFieldMissing),
-  (['locations', 0, 'uri'], expectRequiredFieldMissing),
-  (['locations', 0, 'line'], expectOptionalFieldMissing),
-  (['locations', 0, 'column'], expectOptionalFieldMissing),
   (['recordings'], expectOptionalFieldMissing),
   (['recordings', 0, 'definition'], expectRequiredFieldMissing),
   (['recordings', 0, 'definition', 'identifier'], expectRequiredFieldMissing),
@@ -85,8 +100,8 @@ recordUseFields = [
   (['recordings', 0, 'calls', 0, 'positional'], expectOptionalFieldMissing),
   (['recordings', 0, 'calls', 0, 'positional', 0], expectOptionalFieldMissing),
   (['recordings', 0, 'calls', 0, 'loading_unit'], expectRequiredFieldMissing),
-  (['recordings', 0, 'calls', 0, '@'], expectOptionalFieldMissing),
   (['recordings', 1, 'instances'], expectOptionalFieldMissing),
+  (['recordings', 1, 'instances', 0, 'type'], expectRequiredFieldMissing),
   (
     ['recordings', 1, 'instances', 0, 'constant_index'],
     expectRequiredFieldMissing,
@@ -95,10 +110,26 @@ recordUseFields = [
     ['recordings', 1, 'instances', 0, 'loading_unit'],
     expectRequiredFieldMissing,
   ),
-  (['recordings', 1, 'instances', 0, '@'], expectOptionalFieldMissing),
+];
 
-  // TODO: Locations are not always provided by dart2js for const values. So we
-  // need to make it optional.
+List<(List<Object>, void Function(ValidationResults result))>
+constructorInvocationFields = [
+  (
+    ['recordings', 0, 'instances', 0, 'loading_unit'],
+    expectRequiredFieldMissing,
+  ),
+  (
+    ['recordings', 0, 'instances', 0, 'type'],
+    expectRequiredFieldMissing,
+  ),
+  (
+    ['recordings', 0, 'instances', 0, 'positional'],
+    expectOptionalFieldMissing,
+  ),
+  (
+    ['recordings', 0, 'instances', 0, 'named'],
+    expectOptionalFieldMissing,
+  ),
 ];
 
 void testAllTestData(

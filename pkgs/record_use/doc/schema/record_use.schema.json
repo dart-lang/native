@@ -19,9 +19,6 @@
             }
           ]
         },
-        "@": {
-          "type": "integer"
-        },
         "loading_unit": {
           "type": "string"
         }
@@ -169,8 +166,10 @@
           "then": {
             "properties": {
               "value": {
-                "type": "object",
-                "additionalProperties": true
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/MapEntry"
+                }
               }
             },
             "required": [
@@ -236,36 +235,92 @@
     "Instance": {
       "type": "object",
       "properties": {
-        "@": {
-          "type": "integer"
-        },
-        "constant_index": {
-          "type": "integer"
+        "type": {
+          "type": "string",
+          "anyOf": [
+            {
+              "enum": [
+                "constant",
+                "creation",
+                "tearoff"
+              ]
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
         "loading_unit": {
           "type": "string"
         }
       },
       "required": [
-        "constant_index",
-        "loading_unit"
+        "loading_unit",
+        "type"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "constant"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "constant_index": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "constant_index"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "creation"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "named": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer"
+                }
+              },
+              "positional": {
+                "type": "array",
+                "items": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
+                }
+              }
+            }
+          }
+        }
       ]
     },
-    "Location": {
+    "MapEntry": {
       "type": "object",
       "properties": {
-        "column": {
+        "key": {
           "type": "integer"
         },
-        "line": {
+        "value": {
           "type": "integer"
-        },
-        "uri": {
-          "type": "string"
         }
       },
       "required": [
-        "uri"
+        "key",
+        "value"
       ]
     },
     "RecordedUses": {
@@ -275,12 +330,6 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/Constant"
-          }
-        },
-        "locations": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Location"
           }
         },
         "metadata": {

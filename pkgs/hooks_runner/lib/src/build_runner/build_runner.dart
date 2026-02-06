@@ -13,6 +13,7 @@ import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:package_config/package_config.dart';
+import 'package:record_use/record_use_internal.dart';
 import 'package:yaml/yaml.dart';
 
 import '../dependencies_hash_file/dependencies_hash_file.dart';
@@ -26,6 +27,8 @@ import 'build_planner.dart';
 import 'failure.dart';
 import 'result.dart';
 import 'tracing_file_system.dart';
+
+const _jsonEncoder = JsonEncoder.withIndent('  ');
 
 typedef InputCreator = HookInputBuilder Function();
 
@@ -267,12 +270,29 @@ class NativeAssetsBuildRunner {
     }
     var linkResult = hookResultUserDefines.success;
 
+    Recordings? packageRecordings;
+    if (resourceIdentifiers != null) {
+      final file = _fileSystem.file(resourceIdentifiers);
+      try {
+        final content = await file.readAsString();
+        packageRecordings = Recordings.fromJson(
+          jsonDecode(content) as Map<String, Object?>,
+        );
+      } on FormatException catch (e) {
+        logger.severe(
+          'Failed to parse resource identifiers from $resourceIdentifiers: $e',
+        );
+        return const Failure(HooksRunnerFailure.internal);
+      }
+    }
+
     /// The key is the package name of the destination package.
     final globalAssetsForLink = <String, Map<String, List<EncodedAsset>>>{};
     for (final package in buildPlan) {
-      final dependencies = packageGraph!
-          .inverseNeighborsOf(package.name)
-          .toSet();
+      final dependencies = {
+        ...packageGraph!.inverseNeighborsOf(package.name),
+        package.name,
+      };
 
       final assetsFromLinking = (globalAssetsForLink[package.name] ?? {})
           .entries
@@ -292,10 +312,17 @@ class NativeAssetsBuildRunner {
       );
 
       File? resourcesFile;
-      if (resourceIdentifiers != null) {
-        resourcesFile = _fileSystem.file(buildDirUri.resolve('resources.json'));
+      if (packageRecordings != null) {
+        resourcesFile = _fileSystem.file(
+          buildDirUri.resolve('recorded_uses.json'),
+        );
         await resourcesFile.create();
-        await _fileSystem.file(resourceIdentifiers).copy(resourcesFile.path);
+        final filteredRecordings = packageRecordings.filter(
+          definitionPackageName: package.name,
+        );
+        await resourcesFile.writeAsString(
+          _jsonEncoder.convert(filteredRecordings.toJson()),
+        );
       }
 
       inputBuilder.setupShared(
@@ -602,9 +629,7 @@ class NativeAssetsBuildRunner {
     Uri outputDirectory,
   ) => _timeAsync('_runHookForPackage', () async {
     final inputFile = buildDirUri.resolve('input.json');
-    final inputFileContents = const JsonEncoder.withIndent(
-      '  ',
-    ).convert(input.json);
+    final inputFileContents = _jsonEncoder.convert(input.json);
     logger.info('input.json contents:\n$inputFileContents');
     await _fileSystem.file(inputFile).writeAsString(inputFileContents);
     final hookOutputUri = input.outputFile;
