@@ -1,0 +1,35 @@
+# Some of our workflows are known to be flaky at a whole-workflow level. If a
+# test is flaky, we just add a retry to it. But if the whole workflow is flaky
+# (eg a non-deterministic build flakily introduces an error in a test), then we
+# have to retry the whole workflow on failure. This is a slow process, so we
+# only do it for certain problematic workflows. If only certain jobs in a
+# workflow are flaky in this way, move them into their own workflow first.
+
+name: Workflow Auto-Retry
+
+on:
+  workflow_run:
+    workflows: [ffigen_weekly, objective_c]
+    types: [completed]
+
+jobs:
+  auto-retry:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'failure' }}
+    permissions:
+      actions: write
+    steps:
+      - name: Rerun failed workflow
+        env:
+          GH_TOKEN: ${{ github.token }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          ATTEMPT: ${{ github.event.workflow_run.run_attempt }}
+        run: |
+          if [ "$ATTEMPT" -gt 2 ]; then
+            echo "::error::Workflow failed 3 times. Stopping retries."
+            exit 1
+          fi
+
+          echo "Run attempt #$ATTEMPT failed. Triggering a rerun..."
+
+          gh run rerun $RUN_ID --failed --repo ${{ github.repository }}
