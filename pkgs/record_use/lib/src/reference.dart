@@ -61,18 +61,24 @@ sealed class CallReference extends Reference {
     ) =>
       CallWithArguments(
         positionalArguments: (positional ?? [])
-            .map(
-              (constantsIndex) =>
-                  constantsIndex != null ? constants[constantsIndex] : null,
-            )
+            .map((index) => _argumentFromSyntax(index, constants))
             .toList(),
         namedArguments: (named ?? {}).map(
-          (name, constantsIndex) => MapEntry(name, constants[constantsIndex]),
+          (name, index) =>
+              MapEntry(name, _argumentFromSyntax(index, constants)),
         ),
         loadingUnit: loadingUnit,
       ),
     _ => throw UnimplementedError('Unknown CallSyntax type'),
   };
+
+  static MaybeConstant _argumentFromSyntax(
+    int? index,
+    List<Constant> constants,
+  ) {
+    if (index == null) return const NonConstant();
+    return constants[index];
+  }
 
   CallSyntax _toSyntax(Map<Constant, int> constants);
 
@@ -81,7 +87,7 @@ sealed class CallReference extends Reference {
   /// If [allowTearoffToStaticPromotion] is true, this may be equal to a
   /// [CallTearoff].
   ///
-  /// If [allowMoreConstArguments] is true, `null` arguments in [other]
+  /// If [allowMoreConstArguments] is true, `NonConstantArgument` in [other]
   /// are ignored during comparison.
   ///
   /// The loading unit can be mapped with [loadingUnitMapping].
@@ -92,6 +98,7 @@ sealed class CallReference extends Reference {
     CallReference other, {
     bool allowTearoffToStaticPromotion = false,
     bool allowMoreConstArguments = false,
+    bool allowPromotionOfUnsupported = false,
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
   });
@@ -100,8 +107,8 @@ sealed class CallReference extends Reference {
 /// A reference to a call to some [Identifier] with [positionalArguments] and
 /// [namedArguments].
 final class CallWithArguments extends CallReference {
-  final List<Constant?> positionalArguments;
-  final Map<String, Constant?> namedArguments;
+  final List<MaybeConstant> positionalArguments;
+  final Map<String, MaybeConstant> namedArguments;
 
   const CallWithArguments({
     required this.positionalArguments,
@@ -111,14 +118,12 @@ final class CallWithArguments extends CallReference {
 
   @override
   WithArgumentsCallSyntax _toSyntax(Map<Constant, int> constants) {
-    final namedArgs = <String, int>{};
+    final namedArgs = <String, int?>{};
     for (final entry in namedArguments.entries) {
-      if (entry.value != null) {
-        final index = constants[entry.value!];
-        if (index != null) {
-          namedArgs[entry.key] = index;
-        }
-      }
+      namedArgs[entry.key] = switch (entry.value) {
+        final Constant c => constants[c],
+        NonConstant() => null,
+      };
     }
 
     return WithArgumentsCallSyntax(
@@ -126,7 +131,14 @@ final class CallWithArguments extends CallReference {
       named: namedArgs.isNotEmpty ? namedArgs : null,
       positional: positionalArguments.isEmpty
           ? null
-          : positionalArguments.map((constant) => constants[constant]).toList(),
+          : positionalArguments
+                .map(
+                  (argument) => switch (argument) {
+                    final Constant c => constants[c],
+                    NonConstant() => null,
+                  },
+                )
+                .toList(),
     );
   }
 
@@ -153,6 +165,7 @@ final class CallWithArguments extends CallReference {
     CallReference other, {
     bool allowTearoffToStaticPromotion = false,
     bool allowMoreConstArguments = false,
+    bool allowPromotionOfUnsupported = false,
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
   }) {
@@ -162,20 +175,28 @@ final class CallWithArguments extends CallReference {
           return false;
         }
         for (final (index, argument) in other.positionalArguments.indexed) {
-          if (argument == null && allowMoreConstArguments) {
+          if (argument is NonConstant && allowMoreConstArguments) {
             continue;
           }
-          if (argument != positionalArguments[index]) {
+          // ignore: invalid_use_of_visible_for_testing_member
+          if (!positionalArguments[index].semanticEquals(
+            argument,
+            allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+          )) {
             return false;
           }
         }
         for (final entry in other.namedArguments.entries) {
           final name = entry.key;
           final argument = entry.value;
-          if (argument == null && allowMoreConstArguments) {
+          if (argument is NonConstant && allowMoreConstArguments) {
             continue;
           }
-          if (argument != namedArguments[name]) {
+          // ignore: invalid_use_of_visible_for_testing_member
+          if (!namedArguments[name]!.semanticEquals(
+            argument,
+            allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+          )) {
             return false;
           }
         }
@@ -225,6 +246,7 @@ final class CallTearoff extends CallReference {
     CallReference other, {
     bool allowTearoffToStaticPromotion = false,
     bool allowMoreConstArguments = false,
+    bool allowPromotionOfUnsupported = false,
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
   }) {
@@ -263,13 +285,13 @@ sealed class InstanceReference extends Reference {
     ) =>
       InstanceCreationReference(
         positionalArguments: (positional ?? [])
-            .map(
-              (constantsIndex) =>
-                  constantsIndex != null ? constants[constantsIndex] : null,
-            )
+            .map((index) => CallReference._argumentFromSyntax(index, constants))
             .toList(),
         namedArguments: (named ?? {}).map(
-          (name, constantsIndex) => MapEntry(name, constants[constantsIndex]),
+          (name, index) => MapEntry(
+            name,
+            CallReference._argumentFromSyntax(index, constants),
+          ),
         ),
         loadingUnit: loadingUnit,
       ),
@@ -292,6 +314,7 @@ sealed class InstanceReference extends Reference {
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
     bool allowMoreConstArguments = false,
+    bool allowPromotionOfUnsupported = false,
   });
 }
 
@@ -329,9 +352,14 @@ final class InstanceConstantReference extends InstanceReference {
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
     bool allowMoreConstArguments = false,
+    bool allowPromotionOfUnsupported = false,
   }) {
     if (other is! InstanceConstantReference) return false;
-    if (!deepEquals(instanceConstant, other.instanceConstant)) {
+    // ignore: invalid_use_of_visible_for_testing_member
+    if (!instanceConstant.semanticEquals(
+      other.instanceConstant,
+      allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+    )) {
       return false;
     }
     return _semanticEqualsShared(
@@ -343,8 +371,8 @@ final class InstanceConstantReference extends InstanceReference {
 }
 
 final class InstanceCreationReference extends InstanceReference {
-  final List<Constant?> positionalArguments;
-  final Map<String, Constant?> namedArguments;
+  final List<MaybeConstant> positionalArguments;
+  final Map<String, MaybeConstant> namedArguments;
 
   const InstanceCreationReference({
     required this.positionalArguments,
@@ -354,14 +382,12 @@ final class InstanceCreationReference extends InstanceReference {
 
   @override
   CreationInstanceSyntax _toSyntax(Map<Constant, int> constants) {
-    final namedArgs = <String, int>{};
+    final namedArgs = <String, int?>{};
     for (final entry in namedArguments.entries) {
-      if (entry.value != null) {
-        final index = constants[entry.value!];
-        if (index != null) {
-          namedArgs[entry.key] = index;
-        }
-      }
+      namedArgs[entry.key] = switch (entry.value) {
+        final Constant c => constants[c],
+        NonConstant() => null,
+      };
     }
 
     return CreationInstanceSyntax(
@@ -369,7 +395,14 @@ final class InstanceCreationReference extends InstanceReference {
       named: namedArgs.isNotEmpty ? namedArgs : null,
       positional: positionalArguments.isEmpty
           ? null
-          : positionalArguments.map((constant) => constants[constant]).toList(),
+          : positionalArguments
+                .map(
+                  (argument) => switch (argument) {
+                    final Constant c => constants[c],
+                    NonConstant() => null,
+                  },
+                )
+                .toList(),
     );
   }
 
@@ -397,26 +430,35 @@ final class InstanceCreationReference extends InstanceReference {
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
     bool allowMoreConstArguments = false,
+    bool allowPromotionOfUnsupported = false,
   }) {
     if (other is! InstanceCreationReference) return false;
     if (positionalArguments.length != other.positionalArguments.length) {
       return false;
     }
     for (final (index, argument) in other.positionalArguments.indexed) {
-      if (argument == null && allowMoreConstArguments) {
+      if (argument is NonConstant && allowMoreConstArguments) {
         continue;
       }
-      if (argument != positionalArguments[index]) {
+      // ignore: invalid_use_of_visible_for_testing_member
+      if (!positionalArguments[index].semanticEquals(
+        argument,
+        allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+      )) {
         return false;
       }
     }
     for (final entry in other.namedArguments.entries) {
       final name = entry.key;
       final argument = entry.value;
-      if (argument == null && allowMoreConstArguments) {
+      if (argument is NonConstant && allowMoreConstArguments) {
         continue;
       }
-      if (argument != namedArguments[name]) {
+      // ignore: invalid_use_of_visible_for_testing_member
+      if (!namedArguments[name]!.semanticEquals(
+        argument,
+        allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+      )) {
         return false;
       }
     }
@@ -442,6 +484,7 @@ final class ConstructorTearoffReference extends InstanceReference {
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
     bool allowMoreConstArguments = false,
+    bool allowPromotionOfUnsupported = false,
   }) {
     if (other is! ConstructorTearoffReference) return false;
     return _semanticEqualsShared(

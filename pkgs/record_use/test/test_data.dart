@@ -43,7 +43,7 @@ final recordedUses = Recordings(
       const CallWithArguments(
         positionalArguments: [
           StringConstant('lib_SHA1'),
-          MapConstant<StringConstant, IntConstant>([
+          MapConstant([
             MapEntry(StringConstant('key'), IntConstant(99)),
           ]),
           ListConstant([

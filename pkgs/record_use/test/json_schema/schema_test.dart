@@ -52,12 +52,15 @@ void main() {
 const constNullIndex = 4;
 const constInstanceIndex = 6;
 const constMapIndex = 3;
+const constUnsupportedIndex = 8;
 List<(List<Object>, void Function(ValidationResults result))>
 recordUseFields = [
   (['constants'], expectOptionalFieldMissing),
-  for (var index = 0; index < 8; index++) ...[
+  for (var index = 0; index < 9; index++) ...[
     (['constants', index, 'type'], expectRequiredFieldMissing),
-    if (index != constNullIndex && index != constInstanceIndex)
+    if (index != constNullIndex &&
+        index != constInstanceIndex &&
+        index != constUnsupportedIndex)
       (['constants', index, 'value'], expectRequiredFieldMissing),
     if (index == constInstanceIndex)
       (['constants', index, 'value'], expectOptionalFieldMissing),
@@ -65,6 +68,8 @@ recordUseFields = [
       (['constants', index, 'value', 0, 'key'], expectRequiredFieldMissing),
       (['constants', index, 'value', 0, 'value'], expectRequiredFieldMissing),
     ],
+    if (index == constUnsupportedIndex)
+      (['constants', index, 'message'], expectRequiredFieldMissing),
     // Note the value for 'Instance' is optional because an empty map is
     // omitted. Also, Null has no value field.
   ],
@@ -97,8 +102,10 @@ recordUseFields = [
   (['recordings', 0, 'calls', 0, 'type'], expectRequiredFieldMissing),
   (['recordings', 0, 'calls', 0, 'named'], expectOptionalFieldMissing),
   (['recordings', 0, 'calls', 0, 'named', 'a'], expectOptionalFieldMissing),
+  (['recordings', 0, 'calls', 0, 'named', 'd'], expectOptionalFieldMissing),
   (['recordings', 0, 'calls', 0, 'positional'], expectOptionalFieldMissing),
   (['recordings', 0, 'calls', 0, 'positional', 0], expectOptionalFieldMissing),
+  (['recordings', 0, 'calls', 0, 'positional', 3], expectOptionalFieldMissing),
   (['recordings', 0, 'calls', 0, 'loading_unit'], expectRequiredFieldMissing),
   (['recordings', 1, 'instances'], expectOptionalFieldMissing),
   (['recordings', 1, 'instances', 0, 'type'], expectRequiredFieldMissing),
@@ -127,7 +134,11 @@ constructorInvocationFields = [
     expectOptionalFieldMissing,
   ),
   (
-    ['recordings', 0, 'instances', 0, 'named'],
+    ['recordings', 0, 'instances', 0, 'named', 'param'],
+    expectOptionalFieldMissing,
+  ),
+  (
+    ['recordings', 0, 'instances', 0, 'named', 'other'],
     expectOptionalFieldMissing,
   ),
 ];
@@ -191,8 +202,7 @@ void testField({
       final index = field.last as int;
       dataToModify.removeAt(index);
     } else {
-      // ignore: avoid_dynamic_calls
-      dataToModify.remove(field.last);
+      (dataToModify as Map).remove(field.last);
     }
 
     final result = schema.validate(dataDecoded);
@@ -206,11 +216,28 @@ void testField({
       dataDecoded,
       field.sublist(0, field.length - 1),
     );
-    // ignore: avoid_dynamic_calls
-    final originalValue = dataToModify[field.last];
+    final Object? originalValue;
+    if (dataToModify is List) {
+      originalValue = dataToModify[field.last as int];
+    } else {
+      originalValue = (dataToModify as Map)[field.last];
+    }
     final wrongTypeValue = originalValue is int ? '123' : 123;
-    // ignore: avoid_dynamic_calls
-    dataToModify[field.last] = wrongTypeValue;
+    if (originalValue == null) {
+      // If the field allows null, it likely also allows int. So use a string
+      // to ensure it's invalid.
+      if (dataToModify is List) {
+        dataToModify[field.last as int] = 'invalid';
+      } else {
+        (dataToModify as Map)[field.last] = 'invalid';
+      }
+    } else {
+      if (dataToModify is List) {
+        dataToModify[field.last as int] = wrongTypeValue;
+      } else {
+        (dataToModify as Map)[field.last] = wrongTypeValue;
+      }
+    }
 
     final result = schema.validate(dataDecoded);
     expect(result.isValid, isFalse);

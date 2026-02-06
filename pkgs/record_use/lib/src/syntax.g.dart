@@ -135,6 +135,9 @@ class ConstantSyntax extends JsonObjectSyntax {
     if (result.isStringConstant) {
       return result.asStringConstant;
     }
+    if (result.isUnsupportedConstant) {
+      return result.asUnsupportedConstant;
+    }
     return result;
   }
 
@@ -216,7 +219,7 @@ class CreationInstanceSyntax extends InstanceSyntax {
 
   CreationInstanceSyntax({
     required super.loadingUnit,
-    Map<String, int>? named,
+    Map<String, int?>? named,
     List<int?>? positional,
     super.path = const [],
   }) : super(type: 'creation') {
@@ -228,7 +231,7 @@ class CreationInstanceSyntax extends InstanceSyntax {
   /// Setup all fields for [CreationInstanceSyntax] that are not in
   /// [InstanceSyntax].
   void setup({
-    required Map<String, int>? named,
+    required Map<String, int?>? named,
     required List<int?>? positional,
   }) {
     _named = named;
@@ -236,18 +239,18 @@ class CreationInstanceSyntax extends InstanceSyntax {
     json.sortOnKey();
   }
 
-  Map<String, int>? get named => _reader.optionalMap<int>(
+  Map<String, int?>? get named => _reader.optionalMap<int?>(
     'named',
   );
 
-  set _named(Map<String, int>? value) {
+  set _named(Map<String, int?>? value) {
     _checkArgumentMapKeys(
       value,
     );
     json.setOrRemove('named', value);
   }
 
-  List<String> _validateNamed() => _reader.validateMap<int>(
+  List<String> _validateNamed() => _reader.validateOptionalMap<int?>(
     'named',
   );
 
@@ -1069,6 +1072,47 @@ extension TearoffInstanceSyntaxExtension on InstanceSyntax {
       TearoffInstanceSyntax.fromJson(json, path: path);
 }
 
+class UnsupportedConstantSyntax extends ConstantSyntax {
+  UnsupportedConstantSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  UnsupportedConstantSyntax({required String message, super.path = const []})
+    : super(type: 'unsupported') {
+    _message = message;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [UnsupportedConstantSyntax] that are not in
+  /// [ConstantSyntax].
+  void setup({required String message}) {
+    _message = message;
+    json.sortOnKey();
+  }
+
+  String get message => _reader.get<String>('message');
+
+  set _message(String value) {
+    json.setOrRemove('message', value);
+  }
+
+  List<String> _validateMessage() => _reader.validate<String>('message');
+
+  @override
+  List<String> validate() => [...super.validate(), ..._validateMessage()];
+
+  @override
+  String toString() => 'UnsupportedConstantSyntax($json)';
+}
+
+extension UnsupportedConstantSyntaxExtension on ConstantSyntax {
+  bool get isUnsupportedConstant => type == 'unsupported';
+
+  UnsupportedConstantSyntax get asUnsupportedConstant =>
+      UnsupportedConstantSyntax.fromJson(json, path: path);
+}
+
 class WithArgumentsCallSyntax extends CallSyntax {
   WithArgumentsCallSyntax.fromJson(
     super.json, {
@@ -1077,7 +1121,7 @@ class WithArgumentsCallSyntax extends CallSyntax {
 
   WithArgumentsCallSyntax({
     required super.loadingUnit,
-    Map<String, int>? named,
+    Map<String, int?>? named,
     List<int?>? positional,
     super.path = const [],
   }) : super(type: 'with_arguments') {
@@ -1089,7 +1133,7 @@ class WithArgumentsCallSyntax extends CallSyntax {
   /// Setup all fields for [WithArgumentsCallSyntax] that are not in
   /// [CallSyntax].
   void setup({
-    required Map<String, int>? named,
+    required Map<String, int?>? named,
     required List<int?>? positional,
   }) {
     _named = named;
@@ -1097,18 +1141,18 @@ class WithArgumentsCallSyntax extends CallSyntax {
     json.sortOnKey();
   }
 
-  Map<String, int>? get named => _reader.optionalMap<int>(
+  Map<String, int?>? get named => _reader.optionalMap<int?>(
     'named',
   );
 
-  set _named(Map<String, int>? value) {
+  set _named(Map<String, int?>? value) {
     _checkArgumentMapKeys(
       value,
     );
     json.setOrRemove('named', value);
   }
 
-  List<String> _validateNamed() => _reader.validateMap<int>(
+  List<String> _validateNamed() => _reader.validateOptionalMap<int?>(
     'named',
   );
 

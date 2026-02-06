@@ -19,7 +19,7 @@ extension type RecordedUsages._(Recordings _recordings) {
   /// Show the metadata for this recording of usages.
   Metadata get metadata => _recordings.metadata;
 
-  /// Finds all const arguments for calls to the [identifier].
+  /// Finds all recorded arguments for calls to the [identifier].
   ///
   /// The definition must be annotated with `@RecordUse()`. The definition (and
   /// its enclosing class, if any) must be in the `lib/` directory of the
@@ -52,23 +52,19 @@ extension type RecordedUsages._(Recordings _recordings) {
   ///             scope: 'SomeClass',
   ///             name: 'someStaticMethod',
   ///           ),
-  ///         ).first.positional[0] == 42
+  ///         ).first.positional[0] is IntConstant
   /// ```
-  Iterable<({Map<String, Object?> named, List<Object?> positional})>
+  Iterable<({Map<String, MaybeConstant> named, List<MaybeConstant> positional})>
   constArgumentsFor(Identifier identifier) =>
       _recordings.calls[identifier]?.whereType<CallWithArguments>().map(
         (call) => (
-          named: call.namedArguments.map(
-            (name, argument) => MapEntry(name, argument?.toValue()),
-          ),
-          positional: call.positionalArguments
-              .map((argument) => argument?.toValue())
-              .toList(),
+          named: call.namedArguments,
+          positional: call.positionalArguments,
         ),
       ) ??
       [];
 
-  /// Finds all constant fields of a const instance of the class [identifier].
+  /// Finds all constant instances of the class [identifier].
   ///
   /// The definition must be annotated with `@RecordUse()`. The definition (and
   /// its enclosing class, if any) must be in the `lib/` directory of the
@@ -102,17 +98,15 @@ extension type RecordedUsages._(Recordings _recordings) {
   ///       Identifier(
   ///           importUri: 'path/to/file.dart',
   ///           name: 'AnnotationClass'),
-  ///       ).first['s'] == 'freddie';
+  ///       ).first.fields['s'] is StringConstant;
   /// ```
   ///
   /// What kinds of fields can be recorded depends on the implementation of
   /// https://dart-review.googlesource.com/c/sdk/+/369620/13/pkg/vm/lib/transformations/record_use/record_instance.dart
-  Iterable<ConstantInstance> constantsOf(Identifier identifier) =>
+  Iterable<InstanceConstant> constantsOf(Identifier identifier) =>
       _recordings.instances[identifier]
           ?.whereType<InstanceConstantReference>()
-          .map(
-            (reference) => ConstantInstance(reference.instanceConstant.fields),
-          ) ??
+          .map((reference) => reference.instanceConstant) ??
       [];
 
   /// Checks if any call to [identifier] has non-const arguments, or if any
@@ -127,20 +121,9 @@ extension type RecordedUsages._(Recordings _recordings) {
       (_recordings.calls[identifier] ?? []).any(
         (element) => switch (element) {
           CallTearoff() => true,
-          final CallWithArguments call => call.positionalArguments.any(
-            (argument) => argument == null,
-          ),
+          final CallWithArguments call =>
+            call.positionalArguments.any((a) => a is NonConstant) ||
+                call.namedArguments.values.any((a) => a is NonConstant),
         },
       );
-}
-
-extension type ConstantInstance(Map<String, Constant> _fields) {
-  bool hasField(String key) => _fields.containsKey(key);
-
-  Object? operator [](String key) {
-    if (!hasField(key)) {
-      throw ArgumentError('No field with name $key found.');
-    }
-    return _fields[key]!.toValue();
-  }
 }

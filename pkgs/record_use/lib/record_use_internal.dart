@@ -10,9 +10,11 @@ export 'src/constant.dart'
         IntConstant,
         ListConstant,
         MapConstant,
+        MaybeConstant,
+        NonConstant,
         NullConstant,
-        PrimitiveConstant,
-        StringConstant;
+        StringConstant,
+        UnsupportedConstant;
 export 'src/definition.dart' show Definition;
 export 'src/identifier.dart' show Identifier;
 export 'src/metadata.dart' show Metadata;
