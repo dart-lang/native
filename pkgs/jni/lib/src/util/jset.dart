@@ -13,111 +13,22 @@ import '../types.dart';
 import 'jiterator.dart';
 
 @internal
-final class $JSet$NullableType$<$E extends JObject?> extends JType<JSet<$E>?> {
-  final JType<$E> E;
-
-  const $JSet$NullableType$(
-    this.E,
-  );
+final class $JSet$Type$ extends JType<JSet> {
+  const $JSet$Type$();
 
   @override
   String get signature => r'Ljava/util/Set;';
-
-  @override
-  JSet<$E>? fromReference(JReference reference) =>
-      reference.isNull ? null : JSet<$E>.fromReference(E, reference);
-
-  @override
-  JType get superType => const $JObject$Type$();
-
-  @override
-  JType<JSet<$E>?> get nullableType => this;
-
-  @override
-  final superCount = 1;
-
-  @override
-  int get hashCode => Object.hash($JSet$NullableType$, E);
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($JSet$NullableType$<$E>) &&
-        other is $JSet$NullableType$<$E> &&
-        E == other.E;
-  }
 }
 
-@internal
-final class $JSet$Type$<$E extends JObject?> extends JType<JSet<$E>> {
-  final JType<$E> E;
-
-  const $JSet$Type$(
-    this.E,
-  );
-
-  @override
-  String get signature => r'Ljava/util/Set;';
-
-  @override
-  JSet<$E> fromReference(JReference reference) =>
-      JSet<$E>.fromReference(E, reference);
-
-  @override
-  JType get superType => const $JObject$Type$();
-
-  @override
-  JType<JSet<$E>?> get nullableType => $JSet$NullableType$<$E>(E);
-
-  @override
-  final superCount = 1;
-
-  @override
-  int get hashCode => Object.hash($JSet$Type$, E);
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == ($JSet$Type$<$E>) &&
-        other is $JSet$Type$<$E> &&
-        E == other.E;
-  }
-}
-
-class JSet<$E extends JObject?> extends JObject with SetMixin<$E> {
-  @internal
-  @override
-  // ignore: overridden_fields
-  final JType<JSet<$E>> $type;
-
-  @internal
-  final JType<$E> E;
-
-  JSet.fromReference(
-    this.E,
-    JReference reference,
-  )   : $type = type<$E>(E),
-        super.fromReference(reference);
-
+extension type JSet<$E extends JObject?>(JObject _$this) implements JObject {
   static final _class = JClass.forName(r'java/util/Set');
 
   /// The type which includes information such as the signature of this class.
-  static JType<JSet<$E>> type<$E extends JObject?>(
-    JType<$E> E,
-  ) {
-    return $JSet$Type$<$E>(E);
-  }
-
-  /// The type which includes information such as the signature of this class.
-  static JType<JSet<$E>?> nullableType<$E extends JObject?>(
-    JType<$E> E,
-  ) {
-    return $JSet$NullableType$<$E>(E);
-  }
+  static const JType<JSet> type = $JSet$Type$();
 
   static final _hashSetClass = JClass.forName(r'java/util/HashSet');
   static final _ctorId = _hashSetClass.constructorId(r'()V');
-  JSet.hash(this.E)
-      : $type = type<$E>(E),
-        super.fromReference(_ctorId(_hashSetClass, referenceType, []));
+  JSet.hash() : _$this = _ctorId(_hashSetClass, []);
 
   static final _addId =
       _class.instanceMethodId(r'add', r'(Ljava/lang/Object;)Z');

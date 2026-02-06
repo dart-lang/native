@@ -6,6 +6,7 @@ import 'dart:collection';
 
 import 'package:meta/meta.dart' show internal;
 
+import '../../_internal.dart';
 import '../jni.dart';
 import '../jobject.dart';
 import '../jreference.dart';
@@ -30,73 +31,45 @@ extension type JList<$E extends JObject?>(JObject _$this) implements JObject {
 
   static final _arrayListClassRef = JClass.forName(r'java/util/ArrayList');
   static final _ctorId = _arrayListClassRef.constructorId(r'()V');
-  JList.array() : _$this = _ctorId(_arrayListClassRef, []);
+  static final _new$ = ProtectedJniExtensions.lookup<
+          NativeFunction<
+              JniResult Function(
+                Pointer<Void>,
+                JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          JniResult Function(
+            Pointer<Void>,
+            JMethodIDPtr,
+          )>();
+  factory JList.array() =>
+      _new$(_arrayListClassRef.reference.pointer, _ctorId as JMethodIDPtr)
+          .object<JList<$E>>();
 
   static final _sizeId = _class.instanceMethodId(r'size', r'()I');
-  @override
-  int get length => _sizeId(this, const jintType(), [])!;
-
-  @override
-  set length(int newLength) {
-    RangeError.checkNotNegative(newLength);
-    while (length < newLength) {
-      add(null as $E);
-    }
-    while (newLength < length) {
-      removeAt(length - 1);
-    }
-  }
+  int get size => _sizeId(this, const jintType(), [])!;
 
   static final _getId =
       _class.instanceMethodId(r'get', r'(I)Ljava/lang/Object;');
-  @override
-  $E operator [](int index) {
-    RangeError.checkValidIndex(index, this);
-    return _getId(this, JObject.type, [JValueInt(index)]) as $E;
-  }
+  $E get(int index) =>
+      _getId(this, JObject.type, [JValueInt(index)]) as $E;
 
   static final _setId = _class.instanceMethodId(
       r'set', r'(ILjava/lang/Object;)Ljava/lang/Object;');
-  @override
-  void operator []=(int index, $E value) {
-    RangeError.checkValidIndex(index, this);
-    _setId(this, JObject.type, [JValueInt(index), value]);
-  }
+  void set(int index, $E value) =>
+      _setId(this, JObject.type, [JValueInt(index), value]);
 
   static final _addId =
       _class.instanceMethodId(r'add', r'(Ljava/lang/Object;)Z');
   @override
-  void add($E element) {
-    _addId(this, const jbooleanType(), [element]);
-  }
-
-  static final _collectionClass = JClass.forName('java/util/Collection');
-  static final _addAllId =
-      _class.instanceMethodId(r'addAll', r'(Ljava/util/Collection;)Z');
-  @override
-  void addAll(Iterable<$E> iterable) {
-    if (iterable is JObject) {
-      final iterableRef = (iterable as JObject).reference;
-      if (Jni.env.IsInstanceOf(
-          iterableRef.pointer, _collectionClass.reference.pointer)) {
-        _addAllId(this, const jbooleanType(), [iterableRef.pointer]);
-        return;
-      }
-    }
-    return super.addAll(iterable);
-  }
+  void add($E element) => _addId(this, const jbooleanType(), [element]);
 
   static final _clearId = _class.instanceMethodId(r'clear', r'()V');
-  @override
-  void clear() {
-    _clearId(this, const jvoidType(), []);
-  }
+  void clear() => _clearId(this, const jvoidType(), []);
 
   static final _containsId =
       _class.instanceMethodId(r'contains', r'(Ljava/lang/Object;)Z');
-  @override
-  bool contains(Object? element) {
-    if (element is! JObject?) return false;
+  bool contains(JObject? element) {
     final elementRef = element?.reference ?? jNullReference;
     return _containsId(this, const jbooleanType(), [elementRef.pointer])!;
   }

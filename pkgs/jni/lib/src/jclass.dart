@@ -86,7 +86,10 @@ extension type JStaticFieldId._fromPointer(JFieldIDPtr pointer) {
 }
 
 /// A thin wrapper over a [JMethodIDPtr] of an instance method.
-extension type JInstanceMethodId._fromPointer(JMethodIDPtr pointer) {
+class JInstanceMethodId<> {
+  JMethodIDPtr pointer;
+
+
   JInstanceMethodId._(
     JClass jClass,
     String name,
@@ -156,12 +159,16 @@ extension type JConstructorId._fromPointer(JMethodIDPtr pointer) {
         });
 
   /// Constructs an instance of [jClass] with the given arguments.
-  DartT call<JavaT, DartT>(JClass jClass,
-      JConstructable<JavaT, DartT> returnType, List<dynamic> args) {
-    return using((arena) {
-      final jClassRef = jClass.reference;
-      return returnType._newObject(jClassRef.pointer, this as JMethodIDPtr,
-          toJValues(args, allocator: arena));
-    });
-  }
+  // DartT call<DartT>(JClass jClass, List<dynamic> args) {
+  //   return using((arena) {
+  //     final jClassRef = jClass.reference;
+  //     return JObject.fromReference(
+  //       JGlobalReference(Jni.env.NewObjectA(
+  //         jClassRef.pointer,
+  //         this as JMethodIDPtr,
+  //         toJValues(args, allocator: arena),
+  //       )),
+  //     ) as DartT;
+  //   });
+  // }
 }
