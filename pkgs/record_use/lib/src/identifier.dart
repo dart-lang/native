@@ -6,7 +6,7 @@ import 'package:meta/meta.dart';
 
 import 'syntax.g.dart';
 
-/// Represents a unique identifier for a code element, such as a class, method,
+/// A unique identifier for a code element, such as a class, method,
 /// or field, within a Dart program.
 ///
 /// An [Identifier] is used to pinpoint a specific element based on its

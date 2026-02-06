@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:record_use/src/reference.dart';
+import 'package:record_use/record_use_internal.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -21,14 +21,18 @@ void main() {
 
     test('CallWithArguments with multiple args', () {
       const call = CallWithArguments(
-        positionalArguments: [null, null],
-        namedArguments: {'bar': null, 'baz': null},
+        positionalArguments: [NonConstant(), NonConstant()],
+        namedArguments: {
+          'bar': NonConstant(),
+          'baz': NonConstant(),
+        },
         loadingUnit: 'dart.foo',
       );
       expect(
         call.toString(),
-        'CallWithArguments(positional: null, null, named: bar=null, baz=null, '
-        'loadingUnit: dart.foo)',
+        'CallWithArguments(positional: NonConstant(), '
+        'NonConstant(), named: bar=NonConstant(), '
+        'baz=NonConstant(), loadingUnit: dart.foo)',
       );
     });
   });

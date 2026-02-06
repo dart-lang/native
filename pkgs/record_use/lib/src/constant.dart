@@ -2,37 +2,60 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:meta/meta.dart';
+
 import 'helper.dart';
 import 'syntax.g.dart';
 
+/// A value recorded during compilation.
+sealed class MaybeConstant {
+  const MaybeConstant();
+
+  /// Compares this [MaybeConstant] with [other] for semantic equality.
+  ///
+  /// If [allowPromotionOfUnsupported] is true, an [UnsupportedConstant] in
+  /// [other] matches any [Constant] in this.
+  @visibleForTesting
+  bool semanticEquals(
+    MaybeConstant other, {
+    bool allowPromotionOfUnsupported = false,
+  });
+}
+
+/// A value that is not a constant.
+final class NonConstant extends MaybeConstant {
+  const NonConstant();
+
+  @override
+  bool operator ==(Object other) => other is NonConstant;
+
+  @override
+  int get hashCode => 9007199254740997;
+
+  @override
+  String toString() => 'NonConstant()';
+
+  @override
+  @visibleForTesting
+  bool semanticEquals(
+    MaybeConstant other, {
+    bool allowPromotionOfUnsupported = false,
+  }) => other is NonConstant;
+}
+
 /// A constant value that can be recorded and serialized.
 ///
-/// This supports basic constants such as [bool]s or [int]s, as well as
-/// [ListConstant], [MapConstant] or [InstanceConstant] for more complex
-/// structures.
-///
 /// This follows the AST constant concept from the Dart SDK.
-sealed class Constant {
+///
+/// This class is intentionally not sealed. Adding new subtypes of [Constant]
+/// should not be a breaking change for users of this package. Users should
+/// use a wildcard pattern or a default case when switching over [Constant].
+abstract class Constant extends MaybeConstant {
   /// Creates a [Constant] object.
   const Constant();
 
   /// Converts this [Constant] object to a syntax representation.
   ConstantSyntax _toSyntax(Map<Constant, int> constants);
-
-  /// Converts this [Constant] to the value it represents.
-  Object? toValue() => switch (this) {
-    NullConstant() => null,
-    final PrimitiveConstant p => p.value,
-    final ListConstant<Constant> l => l.value.map((c) => c.toValue()).toList(),
-    final MapConstant<Constant, Constant> m => Map.fromEntries(
-      m.entries.map(
-        (entry) => MapEntry(entry.key.toValue(), entry.value.toValue()),
-      ),
-    ),
-    final InstanceConstant i => i.fields.map(
-      (key, value) => MapEntry(key, value.toValue()),
-    ),
-  };
 
   /// Creates a [Constant] object from its syntax representation.
   static Constant _fromSyntax(
@@ -61,13 +84,32 @@ sealed class Constant {
         (key, value) => MapEntry(key, constants[value as int]),
       ),
     ),
+    UnsupportedConstantSyntax(:final message) => UnsupportedConstant(message),
     _ => throw UnimplementedError(
       '"${syntax.type}" is not a supported constant type',
     ),
   };
+
+  @override
+  @visibleForTesting
+  bool semanticEquals(
+    MaybeConstant other, {
+    bool allowPromotionOfUnsupported = false,
+  }) {
+    if (this == other) return true;
+    if (allowPromotionOfUnsupported && other is UnsupportedConstant) {
+      return true;
+    }
+    return _semanticEqualsInternal(other, allowPromotionOfUnsupported);
+  }
+
+  bool _semanticEqualsInternal(
+    MaybeConstant other,
+    bool allowPromotionOfUnsupported,
+  );
 }
 
-/// Represents the `null` constant value.
+/// The `null` constant value.
 final class NullConstant extends Constant {
   /// Creates a [NullConstant] object.
   const NullConstant() : super();
@@ -80,66 +122,139 @@ final class NullConstant extends Constant {
   bool operator ==(Object other) => other is NullConstant;
 
   @override
-  int get hashCode => 0;
+  int get hashCode => 9007199254740881;
+
+  @override
+  String toString() => 'NullConstant()';
+
+  @override
+  bool _semanticEqualsInternal(
+    MaybeConstant other,
+    bool allowPromotionOfUnsupported,
+  ) => other is NullConstant;
 }
 
-/// Represents a constant value of a primitive type.
-sealed class PrimitiveConstant<T extends Object> extends Constant {
-  /// The underlying value of this constant.
-  final T value;
+/// A constant value in Dart but not supported in `package:record_use`.
+final class UnsupportedConstant extends Constant {
+  /// The reason why this constant is unsupported.
+  final String message;
 
-  /// Creates a [PrimitiveConstant] object with the given [value].
-  const PrimitiveConstant(this.value);
+  /// Creates an [UnsupportedConstant] object with the given [message].
+  const UnsupportedConstant(this.message);
+
+  @override
+  UnsupportedConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+      UnsupportedConstantSyntax(message: message);
+
+  @override
+  bool operator ==(Object other) =>
+      other is UnsupportedConstant && other.message == message;
+
+  @override
+  int get hashCode => message.hashCode;
+
+  @override
+  String toString() => 'UnsupportedConstant($message)';
+
+  @override
+  bool _semanticEqualsInternal(
+    MaybeConstant other,
+    bool allowPromotionOfUnsupported,
+  ) => other is UnsupportedConstant && other.message == message;
+}
+
+/// A constant boolean value.
+final class BoolConstant extends Constant {
+  /// The underlying value of this constant.
+  final bool value;
+
+  /// Creates a [BoolConstant] object with the given boolean [value].
+  // ignore: avoid_positional_boolean_parameters
+  const BoolConstant(this.value);
+
+  @override
+  BoolConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+      BoolConstantSyntax(value: value);
 
   @override
   int get hashCode => value.hashCode;
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    return other is PrimitiveConstant<T> && other.value == value;
-  }
+  bool operator ==(Object other) =>
+      other is BoolConstant && other.value == value;
 
   @override
-  String toString() => 'PrimitiveConstant($value)';
-}
-
-/// Represents a constant boolean value.
-final class BoolConstant extends PrimitiveConstant<bool> {
-  /// Creates a [BoolConstant] object with the given boolean [value].
-  // ignore: avoid_positional_boolean_parameters
-  const BoolConstant(super.value);
+  String toString() => 'BoolConstant($value)';
 
   @override
-  BoolConstantSyntax _toSyntax(Map<Constant, int> constants) =>
-      BoolConstantSyntax(value: value);
+  bool _semanticEqualsInternal(
+    MaybeConstant other,
+    bool allowPromotionOfUnsupported,
+  ) => other is BoolConstant && other.value == value;
 }
 
-/// Represents a constant integer value.
-final class IntConstant extends PrimitiveConstant<int> {
+/// A constant integer value.
+final class IntConstant extends Constant {
+  /// The underlying value of this constant.
+  final int value;
+
   /// Creates an [IntConstant] object with the given integer [value].
-  const IntConstant(super.value);
+  const IntConstant(this.value);
 
   @override
   IntConstantSyntax _toSyntax(Map<Constant, int> constants) =>
       IntConstantSyntax(value: value);
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      other is IntConstant && other.value == value;
+
+  @override
+  String toString() => 'IntConstant($value)';
+
+  @override
+  bool _semanticEqualsInternal(
+    MaybeConstant other,
+    bool allowPromotionOfUnsupported,
+  ) => other is IntConstant && other.value == value;
 }
 
-/// Represents a constant string value.
-final class StringConstant extends PrimitiveConstant<String> {
+/// A constant string value.
+final class StringConstant extends Constant {
+  /// The underlying value of this constant.
+  final String value;
+
   /// Creates a [StringConstant] object with the given string [value].
-  const StringConstant(super.value);
+  const StringConstant(this.value);
 
   @override
   StringConstantSyntax _toSyntax(Map<Constant, int> constants) =>
       StringConstantSyntax(value: value);
+
+  @override
+  int get hashCode => value.hashCode;
+
+  @override
+  bool operator ==(Object other) =>
+      other is StringConstant && other.value == value;
+
+  @override
+  String toString() => 'StringConstant($value)';
+
+  @override
+  bool _semanticEqualsInternal(
+    MaybeConstant other,
+    bool allowPromotionOfUnsupported,
+  ) => other is StringConstant && other.value == value;
 }
 
-/// Represents a constant list of [Constant] values.
-final class ListConstant<T extends Constant> extends Constant {
+/// A constant list of [Constant] values.
+final class ListConstant extends Constant {
   /// The underlying list of constant values.
-  final List<T> value;
+  final List<Constant> value;
 
   /// Creates a [ListConstant] object with the given list of [value]s.
   const ListConstant(this.value);
@@ -159,13 +274,33 @@ final class ListConstant<T extends Constant> extends Constant {
       ListConstantSyntax(
         value: value.map((constant) => constants[constant]).toList(),
       );
+
+  @override
+  String toString() => 'ListConstant([${value.join(', ')}])';
+
+  @override
+  bool _semanticEqualsInternal(
+    MaybeConstant other,
+    bool allowPromotionOfUnsupported,
+  ) {
+    if (other is! ListConstant) return false;
+    if (value.length != other.value.length) return false;
+    for (var i = 0; i < value.length; i++) {
+      if (!value[i].semanticEquals(
+        other.value[i],
+        allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+      )) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
 
-/// Represents a constant map from [Constant] keys to [Constant] values.
-final class MapConstant<K extends Constant, V extends Constant>
-    extends Constant {
+/// A constant map from [Constant] keys to [Constant] values.
+final class MapConstant extends Constant {
   /// The underlying map of constant values.
-  final List<MapEntry<K, V>> entries;
+  final List<MapEntry<Constant, Constant>> entries;
 
   /// Creates a [MapConstant] object with the given map of entries.
   const MapConstant(this.entries);
@@ -202,6 +337,32 @@ final class MapConstant<K extends Constant, V extends Constant>
             )
             .toList(),
       );
+
+  @override
+  String toString() =>
+      'MapConstant({${entries.map((e) => '${e.key}: ${e.value}').join(', ')}})';
+
+  @override
+  bool _semanticEqualsInternal(
+    MaybeConstant other,
+    bool allowPromotionOfUnsupported,
+  ) {
+    if (other is! MapConstant) return false;
+    if (entries.length != other.entries.length) return false;
+    for (var i = 0; i < entries.length; i++) {
+      if (!entries[i].key.semanticEquals(
+            other.entries[i].key,
+            allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+          ) ||
+          !entries[i].value.semanticEquals(
+            other.entries[i].value,
+            allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+          )) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
 
 /// A constant instance of a class with its fields
@@ -236,6 +397,31 @@ final class InstanceConstant extends Constant {
 
   @override
   int get hashCode => deepHash(fields);
+
+  @override
+  String toString() =>
+      'InstanceConstant({'
+      '${fields.entries.map((e) => '${e.key}: ${e.value}').join(', ')}})';
+
+  @override
+  bool _semanticEqualsInternal(
+    MaybeConstant other,
+    bool allowPromotionOfUnsupported,
+  ) {
+    if (other is! InstanceConstant) return false;
+    if (fields.length != other.fields.length) return false;
+    for (final entry in fields.entries) {
+      final otherField = other.fields[entry.key];
+      if (otherField == null ||
+          !entry.value.semanticEquals(
+            otherField,
+            allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+          )) {
+        return false;
+      }
+    }
+    return true;
+  }
 }
 
 /// Package private (protected) methods for [Constant].

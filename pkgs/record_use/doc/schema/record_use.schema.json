@@ -39,7 +39,10 @@
           "named": {
             "type": "object",
             "additionalProperties": {
-              "type": "integer"
+              "type": [
+                "integer",
+                "null"
+              ]
             }
           },
           "positional": {
@@ -68,7 +71,8 @@
                 "list",
                 "map",
                 "null",
-                "string"
+                "string",
+                "unsupported"
               ]
             },
             {
@@ -211,6 +215,25 @@
               "value"
             ]
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "unsupported"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "message": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "message"
+            ]
+          }
         }
       ]
     },
@@ -291,7 +314,10 @@
               "named": {
                 "type": "object",
                 "additionalProperties": {
-                  "type": "integer"
+                  "type": [
+                    "integer",
+                    "null"
+                  ]
                 }
               },
               "positional": {
