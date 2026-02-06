@@ -5,7 +5,6 @@
 import 'package:meta/meta.dart' show internal;
 
 import '../jobject.dart';
-import '../jreference.dart';
 import '../types.dart';
 
 @internal
@@ -16,48 +15,38 @@ final class $JIterator$Type$ extends JType<JIterator> {
   String get signature => r'Ljava/util/Iterator;';
 }
 
-class JIterator<$E extends JObject?> extends JObject implements Iterator<$E> {
-  @internal
-  @override
-  // ignore: overridden_fields
-  final JType<JIterator<$E>> $type;
-
-  @internal
-  final JType<$E> E;
-
-  JIterator.fromReference(
-    this.E,
-    JReference reference,
-  )   : $type = type<$E>(E),
-        super.fromReference(reference);
+extension type JIterator<E extends JObject?>(JObject _$this)
+    implements JObject {
+  static const JType<JIterator> type = $JIterator$Type$();
 
   static final _class = JClass.forName(r'java/util/Iterator');
 
-  /// The type which includes information such as the signature of this class.
-  static const JType<JIterator> type = JType(r'Ljava/util/Iterator;');
-
-  $E? _current;
-
-  @override
-  $E get current => _current as $E;
-
   static final _hasNextId = _class.instanceMethodId(r'hasNext', r'()Z');
-  bool _hasNext() {
-    return _hasNextId(this, const jbooleanType(), [])!;
-  }
+  bool _hasNext() => _hasNextId(this, const jbooleanType(), [])!;
 
   static final _nextId =
       _class.instanceMethodId(r'next', r'()Ljava/lang/Object;');
-  $E _next() {
-    return _nextId(this, E, [])!;
-  }
+  E _next() => _nextId(this, JObject.type, []) as E;
+
+  Iterator<E> asDart() => _JIteratorAdapter<E>(this);
+}
+
+final class _JIteratorAdapter<E extends JObject?> implements Iterator<E> {
+  final JIterator<E> _itr;
+  E? _current;
+
+  _JIteratorAdapter(this._itr);
 
   @override
+  E get current => _current!;
+
+  @override
+  @pragma('vm:prefer-inline')
   bool moveNext() {
-    if (!_hasNext()) {
+    if (!_itr._hasNext()) {
       return false;
     }
-    _current = _next();
+    _current = _itr._next();
     return true;
   }
 }

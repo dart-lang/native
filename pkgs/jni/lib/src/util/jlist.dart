@@ -47,21 +47,20 @@ extension type JList<$E extends JObject?>(JObject _$this) implements JObject {
           .object<JList<$E>>();
 
   static final _sizeId = _class.instanceMethodId(r'size', r'()I');
-  int get size => _sizeId(this, const jintType(), [])!;
+  int get length => _sizeId(this, const jintType(), [])!;
 
   static final _getId =
       _class.instanceMethodId(r'get', r'(I)Ljava/lang/Object;');
-  $E get(int index) =>
+  $E operator[](int index) =>
       _getId(this, JObject.type, [JValueInt(index)]) as $E;
 
   static final _setId = _class.instanceMethodId(
       r'set', r'(ILjava/lang/Object;)Ljava/lang/Object;');
-  void set(int index, $E value) =>
+  void operator[]=(int index, $E value) =>
       _setId(this, JObject.type, [JValueInt(index), value]);
 
   static final _addId =
       _class.instanceMethodId(r'add', r'(Ljava/lang/Object;)Z');
-  @override
   void add($E element) => _addId(this, const jbooleanType(), [element]);
 
   static final _clearId = _class.instanceMethodId(r'clear', r'()V');
@@ -76,71 +75,29 @@ extension type JList<$E extends JObject?>(JObject _$this) implements JObject {
 
   static final _getRangeId =
       _class.instanceMethodId(r'subList', r'(II)Ljava/util/List;');
-  @override
   JList<$E> getRange(int start, int end) {
     RangeError.checkValidRange(start, end, length);
     return _getRangeId(
-        this, $JList$Type$<$E>(E), [JValueInt(start), JValueInt(end)])!;
-  }
-
-  static final _indexOfId =
-      _class.instanceMethodId(r'indexOf', r'(Ljava/lang/Object;)I');
-  @override
-  int indexOf(Object? element, [int start = 0]) {
-    if (element is! JObject?) return -1;
-    if (start < 0) start = 0;
-    final elementRef = element?.reference ?? jNullReference;
-    if (start == 0) {
-      return _indexOfId(this, const jintType(), [elementRef.pointer])!;
-    }
-    return _indexOfId(
-      getRange(start, length),
-      const jintType(),
-      [elementRef.pointer],
-    )!;
+        this, $JList$Type$<$E>(), [JValueInt(start), JValueInt(end)])!;
   }
 
   static final _insertId =
       _class.instanceMethodId(r'add', r'(ILjava/lang/Object;)V');
-  @override
   void insert(int index, $E element) {
     _insertId(this, const jvoidType(), [JValueInt(index), element]);
   }
 
-  static final _insertAllId =
-      _class.instanceMethodId(r'addAll', r'(ILjava/util/Collection;)Z');
-  @override
-  void insertAll(int index, Iterable<$E> iterable) {
-    if (iterable is JObject) {
-      final iterableRef = (iterable as JObject).reference;
-      if (Jni.env.IsInstanceOf(
-          iterableRef.pointer, _collectionClass.reference.pointer)) {
-        _insertAllId(
-          this,
-          const jbooleanType(),
-          [JValueInt(index), iterableRef.pointer],
-        );
-        return;
-      }
-    }
-    super.insertAll(index, iterable);
-  }
-
   static final _isEmptyId = _class.instanceMethodId(r'isEmpty', r'()Z');
-  @override
   bool get isEmpty => _isEmptyId(this, const jbooleanType(), [])!;
 
-  @override
   bool get isNotEmpty => !isEmpty;
 
   static final _iteratorId =
       _class.instanceMethodId(r'iterator', r'()Ljava/util/Iterator;');
-  @override
   JIterator<$E> get iterator => _iteratorId(this, $JIterator$Type$<$E>(E), [])!;
 
   static final _lastIndexOfId =
       _class.instanceMethodId(r'lastIndexOf', r'(Ljava/lang/Object;)I');
-  @override
   int lastIndexOf(Object? element, [int? start]) {
     if (element is! JObject?) return -1;
     if (start == null || start >= length) start = length - 1;
@@ -160,7 +117,6 @@ extension type JList<$E extends JObject?>(JObject _$this) implements JObject {
 
   static final _removeId =
       _class.instanceMethodId(r'remove', r'(Ljava/lang/Object;)Z');
-  @override
   bool remove(Object? element) {
     if (element is! JObject?) return false;
     final elementRef = element?.reference ?? jNullReference;
@@ -169,21 +125,8 @@ extension type JList<$E extends JObject?>(JObject _$this) implements JObject {
 
   static final _removeAtId =
       _class.instanceMethodId(r'remove', r'(I)Ljava/lang/Object;');
-  @override
   $E removeAt(int index) {
     return _removeAtId(this, JObject.type, [JValueInt(index)])!;
-  }
-
-  @override
-  void removeRange(int start, int end) {
-    final range = getRange(start, end);
-    range.clear();
-    range.release();
-  }
-
-  @override
-  JSet<$E> toSet() {
-    return toJSet();
   }
 }
 
