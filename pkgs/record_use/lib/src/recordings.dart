@@ -120,7 +120,7 @@ Error: $e
   Map<String, Object?> toJson() => _toSyntax().json;
 
   RecordedUsesSyntax _toSyntax() {
-    final constantsIndex = {
+    final constantsIndex = <Constant>{
       ...callsForDefinition.values
           .expand((calls) => calls)
           .whereType<CallWithArguments>()
@@ -130,7 +130,12 @@ Error: $e
               ...call.namedArguments.values,
             ],
           )
-          .nonNulls,
+          .expand(
+            (argument) => switch (argument) {
+              final Constant c => [c],
+              NonConstant() => <Constant>[],
+            },
+          ),
       ...instancesForDefinition.values
           .expand((instances) => instances)
           .expand(
@@ -143,7 +148,12 @@ Error: $e
                 :final positionalArguments,
                 :final namedArguments,
               ) =>
-                [...positionalArguments, ...namedArguments.values].nonNulls,
+                [...positionalArguments, ...namedArguments.values].expand(
+                  (argument) => switch (argument) {
+                    final Constant c => [c],
+                    NonConstant() => <Constant>[],
+                  },
+                ),
               ConstructorTearoffReference() => <Constant>[],
             },
           ),
@@ -182,7 +192,9 @@ Error: $e
       constants: constantsIndex.isEmpty
           ? null
           : constantsIndex.keys
-                .map((constant) => constant.toSyntax(constantsIndex))
+                .map(
+                  (Constant constant) => constant.toSyntax(constantsIndex),
+                )
                 .toList(),
       recordings: recordings.isEmpty ? null : recordings,
     );
@@ -248,6 +260,7 @@ Error: $e
     bool allowTearoffToStaticPromotion = false,
     bool allowDefinitionLoadingUnitNull = false,
     bool allowMoreConstArguments = false,
+    bool allowPromotionOfUnsupported = false,
     bool allowMetadataMismatch = false,
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
@@ -274,6 +287,7 @@ Error: $e
         b,
         allowTearoffToStaticPromotion: allowTearoffToStaticPromotion,
         allowMoreConstArguments: allowMoreConstArguments,
+        allowPromotionOfUnsupported: allowPromotionOfUnsupported,
         uriMapping: uriMapping,
         loadingUnitMapping: loadingUnitMapping,
       ),
@@ -294,6 +308,7 @@ Error: $e
             uriMapping: uriMapping,
             loadingUnitMapping: loadingUnitMapping,
             allowMoreConstArguments: allowMoreConstArguments,
+            allowPromotionOfUnsupported: allowPromotionOfUnsupported,
           ),
     )) {
       return false;
@@ -450,8 +465,8 @@ extension FlattenConstantsExtension on Iterable<Constant> {
 
   void depthFirstSearch(Constant constant, Set<Constant> collected) {
     final children = switch (constant) {
-      ListConstant<Constant>() => constant.value,
-      MapConstant<Constant, Constant>() => constant.entries.expand(
+      ListConstant() => constant.value,
+      MapConstant() => constant.entries.expand(
         (e) => [e.key, e.value],
       ),
       InstanceConstant() => constant.fields.values,

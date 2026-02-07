@@ -339,11 +339,12 @@ class SchemaAnalyzer {
             isNullable: false,
             pattern: schemas.patternPropertiesSchemas.keys.firstOrNull,
           );
-          final additionalPropertiesType = additionalPropertiesSchema.type;
+          final (additionalPropertiesType, additionalNullable) =
+              additionalPropertiesSchema.typeAndNullable;
           switch (additionalPropertiesType) {
             case SchemaType.array:
               final items = additionalPropertiesSchema.items;
-              final itemType = items.type;
+              final (itemType, itemNullable) = items.typeAndNullable;
               switch (itemType) {
                 case SchemaType.object:
                   _analyzeClass(items);
@@ -353,9 +354,9 @@ class SchemaAnalyzer {
                     valueType: ListDartType(
                       itemType: ClassDartType(
                         classInfo: itemClass,
-                        isNullable: false,
+                        isNullable: itemNullable,
                       ),
-                      isNullable: false,
+                      isNullable: additionalNullable,
                     ),
                     isNullable: isNullable,
                   );
@@ -370,15 +371,18 @@ class SchemaAnalyzer {
                 final clazz = _classes[additionalPropertiesSchema.className]!;
                 dartType = MapDartType(
                   keyType: keyDartType,
-                  valueType: ClassDartType(classInfo: clazz, isNullable: false),
+                  valueType: ClassDartType(
+                    classInfo: clazz,
+                    isNullable: additionalNullable,
+                  ),
                   isNullable: isNullable,
                 );
               } else {
                 dartType = MapDartType(
                   keyType: keyDartType,
-                  valueType: const MapDartType(
-                    valueType: ObjectDartType(isNullable: true),
-                    isNullable: false,
+                  valueType: MapDartType(
+                    valueType: const ObjectDartType(isNullable: true),
+                    isNullable: additionalNullable,
                   ),
                   isNullable: isNullable,
                 );
@@ -431,13 +435,13 @@ class SchemaAnalyzer {
             case SchemaType.string:
               dartType = MapDartType(
                 keyType: keyDartType,
-                valueType: const StringDartType(isNullable: false),
+                valueType: StringDartType(isNullable: additionalNullable),
                 isNullable: isNullable,
               );
             case SchemaType.integer:
               dartType = MapDartType(
                 keyType: keyDartType,
-                valueType: const IntDartType(isNullable: false),
+                valueType: IntDartType(isNullable: additionalNullable),
                 isNullable: isNullable,
               );
             default:

@@ -41,10 +41,14 @@ void main(List<String> arguments) async {
         ),
       );
       for (final call in calls) {
-        dataLines.add(
-          'A call was made to "$methodName" with the arguments ('
-          '${call.positional[0] as int},${call.positional[1] as int})',
-        );
+        if (call.positional case [
+          IntConstant(value: final v0),
+          IntConstant(value: final v1),
+        ]) {
+          dataLines.add(
+            'A call was made to "$methodName" with the arguments ($v0,$v1)',
+          );
+        }
         symbols.add(methodName);
       }
     }
