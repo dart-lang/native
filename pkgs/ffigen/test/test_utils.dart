@@ -172,8 +172,8 @@ void _matchFileWithExpected({
   String Function(String)? codeNormalizer,
 }) {
   final expectedPath = path.joinAll([packagePathForTests, ...pathToExpected]);
-  final tmpDir = Directory.systemTemp.createTempSync('ffigen_test_');
-  final file = File(path.join(tmpDir.path, pathForActual));
+  final tmpDirPath = context.tmpDir;
+  final file = File(path.join(tmpDirPath, pathForActual));
 
   fileWriter(library: library, file: file);
   try {
