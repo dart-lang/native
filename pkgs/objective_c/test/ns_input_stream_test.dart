@@ -17,7 +17,7 @@ import 'package:ffi/ffi.dart';
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
 
-import 'package:objective_c_helper/src/util.dart';
+import 'util.dart';
 
 Future<(int, Uint8List, bool, NSStreamStatus, NSError?)> read(
   NSInputStream stream,
