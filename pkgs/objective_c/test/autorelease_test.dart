@@ -10,8 +10,7 @@ import 'dart:ffi';
 
 import 'package:objective_c/objective_c.dart';
 import 'package:test/test.dart';
-
-import 'package:objective_c_helper/src/util.dart';
+import 'util.dart';
 
 void main() {
   group('autoReleasePool', () {
