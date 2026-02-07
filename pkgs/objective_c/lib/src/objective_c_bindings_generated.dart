@@ -671,7 +671,7 @@ extension type DOBJCObservation._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [DOBJCObservation].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
+  static bool isA(objc.ObjCObject? obj) => obj == null ? false : _objc_msgSend_19nvye5(
     obj.ref.pointer,
     _sel_isKindOfClass_,
     _class_DOBJCObservation,
@@ -772,7 +772,7 @@ extension type DartInputStreamAdapter._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [DartInputStreamAdapter].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
+  static bool isA(objc.ObjCObject? obj) => obj == null ? false : _objc_msgSend_19nvye5(
     obj.ref.pointer,
     _sel_isKindOfClass_,
     _class_DOBJCDartInputStreamAdapter,
@@ -1011,7 +1011,7 @@ extension type DartInputStreamAdapterWeakHolder._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [DartInputStreamAdapterWeakHolder].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
+  static bool isA(objc.ObjCObject? obj) => obj == null ? false : _objc_msgSend_19nvye5(
     obj.ref.pointer,
     _sel_isKindOfClass_,
     _class_DOBJCDartInputStreamAdapterWeakHolder,
@@ -1128,7 +1128,7 @@ extension type DartProtocol._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [DartProtocol].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
+  static bool isA(objc.ObjCObject? obj) => obj == null ? false : _objc_msgSend_19nvye5(
     obj.ref.pointer,
     _sel_isKindOfClass_,
     _class_DOBJCDartProtocol,
@@ -1226,7 +1226,7 @@ extension type DartProtocolBuilder._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [DartProtocolBuilder].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
+  static bool isA(objc.ObjCObject? obj) => obj == null ? false : _objc_msgSend_19nvye5(
     obj.ref.pointer,
     _sel_isKindOfClass_,
     _class_DOBJCDartProtocolBuilder,
@@ -1381,7 +1381,7 @@ extension type NSArray._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSArray].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
+  static bool isA(objc.ObjCObject? obj) => obj == null ? false : _objc_msgSend_19nvye5(
     obj.ref.pointer,
     _sel_isKindOfClass_,
     _class_NSArray,
@@ -1613,7 +1613,7 @@ extension type NSAttributedString._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSAttributedString].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
+  static bool isA(objc.ObjCObject? obj) => obj == null ? false : _objc_msgSend_19nvye5(
     obj.ref.pointer,
     _sel_isKindOfClass_,
     _class_NSAttributedString,
@@ -2096,7 +2096,7 @@ extension type NSAttributedStringMarkdownParsingOptions._(
   }
 
   /// Returns whether [obj] is an instance of [NSAttributedStringMarkdownParsingOptions].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
+  static bool isA(objc.ObjCObject? obj) => obj == null ? false : _objc_msgSend_19nvye5(
     obj.ref.pointer,
     _sel_isKindOfClass_,
     _class_NSAttributedStringMarkdownParsingOptions,
@@ -2337,7 +2337,7 @@ extension type NSBundle._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSBundle].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
+  static bool isA(objc.ObjCObject? obj) => obj == null ? false : _objc_msgSend_19nvye5(
     obj.ref.pointer,
     _sel_isKindOfClass_,
     _class_NSBundle,
@@ -3220,7 +3220,7 @@ extension type NSCharacterSet._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSCharacterSet].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
+  static bool isA(objc.ObjCObject? obj) => obj == null ? false : _objc_msgSend_19nvye5(
     obj.ref.pointer,
     _sel_isKindOfClass_,
     _class_NSCharacterSet,
@@ -3548,7 +3548,7 @@ extension type NSCoder._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSCoder].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
+  static bool isA(objc.ObjCObject? obj) => obj == null ? false : _objc_msgSend_19nvye5(
     obj.ref.pointer,
     _sel_isKindOfClass_,
     _class_NSCoder,
@@ -4037,7 +4037,7 @@ extension type NSData._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSData].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
+  static bool isA(objc.ObjCObject? obj) => obj == null ? false : _objc_msgSend_19nvye5(
     obj.ref.pointer,
     _sel_isKindOfClass_,
     _class_NSData,
@@ -4548,7 +4548,7 @@ extension type NSDate._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSDate].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
+  static bool isA(objc.ObjCObject? obj) => obj == null ? false : _objc_msgSend_19nvye5(
     obj.ref.pointer,
     _sel_isKindOfClass_,
     _class_NSDate,
@@ -4793,7 +4793,7 @@ extension type NSDictionary._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSDictionary].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
+  static bool isA(objc.ObjCObject? obj) => obj == null ? false : _objc_msgSend_19nvye5(
     obj.ref.pointer,
     _sel_isKindOfClass_,
     _class_NSDictionary,
@@ -18721,7 +18721,7 @@ extension type NSSet._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSSet].
-  static bool isA(objc.ObjCObject obj) =>
+  static bool isA(objc.ObjCObject? obj) => obj == null ? false : _objc_msgSend_19nvye5(
       _objc_msgSend_19nvye5(obj.ref.pointer, _sel_isKindOfClass_, _class_NSSet);
 
   /// alloc
