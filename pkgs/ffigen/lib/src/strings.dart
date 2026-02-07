@@ -280,19 +280,6 @@ const synthUsrChar = '~';
 const ffiNative = 'ffi-native';
 const ffiNativeAsset = 'asset-id';
 
-Directory? _tmpDir;
-
-/// A path to a unique temporary directory that should be used for files meant
-/// to be discarded after the current execution is finished.
-String get tmpDir {
-  if (Platform.environment.containsKey('TEST_TMPDIR')) {
-    return Platform.environment['TEST_TMPDIR']!;
-  }
-
- _tmpDir ??= Directory.systemTemp.createTempSync('temp dir ');
- return _tmpDir!.path;
-}
-
 const ffigenJsonSchemaIndent = '  ';
 const ffigenJsonSchemaId = 'https://json.schemastore.org/ffigen';
 const ffigenJsonSchemaFileName = 'ffigen.schema.json';
