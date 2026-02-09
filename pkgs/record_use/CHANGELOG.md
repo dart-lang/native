@@ -1,6 +1,7 @@
 ## 0.5.0-wip
 
 - Completely overhauled the JSON format.
+- Removed loading units from definitions. Recordings are now indexed by identifier only.
 
 ## 0.4.2
 

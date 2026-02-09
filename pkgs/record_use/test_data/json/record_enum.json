@@ -2,18 +2,18 @@
   "$schema": "../../doc/schema/record_use.schema.json",
   "constants": [
     {
-      "type": "int",
-      "value": 0
-    },
-    {
       "type": "string",
       "value": "a"
     },
     {
+      "type": "int",
+      "value": 0
+    },
+    {
       "type": "instance",
       "value": {
-        "index": 0,
-        "_name": 1
+        "_name": 0,
+        "index": 1
       }
     },
     {
@@ -29,12 +29,9 @@
   },
   "recordings": [
     {
-      "definition": {
-        "identifier": {
-          "name": "MyClass",
-          "uri": "record_enum.dart"
-        },
-        "loading_unit": "1"
+      "identifier": {
+        "name": "MyClass",
+        "uri": "record_enum.dart"
       },
       "instances": [
         {

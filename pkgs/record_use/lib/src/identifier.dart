@@ -17,6 +17,7 @@ import 'syntax.g.dart';
 ///   method or field). This is optional, as not all elements have parents (e.g.
 ///   top-level functions).
 /// - `name`: The name of the element itself.
+// TODO(https://github.com/dart-lang/native/issues/2888): Rename to Definition.
 class Identifier {
   /// The URI of the library where the element is defined.
   ///

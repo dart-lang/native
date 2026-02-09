@@ -17,12 +17,9 @@
   },
   "recordings": [
     {
-      "definition": {
-        "identifier": {
-          "name": "MyClass",
-          "uri": "record_instance_constant_empty.dart"
-        },
-        "loading_unit": "1"
+      "identifier": {
+        "name": "MyClass",
+        "uri": "record_instance_constant_empty.dart"
       },
       "instances": [
         {

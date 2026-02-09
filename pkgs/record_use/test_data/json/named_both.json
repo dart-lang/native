@@ -36,8 +36,8 @@
           "loading_unit": "1",
           "named": {
             "i": 0,
-            "l": 1,
-            "k": 0
+            "k": 0,
+            "l": 1
           },
           "type": "with_arguments"
         },
@@ -54,8 +54,8 @@
           "loading_unit": "1",
           "named": {
             "i": 2,
-            "l": 4,
-            "k": 0
+            "k": 0,
+            "l": 4
           },
           "type": "with_arguments"
         },
@@ -63,19 +63,16 @@
           "loading_unit": "1",
           "named": {
             "i": 2,
-            "l": 4,
-            "k": 5
+            "k": 5,
+            "l": 4
           },
           "type": "with_arguments"
         }
       ],
-      "definition": {
-        "identifier": {
-          "name": "someStaticMethod",
-          "scope": "SomeClass",
-          "uri": "named_both.dart"
-        },
-        "loading_unit": "1"
+      "identifier": {
+        "name": "someStaticMethod",
+        "scope": "SomeClass",
+        "uri": "named_both.dart"
       }
     }
   ]

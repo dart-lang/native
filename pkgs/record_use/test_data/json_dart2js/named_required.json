@@ -9,21 +9,16 @@
       "value": 5
     }
   ],
-  "locations": [
-    {
-      "uri": "memory:sdk/tests/web/native/named_required.dart"
-    }
-  ],
   "metadata": {
-    "comment": "Resources referenced by annotated resource identifiers",
     "AppTag": "TBD",
+    "comment": "Resources referenced by annotated resource identifiers",
     "environment": {
-      "dart.web.assertions_enabled": "false",
       "dart.tool.dart2js": "true",
-      "dart.tool.dart2js.minify": "false",
       "dart.tool.dart2js.disable_rti_optimization": "false",
+      "dart.tool.dart2js.minify": "false",
       "dart.tool.dart2js.primitives:trust": "false",
-      "dart.tool.dart2js.types:trust": "false"
+      "dart.tool.dart2js.types:trust": "false",
+      "dart.web.assertions_enabled": "false"
     },
     "version": "0.4.0"
   },
@@ -31,7 +26,6 @@
     {
       "calls": [
         {
-          "@": 0,
           "loading_unit": "out",
           "positional": [
             0
@@ -39,7 +33,6 @@
           "type": "with_arguments"
         },
         {
-          "@": 0,
           "loading_unit": "out",
           "positional": [
             1
@@ -47,12 +40,10 @@
           "type": "with_arguments"
         }
       ],
-      "definition": {
-        "identifier": {
-          "name": "someStaticMethod",
-          "scope": "SomeClass",
-          "uri": "memory:sdk/tests/web/native/named_required.dart"
-        }
+      "identifier": {
+        "name": "someStaticMethod",
+        "scope": "SomeClass",
+        "uri": "memory:sdk/tests/web/native/named_required.dart"
       }
     }
   ]

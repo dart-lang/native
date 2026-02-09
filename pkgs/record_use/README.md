@@ -78,31 +78,32 @@ import 'package:hooks/hooks.dart';
 import 'package:record_use/record_use_internal.dart';
 
 final methodId = Identifier(
-  uri: 'myfile.dart',
+  importUri: 'myfile.dart',
   name: 'myMethod',
 );
 
 final classId = Identifier(
-  uri: 'myfile.dart',
+  importUri: 'myfile.dart',
   name: 'myClass',
 );
 
 void main(List<String> arguments){
-  link(arguments, (config, output) async {
-    final usesUri = config.recordedUses;
-    final usesJson = await File,fromUri(usesUri).readAsString();
-    final uses = UsageRecord.fromJson(jsonDecode(usesJson));
+  link(arguments, (input, output) async {
+    final usesUri = input.recordedUsagesFile;
+    if (usesUri == null) return;
+    final usesJson = await File.fromUri(usesUri).readAsString();
+    final uses = RecordedUsages.fromJson(jsonDecode(usesJson));
 
-    final args = uses.argumentsTo(methodId));
+    final args = uses.constArgumentsFor(methodId);
     //[args] is an iterable of arguments, in this case containing "42"
 
-    final fields = uses.instancesOf(classId);
-    //[fields] is an iterable of the fields of the class, in this case
+    final fields = uses.constantsOf(classId);
+    //[fields] is an iterable of the constants of the class, in this case
     //containing
-    // {"arguments": "leroyjenkins"}
-    // {"arguments": 3.14}
-    // {"arguments": 42}
-    // {"arguments": true}
+    // {"metadata": "leroyjenkins"}
+    // {"metadata": 3.14}
+    // {"metadata": 42}
+    // {"metadata": true}
 
     ... // Do something with the information, such as tree-shaking native assets
   });

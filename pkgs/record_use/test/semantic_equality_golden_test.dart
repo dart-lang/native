@@ -66,9 +66,6 @@ void main() {
       if (!uses.semanticEquals(
         expectedUses,
         allowMetadataMismatch: true,
-        // Definition loading units are not working in dart2js backend.
-        // https://github.com/dart-lang/native/issues/2890
-        allowDefinitionLoadingUnitNull: true,
         allowMoreConstArguments: true,
         allowTearoffToStaticPromotion: true,
         expectedIsSubset: dart2jsDeferLoadedLibrary.contains(fileName),

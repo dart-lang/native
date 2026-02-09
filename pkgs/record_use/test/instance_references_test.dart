@@ -19,9 +19,9 @@ void main() {
 
   final recordings = Recordings(
     metadata: metadata,
-    callsForDefinition: {},
-    instancesForDefinition: {
-      const Definition(identifier: identifier, loadingUnit: 'root'): [
+    calls: {},
+    instances: {
+      identifier: [
         const InstanceCreationReference(
           positionalArguments: [IntConstant(1), IntConstant(2)],
           namedArguments: {'param': StringConstant('named_arg_value')},
