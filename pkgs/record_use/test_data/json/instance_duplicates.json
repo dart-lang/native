@@ -28,12 +28,9 @@
   },
   "recordings": [
     {
-      "definition": {
-        "identifier": {
-          "name": "MyClass",
-          "uri": "instance_duplicates.dart"
-        },
-        "loading_unit": "1"
+      "identifier": {
+        "name": "MyClass",
+        "uri": "instance_duplicates.dart"
       },
       "instances": [
         {

@@ -20,12 +20,9 @@
   },
   "recordings": [
     {
-      "definition": {
-        "identifier": {
-          "name": "MyClass",
-          "uri": "package:test/test.dart"
-        },
-        "loading_unit": "root"
+      "identifier": {
+        "name": "MyClass",
+        "uri": "package:test/test.dart"
       },
       "instances": [
         {

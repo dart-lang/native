@@ -8,7 +8,6 @@ import 'dart:convert';
 import 'package:meta/meta.dart';
 
 import 'constant.dart';
-import 'definition.dart';
 import 'helper.dart';
 import 'identifier.dart';
 import 'metadata.dart';
@@ -19,34 +18,25 @@ import 'syntax.g.dart';
 ///
 /// This class acts as the top-level container for recorded usage information.
 /// The metadata provides context for the recording, such as version and
-/// commentary. The [callsForDefinition] and [instancesForDefinition] store the
-/// core data, associating each [Definition] with its corresponding [Reference]
-/// details.
+/// commentary. The [calls] and [instances] store the core data, associating
+/// each [Identifier] with its corresponding [Reference] details.
 ///
-/// The class uses a normalized JSON format, allowing the reuse of
-/// constants across multiple recordings to optimize storage.
+/// The class uses a normalized JSON format, allowing the reuse of constants
+/// across multiple recordings to optimize storage.
 class Recordings {
   /// [Metadata] such as the recording protocol version.
   final Metadata metadata;
 
-  /// The collected [CallReference]s for each [Definition].
-  final Map<Definition, List<CallReference>> callsForDefinition;
+  /// The collected [CallReference]s for each [Identifier].
+  final Map<Identifier, List<CallReference>> calls;
 
-  late final Map<Identifier, List<CallReference>> calls = callsForDefinition
-      .map((definition, calls) => MapEntry(definition.identifier, calls));
-
-  /// The collected [InstanceReference]s for each [Definition].
-  final Map<Definition, List<InstanceReference>> instancesForDefinition;
-
-  late final Map<Identifier, List<InstanceReference>> instances =
-      instancesForDefinition.map(
-        (definition, instances) => MapEntry(definition.identifier, instances),
-      );
+  /// The collected [InstanceReference]s for each [Identifier].
+  final Map<Identifier, List<InstanceReference>> instances;
 
   Recordings({
     required this.metadata,
-    required this.callsForDefinition,
-    required this.instancesForDefinition,
+    required this.calls,
+    required this.instances,
   });
 
   /// Decodes a JSON representation into a [Recordings] object.
@@ -76,12 +66,12 @@ Error: $e
       }
     }
 
-    final callsForDefinition = <Definition, List<CallReference>>{};
-    final instancesForDefinition = <Definition, List<InstanceReference>>{};
+    final callsForDefinition = <Identifier, List<CallReference>>{};
+    final instancesForDefinition = <Identifier, List<InstanceReference>>{};
 
     for (final recordingSyntax in syntax.recordings ?? <RecordingSyntax>[]) {
-      final definition = DefinitionProtected.fromSyntax(
-        recordingSyntax.definition,
+      final identifier = IdentifierProtected.fromSyntax(
+        recordingSyntax.identifier,
       );
       if (recordingSyntax.calls case final callSyntaxes?) {
         final callReferences = callSyntaxes
@@ -92,7 +82,9 @@ Error: $e
               ),
             )
             .toList();
-        callsForDefinition[definition] = callReferences;
+        callsForDefinition
+            .putIfAbsent(identifier, () => [])
+            .addAll(callReferences);
       }
       if (recordingSyntax.instances case final instanceSyntaxes?) {
         final instanceReferences = instanceSyntaxes
@@ -103,14 +95,16 @@ Error: $e
               ),
             )
             .toList();
-        instancesForDefinition[definition] = instanceReferences;
+        instancesForDefinition
+            .putIfAbsent(identifier, () => [])
+            .addAll(instanceReferences);
       }
     }
 
     return Recordings(
       metadata: MetadataProtected.fromSyntax(syntax.metadata),
-      callsForDefinition: callsForDefinition,
-      instancesForDefinition: instancesForDefinition,
+      calls: callsForDefinition,
+      instances: instancesForDefinition,
     );
   }
 
@@ -121,7 +115,7 @@ Error: $e
 
   RecordedUsesSyntax _toSyntax() {
     final constantsIndex = <Constant>{
-      ...callsForDefinition.values
+      ...calls.values
           .expand((calls) => calls)
           .whereType<CallWithArguments>()
           .expand(
@@ -136,7 +130,7 @@ Error: $e
               NonConstant() => <Constant>[],
             },
           ),
-      ...instancesForDefinition.values
+      ...instances.values
           .expand((instances) => instances)
           .expand(
             (instance) => switch (instance) {
@@ -160,29 +154,22 @@ Error: $e
     }.flatten().asMapToIndices;
 
     final recordings = <RecordingSyntax>[];
-    if (callsForDefinition.isNotEmpty) {
-      recordings.addAll(
-        callsForDefinition.entries.map(
-          (entry) => RecordingSyntax(
-            definition: entry.key.toSyntax(),
-            calls: entry.value
-                .map((call) => call.toSyntax(constantsIndex))
-                .toList(),
-          ),
-        ),
-      );
-    }
-    if (instancesForDefinition.isNotEmpty) {
-      recordings.addAll(
-        instancesForDefinition.entries.map(
-          (entry) => RecordingSyntax(
-            definition: entry.key.toSyntax(),
-            instances: entry.value
-                .map(
-                  (instance) => instance.toSyntax(constantsIndex),
-                )
-                .toList(),
-          ),
+    final allIdentifiers = {
+      ...calls.keys,
+      ...instances.keys,
+    };
+    for (final identifier in allIdentifiers) {
+      final callsForIdentifier = calls[identifier];
+      final instancesForIdentifier = instances[identifier];
+      recordings.add(
+        RecordingSyntax(
+          identifier: identifier.toSyntax(),
+          calls: callsForIdentifier
+              ?.map((call) => call.toSyntax(constantsIndex))
+              .toList(),
+          instances: instancesForIdentifier
+              ?.map((instance) => instance.toSyntax(constantsIndex))
+              .toList(),
         ),
       );
     }
@@ -205,15 +192,15 @@ Error: $e
     if (identical(this, other)) return true;
 
     return other.metadata == metadata &&
-        deepEquals(other.callsForDefinition, callsForDefinition) &&
-        deepEquals(other.instancesForDefinition, instancesForDefinition);
+        deepEquals(other.calls, calls) &&
+        deepEquals(other.instances, instances);
   }
 
   @override
   int get hashCode => Object.hash(
     metadata.hashCode,
-    deepHash(callsForDefinition),
-    deepHash(instancesForDefinition),
+    deepHash(calls),
+    deepHash(instances),
   );
 
   /// Compares this set of usages ('actual') with the [expected] set
@@ -241,11 +228,6 @@ Error: $e
   /// If [allowTearoffToStaticPromotion] is `true`, allows an [expected]
   /// function tear-off to match an `actual` static call.
   ///
-  /// If [allowDefinitionLoadingUnitNull] is `true`, allows a definition's
-  /// loading unit to be `null` in one set but not the other. This handles
-  /// cases where a compiler might not emit loading unit information for all
-  ///   definitions.
-  ///
   /// If [allowMoreConstArguments] is `true`, `null` arguments in an `expected`
   /// call are ignored during comparison. This can be used to accommodate
   /// differences in how compilers handle default or optional arguments.
@@ -258,7 +240,6 @@ Error: $e
     bool expectedIsSubset = false,
     bool allowDeadCodeElimination = false,
     bool allowTearoffToStaticPromotion = false,
-    bool allowDefinitionLoadingUnitNull = false,
     bool allowMoreConstArguments = false,
     bool allowPromotionOfUnsupported = false,
     bool allowMetadataMismatch = false,
@@ -268,39 +249,36 @@ Error: $e
     if (!allowMetadataMismatch && metadata != expected.metadata) {
       return false;
     }
-    // ignore: invalid_use_of_visible_for_testing_member
-    bool definitionMatches(Definition a, Definition b) => a.semanticEquals(
-      b,
-      allowLoadingUnitNull: allowDefinitionLoadingUnitNull,
-      uriMapping: uriMapping,
-      loadingUnitMapping: loadingUnitMapping,
-    );
+    bool identifierMatches(Identifier a, Identifier b) =>
+        // ignore: invalid_use_of_visible_for_testing_member
+        a.semanticEquals(b, uriMapping: uriMapping);
 
     if (!_compareUsageMap(
-      actual: callsForDefinition,
-      expected: expected.callsForDefinition,
+      actual: calls,
+      expected: expected.calls,
       expectedIsSubset: expectedIsSubset,
       allowDeadCodeElimination: allowDeadCodeElimination,
-      definitionMatches: definitionMatches,
-      // ignore: invalid_use_of_visible_for_testing_member
-      referenceMatches: (CallReference a, CallReference b) => a.semanticEquals(
-        b,
-        allowTearoffToStaticPromotion: allowTearoffToStaticPromotion,
-        allowMoreConstArguments: allowMoreConstArguments,
-        allowPromotionOfUnsupported: allowPromotionOfUnsupported,
-        uriMapping: uriMapping,
-        loadingUnitMapping: loadingUnitMapping,
-      ),
+      identifierMatches: identifierMatches,
+      referenceMatches: (CallReference a, CallReference b) =>
+          // ignore: invalid_use_of_visible_for_testing_member
+          a.semanticEquals(
+            b,
+            allowTearoffToStaticPromotion: allowTearoffToStaticPromotion,
+            allowMoreConstArguments: allowMoreConstArguments,
+            allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+            uriMapping: uriMapping,
+            loadingUnitMapping: loadingUnitMapping,
+          ),
     )) {
       return false;
     }
 
     if (!_compareUsageMap(
-      actual: instancesForDefinition,
-      expected: expected.instancesForDefinition,
+      actual: instances,
+      expected: expected.instances,
       expectedIsSubset: expectedIsSubset,
       allowDeadCodeElimination: allowDeadCodeElimination,
-      definitionMatches: definitionMatches,
+      identifierMatches: identifierMatches,
       referenceMatches: (InstanceReference a, InstanceReference b) =>
           // ignore: invalid_use_of_visible_for_testing_member
           a.semanticEquals(
@@ -319,11 +297,11 @@ Error: $e
 
   /// Returns true if [expected] is a semantic subset of [actual].
   static bool _compareUsageMap<R extends Reference>({
-    required Map<Definition, List<R>> actual,
-    required Map<Definition, List<R>> expected,
+    required Map<Identifier, List<R>> actual,
+    required Map<Identifier, List<R>> expected,
     required bool expectedIsSubset,
     required bool allowDeadCodeElimination,
-    required bool Function(Definition, Definition) definitionMatches,
+    required bool Function(Identifier, Identifier) identifierMatches,
     required bool Function(R, R) referenceMatches,
   }) {
     final actualUsages = actual.entries.toList();
@@ -346,12 +324,9 @@ Error: $e
 
         final actualUsage = actualUsages[i];
 
-        if (definitionMatches(
-          actualUsage.key,
-          expectedUsage.key,
-        )) {
-          // Definitions match semantically. Now check the references.
-          // The list of references for this definition must be an exact
+        if (identifierMatches(actualUsage.key, expectedUsage.key)) {
+          // Identifiers match semantically. Now check the references.
+          // The list of references for this identifier must be an exact
           // semantic match.
           final referencesMatch = _matchReferences(
             actual: actualUsage.value,
@@ -424,32 +399,32 @@ Error: $e
     return true;
   }
 
-  /// Returns a new [Recordings] that only contains usages of definitions
+  /// Returns a new [Recordings] that only contains usages of identifiers
   /// filtered by the provided criteria.
   ///
-  /// If [definitionPackageName] is provided, only usages of definitions
+  /// If [definitionPackageName] is provided, only usages of identifiers
   /// defined in that package are included.
   Recordings filter({String? definitionPackageName}) {
-    bool belongsToPackage(Definition definition) {
+    bool belongsToPackage(Identifier identifier) {
       if (definitionPackageName == null) return true;
-      final uri = definition.identifier.importUri;
+      final uri = identifier.importUri;
       return uri.startsWith('package:$definitionPackageName/');
     }
 
     final newCallsForDefinition = {
-      for (final entry in callsForDefinition.entries)
+      for (final entry in calls.entries)
         if (belongsToPackage(entry.key)) entry.key: entry.value,
     };
 
     final newInstancesForDefinition = {
-      for (final entry in instancesForDefinition.entries)
+      for (final entry in instances.entries)
         if (belongsToPackage(entry.key)) entry.key: entry.value,
     };
 
     return Recordings(
       metadata: metadata,
-      callsForDefinition: newCallsForDefinition,
-      instancesForDefinition: newInstancesForDefinition,
+      calls: newCallsForDefinition,
+      instances: newInstancesForDefinition,
     );
   }
 }

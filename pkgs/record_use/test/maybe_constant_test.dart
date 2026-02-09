@@ -15,9 +15,7 @@ void main() {
       ],
       'recordings': [
         {
-          'definition': {
-            'identifier': {'uri': 'package:a/a.dart', 'name': 'foo'},
-          },
+          'identifier': {'uri': 'package:a/a.dart', 'name': 'foo'},
           'calls': [
             {
               'type': 'with_arguments',
@@ -48,11 +46,10 @@ void main() {
 
   test('MaybeConstant serialization round-trip', () {
     const identifier = Identifier(importUri: 'package:a/a.dart', name: 'foo');
-    const definition = Definition(identifier: identifier, loadingUnit: '1');
     final recordings = Recordings(
       metadata: Metadata(version: version, comment: 'test'),
-      callsForDefinition: {
-        definition: [
+      calls: {
+        identifier: [
           const CallWithArguments(
             positionalArguments: [
               IntConstant(42),
@@ -68,7 +65,7 @@ void main() {
           ),
         ],
       },
-      instancesForDefinition: {},
+      instances: {},
     );
 
     final json = recordings.toJson();
@@ -87,12 +84,11 @@ void main() {
 
   test('allowPromotionOfUnsupported semantic equality', () {
     const identifier = Identifier(importUri: 'package:a/a.dart', name: 'foo');
-    const definition = Definition(identifier: identifier, loadingUnit: '1');
 
     final actualRecordings = Recordings(
       metadata: Metadata(version: version, comment: 'actual'),
-      callsForDefinition: {
-        definition: [
+      calls: {
+        identifier: [
           const CallWithArguments(
             positionalArguments: [IntConstant(42)],
             namedArguments: {'a': StringConstant('bar')},
@@ -100,13 +96,13 @@ void main() {
           ),
         ],
       },
-      instancesForDefinition: {},
+      instances: {},
     );
 
     final expectedRecordings = Recordings(
       metadata: Metadata(version: version, comment: 'expected'),
-      callsForDefinition: {
-        definition: [
+      calls: {
+        identifier: [
           const CallWithArguments(
             positionalArguments: [UnsupportedConstant('Record')],
             namedArguments: {'a': UnsupportedConstant('Record')},
@@ -114,7 +110,7 @@ void main() {
           ),
         ],
       },
-      instancesForDefinition: {},
+      instances: {},
     );
 
     // Should not match by default.

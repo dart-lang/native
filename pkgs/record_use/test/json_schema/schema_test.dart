@@ -74,10 +74,9 @@ recordUseFields = [
     // omitted. Also, Null has no value field.
   ],
   (['recordings'], expectOptionalFieldMissing),
-  (['recordings', 0, 'definition'], expectRequiredFieldMissing),
-  (['recordings', 0, 'definition', 'identifier'], expectRequiredFieldMissing),
+  (['recordings', 0, 'identifier'], expectRequiredFieldMissing),
   (
-    ['recordings', 0, 'definition', 'identifier', 'uri'],
+    ['recordings', 0, 'identifier', 'uri'],
     expectRequiredFieldMissing,
   ),
   // TODO(https://github.com/dart-lang/native/issues/1093): Potentially split
@@ -85,15 +84,13 @@ recordUseFields = [
   // and static method definition, which optionally have a scope. And the scope
   // is always an enclosing class.
   (
-    ['recordings', 0, 'definition', 'identifier', 'scope'],
+    ['recordings', 0, 'identifier', 'scope'],
     expectOptionalFieldMissing,
   ),
   (
-    ['recordings', 0, 'definition', 'identifier', 'name'],
+    ['recordings', 0, 'identifier', 'name'],
     expectRequiredFieldMissing,
   ),
-  // TODO: Why is this optional in the package test data?
-  (['recordings', 0, 'definition', 'loading_unit'], expectOptionalFieldMissing),
 
   // TODO(https://github.com/dart-lang/native/issues/1093): Whether calls or
   // instances is required depends on whether the definition is a class or

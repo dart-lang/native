@@ -24,8 +24,8 @@ void main() async {
       final resourcesUri = tempUri.resolve('treeshaking_info.json');
       final recordings = Recordings(
         metadata: Metadata(version: Version(1, 0, 0), comment: 'Empty'),
-        callsForDefinition: {},
-        instancesForDefinition: {},
+        calls: {},
+        instances: {},
       );
       await File.fromUri(
         resourcesUri,
@@ -120,12 +120,10 @@ void main() async {
 /// bin/pirate_adventure.dart.
 final _pirateAdventureRecordings = Recordings(
   metadata: Metadata(version: Version(1, 0, 0), comment: 'Filtering test'),
-  callsForDefinition: {
-    const Definition(
-      identifier: Identifier(
-        importUri: 'package:pirate_speak/src/definitions.dart',
-        name: 'pirateSpeak',
-      ),
+  calls: {
+    const Identifier(
+      importUri: 'package:pirate_speak/src/definitions.dart',
+      name: 'pirateSpeak',
     ): [
       const CallWithArguments(
         loadingUnit: 'root',
@@ -138,11 +136,9 @@ final _pirateAdventureRecordings = Recordings(
         namedArguments: {},
       ),
     ],
-    const Definition(
-      identifier: Identifier(
-        importUri: 'package:pirate_technology/src/definitions.dart',
-        name: 'useCannon',
-      ),
+    const Identifier(
+      importUri: 'package:pirate_technology/src/definitions.dart',
+      name: 'useCannon',
     ): [
       const CallWithArguments(
         loadingUnit: 'root',
@@ -151,5 +147,5 @@ final _pirateAdventureRecordings = Recordings(
       ),
     ],
   },
-  instancesForDefinition: {},
+  instances: {},
 );

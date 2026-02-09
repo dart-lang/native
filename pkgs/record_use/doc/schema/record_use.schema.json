@@ -393,19 +393,8 @@
             "$ref": "#/definitions/Call"
           }
         },
-        "definition": {
-          "type": "object",
-          "properties": {
-            "identifier": {
-              "$ref": "#/definitions/Identifier"
-            },
-            "loading_unit": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "identifier"
-          ]
+        "identifier": {
+          "$ref": "#/definitions/Identifier"
         },
         "instances": {
           "type": "array",
@@ -415,7 +404,7 @@
         }
       },
       "required": [
-        "definition"
+        "identifier"
       ]
     }
   }
