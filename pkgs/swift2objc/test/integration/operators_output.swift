@@ -40,7 +40,7 @@ import Foundation
     return lhs.wrappedInstance == rhs.wrappedInstance
   }
 
-  @objc static public func operator_overloading(lhs: Vec2Wrapper, rhs: Vec2Wrapper) -> Double {
+  @objc static public func operatorOverload(lhs: Vec2Wrapper, rhs: Vec2Wrapper) -> Double {
     return lhs.wrappedInstance *** rhs.wrappedInstance
   }
 

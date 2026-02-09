@@ -115,14 +115,13 @@ ParsedFunctionInfo parseFunctionInfo(
     final keyword = maybeConsume('keyword');
     if (keyword != null) {
       if (keyword == 'func' || keyword == 'init' || keyword == 'case') {
-        if (keyword == 'func') {
-          maybeConsume('text');
+        if (keyword == 'func' && isOperator) {
+          final ws1 = maybeConsume('text');
+          final op = maybeConsume('identifier');
+          final ws2 = maybeConsume('text');
 
-          if (tokens.isNotEmpty) {
-            if (isOperator) {
-              maybeConsume('identifier');
-              maybeConsume('text');
-            }
+          if (ws1 == null || op == null || ws2 == null) {
+            throw malformedInitializerException;
           }
         }
         break;
