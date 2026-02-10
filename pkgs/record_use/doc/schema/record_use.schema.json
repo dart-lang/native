@@ -247,7 +247,8 @@
           "type": "string"
         },
         "uri": {
-          "type": "string"
+          "type": "string",
+          "pattern": "^package:"
         }
       },
       "required": [
