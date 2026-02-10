@@ -4,49 +4,31 @@
 
 import 'package:meta/meta.dart' show internal;
 
+import '../core_bindings.dart';
 import '../jobject.dart';
-import '../types.dart';
+
+extension JIteratorToAdapter<E extends JObject?> on JIterator<E> {
+  /// Wraps this [JIterator] in an adapter that implements an [Iterator].
+  Iterator<E> asDart() => JIteratorAdapter<E>(this);
+}
 
 @internal
-final class $JIterator$Type$ extends JType<JIterator> {
-  const $JIterator$Type$();
-
-  @override
-  String get signature => r'Ljava/util/Iterator;';
-}
-
-extension type JIterator<E extends JObject?>(JObject _$this)
-    implements JObject {
-  static const JType<JIterator> type = $JIterator$Type$();
-
-  static final _class = JClass.forName(r'java/util/Iterator');
-
-  static final _hasNextId = _class.instanceMethodId(r'hasNext', r'()Z');
-  bool _hasNext() => _hasNextId(this, const jbooleanType(), [])!;
-
-  static final _nextId =
-      _class.instanceMethodId(r'next', r'()Ljava/lang/Object;');
-  E _next() => _nextId(this, JObject.type, []) as E;
-
-  Iterator<E> asDart() => _JIteratorAdapter<E>(this);
-}
-
-final class _JIteratorAdapter<E extends JObject?> implements Iterator<E> {
-  final JIterator<E> _itr;
+final class JIteratorAdapter<E extends JObject?> implements Iterator<E> {
+  final JIterator<E?> _itr;
   E? _current;
 
-  _JIteratorAdapter(this._itr);
+  JIteratorAdapter(this._itr);
 
   @override
-  E get current => _current!;
+  E get current => _current as E;
 
   @override
   @pragma('vm:prefer-inline')
   bool moveNext() {
-    if (!_itr._hasNext()) {
+    if (!_itr.hasNext()) {
       return false;
     }
-    _current = _itr._next();
+    _current = _itr.next() as E;
     return true;
   }
 }
