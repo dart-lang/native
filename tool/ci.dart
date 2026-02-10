@@ -123,9 +123,13 @@ class PubTask extends Task {
       'pkgs/hooks_runner/test_data/native_add_version_skew/',
       'pkgs/hooks_runner/test_data/native_add_version_skew_2/',
     ];
-    for (final path in paths) {
-      await _runProcess('dart', ['pub', 'get', '--directory', path]);
-    }
+    await _runMaybeParallel(
+      [
+        for (final path in paths)
+          () => _runProcess('dart', ['pub', 'get', '--directory', path]),
+      ],
+      argResults,
+    );
   }
 }
 
@@ -194,9 +198,13 @@ class GenerateTask extends Task {
       'pkgs/pub_formats/tool/generate.dart',
       'pkgs/record_use/tool/generate_syntax.dart',
     ];
-    for (final generator in generators) {
-      await _runProcess('dart', [generator, '--set-exit-if-changed']);
-    }
+    await _runMaybeParallel(
+      [
+        for (final generator in generators)
+          () => _runProcess('dart', [generator, '--set-exit-if-changed']),
+      ],
+      argResults,
+    );
   }
 }
 
@@ -262,13 +270,17 @@ class ExampleTask extends Task {
       'pkgs/hooks/example/build/system_library/',
       'pkgs/hooks/example/build/use_dart_api/',
     ];
-    for (final exampleWithTest in examplesWithTest) {
-      await _runProcess(
-        workingDirectory: repositoryRoot.resolve(exampleWithTest),
-        'dart',
-        ['test'],
-      );
-    }
+    await _runMaybeParallel(
+      [
+        for (final exampleWithTest in examplesWithTest)
+          () => _runProcess(
+                workingDirectory: repositoryRoot.resolve(exampleWithTest),
+                'dart',
+                ['test'],
+              ),
+      ],
+      argResults,
+    );
 
     await _runProcess(
       workingDirectory: repositoryRoot.resolve(
@@ -385,6 +397,19 @@ List<String> getUriInPackage(List<String> packages, String subdir) {
     }
   }
   return testUris;
+}
+
+Future<void> _runMaybeParallel(
+  List<Future<void> Function()> tasks,
+  ArgResults argResults,
+) async {
+  if (argResults['fast'] as bool) {
+    await Future.wait(tasks.map((task) => task()));
+  } else {
+    for (final task in tasks) {
+      await task();
+    }
+  }
 }
 
 Future<void> _runProcess(
