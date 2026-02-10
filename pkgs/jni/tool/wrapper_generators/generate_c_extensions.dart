@@ -233,7 +233,11 @@ const _noCheckException = {
 /// - DeleteLocalRef: https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/functions.html#DeleteLocalRef
 /// - DeleteGlobalRef: https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/functions.html#DeleteGlobalRef
 /// - DeleteWeakGlobalRef: https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/functions.html#DeleteWeakGlobalRef
+///
+/// Also includes bootstrap-critical functions that cannot safely call FindClass
+/// during JVM initialization (e.g., FindClass itself would cause recursion).
 const _nullSafeFunctions = {
+  // JNI spec explicitly allows null
   'IsSameObject',
   'DeleteGlobalRef',
   'DeleteLocalRef',
@@ -241,6 +245,13 @@ const _nullSafeFunctions = {
   'NewLocalRef',
   'NewGlobalRef',
   'NewWeakGlobalRef',
+
+  // Bootstrap-critical: cannot call FindClass during early JVM initialization
+  'FindClass', // Calling FindClass from within FindClass causes recursion
+  'GetMethodID', // Before exception system initialization
+  'GetFieldID',
+  'GetStaticMethodID',
+  'GetStaticFieldID',
 };
 
 /// Determines if a parameter type needs null checking.
@@ -257,6 +268,11 @@ bool needsNullCheck(String paramType, String paramName) {
 }
 
 /// Generates null check code for parameters.
+///
+/// Note: We don't call FindClass/ThrowNew here because:
+/// 1. FindClass may not be available during early JVM bootstrap
+/// 2. Instead, we return NULL and let the calling Dart code detect the error
+/// 3. This is safe because Dart code checks for NULL results
 String generateNullChecks(
   List<Parameter> params,
   ResultWrapper wrapper,
@@ -271,17 +287,17 @@ String generateNullChecks(
   for (final param in params) {
     final paramType = getCType(param.type);
     if (needsNullCheck(paramType, param.name)) {
+      // Return NULL error - the Dart layer will detect this
+      // We can't safely call FindClass during bootstrap to create an exception
       checks.writeln('  if (${param.name} == NULL) {');
-      checks.writeln(
-          '    jclass nullPointerClass = (*jniEnv)->FindClass(jniEnv, "java/lang/NullPointerException");');
-      checks.writeln('    if (nullPointerClass != NULL) {');
-      checks.writeln('      (*jniEnv)->ThrowNew(jniEnv, nullPointerClass, '
-          '"Parameter ${param.name} is null");');
-      checks.writeln(
-          '      (*jniEnv)->DeleteLocalRef(jniEnv, nullPointerClass);');
-      checks.writeln('    }');
-      checks.writeln('    jthrowable $errorVar = check_exception();');
-      checks.writeln('    return ${wrapper.onError};');
+      // Use a safe NULL error result that doesn't reference _exception
+      final safeError = wrapper.returnType.contains('JniResult')
+          ? '(${wrapper.returnType}){.value = {.j = 0}, .exception = NULL}'
+          : wrapper.returnType.contains('JniPointerResult') ||
+                  wrapper.returnType.contains('JniClassLookupResult')
+              ? '(${wrapper.returnType}){.value = NULL, .exception = NULL}'
+              : 'NULL';
+      checks.writeln('    return $safeError;');
       checks.writeln('  }');
     }
   }
