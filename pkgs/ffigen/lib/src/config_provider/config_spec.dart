@@ -386,7 +386,7 @@ class HeterogeneousMapConfigSpec<CE extends Object?, RE extends Object?>
       'type': 'object',
       if (additionalProperties != AdditionalProperties.allow)
         'additionalProperties': false,
-      'description': ?schemaDescription,
+      if (schemaDescription != null) 'description': schemaDescription!,
       if (entries.isNotEmpty)
         'properties': {
           for (final kv in entries)
@@ -515,7 +515,7 @@ class MapConfigSpec<CE extends Object?, RE extends Object?>
   Map<String, dynamic> _generateJsonSchemaNode(Map<String, dynamic> defs) {
     return {
       'type': 'object',
-      'description': ?schemaDescription,
+      if (schemaDescription != null) 'description': schemaDescription!,
       if (keyValueConfigSpecs.isNotEmpty)
         'patternProperties': {
           for (final (keyRegexp: keyRegexp, valueConfigSpec: valueConfigSpec)
@@ -596,7 +596,7 @@ class ListConfigSpec<CE extends Object?, RE extends Object?>
   Map<String, dynamic> _generateJsonSchemaNode(Map<String, dynamic> defs) {
     return {
       'type': 'array',
-      'description': ?schemaDescription,
+      if (schemaDescription != null) 'description': schemaDescription!,
       'items': childConfigSpec._getJsonRefOrSchemaNode(defs),
     };
   }
@@ -650,7 +650,7 @@ class StringConfigSpec<RE extends Object?> extends ConfigSpec<String, RE> {
   Map<String, dynamic> _generateJsonSchemaNode(Map<String, dynamic> defs) {
     return {
       'type': 'string',
-      'description': ?schemaDescription,
+      if (schemaDescription != null) 'description': schemaDescription!,
       if (pattern != null) 'pattern': pattern,
     };
   }
@@ -691,7 +691,10 @@ class IntConfigSpec<RE extends Object?> extends ConfigSpec<int, RE> {
 
   @override
   Map<String, dynamic> _generateJsonSchemaNode(Map<String, dynamic> defs) {
-    return {'type': 'integer', 'description': ?schemaDescription};
+    return {
+      'type': 'integer',
+      if (schemaDescription != null) 'description': schemaDescription!,
+    };
   }
 }
 
@@ -738,7 +741,10 @@ class EnumConfigSpec<CE extends Object?, RE extends Object?>
 
   @override
   Map<String, dynamic> _generateJsonSchemaNode(Map<String, dynamic> defs) {
-    return {'enum': allowedValues.toList(), 'description': ?schemaDescription};
+    return {
+      'enum': allowedValues.toList(),
+      if (schemaDescription != null) 'description': schemaDescription!,
+    };
   }
 }
 
@@ -777,7 +783,10 @@ class BoolConfigSpec<RE> extends ConfigSpec<bool, RE> {
 
   @override
   Map<String, dynamic> _generateJsonSchemaNode(Map<String, dynamic> defs) {
-    return {'type': 'boolean', 'description': ?schemaDescription};
+    return {
+      'type': 'boolean',
+      if (schemaDescription != null) 'description': schemaDescription!,
+    };
   }
 }
 
@@ -839,7 +848,7 @@ class OneOfConfigSpec<TE extends Object?, RE extends Object?>
   @override
   Map<String, dynamic> _generateJsonSchemaNode(Map<String, dynamic> defs) {
     return {
-      'description': ?schemaDescription,
+      if (schemaDescription != null) 'description': schemaDescription!,
       r'$oneOf': childConfigSpecs
           .map((child) => child._getJsonRefOrSchemaNode(defs))
           .toList(),
