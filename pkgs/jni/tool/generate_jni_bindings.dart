@@ -17,8 +17,12 @@ class Renamer extends j.Visitor {
 Future<void> main() async {
   final classes = [
     'java.util.ArrayList',
+    'java.util.HashMap',
+    'java.util.HashSet',
     'java.util.Iterator',
     'java.util.List',
+    'java.util.Map',
+    'java.util.Set',
   ];
   const preamble = '''
 // Copyright (c) 2026, the Dart project authors.  Please see the AUTHORS file
