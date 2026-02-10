@@ -23,7 +23,7 @@
       ],
       "identifier": {
         "name": "_extension#0|callWithArgs",
-        "uri": "extension.dart"
+        "uri": "package:record_use_test/extension.dart"
       }
     }
   ]

@@ -1,4 +1,5 @@
 {
+  "$schema": "../../doc/schema/record_use.schema.json",
   "constants": [
     {
       "type": "int",
@@ -18,23 +19,14 @@
     }
   ],
   "metadata": {
-    "AppTag": "TBD",
-    "comment": "Resources referenced by annotated resource identifiers",
-    "environment": {
-      "dart.tool.dart2js": "true",
-      "dart.tool.dart2js.disable_rti_optimization": "false",
-      "dart.tool.dart2js.minify": "false",
-      "dart.tool.dart2js.primitives:trust": "false",
-      "dart.tool.dart2js.types:trust": "false",
-      "dart.web.assertions_enabled": "false"
-    },
+    "comment": "Recorded usages of objects tagged with a `RecordUse` annotation",
     "version": "0.4.0"
   },
   "recordings": [
     {
       "calls": [
         {
-          "loading_unit": "out",
+          "loading_unit": "1",
           "positional": [
             0,
             1
@@ -42,7 +34,7 @@
           "type": "with_arguments"
         },
         {
-          "loading_unit": "out",
+          "loading_unit": "1",
           "positional": [
             2,
             3
@@ -53,7 +45,7 @@
       "identifier": {
         "name": "someStaticMethod",
         "scope": "SomeClass",
-        "uri": "memory:sdk/tests/web/native/positional_both.dart"
+        "uri": "package:record_use_test/positional_both_with_type_argument.dart"
       }
     }
   ]

@@ -77,13 +77,13 @@
       "identifier": {
         "name": "generate",
         "scope": "OtherClass",
-        "uri": "complex.dart"
+        "uri": "package:record_use_test/complex.dart"
       }
     },
     {
       "identifier": {
         "name": "MyClass",
-        "uri": "instance_class.dart"
+        "uri": "package:record_use_test/instance_class.dart"
       },
       "instances": [
         {

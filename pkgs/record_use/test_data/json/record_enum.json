@@ -2,18 +2,18 @@
   "$schema": "../../doc/schema/record_use.schema.json",
   "constants": [
     {
-      "type": "string",
-      "value": "a"
-    },
-    {
       "type": "int",
       "value": 0
     },
     {
+      "type": "string",
+      "value": "a"
+    },
+    {
       "type": "instance",
       "value": {
-        "_name": 0,
-        "index": 1
+        "index": 0,
+        "_name": 1
       }
     },
     {
@@ -31,7 +31,7 @@
     {
       "identifier": {
         "name": "MyClass",
-        "uri": "record_enum.dart"
+        "uri": "package:record_use_test/record_enum.dart"
       },
       "instances": [
         {
