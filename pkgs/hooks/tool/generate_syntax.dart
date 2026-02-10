@@ -89,6 +89,7 @@ void main(List<String> args) {
     final output = SyntaxGenerator(
       analyzedSchema,
       requireNullableParameters: true,
+      generateSetupMethods: true,
       header:
           '''
 // This file is generated, do not edit.

@@ -15,7 +15,20 @@ class ClassGenerator {
   /// semantic Dart API that wraps a generated syntax.
   final bool requireNullableParameters;
 
-  ClassGenerator(this.classInfo, {required this.requireNullableParameters});
+  /// Whether to generate `setup` methods for subclasses.
+  ///
+  /// Subclass `setup` methods provide a way to initialize fields that are not
+  /// present in the superclass. This is especially useful for populating
+  /// subclass-specific data on an instance that was re-wrapped from a
+  /// superclass (e.g., in a tagged union), particularly when those fields have
+  /// private setters.
+  final bool generateSetupMethods;
+
+  ClassGenerator(
+    this.classInfo, {
+    required this.requireNullableParameters,
+    required this.generateSetupMethods,
+  });
 
   String generate() {
     final buffer = StringBuffer();
@@ -36,7 +49,9 @@ class $className extends $superclassName {
     buffer.writeln(_generateJsonFactory());
     buffer.writeln(_generateJsonConstructor());
     buffer.writeln(_generateDefaultConstructor());
-    buffer.writeln(_generateSetupMethod());
+    if (generateSetupMethods) {
+      buffer.writeln(_generateSetupMethod());
+    }
     buffer.writeln(_generateAccessors());
     buffer.writeln(_generateValidateMethod());
     buffer.writeln(_generateExtraValidationMethod());
@@ -360,8 +375,10 @@ static const ${tagProperty}Value = '$tagValue';
   String _generateToString() {
     final className = classInfo.className;
     return '''
+  // coverage:ignore-start
   @override
   String toString() => '$className(\$json)';
+  // coverage:ignore-end
 ''';
   }
 

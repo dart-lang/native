@@ -40,8 +40,10 @@ class AssetSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateType()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'AssetSyntax($json)';
+  // coverage:ignore-end
 }
 
 class DataAssetEncodingSyntax extends JsonObjectSyntax {
@@ -92,8 +94,10 @@ class DataAssetEncodingSyntax extends JsonObjectSyntax {
     ..._validatePackage(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'DataAssetEncodingSyntax($json)';
+  // coverage:ignore-end
 }
 
 class DataAssetNewSyntax extends AssetSyntax {
@@ -140,8 +144,10 @@ class DataAssetNewSyntax extends AssetSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateEncoding()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'DataAssetNewSyntax($json)';
+  // coverage:ignore-end
 }
 
 extension DataAssetNewSyntaxExtension on AssetSyntax {
@@ -151,6 +157,7 @@ extension DataAssetNewSyntaxExtension on AssetSyntax {
       DataAssetNewSyntax.fromJson(json, path: path);
 }
 
+// coverage:ignore-start
 class JsonObjectSyntax {
   final Map<String, Object?> json;
 
@@ -555,3 +562,5 @@ void _checkArgumentMapStringElements(
     }
   }
 }
+
+// coverage:ignore-end

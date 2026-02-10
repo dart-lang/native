@@ -19,8 +19,10 @@ class DependencySourceSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [...super.validate()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'DependencySourceSyntax($json)';
+  // coverage:ignore-end
 }
 
 class EnvironmentSyntax extends JsonObjectSyntax {
@@ -60,8 +62,10 @@ class EnvironmentSyntax extends JsonObjectSyntax {
     ..._validateSdk(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'EnvironmentSyntax($json)';
+  // coverage:ignore-end
 }
 
 class GitSyntax extends JsonObjectSyntax {
@@ -111,8 +115,10 @@ class GitSyntax extends JsonObjectSyntax {
     ..._validateUrl(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'GitSyntax($json)';
+  // coverage:ignore-end
 }
 
 class GitDependencySourceSyntax extends DependencySourceSyntax {
@@ -152,8 +158,10 @@ class GitDependencySourceSyntax extends DependencySourceSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateGit()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'GitDependencySourceSyntax($json)';
+  // coverage:ignore-end
 }
 
 class HooksSyntax extends JsonObjectSyntax {
@@ -189,8 +197,10 @@ class HooksSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateUserDefines()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'HooksSyntax($json)';
+  // coverage:ignore-end
 }
 
 class HostedDependencySourceSyntax extends DependencySourceSyntax {
@@ -238,8 +248,10 @@ class HostedDependencySourceSyntax extends DependencySourceSyntax {
     ..._validateVersion(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'HostedDependencySourceSyntax($json)';
+  // coverage:ignore-end
 }
 
 class PathDependencySourceSyntax extends DependencySourceSyntax {
@@ -270,8 +282,10 @@ class PathDependencySourceSyntax extends DependencySourceSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validatePath$()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'PathDependencySourceSyntax($json)';
+  // coverage:ignore-end
 }
 
 class PubspecYamlFileSyntax extends JsonObjectSyntax {
@@ -671,8 +685,10 @@ class PubspecYamlFileSyntax extends JsonObjectSyntax {
     ...validateVersion(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'PubspecYamlFileSyntax($json)';
+  // coverage:ignore-end
 }
 
 class SdkDependencySourceSyntax extends DependencySourceSyntax {
@@ -703,10 +719,13 @@ class SdkDependencySourceSyntax extends DependencySourceSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateSdk()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'SdkDependencySourceSyntax($json)';
+  // coverage:ignore-end
 }
 
+// coverage:ignore-start
 class JsonObjectSyntax {
   final Map<String, Object?> json;
 
@@ -1111,3 +1130,5 @@ void _checkArgumentMapStringElements(
     }
   }
 }
+
+// coverage:ignore-end

@@ -81,8 +81,10 @@ class GraphPackageSyntax extends JsonObjectSyntax {
     ..._validateVersion(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'GraphPackageSyntax($json)';
+  // coverage:ignore-end
 }
 
 class PackageGraphFileSyntax extends JsonObjectSyntax {
@@ -150,10 +152,13 @@ class PackageGraphFileSyntax extends JsonObjectSyntax {
     ..._validateRoots(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'PackageGraphFileSyntax($json)';
+  // coverage:ignore-end
 }
 
+// coverage:ignore-start
 class JsonObjectSyntax {
   final Map<String, Object?> json;
 
@@ -558,3 +563,5 @@ void _checkArgumentMapStringElements(
     }
   }
 }
+
+// coverage:ignore-end

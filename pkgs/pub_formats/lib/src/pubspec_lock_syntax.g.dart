@@ -126,8 +126,10 @@ class GitPackageDescriptionSyntax extends PackageDescriptionSyntax {
     ..._validateUrl(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'GitPackageDescriptionSyntax($json)';
+  // coverage:ignore-end
 }
 
 class HostedPackageDescriptionSyntax extends PackageDescriptionSyntax {
@@ -210,8 +212,10 @@ class HostedPackageDescriptionSyntax extends PackageDescriptionSyntax {
     ..._validateUrl(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'HostedPackageDescriptionSyntax($json)';
+  // coverage:ignore-end
 }
 
 class PackageSyntax extends JsonObjectSyntax {
@@ -303,8 +307,10 @@ class PackageSyntax extends JsonObjectSyntax {
     ..._validateVersion(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'PackageSyntax($json)';
+  // coverage:ignore-end
 }
 
 class PackageDescriptionSyntax extends JsonObjectSyntax {
@@ -316,8 +322,10 @@ class PackageDescriptionSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [...super.validate()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'PackageDescriptionSyntax($json)';
+  // coverage:ignore-end
 }
 
 class PackageSourceSyntax {
@@ -398,8 +406,10 @@ class PathPackageDescriptionSyntax extends PackageDescriptionSyntax {
     ..._validateRelative(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'PathPackageDescriptionSyntax($json)';
+  // coverage:ignore-end
 }
 
 class PubspecLockFileSyntax extends JsonObjectSyntax {
@@ -489,8 +499,10 @@ class PubspecLockFileSyntax extends JsonObjectSyntax {
     ..._validateSdks(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'PubspecLockFileSyntax($json)';
+  // coverage:ignore-end
 }
 
 class SDKsSyntax extends JsonObjectSyntax {
@@ -512,10 +524,13 @@ class SDKsSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateDart()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'SDKsSyntax($json)';
+  // coverage:ignore-end
 }
 
+// coverage:ignore-start
 class JsonObjectSyntax {
   final Map<String, Object?> json;
 
@@ -920,3 +935,5 @@ void _checkArgumentMapStringElements(
     }
   }
 }
+
+// coverage:ignore-end

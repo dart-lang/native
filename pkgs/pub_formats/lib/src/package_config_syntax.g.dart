@@ -89,8 +89,10 @@ class PackageConfigEntrySyntax extends JsonObjectSyntax {
     ..._validateRootUri(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'PackageConfigEntrySyntax($json)';
+  // coverage:ignore-end
 }
 
 class PackageConfigFileSyntax extends JsonObjectSyntax {
@@ -205,10 +207,13 @@ class PackageConfigFileSyntax extends JsonObjectSyntax {
     ..._validatePubCache(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'PackageConfigFileSyntax($json)';
+  // coverage:ignore-end
 }
 
+// coverage:ignore-start
 class JsonObjectSyntax {
   final Map<String, Object?> json;
 
@@ -613,3 +618,5 @@ void _checkArgumentMapStringElements(
     }
   }
 }
+
+// coverage:ignore-end

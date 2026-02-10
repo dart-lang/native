@@ -306,6 +306,7 @@ class CoverageTask extends Task {
       'run',
       'coverage:format_coverage',
       '--packages=.dart_tool/package_config.json',
+      '--check-ignore',
       for (final libUri in libUris) '--report-on=$libUri',
       '--lcov',
       '-o',

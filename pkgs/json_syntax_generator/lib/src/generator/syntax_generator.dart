@@ -20,12 +20,22 @@ class SyntaxGenerator {
   /// If the generated syntax is used directly, prefer `false`.
   final bool requireNullableParameters;
 
+  /// Whether to generate `setup` methods for subclasses.
+  ///
+  /// Subclass `setup` methods provide a way to initialize fields that are not
+  /// present in the superclass. This is especially useful for populating
+  /// subclass-specific data on an instance that was re-wrapped from a
+  /// superclass (e.g., in a tagged union), particularly when those fields have
+  /// private setters.
+  final bool generateSetupMethods;
+
   final String header;
 
   SyntaxGenerator(
     this.schemaInfo, {
     this.header = '',
     this.requireNullableParameters = false,
+    this.generateSetupMethods = false,
   });
 
   String generate() {
@@ -50,6 +60,7 @@ import 'dart:io';
             ClassGenerator(
               classInfo,
               requireNullableParameters: requireNullableParameters,
+              generateSetupMethods: generateSetupMethods,
             ).generate(),
           );
         case EnumClassInfo():
