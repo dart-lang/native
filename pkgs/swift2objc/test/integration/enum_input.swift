@@ -31,6 +31,7 @@ public enum Barcode {
 }
 
 // Indirect (recursive) enums.
+// TODO(swift2objc): indirect recursive enums are not supported yet.
 public indirect enum ArithmeticExpression {
     case number(Int)
     case addition(ArithmeticExpression, ArithmeticExpression)
