@@ -31,7 +31,7 @@
       "identifier": {
         "name": "someStaticMethod",
         "scope": "SomeClass",
-        "uri": "loading_units_multiple_helper_shared.dart"
+        "uri": "package:record_use_test/loading_units_multiple_helper_shared.dart"
       }
     }
   ]

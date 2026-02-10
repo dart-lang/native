@@ -28,7 +28,7 @@
       "identifier": {
         "name": "generate",
         "scope": "OtherClass",
-        "uri": "complex.dart"
+        "uri": "package:record_use_test/complex.dart"
       }
     }
   ]

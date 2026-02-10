@@ -23,7 +23,7 @@
       ],
       "identifier": {
         "name": "someTopLevelMethod",
-        "uri": "top_level_method.dart"
+        "uri": "package:record_use_test/top_level_method.dart"
       }
     }
   ]

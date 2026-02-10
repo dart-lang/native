@@ -13,7 +13,7 @@
     {
       "identifier": {
         "name": "MyClass",
-        "uri": "instance_not_annotation.dart"
+        "uri": "package:record_use_test/instance_not_annotation.dart"
       },
       "instances": [
         {
