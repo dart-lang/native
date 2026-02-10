@@ -93,56 +93,6 @@ class AllDefaults extends jni$_.JObject {
         .reference);
   }
 
-  static final _id_new$1 = _class.constructorId(
-    r'(ILjava/lang/String;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V',
-  );
-
-  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Int32,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Int32,
-                        jni$_.Int32,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              int,
-              jni$_.Pointer<jni$_.Void>,
-              int,
-              int,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `synthetic public void <init>(int i, java.lang.String string, boolean z, int i1, kotlin.jvm.internal.DefaultConstructorMarker defaultConstructorMarker)`
-  /// The returned object must be released after use, by calling the [release] method.
-  factory AllDefaults.new$1(
-    int i,
-    jni$_.JString? string,
-    core$_.bool z,
-    int i1,
-    jni$_.JObject? defaultConstructorMarker,
-  ) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
-    final _$defaultConstructorMarker =
-        defaultConstructorMarker?.reference ?? jni$_.jNullReference;
-    return AllDefaults.fromReference(_new$1(
-            _class.reference.pointer,
-            _id_new$1 as jni$_.JMethodIDPtr,
-            i,
-            _$string.pointer,
-            z ? 1 : 0,
-            i1,
-            _$defaultConstructorMarker.pointer)
-        .reference);
-  }
-
   static final _id_getA = _class.instanceMethodId(
     r'getA',
     r'()I',
@@ -235,11 +185,11 @@ class AllDefaults extends jni$_.JObject {
         .object<jni$_.JString>(const jni$_.$JString$Type$());
   }
 
-  static final _id_new$2 = _class.constructorId(
+  static final _id_new$1 = _class.constructorId(
     r'()V',
   );
 
-  static final _new$2 = jni$_.ProtectedJniExtensions.lookup<
+  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -253,9 +203,9 @@ class AllDefaults extends jni$_.JObject {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory AllDefaults.new$2() {
+  factory AllDefaults.new$1() {
     return AllDefaults.fromReference(
-        _new$2(_class.reference.pointer, _id_new$2 as jni$_.JMethodIDPtr)
+        _new$1(_class.reference.pointer, _id_new$1 as jni$_.JMethodIDPtr)
             .reference);
   }
 }
@@ -813,52 +763,6 @@ class DefaultParams extends jni$_.JObject {
         .reference);
   }
 
-  static final _id_new$1 = _class.constructorId(
-    r'(ILjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V',
-  );
-
-  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Int32,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Int32,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              int,
-              jni$_.Pointer<jni$_.Void>,
-              int,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `synthetic public void <init>(int i, java.lang.String string, int i1, kotlin.jvm.internal.DefaultConstructorMarker defaultConstructorMarker)`
-  /// The returned object must be released after use, by calling the [release] method.
-  factory DefaultParams.new$1(
-    int i,
-    jni$_.JString? string,
-    int i1,
-    jni$_.JObject? defaultConstructorMarker,
-  ) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
-    final _$defaultConstructorMarker =
-        defaultConstructorMarker?.reference ?? jni$_.jNullReference;
-    return DefaultParams.fromReference(_new$1(
-            _class.reference.pointer,
-            _id_new$1 as jni$_.JMethodIDPtr,
-            i,
-            _$string.pointer,
-            i1,
-            _$defaultConstructorMarker.pointer)
-        .reference);
-  }
-
   static final _id_getX = _class.instanceMethodId(
     r'getX',
     r'()I',
@@ -929,11 +833,11 @@ class DefaultParams extends jni$_.JObject {
         .object<jni$_.JString>(const jni$_.$JString$Type$());
   }
 
-  static final _id_new$2 = _class.constructorId(
+  static final _id_new$1 = _class.constructorId(
     r'()V',
   );
 
-  static final _new$2 = jni$_.ProtectedJniExtensions.lookup<
+  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -947,9 +851,9 @@ class DefaultParams extends jni$_.JObject {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory DefaultParams.new$2() {
+  factory DefaultParams.new$1() {
     return DefaultParams.fromReference(
-        _new$2(_class.reference.pointer, _id_new$2 as jni$_.JMethodIDPtr)
+        _new$1(_class.reference.pointer, _id_new$1 as jni$_.JMethodIDPtr)
             .reference);
   }
 }
@@ -1530,52 +1434,6 @@ class MixedParams extends jni$_.JObject {
     final _$string = string.reference;
     return MixedParams.fromReference(_new$(_class.reference.pointer,
             _id_new$ as jni$_.JMethodIDPtr, _$string.pointer, i)
-        .reference);
-  }
-
-  static final _id_new$1 = _class.constructorId(
-    r'(Ljava/lang/String;IILkotlin/jvm/internal/DefaultConstructorMarker;)V',
-  );
-
-  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Int32,
-                        jni$_.Int32,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              int,
-              int,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `synthetic public void <init>(java.lang.String string, int i, int i1, kotlin.jvm.internal.DefaultConstructorMarker defaultConstructorMarker)`
-  /// The returned object must be released after use, by calling the [release] method.
-  factory MixedParams.new$1(
-    jni$_.JString? string,
-    int i,
-    int i1,
-    jni$_.JObject? defaultConstructorMarker,
-  ) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
-    final _$defaultConstructorMarker =
-        defaultConstructorMarker?.reference ?? jni$_.jNullReference;
-    return MixedParams.fromReference(_new$1(
-            _class.reference.pointer,
-            _id_new$1 as jni$_.JMethodIDPtr,
-            _$string.pointer,
-            i,
-            i1,
-            _$defaultConstructorMarker.pointer)
         .reference);
   }
 

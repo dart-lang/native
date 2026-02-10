@@ -569,7 +569,7 @@ kotlin.Unit
     group('Default parameters', () {
       test('DefaultParams - no-arg constructor', () {
         using((arena) {
-          final obj = DefaultParams.new$2()..releasedBy(arena);
+          final obj = DefaultParams.new$1()..releasedBy(arena);
           expect(
               obj.greet().toDartString(releaseOriginal: true), 'x=42, y=hello');
         });
@@ -596,7 +596,7 @@ kotlin.Unit
 
       test('AllDefaults - no-arg constructor', () {
         using((arena) {
-          final obj = AllDefaults.new$2()..releasedBy(arena);
+          final obj = AllDefaults.new$1()..releasedBy(arena);
           expect(obj.summary().toDartString(releaseOriginal: true),
               'a=1, b=two, c=true');
         });
@@ -618,13 +618,14 @@ kotlin.Unit
         // This is a compile-time check - if DefaultConstructorMarker
         // parameter is exposed in constructors that should use defaults,
         // it would require passing it explicitly, breaking the API.
-        // By successfully instantiating these classes using simple constructors,
+        // By successfully instantiating these classes using simple constructors
         // we prove the synthetic parameter is correctly handled internally.
         using((arena) {
-          DefaultParams.new$2()..releasedBy(arena);
+          DefaultParams.new$1().releasedBy(arena);
+          // ignore: avoid_single_cascade_in_expression_statements
           MixedParams('test'.toJString()..releasedBy(arena), 123)
             ..releasedBy(arena);
-          AllDefaults.new$2()..releasedBy(arena);
+          AllDefaults.new$1().releasedBy(arena);
         });
       });
     });
