@@ -84,8 +84,10 @@ class AssetSyntax extends JsonObjectSyntax {
     return result;
   }
 
+  // coverage:ignore-start
   @override
   String toString() => 'AssetSyntax($json)';
+  // coverage:ignore-end
 }
 
 class BuildConfigSyntax extends ConfigSyntax {
@@ -123,8 +125,10 @@ class BuildConfigSyntax extends ConfigSyntax {
     ..._validateLinkingEnabled(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'BuildConfigSyntax($json)';
+  // coverage:ignore-end
 }
 
 class BuildInputSyntax extends HookInputSyntax {
@@ -212,8 +216,10 @@ class BuildInputSyntax extends HookInputSyntax {
     ..._validateConfig(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'BuildInputSyntax($json)';
+  // coverage:ignore-end
 }
 
 class BuildOutputSyntax extends HookOutputSyntax {
@@ -290,8 +296,10 @@ class BuildOutputSyntax extends HookOutputSyntax {
     return result;
   }
 
+  // coverage:ignore-start
   @override
   String toString() => 'BuildOutputSyntax($json)';
+  // coverage:ignore-end
 }
 
 class ConfigSyntax extends JsonObjectSyntax {
@@ -343,8 +351,10 @@ class ConfigSyntax extends JsonObjectSyntax {
     ..._validateExtensions(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'ConfigSyntax($json)';
+  // coverage:ignore-end
 }
 
 class FailureSyntax extends JsonObjectSyntax {
@@ -371,8 +381,10 @@ class FailureSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateType()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'FailureSyntax($json)';
+  // coverage:ignore-end
 }
 
 class FailureTypeSyntax {
@@ -519,8 +531,10 @@ class HookInputSyntax extends JsonObjectSyntax {
     ..._validateUserDefines(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'HookInputSyntax($json)';
+  // coverage:ignore-end
 }
 
 class HookOutputSyntax extends JsonObjectSyntax {
@@ -705,8 +719,10 @@ class HookOutputSyntax extends JsonObjectSyntax {
     return result;
   }
 
+  // coverage:ignore-start
   @override
   String toString() => 'HookOutputSyntax($json)';
+  // coverage:ignore-end
 }
 
 class HooksMetadataAssetSyntax extends AssetSyntax {
@@ -736,8 +752,10 @@ class HooksMetadataAssetSyntax extends AssetSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateEncoding()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'HooksMetadataAssetSyntax($json)';
+  // coverage:ignore-end
 }
 
 extension HooksMetadataAssetSyntaxExtension on AssetSyntax {
@@ -866,8 +884,10 @@ class LinkInputSyntax extends HookInputSyntax {
     ..._validateResourceIdentifiers(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'LinkInputSyntax($json)';
+  // coverage:ignore-end
 }
 
 class LinkOutputSyntax extends HookOutputSyntax {
@@ -897,8 +917,10 @@ class LinkOutputSyntax extends HookOutputSyntax {
     return result;
   }
 
+  // coverage:ignore-start
   @override
   String toString() => 'LinkOutputSyntax($json)';
+  // coverage:ignore-end
 }
 
 class MetadataAssetEncodingSyntax extends JsonObjectSyntax {
@@ -938,8 +960,10 @@ class MetadataAssetEncodingSyntax extends JsonObjectSyntax {
     ..._validateValue(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'MetadataAssetEncodingSyntax($json)';
+  // coverage:ignore-end
 }
 
 class OutputStatusSyntax {
@@ -1014,8 +1038,10 @@ class UserDefinesSyntax extends JsonObjectSyntax {
     ..._validateWorkspacePubspec(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'UserDefinesSyntax($json)';
+  // coverage:ignore-end
 }
 
 class UserDefinesSourceSyntax extends JsonObjectSyntax {
@@ -1064,10 +1090,13 @@ class UserDefinesSourceSyntax extends JsonObjectSyntax {
     ..._validateDefines(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'UserDefinesSourceSyntax($json)';
+  // coverage:ignore-end
 }
 
+// coverage:ignore-start
 class JsonObjectSyntax {
   final Map<String, Object?> json;
 
@@ -1472,3 +1501,5 @@ void _checkArgumentMapStringElements(
     }
   }
 }
+
+// coverage:ignore-end

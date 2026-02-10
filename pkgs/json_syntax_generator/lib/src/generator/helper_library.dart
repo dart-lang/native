@@ -8,6 +8,7 @@
 // TODO(https://github.com/dart-lang/native/issues/2447): At some time, move
 // this to a helper package to avoid copying.
 const helperLib = r'''
+// coverage:ignore-start
 class JsonObjectSyntax {
   final Map<String, Object?> json;
 
@@ -412,4 +413,6 @@ void _checkArgumentMapStringElements(
     }
   }
 }
+
+// coverage:ignore-end
 ''';

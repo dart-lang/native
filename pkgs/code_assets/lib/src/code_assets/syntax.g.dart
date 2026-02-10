@@ -32,8 +32,10 @@ class AndroidCodeConfigSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateTargetNdkApi()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'AndroidCodeConfigSyntax($json)';
+  // coverage:ignore-end
 }
 
 class ArchitectureSyntax {
@@ -112,8 +114,10 @@ class AssetSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateType()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'AssetSyntax($json)';
+  // coverage:ignore-end
 }
 
 class CCompilerConfigSyntax extends JsonObjectSyntax {
@@ -185,8 +189,10 @@ class CCompilerConfigSyntax extends JsonObjectSyntax {
     ..._validateWindows(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'CCompilerConfigSyntax($json)';
+  // coverage:ignore-end
 }
 
 class CodeConfigSyntax extends JsonObjectSyntax {
@@ -366,8 +372,10 @@ class CodeConfigSyntax extends JsonObjectSyntax {
     return result;
   }
 
+  // coverage:ignore-start
   @override
   String toString() => 'CodeConfigSyntax($json)';
+  // coverage:ignore-end
 }
 
 class ConfigSyntax extends JsonObjectSyntax {
@@ -406,8 +414,10 @@ class ConfigSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateExtensions()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'ConfigSyntax($json)';
+  // coverage:ignore-end
 }
 
 class ConfigExtensionsSyntax extends JsonObjectSyntax {
@@ -444,8 +454,10 @@ class ConfigExtensionsSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateCodeAssets()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'ConfigExtensionsSyntax($json)';
+  // coverage:ignore-end
 }
 
 class DeveloperCommandPromptSyntax extends JsonObjectSyntax {
@@ -485,8 +497,10 @@ class DeveloperCommandPromptSyntax extends JsonObjectSyntax {
     ..._validateScript(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'DeveloperCommandPromptSyntax($json)';
+  // coverage:ignore-end
 }
 
 class DynamicLoadingBundleLinkModeSyntax extends LinkModeSyntax {
@@ -499,8 +513,10 @@ class DynamicLoadingBundleLinkModeSyntax extends LinkModeSyntax {
   @override
   List<String> validate() => [...super.validate()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'DynamicLoadingBundleLinkModeSyntax($json)';
+  // coverage:ignore-end
 }
 
 extension DynamicLoadingBundleLinkModeSyntaxExtension on LinkModeSyntax {
@@ -520,8 +536,10 @@ class DynamicLoadingExecutableLinkModeSyntax extends LinkModeSyntax {
   @override
   List<String> validate() => [...super.validate()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'DynamicLoadingExecutableLinkModeSyntax($json)';
+  // coverage:ignore-end
 }
 
 extension DynamicLoadingExecutableLinkModeSyntaxExtension on LinkModeSyntax {
@@ -543,8 +561,10 @@ class DynamicLoadingProcessLinkModeSyntax extends LinkModeSyntax {
   @override
   List<String> validate() => [...super.validate()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'DynamicLoadingProcessLinkModeSyntax($json)';
+  // coverage:ignore-end
 }
 
 extension DynamicLoadingProcessLinkModeSyntaxExtension on LinkModeSyntax {
@@ -582,8 +602,10 @@ class DynamicLoadingSystemLinkModeSyntax extends LinkModeSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateUri()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'DynamicLoadingSystemLinkModeSyntax($json)';
+  // coverage:ignore-end
 }
 
 extension DynamicLoadingSystemLinkModeSyntaxExtension on LinkModeSyntax {
@@ -631,8 +653,10 @@ class IOSCodeConfigSyntax extends JsonObjectSyntax {
     ..._validateTargetVersion(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'IOSCodeConfigSyntax($json)';
+  // coverage:ignore-end
 }
 
 class LinkModeSyntax extends JsonObjectSyntax {
@@ -678,8 +702,10 @@ class LinkModeSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateType()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'LinkModeSyntax($json)';
+  // coverage:ignore-end
 }
 
 class LinkModePreferenceSyntax {
@@ -745,8 +771,10 @@ class MacOSCodeConfigSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateTargetVersion()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'MacOSCodeConfigSyntax($json)';
+  // coverage:ignore-end
 }
 
 class NativeCodeAssetEncodingSyntax extends JsonObjectSyntax {
@@ -818,8 +846,10 @@ class NativeCodeAssetEncodingSyntax extends JsonObjectSyntax {
     return result;
   }
 
+  // coverage:ignore-start
   @override
   String toString() => 'NativeCodeAssetEncodingSyntax($json)';
+  // coverage:ignore-end
 }
 
 class NativeCodeAssetNewSyntax extends AssetSyntax {
@@ -867,8 +897,10 @@ class NativeCodeAssetNewSyntax extends AssetSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateEncoding()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'NativeCodeAssetNewSyntax($json)';
+  // coverage:ignore-end
 }
 
 extension NativeCodeAssetNewSyntaxExtension on AssetSyntax {
@@ -923,8 +955,10 @@ class StaticLinkModeSyntax extends LinkModeSyntax {
   @override
   List<String> validate() => [...super.validate()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'StaticLinkModeSyntax($json)';
+  // coverage:ignore-end
 }
 
 extension StaticLinkModeSyntaxExtension on LinkModeSyntax {
@@ -975,10 +1009,13 @@ class WindowsSyntax extends JsonObjectSyntax {
     ..._validateDeveloperCommandPrompt(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'WindowsSyntax($json)';
+  // coverage:ignore-end
 }
 
+// coverage:ignore-start
 class JsonObjectSyntax {
   final Map<String, Object?> json;
 
@@ -1383,3 +1420,5 @@ void _checkArgumentMapStringElements(
     }
   }
 }
+
+// coverage:ignore-end

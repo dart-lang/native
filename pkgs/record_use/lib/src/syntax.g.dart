@@ -21,13 +21,6 @@ class BoolConstantSyntax extends ConstantSyntax {
     json.sortOnKey();
   }
 
-  /// Setup all fields for [BoolConstantSyntax] that are not in
-  /// [ConstantSyntax].
-  void setup({required bool value}) {
-    _value = value;
-    json.sortOnKey();
-  }
-
   bool get value => _reader.get<bool>('value');
 
   set _value(bool value) {
@@ -39,8 +32,10 @@ class BoolConstantSyntax extends ConstantSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateValue()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'BoolConstantSyntax($json)';
+  // coverage:ignore-end
 }
 
 extension BoolConstantSyntaxExtension on ConstantSyntax {
@@ -104,8 +99,10 @@ class CallSyntax extends JsonObjectSyntax {
     ..._validateType(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'CallSyntax($json)';
+  // coverage:ignore-end
 }
 
 class ConstantSyntax extends JsonObjectSyntax {
@@ -162,8 +159,10 @@ class ConstantSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateType()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'ConstantSyntax($json)';
+  // coverage:ignore-end
 }
 
 class ConstantInstanceSyntax extends InstanceSyntax {
@@ -181,13 +180,6 @@ class ConstantInstanceSyntax extends InstanceSyntax {
     json.sortOnKey();
   }
 
-  /// Setup all fields for [ConstantInstanceSyntax] that are not in
-  /// [InstanceSyntax].
-  void setup({required int constantIndex}) {
-    _constantIndex = constantIndex;
-    json.sortOnKey();
-  }
-
   int get constantIndex => _reader.get<int>('constant_index');
 
   set _constantIndex(int value) {
@@ -200,8 +192,10 @@ class ConstantInstanceSyntax extends InstanceSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateConstantIndex()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'ConstantInstanceSyntax($json)';
+  // coverage:ignore-end
 }
 
 extension ConstantInstanceSyntaxExtension on InstanceSyntax {
@@ -223,17 +217,6 @@ class CreationInstanceSyntax extends InstanceSyntax {
     List<int?>? positional,
     super.path = const [],
   }) : super(type: 'creation') {
-    _named = named;
-    _positional = positional;
-    json.sortOnKey();
-  }
-
-  /// Setup all fields for [CreationInstanceSyntax] that are not in
-  /// [InstanceSyntax].
-  void setup({
-    required Map<String, int?>? named,
-    required List<int?>? positional,
-  }) {
     _named = named;
     _positional = positional;
     json.sortOnKey();
@@ -270,8 +253,10 @@ class CreationInstanceSyntax extends InstanceSyntax {
     ..._validatePositional(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'CreationInstanceSyntax($json)';
+  // coverage:ignore-end
 }
 
 extension CreationInstanceSyntaxExtension on InstanceSyntax {
@@ -331,8 +316,10 @@ class IdentifierSyntax extends JsonObjectSyntax {
     ..._validateUri(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'IdentifierSyntax($json)';
+  // coverage:ignore-end
 }
 
 class InstanceSyntax extends JsonObjectSyntax {
@@ -392,8 +379,10 @@ class InstanceSyntax extends JsonObjectSyntax {
     ..._validateType(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'InstanceSyntax($json)';
+  // coverage:ignore-end
 }
 
 class InstanceConstantSyntax extends ConstantSyntax {
@@ -404,13 +393,6 @@ class InstanceConstantSyntax extends ConstantSyntax {
 
   InstanceConstantSyntax({JsonObjectSyntax? value, super.path = const []})
     : super(type: 'instance') {
-    _value = value;
-    json.sortOnKey();
-  }
-
-  /// Setup all fields for [InstanceConstantSyntax] that are not in
-  /// [ConstantSyntax].
-  void setup({required JsonObjectSyntax? value}) {
     _value = value;
     json.sortOnKey();
   }
@@ -436,8 +418,10 @@ class InstanceConstantSyntax extends ConstantSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateValue()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'InstanceConstantSyntax($json)';
+  // coverage:ignore-end
 }
 
 extension InstanceConstantSyntaxExtension on ConstantSyntax {
@@ -459,13 +443,6 @@ class IntConstantSyntax extends ConstantSyntax {
     json.sortOnKey();
   }
 
-  /// Setup all fields for [IntConstantSyntax] that are not in
-  /// [ConstantSyntax].
-  void setup({required int value}) {
-    _value = value;
-    json.sortOnKey();
-  }
-
   int get value => _reader.get<int>('value');
 
   set _value(int value) {
@@ -477,8 +454,10 @@ class IntConstantSyntax extends ConstantSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateValue()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'IntConstantSyntax($json)';
+  // coverage:ignore-end
 }
 
 extension IntConstantSyntaxExtension on ConstantSyntax {
@@ -500,13 +479,6 @@ class ListConstantSyntax extends ConstantSyntax {
     json.sortOnKey();
   }
 
-  /// Setup all fields for [ListConstantSyntax] that are not in
-  /// [ConstantSyntax].
-  void setup({required List<Object?>? value}) {
-    _value = value;
-    json.sortOnKey();
-  }
-
   List<Object?>? get value => _reader.optionalList<Object?>('value');
 
   set _value(List<Object?>? value) {
@@ -519,8 +491,10 @@ class ListConstantSyntax extends ConstantSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateValue()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'ListConstantSyntax($json)';
+  // coverage:ignore-end
 }
 
 extension ListConstantSyntaxExtension on ConstantSyntax {
@@ -540,13 +514,6 @@ class MapConstantSyntax extends ConstantSyntax {
     required List<MapEntrySyntax> value,
     super.path = const [],
   }) : super(type: 'map') {
-    _value = value;
-    json.sortOnKey();
-  }
-
-  /// Setup all fields for [MapConstantSyntax] that are not in
-  /// [ConstantSyntax].
-  void setup({required List<MapEntrySyntax> value}) {
     _value = value;
     json.sortOnKey();
   }
@@ -580,8 +547,10 @@ class MapConstantSyntax extends ConstantSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateValue()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'MapConstantSyntax($json)';
+  // coverage:ignore-end
 }
 
 extension MapConstantSyntaxExtension on ConstantSyntax {
@@ -627,8 +596,10 @@ class MapEntrySyntax extends JsonObjectSyntax {
     ..._validateValue(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'MapEntrySyntax($json)';
+  // coverage:ignore-end
 }
 
 class MetadataSyntax extends JsonObjectSyntax {
@@ -670,8 +641,10 @@ class MetadataSyntax extends JsonObjectSyntax {
     ..._validateVersion(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'MetadataSyntax($json)';
+  // coverage:ignore-end
 }
 
 class NullConstantSyntax extends ConstantSyntax {
@@ -687,8 +660,10 @@ class NullConstantSyntax extends ConstantSyntax {
     ...super.validate(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'NullConstantSyntax($json)';
+  // coverage:ignore-end
 }
 
 extension NullConstantSyntaxExtension on ConstantSyntax {
@@ -809,8 +784,10 @@ class RecordedUsesSyntax extends JsonObjectSyntax {
     ..._validateRecordings(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'RecordedUsesSyntax($json)';
+  // coverage:ignore-end
 }
 
 class RecordingSyntax extends JsonObjectSyntax {
@@ -924,8 +901,10 @@ class RecordingSyntax extends JsonObjectSyntax {
     ..._validateInstances(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'RecordingSyntax($json)';
+  // coverage:ignore-end
 }
 
 class StringConstantSyntax extends ConstantSyntax {
@@ -936,13 +915,6 @@ class StringConstantSyntax extends ConstantSyntax {
 
   StringConstantSyntax({required String value, super.path = const []})
     : super(type: 'string') {
-    _value = value;
-    json.sortOnKey();
-  }
-
-  /// Setup all fields for [StringConstantSyntax] that are not in
-  /// [ConstantSyntax].
-  void setup({required String value}) {
     _value = value;
     json.sortOnKey();
   }
@@ -958,8 +930,10 @@ class StringConstantSyntax extends ConstantSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateValue()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'StringConstantSyntax($json)';
+  // coverage:ignore-end
 }
 
 extension StringConstantSyntaxExtension on ConstantSyntax {
@@ -983,8 +957,10 @@ class TearoffCallSyntax extends CallSyntax {
     ...super.validate(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'TearoffCallSyntax($json)';
+  // coverage:ignore-end
 }
 
 extension TearoffCallSyntaxExtension on CallSyntax {
@@ -1008,8 +984,10 @@ class TearoffInstanceSyntax extends InstanceSyntax {
     ...super.validate(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'TearoffInstanceSyntax($json)';
+  // coverage:ignore-end
 }
 
 extension TearoffInstanceSyntaxExtension on InstanceSyntax {
@@ -1031,13 +1009,6 @@ class UnsupportedConstantSyntax extends ConstantSyntax {
     json.sortOnKey();
   }
 
-  /// Setup all fields for [UnsupportedConstantSyntax] that are not in
-  /// [ConstantSyntax].
-  void setup({required String message}) {
-    _message = message;
-    json.sortOnKey();
-  }
-
   String get message => _reader.get<String>('message');
 
   set _message(String value) {
@@ -1049,8 +1020,10 @@ class UnsupportedConstantSyntax extends ConstantSyntax {
   @override
   List<String> validate() => [...super.validate(), ..._validateMessage()];
 
+  // coverage:ignore-start
   @override
   String toString() => 'UnsupportedConstantSyntax($json)';
+  // coverage:ignore-end
 }
 
 extension UnsupportedConstantSyntaxExtension on ConstantSyntax {
@@ -1072,17 +1045,6 @@ class WithArgumentsCallSyntax extends CallSyntax {
     List<int?>? positional,
     super.path = const [],
   }) : super(type: 'with_arguments') {
-    _named = named;
-    _positional = positional;
-    json.sortOnKey();
-  }
-
-  /// Setup all fields for [WithArgumentsCallSyntax] that are not in
-  /// [CallSyntax].
-  void setup({
-    required Map<String, int?>? named,
-    required List<int?>? positional,
-  }) {
     _named = named;
     _positional = positional;
     json.sortOnKey();
@@ -1119,8 +1081,10 @@ class WithArgumentsCallSyntax extends CallSyntax {
     ..._validatePositional(),
   ];
 
+  // coverage:ignore-start
   @override
   String toString() => 'WithArgumentsCallSyntax($json)';
+  // coverage:ignore-end
 }
 
 extension WithArgumentsCallSyntaxExtension on CallSyntax {
@@ -1130,6 +1094,7 @@ extension WithArgumentsCallSyntaxExtension on CallSyntax {
       WithArgumentsCallSyntax.fromJson(json, path: path);
 }
 
+// coverage:ignore-start
 class JsonObjectSyntax {
   final Map<String, Object?> json;
 
@@ -1534,3 +1499,5 @@ void _checkArgumentMapStringElements(
     }
   }
 }
+
+// coverage:ignore-end
