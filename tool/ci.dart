@@ -2,8 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:yaml/yaml.dart';
@@ -11,7 +11,7 @@ import 'package:yaml/yaml.dart';
 void main(List<String> arguments) async {
   final parser = makeArgParser();
 
-  final ArgResults argResults = parser.parse(arguments);
+  final argResults = parser.parse(arguments);
 
   final packages = loadPackagesFromPubspec();
 
@@ -69,9 +69,9 @@ ArgParser makeArgParser() {
 /// task's name, its default state, and the help message for its corresponding
 /// command-line flag.
 ///
-/// The main execution loop iterates through a list of [Task] instances. For each
-/// instance, it uses [shouldRun] to determine if the task should be executed
-/// based on the command-line flags, and if so, calls the [run] method.
+/// The main execution loop iterates through a list of [Task] instances. For
+/// each instance, it uses [shouldRun] to determine if the task should be
+/// executed based on the command-line flags, and if so, calls the [run] method.
 abstract class Task {
   /// The name of the task, used for the command-line flag.
   ///
@@ -123,23 +123,17 @@ class PubTask extends Task {
       'pkgs/hooks_runner/test_data/native_add_version_skew/',
       'pkgs/hooks_runner/test_data/native_add_version_skew_2/',
     ];
-    await _runMaybeParallel(
-      [
-        for (final path in paths)
-          () => _runProcess('dart', ['pub', 'get', '--directory', path]),
-      ],
-      argResults,
-    );
+    await _runMaybeParallel([
+      for (final path in paths)
+        () => _runProcess('dart', ['pub', 'get', '--directory', path]),
+    ], argResults);
   }
 }
 
 /// Packages that have slow tests.
 ///
 /// https://github.com/dart-lang/native/issues/90#issuecomment-3879193057
-const slowTestPackages = [
-  'pkgs/hooks_runner',
-  'pkgs/native_toolchain_c',
-];
+const slowTestPackages = ['pkgs/hooks_runner', 'pkgs/native_toolchain_c'];
 
 /// Runs `dart analyze` to find static analysis issues.
 class AnalyzeTask extends Task {
@@ -154,7 +148,12 @@ class AnalyzeTask extends Task {
     required List<String> packages,
     required ArgResults argResults,
   }) async {
-    await _runProcess('dart', ['analyze', '--fatal-infos', ...packages]);
+    await _runProcess('dart', [
+      'analyze',
+      '--fatal-infos',
+      ...packages,
+      'tool',
+    ]);
   }
 }
 
@@ -198,13 +197,10 @@ class GenerateTask extends Task {
       'pkgs/pub_formats/tool/generate.dart',
       'pkgs/record_use/tool/generate_syntax.dart',
     ];
-    await _runMaybeParallel(
-      [
-        for (final generator in generators)
-          () => _runProcess('dart', [generator, '--set-exit-if-changed']),
-      ],
-      argResults,
-    );
+    await _runMaybeParallel([
+      for (final generator in generators)
+        () => _runProcess('dart', [generator, '--set-exit-if-changed']),
+    ], argResults);
   }
 }
 
@@ -270,17 +266,14 @@ class ExampleTask extends Task {
       'pkgs/hooks/example/build/system_library/',
       'pkgs/hooks/example/build/use_dart_api/',
     ];
-    await _runMaybeParallel(
-      [
-        for (final exampleWithTest in examplesWithTest)
-          () => _runProcess(
-                workingDirectory: repositoryRoot.resolve(exampleWithTest),
-                'dart',
-                ['test'],
-              ),
-      ],
-      argResults,
-    );
+    await _runMaybeParallel([
+      for (final exampleWithTest in examplesWithTest)
+        () => _runProcess(
+          workingDirectory: repositoryRoot.resolve(exampleWithTest),
+          'dart',
+          ['test'],
+        ),
+    ], argResults);
 
     await _runProcess(
       workingDirectory: repositoryRoot.resolve(
@@ -372,7 +365,7 @@ List<String> loadPackagesFromPubspec() {
   final pubspecYaml = loadYaml(
     File.fromUri(repositoryRoot.resolve('pubspec.yaml')).readAsStringSync(),
   );
-  final workspace = (pubspecYaml['workspace'] as List).cast<String>();
+  final workspace = ((pubspecYaml as Map)['workspace'] as List).cast<String>();
   final packages = workspace
       .where(
         (package) =>
@@ -434,7 +427,7 @@ Future<void> _runProcess(
   final exitCode = await process.exitCode;
 
   if (exitCode != 0) {
-    print('+$commandString failed with exitCode ${exitCode}.');
+    print('+$commandString failed with exitCode $exitCode.');
     exit(exitCode);
   }
 }
