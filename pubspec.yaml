@@ -102,6 +102,7 @@ workspace:
   # - pkgs/jnigen/example/pdfbox_plugin/dart_example  # TODO
   # - pkgs/jnigen/example/pdfbox_plugin/example  # TODO
   - pkgs/json_syntax_generator
+  - pkgs/native_analyzer_plugin
   # - pkgs/native_doc_dartifier  # Cannot update to latest dependencies due to https://github.com/dart-lang/native/issues/2839
   - pkgs/native_test_helpers
   - pkgs/native_toolchain_c
