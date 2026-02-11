@@ -5,8 +5,8 @@
 import 'package:meta/meta.dart';
 
 import 'constant.dart';
+import 'definition.dart';
 import 'helper.dart';
-import 'identifier.dart';
 import 'syntax.g.dart';
 
 /// A reference to *something*.
@@ -42,7 +42,7 @@ sealed class Reference {
       other.loadingUnit;
 }
 
-/// A reference to a call to some [Identifier].
+/// A reference to a call to some [Definition].
 ///
 /// This might be an actual call, in which case we record the arguments, or a
 /// tear-off, in which case we can't record the arguments.
@@ -104,7 +104,7 @@ sealed class CallReference extends Reference {
   });
 }
 
-/// A reference to a call to some [Identifier] with [positionalArguments] and
+/// A reference to a call to some [Definition] with [positionalArguments] and
 /// [namedArguments].
 final class CallWithArguments extends CallReference {
   final List<MaybeConstant> positionalArguments;
@@ -231,7 +231,7 @@ final class CallWithArguments extends CallReference {
   }
 }
 
-/// A reference to a tear-off use of the [Identifier]. This means that we can't
+/// A reference to a tear-off use of the [Definition]. This means that we can't
 /// record the arguments possibly passed to the method somewhere else.
 final class CallTearoff extends CallReference {
   const CallTearoff({required super.loadingUnit});

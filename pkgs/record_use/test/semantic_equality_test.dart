@@ -7,19 +7,19 @@ import 'package:record_use/record_use_internal.dart';
 import 'package:test/test.dart';
 
 void main() {
-  const identifier1 = Identifier(
+  const definition1 = Definition(
     importUri: 'package:a/a.dart',
     name: 'definition1',
   );
-  const identifier2 = Identifier(
+  const definition2 = Definition(
     importUri: 'package:a/a.dart',
     name: 'definition2',
   );
-  const identifier1differentUri = Identifier(
+  const definition1differentUri = Definition(
     importUri: 'package:a/b.dart',
     name: 'definition1',
   );
-  const identifier3 = Identifier(
+  const definition3 = Definition(
     importUri: 'package:a/a.dart',
     scope: 'SomeClass',
     name: 'definition1',
@@ -42,7 +42,7 @@ void main() {
   const callDefinition1Tearoff = CallTearoff(
     loadingUnit: null,
   );
-  const identifier1differentUri2 = Identifier(
+  const definition1differentUri2 = Definition(
     importUri: 'memory:a/a.dart',
     name: 'definition1',
   );
@@ -56,41 +56,41 @@ void main() {
     comment: '',
   );
 
-  test('Identifier semantic equality', () {
-    expect(identifier1.semanticEquals(identifier1), isTrue);
-    expect(identifier1.semanticEquals(identifier2), isFalse);
-    expect(identifier1.semanticEquals(identifier1differentUri), isFalse);
+  test('Definition semantic equality', () {
+    expect(definition1.semanticEquals(definition1), isTrue);
+    expect(definition1.semanticEquals(definition2), isFalse);
+    expect(definition1.semanticEquals(definition1differentUri), isFalse);
     expect(
-      identifier1.semanticEquals(
-        identifier1differentUri,
+      definition1.semanticEquals(
+        definition1differentUri,
         uriMapping: (uri) => uri.replaceFirst('a.dart', 'b.dart'),
       ),
       isTrue,
     );
-    expect(identifier1.semanticEquals(identifier3), isFalse);
+    expect(definition1.semanticEquals(definition3), isFalse);
   });
 
   test('Strict equality', () {
     final recordings1 = Recordings(
       metadata: metadata,
       calls: {
-        identifier1: [callDefintion1Static, callDefintion1Static2],
-        identifier2: [callDefinition2Static],
+        definition1: [callDefintion1Static, callDefintion1Static2],
+        definition2: [callDefinition2Static],
       },
       instances: const {},
     );
     final recordings2 = Recordings(
       metadata: metadata,
       calls: {
-        identifier2: [callDefinition2Static],
-        identifier1: [callDefintion1Static2, callDefintion1Static],
+        definition2: [callDefinition2Static],
+        definition1: [callDefintion1Static2, callDefintion1Static],
       },
       instances: const {},
     );
     final recordings3 = Recordings(
       metadata: metadata,
       calls: {
-        identifier1: [callDefintion1Static],
+        definition1: [callDefintion1Static],
       },
       instances: const {},
     );
@@ -106,15 +106,15 @@ void main() {
     final recordings1 = Recordings(
       metadata: metadata,
       calls: {
-        identifier1: [callDefintion1Static],
-        identifier2: [callDefinition2Static],
+        definition1: [callDefintion1Static],
+        definition2: [callDefinition2Static],
       },
       instances: const {},
     );
     final recordings2 = Recordings(
       metadata: metadata,
       calls: {
-        identifier1: [callDefintion1Static],
+        definition1: [callDefintion1Static],
       },
       instances: const {},
     );
@@ -137,15 +137,15 @@ void main() {
     final recordings1 = Recordings(
       metadata: metadata,
       calls: {
-        identifier1: [callDefintion1Static],
+        definition1: [callDefintion1Static],
       },
       instances: const {},
     );
     final recordings2 = Recordings(
       metadata: metadata,
       calls: {
-        identifier1: [callDefintion1Static],
-        identifier2: [callDefinition2Static],
+        definition1: [callDefintion1Static],
+        definition2: [callDefinition2Static],
       },
       instances: const {},
     );
@@ -177,14 +177,14 @@ void main() {
     final recordings1 = Recordings(
       metadata: metadata,
       calls: {
-        identifier1: [callDefintion1Static],
+        definition1: [callDefintion1Static],
       },
       instances: const {},
     );
     final recordings2 = Recordings(
       metadata: metadata,
       calls: {
-        identifier1: [callDefinition1Tearoff],
+        definition1: [callDefinition1Tearoff],
       },
       instances: const {},
     );
@@ -216,7 +216,7 @@ void main() {
     final recordings1 = Recordings(
       metadata: metadata,
       calls: {
-        identifier1: [
+        definition1: [
           callDefintion1Static,
         ],
       },
@@ -225,7 +225,7 @@ void main() {
     final recordings2 = Recordings(
       metadata: metadata,
       calls: {
-        identifier1differentUri2: [
+        definition1differentUri2: [
           callDefintion1StaticDifferentUri,
         ],
       },
@@ -248,7 +248,7 @@ void main() {
     final recordings1 = Recordings(
       metadata: metadata,
       calls: {
-        identifier1: [
+        definition1: [
           const CallWithArguments(
             positionalArguments: [IntConstant(1)],
             namedArguments: {},
@@ -261,7 +261,7 @@ void main() {
     final recordings2 = Recordings(
       metadata: metadata,
       calls: {
-        identifier1: [
+        definition1: [
           const CallWithArguments(
             positionalArguments: [IntConstant(1), IntConstant(2)],
             namedArguments: {},

@@ -281,13 +281,13 @@ extension CreationInstanceSyntaxExtension on InstanceSyntax {
       CreationInstanceSyntax.fromJson(json, path: path);
 }
 
-class IdentifierSyntax extends JsonObjectSyntax {
-  IdentifierSyntax.fromJson(
+class DefinitionSyntax extends JsonObjectSyntax {
+  DefinitionSyntax.fromJson(
     super.json, {
     super.path = const [],
   }) : super.fromJson();
 
-  IdentifierSyntax({
+  DefinitionSyntax({
     required String name,
     String? scope,
     required String uri,
@@ -341,7 +341,7 @@ class IdentifierSyntax extends JsonObjectSyntax {
   ];
 
   @override
-  String toString() => 'IdentifierSyntax($json)';
+  String toString() => 'DefinitionSyntax($json)';
 }
 
 class InstanceSyntax extends JsonObjectSyntax {
@@ -830,7 +830,7 @@ class RecordingSyntax extends JsonObjectSyntax {
 
   RecordingSyntax({
     List<CallSyntax>? calls,
-    required IdentifierSyntax identifier,
+    required DefinitionSyntax identifier,
     List<InstanceSyntax>? instances,
     super.path = const [],
   }) : super() {
@@ -874,12 +874,12 @@ class RecordingSyntax extends JsonObjectSyntax {
     return [for (final element in elements) ...element.validate()];
   }
 
-  IdentifierSyntax get identifier {
+  DefinitionSyntax get identifier {
     final jsonValue = _reader.map$('identifier');
-    return IdentifierSyntax.fromJson(jsonValue, path: [...path, 'identifier']);
+    return DefinitionSyntax.fromJson(jsonValue, path: [...path, 'identifier']);
   }
 
-  set _identifier(IdentifierSyntax value) {
+  set _identifier(DefinitionSyntax value) {
     json['identifier'] = value.json;
   }
 

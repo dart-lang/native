@@ -237,7 +237,7 @@
         }
       ]
     },
-    "Identifier": {
+    "Definition": {
       "type": "object",
       "properties": {
         "name": {
@@ -395,7 +395,7 @@
           }
         },
         "identifier": {
-          "$ref": "#/definitions/Identifier"
+          "$ref": "#/definitions/Definition"
         },
         "instances": {
           "type": "array",

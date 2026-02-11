@@ -11,19 +11,19 @@ import 'package:data_assets/data_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:record_use/record_use.dart';
 
-const someMethodIdentifier = Identifier(
+const someMethodDefinition = Definition(
   importUri: 'package:package_with_assets/package_with_assets.dart',
   name: 'someMethod',
 );
 
-const someOtherMethodIdentifier = Identifier(
+const someOtherMethodDefinition = Definition(
   importUri: 'package:package_with_assets/package_with_assets.dart',
   name: 'someOtherMethod',
 );
 
 final assetMapping = {
-  someMethodIdentifier: 'assets/used_asset.json',
-  someOtherMethodIdentifier: 'assets/unused_asset.json',
+  someMethodDefinition: 'assets/used_asset.json',
+  someOtherMethodDefinition: 'assets/unused_asset.json',
 };
 
 void main(List<String> args) async {

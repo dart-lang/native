@@ -16,7 +16,7 @@ void main() {
             jsonDecode(recordedUsesJson) as Map<String, Object?>,
           )
           .constArgumentsFor(
-            const Identifier(
+            const Definition(
               importUri: 'package:js_runtime/js_helper.dart',
               scope: 'MyClass',
               name: 'get:loadDeferredLibrary',
@@ -33,7 +33,7 @@ void main() {
               jsonDecode(recordedUsesJson) as Map<String, Object?>,
             )
             .constantsOf(
-              const Identifier(
+              const Definition(
                 importUri: 'package:js_runtime/js_helper.dart',
                 name: 'MyAnnotation',
               ),
@@ -54,7 +54,7 @@ void main() {
               jsonDecode(recordedUsesJson) as Map<String, Object?>,
             )
             .constArgumentsFor(
-              const Identifier(
+              const Definition(
                 importUri: 'package:js_runtime/js_helper.dart',
                 scope: 'MyClass',
                 name: 'get:loadDeferredLibrary',
@@ -89,7 +89,7 @@ void main() {
               jsonDecode(recordedUsesJson) as Map<String, Object?>,
             )
             .constantsOf(
-              const Identifier(
+              const Definition(
                 importUri: 'package:js_runtime/js_helper.dart',
                 name: 'MyAnnotation',
               ),
@@ -104,7 +104,7 @@ void main() {
       RecordedUsages.fromJson(
         jsonDecode(recordedUsesJson2) as Map<String, Object?>,
       ).hasNonConstArguments(
-        const Identifier(
+        const Definition(
           importUri:
               'package:drop_dylib_recording/src/drop_dylib_recording.dart',
           name: 'getMathMethod',

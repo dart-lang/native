@@ -7,7 +7,7 @@ import '../record_use_internal.dart';
 /// Holds all information recorded during compilation.
 ///
 /// This can be queried using the methods provided, which each take an
-/// [Identifier] which must be annotated with `@RecordUse` from `package:meta`.
+/// [Definition] which must be annotated with `@RecordUse` from `package:meta`.
 ///
 /// The definition annotated with `@RecordUse` must be inside the `lib/`
 /// directory of the package. If the definition is a member of a class (e.g. a
@@ -19,7 +19,7 @@ extension type RecordedUsages._(Recordings _recordings) {
   /// Show the metadata for this recording of usages.
   Metadata get metadata => _recordings.metadata;
 
-  /// Finds all recorded arguments for calls to the [identifier].
+  /// Finds all recorded arguments for calls to the [definition].
   ///
   /// The definition must be annotated with `@RecordUse()`. The definition (and
   /// its enclosing class, if any) must be in the `lib/` directory of the
@@ -47,7 +47,7 @@ extension type RecordedUsages._(Recordings _recordings) {
   /// Would mean that
   /// ```
   /// constArgumentsFor(
-  ///           Identifier(
+  ///           Definition(
   ///             importUri: 'path/to/file.dart',
   ///             scope: 'SomeClass',
   ///             name: 'someStaticMethod',
@@ -55,8 +55,8 @@ extension type RecordedUsages._(Recordings _recordings) {
   ///         ).first.positional[0] is IntConstant
   /// ```
   Iterable<({Map<String, MaybeConstant> named, List<MaybeConstant> positional})>
-  constArgumentsFor(Identifier identifier) =>
-      _recordings.calls[identifier]?.whereType<CallWithArguments>().map(
+  constArgumentsFor(Definition definition) =>
+      _recordings.calls[definition]?.whereType<CallWithArguments>().map(
         (call) => (
           named: call.namedArguments,
           positional: call.positionalArguments,
@@ -64,7 +64,7 @@ extension type RecordedUsages._(Recordings _recordings) {
       ) ??
       [];
 
-  /// Finds all constant instances of the class [identifier].
+  /// Finds all constant instances of the class [definition].
   ///
   /// The definition must be annotated with `@RecordUse()`. The definition (and
   /// its enclosing class, if any) must be in the `lib/` directory of the
@@ -95,7 +95,7 @@ extension type RecordedUsages._(Recordings _recordings) {
   /// Would mean that
   /// ```
   /// constantsOf(
-  ///       Identifier(
+  ///       Definition(
   ///           importUri: 'path/to/file.dart',
   ///           name: 'AnnotationClass'),
   ///       ).first.fields['s'] is StringConstant;
@@ -103,13 +103,13 @@ extension type RecordedUsages._(Recordings _recordings) {
   ///
   /// What kinds of fields can be recorded depends on the implementation of
   /// https://dart-review.googlesource.com/c/sdk/+/369620/13/pkg/vm/lib/transformations/record_use/record_instance.dart
-  Iterable<InstanceConstant> constantsOf(Identifier identifier) =>
-      _recordings.instances[identifier]
+  Iterable<InstanceConstant> constantsOf(Definition definition) =>
+      _recordings.instances[definition]
           ?.whereType<InstanceConstantReference>()
           .map((reference) => reference.instanceConstant) ??
       [];
 
-  /// Checks if any call to [identifier] has non-const arguments, or if any
+  /// Checks if any call to [definition] has non-const arguments, or if any
   /// tear-off was recorded.
   ///
   /// The definition must be annotated with `@RecordUse()`. The definition (and
@@ -117,8 +117,8 @@ extension type RecordedUsages._(Recordings _recordings) {
   /// package. If there are no calls to the definition, either because it was
   /// treeshaken, because it was not annotated, or because it does not exist,
   /// this method returns `false`.
-  bool hasNonConstArguments(Identifier identifier) =>
-      (_recordings.calls[identifier] ?? []).any(
+  bool hasNonConstArguments(Definition definition) =>
+      (_recordings.calls[definition] ?? []).any(
         (element) => switch (element) {
           CallTearoff() => true,
           final CallWithArguments call =>

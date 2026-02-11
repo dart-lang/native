@@ -77,12 +77,12 @@ import 'dart:convert';
 import 'package:hooks/hooks.dart';
 import 'package:record_use/record_use_internal.dart';
 
-final methodId = Identifier(
+final methodId = Definition(
   importUri: 'myfile.dart',
   name: 'myMethod',
 );
 
-final classId = Identifier(
+final classId = Definition(
   importUri: 'myfile.dart',
   name: 'myClass',
 );

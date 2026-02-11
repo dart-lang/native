@@ -88,7 +88,7 @@ const dartToJava = {
     importUrl: 'package:foo/foo.dart',
     name: 'Bar',
     methodName: 'baz',
-  ) : JavaMethodIdentifier(
+  ) : JavaMethodDefinition(
     qualifiedImport: 'org.foo.foo',
     name: 'Bar',
     methodName: 'baz',

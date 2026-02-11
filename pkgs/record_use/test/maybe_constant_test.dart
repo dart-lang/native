@@ -29,8 +29,8 @@ void main() {
     };
 
     final recordings = Recordings.fromJson(json);
-    const identifier = Identifier(importUri: 'package:a/a.dart', name: 'foo');
-    final calls = recordings.calls[identifier]!;
+    const definition = Definition(importUri: 'package:a/a.dart', name: 'foo');
+    final calls = recordings.calls[definition]!;
     final call = calls[0] as CallWithArguments;
 
     expect(call.positionalArguments, hasLength(3));
@@ -45,11 +45,11 @@ void main() {
   });
 
   test('MaybeConstant serialization round-trip', () {
-    const identifier = Identifier(importUri: 'package:a/a.dart', name: 'foo');
+    const definition = Definition(importUri: 'package:a/a.dart', name: 'foo');
     final recordings = Recordings(
       metadata: Metadata(version: version, comment: 'test'),
       calls: {
-        identifier: [
+        definition: [
           const CallWithArguments(
             positionalArguments: [
               IntConstant(42),
@@ -83,12 +83,12 @@ void main() {
   });
 
   test('allowPromotionOfUnsupported semantic equality', () {
-    const identifier = Identifier(importUri: 'package:a/a.dart', name: 'foo');
+    const definition = Definition(importUri: 'package:a/a.dart', name: 'foo');
 
     final actualRecordings = Recordings(
       metadata: Metadata(version: version, comment: 'actual'),
       calls: {
-        identifier: [
+        definition: [
           const CallWithArguments(
             positionalArguments: [IntConstant(42)],
             namedArguments: {'a': StringConstant('bar')},
@@ -102,7 +102,7 @@ void main() {
     final expectedRecordings = Recordings(
       metadata: Metadata(version: version, comment: 'expected'),
       calls: {
-        identifier: [
+        definition: [
           const CallWithArguments(
             positionalArguments: [UnsupportedConstant('Record')],
             namedArguments: {'a': UnsupportedConstant('Record')},

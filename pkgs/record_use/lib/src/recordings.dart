@@ -8,8 +8,8 @@ import 'dart:convert';
 import 'package:meta/meta.dart';
 
 import 'constant.dart';
+import 'definition.dart';
 import 'helper.dart';
-import 'identifier.dart';
 import 'metadata.dart';
 import 'reference.dart';
 import 'syntax.g.dart';
@@ -19,7 +19,7 @@ import 'syntax.g.dart';
 /// This class acts as the top-level container for recorded usage information.
 /// The metadata provides context for the recording, such as version and
 /// commentary. The [calls] and [instances] store the core data, associating
-/// each [Identifier] with its corresponding [Reference] details.
+/// each [Definition] with its corresponding [Reference] details.
 ///
 /// The class uses a normalized JSON format, allowing the reuse of constants
 /// across multiple recordings to optimize storage.
@@ -27,11 +27,11 @@ class Recordings {
   /// [Metadata] such as the recording protocol version.
   final Metadata metadata;
 
-  /// The collected [CallReference]s for each [Identifier].
-  final Map<Identifier, List<CallReference>> calls;
+  /// The collected [CallReference]s for each [Definition].
+  final Map<Definition, List<CallReference>> calls;
 
-  /// The collected [InstanceReference]s for each [Identifier].
-  final Map<Identifier, List<InstanceReference>> instances;
+  /// The collected [InstanceReference]s for each [Definition].
+  final Map<Definition, List<InstanceReference>> instances;
 
   Recordings({
     required this.metadata,
@@ -42,7 +42,7 @@ class Recordings {
   /// Decodes a JSON representation into a [Recordings] object.
   ///
   /// The format is specifically designed to reduce redundancy and improve
-  /// efficiency. Identifiers and constants are stored in separate tables,
+  /// efficiency. Definitions and constants are stored in separate tables,
   /// allowing them to be referenced by index in the `recordings` map.
   factory Recordings.fromJson(Map<String, Object?> json) {
     try {
@@ -73,11 +73,11 @@ Error: $e
       }
     }
 
-    final callsForDefinition = <Identifier, List<CallReference>>{};
-    final instancesForDefinition = <Identifier, List<InstanceReference>>{};
+    final callsForDefinition = <Definition, List<CallReference>>{};
+    final instancesForDefinition = <Definition, List<InstanceReference>>{};
 
     for (final recordingSyntax in syntax.recordings ?? <RecordingSyntax>[]) {
-      final identifier = IdentifierProtected.fromSyntax(
+      final definition = DefinitionProtected.fromSyntax(
         recordingSyntax.identifier,
       );
       if (recordingSyntax.calls case final callSyntaxes?) {
@@ -90,7 +90,7 @@ Error: $e
             )
             .toList();
         callsForDefinition
-            .putIfAbsent(identifier, () => [])
+            .putIfAbsent(definition, () => [])
             .addAll(callReferences);
       }
       if (recordingSyntax.instances case final instanceSyntaxes?) {
@@ -103,7 +103,7 @@ Error: $e
             )
             .toList();
         instancesForDefinition
-            .putIfAbsent(identifier, () => [])
+            .putIfAbsent(definition, () => [])
             .addAll(instanceReferences);
       }
     }
@@ -161,20 +161,20 @@ Error: $e
     }.flatten().asMapToIndices;
 
     final recordings = <RecordingSyntax>[];
-    final allIdentifiers = {
+    final allDefinitions = {
       ...calls.keys,
       ...instances.keys,
     };
-    for (final identifier in allIdentifiers) {
-      final callsForIdentifier = calls[identifier];
-      final instancesForIdentifier = instances[identifier];
+    for (final definition in allDefinitions) {
+      final callsForDefinition = calls[definition];
+      final instancesForDefinition = instances[definition];
       recordings.add(
         RecordingSyntax(
-          identifier: identifier.toSyntax(),
-          calls: callsForIdentifier
+          identifier: definition.toSyntax(),
+          calls: callsForDefinition
               ?.map((call) => call.toSyntax(constantsIndex))
               .toList(),
-          instances: instancesForIdentifier
+          instances: instancesForDefinition
               ?.map((instance) => instance.toSyntax(constantsIndex))
               .toList(),
         ),
@@ -256,7 +256,7 @@ Error: $e
     if (!allowMetadataMismatch && metadata != expected.metadata) {
       return false;
     }
-    bool identifierMatches(Identifier a, Identifier b) =>
+    bool definitionMatches(Definition a, Definition b) =>
         // ignore: invalid_use_of_visible_for_testing_member
         a.semanticEquals(b, uriMapping: uriMapping);
 
@@ -265,7 +265,7 @@ Error: $e
       expected: expected.calls,
       expectedIsSubset: expectedIsSubset,
       allowDeadCodeElimination: allowDeadCodeElimination,
-      identifierMatches: identifierMatches,
+      definitionMatches: definitionMatches,
       referenceMatches: (CallReference a, CallReference b) =>
           // ignore: invalid_use_of_visible_for_testing_member
           a.semanticEquals(
@@ -285,7 +285,7 @@ Error: $e
       expected: expected.instances,
       expectedIsSubset: expectedIsSubset,
       allowDeadCodeElimination: allowDeadCodeElimination,
-      identifierMatches: identifierMatches,
+      definitionMatches: definitionMatches,
       referenceMatches: (InstanceReference a, InstanceReference b) =>
           // ignore: invalid_use_of_visible_for_testing_member
           a.semanticEquals(
@@ -304,11 +304,11 @@ Error: $e
 
   /// Returns true if [expected] is a semantic subset of [actual].
   static bool _compareUsageMap<R extends Reference>({
-    required Map<Identifier, List<R>> actual,
-    required Map<Identifier, List<R>> expected,
+    required Map<Definition, List<R>> actual,
+    required Map<Definition, List<R>> expected,
     required bool expectedIsSubset,
     required bool allowDeadCodeElimination,
-    required bool Function(Identifier, Identifier) identifierMatches,
+    required bool Function(Definition, Definition) definitionMatches,
     required bool Function(R, R) referenceMatches,
   }) {
     final actualUsages = actual.entries.toList();
@@ -331,8 +331,8 @@ Error: $e
 
         final actualUsage = actualUsages[i];
 
-        if (identifierMatches(actualUsage.key, expectedUsage.key)) {
-          // Identifiers match semantically. Now check the references.
+        if (definitionMatches(actualUsage.key, expectedUsage.key)) {
+          // Definitions match semantically. Now check the references.
           // The list of references for this identifier must be an exact
           // semantic match.
           final referencesMatch = _matchReferences(
@@ -406,15 +406,15 @@ Error: $e
     return true;
   }
 
-  /// Returns a new [Recordings] that only contains usages of identifiers
+  /// Returns a new [Recordings] that only contains usages of definitions
   /// filtered by the provided criteria.
   ///
-  /// If [definitionPackageName] is provided, only usages of identifiers
+  /// If [definitionPackageName] is provided, only usages of definitions
   /// defined in that package are included.
   Recordings filter({String? definitionPackageName}) {
-    bool belongsToPackage(Identifier identifier) {
+    bool belongsToPackage(Definition definition) {
       if (definitionPackageName == null) return true;
-      final uri = identifier.importUri;
+      final uri = definition.importUri;
       return uri.startsWith('package:$definitionPackageName/');
     }
 

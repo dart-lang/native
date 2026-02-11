@@ -29,7 +29,7 @@ void main(List<String> arguments) async {
     // Tree-shake unused assets using calls
     for (final methodName in ['add', 'multiply']) {
       final calls = usages.constArgumentsFor(
-        Identifier(
+        Definition(
           importUri:
               'package:${input.packageName}/src/${input.packageName}.dart',
           scope: 'MyMath',
@@ -53,7 +53,7 @@ void main(List<String> arguments) async {
     // Tree-shake unused assets using instances
     for (final className in ['Double', 'Square']) {
       final instances = usages.constantsOf(
-        Identifier(
+        Definition(
           importUri:
               'package:${input.packageName}/src/${input.packageName}.dart',
           name: className,
