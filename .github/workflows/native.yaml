@@ -19,7 +19,6 @@ on:
       - 'pkgs/native_test_helpers/**'
       - 'pkgs/native_toolchain_c/**'
       - 'pkgs/record_use/**'
-      - 'pkgs/repo_lint_rules/**'
       - 'tool/**'
   push:
     branches: [main]
@@ -34,7 +33,6 @@ on:
       - 'pkgs/native_test_helpers/**'
       - 'pkgs/native_toolchain_c/**'
       - 'pkgs/record_use/**'
-      - 'pkgs/repo_lint_rules/**'
       - 'tool/**'
   schedule:
     - cron: '0 0 * * 0' # weekly
