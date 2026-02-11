@@ -114,7 +114,6 @@ workspace:
   - pkgs/record_use/test_data/drop_dylib_recording
   - pkgs/record_use/test_data/library_uris
   - pkgs/record_use/test_data/library_uris_helper
-  - pkgs/repo_lint_rules
   # - pkgs/swift2objc  # TODO
   # - pkgs/swiftgen  # TODO
   # - pkgs/swiftgen/example  # TODO
