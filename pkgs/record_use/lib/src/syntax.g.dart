@@ -315,13 +315,22 @@ class IdentifierSyntax extends JsonObjectSyntax {
 
   List<String> _validateScope() => _reader.validate<String?>('scope');
 
-  String get uri => _reader.get<String>('uri');
+  static final _uriPattern = RegExp(r'^package:');
+
+  String get uri => _reader.string('uri', _uriPattern);
 
   set _uri(String value) {
+    if (!_uriPattern.hasMatch(value)) {
+      throw ArgumentError.value(
+        value,
+        'value',
+        'Value does not satisify pattern: ${_uriPattern.pattern}.',
+      );
+    }
     json.setOrRemove('uri', value);
   }
 
-  List<String> _validateUri() => _reader.validate<String>('uri');
+  List<String> _validateUri() => _reader.validateString('uri', _uriPattern);
 
   @override
   List<String> validate() => [
