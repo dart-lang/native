@@ -15,7 +15,7 @@ export 'src/constant.dart'
         NullConstant,
         StringConstant,
         UnsupportedConstant;
-export 'src/identifier.dart' show Identifier;
+export 'src/definition.dart' show Definition;
 export 'src/metadata.dart' show Metadata;
 export 'src/record_use.dart' show RecordedUsages;
 export 'src/recordings.dart'

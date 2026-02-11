@@ -145,7 +145,7 @@ final class Target implements Comparable<Target> {
 
   /// Compares `this` to [other].
   ///
-  /// If [other] is also an [Target], consistent with sorting on [toString].
+  /// If [other] is also a [Target], consistent with sorting on [toString].
   @override
   int compareTo(Target other) => toString().compareTo(other.toString());
 

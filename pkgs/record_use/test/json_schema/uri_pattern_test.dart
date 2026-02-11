@@ -18,7 +18,7 @@ void main() {
           as Map<String, Object?>;
   final schema = JsonSchema.create(schemaJson);
 
-  group('Identifier.uri pattern', () {
+  group('Definition.uri pattern', () {
     test('JSON schema validation succeeds for package URI', () {
       final json = recordedUses.toJson();
       final result = schema.validate(json);

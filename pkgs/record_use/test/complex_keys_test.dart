@@ -19,7 +19,7 @@ void main() {
       MapEntry(instanceKey, StringConstant('value')),
     ]);
 
-    const identifier = Identifier(
+    const definition = Definition(
       importUri: 'package:test/test.dart',
       name: 'testMethod',
     );
@@ -30,7 +30,7 @@ void main() {
         comment: 'Test complex keys',
       ),
       calls: {
-        identifier: [
+        definition: [
           const CallWithArguments(
             positionalArguments: [mapConstant],
             namedArguments: {},
@@ -82,7 +82,7 @@ void main() {
       MapEntry(mapKey, listKey),
     ]);
 
-    const identifier = Identifier(
+    const definition = Definition(
       importUri: 'package:test/test.dart',
       name: 'complexMethod',
     );
@@ -93,7 +93,7 @@ void main() {
         comment: 'Test deeply nested complex keys',
       ),
       calls: {
-        identifier: [
+        definition: [
           const CallWithArguments(
             positionalArguments: [complexMap],
             namedArguments: {},

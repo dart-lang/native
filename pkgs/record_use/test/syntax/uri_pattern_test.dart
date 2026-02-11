@@ -8,7 +8,7 @@ import 'package:test/test.dart';
 import '../test_data.dart';
 
 void main() {
-  group('Identifier.uri pattern', () {
+  group('Definition.uri pattern', () {
     test('Recordings.fromJson fails for non-package URI', () {
       final json = recordedUses.toJson();
       // Modify the first recording's identifier URI to be invalid.
@@ -49,11 +49,11 @@ void main() {
       );
     });
 
-    test('Identifier constructor does not throw (currently)', () {
-      // The Identifier class itself doesn't have the regex check in its
+    test('Definition constructor does not throw (currently)', () {
+      // The Definition class itself doesn't have the regex check in its
       // constructor, only the generated syntax class has it.
       expect(
-        () => const Identifier(importUri: 'dart:core', name: 'foo'),
+        () => const Definition(importUri: 'dart:core', name: 'foo'),
         returnsNormally,
       );
     });

@@ -121,7 +121,7 @@ void main() async {
 final _pirateAdventureRecordings = Recordings(
   metadata: Metadata(version: Version(1, 0, 0), comment: 'Filtering test'),
   calls: {
-    const Identifier(
+    const Definition(
       importUri: 'package:pirate_speak/src/definitions.dart',
       name: 'pirateSpeak',
     ): [
@@ -136,7 +136,7 @@ final _pirateAdventureRecordings = Recordings(
         namedArguments: {},
       ),
     ],
-    const Identifier(
+    const Definition(
       importUri: 'package:pirate_technology/src/definitions.dart',
       name: 'useCannon',
     ): [

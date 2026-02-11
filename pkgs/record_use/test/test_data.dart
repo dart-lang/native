@@ -5,12 +5,12 @@
 import 'package:pub_semver/pub_semver.dart';
 import 'package:record_use/record_use_internal.dart';
 
-const callId = Identifier(
+const callId = Definition(
   importUri: 'package:js_runtime/js_helper.dart',
   scope: 'MyClass',
   name: 'get:loadDeferredLibrary',
 );
-const instanceId = Identifier(
+const instanceId = Definition(
   importUri: 'package:js_runtime/js_helper.dart',
   name: 'MyAnnotation',
 );
