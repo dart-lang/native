@@ -45,7 +45,7 @@
       "identifier": {
         "name": "someStaticMethod",
         "scope": "SomeClass",
-        "uri": "positional_both.dart"
+        "uri": "package:record_use_test/positional_both.dart"
       }
     }
   ]

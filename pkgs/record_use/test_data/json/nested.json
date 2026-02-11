@@ -33,7 +33,7 @@
     {
       "identifier": {
         "name": "MyClass",
-        "uri": "nested.dart"
+        "uri": "package:record_use_test/nested.dart"
       },
       "instances": [
         {
@@ -51,7 +51,7 @@
     {
       "identifier": {
         "name": "MyOtherClass",
-        "uri": "nested.dart"
+        "uri": "package:record_use_test/nested.dart"
       },
       "instances": [
         {

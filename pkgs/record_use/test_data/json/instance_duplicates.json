@@ -30,7 +30,7 @@
     {
       "identifier": {
         "name": "MyClass",
-        "uri": "instance_duplicates.dart"
+        "uri": "package:record_use_test/instance_duplicates.dart"
       },
       "instances": [
         {

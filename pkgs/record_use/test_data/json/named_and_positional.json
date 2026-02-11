@@ -35,8 +35,8 @@
         {
           "loading_unit": "1",
           "named": {
-            "k": 0,
-            "l": 1
+            "l": 1,
+            "k": 0
           },
           "positional": [
             0
@@ -57,8 +57,8 @@
         {
           "loading_unit": "1",
           "named": {
-            "k": 0,
-            "l": 4
+            "l": 4,
+            "k": 0
           },
           "positional": [
             2
@@ -68,8 +68,8 @@
         {
           "loading_unit": "1",
           "named": {
-            "k": 5,
-            "l": 4
+            "l": 4,
+            "k": 5
           },
           "positional": [
             2
@@ -80,7 +80,7 @@
       "identifier": {
         "name": "someStaticMethod",
         "scope": "SomeClass",
-        "uri": "named_and_positional.dart"
+        "uri": "package:record_use_test/named_and_positional.dart"
       }
     }
   ]

@@ -16,10 +16,8 @@ void main() {
             jsonDecode(recordedUsesJson) as Map<String, Object?>,
           )
           .constArgumentsFor(
-            Identifier(
-              importUri: Uri.parse(
-                'file://lib/_internal/js_runtime/lib/js_helper.dart',
-              ).toString(),
+            const Identifier(
+              importUri: 'package:js_runtime/js_helper.dart',
               scope: 'MyClass',
               name: 'get:loadDeferredLibrary',
             ),
@@ -35,10 +33,8 @@ void main() {
               jsonDecode(recordedUsesJson) as Map<String, Object?>,
             )
             .constantsOf(
-              Identifier(
-                importUri: Uri.parse(
-                  'file://lib/_internal/js_runtime/lib/js_helper.dart',
-                ).toString(),
+              const Identifier(
+                importUri: 'package:js_runtime/js_helper.dart',
                 name: 'MyAnnotation',
               ),
             )
@@ -58,10 +54,8 @@ void main() {
               jsonDecode(recordedUsesJson) as Map<String, Object?>,
             )
             .constArgumentsFor(
-              Identifier(
-                importUri: Uri.parse(
-                  'file://lib/_internal/js_runtime/lib/js_helper.dart',
-                ).toString(),
+              const Identifier(
+                importUri: 'package:js_runtime/js_helper.dart',
                 scope: 'MyClass',
                 name: 'get:loadDeferredLibrary',
               ),
@@ -95,10 +89,8 @@ void main() {
               jsonDecode(recordedUsesJson) as Map<String, Object?>,
             )
             .constantsOf(
-              Identifier(
-                importUri: Uri.parse(
-                  'file://lib/_internal/js_runtime/lib/js_helper.dart',
-                ).toString(),
+              const Identifier(
+                importUri: 'package:js_runtime/js_helper.dart',
                 name: 'MyAnnotation',
               ),
             )
