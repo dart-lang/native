@@ -51,6 +51,11 @@ ArgParser makeArgParser() {
       'all',
       negatable: false,
       help: 'Enable all tasks. Overridden by --no-<task> flags.',
+    )
+    ..addFlag(
+      'fast',
+      negatable: false,
+      help: 'Skip hooks_runner and native_toolchain_c.',
     );
   for (final task in tasks) {
     parser.addFlag(task.name, help: task.helpMessage);
@@ -123,6 +128,14 @@ class PubTask extends Task {
     }
   }
 }
+
+/// Packages that have slow tests.
+///
+/// https://github.com/dart-lang/native/issues/90#issuecomment-3879193057
+const slowTestPackages = [
+  'pkgs/hooks_runner',
+  'pkgs/native_toolchain_c',
+];
 
 /// Runs `dart analyze` to find static analysis issues.
 class AnalyzeTask extends Task {
@@ -207,6 +220,11 @@ class TestTask extends Task {
     required List<String> packages,
     required ArgResults argResults,
   }) async {
+    if (argResults['fast'] as bool) {
+      packages = packages
+          .where((p) => !slowTestPackages.any((slow) => p.contains(slow)))
+          .toList();
+    }
     final testUris = getUriInPackage(packages, 'test');
     await _runProcess('dart', [
       'test',
