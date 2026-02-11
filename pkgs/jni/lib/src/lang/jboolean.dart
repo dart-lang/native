@@ -5,15 +5,23 @@
 import '../jobject.dart';
 import '../types.dart';
 
+final class _$JBoolean$Type$ extends JType<JBoolean> {
+  const _$JBoolean$Type$();
+
+  @override
+  String get signature => r'Ljava/lang/Boolean;';
+}
+
 extension type JBoolean._(JObject _$this) implements JObject {
   /// The type which includes information such as the signature of this class.
-  static const JType<JBoolean> type = JType(r'java/lang/Boolean');
+  static const JType<JBoolean> type = _$JBoolean$Type$();
 
   static final _class = type.jClass;
 
   static final _ctorId = _class.constructorId(r'(Z)V');
 
-  JBoolean(bool boolean) : _$this = _ctorId(_class, [boolean ? 1 : 0]);
+  JBoolean(bool boolean)
+      : _$this = _ctorId<JBoolean>(_class, [boolean ? 1 : 0]);
 
   static final _booleanValueId =
       _class.instanceMethodId(r'booleanValue', r'()Z');

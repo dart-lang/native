@@ -2,16 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:meta/meta.dart' show internal;
-
 import '../jobject.dart';
 import '../jvalues.dart';
 import '../types.dart';
 import 'jnumber.dart';
 
-@internal
-final class $JShort$Type$ extends JType<JShort> {
-  const $JShort$Type$();
+final class _$JShort$Type$ extends JType<JShort> {
+  const _$JShort$Type$();
 
   @override
   String get signature => r'Ljava/lang/Short;';
@@ -19,11 +16,11 @@ final class $JShort$Type$ extends JType<JShort> {
 
 extension type JShort._(JObject _$this) implements JNumber {
   /// The type which includes information such as the signature of this class.
-  static const JType<JShort> type = $JShort$Type$();
+  static const JType<JShort> type = _$JShort$Type$();
 
   static final _class = JClass.forName(r'java/lang/Short');
 
   static final _ctorId = _class.constructorId(r'(S)V');
 
-  JShort(int num) : _$this = _ctorId(_class, [JValueShort(num)]);
+  JShort(int num) : _$this = _ctorId<JShort>(_class, [JValueShort(num)]);
 }

@@ -356,7 +356,10 @@ extension JShortArrayToList on JShortArray {
 }
 
 final class _$JIntArray$Type$ extends JType<JIntArray> {
-  const _$JIntArray$Type$() : super('[I');
+  const _$JIntArray$Type$();
+
+  @override
+  String get signature => '[I';
 }
 
 /// A fixed-length array of Java Int.

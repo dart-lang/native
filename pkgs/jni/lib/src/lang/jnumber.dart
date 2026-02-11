@@ -2,8 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:meta/meta.dart' show internal;
-
 import '../jobject.dart';
 import '../types.dart';
 import 'jboolean.dart';
@@ -15,9 +13,8 @@ import 'jinteger.dart';
 import 'jlong.dart';
 import 'jshort.dart';
 
-@internal
-final class $JNumber$Type$ extends JType<JNumber> {
-  const $JNumber$Type$();
+final class _$JNumber$Type$ extends JType<JNumber> {
+  const _$JNumber$Type$();
 
   @override
   String get signature => r'Ljava/lang/Number;';
@@ -27,11 +24,11 @@ extension type JNumber._(JObject _$this) implements JObject {
   static final _class = JClass.forName(r'java/lang/Number');
 
   /// The type which includes information such as the signature of this class.
-  static const JType<JNumber> type = $JNumber$Type$();
+  static const JType<JNumber> type = _$JNumber$Type$();
 
   static final _ctorId = _class.constructorId(r'()V');
 
-  JNumber() : _$this = JObject.fromReference(_ctorId(_class, []));
+  JNumber() : _$this = _ctorId<JNumber>(_class, []);
 
   static final _intValueId = _class.instanceMethodId(r'intValue', r'()I');
 

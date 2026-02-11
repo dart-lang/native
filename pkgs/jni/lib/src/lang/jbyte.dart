@@ -22,5 +22,5 @@ extension type JByte._(JObject _$this) implements JNumber {
 
   static final _ctorId = _class.constructorId(r'(B)V');
 
-  JByte(int num) : _$this = _ctorId(_class, [JValueByte(num)]);
+  JByte(int num) : _$this = _ctorId<JByte>(_class, [JValueByte(num)]);
 }

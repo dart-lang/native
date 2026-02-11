@@ -6,7 +6,6 @@ import 'dart:collection';
 
 import '../core_bindings.dart';
 import '../jobject.dart';
-import '../types.dart';
 import 'jiterator.dart';
 
 extension JSetToAdapter<E extends JObject?> on JSet<E> {

@@ -17,9 +17,11 @@ import 'types.dart';
 part 'primitive_jarrays.dart';
 
 final class _$JArray$Type$<E extends JObject?> extends JType<JArray<E>> {
-  final JType<E> elementType;
+  _$JArray$Type$(JType<E> elementType)
+      : signature = '[${elementType.signature}';
 
-  _$JArray$Type$(this.elementType) : super('[${elementType.signature}');
+  @override
+  final String signature;
 }
 
 extension type JArray<E extends JObject?>._(JObject _$this) implements JObject {

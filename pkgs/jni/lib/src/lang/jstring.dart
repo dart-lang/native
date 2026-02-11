@@ -2,16 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:meta/meta.dart' show internal;
-
 import '../jni.dart';
 import '../jobject.dart';
 import '../jreference.dart';
 import '../types.dart';
 
-@internal
-final class $JString$Type$ extends JType<JString> {
-  const $JString$Type$();
+final class _$JString$Type$ extends JType<JString> {
+  const _$JString$Type$();
 
   @override
   String get signature => 'Ljava/lang/String;';
@@ -19,7 +16,7 @@ final class $JString$Type$ extends JType<JString> {
 
 extension type JString._(JObject _$this) implements JObject {
   /// The type which includes information such as the signature of this class.
-  static const JType<JString> type = $JString$Type$();
+  static const JType<JString> type = _$JString$Type$();
 
   /// The number of Unicode characters in this Java string.
   int get length => Jni.env.GetStringLength(reference.pointer);

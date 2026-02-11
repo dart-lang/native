@@ -48,7 +48,7 @@ export 'src/nio/jbuffer.dart';
 export 'src/nio/jbyte_buffer.dart';
 export 'src/third_party/generated_bindings.dart'
     show JFieldIDPtr, JMethodIDPtr, JObjectPtr, JThrowablePtr, JniResult;
-export 'src/types.dart' show JTypeBase, referenceType;
+export 'src/types.dart' show JTypeBase;
 export 'src/util/jiterator.dart';
 export 'src/util/jlist.dart';
 export 'src/util/jmap.dart';
