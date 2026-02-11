@@ -78,13 +78,13 @@ import 'package:hooks/hooks.dart';
 import 'package:record_use/record_use_internal.dart';
 
 final methodId = Definition(
-  importUri: 'myfile.dart',
-  name: 'myMethod',
+  'package:mypackage/myfile.dart',
+  [Name('myMethod')],
 );
 
 final classId = Definition(
-  importUri: 'myfile.dart',
-  name: 'myClass',
+  'package:mypackage/myfile.dart',
+  [Name('myClass')],
 );
 
 void main(List<String> arguments){

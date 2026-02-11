@@ -48,9 +48,8 @@ extension type RecordedUsages._(Recordings _recordings) {
   /// ```
   /// constArgumentsFor(
   ///           Definition(
-  ///             importUri: 'path/to/file.dart',
-  ///             scope: 'SomeClass',
-  ///             name: 'someStaticMethod',
+  ///             'package:my_package/file.dart',
+  ///             [Name('SomeClass'), Name('someStaticMethod')],
   ///           ),
   ///         ).first.positional[0] is IntConstant
   /// ```
@@ -96,8 +95,8 @@ extension type RecordedUsages._(Recordings _recordings) {
   /// ```
   /// constantsOf(
   ///       Definition(
-  ///           importUri: 'path/to/file.dart',
-  ///           name: 'AnnotationClass'),
+  ///           'package:my_package/file.dart',
+  ///           [Name('AnnotationClass')]),
   ///       ).first.fields['s'] is StringConstant;
   /// ```
   ///

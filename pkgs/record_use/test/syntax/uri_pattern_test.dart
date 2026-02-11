@@ -53,7 +53,7 @@ void main() {
       // The Definition class itself doesn't have the regex check in its
       // constructor, only the generated syntax class has it.
       expect(
-        () => const Definition(importUri: 'dart:core', name: 'foo'),
+        () => const Definition('dart:core', [Name('foo')]),
         returnsNormally,
       );
     });

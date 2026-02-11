@@ -12,13 +12,13 @@ import 'package:hooks/hooks.dart';
 import 'package:record_use/record_use.dart';
 
 const someMethodDefinition = Definition(
-  importUri: 'package:package_with_assets/package_with_assets.dart',
-  name: 'someMethod',
+  'package:package_with_assets/package_with_assets.dart',
+  [Name('someMethod')],
 );
 
 const someOtherMethodDefinition = Definition(
-  importUri: 'package:package_with_assets/package_with_assets.dart',
-  name: 'someOtherMethod',
+  'package:package_with_assets/package_with_assets.dart',
+  [Name('someOtherMethod')],
 );
 
 final assetMapping = {
