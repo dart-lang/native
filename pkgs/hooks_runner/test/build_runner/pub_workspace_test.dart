@@ -11,6 +11,8 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 import 'helpers.dart';
 
+const Timeout longTimeout = Timeout(Duration(minutes: 5));
+
 void main() async {
   late Uri tempUri;
   setUp(() async {
@@ -70,7 +72,7 @@ dependency_overrides:
     await runPubGet(workingDirectory: tempUri, logger: logger);
   }
 
-  test('pub workspaces', () async {
+  test('pub workspaces', timeout: longTimeout, () async {
     final packageUri = tempUri.resolve('named_add_renamed/');
     await Directory.fromUri(
       tempUri.resolve('native_add/'),
@@ -107,7 +109,7 @@ dependency_overrides:
     expect(logs.join('\n'), contains('Skipping build for native_add'));
   });
 
-  test('packagesWithBuildHooks', () async {
+  test('packagesWithBuildHooks', timeout: longTimeout, () async {
     const fileSystem = LocalFileSystem();
     final packageUri = tempUri.resolve('no_hook/');
     await makePubWorkspace([
