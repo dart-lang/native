@@ -24,7 +24,7 @@
       "identifier": {
         "name": "someStaticMethod",
         "scope": "SomeClass",
-        "uri": "simple.dart"
+        "uri": "package:record_use_test/simple.dart"
       }
     }
   ]

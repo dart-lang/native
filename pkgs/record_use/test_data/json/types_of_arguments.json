@@ -121,7 +121,7 @@
       "identifier": {
         "name": "someStaticMethod",
         "scope": "SomeClass",
-        "uri": "types_of_arguments.dart"
+        "uri": "package:record_use_test/types_of_arguments.dart"
       }
     }
   ]

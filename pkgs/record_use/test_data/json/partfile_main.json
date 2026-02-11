@@ -24,7 +24,7 @@
       "identifier": {
         "name": "someStaticMethod",
         "scope": "SomeClass",
-        "uri": "partfile_main.dart"
+        "uri": "package:record_use_test/partfile_main.dart"
       }
     }
   ]

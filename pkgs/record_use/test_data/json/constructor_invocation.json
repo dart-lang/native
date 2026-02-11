@@ -22,7 +22,7 @@
     {
       "identifier": {
         "name": "MyClass",
-        "uri": "package:test/test.dart"
+        "uri": "package:record_use_test/test.dart"
       },
       "instances": [
         {

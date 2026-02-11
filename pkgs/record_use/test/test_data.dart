@@ -5,17 +5,13 @@
 import 'package:pub_semver/pub_semver.dart';
 import 'package:record_use/record_use_internal.dart';
 
-final callId = Identifier(
-  importUri: Uri.parse(
-    'file://lib/_internal/js_runtime/lib/js_helper.dart',
-  ).toString(),
+const callId = Identifier(
+  importUri: 'package:js_runtime/js_helper.dart',
   scope: 'MyClass',
   name: 'get:loadDeferredLibrary',
 );
-final instanceId = Identifier(
-  importUri: Uri.parse(
-    'file://lib/_internal/js_runtime/lib/js_helper.dart',
-  ).toString(),
+const instanceId = Identifier(
+  importUri: 'package:js_runtime/js_helper.dart',
   name: 'MyAnnotation',
 );
 
@@ -198,7 +194,7 @@ const recordedUsesJson = '''{
   "recordings": [
     {
       "identifier": {
-        "uri": "file://lib/_internal/js_runtime/lib/js_helper.dart",
+        "uri": "package:js_runtime/js_helper.dart",
         "scope": "MyClass",
         "name": "get:loadDeferredLibrary"
       },
@@ -233,7 +229,7 @@ const recordedUsesJson = '''{
     },
     {
       "identifier": {
-        "uri": "file://lib/_internal/js_runtime/lib/js_helper.dart",
+        "uri": "package:js_runtime/js_helper.dart",
         "name": "MyAnnotation"
       },
       "instances": [
@@ -278,7 +274,7 @@ const recordedUsesJson2 = '''{
   "recordings": [
     {
       "identifier": {
-        "uri": "file://lib/_internal/js_runtime/lib/js_helper.dart",
+        "uri": "package:js_runtime/js_helper.dart",
         "scope": "MyClass",
         "name": "get:loadDeferredLibrary"
       },
