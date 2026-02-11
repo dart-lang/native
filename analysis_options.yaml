@@ -1,1 +1,7 @@
 include: package:dart_flutter_team_lints/analysis_options.yaml
+
+plugins:
+  native_analyzer_plugin:
+    path: pkgs/native_analyzer_plugin
+    diagnostics:
+      avoid_import_outside_src: true

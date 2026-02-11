@@ -1,0 +1,19 @@
+name: native_analyzer_plugin
+version: 0.1.0
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.9.0 <4.0.0'
+
+dependencies:
+  analysis_server_plugin: ^0.3.8
+  analyzer: ^10.0.0
+  analyzer_plugin: ^0.14.2
+  path: ^1.9.1
+
+dev_dependencies:
+  analyzer_testing: ^0.1.10
+  test: any
+  test_reflective_loader: any
