@@ -17,6 +17,7 @@ class Renamer extends j.Visitor {
 Future<void> main() async {
   final classes = [
     'java.util.ArrayList',
+    'java.util.Collection',
     'java.util.HashMap',
     'java.util.HashSet',
     'java.util.Iterator',

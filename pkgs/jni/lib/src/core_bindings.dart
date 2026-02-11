@@ -112,7 +112,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public void <init>(java.util.Collection<? extends E> collection)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JArrayList.new$2(
-    jni$_.JObject? collection,
+    JCollection<$E?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _new$2(_class.reference.pointer, _id_new$2 as jni$_.JMethodIDPtr,
@@ -194,7 +194,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public boolean addAll(int i, java.util.Collection<? extends E> collection)`
   core$_.bool addAll(
     int i,
-    jni$_.JObject? collection,
+    JCollection<$E?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _addAll(reference.pointer, _id_addAll as jni$_.JMethodIDPtr, i,
@@ -220,7 +220,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `public boolean addAll(java.util.Collection<? extends E> collection)`
   core$_.bool addAll$1(
-    jni$_.JObject? collection,
+    JCollection<$E?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _addAll$1(reference.pointer, _id_addAll$1 as jni$_.JMethodIDPtr,
@@ -740,7 +740,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `public boolean removeAll(java.util.Collection<?> collection)`
   core$_.bool removeAll(
-    jni$_.JObject? collection,
+    JCollection<jni$_.JObject?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _removeAll(reference.pointer, _id_removeAll as jni$_.JMethodIDPtr,
@@ -867,7 +867,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `public boolean retainAll(java.util.Collection<?> collection)`
   core$_.bool retainAll(
-    jni$_.JObject? collection,
+    JCollection<jni$_.JObject?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _retainAll(reference.pointer, _id_retainAll as jni$_.JMethodIDPtr,
@@ -1095,7 +1095,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `public abstract boolean containsAll(java.util.Collection<?> collection)`
   core$_.bool containsAll(
-    jni$_.JObject? collection,
+    JCollection<jni$_.JObject?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _containsAll(reference.pointer,
@@ -1122,7 +1122,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `static public java.util.List<E> copyOf(java.util.Collection<? extends E> collection)`
   /// The returned object must be released after use, by calling the [release] method.
   static JList<$E?>? copyOf<$E extends jni$_.JObject?>(
-    jni$_.JObject? collection,
+    JCollection<$E?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _copyOf(_class.reference.pointer, _id_copyOf as jni$_.JMethodIDPtr,
@@ -1746,6 +1746,82 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     return _reversed(reference.pointer, _id_reversed as jni$_.JMethodIDPtr)
         .object<JList<$E?>?>();
   }
+
+  static final _id_parallelStream = _class.instanceMethodId(
+    r'parallelStream',
+    r'()Ljava/util/stream/Stream;',
+  );
+
+  static final _parallelStream = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.stream.Stream<E> parallelStream()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? parallelStream() {
+    return _parallelStream(
+            reference.pointer, _id_parallelStream as jni$_.JMethodIDPtr)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_stream = _class.instanceMethodId(
+    r'stream',
+    r'()Ljava/util/stream/Stream;',
+  );
+
+  static final _stream = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.stream.Stream<E> stream()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? stream() {
+    return _stream(reference.pointer, _id_stream as jni$_.JMethodIDPtr)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_toArray$2 = _class.instanceMethodId(
+    r'toArray',
+    r'(Ljava/util/function/IntFunction;)[Ljava/lang/Object;',
+  );
+
+  static final _toArray$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public T[] toArray(java.util.function.IntFunction<T[]> intFunction)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JArray<$T?>? toArray$2<$T extends jni$_.JObject?>(
+    jni$_.JObject? intFunction,
+  ) {
+    final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
+    return _toArray$2(reference.pointer, _id_toArray$2 as jni$_.JMethodIDPtr,
+            _$intFunction.pointer)
+        .object<jni$_.JArray<$T?>?>();
+  }
 }
 
 final class $JArrayList$Type$ extends jni$_.JType<JArrayList> {
@@ -1755,6 +1831,941 @@ final class $JArrayList$Type$ extends jni$_.JType<JArrayList> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Ljava/util/ArrayList;';
+}
+
+/// from: `java.util.Collection`
+extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static final _class = jni$_.JClass.forName(r'java/util/Collection');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<JCollection> type = $JCollection$Type$();
+  static final _id_add = _class.instanceMethodId(
+    r'add',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _add = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean add(E object)`
+  core$_.bool add(
+    $E? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _add(
+            reference.pointer, _id_add as jni$_.JMethodIDPtr, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_addAll = _class.instanceMethodId(
+    r'addAll',
+    r'(Ljava/util/Collection;)Z',
+  );
+
+  static final _addAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean addAll(java.util.Collection<? extends E> collection)`
+  core$_.bool addAll(
+    JCollection<$E?>? collection,
+  ) {
+    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    return _addAll(reference.pointer, _id_addAll as jni$_.JMethodIDPtr,
+            _$collection.pointer)
+        .boolean;
+  }
+
+  static final _id_clear = _class.instanceMethodId(
+    r'clear',
+    r'()V',
+  );
+
+  static final _clear = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract void clear()`
+  void clear() {
+    _clear(reference.pointer, _id_clear as jni$_.JMethodIDPtr).check();
+  }
+
+  static final _id_contains = _class.instanceMethodId(
+    r'contains',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _contains = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean contains(java.lang.Object object)`
+  core$_.bool contains(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _contains(reference.pointer, _id_contains as jni$_.JMethodIDPtr,
+            _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_containsAll = _class.instanceMethodId(
+    r'containsAll',
+    r'(Ljava/util/Collection;)Z',
+  );
+
+  static final _containsAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean containsAll(java.util.Collection<?> collection)`
+  core$_.bool containsAll(
+    JCollection<jni$_.JObject?>? collection,
+  ) {
+    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    return _containsAll(reference.pointer,
+            _id_containsAll as jni$_.JMethodIDPtr, _$collection.pointer)
+        .boolean;
+  }
+
+  static final _id_equals = _class.instanceMethodId(
+    r'equals',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _equals = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean equals(java.lang.Object object)`
+  core$_.bool equals(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _equals(reference.pointer, _id_equals as jni$_.JMethodIDPtr,
+            _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_hashCode$1 = _class.instanceMethodId(
+    r'hashCode',
+    r'()I',
+  );
+
+  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract int hashCode()`
+  int hashCode$1() {
+    return _hashCode$1(reference.pointer, _id_hashCode$1 as jni$_.JMethodIDPtr)
+        .integer;
+  }
+
+  static final _id_isEmpty = _class.instanceMethodId(
+    r'isEmpty',
+    r'()Z',
+  );
+
+  static final _isEmpty = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract boolean isEmpty()`
+  core$_.bool isEmpty() {
+    return _isEmpty(reference.pointer, _id_isEmpty as jni$_.JMethodIDPtr)
+        .boolean;
+  }
+
+  static final _id_iterator = _class.instanceMethodId(
+    r'iterator',
+    r'()Ljava/util/Iterator;',
+  );
+
+  static final _iterator = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.util.Iterator<E> iterator()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JIterator<$E?>? iterator() {
+    return _iterator(reference.pointer, _id_iterator as jni$_.JMethodIDPtr)
+        .object<JIterator<$E?>?>();
+  }
+
+  static final _id_parallelStream = _class.instanceMethodId(
+    r'parallelStream',
+    r'()Ljava/util/stream/Stream;',
+  );
+
+  static final _parallelStream = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.stream.Stream<E> parallelStream()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? parallelStream() {
+    return _parallelStream(
+            reference.pointer, _id_parallelStream as jni$_.JMethodIDPtr)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_remove = _class.instanceMethodId(
+    r'remove',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _remove = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean remove(java.lang.Object object)`
+  core$_.bool remove(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _remove(reference.pointer, _id_remove as jni$_.JMethodIDPtr,
+            _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_removeAll = _class.instanceMethodId(
+    r'removeAll',
+    r'(Ljava/util/Collection;)Z',
+  );
+
+  static final _removeAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean removeAll(java.util.Collection<?> collection)`
+  core$_.bool removeAll(
+    JCollection<jni$_.JObject?>? collection,
+  ) {
+    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    return _removeAll(reference.pointer, _id_removeAll as jni$_.JMethodIDPtr,
+            _$collection.pointer)
+        .boolean;
+  }
+
+  static final _id_removeIf = _class.instanceMethodId(
+    r'removeIf',
+    r'(Ljava/util/function/Predicate;)Z',
+  );
+
+  static final _removeIf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean removeIf(java.util.function.Predicate<? super E> predicate)`
+  core$_.bool removeIf(
+    jni$_.JObject? predicate,
+  ) {
+    final _$predicate = predicate?.reference ?? jni$_.jNullReference;
+    return _removeIf(reference.pointer, _id_removeIf as jni$_.JMethodIDPtr,
+            _$predicate.pointer)
+        .boolean;
+  }
+
+  static final _id_retainAll = _class.instanceMethodId(
+    r'retainAll',
+    r'(Ljava/util/Collection;)Z',
+  );
+
+  static final _retainAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean retainAll(java.util.Collection<?> collection)`
+  core$_.bool retainAll(
+    JCollection<jni$_.JObject?>? collection,
+  ) {
+    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    return _retainAll(reference.pointer, _id_retainAll as jni$_.JMethodIDPtr,
+            _$collection.pointer)
+        .boolean;
+  }
+
+  static final _id_size = _class.instanceMethodId(
+    r'size',
+    r'()I',
+  );
+
+  static final _size = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract int size()`
+  int size() {
+    return _size(reference.pointer, _id_size as jni$_.JMethodIDPtr).integer;
+  }
+
+  static final _id_spliterator = _class.instanceMethodId(
+    r'spliterator',
+    r'()Ljava/util/Spliterator;',
+  );
+
+  static final _spliterator = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.Spliterator<E> spliterator()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? spliterator() {
+    return _spliterator(
+            reference.pointer, _id_spliterator as jni$_.JMethodIDPtr)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_stream = _class.instanceMethodId(
+    r'stream',
+    r'()Ljava/util/stream/Stream;',
+  );
+
+  static final _stream = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.stream.Stream<E> stream()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? stream() {
+    return _stream(reference.pointer, _id_stream as jni$_.JMethodIDPtr)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_toArray = _class.instanceMethodId(
+    r'toArray',
+    r'()[Ljava/lang/Object;',
+  );
+
+  static final _toArray = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.lang.Object[] toArray()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JArray<jni$_.JObject?>? toArray() {
+    return _toArray(reference.pointer, _id_toArray as jni$_.JMethodIDPtr)
+        .object<jni$_.JArray<jni$_.JObject?>?>();
+  }
+
+  static final _id_toArray$1 = _class.instanceMethodId(
+    r'toArray',
+    r'(Ljava/util/function/IntFunction;)[Ljava/lang/Object;',
+  );
+
+  static final _toArray$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public T[] toArray(java.util.function.IntFunction<T[]> intFunction)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JArray<$T?>? toArray$1<$T extends jni$_.JObject?>(
+    jni$_.JObject? intFunction,
+  ) {
+    final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
+    return _toArray$1(reference.pointer, _id_toArray$1 as jni$_.JMethodIDPtr,
+            _$intFunction.pointer)
+        .object<jni$_.JArray<$T?>?>();
+  }
+
+  static final _id_toArray$2 = _class.instanceMethodId(
+    r'toArray',
+    r'([Ljava/lang/Object;)[Ljava/lang/Object;',
+  );
+
+  static final _toArray$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract T[] toArray(T[] objects)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JArray<$T?>? toArray$2<$T extends jni$_.JObject?>(
+    jni$_.JArray<$T?>? objects,
+  ) {
+    final _$objects = objects?.reference ?? jni$_.jNullReference;
+    return _toArray$2(reference.pointer, _id_toArray$2 as jni$_.JMethodIDPtr,
+            _$objects.pointer)
+        .object<jni$_.JArray<$T?>?>();
+  }
+
+  /// Maps a specific port to the implemented interface.
+  static final core$_.Map<int, $JCollection> _$impls = {};
+  static jni$_.JObjectPtr _$invoke(
+    int port,
+    jni$_.JObjectPtr descriptor,
+    jni$_.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      jni$_.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final jni$_.Pointer<
+          jni$_.NativeFunction<
+              jni$_.JObjectPtr Function(
+                  jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)>>
+      _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
+
+  static jni$_.Pointer<jni$_.Void> _$invokeMethod(
+    int $p,
+    jni$_.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'add(Ljava/lang/Object;)Z') {
+        final $r = _$impls[$p]!.add(
+          $a![0],
+        );
+        return jni$_.JBoolean($r).reference.toPointer();
+      }
+      if ($d == r'addAll(Ljava/util/Collection;)Z') {
+        final $r = _$impls[$p]!.addAll(
+          $a![0],
+        );
+        return jni$_.JBoolean($r).reference.toPointer();
+      }
+      if ($d == r'clear()V') {
+        _$impls[$p]!.clear();
+        return jni$_.nullptr;
+      }
+      if ($d == r'contains(Ljava/lang/Object;)Z') {
+        final $r = _$impls[$p]!.contains(
+          $a![0],
+        );
+        return jni$_.JBoolean($r).reference.toPointer();
+      }
+      if ($d == r'containsAll(Ljava/util/Collection;)Z') {
+        final $r = _$impls[$p]!.containsAll(
+          $a![0],
+        );
+        return jni$_.JBoolean($r).reference.toPointer();
+      }
+      if ($d == r'equals(Ljava/lang/Object;)Z') {
+        final $r = _$impls[$p]!.equals(
+          $a![0],
+        );
+        return jni$_.JBoolean($r).reference.toPointer();
+      }
+      if ($d == r'hashCode()I') {
+        final $r = _$impls[$p]!.hashCode$1();
+        return jni$_.JInteger($r).reference.toPointer();
+      }
+      if ($d == r'isEmpty()Z') {
+        final $r = _$impls[$p]!.isEmpty();
+        return jni$_.JBoolean($r).reference.toPointer();
+      }
+      if ($d == r'iterator()Ljava/util/Iterator;') {
+        final $r = _$impls[$p]!.iterator();
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'parallelStream()Ljava/util/stream/Stream;') {
+        final $r = _$impls[$p]!.parallelStream();
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'remove(Ljava/lang/Object;)Z') {
+        final $r = _$impls[$p]!.remove(
+          $a![0],
+        );
+        return jni$_.JBoolean($r).reference.toPointer();
+      }
+      if ($d == r'removeAll(Ljava/util/Collection;)Z') {
+        final $r = _$impls[$p]!.removeAll(
+          $a![0],
+        );
+        return jni$_.JBoolean($r).reference.toPointer();
+      }
+      if ($d == r'removeIf(Ljava/util/function/Predicate;)Z') {
+        final $r = _$impls[$p]!.removeIf(
+          $a![0],
+        );
+        return jni$_.JBoolean($r).reference.toPointer();
+      }
+      if ($d == r'retainAll(Ljava/util/Collection;)Z') {
+        final $r = _$impls[$p]!.retainAll(
+          $a![0],
+        );
+        return jni$_.JBoolean($r).reference.toPointer();
+      }
+      if ($d == r'size()I') {
+        final $r = _$impls[$p]!.size();
+        return jni$_.JInteger($r).reference.toPointer();
+      }
+      if ($d == r'spliterator()Ljava/util/Spliterator;') {
+        final $r = _$impls[$p]!.spliterator();
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'stream()Ljava/util/stream/Stream;') {
+        final $r = _$impls[$p]!.stream();
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'toArray()[Ljava/lang/Object;') {
+        final $r = _$impls[$p]!.toArray();
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'toArray(Ljava/util/function/IntFunction;)[Ljava/lang/Object;') {
+        final $r = _$impls[$p]!.toArray$1(
+          $a![0],
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'toArray([Ljava/lang/Object;)[Ljava/lang/Object;') {
+        final $r = _$impls[$p]!.toArray$2(
+          $a![0],
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+    } catch (e) {
+      return jni$_.ProtectedJniExtensions.newDartException(e);
+    }
+    return jni$_.nullptr;
+  }
+
+  static void implementIn<$E extends jni$_.JObject?>(
+    jni$_.JImplementer implementer,
+    $JCollection<$E> $impl,
+  ) {
+    late final jni$_.RawReceivePort $p;
+    $p = jni$_.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = jni$_.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'java.util.Collection',
+      $p,
+      _$invokePointer,
+      [
+        if ($impl.clear$async) r'clear()V',
+      ],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory JCollection.implement(
+    $JCollection<$E> $impl,
+  ) {
+    final $i = jni$_.JImplementer();
+    implementIn($i, $impl);
+    return $i.implement<JCollection<$E>>();
+  }
+}
+
+abstract base mixin class $JCollection<$E extends jni$_.JObject?> {
+  factory $JCollection({
+    required core$_.bool Function($E? object) add,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        addAll,
+    required void Function() clear,
+    core$_.bool clear$async,
+    required core$_.bool Function(jni$_.JObject? object) contains,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        containsAll,
+    required core$_.bool Function(jni$_.JObject? object) equals,
+    required int Function() hashCode$1,
+    required core$_.bool Function() isEmpty,
+    required JIterator<jni$_.JObject?>? Function() iterator,
+    required jni$_.JObject? Function() parallelStream,
+    required core$_.bool Function(jni$_.JObject? object) remove,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        removeAll,
+    required core$_.bool Function(jni$_.JObject? predicate) removeIf,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        retainAll,
+    required int Function() size,
+    required jni$_.JObject? Function() spliterator,
+    required jni$_.JObject? Function() stream,
+    required jni$_.JArray<jni$_.JObject?>? Function() toArray,
+    required jni$_.JArray<jni$_.JObject?>? Function(jni$_.JObject? intFunction)
+        toArray$1,
+    required jni$_.JArray<jni$_.JObject?>? Function(
+            jni$_.JArray<jni$_.JObject?>? objects)
+        toArray$2,
+  }) = _$JCollection<$E>;
+
+  core$_.bool add($E? object);
+  core$_.bool addAll(JCollection<jni$_.JObject?>? collection);
+  void clear();
+  core$_.bool get clear$async => false;
+  core$_.bool contains(jni$_.JObject? object);
+  core$_.bool containsAll(JCollection<jni$_.JObject?>? collection);
+  core$_.bool equals(jni$_.JObject? object);
+  int hashCode$1();
+  core$_.bool isEmpty();
+  JIterator<jni$_.JObject?>? iterator();
+  jni$_.JObject? parallelStream();
+  core$_.bool remove(jni$_.JObject? object);
+  core$_.bool removeAll(JCollection<jni$_.JObject?>? collection);
+  core$_.bool removeIf(jni$_.JObject? predicate);
+  core$_.bool retainAll(JCollection<jni$_.JObject?>? collection);
+  int size();
+  jni$_.JObject? spliterator();
+  jni$_.JObject? stream();
+  jni$_.JArray<jni$_.JObject?>? toArray();
+  jni$_.JArray<jni$_.JObject?>? toArray$1(jni$_.JObject? intFunction);
+  jni$_.JArray<jni$_.JObject?>? toArray$2(
+      jni$_.JArray<jni$_.JObject?>? objects);
+}
+
+final class _$JCollection<$E extends jni$_.JObject?> with $JCollection<$E> {
+  _$JCollection({
+    required core$_.bool Function($E? object) add,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        addAll,
+    required void Function() clear,
+    this.clear$async = false,
+    required core$_.bool Function(jni$_.JObject? object) contains,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        containsAll,
+    required core$_.bool Function(jni$_.JObject? object) equals,
+    required int Function() hashCode$1,
+    required core$_.bool Function() isEmpty,
+    required JIterator<jni$_.JObject?>? Function() iterator,
+    required jni$_.JObject? Function() parallelStream,
+    required core$_.bool Function(jni$_.JObject? object) remove,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        removeAll,
+    required core$_.bool Function(jni$_.JObject? predicate) removeIf,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        retainAll,
+    required int Function() size,
+    required jni$_.JObject? Function() spliterator,
+    required jni$_.JObject? Function() stream,
+    required jni$_.JArray<jni$_.JObject?>? Function() toArray,
+    required jni$_.JArray<jni$_.JObject?>? Function(jni$_.JObject? intFunction)
+        toArray$1,
+    required jni$_.JArray<jni$_.JObject?>? Function(
+            jni$_.JArray<jni$_.JObject?>? objects)
+        toArray$2,
+  })  : _add = add,
+        _addAll = addAll,
+        _clear = clear,
+        _contains = contains,
+        _containsAll = containsAll,
+        _equals = equals,
+        _hashCode$1 = hashCode$1,
+        _isEmpty = isEmpty,
+        _iterator = iterator,
+        _parallelStream = parallelStream,
+        _remove = remove,
+        _removeAll = removeAll,
+        _removeIf = removeIf,
+        _retainAll = retainAll,
+        _size = size,
+        _spliterator = spliterator,
+        _stream = stream,
+        _toArray = toArray,
+        _toArray$1 = toArray$1,
+        _toArray$2 = toArray$2;
+
+  final core$_.bool Function($E? object) _add;
+  final core$_.bool Function(JCollection<jni$_.JObject?>? collection) _addAll;
+  final void Function() _clear;
+  final core$_.bool clear$async;
+  final core$_.bool Function(jni$_.JObject? object) _contains;
+  final core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+      _containsAll;
+  final core$_.bool Function(jni$_.JObject? object) _equals;
+  final int Function() _hashCode$1;
+  final core$_.bool Function() _isEmpty;
+  final JIterator<jni$_.JObject?>? Function() _iterator;
+  final jni$_.JObject? Function() _parallelStream;
+  final core$_.bool Function(jni$_.JObject? object) _remove;
+  final core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+      _removeAll;
+  final core$_.bool Function(jni$_.JObject? predicate) _removeIf;
+  final core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+      _retainAll;
+  final int Function() _size;
+  final jni$_.JObject? Function() _spliterator;
+  final jni$_.JObject? Function() _stream;
+  final jni$_.JArray<jni$_.JObject?>? Function() _toArray;
+  final jni$_.JArray<jni$_.JObject?>? Function(jni$_.JObject? intFunction)
+      _toArray$1;
+  final jni$_.JArray<jni$_.JObject?>? Function(
+      jni$_.JArray<jni$_.JObject?>? objects) _toArray$2;
+
+  core$_.bool add($E? object) {
+    return _add(object);
+  }
+
+  core$_.bool addAll(JCollection<jni$_.JObject?>? collection) {
+    return _addAll(collection);
+  }
+
+  void clear() {
+    return _clear();
+  }
+
+  core$_.bool contains(jni$_.JObject? object) {
+    return _contains(object);
+  }
+
+  core$_.bool containsAll(JCollection<jni$_.JObject?>? collection) {
+    return _containsAll(collection);
+  }
+
+  core$_.bool equals(jni$_.JObject? object) {
+    return _equals(object);
+  }
+
+  int hashCode$1() {
+    return _hashCode$1();
+  }
+
+  core$_.bool isEmpty() {
+    return _isEmpty();
+  }
+
+  JIterator<jni$_.JObject?>? iterator() {
+    return _iterator();
+  }
+
+  jni$_.JObject? parallelStream() {
+    return _parallelStream();
+  }
+
+  core$_.bool remove(jni$_.JObject? object) {
+    return _remove(object);
+  }
+
+  core$_.bool removeAll(JCollection<jni$_.JObject?>? collection) {
+    return _removeAll(collection);
+  }
+
+  core$_.bool removeIf(jni$_.JObject? predicate) {
+    return _removeIf(predicate);
+  }
+
+  core$_.bool retainAll(JCollection<jni$_.JObject?>? collection) {
+    return _retainAll(collection);
+  }
+
+  int size() {
+    return _size();
+  }
+
+  jni$_.JObject? spliterator() {
+    return _spliterator();
+  }
+
+  jni$_.JObject? stream() {
+    return _stream();
+  }
+
+  jni$_.JArray<jni$_.JObject?>? toArray() {
+    return _toArray();
+  }
+
+  jni$_.JArray<jni$_.JObject?>? toArray$1(jni$_.JObject? intFunction) {
+    return _toArray$1(intFunction);
+  }
+
+  jni$_.JArray<jni$_.JObject?>? toArray$2(
+      jni$_.JArray<jni$_.JObject?>? objects) {
+    return _toArray$2(objects);
+  }
+}
+
+final class $JCollection$Type$ extends jni$_.JType<JCollection> {
+  @jni$_.internal
+  const $JCollection$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/util/Collection;';
 }
 
 /// from: `java.util.HashMap`
@@ -2596,9 +3607,9 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `public java.util.Collection<V> values()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? values() {
+  JCollection<$V?>? values() {
     return _values(reference.pointer, _id_values as jni$_.JMethodIDPtr)
-        .object<jni$_.JObject?>();
+        .object<JCollection<$V?>?>();
   }
 
   static final _id_copyOf = _class.staticMethodId(
@@ -3711,7 +4722,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public void <init>(java.util.Collection<? extends E> collection)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JHashSet.new$3(
-    jni$_.JObject? collection,
+    JCollection<$E?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _new$3(_class.reference.pointer, _id_new$3 as jni$_.JMethodIDPtr,
@@ -4030,7 +5041,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `public abstract boolean addAll(java.util.Collection<? extends E> collection)`
   core$_.bool addAll(
-    jni$_.JObject? collection,
+    JCollection<$E?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _addAll(reference.pointer, _id_addAll as jni$_.JMethodIDPtr,
@@ -4056,7 +5067,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `public abstract boolean containsAll(java.util.Collection<?> collection)`
   core$_.bool containsAll(
-    jni$_.JObject? collection,
+    JCollection<jni$_.JObject?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _containsAll(reference.pointer,
@@ -4083,7 +5094,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `static public java.util.Set<E> copyOf(java.util.Collection<? extends E> collection)`
   /// The returned object must be released after use, by calling the [release] method.
   static JSet<$E?>? copyOf<$E extends jni$_.JObject?>(
-    jni$_.JObject? collection,
+    JCollection<$E?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _copyOf(_class.reference.pointer, _id_copyOf as jni$_.JMethodIDPtr,
@@ -4751,7 +5762,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `public abstract boolean removeAll(java.util.Collection<?> collection)`
   core$_.bool removeAll(
-    jni$_.JObject? collection,
+    JCollection<jni$_.JObject?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _removeAll(reference.pointer, _id_removeAll as jni$_.JMethodIDPtr,
@@ -4777,12 +5788,114 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `public abstract boolean retainAll(java.util.Collection<?> collection)`
   core$_.bool retainAll(
-    jni$_.JObject? collection,
+    JCollection<jni$_.JObject?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _retainAll(reference.pointer, _id_retainAll as jni$_.JMethodIDPtr,
             _$collection.pointer)
         .boolean;
+  }
+
+  static final _id_parallelStream = _class.instanceMethodId(
+    r'parallelStream',
+    r'()Ljava/util/stream/Stream;',
+  );
+
+  static final _parallelStream = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.stream.Stream<E> parallelStream()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? parallelStream() {
+    return _parallelStream(
+            reference.pointer, _id_parallelStream as jni$_.JMethodIDPtr)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_removeIf = _class.instanceMethodId(
+    r'removeIf',
+    r'(Ljava/util/function/Predicate;)Z',
+  );
+
+  static final _removeIf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean removeIf(java.util.function.Predicate<? super E> predicate)`
+  core$_.bool removeIf(
+    jni$_.JObject? predicate,
+  ) {
+    final _$predicate = predicate?.reference ?? jni$_.jNullReference;
+    return _removeIf(reference.pointer, _id_removeIf as jni$_.JMethodIDPtr,
+            _$predicate.pointer)
+        .boolean;
+  }
+
+  static final _id_stream = _class.instanceMethodId(
+    r'stream',
+    r'()Ljava/util/stream/Stream;',
+  );
+
+  static final _stream = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.stream.Stream<E> stream()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? stream() {
+    return _stream(reference.pointer, _id_stream as jni$_.JMethodIDPtr)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_toArray$2 = _class.instanceMethodId(
+    r'toArray',
+    r'(Ljava/util/function/IntFunction;)[Ljava/lang/Object;',
+  );
+
+  static final _toArray$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public T[] toArray(java.util.function.IntFunction<T[]> intFunction)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JArray<$T?>? toArray$2<$T extends jni$_.JObject?>(
+    jni$_.JObject? intFunction,
+  ) {
+    final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
+    return _toArray$2(reference.pointer, _id_toArray$2 as jni$_.JMethodIDPtr,
+            _$intFunction.pointer)
+        .object<jni$_.JArray<$T?>?>();
   }
 }
 
@@ -5138,7 +6251,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public abstract boolean addAll(int i, java.util.Collection<? extends E> collection)`
   core$_.bool addAll(
     int i,
-    jni$_.JObject? collection,
+    JCollection<$E?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _addAll(reference.pointer, _id_addAll as jni$_.JMethodIDPtr, i,
@@ -5164,7 +6277,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `public abstract boolean addAll(java.util.Collection<? extends E> collection)`
   core$_.bool addAll$1(
-    jni$_.JObject? collection,
+    JCollection<$E?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _addAll$1(reference.pointer, _id_addAll$1 as jni$_.JMethodIDPtr,
@@ -5290,7 +6403,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `public abstract boolean containsAll(java.util.Collection<?> collection)`
   core$_.bool containsAll(
-    jni$_.JObject? collection,
+    JCollection<jni$_.JObject?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _containsAll(reference.pointer,
@@ -5317,7 +6430,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `static public java.util.List<E> copyOf(java.util.Collection<? extends E> collection)`
   /// The returned object must be released after use, by calling the [release] method.
   static JList<$E?>? copyOf<$E extends jni$_.JObject?>(
-    jni$_.JObject? collection,
+    JCollection<$E?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _copyOf(_class.reference.pointer, _id_copyOf as jni$_.JMethodIDPtr,
@@ -6256,7 +7369,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `public abstract boolean removeAll(java.util.Collection<?> collection)`
   core$_.bool removeAll(
-    jni$_.JObject? collection,
+    JCollection<jni$_.JObject?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _removeAll(reference.pointer, _id_removeAll as jni$_.JMethodIDPtr,
@@ -6357,7 +7470,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `public abstract boolean retainAll(java.util.Collection<?> collection)`
   core$_.bool retainAll(
-    jni$_.JObject? collection,
+    JCollection<jni$_.JObject?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _retainAll(reference.pointer, _id_retainAll as jni$_.JMethodIDPtr,
@@ -6565,6 +7678,108 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$objects = objects?.reference ?? jni$_.jNullReference;
     return _toArray$1(reference.pointer, _id_toArray$1 as jni$_.JMethodIDPtr,
             _$objects.pointer)
+        .object<jni$_.JArray<$T?>?>();
+  }
+
+  static final _id_parallelStream = _class.instanceMethodId(
+    r'parallelStream',
+    r'()Ljava/util/stream/Stream;',
+  );
+
+  static final _parallelStream = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.stream.Stream<E> parallelStream()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? parallelStream() {
+    return _parallelStream(
+            reference.pointer, _id_parallelStream as jni$_.JMethodIDPtr)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_removeIf = _class.instanceMethodId(
+    r'removeIf',
+    r'(Ljava/util/function/Predicate;)Z',
+  );
+
+  static final _removeIf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean removeIf(java.util.function.Predicate<? super E> predicate)`
+  core$_.bool removeIf(
+    jni$_.JObject? predicate,
+  ) {
+    final _$predicate = predicate?.reference ?? jni$_.jNullReference;
+    return _removeIf(reference.pointer, _id_removeIf as jni$_.JMethodIDPtr,
+            _$predicate.pointer)
+        .boolean;
+  }
+
+  static final _id_stream = _class.instanceMethodId(
+    r'stream',
+    r'()Ljava/util/stream/Stream;',
+  );
+
+  static final _stream = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.stream.Stream<E> stream()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? stream() {
+    return _stream(reference.pointer, _id_stream as jni$_.JMethodIDPtr)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_toArray$2 = _class.instanceMethodId(
+    r'toArray',
+    r'(Ljava/util/function/IntFunction;)[Ljava/lang/Object;',
+  );
+
+  static final _toArray$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public T[] toArray(java.util.function.IntFunction<T[]> intFunction)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JArray<$T?>? toArray$2<$T extends jni$_.JObject?>(
+    jni$_.JObject? intFunction,
+  ) {
+    final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
+    return _toArray$2(reference.pointer, _id_toArray$2 as jni$_.JMethodIDPtr,
+            _$intFunction.pointer)
         .object<jni$_.JArray<$T?>?>();
   }
 
@@ -7027,6 +8242,39 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
                 .toPointer() ??
             jni$_.nullptr;
       }
+      if ($d == r'parallelStream()Ljava/util/stream/Stream;') {
+        final $r = _$impls[$p]!.parallelStream();
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'removeIf(Ljava/util/function/Predicate;)Z') {
+        final $r = _$impls[$p]!.removeIf(
+          $a![0],
+        );
+        return jni$_.JBoolean($r).reference.toPointer();
+      }
+      if ($d == r'stream()Ljava/util/stream/Stream;') {
+        final $r = _$impls[$p]!.stream();
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'toArray(Ljava/util/function/IntFunction;)[Ljava/lang/Object;') {
+        final $r = _$impls[$p]!.toArray$2(
+          $a![0],
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
     } catch (e) {
       return jni$_.ProtectedJniExtensions.newDartException(e);
     }
@@ -7080,8 +8328,11 @@ abstract base mixin class $JList<$E extends jni$_.JObject?> {
     required core$_.bool Function($E? object) add,
     required void Function(int i, $E? object) add$1,
     core$_.bool add$1$async,
-    required core$_.bool Function(int i, jni$_.JObject? collection) addAll,
-    required core$_.bool Function(jni$_.JObject? collection) addAll$1,
+    required core$_.bool Function(
+            int i, JCollection<jni$_.JObject?>? collection)
+        addAll,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        addAll$1,
     required void Function($E? object) addFirst,
     core$_.bool addFirst$async,
     required void Function($E? object) addLast,
@@ -7089,8 +8340,11 @@ abstract base mixin class $JList<$E extends jni$_.JObject?> {
     required void Function() clear,
     core$_.bool clear$async,
     required core$_.bool Function(jni$_.JObject? object) contains,
-    required core$_.bool Function(jni$_.JObject? collection) containsAll,
-    required JList<jni$_.JObject?>? Function(jni$_.JObject? collection) copyOf,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        containsAll,
+    required JList<jni$_.JObject?>? Function(
+            JCollection<jni$_.JObject?>? collection)
+        copyOf,
     required core$_.bool Function(jni$_.JObject? object) equals,
     required jni$_.JObject? Function(int i) get,
     required jni$_.JObject? Function() getFirst,
@@ -7178,12 +8432,14 @@ abstract base mixin class $JList<$E extends jni$_.JObject?> {
         of$11,
     required jni$_.JObject? Function(int i) remove,
     required core$_.bool Function(jni$_.JObject? object) remove$1,
-    required core$_.bool Function(jni$_.JObject? collection) removeAll,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        removeAll,
     required jni$_.JObject? Function() removeFirst,
     required jni$_.JObject? Function() removeLast,
     required void Function(jni$_.JObject? unaryOperator) replaceAll,
     core$_.bool replaceAll$async,
-    required core$_.bool Function(jni$_.JObject? collection) retainAll,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        retainAll,
     required JList<jni$_.JObject?>? Function() reversed,
     required jni$_.JObject? Function(int i, jni$_.JObject? object) set,
     required int Function() size,
@@ -7195,13 +8451,18 @@ abstract base mixin class $JList<$E extends jni$_.JObject?> {
     required jni$_.JArray<jni$_.JObject?>? Function(
             jni$_.JArray<jni$_.JObject?>? objects)
         toArray$1,
+    required jni$_.JObject? Function() parallelStream,
+    required core$_.bool Function(jni$_.JObject? predicate) removeIf,
+    required jni$_.JObject? Function() stream,
+    required jni$_.JArray<jni$_.JObject?>? Function(jni$_.JObject? intFunction)
+        toArray$2,
   }) = _$JList<$E>;
 
   core$_.bool add($E? object);
   void add$1(int i, $E? object);
   core$_.bool get add$1$async => false;
-  core$_.bool addAll(int i, jni$_.JObject? collection);
-  core$_.bool addAll$1(jni$_.JObject? collection);
+  core$_.bool addAll(int i, JCollection<jni$_.JObject?>? collection);
+  core$_.bool addAll$1(JCollection<jni$_.JObject?>? collection);
   void addFirst($E? object);
   core$_.bool get addFirst$async => false;
   void addLast($E? object);
@@ -7209,8 +8470,8 @@ abstract base mixin class $JList<$E extends jni$_.JObject?> {
   void clear();
   core$_.bool get clear$async => false;
   core$_.bool contains(jni$_.JObject? object);
-  core$_.bool containsAll(jni$_.JObject? collection);
-  JList<jni$_.JObject?>? copyOf(jni$_.JObject? collection);
+  core$_.bool containsAll(JCollection<jni$_.JObject?>? collection);
+  JList<jni$_.JObject?>? copyOf(JCollection<jni$_.JObject?>? collection);
   core$_.bool equals(jni$_.JObject? object);
   jni$_.JObject? get(int i);
   jni$_.JObject? getFirst();
@@ -7279,12 +8540,12 @@ abstract base mixin class $JList<$E extends jni$_.JObject?> {
   JList<jni$_.JObject?>? of$11(jni$_.JArray<jni$_.JObject?>? objects);
   jni$_.JObject? remove(int i);
   core$_.bool remove$1(jni$_.JObject? object);
-  core$_.bool removeAll(jni$_.JObject? collection);
+  core$_.bool removeAll(JCollection<jni$_.JObject?>? collection);
   jni$_.JObject? removeFirst();
   jni$_.JObject? removeLast();
   void replaceAll(jni$_.JObject? unaryOperator);
   core$_.bool get replaceAll$async => false;
-  core$_.bool retainAll(jni$_.JObject? collection);
+  core$_.bool retainAll(JCollection<jni$_.JObject?>? collection);
   JList<jni$_.JObject?>? reversed();
   jni$_.JObject? set(int i, jni$_.JObject? object);
   int size();
@@ -7295,6 +8556,10 @@ abstract base mixin class $JList<$E extends jni$_.JObject?> {
   jni$_.JArray<jni$_.JObject?>? toArray();
   jni$_.JArray<jni$_.JObject?>? toArray$1(
       jni$_.JArray<jni$_.JObject?>? objects);
+  jni$_.JObject? parallelStream();
+  core$_.bool removeIf(jni$_.JObject? predicate);
+  jni$_.JObject? stream();
+  jni$_.JArray<jni$_.JObject?>? toArray$2(jni$_.JObject? intFunction);
 }
 
 final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
@@ -7302,8 +8567,11 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
     required core$_.bool Function($E? object) add,
     required void Function(int i, $E? object) add$1,
     this.add$1$async = false,
-    required core$_.bool Function(int i, jni$_.JObject? collection) addAll,
-    required core$_.bool Function(jni$_.JObject? collection) addAll$1,
+    required core$_.bool Function(
+            int i, JCollection<jni$_.JObject?>? collection)
+        addAll,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        addAll$1,
     required void Function($E? object) addFirst,
     this.addFirst$async = false,
     required void Function($E? object) addLast,
@@ -7311,8 +8579,11 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
     required void Function() clear,
     this.clear$async = false,
     required core$_.bool Function(jni$_.JObject? object) contains,
-    required core$_.bool Function(jni$_.JObject? collection) containsAll,
-    required JList<jni$_.JObject?>? Function(jni$_.JObject? collection) copyOf,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        containsAll,
+    required JList<jni$_.JObject?>? Function(
+            JCollection<jni$_.JObject?>? collection)
+        copyOf,
     required core$_.bool Function(jni$_.JObject? object) equals,
     required jni$_.JObject? Function(int i) get,
     required jni$_.JObject? Function() getFirst,
@@ -7400,12 +8671,14 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
         of$11,
     required jni$_.JObject? Function(int i) remove,
     required core$_.bool Function(jni$_.JObject? object) remove$1,
-    required core$_.bool Function(jni$_.JObject? collection) removeAll,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        removeAll,
     required jni$_.JObject? Function() removeFirst,
     required jni$_.JObject? Function() removeLast,
     required void Function(jni$_.JObject? unaryOperator) replaceAll,
     this.replaceAll$async = false,
-    required core$_.bool Function(jni$_.JObject? collection) retainAll,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        retainAll,
     required JList<jni$_.JObject?>? Function() reversed,
     required jni$_.JObject? Function(int i, jni$_.JObject? object) set,
     required int Function() size,
@@ -7417,6 +8690,11 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
     required jni$_.JArray<jni$_.JObject?>? Function(
             jni$_.JArray<jni$_.JObject?>? objects)
         toArray$1,
+    required jni$_.JObject? Function() parallelStream,
+    required core$_.bool Function(jni$_.JObject? predicate) removeIf,
+    required jni$_.JObject? Function() stream,
+    required jni$_.JArray<jni$_.JObject?>? Function(jni$_.JObject? intFunction)
+        toArray$2,
   })  : _add = add,
         _add$1 = add$1,
         _addAll = addAll,
@@ -7464,13 +8742,18 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
         _spliterator = spliterator,
         _subList = subList,
         _toArray = toArray,
-        _toArray$1 = toArray$1;
+        _toArray$1 = toArray$1,
+        _parallelStream = parallelStream,
+        _removeIf = removeIf,
+        _stream = stream,
+        _toArray$2 = toArray$2;
 
   final core$_.bool Function($E? object) _add;
   final void Function(int i, $E? object) _add$1;
   final core$_.bool add$1$async;
-  final core$_.bool Function(int i, jni$_.JObject? collection) _addAll;
-  final core$_.bool Function(jni$_.JObject? collection) _addAll$1;
+  final core$_.bool Function(int i, JCollection<jni$_.JObject?>? collection)
+      _addAll;
+  final core$_.bool Function(JCollection<jni$_.JObject?>? collection) _addAll$1;
   final void Function($E? object) _addFirst;
   final core$_.bool addFirst$async;
   final void Function($E? object) _addLast;
@@ -7478,8 +8761,10 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
   final void Function() _clear;
   final core$_.bool clear$async;
   final core$_.bool Function(jni$_.JObject? object) _contains;
-  final core$_.bool Function(jni$_.JObject? collection) _containsAll;
-  final JList<jni$_.JObject?>? Function(jni$_.JObject? collection) _copyOf;
+  final core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+      _containsAll;
+  final JList<jni$_.JObject?>? Function(JCollection<jni$_.JObject?>? collection)
+      _copyOf;
   final core$_.bool Function(jni$_.JObject? object) _equals;
   final jni$_.JObject? Function(int i) _get;
   final jni$_.JObject? Function() _getFirst;
@@ -7558,12 +8843,14 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
       _of$11;
   final jni$_.JObject? Function(int i) _remove;
   final core$_.bool Function(jni$_.JObject? object) _remove$1;
-  final core$_.bool Function(jni$_.JObject? collection) _removeAll;
+  final core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+      _removeAll;
   final jni$_.JObject? Function() _removeFirst;
   final jni$_.JObject? Function() _removeLast;
   final void Function(jni$_.JObject? unaryOperator) _replaceAll;
   final core$_.bool replaceAll$async;
-  final core$_.bool Function(jni$_.JObject? collection) _retainAll;
+  final core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+      _retainAll;
   final JList<jni$_.JObject?>? Function() _reversed;
   final jni$_.JObject? Function(int i, jni$_.JObject? object) _set;
   final int Function() _size;
@@ -7574,6 +8861,11 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
   final jni$_.JArray<jni$_.JObject?>? Function() _toArray;
   final jni$_.JArray<jni$_.JObject?>? Function(
       jni$_.JArray<jni$_.JObject?>? objects) _toArray$1;
+  final jni$_.JObject? Function() _parallelStream;
+  final core$_.bool Function(jni$_.JObject? predicate) _removeIf;
+  final jni$_.JObject? Function() _stream;
+  final jni$_.JArray<jni$_.JObject?>? Function(jni$_.JObject? intFunction)
+      _toArray$2;
 
   core$_.bool add($E? object) {
     return _add(object);
@@ -7583,11 +8875,11 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
     return _add$1(i, object);
   }
 
-  core$_.bool addAll(int i, jni$_.JObject? collection) {
+  core$_.bool addAll(int i, JCollection<jni$_.JObject?>? collection) {
     return _addAll(i, collection);
   }
 
-  core$_.bool addAll$1(jni$_.JObject? collection) {
+  core$_.bool addAll$1(JCollection<jni$_.JObject?>? collection) {
     return _addAll$1(collection);
   }
 
@@ -7607,11 +8899,11 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
     return _contains(object);
   }
 
-  core$_.bool containsAll(jni$_.JObject? collection) {
+  core$_.bool containsAll(JCollection<jni$_.JObject?>? collection) {
     return _containsAll(collection);
   }
 
-  JList<jni$_.JObject?>? copyOf(jni$_.JObject? collection) {
+  JList<jni$_.JObject?>? copyOf(JCollection<jni$_.JObject?>? collection) {
     return _copyOf(collection);
   }
 
@@ -7761,7 +9053,7 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
     return _remove$1(object);
   }
 
-  core$_.bool removeAll(jni$_.JObject? collection) {
+  core$_.bool removeAll(JCollection<jni$_.JObject?>? collection) {
     return _removeAll(collection);
   }
 
@@ -7777,7 +9069,7 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
     return _replaceAll(unaryOperator);
   }
 
-  core$_.bool retainAll(jni$_.JObject? collection) {
+  core$_.bool retainAll(JCollection<jni$_.JObject?>? collection) {
     return _retainAll(collection);
   }
 
@@ -7812,6 +9104,22 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
   jni$_.JArray<jni$_.JObject?>? toArray$1(
       jni$_.JArray<jni$_.JObject?>? objects) {
     return _toArray$1(objects);
+  }
+
+  jni$_.JObject? parallelStream() {
+    return _parallelStream();
+  }
+
+  core$_.bool removeIf(jni$_.JObject? predicate) {
+    return _removeIf(predicate);
+  }
+
+  jni$_.JObject? stream() {
+    return _stream();
+  }
+
+  jni$_.JArray<jni$_.JObject?>? toArray$2(jni$_.JObject? intFunction) {
+    return _toArray$2(intFunction);
   }
 }
 
@@ -10064,9 +11372,9 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `public abstract java.util.Collection<V> values()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? values() {
+  JCollection<$V?>? values() {
     return _values(reference.pointer, _id_values as jni$_.JMethodIDPtr)
-        .object<jni$_.JObject?>();
+        .object<JCollection<$V?>?>();
   }
 
   /// Maps a specific port to the implemented interface.
@@ -10788,7 +12096,7 @@ abstract base mixin class $JMap<$K extends jni$_.JObject?,
     required void Function(jni$_.JObject? biFunction) replaceAll,
     core$_.bool replaceAll$async,
     required int Function() size,
-    required jni$_.JObject? Function() values,
+    required JCollection<jni$_.JObject?>? Function() values,
   }) = _$JMap<$K, $V>;
 
   void clear();
@@ -10944,7 +12252,7 @@ abstract base mixin class $JMap<$K extends jni$_.JObject?,
   void replaceAll(jni$_.JObject? biFunction);
   core$_.bool get replaceAll$async => false;
   int size();
-  jni$_.JObject? values();
+  JCollection<jni$_.JObject?>? values();
 }
 
 final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
@@ -11132,7 +12440,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     required void Function(jni$_.JObject? biFunction) replaceAll,
     this.replaceAll$async = false,
     required int Function() size,
-    required jni$_.JObject? Function() values,
+    required JCollection<jni$_.JObject?>? Function() values,
   })  : _clear = clear,
         _compute = compute,
         _computeIfAbsent = computeIfAbsent,
@@ -11337,7 +12645,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   final void Function(jni$_.JObject? biFunction) _replaceAll;
   final core$_.bool replaceAll$async;
   final int Function() _size;
-  final jni$_.JObject? Function() _values;
+  final JCollection<jni$_.JObject?>? Function() _values;
 
   void clear() {
     return _clear();
@@ -11660,7 +12968,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     return _size();
   }
 
-  jni$_.JObject? values() {
+  JCollection<jni$_.JObject?>? values() {
     return _values();
   }
 }
@@ -11725,7 +13033,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `public abstract boolean addAll(java.util.Collection<? extends E> collection)`
   core$_.bool addAll(
-    jni$_.JObject? collection,
+    JCollection<$E?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _addAll(reference.pointer, _id_addAll as jni$_.JMethodIDPtr,
@@ -11799,7 +13107,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `public abstract boolean containsAll(java.util.Collection<?> collection)`
   core$_.bool containsAll(
-    jni$_.JObject? collection,
+    JCollection<jni$_.JObject?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _containsAll(reference.pointer,
@@ -11826,7 +13134,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `static public java.util.Set<E> copyOf(java.util.Collection<? extends E> collection)`
   /// The returned object must be released after use, by calling the [release] method.
   static JSet<$E?>? copyOf<$E extends jni$_.JObject?>(
-    jni$_.JObject? collection,
+    JCollection<$E?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _copyOf(_class.reference.pointer, _id_copyOf as jni$_.JMethodIDPtr,
@@ -12567,7 +13875,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `public abstract boolean removeAll(java.util.Collection<?> collection)`
   core$_.bool removeAll(
-    jni$_.JObject? collection,
+    JCollection<jni$_.JObject?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _removeAll(reference.pointer, _id_removeAll as jni$_.JMethodIDPtr,
@@ -12593,7 +13901,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `public abstract boolean retainAll(java.util.Collection<?> collection)`
   core$_.bool retainAll(
-    jni$_.JObject? collection,
+    JCollection<jni$_.JObject?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _retainAll(reference.pointer, _id_retainAll as jni$_.JMethodIDPtr,
@@ -12696,6 +14004,108 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$objects = objects?.reference ?? jni$_.jNullReference;
     return _toArray$1(reference.pointer, _id_toArray$1 as jni$_.JMethodIDPtr,
             _$objects.pointer)
+        .object<jni$_.JArray<$T?>?>();
+  }
+
+  static final _id_parallelStream = _class.instanceMethodId(
+    r'parallelStream',
+    r'()Ljava/util/stream/Stream;',
+  );
+
+  static final _parallelStream = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.stream.Stream<E> parallelStream()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? parallelStream() {
+    return _parallelStream(
+            reference.pointer, _id_parallelStream as jni$_.JMethodIDPtr)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_removeIf = _class.instanceMethodId(
+    r'removeIf',
+    r'(Ljava/util/function/Predicate;)Z',
+  );
+
+  static final _removeIf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean removeIf(java.util.function.Predicate<? super E> predicate)`
+  core$_.bool removeIf(
+    jni$_.JObject? predicate,
+  ) {
+    final _$predicate = predicate?.reference ?? jni$_.jNullReference;
+    return _removeIf(reference.pointer, _id_removeIf as jni$_.JMethodIDPtr,
+            _$predicate.pointer)
+        .boolean;
+  }
+
+  static final _id_stream = _class.instanceMethodId(
+    r'stream',
+    r'()Ljava/util/stream/Stream;',
+  );
+
+  static final _stream = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.stream.Stream<E> stream()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? stream() {
+    return _stream(reference.pointer, _id_stream as jni$_.JMethodIDPtr)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_toArray$2 = _class.instanceMethodId(
+    r'toArray',
+    r'(Ljava/util/function/IntFunction;)[Ljava/lang/Object;',
+  );
+
+  static final _toArray$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public T[] toArray(java.util.function.IntFunction<T[]> intFunction)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JArray<$T?>? toArray$2<$T extends jni$_.JObject?>(
+    jni$_.JObject? intFunction,
+  ) {
+    final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
+    return _toArray$2(reference.pointer, _id_toArray$2 as jni$_.JMethodIDPtr,
+            _$intFunction.pointer)
         .object<jni$_.JArray<$T?>?>();
   }
 
@@ -13008,6 +14418,39 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
                 .toPointer() ??
             jni$_.nullptr;
       }
+      if ($d == r'parallelStream()Ljava/util/stream/Stream;') {
+        final $r = _$impls[$p]!.parallelStream();
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'removeIf(Ljava/util/function/Predicate;)Z') {
+        final $r = _$impls[$p]!.removeIf(
+          $a![0],
+        );
+        return jni$_.JBoolean($r).reference.toPointer();
+      }
+      if ($d == r'stream()Ljava/util/stream/Stream;') {
+        final $r = _$impls[$p]!.stream();
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'toArray(Ljava/util/function/IntFunction;)[Ljava/lang/Object;') {
+        final $r = _$impls[$p]!.toArray$2(
+          $a![0],
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
     } catch (e) {
       return jni$_.ProtectedJniExtensions.newDartException(e);
     }
@@ -13053,12 +14496,16 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 abstract base mixin class $JSet<$E extends jni$_.JObject?> {
   factory $JSet({
     required core$_.bool Function($E? object) add,
-    required core$_.bool Function(jni$_.JObject? collection) addAll,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        addAll,
     required void Function() clear,
     core$_.bool clear$async,
     required core$_.bool Function(jni$_.JObject? object) contains,
-    required core$_.bool Function(jni$_.JObject? collection) containsAll,
-    required JSet<jni$_.JObject?>? Function(jni$_.JObject? collection) copyOf,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        containsAll,
+    required JSet<jni$_.JObject?>? Function(
+            JCollection<jni$_.JObject?>? collection)
+        copyOf,
     required core$_.bool Function(jni$_.JObject? object) equals,
     required int Function() hashCode$1,
     required core$_.bool Function() isEmpty,
@@ -13138,23 +14585,30 @@ abstract base mixin class $JSet<$E extends jni$_.JObject?> {
             jni$_.JArray<jni$_.JObject?>? objects)
         of$11,
     required core$_.bool Function(jni$_.JObject? object) remove,
-    required core$_.bool Function(jni$_.JObject? collection) removeAll,
-    required core$_.bool Function(jni$_.JObject? collection) retainAll,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        removeAll,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        retainAll,
     required int Function() size,
     required jni$_.JObject? Function() spliterator,
     required jni$_.JArray<jni$_.JObject?>? Function() toArray,
     required jni$_.JArray<jni$_.JObject?>? Function(
             jni$_.JArray<jni$_.JObject?>? objects)
         toArray$1,
+    required jni$_.JObject? Function() parallelStream,
+    required core$_.bool Function(jni$_.JObject? predicate) removeIf,
+    required jni$_.JObject? Function() stream,
+    required jni$_.JArray<jni$_.JObject?>? Function(jni$_.JObject? intFunction)
+        toArray$2,
   }) = _$JSet<$E>;
 
   core$_.bool add($E? object);
-  core$_.bool addAll(jni$_.JObject? collection);
+  core$_.bool addAll(JCollection<jni$_.JObject?>? collection);
   void clear();
   core$_.bool get clear$async => false;
   core$_.bool contains(jni$_.JObject? object);
-  core$_.bool containsAll(jni$_.JObject? collection);
-  JSet<jni$_.JObject?>? copyOf(jni$_.JObject? collection);
+  core$_.bool containsAll(JCollection<jni$_.JObject?>? collection);
+  JSet<jni$_.JObject?>? copyOf(JCollection<jni$_.JObject?>? collection);
   core$_.bool equals(jni$_.JObject? object);
   int hashCode$1();
   core$_.bool isEmpty();
@@ -13215,24 +14669,32 @@ abstract base mixin class $JSet<$E extends jni$_.JObject?> {
       jni$_.JObject? object9);
   JSet<jni$_.JObject?>? of$11(jni$_.JArray<jni$_.JObject?>? objects);
   core$_.bool remove(jni$_.JObject? object);
-  core$_.bool removeAll(jni$_.JObject? collection);
-  core$_.bool retainAll(jni$_.JObject? collection);
+  core$_.bool removeAll(JCollection<jni$_.JObject?>? collection);
+  core$_.bool retainAll(JCollection<jni$_.JObject?>? collection);
   int size();
   jni$_.JObject? spliterator();
   jni$_.JArray<jni$_.JObject?>? toArray();
   jni$_.JArray<jni$_.JObject?>? toArray$1(
       jni$_.JArray<jni$_.JObject?>? objects);
+  jni$_.JObject? parallelStream();
+  core$_.bool removeIf(jni$_.JObject? predicate);
+  jni$_.JObject? stream();
+  jni$_.JArray<jni$_.JObject?>? toArray$2(jni$_.JObject? intFunction);
 }
 
 final class _$JSet<$E extends jni$_.JObject?> with $JSet<$E> {
   _$JSet({
     required core$_.bool Function($E? object) add,
-    required core$_.bool Function(jni$_.JObject? collection) addAll,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        addAll,
     required void Function() clear,
     this.clear$async = false,
     required core$_.bool Function(jni$_.JObject? object) contains,
-    required core$_.bool Function(jni$_.JObject? collection) containsAll,
-    required JSet<jni$_.JObject?>? Function(jni$_.JObject? collection) copyOf,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        containsAll,
+    required JSet<jni$_.JObject?>? Function(
+            JCollection<jni$_.JObject?>? collection)
+        copyOf,
     required core$_.bool Function(jni$_.JObject? object) equals,
     required int Function() hashCode$1,
     required core$_.bool Function() isEmpty,
@@ -13312,14 +14774,21 @@ final class _$JSet<$E extends jni$_.JObject?> with $JSet<$E> {
             jni$_.JArray<jni$_.JObject?>? objects)
         of$11,
     required core$_.bool Function(jni$_.JObject? object) remove,
-    required core$_.bool Function(jni$_.JObject? collection) removeAll,
-    required core$_.bool Function(jni$_.JObject? collection) retainAll,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        removeAll,
+    required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+        retainAll,
     required int Function() size,
     required jni$_.JObject? Function() spliterator,
     required jni$_.JArray<jni$_.JObject?>? Function() toArray,
     required jni$_.JArray<jni$_.JObject?>? Function(
             jni$_.JArray<jni$_.JObject?>? objects)
         toArray$1,
+    required jni$_.JObject? Function() parallelStream,
+    required core$_.bool Function(jni$_.JObject? predicate) removeIf,
+    required jni$_.JObject? Function() stream,
+    required jni$_.JArray<jni$_.JObject?>? Function(jni$_.JObject? intFunction)
+        toArray$2,
   })  : _add = add,
         _addAll = addAll,
         _clear = clear,
@@ -13348,15 +14817,21 @@ final class _$JSet<$E extends jni$_.JObject?> with $JSet<$E> {
         _size = size,
         _spliterator = spliterator,
         _toArray = toArray,
-        _toArray$1 = toArray$1;
+        _toArray$1 = toArray$1,
+        _parallelStream = parallelStream,
+        _removeIf = removeIf,
+        _stream = stream,
+        _toArray$2 = toArray$2;
 
   final core$_.bool Function($E? object) _add;
-  final core$_.bool Function(jni$_.JObject? collection) _addAll;
+  final core$_.bool Function(JCollection<jni$_.JObject?>? collection) _addAll;
   final void Function() _clear;
   final core$_.bool clear$async;
   final core$_.bool Function(jni$_.JObject? object) _contains;
-  final core$_.bool Function(jni$_.JObject? collection) _containsAll;
-  final JSet<jni$_.JObject?>? Function(jni$_.JObject? collection) _copyOf;
+  final core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+      _containsAll;
+  final JSet<jni$_.JObject?>? Function(JCollection<jni$_.JObject?>? collection)
+      _copyOf;
   final core$_.bool Function(jni$_.JObject? object) _equals;
   final int Function() _hashCode$1;
   final core$_.bool Function() _isEmpty;
@@ -13427,19 +14902,26 @@ final class _$JSet<$E extends jni$_.JObject?> with $JSet<$E> {
   final JSet<jni$_.JObject?>? Function(jni$_.JArray<jni$_.JObject?>? objects)
       _of$11;
   final core$_.bool Function(jni$_.JObject? object) _remove;
-  final core$_.bool Function(jni$_.JObject? collection) _removeAll;
-  final core$_.bool Function(jni$_.JObject? collection) _retainAll;
+  final core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+      _removeAll;
+  final core$_.bool Function(JCollection<jni$_.JObject?>? collection)
+      _retainAll;
   final int Function() _size;
   final jni$_.JObject? Function() _spliterator;
   final jni$_.JArray<jni$_.JObject?>? Function() _toArray;
   final jni$_.JArray<jni$_.JObject?>? Function(
       jni$_.JArray<jni$_.JObject?>? objects) _toArray$1;
+  final jni$_.JObject? Function() _parallelStream;
+  final core$_.bool Function(jni$_.JObject? predicate) _removeIf;
+  final jni$_.JObject? Function() _stream;
+  final jni$_.JArray<jni$_.JObject?>? Function(jni$_.JObject? intFunction)
+      _toArray$2;
 
   core$_.bool add($E? object) {
     return _add(object);
   }
 
-  core$_.bool addAll(jni$_.JObject? collection) {
+  core$_.bool addAll(JCollection<jni$_.JObject?>? collection) {
     return _addAll(collection);
   }
 
@@ -13451,11 +14933,11 @@ final class _$JSet<$E extends jni$_.JObject?> with $JSet<$E> {
     return _contains(object);
   }
 
-  core$_.bool containsAll(jni$_.JObject? collection) {
+  core$_.bool containsAll(JCollection<jni$_.JObject?>? collection) {
     return _containsAll(collection);
   }
 
-  JSet<jni$_.JObject?>? copyOf(jni$_.JObject? collection) {
+  JSet<jni$_.JObject?>? copyOf(JCollection<jni$_.JObject?>? collection) {
     return _copyOf(collection);
   }
 
@@ -13573,11 +15055,11 @@ final class _$JSet<$E extends jni$_.JObject?> with $JSet<$E> {
     return _remove(object);
   }
 
-  core$_.bool removeAll(jni$_.JObject? collection) {
+  core$_.bool removeAll(JCollection<jni$_.JObject?>? collection) {
     return _removeAll(collection);
   }
 
-  core$_.bool retainAll(jni$_.JObject? collection) {
+  core$_.bool retainAll(JCollection<jni$_.JObject?>? collection) {
     return _retainAll(collection);
   }
 
@@ -13596,6 +15078,22 @@ final class _$JSet<$E extends jni$_.JObject?> with $JSet<$E> {
   jni$_.JArray<jni$_.JObject?>? toArray$1(
       jni$_.JArray<jni$_.JObject?>? objects) {
     return _toArray$1(objects);
+  }
+
+  jni$_.JObject? parallelStream() {
+    return _parallelStream();
+  }
+
+  core$_.bool removeIf(jni$_.JObject? predicate) {
+    return _removeIf(predicate);
+  }
+
+  jni$_.JObject? stream() {
+    return _stream();
+  }
+
+  jni$_.JArray<jni$_.JObject?>? toArray$2(jni$_.JObject? intFunction) {
+    return _toArray$2(intFunction);
   }
 }
 

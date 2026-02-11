@@ -13,9 +13,9 @@ extension JSetToAdapter<E extends JObject?> on JSet<E> {
   /// Wraps this [JSet] in an adapter that implements a [Set].
   ///
   /// This is not a conversion, doesn't create a new list, or change the
-  /// elements. For deep conversion, use [toDartList].
+  /// elements. For deep conversion, use [toDartSet].
   ///
-  /// TODO: Implement toDartList if it doesn't exist. Be consistent with objc.
+  /// TODO: Implement toDartSet if it doesn't exist. Be consistent with objc.
   Set<E> asDart() => _JSetAdapter<E>(this);
 }
 
@@ -52,7 +52,7 @@ final class _JSetAdapter<E extends JObject?> with SetBase<E> {
 }
 
 extension ToJavaSet<E extends JObject?> on Iterable<E> {
-  JSet<E> toJSet(JType<E> type) {
+  JSet<E> toJSet() {
     // TODO(https://github.com/dart-lang/native/issues/2012): Remove this as
     // hack.
     final set = (JHashSet() as JObject) as JSet<E>;
