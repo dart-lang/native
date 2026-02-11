@@ -47,6 +47,13 @@ class Recordings {
   factory Recordings.fromJson(Map<String, Object?> json) {
     try {
       final syntax = RecordedUsesSyntax.fromJson(json);
+      final syntaxErrors = syntax.validate();
+      if (syntaxErrors.isNotEmpty) {
+        final errorsString = syntaxErrors.map((e) => ' - $e').join('\n');
+        throw FormatException(
+          'Validation errors for record use file:\n$errorsString\n',
+        );
+      }
       return Recordings._fromSyntax(syntax);
     } on FormatException catch (e) {
       throw FormatException('''
