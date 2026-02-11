@@ -1,3 +1,7 @@
+## 2.2.0
+
+- Export leaked types.
+
 ## 2.1.5
 
 - Update to the latest lints.
