@@ -269,10 +269,9 @@ bool needsNullCheck(String paramType, String paramName) {
 
 /// Generates null check code for parameters.
 ///
-/// Note: We don't call FindClass/ThrowNew here because:
-/// 1. FindClass may not be available during early JVM bootstrap
-/// 2. Instead, we return NULL and let the calling Dart code detect the error
-/// 3. This is safe because Dart code checks for NULL results
+/// For null parameters, we create a java.lang.RuntimeException and return it
+/// in the .exception field. This ensures the Dart side properly detects the
+/// error instead of treating NULL as success.
 String generateNullChecks(
   List<Parameter> params,
   ResultWrapper wrapper,
@@ -287,17 +286,17 @@ String generateNullChecks(
   for (final param in params) {
     final paramType = getCType(param.type);
     if (needsNullCheck(paramType, param.name)) {
-      // Return NULL error - the Dart layer will detect this
-      // We can't safely call FindClass during bootstrap to create an exception
       checks.writeln('  if (${param.name} == NULL) {');
-      // Use a safe NULL error result that doesn't reference _exception
-      final safeError = wrapper.returnType.contains('JniResult')
-          ? '(${wrapper.returnType}){.value = {.j = 0}, .exception = NULL}'
+      // Create a RuntimeException and return it in .exception field
+      checks.writeln(
+          '    jthrowable _null_exc = create_null_parameter_exception("${param.name}");');
+      final errorResult = wrapper.returnType.contains('JniResult')
+          ? '(${wrapper.returnType}){.value = {.j = 0}, .exception = _null_exc}'
           : wrapper.returnType.contains('JniPointerResult') ||
                   wrapper.returnType.contains('JniClassLookupResult')
-              ? '(${wrapper.returnType}){.value = NULL, .exception = NULL}'
-              : 'NULL';
-      checks.writeln('    return $safeError;');
+              ? '(${wrapper.returnType}){.value = NULL, .exception = _null_exc}'
+              : '_null_exc';
+      checks.writeln('    return $errorResult;');
       checks.writeln('  }');
     }
   }

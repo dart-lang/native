@@ -40,7 +40,8 @@ JniResult globalEnv_GetVersion() {
 JniClassLookupResult globalEnv_DefineClass(char* name, jobject loader, jbyte* buf, jsize bufLen) {
   attach_thread();
   if (loader == NULL) {
-    return (JniClassLookupResult){.value = NULL, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("loader");
+    return (JniClassLookupResult){.value = NULL, .exception = _null_exc};
   }
   jclass _result = (*jniEnv)->DefineClass(jniEnv, name, loader, buf, bufLen);
   jthrowable _exception = check_exception();
@@ -65,7 +66,8 @@ JniClassLookupResult globalEnv_FindClass(char* name) {
 JniPointerResult globalEnv_FromReflectedMethod(jobject method) {
   attach_thread();
   if (method == NULL) {
-    return (JniPointerResult){.value = NULL, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("method");
+    return (JniPointerResult){.value = NULL, .exception = _null_exc};
   }
   jmethodID _result = (*jniEnv)->FromReflectedMethod(jniEnv, method);
   jthrowable _exception = check_exception();
@@ -78,7 +80,8 @@ JniPointerResult globalEnv_FromReflectedMethod(jobject method) {
 JniPointerResult globalEnv_FromReflectedField(jobject field) {
   attach_thread();
   if (field == NULL) {
-    return (JniPointerResult){.value = NULL, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("field");
+    return (JniPointerResult){.value = NULL, .exception = _null_exc};
   }
   jfieldID _result = (*jniEnv)->FromReflectedField(jniEnv, field);
   jthrowable _exception = check_exception();
@@ -91,10 +94,12 @@ JniPointerResult globalEnv_FromReflectedField(jobject field) {
 JniResult globalEnv_ToReflectedMethod(jclass cls, jmethodID methodId, jboolean isStatic) {
   attach_thread();
   if (cls == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("cls");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodId == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodId");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jobject _result = (*jniEnv)->ToReflectedMethod(jniEnv, cls, methodId, isStatic);
   jthrowable _exception = check_exception();
@@ -108,7 +113,8 @@ JniResult globalEnv_ToReflectedMethod(jclass cls, jmethodID methodId, jboolean i
 JniClassLookupResult globalEnv_GetSuperclass(jclass clazz) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniClassLookupResult){.value = NULL, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniClassLookupResult){.value = NULL, .exception = _null_exc};
   }
   jclass _result = (*jniEnv)->GetSuperclass(jniEnv, clazz);
   jthrowable _exception = check_exception();
@@ -122,10 +128,12 @@ JniClassLookupResult globalEnv_GetSuperclass(jclass clazz) {
 JniResult globalEnv_IsAssignableFrom(jclass clazz1, jclass clazz2) {
   attach_thread();
   if (clazz1 == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz1");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (clazz2 == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz2");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jboolean _result = (*jniEnv)->IsAssignableFrom(jniEnv, clazz1, clazz2);
   jthrowable _exception = check_exception();
@@ -138,10 +146,12 @@ JniResult globalEnv_IsAssignableFrom(jclass clazz1, jclass clazz2) {
 JniResult globalEnv_ToReflectedField(jclass cls, jfieldID fieldID, jboolean isStatic) {
   attach_thread();
   if (cls == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("cls");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (fieldID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jobject _result = (*jniEnv)->ToReflectedField(jniEnv, cls, fieldID, isStatic);
   jthrowable _exception = check_exception();
@@ -155,7 +165,8 @@ JniResult globalEnv_ToReflectedField(jclass cls, jfieldID fieldID, jboolean isSt
 JniResult globalEnv_Throw(jthrowable obj) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jint _result = (*jniEnv)->Throw(jniEnv, obj);
   jthrowable _exception = check_exception();
@@ -168,7 +179,8 @@ JniResult globalEnv_Throw(jthrowable obj) {
 JniResult globalEnv_ThrowNew(jclass clazz, char* message) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jint _result = (*jniEnv)->ThrowNew(jniEnv, clazz, message);
   jthrowable _exception = check_exception();
@@ -224,7 +236,8 @@ JniResult globalEnv_PushLocalFrame(jint capacity) {
 JniResult globalEnv_PopLocalFrame(jobject result) {
   attach_thread();
   if (result == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("result");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jobject _result = (*jniEnv)->PopLocalFrame(jniEnv, result);
   jthrowable _exception = check_exception();
@@ -298,7 +311,8 @@ JniResult globalEnv_EnsureLocalCapacity(jint capacity) {
 JniResult globalEnv_AllocObject(jclass clazz) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jobject _result = (*jniEnv)->AllocObject(jniEnv, clazz);
   jthrowable _exception = check_exception();
@@ -312,10 +326,12 @@ JniResult globalEnv_AllocObject(jclass clazz) {
 FFI_PLUGIN_EXPORT JniResult globalEnv_NewObject(jclass clazz, jmethodID methodID, ...) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -332,10 +348,12 @@ va_end(args);
 JniResult globalEnv_NewObjectA(jclass clazz, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jobject _result = (*jniEnv)->NewObjectA(jniEnv, clazz, methodID, args);
   jthrowable _exception = check_exception();
@@ -349,7 +367,8 @@ JniResult globalEnv_NewObjectA(jclass clazz, jmethodID methodID, jvalue* args) {
 JniClassLookupResult globalEnv_GetObjectClass(jobject obj) {
   attach_thread();
   if (obj == NULL) {
-    return (JniClassLookupResult){.value = NULL, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniClassLookupResult){.value = NULL, .exception = _null_exc};
   }
   jclass _result = (*jniEnv)->GetObjectClass(jniEnv, obj);
   jthrowable _exception = check_exception();
@@ -363,10 +382,12 @@ JniClassLookupResult globalEnv_GetObjectClass(jobject obj) {
 JniResult globalEnv_IsInstanceOf(jobject obj, jclass clazz) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jboolean _result = (*jniEnv)->IsInstanceOf(jniEnv, obj, clazz);
   jthrowable _exception = check_exception();
@@ -389,10 +410,12 @@ JniPointerResult globalEnv_GetMethodID(jclass clazz, char* name, char* sig) {
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallObjectMethod(jobject obj, jmethodID methodID, ...) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -409,10 +432,12 @@ va_end(args);
 JniResult globalEnv_CallObjectMethodA(jobject obj, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jobject _result = (*jniEnv)->CallObjectMethodA(jniEnv, obj, methodID, args);
   jthrowable _exception = check_exception();
@@ -426,10 +451,12 @@ JniResult globalEnv_CallObjectMethodA(jobject obj, jmethodID methodID, jvalue* a
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallBooleanMethod(jobject obj, jmethodID methodID, ...) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -445,10 +472,12 @@ va_end(args);
 JniResult globalEnv_CallBooleanMethodA(jobject obj, jmethodID methodId, jvalue* args) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodId == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodId");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jboolean _result = (*jniEnv)->CallBooleanMethodA(jniEnv, obj, methodId, args);
   jthrowable _exception = check_exception();
@@ -461,10 +490,12 @@ JniResult globalEnv_CallBooleanMethodA(jobject obj, jmethodID methodId, jvalue* 
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallByteMethod(jobject obj, jmethodID methodID, ...) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -480,10 +511,12 @@ va_end(args);
 JniResult globalEnv_CallByteMethodA(jobject obj, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jbyte _result = (*jniEnv)->CallByteMethodA(jniEnv, obj, methodID, args);
   jthrowable _exception = check_exception();
@@ -496,10 +529,12 @@ JniResult globalEnv_CallByteMethodA(jobject obj, jmethodID methodID, jvalue* arg
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallCharMethod(jobject obj, jmethodID methodID, ...) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -515,10 +550,12 @@ va_end(args);
 JniResult globalEnv_CallCharMethodA(jobject obj, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jchar _result = (*jniEnv)->CallCharMethodA(jniEnv, obj, methodID, args);
   jthrowable _exception = check_exception();
@@ -531,10 +568,12 @@ JniResult globalEnv_CallCharMethodA(jobject obj, jmethodID methodID, jvalue* arg
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallShortMethod(jobject obj, jmethodID methodID, ...) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -550,10 +589,12 @@ va_end(args);
 JniResult globalEnv_CallShortMethodA(jobject obj, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jshort _result = (*jniEnv)->CallShortMethodA(jniEnv, obj, methodID, args);
   jthrowable _exception = check_exception();
@@ -566,10 +607,12 @@ JniResult globalEnv_CallShortMethodA(jobject obj, jmethodID methodID, jvalue* ar
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallIntMethod(jobject obj, jmethodID methodID, ...) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -585,10 +628,12 @@ va_end(args);
 JniResult globalEnv_CallIntMethodA(jobject obj, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jint _result = (*jniEnv)->CallIntMethodA(jniEnv, obj, methodID, args);
   jthrowable _exception = check_exception();
@@ -601,10 +646,12 @@ JniResult globalEnv_CallIntMethodA(jobject obj, jmethodID methodID, jvalue* args
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallLongMethod(jobject obj, jmethodID methodID, ...) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -620,10 +667,12 @@ va_end(args);
 JniResult globalEnv_CallLongMethodA(jobject obj, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jlong _result = (*jniEnv)->CallLongMethodA(jniEnv, obj, methodID, args);
   jthrowable _exception = check_exception();
@@ -636,10 +685,12 @@ JniResult globalEnv_CallLongMethodA(jobject obj, jmethodID methodID, jvalue* arg
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallFloatMethod(jobject obj, jmethodID methodID, ...) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -655,10 +706,12 @@ va_end(args);
 JniResult globalEnv_CallFloatMethodA(jobject obj, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jfloat _result = (*jniEnv)->CallFloatMethodA(jniEnv, obj, methodID, args);
   jthrowable _exception = check_exception();
@@ -671,10 +724,12 @@ JniResult globalEnv_CallFloatMethodA(jobject obj, jmethodID methodID, jvalue* ar
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallDoubleMethod(jobject obj, jmethodID methodID, ...) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -690,10 +745,12 @@ va_end(args);
 JniResult globalEnv_CallDoubleMethodA(jobject obj, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jdouble _result = (*jniEnv)->CallDoubleMethodA(jniEnv, obj, methodID, args);
   jthrowable _exception = check_exception();
@@ -706,10 +763,12 @@ JniResult globalEnv_CallDoubleMethodA(jobject obj, jmethodID methodID, jvalue* a
 FFI_PLUGIN_EXPORT jthrowable globalEnv_CallVoidMethod(jobject obj, jmethodID methodID, ...) {
   attach_thread();
   if (obj == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return _null_exc;
   }
   if (methodID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return _null_exc;
   }
   va_list args;
   va_start(args, methodID);
@@ -725,10 +784,12 @@ va_end(args);
 jthrowable globalEnv_CallVoidMethodA(jobject obj, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (obj == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return _null_exc;
   }
   if (methodID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return _null_exc;
   }
    (*jniEnv)->CallVoidMethodA(jniEnv, obj, methodID, args);
   jthrowable _exception = check_exception();
@@ -741,13 +802,16 @@ jthrowable globalEnv_CallVoidMethodA(jobject obj, jmethodID methodID, jvalue* ar
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallNonvirtualObjectMethod(jobject obj, jclass clazz, jmethodID methodID, ...) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -764,13 +828,16 @@ va_end(args);
 JniResult globalEnv_CallNonvirtualObjectMethodA(jobject obj, jclass clazz, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jobject _result = (*jniEnv)->CallNonvirtualObjectMethodA(jniEnv, obj, clazz, methodID, args);
   jthrowable _exception = check_exception();
@@ -784,13 +851,16 @@ JniResult globalEnv_CallNonvirtualObjectMethodA(jobject obj, jclass clazz, jmeth
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallNonvirtualBooleanMethod(jobject obj, jclass clazz, jmethodID methodID, ...) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -806,13 +876,16 @@ va_end(args);
 JniResult globalEnv_CallNonvirtualBooleanMethodA(jobject obj, jclass clazz, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jboolean _result = (*jniEnv)->CallNonvirtualBooleanMethodA(jniEnv, obj, clazz, methodID, args);
   jthrowable _exception = check_exception();
@@ -825,13 +898,16 @@ JniResult globalEnv_CallNonvirtualBooleanMethodA(jobject obj, jclass clazz, jmet
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallNonvirtualByteMethod(jobject obj, jclass clazz, jmethodID methodID, ...) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -847,13 +923,16 @@ va_end(args);
 JniResult globalEnv_CallNonvirtualByteMethodA(jobject obj, jclass clazz, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jbyte _result = (*jniEnv)->CallNonvirtualByteMethodA(jniEnv, obj, clazz, methodID, args);
   jthrowable _exception = check_exception();
@@ -866,13 +945,16 @@ JniResult globalEnv_CallNonvirtualByteMethodA(jobject obj, jclass clazz, jmethod
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallNonvirtualCharMethod(jobject obj, jclass clazz, jmethodID methodID, ...) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -888,13 +970,16 @@ va_end(args);
 JniResult globalEnv_CallNonvirtualCharMethodA(jobject obj, jclass clazz, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jchar _result = (*jniEnv)->CallNonvirtualCharMethodA(jniEnv, obj, clazz, methodID, args);
   jthrowable _exception = check_exception();
@@ -907,13 +992,16 @@ JniResult globalEnv_CallNonvirtualCharMethodA(jobject obj, jclass clazz, jmethod
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallNonvirtualShortMethod(jobject obj, jclass clazz, jmethodID methodID, ...) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -929,13 +1017,16 @@ va_end(args);
 JniResult globalEnv_CallNonvirtualShortMethodA(jobject obj, jclass clazz, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jshort _result = (*jniEnv)->CallNonvirtualShortMethodA(jniEnv, obj, clazz, methodID, args);
   jthrowable _exception = check_exception();
@@ -948,13 +1039,16 @@ JniResult globalEnv_CallNonvirtualShortMethodA(jobject obj, jclass clazz, jmetho
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallNonvirtualIntMethod(jobject obj, jclass clazz, jmethodID methodID, ...) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -970,13 +1064,16 @@ va_end(args);
 JniResult globalEnv_CallNonvirtualIntMethodA(jobject obj, jclass clazz, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jint _result = (*jniEnv)->CallNonvirtualIntMethodA(jniEnv, obj, clazz, methodID, args);
   jthrowable _exception = check_exception();
@@ -989,13 +1086,16 @@ JniResult globalEnv_CallNonvirtualIntMethodA(jobject obj, jclass clazz, jmethodI
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallNonvirtualLongMethod(jobject obj, jclass clazz, jmethodID methodID, ...) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -1011,13 +1111,16 @@ va_end(args);
 JniResult globalEnv_CallNonvirtualLongMethodA(jobject obj, jclass clazz, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jlong _result = (*jniEnv)->CallNonvirtualLongMethodA(jniEnv, obj, clazz, methodID, args);
   jthrowable _exception = check_exception();
@@ -1030,13 +1133,16 @@ JniResult globalEnv_CallNonvirtualLongMethodA(jobject obj, jclass clazz, jmethod
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallNonvirtualFloatMethod(jobject obj, jclass clazz, jmethodID methodID, ...) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -1052,13 +1158,16 @@ va_end(args);
 JniResult globalEnv_CallNonvirtualFloatMethodA(jobject obj, jclass clazz, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jfloat _result = (*jniEnv)->CallNonvirtualFloatMethodA(jniEnv, obj, clazz, methodID, args);
   jthrowable _exception = check_exception();
@@ -1071,13 +1180,16 @@ JniResult globalEnv_CallNonvirtualFloatMethodA(jobject obj, jclass clazz, jmetho
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallNonvirtualDoubleMethod(jobject obj, jclass clazz, jmethodID methodID, ...) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -1093,13 +1205,16 @@ va_end(args);
 JniResult globalEnv_CallNonvirtualDoubleMethodA(jobject obj, jclass clazz, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jdouble _result = (*jniEnv)->CallNonvirtualDoubleMethodA(jniEnv, obj, clazz, methodID, args);
   jthrowable _exception = check_exception();
@@ -1112,13 +1227,16 @@ JniResult globalEnv_CallNonvirtualDoubleMethodA(jobject obj, jclass clazz, jmeth
 FFI_PLUGIN_EXPORT jthrowable globalEnv_CallNonvirtualVoidMethod(jobject obj, jclass clazz, jmethodID methodID, ...) {
   attach_thread();
   if (obj == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return _null_exc;
   }
   if (clazz == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return _null_exc;
   }
   if (methodID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return _null_exc;
   }
   va_list args;
   va_start(args, methodID);
@@ -1134,13 +1252,16 @@ va_end(args);
 jthrowable globalEnv_CallNonvirtualVoidMethodA(jobject obj, jclass clazz, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (obj == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return _null_exc;
   }
   if (clazz == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return _null_exc;
   }
   if (methodID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return _null_exc;
   }
    (*jniEnv)->CallNonvirtualVoidMethodA(jniEnv, obj, clazz, methodID, args);
   jthrowable _exception = check_exception();
@@ -1163,10 +1284,12 @@ JniPointerResult globalEnv_GetFieldID(jclass clazz, char* name, char* sig) {
 JniResult globalEnv_GetObjectField(jobject obj, jfieldID fieldID) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (fieldID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jobject _result = (*jniEnv)->GetObjectField(jniEnv, obj, fieldID);
   jthrowable _exception = check_exception();
@@ -1180,10 +1303,12 @@ JniResult globalEnv_GetObjectField(jobject obj, jfieldID fieldID) {
 JniResult globalEnv_GetBooleanField(jobject obj, jfieldID fieldID) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (fieldID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jboolean _result = (*jniEnv)->GetBooleanField(jniEnv, obj, fieldID);
   jthrowable _exception = check_exception();
@@ -1196,10 +1321,12 @@ JniResult globalEnv_GetBooleanField(jobject obj, jfieldID fieldID) {
 JniResult globalEnv_GetByteField(jobject obj, jfieldID fieldID) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (fieldID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jbyte _result = (*jniEnv)->GetByteField(jniEnv, obj, fieldID);
   jthrowable _exception = check_exception();
@@ -1212,10 +1339,12 @@ JniResult globalEnv_GetByteField(jobject obj, jfieldID fieldID) {
 JniResult globalEnv_GetCharField(jobject obj, jfieldID fieldID) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (fieldID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jchar _result = (*jniEnv)->GetCharField(jniEnv, obj, fieldID);
   jthrowable _exception = check_exception();
@@ -1228,10 +1357,12 @@ JniResult globalEnv_GetCharField(jobject obj, jfieldID fieldID) {
 JniResult globalEnv_GetShortField(jobject obj, jfieldID fieldID) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (fieldID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jshort _result = (*jniEnv)->GetShortField(jniEnv, obj, fieldID);
   jthrowable _exception = check_exception();
@@ -1244,10 +1375,12 @@ JniResult globalEnv_GetShortField(jobject obj, jfieldID fieldID) {
 JniResult globalEnv_GetIntField(jobject obj, jfieldID fieldID) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (fieldID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jint _result = (*jniEnv)->GetIntField(jniEnv, obj, fieldID);
   jthrowable _exception = check_exception();
@@ -1260,10 +1393,12 @@ JniResult globalEnv_GetIntField(jobject obj, jfieldID fieldID) {
 JniResult globalEnv_GetLongField(jobject obj, jfieldID fieldID) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (fieldID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jlong _result = (*jniEnv)->GetLongField(jniEnv, obj, fieldID);
   jthrowable _exception = check_exception();
@@ -1276,10 +1411,12 @@ JniResult globalEnv_GetLongField(jobject obj, jfieldID fieldID) {
 JniResult globalEnv_GetFloatField(jobject obj, jfieldID fieldID) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (fieldID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jfloat _result = (*jniEnv)->GetFloatField(jniEnv, obj, fieldID);
   jthrowable _exception = check_exception();
@@ -1292,10 +1429,12 @@ JniResult globalEnv_GetFloatField(jobject obj, jfieldID fieldID) {
 JniResult globalEnv_GetDoubleField(jobject obj, jfieldID fieldID) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (fieldID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jdouble _result = (*jniEnv)->GetDoubleField(jniEnv, obj, fieldID);
   jthrowable _exception = check_exception();
@@ -1308,13 +1447,16 @@ JniResult globalEnv_GetDoubleField(jobject obj, jfieldID fieldID) {
 jthrowable globalEnv_SetObjectField(jobject obj, jfieldID fieldID, jobject val) {
   attach_thread();
   if (obj == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return _null_exc;
   }
   if (fieldID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return _null_exc;
   }
   if (val == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("val");
+    return _null_exc;
   }
    (*jniEnv)->SetObjectField(jniEnv, obj, fieldID, val);
   jthrowable _exception = check_exception();
@@ -1327,10 +1469,12 @@ jthrowable globalEnv_SetObjectField(jobject obj, jfieldID fieldID, jobject val) 
 jthrowable globalEnv_SetBooleanField(jobject obj, jfieldID fieldID, jboolean val) {
   attach_thread();
   if (obj == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return _null_exc;
   }
   if (fieldID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return _null_exc;
   }
    (*jniEnv)->SetBooleanField(jniEnv, obj, fieldID, val);
   jthrowable _exception = check_exception();
@@ -1343,10 +1487,12 @@ jthrowable globalEnv_SetBooleanField(jobject obj, jfieldID fieldID, jboolean val
 jthrowable globalEnv_SetByteField(jobject obj, jfieldID fieldID, jbyte val) {
   attach_thread();
   if (obj == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return _null_exc;
   }
   if (fieldID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return _null_exc;
   }
    (*jniEnv)->SetByteField(jniEnv, obj, fieldID, val);
   jthrowable _exception = check_exception();
@@ -1359,10 +1505,12 @@ jthrowable globalEnv_SetByteField(jobject obj, jfieldID fieldID, jbyte val) {
 jthrowable globalEnv_SetCharField(jobject obj, jfieldID fieldID, jchar val) {
   attach_thread();
   if (obj == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return _null_exc;
   }
   if (fieldID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return _null_exc;
   }
    (*jniEnv)->SetCharField(jniEnv, obj, fieldID, val);
   jthrowable _exception = check_exception();
@@ -1375,10 +1523,12 @@ jthrowable globalEnv_SetCharField(jobject obj, jfieldID fieldID, jchar val) {
 jthrowable globalEnv_SetShortField(jobject obj, jfieldID fieldID, jshort val) {
   attach_thread();
   if (obj == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return _null_exc;
   }
   if (fieldID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return _null_exc;
   }
    (*jniEnv)->SetShortField(jniEnv, obj, fieldID, val);
   jthrowable _exception = check_exception();
@@ -1391,10 +1541,12 @@ jthrowable globalEnv_SetShortField(jobject obj, jfieldID fieldID, jshort val) {
 jthrowable globalEnv_SetIntField(jobject obj, jfieldID fieldID, jint val) {
   attach_thread();
   if (obj == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return _null_exc;
   }
   if (fieldID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return _null_exc;
   }
    (*jniEnv)->SetIntField(jniEnv, obj, fieldID, val);
   jthrowable _exception = check_exception();
@@ -1407,10 +1559,12 @@ jthrowable globalEnv_SetIntField(jobject obj, jfieldID fieldID, jint val) {
 jthrowable globalEnv_SetLongField(jobject obj, jfieldID fieldID, jlong val) {
   attach_thread();
   if (obj == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return _null_exc;
   }
   if (fieldID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return _null_exc;
   }
    (*jniEnv)->SetLongField(jniEnv, obj, fieldID, val);
   jthrowable _exception = check_exception();
@@ -1423,10 +1577,12 @@ jthrowable globalEnv_SetLongField(jobject obj, jfieldID fieldID, jlong val) {
 jthrowable globalEnv_SetFloatField(jobject obj, jfieldID fieldID, jfloat val) {
   attach_thread();
   if (obj == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return _null_exc;
   }
   if (fieldID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return _null_exc;
   }
    (*jniEnv)->SetFloatField(jniEnv, obj, fieldID, val);
   jthrowable _exception = check_exception();
@@ -1439,10 +1595,12 @@ jthrowable globalEnv_SetFloatField(jobject obj, jfieldID fieldID, jfloat val) {
 jthrowable globalEnv_SetDoubleField(jobject obj, jfieldID fieldID, jdouble val) {
   attach_thread();
   if (obj == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return _null_exc;
   }
   if (fieldID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return _null_exc;
   }
    (*jniEnv)->SetDoubleField(jniEnv, obj, fieldID, val);
   jthrowable _exception = check_exception();
@@ -1465,10 +1623,12 @@ JniPointerResult globalEnv_GetStaticMethodID(jclass clazz, char* name, char* sig
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticObjectMethod(jclass clazz, jmethodID methodID, ...) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -1485,10 +1645,12 @@ va_end(args);
 JniResult globalEnv_CallStaticObjectMethodA(jclass clazz, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jobject _result = (*jniEnv)->CallStaticObjectMethodA(jniEnv, clazz, methodID, args);
   jthrowable _exception = check_exception();
@@ -1502,10 +1664,12 @@ JniResult globalEnv_CallStaticObjectMethodA(jclass clazz, jmethodID methodID, jv
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticBooleanMethod(jclass clazz, jmethodID methodID, ...) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -1521,10 +1685,12 @@ va_end(args);
 JniResult globalEnv_CallStaticBooleanMethodA(jclass clazz, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jboolean _result = (*jniEnv)->CallStaticBooleanMethodA(jniEnv, clazz, methodID, args);
   jthrowable _exception = check_exception();
@@ -1537,10 +1703,12 @@ JniResult globalEnv_CallStaticBooleanMethodA(jclass clazz, jmethodID methodID, j
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticByteMethod(jclass clazz, jmethodID methodID, ...) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -1556,10 +1724,12 @@ va_end(args);
 JniResult globalEnv_CallStaticByteMethodA(jclass clazz, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jbyte _result = (*jniEnv)->CallStaticByteMethodA(jniEnv, clazz, methodID, args);
   jthrowable _exception = check_exception();
@@ -1572,10 +1742,12 @@ JniResult globalEnv_CallStaticByteMethodA(jclass clazz, jmethodID methodID, jval
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticCharMethod(jclass clazz, jmethodID methodID, ...) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -1591,10 +1763,12 @@ va_end(args);
 JniResult globalEnv_CallStaticCharMethodA(jclass clazz, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jchar _result = (*jniEnv)->CallStaticCharMethodA(jniEnv, clazz, methodID, args);
   jthrowable _exception = check_exception();
@@ -1607,10 +1781,12 @@ JniResult globalEnv_CallStaticCharMethodA(jclass clazz, jmethodID methodID, jval
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticShortMethod(jclass clazz, jmethodID methodID, ...) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -1626,10 +1802,12 @@ va_end(args);
 JniResult globalEnv_CallStaticShortMethodA(jclass clazz, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jshort _result = (*jniEnv)->CallStaticShortMethodA(jniEnv, clazz, methodID, args);
   jthrowable _exception = check_exception();
@@ -1642,10 +1820,12 @@ JniResult globalEnv_CallStaticShortMethodA(jclass clazz, jmethodID methodID, jva
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticIntMethod(jclass clazz, jmethodID methodID, ...) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -1661,10 +1841,12 @@ va_end(args);
 JniResult globalEnv_CallStaticIntMethodA(jclass clazz, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jint _result = (*jniEnv)->CallStaticIntMethodA(jniEnv, clazz, methodID, args);
   jthrowable _exception = check_exception();
@@ -1677,10 +1859,12 @@ JniResult globalEnv_CallStaticIntMethodA(jclass clazz, jmethodID methodID, jvalu
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticLongMethod(jclass clazz, jmethodID methodID, ...) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -1696,10 +1880,12 @@ va_end(args);
 JniResult globalEnv_CallStaticLongMethodA(jclass clazz, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jlong _result = (*jniEnv)->CallStaticLongMethodA(jniEnv, clazz, methodID, args);
   jthrowable _exception = check_exception();
@@ -1712,10 +1898,12 @@ JniResult globalEnv_CallStaticLongMethodA(jclass clazz, jmethodID methodID, jval
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticFloatMethod(jclass clazz, jmethodID methodID, ...) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -1731,10 +1919,12 @@ va_end(args);
 JniResult globalEnv_CallStaticFloatMethodA(jclass clazz, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jfloat _result = (*jniEnv)->CallStaticFloatMethodA(jniEnv, clazz, methodID, args);
   jthrowable _exception = check_exception();
@@ -1747,10 +1937,12 @@ JniResult globalEnv_CallStaticFloatMethodA(jclass clazz, jmethodID methodID, jva
 FFI_PLUGIN_EXPORT JniResult globalEnv_CallStaticDoubleMethod(jclass clazz, jmethodID methodID, ...) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   va_list args;
   va_start(args, methodID);
@@ -1766,10 +1958,12 @@ va_end(args);
 JniResult globalEnv_CallStaticDoubleMethodA(jclass clazz, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (methodID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jdouble _result = (*jniEnv)->CallStaticDoubleMethodA(jniEnv, clazz, methodID, args);
   jthrowable _exception = check_exception();
@@ -1782,10 +1976,12 @@ JniResult globalEnv_CallStaticDoubleMethodA(jclass clazz, jmethodID methodID, jv
 FFI_PLUGIN_EXPORT jthrowable globalEnv_CallStaticVoidMethod(jclass clazz, jmethodID methodID, ...) {
   attach_thread();
   if (clazz == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return _null_exc;
   }
   if (methodID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return _null_exc;
   }
   va_list args;
   va_start(args, methodID);
@@ -1801,10 +1997,12 @@ va_end(args);
 jthrowable globalEnv_CallStaticVoidMethodA(jclass clazz, jmethodID methodID, jvalue* args) {
   attach_thread();
   if (clazz == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return _null_exc;
   }
   if (methodID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("methodID");
+    return _null_exc;
   }
    (*jniEnv)->CallStaticVoidMethodA(jniEnv, clazz, methodID, args);
   jthrowable _exception = check_exception();
@@ -1827,10 +2025,12 @@ JniPointerResult globalEnv_GetStaticFieldID(jclass clazz, char* name, char* sig)
 JniResult globalEnv_GetStaticObjectField(jclass clazz, jfieldID fieldID) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (fieldID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jobject _result = (*jniEnv)->GetStaticObjectField(jniEnv, clazz, fieldID);
   jthrowable _exception = check_exception();
@@ -1844,10 +2044,12 @@ JniResult globalEnv_GetStaticObjectField(jclass clazz, jfieldID fieldID) {
 JniResult globalEnv_GetStaticBooleanField(jclass clazz, jfieldID fieldID) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (fieldID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jboolean _result = (*jniEnv)->GetStaticBooleanField(jniEnv, clazz, fieldID);
   jthrowable _exception = check_exception();
@@ -1860,10 +2062,12 @@ JniResult globalEnv_GetStaticBooleanField(jclass clazz, jfieldID fieldID) {
 JniResult globalEnv_GetStaticByteField(jclass clazz, jfieldID fieldID) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (fieldID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jbyte _result = (*jniEnv)->GetStaticByteField(jniEnv, clazz, fieldID);
   jthrowable _exception = check_exception();
@@ -1876,10 +2080,12 @@ JniResult globalEnv_GetStaticByteField(jclass clazz, jfieldID fieldID) {
 JniResult globalEnv_GetStaticCharField(jclass clazz, jfieldID fieldID) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (fieldID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jchar _result = (*jniEnv)->GetStaticCharField(jniEnv, clazz, fieldID);
   jthrowable _exception = check_exception();
@@ -1892,10 +2098,12 @@ JniResult globalEnv_GetStaticCharField(jclass clazz, jfieldID fieldID) {
 JniResult globalEnv_GetStaticShortField(jclass clazz, jfieldID fieldID) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (fieldID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jshort _result = (*jniEnv)->GetStaticShortField(jniEnv, clazz, fieldID);
   jthrowable _exception = check_exception();
@@ -1908,10 +2116,12 @@ JniResult globalEnv_GetStaticShortField(jclass clazz, jfieldID fieldID) {
 JniResult globalEnv_GetStaticIntField(jclass clazz, jfieldID fieldID) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (fieldID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jint _result = (*jniEnv)->GetStaticIntField(jniEnv, clazz, fieldID);
   jthrowable _exception = check_exception();
@@ -1924,10 +2134,12 @@ JniResult globalEnv_GetStaticIntField(jclass clazz, jfieldID fieldID) {
 JniResult globalEnv_GetStaticLongField(jclass clazz, jfieldID fieldID) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (fieldID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jlong _result = (*jniEnv)->GetStaticLongField(jniEnv, clazz, fieldID);
   jthrowable _exception = check_exception();
@@ -1940,10 +2152,12 @@ JniResult globalEnv_GetStaticLongField(jclass clazz, jfieldID fieldID) {
 JniResult globalEnv_GetStaticFloatField(jclass clazz, jfieldID fieldID) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (fieldID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jfloat _result = (*jniEnv)->GetStaticFloatField(jniEnv, clazz, fieldID);
   jthrowable _exception = check_exception();
@@ -1956,10 +2170,12 @@ JniResult globalEnv_GetStaticFloatField(jclass clazz, jfieldID fieldID) {
 JniResult globalEnv_GetStaticDoubleField(jclass clazz, jfieldID fieldID) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (fieldID == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jdouble _result = (*jniEnv)->GetStaticDoubleField(jniEnv, clazz, fieldID);
   jthrowable _exception = check_exception();
@@ -1972,13 +2188,16 @@ JniResult globalEnv_GetStaticDoubleField(jclass clazz, jfieldID fieldID) {
 jthrowable globalEnv_SetStaticObjectField(jclass clazz, jfieldID fieldID, jobject val) {
   attach_thread();
   if (clazz == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return _null_exc;
   }
   if (fieldID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return _null_exc;
   }
   if (val == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("val");
+    return _null_exc;
   }
    (*jniEnv)->SetStaticObjectField(jniEnv, clazz, fieldID, val);
   jthrowable _exception = check_exception();
@@ -1991,10 +2210,12 @@ jthrowable globalEnv_SetStaticObjectField(jclass clazz, jfieldID fieldID, jobjec
 jthrowable globalEnv_SetStaticBooleanField(jclass clazz, jfieldID fieldID, jboolean val) {
   attach_thread();
   if (clazz == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return _null_exc;
   }
   if (fieldID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return _null_exc;
   }
    (*jniEnv)->SetStaticBooleanField(jniEnv, clazz, fieldID, val);
   jthrowable _exception = check_exception();
@@ -2007,10 +2228,12 @@ jthrowable globalEnv_SetStaticBooleanField(jclass clazz, jfieldID fieldID, jbool
 jthrowable globalEnv_SetStaticByteField(jclass clazz, jfieldID fieldID, jbyte val) {
   attach_thread();
   if (clazz == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return _null_exc;
   }
   if (fieldID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return _null_exc;
   }
    (*jniEnv)->SetStaticByteField(jniEnv, clazz, fieldID, val);
   jthrowable _exception = check_exception();
@@ -2023,10 +2246,12 @@ jthrowable globalEnv_SetStaticByteField(jclass clazz, jfieldID fieldID, jbyte va
 jthrowable globalEnv_SetStaticCharField(jclass clazz, jfieldID fieldID, jchar val) {
   attach_thread();
   if (clazz == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return _null_exc;
   }
   if (fieldID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return _null_exc;
   }
    (*jniEnv)->SetStaticCharField(jniEnv, clazz, fieldID, val);
   jthrowable _exception = check_exception();
@@ -2039,10 +2264,12 @@ jthrowable globalEnv_SetStaticCharField(jclass clazz, jfieldID fieldID, jchar va
 jthrowable globalEnv_SetStaticShortField(jclass clazz, jfieldID fieldID, jshort val) {
   attach_thread();
   if (clazz == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return _null_exc;
   }
   if (fieldID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return _null_exc;
   }
    (*jniEnv)->SetStaticShortField(jniEnv, clazz, fieldID, val);
   jthrowable _exception = check_exception();
@@ -2055,10 +2282,12 @@ jthrowable globalEnv_SetStaticShortField(jclass clazz, jfieldID fieldID, jshort 
 jthrowable globalEnv_SetStaticIntField(jclass clazz, jfieldID fieldID, jint val) {
   attach_thread();
   if (clazz == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return _null_exc;
   }
   if (fieldID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return _null_exc;
   }
    (*jniEnv)->SetStaticIntField(jniEnv, clazz, fieldID, val);
   jthrowable _exception = check_exception();
@@ -2071,10 +2300,12 @@ jthrowable globalEnv_SetStaticIntField(jclass clazz, jfieldID fieldID, jint val)
 jthrowable globalEnv_SetStaticLongField(jclass clazz, jfieldID fieldID, jlong val) {
   attach_thread();
   if (clazz == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return _null_exc;
   }
   if (fieldID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return _null_exc;
   }
    (*jniEnv)->SetStaticLongField(jniEnv, clazz, fieldID, val);
   jthrowable _exception = check_exception();
@@ -2087,10 +2318,12 @@ jthrowable globalEnv_SetStaticLongField(jclass clazz, jfieldID fieldID, jlong va
 jthrowable globalEnv_SetStaticFloatField(jclass clazz, jfieldID fieldID, jfloat val) {
   attach_thread();
   if (clazz == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return _null_exc;
   }
   if (fieldID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return _null_exc;
   }
    (*jniEnv)->SetStaticFloatField(jniEnv, clazz, fieldID, val);
   jthrowable _exception = check_exception();
@@ -2103,10 +2336,12 @@ jthrowable globalEnv_SetStaticFloatField(jclass clazz, jfieldID fieldID, jfloat 
 jthrowable globalEnv_SetStaticDoubleField(jclass clazz, jfieldID fieldID, jdouble val) {
   attach_thread();
   if (clazz == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return _null_exc;
   }
   if (fieldID == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("fieldID");
+    return _null_exc;
   }
    (*jniEnv)->SetStaticDoubleField(jniEnv, clazz, fieldID, val);
   jthrowable _exception = check_exception();
@@ -2130,7 +2365,8 @@ JniResult globalEnv_NewString(jchar* unicodeChars, jsize len) {
 JniResult globalEnv_GetStringLength(jstring string) {
   attach_thread();
   if (string == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("string");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jsize _result = (*jniEnv)->GetStringLength(jniEnv, string);
   jthrowable _exception = check_exception();
@@ -2143,7 +2379,8 @@ JniResult globalEnv_GetStringLength(jstring string) {
 JniPointerResult globalEnv_GetStringChars(jstring string, jboolean* isCopy) {
   attach_thread();
   if (string == NULL) {
-    return (JniPointerResult){.value = NULL, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("string");
+    return (JniPointerResult){.value = NULL, .exception = _null_exc};
   }
   const jchar* _result = (*jniEnv)->GetStringChars(jniEnv, string, isCopy);
   jthrowable _exception = check_exception();
@@ -2156,7 +2393,8 @@ JniPointerResult globalEnv_GetStringChars(jstring string, jboolean* isCopy) {
 jthrowable globalEnv_ReleaseStringChars(jstring string, jchar* isCopy) {
   attach_thread();
   if (string == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("string");
+    return _null_exc;
   }
    (*jniEnv)->ReleaseStringChars(jniEnv, string, isCopy);
   jthrowable _exception = check_exception();
@@ -2180,7 +2418,8 @@ JniResult globalEnv_NewStringUTF(char* bytes) {
 JniResult globalEnv_GetStringUTFLength(jstring string) {
   attach_thread();
   if (string == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("string");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jsize _result = (*jniEnv)->GetStringUTFLength(jniEnv, string);
   jthrowable _exception = check_exception();
@@ -2193,7 +2432,8 @@ JniResult globalEnv_GetStringUTFLength(jstring string) {
 JniPointerResult globalEnv_GetStringUTFChars(jstring string, jboolean* isCopy) {
   attach_thread();
   if (string == NULL) {
-    return (JniPointerResult){.value = NULL, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("string");
+    return (JniPointerResult){.value = NULL, .exception = _null_exc};
   }
   const char* _result = (*jniEnv)->GetStringUTFChars(jniEnv, string, isCopy);
   jthrowable _exception = check_exception();
@@ -2206,7 +2446,8 @@ JniPointerResult globalEnv_GetStringUTFChars(jstring string, jboolean* isCopy) {
 jthrowable globalEnv_ReleaseStringUTFChars(jstring string, char* utf) {
   attach_thread();
   if (string == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("string");
+    return _null_exc;
   }
    (*jniEnv)->ReleaseStringUTFChars(jniEnv, string, utf);
   jthrowable _exception = check_exception();
@@ -2219,7 +2460,8 @@ jthrowable globalEnv_ReleaseStringUTFChars(jstring string, char* utf) {
 JniResult globalEnv_GetArrayLength(jarray array) {
   attach_thread();
   if (array == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jsize _result = (*jniEnv)->GetArrayLength(jniEnv, array);
   jthrowable _exception = check_exception();
@@ -2232,10 +2474,12 @@ JniResult globalEnv_GetArrayLength(jarray array) {
 JniResult globalEnv_NewObjectArray(jsize length, jclass elementClass, jobject initialElement) {
   attach_thread();
   if (elementClass == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("elementClass");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   if (initialElement == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("initialElement");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jobjectArray _result = (*jniEnv)->NewObjectArray(jniEnv, length, elementClass, initialElement);
   jthrowable _exception = check_exception();
@@ -2249,7 +2493,8 @@ JniResult globalEnv_NewObjectArray(jsize length, jclass elementClass, jobject in
 JniResult globalEnv_GetObjectArrayElement(jobjectArray array, jsize index) {
   attach_thread();
   if (array == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jobject _result = (*jniEnv)->GetObjectArrayElement(jniEnv, array, index);
   jthrowable _exception = check_exception();
@@ -2263,10 +2508,12 @@ JniResult globalEnv_GetObjectArrayElement(jobjectArray array, jsize index) {
 jthrowable globalEnv_SetObjectArrayElement(jobjectArray array, jsize index, jobject val) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
   if (val == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("val");
+    return _null_exc;
   }
    (*jniEnv)->SetObjectArrayElement(jniEnv, array, index, val);
   jthrowable _exception = check_exception();
@@ -2367,7 +2614,8 @@ JniResult globalEnv_NewDoubleArray(jsize length) {
 JniPointerResult globalEnv_GetBooleanArrayElements(jbooleanArray array, jboolean* isCopy) {
   attach_thread();
   if (array == NULL) {
-    return (JniPointerResult){.value = NULL, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return (JniPointerResult){.value = NULL, .exception = _null_exc};
   }
   jboolean* _result = (*jniEnv)->GetBooleanArrayElements(jniEnv, array, isCopy);
   jthrowable _exception = check_exception();
@@ -2380,7 +2628,8 @@ JniPointerResult globalEnv_GetBooleanArrayElements(jbooleanArray array, jboolean
 JniPointerResult globalEnv_GetByteArrayElements(jbyteArray array, jboolean* isCopy) {
   attach_thread();
   if (array == NULL) {
-    return (JniPointerResult){.value = NULL, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return (JniPointerResult){.value = NULL, .exception = _null_exc};
   }
   jbyte* _result = (*jniEnv)->GetByteArrayElements(jniEnv, array, isCopy);
   jthrowable _exception = check_exception();
@@ -2393,7 +2642,8 @@ JniPointerResult globalEnv_GetByteArrayElements(jbyteArray array, jboolean* isCo
 JniPointerResult globalEnv_GetCharArrayElements(jcharArray array, jboolean* isCopy) {
   attach_thread();
   if (array == NULL) {
-    return (JniPointerResult){.value = NULL, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return (JniPointerResult){.value = NULL, .exception = _null_exc};
   }
   jchar* _result = (*jniEnv)->GetCharArrayElements(jniEnv, array, isCopy);
   jthrowable _exception = check_exception();
@@ -2406,7 +2656,8 @@ JniPointerResult globalEnv_GetCharArrayElements(jcharArray array, jboolean* isCo
 JniPointerResult globalEnv_GetShortArrayElements(jshortArray array, jboolean* isCopy) {
   attach_thread();
   if (array == NULL) {
-    return (JniPointerResult){.value = NULL, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return (JniPointerResult){.value = NULL, .exception = _null_exc};
   }
   jshort* _result = (*jniEnv)->GetShortArrayElements(jniEnv, array, isCopy);
   jthrowable _exception = check_exception();
@@ -2419,7 +2670,8 @@ JniPointerResult globalEnv_GetShortArrayElements(jshortArray array, jboolean* is
 JniPointerResult globalEnv_GetIntArrayElements(jintArray array, jboolean* isCopy) {
   attach_thread();
   if (array == NULL) {
-    return (JniPointerResult){.value = NULL, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return (JniPointerResult){.value = NULL, .exception = _null_exc};
   }
   jint* _result = (*jniEnv)->GetIntArrayElements(jniEnv, array, isCopy);
   jthrowable _exception = check_exception();
@@ -2432,7 +2684,8 @@ JniPointerResult globalEnv_GetIntArrayElements(jintArray array, jboolean* isCopy
 JniPointerResult globalEnv_GetLongArrayElements(jlongArray array, jboolean* isCopy) {
   attach_thread();
   if (array == NULL) {
-    return (JniPointerResult){.value = NULL, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return (JniPointerResult){.value = NULL, .exception = _null_exc};
   }
   jlong* _result = (*jniEnv)->GetLongArrayElements(jniEnv, array, isCopy);
   jthrowable _exception = check_exception();
@@ -2445,7 +2698,8 @@ JniPointerResult globalEnv_GetLongArrayElements(jlongArray array, jboolean* isCo
 JniPointerResult globalEnv_GetFloatArrayElements(jfloatArray array, jboolean* isCopy) {
   attach_thread();
   if (array == NULL) {
-    return (JniPointerResult){.value = NULL, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return (JniPointerResult){.value = NULL, .exception = _null_exc};
   }
   jfloat* _result = (*jniEnv)->GetFloatArrayElements(jniEnv, array, isCopy);
   jthrowable _exception = check_exception();
@@ -2458,7 +2712,8 @@ JniPointerResult globalEnv_GetFloatArrayElements(jfloatArray array, jboolean* is
 JniPointerResult globalEnv_GetDoubleArrayElements(jdoubleArray array, jboolean* isCopy) {
   attach_thread();
   if (array == NULL) {
-    return (JniPointerResult){.value = NULL, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return (JniPointerResult){.value = NULL, .exception = _null_exc};
   }
   jdouble* _result = (*jniEnv)->GetDoubleArrayElements(jniEnv, array, isCopy);
   jthrowable _exception = check_exception();
@@ -2471,7 +2726,8 @@ JniPointerResult globalEnv_GetDoubleArrayElements(jdoubleArray array, jboolean* 
 jthrowable globalEnv_ReleaseBooleanArrayElements(jbooleanArray array, jboolean* elems, jint mode) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->ReleaseBooleanArrayElements(jniEnv, array, elems, mode);
   jthrowable _exception = check_exception();
@@ -2484,7 +2740,8 @@ jthrowable globalEnv_ReleaseBooleanArrayElements(jbooleanArray array, jboolean* 
 jthrowable globalEnv_ReleaseByteArrayElements(jbyteArray array, jbyte* elems, jint mode) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->ReleaseByteArrayElements(jniEnv, array, elems, mode);
   jthrowable _exception = check_exception();
@@ -2497,7 +2754,8 @@ jthrowable globalEnv_ReleaseByteArrayElements(jbyteArray array, jbyte* elems, ji
 jthrowable globalEnv_ReleaseCharArrayElements(jcharArray array, jchar* elems, jint mode) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->ReleaseCharArrayElements(jniEnv, array, elems, mode);
   jthrowable _exception = check_exception();
@@ -2510,7 +2768,8 @@ jthrowable globalEnv_ReleaseCharArrayElements(jcharArray array, jchar* elems, ji
 jthrowable globalEnv_ReleaseShortArrayElements(jshortArray array, jshort* elems, jint mode) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->ReleaseShortArrayElements(jniEnv, array, elems, mode);
   jthrowable _exception = check_exception();
@@ -2523,7 +2782,8 @@ jthrowable globalEnv_ReleaseShortArrayElements(jshortArray array, jshort* elems,
 jthrowable globalEnv_ReleaseIntArrayElements(jintArray array, jint* elems, jint mode) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->ReleaseIntArrayElements(jniEnv, array, elems, mode);
   jthrowable _exception = check_exception();
@@ -2536,7 +2796,8 @@ jthrowable globalEnv_ReleaseIntArrayElements(jintArray array, jint* elems, jint 
 jthrowable globalEnv_ReleaseLongArrayElements(jlongArray array, jlong* elems, jint mode) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->ReleaseLongArrayElements(jniEnv, array, elems, mode);
   jthrowable _exception = check_exception();
@@ -2549,7 +2810,8 @@ jthrowable globalEnv_ReleaseLongArrayElements(jlongArray array, jlong* elems, ji
 jthrowable globalEnv_ReleaseFloatArrayElements(jfloatArray array, jfloat* elems, jint mode) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->ReleaseFloatArrayElements(jniEnv, array, elems, mode);
   jthrowable _exception = check_exception();
@@ -2562,7 +2824,8 @@ jthrowable globalEnv_ReleaseFloatArrayElements(jfloatArray array, jfloat* elems,
 jthrowable globalEnv_ReleaseDoubleArrayElements(jdoubleArray array, jdouble* elems, jint mode) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->ReleaseDoubleArrayElements(jniEnv, array, elems, mode);
   jthrowable _exception = check_exception();
@@ -2575,7 +2838,8 @@ jthrowable globalEnv_ReleaseDoubleArrayElements(jdoubleArray array, jdouble* ele
 jthrowable globalEnv_GetBooleanArrayRegion(jbooleanArray array, jsize start, jsize len, jboolean* buf) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->GetBooleanArrayRegion(jniEnv, array, start, len, buf);
   jthrowable _exception = check_exception();
@@ -2588,7 +2852,8 @@ jthrowable globalEnv_GetBooleanArrayRegion(jbooleanArray array, jsize start, jsi
 jthrowable globalEnv_GetByteArrayRegion(jbyteArray array, jsize start, jsize len, jbyte* buf) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->GetByteArrayRegion(jniEnv, array, start, len, buf);
   jthrowable _exception = check_exception();
@@ -2601,7 +2866,8 @@ jthrowable globalEnv_GetByteArrayRegion(jbyteArray array, jsize start, jsize len
 jthrowable globalEnv_GetCharArrayRegion(jcharArray array, jsize start, jsize len, jchar* buf) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->GetCharArrayRegion(jniEnv, array, start, len, buf);
   jthrowable _exception = check_exception();
@@ -2614,7 +2880,8 @@ jthrowable globalEnv_GetCharArrayRegion(jcharArray array, jsize start, jsize len
 jthrowable globalEnv_GetShortArrayRegion(jshortArray array, jsize start, jsize len, jshort* buf) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->GetShortArrayRegion(jniEnv, array, start, len, buf);
   jthrowable _exception = check_exception();
@@ -2627,7 +2894,8 @@ jthrowable globalEnv_GetShortArrayRegion(jshortArray array, jsize start, jsize l
 jthrowable globalEnv_GetIntArrayRegion(jintArray array, jsize start, jsize len, jint* buf) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->GetIntArrayRegion(jniEnv, array, start, len, buf);
   jthrowable _exception = check_exception();
@@ -2640,7 +2908,8 @@ jthrowable globalEnv_GetIntArrayRegion(jintArray array, jsize start, jsize len, 
 jthrowable globalEnv_GetLongArrayRegion(jlongArray array, jsize start, jsize len, jlong* buf) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->GetLongArrayRegion(jniEnv, array, start, len, buf);
   jthrowable _exception = check_exception();
@@ -2653,7 +2922,8 @@ jthrowable globalEnv_GetLongArrayRegion(jlongArray array, jsize start, jsize len
 jthrowable globalEnv_GetFloatArrayRegion(jfloatArray array, jsize start, jsize len, jfloat* buf) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->GetFloatArrayRegion(jniEnv, array, start, len, buf);
   jthrowable _exception = check_exception();
@@ -2666,7 +2936,8 @@ jthrowable globalEnv_GetFloatArrayRegion(jfloatArray array, jsize start, jsize l
 jthrowable globalEnv_GetDoubleArrayRegion(jdoubleArray array, jsize start, jsize len, jdouble* buf) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->GetDoubleArrayRegion(jniEnv, array, start, len, buf);
   jthrowable _exception = check_exception();
@@ -2679,7 +2950,8 @@ jthrowable globalEnv_GetDoubleArrayRegion(jdoubleArray array, jsize start, jsize
 jthrowable globalEnv_SetBooleanArrayRegion(jbooleanArray array, jsize start, jsize len, jboolean* buf) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->SetBooleanArrayRegion(jniEnv, array, start, len, buf);
   jthrowable _exception = check_exception();
@@ -2692,7 +2964,8 @@ jthrowable globalEnv_SetBooleanArrayRegion(jbooleanArray array, jsize start, jsi
 jthrowable globalEnv_SetByteArrayRegion(jbyteArray array, jsize start, jsize len, jbyte* buf) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->SetByteArrayRegion(jniEnv, array, start, len, buf);
   jthrowable _exception = check_exception();
@@ -2705,7 +2978,8 @@ jthrowable globalEnv_SetByteArrayRegion(jbyteArray array, jsize start, jsize len
 jthrowable globalEnv_SetCharArrayRegion(jcharArray array, jsize start, jsize len, jchar* buf) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->SetCharArrayRegion(jniEnv, array, start, len, buf);
   jthrowable _exception = check_exception();
@@ -2718,7 +2992,8 @@ jthrowable globalEnv_SetCharArrayRegion(jcharArray array, jsize start, jsize len
 jthrowable globalEnv_SetShortArrayRegion(jshortArray array, jsize start, jsize len, jshort* buf) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->SetShortArrayRegion(jniEnv, array, start, len, buf);
   jthrowable _exception = check_exception();
@@ -2731,7 +3006,8 @@ jthrowable globalEnv_SetShortArrayRegion(jshortArray array, jsize start, jsize l
 jthrowable globalEnv_SetIntArrayRegion(jintArray array, jsize start, jsize len, jint* buf) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->SetIntArrayRegion(jniEnv, array, start, len, buf);
   jthrowable _exception = check_exception();
@@ -2744,7 +3020,8 @@ jthrowable globalEnv_SetIntArrayRegion(jintArray array, jsize start, jsize len, 
 jthrowable globalEnv_SetLongArrayRegion(jlongArray array, jsize start, jsize len, jlong* buf) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->SetLongArrayRegion(jniEnv, array, start, len, buf);
   jthrowable _exception = check_exception();
@@ -2757,7 +3034,8 @@ jthrowable globalEnv_SetLongArrayRegion(jlongArray array, jsize start, jsize len
 jthrowable globalEnv_SetFloatArrayRegion(jfloatArray array, jsize start, jsize len, jfloat* buf) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->SetFloatArrayRegion(jniEnv, array, start, len, buf);
   jthrowable _exception = check_exception();
@@ -2770,7 +3048,8 @@ jthrowable globalEnv_SetFloatArrayRegion(jfloatArray array, jsize start, jsize l
 jthrowable globalEnv_SetDoubleArrayRegion(jdoubleArray array, jsize start, jsize len, jdouble* buf) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->SetDoubleArrayRegion(jniEnv, array, start, len, buf);
   jthrowable _exception = check_exception();
@@ -2783,7 +3062,8 @@ jthrowable globalEnv_SetDoubleArrayRegion(jdoubleArray array, jsize start, jsize
 JniResult globalEnv_RegisterNatives(jclass clazz, JNINativeMethod* methods, jint nMethods) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jint _result = (*jniEnv)->RegisterNatives(jniEnv, clazz, methods, nMethods);
   jthrowable _exception = check_exception();
@@ -2796,7 +3076,8 @@ JniResult globalEnv_RegisterNatives(jclass clazz, JNINativeMethod* methods, jint
 JniResult globalEnv_UnregisterNatives(jclass clazz) {
   attach_thread();
   if (clazz == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jint _result = (*jniEnv)->UnregisterNatives(jniEnv, clazz);
   jthrowable _exception = check_exception();
@@ -2809,7 +3090,8 @@ JniResult globalEnv_UnregisterNatives(jclass clazz) {
 JniResult globalEnv_MonitorEnter(jobject obj) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jint _result = (*jniEnv)->MonitorEnter(jniEnv, obj);
   jthrowable _exception = check_exception();
@@ -2822,7 +3104,8 @@ JniResult globalEnv_MonitorEnter(jobject obj) {
 JniResult globalEnv_MonitorExit(jobject obj) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jint _result = (*jniEnv)->MonitorExit(jniEnv, obj);
   jthrowable _exception = check_exception();
@@ -2845,7 +3128,8 @@ JniResult globalEnv_GetJavaVM(JavaVM** vm) {
 jthrowable globalEnv_GetStringRegion(jstring str, jsize start, jsize len, jchar* buf) {
   attach_thread();
   if (str == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("str");
+    return _null_exc;
   }
    (*jniEnv)->GetStringRegion(jniEnv, str, start, len, buf);
   jthrowable _exception = check_exception();
@@ -2858,7 +3142,8 @@ jthrowable globalEnv_GetStringRegion(jstring str, jsize start, jsize len, jchar*
 jthrowable globalEnv_GetStringUTFRegion(jstring str, jsize start, jsize len, char* buf) {
   attach_thread();
   if (str == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("str");
+    return _null_exc;
   }
    (*jniEnv)->GetStringUTFRegion(jniEnv, str, start, len, buf);
   jthrowable _exception = check_exception();
@@ -2871,7 +3156,8 @@ jthrowable globalEnv_GetStringUTFRegion(jstring str, jsize start, jsize len, cha
 JniPointerResult globalEnv_GetPrimitiveArrayCritical(jarray array, jboolean* isCopy) {
   attach_thread();
   if (array == NULL) {
-    return (JniPointerResult){.value = NULL, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return (JniPointerResult){.value = NULL, .exception = _null_exc};
   }
   void* _result = (*jniEnv)->GetPrimitiveArrayCritical(jniEnv, array, isCopy);
   jthrowable _exception = check_exception();
@@ -2884,7 +3170,8 @@ JniPointerResult globalEnv_GetPrimitiveArrayCritical(jarray array, jboolean* isC
 jthrowable globalEnv_ReleasePrimitiveArrayCritical(jarray array, void* carray, jint mode) {
   attach_thread();
   if (array == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("array");
+    return _null_exc;
   }
    (*jniEnv)->ReleasePrimitiveArrayCritical(jniEnv, array, carray, mode);
   jthrowable _exception = check_exception();
@@ -2897,7 +3184,8 @@ jthrowable globalEnv_ReleasePrimitiveArrayCritical(jarray array, void* carray, j
 JniPointerResult globalEnv_GetStringCritical(jstring str, jboolean* isCopy) {
   attach_thread();
   if (str == NULL) {
-    return (JniPointerResult){.value = NULL, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("str");
+    return (JniPointerResult){.value = NULL, .exception = _null_exc};
   }
   const jchar* _result = (*jniEnv)->GetStringCritical(jniEnv, str, isCopy);
   return (JniPointerResult){.value = _result, .exception = NULL};
@@ -2906,7 +3194,8 @@ JniPointerResult globalEnv_GetStringCritical(jstring str, jboolean* isCopy) {
 jthrowable globalEnv_ReleaseStringCritical(jstring str, jchar* carray) {
   attach_thread();
   if (str == NULL) {
-    return NULL;
+    jthrowable _null_exc = create_null_parameter_exception("str");
+    return _null_exc;
   }
    (*jniEnv)->ReleaseStringCritical(jniEnv, str, carray);
   jthrowable _exception = check_exception();
@@ -2960,7 +3249,8 @@ JniResult globalEnv_NewDirectByteBuffer(void* address, jlong capacity) {
 JniPointerResult globalEnv_GetDirectBufferAddress(jobject buf) {
   attach_thread();
   if (buf == NULL) {
-    return (JniPointerResult){.value = NULL, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("buf");
+    return (JniPointerResult){.value = NULL, .exception = _null_exc};
   }
   void* _result = (*jniEnv)->GetDirectBufferAddress(jniEnv, buf);
   jthrowable _exception = check_exception();
@@ -2973,7 +3263,8 @@ JniPointerResult globalEnv_GetDirectBufferAddress(jobject buf) {
 JniResult globalEnv_GetDirectBufferCapacity(jobject buf) {
   attach_thread();
   if (buf == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("buf");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jlong _result = (*jniEnv)->GetDirectBufferCapacity(jniEnv, buf);
   jthrowable _exception = check_exception();
@@ -2986,7 +3277,8 @@ JniResult globalEnv_GetDirectBufferCapacity(jobject buf) {
 JniResult globalEnv_GetObjectRefType(jobject obj) {
   attach_thread();
   if (obj == NULL) {
-    return (JniResult){.value = {.j = 0}, .exception = NULL};
+    jthrowable _null_exc = create_null_parameter_exception("obj");
+    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
   jobjectRefType _result = (*jniEnv)->GetObjectRefType(jniEnv, obj);
   return (JniResult){.value = {.i = _result}, .exception = NULL};
