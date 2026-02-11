@@ -3199,7 +3199,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
       final $a = $i.args;
       if ($d ==
           r'sayHello(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference($a![0].reference)
+        final $r = jni$_.KotlinContinuation.fromReference(
+                ($a![0] as jni$_.JObject).reference)
             .resumeWithFuture(_$impls[$p]!.sayHello());
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -3209,9 +3210,10 @@ extension type SuspendInterface._(jni$_.JObject _$this)
       }
       if ($d ==
           r'sayHello(Ljava/lang/String;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference($a![1].reference)
+        final $r = jni$_.KotlinContinuation.fromReference(
+                ($a![1] as jni$_.JObject).reference)
             .resumeWithFuture(_$impls[$p]!.sayHello$1(
-          $a![0],
+          ($a![0] as jni$_.JString),
         ));
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -3221,7 +3223,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
       }
       if ($d ==
           r'nullableHello(ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference($a![1].reference)
+        final $r = jni$_.KotlinContinuation.fromReference(
+                ($a![1] as jni$_.JObject).reference)
             .resumeWithFuture(_$impls[$p]!.nullableHello(
           ($a![0] as jni$_.JBoolean).booleanValue(releaseOriginal: true),
         ));
@@ -3232,7 +3235,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
             jni$_.nullptr;
       }
       if ($d == r'sayInt(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference($a![0].reference)
+        final $r = jni$_.KotlinContinuation.fromReference(
+                ($a![0] as jni$_.JObject).reference)
             .resumeWithFuture(_$impls[$p]!.sayInt());
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -3242,9 +3246,10 @@ extension type SuspendInterface._(jni$_.JObject _$this)
       }
       if ($d ==
           r'sayInt(Ljava/lang/Integer;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference($a![1].reference)
+        final $r = jni$_.KotlinContinuation.fromReference(
+                ($a![1] as jni$_.JObject).reference)
             .resumeWithFuture(_$impls[$p]!.sayInt$1(
-          $a![0],
+          ($a![0] as jni$_.JInteger),
         ));
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -3254,7 +3259,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
       }
       if ($d ==
           r'nullableInt(ZLkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference($a![1].reference)
+        final $r = jni$_.KotlinContinuation.fromReference(
+                ($a![1] as jni$_.JObject).reference)
             .resumeWithFuture(_$impls[$p]!.nullableInt(
           ($a![0] as jni$_.JBoolean).booleanValue(releaseOriginal: true),
         ));
@@ -3266,7 +3272,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
       }
       if ($d ==
           r'noReturn(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
-        final $r = jni$_.KotlinContinuation.fromReference($a![0].reference)
+        final $r = jni$_.KotlinContinuation.fromReference(
+                ($a![0] as jni$_.JObject).reference)
             .resumeWithVoidFuture(_$impls[$p]!.noReturn());
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())

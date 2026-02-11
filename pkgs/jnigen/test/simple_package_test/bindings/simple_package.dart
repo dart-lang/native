@@ -4005,7 +4005,7 @@ extension type GenericInterface<$T extends jni$_.JObject?>._(
       final $a = $i.args;
       if ($d == r'genericArrayOf(Ljava/lang/Object;)[Ljava/lang/Object;') {
         final $r = _$impls[$p]!.genericArrayOf(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -4015,7 +4015,7 @@ extension type GenericInterface<$T extends jni$_.JObject?>._(
       }
       if ($d == r'arrayOf(Ljava/lang/Object;)[Ljava/lang/Object;') {
         final $r = _$impls[$p]!.arrayOf(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -4025,8 +4025,8 @@ extension type GenericInterface<$T extends jni$_.JObject?>._(
       }
       if ($d == r'mapOf(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;') {
         final $r = _$impls[$p]!.mapOf(
-          $a![0],
-          $a![1],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -4036,7 +4036,7 @@ extension type GenericInterface<$T extends jni$_.JObject?>._(
       }
       if ($d == r'firstOfGenericArray([Ljava/lang/Object;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.firstOfGenericArray(
-          $a![0],
+          ($a![0] as jni$_.JArray<jni$_.JObject?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -4046,7 +4046,7 @@ extension type GenericInterface<$T extends jni$_.JObject?>._(
       }
       if ($d == r'firstOfArray([Ljava/lang/Object;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.firstOfArray(
-          $a![0],
+          ($a![0] as jni$_.JArray<jni$_.JObject?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -4056,7 +4056,7 @@ extension type GenericInterface<$T extends jni$_.JObject?>._(
       }
       if ($d == r'firstKeyOf(Ljava/util/Map;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.firstKeyOf(
-          $a![0],
+          ($a![0] as jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -4066,7 +4066,7 @@ extension type GenericInterface<$T extends jni$_.JObject?>._(
       }
       if ($d == r'firstValueOf(Ljava/util/Map;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.firstValueOf(
-          $a![0],
+          ($a![0] as jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -4374,13 +4374,13 @@ extension type InheritedFromMyInterface._(jni$_.JObject _$this)
       final $a = $i.args;
       if ($d == r'voidCallback(Ljava/lang/String;)V') {
         _$impls[$p]!.voidCallback(
-          $a![0],
+          ($a![0] as jni$_.JString?),
         );
         return jni$_.nullptr;
       }
       if ($d == r'stringCallback(Ljava/lang/String;)Ljava/lang/String;') {
         final $r = _$impls[$p]!.stringCallback(
-          $a![0],
+          ($a![0] as jni$_.JString?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -4390,7 +4390,7 @@ extension type InheritedFromMyInterface._(jni$_.JObject _$this)
       }
       if ($d == r'varCallback(Ljava/lang/String;)Ljava/lang/String;') {
         final $r = _$impls[$p]!.varCallback(
-          $a![0],
+          ($a![0] as jni$_.JString?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -4806,13 +4806,13 @@ extension type MyInterface<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
       final $a = $i.args;
       if ($d == r'voidCallback(Ljava/lang/String;)V') {
         _$impls[$p]!.voidCallback(
-          $a![0],
+          ($a![0] as jni$_.JString?),
         );
         return jni$_.nullptr;
       }
       if ($d == r'stringCallback(Ljava/lang/String;)Ljava/lang/String;') {
         final $r = _$impls[$p]!.stringCallback(
-          $a![0],
+          ($a![0] as jni$_.JString?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -4822,7 +4822,7 @@ extension type MyInterface<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'varCallback(Ljava/lang/Object;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.varCallback(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -5487,7 +5487,7 @@ extension type StringConverter._(jni$_.JObject _$this)
       final $a = $i.args;
       if ($d == r'parseToInt(Ljava/lang/String;)I') {
         final $r = _$impls[$p]!.parseToInt(
-          $a![0],
+          ($a![0] as jni$_.JString?),
         );
         return jni$_.JInteger($r).reference.toPointer();
       }
@@ -8509,7 +8509,7 @@ extension type R2250$Child._(jni$_.JObject _$this) implements jni$_.JObject {
       final $a = $i.args;
       if ($d == r'foo(Ljava/lang/Object;)V') {
         _$impls[$p]!.foo(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.nullptr;
       }
@@ -8654,7 +8654,7 @@ extension type R2250<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
       final $a = $i.args;
       if ($d == r'foo(Ljava/lang/Object;)V') {
         _$impls[$p]!.foo(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.nullptr;
       }

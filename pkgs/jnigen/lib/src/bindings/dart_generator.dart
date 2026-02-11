@@ -1588,18 +1588,17 @@ class _InterfaceParamCast extends Visitor<Param, void> {
 
   @override
   void visit(Param node) {
+    final type = node.type.accept(_TypeGenerator(
+      resolver,
+      forInterfaceImplementation: true,
+      typeErasure: true,
+      boxPrimitives: true,
+    ));
+    s.write('(\$a![$paramIndex] as $type)');
     if (node.type is PrimitiveType) {
-      final type = node.type.accept(_TypeGenerator(
-        resolver,
-        forInterfaceImplementation: true,
-        boxPrimitives: true,
-      ));
-      s.write('(\$a![$paramIndex] as $type)');
       // Convert to Dart type.
       final name = node.type.name;
       s.write('.${name}Value(releaseOriginal: true)');
-    } else {
-      s.write('\$a![$paramIndex]');
     }
   }
 }

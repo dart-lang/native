@@ -2372,13 +2372,13 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       final $a = $i.args;
       if ($d == r'add(Ljava/lang/Object;)Z') {
         final $r = _$impls[$p]!.add(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'addAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.addAll(
-          $a![0],
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
@@ -2388,19 +2388,19 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'contains(Ljava/lang/Object;)Z') {
         final $r = _$impls[$p]!.contains(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'containsAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.containsAll(
-          $a![0],
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'equals(Ljava/lang/Object;)Z') {
         final $r = _$impls[$p]!.equals(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
@@ -2430,25 +2430,25 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'remove(Ljava/lang/Object;)Z') {
         final $r = _$impls[$p]!.remove(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'removeAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.removeAll(
-          $a![0],
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'removeIf(Ljava/util/function/Predicate;)Z') {
         final $r = _$impls[$p]!.removeIf(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'retainAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.retainAll(
-          $a![0],
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
@@ -2483,7 +2483,7 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       if ($d ==
           r'toArray(Ljava/util/function/IntFunction;)[Ljava/lang/Object;') {
         final $r = _$impls[$p]!.toArray$1(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -2493,7 +2493,7 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'toArray([Ljava/lang/Object;)[Ljava/lang/Object;') {
         final $r = _$impls[$p]!.toArray$2(
-          $a![0],
+          ($a![0] as jni$_.JArray<jni$_.JObject?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -6042,7 +6042,7 @@ extension type JIterator<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       final $a = $i.args;
       if ($d == r'forEachRemaining(Ljava/util/function/Consumer;)V') {
         _$impls[$p]!.forEachRemaining(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.nullptr;
       }
@@ -7815,39 +7815,39 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       final $a = $i.args;
       if ($d == r'add(Ljava/lang/Object;)Z') {
         final $r = _$impls[$p]!.add(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'add(ILjava/lang/Object;)V') {
         _$impls[$p]!.add$1(
           ($a![0] as jni$_.JInteger).intValue(releaseOriginal: true),
-          $a![1],
+          ($a![1] as jni$_.JObject?),
         );
         return jni$_.nullptr;
       }
       if ($d == r'addAll(ILjava/util/Collection;)Z') {
         final $r = _$impls[$p]!.addAll(
           ($a![0] as jni$_.JInteger).intValue(releaseOriginal: true),
-          $a![1],
+          ($a![1] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'addAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.addAll$1(
-          $a![0],
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'addFirst(Ljava/lang/Object;)V') {
         _$impls[$p]!.addFirst(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.nullptr;
       }
       if ($d == r'addLast(Ljava/lang/Object;)V') {
         _$impls[$p]!.addLast(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.nullptr;
       }
@@ -7857,19 +7857,19 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'contains(Ljava/lang/Object;)Z') {
         final $r = _$impls[$p]!.contains(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'containsAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.containsAll(
-          $a![0],
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'copyOf(Ljava/util/Collection;)Ljava/util/List;') {
         final $r = _$impls[$p]!.copyOf(
-          $a![0],
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -7879,7 +7879,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'equals(Ljava/lang/Object;)Z') {
         final $r = _$impls[$p]!.equals(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
@@ -7915,7 +7915,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'indexOf(Ljava/lang/Object;)I') {
         final $r = _$impls[$p]!.indexOf(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.JInteger($r).reference.toPointer();
       }
@@ -7933,7 +7933,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'lastIndexOf(Ljava/lang/Object;)I') {
         final $r = _$impls[$p]!.lastIndexOf(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.JInteger($r).reference.toPointer();
       }
@@ -7965,7 +7965,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'of(Ljava/lang/Object;)Ljava/util/List;') {
         final $r = _$impls[$p]!.of$1(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -7975,8 +7975,8 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'of(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/List;') {
         final $r = _$impls[$p]!.of$2(
-          $a![0],
-          $a![1],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -7987,9 +7987,9 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/List;') {
         final $r = _$impls[$p]!.of$3(
-          $a![0],
-          $a![1],
-          $a![2],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -8000,10 +8000,10 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/List;') {
         final $r = _$impls[$p]!.of$4(
-          $a![0],
-          $a![1],
-          $a![2],
-          $a![3],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
+          ($a![3] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -8014,11 +8014,11 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/List;') {
         final $r = _$impls[$p]!.of$5(
-          $a![0],
-          $a![1],
-          $a![2],
-          $a![3],
-          $a![4],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
+          ($a![3] as jni$_.JObject?),
+          ($a![4] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -8029,12 +8029,12 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/List;') {
         final $r = _$impls[$p]!.of$6(
-          $a![0],
-          $a![1],
-          $a![2],
-          $a![3],
-          $a![4],
-          $a![5],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
+          ($a![3] as jni$_.JObject?),
+          ($a![4] as jni$_.JObject?),
+          ($a![5] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -8045,13 +8045,13 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/List;') {
         final $r = _$impls[$p]!.of$7(
-          $a![0],
-          $a![1],
-          $a![2],
-          $a![3],
-          $a![4],
-          $a![5],
-          $a![6],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
+          ($a![3] as jni$_.JObject?),
+          ($a![4] as jni$_.JObject?),
+          ($a![5] as jni$_.JObject?),
+          ($a![6] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -8062,14 +8062,14 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/List;') {
         final $r = _$impls[$p]!.of$8(
-          $a![0],
-          $a![1],
-          $a![2],
-          $a![3],
-          $a![4],
-          $a![5],
-          $a![6],
-          $a![7],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
+          ($a![3] as jni$_.JObject?),
+          ($a![4] as jni$_.JObject?),
+          ($a![5] as jni$_.JObject?),
+          ($a![6] as jni$_.JObject?),
+          ($a![7] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -8080,15 +8080,15 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/List;') {
         final $r = _$impls[$p]!.of$9(
-          $a![0],
-          $a![1],
-          $a![2],
-          $a![3],
-          $a![4],
-          $a![5],
-          $a![6],
-          $a![7],
-          $a![8],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
+          ($a![3] as jni$_.JObject?),
+          ($a![4] as jni$_.JObject?),
+          ($a![5] as jni$_.JObject?),
+          ($a![6] as jni$_.JObject?),
+          ($a![7] as jni$_.JObject?),
+          ($a![8] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -8099,16 +8099,16 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/List;') {
         final $r = _$impls[$p]!.of$10(
-          $a![0],
-          $a![1],
-          $a![2],
-          $a![3],
-          $a![4],
-          $a![5],
-          $a![6],
-          $a![7],
-          $a![8],
-          $a![9],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
+          ($a![3] as jni$_.JObject?),
+          ($a![4] as jni$_.JObject?),
+          ($a![5] as jni$_.JObject?),
+          ($a![6] as jni$_.JObject?),
+          ($a![7] as jni$_.JObject?),
+          ($a![8] as jni$_.JObject?),
+          ($a![9] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -8118,7 +8118,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'of([Ljava/lang/Object;)Ljava/util/List;') {
         final $r = _$impls[$p]!.of$11(
-          $a![0],
+          ($a![0] as jni$_.JArray<jni$_.JObject?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -8138,13 +8138,13 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'remove(Ljava/lang/Object;)Z') {
         final $r = _$impls[$p]!.remove$1(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'removeAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.removeAll(
-          $a![0],
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
@@ -8166,13 +8166,13 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'replaceAll(Ljava/util/function/UnaryOperator;)V') {
         _$impls[$p]!.replaceAll(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.nullptr;
       }
       if ($d == r'retainAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.retainAll(
-          $a![0],
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
@@ -8187,7 +8187,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       if ($d == r'set(ILjava/lang/Object;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.set(
           ($a![0] as jni$_.JInteger).intValue(releaseOriginal: true),
-          $a![1],
+          ($a![1] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -8201,7 +8201,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'sort(Ljava/util/Comparator;)V') {
         _$impls[$p]!.sort(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.nullptr;
       }
@@ -8234,7 +8234,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'toArray([Ljava/lang/Object;)[Ljava/lang/Object;') {
         final $r = _$impls[$p]!.toArray$1(
-          $a![0],
+          ($a![0] as jni$_.JArray<jni$_.JObject?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -8252,7 +8252,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'removeIf(Ljava/util/function/Predicate;)Z') {
         final $r = _$impls[$p]!.removeIf(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
@@ -8267,7 +8267,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       if ($d ==
           r'toArray(Ljava/util/function/IntFunction;)[Ljava/lang/Object;') {
         final $r = _$impls[$p]!.toArray$2(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -9441,7 +9441,7 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
       if ($d ==
           r'comparingByKey(Ljava/util/Comparator;)Ljava/util/Comparator;') {
         final $r = _$impls[$p]!.comparingByKey$1(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -9460,7 +9460,7 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
       if ($d ==
           r'comparingByValue(Ljava/util/Comparator;)Ljava/util/Comparator;') {
         final $r = _$impls[$p]!.comparingByValue$1(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -9470,7 +9470,7 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
       }
       if ($d == r'copyOf(Ljava/util/Map$Entry;)Ljava/util/Map$Entry;') {
         final $r = _$impls[$p]!.copyOf(
-          $a![0],
+          ($a![0] as JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -9480,7 +9480,7 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
       }
       if ($d == r'equals(Ljava/lang/Object;)Z') {
         final $r = _$impls[$p]!.equals(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
@@ -9506,7 +9506,7 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
       }
       if ($d == r'setValue(Ljava/lang/Object;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.setValue(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11414,8 +11414,8 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       if ($d ==
           r'compute(Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.compute(
-          $a![0],
-          $a![1],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11426,8 +11426,8 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       if ($d ==
           r'computeIfAbsent(Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.computeIfAbsent(
-          $a![0],
-          $a![1],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11438,8 +11438,8 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       if ($d ==
           r'computeIfPresent(Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.computeIfPresent(
-          $a![0],
-          $a![1],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11449,19 +11449,19 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       }
       if ($d == r'containsKey(Ljava/lang/Object;)Z') {
         final $r = _$impls[$p]!.containsKey(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'containsValue(Ljava/lang/Object;)Z') {
         final $r = _$impls[$p]!.containsValue(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'copyOf(Ljava/util/Map;)Ljava/util/Map;') {
         final $r = _$impls[$p]!.copyOf(
-          $a![0],
+          ($a![0] as JMap<jni$_.JObject?, jni$_.JObject?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11472,8 +11472,8 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       if ($d ==
           r'entry(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map$Entry;') {
         final $r = _$impls[$p]!.entry(
-          $a![0],
-          $a![1],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11491,19 +11491,19 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       }
       if ($d == r'equals(Ljava/lang/Object;)Z') {
         final $r = _$impls[$p]!.equals(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'forEach(Ljava/util/function/BiConsumer;)V') {
         _$impls[$p]!.forEach(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.nullptr;
       }
       if ($d == r'get(Ljava/lang/Object;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.get(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11514,8 +11514,8 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       if ($d ==
           r'getOrDefault(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.getOrDefault(
-          $a![0],
-          $a![1],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11542,9 +11542,9 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       if ($d ==
           r'merge(Ljava/lang/Object;Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.merge(
-          $a![0],
-          $a![1],
-          $a![2],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11562,8 +11562,8 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       }
       if ($d == r'of(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;') {
         final $r = _$impls[$p]!.of$1(
-          $a![0],
-          $a![1],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11574,10 +11574,10 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;') {
         final $r = _$impls[$p]!.of$2(
-          $a![0],
-          $a![1],
-          $a![2],
-          $a![3],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
+          ($a![3] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11588,12 +11588,12 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;') {
         final $r = _$impls[$p]!.of$3(
-          $a![0],
-          $a![1],
-          $a![2],
-          $a![3],
-          $a![4],
-          $a![5],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
+          ($a![3] as jni$_.JObject?),
+          ($a![4] as jni$_.JObject?),
+          ($a![5] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11604,14 +11604,14 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;') {
         final $r = _$impls[$p]!.of$4(
-          $a![0],
-          $a![1],
-          $a![2],
-          $a![3],
-          $a![4],
-          $a![5],
-          $a![6],
-          $a![7],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
+          ($a![3] as jni$_.JObject?),
+          ($a![4] as jni$_.JObject?),
+          ($a![5] as jni$_.JObject?),
+          ($a![6] as jni$_.JObject?),
+          ($a![7] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11622,16 +11622,16 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;') {
         final $r = _$impls[$p]!.of$5(
-          $a![0],
-          $a![1],
-          $a![2],
-          $a![3],
-          $a![4],
-          $a![5],
-          $a![6],
-          $a![7],
-          $a![8],
-          $a![9],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
+          ($a![3] as jni$_.JObject?),
+          ($a![4] as jni$_.JObject?),
+          ($a![5] as jni$_.JObject?),
+          ($a![6] as jni$_.JObject?),
+          ($a![7] as jni$_.JObject?),
+          ($a![8] as jni$_.JObject?),
+          ($a![9] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11642,18 +11642,18 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;') {
         final $r = _$impls[$p]!.of$6(
-          $a![0],
-          $a![1],
-          $a![2],
-          $a![3],
-          $a![4],
-          $a![5],
-          $a![6],
-          $a![7],
-          $a![8],
-          $a![9],
-          $a![10],
-          $a![11],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
+          ($a![3] as jni$_.JObject?),
+          ($a![4] as jni$_.JObject?),
+          ($a![5] as jni$_.JObject?),
+          ($a![6] as jni$_.JObject?),
+          ($a![7] as jni$_.JObject?),
+          ($a![8] as jni$_.JObject?),
+          ($a![9] as jni$_.JObject?),
+          ($a![10] as jni$_.JObject?),
+          ($a![11] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11664,20 +11664,20 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;') {
         final $r = _$impls[$p]!.of$7(
-          $a![0],
-          $a![1],
-          $a![2],
-          $a![3],
-          $a![4],
-          $a![5],
-          $a![6],
-          $a![7],
-          $a![8],
-          $a![9],
-          $a![10],
-          $a![11],
-          $a![12],
-          $a![13],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
+          ($a![3] as jni$_.JObject?),
+          ($a![4] as jni$_.JObject?),
+          ($a![5] as jni$_.JObject?),
+          ($a![6] as jni$_.JObject?),
+          ($a![7] as jni$_.JObject?),
+          ($a![8] as jni$_.JObject?),
+          ($a![9] as jni$_.JObject?),
+          ($a![10] as jni$_.JObject?),
+          ($a![11] as jni$_.JObject?),
+          ($a![12] as jni$_.JObject?),
+          ($a![13] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11688,22 +11688,22 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;') {
         final $r = _$impls[$p]!.of$8(
-          $a![0],
-          $a![1],
-          $a![2],
-          $a![3],
-          $a![4],
-          $a![5],
-          $a![6],
-          $a![7],
-          $a![8],
-          $a![9],
-          $a![10],
-          $a![11],
-          $a![12],
-          $a![13],
-          $a![14],
-          $a![15],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
+          ($a![3] as jni$_.JObject?),
+          ($a![4] as jni$_.JObject?),
+          ($a![5] as jni$_.JObject?),
+          ($a![6] as jni$_.JObject?),
+          ($a![7] as jni$_.JObject?),
+          ($a![8] as jni$_.JObject?),
+          ($a![9] as jni$_.JObject?),
+          ($a![10] as jni$_.JObject?),
+          ($a![11] as jni$_.JObject?),
+          ($a![12] as jni$_.JObject?),
+          ($a![13] as jni$_.JObject?),
+          ($a![14] as jni$_.JObject?),
+          ($a![15] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11714,24 +11714,24 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;') {
         final $r = _$impls[$p]!.of$9(
-          $a![0],
-          $a![1],
-          $a![2],
-          $a![3],
-          $a![4],
-          $a![5],
-          $a![6],
-          $a![7],
-          $a![8],
-          $a![9],
-          $a![10],
-          $a![11],
-          $a![12],
-          $a![13],
-          $a![14],
-          $a![15],
-          $a![16],
-          $a![17],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
+          ($a![3] as jni$_.JObject?),
+          ($a![4] as jni$_.JObject?),
+          ($a![5] as jni$_.JObject?),
+          ($a![6] as jni$_.JObject?),
+          ($a![7] as jni$_.JObject?),
+          ($a![8] as jni$_.JObject?),
+          ($a![9] as jni$_.JObject?),
+          ($a![10] as jni$_.JObject?),
+          ($a![11] as jni$_.JObject?),
+          ($a![12] as jni$_.JObject?),
+          ($a![13] as jni$_.JObject?),
+          ($a![14] as jni$_.JObject?),
+          ($a![15] as jni$_.JObject?),
+          ($a![16] as jni$_.JObject?),
+          ($a![17] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11742,26 +11742,26 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Map;') {
         final $r = _$impls[$p]!.of$10(
-          $a![0],
-          $a![1],
-          $a![2],
-          $a![3],
-          $a![4],
-          $a![5],
-          $a![6],
-          $a![7],
-          $a![8],
-          $a![9],
-          $a![10],
-          $a![11],
-          $a![12],
-          $a![13],
-          $a![14],
-          $a![15],
-          $a![16],
-          $a![17],
-          $a![18],
-          $a![19],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
+          ($a![3] as jni$_.JObject?),
+          ($a![4] as jni$_.JObject?),
+          ($a![5] as jni$_.JObject?),
+          ($a![6] as jni$_.JObject?),
+          ($a![7] as jni$_.JObject?),
+          ($a![8] as jni$_.JObject?),
+          ($a![9] as jni$_.JObject?),
+          ($a![10] as jni$_.JObject?),
+          ($a![11] as jni$_.JObject?),
+          ($a![12] as jni$_.JObject?),
+          ($a![13] as jni$_.JObject?),
+          ($a![14] as jni$_.JObject?),
+          ($a![15] as jni$_.JObject?),
+          ($a![16] as jni$_.JObject?),
+          ($a![17] as jni$_.JObject?),
+          ($a![18] as jni$_.JObject?),
+          ($a![19] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11771,7 +11771,8 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       }
       if ($d == r'ofEntries([Ljava/util/Map$Entry;)Ljava/util/Map;') {
         final $r = _$impls[$p]!.ofEntries(
-          $a![0],
+          ($a![0]
+              as jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11782,8 +11783,8 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       if ($d ==
           r'put(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.put(
-          $a![0],
-          $a![1],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11793,15 +11794,15 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       }
       if ($d == r'putAll(Ljava/util/Map;)V') {
         _$impls[$p]!.putAll(
-          $a![0],
+          ($a![0] as JMap<jni$_.JObject?, jni$_.JObject?>?),
         );
         return jni$_.nullptr;
       }
       if ($d ==
           r'putIfAbsent(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.putIfAbsent(
-          $a![0],
-          $a![1],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11811,7 +11812,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       }
       if ($d == r'remove(Ljava/lang/Object;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.remove(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11821,16 +11822,16 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       }
       if ($d == r'remove(Ljava/lang/Object;Ljava/lang/Object;)Z') {
         final $r = _$impls[$p]!.remove$1(
-          $a![0],
-          $a![1],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d ==
           r'replace(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.replace(
-          $a![0],
-          $a![1],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11841,15 +11842,15 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       if ($d ==
           r'replace(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z') {
         final $r = _$impls[$p]!.replace$1(
-          $a![0],
-          $a![1],
-          $a![2],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'replaceAll(Ljava/util/function/BiFunction;)V') {
         _$impls[$p]!.replaceAll(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.nullptr;
       }
@@ -14141,13 +14142,13 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       final $a = $i.args;
       if ($d == r'add(Ljava/lang/Object;)Z') {
         final $r = _$impls[$p]!.add(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'addAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.addAll(
-          $a![0],
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
@@ -14157,19 +14158,19 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'contains(Ljava/lang/Object;)Z') {
         final $r = _$impls[$p]!.contains(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'containsAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.containsAll(
-          $a![0],
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'copyOf(Ljava/util/Collection;)Ljava/util/Set;') {
         final $r = _$impls[$p]!.copyOf(
-          $a![0],
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -14179,7 +14180,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'equals(Ljava/lang/Object;)Z') {
         final $r = _$impls[$p]!.equals(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
@@ -14209,7 +14210,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'of(Ljava/lang/Object;)Ljava/util/Set;') {
         final $r = _$impls[$p]!.of$1(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -14219,8 +14220,8 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'of(Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Set;') {
         final $r = _$impls[$p]!.of$2(
-          $a![0],
-          $a![1],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -14231,9 +14232,9 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Set;') {
         final $r = _$impls[$p]!.of$3(
-          $a![0],
-          $a![1],
-          $a![2],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -14244,10 +14245,10 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Set;') {
         final $r = _$impls[$p]!.of$4(
-          $a![0],
-          $a![1],
-          $a![2],
-          $a![3],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
+          ($a![3] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -14258,11 +14259,11 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Set;') {
         final $r = _$impls[$p]!.of$5(
-          $a![0],
-          $a![1],
-          $a![2],
-          $a![3],
-          $a![4],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
+          ($a![3] as jni$_.JObject?),
+          ($a![4] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -14273,12 +14274,12 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Set;') {
         final $r = _$impls[$p]!.of$6(
-          $a![0],
-          $a![1],
-          $a![2],
-          $a![3],
-          $a![4],
-          $a![5],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
+          ($a![3] as jni$_.JObject?),
+          ($a![4] as jni$_.JObject?),
+          ($a![5] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -14289,13 +14290,13 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Set;') {
         final $r = _$impls[$p]!.of$7(
-          $a![0],
-          $a![1],
-          $a![2],
-          $a![3],
-          $a![4],
-          $a![5],
-          $a![6],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
+          ($a![3] as jni$_.JObject?),
+          ($a![4] as jni$_.JObject?),
+          ($a![5] as jni$_.JObject?),
+          ($a![6] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -14306,14 +14307,14 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Set;') {
         final $r = _$impls[$p]!.of$8(
-          $a![0],
-          $a![1],
-          $a![2],
-          $a![3],
-          $a![4],
-          $a![5],
-          $a![6],
-          $a![7],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
+          ($a![3] as jni$_.JObject?),
+          ($a![4] as jni$_.JObject?),
+          ($a![5] as jni$_.JObject?),
+          ($a![6] as jni$_.JObject?),
+          ($a![7] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -14324,15 +14325,15 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Set;') {
         final $r = _$impls[$p]!.of$9(
-          $a![0],
-          $a![1],
-          $a![2],
-          $a![3],
-          $a![4],
-          $a![5],
-          $a![6],
-          $a![7],
-          $a![8],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
+          ($a![3] as jni$_.JObject?),
+          ($a![4] as jni$_.JObject?),
+          ($a![5] as jni$_.JObject?),
+          ($a![6] as jni$_.JObject?),
+          ($a![7] as jni$_.JObject?),
+          ($a![8] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -14343,16 +14344,16 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       if ($d ==
           r'of(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Ljava/util/Set;') {
         final $r = _$impls[$p]!.of$10(
-          $a![0],
-          $a![1],
-          $a![2],
-          $a![3],
-          $a![4],
-          $a![5],
-          $a![6],
-          $a![7],
-          $a![8],
-          $a![9],
+          ($a![0] as jni$_.JObject?),
+          ($a![1] as jni$_.JObject?),
+          ($a![2] as jni$_.JObject?),
+          ($a![3] as jni$_.JObject?),
+          ($a![4] as jni$_.JObject?),
+          ($a![5] as jni$_.JObject?),
+          ($a![6] as jni$_.JObject?),
+          ($a![7] as jni$_.JObject?),
+          ($a![8] as jni$_.JObject?),
+          ($a![9] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -14362,7 +14363,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'of([Ljava/lang/Object;)Ljava/util/Set;') {
         final $r = _$impls[$p]!.of$11(
-          $a![0],
+          ($a![0] as jni$_.JArray<jni$_.JObject?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -14372,19 +14373,19 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'remove(Ljava/lang/Object;)Z') {
         final $r = _$impls[$p]!.remove(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'removeAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.removeAll(
-          $a![0],
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'retainAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.retainAll(
-          $a![0],
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
@@ -14410,7 +14411,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'toArray([Ljava/lang/Object;)[Ljava/lang/Object;') {
         final $r = _$impls[$p]!.toArray$1(
-          $a![0],
+          ($a![0] as jni$_.JArray<jni$_.JObject?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -14428,7 +14429,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'removeIf(Ljava/util/function/Predicate;)Z') {
         final $r = _$impls[$p]!.removeIf(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
@@ -14443,7 +14444,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       if ($d ==
           r'toArray(Ljava/util/function/IntFunction;)[Ljava/lang/Object;') {
         final $r = _$impls[$p]!.toArray$2(
-          $a![0],
+          ($a![0] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
