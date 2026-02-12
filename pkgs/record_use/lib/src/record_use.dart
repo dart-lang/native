@@ -30,29 +30,29 @@ extension type RecordedUsages._(Recordings _recordings) {
   /// Returns an empty iterable if the arguments were not collected.
   ///
   /// Example:
+  /// <!-- file://./../../example/api/usage.dart#static-call -->
   /// ```dart
-  /// import 'package:meta/meta.dart' show RecordUse;
-  /// void main() {
-  ///   print(SomeClass.someStaticMethod(42));
+  /// abstract class PirateTranslator {
+  ///   @RecordUse()
+  ///   static String speak(String english) => 'Ahoy $english';
   /// }
+  /// ```
   ///
-  /// class SomeClass {
-  ///   @RecordUse('id')
-  ///   static someStaticMethod(int i) {
-  ///     return i + 1;
+  /// To retrieve the recorded const arguments:
+  ///
+  /// <!-- file://./../../example/api/usage_link.dart#static-call -->
+  /// ```dart
+  /// final args = uses.constArgumentsFor(methodId);
+  /// for (final arg in args) {
+  ///   if (arg.positional[0] case StringConstant(value: final english)) {
+  ///     print('Translating to pirate: $english');
+  ///     // Shrink a translations file based on all the different translation
+  ///     // keys.
   ///   }
   /// }
   /// ```
-  ///
-  /// Would mean that
-  /// ```
-  /// constArgumentsFor(
-  ///           Definition(
-  ///             'package:my_package/file.dart',
-  ///             [Name('SomeClass'), Name('someStaticMethod')],
-  ///           ),
-  ///         ).first.positional[0] is IntConstant
-  /// ```
+  // TODO(https://github.com/dart-lang/native/issues/2718): Make tearoffs more
+  // front and center.
   Iterable<({Map<String, MaybeConstant> named, List<MaybeConstant> positional})>
   constArgumentsFor(Definition definition) =>
       _recordings.calls[definition]?.whereType<CallWithArguments>().map(
@@ -72,36 +72,32 @@ extension type RecordedUsages._(Recordings _recordings) {
   /// exist, this method returns an empty iterable.
   ///
   /// Example:
+  /// <!-- file://./../../example/api/usage.dart#const-instance -->
   /// ```dart
-  /// void main() {
-  ///   print(SomeClass.someStaticMethod(42));
-  /// }
+  /// @RecordUse()
+  /// class PirateShip {
+  ///   final String name;
+  ///   final int cannons;
   ///
-  /// class SomeClass {
-  ///   @AnnotationClass('freddie')
-  ///   static someStaticMethod(int i) {
-  ///     return i + 1;
+  ///   const PirateShip(this.name, this.cannons);
+  /// }
+  /// ```
+  ///
+  /// To retrieve the constant instances:
+  ///
+  /// <!-- file://./../../example/api/usage_link.dart#const-instance -->
+  /// ```dart
+  /// final ships = uses.constantsOf(classId);
+  /// for (final ship in ships) {
+  ///   if (ship.fields['name'] case StringConstant(value: final name)) {
+  ///     print('Pirate ship found: $name');
+  ///     // Include the 3d model for this ship in the application but not
+  ///     // bundle the other ships.
   ///   }
   /// }
-  ///
-  /// @RecordUse()
-  /// class AnnotationClass {
-  ///   final String s;
-  ///   const AnnotationClass(this.s);
-  /// }
   /// ```
-  ///
-  /// Would mean that
-  /// ```
-  /// constantsOf(
-  ///       Definition(
-  ///           'package:my_package/file.dart',
-  ///           [Name('AnnotationClass')]),
-  ///       ).first.fields['s'] is StringConstant;
-  /// ```
-  ///
-  /// What kinds of fields can be recorded depends on the implementation of
-  /// https://dart-review.googlesource.com/c/sdk/+/369620/13/pkg/vm/lib/transformations/record_use/record_instance.dart
+  // TODO(https://github.com/dart-lang/native/issues/2718): Make non-consts more
+  // front and center.
   Iterable<InstanceConstant> constantsOf(Definition definition) =>
       _recordings.instances[definition]
           ?.whereType<InstanceConstantReference>()
@@ -116,6 +112,8 @@ extension type RecordedUsages._(Recordings _recordings) {
   /// package. If there are no calls to the definition, either because it was
   /// treeshaken, because it was not annotated, or because it does not exist,
   /// this method returns `false`.
+  // TODO(https://github.com/dart-lang/native/issues/2718): Make non-consts more
+  // front and center.
   bool hasNonConstArguments(Definition definition) =>
       (_recordings.calls[definition] ?? []).any(
         (element) => switch (element) {
