@@ -56,6 +56,13 @@ ArgParser makeArgParser() {
       'fast',
       negatable: false,
       help: 'Skip slow integration tests and apitool.',
+    )
+    ..addFlag(
+      'fix',
+      negatable: false,
+      help:
+          'Apply auto-fixes (e.g., dart fix, dart format) instead of just '
+          'checking.',
     );
   for (final task in tasks) {
     parser.addFlag(task.name, help: task.helpMessage);
@@ -151,6 +158,12 @@ class AnalyzeTask extends Task {
     required List<String> packages,
     required ArgResults argResults,
   }) async {
+    if (argResults['fix'] as bool) {
+      await _runMaybeParallel([
+        for (final path in [...packages, 'tool'])
+          () => _runProcess('dart', ['fix', '--apply', path]),
+      ], argResults);
+    }
     await _runProcess('dart', [
       'analyze',
       '--fatal-infos',
@@ -170,10 +183,10 @@ class FormatTask extends Task {
     required List<String> packages,
     required ArgResults argResults,
   }) async {
+    final fix = argResults['fix'] as bool;
     await _runProcess('dart', [
       'format',
-      '--output=none',
-      '--set-exit-if-changed',
+      if (!fix) ...['--output=none', '--set-exit-if-changed'],
       ...packages,
       'tool',
     ]);
@@ -201,9 +214,13 @@ class GenerateTask extends Task {
       'pkgs/pub_formats/tool/generate.dart',
       'pkgs/record_use/tool/generate_syntax.dart',
     ];
+    final fix = argResults['fix'] as bool;
     await _runMaybeParallel([
       for (final generator in generators)
-        () => _runProcess('dart', [generator, '--set-exit-if-changed']),
+        () => _runProcess('dart', [
+          generator,
+          if (!fix) '--set-exit-if-changed',
+        ]),
     ], argResults);
   }
 }
@@ -415,9 +432,9 @@ const apiToolTask = ApiToolTask();
 // The order of tasks is intentional.
 final tasks = [
   pubTask,
+  generateTask,
   analyzeTask,
   formatTask,
-  generateTask,
   testTask,
   exampleTask,
   coverageTask,
