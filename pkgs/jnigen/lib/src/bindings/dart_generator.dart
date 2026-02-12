@@ -1393,7 +1393,9 @@ ${modifier}final _$name = $_protectedExtension
     } else {
       s.writeAll(node.modifiers.map((m) => '$m '));
       s.write('${node.returnType} ${node.name}(');
-      s.writeAll(node.params.map((p) => '${p.type} ${p.name}'), ', ');
+      // Filter out Kotlin synthetic params from documentation.
+      final docParams = node.params.where((p) => !p.isKotlinSynthetic);
+      s.writeAll(docParams.map((p) => '${p.type} ${p.name}'), ', ');
       s.writeln(')`');
     }
     if (node.returnType is! PrimitiveType || node.isConstructor) {
@@ -1402,7 +1404,9 @@ ${modifier}final _$name = $_protectedExtension
     node.javadoc?.accept(_DocGenerator(s, depth: 1));
 
     // Used for inferring the type parameter from the given parameters.
+    // Exclude Kotlin synthetic params since they're not part of the Dart API.
     final typeLocators = node.params
+        .where((p) => !p.isKotlinSynthetic)
         .accept(_ParamTypeLocator(resolver: resolver))
         .fold(<String, List<String>>{}, _mergeMapValues).map(
       (key, value) =>
@@ -1424,7 +1428,10 @@ ${modifier}final _$name = $_protectedExtension
             .join(_newLine(depth: 2));
     // This is needed to keep the references alive in the scope while waiting
     // for the FFI call.
+    // Filter out Kotlin synthetic params from local references since they're
+    // not part of the Dart API.
     final localReferences = node.params
+        .where((p) => !p.isKotlinSynthetic)
         .accept(const _ParamReference())
         .where((ref) => ref.isNotEmpty)
         .toList();
@@ -1432,7 +1439,11 @@ ${modifier}final _$name = $_protectedExtension
       final className = node.classDecl.finalName;
       final name = node.finalName;
       final ctorName = name == 'new\$' ? className : '$className.$name';
-      final paramsDef = node.params.accept(_ParamDef(resolver)).delimited(', ');
+      // Filter out Kotlin synthetic params from the Dart API signature.
+      final dartApiParams =
+          node.params.where((p) => !p.isKotlinSynthetic).toList();
+      final paramsDef =
+          dartApiParams.accept(_ParamDef(resolver)).delimited(', ');
       final typeParamsCall = node.classDecl.allTypeParams
           .map((typeParam) => '$_typeParamPrefix${typeParam.name}')
           .join(', ')
@@ -1705,6 +1716,12 @@ class _ParamCall extends Visitor<Param, String> {
 
   @override
   String visit(Param node) {
+    // Kotlin synthetic parameters (e.g., DefaultConstructorMarker) should
+    // always receive jNullReference in JNI calls.
+    if (node.isKotlinSynthetic) {
+      return '$_jni.jNullReference.pointer';
+    }
+
     final nativeSuffix = node.type.accept(const _ToNativeSuffix());
     final nonPrimitive = node.type is PrimitiveType ? '' : r'_$';
     final paramCall = '$nonPrimitive${node.finalName}$nativeSuffix';

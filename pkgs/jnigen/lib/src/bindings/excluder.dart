@@ -67,8 +67,22 @@ class _ClassExcluder extends Visitor<ClassDecl, void> {
       final isPrivate = method.isPrivate;
       final isAbstractCtor = method.isConstructor && node.isAbstract;
       final isBridgeMethod = method.isSynthetic && method.isBridge;
-      final excluded =
-          isPrivate || isAbstractCtor || isBridgeMethod || isExcluded;
+
+      // Exclude synthetic Kotlin constructors with DefaultConstructorMarker.
+      // These are compiler-generated overloads for default parameters and
+      // should not be exposed in the Dart API.
+      final isSyntheticDefaultCtorMarker = method.isConstructor &&
+          method.isSynthetic &&
+          method.params.any((param) =>
+              param.type is DeclaredType &&
+              (param.type as DeclaredType).binaryName ==
+                  'kotlin.jvm.internal.DefaultConstructorMarker');
+
+      final excluded = isPrivate ||
+          isAbstractCtor ||
+          isBridgeMethod ||
+          isSyntheticDefaultCtorMarker ||
+          isExcluded;
       if (excluded) {
         log.fine('Excluded method ${node.binaryName}#${method.name}');
       }
