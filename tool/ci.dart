@@ -2,8 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:args/args.dart';
 import 'package:yaml/yaml.dart';
@@ -11,7 +11,7 @@ import 'package:yaml/yaml.dart';
 void main(List<String> arguments) async {
   final parser = makeArgParser();
 
-  final ArgResults argResults = parser.parse(arguments);
+  final argResults = parser.parse(arguments);
 
   final packages = loadPackagesFromPubspec();
 
@@ -69,9 +69,9 @@ ArgParser makeArgParser() {
 /// task's name, its default state, and the help message for its corresponding
 /// command-line flag.
 ///
-/// The main execution loop iterates through a list of [Task] instances. For each
-/// instance, it uses [shouldRun] to determine if the task should be executed
-/// based on the command-line flags, and if so, calls the [run] method.
+/// The main execution loop iterates through a list of [Task] instances. For
+/// each instance, it uses [shouldRun] to determine if the task should be
+/// executed based on the command-line flags, and if so, calls the [run] method.
 abstract class Task {
   /// The name of the task, used for the command-line flag.
   ///
@@ -151,7 +151,12 @@ class AnalyzeTask extends Task {
     required List<String> packages,
     required ArgResults argResults,
   }) async {
-    await _runProcess('dart', ['analyze', '--fatal-infos', ...packages]);
+    await _runProcess('dart', [
+      'analyze',
+      '--fatal-infos',
+      ...packages,
+      'tool',
+    ]);
   }
 }
 
@@ -364,7 +369,7 @@ List<String> loadPackagesFromPubspec() {
   final pubspecYaml = loadYaml(
     File.fromUri(repositoryRoot.resolve('pubspec.yaml')).readAsStringSync(),
   );
-  final workspace = (pubspecYaml['workspace'] as List).cast<String>();
+  final workspace = ((pubspecYaml as Map)['workspace'] as List).cast<String>();
   final packages = workspace
       .where(
         (package) =>
@@ -426,7 +431,7 @@ Future<void> _runProcess(
   final exitCode = await process.exitCode;
 
   if (exitCode != 0) {
-    print('+$commandString failed with exitCode ${exitCode}.');
+    print('+$commandString failed with exitCode $exitCode.');
     exit(exitCode);
   }
 }
