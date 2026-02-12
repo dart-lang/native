@@ -123,13 +123,10 @@ class PubTask extends Task {
       'pkgs/hooks_runner/test_data/native_add_version_skew/',
       'pkgs/hooks_runner/test_data/native_add_version_skew_2/',
     ];
-    await _runMaybeParallel(
-      [
-        for (final path in paths)
-          () => _runProcess('dart', ['pub', 'get', '--directory', path]),
-      ],
-      argResults,
-    );
+    await _runMaybeParallel([
+      for (final path in paths)
+        () => _runProcess('dart', ['pub', 'get', '--directory', path]),
+    ], argResults);
   }
 }
 
@@ -173,6 +170,7 @@ class FormatTask extends Task {
       '--output=none',
       '--set-exit-if-changed',
       ...packages,
+      'tool',
     ]);
   }
 }
@@ -198,13 +196,10 @@ class GenerateTask extends Task {
       'pkgs/pub_formats/tool/generate.dart',
       'pkgs/record_use/tool/generate_syntax.dart',
     ];
-    await _runMaybeParallel(
-      [
-        for (final generator in generators)
-          () => _runProcess('dart', [generator, '--set-exit-if-changed']),
-      ],
-      argResults,
-    );
+    await _runMaybeParallel([
+      for (final generator in generators)
+        () => _runProcess('dart', [generator, '--set-exit-if-changed']),
+    ], argResults);
   }
 }
 
@@ -270,17 +265,14 @@ class ExampleTask extends Task {
       'pkgs/hooks/example/build/system_library/',
       'pkgs/hooks/example/build/use_dart_api/',
     ];
-    await _runMaybeParallel(
-      [
-        for (final exampleWithTest in examplesWithTest)
-          () => _runProcess(
-                workingDirectory: repositoryRoot.resolve(exampleWithTest),
-                'dart',
-                ['test'],
-              ),
-      ],
-      argResults,
-    );
+    await _runMaybeParallel([
+      for (final exampleWithTest in examplesWithTest)
+        () => _runProcess(
+          workingDirectory: repositoryRoot.resolve(exampleWithTest),
+          'dart',
+          ['test'],
+        ),
+    ], argResults);
 
     await _runProcess(
       workingDirectory: repositoryRoot.resolve(
