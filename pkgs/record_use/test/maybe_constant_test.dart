@@ -29,7 +29,7 @@ void main() {
     };
 
     final recordings = Recordings.fromJson(json);
-    const definition = Definition(importUri: 'package:a/a.dart', name: 'foo');
+    const definition = Definition('package:a/a.dart', [Name('foo')]);
     final calls = recordings.calls[definition]!;
     final call = calls[0] as CallWithArguments;
 
@@ -45,7 +45,7 @@ void main() {
   });
 
   test('MaybeConstant serialization round-trip', () {
-    const definition = Definition(importUri: 'package:a/a.dart', name: 'foo');
+    const definition = Definition('package:a/a.dart', [Name('foo')]);
     final recordings = Recordings(
       metadata: Metadata(version: version, comment: 'test'),
       calls: {
@@ -83,7 +83,7 @@ void main() {
   });
 
   test('allowPromotionOfUnsupported semantic equality', () {
-    const definition = Definition(importUri: 'package:a/a.dart', name: 'foo');
+    const definition = Definition('package:a/a.dart', [Name('foo')]);
 
     final actualRecordings = Recordings(
       metadata: Metadata(version: version, comment: 'actual'),

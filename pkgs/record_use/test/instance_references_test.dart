@@ -8,8 +8,8 @@ import 'package:test/test.dart';
 
 void main() {
   const definition = Definition(
-    importUri: 'package:test/test.dart',
-    name: 'MyClass',
+    'package:test/test.dart',
+    [Name('MyClass')],
   );
 
   final metadata = Metadata(

@@ -414,7 +414,7 @@ Error: $e
   Recordings filter({String? definitionPackageName}) {
     bool belongsToPackage(Definition definition) {
       if (definitionPackageName == null) return true;
-      final uri = definition.importUri;
+      final uri = definition.library;
       return uri.startsWith('package:$definitionPackageName/');
     }
 

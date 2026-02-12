@@ -53,8 +53,8 @@ Set<String> _extractUsedPhrases(Recordings recordings) {
   final usages = RecordedUsages.fromJson(recordings.toJson());
   final usedPhrases = <String>{};
   const pirateSpeakDef = Definition(
-    importUri: 'package:pirate_speak/src/definitions.dart',
-    name: 'pirateSpeak',
+    'package:pirate_speak/src/definitions.dart',
+    [Name('pirateSpeak')],
   );
 
   for (final call in usages.constArgumentsFor(pirateSpeakDef)) {

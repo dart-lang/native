@@ -8,21 +8,20 @@ import 'package:test/test.dart';
 
 void main() {
   const definition1 = Definition(
-    importUri: 'package:a/a.dart',
-    name: 'definition1',
+    'package:a/a.dart',
+    [Name('definition1')],
   );
   const definition2 = Definition(
-    importUri: 'package:a/a.dart',
-    name: 'definition2',
+    'package:a/a.dart',
+    [Name('definition2')],
   );
-  const definition1differentUri = Definition(
-    importUri: 'package:a/b.dart',
-    name: 'definition1',
+  const definition1differentLibrary = Definition(
+    'package:a/b.dart',
+    [Name('definition1')],
   );
   const definition3 = Definition(
-    importUri: 'package:a/a.dart',
-    scope: 'SomeClass',
-    name: 'definition1',
+    'package:a/a.dart',
+    [Name('SomeClass'), Name('definition1')],
   );
   const callDefintion1Static = CallWithArguments(
     positionalArguments: [],
@@ -42,9 +41,9 @@ void main() {
   const callDefinition1Tearoff = CallTearoff(
     loadingUnit: null,
   );
-  const definition1differentUri2 = Definition(
-    importUri: 'memory:a/a.dart',
-    name: 'definition1',
+  const definition1differentLibrary2 = Definition(
+    'memory:a/a.dart',
+    [Name('definition1')],
   );
   const callDefintion1StaticDifferentUri = CallWithArguments(
     positionalArguments: [],
@@ -59,10 +58,10 @@ void main() {
   test('Definition semantic equality', () {
     expect(definition1.semanticEquals(definition1), isTrue);
     expect(definition1.semanticEquals(definition2), isFalse);
-    expect(definition1.semanticEquals(definition1differentUri), isFalse);
+    expect(definition1.semanticEquals(definition1differentLibrary), isFalse);
     expect(
       definition1.semanticEquals(
-        definition1differentUri,
+        definition1differentLibrary,
         uriMapping: (uri) => uri.replaceFirst('a.dart', 'b.dart'),
       ),
       isTrue,
@@ -225,7 +224,7 @@ void main() {
     final recordings2 = Recordings(
       metadata: metadata,
       calls: {
-        definition1differentUri2: [
+        definition1differentLibrary2: [
           callDefintion1StaticDifferentUri,
         ],
       },

@@ -34,10 +34,8 @@ void main(List<String> arguments) async {
     for (final methodName in ['add', 'multiply']) {
       final calls = usages.constArgumentsFor(
         Definition(
-          importUri:
-              'package:drop_dylib_recording/src/drop_dylib_recording.dart',
-          scope: 'MyMath',
-          name: methodName,
+          'package:drop_dylib_recording/src/drop_dylib_recording.dart',
+          [const Name('MyMath'), Name(methodName)],
         ),
       );
       for (final call in calls) {
@@ -59,9 +57,8 @@ void main(List<String> arguments) async {
     for (final className in ['Double', 'Square']) {
       final instances = usages.constantsOf(
         Definition(
-          importUri:
-              'package:drop_dylib_recording/src/drop_dylib_recording.dart',
-          name: className,
+          'package:drop_dylib_recording/src/drop_dylib_recording.dart',
+          [Name(className)],
         ),
       );
       for (final instance in instances) {

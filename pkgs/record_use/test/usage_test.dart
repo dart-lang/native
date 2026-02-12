@@ -17,9 +17,8 @@ void main() {
           )
           .constArgumentsFor(
             const Definition(
-              importUri: 'package:js_runtime/js_helper.dart',
-              scope: 'MyClass',
-              name: 'get:loadDeferredLibrary',
+              'package:js_runtime/js_helper.dart',
+              [Name('MyClass'), Name('get:loadDeferredLibrary')],
             ),
           )
           .length,
@@ -34,8 +33,8 @@ void main() {
             )
             .constantsOf(
               const Definition(
-                importUri: 'package:js_runtime/js_helper.dart',
-                name: 'MyAnnotation',
+                'package:js_runtime/js_helper.dart',
+                [Name('MyAnnotation')],
               ),
             )
             .first;
@@ -55,9 +54,8 @@ void main() {
             )
             .constArgumentsFor(
               const Definition(
-                importUri: 'package:js_runtime/js_helper.dart',
-                scope: 'MyClass',
-                name: 'get:loadDeferredLibrary',
+                'package:js_runtime/js_helper.dart',
+                [Name('MyClass'), Name('get:loadDeferredLibrary')],
               ),
             )
             .toList();
@@ -90,8 +88,8 @@ void main() {
             )
             .constantsOf(
               const Definition(
-                importUri: 'package:js_runtime/js_helper.dart',
-                name: 'MyAnnotation',
+                'package:js_runtime/js_helper.dart',
+                [Name('MyAnnotation')],
               ),
             )
             .first;
@@ -105,9 +103,8 @@ void main() {
         jsonDecode(recordedUsesJson2) as Map<String, Object?>,
       ).hasNonConstArguments(
         const Definition(
-          importUri:
-              'package:drop_dylib_recording/src/drop_dylib_recording.dart',
-          name: 'getMathMethod',
+          'package:drop_dylib_recording/src/drop_dylib_recording.dart',
+          [Name('getMathMethod')],
         ),
       ),
       false,

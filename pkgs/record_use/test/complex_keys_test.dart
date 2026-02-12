@@ -20,8 +20,8 @@ void main() {
     ]);
 
     const definition = Definition(
-      importUri: 'package:test/test.dart',
-      name: 'testMethod',
+      'package:test/test.dart',
+      [Name('testMethod')],
     );
 
     final recordings = Recordings(
@@ -83,8 +83,8 @@ void main() {
     ]);
 
     const definition = Definition(
-      importUri: 'package:test/test.dart',
-      name: 'complexMethod',
+      'package:test/test.dart',
+      [Name('complexMethod')],
     );
 
     final recordings = Recordings(

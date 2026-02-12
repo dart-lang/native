@@ -30,10 +30,8 @@ void main(List<String> arguments) async {
     for (final methodName in ['add', 'multiply']) {
       final calls = usages.constArgumentsFor(
         Definition(
-          importUri:
-              'package:${input.packageName}/src/${input.packageName}.dart',
-          scope: 'MyMath',
-          name: methodName,
+          'package:${input.packageName}/src/${input.packageName}.dart',
+          [const Name('MyMath'), Name(methodName)],
         ),
       );
       print('Checking calls to $methodName...');
@@ -54,9 +52,8 @@ void main(List<String> arguments) async {
     for (final className in ['Double', 'Square']) {
       final instances = usages.constantsOf(
         Definition(
-          importUri:
-              'package:${input.packageName}/src/${input.packageName}.dart',
-          name: className,
+          'package:${input.packageName}/src/${input.packageName}.dart',
+          [Name(className)],
         ),
       );
       print('Checking instances of $className...');

@@ -25,28 +25,28 @@ void main(List<String> arguments) async {
 
       // This package.
       final myMethodDefinition = recordings.calls.keys.firstWhere(
-        (i) => i.name == 'myMethod',
+        (i) => i.path.last.name == 'myMethod',
       );
       expect(
-        myMethodDefinition.importUri,
+        myMethodDefinition.library,
         'package:library_uris/src/definition.dart',
       );
 
       // The helper package.
       final helperMethodDefinition = recordings.calls.keys.firstWhere(
-        (i) => i.name == 'methodInHelper',
+        (i) => i.path.last.name == 'methodInHelper',
       );
       expect(
-        helperMethodDefinition.importUri,
+        helperMethodDefinition.library,
         'package:library_uris_helper/src/helper_definition.dart',
       );
 
       // Outside the lib dir, no package: uri.
       final methodInBinDefinition = recordings.calls.keys.firstWhere(
-        (i) => i.name == 'methodInBin',
+        (i) => i.path.last.name == 'methodInBin',
       );
       expect(
-        methodInBinDefinition.importUri,
+        methodInBinDefinition.library,
         // TODO(https://github.com/dart-lang/native/issues/2891): What should
         // this be? We don't have library uris for bin.
         'package:library_uris/../bin/my_bin.dart',

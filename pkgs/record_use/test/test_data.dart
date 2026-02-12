@@ -6,13 +6,12 @@ import 'package:pub_semver/pub_semver.dart';
 import 'package:record_use/record_use_internal.dart';
 
 const callId = Definition(
-  importUri: 'package:js_runtime/js_helper.dart',
-  scope: 'MyClass',
-  name: 'get:loadDeferredLibrary',
+  'package:js_runtime/js_helper.dart',
+  [Name('MyClass'), Name('get:loadDeferredLibrary')],
 );
 const instanceId = Definition(
-  importUri: 'package:js_runtime/js_helper.dart',
-  name: 'MyAnnotation',
+  'package:js_runtime/js_helper.dart',
+  [Name('MyAnnotation')],
 );
 
 final recordedUses = Recordings(
