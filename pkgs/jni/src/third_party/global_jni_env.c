@@ -2477,10 +2477,6 @@ JniResult globalEnv_NewObjectArray(jsize length, jclass elementClass, jobject in
     jthrowable _null_exc = create_null_parameter_exception("elementClass");
     return (JniResult){.value = {.j = 0}, .exception = _null_exc};
   }
-  if (initialElement == NULL) {
-    jthrowable _null_exc = create_null_parameter_exception("initialElement");
-    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
-  }
   jobjectArray _result = (*jniEnv)->NewObjectArray(jniEnv, length, elementClass, initialElement);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
@@ -2509,10 +2505,6 @@ jthrowable globalEnv_SetObjectArrayElement(jobjectArray array, jsize index, jobj
   attach_thread();
   if (array == NULL) {
     jthrowable _null_exc = create_null_parameter_exception("array");
-    return _null_exc;
-  }
-  if (val == NULL) {
-    jthrowable _null_exc = create_null_parameter_exception("val");
     return _null_exc;
   }
    (*jniEnv)->SetObjectArrayElement(jniEnv, array, index, val);

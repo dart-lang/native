@@ -254,8 +254,21 @@ const _nullSafeFunctions = {
   'GetStaticFieldID',
 };
 
+/// Map of function names to parameter names that allowed to be NULL according
+/// to JNI specification. These parameters accept NULL as a valid value with
+/// specific semantics.
+const _nullableParameterMap = {
+  'NewObjectArray': {'initialElement'},
+  'SetObjectArrayElement': {'val'},
+  'IsSameObject': {'ref1', 'ref2'},
+};
+
 /// Determines if a parameter type needs null checking.
-bool needsNullCheck(String paramType, String paramName) {
+bool needsNullCheck(String paramType, String paramName, String functionName) {
+  // Skip null checks for parameters that legitimately accept NULL per JNI spec
+  if (_nullableParameterMap[functionName]?.contains(paramName) ?? false) {
+    return false;
+  }
   // Check for jobject-related types
   if (isJRefType(paramType)) {
     return true;
@@ -285,10 +298,11 @@ String generateNullChecks(
   final checks = StringBuffer();
   for (final param in params) {
     final paramType = getCType(param.type);
-    if (needsNullCheck(paramType, param.name)) {
+    if (needsNullCheck(paramType, param.name, functionName)) {
       checks.writeln('  if (${param.name} == NULL) {');
       // Create a RuntimeException and return it in .exception field
       checks.writeln(
+          // ignore: lines_longer_than_80_chars
           '    jthrowable _null_exc = create_null_parameter_exception("${param.name}");');
       final errorResult = wrapper.returnType.contains('JniResult')
           ? '(${wrapper.returnType}){.value = {.j = 0}, .exception = _null_exc}'
