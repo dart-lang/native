@@ -108,6 +108,33 @@ class CallSyntax extends JsonObjectSyntax {
   String toString() => 'CallSyntax($json)';
 }
 
+class ClassNameSyntax extends NameSyntax {
+  ClassNameSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  ClassNameSyntax({
+    super.disambiguators,
+    required super.name,
+    super.path = const [],
+  }) : super(kind: 'class');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'ClassNameSyntax($json)';
+}
+
+extension ClassNameSyntaxExtension on NameSyntax {
+  bool get isClassName => kind == 'class';
+
+  ClassNameSyntax get asClassName => ClassNameSyntax.fromJson(json, path: path);
+}
+
 class ConstantSyntax extends JsonObjectSyntax {
   factory ConstantSyntax.fromJson(
     Map<String, Object?> json, {
@@ -211,6 +238,34 @@ extension ConstantInstanceSyntaxExtension on InstanceSyntax {
       ConstantInstanceSyntax.fromJson(json, path: path);
 }
 
+class ConstructorNameSyntax extends NameSyntax {
+  ConstructorNameSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  ConstructorNameSyntax({
+    super.disambiguators,
+    required super.name,
+    super.path = const [],
+  }) : super(kind: 'constructor');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'ConstructorNameSyntax($json)';
+}
+
+extension ConstructorNameSyntaxExtension on NameSyntax {
+  bool get isConstructorName => kind == 'constructor';
+
+  ConstructorNameSyntax get asConstructorName =>
+      ConstructorNameSyntax.fromJson(json, path: path);
+}
+
 class CreationInstanceSyntax extends InstanceSyntax {
   CreationInstanceSyntax.fromJson(
     super.json, {
@@ -288,32 +343,40 @@ class DefinitionSyntax extends JsonObjectSyntax {
   }) : super.fromJson();
 
   DefinitionSyntax({
-    required String name,
-    String? scope,
+    required List<NameSyntax> definitionPath,
     required String uri,
     super.path = const [],
   }) : super() {
-    _name = name;
-    _scope = scope;
+    _definitionPath = definitionPath;
     _uri = uri;
     json.sortOnKey();
   }
 
-  String get name => _reader.get<String>('name');
-
-  set _name(String value) {
-    json.setOrRemove('name', value);
+  List<NameSyntax> get definitionPath {
+    final jsonValue = _reader.list('path');
+    return [
+      for (final (index, element) in jsonValue.indexed)
+        NameSyntax.fromJson(
+          element as Map<String, Object?>,
+          path: [...path, 'path', index],
+        ),
+    ];
   }
 
-  List<String> _validateName() => _reader.validate<String>('name');
-
-  String? get scope => _reader.get<String?>('scope');
-
-  set _scope(String? value) {
-    json.setOrRemove('scope', value);
+  set _definitionPath(List<NameSyntax> value) {
+    json['path'] = [for (final item in value) item.json];
   }
 
-  List<String> _validateScope() => _reader.validate<String?>('scope');
+  List<String> _validateDefinitionPath() {
+    final listErrors = _reader.validateList<Map<String, Object?>>(
+      'path',
+    );
+    if (listErrors.isNotEmpty) {
+      return listErrors;
+    }
+    final elements = definitionPath;
+    return [for (final element in elements) ...element.validate()];
+  }
 
   static final _uriPattern = RegExp(r'^package:');
 
@@ -335,13 +398,123 @@ class DefinitionSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [
     ...super.validate(),
-    ..._validateName(),
-    ..._validateScope(),
+    ..._validateDefinitionPath(),
     ..._validateUri(),
   ];
 
   @override
   String toString() => 'DefinitionSyntax($json)';
+}
+
+class EnumNameSyntax extends NameSyntax {
+  EnumNameSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  EnumNameSyntax({
+    super.disambiguators,
+    required super.name,
+    super.path = const [],
+  }) : super(kind: 'enum');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'EnumNameSyntax($json)';
+}
+
+extension EnumNameSyntaxExtension on NameSyntax {
+  bool get isEnumName => kind == 'enum';
+
+  EnumNameSyntax get asEnumName => EnumNameSyntax.fromJson(json, path: path);
+}
+
+class ExtensionNameSyntax extends NameSyntax {
+  ExtensionNameSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  ExtensionNameSyntax({
+    super.disambiguators,
+    required super.name,
+    super.path = const [],
+  }) : super(kind: 'extension');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'ExtensionNameSyntax($json)';
+}
+
+extension ExtensionNameSyntaxExtension on NameSyntax {
+  bool get isExtensionName => kind == 'extension';
+
+  ExtensionNameSyntax get asExtensionName =>
+      ExtensionNameSyntax.fromJson(json, path: path);
+}
+
+class ExtensionTypeNameSyntax extends NameSyntax {
+  ExtensionTypeNameSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  ExtensionTypeNameSyntax({
+    super.disambiguators,
+    required super.name,
+    super.path = const [],
+  }) : super(kind: 'extension_type');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'ExtensionTypeNameSyntax($json)';
+}
+
+extension ExtensionTypeNameSyntaxExtension on NameSyntax {
+  bool get isExtensionTypeName => kind == 'extension_type';
+
+  ExtensionTypeNameSyntax get asExtensionTypeName =>
+      ExtensionTypeNameSyntax.fromJson(json, path: path);
+}
+
+class GetterNameSyntax extends NameSyntax {
+  GetterNameSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  GetterNameSyntax({
+    super.disambiguators,
+    required super.name,
+    super.path = const [],
+  }) : super(kind: 'getter');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'GetterNameSyntax($json)';
+}
+
+extension GetterNameSyntaxExtension on NameSyntax {
+  bool get isGetterName => kind == 'getter';
+
+  GetterNameSyntax get asGetterName =>
+      GetterNameSyntax.fromJson(json, path: path);
 }
 
 class InstanceSyntax extends JsonObjectSyntax {
@@ -683,6 +856,155 @@ class MetadataSyntax extends JsonObjectSyntax {
   String toString() => 'MetadataSyntax($json)';
 }
 
+class MethodNameSyntax extends NameSyntax {
+  MethodNameSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  MethodNameSyntax({
+    super.disambiguators,
+    required super.name,
+    super.path = const [],
+  }) : super(kind: 'method');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'MethodNameSyntax($json)';
+}
+
+extension MethodNameSyntaxExtension on NameSyntax {
+  bool get isMethodName => kind == 'method';
+
+  MethodNameSyntax get asMethodName =>
+      MethodNameSyntax.fromJson(json, path: path);
+}
+
+class MixinNameSyntax extends NameSyntax {
+  MixinNameSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  MixinNameSyntax({
+    super.disambiguators,
+    required super.name,
+    super.path = const [],
+  }) : super(kind: 'mixin');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'MixinNameSyntax($json)';
+}
+
+extension MixinNameSyntaxExtension on NameSyntax {
+  bool get isMixinName => kind == 'mixin';
+
+  MixinNameSyntax get asMixinName => MixinNameSyntax.fromJson(json, path: path);
+}
+
+class NameSyntax extends JsonObjectSyntax {
+  factory NameSyntax.fromJson(
+    Map<String, Object?> json, {
+    List<Object> path = const [],
+  }) {
+    final result = NameSyntax._fromJson(json, path: path);
+    if (result.isClassName) {
+      return result.asClassName;
+    }
+    if (result.isConstructorName) {
+      return result.asConstructorName;
+    }
+    if (result.isEnumName) {
+      return result.asEnumName;
+    }
+    if (result.isExtensionName) {
+      return result.asExtensionName;
+    }
+    if (result.isExtensionTypeName) {
+      return result.asExtensionTypeName;
+    }
+    if (result.isGetterName) {
+      return result.asGetterName;
+    }
+    if (result.isMethodName) {
+      return result.asMethodName;
+    }
+    if (result.isMixinName) {
+      return result.asMixinName;
+    }
+    if (result.isOperatorName) {
+      return result.asOperatorName;
+    }
+    if (result.isSetterName) {
+      return result.asSetterName;
+    }
+    return result;
+  }
+
+  NameSyntax._fromJson(
+    super.json, {
+    super.path = const [],
+  }) : super.fromJson();
+
+  NameSyntax({
+    List<String>? disambiguators,
+    String? kind,
+    required String name,
+    super.path = const [],
+  }) : super() {
+    _disambiguators = disambiguators;
+    _kind = kind;
+    _name = name;
+    json.sortOnKey();
+  }
+
+  List<String>? get disambiguators =>
+      _reader.optionalStringList('disambiguators');
+
+  set _disambiguators(List<String>? value) {
+    json.setOrRemove('disambiguators', value);
+  }
+
+  List<String> _validateDisambiguators() =>
+      _reader.validateOptionalStringList('disambiguators');
+
+  String? get kind => _reader.get<String?>('kind');
+
+  set _kind(String? value) {
+    json.setOrRemove('kind', value);
+  }
+
+  List<String> _validateKind() => _reader.validate<String?>('kind');
+
+  String get name => _reader.get<String>('name');
+
+  set _name(String value) {
+    json.setOrRemove('name', value);
+  }
+
+  List<String> _validateName() => _reader.validate<String>('name');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateDisambiguators(),
+    ..._validateKind(),
+    ..._validateName(),
+  ];
+
+  @override
+  String toString() => 'NameSyntax($json)';
+}
+
 class NullConstantSyntax extends ConstantSyntax {
   NullConstantSyntax.fromJson(
     super.json, {
@@ -705,6 +1027,34 @@ extension NullConstantSyntaxExtension on ConstantSyntax {
 
   NullConstantSyntax get asNullConstant =>
       NullConstantSyntax.fromJson(json, path: path);
+}
+
+class OperatorNameSyntax extends NameSyntax {
+  OperatorNameSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  OperatorNameSyntax({
+    super.disambiguators,
+    required super.name,
+    super.path = const [],
+  }) : super(kind: 'operator');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'OperatorNameSyntax($json)';
+}
+
+extension OperatorNameSyntaxExtension on NameSyntax {
+  bool get isOperatorName => kind == 'operator';
+
+  OperatorNameSyntax get asOperatorName =>
+      OperatorNameSyntax.fromJson(json, path: path);
 }
 
 class RecordedUsesSyntax extends JsonObjectSyntax {
@@ -830,12 +1180,12 @@ class RecordingSyntax extends JsonObjectSyntax {
 
   RecordingSyntax({
     List<CallSyntax>? calls,
-    required DefinitionSyntax identifier,
+    required DefinitionSyntax definition,
     List<InstanceSyntax>? instances,
     super.path = const [],
   }) : super() {
     _calls = calls;
-    _identifier = identifier;
+    _definition = definition;
     _instances = instances;
     json.sortOnKey();
   }
@@ -874,21 +1224,21 @@ class RecordingSyntax extends JsonObjectSyntax {
     return [for (final element in elements) ...element.validate()];
   }
 
-  DefinitionSyntax get identifier {
-    final jsonValue = _reader.map$('identifier');
-    return DefinitionSyntax.fromJson(jsonValue, path: [...path, 'identifier']);
+  DefinitionSyntax get definition {
+    final jsonValue = _reader.map$('definition');
+    return DefinitionSyntax.fromJson(jsonValue, path: [...path, 'definition']);
   }
 
-  set _identifier(DefinitionSyntax value) {
-    json['identifier'] = value.json;
+  set _definition(DefinitionSyntax value) {
+    json['definition'] = value.json;
   }
 
-  List<String> _validateIdentifier() {
-    final mapErrors = _reader.validate<Map<String, Object?>>('identifier');
+  List<String> _validateDefinition() {
+    final mapErrors = _reader.validate<Map<String, Object?>>('definition');
     if (mapErrors.isNotEmpty) {
       return mapErrors;
     }
-    return identifier.validate();
+    return definition.validate();
   }
 
   List<InstanceSyntax>? get instances {
@@ -929,12 +1279,40 @@ class RecordingSyntax extends JsonObjectSyntax {
   List<String> validate() => [
     ...super.validate(),
     ..._validateCalls(),
-    ..._validateIdentifier(),
+    ..._validateDefinition(),
     ..._validateInstances(),
   ];
 
   @override
   String toString() => 'RecordingSyntax($json)';
+}
+
+class SetterNameSyntax extends NameSyntax {
+  SetterNameSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  SetterNameSyntax({
+    super.disambiguators,
+    required super.name,
+    super.path = const [],
+  }) : super(kind: 'setter');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'SetterNameSyntax($json)';
+}
+
+extension SetterNameSyntaxExtension on NameSyntax {
+  bool get isSetterName => kind == 'setter';
+
+  SetterNameSyntax get asSetterName =>
+      SetterNameSyntax.fromJson(json, path: path);
 }
 
 class StringConstantSyntax extends ConstantSyntax {

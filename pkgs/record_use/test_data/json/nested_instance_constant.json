@@ -18,8 +18,13 @@
   },
   "recordings": [
     {
-      "identifier": {
-        "name": "Recorded",
+      "definition": {
+        "path": [
+          {
+            "kind": "class",
+            "name": "Recorded"
+          }
+        ],
         "uri": "package:record_use_test/nested_instance_constant.dart"
       },
       "instances": [

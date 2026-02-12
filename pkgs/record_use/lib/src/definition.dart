@@ -30,30 +30,40 @@ class Definition {
   const Definition(this.library, this.path);
 
   /// Creates a [Definition] object from its syntax representation.
-  static Definition _fromSyntax(DefinitionSyntax syntax) {
-    final path = <Name>[];
-    if (syntax.scope != null) {
-      path.add(Name(syntax.scope!));
-    }
-    path.add(Name(syntax.name));
-    return Definition(syntax.uri, path);
-  }
+  static Definition _fromSyntax(DefinitionSyntax syntax) => Definition(
+    syntax.uri,
+    syntax.definitionPath
+        .map(
+          (nameSyntax) => Name(
+            nameSyntax.name,
+            kind: nameSyntax.kind != null
+                ? DefinitionKind._(nameSyntax.kind!)
+                : null,
+            disambiguators:
+                nameSyntax.disambiguators
+                    ?.map(DefinitionDisambiguator._)
+                    .toSet() ??
+                {},
+          ),
+        )
+        .toList(),
+  );
 
   /// Converts this [Definition] object to a syntax representation.
-  DefinitionSyntax _toSyntax() {
-    if (path.length > 2) {
-      throw StateError(
-        'DefinitionSyntax only supports up to two levels of nesting. '
-        'Found ${path.length} levels: $path',
-      );
-    }
-    String? scope;
-    if (path.length > 1) {
-      scope = path.first.name;
-    }
-    final name = path.last.name;
-    return DefinitionSyntax(uri: library, scope: scope, name: name);
-  }
+  DefinitionSyntax _toSyntax() => DefinitionSyntax(
+    uri: library,
+    definitionPath: path
+        .map(
+          (name) => NameSyntax(
+            name: name.name,
+            kind: name.kind?.toString(),
+            disambiguators: name.disambiguators.isEmpty
+                ? null
+                : name.disambiguators.map((d) => d.toString()).toList(),
+          ),
+        )
+        .toList(),
+  );
 
   /// The parent, if it exists.
   Definition? get parent => path.length > 1
@@ -179,6 +189,13 @@ final class DefinitionKind {
   static const constructorKind = DefinitionKind._('constructor');
 
   @override
+  bool operator ==(Object other) =>
+      other is DefinitionKind && other._name == _name;
+
+  @override
+  int get hashCode => _name.hashCode;
+
+  @override
   String toString() => _name;
 }
 
@@ -200,6 +217,18 @@ final class DefinitionDisambiguator {
   /// Only applies to [DefinitionKind.methodKind], [DefinitionKind.getterKind],
   /// [DefinitionKind.setterKind], and [DefinitionKind.operatorKind].
   static const instanceDisambiguator = DefinitionDisambiguator._('instance');
+
+  static const values = [
+    staticDisambiguator,
+    instanceDisambiguator,
+  ];
+
+  @override
+  bool operator ==(Object other) =>
+      other is DefinitionDisambiguator && other._name == _name;
+
+  @override
+  int get hashCode => _name.hashCode;
 
   @override
   String toString() => _name;
