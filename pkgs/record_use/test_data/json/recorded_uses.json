@@ -74,15 +74,31 @@
           "type": "with_arguments"
         }
       ],
-      "identifier": {
-        "name": "generate",
-        "scope": "OtherClass",
+      "definition": {
+        "path": [
+          {
+            "kind": "class",
+            "name": "OtherClass"
+          },
+          {
+            "disambiguators": [
+              "static"
+            ],
+            "kind": "method",
+            "name": "generate"
+          }
+        ],
         "uri": "package:record_use_test/complex.dart"
       }
     },
     {
-      "identifier": {
-        "name": "MyClass",
+      "definition": {
+        "path": [
+          {
+            "kind": "class",
+            "name": "MyClass"
+          }
+        ],
         "uri": "package:record_use_test/instance_class.dart"
       },
       "instances": [

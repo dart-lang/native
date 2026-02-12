@@ -53,8 +53,12 @@ const constNullIndex = 4;
 const constInstanceIndex = 6;
 const constMapIndex = 3;
 const constUnsupportedIndex = 8;
-List<(List<Object>, void Function(ValidationResults result))>
-recordUseFields = [
+typedef SchemaTestField = (
+  List<Object> path,
+  void Function(ValidationResults result) missingExpectations,
+);
+
+List<SchemaTestField> recordUseFields = [
   (['constants'], expectOptionalFieldMissing),
   for (var index = 0; index < 9; index++) ...[
     (['constants', index, 'type'], expectRequiredFieldMissing),
@@ -74,22 +78,28 @@ recordUseFields = [
     // omitted. Also, Null has no value field.
   ],
   (['recordings'], expectOptionalFieldMissing),
-  (['recordings', 0, 'identifier'], expectRequiredFieldMissing),
+  (['recordings', 0, 'definition'], expectRequiredFieldMissing),
+  (['recordings', 0, 'definition', 'uri'], expectRequiredFieldMissing),
+  (['recordings', 0, 'definition', 'path'], expectRequiredFieldMissing),
+  (['recordings', 0, 'definition', 'path', 0], expectOptionalFieldMissing),
   (
-    ['recordings', 0, 'identifier', 'uri'],
+    ['recordings', 0, 'definition', 'path', 0, 'name'],
     expectRequiredFieldMissing,
   ),
-  // TODO(https://github.com/dart-lang/native/issues/1093): Potentially split
-  // out the concept of a class definition (which should never have a scope),
-  // and static method definition, which optionally have a scope. And the scope
-  // is always an enclosing class.
   (
-    ['recordings', 0, 'identifier', 'scope'],
+    ['recordings', 0, 'definition', 'path', 0, 'kind'],
     expectOptionalFieldMissing,
   ),
   (
-    ['recordings', 0, 'identifier', 'name'],
-    expectRequiredFieldMissing,
+    [
+      'recordings',
+      0,
+      'definition',
+      'path',
+      0,
+      'disambiguators',
+    ],
+    expectOptionalFieldMissing,
   ),
 
   // TODO(https://github.com/dart-lang/native/issues/1093): Whether calls or
@@ -116,20 +126,13 @@ recordUseFields = [
   ),
 ];
 
-List<(List<Object>, void Function(ValidationResults result))>
-constructorInvocationFields = [
+List<SchemaTestField> constructorInvocationFields = [
   (
     ['recordings', 0, 'instances', 0, 'loading_unit'],
     expectRequiredFieldMissing,
   ),
-  (
-    ['recordings', 0, 'instances', 0, 'type'],
-    expectRequiredFieldMissing,
-  ),
-  (
-    ['recordings', 0, 'instances', 0, 'positional'],
-    expectOptionalFieldMissing,
-  ),
+  (['recordings', 0, 'instances', 0, 'type'], expectRequiredFieldMissing),
+  (['recordings', 0, 'instances', 0, 'positional'], expectOptionalFieldMissing),
   (
     ['recordings', 0, 'instances', 0, 'named', 'param'],
     expectOptionalFieldMissing,
@@ -175,8 +178,6 @@ AllTestData loadTestsData(Uri directory) {
 Uri packageUri = findPackageRoot('record_use');
 
 /// Test removing a field or modifying it.
-///
-/// Changing a field to a wrong type is always expected to fail.
 ///
 /// Removing a field can be valid, the expectations must be passed in
 /// [missingExpectations].

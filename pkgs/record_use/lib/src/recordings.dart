@@ -78,7 +78,7 @@ Error: $e
 
     for (final recordingSyntax in syntax.recordings ?? <RecordingSyntax>[]) {
       final definition = DefinitionProtected.fromSyntax(
-        recordingSyntax.identifier,
+        recordingSyntax.definition,
       );
       if (recordingSyntax.calls case final callSyntaxes?) {
         final callReferences = callSyntaxes
@@ -170,7 +170,7 @@ Error: $e
       final instancesForDefinition = instances[definition];
       recordings.add(
         RecordingSyntax(
-          identifier: definition.toSyntax(),
+          definition: definition.toSyntax(),
           calls: callsForDefinition
               ?.map((call) => call.toSyntax(constantsIndex))
               .toList(),

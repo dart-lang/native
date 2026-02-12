@@ -240,11 +240,12 @@
     "Definition": {
       "type": "object",
       "properties": {
-        "name": {
-          "type": "string"
-        },
-        "scope": {
-          "type": "string"
+        "path": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Name"
+          },
+          "minItems": 1
         },
         "uri": {
           "type": "string",
@@ -252,7 +253,7 @@
         }
       },
       "required": [
-        "name",
+        "path",
         "uri"
       ]
     },
@@ -350,6 +351,56 @@
         "value"
       ]
     },
+    "Name": {
+      "type": "object",
+      "properties": {
+        "disambiguators": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "anyOf": [
+              {
+                "enum": [
+                  "instance",
+                  "static"
+                ]
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "kind": {
+          "type": "string",
+          "anyOf": [
+            {
+              "enum": [
+                "class",
+                "constructor",
+                "enum",
+                "extension",
+                "extension_type",
+                "getter",
+                "method",
+                "mixin",
+                "operator",
+                "setter"
+              ]
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
     "RecordedUses": {
       "type": "object",
       "properties": {
@@ -394,7 +445,7 @@
             "$ref": "#/definitions/Call"
           }
         },
-        "identifier": {
+        "definition": {
           "$ref": "#/definitions/Definition"
         },
         "instances": {
@@ -405,7 +456,7 @@
         }
       },
       "required": [
-        "identifier"
+        "definition"
       ]
     }
   }

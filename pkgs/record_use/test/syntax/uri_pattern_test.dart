@@ -11,11 +11,11 @@ void main() {
   group('Definition.uri pattern', () {
     test('Recordings.fromJson fails for non-package URI', () {
       final json = recordedUses.toJson();
-      // Modify the first recording's identifier URI to be invalid.
+      // Modify the first recording's definition URI to be invalid.
       final recordings = json['recordings'] as List;
       final recording = recordings[0] as Map;
-      final identifier = recording['identifier'] as Map;
-      identifier['uri'] = 'file:///foo.dart'; // Should start with package:
+      final definition = recording['definition'] as Map;
+      definition['uri'] = 'file:///foo.dart'; // Should start with package:
 
       expect(
         () => Recordings.fromJson(json),
@@ -31,11 +31,11 @@ void main() {
 
     test('RecordedUsages.fromJson fails for non-package URI', () {
       final json = recordedUses.toJson();
-      // Modify the first recording's identifier URI to be invalid.
+      // Modify the first recording's definition URI to be invalid.
       final recordings = json['recordings'] as List;
       final recording = recordings[0] as Map;
-      final identifier = recording['identifier'] as Map;
-      identifier['uri'] = 'file:///foo.dart'; // Should start with package:
+      final definition = recording['definition'] as Map;
+      definition['uri'] = 'file:///foo.dart'; // Should start with package:
 
       expect(
         () => RecordedUsages.fromJson(json),
