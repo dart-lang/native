@@ -17,6 +17,7 @@ environment:
 
 dev_dependencies:
   args: ^2.6.0
+  dart_flutter_team_lints: ^3.5.2
   json_schema: ^5.2.0 # May only be used in tool/ and test/json_schema/.
   json_syntax_generator:
     path: ../json_syntax_generator/
