@@ -55,7 +55,7 @@ ArgParser makeArgParser() {
     ..addFlag(
       'fast',
       negatable: false,
-      help: 'Skip hooks_runner and native_toolchain_c.',
+      help: 'Skip slow integration tests and apitool.',
     );
   for (final task in tasks) {
     parser.addFlag(task.name, help: task.helpMessage);
@@ -110,7 +110,7 @@ class PubTask extends Task {
         name: 'pub',
         helpMessage:
             'Run `dart pub get` on the root and non-workspace packages.\n'
-            'Run `dart pub global activate coverage`.',
+            'Run `dart pub global activate coverage` and `dart_apitool`.',
       );
 
   @override
@@ -343,6 +343,66 @@ class CoverageTask extends Task {
   }
 }
 
+/// Checks for leaked symbols in the public API using `dart_apitool`.
+class ApiToolTask extends Task {
+  const ApiToolTask()
+    : super(
+        name: 'apitool',
+        helpMessage: 'Run `dart_apitool` to check for leaked symbols.',
+      );
+
+  @override
+  bool shouldRun(ArgResults argResults) {
+    if (argResults['fast'] as bool && !argResults.wasParsed(name)) {
+      return false;
+    }
+    return super.shouldRun(argResults);
+  }
+
+  @override
+  Future<void> run({
+    required List<String> packages,
+    required ArgResults argResults,
+  }) async {
+    if (pubTask.shouldRun(argResults)) {
+      // Pull in https://github.com/bmw-tech/dart_apitool/pull/252.
+      await _runProcess('dart', [
+        'pub',
+        'global',
+        'activate',
+        '--source',
+        'git',
+        'https://github.com/bmw-tech/dart_apitool.git',
+        '--git-ref',
+        '906fa0f3dca24d81d1c26ee71c884ecbb6234ecf',
+      ]);
+    }
+    await _runMaybeParallel([
+      for (final package in packages)
+        () async {
+          final outputFileName = '${package.replaceAll('/', '_')}_api.json';
+          await _runProcess('dart', [
+            'pub',
+            'global',
+            'run',
+            'dart_apitool:main',
+            'extract',
+            '--input',
+            package,
+            '--set-exit-on-missing-export',
+            '--output',
+            outputFileName,
+          ]);
+          // Clean up the temporary file.
+          final apiJson = File.fromUri(repositoryRoot.resolve(outputFileName));
+          if (apiJson.existsSync()) {
+            apiJson.deleteSync();
+          }
+        },
+    ], argResults);
+  }
+}
+
 const pubTask = PubTask();
 const analyzeTask = AnalyzeTask();
 const formatTask = FormatTask();
@@ -350,6 +410,7 @@ const generateTask = GenerateTask();
 const testTask = TestTask();
 const exampleTask = ExampleTask();
 const coverageTask = CoverageTask();
+const apiToolTask = ApiToolTask();
 
 // The order of tasks is intentional.
 final tasks = [
@@ -360,6 +421,7 @@ final tasks = [
   testTask,
   exampleTask,
   coverageTask,
+  apiToolTask,
 ];
 
 final Uri repositoryRoot = Platform.script.resolve('../');
