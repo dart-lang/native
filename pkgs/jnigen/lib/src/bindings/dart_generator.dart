@@ -1079,7 +1079,7 @@ ${modifier}final _$name = $_protectedExtension
     final name = node.finalName;
     final params = [
       '$classRef.reference.pointer',
-      '_id_$name as $_jni.JMethodIDPtr',
+      '_id_$name.pointer',
       ...node.params.accept(const _ParamCall()),
     ].join(', ');
     final typeParamsCall = node.classDecl.allTypeParams
@@ -1094,7 +1094,7 @@ ${modifier}final _$name = $_protectedExtension
     final name = node.finalName;
     final params = [
       node.isStatic ? '$classRef.reference.pointer' : 'reference.pointer',
-      '_id_$name as $_jni.JMethodIDPtr',
+      '_id_$name.pointer',
       ...node.params.accept(const _ParamCall()),
     ].join(', ');
     final resultGetter = node.returnType.accept(_JniResultGetter(resolver));

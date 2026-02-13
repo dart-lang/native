@@ -124,16 +124,22 @@ extension type $arrayName._(JObject _\$this) implements JObject {
     ) as $arrayName;
   }
 
+  /// Creates a [$arrayName] from `elements`.
+  static $arrayName of(Iterable<${type.dartType}> elements) {
+    final len = elements.length;
+    return $arrayName(len)..setRange(0, len, elements);
+  }
+
   /// The number of elements in this array.
   int get length => Jni.env.GetArrayLength(reference.pointer);
 
   ${type.dartType} operator [](int index) {
-    RangeError.checkValidIndex(index, this);
+    RangeError.checkValueInInterval(index, 0, length - 1);
     return Jni.env.Get${typeName}ArrayElement(reference.pointer, index);
   }
 
   void operator []=(int index, ${type.dartType} value) {
-    RangeError.checkValidIndex(index, this);
+    RangeError.checkValueInInterval(index, 0, length - 1);
     Jni.env.Set${typeName}ArrayElement(reference.pointer, index, value);
   }
 
@@ -183,7 +189,7 @@ extension ${arrayName}ToList on $arrayName {
   /// Returns a [List] view into this array.
   ///
   /// Any changes to this list will reflect in the original array as well.
-  List<${type.dartType}> get asDartList => _${arrayName}ListView(this);
+  List<${type.dartType}> asDart() => _${arrayName}ListView(this);
 }
 
 ''');

@@ -271,7 +271,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public com.fasterxml.jackson.core.JsonToken[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<JsonToken?>? values() {
-    return _values(_class.reference.pointer, _id_values as jni$_.JMethodIDPtr)
+    return _values(_class.reference.pointer, _id_values.pointer)
         .object<jni$_.JArray<JsonToken?>?>();
   }
 
@@ -297,8 +297,8 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
     jni$_.JString? name,
   ) {
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(_class.reference.pointer, _id_valueOf as jni$_.JMethodIDPtr,
-            _$name.pointer)
+    return _valueOf(
+            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<JsonToken?>();
   }
 
@@ -321,7 +321,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `public final int id()`
   int id() {
-    return _id(reference.pointer, _id_id as jni$_.JMethodIDPtr).integer;
+    return _id(reference.pointer, _id_id.pointer).integer;
   }
 
   static final _id_asString = _class.instanceMethodId(
@@ -344,7 +344,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public final java.lang.String asString()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? asString() {
-    return _asString(reference.pointer, _id_asString as jni$_.JMethodIDPtr)
+    return _asString(reference.pointer, _id_asString.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -368,8 +368,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public final char[] asCharArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JCharArray? asCharArray() {
-    return _asCharArray(
-            reference.pointer, _id_asCharArray as jni$_.JMethodIDPtr)
+    return _asCharArray(reference.pointer, _id_asCharArray.pointer)
         .object<jni$_.JCharArray?>();
   }
 
@@ -393,8 +392,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public final byte[] asByteArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JByteArray? asByteArray() {
-    return _asByteArray(
-            reference.pointer, _id_asByteArray as jni$_.JMethodIDPtr)
+    return _asByteArray(reference.pointer, _id_asByteArray.pointer)
         .object<jni$_.JByteArray?>();
   }
 
@@ -420,8 +418,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   /// @return {@code True} if this token is {@code VALUE_NUMBER_INT} or {@code VALUE_NUMBER_FLOAT},
   ///   {@code false} otherwise
   core$_.bool isNumeric() {
-    return _isNumeric(reference.pointer, _id_isNumeric as jni$_.JMethodIDPtr)
-        .boolean;
+    return _isNumeric(reference.pointer, _id_isNumeric.pointer).boolean;
   }
 
   static final _id_isStructStart = _class.instanceMethodId(
@@ -451,9 +448,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   ///   {@code false} otherwise
   ///@since 2.3
   core$_.bool isStructStart() {
-    return _isStructStart(
-            reference.pointer, _id_isStructStart as jni$_.JMethodIDPtr)
-        .boolean;
+    return _isStructStart(reference.pointer, _id_isStructStart.pointer).boolean;
   }
 
   static final _id_isStructEnd = _class.instanceMethodId(
@@ -483,9 +478,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   ///   {@code false} otherwise
   ///@since 2.3
   core$_.bool isStructEnd() {
-    return _isStructEnd(
-            reference.pointer, _id_isStructEnd as jni$_.JMethodIDPtr)
-        .boolean;
+    return _isStructEnd(reference.pointer, _id_isStructEnd.pointer).boolean;
   }
 
   static final _id_isScalarValue = _class.instanceMethodId(
@@ -514,9 +507,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@return {@code True} if this token is a scalar value token (one of
   ///   {@code VALUE_xxx} tokens), {@code false} otherwise
   core$_.bool isScalarValue() {
-    return _isScalarValue(
-            reference.pointer, _id_isScalarValue as jni$_.JMethodIDPtr)
-        .boolean;
+    return _isScalarValue(reference.pointer, _id_isScalarValue.pointer).boolean;
   }
 
   static final _id_isBoolean = _class.instanceMethodId(
@@ -541,8 +532,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   /// @return {@code True} if this token is {@code VALUE_TRUE} or {@code VALUE_FALSE},
   ///   {@code false} otherwise
   core$_.bool isBoolean() {
-    return _isBoolean(reference.pointer, _id_isBoolean as jni$_.JMethodIDPtr)
-        .boolean;
+    return _isBoolean(reference.pointer, _id_isBoolean.pointer).boolean;
   }
 }
 

@@ -90,7 +90,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
   ///
   /// Default Constructor.
   factory PDDocumentInformation() {
-    return _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
+    return _new$(_class.reference.pointer, _id_new$.pointer)
         .object<PDDocumentInformation>();
   }
 
@@ -118,8 +118,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
     jni$_.JObject? dic,
   ) {
     final _$dic = dic?.reference ?? jni$_.jNullReference;
-    return _new$1(_class.reference.pointer, _id_new$1 as jni$_.JMethodIDPtr,
-            _$dic.pointer)
+    return _new$1(_class.reference.pointer, _id_new$1.pointer, _$dic.pointer)
         .object<PDDocumentInformation>();
   }
 
@@ -146,8 +145,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
   /// This will get the underlying dictionary that this object wraps.
   ///@return The underlying info dictionary.
   jni$_.JObject? getCOSObject() {
-    return _getCOSObject(
-            reference.pointer, _id_getCOSObject as jni$_.JMethodIDPtr)
+    return _getCOSObject(reference.pointer, _id_getCOSObject.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -182,10 +180,8 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
     jni$_.JString? propertyKey,
   ) {
     final _$propertyKey = propertyKey?.reference ?? jni$_.jNullReference;
-    return _getPropertyStringValue(
-            reference.pointer,
-            _id_getPropertyStringValue as jni$_.JMethodIDPtr,
-            _$propertyKey.pointer)
+    return _getPropertyStringValue(reference.pointer,
+            _id_getPropertyStringValue.pointer, _$propertyKey.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -212,7 +208,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
   /// This will get the title of the document.  This will return null if no title exists.
   ///@return The title of the document.
   jni$_.JString? getTitle() {
-    return _getTitle(reference.pointer, _id_getTitle as jni$_.JMethodIDPtr)
+    return _getTitle(reference.pointer, _id_getTitle.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -240,9 +236,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
     jni$_.JString? title,
   ) {
     final _$title = title?.reference ?? jni$_.jNullReference;
-    _setTitle(reference.pointer, _id_setTitle as jni$_.JMethodIDPtr,
-            _$title.pointer)
-        .check();
+    _setTitle(reference.pointer, _id_setTitle.pointer, _$title.pointer).check();
   }
 
   static final _id_getAuthor = _class.instanceMethodId(
@@ -268,7 +262,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
   /// This will get the author of the document.  This will return null if no author exists.
   ///@return The author of the document.
   jni$_.JString? getAuthor() {
-    return _getAuthor(reference.pointer, _id_getAuthor as jni$_.JMethodIDPtr)
+    return _getAuthor(reference.pointer, _id_getAuthor.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -296,8 +290,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
     jni$_.JString? author,
   ) {
     final _$author = author?.reference ?? jni$_.jNullReference;
-    _setAuthor(reference.pointer, _id_setAuthor as jni$_.JMethodIDPtr,
-            _$author.pointer)
+    _setAuthor(reference.pointer, _id_setAuthor.pointer, _$author.pointer)
         .check();
   }
 
@@ -324,7 +317,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
   /// This will get the subject of the document.  This will return null if no subject exists.
   ///@return The subject of the document.
   jni$_.JString? getSubject() {
-    return _getSubject(reference.pointer, _id_getSubject as jni$_.JMethodIDPtr)
+    return _getSubject(reference.pointer, _id_getSubject.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -352,8 +345,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
     jni$_.JString? subject,
   ) {
     final _$subject = subject?.reference ?? jni$_.jNullReference;
-    _setSubject(reference.pointer, _id_setSubject as jni$_.JMethodIDPtr,
-            _$subject.pointer)
+    _setSubject(reference.pointer, _id_setSubject.pointer, _$subject.pointer)
         .check();
   }
 
@@ -380,8 +372,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
   /// This will get the keywords of the document.  This will return null if no keywords exists.
   ///@return The keywords of the document.
   jni$_.JString? getKeywords() {
-    return _getKeywords(
-            reference.pointer, _id_getKeywords as jni$_.JMethodIDPtr)
+    return _getKeywords(reference.pointer, _id_getKeywords.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -409,8 +400,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
     jni$_.JString? keywords,
   ) {
     final _$keywords = keywords?.reference ?? jni$_.jNullReference;
-    _setKeywords(reference.pointer, _id_setKeywords as jni$_.JMethodIDPtr,
-            _$keywords.pointer)
+    _setKeywords(reference.pointer, _id_setKeywords.pointer, _$keywords.pointer)
         .check();
   }
 
@@ -437,7 +427,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
   /// This will get the creator of the document.  This will return null if no creator exists.
   ///@return The creator of the document.
   jni$_.JString? getCreator() {
-    return _getCreator(reference.pointer, _id_getCreator as jni$_.JMethodIDPtr)
+    return _getCreator(reference.pointer, _id_getCreator.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -465,8 +455,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
     jni$_.JString? creator,
   ) {
     final _$creator = creator?.reference ?? jni$_.jNullReference;
-    _setCreator(reference.pointer, _id_setCreator as jni$_.JMethodIDPtr,
-            _$creator.pointer)
+    _setCreator(reference.pointer, _id_setCreator.pointer, _$creator.pointer)
         .check();
   }
 
@@ -493,8 +482,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
   /// This will get the producer of the document.  This will return null if no producer exists.
   ///@return The producer of the document.
   jni$_.JString? getProducer() {
-    return _getProducer(
-            reference.pointer, _id_getProducer as jni$_.JMethodIDPtr)
+    return _getProducer(reference.pointer, _id_getProducer.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -522,8 +510,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
     jni$_.JString? producer,
   ) {
     final _$producer = producer?.reference ?? jni$_.jNullReference;
-    _setProducer(reference.pointer, _id_setProducer as jni$_.JMethodIDPtr,
-            _$producer.pointer)
+    _setProducer(reference.pointer, _id_setProducer.pointer, _$producer.pointer)
         .check();
   }
 
@@ -550,8 +537,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
   /// This will get the creation date of the document.  This will return null if no creation date exists.
   ///@return The creation date of the document.
   jni$_.JObject? getCreationDate() {
-    return _getCreationDate(
-            reference.pointer, _id_getCreationDate as jni$_.JMethodIDPtr)
+    return _getCreationDate(reference.pointer, _id_getCreationDate.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -579,8 +565,8 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
     jni$_.JObject? date,
   ) {
     final _$date = date?.reference ?? jni$_.jNullReference;
-    _setCreationDate(reference.pointer,
-            _id_setCreationDate as jni$_.JMethodIDPtr, _$date.pointer)
+    _setCreationDate(
+            reference.pointer, _id_setCreationDate.pointer, _$date.pointer)
         .check();
   }
 
@@ -608,7 +594,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
   ///@return The modification date of the document.
   jni$_.JObject? getModificationDate() {
     return _getModificationDate(
-            reference.pointer, _id_getModificationDate as jni$_.JMethodIDPtr)
+            reference.pointer, _id_getModificationDate.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -636,8 +622,8 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
     jni$_.JObject? date,
   ) {
     final _$date = date?.reference ?? jni$_.jNullReference;
-    _setModificationDate(reference.pointer,
-            _id_setModificationDate as jni$_.JMethodIDPtr, _$date.pointer)
+    _setModificationDate(
+            reference.pointer, _id_setModificationDate.pointer, _$date.pointer)
         .check();
   }
 
@@ -665,7 +651,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
   /// This will return null if one is not found.
   ///@return The trapped value for the document.
   jni$_.JString? getTrapped() {
-    return _getTrapped(reference.pointer, _id_getTrapped as jni$_.JMethodIDPtr)
+    return _getTrapped(reference.pointer, _id_getTrapped.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -693,8 +679,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
   ///@return all metadata key strings.
   ///@since Apache PDFBox 1.3.0
   jni$_.JSet<jni$_.JString?>? getMetadataKeys() {
-    return _getMetadataKeys(
-            reference.pointer, _id_getMetadataKeys as jni$_.JMethodIDPtr)
+    return _getMetadataKeys(reference.pointer, _id_getMetadataKeys.pointer)
         .object<jni$_.JSet<jni$_.JString?>?>();
   }
 
@@ -725,10 +710,8 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
     jni$_.JString? fieldName,
   ) {
     final _$fieldName = fieldName?.reference ?? jni$_.jNullReference;
-    return _getCustomMetadataValue(
-            reference.pointer,
-            _id_getCustomMetadataValue as jni$_.JMethodIDPtr,
-            _$fieldName.pointer)
+    return _getCustomMetadataValue(reference.pointer,
+            _id_getCustomMetadataValue.pointer, _$fieldName.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -767,7 +750,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
     final _$fieldValue = fieldValue?.reference ?? jni$_.jNullReference;
     _setCustomMetadataValue(
             reference.pointer,
-            _id_setCustomMetadataValue as jni$_.JMethodIDPtr,
+            _id_setCustomMetadataValue.pointer,
             _$fieldName.pointer,
             _$fieldValue.pointer)
         .check();
@@ -799,8 +782,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
     jni$_.JString? value,
   ) {
     final _$value = value?.reference ?? jni$_.jNullReference;
-    _setTrapped(reference.pointer, _id_setTrapped as jni$_.JMethodIDPtr,
-            _$value.pointer)
+    _setTrapped(reference.pointer, _id_setTrapped.pointer, _$value.pointer)
         .check();
   }
 }

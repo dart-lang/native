@@ -44,6 +44,12 @@ final class _JListAdapter<E extends JObject?> with ListBase<E> {
   }
 
   @override
+  E removeAt(int index) {
+    RangeError.checkValidIndex(index, this);
+    return _jlist.remove(index) as E;
+  }
+
+  @override
   Iterator<E> get iterator => JIteratorAdapter<E>(_jlist.iterator()!);
 
   @override

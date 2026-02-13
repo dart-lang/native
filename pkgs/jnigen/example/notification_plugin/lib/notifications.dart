@@ -66,7 +66,7 @@ extension type Notifications._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Notifications() {
-    return _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
+    return _new$(_class.reference.pointer, _id_new$.pointer)
         .object<Notifications>();
   }
 
@@ -106,13 +106,8 @@ extension type Notifications._(jni$_.JObject _$this) implements jni$_.JObject {
     final _$context = context?.reference ?? jni$_.jNullReference;
     final _$title = title?.reference ?? jni$_.jNullReference;
     final _$text = text?.reference ?? jni$_.jNullReference;
-    _showNotification(
-            _class.reference.pointer,
-            _id_showNotification as jni$_.JMethodIDPtr,
-            _$context.pointer,
-            notificationID,
-            _$title.pointer,
-            _$text.pointer)
+    _showNotification(_class.reference.pointer, _id_showNotification.pointer,
+            _$context.pointer, notificationID, _$title.pointer, _$text.pointer)
         .check();
   }
 }

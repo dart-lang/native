@@ -72,7 +72,8 @@ extension JniResultMethods on JniResult {
   }
 
   T object<T extends JObject?>() {
-    return JObject.fromReference(reference) as T;
+    final ref = reference;
+    return (ref == jNullReference ? null : JObject.fromReference(ref)) as T;
   }
 
   bool get boolean {

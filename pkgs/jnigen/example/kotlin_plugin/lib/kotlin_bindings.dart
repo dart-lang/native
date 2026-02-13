@@ -61,8 +61,7 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example() {
-    return _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
-        .object<Example>();
+    return _new$(_class.reference.pointer, _id_new$.pointer).object<Example>();
   }
 
   static final _id_thinkBeforeAnswering = _class.instanceMethodId(
@@ -87,10 +86,8 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
 
-    final $r = _thinkBeforeAnswering(
-            reference.pointer,
-            _id_thinkBeforeAnswering as jni$_.JMethodIDPtr,
-            _$continuation.pointer)
+    final $r = _thinkBeforeAnswering(reference.pointer,
+            _id_thinkBeforeAnswering.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject $o;

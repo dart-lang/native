@@ -66,15 +66,15 @@ extension type JArray<E extends JObject?>._(JObject _$this) implements JObject {
   /// Creates a [JArray] from `elements`.
   static JArray<$E> of<$E extends JObject?>(
       JType<$E> elementType, Iterable<$E> elements) {
-    return _newArray<$E>(elementType.jClass, elements.length)
-      ..setRange(0, elements.length, elements);
+    final len = elements.length;
+    return _newArray<$E>(elementType.jClass, len)..setRange(0, len, elements);
   }
 
   /// The number of elements in this array.
   int get length => Jni.env.GetArrayLength(reference.pointer);
 
   E _elementAt(int index) {
-    RangeError.checkValidIndex(index, this);
+    RangeError.checkValueInInterval(index, 0, length - 1);
     final pointer = Jni.env.GetObjectArrayElement(reference.pointer, index);
     if (pointer == nullptr) {
       return null as E;
@@ -87,7 +87,7 @@ extension type JArray<E extends JObject?>._(JObject _$this) implements JObject {
   }
 
   void operator []=(int index, E value) {
-    RangeError.checkValidIndex(index, this);
+    RangeError.checkValueInInterval(index, 0, length - 1);
     final valueRef = value?.reference ?? jNullReference;
     Jni.env.SetObjectArrayElement(reference.pointer, index, valueRef.pointer);
   }
@@ -126,7 +126,7 @@ extension JArrayToList<E extends JObject?> on JArray<E> {
   /// Returns a [List] view into this array.
   ///
   /// Any changes to this list will reflect in the original array as well.
-  List<E> get asDartList => _JArrayListView<E>(this);
+  List<E> asDart() => _JArrayListView<E>(this);
 }
 
 void _allocate<T extends NativeType>(

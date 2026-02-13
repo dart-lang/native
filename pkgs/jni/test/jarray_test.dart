@@ -25,7 +25,7 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       final array = JBooleanArray(3)..releasedBy(arena);
       var counter = 0;
-      for (final element in array) {
+      for (final element in array.asDart()) {
         expect(element, array[counter]);
         ++counter;
       }
@@ -67,7 +67,7 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       final array = JCharArray(3)..releasedBy(arena);
       var counter = 0;
-      for (final element in array) {
+      for (final element in array.asDart()) {
         expect(element, array[counter]);
         ++counter;
       }
@@ -107,16 +107,16 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('Java byte array', () {
     using((arena) {
-      expect(JByteArray.from([]), isEmpty);
-      expect(JByteArray.from([1]), containsAllInOrder([1]));
-      expect(JByteArray.from([1, 2]), containsAllInOrder([1, 2]));
-      expect(JByteArray.from([-1, -2]), containsAllInOrder([-1, -2]));
-      expect(JByteArray.from([127, 128, 129]),
+      expect(JByteArray.of([]).asDart(), isEmpty);
+      expect(JByteArray.of([1]).asDart(), containsAllInOrder([1]));
+      expect(JByteArray.of([1, 2]).asDart(), containsAllInOrder([1, 2]));
+      expect(JByteArray.of([-1, -2]).asDart(), containsAllInOrder([-1, -2]));
+      expect(JByteArray.of([127, 128, 129]).asDart(),
           containsAllInOrder([127, -128, -127]));
 
       final array = JByteArray(3)..releasedBy(arena);
       var counter = 0;
-      for (final element in array) {
+      for (final element in array.asDart()) {
         expect(element, array[counter]);
         ++counter;
       }
@@ -158,7 +158,7 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       final array = JShortArray(3)..releasedBy(arena);
       var counter = 0;
-      for (final element in array.asDartList) {
+      for (final element in array.asDart()) {
         expect(element, array[counter]);
         ++counter;
       }
@@ -200,7 +200,7 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       final array = JIntArray(3)..releasedBy(arena);
       var counter = 0;
-      for (final element in array) {
+      for (final element in array.asDart()) {
         expect(element, array[counter]);
         ++counter;
       }
@@ -242,7 +242,7 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       final array = JLongArray(3)..releasedBy(arena);
       var counter = 0;
-      for (final element in array) {
+      for (final element in array.asDart()) {
         expect(element, array[counter]);
         ++counter;
       }
@@ -285,7 +285,7 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       final array = JFloatArray(3)..releasedBy(arena);
       var counter = 0;
-      for (final element in array) {
+      for (final element in array.asDart()) {
         expect(element, array[counter]);
         ++counter;
       }
@@ -327,7 +327,7 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       final array = JDoubleArray(3)..releasedBy(arena);
       var counter = 0;
-      for (final element in array) {
+      for (final element in array.asDart()) {
         expect(element, array[counter]);
         ++counter;
       }
@@ -367,9 +367,9 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('Java string array', () {
     using((arena) {
-      final array = JArray(JString.nullableType, 3)..releasedBy(arena);
+      final array = JArray.withLength(JString.type, 3)..releasedBy(arena);
       var counter = 0;
-      for (final element in array) {
+      for (final element in array.asDart()) {
         expect(element, array[counter]);
         ++counter;
       }
@@ -408,9 +408,9 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('Java object array', () {
     using((arena) {
-      final array = JArray(JObject.nullableType, 3)..releasedBy(arena);
+      final array = JArray.withLength(JObject.type, 3)..releasedBy(arena);
       var counter = 0;
-      for (final element in array) {
+      for (final element in array.asDart()) {
         expect(element, array[counter]);
         ++counter;
       }
@@ -419,8 +419,6 @@ void run({required TestRunnerCallback testRunner}) {
       expect(array[0], isNull);
       expect(array[1], isNull);
       expect(array[2], isNull);
-
-      expect(() => JArray(JObject.type, 3), throwsArgumentError);
     });
   });
   testRunner('Java 2d array', () {
@@ -429,7 +427,7 @@ void run({required TestRunnerCallback testRunner}) {
       array[0] = 1;
       array[1] = 2;
       array[2] = 3;
-      final twoDimArray = JArray(JIntArray.nullableType, 3)..releasedBy(arena);
+      final twoDimArray = JArray.withLength(JIntArray.type, 3)..releasedBy(arena);
       expect(twoDimArray.length, 3);
       twoDimArray[0] = array;
       twoDimArray[1] = array;
@@ -468,7 +466,7 @@ void run({required TestRunnerCallback testRunner}) {
       expect(array1[0].toDartString(releaseOriginal: true), 'apple');
       expect(array1[1].toDartString(releaseOriginal: true), 'banana');
 
-      final array2 = JArray.of(JString.nullableType, [
+      final array2 = JArray.of(JString.type, [
         'apple'.toJString()..releasedBy(arena),
         null,
         'banana'.toJString()..releasedBy(arena)
@@ -481,81 +479,81 @@ void run({required TestRunnerCallback testRunner}) {
       final array3 = JArray.of<JObject>(JString.type, []);
       expect(array3.length, 0);
 
-      final array4 = JArray.of<JObject?>(JString.nullableType, []);
+      final array4 = JArray.of<JObject?>(JString.type, []);
       expect(array4.length, 0);
     });
   });
   testRunner('JArray of JByte', () {
     using((arena) {
-      final arr = JArray(JByte.nullableType, 1)..releasedBy(arena);
+      final arr = JArray.withLength(JByte.type, 1)..releasedBy(arena);
       expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JShort', () {
     using((arena) {
-      final arr = JArray(JShort.nullableType, 1)..releasedBy(arena);
+      final arr = JArray.withLength(JShort.type, 1)..releasedBy(arena);
       expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JInteger', () {
     using((arena) {
-      final arr = JArray(JInteger.nullableType, 1)..releasedBy(arena);
+      final arr = JArray.withLength(JInteger.type, 1)..releasedBy(arena);
       expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JCharacter', () {
     using((arena) {
-      final arr = JArray(JCharacter.nullableType, 1)..releasedBy(arena);
+      final arr = JArray.withLength(JCharacter.type, 1)..releasedBy(arena);
       expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JLong', () {
     using((arena) {
-      final arr = JArray(JLong.nullableType, 1)..releasedBy(arena);
+      final arr = JArray.withLength(JLong.type, 1)..releasedBy(arena);
       expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JFloat', () {
     using((arena) {
-      final arr = JArray(JFloat.nullableType, 1)..releasedBy(arena);
+      final arr = JArray.withLength(JFloat.type, 1)..releasedBy(arena);
       expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JDouble', () {
     using((arena) {
-      final arr = JArray(JDouble.nullableType, 1)..releasedBy(arena);
+      final arr = JArray.withLength(JDouble.type, 1)..releasedBy(arena);
       expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JBoolean', () {
     using((arena) {
-      final arr = JArray(JBoolean.nullableType, 1)..releasedBy(arena);
+      final arr = JArray.withLength(JBoolean.type, 1)..releasedBy(arena);
       expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JSet', () {
     using((arena) {
-      final arr = JArray(JSet.nullableType(JString.type), 1)..releasedBy(arena);
+      final arr = JArray.withLength(JSet.type, 1)..releasedBy(arena);
       expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JList', () {
     using((arena) {
-      final arr = JArray(JList.nullableType(JString.type), 1)
+      final arr = JArray.withLength(JList.type, 1)
         ..releasedBy(arena);
       expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JMap', () {
     using((arena) {
-      final arr = JArray(JMap.nullableType(JString.type, JString.type), 1)
+      final arr = JArray.withLength(JMap.type, 1)
         ..releasedBy(arena);
       expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JIterator', () {
     using((arena) {
-      final arr = JArray(JIterator.nullableType(JString.type), 1)
+      final arr = JArray.withLength(JIterator.type, 1)
         ..releasedBy(arena);
       expect(arr[0], isNull);
     });

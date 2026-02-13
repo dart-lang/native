@@ -28,16 +28,22 @@ extension type JBooleanArray._(JObject _$this) implements JObject {
     ) as JBooleanArray;
   }
 
+  /// Creates a [JBooleanArray] from `elements`.
+  static JBooleanArray of(Iterable<bool> elements) {
+    final len = elements.length;
+    return JBooleanArray(len)..setRange(0, len, elements);
+  }
+
   /// The number of elements in this array.
   int get length => Jni.env.GetArrayLength(reference.pointer);
 
   bool operator [](int index) {
-    RangeError.checkValidIndex(index, this);
+    RangeError.checkValueInInterval(index, 0, length - 1);
     return Jni.env.GetBooleanArrayElement(reference.pointer, index);
   }
 
   void operator []=(int index, bool value) {
-    RangeError.checkValidIndex(index, this);
+    RangeError.checkValueInInterval(index, 0, length - 1);
     Jni.env.SetBooleanArrayElement(reference.pointer, index, value);
   }
 
@@ -87,7 +93,7 @@ extension JBooleanArrayToList on JBooleanArray {
   /// Returns a [List] view into this array.
   ///
   /// Any changes to this list will reflect in the original array as well.
-  List<bool> get asDartList => _JBooleanArrayListView(this);
+  List<bool> asDart() => _JBooleanArrayListView(this);
 }
 
 final class _$JByteArray$Type$ extends JType<JByteArray> {
@@ -118,16 +124,22 @@ extension type JByteArray._(JObject _$this) implements JObject {
     ) as JByteArray;
   }
 
+  /// Creates a [JByteArray] from `elements`.
+  static JByteArray of(Iterable<int> elements) {
+    final len = elements.length;
+    return JByteArray(len)..setRange(0, len, elements);
+  }
+
   /// The number of elements in this array.
   int get length => Jni.env.GetArrayLength(reference.pointer);
 
   int operator [](int index) {
-    RangeError.checkValidIndex(index, this);
+    RangeError.checkValueInInterval(index, 0, length - 1);
     return Jni.env.GetByteArrayElement(reference.pointer, index);
   }
 
   void operator []=(int index, int value) {
-    RangeError.checkValidIndex(index, this);
+    RangeError.checkValueInInterval(index, 0, length - 1);
     Jni.env.SetByteArrayElement(reference.pointer, index, value);
   }
 
@@ -175,7 +187,7 @@ extension JByteArrayToList on JByteArray {
   /// Returns a [List] view into this array.
   ///
   /// Any changes to this list will reflect in the original array as well.
-  List<int> get asDartList => _JByteArrayListView(this);
+  List<int> asDart() => _JByteArrayListView(this);
 }
 
 final class _$JCharArray$Type$ extends JType<JCharArray> {
@@ -206,16 +218,22 @@ extension type JCharArray._(JObject _$this) implements JObject {
     ) as JCharArray;
   }
 
+  /// Creates a [JCharArray] from `elements`.
+  static JCharArray of(Iterable<int> elements) {
+    final len = elements.length;
+    return JCharArray(len)..setRange(0, len, elements);
+  }
+
   /// The number of elements in this array.
   int get length => Jni.env.GetArrayLength(reference.pointer);
 
   int operator [](int index) {
-    RangeError.checkValidIndex(index, this);
+    RangeError.checkValueInInterval(index, 0, length - 1);
     return Jni.env.GetCharArrayElement(reference.pointer, index);
   }
 
   void operator []=(int index, int value) {
-    RangeError.checkValidIndex(index, this);
+    RangeError.checkValueInInterval(index, 0, length - 1);
     Jni.env.SetCharArrayElement(reference.pointer, index, value);
   }
 
@@ -263,7 +281,7 @@ extension JCharArrayToList on JCharArray {
   /// Returns a [List] view into this array.
   ///
   /// Any changes to this list will reflect in the original array as well.
-  List<int> get asDartList => _JCharArrayListView(this);
+  List<int> asDart() => _JCharArrayListView(this);
 }
 
 final class _$JShortArray$Type$ extends JType<JShortArray> {
@@ -294,16 +312,22 @@ extension type JShortArray._(JObject _$this) implements JObject {
     ) as JShortArray;
   }
 
+  /// Creates a [JShortArray] from `elements`.
+  static JShortArray of(Iterable<int> elements) {
+    final len = elements.length;
+    return JShortArray(len)..setRange(0, len, elements);
+  }
+
   /// The number of elements in this array.
   int get length => Jni.env.GetArrayLength(reference.pointer);
 
   int operator [](int index) {
-    RangeError.checkValidIndex(index, this);
+    RangeError.checkValueInInterval(index, 0, length - 1);
     return Jni.env.GetShortArrayElement(reference.pointer, index);
   }
 
   void operator []=(int index, int value) {
-    RangeError.checkValidIndex(index, this);
+    RangeError.checkValueInInterval(index, 0, length - 1);
     Jni.env.SetShortArrayElement(reference.pointer, index, value);
   }
 
@@ -352,7 +376,7 @@ extension JShortArrayToList on JShortArray {
   /// Returns a [List] view into this array.
   ///
   /// Any changes to this list will reflect in the original array as well.
-  List<int> get asDartList => _JShortArrayListView(this);
+  List<int> asDart() => _JShortArrayListView(this);
 }
 
 final class _$JIntArray$Type$ extends JType<JIntArray> {
@@ -383,16 +407,22 @@ extension type JIntArray._(JObject _$this) implements JObject {
     ) as JIntArray;
   }
 
+  /// Creates a [JIntArray] from `elements`.
+  static JIntArray of(Iterable<int> elements) {
+    final len = elements.length;
+    return JIntArray(len)..setRange(0, len, elements);
+  }
+
   /// The number of elements in this array.
   int get length => Jni.env.GetArrayLength(reference.pointer);
 
   int operator [](int index) {
-    RangeError.checkValidIndex(index, this);
+    RangeError.checkValueInInterval(index, 0, length - 1);
     return Jni.env.GetIntArrayElement(reference.pointer, index);
   }
 
   void operator []=(int index, int value) {
-    RangeError.checkValidIndex(index, this);
+    RangeError.checkValueInInterval(index, 0, length - 1);
     Jni.env.SetIntArrayElement(reference.pointer, index, value);
   }
 
@@ -440,7 +470,7 @@ extension JIntArrayToList on JIntArray {
   /// Returns a [List] view into this array.
   ///
   /// Any changes to this list will reflect in the original array as well.
-  List<int> get asDartList => _JIntArrayListView(this);
+  List<int> asDart() => _JIntArrayListView(this);
 }
 
 final class _$JLongArray$Type$ extends JType<JLongArray> {
@@ -471,16 +501,22 @@ extension type JLongArray._(JObject _$this) implements JObject {
     ) as JLongArray;
   }
 
+  /// Creates a [JLongArray] from `elements`.
+  static JLongArray of(Iterable<int> elements) {
+    final len = elements.length;
+    return JLongArray(len)..setRange(0, len, elements);
+  }
+
   /// The number of elements in this array.
   int get length => Jni.env.GetArrayLength(reference.pointer);
 
   int operator [](int index) {
-    RangeError.checkValidIndex(index, this);
+    RangeError.checkValueInInterval(index, 0, length - 1);
     return Jni.env.GetLongArrayElement(reference.pointer, index);
   }
 
   void operator []=(int index, int value) {
-    RangeError.checkValidIndex(index, this);
+    RangeError.checkValueInInterval(index, 0, length - 1);
     Jni.env.SetLongArrayElement(reference.pointer, index, value);
   }
 
@@ -528,7 +564,7 @@ extension JLongArrayToList on JLongArray {
   /// Returns a [List] view into this array.
   ///
   /// Any changes to this list will reflect in the original array as well.
-  List<int> get asDartList => _JLongArrayListView(this);
+  List<int> asDart() => _JLongArrayListView(this);
 }
 
 final class _$JFloatArray$Type$ extends JType<JFloatArray> {
@@ -555,16 +591,22 @@ extension type JFloatArray._(JObject _$this) implements JObject {
     ) as JFloatArray;
   }
 
+  /// Creates a [JFloatArray] from `elements`.
+  static JFloatArray of(Iterable<double> elements) {
+    final len = elements.length;
+    return JFloatArray(len)..setRange(0, len, elements);
+  }
+
   /// The number of elements in this array.
   int get length => Jni.env.GetArrayLength(reference.pointer);
 
   double operator [](int index) {
-    RangeError.checkValidIndex(index, this);
+    RangeError.checkValueInInterval(index, 0, length - 1);
     return Jni.env.GetFloatArrayElement(reference.pointer, index);
   }
 
   void operator []=(int index, double value) {
-    RangeError.checkValidIndex(index, this);
+    RangeError.checkValueInInterval(index, 0, length - 1);
     Jni.env.SetFloatArrayElement(reference.pointer, index, value);
   }
 
@@ -613,7 +655,7 @@ extension JFloatArrayToList on JFloatArray {
   /// Returns a [List] view into this array.
   ///
   /// Any changes to this list will reflect in the original array as well.
-  List<double> get asDartList => _JFloatArrayListView(this);
+  List<double> asDart() => _JFloatArrayListView(this);
 }
 
 final class _$JDoubleArray$Type$ extends JType<JDoubleArray> {
@@ -640,16 +682,22 @@ extension type JDoubleArray._(JObject _$this) implements JObject {
     ) as JDoubleArray;
   }
 
+  /// Creates a [JDoubleArray] from `elements`.
+  static JDoubleArray of(Iterable<double> elements) {
+    final len = elements.length;
+    return JDoubleArray(len)..setRange(0, len, elements);
+  }
+
   /// The number of elements in this array.
   int get length => Jni.env.GetArrayLength(reference.pointer);
 
   double operator [](int index) {
-    RangeError.checkValidIndex(index, this);
+    RangeError.checkValueInInterval(index, 0, length - 1);
     return Jni.env.GetDoubleArrayElement(reference.pointer, index);
   }
 
   void operator []=(int index, double value) {
-    RangeError.checkValidIndex(index, this);
+    RangeError.checkValueInInterval(index, 0, length - 1);
     Jni.env.SetDoubleArrayElement(reference.pointer, index, value);
   }
 
@@ -698,5 +746,5 @@ extension JDoubleArrayToList on JDoubleArray {
   /// Returns a [List] view into this array.
   ///
   /// Any changes to this list will reflect in the original array as well.
-  List<double> get asDartList => _JDoubleArrayListView(this);
+  List<double> asDart() => _JDoubleArrayListView(this);
 }

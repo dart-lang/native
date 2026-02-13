@@ -229,6 +229,8 @@ jobs:
         run: |
           dart run tool/generate_jni_bindings.dart
           git diff --exit-code -- lib/src/plugin
+          dart run tool/generate_primitive_arrays.dart
+          git diff --exit-code -- lib/src/primitive_jarrays.dart
       # TODO(https://github.com/dart-lang/ffigen/issues/555): FFIgen generated
       # on my machine has macOS specific stuff and CI does not.
       # We should just generate the struct as opaque, but we currently can't.

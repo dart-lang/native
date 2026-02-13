@@ -286,10 +286,8 @@ extension type EmojiCompat$Config._(jni$_.JObject _$this)
     EmojiCompat$InitCallback initCallback,
   ) {
     final _$initCallback = initCallback.reference;
-    return _registerInitCallback(
-            reference.pointer,
-            _id_registerInitCallback as jni$_.JMethodIDPtr,
-            _$initCallback.pointer)
+    return _registerInitCallback(reference.pointer,
+            _id_registerInitCallback.pointer, _$initCallback.pointer)
         .object<EmojiCompat$Config>();
   }
 
@@ -315,10 +313,8 @@ extension type EmojiCompat$Config._(jni$_.JObject _$this)
     EmojiCompat$InitCallback initCallback,
   ) {
     final _$initCallback = initCallback.reference;
-    return _unregisterInitCallback(
-            reference.pointer,
-            _id_unregisterInitCallback as jni$_.JMethodIDPtr,
-            _$initCallback.pointer)
+    return _unregisterInitCallback(reference.pointer,
+            _id_unregisterInitCallback.pointer, _$initCallback.pointer)
         .object<EmojiCompat$Config>();
   }
 
@@ -342,8 +338,8 @@ extension type EmojiCompat$Config._(jni$_.JObject _$this)
   EmojiCompat$Config setReplaceAll(
     core$_.bool z,
   ) {
-    return _setReplaceAll(reference.pointer,
-            _id_setReplaceAll as jni$_.JMethodIDPtr, z ? 1 : 0)
+    return _setReplaceAll(
+            reference.pointer, _id_setReplaceAll.pointer, z ? 1 : 0)
         .object<EmojiCompat$Config>();
   }
 
@@ -367,8 +363,8 @@ extension type EmojiCompat$Config._(jni$_.JObject _$this)
   EmojiCompat$Config setUseEmojiAsDefaultStyle(
     core$_.bool z,
   ) {
-    return _setUseEmojiAsDefaultStyle(reference.pointer,
-            _id_setUseEmojiAsDefaultStyle as jni$_.JMethodIDPtr, z ? 1 : 0)
+    return _setUseEmojiAsDefaultStyle(
+            reference.pointer, _id_setUseEmojiAsDefaultStyle.pointer, z ? 1 : 0)
         .object<EmojiCompat$Config>();
   }
 
@@ -399,11 +395,8 @@ extension type EmojiCompat$Config._(jni$_.JObject _$this)
     jni$_.JList<jni$_.JInteger?>? list,
   ) {
     final _$list = list?.reference ?? jni$_.jNullReference;
-    return _setUseEmojiAsDefaultStyle$1(
-            reference.pointer,
-            _id_setUseEmojiAsDefaultStyle$1 as jni$_.JMethodIDPtr,
-            z ? 1 : 0,
-            _$list.pointer)
+    return _setUseEmojiAsDefaultStyle$1(reference.pointer,
+            _id_setUseEmojiAsDefaultStyle$1.pointer, z ? 1 : 0, _$list.pointer)
         .object<EmojiCompat$Config>();
   }
 
@@ -428,7 +421,7 @@ extension type EmojiCompat$Config._(jni$_.JObject _$this)
     core$_.bool z,
   ) {
     return _setEmojiSpanIndicatorEnabled(reference.pointer,
-            _id_setEmojiSpanIndicatorEnabled as jni$_.JMethodIDPtr, z ? 1 : 0)
+            _id_setEmojiSpanIndicatorEnabled.pointer, z ? 1 : 0)
         .object<EmojiCompat$Config>();
   }
 
@@ -452,8 +445,8 @@ extension type EmojiCompat$Config._(jni$_.JObject _$this)
   EmojiCompat$Config setEmojiSpanIndicatorColor(
     int i,
   ) {
-    return _setEmojiSpanIndicatorColor(reference.pointer,
-            _id_setEmojiSpanIndicatorColor as jni$_.JMethodIDPtr, i)
+    return _setEmojiSpanIndicatorColor(
+            reference.pointer, _id_setEmojiSpanIndicatorColor.pointer, i)
         .object<EmojiCompat$Config>();
   }
 
@@ -477,8 +470,8 @@ extension type EmojiCompat$Config._(jni$_.JObject _$this)
   EmojiCompat$Config setMetadataLoadStrategy(
     int i,
   ) {
-    return _setMetadataLoadStrategy(reference.pointer,
-            _id_setMetadataLoadStrategy as jni$_.JMethodIDPtr, i)
+    return _setMetadataLoadStrategy(
+            reference.pointer, _id_setMetadataLoadStrategy.pointer, i)
         .object<EmojiCompat$Config>();
   }
 
@@ -504,8 +497,8 @@ extension type EmojiCompat$Config._(jni$_.JObject _$this)
     EmojiCompat$SpanFactory spanFactory,
   ) {
     final _$spanFactory = spanFactory.reference;
-    return _setSpanFactory(reference.pointer,
-            _id_setSpanFactory as jni$_.JMethodIDPtr, _$spanFactory.pointer)
+    return _setSpanFactory(reference.pointer, _id_setSpanFactory.pointer,
+            _$spanFactory.pointer)
         .object<EmojiCompat$Config>();
   }
 
@@ -531,8 +524,8 @@ extension type EmojiCompat$Config._(jni$_.JObject _$this)
     EmojiCompat$GlyphChecker glyphChecker,
   ) {
     final _$glyphChecker = glyphChecker.reference;
-    return _setGlyphChecker(reference.pointer,
-            _id_setGlyphChecker as jni$_.JMethodIDPtr, _$glyphChecker.pointer)
+    return _setGlyphChecker(reference.pointer, _id_setGlyphChecker.pointer,
+            _$glyphChecker.pointer)
         .object<EmojiCompat$Config>();
   }
 }
@@ -574,7 +567,7 @@ extension type EmojiCompat$DefaultSpanFactory._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory EmojiCompat$DefaultSpanFactory() {
-    return _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
+    return _new$(_class.reference.pointer, _id_new$.pointer)
         .object<EmojiCompat$DefaultSpanFactory>();
   }
 
@@ -600,7 +593,7 @@ extension type EmojiCompat$DefaultSpanFactory._(jni$_.JObject _$this)
     jni$_.JObject typefaceEmojiRasterizer,
   ) {
     final _$typefaceEmojiRasterizer = typefaceEmojiRasterizer.reference;
-    return _createSpan(reference.pointer, _id_createSpan as jni$_.JMethodIDPtr,
+    return _createSpan(reference.pointer, _id_createSpan.pointer,
             _$typefaceEmojiRasterizer.pointer)
         .object<jni$_.JObject>();
   }
@@ -655,7 +648,7 @@ extension type EmojiCompat$GlyphChecker._(jni$_.JObject _$this)
     int i2,
   ) {
     final _$charSequence = charSequence.reference;
-    return _hasGlyph(reference.pointer, _id_hasGlyph as jni$_.JMethodIDPtr,
+    return _hasGlyph(reference.pointer, _id_hasGlyph.pointer,
             _$charSequence.pointer, i, i1, i2)
         .boolean;
   }
@@ -692,7 +685,7 @@ extension type EmojiCompat$GlyphChecker._(jni$_.JObject _$this)
       final $a = $i.args;
       if ($d == r'hasGlyph(Ljava/lang/CharSequence;III)Z') {
         final $r = _$impls[$p]!.hasGlyph(
-          $a![0],
+          ($a![0] as jni$_.JObject),
           ($a![1] as jni$_.JInteger).intValue(releaseOriginal: true),
           ($a![2] as jni$_.JInteger).intValue(releaseOriginal: true),
           ($a![3] as jni$_.JInteger).intValue(releaseOriginal: true),
@@ -802,8 +795,7 @@ extension type EmojiCompat$InitCallback._(jni$_.JObject _$this)
 
   /// from: `public void onInitialized()`
   void onInitialized() {
-    _onInitialized(reference.pointer, _id_onInitialized as jni$_.JMethodIDPtr)
-        .check();
+    _onInitialized(reference.pointer, _id_onInitialized.pointer).check();
   }
 
   static final _id_onFailed = _class.instanceMethodId(
@@ -827,8 +819,7 @@ extension type EmojiCompat$InitCallback._(jni$_.JObject _$this)
     jni$_.JObject? throwable,
   ) {
     final _$throwable = throwable?.reference ?? jni$_.jNullReference;
-    _onFailed(reference.pointer, _id_onFailed as jni$_.JMethodIDPtr,
-            _$throwable.pointer)
+    _onFailed(reference.pointer, _id_onFailed.pointer, _$throwable.pointer)
         .check();
   }
 }
@@ -971,7 +962,7 @@ extension type EmojiCompat$MetadataRepoLoader._(jni$_.JObject _$this)
     EmojiCompat$MetadataRepoLoaderCallback metadataRepoLoaderCallback,
   ) {
     final _$metadataRepoLoaderCallback = metadataRepoLoaderCallback.reference;
-    _load(reference.pointer, _id_load as jni$_.JMethodIDPtr,
+    _load(reference.pointer, _id_load.pointer,
             _$metadataRepoLoaderCallback.pointer)
         .check();
   }
@@ -1009,7 +1000,7 @@ extension type EmojiCompat$MetadataRepoLoader._(jni$_.JObject _$this)
       if ($d ==
           r'load(Landroidx/emoji2/text/EmojiCompat$MetadataRepoLoaderCallback;)V') {
         _$impls[$p]!.load(
-          $a![0],
+          ($a![0] as EmojiCompat$MetadataRepoLoaderCallback),
         );
         return jni$_.nullptr;
       }
@@ -1127,8 +1118,7 @@ extension type EmojiCompat$MetadataRepoLoaderCallback._(jni$_.JObject _$this)
     jni$_.JObject metadataRepo,
   ) {
     final _$metadataRepo = metadataRepo.reference;
-    _onLoaded(reference.pointer, _id_onLoaded as jni$_.JMethodIDPtr,
-            _$metadataRepo.pointer)
+    _onLoaded(reference.pointer, _id_onLoaded.pointer, _$metadataRepo.pointer)
         .check();
   }
 
@@ -1153,8 +1143,7 @@ extension type EmojiCompat$MetadataRepoLoaderCallback._(jni$_.JObject _$this)
     jni$_.JObject? throwable,
   ) {
     final _$throwable = throwable?.reference ?? jni$_.jNullReference;
-    _onFailed(reference.pointer, _id_onFailed as jni$_.JMethodIDPtr,
-            _$throwable.pointer)
+    _onFailed(reference.pointer, _id_onFailed.pointer, _$throwable.pointer)
         .check();
   }
 }
@@ -1299,7 +1288,7 @@ extension type EmojiCompat$SpanFactory._(jni$_.JObject _$this)
     jni$_.JObject typefaceEmojiRasterizer,
   ) {
     final _$typefaceEmojiRasterizer = typefaceEmojiRasterizer.reference;
-    return _createSpan(reference.pointer, _id_createSpan as jni$_.JMethodIDPtr,
+    return _createSpan(reference.pointer, _id_createSpan.pointer,
             _$typefaceEmojiRasterizer.pointer)
         .object<jni$_.JObject>();
   }
@@ -1337,7 +1326,7 @@ extension type EmojiCompat$SpanFactory._(jni$_.JObject _$this)
       if ($d ==
           r'createSpan(Landroidx/emoji2/text/TypefaceEmojiRasterizer;)Landroidx/emoji2/text/EmojiSpan;') {
         final $r = _$impls[$p]!.createSpan(
-          $a![0],
+          ($a![0] as jni$_.JObject),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -1502,8 +1491,7 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
     jni$_.JObject context,
   ) {
     final _$context = context.reference;
-    return _init(_class.reference.pointer, _id_init as jni$_.JMethodIDPtr,
-            _$context.pointer)
+    return _init(_class.reference.pointer, _id_init.pointer, _$context.pointer)
         .object<EmojiCompat?>();
   }
 
@@ -1539,7 +1527,7 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
     final _$context = context.reference;
     final _$defaultEmojiCompatConfigFactory =
         defaultEmojiCompatConfigFactory?.reference ?? jni$_.jNullReference;
-    return _init$1(_class.reference.pointer, _id_init$1 as jni$_.JMethodIDPtr,
+    return _init$1(_class.reference.pointer, _id_init$1.pointer,
             _$context.pointer, _$defaultEmojiCompatConfigFactory.pointer)
         .object<EmojiCompat?>();
   }
@@ -1566,8 +1554,8 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
     EmojiCompat$Config config,
   ) {
     final _$config = config.reference;
-    return _init$2(_class.reference.pointer, _id_init$2 as jni$_.JMethodIDPtr,
-            _$config.pointer)
+    return _init$2(
+            _class.reference.pointer, _id_init$2.pointer, _$config.pointer)
         .object<EmojiCompat>();
   }
 
@@ -1590,8 +1578,7 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `static public boolean isConfigured()`
   static core$_.bool isConfigured() {
-    return _isConfigured(
-            _class.reference.pointer, _id_isConfigured as jni$_.JMethodIDPtr)
+    return _isConfigured(_class.reference.pointer, _id_isConfigured.pointer)
         .boolean;
   }
 
@@ -1617,8 +1604,7 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
     EmojiCompat$Config config,
   ) {
     final _$config = config.reference;
-    return _reset(_class.reference.pointer, _id_reset as jni$_.JMethodIDPtr,
-            _$config.pointer)
+    return _reset(_class.reference.pointer, _id_reset.pointer, _$config.pointer)
         .object<EmojiCompat>();
   }
 
@@ -1644,7 +1630,7 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
     EmojiCompat? emojiCompat,
   ) {
     final _$emojiCompat = emojiCompat?.reference ?? jni$_.jNullReference;
-    return _reset$1(_class.reference.pointer, _id_reset$1 as jni$_.JMethodIDPtr,
+    return _reset$1(_class.reference.pointer, _id_reset$1.pointer,
             _$emojiCompat.pointer)
         .object<EmojiCompat?>();
   }
@@ -1669,7 +1655,7 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
     core$_.bool z,
   ) {
     _skipDefaultConfigurationLookup(_class.reference.pointer,
-            _id_skipDefaultConfigurationLookup as jni$_.JMethodIDPtr, z ? 1 : 0)
+            _id_skipDefaultConfigurationLookup.pointer, z ? 1 : 0)
         .check();
   }
 
@@ -1693,7 +1679,7 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public androidx.emoji2.text.EmojiCompat get()`
   /// The returned object must be released after use, by calling the [release] method.
   static EmojiCompat get() {
-    return _get(_class.reference.pointer, _id_get as jni$_.JMethodIDPtr)
+    return _get(_class.reference.pointer, _id_get.pointer)
         .object<EmojiCompat>();
   }
 
@@ -1716,7 +1702,7 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `public void load()`
   void load() {
-    _load(reference.pointer, _id_load as jni$_.JMethodIDPtr).check();
+    _load(reference.pointer, _id_load.pointer).check();
   }
 
   static final _id_registerInitCallback = _class.instanceMethodId(
@@ -1740,9 +1726,7 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
     EmojiCompat$InitCallback initCallback,
   ) {
     final _$initCallback = initCallback.reference;
-    _registerInitCallback(
-            reference.pointer,
-            _id_registerInitCallback as jni$_.JMethodIDPtr,
+    _registerInitCallback(reference.pointer, _id_registerInitCallback.pointer,
             _$initCallback.pointer)
         .check();
   }
@@ -1768,10 +1752,8 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
     EmojiCompat$InitCallback initCallback,
   ) {
     final _$initCallback = initCallback.reference;
-    _unregisterInitCallback(
-            reference.pointer,
-            _id_unregisterInitCallback as jni$_.JMethodIDPtr,
-            _$initCallback.pointer)
+    _unregisterInitCallback(reference.pointer,
+            _id_unregisterInitCallback.pointer, _$initCallback.pointer)
         .check();
   }
 
@@ -1794,9 +1776,7 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `public int getLoadState()`
   int getLoadState() {
-    return _getLoadState(
-            reference.pointer, _id_getLoadState as jni$_.JMethodIDPtr)
-        .integer;
+    return _getLoadState(reference.pointer, _id_getLoadState.pointer).integer;
   }
 
   static final _id_isEmojiSpanIndicatorEnabled = _class.instanceMethodId(
@@ -1819,8 +1799,8 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `public boolean isEmojiSpanIndicatorEnabled()`
   core$_.bool isEmojiSpanIndicatorEnabled() {
-    return _isEmojiSpanIndicatorEnabled(reference.pointer,
-            _id_isEmojiSpanIndicatorEnabled as jni$_.JMethodIDPtr)
+    return _isEmojiSpanIndicatorEnabled(
+            reference.pointer, _id_isEmojiSpanIndicatorEnabled.pointer)
         .boolean;
   }
 
@@ -1844,8 +1824,8 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `public int getEmojiSpanIndicatorColor()`
   int getEmojiSpanIndicatorColor() {
-    return _getEmojiSpanIndicatorColor(reference.pointer,
-            _id_getEmojiSpanIndicatorColor as jni$_.JMethodIDPtr)
+    return _getEmojiSpanIndicatorColor(
+            reference.pointer, _id_getEmojiSpanIndicatorColor.pointer)
         .integer;
   }
 
@@ -1872,8 +1852,8 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
     int i,
   ) {
     final _$charSequence = charSequence.reference;
-    return _getEmojiStart(reference.pointer,
-            _id_getEmojiStart as jni$_.JMethodIDPtr, _$charSequence.pointer, i)
+    return _getEmojiStart(reference.pointer, _id_getEmojiStart.pointer,
+            _$charSequence.pointer, i)
         .integer;
   }
 
@@ -1900,8 +1880,8 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
     int i,
   ) {
     final _$charSequence = charSequence.reference;
-    return _getEmojiEnd(reference.pointer,
-            _id_getEmojiEnd as jni$_.JMethodIDPtr, _$charSequence.pointer, i)
+    return _getEmojiEnd(reference.pointer, _id_getEmojiEnd.pointer,
+            _$charSequence.pointer, i)
         .integer;
   }
 
@@ -1939,7 +1919,7 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
     final _$keyEvent = keyEvent.reference;
     return _handleOnKeyDown(
             _class.reference.pointer,
-            _id_handleOnKeyDown as jni$_.JMethodIDPtr,
+            _id_handleOnKeyDown.pointer,
             _$editable.pointer,
             i,
             _$keyEvent.pointer)
@@ -1987,7 +1967,7 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
     final _$editable = editable.reference;
     return _handleDeleteSurroundingText(
             _class.reference.pointer,
-            _id_handleDeleteSurroundingText as jni$_.JMethodIDPtr,
+            _id_handleDeleteSurroundingText.pointer,
             _$inputConnection.pointer,
             _$editable.pointer,
             i,
@@ -2017,8 +1997,8 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
     jni$_.JObject charSequence,
   ) {
     final _$charSequence = charSequence.reference;
-    return _hasEmojiGlyph(reference.pointer,
-            _id_hasEmojiGlyph as jni$_.JMethodIDPtr, _$charSequence.pointer)
+    return _hasEmojiGlyph(reference.pointer, _id_hasEmojiGlyph.pointer,
+            _$charSequence.pointer)
         .boolean;
   }
 
@@ -2045,11 +2025,8 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
     int i,
   ) {
     final _$charSequence = charSequence.reference;
-    return _hasEmojiGlyph$1(
-            reference.pointer,
-            _id_hasEmojiGlyph$1 as jni$_.JMethodIDPtr,
-            _$charSequence.pointer,
-            i)
+    return _hasEmojiGlyph$1(reference.pointer, _id_hasEmojiGlyph$1.pointer,
+            _$charSequence.pointer, i)
         .boolean;
   }
 
@@ -2076,8 +2053,8 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
     int i,
   ) {
     final _$charSequence = charSequence.reference;
-    return _getEmojiMatch(reference.pointer,
-            _id_getEmojiMatch as jni$_.JMethodIDPtr, _$charSequence.pointer, i)
+    return _getEmojiMatch(reference.pointer, _id_getEmojiMatch.pointer,
+            _$charSequence.pointer, i)
         .integer;
   }
 
@@ -2103,8 +2080,8 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
     jni$_.JObject? charSequence,
   ) {
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
-    return _process(reference.pointer, _id_process as jni$_.JMethodIDPtr,
-            _$charSequence.pointer)
+    return _process(
+            reference.pointer, _id_process.pointer, _$charSequence.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -2136,7 +2113,7 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
     int i1,
   ) {
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
-    return _process$1(reference.pointer, _id_process$1 as jni$_.JMethodIDPtr,
+    return _process$1(reference.pointer, _id_process$1.pointer,
             _$charSequence.pointer, i, i1)
         .object<jni$_.JObject?>();
   }
@@ -2171,7 +2148,7 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
     int i2,
   ) {
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
-    return _process$2(reference.pointer, _id_process$2 as jni$_.JMethodIDPtr,
+    return _process$2(reference.pointer, _id_process$2.pointer,
             _$charSequence.pointer, i, i1, i2)
         .object<jni$_.JObject?>();
   }
@@ -2214,7 +2191,7 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
     int i3,
   ) {
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
-    return _process$3(reference.pointer, _id_process$3 as jni$_.JMethodIDPtr,
+    return _process$3(reference.pointer, _id_process$3.pointer,
             _$charSequence.pointer, i, i1, i2, i3)
         .object<jni$_.JObject?>();
   }
@@ -2239,8 +2216,7 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public java.lang.String getAssetSignature()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString getAssetSignature() {
-    return _getAssetSignature(
-            reference.pointer, _id_getAssetSignature as jni$_.JMethodIDPtr)
+    return _getAssetSignature(reference.pointer, _id_getAssetSignature.pointer)
         .object<jni$_.JString>();
   }
 
@@ -2265,8 +2241,8 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
     jni$_.JObject editorInfo,
   ) {
     final _$editorInfo = editorInfo.reference;
-    _updateEditorInfo(reference.pointer,
-            _id_updateEditorInfo as jni$_.JMethodIDPtr, _$editorInfo.pointer)
+    _updateEditorInfo(reference.pointer, _id_updateEditorInfo.pointer,
+            _$editorInfo.pointer)
         .check();
   }
 }
@@ -2313,7 +2289,7 @@ extension type DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory._(
   ) {
     final _$defaultEmojiCompatConfigHelper =
         defaultEmojiCompatConfigHelper?.reference ?? jni$_.jNullReference;
-    return _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr,
+    return _new$(_class.reference.pointer, _id_new$.pointer,
             _$defaultEmojiCompatConfigHelper.pointer)
         .object<DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory>();
   }
@@ -2340,8 +2316,7 @@ extension type DefaultEmojiCompatConfig$DefaultEmojiCompatConfigFactory._(
     jni$_.JObject context,
   ) {
     final _$context = context.reference;
-    return _create(reference.pointer, _id_create as jni$_.JMethodIDPtr,
-            _$context.pointer)
+    return _create(reference.pointer, _id_create.pointer, _$context.pointer)
         .object<EmojiCompat$Config?>();
   }
 }
@@ -2387,7 +2362,7 @@ extension type DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper._(
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper() {
-    return _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
+    return _new$(_class.reference.pointer, _id_new$.pointer)
         .object<DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper>();
   }
 
@@ -2423,7 +2398,7 @@ extension type DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper._(
     final _$string = string.reference;
     return _getSigningSignatures(
             reference.pointer,
-            _id_getSigningSignatures as jni$_.JMethodIDPtr,
+            _id_getSigningSignatures.pointer,
             _$packageManager.pointer,
             _$string.pointer)
         .object<jni$_.JArray<jni$_.JObject?>>();
@@ -2465,7 +2440,7 @@ extension type DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper._(
     final _$intent = intent.reference;
     return _queryIntentContentProviders(
             reference.pointer,
-            _id_queryIntentContentProviders as jni$_.JMethodIDPtr,
+            _id_queryIntentContentProviders.pointer,
             _$packageManager.pointer,
             _$intent.pointer,
             i)
@@ -2494,8 +2469,8 @@ extension type DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper._(
     jni$_.JObject resolveInfo,
   ) {
     final _$resolveInfo = resolveInfo.reference;
-    return _getProviderInfo(reference.pointer,
-            _id_getProviderInfo as jni$_.JMethodIDPtr, _$resolveInfo.pointer)
+    return _getProviderInfo(reference.pointer, _id_getProviderInfo.pointer,
+            _$resolveInfo.pointer)
         .object<jni$_.JObject?>();
   }
 }
@@ -2543,9 +2518,8 @@ extension type DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19._(
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19() {
-    return _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
-        .object<
-            DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19>();
+    return _new$(_class.reference.pointer, _id_new$.pointer).object<
+        DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19>();
   }
 
   static final _id_queryIntentContentProviders = _class.instanceMethodId(
@@ -2584,7 +2558,7 @@ extension type DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19._(
     final _$intent = intent.reference;
     return _queryIntentContentProviders(
             reference.pointer,
-            _id_queryIntentContentProviders as jni$_.JMethodIDPtr,
+            _id_queryIntentContentProviders.pointer,
             _$packageManager.pointer,
             _$intent.pointer,
             i)
@@ -2613,8 +2587,8 @@ extension type DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19._(
     jni$_.JObject resolveInfo,
   ) {
     final _$resolveInfo = resolveInfo.reference;
-    return _getProviderInfo(reference.pointer,
-            _id_getProviderInfo as jni$_.JMethodIDPtr, _$resolveInfo.pointer)
+    return _getProviderInfo(reference.pointer, _id_getProviderInfo.pointer,
+            _$resolveInfo.pointer)
         .object<jni$_.JObject?>();
   }
 }
@@ -2662,9 +2636,8 @@ extension type DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28._(
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28() {
-    return _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
-        .object<
-            DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28>();
+    return _new$(_class.reference.pointer, _id_new$.pointer).object<
+        DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28>();
   }
 
   static final _id_getSigningSignatures$1 = _class.instanceMethodId(
@@ -2699,7 +2672,7 @@ extension type DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API28._(
     final _$string = string.reference;
     return _getSigningSignatures$1(
             reference.pointer,
-            _id_getSigningSignatures$1 as jni$_.JMethodIDPtr,
+            _id_getSigningSignatures$1.pointer,
             _$packageManager.pointer,
             _$string.pointer)
         .object<jni$_.JArray<jni$_.JObject?>>();
@@ -2749,8 +2722,8 @@ extension type DefaultEmojiCompatConfig._(jni$_.JObject _$this)
     jni$_.JObject context,
   ) {
     final _$context = context.reference;
-    return _create(_class.reference.pointer, _id_create as jni$_.JMethodIDPtr,
-            _$context.pointer)
+    return _create(
+            _class.reference.pointer, _id_create.pointer, _$context.pointer)
         .object<jni$_.JObject?>();
   }
 }
@@ -2803,8 +2776,7 @@ extension type Build$Partition._(jni$_.JObject _$this)
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals as jni$_.JMethodIDPtr,
-            _$object.pointer)
+    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -2828,7 +2800,7 @@ extension type Build$Partition._(jni$_.JObject _$this)
   /// from: `public long getBuildTimeMillis()`
   int getBuildTimeMillis() {
     return _getBuildTimeMillis(
-            reference.pointer, _id_getBuildTimeMillis as jni$_.JMethodIDPtr)
+            reference.pointer, _id_getBuildTimeMillis.pointer)
         .long;
   }
 
@@ -2852,8 +2824,7 @@ extension type Build$Partition._(jni$_.JObject _$this)
   /// from: `public java.lang.String getFingerprint()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? getFingerprint() {
-    return _getFingerprint(
-            reference.pointer, _id_getFingerprint as jni$_.JMethodIDPtr)
+    return _getFingerprint(reference.pointer, _id_getFingerprint.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -2877,7 +2848,7 @@ extension type Build$Partition._(jni$_.JObject _$this)
   /// from: `public java.lang.String getName()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? getName() {
-    return _getName(reference.pointer, _id_getName as jni$_.JMethodIDPtr)
+    return _getName(reference.pointer, _id_getName.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -2900,8 +2871,7 @@ extension type Build$Partition._(jni$_.JObject _$this)
 
   /// from: `public int hashCode()`
   int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1 as jni$_.JMethodIDPtr)
-        .integer;
+    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 }
 
@@ -3053,7 +3023,7 @@ extension type Build$VERSION._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Build$VERSION() {
-    return _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
+    return _new$(_class.reference.pointer, _id_new$.pointer)
         .object<Build$VERSION>();
   }
 }
@@ -3205,7 +3175,7 @@ extension type Build$VERSION_CODES._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Build$VERSION_CODES() {
-    return _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
+    return _new$(_class.reference.pointer, _id_new$.pointer)
         .object<Build$VERSION_CODES>();
   }
 }
@@ -3652,8 +3622,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Build() {
-    return _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
-        .object<Build>();
+    return _new$(_class.reference.pointer, _id_new$.pointer).object<Build>();
   }
 
   static final _id_getFingerprintedPartitions = _class.staticMethodId(
@@ -3677,8 +3646,8 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public java.util.List<android.os.Build$Partition> getFingerprintedPartitions()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JList<Build$Partition?>? getFingerprintedPartitions() {
-    return _getFingerprintedPartitions(_class.reference.pointer,
-            _id_getFingerprintedPartitions as jni$_.JMethodIDPtr)
+    return _getFingerprintedPartitions(
+            _class.reference.pointer, _id_getFingerprintedPartitions.pointer)
         .object<jni$_.JList<Build$Partition?>?>();
   }
 
@@ -3700,8 +3669,8 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   static int getMajorSdkVersion(
     int i,
   ) {
-    return _getMajorSdkVersion(_class.reference.pointer,
-            _id_getMajorSdkVersion as jni$_.JMethodIDPtr, i)
+    return _getMajorSdkVersion(
+            _class.reference.pointer, _id_getMajorSdkVersion.pointer, i)
         .integer;
   }
 
@@ -3723,8 +3692,8 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   static int getMinorSdkVersion(
     int i,
   ) {
-    return _getMinorSdkVersion(_class.reference.pointer,
-            _id_getMinorSdkVersion as jni$_.JMethodIDPtr, i)
+    return _getMinorSdkVersion(
+            _class.reference.pointer, _id_getMinorSdkVersion.pointer, i)
         .integer;
   }
 
@@ -3749,7 +3718,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? getRadioVersion() {
     return _getRadioVersion(
-            _class.reference.pointer, _id_getRadioVersion as jni$_.JMethodIDPtr)
+            _class.reference.pointer, _id_getRadioVersion.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -3773,8 +3742,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public java.lang.String getSerial()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? getSerial() {
-    return _getSerial(
-            _class.reference.pointer, _id_getSerial as jni$_.JMethodIDPtr)
+    return _getSerial(_class.reference.pointer, _id_getSerial.pointer)
         .object<jni$_.JString?>();
   }
 }
@@ -3814,7 +3782,7 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory HashMap() {
-    return _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
+    return _new$(_class.reference.pointer, _id_new$.pointer)
         .object<HashMap<$K, $V>>();
   }
 
@@ -3837,7 +3805,7 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   factory HashMap.new$1(
     int i,
   ) {
-    return _new$1(_class.reference.pointer, _id_new$1 as jni$_.JMethodIDPtr, i)
+    return _new$1(_class.reference.pointer, _id_new$1.pointer, i)
         .object<HashMap<$K, $V>>();
   }
 
@@ -3862,8 +3830,7 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     int i,
     double f,
   ) {
-    return _new$2(
-            _class.reference.pointer, _id_new$2 as jni$_.JMethodIDPtr, i, f)
+    return _new$2(_class.reference.pointer, _id_new$2.pointer, i, f)
         .object<HashMap<$K, $V>>();
   }
 
@@ -3888,8 +3855,7 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     jni$_.JMap<$K?, $V?>? map,
   ) {
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _new$3(_class.reference.pointer, _id_new$3 as jni$_.JMethodIDPtr,
-            _$map.pointer)
+    return _new$3(_class.reference.pointer, _id_new$3.pointer, _$map.pointer)
         .object<HashMap<$K, $V>>();
   }
 
@@ -3912,7 +3878,7 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `public void clear()`
   void clear() {
-    _clear(reference.pointer, _id_clear as jni$_.JMethodIDPtr).check();
+    _clear(reference.pointer, _id_clear.pointer).check();
   }
 
   static final _id_clone = _class.instanceMethodId(
@@ -3935,7 +3901,7 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   /// from: `public java.lang.Object clone()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? clone() {
-    return _clone(reference.pointer, _id_clone as jni$_.JMethodIDPtr)
+    return _clone(reference.pointer, _id_clone.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -3969,8 +3935,8 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
-    return _compute(reference.pointer, _id_compute as jni$_.JMethodIDPtr,
-            _$object.pointer, _$biFunction.pointer)
+    return _compute(reference.pointer, _id_compute.pointer, _$object.pointer,
+            _$biFunction.pointer)
         .object<$V?>();
   }
 
@@ -4004,11 +3970,8 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$function = function?.reference ?? jni$_.jNullReference;
-    return _computeIfAbsent(
-            reference.pointer,
-            _id_computeIfAbsent as jni$_.JMethodIDPtr,
-            _$object.pointer,
-            _$function.pointer)
+    return _computeIfAbsent(reference.pointer, _id_computeIfAbsent.pointer,
+            _$object.pointer, _$function.pointer)
         .object<$V?>();
   }
 
@@ -4042,11 +4005,8 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
-    return _computeIfPresent(
-            reference.pointer,
-            _id_computeIfPresent as jni$_.JMethodIDPtr,
-            _$object.pointer,
-            _$biFunction.pointer)
+    return _computeIfPresent(reference.pointer, _id_computeIfPresent.pointer,
+            _$object.pointer, _$biFunction.pointer)
         .object<$V?>();
   }
 
@@ -4071,8 +4031,8 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _containsKey(reference.pointer,
-            _id_containsKey as jni$_.JMethodIDPtr, _$object.pointer)
+    return _containsKey(
+            reference.pointer, _id_containsKey.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -4097,8 +4057,8 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _containsValue(reference.pointer,
-            _id_containsValue as jni$_.JMethodIDPtr, _$object.pointer)
+    return _containsValue(
+            reference.pointer, _id_containsValue.pointer, _$object.pointer)
         .boolean;
   }
 
@@ -4122,7 +4082,7 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   /// from: `public java.util.Set<java.util.Map$Entry<K, V>> entrySet()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JSet<jni$_.JObject?>? entrySet() {
-    return _entrySet(reference.pointer, _id_entrySet as jni$_.JMethodIDPtr)
+    return _entrySet(reference.pointer, _id_entrySet.pointer)
         .object<jni$_.JSet<jni$_.JObject?>?>();
   }
 
@@ -4147,8 +4107,7 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     jni$_.JObject? biConsumer,
   ) {
     final _$biConsumer = biConsumer?.reference ?? jni$_.jNullReference;
-    _forEach(reference.pointer, _id_forEach as jni$_.JMethodIDPtr,
-            _$biConsumer.pointer)
+    _forEach(reference.pointer, _id_forEach.pointer, _$biConsumer.pointer)
         .check();
   }
 
@@ -4174,8 +4133,7 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _get(
-            reference.pointer, _id_get as jni$_.JMethodIDPtr, _$object.pointer)
+    return _get(reference.pointer, _id_get.pointer, _$object.pointer)
         .object<$V?>();
   }
 
@@ -4209,11 +4167,8 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _getOrDefault(
-            reference.pointer,
-            _id_getOrDefault as jni$_.JMethodIDPtr,
-            _$object.pointer,
-            _$object1.pointer)
+    return _getOrDefault(reference.pointer, _id_getOrDefault.pointer,
+            _$object.pointer, _$object1.pointer)
         .object<$V?>();
   }
 
@@ -4236,8 +4191,7 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `public boolean isEmpty()`
   core$_.bool isEmpty() {
-    return _isEmpty(reference.pointer, _id_isEmpty as jni$_.JMethodIDPtr)
-        .boolean;
+    return _isEmpty(reference.pointer, _id_isEmpty.pointer).boolean;
   }
 
   static final _id_keySet = _class.instanceMethodId(
@@ -4260,7 +4214,7 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   /// from: `public java.util.Set<K> keySet()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JSet<$K?>? keySet() {
-    return _keySet(reference.pointer, _id_keySet as jni$_.JMethodIDPtr)
+    return _keySet(reference.pointer, _id_keySet.pointer)
         .object<jni$_.JSet<$K?>?>();
   }
 
@@ -4298,8 +4252,8 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
-    return _merge(reference.pointer, _id_merge as jni$_.JMethodIDPtr,
-            _$object.pointer, _$object1.pointer, _$biFunction.pointer)
+    return _merge(reference.pointer, _id_merge.pointer, _$object.pointer,
+            _$object1.pointer, _$biFunction.pointer)
         .object<$V?>();
   }
 
@@ -4323,8 +4277,7 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       newHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
     int i,
   ) {
-    return _newHashMap(
-            _class.reference.pointer, _id_newHashMap as jni$_.JMethodIDPtr, i)
+    return _newHashMap(_class.reference.pointer, _id_newHashMap.pointer, i)
         .object<HashMap<$K?, $V?>?>();
   }
 
@@ -4358,8 +4311,8 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _put(reference.pointer, _id_put as jni$_.JMethodIDPtr,
-            _$object.pointer, _$object1.pointer)
+    return _put(reference.pointer, _id_put.pointer, _$object.pointer,
+            _$object1.pointer)
         .object<$V?>();
   }
 
@@ -4384,8 +4337,7 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     jni$_.JMap<$K?, $V?>? map,
   ) {
     final _$map = map?.reference ?? jni$_.jNullReference;
-    _putAll(reference.pointer, _id_putAll as jni$_.JMethodIDPtr, _$map.pointer)
-        .check();
+    _putAll(reference.pointer, _id_putAll.pointer, _$map.pointer).check();
   }
 
   static final _id_putIfAbsent = _class.instanceMethodId(
@@ -4418,11 +4370,8 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _putIfAbsent(
-            reference.pointer,
-            _id_putIfAbsent as jni$_.JMethodIDPtr,
-            _$object.pointer,
-            _$object1.pointer)
+    return _putIfAbsent(reference.pointer, _id_putIfAbsent.pointer,
+            _$object.pointer, _$object1.pointer)
         .object<$V?>();
   }
 
@@ -4448,8 +4397,7 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _remove(reference.pointer, _id_remove as jni$_.JMethodIDPtr,
-            _$object.pointer)
+    return _remove(reference.pointer, _id_remove.pointer, _$object.pointer)
         .object<$V?>();
   }
 
@@ -4482,8 +4430,8 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _remove$1(reference.pointer, _id_remove$1 as jni$_.JMethodIDPtr,
-            _$object.pointer, _$object1.pointer)
+    return _remove$1(reference.pointer, _id_remove$1.pointer, _$object.pointer,
+            _$object1.pointer)
         .boolean;
   }
 
@@ -4517,8 +4465,8 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _replace(reference.pointer, _id_replace as jni$_.JMethodIDPtr,
-            _$object.pointer, _$object1.pointer)
+    return _replace(reference.pointer, _id_replace.pointer, _$object.pointer,
+            _$object1.pointer)
         .object<$V?>();
   }
 
@@ -4555,7 +4503,7 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
-    return _replace$1(reference.pointer, _id_replace$1 as jni$_.JMethodIDPtr,
+    return _replace$1(reference.pointer, _id_replace$1.pointer,
             _$object.pointer, _$object1.pointer, _$object2.pointer)
         .boolean;
   }
@@ -4581,8 +4529,7 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     jni$_.JObject? biFunction,
   ) {
     final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
-    _replaceAll(reference.pointer, _id_replaceAll as jni$_.JMethodIDPtr,
-            _$biFunction.pointer)
+    _replaceAll(reference.pointer, _id_replaceAll.pointer, _$biFunction.pointer)
         .check();
   }
 
@@ -4605,7 +4552,7 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `public int size()`
   int size() {
-    return _size(reference.pointer, _id_size as jni$_.JMethodIDPtr).integer;
+    return _size(reference.pointer, _id_size.pointer).integer;
   }
 
   static final _id_values = _class.instanceMethodId(
@@ -4628,7 +4575,7 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   /// from: `public java.util.Collection<V> values()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? values() {
-    return _values(reference.pointer, _id_values as jni$_.JMethodIDPtr)
+    return _values(reference.pointer, _id_values.pointer)
         .object<jni$_.JObject?>();
   }
 }
@@ -4681,7 +4628,7 @@ extension type AndroidUtils._(jni$_.JObject _$this) implements jni$_.JObject {
   ) {
     final _$mainActivity = mainActivity?.reference ?? jni$_.jNullReference;
     final _$text = text?.reference ?? jni$_.jNullReference;
-    _showToast(_class.reference.pointer, _id_showToast as jni$_.JMethodIDPtr,
+    _showToast(_class.reference.pointer, _id_showToast.pointer,
             _$mainActivity.pointer, _$text.pointer, duration)
         .check();
   }

@@ -24,7 +24,7 @@ void run({required TestRunnerCallback testRunner}) {
       '1'.toJString()..releasedBy(arena),
       '2'.toJString()..releasedBy(arena),
       '3'.toJString()..releasedBy(arena),
-    ].toJList(JString.type)
+    ].toJList()
       ..releasedBy(arena);
   }
 
@@ -33,24 +33,25 @@ void run({required TestRunnerCallback testRunner}) {
       '1'.toJString()..releasedBy(arena),
       '2'.toJString()..releasedBy(arena),
       null,
-    ].toJList(JString.nullableType)
+    ].toJList()
       ..releasedBy(arena);
   }
 
   testRunner('length get', () {
     using((arena) {
-      final list = testDataList(arena);
+      final list = testDataList(arena).asDart();
       expect(list.length, 3);
     });
   });
   testRunner('length set', () {
     using((arena) {
-      final list = <JString?>[
+      final list = (<JString?>[
         '1'.toJString()..releasedBy(arena),
         '2'.toJString()..releasedBy(arena),
         '3'.toJString()..releasedBy(arena),
-      ].toJList(JString.nullableType)
-        ..releasedBy(arena);
+      ].toJList()
+            ..releasedBy(arena))
+          .asDart();
       list.length = 2;
       expect(list.length, 2);
       list.length = 3;
@@ -60,7 +61,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('[]', () {
     using((arena) {
-      final list = testDataList(arena);
+      final list = testDataList(arena).asDart();
       expect(list[0].toDartString(releaseOriginal: true), '1');
       expect(list[1].toDartString(releaseOriginal: true), '2');
       expect(list[2].toDartString(releaseOriginal: true), '3');
@@ -68,7 +69,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('nullable []', () {
     using((arena) {
-      final list = testNullableDataList(arena);
+      final list = testNullableDataList(arena).asDart();
       expect(list[0]!.toDartString(releaseOriginal: true), '1');
       expect(list[1]!.toDartString(releaseOriginal: true), '2');
       expect(list[2], isNull);
@@ -76,7 +77,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('[]=', () {
     using((arena) {
-      final list = testDataList(arena);
+      final list = testDataList(arena).asDart();
       expect(list[0].toDartString(releaseOriginal: true), '1');
       list[0] = '2'.toJString()..releasedBy(arena);
       expect(list[0].toDartString(releaseOriginal: true), '2');
@@ -84,7 +85,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('nullable []=', () {
     using((arena) {
-      final list = testNullableDataList(arena);
+      final list = testNullableDataList(arena).asDart();
       expect(list[0]!.toDartString(releaseOriginal: true), '1');
       list[0] = '2'.toJString()..releasedBy(arena);
       expect(list[0]!.toDartString(releaseOriginal: true), '2');
@@ -94,7 +95,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('add', () {
     using((arena) {
-      final list = testDataList(arena);
+      final list = testDataList(arena).asDart();
       list.add('4'.toJString()..releasedBy(arena));
       expect(list.length, 4);
       expect(list[3].toDartString(releaseOriginal: true), '4');
@@ -102,7 +103,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('nullable add', () {
     using((arena) {
-      final list = testNullableDataList(arena);
+      final list = testNullableDataList(arena).asDart();
       list.add('4'.toJString()..releasedBy(arena));
       expect(list.length, 4);
       expect(list[3]!.toDartString(releaseOriginal: true), '4');
@@ -112,8 +113,8 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('addAll', () {
     using((arena) {
-      final list = testDataList(arena);
-      final toAppend = testDataList(arena);
+      final list = testDataList(arena).asDart();
+      final toAppend = testDataList(arena).asDart();
       list.addAll(toAppend);
       expect(list.length, 6);
       list.addAll(['4'.toJString()..releasedBy(arena)]);
@@ -122,7 +123,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('clear, isEmpty, isNotEmpty', () {
     using((arena) {
-      final list = testDataList(arena);
+      final list = testDataList(arena).asDart();
       expect(list.isNotEmpty, true);
       expect(list.isEmpty, false);
       list.clear();
@@ -132,18 +133,16 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('contains', () {
     using((arena) {
-      final list = testDataList(arena);
-      // ignore: collection_methods_unrelated_type
-      expect(list.contains('1'), false);
+      final list = testDataList(arena).asDart();
+      expect((list as List<Object>).contains('1'), false);
       expect(list.contains('1'.toJString()..releasedBy(arena)), true);
       expect(list.contains('4'.toJString()..releasedBy(arena)), false);
     });
   });
   testRunner('nullable contains', () {
     using((arena) {
-      final list = testNullableDataList(arena);
-      // ignore: collection_methods_unrelated_type
-      expect(list.contains('1'), false);
+      final list = testNullableDataList(arena).asDart();
+      expect((list as List<Object?>).contains('1'), false);
       expect(list.contains('1'.toJString()..releasedBy(arena)), true);
       expect(list.contains('4'.toJString()..releasedBy(arena)), false);
       expect(list.contains(null), true);
@@ -151,17 +150,16 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('getRange', () {
     using((arena) {
-      final list = testDataList(arena);
-      // ignore: iterable_contains_unrelated_type
-      final range = list.getRange(1, 2)..releasedBy(arena);
+      final list = testDataList(arena).asDart();
+      final range = list.getRange(1, 2);
       expect(range.length, 1);
       expect(range.first.toDartString(releaseOriginal: true), '2');
     });
   });
   testRunner('indexOf', () {
     using((arena) {
-      final list = testDataList(arena);
-      expect(list.indexOf(1), -1);
+      final list = testDataList(arena).asDart();
+      expect((list as List<Object>).indexOf(1), -1);
       expect(list.indexOf('1'.toJString()..toDartString()), 0);
       expect(list.indexOf('2'.toJString()..toDartString()), 1);
       expect(list.indexOf('1'.toJString()..toDartString(), 1), -1);
@@ -170,8 +168,8 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('nullable indexOf', () {
     using((arena) {
-      final list = testNullableDataList(arena);
-      expect(list.indexOf(1), -1);
+      final list = testNullableDataList(arena).asDart();
+      expect((list as List<Object?>).indexOf(1), -1);
       expect(list.indexOf('1'.toJString()..toDartString()), 0);
       expect(list.indexOf('2'.toJString()..toDartString()), 1);
       expect(list.indexOf(null), 2);
@@ -181,8 +179,8 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('lastIndexOf', () {
     using((arena) {
-      final list = testDataList(arena);
-      expect(list.lastIndexOf(1), -1);
+      final list = testDataList(arena).asDart();
+      expect((list as List<Object>).lastIndexOf(1), -1);
       expect(list.lastIndexOf('1'.toJString()..toDartString()), 0);
       expect(list.lastIndexOf('2'.toJString()..toDartString()), 1);
       expect(list.lastIndexOf('3'.toJString()..toDartString()), 2);
@@ -191,8 +189,8 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('nullable lastIndexOf', () {
     using((arena) {
-      final list = testNullableDataList(arena);
-      expect(list.lastIndexOf(1), -1);
+      final list = testNullableDataList(arena).asDart();
+      expect((list as List<Object?>).lastIndexOf(1), -1);
       expect(list.lastIndexOf('1'.toJString()..toDartString()), 0);
       expect(list.lastIndexOf('2'.toJString()..toDartString()), 1);
       expect(list.lastIndexOf(null), 2);
@@ -201,7 +199,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('insert', () {
     using((arena) {
-      final list = testDataList(arena);
+      final list = testDataList(arena).asDart();
       list.insert(1, '0'.toJString()..releasedBy(arena));
       expect(list.length, 4);
       expect(list[1].toDartString(releaseOriginal: true), '0');
@@ -209,8 +207,8 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('insertAll', () {
     using((arena) {
-      final list = testDataList(arena);
-      final toInsert = testDataList(arena);
+      final list = testDataList(arena).asDart();
+      final toInsert = testDataList(arena).asDart();
       list.insertAll(1, toInsert);
       expect(list[1].toDartString(releaseOriginal: true), '1');
       expect(list.length, 6);
@@ -221,7 +219,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('iterator', () {
     using((arena) {
-      final list = testDataList(arena);
+      final list = testDataList(arena).asDart();
       final it = list.iterator;
       expect(it.moveNext(), true);
       expect(it.current.toDartString(releaseOriginal: true), '1');
@@ -234,7 +232,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('remove', () {
     using((arena) {
-      final list = testDataList(arena);
+      final list = testDataList(arena).asDart();
       expect(list.remove('3'.toJString()..releasedBy(arena)), true);
       expect(list.length, 2);
       expect(list.remove('4'.toJString()..releasedBy(arena)), false);
@@ -244,7 +242,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('nullable remove', () {
     using((arena) {
-      final list = testNullableDataList(arena);
+      final list = testNullableDataList(arena).asDart();
       expect(list.remove('3'.toJString()..releasedBy(arena)), false);
       expect(list.length, 3);
       expect(list.remove(null), true);
@@ -255,56 +253,32 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('removeAt', () {
     using((arena) {
-      final list = testDataList(arena);
+      final list = testDataList(arena).asDart();
       expect(list.removeAt(0).toDartString(releaseOriginal: true), '1');
       expect(list.removeAt(1).toDartString(releaseOriginal: true), '3');
     });
   });
   testRunner('removeRange', () {
     using((arena) {
-      final list = testDataList(arena);
+      final list = testDataList(arena).asDart();
       list.removeRange(0, 2);
       expect(list.single.toDartString(releaseOriginal: true), '3');
     });
   });
   testRunner('==, hashCode', () {
     using((arena) {
-      final a = testDataList(arena);
-      final b = testDataList(arena);
-      expect(a.hashCode, b.hashCode);
-      expect(a, b);
-      b.add('4'.toJString()..releasedBy(arena));
+      final a = testDataList(arena).asDart();
+      final b = testDataList(arena).asDart();
       expect(a.hashCode, isNot(b.hashCode));
-      expect(a, isNot(b));
+      expect(a, b);
+      expect(a == b, isFalse);
     });
   });
   testRunner('toSet', () {
     using((arena) {
-      final list = testDataList(arena);
-      final set = list.toSet()..releasedBy(arena);
+      final list = testDataList(arena).asDart();
+      final set = list.toSet();
       expect(set.length, 3);
-    });
-  });
-  testRunner('type hashCode, ==', () {
-    using((arena) {
-      final a = testDataList(arena);
-      final b = testDataList(arena);
-      expect(a.$type, b.$type);
-      expect(a.$type.hashCode, b.$type.hashCode);
-      final c = JList.array(JObject.type)..releasedBy(arena);
-      expect(a.$type, isNot(c.$type));
-      expect(a.$type.hashCode, isNot(c.$type.hashCode));
-    });
-  });
-  testRunner('JIterator type hashCode, ==', () {
-    using((arena) {
-      final a = testDataList(arena);
-      final b = testDataList(arena);
-      expect(a.iterator.$type, b.iterator.$type);
-      expect(a.iterator.$type.hashCode, b.iterator.$type.hashCode);
-      final c = JList.array(JObject.type)..releasedBy(arena);
-      expect(a.iterator.$type, isNot(c.iterator.$type));
-      expect(a.iterator.$type.hashCode, isNot(c.iterator.$type.hashCode));
     });
   });
 }

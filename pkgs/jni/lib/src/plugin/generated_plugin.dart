@@ -67,7 +67,7 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory JniPlugin() {
-    return _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
+    return _new$(_class.reference.pointer, _id_new$.pointer)
         .object<JniPlugin>();
   }
 
@@ -91,8 +91,8 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public android.content.Context getApplicationContext()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JObject getApplicationContext() {
-    return _getApplicationContext(_class.reference.pointer,
-            _id_getApplicationContext as jni$_.JMethodIDPtr)
+    return _getApplicationContext(
+            _class.reference.pointer, _id_getApplicationContext.pointer)
         .object<jni$_.JObject>();
   }
 
@@ -115,8 +115,7 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JObject? getActivity(
     int j,
   ) {
-    return _getActivity(
-            _class.reference.pointer, _id_getActivity as jni$_.JMethodIDPtr, j)
+    return _getActivity(_class.reference.pointer, _id_getActivity.pointer, j)
         .object<jni$_.JObject?>();
   }
 
@@ -141,9 +140,7 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
     jni$_.JObject flutterPluginBinding,
   ) {
     final _$flutterPluginBinding = flutterPluginBinding.reference;
-    _onAttachedToEngine(
-            reference.pointer,
-            _id_onAttachedToEngine as jni$_.JMethodIDPtr,
+    _onAttachedToEngine(reference.pointer, _id_onAttachedToEngine.pointer,
             _$flutterPluginBinding.pointer)
         .check();
   }
@@ -169,9 +166,7 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
     jni$_.JObject flutterPluginBinding,
   ) {
     final _$flutterPluginBinding = flutterPluginBinding.reference;
-    _onDetachedFromEngine(
-            reference.pointer,
-            _id_onDetachedFromEngine as jni$_.JMethodIDPtr,
+    _onDetachedFromEngine(reference.pointer, _id_onDetachedFromEngine.pointer,
             _$flutterPluginBinding.pointer)
         .check();
   }
@@ -197,9 +192,7 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
     jni$_.JObject activityPluginBinding,
   ) {
     final _$activityPluginBinding = activityPluginBinding.reference;
-    _onAttachedToActivity(
-            reference.pointer,
-            _id_onAttachedToActivity as jni$_.JMethodIDPtr,
+    _onAttachedToActivity(reference.pointer, _id_onAttachedToActivity.pointer,
             _$activityPluginBinding.pointer)
         .check();
   }
@@ -226,7 +219,7 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public void onDetachedFromActivityForConfigChanges()`
   void onDetachedFromActivityForConfigChanges() {
     _onDetachedFromActivityForConfigChanges(reference.pointer,
-            _id_onDetachedFromActivityForConfigChanges as jni$_.JMethodIDPtr)
+            _id_onDetachedFromActivityForConfigChanges.pointer)
         .check();
   }
 
@@ -255,7 +248,7 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
     final _$activityPluginBinding = activityPluginBinding.reference;
     _onReattachedToActivityForConfigChanges(
             reference.pointer,
-            _id_onReattachedToActivityForConfigChanges as jni$_.JMethodIDPtr,
+            _id_onReattachedToActivityForConfigChanges.pointer,
             _$activityPluginBinding.pointer)
         .check();
   }
@@ -280,7 +273,7 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public void onDetachedFromActivity()`
   void onDetachedFromActivity() {
     _onDetachedFromActivity(
-            reference.pointer, _id_onDetachedFromActivity as jni$_.JMethodIDPtr)
+            reference.pointer, _id_onDetachedFromActivity.pointer)
         .check();
   }
 }

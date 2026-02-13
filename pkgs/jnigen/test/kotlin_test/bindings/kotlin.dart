@@ -66,7 +66,7 @@ extension type CanDoA._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `public fun doA(): kotlin.Unit`
   void doA() {
-    _doA(reference.pointer, _id_doA as jni$_.JMethodIDPtr).check();
+    _doA(reference.pointer, _id_doA.pointer).check();
   }
 
   /// Maps a specific port to the implemented interface.
@@ -204,7 +204,7 @@ extension type CanDoB._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `public fun doB(): kotlin.Unit`
   void doB() {
-    _doB(reference.pointer, _id_doB as jni$_.JMethodIDPtr).check();
+    _doB(reference.pointer, _id_doB.pointer).check();
   }
 
   /// Maps a specific port to the implemented interface.
@@ -343,8 +343,7 @@ extension type Measure<$T extends jni$_.JObject>._(jni$_.JObject _$this)
 
   /// from: `public float getValue()`
   double getValue() {
-    return _getValue(reference.pointer, _id_getValue as jni$_.JMethodIDPtr)
-        .float;
+    return _getValue(reference.pointer, _id_getValue.pointer).float;
   }
 
   static final _id_getUnit = _class.instanceMethodId(
@@ -367,8 +366,7 @@ extension type Measure<$T extends jni$_.JObject>._(jni$_.JObject _$this)
   /// from: `public T getUnit()`
   /// The returned object must be released after use, by calling the [release] method.
   $T getUnit() {
-    return _getUnit(reference.pointer, _id_getUnit as jni$_.JMethodIDPtr)
-        .object<$T>();
+    return _getUnit(reference.pointer, _id_getUnit.pointer).object<$T>();
   }
 
   static final _id_convertValue = _class.instanceMethodId(
@@ -392,8 +390,8 @@ extension type Measure<$T extends jni$_.JObject>._(jni$_.JObject _$this)
     $T measureUnit,
   ) {
     final _$measureUnit = measureUnit.reference;
-    return _convertValue(reference.pointer,
-            _id_convertValue as jni$_.JMethodIDPtr, _$measureUnit.pointer)
+    return _convertValue(
+            reference.pointer, _id_convertValue.pointer, _$measureUnit.pointer)
         .float;
   }
 }
@@ -434,7 +432,7 @@ extension type MeasureUnit._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public abstract java.lang.String getSign()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString getSign() {
-    return _getSign(reference.pointer, _id_getSign as jni$_.JMethodIDPtr)
+    return _getSign(reference.pointer, _id_getSign.pointer)
         .object<jni$_.JString>();
   }
 
@@ -457,9 +455,7 @@ extension type MeasureUnit._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `public abstract float getCoefficient()`
   double getCoefficient() {
-    return _getCoefficient(
-            reference.pointer, _id_getCoefficient as jni$_.JMethodIDPtr)
-        .float;
+    return _getCoefficient(reference.pointer, _id_getCoefficient.pointer).float;
   }
 
   /// Maps a specific port to the implemented interface.
@@ -613,8 +609,8 @@ extension type Nullability$InnerClass<$T extends jni$_.JObject?,
     Nullability<$T?, $U> $outerClass,
   ) {
     final _$$outerClass = $outerClass.reference;
-    return _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr,
-            _$$outerClass.pointer)
+    return _new$(
+            _class.reference.pointer, _id_new$.pointer, _$$outerClass.pointer)
         .object<Nullability$InnerClass<$T, $U, $V>>();
   }
 
@@ -651,8 +647,8 @@ extension type Nullability$InnerClass<$T extends jni$_.JObject?,
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1.reference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
-    _f(reference.pointer, _id_f as jni$_.JMethodIDPtr, _$object.pointer,
-            _$object1.pointer, _$object2.pointer)
+    _f(reference.pointer, _id_f.pointer, _$object.pointer, _$object1.pointer,
+            _$object2.pointer)
         .check();
   }
 }
@@ -709,8 +705,8 @@ extension type Nullability<$T extends jni$_.JObject?,
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1.reference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
-    return _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr,
-            _$object.pointer, _$object1.pointer, _$object2.pointer)
+    return _new$(_class.reference.pointer, _id_new$.pointer, _$object.pointer,
+            _$object1.pointer, _$object2.pointer)
         .object<Nullability<$T, $U>>();
   }
 
@@ -734,8 +730,7 @@ extension type Nullability<$T extends jni$_.JObject?,
   /// from: `public final T getT()`
   /// The returned object must be released after use, by calling the [release] method.
   $T getT() {
-    return _getT(reference.pointer, _id_getT as jni$_.JMethodIDPtr)
-        .object<$T>();
+    return _getT(reference.pointer, _id_getT.pointer).object<$T>();
   }
 
   static final _id_getU = _class.instanceMethodId(
@@ -758,8 +753,7 @@ extension type Nullability<$T extends jni$_.JObject?,
   /// from: `public final U getU()`
   /// The returned object must be released after use, by calling the [release] method.
   $U getU() {
-    return _getU(reference.pointer, _id_getU as jni$_.JMethodIDPtr)
-        .object<$U>();
+    return _getU(reference.pointer, _id_getU.pointer).object<$U>();
   }
 
   static final _id_getNullableU = _class.instanceMethodId(
@@ -782,8 +776,7 @@ extension type Nullability<$T extends jni$_.JObject?,
   /// from: `public final U getNullableU()`
   /// The returned object must be released after use, by calling the [release] method.
   $U? getNullableU() {
-    return _getNullableU(
-            reference.pointer, _id_getNullableU as jni$_.JMethodIDPtr)
+    return _getNullableU(reference.pointer, _id_getNullableU.pointer)
         .object<$U?>();
   }
 
@@ -808,8 +801,7 @@ extension type Nullability<$T extends jni$_.JObject?,
     $U? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    _setNullableU(reference.pointer, _id_setNullableU as jni$_.JMethodIDPtr,
-            _$object.pointer)
+    _setNullableU(reference.pointer, _id_setNullableU.pointer, _$object.pointer)
         .check();
   }
 
@@ -833,7 +825,7 @@ extension type Nullability<$T extends jni$_.JObject?,
   /// from: `public fun self(): com.github.dart_lang.jnigen.Nullability<*, *>`
   /// The returned object must be released after use, by calling the [release] method.
   Nullability<jni$_.JObject?, jni$_.JObject> self() {
-    return _self(reference.pointer, _id_self as jni$_.JMethodIDPtr)
+    return _self(reference.pointer, _id_self.pointer)
         .object<Nullability<jni$_.JObject?, jni$_.JObject>>();
   }
 
@@ -857,8 +849,7 @@ extension type Nullability<$T extends jni$_.JObject?,
   /// from: `public fun hello(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString hello() {
-    return _hello(reference.pointer, _id_hello as jni$_.JMethodIDPtr)
-        .object<jni$_.JString>();
+    return _hello(reference.pointer, _id_hello.pointer).object<jni$_.JString>();
   }
 
   static final _id_nullableHello = _class.instanceMethodId(
@@ -881,8 +872,8 @@ extension type Nullability<$T extends jni$_.JObject?,
   jni$_.JString? nullableHello(
     core$_.bool z,
   ) {
-    return _nullableHello(reference.pointer,
-            _id_nullableHello as jni$_.JMethodIDPtr, z ? 1 : 0)
+    return _nullableHello(
+            reference.pointer, _id_nullableHello.pointer, z ? 1 : 0)
         .object<jni$_.JString?>();
   }
 
@@ -906,7 +897,7 @@ extension type Nullability<$T extends jni$_.JObject?,
   /// from: `public fun list(): kotlin.collections.List<*>`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject?> list() {
-    return _list(reference.pointer, _id_list as jni$_.JMethodIDPtr)
+    return _list(reference.pointer, _id_list.pointer)
         .object<jni$_.JList<jni$_.JObject?>>();
   }
 
@@ -932,8 +923,8 @@ extension type Nullability<$T extends jni$_.JObject?,
     $V object,
   ) {
     final _$object = object.reference;
-    return _methodGenericEcho(reference.pointer,
-            _id_methodGenericEcho as jni$_.JMethodIDPtr, _$object.pointer)
+    return _methodGenericEcho(
+            reference.pointer, _id_methodGenericEcho.pointer, _$object.pointer)
         .object<$V>();
   }
 
@@ -959,10 +950,8 @@ extension type Nullability<$T extends jni$_.JObject?,
     $V object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _methodGenericNullableEcho(
-            reference.pointer,
-            _id_methodGenericNullableEcho as jni$_.JMethodIDPtr,
-            _$object.pointer)
+    return _methodGenericNullableEcho(reference.pointer,
+            _id_methodGenericNullableEcho.pointer, _$object.pointer)
         .object<$V>();
   }
 
@@ -988,8 +977,8 @@ extension type Nullability<$T extends jni$_.JObject?,
     $U object,
   ) {
     final _$object = object.reference;
-    return _classGenericEcho(reference.pointer,
-            _id_classGenericEcho as jni$_.JMethodIDPtr, _$object.pointer)
+    return _classGenericEcho(
+            reference.pointer, _id_classGenericEcho.pointer, _$object.pointer)
         .object<$U>();
   }
 
@@ -1015,10 +1004,8 @@ extension type Nullability<$T extends jni$_.JObject?,
     $T object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _classGenericNullableEcho(
-            reference.pointer,
-            _id_classGenericNullableEcho as jni$_.JMethodIDPtr,
-            _$object.pointer)
+    return _classGenericNullableEcho(reference.pointer,
+            _id_classGenericNullableEcho.pointer, _$object.pointer)
         .object<$T>();
   }
 
@@ -1044,8 +1031,7 @@ extension type Nullability<$T extends jni$_.JObject?,
     jni$_.JList<jni$_.JString> list,
   ) {
     final _$list = list.reference;
-    return _firstOf(reference.pointer, _id_firstOf as jni$_.JMethodIDPtr,
-            _$list.pointer)
+    return _firstOf(reference.pointer, _id_firstOf.pointer, _$list.pointer)
         .object<jni$_.JString>();
   }
 
@@ -1071,8 +1057,8 @@ extension type Nullability<$T extends jni$_.JObject?,
     jni$_.JList<jni$_.JString?> list,
   ) {
     final _$list = list.reference;
-    return _firstOfNullable(reference.pointer,
-            _id_firstOfNullable as jni$_.JMethodIDPtr, _$list.pointer)
+    return _firstOfNullable(
+            reference.pointer, _id_firstOfNullable.pointer, _$list.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -1098,8 +1084,8 @@ extension type Nullability<$T extends jni$_.JObject?,
     jni$_.JList<$U> list,
   ) {
     final _$list = list.reference;
-    return _classGenericFirstOf(reference.pointer,
-            _id_classGenericFirstOf as jni$_.JMethodIDPtr, _$list.pointer)
+    return _classGenericFirstOf(
+            reference.pointer, _id_classGenericFirstOf.pointer, _$list.pointer)
         .object<$U>();
   }
 
@@ -1126,10 +1112,8 @@ extension type Nullability<$T extends jni$_.JObject?,
     jni$_.JList<$T> list,
   ) {
     final _$list = list.reference;
-    return _classGenericFirstOfNullable(
-            reference.pointer,
-            _id_classGenericFirstOfNullable as jni$_.JMethodIDPtr,
-            _$list.pointer)
+    return _classGenericFirstOfNullable(reference.pointer,
+            _id_classGenericFirstOfNullable.pointer, _$list.pointer)
         .object<$T>();
   }
 
@@ -1155,8 +1139,8 @@ extension type Nullability<$T extends jni$_.JObject?,
     jni$_.JList<$V> list,
   ) {
     final _$list = list.reference;
-    return _methodGenericFirstOf(reference.pointer,
-            _id_methodGenericFirstOf as jni$_.JMethodIDPtr, _$list.pointer)
+    return _methodGenericFirstOf(
+            reference.pointer, _id_methodGenericFirstOf.pointer, _$list.pointer)
         .object<$V>();
   }
 
@@ -1183,10 +1167,8 @@ extension type Nullability<$T extends jni$_.JObject?,
     jni$_.JList<$V> list,
   ) {
     final _$list = list.reference;
-    return _methodGenericFirstOfNullable(
-            reference.pointer,
-            _id_methodGenericFirstOfNullable as jni$_.JMethodIDPtr,
-            _$list.pointer)
+    return _methodGenericFirstOfNullable(reference.pointer,
+            _id_methodGenericFirstOfNullable.pointer, _$list.pointer)
         .object<$V>();
   }
 
@@ -1212,8 +1194,8 @@ extension type Nullability<$T extends jni$_.JObject?,
     jni$_.JString string,
   ) {
     final _$string = string.reference;
-    return _stringListOf(reference.pointer,
-            _id_stringListOf as jni$_.JMethodIDPtr, _$string.pointer)
+    return _stringListOf(
+            reference.pointer, _id_stringListOf.pointer, _$string.pointer)
         .object<jni$_.JList<jni$_.JString>>();
   }
 
@@ -1239,8 +1221,8 @@ extension type Nullability<$T extends jni$_.JObject?,
     jni$_.JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _nullableListOf(reference.pointer,
-            _id_nullableListOf as jni$_.JMethodIDPtr, _$string.pointer)
+    return _nullableListOf(
+            reference.pointer, _id_nullableListOf.pointer, _$string.pointer)
         .object<jni$_.JList<jni$_.JString?>>();
   }
 
@@ -1266,8 +1248,8 @@ extension type Nullability<$T extends jni$_.JObject?,
     $U object,
   ) {
     final _$object = object.reference;
-    return _classGenericListOf(reference.pointer,
-            _id_classGenericListOf as jni$_.JMethodIDPtr, _$object.pointer)
+    return _classGenericListOf(
+            reference.pointer, _id_classGenericListOf.pointer, _$object.pointer)
         .object<jni$_.JList<$U>>();
   }
 
@@ -1294,10 +1276,8 @@ extension type Nullability<$T extends jni$_.JObject?,
     $T object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _classGenericNullableListOf(
-            reference.pointer,
-            _id_classGenericNullableListOf as jni$_.JMethodIDPtr,
-            _$object.pointer)
+    return _classGenericNullableListOf(reference.pointer,
+            _id_classGenericNullableListOf.pointer, _$object.pointer)
         .object<jni$_.JList<$T>>();
   }
 
@@ -1324,7 +1304,7 @@ extension type Nullability<$T extends jni$_.JObject?,
   ) {
     final _$object = object.reference;
     return _methodGenericListOf(reference.pointer,
-            _id_methodGenericListOf as jni$_.JMethodIDPtr, _$object.pointer)
+            _id_methodGenericListOf.pointer, _$object.pointer)
         .object<jni$_.JList<$V>>();
   }
 
@@ -1351,10 +1331,8 @@ extension type Nullability<$T extends jni$_.JObject?,
     $V object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _methodGenericNullableListOf(
-            reference.pointer,
-            _id_methodGenericNullableListOf as jni$_.JMethodIDPtr,
-            _$object.pointer)
+    return _methodGenericNullableListOf(reference.pointer,
+            _id_methodGenericNullableListOf.pointer, _$object.pointer)
         .object<jni$_.JList<$V>>();
   }
 
@@ -1379,8 +1357,8 @@ extension type Nullability<$T extends jni$_.JObject?,
     jni$_.JArray<jni$_.JString> strings,
   ) {
     final _$strings = strings.reference;
-    return _methodWithVarArgs(reference.pointer,
-            _id_methodWithVarArgs as jni$_.JMethodIDPtr, _$strings.pointer)
+    return _methodWithVarArgs(
+            reference.pointer, _id_methodWithVarArgs.pointer, _$strings.pointer)
         .integer;
   }
 
@@ -1405,8 +1383,8 @@ extension type Nullability<$T extends jni$_.JObject?,
     $V canDoA,
   ) {
     final _$canDoA = canDoA.reference;
-    return _methodWithWhere(reference.pointer,
-            _id_methodWithWhere as jni$_.JMethodIDPtr, _$canDoA.pointer)
+    return _methodWithWhere(
+            reference.pointer, _id_methodWithWhere.pointer, _$canDoA.pointer)
         .integer;
   }
 }
@@ -1446,7 +1424,7 @@ extension type Operators._(jni$_.JObject _$this) implements jni$_.JObject {
   factory Operators(
     int i,
   ) {
-    return _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr, i)
+    return _new$(_class.reference.pointer, _id_new$.pointer, i)
         .object<Operators>();
   }
 
@@ -1469,8 +1447,7 @@ extension type Operators._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `public final int getValue()`
   int getValue() {
-    return _getValue(reference.pointer, _id_getValue as jni$_.JMethodIDPtr)
-        .integer;
+    return _getValue(reference.pointer, _id_getValue.pointer).integer;
   }
 
   static final _id_setValue = _class.instanceMethodId(
@@ -1492,7 +1469,7 @@ extension type Operators._(jni$_.JObject _$this) implements jni$_.JObject {
   void setValue(
     int i,
   ) {
-    _setValue(reference.pointer, _id_setValue as jni$_.JMethodIDPtr, i).check();
+    _setValue(reference.pointer, _id_setValue.pointer, i).check();
   }
 
   static final _id_plus = _class.instanceMethodId(
@@ -1517,8 +1494,7 @@ extension type Operators._(jni$_.JObject _$this) implements jni$_.JObject {
     Operators operators,
   ) {
     final _$operators = operators.reference;
-    return _plus(reference.pointer, _id_plus as jni$_.JMethodIDPtr,
-            _$operators.pointer)
+    return _plus(reference.pointer, _id_plus.pointer, _$operators.pointer)
         .object<Operators>();
   }
 
@@ -1542,7 +1518,7 @@ extension type Operators._(jni$_.JObject _$this) implements jni$_.JObject {
   Operators plus$1(
     int i,
   ) {
-    return _plus$1(reference.pointer, _id_plus$1 as jni$_.JMethodIDPtr, i)
+    return _plus$1(reference.pointer, _id_plus$1.pointer, i)
         .object<Operators>();
   }
 
@@ -1568,8 +1544,7 @@ extension type Operators._(jni$_.JObject _$this) implements jni$_.JObject {
     Operators operators,
   ) {
     final _$operators = operators.reference;
-    return _minus(reference.pointer, _id_minus as jni$_.JMethodIDPtr,
-            _$operators.pointer)
+    return _minus(reference.pointer, _id_minus.pointer, _$operators.pointer)
         .object<Operators>();
   }
 
@@ -1595,8 +1570,7 @@ extension type Operators._(jni$_.JObject _$this) implements jni$_.JObject {
     Operators operators,
   ) {
     final _$operators = operators.reference;
-    return _times(reference.pointer, _id_times as jni$_.JMethodIDPtr,
-            _$operators.pointer)
+    return _times(reference.pointer, _id_times.pointer, _$operators.pointer)
         .object<Operators>();
   }
 
@@ -1622,8 +1596,7 @@ extension type Operators._(jni$_.JObject _$this) implements jni$_.JObject {
     Operators operators,
   ) {
     final _$operators = operators.reference;
-    return _div(reference.pointer, _id_div as jni$_.JMethodIDPtr,
-            _$operators.pointer)
+    return _div(reference.pointer, _id_div.pointer, _$operators.pointer)
         .object<Operators>();
   }
 
@@ -1649,8 +1622,7 @@ extension type Operators._(jni$_.JObject _$this) implements jni$_.JObject {
     Operators operators,
   ) {
     final _$operators = operators.reference;
-    return _rem(reference.pointer, _id_rem as jni$_.JMethodIDPtr,
-            _$operators.pointer)
+    return _rem(reference.pointer, _id_rem.pointer, _$operators.pointer)
         .object<Operators>();
   }
 
@@ -1674,7 +1646,7 @@ extension type Operators._(jni$_.JObject _$this) implements jni$_.JObject {
   core$_.bool get(
     int i,
   ) {
-    return _get(reference.pointer, _id_get as jni$_.JMethodIDPtr, i).boolean;
+    return _get(reference.pointer, _id_get.pointer, i).boolean;
   }
 
   static final _id_set = _class.instanceMethodId(
@@ -1698,8 +1670,7 @@ extension type Operators._(jni$_.JObject _$this) implements jni$_.JObject {
     int i,
     core$_.bool z,
   ) {
-    _set(reference.pointer, _id_set as jni$_.JMethodIDPtr, i, z ? 1 : 0)
-        .check();
+    _set(reference.pointer, _id_set.pointer, i, z ? 1 : 0).check();
   }
 
   static final _id_compareTo = _class.instanceMethodId(
@@ -1723,8 +1694,8 @@ extension type Operators._(jni$_.JObject _$this) implements jni$_.JObject {
     Operators operators,
   ) {
     final _$operators = operators.reference;
-    return _compareTo(reference.pointer, _id_compareTo as jni$_.JMethodIDPtr,
-            _$operators.pointer)
+    return _compareTo(
+            reference.pointer, _id_compareTo.pointer, _$operators.pointer)
         .integer;
   }
 
@@ -1814,8 +1785,8 @@ extension type Speed._(jni$_.JObject _$this) implements Measure<SpeedUnit> {
     SpeedUnit speedUnit,
   ) {
     final _$speedUnit = speedUnit.reference;
-    return _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr, f,
-            _$speedUnit.pointer)
+    return _new$(
+            _class.reference.pointer, _id_new$.pointer, f, _$speedUnit.pointer)
         .object<Speed>();
   }
 
@@ -1838,8 +1809,7 @@ extension type Speed._(jni$_.JObject _$this) implements Measure<SpeedUnit> {
 
   /// from: `public float getValue()`
   double getValue() {
-    return _getValue(reference.pointer, _id_getValue as jni$_.JMethodIDPtr)
-        .float;
+    return _getValue(reference.pointer, _id_getValue.pointer).float;
   }
 
   static final _id_getUnit$1 = _class.instanceMethodId(
@@ -1862,7 +1832,7 @@ extension type Speed._(jni$_.JObject _$this) implements Measure<SpeedUnit> {
   /// from: `public com.github.dart_lang.jnigen.SpeedUnit getUnit()`
   /// The returned object must be released after use, by calling the [release] method.
   SpeedUnit getUnit$1() {
-    return _getUnit$1(reference.pointer, _id_getUnit$1 as jni$_.JMethodIDPtr)
+    return _getUnit$1(reference.pointer, _id_getUnit$1.pointer)
         .object<SpeedUnit>();
   }
 
@@ -1886,7 +1856,7 @@ extension type Speed._(jni$_.JObject _$this) implements Measure<SpeedUnit> {
   /// from: `public fun toString(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString toString$1() {
-    return _toString$1(reference.pointer, _id_toString$1 as jni$_.JMethodIDPtr)
+    return _toString$1(reference.pointer, _id_toString$1.pointer)
         .object<jni$_.JString>();
   }
 
@@ -1909,8 +1879,7 @@ extension type Speed._(jni$_.JObject _$this) implements Measure<SpeedUnit> {
 
   /// from: `public operator fun component1(): kotlin.Float`
   double component1() {
-    return _component1(reference.pointer, _id_component1 as jni$_.JMethodIDPtr)
-        .float;
+    return _component1(reference.pointer, _id_component1.pointer).float;
   }
 
   static final _id_component2 = _class.instanceMethodId(
@@ -1933,7 +1902,7 @@ extension type Speed._(jni$_.JObject _$this) implements Measure<SpeedUnit> {
   /// from: `public operator fun component2(): com.github.dart_lang.jnigen.SpeedUnit`
   /// The returned object must be released after use, by calling the [release] method.
   SpeedUnit component2() {
-    return _component2(reference.pointer, _id_component2 as jni$_.JMethodIDPtr)
+    return _component2(reference.pointer, _id_component2.pointer)
         .object<SpeedUnit>();
   }
 
@@ -1963,8 +1932,7 @@ extension type Speed._(jni$_.JObject _$this) implements Measure<SpeedUnit> {
     SpeedUnit speedUnit,
   ) {
     final _$speedUnit = speedUnit.reference;
-    return _copy(reference.pointer, _id_copy as jni$_.JMethodIDPtr, f,
-            _$speedUnit.pointer)
+    return _copy(reference.pointer, _id_copy.pointer, f, _$speedUnit.pointer)
         .object<Speed>();
   }
 
@@ -1987,8 +1955,7 @@ extension type Speed._(jni$_.JObject _$this) implements Measure<SpeedUnit> {
 
   /// from: `public fun hashCode(): kotlin.Int`
   int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1 as jni$_.JMethodIDPtr)
-        .integer;
+    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_equals = _class.instanceMethodId(
@@ -2012,8 +1979,7 @@ extension type Speed._(jni$_.JObject _$this) implements Measure<SpeedUnit> {
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals as jni$_.JMethodIDPtr,
-            _$object.pointer)
+    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
         .boolean;
   }
 }
@@ -2074,7 +2040,7 @@ extension type SpeedUnit._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public java.lang.String getSign()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString getSign() {
-    return _getSign(reference.pointer, _id_getSign as jni$_.JMethodIDPtr)
+    return _getSign(reference.pointer, _id_getSign.pointer)
         .object<jni$_.JString>();
   }
 
@@ -2097,9 +2063,7 @@ extension type SpeedUnit._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `public float getCoefficient()`
   double getCoefficient() {
-    return _getCoefficient(
-            reference.pointer, _id_getCoefficient as jni$_.JMethodIDPtr)
-        .float;
+    return _getCoefficient(reference.pointer, _id_getCoefficient.pointer).float;
   }
 
   static final _id_values = _class.staticMethodId(
@@ -2122,7 +2086,7 @@ extension type SpeedUnit._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public com.github.dart_lang.jnigen.SpeedUnit[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<SpeedUnit?>? values() {
-    return _values(_class.reference.pointer, _id_values as jni$_.JMethodIDPtr)
+    return _values(_class.reference.pointer, _id_values.pointer)
         .object<jni$_.JArray<SpeedUnit?>?>();
   }
 
@@ -2148,8 +2112,8 @@ extension type SpeedUnit._(jni$_.JObject _$this) implements jni$_.JObject {
     jni$_.JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
-    return _valueOf(_class.reference.pointer, _id_valueOf as jni$_.JMethodIDPtr,
-            _$string.pointer)
+    return _valueOf(
+            _class.reference.pointer, _id_valueOf.pointer, _$string.pointer)
         .object<SpeedUnit?>();
   }
 }
@@ -2189,7 +2153,7 @@ extension type SuspendFun._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory SuspendFun() {
-    return _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
+    return _new$(_class.reference.pointer, _id_new$.pointer)
         .object<SuspendFun>();
   }
 
@@ -2215,10 +2179,8 @@ extension type SuspendFun._(jni$_.JObject _$this) implements jni$_.JObject {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
 
-    final $r = _sayHelloWithoutDelay(
-            reference.pointer,
-            _id_sayHelloWithoutDelay as jni$_.JMethodIDPtr,
-            _$continuation.pointer)
+    final $r = _sayHelloWithoutDelay(reference.pointer,
+            _id_sayHelloWithoutDelay.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject $o;
@@ -2267,7 +2229,7 @@ extension type SuspendFun._(jni$_.JObject _$this) implements jni$_.JObject {
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
 
     final $r = _failWithoutDelay(reference.pointer,
-            _id_failWithoutDelay as jni$_.JMethodIDPtr, _$continuation.pointer)
+            _id_failWithoutDelay.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject $o;
@@ -2315,9 +2277,9 @@ extension type SuspendFun._(jni$_.JObject _$this) implements jni$_.JObject {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
 
-    final $r = _fail(reference.pointer, _id_fail as jni$_.JMethodIDPtr,
-            _$continuation.pointer)
-        .object<jni$_.JObject>();
+    final $r =
+        _fail(reference.pointer, _id_fail.pointer, _$continuation.pointer)
+            .object<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject $o;
     if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
@@ -2364,8 +2326,8 @@ extension type SuspendFun._(jni$_.JObject _$this) implements jni$_.JObject {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
 
-    final $r = _sayHello(reference.pointer, _id_sayHello as jni$_.JMethodIDPtr,
-            _$continuation.pointer)
+    final $r = _sayHello(
+            reference.pointer, _id_sayHello.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject $o;
@@ -2421,11 +2383,8 @@ extension type SuspendFun._(jni$_.JObject _$this) implements jni$_.JObject {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
     final _$string = string.reference;
-    final $r = _sayHello$1(
-            reference.pointer,
-            _id_sayHello$1 as jni$_.JMethodIDPtr,
-            _$string.pointer,
-            _$continuation.pointer)
+    final $r = _sayHello$1(reference.pointer, _id_sayHello$1.pointer,
+            _$string.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject $o;
@@ -2476,11 +2435,8 @@ extension type SuspendFun._(jni$_.JObject _$this) implements jni$_.JObject {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
 
-    final $r = _nullableHello(
-            reference.pointer,
-            _id_nullableHello as jni$_.JMethodIDPtr,
-            z ? 1 : 0,
-            _$continuation.pointer)
+    final $r = _nullableHello(reference.pointer, _id_nullableHello.pointer,
+            z ? 1 : 0, _$continuation.pointer)
         .object<jni$_.JObject?>();
     _$continuation.release();
     jni$_.JObject? $o;
@@ -2535,7 +2491,7 @@ extension type SuspendFun._(jni$_.JObject _$this) implements jni$_.JObject {
 
     final $r = _nullableHelloWithoutDelay(
             reference.pointer,
-            _id_nullableHelloWithoutDelay as jni$_.JMethodIDPtr,
+            _id_nullableHelloWithoutDelay.pointer,
             z ? 1 : 0,
             _$continuation.pointer)
         .object<jni$_.JObject?>();
@@ -2584,8 +2540,7 @@ extension type SuspendFun._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `public final int getResult()`
   int getResult() {
-    return _getResult(reference.pointer, _id_getResult as jni$_.JMethodIDPtr)
-        .integer;
+    return _getResult(reference.pointer, _id_getResult.pointer).integer;
   }
 
   static final _id_setResult = _class.instanceMethodId(
@@ -2607,8 +2562,7 @@ extension type SuspendFun._(jni$_.JObject _$this) implements jni$_.JObject {
   void setResult(
     int i,
   ) {
-    _setResult(reference.pointer, _id_setResult as jni$_.JMethodIDPtr, i)
-        .check();
+    _setResult(reference.pointer, _id_setResult.pointer, i).check();
   }
 
   static final _id_noReturn = _class.instanceMethodId(
@@ -2633,8 +2587,8 @@ extension type SuspendFun._(jni$_.JObject _$this) implements jni$_.JObject {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
 
-    final $r = _noReturn(reference.pointer, _id_noReturn as jni$_.JMethodIDPtr,
-            _$continuation.pointer)
+    final $r = _noReturn(
+            reference.pointer, _id_noReturn.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject $o;
@@ -2699,7 +2653,7 @@ core$_.Future<jni$_.JString> consumeOnAnotherThread(
   final _$suspendInterface = suspendInterface.reference;
   final $r = _consumeOnAnotherThread(
           _SuspendFunKtClass.reference.pointer,
-          _id_consumeOnAnotherThread as jni$_.JMethodIDPtr,
+          _id_consumeOnAnotherThread.pointer,
           _$suspendInterface.pointer,
           _$continuation.pointer)
       .object<jni$_.JObject>();
@@ -2756,7 +2710,7 @@ core$_.Future<jni$_.JString> consumeOnSameThread(
   final _$suspendInterface = suspendInterface.reference;
   final $r = _consumeOnSameThread(
           _SuspendFunKtClass.reference.pointer,
-          _id_consumeOnSameThread as jni$_.JMethodIDPtr,
+          _id_consumeOnSameThread.pointer,
           _$suspendInterface.pointer,
           _$continuation.pointer)
       .object<jni$_.JObject>();
@@ -2814,8 +2768,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
 
-    final $r = _sayHello(reference.pointer, _id_sayHello as jni$_.JMethodIDPtr,
-            _$continuation.pointer)
+    final $r = _sayHello(
+            reference.pointer, _id_sayHello.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject $o;
@@ -2871,11 +2825,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
     final _$string = string.reference;
-    final $r = _sayHello$1(
-            reference.pointer,
-            _id_sayHello$1 as jni$_.JMethodIDPtr,
-            _$string.pointer,
-            _$continuation.pointer)
+    final $r = _sayHello$1(reference.pointer, _id_sayHello$1.pointer,
+            _$string.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject $o;
@@ -2926,11 +2877,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
 
-    final $r = _nullableHello(
-            reference.pointer,
-            _id_nullableHello as jni$_.JMethodIDPtr,
-            z ? 1 : 0,
-            _$continuation.pointer)
+    final $r = _nullableHello(reference.pointer, _id_nullableHello.pointer,
+            z ? 1 : 0, _$continuation.pointer)
         .object<jni$_.JObject?>();
     _$continuation.release();
     jni$_.JObject? $o;
@@ -2980,9 +2928,9 @@ extension type SuspendInterface._(jni$_.JObject _$this)
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
 
-    final $r = _sayInt(reference.pointer, _id_sayInt as jni$_.JMethodIDPtr,
-            _$continuation.pointer)
-        .object<jni$_.JObject>();
+    final $r =
+        _sayInt(reference.pointer, _id_sayInt.pointer, _$continuation.pointer)
+            .object<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject $o;
     if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
@@ -3037,7 +2985,7 @@ extension type SuspendInterface._(jni$_.JObject _$this)
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
     final _$integer = integer.reference;
-    final $r = _sayInt$1(reference.pointer, _id_sayInt$1 as jni$_.JMethodIDPtr,
+    final $r = _sayInt$1(reference.pointer, _id_sayInt$1.pointer,
             _$integer.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
@@ -3089,11 +3037,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
 
-    final $r = _nullableInt(
-            reference.pointer,
-            _id_nullableInt as jni$_.JMethodIDPtr,
-            z ? 1 : 0,
-            _$continuation.pointer)
+    final $r = _nullableInt(reference.pointer, _id_nullableInt.pointer,
+            z ? 1 : 0, _$continuation.pointer)
         .object<jni$_.JObject?>();
     _$continuation.release();
     jni$_.JObject? $o;
@@ -3143,8 +3088,8 @@ extension type SuspendInterface._(jni$_.JObject _$this)
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
 
-    final $r = _noReturn(reference.pointer, _id_noReturn as jni$_.JMethodIDPtr,
-            _$continuation.pointer)
+    final $r = _noReturn(
+            reference.pointer, _id_noReturn.pointer, _$continuation.pointer)
         .object<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject $o;
@@ -3433,8 +3378,8 @@ final _getTopLevelField = jni$_.ProtectedJniExtensions.lookup<
 
 /// from: `static public final int getTopLevelField()`
 int getTopLevelField() {
-  return _getTopLevelField(_TopLevelKtClass.reference.pointer,
-          _id_getTopLevelField as jni$_.JMethodIDPtr)
+  return _getTopLevelField(
+          _TopLevelKtClass.reference.pointer, _id_getTopLevelField.pointer)
       .integer;
 }
 
@@ -3456,8 +3401,8 @@ final _setTopLevelField = jni$_.ProtectedJniExtensions.lookup<
 void setTopLevelField(
   int i,
 ) {
-  _setTopLevelField(_TopLevelKtClass.reference.pointer,
-          _id_setTopLevelField as jni$_.JMethodIDPtr, i)
+  _setTopLevelField(
+          _TopLevelKtClass.reference.pointer, _id_setTopLevelField.pointer, i)
       .check();
 }
 
@@ -3480,8 +3425,7 @@ final _topLevel = jni$_.ProtectedJniExtensions.lookup<
 
 /// from: `public fun topLevel(): kotlin.Int`
 int topLevel() {
-  return _topLevel(_TopLevelKtClass.reference.pointer,
-          _id_topLevel as jni$_.JMethodIDPtr)
+  return _topLevel(_TopLevelKtClass.reference.pointer, _id_topLevel.pointer)
       .integer;
 }
 
@@ -3506,8 +3450,8 @@ int topLevelSum(
   int i,
   int i1,
 ) {
-  return _topLevelSum(_TopLevelKtClass.reference.pointer,
-          _id_topLevelSum as jni$_.JMethodIDPtr, i, i1)
+  return _topLevelSum(
+          _TopLevelKtClass.reference.pointer, _id_topLevelSum.pointer, i, i1)
       .integer;
 }
 
@@ -3533,8 +3477,8 @@ final _getTopLevelField$1 = jni$_.ProtectedJniExtensions.lookup<
 
 /// from: `static public final int getTopLevelField()`
 int getTopLevelField$1() {
-  return _getTopLevelField$1(_TopLevelKt$1Class.reference.pointer,
-          _id_getTopLevelField$1 as jni$_.JMethodIDPtr)
+  return _getTopLevelField$1(
+          _TopLevelKt$1Class.reference.pointer, _id_getTopLevelField$1.pointer)
       .integer;
 }
 
@@ -3557,7 +3501,7 @@ void setTopLevelField$1(
   int i,
 ) {
   _setTopLevelField$1(_TopLevelKt$1Class.reference.pointer,
-          _id_setTopLevelField$1 as jni$_.JMethodIDPtr, i)
+          _id_setTopLevelField$1.pointer, i)
       .check();
 }
 
@@ -3580,7 +3524,7 @@ final _topLevel$1 = jni$_.ProtectedJniExtensions.lookup<
 
 /// from: `public fun topLevel(): kotlin.Int`
 int topLevel$1() {
-  return _topLevel$1(_TopLevelKt$1Class.reference.pointer,
-          _id_topLevel$1 as jni$_.JMethodIDPtr)
+  return _topLevel$1(
+          _TopLevelKt$1Class.reference.pointer, _id_topLevel$1.pointer)
       .integer;
 }
