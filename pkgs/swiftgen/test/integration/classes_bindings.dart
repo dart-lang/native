@@ -30,11 +30,13 @@ extension type TestClassWrapper._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [TestClassWrapper].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_TestClassWrapper,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_TestMessageService,
+        );
 
   /// alloc
   static TestClassWrapper alloc() {
@@ -107,12 +109,14 @@ extension type TestOtherClassWrapper._(objc.ObjCObject object$)
     assert(isA(object$));
   }
 
-  /// Returns whether [obj] is an instance of [TestOtherClassWrapper].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_TestOtherClassWrapper,
-  );
+  /// Returns whether [obj] is an instance of [TestMessageService].
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_TestMessageService,
+        );
 
   /// alloc
   static TestOtherClassWrapper alloc() {

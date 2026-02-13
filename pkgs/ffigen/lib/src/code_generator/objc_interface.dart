@@ -152,7 +152,9 @@ ${generateInstanceMethodBindings(w, this)}
 
     s.write('''
   /// Returns whether [obj] is an instance of [$name].
-  static bool isA($wrapObjType? obj) => obj == null ? false : $isKindOfClass;
+  static bool isA($wrapObjType? obj) => obj == null 
+      ? false 
+      : $isKindOfClass;
 ''');
 
     s.write(generateStaticMethodBindings(w, this));
