@@ -50,7 +50,7 @@ extension type R$drawable._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `static public int launch_background`
   static int get launch_background =>
-      _id_launch_background.get(_class, jni$_.jint.type);
+      _id_launch_background.get(_class, jni$_.jint.type) as int;
 
   /// from: `static public int launch_background`
   static set launch_background(int value) =>
@@ -79,7 +79,8 @@ extension type R$mipmap._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public int ic_launcher`
-  static int get ic_launcher => _id_ic_launcher.get(_class, jni$_.jint.type);
+  static int get ic_launcher =>
+      _id_ic_launcher.get(_class, jni$_.jint.type) as int;
 
   /// from: `static public int ic_launcher`
   static set ic_launcher(int value) =>
@@ -108,7 +109,8 @@ extension type R$style._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public int LaunchTheme`
-  static int get LaunchTheme => _id_LaunchTheme.get(_class, jni$_.jint.type);
+  static int get LaunchTheme =>
+      _id_LaunchTheme.get(_class, jni$_.jint.type) as int;
 
   /// from: `static public int LaunchTheme`
   static set LaunchTheme(int value) =>
@@ -120,7 +122,8 @@ extension type R$style._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public int NormalTheme`
-  static int get NormalTheme => _id_NormalTheme.get(_class, jni$_.jint.type);
+  static int get NormalTheme =>
+      _id_NormalTheme.get(_class, jni$_.jint.type) as int;
 
   /// from: `static public int NormalTheme`
   static set NormalTheme(int value) =>
@@ -1422,7 +1425,8 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String EDITOR_INFO_METAVERSION_KEY`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get EDITOR_INFO_METAVERSION_KEY =>
-      _id_EDITOR_INFO_METAVERSION_KEY.get(_class, const jni$_.$JObject$Type$());
+      _id_EDITOR_INFO_METAVERSION_KEY.get(_class, jni$_.JString.type)
+          as jni$_.JString?;
 
   static final _id_EDITOR_INFO_REPLACE_ALL_KEY = _class.staticFieldId(
     r'EDITOR_INFO_REPLACE_ALL_KEY',
@@ -1432,7 +1436,8 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String EDITOR_INFO_REPLACE_ALL_KEY`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get EDITOR_INFO_REPLACE_ALL_KEY =>
-      _id_EDITOR_INFO_REPLACE_ALL_KEY.get(_class, const jni$_.$JObject$Type$());
+      _id_EDITOR_INFO_REPLACE_ALL_KEY.get(_class, jni$_.JString.type)
+          as jni$_.JString?;
 
   /// from: `static public final int LOAD_STATE_DEFAULT`
   static const LOAD_STATE_DEFAULT = 3;
@@ -2753,7 +2758,8 @@ extension type Build$Partition._(jni$_.JObject _$this)
   /// from: `static public final java.lang.String PARTITION_NAME_SYSTEM`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get PARTITION_NAME_SYSTEM =>
-      _id_PARTITION_NAME_SYSTEM.get(_class, const jni$_.$JObject$Type$());
+      _id_PARTITION_NAME_SYSTEM.get(_class, jni$_.JString.type)
+          as jni$_.JString?;
 
   static final _id_equals = _class.instanceMethodId(
     r'equals',
@@ -2898,7 +2904,7 @@ extension type Build$VERSION._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String BASE_OS`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get BASE_OS =>
-      _id_BASE_OS.get(_class, const jni$_.$JObject$Type$());
+      _id_BASE_OS.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_CODENAME = _class.staticFieldId(
     r'CODENAME',
@@ -2908,7 +2914,7 @@ extension type Build$VERSION._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String CODENAME`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get CODENAME =>
-      _id_CODENAME.get(_class, const jni$_.$JObject$Type$());
+      _id_CODENAME.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_INCREMENTAL = _class.staticFieldId(
     r'INCREMENTAL',
@@ -2918,7 +2924,7 @@ extension type Build$VERSION._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String INCREMENTAL`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get INCREMENTAL =>
-      _id_INCREMENTAL.get(_class, const jni$_.$JObject$Type$());
+      _id_INCREMENTAL.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_MEDIA_PERFORMANCE_CLASS = _class.staticFieldId(
     r'MEDIA_PERFORMANCE_CLASS',
@@ -2927,7 +2933,7 @@ extension type Build$VERSION._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `static public final int MEDIA_PERFORMANCE_CLASS`
   static int get MEDIA_PERFORMANCE_CLASS =>
-      _id_MEDIA_PERFORMANCE_CLASS.get(_class, jni$_.jint.type);
+      _id_MEDIA_PERFORMANCE_CLASS.get(_class, jni$_.jint.type) as int;
 
   static final _id_PREVIEW_SDK_INT = _class.staticFieldId(
     r'PREVIEW_SDK_INT',
@@ -2936,7 +2942,7 @@ extension type Build$VERSION._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `static public final int PREVIEW_SDK_INT`
   static int get PREVIEW_SDK_INT =>
-      _id_PREVIEW_SDK_INT.get(_class, jni$_.jint.type);
+      _id_PREVIEW_SDK_INT.get(_class, jni$_.jint.type) as int;
 
   static final _id_RELEASE = _class.staticFieldId(
     r'RELEASE',
@@ -2946,7 +2952,7 @@ extension type Build$VERSION._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String RELEASE`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get RELEASE =>
-      _id_RELEASE.get(_class, const jni$_.$JObject$Type$());
+      _id_RELEASE.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_RELEASE_OR_CODENAME = _class.staticFieldId(
     r'RELEASE_OR_CODENAME',
@@ -2956,7 +2962,7 @@ extension type Build$VERSION._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String RELEASE_OR_CODENAME`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get RELEASE_OR_CODENAME =>
-      _id_RELEASE_OR_CODENAME.get(_class, const jni$_.$JObject$Type$());
+      _id_RELEASE_OR_CODENAME.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_RELEASE_OR_PREVIEW_DISPLAY = _class.staticFieldId(
     r'RELEASE_OR_PREVIEW_DISPLAY',
@@ -2966,7 +2972,8 @@ extension type Build$VERSION._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String RELEASE_OR_PREVIEW_DISPLAY`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get RELEASE_OR_PREVIEW_DISPLAY =>
-      _id_RELEASE_OR_PREVIEW_DISPLAY.get(_class, const jni$_.$JObject$Type$());
+      _id_RELEASE_OR_PREVIEW_DISPLAY.get(_class, jni$_.JString.type)
+          as jni$_.JString?;
 
   static final _id_SDK = _class.staticFieldId(
     r'SDK',
@@ -2976,7 +2983,7 @@ extension type Build$VERSION._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String SDK`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get SDK =>
-      _id_SDK.get(_class, const jni$_.$JObject$Type$());
+      _id_SDK.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_SDK_INT = _class.staticFieldId(
     r'SDK_INT',
@@ -2984,7 +2991,7 @@ extension type Build$VERSION._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public final int SDK_INT`
-  static int get SDK_INT => _id_SDK_INT.get(_class, jni$_.jint.type);
+  static int get SDK_INT => _id_SDK_INT.get(_class, jni$_.jint.type) as int;
 
   static final _id_SDK_INT_FULL = _class.staticFieldId(
     r'SDK_INT_FULL',
@@ -2992,7 +2999,8 @@ extension type Build$VERSION._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public final int SDK_INT_FULL`
-  static int get SDK_INT_FULL => _id_SDK_INT_FULL.get(_class, jni$_.jint.type);
+  static int get SDK_INT_FULL =>
+      _id_SDK_INT_FULL.get(_class, jni$_.jint.type) as int;
 
   static final _id_SECURITY_PATCH = _class.staticFieldId(
     r'SECURITY_PATCH',
@@ -3002,7 +3010,7 @@ extension type Build$VERSION._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String SECURITY_PATCH`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get SECURITY_PATCH =>
-      _id_SECURITY_PATCH.get(_class, const jni$_.$JObject$Type$());
+      _id_SECURITY_PATCH.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_new$ = _class.constructorId(
     r'()V',
@@ -3333,7 +3341,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String BOARD`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get BOARD =>
-      _id_BOARD.get(_class, const jni$_.$JObject$Type$());
+      _id_BOARD.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_BOOTLOADER = _class.staticFieldId(
     r'BOOTLOADER',
@@ -3343,7 +3351,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String BOOTLOADER`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get BOOTLOADER =>
-      _id_BOOTLOADER.get(_class, const jni$_.$JObject$Type$());
+      _id_BOOTLOADER.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_BRAND = _class.staticFieldId(
     r'BRAND',
@@ -3353,7 +3361,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String BRAND`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get BRAND =>
-      _id_BRAND.get(_class, const jni$_.$JObject$Type$());
+      _id_BRAND.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_CPU_ABI = _class.staticFieldId(
     r'CPU_ABI',
@@ -3363,7 +3371,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String CPU_ABI`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get CPU_ABI =>
-      _id_CPU_ABI.get(_class, const jni$_.$JObject$Type$());
+      _id_CPU_ABI.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_CPU_ABI2 = _class.staticFieldId(
     r'CPU_ABI2',
@@ -3373,7 +3381,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String CPU_ABI2`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get CPU_ABI2 =>
-      _id_CPU_ABI2.get(_class, const jni$_.$JObject$Type$());
+      _id_CPU_ABI2.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_DEVICE = _class.staticFieldId(
     r'DEVICE',
@@ -3383,7 +3391,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String DEVICE`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get DEVICE =>
-      _id_DEVICE.get(_class, const jni$_.$JObject$Type$());
+      _id_DEVICE.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_DISPLAY = _class.staticFieldId(
     r'DISPLAY',
@@ -3393,7 +3401,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String DISPLAY`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get DISPLAY =>
-      _id_DISPLAY.get(_class, const jni$_.$JObject$Type$());
+      _id_DISPLAY.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_FINGERPRINT = _class.staticFieldId(
     r'FINGERPRINT',
@@ -3403,7 +3411,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String FINGERPRINT`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get FINGERPRINT =>
-      _id_FINGERPRINT.get(_class, const jni$_.$JObject$Type$());
+      _id_FINGERPRINT.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_HARDWARE = _class.staticFieldId(
     r'HARDWARE',
@@ -3413,7 +3421,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String HARDWARE`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get HARDWARE =>
-      _id_HARDWARE.get(_class, const jni$_.$JObject$Type$());
+      _id_HARDWARE.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_HOST = _class.staticFieldId(
     r'HOST',
@@ -3423,7 +3431,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String HOST`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get HOST =>
-      _id_HOST.get(_class, const jni$_.$JObject$Type$());
+      _id_HOST.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_ID = _class.staticFieldId(
     r'ID',
@@ -3433,7 +3441,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String ID`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get ID =>
-      _id_ID.get(_class, const jni$_.$JObject$Type$());
+      _id_ID.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_MANUFACTURER = _class.staticFieldId(
     r'MANUFACTURER',
@@ -3443,7 +3451,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String MANUFACTURER`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get MANUFACTURER =>
-      _id_MANUFACTURER.get(_class, const jni$_.$JObject$Type$());
+      _id_MANUFACTURER.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_MODEL = _class.staticFieldId(
     r'MODEL',
@@ -3453,7 +3461,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String MODEL`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get MODEL =>
-      _id_MODEL.get(_class, const jni$_.$JObject$Type$());
+      _id_MODEL.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_ODM_SKU = _class.staticFieldId(
     r'ODM_SKU',
@@ -3463,7 +3471,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String ODM_SKU`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get ODM_SKU =>
-      _id_ODM_SKU.get(_class, const jni$_.$JObject$Type$());
+      _id_ODM_SKU.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_PRODUCT = _class.staticFieldId(
     r'PRODUCT',
@@ -3473,7 +3481,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String PRODUCT`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get PRODUCT =>
-      _id_PRODUCT.get(_class, const jni$_.$JObject$Type$());
+      _id_PRODUCT.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_RADIO = _class.staticFieldId(
     r'RADIO',
@@ -3483,7 +3491,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String RADIO`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get RADIO =>
-      _id_RADIO.get(_class, const jni$_.$JObject$Type$());
+      _id_RADIO.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_SERIAL = _class.staticFieldId(
     r'SERIAL',
@@ -3493,7 +3501,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String SERIAL`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get SERIAL =>
-      _id_SERIAL.get(_class, const jni$_.$JObject$Type$());
+      _id_SERIAL.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_SKU = _class.staticFieldId(
     r'SKU',
@@ -3503,7 +3511,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String SKU`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get SKU =>
-      _id_SKU.get(_class, const jni$_.$JObject$Type$());
+      _id_SKU.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_SOC_MANUFACTURER = _class.staticFieldId(
     r'SOC_MANUFACTURER',
@@ -3513,7 +3521,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String SOC_MANUFACTURER`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get SOC_MANUFACTURER =>
-      _id_SOC_MANUFACTURER.get(_class, const jni$_.$JObject$Type$());
+      _id_SOC_MANUFACTURER.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_SOC_MODEL = _class.staticFieldId(
     r'SOC_MODEL',
@@ -3523,7 +3531,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String SOC_MODEL`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get SOC_MODEL =>
-      _id_SOC_MODEL.get(_class, const jni$_.$JObject$Type$());
+      _id_SOC_MODEL.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_SUPPORTED_32_BIT_ABIS = _class.staticFieldId(
     r'SUPPORTED_32_BIT_ABIS',
@@ -3533,7 +3541,9 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String[] SUPPORTED_32_BIT_ABIS`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<jni$_.JString?>? get SUPPORTED_32_BIT_ABIS =>
-      _id_SUPPORTED_32_BIT_ABIS.get(_class, const jni$_.$JObject$Type$());
+      _id_SUPPORTED_32_BIT_ABIS.get(
+              _class, jni$_.$JArray$.type<jni$_.JString?>(jni$_.JString.type))
+          as jni$_.JArray<jni$_.JString?>?;
 
   static final _id_SUPPORTED_64_BIT_ABIS = _class.staticFieldId(
     r'SUPPORTED_64_BIT_ABIS',
@@ -3543,7 +3553,9 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String[] SUPPORTED_64_BIT_ABIS`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<jni$_.JString?>? get SUPPORTED_64_BIT_ABIS =>
-      _id_SUPPORTED_64_BIT_ABIS.get(_class, const jni$_.$JObject$Type$());
+      _id_SUPPORTED_64_BIT_ABIS.get(
+              _class, jni$_.$JArray$.type<jni$_.JString?>(jni$_.JString.type))
+          as jni$_.JArray<jni$_.JString?>?;
 
   static final _id_SUPPORTED_ABIS = _class.staticFieldId(
     r'SUPPORTED_ABIS',
@@ -3552,8 +3564,9 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `static public final java.lang.String[] SUPPORTED_ABIS`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JArray<jni$_.JString?>? get SUPPORTED_ABIS =>
-      _id_SUPPORTED_ABIS.get(_class, const jni$_.$JObject$Type$());
+  static jni$_.JArray<jni$_.JString?>? get SUPPORTED_ABIS => _id_SUPPORTED_ABIS
+          .get(_class, jni$_.$JArray$.type<jni$_.JString?>(jni$_.JString.type))
+      as jni$_.JArray<jni$_.JString?>?;
 
   static final _id_TAGS = _class.staticFieldId(
     r'TAGS',
@@ -3563,7 +3576,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String TAGS`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get TAGS =>
-      _id_TAGS.get(_class, const jni$_.$JObject$Type$());
+      _id_TAGS.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_TIME = _class.staticFieldId(
     r'TIME',
@@ -3571,7 +3584,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public final long TIME`
-  static int get TIME => _id_TIME.get(_class, jni$_.jlong.type);
+  static int get TIME => _id_TIME.get(_class, jni$_.jlong.type) as int;
 
   static final _id_TYPE = _class.staticFieldId(
     r'TYPE',
@@ -3581,7 +3594,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String TYPE`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get TYPE =>
-      _id_TYPE.get(_class, const jni$_.$JObject$Type$());
+      _id_TYPE.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_UNKNOWN = _class.staticFieldId(
     r'UNKNOWN',
@@ -3591,7 +3604,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String UNKNOWN`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get UNKNOWN =>
-      _id_UNKNOWN.get(_class, const jni$_.$JObject$Type$());
+      _id_UNKNOWN.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_USER = _class.staticFieldId(
     r'USER',
@@ -3601,7 +3614,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String USER`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get USER =>
-      _id_USER.get(_class, const jni$_.$JObject$Type$());
+      _id_USER.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_new$ = _class.constructorId(
     r'()V',

@@ -55,7 +55,7 @@ extension type Example$Nested$NestedTwice._(jni$_.JObject _$this)
   );
 
   /// from: `static public int ZERO`
-  static int get ZERO => _id_ZERO.get(_class, jni$_.jint.type);
+  static int get ZERO => _id_ZERO.get(_class, jni$_.jint.type) as int;
 
   /// from: `static public int ZERO`
   static set ZERO(int value) => _id_ZERO.set(_class, jni$_.jint.type, value);
@@ -219,7 +219,7 @@ extension type Example$NonStaticNested._(jni$_.JObject _$this)
   );
 
   /// from: `public boolean ok`
-  core$_.bool get ok => _id_ok.get(this, jni$_.jboolean.type);
+  core$_.bool get ok => _id_ok.get(this, jni$_.jboolean.type) as core$_.bool;
 
   /// from: `public boolean ok`
   set ok(core$_.bool value) => _id_ok.set(this, jni$_.jboolean.type, value);
@@ -289,7 +289,7 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String SEMICOLON_STRING`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get SEMICOLON_STRING =>
-      _id_SEMICOLON_STRING.get(_class, const jni$_.$JObject$Type$());
+      _id_SEMICOLON_STRING.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_unusedRandom = _class.staticFieldId(
     r'unusedRandom',
@@ -299,7 +299,7 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.util.Random unusedRandom`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JObject? get unusedRandom =>
-      _id_unusedRandom.get(_class, const jni$_.$JObject$Type$());
+      _id_unusedRandom.get(_class, jni$_.JObject.type) as jni$_.JObject?;
 
   static final _id_getAmount = _class.staticMethodId(
     r'getAmount',
@@ -1932,7 +1932,7 @@ extension type Fields$Nested._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `public long hundred`
-  int get hundred => _id_hundred.get(this, jni$_.jlong.type);
+  int get hundred => _id_hundred.get(this, jni$_.jlong.type) as int;
 
   /// from: `public long hundred`
   set hundred(int value) => _id_hundred.set(this, jni$_.jlong.type, value);
@@ -1945,12 +1945,12 @@ extension type Fields$Nested._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public java.lang.String BEST_GOD`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get BEST_GOD =>
-      _id_BEST_GOD.get(_class, const jni$_.$JObject$Type$());
+      _id_BEST_GOD.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   /// from: `static public java.lang.String BEST_GOD`
   /// The returned object must be released after use, by calling the [release] method.
   static set BEST_GOD(jni$_.JString? value) =>
-      _id_BEST_GOD.set(_class, const jni$_.$JObject$Type$(), value);
+      _id_BEST_GOD.set(_class, jni$_.JString.type, value);
 
   static final _id_new$ = _class.constructorId(
     r'()V',
@@ -1999,7 +1999,7 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public int amount`
-  static int get amount => _id_amount.get(_class, jni$_.jint.type);
+  static int get amount => _id_amount.get(_class, jni$_.jint.type) as int;
 
   /// from: `static public int amount`
   static set amount(int value) =>
@@ -2011,7 +2011,7 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public double pi`
-  static double get pi => _id_pi.get(_class, jni$_.jdouble.type);
+  static double get pi => _id_pi.get(_class, jni$_.jdouble.type) as double;
 
   /// from: `static public double pi`
   static set pi(double value) => _id_pi.set(_class, jni$_.jdouble.type, value);
@@ -2022,7 +2022,7 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public char asterisk`
-  static int get asterisk => _id_asterisk.get(_class, jni$_.jchar.type);
+  static int get asterisk => _id_asterisk.get(_class, jni$_.jchar.type) as int;
 
   /// from: `static public char asterisk`
   static set asterisk(int value) =>
@@ -2036,12 +2036,12 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public java.lang.String name`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get name =>
-      _id_name.get(_class, const jni$_.$JObject$Type$());
+      _id_name.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   /// from: `static public java.lang.String name`
   /// The returned object must be released after use, by calling the [release] method.
   static set name(jni$_.JString? value) =>
-      _id_name.set(_class, const jni$_.$JObject$Type$(), value);
+      _id_name.set(_class, jni$_.JString.type, value);
 
   static final _id_i = _class.instanceFieldId(
     r'i',
@@ -2050,12 +2050,12 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `public java.lang.Integer i`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JInteger? get i => _id_i.get(this, const jni$_.$JObject$Type$());
+  jni$_.JInteger? get i =>
+      _id_i.get(this, jni$_.JInteger.type) as jni$_.JInteger?;
 
   /// from: `public java.lang.Integer i`
   /// The returned object must be released after use, by calling the [release] method.
-  set i(jni$_.JInteger? value) =>
-      _id_i.set(this, const jni$_.$JObject$Type$(), value);
+  set i(jni$_.JInteger? value) => _id_i.set(this, jni$_.JInteger.type, value);
 
   static final _id_trillion = _class.instanceFieldId(
     r'trillion',
@@ -2063,7 +2063,7 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `public long trillion`
-  int get trillion => _id_trillion.get(this, jni$_.jlong.type);
+  int get trillion => _id_trillion.get(this, jni$_.jlong.type) as int;
 
   /// from: `public long trillion`
   set trillion(int value) => _id_trillion.set(this, jni$_.jlong.type, value);
@@ -2075,7 +2075,7 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `public boolean isAchillesDead`
   core$_.bool get isAchillesDead =>
-      _id_isAchillesDead.get(this, jni$_.jboolean.type);
+      _id_isAchillesDead.get(this, jni$_.jboolean.type) as core$_.bool;
 
   /// from: `public boolean isAchillesDead`
   set isAchillesDead(core$_.bool value) =>
@@ -2089,12 +2089,12 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public java.lang.String bestFighterInGreece`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? get bestFighterInGreece =>
-      _id_bestFighterInGreece.get(this, const jni$_.$JObject$Type$());
+      _id_bestFighterInGreece.get(this, jni$_.JString.type) as jni$_.JString?;
 
   /// from: `public java.lang.String bestFighterInGreece`
   /// The returned object must be released after use, by calling the [release] method.
   set bestFighterInGreece(jni$_.JString? value) =>
-      _id_bestFighterInGreece.set(this, const jni$_.$JObject$Type$(), value);
+      _id_bestFighterInGreece.set(this, jni$_.JString.type, value);
 
   static final _id_random = _class.instanceFieldId(
     r'random',
@@ -2104,12 +2104,12 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public java.util.Random random`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? get random =>
-      _id_random.get(this, const jni$_.$JObject$Type$());
+      _id_random.get(this, jni$_.JObject.type) as jni$_.JObject?;
 
   /// from: `public java.util.Random random`
   /// The returned object must be released after use, by calling the [release] method.
   set random(jni$_.JObject? value) =>
-      _id_random.set(this, const jni$_.$JObject$Type$(), value);
+      _id_random.set(this, jni$_.JObject.type, value);
 
   static final _id_euroSymbol = _class.staticFieldId(
     r'euroSymbol',
@@ -2117,7 +2117,8 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public char euroSymbol`
-  static int get euroSymbol => _id_euroSymbol.get(_class, jni$_.jchar.type);
+  static int get euroSymbol =>
+      _id_euroSymbol.get(_class, jni$_.jchar.type) as int;
 
   /// from: `static public char euroSymbol`
   static set euroSymbol(int value) =>
@@ -2169,7 +2170,7 @@ extension type C2._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public int CONSTANT`
-  static int get CONSTANT => _id_CONSTANT.get(_class, jni$_.jint.type);
+  static int get CONSTANT => _id_CONSTANT.get(_class, jni$_.jint.type) as int;
 
   /// from: `static public int CONSTANT`
   static set CONSTANT(int value) =>
@@ -2282,7 +2283,7 @@ extension type Colors$RGB._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `public int red`
-  int get red => _id_red.get(this, jni$_.jint.type);
+  int get red => _id_red.get(this, jni$_.jint.type) as int;
 
   /// from: `public int red`
   set red(int value) => _id_red.set(this, jni$_.jint.type, value);
@@ -2293,7 +2294,7 @@ extension type Colors$RGB._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `public int green`
-  int get green => _id_green.get(this, jni$_.jint.type);
+  int get green => _id_green.get(this, jni$_.jint.type) as int;
 
   /// from: `public int green`
   set green(int value) => _id_green.set(this, jni$_.jint.type, value);
@@ -2304,7 +2305,7 @@ extension type Colors$RGB._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `public int blue`
-  int get blue => _id_blue.get(this, jni$_.jint.type);
+  int get blue => _id_blue.get(this, jni$_.jint.type) as int;
 
   /// from: `public int blue`
   set blue(int value) => _id_blue.set(this, jni$_.jint.type, value);
@@ -2406,7 +2407,7 @@ extension type Colors._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `static public final com.github.dart_lang.jnigen.enums.Colors red`
   /// The returned object must be released after use, by calling the [release] method.
-  static Colors get red => _id_red.get(_class, const jni$_.$JObject$Type$());
+  static Colors get red => _id_red.get(_class, Colors.type) as Colors;
 
   static final _id_green = _class.staticFieldId(
     r'green',
@@ -2415,8 +2416,7 @@ extension type Colors._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `static public final com.github.dart_lang.jnigen.enums.Colors green`
   /// The returned object must be released after use, by calling the [release] method.
-  static Colors get green =>
-      _id_green.get(_class, const jni$_.$JObject$Type$());
+  static Colors get green => _id_green.get(_class, Colors.type) as Colors;
 
   static final _id_blue = _class.staticFieldId(
     r'blue',
@@ -2425,7 +2425,7 @@ extension type Colors._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `static public final com.github.dart_lang.jnigen.enums.Colors blue`
   /// The returned object must be released after use, by calling the [release] method.
-  static Colors get blue => _id_blue.get(_class, const jni$_.$JObject$Type$());
+  static Colors get blue => _id_blue.get(_class, Colors.type) as Colors;
 
   static final _id_code = _class.instanceFieldId(
     r'code',
@@ -2433,7 +2433,7 @@ extension type Colors._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `public final int code`
-  int get code => _id_code.get(this, jni$_.jint.type);
+  int get code => _id_code.get(this, jni$_.jint.type) as int;
 
   static final _id_values = _class.staticMethodId(
     r'values',
@@ -2580,12 +2580,12 @@ extension type GrandParent$Parent$Child<$T extends jni$_.JObject?,
   /// from: `public T grandParentValue`
   /// The returned object must be released after use, by calling the [release] method.
   $T? get grandParentValue =>
-      _id_grandParentValue.get(this, const jni$_.$JObject$Type$());
+      _id_grandParentValue.get(this, jni$_.JObject.type) as $T?;
 
   /// from: `public T grandParentValue`
   /// The returned object must be released after use, by calling the [release] method.
   set grandParentValue($T? value) =>
-      _id_grandParentValue.set(this, const jni$_.$JObject$Type$(), value);
+      _id_grandParentValue.set(this, jni$_.JObject.type, value);
 
   static final _id_parentValue = _class.instanceFieldId(
     r'parentValue',
@@ -2594,13 +2594,12 @@ extension type GrandParent$Parent$Child<$T extends jni$_.JObject?,
 
   /// from: `public S parentValue`
   /// The returned object must be released after use, by calling the [release] method.
-  $S? get parentValue =>
-      _id_parentValue.get(this, const jni$_.$JObject$Type$());
+  $S? get parentValue => _id_parentValue.get(this, jni$_.JObject.type) as $S?;
 
   /// from: `public S parentValue`
   /// The returned object must be released after use, by calling the [release] method.
   set parentValue($S? value) =>
-      _id_parentValue.set(this, const jni$_.$JObject$Type$(), value);
+      _id_parentValue.set(this, jni$_.JObject.type, value);
 
   static final _id_value = _class.instanceFieldId(
     r'value',
@@ -2609,12 +2608,11 @@ extension type GrandParent$Parent$Child<$T extends jni$_.JObject?,
 
   /// from: `public U value`
   /// The returned object must be released after use, by calling the [release] method.
-  $U? get value => _id_value.get(this, const jni$_.$JObject$Type$());
+  $U? get value => _id_value.get(this, jni$_.JObject.type) as $U?;
 
   /// from: `public U value`
   /// The returned object must be released after use, by calling the [release] method.
-  set value($U? value) =>
-      _id_value.set(this, const jni$_.$JObject$Type$(), value);
+  set value($U? value) => _id_value.set(this, jni$_.JObject.type, value);
 
   static final _id_new$ = _class.constructorId(
     r'(Lcom/github/dart_lang/jnigen/generics/GrandParent$Parent;Ljava/lang/Object;)V',
@@ -2679,13 +2677,12 @@ extension type GrandParent$Parent<$T extends jni$_.JObject?,
 
   /// from: `public T parentValue`
   /// The returned object must be released after use, by calling the [release] method.
-  $T? get parentValue =>
-      _id_parentValue.get(this, const jni$_.$JObject$Type$());
+  $T? get parentValue => _id_parentValue.get(this, jni$_.JObject.type) as $T?;
 
   /// from: `public T parentValue`
   /// The returned object must be released after use, by calling the [release] method.
   set parentValue($T? value) =>
-      _id_parentValue.set(this, const jni$_.$JObject$Type$(), value);
+      _id_parentValue.set(this, jni$_.JObject.type, value);
 
   static final _id_value = _class.instanceFieldId(
     r'value',
@@ -2694,12 +2691,11 @@ extension type GrandParent$Parent<$T extends jni$_.JObject?,
 
   /// from: `public S value`
   /// The returned object must be released after use, by calling the [release] method.
-  $S? get value => _id_value.get(this, const jni$_.$JObject$Type$());
+  $S? get value => _id_value.get(this, jni$_.JObject.type) as $S?;
 
   /// from: `public S value`
   /// The returned object must be released after use, by calling the [release] method.
-  set value($S? value) =>
-      _id_value.set(this, const jni$_.$JObject$Type$(), value);
+  set value($S? value) => _id_value.set(this, jni$_.JObject.type, value);
 
   static final _id_new$ = _class.constructorId(
     r'(Lcom/github/dart_lang/jnigen/generics/GrandParent;Ljava/lang/Object;)V',
@@ -2763,13 +2759,12 @@ extension type GrandParent$StaticParent$Child<$S extends jni$_.JObject?,
 
   /// from: `public S parentValue`
   /// The returned object must be released after use, by calling the [release] method.
-  $S? get parentValue =>
-      _id_parentValue.get(this, const jni$_.$JObject$Type$());
+  $S? get parentValue => _id_parentValue.get(this, jni$_.JObject.type) as $S?;
 
   /// from: `public S parentValue`
   /// The returned object must be released after use, by calling the [release] method.
   set parentValue($S? value) =>
-      _id_parentValue.set(this, const jni$_.$JObject$Type$(), value);
+      _id_parentValue.set(this, jni$_.JObject.type, value);
 
   static final _id_value = _class.instanceFieldId(
     r'value',
@@ -2778,12 +2773,11 @@ extension type GrandParent$StaticParent$Child<$S extends jni$_.JObject?,
 
   /// from: `public U value`
   /// The returned object must be released after use, by calling the [release] method.
-  $U? get value => _id_value.get(this, const jni$_.$JObject$Type$());
+  $U? get value => _id_value.get(this, jni$_.JObject.type) as $U?;
 
   /// from: `public U value`
   /// The returned object must be released after use, by calling the [release] method.
-  set value($U? value) =>
-      _id_value.set(this, const jni$_.$JObject$Type$(), value);
+  set value($U? value) => _id_value.set(this, jni$_.JObject.type, value);
 
   static final _id_new$ = _class.constructorId(
     r'(Lcom/github/dart_lang/jnigen/generics/GrandParent$StaticParent;Ljava/lang/Object;Ljava/lang/Object;)V',
@@ -2851,12 +2845,11 @@ extension type GrandParent$StaticParent<$S extends jni$_.JObject?>._(
 
   /// from: `public S value`
   /// The returned object must be released after use, by calling the [release] method.
-  $S? get value => _id_value.get(this, const jni$_.$JObject$Type$());
+  $S? get value => _id_value.get(this, jni$_.JObject.type) as $S?;
 
   /// from: `public S value`
   /// The returned object must be released after use, by calling the [release] method.
-  set value($S? value) =>
-      _id_value.set(this, const jni$_.$JObject$Type$(), value);
+  set value($S? value) => _id_value.set(this, jni$_.JObject.type, value);
 
   static final _id_new$ = _class.constructorId(
     r'(Ljava/lang/Object;)V',
@@ -2910,12 +2903,11 @@ extension type GrandParent<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `public T value`
   /// The returned object must be released after use, by calling the [release] method.
-  $T? get value => _id_value.get(this, const jni$_.$JObject$Type$());
+  $T? get value => _id_value.get(this, jni$_.JObject.type) as $T?;
 
   /// from: `public T value`
   /// The returned object must be released after use, by calling the [release] method.
-  set value($T? value) =>
-      _id_value.set(this, const jni$_.$JObject$Type$(), value);
+  set value($T? value) => _id_value.set(this, jni$_.JObject.type, value);
 
   static final _id_new$ = _class.constructorId(
     r'(Ljava/lang/Object;)V',
@@ -3097,11 +3089,11 @@ extension type MyMap$MyEntry<$K extends jni$_.JObject?,
 
   /// from: `public K key`
   /// The returned object must be released after use, by calling the [release] method.
-  $K? get key => _id_key.get(this, const jni$_.$JObject$Type$());
+  $K? get key => _id_key.get(this, jni$_.JObject.type) as $K?;
 
   /// from: `public K key`
   /// The returned object must be released after use, by calling the [release] method.
-  set key($K? value) => _id_key.set(this, const jni$_.$JObject$Type$(), value);
+  set key($K? value) => _id_key.set(this, jni$_.JObject.type, value);
 
   static final _id_value = _class.instanceFieldId(
     r'value',
@@ -3110,12 +3102,11 @@ extension type MyMap$MyEntry<$K extends jni$_.JObject?,
 
   /// from: `public V value`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? get value => _id_value.get(this, const jni$_.$JObject$Type$());
+  $V? get value => _id_value.get(this, jni$_.JObject.type) as $V?;
 
   /// from: `public V value`
   /// The returned object must be released after use, by calling the [release] method.
-  set value($V? value) =>
-      _id_value.set(this, const jni$_.$JObject$Type$(), value);
+  set value($V? value) => _id_value.set(this, jni$_.JObject.type, value);
 
   static final _id_new$ = _class.constructorId(
     r'(Lcom/github/dart_lang/jnigen/generics/MyMap;Ljava/lang/Object;Ljava/lang/Object;)V',
@@ -5195,12 +5186,13 @@ extension type MyRunnableRunner._(jni$_.JObject _$this)
 
   /// from: `public java.lang.Throwable error`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? get error => _id_error.get(this, const jni$_.$JObject$Type$());
+  jni$_.JObject? get error =>
+      _id_error.get(this, jni$_.JObject.type) as jni$_.JObject?;
 
   /// from: `public java.lang.Throwable error`
   /// The returned object must be released after use, by calling the [release] method.
   set error(jni$_.JObject? value) =>
-      _id_error.set(this, const jni$_.$JObject$Type$(), value);
+      _id_error.set(this, jni$_.JObject.type, value);
 
   static final _id_new$ = _class.constructorId(
     r'(Lcom/github/dart_lang/jnigen/interfaces/MyRunnable;)V',
@@ -6184,11 +6176,11 @@ extension type Annotated$Nested<
 
   /// from: `public V v`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? get v => _id_v.get(this, const jni$_.$JObject$Type$());
+  $V? get v => _id_v.get(this, jni$_.JObject.type) as $V?;
 
   /// from: `public V v`
   /// The returned object must be released after use, by calling the [release] method.
-  set v($V? value) => _id_v.set(this, const jni$_.$JObject$Type$(), value);
+  set v($V? value) => _id_v.set(this, jni$_.JObject.type, value);
 
   static final _id_u = _class.instanceFieldId(
     r'u',
@@ -6197,11 +6189,11 @@ extension type Annotated$Nested<
 
   /// from: `public U u`
   /// The returned object must be released after use, by calling the [release] method.
-  $U get u => _id_u.get(this, const jni$_.$JObject$Type$());
+  $U get u => _id_u.get(this, jni$_.JObject.type) as $U;
 
   /// from: `public U u`
   /// The returned object must be released after use, by calling the [release] method.
-  set u($U value) => _id_u.set(this, const jni$_.$JObject$Type$(), value);
+  set u($U value) => _id_u.set(this, jni$_.JObject.type, value);
 
   static final _id_new$ = _class.constructorId(
     r'(Lcom/github/dart_lang/jnigen/annotations/Annotated;Ljava/lang/Object;)V',
@@ -6263,11 +6255,11 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
 
   /// from: `public T t`
   /// The returned object must be released after use, by calling the [release] method.
-  $T? get t => _id_t.get(this, const jni$_.$JObject$Type$());
+  $T? get t => _id_t.get(this, jni$_.JObject.type) as $T?;
 
   /// from: `public T t`
   /// The returned object must be released after use, by calling the [release] method.
-  set t($T? value) => _id_t.set(this, const jni$_.$JObject$Type$(), value);
+  set t($T? value) => _id_t.set(this, jni$_.JObject.type, value);
 
   static final _id_u = _class.instanceFieldId(
     r'u',
@@ -6276,11 +6268,11 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
 
   /// from: `public U u`
   /// The returned object must be released after use, by calling the [release] method.
-  $U get u => _id_u.get(this, const jni$_.$JObject$Type$());
+  $U get u => _id_u.get(this, jni$_.JObject.type) as $U;
 
   /// from: `public U u`
   /// The returned object must be released after use, by calling the [release] method.
-  set u($U value) => _id_u.set(this, const jni$_.$JObject$Type$(), value);
+  set u($U value) => _id_u.set(this, jni$_.JObject.type, value);
 
   static final _id_w = _class.instanceFieldId(
     r'w',
@@ -6289,11 +6281,11 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
 
   /// from: `public W w`
   /// The returned object must be released after use, by calling the [release] method.
-  $W get w => _id_w.get(this, const jni$_.$JObject$Type$());
+  $W get w => _id_w.get(this, jni$_.JObject.type) as $W;
 
   /// from: `public W w`
   /// The returned object must be released after use, by calling the [release] method.
-  set w($W value) => _id_w.set(this, const jni$_.$JObject$Type$(), value);
+  set w($W value) => _id_w.set(this, jni$_.JObject.type, value);
 
   static final _id_new$ = _class.constructorId(
     r'(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)V',
@@ -7874,7 +7866,8 @@ extension type JsonSerializable$Case._(jni$_.JObject _$this)
   /// from: `static public final com.github.dart_lang.jnigen.annotations.JsonSerializable$Case SNAKE_CASE`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonSerializable$Case get SNAKE_CASE =>
-      _id_SNAKE_CASE.get(_class, const jni$_.$JObject$Type$());
+      _id_SNAKE_CASE.get(_class, JsonSerializable$Case.type)
+          as JsonSerializable$Case;
 
   static final _id_KEBAB_CASE = _class.staticFieldId(
     r'KEBAB_CASE',
@@ -7884,7 +7877,8 @@ extension type JsonSerializable$Case._(jni$_.JObject _$this)
   /// from: `static public final com.github.dart_lang.jnigen.annotations.JsonSerializable$Case KEBAB_CASE`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonSerializable$Case get KEBAB_CASE =>
-      _id_KEBAB_CASE.get(_class, const jni$_.$JObject$Type$());
+      _id_KEBAB_CASE.get(_class, JsonSerializable$Case.type)
+          as JsonSerializable$Case;
 
   static final _id_CAMEL_CASE = _class.staticFieldId(
     r'CAMEL_CASE',
@@ -7894,7 +7888,8 @@ extension type JsonSerializable$Case._(jni$_.JObject _$this)
   /// from: `static public final com.github.dart_lang.jnigen.annotations.JsonSerializable$Case CAMEL_CASE`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonSerializable$Case get CAMEL_CASE =>
-      _id_CAMEL_CASE.get(_class, const jni$_.$JObject$Type$());
+      _id_CAMEL_CASE.get(_class, JsonSerializable$Case.type)
+          as JsonSerializable$Case;
 
   static final _id_values = _class.staticMethodId(
     r'values',

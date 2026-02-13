@@ -79,7 +79,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   /// they can not block to wait for more data to parse and
   /// must return something.
   static JsonToken get NOT_AVAILABLE =>
-      _id_NOT_AVAILABLE.get(_class, const jni$_.$JObject$Type$());
+      _id_NOT_AVAILABLE.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_START_OBJECT = _class.staticFieldId(
     r'START_OBJECT',
@@ -92,7 +92,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   /// START_OBJECT is returned when encountering '{'
   /// which signals starting of an Object value.
   static JsonToken get START_OBJECT =>
-      _id_START_OBJECT.get(_class, const jni$_.$JObject$Type$());
+      _id_START_OBJECT.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_END_OBJECT = _class.staticFieldId(
     r'END_OBJECT',
@@ -105,7 +105,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   /// END_OBJECT is returned when encountering '}'
   /// which signals ending of an Object value
   static JsonToken get END_OBJECT =>
-      _id_END_OBJECT.get(_class, const jni$_.$JObject$Type$());
+      _id_END_OBJECT.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_START_ARRAY = _class.staticFieldId(
     r'START_ARRAY',
@@ -118,7 +118,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   /// START_ARRAY is returned when encountering '['
   /// which signals starting of an Array value
   static JsonToken get START_ARRAY =>
-      _id_START_ARRAY.get(_class, const jni$_.$JObject$Type$());
+      _id_START_ARRAY.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_END_ARRAY = _class.staticFieldId(
     r'END_ARRAY',
@@ -131,7 +131,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   /// END_ARRAY is returned when encountering ']'
   /// which signals ending of an Array value
   static JsonToken get END_ARRAY =>
-      _id_END_ARRAY.get(_class, const jni$_.$JObject$Type$());
+      _id_END_ARRAY.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_FIELD_NAME = _class.staticFieldId(
     r'FIELD_NAME',
@@ -144,7 +144,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   /// FIELD_NAME is returned when a String token is encountered
   /// as a field name (same lexical value, different function)
   static JsonToken get FIELD_NAME =>
-      _id_FIELD_NAME.get(_class, const jni$_.$JObject$Type$());
+      _id_FIELD_NAME.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_VALUE_EMBEDDED_OBJECT = _class.staticFieldId(
     r'VALUE_EMBEDDED_OBJECT',
@@ -163,7 +163,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   /// only by readers that expose other kinds of source (like
   /// <code>JsonNode</code>-based JSON trees, Maps, Lists and such).
   static JsonToken get VALUE_EMBEDDED_OBJECT =>
-      _id_VALUE_EMBEDDED_OBJECT.get(_class, const jni$_.$JObject$Type$());
+      _id_VALUE_EMBEDDED_OBJECT.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_VALUE_STRING = _class.staticFieldId(
     r'VALUE_STRING',
@@ -177,7 +177,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   /// in value context (array element, field value, or root-level
   /// stand-alone value)
   static JsonToken get VALUE_STRING =>
-      _id_VALUE_STRING.get(_class, const jni$_.$JObject$Type$());
+      _id_VALUE_STRING.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_VALUE_NUMBER_INT = _class.staticFieldId(
     r'VALUE_NUMBER_INT',
@@ -194,7 +194,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   /// or, for binary formats, is indicated as integral number
   /// by internal representation).
   static JsonToken get VALUE_NUMBER_INT =>
-      _id_VALUE_NUMBER_INT.get(_class, const jni$_.$JObject$Type$());
+      _id_VALUE_NUMBER_INT.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_VALUE_NUMBER_FLOAT = _class.staticFieldId(
     r'VALUE_NUMBER_FLOAT',
@@ -210,7 +210,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   /// to one or more digits (or, for non-textual formats,
   /// has internal floating-point representation).
   static JsonToken get VALUE_NUMBER_FLOAT =>
-      _id_VALUE_NUMBER_FLOAT.get(_class, const jni$_.$JObject$Type$());
+      _id_VALUE_NUMBER_FLOAT.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_VALUE_TRUE = _class.staticFieldId(
     r'VALUE_TRUE',
@@ -223,7 +223,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   /// VALUE_TRUE is returned when encountering literal "true" in
   /// value context
   static JsonToken get VALUE_TRUE =>
-      _id_VALUE_TRUE.get(_class, const jni$_.$JObject$Type$());
+      _id_VALUE_TRUE.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_VALUE_FALSE = _class.staticFieldId(
     r'VALUE_FALSE',
@@ -236,7 +236,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   /// VALUE_FALSE is returned when encountering literal "false" in
   /// value context
   static JsonToken get VALUE_FALSE =>
-      _id_VALUE_FALSE.get(_class, const jni$_.$JObject$Type$());
+      _id_VALUE_FALSE.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_VALUE_NULL = _class.staticFieldId(
     r'VALUE_NULL',
@@ -249,7 +249,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   /// VALUE_NULL is returned when encountering literal "null" in
   /// value context
   static JsonToken get VALUE_NULL =>
-      _id_VALUE_NULL.get(_class, const jni$_.$JObject$Type$());
+      _id_VALUE_NULL.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_values = _class.staticMethodId(
     r'values',

@@ -786,9 +786,9 @@ class _TypeClassGenerator extends TypeVisitor<String> {
       ),
     );
     if (node.elementType is PrimitiveType) {
-      return '$_jni.\$J${innerType}Array\$Type\$()';
+      return '$_jni.J${innerType}Array.type';
     }
-    return '${_jArrayTypePrefix}Type\$<$innerType>($innerTypeClass)';
+    return '${_jArrayTypePrefix}.type<$innerType>($innerTypeClass)';
   }
 
   @override
@@ -940,10 +940,12 @@ ${modifier}final _id_$name =
     final name = node.finalName;
     final self = node.isStatic ? classRef : _self;
     final String typeClass;
-    if (node.type is PrimitiveType) {
+    // TODO: Simplify this.
+    if (node.type is PrimitiveType || node.type is ArrayType) {
       typeClass = node.type.accept(_TypeClassGenerator(resolver));
     } else {
-      typeClass = 'const ${_jObjectTypePrefix}Type\$()';
+      final type = node.type.accept(_TypeGenerator(resolver, typeErasure: true, includeNullability: false));
+      typeClass = '$type.type';
     }
     return '_id_$name.get($self, $typeClass)';
   }
@@ -952,10 +954,11 @@ ${modifier}final _id_$name =
     final name = node.finalName;
     final self = node.isStatic ? classRef : _self;
     final String typeClass;
-    if (node.type is PrimitiveType) {
+    if (node.type is PrimitiveType || node.type is ArrayType) {
       typeClass = node.type.accept(_TypeClassGenerator(resolver));
     } else {
-      typeClass = 'const ${_jObjectTypePrefix}Type\$()';
+      final type = node.type.accept(_TypeGenerator(resolver, typeErasure: true, includeNullability: false));
+      typeClass = '$type.type';
     }
     return '_id_$name.set($self, $typeClass, value)';
   }
@@ -993,7 +996,7 @@ ${modifier}final _id_$name =
     final type = node.type.accept(_TypeGenerator(resolver));
     s.write('$ifStatic$type get $name => ');
     s.write(getter(node));
-    s.writeln(';\n');
+    s.writeln(' as $type;\n');
     if (!node.isFinal) {
       // Setter docs.
       writeDocs(node, writeReleaseInstructions: true);
@@ -1002,6 +1005,31 @@ ${modifier}final _id_$name =
       s.write(setter(node));
       s.writeln(';\n');
     }
+  }
+}
+
+class _FieldGetterTypeSig extends Visitor<Method, String> {
+  final bool isFfi;
+
+  const _FieldGetterTypeSig({required this.isFfi});
+
+  @override
+  String visit(Method node) {
+    final callParams = node.params
+        .map((param) => param.type)
+        .accept(_TypeSig(isFfi: isFfi))
+        .join(', ');
+    final args = [
+      _voidPointer,
+      '$_jni.JMethodIDPtr',
+      isFfi && callParams.isNotEmpty
+          ? '$_jni.VarArgs<($callParams${node.params.length == 1 ? ',' : ''})>'
+          : callParams,
+    ].join(', ');
+    final isCtor = node.isConstructor;
+    final isVoid = node.returnType.name == 'void';
+    final returnType = !isCtor && isVoid ? _jThrowable : _jResult;
+    return '$returnType Function($args)';
   }
 }
 
@@ -1652,6 +1680,36 @@ class _CallMethodName extends Visitor<Method, String> {
       type = 'Object';
     }
     return 'globalEnv_Call${node.isStatic ? 'Static' : ''}${type}Method';
+  }
+}
+
+class _GetFieldName extends Visitor<Field, String> {
+  const _GetFieldName();
+
+  @override
+  String visit(Field node) {
+    final String type;
+    if (node.type is PrimitiveType) {
+      type = node.type.name.capitalize();
+    } else {
+      type = 'Object';
+    }
+    return 'globalEnv_Get${node.isStatic ? 'Static' : ''}${type}Field';
+  }
+}
+
+class _SetFieldName extends Visitor<Field, String> {
+  const _SetFieldName();
+
+  @override
+  String visit(Field node) {
+    final String type;
+    if (node.type is PrimitiveType) {
+      type = node.type.name.capitalize();
+    } else {
+      type = 'Object';
+    }
+    return 'globalEnv_Set${node.isStatic ? 'Static' : ''}${type}Field';
   }
 }
 

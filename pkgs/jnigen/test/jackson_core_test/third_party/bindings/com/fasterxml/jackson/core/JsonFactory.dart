@@ -89,7 +89,8 @@ extension type JsonFactory$Feature._(jni$_.JObject _$this)
   ///
   /// This setting is enabled by default.
   static JsonFactory$Feature get INTERN_FIELD_NAMES =>
-      _id_INTERN_FIELD_NAMES.get(_class, const jni$_.$JObject$Type$());
+      _id_INTERN_FIELD_NAMES.get(_class, JsonFactory$Feature.type)
+          as JsonFactory$Feature;
 
   static final _id_CANONICALIZE_FIELD_NAMES = _class.staticFieldId(
     r'CANONICALIZE_FIELD_NAMES',
@@ -106,7 +107,8 @@ extension type JsonFactory$Feature._(jni$_.JObject _$this)
   ///
   /// This setting is enabled by default.
   static JsonFactory$Feature get CANONICALIZE_FIELD_NAMES =>
-      _id_CANONICALIZE_FIELD_NAMES.get(_class, const jni$_.$JObject$Type$());
+      _id_CANONICALIZE_FIELD_NAMES.get(_class, JsonFactory$Feature.type)
+          as JsonFactory$Feature;
 
   static final _id_FAIL_ON_SYMBOL_HASH_OVERFLOW = _class.staticFieldId(
     r'FAIL_ON_SYMBOL_HASH_OVERFLOW',
@@ -128,8 +130,8 @@ extension type JsonFactory$Feature._(jni$_.JObject _$this)
   /// This setting is enabled by default.
   ///@since 2.4
   static JsonFactory$Feature get FAIL_ON_SYMBOL_HASH_OVERFLOW =>
-      _id_FAIL_ON_SYMBOL_HASH_OVERFLOW.get(
-          _class, const jni$_.$JObject$Type$());
+      _id_FAIL_ON_SYMBOL_HASH_OVERFLOW.get(_class, JsonFactory$Feature.type)
+          as JsonFactory$Feature;
 
   static final _id_USE_THREAD_LOCAL_FOR_BUFFER_RECYCLING = _class.staticFieldId(
     r'USE_THREAD_LOCAL_FOR_BUFFER_RECYCLING',
@@ -153,7 +155,7 @@ extension type JsonFactory$Feature._(jni$_.JObject _$this)
   ///@since 2.6
   static JsonFactory$Feature get USE_THREAD_LOCAL_FOR_BUFFER_RECYCLING =>
       _id_USE_THREAD_LOCAL_FOR_BUFFER_RECYCLING.get(
-          _class, const jni$_.$JObject$Type$());
+          _class, JsonFactory$Feature.type) as JsonFactory$Feature;
 
   static final _id_values = _class.staticMethodId(
     r'values',
@@ -349,7 +351,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
   /// Name used to identify JSON format
   /// (and returned by \#getFormatName()
   static jni$_.JString? get FORMAT_NAME_JSON =>
-      _id_FORMAT_NAME_JSON.get(_class, const jni$_.$JObject$Type$());
+      _id_FORMAT_NAME_JSON.get(_class, jni$_.JString.type) as jni$_.JString?;
 
   static final _id_DEFAULT_ROOT_VALUE_SEPARATOR = _class.staticFieldId(
     r'DEFAULT_ROOT_VALUE_SEPARATOR',
@@ -359,8 +361,8 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final com.fasterxml.jackson.core.SerializableString DEFAULT_ROOT_VALUE_SEPARATOR`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JObject? get DEFAULT_ROOT_VALUE_SEPARATOR =>
-      _id_DEFAULT_ROOT_VALUE_SEPARATOR.get(
-          _class, const jni$_.$JObject$Type$());
+      _id_DEFAULT_ROOT_VALUE_SEPARATOR.get(_class, jni$_.JObject.type)
+          as jni$_.JObject?;
 
   /// from: `static public final char DEFAULT_QUOTE_CHAR`
   ///

@@ -85,7 +85,8 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   ///
   /// Feature is enabled by default.
   static JsonParser$Feature get AUTO_CLOSE_SOURCE =>
-      _id_AUTO_CLOSE_SOURCE.get(_class, const jni$_.$JObject$Type$());
+      _id_AUTO_CLOSE_SOURCE.get(_class, JsonParser$Feature.type)
+          as JsonParser$Feature;
 
   static final _id_ALLOW_COMMENTS = _class.staticFieldId(
     r'ALLOW_COMMENTS',
@@ -109,7 +110,8 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   /// NOTE: while not technically deprecated, since 2.10 recommended to use
   /// com.fasterxml.jackson.core.json.JsonReadFeature\#ALLOW_JAVA_COMMENTS instead.
   static JsonParser$Feature get ALLOW_COMMENTS =>
-      _id_ALLOW_COMMENTS.get(_class, const jni$_.$JObject$Type$());
+      _id_ALLOW_COMMENTS.get(_class, JsonParser$Feature.type)
+          as JsonParser$Feature;
 
   static final _id_ALLOW_YAML_COMMENTS = _class.staticFieldId(
     r'ALLOW_YAML_COMMENTS',
@@ -133,7 +135,8 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   /// NOTE: while not technically deprecated, since 2.10 recommended to use
   /// com.fasterxml.jackson.core.json.JsonReadFeature\#ALLOW_YAML_COMMENTS instead.
   static JsonParser$Feature get ALLOW_YAML_COMMENTS =>
-      _id_ALLOW_YAML_COMMENTS.get(_class, const jni$_.$JObject$Type$());
+      _id_ALLOW_YAML_COMMENTS.get(_class, JsonParser$Feature.type)
+          as JsonParser$Feature;
 
   static final _id_ALLOW_UNQUOTED_FIELD_NAMES = _class.staticFieldId(
     r'ALLOW_UNQUOTED_FIELD_NAMES',
@@ -154,7 +157,8 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   /// NOTE: while not technically deprecated, since 2.10 recommended to use
   /// com.fasterxml.jackson.core.json.JsonReadFeature\#ALLOW_UNQUOTED_FIELD_NAMES instead.
   static JsonParser$Feature get ALLOW_UNQUOTED_FIELD_NAMES =>
-      _id_ALLOW_UNQUOTED_FIELD_NAMES.get(_class, const jni$_.$JObject$Type$());
+      _id_ALLOW_UNQUOTED_FIELD_NAMES.get(_class, JsonParser$Feature.type)
+          as JsonParser$Feature;
 
   static final _id_ALLOW_SINGLE_QUOTES = _class.staticFieldId(
     r'ALLOW_SINGLE_QUOTES',
@@ -177,7 +181,8 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   /// NOTE: while not technically deprecated, since 2.10 recommended to use
   /// com.fasterxml.jackson.core.json.JsonReadFeature\#ALLOW_SINGLE_QUOTES instead.
   static JsonParser$Feature get ALLOW_SINGLE_QUOTES =>
-      _id_ALLOW_SINGLE_QUOTES.get(_class, const jni$_.$JObject$Type$());
+      _id_ALLOW_SINGLE_QUOTES.get(_class, JsonParser$Feature.type)
+          as JsonParser$Feature;
 
   static final _id_ALLOW_UNQUOTED_CONTROL_CHARS = _class.staticFieldId(
     r'ALLOW_UNQUOTED_CONTROL_CHARS',
@@ -198,8 +203,8 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   /// this is a non-standard feature, and as such disabled by default.
   ///@deprecated Since 2.10 use com.fasterxml.jackson.core.json.JsonReadFeature\#ALLOW_UNESCAPED_CONTROL_CHARS instead
   static JsonParser$Feature get ALLOW_UNQUOTED_CONTROL_CHARS =>
-      _id_ALLOW_UNQUOTED_CONTROL_CHARS.get(
-          _class, const jni$_.$JObject$Type$());
+      _id_ALLOW_UNQUOTED_CONTROL_CHARS.get(_class, JsonParser$Feature.type)
+          as JsonParser$Feature;
 
   static final _id_ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER =
       _class.staticFieldId(
@@ -220,7 +225,7 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   ///@deprecated Since 2.10 use com.fasterxml.jackson.core.json.JsonReadFeature\#ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER instead
   static JsonParser$Feature get ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER =>
       _id_ALLOW_BACKSLASH_ESCAPING_ANY_CHARACTER.get(
-          _class, const jni$_.$JObject$Type$());
+          _class, JsonParser$Feature.type) as JsonParser$Feature;
 
   static final _id_ALLOW_NUMERIC_LEADING_ZEROS = _class.staticFieldId(
     r'ALLOW_NUMERIC_LEADING_ZEROS',
@@ -240,7 +245,8 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   /// this is a non-standard feature, and as such disabled by default.
   ///@deprecated Since 2.10 use com.fasterxml.jackson.core.json.JsonReadFeature\#ALLOW_LEADING_ZEROS_FOR_NUMBERS instead
   static JsonParser$Feature get ALLOW_NUMERIC_LEADING_ZEROS =>
-      _id_ALLOW_NUMERIC_LEADING_ZEROS.get(_class, const jni$_.$JObject$Type$());
+      _id_ALLOW_NUMERIC_LEADING_ZEROS.get(_class, JsonParser$Feature.type)
+          as JsonParser$Feature;
 
   static final _id_ALLOW_LEADING_DECIMAL_POINT_FOR_NUMBERS =
       _class.staticFieldId(
@@ -254,7 +260,7 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   /// @deprecated Use com.fasterxml.jackson.core.json.JsonReadFeature\#ALLOW_LEADING_DECIMAL_POINT_FOR_NUMBERS instead
   static JsonParser$Feature get ALLOW_LEADING_DECIMAL_POINT_FOR_NUMBERS =>
       _id_ALLOW_LEADING_DECIMAL_POINT_FOR_NUMBERS.get(
-          _class, const jni$_.$JObject$Type$());
+          _class, JsonParser$Feature.type) as JsonParser$Feature;
 
   static final _id_ALLOW_NON_NUMERIC_NUMBERS = _class.staticFieldId(
     r'ALLOW_NON_NUMERIC_NUMBERS',
@@ -282,7 +288,8 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   /// this is a non-standard feature, and as such disabled by default.
   ///@deprecated Since 2.10 use com.fasterxml.jackson.core.json.JsonReadFeature\#ALLOW_NON_NUMERIC_NUMBERS instead
   static JsonParser$Feature get ALLOW_NON_NUMERIC_NUMBERS =>
-      _id_ALLOW_NON_NUMERIC_NUMBERS.get(_class, const jni$_.$JObject$Type$());
+      _id_ALLOW_NON_NUMERIC_NUMBERS.get(_class, JsonParser$Feature.type)
+          as JsonParser$Feature;
 
   static final _id_ALLOW_MISSING_VALUES = _class.staticFieldId(
     r'ALLOW_MISSING_VALUES',
@@ -307,7 +314,8 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   ///@since 2.8
   ///@deprecated Since 2.10 use com.fasterxml.jackson.core.json.JsonReadFeature\#ALLOW_MISSING_VALUES instead
   static JsonParser$Feature get ALLOW_MISSING_VALUES =>
-      _id_ALLOW_MISSING_VALUES.get(_class, const jni$_.$JObject$Type$());
+      _id_ALLOW_MISSING_VALUES.get(_class, JsonParser$Feature.type)
+          as JsonParser$Feature;
 
   static final _id_ALLOW_TRAILING_COMMA = _class.staticFieldId(
     r'ALLOW_TRAILING_COMMA',
@@ -337,7 +345,8 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   ///@since 2.9
   ///@deprecated Since 2.10 use com.fasterxml.jackson.core.json.JsonReadFeature\#ALLOW_TRAILING_COMMA instead
   static JsonParser$Feature get ALLOW_TRAILING_COMMA =>
-      _id_ALLOW_TRAILING_COMMA.get(_class, const jni$_.$JObject$Type$());
+      _id_ALLOW_TRAILING_COMMA.get(_class, JsonParser$Feature.type)
+          as JsonParser$Feature;
 
   static final _id_STRICT_DUPLICATE_DETECTION = _class.staticFieldId(
     r'STRICT_DUPLICATE_DETECTION',
@@ -361,7 +370,8 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   /// adds 20-30% to execution time for basic parsing.
   ///@since 2.3
   static JsonParser$Feature get STRICT_DUPLICATE_DETECTION =>
-      _id_STRICT_DUPLICATE_DETECTION.get(_class, const jni$_.$JObject$Type$());
+      _id_STRICT_DUPLICATE_DETECTION.get(_class, JsonParser$Feature.type)
+          as JsonParser$Feature;
 
   static final _id_IGNORE_UNDEFINED = _class.staticFieldId(
     r'IGNORE_UNDEFINED',
@@ -391,7 +401,8 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   /// property will result in a JsonProcessingException
   ///@since 2.6
   static JsonParser$Feature get IGNORE_UNDEFINED =>
-      _id_IGNORE_UNDEFINED.get(_class, const jni$_.$JObject$Type$());
+      _id_IGNORE_UNDEFINED.get(_class, JsonParser$Feature.type)
+          as JsonParser$Feature;
 
   static final _id_INCLUDE_SOURCE_IN_LOCATION = _class.staticFieldId(
     r'INCLUDE_SOURCE_IN_LOCATION',
@@ -418,7 +429,8 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   /// constructed either when requested explicitly, or when needed for an exception.
   ///@since 2.9
   static JsonParser$Feature get INCLUDE_SOURCE_IN_LOCATION =>
-      _id_INCLUDE_SOURCE_IN_LOCATION.get(_class, const jni$_.$JObject$Type$());
+      _id_INCLUDE_SOURCE_IN_LOCATION.get(_class, JsonParser$Feature.type)
+          as JsonParser$Feature;
 
   static final _id_values = _class.staticMethodId(
     r'values',
@@ -597,7 +609,7 @@ extension type JsonParser$NumberType._(jni$_.JObject _$this)
   /// from: `static public final com.fasterxml.jackson.core.JsonParser$NumberType INT`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonParser$NumberType get INT =>
-      _id_INT.get(_class, const jni$_.$JObject$Type$());
+      _id_INT.get(_class, JsonParser$NumberType.type) as JsonParser$NumberType;
 
   static final _id_LONG = _class.staticFieldId(
     r'LONG',
@@ -607,7 +619,7 @@ extension type JsonParser$NumberType._(jni$_.JObject _$this)
   /// from: `static public final com.fasterxml.jackson.core.JsonParser$NumberType LONG`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonParser$NumberType get LONG =>
-      _id_LONG.get(_class, const jni$_.$JObject$Type$());
+      _id_LONG.get(_class, JsonParser$NumberType.type) as JsonParser$NumberType;
 
   static final _id_BIG_INTEGER = _class.staticFieldId(
     r'BIG_INTEGER',
@@ -617,7 +629,8 @@ extension type JsonParser$NumberType._(jni$_.JObject _$this)
   /// from: `static public final com.fasterxml.jackson.core.JsonParser$NumberType BIG_INTEGER`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonParser$NumberType get BIG_INTEGER =>
-      _id_BIG_INTEGER.get(_class, const jni$_.$JObject$Type$());
+      _id_BIG_INTEGER.get(_class, JsonParser$NumberType.type)
+          as JsonParser$NumberType;
 
   static final _id_FLOAT = _class.staticFieldId(
     r'FLOAT',
@@ -627,7 +640,8 @@ extension type JsonParser$NumberType._(jni$_.JObject _$this)
   /// from: `static public final com.fasterxml.jackson.core.JsonParser$NumberType FLOAT`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonParser$NumberType get FLOAT =>
-      _id_FLOAT.get(_class, const jni$_.$JObject$Type$());
+      _id_FLOAT.get(_class, JsonParser$NumberType.type)
+          as JsonParser$NumberType;
 
   static final _id_DOUBLE = _class.staticFieldId(
     r'DOUBLE',
@@ -637,7 +651,8 @@ extension type JsonParser$NumberType._(jni$_.JObject _$this)
   /// from: `static public final com.fasterxml.jackson.core.JsonParser$NumberType DOUBLE`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonParser$NumberType get DOUBLE =>
-      _id_DOUBLE.get(_class, const jni$_.$JObject$Type$());
+      _id_DOUBLE.get(_class, JsonParser$NumberType.type)
+          as JsonParser$NumberType;
 
   static final _id_BIG_DECIMAL = _class.staticFieldId(
     r'BIG_DECIMAL',
@@ -647,7 +662,8 @@ extension type JsonParser$NumberType._(jni$_.JObject _$this)
   /// from: `static public final com.fasterxml.jackson.core.JsonParser$NumberType BIG_DECIMAL`
   /// The returned object must be released after use, by calling the [release] method.
   static JsonParser$NumberType get BIG_DECIMAL =>
-      _id_BIG_DECIMAL.get(_class, const jni$_.$JObject$Type$());
+      _id_BIG_DECIMAL.get(_class, JsonParser$NumberType.type)
+          as JsonParser$NumberType;
 
   static final _id_values = _class.staticMethodId(
     r'values',
