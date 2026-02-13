@@ -90,5 +90,9 @@ import Foundation
     self.wrappedInstance = wrappedInstance
   }
 
+  @objc public init(customVariableProperty: MyOtherStructWrapper, customConstantProperty: MyOtherStructWrapper, representableVariableProperty: Int, representableConstantProperty: Int) {
+    wrappedInstance = MyStruct(customVariableProperty: customVariableProperty.wrappedInstance, customConstantProperty: customConstantProperty.wrappedInstance, representableVariableProperty: representableVariableProperty, representableConstantProperty: representableConstantProperty)
+  }
+
 }
 
