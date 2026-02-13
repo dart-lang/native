@@ -18,6 +18,20 @@ PropertyDeclaration parsePropertyDeclaration(
   bool isStatic = false,
 }) {
   final info = parsePropertyInfo(symbol.json['declarationFragments']);
+
+  // Extract line number from location
+  int? lineNumber;
+  final locationJson = symbol.json['location'];
+  if (locationJson.exists) {
+    final positionJson = locationJson['position'];
+    if (positionJson.exists) {
+      final lineJson = positionJson['line'];
+      if (lineJson.exists) {
+        lineNumber = lineJson.get<int>();
+      }
+    }
+  }
+
   return PropertyDeclaration(
     id: parseSymbolId(symbol.json),
     name: parseSymbolName(symbol.json),
@@ -25,6 +39,7 @@ PropertyDeclaration parsePropertyDeclaration(
     availability: parseAvailability(symbol.json),
     type: _parseVariableType(context, symbol.json, symbolgraph),
     hasObjCAnnotation: parseSymbolHasObjcAnnotation(symbol.json),
+    lineNumber: lineNumber,
     isConstant: info.constant,
     isStatic: isStatic,
     throws: info.throws,
@@ -32,7 +47,8 @@ PropertyDeclaration parsePropertyDeclaration(
     unowned: info.unowned,
     weak: info.weak,
     lazy: info.lazy,
-    hasSetter: info.constant ? false : info.setter,
+    hasSetter: info.constant ? false : (info.getter ? info.setter : true),
+    hasExplicitGetter: info.getter,
   );
 }
 
@@ -139,7 +155,7 @@ ParsedPropertyInfo parsePropertyInfo(Json json) {
       );
     } else {
       // has implicit getter and implicit setter
-      return (true, true);
+      return (false, false);
     }
   }
 }
