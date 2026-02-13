@@ -45,3 +45,5 @@ dependency_overrides:
     path: ../hooks
   native_toolchain_c:
     path: ../native_toolchain_c
+  objective_c_helper:
+    path: ../objective_c_helper
