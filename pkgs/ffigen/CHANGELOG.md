@@ -21,6 +21,8 @@
   change to something more sensible.
 - __Breaking change__: Deleted the config option `Output.sort`. Sorting is now
   always enabled.
+- Fix(https://github.com/dart-lang/native/issues/2877) 
+  such that ObjCObject `isA` now accepts a nullable `ObjCObject?` and returns `false` when called with `null`, aligning its behavior with Dart’s `is`operator. 
 
 ## 20.1.1
 
