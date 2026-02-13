@@ -156,9 +156,26 @@ class ProtocolBase {
     final errors = <String>[];
     if (!input.config.linkingEnabled) {
       if (output.assets.encodedAssetsForLinking.isNotEmpty) {
-        const error =
-            'BuildOutput.assets_for_linking is not empty while '
-            'BuildInput.config.linkingEnabled is false';
+        final error =
+            '''
+`BuildOutput.assets_for_linking` is not empty while `BuildInput.config.linkingEnabled` is `false`.
+
+The assets ${output.assets.encodedAssetsForLinking} were sent to linking, but should either be bundled with the app or linked only when linking is enabled.
+
+This might be caused by writing something like
+
+```
+routing: ToLinkHook(input.packageName),
+```
+
+Try writing this instead:
+
+```
+routing: input.config.linkingEnabled
+              ? ToLinkHook(input.packageName)
+              : ToAppBundle(),
+```
+''';
         errors.add(error);
       }
     }
