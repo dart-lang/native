@@ -106,8 +106,7 @@ void deinit() {
     (*jniEnv)->DeleteGlobalRef(jniEnv, exceptionMethods.printStreamClass);
     (*jniEnv)->DeleteGlobalRef(jniEnv,
                                exceptionMethods.byteArrayOutputStreamClass);
-    (*jniEnv)->DeleteGlobalRef(jniEnv,
-                               exceptionMethods.runtimeExceptionClass);
+    (*jniEnv)->DeleteGlobalRef(jniEnv, exceptionMethods.runtimeExceptionClass);
   }
 }
 
