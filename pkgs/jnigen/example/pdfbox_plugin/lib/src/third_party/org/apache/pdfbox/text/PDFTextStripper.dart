@@ -65,23 +65,10 @@ import '../pdmodel/PDDocument.dart' as pddocument$_;
 /// The basic flow of this process is that we get a document and use a series of processXXX() functions that work on
 /// smaller and smaller chunks of the page. Eventually, we fully process each page and then print it.
 ///@author Ben Litchfield
-class PDFTextStripper extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<PDFTextStripper> $type;
-
-  @jni$_.internal
-  PDFTextStripper.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type PDFTextStripper._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static final _class =
       jni$_.JClass.forName(r'org/apache/pdfbox/text/PDFTextStripper');
-
-  /// The type which includes information such as the signature of this class.
-  static const jni$_.JType<PDFTextStripper?> nullableType =
-      $PDFTextStripper$NullableType$();
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<PDFTextStripper> type = $PDFTextStripper$Type$();
@@ -107,9 +94,8 @@ class PDFTextStripper extends jni$_.JObject {
   /// Instantiate a new PDFTextStripper object.
   ///@throws IOException If there is an error loading the properties.
   factory PDFTextStripper() {
-    return PDFTextStripper.fromReference(
-        _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
-            .reference);
+    return _new$(_class.reference.pointer, _id_new$.pointer)
+        .object<PDFTextStripper>();
   }
 
   static final _id_getText = _class.instanceMethodId(
@@ -145,9 +131,8 @@ class PDFTextStripper extends jni$_.JObject {
     pddocument$_.PDDocument? doc,
   ) {
     final _$doc = doc?.reference ?? jni$_.jNullReference;
-    return _getText(
-            reference.pointer, _id_getText as jni$_.JMethodIDPtr, _$doc.pointer)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+    return _getText(reference.pointer, _id_getText.pointer, _$doc.pointer)
+        .object<jni$_.JString?>();
   }
 
   static final _id_writeText = _class.instanceMethodId(
@@ -184,8 +169,8 @@ class PDFTextStripper extends jni$_.JObject {
   ) {
     final _$doc = doc?.reference ?? jni$_.jNullReference;
     final _$outputStream = outputStream?.reference ?? jni$_.jNullReference;
-    _writeText(reference.pointer, _id_writeText as jni$_.JMethodIDPtr,
-            _$doc.pointer, _$outputStream.pointer)
+    _writeText(reference.pointer, _id_writeText.pointer, _$doc.pointer,
+            _$outputStream.pointer)
         .check();
   }
 
@@ -214,8 +199,7 @@ class PDFTextStripper extends jni$_.JObject {
     jni$_.JObject? page,
   ) {
     final _$page = page?.reference ?? jni$_.jNullReference;
-    _processPage(reference.pointer, _id_processPage as jni$_.JMethodIDPtr,
-            _$page.pointer)
+    _processPage(reference.pointer, _id_processPage.pointer, _$page.pointer)
         .check();
   }
 
@@ -243,9 +227,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// be extracted. The default value is 1.
   ///@return Value of property startPage.
   int getStartPage() {
-    return _getStartPage(
-            reference.pointer, _id_getStartPage as jni$_.JMethodIDPtr)
-        .integer;
+    return _getStartPage(reference.pointer, _id_getStartPage.pointer).integer;
   }
 
   static final _id_setStartPage = _class.instanceMethodId(
@@ -270,8 +252,7 @@ class PDFTextStripper extends jni$_.JObject {
   void setStartPage(
     int startPageValue,
   ) {
-    _setStartPage(reference.pointer, _id_setStartPage as jni$_.JMethodIDPtr,
-            startPageValue)
+    _setStartPage(reference.pointer, _id_setStartPage.pointer, startPageValue)
         .check();
   }
 
@@ -299,8 +280,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// Integer.MAX_VALUE such that all pages of the pdf will be extracted.
   ///@return Value of property endPage.
   int getEndPage() {
-    return _getEndPage(reference.pointer, _id_getEndPage as jni$_.JMethodIDPtr)
-        .integer;
+    return _getEndPage(reference.pointer, _id_getEndPage.pointer).integer;
   }
 
   static final _id_setEndPage = _class.instanceMethodId(
@@ -325,8 +305,7 @@ class PDFTextStripper extends jni$_.JObject {
   void setEndPage(
     int endPageValue,
   ) {
-    _setEndPage(reference.pointer, _id_setEndPage as jni$_.JMethodIDPtr,
-            endPageValue)
+    _setEndPage(reference.pointer, _id_setEndPage.pointer, endPageValue)
         .check();
   }
 
@@ -355,8 +334,8 @@ class PDFTextStripper extends jni$_.JObject {
     jni$_.JString? separator,
   ) {
     final _$separator = separator?.reference ?? jni$_.jNullReference;
-    _setLineSeparator(reference.pointer,
-            _id_setLineSeparator as jni$_.JMethodIDPtr, _$separator.pointer)
+    _setLineSeparator(reference.pointer, _id_setLineSeparator.pointer,
+            _$separator.pointer)
         .check();
   }
 
@@ -383,9 +362,8 @@ class PDFTextStripper extends jni$_.JObject {
   /// This will get the line separator.
   ///@return The desired line separator string.
   jni$_.JString? getLineSeparator() {
-    return _getLineSeparator(
-            reference.pointer, _id_getLineSeparator as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+    return _getLineSeparator(reference.pointer, _id_getLineSeparator.pointer)
+        .object<jni$_.JString?>();
   }
 
   static final _id_getWordSeparator = _class.instanceMethodId(
@@ -411,9 +389,8 @@ class PDFTextStripper extends jni$_.JObject {
   /// This will get the word separator.
   ///@return The desired word separator string.
   jni$_.JString? getWordSeparator() {
-    return _getWordSeparator(
-            reference.pointer, _id_getWordSeparator as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+    return _getWordSeparator(reference.pointer, _id_getWordSeparator.pointer)
+        .object<jni$_.JString?>();
   }
 
   static final _id_setWordSeparator = _class.instanceMethodId(
@@ -443,8 +420,8 @@ class PDFTextStripper extends jni$_.JObject {
     jni$_.JString? separator,
   ) {
     final _$separator = separator?.reference ?? jni$_.jNullReference;
-    _setWordSeparator(reference.pointer,
-            _id_setWordSeparator as jni$_.JMethodIDPtr, _$separator.pointer)
+    _setWordSeparator(reference.pointer, _id_setWordSeparator.pointer,
+            _$separator.pointer)
         .check();
   }
 
@@ -471,8 +448,8 @@ class PDFTextStripper extends jni$_.JObject {
   ///
   /// @return Returns the suppressDuplicateOverlappingText.
   core$_.bool getSuppressDuplicateOverlappingText() {
-    return _getSuppressDuplicateOverlappingText(reference.pointer,
-            _id_getSuppressDuplicateOverlappingText as jni$_.JMethodIDPtr)
+    return _getSuppressDuplicateOverlappingText(
+            reference.pointer, _id_getSuppressDuplicateOverlappingText.pointer)
         .boolean;
   }
 
@@ -503,7 +480,7 @@ class PDFTextStripper extends jni$_.JObject {
   ) {
     _setSuppressDuplicateOverlappingText(
             reference.pointer,
-            _id_setSuppressDuplicateOverlappingText as jni$_.JMethodIDPtr,
+            _id_setSuppressDuplicateOverlappingText.pointer,
             suppressDuplicateOverlappingTextValue ? 1 : 0)
         .check();
   }
@@ -531,7 +508,7 @@ class PDFTextStripper extends jni$_.JObject {
   ///@return If the text will be grouped by beads.
   core$_.bool getSeparateByBeads() {
     return _getSeparateByBeads(
-            reference.pointer, _id_getSeparateByBeads as jni$_.JMethodIDPtr)
+            reference.pointer, _id_getSeparateByBeads.pointer)
         .boolean;
   }
 
@@ -559,7 +536,7 @@ class PDFTextStripper extends jni$_.JObject {
   ) {
     _setShouldSeparateByBeads(
             reference.pointer,
-            _id_setShouldSeparateByBeads as jni$_.JMethodIDPtr,
+            _id_setShouldSeparateByBeads.pointer,
             aShouldSeparateByBeads ? 1 : 0)
         .check();
   }
@@ -587,9 +564,8 @@ class PDFTextStripper extends jni$_.JObject {
   /// Get the bookmark where text extraction should end, inclusive. Default is null.
   ///@return The ending bookmark.
   jni$_.JObject? getEndBookmark() {
-    return _getEndBookmark(
-            reference.pointer, _id_getEndBookmark as jni$_.JMethodIDPtr)
-        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    return _getEndBookmark(reference.pointer, _id_getEndBookmark.pointer)
+        .object<jni$_.JObject?>();
   }
 
   static final _id_setEndBookmark = _class.instanceMethodId(
@@ -616,7 +592,7 @@ class PDFTextStripper extends jni$_.JObject {
     jni$_.JObject? aEndBookmark,
   ) {
     final _$aEndBookmark = aEndBookmark?.reference ?? jni$_.jNullReference;
-    _setEndBookmark(reference.pointer, _id_setEndBookmark as jni$_.JMethodIDPtr,
+    _setEndBookmark(reference.pointer, _id_setEndBookmark.pointer,
             _$aEndBookmark.pointer)
         .check();
   }
@@ -644,9 +620,8 @@ class PDFTextStripper extends jni$_.JObject {
   /// Get the bookmark where text extraction should start, inclusive. Default is null.
   ///@return The starting bookmark.
   jni$_.JObject? getStartBookmark() {
-    return _getStartBookmark(
-            reference.pointer, _id_getStartBookmark as jni$_.JMethodIDPtr)
-        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    return _getStartBookmark(reference.pointer, _id_getStartBookmark.pointer)
+        .object<jni$_.JObject?>();
   }
 
   static final _id_setStartBookmark = _class.instanceMethodId(
@@ -673,9 +648,7 @@ class PDFTextStripper extends jni$_.JObject {
     jni$_.JObject? aStartBookmark,
   ) {
     final _$aStartBookmark = aStartBookmark?.reference ?? jni$_.jNullReference;
-    _setStartBookmark(
-            reference.pointer,
-            _id_setStartBookmark as jni$_.JMethodIDPtr,
+    _setStartBookmark(reference.pointer, _id_setStartBookmark.pointer,
             _$aStartBookmark.pointer)
         .check();
   }
@@ -703,7 +676,7 @@ class PDFTextStripper extends jni$_.JObject {
   ///@return true if some more text formatting will be added
   core$_.bool getAddMoreFormatting() {
     return _getAddMoreFormatting(
-            reference.pointer, _id_getAddMoreFormatting as jni$_.JMethodIDPtr)
+            reference.pointer, _id_getAddMoreFormatting.pointer)
         .boolean;
   }
 
@@ -729,9 +702,7 @@ class PDFTextStripper extends jni$_.JObject {
   void setAddMoreFormatting(
     core$_.bool newAddMoreFormatting,
   ) {
-    _setAddMoreFormatting(
-            reference.pointer,
-            _id_setAddMoreFormatting as jni$_.JMethodIDPtr,
+    _setAddMoreFormatting(reference.pointer, _id_setAddMoreFormatting.pointer,
             newAddMoreFormatting ? 1 : 0)
         .check();
   }
@@ -758,8 +729,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// This will tell if the text stripper should sort the text tokens before writing to the stream.
   ///@return true If the text tokens will be sorted before being written.
   core$_.bool getSortByPosition() {
-    return _getSortByPosition(
-            reference.pointer, _id_getSortByPosition as jni$_.JMethodIDPtr)
+    return _getSortByPosition(reference.pointer, _id_getSortByPosition.pointer)
         .boolean;
   }
 
@@ -791,9 +761,7 @@ class PDFTextStripper extends jni$_.JObject {
   void setSortByPosition(
     core$_.bool newSortByPosition,
   ) {
-    _setSortByPosition(
-            reference.pointer,
-            _id_setSortByPosition as jni$_.JMethodIDPtr,
+    _setSortByPosition(reference.pointer, _id_setSortByPosition.pointer,
             newSortByPosition ? 1 : 0)
         .check();
   }
@@ -822,7 +790,7 @@ class PDFTextStripper extends jni$_.JObject {
   ///@return The current tolerance / scaling factor
   double getSpacingTolerance() {
     return _getSpacingTolerance(
-            reference.pointer, _id_getSpacingTolerance as jni$_.JMethodIDPtr)
+            reference.pointer, _id_getSpacingTolerance.pointer)
         .float;
   }
 
@@ -850,9 +818,7 @@ class PDFTextStripper extends jni$_.JObject {
   void setSpacingTolerance(
     double spacingToleranceValue,
   ) {
-    _setSpacingTolerance(
-            reference.pointer,
-            _id_setSpacingTolerance as jni$_.JMethodIDPtr,
+    _setSpacingTolerance(reference.pointer, _id_setSpacingTolerance.pointer,
             spacingToleranceValue)
         .check();
   }
@@ -880,8 +846,8 @@ class PDFTextStripper extends jni$_.JObject {
   /// be added. Note that the default value for this has been determined from trial and error.
   ///@return The current tolerance / scaling factor
   double getAverageCharTolerance() {
-    return _getAverageCharTolerance(reference.pointer,
-            _id_getAverageCharTolerance as jni$_.JMethodIDPtr)
+    return _getAverageCharTolerance(
+            reference.pointer, _id_getAverageCharTolerance.pointer)
         .float;
   }
 
@@ -909,10 +875,8 @@ class PDFTextStripper extends jni$_.JObject {
   void setAverageCharTolerance(
     double averageCharToleranceValue,
   ) {
-    _setAverageCharTolerance(
-            reference.pointer,
-            _id_setAverageCharTolerance as jni$_.JMethodIDPtr,
-            averageCharToleranceValue)
+    _setAverageCharTolerance(reference.pointer,
+            _id_setAverageCharTolerance.pointer, averageCharToleranceValue)
         .check();
   }
 
@@ -940,7 +904,7 @@ class PDFTextStripper extends jni$_.JObject {
   ///@return the number of whitespace character widths to use when detecting paragraph indents.
   double getIndentThreshold() {
     return _getIndentThreshold(
-            reference.pointer, _id_getIndentThreshold as jni$_.JMethodIDPtr)
+            reference.pointer, _id_getIndentThreshold.pointer)
         .float;
   }
 
@@ -968,8 +932,8 @@ class PDFTextStripper extends jni$_.JObject {
   void setIndentThreshold(
     double indentThresholdValue,
   ) {
-    _setIndentThreshold(reference.pointer,
-            _id_setIndentThreshold as jni$_.JMethodIDPtr, indentThresholdValue)
+    _setIndentThreshold(reference.pointer, _id_setIndentThreshold.pointer,
+            indentThresholdValue)
         .check();
   }
 
@@ -996,8 +960,7 @@ class PDFTextStripper extends jni$_.JObject {
   /// start is considered to be a paragraph start.
   ///@return the character height multiple for max allowed whitespace between lines in the same paragraph.
   double getDropThreshold() {
-    return _getDropThreshold(
-            reference.pointer, _id_getDropThreshold as jni$_.JMethodIDPtr)
+    return _getDropThreshold(reference.pointer, _id_getDropThreshold.pointer)
         .float;
   }
 
@@ -1025,8 +988,8 @@ class PDFTextStripper extends jni$_.JObject {
   void setDropThreshold(
     double dropThresholdValue,
   ) {
-    _setDropThreshold(reference.pointer,
-            _id_setDropThreshold as jni$_.JMethodIDPtr, dropThresholdValue)
+    _setDropThreshold(
+            reference.pointer, _id_setDropThreshold.pointer, dropThresholdValue)
         .check();
   }
 
@@ -1053,9 +1016,8 @@ class PDFTextStripper extends jni$_.JObject {
   /// Returns the string which will be used at the beginning of a paragraph.
   ///@return the paragraph start string
   jni$_.JString? getParagraphStart() {
-    return _getParagraphStart(
-            reference.pointer, _id_getParagraphStart as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+    return _getParagraphStart(reference.pointer, _id_getParagraphStart.pointer)
+        .object<jni$_.JString?>();
   }
 
   static final _id_setParagraphStart = _class.instanceMethodId(
@@ -1082,8 +1044,8 @@ class PDFTextStripper extends jni$_.JObject {
     jni$_.JString? s,
   ) {
     final _$s = s?.reference ?? jni$_.jNullReference;
-    _setParagraphStart(reference.pointer,
-            _id_setParagraphStart as jni$_.JMethodIDPtr, _$s.pointer)
+    _setParagraphStart(
+            reference.pointer, _id_setParagraphStart.pointer, _$s.pointer)
         .check();
   }
 
@@ -1110,9 +1072,8 @@ class PDFTextStripper extends jni$_.JObject {
   /// Returns the string which will be used at the end of a paragraph.
   ///@return the paragraph end string
   jni$_.JString? getParagraphEnd() {
-    return _getParagraphEnd(
-            reference.pointer, _id_getParagraphEnd as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+    return _getParagraphEnd(reference.pointer, _id_getParagraphEnd.pointer)
+        .object<jni$_.JString?>();
   }
 
   static final _id_setParagraphEnd = _class.instanceMethodId(
@@ -1139,8 +1100,8 @@ class PDFTextStripper extends jni$_.JObject {
     jni$_.JString? s,
   ) {
     final _$s = s?.reference ?? jni$_.jNullReference;
-    _setParagraphEnd(reference.pointer,
-            _id_setParagraphEnd as jni$_.JMethodIDPtr, _$s.pointer)
+    _setParagraphEnd(
+            reference.pointer, _id_setParagraphEnd.pointer, _$s.pointer)
         .check();
   }
 
@@ -1167,9 +1128,8 @@ class PDFTextStripper extends jni$_.JObject {
   /// Returns the string which will be used at the beginning of a page.
   ///@return the page start string
   jni$_.JString? getPageStart() {
-    return _getPageStart(
-            reference.pointer, _id_getPageStart as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+    return _getPageStart(reference.pointer, _id_getPageStart.pointer)
+        .object<jni$_.JString?>();
   }
 
   static final _id_setPageStart = _class.instanceMethodId(
@@ -1196,7 +1156,7 @@ class PDFTextStripper extends jni$_.JObject {
     jni$_.JString? pageStartValue,
   ) {
     final _$pageStartValue = pageStartValue?.reference ?? jni$_.jNullReference;
-    _setPageStart(reference.pointer, _id_setPageStart as jni$_.JMethodIDPtr,
+    _setPageStart(reference.pointer, _id_setPageStart.pointer,
             _$pageStartValue.pointer)
         .check();
   }
@@ -1224,8 +1184,8 @@ class PDFTextStripper extends jni$_.JObject {
   /// Returns the string which will be used at the end of a page.
   ///@return the page end string
   jni$_.JString? getPageEnd() {
-    return _getPageEnd(reference.pointer, _id_getPageEnd as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+    return _getPageEnd(reference.pointer, _id_getPageEnd.pointer)
+        .object<jni$_.JString?>();
   }
 
   static final _id_setPageEnd = _class.instanceMethodId(
@@ -1252,8 +1212,8 @@ class PDFTextStripper extends jni$_.JObject {
     jni$_.JString? pageEndValue,
   ) {
     final _$pageEndValue = pageEndValue?.reference ?? jni$_.jNullReference;
-    _setPageEnd(reference.pointer, _id_setPageEnd as jni$_.JMethodIDPtr,
-            _$pageEndValue.pointer)
+    _setPageEnd(
+            reference.pointer, _id_setPageEnd.pointer, _$pageEndValue.pointer)
         .check();
   }
 
@@ -1280,9 +1240,8 @@ class PDFTextStripper extends jni$_.JObject {
   /// Returns the string which will be used at the beginning of an article.
   ///@return the article start string
   jni$_.JString? getArticleStart() {
-    return _getArticleStart(
-            reference.pointer, _id_getArticleStart as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+    return _getArticleStart(reference.pointer, _id_getArticleStart.pointer)
+        .object<jni$_.JString?>();
   }
 
   static final _id_setArticleStart = _class.instanceMethodId(
@@ -1310,9 +1269,7 @@ class PDFTextStripper extends jni$_.JObject {
   ) {
     final _$articleStartValue =
         articleStartValue?.reference ?? jni$_.jNullReference;
-    _setArticleStart(
-            reference.pointer,
-            _id_setArticleStart as jni$_.JMethodIDPtr,
+    _setArticleStart(reference.pointer, _id_setArticleStart.pointer,
             _$articleStartValue.pointer)
         .check();
   }
@@ -1340,9 +1297,8 @@ class PDFTextStripper extends jni$_.JObject {
   /// Returns the string which will be used at the end of an article.
   ///@return the article end string
   jni$_.JString? getArticleEnd() {
-    return _getArticleEnd(
-            reference.pointer, _id_getArticleEnd as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+    return _getArticleEnd(reference.pointer, _id_getArticleEnd.pointer)
+        .object<jni$_.JString?>();
   }
 
   static final _id_setArticleEnd = _class.instanceMethodId(
@@ -1370,47 +1326,9 @@ class PDFTextStripper extends jni$_.JObject {
   ) {
     final _$articleEndValue =
         articleEndValue?.reference ?? jni$_.jNullReference;
-    _setArticleEnd(reference.pointer, _id_setArticleEnd as jni$_.JMethodIDPtr,
+    _setArticleEnd(reference.pointer, _id_setArticleEnd.pointer,
             _$articleEndValue.pointer)
         .check();
-  }
-}
-
-final class $PDFTextStripper$NullableType$
-    extends jni$_.JType<PDFTextStripper?> {
-  @jni$_.internal
-  const $PDFTextStripper$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  String get signature => r'Lorg/apache/pdfbox/text/PDFTextStripper;';
-
-  @jni$_.internal
-  @core$_.override
-  PDFTextStripper? fromReference(jni$_.JReference reference) => reference.isNull
-      ? null
-      : PDFTextStripper.fromReference(
-          reference,
-        );
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType get superType => const jni$_.$JObject$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType<PDFTextStripper?> get nullableType => this;
-
-  @jni$_.internal
-  @core$_.override
-  final superCount = 1;
-
-  @core$_.override
-  int get hashCode => ($PDFTextStripper$NullableType$).hashCode;
-
-  @core$_.override
-  core$_.bool operator ==(Object other) {
-    return other.runtimeType == ($PDFTextStripper$NullableType$) &&
-        other is $PDFTextStripper$NullableType$;
   }
 }
 
@@ -1421,32 +1339,4 @@ final class $PDFTextStripper$Type$ extends jni$_.JType<PDFTextStripper> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lorg/apache/pdfbox/text/PDFTextStripper;';
-
-  @jni$_.internal
-  @core$_.override
-  PDFTextStripper fromReference(jni$_.JReference reference) =>
-      PDFTextStripper.fromReference(
-        reference,
-      );
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType get superType => const jni$_.$JObject$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType<PDFTextStripper?> get nullableType =>
-      const $PDFTextStripper$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  final superCount = 1;
-
-  @core$_.override
-  int get hashCode => ($PDFTextStripper$Type$).hashCode;
-
-  @core$_.override
-  core$_.bool operator ==(Object other) {
-    return other.runtimeType == ($PDFTextStripper$Type$) &&
-        other is $PDFTextStripper$Type$;
-  }
 }

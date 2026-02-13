@@ -24,69 +24,13 @@ final class CastError extends Error {
   }
 }
 
-@internal
-final class $JObject$NullableType$ extends JType<JObject?> {
-  const $JObject$NullableType$();
-
-  @override
-  String get signature => 'Ljava/lang/Object;';
-
-  @override
-  JObject? fromReference(JReference reference) =>
-      reference.isNull ? null : JObject.fromReference(reference);
-
-  @override
-  JType get superType => const $JObject$NullableType$();
-
-  @override
-  JType get nullableType => this;
-
-  // TODO(#70): Once interface implementation lands, other than [superType],
-  // we should have a list of implemented interfaces.
-
-  @override
-  final int superCount = 0;
-
-  @override
-  int get hashCode => ($JObject$NullableType$).hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == $JObject$NullableType$ &&
-        other is $JObject$NullableType$;
-  }
-}
-
-@internal
 final class $JObject$Type$ extends JType<JObject> {
+  @internal
   const $JObject$Type$();
 
+  @internal
   @override
-  String get signature => 'Ljava/lang/Object;';
-
-  @override
-  JObject fromReference(JReference reference) =>
-      JObject.fromReference(reference);
-
-  @override
-  JType get superType => const $JObject$Type$();
-
-  @override
-  JType get nullableType => const $JObject$NullableType$();
-
-  // TODO(#70): Once interface implementation lands, other than [superType],
-  // we should have a list of implemented interfaces.
-
-  @override
-  final int superCount = 0;
-
-  @override
-  int get hashCode => ($JObject$Type$).hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == $JObject$Type$ && other is $JObject$Type$;
-  }
+  String get signature => r'Ljava/lang/Object;';
 }
 
 /// A high-level wrapper for JNI global object reference.
@@ -96,14 +40,8 @@ class JObject {
   @internal
   final JReference reference;
 
-  @internal
-  final JType<JObject> $type = type;
-
   /// The type which includes information such as the signature of this class.
   static const JType<JObject> type = $JObject$Type$();
-
-  /// The type which includes information such as the signature of this class.
-  static const JType<JObject?> nullableType = $JObject$NullableType$();
 
   /// Constructs a [JObject] with the underlying [reference].
   JObject.fromReference(this.reference) {
@@ -173,12 +111,13 @@ class JObject {
     }
 
     if (releaseOriginal) {
-      final ret = type.fromReference(JGlobalReference(reference.pointer));
+      final ret =
+          JObject.fromReference(JGlobalReference(reference.pointer)) as T;
       reference.setAsReleased();
       return ret;
     }
     final newRef = JGlobalReference(Jni.env.NewGlobalRef(reference.pointer));
-    return type.fromReference(newRef);
+    return JObject.fromReference(newRef) as T;
   }
 
   static final _class = JClass.forName('java/lang/Object');
@@ -203,7 +142,7 @@ class JObject {
       _class.instanceMethodId(r'toString', r'()Ljava/lang/String;');
   @override
   String toString() {
-    return _toStringId(this, const $JString$Type$(), [])
+    return _toStringId(this, JString.type, [])
         .toDartString(releaseOriginal: true);
   }
 

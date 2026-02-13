@@ -24,7 +24,7 @@ void run({required TestRunnerCallback testRunner}) {
       '1'.toJString()..releasedBy(arena),
       '2'.toJString()..releasedBy(arena),
       '3'.toJString()..releasedBy(arena),
-    }.toJSet(JString.type)
+    }.toJSet()
       ..releasedBy(arena);
   }
 
@@ -33,19 +33,19 @@ void run({required TestRunnerCallback testRunner}) {
       '1'.toJString()..releasedBy(arena),
       '2'.toJString()..releasedBy(arena),
       null,
-    }.toJSet(JString.nullableType)
+    }.toJSet()
       ..releasedBy(arena);
   }
 
   testRunner('length', () {
     using((arena) {
-      final set = testDataSet(arena);
+      final set = testDataSet(arena).asDart();
       expect(set.length, 3);
     });
   });
   testRunner('add', () {
     using((arena) {
-      final set = testDataSet(arena);
+      final set = testDataSet(arena).asDart();
       set.add('1'.toJString()..releasedBy(arena));
       expect(set.length, 3);
       set.add('4'.toJString()..releasedBy(arena));
@@ -54,7 +54,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('nullable add', () {
     using((arena) {
-      final set = testNullableDataSet(arena);
+      final set = testNullableDataSet(arena).asDart();
       set.add('1'.toJString()..releasedBy(arena));
       expect(set.length, 3);
       set.add('4'.toJString()..releasedBy(arena));
@@ -65,8 +65,8 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('addAll', () {
     using((arena) {
-      final set = testDataSet(arena);
-      final toAdd = testDataSet(arena);
+      final set = testDataSet(arena).asDart();
+      final toAdd = testDataSet(arena).asDart();
       toAdd.add('4'.toJString()..releasedBy(arena));
       set.addAll(toAdd);
       expect(set.length, 4);
@@ -79,7 +79,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('clear, isEmpty, isNotEmpty', () {
     using((arena) {
-      final set = testDataSet(arena);
+      final set = testDataSet(arena).asDart();
       set.clear();
       expect(set.isEmpty, true);
       expect(set.isNotEmpty, false);
@@ -87,7 +87,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('contains', () {
     using((arena) {
-      final set = testDataSet(arena);
+      final set = testDataSet(arena).asDart();
       // ignore: collection_methods_unrelated_type
       expect(set.contains(1), false);
       expect(set.contains('1'.toJString()..releasedBy(arena)), true);
@@ -96,7 +96,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('nullable contains', () {
     using((arena) {
-      final set = testNullableDataSet(arena);
+      final set = testNullableDataSet(arena).asDart();
       // ignore: collection_methods_unrelated_type
       expect(set.contains(1), false);
       expect(set.contains('1'.toJString()..releasedBy(arena)), true);
@@ -106,7 +106,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('containsAll', () {
     using((arena) {
-      final set = testDataSet(arena);
+      final set = testDataSet(arena).asDart();
       expect(set.containsAll(set), true);
       expect(
         set.containsAll([
@@ -115,7 +115,7 @@ void run({required TestRunnerCallback testRunner}) {
         ]),
         true,
       );
-      final testSet = testDataSet(arena);
+      final testSet = testDataSet(arena).asDart();
       testSet.add('4'.toJString()..releasedBy(arena));
       expect(set.containsAll(testSet), false);
       expect(set.containsAll(['4'.toJString()..releasedBy(arena)]), false);
@@ -123,7 +123,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('iterator', () {
     using((arena) {
-      final set = testDataSet(arena);
+      final set = testDataSet(arena).asDart();
       final it = set.iterator;
       // There are no order guarantees in a hashset.
       final dartSet = <String>{};
@@ -140,7 +140,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('remove', () {
     using((arena) {
-      final set = testDataSet(arena);
+      final set = testDataSet(arena).asDart();
       // ignore: collection_methods_unrelated_type
       expect(set.remove(1), false);
       expect(set.remove('4'.toJString()..releasedBy(arena)), false);
@@ -151,7 +151,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('nullable remove', () {
     using((arena) {
-      final set = testNullableDataSet(arena);
+      final set = testNullableDataSet(arena).asDart();
       // ignore: collection_methods_unrelated_type
       expect(set.remove(1), false);
       expect(set.remove('4'.toJString()..releasedBy(arena)), false);
@@ -162,18 +162,17 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('removeAll', () {
     using((arena) {
-      final set = testDataSet(arena);
-      final toRemoveExclusive = {'4'.toJString()..releasedBy(arena)}
-          .toJSet(JString.type)
+      final set = testDataSet(arena).asDart();
+      final toRemoveExclusive = {'4'.toJString()..releasedBy(arena)}.toJSet()
         ..releasedBy(arena);
-      set.removeAll(toRemoveExclusive);
+      set.removeAll(toRemoveExclusive.asDart());
       expect(set.length, 3);
       final toRemoveInclusive = {
         '1'.toJString()..releasedBy(arena),
         '4'.toJString()..releasedBy(arena),
-      }.toJSet(JString.type)
+      }.toJSet()
         ..releasedBy(arena);
-      set.removeAll(toRemoveInclusive);
+      set.removeAll(toRemoveInclusive.asDart());
       expect(set.length, 2);
       set.removeAll(['2'.toJString()..releasedBy(arena)]);
       expect(set.length, 1);
@@ -181,7 +180,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('retainAll', () {
     using((arena) {
-      final set = testDataSet(arena);
+      final set = testDataSet(arena).asDart();
       final toRetain = {
         '1'.toJString()..releasedBy(arena),
         '3'.toJString()..releasedBy(arena),
@@ -191,53 +190,34 @@ void run({required TestRunnerCallback testRunner}) {
       expect(set.length, 3);
       set.retainAll(toRetain);
       expect(set.length, 2);
-      final toRetainJSet = toRetain.toJSet(JString.type)..releasedBy(arena);
-      set.retainAll(toRetainJSet);
+      final toRetainJSet = toRetain.toJSet()..releasedBy(arena);
+      set.retainAll(toRetainJSet.asDart());
       expect(set.length, 2);
     });
   });
   testRunner('==, hashCode', () {
     using((arena) {
-      final a = testDataSet(arena);
-      final b = testDataSet(arena);
-      expect(a.hashCode, b.hashCode);
-      expect(a, b);
-      b.add('4'.toJString()..releasedBy(arena));
+      final a = testDataSet(arena).asDart();
+      final b = testDataSet(arena).asDart();
       expect(a.hashCode, isNot(b.hashCode));
-      expect(a, isNot(b));
+      expect(a, b);
+      expect(a == b, isFalse);
     });
   });
   testRunner('lookup', () {
     using((arena) {
-      final set = testDataSet(arena);
-      // ignore: collection_methods_unrelated_type
-      expect(set.lookup(1), null);
-      expect(
-        set.lookup('1'.toJString())?.toDartString(releaseOriginal: true),
-        '1',
-      );
-      expect(set.lookup('4'.toJString()..releasedBy(arena)), null);
+      final set = testDataSet(arena).asDart();
+      expect(() => set.lookup('1'.toJString()), throwsUnsupportedError);
     });
   });
   testRunner('toSet', () {
     using((arena) {
       // Test if the set gets copied.
-      final set = testDataSet(arena);
-      final setCopy = set.toSet()..releasedBy(arena);
+      final set = testDataSet(arena).asDart();
+      final setCopy = set.toSet();
       expect(set, setCopy);
       set.add('4'.toJString()..releasedBy(arena));
       expect(set, isNot(setCopy));
-    });
-  });
-  testRunner('type hashCode, ==', () {
-    using((arena) {
-      final a = testDataSet(arena);
-      final b = testDataSet(arena);
-      expect(a.$type, b.$type);
-      expect(a.$type.hashCode, b.$type.hashCode);
-      final c = JSet.hash(JObject.type)..releasedBy(arena);
-      expect(a.$type, isNot(c.$type));
-      expect(a.$type.hashCode, isNot(c.$type.hashCode));
     });
   });
 }

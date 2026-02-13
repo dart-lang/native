@@ -190,6 +190,11 @@ abstract final class Jni {
   /// Uses the correct class loader on Android.
   /// Prefer this over `Jni.env.FindClass`.
   static JClassPtr findClass(String name) {
+    if (name.startsWith('L') && name.endsWith(';')) {
+      // TODO: Remove this hack. Find places where signature is being used for
+      // class lookup, and come up with a better approach.
+      name = name.substring(1, name.length - 1);
+    }
     return using((arena) => _bindings.JniFindClass(name.toNativeChars(arena)))
         .checkedClassRef;
   }

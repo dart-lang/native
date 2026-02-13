@@ -37,21 +37,8 @@ import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
 /// from: `Example`
-class Example extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<Example> $type;
-
-  @jni$_.internal
-  Example.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
   static final _class = jni$_.JClass.forName(r'Example');
-
-  /// The type which includes information such as the signature of this class.
-  static const jni$_.JType<Example?> nullableType = $Example$NullableType$();
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<Example> type = $Example$Type$();
@@ -74,9 +61,7 @@ class Example extends jni$_.JObject {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example() {
-    return Example.fromReference(
-        _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
-            .reference);
+    return _new$(_class.reference.pointer, _id_new$.pointer).object<Example>();
   }
 
   static final _id_thinkBeforeAnswering = _class.instanceMethodId(
@@ -101,11 +86,9 @@ class Example extends jni$_.JObject {
     final $p = jni$_.ReceivePort();
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
 
-    final $r = _thinkBeforeAnswering(
-            reference.pointer,
-            _id_thinkBeforeAnswering as jni$_.JMethodIDPtr,
-            _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.$JObject$Type$());
+    final $r = _thinkBeforeAnswering(reference.pointer,
+            _id_thinkBeforeAnswering.pointer, _$continuation.pointer)
+        .object<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject $o;
     if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
@@ -125,46 +108,9 @@ class Example extends jni$_.JObject {
       $o = $r;
     }
     return $o.as<jni$_.JString>(
-      const jni$_.$JString$Type$(),
+      jni$_.JString.type,
       releaseOriginal: true,
     );
-  }
-}
-
-final class $Example$NullableType$ extends jni$_.JType<Example?> {
-  @jni$_.internal
-  const $Example$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  String get signature => r'LExample;';
-
-  @jni$_.internal
-  @core$_.override
-  Example? fromReference(jni$_.JReference reference) => reference.isNull
-      ? null
-      : Example.fromReference(
-          reference,
-        );
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType get superType => const jni$_.$JObject$Type$();
-
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType<Example?> get nullableType => this;
-
-  @jni$_.internal
-  @core$_.override
-  final superCount = 1;
-
-  @core$_.override
-  int get hashCode => ($Example$NullableType$).hashCode;
-
-  @core$_.override
-  core$_.bool operator ==(Object other) {
-    return other.runtimeType == ($Example$NullableType$) &&
-        other is $Example$NullableType$;
   }
 }
 
@@ -175,29 +121,4 @@ final class $Example$Type$ extends jni$_.JType<Example> {
   @jni$_.internal
   @core$_.override
   String get signature => r'LExample;';
-
-  @jni$_.internal
-  @core$_.override
-  Example fromReference(jni$_.JReference reference) => Example.fromReference(
-        reference,
-      );
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType get superType => const jni$_.$JObject$Type$();
-
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType<Example?> get nullableType => const $Example$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  final superCount = 1;
-
-  @core$_.override
-  int get hashCode => ($Example$Type$).hashCode;
-
-  @core$_.override
-  core$_.bool operator ==(Object other) {
-    return other.runtimeType == ($Example$Type$) && other is $Example$Type$;
-  }
 }
