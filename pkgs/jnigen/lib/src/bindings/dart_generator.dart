@@ -944,7 +944,8 @@ ${modifier}final _id_$name =
     if (node.type is PrimitiveType || node.type is ArrayType) {
       typeClass = node.type.accept(_TypeClassGenerator(resolver));
     } else {
-      final type = node.type.accept(_TypeGenerator(resolver, typeErasure: true, includeNullability: false));
+      final type = node.type.accept(_TypeGenerator(resolver,
+          typeErasure: true, includeNullability: false));
       typeClass = '$type.type';
     }
     return '_id_$name.get($self, $typeClass)';
@@ -957,7 +958,8 @@ ${modifier}final _id_$name =
     if (node.type is PrimitiveType || node.type is ArrayType) {
       typeClass = node.type.accept(_TypeClassGenerator(resolver));
     } else {
-      final type = node.type.accept(_TypeGenerator(resolver, typeErasure: true, includeNullability: false));
+      final type = node.type.accept(_TypeGenerator(resolver,
+          typeErasure: true, includeNullability: false));
       typeClass = '$type.type';
     }
     return '_id_$name.set($self, $typeClass, value)';

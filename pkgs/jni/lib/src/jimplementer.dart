@@ -43,7 +43,7 @@ class JImplementer extends JObject {
     ProtectedJniExtensions.ensureInitialized();
     return JImplementer.fromReference(_new(
             _class.reference.pointer,
-            _newId as JMethodIDPtr,
+            _newId.pointer,
             ProtectedJniExtensions.getCurrentIsolateId())
         .reference);
   }
@@ -78,7 +78,7 @@ class JImplementer extends JObject {
           (binaryName.toJString()..releasedBy(arena)).reference;
       _addImplementation(
         reference.pointer,
-        _addImplementationId as JMethodIDPtr,
+        _addImplementationId.pointer,
         binaryNameRef.pointer,
         port.sendPort.nativePort,
         pointer.address,
@@ -112,6 +112,6 @@ class JImplementer extends JObject {
   ///
   /// Releases this implementer.
   T implement<T extends JObject>() {
-    return _build(reference.pointer, _buildId as JMethodIDPtr).object<T>();
+    return _build(reference.pointer, _buildId.pointer).object<T>();
   }
 }

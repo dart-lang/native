@@ -32,7 +32,13 @@ export 'src/jni.dart' show ProtectedJniExtensions;
 export 'src/jobject.dart' show $JObject$Type$;
 export 'src/jreference.dart';
 export 'src/kotlin.dart'
-    show coroutineSingletonsClass, failureExceptionField, result$FailureClass;
+    show
+        KotlinContinuation,
+        coroutineSingletonsClass,
+        failureExceptionField,
+        result$Class,
+        result$FailureClass,
+        resultValueField;
 export 'src/lang/jboolean.dart';
 export 'src/lang/jbyte.dart';
 export 'src/lang/jcharacter.dart';

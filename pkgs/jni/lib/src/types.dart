@@ -62,8 +62,8 @@ abstract class JType<T extends JObject?> extends JTypeBase<T>
 
   @override
   T _instanceGet(JObjectPtr obj, JFieldIDPtr fieldID) {
-    return JObject.fromReference(
-        JGlobalReference(Jni.env.GetObjectField(obj, fieldID))) as T;
+    final ref = JGlobalReference(Jni.env.GetObjectField(obj, fieldID));
+    return (ref.isNull ? null : JObject.fromReference(ref)) as T;
   }
 
   @override
@@ -74,8 +74,8 @@ abstract class JType<T extends JObject?> extends JTypeBase<T>
 
   @override
   T _staticGet(JClassPtr clazz, JFieldIDPtr fieldID) {
-    return JObject.fromReference(
-        JGlobalReference(Jni.env.GetStaticObjectField(clazz, fieldID))) as T;
+    final ref = JGlobalReference(Jni.env.GetStaticObjectField(clazz, fieldID));
+    return (ref.isNull ? null : JObject.fromReference(ref)) as T;
   }
 
   @override

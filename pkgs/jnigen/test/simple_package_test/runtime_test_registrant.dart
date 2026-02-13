@@ -476,8 +476,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
           final voidCallbackResult = Completer<JString>();
           final varCallbackResult = Completer<JInteger>();
           final manyPrimitivesResult = Completer<int>();
-          // We can use this trick to access self, instead of generating a `thiz`
-          // or `self` argument for each one of the callbacks.
+          // We can use this trick to access self, instead of generating a
+          // `thiz` or `self` argument for each one of the callbacks.
           late final MyInterface<JInteger> myInterface;
           myInterface = MyInterface.implement(
             $MyInterface(
@@ -497,7 +497,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
                   manyPrimitivesResult.complete(result);
                   return result;
                 } else {
-                  // Call self, add to [a] when [b] is false and change b to true.
+                  // Call self, add to [a] when [b] is false and change b to
+                  // true.
                   return myInterface.manyPrimitives(a + 1, true, c, d);
                 }
               },
@@ -569,7 +570,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           runnable.run();
           expect(runnableRan, isTrue);
           final myInterface = runnable.as(
-            MyInterface.type(JString.type),
+            MyInterface.type,
             releaseOriginal: true,
           );
           expect(myInterface.manyPrimitives(1, true, 3, 4), 42);
@@ -582,8 +583,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
           if (!Platform.isAndroid) {
             _runJavaGC();
             await _waitUntil(() => MyInterface.$impls.isEmpty);
-            // Since the interface is now deleted, the cleaner must signal to Dart
-            // to clean up.
+            // Since the interface is now deleted, the cleaner must signal to
+            // Dart to clean up.
             expect(MyInterface.$impls, isEmpty);
             expect(MyRunnable.$impls, isEmpty);
           }
@@ -789,16 +790,15 @@ void registerTests(String groupName, TestRunnerCallback test) {
         using((arena) {
           final genericInterface = GenericInterface.implement(
             $GenericInterface(
-              arrayOf: (element) =>
-                  JArray(JString.nullableType, 1)..[0] = element!,
-              firstKeyOf: (map) => map!.keys.first!.as(JString.type),
-              firstValueOf: (map) => map!.values.first,
-              firstOfArray: (array) => array![0]!.as(JString.type),
-              firstOfGenericArray: (array) => array![0],
-              genericArrayOf: (element) =>
-                  JArray(JObject.nullableType, 1)..[0] = element,
-              mapOf: (key, value) =>
-                  JMap.hash(JString.type, JObject.type)..[key!] = value,
+              arrayOf: (JObject? element) =>
+                  JArray.withLength(JString.type, 1)..[0] = element!,
+              firstKeyOf: (JMap? map) => map!.asDart().keys.first! as JString,
+              firstValueOf: (JMap? map) => map!.asDart().values.first,
+              firstOfArray: (JArray? array) => array!.asDart()[0]! as JString,
+              firstOfGenericArray: (JArray? array) => array!.asDart()[0],
+              genericArrayOf: (JObject? element) =>
+                  JArray.withLength(JObject.type, 1)..[0] = element,
+              mapOf: (JObject? key, JObject? value) => {key: value}.toJMap(),
             ),
           )..releasedBy(arena);
           final stringArray = genericInterface.arrayOf(
@@ -831,9 +831,9 @@ void registerTests(String groupName, TestRunnerCallback test) {
           )!
             ..releasedBy(arena);
           expect(
-            jmap['hello'.toJString()..releasedBy(arena)]!.intValue(
-              releaseOriginal: true,
-            ),
+            jmap.asDart()['hello'.toJString()..releasedBy(arena)]!.intValue(
+                  releaseOriginal: true,
+                ),
             42,
           );
           expect(
@@ -961,24 +961,27 @@ void registerTests(String groupName, TestRunnerCallback test) {
         using((arena) {
           final annotated = newTestObject(arena);
           expect(
-            (annotated.list()..releasedBy(arena))[0].toDartString(
-              releaseOriginal: true,
-            ),
+            (annotated.list()..releasedBy(arena)).asDart()[0].toDartString(
+                  releaseOriginal: true,
+                ),
             'hello',
           );
-          expect((annotated.listOfNullable()..releasedBy(arena))[0], isNull);
+          expect((annotated.listOfNullable()..releasedBy(arena)).asDart()[0],
+              isNull);
           expect(annotated.nullableList(true), isNull);
           expect(
             (annotated.nullableList(
               false,
             )!
-                  ..releasedBy(arena))[0]
+                  ..releasedBy(arena))
+                .asDart()[0]
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(annotated.nullableListOfNullable(true), isNull);
           expect(
-            (annotated.nullableListOfNullable(false)!..releasedBy(arena))[0],
+            (annotated.nullableListOfNullable(false)!..releasedBy(arena))
+                .asDart()[0],
             isNull,
           );
         });
@@ -1150,6 +1153,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           final annotated = newNonNullTestObject(arena);
           expect(
             (annotated.classGenericList()..releasedBy(arena))
+                .asDart()
                 .first
                 .toDartString(
                   releaseOriginal: true,
@@ -1157,7 +1161,9 @@ void registerTests(String groupName, TestRunnerCallback test) {
             'hello',
           );
           expect(
-            (annotated.classGenericListOfNullable()..releasedBy(arena)).first,
+            (annotated.classGenericListOfNullable()..releasedBy(arena))
+                .asDart()
+                .first,
             isNull,
           );
           expect(annotated.nullableClassGenericList(true), isNull);
@@ -1166,6 +1172,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
               false,
             )!
                   ..releasedBy(arena))
+                .asDart()
                 .first
                 .toDartString(releaseOriginal: true),
             'hello',
@@ -1176,6 +1183,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
               false,
             )!
                   ..releasedBy(arena))
+                .asDart()
                 .first,
             isNull,
           );
