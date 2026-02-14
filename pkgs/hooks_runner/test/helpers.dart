@@ -33,7 +33,7 @@ Future<void> inTempDir(
   String? prefix,
   bool keepTemp = false,
 }) async {
-  final tempDir = await Directory.systemTemp.createTemp(prefix);
+  final tempDir = await Directory.systemTemp.createTemp('${prefix ?? ''} ');
   // Deal with Windows temp folder aliases.
   final tempUri = Directory(
     await tempDir.resolveSymbolicLinks(),
@@ -58,7 +58,7 @@ Future<void> inTempDir(
 }
 
 Future<Uri> tempDirForTest({String? prefix, bool keepTemp = false}) async {
-  final tempDir = await Directory.systemTemp.createTemp(prefix);
+  final tempDir = await Directory.systemTemp.createTemp('${prefix ?? ''} ');
   // Deal with Windows temp folder aliases.
   final tempUri = Directory(
     await tempDir.resolveSymbolicLinks(),
