@@ -41,6 +41,11 @@ final class PrimitivesWithPointers extends ffi.Union {
 final class Struct1 extends ffi.Struct {
   @ffi.Char()
   external int a;
+
+  static ffi.Pointer<Struct1> allocate(
+    ffi.Allocator allocator, {
+    required int a,
+  }) => allocator<Struct1>()..ref.a = a;
 }
 
 final class Union1 extends ffi.Union {

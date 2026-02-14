@@ -197,6 +197,32 @@ void main() {
       _matchLib(library, 'struct');
     });
 
+    test('Struct allocate helper name collisions', () {
+      final context = makeContext();
+      final library = Library(
+        context: context,
+        header: licenseHeader,
+        bindings: transformBindings([
+          Struct(
+            context: context,
+            name: 'CollisionStruct',
+            members: [
+              CompoundMember(
+                name: 'allocator',
+                type: NativeType(SupportedNativeType.int32),
+              ),
+              CompoundMember(
+                name: 'allocate',
+                type: NativeType(SupportedNativeType.int32),
+              ),
+            ],
+          ),
+        ], context),
+      );
+
+      _matchLib(library, 'struct_allocate_collision');
+    });
+
     test('Function and Struct Binding (pointer to Struct)', () {
       final context = makeContext();
       final structSome = Struct(
