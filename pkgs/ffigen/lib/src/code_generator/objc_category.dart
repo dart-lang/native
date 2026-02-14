@@ -46,6 +46,8 @@ class ObjCCategory extends NoLookUpBinding with ObjCMethods, HasLocalScope {
     final s = StringBuffer();
     s.write('\n');
     s.write(makeDartDoc(dartDoc));
+    final deprecatedAnnotation = makeDeprecatedAnnotation(deprecatedMessage);
+    s.write(deprecatedAnnotation.isEmpty ? '' : '$deprecatedAnnotation\n');
     s.write('''
 extension $name on ${parent.getDartType(context)} {
 ${generateMethodBindings(w, parent)}
