@@ -22,6 +22,25 @@ class SummaryParseException implements Exception {
   String toString() => message;
 }
 
+final _unsupportedClassFileVersionRegex = RegExp(
+  r'Unsupported class file major version\s+(\d+)',
+);
+
+String? getActionableSummaryParseMessage(String stderr) {
+  final match = _unsupportedClassFileVersionRegex.firstMatch(stderr);
+  if (match == null) {
+    return null;
+  }
+
+  final majorVersion = match.group(1);
+  return 'Cannot generate summary: Java class file version $majorVersion is '
+      'not supported by the summarizer. This usually means your input classes '
+      'were compiled with a newer JDK target than JNIgen supports. Use a '
+      'supported JDK version (11 to 17) (see JNIgen README), or recompile '
+      'your Java inputs with a lower target (for example: javac --release '
+      '17 ...).';
+}
+
 /// A command based summary source which calls the ApiSummarizer command.
 /// [sourcePaths] and [classPaths] can be provided for the summarizer to find
 /// required dependencies. The [classes] argument specifies the fully qualified
@@ -179,9 +198,12 @@ Future<Classes> getSummary(Config config) async {
     log.info('Parsing inputs took ${stopwatch.elapsedMilliseconds} ms');
   } on Exception catch (e) {
     await process.exitCode;
+    final stderr = stderrBuffer.toString();
+    final message =
+        getActionableSummaryParseMessage(stderr) ?? 'Cannot generate summary: $e';
     throw SummaryParseException.withStderr(
-      stderrBuffer.toString(),
-      'Cannot generate summary: $e',
+      stderr,
+      message,
     );
   } finally {
     log.writeSectionToFile('summarizer logs', stderrBuffer.toString());
