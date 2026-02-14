@@ -201,6 +201,11 @@ void _parseSuperType(
     originalName: getterName,
     name: filters.renameMember(decl, getterName),
     dartDoc: dartDoc ?? getterName,
+    deprecatedMessage: apiAvailability.alwaysDeprecated
+        ? (apiAvailability.deprecatedMessage?.isNotEmpty ?? false
+            ? apiAvailability.deprecatedMessage
+            : '')
+        : null,
     kind: ObjCMethodKind.propertyGetter,
     isClassMethod: isClassMethod,
     isOptional: isOptionalMethod,
@@ -223,6 +228,7 @@ void _parseSuperType(
       symbol: getter.symbol,
       protocolMethodName: setterName,
       dartDoc: dartDoc ?? setterName,
+      deprecatedMessage: getter.deprecatedMessage,
       kind: ObjCMethodKind.propertySetter,
       isClassMethod: isClassMethod,
       isOptional: isOptionalMethod,
@@ -320,6 +326,11 @@ ObjCMethod? parseObjCMethod(
       fallbackComment: methodName,
       availability: apiAvailability.dartDoc,
     ),
+    deprecatedMessage: apiAvailability.alwaysDeprecated
+        ? (apiAvailability.deprecatedMessage?.isNotEmpty ?? false
+            ? apiAvailability.deprecatedMessage
+            : '')
+        : null,
     kind: ObjCMethodKind.method,
     isClassMethod: isClassMethod,
     isOptional: isOptionalMethod,

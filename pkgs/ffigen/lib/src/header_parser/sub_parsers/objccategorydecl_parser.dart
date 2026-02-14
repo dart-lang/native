@@ -71,7 +71,11 @@ ObjCCategory? parseObjCCategoryDeclaration(
       availability: apiAvailability.dartDoc,
     ),
     context: context,
-  );
+  )..deprecatedMessage = apiAvailability.alwaysDeprecated
+      ? (apiAvailability.deprecatedMessage?.isNotEmpty ?? false
+          ? apiAvailability.deprecatedMessage
+          : '')
+      : null;
 
   context.bindingsIndex.addObjCCategoryToSeen(usr, category);
 

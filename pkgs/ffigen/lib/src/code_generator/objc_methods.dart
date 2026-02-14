@@ -178,6 +178,7 @@ enum ObjCMethodFamily {
 class ObjCMethod extends AstNode with HasLocalScope {
   final Context context;
   final String? dartDoc;
+  final String? deprecatedMessage;
   final String originalName;
   Symbol symbol;
   final String originalProtocolMethodName;
@@ -221,6 +222,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
     required this.symbol,
     required String protocolMethodName,
     this.dartDoc,
+    this.deprecatedMessage,
     required this.kind,
     required this.isClassMethod,
     required this.isOptional,
@@ -239,6 +241,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
     required String originalName,
     required String name,
     String? dartDoc,
+    String? deprecatedMessage,
     required ObjCMethodKind kind,
     required bool isClassMethod,
     required bool isOptional,
@@ -289,6 +292,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
       symbol: Symbol(name, SymbolKind.method),
       protocolMethodName: protocolMethodName,
       dartDoc: dartDoc,
+      deprecatedMessage: deprecatedMessage,
       kind: kind,
       isClassMethod: isClassMethod,
       isOptional: isOptional,
@@ -450,7 +454,11 @@ class ObjCMethod extends AstNode with HasLocalScope {
     final paramStr = _joinParamStr(context, params);
 
     // The method declaration.
+    final deprecatedAnnotation = makeDeprecatedAnnotation(deprecatedMessage);
     s.write('\n  ${makeDartDoc(dartDoc)}  ');
+    if (deprecatedAnnotation.isNotEmpty) {
+      s.write('$deprecatedAnnotation\n  ');
+    }
     late String targetStr;
     if (isClassMethod) {
       targetStr = (target as ObjCInterface).classObject.name;
