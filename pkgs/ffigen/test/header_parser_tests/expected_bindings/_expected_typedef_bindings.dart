@@ -108,6 +108,14 @@ final class Struct1 extends ffi.Struct {
   external NamedFunctionProto named;
 
   external ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> unnamed;
+
+  static ffi.Pointer<Struct1> allocate(
+    ffi.Allocator allocator, {
+    required NamedFunctionProto named,
+    required ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> unnamed,
+  }) => allocator<Struct1>()
+    ..ref.named = named
+    ..ref.unnamed = unnamed;
 }
 
 final class Struct2 extends ffi.Opaque {}
@@ -119,6 +127,11 @@ typedef Typeref2 = AnonymousStructInTypedef;
 final class WithBoolAlias extends ffi.Struct {
   @ffi.Bool()
   external bool b;
+
+  static ffi.Pointer<WithBoolAlias> allocate(
+    ffi.Allocator allocator, {
+    required bool b,
+  }) => allocator<WithBoolAlias>()..ref.b = b;
 }
 
 final class _ExcludedStruct extends ffi.Opaque {}

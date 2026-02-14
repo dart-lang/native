@@ -46,4 +46,14 @@ final class SomeStruct extends ffi.Struct {
 
   @ffi.Uint8()
   external int c;
+
+  static ffi.Pointer<SomeStruct> allocate(
+    ffi.Allocator allocator, {
+    required int a,
+    required double b,
+    required int c,
+  }) => allocator<SomeStruct>()
+    ..ref.a = a
+    ..ref.b = b
+    ..ref.c = c;
 }

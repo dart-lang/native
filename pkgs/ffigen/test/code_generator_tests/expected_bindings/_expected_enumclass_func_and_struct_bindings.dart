@@ -91,4 +91,12 @@ final class StructWithEnums extends ffi.Struct {
 
   @ffi.Int()
   external int enum2;
+
+  static ffi.Pointer<StructWithEnums> allocate(
+    ffi.Allocator allocator, {
+    required Enum1 enum1,
+    required int enum2,
+  }) => allocator<StructWithEnums>()
+    ..ref.enum1 = enum1
+    ..ref.enum2 = enum2;
 }
