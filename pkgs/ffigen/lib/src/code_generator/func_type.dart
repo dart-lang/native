@@ -54,7 +54,12 @@ class FunctionType extends Type with HasLocalScope {
 
     // Write Function.
     sb.write(' Function(');
-    sb.write([...params.map<String>(paramToString), ?varArgPack].join(', '));
+    sb.write(
+      [
+        ...params.map<String>(paramToString),
+        if (varArgPack != null) varArgPack,
+      ].join(', '),
+    );
     sb.write(')');
 
     return sb.toString();

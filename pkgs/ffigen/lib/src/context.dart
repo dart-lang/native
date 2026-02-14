@@ -31,22 +31,31 @@ class Context {
   final Scope rootScope = Scope.createRoot('root');
   final Scope rootObjCScope = Scope.createRoot('objc_root');
   late final ExtraSymbols extraSymbols;
+  final String tmpDir;
 
-  Context(this.logger, FfiGenerator generator, {Uri? libclangDylib})
-    : config = Config(generator),
-      cursorIndex = CursorIndex(logger) {
-    objCBuiltInFunctions = ObjCBuiltInFunctions(
-      this,
-      // ignore: deprecated_member_use_from_same_package
-      generator.objectiveC?.generateForPackageObjectiveC ?? false,
-    );
-    final libclangDylibPath =
-        // ignore: deprecated_member_use_from_same_package
-        generator.libclangDylib?.toFilePath() ??
-        libclangDylib?.toFilePath() ??
-        findDylibAtDefaultLocations(logger);
-    _clang ??= Clang(DynamicLibrary.open(libclangDylibPath));
-  }
+  Context(
+  this.logger,
+  FfiGenerator generator, {
+  Uri? libclangDylib,
+  String? tmpDir, // optional parameter
+})  : config = Config(generator),
+      cursorIndex = CursorIndex(logger),
+      tmpDir = tmpDir ?? Directory.systemTemp.createTempSync('ffigen temp dir ').path // default temp dir with spaces
+{
+  // Initialize compiler options
+  compilerOpts = config.headers.compilerOptions ?? defaultCompilerOpts(logger);
+
+  objCBuiltInFunctions = ObjCBuiltInFunctions(
+    this,
+    generator.objectiveC?.generateForPackageObjectiveC ?? false,
+  );
+
+  final libclangDylibPath =
+      generator.libclangDylib?.toFilePath() ??
+      libclangDylib?.toFilePath() ??
+      findDylibAtDefaultLocations(logger);
+
+  _clang ??= Clang(DynamicLibrary.open(libclangDylibPath));
 }
 
 /// The clang bindings.
@@ -123,3 +132,4 @@ typedef ExtraSymbols = ({
   // TODO(https://github.com/dart-lang/native/issues/1259): Make this nullable.
   Symbol symbolAddressVariableName,
 });
+}

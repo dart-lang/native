@@ -789,7 +789,8 @@ void main() {
 
 /// Utility to match expected bindings to the generated bindings.
 void _matchLib(Library lib, String testName) {
-  matchLibraryWithExpected(lib, 'code_generator_test_${testName}_output.dart', [
+  final context = testContext();
+  matchLibraryWithExpected(context, lib, 'code_generator_test_${testName}_output.dart', [
     'test',
     'code_generator_tests',
     'expected_bindings',
