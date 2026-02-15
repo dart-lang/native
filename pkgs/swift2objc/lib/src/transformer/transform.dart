@@ -31,6 +31,26 @@ class TransformationState {
 
   // Bindings that will be generated as stubs.
   final stubs = <Declaration>{};
+
+  // Map from tuple signature to generated wrapper class
+  final _tupleWrappers = <String, ClassDeclaration>{};
+
+  /// Check if a tuple wrapper class has already been generated
+  bool hasGeneratedTuple(String className) =>
+      _tupleWrappers.containsKey(className);
+
+  /// Get the wrapper class for a tuple
+  ClassDeclaration getTupleWrapper(String className) =>
+      _tupleWrappers[className]!;
+
+  /// Register a newly generated tuple wrapper class
+  void registerTupleWrapper(String className, ClassDeclaration wrapperClass) {
+    _tupleWrappers[className] = wrapperClass;
+    bindings.add(wrapperClass);
+  }
+
+  /// Get all generated tuple wrapper classes
+  List<ClassDeclaration> get tupleWrappers => _tupleWrappers.values.toList();
 }
 
 /// Transforms the given declarations into the desired ObjC wrapped declarations
@@ -80,6 +100,7 @@ List<Declaration> transform(
   return [
     ...transformedDeclarations,
     ..._getPrimitiveWrapperClasses(state),
+    ...state.tupleWrappers,
   ].sortedById();
 }
 

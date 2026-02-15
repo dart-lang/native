@@ -11,6 +11,7 @@ import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../ast/declarations/typealias_declaration.dart';
 import '../../transformer/_core/primitive_wrappers.dart';
 import '../transform.dart';
+import '../transformers/transform_referred_type.dart';
 import 'unique_namer.dart';
 
 // TODO(https://github.com/dart-lang/native/issues/1358): These functions should
@@ -36,8 +37,9 @@ import 'unique_namer.dart';
   if (type.isObjCRepresentable) {
     return (value, type);
   }
-
-  if (type is GenericType) {
+  if (type is TupleType) {
+    return _wrapTupleValue(type, value, globalNamer, state);
+  } else if (type is GenericType) {
     throw UnimplementedError('Generic types are not implemented yet');
   } else if (type is DeclaredType) {
     final declaration = type.declaration;
@@ -72,6 +74,37 @@ import 'unique_namer.dart';
   } else {
     throw UnimplementedError('Unknown type: $type');
   }
+}
+
+(String, ReferredType) _wrapTupleValue(
+  TupleType tupleType,
+  String tupleExpression,
+  UniqueNamer globalNamer,
+  TransformationState state,
+) {
+  final wrapperType = transformReferredType(tupleType, globalNamer, state);
+  final wrapperClass =
+      (wrapperType as DeclaredType).declaration as ClassDeclaration;
+
+  final args = <String>[];
+  for (var i = 0; i < tupleType.elements.length; i++) {
+    final element = tupleType.elements[i];
+    final propertyName = element.label ?? '_$i';
+    final elementAccess = element.label != null
+        ? '$tupleExpression.${element.label}'
+        : '$tupleExpression.$i';
+
+    final (wrappedElement, _) = maybeWrapValue(
+      element.type,
+      elementAccess,
+      globalNamer,
+      state,
+    );
+
+    args.add('$propertyName: $wrappedElement');
+  }
+
+  return ('${wrapperClass.name}(${args.join(', ')})', wrapperType);
 }
 
 (String value, ReferredType type) maybeUnwrapValue(
