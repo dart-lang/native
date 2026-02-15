@@ -269,6 +269,16 @@ final class Struct3 extends ffi.Struct {
 
   @ffi.Int()
   external int c;
+
+  static ffi.Pointer<Struct3> allocate(
+    ffi.Allocator allocator, {
+    required int a,
+    required int b,
+    required int c,
+  }) => allocator<Struct3>()
+    ..ref.a = a
+    ..ref.b = b
+    ..ref.c = c;
 }
 
 final class StructWithEnums extends ffi.Struct {
