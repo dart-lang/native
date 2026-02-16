@@ -11,37 +11,45 @@ import Foundation
 
   @objc public func getLabeledTuple() -> Tuple_id_Int_name_String {
     let result = wrappedInstance.getLabeledTuple()
-    return Tuple_id_Int_name_String(id: result.id, name: result.name)
+    return Tuple_id_Int_name_String(result)
   }
 
   @objc public func getAllLabeledTuple() -> Tuple_x_Int_y_Int_z_String {
     let result = wrappedInstance.getAllLabeledTuple()
-    return Tuple_x_Int_y_Int_z_String(x: result.x, y: result.y, z: result.z)
+    return Tuple_x_Int_y_Int_z_String(result)
   }
 
-  @objc public func getDeeplyNestedTuple() -> operatorOverload {
+  @objc public func getDeeplyNestedTuple() -> Tuple_Int_StringBoolDouble {
     let result = wrappedInstance.getDeeplyNestedTuple()
-    return operatorOverload(_0: result.0, _1: operatorOverload1(_0: result.1.0, _1: Tuple_Bool_Double(_0: result.1.1.0, _1: result.1.1.1)))
+    return Tuple_Int_StringBoolDouble(result)
   }
 
   @objc public func getTupleWithOptionals() -> Tuple_IntOptional_StringOptional {
     let result = wrappedInstance.getTupleWithOptionals()
-    return Tuple_IntOptional_StringOptional(_0: result.0, _1: result.1)
+    return Tuple_IntOptional_StringOptional(result)
   }
 
   @objc public func getLargeTuple() -> Tuple_Int_Int_Int_Int_Int {
     let result = wrappedInstance.getLargeTuple()
-    return Tuple_Int_Int_Int_Int_Int(_0: result.0, _1: result.1, _2: result.2, _3: result.3, _4: result.4)
+    return Tuple_Int_Int_Int_Int_Int(result)
   }
 
   @objc public func getMixedTuple() -> Tuple_Int_value_String_Bool {
     let result = wrappedInstance.getMixedTuple()
-    return Tuple_Int_value_String_Bool(_0: result.0, value: result.value, _2: result.2)
+    return Tuple_Int_value_String_Bool(result)
+  }
+
+  @objc public func getNothing() {
+    return wrappedInstance.getNothing()
   }
 
   @objc public func getCoordinates() -> Tuple_Int_Int {
     let result = wrappedInstance.getCoordinates()
-    return Tuple_Int_Int(_0: result.0, _1: result.1)
+    return Tuple_Int_Int(result)
+  }
+
+  @objc public func getSingleValue() -> Int {
+    return wrappedInstance.getSingleValue()
   }
 
   @objc public class NestedTupleTestWrapper: NSObject {
@@ -51,9 +59,9 @@ import Foundation
       self.wrappedInstance = wrappedInstance
     }
 
-    @objc public func getNestedTuple() -> operatorOverload1 {
+    @objc public func getNestedTuple() -> Tuple_Int_StringBool {
       let result = wrappedInstance.getNestedTuple()
-      return operatorOverload1(_0: result.0, _1: Tuple_String_Bool3(_0: result.1.0, _1: result.1.1))
+      return Tuple_Int_StringBool(result)
     }
 
   }
@@ -65,199 +73,319 @@ import Foundation
       self.wrappedInstance = wrappedInstance
     }
 
-    @objc public func getOptionalNestedTuple() -> operatorOverload {
+    @objc public func getOptionalNestedTuple() -> Tuple_Int_StringBoolOptional {
       let result = wrappedInstance.getOptionalNestedTuple()
-      return operatorOverload(_0: result.0, _1: result.1 == nil ? nil : Tuple_String_Bool1(_0: result.1!.0, _1: result.1!.1))
+      return Tuple_Int_StringBoolOptional(result)
     }
 
     @objc public func getOptionalTuple() -> Tuple_Int_String? {
       let result = wrappedInstance.getOptionalTuple()
-      return result == nil ? nil : Tuple_Int_String(_0: result!.0, _1: result!.1)
+      return result == nil ? nil : Tuple_Int_String(result!)
     }
 
   }
 
 }
 
-@objc public class Tuple_Bool_Double {
-  public let _0: Bool
+@objc public class Tuple_Bool_Double: NSObject {
+  var wrappedInstance: (Bool, Double)
 
-  public let _1: Double
+  @objc public var _0: Bool {
+    get {
+      wrappedInstance.0
+    }
+  }
 
-  @objc init(_0: Bool, _1: Double) {
-    self._0 = _0
-    self._1 = _1
+  @objc public var _1: Double {
+    get {
+      wrappedInstance.1
+    }
+  }
+
+  init(_ wrappedInstance: (Bool, Double)) {
+    self.wrappedInstance = wrappedInstance
   }
 
 }
 
-@objc public class Tuple_IntOptional_StringOptional {
-  public let _0: Int?
+@objc public class Tuple_IntOptional_StringOptional: NSObject {
+  var wrappedInstance: (Int?, String?)
 
-  public let _1: String?
+  @objc public var _0: Int? {
+    get {
+      wrappedInstance.0
+    }
+  }
 
-  @objc init(_0: Int?, _1: String?) {
-    self._0 = _0
-    self._1 = _1
+  @objc public var _1: String? {
+    get {
+      wrappedInstance.1
+    }
+  }
+
+  init(_ wrappedInstance: (Int?, String?)) {
+    self.wrappedInstance = wrappedInstance
   }
 
 }
 
-@objc public class Tuple_Int_Int {
-  public let _0: Int
+@objc public class Tuple_Int_Int: NSObject {
+  var wrappedInstance: (Int, Int)
 
-  public let _1: Int
+  @objc public var _0: Int {
+    get {
+      wrappedInstance.0
+    }
+  }
 
-  @objc init(_0: Int, _1: Int) {
-    self._0 = _0
-    self._1 = _1
+  @objc public var _1: Int {
+    get {
+      wrappedInstance.1
+    }
+  }
+
+  init(_ wrappedInstance: (Int, Int)) {
+    self.wrappedInstance = wrappedInstance
   }
 
 }
 
-@objc public class Tuple_Int_Int_Int_Int_Int {
-  public let _0: Int
+@objc public class Tuple_Int_Int_Int_Int_Int: NSObject {
+  var wrappedInstance: (Int, Int, Int, Int, Int)
 
-  public let _1: Int
+  @objc public var _0: Int {
+    get {
+      wrappedInstance.0
+    }
+  }
 
-  public let _2: Int
+  @objc public var _1: Int {
+    get {
+      wrappedInstance.1
+    }
+  }
 
-  public let _3: Int
+  @objc public var _2: Int {
+    get {
+      wrappedInstance.2
+    }
+  }
 
-  public let _4: Int
+  @objc public var _3: Int {
+    get {
+      wrappedInstance.3
+    }
+  }
 
-  @objc init(_0: Int, _1: Int, _2: Int, _3: Int, _4: Int) {
-    self._0 = _0
-    self._1 = _1
-    self._2 = _2
-    self._3 = _3
-    self._4 = _4
+  @objc public var _4: Int {
+    get {
+      wrappedInstance.4
+    }
+  }
+
+  init(_ wrappedInstance: (Int, Int, Int, Int, Int)) {
+    self.wrappedInstance = wrappedInstance
   }
 
 }
 
-@objc public class Tuple_Int_String {
-  public let _0: Int
+@objc public class Tuple_Int_String: NSObject {
+  var wrappedInstance: (Int, String)
 
-  public let _1: String
+  @objc public var _0: Int {
+    get {
+      wrappedInstance.0
+    }
+  }
 
-  @objc init(_0: Int, _1: String) {
-    self._0 = _0
-    self._1 = _1
+  @objc public var _1: String {
+    get {
+      wrappedInstance.1
+    }
+  }
+
+  init(_ wrappedInstance: (Int, String)) {
+    self.wrappedInstance = wrappedInstance
   }
 
 }
 
-@objc public class Tuple_Int_value_String_Bool {
-  public let _0: Int
+@objc public class Tuple_Int_StringBool: NSObject {
+  var wrappedInstance: (Int, (String, Bool))
 
-  public let value: String
+  @objc public var _0: Int {
+    get {
+      wrappedInstance.0
+    }
+  }
 
-  public let _2: Bool
+  @objc public var _1: Tuple_String_Bool {
+    get {
+      Tuple_String_Bool(wrappedInstance.1)
+    }
+  }
 
-  @objc init(_0: Int, value: String, _2: Bool) {
-    self._0 = _0
-    self.value = value
-    self._2 = _2
+  init(_ wrappedInstance: (Int, (String, Bool))) {
+    self.wrappedInstance = wrappedInstance
   }
 
 }
 
-@objc public class Tuple_String_Bool {
-  public let _0: String
+@objc public class Tuple_Int_StringBoolDouble: NSObject {
+  var wrappedInstance: (Int, (String, (Bool, Double)))
 
-  public let _1: Bool
+  @objc public var _0: Int {
+    get {
+      wrappedInstance.0
+    }
+  }
 
-  @objc init(_0: String, _1: Bool) {
-    self._0 = _0
-    self._1 = _1
+  @objc public var _1: Tuple_String_BoolDouble {
+    get {
+      Tuple_String_BoolDouble(wrappedInstance.1)
+    }
+  }
+
+  init(_ wrappedInstance: (Int, (String, (Bool, Double)))) {
+    self.wrappedInstance = wrappedInstance
   }
 
 }
 
-@objc public class Tuple_String_Bool1 {
-  public let _0: String
+@objc public class Tuple_Int_StringBoolOptional: NSObject {
+  var wrappedInstance: (Int, (String, Bool)?)
 
-  public let _1: Bool
+  @objc public var _0: Int {
+    get {
+      wrappedInstance.0
+    }
+  }
 
-  @objc init(_0: String, _1: Bool) {
-    self._0 = _0
-    self._1 = _1
+  @objc public var _1: Tuple_String_Bool? {
+    get {
+      wrappedInstance.1 == nil ? nil : Tuple_String_Bool(wrappedInstance.1!)
+    }
+  }
+
+  init(_ wrappedInstance: (Int, (String, Bool)?)) {
+    self.wrappedInstance = wrappedInstance
   }
 
 }
 
-@objc public class Tuple_String_Bool2 {
-  public let _0: String
+@objc public class Tuple_Int_value_String_Bool: NSObject {
+  var wrappedInstance: (Int, value: String, Bool)
 
-  public let _1: Bool
+  @objc public var _0: Int {
+    get {
+      wrappedInstance.0
+    }
+  }
 
-  @objc init(_0: String, _1: Bool) {
-    self._0 = _0
-    self._1 = _1
+  @objc public var value: String {
+    get {
+      wrappedInstance.value
+    }
+  }
+
+  @objc public var _2: Bool {
+    get {
+      wrappedInstance.2
+    }
+  }
+
+  init(_ wrappedInstance: (Int, value: String, Bool)) {
+    self.wrappedInstance = wrappedInstance
   }
 
 }
 
-@objc public class Tuple_String_Bool3 {
-  public let _0: String
+@objc public class Tuple_String_Bool: NSObject {
+  var wrappedInstance: (String, Bool)
 
-  public let _1: Bool
+  @objc public var _0: String {
+    get {
+      wrappedInstance.0
+    }
+  }
 
-  @objc init(_0: String, _1: Bool) {
-    self._0 = _0
-    self._1 = _1
+  @objc public var _1: Bool {
+    get {
+      wrappedInstance.1
+    }
+  }
+
+  init(_ wrappedInstance: (String, Bool)) {
+    self.wrappedInstance = wrappedInstance
   }
 
 }
 
-@objc public class Tuple_id_Int_name_String {
-  public let id: Int
+@objc public class Tuple_String_BoolDouble: NSObject {
+  var wrappedInstance: (String, (Bool, Double))
 
-  public let name: String
+  @objc public var _0: String {
+    get {
+      wrappedInstance.0
+    }
+  }
 
-  @objc init(id: Int, name: String) {
-    self.id = id
-    self.name = name
+  @objc public var _1: Tuple_Bool_Double {
+    get {
+      Tuple_Bool_Double(wrappedInstance.1)
+    }
+  }
+
+  init(_ wrappedInstance: (String, (Bool, Double))) {
+    self.wrappedInstance = wrappedInstance
   }
 
 }
 
-@objc public class Tuple_x_Int_y_Int_z_String {
-  public let x: Int
+@objc public class Tuple_id_Int_name_String: NSObject {
+  var wrappedInstance: (id: Int, name: String)
 
-  public let y: Int
+  @objc public var id: Int {
+    get {
+      wrappedInstance.id
+    }
+  }
 
-  public let z: String
+  @objc public var name: String {
+    get {
+      wrappedInstance.name
+    }
+  }
 
-  @objc init(x: Int, y: Int, z: String) {
-    self.x = x
-    self.y = y
-    self.z = z
+  init(_ wrappedInstance: (id: Int, name: String)) {
+    self.wrappedInstance = wrappedInstance
   }
 
 }
 
-@objc public class operatorOverload {
-  public let _0: Int
+@objc public class Tuple_x_Int_y_Int_z_String: NSObject {
+  var wrappedInstance: (x: Int, y: Int, z: String)
 
-  public let _1: Tuple_String_Bool?
-
-  @objc init(_0: Int, _1: Tuple_String_Bool?) {
-    self._0 = _0
-    self._1 = _1
+  @objc public var x: Int {
+    get {
+      wrappedInstance.x
+    }
   }
 
-}
+  @objc public var y: Int {
+    get {
+      wrappedInstance.y
+    }
+  }
 
-@objc public class operatorOverload1 {
-  public let _0: Int
+  @objc public var z: String {
+    get {
+      wrappedInstance.z
+    }
+  }
 
-  public let _1: Tuple_String_Bool2
-
-  @objc init(_0: Int, _1: Tuple_String_Bool2) {
-    self._0 = _0
-    self._1 = _1
+  init(_ wrappedInstance: (x: Int, y: Int, z: String)) {
+    self.wrappedInstance = wrappedInstance
   }
 
 }

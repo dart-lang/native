@@ -4,6 +4,15 @@
 
 // Test simple tuple return
 public class TupleTest {
+
+    public func getNothing() -> () {
+        return ()
+    }
+    
+    public func getSingleValue() -> (Int) {
+        return (42)
+    }
+
     public func getCoordinates() -> (Int, Int) {
         return (10, 20)
     }

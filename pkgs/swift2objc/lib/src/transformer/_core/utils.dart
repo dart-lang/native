@@ -25,6 +25,11 @@ import 'unique_namer.dart';
   TransformationState state, {
   bool shouldWrapPrimitives = false,
 }) {
+  // Handle tuple types first
+  if (type is TupleType) {
+    return _wrapTupleValue(type, value, globalNamer, state);
+  }
+
   final (wrappedPrimitiveType, returnsWrappedPrimitive) =
       maybeGetPrimitiveWrapper(type, shouldWrapPrimitives, state);
   if (returnsWrappedPrimitive) {
@@ -37,9 +42,8 @@ import 'unique_namer.dart';
   if (type.isObjCRepresentable) {
     return (value, type);
   }
-  if (type is TupleType) {
-    return _wrapTupleValue(type, value, globalNamer, state);
-  } else if (type is GenericType) {
+
+  if (type is GenericType) {
     throw UnimplementedError('Generic types are not implemented yet');
   } else if (type is DeclaredType) {
     final declaration = type.declaration;
@@ -86,25 +90,7 @@ import 'unique_namer.dart';
   final wrapperClass =
       (wrapperType as DeclaredType).declaration as ClassDeclaration;
 
-  final args = <String>[];
-  for (var i = 0; i < tupleType.elements.length; i++) {
-    final element = tupleType.elements[i];
-    final propertyName = element.label ?? '_$i';
-    final elementAccess = element.label != null
-        ? '$tupleExpression.${element.label}'
-        : '$tupleExpression.$i';
-
-    final (wrappedElement, _) = maybeWrapValue(
-      element.type,
-      elementAccess,
-      globalNamer,
-      state,
-    );
-
-    args.add('$propertyName: $wrappedElement');
-  }
-
-  return ('${wrapperClass.name}(${args.join(', ')})', wrapperType);
+  return ('${wrapperClass.name}($tupleExpression)', wrapperType);
 }
 
 (String value, ReferredType type) maybeUnwrapValue(

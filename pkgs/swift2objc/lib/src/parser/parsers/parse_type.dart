@@ -129,12 +129,7 @@ typedef PrefixParselet =
   Json token,
   TokenList fragments,
 ) {
-  if (fragments.isNotEmpty && _tokenId(fragments[0]) == 'text: )') {
-    return (voidType, fragments.slice(1));
-  }
-
   var currentFragments = fragments;
-  var sawComma = false;
   final elements = <TupleElement>[];
 
   while (currentFragments.isNotEmpty &&
@@ -158,7 +153,6 @@ typedef PrefixParselet =
 
     if (currentFragments.isNotEmpty &&
         _tokenId(currentFragments[0]) == 'text: ,') {
-      sawComma = true;
       currentFragments = currentFragments.slice(1);
     }
   }
@@ -169,7 +163,12 @@ typedef PrefixParselet =
   } else {
     throw Exception('Expected closing parenthesis for tuple at ${token.path}');
   }
-  if (elements.length == 1 && !sawComma) {
+
+  if (elements.isEmpty) {
+    return (voidType, currentFragments);
+  }
+
+  if (elements.length == 1) {
     return (elements[0].type, currentFragments);
   }
 
