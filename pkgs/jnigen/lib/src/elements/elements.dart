@@ -20,9 +20,9 @@ enum GenerationStage {
   // `../generate_bindings.dart`.
   unprocessed,
   userVisitors,
-  excluder,
   kotlinProcessor,
   linker,
+  excluder,
   renamer,
   dartGenerator;
 

@@ -51,9 +51,9 @@ Future<void> generateJniBindings(Config config) async {
     return classes.accept(visitor);
   }
 
-  runStage(Excluder(config));
   runStage(KotlinProcessor());
   await runStage(Linker(config));
+  runStage(Excluder(config));
   runStage(Renamer(config));
   // classes.accept(const Printer());
 

@@ -73,10 +73,7 @@ class _ClassExcluder extends Visitor<ClassDecl, void> {
       // should not be exposed in the Dart API.
       final isSyntheticDefaultCtorMarker = method.isConstructor &&
           method.isSynthetic &&
-          method.params.any((param) =>
-              param.type is DeclaredType &&
-              (param.type as DeclaredType).binaryName ==
-                  'kotlin.jvm.internal.DefaultConstructorMarker');
+          method.params.any((param) => param.isKotlinSynthetic);
 
       final excluded = isPrivate ||
           isAbstractCtor ||
