@@ -276,7 +276,10 @@ class PubTask extends Task {
 /// Packages that have slow tests.
 ///
 /// https://github.com/dart-lang/native/issues/90#issuecomment-3879193057
-const slowTestPackages = ['pkgs/hooks_runner', 'pkgs/native_toolchain_c'];
+const slowTestPackages = [
+  'pkgs/hooks_runner',
+  'pkgs/native_toolchain_c',
+];
 
 /// Runs `dart analyze` to find static analysis issues.
 class AnalyzeTask extends Task {
@@ -350,8 +353,10 @@ class GenerateTask extends Task {
     final fix = argResults['fix'] as bool;
     await _runMaybeParallel([
       for (final generator in generators)
-        () =>
-            _runProcess('dart', [generator, if (!fix) '--set-exit-if-changed']),
+        () => _runProcess('dart', [
+          generator,
+          if (!fix) '--set-exit-if-changed',
+        ]),
     ], argResults);
   }
 }
