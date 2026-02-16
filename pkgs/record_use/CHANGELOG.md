@@ -1,6 +1,7 @@
 ## 0.5.0-wip
 
 - Completely overhauled the JSON format.
+- Completely overhauled the Dart API.
 
 ## 0.4.2
 

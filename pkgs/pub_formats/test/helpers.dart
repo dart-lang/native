@@ -19,7 +19,7 @@ Map<String, Object?> loadYamlAsJson(String relativePath) {
   final packageRoot = findPackageRoot('pub_formats');
   final pubspecFile = File.fromUri(packageRoot.resolve(relativePath));
   final json = convertYamlMapToJsonMap(
-    loadYaml(pubspecFile.readAsStringSync()),
+    loadYaml(pubspecFile.readAsStringSync()) as YamlMap,
   );
   return json;
 }

@@ -7,9 +7,9 @@ import 'package:record_use/record_use_internal.dart';
 import 'package:test/test.dart';
 
 void main() {
-  const identifier = Identifier(
-    importUri: 'package:test/test.dart',
-    name: 'MyClass',
+  const definition = Definition(
+    'package:test/test.dart',
+    [Name('MyClass')],
   );
 
   final metadata = Metadata(
@@ -19,9 +19,9 @@ void main() {
 
   final recordings = Recordings(
     metadata: metadata,
-    callsForDefinition: {},
-    instancesForDefinition: {
-      const Definition(identifier: identifier, loadingUnit: 'root'): [
+    calls: {},
+    instances: {
+      definition: [
         const InstanceCreationReference(
           positionalArguments: [IntConstant(1), IntConstant(2)],
           namedArguments: {'param': StringConstant('named_arg_value')},
@@ -33,7 +33,7 @@ void main() {
   );
 
   test('Deserialize creation and tearoff instances', () {
-    final instances = recordings.instances[identifier];
+    final instances = recordings.instances[definition];
     expect(instances, isNotNull);
     expect(instances, hasLength(2));
 
@@ -73,7 +73,7 @@ void main() {
     // But we can go via JSON.
     final usages = RecordedUsages.fromJson(recordings.toJson());
 
-    final constants = usages.constantsOf(identifier);
+    final constants = usages.constantsOf(definition);
     expect(constants, isEmpty);
   });
 }

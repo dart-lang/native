@@ -52,12 +52,12 @@ Future<Recordings> _loadRecordings(Uri file) async {
 Set<String> _extractUsedPhrases(Recordings recordings) {
   final usages = RecordedUsages.fromJson(recordings.toJson());
   final usedPhrases = <String>{};
-  const pirateSpeakId = Identifier(
-    importUri: 'package:pirate_speak/src/definitions.dart',
-    name: 'pirateSpeak',
+  const pirateSpeakDef = Definition(
+    'package:pirate_speak/src/definitions.dart',
+    [Name('pirateSpeak')],
   );
 
-  for (final call in usages.constArgumentsFor(pirateSpeakId)) {
+  for (final call in usages.constArgumentsFor(pirateSpeakDef)) {
     if (call.positional.isNotEmpty) {
       if (call.positional.first case StringConstant(:final value)) {
         usedPhrases.add(value);

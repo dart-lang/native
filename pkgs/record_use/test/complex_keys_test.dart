@@ -20,10 +20,8 @@ void main() {
     ]);
 
     const definition = Definition(
-      identifier: Identifier(
-        importUri: 'package:test/test.dart',
-        name: 'testMethod',
-      ),
+      'package:test/test.dart',
+      [Name('testMethod')],
     );
 
     final recordings = Recordings(
@@ -31,7 +29,7 @@ void main() {
         version: Version(1, 0, 0),
         comment: 'Test complex keys',
       ),
-      callsForDefinition: {
+      calls: {
         definition: [
           const CallWithArguments(
             positionalArguments: [mapConstant],
@@ -40,7 +38,7 @@ void main() {
           ),
         ],
       },
-      instancesForDefinition: {},
+      instances: {},
     );
 
     final json = recordings.toJson();
@@ -85,10 +83,8 @@ void main() {
     ]);
 
     const definition = Definition(
-      identifier: Identifier(
-        importUri: 'package:test/test.dart',
-        name: 'complexMethod',
-      ),
+      'package:test/test.dart',
+      [Name('complexMethod')],
     );
 
     final recordings = Recordings(
@@ -96,7 +92,7 @@ void main() {
         version: Version(1, 0, 0),
         comment: 'Test deeply nested complex keys',
       ),
-      callsForDefinition: {
+      calls: {
         definition: [
           const CallWithArguments(
             positionalArguments: [complexMap],
@@ -105,7 +101,7 @@ void main() {
           ),
         ],
       },
-      instancesForDefinition: {},
+      instances: {},
     );
 
     final json = recordings.toJson();

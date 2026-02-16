@@ -9,6 +9,7 @@ reachable Java/Kotlin classes, methods, and fields.
 
 ### 1. Which classes are possibly instantiated.
 
+<!-- no-source-file -->
 ```dart
 class PDDocument extends jni$_.JObject {
   PDDocument.fromReference(
@@ -36,6 +37,7 @@ generated classes will ever have const constructors.
 
 ### 2. Which methods, getters and setters are reachable.
 
+<!-- no-source-file -->
 ```dart
 class PDDocument extends jni$_.JObject {
   void addPage(
@@ -48,6 +50,7 @@ This requires tracking instance calls, or generating a static call inside the
 instance call. JNIgen already generates a static field (with a static getter)
 that could be annotated to record a static call:
 
+<!-- no-source-file -->
 ```dart
 class PDDocument extends jni$_.JObject {
   static final _addPage = jni$_.ProtectedJniExtensions.lookup<
@@ -82,13 +85,14 @@ the original Java/Kotlin unique name.
 Since JNIgen is already a code generator, this can be achieved by generating a
 file that maps Dart identifiers to Java identifiers:
 
+<!-- no-source-file -->
 ```dart
 const dartToJava = {
   DartMethodIdentifer(
     importUrl: 'package:foo/foo.dart',
     name: 'Bar',
     methodName: 'baz',
-  ) : JavaMethodIdentifier(
+  ) : JavaMethodDefinition(
     qualifiedImport: 'org.foo.foo',
     name: 'Bar',
     methodName: 'baz',

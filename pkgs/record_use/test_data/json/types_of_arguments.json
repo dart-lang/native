@@ -119,12 +119,20 @@
         }
       ],
       "definition": {
-        "identifier": {
-          "name": "someStaticMethod",
-          "scope": "SomeClass",
-          "uri": "types_of_arguments.dart"
-        },
-        "loading_unit": "1"
+        "path": [
+          {
+            "kind": "class",
+            "name": "SomeClass"
+          },
+          {
+            "disambiguators": [
+              "static"
+            ],
+            "kind": "method",
+            "name": "someStaticMethod"
+          }
+        ],
+        "uri": "package:record_use_test/types_of_arguments.dart"
       }
     }
   ]

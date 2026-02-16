@@ -25,11 +25,13 @@
         }
       ],
       "definition": {
-        "identifier": {
-          "name": "Ext|foo",
-          "uri": "named_with_function_arg.dart"
-        },
-        "loading_unit": "1"
+        "path": [
+          {
+            "kind": "method",
+            "name": "Ext|foo"
+          }
+        ],
+        "uri": "package:record_use_test/named_with_function_arg.dart"
       }
     }
   ]

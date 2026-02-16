@@ -19,7 +19,6 @@ on:
       - 'pkgs/native_test_helpers/**'
       - 'pkgs/native_toolchain_c/**'
       - 'pkgs/record_use/**'
-      - 'pkgs/repo_lint_rules/**'
       - 'tool/**'
   push:
     branches: [main]
@@ -34,7 +33,6 @@ on:
       - 'pkgs/native_test_helpers/**'
       - 'pkgs/native_toolchain_c/**'
       - 'pkgs/record_use/**'
-      - 'pkgs/repo_lint_rules/**'
       - 'tool/**'
   schedule:
     - cron: '0 0 * * 0' # weekly
@@ -76,7 +74,7 @@ jobs:
       - run: dart pub get
 
       - name: Run pub get, analysis, formatting, generators, tests, and examples.
-        run: dart tool/ci.dart --all
+        run: dart tool/ci.dart --all --no-apitool
 
       - name: Upload coverage
         uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e

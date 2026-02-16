@@ -15,7 +15,7 @@ void main() {
     expect(errors, isEmpty);
     expect(
       parsed.roots,
-      equals(["add_asset_link", "app_with_asset_treeshaking"]),
+      equals(['add_asset_link', 'app_with_asset_treeshaking']),
     );
     final somePackage = parsed.packages.firstWhere(
       (e) => e.name == 'code_assets',

@@ -54,6 +54,7 @@ class MethodDeclaration extends AstNode
   bool isStatic;
 
   bool mutating;
+  bool isOperator = false;
 
   String get fullName => [name, for (final p in params) p.name].join(':');
 
@@ -72,6 +73,7 @@ class MethodDeclaration extends AstNode
     this.throws = false,
     this.async = false,
     this.mutating = false,
+    this.isOperator = false,
   }) : assert(!isStatic || !isOverriding);
 
   @override

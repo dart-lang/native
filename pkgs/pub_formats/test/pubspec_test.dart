@@ -95,7 +95,8 @@ void main() {
     expect(
       syntaxError1.validate(),
       equals([
-        "Unexpected value 'not a map' (String) for 'executables'. Expected a Map<String, Object?>?.",
+        "Unexpected value 'not a map' (String) for 'executables'. "
+            'Expected a Map<String, Object?>?.',
       ]),
     );
     expect(() => syntaxError1.executables, throwsFormatException);

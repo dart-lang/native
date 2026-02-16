@@ -237,21 +237,23 @@
         }
       ]
     },
-    "Identifier": {
+    "Definition": {
       "type": "object",
       "properties": {
-        "name": {
-          "type": "string"
-        },
-        "scope": {
-          "type": "string"
+        "path": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Name"
+          },
+          "minItems": 1
         },
         "uri": {
-          "type": "string"
+          "type": "string",
+          "pattern": "^package:"
         }
       },
       "required": [
-        "name",
+        "path",
         "uri"
       ]
     },
@@ -349,6 +351,56 @@
         "value"
       ]
     },
+    "Name": {
+      "type": "object",
+      "properties": {
+        "disambiguators": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "anyOf": [
+              {
+                "enum": [
+                  "instance",
+                  "static"
+                ]
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "kind": {
+          "type": "string",
+          "anyOf": [
+            {
+              "enum": [
+                "class",
+                "constructor",
+                "enum",
+                "extension",
+                "extension_type",
+                "getter",
+                "method",
+                "mixin",
+                "operator",
+                "setter"
+              ]
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
+      ]
+    },
     "RecordedUses": {
       "type": "object",
       "properties": {
@@ -394,18 +446,7 @@
           }
         },
         "definition": {
-          "type": "object",
-          "properties": {
-            "identifier": {
-              "$ref": "#/definitions/Identifier"
-            },
-            "loading_unit": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "identifier"
-          ]
+          "$ref": "#/definitions/Definition"
         },
         "instances": {
           "type": "array",

@@ -5,18 +5,13 @@
 import 'package:pub_semver/pub_semver.dart';
 import 'package:record_use/record_use_internal.dart';
 
-final callId = Identifier(
-  importUri: Uri.parse(
-    'file://lib/_internal/js_runtime/lib/js_helper.dart',
-  ).toString(),
-  scope: 'MyClass',
-  name: 'get:loadDeferredLibrary',
+const callId = Definition(
+  'package:js_runtime/js_helper.dart',
+  [Name('MyClass'), Name('get:loadDeferredLibrary')],
 );
-final instanceId = Identifier(
-  importUri: Uri.parse(
-    'file://lib/_internal/js_runtime/lib/js_helper.dart',
-  ).toString(),
-  name: 'MyAnnotation',
+const instanceId = Definition(
+  'package:js_runtime/js_helper.dart',
+  [Name('MyAnnotation')],
 );
 
 final recordedUses = Recordings(
@@ -26,8 +21,8 @@ final recordedUses = Recordings(
         'Recorded references at compile time and their argument values, as'
         ' far as known, to definitions annotated with @RecordUse',
   ),
-  callsForDefinition: {
-    Definition(identifier: callId, loadingUnit: 'part_15.js'): [
+  calls: {
+    callId: [
       const CallWithArguments(
         positionalArguments: [
           StringConstant('lib_SHA1'),
@@ -64,8 +59,8 @@ final recordedUses = Recordings(
       ),
     ],
   },
-  instancesForDefinition: {
-    Definition(identifier: instanceId): [
+  instances: {
+    instanceId: [
       const InstanceConstantReference(
         instanceConstant: InstanceConstant(
           fields: {'a': IntConstant(42), 'b': NullConstant()},
@@ -87,8 +82,8 @@ final recordedUses2 = Recordings(
         'Recorded references at compile time and their argument values, as'
         ' far as known, to definitions annotated with @RecordUse',
   ),
-  callsForDefinition: {
-    Definition(identifier: callId, loadingUnit: 'part_15.js'): [
+  calls: {
+    callId: [
       const CallWithArguments(
         positionalArguments: [BoolConstant(false), IntConstant(1)],
         namedArguments: {
@@ -99,7 +94,7 @@ final recordedUses2 = Recordings(
       ),
     ],
   },
-  instancesForDefinition: {},
+  instances: {},
 );
 
 const recordedUsesJson = '''{
@@ -198,12 +193,15 @@ const recordedUsesJson = '''{
   "recordings": [
     {
       "definition": {
-        "identifier": {
-          "uri": "file://lib/_internal/js_runtime/lib/js_helper.dart",
-          "scope": "MyClass",
-          "name": "get:loadDeferredLibrary"
-        },
-        "loading_unit": "part_15.js"
+        "uri": "package:js_runtime/js_helper.dart",
+        "path": [
+          {
+            "name": "MyClass"
+          },
+          {
+            "name": "get:loadDeferredLibrary"
+          }
+        ]
       },
       "calls": [
         {
@@ -236,10 +234,12 @@ const recordedUsesJson = '''{
     },
     {
       "definition": {
-        "identifier": {
-          "uri": "file://lib/_internal/js_runtime/lib/js_helper.dart",
-          "name": "MyAnnotation"
-        }
+        "uri": "package:js_runtime/js_helper.dart",
+        "path": [
+          {
+            "name": "MyAnnotation"
+          }
+        ]
       },
       "instances": [
         {
@@ -283,12 +283,15 @@ const recordedUsesJson2 = '''{
   "recordings": [
     {
       "definition": {
-        "identifier": {
-          "uri": "file://lib/_internal/js_runtime/lib/js_helper.dart",
-          "scope": "MyClass",
-          "name": "get:loadDeferredLibrary"
-        },
-        "loading_unit": "part_15.js"
+        "uri": "package:js_runtime/js_helper.dart",
+        "path": [
+          {
+            "name": "MyClass"
+          },
+          {
+            "name": "get:loadDeferredLibrary"
+          }
+        ]
       },
       "calls": [
         {

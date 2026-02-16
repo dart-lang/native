@@ -33,11 +33,9 @@ void main(List<String> arguments) async {
     // Tree-shake unused assets using calls
     for (final methodName in ['add', 'multiply']) {
       final calls = usages.constArgumentsFor(
-        Identifier(
-          importUri:
-              'package:drop_dylib_recording/src/drop_dylib_recording.dart',
-          scope: 'MyMath',
-          name: methodName,
+        Definition(
+          'package:drop_dylib_recording/src/drop_dylib_recording.dart',
+          [const Name('MyMath'), Name(methodName)],
         ),
       );
       for (final call in calls) {
@@ -58,10 +56,9 @@ void main(List<String> arguments) async {
     // Tree-shake unused assets using instances
     for (final className in ['Double', 'Square']) {
       final instances = usages.constantsOf(
-        Identifier(
-          importUri:
-              'package:drop_dylib_recording/src/drop_dylib_recording.dart',
-          name: className,
+        Definition(
+          'package:drop_dylib_recording/src/drop_dylib_recording.dart',
+          [Name(className)],
         ),
       );
       for (final instance in instances) {

@@ -8,28 +8,20 @@ import 'package:test/test.dart';
 
 void main() {
   const definition1 = Definition(
-    identifier: Identifier(importUri: 'package:a/a.dart', name: 'definition1'),
-    loadingUnit: '1',
+    'package:a/a.dart',
+    [Name('definition1')],
   );
   const definition2 = Definition(
-    identifier: Identifier(importUri: 'package:a/a.dart', name: 'definition2'),
-    loadingUnit: '1',
+    'package:a/a.dart',
+    [Name('definition2')],
   );
-  const definition1differentUri = Definition(
-    identifier: Identifier(importUri: 'package:a/b.dart', name: 'definition1'),
-    loadingUnit: '1',
-  );
-  const definition1differentLoadingUnit = Definition(
-    identifier: Identifier(importUri: 'package:a/a.dart', name: 'definition1'),
-    loadingUnit: '2',
+  const definition1differentLibrary = Definition(
+    'package:a/b.dart',
+    [Name('definition1')],
   );
   const definition3 = Definition(
-    identifier: Identifier(
-      importUri: 'package:a/a.dart',
-      scope: 'SomeClass',
-      name: 'definition1',
-    ),
-    loadingUnit: '1',
+    'package:a/a.dart',
+    [Name('SomeClass'), Name('definition1')],
   );
   const callDefintion1Static = CallWithArguments(
     positionalArguments: [],
@@ -49,9 +41,9 @@ void main() {
   const callDefinition1Tearoff = CallTearoff(
     loadingUnit: null,
   );
-  const definition1differentUri2 = Definition(
-    identifier: Identifier(importUri: 'memory:a/a.dart', name: 'definition1'),
-    loadingUnit: '1',
+  const definition1differentLibrary2 = Definition(
+    'memory:a/a.dart',
+    [Name('definition1')],
   );
   const callDefintion1StaticDifferentUri = CallWithArguments(
     positionalArguments: [],
@@ -66,23 +58,11 @@ void main() {
   test('Definition semantic equality', () {
     expect(definition1.semanticEquals(definition1), isTrue);
     expect(definition1.semanticEquals(definition2), isFalse);
-    expect(definition1.semanticEquals(definition1differentUri), isFalse);
+    expect(definition1.semanticEquals(definition1differentLibrary), isFalse);
     expect(
       definition1.semanticEquals(
-        definition1differentUri,
+        definition1differentLibrary,
         uriMapping: (uri) => uri.replaceFirst('a.dart', 'b.dart'),
-      ),
-      isTrue,
-    );
-    expect(
-      definition1.semanticEquals(definition1differentLoadingUnit),
-      isFalse,
-    );
-    expect(
-      definition1.semanticEquals(
-        definition1differentLoadingUnit,
-        loadingUnitMapping: (String unit) =>
-            const <String, String>{'1': '2'}[unit] ?? unit,
       ),
       isTrue,
     );
@@ -92,26 +72,26 @@ void main() {
   test('Strict equality', () {
     final recordings1 = Recordings(
       metadata: metadata,
-      callsForDefinition: {
+      calls: {
         definition1: [callDefintion1Static, callDefintion1Static2],
         definition2: [callDefinition2Static],
       },
-      instancesForDefinition: const {},
+      instances: const {},
     );
     final recordings2 = Recordings(
       metadata: metadata,
-      callsForDefinition: {
+      calls: {
         definition2: [callDefinition2Static],
         definition1: [callDefintion1Static2, callDefintion1Static],
       },
-      instancesForDefinition: const {},
+      instances: const {},
     );
     final recordings3 = Recordings(
       metadata: metadata,
-      callsForDefinition: {
+      calls: {
         definition1: [callDefintion1Static],
       },
-      instancesForDefinition: const {},
+      instances: const {},
     );
     // Identical.
     expect(recordings1.semanticEquals(recordings1), isTrue);
@@ -124,18 +104,18 @@ void main() {
   test('otherIsSubset', () {
     final recordings1 = Recordings(
       metadata: metadata,
-      callsForDefinition: {
+      calls: {
         definition1: [callDefintion1Static],
         definition2: [callDefinition2Static],
       },
-      instancesForDefinition: const {},
+      instances: const {},
     );
     final recordings2 = Recordings(
       metadata: metadata,
-      callsForDefinition: {
+      calls: {
         definition1: [callDefintion1Static],
       },
-      instancesForDefinition: const {},
+      instances: const {},
     );
     expect(
       recordings1.semanticEquals(recordings2, expectedIsSubset: true),
@@ -155,18 +135,18 @@ void main() {
   test('allowDeadCodeElimination', () {
     final recordings1 = Recordings(
       metadata: metadata,
-      callsForDefinition: {
+      calls: {
         definition1: [callDefintion1Static],
       },
-      instancesForDefinition: const {},
+      instances: const {},
     );
     final recordings2 = Recordings(
       metadata: metadata,
-      callsForDefinition: {
+      calls: {
         definition1: [callDefintion1Static],
         definition2: [callDefinition2Static],
       },
-      instancesForDefinition: const {},
+      instances: const {},
     );
     expect(
       recordings1.semanticEquals(
@@ -195,17 +175,17 @@ void main() {
   test('allowTearoffToStaticPromotion', () {
     final recordings1 = Recordings(
       metadata: metadata,
-      callsForDefinition: {
+      calls: {
         definition1: [callDefintion1Static],
       },
-      instancesForDefinition: const {},
+      instances: const {},
     );
     final recordings2 = Recordings(
       metadata: metadata,
-      callsForDefinition: {
+      calls: {
         definition1: [callDefinition1Tearoff],
       },
-      instancesForDefinition: const {},
+      instances: const {},
     );
     expect(
       recordings1.semanticEquals(
@@ -234,21 +214,21 @@ void main() {
   test('allowUriMismatch', () {
     final recordings1 = Recordings(
       metadata: metadata,
-      callsForDefinition: {
+      calls: {
         definition1: [
           callDefintion1Static,
         ],
       },
-      instancesForDefinition: const {},
+      instances: const {},
     );
     final recordings2 = Recordings(
       metadata: metadata,
-      callsForDefinition: {
-        definition1differentUri2: [
+      calls: {
+        definition1differentLibrary2: [
           callDefintion1StaticDifferentUri,
         ],
       },
-      instancesForDefinition: const {},
+      instances: const {},
     );
     expect(
       recordings1.semanticEquals(
@@ -266,7 +246,7 @@ void main() {
   test('CallWithArguments positional arguments different length', () {
     final recordings1 = Recordings(
       metadata: metadata,
-      callsForDefinition: {
+      calls: {
         definition1: [
           const CallWithArguments(
             positionalArguments: [IntConstant(1)],
@@ -275,11 +255,11 @@ void main() {
           ),
         ],
       },
-      instancesForDefinition: const {},
+      instances: const {},
     );
     final recordings2 = Recordings(
       metadata: metadata,
-      callsForDefinition: {
+      calls: {
         definition1: [
           const CallWithArguments(
             positionalArguments: [IntConstant(1), IntConstant(2)],
@@ -288,7 +268,7 @@ void main() {
           ),
         ],
       },
-      instancesForDefinition: const {},
+      instances: const {},
     );
     expect(
       recordings1.semanticEquals(recordings2),

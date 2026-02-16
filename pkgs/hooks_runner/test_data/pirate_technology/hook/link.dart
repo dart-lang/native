@@ -49,12 +49,12 @@ Future<Recordings> _loadRecordings(Uri file) async {
 
 Set<String> _extractUsedTechnologies(Recordings recordings) {
   final usedTechnologies = <String>{};
-  for (final def in recordings.callsForDefinition.keys) {
-    if (def.identifier.importUri ==
+  for (final definition in recordings.calls.keys) {
+    if (definition.library ==
         'package:pirate_technology/src/definitions.dart') {
       // Map function name to tech key (simple capitalization)
       // e.g. useCannon -> Cannon
-      final name = def.identifier.name;
+      final name = definition.path.last.name;
       if (name.startsWith('use')) {
         usedTechnologies.add(name.substring(3));
       }

@@ -16,12 +16,9 @@ void main() {
             jsonDecode(recordedUsesJson) as Map<String, Object?>,
           )
           .constArgumentsFor(
-            Identifier(
-              importUri: Uri.parse(
-                'file://lib/_internal/js_runtime/lib/js_helper.dart',
-              ).toString(),
-              scope: 'MyClass',
-              name: 'get:loadDeferredLibrary',
+            const Definition(
+              'package:js_runtime/js_helper.dart',
+              [Name('MyClass'), Name('get:loadDeferredLibrary')],
             ),
           )
           .length,
@@ -35,11 +32,9 @@ void main() {
               jsonDecode(recordedUsesJson) as Map<String, Object?>,
             )
             .constantsOf(
-              Identifier(
-                importUri: Uri.parse(
-                  'file://lib/_internal/js_runtime/lib/js_helper.dart',
-                ).toString(),
-                name: 'MyAnnotation',
+              const Definition(
+                'package:js_runtime/js_helper.dart',
+                [Name('MyAnnotation')],
               ),
             )
             .first;
@@ -58,12 +53,9 @@ void main() {
               jsonDecode(recordedUsesJson) as Map<String, Object?>,
             )
             .constArgumentsFor(
-              Identifier(
-                importUri: Uri.parse(
-                  'file://lib/_internal/js_runtime/lib/js_helper.dart',
-                ).toString(),
-                scope: 'MyClass',
-                name: 'get:loadDeferredLibrary',
+              const Definition(
+                'package:js_runtime/js_helper.dart',
+                [Name('MyClass'), Name('get:loadDeferredLibrary')],
               ),
             )
             .toList();
@@ -95,11 +87,9 @@ void main() {
               jsonDecode(recordedUsesJson) as Map<String, Object?>,
             )
             .constantsOf(
-              Identifier(
-                importUri: Uri.parse(
-                  'file://lib/_internal/js_runtime/lib/js_helper.dart',
-                ).toString(),
-                name: 'MyAnnotation',
+              const Definition(
+                'package:js_runtime/js_helper.dart',
+                [Name('MyAnnotation')],
               ),
             )
             .first;
@@ -112,10 +102,9 @@ void main() {
       RecordedUsages.fromJson(
         jsonDecode(recordedUsesJson2) as Map<String, Object?>,
       ).hasNonConstArguments(
-        const Identifier(
-          importUri:
-              'package:drop_dylib_recording/src/drop_dylib_recording.dart',
-          name: 'getMathMethod',
+        const Definition(
+          'package:drop_dylib_recording/src/drop_dylib_recording.dart',
+          [Name('getMathMethod')],
         ),
       ),
       false,
