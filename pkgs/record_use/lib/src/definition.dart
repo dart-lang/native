@@ -30,30 +30,40 @@ class Definition {
   const Definition(this.library, this.path);
 
   /// Creates a [Definition] object from its syntax representation.
-  static Definition _fromSyntax(DefinitionSyntax syntax) {
-    final path = <Name>[];
-    if (syntax.scope != null) {
-      path.add(Name(syntax.scope!));
-    }
-    path.add(Name(syntax.name));
-    return Definition(syntax.uri, path);
-  }
+  static Definition _fromSyntax(DefinitionSyntax syntax) => Definition(
+    syntax.uri,
+    syntax.definitionPath
+        .map(
+          (nameSyntax) => Name(
+            nameSyntax.name,
+            kind: nameSyntax.kind != null
+                ? DefinitionKind._fromName(nameSyntax.kind!)
+                : null,
+            disambiguators:
+                nameSyntax.disambiguators
+                    ?.map(DefinitionDisambiguator._fromName)
+                    .toSet() ??
+                {},
+          ),
+        )
+        .toList(),
+  );
 
   /// Converts this [Definition] object to a syntax representation.
-  DefinitionSyntax _toSyntax() {
-    if (path.length > 2) {
-      throw StateError(
-        'DefinitionSyntax only supports up to two levels of nesting. '
-        'Found ${path.length} levels: $path',
-      );
-    }
-    String? scope;
-    if (path.length > 1) {
-      scope = path.first.name;
-    }
-    final name = path.last.name;
-    return DefinitionSyntax(uri: library, scope: scope, name: name);
-  }
+  DefinitionSyntax _toSyntax() => DefinitionSyntax(
+    uri: library,
+    definitionPath: path
+        .map(
+          (name) => NameSyntax(
+            name: name.name,
+            kind: name.kind?.toString(),
+            disambiguators: name.disambiguators.isEmpty
+                ? null
+                : name.disambiguators.map((d) => d.toString()).toList(),
+          ),
+        )
+        .toList(),
+  );
 
   /// The parent, if it exists.
   Definition? get parent => path.length > 1
@@ -163,6 +173,10 @@ class Name {
 }
 
 /// The kind of code element represented by a [Name].
+///
+/// This is not an enum because adding new elements to an enum is a breaking
+/// change for switch statements. By using a class with static const instances,
+/// we can add new kinds without breaking existing code.
 final class DefinitionKind {
   final String _name;
   const DefinitionKind._(this._name);
@@ -178,12 +192,41 @@ final class DefinitionKind {
   static const operatorKind = DefinitionKind._('operator');
   static const constructorKind = DefinitionKind._('constructor');
 
+  static const _knownValues = [
+    classKind,
+    mixinKind,
+    enumKind,
+    extensionKind,
+    extensionTypeKind,
+    methodKind,
+    getterKind,
+    setterKind,
+    operatorKind,
+    constructorKind,
+  ];
+
+  static DefinitionKind _fromName(String name) => _knownValues.firstWhere(
+    (v) => v._name == name,
+    orElse: () => DefinitionKind._(name),
+  );
+
+  @override
+  bool operator ==(Object other) =>
+      other is DefinitionKind && other._name == _name;
+
+  @override
+  int get hashCode => _name.hashCode;
+
   @override
   String toString() => _name;
 }
 
 /// Extra metadata to disambiguate between elements that might have the same
 /// name and kind.
+///
+/// This is not an enum because adding new elements to an enum is a breaking
+/// change for switch statements. By using a class with static const instances,
+/// we can add new kinds without breaking existing code.
 final class DefinitionDisambiguator {
   final String _name;
   const DefinitionDisambiguator._(this._name);
@@ -200,6 +243,24 @@ final class DefinitionDisambiguator {
   /// Only applies to [DefinitionKind.methodKind], [DefinitionKind.getterKind],
   /// [DefinitionKind.setterKind], and [DefinitionKind.operatorKind].
   static const instanceDisambiguator = DefinitionDisambiguator._('instance');
+
+  static const _knownValues = [
+    staticDisambiguator,
+    instanceDisambiguator,
+  ];
+
+  static DefinitionDisambiguator _fromName(String name) =>
+      _knownValues.firstWhere(
+        (v) => v._name == name,
+        orElse: () => DefinitionDisambiguator._(name),
+      );
+
+  @override
+  bool operator ==(Object other) =>
+      other is DefinitionDisambiguator && other._name == _name;
+
+  @override
+  int get hashCode => _name.hashCode;
 
   @override
   String toString() => _name;

@@ -192,10 +192,16 @@ const recordedUsesJson = '''{
   ],
   "recordings": [
     {
-      "identifier": {
+      "definition": {
         "uri": "package:js_runtime/js_helper.dart",
-        "scope": "MyClass",
-        "name": "get:loadDeferredLibrary"
+        "path": [
+          {
+            "name": "MyClass"
+          },
+          {
+            "name": "get:loadDeferredLibrary"
+          }
+        ]
       },
       "calls": [
         {
@@ -227,9 +233,13 @@ const recordedUsesJson = '''{
       ]
     },
     {
-      "identifier": {
+      "definition": {
         "uri": "package:js_runtime/js_helper.dart",
-        "name": "MyAnnotation"
+        "path": [
+          {
+            "name": "MyAnnotation"
+          }
+        ]
       },
       "instances": [
         {
@@ -272,10 +282,16 @@ const recordedUsesJson2 = '''{
   ],
   "recordings": [
     {
-      "identifier": {
+      "definition": {
         "uri": "package:js_runtime/js_helper.dart",
-        "scope": "MyClass",
-        "name": "get:loadDeferredLibrary"
+        "path": [
+          {
+            "name": "MyClass"
+          },
+          {
+            "name": "get:loadDeferredLibrary"
+          }
+        ]
       },
       "calls": [
         {

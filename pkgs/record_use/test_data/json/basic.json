@@ -21,9 +21,20 @@
           "type": "with_arguments"
         }
       ],
-      "identifier": {
-        "name": "someStaticMethod2",
-        "scope": "SomeClass",
+      "definition": {
+        "path": [
+          {
+            "kind": "class",
+            "name": "SomeClass"
+          },
+          {
+            "disambiguators": [
+              "static"
+            ],
+            "kind": "method",
+            "name": "someStaticMethod2"
+          }
+        ],
         "uri": "package:record_use_test/basic.dart"
       }
     }
