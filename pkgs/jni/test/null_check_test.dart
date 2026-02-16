@@ -112,10 +112,10 @@ void run({required TestRunnerCallback testRunner}) {
     );
 
     final isSame1 = Jni.env.IsSameObject(random.reference.pointer, nullptr);
-    expect(isSame1, equals(0)); // false
+    expect(isSame1, isFalse); // false
 
     final isSame2 = Jni.env.IsSameObject(nullptr, nullptr);
-    expect(isSame2, equals(1)); // true
+    expect(isSame2, isTrue); // true
 
     random.release();
   });
