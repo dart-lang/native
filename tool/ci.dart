@@ -61,8 +61,7 @@ ArgParser makeArgParser() {
     ..addFlag(
       'fix',
       negatable: false,
-      help:
-          'Apply auto-fixes (e.g., dart fix, dart format) instead of just '
+      help: 'Apply auto-fixes (e.g., dart fix, dart format) instead of just '
           'checking.',
     );
   for (final task in tasks) {
@@ -230,12 +229,12 @@ class WorkspaceTask extends Task {
 /// This is a prerequisite for most other tasks.
 class PubTask extends Task {
   const PubTask()
-    : super(
-        name: 'pub',
-        helpMessage:
-            'Run `dart pub get` on the root and non-workspace packages.\n'
-            'Run `dart pub global activate coverage` and `dart_apitool`.',
-      );
+      : super(
+          name: 'pub',
+          helpMessage:
+              'Run `dart pub get` on the root and non-workspace packages.\n'
+              'Run `dart pub global activate coverage` and `dart_apitool`.',
+        );
 
   @override
   Future<void> run({
@@ -341,9 +340,9 @@ class GenerateTask extends Task {
     await _runMaybeParallel([
       for (final generator in generators)
         () => _runProcess('dart', [
-          generator,
-          if (!fix) '--set-exit-if-changed',
-        ]),
+              generator,
+              if (!fix) '--set-exit-if-changed',
+            ]),
     ], argResults);
   }
 }
@@ -412,10 +411,10 @@ class ExampleTask extends Task {
     await _runMaybeParallel([
       for (final exampleWithTest in examplesWithTest)
         () => _runProcess(
-          workingDirectory: repositoryRoot.resolve(exampleWithTest),
-          'dart',
-          ['test'],
-        ),
+              workingDirectory: repositoryRoot.resolve(exampleWithTest),
+              'dart',
+              ['test'],
+            ),
     ], argResults);
 
     await _runProcess(
@@ -484,10 +483,10 @@ class CoverageTask extends Task {
 /// Checks for leaked symbols in the public API using `dart_apitool`.
 class ApiToolTask extends Task {
   const ApiToolTask()
-    : super(
-        name: 'apitool',
-        helpMessage: 'Run `dart_apitool` to check for leaked symbols.',
-      );
+      : super(
+          name: 'apitool',
+          helpMessage: 'Run `dart_apitool` to check for leaked symbols.',
+        );
 
   @override
   bool shouldRun(ArgResults argResults) {
