@@ -47,4 +47,41 @@ void main() {
       expect(result.exitCode, 0);
     });
   });
+
+  test('includeHookEnvironmentVariable allows Ccache variables', () {
+    expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('CCACHE_DIR'),
+      isTrue,
+    );
+    expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('CCACHE_DISABLE'),
+      isTrue,
+    );
+    expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('NOT_CCACHE'),
+      isFalse,
+    );
+  });
+
+  test('includeHookEnvironmentVariable allows standard variables', () {
+    expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('PATH'),
+      isTrue,
+    );
+    expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('HOME'),
+      isTrue,
+    );
+    expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('ANDROID_HOME'),
+      isTrue,
+    );
+  });
+
+  test('includeHookEnvironmentVariable allows NIX_ variables', () {
+    expect(
+      NativeAssetsBuildRunner.includeHookEnvironmentVariable('NIX_CC'),
+      isTrue,
+    );
+  });
 }

@@ -611,6 +611,7 @@ class NativeAssetsBuildRunner {
       ..._httpProxyEnvironmentVariables,
     };
     const variablePrefixesFilter = {
+      'CCACHE_', // Needed for Ccache.
       'NIX_', // Needed for Nix-installed toolchains.
     };
 

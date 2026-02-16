@@ -2,6 +2,7 @@
 
 - Filter `recorded_uses.json` passed to link hooks based on the
   package name of the definition.
+- Add `CCACHE_` to the environment variables allowlist.
 
 ## 1.0.2
 
