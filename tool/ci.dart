@@ -339,7 +339,7 @@ class CoverageTask extends Task {
     required ArgResults argResults,
   }) async {
     if (pubTask.shouldRun(argResults)) {
-      await _runProcess('dart', ['dart', 'pub', 'global', 'activate', 'coverage']);
+      await _runProcess('dart', ['pub', 'global', 'activate', 'coverage']);
     }
     // Don't rerun the tests here. Instead, rely on the TestTask producing
     // coverage information, and only format here.
