@@ -6,14 +6,6 @@
       "value": 42
     }
   ],
-  "locations": [
-    {
-      "uri": "loading_units_simple.dart"
-    },
-    {
-      "uri": "loading_units_simple_helper.dart"
-    }
-  ],
   "metadata": {
     "comment": "Recorded usages of objects tagged with a `RecordUse` annotation",
     "version": "0.4.0"
@@ -22,7 +14,6 @@
     {
       "calls": [
         {
-          "@": 0,
           "loading_unit": "1",
           "positional": [
             0
@@ -31,18 +22,25 @@
         }
       ],
       "definition": {
-        "identifier": {
-          "name": "someStaticMethod",
-          "scope": "SomeClass",
-          "uri": "loading_units_simple.dart"
-        },
-        "loading_unit": "1"
+        "path": [
+          {
+            "kind": "class",
+            "name": "SomeClass"
+          },
+          {
+            "disambiguators": [
+              "static"
+            ],
+            "kind": "method",
+            "name": "someStaticMethod"
+          }
+        ],
+        "uri": "package:record_use_test/loading_units_simple.dart"
       }
     },
     {
       "calls": [
         {
-          "@": 1,
           "loading_unit": "2",
           "positional": [
             0
@@ -51,12 +49,20 @@
         }
       ],
       "definition": {
-        "identifier": {
-          "name": "someStaticMethod",
-          "scope": "SomeClass",
-          "uri": "loading_units_simple_helper.dart"
-        },
-        "loading_unit": "2"
+        "path": [
+          {
+            "kind": "class",
+            "name": "SomeClass"
+          },
+          {
+            "disambiguators": [
+              "static"
+            ],
+            "kind": "method",
+            "name": "someStaticMethod"
+          }
+        ],
+        "uri": "package:record_use_test/loading_units_simple_helper.dart"
       }
     }
   ]

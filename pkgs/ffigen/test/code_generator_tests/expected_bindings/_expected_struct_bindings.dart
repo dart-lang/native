@@ -12,15 +12,10 @@ import 'dart:ffi' as ffi;
 /// heres another line
 final class NoMember extends ffi.Opaque {}
 
-final class WithPrimitiveMember extends ffi.Struct {
-  @ffi.Int32()
-  external int a;
+final class WithIntPtrUintPtr extends ffi.Struct {
+  external ffi.Pointer<ffi.UintPtr> a;
 
-  @ffi.Double()
-  external double b;
-
-  @ffi.Uint8()
-  external int c;
+  external ffi.Pointer<ffi.Pointer<ffi.IntPtr>> b;
 }
 
 final class WithPointerMember extends ffi.Struct {
@@ -32,8 +27,13 @@ final class WithPointerMember extends ffi.Struct {
   external int c;
 }
 
-final class WithIntPtrUintPtr extends ffi.Struct {
-  external ffi.Pointer<ffi.UintPtr> a;
+final class WithPrimitiveMember extends ffi.Struct {
+  @ffi.Int32()
+  external int a;
 
-  external ffi.Pointer<ffi.Pointer<ffi.IntPtr>> b;
+  @ffi.Double()
+  external double b;
+
+  @ffi.Uint8()
+  external int c;
 }

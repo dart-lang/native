@@ -25,11 +25,6 @@
       "value": 4
     }
   ],
-  "locations": [
-    {
-      "uri": "named_and_positional.dart"
-    }
-  ],
   "metadata": {
     "comment": "Recorded usages of objects tagged with a `RecordUse` annotation",
     "version": "0.4.0"
@@ -38,7 +33,6 @@
     {
       "calls": [
         {
-          "@": 0,
           "loading_unit": "1",
           "named": {
             "l": 1,
@@ -50,7 +44,6 @@
           "type": "with_arguments"
         },
         {
-          "@": 0,
           "loading_unit": "1",
           "named": {
             "k": 3,
@@ -62,7 +55,6 @@
           "type": "with_arguments"
         },
         {
-          "@": 0,
           "loading_unit": "1",
           "named": {
             "l": 4,
@@ -74,7 +66,6 @@
           "type": "with_arguments"
         },
         {
-          "@": 0,
           "loading_unit": "1",
           "named": {
             "l": 4,
@@ -87,12 +78,20 @@
         }
       ],
       "definition": {
-        "identifier": {
-          "name": "someStaticMethod",
-          "scope": "SomeClass",
-          "uri": "named_and_positional.dart"
-        },
-        "loading_unit": "1"
+        "path": [
+          {
+            "kind": "class",
+            "name": "SomeClass"
+          },
+          {
+            "disambiguators": [
+              "static"
+            ],
+            "kind": "method",
+            "name": "someStaticMethod"
+          }
+        ],
+        "uri": "package:record_use_test/named_and_positional.dart"
       }
     }
   ]

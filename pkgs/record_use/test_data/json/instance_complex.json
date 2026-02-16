@@ -10,18 +10,29 @@
       "value": "s"
     },
     {
+      "type": "string",
+      "value": "h"
+    },
+    {
       "type": "bool",
       "value": false
     },
     {
       "type": "map",
-      "value": {
-        "h": 2
-      }
+      "value": [
+        {
+          "key": 2,
+          "value": 3
+        }
+      ]
     },
     {
       "type": "bool",
       "value": true
+    },
+    {
+      "type": "string",
+      "value": "l"
     },
     {
       "type": "int",
@@ -29,14 +40,17 @@
     },
     {
       "type": "map",
-      "value": {
-        "l": 5
-      }
+      "value": [
+        {
+          "key": 6,
+          "value": 7
+        }
+      ]
     },
     {
       "type": "list",
       "value": [
-        6
+        8
       ]
     },
     {
@@ -47,16 +61,11 @@
       "value": {
         "i": 0,
         "s": 1,
-        "m": 3,
-        "b": 4,
-        "l": 7,
-        "n": 8
+        "m": 4,
+        "b": 5,
+        "l": 9,
+        "n": 10
       }
-    }
-  ],
-  "locations": [
-    {
-      "uri": "instance_complex.dart"
     }
   ],
   "metadata": {
@@ -66,17 +75,19 @@
   "recordings": [
     {
       "definition": {
-        "identifier": {
-          "name": "MyClass",
-          "uri": "instance_complex.dart"
-        },
-        "loading_unit": "1"
+        "path": [
+          {
+            "kind": "class",
+            "name": "MyClass"
+          }
+        ],
+        "uri": "package:record_use_test/instance_complex.dart"
       },
       "instances": [
         {
-          "@": 0,
-          "constant_index": 9,
-          "loading_unit": "1"
+          "constant_index": 11,
+          "loading_unit": "1",
+          "type": "constant"
         }
       ]
     }

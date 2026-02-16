@@ -42,6 +42,7 @@ const _objectDecl = BuiltInDeclaration(
   name: 'NSObject',
 );
 const _stringDecl = BuiltInDeclaration(id: 's:SS', name: 'String');
+const _selfDecl = BuiltInDeclaration(id: '', name: 'Self');
 
 final objectType = _objectDecl.asDeclaredType;
 final stringType = _stringDecl.asDeclaredType;
@@ -50,6 +51,7 @@ final floatType = _floatDecl.asDeclaredType;
 final doubleType = _doubleDecl.asDeclaredType;
 final boolType = _boolDecl.asDeclaredType;
 final voidType = _voidDecl.asDeclaredType;
+final selfType = _selfDecl.asDeclaredType;
 
 const builtInDeclarations = [
   _boolDecl,

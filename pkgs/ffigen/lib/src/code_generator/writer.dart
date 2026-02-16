@@ -250,10 +250,7 @@ class Writer {
 
   Map<String, String> _makeSymbolMapValue(Binding b) {
     final dartName = b is Typealias ? getTypedefDartAliasName(b) : null;
-    return {
-      strings.name: b.name,
-      if (dartName != null) strings.dartName: dartName,
-    };
+    return {strings.name: b.name, strings.dartName: ?dartName};
   }
 
   String? getTypedefDartAliasName(Type b) {

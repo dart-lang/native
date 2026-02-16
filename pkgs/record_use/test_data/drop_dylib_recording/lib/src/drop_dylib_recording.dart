@@ -14,17 +14,20 @@ class MyMath {
 
   @RecordUse()
   static int multiply(int a, int b) => bindings.multiply(a, b);
-
-  @RecordCallToC('add')
-  static int double(int a) => bindings.add(a, a);
-
-  @RecordCallToC('multiply')
-  static int square(int a) => bindings.multiply(a, a);
 }
 
 @RecordUse()
-class RecordCallToC {
-  final String symbol;
+class Double {
+  final int value;
+  const Double(this.value);
 
-  const RecordCallToC(this.symbol);
+  int run() => bindings.add(value, value);
+}
+
+@RecordUse()
+class Square {
+  final int value;
+  const Square(this.value);
+
+  int run() => bindings.multiply(value, value);
 }

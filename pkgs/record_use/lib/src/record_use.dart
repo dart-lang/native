@@ -7,7 +7,11 @@ import '../record_use_internal.dart';
 /// Holds all information recorded during compilation.
 ///
 /// This can be queried using the methods provided, which each take an
-/// [Identifier] which must be annotated with `@RecordUse` from `package:meta`.
+/// [Definition] which must be annotated with `@RecordUse` from `package:meta`.
+///
+/// The definition annotated with `@RecordUse` must be inside the `lib/`
+/// directory of the package. If the definition is a member of a class (e.g. a
+/// static method), the class must be in the `lib/` directory.
 extension type RecordedUsages._(Recordings _recordings) {
   RecordedUsages.fromJson(Map<String, Object?> json)
     : this._(Recordings.fromJson(json));
@@ -15,120 +19,108 @@ extension type RecordedUsages._(Recordings _recordings) {
   /// Show the metadata for this recording of usages.
   Metadata get metadata => _recordings.metadata;
 
-  /// Finds all const arguments for calls to the [identifier].
+  /// Finds all recorded arguments for calls to the [definition].
   ///
-  /// The definition must be annotated with `@RecordUse()`. If there are no
-  /// calls to the definition, either because it was treeshaken, because it was
-  /// not annotated, or because it does not exist, returns empty.
+  /// The definition must be annotated with `@RecordUse()`. The definition (and
+  /// its enclosing class, if any) must be in the `lib/` directory of the
+  /// package. If there are no calls to the definition, either because it was
+  /// treeshaken, because it was not annotated, or because it does not exist,
+  /// this method returns an empty iterable.
   ///
   /// Returns an empty iterable if the arguments were not collected.
   ///
   /// Example:
+  /// <!-- file://./../../example/api/usage.dart#static-call -->
   /// ```dart
-  /// import 'package:meta/meta.dart' show RecordUse;
-  /// void main() {
-  ///   print(SomeClass.someStaticMethod(42));
+  /// abstract class PirateTranslator {
+  ///   @RecordUse()
+  ///   static String speak(String english) => 'Ahoy $english';
   /// }
+  /// ```
   ///
-  /// class SomeClass {
-  ///   @RecordUse('id')
-  ///   static someStaticMethod(int i) {
-  ///     return i + 1;
+  /// To retrieve the recorded const arguments:
+  ///
+  /// <!-- file://./../../example/api/usage_link.dart#static-call -->
+  /// ```dart
+  /// final args = uses.constArgumentsFor(methodId);
+  /// for (final arg in args) {
+  ///   if (arg.positional[0] case StringConstant(value: final english)) {
+  ///     print('Translating to pirate: $english');
+  ///     // Shrink a translations file based on all the different translation
+  ///     // keys.
   ///   }
   /// }
   /// ```
-  ///
-  /// Would mean that
-  /// ```
-  /// constArgumentsFor(
-  ///           Identifier(
-  ///             importUri: 'path/to/file.dart',
-  ///             scope: 'SomeClass',
-  ///             name: 'someStaticMethod',
-  ///           ),
-  ///         ).first.positional[0] == 42
-  /// ```
-  Iterable<({Map<String, Object?> named, List<Object?> positional})>
-  constArgumentsFor(Identifier identifier) =>
-      _recordings.calls[identifier]?.whereType<CallWithArguments>().map(
+  // TODO(https://github.com/dart-lang/native/issues/2718): Make tearoffs more
+  // front and center.
+  Iterable<({Map<String, MaybeConstant> named, List<MaybeConstant> positional})>
+  constArgumentsFor(Definition definition) =>
+      _recordings.calls[definition]?.whereType<CallWithArguments>().map(
         (call) => (
-          named: call.namedArguments.map(
-            (name, argument) => MapEntry(name, argument?.toValue()),
-          ),
-          positional: call.positionalArguments
-              .map((argument) => argument?.toValue())
-              .toList(),
+          named: call.namedArguments,
+          positional: call.positionalArguments,
         ),
       ) ??
       [];
 
-  /// Finds all constant fields of a const instance of the class [identifier].
+  /// Finds all constant instances of the class [definition].
   ///
-  /// The definition must be annotated with `@RecordUse()`. If there are
-  /// no instances of the definition, either because it was treeshaken, because
-  /// it was not annotated, or because it does not exist, returns empty.
+  /// The definition must be annotated with `@RecordUse()`. The definition (and
+  /// its enclosing class, if any) must be in the `lib/` directory of the
+  /// package. If there are no instances of the definition, either because it
+  /// was treeshaken, because it was not annotated, or because it does not
+  /// exist, this method returns an empty iterable.
   ///
   /// Example:
+  /// <!-- file://./../../example/api/usage.dart#const-instance -->
   /// ```dart
-  /// void main() {
-  ///   print(SomeClass.someStaticMethod(42));
-  /// }
+  /// @RecordUse()
+  /// class PirateShip {
+  ///   final String name;
+  ///   final int cannons;
   ///
-  /// class SomeClass {
-  ///   @AnnotationClass('freddie')
-  ///   static someStaticMethod(int i) {
-  ///     return i + 1;
+  ///   const PirateShip(this.name, this.cannons);
+  /// }
+  /// ```
+  ///
+  /// To retrieve the constant instances:
+  ///
+  /// <!-- file://./../../example/api/usage_link.dart#const-instance -->
+  /// ```dart
+  /// final ships = uses.constantsOf(classId);
+  /// for (final ship in ships) {
+  ///   if (ship.fields['name'] case StringConstant(value: final name)) {
+  ///     print('Pirate ship found: $name');
+  ///     // Include the 3d model for this ship in the application but not
+  ///     // bundle the other ships.
   ///   }
   /// }
-  ///
-  /// @RecordUse()
-  /// class AnnotationClass {
-  ///   final String s;
-  ///   const AnnotationClass(this.s);
-  /// }
   /// ```
-  ///
-  /// Would mean that
-  /// ```
-  /// constantsOf(
-  ///       Identifier(
-  ///           importUri: 'path/to/file.dart',
-  ///           name: 'AnnotationClass'),
-  ///       ).first['s'] == 'freddie';
-  /// ```
-  ///
-  /// What kinds of fields can be recorded depends on the implementation of
-  /// https://dart-review.googlesource.com/c/sdk/+/369620/13/pkg/vm/lib/transformations/record_use/record_instance.dart
-  Iterable<ConstantInstance> constantsOf(Identifier identifier) =>
-      _recordings.instances[identifier]?.map(
-        (reference) => ConstantInstance(reference.instanceConstant.fields),
-      ) ??
+  // TODO(https://github.com/dart-lang/native/issues/2718): Make non-consts more
+  // front and center.
+  Iterable<InstanceConstant> constantsOf(Definition definition) =>
+      _recordings.instances[definition]
+          ?.whereType<InstanceConstantReference>()
+          .map((reference) => reference.instanceConstant) ??
       [];
 
-  /// Checks if any call to [identifier] has non-const arguments, or if any
+  /// Checks if any call to [definition] has non-const arguments, or if any
   /// tear-off was recorded.
   ///
-  /// The definition must be annotated with `@RecordUse()`. If there are no
-  /// calls to the definition, either because it was treeshaken, because it was
-  /// not annotated, or because it does not exist, returns `false`.
-  bool hasNonConstArguments(Identifier identifier) =>
-      (_recordings.calls[identifier] ?? []).any(
+  /// The definition must be annotated with `@RecordUse()`. The definition (and
+  /// its enclosing class, if any) must be in the `lib/` directory of the
+  /// package. If there are no calls to the definition, either because it was
+  /// treeshaken, because it was not annotated, or because it does not exist,
+  /// this method returns `false`.
+  // TODO(https://github.com/dart-lang/native/issues/2718): Make non-consts more
+  // front and center.
+  bool hasNonConstArguments(Definition definition) =>
+      (_recordings.calls[definition] ?? []).any(
         (element) => switch (element) {
-          CallTearOff() => true,
-          final CallWithArguments call => call.positionalArguments.any(
-            (argument) => argument == null,
-          ),
+          CallTearoff() => true,
+          final CallWithArguments call =>
+            call.positionalArguments.any((a) => a is NonConstant) ||
+                call.namedArguments.values.any((a) => a is NonConstant),
         },
       );
-}
-
-extension type ConstantInstance(Map<String, Constant> _fields) {
-  bool hasField(String key) => _fields.containsKey(key);
-
-  Object? operator [](String key) {
-    if (!hasField(key)) {
-      throw ArgumentError('No field with name $key found.');
-    }
-    return _fields[key]!.toValue();
-  }
 }

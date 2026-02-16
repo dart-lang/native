@@ -5,18 +5,13 @@
 import 'package:pub_semver/pub_semver.dart';
 import 'package:record_use/record_use_internal.dart';
 
-final callId = Identifier(
-  importUri: Uri.parse(
-    'file://lib/_internal/js_runtime/lib/js_helper.dart',
-  ).toString(),
-  scope: 'MyClass',
-  name: 'get:loadDeferredLibrary',
+const callId = Definition(
+  'package:js_runtime/js_helper.dart',
+  [Name('MyClass'), Name('get:loadDeferredLibrary')],
 );
-final instanceId = Identifier(
-  importUri: Uri.parse(
-    'file://lib/_internal/js_runtime/lib/js_helper.dart',
-  ).toString(),
-  name: 'MyAnnotation',
+const instanceId = Definition(
+  'package:js_runtime/js_helper.dart',
+  [Name('MyAnnotation')],
 );
 
 final recordedUses = Recordings(
@@ -26,8 +21,8 @@ final recordedUses = Recordings(
         'Recorded references at compile time and their argument values, as'
         ' far as known, to definitions annotated with @RecordUse',
   ),
-  callsForDefinition: {
-    Definition(identifier: callId, loadingUnit: 'part_15.js'): [
+  calls: {
+    callId: [
       const CallWithArguments(
         positionalArguments: [
           StringConstant('lib_SHA1'),
@@ -39,12 +34,13 @@ final recordedUses = Recordings(
           'leroy': StringConstant('jenkins'),
         },
         loadingUnit: 'o.js',
-        location: Location(uri: 'lib/test.dart', line: 12, column: 36),
       ),
       const CallWithArguments(
         positionalArguments: [
           StringConstant('lib_SHA1'),
-          MapConstant<IntConstant>({'key': IntConstant(99)}),
+          MapConstant([
+            MapEntry(StringConstant('key'), IntConstant(99)),
+          ]),
           ListConstant([
             StringConstant('camus'),
             ListConstant([
@@ -60,23 +56,20 @@ final recordedUses = Recordings(
           'leroy': StringConstant('jenkins'),
         },
         loadingUnit: 'o.js',
-        location: Location(uri: 'lib/test2.dart'),
       ),
     ],
   },
-  instancesForDefinition: {
-    Definition(identifier: instanceId): [
-      const InstanceReference(
+  instances: {
+    instanceId: [
+      const InstanceConstantReference(
         instanceConstant: InstanceConstant(
           fields: {'a': IntConstant(42), 'b': NullConstant()},
         ),
         loadingUnit: '3',
-        location: Location(uri: 'lib/test3.dart'),
       ),
-      const InstanceReference(
+      const InstanceConstantReference(
         instanceConstant: InstanceConstant(fields: {}),
         loadingUnit: '3',
-        location: Location(uri: 'lib/test3.dart'),
       ),
     ],
   },
@@ -89,8 +82,8 @@ final recordedUses2 = Recordings(
         'Recorded references at compile time and their argument values, as'
         ' far as known, to definitions annotated with @RecordUse',
   ),
-  callsForDefinition: {
-    Definition(identifier: callId, loadingUnit: 'part_15.js'): [
+  calls: {
+    callId: [
       const CallWithArguments(
         positionalArguments: [BoolConstant(false), IntConstant(1)],
         namedArguments: {
@@ -98,11 +91,10 @@ final recordedUses2 = Recordings(
           'answer': IntConstant(42),
         },
         loadingUnit: 'o.js',
-        location: Location(uri: 'lib/test3.dart'),
       ),
     ],
   },
-  instancesForDefinition: {},
+  instances: {},
 );
 
 const recordedUsesJson = '''{
@@ -132,14 +124,21 @@ const recordedUsesJson = '''{
       "value": "jenkins"
     },
     {
+      "type": "string",
+      "value": "key"
+    },
+    {
       "type": "int",
       "value": 99
     },
     {
       "type": "map",
-      "value": {
-        "key": 5
-      }
+      "value": [
+        {
+          "key": 5,
+          "value": 6
+        }
+      ]
     },
     {
       "type": "string",
@@ -156,17 +155,17 @@ const recordedUsesJson = '''{
     {
       "type": "list",
       "value": [
-        8,
         9,
+        10,
         1
       ]
     },
     {
       "type": "list",
       "value": [
-        7,
-        10,
-        8
+        8,
+        11,
+        9
       ]
     },
     {
@@ -183,36 +182,26 @@ const recordedUsesJson = '''{
     {
       "type": "instance",
       "value": {
-        "a": 13,
-        "b": 14
+        "a": 14,
+        "b": 15
       }
     },
     {
       "type": "instance"
     }
   ],
-  "locations": [
-    {
-      "uri": "lib/test.dart",
-      "line": 12,
-      "column": 36
-    },
-    {
-      "uri": "lib/test2.dart"
-    },
-    {
-      "uri": "lib/test3.dart"
-    }
-  ],
   "recordings": [
     {
       "definition": {
-        "identifier": {
-          "uri": "file://lib/_internal/js_runtime/lib/js_helper.dart",
-          "scope": "MyClass",
-          "name": "get:loadDeferredLibrary"
-        },
-        "loading_unit": "part_15.js"
+        "uri": "package:js_runtime/js_helper.dart",
+        "path": [
+          {
+            "name": "MyClass"
+          },
+          {
+            "name": "get:loadDeferredLibrary"
+          }
+        ]
       },
       "calls": [
         {
@@ -226,42 +215,42 @@ const recordedUsesJson = '''{
             "freddy": 3,
             "leroy": 4
           },
-          "loading_unit": "o.js",
-          "@": 0
+          "loading_unit": "o.js"
         },
         {
           "type": "with_arguments",
           "positional": [
             0,
-            6,
-            11
+            7,
+            12
           ],
           "named": {
-            "freddy": 12,
+            "freddy": 13,
             "leroy": 4
           },
-          "loading_unit": "o.js",
-          "@": 1
+          "loading_unit": "o.js"
         }
       ]
     },
     {
       "definition": {
-        "identifier": {
-          "uri": "file://lib/_internal/js_runtime/lib/js_helper.dart",
-          "name": "MyAnnotation"
-        }
+        "uri": "package:js_runtime/js_helper.dart",
+        "path": [
+          {
+            "name": "MyAnnotation"
+          }
+        ]
       },
       "instances": [
         {
-          "constant_index": 15,
-          "loading_unit": "3",
-          "@": 2
+          "type": "constant",
+          "constant_index": 16,
+          "loading_unit": "3"
         },
         {
-          "constant_index": 16,
-          "loading_unit": "3",
-          "@": 2
+          "type": "constant",
+          "constant_index": 17,
+          "loading_unit": "3"
         }
       ]
     }
@@ -291,20 +280,18 @@ const recordedUsesJson2 = '''{
       "value": 42
     }
   ],
-  "locations": [
-    {
-      "uri": "lib/test3.dart"
-    }
-  ],
   "recordings": [
     {
       "definition": {
-        "identifier": {
-          "uri": "file://lib/_internal/js_runtime/lib/js_helper.dart",
-          "scope": "MyClass",
-          "name": "get:loadDeferredLibrary"
-        },
-        "loading_unit": "part_15.js"
+        "uri": "package:js_runtime/js_helper.dart",
+        "path": [
+          {
+            "name": "MyClass"
+          },
+          {
+            "name": "get:loadDeferredLibrary"
+          }
+        ]
       },
       "calls": [
         {
@@ -317,8 +304,7 @@ const recordedUsesJson2 = '''{
             "freddy": 2,
             "answer": 3
           },
-          "loading_unit": "o.js",
-          "@": 0
+          "loading_unit": "o.js"
         }
       ]
     }

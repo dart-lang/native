@@ -1,4 +1,9 @@
-## 1.0.2-wip
+## 1.1.0-wip
+
+- Filter `recorded_uses.json` passed to link hooks based on the
+  package name of the definition.
+
+## 1.0.2
 
 - Pass `HTTP(S)_PROXY` and related environment variables to hooks.
 - Add `ANDROID_NDK`, `ANDROID_NDK_HOME`, `ANDROID_NDK_LATEST_HOME` and

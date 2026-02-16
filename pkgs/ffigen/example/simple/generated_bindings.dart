@@ -19,39 +19,6 @@ class NativeLibrary {
     ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
   ) : _lookup = lookup;
 
-  /// Adds 2 integers.
-  int sum(int a, int b) {
-    return _sum(a, b);
-  }
-
-  late final _sumPtr =
-      _lookup<ffi.NativeFunction<ffi.Int Function(ffi.Int, ffi.Int)>>('sum');
-  late final _sum = _sumPtr.asFunction<int Function(int, int)>();
-
-  /// Subtracts 2 integers.
-  int subtract(ffi.Pointer<ffi.Int> a, int b) {
-    return _subtract(a, b);
-  }
-
-  late final _subtractPtr =
-      _lookup<
-        ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Int>, ffi.Int)>
-      >('subtract');
-  late final _subtract = _subtractPtr
-      .asFunction<int Function(ffi.Pointer<ffi.Int>, int)>();
-
-  /// Multiplies 2 integers, returns pointer to an integer,.
-  ffi.Pointer<ffi.Int> multiply(int a, int b) {
-    return _multiply(a, b);
-  }
-
-  late final _multiplyPtr =
-      _lookup<
-        ffi.NativeFunction<ffi.Pointer<ffi.Int> Function(ffi.Int, ffi.Int)>
-      >('multiply');
-  late final _multiply = _multiplyPtr
-      .asFunction<ffi.Pointer<ffi.Int> Function(int, int)>();
-
   /// Divides 2 integers, returns pointer to a float.
   ffi.Pointer<ffi.Float> divide(int a, int b) {
     return _divide(a, b);
@@ -88,4 +55,37 @@ class NativeLibrary {
           ffi.Pointer<ffi.Float>,
         )
       >();
+
+  /// Multiplies 2 integers, returns pointer to an integer,.
+  ffi.Pointer<ffi.Int> multiply(int a, int b) {
+    return _multiply(a, b);
+  }
+
+  late final _multiplyPtr =
+      _lookup<
+        ffi.NativeFunction<ffi.Pointer<ffi.Int> Function(ffi.Int, ffi.Int)>
+      >('multiply');
+  late final _multiply = _multiplyPtr
+      .asFunction<ffi.Pointer<ffi.Int> Function(int, int)>();
+
+  /// Subtracts 2 integers.
+  int subtract(ffi.Pointer<ffi.Int> a, int b) {
+    return _subtract(a, b);
+  }
+
+  late final _subtractPtr =
+      _lookup<
+        ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Int>, ffi.Int)>
+      >('subtract');
+  late final _subtract = _subtractPtr
+      .asFunction<int Function(ffi.Pointer<ffi.Int>, int)>();
+
+  /// Adds 2 integers.
+  int sum(int a, int b) {
+    return _sum(a, b);
+  }
+
+  late final _sumPtr =
+      _lookup<ffi.NativeFunction<ffi.Int Function(ffi.Int, ffi.Int)>>('sum');
+  late final _sum = _sumPtr.asFunction<int Function(int, int)>();
 }

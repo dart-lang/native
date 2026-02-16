@@ -6,11 +6,6 @@
       "value": 42
     }
   ],
-  "locations": [
-    {
-      "uri": "partfile_main.dart"
-    }
-  ],
   "metadata": {
     "comment": "Recorded usages of objects tagged with a `RecordUse` annotation",
     "version": "0.4.0"
@@ -19,7 +14,6 @@
     {
       "calls": [
         {
-          "@": 0,
           "loading_unit": "1",
           "positional": [
             0
@@ -28,12 +22,20 @@
         }
       ],
       "definition": {
-        "identifier": {
-          "name": "someStaticMethod",
-          "scope": "SomeClass",
-          "uri": "partfile_main.dart"
-        },
-        "loading_unit": "1"
+        "path": [
+          {
+            "kind": "class",
+            "name": "SomeClass"
+          },
+          {
+            "disambiguators": [
+              "static"
+            ],
+            "kind": "method",
+            "name": "someStaticMethod"
+          }
+        ],
+        "uri": "package:record_use_test/partfile_main.dart"
       }
     }
   ]

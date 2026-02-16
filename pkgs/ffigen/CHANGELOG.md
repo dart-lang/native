@@ -19,6 +19,8 @@
   helpers were occasionally given unexpected names. Technically a breaking
   change because if you were affected by the bug, the block helper's name will
   change to something more sensible.
+- __Breaking change__: Deleted the config option `Output.sort`. Sorting is now
+  always enabled.
 
 ## 20.1.1
 

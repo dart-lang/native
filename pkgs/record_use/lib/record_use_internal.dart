@@ -10,16 +10,24 @@ export 'src/constant.dart'
         IntConstant,
         ListConstant,
         MapConstant,
+        MaybeConstant,
+        NonConstant,
         NullConstant,
-        PrimitiveConstant,
-        StringConstant;
-export 'src/definition.dart' show Definition;
-export 'src/identifier.dart' show Identifier;
-export 'src/location.dart' show Location;
+        StringConstant,
+        UnsupportedConstant;
+export 'src/definition.dart'
+    show Definition, DefinitionDisambiguator, DefinitionKind, Name;
 export 'src/metadata.dart' show Metadata;
 export 'src/record_use.dart' show RecordedUsages;
 export 'src/recordings.dart'
     show FlattenConstantsExtension, MapifyIterableExtension, Recordings;
 export 'src/reference.dart'
-    show CallReference, CallTearOff, CallWithArguments, InstanceReference;
+    show
+        CallReference,
+        CallTearoff,
+        CallWithArguments,
+        ConstructorTearoffReference,
+        InstanceConstantReference,
+        InstanceCreationReference,
+        InstanceReference;
 export 'src/version.dart' show version;

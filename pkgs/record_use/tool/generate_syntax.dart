@@ -17,7 +17,9 @@ void main(List<String> args) {
 
   final analyzedSchema = SchemaAnalyzer(
     schema,
-    nameOverrides: {'@': 'at'},
+    nameOverrides: {
+      'path': 'definitionPath',
+    },
   ).analyze();
   final textDumpFile = File.fromUri(
     Platform.script.resolve('../lib/src/syntax.g.txt'),

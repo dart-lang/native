@@ -33,34 +33,42 @@ void main(List<String> arguments) async {
     // Tree-shake unused assets using calls
     for (final methodName in ['add', 'multiply']) {
       final calls = usages.constArgumentsFor(
-        Identifier(
-          importUri:
-              'package:drop_dylib_recording/src/drop_dylib_recording.dart',
-          scope: 'MyMath',
-          name: methodName,
+        Definition(
+          'package:drop_dylib_recording/src/drop_dylib_recording.dart',
+          [const Name('MyMath'), Name(methodName)],
         ),
       );
       for (final call in calls) {
-        dataLines.add(
-          'A call was made to "$methodName" with the arguments ('
-          '${call.positional[0] as int},${call.positional[1] as int})',
-        );
+        if (call.positional case [
+          IntConstant(value: final v0),
+          IntConstant(value: final v1),
+        ]) {
+          dataLines.add(
+            'A call was made to "$methodName" with the arguments ($v0,$v1)',
+          );
+        }
         symbols.add(methodName);
       }
     }
 
     argumentsFile.writeAsStringSync(dataLines.join('\n'));
 
-    // Tree-shake unused assets
-    final instances = usages.constantsOf(
-      const Identifier(
-        importUri: 'package:drop_dylib_recording/src/drop_dylib_recording.dart',
-        name: 'RecordCallToC',
-      ),
-    );
-    for (final instance in instances) {
-      final symbol = instance['symbol'] as String;
-      symbols.add(symbol);
+    // Tree-shake unused assets using instances
+    for (final className in ['Double', 'Square']) {
+      final instances = usages.constantsOf(
+        Definition(
+          'package:drop_dylib_recording/src/drop_dylib_recording.dart',
+          [Name(className)],
+        ),
+      );
+      for (final instance in instances) {
+        print('An instance of "$className" was found: $instance');
+        if (className == 'Double') {
+          symbols.add('add');
+        } else if (className == 'Square') {
+          symbols.add('multiply');
+        }
+      }
     }
 
     final neededCodeAssets = [

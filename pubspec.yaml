@@ -2,7 +2,7 @@ name: dart_lang_native_workspace
 publish_to: none
 
 environment:
-  sdk: '>=3.9.0 <4.0.0'
+  sdk: '>=3.10.0 <4.0.0'
 
 workspace:
   - pkgs/code_assets
@@ -69,6 +69,9 @@ workspace:
   - pkgs/hooks_runner/test_data/no_hook
   - pkgs/hooks_runner/test_data/package_reading_metadata
   - pkgs/hooks_runner/test_data/package_with_metadata
+  - pkgs/hooks_runner/test_data/pirate_adventure
+  - pkgs/hooks_runner/test_data/pirate_speak
+  - pkgs/hooks_runner/test_data/pirate_technology
   - pkgs/hooks_runner/test_data/recursive_invocation
   - pkgs/hooks_runner/test_data/relative_path
   - pkgs/hooks_runner/test_data/reusable_dynamic_library
@@ -111,10 +114,15 @@ workspace:
   - pkgs/record_use/test_data/drop_dylib_recording
   - pkgs/record_use/test_data/library_uris
   - pkgs/record_use/test_data/library_uris_helper
-  - pkgs/repo_lint_rules
   # - pkgs/swift2objc  # TODO
   # - pkgs/swiftgen  # TODO
   # - pkgs/swiftgen/example  # TODO
+
+# Used in tool/
+dev_dependencies:
+  args: ^2.7.0
+  dart_flutter_team_lints: ^3.5.2
+  yaml: ^3.1.3
 
 # Hook user-defines are specified in the pub workspace.
 hooks:

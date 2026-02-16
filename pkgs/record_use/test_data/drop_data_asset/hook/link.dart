@@ -29,34 +29,39 @@ void main(List<String> arguments) async {
     // Tree-shake unused assets using calls
     for (final methodName in ['add', 'multiply']) {
       final calls = usages.constArgumentsFor(
-        Identifier(
-          importUri:
-              'package:${input.packageName}/src/${input.packageName}.dart',
-          scope: 'MyMath',
-          name: methodName,
+        Definition(
+          'package:${input.packageName}/src/${input.packageName}.dart',
+          [const Name('MyMath'), Name(methodName)],
         ),
       );
       print('Checking calls to $methodName...');
       for (final call in calls) {
-        print(
-          'A call was made to "$methodName" with the arguments ('
-          '${call.positional[0] as int},${call.positional[1] as int})',
-        );
+        if (call.positional case [
+          IntConstant(value: final v0),
+          IntConstant(value: final v1),
+        ]) {
+          print(
+            'A call was made to "$methodName" with the arguments ($v0,$v1)',
+          );
+        }
         symbols.add(methodName);
       }
     }
 
-    // Tree-shake unused assets
-    final instances = usages.constantsOf(
-      Identifier(
-        importUri: 'package:${input.packageName}/src/${input.packageName}.dart',
-        name: 'RecordCallToC',
-      ),
-    );
-    for (final instance in instances) {
-      final symbol = instance['symbol'] as String;
-      print('An instance of "$instance" was found with the field "$symbol"');
-      symbols.add(symbol);
+    // Tree-shake unused assets using instances
+    for (final className in ['Double', 'Square']) {
+      final instances = usages.constantsOf(
+        Definition(
+          'package:${input.packageName}/src/${input.packageName}.dart',
+          [Name(className)],
+        ),
+      );
+      print('Checking instances of $className...');
+      for (final instance in instances) {
+        print('An instance of "$className" was found: $instance');
+        // Map class name to asset symbol (lowercase)
+        symbols.add(className.toLowerCase());
+      }
     }
 
     final neededCodeAssets = [

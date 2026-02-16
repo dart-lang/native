@@ -50,8 +50,6 @@ typedef BAlias = B;
 
 final class C extends ffi.Opaque {}
 
-final class NoDefinitionStructInD extends ffi.Opaque {}
-
 final class D extends ffi.Struct {
   @ffi.Int()
   external int a;
@@ -74,6 +72,8 @@ final class E extends ffi.Struct {
   @ffi.Array.multi([10])
   external ffi.Array<DArray> dArray;
 }
+
+final class NoDefinitionStructInD extends ffi.Opaque {}
 
 final class UA extends ffi.Opaque {}
 

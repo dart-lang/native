@@ -40,11 +40,13 @@ MethodDeclaration parseMethodDeclaration(
   ParsedSymbol symbol,
   ParsedSymbolgraph symbolgraph, {
   bool isStatic = false,
+  bool isOperator = false,
 }) {
   final info = parseFunctionInfo(
     context,
     symbol.json['declarationFragments'],
     symbolgraph,
+    isOperator: isOperator,
   );
   return MethodDeclaration(
     id: parseSymbolId(symbol.json),
@@ -58,6 +60,7 @@ MethodDeclaration parseMethodDeclaration(
     throws: info.throws,
     async: info.async,
     mutating: info.mutating,
+    isOperator: isOperator,
   );
 }
 
@@ -73,6 +76,7 @@ ParsedFunctionInfo parseFunctionInfo(
   Json declarationFragments,
   ParsedSymbolgraph symbolgraph, {
   bool isEnumCase = false,
+  bool isOperator = false,
 }) {
   // `declarationFragments` describes each part of the function declaration,
   // things like the `func` keyword, brackets, spaces, etc.
@@ -111,6 +115,15 @@ ParsedFunctionInfo parseFunctionInfo(
     final keyword = maybeConsume('keyword');
     if (keyword != null) {
       if (keyword == 'func' || keyword == 'init' || keyword == 'case') {
+        if (keyword == 'func' && isOperator) {
+          final ws1 = maybeConsume('text');
+          final op = maybeConsume('identifier');
+          final ws2 = maybeConsume('text');
+
+          if (ws1 == null || op == null || ws2 == null) {
+            throw malformedInitializerException;
+          }
+        }
         break;
       } else {
         prefixAnnotations.add(keyword);
@@ -146,6 +159,14 @@ ParsedFunctionInfo parseFunctionInfo(
           if (sep != ':') {
             throw malformedInitializerException;
           }
+        } else if (isOperator) {
+          internalParam = maybeConsume('internalParam');
+          if (internalParam == null) {
+            throw malformedInitializerException;
+          }
+          if (maybeConsume('text') != ':') {
+            throw malformedInitializerException;
+          }
         } else if (!isEnumCase) {
           // Enum cases are allowed to omit both param names. Other param lists
           // must at least specify the external name.
@@ -156,8 +177,8 @@ ParsedFunctionInfo parseFunctionInfo(
 
         parameters.add(
           Parameter(
-            name: externalParam ?? '',
-            internalName: internalParam,
+            name: isOperator ? (internalParam ?? '') : (externalParam ?? ''),
+            internalName: isOperator ? null : internalParam,
             type: type,
           ),
         );

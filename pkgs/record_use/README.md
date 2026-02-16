@@ -12,106 +12,71 @@ being recorded.
 - If placed on a static method, the annotation means that arguments passed to
 the method will be recorded, as far as they can be inferred at compile time.
 - If placed on a class with a constant constructor, the annotation means that
-any constant instance of the class will be recorded. This is particularly useful
-when using the class as an annotation.
+any constant instance of the class will be recorded.
+
+> [!NOTE]
+> The `@RecordUse` annotation is only allowed on definitions within a package's
+> `lib/` directory. This includes definitions that are members of a class, such
+> as static methods.
 
 ## Example
 
+<!-- file://./example/api/usage.dart#usage -->
 ```dart
-import 'package:meta/meta.dart' show RecordUse;
-
 void main() {
-  print(SomeClass.stringMetadata(42));
-  print(SomeClass.doubleMetadata(42));
-  print(SomeClass.intMetadata(42));
-  print(SomeClass.boolMetadata(42));
+  PirateTranslator.speak('Hello');
+  print(const PirateShip('Black Pearl', 50));
 }
 
-class SomeClass {
-  @RecordMetadata('leroyjenkins')
+abstract class PirateTranslator {
   @RecordUse()
-  static stringMetadata(int i) {
-    return i + 1;
-  }
-
-  @RecordMetadata(3.14)
-  @RecordUse()
-  static doubleMetadata(int i) {
-    return i + 1;
-  }
-
-  @RecordMetadata(42)
-  @RecordUse()
-  static intMetadata(int i) {
-    return i + 1;
-  }
-
-  @RecordMetadata(true)
-  @RecordUse()
-  static boolMetadata(int i) {
-    return i + 1;
-  }
+  static String speak(String english) => 'Ahoy $english';
 }
 
 @RecordUse()
-class RecordMetadata {
-  final Object metadata;
+class PirateShip {
+  final String name;
+  final int cannons;
 
-  const RecordMetadata(this.metadata);
+  const PirateShip(this.name, this.cannons);
 }
-
 ```
-This code will generate a data file that contains both the `metadata` values of
-the `RecordMetadata` instances, as well as the arguments for the different
-methods annotated with `@RecordUse()`.
+This code will generate a data file that contains both the field values of
+the `PirateShip` instances, as well as the arguments for the `speak`
+method annotated with `@RecordUse()`.
 
 This information can then be accessed in a link hook as follows:
+<!-- file://./example/api/usage_link.dart#link -->
 ```dart
-import 'dart:convert';
+void main(List<String> arguments) {
+  link(arguments, (input, output) async {
+    final usesUri = input.recordedUsagesFile;
+    if (usesUri == null) return;
+    final usesJson = await File.fromUri(usesUri).readAsString();
+    final uses = RecordedUsages.fromJson(
+      jsonDecode(usesJson) as Map<String, Object?>,
+    );
 
-import 'package:hooks/hooks.dart';
-import 'package:record_use/record_use_internal.dart';
+    final args = uses.constArgumentsFor(methodId);
+    for (final arg in args) {
+      if (arg.positional[0] case StringConstant(value: final english)) {
+        print('Translating to pirate: $english');
+        // Shrink a translations file based on all the different translation
+        // keys.
+      }
+    }
 
-final methodId = Identifier(
-  uri: 'myfile.dart',
-  name: 'myMethod',
-);
-
-final classId = Identifier(
-  uri: 'myfile.dart',
-  name: 'myClass',
-);
-
-void main(List<String> arguments){
-  link(arguments, (config, output) async {
-    final usesUri = config.recordedUses;
-    final usesJson = await File,fromUri(usesUri).readAsString();
-    final uses = UsageRecord.fromJson(jsonDecode(usesJson));
-
-    final args = uses.argumentsTo(methodId));
-    //[args] is an iterable of arguments, in this case containing "42"
-
-    final fields = uses.instancesOf(classId);
-    //[fields] is an iterable of the fields of the class, in this case
-    //containing
-    // {"arguments": "leroyjenkins"}
-    // {"arguments": 3.14}
-    // {"arguments": 42}
-    // {"arguments": true}
-
-    ... // Do something with the information, such as tree-shaking native assets
+    final ships = uses.constantsOf(classId);
+    for (final ship in ships) {
+      if (ship.fields['name'] case StringConstant(value: final name)) {
+        print('Pirate ship found: $name');
+        // Include the 3d model for this ship in the application but not
+        // bundle the other ships.
+      }
+    }
   });
 }
 ```
-
-## Limitations
-As this is designed to work on both web and native platforms, we have to adapt 
-to the platform pecularities. One of them is that javascript does not support
-named arguments, so the dart2js compiler rewrites functions to only accept named
-parameters.
-While you can use named parameters to record functions, we advise caution as the
-retrieval behavior might change once we work around this dart2js limitation and
-implement separate positional and named parameters.
 
 ## Contributing
 Contributions are welcome! Please open an issue or submit a pull request.

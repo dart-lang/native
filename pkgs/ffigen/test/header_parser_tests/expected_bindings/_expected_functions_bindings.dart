@@ -19,6 +19,27 @@ class NativeLibrary {
     ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
   ) : _lookup = lookup;
 
+  int diffChars(int a, int b) {
+    return _diffChars(a, b);
+  }
+
+  late final _diffCharsPtr =
+      _lookup<
+        ffi.NativeFunction<ffi.Char Function(ffi.UnsignedChar, ffi.SignedChar)>
+      >('diffChars');
+  late final _diffChars = _diffCharsPtr.asFunction<int Function(int, int)>();
+
+  void externInlineFunc(int a) {
+    return _externInlineFunc(a);
+  }
+
+  late final _externInlineFuncPtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int)>>(
+        'externInlineFunc',
+      );
+  late final _externInlineFunc = _externInlineFuncPtr
+      .asFunction<void Function(int)>();
+
   void func1() {
     return _func1();
   }
@@ -99,27 +120,6 @@ class NativeLibrary {
           ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>>,
         )
       >();
-
-  void externInlineFunc(int a) {
-    return _externInlineFunc(a);
-  }
-
-  late final _externInlineFuncPtr =
-      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int)>>(
-        'externInlineFunc',
-      );
-  late final _externInlineFunc = _externInlineFuncPtr
-      .asFunction<void Function(int)>();
-
-  int diffChars(int a, int b) {
-    return _diffChars(a, b);
-  }
-
-  late final _diffCharsPtr =
-      _lookup<
-        ffi.NativeFunction<ffi.Char Function(ffi.UnsignedChar, ffi.SignedChar)>
-      >('diffChars');
-  late final _diffChars = _diffCharsPtr.asFunction<int Function(int, int)>();
 
   late final addresses = _SymbolAddresses(this);
 }

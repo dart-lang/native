@@ -70,9 +70,20 @@ class ListBindingsVisitation extends Visitation {
               ? _IncludeBehavior.configOrTransitive
               : _IncludeBehavior.configOnly,
         );
+
     if (omit && directTransitives.contains(node)) {
       node.generateAsStub = true;
       bindings.add(node);
+
+      // Always visit the supertypes and protocols, even if this is a stub.
+      visitor.visit(node.superType);
+      visitor.visitAll(node.protocols);
+    }
+
+    if (includes.contains(node)) {
+      // Always visit the categories of explicitly included interfaces, even if
+      // they're built-in types: https://github.com/dart-lang/native/issues/1820
+      visitor.visitAll(node.categories);
     }
   }
 
@@ -94,9 +105,13 @@ class ListBindingsVisitation extends Visitation {
               ? _IncludeBehavior.configOrTransitive
               : _IncludeBehavior.configOnly,
         );
+
     if (omit && directTransitives.contains(node)) {
       node.generateAsStub = true;
       bindings.add(node);
+
+      // Always visit the super protocols, even if this is a stub.
+      visitor.visitAll(node.superProtocols);
     }
   }
 
