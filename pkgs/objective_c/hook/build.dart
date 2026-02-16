@@ -58,6 +58,10 @@ void main(List<String> args) async {
       }
     }
 
+<<<<<<< HEAD
+=======
+
+>>>>>>> d57594e441011bab7b60264e73ccf33faa14f1ec
     final sysroot = sdkPath(codeConfig);
     final minVersion = minOSVersion(codeConfig);
     final cFlags = <String>[
