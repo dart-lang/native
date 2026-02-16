@@ -57,7 +57,7 @@ void main(List<String> args) async {
         if (path.endsWith('.h')) hFiles.add(path);
       }
     }
-    
+
     final sysroot = sdkPath(codeConfig);
     final minVersion = minOSVersion(codeConfig);
     final cFlags = <String>[
