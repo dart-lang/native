@@ -37,8 +37,8 @@ final class Test2 extends ffi.Struct {
   @ffi.Bool()
   external bool a;
 
-  static ffi.Pointer<Test2> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<Test2> $allocate(
+    ffi.Allocator $allocator, {
     required bool a,
-  }) => allocator<Test2>()..ref.a = a;
+  }) => $allocator<Test2>()..ref.a = a;
 }

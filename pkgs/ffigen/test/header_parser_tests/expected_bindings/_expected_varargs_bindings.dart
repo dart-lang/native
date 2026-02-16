@@ -188,16 +188,18 @@ final class SA extends ffi.Struct {
   @ffi.Int()
   external int a;
 
-  static ffi.Pointer<SA> allocate(ffi.Allocator allocator, {required int a}) =>
-      allocator<SA>()..ref.a = a;
+  static ffi.Pointer<SA> $allocate(
+    ffi.Allocator $allocator, {
+    required int a,
+  }) => $allocator<SA>()..ref.a = a;
 }
 
 final class Struct_WithLong_Name_test extends ffi.Struct {
   @ffi.Int()
   external int a;
 
-  static ffi.Pointer<Struct_WithLong_Name_test> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<Struct_WithLong_Name_test> $allocate(
+    ffi.Allocator $allocator, {
     required int a,
-  }) => allocator<Struct_WithLong_Name_test>()..ref.a = a;
+  }) => $allocator<Struct_WithLong_Name_test>()..ref.a = a;
 }

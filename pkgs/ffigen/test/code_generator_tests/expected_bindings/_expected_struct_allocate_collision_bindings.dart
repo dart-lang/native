@@ -15,11 +15,11 @@ final class CollisionStruct extends ffi.Struct {
   @ffi.Int32()
   external int allocate;
 
-  static ffi.Pointer<CollisionStruct> allocate$1(
-    ffi.Allocator allocator, {
-    required int allocatorValue,
+  static ffi.Pointer<CollisionStruct> $allocate(
+    ffi.Allocator $allocator, {
+    required int allocator,
     required int allocate,
-  }) => allocator<CollisionStruct>()
-    ..ref.allocator = allocatorValue
+  }) => $allocator<CollisionStruct>()
+    ..ref.allocator = allocator
     ..ref.allocate = allocate;
 }

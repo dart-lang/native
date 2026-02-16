@@ -102,10 +102,10 @@ final class A_Struct1 extends ffi.Struct {
   @ffi.Int()
   external int a;
 
-  static ffi.Pointer<A_Struct1> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<A_Struct1> $allocate(
+    ffi.Allocator $allocator, {
     required int a,
-  }) => allocator<A_Struct1>()..ref.a = a;
+  }) => $allocator<A_Struct1>()..ref.a = a;
 }
 
 final class A_Union1 extends ffi.Union {

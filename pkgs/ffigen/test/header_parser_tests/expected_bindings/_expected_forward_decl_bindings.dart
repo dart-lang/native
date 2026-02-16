@@ -37,11 +37,11 @@ final class A extends ffi.Struct {
   @ffi.Int()
   external int b;
 
-  static ffi.Pointer<A> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<A> $allocate(
+    ffi.Allocator $allocator, {
     required int a,
     required int b,
-  }) => allocator<A>()
+  }) => $allocator<A>()
     ..ref.a = a
     ..ref.b = b;
 }

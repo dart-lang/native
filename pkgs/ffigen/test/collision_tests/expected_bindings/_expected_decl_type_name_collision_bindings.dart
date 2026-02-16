@@ -8,8 +8,8 @@ final class A extends ffi.Struct {
   @ffi.Int()
   external int a;
 
-  static ffi.Pointer<A> allocate(ffi.Allocator allocator, {required int a}) =>
-      allocator<A>()..ref.a = a;
+  static ffi.Pointer<A> $allocate(ffi.Allocator $allocator, {required int a}) =>
+      $allocator<A>()..ref.a = a;
 }
 
 final class B extends ffi.Struct {
@@ -19,11 +19,11 @@ final class B extends ffi.Struct {
   @ffi.Int()
   external int A$1;
 
-  static ffi.Pointer<B> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<B> $allocate(
+    ffi.Allocator $allocator, {
     required int B$1,
     required int A$1,
-  }) => allocator<B>()
+  }) => $allocator<B>()
     ..ref.B$1 = B$1
     ..ref.A$1 = A$1;
 }

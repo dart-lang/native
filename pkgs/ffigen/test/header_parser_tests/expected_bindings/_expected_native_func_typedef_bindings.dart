@@ -86,8 +86,8 @@ final class Struct extends ffi.Struct {
   >
   unnamed1;
 
-  static ffi.Pointer<Struct> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<Struct> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<
       ffi.NativeFunction<
         ffi.Void Function(
@@ -96,16 +96,16 @@ final class Struct extends ffi.Struct {
       >
     >
     unnamed1,
-  }) => allocator<Struct>()..ref.unnamed1 = unnamed1;
+  }) => $allocator<Struct>()..ref.unnamed1 = unnamed1;
 }
 
 final class Struct2 extends ffi.Struct {
   external VoidFuncPointer constFuncPointer;
 
-  static ffi.Pointer<Struct2> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<Struct2> $allocate(
+    ffi.Allocator $allocator, {
     required VoidFuncPointer constFuncPointer,
-  }) => allocator<Struct2>()..ref.constFuncPointer = constFuncPointer;
+  }) => $allocator<Struct2>()..ref.constFuncPointer = constFuncPointer;
 }
 
 typedef VoidFuncPointer =

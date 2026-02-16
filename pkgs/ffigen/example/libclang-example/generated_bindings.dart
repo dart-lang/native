@@ -6859,11 +6859,11 @@ final class CXCodeCompleteResults extends ffi.Struct {
   @ffi.UnsignedInt()
   external int NumResults;
 
-  static ffi.Pointer<CXCodeCompleteResults> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<CXCodeCompleteResults> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<CXCompletionResult> Results,
     required int NumResults,
-  }) => allocator<CXCodeCompleteResults>()
+  }) => $allocator<CXCodeCompleteResults>()
     ..ref.Results = Results
     ..ref.NumResults = NumResults;
 }
@@ -7063,11 +7063,11 @@ final class CXCompletionResult extends ffi.Struct {
   /// code-completion result into the editing buffer.
   external CXCompletionString CompletionString;
 
-  static ffi.Pointer<CXCompletionResult> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<CXCompletionResult> $allocate(
+    ffi.Allocator $allocator, {
     required CXCursorKind CursorKind,
     required CXCompletionString CompletionString,
-  }) => allocator<CXCompletionResult>()
+  }) => $allocator<CXCompletionResult>()
     ..ref.CursorKind = CursorKind
     ..ref.CompletionString = CompletionString;
 }
@@ -7125,8 +7125,8 @@ final class CXCursorAndRangeVisitor extends ffi.Struct {
   >
   visit;
 
-  static ffi.Pointer<CXCursorAndRangeVisitor> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<CXCursorAndRangeVisitor> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<ffi.Void> context,
     required ffi.Pointer<
       ffi.NativeFunction<
@@ -7134,7 +7134,7 @@ final class CXCursorAndRangeVisitor extends ffi.Struct {
       >
     >
     visit,
-  }) => allocator<CXCursorAndRangeVisitor>()
+  }) => $allocator<CXCursorAndRangeVisitor>()
     ..ref.context = context
     ..ref.visit = visit;
 }
@@ -8455,12 +8455,12 @@ final class CXIdxCXXClassDeclInfo extends ffi.Struct {
   @ffi.UnsignedInt()
   external int numBases;
 
-  static ffi.Pointer<CXIdxCXXClassDeclInfo> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<CXIdxCXXClassDeclInfo> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<CXIdxDeclInfo> declInfo,
     required ffi.Pointer<ffi.Pointer<CXIdxBaseClassInfo>> bases,
     required int numBases,
-  }) => allocator<CXIdxCXXClassDeclInfo>()
+  }) => $allocator<CXIdxCXXClassDeclInfo>()
     ..ref.declInfo = declInfo
     ..ref.bases = bases
     ..ref.numBases = numBases;
@@ -8808,11 +8808,11 @@ final class CXIdxObjCContainerDeclInfo extends ffi.Struct {
       CXIdxObjCContainerKind.fromValue(kindAsInt);
   set kind(CXIdxObjCContainerKind value) => kindAsInt = value.value;
 
-  static ffi.Pointer<CXIdxObjCContainerDeclInfo> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<CXIdxObjCContainerDeclInfo> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<CXIdxDeclInfo> declInfo,
     required CXIdxObjCContainerKind kind,
-  }) => allocator<CXIdxObjCContainerDeclInfo>()
+  }) => $allocator<CXIdxObjCContainerDeclInfo>()
     ..ref.declInfo = declInfo
     ..ref.kind = kind;
 }
@@ -8842,12 +8842,12 @@ final class CXIdxObjCInterfaceDeclInfo extends ffi.Struct {
 
   external ffi.Pointer<CXIdxObjCProtocolRefListInfo> protocols;
 
-  static ffi.Pointer<CXIdxObjCInterfaceDeclInfo> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<CXIdxObjCInterfaceDeclInfo> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<CXIdxObjCContainerDeclInfo> containerInfo,
     required ffi.Pointer<CXIdxBaseClassInfo> superInfo,
     required ffi.Pointer<CXIdxObjCProtocolRefListInfo> protocols,
-  }) => allocator<CXIdxObjCInterfaceDeclInfo>()
+  }) => $allocator<CXIdxObjCInterfaceDeclInfo>()
     ..ref.containerInfo = containerInfo
     ..ref.superInfo = superInfo
     ..ref.protocols = protocols;
@@ -8860,12 +8860,12 @@ final class CXIdxObjCPropertyDeclInfo extends ffi.Struct {
 
   external ffi.Pointer<CXIdxEntityInfo> setter;
 
-  static ffi.Pointer<CXIdxObjCPropertyDeclInfo> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<CXIdxObjCPropertyDeclInfo> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<CXIdxDeclInfo> declInfo,
     required ffi.Pointer<CXIdxEntityInfo> getter,
     required ffi.Pointer<CXIdxEntityInfo> setter,
-  }) => allocator<CXIdxObjCPropertyDeclInfo>()
+  }) => $allocator<CXIdxObjCPropertyDeclInfo>()
     ..ref.declInfo = declInfo
     ..ref.getter = getter
     ..ref.setter = setter;
@@ -8885,11 +8885,11 @@ final class CXIdxObjCProtocolRefListInfo extends ffi.Struct {
   @ffi.UnsignedInt()
   external int numProtocols;
 
-  static ffi.Pointer<CXIdxObjCProtocolRefListInfo> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<CXIdxObjCProtocolRefListInfo> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<ffi.Pointer<CXIdxObjCProtocolRefInfo>> protocols,
     required int numProtocols,
-  }) => allocator<CXIdxObjCProtocolRefListInfo>()
+  }) => $allocator<CXIdxObjCProtocolRefListInfo>()
     ..ref.protocols = protocols
     ..ref.numProtocols = numProtocols;
 }
@@ -9210,11 +9210,11 @@ final class CXSourceRangeList extends ffi.Struct {
   /// An array of \c CXSourceRanges.
   external ffi.Pointer<CXSourceRange> ranges;
 
-  static ffi.Pointer<CXSourceRangeList> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<CXSourceRangeList> $allocate(
+    ffi.Allocator $allocator, {
     required int count,
     required ffi.Pointer<CXSourceRange> ranges,
-  }) => allocator<CXSourceRangeList>()
+  }) => $allocator<CXSourceRangeList>()
     ..ref.count = count
     ..ref.ranges = ranges;
 }
@@ -9231,11 +9231,11 @@ final class CXString extends ffi.Struct {
   @ffi.UnsignedInt()
   external int private_flags;
 
-  static ffi.Pointer<CXString> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<CXString> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<ffi.Void> data,
     required int private_flags,
-  }) => allocator<CXString>()
+  }) => $allocator<CXString>()
     ..ref.data = data
     ..ref.private_flags = private_flags;
 }
@@ -9246,11 +9246,11 @@ final class CXStringSet extends ffi.Struct {
   @ffi.UnsignedInt()
   external int Count;
 
-  static ffi.Pointer<CXStringSet> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<CXStringSet> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<CXString> Strings,
     required int Count,
-  }) => allocator<CXStringSet>()
+  }) => $allocator<CXStringSet>()
     ..ref.Strings = Strings
     ..ref.Count = Count;
 }
@@ -9316,12 +9316,12 @@ final class CXTUResourceUsage extends ffi.Struct {
 
   external ffi.Pointer<CXTUResourceUsageEntry> entries;
 
-  static ffi.Pointer<CXTUResourceUsage> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<CXTUResourceUsage> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<ffi.Void> data,
     required int numEntries,
     required ffi.Pointer<CXTUResourceUsageEntry> entries,
-  }) => allocator<CXTUResourceUsage>()
+  }) => $allocator<CXTUResourceUsage>()
     ..ref.data = data
     ..ref.numEntries = numEntries
     ..ref.entries = entries;
@@ -9337,11 +9337,11 @@ final class CXTUResourceUsageEntry extends ffi.Struct {
   @ffi.UnsignedLong()
   external int amount;
 
-  static ffi.Pointer<CXTUResourceUsageEntry> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<CXTUResourceUsageEntry> $allocate(
+    ffi.Allocator $allocator, {
     required CXTUResourceUsageKind kind,
     required int amount,
-  }) => allocator<CXTUResourceUsageEntry>()
+  }) => $allocator<CXTUResourceUsageEntry>()
     ..ref.kind = kind
     ..ref.amount = amount;
 }
@@ -9807,12 +9807,12 @@ final class CXUnsavedFile extends ffi.Struct {
   @ffi.UnsignedLong()
   external int Length;
 
-  static ffi.Pointer<CXUnsavedFile> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<CXUnsavedFile> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<ffi.Char> Filename,
     required ffi.Pointer<ffi.Char> Contents,
     required int Length,
-  }) => allocator<CXUnsavedFile>()
+  }) => $allocator<CXUnsavedFile>()
     ..ref.Filename = Filename
     ..ref.Contents = Contents
     ..ref.Length = Length;
@@ -9837,12 +9837,12 @@ final class CXVersion extends ffi.Struct {
   @ffi.Int()
   external int Subminor;
 
-  static ffi.Pointer<CXVersion> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<CXVersion> $allocate(
+    ffi.Allocator $allocator, {
     required int Major,
     required int Minor,
     required int Subminor,
-  }) => allocator<CXVersion>()
+  }) => $allocator<CXVersion>()
     ..ref.Major = Major
     ..ref.Minor = Minor
     ..ref.Subminor = Subminor;
@@ -10020,8 +10020,8 @@ final class IndexerCallbacks extends ffi.Struct {
   >
   indexEntityReference;
 
-  static ffi.Pointer<IndexerCallbacks> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<IndexerCallbacks> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<
       ffi.NativeFunction<
         ffi.Int Function(
@@ -10086,7 +10086,7 @@ final class IndexerCallbacks extends ffi.Struct {
       >
     >
     indexEntityReference,
-  }) => allocator<IndexerCallbacks>()
+  }) => $allocator<IndexerCallbacks>()
     ..ref.abortQuery = abortQuery
     ..ref.diagnostic = diagnostic
     ..ref.enteredMainFile = enteredMainFile

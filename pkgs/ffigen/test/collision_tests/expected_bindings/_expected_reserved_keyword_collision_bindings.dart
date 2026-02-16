@@ -42,13 +42,13 @@ final class Repro2795 extends ffi.Struct {
   >
   var$1;
 
-  static ffi.Pointer<Repro2795> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<Repro2795> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<
       ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> in$)>
     >
     var$1,
-  }) => allocator<Repro2795>()..ref.var$1 = var$1;
+  }) => $allocator<Repro2795>()..ref.var$1 = var$1;
 }
 
 final class abstract$ extends ffi.Opaque {}

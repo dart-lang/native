@@ -11269,8 +11269,8 @@ final class Fts5ExtensionApi extends ffi.Struct {
   >
   xPhraseNextColumn;
 
-  static ffi.Pointer<Fts5ExtensionApi> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<Fts5ExtensionApi> $allocate(
+    ffi.Allocator $allocator, {
     required int iVersion,
     required ffi.Pointer<
       ffi.NativeFunction<
@@ -11453,7 +11453,7 @@ final class Fts5ExtensionApi extends ffi.Struct {
       >
     >
     xPhraseNextColumn,
-  }) => allocator<Fts5ExtensionApi>()
+  }) => $allocator<Fts5ExtensionApi>()
     ..ref.iVersion = iVersion
     ..ref.xUserData = xUserData
     ..ref.xColumnCount = xColumnCount
@@ -11481,11 +11481,11 @@ final class Fts5PhraseIter extends ffi.Struct {
 
   external ffi.Pointer<ffi.UnsignedChar> b;
 
-  static ffi.Pointer<Fts5PhraseIter> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<Fts5PhraseIter> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<ffi.UnsignedChar> a,
     required ffi.Pointer<ffi.UnsignedChar> b,
-  }) => allocator<Fts5PhraseIter>()
+  }) => $allocator<Fts5PhraseIter>()
     ..ref.a = a
     ..ref.b = b;
 }
@@ -12413,8 +12413,8 @@ final class fts5_api extends ffi.Struct {
   >
   xCreateFunction;
 
-  static ffi.Pointer<fts5_api> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<fts5_api> $allocate(
+    ffi.Allocator $allocator, {
     required int iVersion,
     required ffi.Pointer<
       ffi.NativeFunction<
@@ -12457,7 +12457,7 @@ final class fts5_api extends ffi.Struct {
       >
     >
     xCreateFunction,
-  }) => allocator<fts5_api>()
+  }) => $allocator<fts5_api>()
     ..ref.iVersion = iVersion
     ..ref.xCreateTokenizer = xCreateTokenizer
     ..ref.xFindTokenizer = xFindTokenizer
@@ -12526,8 +12526,8 @@ final class fts5_tokenizer extends ffi.Struct {
   >
   xTokenize;
 
-  static ffi.Pointer<fts5_tokenizer> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<fts5_tokenizer> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<
       ffi.NativeFunction<
         ffi.Int Function(
@@ -12567,7 +12567,7 @@ final class fts5_tokenizer extends ffi.Struct {
       >
     >
     xTokenize,
-  }) => allocator<fts5_tokenizer>()
+  }) => $allocator<fts5_tokenizer>()
     ..ref.xCreate = xCreate
     ..ref.xDelete = xDelete
     ..ref.xTokenize = xTokenize;
@@ -12626,10 +12626,10 @@ final class sqlite3_file extends ffi.Struct {
   /// Methods for an open file
   external ffi.Pointer<sqlite3_io_methods> pMethods;
 
-  static ffi.Pointer<sqlite3_file> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<sqlite3_file> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<sqlite3_io_methods> pMethods,
-  }) => allocator<sqlite3_file>()..ref.pMethods = pMethods;
+  }) => $allocator<sqlite3_file>()..ref.pMethods = pMethods;
 }
 
 final class sqlite3_index_constraint extends ffi.Struct {
@@ -12649,13 +12649,13 @@ final class sqlite3_index_constraint extends ffi.Struct {
   @ffi.Int()
   external int iTermOffset;
 
-  static ffi.Pointer<sqlite3_index_constraint> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<sqlite3_index_constraint> $allocate(
+    ffi.Allocator $allocator, {
     required int iColumn,
     required int op,
     required int usable,
     required int iTermOffset,
-  }) => allocator<sqlite3_index_constraint>()
+  }) => $allocator<sqlite3_index_constraint>()
     ..ref.iColumn = iColumn
     ..ref.op = op
     ..ref.usable = usable
@@ -12672,11 +12672,11 @@ final class sqlite3_index_constraint_usage extends ffi.Struct {
   @ffi.UnsignedChar()
   external int omit;
 
-  static ffi.Pointer<sqlite3_index_constraint_usage> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<sqlite3_index_constraint_usage> $allocate(
+    ffi.Allocator $allocator, {
     required int argvIndex,
     required int omit,
-  }) => allocator<sqlite3_index_constraint_usage>()
+  }) => $allocator<sqlite3_index_constraint_usage>()
     ..ref.argvIndex = argvIndex
     ..ref.omit = omit;
 }
@@ -12829,8 +12829,8 @@ final class sqlite3_index_info extends ffi.Struct {
   @sqlite3_uint64()
   external int colUsed;
 
-  static ffi.Pointer<sqlite3_index_info> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<sqlite3_index_info> $allocate(
+    ffi.Allocator $allocator, {
     required int nConstraint,
     required ffi.Pointer<sqlite3_index_constraint> aConstraint,
     required int nOrderBy,
@@ -12844,7 +12844,7 @@ final class sqlite3_index_info extends ffi.Struct {
     required int estimatedRows,
     required int idxFlags,
     required int colUsed,
-  }) => allocator<sqlite3_index_info>()
+  }) => $allocator<sqlite3_index_info>()
     ..ref.nConstraint = nConstraint
     ..ref.aConstraint = aConstraint
     ..ref.nOrderBy = nOrderBy
@@ -12869,11 +12869,11 @@ final class sqlite3_index_orderby extends ffi.Struct {
   @ffi.UnsignedChar()
   external int desc;
 
-  static ffi.Pointer<sqlite3_index_orderby> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<sqlite3_index_orderby> $allocate(
+    ffi.Allocator $allocator, {
     required int iColumn,
     required int desc,
-  }) => allocator<sqlite3_index_orderby>()
+  }) => $allocator<sqlite3_index_orderby>()
     ..ref.iColumn = iColumn
     ..ref.desc = desc;
 }
@@ -12927,8 +12927,8 @@ final class sqlite3_mem_methods extends ffi.Struct {
   /// Argument to xInit() and xShutdown()
   external ffi.Pointer<ffi.Void> pAppData;
 
-  static ffi.Pointer<sqlite3_mem_methods> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<sqlite3_mem_methods> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<
       ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Int)>
     >
@@ -12958,7 +12958,7 @@ final class sqlite3_mem_methods extends ffi.Struct {
     >
     xShutdown,
     required ffi.Pointer<ffi.Void> pAppData,
-  }) => allocator<sqlite3_mem_methods>()
+  }) => $allocator<sqlite3_mem_methods>()
     ..ref.xMalloc = xMalloc
     ..ref.xFree = xFree
     ..ref.xRealloc = xRealloc
@@ -13184,8 +13184,8 @@ final class sqlite3_module extends ffi.Struct {
   >
   xShadowName;
 
-  static ffi.Pointer<sqlite3_module> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<sqlite3_module> $allocate(
+    ffi.Allocator $allocator, {
     required int iVersion,
     required ffi.Pointer<
       ffi.NativeFunction<
@@ -13357,7 +13357,7 @@ final class sqlite3_module extends ffi.Struct {
       ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Char>)>
     >
     xShadowName,
-  }) => allocator<sqlite3_module>()
+  }) => $allocator<sqlite3_module>()
     ..ref.iVersion = iVersion
     ..ref.xCreate = xCreate
     ..ref.xConnect = xConnect
@@ -13426,8 +13426,8 @@ final class sqlite3_mutex_methods extends ffi.Struct {
   >
   xMutexNotheld;
 
-  static ffi.Pointer<sqlite3_mutex_methods> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<sqlite3_mutex_methods> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<ffi.NativeFunction<ffi.Int Function()>> xMutexInit,
     required ffi.Pointer<ffi.NativeFunction<ffi.Int Function()>> xMutexEnd,
     required ffi.Pointer<
@@ -13458,7 +13458,7 @@ final class sqlite3_mutex_methods extends ffi.Struct {
       ffi.NativeFunction<ffi.Int Function(ffi.Pointer<sqlite3_mutex>)>
     >
     xMutexNotheld,
-  }) => allocator<sqlite3_mutex_methods>()
+  }) => $allocator<sqlite3_mutex_methods>()
     ..ref.xMutexInit = xMutexInit
     ..ref.xMutexEnd = xMutexEnd
     ..ref.xMutexAlloc = xMutexAlloc
@@ -13548,8 +13548,8 @@ final class sqlite3_pcache_methods extends ffi.Struct {
   >
   xDestroy;
 
-  static ffi.Pointer<sqlite3_pcache_methods> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<sqlite3_pcache_methods> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<ffi.Void> pArg,
     required ffi.Pointer<
       ffi.NativeFunction<ffi.Int Function(ffi.Pointer<ffi.Void>)>
@@ -13616,7 +13616,7 @@ final class sqlite3_pcache_methods extends ffi.Struct {
       ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_pcache>)>
     >
     xDestroy,
-  }) => allocator<sqlite3_pcache_methods>()
+  }) => $allocator<sqlite3_pcache_methods>()
     ..ref.pArg = pArg
     ..ref.xInit = xInit
     ..ref.xShutdown = xShutdown
@@ -13718,8 +13718,8 @@ final class sqlite3_pcache_methods2 extends ffi.Struct {
   >
   xShrink;
 
-  static ffi.Pointer<sqlite3_pcache_methods2> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<sqlite3_pcache_methods2> $allocate(
+    ffi.Allocator $allocator, {
     required int iVersion,
     required ffi.Pointer<ffi.Void> pArg,
     required ffi.Pointer<
@@ -13795,7 +13795,7 @@ final class sqlite3_pcache_methods2 extends ffi.Struct {
       ffi.NativeFunction<ffi.Void Function(ffi.Pointer<sqlite3_pcache>)>
     >
     xShrink,
-  }) => allocator<sqlite3_pcache_methods2>()
+  }) => $allocator<sqlite3_pcache_methods2>()
     ..ref.iVersion = iVersion
     ..ref.pArg = pArg
     ..ref.xInit = xInit
@@ -13818,11 +13818,11 @@ final class sqlite3_pcache_page extends ffi.Struct {
   /// Extra information associated with the page
   external ffi.Pointer<ffi.Void> pExtra;
 
-  static ffi.Pointer<sqlite3_pcache_page> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<sqlite3_pcache_page> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<ffi.Void> pBuf,
     required ffi.Pointer<ffi.Void> pExtra,
-  }) => allocator<sqlite3_pcache_page>()
+  }) => $allocator<sqlite3_pcache_page>()
     ..ref.pBuf = pBuf
     ..ref.pExtra = pExtra;
 }
@@ -13852,8 +13852,8 @@ final class sqlite3_rtree_geometry extends ffi.Struct {
   >
   xDelUser;
 
-  static ffi.Pointer<sqlite3_rtree_geometry> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<sqlite3_rtree_geometry> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<ffi.Void> pContext,
     required int nParam,
     required ffi.Pointer<sqlite3_rtree_dbl> aParam,
@@ -13862,7 +13862,7 @@ final class sqlite3_rtree_geometry extends ffi.Struct {
       ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
     >
     xDelUser,
-  }) => allocator<sqlite3_rtree_geometry>()
+  }) => $allocator<sqlite3_rtree_geometry>()
     ..ref.pContext = pContext
     ..ref.nParam = nParam
     ..ref.aParam = aParam
@@ -13938,8 +13938,8 @@ final class sqlite3_rtree_query_info extends ffi.Struct {
   /// Original SQL values of parameters
   external ffi.Pointer<ffi.Pointer<sqlite3_value>> apSqlParam;
 
-  static ffi.Pointer<sqlite3_rtree_query_info> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<sqlite3_rtree_query_info> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<ffi.Void> pContext,
     required int nParam,
     required ffi.Pointer<sqlite3_rtree_dbl> aParam,
@@ -13959,7 +13959,7 @@ final class sqlite3_rtree_query_info extends ffi.Struct {
     required int eWithin,
     required double rScore,
     required ffi.Pointer<ffi.Pointer<sqlite3_value>> apSqlParam,
-  }) => allocator<sqlite3_rtree_query_info>()
+  }) => $allocator<sqlite3_rtree_query_info>()
     ..ref.pContext = pContext
     ..ref.nParam = nParam
     ..ref.aParam = aParam
@@ -14186,8 +14186,8 @@ final class sqlite3_vfs extends ffi.Struct {
   >
   xNextSystemCall;
 
-  static ffi.Pointer<sqlite3_vfs> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<sqlite3_vfs> $allocate(
+    ffi.Allocator $allocator, {
     required int iVersion,
     required int szOsFile,
     required int mxPathname,
@@ -14337,7 +14337,7 @@ final class sqlite3_vfs extends ffi.Struct {
       >
     >
     xNextSystemCall,
-  }) => allocator<sqlite3_vfs>()
+  }) => $allocator<sqlite3_vfs>()
     ..ref.iVersion = iVersion
     ..ref.szOsFile = szOsFile
     ..ref.mxPathname = mxPathname
@@ -14389,12 +14389,12 @@ final class sqlite3_vtab extends ffi.Struct {
   /// Error message from sqlite3_mprintf()
   external ffi.Pointer<ffi.Char> zErrMsg;
 
-  static ffi.Pointer<sqlite3_vtab> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<sqlite3_vtab> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<sqlite3_module> pModule,
     required int nRef,
     required ffi.Pointer<ffi.Char> zErrMsg,
-  }) => allocator<sqlite3_vtab>()
+  }) => $allocator<sqlite3_vtab>()
     ..ref.pModule = pModule
     ..ref.nRef = nRef
     ..ref.zErrMsg = zErrMsg;
@@ -14419,10 +14419,10 @@ final class sqlite3_vtab_cursor extends ffi.Struct {
   /// Virtual table of this cursor
   external ffi.Pointer<sqlite3_vtab> pVtab;
 
-  static ffi.Pointer<sqlite3_vtab_cursor> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<sqlite3_vtab_cursor> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<sqlite3_vtab> pVtab,
-  }) => allocator<sqlite3_vtab_cursor>()..ref.pVtab = pVtab;
+  }) => $allocator<sqlite3_vtab_cursor>()..ref.pVtab = pVtab;
 }
 
 typedef sqlite_int64 = ffi.LongLong;

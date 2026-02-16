@@ -8,20 +8,20 @@ final class NormalStruct1 extends ffi.Struct {
   @ffi.Char()
   external int a;
 
-  static ffi.Pointer<NormalStruct1> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<NormalStruct1> $allocate(
+    ffi.Allocator $allocator, {
     required int a,
-  }) => allocator<NormalStruct1>()..ref.a = a;
+  }) => $allocator<NormalStruct1>()..ref.a = a;
 }
 
 final class NormalStruct2 extends ffi.Struct {
   @ffi.Char()
   external int a;
 
-  static ffi.Pointer<NormalStruct2> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<NormalStruct2> $allocate(
+    ffi.Allocator $allocator, {
     required int a,
-  }) => allocator<NormalStruct2>()..ref.a = a;
+  }) => $allocator<NormalStruct2>()..ref.a = a;
 }
 
 /// Should be packed with 2.
@@ -30,10 +30,10 @@ final class Pack2WithPragma extends ffi.Struct {
   @ffi.Int()
   external int a;
 
-  static ffi.Pointer<Pack2WithPragma> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<Pack2WithPragma> $allocate(
+    ffi.Allocator $allocator, {
     required int a,
-  }) => allocator<Pack2WithPragma>()..ref.a = a;
+  }) => $allocator<Pack2WithPragma>()..ref.a = a;
 }
 
 /// Should be packed with 4.
@@ -42,10 +42,10 @@ final class Pack4WithPragma extends ffi.Struct {
   @ffi.LongLong()
   external int a;
 
-  static ffi.Pointer<Pack4WithPragma> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<Pack4WithPragma> $allocate(
+    ffi.Allocator $allocator, {
     required int a,
-  }) => allocator<Pack4WithPragma>()..ref.a = a;
+  }) => $allocator<Pack4WithPragma>()..ref.a = a;
 }
 
 /// Should be packed with 1.
@@ -54,10 +54,10 @@ final class PackedAttr extends ffi.Struct {
   @ffi.Int()
   external int a;
 
-  static ffi.Pointer<PackedAttr> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<PackedAttr> $allocate(
+    ffi.Allocator $allocator, {
     required int a,
-  }) => allocator<PackedAttr>()..ref.a = a;
+  }) => $allocator<PackedAttr>()..ref.a = a;
 }
 
 /// Should be packed with 8.
@@ -66,10 +66,10 @@ final class PackedAttrAlign8 extends ffi.Struct {
   @ffi.Int()
   external int a;
 
-  static ffi.Pointer<PackedAttrAlign8> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<PackedAttrAlign8> $allocate(
+    ffi.Allocator $allocator, {
     required int a,
-  }) => allocator<PackedAttrAlign8>()..ref.a = a;
+  }) => $allocator<PackedAttrAlign8>()..ref.a = a;
 }
 
 /// Should not be packed.
@@ -78,11 +78,11 @@ final class StructWithAttr extends ffi.Struct {
 
   external ffi.Pointer<ffi.Int> b;
 
-  static ffi.Pointer<StructWithAttr> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<StructWithAttr> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<ffi.Int> a,
     required ffi.Pointer<ffi.Int> b,
-  }) => allocator<StructWithAttr>()
+  }) => $allocator<StructWithAttr>()
     ..ref.a = a
     ..ref.b = b;
 }

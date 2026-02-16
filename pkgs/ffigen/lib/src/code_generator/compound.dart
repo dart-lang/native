@@ -95,59 +95,25 @@ abstract class Compound extends BindingType with HasLocalScope {
     return member.type.getFfiDartType(context);
   }
 
-  String _makeUniqueName(
-    String preferred,
-    SymbolKind kind,
-    Set<String> usedNames,
-  ) {
-    var name = preferred;
-    if (name.isEmpty) {
-      name = 'value';
-    }
-    if (name == 'allocator') {
-      name = 'allocatorValue';
-    }
-    return Namer(usedNames).add(name, kind);
-  }
-
   String _generateAllocateMethod(String enclosingClassName, String ffiPrefix) {
-    final usedClassMemberNames = <String>{};
-    for (final m in members) {
-      usedClassMemberNames.add(_memberStorageName(m));
-      if (_isEnumDartStyleMember(m)) {
-        usedClassMemberNames.add(m.name);
-      }
-    }
-    final methodName = _makeUniqueName(
-      'allocate',
-      SymbolKind.method,
-      usedClassMemberNames,
-    );
-
-    final usedParamNames = <String>{'allocator'};
     final params = <({String type, String name, String assignment})>[];
     for (final m in members) {
-      final paramName = _makeUniqueName(
-        m.name,
-        SymbolKind.field,
-        usedParamNames,
-      );
       params.add((
         type: _memberParameterType(m),
-        name: paramName,
+        name: m.name,
         assignment: _memberStorageName(m),
       ));
     }
 
     final b = StringBuffer();
     b.write(
-      '  static $ffiPrefix.Pointer<$enclosingClassName> $methodName(\n'
-      '    $ffiPrefix.Allocator allocator, {\n',
+      '  static $ffiPrefix.Pointer<$enclosingClassName> \$allocate(\n'
+      '    $ffiPrefix.Allocator \$allocator, {\n',
     );
     for (final p in params) {
       b.write('    required ${p.type} ${p.name},\n');
     }
-    b.write('  }) => allocator<$enclosingClassName>()');
+    b.write('  }) => \$allocator<$enclosingClassName>()');
     for (final p in params) {
       b.write('\n    ..ref.${p.assignment} = ${p.name}');
     }

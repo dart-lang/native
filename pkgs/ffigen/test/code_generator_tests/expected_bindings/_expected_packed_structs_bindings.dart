@@ -12,10 +12,10 @@ final class NoPacking extends ffi.Struct {
   @ffi.Uint8()
   external int a;
 
-  static ffi.Pointer<NoPacking> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<NoPacking> $allocate(
+    ffi.Allocator $allocator, {
     required int a,
-  }) => allocator<NoPacking>()..ref.a = a;
+  }) => $allocator<NoPacking>()..ref.a = a;
 }
 
 @ffi.Packed(1)
@@ -23,10 +23,10 @@ final class Pack1 extends ffi.Struct {
   @ffi.Uint8()
   external int a;
 
-  static ffi.Pointer<Pack1> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<Pack1> $allocate(
+    ffi.Allocator $allocator, {
     required int a,
-  }) => allocator<Pack1>()..ref.a = a;
+  }) => $allocator<Pack1>()..ref.a = a;
 }
 
 @ffi.Packed(16)
@@ -34,10 +34,10 @@ final class Pack16 extends ffi.Struct {
   @ffi.Uint8()
   external int a;
 
-  static ffi.Pointer<Pack16> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<Pack16> $allocate(
+    ffi.Allocator $allocator, {
     required int a,
-  }) => allocator<Pack16>()..ref.a = a;
+  }) => $allocator<Pack16>()..ref.a = a;
 }
 
 @ffi.Packed(2)
@@ -45,10 +45,10 @@ final class Pack2 extends ffi.Struct {
   @ffi.Uint8()
   external int a;
 
-  static ffi.Pointer<Pack2> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<Pack2> $allocate(
+    ffi.Allocator $allocator, {
     required int a,
-  }) => allocator<Pack2>()..ref.a = a;
+  }) => $allocator<Pack2>()..ref.a = a;
 }
 
 @ffi.Packed(4)
@@ -56,10 +56,10 @@ final class Pack4 extends ffi.Struct {
   @ffi.Uint8()
   external int a;
 
-  static ffi.Pointer<Pack4> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<Pack4> $allocate(
+    ffi.Allocator $allocator, {
     required int a,
-  }) => allocator<Pack4>()..ref.a = a;
+  }) => $allocator<Pack4>()..ref.a = a;
 }
 
 @ffi.Packed(8)
@@ -67,8 +67,8 @@ final class Pack8 extends ffi.Struct {
   @ffi.Uint8()
   external int a;
 
-  static ffi.Pointer<Pack8> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<Pack8> $allocate(
+    ffi.Allocator $allocator, {
     required int a,
-  }) => allocator<Pack8>()..ref.a = a;
+  }) => $allocator<Pack8>()..ref.a = a;
 }

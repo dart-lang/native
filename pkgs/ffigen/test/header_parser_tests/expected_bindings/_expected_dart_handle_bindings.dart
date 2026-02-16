@@ -65,10 +65,10 @@ final class Struct1 extends ffi.Opaque {}
 final class Struct2 extends ffi.Struct {
   external ffi.Pointer<ffi.Handle> h;
 
-  static ffi.Pointer<Struct2> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<Struct2> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<ffi.Handle> h,
-  }) => allocator<Struct2>()..ref.h = h;
+  }) => $allocator<Struct2>()..ref.h = h;
 }
 
 typedef Typedef1 = ffi.Pointer<ffi.NativeFunction<Typedef1Function>>;

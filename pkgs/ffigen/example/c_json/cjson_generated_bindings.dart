@@ -1246,8 +1246,8 @@ final class cJSON extends ffi.Struct {
 
   external ffi.Pointer<ffi.Char> string;
 
-  static ffi.Pointer<cJSON> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<cJSON> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<cJSON> next,
     required ffi.Pointer<cJSON> prev,
     required ffi.Pointer<cJSON> child,
@@ -1256,7 +1256,7 @@ final class cJSON extends ffi.Struct {
     required int valueint,
     required double valuedouble,
     required ffi.Pointer<ffi.Char> string,
-  }) => allocator<cJSON>()
+  }) => $allocator<cJSON>()
     ..ref.next = next
     ..ref.prev = prev
     ..ref.child = child
@@ -1282,8 +1282,8 @@ final class cJSON_Hooks extends ffi.Struct {
   >
   free_fn;
 
-  static ffi.Pointer<cJSON_Hooks> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<cJSON_Hooks> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<
       ffi.NativeFunction<ffi.Pointer<ffi.Void> Function(ffi.Size sz)>
     >
@@ -1292,7 +1292,7 @@ final class cJSON_Hooks extends ffi.Struct {
       ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> ptr)>
     >
     free_fn,
-  }) => allocator<cJSON_Hooks>()
+  }) => $allocator<cJSON_Hooks>()
     ..ref.malloc_fn = malloc_fn
     ..ref.free_fn = free_fn;
 }

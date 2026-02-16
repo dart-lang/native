@@ -56,11 +56,11 @@ final class D extends ffi.Struct {
 
   external ffi.Pointer<NoDefinitionStructInD> nds;
 
-  static ffi.Pointer<D> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<D> $allocate(
+    ffi.Allocator $allocator, {
     required int a,
     required ffi.Pointer<NoDefinitionStructInD> nds,
-  }) => allocator<D>()
+  }) => $allocator<D>()
     ..ref.a = a
     ..ref.nds = nds;
 }
@@ -71,11 +71,11 @@ final class DArray extends ffi.Struct {
 
   external ffi.Pointer<NoDefinitionStructInD> nds;
 
-  static ffi.Pointer<DArray> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<DArray> $allocate(
+    ffi.Allocator $allocator, {
     required int a,
     required ffi.Pointer<NoDefinitionStructInD> nds,
-  }) => allocator<DArray>()
+  }) => $allocator<DArray>()
     ..ref.a = a
     ..ref.nds = nds;
 }

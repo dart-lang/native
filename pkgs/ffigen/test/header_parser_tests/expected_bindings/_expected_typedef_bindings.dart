@@ -109,11 +109,11 @@ final class Struct1 extends ffi.Struct {
 
   external ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> unnamed;
 
-  static ffi.Pointer<Struct1> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<Struct1> $allocate(
+    ffi.Allocator $allocator, {
     required NamedFunctionProto named,
     required ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> unnamed,
-  }) => allocator<Struct1>()
+  }) => $allocator<Struct1>()
     ..ref.named = named
     ..ref.unnamed = unnamed;
 }
@@ -128,10 +128,10 @@ final class WithBoolAlias extends ffi.Struct {
   @ffi.Bool()
   external bool b;
 
-  static ffi.Pointer<WithBoolAlias> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<WithBoolAlias> $allocate(
+    ffi.Allocator $allocator, {
     required bool b,
-  }) => allocator<WithBoolAlias>()..ref.b = b;
+  }) => $allocator<WithBoolAlias>()..ref.b = b;
 }
 
 final class _ExcludedStruct extends ffi.Opaque {}

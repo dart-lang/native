@@ -17,11 +17,11 @@ final class WithIntPtrUintPtr extends ffi.Struct {
 
   external ffi.Pointer<ffi.Pointer<ffi.IntPtr>> b;
 
-  static ffi.Pointer<WithIntPtrUintPtr> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<WithIntPtrUintPtr> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<ffi.UintPtr> a,
     required ffi.Pointer<ffi.Pointer<ffi.IntPtr>> b,
-  }) => allocator<WithIntPtrUintPtr>()
+  }) => $allocator<WithIntPtrUintPtr>()
     ..ref.a = a
     ..ref.b = b;
 }
@@ -34,12 +34,12 @@ final class WithPointerMember extends ffi.Struct {
   @ffi.Uint8()
   external int c;
 
-  static ffi.Pointer<WithPointerMember> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<WithPointerMember> $allocate(
+    ffi.Allocator $allocator, {
     required ffi.Pointer<ffi.Int32> a,
     required ffi.Pointer<ffi.Pointer<ffi.Double>> b,
     required int c,
-  }) => allocator<WithPointerMember>()
+  }) => $allocator<WithPointerMember>()
     ..ref.a = a
     ..ref.b = b
     ..ref.c = c;
@@ -55,12 +55,12 @@ final class WithPrimitiveMember extends ffi.Struct {
   @ffi.Uint8()
   external int c;
 
-  static ffi.Pointer<WithPrimitiveMember> allocate(
-    ffi.Allocator allocator, {
+  static ffi.Pointer<WithPrimitiveMember> $allocate(
+    ffi.Allocator $allocator, {
     required int a,
     required double b,
     required int c,
-  }) => allocator<WithPrimitiveMember>()
+  }) => $allocator<WithPrimitiveMember>()
     ..ref.a = a
     ..ref.b = b
     ..ref.c = c;
