@@ -195,7 +195,7 @@ class WorkspaceTask extends Task {
         .takeWhile((line) =>
             line.trim().startsWith('- ') || line.trim().startsWith('# - '));
 
-    final packages = Set<String>();
+    final packages = <String>{};
     final packagesWithMissingReason = <String>[];
 
     // Regex breakdown:
@@ -206,7 +206,7 @@ class WorkspaceTask extends Task {
     // (\s*#.*)?  : Optional trailing '#' and everything after it (Group 3)
     final regex = RegExp(r'^\s*(#\s*)?-\s+([^\s#]+)(\s*#.*)?');
 
-    for (String entry in workspaceEntries) {
+    for (final entry in workspaceEntries) {
       final match = regex.firstMatch(entry);
 
       if (match != null) {
