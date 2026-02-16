@@ -28,8 +28,8 @@ class Metadata {
     );
     // TODO(https://github.com/dart-lang/native/issues/2984): Nest extension
     // fields.
-    return Metadata._(
-      MetadataSyntax.fromJson({...syntax.json, ...?extension}),
+    return ._(
+      .fromJson({...syntax.json, ...?extension}),
     );
   }
 
@@ -40,7 +40,7 @@ class Metadata {
   /// VM.
   Map<String, Object?> get json => _syntax.json;
 
-  Version get version => Version.parse(_syntax.version);
+  Version get version => .parse(_syntax.version);
 
   String get comment => _syntax.comment;
 

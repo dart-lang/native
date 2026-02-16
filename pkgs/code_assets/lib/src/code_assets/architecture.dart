@@ -45,29 +45,29 @@ final class Architecture {
     x64,
   ];
 
-  static const _abiToArch = {
-    Abi.androidArm: Architecture.arm,
-    Abi.androidArm64: Architecture.arm64,
-    Abi.androidIA32: Architecture.ia32,
-    Abi.androidX64: Architecture.x64,
-    Abi.androidRiscv64: Architecture.riscv64,
-    Abi.fuchsiaArm64: Architecture.arm64,
-    Abi.fuchsiaRiscv64: Architecture.riscv64,
-    Abi.fuchsiaX64: Architecture.x64,
-    Abi.iosArm: Architecture.arm,
-    Abi.iosArm64: Architecture.arm64,
-    Abi.iosX64: Architecture.x64,
-    Abi.linuxArm: Architecture.arm,
-    Abi.linuxArm64: Architecture.arm64,
-    Abi.linuxIA32: Architecture.ia32,
-    Abi.linuxRiscv32: Architecture.riscv32,
-    Abi.linuxRiscv64: Architecture.riscv64,
-    Abi.linuxX64: Architecture.x64,
-    Abi.macosArm64: Architecture.arm64,
-    Abi.macosX64: Architecture.x64,
-    Abi.windowsArm64: Architecture.arm64,
-    Abi.windowsIA32: Architecture.ia32,
-    Abi.windowsX64: Architecture.x64,
+  static const Map<Abi, Architecture> _abiToArch = {
+    Abi.androidArm: arm,
+    Abi.androidArm64: arm64,
+    Abi.androidIA32: ia32,
+    Abi.androidX64: x64,
+    Abi.androidRiscv64: riscv64,
+    Abi.fuchsiaArm64: arm64,
+    Abi.fuchsiaRiscv64: riscv64,
+    Abi.fuchsiaX64: x64,
+    Abi.iosArm: arm,
+    Abi.iosArm64: arm64,
+    Abi.iosX64: x64,
+    Abi.linuxArm: arm,
+    Abi.linuxArm64: arm64,
+    Abi.linuxIA32: ia32,
+    Abi.linuxRiscv32: riscv32,
+    Abi.linuxRiscv64: riscv64,
+    Abi.linuxX64: x64,
+    Abi.macosArm64: arm64,
+    Abi.macosX64: x64,
+    Abi.windowsArm64: arm64,
+    Abi.windowsIA32: ia32,
+    Abi.windowsX64: x64,
   };
 
   /// The name of this [Architecture].
@@ -82,7 +82,7 @@ final class Architecture {
   /// The name can be obtained from [Architecture.name] or
   /// [Architecture.toString].
   factory Architecture.fromString(String name) =>
-      ArchitectureSyntaxExtension.fromSyntax(ArchitectureSyntax.fromJson(name));
+      ArchitectureSyntaxExtension.fromSyntax(.fromJson(name));
 
   /// The current [Architecture].
   static final Architecture current = _abiToArch[Abi.current()]!;
@@ -90,12 +90,11 @@ final class Architecture {
 
 /// Extension methods for [Architecture] to convert to and from the syntax.
 extension ArchitectureSyntaxExtension on Architecture {
-  static final _toSyntax = {
-    for (final item in Architecture.values)
-      item: ArchitectureSyntax.fromJson(item.name),
+  static final Map<Architecture, ArchitectureSyntax> _toSyntax = {
+    for (final item in Architecture.values) item: .fromJson(item.name),
   };
 
-  static final _fromSyntax = {
+  static final Map<ArchitectureSyntax, Architecture> _fromSyntax = {
     for (var entry in _toSyntax.entries) entry.value: entry.key,
   };
 

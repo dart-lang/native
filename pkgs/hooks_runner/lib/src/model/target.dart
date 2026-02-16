@@ -111,7 +111,7 @@ final class Target implements Comparable<Target> {
   /// Read from the [Platform.version] string.
   static final Target current = Target.fromDartPlatform(Platform.version);
 
-  Architecture get architecture => Architecture.fromAbi(abi);
+  Architecture get architecture => .fromAbi(abi);
 
   OS get os => {
     Abi.androidArm: OS.android,

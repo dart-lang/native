@@ -36,7 +36,7 @@ void main() async {
         logger,
         dartExecutable,
         buildResult: buildResult,
-        buildAssetTypes: [BuildAssetType.data],
+        buildAssetTypes: [.data],
       )).success;
       expect(linkResult.encodedAssets.length, 2);
 
@@ -91,7 +91,7 @@ void main() async {
         logger,
         dartExecutable,
         buildResult: buildResult,
-        buildAssetTypes: [BuildAssetType.data],
+        buildAssetTypes: [.data],
       )).success;
 
       expect(
@@ -127,7 +127,7 @@ void main() async {
         logger,
         dartExecutable,
         buildResult: buildResult,
-        buildAssetTypes: [BuildAssetType.data],
+        buildAssetTypes: [.data],
       )).success;
 
       expect(
@@ -155,7 +155,7 @@ void main() async {
         dartExecutable,
         capturedLogs: logMessages,
         buildResult: HookResult(),
-        buildAssetTypes: [BuildAssetType.data],
+        buildAssetTypes: [.data],
       );
       final fullLog = logMessages.join('\n');
 
@@ -186,7 +186,7 @@ void main() async {
         logger,
         dartExecutable,
         linkingEnabled: true,
-        buildAssetTypes: [BuildAssetType.code],
+        buildAssetTypes: [.code],
       )).success;
       expect(buildResult.encodedAssets.length, 0);
       expect(buildResult.encodedAssetsForLinking.length, 1);
@@ -198,7 +198,7 @@ void main() async {
         dartExecutable,
         buildResult: buildResult,
         capturedLogs: logMessages,
-        buildAssetTypes: [BuildAssetType.code],
+        buildAssetTypes: [.code],
       )).success;
       expect(linkResult.encodedAssets.length, 1);
       expect(linkResult.encodedAssets.first.isCodeAsset, isTrue);

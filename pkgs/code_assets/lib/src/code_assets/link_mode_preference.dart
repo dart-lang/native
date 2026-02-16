@@ -18,9 +18,7 @@ final class LinkModePreference {
   ///
   /// The [name] must be one of [LinkModePreference.values].
   factory LinkModePreference.fromString(String name) =>
-      LinkModePreferenceSyntaxExtension.fromSyntax(
-        LinkModePreferenceSyntax.fromJson(name),
-      );
+      LinkModePreferenceSyntaxExtension.fromSyntax(.fromJson(name));
 
   /// Provide native assets as dynamic libraries.
   ///
@@ -57,14 +55,14 @@ final class LinkModePreference {
 /// Extension methods for [LinkModePreference] to convert to and from the
 /// syntax model.
 extension LinkModePreferenceSyntaxExtension on LinkModePreference {
-  static const _toSyntax = {
+  static const Map<LinkModePreference, LinkModePreferenceSyntax> _toSyntax = {
     LinkModePreference.dynamic: LinkModePreferenceSyntax.dynamic,
     LinkModePreference.preferDynamic: LinkModePreferenceSyntax.preferDynamic,
     LinkModePreference.preferStatic: LinkModePreferenceSyntax.preferStatic,
     LinkModePreference.static: LinkModePreferenceSyntax.static,
   };
 
-  static const _fromSyntax = {
+  static const Map<LinkModePreferenceSyntax, LinkModePreference> _fromSyntax = {
     LinkModePreferenceSyntax.dynamic: LinkModePreference.dynamic,
     LinkModePreferenceSyntax.preferDynamic: LinkModePreference.preferDynamic,
     LinkModePreferenceSyntax.preferStatic: LinkModePreference.preferStatic,

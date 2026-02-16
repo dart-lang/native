@@ -76,8 +76,8 @@ class NativeAssetsBuildPlanner {
     'BuildPlanner.packagesWithHook',
     arguments: {'hook': hook.toString()},
     () async => switch (hook) {
-      Hook.build => _packagesWithBuildHook ??= await _runPackagesWithHook(hook),
-      Hook.link => _packagesWithLinkHook ??= await _runPackagesWithHook(hook),
+      .build => _packagesWithBuildHook ??= await _runPackagesWithHook(hook),
+      .link => _packagesWithLinkHook ??= await _runPackagesWithHook(hook),
     },
   );
 
@@ -130,7 +130,7 @@ class NativeAssetsBuildPlanner {
       _timeAsync(
         'BuildPlanner.makeBuildHookPlan',
         () async => _makeHookPlan(
-          hookType: Hook.build,
+          hookType: .build,
           cachedPlan: _buildHookPlan,
           setCachedPlan: (plan) => _buildHookPlan = plan,
           reverseOrder: false,
@@ -153,7 +153,7 @@ class NativeAssetsBuildPlanner {
       _timeAsync(
         'BuildPlanner.makeLinkHookPlan',
         () async => _makeHookPlan(
-          hookType: Hook.link,
+          hookType: .link,
           cachedPlan: _linkHookPlan,
           setCachedPlan: (plan) => _linkHookPlan = plan,
           reverseOrder: true, // Key difference from [makeBuildHookPlan]
@@ -194,7 +194,7 @@ class NativeAssetsBuildPlanner {
           'Cyclic dependency for ${hookType.name} hooks in the '
           'following packages: $stronglyConnectedComponentWithNativeAssets.',
         );
-        return const Failure(HooksRunnerFailure.projectConfig);
+        return const Failure(.projectConfig);
       } else if (stronglyConnectedComponentWithNativeAssets.length == 1) {
         result.add(
           packageMap[stronglyConnectedComponentWithNativeAssets.single]!,

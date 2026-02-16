@@ -48,7 +48,7 @@ void main() async {
   // check the nested key.
   Map<String, Object> inputJson({
     String hookType = 'build',
-    OS targetOS = OS.android,
+    OS targetOS = .android,
   }) {
     final codeConfig = {
       'target_architecture': 'arm64',
@@ -65,9 +65,9 @@ void main() async {
           },
         },
       },
-      if (targetOS == OS.android) 'android': {'target_ndk_api': 30},
-      if (targetOS == OS.macOS) 'macos': {'target_version': 13},
-      if (targetOS == OS.iOS)
+      if (targetOS == .android) 'android': {'target_ndk_api': 30},
+      if (targetOS == .macOS) 'macos': {'target_version': 13},
+      if (targetOS == .iOS)
         'ios': {'target_sdk': 'iphoneos', 'target_version': 13},
     };
     return {
@@ -128,16 +128,16 @@ void main() async {
 
   void expectCorrectCodeConfig(
     CodeConfig codeCondig, {
-    OS targetOS = OS.android,
+    OS targetOS = .android,
   }) {
     expect(codeCondig.targetArchitecture, Architecture.arm64);
-    if (targetOS == OS.android) {
+    if (targetOS == .android) {
       expect(codeCondig.android.targetNdkApi, 30);
     }
-    if (targetOS == OS.macOS) {
+    if (targetOS == .macOS) {
       expect(codeCondig.macOS.targetVersion, 13);
     }
-    if (targetOS == OS.iOS) {
+    if (targetOS == .iOS) {
       expect(codeCondig.iOS.targetVersion, 13);
       expect(codeCondig.iOS.targetSdk, IOSSdk.iPhoneOS);
     }

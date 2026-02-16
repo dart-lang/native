@@ -40,10 +40,10 @@ final class OS {
   static const List<OS> values = [android, fuchsia, iOS, linux, macOS, windows];
 
   /// Typical cross compilation between OSes.
-  static const osCrossCompilationDefault = {
-    OS.macOS: [OS.macOS, OS.iOS, OS.android],
-    OS.linux: [OS.linux, OS.android],
-    OS.windows: [OS.windows, OS.android],
+  static const Map<OS, List<OS>> osCrossCompilationDefault = {
+    macOS: [macOS, iOS, android],
+    linux: [linux, android],
+    windows: [windows, android],
   };
 
   /// The name of this [OS].
@@ -62,16 +62,16 @@ final class OS {
   /// The current [OS].
   ///
   /// Consisten with the [Platform.version] string.
-  static final OS current = OS.fromString(Platform.operatingSystem);
+  static final OS current = .fromString(Platform.operatingSystem);
 }
 
 /// Extension methods for [OS] to convert to and from the syntax model.
 extension OSSyntaxExtension on OS {
-  static final _toSyntax = {
-    for (final item in OS.values) item: OSSyntax.fromJson(item.name),
+  static final Map<OS, OSSyntax> _toSyntax = {
+    for (final item in OS.values) item: .fromJson(item.name),
   };
 
-  static final _fromSyntax = {
+  static final Map<OSSyntax, OS> _fromSyntax = {
     for (var entry in _toSyntax.entries) entry.value: entry.key,
   };
 

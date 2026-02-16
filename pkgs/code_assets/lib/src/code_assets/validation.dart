@@ -9,8 +9,6 @@ import 'package:hooks/hooks.dart';
 import 'code_asset.dart';
 import 'config.dart';
 import 'link_mode.dart';
-import 'link_mode_preference.dart';
-import 'os.dart';
 import 'syntax.g.dart';
 
 /// Validates the code asset specific parts of a [BuildInput].
@@ -43,7 +41,7 @@ ValidationErrors _validateConfig(String inputName, HookConfig config) {
       ..._validateFile('$inputName.cCompiler.linker', cCompiler.linker),
       ..._validateFile('$inputName.cCompiler.archiver', cCompiler.archiver),
     ]);
-    if (code.targetOS == OS.windows &&
+    if (code.targetOS == .windows &&
         cCompiler.windows.developerCommandPrompt != null) {
       errors.addAll([
         ..._validateFile(
@@ -210,10 +208,8 @@ void _validateCodeAsset(
   if (validateLinkMode) {
     final preference = codeConfig.linkModePreference;
     final linkMode = codeAsset.linkMode;
-    if ((linkMode is DynamicLoading &&
-            preference == LinkModePreference.static) ||
-        (linkMode is StaticLinking &&
-            preference == LinkModePreference.dynamic)) {
+    if ((linkMode is DynamicLoading && preference == .static) ||
+        (linkMode is StaticLinking && preference == .dynamic)) {
       errors.add(
         'CodeAsset "$id" has a link mode "$linkMode", which '
         'is not allowed by by the input link mode preference '

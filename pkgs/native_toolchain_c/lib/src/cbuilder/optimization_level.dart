@@ -42,16 +42,16 @@ final class OptimizationLevel {
   String clangFlag() => '-$_level';
 
   String msvcFlag() => switch (this) {
-    o3 => o2.msvcFlag(),
+    .o3 => o2.msvcFlag(),
     _ => '/$_level',
   };
 
   static const List<OptimizationLevel> values = [
-    o0,
-    o1,
-    o2,
-    o3,
-    oS,
-    unspecified,
+    .o0,
+    .o1,
+    .o2,
+    .o3,
+    .oS,
+    .unspecified,
   ];
 }

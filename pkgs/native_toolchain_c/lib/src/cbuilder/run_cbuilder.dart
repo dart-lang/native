@@ -71,7 +71,7 @@ class RunCBuilder {
     this.defines = const {},
     this.pic,
     this.std,
-    this.language = Language.c,
+    this.language = .c,
     this.cppLinkStdLib,
     required this.optimizationLevel,
   }) : outDir = input.outputDirectory,
@@ -98,12 +98,12 @@ class RunCBuilder {
   Future<Uri> archiver() async => (await _resolver.resolveArchiver()).uri;
 
   Future<Uri> iosSdk(IOSSdk iosSdk, ToolResolvingContext context) async {
-    if (iosSdk == IOSSdk.iPhoneOS) {
+    if (iosSdk == .iPhoneOS) {
       return (await iPhoneOSSdk.defaultResolver!.resolve(
         context,
       )).where((i) => i.tool == iPhoneOSSdk).first.uri;
     }
-    assert(iosSdk == IOSSdk.iPhoneSimulator);
+    assert(iosSdk == .iPhoneSimulator);
     return (await iPhoneSimulatorSdk.defaultResolver!.resolve(
       context,
     )).where((i) => i.tool == iPhoneSimulatorSdk).first.uri;
@@ -141,7 +141,7 @@ class RunCBuilder {
     }
 
     final IOSSdk? targetIosSdk;
-    if (codeConfig.targetOS == OS.iOS) {
+    if (codeConfig.targetOS == .iOS) {
       targetIosSdk = codeConfig.iOS.targetSdk;
     } else {
       targetIosSdk = null;
@@ -151,7 +151,7 @@ class RunCBuilder {
     // invoking clang. Mimic that behavior here.
     // See https://github.com/dart-lang/native/issues/171.
     final int? targetAndroidNdkApi;
-    if (codeConfig.targetOS == OS.android) {
+    if (codeConfig.targetOS == .android) {
       final minimumApi = codeConfig.targetArchitecture == Architecture.riscv64
           ? 35
           : 21;
@@ -160,10 +160,10 @@ class RunCBuilder {
       targetAndroidNdkApi = null;
     }
 
-    final targetIOSVersion = codeConfig.targetOS == OS.iOS
+    final targetIOSVersion = codeConfig.targetOS == .iOS
         ? codeConfig.iOS.targetVersion
         : null;
-    final targetMacOSVersion = codeConfig.targetOS == OS.macOS
+    final targetMacOSVersion = codeConfig.targetOS == .macOS
         ? codeConfig.macOS.targetVersion
         : null;
 
