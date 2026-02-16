@@ -192,7 +192,7 @@ class WorkspaceTask extends Task {
       if (entity is File && entity.path.endsWith('pubspec.yaml')) {
         packages.add(
           Uri.file(
-            p.relative(entity.parent.path, from: repositoryRoot.path),
+            p.relative(entity.parent.path, from: repositoryRoot.toFilePath()),
           ).toString(),
         );
       }
