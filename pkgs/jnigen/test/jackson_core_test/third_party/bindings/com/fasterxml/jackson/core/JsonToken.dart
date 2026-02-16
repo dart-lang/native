@@ -68,8 +68,8 @@ class JsonToken extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class =
-      jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonToken');
+  static jni$_.JClass get _class =>
+      jni$_.JClass.forNameCached(r'com/fasterxml/jackson/core/JsonToken');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<JsonToken?> nullableType =

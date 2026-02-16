@@ -21,8 +21,8 @@ class JClass extends JObject {
   /// Uses an internal LRU cache to minimize JNI calls and GlobalRef usage.
   /// Returns the cached instance owned by the cache.
   ///
-  /// **Important**: Do NOT call [release] on instances returned by this
-  /// factory. The cache manages their lifecycle.
+  /// Do NOT hold a long term reference to the returned [JClass]. The cache
+  /// manages their lifecycle and may evict it at any time.
   factory JClass.forNameCached(String name) {
     return Jni.getCachedClass(name);
   }

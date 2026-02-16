@@ -457,6 +457,7 @@ extension AdditionalEnvMethods on GlobalJniEnv {
 
 @internal
 extension StringMethodsForJni on String {
+  /// Returns a Utf-8 encoded `Pointer<Char>` with contents same as this string.
   Pointer<Char> toNativeChars(Allocator allocator) {
     return toNativeUtf8(allocator: allocator).cast<Char>();
   }

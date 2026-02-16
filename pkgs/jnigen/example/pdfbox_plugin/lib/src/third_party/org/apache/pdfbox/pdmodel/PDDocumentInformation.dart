@@ -72,8 +72,8 @@ class PDDocumentInformation extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class =
-      jni$_.JClass.forName(r'org/apache/pdfbox/pdmodel/PDDocumentInformation');
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
+      r'org/apache/pdfbox/pdmodel/PDDocumentInformation');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<PDDocumentInformation?> nullableType =

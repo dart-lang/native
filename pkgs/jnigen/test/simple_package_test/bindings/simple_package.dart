@@ -52,7 +52,7 @@ class Example$Nested$NestedTwice extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/simple_package/Example$Nested$NestedTwice');
 
   /// The type which includes information such as the signature of this class.
@@ -190,7 +190,7 @@ class Example$Nested extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/simple_package/Example$Nested');
 
   /// The type which includes information such as the signature of this class.
@@ -382,7 +382,7 @@ class Example$NonStaticNested extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/simple_package/Example$NonStaticNested');
 
   /// The type which includes information such as the signature of this class.
@@ -522,7 +522,7 @@ class Example extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/simple_package/Example');
 
   /// The type which includes information such as the signature of this class.
@@ -1855,7 +1855,7 @@ class Exceptions extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/simple_package/Exceptions');
 
   /// The type which includes information such as the signature of this class.
@@ -2386,7 +2386,7 @@ class Fields$Nested extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/simple_package/Fields$Nested');
 
   /// The type which includes information such as the signature of this class.
@@ -2535,7 +2535,7 @@ class Fields extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/simple_package/Fields');
 
   /// The type which includes information such as the signature of this class.
@@ -2787,8 +2787,8 @@ class C2 extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/pkg2/C2');
+  static jni$_.JClass get _class =>
+      jni$_.JClass.forNameCached(r'com/github/dart_lang/jnigen/pkg2/C2');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<C2?> nullableType = $C2$NullableType$();
@@ -2915,8 +2915,8 @@ class Example$1 extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/pkg2/Example');
+  static jni$_.JClass get _class =>
+      jni$_.JClass.forNameCached(r'com/github/dart_lang/jnigen/pkg2/Example');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<Example$1?> nullableType =
@@ -3057,8 +3057,8 @@ class Colors$RGB extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/enums/Colors$RGB');
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
+      r'com/github/dart_lang/jnigen/enums/Colors$RGB');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<Colors$RGB?> nullableType =
@@ -3262,8 +3262,8 @@ class Colors extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/enums/Colors');
+  static jni$_.JClass get _class =>
+      jni$_.JClass.forNameCached(r'com/github/dart_lang/jnigen/enums/Colors');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<Colors?> nullableType = $Colors$NullableType$();
@@ -3475,7 +3475,7 @@ class GenericTypeParams<$S extends jni$_.JObject?, $K extends jni$_.JObject?>
   )   : $type = type<$S, $K>(S, K),
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/generics/GenericTypeParams');
 
   /// The type which includes information such as the signature of this class.
@@ -3664,7 +3664,7 @@ class GrandParent$Parent$Child<
   )   : $type = type<$T, $S, $U>(T, S, U),
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/generics/GrandParent$Parent$Child');
 
   /// The type which includes information such as the signature of this class.
@@ -3936,7 +3936,7 @@ class GrandParent$Parent<$T extends jni$_.JObject?, $S extends jni$_.JObject?>
   )   : $type = type<$T, $S>(T, S),
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/generics/GrandParent$Parent');
 
   /// The type which includes information such as the signature of this class.
@@ -4160,7 +4160,7 @@ class GrandParent$StaticParent$Child<$S extends jni$_.JObject?,
   )   : $type = type<$S, $U>(S, U),
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/generics/GrandParent$StaticParent$Child');
 
   /// The type which includes information such as the signature of this class.
@@ -4390,7 +4390,7 @@ class GrandParent$StaticParent<$S extends jni$_.JObject?>
   )   : $type = type<$S>(S),
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/generics/GrandParent$StaticParent');
 
   /// The type which includes information such as the signature of this class.
@@ -4565,8 +4565,8 @@ class GrandParent<$T extends jni$_.JObject?> extends jni$_.JObject {
   )   : $type = type<$T>(T),
         super.fromReference(reference);
 
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/generics/GrandParent');
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
+      r'com/github/dart_lang/jnigen/generics/GrandParent');
 
   /// The type which includes information such as the signature of this class.
   static jni$_.JType<GrandParent<$T>?> nullableType<$T extends jni$_.JObject?>(
@@ -4880,7 +4880,7 @@ class MyMap$MyEntry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   )   : $type = type<$K, $V>(K, V),
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/generics/MyMap$MyEntry');
 
   /// The type which includes information such as the signature of this class.
@@ -5109,8 +5109,8 @@ class MyMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   )   : $type = type<$K, $V>(K, V),
         super.fromReference(reference);
 
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/generics/MyMap');
+  static jni$_.JClass get _class =>
+      jni$_.JClass.forNameCached(r'com/github/dart_lang/jnigen/generics/MyMap');
 
   /// The type which includes information such as the signature of this class.
   static jni$_.JType<MyMap<$K, $V>?>
@@ -5373,8 +5373,8 @@ class MyStack<$T extends jni$_.JObject?> extends jni$_.JObject {
   )   : $type = type<$T>(T),
         super.fromReference(reference);
 
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/generics/MyStack');
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
+      r'com/github/dart_lang/jnigen/generics/MyStack');
 
   /// The type which includes information such as the signature of this class.
   static jni$_.JType<MyStack<$T>?> nullableType<$T extends jni$_.JObject?>(
@@ -5750,7 +5750,7 @@ class StringKeyedMap<$V extends jni$_.JObject?>
         super.fromReference(
             const jni$_.$JString$NullableType$(), V.nullableType, reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/generics/StringKeyedMap');
 
   /// The type which includes information such as the signature of this class.
@@ -5907,8 +5907,8 @@ class StringMap extends StringKeyedMap<jni$_.JString?> {
   )   : $type = type,
         super.fromReference(const jni$_.$JString$NullableType$(), reference);
 
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/generics/StringMap');
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
+      r'com/github/dart_lang/jnigen/generics/StringMap');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<StringMap?> nullableType =
@@ -6029,8 +6029,8 @@ class StringStack extends MyStack<jni$_.JString?> {
   )   : $type = type,
         super.fromReference(const jni$_.$JString$NullableType$(), reference);
 
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/generics/StringStack');
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
+      r'com/github/dart_lang/jnigen/generics/StringStack');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<StringStack?> nullableType =
@@ -6157,7 +6157,7 @@ class StringValuedMap<$K extends jni$_.JObject?>
         super.fromReference(
             K.nullableType, const jni$_.$JString$NullableType$(), reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/generics/StringValuedMap');
 
   /// The type which includes information such as the signature of this class.
@@ -6318,7 +6318,7 @@ class GenericInterface<$T extends jni$_.JObject?> extends jni$_.JObject {
   )   : $type = type<$T>(T),
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/interfaces/GenericInterface');
 
   /// The type which includes information such as the signature of this class.
@@ -6911,7 +6911,7 @@ class InheritedFromMyInterface extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/interfaces/InheritedFromMyInterface');
 
   /// The type which includes information such as the signature of this class.
@@ -7293,7 +7293,7 @@ class InheritedFromMyRunnable extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/interfaces/InheritedFromMyRunnable');
 
   /// The type which includes information such as the signature of this class.
@@ -7522,7 +7522,7 @@ class MyInterface<$T extends jni$_.JObject?> extends jni$_.JObject {
   )   : $type = type<$T>(T),
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/interfaces/MyInterface');
 
   /// The type which includes information such as the signature of this class.
@@ -7937,7 +7937,7 @@ class MyInterfaceConsumer extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/interfaces/MyInterfaceConsumer');
 
   /// The type which includes information such as the signature of this class.
@@ -8181,7 +8181,7 @@ class MyRunnable extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/interfaces/MyRunnable');
 
   /// The type which includes information such as the signature of this class.
@@ -8403,7 +8403,7 @@ class MyRunnableRunner extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/interfaces/MyRunnableRunner');
 
   /// The type which includes information such as the signature of this class.
@@ -8616,7 +8616,7 @@ class StringConversionException extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/interfaces/StringConversionException');
 
   /// The type which includes information such as the signature of this class.
@@ -8746,7 +8746,7 @@ class StringConverter extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/interfaces/StringConverter');
 
   /// The type which includes information such as the signature of this class.
@@ -8968,7 +8968,7 @@ class StringConverterConsumer extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/interfaces/StringConverterConsumer');
 
   /// The type which includes information such as the signature of this class.
@@ -9176,7 +9176,7 @@ class BaseClass<$T extends jni$_.JObject?> extends jni$_.JObject {
   )   : $type = type<$T>(T),
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/inheritance/BaseClass');
 
   /// The type which includes information such as the signature of this class.
@@ -9333,7 +9333,7 @@ class BaseGenericInterface<$T extends jni$_.JObject?> extends jni$_.JObject {
   )   : $type = type<$T>(T),
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/inheritance/BaseGenericInterface');
 
   /// The type which includes information such as the signature of this class.
@@ -9593,7 +9593,7 @@ class BaseInterface extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/inheritance/BaseInterface');
 
   /// The type which includes information such as the signature of this class.
@@ -9814,7 +9814,7 @@ class DerivedInterface extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/inheritance/DerivedInterface');
 
   /// The type which includes information such as the signature of this class.
@@ -10041,7 +10041,7 @@ class GenericDerivedClass<$T extends jni$_.JObject?> extends BaseClass<$T?> {
   )   : $type = type<$T>(T),
         super.fromReference(T.nullableType, reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/inheritance/GenericDerivedClass');
 
   /// The type which includes information such as the signature of this class.
@@ -10196,7 +10196,7 @@ class SpecificDerivedClass extends BaseClass<jni$_.JString?> {
   )   : $type = type,
         super.fromReference(const jni$_.$JString$NullableType$(), reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/inheritance/SpecificDerivedClass');
 
   /// The type which includes information such as the signature of this class.
@@ -10341,7 +10341,7 @@ class Annotated$Nested<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   )   : $type = type<$T, $U, $W, $V>(T, U, W, V),
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/annotations/Annotated$Nested');
 
   /// The type which includes information such as the signature of this class.
@@ -10630,7 +10630,7 @@ class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   )   : $type = type<$T, $U, $W>(T, U, W),
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/annotations/Annotated');
 
   /// The type which includes information such as the signature of this class.
@@ -12545,7 +12545,7 @@ class JsonSerializable$Case extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/annotations/JsonSerializable$Case');
 
   /// The type which includes information such as the signature of this class.
@@ -12731,7 +12731,7 @@ class JsonSerializable extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/annotations/JsonSerializable');
 
   /// The type which includes information such as the signature of this class.
@@ -12956,7 +12956,7 @@ class MyDataClass extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/annotations/MyDataClass');
 
   /// The type which includes information such as the signature of this class.
@@ -13078,8 +13078,8 @@ class NotNull extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/annotations/NotNull');
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
+      r'com/github/dart_lang/jnigen/annotations/NotNull');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<NotNull?> nullableType = $NotNull$NullableType$();
@@ -13250,8 +13250,8 @@ class Nullable extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/annotations/Nullable');
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
+      r'com/github/dart_lang/jnigen/annotations/Nullable');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<Nullable?> nullableType = $Nullable$NullableType$();
@@ -13422,7 +13422,7 @@ class R2250$Child extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/regressions/R2250$Child');
 
   /// The type which includes information such as the signature of this class.
@@ -13652,8 +13652,8 @@ class R2250<$T extends jni$_.JObject?> extends jni$_.JObject {
   )   : $type = type<$T>(T),
         super.fromReference(reference);
 
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/regressions/R2250');
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
+      r'com/github/dart_lang/jnigen/regressions/R2250');
 
   /// The type which includes information such as the signature of this class.
   static jni$_.JType<R2250<$T>?> nullableType<$T extends jni$_.JObject?>(
@@ -13911,7 +13911,7 @@ class R693$Child extends R693<R693$Child?> {
   )   : $type = type,
         super.fromReference(const $R693$Child$NullableType$(), reference);
 
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/regressions/R693$Child');
 
   /// The type which includes information such as the signature of this class.
@@ -14039,8 +14039,8 @@ class R693<$T extends jni$_.JObject?> extends jni$_.JObject {
   )   : $type = type<$T>(T),
         super.fromReference(reference);
 
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/regressions/R693');
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
+      r'com/github/dart_lang/jnigen/regressions/R693');
 
   /// The type which includes information such as the signature of this class.
   static jni$_.JType<R693<$T>?> nullableType<$T extends jni$_.JObject?>(

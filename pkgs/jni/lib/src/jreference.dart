@@ -190,4 +190,3 @@ final class _JNullReference extends JReference {
   @override
   bool get isNull => true;
 }
-
