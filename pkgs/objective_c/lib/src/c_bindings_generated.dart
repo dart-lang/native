@@ -122,6 +122,38 @@ final class DOBJC_Context extends ffi.Struct {
 
   external ffi.Pointer<ffi.NativeFunction<ffi.Bool Function(ffi.Int64)>>
   getCurrentThreadOwnsIsolate;
+
+  static ffi.Pointer<DOBJC_Context> $allocate(
+    ffi.Allocator $allocator, {
+    required int version,
+    required ffi.Pointer<ffi.NativeFunction<ffi.Pointer<ffi.Void> Function()>>
+    newWaiter$1,
+    required ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void>)>
+    >
+    awaitWaiter$1,
+    required ffi.Pointer<
+      ffi.NativeFunction<ffi.Pointer<_Dart_Isolate> Function()>
+    >
+    currentIsolate,
+    required ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<_Dart_Isolate>)>
+    >
+    enterIsolate,
+    required ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> exitIsolate,
+    required ffi.Pointer<ffi.NativeFunction<ffi.Int64 Function()>>
+    getMainPortId,
+    required ffi.Pointer<ffi.NativeFunction<ffi.Bool Function(ffi.Int64)>>
+    getCurrentThreadOwnsIsolate,
+  }) => $allocator<DOBJC_Context>()
+    ..ref.version = version
+    ..ref.newWaiter$1 = newWaiter$1
+    ..ref.awaitWaiter$1 = awaitWaiter$1
+    ..ref.currentIsolate = currentIsolate
+    ..ref.enterIsolate = enterIsolate
+    ..ref.exitIsolate = exitIsolate
+    ..ref.getMainPortId = getMainPortId
+    ..ref.getCurrentThreadOwnsIsolate = getCurrentThreadOwnsIsolate;
 }
 
 typedef Dart_FinalizableHandle = ffi.Pointer<Dart_FinalizableHandle_>;
@@ -150,6 +182,28 @@ final class ObjCBlockDesc extends ffi.Struct {
   dispose_helper;
 
   external ffi.Pointer<ffi.Char> signature;
+
+  static ffi.Pointer<ObjCBlockDesc> $allocate(
+    ffi.Allocator $allocator, {
+    required int reserved,
+    required int size,
+    required ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Void Function(ffi.Pointer<ffi.Void> dst, ffi.Pointer<ffi.Void> src)
+      >
+    >
+    copy_helper,
+    required ffi.Pointer<
+      ffi.NativeFunction<ffi.Void Function(ffi.Pointer<ffi.Void> src)>
+    >
+    dispose_helper,
+    required ffi.Pointer<ffi.Char> signature,
+  }) => $allocator<ObjCBlockDesc>()
+    ..ref.reserved = reserved
+    ..ref.size = size
+    ..ref.copy_helper = copy_helper
+    ..ref.dispose_helper = dispose_helper
+    ..ref.signature = signature;
 }
 
 final class ObjCBlockImpl extends ffi.Struct {
@@ -169,6 +223,24 @@ final class ObjCBlockImpl extends ffi.Struct {
 
   @ffi.Int64()
   external int dispose_port;
+
+  static ffi.Pointer<ObjCBlockImpl> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<ffi.Void> isa,
+    required int flags,
+    required int reserved,
+    required ffi.Pointer<ffi.Void> invoke,
+    required ffi.Pointer<ObjCBlockDesc> descriptor,
+    required ffi.Pointer<ffi.Void> target,
+    required int dispose_port,
+  }) => $allocator<ObjCBlockImpl>()
+    ..ref.isa = isa
+    ..ref.flags = flags
+    ..ref.reserved = reserved
+    ..ref.invoke = invoke
+    ..ref.descriptor = descriptor
+    ..ref.target = target
+    ..ref.dispose_port = dispose_port;
 }
 
 final class ObjCObjectImpl extends ffi.Opaque {}
@@ -184,4 +256,14 @@ final class _Version extends ffi.Struct {
 
   @ffi.Int()
   external int patch;
+
+  static ffi.Pointer<_Version> $allocate(
+    ffi.Allocator $allocator, {
+    required int major,
+    required int minor,
+    required int patch,
+  }) => $allocator<_Version>()
+    ..ref.major = major
+    ..ref.minor = minor
+    ..ref.patch = patch;
 }
