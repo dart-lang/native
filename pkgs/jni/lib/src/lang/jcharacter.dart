@@ -74,9 +74,7 @@ class JCharacter extends JObject {
   // ignore: overridden_fields
   final JType<JCharacter> $type = type;
 
-  JCharacter.fromReference(
-    super.reference,
-  ) : super.fromReference();
+  JCharacter.fromReference(super.reference) : super.fromReference();
 
   /// The type which includes information such as the signature of this class.
   static const JType<JCharacter> type = $JCharacter$Type$();
@@ -89,7 +87,7 @@ class JCharacter extends JObject {
   static final _ctorId = _class.constructorId(r'(C)V');
 
   JCharacter(int c)
-      : super.fromReference(_ctorId(_class, referenceType, [JValueChar(c)]));
+    : super.fromReference(_ctorId(_class, referenceType, [JValueChar(c)]));
 
   static final _charValueId = _class.instanceMethodId(r'charValue', r'()C');
 

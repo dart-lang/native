@@ -16,8 +16,11 @@ const cmakeGeneratorNames = {
 
 void runCommand(String exec, List<String> args, String workingDirectory) {
   stderr.writeln('+ $exec ${args.join(" ")}');
-  final process =
-      Process.runSync(exec, args, workingDirectory: workingDirectory);
+  final process = Process.runSync(
+    exec,
+    args,
+    workingDirectory: workingDirectory,
+  );
   if (process.exitCode != 0) {
     stdout.writeln(process.stdout);
     stderr.writeln(process.stderr);
@@ -38,8 +41,10 @@ void main(List<String> arguments) {
     ..addFlag('help', abbr: 'h', help: 'Show this usage information.');
   final argResults = argParser.parse(arguments);
   if (argResults.rest.isNotEmpty || argResults['help'] as bool) {
-    stderr.writeln('This script generates compile_commands.json for '
-        'C source files in src/');
+    stderr.writeln(
+      'This script generates compile_commands.json for '
+      'C source files in src/',
+    );
     stderr.writeln(argParser.usage);
     exitCode = 1;
     return;
@@ -48,15 +53,12 @@ void main(List<String> arguments) {
   final tempDir = Directory.current.createTempSync('clangd_setup_temp_');
   final src = Directory.current.uri.resolve('src/');
   try {
-    runCommand(
-        'cmake',
-        [
-          '-DCMAKE_EXPORT_COMPILE_COMMANDS=1',
-          src.toFilePath(),
-          '-G',
-          generator!,
-        ],
-        tempDir.path);
+    runCommand('cmake', [
+      '-DCMAKE_EXPORT_COMPILE_COMMANDS=1',
+      src.toFilePath(),
+      '-G',
+      generator!,
+    ], tempDir.path);
     final createdFile = tempDir.uri.resolve('compile_commands.json');
     final target = src.resolve('compile_commands.json');
     File.fromUri(createdFile).renameSync(target.toFilePath());

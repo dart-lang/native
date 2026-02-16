@@ -28,7 +28,8 @@ class MethodInvocation {
     return MethodInvocation._(
       Pointer<CallbackResult>.fromAddress(resultAddress),
       JString.fromReference(
-          JGlobalReference(Pointer<Void>.fromAddress(descriptorAddress))),
+        JGlobalReference(Pointer<Void>.fromAddress(descriptorAddress)),
+      ),
       argsAddress == 0
           ? null
           : JArray.fromReference(

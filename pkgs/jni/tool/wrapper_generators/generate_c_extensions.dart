@@ -43,7 +43,8 @@ const wrapperDeclIncludes = '''
 
 ''';
 
-const wrapperGetter = '''
+const wrapperGetter =
+    '''
 FFI_PLUGIN_EXPORT
 $wrapperName* GetGlobalEnv() {
   if (jni->jvm == NULL) {
@@ -53,7 +54,8 @@ $wrapperName* GetGlobalEnv() {
 }
 ''';
 
-const wrapperGetterDecl = '''
+const wrapperGetterDecl =
+    '''
 FFI_PLUGIN_EXPORT $wrapperName* GetGlobalEnv();
 ''';
 
@@ -99,7 +101,8 @@ String getFunctionFieldDecl(CompoundMember field, {required bool isField}) {
     final resultWrapper = getResultWrapper(getCType(functionType.returnType));
     final name = field.name;
     final withVarArgs = hasVarArgs(name);
-    final params = functionType.parameters
+    final params =
+        functionType.parameters
             .map((param) => '${getCType(param.type)} ${param.name}')
             .join(', ') +
         (withVarArgs ? ', ...' : '');
@@ -117,21 +120,22 @@ String getFunctionFieldDecl(CompoundMember field, {required bool isField}) {
 class ResultWrapper {
   String returnType, onResult, onError;
   ResultWrapper.withResultAndError(
-      this.returnType, this.onResult, this.onError);
-  ResultWrapper.unionType(
-    String returnType,
-    String defaultValue,
-  ) : this.withResultAndError(
-          returnType,
-          '($returnType){.value = $resultVar, .exception = NULL}',
-          '($returnType){.value = $defaultValue, .exception = $errorVar}',
-        );
+    this.returnType,
+    this.onResult,
+    this.onError,
+  );
+  ResultWrapper.unionType(String returnType, String defaultValue)
+    : this.withResultAndError(
+        returnType,
+        '($returnType){.value = $resultVar, .exception = NULL}',
+        '($returnType){.value = $defaultValue, .exception = $errorVar}',
+      );
   ResultWrapper.forJValueField(String fieldChar)
-      : this.withResultAndError(
-          'JniResult',
-          '(JniResult){.value = {.$fieldChar = $resultVar}, .exception = NULL}',
-          '(JniResult){.value = {.j = 0}, .exception = $errorVar}',
-        );
+    : this.withResultAndError(
+        'JniResult',
+        '(JniResult){.value = {.$fieldChar = $resultVar}, .exception = NULL}',
+        '(JniResult){.value = {.j = 0}, .exception = $errorVar}',
+      );
 }
 
 String jValueGetterOf(String returnType) {
@@ -170,11 +174,7 @@ ResultWrapper getResultWrapper(String returnType) {
 
   switch (returnType) {
     case 'void':
-      return ResultWrapper.withResultAndError(
-        'jthrowable',
-        'NULL',
-        errorVar,
-      );
+      return ResultWrapper.withResultAndError('jthrowable', 'NULL', errorVar);
     case 'jmethodID':
     case 'jfieldID':
       return ResultWrapper.unionType('JniPointerResult', 'NULL');
@@ -196,7 +196,7 @@ bool isJRefType(String type) {
     'jstring',
     'jthrowable',
     'jarray',
-    'jweak'
+    'jweak',
   };
   return (type.startsWith('j') && type.endsWith('Array')) ||
       refTypes.contains(type);
@@ -241,8 +241,9 @@ String? getWrapperFunc(CompoundMember field) {
     final returnType = getCType(outerFunctionType.returnType);
     final withVarArgs = hasVarArgs(field.name);
     final params = [
-      ...outerFunctionType.parameters
-          .map((param) => '${getCType(param.type)} ${param.name}'),
+      ...outerFunctionType.parameters.map(
+        (param) => '${getCType(param.type)} ${param.name}',
+      ),
       if (withVarArgs) '...',
     ].join(', ');
     var returnCapture = returnType == 'void' ? '' : '$returnType $resultVar =';
@@ -303,17 +304,20 @@ void writeGlobalJniEnvWrapper(Library library) {
       .map((member) => getFunctionFieldDecl(member, isField: false))
       .join('\n');
   final generatedFields = primitiveArrayHelperFields.join();
-  final structDecl = '''
+  final structDecl =
+      '''
 typedef struct $wrapperName {
   $fieldDecls
   $generatedFields
 } $wrapperName;
 ''';
-  File.fromUri(Paths.globalJniEnvH).writeAsStringSync('$preamble'
-      '$wrapperDeclIncludes'
-      '$structDecl'
-      '$wrapperGetterDecl'
-      '$varArgsFunctions\n');
+  File.fromUri(Paths.globalJniEnvH).writeAsStringSync(
+    '$preamble'
+    '$wrapperDeclIncludes'
+    '$structDecl'
+    '$wrapperGetterDecl'
+    '$varArgsFunctions\n',
+  );
 
   final functionWrappers = StringBuffer();
   final structInst = StringBuffer('$wrapperName globalJniEnv = {\n');
@@ -326,21 +330,24 @@ typedef struct $wrapperName {
     if (wrapper == null) {
       structInst.writeln('.${member.name} = NULL,');
     } else {
-      structInst
-          .writeln('.${member.name} = ${getWrapperFuncName(member.name)},');
+      structInst.writeln(
+        '.${member.name} = ${getWrapperFuncName(member.name)},',
+      );
       functionWrappers.writeln(wrapper);
     }
   }
   final generatedFunctions = primitiveArrayHelperFunctions;
   for (final function in generatedFunctions) {
-    structInst
-        .writeln('.${function.name} = ${getWrapperFuncName(function.name)},');
+    structInst.writeln(
+      '.${function.name} = ${getWrapperFuncName(function.name)},',
+    );
     functionWrappers.writeln(function);
   }
 
   structInst.write('};');
   File.fromUri(Paths.globalJniEnvC).writeAsStringSync(
-      '$preamble$wrapperIncludes$functionWrappers$structInst$wrapperGetter');
+    '$preamble$wrapperIncludes$functionWrappers$structInst$wrapperGetter',
+  );
 }
 
 void executeClangFormat(List<Uri> files) {

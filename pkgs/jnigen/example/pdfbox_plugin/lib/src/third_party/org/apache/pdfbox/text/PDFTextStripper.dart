@@ -71,13 +71,13 @@ class PDFTextStripper extends jni$_.JObject {
   final jni$_.JType<PDFTextStripper> $type;
 
   @jni$_.internal
-  PDFTextStripper.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
+  PDFTextStripper.fromReference(jni$_.JReference reference)
+    : $type = type,
+      super.fromReference(reference);
 
-  static final _class =
-      jni$_.JClass.forName(r'org/apache/pdfbox/text/PDFTextStripper');
+  static final _class = jni$_.JClass.forName(
+    r'org/apache/pdfbox/text/PDFTextStripper',
+  );
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<PDFTextStripper?> nullableType =
@@ -85,21 +85,23 @@ class PDFTextStripper extends jni$_.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<PDFTextStripper> type = $PDFTextStripper$Type$();
-  static final _id_new$ = _class.constructorId(
-    r'()V',
-  );
+  static final _id_new$ = _class.constructorId(r'()V');
 
-  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _new$ =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_NewObject')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -108,8 +110,8 @@ class PDFTextStripper extends jni$_.JObject {
   ///@throws IOException If there is an error loading the properties.
   factory PDFTextStripper() {
     return PDFTextStripper.fromReference(
-        _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
-            .reference);
+      _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
+    );
   }
 
   static final _id_getText = _class.instanceMethodId(
@@ -117,16 +119,23 @@ class PDFTextStripper extends jni$_.JObject {
     r'(Lorg/apache/pdfbox/pdmodel/PDDocument;)Ljava/lang/String;',
   );
 
-  static final _getText = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _getText =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public java.lang.String getText(org.apache.pdfbox.pdmodel.PDDocument doc)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -141,13 +150,13 @@ class PDFTextStripper extends jni$_.JObject {
   ///@param doc The document to get the text from.
   ///@return The text of the PDF document.
   ///@throws IOException if the doc state is invalid or it is encrypted.
-  jni$_.JString? getText(
-    pddocument$_.PDDocument? doc,
-  ) {
+  jni$_.JString? getText(pddocument$_.PDDocument? doc) {
     final _$doc = doc?.reference ?? jni$_.jNullReference;
     return _getText(
-            reference.pointer, _id_getText as jni$_.JMethodIDPtr, _$doc.pointer)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+      reference.pointer,
+      _id_getText as jni$_.JMethodIDPtr,
+      _$doc.pointer,
+    ).object<jni$_.JString?>(const jni$_.$JString$NullableType$());
   }
 
   static final _id_writeText = _class.instanceMethodId(
@@ -155,22 +164,26 @@ class PDFTextStripper extends jni$_.JObject {
     r'(Lorg/apache/pdfbox/pdmodel/PDDocument;Ljava/io/Writer;)V',
   );
 
-  static final _writeText = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _writeText =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void writeText(org.apache.pdfbox.pdmodel.PDDocument doc, java.io.Writer outputStream)`
   ///
@@ -178,15 +191,15 @@ class PDFTextStripper extends jni$_.JObject {
   ///@param doc The document to get the data from.
   ///@param outputStream The location to put the text.
   ///@throws IOException If the doc is in an invalid state.
-  void writeText(
-    pddocument$_.PDDocument? doc,
-    jni$_.JObject? outputStream,
-  ) {
+  void writeText(pddocument$_.PDDocument? doc, jni$_.JObject? outputStream) {
     final _$doc = doc?.reference ?? jni$_.jNullReference;
     final _$outputStream = outputStream?.reference ?? jni$_.jNullReference;
-    _writeText(reference.pointer, _id_writeText as jni$_.JMethodIDPtr,
-            _$doc.pointer, _$outputStream.pointer)
-        .check();
+    _writeText(
+      reference.pointer,
+      _id_writeText as jni$_.JMethodIDPtr,
+      _$doc.pointer,
+      _$outputStream.pointer,
+    ).check();
   }
 
   static final _id_processPage = _class.instanceMethodId(
@@ -194,29 +207,36 @@ class PDFTextStripper extends jni$_.JObject {
     r'(Lorg/apache/pdfbox/pdmodel/PDPage;)V',
   );
 
-  static final _processPage = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _processPage =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void processPage(org.apache.pdfbox.pdmodel.PDPage page)`
   ///
   /// This will process the contents of a page.
   ///@param page The page to process.
   ///@throws IOException If there is an error processing the page.
-  void processPage(
-    jni$_.JObject? page,
-  ) {
+  void processPage(jni$_.JObject? page) {
     final _$page = page?.reference ?? jni$_.jNullReference;
-    _processPage(reference.pointer, _id_processPage as jni$_.JMethodIDPtr,
-            _$page.pointer)
-        .check();
+    _processPage(
+      reference.pointer,
+      _id_processPage as jni$_.JMethodIDPtr,
+      _$page.pointer,
+    ).check();
   }
 
   static final _id_getStartPage = _class.instanceMethodId(
@@ -224,17 +244,21 @@ class PDFTextStripper extends jni$_.JObject {
     r'()I',
   );
 
-  static final _getStartPage = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getStartPage =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallIntMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public int getStartPage()`
   ///
@@ -244,8 +268,9 @@ class PDFTextStripper extends jni$_.JObject {
   ///@return Value of property startPage.
   int getStartPage() {
     return _getStartPage(
-            reference.pointer, _id_getStartPage as jni$_.JMethodIDPtr)
-        .integer;
+      reference.pointer,
+      _id_getStartPage as jni$_.JMethodIDPtr,
+    ).integer;
   }
 
   static final _id_setStartPage = _class.instanceMethodId(
@@ -253,44 +278,53 @@ class PDFTextStripper extends jni$_.JObject {
     r'(I)V',
   );
 
-  static final _setStartPage = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _setStartPage =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int32,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              int,
+            )
+          >();
 
   /// from: `public void setStartPage(int startPageValue)`
   ///
   /// This will set the first page to be extracted by this class.
   ///@param startPageValue New value of 1-based startPage property.
-  void setStartPage(
-    int startPageValue,
-  ) {
-    _setStartPage(reference.pointer, _id_setStartPage as jni$_.JMethodIDPtr,
-            startPageValue)
-        .check();
+  void setStartPage(int startPageValue) {
+    _setStartPage(
+      reference.pointer,
+      _id_setStartPage as jni$_.JMethodIDPtr,
+      startPageValue,
+    ).check();
   }
 
-  static final _id_getEndPage = _class.instanceMethodId(
-    r'getEndPage',
-    r'()I',
-  );
+  static final _id_getEndPage = _class.instanceMethodId(r'getEndPage', r'()I');
 
-  static final _getEndPage = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getEndPage =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallIntMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public int getEndPage()`
   ///
@@ -299,35 +333,42 @@ class PDFTextStripper extends jni$_.JObject {
   /// Integer.MAX_VALUE such that all pages of the pdf will be extracted.
   ///@return Value of property endPage.
   int getEndPage() {
-    return _getEndPage(reference.pointer, _id_getEndPage as jni$_.JMethodIDPtr)
-        .integer;
+    return _getEndPage(
+      reference.pointer,
+      _id_getEndPage as jni$_.JMethodIDPtr,
+    ).integer;
   }
 
-  static final _id_setEndPage = _class.instanceMethodId(
-    r'setEndPage',
-    r'(I)V',
-  );
+  static final _id_setEndPage = _class.instanceMethodId(r'setEndPage', r'(I)V');
 
-  static final _setEndPage = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _setEndPage =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int32,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              int,
+            )
+          >();
 
   /// from: `public void setEndPage(int endPageValue)`
   ///
   /// This will set the last page to be extracted by this class.
   ///@param endPageValue New value of 1-based endPage property.
-  void setEndPage(
-    int endPageValue,
-  ) {
-    _setEndPage(reference.pointer, _id_setEndPage as jni$_.JMethodIDPtr,
-            endPageValue)
-        .check();
+  void setEndPage(int endPageValue) {
+    _setEndPage(
+      reference.pointer,
+      _id_setEndPage as jni$_.JMethodIDPtr,
+      endPageValue,
+    ).check();
   }
 
   static final _id_setLineSeparator = _class.instanceMethodId(
@@ -335,29 +376,36 @@ class PDFTextStripper extends jni$_.JObject {
     r'(Ljava/lang/String;)V',
   );
 
-  static final _setLineSeparator = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _setLineSeparator =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void setLineSeparator(java.lang.String separator)`
   ///
   /// Set the desired line separator for output text. The line.separator system property is used if the line separator
   /// preference is not set explicitly using this method.
   ///@param separator The desired line separator string.
-  void setLineSeparator(
-    jni$_.JString? separator,
-  ) {
+  void setLineSeparator(jni$_.JString? separator) {
     final _$separator = separator?.reference ?? jni$_.jNullReference;
-    _setLineSeparator(reference.pointer,
-            _id_setLineSeparator as jni$_.JMethodIDPtr, _$separator.pointer)
-        .check();
+    _setLineSeparator(
+      reference.pointer,
+      _id_setLineSeparator as jni$_.JMethodIDPtr,
+      _$separator.pointer,
+    ).check();
   }
 
   static final _id_getLineSeparator = _class.instanceMethodId(
@@ -365,17 +413,21 @@ class PDFTextStripper extends jni$_.JObject {
     r'()Ljava/lang/String;',
   );
 
-  static final _getLineSeparator = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getLineSeparator =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public java.lang.String getLineSeparator()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -384,8 +436,9 @@ class PDFTextStripper extends jni$_.JObject {
   ///@return The desired line separator string.
   jni$_.JString? getLineSeparator() {
     return _getLineSeparator(
-            reference.pointer, _id_getLineSeparator as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+      reference.pointer,
+      _id_getLineSeparator as jni$_.JMethodIDPtr,
+    ).object<jni$_.JString?>(const jni$_.$JString$NullableType$());
   }
 
   static final _id_getWordSeparator = _class.instanceMethodId(
@@ -393,17 +446,21 @@ class PDFTextStripper extends jni$_.JObject {
     r'()Ljava/lang/String;',
   );
 
-  static final _getWordSeparator = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getWordSeparator =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public java.lang.String getWordSeparator()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -412,8 +469,9 @@ class PDFTextStripper extends jni$_.JObject {
   ///@return The desired word separator string.
   jni$_.JString? getWordSeparator() {
     return _getWordSeparator(
-            reference.pointer, _id_getWordSeparator as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+      reference.pointer,
+      _id_getWordSeparator as jni$_.JMethodIDPtr,
+    ).object<jni$_.JString?>(const jni$_.$JString$NullableType$());
   }
 
   static final _id_setWordSeparator = _class.instanceMethodId(
@@ -421,16 +479,23 @@ class PDFTextStripper extends jni$_.JObject {
     r'(Ljava/lang/String;)V',
   );
 
-  static final _setWordSeparator = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _setWordSeparator =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void setWordSeparator(java.lang.String separator)`
   ///
@@ -439,58 +504,64 @@ class PDFTextStripper extends jni$_.JObject {
   /// accurate count of characters that are found in a PDF document then you might want to set the word separator to
   /// the empty string.
   ///@param separator The desired page separator string.
-  void setWordSeparator(
-    jni$_.JString? separator,
-  ) {
+  void setWordSeparator(jni$_.JString? separator) {
     final _$separator = separator?.reference ?? jni$_.jNullReference;
-    _setWordSeparator(reference.pointer,
-            _id_setWordSeparator as jni$_.JMethodIDPtr, _$separator.pointer)
-        .check();
+    _setWordSeparator(
+      reference.pointer,
+      _id_setWordSeparator as jni$_.JMethodIDPtr,
+      _$separator.pointer,
+    ).check();
   }
 
-  static final _id_getSuppressDuplicateOverlappingText =
-      _class.instanceMethodId(
-    r'getSuppressDuplicateOverlappingText',
-    r'()Z',
-  );
+  static final _id_getSuppressDuplicateOverlappingText = _class
+      .instanceMethodId(r'getSuppressDuplicateOverlappingText', r'()Z');
 
   static final _getSuppressDuplicateOverlappingText =
       jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                    jni$_.Pointer<jni$_.Void>,
-                    jni$_.JMethodIDPtr,
-                  )>>('globalEnv_CallBooleanMethod')
-          .asFunction<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>();
+              )
+            >
+          >('globalEnv_CallBooleanMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public boolean getSuppressDuplicateOverlappingText()`
   ///
   /// @return Returns the suppressDuplicateOverlappingText.
   core$_.bool getSuppressDuplicateOverlappingText() {
-    return _getSuppressDuplicateOverlappingText(reference.pointer,
-            _id_getSuppressDuplicateOverlappingText as jni$_.JMethodIDPtr)
-        .boolean;
+    return _getSuppressDuplicateOverlappingText(
+      reference.pointer,
+      _id_getSuppressDuplicateOverlappingText as jni$_.JMethodIDPtr,
+    ).boolean;
   }
 
-  static final _id_setSuppressDuplicateOverlappingText =
-      _class.instanceMethodId(
-    r'setSuppressDuplicateOverlappingText',
-    r'(Z)V',
-  );
+  static final _id_setSuppressDuplicateOverlappingText = _class
+      .instanceMethodId(r'setSuppressDuplicateOverlappingText', r'(Z)V');
 
   static final _setSuppressDuplicateOverlappingText =
       jni$_.ProtectedJniExtensions.lookup<
-                  jni$_.NativeFunction<
-                      jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-                          jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
-              'globalEnv_CallVoidMethod')
-          .asFunction<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int32,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              int,
+            )
+          >();
 
   /// from: `public void setSuppressDuplicateOverlappingText(boolean suppressDuplicateOverlappingTextValue)`
   ///
@@ -502,10 +573,10 @@ class PDFTextStripper extends jni$_.JObject {
     core$_.bool suppressDuplicateOverlappingTextValue,
   ) {
     _setSuppressDuplicateOverlappingText(
-            reference.pointer,
-            _id_setSuppressDuplicateOverlappingText as jni$_.JMethodIDPtr,
-            suppressDuplicateOverlappingTextValue ? 1 : 0)
-        .check();
+      reference.pointer,
+      _id_setSuppressDuplicateOverlappingText as jni$_.JMethodIDPtr,
+      suppressDuplicateOverlappingTextValue ? 1 : 0,
+    ).check();
   }
 
   static final _id_getSeparateByBeads = _class.instanceMethodId(
@@ -513,17 +584,21 @@ class PDFTextStripper extends jni$_.JObject {
     r'()Z',
   );
 
-  static final _getSeparateByBeads = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getSeparateByBeads =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallBooleanMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public boolean getSeparateByBeads()`
   ///
@@ -531,8 +606,9 @@ class PDFTextStripper extends jni$_.JObject {
   ///@return If the text will be grouped by beads.
   core$_.bool getSeparateByBeads() {
     return _getSeparateByBeads(
-            reference.pointer, _id_getSeparateByBeads as jni$_.JMethodIDPtr)
-        .boolean;
+      reference.pointer,
+      _id_getSeparateByBeads as jni$_.JMethodIDPtr,
+    ).boolean;
   }
 
   static final _id_setShouldSeparateByBeads = _class.instanceMethodId(
@@ -540,28 +616,34 @@ class PDFTextStripper extends jni$_.JObject {
     r'(Z)V',
   );
 
-  static final _setShouldSeparateByBeads = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _setShouldSeparateByBeads =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int32,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              int,
+            )
+          >();
 
   /// from: `public void setShouldSeparateByBeads(boolean aShouldSeparateByBeads)`
   ///
   /// Set if the text stripper should group the text output by a list of beads. The default value is true!
   ///@param aShouldSeparateByBeads The new grouping of beads.
-  void setShouldSeparateByBeads(
-    core$_.bool aShouldSeparateByBeads,
-  ) {
+  void setShouldSeparateByBeads(core$_.bool aShouldSeparateByBeads) {
     _setShouldSeparateByBeads(
-            reference.pointer,
-            _id_setShouldSeparateByBeads as jni$_.JMethodIDPtr,
-            aShouldSeparateByBeads ? 1 : 0)
-        .check();
+      reference.pointer,
+      _id_setShouldSeparateByBeads as jni$_.JMethodIDPtr,
+      aShouldSeparateByBeads ? 1 : 0,
+    ).check();
   }
 
   static final _id_getEndBookmark = _class.instanceMethodId(
@@ -569,17 +651,21 @@ class PDFTextStripper extends jni$_.JObject {
     r'()Lorg/apache/pdfbox/pdmodel/interactive/documentnavigation/outline/PDOutlineItem;',
   );
 
-  static final _getEndBookmark = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getEndBookmark =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem getEndBookmark()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -588,8 +674,9 @@ class PDFTextStripper extends jni$_.JObject {
   ///@return The ending bookmark.
   jni$_.JObject? getEndBookmark() {
     return _getEndBookmark(
-            reference.pointer, _id_getEndBookmark as jni$_.JMethodIDPtr)
-        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+      reference.pointer,
+      _id_getEndBookmark as jni$_.JMethodIDPtr,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
   }
 
   static final _id_setEndBookmark = _class.instanceMethodId(
@@ -597,28 +684,35 @@ class PDFTextStripper extends jni$_.JObject {
     r'(Lorg/apache/pdfbox/pdmodel/interactive/documentnavigation/outline/PDOutlineItem;)V',
   );
 
-  static final _setEndBookmark = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _setEndBookmark =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void setEndBookmark(org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem aEndBookmark)`
   ///
   /// Set the bookmark where the text extraction should stop.
   ///@param aEndBookmark The ending bookmark.
-  void setEndBookmark(
-    jni$_.JObject? aEndBookmark,
-  ) {
+  void setEndBookmark(jni$_.JObject? aEndBookmark) {
     final _$aEndBookmark = aEndBookmark?.reference ?? jni$_.jNullReference;
-    _setEndBookmark(reference.pointer, _id_setEndBookmark as jni$_.JMethodIDPtr,
-            _$aEndBookmark.pointer)
-        .check();
+    _setEndBookmark(
+      reference.pointer,
+      _id_setEndBookmark as jni$_.JMethodIDPtr,
+      _$aEndBookmark.pointer,
+    ).check();
   }
 
   static final _id_getStartBookmark = _class.instanceMethodId(
@@ -626,17 +720,21 @@ class PDFTextStripper extends jni$_.JObject {
     r'()Lorg/apache/pdfbox/pdmodel/interactive/documentnavigation/outline/PDOutlineItem;',
   );
 
-  static final _getStartBookmark = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getStartBookmark =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem getStartBookmark()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -645,8 +743,9 @@ class PDFTextStripper extends jni$_.JObject {
   ///@return The starting bookmark.
   jni$_.JObject? getStartBookmark() {
     return _getStartBookmark(
-            reference.pointer, _id_getStartBookmark as jni$_.JMethodIDPtr)
-        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+      reference.pointer,
+      _id_getStartBookmark as jni$_.JMethodIDPtr,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
   }
 
   static final _id_setStartBookmark = _class.instanceMethodId(
@@ -654,30 +753,35 @@ class PDFTextStripper extends jni$_.JObject {
     r'(Lorg/apache/pdfbox/pdmodel/interactive/documentnavigation/outline/PDOutlineItem;)V',
   );
 
-  static final _setStartBookmark = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _setStartBookmark =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void setStartBookmark(org.apache.pdfbox.pdmodel.interactive.documentnavigation.outline.PDOutlineItem aStartBookmark)`
   ///
   /// Set the bookmark where text extraction should start, inclusive.
   ///@param aStartBookmark The starting bookmark.
-  void setStartBookmark(
-    jni$_.JObject? aStartBookmark,
-  ) {
+  void setStartBookmark(jni$_.JObject? aStartBookmark) {
     final _$aStartBookmark = aStartBookmark?.reference ?? jni$_.jNullReference;
     _setStartBookmark(
-            reference.pointer,
-            _id_setStartBookmark as jni$_.JMethodIDPtr,
-            _$aStartBookmark.pointer)
-        .check();
+      reference.pointer,
+      _id_setStartBookmark as jni$_.JMethodIDPtr,
+      _$aStartBookmark.pointer,
+    ).check();
   }
 
   static final _id_getAddMoreFormatting = _class.instanceMethodId(
@@ -685,17 +789,21 @@ class PDFTextStripper extends jni$_.JObject {
     r'()Z',
   );
 
-  static final _getAddMoreFormatting = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getAddMoreFormatting =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallBooleanMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public boolean getAddMoreFormatting()`
   ///
@@ -703,8 +811,9 @@ class PDFTextStripper extends jni$_.JObject {
   ///@return true if some more text formatting will be added
   core$_.bool getAddMoreFormatting() {
     return _getAddMoreFormatting(
-            reference.pointer, _id_getAddMoreFormatting as jni$_.JMethodIDPtr)
-        .boolean;
+      reference.pointer,
+      _id_getAddMoreFormatting as jni$_.JMethodIDPtr,
+    ).boolean;
   }
 
   static final _id_setAddMoreFormatting = _class.instanceMethodId(
@@ -712,28 +821,34 @@ class PDFTextStripper extends jni$_.JObject {
     r'(Z)V',
   );
 
-  static final _setAddMoreFormatting = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _setAddMoreFormatting =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int32,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              int,
+            )
+          >();
 
   /// from: `public void setAddMoreFormatting(boolean newAddMoreFormatting)`
   ///
   /// There will some additional text formatting be added if addMoreFormatting is set to true. Default is false.
   ///@param newAddMoreFormatting Tell PDFBox to add some more text formatting
-  void setAddMoreFormatting(
-    core$_.bool newAddMoreFormatting,
-  ) {
+  void setAddMoreFormatting(core$_.bool newAddMoreFormatting) {
     _setAddMoreFormatting(
-            reference.pointer,
-            _id_setAddMoreFormatting as jni$_.JMethodIDPtr,
-            newAddMoreFormatting ? 1 : 0)
-        .check();
+      reference.pointer,
+      _id_setAddMoreFormatting as jni$_.JMethodIDPtr,
+      newAddMoreFormatting ? 1 : 0,
+    ).check();
   }
 
   static final _id_getSortByPosition = _class.instanceMethodId(
@@ -741,17 +856,21 @@ class PDFTextStripper extends jni$_.JObject {
     r'()Z',
   );
 
-  static final _getSortByPosition = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getSortByPosition =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallBooleanMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public boolean getSortByPosition()`
   ///
@@ -759,8 +878,9 @@ class PDFTextStripper extends jni$_.JObject {
   ///@return true If the text tokens will be sorted before being written.
   core$_.bool getSortByPosition() {
     return _getSortByPosition(
-            reference.pointer, _id_getSortByPosition as jni$_.JMethodIDPtr)
-        .boolean;
+      reference.pointer,
+      _id_getSortByPosition as jni$_.JMethodIDPtr,
+    ).boolean;
   }
 
   static final _id_setSortByPosition = _class.instanceMethodId(
@@ -768,15 +888,23 @@ class PDFTextStripper extends jni$_.JObject {
     r'(Z)V',
   );
 
-  static final _setSortByPosition = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _setSortByPosition =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int32,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              int,
+            )
+          >();
 
   /// from: `public void setSortByPosition(boolean newSortByPosition)`
   ///
@@ -788,14 +916,12 @@ class PDFTextStripper extends jni$_.JObject {
   /// A PDF writer could choose to write each character in a different order. By default PDFBox does __not__ sort
   /// the text tokens before processing them due to performance reasons.
   ///@param newSortByPosition Tell PDFBox to sort the text positions.
-  void setSortByPosition(
-    core$_.bool newSortByPosition,
-  ) {
+  void setSortByPosition(core$_.bool newSortByPosition) {
     _setSortByPosition(
-            reference.pointer,
-            _id_setSortByPosition as jni$_.JMethodIDPtr,
-            newSortByPosition ? 1 : 0)
-        .check();
+      reference.pointer,
+      _id_setSortByPosition as jni$_.JMethodIDPtr,
+      newSortByPosition ? 1 : 0,
+    ).check();
   }
 
   static final _id_getSpacingTolerance = _class.instanceMethodId(
@@ -803,17 +929,21 @@ class PDFTextStripper extends jni$_.JObject {
     r'()F',
   );
 
-  static final _getSpacingTolerance = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getSpacingTolerance =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallFloatMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallFloatMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public float getSpacingTolerance()`
   ///
@@ -822,8 +952,9 @@ class PDFTextStripper extends jni$_.JObject {
   ///@return The current tolerance / scaling factor
   double getSpacingTolerance() {
     return _getSpacingTolerance(
-            reference.pointer, _id_getSpacingTolerance as jni$_.JMethodIDPtr)
-        .float;
+      reference.pointer,
+      _id_getSpacingTolerance as jni$_.JMethodIDPtr,
+    ).float;
   }
 
   static final _id_setSpacingTolerance = _class.instanceMethodId(
@@ -831,15 +962,23 @@ class PDFTextStripper extends jni$_.JObject {
     r'(F)V',
   );
 
-  static final _setSpacingTolerance = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _setSpacingTolerance =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<(jni$_.Double,)>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Double,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              double,
+            )
+          >();
 
   /// from: `public void setSpacingTolerance(float spacingToleranceValue)`
   ///
@@ -847,14 +986,12 @@ class PDFTextStripper extends jni$_.JObject {
   /// that the default value for this has been determined from trial and error. Setting this value larger will reduce
   /// the number of spaces added.
   ///@param spacingToleranceValue tolerance / scaling factor to use
-  void setSpacingTolerance(
-    double spacingToleranceValue,
-  ) {
+  void setSpacingTolerance(double spacingToleranceValue) {
     _setSpacingTolerance(
-            reference.pointer,
-            _id_setSpacingTolerance as jni$_.JMethodIDPtr,
-            spacingToleranceValue)
-        .check();
+      reference.pointer,
+      _id_setSpacingTolerance as jni$_.JMethodIDPtr,
+      spacingToleranceValue,
+    ).check();
   }
 
   static final _id_getAverageCharTolerance = _class.instanceMethodId(
@@ -862,17 +999,21 @@ class PDFTextStripper extends jni$_.JObject {
     r'()F',
   );
 
-  static final _getAverageCharTolerance = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getAverageCharTolerance =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallFloatMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallFloatMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public float getAverageCharTolerance()`
   ///
@@ -880,9 +1021,10 @@ class PDFTextStripper extends jni$_.JObject {
   /// be added. Note that the default value for this has been determined from trial and error.
   ///@return The current tolerance / scaling factor
   double getAverageCharTolerance() {
-    return _getAverageCharTolerance(reference.pointer,
-            _id_getAverageCharTolerance as jni$_.JMethodIDPtr)
-        .float;
+    return _getAverageCharTolerance(
+      reference.pointer,
+      _id_getAverageCharTolerance as jni$_.JMethodIDPtr,
+    ).float;
   }
 
   static final _id_setAverageCharTolerance = _class.instanceMethodId(
@@ -890,15 +1032,23 @@ class PDFTextStripper extends jni$_.JObject {
     r'(F)V',
   );
 
-  static final _setAverageCharTolerance = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _setAverageCharTolerance =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<(jni$_.Double,)>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Double,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              double,
+            )
+          >();
 
   /// from: `public void setAverageCharTolerance(float averageCharToleranceValue)`
   ///
@@ -906,14 +1056,12 @@ class PDFTextStripper extends jni$_.JObject {
   /// that the default value for this has been determined from trial and error. Setting this value larger will reduce
   /// the number of spaces added.
   ///@param averageCharToleranceValue average tolerance / scaling factor to use
-  void setAverageCharTolerance(
-    double averageCharToleranceValue,
-  ) {
+  void setAverageCharTolerance(double averageCharToleranceValue) {
     _setAverageCharTolerance(
-            reference.pointer,
-            _id_setAverageCharTolerance as jni$_.JMethodIDPtr,
-            averageCharToleranceValue)
-        .check();
+      reference.pointer,
+      _id_setAverageCharTolerance as jni$_.JMethodIDPtr,
+      averageCharToleranceValue,
+    ).check();
   }
 
   static final _id_getIndentThreshold = _class.instanceMethodId(
@@ -921,17 +1069,21 @@ class PDFTextStripper extends jni$_.JObject {
     r'()F',
   );
 
-  static final _getIndentThreshold = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getIndentThreshold =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallFloatMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallFloatMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public float getIndentThreshold()`
   ///
@@ -940,8 +1092,9 @@ class PDFTextStripper extends jni$_.JObject {
   ///@return the number of whitespace character widths to use when detecting paragraph indents.
   double getIndentThreshold() {
     return _getIndentThreshold(
-            reference.pointer, _id_getIndentThreshold as jni$_.JMethodIDPtr)
-        .float;
+      reference.pointer,
+      _id_getIndentThreshold as jni$_.JMethodIDPtr,
+    ).float;
   }
 
   static final _id_setIndentThreshold = _class.instanceMethodId(
@@ -949,15 +1102,23 @@ class PDFTextStripper extends jni$_.JObject {
     r'(F)V',
   );
 
-  static final _setIndentThreshold = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _setIndentThreshold =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<(jni$_.Double,)>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Double,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              double,
+            )
+          >();
 
   /// from: `public void setIndentThreshold(float indentThresholdValue)`
   ///
@@ -965,12 +1126,12 @@ class PDFTextStripper extends jni$_.JObject {
   /// indented from the previous line start beyond which the current line start is considered to be a paragraph start.
   /// The default value is 2.0.
   ///@param indentThresholdValue the number of whitespace character widths to use when detecting paragraph indents.
-  void setIndentThreshold(
-    double indentThresholdValue,
-  ) {
-    _setIndentThreshold(reference.pointer,
-            _id_setIndentThreshold as jni$_.JMethodIDPtr, indentThresholdValue)
-        .check();
+  void setIndentThreshold(double indentThresholdValue) {
+    _setIndentThreshold(
+      reference.pointer,
+      _id_setIndentThreshold as jni$_.JMethodIDPtr,
+      indentThresholdValue,
+    ).check();
   }
 
   static final _id_getDropThreshold = _class.instanceMethodId(
@@ -978,17 +1139,21 @@ class PDFTextStripper extends jni$_.JObject {
     r'()F',
   );
 
-  static final _getDropThreshold = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getDropThreshold =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallFloatMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallFloatMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public float getDropThreshold()`
   ///
@@ -997,8 +1162,9 @@ class PDFTextStripper extends jni$_.JObject {
   ///@return the character height multiple for max allowed whitespace between lines in the same paragraph.
   double getDropThreshold() {
     return _getDropThreshold(
-            reference.pointer, _id_getDropThreshold as jni$_.JMethodIDPtr)
-        .float;
+      reference.pointer,
+      _id_getDropThreshold as jni$_.JMethodIDPtr,
+    ).float;
   }
 
   static final _id_setDropThreshold = _class.instanceMethodId(
@@ -1006,15 +1172,23 @@ class PDFTextStripper extends jni$_.JObject {
     r'(F)V',
   );
 
-  static final _setDropThreshold = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _setDropThreshold =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<(jni$_.Double,)>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Double,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              double,
+            )
+          >();
 
   /// from: `public void setDropThreshold(float dropThresholdValue)`
   ///
@@ -1022,12 +1196,12 @@ class PDFTextStripper extends jni$_.JObject {
   /// line start is considered to be a paragraph start. The default value is 2.5.
   ///@param dropThresholdValue the character height multiple for max allowed whitespace between lines in the same
   /// paragraph.
-  void setDropThreshold(
-    double dropThresholdValue,
-  ) {
-    _setDropThreshold(reference.pointer,
-            _id_setDropThreshold as jni$_.JMethodIDPtr, dropThresholdValue)
-        .check();
+  void setDropThreshold(double dropThresholdValue) {
+    _setDropThreshold(
+      reference.pointer,
+      _id_setDropThreshold as jni$_.JMethodIDPtr,
+      dropThresholdValue,
+    ).check();
   }
 
   static final _id_getParagraphStart = _class.instanceMethodId(
@@ -1035,17 +1209,21 @@ class PDFTextStripper extends jni$_.JObject {
     r'()Ljava/lang/String;',
   );
 
-  static final _getParagraphStart = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getParagraphStart =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public java.lang.String getParagraphStart()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1054,8 +1232,9 @@ class PDFTextStripper extends jni$_.JObject {
   ///@return the paragraph start string
   jni$_.JString? getParagraphStart() {
     return _getParagraphStart(
-            reference.pointer, _id_getParagraphStart as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+      reference.pointer,
+      _id_getParagraphStart as jni$_.JMethodIDPtr,
+    ).object<jni$_.JString?>(const jni$_.$JString$NullableType$());
   }
 
   static final _id_setParagraphStart = _class.instanceMethodId(
@@ -1063,28 +1242,35 @@ class PDFTextStripper extends jni$_.JObject {
     r'(Ljava/lang/String;)V',
   );
 
-  static final _setParagraphStart = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _setParagraphStart =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void setParagraphStart(java.lang.String s)`
   ///
   /// Sets the string which will be used at the beginning of a paragraph.
   ///@param s the paragraph start string
-  void setParagraphStart(
-    jni$_.JString? s,
-  ) {
+  void setParagraphStart(jni$_.JString? s) {
     final _$s = s?.reference ?? jni$_.jNullReference;
-    _setParagraphStart(reference.pointer,
-            _id_setParagraphStart as jni$_.JMethodIDPtr, _$s.pointer)
-        .check();
+    _setParagraphStart(
+      reference.pointer,
+      _id_setParagraphStart as jni$_.JMethodIDPtr,
+      _$s.pointer,
+    ).check();
   }
 
   static final _id_getParagraphEnd = _class.instanceMethodId(
@@ -1092,17 +1278,21 @@ class PDFTextStripper extends jni$_.JObject {
     r'()Ljava/lang/String;',
   );
 
-  static final _getParagraphEnd = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getParagraphEnd =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public java.lang.String getParagraphEnd()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1111,8 +1301,9 @@ class PDFTextStripper extends jni$_.JObject {
   ///@return the paragraph end string
   jni$_.JString? getParagraphEnd() {
     return _getParagraphEnd(
-            reference.pointer, _id_getParagraphEnd as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+      reference.pointer,
+      _id_getParagraphEnd as jni$_.JMethodIDPtr,
+    ).object<jni$_.JString?>(const jni$_.$JString$NullableType$());
   }
 
   static final _id_setParagraphEnd = _class.instanceMethodId(
@@ -1120,28 +1311,35 @@ class PDFTextStripper extends jni$_.JObject {
     r'(Ljava/lang/String;)V',
   );
 
-  static final _setParagraphEnd = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _setParagraphEnd =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void setParagraphEnd(java.lang.String s)`
   ///
   /// Sets the string which will be used at the end of a paragraph.
   ///@param s the paragraph end string
-  void setParagraphEnd(
-    jni$_.JString? s,
-  ) {
+  void setParagraphEnd(jni$_.JString? s) {
     final _$s = s?.reference ?? jni$_.jNullReference;
-    _setParagraphEnd(reference.pointer,
-            _id_setParagraphEnd as jni$_.JMethodIDPtr, _$s.pointer)
-        .check();
+    _setParagraphEnd(
+      reference.pointer,
+      _id_setParagraphEnd as jni$_.JMethodIDPtr,
+      _$s.pointer,
+    ).check();
   }
 
   static final _id_getPageStart = _class.instanceMethodId(
@@ -1149,17 +1347,21 @@ class PDFTextStripper extends jni$_.JObject {
     r'()Ljava/lang/String;',
   );
 
-  static final _getPageStart = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getPageStart =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public java.lang.String getPageStart()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1168,8 +1370,9 @@ class PDFTextStripper extends jni$_.JObject {
   ///@return the page start string
   jni$_.JString? getPageStart() {
     return _getPageStart(
-            reference.pointer, _id_getPageStart as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+      reference.pointer,
+      _id_getPageStart as jni$_.JMethodIDPtr,
+    ).object<jni$_.JString?>(const jni$_.$JString$NullableType$());
   }
 
   static final _id_setPageStart = _class.instanceMethodId(
@@ -1177,28 +1380,35 @@ class PDFTextStripper extends jni$_.JObject {
     r'(Ljava/lang/String;)V',
   );
 
-  static final _setPageStart = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _setPageStart =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void setPageStart(java.lang.String pageStartValue)`
   ///
   /// Sets the string which will be used at the beginning of a page.
   ///@param pageStartValue the page start string
-  void setPageStart(
-    jni$_.JString? pageStartValue,
-  ) {
+  void setPageStart(jni$_.JString? pageStartValue) {
     final _$pageStartValue = pageStartValue?.reference ?? jni$_.jNullReference;
-    _setPageStart(reference.pointer, _id_setPageStart as jni$_.JMethodIDPtr,
-            _$pageStartValue.pointer)
-        .check();
+    _setPageStart(
+      reference.pointer,
+      _id_setPageStart as jni$_.JMethodIDPtr,
+      _$pageStartValue.pointer,
+    ).check();
   }
 
   static final _id_getPageEnd = _class.instanceMethodId(
@@ -1206,17 +1416,21 @@ class PDFTextStripper extends jni$_.JObject {
     r'()Ljava/lang/String;',
   );
 
-  static final _getPageEnd = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getPageEnd =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public java.lang.String getPageEnd()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1224,8 +1438,10 @@ class PDFTextStripper extends jni$_.JObject {
   /// Returns the string which will be used at the end of a page.
   ///@return the page end string
   jni$_.JString? getPageEnd() {
-    return _getPageEnd(reference.pointer, _id_getPageEnd as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+    return _getPageEnd(
+      reference.pointer,
+      _id_getPageEnd as jni$_.JMethodIDPtr,
+    ).object<jni$_.JString?>(const jni$_.$JString$NullableType$());
   }
 
   static final _id_setPageEnd = _class.instanceMethodId(
@@ -1233,28 +1449,35 @@ class PDFTextStripper extends jni$_.JObject {
     r'(Ljava/lang/String;)V',
   );
 
-  static final _setPageEnd = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _setPageEnd =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void setPageEnd(java.lang.String pageEndValue)`
   ///
   /// Sets the string which will be used at the end of a page.
   ///@param pageEndValue the page end string
-  void setPageEnd(
-    jni$_.JString? pageEndValue,
-  ) {
+  void setPageEnd(jni$_.JString? pageEndValue) {
     final _$pageEndValue = pageEndValue?.reference ?? jni$_.jNullReference;
-    _setPageEnd(reference.pointer, _id_setPageEnd as jni$_.JMethodIDPtr,
-            _$pageEndValue.pointer)
-        .check();
+    _setPageEnd(
+      reference.pointer,
+      _id_setPageEnd as jni$_.JMethodIDPtr,
+      _$pageEndValue.pointer,
+    ).check();
   }
 
   static final _id_getArticleStart = _class.instanceMethodId(
@@ -1262,17 +1485,21 @@ class PDFTextStripper extends jni$_.JObject {
     r'()Ljava/lang/String;',
   );
 
-  static final _getArticleStart = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getArticleStart =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public java.lang.String getArticleStart()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1281,8 +1508,9 @@ class PDFTextStripper extends jni$_.JObject {
   ///@return the article start string
   jni$_.JString? getArticleStart() {
     return _getArticleStart(
-            reference.pointer, _id_getArticleStart as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+      reference.pointer,
+      _id_getArticleStart as jni$_.JMethodIDPtr,
+    ).object<jni$_.JString?>(const jni$_.$JString$NullableType$());
   }
 
   static final _id_setArticleStart = _class.instanceMethodId(
@@ -1290,31 +1518,36 @@ class PDFTextStripper extends jni$_.JObject {
     r'(Ljava/lang/String;)V',
   );
 
-  static final _setArticleStart = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _setArticleStart =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void setArticleStart(java.lang.String articleStartValue)`
   ///
   /// Sets the string which will be used at the beginning of an article.
   ///@param articleStartValue the article start string
-  void setArticleStart(
-    jni$_.JString? articleStartValue,
-  ) {
+  void setArticleStart(jni$_.JString? articleStartValue) {
     final _$articleStartValue =
         articleStartValue?.reference ?? jni$_.jNullReference;
     _setArticleStart(
-            reference.pointer,
-            _id_setArticleStart as jni$_.JMethodIDPtr,
-            _$articleStartValue.pointer)
-        .check();
+      reference.pointer,
+      _id_setArticleStart as jni$_.JMethodIDPtr,
+      _$articleStartValue.pointer,
+    ).check();
   }
 
   static final _id_getArticleEnd = _class.instanceMethodId(
@@ -1322,17 +1555,21 @@ class PDFTextStripper extends jni$_.JObject {
     r'()Ljava/lang/String;',
   );
 
-  static final _getArticleEnd = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getArticleEnd =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public java.lang.String getArticleEnd()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1341,8 +1578,9 @@ class PDFTextStripper extends jni$_.JObject {
   ///@return the article end string
   jni$_.JString? getArticleEnd() {
     return _getArticleEnd(
-            reference.pointer, _id_getArticleEnd as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+      reference.pointer,
+      _id_getArticleEnd as jni$_.JMethodIDPtr,
+    ).object<jni$_.JString?>(const jni$_.$JString$NullableType$());
   }
 
   static final _id_setArticleEnd = _class.instanceMethodId(
@@ -1350,29 +1588,36 @@ class PDFTextStripper extends jni$_.JObject {
     r'(Ljava/lang/String;)V',
   );
 
-  static final _setArticleEnd = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _setArticleEnd =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void setArticleEnd(java.lang.String articleEndValue)`
   ///
   /// Sets the string which will be used at the end of an article.
   ///@param articleEndValue the article end string
-  void setArticleEnd(
-    jni$_.JString? articleEndValue,
-  ) {
+  void setArticleEnd(jni$_.JString? articleEndValue) {
     final _$articleEndValue =
         articleEndValue?.reference ?? jni$_.jNullReference;
-    _setArticleEnd(reference.pointer, _id_setArticleEnd as jni$_.JMethodIDPtr,
-            _$articleEndValue.pointer)
-        .check();
+    _setArticleEnd(
+      reference.pointer,
+      _id_setArticleEnd as jni$_.JMethodIDPtr,
+      _$articleEndValue.pointer,
+    ).check();
   }
 }
 
@@ -1387,11 +1632,8 @@ final class $PDFTextStripper$NullableType$
 
   @jni$_.internal
   @core$_.override
-  PDFTextStripper? fromReference(jni$_.JReference reference) => reference.isNull
-      ? null
-      : PDFTextStripper.fromReference(
-          reference,
-        );
+  PDFTextStripper? fromReference(jni$_.JReference reference) =>
+      reference.isNull ? null : PDFTextStripper.fromReference(reference);
   @jni$_.internal
   @core$_.override
   jni$_.JType get superType => const jni$_.$JObject$NullableType$();
@@ -1425,9 +1667,7 @@ final class $PDFTextStripper$Type$ extends jni$_.JType<PDFTextStripper> {
   @jni$_.internal
   @core$_.override
   PDFTextStripper fromReference(jni$_.JReference reference) =>
-      PDFTextStripper.fromReference(
-        reference,
-      );
+      PDFTextStripper.fromReference(reference);
   @jni$_.internal
   @core$_.override
   jni$_.JType get superType => const jni$_.$JObject$NullableType$();

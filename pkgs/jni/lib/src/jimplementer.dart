@@ -29,24 +29,29 @@ import 'util/jlist.dart';
 class JImplementer extends JObject {
   JImplementer.fromReference(super.reference) : super.fromReference();
 
-  static final _class =
-      JClass.forName(r'com/github/dart_lang/jni/PortProxyBuilder');
+  static final _class = JClass.forName(
+    r'com/github/dart_lang/jni/PortProxyBuilder',
+  );
 
   static final _newId = _class.constructorId(r'(J)V');
 
-  static final _new = ProtectedJniExtensions.lookup<
-          NativeFunction<
-              JniResult Function(Pointer<Void>, JMethodIDPtr,
-                  VarArgs<(Int64,)>)>>('globalEnv_NewObject')
-      .asFunction<JniResult Function(Pointer<Void>, JMethodIDPtr, int)>();
+  static final _new =
+      ProtectedJniExtensions.lookup<
+            NativeFunction<
+              JniResult Function(Pointer<Void>, JMethodIDPtr, VarArgs<(Int64,)>)
+            >
+          >('globalEnv_NewObject')
+          .asFunction<JniResult Function(Pointer<Void>, JMethodIDPtr, int)>();
 
   factory JImplementer() {
     ProtectedJniExtensions.ensureInitialized();
-    return JImplementer.fromReference(_new(
-            _class.reference.pointer,
-            _newId as JMethodIDPtr,
-            ProtectedJniExtensions.getCurrentIsolateId())
-        .reference);
+    return JImplementer.fromReference(
+      _new(
+        _class.reference.pointer,
+        _newId as JMethodIDPtr,
+        ProtectedJniExtensions.getCurrentIsolateId(),
+      ).reference,
+    );
   }
 
   static final _addImplementationId = _class.instanceMethodId(
@@ -54,14 +59,26 @@ class JImplementer extends JObject {
     r'(Ljava/lang/String;JJLjava/util/List;)V',
   );
 
-  static final _addImplementation = ProtectedJniExtensions.lookup<
-              NativeFunction<
-                  JThrowablePtr Function(Pointer<Void>, JMethodIDPtr,
-                      VarArgs<(Pointer<Void>, Int64, Int64, Pointer<Void>)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          JThrowablePtr Function(Pointer<Void>, JMethodIDPtr, Pointer<Void>,
-              int, int, Pointer<Void>)>();
+  static final _addImplementation =
+      ProtectedJniExtensions.lookup<
+            NativeFunction<
+              JThrowablePtr Function(
+                Pointer<Void>,
+                JMethodIDPtr,
+                VarArgs<(Pointer<Void>, Int64, Int64, Pointer<Void>)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            JThrowablePtr Function(
+              Pointer<Void>,
+              JMethodIDPtr,
+              Pointer<Void>,
+              int,
+              int,
+              Pointer<Void>,
+            )
+          >();
 
   /// Should not be used directly.
   ///
@@ -71,7 +88,7 @@ class JImplementer extends JObject {
     String binaryName,
     RawReceivePort port,
     Pointer<NativeFunction<JObjectPtr Function(Int64, JObjectPtr, JObjectPtr)>>
-        pointer,
+    pointer,
     List<String> asyncMethods,
   ) {
     using((arena) {
@@ -98,17 +115,11 @@ class JImplementer extends JObject {
     r'()Ljava/lang/Object;',
   );
 
-  static final _build = ProtectedJniExtensions.lookup<
-          NativeFunction<
-              JniResult Function(
-                Pointer<Void>,
-                JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          JniResult Function(
-            Pointer<Void>,
-            JMethodIDPtr,
-          )>();
+  static final _build =
+      ProtectedJniExtensions.lookup<
+            NativeFunction<JniResult Function(Pointer<Void>, JMethodIDPtr)>
+          >('globalEnv_CallObjectMethod')
+          .asFunction<JniResult Function(Pointer<Void>, JMethodIDPtr)>();
 
   /// Builds an proxy object with the specified [type] that implements all the
   /// added interfaces with the given implementations.

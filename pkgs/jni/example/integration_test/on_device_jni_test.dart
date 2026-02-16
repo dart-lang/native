@@ -17,10 +17,16 @@ import '../../test/type_test.dart' as type_test;
 import '../../test/load_test.dart' as load_test;
 import '../../test/isolate_test.dart' as isolate_test;
 
-void integrationTestRunner(String description, void Function() testCallback,
-    {Object? skip}) {
-  testWidgets(description, (_) async => testCallback(),
-      skip: skip != null && skip != false);
+void integrationTestRunner(
+  String description,
+  void Function() testCallback, {
+  Object? skip,
+}) {
+  testWidgets(
+    description,
+    (_) async => testCallback(),
+    skip: skip != null && skip != false,
+  );
 }
 
 void main() {

@@ -18,9 +18,11 @@ import 'test_util/test_util.dart';
 
 /// Taken from
 /// https://github.com/dart-lang/ffigen/blob/master/test/native_objc_test/automated_ref_count_test.dart
-final executeInternalCommand = DynamicLibrary.process().lookupFunction<
-    Void Function(Pointer<Char>, Pointer<Void>),
-    void Function(Pointer<Char>, Pointer<Void>)>('Dart_ExecuteInternalCommand');
+final executeInternalCommand = DynamicLibrary.process()
+    .lookupFunction<
+      Void Function(Pointer<Char>, Pointer<Void>),
+      void Function(Pointer<Char>, Pointer<Void>)
+    >('Dart_ExecuteInternalCommand');
 
 void doGC() {
   final gcNow = 'gc-now'.toNativeUtf8();
@@ -44,9 +46,11 @@ const secureRandomSeedBound = 4294967296;
 final random = Random.secure();
 
 final randomClass = JClass.forName('java/util/Random');
-JObject newRandom() => randomClass
-    .constructorId('(J)V')
-    .call(randomClass, JObject.type, [random.nextInt(secureRandomSeedBound)]);
+JObject newRandom() => randomClass.constructorId('(J)V').call(
+  randomClass,
+  JObject.type,
+  [random.nextInt(secureRandomSeedBound)],
+);
 
 void run({required TestRunnerCallback testRunner}) {
   testRunner('Test 4K refs can be created in a row', () {
@@ -71,14 +75,16 @@ void run({required TestRunnerCallback testRunner}) {
     }
   });
 
-  testRunner('Create and release 256K references in a loop (explicit release)',
-      () {
-    for (var i = 0; i < k256; i++) {
-      final random = newRandom();
-      expect(random.reference.pointer, isNot(nullptr));
-      random.release();
-    }
-  });
+  testRunner(
+    'Create and release 256K references in a loop (explicit release)',
+    () {
+      for (var i = 0; i < k256; i++) {
+        final random = newRandom();
+        expect(random.reference.pointer, isNot(nullptr));
+        random.release();
+      }
+    },
+  );
 
   testRunner('Create and release 64K references, in batches of 256', () {
     for (var i = 0; i < 64 * 4; i++) {
@@ -122,10 +128,7 @@ void run({required TestRunnerCallback testRunner}) {
       final nextInt = randomClass.instanceMethodId('nextInt', '()I');
       doGC();
       sleep(Duration(seconds: delayInSeconds));
-      expect(
-        nextInt(random, jint.type, []),
-        isA<int>(),
-      );
+      expect(nextInt(random, jint.type, []), isA<int>());
       expect(
         Jni.env.GetObjectRefType(random.reference.pointer),
         equals(JObjectRefType.JNIGlobalRefType),

@@ -8,12 +8,13 @@ import 'package:test/test.dart';
 
 void main() {
   test('Versions in pubspec.yaml and dart_generator.dart match', () {
-    final pubspecVersion = RegExp(r'version: (.*)')
-        .firstMatch(File('pubspec.yaml').readAsStringSync())!
-        .group(1)!;
+    final pubspecVersion = RegExp(
+      r'version: (.*)',
+    ).firstMatch(File('pubspec.yaml').readAsStringSync())!.group(1)!;
     final dartGeneratorVersion = RegExp(r"const String version = '(.*)';")
         .firstMatch(
-            File('lib/src/bindings/dart_generator.dart').readAsStringSync())!
+          File('lib/src/bindings/dart_generator.dart').readAsStringSync(),
+        )!
         .group(1)!;
     final pubspecVersionWithoutWip = pubspecVersion.endsWith('-wip')
         ? pubspecVersion.substring(0, pubspecVersion.length - '-wip'.length)

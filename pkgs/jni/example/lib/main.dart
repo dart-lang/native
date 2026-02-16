@@ -10,8 +10,9 @@ import 'package:jni/jni.dart';
 
 double randomDouble() {
   final math = JClass.forName("java/lang/Math");
-  final random =
-      math.staticMethodId("random", "()D").call(math, jdouble.type, []);
+  final random = math
+      .staticMethodId("random", "()D")
+      .call(math, jdouble.type, []);
   math.release();
   return random;
 }
@@ -42,13 +43,15 @@ void quit() {
 void showToast(String text) {
   final activity = Jni.androidActivity(PlatformDispatcher.instance.engineId!);
   if (activity == null) return;
-  final toasterClass =
-      JClass.forName('com/github/dart_lang/jni_example/Toaster');
+  final toasterClass = JClass.forName(
+    'com/github/dart_lang/jni_example/Toaster',
+  );
   final makeText = toasterClass.staticMethodId(
-      'makeText',
-      '(Landroid/app/Activity;Landroid/content/Context;'
-          'Ljava/lang/CharSequence;I)'
-          'Lcom/github/dart_lang/jni_example/Toaster;');
+    'makeText',
+    '(Landroid/app/Activity;Landroid/content/Context;'
+        'Ljava/lang/CharSequence;I)'
+        'Lcom/github/dart_lang/jni_example/Toaster;',
+  );
   final applicationContext = Jni.androidApplicationContext;
   final toaster = makeText(toasterClass, JObject.type, [
     activity,
@@ -72,8 +75,10 @@ void main() {
   final examples = [
     Example("Math.random()", () => randomDouble(), runInitially: false),
     if (Platform.isAndroid) ...[
-      Example("Minutes of usage since reboot",
-          () => (uptime() / (60 * 1000)).floor()),
+      Example(
+        "Minutes of usage since reboot",
+        () => (uptime() / (60 * 1000)).floor(),
+      ),
       Example("Back and forth string conversion", () => backAndForth()),
       Example("Device name", () {
         final buildClass = JClass.forName("android/os/Build");
@@ -82,30 +87,24 @@ void main() {
             .get(buildClass, JString.type)
             .toDartString(releaseOriginal: true);
       }),
-      Example(
-        "Package name",
-        () {
-          final activity =
-              Jni.androidActivity(PlatformDispatcher.instance.engineId!);
-          if (activity == null) return "Activity not available";
-          final packageName = activity.jClass
-              .instanceMethodId("getPackageName", "()Ljava/lang/String;")
-              .call(activity, JString.type, []);
-          activity.release();
-          return packageName;
-        },
-      ),
+      Example("Package name", () {
+        final activity = Jni.androidActivity(
+          PlatformDispatcher.instance.engineId!,
+        );
+        if (activity == null) return "Activity not available";
+        final packageName = activity.jClass
+            .instanceMethodId("getPackageName", "()Ljava/lang/String;")
+            .call(activity, JString.type, []);
+        activity.release();
+        return packageName;
+      }),
       Example(
         "Show toast",
         () => showToast("Hello from JNI!"),
         runInitially: false,
       ),
-      Example(
-        "Quit",
-        quit,
-        runInitially: false,
-      ),
-    ]
+      Example("Quit", quit, runInitially: false),
+    ],
   ];
   runApp(MyApp(examples));
 }
@@ -125,9 +124,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: const Text('JNI Examples'),
-        ),
+        appBar: AppBar(title: const Text('JNI Examples')),
         body: ListView.builder(
           itemCount: examples.length,
           itemBuilder: (context, i) {
@@ -151,7 +148,9 @@ class ExampleCard extends StatefulWidget {
 class _ExampleCardState extends State<ExampleCard> {
   Widget _pad(Widget w, double h, double v) {
     return Padding(
-        padding: EdgeInsets.symmetric(horizontal: h, vertical: v), child: w);
+      padding: EdgeInsets.symmetric(horizontal: h, vertical: v),
+      child: w,
+    );
   }
 
   bool _run = false;
@@ -183,20 +182,29 @@ class _ExampleCardState extends State<ExampleCard> {
       resultStyle = const TextStyle(fontFamily: "Monospace", color: Colors.red);
     }
     return Card(
-      child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-        Text(eg.title,
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Text(
+            eg.title,
             softWrap: true,
-            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600)),
-        _pad(
-            Text(result.toString(), softWrap: true, style: resultStyle), 8, 16),
-        _pad(
+            style: const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+          ),
+          _pad(
+            Text(result.toString(), softWrap: true, style: resultStyle),
+            8,
+            16,
+          ),
+          _pad(
             ElevatedButton(
               child: Text(_run ? "Run again" : "Run"),
               onPressed: () => setState(() => _run = true),
             ),
             8,
-            8),
-      ]),
+            8,
+          ),
+        ],
+      ),
     );
   }
 }

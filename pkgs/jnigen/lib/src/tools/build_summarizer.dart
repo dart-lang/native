@@ -37,21 +37,27 @@ Future<void> buildApiSummarizer() async {
     gradleFile.toFilePath(),
     'buildFatJar', // from ktor plugin
     '-x', 'test', // ignore failing tests
-    '-q' // quiet
+    '-q', // quiet
   ];
 
   try {
     final gradleProc = await Process.run(
-        gradleWrapper!.toFilePath(), gradleArgs,
-        workingDirectory: toolPath, runInShell: true);
+      gradleWrapper!.toFilePath(),
+      gradleArgs,
+      workingDirectory: toolPath,
+      runInShell: true,
+    );
     final exitCode = gradleProc.exitCode;
-    final sourceJar = File(pkg
-        .resolve('java/build/libs/ApiSummarizer.jar')
-        .toFilePath(windows: Platform.isWindows));
+    final sourceJar = File(
+      pkg
+          .resolve('java/build/libs/ApiSummarizer.jar')
+          .toFilePath(windows: Platform.isWindows),
+    );
 
     if (exitCode == 0) {
       sourceJar.copySync(
-          File(targetJarFile).uri.toFilePath(windows: Platform.isWindows));
+        File(targetJarFile).uri.toFilePath(windows: Platform.isWindows),
+      );
     } else {
       printError(gradleProc.stdout);
       printError(gradleProc.stderr);
@@ -67,17 +73,25 @@ Future<void> buildSummarizerIfNotExists({bool force = false}) async {
   // exponential backoff.
   final jarExists = await File(jarFile).exists();
   final targetJarExists = await File(targetJarFile).exists();
-  final isJarStale = jarExists &&
+  final isJarStale =
+      jarExists &&
       await isPackageModifiedAfter(
-          'jnigen', await File(jarFile).lastModified(), 'java/');
+        'jnigen',
+        await File(jarFile).lastModified(),
+        'java/',
+      );
   if (isJarStale) {
-    log.info('Rebuilding ApiSummarizer component since sources '
-        'have changed. This might take some time.');
+    log.info(
+      'Rebuilding ApiSummarizer component since sources '
+      'have changed. This might take some time.',
+    );
   }
   if (!jarExists) {
-    log.info('Building ApiSummarizer component. '
-        'This might take some time. '
-        'The build will be cached for subsequent runs.');
+    log.info(
+      'Building ApiSummarizer component. '
+      'This might take some time. '
+      'The build will be cached for subsequent runs.',
+    );
   }
   if (!jarExists || !targetJarExists || isJarStale || force) {
     await buildApiSummarizer();

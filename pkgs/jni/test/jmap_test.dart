@@ -24,8 +24,7 @@ void run({required TestRunnerCallback testRunner}) {
       '2'.toJString()..releasedBy(arena): 'Two'.toJString()..releasedBy(arena),
       '3'.toJString()..releasedBy(arena): 'Three'.toJString()
         ..releasedBy(arena),
-    }.toJMap(JString.type, JString.type)
-      ..releasedBy(arena);
+    }.toJMap(JString.type, JString.type)..releasedBy(arena);
   }
 
   JMap<JString?, JString?> testNullableDataMap(Arena arena) {
@@ -34,8 +33,7 @@ void run({required TestRunnerCallback testRunner}) {
       '2'.toJString()..releasedBy(arena): 'Two'.toJString()..releasedBy(arena),
       '3'.toJString()..releasedBy(arena): null,
       null: null,
-    }.toJMap(JString.nullableType, JString.nullableType)
-      ..releasedBy(arena);
+    }.toJMap(JString.nullableType, JString.nullableType)..releasedBy(arena);
   }
 
   testRunner('length', () {
@@ -50,14 +48,12 @@ void run({required TestRunnerCallback testRunner}) {
       // ignore: collection_methods_unrelated_type
       expect(map[1], null);
       expect(
-        map['1'.toJString()..releasedBy(arena)]
-            ?.toDartString(releaseOriginal: true),
+        map['1'.toJString()..releasedBy(arena)]?.toDartString(
+          releaseOriginal: true,
+        ),
         'One',
       );
-      expect(
-        map['4'.toJString()..releasedBy(arena)],
-        null,
-      );
+      expect(map['4'.toJString()..releasedBy(arena)], null);
     });
   });
   testRunner('nullable []', () {
@@ -66,22 +62,14 @@ void run({required TestRunnerCallback testRunner}) {
       // ignore: collection_methods_unrelated_type
       expect(map[1], null);
       expect(
-        map['1'.toJString()..releasedBy(arena)]
-            ?.toDartString(releaseOriginal: true),
+        map['1'.toJString()..releasedBy(arena)]?.toDartString(
+          releaseOriginal: true,
+        ),
         'One',
       );
-      expect(
-        map['4'.toJString()..releasedBy(arena)],
-        null,
-      );
-      expect(
-        map['3'.toJString()..releasedBy(arena)],
-        null,
-      );
-      expect(
-        map[null],
-        null,
-      );
+      expect(map['4'.toJString()..releasedBy(arena)], null);
+      expect(map['3'.toJString()..releasedBy(arena)], null);
+      expect(map[null], null);
     });
   });
   testRunner('[]=', () {
@@ -90,16 +78,18 @@ void run({required TestRunnerCallback testRunner}) {
       map['0'.toJString()..releasedBy(arena)] = 'Zero'.toJString()
         ..releasedBy(arena);
       expect(
-        map['0'.toJString()..releasedBy(arena)]
-            ?.toDartString(releaseOriginal: true),
+        map['0'.toJString()..releasedBy(arena)]?.toDartString(
+          releaseOriginal: true,
+        ),
         'Zero',
       );
       expect(map.length, 4);
       map['1'.toJString()..releasedBy(arena)] = 'one!'.toJString()
         ..releasedBy(arena);
       expect(
-        map['1'.toJString()..releasedBy(arena)]
-            ?.toDartString(releaseOriginal: true),
+        map['1'.toJString()..releasedBy(arena)]?.toDartString(
+          releaseOriginal: true,
+        ),
         'one!',
       );
       expect(map.length, 4);
@@ -111,16 +101,18 @@ void run({required TestRunnerCallback testRunner}) {
       map['0'.toJString()..releasedBy(arena)] = 'Zero'.toJString()
         ..releasedBy(arena);
       expect(
-        map['0'.toJString()..releasedBy(arena)]
-            ?.toDartString(releaseOriginal: true),
+        map['0'.toJString()..releasedBy(arena)]?.toDartString(
+          releaseOriginal: true,
+        ),
         'Zero',
       );
       expect(map.length, 5);
       map['1'.toJString()..releasedBy(arena)] = 'one!'.toJString()
         ..releasedBy(arena);
       expect(
-        map['1'.toJString()..releasedBy(arena)]
-            ?.toDartString(releaseOriginal: true),
+        map['1'.toJString()..releasedBy(arena)]?.toDartString(
+          releaseOriginal: true,
+        ),
         'one!',
       );
       expect(map.length, 5);
@@ -128,10 +120,7 @@ void run({required TestRunnerCallback testRunner}) {
       expect(map['1'.toJString()..releasedBy(arena)], null);
       expect(map.length, 5);
       map[null] = 'null'.toJString()..releasedBy(arena);
-      expect(
-        map[null]?.toDartString(releaseOriginal: true),
-        'null',
-      );
+      expect(map[null]?.toDartString(releaseOriginal: true), 'null');
     });
   });
   testRunner('addAll', () {
@@ -146,18 +135,20 @@ void run({required TestRunnerCallback testRunner}) {
       map.addAll(toAdd);
       expect(map.length, 4);
       expect(
-        map['0'.toJString()..releasedBy(arena)]
-            ?.toDartString(releaseOriginal: true),
+        map['0'.toJString()..releasedBy(arena)]?.toDartString(
+          releaseOriginal: true,
+        ),
         'Zero',
       );
       expect(
-        map['1'.toJString()..releasedBy(arena)]
-            ?.toDartString(releaseOriginal: true),
+        map['1'.toJString()..releasedBy(arena)]?.toDartString(
+          releaseOriginal: true,
+        ),
         'one!',
       );
       map.addAll({
         '4'.toJString()..releasedBy(arena): 'Four'.toJString()
-          ..releasedBy(arena)
+          ..releasedBy(arena),
       });
       expect(map.length, 5);
     });
@@ -252,10 +243,7 @@ void run({required TestRunnerCallback testRunner}) {
         null,
       );
       expect(map.length, 3);
-      expect(
-        map.remove(null),
-        null,
-      );
+      expect(map.remove(null), null);
       expect(map.length, 2);
     });
   });

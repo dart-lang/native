@@ -73,9 +73,7 @@ class JFloat extends JNumber {
   // ignore: overridden_fields
   final JType<JFloat> $type = type;
 
-  JFloat.fromReference(
-    super.reference,
-  ) : super.fromReference();
+  JFloat.fromReference(super.reference) : super.fromReference();
 
   /// The type which includes information such as the signature of this class.
   static const JType<JFloat> type = $JFloat$Type$();
@@ -88,5 +86,5 @@ class JFloat extends JNumber {
   static final _ctorId = _class.constructorId(r'(F)V');
 
   JFloat(double num)
-      : super.fromReference(_ctorId(_class, referenceType, [JValueFloat(num)]));
+    : super.fromReference(_ctorId(_class, referenceType, [JValueFloat(num)]));
 }

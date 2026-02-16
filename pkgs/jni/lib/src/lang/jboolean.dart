@@ -73,9 +73,7 @@ class JBoolean extends JObject {
   // ignore: overridden_fields
   final JType<JBoolean> $type = type;
 
-  JBoolean.fromReference(
-    super.reference,
-  ) : super.fromReference();
+  JBoolean.fromReference(super.reference) : super.fromReference();
 
   /// The type which includes information such as the signature of this class.
   static const JType<JBoolean> type = $JBoolean$Type$();
@@ -87,10 +85,12 @@ class JBoolean extends JObject {
 
   static final _ctorId = _class.constructorId(r'(Z)V');
   JBoolean(bool boolean)
-      : super.fromReference(_ctorId(_class, referenceType, [boolean ? 1 : 0]));
+    : super.fromReference(_ctorId(_class, referenceType, [boolean ? 1 : 0]));
 
-  static final _booleanValueId =
-      _class.instanceMethodId(r'booleanValue', r'()Z');
+  static final _booleanValueId = _class.instanceMethodId(
+    r'booleanValue',
+    r'()Z',
+  );
 
   bool booleanValue({bool releaseOriginal = false}) {
     final ret = _booleanValueId(this, const jbooleanType(), []);

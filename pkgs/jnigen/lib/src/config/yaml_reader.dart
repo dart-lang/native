@@ -23,8 +23,10 @@ class YamlReader {
   /// This is a utility function which does all things a program would do when
   /// parsing command line arguments, including exiting from the program when
   /// arguments are invalid.
-  static YamlReader parseArgs(List<String> args,
-      {bool allowYamlConfig = true}) {
+  static YamlReader parseArgs(
+    List<String> args, {
+    bool allowYamlConfig = true,
+  }) {
     final parser = ArgParser();
     parser.addFlag('help', abbr: 'h', help: 'Show this help.');
 
@@ -32,9 +34,11 @@ class YamlReader {
     // then this option can be used. Conventionally in -D switch is used in
     // C to set preprocessor variable & in java to override a config property.
 
-    parser.addMultiOption('override',
-        abbr: 'D',
-        help: 'Override or assign a config property from command line.');
+    parser.addMultiOption(
+      'override',
+      abbr: 'D',
+      help: 'Override or assign a config property from command line.',
+    );
     if (allowYamlConfig) {
       parser.addOption('config', abbr: 'c', help: 'Path to YAML config.');
     }
@@ -74,10 +78,7 @@ class YamlReader {
       fileContents: configFileContents,
       fileSourceUri: configFileUri,
     );
-    return YamlReader.of(
-      config,
-      configFileUri?.resolve('.'),
-    );
+    return YamlReader.of(config, configFileUri?.resolve('.'));
   }
 
   bool? getBool(String property) => _config.optionalBool(property);
@@ -89,16 +90,16 @@ class YamlReader {
   Uri? getPath(String property) => _config.optionalPath(property);
 
   List<String>? getStringList(String property) => _config.optionalStringList(
-        property,
-        splitCliPattern: ';',
-        combineAllConfigs: false,
-      );
+    property,
+    splitCliPattern: ';',
+    combineAllConfigs: false,
+  );
 
   List<Uri>? getPathList(String property) => _config.optionalPathList(
-        property,
-        combineAllConfigs: false,
-        splitCliPattern: ';',
-      );
+    property,
+    combineAllConfigs: false,
+    splitCliPattern: ';',
+  );
 
   String? getOneOf(String property, Set<String> values) =>
       _config.optionalString(property, validValues: values);

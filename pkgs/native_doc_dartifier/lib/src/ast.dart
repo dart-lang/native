@@ -97,8 +97,9 @@ class Method {
 
   String toDartLikeRepresentation() {
     final staticPrefix = isStatic ? 'static ' : '';
-    final operatorPrefix =
-        operatorKeyword.isNotEmpty ? '$operatorKeyword ' : '';
+    final operatorPrefix = operatorKeyword.isNotEmpty
+        ? '$operatorKeyword '
+        : '';
 
     return '$staticPrefix$returnType $operatorPrefix$name'
         '$typeParameters$parameters';

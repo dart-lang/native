@@ -73,9 +73,7 @@ class JDouble extends JNumber {
   // ignore: overridden_fields
   final JType<JDouble> $type = type;
 
-  JDouble.fromReference(
-    super.reference,
-  ) : super.fromReference();
+  JDouble.fromReference(super.reference) : super.fromReference();
 
   /// The type which includes information such as the signature of this class.
   static const JType<JDouble> type = $JDouble$Type$();
@@ -87,5 +85,5 @@ class JDouble extends JNumber {
 
   static final _ctorId = _class.constructorId(r'(D)V');
   JDouble(double num)
-      : super.fromReference(_ctorId(_class, referenceType, [num]));
+    : super.fromReference(_ctorId(_class, referenceType, [num]));
 }

@@ -88,7 +88,7 @@ class JString extends JObject {
 
   /// Construct a [JString] from the contents of Dart string [s].
   JString.fromString(String s)
-      : super.fromReference(JGlobalReference(Jni.env.toJStringPtr(s)));
+    : super.fromReference(JGlobalReference(Jni.env.toJStringPtr(s)));
 
   /// Returns the contents as a Dart String.
   ///

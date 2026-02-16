@@ -50,15 +50,14 @@ class RAG {
     // but the tradeoff that it gets the approximate nearest neighbors
     // instead of the exact ones
     // so make it to return approx 100 nearest neighbors and then get the top K.
-    final query =
-        _classSummaryBox
-            .query(
-              ClassSummaryRAGModel_.embeddings.nearestNeighborsF32(
-                queryEmbeddings,
-                100,
-              ),
-            )
-            .build();
+    final query = _classSummaryBox
+        .query(
+          ClassSummaryRAGModel_.embeddings.nearestNeighborsF32(
+            queryEmbeddings,
+            100,
+          ),
+        )
+        .build();
     query.limit = numRetrievedDocs;
     final resultWithScore = query.findWithScores();
     print('RAG query returned ${resultWithScore.length} results.');
@@ -89,10 +88,9 @@ class RAG {
     final batchEmbededContent = <BatchEmbedContentsResponse>[];
 
     for (var i = 0; i < classesSummary.length; i += batchSize) {
-      final upperbound =
-          i + batchSize < classesSummary.length
-              ? i + batchSize
-              : classesSummary.length;
+      final upperbound = i + batchSize < classesSummary.length
+          ? i + batchSize
+          : classesSummary.length;
       print('Processing batch from $i to $upperbound...');
       final batch = classesSummary.sublist(
         i,

@@ -73,9 +73,7 @@ class JByte extends JNumber {
   // ignore: overridden_fields
   final JType<JByte> $type = type;
 
-  JByte.fromReference(
-    super.reference,
-  ) : super.fromReference();
+  JByte.fromReference(super.reference) : super.fromReference();
 
   /// The type which includes information such as the signature of this class.
   static const JType<JByte> type = $JByte$Type$();
@@ -87,5 +85,5 @@ class JByte extends JNumber {
 
   static final _ctorId = _class.constructorId(r'(B)V');
   JByte(int num)
-      : super.fromReference(_ctorId(_class, referenceType, [JValueByte(num)]));
+    : super.fromReference(_ctorId(_class, referenceType, [JValueByte(num)]));
 }

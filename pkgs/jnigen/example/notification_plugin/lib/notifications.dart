@@ -47,13 +47,13 @@ class Notifications extends jni$_.JObject {
   final jni$_.JType<Notifications> $type;
 
   @jni$_.internal
-  Notifications.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
+  Notifications.fromReference(jni$_.JReference reference)
+    : $type = type,
+      super.fromReference(reference);
 
-  static final _class =
-      jni$_.JClass.forName(r'com/example/notification_plugin/Notifications');
+  static final _class = jni$_.JClass.forName(
+    r'com/example/notification_plugin/Notifications',
+  );
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<Notifications?> nullableType =
@@ -61,28 +61,30 @@ class Notifications extends jni$_.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<Notifications> type = $Notifications$Type$();
-  static final _id_new$ = _class.constructorId(
-    r'()V',
-  );
+  static final _id_new$ = _class.constructorId(r'()V');
 
-  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _new$ =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_NewObject')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Notifications() {
     return Notifications.fromReference(
-        _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
-            .reference);
+      _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
+    );
   }
 
   static final _id_showNotification = _class.staticMethodId(
@@ -90,26 +92,33 @@ class Notifications extends jni$_.JObject {
     r'(Landroid/content/Context;ILjava/lang/String;Ljava/lang/String;)V',
   );
 
-  static final _showNotification = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _showNotification =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Int32,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallStaticVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Int32,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                  )
+                >,
+              )
+            >
+          >('globalEnv_CallStaticVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
               int,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `static public void showNotification(android.content.Context context, int notificationID, java.lang.String title, java.lang.String text)`
   static void showNotification(
@@ -122,13 +131,13 @@ class Notifications extends jni$_.JObject {
     final _$title = title?.reference ?? jni$_.jNullReference;
     final _$text = text?.reference ?? jni$_.jNullReference;
     _showNotification(
-            _class.reference.pointer,
-            _id_showNotification as jni$_.JMethodIDPtr,
-            _$context.pointer,
-            notificationID,
-            _$title.pointer,
-            _$text.pointer)
-        .check();
+      _class.reference.pointer,
+      _id_showNotification as jni$_.JMethodIDPtr,
+      _$context.pointer,
+      notificationID,
+      _$title.pointer,
+      _$text.pointer,
+    ).check();
   }
 }
 
@@ -142,11 +151,8 @@ final class $Notifications$NullableType$ extends jni$_.JType<Notifications?> {
 
   @jni$_.internal
   @core$_.override
-  Notifications? fromReference(jni$_.JReference reference) => reference.isNull
-      ? null
-      : Notifications.fromReference(
-          reference,
-        );
+  Notifications? fromReference(jni$_.JReference reference) =>
+      reference.isNull ? null : Notifications.fromReference(reference);
   @jni$_.internal
   @core$_.override
   jni$_.JType get superType => const jni$_.$JObject$NullableType$();
@@ -180,9 +186,7 @@ final class $Notifications$Type$ extends jni$_.JType<Notifications> {
   @jni$_.internal
   @core$_.override
   Notifications fromReference(jni$_.JReference reference) =>
-      Notifications.fromReference(
-        reference,
-      );
+      Notifications.fromReference(reference);
   @jni$_.internal
   @core$_.override
   jni$_.JType get superType => const jni$_.$JObject$NullableType$();

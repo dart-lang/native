@@ -164,10 +164,7 @@ class JObject {
   /// If [releaseOriginal] is `true`, the casted object will be released.
   ///
   /// Throws [CastError] if this object is not an instance of [type].
-  T as<T extends JObject?>(
-    JType<T> type, {
-    bool releaseOriginal = false,
-  }) {
+  T as<T extends JObject?>(JType<T> type, {bool releaseOriginal = false}) {
     if (!isA(type)) {
       throw CastError('not a subtype of "${type.signature}"');
     }
@@ -188,8 +185,10 @@ class JObject {
   @override
   int get hashCode => _hashCodeId(this, const jintType(), [])!;
 
-  static final _equalsId =
-      _class.instanceMethodId(r'equals', r'(Ljava/lang/Object;)Z');
+  static final _equalsId = _class.instanceMethodId(
+    r'equals',
+    r'(Ljava/lang/Object;)Z',
+  );
   @override
   bool operator ==(Object other) {
     if (other is! JObject) {
@@ -199,12 +198,17 @@ class JObject {
     return _equalsId(this, const jbooleanType(), [otherRef.pointer])!;
   }
 
-  static final _toStringId =
-      _class.instanceMethodId(r'toString', r'()Ljava/lang/String;');
+  static final _toStringId = _class.instanceMethodId(
+    r'toString',
+    r'()Ljava/lang/String;',
+  );
   @override
   String toString() {
-    return _toStringId(this, const $JString$Type$(), [])
-        .toDartString(releaseOriginal: true);
+    return _toStringId(
+      this,
+      const $JString$Type$(),
+      [],
+    ).toDartString(releaseOriginal: true);
   }
 
   bool get isReleased => reference.isReleased;

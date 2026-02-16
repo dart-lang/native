@@ -500,8 +500,8 @@ final class $Accumulator$DoublingAccumulator$NullableType
   @core$_.override
   Accumulator$DoublingAccumulator? fromReference(jni$_.JReference reference) =>
       reference.isNull
-          ? null
-          : Accumulator$DoublingAccumulator.fromReference(reference);
+      ? null
+      : Accumulator$DoublingAccumulator.fromReference(reference);
   @jni$_.internal
   @core$_.override
   jni$_.JObjType get superType => const jni$_.JObjectNullableType();
@@ -817,14 +817,15 @@ class Example$Operation extends jni$_.JObject {
 
   /// from: `static public com.Example$Operation[] values()`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JArray<Example$Operation?>? values() => _values(
-    _class.reference.pointer,
-    _id_values as jni$_.JMethodIDPtr,
-  ).object<jni$_.JArray<Example$Operation?>?>(
-    const jni$_.JArrayNullableType<Example$Operation?>(
-      $Example$Operation$NullableType(),
-    ),
-  );
+  static jni$_.JArray<Example$Operation?>? values() =>
+      _values(
+        _class.reference.pointer,
+        _id_values as jni$_.JMethodIDPtr,
+      ).object<jni$_.JArray<Example$Operation?>?>(
+        const jni$_.JArrayNullableType<Example$Operation?>(
+          $Example$Operation$NullableType(),
+        ),
+      );
 
   static final _id_valueOf = _class.staticMethodId(
     r'valueOf',

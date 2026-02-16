@@ -67,13 +67,13 @@ class PDDocument extends jni$_.JObject {
   final jni$_.JType<PDDocument> $type;
 
   @jni$_.internal
-  PDDocument.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
+  PDDocument.fromReference(jni$_.JReference reference)
+    : $type = type,
+      super.fromReference(reference);
 
-  static final _class =
-      jni$_.JClass.forName(r'org/apache/pdfbox/pdmodel/PDDocument');
+  static final _class = jni$_.JClass.forName(
+    r'org/apache/pdfbox/pdmodel/PDDocument',
+  );
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<PDDocument?> nullableType =
@@ -81,21 +81,23 @@ class PDDocument extends jni$_.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<PDDocument> type = $PDDocument$Type$();
-  static final _id_new$ = _class.constructorId(
-    r'()V',
-  );
+  static final _id_new$ = _class.constructorId(r'()V');
 
-  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _new$ =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_NewObject')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -104,24 +106,31 @@ class PDDocument extends jni$_.JObject {
   /// You need to add at least one page for the document to be valid.
   factory PDDocument() {
     return PDDocument.fromReference(
-        _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
-            .reference);
+      _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
+    );
   }
 
   static final _id_new$1 = _class.constructorId(
     r'(Lorg/apache/pdfbox/io/MemoryUsageSetting;)V',
   );
 
-  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _new$1 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_NewObject')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void <init>(org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -129,65 +138,80 @@ class PDDocument extends jni$_.JObject {
   /// Creates an empty PDF document.
   /// You need to add at least one page for the document to be valid.
   ///@param memUsageSetting defines how memory is used for buffering PDF streams
-  factory PDDocument.new$1(
-    jni$_.JObject? memUsageSetting,
-  ) {
+  factory PDDocument.new$1(jni$_.JObject? memUsageSetting) {
     final _$memUsageSetting =
         memUsageSetting?.reference ?? jni$_.jNullReference;
-    return PDDocument.fromReference(_new$1(_class.reference.pointer,
-            _id_new$1 as jni$_.JMethodIDPtr, _$memUsageSetting.pointer)
-        .reference);
+    return PDDocument.fromReference(
+      _new$1(
+        _class.reference.pointer,
+        _id_new$1 as jni$_.JMethodIDPtr,
+        _$memUsageSetting.pointer,
+      ).reference,
+    );
   }
 
   static final _id_new$2 = _class.constructorId(
     r'(Lorg/apache/pdfbox/cos/COSDocument;)V',
   );
 
-  static final _new$2 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _new$2 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_NewObject')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void <init>(org.apache.pdfbox.cos.COSDocument doc)`
   /// The returned object must be released after use, by calling the [release] method.
   ///
   /// Constructor that uses an existing document. The COSDocument that is passed in must be valid.
   ///@param doc The COSDocument that this document wraps.
-  factory PDDocument.new$2(
-    jni$_.JObject? doc,
-  ) {
+  factory PDDocument.new$2(jni$_.JObject? doc) {
     final _$doc = doc?.reference ?? jni$_.jNullReference;
-    return PDDocument.fromReference(_new$2(_class.reference.pointer,
-            _id_new$2 as jni$_.JMethodIDPtr, _$doc.pointer)
-        .reference);
+    return PDDocument.fromReference(
+      _new$2(
+        _class.reference.pointer,
+        _id_new$2 as jni$_.JMethodIDPtr,
+        _$doc.pointer,
+      ).reference,
+    );
   }
 
   static final _id_new$3 = _class.constructorId(
     r'(Lorg/apache/pdfbox/cos/COSDocument;Lorg/apache/pdfbox/io/RandomAccessRead;)V',
   );
 
-  static final _new$3 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _new$3 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_NewObject')
+          .asFunction<
+            jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void <init>(org.apache.pdfbox.cos.COSDocument doc, org.apache.pdfbox.io.RandomAccessRead source)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -195,39 +219,48 @@ class PDDocument extends jni$_.JObject {
   /// Constructor that uses an existing document. The COSDocument that is passed in must be valid.
   ///@param doc The COSDocument that this document wraps.
   ///@param source the parser which is used to read the pdf
-  factory PDDocument.new$3(
-    jni$_.JObject? doc,
-    jni$_.JObject? source,
-  ) {
+  factory PDDocument.new$3(jni$_.JObject? doc, jni$_.JObject? source) {
     final _$doc = doc?.reference ?? jni$_.jNullReference;
     final _$source = source?.reference ?? jni$_.jNullReference;
-    return PDDocument.fromReference(_new$3(_class.reference.pointer,
-            _id_new$3 as jni$_.JMethodIDPtr, _$doc.pointer, _$source.pointer)
-        .reference);
+    return PDDocument.fromReference(
+      _new$3(
+        _class.reference.pointer,
+        _id_new$3 as jni$_.JMethodIDPtr,
+        _$doc.pointer,
+        _$source.pointer,
+      ).reference,
+    );
   }
 
   static final _id_new$4 = _class.constructorId(
     r'(Lorg/apache/pdfbox/cos/COSDocument;Lorg/apache/pdfbox/io/RandomAccessRead;Lorg/apache/pdfbox/pdmodel/encryption/AccessPermission;)V',
   );
 
-  static final _new$4 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _new$4 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                  )
+                >,
+              )
+            >
+          >('globalEnv_NewObject')
+          .asFunction<
+            jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void <init>(org.apache.pdfbox.cos.COSDocument doc, org.apache.pdfbox.io.RandomAccessRead source, org.apache.pdfbox.pdmodel.encryption.AccessPermission permission)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -244,13 +277,15 @@ class PDDocument extends jni$_.JObject {
     final _$doc = doc?.reference ?? jni$_.jNullReference;
     final _$source = source?.reference ?? jni$_.jNullReference;
     final _$permission = permission?.reference ?? jni$_.jNullReference;
-    return PDDocument.fromReference(_new$4(
-            _class.reference.pointer,
-            _id_new$4 as jni$_.JMethodIDPtr,
-            _$doc.pointer,
-            _$source.pointer,
-            _$permission.pointer)
-        .reference);
+    return PDDocument.fromReference(
+      _new$4(
+        _class.reference.pointer,
+        _id_new$4 as jni$_.JMethodIDPtr,
+        _$doc.pointer,
+        _$source.pointer,
+        _$permission.pointer,
+      ).reference,
+    );
   }
 
   static final _id_addPage = _class.instanceMethodId(
@@ -258,29 +293,36 @@ class PDDocument extends jni$_.JObject {
     r'(Lorg/apache/pdfbox/pdmodel/PDPage;)V',
   );
 
-  static final _addPage = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _addPage =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void addPage(org.apache.pdfbox.pdmodel.PDPage page)`
   ///
   /// This will add a page to the document. This is a convenience method, that will add the page to the root of the
   /// hierarchy and set the parent of the page to the root.
   ///@param page The page to add to the document.
-  void addPage(
-    jni$_.JObject? page,
-  ) {
+  void addPage(jni$_.JObject? page) {
     final _$page = page?.reference ?? jni$_.jNullReference;
-    _addPage(reference.pointer, _id_addPage as jni$_.JMethodIDPtr,
-            _$page.pointer)
-        .check();
+    _addPage(
+      reference.pointer,
+      _id_addPage as jni$_.JMethodIDPtr,
+      _$page.pointer,
+    ).check();
   }
 
   static final _id_addSignature = _class.instanceMethodId(
@@ -288,16 +330,23 @@ class PDDocument extends jni$_.JObject {
     r'(Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;)V',
   );
 
-  static final _addSignature = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _addSignature =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject)`
   ///
@@ -311,13 +360,13 @@ class PDDocument extends jni$_.JObject {
   ///@throws IOException if there is an error creating required fields
   ///@throws IllegalStateException if one attempts to add several signature
   /// fields.
-  void addSignature(
-    jni$_.JObject? sigObject,
-  ) {
+  void addSignature(jni$_.JObject? sigObject) {
     final _$sigObject = sigObject?.reference ?? jni$_.jNullReference;
-    _addSignature(reference.pointer, _id_addSignature as jni$_.JMethodIDPtr,
-            _$sigObject.pointer)
-        .check();
+    _addSignature(
+      reference.pointer,
+      _id_addSignature as jni$_.JMethodIDPtr,
+      _$sigObject.pointer,
+    ).check();
   }
 
   static final _id_addSignature$1 = _class.instanceMethodId(
@@ -325,22 +374,26 @@ class PDDocument extends jni$_.JObject {
     r'(Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureOptions;)V',
   );
 
-  static final _addSignature$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _addSignature$1 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)`
   ///
@@ -355,15 +408,15 @@ class PDDocument extends jni$_.JObject {
   ///@throws IOException if there is an error creating required fields
   ///@throws IllegalStateException if one attempts to add several signature
   /// fields.
-  void addSignature$1(
-    jni$_.JObject? sigObject,
-    jni$_.JObject? options,
-  ) {
+  void addSignature$1(jni$_.JObject? sigObject, jni$_.JObject? options) {
     final _$sigObject = sigObject?.reference ?? jni$_.jNullReference;
     final _$options = options?.reference ?? jni$_.jNullReference;
-    _addSignature$1(reference.pointer, _id_addSignature$1 as jni$_.JMethodIDPtr,
-            _$sigObject.pointer, _$options.pointer)
-        .check();
+    _addSignature$1(
+      reference.pointer,
+      _id_addSignature$1 as jni$_.JMethodIDPtr,
+      _$sigObject.pointer,
+      _$options.pointer,
+    ).check();
   }
 
   static final _id_addSignature$2 = _class.instanceMethodId(
@@ -371,22 +424,26 @@ class PDDocument extends jni$_.JObject {
     r'(Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureInterface;)V',
   );
 
-  static final _addSignature$2 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _addSignature$2 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface)`
   ///
@@ -407,9 +464,12 @@ class PDDocument extends jni$_.JObject {
     final _$sigObject = sigObject?.reference ?? jni$_.jNullReference;
     final _$signatureInterface =
         signatureInterface?.reference ?? jni$_.jNullReference;
-    _addSignature$2(reference.pointer, _id_addSignature$2 as jni$_.JMethodIDPtr,
-            _$sigObject.pointer, _$signatureInterface.pointer)
-        .check();
+    _addSignature$2(
+      reference.pointer,
+      _id_addSignature$2 as jni$_.JMethodIDPtr,
+      _$sigObject.pointer,
+      _$signatureInterface.pointer,
+    ).check();
   }
 
   static final _id_addSignature$3 = _class.instanceMethodId(
@@ -417,24 +477,31 @@ class PDDocument extends jni$_.JObject {
     r'(Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureInterface;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureOptions;)V',
   );
 
-  static final _addSignature$3 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _addSignature$3 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                  )
+                >,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)`
   ///
@@ -461,12 +528,12 @@ class PDDocument extends jni$_.JObject {
         signatureInterface?.reference ?? jni$_.jNullReference;
     final _$options = options?.reference ?? jni$_.jNullReference;
     _addSignature$3(
-            reference.pointer,
-            _id_addSignature$3 as jni$_.JMethodIDPtr,
-            _$sigObject.pointer,
-            _$signatureInterface.pointer,
-            _$options.pointer)
-        .check();
+      reference.pointer,
+      _id_addSignature$3 as jni$_.JMethodIDPtr,
+      _$sigObject.pointer,
+      _$signatureInterface.pointer,
+      _$options.pointer,
+    ).check();
   }
 
   static final _id_addSignatureField = _class.instanceMethodId(
@@ -474,24 +541,31 @@ class PDDocument extends jni$_.JObject {
     r'(Ljava/util/List;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureInterface;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureOptions;)V',
   );
 
-  static final _addSignatureField = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _addSignatureField =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                  )
+                >,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void addSignatureField(java.util.List<org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField> sigFields, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)`
   ///
@@ -513,12 +587,12 @@ class PDDocument extends jni$_.JObject {
         signatureInterface?.reference ?? jni$_.jNullReference;
     final _$options = options?.reference ?? jni$_.jNullReference;
     _addSignatureField(
-            reference.pointer,
-            _id_addSignatureField as jni$_.JMethodIDPtr,
-            _$sigFields.pointer,
-            _$signatureInterface.pointer,
-            _$options.pointer)
-        .check();
+      reference.pointer,
+      _id_addSignatureField as jni$_.JMethodIDPtr,
+      _$sigFields.pointer,
+      _$signatureInterface.pointer,
+      _$options.pointer,
+    ).check();
   }
 
   static final _id_removePage = _class.instanceMethodId(
@@ -526,28 +600,35 @@ class PDDocument extends jni$_.JObject {
     r'(Lorg/apache/pdfbox/pdmodel/PDPage;)V',
   );
 
-  static final _removePage = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _removePage =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void removePage(org.apache.pdfbox.pdmodel.PDPage page)`
   ///
   /// Remove the page from the document.
   ///@param page The page to remove from the document.
-  void removePage(
-    jni$_.JObject? page,
-  ) {
+  void removePage(jni$_.JObject? page) {
     final _$page = page?.reference ?? jni$_.jNullReference;
-    _removePage(reference.pointer, _id_removePage as jni$_.JMethodIDPtr,
-            _$page.pointer)
-        .check();
+    _removePage(
+      reference.pointer,
+      _id_removePage as jni$_.JMethodIDPtr,
+      _$page.pointer,
+    ).check();
   }
 
   static final _id_removePage$1 = _class.instanceMethodId(
@@ -555,26 +636,34 @@ class PDDocument extends jni$_.JObject {
     r'(I)V',
   );
 
-  static final _removePage$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _removePage$1 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int32,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              int,
+            )
+          >();
 
   /// from: `public void removePage(int pageNumber)`
   ///
   /// Remove the page from the document.
   ///@param pageNumber 0 based index to page number.
-  void removePage$1(
-    int pageNumber,
-  ) {
-    _removePage$1(reference.pointer, _id_removePage$1 as jni$_.JMethodIDPtr,
-            pageNumber)
-        .check();
+  void removePage$1(int pageNumber) {
+    _removePage$1(
+      reference.pointer,
+      _id_removePage$1 as jni$_.JMethodIDPtr,
+      pageNumber,
+    ).check();
   }
 
   static final _id_importPage = _class.instanceMethodId(
@@ -582,16 +671,23 @@ class PDDocument extends jni$_.JObject {
     r'(Lorg/apache/pdfbox/pdmodel/PDPage;)Lorg/apache/pdfbox/pdmodel/PDPage;',
   );
 
-  static final _importPage = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _importPage =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public org.apache.pdfbox.pdmodel.PDPage importPage(org.apache.pdfbox.pdmodel.PDPage page)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -617,13 +713,13 @@ class PDDocument extends jni$_.JObject {
   ///@param page The page to import.
   ///@return The page that was imported.
   ///@throws IOException If there is an error copying the page.
-  jni$_.JObject? importPage(
-    jni$_.JObject? page,
-  ) {
+  jni$_.JObject? importPage(jni$_.JObject? page) {
     final _$page = page?.reference ?? jni$_.jNullReference;
-    return _importPage(reference.pointer, _id_importPage as jni$_.JMethodIDPtr,
-            _$page.pointer)
-        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    return _importPage(
+      reference.pointer,
+      _id_importPage as jni$_.JMethodIDPtr,
+      _$page.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
   }
 
   static final _id_getDocument = _class.instanceMethodId(
@@ -631,17 +727,21 @@ class PDDocument extends jni$_.JObject {
     r'()Lorg/apache/pdfbox/cos/COSDocument;',
   );
 
-  static final _getDocument = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getDocument =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public org.apache.pdfbox.cos.COSDocument getDocument()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -650,8 +750,9 @@ class PDDocument extends jni$_.JObject {
   ///@return The document that this layer sits on top of.
   jni$_.JObject? getDocument() {
     return _getDocument(
-            reference.pointer, _id_getDocument as jni$_.JMethodIDPtr)
-        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+      reference.pointer,
+      _id_getDocument as jni$_.JMethodIDPtr,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
   }
 
   static final _id_getDocumentInformation = _class.instanceMethodId(
@@ -659,17 +760,21 @@ class PDDocument extends jni$_.JObject {
     r'()Lorg/apache/pdfbox/pdmodel/PDDocumentInformation;',
   );
 
-  static final _getDocumentInformation = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getDocumentInformation =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public org.apache.pdfbox.pdmodel.PDDocumentInformation getDocumentInformation()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -683,10 +788,11 @@ class PDDocument extends jni$_.JObject {
   ///@return The documents /Info dictionary, never null.
   pddocumentinformation$_.PDDocumentInformation? getDocumentInformation() {
     return _getDocumentInformation(
-            reference.pointer, _id_getDocumentInformation as jni$_.JMethodIDPtr)
-        .object<pddocumentinformation$_.PDDocumentInformation?>(
-            const pddocumentinformation$_
-                .$PDDocumentInformation$NullableType$());
+      reference.pointer,
+      _id_getDocumentInformation as jni$_.JMethodIDPtr,
+    ).object<pddocumentinformation$_.PDDocumentInformation?>(
+      const pddocumentinformation$_.$PDDocumentInformation$NullableType$(),
+    );
   }
 
   static final _id_setDocumentInformation = _class.instanceMethodId(
@@ -694,16 +800,23 @@ class PDDocument extends jni$_.JObject {
     r'(Lorg/apache/pdfbox/pdmodel/PDDocumentInformation;)V',
   );
 
-  static final _setDocumentInformation = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _setDocumentInformation =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void setDocumentInformation(org.apache.pdfbox.pdmodel.PDDocumentInformation info)`
   ///
@@ -717,9 +830,11 @@ class PDDocument extends jni$_.JObject {
     pddocumentinformation$_.PDDocumentInformation? info,
   ) {
     final _$info = info?.reference ?? jni$_.jNullReference;
-    _setDocumentInformation(reference.pointer,
-            _id_setDocumentInformation as jni$_.JMethodIDPtr, _$info.pointer)
-        .check();
+    _setDocumentInformation(
+      reference.pointer,
+      _id_setDocumentInformation as jni$_.JMethodIDPtr,
+      _$info.pointer,
+    ).check();
   }
 
   static final _id_getDocumentCatalog = _class.instanceMethodId(
@@ -727,17 +842,21 @@ class PDDocument extends jni$_.JObject {
     r'()Lorg/apache/pdfbox/pdmodel/PDDocumentCatalog;',
   );
 
-  static final _getDocumentCatalog = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getDocumentCatalog =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public org.apache.pdfbox.pdmodel.PDDocumentCatalog getDocumentCatalog()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -746,8 +865,9 @@ class PDDocument extends jni$_.JObject {
   ///@return The documents /Root dictionary
   jni$_.JObject? getDocumentCatalog() {
     return _getDocumentCatalog(
-            reference.pointer, _id_getDocumentCatalog as jni$_.JMethodIDPtr)
-        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+      reference.pointer,
+      _id_getDocumentCatalog as jni$_.JMethodIDPtr,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
   }
 
   static final _id_isEncrypted = _class.instanceMethodId(
@@ -755,17 +875,21 @@ class PDDocument extends jni$_.JObject {
     r'()Z',
   );
 
-  static final _isEncrypted = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _isEncrypted =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallBooleanMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public boolean isEncrypted()`
   ///
@@ -773,8 +897,9 @@ class PDDocument extends jni$_.JObject {
   ///@return true If this document is encrypted.
   core$_.bool isEncrypted() {
     return _isEncrypted(
-            reference.pointer, _id_isEncrypted as jni$_.JMethodIDPtr)
-        .boolean;
+      reference.pointer,
+      _id_isEncrypted as jni$_.JMethodIDPtr,
+    ).boolean;
   }
 
   static final _id_getEncryption = _class.instanceMethodId(
@@ -782,17 +907,21 @@ class PDDocument extends jni$_.JObject {
     r'()Lorg/apache/pdfbox/pdmodel/encryption/PDEncryption;',
   );
 
-  static final _getEncryption = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getEncryption =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public org.apache.pdfbox.pdmodel.encryption.PDEncryption getEncryption()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -804,8 +933,9 @@ class PDDocument extends jni$_.JObject {
   ///@return The encryption dictionary(most likely a PDStandardEncryption object)
   jni$_.JObject? getEncryption() {
     return _getEncryption(
-            reference.pointer, _id_getEncryption as jni$_.JMethodIDPtr)
-        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+      reference.pointer,
+      _id_getEncryption as jni$_.JMethodIDPtr,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
   }
 
   static final _id_setEncryptionDictionary = _class.instanceMethodId(
@@ -813,31 +943,36 @@ class PDDocument extends jni$_.JObject {
     r'(Lorg/apache/pdfbox/pdmodel/encryption/PDEncryption;)V',
   );
 
-  static final _setEncryptionDictionary = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _setEncryptionDictionary =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void setEncryptionDictionary(org.apache.pdfbox.pdmodel.encryption.PDEncryption encryption)`
   ///
   /// This will set the encryption dictionary for this document.
   ///@param encryption The encryption dictionary(most likely a PDStandardEncryption object)
   ///@throws IOException If there is an error determining which security handler to use.
-  void setEncryptionDictionary(
-    jni$_.JObject? encryption,
-  ) {
+  void setEncryptionDictionary(jni$_.JObject? encryption) {
     final _$encryption = encryption?.reference ?? jni$_.jNullReference;
     _setEncryptionDictionary(
-            reference.pointer,
-            _id_setEncryptionDictionary as jni$_.JMethodIDPtr,
-            _$encryption.pointer)
-        .check();
+      reference.pointer,
+      _id_setEncryptionDictionary as jni$_.JMethodIDPtr,
+      _$encryption.pointer,
+    ).check();
   }
 
   static final _id_getLastSignatureDictionary = _class.instanceMethodId(
@@ -847,16 +982,19 @@ class PDDocument extends jni$_.JObject {
 
   static final _getLastSignatureDictionary =
       jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                    jni$_.Pointer<jni$_.Void>,
-                    jni$_.JMethodIDPtr,
-                  )>>('globalEnv_CallObjectMethod')
-          .asFunction<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature getLastSignatureDictionary()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -866,9 +1004,10 @@ class PDDocument extends jni$_.JObject {
   ///@return the last signature as <code>PDSignatureField</code>.
   ///@throws IOException if no document catalog can be found.
   jni$_.JObject? getLastSignatureDictionary() {
-    return _getLastSignatureDictionary(reference.pointer,
-            _id_getLastSignatureDictionary as jni$_.JMethodIDPtr)
-        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    return _getLastSignatureDictionary(
+      reference.pointer,
+      _id_getLastSignatureDictionary as jni$_.JMethodIDPtr,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
   }
 
   static final _id_getSignatureFields = _class.instanceMethodId(
@@ -876,17 +1015,21 @@ class PDDocument extends jni$_.JObject {
     r'()Ljava/util/List;',
   );
 
-  static final _getSignatureFields = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getSignatureFields =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public java.util.List<org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField> getSignatureFields()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -896,10 +1039,13 @@ class PDDocument extends jni$_.JObject {
   ///@throws IOException if no document catalog can be found.
   jni$_.JList<jni$_.JObject?>? getSignatureFields() {
     return _getSignatureFields(
-            reference.pointer, _id_getSignatureFields as jni$_.JMethodIDPtr)
-        .object<jni$_.JList<jni$_.JObject?>?>(
-            const jni$_.$JList$NullableType$<jni$_.JObject?>(
-                jni$_.$JObject$NullableType$()));
+      reference.pointer,
+      _id_getSignatureFields as jni$_.JMethodIDPtr,
+    ).object<jni$_.JList<jni$_.JObject?>?>(
+      const jni$_.$JList$NullableType$<jni$_.JObject?>(
+        jni$_.$JObject$NullableType$(),
+      ),
+    );
   }
 
   static final _id_getSignatureDictionaries = _class.instanceMethodId(
@@ -907,17 +1053,21 @@ class PDDocument extends jni$_.JObject {
     r'()Ljava/util/List;',
   );
 
-  static final _getSignatureDictionaries = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getSignatureDictionaries =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public java.util.List<org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature> getSignatureDictionaries()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -926,11 +1076,14 @@ class PDDocument extends jni$_.JObject {
   ///@return a <code>List</code> of <code>PDSignatureField</code>s
   ///@throws IOException if no document catalog can be found.
   jni$_.JList<jni$_.JObject?>? getSignatureDictionaries() {
-    return _getSignatureDictionaries(reference.pointer,
-            _id_getSignatureDictionaries as jni$_.JMethodIDPtr)
-        .object<jni$_.JList<jni$_.JObject?>?>(
-            const jni$_.$JList$NullableType$<jni$_.JObject?>(
-                jni$_.$JObject$NullableType$()));
+    return _getSignatureDictionaries(
+      reference.pointer,
+      _id_getSignatureDictionaries as jni$_.JMethodIDPtr,
+    ).object<jni$_.JList<jni$_.JObject?>?>(
+      const jni$_.$JList$NullableType$<jni$_.JObject?>(
+        jni$_.$JObject$NullableType$(),
+      ),
+    );
   }
 
   static final _id_registerTrueTypeFontForClosing = _class.instanceMethodId(
@@ -940,15 +1093,21 @@ class PDDocument extends jni$_.JObject {
 
   static final _registerTrueTypeFontForClosing =
       jni$_.ProtectedJniExtensions.lookup<
-                  jni$_.NativeFunction<
-                      jni$_.JThrowablePtr Function(
-                          jni$_.Pointer<jni$_.Void>,
-                          jni$_.JMethodIDPtr,
-                          jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-              'globalEnv_CallVoidMethod')
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
           .asFunction<
-              jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void registerTrueTypeFontForClosing(org.apache.fontbox.ttf.TrueTypeFont ttf)`
   ///
@@ -956,15 +1115,13 @@ class PDDocument extends jni$_.JObject {
   /// is closed when the PDDocument is closed to avoid memory leaks. Users don't have to call this
   /// method, it is done by the appropriate PDFont classes.
   ///@param ttf
-  void registerTrueTypeFontForClosing(
-    jni$_.JObject? ttf,
-  ) {
+  void registerTrueTypeFontForClosing(jni$_.JObject? ttf) {
     final _$ttf = ttf?.reference ?? jni$_.jNullReference;
     _registerTrueTypeFontForClosing(
-            reference.pointer,
-            _id_registerTrueTypeFontForClosing as jni$_.JMethodIDPtr,
-            _$ttf.pointer)
-        .check();
+      reference.pointer,
+      _id_registerTrueTypeFontForClosing as jni$_.JMethodIDPtr,
+      _$ttf.pointer,
+    ).check();
   }
 
   static final _id_load = _class.staticMethodId(
@@ -972,16 +1129,23 @@ class PDDocument extends jni$_.JObject {
     r'(Ljava/io/File;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
-  static final _load = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _load =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -991,13 +1155,13 @@ class PDDocument extends jni$_.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the file required a non-empty password.
   ///@throws IOException in case of a file reading or parsing error
-  static PDDocument? load(
-    jni$_.JObject? file,
-  ) {
+  static PDDocument? load(jni$_.JObject? file) {
     final _$file = file?.reference ?? jni$_.jNullReference;
-    return _load(_class.reference.pointer, _id_load as jni$_.JMethodIDPtr,
-            _$file.pointer)
-        .object<PDDocument?>(const $PDDocument$NullableType$());
+    return _load(
+      _class.reference.pointer,
+      _id_load as jni$_.JMethodIDPtr,
+      _$file.pointer,
+    ).object<PDDocument?>(const $PDDocument$NullableType$());
   }
 
   static final _id_load$1 = _class.staticMethodId(
@@ -1005,22 +1169,26 @@ class PDDocument extends jni$_.JObject {
     r'(Ljava/io/File;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
-  static final _load$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _load$1 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1038,9 +1206,12 @@ class PDDocument extends jni$_.JObject {
     final _$file = file?.reference ?? jni$_.jNullReference;
     final _$memUsageSetting =
         memUsageSetting?.reference ?? jni$_.jNullReference;
-    return _load$1(_class.reference.pointer, _id_load$1 as jni$_.JMethodIDPtr,
-            _$file.pointer, _$memUsageSetting.pointer)
-        .object<PDDocument?>(const $PDDocument$NullableType$());
+    return _load$1(
+      _class.reference.pointer,
+      _id_load$1 as jni$_.JMethodIDPtr,
+      _$file.pointer,
+      _$memUsageSetting.pointer,
+    ).object<PDDocument?>(const $PDDocument$NullableType$());
   }
 
   static final _id_load$2 = _class.staticMethodId(
@@ -1048,22 +1219,26 @@ class PDDocument extends jni$_.JObject {
     r'(Ljava/io/File;Ljava/lang/String;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
-  static final _load$2 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _load$2 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, java.lang.String password)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1074,15 +1249,15 @@ class PDDocument extends jni$_.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException in case of a file reading or parsing error
-  static PDDocument? load$2(
-    jni$_.JObject? file,
-    jni$_.JString? password,
-  ) {
+  static PDDocument? load$2(jni$_.JObject? file, jni$_.JString? password) {
     final _$file = file?.reference ?? jni$_.jNullReference;
     final _$password = password?.reference ?? jni$_.jNullReference;
-    return _load$2(_class.reference.pointer, _id_load$2 as jni$_.JMethodIDPtr,
-            _$file.pointer, _$password.pointer)
-        .object<PDDocument?>(const $PDDocument$NullableType$());
+    return _load$2(
+      _class.reference.pointer,
+      _id_load$2 as jni$_.JMethodIDPtr,
+      _$file.pointer,
+      _$password.pointer,
+    ).object<PDDocument?>(const $PDDocument$NullableType$());
   }
 
   static final _id_load$3 = _class.staticMethodId(
@@ -1090,24 +1265,31 @@ class PDDocument extends jni$_.JObject {
     r'(Ljava/io/File;Ljava/lang/String;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
-  static final _load$3 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _load$3 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                  )
+                >,
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, java.lang.String password, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1128,9 +1310,13 @@ class PDDocument extends jni$_.JObject {
     final _$password = password?.reference ?? jni$_.jNullReference;
     final _$memUsageSetting =
         memUsageSetting?.reference ?? jni$_.jNullReference;
-    return _load$3(_class.reference.pointer, _id_load$3 as jni$_.JMethodIDPtr,
-            _$file.pointer, _$password.pointer, _$memUsageSetting.pointer)
-        .object<PDDocument?>(const $PDDocument$NullableType$());
+    return _load$3(
+      _class.reference.pointer,
+      _id_load$3 as jni$_.JMethodIDPtr,
+      _$file.pointer,
+      _$password.pointer,
+      _$memUsageSetting.pointer,
+    ).object<PDDocument?>(const $PDDocument$NullableType$());
   }
 
   static final _id_load$4 = _class.staticMethodId(
@@ -1138,26 +1324,33 @@ class PDDocument extends jni$_.JObject {
     r'(Ljava/io/File;Ljava/lang/String;Ljava/io/InputStream;Ljava/lang/String;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
-  static final _load$4 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _load$4 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                  )
+                >,
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1180,13 +1373,13 @@ class PDDocument extends jni$_.JObject {
     final _$keyStore = keyStore?.reference ?? jni$_.jNullReference;
     final _$alias = alias?.reference ?? jni$_.jNullReference;
     return _load$4(
-            _class.reference.pointer,
-            _id_load$4 as jni$_.JMethodIDPtr,
-            _$file.pointer,
-            _$password.pointer,
-            _$keyStore.pointer,
-            _$alias.pointer)
-        .object<PDDocument?>(const $PDDocument$NullableType$());
+      _class.reference.pointer,
+      _id_load$4 as jni$_.JMethodIDPtr,
+      _$file.pointer,
+      _$password.pointer,
+      _$keyStore.pointer,
+      _$alias.pointer,
+    ).object<PDDocument?>(const $PDDocument$NullableType$());
   }
 
   static final _id_load$5 = _class.staticMethodId(
@@ -1194,28 +1387,35 @@ class PDDocument extends jni$_.JObject {
     r'(Ljava/io/File;Ljava/lang/String;Ljava/io/InputStream;Ljava/lang/String;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
-  static final _load$5 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _load$5 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                  )
+                >,
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.File file, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1242,14 +1442,14 @@ class PDDocument extends jni$_.JObject {
     final _$memUsageSetting =
         memUsageSetting?.reference ?? jni$_.jNullReference;
     return _load$5(
-            _class.reference.pointer,
-            _id_load$5 as jni$_.JMethodIDPtr,
-            _$file.pointer,
-            _$password.pointer,
-            _$keyStore.pointer,
-            _$alias.pointer,
-            _$memUsageSetting.pointer)
-        .object<PDDocument?>(const $PDDocument$NullableType$());
+      _class.reference.pointer,
+      _id_load$5 as jni$_.JMethodIDPtr,
+      _$file.pointer,
+      _$password.pointer,
+      _$keyStore.pointer,
+      _$alias.pointer,
+      _$memUsageSetting.pointer,
+    ).object<PDDocument?>(const $PDDocument$NullableType$());
   }
 
   static final _id_load$6 = _class.staticMethodId(
@@ -1257,16 +1457,23 @@ class PDDocument extends jni$_.JObject {
     r'(Ljava/io/InputStream;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
-  static final _load$6 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _load$6 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1277,13 +1484,13 @@ class PDDocument extends jni$_.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the PDF required a non-empty password.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument? load$6(
-    jni$_.JObject? input,
-  ) {
+  static PDDocument? load$6(jni$_.JObject? input) {
     final _$input = input?.reference ?? jni$_.jNullReference;
-    return _load$6(_class.reference.pointer, _id_load$6 as jni$_.JMethodIDPtr,
-            _$input.pointer)
-        .object<PDDocument?>(const $PDDocument$NullableType$());
+    return _load$6(
+      _class.reference.pointer,
+      _id_load$6 as jni$_.JMethodIDPtr,
+      _$input.pointer,
+    ).object<PDDocument?>(const $PDDocument$NullableType$());
   }
 
   static final _id_load$7 = _class.staticMethodId(
@@ -1291,22 +1498,26 @@ class PDDocument extends jni$_.JObject {
     r'(Ljava/io/InputStream;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
-  static final _load$7 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _load$7 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1325,9 +1536,12 @@ class PDDocument extends jni$_.JObject {
     final _$input = input?.reference ?? jni$_.jNullReference;
     final _$memUsageSetting =
         memUsageSetting?.reference ?? jni$_.jNullReference;
-    return _load$7(_class.reference.pointer, _id_load$7 as jni$_.JMethodIDPtr,
-            _$input.pointer, _$memUsageSetting.pointer)
-        .object<PDDocument?>(const $PDDocument$NullableType$());
+    return _load$7(
+      _class.reference.pointer,
+      _id_load$7 as jni$_.JMethodIDPtr,
+      _$input.pointer,
+      _$memUsageSetting.pointer,
+    ).object<PDDocument?>(const $PDDocument$NullableType$());
   }
 
   static final _id_load$8 = _class.staticMethodId(
@@ -1335,22 +1549,26 @@ class PDDocument extends jni$_.JObject {
     r'(Ljava/io/InputStream;Ljava/lang/String;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
-  static final _load$8 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _load$8 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, java.lang.String password)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1362,15 +1580,15 @@ class PDDocument extends jni$_.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument? load$8(
-    jni$_.JObject? input,
-    jni$_.JString? password,
-  ) {
+  static PDDocument? load$8(jni$_.JObject? input, jni$_.JString? password) {
     final _$input = input?.reference ?? jni$_.jNullReference;
     final _$password = password?.reference ?? jni$_.jNullReference;
-    return _load$8(_class.reference.pointer, _id_load$8 as jni$_.JMethodIDPtr,
-            _$input.pointer, _$password.pointer)
-        .object<PDDocument?>(const $PDDocument$NullableType$());
+    return _load$8(
+      _class.reference.pointer,
+      _id_load$8 as jni$_.JMethodIDPtr,
+      _$input.pointer,
+      _$password.pointer,
+    ).object<PDDocument?>(const $PDDocument$NullableType$());
   }
 
   static final _id_load$9 = _class.staticMethodId(
@@ -1378,26 +1596,33 @@ class PDDocument extends jni$_.JObject {
     r'(Ljava/io/InputStream;Ljava/lang/String;Ljava/io/InputStream;Ljava/lang/String;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
-  static final _load$9 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _load$9 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                  )
+                >,
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1421,13 +1646,13 @@ class PDDocument extends jni$_.JObject {
     final _$keyStore = keyStore?.reference ?? jni$_.jNullReference;
     final _$alias = alias?.reference ?? jni$_.jNullReference;
     return _load$9(
-            _class.reference.pointer,
-            _id_load$9 as jni$_.JMethodIDPtr,
-            _$input.pointer,
-            _$password.pointer,
-            _$keyStore.pointer,
-            _$alias.pointer)
-        .object<PDDocument?>(const $PDDocument$NullableType$());
+      _class.reference.pointer,
+      _id_load$9 as jni$_.JMethodIDPtr,
+      _$input.pointer,
+      _$password.pointer,
+      _$keyStore.pointer,
+      _$alias.pointer,
+    ).object<PDDocument?>(const $PDDocument$NullableType$());
   }
 
   static final _id_load$10 = _class.staticMethodId(
@@ -1435,24 +1660,31 @@ class PDDocument extends jni$_.JObject {
     r'(Ljava/io/InputStream;Ljava/lang/String;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
-  static final _load$10 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _load$10 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                  )
+                >,
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, java.lang.String password, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1474,9 +1706,13 @@ class PDDocument extends jni$_.JObject {
     final _$password = password?.reference ?? jni$_.jNullReference;
     final _$memUsageSetting =
         memUsageSetting?.reference ?? jni$_.jNullReference;
-    return _load$10(_class.reference.pointer, _id_load$10 as jni$_.JMethodIDPtr,
-            _$input.pointer, _$password.pointer, _$memUsageSetting.pointer)
-        .object<PDDocument?>(const $PDDocument$NullableType$());
+    return _load$10(
+      _class.reference.pointer,
+      _id_load$10 as jni$_.JMethodIDPtr,
+      _$input.pointer,
+      _$password.pointer,
+      _$memUsageSetting.pointer,
+    ).object<PDDocument?>(const $PDDocument$NullableType$());
   }
 
   static final _id_load$11 = _class.staticMethodId(
@@ -1484,28 +1720,35 @@ class PDDocument extends jni$_.JObject {
     r'(Ljava/io/InputStream;Ljava/lang/String;Ljava/io/InputStream;Ljava/lang/String;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
-  static final _load$11 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _load$11 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                  )
+                >,
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(java.io.InputStream input, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1534,14 +1777,14 @@ class PDDocument extends jni$_.JObject {
     final _$memUsageSetting =
         memUsageSetting?.reference ?? jni$_.jNullReference;
     return _load$11(
-            _class.reference.pointer,
-            _id_load$11 as jni$_.JMethodIDPtr,
-            _$input.pointer,
-            _$password.pointer,
-            _$keyStore.pointer,
-            _$alias.pointer,
-            _$memUsageSetting.pointer)
-        .object<PDDocument?>(const $PDDocument$NullableType$());
+      _class.reference.pointer,
+      _id_load$11 as jni$_.JMethodIDPtr,
+      _$input.pointer,
+      _$password.pointer,
+      _$keyStore.pointer,
+      _$alias.pointer,
+      _$memUsageSetting.pointer,
+    ).object<PDDocument?>(const $PDDocument$NullableType$());
   }
 
   static final _id_load$12 = _class.staticMethodId(
@@ -1549,16 +1792,23 @@ class PDDocument extends jni$_.JObject {
     r'([B)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
-  static final _load$12 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _load$12 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(byte[] input)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1568,13 +1818,13 @@ class PDDocument extends jni$_.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the PDF required a non-empty password.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument? load$12(
-    jni$_.JByteArray? input,
-  ) {
+  static PDDocument? load$12(jni$_.JByteArray? input) {
     final _$input = input?.reference ?? jni$_.jNullReference;
-    return _load$12(_class.reference.pointer, _id_load$12 as jni$_.JMethodIDPtr,
-            _$input.pointer)
-        .object<PDDocument?>(const $PDDocument$NullableType$());
+    return _load$12(
+      _class.reference.pointer,
+      _id_load$12 as jni$_.JMethodIDPtr,
+      _$input.pointer,
+    ).object<PDDocument?>(const $PDDocument$NullableType$());
   }
 
   static final _id_load$13 = _class.staticMethodId(
@@ -1582,22 +1832,26 @@ class PDDocument extends jni$_.JObject {
     r'([BLjava/lang/String;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
-  static final _load$13 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _load$13 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(byte[] input, java.lang.String password)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1608,15 +1862,15 @@ class PDDocument extends jni$_.JObject {
   ///@return loaded document
   ///@throws InvalidPasswordException If the password is incorrect.
   ///@throws IOException In case of a reading or parsing error.
-  static PDDocument? load$13(
-    jni$_.JByteArray? input,
-    jni$_.JString? password,
-  ) {
+  static PDDocument? load$13(jni$_.JByteArray? input, jni$_.JString? password) {
     final _$input = input?.reference ?? jni$_.jNullReference;
     final _$password = password?.reference ?? jni$_.jNullReference;
-    return _load$13(_class.reference.pointer, _id_load$13 as jni$_.JMethodIDPtr,
-            _$input.pointer, _$password.pointer)
-        .object<PDDocument?>(const $PDDocument$NullableType$());
+    return _load$13(
+      _class.reference.pointer,
+      _id_load$13 as jni$_.JMethodIDPtr,
+      _$input.pointer,
+      _$password.pointer,
+    ).object<PDDocument?>(const $PDDocument$NullableType$());
   }
 
   static final _id_load$14 = _class.staticMethodId(
@@ -1624,26 +1878,33 @@ class PDDocument extends jni$_.JObject {
     r'([BLjava/lang/String;Ljava/io/InputStream;Ljava/lang/String;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
-  static final _load$14 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _load$14 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                  )
+                >,
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(byte[] input, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1667,13 +1928,13 @@ class PDDocument extends jni$_.JObject {
     final _$keyStore = keyStore?.reference ?? jni$_.jNullReference;
     final _$alias = alias?.reference ?? jni$_.jNullReference;
     return _load$14(
-            _class.reference.pointer,
-            _id_load$14 as jni$_.JMethodIDPtr,
-            _$input.pointer,
-            _$password.pointer,
-            _$keyStore.pointer,
-            _$alias.pointer)
-        .object<PDDocument?>(const $PDDocument$NullableType$());
+      _class.reference.pointer,
+      _id_load$14 as jni$_.JMethodIDPtr,
+      _$input.pointer,
+      _$password.pointer,
+      _$keyStore.pointer,
+      _$alias.pointer,
+    ).object<PDDocument?>(const $PDDocument$NullableType$());
   }
 
   static final _id_load$15 = _class.staticMethodId(
@@ -1681,28 +1942,35 @@ class PDDocument extends jni$_.JObject {
     r'([BLjava/lang/String;Ljava/io/InputStream;Ljava/lang/String;Lorg/apache/pdfbox/io/MemoryUsageSetting;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
   );
 
-  static final _load$15 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _load$15 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallStaticObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.Pointer<jni$_.Void>,
+                  )
+                >,
+              )
+            >
+          >('globalEnv_CallStaticObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `static public org.apache.pdfbox.pdmodel.PDDocument load(byte[] input, java.lang.String password, java.io.InputStream keyStore, java.lang.String alias, org.apache.pdfbox.io.MemoryUsageSetting memUsageSetting)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1730,14 +1998,14 @@ class PDDocument extends jni$_.JObject {
     final _$memUsageSetting =
         memUsageSetting?.reference ?? jni$_.jNullReference;
     return _load$15(
-            _class.reference.pointer,
-            _id_load$15 as jni$_.JMethodIDPtr,
-            _$input.pointer,
-            _$password.pointer,
-            _$keyStore.pointer,
-            _$alias.pointer,
-            _$memUsageSetting.pointer)
-        .object<PDDocument?>(const $PDDocument$NullableType$());
+      _class.reference.pointer,
+      _id_load$15 as jni$_.JMethodIDPtr,
+      _$input.pointer,
+      _$password.pointer,
+      _$keyStore.pointer,
+      _$alias.pointer,
+      _$memUsageSetting.pointer,
+    ).object<PDDocument?>(const $PDDocument$NullableType$());
   }
 
   static final _id_save = _class.instanceMethodId(
@@ -1745,16 +2013,23 @@ class PDDocument extends jni$_.JObject {
     r'(Ljava/lang/String;)V',
   );
 
-  static final _save = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _save =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void save(java.lang.String fileName)`
   ///
@@ -1765,12 +2040,13 @@ class PDDocument extends jni$_.JObject {
   /// do not use the document after saving because the contents are now encrypted.
   ///@param fileName The file to save as.
   ///@throws IOException if the output could not be written
-  void save(
-    jni$_.JString? fileName,
-  ) {
+  void save(jni$_.JString? fileName) {
     final _$fileName = fileName?.reference ?? jni$_.jNullReference;
-    _save(reference.pointer, _id_save as jni$_.JMethodIDPtr, _$fileName.pointer)
-        .check();
+    _save(
+      reference.pointer,
+      _id_save as jni$_.JMethodIDPtr,
+      _$fileName.pointer,
+    ).check();
   }
 
   static final _id_save$1 = _class.instanceMethodId(
@@ -1778,16 +2054,23 @@ class PDDocument extends jni$_.JObject {
     r'(Ljava/io/File;)V',
   );
 
-  static final _save$1 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _save$1 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void save(java.io.File file)`
   ///
@@ -1798,12 +2081,13 @@ class PDDocument extends jni$_.JObject {
   /// do not use the document after saving because the contents are now encrypted.
   ///@param file The file to save as.
   ///@throws IOException if the output could not be written
-  void save$1(
-    jni$_.JObject? file,
-  ) {
+  void save$1(jni$_.JObject? file) {
     final _$file = file?.reference ?? jni$_.jNullReference;
-    _save$1(reference.pointer, _id_save$1 as jni$_.JMethodIDPtr, _$file.pointer)
-        .check();
+    _save$1(
+      reference.pointer,
+      _id_save$1 as jni$_.JMethodIDPtr,
+      _$file.pointer,
+    ).check();
   }
 
   static final _id_save$2 = _class.instanceMethodId(
@@ -1811,16 +2095,23 @@ class PDDocument extends jni$_.JObject {
     r'(Ljava/io/OutputStream;)V',
   );
 
-  static final _save$2 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _save$2 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void save(java.io.OutputStream output)`
   ///
@@ -1832,13 +2123,13 @@ class PDDocument extends jni$_.JObject {
   ///@param output The stream to write to. It will be closed when done. It is recommended to wrap
   /// it in a java.io.BufferedOutputStream, unless it is already buffered.
   ///@throws IOException if the output could not be written
-  void save$2(
-    jni$_.JObject? output,
-  ) {
+  void save$2(jni$_.JObject? output) {
     final _$output = output?.reference ?? jni$_.jNullReference;
-    _save$2(reference.pointer, _id_save$2 as jni$_.JMethodIDPtr,
-            _$output.pointer)
-        .check();
+    _save$2(
+      reference.pointer,
+      _id_save$2 as jni$_.JMethodIDPtr,
+      _$output.pointer,
+    ).check();
   }
 
   static final _id_saveIncremental = _class.instanceMethodId(
@@ -1846,16 +2137,23 @@ class PDDocument extends jni$_.JObject {
     r'(Ljava/io/OutputStream;)V',
   );
 
-  static final _saveIncremental = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _saveIncremental =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void saveIncremental(java.io.OutputStream output)`
   ///
@@ -1872,13 +2170,13 @@ class PDDocument extends jni$_.JObject {
   /// harmed!
   ///@throws IOException if the output could not be written
   ///@throws IllegalStateException if the document was not loaded from a file or a stream.
-  void saveIncremental(
-    jni$_.JObject? output,
-  ) {
+  void saveIncremental(jni$_.JObject? output) {
     final _$output = output?.reference ?? jni$_.jNullReference;
-    _saveIncremental(reference.pointer,
-            _id_saveIncremental as jni$_.JMethodIDPtr, _$output.pointer)
-        .check();
+    _saveIncremental(
+      reference.pointer,
+      _id_saveIncremental as jni$_.JMethodIDPtr,
+      _$output.pointer,
+    ).check();
   }
 
   static final _id_saveIncremental$1 = _class.instanceMethodId(
@@ -1886,22 +2184,26 @@ class PDDocument extends jni$_.JObject {
     r'(Ljava/io/OutputStream;Ljava/util/Set;)V',
   );
 
-  static final _saveIncremental$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _saveIncremental$1 =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<
+                  (jni$_.Pointer<jni$_.Void>, jni$_.Pointer<jni$_.Void>)
+                >,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void saveIncremental(java.io.OutputStream output, java.util.Set<org.apache.pdfbox.cos.COSDictionary> objectsToWrite)`
   ///
@@ -1930,11 +2232,11 @@ class PDDocument extends jni$_.JObject {
     final _$output = output?.reference ?? jni$_.jNullReference;
     final _$objectsToWrite = objectsToWrite?.reference ?? jni$_.jNullReference;
     _saveIncremental$1(
-            reference.pointer,
-            _id_saveIncremental$1 as jni$_.JMethodIDPtr,
-            _$output.pointer,
-            _$objectsToWrite.pointer)
-        .check();
+      reference.pointer,
+      _id_saveIncremental$1 as jni$_.JMethodIDPtr,
+      _$output.pointer,
+      _$objectsToWrite.pointer,
+    ).check();
   }
 
   static final _id_saveIncrementalForExternalSigning = _class.instanceMethodId(
@@ -1944,15 +2246,21 @@ class PDDocument extends jni$_.JObject {
 
   static final _saveIncrementalForExternalSigning =
       jni$_.ProtectedJniExtensions.lookup<
-                  jni$_.NativeFunction<
-                      jni$_.JniResult Function(
-                          jni$_.Pointer<jni$_.Void>,
-                          jni$_.JMethodIDPtr,
-                          jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-              'globalEnv_CallObjectMethod')
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
           .asFunction<
-              jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public org.apache.pdfbox.pdmodel.interactive.digitalsignature.ExternalSigningSupport saveIncrementalForExternalSigning(java.io.OutputStream output)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1994,15 +2302,13 @@ class PDDocument extends jni$_.JObject {
   ///@throws IOException if the output could not be written
   ///@throws IllegalStateException if the document was not loaded from a file or a stream or
   /// signature options were not set.
-  jni$_.JObject? saveIncrementalForExternalSigning(
-    jni$_.JObject? output,
-  ) {
+  jni$_.JObject? saveIncrementalForExternalSigning(jni$_.JObject? output) {
     final _$output = output?.reference ?? jni$_.jNullReference;
     return _saveIncrementalForExternalSigning(
-            reference.pointer,
-            _id_saveIncrementalForExternalSigning as jni$_.JMethodIDPtr,
-            _$output.pointer)
-        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+      reference.pointer,
+      _id_saveIncrementalForExternalSigning as jni$_.JMethodIDPtr,
+      _$output.pointer,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
   }
 
   static final _id_getPage = _class.instanceMethodId(
@@ -2010,15 +2316,23 @@ class PDDocument extends jni$_.JObject {
     r'(I)Lorg/apache/pdfbox/pdmodel/PDPage;',
   );
 
-  static final _getPage = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getPage =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int32,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              int,
+            )
+          >();
 
   /// from: `public org.apache.pdfbox.pdmodel.PDPage getPage(int pageIndex)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -2030,12 +2344,12 @@ class PDDocument extends jni$_.JObject {
   /// PDDocument\#getPages() instead.
   ///@param pageIndex the 0-based page index
   ///@return the page at the given index.
-  jni$_.JObject? getPage(
-    int pageIndex,
-  ) {
+  jni$_.JObject? getPage(int pageIndex) {
     return _getPage(
-            reference.pointer, _id_getPage as jni$_.JMethodIDPtr, pageIndex)
-        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+      reference.pointer,
+      _id_getPage as jni$_.JMethodIDPtr,
+      pageIndex,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
   }
 
   static final _id_getPages = _class.instanceMethodId(
@@ -2043,17 +2357,21 @@ class PDDocument extends jni$_.JObject {
     r'()Lorg/apache/pdfbox/pdmodel/PDPageTree;',
   );
 
-  static final _getPages = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getPages =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public org.apache.pdfbox.pdmodel.PDPageTree getPages()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -2061,8 +2379,10 @@ class PDDocument extends jni$_.JObject {
   /// Returns the page tree.
   ///@return the page tree
   jni$_.JObject? getPages() {
-    return _getPages(reference.pointer, _id_getPages as jni$_.JMethodIDPtr)
-        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    return _getPages(
+      reference.pointer,
+      _id_getPages as jni$_.JMethodIDPtr,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
   }
 
   static final _id_getNumberOfPages = _class.instanceMethodId(
@@ -2070,17 +2390,21 @@ class PDDocument extends jni$_.JObject {
     r'()I',
   );
 
-  static final _getNumberOfPages = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getNumberOfPages =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallIntMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public int getNumberOfPages()`
   ///
@@ -2088,26 +2412,28 @@ class PDDocument extends jni$_.JObject {
   ///@return The total number of pages in the PDF document.
   int getNumberOfPages() {
     return _getNumberOfPages(
-            reference.pointer, _id_getNumberOfPages as jni$_.JMethodIDPtr)
-        .integer;
+      reference.pointer,
+      _id_getNumberOfPages as jni$_.JMethodIDPtr,
+    ).integer;
   }
 
-  static final _id_close = _class.instanceMethodId(
-    r'close',
-    r'()V',
-  );
+  static final _id_close = _class.instanceMethodId(r'close', r'()V');
 
-  static final _close = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _close =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public void close()`
   ///
@@ -2122,16 +2448,23 @@ class PDDocument extends jni$_.JObject {
     r'(Lorg/apache/pdfbox/pdmodel/encryption/ProtectionPolicy;)V',
   );
 
-  static final _protect = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _protect =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void protect(org.apache.pdfbox.pdmodel.encryption.ProtectionPolicy policy)`
   ///
@@ -2145,13 +2478,13 @@ class PDDocument extends jni$_.JObject {
   ///@see org.apache.pdfbox.pdmodel.encryption.PublicKeyProtectionPolicy
   ///@param policy The protection policy.
   ///@throws IOException if there isn't any suitable security handler.
-  void protect(
-    jni$_.JObject? policy,
-  ) {
+  void protect(jni$_.JObject? policy) {
     final _$policy = policy?.reference ?? jni$_.jNullReference;
-    _protect(reference.pointer, _id_protect as jni$_.JMethodIDPtr,
-            _$policy.pointer)
-        .check();
+    _protect(
+      reference.pointer,
+      _id_protect as jni$_.JMethodIDPtr,
+      _$policy.pointer,
+    ).check();
   }
 
   static final _id_getCurrentAccessPermission = _class.instanceMethodId(
@@ -2161,16 +2494,19 @@ class PDDocument extends jni$_.JObject {
 
   static final _getCurrentAccessPermission =
       jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                    jni$_.Pointer<jni$_.Void>,
-                    jni$_.JMethodIDPtr,
-                  )>>('globalEnv_CallObjectMethod')
-          .asFunction<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public org.apache.pdfbox.pdmodel.encryption.AccessPermission getCurrentAccessPermission()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -2181,9 +2517,10 @@ class PDDocument extends jni$_.JObject {
   /// to verify if the current user is allowed to proceed.
   ///@return the access permissions for the current user on the document.
   jni$_.JObject? getCurrentAccessPermission() {
-    return _getCurrentAccessPermission(reference.pointer,
-            _id_getCurrentAccessPermission as jni$_.JMethodIDPtr)
-        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+    return _getCurrentAccessPermission(
+      reference.pointer,
+      _id_getCurrentAccessPermission as jni$_.JMethodIDPtr,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
   }
 
   static final _id_isAllSecurityToBeRemoved = _class.instanceMethodId(
@@ -2191,26 +2528,31 @@ class PDDocument extends jni$_.JObject {
     r'()Z',
   );
 
-  static final _isAllSecurityToBeRemoved = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _isAllSecurityToBeRemoved =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallBooleanMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public boolean isAllSecurityToBeRemoved()`
   ///
   /// Indicates if all security is removed or not when writing the pdf.
   ///@return returns true if all security shall be removed otherwise false
   core$_.bool isAllSecurityToBeRemoved() {
-    return _isAllSecurityToBeRemoved(reference.pointer,
-            _id_isAllSecurityToBeRemoved as jni$_.JMethodIDPtr)
-        .boolean;
+    return _isAllSecurityToBeRemoved(
+      reference.pointer,
+      _id_isAllSecurityToBeRemoved as jni$_.JMethodIDPtr,
+    ).boolean;
   }
 
   static final _id_setAllSecurityToBeRemoved = _class.instanceMethodId(
@@ -2218,28 +2560,34 @@ class PDDocument extends jni$_.JObject {
     r'(Z)V',
   );
 
-  static final _setAllSecurityToBeRemoved = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _setAllSecurityToBeRemoved =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Int32,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              int,
+            )
+          >();
 
   /// from: `public void setAllSecurityToBeRemoved(boolean removeAllSecurity)`
   ///
   /// Activates/Deactivates the removal of all security when writing the pdf.
   ///@param removeAllSecurity remove all security if set to true
-  void setAllSecurityToBeRemoved(
-    core$_.bool removeAllSecurity,
-  ) {
+  void setAllSecurityToBeRemoved(core$_.bool removeAllSecurity) {
     _setAllSecurityToBeRemoved(
-            reference.pointer,
-            _id_setAllSecurityToBeRemoved as jni$_.JMethodIDPtr,
-            removeAllSecurity ? 1 : 0)
-        .check();
+      reference.pointer,
+      _id_setAllSecurityToBeRemoved as jni$_.JMethodIDPtr,
+      removeAllSecurity ? 1 : 0,
+    ).check();
   }
 
   static final _id_getDocumentId = _class.instanceMethodId(
@@ -2247,17 +2595,21 @@ class PDDocument extends jni$_.JObject {
     r'()Ljava/lang/Long;',
   );
 
-  static final _getDocumentId = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getDocumentId =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public java.lang.Long getDocumentId()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -2266,8 +2618,9 @@ class PDDocument extends jni$_.JObject {
   ///@return the document ID
   jni$_.JLong? getDocumentId() {
     return _getDocumentId(
-            reference.pointer, _id_getDocumentId as jni$_.JMethodIDPtr)
-        .object<jni$_.JLong?>(const jni$_.$JLong$NullableType$());
+      reference.pointer,
+      _id_getDocumentId as jni$_.JMethodIDPtr,
+    ).object<jni$_.JLong?>(const jni$_.$JLong$NullableType$());
   }
 
   static final _id_setDocumentId = _class.instanceMethodId(
@@ -2275,81 +2628,96 @@ class PDDocument extends jni$_.JObject {
     r'(Ljava/lang/Long;)V',
   );
 
-  static final _setDocumentId = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _setDocumentId =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void setDocumentId(java.lang.Long docId)`
   ///
   /// Sets the document ID to the given value.
   ///@param docId the new document ID
-  void setDocumentId(
-    jni$_.JLong? docId,
-  ) {
+  void setDocumentId(jni$_.JLong? docId) {
     final _$docId = docId?.reference ?? jni$_.jNullReference;
-    _setDocumentId(reference.pointer, _id_setDocumentId as jni$_.JMethodIDPtr,
-            _$docId.pointer)
-        .check();
+    _setDocumentId(
+      reference.pointer,
+      _id_setDocumentId as jni$_.JMethodIDPtr,
+      _$docId.pointer,
+    ).check();
   }
 
-  static final _id_getVersion = _class.instanceMethodId(
-    r'getVersion',
-    r'()F',
-  );
+  static final _id_getVersion = _class.instanceMethodId(r'getVersion', r'()F');
 
-  static final _getVersion = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getVersion =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallFloatMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallFloatMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public float getVersion()`
   ///
   /// Returns the PDF specification version this document conforms to.
   ///@return the PDF version (e.g. 1.4f)
   double getVersion() {
-    return _getVersion(reference.pointer, _id_getVersion as jni$_.JMethodIDPtr)
-        .float;
+    return _getVersion(
+      reference.pointer,
+      _id_getVersion as jni$_.JMethodIDPtr,
+    ).float;
   }
 
-  static final _id_setVersion = _class.instanceMethodId(
-    r'setVersion',
-    r'(F)V',
-  );
+  static final _id_setVersion = _class.instanceMethodId(r'setVersion', r'(F)V');
 
-  static final _setVersion = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _setVersion =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<(jni$_.Double,)>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Double,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              double,
+            )
+          >();
 
   /// from: `public void setVersion(float newVersion)`
   ///
   /// Sets the PDF specification version for this document.
   ///@param newVersion the new PDF version (e.g. 1.4f)
-  void setVersion(
-    double newVersion,
-  ) {
+  void setVersion(double newVersion) {
     _setVersion(
-            reference.pointer, _id_setVersion as jni$_.JMethodIDPtr, newVersion)
-        .check();
+      reference.pointer,
+      _id_setVersion as jni$_.JMethodIDPtr,
+      newVersion,
+    ).check();
   }
 
   static final _id_getResourceCache = _class.instanceMethodId(
@@ -2357,17 +2725,21 @@ class PDDocument extends jni$_.JObject {
     r'()Lorg/apache/pdfbox/pdmodel/ResourceCache;',
   );
 
-  static final _getResourceCache = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _getResourceCache =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public org.apache.pdfbox.pdmodel.ResourceCache getResourceCache()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -2376,8 +2748,9 @@ class PDDocument extends jni$_.JObject {
   ///@return the resource cache or null.
   jni$_.JObject? getResourceCache() {
     return _getResourceCache(
-            reference.pointer, _id_getResourceCache as jni$_.JMethodIDPtr)
-        .object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
+      reference.pointer,
+      _id_getResourceCache as jni$_.JMethodIDPtr,
+    ).object<jni$_.JObject?>(const jni$_.$JObject$NullableType$());
   }
 
   static final _id_setResourceCache = _class.instanceMethodId(
@@ -2385,28 +2758,35 @@ class PDDocument extends jni$_.JObject {
     r'(Lorg/apache/pdfbox/pdmodel/ResourceCache;)V',
   );
 
-  static final _setResourceCache = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _setResourceCache =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallVoidMethod')
+          .asFunction<
+            jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public void setResourceCache(org.apache.pdfbox.pdmodel.ResourceCache resourceCache)`
   ///
   /// Sets the resource cache associated with this document.
   ///@param resourceCache A resource cache, or null.
-  void setResourceCache(
-    jni$_.JObject? resourceCache,
-  ) {
+  void setResourceCache(jni$_.JObject? resourceCache) {
     final _$resourceCache = resourceCache?.reference ?? jni$_.jNullReference;
-    _setResourceCache(reference.pointer,
-            _id_setResourceCache as jni$_.JMethodIDPtr, _$resourceCache.pointer)
-        .check();
+    _setResourceCache(
+      reference.pointer,
+      _id_setResourceCache as jni$_.JMethodIDPtr,
+      _$resourceCache.pointer,
+    ).check();
   }
 }
 
@@ -2420,11 +2800,8 @@ final class $PDDocument$NullableType$ extends jni$_.JType<PDDocument?> {
 
   @jni$_.internal
   @core$_.override
-  PDDocument? fromReference(jni$_.JReference reference) => reference.isNull
-      ? null
-      : PDDocument.fromReference(
-          reference,
-        );
+  PDDocument? fromReference(jni$_.JReference reference) =>
+      reference.isNull ? null : PDDocument.fromReference(reference);
   @jni$_.internal
   @core$_.override
   jni$_.JType get superType => const jni$_.$JObject$NullableType$();
@@ -2458,9 +2835,7 @@ final class $PDDocument$Type$ extends jni$_.JType<PDDocument> {
   @jni$_.internal
   @core$_.override
   PDDocument fromReference(jni$_.JReference reference) =>
-      PDDocument.fromReference(
-        reference,
-      );
+      PDDocument.fromReference(reference);
   @jni$_.internal
   @core$_.override
   jni$_.JType get superType => const jni$_.$JObject$NullableType$();

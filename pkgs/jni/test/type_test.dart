@@ -451,8 +451,10 @@ void run({required TestRunnerCallback testRunner}) {
     expect(lowestCommonSuperType([JString.type]), JString.type);
     expect(lowestCommonSuperType([JObject.type, JObject.type]), JObject.type);
     expect(lowestCommonSuperType([JString.type, JString.type]), JString.type);
-    expect(lowestCommonSuperType([JString.type, JArray.type(JString.type)]),
-        JObject.type);
+    expect(
+      lowestCommonSuperType([JString.type, JArray.type(JString.type)]),
+      JObject.type,
+    );
   });
 
   testRunner('Boxed types', () {
@@ -488,10 +490,7 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('array types', () {
     using((arena) {
       expect(
-        lowestCommonSuperType([
-          JIntArray.type,
-          JIntArray.type,
-        ]),
+        lowestCommonSuperType([JIntArray.type, JIntArray.type]),
         JIntArray.type,
       );
       expect(
@@ -502,10 +501,7 @@ void run({required TestRunnerCallback testRunner}) {
         JArray.type(JObject.type),
       );
       expect(
-        lowestCommonSuperType([
-          JArray.type(JObject.type),
-          JIntArray.type,
-        ]),
+        lowestCommonSuperType([JArray.type(JObject.type), JIntArray.type]),
         JObject.type,
       );
     });
@@ -542,10 +538,7 @@ void run({required TestRunnerCallback testRunner}) {
         JObject.type,
       );
       expect(
-        lowestCommonSuperType([
-          JByteBuffer.type,
-          JBuffer.type,
-        ]),
+        lowestCommonSuperType([JByteBuffer.type, JBuffer.type]),
         JBuffer.type,
       );
     });
@@ -563,13 +556,17 @@ void run({required TestRunnerCallback testRunner}) {
     expect(lowestCommonSuperType([$A$Type$(), $B$Type$()]), JObject.type);
     expect(lowestCommonSuperType([$C$Type$(), $B$Type$()]), JObject.type);
     expect(lowestCommonSuperType([$F$Type$(), $B$Type$()]), JObject.type);
-    expect(lowestCommonSuperType([$E$Type$(), $C$Type$(), $F$Type$()]),
-        JObject.type);
+    expect(
+      lowestCommonSuperType([$E$Type$(), $C$Type$(), $F$Type$()]),
+      JObject.type,
+    );
 
     expect(lowestCommonSuperType([$C$Type$(), $D$Type$()]), $A$Type$());
     expect(lowestCommonSuperType([$F$Type$(), $D$Type$()]), $A$Type$());
-    expect(lowestCommonSuperType([$F$Type$(), $C$Type$(), $D$Type$()]),
-        $A$Type$());
+    expect(
+      lowestCommonSuperType([$F$Type$(), $C$Type$(), $D$Type$()]),
+      $A$Type$(),
+    );
 
     expect(lowestCommonSuperType([$E$Type$(), $B$Type$()]), $B$Type$());
     expect(lowestCommonSuperType([$B$Type$(), $B$Type$()]), $B$Type$());
@@ -584,27 +581,47 @@ void run({required TestRunnerCallback testRunner}) {
     //    C   D   E
     //   /
     //  F
-    expect(lowestCommonSuperType([$A$Type$(), $B$NullableType$()]),
-        JObject.nullableType);
-    expect(lowestCommonSuperType([$C$NullableType$(), $B$Type$()]),
-        JObject.nullableType);
-    expect(lowestCommonSuperType([$F$NullableType$(), $B$NullableType$()]),
-        JObject.nullableType);
-    expect(lowestCommonSuperType([$E$NullableType$(), $C$Type$(), $F$Type$()]),
-        JObject.nullableType);
+    expect(
+      lowestCommonSuperType([$A$Type$(), $B$NullableType$()]),
+      JObject.nullableType,
+    );
+    expect(
+      lowestCommonSuperType([$C$NullableType$(), $B$Type$()]),
+      JObject.nullableType,
+    );
+    expect(
+      lowestCommonSuperType([$F$NullableType$(), $B$NullableType$()]),
+      JObject.nullableType,
+    );
+    expect(
+      lowestCommonSuperType([$E$NullableType$(), $C$Type$(), $F$Type$()]),
+      JObject.nullableType,
+    );
 
-    expect(lowestCommonSuperType([$C$Type$(), $D$NullableType$()]),
-        $A$NullableType$());
-    expect(lowestCommonSuperType([$F$NullableType$(), $D$Type$()]),
-        $A$NullableType$());
-    expect(lowestCommonSuperType([$F$Type$(), $C$NullableType$(), $D$Type$()]),
-        $A$NullableType$());
+    expect(
+      lowestCommonSuperType([$C$Type$(), $D$NullableType$()]),
+      $A$NullableType$(),
+    );
+    expect(
+      lowestCommonSuperType([$F$NullableType$(), $D$Type$()]),
+      $A$NullableType$(),
+    );
+    expect(
+      lowestCommonSuperType([$F$Type$(), $C$NullableType$(), $D$Type$()]),
+      $A$NullableType$(),
+    );
 
-    expect(lowestCommonSuperType([$E$NullableType$(), $B$Type$()]),
-        $B$NullableType$());
-    expect(lowestCommonSuperType([$B$NullableType$(), $B$Type$()]),
-        $B$NullableType$());
-    expect(lowestCommonSuperType([$B$NullableType$(), $B$NullableType$()]),
-        $B$NullableType$());
+    expect(
+      lowestCommonSuperType([$E$NullableType$(), $B$Type$()]),
+      $B$NullableType$(),
+    );
+    expect(
+      lowestCommonSuperType([$B$NullableType$(), $B$Type$()]),
+      $B$NullableType$(),
+    );
+    expect(
+      lowestCommonSuperType([$B$NullableType$(), $B$NullableType$()]),
+      $B$NullableType$(),
+    );
   });
 }

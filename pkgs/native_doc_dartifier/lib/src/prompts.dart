@@ -27,7 +27,8 @@ Output the response in JSON format:
 ''';
 
   @override
-  String get prompt => '''
+  String get prompt =>
+      '''
 You are an expert translator specializing in converting Java/Kotlin code to equivalent Dart code, leveraging provided JNI bindings. Your output must be *only* the Dart code snippet without any additional comments or explanations.
 
 Your primary goal is to accurately translate the given Java/Kotlin code snippet into idiomatic Dart snippet, adhering to Dart conventions.
@@ -142,7 +143,8 @@ Output the response in JSON format:
   ''';
 
   @override
-  String get prompt => '''
+  String get prompt =>
+      '''
 I need your help fixing some analyzer errors in the Dart code you generated for me.
 
 also provide your thinking process. Explain your approach to fixing the errors, identify the specific issues, and describe how you will use the previously shared bindings and code to solve them.

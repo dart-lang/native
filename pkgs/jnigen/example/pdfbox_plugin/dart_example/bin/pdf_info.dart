@@ -38,7 +38,8 @@ void writeInfo(String file) {
 
 final jniLibsDir = join('build', 'jni_libs');
 
-const jarError = 'No JAR files were found.\n'
+const jarError =
+    'No JAR files were found.\n'
     'Run `dart run jnigen:download_maven_jars --config jnigen.yaml` '
     'in plugin directory.\n'
     'Alternatively, regenerate JNI bindings in plugin directory, which will '

@@ -81,9 +81,7 @@ class JNumber extends JObject {
   // ignore: overridden_fields
   final JType<JNumber> $type = type;
 
-  JNumber.fromReference(
-    super.reference,
-  ) : super.fromReference();
+  JNumber.fromReference(super.reference) : super.fromReference();
 
   static final _class = JClass.forName(r'java/lang/Number');
 

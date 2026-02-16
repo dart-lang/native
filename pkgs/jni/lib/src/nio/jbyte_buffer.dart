@@ -130,9 +130,7 @@ class JByteBuffer extends JBuffer {
   // ignore: overridden_fields
   final JType<JByteBuffer> $type = type;
 
-  JByteBuffer.fromReference(
-    super.reference,
-  ) : super.fromReference();
+  JByteBuffer.fromReference(super.reference) : super.fromReference();
 
   static final _class = JClass.forName(r'java/nio/ByteBuffer');
 
@@ -142,60 +140,64 @@ class JByteBuffer extends JBuffer {
   /// The type which includes information such as the signature of this class.
   static const JType<JByteBuffer?> nullableType = $JByteBuffer$NullableType$();
 
-  static final _allocateDirectId =
-      _class.staticMethodId(r'allocateDirect', r'(I)Ljava/nio/ByteBuffer;');
+  static final _allocateDirectId = _class.staticMethodId(
+    r'allocateDirect',
+    r'(I)Ljava/nio/ByteBuffer;',
+  );
 
   /// Allocates a new direct byte buffer.
   ///
   /// Throws:
   /// * `IllegalArgumentException` - If the capacity is a negative integer
   factory JByteBuffer.allocateDirect(int capacity) {
-    return _allocateDirectId(
-        _class, const $JByteBuffer$Type$(), [JValueInt(capacity)])!;
+    return _allocateDirectId(_class, const $JByteBuffer$Type$(), [
+      JValueInt(capacity),
+    ])!;
   }
 
-  static final _allocateId =
-      _class.staticMethodId(r'allocate', r'(I)Ljava/nio/ByteBuffer;');
+  static final _allocateId = _class.staticMethodId(
+    r'allocate',
+    r'(I)Ljava/nio/ByteBuffer;',
+  );
 
   /// Allocates a new byte buffer.
   ///
   /// Throws:
   /// * `IllegalArgumentException` - If the capacity is a negative integer
   factory JByteBuffer.allocate(int capacity) {
-    return _allocateId(
-        _class, const $JByteBuffer$Type$(), [JValueInt(capacity)])!;
+    return _allocateId(_class, const $JByteBuffer$Type$(), [
+      JValueInt(capacity),
+    ])!;
   }
 
-  static final _wrapWholeId =
-      _class.staticMethodId(r'wrap', r'([B)Ljava/nio/ByteBuffer;');
-  static final _wrapId =
-      _class.staticMethodId(r'wrap', r'([BII)Ljava/nio/ByteBuffer;');
+  static final _wrapWholeId = _class.staticMethodId(
+    r'wrap',
+    r'([B)Ljava/nio/ByteBuffer;',
+  );
+  static final _wrapId = _class.staticMethodId(
+    r'wrap',
+    r'([BII)Ljava/nio/ByteBuffer;',
+  );
 
   /// Wraps a byte array into a buffer.
   ///
   /// The new buffer will be backed by the given byte array; that is,
   /// modifications to the buffer will cause the array to be modified
   /// and vice versa.
-  static JByteBuffer wrap(
-    JByteArray array, [
-    int? offset,
-    int? length,
-  ]) {
+  static JByteBuffer wrap(JByteArray array, [int? offset, int? length]) {
     final arrayRef = array.reference;
     if (offset == null && length == null) {
-      return _wrapWholeId(
-        _class,
-        const $JByteBuffer$Type$(),
-        [arrayRef.pointer],
-      )!;
+      return _wrapWholeId(_class, const $JByteBuffer$Type$(), [
+        arrayRef.pointer,
+      ])!;
     }
     offset ??= 0;
     length ??= array.length - offset;
-    return _wrapId(
-      _class,
-      const $JByteBuffer$Type$(),
-      [arrayRef.pointer, JValueInt(offset), JValueInt(length)],
-    )!;
+    return _wrapId(_class, const $JByteBuffer$Type$(), [
+      arrayRef.pointer,
+      JValueInt(offset),
+      JValueInt(length),
+    ])!;
   }
 
   /// Creates a [JByteBuffer] from the content of [list].
@@ -207,8 +209,10 @@ class JByteBuffer extends JBuffer {
     return buffer;
   }
 
-  static final _sliceId =
-      _class.instanceMethodId(r'slice', r'()Ljava/nio/ByteBuffer;');
+  static final _sliceId = _class.instanceMethodId(
+    r'slice',
+    r'()Ljava/nio/ByteBuffer;',
+  );
 
   /// Creates a new byte buffer whose content is a shared subsequence of this
   /// buffer's content.
@@ -216,16 +220,20 @@ class JByteBuffer extends JBuffer {
     return _sliceId(this, const $JByteBuffer$Type$(), [])!;
   }
 
-  static final _duplicateId =
-      _class.instanceMethodId(r'duplicate', r'()Ljava/nio/ByteBuffer;');
+  static final _duplicateId = _class.instanceMethodId(
+    r'duplicate',
+    r'()Ljava/nio/ByteBuffer;',
+  );
 
   /// Creates a new byte buffer that shares this buffer's content.
   JByteBuffer duplicate() {
     return _duplicateId(this, const $JByteBuffer$Type$(), [])!;
   }
 
-  static final _asReadOnlyBufferId =
-      _class.instanceMethodId(r'asReadOnlyBuffer', r'()Ljava/nio/ByteBuffer;');
+  static final _asReadOnlyBufferId = _class.instanceMethodId(
+    r'asReadOnlyBuffer',
+    r'()Ljava/nio/ByteBuffer;',
+  );
 
   /// Creates a new, read-only byte buffer that shares this buffer's content.
   JByteBuffer asReadOnlyBuffer() {
@@ -244,8 +252,10 @@ class JByteBuffer extends JBuffer {
     return _getId(this, const jbyteType(), []);
   }
 
-  static final _putId =
-      _class.instanceMethodId(r'put', r'(B)Ljava/nio/ByteBuffer;');
+  static final _putId = _class.instanceMethodId(
+    r'put',
+    r'(B)Ljava/nio/ByteBuffer;',
+  );
 
   /// Writes the given byte into this buffer at the current [position], and then
   /// increments the [position].
@@ -321,10 +331,10 @@ class JByteBuffer extends JBuffer {
       reference.setAsReleased();
     }
     return address.cast<Uint8>().asTypedList(
-          capacity,
-          token: token,
-          finalizer: Jni.env.ptr.ref.DeleteGlobalRef.cast(),
-        );
+      capacity,
+      token: token,
+      finalizer: Jni.env.ptr.ref.DeleteGlobalRef.cast(),
+    );
   }
 }
 

@@ -65,16 +65,16 @@ final javaFiles = [
 void compileJavaSources(String workingDir, List<String> files) async {
   final procRes = Process.runSync('javac', files, workingDirectory: workingDir);
   if (procRes.exitCode != 0) {
-    log.fatal('javac exited with ${procRes.exitCode}\n'
-        '${procRes.stderr}');
+    log.fatal(
+      'javac exited with ${procRes.exitCode}\n'
+      '${procRes.stderr}',
+    );
   }
 }
 
 Config getConfig({SummarizerBackend backend = SummarizerBackend.asm}) {
   compileJavaSources(javaPath, javaFiles);
-  final dartWrappersRoot = Uri.directory(
-    join(testRoot, 'bindings'),
-  );
+  final dartWrappersRoot = Uri.directory(join(testRoot, 'bindings'));
   final config = Config(
     sourcePath: [Uri.directory(javaPath)],
     classPath: [Uri.directory(javaPath)],
@@ -98,7 +98,7 @@ Config getConfig({SummarizerBackend backend = SummarizerBackend.asm}) {
 ''',
       'com.github.dart_lang.jnigen.interfaces.MyRunnable': r'''
   static core$_.Map<int, $MyRunnable> get $impls => _$impls;
-'''
+''',
     },
     outputConfig: OutputConfig(
       dartConfig: DartCodeOutputConfig(

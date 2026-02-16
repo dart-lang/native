@@ -17,8 +17,11 @@ import 'test_util/test_util.dart';
 /// [dartOutput] is a relative path from the example project dir.
 ///
 /// Pass [isLargeTest] as true if the test will take considerable time.
-void testExample(String exampleName, String dartOutput,
-    {bool isLargeTest = false}) {
+void testExample(
+  String exampleName,
+  String dartOutput, {
+  bool isLargeTest = false,
+}) {
   test(
     'Generate and compare bindings for $exampleName',
     timeout: const Timeout.factor(3),
@@ -37,35 +40,43 @@ void testExample(String exampleName, String dartOutput,
   );
 }
 
-void testDartApiExample(
-    {required String exampleName,
-    required String generatorScriptPath,
-    required String outputPath,
-    bool isLargeTest = false}) {
+void testDartApiExample({
+  required String exampleName,
+  required String generatorScriptPath,
+  required String outputPath,
+  bool isLargeTest = false,
+}) {
   test(
     'Generate and compare bindings for $exampleName',
     timeout: const Timeout.factor(3),
     () async {
       final examplePath = join('example', exampleName);
       try {
-        final generatorResult = await Process.run(
-            Platform.resolvedExecutable, ['run', generatorScriptPath],
-            workingDirectory: examplePath);
-        if ((generatorResult.stderr as String)
-            .contains('Gradle execution failed.')) {
+        final generatorResult = await Process.run(Platform.resolvedExecutable, [
+          'run',
+          generatorScriptPath,
+        ], workingDirectory: examplePath);
+        if ((generatorResult.stderr as String).contains(
+          'Gradle execution failed.',
+        )) {
           stderr.writeln('Skip: $exampleName');
           return;
         }
-        final processResults = await Process.run(
-            'git', ['diff', '--exit-code', outputPath],
-            workingDirectory: examplePath);
+        final processResults = await Process.run('git', [
+          'diff',
+          '--exit-code',
+          outputPath,
+        ], workingDirectory: examplePath);
         if (processResults.exitCode == 1) {
-          fail('The checked-in bindings of $exampleName are out of date. Run '
-              'the generator script ($generatorScriptPath) and commit the '
-              'changes.\n\n${processResults.stdout}');
+          fail(
+            'The checked-in bindings of $exampleName are out of date. Run '
+            'the generator script ($generatorScriptPath) and commit the '
+            'changes.\n\n${processResults.stdout}',
+          );
         } else if (processResults.exitCode != 0) {
           throw Exception(
-              'Invocation of "git diff" failed:\n${processResults.stderr}');
+            'Invocation of "git diff" failed:\n${processResults.stderr}',
+          );
         }
       } on GradleException catch (_) {
         stderr.writeln('Skip: $exampleName');

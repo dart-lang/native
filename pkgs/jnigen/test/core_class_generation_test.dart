@@ -8,55 +8,59 @@ import 'package:test/test.dart';
 import 'test_util/test_util.dart';
 
 void main() {
-  test('Java core libraries are generated without providing class path',
-      () async {
-    await generateAndAnalyzeBindings(
-      Config(
-        outputConfig: OutputConfig(
-          dartConfig: DartCodeOutputConfig(
-            path: Uri.file('foo.dart'),
-            structure: OutputStructure.singleFile,
+  test(
+    'Java core libraries are generated without providing class path',
+    () async {
+      await generateAndAnalyzeBindings(
+        Config(
+          outputConfig: OutputConfig(
+            dartConfig: DartCodeOutputConfig(
+              path: Uri.file('foo.dart'),
+              structure: OutputStructure.singleFile,
+            ),
           ),
+          classes: [
+            // A random assortment of Java core classes.
+            'java.lang.StringBuilder',
+            'java.lang.ModuleLayer',
+            'java.net.SocketOption',
+            'java.lang.ref', // Also works with packages.
+          ],
         ),
-        classes: [
-          // A random assortment of Java core classes.
-          'java.lang.StringBuilder',
-          'java.lang.ModuleLayer',
-          'java.net.SocketOption',
-          'java.lang.ref', // Also works with packages.
+        confirmExists: [
+          'StringBuilder',
+          'ModuleLayer',
+          'SocketOption',
+          'Reference', // From `java.lang.ref`.
         ],
-      ),
-      confirmExists: [
-        'StringBuilder',
-        'ModuleLayer',
-        'SocketOption',
-        'Reference', // From `java.lang.ref`.
-      ],
-    );
-  });
+      );
+    },
+  );
 
-  test('Kotlin stdlib libraries are generated without providing class path',
-      () async {
-    await generateAndAnalyzeBindings(
-      Config(
-        outputConfig: OutputConfig(
-          dartConfig: DartCodeOutputConfig(
-            path: Uri.file('foo.dart'),
-            structure: OutputStructure.singleFile,
+  test(
+    'Kotlin stdlib libraries are generated without providing class path',
+    () async {
+      await generateAndAnalyzeBindings(
+        Config(
+          outputConfig: OutputConfig(
+            dartConfig: DartCodeOutputConfig(
+              path: Uri.file('foo.dart'),
+              structure: OutputStructure.singleFile,
+            ),
           ),
+          classes: [
+            // A random assortment of Kotlin stdlib classes.
+            'kotlin.io.AccessDeniedException',
+            'kotlin.ranges.CharRange',
+            'kotlin.random', // Also works with packages.
+          ],
         ),
-        classes: [
-          // A random assortment of Kotlin stdlib classes.
-          'kotlin.io.AccessDeniedException',
-          'kotlin.ranges.CharRange',
-          'kotlin.random', // Also works with packages.
+        confirmExists: [
+          'AccessDeniedException',
+          'CharRange',
+          'Random', // From `kotlin.random`.
         ],
-      ),
-      confirmExists: [
-        'AccessDeniedException',
-        'CharRange',
-        'Random', // From `kotlin.random`.
-      ],
-    );
-  });
+      );
+    },
+  );
 }

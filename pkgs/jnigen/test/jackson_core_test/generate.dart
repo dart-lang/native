@@ -6,7 +6,8 @@ import 'package:jnigen/jnigen.dart';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' hide equals;
 
-const jacksonPreamble = '// Generated from jackson-core which is licensed under'
+const jacksonPreamble =
+    '// Generated from jackson-core which is licensed under'
     ' the Apache License 2.0.\n'
     '// The following copyright from the original authors applies.\n'
     '// See https://github.com/FasterXML/jackson-core/blob/2.14/LICENSE\n'

@@ -18,8 +18,11 @@ Future<Uri?> findPackageRoot(String packageName) async {
   return (await findPackage(packageName))?.root;
 }
 
-Future<bool> isPackageModifiedAfter(String packageName, DateTime time,
-    [String? subDir]) async {
+Future<bool> isPackageModifiedAfter(
+  String packageName,
+  DateTime time, [
+  String? subDir,
+]) async {
   final root = await findPackageRoot(packageName);
   if (root == null) {
     throw UnsupportedError('package $packageName does not exist');

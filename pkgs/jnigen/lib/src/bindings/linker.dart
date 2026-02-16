@@ -70,10 +70,7 @@ class Linker extends Visitor<Classes, Future<void>> with TopLevelVisitor {
     }
 
     DeclaredType.object.classDecl = resolve(DeclaredType.object.name);
-    final classLinker = _ClassLinker(
-      config,
-      resolve,
-    );
+    final classLinker = _ClassLinker(config, resolve);
     for (final classDecl in node.decls.values) {
       classDecl.accept(classLinker);
     }
@@ -88,10 +85,8 @@ class _ClassLinker extends Visitor<ClassDecl, void> {
   /// Keeps track of the [TypeParam]s that introduced each type variable.
   final typeVarOrigin = <String, TypeParam>{};
 
-  _ClassLinker(
-    this.config,
-    this.resolve,
-  ) : linked = {...config.importedClasses.values};
+  _ClassLinker(this.config, this.resolve)
+    : linked = {...config.importedClasses.values};
 
   @override
   void visit(ClassDecl node) {
@@ -138,13 +133,16 @@ class _ClassLinker extends Visitor<ClassDecl, void> {
       if (interface case final DeclaredType interfaceType) {
         interfaceType.classDecl.accept(this);
         for (final interfaceMethod in interfaceType.classDecl.methods) {
-          final clonedMethod =
-              interfaceMethod.clone(until: GenerationStage.linker);
-          clonedMethod.accept(_MethodMover(
-            typeVarOrigin: {...typeVarOrigin},
-            fromType: interfaceType,
-            toClass: node,
-          ));
+          final clonedMethod = interfaceMethod.clone(
+            until: GenerationStage.linker,
+          );
+          clonedMethod.accept(
+            _MethodMover(
+              typeVarOrigin: {...typeVarOrigin},
+              fromType: interfaceType,
+              toClass: node,
+            ),
+          );
           if (!methodSignatures.contains(clonedMethod.javaSig)) {
             clonedMethod.accept(methodLinker);
             methodSignatures.add(clonedMethod.javaSig);
@@ -170,7 +168,7 @@ class _ClassLinker extends Visitor<ClassDecl, void> {
 
 class _MethodLinker extends Visitor<Method, void> {
   _MethodLinker(this.config, this.resolve, this.typeVarOrigin)
-      : typeLinker = _TypeLinker(resolve, typeVarOrigin);
+    : typeLinker = _TypeLinker(resolve, typeVarOrigin);
 
   final Config config;
   final _Resolver resolve;
@@ -179,18 +177,21 @@ class _MethodLinker extends Visitor<Method, void> {
 
   @override
   void visit(Method node) {
-    final hasOuterClassArg = !node.classDecl.isStatic &&
+    final hasOuterClassArg =
+        !node.classDecl.isStatic &&
         node.classDecl.isNested &&
         (node.isConstructor || node.isStatic);
     if (hasOuterClassArg) {
-      final outerClassTypeParamCount = node.classDecl.allTypeParams.length -
+      final outerClassTypeParamCount =
+          node.classDecl.allTypeParams.length -
           node.classDecl.typeParams.length;
       final outerClassTypeParams = [
-        for (final typeParam
-            in node.classDecl.allTypeParams.take(outerClassTypeParamCount)) ...[
+        for (final typeParam in node.classDecl.allTypeParams.take(
+          outerClassTypeParamCount,
+        )) ...[
           TypeVar(name: typeParam.name)
             ..annotations = [if (typeParam.hasNonNull) Annotation.nonNull],
-        ]
+        ],
       ];
       final outerClassType = DeclaredType(
         binaryName: node.classDecl.outerClass!.binaryName,
@@ -316,14 +317,12 @@ class _FieldLinker extends Visitor<Field, void> {
     // `androidx.annotation.NonNull` only get applied to elements but not types.
     if (!node.type.hasNullabilityAnnotations &&
         node.hasNullabilityAnnotations) {
-      node.type.annotations = [
-        ...?node.type.annotations,
-        ...?node.annotations,
-      ];
+      node.type.annotations = [...?node.type.annotations, ...?node.annotations];
     }
     node.type.accept(typeLinker);
-    node.type.descriptor =
-        node.type.accept(_TypeDescriptor(typeLinker.typeVarOrigin));
+    node.type.descriptor = node.type.accept(
+      _TypeDescriptor(typeLinker.typeVarOrigin),
+    );
   }
 }
 
@@ -352,10 +351,7 @@ class _ParamLinker extends Visitor<Param, void> {
     // `androidx.annotation.NonNull` only get applied to elements but not types.
     if (!node.type.hasNullabilityAnnotations &&
         node.hasNullabilityAnnotations) {
-      node.type.annotations = [
-        ...?node.type.annotations,
-        ...?node.annotations,
-      ];
+      node.type.annotations = [...?node.type.annotations, ...?node.annotations];
     }
     node.type.accept(typeLinker);
   }
@@ -420,8 +416,9 @@ class _TypeMover extends TypeVisitor<void> {
 
   ReferredType replaceTypeVar(TypeVar typeVar) {
     if (typeVar.origin.parent == fromType.classDecl) {
-      final index = fromType.classDecl.allTypeParams
-          .indexWhere((typeParam) => typeParam.name == typeVar.name);
+      final index = fromType.classDecl.allTypeParams.indexWhere(
+        (typeParam) => typeParam.name == typeVar.name,
+      );
       if (index != -1) {
         if (index >= fromType.params.length) {
           return DeclaredType.object.clone();
@@ -478,8 +475,9 @@ class _MethodDescriptor extends Visitor<Method, String> {
       s.write(desc);
     }
     s.write(')');
-    final returnTypeDesc =
-        node.returnType.accept(_TypeDescriptor(typeVarOrigin));
+    final returnTypeDesc = node.returnType.accept(
+      _TypeDescriptor(typeVarOrigin),
+    );
     node.returnType.descriptor = returnTypeDesc;
     s.write(returnTypeDesc);
     return s.toString();

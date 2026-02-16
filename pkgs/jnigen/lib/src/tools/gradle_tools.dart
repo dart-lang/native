@@ -13,13 +13,19 @@ class GradleTools {
   static String repoLocation = 'https://repo1.maven.org/maven2';
 
   /// Helper method since we can't pass inheritStdio option to [Process.run].
-  static Future<int> _runCmd(String exec, List<String> args,
-      [String? workingDirectory]) async {
+  static Future<int> _runCmd(
+    String exec,
+    List<String> args, [
+    String? workingDirectory,
+  ]) async {
     log.info('execute $exec ${args.join(" ")}');
-    final proc = await Process.start(exec, args,
-        workingDirectory: workingDirectory,
-        runInShell: true,
-        mode: ProcessStartMode.inheritStdio);
+    final proc = await Process.start(
+      exec,
+      args,
+      workingDirectory: workingDirectory,
+      runInShell: true,
+      mode: ProcessStartMode.inheritStdio,
+    );
     return proc.exitCode;
   }
 
@@ -34,17 +40,16 @@ class GradleTools {
   }
 
   static Future<void> _runGradleCommand(
-      List<MavenDependency> deps, String targetDir,
-      {bool extractSources = false}) async {
+    List<MavenDependency> deps,
+    String targetDir, {
+    bool extractSources = false,
+  }) async {
     final gradleWrapper = await getGradleWExecutable();
     // Paths in Gradle files on Windows get improperly escaped
     final targetPath = Platform.isWindows
         ? File(targetDir).absolute.path.replaceAll(r'\', r'\\')
         : File(targetDir).absolute.path;
-    final gradle = _getStubGradle(
-      deps,
-      targetPath,
-    );
+    final gradle = _getStubGradle(deps, targetPath);
     final tempDir = await currentDir.createTemp('maven_temp_');
     await createStubProject(tempDir);
     final tempGradle = join(tempDir.path, 'temp_build.gradle.kts');
@@ -54,7 +59,7 @@ class GradleTools {
       '-b', // specify gradle file to run
       tempGradle,
       extractSources ? 'extractSourceJars' : 'copyJars',
-      '-q' // quiet mode
+      '-q', // quiet mode
     ];
     await _runCmd(gradleWrapper!.toFilePath(), gradleArgs);
     await Directory(tempDir.path).delete(recursive: true);
@@ -67,22 +72,26 @@ class GradleTools {
 
   /// Downloads and unpacks source files of [deps] into [targetDir].
   static Future<void> downloadMavenSources(
-      List<MavenDependency> deps, String targetDir) async {
+    List<MavenDependency> deps,
+    String targetDir,
+  ) async {
     // TODO(https://github.com/dart-lang/native/issues/2579): Make this use
     // gradle as well, instead of manually downloading deps via http.
     for (final dep in deps) {
       final targetFile = File(join(targetDir, dep.filename()));
       await targetFile.parent.create(recursive: true);
       final sourceJarLocation = dep.toURLString(repoLocation);
-      await targetFile
-          .writeAsBytes(await http.readBytes(Uri.parse(sourceJarLocation)));
+      await targetFile.writeAsBytes(
+        await http.readBytes(Uri.parse(sourceJarLocation)),
+      );
     }
     await _runGradleCommand(deps, extractSources: true, targetDir);
   }
 
   static Future<void> createStubProject(Directory rootTempDir) async {
-    final sourceDir = await Directory(join(rootTempDir.path, 'src/main/java/'))
-        .create(recursive: true);
+    final sourceDir = await Directory(
+      join(rootTempDir.path, 'src/main/java/'),
+    ).create(recursive: true);
     log.info(sourceDir);
 
     // A settings.gradle file and a valid Java source file is required
@@ -102,12 +111,17 @@ class GradleTools {
 
   /// Downloads JAR files of all [deps] transitively into [targetDir].
   static Future<void> downloadMavenJars(
-      List<MavenDependency> deps, String targetDir) async {
+    List<MavenDependency> deps,
+    String targetDir,
+  ) async {
     await _runGradleCommand(deps, targetDir);
   }
 
-  static String _getStubGradle(List<MavenDependency> deps, String targetDir,
-      {String javaVersion = '11'}) {
+  static String _getStubGradle(
+    List<MavenDependency> deps,
+    String targetDir, {
+    String javaVersion = '11',
+  }) {
     final depDecls = <String>[];
     // Use implementation configuration
     for (var dep in deps) {
@@ -154,8 +168,12 @@ class GradleTools {
 
 /// Maven dependency with group ID, artifact ID, and version.
 class MavenDependency {
-  MavenDependency(this.groupID, this.artifactID, this.version,
-      {this.otherTags = const {}});
+  MavenDependency(
+    this.groupID,
+    this.artifactID,
+    this.version, {
+    this.otherTags = const {},
+  });
 
   factory MavenDependency.fromString(String fullName) {
     final components = fullName.split(':');

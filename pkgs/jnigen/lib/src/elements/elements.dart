@@ -754,8 +754,9 @@ class Method with ClassMember, Annotated implements Element<Method> {
       javadoc: javadoc,
       modifiers: {...modifiers},
       params: params.map((param) => param.clone(until: until)).toList(),
-      typeParams:
-          typeParams.map((typeParam) => typeParam.clone(until: until)).toList(),
+      typeParams: typeParams
+          .map((typeParam) => typeParam.clone(until: until))
+          .toList(),
     );
 
     // In the reversed order of [GenerationStage]. So each stage sets all the
@@ -1287,10 +1288,12 @@ class KotlinType implements Element<KotlinType> {
   }
 
   String? toDocComment(List<TypeParam> typeParametersByIndex) {
-    final typeList = arguments.map((a) => switch (a) {
-          KotlinWildcard() => '*',
-          KotlinTypeProjection() => a.type.toDocComment(typeParametersByIndex),
-        });
+    final typeList = arguments.map(
+      (a) => switch (a) {
+        KotlinWildcard() => '*',
+        KotlinTypeProjection() => a.type.toDocComment(typeParametersByIndex),
+      },
+    );
     final typeArgs = typeList.isNotEmpty ? '<${typeList.join(', ')}>' : '';
     final typeName = name == null
         ? typeParametersByIndex[id].name
@@ -1363,11 +1366,11 @@ sealed class KotlinTypeArgument implements Element<KotlinTypeArgument> {
 
   factory KotlinTypeArgument.fromJson(Map<String, dynamic> json) =>
       json['type'] == null
-          ? KotlinWildcard()
-          : KotlinTypeProjection(
-              type: KotlinType.fromJson(json['type'] as Map<String, dynamic>),
-              variance: $enumDecode(_$KmVarianceEnumMap, json['variance']),
-            );
+      ? KotlinWildcard()
+      : KotlinTypeProjection(
+          type: KotlinType.fromJson(json['type'] as Map<String, dynamic>),
+          variance: $enumDecode(_$KmVarianceEnumMap, json['variance']),
+        );
 
   @override
   R accept<R>(Visitor<KotlinTypeArgument, R> v) {

@@ -26,15 +26,24 @@ sealed class JTypeBase<JavaT> {
 /// Able to be a return type of a method that can be called.
 mixin JCallable<JavaT, DartT> on JTypeBase<JavaT> {
   DartT _staticCall(
-      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args);
+    JClassPtr clazz,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  );
   DartT _instanceCall(
-      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args);
+    JObjectPtr obj,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  );
 }
 
 /// Able to be constructed.
 mixin JConstructable<JavaT, DartT> on JTypeBase<JavaT> {
   DartT _newObject(
-      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args);
+    JClassPtr clazz,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  );
 }
 
 /// Able to be the type of a field that can be get and set.
@@ -59,7 +68,10 @@ final class _ReferenceType extends JTypeBase<JReference>
 
   @override
   JReference _newObject(
-      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    JClassPtr clazz,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  ) {
     return JGlobalReference(Jni.env.NewObjectA(clazz, methodID, args));
   }
 
@@ -106,19 +118,22 @@ abstract class JType<T extends JObject?> extends JTypeBase<T>
   @override
   T _instanceCall(JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args) {
     return fromReference(
-        JGlobalReference(Jni.env.CallObjectMethodA(obj, methodID, args)));
+      JGlobalReference(Jni.env.CallObjectMethodA(obj, methodID, args)),
+    );
   }
 
   @override
   T _newObject(JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
     return fromReference(
-        JGlobalReference(Jni.env.NewObjectA(clazz, methodID, args)));
+      JGlobalReference(Jni.env.NewObjectA(clazz, methodID, args)),
+    );
   }
 
   @override
   T _instanceGet(JObjectPtr obj, JFieldIDPtr fieldID) {
     return fromReference(
-        JGlobalReference(Jni.env.GetObjectField(obj, fieldID)));
+      JGlobalReference(Jni.env.GetObjectField(obj, fieldID)),
+    );
   }
 
   @override
@@ -130,7 +145,8 @@ abstract class JType<T extends JObject?> extends JTypeBase<T>
   @override
   T _staticGet(JClassPtr clazz, JFieldIDPtr fieldID) {
     return fromReference(
-        JGlobalReference(Jni.env.GetStaticObjectField(clazz, fieldID)));
+      JGlobalReference(Jni.env.GetStaticObjectField(clazz, fieldID)),
+    );
   }
 
   @override

@@ -15,8 +15,9 @@ void main() {
       ),
       outputConfig: OutputConfig(
         dartConfig: DartCodeOutputConfig(
-          path: Platform.script
-              .resolve('../lib/src/plugin/generated_plugin.dart'),
+          path: Platform.script.resolve(
+            '../lib/src/plugin/generated_plugin.dart',
+          ),
           structure: OutputStructure.singleFile,
         ),
       ),

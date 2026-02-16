@@ -15,14 +15,23 @@ void main() async {
     getConfig(),
   );
   test(
-      'generate and analyze bindings for complete library, '
-      'not just required classes', () async {
-    final config = getConfig(generateFullVersion: true);
-    await generateAndAnalyzeBindings(config);
-  }, timeout: const Timeout(Duration(minutes: 2)), tags: largeTestTag);
+    'generate and analyze bindings for complete library, '
+    'not just required classes',
+    () async {
+      final config = getConfig(generateFullVersion: true);
+      await generateAndAnalyzeBindings(config);
+    },
+    timeout: const Timeout(Duration(minutes: 2)),
+    tags: largeTestTag,
+  );
 
-  test('generate and analyze bindings using ASM', () async {
-    final config = getConfig(generateFullVersion: true, useAsm: true);
-    await generateAndAnalyzeBindings(config);
-  }, timeout: const Timeout(Duration(minutes: 2)), tags: largeTestTag);
+  test(
+    'generate and analyze bindings using ASM',
+    () async {
+      final config = getConfig(generateFullVersion: true, useAsm: true);
+      await generateAndAnalyzeBindings(config);
+    },
+    timeout: const Timeout(Duration(minutes: 2)),
+    tags: largeTestTag,
+  );
 }

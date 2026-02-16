@@ -96,13 +96,13 @@ class JArray<E extends JObject?> extends JObject with Iterable<E> {
 
   /// The type which includes information such as the signature of this class.
   static JType<JArray<E>?> nullableType<E extends JObject?>(
-          JType<E> innerType) =>
-      $JArray$NullableType$<E>(innerType);
+    JType<E> innerType,
+  ) => $JArray$NullableType$<E>(innerType);
 
   /// Construct a new [JArray] with [reference] as its underlying reference.
   JArray.fromReference(this.elementType, JReference reference)
-      : $type = type<E>(elementType),
-        super.fromReference(reference);
+    : $type = type<E>(elementType),
+      super.fromReference(reference);
 
   /// Creates a [JArray] of the given length from the given [elementType].
   ///
@@ -113,27 +113,28 @@ class JArray<E extends JObject?> extends JObject with Iterable<E> {
     RangeError.checkNotNegative(length);
     if (!elementType.isNullable) {
       throw ArgumentError.value(
-          elementType,
-          'elementType',
-          'Element type of JArray must be nullable when constructed with a '
-              'length (because the elements will be initialized to null).\n\n'
-              'Try using .nullableType instead');
+        elementType,
+        'elementType',
+        'Element type of JArray must be nullable when constructed with a '
+            'length (because the elements will be initialized to null).\n\n'
+            'Try using .nullableType instead',
+      );
     }
     return _newArray<E>(elementType, length);
   }
 
   static JArray<$E> _newArray<$E extends JObject?>(
-      JType<$E> elementType, int length,
-      [$E? fill]) {
+    JType<$E> elementType,
+    int length, [
+    $E? fill,
+  ]) {
     final classRef = elementType.jClass.reference;
     final fillRef = fill?.reference ?? jNullReference;
     final array = JArray<$E>.fromReference(
       elementType,
-      JGlobalReference(Jni.env.NewObjectArray(
-        length,
-        classRef.pointer,
-        fillRef.pointer,
-      )),
+      JGlobalReference(
+        Jni.env.NewObjectArray(length, classRef.pointer, fillRef.pointer),
+      ),
     );
     classRef.release();
     return array;
@@ -142,8 +143,11 @@ class JArray<E extends JObject?> extends JObject with Iterable<E> {
   /// Creates a [JArray] of the given length with [fill] at each position.
   ///
   /// The [length] must be a non-negative integer.
-  static JArray<$E> filled<$E extends JObject>(int length, $E fill,
-      {JType<$E>? E}) {
+  static JArray<$E> filled<$E extends JObject>(
+    int length,
+    $E fill, {
+    JType<$E>? E,
+  }) {
     RangeError.checkNotNegative(length);
     E ??= fill.$type as JType<$E>;
     return _newArray<$E>(E, length, fill);
@@ -151,7 +155,9 @@ class JArray<E extends JObject?> extends JObject with Iterable<E> {
 
   /// Creates a [JArray] from `elements`.
   static JArray<$E> of<$E extends JObject?>(
-      JType<$E> elementType, Iterable<$E> elements) {
+    JType<$E> elementType,
+    Iterable<$E> elements,
+  ) {
     return _newArray<$E>(elementType, elements.length)
       ..setRange(0, elements.length, elements);
   }
@@ -200,9 +206,9 @@ class _JArrayIterator<E> implements Iterator<E> {
   E? _current;
 
   _JArrayIterator(Iterable<E> iterable)
-      : _iterable = iterable,
-        _length = iterable.length,
-        _index = 0;
+    : _iterable = iterable,
+      _length = iterable.length,
+      _index = 0;
 
   @override
   E get current => _current as E;
@@ -320,8 +326,8 @@ class JBooleanArray extends JObject with Iterable<bool> {
   /// Construct a new [JBooleanArray] with [reference] as its underlying
   /// reference.
   JBooleanArray.fromReference(super.reference)
-      : $type = type,
-        super.fromReference();
+    : $type = type,
+      super.fromReference();
 
   /// Creates a [JBooleanArray] of the given [length].
   ///
@@ -356,13 +362,21 @@ class JBooleanArray extends JObject with Iterable<bool> {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
     final buffer = allocator<JBooleanMarker>(rangeLength);
-    Jni.env
-        .GetBooleanArrayRegion(reference.pointer, start, rangeLength, buffer);
+    Jni.env.GetBooleanArrayRegion(
+      reference.pointer,
+      start,
+      rangeLength,
+      buffer,
+    );
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
-  void setRange(int start, int end, Iterable<bool> iterable,
-      [int skipCount = 0]) {
+  void setRange(
+    int start,
+    int end,
+    Iterable<bool> iterable, [
+    int skipCount = 0,
+  ]) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
     _allocate<JBooleanMarker>(sizeOf<JBooleanMarker>() * rangeLength, (ptr) {
@@ -457,8 +471,8 @@ class JByteArray extends JObject with Iterable<int> {
   /// Construct a new [JByteArray] with [reference] as its underlying
   /// reference.
   JByteArray.fromReference(super.reference)
-      : $type = type,
-        super.fromReference();
+    : $type = type,
+      super.fromReference();
 
   /// Creates a [JByteArray] containing all `elements`.
   ///
@@ -476,7 +490,8 @@ class JByteArray extends JObject with Iterable<int> {
   factory JByteArray(int length) {
     RangeError.checkNotNegative(length);
     return JByteArray.fromReference(
-        JGlobalReference(Jni.env.NewByteArray(length)));
+      JGlobalReference(Jni.env.NewByteArray(length)),
+    );
   }
 
   /// The number of elements in this array.
@@ -506,8 +521,12 @@ class JByteArray extends JObject with Iterable<int> {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
-  void setRange(int start, int end, Iterable<int> iterable,
-      [int skipCount = 0]) {
+  void setRange(
+    int start,
+    int end,
+    Iterable<int> iterable, [
+    int skipCount = 0,
+  ]) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
     _allocate<JByteMarker>(sizeOf<JByteMarker>() * rangeLength, (ptr) {
@@ -599,8 +618,8 @@ class JCharArray extends JObject with Iterable<int> {
   /// Construct a new [JCharArray] with [reference] as its underlying
   /// reference.
   JCharArray.fromReference(super.reference)
-      : $type = type,
-        super.fromReference();
+    : $type = type,
+      super.fromReference();
 
   /// Creates a [JCharArray] of the given [length].
   ///
@@ -608,7 +627,8 @@ class JCharArray extends JObject with Iterable<int> {
   factory JCharArray(int length) {
     RangeError.checkNotNegative(length);
     return JCharArray.fromReference(
-        JGlobalReference(Jni.env.NewCharArray(length)));
+      JGlobalReference(Jni.env.NewCharArray(length)),
+    );
   }
 
   /// The number of elements in this array.
@@ -638,8 +658,12 @@ class JCharArray extends JObject with Iterable<int> {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
-  void setRange(int start, int end, Iterable<int> iterable,
-      [int skipCount = 0]) {
+  void setRange(
+    int start,
+    int end,
+    Iterable<int> iterable, [
+    int skipCount = 0,
+  ]) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
     _allocate<JCharMarker>(sizeOf<JCharMarker>() * rangeLength, (ptr) {
@@ -728,8 +752,8 @@ class JShortArray extends JObject with Iterable<int> {
   /// Construct a new [JShortArray] with [reference] as its underlying
   /// reference.
   JShortArray.fromReference(super.reference)
-      : $type = type,
-        super.fromReference();
+    : $type = type,
+      super.fromReference();
 
   /// Creates a [JShortArray] of the given [length].
   ///
@@ -737,7 +761,8 @@ class JShortArray extends JObject with Iterable<int> {
   factory JShortArray(int length) {
     RangeError.checkNotNegative(length);
     return JShortArray.fromReference(
-        JGlobalReference(Jni.env.NewShortArray(length)));
+      JGlobalReference(Jni.env.NewShortArray(length)),
+    );
   }
 
   /// The number of elements in this array.
@@ -767,8 +792,12 @@ class JShortArray extends JObject with Iterable<int> {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
-  void setRange(int start, int end, Iterable<int> iterable,
-      [int skipCount = 0]) {
+  void setRange(
+    int start,
+    int end,
+    Iterable<int> iterable, [
+    int skipCount = 0,
+  ]) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
     _allocate<JShortMarker>(sizeOf<JShortMarker>() * rangeLength, (ptr) {
@@ -856,8 +885,8 @@ class JIntArray extends JObject with Iterable<int> {
   /// Construct a new [JIntArray] with [reference] as its underlying
   /// reference.
   JIntArray.fromReference(super.reference)
-      : $type = type,
-        super.fromReference();
+    : $type = type,
+      super.fromReference();
 
   /// Creates a [JIntArray] of the given [length].
   ///
@@ -865,7 +894,8 @@ class JIntArray extends JObject with Iterable<int> {
   factory JIntArray(int length) {
     RangeError.checkNotNegative(length);
     return JIntArray.fromReference(
-        JGlobalReference(Jni.env.NewIntArray(length)));
+      JGlobalReference(Jni.env.NewIntArray(length)),
+    );
   }
 
   /// The number of elements in this array.
@@ -895,8 +925,12 @@ class JIntArray extends JObject with Iterable<int> {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
-  void setRange(int start, int end, Iterable<int> iterable,
-      [int skipCount = 0]) {
+  void setRange(
+    int start,
+    int end,
+    Iterable<int> iterable, [
+    int skipCount = 0,
+  ]) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
     _allocate<JIntMarker>(sizeOf<JIntMarker>() * rangeLength, (ptr) {
@@ -984,8 +1018,8 @@ class JLongArray extends JObject with Iterable<int> {
   /// Construct a new [JLongArray] with [reference] as its underlying
   /// reference.
   JLongArray.fromReference(super.reference)
-      : $type = type,
-        super.fromReference();
+    : $type = type,
+      super.fromReference();
 
   /// Creates a [JLongArray] of the given [length].
   ///
@@ -993,7 +1027,8 @@ class JLongArray extends JObject with Iterable<int> {
   factory JLongArray(int length) {
     RangeError.checkNotNegative(length);
     return JLongArray.fromReference(
-        JGlobalReference(Jni.env.NewLongArray(length)));
+      JGlobalReference(Jni.env.NewLongArray(length)),
+    );
   }
 
   /// The number of elements in this array.
@@ -1023,8 +1058,12 @@ class JLongArray extends JObject with Iterable<int> {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
-  void setRange(int start, int end, Iterable<int> iterable,
-      [int skipCount = 0]) {
+  void setRange(
+    int start,
+    int end,
+    Iterable<int> iterable, [
+    int skipCount = 0,
+  ]) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
     _allocate<JLongMarker>(sizeOf<JLongMarker>() * rangeLength, (ptr) {
@@ -1113,8 +1152,8 @@ class JFloatArray extends JObject with Iterable<double> {
   /// Construct a new [JFloatArray] with [reference] as its underlying
   /// reference.
   JFloatArray.fromReference(super.reference)
-      : $type = type,
-        super.fromReference();
+    : $type = type,
+      super.fromReference();
 
   /// Creates a [JFloatArray] of the given [length].
   ///
@@ -1122,7 +1161,8 @@ class JFloatArray extends JObject with Iterable<double> {
   factory JFloatArray(int length) {
     RangeError.checkNotNegative(length);
     return JFloatArray.fromReference(
-        JGlobalReference(Jni.env.NewFloatArray(length)));
+      JGlobalReference(Jni.env.NewFloatArray(length)),
+    );
   }
 
   /// The number of elements in this array.
@@ -1152,8 +1192,12 @@ class JFloatArray extends JObject with Iterable<double> {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
-  void setRange(int start, int end, Iterable<double> iterable,
-      [int skipCount = 0]) {
+  void setRange(
+    int start,
+    int end,
+    Iterable<double> iterable, [
+    int skipCount = 0,
+  ]) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
     _allocate<JFloatMarker>(sizeOf<JFloatMarker>() * rangeLength, (ptr) {
@@ -1243,8 +1287,8 @@ class JDoubleArray extends JObject with Iterable<double> {
   /// Construct a new [JDoubleArray] with [reference] as its underlying
   /// reference.
   JDoubleArray.fromReference(super.reference)
-      : $type = type,
-        super.fromReference();
+    : $type = type,
+      super.fromReference();
 
   /// Creates a [JDoubleArray] of the given [length].
   ///
@@ -1252,7 +1296,8 @@ class JDoubleArray extends JObject with Iterable<double> {
   factory JDoubleArray(int length) {
     RangeError.checkNotNegative(length);
     return JDoubleArray.fromReference(
-        JGlobalReference(Jni.env.NewDoubleArray(length)));
+      JGlobalReference(Jni.env.NewDoubleArray(length)),
+    );
   }
 
   /// The number of elements in this array.
@@ -1282,8 +1327,12 @@ class JDoubleArray extends JObject with Iterable<double> {
     return buffer.asTypedList(rangeLength, finalizer: allocator._nativeFree);
   }
 
-  void setRange(int start, int end, Iterable<double> iterable,
-      [int skipCount = 0]) {
+  void setRange(
+    int start,
+    int end,
+    Iterable<double> iterable, [
+    int skipCount = 0,
+  ]) {
     RangeError.checkValidRange(start, end, length);
     final rangeLength = end - start;
     _allocate<JDoubleMarker>(sizeOf<JDoubleMarker>() * rangeLength, (ptr) {

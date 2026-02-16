@@ -86,9 +86,7 @@ class JBuffer extends JObject {
   // ignore: overridden_fields
   final JType<JBuffer> $type = type;
 
-  JBuffer.fromReference(
-    super.reference,
-  ) : super.fromReference();
+  JBuffer.fromReference(super.reference) : super.fromReference();
 
   static final _class = JClass.forName(r'java/nio/Buffer');
 
@@ -116,15 +114,18 @@ class JBuffer extends JObject {
     return _positionId(this, const jintType(), []);
   }
 
-  static final _setPositionId =
-      _class.instanceMethodId(r'position', r'(I)Ljava/nio/Buffer;');
+  static final _setPositionId = _class.instanceMethodId(
+    r'position',
+    r'(I)Ljava/nio/Buffer;',
+  );
 
   /// Throws:
   /// * `IllegalArgumentException` - If the preconditions on [newPosition] do
   ///   not hold.
   set position(int newPosition) {
-    _setPositionId(this, const $JObject$Type$(), [JValueInt(newPosition)])
-        .release();
+    _setPositionId(this, const $JObject$Type$(), [
+      JValueInt(newPosition),
+    ]).release();
   }
 
   static final _limitId = _class.instanceMethodId(r'limit', r'()I');
@@ -136,8 +137,10 @@ class JBuffer extends JObject {
     return _limitId(this, const jintType(), []);
   }
 
-  static final _setLimitId =
-      _class.instanceMethodId(r'limit', r'(I)Ljava/nio/Buffer;');
+  static final _setLimitId = _class.instanceMethodId(
+    r'limit',
+    r'(I)Ljava/nio/Buffer;',
+  );
 
   /// Throws:
   /// * `IllegalArgumentException` - If the preconditions on [newLimit] do not
@@ -146,8 +149,10 @@ class JBuffer extends JObject {
     _setLimitId(this, const $JObject$Type$(), [JValueInt(newLimit)]).release();
   }
 
-  static final _markId =
-      _class.instanceMethodId(r'mark', r'()Ljava/nio/Buffer;');
+  static final _markId = _class.instanceMethodId(
+    r'mark',
+    r'()Ljava/nio/Buffer;',
+  );
 
   /// Sets this buffer's mark at its [position].
   ///
@@ -157,8 +162,10 @@ class JBuffer extends JObject {
     _markId(this, const $JObject$Type$(), []).release();
   }
 
-  static final _resetId =
-      _class.instanceMethodId(r'reset', r'()Ljava/nio/Buffer;');
+  static final _resetId = _class.instanceMethodId(
+    r'reset',
+    r'()Ljava/nio/Buffer;',
+  );
 
   /// Resets this buffer's [position] to the previously-marked position.
   ///
@@ -168,8 +175,10 @@ class JBuffer extends JObject {
     _resetId(this, const $JObject$Type$(), []).release();
   }
 
-  static final _clearId =
-      _class.instanceMethodId(r'clear', r'()Ljava/nio/Buffer;');
+  static final _clearId = _class.instanceMethodId(
+    r'clear',
+    r'()Ljava/nio/Buffer;',
+  );
 
   /// Clears this buffer.
   ///
@@ -179,8 +188,10 @@ class JBuffer extends JObject {
     _clearId(this, const $JObject$Type$(), []).release();
   }
 
-  static final _flipId =
-      _class.instanceMethodId(r'flip', r'()Ljava/nio/Buffer;');
+  static final _flipId = _class.instanceMethodId(
+    r'flip',
+    r'()Ljava/nio/Buffer;',
+  );
 
   /// Flips this buffer.
   ///
@@ -190,8 +201,10 @@ class JBuffer extends JObject {
     _flipId(this, const $JObject$Type$(), []).release();
   }
 
-  static final _rewindId =
-      _class.instanceMethodId(r'rewind', r'()Ljava/nio/Buffer;');
+  static final _rewindId = _class.instanceMethodId(
+    r'rewind',
+    r'()Ljava/nio/Buffer;',
+  );
 
   /// Rewinds this buffer.
   ///
@@ -208,8 +221,10 @@ class JBuffer extends JObject {
     return _remainingId(this, const jintType(), []);
   }
 
-  static final _hasRemainingId =
-      _class.instanceMethodId(r'hasRemaining', r'()Z');
+  static final _hasRemainingId = _class.instanceMethodId(
+    r'hasRemaining',
+    r'()Z',
+  );
 
   /// Whether there are any elements between the current [position] and
   /// the [limit].
@@ -231,8 +246,10 @@ class JBuffer extends JObject {
     return _hasArrayId(this, const jbooleanType(), []);
   }
 
-  static final _arrayId =
-      _class.instanceMethodId(r'array', r'()Ljava/lang/Object;');
+  static final _arrayId = _class.instanceMethodId(
+    r'array',
+    r'()Ljava/lang/Object;',
+  );
 
   /// The array that backs this buffer.
   ///

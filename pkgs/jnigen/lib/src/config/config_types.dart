@@ -72,12 +72,16 @@ class AndroidSdkConfig {
     this.androidExample,
   }) {
     if (versions != null && sdkRoot == null) {
-      throw ConfigException('No SDK Root specified for finding Android SDK '
-          'from version priority list $versions');
+      throw ConfigException(
+        'No SDK Root specified for finding Android SDK '
+        'from version priority list $versions',
+      );
     }
     if (versions == null && !addGradleDeps && !addGradleSources) {
-      throw ConfigException('Neither any SDK versions nor `addGradleDeps` '
-          'is specified. Unable to find Android libraries.');
+      throw ConfigException(
+        'Neither any SDK versions nor `addGradleDeps` '
+        'is specified. Unable to find Android libraries.',
+      );
     }
   }
 
@@ -135,7 +139,10 @@ extension<T extends Enum> on Iterable<T> {
 }
 
 T _getEnumValueFromString<T>(
-    Map<String, T> values, String? name, T defaultVal) {
+  Map<String, T> values,
+  String? name,
+  T defaultVal,
+) {
   if (name == null) return defaultVal;
   final value = values[name];
   if (value == null) {
@@ -146,8 +153,11 @@ T _getEnumValueFromString<T>(
 
 /// Additional options to pass to the summary generator component.
 class SummarizerOptions {
-  SummarizerOptions(
-      {this.extraArgs = const [], this.workingDirectory, this.backend});
+  SummarizerOptions({
+    this.extraArgs = const [],
+    this.workingDirectory,
+    this.backend,
+  });
   List<String> extraArgs;
   Uri? workingDirectory;
   SummarizerBackend? backend;
@@ -175,8 +185,10 @@ SummarizerBackend? getSummarizerBackend(
 
 void _ensureIsDirectory(String name, Uri path) {
   if (!path.toFilePath().endsWith(Platform.pathSeparator)) {
-    throw ConfigException('$name must be a directory path. If using YAML '
-        'config, please ensure the path ends with a slash (/).');
+    throw ConfigException(
+      '$name must be a directory path. If using YAML '
+      'config, please ensure the path ends with a slash (/).',
+    );
   }
 }
 
@@ -198,7 +210,8 @@ class DartCodeOutputConfig {
     if (structure == OutputStructure.singleFile) {
       if (p.extension(path.toFilePath()) != '.dart') {
         throw ConfigException(
-            'Dart\'s output path must end with ".dart" in single file mode.');
+          'Dart\'s output path must end with ".dart" in single file mode.',
+        );
       }
     } else {
       _ensureIsDirectory('Dart output path', path);
@@ -224,10 +237,7 @@ class SymbolsOutputConfig {
 }
 
 class OutputConfig {
-  OutputConfig({
-    required this.dartConfig,
-    this.symbolsConfig,
-  });
+  OutputConfig({required this.dartConfig, this.symbolsConfig});
 
   DartCodeOutputConfig dartConfig;
   SymbolsOutputConfig? symbolsConfig;
@@ -247,34 +257,38 @@ void _validateClassName(String className) {
   if (parts.length > 1 && _isCapitalized(parts[parts.length - 2])) {
     // Try to detect possible nested classes specified using dot notation eg:
     // `com.package.Class.NestedClass` and emit a warning.
-    log.warning('It appears a nested class $className is specified in the '
-        'config. $nestedClassesInfo');
+    log.warning(
+      'It appears a nested class $className is specified in the '
+      'config. $nestedClassesInfo',
+    );
   }
   if (className.contains('\$')) {
     throw ConfigException(
-        'Nested class $className not allowed. $nestedClassesInfo');
+      'Nested class $className not allowed. $nestedClassesInfo',
+    );
   }
 }
 
 /// Configuration for JNIgen binding generation.
 class Config {
-  Config(
-      {required this.outputConfig,
-      required this.classes,
-      this.experiments,
-      this.sourcePath,
-      this.classPath,
-      this.preamble,
-      this.customClassBody,
-      this.androidSdkConfig,
-      this.mavenDownloads,
-      this.summarizerOptions,
-      this.nonNullAnnotations,
-      this.nullableAnnotations,
-      this.logLevel = Level.INFO,
-      this.dumpJsonTo,
-      this.imports,
-      this.visitors}) {
+  Config({
+    required this.outputConfig,
+    required this.classes,
+    this.experiments,
+    this.sourcePath,
+    this.classPath,
+    this.preamble,
+    this.customClassBody,
+    this.androidSdkConfig,
+    this.mavenDownloads,
+    this.summarizerOptions,
+    this.nonNullAnnotations,
+    this.nullableAnnotations,
+    this.logLevel = Level.INFO,
+    this.dumpJsonTo,
+    this.imports,
+    this.visitors,
+  }) {
     for (final className in classes) {
       _validateClassName(className);
     }
@@ -378,8 +392,10 @@ class Config {
       }
       final version = Version.parse(yaml['version'] as String);
       if (!VersionConstraint.compatibleWith(_currentVersion).allows(version)) {
-        log.fatal('"$import" is version "$version" which is not compatible with'
-            'the current JNIgen symbols version $_currentVersion');
+        log.fatal(
+          '"$import" is version "$version" which is not compatible with'
+          'the current JNIgen symbols version $_currentVersion',
+        );
       }
       final files = yaml['files'] as YamlMap;
       for (final entry in files.entries) {
@@ -394,17 +410,15 @@ class Config {
               'Try hiding the class in import.',
             );
           }
-          final classDecl = ClassDecl(
-            declKind: DeclKind.classKind,
-            binaryName: binaryName,
-          )
-            ..path = '$importPath/$filePath'
-            ..finalName = decl['name'] as String
-            ..superCount = decl['super_count'] as int
-            ..allTypeParams = []
-            // TODO(https://github.com/dart-lang/native/issues/746): include
-            // outerClass in the interop information.
-            ..outerClass = null;
+          final classDecl =
+              ClassDecl(declKind: DeclKind.classKind, binaryName: binaryName)
+                ..path = '$importPath/$filePath'
+                ..finalName = decl['name'] as String
+                ..superCount = decl['super_count'] as int
+                ..allTypeParams = []
+                // TODO(https://github.com/dart-lang/native/issues/746): include
+                // outerClass in the interop information.
+                ..outerClass = null;
           for (final typeParamEntry
               in (decl['type_params'] as YamlMap?)?.entries ??
                   <MapEntry<dynamic, dynamic>>[]) {
@@ -453,7 +467,8 @@ class Config {
   final String? dumpJsonTo;
 
   static final _levels = Map.fromEntries(
-      Level.LEVELS.map((l) => MapEntry(l.name.toLowerCase(), l)));
+    Level.LEVELS.map((l) => MapEntry(l.name.toLowerCase(), l)),
+  );
 
   static Config parseArgs(List<String> args) {
     final prov = YamlReader.parseArgs(args);
@@ -470,7 +485,8 @@ class Config {
     }
 
     String? getSdkRoot() {
-      final root = prov.getString(_Props.androidSdkRoot) ??
+      final root =
+          prov.getString(_Props.androidSdkRoot) ??
           Platform.environment['ANDROID_SDK_ROOT'];
       return root;
     }
@@ -514,9 +530,7 @@ class Config {
       preamble: prov.getString(_Props.preamble),
       experiments: prov
           .getStringList(_Props.experiments)
-          ?.map(
-            Experiment.fromString,
-          )
+          ?.map(Experiment.fromString)
           .toSet(),
       imports: prov.getPathList(_Props.import),
       nonNullAnnotations: prov.hasValue(_Props.nonNullAnnotations)
@@ -528,10 +542,12 @@ class Config {
       mavenDownloads: prov.hasValue(_Props.mavenDownloads)
           ? MavenDownloads(
               sourceDeps: prov.getStringList(_Props.sourceDeps) ?? const [],
-              sourceDir: prov.getPath(_Props.mavenSourceDir)?.toFilePath() ??
+              sourceDir:
+                  prov.getPath(_Props.mavenSourceDir)?.toFilePath() ??
                   resolveFromConfigRoot(MavenDownloads.defaultMavenSourceDir),
               jarOnlyDeps: prov.getStringList(_Props.jarOnlyDeps) ?? const [],
-              jarDir: prov.getPath(_Props.mavenJarDir)?.toFilePath() ??
+              jarDir:
+                  prov.getPath(_Props.mavenJarDir)?.toFilePath() ??
                   resolveFromConfigRoot(MavenDownloads.defaultMavenJarDir),
             )
           : null,
@@ -550,23 +566,24 @@ class Config {
             )
           : null,
       logLevel: logLevelFromString(
-        prov.getOneOf(
-          _Props.logLevel,
-          _levels.keys.toSet(),
-        ),
+        prov.getOneOf(_Props.logLevel, _levels.keys.toSet()),
       ),
     );
     if (missingValues.isNotEmpty) {
-      stderr.write('Following config values are required but not provided\n'
-          'Please provide these properties through YAML '
-          'or use the command line switch -D<property_name>=<value>.\n');
+      stderr.write(
+        'Following config values are required but not provided\n'
+        'Please provide these properties through YAML '
+        'or use the command line switch -D<property_name>=<value>.\n',
+      );
       for (var missing in missingValues) {
         stderr.writeln('* $missing');
       }
       if (missingValues.contains(_Props.androidSdkRoot)) {
-        stderr.writeln('Please specify ${_Props.androidSdkRoot} through '
-            'command line or ensure that the ANDROID_SDK_ROOT environment '
-            'variable is set.');
+        stderr.writeln(
+          'Please specify ${_Props.androidSdkRoot} through '
+          'command line or ensure that the ANDROID_SDK_ROOT environment '
+          'variable is set.',
+        );
       }
       exit(1);
     }

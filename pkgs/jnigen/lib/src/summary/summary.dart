@@ -43,8 +43,8 @@ class SummarizerCommand {
     required this.classes,
     this.workingDirectory,
     this.backend,
-  })  : sourcePaths = sourcePath ?? [],
-        classPaths = classPath ?? [];
+  }) : sourcePaths = sourcePath ?? [],
+       classPaths = classPath ?? [];
 
   static const sourcePathsOption = '-s';
   static const classPathsOption = '-c';
@@ -119,17 +119,23 @@ Future<Classes> getSummary(Config config) async {
     final sourcePath = mavenDl.sourceDir;
     await Directory(sourcePath).create(recursive: true);
     await GradleTools.downloadMavenSources(
-        GradleTools.deps(mavenDl.sourceDeps), sourcePath);
+      GradleTools.deps(mavenDl.sourceDeps),
+      sourcePath,
+    );
     extraSources.add(Uri.directory(sourcePath));
     final jarPath = mavenDl.jarDir;
     await Directory(jarPath).create(recursive: true);
     await GradleTools.downloadMavenJars(
-        GradleTools.deps(mavenDl.sourceDeps + mavenDl.jarOnlyDeps), jarPath);
-    extraJars.addAll(await Directory(jarPath)
-        .list()
-        .where((entry) => entry.path.endsWith('.jar'))
-        .map((entry) => entry.uri)
-        .toList());
+      GradleTools.deps(mavenDl.sourceDeps + mavenDl.jarOnlyDeps),
+      jarPath,
+    );
+    extraJars.addAll(
+      await Directory(jarPath)
+          .list()
+          .where((entry) => entry.path.endsWith('.jar'))
+          .map((entry) => entry.uri)
+          .toList(),
+    );
   }
   final androidConfig = config.androidSdkConfig;
   if (androidConfig != null && androidConfig.addGradleDeps) {
@@ -151,7 +157,9 @@ Future<Classes> getSummary(Config config) async {
     final androidSdkRoot =
         androidConfig.sdkRoot ?? AndroidSdkTools.getAndroidSdkRoot();
     final androidJar = await AndroidSdkTools.getAndroidJarPath(
-        sdkRoot: androidSdkRoot, versionOrder: versions);
+      sdkRoot: androidSdkRoot,
+      versionOrder: versions,
+    );
     if (androidJar != null) {
       extraJars.add(Uri.directory(androidJar));
     }

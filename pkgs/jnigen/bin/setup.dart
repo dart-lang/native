@@ -14,8 +14,10 @@ void main(List<String> args) async {
   if (args.isNotEmpty) {
     if (args.length != 1 || args[0] != '-f') {
       stderr.writeln('usage: dart run jnigen:setup [-f]');
-      stderr.writeln('* -f\trebuild ApiSummarizer jar even if it already '
-          'exists.');
+      stderr.writeln(
+        '* -f\trebuild ApiSummarizer jar even if it already '
+        'exists.',
+      );
     } else {
       force = true;
     }

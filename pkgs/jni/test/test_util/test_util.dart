@@ -8,15 +8,17 @@ import 'package:jni/jni.dart';
 import 'package:jni/src/build_util/build_util.dart';
 
 typedef TestCaseCallback = void Function();
-typedef TestRunnerCallback = void
-    Function(String description, TestCaseCallback test, {Object? skip});
+typedef TestRunnerCallback =
+    void Function(String description, TestCaseCallback test, {Object? skip});
 
 final currentDir = Directory.current.uri;
-final dllSuffix =
-    Platform.isWindows ? 'dll' : (Platform.isMacOS ? 'dylib' : 'so');
+final dllSuffix = Platform.isWindows
+    ? 'dll'
+    : (Platform.isMacOS ? 'dylib' : 'so');
 final dllPrefix = Platform.isWindows ? '' : 'lib';
-final dllPath =
-    currentDir.resolve('build/jni_libs/${dllPrefix}dartjni.$dllSuffix');
+final dllPath = currentDir.resolve(
+  'build/jni_libs/${dllPrefix}dartjni.$dllSuffix',
+);
 final srcPath = currentDir.resolve('src/');
 
 /// Fail if dartjni dll is stale.
@@ -26,7 +28,8 @@ void checkDylibIsUpToDate() {
     final cause = dllFile.existsSync()
         ? 'not up-to-date with source modifications'
         : 'not built';
-    var message = '\nFatal: dartjni.$dllSuffix is $cause. Please run '
+    var message =
+        '\nFatal: dartjni.$dllSuffix is $cause. Please run '
         '`dart run jni:setup` and try again.';
     if (stderr.supportsAnsiEscapes) {
       message = ansiRed + message + ansiDefault;
@@ -38,5 +41,7 @@ void checkDylibIsUpToDate() {
 
 void spawnJvm() {
   Jni.spawnIfNotExists(
-      dylibDir: 'build/jni_libs', jvmOptions: ['-Xmx128m', '-Xcheck:jni']);
+    dylibDir: 'build/jni_libs',
+    jvmOptions: ['-Xmx128m', '-Xcheck:jni'],
+  );
 }

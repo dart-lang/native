@@ -27,15 +27,20 @@ class AndroidSdkTools {
   static String getAndroidSdkRoot() {
     final envVar = Platform.environment['ANDROID_SDK_ROOT'];
     if (envVar == null) {
-      throw SdkNotFoundException('Android SDK not found. Please set '
-          'ANDROID_SDK_ROOT environment variable or specify through command '
-          'line override.');
+      throw SdkNotFoundException(
+        'Android SDK not found. Please set '
+        'ANDROID_SDK_ROOT environment variable or specify through command '
+        'line override.',
+      );
     }
     return envVar;
   }
 
   static Future<String?> _getVersionDir(
-      String relative, String sdkRoot, List<int> versionOrder) async {
+    String relative,
+    String sdkRoot,
+    List<int> versionOrder,
+  ) async {
     final parent = join(sdkRoot, relative);
     for (var version in versionOrder) {
       final dir = Directory(join(parent, 'android-$version'));
@@ -46,8 +51,12 @@ class AndroidSdkTools {
     return null;
   }
 
-  static Future<String?> _getFile(String sdkRoot, String relative,
-      List<int> versionOrder, String file) async {
+  static Future<String?> _getFile(
+    String sdkRoot,
+    String relative,
+    List<int> versionOrder,
+    String file,
+  ) async {
     final platform = await _getVersionDir(relative, sdkRoot, versionOrder);
     if (platform == null) return null;
     final filePath = join(platform, file);
@@ -58,22 +67,26 @@ class AndroidSdkTools {
     return null;
   }
 
-  static const _gradleCannotFindJars = 'Gradle stub cannot find JAR libraries. '
+  static const _gradleCannotFindJars =
+      'Gradle stub cannot find JAR libraries. '
       'This might be because no APK build has happened yet.';
 
-  static const _leftOverStubWarning = 'If you are seeing this error in '
+  static const _leftOverStubWarning =
+      'If you are seeing this error in '
       '`flutter build` output, it is likely that JNIgen left some stubs in '
       'the build.gradle file. Please restore that file from your version '
       'control system or manually remove the stub functions named '
       '$_gradleGetClasspathTaskName and / or $_gradleGetSourcesTaskName.';
 
-  static Future<String?> getAndroidJarPath(
-          {required String sdkRoot, required List<int> versionOrder}) async =>
-      await _getFile(sdkRoot, 'platforms', versionOrder, 'android.jar');
+  static Future<String?> getAndroidJarPath({
+    required String sdkRoot,
+    required List<int> versionOrder,
+  }) async => await _getFile(sdkRoot, 'platforms', versionOrder, 'android.jar');
 
   static const _gradleGetClasspathTaskName = 'getReleaseCompileClasspath';
 
-  static const _gradleGetClasspathStub = '''
+  static const _gradleGetClasspathStub =
+      '''
 // Gradle stub for listing dependencies in JNIgen. If found in
 // android/build.gradle, please delete the following function.
 task $_gradleGetClasspathTaskName(type: Copy) {
@@ -97,7 +110,8 @@ task $_gradleGetClasspathTaskName(type: Copy) {
 }
 ''';
 
-  static const _gradleGetClasspathStubKt = '''
+  static const _gradleGetClasspathStubKt =
+      '''
 // Gradle stub for listing dependencies in JNIgen. If found in
 // android/build.gradle.kts, please delete the following function.
 tasks.register<DefaultTask>("$_gradleGetClasspathTaskName") {
@@ -129,7 +143,8 @@ tasks.register<DefaultTask>("$_gradleGetClasspathTaskName") {
   // Although it appears we can use this same code for getting JAR artifacts,
   // there is no JAR equivalent for `org.gradle.language.base.Artifact`.
   // So it appears different methods should be used for JAR artifacts.
-  static const _gradleGetSourcesStub = '''
+  static const _gradleGetSourcesStub =
+      '''
 // Gradle stub for fetching source dependencies in JNIgen. If found in
 // android/build.gradle, please delete the following function.
 task $_gradleGetSourcesTaskName(type: Copy) {
@@ -158,7 +173,8 @@ task $_gradleGetSourcesTaskName(type: Copy) {
 }
 ''';
 
-  static const _gradleGetSourcesStubKt = '''
+  static const _gradleGetSourcesStubKt =
+      '''
 // Gradle stub for fetching source dependencies in JNIgen. If found in
 // android/build.gradle.kts, please delete the following function.
 
@@ -202,21 +218,24 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
   ///
   /// If current project is not directly buildable by gradle, eg: a plugin,
   /// a relative path to other project can be specified using [androidProject].
-  static List<String> getGradleClasspaths(
-          {Uri? configRoot, String androidProject = '.'}) =>
-      _runGradleStub(
-        isSource: false,
-        androidProject: androidProject,
-        configRoot: configRoot,
-      );
+  static List<String> getGradleClasspaths({
+    Uri? configRoot,
+    String androidProject = '.',
+  }) => _runGradleStub(
+    isSource: false,
+    androidProject: androidProject,
+    configRoot: configRoot,
+  );
 
   /// Get source paths for all gradle dependencies.
   ///
   /// This function temporarily overwrites the build.gradle file by a stub with
   /// function to list all dependency paths for release variant.
   /// This function fails if no gradle build is attempted before.
-  static List<String> getGradleSources(
-      {Uri? configRoot, String androidProject = '.'}) {
+  static List<String> getGradleSources({
+    Uri? configRoot,
+    String androidProject = '.',
+  }) {
     return _runGradleStub(
       isSource: true,
       androidProject: androidProject,
@@ -233,8 +252,9 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
     Uri? configRoot,
     String androidProject = '.',
   }) {
-    final stubName =
-        isSource ? _gradleGetSourcesTaskName : _gradleGetClasspathTaskName;
+    final stubName = isSource
+        ? _gradleGetSourcesTaskName
+        : _gradleGetClasspathTaskName;
     log.info('trying to obtain gradle dependencies [$stubName]...');
     if (configRoot != null) {
       androidProject = configRoot.resolve(androidProject).toFilePath();
@@ -249,8 +269,9 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
     }
     final String stubCode;
     if (isSource) {
-      stubCode =
-          usesKotlinScript ? _gradleGetSourcesStubKt : _gradleGetSourcesStub;
+      stubCode = usesKotlinScript
+          ? _gradleGetSourcesStubKt
+          : _gradleGetSourcesStub;
     } else {
       stubCode = usesKotlinScript
           ? _gradleGetClasspathStubKt
@@ -267,8 +288,12 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
     final gradleCommand = Platform.isWindows ? '.\\gradlew.bat' : './gradlew';
     ProcessResult procRes;
     try {
-      procRes = Process.runSync(gradleCommand, ['-q', stubName],
-          workingDirectory: android, runInShell: true);
+      procRes = Process.runSync(
+        gradleCommand,
+        ['-q', stubName],
+        workingDirectory: android,
+        runInShell: true,
+      );
     } finally {
       log.info('Restoring build scripts');
       origBuild.writeAsStringSync(
@@ -279,8 +304,9 @@ tasks.register<DefaultTask>("$_gradleGetSourcesTaskName") {
       File(buildGradleOld).deleteSync();
     }
     if (procRes.exitCode != 0) {
-      final inAndroidProject =
-          (androidProject == '') ? '' : ' in $androidProject';
+      final inAndroidProject = (androidProject == '')
+          ? ''
+          : ' in $androidProject';
       throw GradleException('''\n\nGradle execution failed.
 
 1. The most likely cause is that the Android build is not yet cached.
@@ -313,9 +339,9 @@ ${procRes.stderr}
       printError(procRes.stderr);
       throw Exception('Gradle stub exited without output.');
     }
-    final paths = (procRes.stdout as String)
-        .trim()
-        .split(Platform.isWindows ? '\r\n' : '\n');
+    final paths = (procRes.stdout as String).trim().split(
+      Platform.isWindows ? '\r\n' : '\n',
+    );
     log.fine('Found ${paths.length} entries');
     return paths;
   }

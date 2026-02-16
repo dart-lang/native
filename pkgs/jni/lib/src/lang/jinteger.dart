@@ -73,9 +73,7 @@ class JInteger extends JNumber {
   // ignore: overridden_fields
   final JType<JInteger> $type = type;
 
-  JInteger.fromReference(
-    super.reference,
-  ) : super.fromReference();
+  JInteger.fromReference(super.reference) : super.fromReference();
 
   /// The type which includes information such as the signature of this class.
   static const JType<JInteger> type = $JInteger$Type$();
@@ -88,5 +86,5 @@ class JInteger extends JNumber {
   static final _ctorId = _class.constructorId('(I)V');
 
   JInteger(int num)
-      : super.fromReference(_ctorId(_class, referenceType, [JValueInt(num)]));
+    : super.fromReference(_ctorId(_class, referenceType, [JValueInt(num)]));
 }

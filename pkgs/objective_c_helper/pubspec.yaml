@@ -1,7 +1,11 @@
 name: objective_c_helper
 description: Helper package for objective_c tests
 version: 0.0.1
+
 environment:
-  sdk: ">=2.19.0 <3.0.0"
-dependencies: {}
-dev_dependencies: {}
+  sdk: ">=3.0.0 <4.0.0"
+
+dependencies:
+  hooks: ^1.0.0
+  native_toolchain_c: ^0.5.0
+

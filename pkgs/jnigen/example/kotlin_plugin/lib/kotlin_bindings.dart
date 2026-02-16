@@ -43,10 +43,9 @@ class Example extends jni$_.JObject {
   final jni$_.JType<Example> $type;
 
   @jni$_.internal
-  Example.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
+  Example.fromReference(jni$_.JReference reference)
+    : $type = type,
+      super.fromReference(reference);
 
   static final _class = jni$_.JClass.forName(r'Example');
 
@@ -55,28 +54,30 @@ class Example extends jni$_.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<Example> type = $Example$Type$();
-  static final _id_new$ = _class.constructorId(
-    r'()V',
-  );
+  static final _id_new$ = _class.constructorId(r'()V');
 
-  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _new$ =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )
+            >
+          >('globalEnv_NewObject')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+            )
+          >();
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example() {
     return Example.fromReference(
-        _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
-            .reference);
+      _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr).reference,
+    );
   }
 
   static final _id_thinkBeforeAnswering = _class.instanceMethodId(
@@ -84,16 +85,23 @@ class Example extends jni$_.JObject {
     r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
   );
 
-  static final _thinkBeforeAnswering = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _thinkBeforeAnswering =
+      jni$_.ProtectedJniExtensions.lookup<
+            jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+                jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>,
+              )
+            >
+          >('globalEnv_CallObjectMethod')
+          .asFunction<
+            jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+            )
+          >();
 
   /// from: `public suspend fun thinkBeforeAnswering(): kotlin.String`
   /// The returned object must be released after use, by calling the [release] method.
@@ -102,22 +110,25 @@ class Example extends jni$_.JObject {
     final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
 
     final $r = _thinkBeforeAnswering(
-            reference.pointer,
-            _id_thinkBeforeAnswering as jni$_.JMethodIDPtr,
-            _$continuation.pointer)
-        .object<jni$_.JObject>(const jni$_.$JObject$Type$());
+      reference.pointer,
+      _id_thinkBeforeAnswering as jni$_.JMethodIDPtr,
+      _$continuation.pointer,
+    ).object<jni$_.JObject>(const jni$_.$JObject$Type$());
     _$continuation.release();
     jni$_.JObject $o;
     if ($r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
       $r.release();
       final $a = await $p.first;
       $o = jni$_.JObject.fromReference(
-          jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
+        jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)),
+      );
       if ($o.isInstanceOf(jni$_.result$Class)) {
         $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
       } else if ($o.isInstanceOf(jni$_.result$FailureClass)) {
-        final $e =
-            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
+        final $e = jni$_.failureExceptionField.get(
+          $o,
+          const jni$_.$JObject$Type$(),
+        );
         $o.release();
         jni$_.Jni.throwException($e.reference.toPointer());
       }
@@ -141,11 +152,8 @@ final class $Example$NullableType$ extends jni$_.JType<Example?> {
 
   @jni$_.internal
   @core$_.override
-  Example? fromReference(jni$_.JReference reference) => reference.isNull
-      ? null
-      : Example.fromReference(
-          reference,
-        );
+  Example? fromReference(jni$_.JReference reference) =>
+      reference.isNull ? null : Example.fromReference(reference);
   @jni$_.internal
   @core$_.override
   jni$_.JType get superType => const jni$_.$JObject$Type$();
@@ -178,9 +186,8 @@ final class $Example$Type$ extends jni$_.JType<Example> {
 
   @jni$_.internal
   @core$_.override
-  Example fromReference(jni$_.JReference reference) => Example.fromReference(
-        reference,
-      );
+  Example fromReference(jni$_.JReference reference) =>
+      Example.fromReference(reference);
   @jni$_.internal
   @core$_.override
   jni$_.JType get superType => const jni$_.$JObject$Type$();

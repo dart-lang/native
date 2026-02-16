@@ -14,7 +14,7 @@ class JClass extends JObject {
   /// Constructs a [JClass] associated with the class or interface with
   /// the given string name.
   JClass.forName(String name)
-      : super.fromReference(JGlobalReference(Jni.findClass(name)));
+    : super.fromReference(JGlobalReference(Jni.findClass(name)));
 
   JConstructorId constructorId(String signature) {
     return JConstructorId._(this, signature);
@@ -40,14 +40,14 @@ class JClass extends JObject {
 /// A thin wrapper over a [JFieldIDPtr] of an instance field.
 extension type JInstanceFieldId._fromPointer(JFieldIDPtr pointer) {
   JInstanceFieldId._(JClass jClass, String name, String signature)
-      : pointer = using((arena) {
-          final jClassRef = jClass.reference;
-          return Jni.env.GetFieldID(
-            jClassRef.pointer,
-            name.toNativeChars(arena),
-            signature.toNativeChars(arena),
-          );
-        });
+    : pointer = using((arena) {
+        final jClassRef = jClass.reference;
+        return Jni.env.GetFieldID(
+          jClassRef.pointer,
+          name.toNativeChars(arena),
+          signature.toNativeChars(arena),
+        );
+      });
 
   DartT get<JavaT, DartT>(JObject object, JAccessible<JavaT, DartT> type) {
     final objectRef = object.reference;
@@ -55,7 +55,10 @@ extension type JInstanceFieldId._fromPointer(JFieldIDPtr pointer) {
   }
 
   void set<JavaT, DartT>(
-      JObject object, JAccessible<JavaT, DartT> type, DartT value) {
+    JObject object,
+    JAccessible<JavaT, DartT> type,
+    DartT value,
+  ) {
     final objectRef = object.reference;
     type._instanceSet(objectRef.pointer, this as JFieldIDPtr, value);
   }
@@ -64,14 +67,14 @@ extension type JInstanceFieldId._fromPointer(JFieldIDPtr pointer) {
 /// A thin wrapper over a [JFieldIDPtr] of an static field.
 extension type JStaticFieldId._fromPointer(JFieldIDPtr pointer) {
   JStaticFieldId._(JClass jClass, String name, String signature)
-      : pointer = using((arena) {
-          final jClassRef = jClass.reference;
-          return Jni.env.GetStaticFieldID(
-            jClassRef.pointer,
-            name.toNativeChars(arena),
-            signature.toNativeChars(arena),
-          );
-        });
+    : pointer = using((arena) {
+        final jClassRef = jClass.reference;
+        return Jni.env.GetStaticFieldID(
+          jClassRef.pointer,
+          name.toNativeChars(arena),
+          signature.toNativeChars(arena),
+        );
+      });
 
   DartT get<JavaT, DartT>(JClass jClass, JAccessible<JavaT, DartT> type) {
     final jClassRef = jClass.reference;
@@ -79,7 +82,10 @@ extension type JStaticFieldId._fromPointer(JFieldIDPtr pointer) {
   }
 
   void set<JavaT, DartT>(
-      JObject object, JAccessible<JavaT, DartT> type, DartT value) {
+    JObject object,
+    JAccessible<JavaT, DartT> type,
+    DartT value,
+  ) {
     final objectRef = object.reference;
     type._staticSet(objectRef.pointer, this as JFieldIDPtr, value);
   }
@@ -87,18 +93,15 @@ extension type JStaticFieldId._fromPointer(JFieldIDPtr pointer) {
 
 /// A thin wrapper over a [JMethodIDPtr] of an instance method.
 extension type JInstanceMethodId._fromPointer(JMethodIDPtr pointer) {
-  JInstanceMethodId._(
-    JClass jClass,
-    String name,
-    String signature,
-  ) : pointer = using((arena) {
-          final jClassRef = jClass.reference;
-          return Jni.env.GetMethodID(
-            jClassRef.pointer,
-            name.toNativeChars(arena),
-            signature.toNativeChars(arena),
-          );
-        });
+  JInstanceMethodId._(JClass jClass, String name, String signature)
+    : pointer = using((arena) {
+        final jClassRef = jClass.reference;
+        return Jni.env.GetMethodID(
+          jClassRef.pointer,
+          name.toNativeChars(arena),
+          signature.toNativeChars(arena),
+        );
+      });
 
   /// Calls the instance method on [object] with the given arguments.
   DartT call<JavaT, DartT>(
@@ -108,26 +111,26 @@ extension type JInstanceMethodId._fromPointer(JMethodIDPtr pointer) {
   ) {
     return using((arena) {
       final objectRef = object.reference;
-      return returnType._instanceCall(objectRef.pointer, this as JMethodIDPtr,
-          toJValues(args, allocator: arena));
+      return returnType._instanceCall(
+        objectRef.pointer,
+        this as JMethodIDPtr,
+        toJValues(args, allocator: arena),
+      );
     });
   }
 }
 
 /// A thin wrapper over a [JMethodIDPtr] of a static mehtod.
 extension type JStaticMethodId._fromPointer(JMethodIDPtr pointer) {
-  JStaticMethodId._(
-    JClass jClass,
-    String name,
-    String signature,
-  ) : pointer = using((arena) {
-          final jClassRef = jClass.reference;
-          return Jni.env.GetStaticMethodID(
-            jClassRef.pointer,
-            name.toNativeChars(arena),
-            signature.toNativeChars(arena),
-          );
-        });
+  JStaticMethodId._(JClass jClass, String name, String signature)
+    : pointer = using((arena) {
+        final jClassRef = jClass.reference;
+        return Jni.env.GetStaticMethodID(
+          jClassRef.pointer,
+          name.toNativeChars(arena),
+          signature.toNativeChars(arena),
+        );
+      });
 
   /// Calls the static method on [jClass] with the given arguments.
   DartT call<JavaT, DartT>(
@@ -136,32 +139,41 @@ extension type JStaticMethodId._fromPointer(JMethodIDPtr pointer) {
     List<dynamic> args,
   ) {
     final jClassRef = jClass.reference;
-    return using((arena) => returnType._staticCall(jClassRef.pointer,
-        this as JMethodIDPtr, toJValues(args, allocator: arena)));
+    return using(
+      (arena) => returnType._staticCall(
+        jClassRef.pointer,
+        this as JMethodIDPtr,
+        toJValues(args, allocator: arena),
+      ),
+    );
   }
 }
 
 /// A thin wrapper over a [JMethodIDPtr] of a constructor.
 extension type JConstructorId._fromPointer(JMethodIDPtr pointer) {
-  JConstructorId._(
-    JClass jClass,
-    String signature,
-  ) : pointer = using((arena) {
-          final jClassRef = jClass.reference;
-          return Jni.env.GetMethodID(
-            jClassRef.pointer,
-            '<init>'.toNativeChars(arena),
-            signature.toNativeChars(arena),
-          );
-        });
+  JConstructorId._(JClass jClass, String signature)
+    : pointer = using((arena) {
+        final jClassRef = jClass.reference;
+        return Jni.env.GetMethodID(
+          jClassRef.pointer,
+          '<init>'.toNativeChars(arena),
+          signature.toNativeChars(arena),
+        );
+      });
 
   /// Constructs an instance of [jClass] with the given arguments.
-  DartT call<JavaT, DartT>(JClass jClass,
-      JConstructable<JavaT, DartT> returnType, List<dynamic> args) {
+  DartT call<JavaT, DartT>(
+    JClass jClass,
+    JConstructable<JavaT, DartT> returnType,
+    List<dynamic> args,
+  ) {
     return using((arena) {
       final jClassRef = jClass.reference;
-      return returnType._newObject(jClassRef.pointer, this as JMethodIDPtr,
-          toJValues(args, allocator: arena));
+      return returnType._newObject(
+        jClassRef.pointer,
+        this as JMethodIDPtr,
+        toJValues(args, allocator: arena),
+      );
     });
   }
 }

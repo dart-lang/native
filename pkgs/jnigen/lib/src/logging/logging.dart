@@ -61,8 +61,9 @@ const _maxLogFiles = 5;
 void _deleteOldLogFiles() {
   final logFiles = _logDir.listSync().map((f) => File(f.path)).toList();
   // sort in descending order of last modified time.
-  logFiles
-      .sort((f1, f2) => f2.lastModifiedSync().compareTo(f1.lastModifiedSync()));
+  logFiles.sort(
+    (f1, f2) => f2.lastModifiedSync().compareTo(f1.lastModifiedSync()),
+  );
   final toDelete = logFiles.length < _maxLogFiles
       ? const <File>[]
       : logFiles.sublist(_maxLogFiles - 1);

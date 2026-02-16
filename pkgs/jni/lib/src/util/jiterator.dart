@@ -13,9 +13,7 @@ final class $JIterator$NullableType$<$E extends JObject?>
     extends JType<JIterator<$E>?> {
   final JType<$E> E;
 
-  const $JIterator$NullableType$(
-    this.E,
-  );
+  const $JIterator$NullableType$(this.E);
 
   @override
   String get signature => r'Ljava/util/Iterator;';
@@ -48,9 +46,7 @@ final class $JIterator$NullableType$<$E extends JObject?>
 final class $JIterator$Type$<$E extends JObject?> extends JType<JIterator<$E>> {
   final JType<$E> E;
 
-  const $JIterator$Type$(
-    this.E,
-  );
+  const $JIterator$Type$(this.E);
 
   @override
   String get signature => r'Ljava/util/Iterator;';
@@ -88,25 +84,19 @@ class JIterator<$E extends JObject?> extends JObject implements Iterator<$E> {
   @internal
   final JType<$E> E;
 
-  JIterator.fromReference(
-    this.E,
-    JReference reference,
-  )   : $type = type<$E>(E),
-        super.fromReference(reference);
+  JIterator.fromReference(this.E, JReference reference)
+    : $type = type<$E>(E),
+      super.fromReference(reference);
 
   static final _class = JClass.forName(r'java/util/Iterator');
 
   /// The type which includes information such as the signature of this class.
-  static JType<JIterator<$E>> type<$E extends JObject?>(
-    JType<$E> E,
-  ) {
+  static JType<JIterator<$E>> type<$E extends JObject?>(JType<$E> E) {
     return $JIterator$Type$<$E>(E);
   }
 
   /// The type which includes information such as the signature of this class.
-  static JType<JIterator<$E>?> nullableType<$E extends JObject?>(
-    JType<$E> E,
-  ) {
+  static JType<JIterator<$E>?> nullableType<$E extends JObject?>(JType<$E> E) {
     return $JIterator$NullableType$<$E>(E);
   }
 
@@ -120,8 +110,10 @@ class JIterator<$E extends JObject?> extends JObject implements Iterator<$E> {
     return _hasNextId(this, const jbooleanType(), [])!;
   }
 
-  static final _nextId =
-      _class.instanceMethodId(r'next', r'()Ljava/lang/Object;');
+  static final _nextId = _class.instanceMethodId(
+    r'next',
+    r'()Ljava/lang/Object;',
+  );
   $E _next() {
     return _nextId(this, E, [])!;
   }

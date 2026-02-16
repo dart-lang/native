@@ -21,8 +21,10 @@ mixin _ExplainsRelease on StateError {
       sb.write('\n');
       sb.write(releaseStackTrace);
     } else {
-      sb.writeln('\nTo see where the object was released, '
-          'set `Jni.captureStackTraceOnRelease = true`.');
+      sb.writeln(
+        '\nTo see where the object was released, '
+        'set `Jni.captureStackTraceOnRelease = true`.',
+      );
     }
     return sb.toString();
   }
@@ -33,7 +35,7 @@ final class UseAfterReleaseError extends StateError with _ExplainsRelease {
   final String? releaseStackTrace;
 
   UseAfterReleaseError([this.releaseStackTrace])
-      : super('Use after release error');
+    : super('Use after release error');
 }
 
 // TODO(#567): Use NullPointerError once it's available.
@@ -117,7 +119,8 @@ class JniException implements Exception {
   JniException(this.message, this.stackTrace);
 
   @override
-  String toString() => 'Exception in Java code called through JNI: '
+  String toString() =>
+      'Exception in Java code called through JNI: '
       '$message\n\n$stackTrace\n';
 }
 
@@ -127,7 +130,8 @@ final class HelperNotFoundError extends Error {
   HelperNotFoundError(this.path);
 
   @override
-  String toString() => '''
+  String toString() =>
+      '''
 Unable to locate the helper library.
 
 Ensure that the helper library is available at the path: $path

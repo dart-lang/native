@@ -102,17 +102,9 @@ void main() {
     final renamedFields = classes.decls['x.Foo']!.fields.finalNames;
     // Fields are renamed before methods. So they always keep their original
     // name (if not renamed for a different reason).
-    expect(renamedFields, [
-      'foo',
-      'foo1',
-    ]);
+    expect(renamedFields, ['foo', 'foo1']);
     final xFooMethods = classes.decls['x.Foo']!.methods.finalNames;
-    expect(xFooMethods, [
-      r'foo$1',
-      r'foo$2',
-      r'foo1$1',
-      r'foo1$2',
-    ]);
+    expect(xFooMethods, [r'foo$1', r'foo$2', r'foo1$1', r'foo1$2']);
   });
 
   test('Field with the same name as inherited method gets renamed', () async {
@@ -121,17 +113,13 @@ void main() {
         binaryName: 'Player',
         declKind: DeclKind.classKind,
         superclass: DeclaredType.object,
-        methods: [
-          Method(name: 'duck', returnType: DeclaredType.object),
-        ],
+        methods: [Method(name: 'duck', returnType: DeclaredType.object)],
       ),
       'DuckOwningPlayer': ClassDecl(
         binaryName: 'DuckOwningPlayer',
         declKind: DeclKind.classKind,
         superclass: DeclaredType(binaryName: 'Player'),
-        fields: [
-          Field(name: 'duck', type: DeclaredType.object),
-        ],
+        fields: [Field(name: 'duck', type: DeclaredType.object)],
       ),
     });
     await rename(classes);
@@ -153,9 +141,7 @@ void main() {
           Method(name: 'const', returnType: DeclaredType.object),
           Method(name: 'const', returnType: DeclaredType.object),
         ],
-        fields: [
-          Field(name: 'const', type: DeclaredType.object),
-        ],
+        fields: [Field(name: 'const', type: DeclaredType.object)],
       ),
       'Function': ClassDecl(
         binaryName: 'Function',
@@ -185,7 +171,9 @@ void main() {
           Method(name: 'foo', returnType: DeclaredType.object),
           Method(name: r'foo$1', returnType: DeclaredType.object),
           Method(
-              name: r'$$Many$Dollar$$Signs$', returnType: DeclaredType.object),
+            name: r'$$Many$Dollar$$Signs$',
+            returnType: DeclaredType.object,
+          ),
           Method(name: 'alsoAField', returnType: DeclaredType.object),
           Method(name: 'alsoAField', returnType: DeclaredType.object),
         ],
@@ -208,10 +196,7 @@ void main() {
     ]);
 
     final renamedFields = classes.decls['Foo']!.fields.finalNames;
-    expect(renamedFields, [
-      'alsoAField',
-      r'alsoAField$$1',
-    ]);
+    expect(renamedFields, ['alsoAField', r'alsoAField$$1']);
   });
 
   test('Names that start with underscores', () async {
@@ -220,12 +205,8 @@ void main() {
         binaryName: '_Foo',
         declKind: DeclKind.classKind,
         superclass: DeclaredType.object,
-        methods: [
-          Method(name: '_foo', returnType: DeclaredType.object),
-        ],
-        fields: [
-          Field(name: '_bar', type: DeclaredType.object),
-        ],
+        methods: [Method(name: '_foo', returnType: DeclaredType.object)],
+        fields: [Field(name: '_bar', type: DeclaredType.object)],
       ),
     });
     await rename(classes);
@@ -250,9 +231,7 @@ void main() {
           Method(name: r'_foo$', returnType: DeclaredType.object),
           Method(name: r'_foo$', returnType: DeclaredType.object),
         ],
-        fields: [
-          Field(name: r'_foo$', type: DeclaredType.object),
-        ],
+        fields: [Field(name: r'_foo$', type: DeclaredType.object)],
       ),
     });
     await rename(classes);
@@ -325,9 +304,13 @@ void main() {
     await rename(classes);
     expect(classes.decls['Outer']!.finalName, 'Outer');
     expect(classes.decls[r'Outer$Inner']!.finalName, r'Outer$Inner');
-    expect(classes.decls[r'Outer$Inner$Innermost']!.finalName,
-        r'Outer$Inner$Innermost');
-    expect(classes.decls[r'Outer$With$Many$Dollarsigns']!.finalName,
-        r'Outer$$With$$Many$$Dollarsigns');
+    expect(
+      classes.decls[r'Outer$Inner$Innermost']!.finalName,
+      r'Outer$Inner$Innermost',
+    );
+    expect(
+      classes.decls[r'Outer$With$Many$Dollarsigns']!.finalName,
+      r'Outer$$With$$Many$$Dollarsigns',
+    );
   });
 }

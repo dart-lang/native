@@ -28,8 +28,10 @@ void main() {
       stderr.writeln('cannot verify: HelperNotFoundError thrown');
     }
     if (!caught) {
-      stderr.writeln('Expected HelperNotFoundException\n'
-          'Read exception_test.dart for details.');
+      stderr.writeln(
+        'Expected HelperNotFoundException\n'
+        'Read exception_test.dart for details.',
+      );
       exit(1);
     }
   }
@@ -53,19 +55,21 @@ void run({required TestRunnerCallback testRunner}) {
     final r = newRandom(rc);
     r.release();
     expect(
-        () => rc
-            .instanceMethodId('nextInt', '(I)I')
-            .call(r, jint.type, [JValueInt(256)]),
-        throwsA(isA<UseAfterReleaseError>()));
+      () => rc.instanceMethodId('nextInt', '(I)I').call(r, jint.type, [
+        JValueInt(256),
+      ]),
+      throwsA(isA<UseAfterReleaseError>()),
+    );
   });
 
   testRunner('An exception in JNI throws JniException in Dart', () {
     final rc = JClass.forName('java/util/Random');
     final r = newRandom(rc);
     expect(
-        () => rc
-            .instanceMethodId('nextInt', '(I)I')
-            .call(r, jint.type, [JValueInt(-1)]),
-        throwsA(isA<JniException>()));
+      () => rc.instanceMethodId('nextInt', '(I)I').call(r, jint.type, [
+        JValueInt(-1),
+      ]),
+      throwsA(isA<JniException>()),
+    );
   });
 }

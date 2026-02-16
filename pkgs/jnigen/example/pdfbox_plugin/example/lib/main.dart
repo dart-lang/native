@@ -12,7 +12,8 @@ import 'package:pdfbox_plugin/pdfbox_plugin.dart';
 
 Stream<String> files(String dir) => Directory(dir).list().map((e) => e.path);
 
-const jarError = 'No JAR files were found.\n'
+const jarError =
+    'No JAR files were found.\n'
     'Run `dart run jnigen:download_maven_jars --config jnigen.yaml` '
     'in plugin directory.\n'
     'Alternatively, regenerate JNI bindings in plugin directory, which will '
@@ -91,60 +92,74 @@ class PDFInfoAppState extends State<PDFInfoApp> {
     final dirBaseName = basename(_dir);
     return MaterialApp(
       home: Scaffold(
-        appBar: AppBar(
-          title: Text('PDF Info: $dirBaseName'),
-        ),
+        appBar: AppBar(title: Text('PDF Info: $dirBaseName')),
         body: SingleChildScrollView(
           child: Container(
-              padding: const EdgeInsets.all(10),
-              child: _isLoading
-                  ? const Text('loading...')
-                  : Table(border: TableBorder.all(), children: [
-                      TableRow(children: [
-                        for (var heading in ['File', 'Title', 'Pages'])
-                          TableCell(
-                              child: _pad(Text(heading,
+            padding: const EdgeInsets.all(10),
+            child: _isLoading
+                ? const Text('loading...')
+                : Table(
+                    border: TableBorder.all(),
+                    children: [
+                      TableRow(
+                        children: [
+                          for (var heading in ['File', 'Title', 'Pages'])
+                            TableCell(
+                              child: _pad(
+                                Text(
+                                  heading,
                                   style: const TextStyle(
-                                      fontSize: 16,
-                                      decoration: TextDecoration.underline)))),
-                      ]),
-                      TableRow(children: [
-                        TableCell(
-                          child: _pad(
-                            InkWell(
-                              child: const Text('..'),
-                              onTap: () => setDir(dirname(_dir)),
+                                    fontSize: 16,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ),
+                            ),
+                        ],
+                      ),
+                      TableRow(
+                        children: [
+                          TableCell(
+                            child: _pad(
+                              InkWell(
+                                child: const Text('..'),
+                                onTap: () => setDir(dirname(_dir)),
+                              ),
                             ),
                           ),
-                        ),
-                        const TableCell(child: Text('')),
-                        const TableCell(child: Text('')),
-                      ]),
+                          const TableCell(child: Text('')),
+                          const TableCell(child: Text('')),
+                        ],
+                      ),
                       for (var dir in _dirs) _dirTile(basename(dir)),
                       for (var pdfname in _pdfs)
                         _pdfInfo(PDFFileInfo.usingPDFBox(pdfname)),
-                    ])),
+                    ],
+                  ),
+          ),
         ),
       ),
     );
   }
 
   TableRow _dirTile(String target) {
-    return TableRow(children: [
-      TableCell(
-        child: _pad(
-          InkWell(
-            onTap: () => setDir(join(_dir, target)),
-            child: Text(
-              target,
-              style: const TextStyle(fontWeight: FontWeight.bold),
+    return TableRow(
+      children: [
+        TableCell(
+          child: _pad(
+            InkWell(
+              onTap: () => setDir(join(_dir, target)),
+              child: Text(
+                target,
+                style: const TextStyle(fontWeight: FontWeight.bold),
+              ),
             ),
           ),
         ),
-      ),
-      const TableCell(child: Text('-')),
-      const TableCell(child: Text('-')),
-    ]);
+        const TableCell(child: Text('-')),
+        const TableCell(child: Text('-')),
+      ],
+    );
   }
 }
 
@@ -159,8 +174,9 @@ class PDFFileInfo {
     // create a java.io.File object.
     final fileClass = JClass.forName("java/io/File");
     final fileConstructor = fileClass.constructorId("(Ljava/lang/String;)V");
-    final inputFile = fileConstructor(
-        fileClass, JObject.type, [JString.fromString(filename)]);
+    final inputFile = fileConstructor(fileClass, JObject.type, [
+      JString.fromString(filename),
+    ]);
     // Static method call PDDocument.load -> PDDocument
     final pdf = PDDocument.load(inputFile)!;
     // Instance method call getNumberOfPages() -> int
@@ -179,16 +195,30 @@ class PDFFileInfo {
 }
 
 Padding _pad(Widget w) => Padding(
-    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8), child: w);
+  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+  child: w,
+);
 
 TableRow _pdfInfo(PDFFileInfo info) {
-  return TableRow(children: [
-    TableCell(
-        child: _pad(Text(basename(info.filename),
-            style: const TextStyle(fontWeight: FontWeight.bold)))),
-    TableCell(child: _pad(Text(info.title))),
-    TableCell(
-        child: _pad(Text(info.numPages.toString(),
-            style: const TextStyle(color: Colors.grey)))),
-  ]);
+  return TableRow(
+    children: [
+      TableCell(
+        child: _pad(
+          Text(
+            basename(info.filename),
+            style: const TextStyle(fontWeight: FontWeight.bold),
+          ),
+        ),
+      ),
+      TableCell(child: _pad(Text(info.title))),
+      TableCell(
+        child: _pad(
+          Text(
+            info.numPages.toString(),
+            style: const TextStyle(color: Colors.grey),
+          ),
+        ),
+      ),
+    ],
+  );
 }

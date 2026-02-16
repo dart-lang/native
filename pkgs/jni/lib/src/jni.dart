@@ -123,26 +123,25 @@ abstract final class Jni {
     List<String> classPath = const [],
     bool ignoreUnrecognized = false,
     JniVersions jniVersion = JniVersions.VERSION_1_6,
-  }) =>
-      using((arena) {
-        _dylibDir = dylibDir ?? _dylibDir;
-        final jvmArgs = _createVMArgs(
-          options: jvmOptions,
-          classPath: classPath,
-          version: jniVersion,
-          dylibPath: dylibDir,
-          ignoreUnrecognized: ignoreUnrecognized,
-          allocator: arena,
-        );
-        final status = _bindings.SpawnJvm(jvmArgs);
-        if (status == JniErrorCode.OK) {
-          return true;
-        } else if (status == JniErrorCode.SINGLETON_EXISTS) {
-          return false;
-        } else {
-          throw JniError.of(status);
-        }
-      });
+  }) => using((arena) {
+    _dylibDir = dylibDir ?? _dylibDir;
+    final jvmArgs = _createVMArgs(
+      options: jvmOptions,
+      classPath: classPath,
+      version: jniVersion,
+      dylibPath: dylibDir,
+      ignoreUnrecognized: ignoreUnrecognized,
+      allocator: arena,
+    );
+    final status = _bindings.SpawnJvm(jvmArgs);
+    if (status == JniErrorCode.OK) {
+      return true;
+    } else if (status == JniErrorCode.SINGLETON_EXISTS) {
+      return false;
+    } else {
+      throw JniError.of(status);
+    }
+  });
 
   static Pointer<JavaVMInitArgs> _createVMArgs({
     List<String> options = const [],
@@ -154,7 +153,8 @@ abstract final class Jni {
   }) {
     final args = allocator<JavaVMInitArgs>();
     if (options.isNotEmpty || classPath.isNotEmpty) {
-      final count = options.length +
+      final count =
+          options.length +
           (dylibPath != null ? 1 : 0) +
           (classPath.isNotEmpty ? 1 : 0);
       final optsPtr = (count != 0) ? allocator<JavaVMOption>(count) : nullptr;
@@ -164,9 +164,10 @@ abstract final class Jni {
       }
       if (dylibPath != null) {
         (optsPtr + count - 1 - (classPath.isNotEmpty ? 1 : 0))
-                .ref
-                .optionString =
-            '-Djava.library.path=$dylibPath'.toNativeChars(allocator);
+            .ref
+            .optionString = '-Djava.library.path=$dylibPath'.toNativeChars(
+          allocator,
+        );
       }
       if (classPath.isNotEmpty) {
         final classPathString = classPath.join(Platform.isWindows ? ';' : ':');
@@ -190,8 +191,9 @@ abstract final class Jni {
   /// Uses the correct class loader on Android.
   /// Prefer this over `Jni.env.FindClass`.
   static JClassPtr findClass(String name) {
-    return using((arena) => _bindings.JniFindClass(name.toNativeChars(arena)))
-        .checkedClassRef;
+    return using(
+      (arena) => _bindings.JniFindClass(name.toNativeChars(arena)),
+    ).checkedClassRef;
   }
 
   /// Throws an exception.
@@ -323,13 +325,17 @@ extension ProtectedJniExtensions on Jni {
     if (exception is JObject) {
       final exceptionRef = exception.reference;
       if (Jni.env.IsInstanceOf(
-          exceptionRef.pointer, _jThrowableClass.reference.pointer)) {
+        exceptionRef.pointer,
+        _jThrowableClass.reference.pointer,
+      )) {
         cause = exceptionRef.pointer;
       }
     }
     return Jni._bindings
         .DartException__ctor(
-            Jni.env.toJStringPtr(exception.toString()), cause ?? nullptr)
+          Jni.env.toJStringPtr(exception.toString()),
+          cause ?? nullptr,
+        )
         .objectPointer;
   }
 
@@ -345,7 +351,9 @@ extension ProtectedJniExtensions on Jni {
 
   /// Returns the result of a callback.
   static void returnResult(
-      Pointer<CallbackResult> result, JObjectPtr object) async {
+    Pointer<CallbackResult> result,
+    JObjectPtr object,
+  ) async {
     // The result is `nullptr` when the callback is a listener.
     if (result != nullptr) {
       Jni._bindings.resultFor(result, object);
@@ -365,8 +373,11 @@ extension InternalJniExtension on Jni {
     JObjectRefType refType,
   ) {
     ProtectedJniExtensions.ensureInitialized();
-    return Jni._bindings
-        .newJObjectFinalizableHandle(object, reference, refType);
+    return Jni._bindings.newJObjectFinalizableHandle(
+      object,
+      reference,
+      refType,
+    );
   }
 
   static Dart_FinalizableHandle newBooleanFinalizableHandle(
@@ -386,7 +397,9 @@ extension InternalJniExtension on Jni {
   }
 
   static void deleteFinalizableHandle(
-      Dart_FinalizableHandle finalizableHandle, Object object) {
+    Dart_FinalizableHandle finalizableHandle,
+    Object object,
+  ) {
     ProtectedJniExtensions.ensureInitialized();
     Jni._bindings.deleteFinalizableHandle(finalizableHandle, object);
   }
@@ -415,14 +428,13 @@ extension AdditionalEnvMethods on GlobalJniEnv {
 
   /// Returns a new [JStringPtr] from contents of [s].
   JStringPtr toJStringPtr(String s) => using((arena) {
-        final utf = s.toNativeUtf16(allocator: arena).cast<Uint16>();
-        final result = NewString(utf, s.length);
-        if (utf == nullptr) {
-          throw JniException(
-              'Fatal: cannot convert string to Java string: $s', '');
-        }
-        return result;
-      });
+    final utf = s.toNativeUtf16(allocator: arena).cast<Uint16>();
+    final result = NewString(utf, s.length);
+    if (utf == nullptr) {
+      throw JniException('Fatal: cannot convert string to Java string: $s', '');
+    }
+    return result;
+  });
 }
 
 @internal

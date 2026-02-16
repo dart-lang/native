@@ -37,9 +37,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.teal,
-      ),
+      theme: ThemeData(primarySwatch: Colors.teal),
       home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -56,9 +54,7 @@ class MyHomePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(title),
-      ),
+      appBar: AppBar(title: Text(title)),
       body: Center(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -68,16 +64,18 @@ class MyHomePage extends StatelessWidget {
               TextFormField(
                 controller: _title,
                 textCapitalization: TextCapitalization.sentences,
-                decoration:
-                    const InputDecoration(labelText: 'Notification title'),
+                decoration: const InputDecoration(
+                  labelText: 'Notification title',
+                ),
               ),
               TextFormField(
                 controller: _text,
                 keyboardType: TextInputType.multiline,
                 minLines: 1,
                 maxLines: 4,
-                decoration:
-                    const InputDecoration(labelText: 'Notification text'),
+                decoration: const InputDecoration(
+                  labelText: 'Notification text',
+                ),
               ),
               ElevatedButton(
                 child: const Text('Show Notification'),

@@ -59,8 +59,10 @@ void run({required TestRunnerCallback testRunner}) {
     const eps = 1e-6;
     using((arena) {
       expect(JFloat(val).floatValue(releaseOriginal: true), closeTo(val, eps));
-      expect((-val).toJFloat().floatValue(releaseOriginal: true),
-          closeTo(-val, eps));
+      expect(
+        (-val).toJFloat().floatValue(releaseOriginal: true),
+        closeTo(-val, eps),
+      );
     });
   });
   testRunner('JDouble', () {
@@ -68,9 +70,13 @@ void run({required TestRunnerCallback testRunner}) {
     const eps = 1e-9;
     using((arena) {
       expect(
-          JDouble(val).doubleValue(releaseOriginal: true), closeTo(val, eps));
-      expect((-val).toJDouble().doubleValue(releaseOriginal: true),
-          closeTo(-val, eps));
+        JDouble(val).doubleValue(releaseOriginal: true),
+        closeTo(val, eps),
+      );
+      expect(
+        (-val).toJDouble().doubleValue(releaseOriginal: true),
+        closeTo(-val, eps),
+      );
     });
   });
   testRunner('JBoolean', () {

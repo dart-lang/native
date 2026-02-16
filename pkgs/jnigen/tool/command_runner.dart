@@ -65,12 +65,19 @@ class Runner {
   void chainCommand(String exec, List<String> args, {Uri? workingDirectory}) =>
       _addCommand(steps, exec, args, workingDirectory: workingDirectory);
 
-  void chainCleanupCommand(String exec, List<String> args,
-          {Uri? workingDirectory}) =>
+  void chainCleanupCommand(
+    String exec,
+    List<String> args, {
+    Uri? workingDirectory,
+  }) =>
       _addCommand(cleanupSteps, exec, args, workingDirectory: workingDirectory);
 
-  void _addCommand(List<Step> list, String exec, List<String> args,
-      {Uri? workingDirectory}) {
+  void _addCommand(
+    List<Step> list,
+    String exec,
+    List<String> args, {
+    Uri? workingDirectory,
+  }) {
     list.add(Command(exec, args, workingDirectory ?? defaultWorkingDir));
   }
 

@@ -73,9 +73,7 @@ class JShort extends JNumber {
   // ignore: overridden_fields
   final JType<JShort> $type = type;
 
-  JShort.fromReference(
-    super.reference,
-  ) : super.fromReference();
+  JShort.fromReference(super.reference) : super.fromReference();
 
   /// The type which includes information such as the signature of this class.
   static const JType<JShort> type = $JShort$Type$();
@@ -88,5 +86,5 @@ class JShort extends JNumber {
   static final _ctorId = _class.constructorId(r'(S)V');
 
   JShort(int num)
-      : super.fromReference(_ctorId(_class, referenceType, [JValueShort(num)]));
+    : super.fromReference(_ctorId(_class, referenceType, [JValueShort(num)]));
 }

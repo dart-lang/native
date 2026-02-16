@@ -24,13 +24,19 @@ final class jbyteType extends JTypeBase<jbyte>
 
   @override
   int _staticCall(
-      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    JClassPtr clazz,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  ) {
     return Jni.env.CallStaticByteMethodA(clazz, methodID, args);
   }
 
   @override
   int _instanceCall(
-      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args) {
+    JObjectPtr obj,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  ) {
     return Jni.env.CallByteMethodA(obj, methodID, args);
   }
 
@@ -69,13 +75,19 @@ final class jbooleanType extends JTypeBase<jboolean>
 
   @override
   bool _staticCall(
-      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    JClassPtr clazz,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  ) {
     return Jni.env.CallStaticBooleanMethodA(clazz, methodID, args);
   }
 
   @override
   bool _instanceCall(
-      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args) {
+    JObjectPtr obj,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  ) {
     return Jni.env.CallBooleanMethodA(obj, methodID, args);
   }
 
@@ -114,13 +126,19 @@ final class jcharType extends JTypeBase<jchar>
 
   @override
   int _staticCall(
-      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    JClassPtr clazz,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  ) {
     return Jni.env.CallStaticCharMethodA(clazz, methodID, args);
   }
 
   @override
   int _instanceCall(
-      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args) {
+    JObjectPtr obj,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  ) {
     return Jni.env.CallCharMethodA(obj, methodID, args);
   }
 
@@ -159,13 +177,19 @@ final class jshortType extends JTypeBase<jshort>
 
   @override
   int _staticCall(
-      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    JClassPtr clazz,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  ) {
     return Jni.env.CallStaticShortMethodA(clazz, methodID, args);
   }
 
   @override
   int _instanceCall(
-      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args) {
+    JObjectPtr obj,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  ) {
     return Jni.env.CallShortMethodA(obj, methodID, args);
   }
 
@@ -204,13 +228,19 @@ final class jintType extends JTypeBase<jint>
 
   @override
   int _staticCall(
-      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    JClassPtr clazz,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  ) {
     return Jni.env.CallStaticIntMethodA(clazz, methodID, args);
   }
 
   @override
   int _instanceCall(
-      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args) {
+    JObjectPtr obj,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  ) {
     return Jni.env.CallIntMethodA(obj, methodID, args);
   }
 
@@ -249,13 +279,19 @@ final class jlongType extends JTypeBase<jlong>
 
   @override
   int _staticCall(
-      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    JClassPtr clazz,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  ) {
     return Jni.env.CallStaticLongMethodA(clazz, methodID, args);
   }
 
   @override
   int _instanceCall(
-      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args) {
+    JObjectPtr obj,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  ) {
     return Jni.env.CallLongMethodA(obj, methodID, args);
   }
 
@@ -294,13 +330,19 @@ final class jfloatType extends JTypeBase<jfloat>
 
   @override
   double _staticCall(
-      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    JClassPtr clazz,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  ) {
     return Jni.env.CallStaticFloatMethodA(clazz, methodID, args);
   }
 
   @override
   double _instanceCall(
-      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args) {
+    JObjectPtr obj,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  ) {
     return Jni.env.CallFloatMethodA(obj, methodID, args);
   }
 
@@ -339,13 +381,19 @@ final class jdoubleType extends JTypeBase<jdouble>
 
   @override
   double _staticCall(
-      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    JClassPtr clazz,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  ) {
     return Jni.env.CallStaticDoubleMethodA(clazz, methodID, args);
   }
 
   @override
   double _instanceCall(
-      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args) {
+    JObjectPtr obj,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  ) {
     return Jni.env.CallDoubleMethodA(obj, methodID, args);
   }
 
@@ -383,13 +431,19 @@ final class jvoidType extends JTypeBase<jvoid> with JCallable<jvoid, void> {
 
   @override
   void _staticCall(
-      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    JClassPtr clazz,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  ) {
     return Jni.env.CallStaticVoidMethodA(clazz, methodID, args);
   }
 
   @override
   void _instanceCall(
-      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args) {
+    JObjectPtr obj,
+    JMethodIDPtr methodID,
+    Pointer<JValue> args,
+  ) {
     return Jni.env.CallVoidMethodA(obj, methodID, args);
   }
 }

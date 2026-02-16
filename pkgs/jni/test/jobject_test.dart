@@ -44,11 +44,7 @@ void run({required TestRunnerCallback testRunner}) {
     // to JNI strings.
     final long = longCtor(longClass, JObject.type, [176]);
     final intValueMethod = longClass.instanceMethodId('intValue', '()I');
-    final intValue = intValueMethod(
-      long,
-      jint.type,
-      [],
-    );
+    final intValue = intValueMethod(long, jint.type, []);
     expect(intValue, 176);
 
     // Release any JObject and JClass instances using `.release()` after use.
@@ -60,9 +56,10 @@ void run({required TestRunnerCallback testRunner}) {
 
   testRunner('call a static method using JClass APIs', () {
     final integerClass = JClass.forName('java/lang/Integer');
-    final result =
-        integerClass.staticMethodId('toHexString', '(I)Ljava/lang/String;')(
-            integerClass, JString.type, [JValueInt(31)]);
+    final result = integerClass.staticMethodId(
+      'toHexString',
+      '(I)Ljava/lang/String;',
+    )(integerClass, JString.type, [JValueInt(31)]);
 
     // If the object is supposed to be a Java string you can call
     // [toDartString] on it.
@@ -79,9 +76,13 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('Call method with null argument, expect exception', () {
     final integerClass = JClass.forName('java/lang/Integer');
     expect(
-        () => integerClass.staticMethodId('parseInt', '(Ljava/lang/String;)I')(
-            integerClass, jint.type, [nullptr]),
-        throwsException);
+      () => integerClass.staticMethodId('parseInt', '(Ljava/lang/String;)I')(
+        integerClass,
+        jint.type,
+        [nullptr],
+      ),
+      throwsException,
+    );
     integerClass.release();
   });
 
@@ -98,23 +99,16 @@ void run({required TestRunnerCallback testRunner}) {
     final bitCountMethod = longClass.staticMethodId('bitCount', '(J)I');
 
     final randomClass = JClass.forName('java/util/Random');
-    final random =
-        randomClass.constructorId('()V').call(randomClass, JObject.type, []);
+    final random = randomClass
+        .constructorId('()V')
+        .call(randomClass, JObject.type, []);
 
     final nextIntMethod = randomClass.instanceMethodId('nextInt', '(I)I');
 
     for (var i = 0; i < 100; i++) {
-      var r = nextIntMethod(
-        random,
-        jint.type,
-        [JValueInt(256 * 256)],
-      );
+      var r = nextIntMethod(random, jint.type, [JValueInt(256 * 256)]);
       var bits = 0;
-      final jbc = bitCountMethod(
-        longClass,
-        jint.type,
-        [r],
-      );
+      final jbc = bitCountMethod(longClass, jint.type, [r]);
       while (r != 0) {
         bits += r % 2;
         r = (r / 2).floor();
@@ -138,8 +132,9 @@ void run({required TestRunnerCallback testRunner}) {
 
   testRunner('Get static field', () {
     final shortClass = JShort.type.jClass;
-    final maxLong =
-        shortClass.staticFieldId('MAX_VALUE', 'S').get(shortClass, jshort.type);
+    final maxLong = shortClass
+        .staticFieldId('MAX_VALUE', 'S')
+        .get(shortClass, jshort.type);
     expect(maxLong, 32767);
     shortClass.release();
   });
@@ -156,8 +151,10 @@ void run({required TestRunnerCallback testRunner}) {
 
   testRunner('Passing strings in arguments', () {
     final byteClass = JByte.type.jClass;
-    final parseByte =
-        byteClass.staticMethodId('parseByte', '(Ljava/lang/String;)B');
+    final parseByte = byteClass.staticMethodId(
+      'parseByte',
+      '(Ljava/lang/String;)B',
+    );
     final twelve = parseByte(byteClass, jbyte.type, ['12'.toJString()]);
     expect(twelve, 12);
     byteClass.release();
@@ -168,11 +165,14 @@ void run({required TestRunnerCallback testRunner}) {
     final randomInt = JClass.forName('java/util/Random').use((randomClass) {
       return randomClass
           .constructorId('()V')
-          .call(randomClass, JObject.type, []).use((random) {
-        return randomClass
-            .instanceMethodId('nextInt', '(I)I')
-            .call(random, jint.type, [JValueInt(15)]);
-      });
+          .call(randomClass, JObject.type, [])
+          .use((random) {
+            return randomClass.instanceMethodId('nextInt', '(I)I').call(
+              random,
+              jint.type,
+              [JValueInt(15)],
+            );
+          });
     });
     expect(randomInt, lessThan(15));
     const JObject? nullableJObject = null;
@@ -187,8 +187,9 @@ void run({required TestRunnerCallback testRunner}) {
       final randomClass = JClass.forName('java/util/Random')..releasedBy(arena);
       final constructor = randomClass.constructorId('()V');
       for (var i = 0; i < 10; i++) {
-        objects
-            .add(constructor(randomClass, JObject.type, [])..releasedBy(arena));
+        objects.add(
+          constructor(randomClass, JObject.type, [])..releasedBy(arena),
+        );
       }
     });
     for (var object in objects) {
@@ -228,11 +229,14 @@ void run({required TestRunnerCallback testRunner}) {
     final receivePort = ReceivePort();
     await Isolate.spawn((sendPort) {
       final randomClass = JClass.forName('java/util/Random');
-      final random =
-          randomClass.constructorId('()V').call(randomClass, JObject.type, []);
-      final result = randomClass
-          .instanceMethodId('nextInt', '(I)I')
-          .call(random, jint.type, [256]);
+      final random = randomClass
+          .constructorId('()V')
+          .call(randomClass, JObject.type, []);
+      final result = randomClass.instanceMethodId('nextInt', '(I)I').call(
+        random,
+        jint.type,
+        [256],
+      );
       random.release();
       randomClass.release();
       // A workaround for `--pause-isolates-on-exit`. Otherwise getting test
@@ -248,24 +252,18 @@ void run({required TestRunnerCallback testRunner}) {
   });
 
   testRunner('Methods rethrow exceptions in Java as JniException', () {
-    expect(
-      () {
-        final integerClass = JInteger.type.jClass;
-        return JClass.forName('java/lang/Integer')
-            .staticMethodId('parseInt', '(Ljava/lang/String;)I')
-            .call(integerClass, jint.type, ['X'.toJString()]);
-      },
-      throwsA(isA<JniException>()),
-    );
+    expect(() {
+      final integerClass = JInteger.type.jClass;
+      return JClass.forName('java/lang/Integer')
+          .staticMethodId('parseInt', '(Ljava/lang/String;)I')
+          .call(integerClass, jint.type, ['X'.toJString()]);
+    }, throwsA(isA<JniException>()));
   });
 
   testRunner('Passing long integer values to JNI', () {
     final longClass = JLong.type.jClass;
     final maxLongStr = longClass
-        .staticMethodId(
-      'toString',
-      '(J)Ljava/lang/String;',
-    )
+        .staticMethodId('toString', '(J)Ljava/lang/String;')
         .call(longClass, JString.type, [maxLongInJava]);
     expect(maxLongStr.toDartString(), '$maxLongInJava');
     longClass.release();
@@ -274,8 +272,9 @@ void run({required TestRunnerCallback testRunner}) {
 
   testRunner('Returning long integers from JNI', () {
     final longClass = JLong.type.jClass;
-    final maxLong =
-        longClass.staticFieldId('MAX_VALUE', 'J').get(longClass, jlong.type);
+    final maxLong = longClass
+        .staticFieldId('MAX_VALUE', 'J')
+        .get(longClass, jlong.type);
     expect(maxLong, maxLongInJava);
   });
 
@@ -307,8 +306,13 @@ void run({required TestRunnerCallback testRunner}) {
     final long = JLong(1);
     expect(
       () => long.as(JInteger.type, releaseOriginal: true),
-      throwsA(isA<CastError>().having(
-          (e) => e.toString(), 'toString()', contains('java/lang/Integer'))),
+      throwsA(
+        isA<CastError>().having(
+          (e) => e.toString(),
+          'toString()',
+          contains('java/lang/Integer'),
+        ),
+      ),
     );
   });
 

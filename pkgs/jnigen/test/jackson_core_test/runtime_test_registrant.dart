@@ -33,9 +33,9 @@ void registerTests(String groupName, TestRunnerCallback test) {
     test('parsing invalid JSON throws JniException', () {
       using((arena) {
         final factory = JsonFactory()..releasedBy(arena);
-        final erroneous = factory
-            .createParser$6('<html>'.toJString()..releasedBy(arena))!
-          ..releasedBy(arena);
+        final erroneous = factory.createParser$6(
+          '<html>'.toJString()..releasedBy(arena),
+        )!..releasedBy(arena);
         expect(erroneous.nextToken, throwsA(isA<JniException>()));
       });
     });

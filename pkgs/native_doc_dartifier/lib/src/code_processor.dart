@@ -24,8 +24,9 @@ class CodeProcessor {
     ], runInShell: true);
 
     final allLines = analysisResult.stdout.toString().trim().split('\n');
-    final errorLines =
-        allLines.where((line) => line.trim().startsWith('error -')).toList();
+    final errorLines = allLines
+        .where((line) => line.trim().startsWith('error -'))
+        .toList();
 
     await _cleanUp();
     return errorLines;
@@ -56,12 +57,9 @@ class CodeProcessor {
 
   String removeHelperCodeImport(String code) {
     final lines = code.split('\n');
-    final filteredLines =
-        lines
-            .where(
-              (line) => !line.startsWith('import \'$_helperCodeFileName\';'),
-            )
-            .toList();
+    final filteredLines = lines
+        .where((line) => !line.startsWith('import \'$_helperCodeFileName\';'))
+        .toList();
     return filteredLines.join('\n');
   }
 
