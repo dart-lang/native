@@ -66,14 +66,7 @@ Error: $e
   }
 
   factory Recordings._fromSyntax(RecordedUsesSyntax syntax) {
-    final constants = <Constant>[];
-    final context = DeserializationContext(constants);
-    for (final constantSyntax in syntax.constants ?? <ConstantSyntax>[]) {
-      final constant = ConstantProtected.fromSyntax(constantSyntax, context);
-      if (!constants.contains(constant)) {
-        constants.add(constant);
-      }
-    }
+    final context = _deserializeConstants(syntax);
 
     final callsForDefinition = <Definition, List<CallReference>>{};
     final instancesForDefinition = <Definition, List<InstanceReference>>{};
@@ -117,52 +110,32 @@ Error: $e
     );
   }
 
+  static DeserializationContext _deserializeConstants(
+    RecordedUsesSyntax syntax,
+  ) {
+    final constants = <Constant>[];
+    // Create a context that includes an empty list for the constants. This
+    // list will be populated by [_deserializeConstants], providing the
+    // self-referential access needed to resolve recursive constants (e.g.
+    // list and map constants).
+    final context = DeserializationContext(constants);
+    for (final constantSyntax in syntax.constants ?? <ConstantSyntax>[]) {
+      final constant = ConstantProtected.fromSyntax(constantSyntax, context);
+      if (!constants.contains(constant)) {
+        constants.add(constant);
+      }
+    }
+    return context;
+  }
+
   /// Encodes this object into a JSON representation.
   ///
   /// This method normalizes identifiers and constants for storage efficiency.
   Map<String, Object?> toJson() => _toSyntax().json;
 
   RecordedUsesSyntax _toSyntax() {
-    final constantsIndex = <Constant>{
-      ...calls.values
-          .expand((calls) => calls)
-          .whereType<CallWithArguments>()
-          .expand(
-            (call) => [
-              ...call.positionalArguments,
-              ...call.namedArguments.values,
-            ],
-          )
-          .expand(
-            (argument) => switch (argument) {
-              final Constant c => [c],
-              NonConstant() => <Constant>[],
-            },
-          ),
-      ...instances.values
-          .expand((instances) => instances)
-          .expand(
-            (instance) => switch (instance) {
-              InstanceConstantReference(:final instanceConstant) => {
-                ...instanceConstant.fields.values,
-                instanceConstant,
-              },
-              InstanceCreationReference(
-                :final positionalArguments,
-                :final namedArguments,
-              ) =>
-                [...positionalArguments, ...namedArguments.values].expand(
-                  (argument) => switch (argument) {
-                    final Constant c => [c],
-                    NonConstant() => <Constant>[],
-                  },
-                ),
-              ConstructorTearoffReference() => <Constant>[],
-            },
-          ),
-    }.flatten().asMapToIndices;
-
-    final context = SerializationContext(constantsIndex);
+    final allConstants = _collectConstants();
+    final (context, constantSyntax) = _serializeConstants(allConstants);
 
     final recordings = <RecordingSyntax>[];
     final allDefinitions = {
@@ -187,15 +160,59 @@ Error: $e
 
     return RecordedUsesSyntax(
       metadata: metadata.toSyntax(),
-      constants: constantsIndex.isEmpty
-          ? null
-          : constantsIndex.keys
-                .map(
-                  (Constant constant) => constant.toSyntax(context),
-                )
-                .toList(),
+      constants: constantSyntax.isEmpty ? null : constantSyntax,
       recordings: recordings.isEmpty ? null : recordings,
     );
+  }
+
+  List<Constant> _collectConstants() => {
+    ...calls.values
+        .expand((calls) => calls)
+        .whereType<CallWithArguments>()
+        .expand(
+          (call) => [
+            ...call.positionalArguments,
+            ...call.namedArguments.values,
+          ],
+        )
+        .expand(
+          (argument) => switch (argument) {
+            final Constant c => [c],
+            NonConstant() => <Constant>[],
+          },
+        ),
+    ...instances.values
+        .expand((instances) => instances)
+        .expand(
+          (instance) => switch (instance) {
+            InstanceConstantReference(:final instanceConstant) => {
+              ...instanceConstant.fields.values,
+              instanceConstant,
+            },
+            InstanceCreationReference(
+              :final positionalArguments,
+              :final namedArguments,
+            ) =>
+              [...positionalArguments, ...namedArguments.values].expand(
+                (argument) => switch (argument) {
+                  final Constant c => [c],
+                  NonConstant() => <Constant>[],
+                },
+              ),
+            ConstructorTearoffReference() => <Constant>[],
+          },
+        ),
+  }.flatten().toList();
+
+  (SerializationContext, List<ConstantSyntax>) _serializeConstants(
+    List<Constant> allConstants,
+  ) {
+    final constantsMap = allConstants.asMapToIndices;
+    final context = SerializationContext(constantsMap);
+    final constantSyntax = [
+      for (final constant in allConstants) constant.toSyntax(context),
+    ];
+    return (context, constantSyntax);
   }
 
   @override
