@@ -176,7 +176,9 @@ class WorkspaceTask extends Task {
     final rootDir = Directory.fromUri(repositoryRoot.resolve('pkgs'));
     for (final entity in rootDir.listSync(recursive: true)) {
       if (entity is File && entity.path.endsWith('pubspec.yaml')) {
-        packages.add(p.relative(entity.parent.path, from: repositoryRoot.path));
+        packages.add(
+            Uri.file(p.relative(entity.parent.path, from: repositoryRoot.path))
+                .toString());
       }
     }
     return packages;
