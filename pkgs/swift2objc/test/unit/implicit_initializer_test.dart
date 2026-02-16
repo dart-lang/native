@@ -23,6 +23,7 @@ void main() {
           PropertyDeclaration(
             id: 'TestStruct::name',
             name: 'name',
+            lineNumber: 1,
             source: null,
             availability: [],
             type: stringType,
@@ -32,6 +33,7 @@ void main() {
           PropertyDeclaration(
             id: 'TestStruct::age',
             name: 'age',
+            lineNumber: 2,
             source: null,
             availability: [],
             type: intType,

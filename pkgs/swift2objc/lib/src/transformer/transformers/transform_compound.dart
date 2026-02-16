@@ -132,15 +132,9 @@ List<InitializerDeclaration> _compoundInitializers(
   if (originalCompound is! StructDeclaration || initializers.isNotEmpty) {
     return initializers;
   }
-  final storedProperties =
-      originalCompound.properties
-          .where((prop) => !prop.isStatic && !prop.hasExplicitGetter)
-          .toList()
-        ..sort((a, b) {
-          final aLine = a.lineNumber ?? 0;
-          final bLine = b.lineNumber ?? 0;
-          return aLine.compareTo(bLine);
-        });
+  final storedProperties = originalCompound.properties
+      .where((prop) => !prop.isStatic && !prop.hasExplicitGetter)
+      .sortedById();
 
   if (storedProperties.isEmpty) {
     return initializers;

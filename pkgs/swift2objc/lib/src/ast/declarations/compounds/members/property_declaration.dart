@@ -23,7 +23,8 @@ class PropertyDeclaration extends AstNode
   @override
   InputConfig? source;
 
-  int? lineNumber;
+  @override
+  final int? lineNumber;
 
   @override
   List<AvailabilityInfo> availability;

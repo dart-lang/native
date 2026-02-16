@@ -19,27 +19,14 @@ PropertyDeclaration parsePropertyDeclaration(
 }) {
   final info = parsePropertyInfo(symbol.json['declarationFragments']);
 
-  // Extract line number from location
-  int? lineNumber;
-  final locationJson = symbol.json['location'];
-  if (locationJson.exists) {
-    final positionJson = locationJson['position'];
-    if (positionJson.exists) {
-      final lineJson = positionJson['line'];
-      if (lineJson.exists) {
-        lineNumber = lineJson.get<int>();
-      }
-    }
-  }
-
   return PropertyDeclaration(
     id: parseSymbolId(symbol.json),
     name: parseSymbolName(symbol.json),
     source: symbol.source,
+    lineNumber: parseLineNumber(symbol.json),
     availability: parseAvailability(symbol.json),
     type: _parseVariableType(context, symbol.json, symbolgraph),
     hasObjCAnnotation: parseSymbolHasObjcAnnotation(symbol.json),
-    lineNumber: lineNumber,
     isConstant: info.constant,
     isStatic: isStatic,
     throws: info.throws,
@@ -63,6 +50,7 @@ GlobalVariableDeclaration parseGlobalVariableDeclaration(
     id: parseSymbolId(symbol.json),
     name: parseSymbolName(symbol.json),
     source: symbol.source,
+    lineNumber: parseLineNumber(symbol.json),
     availability: parseAvailability(symbol.json),
     type: _parseVariableType(context, symbol.json, symbolgraph),
     isConstant: info.constant || !info.setter,
@@ -154,7 +142,7 @@ ParsedPropertyInfo parsePropertyInfo(Json json) {
         'Properties can not have a setter without a getter',
       );
     } else {
-      // has implicit getter and implicit setter
+      // Stored property - no explicit getter or setter
       return (false, false);
     }
   }

@@ -20,6 +20,9 @@ class TypealiasDeclaration extends AstNode implements InnerNestableDeclaration {
   InputConfig? source;
 
   @override
+  final int? lineNumber;
+
+  @override
   List<AvailabilityInfo> availability;
 
   final ReferredType target;
@@ -31,6 +34,7 @@ class TypealiasDeclaration extends AstNode implements InnerNestableDeclaration {
     required this.id,
     required this.name,
     required this.source,
+    this.lineNumber,
     required this.target,
     required this.availability,
   });

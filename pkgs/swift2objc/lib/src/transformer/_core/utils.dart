@@ -131,5 +131,17 @@ InitializerDeclaration buildWrapperInitializer(
 }
 
 extension SortById<T extends Declaration> on Iterable<T> {
-  List<T> sortedById() => toList()..sort((T a, T b) => a.id.compareTo(b.id));
+  List<T> sortedById() => toList()
+    ..sort((T a, T b) {
+      // Sort by line number if both declarations have it
+      final aLine = a.lineNumber;
+      final bLine = b.lineNumber;
+
+      if (aLine != null && bLine != null) {
+        final lineCompare = aLine.compareTo(bLine);
+        if (lineCompare != 0) return lineCompare;
+      }
+
+      return a.id.compareTo(b.id);
+    });
 }

@@ -25,6 +25,9 @@ class MethodDeclaration extends AstNode
   InputConfig? source;
 
   @override
+  final int? lineNumber;
+
+  @override
   List<AvailabilityInfo> availability;
 
   @override
@@ -65,6 +68,7 @@ class MethodDeclaration extends AstNode
     required this.availability,
     required this.returnType,
     required this.params,
+    this.lineNumber,
     this.typeParams = const [],
     this.hasObjCAnnotation = false,
     this.statements = const [],

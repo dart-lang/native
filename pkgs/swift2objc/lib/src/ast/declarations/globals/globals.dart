@@ -31,6 +31,9 @@ class GlobalFunctionDeclaration extends AstNode implements FunctionDeclaration {
   InputConfig? source;
 
   @override
+  final int? lineNumber;
+
+  @override
   List<AvailabilityInfo> availability;
 
   @override
@@ -55,6 +58,7 @@ class GlobalFunctionDeclaration extends AstNode implements FunctionDeclaration {
     required this.id,
     required this.name,
     required this.source,
+    this.lineNumber,
     required this.availability,
     required this.params,
     required this.returnType,
@@ -89,6 +93,9 @@ class GlobalVariableDeclaration extends AstNode implements VariableDeclaration {
   InputConfig? source;
 
   @override
+  final int? lineNumber;
+
+  @override
   List<AvailabilityInfo> availability;
 
   @override
@@ -107,6 +114,7 @@ class GlobalVariableDeclaration extends AstNode implements VariableDeclaration {
     required this.id,
     required this.name,
     required this.source,
+    this.lineNumber,
     required this.availability,
     required this.type,
     required this.isConstant,
