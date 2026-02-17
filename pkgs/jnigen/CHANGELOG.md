@@ -3,6 +3,8 @@
 - Add docs about debugging.
 - Add support for Kotlin interfaces with suspend functions. These can now be
   implemented using Dart functions that return a `Future`.
+- Fixed a bug where Kotlin's `DefaultConstructorMarker` was exposed in the
+  generated bindings.
 - Namespace primitive types to avoid collisions with generated API names, eg
   `bool`.
 - Kotlin suspend functions with no result (a return type of `Unit`) now return

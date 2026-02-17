@@ -141,9 +141,11 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   /// Final name of this class.
   ///
   /// Populated by [Renamer].
-  @JsonKey(includeFromJson: false)
   @override
   late String finalName;
+
+  @JsonKey(includeFromJson: false)
+  bool isRenamed = false;
 
   /// Name of the type class.
   @JsonKey(includeFromJson: false)

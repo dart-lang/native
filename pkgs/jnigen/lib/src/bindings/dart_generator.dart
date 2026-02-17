@@ -864,6 +864,10 @@ class _TypeGenerator extends TypeVisitor<String> {
       },
     );
 
+    if (!node.classDecl.isRenamed) {
+      // The class is not generated, fall back to `JObject`.
+      return super.visitDeclaredType(node);
+    }
     final typeParams = allTypeParams.join(', ').encloseIfNotEmpty('<', '>');
     final prefix = resolver?.resolvePrefix(node.classDecl) ?? '';
     return '$prefix${node.classDecl.finalName}$typeParams$nullable';
