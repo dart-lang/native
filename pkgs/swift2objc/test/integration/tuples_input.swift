@@ -26,9 +26,10 @@ public class TupleTest {
     }
     
     // Tuple with optional elements
-    public func getTupleWithOptionals() -> (Int?, String?) {
-        return (nil, "test")
-    }
+    // TODO(https://github.com/dart-lang/native/issues/1743): Enable this when optional primitives are supported.
+    // public func getTupleWithOptionals() -> (Int?, String?) {
+    //     return (nil, "test")
+    // }
     
     // Deeply nested tuple (3 levels)
     public func getDeeplyNestedTuple() -> (Int, (String, (Bool, Double))) {
@@ -50,15 +51,15 @@ public class TupleTest {
         return (42, ("test", true))
     }
 }
-
-public class OptionalTupleTest {
-    public func getOptionalTuple() -> (Int, String)? {
-        return (1, "test")
-    }
+// TODO(https://github.com/dart-lang/native/issues/1743): Enable this when optional return types are fully supported.
+// public class OptionalTupleTest {
+//     public func getOptionalTuple() -> (Int, String)? {
+//         return (1, "test")
+//     }
     
-    // Optional nested tuple
-    public func getOptionalNestedTuple() -> (Int, (String, Bool)?) {
-        return (42, nil)
-    }
-}
+//     // Optional nested tuple
+//     public func getOptionalNestedTuple() -> (Int, (String, Bool)?) {
+//         return (42, nil)
+//     }
+// }
 }

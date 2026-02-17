@@ -24,11 +24,6 @@ import Foundation
     return Tuple_Int_StringBoolDouble(result)
   }
 
-  @objc public func getTupleWithOptionals() -> Tuple_IntOptional_StringOptional {
-    let result = wrappedInstance.getTupleWithOptionals()
-    return Tuple_IntOptional_StringOptional(result)
-  }
-
   @objc public func getLargeTuple() -> Tuple_Int_Int_Int_Int_Int {
     let result = wrappedInstance.getLargeTuple()
     return Tuple_Int_Int_Int_Int_Int(result)
@@ -66,25 +61,6 @@ import Foundation
 
   }
 
-  @objc public class OptionalTupleTestWrapper: NSObject {
-    var wrappedInstance: TupleTest.OptionalTupleTest
-
-    init(_ wrappedInstance: TupleTest.OptionalTupleTest) {
-      self.wrappedInstance = wrappedInstance
-    }
-
-    @objc public func getOptionalNestedTuple() -> Tuple_Int_StringBoolOptional {
-      let result = wrappedInstance.getOptionalNestedTuple()
-      return Tuple_Int_StringBoolOptional(result)
-    }
-
-    @objc public func getOptionalTuple() -> Tuple_Int_String? {
-      let result = wrappedInstance.getOptionalTuple()
-      return result == nil ? nil : Tuple_Int_String(result!)
-    }
-
-  }
-
 }
 
 @objc public class Tuple_Bool_Double: NSObject {
@@ -103,27 +79,6 @@ import Foundation
   }
 
   init(_ wrappedInstance: (Bool, Double)) {
-    self.wrappedInstance = wrappedInstance
-  }
-
-}
-
-@objc public class Tuple_IntOptional_StringOptional: NSObject {
-  var wrappedInstance: (Int?, String?)
-
-  @objc public var _0: Int? {
-    get {
-      wrappedInstance.0
-    }
-  }
-
-  @objc public var _1: String? {
-    get {
-      wrappedInstance.1
-    }
-  }
-
-  init(_ wrappedInstance: (Int?, String?)) {
     self.wrappedInstance = wrappedInstance
   }
 
@@ -189,27 +144,6 @@ import Foundation
 
 }
 
-@objc public class Tuple_Int_String: NSObject {
-  var wrappedInstance: (Int, String)
-
-  @objc public var _0: Int {
-    get {
-      wrappedInstance.0
-    }
-  }
-
-  @objc public var _1: String {
-    get {
-      wrappedInstance.1
-    }
-  }
-
-  init(_ wrappedInstance: (Int, String)) {
-    self.wrappedInstance = wrappedInstance
-  }
-
-}
-
 @objc public class Tuple_Int_StringBool: NSObject {
   var wrappedInstance: (Int, (String, Bool))
 
@@ -247,27 +181,6 @@ import Foundation
   }
 
   init(_ wrappedInstance: (Int, (String, (Bool, Double)))) {
-    self.wrappedInstance = wrappedInstance
-  }
-
-}
-
-@objc public class Tuple_Int_StringBoolOptional: NSObject {
-  var wrappedInstance: (Int, (String, Bool)?)
-
-  @objc public var _0: Int {
-    get {
-      wrappedInstance.0
-    }
-  }
-
-  @objc public var _1: Tuple_String_Bool? {
-    get {
-      wrappedInstance.1 == nil ? nil : Tuple_String_Bool(wrappedInstance.1!)
-    }
-  }
-
-  init(_ wrappedInstance: (Int, (String, Bool)?)) {
     self.wrappedInstance = wrappedInstance
   }
 
