@@ -74,8 +74,13 @@
   },
   "recordings": [
     {
-      "identifier": {
-        "name": "MyClass",
+      "definition": {
+        "path": [
+          {
+            "kind": "class",
+            "name": "MyClass"
+          }
+        ],
         "uri": "package:record_use_test/instance_complex.dart"
       },
       "instances": [

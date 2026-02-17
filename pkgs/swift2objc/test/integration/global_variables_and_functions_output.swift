@@ -13,9 +13,6 @@ import Foundation
     get {
       MyOtherClassWrapper(globalCustomVariable)
     }
-    set {
-      globalCustomVariable = newValue.wrappedInstance
-    }
   }
 
   @objc static public var globalGetterVariableWrapper: Double {
@@ -42,9 +39,6 @@ import Foundation
   @objc static public var globalRepresentableVariableWrapper: Int {
     get {
       globalRepresentableVariable
-    }
-    set {
-      globalRepresentableVariable = newValue
     }
   }
 

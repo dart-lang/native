@@ -11,11 +11,11 @@ void main() {
   group('Recordings.fromJson validation', () {
     test('Recordings.fromJson fails for invalid JSON', () {
       final json = recordedUses.toJson();
-      // Modify the first recording's identifier URI to be an invalid type.
+      // Modify the first recording's definition URI to be an invalid type.
       final recordings = json['recordings'] as List;
       final recording = recordings[0] as Map;
-      final identifier = recording['identifier'] as Map;
-      identifier['uri'] = 123; // Should be a string
+      final definition = recording['definition'] as Map;
+      definition['uri'] = 123; // Should be a string
 
       expect(
         () => Recordings.fromJson(json),

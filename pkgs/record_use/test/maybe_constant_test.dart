@@ -15,7 +15,12 @@ void main() {
       ],
       'recordings': [
         {
-          'identifier': {'uri': 'package:a/a.dart', 'name': 'foo'},
+          'definition': {
+            'uri': 'package:a/a.dart',
+            'path': [
+              {'name': 'foo'},
+            ],
+          },
           'calls': [
             {
               'type': 'with_arguments',

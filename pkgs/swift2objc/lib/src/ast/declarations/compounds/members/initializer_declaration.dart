@@ -34,6 +34,9 @@ class InitializerDeclaration extends AstNode
   InputConfig? source;
 
   @override
+  final int? lineNumber;
+
+  @override
   List<AvailabilityInfo> availability;
 
   @override
@@ -61,6 +64,7 @@ class InitializerDeclaration extends AstNode
   InitializerDeclaration({
     required this.id,
     required this.source,
+    this.lineNumber,
     required this.availability,
     required this.params,
     this.statements = const [],

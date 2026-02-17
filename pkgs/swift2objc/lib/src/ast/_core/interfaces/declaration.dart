@@ -13,6 +13,7 @@ abstract interface class Declaration implements AstNode, Availability {
   abstract final String id;
   abstract final String name;
   abstract final InputConfig? source;
+  abstract final int? lineNumber;
 }
 
 extension AsDeclaredType<T extends Declaration> on T {

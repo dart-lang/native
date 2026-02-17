@@ -24,6 +24,9 @@ class PropertyDeclaration extends AstNode
   InputConfig? source;
 
   @override
+  final int? lineNumber;
+
+  @override
   List<AvailabilityInfo> availability;
 
   @override
@@ -45,6 +48,8 @@ class PropertyDeclaration extends AstNode
 
   bool hasSetter;
 
+  bool hasExplicitGetter;
+
   PropertyStatements? getter;
   PropertyStatements? setter;
 
@@ -62,11 +67,13 @@ class PropertyDeclaration extends AstNode
     required this.source,
     required this.availability,
     required this.type,
+    this.lineNumber,
     this.hasSetter = false,
     this.isConstant = false,
     this.hasObjCAnnotation = false,
     this.getter,
     this.setter,
+    this.hasExplicitGetter = false,
     this.isStatic = false,
     this.throws = false,
     this.async = false,

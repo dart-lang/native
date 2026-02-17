@@ -27,11 +27,11 @@ void main() {
 
     test('JSON schema validation fails for non-package URI', () {
       final json = recordedUses.toJson();
-      // Modify the first recording's identifier URI to be invalid.
+      // Modify the first recording's definition URI to be invalid.
       final recordings = json['recordings'] as List;
       final recording = recordings[0] as Map;
-      final identifier = recording['identifier'] as Map;
-      identifier['uri'] = 'dart:core'; // Should start with package:
+      final definition = recording['definition'] as Map;
+      definition['uri'] = 'dart:core'; // Should start with package:
 
       final result = schema.validate(json);
       expect(result.isValid, isFalse);

@@ -37,7 +37,7 @@ resolution: workspace
 name: dart_lang_native_workspace
 
 environment:
-  sdk: '>=3.9.0 <4.0.0'
+  sdk: '>=3.10.0 <4.0.0'
 
 workspace:
 ''';

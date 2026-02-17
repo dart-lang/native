@@ -2,7 +2,7 @@ name: dart_lang_native_workspace
 publish_to: none
 
 environment:
-  sdk: '>=3.9.0 <4.0.0'
+  sdk: '>=3.10.0 <4.0.0'
 
 workspace:
   - pkgs/code_assets

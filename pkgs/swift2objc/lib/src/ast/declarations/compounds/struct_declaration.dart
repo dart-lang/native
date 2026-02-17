@@ -28,6 +28,9 @@ class StructDeclaration extends AstNode implements CompoundDeclaration {
   List<AvailabilityInfo> availability;
 
   @override
+  final int? lineNumber;
+
+  @override
   List<PropertyDeclaration> properties;
 
   @override
@@ -52,6 +55,7 @@ class StructDeclaration extends AstNode implements CompoundDeclaration {
     required this.id,
     required this.name,
     required this.source,
+    this.lineNumber,
     required this.availability,
     this.properties = const [],
     this.methods = const [],

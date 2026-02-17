@@ -30,6 +30,7 @@ InitializerDeclaration parseInitializerDeclaration(
   return InitializerDeclaration(
     id: id,
     source: symbol.source,
+    lineNumber: parseLineNumber(symbol.json),
     availability: parseAvailability(symbol.json),
     params: info.params,
     hasObjCAnnotation: parseSymbolHasObjcAnnotation(symbol.json),

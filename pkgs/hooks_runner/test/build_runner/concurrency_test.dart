@@ -114,11 +114,15 @@ void main() async {
       // Simulate hitting ctrl+c on `dart` and `flutter` commands at different
       // time intervals.
       var milliseconds = 200;
-      while (findLockFile(packageUri, packageName) == null) {
+      bool lockFileDoesNotExist() =>
+          findLockFile(packageUri, packageName) == null;
+      while (lockFileDoesNotExist()) {
         final result = await runBuildInProcess(
           killAfter: Duration(milliseconds: milliseconds),
         );
-        expect(result, isNot(0));
+        if (lockFileDoesNotExist()) {
+          expect(result, isNot(0));
+        }
         milliseconds = max((milliseconds * 1.2).round(), milliseconds + 200);
       }
       expect(findLockFile(packageUri, packageName), isNotNull);

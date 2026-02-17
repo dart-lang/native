@@ -121,8 +121,12 @@ void main() async {
 final _pirateAdventureRecordings = Recordings(
   metadata: Metadata(version: Version(1, 0, 0), comment: 'Filtering test'),
   calls: {
-    const Definition('package:pirate_speak/src/definitions.dart', [
-      Name('pirateSpeak'),
+    Definition('package:pirate_speak/src/definitions.dart', [
+      Name(
+        kind: DefinitionKind.methodKind,
+        'pirateSpeak',
+        disambiguators: {DefinitionDisambiguator.staticDisambiguator},
+      ),
     ]): [
       const CallWithArguments(
         loadingUnit: 'root',
@@ -135,8 +139,12 @@ final _pirateAdventureRecordings = Recordings(
         namedArguments: {},
       ),
     ],
-    const Definition('package:pirate_technology/src/definitions.dart', [
-      Name('useCannon'),
+    Definition('package:pirate_technology/src/definitions.dart', [
+      Name(
+        kind: DefinitionKind.methodKind,
+        'useCannon',
+        disambiguators: {DefinitionDisambiguator.staticDisambiguator},
+      ),
     ]): [
       const CallWithArguments(
         loadingUnit: 'root',
