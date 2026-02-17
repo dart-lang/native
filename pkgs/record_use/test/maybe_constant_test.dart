@@ -13,6 +13,9 @@ void main() {
         {'type': 'int', 'value': 42},
         {'type': 'unsupported', 'message': 'Record'},
       ],
+      'loading_units': [
+        {'name': '1'},
+      ],
       'definitions': [
         {
           'uri': 'package:a/a.dart',
@@ -27,7 +30,7 @@ void main() {
           'calls': [
             {
               'type': 'with_arguments',
-              'loading_unit': '1',
+              'loading_unit_index': 0,
               'positional': [0, 1, null],
               'named': {'a': 0, 'b': 1, 'c': null},
             },

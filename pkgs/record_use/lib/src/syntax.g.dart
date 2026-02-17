@@ -71,23 +71,23 @@ class CallSyntax extends JsonObjectSyntax {
   }) : super.fromJson();
 
   CallSyntax({
-    required String loadingUnit,
+    required int loadingUnitIndex,
     required String type,
     super.path = const [],
   }) : super() {
-    _loadingUnit = loadingUnit;
+    _loadingUnitIndex = loadingUnitIndex;
     _type = type;
     json.sortOnKey();
   }
 
-  String get loadingUnit => _reader.get<String>('loading_unit');
+  int get loadingUnitIndex => _reader.get<int>('loading_unit_index');
 
-  set _loadingUnit(String value) {
-    json.setOrRemove('loading_unit', value);
+  set _loadingUnitIndex(int value) {
+    json.setOrRemove('loading_unit_index', value);
   }
 
-  List<String> _validateLoadingUnit() =>
-      _reader.validate<String>('loading_unit');
+  List<String> _validateLoadingUnitIndex() =>
+      _reader.validate<int>('loading_unit_index');
 
   String get type => _reader.get<String>('type');
 
@@ -100,7 +100,7 @@ class CallSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [
     ...super.validate(),
-    ..._validateLoadingUnit(),
+    ..._validateLoadingUnitIndex(),
     ..._validateType(),
   ];
 
@@ -213,7 +213,7 @@ class ConstantInstanceSyntax extends InstanceSyntax {
 
   ConstantInstanceSyntax({
     required int constantIndex,
-    required super.loadingUnit,
+    required super.loadingUnitIndex,
     super.path = const [],
   }) : super(type: 'constant') {
     _constantIndex = constantIndex;
@@ -285,7 +285,7 @@ class CreationInstanceSyntax extends InstanceSyntax {
   }) : super._fromJson();
 
   CreationInstanceSyntax({
-    required super.loadingUnit,
+    required super.loadingUnitIndex,
     Map<String, int?>? named,
     List<int?>? positional,
     super.path = const [],
@@ -553,23 +553,23 @@ class InstanceSyntax extends JsonObjectSyntax {
   }) : super.fromJson();
 
   InstanceSyntax({
-    required String loadingUnit,
+    required int loadingUnitIndex,
     required String type,
     super.path = const [],
   }) : super() {
-    _loadingUnit = loadingUnit;
+    _loadingUnitIndex = loadingUnitIndex;
     _type = type;
     json.sortOnKey();
   }
 
-  String get loadingUnit => _reader.get<String>('loading_unit');
+  int get loadingUnitIndex => _reader.get<int>('loading_unit_index');
 
-  set _loadingUnit(String value) {
-    json.setOrRemove('loading_unit', value);
+  set _loadingUnitIndex(int value) {
+    json.setOrRemove('loading_unit_index', value);
   }
 
-  List<String> _validateLoadingUnit() =>
-      _reader.validate<String>('loading_unit');
+  List<String> _validateLoadingUnitIndex() =>
+      _reader.validate<int>('loading_unit_index');
 
   String get type => _reader.get<String>('type');
 
@@ -582,7 +582,7 @@ class InstanceSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [
     ...super.validate(),
-    ..._validateLoadingUnit(),
+    ..._validateLoadingUnitIndex(),
     ..._validateType(),
   ];
 
@@ -740,6 +740,32 @@ extension ListConstantSyntaxExtension on ConstantSyntax {
 
   ListConstantSyntax get asListConstant =>
       ListConstantSyntax.fromJson(json, path: path);
+}
+
+class LoadingUnitSyntax extends JsonObjectSyntax {
+  LoadingUnitSyntax.fromJson(
+    super.json, {
+    super.path = const [],
+  }) : super.fromJson();
+
+  LoadingUnitSyntax({required String name, super.path = const []}) : super() {
+    _name = name;
+    json.sortOnKey();
+  }
+
+  String get name => _reader.get<String>('name');
+
+  set _name(String value) {
+    json.setOrRemove('name', value);
+  }
+
+  List<String> _validateName() => _reader.validate<String>('name');
+
+  @override
+  List<String> validate() => [...super.validate(), ..._validateName()];
+
+  @override
+  String toString() => 'LoadingUnitSyntax($json)';
 }
 
 class MapConstantSyntax extends ConstantSyntax {
@@ -1096,12 +1122,14 @@ class RecordedUsesSyntax extends JsonObjectSyntax {
   RecordedUsesSyntax({
     List<ConstantSyntax>? constants,
     List<DefinitionSyntax>? definitions,
+    List<LoadingUnitSyntax>? loadingUnits,
     required MetadataSyntax metadata,
     List<RecordingSyntax>? recordings,
     super.path = const [],
   }) : super() {
     _constants = constants;
     _definitions = definitions;
+    _loadingUnits = loadingUnits;
     _metadata = metadata;
     _recordings = recordings;
     json.sortOnKey();
@@ -1175,6 +1203,40 @@ class RecordedUsesSyntax extends JsonObjectSyntax {
     return [for (final element in elements) ...element.validate()];
   }
 
+  List<LoadingUnitSyntax>? get loadingUnits {
+    final jsonValue = _reader.optionalList('loading_units');
+    if (jsonValue == null) return null;
+    return [
+      for (final (index, element) in jsonValue.indexed)
+        LoadingUnitSyntax.fromJson(
+          element as Map<String, Object?>,
+          path: [...path, 'loading_units', index],
+        ),
+    ];
+  }
+
+  set _loadingUnits(List<LoadingUnitSyntax>? value) {
+    if (value == null) {
+      json.remove('loading_units');
+    } else {
+      json['loading_units'] = [for (final item in value) item.json];
+    }
+  }
+
+  List<String> _validateLoadingUnits() {
+    final listErrors = _reader.validateOptionalList<Map<String, Object?>>(
+      'loading_units',
+    );
+    if (listErrors.isNotEmpty) {
+      return listErrors;
+    }
+    final elements = loadingUnits;
+    if (elements == null) {
+      return [];
+    }
+    return [for (final element in elements) ...element.validate()];
+  }
+
   MetadataSyntax get metadata {
     final jsonValue = _reader.map$('metadata');
     return MetadataSyntax.fromJson(jsonValue, path: [...path, 'metadata']);
@@ -1231,6 +1293,7 @@ class RecordedUsesSyntax extends JsonObjectSyntax {
     ...super.validate(),
     ..._validateConstants(),
     ..._validateDefinitions(),
+    ..._validateLoadingUnits(),
     ..._validateMetadata(),
     ..._validateRecordings(),
   ];
@@ -1421,7 +1484,7 @@ class TearoffCallSyntax extends CallSyntax {
     super.path,
   }) : super._fromJson();
 
-  TearoffCallSyntax({required super.loadingUnit, super.path = const []})
+  TearoffCallSyntax({required super.loadingUnitIndex, super.path = const []})
     : super(type: 'tearoff');
 
   @override
@@ -1446,8 +1509,10 @@ class TearoffInstanceSyntax extends InstanceSyntax {
     super.path,
   }) : super._fromJson();
 
-  TearoffInstanceSyntax({required super.loadingUnit, super.path = const []})
-    : super(type: 'tearoff');
+  TearoffInstanceSyntax({
+    required super.loadingUnitIndex,
+    super.path = const [],
+  }) : super(type: 'tearoff');
 
   @override
   List<String> validate() => [
@@ -1513,7 +1578,7 @@ class WithArgumentsCallSyntax extends CallSyntax {
   }) : super._fromJson();
 
   WithArgumentsCallSyntax({
-    required super.loadingUnit,
+    required super.loadingUnitIndex,
     Map<String, int?>? named,
     List<int?>? positional,
     super.path = const [],

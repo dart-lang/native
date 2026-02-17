@@ -29,17 +29,17 @@
 /// The order of operations ensures that all dependencies are available at each
 /// step:
 ///
-/// 1. **Definitions**: [Definition] objects are deserialized from or
-///    serialized to the [RecordedUsesSyntax.definitions] pool first.
-/// 2. **Constants**: [Constant] objects are deserialized from or serialized
-///    to the [RecordedUsesSyntax.constants] pool second. They may contain
+/// 1. **Loading Units**: Loading unit identifiers are deserialized from or
+///    serialized to the [RecordedUsesSyntax.loadingUnits] pool first.
+/// 2. **Definitions**: [Definition] objects are deserialized from or
+///    serialized to the [RecordedUsesSyntax.definitions] pool second.
+/// 3. **Constants**: [Constant] objects are deserialized from or serialized
+///    to the [RecordedUsesSyntax.constants] pool third. They may contain
 ///    references to the definitions pool (e.g. for [InstanceConstant]) and the
 ///    constants pool (for recursive collections).
-/// 3. **Recordings**: [Recordings] are (de)serialized last from or to
-///    [RecordedUsesSyntax.recordings] as they depend on [Constant]s and
-///    [Definition]s.
-// TODO(https://github.com/dart-lang/native/issues/2979): Add a pool for
-// loading units.
+/// 4. **Recordings**: [Recordings] are (de)serialized last from or to
+///    [RecordedUsesSyntax.recordings] as they depend on loading units,
+///    [Constant]s, and [Definition]s.
 library;
 
 import 'package:meta/meta.dart';
@@ -49,12 +49,24 @@ import 'definition.dart';
 import 'recordings.dart';
 import 'syntax.g.dart';
 
+/// Context providing access to the loading unit pool during deserialization.
+@immutable
+base class LoadingUnitDeserializationContext {
+  final List<String> loadingUnits;
+
+  const LoadingUnitDeserializationContext(this.loadingUnits);
+}
+
 /// Context providing access to the [Definition] pool during deserialization.
 @immutable
-base class DefinitionDeserializationContext {
+base class DefinitionDeserializationContext
+    extends LoadingUnitDeserializationContext {
   final List<Definition> definitions;
 
-  const DefinitionDeserializationContext(this.definitions);
+  DefinitionDeserializationContext.fromPrevious(
+    LoadingUnitDeserializationContext previous,
+    this.definitions,
+  ) : super(previous.loadingUnits);
 }
 
 /// The final deserialization state where all pools are resolved.
@@ -67,15 +79,27 @@ final class DeserializationContext extends DefinitionDeserializationContext {
   DeserializationContext.fromPrevious(
     DefinitionDeserializationContext previous,
     this.constants,
-  ) : super(previous.definitions);
+  ) : super.fromPrevious(previous, previous.definitions);
+}
+
+/// Context providing access to the loading unit index map during serialization.
+@immutable
+base class LoadingUnitSerializationContext {
+  final Map<String, int> loadingUnits;
+
+  const LoadingUnitSerializationContext(this.loadingUnits);
 }
 
 /// Context providing access to the [Definition] index map during serialization.
 @immutable
-base class DefinitionSerializationContext {
+base class DefinitionSerializationContext
+    extends LoadingUnitSerializationContext {
   final Map<Definition, int> definitions;
 
-  const DefinitionSerializationContext(this.definitions);
+  DefinitionSerializationContext.fromPrevious(
+    LoadingUnitSerializationContext previous,
+    this.definitions,
+  ) : super(previous.loadingUnits);
 }
 
 /// The final serialization state where all index maps are available.
@@ -88,5 +112,5 @@ final class SerializationContext extends DefinitionSerializationContext {
   SerializationContext.fromPrevious(
     DefinitionSerializationContext previous,
     this.constants,
-  ) : super(previous.definitions);
+  ) : super.fromPrevious(previous, previous.definitions);
 }
