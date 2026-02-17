@@ -230,6 +230,7 @@ Error: $e
     final allDefinitions = {
       ...calls.keys,
       ...instances.keys,
+      ...allConstants.whereType<InstanceConstant>().map((c) => c.definition),
     }.toList();
     return DefinitionSerializationContext(
       allDefinitions.asMapToIndices,

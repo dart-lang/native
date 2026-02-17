@@ -10,6 +10,7 @@
       "value": "b"
     },
     {
+      "definition_index": 0,
       "type": "instance",
       "value": {
         "index": 0,
