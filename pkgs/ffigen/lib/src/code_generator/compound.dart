@@ -88,180 +88,180 @@ abstract class Compound extends BindingType with HasLocalScope {
         : '${member.name}AsInt';
   }
 
-String _memberParameterType(CompoundMember member) {
-if (_isEnumDartStyleMember(member)) {
-return member.type.getDartType(context);
-}
-return member.type.getFfiDartType(context);
-}
+  String _memberParameterType(CompoundMember member) {
+    if (_isEnumDartStyleMember(member)) {
+      return member.type.getDartType(context);
+    }
+    return member.type.getFfiDartType(context);
+  }
 
-String _generateAllocateMethod(String enclosingClassName, String ffiPrefix) {
-final usedParamNames = <String>{};
-final params = <({String type, String name, String assignment})>[];
-for (final m in members) {
-params.add((
-type: _memberParameterType(m),
-name: _allocateParamName(m.name, usedParamNames),
-assignment: _memberStorageName(m),
-));
-}
+  String _generateAllocateMethod(String enclosingClassName, String ffiPrefix) {
+    final usedParamNames = <String>{};
+    final params = <({String type, String name, String assignment})>[];
+    for (final m in members) {
+      params.add((
+        type: _memberParameterType(m),
+        name: _allocateParamName(m.name, usedParamNames),
+        assignment: _memberStorageName(m),
+      ));
+    }
 
-final b = StringBuffer();
-b.write(
-' static $ffiPrefix.Pointer<$enclosingClassName> \$allocate(\n'
-' $ffiPrefix.Allocator \$allocator, {\n',
-);
-for (final p in params) {
-b.write(' required ${p.type} ${p.name},\n');
-}
-b.write(' }) => \$allocator<$enclosingClassName>()');
-for (final p in params) {
-b.write('\n ..ref.${p.assignment} = ${p.name}');
-}
-b.write(';\n\n');
-return b.toString();
-}
+    final b = StringBuffer();
+    b.write(
+      ' static $ffiPrefix.Pointer<$enclosingClassName> \$allocate(\n'
+      ' $ffiPrefix.Allocator \$allocator, {\n',
+    );
+    for (final p in params) {
+      b.write(' required ${p.type} ${p.name},\n');
+    }
+    b.write(' }) => \$allocator<$enclosingClassName>()');
+    for (final p in params) {
+      b.write('\n ..ref.${p.assignment} = ${p.name}');
+    }
+    b.write(';\n\n');
+    return b.toString();
+  }
 
-String _allocateParamName(String memberName, Set<String> usedNames) {
-var name = memberName;
-if (name.startsWith('_')) {
-final withoutLeadingUnderscores = name.replaceFirst(RegExp(r'^_+'), '');
-final core = withoutLeadingUnderscores.isEmpty
-? 'unnamed'
-: withoutLeadingUnderscores;
-name = '\$$core';
-}
+  String _allocateParamName(String memberName, Set<String> usedNames) {
+    var name = memberName;
+    if (name.startsWith('_')) {
+      final withoutLeadingUnderscores = name.replaceFirst(RegExp(r'^_+'), '');
+      final core = withoutLeadingUnderscores.isEmpty
+          ? 'unnamed'
+          : withoutLeadingUnderscores;
+      name = '\$$core';
+    }
 
-var unique = name;
-for (var i = 1; usedNames.contains(unique); ++i) {
-unique = '$name\$$i';
-}
-usedNames.add(unique);
-return unique;
-}
+    var unique = name;
+    for (var i = 1; usedNames.contains(unique); ++i) {
+      unique = '$name\$$i';
+    }
+    usedNames.add(unique);
+    return unique;
+  }
 
-@override
-bool get isObjCImport =>
-context.objCBuiltInFunctions.getBuiltInCompoundName(originalName) != null;
+  @override
+  bool get isObjCImport =>
+      context.objCBuiltInFunctions.getBuiltInCompoundName(originalName) != null;
 
-@override
-BindingString toBindingString(Writer w) {
-final s = StringBuffer();
-final enclosingClassName = name;
-s.write(makeDartDoc(dartDoc));
+  @override
+  BindingString toBindingString(Writer w) {
+    final s = StringBuffer();
+    final enclosingClassName = name;
+    s.write(makeDartDoc(dartDoc));
 
-/// Write @Packed(X) annotation if struct is packed.
-final ffiPrefix = context.libs.prefix(ffiImport);
-if (pack != null) {
-s.write('@$ffiPrefix.Packed($pack)\n');
-}
-final dartClassName = isOpaque
-? 'Opaque'
-: this is Struct
-? 'Struct'
-: 'Union';
-// Write class declaration.
-s.write('final class $enclosingClassName extends ');
-s.write('$ffiPrefix.$dartClassName{\n');
-const depth = ' ';
-for (final m in members) {
-if (m.dartDoc != null) {
-s.write('$depth/// ');
-s.writeAll(m.dartDoc!.split('\n'), '\n$depth/// ');
-s.write('\n');
-}
-if (m.type case final ConstantArray arrayType) {
-s.writeln(makeArrayAnnotation(w, arrayType));
-s.write('${depth}external ${_getInlineArrayTypeString(m.type, w)} ');
-s.write('${m.name};\n\n');
-} else {
-if (!m.type.sameFfiDartAndCType) {
-s.write('$depth@${m.type.getCType(context)}()\n');
-}
-final memberName = m.type.sameDartAndFfiDartType
-? m.name
-: '${m.name}AsInt';
-s.write(
-'${depth}external ${m.type.getFfiDartType(context)} $memberName;\n\n',
-);
-}
-if (m.type case EnumClass(
-:final style,
-) when style == EnumStyle.dartEnum) {
-final enumName = m.type.getDartType(context);
-final memberName = m.name;
-s.write(
-'$enumName get $memberName => '
-'$enumName.fromValue(${memberName}AsInt);\n',
-);
-s.write(
-'set $memberName($enumName value) => '
-'${memberName}AsInt = value.value;\n\n',
-);
-}
-}
-if (_shouldGenerateAllocate()) {
-s.write(_generateAllocateMethod(enclosingClassName, ffiPrefix));
-}
-s.write('}\n\n');
+    /// Write @Packed(X) annotation if struct is packed.
+    final ffiPrefix = context.libs.prefix(ffiImport);
+    if (pack != null) {
+      s.write('@$ffiPrefix.Packed($pack)\n');
+    }
+    final dartClassName = isOpaque
+        ? 'Opaque'
+        : this is Struct
+        ? 'Struct'
+        : 'Union';
+    // Write class declaration.
+    s.write('final class $enclosingClassName extends ');
+    s.write('$ffiPrefix.$dartClassName{\n');
+    const depth = ' ';
+    for (final m in members) {
+      if (m.dartDoc != null) {
+        s.write('$depth/// ');
+        s.writeAll(m.dartDoc!.split('\n'), '\n$depth/// ');
+        s.write('\n');
+      }
+      if (m.type case final ConstantArray arrayType) {
+        s.writeln(makeArrayAnnotation(w, arrayType));
+        s.write('${depth}external ${_getInlineArrayTypeString(m.type, w)} ');
+        s.write('${m.name};\n\n');
+      } else {
+        if (!m.type.sameFfiDartAndCType) {
+          s.write('$depth@${m.type.getCType(context)}()\n');
+        }
+        final memberName = m.type.sameDartAndFfiDartType
+            ? m.name
+            : '${m.name}AsInt';
+        s.write(
+          '${depth}external ${m.type.getFfiDartType(context)} $memberName;\n\n',
+        );
+      }
+      if (m.type case EnumClass(
+        :final style,
+      ) when style == EnumStyle.dartEnum) {
+        final enumName = m.type.getDartType(context);
+        final memberName = m.name;
+        s.write(
+          '$enumName get $memberName => '
+          '$enumName.fromValue(${memberName}AsInt);\n',
+        );
+        s.write(
+          'set $memberName($enumName value) => '
+          '${memberName}AsInt = value.value;\n\n',
+        );
+      }
+    }
+    if (_shouldGenerateAllocate()) {
+      s.write(_generateAllocateMethod(enclosingClassName, ffiPrefix));
+    }
+    s.write('}\n\n');
 
-final bindingType = this is Struct
-? BindingStringType.struct
-: BindingStringType.union;
-return BindingString(type: bindingType, string: s.toString());
-}
+    final bindingType = this is Struct
+        ? BindingStringType.struct
+        : BindingStringType.union;
+    return BindingString(type: bindingType, string: s.toString());
+  }
 
-@override
-bool get isIncompleteCompound => isIncomplete;
+  @override
+  bool get isIncompleteCompound => isIncomplete;
 
-@override
-String getCType(Context context) {
-final builtInName = context.objCBuiltInFunctions.getBuiltInCompoundName(
-originalName,
-);
-return builtInName != null
-? '${context.libs.prefix(objcPkgImport)}.$builtInName'
-: name;
-}
+  @override
+  String getCType(Context context) {
+    final builtInName = context.objCBuiltInFunctions.getBuiltInCompoundName(
+      originalName,
+    );
+    return builtInName != null
+        ? '${context.libs.prefix(objcPkgImport)}.$builtInName'
+        : name;
+  }
 
-@override
-String getNativeType({String varName = ''}) => '$nativeType $varName';
+  @override
+  String getNativeType({String varName = ''}) => '$nativeType $varName';
 
-@override
-bool get sameFfiDartAndCType => true;
+  @override
+  bool get sameFfiDartAndCType => true;
 
-@override
-void visitChildren(Visitor visitor) {
-super.visitChildren(visitor);
-visitor.visitAll(members);
-visitor.visit(ffiImport);
-if (isObjCImport) visitor.visit(objcPkgImport);
-}
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visitAll(members);
+    visitor.visit(ffiImport);
+    if (isObjCImport) visitor.visit(objcPkgImport);
+  }
 
-@override
-void visit(Visitation visitation) => visitation.visitCompound(this);
+  @override
+  void visit(Visitation visitation) => visitation.visitCompound(this);
 }
 
 class CompoundMember extends AstNode {
-final String? dartDoc;
-final String originalName;
-final Type type;
+  final String? dartDoc;
+  final String originalName;
+  final Type type;
 
-final Symbol _symbol;
-String get name => _symbol.name;
+  final Symbol _symbol;
+  String get name => _symbol.name;
 
-CompoundMember({
-String? originalName,
-required String name,
-required this.type,
-this.dartDoc,
-}) : originalName = originalName ?? name,
-_symbol = Symbol(name, SymbolKind.field);
+  CompoundMember({
+    String? originalName,
+    required String name,
+    required this.type,
+    this.dartDoc,
+  }) : originalName = originalName ?? name,
+       _symbol = Symbol(name, SymbolKind.field);
 
-@override
-void visitChildren(Visitor visitor) {
-super.visitChildren(visitor);
-visitor.visit(_symbol);
-visitor.visit(type);
-}
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(_symbol);
+    visitor.visit(type);
+  }
 }
