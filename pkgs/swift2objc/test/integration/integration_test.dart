@@ -27,7 +27,7 @@ void main([List<String>? args]) {
   const outputSuffix = '_output.swift';
 
   final thisDir = path.join(testDir, 'integration');
-  final tempDir = path.join(thisDir, 'temp');
+  final tempDir = path.join(thisDir, 'temp dir');
 
   var regen = false;
   final testNames = <String>[];

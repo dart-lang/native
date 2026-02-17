@@ -10,7 +10,8 @@ import 'package:test/test.dart';
 
 void main() {
   test('Warn if non-jnigen-generated files exist in directory', () async {
-    final root = await Directory.current.createTemp();
+    final root =
+        await Directory.current.createTemp('jnigen generation test ');
     final nonGenerated =
         await File.fromUri(root.uri.resolve('non_gen.dart')).create();
     await nonGenerated.writeAsString('void main() {}');

@@ -20,7 +20,7 @@ void main([List<String>? args]) {
 
   group('Unit test for filter', () {
     final thisDir = p.join(testDir, 'unit');
-    final tempDir = p.join(thisDir, 'temp');
+    final tempDir = p.join(thisDir, 'temp dir');
     final inputFile = p.join(thisDir, 'filter_test_input.swift');
 
     void filterTest(

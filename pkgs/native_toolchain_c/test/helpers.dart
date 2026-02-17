@@ -45,7 +45,10 @@ String testSuffix(List<Object> tags) => switch (tags) {
 const keepTempKey = 'KEEP_TEMPORARY_DIRECTORIES';
 
 Future<Uri> tempDirForTest({String? prefix, bool keepTemp = false}) async {
-  final tempDir = await Directory.systemTemp.createTemp('${prefix ?? ''} ');
+  final basePrefix = prefix ?? 'native_toolchain_c_test';
+  final effectivePrefix =
+      basePrefix.contains(' ') ? basePrefix : '$basePrefix with spaces ';
+  final tempDir = await Directory.systemTemp.createTemp(effectivePrefix);
   // Deal with Windows temp folder aliases.
   final tempUri = Directory(
     await tempDir.resolveSymbolicLinks(),

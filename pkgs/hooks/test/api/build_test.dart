@@ -20,7 +20,8 @@ void main() async {
   late BuildInput input;
 
   setUp(() async {
-    tempUri = (await Directory.systemTemp.createTemp()).uri;
+    tempUri = (await Directory.systemTemp.createTemp('hooks api temp '))
+        .uri;
     outFile = tempUri.resolve('output.json');
     outDirUri = tempUri.resolve('out1/');
     await Directory.fromUri(outDirUri).create();

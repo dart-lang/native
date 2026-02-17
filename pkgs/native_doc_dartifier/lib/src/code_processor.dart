@@ -9,7 +9,8 @@ class CodeProcessor {
   final String _dartifiedCodeFileName = 'dartified_code.dart';
   final String _helperCodeFileName = 'helper_code.dart';
 
-  CodeProcessor() : _tempDir = Directory('${Directory.current.path}/temp') {
+  CodeProcessor()
+      : _tempDir = Directory('${Directory.current.path}/temp dir') {
     if (!_tempDir.existsSync()) {
       _tempDir.createSync(recursive: true);
     }

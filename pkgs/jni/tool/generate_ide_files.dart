@@ -45,7 +45,8 @@ void main(List<String> arguments) {
     return;
   }
   final generator = cmakeGeneratorNames[argResults['generator']];
-  final tempDir = Directory.current.createTempSync('clangd_setup_temp_');
+  final tempDir =
+      Directory.current.createTempSync('clangd setup temp ');
   final src = Directory.current.uri.resolve('src/');
   try {
     runCommand(
