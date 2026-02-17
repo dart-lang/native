@@ -57,11 +57,13 @@ extension type SwiftClass._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [SwiftClass].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_SwiftClass,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_SwiftClass,
+        );
 
   /// alloc
   static SwiftClass alloc() {

@@ -1,3 +1,6 @@
+## 9.4.0
+- Fix (https://github.com/dart-lang/native/issues/2877) such that all occurances of ObjCObject `isA` now accepts a nullable `ObjCObject?` and returns `false` when input is`null`
+
 ## 9.3.0
 - `autoReleasePool` now returns the value produced by its callback.
 
