@@ -13,12 +13,12 @@ import 'package:record_use/record_use.dart';
 
 const someMethodDefinition = Definition(
   'package:package_with_assets/package_with_assets.dart',
-  [Name('someMethod')],
+  [Name(kind: DefinitionKind.methodKind, 'someMethod')],
 );
 
 const someOtherMethodDefinition = Definition(
   'package:package_with_assets/package_with_assets.dart',
-  [Name('someOtherMethod')],
+  [Name(kind: DefinitionKind.methodKind, 'someOtherMethod')],
 );
 
 final assetMapping = {
