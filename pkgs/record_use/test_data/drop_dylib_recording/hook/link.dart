@@ -35,7 +35,17 @@ void main(List<String> arguments) async {
       final calls = usages.constArgumentsFor(
         Definition(
           'package:drop_dylib_recording/src/drop_dylib_recording.dart',
-          [const Name('MyMath'), Name(methodName)],
+          [
+            const Name(
+              kind: DefinitionKind.classKind,
+              'MyMath',
+            ),
+            Name(
+              kind: DefinitionKind.methodKind,
+              methodName,
+              disambiguators: {DefinitionDisambiguator.staticDisambiguator},
+            ),
+          ],
         ),
       );
       for (final call in calls) {
@@ -58,7 +68,12 @@ void main(List<String> arguments) async {
       final instances = usages.constantsOf(
         Definition(
           'package:drop_dylib_recording/src/drop_dylib_recording.dart',
-          [Name(className)],
+          [
+            Name(
+              kind: DefinitionKind.classKind,
+              className,
+            ),
+          ],
         ),
       );
       for (final instance in instances) {
