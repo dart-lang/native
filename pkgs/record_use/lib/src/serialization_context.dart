@@ -29,38 +29,64 @@
 /// The order of operations ensures that all dependencies are available at each
 /// step:
 ///
-/// 1. **Constants**: [Constant] objects are deserialized from or serialized
-///    to the [RecordedUsesSyntax.constants] pool first.
-/// 2. **Recordings**: [Recordings] are (de)serialized last from or to
-///    [RecordedUsesSyntax.recordings] as they depend on [Constant]s.
+/// 1. **Definitions**: [Definition] objects are deserialized from or
+///    serialized to the [RecordedUsesSyntax.definitions] pool first.
+/// 2. **Constants**: [Constant] objects are (de)serialized from or serialized
+///    to the [RecordedUsesSyntax.constants] pool second. They may contain
+///    references to the definitions pool (e.g. for [InstanceConstant]) and the
+///    constants pool (for recursive collections).
+/// 3. **Recordings**: [Recordings] are (de)serialized last from or to
+///    [RecordedUsesSyntax.recordings] as they depend on [Constant]s and
+///    [Definition]s.
 // TODO(https://github.com/dart-lang/native/issues/2979): Add a pool for
 // loading units.
-// TODO(https://github.com/dart-lang/native/issues/2867): Add a pool for
-// definitions.
 library;
 
 import 'package:meta/meta.dart';
 
 import 'constant.dart';
+import 'definition.dart';
 import 'recordings.dart';
 import 'syntax.g.dart';
 
+/// Context providing access to the [Definition] pool during deserialization.
+@immutable
+base class DefinitionDeserializationContext {
+  final List<Definition> definitions;
+
+  const DefinitionDeserializationContext(this.definitions);
+}
+
 /// The final deserialization state where all pools are resolved.
 @immutable
-final class DeserializationContext {
+final class DeserializationContext extends DefinitionDeserializationContext {
   /// The mapping from the unique integer index in
   /// [RecordedUsesSyntax.constants] to the semantic [Constant]s.
   final List<Constant> constants;
 
-  const DeserializationContext(this.constants);
+  DeserializationContext.fromPrevious(
+    DefinitionDeserializationContext previous,
+    this.constants,
+  ) : super(previous.definitions);
+}
+
+/// Context providing access to the [Definition] index map during serialization.
+@immutable
+base class DefinitionSerializationContext {
+  final Map<Definition, int> definitions;
+
+  const DefinitionSerializationContext(this.definitions);
 }
 
 /// The final serialization state where all index maps are available.
 @immutable
-final class SerializationContext {
+final class SerializationContext extends DefinitionSerializationContext {
   /// The mapping from semantic [Constant] objects to their unique integer index
   /// within the constants pool ([RecordedUsesSyntax.constants]).
   final Map<Constant, int> constants;
 
-  const SerializationContext(this.constants);
+  SerializationContext.fromPrevious(
+    DefinitionSerializationContext previous,
+    this.constants,
+  ) : super(previous.definitions);
 }

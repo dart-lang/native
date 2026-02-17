@@ -98,10 +98,6 @@ final recordedUses2 = Recordings(
 );
 
 const recordedUsesJson = '''{
-  "metadata": {
-    "version": "1.6.2-wip+5.-.2.z",
-    "comment": "Recorded references at compile time and their argument values, as far as known, to definitions annotated with @RecordUse"
-  },
   "constants": [
     {
       "type": "string",
@@ -190,67 +186,75 @@ const recordedUsesJson = '''{
       "type": "instance"
     }
   ],
+  "definitions": [
+    {
+      "path": [
+        {
+          "name": "MyClass"
+        },
+        {
+          "name": "get:loadDeferredLibrary"
+        }
+      ],
+      "uri": "package:js_runtime/js_helper.dart"
+    },
+    {
+      "path": [
+        {
+          "name": "MyAnnotation"
+        }
+      ],
+      "uri": "package:js_runtime/js_helper.dart"
+    }
+  ],
+  "metadata": {
+    "comment": "Recorded references at compile time and their argument values, as far as known, to definitions annotated with @RecordUse",
+    "version": "1.6.2-wip+5.-.2.z"
+  },
   "recordings": [
     {
-      "definition": {
-        "uri": "package:js_runtime/js_helper.dart",
-        "path": [
-          {
-            "name": "MyClass"
-          },
-          {
-            "name": "get:loadDeferredLibrary"
-          }
-        ]
-      },
       "calls": [
         {
-          "type": "with_arguments",
+          "loading_unit": "o.js",
+          "named": {
+            "freddy": 3,
+            "leroy": 4
+          },
           "positional": [
             0,
             1,
             2
           ],
-          "named": {
-            "freddy": 3,
-            "leroy": 4
-          },
-          "loading_unit": "o.js"
+          "type": "with_arguments"
         },
         {
-          "type": "with_arguments",
+          "loading_unit": "o.js",
+          "named": {
+            "freddy": 13,
+            "leroy": 4
+          },
           "positional": [
             0,
             7,
             12
           ],
-          "named": {
-            "freddy": 13,
-            "leroy": 4
-          },
-          "loading_unit": "o.js"
+          "type": "with_arguments"
         }
-      ]
+      ],
+      "definition_index": 0
     },
     {
-      "definition": {
-        "uri": "package:js_runtime/js_helper.dart",
-        "path": [
-          {
-            "name": "MyAnnotation"
-          }
-        ]
-      },
+      "definition_index": 1,
       "instances": [
         {
-          "type": "constant",
           "constant_index": 16,
-          "loading_unit": "3"
+          "loading_unit": "3",
+          "type": "constant"
         },
         {
-          "type": "constant",
           "constant_index": 17,
-          "loading_unit": "3"
+          "loading_unit": "3",
+          "type": "constant"
         }
       ]
     }
@@ -258,10 +262,6 @@ const recordedUsesJson = '''{
 }''';
 
 const recordedUsesJson2 = '''{
-  "metadata": {
-    "version": "1.6.2-wip+5.-.2.z",
-    "comment": "Recorded references at compile time and their argument values, as far as known, to definitions annotated with @RecordUse"
-  },
   "constants": [
     {
       "type": "bool",
@@ -280,33 +280,40 @@ const recordedUsesJson2 = '''{
       "value": 42
     }
   ],
+  "definitions": [
+    {
+      "path": [
+        {
+          "name": "MyClass"
+        },
+        {
+          "name": "get:loadDeferredLibrary"
+        }
+      ],
+      "uri": "package:js_runtime/js_helper.dart"
+    }
+  ],
+  "metadata": {
+    "comment": "Recorded references at compile time and their argument values, as far as known, to definitions annotated with @RecordUse",
+    "version": "1.6.2-wip+5.-.2.z"
+  },
   "recordings": [
     {
-      "definition": {
-        "uri": "package:js_runtime/js_helper.dart",
-        "path": [
-          {
-            "name": "MyClass"
-          },
-          {
-            "name": "get:loadDeferredLibrary"
-          }
-        ]
-      },
       "calls": [
         {
-          "type": "with_arguments",
-          "positional": [
-            0,
-            1
-          ],
+          "loading_unit": "o.js",
           "named": {
             "freddy": 2,
             "answer": 3
           },
-          "loading_unit": "o.js"
+          "positional": [
+            0,
+            1
+          ],
+          "type": "with_arguments"
         }
-      ]
+      ],
+      "definition_index": 0
     }
   ]
 }''';

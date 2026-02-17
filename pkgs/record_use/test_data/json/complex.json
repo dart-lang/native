@@ -6,6 +6,24 @@
       "value": 42
     }
   ],
+  "definitions": [
+    {
+      "path": [
+        {
+          "kind": "class",
+          "name": "OtherClass"
+        },
+        {
+          "disambiguators": [
+            "static"
+          ],
+          "kind": "method",
+          "name": "generate"
+        }
+      ],
+      "uri": "package:record_use_test/complex.dart"
+    }
+  ],
   "metadata": {
     "comment": "Recorded usages of objects tagged with a `RecordUse` annotation",
     "version": "0.4.0"
@@ -25,22 +43,7 @@
           "type": "with_arguments"
         }
       ],
-      "definition": {
-        "path": [
-          {
-            "kind": "class",
-            "name": "OtherClass"
-          },
-          {
-            "disambiguators": [
-              "static"
-            ],
-            "kind": "method",
-            "name": "generate"
-          }
-        ],
-        "uri": "package:record_use_test/complex.dart"
-      }
+      "definition_index": 0
     }
   ]
 }

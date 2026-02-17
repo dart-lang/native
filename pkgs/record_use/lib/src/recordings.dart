@@ -66,15 +66,14 @@ Error: $e
   }
 
   factory Recordings._fromSyntax(RecordedUsesSyntax syntax) {
-    final context = _deserializeConstants(syntax);
+    final definitionContext = _deserializeDefinitions(syntax);
+    final context = _deserializeConstants(syntax, definitionContext);
 
     final callsForDefinition = <Definition, List<CallReference>>{};
     final instancesForDefinition = <Definition, List<InstanceReference>>{};
 
     for (final recordingSyntax in syntax.recordings ?? <RecordingSyntax>[]) {
-      final definition = DefinitionProtected.fromSyntax(
-        recordingSyntax.definition,
-      );
+      final definition = context.definitions[recordingSyntax.definitionIndex];
       if (recordingSyntax.calls case final callSyntaxes?) {
         final callReferences = callSyntaxes
             .map<CallReference>(
@@ -110,15 +109,29 @@ Error: $e
     );
   }
 
+  static DefinitionDeserializationContext _deserializeDefinitions(
+    RecordedUsesSyntax syntax,
+  ) {
+    final definitions = <Definition>[];
+    for (final definitionSyntax in syntax.definitions ?? <DefinitionSyntax>[]) {
+      definitions.add(DefinitionProtected.fromSyntax(definitionSyntax));
+    }
+    return DefinitionDeserializationContext(definitions);
+  }
+
   static DeserializationContext _deserializeConstants(
     RecordedUsesSyntax syntax,
+    DefinitionDeserializationContext definitionContext,
   ) {
     final constants = <Constant>[];
     // Create a context that includes an empty list for the constants. This
     // list will be populated by [_deserializeConstants], providing the
     // self-referential access needed to resolve recursive constants (e.g.
     // list and map constants).
-    final context = DeserializationContext(constants);
+    final context = DeserializationContext.fromPrevious(
+      definitionContext,
+      constants,
+    );
     for (final constantSyntax in syntax.constants ?? <ConstantSyntax>[]) {
       final constant = ConstantProtected.fromSyntax(constantSyntax, context);
       if (!constants.contains(constant)) {
@@ -135,19 +148,19 @@ Error: $e
 
   RecordedUsesSyntax _toSyntax() {
     final allConstants = _collectConstants();
-    final (context, constantSyntax) = _serializeConstants(allConstants);
+    final definitionContext = _serializeDefinitions(allConstants);
+    final (context, constantSyntax) = _serializeConstants(
+      allConstants,
+      definitionContext,
+    );
 
     final recordings = <RecordingSyntax>[];
-    final allDefinitions = {
-      ...calls.keys,
-      ...instances.keys,
-    };
-    for (final definition in allDefinitions) {
+    for (final definition in context.definitions.keys) {
       final callsForDefinition = calls[definition];
       final instancesForDefinition = instances[definition];
       recordings.add(
         RecordingSyntax(
-          definition: definition.toSyntax(),
+          definitionIndex: context.definitions[definition]!,
           calls: callsForDefinition
               ?.map((call) => call.toSyntax(context))
               .toList(),
@@ -161,6 +174,13 @@ Error: $e
     return RecordedUsesSyntax(
       metadata: metadata.toSyntax(),
       constants: constantSyntax.isEmpty ? null : constantSyntax,
+      definitions: context.definitions.isEmpty
+          ? null
+          : context.definitions.keys
+                .map(
+                  (definition) => definition.toSyntax(),
+                )
+                .toList(),
       recordings: recordings.isEmpty ? null : recordings,
     );
   }
@@ -204,11 +224,27 @@ Error: $e
         ),
   }.flatten().toList();
 
-  (SerializationContext, List<ConstantSyntax>) _serializeConstants(
+  DefinitionSerializationContext _serializeDefinitions(
     List<Constant> allConstants,
   ) {
+    final allDefinitions = {
+      ...calls.keys,
+      ...instances.keys,
+    }.toList();
+    return DefinitionSerializationContext(
+      allDefinitions.asMapToIndices,
+    );
+  }
+
+  (SerializationContext, List<ConstantSyntax>) _serializeConstants(
+    List<Constant> allConstants,
+    DefinitionSerializationContext definitionContext,
+  ) {
     final constantsMap = allConstants.asMapToIndices;
-    final context = SerializationContext(constantsMap);
+    final context = SerializationContext.fromPrevious(
+      definitionContext,
+      constantsMap,
+    );
     final constantSyntax = [
       for (final constant in allConstants) constant.toSyntax(context),
     ];

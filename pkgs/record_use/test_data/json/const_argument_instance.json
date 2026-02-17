@@ -12,6 +12,17 @@
       }
     }
   ],
+  "definitions": [
+    {
+      "path": [
+        {
+          "kind": "method",
+          "name": "someStaticMethod2"
+        }
+      ],
+      "uri": "package:record_use_test/const_argument_instance.dart"
+    }
+  ],
   "metadata": {
     "comment": "Recorded usages of objects tagged with a `RecordUse` annotation",
     "version": "0.4.0"
@@ -27,15 +38,7 @@
           "type": "with_arguments"
         }
       ],
-      "definition": {
-        "path": [
-          {
-            "kind": "method",
-            "name": "someStaticMethod2"
-          }
-        ],
-        "uri": "package:record_use_test/const_argument_instance.dart"
-      }
+      "definition_index": 0
     }
   ]
 }
