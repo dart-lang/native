@@ -230,7 +230,9 @@ class ObjCMethod extends AstNode with HasLocalScope {
     required List<Parameter> params,
     required this.ownershipAttribute,
     required this.consumesSelfAttribute,
-  }) : originalProtocolMethodName = protocolMethodName.replaceAll(':', '_'),
+  }) : originalProtocolMethodName = _sanitizeNamedParamName(
+         protocolMethodName.replaceAll(':', '_'),
+       ),
        _params = params,
        selObject = context.objCBuiltInFunctions.getSelObject(originalName);
 
@@ -273,7 +275,10 @@ class ObjCMethod extends AstNode with HasLocalScope {
       // rest to each of the params after the first.
       name = chunks[0];
       for (var i = 1; i < params.length; ++i) {
-        params[i].symbol = Symbol(chunks[i], SymbolKind.field);
+        params[i].symbol = Symbol(
+          _sanitizeNamedParamName(chunks[i]),
+          SymbolKind.field,
+        );
       }
     } else {
       // There are a few methods that don't obey these rules, eg due to variadic
@@ -281,6 +286,13 @@ class ObjCMethod extends AstNode with HasLocalScope {
       // supported yet. But as a fallback, just replace all the ':' in the name
       // with '_', like we do for protocol methods.
       name = name.replaceAll(':', '_');
+
+      for (var i = 1; i < params.length; ++i) {
+        params[i].symbol = Symbol(
+          _sanitizeNamedParamName(params[i].symbol.oldName),
+          SymbolKind.field,
+        );
+      }
     }
 
     return ObjCMethod.withSymbol(
@@ -299,6 +311,13 @@ class ObjCMethod extends AstNode with HasLocalScope {
       ownershipAttribute: ownershipAttribute,
       consumesSelfAttribute: consumesSelfAttribute,
     );
+  }
+
+  static String _sanitizeNamedParamName(String name) {
+    final withoutLeadingUnderscores = name.replaceFirst(RegExp(r'^_+'), '');
+    return withoutLeadingUnderscores.isEmpty
+        ? 'unnamed'
+        : withoutLeadingUnderscores;
   }
 
   String get name => symbol.name;
