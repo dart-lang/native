@@ -420,7 +420,30 @@ class ApiToolTask extends Task {
   }
 }
 
+/// Checks for missing license headers.
+class LicenseTask extends Task {
+  const LicenseTask()
+    : super(
+        name: 'license',
+        helpMessage: 'Check for missing license headers.',
+      );
+
+  @override
+  Future<void> run({
+    required List<String> packages,
+    required ArgResults argResults,
+  }) async {
+    final fix = argResults['fix'] as bool;
+    await _runProcess('dart', [
+      'tool/check_licenses.dart',
+      if (!fix) '--set-exit-if-changed',
+      ...packages,
+    ]);
+  }
+}
+
 const pubTask = PubTask();
+const licenseTask = LicenseTask();
 const analyzeTask = AnalyzeTask();
 const formatTask = FormatTask();
 const generateTask = GenerateTask();
@@ -433,6 +456,7 @@ const apiToolTask = ApiToolTask();
 final tasks = [
   pubTask,
   generateTask,
+  licenseTask,
   analyzeTask,
   formatTask,
   testTask,
