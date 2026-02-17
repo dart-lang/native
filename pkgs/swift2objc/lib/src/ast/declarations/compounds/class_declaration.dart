@@ -32,6 +32,9 @@ class ClassDeclaration extends AstNode
   List<AvailabilityInfo> availability;
 
   @override
+  final int? lineNumber;
+
+  @override
   List<PropertyDeclaration> properties;
 
   @override
@@ -76,6 +79,7 @@ class ClassDeclaration extends AstNode
     required this.name,
     required this.source,
     required this.availability,
+    this.lineNumber,
     this.properties = const [],
     this.methods = const [],
     this.nestingParent,

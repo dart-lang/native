@@ -18,10 +18,12 @@ PropertyDeclaration parsePropertyDeclaration(
   bool isStatic = false,
 }) {
   final info = parsePropertyInfo(symbol.json['declarationFragments']);
+
   return PropertyDeclaration(
     id: parseSymbolId(symbol.json),
     name: parseSymbolName(symbol.json),
     source: symbol.source,
+    lineNumber: parseLineNumber(symbol.json),
     availability: parseAvailability(symbol.json),
     type: _parseVariableType(context, symbol.json, symbolgraph),
     hasObjCAnnotation: parseSymbolHasObjcAnnotation(symbol.json),
@@ -32,7 +34,8 @@ PropertyDeclaration parsePropertyDeclaration(
     unowned: info.unowned,
     weak: info.weak,
     lazy: info.lazy,
-    hasSetter: info.constant ? false : info.setter,
+    hasSetter: info.constant ? false : (info.getter ? info.setter : true),
+    hasExplicitGetter: info.getter,
   );
 }
 
@@ -47,6 +50,7 @@ GlobalVariableDeclaration parseGlobalVariableDeclaration(
     id: parseSymbolId(symbol.json),
     name: parseSymbolName(symbol.json),
     source: symbol.source,
+    lineNumber: parseLineNumber(symbol.json),
     availability: parseAvailability(symbol.json),
     type: _parseVariableType(context, symbol.json, symbolgraph),
     isConstant: info.constant || !info.setter,
@@ -138,8 +142,8 @@ ParsedPropertyInfo parsePropertyInfo(Json json) {
         'Properties can not have a setter without a getter',
       );
     } else {
-      // has implicit getter and implicit setter
-      return (true, true);
+      // Stored property - no explicit getter or setter
+      return (false, false);
     }
   }
 }
