@@ -1,7 +1,5 @@
 ## 0.15.1-wip
 
-- Fixed `LateInitializationError` when generating bindings for classes that are
-  not renamed.
 - Add docs about debugging.
 - Add support for Kotlin interfaces with suspend functions. These can now be
   implemented using Dart functions that return a `Future`.
