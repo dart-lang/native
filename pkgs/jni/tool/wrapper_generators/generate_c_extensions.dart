@@ -248,10 +248,6 @@ const _nullSafeFunctions = {
 
   // Bootstrap-critical: cannot call FindClass during early JVM initialization
   'FindClass', // Calling FindClass from within FindClass causes recursion
-  'GetMethodID', // Before exception system initialization
-  'GetFieldID',
-  'GetStaticMethodID',
-  'GetStaticFieldID',
 };
 
 /// Map of function names to parameter names that allowed to be NULL according
@@ -261,6 +257,7 @@ const _nullableParameterMap = {
   'NewObjectArray': {'initialElement'},
   'SetObjectArrayElement': {'val'},
   'IsSameObject': {'ref1', 'ref2'},
+  'PopLocalFrame': {'result'},
 };
 
 /// Determines if a parameter type needs null checking.

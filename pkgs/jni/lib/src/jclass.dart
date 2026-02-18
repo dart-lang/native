@@ -42,7 +42,6 @@ extension type JInstanceFieldId._fromPointer(JFieldIDPtr pointer) {
   JInstanceFieldId._(JClass jClass, String name, String signature)
       : pointer = using((arena) {
           final jClassRef = jClass.reference;
-          if (jClassRef.isNull) throw JNullError();
           return Jni.env.GetFieldID(
             jClassRef.pointer,
             name.toNativeChars(arena),
@@ -67,7 +66,6 @@ extension type JStaticFieldId._fromPointer(JFieldIDPtr pointer) {
   JStaticFieldId._(JClass jClass, String name, String signature)
       : pointer = using((arena) {
           final jClassRef = jClass.reference;
-          if (jClassRef.isNull) throw JNullError();
           return Jni.env.GetStaticFieldID(
             jClassRef.pointer,
             name.toNativeChars(arena),
@@ -95,7 +93,6 @@ extension type JInstanceMethodId._fromPointer(JMethodIDPtr pointer) {
     String signature,
   ) : pointer = using((arena) {
           final jClassRef = jClass.reference;
-          if (jClassRef.isNull) throw JNullError();
           return Jni.env.GetMethodID(
             jClassRef.pointer,
             name.toNativeChars(arena),
@@ -125,7 +122,6 @@ extension type JStaticMethodId._fromPointer(JMethodIDPtr pointer) {
     String signature,
   ) : pointer = using((arena) {
           final jClassRef = jClass.reference;
-          if (jClassRef.isNull) throw JNullError();
           return Jni.env.GetStaticMethodID(
             jClassRef.pointer,
             name.toNativeChars(arena),
@@ -152,7 +148,6 @@ extension type JConstructorId._fromPointer(JMethodIDPtr pointer) {
     String signature,
   ) : pointer = using((arena) {
           final jClassRef = jClass.reference;
-          if (jClassRef.isNull) throw JNullError();
           return Jni.env.GetMethodID(
             jClassRef.pointer,
             '<init>'.toNativeChars(arena),

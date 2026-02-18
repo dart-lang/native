@@ -243,10 +243,6 @@ JniResult globalEnv_PushLocalFrame(jint capacity) {
 
 JniResult globalEnv_PopLocalFrame(jobject result) {
   attach_thread();
-  if (result == NULL) {
-    jthrowable _null_exc = create_null_parameter_exception("result");
-    return (JniResult){.value = {.j = 0}, .exception = _null_exc};
-  }
   jobject _result = (*jniEnv)->PopLocalFrame(jniEnv, result);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
@@ -409,6 +405,10 @@ JniResult globalEnv_IsInstanceOf(jobject obj, jclass clazz) {
 
 JniPointerResult globalEnv_GetMethodID(jclass clazz, char* name, char* sig) {
   attach_thread();
+  if (clazz == NULL) {
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniPointerResult){.value = NULL, .exception = _null_exc};
+  }
   jmethodID _result = (*jniEnv)->GetMethodID(jniEnv, clazz, name, sig);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
@@ -1411,6 +1411,10 @@ jthrowable globalEnv_CallNonvirtualVoidMethodA(jobject obj,
 
 JniPointerResult globalEnv_GetFieldID(jclass clazz, char* name, char* sig) {
   attach_thread();
+  if (clazz == NULL) {
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniPointerResult){.value = NULL, .exception = _null_exc};
+  }
   jfieldID _result = (*jniEnv)->GetFieldID(jniEnv, clazz, name, sig);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
@@ -1758,6 +1762,10 @@ JniPointerResult globalEnv_GetStaticMethodID(jclass clazz,
                                              char* name,
                                              char* sig) {
   attach_thread();
+  if (clazz == NULL) {
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniPointerResult){.value = NULL, .exception = _null_exc};
+  }
   jmethodID _result = (*jniEnv)->GetStaticMethodID(jniEnv, clazz, name, sig);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {
@@ -2217,6 +2225,10 @@ JniPointerResult globalEnv_GetStaticFieldID(jclass clazz,
                                             char* name,
                                             char* sig) {
   attach_thread();
+  if (clazz == NULL) {
+    jthrowable _null_exc = create_null_parameter_exception("clazz");
+    return (JniPointerResult){.value = NULL, .exception = _null_exc};
+  }
   jfieldID _result = (*jniEnv)->GetStaticFieldID(jniEnv, clazz, name, sig);
   jthrowable _exception = check_exception();
   if (_exception != NULL) {

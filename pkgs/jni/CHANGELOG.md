@@ -1,5 +1,10 @@
 ## 0.15.3-wip
 
+- Fixed JNI wrapper generator to properly handle null checks for method and field
+  ID getters (`GetMethodID`, `GetFieldID`, `GetStaticMethodID`, 
+  `GetStaticFieldID`).
+- Added support for JNI functions that accept NULL parameters per specification
+  (e.g., `PopLocalFrame`).
 - Added `Jni.captureStackTraceOnRelease` which defaults to `false`. When this is
   set, the stack traces of the release points will be stored for `JObject`s to
   help debug `DoubleReleaseError` and `UseAfterReleaseError`s. This includes the
