@@ -13,14 +13,17 @@ void main() {
         {'type': 'int', 'value': 42},
         {'type': 'unsupported', 'message': 'Record'},
       ],
+      'definitions': [
+        {
+          'uri': 'package:a/a.dart',
+          'path': [
+            {'name': 'foo'},
+          ],
+        },
+      ],
       'recordings': [
         {
-          'definition': {
-            'uri': 'package:a/a.dart',
-            'path': [
-              {'name': 'foo'},
-            ],
-          },
+          'definition_index': 0,
           'calls': [
             {
               'type': 'with_arguments',

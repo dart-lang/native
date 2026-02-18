@@ -404,6 +404,12 @@
     "RecordedUses": {
       "type": "object",
       "properties": {
+        "definitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Definition"
+          }
+        },
         "constants": {
           "type": "array",
           "items": {
@@ -445,8 +451,8 @@
             "$ref": "#/definitions/Call"
           }
         },
-        "definition": {
-          "$ref": "#/definitions/Definition"
+        "definition_index": {
+          "type": "integer"
         },
         "instances": {
           "type": "array",
@@ -456,7 +462,7 @@
         }
       },
       "required": [
-        "definition"
+        "definition_index"
       ]
     }
   }

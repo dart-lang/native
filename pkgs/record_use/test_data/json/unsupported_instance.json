@@ -12,6 +12,26 @@
       }
     }
   ],
+  "definitions": [
+    {
+      "path": [
+        {
+          "kind": "method",
+          "name": "recorded"
+        }
+      ],
+      "uri": "package:record_use_test/unsupported_instance.dart"
+    },
+    {
+      "path": [
+        {
+          "kind": "class",
+          "name": "MyClass"
+        }
+      ],
+      "uri": "package:record_use_test/unsupported_instance.dart"
+    }
+  ],
   "metadata": {
     "comment": "Recorded usages of objects tagged with a `RecordUse` annotation",
     "version": "0.4.0"
@@ -27,26 +47,10 @@
           "type": "with_arguments"
         }
       ],
-      "definition": {
-        "path": [
-          {
-            "kind": "method",
-            "name": "recorded"
-          }
-        ],
-        "uri": "package:record_use_test/unsupported_instance.dart"
-      }
+      "definition_index": 0
     },
     {
-      "definition": {
-        "path": [
-          {
-            "kind": "class",
-            "name": "MyClass"
-          }
-        ],
-        "uri": "package:record_use_test/unsupported_instance.dart"
-      },
+      "definition_index": 1,
       "instances": [
         {
           "constant_index": 1,

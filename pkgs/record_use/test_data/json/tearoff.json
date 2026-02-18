@@ -1,5 +1,23 @@
 {
   "$schema": "../../doc/schema/record_use.schema.json",
+  "definitions": [
+    {
+      "path": [
+        {
+          "kind": "class",
+          "name": "SomeClass"
+        },
+        {
+          "disambiguators": [
+            "static"
+          ],
+          "kind": "method",
+          "name": "someStaticMethod"
+        }
+      ],
+      "uri": "package:record_use_test/tearoff.dart"
+    }
+  ],
   "metadata": {
     "comment": "Recorded usages of objects tagged with a `RecordUse` annotation",
     "version": "0.4.0"
@@ -12,22 +30,7 @@
           "type": "tearoff"
         }
       ],
-      "definition": {
-        "path": [
-          {
-            "kind": "class",
-            "name": "SomeClass"
-          },
-          {
-            "disambiguators": [
-              "static"
-            ],
-            "kind": "method",
-            "name": "someStaticMethod"
-          }
-        ],
-        "uri": "package:record_use_test/tearoff.dart"
-      }
+      "definition_index": 0
     }
   ]
 }

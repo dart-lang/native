@@ -25,21 +25,33 @@
       "type": "instance"
     }
   ],
+  "definitions": [
+    {
+      "path": [
+        {
+          "kind": "class",
+          "name": "MyClass"
+        }
+      ],
+      "uri": "package:record_use_test/nested.dart"
+    },
+    {
+      "path": [
+        {
+          "kind": "class",
+          "name": "MyOtherClass"
+        }
+      ],
+      "uri": "package:record_use_test/nested.dart"
+    }
+  ],
   "metadata": {
     "comment": "Recorded usages of objects tagged with a `RecordUse` annotation",
     "version": "0.4.0"
   },
   "recordings": [
     {
-      "definition": {
-        "path": [
-          {
-            "kind": "class",
-            "name": "MyClass"
-          }
-        ],
-        "uri": "package:record_use_test/nested.dart"
-      },
+      "definition_index": 0,
       "instances": [
         {
           "constant_index": 1,
@@ -54,15 +66,7 @@
       ]
     },
     {
-      "definition": {
-        "path": [
-          {
-            "kind": "class",
-            "name": "MyOtherClass"
-          }
-        ],
-        "uri": "package:record_use_test/nested.dart"
-      },
+      "definition_index": 1,
       "instances": [
         {
           "constant_index": 4,

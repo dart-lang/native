@@ -6,6 +6,17 @@
       "value": 42
     }
   ],
+  "definitions": [
+    {
+      "path": [
+        {
+          "kind": "method",
+          "name": "someTopLevelMethod"
+        }
+      ],
+      "uri": "package:record_use_test/top_level_method.dart"
+    }
+  ],
   "metadata": {
     "comment": "Recorded usages of objects tagged with a `RecordUse` annotation",
     "version": "0.4.0"
@@ -21,15 +32,7 @@
           "type": "with_arguments"
         }
       ],
-      "definition": {
-        "path": [
-          {
-            "kind": "method",
-            "name": "someTopLevelMethod"
-          }
-        ],
-        "uri": "package:record_use_test/top_level_method.dart"
-      }
+      "definition_index": 0
     }
   ]
 }
