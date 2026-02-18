@@ -190,6 +190,9 @@ class WorkspaceTask extends Task {
     final rootDir = Directory.fromUri(repositoryRoot.resolve('pkgs'));
     for (final entity in rootDir.listSync(recursive: true)) {
       if (entity is File && entity.path.endsWith('pubspec.yaml')) {
+        if (entity.path.split(Platform.pathSeparator).contains('.dart_tool')) {
+          continue;
+        }
         packages.add(
           Uri.file(
             p.relative(entity.parent.path, from: repositoryRoot.toFilePath()),
