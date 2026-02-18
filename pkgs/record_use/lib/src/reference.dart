@@ -7,6 +7,7 @@ import 'package:meta/meta.dart';
 import 'constant.dart';
 import 'definition.dart';
 import 'helper.dart';
+import 'serialization_context.dart';
 import 'syntax.g.dart';
 
 /// A reference to *something*.
@@ -51,7 +52,7 @@ sealed class CallReference extends Reference {
 
   static CallReference _fromSyntax(
     CallSyntax syntax,
-    List<Constant> constants,
+    DeserializationContext context,
   ) => switch (syntax) {
     TearoffCallSyntax() => CallTearoff(loadingUnit: syntax.loadingUnit),
     WithArgumentsCallSyntax(
@@ -61,11 +62,10 @@ sealed class CallReference extends Reference {
     ) =>
       CallWithArguments(
         positionalArguments: (positional ?? [])
-            .map((index) => _argumentFromSyntax(index, constants))
+            .map((index) => _argumentFromSyntax(index, context))
             .toList(),
         namedArguments: (named ?? {}).map(
-          (name, index) =>
-              MapEntry(name, _argumentFromSyntax(index, constants)),
+          (name, index) => MapEntry(name, _argumentFromSyntax(index, context)),
         ),
         loadingUnit: loadingUnit,
       ),
@@ -74,13 +74,13 @@ sealed class CallReference extends Reference {
 
   static MaybeConstant _argumentFromSyntax(
     int? index,
-    List<Constant> constants,
+    DeserializationContext context,
   ) {
     if (index == null) return const NonConstant();
-    return constants[index];
+    return context.constants[index];
   }
 
-  CallSyntax _toSyntax(Map<Constant, int> constants);
+  CallSyntax _toSyntax(SerializationContext context);
 
   /// Compares this [CallWithArguments] with [other] for semantic equality.
   ///
@@ -117,11 +117,11 @@ final class CallWithArguments extends CallReference {
   });
 
   @override
-  WithArgumentsCallSyntax _toSyntax(Map<Constant, int> constants) {
+  WithArgumentsCallSyntax _toSyntax(SerializationContext context) {
     final namedArgs = <String, int?>{};
     for (final entry in namedArguments.entries) {
       namedArgs[entry.key] = switch (entry.value) {
-        final Constant c => constants[c],
+        final Constant c => context.constants[c],
         NonConstant() => null,
       };
     }
@@ -134,7 +134,7 @@ final class CallWithArguments extends CallReference {
           : positionalArguments
                 .map(
                   (argument) => switch (argument) {
-                    final Constant c => constants[c],
+                    final Constant c => context.constants[c],
                     NonConstant() => null,
                   },
                 )
@@ -237,7 +237,7 @@ final class CallTearoff extends CallReference {
   const CallTearoff({required super.loadingUnit});
 
   @override
-  TearoffCallSyntax _toSyntax(Map<Constant, int> constants) =>
+  TearoffCallSyntax _toSyntax(SerializationContext context) =>
       TearoffCallSyntax(loadingUnit: loadingUnit!);
 
   @override
@@ -268,14 +268,14 @@ sealed class InstanceReference extends Reference {
 
   static InstanceReference _fromSyntax(
     InstanceSyntax syntax,
-    List<Constant> constants,
+    DeserializationContext context,
   ) => switch (syntax) {
     ConstantInstanceSyntax(
       :final constantIndex,
       :final loadingUnit,
     ) =>
       InstanceConstantReference(
-        instanceConstant: constants[constantIndex] as InstanceConstant,
+        instanceConstant: context.constants[constantIndex] as InstanceConstant,
         loadingUnit: loadingUnit,
       ),
     CreationInstanceSyntax(
@@ -285,12 +285,12 @@ sealed class InstanceReference extends Reference {
     ) =>
       InstanceCreationReference(
         positionalArguments: (positional ?? [])
-            .map((index) => CallReference._argumentFromSyntax(index, constants))
+            .map((index) => CallReference._argumentFromSyntax(index, context))
             .toList(),
         namedArguments: (named ?? {}).map(
           (name, index) => MapEntry(
             name,
-            CallReference._argumentFromSyntax(index, constants),
+            CallReference._argumentFromSyntax(index, context),
           ),
         ),
         loadingUnit: loadingUnit,
@@ -301,7 +301,7 @@ sealed class InstanceReference extends Reference {
     _ => throw UnimplementedError('Unknown InstanceSyntax type'),
   };
 
-  InstanceSyntax _toSyntax(Map<Constant, int> constants);
+  InstanceSyntax _toSyntax(SerializationContext context);
 
   /// Compares this [InstanceReference] with [other] for semantic equality.
   ///
@@ -327,9 +327,9 @@ final class InstanceConstantReference extends InstanceReference {
   });
 
   @override
-  ConstantInstanceSyntax _toSyntax(Map<Constant, int> constants) =>
+  ConstantInstanceSyntax _toSyntax(SerializationContext context) =>
       ConstantInstanceSyntax(
-        constantIndex: constants[instanceConstant]!,
+        constantIndex: context.constants[instanceConstant]!,
         loadingUnit: loadingUnit!,
       );
 
@@ -381,11 +381,11 @@ final class InstanceCreationReference extends InstanceReference {
   });
 
   @override
-  CreationInstanceSyntax _toSyntax(Map<Constant, int> constants) {
+  CreationInstanceSyntax _toSyntax(SerializationContext context) {
     final namedArgs = <String, int?>{};
     for (final entry in namedArguments.entries) {
       namedArgs[entry.key] = switch (entry.value) {
-        final Constant c => constants[c],
+        final Constant c => context.constants[c],
         NonConstant() => null,
       };
     }
@@ -398,7 +398,7 @@ final class InstanceCreationReference extends InstanceReference {
           : positionalArguments
                 .map(
                   (argument) => switch (argument) {
-                    final Constant c => constants[c],
+                    final Constant c => context.constants[c],
                     NonConstant() => null,
                   },
                 )
@@ -474,7 +474,7 @@ final class ConstructorTearoffReference extends InstanceReference {
   const ConstructorTearoffReference({required super.loadingUnit});
 
   @override
-  TearoffInstanceSyntax _toSyntax(Map<Constant, int> constants) =>
+  TearoffInstanceSyntax _toSyntax(SerializationContext context) =>
       TearoffInstanceSyntax(loadingUnit: loadingUnit!);
 
   @override
@@ -500,12 +500,12 @@ final class ConstructorTearoffReference extends InstanceReference {
 /// This avoids bloating the public API and public API docs and prevents
 /// internal types from leaking from the API.
 extension CallReferenceProtected on CallReference {
-  CallSyntax toSyntax(Map<Constant, int> constants) => _toSyntax(constants);
+  CallSyntax toSyntax(SerializationContext context) => _toSyntax(context);
 
   static CallReference fromSyntax(
     CallSyntax syntax,
-    List<Constant> constants,
-  ) => CallReference._fromSyntax(syntax, constants);
+    DeserializationContext context,
+  ) => CallReference._fromSyntax(syntax, context);
 }
 
 /// Package private (protected) methods for [InstanceReference].
@@ -513,10 +513,10 @@ extension CallReferenceProtected on CallReference {
 /// This avoids bloating the public API and public API docs and prevents
 /// internal types from leaking from the API.
 extension InstanceReferenceProtected on InstanceReference {
-  InstanceSyntax toSyntax(Map<Constant, int> constants) => _toSyntax(constants);
+  InstanceSyntax toSyntax(SerializationContext context) => _toSyntax(context);
 
   static InstanceReference fromSyntax(
     InstanceSyntax syntax,
-    List<Constant> constants,
-  ) => InstanceReference._fromSyntax(syntax, constants);
+    DeserializationContext context,
+  ) => InstanceReference._fromSyntax(syntax, context);
 }

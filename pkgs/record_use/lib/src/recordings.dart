@@ -12,6 +12,7 @@ import 'definition.dart';
 import 'helper.dart';
 import 'metadata.dart';
 import 'reference.dart';
+import 'serialization_context.dart';
 import 'syntax.g.dart';
 
 /// [Recordings] combines recordings of calls and instances with metadata.
@@ -66,8 +67,9 @@ Error: $e
 
   factory Recordings._fromSyntax(RecordedUsesSyntax syntax) {
     final constants = <Constant>[];
+    final context = DeserializationContext(constants);
     for (final constantSyntax in syntax.constants ?? <ConstantSyntax>[]) {
-      final constant = ConstantProtected.fromSyntax(constantSyntax, constants);
+      final constant = ConstantProtected.fromSyntax(constantSyntax, context);
       if (!constants.contains(constant)) {
         constants.add(constant);
       }
@@ -85,7 +87,7 @@ Error: $e
             .map<CallReference>(
               (callSyntax) => CallReferenceProtected.fromSyntax(
                 callSyntax,
-                constants,
+                context,
               ),
             )
             .toList();
@@ -98,7 +100,7 @@ Error: $e
             .map<InstanceReference>(
               (instanceSyntax) => InstanceReferenceProtected.fromSyntax(
                 instanceSyntax,
-                constants,
+                context,
               ),
             )
             .toList();
@@ -160,6 +162,8 @@ Error: $e
           ),
     }.flatten().asMapToIndices;
 
+    final context = SerializationContext(constantsIndex);
+
     final recordings = <RecordingSyntax>[];
     final allDefinitions = {
       ...calls.keys,
@@ -172,10 +176,10 @@ Error: $e
         RecordingSyntax(
           definition: definition.toSyntax(),
           calls: callsForDefinition
-              ?.map((call) => call.toSyntax(constantsIndex))
+              ?.map((call) => call.toSyntax(context))
               .toList(),
           instances: instancesForDefinition
-              ?.map((instance) => instance.toSyntax(constantsIndex))
+              ?.map((instance) => instance.toSyntax(context))
               .toList(),
         ),
       );
@@ -187,7 +191,7 @@ Error: $e
           ? null
           : constantsIndex.keys
                 .map(
-                  (Constant constant) => constant.toSyntax(constantsIndex),
+                  (Constant constant) => constant.toSyntax(context),
                 )
                 .toList(),
       recordings: recordings.isEmpty ? null : recordings,
