@@ -29,6 +29,8 @@
   use `Jni.androidApplicationContext(engineId)` to access the application
   context and use `Jni.androidActivity(engineId)` to acccess the activity.
 - Update to the latest lints.
+- **Breaking Change**: `JArray`'s unnamed constructor is now
+  `JArray.withLength`.
 
 ## 0.14.2
 

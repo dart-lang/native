@@ -21,6 +21,7 @@ environment:
 
 dependencies:
   args: ^2.5.0
+  collection: ^1.19.1
   ffi: ^2.1.3
   meta: ^1.15.0
   package_config: ^2.1.0
@@ -29,6 +30,7 @@ dependencies:
 
 dev_dependencies:
   dart_flutter_team_lints: ^3.5.2
+  dart_style: ^3.1.2
   ffigen:
     path: ../ffigen
   jnigen:

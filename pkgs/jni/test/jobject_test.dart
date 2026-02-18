@@ -42,7 +42,7 @@ void run({required TestRunnerCallback testRunner}) {
     // Allowed argument types are primitive types, JObject and its subclasses,
     // and raw JNI references (JObject). Strings will be automatically converted
     // to JNI strings.
-    final long = longCtor(longClass, JObject.type, [176]);
+    final long = longCtor(longClass, [176]);
     final intValueMethod = longClass.instanceMethodId('intValue', '()I');
     final intValue = intValueMethod(
       long,
@@ -98,8 +98,7 @@ void run({required TestRunnerCallback testRunner}) {
     final bitCountMethod = longClass.staticMethodId('bitCount', '(J)I');
 
     final randomClass = JClass.forName('java/util/Random');
-    final random =
-        randomClass.constructorId('()V').call(randomClass, JObject.type, []);
+    final random = randomClass.constructorId('()V').call(randomClass, []);
 
     final nextIntMethod = randomClass.instanceMethodId('nextInt', '(I)I');
 
@@ -168,7 +167,7 @@ void run({required TestRunnerCallback testRunner}) {
     final randomInt = JClass.forName('java/util/Random').use((randomClass) {
       return randomClass
           .constructorId('()V')
-          .call(randomClass, JObject.type, []).use((random) {
+          .call(randomClass, []).use((random) {
         return randomClass
             .instanceMethodId('nextInt', '(I)I')
             .call(random, jint.type, [JValueInt(15)]);
@@ -187,8 +186,7 @@ void run({required TestRunnerCallback testRunner}) {
       final randomClass = JClass.forName('java/util/Random')..releasedBy(arena);
       final constructor = randomClass.constructorId('()V');
       for (var i = 0; i < 10; i++) {
-        objects
-            .add(constructor(randomClass, JObject.type, [])..releasedBy(arena));
+        objects.add(constructor(randomClass, [])..releasedBy(arena));
       }
     });
     for (var object in objects) {
@@ -228,8 +226,7 @@ void run({required TestRunnerCallback testRunner}) {
     final receivePort = ReceivePort();
     await Isolate.spawn((sendPort) {
       final randomClass = JClass.forName('java/util/Random');
-      final random =
-          randomClass.constructorId('()V').call(randomClass, JObject.type, []);
+      final random = randomClass.constructorId('()V').call(randomClass, []);
       final result = randomClass
           .instanceMethodId('nextInt', '(I)I')
           .call(random, jint.type, [256]);
@@ -282,19 +279,14 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('isA returns true', () {
     final long = JLong(1);
     expect(long.isA(JLong.type), isTrue);
-    expect(long.isA(JLong.nullableType), isTrue);
     expect(long.isA(JNumber.type), isTrue);
-    expect(long.isA(JNumber.nullableType), isTrue);
     expect(long.isA(JObject.type), isTrue);
-    expect(long.isA(JObject.nullableType), isTrue);
   });
 
   testRunner('isA returns false', () {
     final long = JLong(1);
     expect(long.isA(JInteger.type), isFalse);
-    expect(long.isA(JInteger.nullableType), isFalse);
     expect(long.isA(JString.type), isFalse);
-    expect(long.isA(JString.nullableType), isFalse);
   });
 
   testRunner('Casting correctly succeeds', () {

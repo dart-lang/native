@@ -5,40 +5,9 @@
 import 'package:meta/meta.dart' show internal;
 
 import '../jobject.dart';
-import '../jreference.dart';
 import '../jvalues.dart';
 import '../types.dart';
 import 'jbyte_buffer.dart';
-
-@internal
-final class $JBuffer$NullableType$ extends JType<JBuffer?> {
-  const $JBuffer$NullableType$();
-
-  @override
-  String get signature => r'Ljava/nio/Buffer;';
-
-  @override
-  JBuffer? fromReference(JReference reference) =>
-      reference.isNull ? null : JBuffer.fromReference(reference);
-
-  @override
-  JType get superType => const $JObject$NullableType$();
-
-  @override
-  JType<JBuffer?> get nullableType => this;
-
-  @override
-  final superCount = 1;
-
-  @override
-  int get hashCode => ($JBuffer$NullableType$).hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == $JBuffer$NullableType$ &&
-        other is $JBuffer$NullableType$;
-  }
-}
 
 @internal
 final class $JBuffer$Type$ extends JType<JBuffer> {
@@ -46,27 +15,6 @@ final class $JBuffer$Type$ extends JType<JBuffer> {
 
   @override
   String get signature => r'Ljava/nio/Buffer;';
-
-  @override
-  JBuffer fromReference(JReference reference) =>
-      JBuffer.fromReference(reference);
-
-  @override
-  JType get superType => const $JObject$Type$();
-
-  @override
-  JType<JBuffer?> get nullableType => const $JBuffer$NullableType$();
-
-  @override
-  final superCount = 1;
-
-  @override
-  int get hashCode => ($JBuffer$Type$).hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == $JBuffer$Type$ && other is $JBuffer$Type$;
-  }
 }
 
 /// A container for data of a specific primitive type.
@@ -80,23 +28,11 @@ final class $JBuffer$Type$ extends JType<JBuffer> {
 /// There is one subclass of this class for each non-boolean primitive type.
 /// We currently only have the bindings for `java.nio.ByteBuffer` in this
 /// package as [JByteBuffer].
-class JBuffer extends JObject {
-  @internal
-  @override
-  // ignore: overridden_fields
-  final JType<JBuffer> $type = type;
-
-  JBuffer.fromReference(
-    super.reference,
-  ) : super.fromReference();
-
+extension type JBuffer._(JObject _$this) implements JObject {
   static final _class = JClass.forName(r'java/nio/Buffer');
 
   /// The type which includes information such as the signature of this class.
   static const JType<JBuffer> type = $JBuffer$Type$();
-
-  /// The type which includes information such as the signature of this class.
-  static const JType<JBuffer?> nullableType = $JBuffer$NullableType$();
 
   static final _capacityId = _class.instanceMethodId(r'capacity', r'()I');
 

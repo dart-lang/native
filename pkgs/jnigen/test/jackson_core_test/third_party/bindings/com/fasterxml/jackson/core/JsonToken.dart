@@ -57,23 +57,9 @@ import 'package:jni/jni.dart' as jni$_;
 ///
 /// Enumeration for basic token types used for returning results
 /// of parsing JSON content.
-class JsonToken extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<JsonToken> $type;
-
-  @jni$_.internal
-  JsonToken.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   static final _class =
       jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonToken');
-
-  /// The type which includes information such as the signature of this class.
-  static const jni$_.JType<JsonToken?> nullableType =
-      $JsonToken$NullableType$();
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<JsonToken> type = $JsonToken$Type$();
@@ -93,7 +79,7 @@ class JsonToken extends jni$_.JObject {
   /// they can not block to wait for more data to parse and
   /// must return something.
   static JsonToken get NOT_AVAILABLE =>
-      _id_NOT_AVAILABLE.get(_class, const $JsonToken$Type$());
+      _id_NOT_AVAILABLE.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_START_OBJECT = _class.staticFieldId(
     r'START_OBJECT',
@@ -106,7 +92,7 @@ class JsonToken extends jni$_.JObject {
   /// START_OBJECT is returned when encountering '{'
   /// which signals starting of an Object value.
   static JsonToken get START_OBJECT =>
-      _id_START_OBJECT.get(_class, const $JsonToken$Type$());
+      _id_START_OBJECT.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_END_OBJECT = _class.staticFieldId(
     r'END_OBJECT',
@@ -119,7 +105,7 @@ class JsonToken extends jni$_.JObject {
   /// END_OBJECT is returned when encountering '}'
   /// which signals ending of an Object value
   static JsonToken get END_OBJECT =>
-      _id_END_OBJECT.get(_class, const $JsonToken$Type$());
+      _id_END_OBJECT.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_START_ARRAY = _class.staticFieldId(
     r'START_ARRAY',
@@ -132,7 +118,7 @@ class JsonToken extends jni$_.JObject {
   /// START_ARRAY is returned when encountering '['
   /// which signals starting of an Array value
   static JsonToken get START_ARRAY =>
-      _id_START_ARRAY.get(_class, const $JsonToken$Type$());
+      _id_START_ARRAY.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_END_ARRAY = _class.staticFieldId(
     r'END_ARRAY',
@@ -145,7 +131,7 @@ class JsonToken extends jni$_.JObject {
   /// END_ARRAY is returned when encountering ']'
   /// which signals ending of an Array value
   static JsonToken get END_ARRAY =>
-      _id_END_ARRAY.get(_class, const $JsonToken$Type$());
+      _id_END_ARRAY.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_FIELD_NAME = _class.staticFieldId(
     r'FIELD_NAME',
@@ -158,7 +144,7 @@ class JsonToken extends jni$_.JObject {
   /// FIELD_NAME is returned when a String token is encountered
   /// as a field name (same lexical value, different function)
   static JsonToken get FIELD_NAME =>
-      _id_FIELD_NAME.get(_class, const $JsonToken$Type$());
+      _id_FIELD_NAME.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_VALUE_EMBEDDED_OBJECT = _class.staticFieldId(
     r'VALUE_EMBEDDED_OBJECT',
@@ -177,7 +163,7 @@ class JsonToken extends jni$_.JObject {
   /// only by readers that expose other kinds of source (like
   /// <code>JsonNode</code>-based JSON trees, Maps, Lists and such).
   static JsonToken get VALUE_EMBEDDED_OBJECT =>
-      _id_VALUE_EMBEDDED_OBJECT.get(_class, const $JsonToken$Type$());
+      _id_VALUE_EMBEDDED_OBJECT.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_VALUE_STRING = _class.staticFieldId(
     r'VALUE_STRING',
@@ -191,7 +177,7 @@ class JsonToken extends jni$_.JObject {
   /// in value context (array element, field value, or root-level
   /// stand-alone value)
   static JsonToken get VALUE_STRING =>
-      _id_VALUE_STRING.get(_class, const $JsonToken$Type$());
+      _id_VALUE_STRING.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_VALUE_NUMBER_INT = _class.staticFieldId(
     r'VALUE_NUMBER_INT',
@@ -208,7 +194,7 @@ class JsonToken extends jni$_.JObject {
   /// or, for binary formats, is indicated as integral number
   /// by internal representation).
   static JsonToken get VALUE_NUMBER_INT =>
-      _id_VALUE_NUMBER_INT.get(_class, const $JsonToken$Type$());
+      _id_VALUE_NUMBER_INT.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_VALUE_NUMBER_FLOAT = _class.staticFieldId(
     r'VALUE_NUMBER_FLOAT',
@@ -224,7 +210,7 @@ class JsonToken extends jni$_.JObject {
   /// to one or more digits (or, for non-textual formats,
   /// has internal floating-point representation).
   static JsonToken get VALUE_NUMBER_FLOAT =>
-      _id_VALUE_NUMBER_FLOAT.get(_class, const $JsonToken$Type$());
+      _id_VALUE_NUMBER_FLOAT.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_VALUE_TRUE = _class.staticFieldId(
     r'VALUE_TRUE',
@@ -237,7 +223,7 @@ class JsonToken extends jni$_.JObject {
   /// VALUE_TRUE is returned when encountering literal "true" in
   /// value context
   static JsonToken get VALUE_TRUE =>
-      _id_VALUE_TRUE.get(_class, const $JsonToken$Type$());
+      _id_VALUE_TRUE.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_VALUE_FALSE = _class.staticFieldId(
     r'VALUE_FALSE',
@@ -250,7 +236,7 @@ class JsonToken extends jni$_.JObject {
   /// VALUE_FALSE is returned when encountering literal "false" in
   /// value context
   static JsonToken get VALUE_FALSE =>
-      _id_VALUE_FALSE.get(_class, const $JsonToken$Type$());
+      _id_VALUE_FALSE.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_VALUE_NULL = _class.staticFieldId(
     r'VALUE_NULL',
@@ -263,7 +249,7 @@ class JsonToken extends jni$_.JObject {
   /// VALUE_NULL is returned when encountering literal "null" in
   /// value context
   static JsonToken get VALUE_NULL =>
-      _id_VALUE_NULL.get(_class, const $JsonToken$Type$());
+      _id_VALUE_NULL.get(_class, JsonToken.type) as JsonToken;
 
   static final _id_values = _class.staticMethodId(
     r'values',
@@ -285,10 +271,8 @@ class JsonToken extends jni$_.JObject {
   /// from: `static public com.fasterxml.jackson.core.JsonToken[] values()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<JsonToken?>? values() {
-    return _values(_class.reference.pointer, _id_values as jni$_.JMethodIDPtr)
-        .object<jni$_.JArray<JsonToken?>?>(
-            const jni$_.$JArray$NullableType$<JsonToken?>(
-                $JsonToken$NullableType$()));
+    return _values(_class.reference.pointer, _id_values.pointer)
+        .object<jni$_.JArray<JsonToken?>?>();
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -313,9 +297,9 @@ class JsonToken extends jni$_.JObject {
     jni$_.JString? name,
   ) {
     final _$name = name?.reference ?? jni$_.jNullReference;
-    return _valueOf(_class.reference.pointer, _id_valueOf as jni$_.JMethodIDPtr,
-            _$name.pointer)
-        .object<JsonToken?>(const $JsonToken$NullableType$());
+    return _valueOf(
+            _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
+        .object<JsonToken?>();
   }
 
   static final _id_id = _class.instanceMethodId(
@@ -337,7 +321,7 @@ class JsonToken extends jni$_.JObject {
 
   /// from: `public final int id()`
   int id() {
-    return _id(reference.pointer, _id_id as jni$_.JMethodIDPtr).integer;
+    return _id(reference.pointer, _id_id.pointer).integer;
   }
 
   static final _id_asString = _class.instanceMethodId(
@@ -360,8 +344,8 @@ class JsonToken extends jni$_.JObject {
   /// from: `public final java.lang.String asString()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? asString() {
-    return _asString(reference.pointer, _id_asString as jni$_.JMethodIDPtr)
-        .object<jni$_.JString?>(const jni$_.$JString$NullableType$());
+    return _asString(reference.pointer, _id_asString.pointer)
+        .object<jni$_.JString?>();
   }
 
   static final _id_asCharArray = _class.instanceMethodId(
@@ -384,9 +368,8 @@ class JsonToken extends jni$_.JObject {
   /// from: `public final char[] asCharArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JCharArray? asCharArray() {
-    return _asCharArray(
-            reference.pointer, _id_asCharArray as jni$_.JMethodIDPtr)
-        .object<jni$_.JCharArray?>(const jni$_.$JCharArray$NullableType$());
+    return _asCharArray(reference.pointer, _id_asCharArray.pointer)
+        .object<jni$_.JCharArray?>();
   }
 
   static final _id_asByteArray = _class.instanceMethodId(
@@ -409,9 +392,8 @@ class JsonToken extends jni$_.JObject {
   /// from: `public final byte[] asByteArray()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JByteArray? asByteArray() {
-    return _asByteArray(
-            reference.pointer, _id_asByteArray as jni$_.JMethodIDPtr)
-        .object<jni$_.JByteArray?>(const jni$_.$JByteArray$NullableType$());
+    return _asByteArray(reference.pointer, _id_asByteArray.pointer)
+        .object<jni$_.JByteArray?>();
   }
 
   static final _id_isNumeric = _class.instanceMethodId(
@@ -436,8 +418,7 @@ class JsonToken extends jni$_.JObject {
   /// @return {@code True} if this token is {@code VALUE_NUMBER_INT} or {@code VALUE_NUMBER_FLOAT},
   ///   {@code false} otherwise
   core$_.bool isNumeric() {
-    return _isNumeric(reference.pointer, _id_isNumeric as jni$_.JMethodIDPtr)
-        .boolean;
+    return _isNumeric(reference.pointer, _id_isNumeric.pointer).boolean;
   }
 
   static final _id_isStructStart = _class.instanceMethodId(
@@ -467,9 +448,7 @@ class JsonToken extends jni$_.JObject {
   ///   {@code false} otherwise
   ///@since 2.3
   core$_.bool isStructStart() {
-    return _isStructStart(
-            reference.pointer, _id_isStructStart as jni$_.JMethodIDPtr)
-        .boolean;
+    return _isStructStart(reference.pointer, _id_isStructStart.pointer).boolean;
   }
 
   static final _id_isStructEnd = _class.instanceMethodId(
@@ -499,9 +478,7 @@ class JsonToken extends jni$_.JObject {
   ///   {@code false} otherwise
   ///@since 2.3
   core$_.bool isStructEnd() {
-    return _isStructEnd(
-            reference.pointer, _id_isStructEnd as jni$_.JMethodIDPtr)
-        .boolean;
+    return _isStructEnd(reference.pointer, _id_isStructEnd.pointer).boolean;
   }
 
   static final _id_isScalarValue = _class.instanceMethodId(
@@ -530,9 +507,7 @@ class JsonToken extends jni$_.JObject {
   ///@return {@code True} if this token is a scalar value token (one of
   ///   {@code VALUE_xxx} tokens), {@code false} otherwise
   core$_.bool isScalarValue() {
-    return _isScalarValue(
-            reference.pointer, _id_isScalarValue as jni$_.JMethodIDPtr)
-        .boolean;
+    return _isScalarValue(reference.pointer, _id_isScalarValue.pointer).boolean;
   }
 
   static final _id_isBoolean = _class.instanceMethodId(
@@ -557,45 +532,7 @@ class JsonToken extends jni$_.JObject {
   /// @return {@code True} if this token is {@code VALUE_TRUE} or {@code VALUE_FALSE},
   ///   {@code false} otherwise
   core$_.bool isBoolean() {
-    return _isBoolean(reference.pointer, _id_isBoolean as jni$_.JMethodIDPtr)
-        .boolean;
-  }
-}
-
-final class $JsonToken$NullableType$ extends jni$_.JType<JsonToken?> {
-  @jni$_.internal
-  const $JsonToken$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  String get signature => r'Lcom/fasterxml/jackson/core/JsonToken;';
-
-  @jni$_.internal
-  @core$_.override
-  JsonToken? fromReference(jni$_.JReference reference) => reference.isNull
-      ? null
-      : JsonToken.fromReference(
-          reference,
-        );
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType get superType => const jni$_.$JObject$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType<JsonToken?> get nullableType => this;
-
-  @jni$_.internal
-  @core$_.override
-  final superCount = 1;
-
-  @core$_.override
-  int get hashCode => ($JsonToken$NullableType$).hashCode;
-
-  @core$_.override
-  core$_.bool operator ==(Object other) {
-    return other.runtimeType == ($JsonToken$NullableType$) &&
-        other is $JsonToken$NullableType$;
+    return _isBoolean(reference.pointer, _id_isBoolean.pointer).boolean;
   }
 }
 
@@ -606,30 +543,4 @@ final class $JsonToken$Type$ extends jni$_.JType<JsonToken> {
   @jni$_.internal
   @core$_.override
   String get signature => r'Lcom/fasterxml/jackson/core/JsonToken;';
-
-  @jni$_.internal
-  @core$_.override
-  JsonToken fromReference(jni$_.JReference reference) =>
-      JsonToken.fromReference(
-        reference,
-      );
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType get superType => const jni$_.$JObject$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType<JsonToken?> get nullableType => const $JsonToken$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  final superCount = 1;
-
-  @core$_.override
-  int get hashCode => ($JsonToken$Type$).hashCode;
-
-  @core$_.override
-  core$_.bool operator ==(Object other) {
-    return other.runtimeType == ($JsonToken$Type$) && other is $JsonToken$Type$;
-  }
 }

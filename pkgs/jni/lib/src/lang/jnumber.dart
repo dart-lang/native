@@ -2,10 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:meta/meta.dart' show internal;
-
 import '../jobject.dart';
-import '../jreference.dart';
 import '../types.dart';
 import 'jboolean.dart';
 import 'jbyte.dart';
@@ -16,86 +13,22 @@ import 'jinteger.dart';
 import 'jlong.dart';
 import 'jshort.dart';
 
-@internal
-final class $JNumber$NullableType$ extends JType<JNumber?> {
-  const $JNumber$NullableType$();
+final class _$JNumber$Type$ extends JType<JNumber> {
+  const _$JNumber$Type$();
 
   @override
   String get signature => r'Ljava/lang/Number;';
-
-  @override
-  JNumber? fromReference(JReference reference) =>
-      reference.isNull ? null : JNumber.fromReference(reference);
-
-  @override
-  JType get superType => const $JObject$NullableType$();
-
-  @override
-  JType<JNumber?> get nullableType => this;
-
-  @override
-  final superCount = 1;
-
-  @override
-  int get hashCode => ($JNumber$NullableType$).hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == $JNumber$NullableType$ &&
-        other is $JNumber$NullableType$;
-  }
 }
 
-@internal
-final class $JNumber$Type$ extends JType<JNumber> {
-  const $JNumber$Type$();
-
-  @override
-  String get signature => r'Ljava/lang/Number;';
-
-  @override
-  JNumber fromReference(JReference reference) =>
-      JNumber.fromReference(reference);
-
-  @override
-  JType get superType => const $JObject$Type$();
-
-  @override
-  JType<JNumber?> get nullableType => const $JNumber$NullableType$();
-
-  @override
-  final superCount = 1;
-
-  @override
-  int get hashCode => ($JNumber$Type$).hashCode;
-
-  @override
-  bool operator ==(Object other) {
-    return other.runtimeType == $JNumber$Type$ && other is $JNumber$Type$;
-  }
-}
-
-class JNumber extends JObject {
-  @internal
-  @override
-  // ignore: overridden_fields
-  final JType<JNumber> $type = type;
-
-  JNumber.fromReference(
-    super.reference,
-  ) : super.fromReference();
-
+extension type JNumber._(JObject _$this) implements JObject {
   static final _class = JClass.forName(r'java/lang/Number');
 
   /// The type which includes information such as the signature of this class.
-  static const JType<JNumber> type = $JNumber$Type$();
-
-  /// The type which includes information such as the signature of this class.
-  static const JType<JNumber?> nullableType = $JNumber$NullableType$();
+  static const JType<JNumber> type = _$JNumber$Type$();
 
   static final _ctorId = _class.constructorId(r'()V');
 
-  JNumber() : super.fromReference(_ctorId(_class, referenceType, []));
+  JNumber() : _$this = _ctorId<JNumber>(_class, []);
 
   static final _intValueId = _class.instanceMethodId(r'intValue', r'()I');
 
