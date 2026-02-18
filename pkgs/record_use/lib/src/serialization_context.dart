@@ -31,7 +31,7 @@
 ///
 /// 1. **Definitions**: [Definition] objects are deserialized from or
 ///    serialized to the [RecordedUsesSyntax.definitions] pool first.
-/// 2. **Constants**: [Constant] objects are (de)serialized from or serialized
+/// 2. **Constants**: [Constant] objects are deserialized from or serialized
 ///    to the [RecordedUsesSyntax.constants] pool second. They may contain
 ///    references to the definitions pool (e.g. for [InstanceConstant]) and the
 ///    constants pool (for recursive collections).

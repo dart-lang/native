@@ -6,6 +6,7 @@
       "value": 42
     },
     {
+      "definition_index": 0,
       "type": "instance",
       "value": {
         "i": 0
@@ -16,6 +17,7 @@
       "value": 43
     },
     {
+      "definition_index": 0,
       "type": "instance",
       "value": {
         "i": 2

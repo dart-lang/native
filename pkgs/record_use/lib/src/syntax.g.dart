@@ -187,7 +187,19 @@ class ConstantSyntax extends JsonObjectSyntax {
   List<String> _validateType() => _reader.validate<String>('type');
 
   @override
-  List<String> validate() => [...super.validate(), ..._validateType()];
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateType(),
+    ..._validateExtraRulesConstant(),
+  ];
+
+  List<String> _validateExtraRulesConstant() {
+    final result = <String>[];
+    if (_reader.tryTraverse(['type']) == 'instance') {
+      result.addAll(_reader.validate<Object>('definition_index'));
+    }
+    return result;
+  }
 
   @override
   String toString() => 'ConstantSyntax($json)';
@@ -584,18 +596,32 @@ class InstanceConstantSyntax extends ConstantSyntax {
     super.path,
   }) : super._fromJson();
 
-  InstanceConstantSyntax({JsonObjectSyntax? value, super.path = const []})
-    : super(type: 'instance') {
+  InstanceConstantSyntax({
+    required int definitionIndex,
+    JsonObjectSyntax? value,
+    super.path = const [],
+  }) : super(type: 'instance') {
+    _definitionIndex = definitionIndex;
     _value = value;
     json.sortOnKey();
   }
 
   /// Setup all fields for [InstanceConstantSyntax] that are not in
   /// [ConstantSyntax].
-  void setup({required JsonObjectSyntax? value}) {
+  void setup({required int definitionIndex, required JsonObjectSyntax? value}) {
+    _definitionIndex = definitionIndex;
     _value = value;
     json.sortOnKey();
   }
+
+  int get definitionIndex => _reader.get<int>('definition_index');
+
+  set _definitionIndex(int value) {
+    json.setOrRemove('definition_index', value);
+  }
+
+  List<String> _validateDefinitionIndex() =>
+      _reader.validate<int>('definition_index');
 
   JsonObjectSyntax? get value {
     final jsonValue = _reader.optionalMap('value');
@@ -616,7 +642,11 @@ class InstanceConstantSyntax extends ConstantSyntax {
   }
 
   @override
-  List<String> validate() => [...super.validate(), ..._validateValue()];
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateDefinitionIndex(),
+    ..._validateValue(),
+  ];
 
   @override
   String toString() => 'InstanceConstantSyntax($json)';
