@@ -114,11 +114,17 @@
           },
           "then": {
             "properties": {
+              "definition_index": {
+                "type": "integer"
+              },
               "value": {
                 "type": "object",
                 "additionalProperties": true
               }
-            }
+            },
+            "required": [
+              "definition_index"
+            ]
           }
         },
         {

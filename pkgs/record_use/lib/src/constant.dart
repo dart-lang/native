@@ -4,6 +4,7 @@
 
 import 'package:meta/meta.dart';
 
+import 'definition.dart';
 import 'helper.dart';
 import 'serialization_context.dart';
 import 'syntax.g.dart';
@@ -80,11 +81,13 @@ abstract class Constant extends MaybeConstant {
           )
           .toList(),
     ),
-    InstanceConstantSyntax(value: final value) => InstanceConstant(
-      fields: (value?.json ?? {}).map(
-        (key, value) => MapEntry(key, context.constants[value as int]),
+    InstanceConstantSyntax(value: final value, :final definitionIndex) =>
+      InstanceConstant(
+        definition: context.definitions[definitionIndex],
+        fields: (value?.json ?? {}).map(
+          (key, value) => MapEntry(key, context.constants[value as int]),
+        ),
       ),
-    ),
     UnsupportedConstantSyntax(:final message) => UnsupportedConstant(message),
     _ => throw UnimplementedError(
       '"${syntax.type}" is not a supported constant type',
@@ -371,15 +374,20 @@ final class MapConstant extends Constant {
 /// Only as far as they can also be represented by constants. This is more or
 /// less the same as a [MapConstant].
 final class InstanceConstant extends Constant {
+  /// The definition of the class of this instance.
+  final Definition definition;
+
   /// The fields of this instance, mapped from field name to [Constant] value.
   final Map<String, Constant> fields;
 
-  /// Creates an [InstanceConstant] object with the given [fields].
-  const InstanceConstant({required this.fields});
+  /// Creates an [InstanceConstant] object with the given [definition] and
+  /// [fields].
+  const InstanceConstant({required this.definition, required this.fields});
 
   @override
   InstanceConstantSyntax _toSyntax(SerializationContext context) =>
       InstanceConstantSyntax(
+        definitionIndex: context.definitions[definition]!,
         value: fields.isNotEmpty
             ? JsonObjectSyntax.fromJson(
                 fields.map(
@@ -394,15 +402,17 @@ final class InstanceConstant extends Constant {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is InstanceConstant && deepEquals(other.fields, fields);
+    return other is InstanceConstant &&
+        other.definition == definition &&
+        deepEquals(other.fields, fields);
   }
 
   @override
-  int get hashCode => deepHash(fields);
+  int get hashCode => Object.hash(definition, deepHash(fields));
 
   @override
   String toString() =>
-      'InstanceConstant({'
+      'InstanceConstant($definition, {'
       '${fields.entries.map((e) => '${e.key}: ${e.value}').join(', ')}})';
 
   @override
@@ -411,6 +421,8 @@ final class InstanceConstant extends Constant {
     bool allowPromotionOfUnsupported,
   ) {
     if (other is! InstanceConstant) return false;
+    // ignore: invalid_use_of_visible_for_testing_member
+    if (!definition.semanticEquals(other.definition)) return false;
     if (fields.length != other.fields.length) return false;
     for (final entry in fields.entries) {
       final otherField = other.fields[entry.key];

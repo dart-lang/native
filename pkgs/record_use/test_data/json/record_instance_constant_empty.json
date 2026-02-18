@@ -2,9 +2,11 @@
   "$schema": "../../doc/schema/record_use.schema.json",
   "constants": [
     {
+      "definition_index": 0,
       "type": "instance"
     },
     {
+      "definition_index": 0,
       "type": "instance",
       "value": {
         "a": 0

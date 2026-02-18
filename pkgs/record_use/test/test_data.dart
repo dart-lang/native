@@ -63,12 +63,13 @@ final recordedUses = Recordings(
     instanceId: [
       const InstanceConstantReference(
         instanceConstant: InstanceConstant(
+          definition: instanceId,
           fields: {'a': IntConstant(42), 'b': NullConstant()},
         ),
         loadingUnit: '3',
       ),
       const InstanceConstantReference(
-        instanceConstant: InstanceConstant(fields: {}),
+        instanceConstant: InstanceConstant(definition: instanceId, fields: {}),
         loadingUnit: '3',
       ),
     ],
@@ -176,6 +177,7 @@ const recordedUsesJson = '''{
       "type": "null"
     },
     {
+      "definition_index": 1,
       "type": "instance",
       "value": {
         "a": 14,
@@ -183,6 +185,7 @@ const recordedUsesJson = '''{
       }
     },
     {
+      "definition_index": 1,
       "type": "instance"
     }
   ],
