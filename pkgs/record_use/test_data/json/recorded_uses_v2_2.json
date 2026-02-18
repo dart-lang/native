@@ -1,0 +1,57 @@
+{
+  "$schema": "../../doc/schema/record_use.schema.json",
+  "constants": [
+    {
+      "type": "bool",
+      "value": false
+    },
+    {
+      "type": "int",
+      "value": 1
+    },
+    {
+      "type": "string",
+      "value": "mercury"
+    },
+    {
+      "type": "int",
+      "value": 42
+    }
+  ],
+  "definitions": [
+    {
+      "path": [
+        {
+          "name": "MyClass"
+        },
+        {
+          "name": "get:loadDeferredLibrary"
+        }
+      ],
+      "uri": "package:js_runtime/js_helper.dart"
+    }
+  ],
+  "metadata": {
+    "comment": "Recorded references at compile time and their argument values, as far as known, to definitions annotated with @RecordUse",
+    "version": "1.6.2-wip+5.-.2.z"
+  },
+  "recordings": [
+    {
+      "calls": [
+        {
+          "loading_unit": "o.js",
+          "named": {
+            "freddy": 2,
+            "answer": 3
+          },
+          "positional": [
+            0,
+            1
+          ],
+          "type": "with_arguments"
+        }
+      ],
+      "definition_index": 0
+    }
+  ]
+}

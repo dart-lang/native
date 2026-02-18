@@ -1,0 +1,166 @@
+{
+  "$schema": "../../doc/schema/record_use.schema.json",
+  "constants": [
+    {
+      "type": "string",
+      "value": "lib_SHA1"
+    },
+    {
+      "type": "bool",
+      "value": false
+    },
+    {
+      "type": "int",
+      "value": 1
+    },
+    {
+      "type": "string",
+      "value": "mercury"
+    },
+    {
+      "type": "string",
+      "value": "jenkins"
+    },
+    {
+      "type": "string",
+      "value": "key"
+    },
+    {
+      "type": "int",
+      "value": 99
+    },
+    {
+      "type": "map",
+      "value": [
+        {
+          "key": 5,
+          "value": 6
+        }
+      ]
+    },
+    {
+      "type": "string",
+      "value": "camus"
+    },
+    {
+      "type": "string",
+      "value": "einstein"
+    },
+    {
+      "type": "string",
+      "value": "insert"
+    },
+    {
+      "type": "list",
+      "value": [
+        9,
+        10,
+        1
+      ]
+    },
+    {
+      "type": "list",
+      "value": [
+        8,
+        11,
+        9
+      ]
+    },
+    {
+      "type": "int",
+      "value": 0
+    },
+    {
+      "type": "int",
+      "value": 42
+    },
+    {
+      "type": "null"
+    },
+    {
+      "definition_index": 1,
+      "type": "instance",
+      "value": {
+        "a": 14,
+        "b": 15
+      }
+    },
+    {
+      "definition_index": 1,
+      "type": "instance"
+    }
+  ],
+  "definitions": [
+    {
+      "path": [
+        {
+          "name": "MyClass"
+        },
+        {
+          "name": "get:loadDeferredLibrary"
+        }
+      ],
+      "uri": "package:js_runtime/js_helper.dart"
+    },
+    {
+      "path": [
+        {
+          "name": "MyAnnotation"
+        }
+      ],
+      "uri": "package:js_runtime/js_helper.dart"
+    }
+  ],
+  "metadata": {
+    "comment": "Recorded references at compile time and their argument values, as far as known, to definitions annotated with @RecordUse",
+    "version": "1.6.2-wip+5.-.2.z"
+  },
+  "recordings": [
+    {
+      "calls": [
+        {
+          "loading_unit": "o.js",
+          "named": {
+            "freddy": 3,
+            "leroy": 4
+          },
+          "positional": [
+            0,
+            1,
+            2
+          ],
+          "type": "with_arguments"
+        },
+        {
+          "loading_unit": "o.js",
+          "named": {
+            "freddy": 13,
+            "leroy": 4
+          },
+          "positional": [
+            0,
+            7,
+            12
+          ],
+          "type": "with_arguments"
+        }
+      ],
+      "definition_index": 0
+    },
+    {
+      "definition_index": 1,
+      "instances": [
+        {
+          "constant_index": 16,
+          "loading_unit": "3",
+          "type": "constant"
+        },
+        {
+          "constant_index": 17,
+          "loading_unit": "3",
+          "type": "constant"
+        }
+      ]
+    }
+  ]
+}
