@@ -51,8 +51,8 @@ void main() {
       target: bindingsGeneratedCopyUri,
     );
     await runProcess(
-      executable: 'flutter',
-      arguments: ['pub', 'run', 'ffigen', '--config', 'ffigen.yaml'],
+      executable: 'dart',
+      arguments: ['run', 'ffigen', '--config', 'ffigen.yaml'],
       workingDirectory: projectDirUri,
     );
 
