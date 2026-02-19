@@ -38,7 +38,7 @@ String? getActionableSummaryParseMessage(String stderr) {
       'were compiled with a newer JDK target than JNIgen supports. Use a '
       'supported JDK version (11 to 17) (see JNIgen README), or recompile '
       'your Java inputs with a lower target (for example: javac --release '
-      '17 ...).';
+      '17 <your-java-files>).';
 }
 
 /// A command based summary source which calls the ApiSummarizer command.
@@ -199,8 +199,8 @@ Future<Classes> getSummary(Config config) async {
   } on Exception catch (e) {
     await process.exitCode;
     final stderr = stderrBuffer.toString();
-    final message =
-        getActionableSummaryParseMessage(stderr) ?? 'Cannot generate summary: $e';
+    final message = getActionableSummaryParseMessage(stderr) ??
+        'Cannot generate summary: $e';
     throw SummaryParseException.withStderr(
       stderr,
       message,
