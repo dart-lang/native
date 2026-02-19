@@ -32,7 +32,7 @@ final class NonConstant extends MaybeConstant {
   bool operator ==(Object other) => other is NonConstant;
 
   @override
-  int get hashCode => 9007199254740997;
+  int get hashCode => 0x4e6f6e43;
 
   @override
   String toString() => 'NonConstant()';
@@ -126,7 +126,7 @@ final class NullConstant extends Constant {
   bool operator ==(Object other) => other is NullConstant;
 
   @override
-  int get hashCode => 9007199254740881;
+  int get hashCode => 0x4e756c6c;
 
   @override
   String toString() => 'NullConstant()';
