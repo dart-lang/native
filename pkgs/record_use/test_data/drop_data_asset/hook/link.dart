@@ -31,7 +31,10 @@ void main(List<String> arguments) async {
       final calls = usages.constArgumentsFor(
         Definition(
           'package:${input.packageName}/src/${input.packageName}.dart',
-          [const Name('MyMath'), Name(methodName)],
+          [
+            const Name(kind: DefinitionKind.classKind, 'MyMath'),
+            Name(methodName),
+          ],
         ),
       );
       print('Checking calls to $methodName...');
@@ -53,7 +56,7 @@ void main(List<String> arguments) async {
       final instances = usages.constantsOf(
         Definition(
           'package:${input.packageName}/src/${input.packageName}.dart',
-          [Name(className)],
+          [Name(kind: DefinitionKind.classKind, className)],
         ),
       );
       print('Checking instances of $className...');

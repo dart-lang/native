@@ -30,6 +30,7 @@
       "value": 42
     },
     {
+      "definition_index": 1,
       "type": "instance",
       "value": {
         "i": 5
@@ -46,6 +47,38 @@
       "type": "unsupported"
     }
   ],
+  "definitions": [
+    {
+      "path": [
+        {
+          "kind": "class",
+          "name": "OtherClass"
+        },
+        {
+          "disambiguators": [
+            "static"
+          ],
+          "kind": "method",
+          "name": "generate"
+        }
+      ],
+      "uri": "package:record_use_test/complex.dart"
+    },
+    {
+      "path": [
+        {
+          "kind": "class",
+          "name": "MyClass"
+        }
+      ],
+      "uri": "package:record_use_test/instance_class.dart"
+    }
+  ],
+  "loading_units": [
+    {
+      "name": "1"
+    }
+  ],
   "metadata": {
     "comment": "Recorded usages of objects tagged with a `RecordUse` annotation",
     "version": "0.4.0"
@@ -54,7 +87,9 @@
     {
       "calls": [
         {
-          "loading_unit": "1",
+          "loading_unit_indices": [
+            0
+          ],
           "named": {
             "a": 0,
             "b": 2,
@@ -74,37 +109,16 @@
           "type": "with_arguments"
         }
       ],
-      "definition": {
-        "path": [
-          {
-            "kind": "class",
-            "name": "OtherClass"
-          },
-          {
-            "disambiguators": [
-              "static"
-            ],
-            "kind": "method",
-            "name": "generate"
-          }
-        ],
-        "uri": "package:record_use_test/complex.dart"
-      }
+      "definition_index": 0
     },
     {
-      "definition": {
-        "path": [
-          {
-            "kind": "class",
-            "name": "MyClass"
-          }
-        ],
-        "uri": "package:record_use_test/instance_class.dart"
-      },
+      "definition_index": 1,
       "instances": [
         {
           "constant_index": 6,
-          "loading_unit": "1",
+          "loading_unit_indices": [
+            0
+          ],
           "type": "constant"
         }
       ]

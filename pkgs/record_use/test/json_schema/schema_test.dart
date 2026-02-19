@@ -77,30 +77,32 @@ List<SchemaTestField> recordUseFields = [
     // Note the value for 'Instance' is optional because an empty map is
     // omitted. Also, Null has no value field.
   ],
-  (['recordings'], expectOptionalFieldMissing),
-  (['recordings', 0, 'definition'], expectRequiredFieldMissing),
-  (['recordings', 0, 'definition', 'uri'], expectRequiredFieldMissing),
-  (['recordings', 0, 'definition', 'path'], expectRequiredFieldMissing),
-  (['recordings', 0, 'definition', 'path', 0], expectOptionalFieldMissing),
+  (['definitions'], expectOptionalFieldMissing),
+  (['definitions', 0, 'uri'], expectRequiredFieldMissing),
+  (['definitions', 0, 'path'], expectRequiredFieldMissing),
+  (['definitions', 0, 'path', 0], expectOptionalFieldMissing),
   (
-    ['recordings', 0, 'definition', 'path', 0, 'name'],
+    ['definitions', 0, 'path', 0, 'name'],
     expectRequiredFieldMissing,
   ),
   (
-    ['recordings', 0, 'definition', 'path', 0, 'kind'],
+    ['definitions', 0, 'path', 0, 'kind'],
     expectOptionalFieldMissing,
   ),
   (
     [
-      'recordings',
+      'definitions',
       0,
-      'definition',
       'path',
       0,
       'disambiguators',
     ],
     expectOptionalFieldMissing,
   ),
+  (['loading_units'], expectOptionalFieldMissing),
+  (['loading_units', 0, 'name'], expectRequiredFieldMissing),
+  (['recordings'], expectOptionalFieldMissing),
+  (['recordings', 0, 'definition_index'], expectRequiredFieldMissing),
 
   // TODO(https://github.com/dart-lang/native/issues/1093): Whether calls or
   // instances is required depends on whether the definition is a class or
@@ -113,7 +115,10 @@ List<SchemaTestField> recordUseFields = [
   (['recordings', 0, 'calls', 0, 'positional'], expectOptionalFieldMissing),
   (['recordings', 0, 'calls', 0, 'positional', 0], expectOptionalFieldMissing),
   (['recordings', 0, 'calls', 0, 'positional', 3], expectOptionalFieldMissing),
-  (['recordings', 0, 'calls', 0, 'loading_unit'], expectRequiredFieldMissing),
+  (
+    ['recordings', 0, 'calls', 0, 'loading_unit_indices'],
+    expectRequiredFieldMissing,
+  ),
   (['recordings', 1, 'instances'], expectOptionalFieldMissing),
   (['recordings', 1, 'instances', 0, 'type'], expectRequiredFieldMissing),
   (
@@ -121,14 +126,14 @@ List<SchemaTestField> recordUseFields = [
     expectRequiredFieldMissing,
   ),
   (
-    ['recordings', 1, 'instances', 0, 'loading_unit'],
+    ['recordings', 1, 'instances', 0, 'loading_unit_indices'],
     expectRequiredFieldMissing,
   ),
 ];
 
 List<SchemaTestField> constructorInvocationFields = [
   (
-    ['recordings', 0, 'instances', 0, 'loading_unit'],
+    ['recordings', 0, 'instances', 0, 'loading_unit_indices'],
     expectRequiredFieldMissing,
   ),
   (['recordings', 0, 'instances', 0, 'type'], expectRequiredFieldMissing),

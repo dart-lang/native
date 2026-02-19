@@ -14,24 +14,34 @@
       "value": "named_arg_value"
     }
   ],
+  "definitions": [
+    {
+      "path": [
+        {
+          "kind": "class",
+          "name": "MyClass"
+        }
+      ],
+      "uri": "package:record_use_test/test.dart"
+    }
+  ],
+  "loading_units": [
+    {
+      "name": "root"
+    }
+  ],
   "metadata": {
     "comment": "Constructor invocation recording",
     "version": "1.0.0"
   },
   "recordings": [
     {
-      "definition": {
-        "path": [
-          {
-            "kind": "class",
-            "name": "MyClass"
-          }
-        ],
-        "uri": "package:record_use_test/test.dart"
-      },
+      "definition_index": 0,
       "instances": [
         {
-          "loading_unit": "root",
+          "loading_unit_indices": [
+            0
+          ],
           "named": {
             "other": null,
             "param": 2

@@ -2,6 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:io';
+
+import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:record_use/record_use_internal.dart';
 
@@ -13,6 +16,9 @@ const instanceId = Definition(
   'package:js_runtime/js_helper.dart',
   [Name('MyAnnotation')],
 );
+
+const loadingUnitOJs = LoadingUnit('o.js');
+const loadingUnit3 = LoadingUnit('3');
 
 final recordedUses = Recordings(
   metadata: Metadata(
@@ -33,7 +39,7 @@ final recordedUses = Recordings(
           'freddy': StringConstant('mercury'),
           'leroy': StringConstant('jenkins'),
         },
-        loadingUnit: 'o.js',
+        loadingUnits: [loadingUnitOJs],
       ),
       const CallWithArguments(
         positionalArguments: [
@@ -55,7 +61,7 @@ final recordedUses = Recordings(
           'freddy': IntConstant(0),
           'leroy': StringConstant('jenkins'),
         },
-        loadingUnit: 'o.js',
+        loadingUnits: [loadingUnitOJs],
       ),
     ],
   },
@@ -63,13 +69,14 @@ final recordedUses = Recordings(
     instanceId: [
       const InstanceConstantReference(
         instanceConstant: InstanceConstant(
+          definition: instanceId,
           fields: {'a': IntConstant(42), 'b': NullConstant()},
         ),
-        loadingUnit: '3',
+        loadingUnits: [loadingUnit3],
       ),
       const InstanceConstantReference(
-        instanceConstant: InstanceConstant(fields: {}),
-        loadingUnit: '3',
+        instanceConstant: InstanceConstant(definition: instanceId, fields: {}),
+        loadingUnits: [loadingUnit3],
       ),
     ],
   },
@@ -90,223 +97,19 @@ final recordedUses2 = Recordings(
           'freddy': StringConstant('mercury'),
           'answer': IntConstant(42),
         },
-        loadingUnit: 'o.js',
+        loadingUnits: [loadingUnitOJs],
       ),
     ],
   },
   instances: {},
 );
 
-const recordedUsesJson = '''{
-  "metadata": {
-    "version": "1.6.2-wip+5.-.2.z",
-    "comment": "Recorded references at compile time and their argument values, as far as known, to definitions annotated with @RecordUse"
-  },
-  "constants": [
-    {
-      "type": "string",
-      "value": "lib_SHA1"
-    },
-    {
-      "type": "bool",
-      "value": false
-    },
-    {
-      "type": "int",
-      "value": 1
-    },
-    {
-      "type": "string",
-      "value": "mercury"
-    },
-    {
-      "type": "string",
-      "value": "jenkins"
-    },
-    {
-      "type": "string",
-      "value": "key"
-    },
-    {
-      "type": "int",
-      "value": 99
-    },
-    {
-      "type": "map",
-      "value": [
-        {
-          "key": 5,
-          "value": 6
-        }
-      ]
-    },
-    {
-      "type": "string",
-      "value": "camus"
-    },
-    {
-      "type": "string",
-      "value": "einstein"
-    },
-    {
-      "type": "string",
-      "value": "insert"
-    },
-    {
-      "type": "list",
-      "value": [
-        9,
-        10,
-        1
-      ]
-    },
-    {
-      "type": "list",
-      "value": [
-        8,
-        11,
-        9
-      ]
-    },
-    {
-      "type": "int",
-      "value": 0
-    },
-    {
-      "type": "int",
-      "value": 42
-    },
-    {
-      "type": "null"
-    },
-    {
-      "type": "instance",
-      "value": {
-        "a": 14,
-        "b": 15
-      }
-    },
-    {
-      "type": "instance"
-    }
-  ],
-  "recordings": [
-    {
-      "definition": {
-        "uri": "package:js_runtime/js_helper.dart",
-        "path": [
-          {
-            "name": "MyClass"
-          },
-          {
-            "name": "get:loadDeferredLibrary"
-          }
-        ]
-      },
-      "calls": [
-        {
-          "type": "with_arguments",
-          "positional": [
-            0,
-            1,
-            2
-          ],
-          "named": {
-            "freddy": 3,
-            "leroy": 4
-          },
-          "loading_unit": "o.js"
-        },
-        {
-          "type": "with_arguments",
-          "positional": [
-            0,
-            7,
-            12
-          ],
-          "named": {
-            "freddy": 13,
-            "leroy": 4
-          },
-          "loading_unit": "o.js"
-        }
-      ]
-    },
-    {
-      "definition": {
-        "uri": "package:js_runtime/js_helper.dart",
-        "path": [
-          {
-            "name": "MyAnnotation"
-          }
-        ]
-      },
-      "instances": [
-        {
-          "type": "constant",
-          "constant_index": 16,
-          "loading_unit": "3"
-        },
-        {
-          "type": "constant",
-          "constant_index": 17,
-          "loading_unit": "3"
-        }
-      ]
-    }
-  ]
-}''';
+final _testDataUri = findPackageRoot('record_use').resolve('test_data/json/');
 
-const recordedUsesJson2 = '''{
-  "metadata": {
-    "version": "1.6.2-wip+5.-.2.z",
-    "comment": "Recorded references at compile time and their argument values, as far as known, to definitions annotated with @RecordUse"
-  },
-  "constants": [
-    {
-      "type": "bool",
-      "value": false
-    },
-    {
-      "type": "int",
-      "value": 1
-    },
-    {
-      "type": "string",
-      "value": "mercury"
-    },
-    {
-      "type": "int",
-      "value": 42
-    }
-  ],
-  "recordings": [
-    {
-      "definition": {
-        "uri": "package:js_runtime/js_helper.dart",
-        "path": [
-          {
-            "name": "MyClass"
-          },
-          {
-            "name": "get:loadDeferredLibrary"
-          }
-        ]
-      },
-      "calls": [
-        {
-          "type": "with_arguments",
-          "positional": [
-            0,
-            1
-          ],
-          "named": {
-            "freddy": 2,
-            "answer": 3
-          },
-          "loading_unit": "o.js"
-        }
-      ]
-    }
-  ]
-}''';
+final recordedUsesJson = File.fromUri(
+  _testDataUri.resolve('recorded_uses_v2.json'),
+).readAsStringSync();
+
+final recordedUsesJson2 = File.fromUri(
+  _testDataUri.resolve('recorded_uses_v2_2.json'),
+).readAsStringSync();

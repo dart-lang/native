@@ -4,7 +4,9 @@
 
 import 'package:meta/meta.dart';
 
+import 'definition.dart';
 import 'helper.dart';
+import 'serialization_context.dart';
 import 'syntax.g.dart';
 
 /// A value recorded during compilation.
@@ -30,7 +32,7 @@ final class NonConstant extends MaybeConstant {
   bool operator ==(Object other) => other is NonConstant;
 
   @override
-  int get hashCode => 9007199254740997;
+  int get hashCode => 0x4e6f6e43;
 
   @override
   String toString() => 'NonConstant()';
@@ -55,35 +57,37 @@ abstract class Constant extends MaybeConstant {
   const Constant();
 
   /// Converts this [Constant] object to a syntax representation.
-  ConstantSyntax _toSyntax(Map<Constant, int> constants);
+  ConstantSyntax _toSyntax(SerializationContext context);
 
   /// Creates a [Constant] object from its syntax representation.
   static Constant _fromSyntax(
     ConstantSyntax syntax,
-    List<Constant> constants,
+    DeserializationContext context,
   ) => switch (syntax) {
     NullConstantSyntax() => const NullConstant(),
     BoolConstantSyntax(:final value) => BoolConstant(value),
     IntConstantSyntax(:final value) => IntConstant(value),
     StringConstantSyntax(:final value) => StringConstant(value),
     ListConstantSyntax(:final value) => ListConstant(
-      value!.cast<int>().map((i) => constants[i]).toList(),
+      value!.cast<int>().map((i) => context.constants[i]).toList(),
     ),
     MapConstantSyntax(:final value) => MapConstant(
       value
           .map(
             (e) => MapEntry(
-              constants[e.key],
-              constants[e.value],
+              context.constants[e.key],
+              context.constants[e.value],
             ),
           )
           .toList(),
     ),
-    InstanceConstantSyntax(value: final value) => InstanceConstant(
-      fields: (value?.json ?? {}).map(
-        (key, value) => MapEntry(key, constants[value as int]),
+    InstanceConstantSyntax(value: final value, :final definitionIndex) =>
+      InstanceConstant(
+        definition: context.definitions[definitionIndex],
+        fields: (value?.json ?? {}).map(
+          (key, value) => MapEntry(key, context.constants[value as int]),
+        ),
       ),
-    ),
     UnsupportedConstantSyntax(:final message) => UnsupportedConstant(message),
     _ => throw UnimplementedError(
       '"${syntax.type}" is not a supported constant type',
@@ -115,14 +119,14 @@ final class NullConstant extends Constant {
   const NullConstant() : super();
 
   @override
-  NullConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+  NullConstantSyntax _toSyntax(SerializationContext context) =>
       NullConstantSyntax();
 
   @override
   bool operator ==(Object other) => other is NullConstant;
 
   @override
-  int get hashCode => 9007199254740881;
+  int get hashCode => 0x4e756c6c;
 
   @override
   String toString() => 'NullConstant()';
@@ -143,7 +147,7 @@ final class UnsupportedConstant extends Constant {
   const UnsupportedConstant(this.message);
 
   @override
-  UnsupportedConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+  UnsupportedConstantSyntax _toSyntax(SerializationContext context) =>
       UnsupportedConstantSyntax(message: message);
 
   @override
@@ -173,7 +177,7 @@ final class BoolConstant extends Constant {
   const BoolConstant(this.value);
 
   @override
-  BoolConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+  BoolConstantSyntax _toSyntax(SerializationContext context) =>
       BoolConstantSyntax(value: value);
 
   @override
@@ -202,7 +206,7 @@ final class IntConstant extends Constant {
   const IntConstant(this.value);
 
   @override
-  IntConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+  IntConstantSyntax _toSyntax(SerializationContext context) =>
       IntConstantSyntax(value: value);
 
   @override
@@ -231,7 +235,7 @@ final class StringConstant extends Constant {
   const StringConstant(this.value);
 
   @override
-  StringConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+  StringConstantSyntax _toSyntax(SerializationContext context) =>
       StringConstantSyntax(value: value);
 
   @override
@@ -270,9 +274,9 @@ final class ListConstant extends Constant {
   }
 
   @override
-  ListConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+  ListConstantSyntax _toSyntax(SerializationContext context) =>
       ListConstantSyntax(
-        value: value.map((constant) => constants[constant]).toList(),
+        value: value.map((constant) => context.constants[constant]!).toList(),
       );
 
   @override
@@ -326,13 +330,13 @@ final class MapConstant extends Constant {
   }
 
   @override
-  MapConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+  MapConstantSyntax _toSyntax(SerializationContext context) =>
       MapConstantSyntax(
         value: entries
             .map(
               (entry) => MapEntrySyntax(
-                key: constants[entry.key]!,
-                value: constants[entry.value]!,
+                key: context.constants[entry.key]!,
+                value: context.constants[entry.value]!,
               ),
             )
             .toList(),
@@ -370,19 +374,25 @@ final class MapConstant extends Constant {
 /// Only as far as they can also be represented by constants. This is more or
 /// less the same as a [MapConstant].
 final class InstanceConstant extends Constant {
+  /// The definition of the class of this instance.
+  final Definition definition;
+
   /// The fields of this instance, mapped from field name to [Constant] value.
   final Map<String, Constant> fields;
 
-  /// Creates an [InstanceConstant] object with the given [fields].
-  const InstanceConstant({required this.fields});
+  /// Creates an [InstanceConstant] object with the given [definition] and
+  /// [fields].
+  const InstanceConstant({required this.definition, required this.fields});
 
   @override
-  InstanceConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+  InstanceConstantSyntax _toSyntax(SerializationContext context) =>
       InstanceConstantSyntax(
+        definitionIndex: context.definitions[definition]!,
         value: fields.isNotEmpty
             ? JsonObjectSyntax.fromJson(
                 fields.map(
-                  (name, constant) => MapEntry(name, constants[constant]!),
+                  (name, constant) =>
+                      MapEntry(name, context.constants[constant]!),
                 ),
               )
             : null,
@@ -392,15 +402,17 @@ final class InstanceConstant extends Constant {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is InstanceConstant && deepEquals(other.fields, fields);
+    return other is InstanceConstant &&
+        other.definition == definition &&
+        deepEquals(other.fields, fields);
   }
 
   @override
-  int get hashCode => deepHash(fields);
+  int get hashCode => Object.hash(definition, deepHash(fields));
 
   @override
   String toString() =>
-      'InstanceConstant({'
+      'InstanceConstant($definition, {'
       '${fields.entries.map((e) => '${e.key}: ${e.value}').join(', ')}})';
 
   @override
@@ -409,6 +421,8 @@ final class InstanceConstant extends Constant {
     bool allowPromotionOfUnsupported,
   ) {
     if (other is! InstanceConstant) return false;
+    // ignore: invalid_use_of_visible_for_testing_member
+    if (!definition.semanticEquals(other.definition)) return false;
     if (fields.length != other.fields.length) return false;
     for (final entry in fields.entries) {
       final otherField = other.fields[entry.key];
@@ -429,8 +443,10 @@ final class InstanceConstant extends Constant {
 /// This avoids bloating the public API and public API docs and prevents
 /// internal types from leaking from the API.
 extension ConstantProtected on Constant {
-  ConstantSyntax toSyntax(Map<Constant, int> constants) => _toSyntax(constants);
+  ConstantSyntax toSyntax(SerializationContext context) => _toSyntax(context);
 
-  static Constant fromSyntax(ConstantSyntax syntax, List<Constant> constants) =>
-      Constant._fromSyntax(syntax, constants);
+  static Constant fromSyntax(
+    ConstantSyntax syntax,
+    DeserializationContext context,
+  ) => Constant._fromSyntax(syntax, context);
 }

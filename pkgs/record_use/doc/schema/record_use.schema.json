@@ -19,12 +19,15 @@
             }
           ]
         },
-        "loading_unit": {
-          "type": "string"
+        "loading_unit_indices": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
         }
       },
       "required": [
-        "loading_unit",
+        "loading_unit_indices",
         "type"
       ],
       "if": {
@@ -114,11 +117,17 @@
           },
           "then": {
             "properties": {
+              "definition_index": {
+                "type": "integer"
+              },
               "value": {
                 "type": "object",
                 "additionalProperties": true
               }
-            }
+            },
+            "required": [
+              "definition_index"
+            ]
           }
         },
         {
@@ -275,12 +284,15 @@
             }
           ]
         },
-        "loading_unit": {
-          "type": "string"
+        "loading_unit_indices": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
         }
       },
       "required": [
-        "loading_unit",
+        "loading_unit_indices",
         "type"
       ],
       "allOf": [
@@ -334,6 +346,17 @@
             }
           }
         }
+      ]
+    },
+    "LoadingUnit": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
       ]
     },
     "MapEntry": {
@@ -404,10 +427,22 @@
     "RecordedUses": {
       "type": "object",
       "properties": {
+        "definitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Definition"
+          }
+        },
         "constants": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/Constant"
+          }
+        },
+        "loading_units": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LoadingUnit"
           }
         },
         "metadata": {
@@ -445,8 +480,8 @@
             "$ref": "#/definitions/Call"
           }
         },
-        "definition": {
-          "$ref": "#/definitions/Definition"
+        "definition_index": {
+          "type": "integer"
         },
         "instances": {
           "type": "array",
@@ -456,7 +491,7 @@
         }
       },
       "required": [
-        "definition"
+        "definition_index"
       ]
     }
   }

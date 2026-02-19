@@ -7,8 +7,14 @@ import 'package:record_use/record_use_internal.dart';
 import 'package:test/test.dart';
 
 void main() {
+  const classDefinition = Definition(
+    'package:test/test.dart',
+    [Name('MyClass')],
+  );
+
   test('MapConstant with InstanceConstant keys round-trip', () {
     const instanceKey = InstanceConstant(
+      definition: classDefinition,
       fields: {
         'id': IntConstant(1),
         'tag': StringConstant('key'),
@@ -34,7 +40,7 @@ void main() {
           const CallWithArguments(
             positionalArguments: [mapConstant],
             namedArguments: {},
-            loadingUnit: 'main.js',
+            loadingUnits: [LoadingUnit('main.js')],
           ),
         ],
       },
@@ -49,6 +55,7 @@ void main() {
 
   test('MapConstant equality with InstanceConstant keys', () {
     const instanceKey = InstanceConstant(
+      definition: classDefinition,
       fields: {
         'id': IntConstant(1),
         'tag': StringConstant('key'),
@@ -62,6 +69,7 @@ void main() {
     expect(
       mapConstant.entries.first.key,
       const InstanceConstant(
+        definition: classDefinition,
         fields: {
           'id': IntConstant(1),
           'tag': StringConstant('key'),
@@ -97,7 +105,7 @@ void main() {
           const CallWithArguments(
             positionalArguments: [complexMap],
             namedArguments: {},
-            loadingUnit: 'main.js',
+            loadingUnits: [LoadingUnit('main.js')],
           ),
         ],
       },

@@ -11,11 +11,20 @@ import 'dart:io';
 import 'package:hooks/hooks.dart';
 import 'package:record_use/record_use_internal.dart';
 
-const methodId = Definition(
+final methodId = Definition(
   'package:pirate_speak/pirate_speak.dart',
   [
-    Name('PirateTranslator'),
-    Name(''),
+    const Name(
+      kind: DefinitionKind.classKind,
+      'PirateTranslator',
+    ),
+    Name(
+      kind: DefinitionKind.methodKind,
+      'speak',
+      disambiguators: {
+        DefinitionDisambiguator.staticDisambiguator,
+      },
+    ),
   ],
 );
 
@@ -23,6 +32,7 @@ const classId = Definition(
   'package:pirate_technology/pirate_technology.dart',
   [
     Name(
+      kind: DefinitionKind.classKind,
       'PirateShip',
     ),
   ],

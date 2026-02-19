@@ -5,6 +5,8 @@
 import 'package:record_use/record_use_internal.dart';
 import 'package:test/test.dart';
 
+const loadingUnit1 = LoadingUnit('1');
+
 void main() {
   test('MaybeConstant arguments in JSON', () {
     const json = {
@@ -13,18 +15,24 @@ void main() {
         {'type': 'int', 'value': 42},
         {'type': 'unsupported', 'message': 'Record'},
       ],
+      'loading_units': [
+        {'name': '1'},
+      ],
+      'definitions': [
+        {
+          'uri': 'package:a/a.dart',
+          'path': [
+            {'name': 'foo'},
+          ],
+        },
+      ],
       'recordings': [
         {
-          'definition': {
-            'uri': 'package:a/a.dart',
-            'path': [
-              {'name': 'foo'},
-            ],
-          },
+          'definition_index': 0,
           'calls': [
             {
               'type': 'with_arguments',
-              'loading_unit': '1',
+              'loading_unit_indices': [0],
               'positional': [0, 1, null],
               'named': {'a': 0, 'b': 1, 'c': null},
             },
@@ -66,7 +74,7 @@ void main() {
               'b': UnsupportedConstant('Record'),
               'c': NonConstant(),
             },
-            loadingUnit: '1',
+            loadingUnits: [loadingUnit1],
           ),
         ],
       },
@@ -97,7 +105,7 @@ void main() {
           const CallWithArguments(
             positionalArguments: [IntConstant(42)],
             namedArguments: {'a': StringConstant('bar')},
-            loadingUnit: '1',
+            loadingUnits: [loadingUnit1],
           ),
         ],
       },
@@ -111,7 +119,7 @@ void main() {
           const CallWithArguments(
             positionalArguments: [UnsupportedConstant('Record')],
             namedArguments: {'a': UnsupportedConstant('Record')},
-            loadingUnit: '1',
+            loadingUnits: [loadingUnit1],
           ),
         ],
       },
