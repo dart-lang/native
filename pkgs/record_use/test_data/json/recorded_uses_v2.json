@@ -111,6 +111,14 @@
       "uri": "package:js_runtime/js_helper.dart"
     }
   ],
+  "loading_units": [
+    {
+      "name": "o.js"
+    },
+    {
+      "name": "3"
+    }
+  ],
   "metadata": {
     "comment": "Recorded references at compile time and their argument values, as far as known, to definitions annotated with @RecordUse",
     "version": "1.6.2-wip+5.-.2.z"
@@ -119,7 +127,7 @@
     {
       "calls": [
         {
-          "loading_unit": "o.js",
+          "loading_unit_index": 0,
           "named": {
             "freddy": 3,
             "leroy": 4
@@ -132,7 +140,7 @@
           "type": "with_arguments"
         },
         {
-          "loading_unit": "o.js",
+          "loading_unit_index": 0,
           "named": {
             "freddy": 13,
             "leroy": 4
@@ -152,12 +160,12 @@
       "instances": [
         {
           "constant_index": 16,
-          "loading_unit": "3",
+          "loading_unit_index": 1,
           "type": "constant"
         },
         {
           "constant_index": 17,
-          "loading_unit": "3",
+          "loading_unit_index": 1,
           "type": "constant"
         }
       ]

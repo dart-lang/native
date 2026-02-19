@@ -25,6 +25,11 @@
       "uri": "package:record_use_test/test.dart"
     }
   ],
+  "loading_units": [
+    {
+      "name": "root"
+    }
+  ],
   "metadata": {
     "comment": "Constructor invocation recording",
     "version": "1.0.0"
@@ -34,7 +39,7 @@
       "definition_index": 0,
       "instances": [
         {
-          "loading_unit": "root",
+          "loading_unit_index": 0,
           "named": {
             "other": null,
             "param": 2

@@ -31,6 +31,11 @@
       "uri": "package:js_runtime/js_helper.dart"
     }
   ],
+  "loading_units": [
+    {
+      "name": "o.js"
+    }
+  ],
   "metadata": {
     "comment": "Recorded references at compile time and their argument values, as far as known, to definitions annotated with @RecordUse",
     "version": "1.6.2-wip+5.-.2.z"
@@ -39,7 +44,7 @@
     {
       "calls": [
         {
-          "loading_unit": "o.js",
+          "loading_unit_index": 0,
           "named": {
             "freddy": 2,
             "answer": 3

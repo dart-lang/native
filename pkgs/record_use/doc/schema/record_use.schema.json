@@ -19,12 +19,12 @@
             }
           ]
         },
-        "loading_unit": {
-          "type": "string"
+        "loading_unit_index": {
+          "type": "integer"
         }
       },
       "required": [
-        "loading_unit",
+        "loading_unit_index",
         "type"
       ],
       "if": {
@@ -281,12 +281,12 @@
             }
           ]
         },
-        "loading_unit": {
-          "type": "string"
+        "loading_unit_index": {
+          "type": "integer"
         }
       },
       "required": [
-        "loading_unit",
+        "loading_unit_index",
         "type"
       ],
       "allOf": [
@@ -340,6 +340,17 @@
             }
           }
         }
+      ]
+    },
+    "LoadingUnit": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
       ]
     },
     "MapEntry": {
@@ -420,6 +431,12 @@
           "type": "array",
           "items": {
             "$ref": "#/definitions/Constant"
+          }
+        },
+        "loading_units": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LoadingUnit"
           }
         },
         "metadata": {

@@ -66,7 +66,11 @@ Error: $e
   }
 
   factory Recordings._fromSyntax(RecordedUsesSyntax syntax) {
-    final definitionContext = _deserializeDefinitions(syntax);
+    final loadingUnitContext = _deserializeLoadingUnits(syntax);
+    final definitionContext = _deserializeDefinitions(
+      syntax,
+      loadingUnitContext,
+    );
     final context = _deserializeConstants(syntax, definitionContext);
 
     final callsForDefinition = <Definition, List<CallReference>>{};
@@ -109,14 +113,28 @@ Error: $e
     );
   }
 
+  static LoadingUnitDeserializationContext _deserializeLoadingUnits(
+    RecordedUsesSyntax syntax,
+  ) {
+    final loadingUnits = <String>[];
+    for (final unit in syntax.loadingUnits ?? <LoadingUnitSyntax>[]) {
+      loadingUnits.add(unit.name);
+    }
+    return LoadingUnitDeserializationContext(loadingUnits);
+  }
+
   static DefinitionDeserializationContext _deserializeDefinitions(
     RecordedUsesSyntax syntax,
+    LoadingUnitDeserializationContext loadingUnitContext,
   ) {
     final definitions = <Definition>[];
     for (final definitionSyntax in syntax.definitions ?? <DefinitionSyntax>[]) {
       definitions.add(DefinitionProtected.fromSyntax(definitionSyntax));
     }
-    return DefinitionDeserializationContext(definitions);
+    return DefinitionDeserializationContext.fromPrevious(
+      loadingUnitContext,
+      definitions,
+    );
   }
 
   static DeserializationContext _deserializeConstants(
@@ -148,7 +166,12 @@ Error: $e
 
   RecordedUsesSyntax _toSyntax() {
     final allConstants = _collectConstants();
-    final definitionContext = _serializeDefinitions(allConstants);
+    final allLoadingUnits = _collectLoadingUnits();
+    final loadingUnitContext = _serializeLoadingUnits(allLoadingUnits);
+    final definitionContext = _serializeDefinitions(
+      allConstants,
+      loadingUnitContext,
+    );
     final (context, constantSyntax) = _serializeConstants(
       allConstants,
       definitionContext,
@@ -174,6 +197,11 @@ Error: $e
     return RecordedUsesSyntax(
       metadata: metadata.toSyntax(),
       constants: constantSyntax.isEmpty ? null : constantSyntax,
+      loadingUnits: allLoadingUnits.isEmpty
+          ? null
+          : allLoadingUnits
+                .map((unit) => LoadingUnitSyntax(name: unit))
+                .toList(),
       definitions: context.definitions.isEmpty
           ? null
           : context.definitions.keys
@@ -185,7 +213,7 @@ Error: $e
     );
   }
 
-  List<Constant> _collectConstants() => {
+  Iterable<Constant> _collectConstants() => {
     ...calls.values
         .expand((calls) => calls)
         .whereType<CallWithArguments>()
@@ -222,23 +250,38 @@ Error: $e
             ConstructorTearoffReference() => <Constant>[],
           },
         ),
-  }.flatten().toList();
+  }.flatten();
+
+  Iterable<String> _collectLoadingUnits() => {
+    ...calls.values.expand((calls) => calls).map((call) => call.loadingUnit!),
+    ...instances.values
+        .expand((instances) => instances)
+        .map((instance) => instance.loadingUnit!),
+  };
+
+  LoadingUnitSerializationContext _serializeLoadingUnits(
+    Iterable<String> allLoadingUnits,
+  ) => LoadingUnitSerializationContext(
+    allLoadingUnits.asMapToIndices,
+  );
 
   DefinitionSerializationContext _serializeDefinitions(
-    List<Constant> allConstants,
+    Iterable<Constant> allConstants,
+    LoadingUnitSerializationContext loadingUnitContext,
   ) {
     final allDefinitions = {
       ...calls.keys,
       ...instances.keys,
       ...allConstants.whereType<InstanceConstant>().map((c) => c.definition),
-    }.toList();
-    return DefinitionSerializationContext(
+    };
+    return DefinitionSerializationContext.fromPrevious(
+      loadingUnitContext,
       allDefinitions.asMapToIndices,
     );
   }
 
   (SerializationContext, List<ConstantSyntax>) _serializeConstants(
-    List<Constant> allConstants,
+    Iterable<Constant> allConstants,
     DefinitionSerializationContext definitionContext,
   ) {
     final constantsMap = allConstants.asMapToIndices;
