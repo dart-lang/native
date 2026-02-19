@@ -10,6 +10,7 @@ import 'package:meta/meta.dart';
 import 'constant.dart';
 import 'definition.dart';
 import 'helper.dart';
+import 'loading_unit.dart';
 import 'metadata.dart';
 import 'reference.dart';
 import 'serialization_context.dart';
@@ -116,9 +117,9 @@ Error: $e
   static LoadingUnitDeserializationContext _deserializeLoadingUnits(
     RecordedUsesSyntax syntax,
   ) {
-    final loadingUnits = <String>[];
+    final loadingUnits = <LoadingUnit>[];
     for (final unit in syntax.loadingUnits ?? <LoadingUnitSyntax>[]) {
-      loadingUnits.add(unit.name);
+      loadingUnits.add(LoadingUnit(unit.name));
     }
     return LoadingUnitDeserializationContext(loadingUnits);
   }
@@ -200,7 +201,7 @@ Error: $e
       loadingUnits: allLoadingUnits.isEmpty
           ? null
           : allLoadingUnits
-                .map((unit) => LoadingUnitSyntax(name: unit))
+                .map((unit) => LoadingUnitSyntax(name: unit.name))
                 .toList(),
       definitions: context.definitions.isEmpty
           ? null
@@ -252,15 +253,17 @@ Error: $e
         ),
   }.flatten();
 
-  Iterable<String> _collectLoadingUnits() => {
-    ...calls.values.expand((calls) => calls).map((call) => call.loadingUnit!),
+  Iterable<LoadingUnit> _collectLoadingUnits() => {
+    ...calls.values
+        .expand((calls) => calls)
+        .expand((call) => call.loadingUnits),
     ...instances.values
         .expand((instances) => instances)
-        .map((instance) => instance.loadingUnit!),
+        .expand((instance) => instance.loadingUnits),
   };
 
   LoadingUnitSerializationContext _serializeLoadingUnits(
-    Iterable<String> allLoadingUnits,
+    Iterable<LoadingUnit> allLoadingUnits,
   ) => LoadingUnitSerializationContext(
     allLoadingUnits.asMapToIndices,
   );

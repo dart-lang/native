@@ -5,17 +5,19 @@
 import 'package:record_use/record_use_internal.dart';
 import 'package:test/test.dart';
 
+const loadingUnitFoo = LoadingUnit('dart.foo');
+
 void main() {
   group('toString', () {
     test('CallWithArguments', () {
       const call = CallWithArguments(
         positionalArguments: [],
         namedArguments: {},
-        loadingUnit: 'dart.foo',
+        loadingUnits: [loadingUnitFoo],
       );
       expect(
         call.toString(),
-        'CallWithArguments(loadingUnit: dart.foo)',
+        'CallWithArguments(loadingUnits: dart.foo)',
       );
     });
 
@@ -26,13 +28,13 @@ void main() {
           'bar': NonConstant(),
           'baz': NonConstant(),
         },
-        loadingUnit: 'dart.foo',
+        loadingUnits: [loadingUnitFoo],
       );
       expect(
         call.toString(),
         'CallWithArguments(positional: NonConstant(), '
         'NonConstant(), named: bar=NonConstant(), '
-        'baz=NonConstant(), loadingUnit: dart.foo)',
+        'baz=NonConstant(), loadingUnits: dart.foo)',
       );
     });
   });

@@ -17,6 +17,7 @@ export 'src/constant.dart'
         UnsupportedConstant;
 export 'src/definition.dart'
     show Definition, DefinitionDisambiguator, DefinitionKind, Name;
+export 'src/loading_unit.dart' show LoadingUnit;
 export 'src/metadata.dart' show Metadata;
 export 'src/record_use.dart' show RecordedUsages;
 export 'src/recordings.dart'

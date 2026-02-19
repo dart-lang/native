@@ -40,7 +40,7 @@ void main() {
           const CallWithArguments(
             positionalArguments: [mapConstant],
             namedArguments: {},
-            loadingUnit: 'main.js',
+            loadingUnits: [LoadingUnit('main.js')],
           ),
         ],
       },
@@ -105,7 +105,7 @@ void main() {
           const CallWithArguments(
             positionalArguments: [complexMap],
             namedArguments: {},
-            loadingUnit: 'main.js',
+            loadingUnits: [LoadingUnit('main.js')],
           ),
         ],
       },

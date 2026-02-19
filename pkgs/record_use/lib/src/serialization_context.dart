@@ -46,13 +46,14 @@ import 'package:meta/meta.dart';
 
 import 'constant.dart';
 import 'definition.dart';
+import 'loading_unit.dart';
 import 'recordings.dart';
 import 'syntax.g.dart';
 
 /// Context providing access to the loading unit pool during deserialization.
 @immutable
 base class LoadingUnitDeserializationContext {
-  final List<String> loadingUnits;
+  final List<LoadingUnit> loadingUnits;
 
   const LoadingUnitDeserializationContext(this.loadingUnits);
 }
@@ -85,7 +86,7 @@ final class DeserializationContext extends DefinitionDeserializationContext {
 /// Context providing access to the loading unit index map during serialization.
 @immutable
 base class LoadingUnitSerializationContext {
-  final Map<String, int> loadingUnits;
+  final Map<LoadingUnit, int> loadingUnits;
 
   const LoadingUnitSerializationContext(this.loadingUnits);
 }
