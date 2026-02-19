@@ -55,12 +55,12 @@ sealed class CallReference extends Reference {
     DeserializationContext context,
   ) => switch (syntax) {
     TearoffCallSyntax() => CallTearoff(
-      loadingUnit: context.loadingUnits[syntax.loadingUnitIndex],
+      loadingUnit: context.loadingUnits[syntax.loadingUnitIndices.first],
     ),
     WithArgumentsCallSyntax(
       :final named,
       :final positional,
-      :final loadingUnitIndex,
+      :final loadingUnitIndices,
     ) =>
       CallWithArguments(
         positionalArguments: (positional ?? [])
@@ -69,7 +69,7 @@ sealed class CallReference extends Reference {
         namedArguments: (named ?? {}).map(
           (name, index) => MapEntry(name, _argumentFromSyntax(index, context)),
         ),
-        loadingUnit: context.loadingUnits[loadingUnitIndex],
+        loadingUnit: context.loadingUnits[loadingUnitIndices.first],
       ),
     _ => throw UnimplementedError('Unknown CallSyntax type'),
   };
@@ -129,7 +129,7 @@ final class CallWithArguments extends CallReference {
     }
 
     return WithArgumentsCallSyntax(
-      loadingUnitIndex: context.loadingUnits[loadingUnit!]!,
+      loadingUnitIndices: [context.loadingUnits[loadingUnit!]!],
       named: namedArgs.isNotEmpty ? namedArgs : null,
       positional: positionalArguments.isEmpty
           ? null
@@ -240,7 +240,9 @@ final class CallTearoff extends CallReference {
 
   @override
   TearoffCallSyntax _toSyntax(SerializationContext context) =>
-      TearoffCallSyntax(loadingUnitIndex: context.loadingUnits[loadingUnit!]!);
+      TearoffCallSyntax(
+        loadingUnitIndices: [context.loadingUnits[loadingUnit!]!],
+      );
 
   @override
   @visibleForTesting
@@ -274,16 +276,16 @@ sealed class InstanceReference extends Reference {
   ) => switch (syntax) {
     ConstantInstanceSyntax(
       :final constantIndex,
-      :final loadingUnitIndex,
+      :final loadingUnitIndices,
     ) =>
       InstanceConstantReference(
         instanceConstant: context.constants[constantIndex] as InstanceConstant,
-        loadingUnit: context.loadingUnits[loadingUnitIndex],
+        loadingUnit: context.loadingUnits[loadingUnitIndices.first],
       ),
     CreationInstanceSyntax(
       :final named,
       :final positional,
-      :final loadingUnitIndex,
+      :final loadingUnitIndices,
     ) =>
       InstanceCreationReference(
         positionalArguments: (positional ?? [])
@@ -295,11 +297,11 @@ sealed class InstanceReference extends Reference {
             CallReference._argumentFromSyntax(index, context),
           ),
         ),
-        loadingUnit: context.loadingUnits[loadingUnitIndex],
+        loadingUnit: context.loadingUnits[loadingUnitIndices.first],
       ),
-    TearoffInstanceSyntax(:final loadingUnitIndex) =>
+    TearoffInstanceSyntax(:final loadingUnitIndices) =>
       ConstructorTearoffReference(
-        loadingUnit: context.loadingUnits[loadingUnitIndex],
+        loadingUnit: context.loadingUnits[loadingUnitIndices.first],
       ),
     _ => throw UnimplementedError('Unknown InstanceSyntax type'),
   };
@@ -333,7 +335,7 @@ final class InstanceConstantReference extends InstanceReference {
   ConstantInstanceSyntax _toSyntax(SerializationContext context) =>
       ConstantInstanceSyntax(
         constantIndex: context.constants[instanceConstant]!,
-        loadingUnitIndex: context.loadingUnits[loadingUnit!]!,
+        loadingUnitIndices: [context.loadingUnits[loadingUnit!]!],
       );
 
   @override
@@ -394,7 +396,7 @@ final class InstanceCreationReference extends InstanceReference {
     }
 
     return CreationInstanceSyntax(
-      loadingUnitIndex: context.loadingUnits[loadingUnit!]!,
+      loadingUnitIndices: [context.loadingUnits[loadingUnit!]!],
       named: namedArgs.isNotEmpty ? namedArgs : null,
       positional: positionalArguments.isEmpty
           ? null
@@ -479,7 +481,7 @@ final class ConstructorTearoffReference extends InstanceReference {
   @override
   TearoffInstanceSyntax _toSyntax(SerializationContext context) =>
       TearoffInstanceSyntax(
-        loadingUnitIndex: context.loadingUnits[loadingUnit!]!,
+        loadingUnitIndices: [context.loadingUnits[loadingUnit!]!],
       );
 
   @override

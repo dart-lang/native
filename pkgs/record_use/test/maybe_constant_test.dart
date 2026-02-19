@@ -30,7 +30,7 @@ void main() {
           'calls': [
             {
               'type': 'with_arguments',
-              'loading_unit_index': 0,
+              'loading_unit_indices': [0],
               'positional': [0, 1, null],
               'named': {'a': 0, 'b': 1, 'c': null},
             },

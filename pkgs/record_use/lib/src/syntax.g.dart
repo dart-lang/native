@@ -71,23 +71,23 @@ class CallSyntax extends JsonObjectSyntax {
   }) : super.fromJson();
 
   CallSyntax({
-    required int loadingUnitIndex,
+    required List<int> loadingUnitIndices,
     required String type,
     super.path = const [],
   }) : super() {
-    _loadingUnitIndex = loadingUnitIndex;
+    _loadingUnitIndices = loadingUnitIndices;
     _type = type;
     json.sortOnKey();
   }
 
-  int get loadingUnitIndex => _reader.get<int>('loading_unit_index');
+  List<int> get loadingUnitIndices => _reader.list<int>('loading_unit_indices');
 
-  set _loadingUnitIndex(int value) {
-    json.setOrRemove('loading_unit_index', value);
+  set _loadingUnitIndices(List<int> value) {
+    json['loading_unit_indices'] = value;
   }
 
-  List<String> _validateLoadingUnitIndex() =>
-      _reader.validate<int>('loading_unit_index');
+  List<String> _validateLoadingUnitIndices() =>
+      _reader.validateList<int>('loading_unit_indices');
 
   String get type => _reader.get<String>('type');
 
@@ -100,7 +100,7 @@ class CallSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [
     ...super.validate(),
-    ..._validateLoadingUnitIndex(),
+    ..._validateLoadingUnitIndices(),
     ..._validateType(),
   ];
 
@@ -213,7 +213,7 @@ class ConstantInstanceSyntax extends InstanceSyntax {
 
   ConstantInstanceSyntax({
     required int constantIndex,
-    required super.loadingUnitIndex,
+    required super.loadingUnitIndices,
     super.path = const [],
   }) : super(type: 'constant') {
     _constantIndex = constantIndex;
@@ -285,7 +285,7 @@ class CreationInstanceSyntax extends InstanceSyntax {
   }) : super._fromJson();
 
   CreationInstanceSyntax({
-    required super.loadingUnitIndex,
+    required super.loadingUnitIndices,
     Map<String, int?>? named,
     List<int?>? positional,
     super.path = const [],
@@ -553,23 +553,23 @@ class InstanceSyntax extends JsonObjectSyntax {
   }) : super.fromJson();
 
   InstanceSyntax({
-    required int loadingUnitIndex,
+    required List<int> loadingUnitIndices,
     required String type,
     super.path = const [],
   }) : super() {
-    _loadingUnitIndex = loadingUnitIndex;
+    _loadingUnitIndices = loadingUnitIndices;
     _type = type;
     json.sortOnKey();
   }
 
-  int get loadingUnitIndex => _reader.get<int>('loading_unit_index');
+  List<int> get loadingUnitIndices => _reader.list<int>('loading_unit_indices');
 
-  set _loadingUnitIndex(int value) {
-    json.setOrRemove('loading_unit_index', value);
+  set _loadingUnitIndices(List<int> value) {
+    json['loading_unit_indices'] = value;
   }
 
-  List<String> _validateLoadingUnitIndex() =>
-      _reader.validate<int>('loading_unit_index');
+  List<String> _validateLoadingUnitIndices() =>
+      _reader.validateList<int>('loading_unit_indices');
 
   String get type => _reader.get<String>('type');
 
@@ -582,7 +582,7 @@ class InstanceSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [
     ...super.validate(),
-    ..._validateLoadingUnitIndex(),
+    ..._validateLoadingUnitIndices(),
     ..._validateType(),
   ];
 
@@ -1484,7 +1484,7 @@ class TearoffCallSyntax extends CallSyntax {
     super.path,
   }) : super._fromJson();
 
-  TearoffCallSyntax({required super.loadingUnitIndex, super.path = const []})
+  TearoffCallSyntax({required super.loadingUnitIndices, super.path = const []})
     : super(type: 'tearoff');
 
   @override
@@ -1510,7 +1510,7 @@ class TearoffInstanceSyntax extends InstanceSyntax {
   }) : super._fromJson();
 
   TearoffInstanceSyntax({
-    required super.loadingUnitIndex,
+    required super.loadingUnitIndices,
     super.path = const [],
   }) : super(type: 'tearoff');
 
@@ -1578,7 +1578,7 @@ class WithArgumentsCallSyntax extends CallSyntax {
   }) : super._fromJson();
 
   WithArgumentsCallSyntax({
-    required super.loadingUnitIndex,
+    required super.loadingUnitIndices,
     Map<String, int?>? named,
     List<int?>? positional,
     super.path = const [],

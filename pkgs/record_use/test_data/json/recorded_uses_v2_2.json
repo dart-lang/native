@@ -44,7 +44,9 @@
     {
       "calls": [
         {
-          "loading_unit_index": 0,
+          "loading_unit_indices": [
+            0
+          ],
           "named": {
             "freddy": 2,
             "answer": 3

@@ -19,12 +19,15 @@
             }
           ]
         },
-        "loading_unit_index": {
-          "type": "integer"
+        "loading_unit_indices": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
         }
       },
       "required": [
-        "loading_unit_index",
+        "loading_unit_indices",
         "type"
       ],
       "if": {
@@ -281,12 +284,15 @@
             }
           ]
         },
-        "loading_unit_index": {
-          "type": "integer"
+        "loading_unit_indices": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
         }
       },
       "required": [
-        "loading_unit_index",
+        "loading_unit_indices",
         "type"
       ],
       "allOf": [
