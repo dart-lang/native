@@ -480,4 +480,13 @@ extension MaybeConstantProtected on MaybeConstant {
     ConstantSyntax syntax,
     DeserializationContext context,
   ) => MaybeConstant._fromSyntax(syntax, context);
+
+  @visibleForTesting
+  bool semanticEquals(
+    MaybeConstant other, {
+    bool allowPromotionOfUnsupported = false,
+  }) => this.semanticEquals(
+    other,
+    allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+  );
 }

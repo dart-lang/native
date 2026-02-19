@@ -64,21 +64,28 @@ sealed class Reference {
 /// This might be an actual call, in which case we record the arguments, or a
 /// tear-off, in which case we can't record the arguments.
 sealed class CallReference extends Reference {
-  const CallReference({required super.loadingUnits});
+  /// The argument in the receiver position.
+  ///
+  /// Is `null` for static (extension) methods.
+  final MaybeConstant? receiver;
+
+  const CallReference({required super.loadingUnits, this.receiver});
 
   static CallReference _fromSyntax(
     CallSyntax syntax,
     DeserializationContext context,
   ) => switch (syntax) {
-    TearoffCallSyntax() => CallTearoff(
+    TearoffCallSyntax(:final receiver) => CallTearoff(
       loadingUnits: syntax.loadingUnitIndices
           .map((index) => context.loadingUnits[index])
           .toList(),
+      receiver: receiver != null ? context.constants[receiver] : null,
     ),
     WithArgumentsCallSyntax(
       :final named,
       :final positional,
       :final loadingUnitIndices,
+      :final receiver,
     ) =>
       CallWithArguments(
         positionalArguments: (positional ?? [])
@@ -90,6 +97,7 @@ sealed class CallReference extends Reference {
         loadingUnits: loadingUnitIndices
             .map((index) => context.loadingUnits[index])
             .toList(),
+        receiver: receiver != null ? context.constants[receiver] : null,
       ),
     _ => throw UnimplementedError('Unknown CallSyntax type'),
   };
@@ -124,6 +132,32 @@ sealed class CallReference extends Reference {
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
   });
+
+  bool _semanticEqualsCall(
+    CallReference other, {
+    bool allowMoreConstArguments = false,
+    bool allowPromotionOfUnsupported = false,
+    String Function(String)? uriMapping,
+    String Function(String)? loadingUnitMapping,
+  }) {
+    if (!_semanticEqualsShared(
+      other,
+      uriMapping: uriMapping,
+      loadingUnitMapping: loadingUnitMapping,
+    )) {
+      return false;
+    }
+    final otherReceiver = other.receiver;
+    if (receiver == null) {
+      return otherReceiver == null;
+    }
+    if (otherReceiver == null) return false;
+    // ignore: invalid_use_of_visible_for_testing_member
+    return receiver!.semanticEquals(
+      otherReceiver,
+      allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+    );
+  }
 }
 
 /// A reference to a call to some [Definition] with [positionalArguments] and
@@ -136,6 +170,7 @@ final class CallWithArguments extends CallReference {
     required this.positionalArguments,
     required this.namedArguments,
     required super.loadingUnits,
+    super.receiver,
   });
 
   @override
@@ -155,6 +190,7 @@ final class CallWithArguments extends CallReference {
           : positionalArguments
                 .map((argument) => context.constants[argument]!)
                 .toList(),
+      receiver: receiver != null ? context.constants[receiver!] : null,
     );
   }
 
@@ -165,13 +201,15 @@ final class CallWithArguments extends CallReference {
 
     return other is CallWithArguments &&
         deepEquals(other.positionalArguments, positionalArguments) &&
-        deepEquals(other.namedArguments, namedArguments);
+        deepEquals(other.namedArguments, namedArguments) &&
+        receiver == other.receiver;
   }
 
   @override
   int get hashCode => Object.hash(
     deepHash(positionalArguments),
     deepHash(namedArguments),
+    receiver,
     super.hashCode,
   );
 
@@ -216,10 +254,12 @@ final class CallWithArguments extends CallReference {
             return false;
           }
         }
-        return _semanticEqualsShared(
+        return _semanticEqualsCall(
           other,
           uriMapping: uriMapping,
           loadingUnitMapping: loadingUnitMapping,
+          allowMoreConstArguments: allowMoreConstArguments,
+          allowPromotionOfUnsupported: allowPromotionOfUnsupported,
         );
       case CallTearoff():
         return allowTearoffToStaticPromotion;
@@ -229,6 +269,9 @@ final class CallWithArguments extends CallReference {
   @override
   String toString() {
     final parts = <String>[];
+    if (receiver != null) {
+      parts.add('receiver: $receiver');
+    }
     if (positionalArguments.isNotEmpty) {
       parts.add('positional: ${positionalArguments.join(', ')}');
     }
@@ -250,7 +293,7 @@ final class CallWithArguments extends CallReference {
 /// A reference to a tear-off use of the [Definition]. This means that we can't
 /// record the arguments possibly passed to the method somewhere else.
 final class CallTearoff extends CallReference {
-  const CallTearoff({required super.loadingUnits});
+  const CallTearoff({required super.loadingUnits, super.receiver});
 
   @override
   TearoffCallSyntax _toSyntax(SerializationContext context) =>
@@ -258,6 +301,7 @@ final class CallTearoff extends CallReference {
         loadingUnitIndices: loadingUnits
             .map((unit) => context.loadingUnits[unit]!)
             .toList(),
+        receiver: receiver != null ? context.constants[receiver!] : null,
       );
 
   @override
@@ -274,10 +318,12 @@ final class CallTearoff extends CallReference {
       case CallWithArguments():
         return false;
       case CallTearoff():
-        return _semanticEqualsShared(
+        return _semanticEqualsCall(
           other,
           uriMapping: uriMapping,
           loadingUnitMapping: loadingUnitMapping,
+          allowMoreConstArguments: allowMoreConstArguments,
+          allowPromotionOfUnsupported: allowPromotionOfUnsupported,
         );
     }
   }
@@ -285,6 +331,9 @@ final class CallTearoff extends CallReference {
   @override
   String toString() {
     final parts = <String>[];
+    if (receiver != null) {
+      parts.add('receiver: $receiver');
+    }
     if (loadingUnits.isNotEmpty) {
       parts.add('loadingUnits: ${loadingUnits.map((u) => u.name).join(', ')}');
     }

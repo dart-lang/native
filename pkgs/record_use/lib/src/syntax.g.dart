@@ -72,10 +72,12 @@ class CallSyntax extends JsonObjectSyntax {
 
   CallSyntax({
     required List<int> loadingUnitIndices,
+    int? receiver,
     required String type,
     super.path = const [],
   }) : super() {
     _loadingUnitIndices = loadingUnitIndices;
+    _receiver = receiver;
     _type = type;
     json.sortOnKey();
   }
@@ -89,6 +91,14 @@ class CallSyntax extends JsonObjectSyntax {
   List<String> _validateLoadingUnitIndices() =>
       _reader.validateList<int>('loading_unit_indices');
 
+  int? get receiver => _reader.get<int?>('receiver');
+
+  set _receiver(int? value) {
+    json.setOrRemove('receiver', value);
+  }
+
+  List<String> _validateReceiver() => _reader.validate<int?>('receiver');
+
   String get type => _reader.get<String>('type');
 
   set _type(String value) {
@@ -101,6 +111,7 @@ class CallSyntax extends JsonObjectSyntax {
   List<String> validate() => [
     ...super.validate(),
     ..._validateLoadingUnitIndices(),
+    ..._validateReceiver(),
     ..._validateType(),
   ];
 
@@ -1513,8 +1524,11 @@ class TearoffCallSyntax extends CallSyntax {
     super.path,
   }) : super._fromJson();
 
-  TearoffCallSyntax({required super.loadingUnitIndices, super.path = const []})
-    : super(type: 'tearoff');
+  TearoffCallSyntax({
+    required super.loadingUnitIndices,
+    super.receiver,
+    super.path = const [],
+  }) : super(type: 'tearoff');
 
   @override
   List<String> validate() => [
@@ -1705,6 +1719,7 @@ class WithArgumentsCallSyntax extends CallSyntax {
     required super.loadingUnitIndices,
     Map<String, int>? named,
     List<int>? positional,
+    super.receiver,
     super.path = const [],
   }) : super(type: 'with_arguments') {
     _named = named;
