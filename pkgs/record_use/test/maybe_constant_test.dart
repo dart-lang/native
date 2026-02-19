@@ -5,6 +5,8 @@
 import 'package:record_use/record_use_internal.dart';
 import 'package:test/test.dart';
 
+const loadingUnit1 = LoadingUnit('1');
+
 void main() {
   test('MaybeConstant arguments in JSON', () {
     const json = {
@@ -72,7 +74,7 @@ void main() {
               'b': UnsupportedConstant('Record'),
               'c': NonConstant(),
             },
-            loadingUnit: '1',
+            loadingUnits: [loadingUnit1],
           ),
         ],
       },
@@ -103,7 +105,7 @@ void main() {
           const CallWithArguments(
             positionalArguments: [IntConstant(42)],
             namedArguments: {'a': StringConstant('bar')},
-            loadingUnit: '1',
+            loadingUnits: [loadingUnit1],
           ),
         ],
       },
@@ -117,7 +119,7 @@ void main() {
           const CallWithArguments(
             positionalArguments: [UnsupportedConstant('Record')],
             namedArguments: {'a': UnsupportedConstant('Record')},
-            loadingUnit: '1',
+            loadingUnits: [loadingUnit1],
           ),
         ],
       },

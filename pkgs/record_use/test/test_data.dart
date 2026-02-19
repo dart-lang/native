@@ -17,6 +17,9 @@ const instanceId = Definition(
   [Name('MyAnnotation')],
 );
 
+const loadingUnitOJs = LoadingUnit('o.js');
+const loadingUnit3 = LoadingUnit('3');
+
 final recordedUses = Recordings(
   metadata: Metadata(
     version: Version(1, 6, 2, pre: 'wip', build: '5.-.2.z'),
@@ -36,7 +39,7 @@ final recordedUses = Recordings(
           'freddy': StringConstant('mercury'),
           'leroy': StringConstant('jenkins'),
         },
-        loadingUnit: 'o.js',
+        loadingUnits: [loadingUnitOJs],
       ),
       const CallWithArguments(
         positionalArguments: [
@@ -58,7 +61,7 @@ final recordedUses = Recordings(
           'freddy': IntConstant(0),
           'leroy': StringConstant('jenkins'),
         },
-        loadingUnit: 'o.js',
+        loadingUnits: [loadingUnitOJs],
       ),
     ],
   },
@@ -69,11 +72,11 @@ final recordedUses = Recordings(
           definition: instanceId,
           fields: {'a': IntConstant(42), 'b': NullConstant()},
         ),
-        loadingUnit: '3',
+        loadingUnits: [loadingUnit3],
       ),
       const InstanceConstantReference(
         instanceConstant: InstanceConstant(definition: instanceId, fields: {}),
-        loadingUnit: '3',
+        loadingUnits: [loadingUnit3],
       ),
     ],
   },
@@ -94,7 +97,7 @@ final recordedUses2 = Recordings(
           'freddy': StringConstant('mercury'),
           'answer': IntConstant(42),
         },
-        loadingUnit: 'o.js',
+        loadingUnits: [loadingUnitOJs],
       ),
     ],
   },

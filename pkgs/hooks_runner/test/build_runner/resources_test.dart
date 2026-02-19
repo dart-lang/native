@@ -15,6 +15,8 @@ import 'helpers.dart';
 
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
+const loadingUnitRoot = LoadingUnit('root');
+
 void main() async {
   test('simple_link linking', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
@@ -129,12 +131,12 @@ final _pirateAdventureRecordings = Recordings(
       ),
     ]): [
       const CallWithArguments(
-        loadingUnit: 'root',
+        loadingUnits: [loadingUnitRoot],
         positionalArguments: [StringConstant('Hello')],
         namedArguments: {},
       ),
       const CallWithArguments(
-        loadingUnit: 'root',
+        loadingUnits: [loadingUnitRoot],
         positionalArguments: [StringConstant('Money')],
         namedArguments: {},
       ),
@@ -147,7 +149,7 @@ final _pirateAdventureRecordings = Recordings(
       ),
     ]): [
       const CallWithArguments(
-        loadingUnit: 'root',
+        loadingUnits: [loadingUnitRoot],
         positionalArguments: [],
         namedArguments: {},
       ),
