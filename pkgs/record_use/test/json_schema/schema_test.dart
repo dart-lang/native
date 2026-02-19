@@ -116,7 +116,7 @@ List<SchemaTestField> recordUseFields = [
   (['recordings', 0, 'calls', 0, 'positional', 0], expectOptionalFieldMissing),
   (['recordings', 0, 'calls', 0, 'positional', 3], expectOptionalFieldMissing),
   (
-    ['recordings', 0, 'calls', 0, 'loading_unit_index'],
+    ['recordings', 0, 'calls', 0, 'loading_unit_indices'],
     expectRequiredFieldMissing,
   ),
   (['recordings', 1, 'instances'], expectOptionalFieldMissing),
@@ -126,14 +126,14 @@ List<SchemaTestField> recordUseFields = [
     expectRequiredFieldMissing,
   ),
   (
-    ['recordings', 1, 'instances', 0, 'loading_unit_index'],
+    ['recordings', 1, 'instances', 0, 'loading_unit_indices'],
     expectRequiredFieldMissing,
   ),
 ];
 
 List<SchemaTestField> constructorInvocationFields = [
   (
-    ['recordings', 0, 'instances', 0, 'loading_unit_index'],
+    ['recordings', 0, 'instances', 0, 'loading_unit_indices'],
     expectRequiredFieldMissing,
   ),
   (['recordings', 0, 'instances', 0, 'type'], expectRequiredFieldMissing),

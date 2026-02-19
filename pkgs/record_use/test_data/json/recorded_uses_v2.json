@@ -127,7 +127,9 @@
     {
       "calls": [
         {
-          "loading_unit_index": 0,
+          "loading_unit_indices": [
+            0
+          ],
           "named": {
             "freddy": 3,
             "leroy": 4
@@ -140,7 +142,9 @@
           "type": "with_arguments"
         },
         {
-          "loading_unit_index": 0,
+          "loading_unit_indices": [
+            0
+          ],
           "named": {
             "freddy": 13,
             "leroy": 4
@@ -160,12 +164,16 @@
       "instances": [
         {
           "constant_index": 16,
-          "loading_unit_index": 1,
+          "loading_unit_indices": [
+            1
+          ],
           "type": "constant"
         },
         {
           "constant_index": 17,
-          "loading_unit_index": 1,
+          "loading_unit_indices": [
+            1
+          ],
           "type": "constant"
         }
       ]

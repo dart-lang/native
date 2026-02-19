@@ -56,7 +56,9 @@
     {
       "calls": [
         {
-          "loading_unit_index": 0,
+          "loading_unit_indices": [
+            0
+          ],
           "named": {
             "i": 0,
             "l": 1,
@@ -65,7 +67,9 @@
           "type": "with_arguments"
         },
         {
-          "loading_unit_index": 0,
+          "loading_unit_indices": [
+            0
+          ],
           "named": {
             "i": 2,
             "k": 3,
@@ -74,7 +78,9 @@
           "type": "with_arguments"
         },
         {
-          "loading_unit_index": 0,
+          "loading_unit_indices": [
+            0
+          ],
           "named": {
             "i": 2,
             "l": 4,
@@ -83,7 +89,9 @@
           "type": "with_arguments"
         },
         {
-          "loading_unit_index": 0,
+          "loading_unit_indices": [
+            0
+          ],
           "named": {
             "i": 2,
             "l": 4,

@@ -56,7 +56,9 @@
     {
       "calls": [
         {
-          "loading_unit_index": 0,
+          "loading_unit_indices": [
+            0
+          ],
           "positional": [
             0
           ],
@@ -68,7 +70,9 @@
     {
       "calls": [
         {
-          "loading_unit_index": 1,
+          "loading_unit_indices": [
+            1
+          ],
           "positional": [
             0
           ],
