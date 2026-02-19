@@ -25,6 +25,8 @@ dependencies:
   logging: ^1.3.0
   native_toolchain_c: ^0.17.4
   pub_semver: ^2.1.4
+  objective_c_helper:
+    path: ../objective_c_helper
 
 dev_dependencies:
   args: ^2.6.0
