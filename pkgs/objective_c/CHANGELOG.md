@@ -1,3 +1,9 @@
+## [Unreleased]
+
+### Changed
+- Moved `test/util.c` to a new helper package `objective_c_helper`.
+- Updated test imports to use `objective_c_helper` instead of local `util.dart`.
+
 ## 9.4.0
 - Fix (https://github.com/dart-lang/native/issues/2877) such that all occurances of ObjCObject `isA` now accepts a nullable `ObjCObject?` and returns `false` when input is`null`
 
