@@ -66,6 +66,9 @@
           "value": 11
         }
       ]
+    },
+    {
+      "type": "non_constant"
     }
   ],
   "definitions": [
@@ -150,7 +153,7 @@
               0
             ],
             "positional": [
-              null
+              13
             ],
             "type": "with_arguments"
           }

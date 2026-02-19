@@ -22,11 +22,80 @@ sealed class MaybeConstant {
     MaybeConstant other, {
     bool allowPromotionOfUnsupported = false,
   });
+
+  /// Converts this [MaybeConstant] object to a syntax representation.
+  ConstantSyntax _toSyntax(SerializationContext context);
+
+  /// Creates a [MaybeConstant] object from its syntax representation.
+  static MaybeConstant _fromSyntax(
+    ConstantSyntax syntax,
+    DeserializationContext context,
+  ) => switch (syntax) {
+    NonConstantConstantSyntax() => const NonConstant(),
+    NullConstantSyntax() => const NullConstant(),
+    BoolConstantSyntax(:final value) => BoolConstant(value),
+    IntConstantSyntax(:final value) => IntConstant(value),
+    StringConstantSyntax(:final value) => StringConstant(value),
+    ListConstantSyntax(:final value) => ListConstant(
+      value!.cast<int>().map((i) {
+        final constant = context.constants[i];
+        if (constant is! Constant) {
+          throw FormatException(
+            'List constant element at index $i is not a constant',
+          );
+        }
+        return constant;
+      }).toList(),
+    ),
+    MapConstantSyntax(:final value) => MapConstant(
+      value.map(
+        (e) {
+          final key = context.constants[e.key];
+          if (key is! Constant) {
+            throw FormatException(
+              'Map constant key at index ${e.key} is not a constant',
+            );
+          }
+          final value = context.constants[e.value];
+          if (value is! Constant) {
+            throw FormatException(
+              'Map constant value at index ${e.value} is not a constant',
+            );
+          }
+          return MapEntry(key, value);
+        },
+      ).toList(),
+    ),
+    InstanceConstantSyntax(value: final value, :final definitionIndex) =>
+      InstanceConstant(
+        definition: context.definitions[definitionIndex],
+        fields: (value?.json ?? {}).map(
+          (key, index) {
+            final constant = context.constants[index as int];
+            if (constant is! Constant) {
+              throw FormatException(
+                'Instance constant field $key at index $index is not '
+                'a constant',
+              );
+            }
+            return MapEntry(key, constant);
+          },
+        ),
+      ),
+    UnsupportedConstantSyntax(:final message) => UnsupportedConstant(message),
+    _ => throw UnimplementedError(
+      '"${syntax.type}" is not a supported constant type',
+    ),
+  };
 }
 
 /// A value that is not a constant.
 final class NonConstant extends MaybeConstant {
   const NonConstant();
+
+  @override
+  NonConstantConstantSyntax _toSyntax(SerializationContext context) =>
+      NonConstantConstantSyntax();
 
   @override
   bool operator ==(Object other) => other is NonConstant;
@@ -55,44 +124,6 @@ final class NonConstant extends MaybeConstant {
 abstract class Constant extends MaybeConstant {
   /// Creates a [Constant] object.
   const Constant();
-
-  /// Converts this [Constant] object to a syntax representation.
-  ConstantSyntax _toSyntax(SerializationContext context);
-
-  /// Creates a [Constant] object from its syntax representation.
-  static Constant _fromSyntax(
-    ConstantSyntax syntax,
-    DeserializationContext context,
-  ) => switch (syntax) {
-    NullConstantSyntax() => const NullConstant(),
-    BoolConstantSyntax(:final value) => BoolConstant(value),
-    IntConstantSyntax(:final value) => IntConstant(value),
-    StringConstantSyntax(:final value) => StringConstant(value),
-    ListConstantSyntax(:final value) => ListConstant(
-      value!.cast<int>().map((i) => context.constants[i]).toList(),
-    ),
-    MapConstantSyntax(:final value) => MapConstant(
-      value
-          .map(
-            (e) => MapEntry(
-              context.constants[e.key],
-              context.constants[e.value],
-            ),
-          )
-          .toList(),
-    ),
-    InstanceConstantSyntax(value: final value, :final definitionIndex) =>
-      InstanceConstant(
-        definition: context.definitions[definitionIndex],
-        fields: (value?.json ?? {}).map(
-          (key, value) => MapEntry(key, context.constants[value as int]),
-        ),
-      ),
-    UnsupportedConstantSyntax(:final message) => UnsupportedConstant(message),
-    _ => throw UnimplementedError(
-      '"${syntax.type}" is not a supported constant type',
-    ),
-  };
 
   @override
   @visibleForTesting
@@ -438,15 +469,15 @@ final class InstanceConstant extends Constant {
   }
 }
 
-/// Package private (protected) methods for [Constant].
+/// Package private (protected) methods for [MaybeConstant].
 ///
 /// This avoids bloating the public API and public API docs and prevents
 /// internal types from leaking from the API.
-extension ConstantProtected on Constant {
+extension MaybeConstantProtected on MaybeConstant {
   ConstantSyntax toSyntax(SerializationContext context) => _toSyntax(context);
 
-  static Constant fromSyntax(
+  static MaybeConstant fromSyntax(
     ConstantSyntax syntax,
     DeserializationContext context,
-  ) => Constant._fromSyntax(syntax, context);
+  ) => MaybeConstant._fromSyntax(syntax, context);
 }

@@ -10,6 +10,9 @@
       "value": 2
     },
     {
+      "type": "non_constant"
+    },
+    {
       "type": "string",
       "value": "named_arg_value"
     }
@@ -44,8 +47,8 @@
               0
             ],
             "named": {
-              "other": null,
-              "param": 2
+              "other": 2,
+              "param": 3
             },
             "positional": [
               0,

@@ -140,12 +140,9 @@ final class CallWithArguments extends CallReference {
 
   @override
   WithArgumentsCallSyntax _toSyntax(SerializationContext context) {
-    final namedArgs = <String, int?>{};
+    final namedArgs = <String, int>{};
     for (final entry in namedArguments.entries) {
-      namedArgs[entry.key] = switch (entry.value) {
-        final Constant c => context.constants[c],
-        NonConstant() => null,
-      };
+      namedArgs[entry.key] = context.constants[entry.value]!;
     }
 
     return WithArgumentsCallSyntax(
@@ -156,12 +153,7 @@ final class CallWithArguments extends CallReference {
       positional: positionalArguments.isEmpty
           ? null
           : positionalArguments
-                .map(
-                  (argument) => switch (argument) {
-                    final Constant c => context.constants[c],
-                    NonConstant() => null,
-                  },
-                )
+                .map((argument) => context.constants[argument]!)
                 .toList(),
     );
   }
@@ -438,12 +430,9 @@ final class InstanceCreationReference extends InstanceReference {
 
   @override
   CreationInstanceSyntax _toSyntax(SerializationContext context) {
-    final namedArgs = <String, int?>{};
+    final namedArgs = <String, int>{};
     for (final entry in namedArguments.entries) {
-      namedArgs[entry.key] = switch (entry.value) {
-        final Constant c => context.constants[c],
-        NonConstant() => null,
-      };
+      namedArgs[entry.key] = context.constants[entry.value]!;
     }
 
     return CreationInstanceSyntax(
@@ -454,12 +443,7 @@ final class InstanceCreationReference extends InstanceReference {
       positional: positionalArguments.isEmpty
           ? null
           : positionalArguments
-                .map(
-                  (argument) => switch (argument) {
-                    final Constant c => context.constants[c],
-                    NonConstant() => null,
-                  },
-                )
+                .map((argument) => context.constants[argument]!)
                 .toList(),
     );
   }

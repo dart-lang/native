@@ -2,6 +2,9 @@
   "$schema": "../../doc/schema/record_use.schema.json",
   "constants": [
     {
+      "type": "non_constant"
+    },
+    {
       "type": "string",
       "value": "hello-world"
     }
@@ -36,10 +39,10 @@
               0
             ],
             "named": {
-              "s": 0
+              "s": 1
             },
             "positional": [
-              null
+              0
             ],
             "type": "with_arguments"
           }

@@ -429,7 +429,7 @@ set $setterName($dartType value) {
   $sortOnKey
 }
 
-List<String> $validateName() => _reader.validateMap<${dartType.valueType}>('$jsonKey', $keyPattern);
+List<String> $validateName() => _reader.validateOptionalMap<${dartType.valueType}>('$jsonKey', $keyPattern);
 ''');
         }
       default:
