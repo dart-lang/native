@@ -82,7 +82,7 @@ extension type RecordedUsages._(Recordings _recordings) {
   /// <!-- file://./../../example/api/usage.dart#const-instance -->
   /// ```dart
   /// @RecordUse()
-  /// class PirateShip {
+  /// final class PirateShip {
   ///   final String name;
   ///   final int cannons;
   ///
