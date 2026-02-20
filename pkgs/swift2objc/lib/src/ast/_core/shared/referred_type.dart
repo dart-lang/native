@@ -143,3 +143,35 @@ class OptionalType extends AstNode implements ReferredType {
     visitor.visit(child);
   }
 }
+
+/// An inout type, like Swift's pass-by-reference params. Eg `inout Int`.
+class InoutType extends AstNode implements ReferredType {
+  final ReferredType child;
+
+  @override
+  bool get isObjCRepresentable => false;
+
+  @override
+  String get swiftType => child.swiftType;
+
+  @override
+  bool _sameAs(ReferredType other) =>
+      other is InoutType && child.sameAs(other.child);
+
+  @override
+  ReferredType get aliasedType => InoutType(child.aliasedType);
+
+  InoutType(this.child);
+
+  @override
+  String toString() => 'inout $child';
+
+  @override
+  void visit(Visitation visitation) => visitation.visitInoutType(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(child);
+  }
+}

@@ -67,6 +67,68 @@ void main() {
     expect(remaining.length, 0);
   });
 
+  test('Inout', () {
+    final fragments = Json(
+      jsonDecode('''
+      [
+        {
+          "kind": "keyword",
+          "spelling": "inout"
+        },
+        {
+          "kind": "text",
+          "spelling": " "
+        },
+        {
+          "kind": "typeIdentifier",
+          "spelling": "Int",
+          "preciseIdentifier": "s:Si"
+        }
+      ]
+      '''),
+    );
+
+    final (type, remaining) = parseType(
+      context,
+      parsedSymbols,
+      TokenList(fragments),
+    );
+
+    expect(type.sameAs(InoutType(intType)), isTrue);
+    expect(remaining.length, 0);
+  });
+
+  test('Inout non-primitive', () {
+    final fragments = Json(
+      jsonDecode('''
+      [
+        {
+          "kind": "keyword",
+          "spelling": "inout"
+        },
+        {
+          "kind": "text",
+          "spelling": " "
+        },
+        {
+          "kind": "typeIdentifier",
+          "spelling": "Foo",
+          "preciseIdentifier": "Foo"
+        }
+      ]
+      '''),
+    );
+
+    final (type, remaining) = parseType(
+      context,
+      parsedSymbols,
+      TokenList(fragments),
+    );
+
+    expect(type.sameAs(InoutType(classFoo.asDeclaredType)), isTrue);
+    expect(remaining.length, 0);
+  });
+
   test('Empty tuple', () {
     final fragments = Json(
       jsonDecode('''

@@ -24,6 +24,17 @@ import 'unique_namer.dart';
   TransformationState state, {
   bool shouldWrapPrimitives = false,
 }) {
+  if (type is InoutType) {
+    final (newValue, newType) = maybeWrapValue(
+      type.child,
+      value,
+      globalNamer,
+      state,
+      shouldWrapPrimitives: shouldWrapPrimitives,
+    );
+    return (newValue, InoutType(newType));
+  }
+
   final (wrappedPrimitiveType, returnsWrappedPrimitive) =
       maybeGetPrimitiveWrapper(type, shouldWrapPrimitives, state);
   if (returnsWrappedPrimitive) {
@@ -78,6 +89,11 @@ import 'unique_namer.dart';
   ReferredType type,
   String value,
 ) {
+  if (type is InoutType) {
+    final (newValue, newType) = maybeUnwrapValue(type.child, value);
+    return (newValue, InoutType(newType));
+  }
+
   if (!type.isObjCRepresentable) {
     return (value, type);
   }
