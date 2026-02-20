@@ -40,7 +40,9 @@ ${strings.functions}:
       );
     });
     test('Expected Bindings', () {
+      final context = testContext();
       matchLibraryWithExpected(
+        context,
         actual,
         'header_parser_functions_test_output.dart',
         [

@@ -29,7 +29,9 @@ ${strings.ignoreSourceErrors}: true
     });
 
     test('Expected bindings', () {
+      final context = testContext();
       matchLibraryWithExpected(
+        context,
         actual,
         'header_parser_forward_decl_test_output.dart',
         [
