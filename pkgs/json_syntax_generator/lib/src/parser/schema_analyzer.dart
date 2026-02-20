@@ -97,7 +97,7 @@ class SchemaAnalyzer {
   }
 
   void _analyzeEnumClass(JsonSchemas schemas, {String? name}) {
-    if (schemas.type != SchemaType.string) {
+    if (schemas.type != .string) {
       throw UnimplementedError(schemas.type.toString());
     }
     var typeName = schemas.className;
@@ -307,11 +307,11 @@ class SchemaAnalyzer {
     switch (type) {
       case null:
         dartType = ObjectDartType(isNullable: isNullable);
-      case SchemaType.boolean:
+      case .boolean:
         dartType = BoolDartType(isNullable: isNullable);
-      case SchemaType.integer:
+      case .integer:
         dartType = IntDartType(isNullable: isNullable);
-      case SchemaType.string:
+      case .string:
         if (schemas.generateUri) {
           dartType = UriDartType(isNullable: isNullable);
         } else if (schemas.generateEnum && allowEnum) {
@@ -328,7 +328,7 @@ class SchemaAnalyzer {
           final pattern = schemas.patterns.firstOrNull;
           dartType = StringDartType(isNullable: isNullable, pattern: pattern);
         }
-      case SchemaType.object:
+      case .object:
         final additionalPropertiesSchema =
             schemas.additionalPropertiesSchemas.isNotEmpty
             ? schemas.additionalPropertiesSchemas
@@ -342,11 +342,11 @@ class SchemaAnalyzer {
           final (additionalPropertiesType, additionalNullable) =
               additionalPropertiesSchema.typeAndNullable;
           switch (additionalPropertiesType) {
-            case SchemaType.array:
+            case .array:
               final items = additionalPropertiesSchema.items;
               final (itemType, itemNullable) = items.typeAndNullable;
               switch (itemType) {
-                case SchemaType.object:
+                case .object:
                   _analyzeClass(items);
                   final itemClass = _classes[items.className]!;
                   dartType = MapDartType(
@@ -363,7 +363,7 @@ class SchemaAnalyzer {
                 default:
                   throw UnimplementedError(itemType.toString());
               }
-            case SchemaType.object:
+            case .object:
               final additionalPropertiesBool =
                   additionalPropertiesSchema.additionalPropertiesBool;
               if (additionalPropertiesBool != true) {
@@ -416,7 +416,7 @@ class SchemaAnalyzer {
                 if (types.contains(SchemaType.string) &&
                     types.contains(SchemaType.nullValue)) {
                   final stringPattern = oneOf
-                      .where((e) => e.type == SchemaType.string)
+                      .where((e) => e.type == .string)
                       .single
                       .patterns
                       .firstOrNull;
@@ -432,13 +432,13 @@ class SchemaAnalyzer {
                   throw UnimplementedError();
                 }
               }
-            case SchemaType.string:
+            case .string:
               dartType = MapDartType(
                 keyType: keyDartType,
                 valueType: StringDartType(isNullable: additionalNullable),
                 isNullable: isNullable,
               );
-            case SchemaType.integer:
+            case .integer:
               dartType = MapDartType(
                 keyType: keyDartType,
                 valueType: IntDartType(isNullable: additionalNullable),
@@ -457,11 +457,11 @@ class SchemaAnalyzer {
             isNullable: isNullable,
           );
         }
-      case SchemaType.array:
+      case .array:
         final items = schemas.items;
         final (itemType, itemNullable) = items.typeAndNullable;
         switch (itemType) {
-          case SchemaType.string:
+          case .string:
             if (items.generateUri) {
               dartType = ListDartType(
                 itemType: UriDartType(isNullable: itemNullable),
@@ -473,12 +473,12 @@ class SchemaAnalyzer {
                 isNullable: isNullable,
               );
             }
-          case SchemaType.integer:
+          case .integer:
             dartType = ListDartType(
               itemType: IntDartType(isNullable: itemNullable),
               isNullable: isNullable,
             );
-          case SchemaType.object:
+          case .object:
             final typeName = items.className;
             if (typeName != null) {
               _analyzeClass(items);
@@ -794,7 +794,7 @@ extension type JsonSchemas._(List<JsonSchema> _schemas) {
 }
 
 extension on JsonSchemas {
-  bool get generateEnum => type == SchemaType.string && anyOfs.isNotEmpty;
+  bool get generateEnum => type == .string && anyOfs.isNotEmpty;
 
   /// A class with opaque members and an `unknown` option.
   bool get generateOpenEnum =>
@@ -802,7 +802,7 @@ extension on JsonSchemas {
 
   /// Generate getters/setters as `Map<String, ...>`.
   bool get generateMapOf =>
-      type == SchemaType.object &&
+      type == .object &&
       (additionalPropertiesSchemas.isNotEmpty ||
           additionalPropertiesBool == true ||
           patternPropertiesSchemas.isNotEmpty);
@@ -810,7 +810,7 @@ extension on JsonSchemas {
   bool get generateSubClasses => generateSubClassesKey != null;
 
   String? get generateSubClassesKey {
-    if (type != SchemaType.object) return null;
+    if (type != .object) return null;
     for (final p in propertyKeys) {
       final propertySchemas = property(p);
       if (propertySchemas.anyOfs.isNotEmpty) {
@@ -825,7 +825,7 @@ extension on JsonSchemas {
     return null;
   }
 
-  bool get generateClass => type == SchemaType.object && !generateMapOf;
+  bool get generateClass => type == .object && !generateMapOf;
 
   /// Generate getters/setters as `Uri`.
   bool get generateUri {
@@ -840,8 +840,7 @@ extension on JsonSchemas {
     return false;
   }
 
-  bool get stringWithPattern =>
-      type == SchemaType.string && patterns.isNotEmpty;
+  bool get stringWithPattern => type == .string && patterns.isNotEmpty;
 
   static String? _pathToClassName(String path) {
     if (path.contains('#/definitions/')) {

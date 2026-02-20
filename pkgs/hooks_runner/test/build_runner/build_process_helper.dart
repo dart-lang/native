@@ -43,13 +43,13 @@ void main(List<String> args) async {
           CodeAssetExtension(
             targetArchitecture: target.architecture,
             targetOS: targetOS,
-            macOS: targetOS == OS.macOS
+            macOS: targetOS == .macOS
                 ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
                 : null,
-            android: targetOS == OS.android
+            android: targetOS == .android
                 ? AndroidCodeConfig(targetNdkApi: 30)
                 : null,
-            linkModePreference: LinkModePreference.dynamic,
+            linkModePreference: .dynamic,
           ),
           DataAssetsExtension(),
         ],

@@ -27,7 +27,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
-          buildAssetTypes: [BuildAssetType.code],
+          buildAssetTypes: [.code],
         )).success;
         expect(result.encodedAssets.length, 1);
         await expectSymbols(
@@ -51,7 +51,7 @@ void main() async {
           packageUri,
           createCapturingLogger(logMessages, level: Level.SEVERE),
           dartExecutable,
-          buildAssetTypes: [BuildAssetType.code],
+          buildAssetTypes: [.code],
         );
         final fullLog = logMessages.join('\n');
         expect(result.isFailure, isTrue);
@@ -80,7 +80,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
-          buildAssetTypes: [BuildAssetType.code],
+          buildAssetTypes: [.code],
         )).success;
         expect(result.encodedAssets.length, 1);
         await expectSymbols(
@@ -111,7 +111,7 @@ void main() async {
           logger,
           capturedLogs: logMessages,
           dartExecutable,
-          buildAssetTypes: [BuildAssetType.code],
+          buildAssetTypes: [.code],
         );
         Matcher stringContainsBuildHookCompilation(String packageName) =>
             stringContainsInOrder([
@@ -143,7 +143,7 @@ void main() async {
         packageUri,
         logger,
         dartExecutable,
-        buildAssetTypes: [BuildAssetType.code],
+        buildAssetTypes: [.code],
       );
       expect(result.isFailure, isTrue);
       expect(result.failure, HooksRunnerFailure.infra);

@@ -145,7 +145,7 @@ void main() {
               targetOS: targetOS,
               macOS: macOSConfig,
               targetArchitecture: Architecture.current,
-              linkModePreference: LinkModePreference.dynamic,
+              linkModePreference: .dynamic,
               cCompiler: cCompiler,
             ),
           );
@@ -159,7 +159,7 @@ void main() {
           name: name,
           assetName: name,
           pic: pic,
-          buildMode: BuildMode.release,
+          buildMode: .release,
         );
         await cbuilder.run(
           input: buildInput,
@@ -272,7 +272,7 @@ void main() {
       sources: [definesCUri.toFilePath()],
       forcedIncludes: [forcedIncludeCUri.toFilePath()],
       flags: [flag],
-      buildMode: BuildMode.release,
+      buildMode: .release,
     );
     await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 
@@ -333,7 +333,7 @@ void main() {
       assetName: name,
       includes: [includeDirectoryUri.toFilePath()],
       sources: [includesCUri.toFilePath()],
-      buildMode: BuildMode.release,
+      buildMode: .release,
     );
     await cbuilder.run(
       input: buildInput,
@@ -395,7 +395,7 @@ void main() {
       name: name,
       assetName: name,
       std: std,
-      buildMode: BuildMode.release,
+      buildMode: .release,
     );
     await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 
@@ -462,8 +462,8 @@ void main() {
     final cbuilder = CBuilder.executable(
       name: name,
       sources: [helloWorldCppUri.toFilePath()],
-      language: Language.cpp,
-      buildMode: BuildMode.release,
+      language: .cpp,
+      buildMode: .release,
     );
     await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 
@@ -522,9 +522,9 @@ void main() {
     final cbuilder = CBuilder.executable(
       name: name,
       sources: [helloWorldCppUri.toFilePath()],
-      language: Language.cpp,
+      language: .cpp,
       cppLinkStdLib: 'stdc++',
-      buildMode: BuildMode.release,
+      buildMode: .release,
     );
 
     if (buildInput.config.code.targetOS == OS.windows) {
@@ -609,7 +609,7 @@ void main() {
       assetName: 'debug',
       includes: [dynamicallyLinkedSrcUri.toFilePath()],
       sources: [debugCUri.toFilePath()],
-      buildMode: BuildMode.release,
+      buildMode: .release,
     );
 
     await debugBuilder.run(
@@ -701,7 +701,7 @@ Future<void> testDefines({
             : null,
         targetArchitecture: Architecture.current,
         // Ignored by executables.
-        linkModePreference: LinkModePreference.dynamic,
+        linkModePreference: .dynamic,
         cCompiler: cCompiler,
       ),
     );
@@ -741,7 +741,7 @@ Future<void> testDefines({
     );
   }
 
-  if (ndebugDefine && buildMode != BuildMode.debug) {
+  if (ndebugDefine && buildMode != .debug) {
     expect(result.stdout, contains('Macro NDEBUG is defined: 1'));
   } else {
     expect(result.stdout, contains('Macro NDEBUG is undefined.'));

@@ -46,13 +46,13 @@ void main() {
   }
 
   BuildInput makeCodeBuildInput({
-    LinkModePreference linkModePreference = LinkModePreference.dynamic,
+    LinkModePreference linkModePreference = .dynamic,
   }) {
     final builder = makeBuildInputBuilder()
       ..addExtension(
         CodeAssetExtension(
-          targetOS: OS.linux,
-          targetArchitecture: Architecture.arm64,
+          targetOS: .linux,
+          targetArchitecture: .arm64,
           linkModePreference: linkModePreference,
         ),
       );
@@ -71,13 +71,13 @@ void main() {
   }
 
   LinkInput makeCodeLinkInput({
-    LinkModePreference linkModePreference = LinkModePreference.dynamic,
+    LinkModePreference linkModePreference = .dynamic,
   }) {
     final builder = makeLinkInputBuilder()
       ..addExtension(
         CodeAssetExtension(
-          targetOS: OS.linux,
-          targetArchitecture: Architecture.arm64,
+          targetOS: .linux,
+          targetArchitecture: .arm64,
           linkModePreference: linkModePreference,
         ),
       );
@@ -306,13 +306,10 @@ void main() {
         final builder = makeBuildInputBuilder()
           ..addExtension(
             CodeAssetExtension(
-              targetOS: OS.iOS,
-              targetArchitecture: Architecture.arm64,
-              linkModePreference: LinkModePreference.dynamic,
-              iOS: IOSCodeConfig(
-                targetSdk: IOSSdk.iPhoneOS,
-                targetVersion: 123,
-              ),
+              targetOS: .iOS,
+              targetArchitecture: .arm64,
+              linkModePreference: .dynamic,
+              iOS: IOSCodeConfig(targetSdk: .iPhoneOS, targetVersion: 123),
             ),
           );
         traverseJson<Map<String, Object?>>(builder.json, [
@@ -340,9 +337,9 @@ void main() {
       final builder = makeBuildInputBuilder()
         ..addExtension(
           CodeAssetExtension(
-            targetOS: OS.android,
-            targetArchitecture: Architecture.arm64,
-            linkModePreference: LinkModePreference.dynamic,
+            targetOS: .android,
+            targetArchitecture: .arm64,
+            linkModePreference: .dynamic,
             android: AndroidCodeConfig(targetNdkApi: 123),
           ),
         );
@@ -368,9 +365,9 @@ void main() {
       final builder = makeBuildInputBuilder()
         ..addExtension(
           CodeAssetExtension(
-            targetOS: OS.macOS,
-            targetArchitecture: Architecture.arm64,
-            linkModePreference: LinkModePreference.dynamic,
+            targetOS: .macOS,
+            targetArchitecture: .arm64,
+            linkModePreference: .dynamic,
             macOS: MacOSCodeConfig(targetVersion: 123),
           ),
         );
@@ -413,9 +410,9 @@ void main() {
       final builder = makeBuildInputBuilder()
         ..addExtension(
           CodeAssetExtension(
-            targetOS: OS.windows,
-            targetArchitecture: Architecture.x64,
-            linkModePreference: LinkModePreference.dynamic,
+            targetOS: .windows,
+            targetArchitecture: .x64,
+            linkModePreference: .dynamic,
             cCompiler: CCompilerConfig(
               compiler: nonExistent,
               linker: nonExistent,

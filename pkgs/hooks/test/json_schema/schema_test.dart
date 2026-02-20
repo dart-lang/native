@@ -40,14 +40,12 @@ _metadataAssetFields({
   required Party party,
 }) => <(List<Object>, void Function(ValidationResults result))>[
   for (final path in [
-    if (inputOrOutput == InputOrOutput.input && hook == Hook.link) ...[
+    if (inputOrOutput == .input && hook == .link) ...[
       ['assets'],
       ['assets_from_linking'],
     ],
-    if (inputOrOutput == InputOrOutput.output)
-      ['assets_for_linking', 'package_with_linker'],
-    if (inputOrOutput == InputOrOutput.output && hook == Hook.build)
-      ['assets_for_build'],
+    if (inputOrOutput == .output) ['assets_for_linking', 'package_with_linker'],
+    if (inputOrOutput == .output && hook == .build) ['assets_for_build'],
   ]) ...[
     ([...path, 1], expectOptionalFieldMissing),
     ([...path, 1, 'type'], expectRequiredFieldMissing),

@@ -103,7 +103,7 @@ final class CodeAsset {
       asset.encoding,
       path: asset.encodingJsonPath ?? [],
     );
-    return CodeAsset._(
+    return ._(
       id: syntaxNode.id,
       linkMode: LinkModeSyntaxExtension.fromSyntax(syntaxNode.linkMode),
       file: syntaxNode.file,
@@ -111,12 +111,11 @@ final class CodeAsset {
   }
 
   /// Creates a copy of this [CodeAsset] with the given fields replaced.
-  CodeAsset copyWith({LinkMode? linkMode, String? id, Uri? file}) =>
-      CodeAsset._(
-        id: id ?? this.id,
-        linkMode: linkMode ?? this.linkMode,
-        file: file ?? this.file,
-      );
+  CodeAsset copyWith({LinkMode? linkMode, String? id, Uri? file}) => ._(
+    id: id ?? this.id,
+    linkMode: linkMode ?? this.linkMode,
+    file: file ?? this.file,
+  );
 
   @override
   bool operator ==(Object other) {

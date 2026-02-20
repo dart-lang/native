@@ -205,7 +205,7 @@ Future<void> build(
       for (final error in errors) '- $error',
     ].join('\n');
     stderr.writeln(message);
-    output.setFailure(FailureType.build);
+    output.setFailure(.build);
     await _writeOutput(output, outputFile);
     exit(BuildError(message: message).exitCode);
   }
@@ -373,7 +373,7 @@ Future<void> link(
       for (final error in errors) '- $error',
     ].join('\n');
     stderr.writeln(message);
-    output.setFailure(FailureType.build);
+    output.setFailure(.build);
     await _writeOutput(output, outputFile);
     exit(BuildError(message: message).exitCode);
   }

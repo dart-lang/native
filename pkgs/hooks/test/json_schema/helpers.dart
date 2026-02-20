@@ -247,7 +247,7 @@ FieldsReturn _hookFields({
   required Party party,
 }) => <(List<Object>, void Function(ValidationResults result))>[
   ([r'$schema'], expectOptionalFieldMissing),
-  if (inputOrOutput == InputOrOutput.input) ...[
+  if (inputOrOutput == .input) ...[
     (['user_defines'], expectOptionalFieldMissing),
     (['user_defines', 'workspace_pubspec'], expectOptionalFieldMissing),
     (
@@ -262,21 +262,21 @@ FieldsReturn _hookFields({
     (['package_name'], expectRequiredFieldMissing),
     (['package_root'], expectRequiredFieldMissing),
     (['config', 'build_asset_types'], expectRequiredFieldMissing),
-    if (hook == Hook.build) ...[
+    if (hook == .build) ...[
       (['config', 'linking_enabled'], expectRequiredFieldMissing),
     ],
-    if (hook == Hook.link) ...[
+    if (hook == .link) ...[
       (['assets'], expectOptionalFieldMissing),
       (['assets', 0], expectOptionalFieldMissing),
       (['assets', 0, 'type'], expectRequiredFieldMissing),
     ],
     (['out_file'], expectRequiredFieldMissing),
   ],
-  if (inputOrOutput == InputOrOutput.output) ...[
+  if (inputOrOutput == .output) ...[
     (['timestamp'], expectRequiredFieldMissing),
     (['dependencies'], expectOptionalFieldMissing),
     (['dependencies', 0], expectOptionalFieldMissing),
-    if (hook == Hook.build) ...[
+    if (hook == .build) ...[
       for (final path in [
         ['assets_for_build'],
         ['assets_for_linking', 'package_with_linker'],
@@ -289,8 +289,8 @@ FieldsReturn _hookFields({
     ],
   ],
   for (final path in [
-    if (inputOrOutput == InputOrOutput.output || hook == Hook.link) ['assets'],
-    if (inputOrOutput == InputOrOutput.output && hook == Hook.build) ...[
+    if (inputOrOutput == .output || hook == .link) ['assets'],
+    if (inputOrOutput == .output && hook == .build) ...[
       ['assets_for_build'],
       ['assets_for_linking', 'package_with_linker'],
     ],

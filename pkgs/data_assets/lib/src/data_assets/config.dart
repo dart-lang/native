@@ -109,7 +109,7 @@ extension BuildOutputAssetsBuilderData on BuildOutputAssetsBuilder {
   /// Provides access to emitting data assets.
   ///
   /// Should only be used if [HookConfigDataConfig.buildDataAssets] is true.
-  BuildOutputDataAssetsBuilder get data => BuildOutputDataAssetsBuilder._(this);
+  BuildOutputDataAssetsBuilder get data => ._(this);
 }
 
 /// Extension on [BuildOutputBuilder] to add [DataAsset]s.

@@ -77,7 +77,7 @@ final class CodeConfig {
   /// Configuration provided when [CodeConfig.targetOS] is [OS.macOS].
   IOSCodeConfig get iOS => switch (_syntax.iOS) {
     null => throw StateError('Cannot access iOSConfig if targetOS is not iOS.'),
-    final c => IOSCodeConfig._(c),
+    final c => ._(c),
   };
 
   /// Configuration provided when [CodeConfig.targetOS] is [OS.android].
@@ -85,7 +85,7 @@ final class CodeConfig {
     null => throw StateError(
       'Cannot access androidConfig if targetOS is not android.',
     ),
-    final c => AndroidCodeConfig._(c),
+    final c => ._(c),
   };
 
   /// Configuration provided when [CodeConfig.targetOS] is [OS.macOS].
@@ -93,7 +93,7 @@ final class CodeConfig {
     null => throw StateError(
       'Cannot access macOSConfig if targetOS is not MacOS.',
     ),
-    final c => MacOSCodeConfig._(c),
+    final c => ._(c),
   };
 }
 
@@ -105,7 +105,7 @@ final class IOSCodeConfig {
   IOSCodeConfig._(this._syntax);
 
   /// Whether to target device or simulator.
-  IOSSdk get targetSdk => IOSSdk.fromString(_syntax.targetSdk);
+  IOSSdk get targetSdk => .fromString(_syntax.targetSdk);
 
   /// The lowest iOS version that the compiled code will be compatible with.
   int get targetVersion => _syntax.targetVersion;

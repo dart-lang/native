@@ -10,11 +10,8 @@ import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
 import 'ctool.dart';
-import 'language.dart';
 import 'linker_options.dart';
 import 'linkmode.dart';
-import 'optimization_level.dart';
-import 'output_type.dart';
 import 'run_cbuilder.dart';
 
 /// Specification for linking an artifact with a C linker.
@@ -37,11 +34,11 @@ class CLinker extends CTool implements Linker {
     super.defines = const {},
     super.pic = true,
     super.std,
-    super.language = Language.c,
+    super.language = .c,
     super.cppLinkStdLib,
     super.linkModePreference,
-    super.optimizationLevel = OptimizationLevel.o3,
-  }) : super(type: OutputType.library);
+    super.optimizationLevel = .o3,
+  }) : super(type: .library);
 
   /// Runs the C Linker with on this C build spec.
   ///

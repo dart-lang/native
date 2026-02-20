@@ -93,7 +93,7 @@ class NativeAssetsBuildRunner {
   /// flutter_tools (for `flutter run` and `flutter build`).
   Future<List<String>> packagesWithBuildHooks() async {
     final planner = await _planner;
-    final packagesWithHook = await planner.packagesWithHook(Hook.build);
+    final packagesWithHook = await planner.packagesWithHook(.build);
     return packagesWithHook.map((e) => e.name).toList();
   }
 
@@ -136,7 +136,7 @@ class NativeAssetsBuildRunner {
     required List<ProtocolExtension> extensions,
     required bool linkingEnabled,
   }) async => _timeAsync('BuildRunner.build', () async {
-    final planResult = await _makePlan(hook: Hook.build, buildResult: null);
+    final planResult = await _makePlan(hook: .build, buildResult: null);
     if (planResult.isFailure) {
       return planResult.asFailure;
     }
@@ -171,7 +171,7 @@ class NativeAssetsBuildRunner {
       inputBuilder.setupBuildInput(assets: assetsForBuild);
 
       final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDirectories(
-        Hook.build,
+        .build,
         inputBuilder,
         package,
       );
@@ -195,7 +195,7 @@ class NativeAssetsBuildRunner {
       }
 
       final result = await _runHookForPackageCached(
-        Hook.build,
+        .build,
         input,
         (input, output) async => [
           for (final e in extensions)
@@ -252,10 +252,7 @@ class NativeAssetsBuildRunner {
     Uri? resourceIdentifiers,
     required BuildResult buildResult,
   }) async => _timeAsync('BuildRunner.link', () async {
-    final planResult = await _makePlan(
-      hook: Hook.link,
-      buildResult: buildResult,
-    );
+    final planResult = await _makePlan(hook: .link, buildResult: buildResult);
     if (planResult.isFailure) return planResult.asFailure;
     final (buildPlan, packageGraph) = planResult.success;
     if (buildPlan.isEmpty) {
@@ -306,7 +303,7 @@ class NativeAssetsBuildRunner {
       }
 
       final (buildDirUri, outDirUri, outDirSharedUri) = await _setupDirectories(
-        Hook.link,
+        .link,
         inputBuilder,
         package,
       );
@@ -350,7 +347,7 @@ class NativeAssetsBuildRunner {
       }
 
       final result = await _runHookForPackageCached(
-        Hook.link,
+        .link,
         input,
         (input, output) async => [
           for (final e in extensions)
@@ -924,7 +921,7 @@ ${compileResult.stdout}
     if (input is BuildInput) {
       final planner = await _planner;
       final packagesWithLink = (await planner.packagesWithHook(
-        Hook.link,
+        .link,
       )).map((p) => p.name);
       for (final targetPackage
           in (output as BuildOutput).assets.encodedAssetsForLinking.keys) {
@@ -960,14 +957,14 @@ ${compileResult.stdout}
   _makePlan({required Hook hook, BuildResult? buildResult}) async =>
       _timeAsync('_makePlan', () async {
         switch (hook) {
-          case Hook.build:
+          case .build:
             final planner = await _planner;
             final planResult = await planner.makeBuildHookPlan();
             if (planResult.isFailure) {
               return planResult.asFailure;
             }
             return Success((planResult.success, planner.packageGraph));
-          case Hook.link:
+          case .link:
             final planner = await _planner;
             final planResult = await planner.makeLinkHookPlan();
             if (planResult.isFailure) {
@@ -998,10 +995,10 @@ ${e.message}''');
       return const Failure(HooksRunnerFailure.hookRun);
     }
     switch (hook) {
-      case Hook.build:
+      case .build:
         final buildInput = BuildInput(hookInputJson);
         return Success(buildInput);
-      case Hook.link:
+      case .link:
         final linkInput = LinkInput(hookInputJson);
         return Success(linkInput);
     }
@@ -1038,7 +1035,7 @@ ${e.message}''');
       return const Failure(HooksRunnerFailure.hookRun);
     }
     switch (hook) {
-      case Hook.build:
+      case .build:
         final output = BuildOutputMaybeFailure(hookOutputJson);
         switch (output) {
           case BuildOutput _:
@@ -1048,7 +1045,7 @@ ${e.message}''');
           case BuildOutputFailure _:
             return const Failure(HooksRunnerFailure.hookRun);
         }
-      case Hook.link:
+      case .link:
         final output = LinkOutputMaybeFailure(hookOutputJson);
         switch (output) {
           case LinkOutput _:

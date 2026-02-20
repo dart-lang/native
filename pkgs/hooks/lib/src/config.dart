@@ -92,8 +92,7 @@ sealed class HookInput {
 
   final HookInputSyntax _syntax;
 
-  HookInput(Map<String, Object?> json)
-    : _syntax = HookInputSyntax.fromJson(json) {
+  HookInput(Map<String, Object?> json) : _syntax = .fromJson(json) {
     // Trigger validation, remove with cleanup.
     outputDirectory;
     outputDirectoryShared;
@@ -166,7 +165,7 @@ final class HookInputUserDefines {
 
 /// The builder for [HookInput].
 sealed class HookInputBuilder {
-  final _syntax = HookInputSyntax.fromJson({})
+  final HookInputSyntax _syntax = .fromJson({})
     ..config = ConfigSyntax(buildAssetTypes: [], extensions: null);
 
   /// The JSON representation of this hook input builder.
@@ -225,7 +224,7 @@ final class BuildInput extends HookInput {
   final BuildInputSyntax _syntaxBuildInput;
 
   ///// Creates a [BuildInput] from the given [json].
-  BuildInput(super.json) : _syntaxBuildInput = BuildInputSyntax.fromJson(json);
+  BuildInput(super.json) : _syntaxBuildInput = .fromJson(json);
 
   @override
   BuildConfig get config => BuildConfig._(this);
@@ -284,7 +283,7 @@ final class BuildInputAssets {
 /// The builder for [BuildInput].
 final class BuildInputBuilder extends HookInputBuilder {
   @override
-  BuildInputSyntax get _syntax => BuildInputSyntax.fromJson(super._syntax.json);
+  BuildInputSyntax get _syntax => .fromJson(super._syntax.json);
 
   /// Sets up the build input with the given [assets].
   void setupBuildInput({Map<String, List<EncodedAsset>>? assets}) {
@@ -361,7 +360,7 @@ final class LinkInput extends HookInput {
   final LinkInputSyntax _syntaxLinkInput;
 
   /// Creates a [LinkInput] from the given [json].
-  LinkInput(super.json) : _syntaxLinkInput = LinkInputSyntax.fromJson(json) {
+  LinkInput(super.json) : _syntaxLinkInput = .fromJson(json) {
     // Run validation.
     _encodedAssets;
   }
@@ -399,7 +398,7 @@ final class LinkInputAssets {
 /// The builder for [LinkInput].
 final class LinkInputBuilder extends HookInputBuilder {
   @override
-  LinkInputSyntax get _syntax => LinkInputSyntax.fromJson(super._syntax.json);
+  LinkInputSyntax get _syntax => .fromJson(super._syntax.json);
 
   /// Sets up the link input.
   void setupLink({
@@ -430,9 +429,7 @@ final class LinkInputBuilder extends HookInputBuilder {
 /// The builder for [BuildConfig].
 final class LinkConfigBuilder extends HookConfigBuilder {
   @override
-  late final BuildConfigSyntax _syntax = BuildConfigSyntax.fromJson(
-    super._syntax.json,
-  );
+  late final BuildConfigSyntax _syntax = .fromJson(super._syntax.json);
 
   LinkConfigBuilder._(super.builder) : super._();
 }
@@ -444,9 +441,7 @@ extension EncodedAssetSyntax on List<EncodedAsset> {
     if (assets == null) {
       return [];
     }
-    return [
-      for (final asset in assets) EncodedAsset.fromJson(asset.json, asset.path),
-    ];
+    return [for (final asset in assets) .fromJson(asset.json, asset.path)];
   }
 }
 
@@ -491,11 +486,11 @@ sealed class HookOutput {
 
 /// The builder for [HookOutput].
 sealed class HookOutputBuilder {
-  final _syntax = HookOutputSyntax(
+  final HookOutputSyntax _syntax = HookOutputSyntax(
     timestamp: DateTime.now().roundDownToSeconds().toString(),
     assets: null,
     dependencies: null,
-    status: OutputStatusSyntax.success,
+    status: .success,
     failureDetails: null,
     assetsForLinking: {},
   );
@@ -529,13 +524,13 @@ sealed class HookOutputBuilder {
 
   /// Sets the failure of this output.
   void setFailure(FailureType value) {
-    _syntax.status = OutputStatusSyntax.failure;
+    _syntax.status = .failure;
     _syntax.failureDetails = FailureSyntax(
       type: switch (value) {
-        FailureType.build => FailureTypeSyntax.build,
-        FailureType.infra => FailureTypeSyntax.infra,
-        FailureType.uncategorized => FailureTypeSyntax.uncategorized,
-        _ => FailureTypeSyntax.uncategorized,
+        .build => .build,
+        .infra => .infra,
+        .uncategorized => .uncategorized,
+        _ => .uncategorized,
       },
     );
   }
@@ -656,14 +651,13 @@ final class BuildOutputAssets {
 /// The builder for [BuildOutput].
 final class BuildOutputBuilder extends HookOutputBuilder {
   /// The metadata builder for this build output.
-  BuildOutputMetadataBuilder get metadata => BuildOutputMetadataBuilder._(this);
+  BuildOutputMetadataBuilder get metadata => ._(this);
 
   /// The assets builder for this build output.
-  BuildOutputAssetsBuilder get assets => BuildOutputAssetsBuilder._(this);
+  BuildOutputAssetsBuilder get assets => ._(this);
 
   @override
-  BuildOutputSyntax get _syntax =>
-      BuildOutputSyntax.fromJson(super._syntax.json);
+  BuildOutputSyntax get _syntax => .fromJson(super._syntax.json);
 
   /// Builds the [BuildOutput].
   BuildOutput build() => BuildOutput(json);
@@ -1096,8 +1090,7 @@ final class LinkOutputAssetsBuilder {
     }
   }
 
-  LinkOutputSyntax get _syntax =>
-      LinkOutputSyntax.fromJson(_builder._syntax.json);
+  LinkOutputSyntax get _syntax => .fromJson(_builder._syntax.json);
 }
 
 /// The configuration in [HookInput.config].
@@ -1217,10 +1210,10 @@ final class HookOutputFailure {
   /// This helps in categorizing the error and determining the appropriate
   /// response or fix.
   FailureType get type => switch (_syntax.failureDetails?.type) {
-    FailureTypeSyntax.build => FailureType.build,
-    FailureTypeSyntax.infra => FailureType.infra,
-    FailureTypeSyntax.uncategorized => FailureType.uncategorized,
-    _ => FailureType.uncategorized,
+    .build => .build,
+    .infra => .infra,
+    .uncategorized => .uncategorized,
+    _ => .uncategorized,
   };
 }
 
@@ -1250,9 +1243,9 @@ sealed class BuildOutputMaybeFailure {
     final status = syntax.status;
     switch (status) {
       case null: // backwards compatibility.
-      case OutputStatusSyntax.success:
+      case .success:
         return BuildOutput(json);
-      case OutputStatusSyntax.failure:
+      case .failure:
         return BuildOutputFailure._(json);
     }
     throw StateError('Unknown status: $status.');
@@ -1269,9 +1262,9 @@ sealed class LinkOutputMaybeFailure {
     final status = syntax.status;
     switch (status) {
       case null: // backwards compatibility.
-      case OutputStatusSyntax.success:
+      case .success:
         return LinkOutput(json);
-      case OutputStatusSyntax.failure:
+      case .failure:
         return LinkOutputFailure._(json);
     }
     throw StateError('Unknown status: $status.');
@@ -1325,7 +1318,7 @@ final class BuildError extends HookError {
 
   /// The failure type for build errors is [FailureType.build].
   @override
-  FailureType get failureType => FailureType.build;
+  FailureType get failureType => .build;
 }
 
 /// An error indicating an infrastructure-related problem during hook execution.
@@ -1347,5 +1340,5 @@ final class InfraError extends HookError {
 
   /// The failure type for infrastructure errors is [FailureType.infra].
   @override
-  FailureType get failureType => FailureType.infra;
+  FailureType get failureType => .infra;
 }

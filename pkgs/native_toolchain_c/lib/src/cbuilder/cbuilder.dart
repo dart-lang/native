@@ -11,10 +11,8 @@ import 'package:meta/meta.dart';
 
 import 'build_mode.dart';
 import 'ctool.dart';
-import 'language.dart';
 import 'linkmode.dart';
 import 'logger.dart';
-import 'optimization_level.dart';
 import 'output_type.dart';
 import 'run_cbuilder.dart';
 
@@ -74,12 +72,12 @@ class CBuilder extends CTool implements Builder {
     this.ndebugDefine = true,
     super.pic = true,
     super.std,
-    super.language = Language.c,
+    super.language = .c,
     super.cppLinkStdLib,
     super.linkModePreference,
-    super.optimizationLevel = OptimizationLevel.o3,
-    this.buildMode = BuildMode.release,
-  }) : super(type: OutputType.library);
+    super.optimizationLevel = .o3,
+    this.buildMode = .release,
+  }) : super(type: .library);
 
   CBuilder.executable({
     required super.name,
@@ -101,12 +99,12 @@ class CBuilder extends CTool implements Builder {
     this.ndebugDefine = true,
     bool? pie = false,
     super.std,
-    super.language = Language.c,
+    super.language = .c,
     super.cppLinkStdLib,
-    super.optimizationLevel = OptimizationLevel.o3,
-    this.buildMode = BuildMode.release,
+    super.optimizationLevel = .o3,
+    this.buildMode = .release,
   }) : super(
-         type: OutputType.executable,
+         type: .executable,
          assetName: null,
          installName: null,
          pic: pie,

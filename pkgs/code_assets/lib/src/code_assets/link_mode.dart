@@ -25,7 +25,7 @@ abstract final class LinkMode {
   ///
   /// The json is expected to be valid encoding obtained via [LinkMode.toJson].
   factory LinkMode.fromJson(Map<String, Object?> json) =>
-      LinkModeSyntaxExtension.fromSyntax(LinkModeSyntax.fromJson(json));
+      LinkModeSyntaxExtension.fromSyntax(.fromJson(json));
 
   /// The json representation of this [LinkMode].
   ///

@@ -16,7 +16,7 @@ final class MiniAudio {
   MiniAudio() {
     _engine = malloc();
     final result = ma_engine_init(nullptr, _engine);
-    if (result != ma_result.MA_SUCCESS) {
+    if (result != .MA_SUCCESS) {
       throw MiniAudioException(
         'Failed to initialize miniaudio engine: ${result.name}.',
       );
@@ -33,7 +33,7 @@ final class MiniAudio {
   void playSound(String filePath) => using((arena) {
     final filePath_ = filePath.toNativeUtf8(allocator: arena);
     final result = ma_engine_play_sound(_engine, filePath_.cast(), nullptr);
-    if (result != ma_result.MA_SUCCESS) {
+    if (result != .MA_SUCCESS) {
       throw MiniAudioException('Failed to play audio: ${result.name}}.');
     }
   });

@@ -45,33 +45,33 @@ Future<void> testCodeBuildHook({
   bool? linkingEnabled,
   Architecture? targetArchitecture,
   OS? targetOS,
-  IOSSdk? targetIOSSdk = IOSSdk.iPhoneOS,
+  IOSSdk? targetIOSSdk = .iPhoneOS,
   int? targetIOSVersion = 17,
   int? targetMacOSVersion = 13,
   int? targetAndroidNdkApi = 30,
   CCompilerConfig? cCompiler,
-  LinkModePreference? linkModePreference = LinkModePreference.dynamic,
+  LinkModePreference? linkModePreference = .dynamic,
   // TODO(https://github.com/dart-lang/native/issues/2241): Cleanup how the
   // following parameters are passed in.
   PackageUserDefines? userDefines,
   Map<String, List<EncodedAsset>>? assets,
 }) async {
-  targetOS ??= OS.current;
+  targetOS ??= .current;
   final extension = CodeAssetExtension(
     linkModePreference: linkModePreference!,
     cCompiler: cCompiler,
-    targetArchitecture: targetArchitecture ?? Architecture.current,
+    targetArchitecture: targetArchitecture ?? .current,
     targetOS: targetOS,
-    iOS: targetOS == OS.iOS
+    iOS: targetOS == .iOS
         ? IOSCodeConfig(
             targetSdk: targetIOSSdk!,
             targetVersion: targetIOSVersion!,
           )
         : null,
-    macOS: targetOS == OS.macOS
+    macOS: targetOS == .macOS
         ? MacOSCodeConfig(targetVersion: targetMacOSVersion!)
         : null,
-    android: targetOS == OS.android
+    android: targetOS == .android
         ? AndroidCodeConfig(targetNdkApi: targetAndroidNdkApi!)
         : null,
   );

@@ -25,7 +25,7 @@ final List<(Target, List<(int sdkVersion, bool success)>)> osInput = [
       (minNdkApiVersionForThisPackage - 1, false),
     ],
   ),
-  if (OS.current == OS.macOS) ...[
+  if (OS.current == .macOS) ...[
     (
       Target.macOSArm64,
       [
@@ -67,12 +67,10 @@ void main() async {
                 final logMessages = <String>[];
                 final (buildResult, linkResult) = await buildAndLink(
                   target: target,
-                  targetIOSSdk: (target.os == OS.iOS) ? IOSSdk.iPhoneOS : null,
-                  targetIOSVersion: (target.os == OS.iOS) ? version : null,
-                  targetMacOSVersion: (target.os == OS.macOS) ? version : null,
-                  targetAndroidNdkApi: (target.os == OS.android)
-                      ? version
-                      : null,
+                  targetIOSSdk: (target.os == .iOS) ? .iPhoneOS : null,
+                  targetIOSVersion: (target.os == .iOS) ? version : null,
+                  targetMacOSVersion: (target.os == .macOS) ? version : null,
+                  targetAndroidNdkApi: (target.os == .android) ? version : null,
                   packageUri,
                   createCapturingLogger(logMessages, level: Level.SEVERE),
                   dartExecutable,

@@ -38,7 +38,7 @@ void main() async {
             fileSystem: const LocalFileSystem(),
           );
       final packagesWithHook = await nativeAssetsBuildPlanner.packagesWithHook(
-        Hook.build,
+        .build,
       );
       expect(packagesWithHook.length, 1);
       final buildPlan = await nativeAssetsBuildPlanner.makeBuildHookPlan();

@@ -34,7 +34,7 @@ void main() async {
           logger,
           dartExecutable,
           capturedLogs: logMessages,
-          buildAssetTypes: [BuildAssetType.code],
+          buildAssetTypes: [.code],
           userDefines: userDefines,
         )).success;
         expect(
@@ -78,7 +78,7 @@ void main() async {
           logger,
           dartExecutable,
           capturedLogs: logMessages,
-          buildAssetTypes: [BuildAssetType.code],
+          buildAssetTypes: [.code],
           userDefines: userDefines,
         )).success;
         final hookUri = packageUri.resolve('hook/build.dart');
@@ -128,7 +128,7 @@ void main() async {
           logger,
           dartExecutable,
           capturedLogs: logMessages,
-          buildAssetTypes: [BuildAssetType.code],
+          buildAssetTypes: [.code],
           userDefines: userDefines,
         )).success;
         expect(
@@ -156,7 +156,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
-          buildAssetTypes: [BuildAssetType.code],
+          buildAssetTypes: [.code],
         )).success;
         await expectSymbols(
           asset: CodeAsset.fromEncoded(result.encodedAssets.single),
@@ -175,7 +175,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
-          buildAssetTypes: [BuildAssetType.code],
+          buildAssetTypes: [.code],
         )).success;
 
         final cUri = packageUri.resolve('src/').resolve('native_add.c');
@@ -210,7 +210,7 @@ void main() async {
         packageUri,
         logger,
         dartExecutable,
-        buildAssetTypes: [BuildAssetType.code],
+        buildAssetTypes: [.code],
       )).success;
       {
         final compiledHook = logMessages
@@ -238,7 +238,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
-          buildAssetTypes: [BuildAssetType.code],
+          buildAssetTypes: [.code],
         )).success;
 
         final hookUri = packageUri.resolve('hook/build.dart');
@@ -272,7 +272,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
-          buildAssetTypes: [BuildAssetType.code],
+          buildAssetTypes: [.code],
           hookEnvironment: modifiedEnvKey == 'PATH'
               ? null
               : filteredEnvironment(
@@ -307,7 +307,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
-          buildAssetTypes: [BuildAssetType.code],
+          buildAssetTypes: [.code],
         )).success;
         expect(logMessages.join('\n'), contains('hook.dill'));
         expect(
