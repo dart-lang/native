@@ -218,6 +218,9 @@ class ConstantSyntax extends JsonObjectSyntax {
     if (result.isMapConstant) {
       return result.asMapConstant;
     }
+    if (result.isNonConstantConstant) {
+      return result.asNonConstantConstant;
+    }
     if (result.isNullConstant) {
       return result.asNullConstant;
     }
@@ -348,8 +351,8 @@ class CreationInstanceSyntax extends InstanceSyntax {
 
   CreationInstanceSyntax({
     required super.loadingUnitIndices,
-    Map<String, int?>? named,
-    List<int?>? positional,
+    Map<String, int>? named,
+    List<int>? positional,
     super.path = const [],
   }) : super(type: 'creation') {
     _named = named;
@@ -360,37 +363,37 @@ class CreationInstanceSyntax extends InstanceSyntax {
   /// Setup all fields for [CreationInstanceSyntax] that are not in
   /// [InstanceSyntax].
   void setup({
-    required Map<String, int?>? named,
-    required List<int?>? positional,
+    required Map<String, int>? named,
+    required List<int>? positional,
   }) {
     _named = named;
     _positional = positional;
     json.sortOnKey();
   }
 
-  Map<String, int?>? get named => _reader.optionalMap<int?>(
+  Map<String, int>? get named => _reader.optionalMap<int>(
     'named',
   );
 
-  set _named(Map<String, int?>? value) {
+  set _named(Map<String, int>? value) {
     _checkArgumentMapKeys(
       value,
     );
     json.setOrRemove('named', value);
   }
 
-  List<String> _validateNamed() => _reader.validateOptionalMap<int?>(
+  List<String> _validateNamed() => _reader.validateOptionalMap<int>(
     'named',
   );
 
-  List<int?>? get positional => _reader.optionalList<int?>('positional');
+  List<int>? get positional => _reader.optionalList<int>('positional');
 
-  set _positional(List<int?>? value) {
+  set _positional(List<int>? value) {
     json.setOrRemove('positional', value);
   }
 
   List<String> _validatePositional() =>
-      _reader.validateOptionalList<int?>('positional');
+      _reader.validateOptionalList<int>('positional');
 
   @override
   List<String> validate() => [
@@ -1185,6 +1188,31 @@ class NameSyntax extends JsonObjectSyntax {
   String toString() => 'NameSyntax($json)';
 }
 
+class NonConstantConstantSyntax extends ConstantSyntax {
+  NonConstantConstantSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  NonConstantConstantSyntax({super.path = const []})
+    : super(type: 'non_constant');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'NonConstantConstantSyntax($json)';
+}
+
+extension NonConstantConstantSyntaxExtension on ConstantSyntax {
+  bool get isNonConstantConstant => type == 'non_constant';
+
+  NonConstantConstantSyntax get asNonConstantConstant =>
+      NonConstantConstantSyntax.fromJson(json, path: path);
+}
+
 class NullConstantSyntax extends ConstantSyntax {
   NullConstantSyntax.fromJson(
     super.json, {
@@ -1675,8 +1703,8 @@ class WithArgumentsCallSyntax extends CallSyntax {
 
   WithArgumentsCallSyntax({
     required super.loadingUnitIndices,
-    Map<String, int?>? named,
-    List<int?>? positional,
+    Map<String, int>? named,
+    List<int>? positional,
     super.path = const [],
   }) : super(type: 'with_arguments') {
     _named = named;
@@ -1687,37 +1715,37 @@ class WithArgumentsCallSyntax extends CallSyntax {
   /// Setup all fields for [WithArgumentsCallSyntax] that are not in
   /// [CallSyntax].
   void setup({
-    required Map<String, int?>? named,
-    required List<int?>? positional,
+    required Map<String, int>? named,
+    required List<int>? positional,
   }) {
     _named = named;
     _positional = positional;
     json.sortOnKey();
   }
 
-  Map<String, int?>? get named => _reader.optionalMap<int?>(
+  Map<String, int>? get named => _reader.optionalMap<int>(
     'named',
   );
 
-  set _named(Map<String, int?>? value) {
+  set _named(Map<String, int>? value) {
     _checkArgumentMapKeys(
       value,
     );
     json.setOrRemove('named', value);
   }
 
-  List<String> _validateNamed() => _reader.validateOptionalMap<int?>(
+  List<String> _validateNamed() => _reader.validateOptionalMap<int>(
     'named',
   );
 
-  List<int?>? get positional => _reader.optionalList<int?>('positional');
+  List<int>? get positional => _reader.optionalList<int>('positional');
 
-  set _positional(List<int?>? value) {
+  set _positional(List<int>? value) {
     json.setOrRemove('positional', value);
   }
 
   List<String> _validatePositional() =>
-      _reader.validateOptionalList<int?>('positional');
+      _reader.validateOptionalList<int>('positional');
 
   @override
   List<String> validate() => [

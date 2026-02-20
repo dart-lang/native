@@ -148,7 +148,7 @@ Error: $e
     RecordedUsesSyntax syntax,
     DefinitionDeserializationContext definitionContext,
   ) {
-    final constants = <Constant>[];
+    final constants = <MaybeConstant>[];
     // Create a context that includes an empty list for the constants. This
     // list will be populated by [_deserializeConstants], providing the
     // self-referential access needed to resolve recursive constants (e.g.
@@ -158,7 +158,10 @@ Error: $e
       constants,
     );
     for (final constantSyntax in syntax.constants ?? <ConstantSyntax>[]) {
-      final constant = ConstantProtected.fromSyntax(constantSyntax, context);
+      final constant = MaybeConstantProtected.fromSyntax(
+        constantSyntax,
+        context,
+      );
       if (!constants.contains(constant)) {
         constants.add(constant);
       }
@@ -237,44 +240,36 @@ Error: $e
     );
   }
 
-  Iterable<Constant> _collectConstants() => {
-    ...calls.values
-        .expand((calls) => calls)
-        .whereType<CallWithArguments>()
-        .expand(
-          (call) => [
-            ...call.positionalArguments,
-            ...call.namedArguments.values,
-          ],
-        )
-        .expand(
-          (argument) => switch (argument) {
-            final Constant c => [c],
-            NonConstant() => <Constant>[],
-          },
-        ),
-    ...instances.values
-        .expand((instances) => instances)
-        .expand(
-          (instance) => switch (instance) {
-            InstanceConstantReference(:final instanceConstant) => {
-              ...instanceConstant.fields.values,
-              instanceConstant,
+  Iterable<MaybeConstant> _collectConstants() {
+    final values = <MaybeConstant>{
+      ...calls.values
+          .expand((calls) => calls)
+          .whereType<CallWithArguments>()
+          .expand(
+            (call) => [
+              ...call.positionalArguments,
+              ...call.namedArguments.values,
+            ],
+          ),
+      ...instances.values
+          .expand((instances) => instances)
+          .expand(
+            (instance) => switch (instance) {
+              InstanceConstantReference(:final instanceConstant) => {
+                ...instanceConstant.fields.values,
+                instanceConstant,
+              },
+              InstanceCreationReference(
+                :final positionalArguments,
+                :final namedArguments,
+              ) =>
+                [...positionalArguments, ...namedArguments.values],
+              ConstructorTearoffReference() => <MaybeConstant>[],
             },
-            InstanceCreationReference(
-              :final positionalArguments,
-              :final namedArguments,
-            ) =>
-              [...positionalArguments, ...namedArguments.values].expand(
-                (argument) => switch (argument) {
-                  final Constant c => [c],
-                  NonConstant() => <Constant>[],
-                },
-              ),
-            ConstructorTearoffReference() => <Constant>[],
-          },
-        ),
-  }.flatten();
+          ),
+    };
+    return values.flatten();
+  }
 
   Iterable<LoadingUnit> _collectLoadingUnits() => {
     ...calls.values
@@ -292,7 +287,7 @@ Error: $e
   );
 
   DefinitionSerializationContext _serializeDefinitions(
-    Iterable<Constant> allConstants,
+    Iterable<MaybeConstant> allConstants,
     LoadingUnitSerializationContext loadingUnitContext,
   ) {
     final allDefinitions = {
@@ -307,7 +302,7 @@ Error: $e
   }
 
   (SerializationContext, List<ConstantSyntax>) _serializeConstants(
-    Iterable<Constant> allConstants,
+    Iterable<MaybeConstant> allConstants,
     DefinitionSerializationContext definitionContext,
   ) {
     final constantsMap = allConstants.asMapToIndices;
@@ -563,23 +558,24 @@ Error: $e
   }
 }
 
-extension FlattenConstantsExtension on Iterable<Constant> {
-  Set<Constant> flatten() {
-    final constants = <Constant>{};
+extension FlattenConstantsExtension on Iterable<MaybeConstant> {
+  Set<MaybeConstant> flatten() {
+    final constants = <MaybeConstant>{};
     for (final constant in this) {
       depthFirstSearch(constant, constants);
     }
     return constants;
   }
 
-  void depthFirstSearch(Constant constant, Set<Constant> collected) {
-    final children = switch (constant) {
+  void depthFirstSearch(MaybeConstant constant, Set<MaybeConstant> collected) {
+    // ignore: omit_local_variable_types
+    final Iterable<MaybeConstant> children = switch (constant) {
       ListConstant() => constant.value,
       MapConstant() => constant.entries.expand(
         (e) => [e.key, e.value],
       ),
       InstanceConstant() => constant.fields.values,
-      _ => <Constant>[],
+      _ => <MaybeConstant>[],
     };
     for (final child in children) {
       if (!collected.contains(child)) {

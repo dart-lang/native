@@ -2,6 +2,9 @@
   "$schema": "../../doc/schema/record_use.schema.json",
   "constants": [
     {
+      "type": "non_constant"
+    },
+    {
       "type": "int",
       "value": 42
     }
@@ -43,11 +46,11 @@
               0
             ],
             "positional": [
-              null,
-              null,
-              null,
-              null,
-              0
+              0,
+              0,
+              0,
+              0,
+              1
             ],
             "type": "with_arguments"
           }

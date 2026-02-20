@@ -42,19 +42,13 @@
           "named": {
             "type": "object",
             "additionalProperties": {
-              "type": [
-                "integer",
-                "null"
-              ]
+              "type": "integer"
             }
           },
           "positional": {
             "type": "array",
             "items": {
-              "type": [
-                "integer",
-                "null"
-              ]
+              "type": "integer"
             }
           }
         }
@@ -93,6 +87,7 @@
                 "int",
                 "list",
                 "map",
+                "non_constant",
                 "null",
                 "string",
                 "unsupported"
@@ -208,6 +203,22 @@
             "required": [
               "value"
             ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "non_constant"
+              }
+            }
+          },
+          "then": {
+            "not": {
+              "required": [
+                "value"
+              ]
+            }
           }
         },
         {
@@ -348,19 +359,13 @@
               "named": {
                 "type": "object",
                 "additionalProperties": {
-                  "type": [
-                    "integer",
-                    "null"
-                  ]
+                  "type": "integer"
                 }
               },
               "positional": {
                 "type": "array",
                 "items": {
-                  "type": [
-                    "integer",
-                    "null"
-                  ]
+                  "type": "integer"
                 }
               }
             }

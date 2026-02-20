@@ -26,6 +26,9 @@
       "type": "null"
     },
     {
+      "type": "non_constant"
+    },
+    {
       "type": "int",
       "value": 42
     },
@@ -33,13 +36,13 @@
       "definition_index": 1,
       "type": "instance",
       "value": {
-        "i": 5
+        "i": 6
       }
     },
     {
       "type": "list",
       "value": [
-        5
+        6
       ]
     },
     {
@@ -89,7 +92,7 @@
         "definition_index": 1,
         "uses": [
           {
-            "constant_index": 6,
+            "constant_index": 7,
             "loading_unit_indices": [
               0
             ],
@@ -109,18 +112,18 @@
             "named": {
               "a": 0,
               "b": 2,
-              "c": 5,
-              "d": null
+              "c": 6,
+              "d": 5
             },
             "positional": [
               0,
               3,
               4,
-              null,
               5,
               6,
               7,
-              8
+              8,
+              9
             ],
             "type": "with_arguments"
           }
