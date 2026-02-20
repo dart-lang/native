@@ -297,18 +297,18 @@ class AnalyzeTask extends Task {
     required List<String> packages,
     required ArgResults argResults,
   }) async {
+    final paths = [
+      ...packages,
+      'tool',
+      'pubspec.yaml',
+    ];
     if (argResults['fix'] as bool) {
       await _runMaybeParallel([
-        for (final path in [...packages, 'tool'])
+        for (final path in paths)
           () => _runProcess('dart', ['fix', '--apply', path]),
       ], argResults);
     }
-    await _runProcess('dart', [
-      'analyze',
-      '--fatal-infos',
-      ...packages,
-      'tool',
-    ]);
+    await _runProcess('dart', ['analyze', '--fatal-infos', ...paths]);
   }
 }
 
