@@ -144,7 +144,6 @@ class OptionalType extends AstNode implements ReferredType {
   }
 }
 
-/// An inout type, like Swift's pass-by-reference params. Eg `inout Int`.
 class InoutType extends AstNode implements ReferredType {
   final ReferredType child;
 
