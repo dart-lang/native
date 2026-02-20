@@ -1,0 +1,15 @@
+name: objective_c_helper
+description: Helper utilities for objective_c tests and hooks.
+version: 0.0.1
+publish_to: none
+
+environment:
+  sdk: ">=3.10.0 <4.0.0"
+
+dependencies:
+  objective_c:
+    path: ../objective_c
+  native_toolchain_c: ^0.17.4
+
+executables:
+  build_hook: hook/build.dart
