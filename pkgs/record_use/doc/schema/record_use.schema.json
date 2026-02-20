@@ -24,6 +24,12 @@
           "items": {
             "type": "integer"
           }
+        },
+        "receiver": {
+          "type": [
+            "integer",
+            "null"
+          ]
         }
       },
       "required": [

@@ -244,11 +244,13 @@ Error: $e
     final values = <MaybeConstant>{
       ...calls.values
           .expand((calls) => calls)
-          .whereType<CallWithArguments>()
           .expand(
             (call) => [
-              ...call.positionalArguments,
-              ...call.namedArguments.values,
+              if (call.receiver != null) call.receiver!,
+              if (call is CallWithArguments) ...[
+                ...call.positionalArguments,
+                ...call.namedArguments.values,
+              ],
             ],
           ),
       ...instances.values

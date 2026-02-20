@@ -53,12 +53,19 @@ extension type RecordedUsages._(Recordings _recordings) {
   /// ```
   // TODO(https://github.com/dart-lang/native/issues/2718): Make tearoffs more
   // front and center.
-  Iterable<({Map<String, MaybeConstant> named, List<MaybeConstant> positional})>
+  Iterable<
+    ({
+      Map<String, MaybeConstant> named,
+      List<MaybeConstant> positional,
+      MaybeConstant? receiver,
+    })
+  >
   constArgumentsFor(Definition definition) =>
       _recordings.calls[definition]?.whereType<CallWithArguments>().map(
         (call) => (
           named: call.namedArguments,
           positional: call.positionalArguments,
+          receiver: call.receiver,
         ),
       ) ??
       [];
