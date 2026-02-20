@@ -3,12 +3,25 @@
 import Foundation
 
 @objc public class GlobalsWrapper: NSObject {
+  @objc static public func swapTwoIntsWrapper(_ a: IntWrapper, _ b: IntWrapper) {
+    return swapTwoInts(&a.wrappedInstance, &b.wrappedInstance)
+  }
+
   @objc static public func replaceOtherWrapper(_ value: MyOtherClassWrapper) {
     return replaceOther(&value.wrappedInstance)
   }
 
-  @objc static public func swapTwoIntsWrapper(_ a: IntWrapper, _ b: IntWrapper) {
-    return swapTwoInts(&a.wrappedInstance, &b.wrappedInstance)
+}
+
+@objc public class MyOtherClassWrapper: NSObject {
+  var wrappedInstance: MyOtherClass
+
+  init(_ wrappedInstance: MyOtherClass) {
+    self.wrappedInstance = wrappedInstance
+  }
+
+  @objc override public init() {
+    wrappedInstance = MyOtherClass()
   }
 
 }
@@ -26,19 +39,6 @@ import Foundation
 
 }
 
-@objc public class MyOtherClassWrapper: NSObject {
-  var wrappedInstance: MyOtherClass
-
-  init(_ wrappedInstance: MyOtherClass) {
-    self.wrappedInstance = wrappedInstance
-  }
-
-  @objc public override init() {
-    wrappedInstance = MyOtherClass()
-  }
-
-}
-
 @objc public class IntWrapper: NSObject {
   var wrappedInstance: Int
 
@@ -47,3 +47,4 @@ import Foundation
   }
 
 }
+
