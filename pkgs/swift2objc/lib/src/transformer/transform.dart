@@ -31,6 +31,10 @@ class TransformationState {
 
   // Bindings that will be generated as stubs.
   final stubs = <Declaration>{};
+
+  // Map from tuple signature to generated wrapper class
+  // Map from tuple signature to generated wrapper class
+  final tupleWrappers = <String, ClassDeclaration>{};
 }
 
 /// Transforms the given declarations into the desired ObjC wrapped declarations
@@ -80,6 +84,7 @@ List<Declaration> transform(
   return [
     ...transformedDeclarations,
     ..._getPrimitiveWrapperClasses(state),
+    ...state.tupleWrappers.values,
   ].sortedById();
 }
 

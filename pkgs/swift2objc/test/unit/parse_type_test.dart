@@ -226,4 +226,94 @@ void main() {
     expect(type.sameAs(OptionalType(intType)), isTrue);
     expect(remaining.length, 2);
   });
+
+  test('Labeled and Nested Tuple', () {
+    final fragments = Json(
+      jsonDecode('''
+    [
+      {"kind": "text", "spelling": "("},
+      {"kind": "text", "spelling": "id"},
+      {"kind": "text", "spelling": ": "},
+      {"kind": "typeIdentifier", "spelling": "Int", "preciseIdentifier": "s:Si"},
+      {"kind": "text", "spelling": ", "},
+      {"kind": "text", "spelling": "data"},
+      {"kind": "text", "spelling": ": "},
+      {"kind": "text", "spelling": "("},
+      {"kind": "typeIdentifier", "spelling": "String", "preciseIdentifier": "s:SS"},
+      {"kind": "text", "spelling": ", "},
+      {"kind": "typeIdentifier", "spelling": "Bool", "preciseIdentifier": "s:Sb"},
+      {"kind": "text", "spelling": ")"},
+      {"kind": "text", "spelling": ")"}
+    ]
+    '''),
+    );
+
+    final (type, remaining) = parseType(
+      context,
+      parsedSymbols,
+      TokenList(fragments),
+    );
+
+    expect(type is TupleType, isTrue);
+    final tuple = type as TupleType;
+
+    // Verify first level
+    expect(tuple.elements.length, 2);
+    expect(tuple.elements[0].label, 'id');
+    expect(tuple.elements[1].label, 'data');
+
+    // Verify nesting
+    final nestedTuple = tuple.elements[1].type as TupleType;
+    expect(nestedTuple.elements.length, 2);
+    expect(nestedTuple.elements[0].type.swiftType, 'String');
+    expect(remaining.length, 0);
+  });
+  test('Simple unlabeled tuple', () {
+    final fragments = Json(
+      jsonDecode('''
+    [
+      {"kind": "text", "spelling": "("},
+      {"kind": "typeIdentifier", "spelling": "Int", "preciseIdentifier": "s:Si"},
+      {"kind": "text", "spelling": ", "},
+      {"kind": "typeIdentifier", "spelling": "String", "preciseIdentifier": "s:SS"},
+      {"kind": "text", "spelling": ")"}
+    ]
+  '''),
+    );
+
+    final (type, remaining) = parseType(
+      context,
+      parsedSymbols,
+      TokenList(fragments),
+    );
+
+    expect(type is TupleType, isTrue);
+    final tuple = type as TupleType;
+    expect(tuple.elements.length, 2);
+    expect(tuple.elements[0].label, isNull);
+    expect(tuple.elements[1].label, isNull);
+    expect(tuple.elements[0].type.swiftType, 'Int');
+    expect(tuple.elements[1].type.swiftType, 'String');
+    expect(remaining.length, 0);
+  });
+
+  test('Empty tuple (Void)', () {
+    final fragments = Json(
+      jsonDecode('''
+    [
+      {"kind": "text", "spelling": "("},
+      {"kind": "text", "spelling": ")"}
+    ]
+  '''),
+    );
+
+    final (type, remaining) = parseType(
+      context,
+      parsedSymbols,
+      TokenList(fragments),
+    );
+
+    expect(type, voidType);
+    expect(remaining.length, 0);
+  });
 }

@@ -143,3 +143,63 @@ class OptionalType extends AstNode implements ReferredType {
     visitor.visit(child);
   }
 }
+
+/// Describes a reference to a Swift Tuple type (e.g., `(Int, String)`).
+class TupleType extends AstNode implements ReferredType {
+  final List<TupleElement> elements;
+
+  @override
+  bool get isObjCRepresentable => false;
+
+  @override
+  String get swiftType {
+    final elementStrings = elements
+        .map((e) {
+          final label = e.label != null ? '${e.label}: ' : '';
+          return '$label${e.type.swiftType}';
+        })
+        .join(', ');
+    return '($elementStrings)';
+  }
+
+  @override
+  bool _sameAs(ReferredType other) {
+    if (other is! TupleType) return false;
+    if (elements.length != other.elements.length) return false;
+    for (var i = 0; i < elements.length; i++) {
+      if (!elements[i].type.sameAs(other.elements[i].type)) return false;
+      if (elements[i].label != other.elements[i].label) return false;
+    }
+    return true;
+  }
+
+  @override
+  ReferredType get aliasedType =>
+      TupleType(elements.map((e) => e.aliasedElement).toList());
+
+  TupleType(this.elements);
+
+  @override
+  String toString() => swiftType;
+
+  @override
+  void visit(Visitation visitation) => visitation.visitTupleType(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    for (final element in elements) {
+      visitor.visit(element.type);
+    }
+  }
+}
+
+class TupleElement {
+  final String? label;
+  final ReferredType type;
+
+  TupleElement({this.label, required this.type});
+
+  TupleElement get aliasedElement =>
+      TupleElement(label: label, type: type.aliasedType);
+}

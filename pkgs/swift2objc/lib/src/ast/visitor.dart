@@ -107,6 +107,7 @@ abstract class Visitation {
       visitCompoundDeclaration(node);
   void visitTypealiasDeclaration(TypealiasDeclaration node) =>
       visitDeclaration(node);
+  void visitTupleType(TupleType node) => visitReferredType(node);
 
   /// Default behavior for all visit methods.
   void visitAstNode(AstNode node) => node.visitChildren(visitor);
