@@ -145,9 +145,8 @@ typedef PrefixParselet =
   if (_tokenId(fragments[0]) == 'text: ') {
     fragments = fragments.slice(1);
   }
-  // TODO(https://github.com/dart-lang/native/issues/1754): Mark the returned
-  // type as inout (maybe wrap it in a new InOutType AST node?).
-  return parseType(context, symbolgraph, fragments);
+  final (type, suffix) = parseType(context, symbolgraph, fragments);
+  return (InoutType(type), suffix);
 }
 
 Map<String, PrefixParselet> _prefixParsets = {
