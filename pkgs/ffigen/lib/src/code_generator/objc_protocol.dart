@@ -46,6 +46,11 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
              name ??
              originalName,
        ) {
+    deprecatedMessage = apiAvailability.alwaysDeprecated
+        ? (apiAvailability.deprecatedMessage?.isNotEmpty ?? false
+            ? apiAvailability.deprecatedMessage
+            : '')
+        : null;
     _conformsTo = context.objCBuiltInFunctions.getSelObject(
       'conformsToProtocol:',
     );
@@ -90,6 +95,8 @@ class ObjCProtocol extends BindingType with ObjCMethods, HasLocalScope {
 ''');
     }
     s.write(makeDartDoc(dartDoc ?? originalName));
+    final deprecatedAnnotation = makeDeprecatedAnnotation(deprecatedMessage);
+    s.write(deprecatedAnnotation.isEmpty ? '' : '$deprecatedAnnotation\n');
 
     final sp = [
       protocolBase,
@@ -140,7 +147,7 @@ ${generateInstanceMethodBindings(w, this)}
     if (!generateAsStub) {
       final builder = '$name\$Builder';
       s.write('''
-  interface class $builder {
+  ${deprecatedAnnotation.isEmpty ? '' : '$deprecatedAnnotation\n'}interface class $builder {
   ''');
 
       final buildArgs = <String>[];

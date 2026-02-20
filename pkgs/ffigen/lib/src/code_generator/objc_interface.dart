@@ -46,6 +46,11 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
              name ??
              originalName,
        ) {
+    deprecatedMessage = apiAvailability.alwaysDeprecated
+        ? (apiAvailability.deprecatedMessage?.isNotEmpty ?? false
+            ? apiAvailability.deprecatedMessage
+            : '')
+        : null;
     classObject = ObjCInternalGlobal(
       '_class_$originalName',
       () => '${ObjCBuiltInFunctions.getClass.gen(context)}("$lookupName")',
@@ -89,6 +94,8 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
 ''');
     }
     s.write(makeDartDoc(dartDoc));
+    final deprecatedAnnotation = makeDeprecatedAnnotation(deprecatedMessage);
+    s.write(deprecatedAnnotation.isEmpty ? '' : '$deprecatedAnnotation\n');
 
     final ctorBody = [
       apiAvailability.runtimeCheck(
