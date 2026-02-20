@@ -123,60 +123,64 @@
     "comment": "Recorded references at compile time and their argument values, as far as known, to definitions annotated with @RecordUse",
     "version": "1.6.2-wip+5.-.2.z"
   },
-  "recordings": [
-    {
-      "calls": [
-        {
-          "loading_unit_indices": [
-            0
-          ],
-          "named": {
-            "freddy": 3,
-            "leroy": 4
+  "uses": {
+    "instances": [
+      {
+        "definition_index": 1,
+        "uses": [
+          {
+            "constant_index": 16,
+            "loading_unit_indices": [
+              1
+            ],
+            "type": "constant"
           },
-          "positional": [
-            0,
-            1,
-            2
-          ],
-          "type": "with_arguments"
-        },
-        {
-          "loading_unit_indices": [
-            0
-          ],
-          "named": {
-            "freddy": 13,
-            "leroy": 4
+          {
+            "constant_index": 17,
+            "loading_unit_indices": [
+              1
+            ],
+            "type": "constant"
+          }
+        ]
+      }
+    ],
+    "static_calls": [
+      {
+        "definition_index": 0,
+        "uses": [
+          {
+            "loading_unit_indices": [
+              0
+            ],
+            "named": {
+              "freddy": 3,
+              "leroy": 4
+            },
+            "positional": [
+              0,
+              1,
+              2
+            ],
+            "type": "with_arguments"
           },
-          "positional": [
-            0,
-            7,
-            12
-          ],
-          "type": "with_arguments"
-        }
-      ],
-      "definition_index": 0
-    },
-    {
-      "definition_index": 1,
-      "instances": [
-        {
-          "constant_index": 16,
-          "loading_unit_indices": [
-            1
-          ],
-          "type": "constant"
-        },
-        {
-          "constant_index": 17,
-          "loading_unit_indices": [
-            1
-          ],
-          "type": "constant"
-        }
-      ]
-    }
-  ]
+          {
+            "loading_unit_indices": [
+              0
+            ],
+            "named": {
+              "freddy": 13,
+              "leroy": 4
+            },
+            "positional": [
+              0,
+              7,
+              12
+            ],
+            "type": "with_arguments"
+          }
+        ]
+      }
+    ]
+  }
 }

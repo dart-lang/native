@@ -37,8 +37,8 @@
 ///    to the [RecordedUsesSyntax.constants] pool third. They may contain
 ///    references to the definitions pool (e.g. for [InstanceConstant]) and the
 ///    constants pool (for recursive collections).
-/// 4. **Recordings**: [Recordings] are (de)serialized last from or to
-///    [RecordedUsesSyntax.recordings] as they depend on loading units,
+/// 4. **Recordings**: Recordings are (de)serialized last from or to
+///    [RecordedUsesSyntax.uses] as they depend on loading units,
 ///    [Constant]s, and [Definition]s.
 library;
 

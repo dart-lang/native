@@ -26,19 +26,21 @@ void main() {
           ],
         },
       ],
-      'recordings': [
-        {
-          'definition_index': 0,
-          'calls': [
-            {
-              'type': 'with_arguments',
-              'loading_unit_indices': [0],
-              'positional': [0, 1, null],
-              'named': {'a': 0, 'b': 1, 'c': null},
-            },
-          ],
-        },
-      ],
+      'uses': {
+        'static_calls': [
+          {
+            'definition_index': 0,
+            'uses': [
+              {
+                'type': 'with_arguments',
+                'loading_unit_indices': [0],
+                'positional': [0, 1, null],
+                'named': {'a': 0, 'b': 1, 'c': null},
+              },
+            ],
+          },
+        ],
+      },
     };
 
     final recordings = Recordings.fromJson(json);
@@ -87,9 +89,10 @@ void main() {
     expect(roundTripped, equals(recordings));
 
     // Verify JSON structure specifically for named nulls
-    final recordingsJson = json['recordings'] as List;
+    final usesJson = json['uses'] as Map;
+    final recordingsJson = usesJson['static_calls'] as List;
     final recording = recordingsJson[0] as Map;
-    final call = (recording['calls'] as List)[0] as Map;
+    final call = (recording['uses'] as List)[0] as Map;
     final named = call['named'] as Map;
     expect(named.containsKey('c'), isTrue);
     expect(named['c'], isNull);

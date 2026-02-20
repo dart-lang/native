@@ -34,25 +34,27 @@
     "comment": "Constructor invocation recording",
     "version": "1.0.0"
   },
-  "recordings": [
-    {
-      "definition_index": 0,
-      "instances": [
-        {
-          "loading_unit_indices": [
-            0
-          ],
-          "named": {
-            "other": null,
-            "param": 2
-          },
-          "positional": [
-            0,
-            1
-          ],
-          "type": "creation"
-        }
-      ]
-    }
-  ]
+  "uses": {
+    "instances": [
+      {
+        "definition_index": 0,
+        "uses": [
+          {
+            "loading_unit_indices": [
+              0
+            ],
+            "named": {
+              "other": null,
+              "param": 2
+            },
+            "positional": [
+              0,
+              1
+            ],
+            "type": "creation"
+          }
+        ]
+      }
+    ]
+  }
 }

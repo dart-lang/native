@@ -60,6 +60,26 @@
         }
       }
     },
+    "CallRecording": {
+      "type": "object",
+      "properties": {
+        "definition_index": {
+          "type": "integer"
+        },
+        "uses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Call"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "definition_index",
+        "uses"
+      ],
+      "additionalProperties": false
+    },
     "Constant": {
       "type": "object",
       "properties": {
@@ -348,6 +368,26 @@
         }
       ]
     },
+    "InstanceRecording": {
+      "type": "object",
+      "properties": {
+        "definition_index": {
+          "type": "integer"
+        },
+        "uses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Instance"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "definition_index",
+        "uses"
+      ],
+      "additionalProperties": false
+    },
     "LoadingUnit": {
       "type": "object",
       "properties": {
@@ -460,39 +500,31 @@
             "version"
           ]
         },
-        "recordings": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Recording"
-          }
+        "uses": {
+          "$ref": "#/definitions/Uses"
         }
       },
       "required": [
         "metadata"
       ]
     },
-    "Recording": {
+    "Uses": {
       "type": "object",
       "properties": {
-        "calls": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Call"
-          }
-        },
-        "definition_index": {
-          "type": "integer"
-        },
         "instances": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Instance"
+            "$ref": "#/definitions/InstanceRecording"
+          }
+        },
+        "static_calls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CallRecording"
           }
         }
       },
-      "required": [
-        "definition_index"
-      ]
+      "additionalProperties": false
     }
   }
 }
