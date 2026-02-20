@@ -8,6 +8,7 @@
 @Tags(['summarizer_test'])
 library;
 
+import 'dart:io';
 import 'dart:math';
 
 import 'package:jnigen/src/config/config.dart';
@@ -139,6 +140,51 @@ void main() async {
     final targetDir = tempDir.createTempSync('compiled_classes_test_');
     setUpAll(() => compileJavaFiles(simplePackageDir, targetDir));
     testAllCases(classPath: [targetDir.path]);
+  });
+
+  group('Test unsupported class file version errors', () {
+    final sourceDir = tempDir.createTempSync('unsupported_classfile_source_');
+    final classesDir = tempDir.createTempSync('unsupported_classfile_classes_');
+
+    setUpAll(() async {
+      final packageDir = Directory(join(sourceDir.path, 'com', 'example'))
+        ..createSync(recursive: true);
+      final javaFile = File(join(packageDir.path, 'Hello.java'));
+      javaFile.writeAsStringSync('''
+        package com.example;
+        public class Hello {
+        public int value() { return 42; }
+      }
+    ''');
+      await compileJavaFiles(sourceDir, classesDir);
+
+      //in class file encoding the version as 74 so unsupported
+      //and trigggers for test
+      final classFile = File(
+        join(classesDir.path, 'com', 'example', 'Hello.class'),
+      );
+      final classFileBytes = classFile.readAsBytesSync();
+      classFileBytes[6] = 0x00;
+      classFileBytes[7] = 0x4A;
+      classFile.writeAsBytesSync(classFileBytes, flush: true);
+    });
+
+    test('- should provide actionable guidance for unsupported versions',
+        () async {
+      final config = getSummaryGenerationConfig(classPath: [classesDir.path]);
+      config.classes = ['com.example.Hello'];
+
+      try {
+        await getSummary(config);
+      } on SummaryParseException catch (e) {
+        expect(e.message, contains('Java class file version 74'));
+        expect(e.message, contains('supported JDK version (11 to 17)'));
+        expect(e.message, contains('javac --release 17'));
+        expect(e.message, isNot(contains('FormatException')));
+        return;
+      }
+      throw AssertionError('No exception was caught');
+    });
   });
 
   // Test summary generation from combination of a source and class path
