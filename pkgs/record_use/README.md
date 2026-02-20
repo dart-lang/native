@@ -34,7 +34,7 @@ abstract class PirateTranslator {
 }
 
 @RecordUse()
-class PirateShip {
+final class PirateShip {
   final String name;
   final int cannons;
 

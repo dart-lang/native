@@ -37,8 +37,8 @@
 ///    to the [RecordedUsesSyntax.constants] pool third. They may contain
 ///    references to the definitions pool (e.g. for [InstanceConstant]) and the
 ///    constants pool (for recursive collections).
-/// 4. **Recordings**: [Recordings] are (de)serialized last from or to
-///    [RecordedUsesSyntax.recordings] as they depend on loading units,
+/// 4. **Recordings**: Recordings are (de)serialized last from or to
+///    [RecordedUsesSyntax.uses] as they depend on loading units,
 ///    [Constant]s, and [Definition]s.
 library;
 
@@ -74,8 +74,8 @@ base class DefinitionDeserializationContext
 @immutable
 final class DeserializationContext extends DefinitionDeserializationContext {
   /// The mapping from the unique integer index in
-  /// [RecordedUsesSyntax.constants] to the semantic [Constant]s.
-  final List<Constant> constants;
+  /// [RecordedUsesSyntax.constants] to the semantic [MaybeConstant]s.
+  final List<MaybeConstant> constants;
 
   DeserializationContext.fromPrevious(
     DefinitionDeserializationContext previous,
@@ -106,9 +106,9 @@ base class DefinitionSerializationContext
 /// The final serialization state where all index maps are available.
 @immutable
 final class SerializationContext extends DefinitionSerializationContext {
-  /// The mapping from semantic [Constant] objects to their unique integer index
-  /// within the constants pool ([RecordedUsesSyntax.constants]).
-  final Map<Constant, int> constants;
+  /// The mapping from semantic [MaybeConstant] objects to their unique integer
+  /// index within the constants pool ([RecordedUsesSyntax.constants]).
+  final Map<MaybeConstant, int> constants;
 
   SerializationContext.fromPrevious(
     DefinitionSerializationContext previous,
