@@ -363,7 +363,7 @@ class _ClassGenerator extends Visitor<ClassDecl, void> {
     final modifier = node.isTopLevel ? '' : '  static ';
     final classRef = node.isTopLevel ? '_${node.finalName}Class' : '_class';
     s.write('''
-${modifier}final $classRef = $_jni.JClass.forName(r'$internalName');
+$modifier$_jni.JClass get $classRef => $_jni.JClass.forNameCached(r'$internalName');
 
     ''');
     return classRef;

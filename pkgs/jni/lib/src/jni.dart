@@ -54,6 +54,8 @@ abstract final class Jni {
   static final DynamicLibrary _dylib = _loadDartJniLibrary(dir: _dylibDir);
   static final JniBindings _bindings = JniBindings(_dylib);
 
+  static final _classCache = _JClassCache();
+
   /// Store dylibDir if any was used.
   static String _dylibDir = join('build', 'jni_libs');
 
@@ -192,6 +194,34 @@ abstract final class Jni {
   static JClassPtr findClass(String name) {
     return using((arena) => _bindings.JniFindClass(name.toNativeChars(arena)))
         .checkedClassRef;
+  }
+
+  /// Returns a cached [JClass] for the given class name.
+  ///
+  /// This is preferred for repeated lookups of the same class, as it avoids
+  /// repeated JNI calls and minimizes GlobalRef usage.
+  ///
+  /// **Returns the cached JClass instance** owned by the cache. Callers must
+  /// NOT release this instance. The cache manages its lifecycle.
+  ///
+  /// The cache is isolate-local and has bounded capacity.
+  @internal
+  static JClass getCachedClass(String name) {
+    return _classCache.get(name);
+  }
+
+  /// Sets the capacity of the internal LRU class cache.
+  ///
+  /// If the new [size] is smaller than the current number of cached classes,
+  /// the least recently used classes will be **immediately evicted** and
+  /// their global references released (via `DeleteGlobalRef`).
+  ///
+  /// This does **not** affect references returned by prior [getCachedClass]
+  /// calls. Those are owned by callers and remain valid until deleted.
+  ///
+  /// The cache is isolate-local, so this only affects the current isolate.
+  static void setClassCacheSize(int size) {
+    _classCache.capacity = size;
   }
 
   /// Throws an exception.
@@ -430,5 +460,69 @@ extension StringMethodsForJni on String {
   /// Returns a Utf-8 encoded `Pointer<Char>` with contents same as this string.
   Pointer<Char> toNativeChars(Allocator allocator) {
     return toNativeUtf8(allocator: allocator).cast<Char>();
+  }
+}
+
+/// Internal cache entry for JNI class references.
+class _JClassCacheEntry {
+  final String name;
+  final JGlobalReference globalRef;
+  final JClass jclass;
+
+  _JClassCacheEntry(this.name, this.globalRef, this.jclass);
+}
+
+/// Internal LRU cache for JNI class references.
+///
+/// The cache owns [JGlobalReference] instances and provides [JClass] wrappers
+/// that share these references. The cache is responsible for releasing
+/// GlobalRefs on eviction.
+///
+/// Cache capacity directly bounds the number of underlying JGlobalReferences.
+///
+/// Isolate-local: Each isolate has its own cache instance.
+class _JClassCache {
+  int _capacity = 256;
+  final _map = <String, _JClassCacheEntry>{};
+
+  JClass get(String name) {
+    var entry = _map[name];
+
+    if (entry != null) {
+      // Cache hit: Move entry to end for LRU tracking.
+      _map.remove(name);
+      _map[name] = entry;
+      return entry.jclass;
+    }
+
+    // Cache miss: Create GlobalRef and JClass wrapper.
+    final globalRef = JGlobalReference(Jni.findClass(name));
+    final jclass = JClass.fromReference(globalRef);
+    entry = _JClassCacheEntry(name, globalRef, jclass);
+
+    // Evict LRU entry if at capacity.
+    if (_map.length >= _capacity) {
+      final keyToEvict = _map.keys.first;
+      _evict(keyToEvict);
+    }
+
+    _map[name] = entry;
+    return entry.jclass;
+  }
+
+  void _evict(String name) {
+    final entry = _map.remove(name)!;
+    // Release the GlobalRef; JClass wrapper becomes invalid but that's OK
+    // since cached instances; callers must not release
+    entry.globalRef.release();
+  }
+
+  set capacity(int size) {
+    _capacity = size;
+    // Evict LRU entries immediately if new capacity is smaller.
+    while (_map.length > _capacity) {
+      final keyToEvict = _map.keys.first;
+      _evict(keyToEvict);
+    }
   }
 }

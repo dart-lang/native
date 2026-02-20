@@ -69,8 +69,8 @@ class JsonParser$Feature extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class =
-      jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonParser$Feature');
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
+      r'com/fasterxml/jackson/core/JsonParser$Feature');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<JsonParser$Feature?> nullableType =
@@ -683,8 +683,8 @@ class JsonParser$NumberType extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class =
-      jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonParser$NumberType');
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
+      r'com/fasterxml/jackson/core/JsonParser$NumberType');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<JsonParser$NumberType?> nullableType =
@@ -902,8 +902,8 @@ class JsonParser extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class =
-      jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonParser');
+  static jni$_.JClass get _class =>
+      jni$_.JClass.forNameCached(r'com/fasterxml/jackson/core/JsonParser');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<JsonParser?> nullableType =

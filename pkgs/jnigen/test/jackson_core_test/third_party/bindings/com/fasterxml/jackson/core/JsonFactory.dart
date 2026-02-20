@@ -70,8 +70,8 @@ class JsonFactory$Feature extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class =
-      jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonFactory$Feature');
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
+      r'com/fasterxml/jackson/core/JsonFactory$Feature');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<JsonFactory$Feature?> nullableType =
@@ -431,8 +431,8 @@ class JsonFactory extends jni$_.JObject {
   )   : $type = type,
         super.fromReference(reference);
 
-  static final _class =
-      jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonFactory');
+  static jni$_.JClass get _class =>
+      jni$_.JClass.forNameCached(r'com/fasterxml/jackson/core/JsonFactory');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<JsonFactory?> nullableType =

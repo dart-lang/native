@@ -84,6 +84,35 @@ class JniBindings {
   late final _JniFindClass = _JniFindClassPtr.asFunction<
       JniClassLookupResult Function(ffi.Pointer<ffi.Char>)>();
 
+  JniClassLookupResult GetCachedClass(
+    ffi.Pointer<ffi.Char> name,
+  ) {
+    return _GetCachedClass(
+      name,
+    );
+  }
+
+  late final _GetCachedClassPtr = _lookup<
+      ffi.NativeFunction<
+          JniClassLookupResult Function(
+              ffi.Pointer<ffi.Char>)>>('GetCachedClass');
+  late final _GetCachedClass = _GetCachedClassPtr.asFunction<
+      JniClassLookupResult Function(ffi.Pointer<ffi.Char>)>();
+
+  void SetClassCacheSize(
+    int size,
+  ) {
+    return _SetClassCacheSize(
+      size,
+    );
+  }
+
+  late final _SetClassCacheSizePtr =
+      _lookup<ffi.NativeFunction<ffi.Void Function(ffi.Int32)>>(
+          'SetClassCacheSize');
+  late final _SetClassCacheSize =
+      _SetClassCacheSizePtr.asFunction<void Function(int)>();
+
   JniExceptionDetails GetExceptionDetails(
     JThrowablePtr exception,
   ) {

@@ -16,6 +16,17 @@ class JClass extends JObject {
   JClass.forName(String name)
       : super.fromReference(JGlobalReference(Jni.findClass(name)));
 
+  /// Returns a cached [JClass] for the class or interface with the given name.
+  ///
+  /// Uses an internal LRU cache to minimize JNI calls and GlobalRef usage.
+  /// Returns the cached instance owned by the cache.
+  ///
+  /// Do NOT hold a long term reference to the returned [JClass]. The cache
+  /// manages their lifecycle and may evict it at any time.
+  factory JClass.forNameCached(String name) {
+    return Jni.getCachedClass(name);
+  }
+
   JConstructorId constructorId(String signature) {
     return JConstructorId._(this, signature);
   }
