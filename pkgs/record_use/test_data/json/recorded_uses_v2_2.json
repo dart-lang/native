@@ -40,25 +40,27 @@
     "comment": "Recorded references at compile time and their argument values, as far as known, to definitions annotated with @RecordUse",
     "version": "1.6.2-wip+5.-.2.z"
   },
-  "recordings": [
-    {
-      "calls": [
-        {
-          "loading_unit_indices": [
-            0
-          ],
-          "named": {
-            "freddy": 2,
-            "answer": 3
-          },
-          "positional": [
-            0,
-            1
-          ],
-          "type": "with_arguments"
-        }
-      ],
-      "definition_index": 0
-    }
-  ]
+  "uses": {
+    "static_calls": [
+      {
+        "definition_index": 0,
+        "uses": [
+          {
+            "loading_unit_indices": [
+              0
+            ],
+            "named": {
+              "freddy": 2,
+              "answer": 3
+            },
+            "positional": [
+              0,
+              1
+            ],
+            "type": "with_arguments"
+          }
+        ]
+      }
+    ]
+  }
 }

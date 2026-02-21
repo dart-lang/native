@@ -77,9 +77,11 @@ Error: $e
     final callsForDefinition = <Definition, List<CallReference>>{};
     final instancesForDefinition = <Definition, List<InstanceReference>>{};
 
-    for (final recordingSyntax in syntax.recordings ?? <RecordingSyntax>[]) {
-      final definition = context.definitions[recordingSyntax.definitionIndex];
-      if (recordingSyntax.calls case final callSyntaxes?) {
+    final uses = syntax.uses;
+    if (uses != null) {
+      for (final callRecording in uses.staticCalls ?? <CallRecordingSyntax>[]) {
+        final definition = context.definitions[callRecording.definitionIndex];
+        final callSyntaxes = callRecording.uses;
         final callReferences = callSyntaxes
             .map<CallReference>(
               (callSyntax) => CallReferenceProtected.fromSyntax(
@@ -92,7 +94,11 @@ Error: $e
             .putIfAbsent(definition, () => [])
             .addAll(callReferences);
       }
-      if (recordingSyntax.instances case final instanceSyntaxes?) {
+      for (final instanceRecording
+          in uses.instances ?? <InstanceRecordingSyntax>[]) {
+        final definition =
+            context.definitions[instanceRecording.definitionIndex];
+        final instanceSyntaxes = instanceRecording.uses;
         final instanceReferences = instanceSyntaxes
             .map<InstanceReference>(
               (instanceSyntax) => InstanceReferenceProtected.fromSyntax(
@@ -142,7 +148,7 @@ Error: $e
     RecordedUsesSyntax syntax,
     DefinitionDeserializationContext definitionContext,
   ) {
-    final constants = <Constant>[];
+    final constants = <MaybeConstant>[];
     // Create a context that includes an empty list for the constants. This
     // list will be populated by [_deserializeConstants], providing the
     // self-referential access needed to resolve recursive constants (e.g.
@@ -152,7 +158,10 @@ Error: $e
       constants,
     );
     for (final constantSyntax in syntax.constants ?? <ConstantSyntax>[]) {
-      final constant = ConstantProtected.fromSyntax(constantSyntax, context);
+      final constant = MaybeConstantProtected.fromSyntax(
+        constantSyntax,
+        context,
+      );
       if (!constants.contains(constant)) {
         constants.add(constant);
       }
@@ -178,22 +187,39 @@ Error: $e
       definitionContext,
     );
 
-    final recordings = <RecordingSyntax>[];
+    final callRecordings = <CallRecordingSyntax>[];
+    final instanceRecordings = <InstanceRecordingSyntax>[];
     for (final definition in context.definitions.keys) {
       final callsForDefinition = calls[definition];
+      if (callsForDefinition != null && callsForDefinition.isNotEmpty) {
+        callRecordings.add(
+          CallRecordingSyntax(
+            definitionIndex: context.definitions[definition]!,
+            uses: callsForDefinition
+                .map((call) => call.toSyntax(context))
+                .toList(),
+          ),
+        );
+      }
       final instancesForDefinition = instances[definition];
-      recordings.add(
-        RecordingSyntax(
-          definitionIndex: context.definitions[definition]!,
-          calls: callsForDefinition
-              ?.map((call) => call.toSyntax(context))
-              .toList(),
-          instances: instancesForDefinition
-              ?.map((instance) => instance.toSyntax(context))
-              .toList(),
-        ),
-      );
+      if (instancesForDefinition != null && instancesForDefinition.isNotEmpty) {
+        instanceRecordings.add(
+          InstanceRecordingSyntax(
+            definitionIndex: context.definitions[definition]!,
+            uses: instancesForDefinition
+                .map((instance) => instance.toSyntax(context))
+                .toList(),
+          ),
+        );
+      }
     }
+
+    final uses = (callRecordings.isEmpty && instanceRecordings.isEmpty)
+        ? null
+        : UsesSyntax(
+            staticCalls: callRecordings.isEmpty ? null : callRecordings,
+            instances: instanceRecordings.isEmpty ? null : instanceRecordings,
+          );
 
     return RecordedUsesSyntax(
       metadata: metadata.toSyntax(),
@@ -210,48 +236,42 @@ Error: $e
                   (definition) => definition.toSyntax(),
                 )
                 .toList(),
-      recordings: recordings.isEmpty ? null : recordings,
+      uses: uses,
     );
   }
 
-  Iterable<Constant> _collectConstants() => {
-    ...calls.values
-        .expand((calls) => calls)
-        .whereType<CallWithArguments>()
-        .expand(
-          (call) => [
-            ...call.positionalArguments,
-            ...call.namedArguments.values,
-          ],
-        )
-        .expand(
-          (argument) => switch (argument) {
-            final Constant c => [c],
-            NonConstant() => <Constant>[],
-          },
-        ),
-    ...instances.values
-        .expand((instances) => instances)
-        .expand(
-          (instance) => switch (instance) {
-            InstanceConstantReference(:final instanceConstant) => {
-              ...instanceConstant.fields.values,
-              instanceConstant,
+  Iterable<MaybeConstant> _collectConstants() {
+    final values = <MaybeConstant>{
+      ...calls.values
+          .expand((calls) => calls)
+          .expand(
+            (call) => [
+              if (call.receiver != null) call.receiver!,
+              if (call is CallWithArguments) ...[
+                ...call.positionalArguments,
+                ...call.namedArguments.values,
+              ],
+            ],
+          ),
+      ...instances.values
+          .expand((instances) => instances)
+          .expand(
+            (instance) => switch (instance) {
+              InstanceConstantReference(:final instanceConstant) => {
+                ...instanceConstant.fields.values,
+                instanceConstant,
+              },
+              InstanceCreationReference(
+                :final positionalArguments,
+                :final namedArguments,
+              ) =>
+                [...positionalArguments, ...namedArguments.values],
+              ConstructorTearoffReference() => <MaybeConstant>[],
             },
-            InstanceCreationReference(
-              :final positionalArguments,
-              :final namedArguments,
-            ) =>
-              [...positionalArguments, ...namedArguments.values].expand(
-                (argument) => switch (argument) {
-                  final Constant c => [c],
-                  NonConstant() => <Constant>[],
-                },
-              ),
-            ConstructorTearoffReference() => <Constant>[],
-          },
-        ),
-  }.flatten();
+          ),
+    };
+    return values.flatten();
+  }
 
   Iterable<LoadingUnit> _collectLoadingUnits() => {
     ...calls.values
@@ -269,7 +289,7 @@ Error: $e
   );
 
   DefinitionSerializationContext _serializeDefinitions(
-    Iterable<Constant> allConstants,
+    Iterable<MaybeConstant> allConstants,
     LoadingUnitSerializationContext loadingUnitContext,
   ) {
     final allDefinitions = {
@@ -284,7 +304,7 @@ Error: $e
   }
 
   (SerializationContext, List<ConstantSyntax>) _serializeConstants(
-    Iterable<Constant> allConstants,
+    Iterable<MaybeConstant> allConstants,
     DefinitionSerializationContext definitionContext,
   ) {
     final constantsMap = allConstants.asMapToIndices;
@@ -540,23 +560,24 @@ Error: $e
   }
 }
 
-extension FlattenConstantsExtension on Iterable<Constant> {
-  Set<Constant> flatten() {
-    final constants = <Constant>{};
+extension FlattenConstantsExtension on Iterable<MaybeConstant> {
+  Set<MaybeConstant> flatten() {
+    final constants = <MaybeConstant>{};
     for (final constant in this) {
       depthFirstSearch(constant, constants);
     }
     return constants;
   }
 
-  void depthFirstSearch(Constant constant, Set<Constant> collected) {
-    final children = switch (constant) {
+  void depthFirstSearch(MaybeConstant constant, Set<MaybeConstant> collected) {
+    // ignore: omit_local_variable_types
+    final Iterable<MaybeConstant> children = switch (constant) {
       ListConstant() => constant.value,
       MapConstant() => constant.entries.expand(
         (e) => [e.key, e.value],
       ),
       InstanceConstant() => constant.fields.values,
-      _ => <Constant>[],
+      _ => <MaybeConstant>[],
     };
     for (final child in children) {
       if (!collected.contains(child)) {
