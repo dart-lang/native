@@ -1,6 +1,10 @@
+// Copyright (c) 2025, the Dart project authors. Please see the AUTHORS file
+// for details. All rights reserved. Use of this source code is governed by a
+// BSD-style license that can be found in the LICENSE file.
+
+import 'dart:convert';
 import 'dart:io';
 
-import 'package:http/http.dart' as http;
 import 'package:path/path.dart';
 
 import '../logging/logging.dart';
@@ -35,7 +39,7 @@ class GradleTools {
 
   static Future<void> _runGradleCommand(
       List<MavenDependency> deps, String targetDir,
-      {bool extractSources = false}) async {
+      {String taskName = 'copyJars'}) async {
     final gradleWrapper = await getGradleWExecutable();
     // Paths in Gradle files on Windows get improperly escaped
     final targetPath = Platform.isWindows
@@ -47,13 +51,14 @@ class GradleTools {
     );
     final tempDir = await currentDir.createTemp('maven_temp_');
     await createStubProject(tempDir);
+
     final tempGradle = join(tempDir.path, 'temp_build.gradle.kts');
     log.finer('using Gradle stub:\n$gradle');
     await File(tempGradle).writeAsString(gradle);
     final gradleArgs = [
       '-b', // specify gradle file to run
       tempGradle,
-      extractSources ? 'extractSourceJars' : 'copyJars',
+      taskName,
       '-q' // quiet mode
     ];
     await _runCmd(gradleWrapper!.toFilePath(), gradleArgs);
@@ -68,16 +73,8 @@ class GradleTools {
   /// Downloads and unpacks source files of [deps] into [targetDir].
   static Future<void> downloadMavenSources(
       List<MavenDependency> deps, String targetDir) async {
-    // TODO(https://github.com/dart-lang/native/issues/2579): Make this use
-    // gradle as well, instead of manually downloading deps via http.
-    for (final dep in deps) {
-      final targetFile = File(join(targetDir, dep.filename()));
-      await targetFile.parent.create(recursive: true);
-      final sourceJarLocation = dep.toURLString(repoLocation);
-      await targetFile
-          .writeAsBytes(await http.readBytes(Uri.parse(sourceJarLocation)));
-    }
-    await _runGradleCommand(deps, extractSources: true, targetDir);
+    await _runGradleCommand(deps, taskName: 'downloadSources', targetDir);
+    await _runGradleCommand(deps, taskName: 'extractSourceJars', targetDir);
   }
 
   static Future<void> createStubProject(Directory rootTempDir) async {
@@ -103,19 +100,23 @@ class GradleTools {
   /// Downloads JAR files of all [deps] transitively into [targetDir].
   static Future<void> downloadMavenJars(
       List<MavenDependency> deps, String targetDir) async {
-    await _runGradleCommand(deps, targetDir);
+    await _runGradleCommand(deps, taskName: 'copyJars', targetDir);
+    await _runGradleCommand(deps, taskName: 'extractSourceJars', targetDir);
   }
 
   static String _getStubGradle(List<MavenDependency> deps, String targetDir,
       {String javaVersion = '11'}) {
     final depDecls = <String>[];
+    final sourceDecls = <String>[];
     // Use implementation configuration
     for (var dep in deps) {
       depDecls.add(dep.toGradleDependency('implementation'));
+      sourceDecls.add(dep.toURLString(repoLocation));
     }
     return '''
     plugins {
         java
+        id("de.undercouch.download") version "5.7.0"
     }
     
     repositories {
@@ -144,6 +145,14 @@ class GradleTools {
       }      
       from(configurations.runtimeClasspath)
       into("$targetDir")
+    }
+    
+    tasks.register<de.undercouch.gradle.tasks.download.Download>("downloadSources") {
+      src(listOf(
+          ${jsonEncode(sourceDecls).replaceAll("[", "").replaceAll("]", "")}
+      ))
+      dest("$targetDir")
+      overwrite(true)
     }
     
     dependencies {
