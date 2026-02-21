@@ -22,4 +22,6 @@ Future<void> run(
 }
 
 Uri createTempDirectory() =>
-    Uri.directory(Directory.systemTemp.createTempSync().path);
+    Uri.directory(
+      Directory.systemTemp.createTempSync('swiftgen temp ').path,
+    );

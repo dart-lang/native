@@ -31,7 +31,10 @@ Future<void> expectValidSwift(List<String> files) async {
       '-emit-symbol-graph-dir',
       '.',
     ],
-    workingDirectory: Directory.systemTemp.createTempSync().absolute.path,
+    workingDirectory:
+        Directory.systemTemp.createTempSync('swift2objc swiftc temp ')
+            .absolute
+            .path,
   );
 
   if (processResult.exitCode != 0) {

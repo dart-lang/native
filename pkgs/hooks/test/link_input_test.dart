@@ -18,7 +18,9 @@ void main() async {
   late Map<String, Object?> inputJson;
 
   setUp(() async {
-    final tempUri = Directory.systemTemp.uri;
+    final tempUri =
+        (await Directory.systemTemp.createTemp('hooks link_input temp '))
+            .uri;
     outFile = tempUri.resolve('output.json');
     outDirUri = tempUri.resolve('out1/');
     outputDirectoryShared = tempUri.resolve('out_shared1/');
