@@ -36,6 +36,14 @@ final class A extends ffi.Struct {
 
   @ffi.Int()
   external int b;
+
+  static ffi.Pointer<A> $allocate(
+    ffi.Allocator $allocator, {
+    required int a,
+    required int b,
+  }) => $allocator<A>()
+    ..ref.a = a
+    ..ref.b = b;
 }
 
 enum B {

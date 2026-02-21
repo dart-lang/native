@@ -58,6 +58,88 @@ abstract class Compound extends BindingType with HasLocalScope {
     return type.getCType(context);
   }
 
+  bool _shouldGenerateAllocate() {
+    if (this is! Struct || isOpaque) {
+      return false;
+    }
+    for (final m in members) {
+      final memberType = m.type.typealiasType;
+      if (memberType is ConstantArray) {
+        return false;
+      }
+      if (memberType is Struct || memberType is Union) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  bool _isEnumDartStyleMember(CompoundMember member) {
+    final type = member.type;
+    return type is EnumClass && type.style == EnumStyle.dartEnum;
+  }
+
+  String _memberStorageName(CompoundMember member) {
+    if (_isEnumDartStyleMember(member)) {
+      return member.name;
+    }
+    return member.type.sameDartAndFfiDartType
+        ? member.name
+        : '${member.name}AsInt';
+  }
+
+  String _memberParameterType(CompoundMember member) {
+    if (_isEnumDartStyleMember(member)) {
+      return member.type.getDartType(context);
+    }
+    return member.type.getFfiDartType(context);
+  }
+
+  String _generateAllocateMethod(String enclosingClassName, String ffiPrefix) {
+    final usedParamNames = <String>{};
+    final params = <({String type, String name, String assignment})>[];
+    for (final m in members) {
+      params.add((
+        type: _memberParameterType(m),
+        name: _allocateParamName(m.name, usedParamNames),
+        assignment: _memberStorageName(m),
+      ));
+    }
+
+    final b = StringBuffer();
+    b.write(
+      ' static $ffiPrefix.Pointer<$enclosingClassName> \$allocate(\n'
+      ' $ffiPrefix.Allocator \$allocator, {\n',
+    );
+    for (final p in params) {
+      b.write(' required ${p.type} ${p.name},\n');
+    }
+    b.write(' }) => \$allocator<$enclosingClassName>()');
+    for (final p in params) {
+      b.write('\n ..ref.${p.assignment} = ${p.name}');
+    }
+    b.write(';\n\n');
+    return b.toString();
+  }
+
+  String _allocateParamName(String memberName, Set<String> usedNames) {
+    var name = memberName;
+    if (name.startsWith('_')) {
+      final withoutLeadingUnderscores = name.replaceFirst(RegExp(r'^_+'), '');
+      final core = withoutLeadingUnderscores.isEmpty
+          ? 'unnamed'
+          : withoutLeadingUnderscores;
+      name = '\$$core';
+    }
+
+    var unique = name;
+    for (var i = 1; usedNames.contains(unique); ++i) {
+      unique = '$name\$$i';
+    }
+    usedNames.add(unique);
+    return unique;
+  }
+
   @override
   bool get isObjCImport =>
       context.objCBuiltInFunctions.getBuiltInCompoundName(originalName) != null;
@@ -81,7 +163,7 @@ abstract class Compound extends BindingType with HasLocalScope {
     // Write class declaration.
     s.write('final class $enclosingClassName extends ');
     s.write('$ffiPrefix.$dartClassName{\n');
-    const depth = '  ';
+    const depth = ' ';
     for (final m in members) {
       if (m.dartDoc != null) {
         s.write('$depth/// ');
@@ -117,6 +199,9 @@ abstract class Compound extends BindingType with HasLocalScope {
           '${memberName}AsInt = value.value;\n\n',
         );
       }
+    }
+    if (_shouldGenerateAllocate()) {
+      s.write(_generateAllocateMethod(enclosingClassName, ffiPrefix));
     }
     s.write('}\n\n');
 

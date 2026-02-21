@@ -227,5 +227,40 @@ void main() {
       expect(child.methods, contains(instanceTypeMethod));
       expect(grandChild.methods, contains(instanceTypeMethod));
     });
+
+    test('named objc method params are sanitised for dart named args', () {
+      final method = makeMethod('method:__named:_:', instanceType, [
+        makeParam('a', intType),
+        makeParam('b', intType),
+        makeParam('c', intType),
+      ]);
+      final parent = makeInterface('Parent', null, [method]);
+      transformBindings([parent], context);
+
+      final params = method.params.toList();
+      expect(params[1].name, 'named');
+      expect(params[2].name, 'unnamed');
+    });
+
+    test('fallback param sanitisation does not throw before name filling', () {
+      final method = makeMethod('method', instanceType, [
+        makeParam('a', intType),
+        makeParam('__named', intType),
+      ]);
+
+      expect(method.params.length, 2);
+      expect(method.params.last.symbol.oldName, 'named');
+    });
+
+    test('protocol method names are sanitised for builder named args', () {
+      final method = makeMethod('__proto:arg:', instanceType, [
+        makeParam('a', intType),
+        makeParam('b', intType),
+      ]);
+
+      expect(method.protocolMethodName, isNull);
+      method.fillProtocolBlock();
+      expect(method.protocolMethodName!.oldName, 'proto_arg_');
+    });
   });
 }

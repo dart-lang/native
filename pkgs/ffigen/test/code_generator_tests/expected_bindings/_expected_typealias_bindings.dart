@@ -50,6 +50,11 @@ final class Struct1 extends ffi.Opaque {}
 final class Struct2 extends ffi.Struct {
   @ffi.Double()
   external double a;
+
+  static ffi.Pointer<Struct2> $allocate(
+    ffi.Allocator $allocator, {
+    required double a,
+  }) => $allocator<Struct2>()..ref.a = a;
 }
 
 typedef Struct2Typealias = Struct2;

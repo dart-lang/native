@@ -144,6 +144,7 @@ ${generateInstanceMethodBindings(w, this)}
   ''');
 
       final buildArgs = <String>[];
+      final usedArgNames = <String>{};
       final buildImplementations = StringBuffer();
       final buildListenerImplementations = StringBuffer();
       final buildBlockingImplementations = StringBuffer();
@@ -153,7 +154,7 @@ ${generateInstanceMethodBindings(w, this)}
       for (final method in methods) {
         final methodName = method.protocolMethodName!.name;
         final fieldName = methodName;
-        final argName = methodName;
+        final argName = _sanitizeBuilderArgName(methodName, usedArgNames);
         final block = method.protocolBlock!;
         final blockUtils = block.name;
         final methodClass = block.hasListener
@@ -433,5 +434,17 @@ Protocol* _${libraryId}_$originalName(void) { return @protocol($originalName); }
       visitor.visit(objcPkgImport);
     }
     visitor.visitAll(superProtocols);
+  }
+
+  static String _sanitizeBuilderArgName(String name, Set<String> usedNames) {
+    var sanitized = name.replaceFirst(RegExp(r'^_+'), '');
+    if (sanitized.isEmpty) sanitized = 'unnamed';
+
+    var unique = sanitized;
+    for (var i = 1; usedNames.contains(unique); ++i) {
+      unique = '$sanitized\$$i';
+    }
+    usedNames.add(unique);
+    return unique;
   }
 }
