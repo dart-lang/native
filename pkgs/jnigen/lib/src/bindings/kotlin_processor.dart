@@ -116,6 +116,17 @@ class _KotlinClassProcessor extends Visitor<ClassDecl, void> {
         method.accept(_KotlinGetterProcessor(getter));
       } else if (setters[signature] case final setter?) {
         method.accept(_KotlinSetterProcessor(setter));
+      } else {
+        if (method.isConstructor && method.isSynthetic) {
+          for (final param in method.params) {
+            if (param.type case final DeclaredType type) {
+              if (type.binaryName ==
+                  'kotlin.jvm.internal.DefaultConstructorMarker') {
+                param.isKotlinSynthetic = true;
+              }
+            }
+          }
+        }
       }
     }
   }
@@ -179,6 +190,17 @@ class _KotlinConstructorProcessor extends Visitor<Method, void> {
   @override
   void visit(Method node) {
     _processParams(node.params, constructor.valueParameters);
+
+    // Mark DefaultConstructorMarker parameters as Kotlin synthetic.
+    // These are compiler-generated parameters for constructors with default
+    // values and should not be exposed in the Dart API.
+    for (final param in node.params) {
+      if (param.type case final DeclaredType type) {
+        if (type.binaryName == 'kotlin.jvm.internal.DefaultConstructorMarker') {
+          param.isKotlinSynthetic = true;
+        }
+      }
+    }
   }
 }
 
