@@ -47,14 +47,6 @@ JniClassLookupResult FindClass(const char* name) {
   return result;
 }
 
-/// Stores class and method references for obtaining exception details
-typedef struct JniExceptionMethods {
-  jclass objectClass, exceptionClass, printStreamClass;
-  jclass byteArrayOutputStreamClass;
-  jmethodID toStringMethod, printStackTraceMethod;
-  jmethodID byteArrayOutputStreamCtor, printStreamCtor;
-} JniExceptionMethods;
-
 // Context and shared global state. Initialized once or if thread-local, initialized once in a thread.
 JniContext jni_context = {
     .jvm = NULL,
@@ -81,6 +73,8 @@ void init() {
   exceptionMethods.printStreamClass = FindClassUnchecked("java/io/PrintStream");
   exceptionMethods.byteArrayOutputStreamClass =
       FindClassUnchecked("java/io/ByteArrayOutputStream");
+  exceptionMethods.runtimeExceptionClass =
+      FindClassUnchecked("java/lang/RuntimeException");
   load_method(exceptionMethods.objectClass, &exceptionMethods.toStringMethod,
               "toString", "()Ljava/lang/String;");
   load_method(exceptionMethods.exceptionClass,
@@ -91,6 +85,9 @@ void init() {
   load_method(exceptionMethods.printStreamClass,
               &exceptionMethods.printStreamCtor, "<init>",
               "(Ljava/io/OutputStream;)V");
+  load_method(exceptionMethods.runtimeExceptionClass,
+              &exceptionMethods.runtimeExceptionCtor, "<init>",
+              "(Ljava/lang/String;)V");
 }
 
 void deinit() {
@@ -109,6 +106,7 @@ void deinit() {
     (*jniEnv)->DeleteGlobalRef(jniEnv, exceptionMethods.printStreamClass);
     (*jniEnv)->DeleteGlobalRef(jniEnv,
                                exceptionMethods.byteArrayOutputStreamClass);
+    (*jniEnv)->DeleteGlobalRef(jniEnv, exceptionMethods.runtimeExceptionClass);
   }
 }
 
