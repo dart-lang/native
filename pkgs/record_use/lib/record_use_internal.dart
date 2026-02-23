@@ -16,6 +16,7 @@ export 'src/constant.dart'
         NullConstant,
         RecordConstant,
         StringConstant,
+        SymbolConstant,
         UnsupportedConstant;
 export 'src/definition.dart'
     show Definition, DefinitionDisambiguator, DefinitionKind, Name;

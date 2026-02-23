@@ -37,5 +37,16 @@ void main() {
         'baz=NonConstant(), loadingUnits: dart.foo)',
       );
     });
+
+    test('SymbolConstant', () {
+      expect(
+        const SymbolConstant('foo').toString(),
+        '#foo',
+      );
+      expect(
+        const SymbolConstant('_bar', libraryUri: 'package:a/a.dart').toString(),
+        'package:a/a.dart::#_bar',
+      );
+    });
   });
 }

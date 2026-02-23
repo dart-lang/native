@@ -87,6 +87,8 @@ void main() {
                 name: 'red',
                 fields: {'hex': IntConstant(0xff0000)},
               ),
+              SymbolConstant('foo'),
+              SymbolConstant('_bar', libraryUri: 'package:a/a.dart'),
             ],
             namedArguments: {
               'a': IntConstant(42),
@@ -101,6 +103,8 @@ void main() {
                 index: 1,
                 name: 'green',
               ),
+              'f': SymbolConstant('foo'),
+              'g': SymbolConstant('_bar', libraryUri: 'package:a/a.dart'),
             },
             loadingUnits: [loadingUnit1],
           ),

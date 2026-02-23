@@ -98,6 +98,7 @@
                 "null",
                 "record",
                 "string",
+                "symbol",
                 "unsupported"
               ]
             },
@@ -319,6 +320,32 @@
             },
             "required": [
               "value"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "symbol"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "libraryUri": {
+                "type": [
+                  "null",
+                  "string"
+                ],
+                "pattern": "^package:"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name"
             ]
           }
         },

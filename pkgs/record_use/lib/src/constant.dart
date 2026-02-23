@@ -36,6 +36,10 @@ sealed class MaybeConstant {
     BoolConstantSyntax(:final value) => BoolConstant(value),
     IntConstantSyntax(:final value) => IntConstant(value),
     StringConstantSyntax(:final value) => StringConstant(value),
+    SymbolConstantSyntax(:final name, :final libraryUri) => SymbolConstant(
+      name,
+      libraryUri: libraryUri,
+    ),
     ListConstantSyntax(:final value) => ListConstant(
       value!.cast<int>().map((i) {
         final constant = context.constants[i];
@@ -331,6 +335,50 @@ final class StringConstant extends Constant {
     MaybeConstant other,
     bool allowPromotionOfUnsupported,
   ) => other is StringConstant && other.value == value;
+}
+
+/// A constant symbol value.
+final class SymbolConstant extends Constant {
+  /// The name of the symbol.
+  final String name;
+
+  /// The library URI if this is a private symbol (starts with '_').
+  /// Null for public symbols.
+  final String? libraryUri;
+
+  /// Creates a [SymbolConstant] object with the given [name] and optional
+  /// [libraryUri].
+  const SymbolConstant(this.name, {this.libraryUri});
+
+  @override
+  SymbolConstantSyntax _toSyntax(SerializationContext context) =>
+      SymbolConstantSyntax(name: name, libraryUri: libraryUri);
+
+  @override
+  int get hashCode => Object.hash(name, libraryUri);
+
+  @override
+  bool operator ==(Object other) =>
+      other is SymbolConstant &&
+      other.name == name &&
+      other.libraryUri == libraryUri;
+
+  @override
+  String toString() {
+    if (libraryUri == null) {
+      return '#$name';
+    }
+    return '$libraryUri::#$name';
+  }
+
+  @override
+  bool _semanticEqualsInternal(
+    MaybeConstant other,
+    bool allowPromotionOfUnsupported,
+  ) =>
+      other is SymbolConstant &&
+      other.name == name &&
+      other.libraryUri == libraryUri;
 }
 
 /// A constant list of [Constant] values.
