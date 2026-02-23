@@ -82,6 +82,53 @@ sealed class MaybeConstant {
           },
         ),
       ),
+    EnumConstantSyntax(
+      value: final value,
+      :final definitionIndex,
+      :final index,
+      :final name,
+    ) =>
+      EnumConstant(
+        definition: context.definitions[definitionIndex],
+        index: index,
+        name: name,
+        fields: (value ?? {}).map(
+          (key, index) {
+            final constant = context.constants[index];
+            if (constant is! Constant) {
+              throw FormatException(
+                'Enum constant field $key at index $index is not '
+                'a constant',
+              );
+            }
+            return MapEntry(key, constant);
+          },
+        ),
+      ),
+    RecordConstantSyntax(:final positional, :final named) => RecordConstant(
+      positional: (positional ?? const []).map((i) {
+        final constant = context.constants[i];
+        if (constant is! Constant) {
+          throw FormatException(
+            'Record constant positional field at index $i is not '
+            'a constant',
+          );
+        }
+        return constant;
+      }).toList(),
+      named: (named ?? const {}).map(
+        (key, index) {
+          final constant = context.constants[index];
+          if (constant is! Constant) {
+            throw FormatException(
+              'Record constant named field $key at index $index is not '
+              'a constant',
+            );
+          }
+          return MapEntry(key, constant);
+        },
+      ),
+    ),
     UnsupportedConstantSyntax(:final message) => UnsupportedConstant(message),
     _ => throw UnimplementedError(
       '"${syntax.type}" is not a supported constant type',
@@ -457,6 +504,162 @@ final class InstanceConstant extends Constant {
     if (fields.length != other.fields.length) return false;
     for (final entry in fields.entries) {
       final otherField = other.fields[entry.key];
+      if (otherField == null ||
+          !entry.value.semanticEquals(
+            otherField,
+            allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+          )) {
+        return false;
+      }
+    }
+    return true;
+  }
+}
+
+/// A constant enum value.
+final class EnumConstant extends Constant {
+  /// The definition of the enum class of this value.
+  final Definition definition;
+
+  /// The index of the enum member.
+  final int index;
+
+  /// The name of the enum member.
+  final String name;
+
+  /// The fields of this instance, mapped from field name to [Constant] value.
+  ///
+  /// This includes additional fields from enhanced enums.
+  final Map<String, Constant> fields;
+
+  /// Creates an [EnumConstant] object with the given [definition], [index],
+  /// [name], and [fields].
+  const EnumConstant({
+    required this.definition,
+    required this.index,
+    required this.name,
+    this.fields = const {},
+  });
+
+  @override
+  EnumConstantSyntax _toSyntax(SerializationContext context) =>
+      EnumConstantSyntax(
+        definitionIndex: context.definitions[definition]!,
+        index: index,
+        name: name,
+        value: fields.isNotEmpty
+            ? fields.map(
+                (key, value) => MapEntry(key, context.constants[value]!),
+              )
+            : null,
+      );
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is EnumConstant &&
+        other.definition == definition &&
+        other.index == index &&
+        other.name == name &&
+        deepEquals(other.fields, fields);
+  }
+
+  @override
+  int get hashCode => Object.hash(definition, index, name, deepHash(fields));
+
+  @override
+  String toString() =>
+      'EnumConstant($definition, index: $index, name: $name, fields: {'
+      '${fields.entries.map((e) => '${e.key}: ${e.value}').join(', ')}})';
+
+  @override
+  bool _semanticEqualsInternal(
+    MaybeConstant other,
+    bool allowPromotionOfUnsupported,
+  ) {
+    if (other is! EnumConstant) return false;
+    // ignore: invalid_use_of_visible_for_testing_member
+    if (!definition.semanticEquals(other.definition)) return false;
+    if (index != other.index || name != other.name) return false;
+    if (fields.length != other.fields.length) return false;
+    for (final entry in fields.entries) {
+      final otherField = other.fields[entry.key];
+      if (otherField == null ||
+          !entry.value.semanticEquals(
+            otherField,
+            allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+          )) {
+        return false;
+      }
+    }
+    return true;
+  }
+}
+
+/// A constant record value.
+final class RecordConstant extends Constant {
+  /// The positional fields of this record.
+  final List<Constant> positional;
+
+  /// The named fields of this record.
+  final Map<String, Constant> named;
+
+  /// Creates a [RecordConstant] object with the given [positional] and [named]
+  /// fields.
+  const RecordConstant({
+    this.positional = const [],
+    this.named = const {},
+  });
+
+  @override
+  RecordConstantSyntax _toSyntax(SerializationContext context) =>
+      RecordConstantSyntax(
+        positional: positional.isNotEmpty
+            ? positional.map((c) => context.constants[c]!).toList()
+            : null,
+        named: named.isNotEmpty
+            ? named.map((name, c) => MapEntry(name, context.constants[c]!))
+            : null,
+      );
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is RecordConstant &&
+        deepEquals(other.positional, positional) &&
+        deepEquals(other.named, named);
+  }
+
+  @override
+  int get hashCode => Object.hash(deepHash(positional), deepHash(named));
+
+  @override
+  String toString() =>
+      'RecordConstant('
+      '${positional.join(', ')}'
+      '${positional.isNotEmpty && named.isNotEmpty ? ', ' : ''}'
+      '${named.entries.map((e) => '${e.key}: ${e.value}').join(', ')})';
+
+  @override
+  bool _semanticEqualsInternal(
+    MaybeConstant other,
+    bool allowPromotionOfUnsupported,
+  ) {
+    if (other is! RecordConstant) return false;
+    if (positional.length != other.positional.length) return false;
+    if (named.length != other.named.length) return false;
+    for (var i = 0; i < positional.length; i++) {
+      if (!positional[i].semanticEquals(
+        other.positional[i],
+        allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+      )) {
+        return false;
+      }
+    }
+    for (final entry in named.entries) {
+      final otherField = other.named[entry.key];
       if (otherField == null ||
           !entry.value.semanticEquals(
             otherField,
