@@ -55,6 +55,7 @@ const constInstanceIndex = 7;
 const constMapIndex = 3;
 const constUnsupportedIndex = 9;
 const constRecordIndex = 10;
+const constEnumIndex = 11;
 typedef SchemaTestField = (
   List<Object> path,
   void Function(ValidationResults result) missingExpectations,
@@ -62,16 +63,23 @@ typedef SchemaTestField = (
 
 List<SchemaTestField> recordUseFields = [
   (['constants'], expectOptionalFieldMissing),
-  for (var index = 0; index < 11; index++) ...[
+  for (var index = 0; index < 12; index++) ...[
     (['constants', index, 'type'], expectRequiredFieldMissing),
     if (index != constNullIndex &&
         index != constNonConstantIndex &&
         index != constInstanceIndex &&
         index != constUnsupportedIndex &&
-        index != constRecordIndex)
+        index != constRecordIndex &&
+        index != constEnumIndex)
       (['constants', index, 'value'], expectRequiredFieldMissing),
     if (index == constInstanceIndex)
       (['constants', index, 'value'], expectOptionalFieldMissing),
+    if (index == constEnumIndex) ...[
+      (['constants', index, 'definition_index'], expectRequiredFieldMissing),
+      (['constants', index, 'index'], expectRequiredFieldMissing),
+      (['constants', index, 'name'], expectRequiredFieldMissing),
+      (['constants', index, 'value'], expectOptionalFieldMissing),
+    ],
     if (index == constMapIndex) ...[
       (['constants', index, 'value', 0, 'key'], expectRequiredFieldMissing),
       (['constants', index, 'value', 0, 'value'], expectRequiredFieldMissing),

@@ -217,6 +217,9 @@ class ConstantSyntax extends JsonObjectSyntax {
     if (result.isBoolConstant) {
       return result.asBoolConstant;
     }
+    if (result.isEnumConstant) {
+      return result.asEnumConstant;
+    }
     if (result.isInstanceConstant) {
       return result.asInstanceConstant;
     }
@@ -495,6 +498,101 @@ class DefinitionSyntax extends JsonObjectSyntax {
 
   @override
   String toString() => 'DefinitionSyntax($json)';
+}
+
+class EnumConstantSyntax extends ConstantSyntax {
+  EnumConstantSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  EnumConstantSyntax({
+    required int definitionIndex,
+    required int index,
+    required String name,
+    Map<String, int>? value,
+    super.path = const [],
+  }) : super(type: 'enum') {
+    _definitionIndex = definitionIndex;
+    _index = index;
+    _name = name;
+    _value = value;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [EnumConstantSyntax] that are not in
+  /// [ConstantSyntax].
+  void setup({
+    required int definitionIndex,
+    required int index,
+    required String name,
+    required Map<String, int>? value,
+  }) {
+    _definitionIndex = definitionIndex;
+    _index = index;
+    _name = name;
+    _value = value;
+    json.sortOnKey();
+  }
+
+  int get definitionIndex => _reader.get<int>('definition_index');
+
+  set _definitionIndex(int value) {
+    json.setOrRemove('definition_index', value);
+  }
+
+  List<String> _validateDefinitionIndex() =>
+      _reader.validate<int>('definition_index');
+
+  int get index => _reader.get<int>('index');
+
+  set _index(int value) {
+    json.setOrRemove('index', value);
+  }
+
+  List<String> _validateIndex() => _reader.validate<int>('index');
+
+  String get name => _reader.get<String>('name');
+
+  set _name(String value) {
+    json.setOrRemove('name', value);
+  }
+
+  List<String> _validateName() => _reader.validate<String>('name');
+
+  Map<String, int>? get value => _reader.optionalMap<int>(
+    'value',
+  );
+
+  set _value(Map<String, int>? value) {
+    _checkArgumentMapKeys(
+      value,
+    );
+    json.setOrRemove('value', value);
+  }
+
+  List<String> _validateValue() => _reader.validateOptionalMap<int>(
+    'value',
+  );
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateDefinitionIndex(),
+    ..._validateIndex(),
+    ..._validateName(),
+    ..._validateValue(),
+  ];
+
+  @override
+  String toString() => 'EnumConstantSyntax($json)';
+}
+
+extension EnumConstantSyntaxExtension on ConstantSyntax {
+  bool get isEnumConstant => type == 'enum';
+
+  EnumConstantSyntax get asEnumConstant =>
+      EnumConstantSyntax.fromJson(json, path: path);
 }
 
 class EnumNameSyntax extends NameSyntax {

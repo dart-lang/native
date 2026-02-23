@@ -6,6 +6,7 @@ export 'src/constant.dart'
     show
         BoolConstant,
         Constant,
+        EnumConstant,
         InstanceConstant,
         IntConstant,
         ListConstant,

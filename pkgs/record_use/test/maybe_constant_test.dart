@@ -81,6 +81,12 @@ void main() {
                 positional: [IntConstant(1)],
                 named: {'a': IntConstant(2)},
               ),
+              EnumConstant(
+                definition: definition,
+                index: 0,
+                name: 'red',
+                fields: {'hex': IntConstant(0xff0000)},
+              ),
             ],
             namedArguments: {
               'a': IntConstant(42),
@@ -89,6 +95,11 @@ void main() {
               'd': RecordConstant(
                 positional: [IntConstant(3)],
                 named: {'b': IntConstant(4)},
+              ),
+              'e': EnumConstant(
+                definition: definition,
+                index: 1,
+                name: 'green',
               ),
             },
             loadingUnits: [loadingUnit1],

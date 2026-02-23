@@ -296,6 +296,7 @@ Error: $e
       ...calls.keys,
       ...instances.keys,
       ...allConstants.whereType<InstanceConstant>().map((c) => c.definition),
+      ...allConstants.whereType<EnumConstant>().map((c) => c.definition),
     };
     return DefinitionSerializationContext.fromPrevious(
       loadingUnitContext,
@@ -577,6 +578,9 @@ extension FlattenConstantsExtension on Iterable<MaybeConstant> {
         (e) => [e.key, e.value],
       ),
       InstanceConstant() => constant.fields.values,
+      EnumConstant() => [
+        ...constant.fields.values,
+      ],
       RecordConstant() => [
         ...constant.positional,
         ...constant.named.values,

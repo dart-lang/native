@@ -89,6 +89,7 @@
             {
               "enum": [
                 "bool",
+                "enum",
                 "instance",
                 "int",
                 "list",
@@ -126,6 +127,39 @@
             },
             "required": [
               "value"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "enum"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "definition_index": {
+                "type": "integer"
+              },
+              "index": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "value": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer"
+                }
+              }
+            },
+            "required": [
+              "definition_index",
+              "index",
+              "name"
             ]
           }
         },
