@@ -5,6 +5,7 @@
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/shared/referred_type.dart';
 import '../../ast/declarations/typealias_declaration.dart';
+import '../_core/primitive_wrappers.dart';
 import '../_core/unique_namer.dart';
 import '../transform.dart';
 
@@ -16,6 +17,16 @@ ReferredType transformReferredType(
   UniqueNamer globalNamer,
   TransformationState state,
 ) {
+  if (type is OptionalType) {
+    final (wrappedChildType, childIsPrimitive) = maybeGetPrimitiveWrapper(
+      type.child,
+      true,
+      state,
+    );
+    if (childIsPrimitive) {
+      return OptionalType(wrappedChildType);
+    }
+  }
   if (type.isObjCRepresentable) return type;
 
   if (type is GenericType) {
