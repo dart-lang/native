@@ -82,6 +82,30 @@ sealed class MaybeConstant {
           },
         ),
       ),
+    RecordConstantSyntax(:final positional, :final named) => RecordConstant(
+      positional: (positional ?? const []).map((i) {
+        final constant = context.constants[i];
+        if (constant is! Constant) {
+          throw FormatException(
+            'Record constant positional field at index $i is not '
+            'a constant',
+          );
+        }
+        return constant;
+      }).toList(),
+      named: (named ?? const {}).map(
+        (key, index) {
+          final constant = context.constants[index];
+          if (constant is! Constant) {
+            throw FormatException(
+              'Record constant named field $key at index $index is not '
+              'a constant',
+            );
+          }
+          return MapEntry(key, constant);
+        },
+      ),
+    ),
     UnsupportedConstantSyntax(:final message) => UnsupportedConstant(message),
     _ => throw UnimplementedError(
       '"${syntax.type}" is not a supported constant type',
@@ -457,6 +481,81 @@ final class InstanceConstant extends Constant {
     if (fields.length != other.fields.length) return false;
     for (final entry in fields.entries) {
       final otherField = other.fields[entry.key];
+      if (otherField == null ||
+          !entry.value.semanticEquals(
+            otherField,
+            allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+          )) {
+        return false;
+      }
+    }
+    return true;
+  }
+}
+
+/// A constant record value.
+final class RecordConstant extends Constant {
+  /// The positional fields of this record.
+  final List<Constant> positional;
+
+  /// The named fields of this record.
+  final Map<String, Constant> named;
+
+  /// Creates a [RecordConstant] object with the given [positional] and [named]
+  /// fields.
+  const RecordConstant({
+    this.positional = const [],
+    this.named = const {},
+  });
+
+  @override
+  RecordConstantSyntax _toSyntax(SerializationContext context) =>
+      RecordConstantSyntax(
+        positional: positional.isNotEmpty
+            ? positional.map((c) => context.constants[c]!).toList()
+            : null,
+        named: named.isNotEmpty
+            ? named.map((name, c) => MapEntry(name, context.constants[c]!))
+            : null,
+      );
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is RecordConstant &&
+        deepEquals(other.positional, positional) &&
+        deepEquals(other.named, named);
+  }
+
+  @override
+  int get hashCode => Object.hash(deepHash(positional), deepHash(named));
+
+  @override
+  String toString() =>
+      'RecordConstant('
+      '${positional.join(', ')}'
+      '${positional.isNotEmpty && named.isNotEmpty ? ', ' : ''}'
+      '${named.entries.map((e) => '${e.key}: ${e.value}').join(', ')})';
+
+  @override
+  bool _semanticEqualsInternal(
+    MaybeConstant other,
+    bool allowPromotionOfUnsupported,
+  ) {
+    if (other is! RecordConstant) return false;
+    if (positional.length != other.positional.length) return false;
+    if (named.length != other.named.length) return false;
+    for (var i = 0; i < positional.length; i++) {
+      if (!positional[i].semanticEquals(
+        other.positional[i],
+        allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+      )) {
+        return false;
+      }
+    }
+    for (final entry in named.entries) {
+      final otherField = other.named[entry.key];
       if (otherField == null ||
           !entry.value.semanticEquals(
             otherField,

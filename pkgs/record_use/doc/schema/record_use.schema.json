@@ -95,6 +95,7 @@
                 "map",
                 "non_constant",
                 "null",
+                "record",
                 "string",
                 "unsupported"
               ]
@@ -240,6 +241,31 @@
               "required": [
                 "value"
               ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "record"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "named": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer"
+                }
+              },
+              "positional": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              }
             }
           }
         },

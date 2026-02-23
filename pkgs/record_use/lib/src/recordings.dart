@@ -577,6 +577,10 @@ extension FlattenConstantsExtension on Iterable<MaybeConstant> {
         (e) => [e.key, e.value],
       ),
       InstanceConstant() => constant.fields.values,
+      RecordConstant() => [
+        ...constant.positional,
+        ...constant.named.values,
+      ],
       _ => <MaybeConstant>[],
     };
     for (final child in children) {

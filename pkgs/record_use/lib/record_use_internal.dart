@@ -13,6 +13,7 @@ export 'src/constant.dart'
         MaybeConstant,
         NonConstant,
         NullConstant,
+        RecordConstant,
         StringConstant,
         UnsupportedConstant;
 export 'src/definition.dart'

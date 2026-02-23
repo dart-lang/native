@@ -54,6 +54,7 @@ const constNonConstantIndex = 5;
 const constInstanceIndex = 7;
 const constMapIndex = 3;
 const constUnsupportedIndex = 9;
+const constRecordIndex = 10;
 typedef SchemaTestField = (
   List<Object> path,
   void Function(ValidationResults result) missingExpectations,
@@ -61,12 +62,13 @@ typedef SchemaTestField = (
 
 List<SchemaTestField> recordUseFields = [
   (['constants'], expectOptionalFieldMissing),
-  for (var index = 0; index < 10; index++) ...[
+  for (var index = 0; index < 11; index++) ...[
     (['constants', index, 'type'], expectRequiredFieldMissing),
     if (index != constNullIndex &&
         index != constNonConstantIndex &&
         index != constInstanceIndex &&
-        index != constUnsupportedIndex)
+        index != constUnsupportedIndex &&
+        index != constRecordIndex)
       (['constants', index, 'value'], expectRequiredFieldMissing),
     if (index == constInstanceIndex)
       (['constants', index, 'value'], expectOptionalFieldMissing),
@@ -76,6 +78,10 @@ List<SchemaTestField> recordUseFields = [
     ],
     if (index == constUnsupportedIndex)
       (['constants', index, 'message'], expectRequiredFieldMissing),
+    if (index == constRecordIndex) ...[
+      (['constants', index, 'positional'], expectOptionalFieldMissing),
+      (['constants', index, 'named'], expectOptionalFieldMissing),
+    ],
     // Note the value for 'Instance' is optional because an empty map is
     // omitted. Also, Null and NonConstant have no value field.
   ],

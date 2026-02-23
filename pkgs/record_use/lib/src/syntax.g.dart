@@ -235,6 +235,9 @@ class ConstantSyntax extends JsonObjectSyntax {
     if (result.isNullConstant) {
       return result.asNullConstant;
     }
+    if (result.isRecordConstant) {
+      return result.asRecordConstant;
+    }
     if (result.isStringConstant) {
       return result.asStringConstant;
     }
@@ -1274,6 +1277,75 @@ extension OperatorNameSyntaxExtension on NameSyntax {
 
   OperatorNameSyntax get asOperatorName =>
       OperatorNameSyntax.fromJson(json, path: path);
+}
+
+class RecordConstantSyntax extends ConstantSyntax {
+  RecordConstantSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  RecordConstantSyntax({
+    Map<String, int>? named,
+    List<int>? positional,
+    super.path = const [],
+  }) : super(type: 'record') {
+    _named = named;
+    _positional = positional;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [RecordConstantSyntax] that are not in
+  /// [ConstantSyntax].
+  void setup({
+    required Map<String, int>? named,
+    required List<int>? positional,
+  }) {
+    _named = named;
+    _positional = positional;
+    json.sortOnKey();
+  }
+
+  Map<String, int>? get named => _reader.optionalMap<int>(
+    'named',
+  );
+
+  set _named(Map<String, int>? value) {
+    _checkArgumentMapKeys(
+      value,
+    );
+    json.setOrRemove('named', value);
+  }
+
+  List<String> _validateNamed() => _reader.validateOptionalMap<int>(
+    'named',
+  );
+
+  List<int>? get positional => _reader.optionalList<int>('positional');
+
+  set _positional(List<int>? value) {
+    json.setOrRemove('positional', value);
+  }
+
+  List<String> _validatePositional() =>
+      _reader.validateOptionalList<int>('positional');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateNamed(),
+    ..._validatePositional(),
+  ];
+
+  @override
+  String toString() => 'RecordConstantSyntax($json)';
+}
+
+extension RecordConstantSyntaxExtension on ConstantSyntax {
+  bool get isRecordConstant => type == 'record';
+
+  RecordConstantSyntax get asRecordConstant =>
+      RecordConstantSyntax.fromJson(json, path: path);
 }
 
 class RecordedUsesSyntax extends JsonObjectSyntax {

@@ -84,10 +84,15 @@ void main() {
     const mapKey = MapConstant([
       MapEntry(StringConstant('inner'), IntConstant(3)),
     ]);
+    const recordKey = RecordConstant(
+      positional: [IntConstant(4)],
+      named: {'a': StringConstant('b')},
+    );
 
     const complexMap = MapConstant([
       MapEntry(listKey, mapKey),
       MapEntry(mapKey, listKey),
+      MapEntry(recordKey, IntConstant(5)),
     ]);
 
     const definition = Definition(
@@ -123,13 +128,18 @@ void main() {
     const mapKey = MapConstant([
       MapEntry(StringConstant('inner'), IntConstant(3)),
     ]);
+    const recordKey = RecordConstant(
+      positional: [IntConstant(4)],
+      named: {'a': StringConstant('b')},
+    );
 
     const complexMap = MapConstant([
       MapEntry(listKey, mapKey),
       MapEntry(mapKey, listKey),
+      MapEntry(recordKey, IntConstant(5)),
     ]);
 
-    expect(complexMap.entries, hasLength(2));
+    expect(complexMap.entries, hasLength(3));
     final entries = complexMap.entries;
     expect(
       entries[0].key,
@@ -151,5 +161,13 @@ void main() {
       entries[1].value,
       const ListConstant([IntConstant(1), IntConstant(2)]),
     );
+    expect(
+      entries[2].key,
+      const RecordConstant(
+        positional: [IntConstant(4)],
+        named: {'a': StringConstant('b')},
+      ),
+    );
+    expect(entries[2].value, const IntConstant(5));
   });
 }

@@ -46,8 +46,17 @@
       ]
     },
     {
-      "message": "Record",
+      "message": "MethodTearoff",
       "type": "unsupported"
+    },
+    {
+      "named": {
+        "a": 0
+      },
+      "positional": [
+        6
+      ],
+      "type": "record"
     }
   ],
   "definitions": [
@@ -123,7 +132,8 @@
               6,
               7,
               8,
-              9
+              9,
+              10
             ],
             "type": "with_arguments"
           }

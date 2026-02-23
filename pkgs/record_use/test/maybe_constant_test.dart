@@ -13,7 +13,7 @@ void main() {
       'metadata': {'version': '1.0.0', 'comment': 'test'},
       'constants': [
         {'type': 'int', 'value': 42},
-        {'type': 'unsupported', 'message': 'Record'},
+        {'type': 'unsupported', 'message': 'MethodTearoff'},
         {'type': 'non_constant'},
       ],
       'loading_units': [
@@ -51,12 +51,18 @@ void main() {
 
     expect(call.positionalArguments, hasLength(3));
     expect(call.positionalArguments[0], const IntConstant(42));
-    expect(call.positionalArguments[1], const UnsupportedConstant('Record'));
+    expect(
+      call.positionalArguments[1],
+      const UnsupportedConstant('MethodTearoff'),
+    );
     expect(call.positionalArguments[2], const NonConstant());
 
     expect(call.namedArguments, hasLength(3));
     expect(call.namedArguments['a'], const IntConstant(42));
-    expect(call.namedArguments['b'], const UnsupportedConstant('Record'));
+    expect(
+      call.namedArguments['b'],
+      const UnsupportedConstant('MethodTearoff'),
+    );
     expect(call.namedArguments['c'], const NonConstant());
   });
 
@@ -69,13 +75,21 @@ void main() {
           const CallWithArguments(
             positionalArguments: [
               IntConstant(42),
-              UnsupportedConstant('Record'),
+              UnsupportedConstant('MethodTearoff'),
               NonConstant(),
+              RecordConstant(
+                positional: [IntConstant(1)],
+                named: {'a': IntConstant(2)},
+              ),
             ],
             namedArguments: {
               'a': IntConstant(42),
-              'b': UnsupportedConstant('Record'),
+              'b': UnsupportedConstant('MethodTearoff'),
               'c': NonConstant(),
+              'd': RecordConstant(
+                positional: [IntConstant(3)],
+                named: {'b': IntConstant(4)},
+              ),
             },
             loadingUnits: [loadingUnit1],
           ),
@@ -124,8 +138,8 @@ void main() {
       calls: {
         definition: [
           const CallWithArguments(
-            positionalArguments: [UnsupportedConstant('Record')],
-            namedArguments: {'a': UnsupportedConstant('Record')},
+            positionalArguments: [UnsupportedConstant('MethodTearoff')],
+            namedArguments: {'a': UnsupportedConstant('MethodTearoff')},
             loadingUnits: [loadingUnit1],
           ),
         ],
