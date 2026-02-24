@@ -259,10 +259,9 @@ Error: $e
           .expand((instances) => instances)
           .expand(
             (instance) => switch (instance) {
-              InstanceConstantReference(:final instanceConstant) => {
-                ...instanceConstant.fields.values,
+              InstanceConstantReference(:final instanceConstant) => [
                 instanceConstant,
-              },
+              ],
               InstanceCreationReference(
                 :final positionalArguments,
                 :final namedArguments,

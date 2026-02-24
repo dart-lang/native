@@ -361,7 +361,7 @@ sealed class InstanceReference extends Reference {
       :final loadingUnitIndices,
     ) =>
       InstanceConstantReference(
-        instanceConstant: context.constants[constantIndex] as InstanceConstant,
+        instanceConstant: context.constants[constantIndex] as Constant,
         loadingUnits: loadingUnitIndices
             .map((index) => context.loadingUnits[index])
             .toList(),
@@ -412,7 +412,7 @@ sealed class InstanceReference extends Reference {
 }
 
 final class InstanceConstantReference extends InstanceReference {
-  final InstanceConstant instanceConstant;
+  final Constant instanceConstant;
 
   const InstanceConstantReference({
     required this.instanceConstant,

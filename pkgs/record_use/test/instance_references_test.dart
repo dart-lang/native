@@ -31,6 +31,30 @@ void main() {
           loadingUnits: [loadingUnitRoot],
         ),
         const ConstructorTearoffReference(loadingUnits: [loadingUnitOther]),
+        const InstanceConstantReference(
+          instanceConstant: EnumConstant(
+            definition: definition,
+            index: 0,
+            name: 'value1',
+          ),
+          loadingUnits: [loadingUnitRoot],
+        ),
+        const InstanceConstantReference(
+          instanceConstant: EnumConstant(
+            definition: definition,
+            index: 1,
+            name: 'enhancedValue',
+            fields: {
+              'description': StringConstant('A description'),
+              'count': IntConstant(123),
+              'nested': InstanceConstant(
+                definition: definition,
+                fields: {'inner': BoolConstant(true)},
+              ),
+            },
+          ),
+          loadingUnits: [loadingUnitRoot],
+        ),
       ],
     },
   );
@@ -38,7 +62,7 @@ void main() {
   test('Deserialize creation and tearoff instances', () {
     final instances = recordings.instances[definition];
     expect(instances, isNotNull);
-    expect(instances, hasLength(2));
+    expect(instances, hasLength(4));
 
     final creation = instances![0];
     expect(creation, isA<InstanceCreationReference>());
@@ -60,6 +84,30 @@ void main() {
     expect(tearoff, isA<ConstructorTearoffReference>());
     if (tearoff is ConstructorTearoffReference) {
       expect(tearoff.loadingUnits.first.name, loadingUnitOther.name);
+    }
+
+    final enumInstance = instances[2];
+    expect(enumInstance, isA<InstanceConstantReference>());
+    if (enumInstance is InstanceConstantReference) {
+      expect(enumInstance.instanceConstant, isA<EnumConstant>());
+      expect((enumInstance.instanceConstant as EnumConstant).name, 'value1');
+    }
+
+    final enhancedEnumInstance = instances[3];
+    expect(enhancedEnumInstance, isA<InstanceConstantReference>());
+    if (enhancedEnumInstance is InstanceConstantReference) {
+      expect(enhancedEnumInstance.instanceConstant, isA<EnumConstant>());
+      final enumConstant =
+          enhancedEnumInstance.instanceConstant as EnumConstant;
+      expect(enumConstant.name, 'enhancedValue');
+      expect(enumConstant.fields, hasLength(3));
+      expect(
+        (enumConstant.fields['description'] as StringConstant).value,
+        'A description',
+      );
+      expect((enumConstant.fields['count'] as IntConstant).value, 123);
+      final nested = enumConstant.fields['nested'] as InstanceConstant;
+      expect((nested.fields['inner'] as BoolConstant).value, true);
     }
   });
 

@@ -275,4 +275,61 @@ void main() {
       isFalse,
     );
   });
+
+  test('InstanceConstantReference semantic equality with EnumConstant', () {
+    final recordings1 = Recordings(
+      metadata: metadata,
+      calls: const {},
+      instances: {
+        definition1: [
+          const InstanceConstantReference(
+            instanceConstant: EnumConstant(
+              definition: definition1,
+              index: 0,
+              name: 'a',
+              fields: {'f': IntConstant(1)},
+            ),
+            loadingUnits: [],
+          ),
+        ],
+      },
+    );
+    final recordings2 = Recordings(
+      metadata: metadata,
+      calls: const {},
+      instances: {
+        definition1: [
+          const InstanceConstantReference(
+            instanceConstant: EnumConstant(
+              definition: definition1,
+              index: 0,
+              name: 'a',
+              fields: {'f': IntConstant(1)},
+            ),
+            loadingUnits: [],
+          ),
+        ],
+      },
+    );
+    final recordings3 = Recordings(
+      metadata: metadata,
+      calls: const {},
+      instances: {
+        definition1: [
+          const InstanceConstantReference(
+            instanceConstant: EnumConstant(
+              definition: definition1,
+              index: 1,
+              name: 'b',
+              fields: {'f': IntConstant(1)},
+            ),
+            loadingUnits: [],
+          ),
+        ],
+      },
+    );
+
+    expect(recordings1.semanticEquals(recordings2), isTrue);
+    expect(recordings1.semanticEquals(recordings3), isFalse);
+  });
 }

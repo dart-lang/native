@@ -88,6 +88,15 @@
     {
       "definition_index": 1,
       "type": "instance"
+    },
+    {
+      "definition_index": 2,
+      "index": 0,
+      "name": "val1",
+      "type": "enum",
+      "value": {
+        "a": 14
+      }
     }
   ],
   "definitions": [
@@ -106,6 +115,14 @@
       "path": [
         {
           "name": "MyAnnotation"
+        }
+      ],
+      "uri": "package:js_runtime/js_helper.dart"
+    },
+    {
+      "path": [
+        {
+          "name": "MyEnum"
         }
       ],
       "uri": "package:js_runtime/js_helper.dart"
@@ -137,6 +154,18 @@
           },
           {
             "constant_index": 17,
+            "loading_unit_indices": [
+              1
+            ],
+            "type": "constant"
+          }
+        ]
+      },
+      {
+        "definition_index": 2,
+        "uses": [
+          {
+            "constant_index": 18,
             "loading_unit_indices": [
               1
             ],
