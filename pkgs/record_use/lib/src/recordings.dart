@@ -331,10 +331,12 @@ Error: $e
   }
 
   @override
-  int get hashCode => Object.hash(
-    metadata.hashCode,
-    deepHash(calls),
-    deepHash(instances),
+  int get hashCode => cacheHashCode(
+    () => Object.hash(
+      metadata.hashCode,
+      deepHash(calls),
+      deepHash(instances),
+    ),
   );
 
   /// Compares this set of usages ('actual') with the [expected] set

@@ -4,6 +4,7 @@
 
 import 'package:meta/meta.dart';
 
+import 'helper.dart';
 import 'syntax.g.dart';
 
 /// A unique identifier for a code element, such as a class, method,
@@ -84,7 +85,8 @@ class Definition {
   }
 
   @override
-  int get hashCode => Object.hash(library, Object.hashAll(path));
+  int get hashCode =>
+      cacheHashCode(() => Object.hash(library, Object.hashAll(path)));
 
   /// Returns a URI representation of this definition.
   ///
@@ -143,10 +145,8 @@ class Name {
   }
 
   @override
-  int get hashCode => Object.hash(
-    name,
-    kind,
-    Object.hashAllUnordered(disambiguators),
+  int get hashCode => cacheHashCode(
+    () => Object.hash(name, kind, Object.hashAllUnordered(disambiguators)),
   );
 
   /// Returns a string representation of this name that can be used as a part of

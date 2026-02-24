@@ -65,7 +65,7 @@ class Metadata {
   }
 
   @override
-  int get hashCode => deepHash(json);
+  int get hashCode => cacheHashCode(() => deepHash(json));
 }
 
 /// Package private (protected) methods for [Metadata].

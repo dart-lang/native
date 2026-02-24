@@ -31,7 +31,7 @@ sealed class Reference {
   }
 
   @override
-  int get hashCode => deepHash(loadingUnits);
+  int get hashCode => cacheHashCode(() => deepHash(loadingUnits));
 
   bool _semanticEqualsShared(
     Reference other, {
@@ -206,11 +206,13 @@ final class CallWithArguments extends CallReference {
   }
 
   @override
-  int get hashCode => Object.hash(
-    deepHash(positionalArguments),
-    deepHash(namedArguments),
-    receiver,
-    super.hashCode,
+  int get hashCode => cacheHashCode(
+    () => Object.hash(
+      deepHash(positionalArguments),
+      deepHash(namedArguments),
+      receiver,
+      super.hashCode,
+    ),
   );
 
   @override
@@ -436,7 +438,8 @@ final class InstanceConstantReference extends InstanceReference {
   }
 
   @override
-  int get hashCode => Object.hash(instanceConstant, super.hashCode);
+  int get hashCode =>
+      cacheHashCode(() => Object.hash(instanceConstant, super.hashCode));
 
   @override
   @visibleForTesting
@@ -514,10 +517,12 @@ final class InstanceCreationReference extends InstanceReference {
   }
 
   @override
-  int get hashCode => Object.hash(
-    deepHash(positionalArguments),
-    deepHash(namedArguments),
-    super.hashCode,
+  int get hashCode => cacheHashCode(
+    () => Object.hash(
+      deepHash(positionalArguments),
+      deepHash(namedArguments),
+      super.hashCode,
+    ),
   );
 
   @override

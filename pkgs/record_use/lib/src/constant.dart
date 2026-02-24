@@ -390,7 +390,7 @@ final class ListConstant extends Constant {
   const ListConstant(this.value);
 
   @override
-  int get hashCode => deepHash(value);
+  int get hashCode => cacheHashCode(() => deepHash(value));
 
   @override
   bool operator ==(Object other) {
@@ -436,8 +436,10 @@ final class MapConstant extends Constant {
   const MapConstant(this.entries);
 
   @override
-  int get hashCode => Object.hashAll(
-    entries.map((e) => Object.hash(e.key, e.value)),
+  int get hashCode => cacheHashCode(
+    () => Object.hashAll(
+      entries.map((e) => Object.hash(e.key, e.value)),
+    ),
   );
 
   @override
@@ -534,7 +536,8 @@ final class InstanceConstant extends Constant {
   }
 
   @override
-  int get hashCode => Object.hash(definition, deepHash(fields));
+  int get hashCode =>
+      cacheHashCode(() => Object.hash(definition, deepHash(fields)));
 
   @override
   String toString() =>
@@ -614,7 +617,9 @@ final class EnumConstant extends Constant {
   }
 
   @override
-  int get hashCode => Object.hash(definition, index, name, deepHash(fields));
+  int get hashCode => cacheHashCode(
+    () => Object.hash(definition, index, name, deepHash(fields)),
+  );
 
   @override
   String toString() =>
@@ -681,7 +686,9 @@ final class RecordConstant extends Constant {
   }
 
   @override
-  int get hashCode => Object.hash(deepHash(positional), deepHash(named));
+  int get hashCode => cacheHashCode(
+    () => Object.hash(deepHash(positional), deepHash(named)),
+  );
 
   @override
   String toString() =>

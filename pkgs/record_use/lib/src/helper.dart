@@ -7,3 +7,11 @@ import 'package:collection/collection.dart';
 final deepEquals = const DeepCollectionEquality().equals;
 
 final deepHash = const DeepCollectionEquality().hash;
+
+final _hashCodeCache = Expando<int>();
+
+extension HashCodeCaching on Object {
+  /// Caches the hash code of this object.
+  int cacheHashCode(int Function() compute) =>
+      _hashCodeCache[this] ??= compute();
+}
