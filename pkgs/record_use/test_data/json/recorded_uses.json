@@ -46,8 +46,26 @@
       ]
     },
     {
-      "message": "Record",
+      "message": "MethodTearoff",
       "type": "unsupported"
+    },
+    {
+      "named": {
+        "a": 0
+      },
+      "positional": [
+        6
+      ],
+      "type": "record"
+    },
+    {
+      "definition_index": 2,
+      "index": 0,
+      "name": "red",
+      "type": "enum",
+      "value": {
+        "hex": 6
+      }
     }
   ],
   "definitions": [
@@ -75,6 +93,15 @@
         }
       ],
       "uri": "package:record_use_test/instance_class.dart"
+    },
+    {
+      "path": [
+        {
+          "kind": "enum",
+          "name": "Color"
+        }
+      ],
+      "uri": "package:record_use_test/color.dart"
     }
   ],
   "loading_units": [
@@ -123,7 +150,9 @@
               6,
               7,
               8,
-              9
+              9,
+              10,
+              11
             ],
             "type": "with_arguments"
           }

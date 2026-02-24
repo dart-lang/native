@@ -341,6 +341,12 @@ final class CallTearoff extends CallReference {
   }
 }
 
+// TODO(https://github.com/dart-lang/native/issues/2908): Support enum
+// constant instances here as well. Enums cannot have constructor calls or
+// constructor tearoffs though. So how to do the type hierarchy here?
+// TODO(https://github.com/dart-lang/native/issues/3057): Extension type const
+// instances?
+//
 sealed class InstanceReference extends Reference {
   const InstanceReference({required super.loadingUnits});
 
