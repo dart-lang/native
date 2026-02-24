@@ -427,7 +427,8 @@ void run({required TestRunnerCallback testRunner}) {
       array[0] = 1;
       array[1] = 2;
       array[2] = 3;
-      final twoDimArray = JArray.withLength(JIntArray.type, 3)..releasedBy(arena);
+      final twoDimArray = JArray.withLength(JIntArray.type, 3)
+        ..releasedBy(arena);
       expect(twoDimArray.length, 3);
       twoDimArray[0] = array;
       twoDimArray[1] = array;
@@ -539,22 +540,19 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('JArray of JList', () {
     using((arena) {
-      final arr = JArray.withLength(JList.type, 1)
-        ..releasedBy(arena);
+      final arr = JArray.withLength(JList.type, 1)..releasedBy(arena);
       expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JMap', () {
     using((arena) {
-      final arr = JArray.withLength(JMap.type, 1)
-        ..releasedBy(arena);
+      final arr = JArray.withLength(JMap.type, 1)..releasedBy(arena);
       expect(arr[0], isNull);
     });
   });
   testRunner('JArray of JIterator', () {
     using((arena) {
-      final arr = JArray.withLength(JIterator.type, 1)
-        ..releasedBy(arena);
+      final arr = JArray.withLength(JIterator.type, 1)..releasedBy(arena);
       expect(arr[0], isNull);
     });
   });

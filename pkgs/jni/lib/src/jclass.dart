@@ -110,8 +110,8 @@ class JInstanceMethodId {
   ) {
     return using((arena) {
       final objectRef = object.reference;
-      return returnType._instanceCall(objectRef.pointer, pointer,
-          toJValues(args, allocator: arena));
+      return returnType._instanceCall(
+          objectRef.pointer, pointer, toJValues(args, allocator: arena));
     });
   }
 }
@@ -138,8 +138,8 @@ extension type JStaticMethodId._fromPointer(JMethodIDPtr pointer) {
     List<dynamic> args,
   ) {
     final jClassRef = jClass.reference;
-    return using((arena) => returnType._staticCall(jClassRef.pointer,
-        pointer, toJValues(args, allocator: arena)));
+    return using((arena) => returnType._staticCall(
+        jClassRef.pointer, pointer, toJValues(args, allocator: arena)));
   }
 }
 

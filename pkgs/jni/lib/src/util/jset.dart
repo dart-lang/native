@@ -12,7 +12,7 @@ extension JSetToAdapter<E extends JObject?> on JSet<E> {
   /// Wraps this [JSet] in an adapter that implements a [Set].
   ///
   /// This is not a conversion, doesn't create a new list, or change the
-  /// elements. For deep conversion, use [toDartSet].
+  /// elements. For deep conversion, use toDartSet.
   ///
   /// TODO: Implement toDartSet if it doesn't exist. Be consistent with objc.
   Set<E> asDart() => _JSetAdapter<E>(this);

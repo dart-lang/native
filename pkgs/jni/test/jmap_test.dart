@@ -24,7 +24,8 @@ void run({required TestRunnerCallback testRunner}) {
       '2'.toJString()..releasedBy(arena): 'Two'.toJString()..releasedBy(arena),
       '3'.toJString()..releasedBy(arena): 'Three'.toJString()
         ..releasedBy(arena),
-    }.toJMap()..releasedBy(arena);
+    }.toJMap()
+      ..releasedBy(arena);
   }
 
   JMap<JString?, JString?> testNullableDataMap(Arena arena) {
@@ -33,7 +34,8 @@ void run({required TestRunnerCallback testRunner}) {
       '2'.toJString()..releasedBy(arena): 'Two'.toJString()..releasedBy(arena),
       '3'.toJString()..releasedBy(arena): null,
       null: null,
-    }.toJMap()..releasedBy(arena);
+    }.toJMap()
+      ..releasedBy(arena);
   }
 
   testRunner('length', () {

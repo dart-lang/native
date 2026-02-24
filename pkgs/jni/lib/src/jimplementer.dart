@@ -41,10 +41,8 @@ class JImplementer extends JObject {
 
   factory JImplementer() {
     ProtectedJniExtensions.ensureInitialized();
-    return JImplementer.fromReference(_new(
-            _class.reference.pointer,
-            _newId.pointer,
-            ProtectedJniExtensions.getCurrentIsolateId())
+    return JImplementer.fromReference(_new(_class.reference.pointer,
+            _newId.pointer, ProtectedJniExtensions.getCurrentIsolateId())
         .reference);
   }
 
