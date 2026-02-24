@@ -36,10 +36,10 @@ class Recordings {
   final Map<Definition, List<InstanceReference>> instances;
 
   Recordings({
-    required this.metadata,
+    Metadata? metadata,
     required this.calls,
     required this.instances,
-  });
+  }) : metadata = metadata ?? Metadata();
 
   /// Decodes a JSON representation into a [Recordings] object.
   ///

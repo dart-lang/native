@@ -34,4 +34,3 @@ export 'src/reference.dart'
         InstanceConstantReference,
         InstanceCreationReference,
         InstanceReference;
-export 'src/version.dart' show version;
