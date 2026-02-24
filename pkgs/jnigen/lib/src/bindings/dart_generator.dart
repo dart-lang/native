@@ -31,7 +31,6 @@ const _jType = '$_jni.JType';
 const _jPointer = '$_jni.JObjectPtr';
 const _jGlobalReference = '$_jni.JGlobalReference';
 const _jArray = '$_jni.JArray';
-const _jArrayTypePrefix = '$_jni.\$JArray\$';
 const _jObject = '$_jni.JObject';
 const _jObjectTypePrefix = '$_jni.\$JObject\$';
 const _jResult = '$_jni.JniResult';
@@ -664,7 +663,7 @@ class _TypeGenerator extends TypeVisitor<String> {
       },
     );
 
-    final typeParams = allTypeParams.join(', ').encloseIfNotEmpty('<', '>');
+    final typeParams = typeErasure ? '' : allTypeParams.join(', ').encloseIfNotEmpty('<', '>');
     final prefix = resolver?.resolvePrefix(node.classDecl) ?? '';
     return '$prefix${node.classDecl.finalName}$typeParams$nullable';
   }
@@ -788,7 +787,7 @@ class _TypeClassGenerator extends TypeVisitor<String> {
     if (node.elementType is PrimitiveType) {
       return '$_jni.J${innerType}Array.type';
     }
-    return '$_jArrayTypePrefix.type<$innerType>($innerTypeClass)';
+    return '$_jArray.type<$innerType>($innerTypeClass)';
   }
 
   @override

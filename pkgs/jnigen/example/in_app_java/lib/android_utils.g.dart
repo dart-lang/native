@@ -3542,7 +3542,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<jni$_.JString?>? get SUPPORTED_32_BIT_ABIS =>
       _id_SUPPORTED_32_BIT_ABIS.get(
-              _class, jni$_.$JArray$.type<jni$_.JString?>(jni$_.JString.type))
+              _class, jni$_.JArray.type<jni$_.JString?>(jni$_.JString.type))
           as jni$_.JArray<jni$_.JString?>?;
 
   static final _id_SUPPORTED_64_BIT_ABIS = _class.staticFieldId(
@@ -3554,7 +3554,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<jni$_.JString?>? get SUPPORTED_64_BIT_ABIS =>
       _id_SUPPORTED_64_BIT_ABIS.get(
-              _class, jni$_.$JArray$.type<jni$_.JString?>(jni$_.JString.type))
+              _class, jni$_.JArray.type<jni$_.JString?>(jni$_.JString.type))
           as jni$_.JArray<jni$_.JString?>?;
 
   static final _id_SUPPORTED_ABIS = _class.staticFieldId(
@@ -3565,7 +3565,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String[] SUPPORTED_ABIS`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<jni$_.JString?>? get SUPPORTED_ABIS => _id_SUPPORTED_ABIS
-          .get(_class, jni$_.$JArray$.type<jni$_.JString?>(jni$_.JString.type))
+          .get(_class, jni$_.JArray.type<jni$_.JString?>(jni$_.JString.type))
       as jni$_.JArray<jni$_.JString?>?;
 
   static final _id_TAGS = _class.staticFieldId(

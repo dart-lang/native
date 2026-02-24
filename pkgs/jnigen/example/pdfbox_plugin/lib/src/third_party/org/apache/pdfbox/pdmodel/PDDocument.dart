@@ -54,7 +54,42 @@ import 'dart:core' show Object, String, double, int;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
+import '../cos/COSDictionary.dart' as cosdictionary$_;
+
+import '../cos/COSDocument.dart' as cosdocument$_;
+
+import '../io/MemoryUsageSetting.dart' as memoryusagesetting$_;
+
+import '../io/RandomAccessRead.dart' as randomaccessread$_;
+
+import 'PDDocumentCatalog.dart' as pddocumentcatalog$_;
+
 import 'PDDocumentInformation.dart' as pddocumentinformation$_;
+
+import 'PDPage.dart' as pdpage$_;
+
+import 'PDPageTree.dart' as pdpagetree$_;
+
+import 'ResourceCache.dart' as resourcecache$_;
+
+import 'encryption/AccessPermission.dart' as accesspermission$_;
+
+import 'encryption/PDEncryption.dart' as pdencryption$_;
+
+import 'encryption/ProtectionPolicy.dart' as protectionpolicy$_;
+
+import 'interactive/digitalsignature/ExternalSigningSupport.dart'
+    as externalsigningsupport$_;
+
+import 'interactive/digitalsignature/PDSignature.dart' as pdsignature$_;
+
+import 'interactive/digitalsignature/SignatureInterface.dart'
+    as signatureinterface$_;
+
+import 'interactive/digitalsignature/SignatureOptions.dart'
+    as signatureoptions$_;
+
+import 'interactive/form/PDSignatureField.dart' as pdsignaturefield$_;
 
 /// from: `org.apache.pdfbox.pdmodel.PDDocument`
 ///
@@ -115,7 +150,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   /// You need to add at least one page for the document to be valid.
   ///@param memUsageSetting defines how memory is used for buffering PDF streams
   factory PDDocument.new$1(
-    jni$_.JObject? memUsageSetting,
+    memoryusagesetting$_.MemoryUsageSetting? memUsageSetting,
   ) {
     final _$memUsageSetting =
         memUsageSetting?.reference ?? jni$_.jNullReference;
@@ -145,7 +180,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   /// Constructor that uses an existing document. The COSDocument that is passed in must be valid.
   ///@param doc The COSDocument that this document wraps.
   factory PDDocument.new$2(
-    jni$_.JObject? doc,
+    cosdocument$_.COSDocument? doc,
   ) {
     final _$doc = doc?.reference ?? jni$_.jNullReference;
     return _new$2(_class.reference.pointer, _id_new$2.pointer, _$doc.pointer)
@@ -180,8 +215,8 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@param doc The COSDocument that this document wraps.
   ///@param source the parser which is used to read the pdf
   factory PDDocument.new$3(
-    jni$_.JObject? doc,
-    jni$_.JObject? source,
+    cosdocument$_.COSDocument? doc,
+    randomaccessread$_.RandomAccessRead? source,
   ) {
     final _$doc = doc?.reference ?? jni$_.jNullReference;
     final _$source = source?.reference ?? jni$_.jNullReference;
@@ -221,9 +256,9 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@param source the parser which is used to read the pdf
   ///@param permission he access permissions of the pdf
   factory PDDocument.new$4(
-    jni$_.JObject? doc,
-    jni$_.JObject? source,
-    jni$_.JObject? permission,
+    cosdocument$_.COSDocument? doc,
+    randomaccessread$_.RandomAccessRead? source,
+    accesspermission$_.AccessPermission? permission,
   ) {
     final _$doc = doc?.reference ?? jni$_.jNullReference;
     final _$source = source?.reference ?? jni$_.jNullReference;
@@ -255,7 +290,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   /// hierarchy and set the parent of the page to the root.
   ///@param page The page to add to the document.
   void addPage(
-    jni$_.JObject? page,
+    pdpage$_.PDPage? page,
   ) {
     final _$page = page?.reference ?? jni$_.jNullReference;
     _addPage(reference.pointer, _id_addPage.pointer, _$page.pointer).check();
@@ -290,7 +325,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@throws IllegalStateException if one attempts to add several signature
   /// fields.
   void addSignature(
-    jni$_.JObject? sigObject,
+    pdsignature$_.PDSignature? sigObject,
   ) {
     final _$sigObject = sigObject?.reference ?? jni$_.jNullReference;
     _addSignature(
@@ -334,8 +369,8 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@throws IllegalStateException if one attempts to add several signature
   /// fields.
   void addSignature$1(
-    jni$_.JObject? sigObject,
-    jni$_.JObject? options,
+    pdsignature$_.PDSignature? sigObject,
+    signatureoptions$_.SignatureOptions? options,
   ) {
     final _$sigObject = sigObject?.reference ?? jni$_.jNullReference;
     final _$options = options?.reference ?? jni$_.jNullReference;
@@ -379,8 +414,8 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@throws IllegalStateException if one attempts to add several signature
   /// fields.
   void addSignature$2(
-    jni$_.JObject? sigObject,
-    jni$_.JObject? signatureInterface,
+    pdsignature$_.PDSignature? sigObject,
+    signatureinterface$_.SignatureInterface? signatureInterface,
   ) {
     final _$sigObject = sigObject?.reference ?? jni$_.jNullReference;
     final _$signatureInterface =
@@ -430,9 +465,9 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@throws IllegalStateException if one attempts to add several signature
   /// fields.
   void addSignature$3(
-    jni$_.JObject? sigObject,
-    jni$_.JObject? signatureInterface,
-    jni$_.JObject? options,
+    pdsignature$_.PDSignature? sigObject,
+    signatureinterface$_.SignatureInterface? signatureInterface,
+    signatureoptions$_.SignatureOptions? options,
   ) {
     final _$sigObject = sigObject?.reference ?? jni$_.jNullReference;
     final _$signatureInterface =
@@ -482,9 +517,9 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@deprecated The method is misleading, because only one signature may be
   /// added in a document. The method will be removed in the future.
   void addSignatureField(
-    jni$_.JList<jni$_.JObject?>? sigFields,
-    jni$_.JObject? signatureInterface,
-    jni$_.JObject? options,
+    jni$_.JList<pdsignaturefield$_.PDSignatureField?>? sigFields,
+    signatureinterface$_.SignatureInterface? signatureInterface,
+    signatureoptions$_.SignatureOptions? options,
   ) {
     final _$sigFields = sigFields?.reference ?? jni$_.jNullReference;
     final _$signatureInterface =
@@ -520,7 +555,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   /// Remove the page from the document.
   ///@param page The page to remove from the document.
   void removePage(
-    jni$_.JObject? page,
+    pdpage$_.PDPage? page,
   ) {
     final _$page = page?.reference ?? jni$_.jNullReference;
     _removePage(reference.pointer, _id_removePage.pointer, _$page.pointer)
@@ -593,13 +628,13 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@param page The page to import.
   ///@return The page that was imported.
   ///@throws IOException If there is an error copying the page.
-  jni$_.JObject? importPage(
-    jni$_.JObject? page,
+  pdpage$_.PDPage? importPage(
+    pdpage$_.PDPage? page,
   ) {
     final _$page = page?.reference ?? jni$_.jNullReference;
     return _importPage(
             reference.pointer, _id_importPage.pointer, _$page.pointer)
-        .object<jni$_.JObject?>();
+        .object<pdpage$_.PDPage?>();
   }
 
   static final _id_getDocument = _class.instanceMethodId(
@@ -624,9 +659,9 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   ///
   /// This will get the low level document.
   ///@return The document that this layer sits on top of.
-  jni$_.JObject? getDocument() {
+  cosdocument$_.COSDocument? getDocument() {
     return _getDocument(reference.pointer, _id_getDocument.pointer)
-        .object<jni$_.JObject?>();
+        .object<cosdocument$_.COSDocument?>();
   }
 
   static final _id_getDocumentInformation = _class.instanceMethodId(
@@ -717,10 +752,10 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   ///
   /// This will get the document CATALOG. This is guaranteed to not return null.
   ///@return The documents /Root dictionary
-  jni$_.JObject? getDocumentCatalog() {
+  pddocumentcatalog$_.PDDocumentCatalog? getDocumentCatalog() {
     return _getDocumentCatalog(
             reference.pointer, _id_getDocumentCatalog.pointer)
-        .object<jni$_.JObject?>();
+        .object<pddocumentcatalog$_.PDDocumentCatalog?>();
   }
 
   static final _id_isEncrypted = _class.instanceMethodId(
@@ -773,9 +808,9 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   /// but the only supported subclass at this time is a
   /// PDStandardEncryption object.
   ///@return The encryption dictionary(most likely a PDStandardEncryption object)
-  jni$_.JObject? getEncryption() {
+  pdencryption$_.PDEncryption? getEncryption() {
     return _getEncryption(reference.pointer, _id_getEncryption.pointer)
-        .object<jni$_.JObject?>();
+        .object<pdencryption$_.PDEncryption?>();
   }
 
   static final _id_setEncryptionDictionary = _class.instanceMethodId(
@@ -800,7 +835,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@param encryption The encryption dictionary(most likely a PDStandardEncryption object)
   ///@throws IOException If there is an error determining which security handler to use.
   void setEncryptionDictionary(
-    jni$_.JObject? encryption,
+    pdencryption$_.PDEncryption? encryption,
   ) {
     final _$encryption = encryption?.reference ?? jni$_.jNullReference;
     _setEncryptionDictionary(reference.pointer,
@@ -833,10 +868,10 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   /// last in time when empty signature fields are created first but signed after other fields.
   ///@return the last signature as <code>PDSignatureField</code>.
   ///@throws IOException if no document catalog can be found.
-  jni$_.JObject? getLastSignatureDictionary() {
+  pdsignature$_.PDSignature? getLastSignatureDictionary() {
     return _getLastSignatureDictionary(
             reference.pointer, _id_getLastSignatureDictionary.pointer)
-        .object<jni$_.JObject?>();
+        .object<pdsignature$_.PDSignature?>();
   }
 
   static final _id_getSignatureFields = _class.instanceMethodId(
@@ -862,10 +897,10 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   /// Retrieve all signature fields from the document.
   ///@return a <code>List</code> of <code>PDSignatureField</code>s
   ///@throws IOException if no document catalog can be found.
-  jni$_.JList<jni$_.JObject?>? getSignatureFields() {
+  jni$_.JList<pdsignaturefield$_.PDSignatureField?>? getSignatureFields() {
     return _getSignatureFields(
             reference.pointer, _id_getSignatureFields.pointer)
-        .object<jni$_.JList<jni$_.JObject?>?>();
+        .object<jni$_.JList<pdsignaturefield$_.PDSignatureField?>?>();
   }
 
   static final _id_getSignatureDictionaries = _class.instanceMethodId(
@@ -891,10 +926,10 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   /// Retrieve all signature dictionaries from the document.
   ///@return a <code>List</code> of <code>PDSignatureField</code>s
   ///@throws IOException if no document catalog can be found.
-  jni$_.JList<jni$_.JObject?>? getSignatureDictionaries() {
+  jni$_.JList<pdsignature$_.PDSignature?>? getSignatureDictionaries() {
     return _getSignatureDictionaries(
             reference.pointer, _id_getSignatureDictionaries.pointer)
-        .object<jni$_.JList<jni$_.JObject?>?>();
+        .object<jni$_.JList<pdsignature$_.PDSignature?>?>();
   }
 
   static final _id_registerTrueTypeFontForClosing = _class.instanceMethodId(
@@ -994,7 +1029,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@throws IOException in case of a file reading or parsing error
   static PDDocument? load$1(
     jni$_.JObject? file,
-    jni$_.JObject? memUsageSetting,
+    memoryusagesetting$_.MemoryUsageSetting? memUsageSetting,
   ) {
     final _$file = file?.reference ?? jni$_.jNullReference;
     final _$memUsageSetting =
@@ -1083,7 +1118,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   static PDDocument? load$3(
     jni$_.JObject? file,
     jni$_.JString? password,
-    jni$_.JObject? memUsageSetting,
+    memoryusagesetting$_.MemoryUsageSetting? memUsageSetting,
   ) {
     final _$file = file?.reference ?? jni$_.jNullReference;
     final _$password = password?.reference ?? jni$_.jNullReference;
@@ -1189,7 +1224,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
     jni$_.JString? password,
     jni$_.JObject? keyStore,
     jni$_.JString? alias,
-    jni$_.JObject? memUsageSetting,
+    memoryusagesetting$_.MemoryUsageSetting? memUsageSetting,
   ) {
     final _$file = file?.reference ?? jni$_.jNullReference;
     final _$password = password?.reference ?? jni$_.jNullReference;
@@ -1276,7 +1311,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@throws IOException In case of a reading or parsing error.
   static PDDocument? load$7(
     jni$_.JObject? input,
-    jni$_.JObject? memUsageSetting,
+    memoryusagesetting$_.MemoryUsageSetting? memUsageSetting,
   ) {
     final _$input = input?.reference ?? jni$_.jNullReference;
     final _$memUsageSetting =
@@ -1424,7 +1459,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   static PDDocument? load$10(
     jni$_.JObject? input,
     jni$_.JString? password,
-    jni$_.JObject? memUsageSetting,
+    memoryusagesetting$_.MemoryUsageSetting? memUsageSetting,
   ) {
     final _$input = input?.reference ?? jni$_.jNullReference;
     final _$password = password?.reference ?? jni$_.jNullReference;
@@ -1481,7 +1516,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
     jni$_.JString? password,
     jni$_.JObject? keyStore,
     jni$_.JString? alias,
-    jni$_.JObject? memUsageSetting,
+    memoryusagesetting$_.MemoryUsageSetting? memUsageSetting,
   ) {
     final _$input = input?.reference ?? jni$_.jNullReference;
     final _$password = password?.reference ?? jni$_.jNullReference;
@@ -1677,7 +1712,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
     jni$_.JString? password,
     jni$_.JObject? keyStore,
     jni$_.JString? alias,
-    jni$_.JObject? memUsageSetting,
+    memoryusagesetting$_.MemoryUsageSetting? memUsageSetting,
   ) {
     final _$input = input?.reference ?? jni$_.jNullReference;
     final _$password = password?.reference ?? jni$_.jNullReference;
@@ -1877,7 +1912,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@throws IllegalStateException if the document was not loaded from a file or a stream.
   void saveIncremental$1(
     jni$_.JObject? output,
-    jni$_.JSet<jni$_.JObject?>? objectsToWrite,
+    jni$_.JSet<cosdictionary$_.COSDictionary?>? objectsToWrite,
   ) {
     final _$output = output?.reference ?? jni$_.jNullReference;
     final _$objectsToWrite = objectsToWrite?.reference ?? jni$_.jNullReference;
@@ -1943,13 +1978,14 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@throws IOException if the output could not be written
   ///@throws IllegalStateException if the document was not loaded from a file or a stream or
   /// signature options were not set.
-  jni$_.JObject? saveIncrementalForExternalSigning(
+  externalsigningsupport$_.ExternalSigningSupport?
+      saveIncrementalForExternalSigning(
     jni$_.JObject? output,
   ) {
     final _$output = output?.reference ?? jni$_.jNullReference;
     return _saveIncrementalForExternalSigning(reference.pointer,
             _id_saveIncrementalForExternalSigning.pointer, _$output.pointer)
-        .object<jni$_.JObject?>();
+        .object<externalsigningsupport$_.ExternalSigningSupport?>();
   }
 
   static final _id_getPage = _class.instanceMethodId(
@@ -1977,11 +2013,11 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   /// PDDocument\#getPages() instead.
   ///@param pageIndex the 0-based page index
   ///@return the page at the given index.
-  jni$_.JObject? getPage(
+  pdpage$_.PDPage? getPage(
     int pageIndex,
   ) {
     return _getPage(reference.pointer, _id_getPage.pointer, pageIndex)
-        .object<jni$_.JObject?>();
+        .object<pdpage$_.PDPage?>();
   }
 
   static final _id_getPages = _class.instanceMethodId(
@@ -2006,9 +2042,9 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   ///
   /// Returns the page tree.
   ///@return the page tree
-  jni$_.JObject? getPages() {
+  pdpagetree$_.PDPageTree? getPages() {
     return _getPages(reference.pointer, _id_getPages.pointer)
-        .object<jni$_.JObject?>();
+        .object<pdpagetree$_.PDPageTree?>();
   }
 
   static final _id_getNumberOfPages = _class.instanceMethodId(
@@ -2091,7 +2127,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@param policy The protection policy.
   ///@throws IOException if there isn't any suitable security handler.
   void protect(
-    jni$_.JObject? policy,
+    protectionpolicy$_.ProtectionPolicy? policy,
   ) {
     final _$policy = policy?.reference ?? jni$_.jNullReference;
     _protect(reference.pointer, _id_protect.pointer, _$policy.pointer).check();
@@ -2123,10 +2159,10 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   /// only mode so that permissions cannot be changed. Methods providing access to content should rely on this object
   /// to verify if the current user is allowed to proceed.
   ///@return the access permissions for the current user on the document.
-  jni$_.JObject? getCurrentAccessPermission() {
+  accesspermission$_.AccessPermission? getCurrentAccessPermission() {
     return _getCurrentAccessPermission(
             reference.pointer, _id_getCurrentAccessPermission.pointer)
-        .object<jni$_.JObject?>();
+        .object<accesspermission$_.AccessPermission?>();
   }
 
   static final _id_isAllSecurityToBeRemoved = _class.instanceMethodId(
@@ -2311,9 +2347,9 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   ///
   /// Returns the resource cache associated with this document, or null if there is none.
   ///@return the resource cache or null.
-  jni$_.JObject? getResourceCache() {
+  resourcecache$_.ResourceCache? getResourceCache() {
     return _getResourceCache(reference.pointer, _id_getResourceCache.pointer)
-        .object<jni$_.JObject?>();
+        .object<resourcecache$_.ResourceCache?>();
   }
 
   static final _id_setResourceCache = _class.instanceMethodId(
@@ -2337,7 +2373,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
   /// Sets the resource cache associated with this document.
   ///@param resourceCache A resource cache, or null.
   void setResourceCache(
-    jni$_.JObject? resourceCache,
+    resourcecache$_.ResourceCache? resourceCache,
   ) {
     final _$resourceCache = resourceCache?.reference ?? jni$_.jNullReference;
     _setResourceCache(reference.pointer, _id_setResourceCache.pointer,

@@ -56,6 +56,11 @@ import 'package:jni/jni.dart' as jni$_;
 
 import '../pdmodel/PDDocument.dart' as pddocument$_;
 
+import '../pdmodel/PDPage.dart' as pdpage$_;
+
+import '../pdmodel/interactive/documentnavigation/outline/PDOutlineItem.dart'
+    as pdoutlineitem$_;
+
 /// from: `org.apache.pdfbox.text.PDFTextStripper`
 ///
 /// This class will take a pdf document and strip out all of the text and ignore the formatting and such. Please note; it
@@ -196,7 +201,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
   ///@param page The page to process.
   ///@throws IOException If there is an error processing the page.
   void processPage(
-    jni$_.JObject? page,
+    pdpage$_.PDPage? page,
   ) {
     final _$page = page?.reference ?? jni$_.jNullReference;
     _processPage(reference.pointer, _id_processPage.pointer, _$page.pointer)
@@ -563,9 +568,9 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
   ///
   /// Get the bookmark where text extraction should end, inclusive. Default is null.
   ///@return The ending bookmark.
-  jni$_.JObject? getEndBookmark() {
+  pdoutlineitem$_.PDOutlineItem? getEndBookmark() {
     return _getEndBookmark(reference.pointer, _id_getEndBookmark.pointer)
-        .object<jni$_.JObject?>();
+        .object<pdoutlineitem$_.PDOutlineItem?>();
   }
 
   static final _id_setEndBookmark = _class.instanceMethodId(
@@ -589,7 +594,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
   /// Set the bookmark where the text extraction should stop.
   ///@param aEndBookmark The ending bookmark.
   void setEndBookmark(
-    jni$_.JObject? aEndBookmark,
+    pdoutlineitem$_.PDOutlineItem? aEndBookmark,
   ) {
     final _$aEndBookmark = aEndBookmark?.reference ?? jni$_.jNullReference;
     _setEndBookmark(reference.pointer, _id_setEndBookmark.pointer,
@@ -619,9 +624,9 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
   ///
   /// Get the bookmark where text extraction should start, inclusive. Default is null.
   ///@return The starting bookmark.
-  jni$_.JObject? getStartBookmark() {
+  pdoutlineitem$_.PDOutlineItem? getStartBookmark() {
     return _getStartBookmark(reference.pointer, _id_getStartBookmark.pointer)
-        .object<jni$_.JObject?>();
+        .object<pdoutlineitem$_.PDOutlineItem?>();
   }
 
   static final _id_setStartBookmark = _class.instanceMethodId(
@@ -645,7 +650,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
   /// Set the bookmark where text extraction should start, inclusive.
   ///@param aStartBookmark The starting bookmark.
   void setStartBookmark(
-    jni$_.JObject? aStartBookmark,
+    pdoutlineitem$_.PDOutlineItem? aStartBookmark,
   ) {
     final _$aStartBookmark = aStartBookmark?.reference ?? jni$_.jNullReference;
     _setStartBookmark(reference.pointer, _id_setStartBookmark.pointer,
