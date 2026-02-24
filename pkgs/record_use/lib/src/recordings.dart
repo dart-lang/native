@@ -16,12 +16,14 @@ import 'reference.dart';
 import 'serialization_context.dart';
 import 'syntax.g.dart';
 
-/// [Recordings] combines recordings of calls and instances with metadata.
+/// Holds all information recorded during compilation.
 ///
-/// This class acts as the top-level container for recorded usage information.
-/// The metadata provides context for the recording, such as version and
-/// commentary. The [calls] and [instances] store the core data, associating
-/// each [Definition] with its corresponding [Reference] details.
+/// Associate [Definition]s annotated with `@RecordUse()` from `package:meta`
+/// with their corresponding recorded usages.
+///
+/// The definition annotated with `@RecordUse()` must be inside the `lib/`
+/// directory of the package. If the definition is a member of a class (e.g. a
+/// static method), the class must be in the `lib/` directory.
 ///
 /// The class uses a normalized JSON format, allowing the reuse of constants
 /// across multiple recordings to optimize storage.

@@ -6,6 +6,7 @@ export 'src/constant.dart'
     show
         BoolConstant,
         Constant,
+        EnumConstant,
         InstanceConstant,
         IntConstant,
         ListConstant,
@@ -13,6 +14,7 @@ export 'src/constant.dart'
         MaybeConstant,
         NonConstant,
         NullConstant,
+        RecordConstant,
         StringConstant,
         SymbolConstant,
         UnsupportedConstant;
@@ -20,5 +22,13 @@ export 'src/definition.dart'
     show Definition, DefinitionDisambiguator, DefinitionKind, Name;
 export 'src/loading_unit.dart' show LoadingUnit;
 export 'src/metadata.dart' show Metadata;
-export 'src/record_use.dart' show RecordedUsages;
-export 'src/recorded_usage_from_file.dart' show parseFromFile;
+export 'src/recordings.dart' show Recordings;
+export 'src/reference.dart'
+    show
+        CallReference,
+        CallTearoff,
+        CallWithArguments,
+        ConstructorTearoffReference,
+        InstanceConstantReference,
+        InstanceCreationReference,
+        InstanceReference;

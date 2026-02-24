@@ -68,15 +68,4 @@ void main() {
     final roundTrippedRecordings = Recordings.fromJson(serializedJson);
     expect(roundTrippedRecordings, equals(recordings));
   });
-
-  test('constantsOf filters out creation and tearoff', () {
-    // We need to construct RecordedUsages from Recordings, but RecordedUsages
-    // doesn't expose a constructor taking Recordings directly publicly?
-    // It does via `RecordedUsages._(Recordings _recordings)`.
-    // But we can go via JSON.
-    final usages = RecordedUsages.fromJson(recordings.toJson());
-
-    final constants = usages.constantsOf(definition);
-    expect(constants, isEmpty);
-  });
 }

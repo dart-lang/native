@@ -28,25 +28,6 @@ void main() {
       );
     });
 
-    test('RecordedUsages.fromJson fails for non-package URI', () {
-      final json = recordedUses.toJson();
-      // Modify the first definition's URI to be invalid.
-      final definitions = json['definitions'] as List;
-      final definition = definitions[0] as Map;
-      definition['uri'] = 'file:///foo.dart'; // Should start with package:
-
-      expect(
-        () => RecordedUsages.fromJson(json),
-        throwsA(
-          isA<FormatException>().having(
-            (e) => e.message,
-            'message',
-            contains('Expected a String satisfying ^package:'),
-          ),
-        ),
-      );
-    });
-
     test('Definition constructor does not throw (currently)', () {
       // The Definition class itself doesn't have the regex check in its
       // constructor, only the generated syntax class has it.
