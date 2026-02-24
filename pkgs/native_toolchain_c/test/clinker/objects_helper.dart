@@ -19,6 +19,7 @@ void runObjectsTests(
   int? macOSTargetVersion, // Must be specified iff targetOS is OS.macos.
   int? iOSTargetVersion, // Must be specified iff targetOS is OS.iOS.
   IOSSdk? iOSTargetSdk, // Must be specified iff targetOS is OS.iOS.
+  Timeout? timeout,
 }) {
   if (targetOS == OS.android) {
     ArgumentError.checkNotNull(androidTargetNdkApi, 'androidTargetNdkApi');
@@ -34,7 +35,7 @@ void runObjectsTests(
   const name = 'mylibname';
 
   for (final architecture in architectures) {
-    test('link two objects for $architecture', () async {
+    test('link two objects for $architecture', timeout: timeout, () async {
       final tempUri = await tempDirForTest();
       final tempUri2 = await tempDirForTest();
 

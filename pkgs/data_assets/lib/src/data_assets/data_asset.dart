@@ -13,7 +13,7 @@ import 'syntax.g.dart';
 /// asset at runtime, the [id] is used. This enables access to the asset
 /// irrespective of how and where the application is run.
 ///
-/// An data asset must provide a [DataAsset.file]. The Dart and Flutter SDK will
+/// A data asset must provide a [DataAsset.file]. The Dart and Flutter SDK will
 /// bundle this code in the final application.
 final class DataAsset {
   /// The file to be bundled with the Dart or Flutter application.
@@ -32,7 +32,7 @@ final class DataAsset {
 
   /// The identifier for this data asset.
   ///
-  /// An [DataAsset] has a string identifier called "asset id". Dart code that
+  /// A [DataAsset] has a string identifier called "asset id". Dart code that
   /// uses an asset references the asset using this asset id.
   ///
   /// An asset identifier consists of two elements, the `package` and `name`,

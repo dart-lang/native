@@ -10,13 +10,14 @@ import 'dart:io';
 import 'package:logging/logging.dart';
 import 'package:path/path.dart' as p;
 
+import 'utils.dart' show macSdkPath, xcodePath;
+
 /// This will return include path from either LLVM, XCode or CommandLineTools.
 List<String> getCStandardLibraryHeadersForMac(Logger logger) {
   final includePaths = <String>[];
 
   /// Add system headers.
-  const systemHeaders =
-      '/Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX.sdk/usr/include';
+  final systemHeaders = p.join(macSdkPath, 'usr', 'include');
   if (Directory(systemHeaders).existsSync()) {
     logger.fine('Added $systemHeaders to compiler-opts.');
     includePaths.add('-I$systemHeaders');
@@ -24,9 +25,15 @@ List<String> getCStandardLibraryHeadersForMac(Logger logger) {
 
   /// Find headers from XCode or LLVM installed via brew.
   const brewLlvmPath = '/usr/local/opt/llvm/lib/clang';
-  const xcodeClangPath =
-      '/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/clang/';
-  const searchPaths = [brewLlvmPath, xcodeClangPath];
+  final xcodeClangPath = p.join(
+    xcodePath,
+    'Toolchains',
+    'XcodeDefault.xctoolchain',
+    'usr',
+    'lib',
+    'clang',
+  );
+  final searchPaths = [brewLlvmPath, xcodeClangPath];
   for (final searchPath in searchPaths) {
     if (!Directory(searchPath).existsSync()) continue;
 

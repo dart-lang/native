@@ -5,6 +5,7 @@
 import '../../ast/_core/interfaces/function_declaration.dart';
 import '../../ast/_core/shared/parameter.dart';
 import '../../ast/_core/shared/referred_type.dart';
+import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../ast/declarations/globals/globals.dart';
@@ -29,16 +30,32 @@ MethodDeclaration? transformMethod(
   if (disallowedMethods.contains(originalMethod.name)) {
     return null;
   }
+  if (originalMethod.isOperator &&
+      originalMethod.params.any((p) => p.type.sameAs(selfType))) {
+    return null;
+  }
+
+  final wrapperMethodName = originalMethod.isOperator
+      ? globalNamer.makeUnique(originalMethod.name)
+      : originalMethod.name;
 
   return _transformFunction(
     originalMethod,
     globalNamer,
     state,
-    wrapperMethodName: originalMethod.name,
+    wrapperMethodName: wrapperMethodName,
     originalCallStatementGenerator: (arguments) {
       final methodSource = originalMethod.isStatic
           ? wrappedClassInstance.type.swiftType
           : wrappedClassInstance.name;
+
+      if (originalMethod.isOperator) {
+        final params = originalMethod.params;
+        return '${params[0].internalName ?? params[0].name}.wrappedInstance '
+            '${originalMethod.name} '
+            '${params[1].internalName ?? params[1].name}.wrappedInstance';
+      }
+
       return '$methodSource.${originalMethod.name}($arguments)';
     },
   );
@@ -173,7 +190,9 @@ List<String> _generateStatements(
     originalFunction.params,
     transformedMethod.params,
   );
+
   var originalMethodCall = originalCallGenerator(arguments);
+
   if (transformedMethod.async) {
     originalMethodCall = 'await $originalMethodCall';
   }

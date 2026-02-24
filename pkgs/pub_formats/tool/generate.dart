@@ -40,10 +40,10 @@ void main(List<String> args) {
     'pubspec',
   ]) {
     final schemaFile = File.fromUri(
-      packageRoot.resolve('doc/schema/${name}.schema.json'),
+      packageRoot.resolve('doc/schema/$name.schema.json'),
     );
     final schemaJson = jsonDecode(schemaFile.readAsStringSync());
-    final schema = JsonSchema.create(schemaJson);
+    final schema = JsonSchema.create(schemaJson as Object);
 
     final analyzedSchema = SchemaAnalyzer(
       schema,

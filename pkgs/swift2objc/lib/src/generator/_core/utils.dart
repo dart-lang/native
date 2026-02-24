@@ -10,11 +10,13 @@ import '../../ast/_core/interfaces/can_throw.dart';
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/shared/parameter.dart';
 
-String generateParameters(List<Parameter> params) {
+String generateParameters(List<Parameter> params, {bool isOperator = false}) {
   return params
       .map((param) {
         final String labels;
-        if (param.internalName != null) {
+        if (isOperator) {
+          labels = param.internalName ?? param.name;
+        } else if (param.internalName != null) {
           labels = '${param.name} ${param.internalName}';
         } else {
           labels = param.name;

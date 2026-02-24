@@ -10,21 +10,35 @@ import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
+import 'package:logging/logging.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:native_toolchain_c/src/native_toolchain/apple_clang.dart';
+import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
 import 'package:native_toolchain_c/src/tool/tool_resolver.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
 
-void main() {
+void main() async {
   if (!Platform.isMacOS) {
     // Avoid needing status files on Dart SDK CI.
     return;
   }
 
-  const targets = [
+  final context = ToolResolvingContext(logger: Logger.detached('main'));
+  final lldInstances = await lld.defaultResolver!.resolve(context);
+  final lldAvailable = lldInstances.isNotEmpty;
+  final lldPath = lldAvailable ? lldInstances.first.uri.toFilePath() : 'ld.lld';
+
+  if (!lldAvailable) {
+    stderr.writeln(
+      'ld.lld not found. Linux cross-compilation tests will fail.',
+    );
+    stderr.writeln("Install with 'brew install lld' on macOS.");
+  }
+
+  final targets = [
     (OS.macOS, Architecture.arm64),
     (OS.macOS, Architecture.x64),
     (OS.linux, Architecture.arm),
@@ -135,7 +149,7 @@ void main() {
                 // Only homebrew lld can link for linux, and we don't have a
                 // sysroot so we can't use stdlibs / C-runtime files.
                 if (os == OS.linux) ...[
-                  '--ld-path=ld.lld',
+                  '--ld-path=$lldPath',
                   '-nostartfiles',
                   '-nostdlib',
                 ],

@@ -19,15 +19,21 @@
             }
           ]
         },
-        "@": {
-          "type": "integer"
+        "loading_unit_indices": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
         },
-        "loading_unit": {
-          "type": "string"
+        "receiver": {
+          "type": [
+            "integer",
+            "null"
+          ]
         }
       },
       "required": [
-        "loading_unit",
+        "loading_unit_indices",
         "type"
       ],
       "if": {
@@ -48,14 +54,31 @@
           "positional": {
             "type": "array",
             "items": {
-              "type": [
-                "integer",
-                "null"
-              ]
+              "type": "integer"
             }
           }
         }
       }
+    },
+    "CallRecording": {
+      "type": "object",
+      "properties": {
+        "definition_index": {
+          "type": "integer"
+        },
+        "uses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Call"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "definition_index",
+        "uses"
+      ],
+      "additionalProperties": false
     },
     "Constant": {
       "type": "object",
@@ -66,12 +89,16 @@
             {
               "enum": [
                 "bool",
+                "enum",
                 "instance",
                 "int",
                 "list",
                 "map",
+                "non_constant",
                 "null",
-                "string"
+                "record",
+                "string",
+                "unsupported"
               ]
             },
             {
@@ -107,17 +134,56 @@
           "if": {
             "properties": {
               "type": {
+                "const": "enum"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "definition_index": {
+                "type": "integer"
+              },
+              "index": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "value": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer"
+                }
+              }
+            },
+            "required": [
+              "definition_index",
+              "index",
+              "name"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
                 "const": "instance"
               }
             }
           },
           "then": {
             "properties": {
+              "definition_index": {
+                "type": "integer"
+              },
               "value": {
                 "type": "object",
                 "additionalProperties": true
               }
-            }
+            },
+            "required": [
+              "definition_index"
+            ]
           }
         },
         {
@@ -169,13 +235,31 @@
           "then": {
             "properties": {
               "value": {
-                "type": "object",
-                "additionalProperties": true
+                "type": "array",
+                "items": {
+                  "$ref": "#/definitions/MapEntry"
+                }
               }
             },
             "required": [
               "value"
             ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "non_constant"
+              }
+            }
+          },
+          "then": {
+            "not": {
+              "required": [
+                "value"
+              ]
+            }
           }
         },
         {
@@ -198,6 +282,31 @@
           "if": {
             "properties": {
               "type": {
+                "const": "record"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "named": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer"
+                }
+              },
+              "positional": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
                 "const": "string"
               }
             }
@@ -212,75 +321,239 @@
               "value"
             ]
           }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "unsupported"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "message": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "message"
+            ]
+          }
         }
       ]
     },
-    "Identifier": {
+    "Definition": {
       "type": "object",
       "properties": {
-        "name": {
-          "type": "string"
-        },
-        "scope": {
-          "type": "string"
+        "path": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Name"
+          },
+          "minItems": 1
         },
         "uri": {
-          "type": "string"
+          "type": "string",
+          "pattern": "^package:"
         }
       },
       "required": [
-        "name",
+        "path",
         "uri"
       ]
     },
     "Instance": {
       "type": "object",
       "properties": {
-        "@": {
-          "type": "integer"
+        "type": {
+          "type": "string",
+          "anyOf": [
+            {
+              "enum": [
+                "constant",
+                "creation",
+                "tearoff"
+              ]
+            },
+            {
+              "type": "string"
+            }
+          ]
         },
-        "constant_index": {
-          "type": "integer"
-        },
-        "loading_unit": {
-          "type": "string"
+        "loading_unit_indices": {
+          "type": "array",
+          "items": {
+            "type": "integer"
+          }
         }
       },
       "required": [
-        "constant_index",
-        "loading_unit"
+        "loading_unit_indices",
+        "type"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "constant"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "constant_index": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "constant_index"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "creation"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "named": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer"
+                }
+              },
+              "positional": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              }
+            }
+          }
+        }
       ]
     },
-    "Location": {
+    "InstanceRecording": {
       "type": "object",
       "properties": {
-        "column": {
+        "definition_index": {
           "type": "integer"
         },
-        "line": {
-          "type": "integer"
-        },
-        "uri": {
+        "uses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Instance"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "definition_index",
+        "uses"
+      ],
+      "additionalProperties": false
+    },
+    "LoadingUnit": {
+      "type": "object",
+      "properties": {
+        "name": {
           "type": "string"
         }
       },
       "required": [
-        "uri"
+        "name"
+      ]
+    },
+    "MapEntry": {
+      "type": "object",
+      "properties": {
+        "key": {
+          "type": "integer"
+        },
+        "value": {
+          "type": "integer"
+        }
+      },
+      "required": [
+        "key",
+        "value"
+      ]
+    },
+    "Name": {
+      "type": "object",
+      "properties": {
+        "disambiguators": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "anyOf": [
+              {
+                "enum": [
+                  "instance",
+                  "static"
+                ]
+              },
+              {
+                "type": "string"
+              }
+            ]
+          }
+        },
+        "kind": {
+          "type": "string",
+          "anyOf": [
+            {
+              "enum": [
+                "class",
+                "constructor",
+                "enum",
+                "extension",
+                "extension_type",
+                "getter",
+                "method",
+                "mixin",
+                "operator",
+                "setter"
+              ]
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
       ]
     },
     "RecordedUses": {
       "type": "object",
       "properties": {
+        "definitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Definition"
+          }
+        },
         "constants": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/Constant"
           }
         },
-        "locations": {
+        "loading_units": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Location"
+            "$ref": "#/definitions/LoadingUnit"
           }
         },
         "metadata": {
@@ -298,50 +571,31 @@
             "version"
           ]
         },
-        "recordings": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Recording"
-          }
+        "uses": {
+          "$ref": "#/definitions/Uses"
         }
       },
       "required": [
         "metadata"
       ]
     },
-    "Recording": {
+    "Uses": {
       "type": "object",
       "properties": {
-        "calls": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Call"
-          }
-        },
-        "definition": {
-          "type": "object",
-          "properties": {
-            "identifier": {
-              "$ref": "#/definitions/Identifier"
-            },
-            "loading_unit": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "identifier"
-          ]
-        },
         "instances": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Instance"
+            "$ref": "#/definitions/InstanceRecording"
+          }
+        },
+        "static_calls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CallRecording"
           }
         }
       },
-      "required": [
-        "definition"
-      ]
+      "additionalProperties": false
     }
   }
 }

@@ -2,16 +2,17 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'dart:io';
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:args/args.dart';
+import 'package:path/path.dart' as p;
 import 'package:yaml/yaml.dart';
 
 void main(List<String> arguments) async {
   final parser = makeArgParser();
 
-  final ArgResults argResults = parser.parse(arguments);
+  final argResults = parser.parse(arguments);
 
   final packages = loadPackagesFromPubspec();
 
@@ -51,6 +52,18 @@ ArgParser makeArgParser() {
       'all',
       negatable: false,
       help: 'Enable all tasks. Overridden by --no-<task> flags.',
+    )
+    ..addFlag(
+      'fast',
+      negatable: false,
+      help: 'Skip slow integration tests and apitool.',
+    )
+    ..addFlag(
+      'fix',
+      negatable: false,
+      help:
+          'Apply auto-fixes (e.g., dart fix, dart format) instead of just '
+          'checking.',
     );
   for (final task in tasks) {
     parser.addFlag(task.name, help: task.helpMessage);
@@ -64,9 +77,9 @@ ArgParser makeArgParser() {
 /// task's name, its default state, and the help message for its corresponding
 /// command-line flag.
 ///
-/// The main execution loop iterates through a list of [Task] instances. For each
-/// instance, it uses [shouldRun] to determine if the task should be executed
-/// based on the command-line flags, and if so, calls the [run] method.
+/// The main execution loop iterates through a list of [Task] instances. For
+/// each instance, it uses [shouldRun] to determine if the task should be
+/// executed based on the command-line flags, and if so, calls the [run] method.
 abstract class Task {
   /// The name of the task, used for the command-line flag.
   ///
@@ -96,6 +109,144 @@ abstract class Task {
   });
 }
 
+/// Ensures all packages are included in the pub workspace or a reason is
+/// provided why they cannot be part of the workspace.
+class WorkspaceTask extends Task {
+  const WorkspaceTask()
+    : super(
+        name: 'workspace',
+        helpMessage:
+            'Check that all packages are included in the pub workspace.',
+      );
+
+  @override
+  Future<void> run({
+    required List<String> packages,
+    required ArgResults argResults,
+  }) async {
+    final packagesInRepository = _packagesInRepository();
+    final packagesInWorkspacePubspec = _packagesInWorkspacePubspec();
+
+    final error = <String>[];
+
+    if (packagesInWorkspacePubspec.missingReason.isNotEmpty) {
+      error
+        ..add(
+          'The following packages are commented out in the workspace '
+          'pubspec, but no reason is given why they cannot be part of the '
+          'workspace:',
+        )
+        ..addAll(
+          packagesInWorkspacePubspec.missingReason.map(
+            (package) => ' - $package',
+          ),
+        )
+        ..add(
+          'Please add a trailing comment to their entry providing a reason '
+          'for their exclusion from the workspace.',
+        )
+        ..add('');
+    }
+
+    final notInRepository = packagesInWorkspacePubspec.packages.difference(
+      packagesInRepository,
+    );
+    if (notInRepository.isNotEmpty) {
+      error
+        ..add(
+          'The following packages are listed in the workspace pubspec, but '
+          'do not exist in the repository:',
+        )
+        ..addAll(notInRepository.map((package) => ' - $package'))
+        ..add('Please remove them from the workspace pubspec.')
+        ..add('');
+    }
+
+    final notInWorkspacePubspec = packagesInRepository.difference(
+      packagesInWorkspacePubspec.packages,
+    );
+    if (notInWorkspacePubspec.isNotEmpty) {
+      error
+        ..add(
+          'The following packages exist in the repository, but are not part '
+          'of the workspace:',
+        )
+        ..addAll(notInWorkspacePubspec.map((package) => ' - $package'))
+        ..add(
+          'Please add them to the workspace. If that is not possible, add a '
+          'commented out entry to the root pubspec and provide a reason why '
+          'they cannot be part of the workspace as a trailing comment.',
+        )
+        ..add('');
+    }
+    if (error.isNotEmpty) {
+      print(error.join('\n'));
+      exit(1);
+    }
+  }
+
+  Set<String> _packagesInRepository() {
+    final packages = <String>{};
+    final rootDir = Directory.fromUri(repositoryRoot.resolve('pkgs'));
+    for (final entity in rootDir.listSync(recursive: true)) {
+      if (entity is File && entity.path.endsWith('pubspec.yaml')) {
+        if (entity.path.split(Platform.pathSeparator).contains('.dart_tool')) {
+          continue;
+        }
+        packages.add(
+          Uri.file(
+            p.relative(entity.parent.path, from: repositoryRoot.toFilePath()),
+          ).toString(),
+        );
+      }
+    }
+    return packages;
+  }
+
+  ({Set<String> packages, List<String> missingReason})
+  _packagesInWorkspacePubspec() {
+    final pubspecLines = File.fromUri(
+      repositoryRoot.resolve('pubspec.yaml'),
+    ).readAsStringSync().split('\n');
+    final workspaceEntries = pubspecLines
+        .skipWhile((line) => !line.trim().startsWith('workspace:'))
+        .skip(1)
+        .takeWhile(
+          (line) =>
+              line.trim().startsWith('- ') || line.trim().startsWith('# - '),
+        );
+
+    final packages = <String>{};
+    final packagesWithMissingReason = <String>[];
+
+    // Regex breakdown:
+    // ^\s*       : Start of line and any leading whitespace
+    // (#\s*)?    : Optional leading '#' followed by optional whitespace (Group 1)
+    // -\s+       : The YAML list dash '-' and at least one space
+    // ([^\s#]+)  : The actual path - any characters that aren't space or '#' (Group 2)
+    // (\s*#.*)?  : Optional trailing '#' and everything after it (Group 3)
+    final regex = RegExp(r'^\s*(#\s*)?-\s+([^\s#]+)(\s*#.*)?');
+
+    for (final entry in workspaceEntries) {
+      final match = regex.firstMatch(entry);
+
+      if (match != null) {
+        final hasLeadingHash = match.group(1) != null;
+        final path = match.group(2);
+        final trailingComment = match.group(3);
+
+        if (hasLeadingHash) {
+          if (trailingComment == null || trailingComment.trim().length < 6) {
+            packagesWithMissingReason.add(path!);
+          }
+        }
+        packages.add(path!);
+      }
+    }
+    return (packages: packages, missingReason: packagesWithMissingReason);
+  }
+}
+
 /// Fetches dependencies using `dart pub get`.
 ///
 /// This is a prerequisite for most other tasks.
@@ -105,7 +256,7 @@ class PubTask extends Task {
         name: 'pub',
         helpMessage:
             'Run `dart pub get` on the root and non-workspace packages.\n'
-            'Run `dart pub global activate coverage`.',
+            'Run `dart pub global activate coverage` and `dart_apitool`.',
       );
 
   @override
@@ -118,11 +269,20 @@ class PubTask extends Task {
       'pkgs/hooks_runner/test_data/native_add_version_skew/',
       'pkgs/hooks_runner/test_data/native_add_version_skew_2/',
     ];
-    for (final path in paths) {
-      await _runProcess('dart', ['pub', 'get', '--directory', path]);
-    }
+    await _runMaybeParallel([
+      for (final path in paths)
+        () => _runProcess('dart', ['pub', 'get', '--directory', path]),
+    ], argResults);
   }
 }
+
+/// Packages that have slow tests.
+///
+/// https://github.com/dart-lang/native/issues/90#issuecomment-3879193057
+const slowTestPackages = [
+  'pkgs/hooks_runner',
+  'pkgs/native_toolchain_c',
+];
 
 /// Runs `dart analyze` to find static analysis issues.
 class AnalyzeTask extends Task {
@@ -137,7 +297,18 @@ class AnalyzeTask extends Task {
     required List<String> packages,
     required ArgResults argResults,
   }) async {
-    await _runProcess('dart', ['analyze', '--fatal-infos', ...packages]);
+    final paths = [
+      ...packages,
+      'tool',
+      'pubspec.yaml',
+    ];
+    if (argResults['fix'] as bool) {
+      await _runMaybeParallel([
+        for (final path in paths)
+          () => _runProcess('dart', ['fix', '--apply', path]),
+      ], argResults);
+    }
+    await _runProcess('dart', ['analyze', '--fatal-infos', ...paths]);
   }
 }
 
@@ -151,11 +322,12 @@ class FormatTask extends Task {
     required List<String> packages,
     required ArgResults argResults,
   }) async {
+    final fix = argResults['fix'] as bool;
     await _runProcess('dart', [
       'format',
-      '--output=none',
-      '--set-exit-if-changed',
+      if (!fix) ...['--output=none', '--set-exit-if-changed'],
       ...packages,
+      'tool',
     ]);
   }
 }
@@ -181,9 +353,14 @@ class GenerateTask extends Task {
       'pkgs/pub_formats/tool/generate.dart',
       'pkgs/record_use/tool/generate_syntax.dart',
     ];
-    for (final generator in generators) {
-      await _runProcess('dart', [generator, '--set-exit-if-changed']);
-    }
+    final fix = argResults['fix'] as bool;
+    await _runMaybeParallel([
+      for (final generator in generators)
+        () => _runProcess('dart', [
+          generator,
+          if (!fix) '--set-exit-if-changed',
+        ]),
+    ], argResults);
   }
 }
 
@@ -207,6 +384,11 @@ class TestTask extends Task {
     required List<String> packages,
     required ArgResults argResults,
   }) async {
+    if (argResults['fast'] as bool) {
+      packages = packages
+          .where((p) => !slowTestPackages.any((slow) => p.contains(slow)))
+          .toList();
+    }
     final testUris = getUriInPackage(packages, 'test');
     await _runProcess('dart', [
       'test',
@@ -244,13 +426,14 @@ class ExampleTask extends Task {
       'pkgs/hooks/example/build/system_library/',
       'pkgs/hooks/example/build/use_dart_api/',
     ];
-    for (final exampleWithTest in examplesWithTest) {
-      await _runProcess(
-        workingDirectory: repositoryRoot.resolve(exampleWithTest),
-        'dart',
-        ['test'],
-      );
-    }
+    await _runMaybeParallel([
+      for (final exampleWithTest in examplesWithTest)
+        () => _runProcess(
+          workingDirectory: repositoryRoot.resolve(exampleWithTest),
+          'dart',
+          ['test'],
+        ),
+    ], argResults);
 
     await _runProcess(
       workingDirectory: repositoryRoot.resolve(
@@ -316,23 +499,111 @@ class CoverageTask extends Task {
   }
 }
 
+/// Checks for leaked symbols in the public API using `dart_apitool`.
+class ApiToolTask extends Task {
+  const ApiToolTask()
+    : super(
+        name: 'apitool',
+        helpMessage: 'Run `dart_apitool` to check for leaked symbols.',
+      );
+
+  @override
+  bool shouldRun(ArgResults argResults) {
+    if (argResults['fast'] as bool && !argResults.wasParsed(name)) {
+      return false;
+    }
+    return super.shouldRun(argResults);
+  }
+
+  @override
+  Future<void> run({
+    required List<String> packages,
+    required ArgResults argResults,
+  }) async {
+    if (pubTask.shouldRun(argResults)) {
+      // Pull in https://github.com/bmw-tech/dart_apitool/pull/252.
+      await _runProcess('dart', [
+        'pub',
+        'global',
+        'activate',
+        '--source',
+        'git',
+        'https://github.com/bmw-tech/dart_apitool.git',
+        '--git-ref',
+        '906fa0f3dca24d81d1c26ee71c884ecbb6234ecf',
+      ]);
+    }
+    await _runMaybeParallel([
+      for (final package in packages)
+        () async {
+          final outputFileName = '${package.replaceAll('/', '_')}_api.json';
+          await _runProcess('dart', [
+            'pub',
+            'global',
+            'run',
+            'dart_apitool:main',
+            'extract',
+            '--input',
+            package,
+            '--set-exit-on-missing-export',
+            '--output',
+            outputFileName,
+          ]);
+          // Clean up the temporary file.
+          final apiJson = File.fromUri(repositoryRoot.resolve(outputFileName));
+          if (apiJson.existsSync()) {
+            apiJson.deleteSync();
+          }
+        },
+    ], argResults);
+  }
+}
+
+/// Checks for missing license headers.
+class LicenseTask extends Task {
+  const LicenseTask()
+    : super(
+        name: 'license',
+        helpMessage: 'Check for missing license headers.',
+      );
+
+  @override
+  Future<void> run({
+    required List<String> packages,
+    required ArgResults argResults,
+  }) async {
+    final fix = argResults['fix'] as bool;
+    await _runProcess('dart', [
+      'tool/check_licenses.dart',
+      if (!fix) '--set-exit-if-changed',
+      ...packages,
+    ]);
+  }
+}
+
 const pubTask = PubTask();
+const licenseTask = LicenseTask();
 const analyzeTask = AnalyzeTask();
 const formatTask = FormatTask();
 const generateTask = GenerateTask();
 const testTask = TestTask();
 const exampleTask = ExampleTask();
 const coverageTask = CoverageTask();
+const apiToolTask = ApiToolTask();
+const workspaceTask = WorkspaceTask();
 
 // The order of tasks is intentional.
 final tasks = [
   pubTask,
+  generateTask,
+  licenseTask,
   analyzeTask,
   formatTask,
-  generateTask,
   testTask,
   exampleTask,
   coverageTask,
+  apiToolTask,
+  workspaceTask,
 ];
 
 final Uri repositoryRoot = Platform.script.resolve('../');
@@ -342,7 +613,7 @@ List<String> loadPackagesFromPubspec() {
   final pubspecYaml = loadYaml(
     File.fromUri(repositoryRoot.resolve('pubspec.yaml')).readAsStringSync(),
   );
-  final workspace = (pubspecYaml['workspace'] as List).cast<String>();
+  final workspace = ((pubspecYaml as Map)['workspace'] as List).cast<String>();
   final packages = workspace
       .where(
         (package) =>
@@ -369,6 +640,19 @@ List<String> getUriInPackage(List<String> packages, String subdir) {
   return testUris;
 }
 
+Future<void> _runMaybeParallel(
+  List<Future<void> Function()> tasks,
+  ArgResults argResults,
+) async {
+  if (argResults['fast'] as bool) {
+    await Future.wait(tasks.map((task) => task()));
+  } else {
+    for (final task in tasks) {
+      await task();
+    }
+  }
+}
+
 Future<void> _runProcess(
   String executable,
   List<String> arguments, {
@@ -391,7 +675,7 @@ Future<void> _runProcess(
   final exitCode = await process.exitCode;
 
   if (exitCode != 0) {
-    print('+$commandString failed with exitCode ${exitCode}.');
+    print('+$commandString failed with exitCode $exitCode.');
     exit(exitCode);
   }
 }

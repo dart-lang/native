@@ -1,0 +1,79 @@
+{
+  "$schema": "../../doc/schema/record_use.schema.json",
+  "constants": [
+    {
+      "type": "int",
+      "value": 1
+    },
+    {
+      "type": "string",
+      "value": "int-key"
+    },
+    {
+      "type": "bool",
+      "value": true
+    },
+    {
+      "type": "string",
+      "value": "bool-key"
+    },
+    {
+      "type": "map",
+      "value": [
+        {
+          "key": 0,
+          "value": 1
+        },
+        {
+          "key": 2,
+          "value": 3
+        }
+      ]
+    }
+  ],
+  "definitions": [
+    {
+      "path": [
+        {
+          "kind": "class",
+          "name": "SomeClass"
+        },
+        {
+          "disambiguators": [
+            "static"
+          ],
+          "kind": "method",
+          "name": "someStaticMethod"
+        }
+      ],
+      "uri": "package:record_use_test/map_complex_keys.dart"
+    }
+  ],
+  "loading_units": [
+    {
+      "name": "1"
+    }
+  ],
+  "metadata": {
+    "comment": "Recorded usages of objects tagged with a `RecordUse` annotation",
+    "version": "0.4.0"
+  },
+  "uses": {
+    "static_calls": [
+      {
+        "definition_index": 0,
+        "uses": [
+          {
+            "loading_unit_indices": [
+              0
+            ],
+            "positional": [
+              4
+            ],
+            "type": "with_arguments"
+          }
+        ]
+      }
+    ]
+  }
+}

@@ -16,6 +16,14 @@ You generally only need to submit a CLA once, so if you've already submitted one
 (even if it was for a different project), you probably don't need to do it
 again.
 
+## Solving Issues
+
+Each PR should aim to solve a specific issue. If the issue's requirements are
+unclear, please ask for clarification on the GitHub issue before submitting a PR.
+
+PRs that do not actually solve the issue will be closed. Please be respectful of
+the maintainers' time.
+
 ## Code Reviews
 
 All submissions, including submissions by project members, require review. We
@@ -30,6 +38,34 @@ The Dart source code in this repo follows the:
   * [Dart style guide](https://dart.dev/guides/language/effective-dart/style)
 
 You should familiarize yourself with those guidelines.
+
+## Continuous Integration (CI)
+
+Before submitting a PR, ensure that you have run the CI script locally:
+
+```bash
+dart tool/ci.dart --all
+```
+
+CI scripts in this repository do not run on pull requests from external 
+contributors until a maintainer approves the run. To reduce roundtrip times 
+and ensure your PR is ready for review, it is important to run the CI script 
+locally before pushing.
+
+This script will run:
+- Static analysis (`dart analyze`)
+- Code formatting check (`dart format`)
+- Code generation scripts
+- Tests (`dart test`)
+- API surface checks (`dart_apitool`)
+
+## Changelog and Versioning
+
+Most changes should add an entry to the `CHANGELOG.md` of the affected packages.
+Small changes such as documentation typos do not require a changelog entry.
+
+When making a functional change, you may also need to [update the pubspec package
+version](https://github.com/dart-lang/sdk/blob/main/docs/External-Package-Maintenance.md#making-a-change).
 
 ## File headers
 
@@ -51,6 +87,9 @@ We pledge to maintain an open and welcoming environment. For details, see our
 [code of conduct](https://dart.dev/code-of-conduct).
 
 ## Tests
+
+Every PR that adds a feature or fixes a bug should include corresponding tests.
+All existing and new tests must pass.
 
 Packages `hooks`, `code_assets`, `data_assets`, `hooks_runner`, and
 `native_toolchain_c` roll into the Dart SDK. The tests of these packages are run

@@ -8,6 +8,8 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 import 'objects_helper.dart';
 
+const Timeout longTimeout = Timeout(Duration(minutes: 5));
+
 void main() {
   const targetOS = OS.android;
   final architectures = supportedArchitecturesFor(targetOS);
@@ -17,7 +19,12 @@ void main() {
     flutterAndroidNdkVersionHighestSupported,
   ]) {
     group('Android API$apiLevel:', () {
-      runObjectsTests(targetOS, architectures, androidTargetNdkApi: apiLevel);
+      runObjectsTests(
+        targetOS,
+        architectures,
+        androidTargetNdkApi: apiLevel,
+        timeout: longTimeout,
+      );
     });
   }
 }

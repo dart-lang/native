@@ -7,9 +7,6 @@ import Foundation
     get {
       globalOptional == nil ? nil : MyStructWrapper(globalOptional!)
     }
-    set {
-      globalOptional = newValue?.wrappedInstance
-    }
   }
 
   @objc static public func funcOptionalArgsWrapper(label param: MyClassWrapper?) -> MyClassWrapper {
