@@ -163,7 +163,7 @@ abstract class Compound extends BindingType with HasLocalScope {
     // Write class declaration.
     s.write('final class $enclosingClassName extends ');
     s.write('$ffiPrefix.$dartClassName{\n');
-    const depth = ' ';
+    const depth = '  ';
     for (final m in members) {
       if (m.dartDoc != null) {
         s.write('$depth/// ');
