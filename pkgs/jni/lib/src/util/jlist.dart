@@ -12,9 +12,7 @@ extension JListToAdapter<E extends JObject?> on JList<E> {
   /// Wraps this [JList] in an adapter that implements a [List].
   ///
   /// This is not a conversion, doesn't create a new list, or change the
-  /// elements. For deep conversion, use toDartList.
-  ///
-  /// TODO: Implement toDartList if it doesn't exist. Be consistent with objc.
+  /// elements.
   List<E> asDart() => _JListAdapter<E>(this);
 }
 
