@@ -2,8 +2,7 @@
   "$schema": "../../doc/schema/record_use.schema.json",
   "constants": [
     {
-      "type": "string",
-      "value": "lib_SHA1"
+      "type": "null"
     },
     {
       "type": "bool",
@@ -11,32 +10,19 @@
     },
     {
       "type": "int",
+      "value": 0
+    },
+    {
+      "type": "int",
       "value": 1
     },
     {
-      "type": "string",
-      "value": "mercury"
-    },
-    {
-      "type": "string",
-      "value": "jenkins"
-    },
-    {
-      "type": "string",
-      "value": "key"
+      "type": "int",
+      "value": 42
     },
     {
       "type": "int",
       "value": 99
-    },
-    {
-      "type": "map",
-      "value": [
-        {
-          "key": 5,
-          "value": 6
-        }
-      ]
     },
     {
       "type": "string",
@@ -51,43 +37,41 @@
       "value": "insert"
     },
     {
+      "type": "string",
+      "value": "jenkins"
+    },
+    {
+      "type": "string",
+      "value": "key"
+    },
+    {
+      "type": "string",
+      "value": "lib_SHA1"
+    },
+    {
+      "type": "string",
+      "value": "mercury"
+    },
+    {
+      "definition_index": 0,
+      "type": "instance"
+    },
+    {
       "type": "list",
       "value": [
-        9,
-        10,
+        7,
+        8,
         1
       ]
     },
     {
-      "type": "list",
+      "type": "map",
       "value": [
-        8,
-        11,
-        9
+        {
+          "key": 10,
+          "value": 5
+        }
       ]
-    },
-    {
-      "type": "int",
-      "value": 0
-    },
-    {
-      "type": "int",
-      "value": 42
-    },
-    {
-      "type": "null"
-    },
-    {
-      "definition_index": 1,
-      "type": "instance",
-      "value": {
-        "a": 14,
-        "b": 15
-      }
-    },
-    {
-      "definition_index": 1,
-      "type": "instance"
     },
     {
       "definition_index": 2,
@@ -95,18 +79,31 @@
       "name": "val1",
       "type": "enum",
       "value": {
-        "a": 14
+        "a": 4
       }
+    },
+    {
+      "definition_index": 0,
+      "type": "instance",
+      "value": {
+        "a": 4,
+        "b": 0
+      }
+    },
+    {
+      "type": "list",
+      "value": [
+        6,
+        14,
+        7
+      ]
     }
   ],
   "definitions": [
     {
       "path": [
         {
-          "name": "MyClass"
-        },
-        {
-          "name": "get:loadDeferredLibrary"
+          "name": "MyAnnotation"
         }
       ],
       "uri": "package:js_runtime/js_helper.dart"
@@ -114,7 +111,10 @@
     {
       "path": [
         {
-          "name": "MyAnnotation"
+          "name": "MyClass"
+        },
+        {
+          "name": "get:loadDeferredLibrary"
         }
       ],
       "uri": "package:js_runtime/js_helper.dart"
@@ -130,10 +130,10 @@
   ],
   "loading_units": [
     {
-      "name": "o.js"
+      "name": "3"
     },
     {
-      "name": "3"
+      "name": "o.js"
     }
   ],
   "metadata": {
@@ -143,19 +143,19 @@
   "uses": {
     "instances": [
       {
-        "definition_index": 1,
+        "definition_index": 0,
         "uses": [
           {
-            "constant_index": 16,
+            "constant_index": 17,
             "loading_unit_indices": [
-              1
+              0
             ],
             "type": "constant"
           },
           {
-            "constant_index": 17,
+            "constant_index": 13,
             "loading_unit_indices": [
-              1
+              0
             ],
             "type": "constant"
           }
@@ -165,9 +165,9 @@
         "definition_index": 2,
         "uses": [
           {
-            "constant_index": 18,
+            "constant_index": 16,
             "loading_unit_indices": [
-              1
+              0
             ],
             "type": "constant"
           }
@@ -176,35 +176,35 @@
     ],
     "static_calls": [
       {
-        "definition_index": 0,
+        "definition_index": 1,
         "uses": [
           {
             "loading_unit_indices": [
-              0
+              1
             ],
             "named": {
-              "freddy": 3,
-              "leroy": 4
+              "freddy": 12,
+              "leroy": 9
             },
             "positional": [
-              0,
+              11,
               1,
-              2
+              3
             ],
             "type": "with_arguments"
           },
           {
             "loading_unit_indices": [
-              0
+              1
             ],
             "named": {
-              "freddy": 13,
-              "leroy": 4
+              "freddy": 2,
+              "leroy": 9
             },
             "positional": [
-              0,
-              7,
-              12
+              11,
+              15,
+              18
             ],
             "type": "with_arguments"
           }

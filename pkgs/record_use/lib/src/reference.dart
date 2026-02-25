@@ -178,26 +178,25 @@ final class CallWithArguments extends CallReference {
   });
 
   @override
-  Reference _canonicalizeChildren(CanonicalizationContext context) =>
-      CallWithArguments(
-        loadingUnits: loadingUnits
-            .map((u) => context.canonicalizeLoadingUnit(u))
-            .toList(),
-        receiver: receiver != null
-            ? context.canonicalizeConstant(receiver!)
-            : null,
-        positionalArguments: positionalArguments
-            .map((c) => context.canonicalizeConstant(c))
-            .toList(),
-        namedArguments: Map.fromEntries(
-          namedArguments.entries.map(
-            (e) => MapEntry(
-              e.key,
-              context.canonicalizeConstant(e.value),
-            ),
-          ),
-        ),
-      );
+  Reference _canonicalizeChildren(CanonicalizationContext context) {
+    final sortedNamedArgs = namedArguments.entries.toList()
+      ..sort((a, b) => a.key.compareTo(b.key));
+    return CallWithArguments(
+      loadingUnits: [
+        for (final u in loadingUnits) context.canonicalizeLoadingUnit(u),
+      ],
+      receiver: receiver != null
+          ? context.canonicalizeConstant(receiver!)
+          : null,
+      positionalArguments: [
+        for (final c in positionalArguments) context.canonicalizeConstant(c),
+      ],
+      namedArguments: {
+        for (final e in sortedNamedArgs)
+          e.key: context.canonicalizeConstant(e.value),
+      },
+    );
+  }
 
   @override
   WithArgumentsCallSyntax _toSyntax(SerializationContext context) {
@@ -207,15 +206,16 @@ final class CallWithArguments extends CallReference {
     }
 
     return WithArgumentsCallSyntax(
-      loadingUnitIndices: loadingUnits
-          .map((unit) => context.loadingUnits[unit]!)
-          .toList(),
+      loadingUnitIndices: [
+        for (final unit in loadingUnits) context.loadingUnits[unit]!,
+      ],
       named: namedArgs.isNotEmpty ? namedArgs : null,
       positional: positionalArguments.isEmpty
           ? null
-          : positionalArguments
-                .map((argument) => context.constants[argument]!)
-                .toList(),
+          : [
+              for (final argument in positionalArguments)
+                context.constants[argument]!,
+            ],
       receiver: receiver != null ? context.constants[receiver!] : null,
     );
   }
@@ -326,9 +326,9 @@ final class CallTearoff extends CallReference {
   @override
   Reference _canonicalizeChildren(CanonicalizationContext context) =>
       CallTearoff(
-        loadingUnits: loadingUnits
-            .map((u) => context.canonicalizeLoadingUnit(u))
-            .toList(),
+        loadingUnits: [
+          for (final u in loadingUnits) context.canonicalizeLoadingUnit(u),
+        ],
         receiver: receiver != null
             ? context.canonicalizeConstant(receiver!)
             : null,
@@ -337,9 +337,9 @@ final class CallTearoff extends CallReference {
   @override
   TearoffCallSyntax _toSyntax(SerializationContext context) =>
       TearoffCallSyntax(
-        loadingUnitIndices: loadingUnits
-            .map((unit) => context.loadingUnits[unit]!)
-            .toList(),
+        loadingUnitIndices: [
+          for (final unit in loadingUnits) context.loadingUnits[unit]!,
+        ],
         receiver: receiver != null ? context.constants[receiver!] : null,
       );
 
@@ -459,9 +459,9 @@ final class InstanceConstantReference extends InstanceReference {
   @override
   Reference _canonicalizeChildren(CanonicalizationContext context) =>
       InstanceConstantReference(
-        loadingUnits: loadingUnits
-            .map((u) => context.canonicalizeLoadingUnit(u))
-            .toList(),
+        loadingUnits: [
+          for (final u in loadingUnits) context.canonicalizeLoadingUnit(u),
+        ],
         instanceConstant:
             context.canonicalizeConstant(instanceConstant) as Constant,
       );
@@ -470,9 +470,9 @@ final class InstanceConstantReference extends InstanceReference {
   ConstantInstanceSyntax _toSyntax(SerializationContext context) =>
       ConstantInstanceSyntax(
         constantIndex: context.constants[instanceConstant]!,
-        loadingUnitIndices: loadingUnits
-            .map((unit) => context.loadingUnits[unit]!)
-            .toList(),
+        loadingUnitIndices: [
+          for (final unit in loadingUnits) context.loadingUnits[unit]!,
+        ],
       );
 
   @override
@@ -534,23 +534,22 @@ final class InstanceCreationReference extends InstanceReference {
   });
 
   @override
-  Reference _canonicalizeChildren(CanonicalizationContext context) =>
-      InstanceCreationReference(
-        loadingUnits: loadingUnits
-            .map((u) => context.canonicalizeLoadingUnit(u))
-            .toList(),
-        positionalArguments: positionalArguments
-            .map((c) => context.canonicalizeConstant(c))
-            .toList(),
-        namedArguments: Map.fromEntries(
-          namedArguments.entries.map(
-            (e) => MapEntry(
-              e.key,
-              context.canonicalizeConstant(e.value),
-            ),
-          ),
-        ),
-      );
+  Reference _canonicalizeChildren(CanonicalizationContext context) {
+    final sortedNamedArgs = namedArguments.entries.toList()
+      ..sort((a, b) => a.key.compareTo(b.key));
+    return InstanceCreationReference(
+      loadingUnits: [
+        for (final u in loadingUnits) context.canonicalizeLoadingUnit(u),
+      ],
+      positionalArguments: [
+        for (final c in positionalArguments) context.canonicalizeConstant(c),
+      ],
+      namedArguments: {
+        for (final e in sortedNamedArgs)
+          e.key: context.canonicalizeConstant(e.value),
+      },
+    );
+  }
 
   @override
   CreationInstanceSyntax _toSyntax(SerializationContext context) {
@@ -560,15 +559,16 @@ final class InstanceCreationReference extends InstanceReference {
     }
 
     return CreationInstanceSyntax(
-      loadingUnitIndices: loadingUnits
-          .map((unit) => context.loadingUnits[unit]!)
-          .toList(),
+      loadingUnitIndices: [
+        for (final unit in loadingUnits) context.loadingUnits[unit]!,
+      ],
       named: namedArgs.isNotEmpty ? namedArgs : null,
       positional: positionalArguments.isEmpty
           ? null
-          : positionalArguments
-                .map((argument) => context.constants[argument]!)
-                .toList(),
+          : [
+              for (final argument in positionalArguments)
+                context.constants[argument]!,
+            ],
     );
   }
 
@@ -664,17 +664,17 @@ final class ConstructorTearoffReference extends InstanceReference {
   @override
   Reference _canonicalizeChildren(CanonicalizationContext context) =>
       ConstructorTearoffReference(
-        loadingUnits: loadingUnits
-            .map((u) => context.canonicalizeLoadingUnit(u))
-            .toList(),
+        loadingUnits: [
+          for (final u in loadingUnits) context.canonicalizeLoadingUnit(u),
+        ],
       );
 
   @override
   TearoffInstanceSyntax _toSyntax(SerializationContext context) =>
       TearoffInstanceSyntax(
-        loadingUnitIndices: loadingUnits
-            .map((unit) => context.loadingUnits[unit]!)
-            .toList(),
+        loadingUnitIndices: [
+          for (final unit in loadingUnits) context.loadingUnits[unit]!,
+        ],
       );
 
   @override

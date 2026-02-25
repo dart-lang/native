@@ -127,17 +127,17 @@ Error: $e
     final newCalls = <Definition, List<CallReference>>{};
     for (final entry in calls.entries) {
       final definition = context.canonicalizeDefinition(entry.key);
-      final references = entry.value
-          .map((r) => r.canonicalizeChildren(context))
-          .toList();
+      final references = [
+        for (final r in entry.value) r.canonicalizeChildren(context),
+      ];
       newCalls.putIfAbsent(definition, () => []).addAll(references);
     }
     final newInstances = <Definition, List<InstanceReference>>{};
     for (final entry in instances.entries) {
       final definition = context.canonicalizeDefinition(entry.key);
-      final references = entry.value
-          .map((r) => r.canonicalizeChildren(context))
-          .toList();
+      final references = [
+        for (final r in entry.value) r.canonicalizeChildren(context),
+      ];
       newInstances.putIfAbsent(definition, () => []).addAll(references);
     }
     return Recordings(
@@ -205,27 +205,42 @@ Error: $e
     final canonContext = CanonicalizationContext();
     final canon = _canonicalizeChildren(canonContext);
 
+    final sortedLoadingUnits = canonContext.loadingUnits.toList()
+      ..sort((a, b) => a.name.compareTo(b.name));
+    final sortedDefinitions = canonContext.definitions.toList()
+      ..sort((a, b) => a.toString().compareTo(b.toString()));
+    final sortedConstants = canonContext.constants.toList()
+      ..sort((a, b) => a.compareTo(b));
+
     final context = SerializationContext(
-      loadingUnits: canonContext.loadingUnits.asMapToIndices,
-      definitions: canonContext.definitions.asMapToIndices,
-      constants: canonContext.constants.asMapToIndices,
+      loadingUnits: sortedLoadingUnits.asMapToIndices,
+      definitions: sortedDefinitions.asMapToIndices,
+      constants: sortedConstants.asMapToIndices,
     );
 
     final callRecordings = <CallRecordingSyntax>[];
-    for (final entry in canon.calls.entries) {
+    for (final definition in context.definitions.keys) {
+      final callsForDefinition = canon.calls[definition];
+      if (callsForDefinition == null || callsForDefinition.isEmpty) continue;
       callRecordings.add(
         CallRecordingSyntax(
-          definitionIndex: context.definitions[entry.key]!,
-          uses: entry.value.map((call) => call.toSyntax(context)).toList(),
+          definitionIndex: context.definitions[definition]!,
+          uses: callsForDefinition
+              .map((call) => call.toSyntax(context))
+              .toList(),
         ),
       );
     }
     final instanceRecordings = <InstanceRecordingSyntax>[];
-    for (final entry in canon.instances.entries) {
+    for (final definition in context.definitions.keys) {
+      final instancesForDefinition = canon.instances[definition];
+      if (instancesForDefinition == null || instancesForDefinition.isEmpty) {
+        continue;
+      }
       instanceRecordings.add(
         InstanceRecordingSyntax(
-          definitionIndex: context.definitions[entry.key]!,
-          uses: entry.value
+          definitionIndex: context.definitions[definition]!,
+          uses: instancesForDefinition
               .map((instance) => instance.toSyntax(context))
               .toList(),
         ),
@@ -241,23 +256,23 @@ Error: $e
 
     return RecordedUsesSyntax(
       metadata: metadata.toSyntax(),
-      constants: canonContext.constants.isEmpty
+      constants: sortedConstants.isEmpty
           ? null
-          : canonContext.constants
-                .map((constant) => constant.toSyntax(context))
-                .toList(),
-      loadingUnits: canonContext.loadingUnits.isEmpty
+          : [
+              for (final constant in sortedConstants)
+                constant.toSyntax(context),
+            ],
+      loadingUnits: sortedLoadingUnits.isEmpty
           ? null
-          : canonContext.loadingUnits
-                .map((unit) => LoadingUnitSyntax(name: unit.name))
-                .toList(),
-      definitions: context.definitions.isEmpty
+          : [
+              for (final unit in sortedLoadingUnits)
+                LoadingUnitSyntax(name: unit.name),
+            ],
+      definitions: sortedDefinitions.isEmpty
           ? null
-          : context.definitions.keys
-                .map(
-                  (definition) => definition.toSyntax(),
-                )
-                .toList(),
+          : [
+              for (final definition in sortedDefinitions) definition.toSyntax(),
+            ],
       uses: uses,
     );
   }

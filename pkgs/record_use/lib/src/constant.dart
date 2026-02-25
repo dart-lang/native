@@ -31,6 +31,28 @@ sealed class MaybeConstant {
   /// Canonicalizes this [MaybeConstant].
   MaybeConstant _canonicalizeChildren(CanonicalizationContext context);
 
+  /// Compares this [MaybeConstant] with [other] for stable sorting.
+  int _compareTo(MaybeConstant other) {
+    if (identical(this, other)) return 0;
+    // By comparing the depth first, the serialization order of constants
+    // always has the children serialized before the parents.
+    var compare = _depth.compareTo(other._depth);
+    if (compare != 0) return compare;
+    compare = _orderingTypePriority.compareTo(other._orderingTypePriority);
+    if (compare != 0) return compare;
+    compare = _size.compareTo(other._size);
+    if (compare != 0) return compare;
+    return _compareToSameType(other);
+  }
+
+  /// Internal comparison for objects of the same type.
+  @protected
+  int _compareToSameType(covariant MaybeConstant other);
+
+  /// A stable priority for this type.
+  @protected
+  int get _orderingTypePriority;
+
   /// Compares this [MaybeConstant] with [other] for semantic equality.
   ///
   /// If [allowPromotionOfUnsupported] is true, an [UnsupportedConstant] in
@@ -182,6 +204,12 @@ final class NonConstant extends MaybeConstant {
   int get hashCode => 0x4e6f6e43;
 
   @override
+  int get _orderingTypePriority => 0;
+
+  @override
+  int _compareToSameType(NonConstant other) => 0;
+
+  @override
   String toString() => 'NonConstant()';
 
   @override
@@ -250,6 +278,12 @@ final class NullConstant extends Constant {
   int get hashCode => 0x4e756c6c;
 
   @override
+  int get _orderingTypePriority => 2;
+
+  @override
+  int _compareToSameType(NullConstant other) => 0;
+
+  @override
   String toString() => 'NullConstant()';
 
   @override
@@ -286,6 +320,13 @@ final class UnsupportedConstant extends Constant {
 
   @override
   int get hashCode => message.hashCode;
+
+  @override
+  int get _orderingTypePriority => 1;
+
+  @override
+  int _compareToSameType(UnsupportedConstant other) =>
+      message.compareTo(other.message);
 
   @override
   String toString() => 'UnsupportedConstant($message)';
@@ -327,6 +368,15 @@ final class BoolConstant extends Constant {
       other is BoolConstant && other.value == value;
 
   @override
+  int get _orderingTypePriority => 3;
+
+  @override
+  int _compareToSameType(BoolConstant other) {
+    if (value == other.value) return 0;
+    return value ? 1 : -1;
+  }
+
+  @override
   String toString() => 'BoolConstant($value)';
 
   @override
@@ -365,6 +415,12 @@ final class IntConstant extends Constant {
       other is IntConstant && other.value == value;
 
   @override
+  int get _orderingTypePriority => 4;
+
+  @override
+  int _compareToSameType(IntConstant other) => value.compareTo(other.value);
+
+  @override
   String toString() => 'IntConstant($value)';
 
   @override
@@ -401,6 +457,12 @@ final class StringConstant extends Constant {
   @override
   bool operator ==(Object other) =>
       other is StringConstant && other.value == value;
+
+  @override
+  int get _orderingTypePriority => 5;
+
+  @override
+  int _compareToSameType(StringConstant other) => value.compareTo(other.value);
 
   @override
   String toString() => 'StringConstant($value)';
@@ -446,6 +508,18 @@ final class SymbolConstant extends Constant {
       other is SymbolConstant &&
       other.name == name &&
       other.libraryUri == libraryUri;
+
+  @override
+  int get _orderingTypePriority => 6;
+
+  @override
+  int _compareToSameType(SymbolConstant other) {
+    final nameCompare = name.compareTo(other.name);
+    if (nameCompare != 0) return nameCompare;
+    if (libraryUri == null) return other.libraryUri == null ? 0 : -1;
+    if (other.libraryUri == null) return 1;
+    return libraryUri!.compareTo(other.libraryUri!);
+  }
 
   @override
   String toString() {
@@ -496,9 +570,9 @@ final class ListConstant extends Constant {
 
   @override
   Constant _canonicalizeChildren(CanonicalizationContext context) =>
-      ListConstant(
-        value.map((c) => context.canonicalizeConstant(c) as Constant).toList(),
-      );
+      ListConstant([
+        for (final c in value) context.canonicalizeConstant(c) as Constant,
+      ]);
 
   @override
   bool operator ==(Object other) {
@@ -513,8 +587,22 @@ final class ListConstant extends Constant {
   @override
   ListConstantSyntax _toSyntax(SerializationContext context) =>
       ListConstantSyntax(
-        value: value.map((constant) => context.constants[constant]!).toList(),
+        value: [for (final constant in value) context.constants[constant]!],
       );
+
+  @override
+  int get _orderingTypePriority => 7;
+
+  @override
+  int _compareToSameType(ListConstant other) {
+    final lengthCompare = value.length.compareTo(other.value.length);
+    if (lengthCompare != 0) return lengthCompare;
+    for (var i = 0; i < value.length; i++) {
+      final itemCompare = value[i]._compareTo(other.value[i]);
+      if (itemCompare != 0) return itemCompare;
+    }
+    return 0;
+  }
 
   @override
   String toString() => 'ListConstant([${value.join(', ')}])';
@@ -572,17 +660,17 @@ final class MapConstant extends Constant {
   });
 
   @override
-  Constant _canonicalizeChildren(CanonicalizationContext context) =>
-      MapConstant(
-        entries
-            .map(
-              (e) => MapEntry(
-                context.canonicalizeConstant(e.key) as Constant,
-                context.canonicalizeConstant(e.value) as Constant,
-              ),
-            )
-            .toList(),
-      );
+  Constant _canonicalizeChildren(CanonicalizationContext context) {
+    final canonEntries = [
+      for (final e in entries)
+        MapEntry(
+          context.canonicalizeConstant(e.key) as Constant,
+          context.canonicalizeConstant(e.value) as Constant,
+        ),
+    ];
+    canonEntries.sort((a, b) => a.key._compareTo(b.key));
+    return MapConstant(canonEntries);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -603,15 +691,30 @@ final class MapConstant extends Constant {
   @override
   MapConstantSyntax _toSyntax(SerializationContext context) =>
       MapConstantSyntax(
-        value: entries
-            .map(
-              (entry) => MapEntrySyntax(
-                key: context.constants[entry.key]!,
-                value: context.constants[entry.value]!,
-              ),
-            )
-            .toList(),
+        value: [
+          for (final entry in entries)
+            MapEntrySyntax(
+              key: context.constants[entry.key]!,
+              value: context.constants[entry.value]!,
+            ),
+        ],
       );
+
+  @override
+  int get _orderingTypePriority => 8;
+
+  @override
+  int _compareToSameType(MapConstant other) {
+    final lengthCompare = entries.length.compareTo(other.entries.length);
+    if (lengthCompare != 0) return lengthCompare;
+    for (var i = 0; i < entries.length; i++) {
+      final keyCompare = entries[i].key._compareTo(other.entries[i].key);
+      if (keyCompare != 0) return keyCompare;
+      final valueCompare = entries[i].value._compareTo(other.entries[i].value);
+      if (valueCompare != 0) return valueCompare;
+    }
+    return 0;
+  }
 
   @override
   String toString() =>
@@ -660,12 +763,10 @@ final class InstanceConstant extends Constant {
       InstanceConstantSyntax(
         definitionIndex: context.definitions[definition]!,
         value: fields.isNotEmpty
-            ? JsonObjectSyntax.fromJson(
-                fields.map(
-                  (name, constant) =>
-                      MapEntry(name, context.constants[constant]!),
-                ),
-              )
+            ? JsonObjectSyntax.fromJson({
+                for (final entry in fields.entries)
+                  entry.key: context.constants[entry.value]!,
+              })
             : null,
       );
 
@@ -703,18 +804,41 @@ final class InstanceConstant extends Constant {
   });
 
   @override
-  Constant _canonicalizeChildren(CanonicalizationContext context) =>
-      InstanceConstant(
-        definition: context.canonicalizeDefinition(definition),
-        fields: Map.fromEntries(
-          fields.entries.map(
-            (e) => MapEntry(
-              e.key,
-              context.canonicalizeConstant(e.value) as Constant,
-            ),
-          ),
-        ),
+  Constant _canonicalizeChildren(CanonicalizationContext context) {
+    final sortedEntries = fields.entries.toList()
+      ..sort((a, b) => a.key.compareTo(b.key));
+    return InstanceConstant(
+      definition: context.canonicalizeDefinition(definition),
+      fields: {
+        for (final e in sortedEntries)
+          e.key: context.canonicalizeConstant(e.value) as Constant,
+      },
+    );
+  }
+
+  @override
+  int get _orderingTypePriority => 11;
+
+  @override
+  int _compareToSameType(InstanceConstant other) {
+    final definitionCompare = definition.toString().compareTo(
+      other.definition.toString(),
+    );
+    if (definitionCompare != 0) return definitionCompare;
+    final lengthCompare = fields.length.compareTo(other.fields.length);
+    if (lengthCompare != 0) return lengthCompare;
+    final sortedKeys = fields.keys.toList()..sort();
+    final otherSortedKeys = other.fields.keys.toList()..sort();
+    for (var i = 0; i < sortedKeys.length; i++) {
+      final keyCompare = sortedKeys[i].compareTo(otherSortedKeys[i]);
+      if (keyCompare != 0) return keyCompare;
+      final valueCompare = fields[sortedKeys[i]]!._compareTo(
+        other.fields[otherSortedKeys[i]]!,
       );
+      if (valueCompare != 0) return valueCompare;
+    }
+    return 0;
+  }
 
   @override
   String toString() =>
@@ -776,9 +900,10 @@ final class EnumConstant extends Constant {
         index: index,
         name: name,
         value: fields.isNotEmpty
-            ? fields.map(
-                (key, value) => MapEntry(key, context.constants[value]!),
-              )
+            ? {
+                for (final entry in fields.entries)
+                  entry.key: context.constants[entry.value]!,
+              }
             : null,
       );
 
@@ -819,20 +944,45 @@ final class EnumConstant extends Constant {
   });
 
   @override
-  Constant _canonicalizeChildren(CanonicalizationContext context) =>
-      EnumConstant(
-        definition: context.canonicalizeDefinition(definition),
-        index: index,
-        name: name,
-        fields: Map.fromEntries(
-          fields.entries.map(
-            (e) => MapEntry(
-              e.key,
-              context.canonicalizeConstant(e.value) as Constant,
-            ),
-          ),
-        ),
+  Constant _canonicalizeChildren(CanonicalizationContext context) {
+    final sortedEntries = fields.entries.toList()
+      ..sort((a, b) => a.key.compareTo(b.key));
+    return EnumConstant(
+      definition: context.canonicalizeDefinition(definition),
+      index: index,
+      name: name,
+      fields: {
+        for (final e in sortedEntries)
+          e.key: context.canonicalizeConstant(e.value) as Constant,
+      },
+    );
+  }
+
+  @override
+  int get _orderingTypePriority => 10;
+
+  @override
+  int _compareToSameType(EnumConstant other) {
+    final definitionCompare = definition.toString().compareTo(
+      other.definition.toString(),
+    );
+    if (definitionCompare != 0) return definitionCompare;
+    final indexCompare = index.compareTo(other.index);
+    if (indexCompare != 0) return indexCompare;
+    final lengthCompare = fields.length.compareTo(other.fields.length);
+    if (lengthCompare != 0) return lengthCompare;
+    final sortedKeys = fields.keys.toList()..sort();
+    final otherSortedKeys = other.fields.keys.toList()..sort();
+    for (var i = 0; i < sortedKeys.length; i++) {
+      final keyCompare = sortedKeys[i].compareTo(otherSortedKeys[i]);
+      if (keyCompare != 0) return keyCompare;
+      final valueCompare = fields[sortedKeys[i]]!._compareTo(
+        other.fields[otherSortedKeys[i]]!,
       );
+      if (valueCompare != 0) return valueCompare;
+    }
+    return 0;
+  }
 
   @override
   String toString() =>
@@ -882,10 +1032,13 @@ final class RecordConstant extends Constant {
   RecordConstantSyntax _toSyntax(SerializationContext context) =>
       RecordConstantSyntax(
         positional: positional.isNotEmpty
-            ? positional.map((c) => context.constants[c]!).toList()
+            ? [for (final c in positional) context.constants[c]!]
             : null,
         named: named.isNotEmpty
-            ? named.map((name, c) => MapEntry(name, context.constants[c]!))
+            ? {
+                for (final entry in named.entries)
+                  entry.key: context.constants[entry.value]!,
+              }
             : null,
       );
 
@@ -930,20 +1083,45 @@ final class RecordConstant extends Constant {
   });
 
   @override
-  Constant _canonicalizeChildren(CanonicalizationContext context) =>
-      RecordConstant(
-        positional: positional
-            .map((c) => context.canonicalizeConstant(c) as Constant)
-            .toList(),
-        named: Map.fromEntries(
-          named.entries.map(
-            (e) => MapEntry(
-              e.key,
-              context.canonicalizeConstant(e.value) as Constant,
-            ),
-          ),
-        ),
+  Constant _canonicalizeChildren(CanonicalizationContext context) {
+    final sortedNamedEntries = named.entries.toList()
+      ..sort((a, b) => a.key.compareTo(b.key));
+    return RecordConstant(
+      positional: [
+        for (final c in positional) context.canonicalizeConstant(c) as Constant,
+      ],
+      named: {
+        for (final e in sortedNamedEntries)
+          e.key: context.canonicalizeConstant(e.value) as Constant,
+      },
+    );
+  }
+
+  @override
+  int get _orderingTypePriority => 9;
+
+  @override
+  int _compareToSameType(RecordConstant other) {
+    var compare = positional.length.compareTo(other.positional.length);
+    if (compare != 0) return compare;
+    compare = named.length.compareTo(other.named.length);
+    if (compare != 0) return compare;
+    for (var i = 0; i < positional.length; i++) {
+      compare = positional[i]._compareTo(other.positional[i]);
+      if (compare != 0) return compare;
+    }
+    final sortedKeys = named.keys.toList()..sort();
+    final otherSortedKeys = other.named.keys.toList()..sort();
+    for (var i = 0; i < sortedKeys.length; i++) {
+      compare = sortedKeys[i].compareTo(otherSortedKeys[i]);
+      if (compare != 0) return compare;
+      compare = named[sortedKeys[i]]!._compareTo(
+        other.named[otherSortedKeys[i]]!,
       );
+      if (compare != 0) return compare;
+    }
+    return 0;
+  }
 
   @override
   String toString() =>
@@ -991,6 +1169,8 @@ extension MaybeConstantProtected on MaybeConstant {
 
   MaybeConstant canonicalizeChildren(CanonicalizationContext context) =>
       _canonicalizeChildren(context);
+
+  int compareTo(MaybeConstant other) => _compareTo(other);
 
   static MaybeConstant fromSyntax(
     ConstantSyntax syntax,

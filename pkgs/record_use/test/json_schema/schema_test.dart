@@ -49,13 +49,13 @@ void main() {
   }
 }
 
-const constNullIndex = 4;
-const constNonConstantIndex = 5;
-const constInstanceIndex = 7;
-const constMapIndex = 3;
-const constUnsupportedIndex = 9;
-const constRecordIndex = 10;
-const constEnumIndex = 11;
+const constNonConstantIndex = 0;
+const constUnsupportedIndex = 1;
+const constNullIndex = 2;
+const constMapIndex = 8;
+const constRecordIndex = 9;
+const constEnumIndex = 10;
+const constInstanceIndex = 11;
 typedef SchemaTestField = (
   List<Object> path,
   void Function(ValidationResults result) missingExpectations,
@@ -94,21 +94,21 @@ List<SchemaTestField> recordUseFields = [
     // omitted. Also, Null and NonConstant have no value field.
   ],
   (['definitions'], expectOptionalFieldMissing),
-  (['definitions', 0, 'uri'], expectRequiredFieldMissing),
-  (['definitions', 0, 'path'], expectRequiredFieldMissing),
-  (['definitions', 0, 'path', 0], expectOptionalFieldMissing),
+  (['definitions', 1, 'uri'], expectRequiredFieldMissing),
+  (['definitions', 1, 'path'], expectRequiredFieldMissing),
+  (['definitions', 1, 'path', 0], expectOptionalFieldMissing),
   (
-    ['definitions', 0, 'path', 0, 'name'],
+    ['definitions', 1, 'path', 0, 'name'],
     expectRequiredFieldMissing,
   ),
   (
-    ['definitions', 0, 'path', 0, 'kind'],
+    ['definitions', 1, 'path', 0, 'kind'],
     expectOptionalFieldMissing,
   ),
   (
     [
       'definitions',
-      0,
+      1,
       'path',
       0,
       'disambiguators',
