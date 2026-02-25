@@ -59,7 +59,7 @@ abstract class Compound extends BindingType with HasLocalScope {
   }
 
   bool _shouldGenerateAllocate() {
-    if (this is! Struct || isOpaque) {
+    if (this is! Struct || isOpaque || name.startsWith('_')) {
       return false;
     }
     for (final m in members) {

@@ -256,14 +256,4 @@ final class _Version extends ffi.Struct {
 
   @ffi.Int()
   external int patch;
-
-  static ffi.Pointer<_Version> $allocate(
-    ffi.Allocator $allocator, {
-    required int major,
-    required int minor,
-    required int patch,
-  }) => $allocator<_Version>()
-    ..ref.major = major
-    ..ref.minor = minor
-    ..ref.patch = patch;
 }
