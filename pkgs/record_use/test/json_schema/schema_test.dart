@@ -50,9 +50,12 @@ void main() {
 }
 
 const constNullIndex = 4;
-const constInstanceIndex = 6;
+const constNonConstantIndex = 5;
+const constInstanceIndex = 7;
 const constMapIndex = 3;
-const constUnsupportedIndex = 8;
+const constUnsupportedIndex = 9;
+const constRecordIndex = 10;
+const constEnumIndex = 11;
 typedef SchemaTestField = (
   List<Object> path,
   void Function(ValidationResults result) missingExpectations,
@@ -60,85 +63,129 @@ typedef SchemaTestField = (
 
 List<SchemaTestField> recordUseFields = [
   (['constants'], expectOptionalFieldMissing),
-  for (var index = 0; index < 9; index++) ...[
+  for (var index = 0; index < 12; index++) ...[
     (['constants', index, 'type'], expectRequiredFieldMissing),
     if (index != constNullIndex &&
+        index != constNonConstantIndex &&
         index != constInstanceIndex &&
-        index != constUnsupportedIndex)
+        index != constUnsupportedIndex &&
+        index != constRecordIndex &&
+        index != constEnumIndex)
       (['constants', index, 'value'], expectRequiredFieldMissing),
     if (index == constInstanceIndex)
       (['constants', index, 'value'], expectOptionalFieldMissing),
+    if (index == constEnumIndex) ...[
+      (['constants', index, 'definition_index'], expectRequiredFieldMissing),
+      (['constants', index, 'index'], expectRequiredFieldMissing),
+      (['constants', index, 'name'], expectRequiredFieldMissing),
+      (['constants', index, 'value'], expectOptionalFieldMissing),
+    ],
     if (index == constMapIndex) ...[
       (['constants', index, 'value', 0, 'key'], expectRequiredFieldMissing),
       (['constants', index, 'value', 0, 'value'], expectRequiredFieldMissing),
     ],
     if (index == constUnsupportedIndex)
       (['constants', index, 'message'], expectRequiredFieldMissing),
+    if (index == constRecordIndex) ...[
+      (['constants', index, 'positional'], expectOptionalFieldMissing),
+      (['constants', index, 'named'], expectOptionalFieldMissing),
+    ],
     // Note the value for 'Instance' is optional because an empty map is
-    // omitted. Also, Null has no value field.
+    // omitted. Also, Null and NonConstant have no value field.
   ],
-  (['recordings'], expectOptionalFieldMissing),
-  (['recordings', 0, 'definition'], expectRequiredFieldMissing),
-  (['recordings', 0, 'definition', 'uri'], expectRequiredFieldMissing),
-  (['recordings', 0, 'definition', 'path'], expectRequiredFieldMissing),
-  (['recordings', 0, 'definition', 'path', 0], expectOptionalFieldMissing),
+  (['definitions'], expectOptionalFieldMissing),
+  (['definitions', 0, 'uri'], expectRequiredFieldMissing),
+  (['definitions', 0, 'path'], expectRequiredFieldMissing),
+  (['definitions', 0, 'path', 0], expectOptionalFieldMissing),
   (
-    ['recordings', 0, 'definition', 'path', 0, 'name'],
+    ['definitions', 0, 'path', 0, 'name'],
     expectRequiredFieldMissing,
   ),
   (
-    ['recordings', 0, 'definition', 'path', 0, 'kind'],
+    ['definitions', 0, 'path', 0, 'kind'],
     expectOptionalFieldMissing,
   ),
   (
     [
-      'recordings',
+      'definitions',
       0,
-      'definition',
       'path',
       0,
       'disambiguators',
     ],
     expectOptionalFieldMissing,
   ),
+  (['loading_units'], expectOptionalFieldMissing),
+  (['loading_units', 0, 'name'], expectRequiredFieldMissing),
+  (['uses'], expectOptionalFieldMissing),
+  (['uses', 'static_calls'], expectOptionalFieldMissing),
+  (['uses', 'static_calls', 0, 'definition_index'], expectRequiredFieldMissing),
 
-  // TODO(https://github.com/dart-lang/native/issues/1093): Whether calls or
-  // instances is required depends on whether the definition is a class or
-  // method. This should be cleaned up.
-  (['recordings', 0, 'calls'], expectOptionalFieldMissing),
-  (['recordings', 0, 'calls', 0, 'type'], expectRequiredFieldMissing),
-  (['recordings', 0, 'calls', 0, 'named'], expectOptionalFieldMissing),
-  (['recordings', 0, 'calls', 0, 'named', 'a'], expectOptionalFieldMissing),
-  (['recordings', 0, 'calls', 0, 'named', 'd'], expectOptionalFieldMissing),
-  (['recordings', 0, 'calls', 0, 'positional'], expectOptionalFieldMissing),
-  (['recordings', 0, 'calls', 0, 'positional', 0], expectOptionalFieldMissing),
-  (['recordings', 0, 'calls', 0, 'positional', 3], expectOptionalFieldMissing),
-  (['recordings', 0, 'calls', 0, 'loading_unit'], expectRequiredFieldMissing),
-  (['recordings', 1, 'instances'], expectOptionalFieldMissing),
-  (['recordings', 1, 'instances', 0, 'type'], expectRequiredFieldMissing),
+  (['uses', 'static_calls', 0, 'uses'], expectRequiredFieldMissing),
+  (['uses', 'static_calls', 0, 'uses', 0, 'type'], expectRequiredFieldMissing),
   (
-    ['recordings', 1, 'instances', 0, 'constant_index'],
+    ['uses', 'static_calls', 0, 'uses', 0, 'named'],
+    expectOptionalFieldMissing,
+  ),
+  (
+    ['uses', 'static_calls', 0, 'uses', 0, 'named', 'a'],
+    expectOptionalFieldMissing,
+  ),
+  (
+    ['uses', 'static_calls', 0, 'uses', 0, 'named', 'd'],
+    expectOptionalFieldMissing,
+  ),
+  (
+    ['uses', 'static_calls', 0, 'uses', 0, 'positional'],
+    expectOptionalFieldMissing,
+  ),
+  (
+    ['uses', 'static_calls', 0, 'uses', 0, 'positional', 0],
+    expectOptionalFieldMissing,
+  ),
+  (
+    ['uses', 'static_calls', 0, 'uses', 0, 'positional', 3],
+    expectOptionalFieldMissing,
+  ),
+  (
+    ['uses', 'static_calls', 0, 'uses', 0, 'loading_unit_indices'],
+    expectRequiredFieldMissing,
+  ),
+  (['uses', 'instances'], expectOptionalFieldMissing),
+  (['uses', 'instances', 0, 'uses'], expectRequiredFieldMissing),
+  (
+    ['uses', 'instances', 0, 'uses', 0, 'type'],
     expectRequiredFieldMissing,
   ),
   (
-    ['recordings', 1, 'instances', 0, 'loading_unit'],
+    ['uses', 'instances', 0, 'uses', 0, 'constant_index'],
+    expectRequiredFieldMissing,
+  ),
+  (
+    ['uses', 'instances', 0, 'uses', 0, 'loading_unit_indices'],
     expectRequiredFieldMissing,
   ),
 ];
 
 List<SchemaTestField> constructorInvocationFields = [
   (
-    ['recordings', 0, 'instances', 0, 'loading_unit'],
+    ['uses', 'instances', 0, 'uses', 0, 'loading_unit_indices'],
     expectRequiredFieldMissing,
   ),
-  (['recordings', 0, 'instances', 0, 'type'], expectRequiredFieldMissing),
-  (['recordings', 0, 'instances', 0, 'positional'], expectOptionalFieldMissing),
   (
-    ['recordings', 0, 'instances', 0, 'named', 'param'],
+    ['uses', 'instances', 0, 'uses', 0, 'type'],
+    expectRequiredFieldMissing,
+  ),
+  (
+    ['uses', 'instances', 0, 'uses', 0, 'positional'],
     expectOptionalFieldMissing,
   ),
   (
-    ['recordings', 0, 'instances', 0, 'named', 'other'],
+    ['uses', 'instances', 0, 'uses', 0, 'named', 'param'],
+    expectOptionalFieldMissing,
+  ),
+  (
+    ['uses', 'instances', 0, 'uses', 0, 'named', 'other'],
     expectOptionalFieldMissing,
   ),
 ];

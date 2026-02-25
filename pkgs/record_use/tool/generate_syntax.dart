@@ -19,6 +19,7 @@ void main(List<String> args) {
     schema,
     nameOverrides: {
       'path': 'definitionPath',
+      'non_constant': 'NonConstant',
     },
   ).analyze();
   final textDumpFile = File.fromUri(

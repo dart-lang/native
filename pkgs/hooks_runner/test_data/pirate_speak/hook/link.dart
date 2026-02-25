@@ -52,9 +52,15 @@ Future<Recordings> _loadRecordings(Uri file) async {
 Set<String> _extractUsedPhrases(Recordings recordings) {
   final usages = RecordedUsages.fromJson(recordings.toJson());
   final usedPhrases = <String>{};
-  const pirateSpeakDef = Definition(
+  final pirateSpeakDef = Definition(
     'package:pirate_speak/src/definitions.dart',
-    [Name('pirateSpeak')],
+    [
+      Name(
+        kind: DefinitionKind.methodKind,
+        'pirateSpeak',
+        disambiguators: {DefinitionDisambiguator.staticDisambiguator},
+      ),
+    ],
   );
 
   for (final call in usages.constArgumentsFor(pirateSpeakDef)) {

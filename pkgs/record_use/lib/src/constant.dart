@@ -4,7 +4,9 @@
 
 import 'package:meta/meta.dart';
 
+import 'definition.dart';
 import 'helper.dart';
+import 'serialization_context.dart';
 import 'syntax.g.dart';
 
 /// A value recorded during compilation.
@@ -20,6 +22,118 @@ sealed class MaybeConstant {
     MaybeConstant other, {
     bool allowPromotionOfUnsupported = false,
   });
+
+  /// Converts this [MaybeConstant] object to a syntax representation.
+  ConstantSyntax _toSyntax(SerializationContext context);
+
+  /// Creates a [MaybeConstant] object from its syntax representation.
+  static MaybeConstant _fromSyntax(
+    ConstantSyntax syntax,
+    DeserializationContext context,
+  ) => switch (syntax) {
+    NonConstantConstantSyntax() => const NonConstant(),
+    NullConstantSyntax() => const NullConstant(),
+    BoolConstantSyntax(:final value) => BoolConstant(value),
+    IntConstantSyntax(:final value) => IntConstant(value),
+    StringConstantSyntax(:final value) => StringConstant(value),
+    ListConstantSyntax(:final value) => ListConstant(
+      value!.cast<int>().map((i) {
+        final constant = context.constants[i];
+        if (constant is! Constant) {
+          throw FormatException(
+            'List constant element at index $i is not a constant',
+          );
+        }
+        return constant;
+      }).toList(),
+    ),
+    MapConstantSyntax(:final value) => MapConstant(
+      value.map(
+        (e) {
+          final key = context.constants[e.key];
+          if (key is! Constant) {
+            throw FormatException(
+              'Map constant key at index ${e.key} is not a constant',
+            );
+          }
+          final value = context.constants[e.value];
+          if (value is! Constant) {
+            throw FormatException(
+              'Map constant value at index ${e.value} is not a constant',
+            );
+          }
+          return MapEntry(key, value);
+        },
+      ).toList(),
+    ),
+    InstanceConstantSyntax(value: final value, :final definitionIndex) =>
+      InstanceConstant(
+        definition: context.definitions[definitionIndex],
+        fields: (value?.json ?? {}).map(
+          (key, index) {
+            final constant = context.constants[index as int];
+            if (constant is! Constant) {
+              throw FormatException(
+                'Instance constant field $key at index $index is not '
+                'a constant',
+              );
+            }
+            return MapEntry(key, constant);
+          },
+        ),
+      ),
+    EnumConstantSyntax(
+      value: final value,
+      :final definitionIndex,
+      :final index,
+      :final name,
+    ) =>
+      EnumConstant(
+        definition: context.definitions[definitionIndex],
+        index: index,
+        name: name,
+        fields: (value ?? {}).map(
+          (key, index) {
+            final constant = context.constants[index];
+            if (constant is! Constant) {
+              throw FormatException(
+                'Enum constant field $key at index $index is not '
+                'a constant',
+              );
+            }
+            return MapEntry(key, constant);
+          },
+        ),
+      ),
+    RecordConstantSyntax(:final positional, :final named) => RecordConstant(
+      positional: (positional ?? const []).map((i) {
+        final constant = context.constants[i];
+        if (constant is! Constant) {
+          throw FormatException(
+            'Record constant positional field at index $i is not '
+            'a constant',
+          );
+        }
+        return constant;
+      }).toList(),
+      named: (named ?? const {}).map(
+        (key, index) {
+          final constant = context.constants[index];
+          if (constant is! Constant) {
+            throw FormatException(
+              'Record constant named field $key at index $index is not '
+              'a constant',
+            );
+          }
+          return MapEntry(key, constant);
+        },
+      ),
+    ),
+    UnsupportedConstantSyntax(:final message) => UnsupportedConstant(message),
+    _ => throw UnimplementedError(
+      '"${syntax.type}" is not a supported constant type',
+    ),
+  };
 }
 
 /// A value that is not a constant.
@@ -27,10 +141,14 @@ final class NonConstant extends MaybeConstant {
   const NonConstant();
 
   @override
+  NonConstantConstantSyntax _toSyntax(SerializationContext context) =>
+      NonConstantConstantSyntax();
+
+  @override
   bool operator ==(Object other) => other is NonConstant;
 
   @override
-  int get hashCode => 9007199254740997;
+  int get hashCode => 0x4e6f6e43;
 
   @override
   String toString() => 'NonConstant()';
@@ -53,42 +171,6 @@ final class NonConstant extends MaybeConstant {
 abstract class Constant extends MaybeConstant {
   /// Creates a [Constant] object.
   const Constant();
-
-  /// Converts this [Constant] object to a syntax representation.
-  ConstantSyntax _toSyntax(Map<Constant, int> constants);
-
-  /// Creates a [Constant] object from its syntax representation.
-  static Constant _fromSyntax(
-    ConstantSyntax syntax,
-    List<Constant> constants,
-  ) => switch (syntax) {
-    NullConstantSyntax() => const NullConstant(),
-    BoolConstantSyntax(:final value) => BoolConstant(value),
-    IntConstantSyntax(:final value) => IntConstant(value),
-    StringConstantSyntax(:final value) => StringConstant(value),
-    ListConstantSyntax(:final value) => ListConstant(
-      value!.cast<int>().map((i) => constants[i]).toList(),
-    ),
-    MapConstantSyntax(:final value) => MapConstant(
-      value
-          .map(
-            (e) => MapEntry(
-              constants[e.key],
-              constants[e.value],
-            ),
-          )
-          .toList(),
-    ),
-    InstanceConstantSyntax(value: final value) => InstanceConstant(
-      fields: (value?.json ?? {}).map(
-        (key, value) => MapEntry(key, constants[value as int]),
-      ),
-    ),
-    UnsupportedConstantSyntax(:final message) => UnsupportedConstant(message),
-    _ => throw UnimplementedError(
-      '"${syntax.type}" is not a supported constant type',
-    ),
-  };
 
   @override
   @visibleForTesting
@@ -115,14 +197,14 @@ final class NullConstant extends Constant {
   const NullConstant() : super();
 
   @override
-  NullConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+  NullConstantSyntax _toSyntax(SerializationContext context) =>
       NullConstantSyntax();
 
   @override
   bool operator ==(Object other) => other is NullConstant;
 
   @override
-  int get hashCode => 9007199254740881;
+  int get hashCode => 0x4e756c6c;
 
   @override
   String toString() => 'NullConstant()';
@@ -143,7 +225,7 @@ final class UnsupportedConstant extends Constant {
   const UnsupportedConstant(this.message);
 
   @override
-  UnsupportedConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+  UnsupportedConstantSyntax _toSyntax(SerializationContext context) =>
       UnsupportedConstantSyntax(message: message);
 
   @override
@@ -173,7 +255,7 @@ final class BoolConstant extends Constant {
   const BoolConstant(this.value);
 
   @override
-  BoolConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+  BoolConstantSyntax _toSyntax(SerializationContext context) =>
       BoolConstantSyntax(value: value);
 
   @override
@@ -202,7 +284,7 @@ final class IntConstant extends Constant {
   const IntConstant(this.value);
 
   @override
-  IntConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+  IntConstantSyntax _toSyntax(SerializationContext context) =>
       IntConstantSyntax(value: value);
 
   @override
@@ -231,7 +313,7 @@ final class StringConstant extends Constant {
   const StringConstant(this.value);
 
   @override
-  StringConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+  StringConstantSyntax _toSyntax(SerializationContext context) =>
       StringConstantSyntax(value: value);
 
   @override
@@ -270,9 +352,9 @@ final class ListConstant extends Constant {
   }
 
   @override
-  ListConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+  ListConstantSyntax _toSyntax(SerializationContext context) =>
       ListConstantSyntax(
-        value: value.map((constant) => constants[constant]).toList(),
+        value: value.map((constant) => context.constants[constant]!).toList(),
       );
 
   @override
@@ -326,13 +408,13 @@ final class MapConstant extends Constant {
   }
 
   @override
-  MapConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+  MapConstantSyntax _toSyntax(SerializationContext context) =>
       MapConstantSyntax(
         value: entries
             .map(
               (entry) => MapEntrySyntax(
-                key: constants[entry.key]!,
-                value: constants[entry.value]!,
+                key: context.constants[entry.key]!,
+                value: context.constants[entry.value]!,
               ),
             )
             .toList(),
@@ -370,19 +452,25 @@ final class MapConstant extends Constant {
 /// Only as far as they can also be represented by constants. This is more or
 /// less the same as a [MapConstant].
 final class InstanceConstant extends Constant {
+  /// The definition of the class of this instance.
+  final Definition definition;
+
   /// The fields of this instance, mapped from field name to [Constant] value.
   final Map<String, Constant> fields;
 
-  /// Creates an [InstanceConstant] object with the given [fields].
-  const InstanceConstant({required this.fields});
+  /// Creates an [InstanceConstant] object with the given [definition] and
+  /// [fields].
+  const InstanceConstant({required this.definition, required this.fields});
 
   @override
-  InstanceConstantSyntax _toSyntax(Map<Constant, int> constants) =>
+  InstanceConstantSyntax _toSyntax(SerializationContext context) =>
       InstanceConstantSyntax(
+        definitionIndex: context.definitions[definition]!,
         value: fields.isNotEmpty
             ? JsonObjectSyntax.fromJson(
                 fields.map(
-                  (name, constant) => MapEntry(name, constants[constant]!),
+                  (name, constant) =>
+                      MapEntry(name, context.constants[constant]!),
                 ),
               )
             : null,
@@ -392,15 +480,17 @@ final class InstanceConstant extends Constant {
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is InstanceConstant && deepEquals(other.fields, fields);
+    return other is InstanceConstant &&
+        other.definition == definition &&
+        deepEquals(other.fields, fields);
   }
 
   @override
-  int get hashCode => deepHash(fields);
+  int get hashCode => Object.hash(definition, deepHash(fields));
 
   @override
   String toString() =>
-      'InstanceConstant({'
+      'InstanceConstant($definition, {'
       '${fields.entries.map((e) => '${e.key}: ${e.value}').join(', ')}})';
 
   @override
@@ -409,6 +499,8 @@ final class InstanceConstant extends Constant {
     bool allowPromotionOfUnsupported,
   ) {
     if (other is! InstanceConstant) return false;
+    // ignore: invalid_use_of_visible_for_testing_member
+    if (!definition.semanticEquals(other.definition)) return false;
     if (fields.length != other.fields.length) return false;
     for (final entry in fields.entries) {
       final otherField = other.fields[entry.key];
@@ -424,13 +516,180 @@ final class InstanceConstant extends Constant {
   }
 }
 
-/// Package private (protected) methods for [Constant].
+/// A constant enum value.
+final class EnumConstant extends Constant {
+  /// The definition of the enum class of this value.
+  final Definition definition;
+
+  /// The index of the enum member.
+  final int index;
+
+  /// The name of the enum member.
+  final String name;
+
+  /// The fields of this instance, mapped from field name to [Constant] value.
+  ///
+  /// This includes additional fields from enhanced enums.
+  final Map<String, Constant> fields;
+
+  /// Creates an [EnumConstant] object with the given [definition], [index],
+  /// [name], and [fields].
+  const EnumConstant({
+    required this.definition,
+    required this.index,
+    required this.name,
+    this.fields = const {},
+  });
+
+  @override
+  EnumConstantSyntax _toSyntax(SerializationContext context) =>
+      EnumConstantSyntax(
+        definitionIndex: context.definitions[definition]!,
+        index: index,
+        name: name,
+        value: fields.isNotEmpty
+            ? fields.map(
+                (key, value) => MapEntry(key, context.constants[value]!),
+              )
+            : null,
+      );
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is EnumConstant &&
+        other.definition == definition &&
+        other.index == index &&
+        other.name == name &&
+        deepEquals(other.fields, fields);
+  }
+
+  @override
+  int get hashCode => Object.hash(definition, index, name, deepHash(fields));
+
+  @override
+  String toString() =>
+      'EnumConstant($definition, index: $index, name: $name, fields: {'
+      '${fields.entries.map((e) => '${e.key}: ${e.value}').join(', ')}})';
+
+  @override
+  bool _semanticEqualsInternal(
+    MaybeConstant other,
+    bool allowPromotionOfUnsupported,
+  ) {
+    if (other is! EnumConstant) return false;
+    // ignore: invalid_use_of_visible_for_testing_member
+    if (!definition.semanticEquals(other.definition)) return false;
+    if (index != other.index || name != other.name) return false;
+    if (fields.length != other.fields.length) return false;
+    for (final entry in fields.entries) {
+      final otherField = other.fields[entry.key];
+      if (otherField == null ||
+          !entry.value.semanticEquals(
+            otherField,
+            allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+          )) {
+        return false;
+      }
+    }
+    return true;
+  }
+}
+
+/// A constant record value.
+final class RecordConstant extends Constant {
+  /// The positional fields of this record.
+  final List<Constant> positional;
+
+  /// The named fields of this record.
+  final Map<String, Constant> named;
+
+  /// Creates a [RecordConstant] object with the given [positional] and [named]
+  /// fields.
+  const RecordConstant({
+    this.positional = const [],
+    this.named = const {},
+  });
+
+  @override
+  RecordConstantSyntax _toSyntax(SerializationContext context) =>
+      RecordConstantSyntax(
+        positional: positional.isNotEmpty
+            ? positional.map((c) => context.constants[c]!).toList()
+            : null,
+        named: named.isNotEmpty
+            ? named.map((name, c) => MapEntry(name, context.constants[c]!))
+            : null,
+      );
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is RecordConstant &&
+        deepEquals(other.positional, positional) &&
+        deepEquals(other.named, named);
+  }
+
+  @override
+  int get hashCode => Object.hash(deepHash(positional), deepHash(named));
+
+  @override
+  String toString() =>
+      'RecordConstant('
+      '${positional.join(', ')}'
+      '${positional.isNotEmpty && named.isNotEmpty ? ', ' : ''}'
+      '${named.entries.map((e) => '${e.key}: ${e.value}').join(', ')})';
+
+  @override
+  bool _semanticEqualsInternal(
+    MaybeConstant other,
+    bool allowPromotionOfUnsupported,
+  ) {
+    if (other is! RecordConstant) return false;
+    if (positional.length != other.positional.length) return false;
+    if (named.length != other.named.length) return false;
+    for (var i = 0; i < positional.length; i++) {
+      if (!positional[i].semanticEquals(
+        other.positional[i],
+        allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+      )) {
+        return false;
+      }
+    }
+    for (final entry in named.entries) {
+      final otherField = other.named[entry.key];
+      if (otherField == null ||
+          !entry.value.semanticEquals(
+            otherField,
+            allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+          )) {
+        return false;
+      }
+    }
+    return true;
+  }
+}
+
+/// Package private (protected) methods for [MaybeConstant].
 ///
 /// This avoids bloating the public API and public API docs and prevents
 /// internal types from leaking from the API.
-extension ConstantProtected on Constant {
-  ConstantSyntax toSyntax(Map<Constant, int> constants) => _toSyntax(constants);
+extension MaybeConstantProtected on MaybeConstant {
+  ConstantSyntax toSyntax(SerializationContext context) => _toSyntax(context);
 
-  static Constant fromSyntax(ConstantSyntax syntax, List<Constant> constants) =>
-      Constant._fromSyntax(syntax, constants);
+  static MaybeConstant fromSyntax(
+    ConstantSyntax syntax,
+    DeserializationContext context,
+  ) => MaybeConstant._fromSyntax(syntax, context);
+
+  @visibleForTesting
+  bool semanticEquals(
+    MaybeConstant other, {
+    bool allowPromotionOfUnsupported = false,
+  }) => this.semanticEquals(
+    other,
+    allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+  );
 }

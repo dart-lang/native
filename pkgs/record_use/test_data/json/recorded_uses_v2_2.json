@@ -2,41 +2,43 @@
   "$schema": "../../doc/schema/record_use.schema.json",
   "constants": [
     {
+      "type": "bool",
+      "value": false
+    },
+    {
       "type": "int",
       "value": 1
     },
     {
       "type": "string",
-      "value": "b"
+      "value": "mercury"
     },
     {
-      "definition_index": 0,
-      "type": "instance",
-      "value": {
-        "index": 0,
-        "_name": 1
-      }
+      "type": "int",
+      "value": 42
     }
   ],
   "definitions": [
     {
       "path": [
         {
-          "kind": "method",
-          "name": "doSomething"
+          "name": "MyClass"
+        },
+        {
+          "name": "get:loadDeferredLibrary"
         }
       ],
-      "uri": "package:record_use_test/enum_const_arg.dart"
+      "uri": "package:js_runtime/js_helper.dart"
     }
   ],
   "loading_units": [
     {
-      "name": "1"
+      "name": "o.js"
     }
   ],
   "metadata": {
-    "comment": "Recorded usages of objects tagged with a `RecordUse` annotation",
-    "version": "0.4.0"
+    "comment": "Recorded references at compile time and their argument values, as far as known, to definitions annotated with @RecordUse",
+    "version": "1.6.2-wip+5.-.2.z"
   },
   "uses": {
     "static_calls": [
@@ -47,8 +49,13 @@
             "loading_unit_indices": [
               0
             ],
+            "named": {
+              "freddy": 2,
+              "answer": 3
+            },
             "positional": [
-              2
+              0,
+              1
             ],
             "type": "with_arguments"
           }

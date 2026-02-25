@@ -11,7 +11,8 @@ import 'test_data.dart';
 
 void main() {
   group('object 1', () {
-    final json = jsonDecode(recordedUsesJson) as Map<String, Object?>;
+    final json = (jsonDecode(recordedUsesJson) as Map<String, Object?>)
+      ..remove('\$schema');
     test('JSON', () => expect(recordedUses.toJson(), json));
 
     test('Object', () => expect(Recordings.fromJson(json), recordedUses));
@@ -26,7 +27,8 @@ void main() {
   });
 
   group('object 2', () {
-    final json2 = jsonDecode(recordedUsesJson2) as Map<String, Object?>;
+    final json2 = (jsonDecode(recordedUsesJson2) as Map<String, Object?>)
+      ..remove('\$schema');
     test('JSON', () => expect(recordedUses2.toJson(), json2));
 
     test('Object', () => expect(Recordings.fromJson(json2), recordedUses2));

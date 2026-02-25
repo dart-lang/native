@@ -612,10 +612,13 @@ extension type JsonSchemas._(List<JsonSchema> _schemas) {
   }
 
   SchemaType? get type {
-    if (types.length > 1) {
-      throw StateError('Multiple types found');
+    if (types.length <= 1) {
+      return types.singleOrNull;
+    } else if (types.length == 2 && types.contains(SchemaType.nullValue)) {
+      return types.firstWhere((t) => t != SchemaType.nullValue);
+    } else {
+      throw StateError('Multiple types found: $types');
     }
-    return types.singleOrNull;
   }
 
   (SchemaType?, bool) get typeAndNullable {

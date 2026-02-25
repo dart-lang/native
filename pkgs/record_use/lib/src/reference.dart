@@ -7,39 +7,56 @@ import 'package:meta/meta.dart';
 import 'constant.dart';
 import 'definition.dart';
 import 'helper.dart';
+import 'loading_unit.dart';
+import 'serialization_context.dart';
 import 'syntax.g.dart';
 
 /// A reference to *something*.
 ///
 /// The something might be a call or an instance, matching a [CallReference] or
 /// an [InstanceReference].
-/// All references have in common that they occur in a [loadingUnit], which we
+/// All references have in common that they occur in [loadingUnits], which we
 /// record to be able to piece together which loading units are "related", for
 /// example all needing the same asset.
 sealed class Reference {
-  final String? loadingUnit;
+  final List<LoadingUnit> loadingUnits;
 
-  const Reference({required this.loadingUnit});
+  const Reference({required this.loadingUnits});
 
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is Reference && other.loadingUnit == loadingUnit;
+    return other is Reference && deepEquals(other.loadingUnits, loadingUnits);
   }
 
   @override
-  int get hashCode => loadingUnit.hashCode;
+  int get hashCode => deepHash(loadingUnits);
 
   bool _semanticEqualsShared(
     Reference other, {
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
-  }) =>
-      (loadingUnit == null || loadingUnitMapping == null
-          ? loadingUnit
-          : loadingUnitMapping(loadingUnit!)) ==
-      other.loadingUnit;
+  }) {
+    if (loadingUnits.length != other.loadingUnits.length) return false;
+    for (var i = 0; i < loadingUnits.length; i++) {
+      final unit = loadingUnits[i].name;
+      final otherUnit = other.loadingUnits[i].name;
+      final mappedUnit = loadingUnitMapping == null
+          ? unit
+          : loadingUnitMapping(unit);
+      if (mappedUnit != otherUnit) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  @override
+  String toString() {
+    if (loadingUnits.isEmpty) return '[]';
+    return loadingUnits.map((u) => u.name).join(', ');
+  }
 }
 
 /// A reference to a call to some [Definition].
@@ -47,40 +64,53 @@ sealed class Reference {
 /// This might be an actual call, in which case we record the arguments, or a
 /// tear-off, in which case we can't record the arguments.
 sealed class CallReference extends Reference {
-  const CallReference({required super.loadingUnit});
+  /// The argument in the receiver position.
+  ///
+  /// Is `null` for static (extension) methods.
+  final MaybeConstant? receiver;
+
+  const CallReference({required super.loadingUnits, this.receiver});
 
   static CallReference _fromSyntax(
     CallSyntax syntax,
-    List<Constant> constants,
+    DeserializationContext context,
   ) => switch (syntax) {
-    TearoffCallSyntax() => CallTearoff(loadingUnit: syntax.loadingUnit),
+    TearoffCallSyntax(:final receiver) => CallTearoff(
+      loadingUnits: syntax.loadingUnitIndices
+          .map((index) => context.loadingUnits[index])
+          .toList(),
+      receiver: receiver != null ? context.constants[receiver] : null,
+    ),
     WithArgumentsCallSyntax(
       :final named,
       :final positional,
-      :final loadingUnit,
+      :final loadingUnitIndices,
+      :final receiver,
     ) =>
       CallWithArguments(
         positionalArguments: (positional ?? [])
-            .map((index) => _argumentFromSyntax(index, constants))
+            .map((index) => _argumentFromSyntax(index, context))
             .toList(),
         namedArguments: (named ?? {}).map(
-          (name, index) =>
-              MapEntry(name, _argumentFromSyntax(index, constants)),
+          (name, index) => MapEntry(name, _argumentFromSyntax(index, context)),
         ),
-        loadingUnit: loadingUnit,
+        loadingUnits: loadingUnitIndices
+            .map((index) => context.loadingUnits[index])
+            .toList(),
+        receiver: receiver != null ? context.constants[receiver] : null,
       ),
     _ => throw UnimplementedError('Unknown CallSyntax type'),
   };
 
   static MaybeConstant _argumentFromSyntax(
     int? index,
-    List<Constant> constants,
+    DeserializationContext context,
   ) {
     if (index == null) return const NonConstant();
-    return constants[index];
+    return context.constants[index];
   }
 
-  CallSyntax _toSyntax(Map<Constant, int> constants);
+  CallSyntax _toSyntax(SerializationContext context);
 
   /// Compares this [CallWithArguments] with [other] for semantic equality.
   ///
@@ -102,6 +132,32 @@ sealed class CallReference extends Reference {
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
   });
+
+  bool _semanticEqualsCall(
+    CallReference other, {
+    bool allowMoreConstArguments = false,
+    bool allowPromotionOfUnsupported = false,
+    String Function(String)? uriMapping,
+    String Function(String)? loadingUnitMapping,
+  }) {
+    if (!_semanticEqualsShared(
+      other,
+      uriMapping: uriMapping,
+      loadingUnitMapping: loadingUnitMapping,
+    )) {
+      return false;
+    }
+    final otherReceiver = other.receiver;
+    if (receiver == null) {
+      return otherReceiver == null;
+    }
+    if (otherReceiver == null) return false;
+    // ignore: invalid_use_of_visible_for_testing_member
+    return receiver!.semanticEquals(
+      otherReceiver,
+      allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+    );
+  }
 }
 
 /// A reference to a call to some [Definition] with [positionalArguments] and
@@ -113,32 +169,28 @@ final class CallWithArguments extends CallReference {
   const CallWithArguments({
     required this.positionalArguments,
     required this.namedArguments,
-    required super.loadingUnit,
+    required super.loadingUnits,
+    super.receiver,
   });
 
   @override
-  WithArgumentsCallSyntax _toSyntax(Map<Constant, int> constants) {
-    final namedArgs = <String, int?>{};
+  WithArgumentsCallSyntax _toSyntax(SerializationContext context) {
+    final namedArgs = <String, int>{};
     for (final entry in namedArguments.entries) {
-      namedArgs[entry.key] = switch (entry.value) {
-        final Constant c => constants[c],
-        NonConstant() => null,
-      };
+      namedArgs[entry.key] = context.constants[entry.value]!;
     }
 
     return WithArgumentsCallSyntax(
-      loadingUnit: loadingUnit!,
+      loadingUnitIndices: loadingUnits
+          .map((unit) => context.loadingUnits[unit]!)
+          .toList(),
       named: namedArgs.isNotEmpty ? namedArgs : null,
       positional: positionalArguments.isEmpty
           ? null
           : positionalArguments
-                .map(
-                  (argument) => switch (argument) {
-                    final Constant c => constants[c],
-                    NonConstant() => null,
-                  },
-                )
+                .map((argument) => context.constants[argument]!)
                 .toList(),
+      receiver: receiver != null ? context.constants[receiver!] : null,
     );
   }
 
@@ -149,13 +201,15 @@ final class CallWithArguments extends CallReference {
 
     return other is CallWithArguments &&
         deepEquals(other.positionalArguments, positionalArguments) &&
-        deepEquals(other.namedArguments, namedArguments);
+        deepEquals(other.namedArguments, namedArguments) &&
+        receiver == other.receiver;
   }
 
   @override
   int get hashCode => Object.hash(
     deepHash(positionalArguments),
     deepHash(namedArguments),
+    receiver,
     super.hashCode,
   );
 
@@ -200,10 +254,12 @@ final class CallWithArguments extends CallReference {
             return false;
           }
         }
-        return _semanticEqualsShared(
+        return _semanticEqualsCall(
           other,
           uriMapping: uriMapping,
           loadingUnitMapping: loadingUnitMapping,
+          allowMoreConstArguments: allowMoreConstArguments,
+          allowPromotionOfUnsupported: allowPromotionOfUnsupported,
         );
       case CallTearoff():
         return allowTearoffToStaticPromotion;
@@ -213,6 +269,9 @@ final class CallWithArguments extends CallReference {
   @override
   String toString() {
     final parts = <String>[];
+    if (receiver != null) {
+      parts.add('receiver: $receiver');
+    }
     if (positionalArguments.isNotEmpty) {
       parts.add('positional: ${positionalArguments.join(', ')}');
     }
@@ -224,8 +283,8 @@ final class CallWithArguments extends CallReference {
         'named: $namedString',
       );
     }
-    if (loadingUnit != null) {
-      parts.add('loadingUnit: $loadingUnit');
+    if (loadingUnits.isNotEmpty) {
+      parts.add('loadingUnits: ${loadingUnits.map((u) => u.name).join(', ')}');
     }
     return 'CallWithArguments(${parts.join(', ')})';
   }
@@ -234,11 +293,16 @@ final class CallWithArguments extends CallReference {
 /// A reference to a tear-off use of the [Definition]. This means that we can't
 /// record the arguments possibly passed to the method somewhere else.
 final class CallTearoff extends CallReference {
-  const CallTearoff({required super.loadingUnit});
+  const CallTearoff({required super.loadingUnits, super.receiver});
 
   @override
-  TearoffCallSyntax _toSyntax(Map<Constant, int> constants) =>
-      TearoffCallSyntax(loadingUnit: loadingUnit!);
+  TearoffCallSyntax _toSyntax(SerializationContext context) =>
+      TearoffCallSyntax(
+        loadingUnitIndices: loadingUnits
+            .map((unit) => context.loadingUnits[unit]!)
+            .toList(),
+        receiver: receiver != null ? context.constants[receiver!] : null,
+      );
 
   @override
   @visibleForTesting
@@ -254,54 +318,81 @@ final class CallTearoff extends CallReference {
       case CallWithArguments():
         return false;
       case CallTearoff():
-        return _semanticEqualsShared(
+        return _semanticEqualsCall(
           other,
           uriMapping: uriMapping,
           loadingUnitMapping: loadingUnitMapping,
+          allowMoreConstArguments: allowMoreConstArguments,
+          allowPromotionOfUnsupported: allowPromotionOfUnsupported,
         );
     }
   }
+
+  @override
+  String toString() {
+    final parts = <String>[];
+    if (receiver != null) {
+      parts.add('receiver: $receiver');
+    }
+    if (loadingUnits.isNotEmpty) {
+      parts.add('loadingUnits: ${loadingUnits.map((u) => u.name).join(', ')}');
+    }
+    return 'CallTearoff(${parts.join(', ')})';
+  }
 }
 
+// TODO(https://github.com/dart-lang/native/issues/2908): Support enum
+// constant instances here as well. Enums cannot have constructor calls or
+// constructor tearoffs though. So how to do the type hierarchy here?
+// TODO(https://github.com/dart-lang/native/issues/3057): Extension type const
+// instances?
+//
 sealed class InstanceReference extends Reference {
-  const InstanceReference({required super.loadingUnit});
+  const InstanceReference({required super.loadingUnits});
 
   static InstanceReference _fromSyntax(
     InstanceSyntax syntax,
-    List<Constant> constants,
+    DeserializationContext context,
   ) => switch (syntax) {
     ConstantInstanceSyntax(
       :final constantIndex,
-      :final loadingUnit,
+      :final loadingUnitIndices,
     ) =>
       InstanceConstantReference(
-        instanceConstant: constants[constantIndex] as InstanceConstant,
-        loadingUnit: loadingUnit,
+        instanceConstant: context.constants[constantIndex] as InstanceConstant,
+        loadingUnits: loadingUnitIndices
+            .map((index) => context.loadingUnits[index])
+            .toList(),
       ),
     CreationInstanceSyntax(
       :final named,
       :final positional,
-      :final loadingUnit,
+      :final loadingUnitIndices,
     ) =>
       InstanceCreationReference(
         positionalArguments: (positional ?? [])
-            .map((index) => CallReference._argumentFromSyntax(index, constants))
+            .map((index) => CallReference._argumentFromSyntax(index, context))
             .toList(),
         namedArguments: (named ?? {}).map(
           (name, index) => MapEntry(
             name,
-            CallReference._argumentFromSyntax(index, constants),
+            CallReference._argumentFromSyntax(index, context),
           ),
         ),
-        loadingUnit: loadingUnit,
+        loadingUnits: loadingUnitIndices
+            .map((index) => context.loadingUnits[index])
+            .toList(),
       ),
-    TearoffInstanceSyntax(:final loadingUnit) => ConstructorTearoffReference(
-      loadingUnit: loadingUnit,
-    ),
+    TearoffInstanceSyntax(:final loadingUnitIndices) =>
+      ConstructorTearoffReference(
+        loadingUnits: loadingUnitIndices
+            .map((index) => context.loadingUnits[index])
+            .toList(),
+      ),
     _ => throw UnimplementedError('Unknown InstanceSyntax type'),
   };
 
-  InstanceSyntax _toSyntax(Map<Constant, int> constants);
+  InstanceSyntax _toSyntax(SerializationContext context);
 
   /// Compares this [InstanceReference] with [other] for semantic equality.
   ///
@@ -323,14 +414,16 @@ final class InstanceConstantReference extends InstanceReference {
 
   const InstanceConstantReference({
     required this.instanceConstant,
-    required super.loadingUnit,
+    required super.loadingUnits,
   });
 
   @override
-  ConstantInstanceSyntax _toSyntax(Map<Constant, int> constants) =>
+  ConstantInstanceSyntax _toSyntax(SerializationContext context) =>
       ConstantInstanceSyntax(
-        constantIndex: constants[instanceConstant]!,
-        loadingUnit: loadingUnit!,
+        constantIndex: context.constants[instanceConstant]!,
+        loadingUnitIndices: loadingUnits
+            .map((unit) => context.loadingUnits[unit]!)
+            .toList(),
       );
 
   @override
@@ -368,6 +461,16 @@ final class InstanceConstantReference extends InstanceReference {
       loadingUnitMapping: loadingUnitMapping,
     );
   }
+
+  @override
+  String toString() {
+    final parts = <String>[];
+    parts.add('instanceConstant: $instanceConstant');
+    if (loadingUnits.isNotEmpty) {
+      parts.add('loadingUnits: ${loadingUnits.map((u) => u.name).join(', ')}');
+    }
+    return 'InstanceConstantReference(${parts.join(', ')})';
+  }
 }
 
 final class InstanceCreationReference extends InstanceReference {
@@ -377,31 +480,25 @@ final class InstanceCreationReference extends InstanceReference {
   const InstanceCreationReference({
     required this.positionalArguments,
     required this.namedArguments,
-    required super.loadingUnit,
+    required super.loadingUnits,
   });
 
   @override
-  CreationInstanceSyntax _toSyntax(Map<Constant, int> constants) {
-    final namedArgs = <String, int?>{};
+  CreationInstanceSyntax _toSyntax(SerializationContext context) {
+    final namedArgs = <String, int>{};
     for (final entry in namedArguments.entries) {
-      namedArgs[entry.key] = switch (entry.value) {
-        final Constant c => constants[c],
-        NonConstant() => null,
-      };
+      namedArgs[entry.key] = context.constants[entry.value]!;
     }
 
     return CreationInstanceSyntax(
-      loadingUnit: loadingUnit!,
+      loadingUnitIndices: loadingUnits
+          .map((unit) => context.loadingUnits[unit]!)
+          .toList(),
       named: namedArgs.isNotEmpty ? namedArgs : null,
       positional: positionalArguments.isEmpty
           ? null
           : positionalArguments
-                .map(
-                  (argument) => switch (argument) {
-                    final Constant c => constants[c],
-                    NonConstant() => null,
-                  },
-                )
+                .map((argument) => context.constants[argument]!)
                 .toList(),
     );
   }
@@ -468,14 +565,38 @@ final class InstanceCreationReference extends InstanceReference {
       loadingUnitMapping: loadingUnitMapping,
     );
   }
+
+  @override
+  String toString() {
+    final parts = <String>[];
+    if (positionalArguments.isNotEmpty) {
+      parts.add('positional: ${positionalArguments.join(', ')}');
+    }
+    if (namedArguments.isNotEmpty) {
+      final namedString = namedArguments.entries
+          .map((e) => '${e.key}=${e.value}')
+          .join(', ');
+      parts.add(
+        'named: $namedString',
+      );
+    }
+    if (loadingUnits.isNotEmpty) {
+      parts.add('loadingUnits: ${loadingUnits.map((u) => u.name).join(', ')}');
+    }
+    return 'InstanceCreationReference(${parts.join(', ')})';
+  }
 }
 
 final class ConstructorTearoffReference extends InstanceReference {
-  const ConstructorTearoffReference({required super.loadingUnit});
+  const ConstructorTearoffReference({required super.loadingUnits});
 
   @override
-  TearoffInstanceSyntax _toSyntax(Map<Constant, int> constants) =>
-      TearoffInstanceSyntax(loadingUnit: loadingUnit!);
+  TearoffInstanceSyntax _toSyntax(SerializationContext context) =>
+      TearoffInstanceSyntax(
+        loadingUnitIndices: loadingUnits
+            .map((unit) => context.loadingUnits[unit]!)
+            .toList(),
+      );
 
   @override
   @visibleForTesting
@@ -493,6 +614,15 @@ final class ConstructorTearoffReference extends InstanceReference {
       loadingUnitMapping: loadingUnitMapping,
     );
   }
+
+  @override
+  String toString() {
+    final parts = <String>[];
+    if (loadingUnits.isNotEmpty) {
+      parts.add('loadingUnits: ${loadingUnits.map((u) => u.name).join(', ')}');
+    }
+    return 'ConstructorTearoffReference(${parts.join(', ')})';
+  }
 }
 
 /// Package private (protected) methods for [CallReference].
@@ -500,12 +630,12 @@ final class ConstructorTearoffReference extends InstanceReference {
 /// This avoids bloating the public API and public API docs and prevents
 /// internal types from leaking from the API.
 extension CallReferenceProtected on CallReference {
-  CallSyntax toSyntax(Map<Constant, int> constants) => _toSyntax(constants);
+  CallSyntax toSyntax(SerializationContext context) => _toSyntax(context);
 
   static CallReference fromSyntax(
     CallSyntax syntax,
-    List<Constant> constants,
-  ) => CallReference._fromSyntax(syntax, constants);
+    DeserializationContext context,
+  ) => CallReference._fromSyntax(syntax, context);
 }
 
 /// Package private (protected) methods for [InstanceReference].
@@ -513,10 +643,10 @@ extension CallReferenceProtected on CallReference {
 /// This avoids bloating the public API and public API docs and prevents
 /// internal types from leaking from the API.
 extension InstanceReferenceProtected on InstanceReference {
-  InstanceSyntax toSyntax(Map<Constant, int> constants) => _toSyntax(constants);
+  InstanceSyntax toSyntax(SerializationContext context) => _toSyntax(context);
 
   static InstanceReference fromSyntax(
     InstanceSyntax syntax,
-    List<Constant> constants,
-  ) => InstanceReference._fromSyntax(syntax, constants);
+    DeserializationContext context,
+  ) => InstanceReference._fromSyntax(syntax, context);
 }

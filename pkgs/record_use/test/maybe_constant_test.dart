@@ -5,32 +5,43 @@
 import 'package:record_use/record_use_internal.dart';
 import 'package:test/test.dart';
 
+const loadingUnit1 = LoadingUnit('1');
+
 void main() {
   test('MaybeConstant arguments in JSON', () {
     const json = {
       'metadata': {'version': '1.0.0', 'comment': 'test'},
       'constants': [
         {'type': 'int', 'value': 42},
-        {'type': 'unsupported', 'message': 'Record'},
+        {'type': 'unsupported', 'message': 'MethodTearoff'},
+        {'type': 'non_constant'},
       ],
-      'recordings': [
+      'loading_units': [
+        {'name': '1'},
+      ],
+      'definitions': [
         {
-          'definition': {
-            'uri': 'package:a/a.dart',
-            'path': [
-              {'name': 'foo'},
-            ],
-          },
-          'calls': [
-            {
-              'type': 'with_arguments',
-              'loading_unit': '1',
-              'positional': [0, 1, null],
-              'named': {'a': 0, 'b': 1, 'c': null},
-            },
+          'uri': 'package:a/a.dart',
+          'path': [
+            {'name': 'foo'},
           ],
         },
       ],
+      'uses': {
+        'static_calls': [
+          {
+            'definition_index': 0,
+            'uses': [
+              {
+                'type': 'with_arguments',
+                'loading_unit_indices': [0],
+                'positional': [0, 1, 2],
+                'named': {'a': 0, 'b': 1, 'c': 2},
+              },
+            ],
+          },
+        ],
+      },
     };
 
     final recordings = Recordings.fromJson(json);
@@ -40,12 +51,18 @@ void main() {
 
     expect(call.positionalArguments, hasLength(3));
     expect(call.positionalArguments[0], const IntConstant(42));
-    expect(call.positionalArguments[1], const UnsupportedConstant('Record'));
+    expect(
+      call.positionalArguments[1],
+      const UnsupportedConstant('MethodTearoff'),
+    );
     expect(call.positionalArguments[2], const NonConstant());
 
     expect(call.namedArguments, hasLength(3));
     expect(call.namedArguments['a'], const IntConstant(42));
-    expect(call.namedArguments['b'], const UnsupportedConstant('Record'));
+    expect(
+      call.namedArguments['b'],
+      const UnsupportedConstant('MethodTearoff'),
+    );
     expect(call.namedArguments['c'], const NonConstant());
   });
 
@@ -58,15 +75,34 @@ void main() {
           const CallWithArguments(
             positionalArguments: [
               IntConstant(42),
-              UnsupportedConstant('Record'),
+              UnsupportedConstant('MethodTearoff'),
               NonConstant(),
+              RecordConstant(
+                positional: [IntConstant(1)],
+                named: {'a': IntConstant(2)},
+              ),
+              EnumConstant(
+                definition: definition,
+                index: 0,
+                name: 'red',
+                fields: {'hex': IntConstant(0xff0000)},
+              ),
             ],
             namedArguments: {
               'a': IntConstant(42),
-              'b': UnsupportedConstant('Record'),
+              'b': UnsupportedConstant('MethodTearoff'),
               'c': NonConstant(),
+              'd': RecordConstant(
+                positional: [IntConstant(3)],
+                named: {'b': IntConstant(4)},
+              ),
+              'e': EnumConstant(
+                definition: definition,
+                index: 1,
+                name: 'green',
+              ),
             },
-            loadingUnit: '1',
+            loadingUnits: [loadingUnit1],
           ),
         ],
       },
@@ -78,13 +114,17 @@ void main() {
 
     expect(roundTripped, equals(recordings));
 
-    // Verify JSON structure specifically for named nulls
-    final recordingsJson = json['recordings'] as List;
+    // Verify JSON structure specifically for named non-constants
+    final usesJson = json['uses'] as Map;
+    final recordingsJson = usesJson['static_calls'] as List;
     final recording = recordingsJson[0] as Map;
-    final call = (recording['calls'] as List)[0] as Map;
+    final call = (recording['uses'] as List)[0] as Map;
     final named = call['named'] as Map;
     expect(named.containsKey('c'), isTrue);
-    expect(named['c'], isNull);
+    expect(named['c'], isNotNull);
+    final constants = json['constants'] as List;
+    final nonConstant = constants[named['c'] as int] as Map;
+    expect(nonConstant['type'], 'non_constant');
   });
 
   test('allowPromotionOfUnsupported semantic equality', () {
@@ -97,7 +137,7 @@ void main() {
           const CallWithArguments(
             positionalArguments: [IntConstant(42)],
             namedArguments: {'a': StringConstant('bar')},
-            loadingUnit: '1',
+            loadingUnits: [loadingUnit1],
           ),
         ],
       },
@@ -109,9 +149,9 @@ void main() {
       calls: {
         definition: [
           const CallWithArguments(
-            positionalArguments: [UnsupportedConstant('Record')],
-            namedArguments: {'a': UnsupportedConstant('Record')},
-            loadingUnit: '1',
+            positionalArguments: [UnsupportedConstant('MethodTearoff')],
+            namedArguments: {'a': UnsupportedConstant('MethodTearoff')},
+            loadingUnits: [loadingUnit1],
           ),
         ],
       },

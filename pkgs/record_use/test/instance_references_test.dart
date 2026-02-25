@@ -12,6 +12,9 @@ void main() {
     [Name('MyClass')],
   );
 
+  const loadingUnitRoot = LoadingUnit('root');
+  const loadingUnitOther = LoadingUnit('other');
+
   final metadata = Metadata(
     version: Version(1, 0, 0),
     comment: 'Test for new instance formats',
@@ -25,9 +28,9 @@ void main() {
         const InstanceCreationReference(
           positionalArguments: [IntConstant(1), IntConstant(2)],
           namedArguments: {'param': StringConstant('named_arg_value')},
-          loadingUnit: 'root',
+          loadingUnits: [loadingUnitRoot],
         ),
-        const ConstructorTearoffReference(loadingUnit: 'other'),
+        const ConstructorTearoffReference(loadingUnits: [loadingUnitOther]),
       ],
     },
   );
@@ -40,7 +43,7 @@ void main() {
     final creation = instances![0];
     expect(creation, isA<InstanceCreationReference>());
     if (creation is InstanceCreationReference) {
-      expect(creation.loadingUnit, 'root');
+      expect(creation.loadingUnits.first.name, loadingUnitRoot.name);
       expect(creation.positionalArguments, hasLength(2));
       expect(creation.positionalArguments[0], isA<IntConstant>());
       expect((creation.positionalArguments[0] as IntConstant).value, 1);
@@ -56,7 +59,7 @@ void main() {
     final tearoff = instances[1];
     expect(tearoff, isA<ConstructorTearoffReference>());
     if (tearoff is ConstructorTearoffReference) {
-      expect(tearoff.loadingUnit, 'other');
+      expect(tearoff.loadingUnits.first.name, loadingUnitOther.name);
     }
   });
 

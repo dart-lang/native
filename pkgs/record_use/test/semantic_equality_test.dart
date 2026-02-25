@@ -26,20 +26,20 @@ void main() {
   const callDefintion1Static = CallWithArguments(
     positionalArguments: [],
     namedArguments: {},
-    loadingUnit: null,
+    loadingUnits: [],
   );
   const callDefintion1Static2 = CallWithArguments(
     positionalArguments: [],
     namedArguments: {},
-    loadingUnit: null,
+    loadingUnits: [],
   );
   const callDefinition2Static = CallWithArguments(
     positionalArguments: [],
     namedArguments: {},
-    loadingUnit: null,
+    loadingUnits: [],
   );
   const callDefinition1Tearoff = CallTearoff(
-    loadingUnit: null,
+    loadingUnits: [],
   );
   const definition1differentLibrary2 = Definition(
     'memory:a/a.dart',
@@ -48,7 +48,7 @@ void main() {
   const callDefintion1StaticDifferentUri = CallWithArguments(
     positionalArguments: [],
     namedArguments: {},
-    loadingUnit: null,
+    loadingUnits: [],
   );
   final metadata = Metadata(
     version: Version(1, 0, 0),
@@ -251,7 +251,7 @@ void main() {
           const CallWithArguments(
             positionalArguments: [IntConstant(1)],
             namedArguments: {},
-            loadingUnit: null,
+            loadingUnits: [],
           ),
         ],
       },
@@ -264,7 +264,7 @@ void main() {
           const CallWithArguments(
             positionalArguments: [IntConstant(1), IntConstant(2)],
             namedArguments: {},
-            loadingUnit: null,
+            loadingUnits: [],
           ),
         ],
       },

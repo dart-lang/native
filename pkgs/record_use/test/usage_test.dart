@@ -59,7 +59,7 @@ void main() {
               ),
             )
             .toList();
-    final (named: named0, positional: positional0) = arguments[0];
+    final (named: named0, positional: positional0, receiver: _) = arguments[0];
     expect(named0, {
       'freddy': const StringConstant('mercury'),
       'leroy': const StringConstant('jenkins'),
@@ -69,7 +69,7 @@ void main() {
       BoolConstant(false),
       IntConstant(1),
     ]);
-    final (named: named1, positional: positional1) = arguments[1];
+    final (named: named1, positional: positional1, receiver: _) = arguments[1];
     expect(named1, {
       'freddy': const IntConstant(0),
       'leroy': const StringConstant('jenkins'),
