@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:math';
+
 import 'package:meta/meta.dart';
 
 import 'definition.dart';
@@ -12,6 +14,18 @@ import 'syntax.g.dart';
 /// A value recorded during compilation.
 sealed class MaybeConstant {
   const MaybeConstant();
+
+  /// The maximum depth of the constant tree.
+  ///
+  /// Used for fast-path optimization in `operator ==`. Not included in
+  /// `hashCode` because it is implicitly covered by the content-based hash.
+  int get _depth;
+
+  /// The total number of nodes in the constant tree.
+  ///
+  /// Used for fast-path optimization in `operator ==`. Not included in
+  /// `hashCode` because it is implicitly covered by the content-based hash.
+  int get _size;
 
   /// Compares this [MaybeConstant] with [other] for semantic equality.
   ///
@@ -152,6 +166,12 @@ final class NonConstant extends MaybeConstant {
   bool operator ==(Object other) => other is NonConstant;
 
   @override
+  int get _depth => 1;
+
+  @override
+  int get _size => 1;
+
+  @override
   int get hashCode => 0x4e6f6e43;
 
   @override
@@ -208,6 +228,12 @@ final class NullConstant extends Constant {
   bool operator ==(Object other) => other is NullConstant;
 
   @override
+  int get _depth => 1;
+
+  @override
+  int get _size => 1;
+
+  @override
   int get hashCode => 0x4e756c6c;
 
   @override
@@ -235,6 +261,12 @@ final class UnsupportedConstant extends Constant {
   @override
   bool operator ==(Object other) =>
       other is UnsupportedConstant && other.message == message;
+
+  @override
+  int get _depth => 1;
+
+  @override
+  int get _size => 1;
 
   @override
   int get hashCode => message.hashCode;
@@ -266,6 +298,12 @@ final class BoolConstant extends Constant {
   int get hashCode => value.hashCode;
 
   @override
+  int get _depth => 1;
+
+  @override
+  int get _size => 1;
+
+  @override
   bool operator ==(Object other) =>
       other is BoolConstant && other.value == value;
 
@@ -295,6 +333,12 @@ final class IntConstant extends Constant {
   int get hashCode => value.hashCode;
 
   @override
+  int get _depth => 1;
+
+  @override
+  int get _size => 1;
+
+  @override
   bool operator ==(Object other) =>
       other is IntConstant && other.value == value;
 
@@ -322,6 +366,12 @@ final class StringConstant extends Constant {
 
   @override
   int get hashCode => value.hashCode;
+
+  @override
+  int get _depth => 1;
+
+  @override
+  int get _size => 1;
 
   @override
   bool operator ==(Object other) =>
@@ -356,6 +406,12 @@ final class SymbolConstant extends Constant {
 
   @override
   int get hashCode => Object.hash(name, libraryUri);
+
+  @override
+  int get _depth => 1;
+
+  @override
+  int get _size => 1;
 
   @override
   bool operator ==(Object other) =>
@@ -393,10 +449,31 @@ final class ListConstant extends Constant {
   int get hashCode => cacheHashCode(() => deepHash(value));
 
   @override
+  int get _depth => cacheDepth(() {
+    var depth = 0;
+    for (final constant in value) {
+      depth = max(depth, constant._depth);
+    }
+    return 1 + depth;
+  });
+
+  @override
+  int get _size => cacheSize(() {
+    var size = 0;
+    for (final constant in value) {
+      size += constant._size;
+    }
+    return 1 + size;
+  });
+
+  @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is ListConstant && deepEquals(other.value, value);
+    return other is ListConstant &&
+        other._depth == _depth &&
+        other._size == _size &&
+        deepEquals(other.value, value);
   }
 
   @override
@@ -443,10 +520,29 @@ final class MapConstant extends Constant {
   );
 
   @override
+  int get _depth => cacheDepth(() {
+    var depth = 0;
+    for (final entry in entries) {
+      depth = max(depth, max(entry.key._depth, entry.value._depth));
+    }
+    return 1 + depth;
+  });
+
+  @override
+  int get _size => cacheSize(() {
+    var size = 0;
+    for (final entry in entries) {
+      size += entry.key._size + entry.value._size;
+    }
+    return 1 + size;
+  });
+
+  @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
     if (other is! MapConstant) return false;
+    if (other._depth != _depth || other._size != _size) return false;
     if (other.entries.length != entries.length) return false;
     for (var i = 0; i < entries.length; i++) {
       if (entries[i].key != other.entries[i].key ||
@@ -531,6 +627,8 @@ final class InstanceConstant extends Constant {
     if (identical(this, other)) return true;
 
     return other is InstanceConstant &&
+        other._depth == _depth &&
+        other._size == _size &&
         other.definition == definition &&
         deepEquals(other.fields, fields);
   }
@@ -538,6 +636,24 @@ final class InstanceConstant extends Constant {
   @override
   int get hashCode =>
       cacheHashCode(() => Object.hash(definition, deepHash(fields)));
+
+  @override
+  int get _depth => cacheDepth(() {
+    var depth = 0;
+    for (final field in fields.values) {
+      depth = max(depth, field._depth);
+    }
+    return 1 + depth;
+  });
+
+  @override
+  int get _size => cacheSize(() {
+    var size = 0;
+    for (final field in fields.values) {
+      size += field._size;
+    }
+    return 1 + size;
+  });
 
   @override
   String toString() =>
@@ -610,6 +726,8 @@ final class EnumConstant extends Constant {
     if (identical(this, other)) return true;
 
     return other is EnumConstant &&
+        other._depth == _depth &&
+        other._size == _size &&
         other.definition == definition &&
         other.index == index &&
         other.name == name &&
@@ -620,6 +738,24 @@ final class EnumConstant extends Constant {
   int get hashCode => cacheHashCode(
     () => Object.hash(definition, index, name, deepHash(fields)),
   );
+
+  @override
+  int get _depth => cacheDepth(() {
+    var depth = 0;
+    for (final field in fields.values) {
+      depth = max(depth, field._depth);
+    }
+    return 1 + depth;
+  });
+
+  @override
+  int get _size => cacheSize(() {
+    var size = 0;
+    for (final field in fields.values) {
+      size += field._size;
+    }
+    return 1 + size;
+  });
 
   @override
   String toString() =>
@@ -681,6 +817,8 @@ final class RecordConstant extends Constant {
     if (identical(this, other)) return true;
 
     return other is RecordConstant &&
+        other._depth == _depth &&
+        other._size == _size &&
         deepEquals(other.positional, positional) &&
         deepEquals(other.named, named);
   }
@@ -689,6 +827,30 @@ final class RecordConstant extends Constant {
   int get hashCode => cacheHashCode(
     () => Object.hash(deepHash(positional), deepHash(named)),
   );
+
+  @override
+  int get _depth => cacheDepth(() {
+    var depth = 0;
+    for (final constant in positional) {
+      depth = max(depth, constant._depth);
+    }
+    for (final constant in named.values) {
+      depth = max(depth, constant._depth);
+    }
+    return 1 + depth;
+  });
+
+  @override
+  int get _size => cacheSize(() {
+    var size = 0;
+    for (final constant in positional) {
+      size += constant._size;
+    }
+    for (final constant in named.values) {
+      size += constant._size;
+    }
+    return 1 + size;
+  });
 
   @override
   String toString() =>
