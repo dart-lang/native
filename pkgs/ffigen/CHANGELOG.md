@@ -22,12 +22,12 @@
 - __Breaking change__: Deleted the config option `Output.sort`. Sorting is now
   always enabled.
 - Fix(https://github.com/dart-lang/native/issues/2877) 
-  such that ObjCObject `isA` now accepts a nullable `ObjCObject?` and returns `false` when called with `null`, aligning its behavior with Dart’s `is`operator.
+  such that ObjCObject `isA` now accepts a nullable `ObjCObject?` and returns
+  `false` when called with `null`, aligning its behavior with Dart’s `is`operator.
 - Use `xcrun` for resolving macOS SDK paths, enabling support for non-standard
-  Xcode installations. ([#3134](https://github.com/dart-lang/native/issues/3134)
-- Add allocate constructor for native C structs 
-  allocate(ffi.Allocator allocator, {required ...}) where positional allocator, named required fields
-  only generates allocate for structs (cjson structs included)- skip unions, opaque structs, structs with members inline fixed arrays, nested struct, union members. 
+  Xcode installations. [#3134](https://github.com/dart-lang/native/issues/3134)
+- Add allocate constructor for native C structs:
+  `$allocate(Allocator $allocator, {required ...})`
 
 ## 20.1.1
 
