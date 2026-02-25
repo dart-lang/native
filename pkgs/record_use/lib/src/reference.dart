@@ -4,6 +4,7 @@
 
 import 'package:meta/meta.dart';
 
+import 'canonicalization_context.dart';
 import 'constant.dart';
 import 'definition.dart';
 import 'helper.dart';
@@ -22,6 +23,9 @@ sealed class Reference {
   final List<LoadingUnit> loadingUnits;
 
   const Reference({required this.loadingUnits});
+
+  /// Canonicalizes this [Reference].
+  Reference _canonicalizeChildren(CanonicalizationContext context);
 
   @override
   bool operator ==(Object other) {
@@ -174,6 +178,28 @@ final class CallWithArguments extends CallReference {
   });
 
   @override
+  Reference _canonicalizeChildren(CanonicalizationContext context) =>
+      CallWithArguments(
+        loadingUnits: loadingUnits
+            .map((u) => context.canonicalizeLoadingUnit(u))
+            .toList(),
+        receiver: receiver != null
+            ? context.canonicalizeConstant(receiver!)
+            : null,
+        positionalArguments: positionalArguments
+            .map((c) => context.canonicalizeConstant(c))
+            .toList(),
+        namedArguments: Map.fromEntries(
+          namedArguments.entries.map(
+            (e) => MapEntry(
+              e.key,
+              context.canonicalizeConstant(e.value),
+            ),
+          ),
+        ),
+      );
+
+  @override
   WithArgumentsCallSyntax _toSyntax(SerializationContext context) {
     final namedArgs = <String, int>{};
     for (final entry in namedArguments.entries) {
@@ -298,6 +324,17 @@ final class CallTearoff extends CallReference {
   const CallTearoff({required super.loadingUnits, super.receiver});
 
   @override
+  Reference _canonicalizeChildren(CanonicalizationContext context) =>
+      CallTearoff(
+        loadingUnits: loadingUnits
+            .map((u) => context.canonicalizeLoadingUnit(u))
+            .toList(),
+        receiver: receiver != null
+            ? context.canonicalizeConstant(receiver!)
+            : null,
+      );
+
+  @override
   TearoffCallSyntax _toSyntax(SerializationContext context) =>
       TearoffCallSyntax(
         loadingUnitIndices: loadingUnits
@@ -420,6 +457,16 @@ final class InstanceConstantReference extends InstanceReference {
   });
 
   @override
+  Reference _canonicalizeChildren(CanonicalizationContext context) =>
+      InstanceConstantReference(
+        loadingUnits: loadingUnits
+            .map((u) => context.canonicalizeLoadingUnit(u))
+            .toList(),
+        instanceConstant:
+            context.canonicalizeConstant(instanceConstant) as Constant,
+      );
+
+  @override
   ConstantInstanceSyntax _toSyntax(SerializationContext context) =>
       ConstantInstanceSyntax(
         constantIndex: context.constants[instanceConstant]!,
@@ -485,6 +532,25 @@ final class InstanceCreationReference extends InstanceReference {
     required this.namedArguments,
     required super.loadingUnits,
   });
+
+  @override
+  Reference _canonicalizeChildren(CanonicalizationContext context) =>
+      InstanceCreationReference(
+        loadingUnits: loadingUnits
+            .map((u) => context.canonicalizeLoadingUnit(u))
+            .toList(),
+        positionalArguments: positionalArguments
+            .map((c) => context.canonicalizeConstant(c))
+            .toList(),
+        namedArguments: Map.fromEntries(
+          namedArguments.entries.map(
+            (e) => MapEntry(
+              e.key,
+              context.canonicalizeConstant(e.value),
+            ),
+          ),
+        ),
+      );
 
   @override
   CreationInstanceSyntax _toSyntax(SerializationContext context) {
@@ -596,6 +662,14 @@ final class ConstructorTearoffReference extends InstanceReference {
   const ConstructorTearoffReference({required super.loadingUnits});
 
   @override
+  Reference _canonicalizeChildren(CanonicalizationContext context) =>
+      ConstructorTearoffReference(
+        loadingUnits: loadingUnits
+            .map((u) => context.canonicalizeLoadingUnit(u))
+            .toList(),
+      );
+
+  @override
   TearoffInstanceSyntax _toSyntax(SerializationContext context) =>
       TearoffInstanceSyntax(
         loadingUnitIndices: loadingUnits
@@ -630,12 +704,24 @@ final class ConstructorTearoffReference extends InstanceReference {
   }
 }
 
+/// Package private (protected) methods for [Reference].
+///
+/// This avoids bloating the public API and public API docs and prevents
+/// internal types from leaking from the API.
+extension ReferenceProtected on Reference {
+  Reference canonicalizeChildren(CanonicalizationContext context) =>
+      _canonicalizeChildren(context);
+}
+
 /// Package private (protected) methods for [CallReference].
 ///
 /// This avoids bloating the public API and public API docs and prevents
 /// internal types from leaking from the API.
 extension CallReferenceProtected on CallReference {
   CallSyntax toSyntax(SerializationContext context) => _toSyntax(context);
+
+  CallReference canonicalizeChildren(CanonicalizationContext context) =>
+      _canonicalizeChildren(context) as CallReference;
 
   static CallReference fromSyntax(
     CallSyntax syntax,
@@ -649,6 +735,9 @@ extension CallReferenceProtected on CallReference {
 /// internal types from leaking from the API.
 extension InstanceReferenceProtected on InstanceReference {
   InstanceSyntax toSyntax(SerializationContext context) => _toSyntax(context);
+
+  InstanceReference canonicalizeChildren(CanonicalizationContext context) =>
+      _canonicalizeChildren(context) as InstanceReference;
 
   static InstanceReference fromSyntax(
     InstanceSyntax syntax,

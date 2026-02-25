@@ -4,6 +4,7 @@
 
 import 'package:meta/meta.dart';
 
+import 'canonicalization_context.dart';
 import 'helper.dart';
 import 'syntax.g.dart';
 
@@ -65,6 +66,9 @@ class Definition {
         )
         .toList(),
   );
+
+  /// Canonicalizes the children of this [Definition].
+  Definition _canonicalizeChildren(CanonicalizationContext context) => this;
 
   /// The parent, if it exists.
   Definition? get parent => path.length > 1
@@ -272,6 +276,9 @@ final class DefinitionDisambiguator {
 /// internal types from leaking from the API.
 extension DefinitionProtected on Definition {
   DefinitionSyntax toSyntax() => _toSyntax();
+
+  Definition canonicalizeChildren(CanonicalizationContext context) =>
+      _canonicalizeChildren(context);
 
   static Definition fromSyntax(DefinitionSyntax syntax) =>
       Definition._fromSyntax(syntax);

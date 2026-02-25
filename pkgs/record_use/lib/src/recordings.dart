@@ -7,6 +7,7 @@ import 'dart:convert';
 
 import 'package:meta/meta.dart';
 
+import 'canonicalization_context.dart';
 import 'constant.dart';
 import 'definition.dart';
 import 'helper.dart';
@@ -122,6 +123,30 @@ Error: $e
     );
   }
 
+  Recordings _canonicalizeChildren(CanonicalizationContext context) {
+    final newCalls = <Definition, List<CallReference>>{};
+    for (final entry in calls.entries) {
+      final definition = context.canonicalizeDefinition(entry.key);
+      final references = entry.value
+          .map((r) => r.canonicalizeChildren(context))
+          .toList();
+      newCalls.putIfAbsent(definition, () => []).addAll(references);
+    }
+    final newInstances = <Definition, List<InstanceReference>>{};
+    for (final entry in instances.entries) {
+      final definition = context.canonicalizeDefinition(entry.key);
+      final references = entry.value
+          .map((r) => r.canonicalizeChildren(context))
+          .toList();
+      newInstances.putIfAbsent(definition, () => []).addAll(references);
+    }
+    return Recordings(
+      metadata: metadata,
+      calls: newCalls,
+      instances: newInstances,
+    );
+  }
+
   static LoadingUnitDeserializationContext _deserializeLoadingUnits(
     RecordedUsesSyntax syntax,
   ) {
@@ -177,43 +202,34 @@ Error: $e
   Map<String, Object?> toJson() => _toSyntax().json;
 
   RecordedUsesSyntax _toSyntax() {
-    final allConstants = _collectConstants();
-    final allLoadingUnits = _collectLoadingUnits();
-    final loadingUnitContext = _serializeLoadingUnits(allLoadingUnits);
-    final definitionContext = _serializeDefinitions(
-      allConstants,
-      loadingUnitContext,
-    );
-    final (context, constantSyntax) = _serializeConstants(
-      allConstants,
-      definitionContext,
+    final canonContext = CanonicalizationContext();
+    final canon = _canonicalizeChildren(canonContext);
+
+    final context = SerializationContext(
+      loadingUnits: canonContext.loadingUnits.asMapToIndices,
+      definitions: canonContext.definitions.asMapToIndices,
+      constants: canonContext.constants.asMapToIndices,
     );
 
     final callRecordings = <CallRecordingSyntax>[];
+    for (final entry in canon.calls.entries) {
+      callRecordings.add(
+        CallRecordingSyntax(
+          definitionIndex: context.definitions[entry.key]!,
+          uses: entry.value.map((call) => call.toSyntax(context)).toList(),
+        ),
+      );
+    }
     final instanceRecordings = <InstanceRecordingSyntax>[];
-    for (final definition in context.definitions.keys) {
-      final callsForDefinition = calls[definition];
-      if (callsForDefinition != null && callsForDefinition.isNotEmpty) {
-        callRecordings.add(
-          CallRecordingSyntax(
-            definitionIndex: context.definitions[definition]!,
-            uses: callsForDefinition
-                .map((call) => call.toSyntax(context))
-                .toList(),
-          ),
-        );
-      }
-      final instancesForDefinition = instances[definition];
-      if (instancesForDefinition != null && instancesForDefinition.isNotEmpty) {
-        instanceRecordings.add(
-          InstanceRecordingSyntax(
-            definitionIndex: context.definitions[definition]!,
-            uses: instancesForDefinition
-                .map((instance) => instance.toSyntax(context))
-                .toList(),
-          ),
-        );
-      }
+    for (final entry in canon.instances.entries) {
+      instanceRecordings.add(
+        InstanceRecordingSyntax(
+          definitionIndex: context.definitions[entry.key]!,
+          uses: entry.value
+              .map((instance) => instance.toSyntax(context))
+              .toList(),
+        ),
+      );
     }
 
     final uses = (callRecordings.isEmpty && instanceRecordings.isEmpty)
@@ -225,10 +241,14 @@ Error: $e
 
     return RecordedUsesSyntax(
       metadata: metadata.toSyntax(),
-      constants: constantSyntax.isEmpty ? null : constantSyntax,
-      loadingUnits: allLoadingUnits.isEmpty
+      constants: canonContext.constants.isEmpty
           ? null
-          : allLoadingUnits
+          : canonContext.constants
+                .map((constant) => constant.toSyntax(context))
+                .toList(),
+      loadingUnits: canonContext.loadingUnits.isEmpty
+          ? null
+          : canonContext.loadingUnits
                 .map((unit) => LoadingUnitSyntax(name: unit.name))
                 .toList(),
       definitions: context.definitions.isEmpty
@@ -240,84 +260,6 @@ Error: $e
                 .toList(),
       uses: uses,
     );
-  }
-
-  Iterable<MaybeConstant> _collectConstants() {
-    final values = <MaybeConstant>{
-      ...calls.values
-          .expand((calls) => calls)
-          .expand(
-            (call) => [
-              if (call.receiver != null) call.receiver!,
-              if (call is CallWithArguments) ...[
-                ...call.positionalArguments,
-                ...call.namedArguments.values,
-              ],
-            ],
-          ),
-      ...instances.values
-          .expand((instances) => instances)
-          .expand(
-            (instance) => switch (instance) {
-              InstanceConstantReference(:final instanceConstant) => [
-                instanceConstant,
-              ],
-              InstanceCreationReference(
-                :final positionalArguments,
-                :final namedArguments,
-              ) =>
-                [...positionalArguments, ...namedArguments.values],
-              ConstructorTearoffReference() => <MaybeConstant>[],
-            },
-          ),
-    };
-    return values.flatten();
-  }
-
-  Iterable<LoadingUnit> _collectLoadingUnits() => {
-    ...calls.values
-        .expand((calls) => calls)
-        .expand((call) => call.loadingUnits),
-    ...instances.values
-        .expand((instances) => instances)
-        .expand((instance) => instance.loadingUnits),
-  };
-
-  LoadingUnitSerializationContext _serializeLoadingUnits(
-    Iterable<LoadingUnit> allLoadingUnits,
-  ) => LoadingUnitSerializationContext(
-    allLoadingUnits.asMapToIndices,
-  );
-
-  DefinitionSerializationContext _serializeDefinitions(
-    Iterable<MaybeConstant> allConstants,
-    LoadingUnitSerializationContext loadingUnitContext,
-  ) {
-    final allDefinitions = {
-      ...calls.keys,
-      ...instances.keys,
-      ...allConstants.whereType<InstanceConstant>().map((c) => c.definition),
-      ...allConstants.whereType<EnumConstant>().map((c) => c.definition),
-    };
-    return DefinitionSerializationContext.fromPrevious(
-      loadingUnitContext,
-      allDefinitions.asMapToIndices,
-    );
-  }
-
-  (SerializationContext, List<ConstantSyntax>) _serializeConstants(
-    Iterable<MaybeConstant> allConstants,
-    DefinitionSerializationContext definitionContext,
-  ) {
-    final constantsMap = allConstants.asMapToIndices;
-    final context = SerializationContext.fromPrevious(
-      definitionContext,
-      constantsMap,
-    );
-    final constantSyntax = [
-      for (final constant in allConstants) constant.toSyntax(context),
-    ];
-    return (context, constantSyntax);
   }
 
   @override
@@ -561,41 +503,6 @@ Error: $e
       calls: newCallsForDefinition,
       instances: newInstancesForDefinition,
     );
-  }
-}
-
-extension FlattenConstantsExtension on Iterable<MaybeConstant> {
-  Set<MaybeConstant> flatten() {
-    final constants = <MaybeConstant>{};
-    for (final constant in this) {
-      depthFirstSearch(constant, constants);
-    }
-    return constants;
-  }
-
-  void depthFirstSearch(MaybeConstant constant, Set<MaybeConstant> collected) {
-    // ignore: omit_local_variable_types
-    final Iterable<MaybeConstant> children = switch (constant) {
-      ListConstant() => constant.value,
-      MapConstant() => constant.entries.expand(
-        (e) => [e.key, e.value],
-      ),
-      InstanceConstant() => constant.fields.values,
-      EnumConstant() => [
-        ...constant.fields.values,
-      ],
-      RecordConstant() => [
-        ...constant.positional,
-        ...constant.named.values,
-      ],
-      _ => <MaybeConstant>[],
-    };
-    for (final child in children) {
-      if (!collected.contains(child)) {
-        depthFirstSearch(child, collected);
-      }
-    }
-    collected.add(constant);
   }
 }
 

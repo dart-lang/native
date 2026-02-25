@@ -6,6 +6,7 @@ import 'dart:math';
 
 import 'package:meta/meta.dart';
 
+import 'canonicalization_context.dart';
 import 'definition.dart';
 import 'helper.dart';
 import 'serialization_context.dart';
@@ -26,6 +27,9 @@ sealed class MaybeConstant {
   /// Used for fast-path optimization in `operator ==`. Not included in
   /// `hashCode` because it is implicitly covered by the content-based hash.
   int get _size;
+
+  /// Canonicalizes this [MaybeConstant].
+  MaybeConstant _canonicalizeChildren(CanonicalizationContext context);
 
   /// Compares this [MaybeConstant] with [other] for semantic equality.
   ///
@@ -172,6 +176,9 @@ final class NonConstant extends MaybeConstant {
   int get _size => 1;
 
   @override
+  MaybeConstant _canonicalizeChildren(CanonicalizationContext context) => this;
+
+  @override
   int get hashCode => 0x4e6f6e43;
 
   @override
@@ -195,6 +202,9 @@ final class NonConstant extends MaybeConstant {
 abstract class Constant extends MaybeConstant {
   /// Creates a [Constant] object.
   const Constant();
+
+  @override
+  Constant _canonicalizeChildren(CanonicalizationContext context);
 
   @override
   @visibleForTesting
@@ -234,6 +244,9 @@ final class NullConstant extends Constant {
   int get _size => 1;
 
   @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) => this;
+
+  @override
   int get hashCode => 0x4e756c6c;
 
   @override
@@ -267,6 +280,9 @@ final class UnsupportedConstant extends Constant {
 
   @override
   int get _size => 1;
+
+  @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) => this;
 
   @override
   int get hashCode => message.hashCode;
@@ -304,6 +320,9 @@ final class BoolConstant extends Constant {
   int get _size => 1;
 
   @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) => this;
+
+  @override
   bool operator ==(Object other) =>
       other is BoolConstant && other.value == value;
 
@@ -339,6 +358,9 @@ final class IntConstant extends Constant {
   int get _size => 1;
 
   @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) => this;
+
+  @override
   bool operator ==(Object other) =>
       other is IntConstant && other.value == value;
 
@@ -372,6 +394,9 @@ final class StringConstant extends Constant {
 
   @override
   int get _size => 1;
+
+  @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) => this;
 
   @override
   bool operator ==(Object other) =>
@@ -412,6 +437,9 @@ final class SymbolConstant extends Constant {
 
   @override
   int get _size => 1;
+
+  @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) => this;
 
   @override
   bool operator ==(Object other) =>
@@ -465,6 +493,12 @@ final class ListConstant extends Constant {
     }
     return 1 + size;
   });
+
+  @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) =>
+      ListConstant(
+        value.map((c) => context.canonicalizeConstant(c) as Constant).toList(),
+      );
 
   @override
   bool operator ==(Object other) {
@@ -536,6 +570,19 @@ final class MapConstant extends Constant {
     }
     return 1 + size;
   });
+
+  @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) =>
+      MapConstant(
+        entries
+            .map(
+              (e) => MapEntry(
+                context.canonicalizeConstant(e.key) as Constant,
+                context.canonicalizeConstant(e.value) as Constant,
+              ),
+            )
+            .toList(),
+      );
 
   @override
   bool operator ==(Object other) {
@@ -656,6 +703,20 @@ final class InstanceConstant extends Constant {
   });
 
   @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) =>
+      InstanceConstant(
+        definition: context.canonicalizeDefinition(definition),
+        fields: Map.fromEntries(
+          fields.entries.map(
+            (e) => MapEntry(
+              e.key,
+              context.canonicalizeConstant(e.value) as Constant,
+            ),
+          ),
+        ),
+      );
+
+  @override
   String toString() =>
       'InstanceConstant($definition, {'
       '${fields.entries.map((e) => '${e.key}: ${e.value}').join(', ')}})';
@@ -758,6 +819,22 @@ final class EnumConstant extends Constant {
   });
 
   @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) =>
+      EnumConstant(
+        definition: context.canonicalizeDefinition(definition),
+        index: index,
+        name: name,
+        fields: Map.fromEntries(
+          fields.entries.map(
+            (e) => MapEntry(
+              e.key,
+              context.canonicalizeConstant(e.value) as Constant,
+            ),
+          ),
+        ),
+      );
+
+  @override
   String toString() =>
       'EnumConstant($definition, index: $index, name: $name, fields: {'
       '${fields.entries.map((e) => '${e.key}: ${e.value}').join(', ')}})';
@@ -853,6 +930,22 @@ final class RecordConstant extends Constant {
   });
 
   @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) =>
+      RecordConstant(
+        positional: positional
+            .map((c) => context.canonicalizeConstant(c) as Constant)
+            .toList(),
+        named: Map.fromEntries(
+          named.entries.map(
+            (e) => MapEntry(
+              e.key,
+              context.canonicalizeConstant(e.value) as Constant,
+            ),
+          ),
+        ),
+      );
+
+  @override
   String toString() =>
       'RecordConstant('
       '${positional.join(', ')}'
@@ -895,6 +988,9 @@ final class RecordConstant extends Constant {
 /// internal types from leaking from the API.
 extension MaybeConstantProtected on MaybeConstant {
   ConstantSyntax toSyntax(SerializationContext context) => _toSyntax(context);
+
+  MaybeConstant canonicalizeChildren(CanonicalizationContext context) =>
+      _canonicalizeChildren(context);
 
   static MaybeConstant fromSyntax(
     ConstantSyntax syntax,
