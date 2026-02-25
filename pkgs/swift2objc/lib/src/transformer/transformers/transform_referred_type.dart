@@ -27,6 +27,19 @@ ReferredType transformReferredType(
       return OptionalType(wrappedChildType);
     }
   }
+
+  if (type is InoutType) {
+    final (wrappedPrimitive, hasWrappedPrimitive) = maybeGetPrimitiveWrapper(
+      type.child,
+      true,
+      state,
+    );
+    if (hasWrappedPrimitive) {
+      return InoutType(wrappedPrimitive);
+    }
+    return InoutType(transformReferredType(type.child, globalNamer, state));
+  }
+
   if (type.isObjCRepresentable) return type;
 
   if (type is GenericType) {

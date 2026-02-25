@@ -49,11 +49,13 @@ void main() {
   }
 }
 
-const constNullIndex = 4;
-const constNonConstantIndex = 5;
-const constInstanceIndex = 7;
-const constMapIndex = 3;
-const constUnsupportedIndex = 9;
+const constNonConstantIndex = 0;
+const constUnsupportedIndex = 1;
+const constNullIndex = 2;
+const constMapIndex = 8;
+const constRecordIndex = 9;
+const constEnumIndex = 10;
+const constInstanceIndex = 11;
 typedef SchemaTestField = (
   List<Object> path,
   void Function(ValidationResults result) missingExpectations,
@@ -61,40 +63,52 @@ typedef SchemaTestField = (
 
 List<SchemaTestField> recordUseFields = [
   (['constants'], expectOptionalFieldMissing),
-  for (var index = 0; index < 10; index++) ...[
+  for (var index = 0; index < 12; index++) ...[
     (['constants', index, 'type'], expectRequiredFieldMissing),
     if (index != constNullIndex &&
         index != constNonConstantIndex &&
         index != constInstanceIndex &&
-        index != constUnsupportedIndex)
+        index != constUnsupportedIndex &&
+        index != constRecordIndex &&
+        index != constEnumIndex)
       (['constants', index, 'value'], expectRequiredFieldMissing),
     if (index == constInstanceIndex)
       (['constants', index, 'value'], expectOptionalFieldMissing),
+    if (index == constEnumIndex) ...[
+      (['constants', index, 'definition_index'], expectRequiredFieldMissing),
+      (['constants', index, 'index'], expectRequiredFieldMissing),
+      (['constants', index, 'name'], expectRequiredFieldMissing),
+      (['constants', index, 'value'], expectOptionalFieldMissing),
+    ],
     if (index == constMapIndex) ...[
       (['constants', index, 'value', 0, 'key'], expectRequiredFieldMissing),
       (['constants', index, 'value', 0, 'value'], expectRequiredFieldMissing),
     ],
     if (index == constUnsupportedIndex)
       (['constants', index, 'message'], expectRequiredFieldMissing),
+    if (index == constRecordIndex) ...[
+      (['constants', index, 'positional'], expectOptionalFieldMissing),
+      (['constants', index, 'named'], expectOptionalFieldMissing),
+    ],
     // Note the value for 'Instance' is optional because an empty map is
     // omitted. Also, Null and NonConstant have no value field.
   ],
   (['definitions'], expectOptionalFieldMissing),
-  (['definitions', 0, 'uri'], expectRequiredFieldMissing),
-  (['definitions', 0, 'path'], expectRequiredFieldMissing),
-  (['definitions', 0, 'path', 0], expectOptionalFieldMissing),
+  (['definitions', 1, 'uri'], expectRequiredFieldMissing),
+  (['definitions', 1, 'path'], expectRequiredFieldMissing),
+  (['definitions', 1, 'path', 0], expectOptionalFieldMissing),
   (
-    ['definitions', 0, 'path', 0, 'name'],
+    ['definitions', 1, 'path', 0, 'name'],
     expectRequiredFieldMissing,
   ),
   (
-    ['definitions', 0, 'path', 0, 'kind'],
+    ['definitions', 1, 'path', 0, 'kind'],
     expectOptionalFieldMissing,
   ),
   (
     [
       'definitions',
-      0,
+      1,
       'path',
       0,
       'disambiguators',

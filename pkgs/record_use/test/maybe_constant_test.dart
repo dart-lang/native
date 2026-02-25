@@ -13,7 +13,7 @@ void main() {
       'metadata': {'version': '1.0.0', 'comment': 'test'},
       'constants': [
         {'type': 'int', 'value': 42},
-        {'type': 'unsupported', 'message': 'Record'},
+        {'type': 'unsupported', 'message': 'MethodTearoff'},
         {'type': 'non_constant'},
       ],
       'loading_units': [
@@ -51,31 +51,59 @@ void main() {
 
     expect(call.positionalArguments, hasLength(3));
     expect(call.positionalArguments[0], const IntConstant(42));
-    expect(call.positionalArguments[1], const UnsupportedConstant('Record'));
+    expect(
+      call.positionalArguments[1],
+      const UnsupportedConstant('MethodTearoff'),
+    );
     expect(call.positionalArguments[2], const NonConstant());
 
     expect(call.namedArguments, hasLength(3));
     expect(call.namedArguments['a'], const IntConstant(42));
-    expect(call.namedArguments['b'], const UnsupportedConstant('Record'));
+    expect(
+      call.namedArguments['b'],
+      const UnsupportedConstant('MethodTearoff'),
+    );
     expect(call.namedArguments['c'], const NonConstant());
   });
 
   test('MaybeConstant serialization round-trip', () {
     const definition = Definition('package:a/a.dart', [Name('foo')]);
     final recordings = Recordings(
-      metadata: Metadata(version: version, comment: 'test'),
       calls: {
         definition: [
           const CallWithArguments(
             positionalArguments: [
               IntConstant(42),
-              UnsupportedConstant('Record'),
+              UnsupportedConstant('MethodTearoff'),
               NonConstant(),
+              RecordConstant(
+                positional: [IntConstant(1)],
+                named: {'a': IntConstant(2)},
+              ),
+              EnumConstant(
+                definition: definition,
+                index: 0,
+                name: 'red',
+                fields: {'hex': IntConstant(0xff0000)},
+              ),
+              SymbolConstant('foo'),
+              SymbolConstant('_bar', libraryUri: 'package:a/a.dart'),
             ],
             namedArguments: {
               'a': IntConstant(42),
-              'b': UnsupportedConstant('Record'),
+              'b': UnsupportedConstant('MethodTearoff'),
               'c': NonConstant(),
+              'd': RecordConstant(
+                positional: [IntConstant(3)],
+                named: {'b': IntConstant(4)},
+              ),
+              'e': EnumConstant(
+                definition: definition,
+                index: 1,
+                name: 'green',
+              ),
+              'f': SymbolConstant('foo'),
+              'g': SymbolConstant('_bar', libraryUri: 'package:a/a.dart'),
             },
             loadingUnits: [loadingUnit1],
           ),
@@ -106,7 +134,7 @@ void main() {
     const definition = Definition('package:a/a.dart', [Name('foo')]);
 
     final actualRecordings = Recordings(
-      metadata: Metadata(version: version, comment: 'actual'),
+      metadata: Metadata(comment: 'actual'),
       calls: {
         definition: [
           const CallWithArguments(
@@ -120,12 +148,12 @@ void main() {
     );
 
     final expectedRecordings = Recordings(
-      metadata: Metadata(version: version, comment: 'expected'),
+      metadata: Metadata(comment: 'expected'),
       calls: {
         definition: [
           const CallWithArguments(
-            positionalArguments: [UnsupportedConstant('Record')],
-            namedArguments: {'a': UnsupportedConstant('Record')},
+            positionalArguments: [UnsupportedConstant('MethodTearoff')],
+            namedArguments: {'a': UnsupportedConstant('MethodTearoff')},
             loadingUnits: [loadingUnit1],
           ),
         ],

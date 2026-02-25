@@ -217,6 +217,9 @@ class ConstantSyntax extends JsonObjectSyntax {
     if (result.isBoolConstant) {
       return result.asBoolConstant;
     }
+    if (result.isEnumConstant) {
+      return result.asEnumConstant;
+    }
     if (result.isInstanceConstant) {
       return result.asInstanceConstant;
     }
@@ -235,8 +238,14 @@ class ConstantSyntax extends JsonObjectSyntax {
     if (result.isNullConstant) {
       return result.asNullConstant;
     }
+    if (result.isRecordConstant) {
+      return result.asRecordConstant;
+    }
     if (result.isStringConstant) {
       return result.asStringConstant;
+    }
+    if (result.isSymbolConstant) {
+      return result.asSymbolConstant;
     }
     if (result.isUnsupportedConstant) {
       return result.asUnsupportedConstant;
@@ -273,6 +282,9 @@ class ConstantSyntax extends JsonObjectSyntax {
     final result = <String>[];
     if (_reader.tryTraverse(['type']) == 'instance') {
       result.addAll(_reader.validate<Object>('definition_index'));
+    }
+    if (_reader.tryTraverse(['type']) == 'symbol') {
+      result.addAll(_reader.validate<Object>('name'));
     }
     return result;
   }
@@ -492,6 +504,101 @@ class DefinitionSyntax extends JsonObjectSyntax {
 
   @override
   String toString() => 'DefinitionSyntax($json)';
+}
+
+class EnumConstantSyntax extends ConstantSyntax {
+  EnumConstantSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  EnumConstantSyntax({
+    required int definitionIndex,
+    required int index,
+    required String name,
+    Map<String, int>? value,
+    super.path = const [],
+  }) : super(type: 'enum') {
+    _definitionIndex = definitionIndex;
+    _index = index;
+    _name = name;
+    _value = value;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [EnumConstantSyntax] that are not in
+  /// [ConstantSyntax].
+  void setup({
+    required int definitionIndex,
+    required int index,
+    required String name,
+    required Map<String, int>? value,
+  }) {
+    _definitionIndex = definitionIndex;
+    _index = index;
+    _name = name;
+    _value = value;
+    json.sortOnKey();
+  }
+
+  int get definitionIndex => _reader.get<int>('definition_index');
+
+  set _definitionIndex(int value) {
+    json.setOrRemove('definition_index', value);
+  }
+
+  List<String> _validateDefinitionIndex() =>
+      _reader.validate<int>('definition_index');
+
+  int get index => _reader.get<int>('index');
+
+  set _index(int value) {
+    json.setOrRemove('index', value);
+  }
+
+  List<String> _validateIndex() => _reader.validate<int>('index');
+
+  String get name => _reader.get<String>('name');
+
+  set _name(String value) {
+    json.setOrRemove('name', value);
+  }
+
+  List<String> _validateName() => _reader.validate<String>('name');
+
+  Map<String, int>? get value => _reader.optionalMap<int>(
+    'value',
+  );
+
+  set _value(Map<String, int>? value) {
+    _checkArgumentMapKeys(
+      value,
+    );
+    json.setOrRemove('value', value);
+  }
+
+  List<String> _validateValue() => _reader.validateOptionalMap<int>(
+    'value',
+  );
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateDefinitionIndex(),
+    ..._validateIndex(),
+    ..._validateName(),
+    ..._validateValue(),
+  ];
+
+  @override
+  String toString() => 'EnumConstantSyntax($json)';
+}
+
+extension EnumConstantSyntaxExtension on ConstantSyntax {
+  bool get isEnumConstant => type == 'enum';
+
+  EnumConstantSyntax get asEnumConstant =>
+      EnumConstantSyntax.fromJson(json, path: path);
 }
 
 class EnumNameSyntax extends NameSyntax {
@@ -1276,6 +1383,75 @@ extension OperatorNameSyntaxExtension on NameSyntax {
       OperatorNameSyntax.fromJson(json, path: path);
 }
 
+class RecordConstantSyntax extends ConstantSyntax {
+  RecordConstantSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  RecordConstantSyntax({
+    Map<String, int>? named,
+    List<int>? positional,
+    super.path = const [],
+  }) : super(type: 'record') {
+    _named = named;
+    _positional = positional;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [RecordConstantSyntax] that are not in
+  /// [ConstantSyntax].
+  void setup({
+    required Map<String, int>? named,
+    required List<int>? positional,
+  }) {
+    _named = named;
+    _positional = positional;
+    json.sortOnKey();
+  }
+
+  Map<String, int>? get named => _reader.optionalMap<int>(
+    'named',
+  );
+
+  set _named(Map<String, int>? value) {
+    _checkArgumentMapKeys(
+      value,
+    );
+    json.setOrRemove('named', value);
+  }
+
+  List<String> _validateNamed() => _reader.validateOptionalMap<int>(
+    'named',
+  );
+
+  List<int>? get positional => _reader.optionalList<int>('positional');
+
+  set _positional(List<int>? value) {
+    json.setOrRemove('positional', value);
+  }
+
+  List<String> _validatePositional() =>
+      _reader.validateOptionalList<int>('positional');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateNamed(),
+    ..._validatePositional(),
+  ];
+
+  @override
+  String toString() => 'RecordConstantSyntax($json)';
+}
+
+extension RecordConstantSyntaxExtension on ConstantSyntax {
+  bool get isRecordConstant => type == 'record';
+
+  RecordConstantSyntax get asRecordConstant =>
+      RecordConstantSyntax.fromJson(json, path: path);
+}
+
 class RecordedUsesSyntax extends JsonObjectSyntax {
   RecordedUsesSyntax.fromJson(
     super.json, {
@@ -1516,6 +1692,75 @@ extension StringConstantSyntaxExtension on ConstantSyntax {
 
   StringConstantSyntax get asStringConstant =>
       StringConstantSyntax.fromJson(json, path: path);
+}
+
+class SymbolConstantSyntax extends ConstantSyntax {
+  SymbolConstantSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  SymbolConstantSyntax({
+    String? libraryUri,
+    required String name,
+    super.path = const [],
+  }) : super(type: 'symbol') {
+    _libraryUri = libraryUri;
+    _name = name;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [SymbolConstantSyntax] that are not in
+  /// [ConstantSyntax].
+  void setup({required String? libraryUri, required String name}) {
+    _libraryUri = libraryUri;
+    _name = name;
+    json.sortOnKey();
+  }
+
+  static final _libraryUriPattern = RegExp(r'^package:');
+
+  String? get libraryUri =>
+      _reader.optionalString('libraryUri', _libraryUriPattern);
+
+  set _libraryUri(String? value) {
+    if (value != null && !_libraryUriPattern.hasMatch(value)) {
+      throw ArgumentError.value(
+        value,
+        'value',
+        'Value does not satisify pattern: ${_libraryUriPattern.pattern}.',
+      );
+    }
+    json.setOrRemove('libraryUri', value);
+  }
+
+  List<String> _validateLibraryUri() =>
+      _reader.validateOptionalString('libraryUri', _libraryUriPattern);
+
+  String get name => _reader.get<String>('name');
+
+  set _name(String value) {
+    json.setOrRemove('name', value);
+  }
+
+  List<String> _validateName() => _reader.validate<String>('name');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateLibraryUri(),
+    ..._validateName(),
+  ];
+
+  @override
+  String toString() => 'SymbolConstantSyntax($json)';
+}
+
+extension SymbolConstantSyntaxExtension on ConstantSyntax {
+  bool get isSymbolConstant => type == 'symbol';
+
+  SymbolConstantSyntax get asSymbolConstant =>
+      SymbolConstantSyntax.fromJson(json, path: path);
 }
 
 class TearoffCallSyntax extends CallSyntax {
