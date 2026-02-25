@@ -4,6 +4,8 @@
 
 import 'package:meta/meta.dart';
 
+import 'canonicalization_context.dart';
+import 'helper.dart';
 import 'syntax.g.dart';
 
 /// A unique identifier for a code element, such as a class, method,
@@ -65,6 +67,13 @@ class Definition {
         .toList(),
   );
 
+  /// Canonicalizes the children of this [Definition].
+  Definition _canonicalizeChildren(CanonicalizationContext context) =>
+      Definition(
+        library,
+        [for (final name in path) name._canonicalizeChildren(context)],
+      );
+
   /// The parent, if it exists.
   Definition? get parent => path.length > 1
       ? Definition(library, path.sublist(0, path.length - 1))
@@ -84,7 +93,8 @@ class Definition {
   }
 
   @override
-  int get hashCode => Object.hash(library, Object.hashAll(path));
+  int get hashCode =>
+      cacheHashCode(() => Object.hash(library, Object.hashAll(path)));
 
   /// Returns a URI representation of this definition.
   ///
@@ -131,6 +141,18 @@ class Name {
     this.disambiguators = const {},
   });
 
+  Name _canonicalizeChildren(CanonicalizationContext context) {
+    if (disambiguators.isEmpty) return this;
+    return Name(
+      name,
+      kind: kind,
+      disambiguators: Set.from(
+        disambiguators.toList()
+          ..sort((a, b) => a.toString().compareTo(b.toString())),
+      ),
+    );
+  }
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
@@ -143,10 +165,8 @@ class Name {
   }
 
   @override
-  int get hashCode => Object.hash(
-    name,
-    kind,
-    Object.hashAllUnordered(disambiguators),
+  int get hashCode => cacheHashCode(
+    () => Object.hash(name, kind, Object.hashAllUnordered(disambiguators)),
   );
 
   /// Returns a string representation of this name that can be used as a part of
@@ -272,6 +292,9 @@ final class DefinitionDisambiguator {
 /// internal types from leaking from the API.
 extension DefinitionProtected on Definition {
   DefinitionSyntax toSyntax() => _toSyntax();
+
+  Definition canonicalizeChildren(CanonicalizationContext context) =>
+      _canonicalizeChildren(context);
 
   static Definition fromSyntax(DefinitionSyntax syntax) =>
       Definition._fromSyntax(syntax);

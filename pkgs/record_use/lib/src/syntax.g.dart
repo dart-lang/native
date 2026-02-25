@@ -244,6 +244,9 @@ class ConstantSyntax extends JsonObjectSyntax {
     if (result.isStringConstant) {
       return result.asStringConstant;
     }
+    if (result.isSymbolConstant) {
+      return result.asSymbolConstant;
+    }
     if (result.isUnsupportedConstant) {
       return result.asUnsupportedConstant;
     }
@@ -279,6 +282,9 @@ class ConstantSyntax extends JsonObjectSyntax {
     final result = <String>[];
     if (_reader.tryTraverse(['type']) == 'instance') {
       result.addAll(_reader.validate<Object>('definition_index'));
+    }
+    if (_reader.tryTraverse(['type']) == 'symbol') {
+      result.addAll(_reader.validate<Object>('name'));
     }
     return result;
   }
@@ -1686,6 +1692,75 @@ extension StringConstantSyntaxExtension on ConstantSyntax {
 
   StringConstantSyntax get asStringConstant =>
       StringConstantSyntax.fromJson(json, path: path);
+}
+
+class SymbolConstantSyntax extends ConstantSyntax {
+  SymbolConstantSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  SymbolConstantSyntax({
+    String? libraryUri,
+    required String name,
+    super.path = const [],
+  }) : super(type: 'symbol') {
+    _libraryUri = libraryUri;
+    _name = name;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [SymbolConstantSyntax] that are not in
+  /// [ConstantSyntax].
+  void setup({required String? libraryUri, required String name}) {
+    _libraryUri = libraryUri;
+    _name = name;
+    json.sortOnKey();
+  }
+
+  static final _libraryUriPattern = RegExp(r'^package:');
+
+  String? get libraryUri =>
+      _reader.optionalString('libraryUri', _libraryUriPattern);
+
+  set _libraryUri(String? value) {
+    if (value != null && !_libraryUriPattern.hasMatch(value)) {
+      throw ArgumentError.value(
+        value,
+        'value',
+        'Value does not satisify pattern: ${_libraryUriPattern.pattern}.',
+      );
+    }
+    json.setOrRemove('libraryUri', value);
+  }
+
+  List<String> _validateLibraryUri() =>
+      _reader.validateOptionalString('libraryUri', _libraryUriPattern);
+
+  String get name => _reader.get<String>('name');
+
+  set _name(String value) {
+    json.setOrRemove('name', value);
+  }
+
+  List<String> _validateName() => _reader.validate<String>('name');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateLibraryUri(),
+    ..._validateName(),
+  ];
+
+  @override
+  String toString() => 'SymbolConstantSyntax($json)';
+}
+
+extension SymbolConstantSyntaxExtension on ConstantSyntax {
+  bool get isSymbolConstant => type == 'symbol';
+
+  SymbolConstantSyntax get asSymbolConstant =>
+      SymbolConstantSyntax.fromJson(json, path: path);
 }
 
 class TearoffCallSyntax extends CallSyntax {

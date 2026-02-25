@@ -16,6 +16,10 @@ const instanceId = Definition(
   'package:js_runtime/js_helper.dart',
   [Name('MyAnnotation')],
 );
+const enumId = Definition(
+  'package:js_runtime/js_helper.dart',
+  [Name('MyEnum')],
+);
 
 const loadingUnitOJs = LoadingUnit('o.js');
 const loadingUnit3 = LoadingUnit('3');
@@ -76,6 +80,17 @@ final recordedUses = Recordings(
       ),
       const InstanceConstantReference(
         instanceConstant: InstanceConstant(definition: instanceId, fields: {}),
+        loadingUnits: [loadingUnit3],
+      ),
+    ],
+    enumId: [
+      const InstanceConstantReference(
+        instanceConstant: EnumConstant(
+          definition: enumId,
+          index: 0,
+          name: 'val1',
+          fields: {'a': IntConstant(42)},
+        ),
         loadingUnits: [loadingUnit3],
       ),
     ],

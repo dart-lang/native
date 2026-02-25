@@ -165,11 +165,14 @@ String generateInvocationParams(
     );
 
     assert(unwrappedType.sameAs(originalParam.type));
+    final invocationValue = originalParam.type is InoutType
+        ? '&$unwrappedParamValue'
+        : unwrappedParamValue;
 
     argumentsList.add(
       originalParam.name.isEmpty || originalParam.name == '_'
-          ? unwrappedParamValue
-          : '${originalParam.name}: $unwrappedParamValue',
+          ? invocationValue
+          : '${originalParam.name}: $invocationValue',
     );
   }
   return argumentsList.join(', ');

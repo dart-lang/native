@@ -78,6 +78,7 @@ abstract class Visitation {
   void visitDeclaredType(DeclaredType node) => visitReferredType(node);
   void visitGenericType(GenericType node) => visitReferredType(node);
   void visitOptionalType(OptionalType node) => visitReferredType(node);
+  void visitInoutType(InoutType node) => visitReferredType(node);
   void visitDeclaration(Declaration node) => visitAstNode(node);
   void visitBuiltInDeclaration(BuiltInDeclaration node) =>
       visitDeclaration(node);

@@ -55,7 +55,6 @@ void main() {
   test('Call with receiver serialization round-trip', () {
     const definition = Definition('package:a/a.dart', [Name('foo')]);
     final recordings = Recordings(
-      metadata: Metadata(version: version, comment: 'test'),
       calls: {
         definition: [
           const CallWithArguments(
@@ -87,7 +86,6 @@ void main() {
   test('CallTearoff with receiver serialization round-trip', () {
     const definition = Definition('package:a/a.dart', [Name('foo')]);
     final recordings = Recordings(
-      metadata: Metadata(version: version, comment: 'test'),
       calls: {
         definition: [
           const CallTearoff(

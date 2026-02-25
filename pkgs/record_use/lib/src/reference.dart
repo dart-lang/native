@@ -4,6 +4,7 @@
 
 import 'package:meta/meta.dart';
 
+import 'canonicalization_context.dart';
 import 'constant.dart';
 import 'definition.dart';
 import 'helper.dart';
@@ -23,6 +24,9 @@ sealed class Reference {
 
   const Reference({required this.loadingUnits});
 
+  /// Canonicalizes this [Reference].
+  Reference _canonicalizeChildren(CanonicalizationContext context);
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
@@ -31,7 +35,7 @@ sealed class Reference {
   }
 
   @override
-  int get hashCode => deepHash(loadingUnits);
+  int get hashCode => cacheHashCode(() => deepHash(loadingUnits));
 
   bool _semanticEqualsShared(
     Reference other, {
@@ -174,6 +178,27 @@ final class CallWithArguments extends CallReference {
   });
 
   @override
+  Reference _canonicalizeChildren(CanonicalizationContext context) {
+    final sortedNamedArgs = namedArguments.entries.toList()
+      ..sort((a, b) => a.key.compareTo(b.key));
+    return CallWithArguments(
+      loadingUnits: [
+        for (final u in loadingUnits) context.canonicalizeLoadingUnit(u),
+      ],
+      receiver: receiver != null
+          ? context.canonicalizeConstant(receiver!)
+          : null,
+      positionalArguments: [
+        for (final c in positionalArguments) context.canonicalizeConstant(c),
+      ],
+      namedArguments: {
+        for (final e in sortedNamedArgs)
+          e.key: context.canonicalizeConstant(e.value),
+      },
+    );
+  }
+
+  @override
   WithArgumentsCallSyntax _toSyntax(SerializationContext context) {
     final namedArgs = <String, int>{};
     for (final entry in namedArguments.entries) {
@@ -181,15 +206,16 @@ final class CallWithArguments extends CallReference {
     }
 
     return WithArgumentsCallSyntax(
-      loadingUnitIndices: loadingUnits
-          .map((unit) => context.loadingUnits[unit]!)
-          .toList(),
+      loadingUnitIndices: [
+        for (final unit in loadingUnits) context.loadingUnits[unit]!,
+      ],
       named: namedArgs.isNotEmpty ? namedArgs : null,
       positional: positionalArguments.isEmpty
           ? null
-          : positionalArguments
-                .map((argument) => context.constants[argument]!)
-                .toList(),
+          : [
+              for (final argument in positionalArguments)
+                context.constants[argument]!,
+            ],
       receiver: receiver != null ? context.constants[receiver!] : null,
     );
   }
@@ -206,11 +232,13 @@ final class CallWithArguments extends CallReference {
   }
 
   @override
-  int get hashCode => Object.hash(
-    deepHash(positionalArguments),
-    deepHash(namedArguments),
-    receiver,
-    super.hashCode,
+  int get hashCode => cacheHashCode(
+    () => Object.hash(
+      deepHash(positionalArguments),
+      deepHash(namedArguments),
+      receiver,
+      super.hashCode,
+    ),
   );
 
   @override
@@ -296,11 +324,22 @@ final class CallTearoff extends CallReference {
   const CallTearoff({required super.loadingUnits, super.receiver});
 
   @override
+  Reference _canonicalizeChildren(CanonicalizationContext context) =>
+      CallTearoff(
+        loadingUnits: [
+          for (final u in loadingUnits) context.canonicalizeLoadingUnit(u),
+        ],
+        receiver: receiver != null
+            ? context.canonicalizeConstant(receiver!)
+            : null,
+      );
+
+  @override
   TearoffCallSyntax _toSyntax(SerializationContext context) =>
       TearoffCallSyntax(
-        loadingUnitIndices: loadingUnits
-            .map((unit) => context.loadingUnits[unit]!)
-            .toList(),
+        loadingUnitIndices: [
+          for (final unit in loadingUnits) context.loadingUnits[unit]!,
+        ],
         receiver: receiver != null ? context.constants[receiver!] : null,
       );
 
@@ -359,7 +398,7 @@ sealed class InstanceReference extends Reference {
       :final loadingUnitIndices,
     ) =>
       InstanceConstantReference(
-        instanceConstant: context.constants[constantIndex] as InstanceConstant,
+        instanceConstant: context.constants[constantIndex] as Constant,
         loadingUnits: loadingUnitIndices
             .map((index) => context.loadingUnits[index])
             .toList(),
@@ -410,7 +449,7 @@ sealed class InstanceReference extends Reference {
 }
 
 final class InstanceConstantReference extends InstanceReference {
-  final InstanceConstant instanceConstant;
+  final Constant instanceConstant;
 
   const InstanceConstantReference({
     required this.instanceConstant,
@@ -418,12 +457,22 @@ final class InstanceConstantReference extends InstanceReference {
   });
 
   @override
+  Reference _canonicalizeChildren(CanonicalizationContext context) =>
+      InstanceConstantReference(
+        loadingUnits: [
+          for (final u in loadingUnits) context.canonicalizeLoadingUnit(u),
+        ],
+        instanceConstant:
+            context.canonicalizeConstant(instanceConstant) as Constant,
+      );
+
+  @override
   ConstantInstanceSyntax _toSyntax(SerializationContext context) =>
       ConstantInstanceSyntax(
         constantIndex: context.constants[instanceConstant]!,
-        loadingUnitIndices: loadingUnits
-            .map((unit) => context.loadingUnits[unit]!)
-            .toList(),
+        loadingUnitIndices: [
+          for (final unit in loadingUnits) context.loadingUnits[unit]!,
+        ],
       );
 
   @override
@@ -436,7 +485,8 @@ final class InstanceConstantReference extends InstanceReference {
   }
 
   @override
-  int get hashCode => Object.hash(instanceConstant, super.hashCode);
+  int get hashCode =>
+      cacheHashCode(() => Object.hash(instanceConstant, super.hashCode));
 
   @override
   @visibleForTesting
@@ -484,6 +534,24 @@ final class InstanceCreationReference extends InstanceReference {
   });
 
   @override
+  Reference _canonicalizeChildren(CanonicalizationContext context) {
+    final sortedNamedArgs = namedArguments.entries.toList()
+      ..sort((a, b) => a.key.compareTo(b.key));
+    return InstanceCreationReference(
+      loadingUnits: [
+        for (final u in loadingUnits) context.canonicalizeLoadingUnit(u),
+      ],
+      positionalArguments: [
+        for (final c in positionalArguments) context.canonicalizeConstant(c),
+      ],
+      namedArguments: {
+        for (final e in sortedNamedArgs)
+          e.key: context.canonicalizeConstant(e.value),
+      },
+    );
+  }
+
+  @override
   CreationInstanceSyntax _toSyntax(SerializationContext context) {
     final namedArgs = <String, int>{};
     for (final entry in namedArguments.entries) {
@@ -491,15 +559,16 @@ final class InstanceCreationReference extends InstanceReference {
     }
 
     return CreationInstanceSyntax(
-      loadingUnitIndices: loadingUnits
-          .map((unit) => context.loadingUnits[unit]!)
-          .toList(),
+      loadingUnitIndices: [
+        for (final unit in loadingUnits) context.loadingUnits[unit]!,
+      ],
       named: namedArgs.isNotEmpty ? namedArgs : null,
       positional: positionalArguments.isEmpty
           ? null
-          : positionalArguments
-                .map((argument) => context.constants[argument]!)
-                .toList(),
+          : [
+              for (final argument in positionalArguments)
+                context.constants[argument]!,
+            ],
     );
   }
 
@@ -514,10 +583,12 @@ final class InstanceCreationReference extends InstanceReference {
   }
 
   @override
-  int get hashCode => Object.hash(
-    deepHash(positionalArguments),
-    deepHash(namedArguments),
-    super.hashCode,
+  int get hashCode => cacheHashCode(
+    () => Object.hash(
+      deepHash(positionalArguments),
+      deepHash(namedArguments),
+      super.hashCode,
+    ),
   );
 
   @override
@@ -591,11 +662,19 @@ final class ConstructorTearoffReference extends InstanceReference {
   const ConstructorTearoffReference({required super.loadingUnits});
 
   @override
+  Reference _canonicalizeChildren(CanonicalizationContext context) =>
+      ConstructorTearoffReference(
+        loadingUnits: [
+          for (final u in loadingUnits) context.canonicalizeLoadingUnit(u),
+        ],
+      );
+
+  @override
   TearoffInstanceSyntax _toSyntax(SerializationContext context) =>
       TearoffInstanceSyntax(
-        loadingUnitIndices: loadingUnits
-            .map((unit) => context.loadingUnits[unit]!)
-            .toList(),
+        loadingUnitIndices: [
+          for (final unit in loadingUnits) context.loadingUnits[unit]!,
+        ],
       );
 
   @override
@@ -625,12 +704,24 @@ final class ConstructorTearoffReference extends InstanceReference {
   }
 }
 
+/// Package private (protected) methods for [Reference].
+///
+/// This avoids bloating the public API and public API docs and prevents
+/// internal types from leaking from the API.
+extension ReferenceProtected on Reference {
+  Reference canonicalizeChildren(CanonicalizationContext context) =>
+      _canonicalizeChildren(context);
+}
+
 /// Package private (protected) methods for [CallReference].
 ///
 /// This avoids bloating the public API and public API docs and prevents
 /// internal types from leaking from the API.
 extension CallReferenceProtected on CallReference {
   CallSyntax toSyntax(SerializationContext context) => _toSyntax(context);
+
+  CallReference canonicalizeChildren(CanonicalizationContext context) =>
+      _canonicalizeChildren(context) as CallReference;
 
   static CallReference fromSyntax(
     CallSyntax syntax,
@@ -644,6 +735,9 @@ extension CallReferenceProtected on CallReference {
 /// internal types from leaking from the API.
 extension InstanceReferenceProtected on InstanceReference {
   InstanceSyntax toSyntax(SerializationContext context) => _toSyntax(context);
+
+  InstanceReference canonicalizeChildren(CanonicalizationContext context) =>
+      _canonicalizeChildren(context) as InstanceReference;
 
   static InstanceReference fromSyntax(
     InstanceSyntax syntax,
