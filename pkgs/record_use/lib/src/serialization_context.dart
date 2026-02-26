@@ -83,35 +83,27 @@ final class DeserializationContext extends DefinitionDeserializationContext {
   ) : super.fromPrevious(previous, previous.definitions);
 }
 
-/// Context providing access to the loading unit index map during serialization.
+/// The serialization state containing indices for all pools.
+///
+/// Canonicalization is responsible for collecting all reachable objects across
+/// the recording and providing the basis for these index maps.
 @immutable
-base class LoadingUnitSerializationContext {
+final class SerializationContext {
+  /// The mapping from semantic [LoadingUnit] objects to their unique integer
+  /// index within the loading unit pool ([RecordedUsesSyntax.loadingUnits]).
   final Map<LoadingUnit, int> loadingUnits;
 
-  const LoadingUnitSerializationContext(this.loadingUnits);
-}
-
-/// Context providing access to the [Definition] index map during serialization.
-@immutable
-base class DefinitionSerializationContext
-    extends LoadingUnitSerializationContext {
+  /// The mapping from semantic [Definition] objects to their unique integer
+  /// index within the definitions pool ([RecordedUsesSyntax.definitions]).
   final Map<Definition, int> definitions;
 
-  DefinitionSerializationContext.fromPrevious(
-    LoadingUnitSerializationContext previous,
-    this.definitions,
-  ) : super(previous.loadingUnits);
-}
-
-/// The final serialization state where all index maps are available.
-@immutable
-final class SerializationContext extends DefinitionSerializationContext {
   /// The mapping from semantic [MaybeConstant] objects to their unique integer
   /// index within the constants pool ([RecordedUsesSyntax.constants]).
   final Map<MaybeConstant, int> constants;
 
-  SerializationContext.fromPrevious(
-    DefinitionSerializationContext previous,
-    this.constants,
-  ) : super.fromPrevious(previous, previous.definitions);
+  const SerializationContext({
+    required this.loadingUnits,
+    required this.definitions,
+    required this.constants,
+  });
 }

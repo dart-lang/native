@@ -10,12 +10,12 @@
       "value": 1
     },
     {
-      "type": "string",
-      "value": "mercury"
-    },
-    {
       "type": "int",
       "value": 42
+    },
+    {
+      "type": "string",
+      "value": "mercury"
     }
   ],
   "definitions": [
@@ -50,8 +50,8 @@
               0
             ],
             "named": {
-              "freddy": 2,
-              "answer": 3
+              "answer": 2,
+              "freddy": 3
             },
             "positional": [
               0,

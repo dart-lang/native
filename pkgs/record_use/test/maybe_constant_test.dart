@@ -69,7 +69,6 @@ void main() {
   test('MaybeConstant serialization round-trip', () {
     const definition = Definition('package:a/a.dart', [Name('foo')]);
     final recordings = Recordings(
-      metadata: Metadata(version: version, comment: 'test'),
       calls: {
         definition: [
           const CallWithArguments(
@@ -87,6 +86,8 @@ void main() {
                 name: 'red',
                 fields: {'hex': IntConstant(0xff0000)},
               ),
+              SymbolConstant('foo'),
+              SymbolConstant('_bar', libraryUri: 'package:a/a.dart'),
             ],
             namedArguments: {
               'a': IntConstant(42),
@@ -101,6 +102,8 @@ void main() {
                 index: 1,
                 name: 'green',
               ),
+              'f': SymbolConstant('foo'),
+              'g': SymbolConstant('_bar', libraryUri: 'package:a/a.dart'),
             },
             loadingUnits: [loadingUnit1],
           ),
@@ -131,7 +134,7 @@ void main() {
     const definition = Definition('package:a/a.dart', [Name('foo')]);
 
     final actualRecordings = Recordings(
-      metadata: Metadata(version: version, comment: 'actual'),
+      metadata: Metadata(comment: 'actual'),
       calls: {
         definition: [
           const CallWithArguments(
@@ -145,7 +148,7 @@ void main() {
     );
 
     final expectedRecordings = Recordings(
-      metadata: Metadata(version: version, comment: 'expected'),
+      metadata: Metadata(comment: 'expected'),
       calls: {
         definition: [
           const CallWithArguments(

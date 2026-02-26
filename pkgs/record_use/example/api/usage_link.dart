@@ -44,28 +44,40 @@ void main(List<String> arguments) {
     final usesUri = input.recordedUsagesFile;
     if (usesUri == null) return;
     final usesJson = await File.fromUri(usesUri).readAsString();
-    final uses = RecordedUsages.fromJson(
+    final uses = Recordings.fromJson(
       jsonDecode(usesJson) as Map<String, Object?>,
     );
 
     // snippet-start#static-call
-    final args = uses.constArgumentsFor(methodId);
-    for (final arg in args) {
-      if (arg.positional[0] case StringConstant(value: final english)) {
-        print('Translating to pirate: $english');
-        // Shrink a translations file based on all the different translation
-        // keys.
+    final calls = uses.calls[methodId] ?? [];
+    for (final call in calls) {
+      switch (call) {
+        case CallWithArguments(
+          positionalArguments: [StringConstant(value: final english), ...],
+        ):
+          // Shrink a translations file based on all the different translation
+          // keys.
+          print('Translating to pirate: $english');
+        case _:
+          print('Cannot determine which translations are used.');
       }
     }
     // snippet-end#static-call
 
     // snippet-start#const-instance
-    final ships = uses.constantsOf(classId);
+    final ships = uses.instances[classId] ?? [];
     for (final ship in ships) {
-      if (ship.fields['name'] case StringConstant(value: final name)) {
-        print('Pirate ship found: $name');
-        // Include the 3d model for this ship in the application but not
-        // bundle the other ships.
+      switch (ship) {
+        case InstanceConstantReference(
+          instanceConstant: InstanceConstant(
+            fields: {'name': StringConstant(value: final name)},
+          ),
+        ):
+          // Include the 3d model for this ship in the application but not
+          // bundle the other ships.
+          print('Pirate ship found: $name');
+        case _:
+          print('Cannot determine which ships are used.');
       }
     }
     // snippet-end#const-instance

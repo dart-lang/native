@@ -2,15 +2,15 @@
   "$schema": "../../doc/schema/record_use.schema.json",
   "constants": [
     {
+      "type": "non_constant"
+    },
+    {
       "type": "int",
       "value": 1
     },
     {
       "type": "int",
       "value": 2
-    },
-    {
-      "type": "non_constant"
     },
     {
       "type": "string",
@@ -47,12 +47,12 @@
               0
             ],
             "named": {
-              "other": 2,
+              "other": 0,
               "param": 3
             },
             "positional": [
-              0,
-              1
+              1,
+              2
             ],
             "type": "creation"
           }
