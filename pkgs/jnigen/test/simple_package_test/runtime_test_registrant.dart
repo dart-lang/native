@@ -854,7 +854,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
         expect(
           $R2250.new,
           isA<
-              $R2250<$T> Function<$T extends JObject?>({
+              $R2250<$T> Function<$T extends JObject>({
                 required JType<$T> T,
                 required void Function($T?) foo,
                 bool foo$async,
@@ -1024,7 +1024,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           final annotatedNonNullableT = newNonNullTestObject(arena);
           expect(
             annotatedNonNullableT
-                .classGenericEcho(object)
+                .classGenericEcho(object)!
                 .toDartString(releaseOriginal: true),
             'hello',
           );
@@ -1044,26 +1044,26 @@ void registerTests(String groupName, TestRunnerCallback test) {
           final object = 'hello'.toJString()..releasedBy(arena);
           expect(
             annotated
-                .methodGenericEcho(object)
+                .methodGenericEcho(object)!
                 // Cannot make it non-nullable.
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
             annotated
-                .methodGenericEcho(object)
+                .methodGenericEcho(object)!
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
             annotated
-                .methodGenericEcho2(object)
+                .methodGenericEcho2(object)!
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
             annotated
-                .methodGenericEcho3(object)
+                .methodGenericEcho3(object)!
                 .toDartString(releaseOriginal: true),
             'hello',
           );
@@ -1096,23 +1096,23 @@ void registerTests(String groupName, TestRunnerCallback test) {
             isNull,
           );
           expect(
-            annotated.nullableMethodGenericEcho(null),
+            annotated.nullableMethodGenericEcho<JObject>(null),
             isNull,
           );
           expect(
             annotated
-                .nullableMethodGenericEcho(object)
+                .nullableMethodGenericEcho(object)!
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
             annotated
-                .nullableMethodGenericEcho(object)
+                .nullableMethodGenericEcho(object)!
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
-            annotated.noAnnotationMethodGenericEcho(null),
+            annotated.noAnnotationMethodGenericEcho<JObject>(null),
             isNull,
           );
           expect(
@@ -1154,7 +1154,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(
             (annotated.classGenericList()..releasedBy(arena))
                 .asDart()
-                .first
+                .first!
                 .toDartString(
                   releaseOriginal: true,
                 ),
@@ -1173,7 +1173,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             )!
                   ..releasedBy(arena))
                 .asDart()
-                .first
+                .first!
                 .toDartString(releaseOriginal: true),
             'hello',
           );

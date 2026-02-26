@@ -85,7 +85,7 @@ class JObject {
   ///   ...
   /// }
   /// ```
-  bool isA<T extends JObject?>(JType<T> type) {
+  bool isA<T extends JObject>(JType<T> type) {
     final targetJClass = type.jClass;
     final canBeCasted = isInstanceOf(targetJClass);
     targetJClass.release();
@@ -102,7 +102,7 @@ class JObject {
   /// If [releaseOriginal] is `true`, the casted object will be released.
   ///
   /// Throws [CastError] if this object is not an instance of [type].
-  T as<T extends JObject?>(
+  T as<T extends JObject>(
     JType<T> type, {
     bool releaseOriginal = false,
   }) {

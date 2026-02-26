@@ -17,7 +17,7 @@ import 'types.dart';
 part 'primitive_jarrays.dart';
 
 final class _$JArray$Type$<E extends JObject?> extends JType<JArray<E>> {
-  _$JArray$Type$(JType<E> elementType)
+  _$JArray$Type$(JType<JObject> elementType)
       : signature = '[${elementType.signature}';
 
   @override
@@ -26,19 +26,19 @@ final class _$JArray$Type$<E extends JObject?> extends JType<JArray<E>> {
 
 extension type JArray<E extends JObject?>._(JObject _$this) implements JObject {
   /// The type which includes information such as the signature of this class.
-  static JType<JArray<E>> type<E extends JObject?>(JType<E> innerType) =>
+  static JType<JArray<E>> type<E extends JObject?>(JType<JObject> innerType) =>
       _$JArray$Type$<E>(innerType);
 
   /// Creates a [JArray] of the given length from the given [elementType].
   ///
   /// The [length] must be a non-negative integer.
-  static JArray<E?> withLength<E extends JObject?>(
+  static JArray<E?> withLength<E extends JObject>(
       JType<E> elementType, int length) {
     RangeError.checkNotNegative(length);
     return _newArray<E>(elementType.jClass, length);
   }
 
-  static JArray<$E> _newArray<$E extends JObject?>(JClass jClass, int length,
+  static JArray<$E> _newArray<$E extends JObject>(JClass jClass, int length,
       [$E? fill]) {
     final classRef = jClass.reference;
     final fillRef = fill?.reference ?? jNullReference;
@@ -64,10 +64,11 @@ extension type JArray<E extends JObject?>._(JObject _$this) implements JObject {
   }
 
   /// Creates a [JArray] from `elements`.
-  static JArray<$E> of<$E extends JObject?>(
-      JType<$E> elementType, Iterable<$E> elements) {
+  static JArray<$E?> of<$E extends JObject>(
+      JType<$E> elementType, Iterable<$E?> elements) {
     final len = elements.length;
-    return _newArray<$E>(elementType.jClass, len)..setRange(0, len, elements);
+    return (_newArray<$E>(elementType.jClass, len) as JArray<$E?>)
+      ..setRange(0, len, elements);
   }
 
   /// The number of elements in this array.

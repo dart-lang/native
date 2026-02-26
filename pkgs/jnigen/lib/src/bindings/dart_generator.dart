@@ -700,7 +700,7 @@ class _TypeGenerator extends TypeVisitor<String> {
         return '$_jObject$nullable';
       }
     }
-    final nullable = includeNullability && node.hasQuestionMark ? '?' : '';
+    final nullable = includeNullability && node.isNullable ? '?' : '';
     return '$_typeParamPrefix${node.name}$nullable';
   }
 
@@ -861,6 +861,11 @@ class _JniResultGetter extends TypeVisitor<String> {
 
   @override
   String visitNonPrimitiveType(ReferredType node) {
+    if (node.isNullable) {
+      final type =
+          node.accept(_TypeGenerator(resolver, includeNullability: false));
+      return 'objectNullable<$type>()';
+    }
     final type = node.accept(_TypeGenerator(resolver));
     return 'object<$type>()';
   }
@@ -948,7 +953,7 @@ ${modifier}final _id_$name =
           typeErasure: true, includeNullability: false));
       typeClass = '$type.type';
     }
-    return '_id_$name.get($self, $typeClass)';
+    return '_id_$name.${node.type.isNullable ? 'getNullable' : 'get'}($self, $typeClass)';
   }
 
   String setter(Field node) {
@@ -1196,7 +1201,8 @@ ${modifier}final _$name = $_protectedExtension
       if (node.isAsyncVoid) {
         s.write('    return;');
       } else {
-        final returningType = asyncReturnType.accept(_TypeGenerator(resolver));
+        final returningType = asyncReturnType
+            .accept(_TypeGenerator(resolver, includeNullability: false));
         final returningTypeClass =
             asyncReturnType.accept(_TypeClassGenerator(resolver));
         s.write('''

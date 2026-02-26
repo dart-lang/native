@@ -640,9 +640,9 @@ extension type Nullability$InnerClass<$T extends jni$_.JObject?,
 
   /// from: `public fun f(t: T, u: U, v: V): kotlin.Unit`
   void f(
-    $T object,
+    $T? object,
     $U object1,
-    $V object2,
+    $V? object2,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1.reference;
@@ -698,7 +698,7 @@ extension type Nullability<$T extends jni$_.JObject?,
   /// from: `public void <init>(T object, U object1, U object2)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Nullability(
-    $T object,
+    $T? object,
     $U object1,
     $U? object2,
   ) {
@@ -729,8 +729,8 @@ extension type Nullability<$T extends jni$_.JObject?,
 
   /// from: `public final T getT()`
   /// The returned object must be released after use, by calling the [release] method.
-  $T getT() {
-    return _getT(reference.pointer, _id_getT.pointer).object<$T>();
+  $T? getT() {
+    return _getT(reference.pointer, _id_getT.pointer).objectNullable<$T>();
   }
 
   static final _id_getU = _class.instanceMethodId(
@@ -777,7 +777,7 @@ extension type Nullability<$T extends jni$_.JObject?,
   /// The returned object must be released after use, by calling the [release] method.
   $U? getNullableU() {
     return _getNullableU(reference.pointer, _id_getNullableU.pointer)
-        .object<$U?>();
+        .objectNullable<$U>();
   }
 
   static final _id_setNullableU = _class.instanceMethodId(
@@ -874,7 +874,7 @@ extension type Nullability<$T extends jni$_.JObject?,
   ) {
     return _nullableHello(
             reference.pointer, _id_nullableHello.pointer, z ? 1 : 0)
-        .object<jni$_.JString?>();
+        .objectNullable<jni$_.JString>();
   }
 
   static final _id_list = _class.instanceMethodId(
@@ -946,13 +946,13 @@ extension type Nullability<$T extends jni$_.JObject?,
 
   /// from: `public fun <V> methodGenericNullableEcho(v: V): V`
   /// The returned object must be released after use, by calling the [release] method.
-  $V methodGenericNullableEcho<$V extends jni$_.JObject?>(
-    $V object,
+  $V? methodGenericNullableEcho<$V extends jni$_.JObject?>(
+    $V? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _methodGenericNullableEcho(reference.pointer,
             _id_methodGenericNullableEcho.pointer, _$object.pointer)
-        .object<$V>();
+        .objectNullable<$V>();
   }
 
   static final _id_classGenericEcho = _class.instanceMethodId(
@@ -1000,13 +1000,13 @@ extension type Nullability<$T extends jni$_.JObject?,
 
   /// from: `public fun classGenericNullableEcho(t: T): T`
   /// The returned object must be released after use, by calling the [release] method.
-  $T classGenericNullableEcho(
-    $T object,
+  $T? classGenericNullableEcho(
+    $T? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _classGenericNullableEcho(reference.pointer,
             _id_classGenericNullableEcho.pointer, _$object.pointer)
-        .object<$T>();
+        .objectNullable<$T>();
   }
 
   static final _id_firstOf = _class.instanceMethodId(
@@ -1059,7 +1059,7 @@ extension type Nullability<$T extends jni$_.JObject?,
     final _$list = list.reference;
     return _firstOfNullable(
             reference.pointer, _id_firstOfNullable.pointer, _$list.pointer)
-        .object<jni$_.JString?>();
+        .objectNullable<jni$_.JString>();
   }
 
   static final _id_classGenericFirstOf = _class.instanceMethodId(
@@ -1108,13 +1108,13 @@ extension type Nullability<$T extends jni$_.JObject?,
 
   /// from: `public fun classGenericFirstOfNullable(list: kotlin.collections.List<T>): T`
   /// The returned object must be released after use, by calling the [release] method.
-  $T classGenericFirstOfNullable(
+  $T? classGenericFirstOfNullable(
     jni$_.JList<$T> list,
   ) {
     final _$list = list.reference;
     return _classGenericFirstOfNullable(reference.pointer,
             _id_classGenericFirstOfNullable.pointer, _$list.pointer)
-        .object<$T>();
+        .objectNullable<$T>();
   }
 
   static final _id_methodGenericFirstOf = _class.instanceMethodId(
@@ -1163,13 +1163,13 @@ extension type Nullability<$T extends jni$_.JObject?,
 
   /// from: `public fun <V> methodGenericFirstOfNullable(list: kotlin.collections.List<V>): V`
   /// The returned object must be released after use, by calling the [release] method.
-  $V methodGenericFirstOfNullable<$V extends jni$_.JObject?>(
+  $V? methodGenericFirstOfNullable<$V extends jni$_.JObject?>(
     jni$_.JList<$V> list,
   ) {
     final _$list = list.reference;
     return _methodGenericFirstOfNullable(reference.pointer,
             _id_methodGenericFirstOfNullable.pointer, _$list.pointer)
-        .object<$V>();
+        .objectNullable<$V>();
   }
 
   static final _id_stringListOf = _class.instanceMethodId(
@@ -1272,13 +1272,13 @@ extension type Nullability<$T extends jni$_.JObject?,
 
   /// from: `public fun classGenericNullableListOf(element: T): kotlin.collections.List<T>`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JList<$T> classGenericNullableListOf(
-    $T object,
+  jni$_.JList<$T?> classGenericNullableListOf(
+    $T? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _classGenericNullableListOf(reference.pointer,
             _id_classGenericNullableListOf.pointer, _$object.pointer)
-        .object<jni$_.JList<$T>>();
+        .object<jni$_.JList<$T?>>();
   }
 
   static final _id_methodGenericListOf = _class.instanceMethodId(
@@ -1327,13 +1327,13 @@ extension type Nullability<$T extends jni$_.JObject?,
 
   /// from: `public fun <V> methodGenericNullableListOf(element: V): kotlin.collections.List<V>`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JList<$V> methodGenericNullableListOf<$V extends jni$_.JObject?>(
-    $V object,
+  jni$_.JList<$V?> methodGenericNullableListOf<$V extends jni$_.JObject?>(
+    $V? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _methodGenericNullableListOf(reference.pointer,
             _id_methodGenericNullableListOf.pointer, _$object.pointer)
-        .object<jni$_.JList<$V>>();
+        .object<jni$_.JList<$V?>>();
   }
 
   static final _id_methodWithVarArgs = _class.instanceMethodId(
@@ -2087,7 +2087,7 @@ extension type SpeedUnit._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<SpeedUnit?>? values() {
     return _values(_class.reference.pointer, _id_values.pointer)
-        .object<jni$_.JArray<SpeedUnit?>?>();
+        .objectNullable<jni$_.JArray<SpeedUnit?>>();
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -2114,7 +2114,7 @@ extension type SpeedUnit._(jni$_.JObject _$this) implements jni$_.JObject {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _valueOf(
             _class.reference.pointer, _id_valueOf.pointer, _$string.pointer)
-        .object<SpeedUnit?>();
+        .objectNullable<SpeedUnit>();
   }
 }
 
@@ -2437,7 +2437,7 @@ extension type SuspendFun._(jni$_.JObject _$this) implements jni$_.JObject {
 
     final $r = _nullableHello(reference.pointer, _id_nullableHello.pointer,
             z ? 1 : 0, _$continuation.pointer)
-        .object<jni$_.JObject?>();
+        .objectNullable<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject? $o;
     if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
@@ -2458,7 +2458,7 @@ extension type SuspendFun._(jni$_.JObject _$this) implements jni$_.JObject {
     } else {
       $o = $r;
     }
-    return $o?.as<jni$_.JString?>(
+    return $o?.as<jni$_.JString>(
       jni$_.JString.type,
       releaseOriginal: true,
     );
@@ -2494,7 +2494,7 @@ extension type SuspendFun._(jni$_.JObject _$this) implements jni$_.JObject {
             _id_nullableHelloWithoutDelay.pointer,
             z ? 1 : 0,
             _$continuation.pointer)
-        .object<jni$_.JObject?>();
+        .objectNullable<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject? $o;
     if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
@@ -2515,7 +2515,7 @@ extension type SuspendFun._(jni$_.JObject _$this) implements jni$_.JObject {
     } else {
       $o = $r;
     }
-    return $o?.as<jni$_.JString?>(
+    return $o?.as<jni$_.JString>(
       jni$_.JString.type,
       releaseOriginal: true,
     );
@@ -2879,7 +2879,7 @@ extension type SuspendInterface._(jni$_.JObject _$this)
 
     final $r = _nullableHello(reference.pointer, _id_nullableHello.pointer,
             z ? 1 : 0, _$continuation.pointer)
-        .object<jni$_.JObject?>();
+        .objectNullable<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject? $o;
     if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
@@ -2900,7 +2900,7 @@ extension type SuspendInterface._(jni$_.JObject _$this)
     } else {
       $o = $r;
     }
-    return $o?.as<jni$_.JString?>(
+    return $o?.as<jni$_.JString>(
       jni$_.JString.type,
       releaseOriginal: true,
     );
@@ -3039,7 +3039,7 @@ extension type SuspendInterface._(jni$_.JObject _$this)
 
     final $r = _nullableInt(reference.pointer, _id_nullableInt.pointer,
             z ? 1 : 0, _$continuation.pointer)
-        .object<jni$_.JObject?>();
+        .objectNullable<jni$_.JObject>();
     _$continuation.release();
     jni$_.JObject? $o;
     if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
@@ -3060,7 +3060,7 @@ extension type SuspendInterface._(jni$_.JObject _$this)
     } else {
       $o = $r;
     }
-    return $o?.as<jni$_.JInteger?>(
+    return $o?.as<jni$_.JInteger>(
       jni$_.JInteger.type,
       releaseOriginal: true,
     );

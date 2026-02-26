@@ -55,7 +55,7 @@ extension type Example$Nested$NestedTwice._(jni$_.JObject _$this)
   );
 
   /// from: `static public int ZERO`
-  static int get ZERO => _id_ZERO.get(_class, jni$_.jint.type) as int;
+  static int get ZERO => _id_ZERO.getNullable(_class, jni$_.jint.type) as int;
 
   /// from: `static public int ZERO`
   static set ZERO(int value) => _id_ZERO.set(_class, jni$_.jint.type, value);
@@ -219,7 +219,8 @@ extension type Example$NonStaticNested._(jni$_.JObject _$this)
   );
 
   /// from: `public boolean ok`
-  core$_.bool get ok => _id_ok.get(this, jni$_.jboolean.type) as core$_.bool;
+  core$_.bool get ok =>
+      _id_ok.getNullable(this, jni$_.jboolean.type) as core$_.bool;
 
   /// from: `public boolean ok`
   set ok(core$_.bool value) => _id_ok.set(this, jni$_.jboolean.type, value);
@@ -289,7 +290,8 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.lang.String SEMICOLON_STRING`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get SEMICOLON_STRING =>
-      _id_SEMICOLON_STRING.get(_class, jni$_.JString.type) as jni$_.JString?;
+      _id_SEMICOLON_STRING.getNullable(_class, jni$_.JString.type)
+          as jni$_.JString?;
 
   static final _id_unusedRandom = _class.staticFieldId(
     r'unusedRandom',
@@ -299,7 +301,8 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public final java.util.Random unusedRandom`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JObject? get unusedRandom =>
-      _id_unusedRandom.get(_class, jni$_.JObject.type) as jni$_.JObject?;
+      _id_unusedRandom.getNullable(_class, jni$_.JObject.type)
+          as jni$_.JObject?;
 
   static final _id_getAmount = _class.staticMethodId(
     r'getAmount',
@@ -388,7 +391,7 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? getName() {
     return _getName(_class.reference.pointer, _id_getName.pointer)
-        .object<jni$_.JString?>();
+        .objectNullable<jni$_.JString>();
   }
 
   static final _id_getNestedInstance = _class.staticMethodId(
@@ -413,7 +416,7 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
   static Example$Nested? getNestedInstance() {
     return _getNestedInstance(
             _class.reference.pointer, _id_getNestedInstance.pointer)
-        .object<Example$Nested?>();
+        .objectNullable<Example$Nested>();
   }
 
   static final _id_setAmount = _class.staticMethodId(
@@ -670,7 +673,7 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? getCodename() {
     return _getCodename(reference.pointer, _id_getCodename.pointer)
-        .object<jni$_.JString?>();
+        .objectNullable<jni$_.JString>();
   }
 
   static final _id_setCodename = _class.instanceMethodId(
@@ -719,7 +722,7 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? getRandom() {
     return _getRandom(reference.pointer, _id_getRandom.pointer)
-        .object<jni$_.JObject?>();
+        .objectNullable<jni$_.JObject>();
   }
 
   static final _id_setRandom = _class.instanceMethodId(
@@ -866,7 +869,7 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
     final _$random = random?.reference ?? jni$_.jNullReference;
     return _getRandomNumericString(reference.pointer,
             _id_getRandomNumericString.pointer, _$random.pointer)
-        .object<jni$_.JString?>();
+        .objectNullable<jni$_.JString>();
   }
 
   static final _id_finalMethod = _class.instanceMethodId(
@@ -912,7 +915,7 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JString?>? getList() {
     return _getList(reference.pointer, _id_getList.pointer)
-        .object<jni$_.JList<jni$_.JString?>?>();
+        .objectNullable<jni$_.JList<jni$_.JString?>>();
   }
 
   static final _id_joinStrings = _class.instanceMethodId(
@@ -947,7 +950,7 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _joinStrings(reference.pointer, _id_joinStrings.pointer,
             _$list.pointer, _$string.pointer)
-        .object<jni$_.JString?>();
+        .objectNullable<jni$_.JString>();
   }
 
   static final _id_methodWithSeveralParams = _class.instanceMethodId(
@@ -1217,7 +1220,7 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JIntArray? getArr() {
     return _getArr(_class.reference.pointer, _id_getArr.pointer)
-        .object<jni$_.JIntArray?>();
+        .objectNullable<jni$_.JIntArray>();
   }
 
   static final _id_addAll = _class.staticMethodId(
@@ -1265,7 +1268,8 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public com.github.dart_lang.jnigen.simple_package.Example getSelf()`
   /// The returned object must be released after use, by calling the [release] method.
   Example? getSelf() {
-    return _getSelf(reference.pointer, _id_getSelf.pointer).object<Example?>();
+    return _getSelf(reference.pointer, _id_getSelf.pointer)
+        .objectNullable<Example>();
   }
 
   static final _id_throwException = _class.staticMethodId(
@@ -1591,7 +1595,7 @@ extension type Exceptions._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JObject? staticObjectMethod() {
     return _staticObjectMethod(
             _class.reference.pointer, _id_staticObjectMethod.pointer)
-        .object<jni$_.JObject?>();
+        .objectNullable<jni$_.JObject>();
   }
 
   static final _id_staticIntMethod = _class.staticMethodId(
@@ -1640,7 +1644,7 @@ extension type Exceptions._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JArray<jni$_.JObject?>? staticObjectArrayMethod() {
     return _staticObjectArrayMethod(
             _class.reference.pointer, _id_staticObjectArrayMethod.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .objectNullable<jni$_.JArray<jni$_.JObject?>>();
   }
 
   static final _id_staticIntArrayMethod = _class.staticMethodId(
@@ -1665,7 +1669,7 @@ extension type Exceptions._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JIntArray? staticIntArrayMethod() {
     return _staticIntArrayMethod(
             _class.reference.pointer, _id_staticIntArrayMethod.pointer)
-        .object<jni$_.JIntArray?>();
+        .objectNullable<jni$_.JIntArray>();
   }
 
   static final _id_objectMethod = _class.instanceMethodId(
@@ -1689,7 +1693,7 @@ extension type Exceptions._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? objectMethod() {
     return _objectMethod(reference.pointer, _id_objectMethod.pointer)
-        .object<jni$_.JObject?>();
+        .objectNullable<jni$_.JObject>();
   }
 
   static final _id_intMethod = _class.instanceMethodId(
@@ -1735,7 +1739,7 @@ extension type Exceptions._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<jni$_.JObject?>? objectArrayMethod() {
     return _objectArrayMethod(reference.pointer, _id_objectArrayMethod.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
+        .objectNullable<jni$_.JArray<jni$_.JObject?>>();
   }
 
   static final _id_intArrayMethod = _class.instanceMethodId(
@@ -1759,7 +1763,7 @@ extension type Exceptions._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JIntArray? intArrayMethod() {
     return _intArrayMethod(reference.pointer, _id_intArrayMethod.pointer)
-        .object<jni$_.JIntArray?>();
+        .objectNullable<jni$_.JIntArray>();
   }
 
   static final _id_throwNullPointerException = _class.instanceMethodId(
@@ -1809,7 +1813,7 @@ extension type Exceptions._(jni$_.JObject _$this) implements jni$_.JObject {
   jni$_.JObject? throwFileNotFoundException() {
     return _throwFileNotFoundException(
             reference.pointer, _id_throwFileNotFoundException.pointer)
-        .object<jni$_.JObject?>();
+        .objectNullable<jni$_.JObject>();
   }
 
   static final _id_throwClassCastException = _class.instanceMethodId(
@@ -1834,7 +1838,7 @@ extension type Exceptions._(jni$_.JObject _$this) implements jni$_.JObject {
   jni$_.JObject? throwClassCastException() {
     return _throwClassCastException(
             reference.pointer, _id_throwClassCastException.pointer)
-        .object<jni$_.JObject?>();
+        .objectNullable<jni$_.JObject>();
   }
 
   static final _id_throwArrayIndexException = _class.instanceMethodId(
@@ -1932,7 +1936,7 @@ extension type Fields$Nested._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `public long hundred`
-  int get hundred => _id_hundred.get(this, jni$_.jlong.type) as int;
+  int get hundred => _id_hundred.getNullable(this, jni$_.jlong.type) as int;
 
   /// from: `public long hundred`
   set hundred(int value) => _id_hundred.set(this, jni$_.jlong.type, value);
@@ -1945,7 +1949,7 @@ extension type Fields$Nested._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public java.lang.String BEST_GOD`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get BEST_GOD =>
-      _id_BEST_GOD.get(_class, jni$_.JString.type) as jni$_.JString?;
+      _id_BEST_GOD.getNullable(_class, jni$_.JString.type) as jni$_.JString?;
 
   /// from: `static public java.lang.String BEST_GOD`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1999,7 +2003,8 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public int amount`
-  static int get amount => _id_amount.get(_class, jni$_.jint.type) as int;
+  static int get amount =>
+      _id_amount.getNullable(_class, jni$_.jint.type) as int;
 
   /// from: `static public int amount`
   static set amount(int value) =>
@@ -2011,7 +2016,8 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public double pi`
-  static double get pi => _id_pi.get(_class, jni$_.jdouble.type) as double;
+  static double get pi =>
+      _id_pi.getNullable(_class, jni$_.jdouble.type) as double;
 
   /// from: `static public double pi`
   static set pi(double value) => _id_pi.set(_class, jni$_.jdouble.type, value);
@@ -2022,7 +2028,8 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public char asterisk`
-  static int get asterisk => _id_asterisk.get(_class, jni$_.jchar.type) as int;
+  static int get asterisk =>
+      _id_asterisk.getNullable(_class, jni$_.jchar.type) as int;
 
   /// from: `static public char asterisk`
   static set asterisk(int value) =>
@@ -2036,7 +2043,7 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public java.lang.String name`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get name =>
-      _id_name.get(_class, jni$_.JString.type) as jni$_.JString?;
+      _id_name.getNullable(_class, jni$_.JString.type) as jni$_.JString?;
 
   /// from: `static public java.lang.String name`
   /// The returned object must be released after use, by calling the [release] method.
@@ -2051,7 +2058,7 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public java.lang.Integer i`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JInteger? get i =>
-      _id_i.get(this, jni$_.JInteger.type) as jni$_.JInteger?;
+      _id_i.getNullable(this, jni$_.JInteger.type) as jni$_.JInteger?;
 
   /// from: `public java.lang.Integer i`
   /// The returned object must be released after use, by calling the [release] method.
@@ -2063,7 +2070,7 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `public long trillion`
-  int get trillion => _id_trillion.get(this, jni$_.jlong.type) as int;
+  int get trillion => _id_trillion.getNullable(this, jni$_.jlong.type) as int;
 
   /// from: `public long trillion`
   set trillion(int value) => _id_trillion.set(this, jni$_.jlong.type, value);
@@ -2075,7 +2082,7 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `public boolean isAchillesDead`
   core$_.bool get isAchillesDead =>
-      _id_isAchillesDead.get(this, jni$_.jboolean.type) as core$_.bool;
+      _id_isAchillesDead.getNullable(this, jni$_.jboolean.type) as core$_.bool;
 
   /// from: `public boolean isAchillesDead`
   set isAchillesDead(core$_.bool value) =>
@@ -2089,7 +2096,8 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public java.lang.String bestFighterInGreece`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? get bestFighterInGreece =>
-      _id_bestFighterInGreece.get(this, jni$_.JString.type) as jni$_.JString?;
+      _id_bestFighterInGreece.getNullable(this, jni$_.JString.type)
+          as jni$_.JString?;
 
   /// from: `public java.lang.String bestFighterInGreece`
   /// The returned object must be released after use, by calling the [release] method.
@@ -2104,7 +2112,7 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public java.util.Random random`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? get random =>
-      _id_random.get(this, jni$_.JObject.type) as jni$_.JObject?;
+      _id_random.getNullable(this, jni$_.JObject.type) as jni$_.JObject?;
 
   /// from: `public java.util.Random random`
   /// The returned object must be released after use, by calling the [release] method.
@@ -2118,7 +2126,7 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `static public char euroSymbol`
   static int get euroSymbol =>
-      _id_euroSymbol.get(_class, jni$_.jchar.type) as int;
+      _id_euroSymbol.getNullable(_class, jni$_.jchar.type) as int;
 
   /// from: `static public char euroSymbol`
   static set euroSymbol(int value) =>
@@ -2170,7 +2178,8 @@ extension type C2._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public int CONSTANT`
-  static int get CONSTANT => _id_CONSTANT.get(_class, jni$_.jint.type) as int;
+  static int get CONSTANT =>
+      _id_CONSTANT.getNullable(_class, jni$_.jint.type) as int;
 
   /// from: `static public int CONSTANT`
   static set CONSTANT(int value) =>
@@ -2283,7 +2292,7 @@ extension type Colors$RGB._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `public int red`
-  int get red => _id_red.get(this, jni$_.jint.type) as int;
+  int get red => _id_red.getNullable(this, jni$_.jint.type) as int;
 
   /// from: `public int red`
   set red(int value) => _id_red.set(this, jni$_.jint.type, value);
@@ -2294,7 +2303,7 @@ extension type Colors$RGB._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `public int green`
-  int get green => _id_green.get(this, jni$_.jint.type) as int;
+  int get green => _id_green.getNullable(this, jni$_.jint.type) as int;
 
   /// from: `public int green`
   set green(int value) => _id_green.set(this, jni$_.jint.type, value);
@@ -2305,7 +2314,7 @@ extension type Colors$RGB._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `public int blue`
-  int get blue => _id_blue.get(this, jni$_.jint.type) as int;
+  int get blue => _id_blue.getNullable(this, jni$_.jint.type) as int;
 
   /// from: `public int blue`
   set blue(int value) => _id_blue.set(this, jni$_.jint.type, value);
@@ -2433,7 +2442,7 @@ extension type Colors._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `public final int code`
-  int get code => _id_code.get(this, jni$_.jint.type) as int;
+  int get code => _id_code.getNullable(this, jni$_.jint.type) as int;
 
   static final _id_values = _class.staticMethodId(
     r'values',
@@ -2456,7 +2465,7 @@ extension type Colors._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<Colors?>? values() {
     return _values(_class.reference.pointer, _id_values.pointer)
-        .object<jni$_.JArray<Colors?>?>();
+        .objectNullable<jni$_.JArray<Colors?>>();
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -2483,7 +2492,7 @@ extension type Colors._(jni$_.JObject _$this) implements jni$_.JObject {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _valueOf(
             _class.reference.pointer, _id_valueOf.pointer, _$string.pointer)
-        .object<Colors?>();
+        .objectNullable<Colors>();
   }
 
   static final _id_toRGB = _class.instanceMethodId(
@@ -2506,7 +2515,8 @@ extension type Colors._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public com.github.dart_lang.jnigen.enums.Colors$RGB toRGB()`
   /// The returned object must be released after use, by calling the [release] method.
   Colors$RGB? toRGB() {
-    return _toRGB(reference.pointer, _id_toRGB.pointer).object<Colors$RGB?>();
+    return _toRGB(reference.pointer, _id_toRGB.pointer)
+        .objectNullable<Colors$RGB>();
   }
 }
 
@@ -2580,7 +2590,7 @@ extension type GrandParent$Parent$Child<$T extends jni$_.JObject?,
   /// from: `public T grandParentValue`
   /// The returned object must be released after use, by calling the [release] method.
   $T? get grandParentValue =>
-      _id_grandParentValue.get(this, jni$_.JObject.type) as $T?;
+      _id_grandParentValue.getNullable(this, jni$_.JObject.type) as $T?;
 
   /// from: `public T grandParentValue`
   /// The returned object must be released after use, by calling the [release] method.
@@ -2594,7 +2604,8 @@ extension type GrandParent$Parent$Child<$T extends jni$_.JObject?,
 
   /// from: `public S parentValue`
   /// The returned object must be released after use, by calling the [release] method.
-  $S? get parentValue => _id_parentValue.get(this, jni$_.JObject.type) as $S?;
+  $S? get parentValue =>
+      _id_parentValue.getNullable(this, jni$_.JObject.type) as $S?;
 
   /// from: `public S parentValue`
   /// The returned object must be released after use, by calling the [release] method.
@@ -2608,7 +2619,7 @@ extension type GrandParent$Parent$Child<$T extends jni$_.JObject?,
 
   /// from: `public U value`
   /// The returned object must be released after use, by calling the [release] method.
-  $U? get value => _id_value.get(this, jni$_.JObject.type) as $U?;
+  $U? get value => _id_value.getNullable(this, jni$_.JObject.type) as $U?;
 
   /// from: `public U value`
   /// The returned object must be released after use, by calling the [release] method.
@@ -2677,7 +2688,8 @@ extension type GrandParent$Parent<$T extends jni$_.JObject?,
 
   /// from: `public T parentValue`
   /// The returned object must be released after use, by calling the [release] method.
-  $T? get parentValue => _id_parentValue.get(this, jni$_.JObject.type) as $T?;
+  $T? get parentValue =>
+      _id_parentValue.getNullable(this, jni$_.JObject.type) as $T?;
 
   /// from: `public T parentValue`
   /// The returned object must be released after use, by calling the [release] method.
@@ -2691,7 +2703,7 @@ extension type GrandParent$Parent<$T extends jni$_.JObject?,
 
   /// from: `public S value`
   /// The returned object must be released after use, by calling the [release] method.
-  $S? get value => _id_value.get(this, jni$_.JObject.type) as $S?;
+  $S? get value => _id_value.getNullable(this, jni$_.JObject.type) as $S?;
 
   /// from: `public S value`
   /// The returned object must be released after use, by calling the [release] method.
@@ -2759,7 +2771,8 @@ extension type GrandParent$StaticParent$Child<$S extends jni$_.JObject?,
 
   /// from: `public S parentValue`
   /// The returned object must be released after use, by calling the [release] method.
-  $S? get parentValue => _id_parentValue.get(this, jni$_.JObject.type) as $S?;
+  $S? get parentValue =>
+      _id_parentValue.getNullable(this, jni$_.JObject.type) as $S?;
 
   /// from: `public S parentValue`
   /// The returned object must be released after use, by calling the [release] method.
@@ -2773,7 +2786,7 @@ extension type GrandParent$StaticParent$Child<$S extends jni$_.JObject?,
 
   /// from: `public U value`
   /// The returned object must be released after use, by calling the [release] method.
-  $U? get value => _id_value.get(this, jni$_.JObject.type) as $U?;
+  $U? get value => _id_value.getNullable(this, jni$_.JObject.type) as $U?;
 
   /// from: `public U value`
   /// The returned object must be released after use, by calling the [release] method.
@@ -2845,7 +2858,7 @@ extension type GrandParent$StaticParent<$S extends jni$_.JObject?>._(
 
   /// from: `public S value`
   /// The returned object must be released after use, by calling the [release] method.
-  $S? get value => _id_value.get(this, jni$_.JObject.type) as $S?;
+  $S? get value => _id_value.getNullable(this, jni$_.JObject.type) as $S?;
 
   /// from: `public S value`
   /// The returned object must be released after use, by calling the [release] method.
@@ -2903,7 +2916,7 @@ extension type GrandParent<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `public T value`
   /// The returned object must be released after use, by calling the [release] method.
-  $T? get value => _id_value.get(this, jni$_.JObject.type) as $T?;
+  $T? get value => _id_value.getNullable(this, jni$_.JObject.type) as $T?;
 
   /// from: `public T value`
   /// The returned object must be released after use, by calling the [release] method.
@@ -2955,7 +2968,7 @@ extension type GrandParent<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// The returned object must be released after use, by calling the [release] method.
   GrandParent$Parent<$T?, jni$_.JString?>? stringParent() {
     return _stringParent(reference.pointer, _id_stringParent.pointer)
-        .object<GrandParent$Parent<$T?, jni$_.JString?>?>();
+        .objectNullable<GrandParent$Parent<$T?, jni$_.JString?>>();
   }
 
   static final _id_varParent = _class.instanceMethodId(
@@ -2982,7 +2995,7 @@ extension type GrandParent<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _varParent(
             reference.pointer, _id_varParent.pointer, _$object.pointer)
-        .object<GrandParent$Parent<$T?, $S?>?>();
+        .objectNullable<GrandParent$Parent<$T?, $S?>>();
   }
 
   static final _id_stringStaticParent = _class.staticMethodId(
@@ -3007,7 +3020,7 @@ extension type GrandParent<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   static GrandParent$StaticParent<jni$_.JString?>? stringStaticParent() {
     return _stringStaticParent(
             _class.reference.pointer, _id_stringStaticParent.pointer)
-        .object<GrandParent$StaticParent<jni$_.JString?>?>();
+        .objectNullable<GrandParent$StaticParent<jni$_.JString?>>();
   }
 
   static final _id_varStaticParent = _class.staticMethodId(
@@ -3035,7 +3048,7 @@ extension type GrandParent<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _varStaticParent(_class.reference.pointer,
             _id_varStaticParent.pointer, _$object.pointer)
-        .object<GrandParent$StaticParent<$S?>?>();
+        .objectNullable<GrandParent$StaticParent<$S?>>();
   }
 
   static final _id_staticParentWithSameType = _class.instanceMethodId(
@@ -3060,7 +3073,7 @@ extension type GrandParent<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   GrandParent$StaticParent<$T?>? staticParentWithSameType() {
     return _staticParentWithSameType(
             reference.pointer, _id_staticParentWithSameType.pointer)
-        .object<GrandParent$StaticParent<$T?>?>();
+        .objectNullable<GrandParent$StaticParent<$T?>>();
   }
 }
 
@@ -3089,7 +3102,7 @@ extension type MyMap$MyEntry<$K extends jni$_.JObject?,
 
   /// from: `public K key`
   /// The returned object must be released after use, by calling the [release] method.
-  $K? get key => _id_key.get(this, jni$_.JObject.type) as $K?;
+  $K? get key => _id_key.getNullable(this, jni$_.JObject.type) as $K?;
 
   /// from: `public K key`
   /// The returned object must be released after use, by calling the [release] method.
@@ -3102,7 +3115,7 @@ extension type MyMap$MyEntry<$K extends jni$_.JObject?,
 
   /// from: `public V value`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? get value => _id_value.get(this, jni$_.JObject.type) as $V?;
+  $V? get value => _id_value.getNullable(this, jni$_.JObject.type) as $V?;
 
   /// from: `public V value`
   /// The returned object must be released after use, by calling the [release] method.
@@ -3211,7 +3224,7 @@ extension type MyMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _get(reference.pointer, _id_get.pointer, _$object.pointer)
-        .object<$V?>();
+        .objectNullable<$V>();
   }
 
   static final _id_put = _class.instanceMethodId(
@@ -3246,7 +3259,7 @@ extension type MyMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return _put(reference.pointer, _id_put.pointer, _$object.pointer,
             _$object1.pointer)
-        .object<$V?>();
+        .objectNullable<$V>();
   }
 
   static final _id_entryStack = _class.instanceMethodId(
@@ -3270,7 +3283,7 @@ extension type MyMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   /// The returned object must be released after use, by calling the [release] method.
   MyStack<MyMap$MyEntry<$K?, $V?>?>? entryStack() {
     return _entryStack(reference.pointer, _id_entryStack.pointer)
-        .object<MyStack<MyMap$MyEntry<$K?, $V?>?>?>();
+        .objectNullable<MyStack<MyMap$MyEntry<$K?, $V?>?>>();
   }
 }
 
@@ -3338,7 +3351,7 @@ extension type MyStack<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$objects = objects?.reference ?? jni$_.jNullReference;
     return _fromArray(
             _class.reference.pointer, _id_fromArray.pointer, _$objects.pointer)
-        .object<MyStack<$T?>?>();
+        .objectNullable<MyStack<$T?>>();
   }
 
   static final _id_fromArrayOfArrayOfGrandParents = _class.staticMethodId(
@@ -3367,7 +3380,7 @@ extension type MyStack<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$grandParents = grandParents?.reference ?? jni$_.jNullReference;
     return _fromArrayOfArrayOfGrandParents(_class.reference.pointer,
             _id_fromArrayOfArrayOfGrandParents.pointer, _$grandParents.pointer)
-        .object<MyStack<$S?>?>();
+        .objectNullable<MyStack<$S?>>();
   }
 
   static final _id_of = _class.staticMethodId(
@@ -3391,7 +3404,7 @@ extension type MyStack<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// The returned object must be released after use, by calling the [release] method.
   static MyStack<$T?>? of<$T extends jni$_.JObject?>() {
     return _of(_class.reference.pointer, _id_of.pointer)
-        .object<MyStack<$T?>?>();
+        .objectNullable<MyStack<$T?>>();
   }
 
   static final _id_of$1 = _class.staticMethodId(
@@ -3417,7 +3430,7 @@ extension type MyStack<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _of$1(_class.reference.pointer, _id_of$1.pointer, _$object.pointer)
-        .object<MyStack<$T?>?>();
+        .objectNullable<MyStack<$T?>>();
   }
 
   static final _id_of$2 = _class.staticMethodId(
@@ -3452,7 +3465,7 @@ extension type MyStack<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return _of$2(_class.reference.pointer, _id_of$2.pointer, _$object.pointer,
             _$object1.pointer)
-        .object<MyStack<$T?>?>();
+        .objectNullable<MyStack<$T?>>();
   }
 
   static final _id_push = _class.instanceMethodId(
@@ -3499,7 +3512,7 @@ extension type MyStack<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public T pop()`
   /// The returned object must be released after use, by calling the [release] method.
   $T? pop() {
-    return _pop(reference.pointer, _id_pop.pointer).object<$T?>();
+    return _pop(reference.pointer, _id_pop.pointer).objectNullable<$T>();
   }
 
   static final _id_size = _class.instanceMethodId(
@@ -3732,7 +3745,7 @@ extension type GenericInterface<$T extends jni$_.JObject?>._(
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _genericArrayOf(
             reference.pointer, _id_genericArrayOf.pointer, _$object.pointer)
-        .object<jni$_.JArray<$U?>?>();
+        .objectNullable<jni$_.JArray<$U?>>();
   }
 
   static final _id_arrayOf = _class.instanceMethodId(
@@ -3758,7 +3771,7 @@ extension type GenericInterface<$T extends jni$_.JObject?>._(
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _arrayOf(reference.pointer, _id_arrayOf.pointer, _$object.pointer)
-        .object<jni$_.JArray<$T?>?>();
+        .objectNullable<jni$_.JArray<$T?>>();
   }
 
   static final _id_mapOf = _class.instanceMethodId(
@@ -3793,7 +3806,7 @@ extension type GenericInterface<$T extends jni$_.JObject?>._(
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return _mapOf(reference.pointer, _id_mapOf.pointer, _$object.pointer,
             _$object1.pointer)
-        .object<jni$_.JMap<$T?, $U?>?>();
+        .objectNullable<jni$_.JMap<$T?, $U?>>();
   }
 
   static final _id_firstOfGenericArray = _class.instanceMethodId(
@@ -3820,7 +3833,7 @@ extension type GenericInterface<$T extends jni$_.JObject?>._(
     final _$objects = objects?.reference ?? jni$_.jNullReference;
     return _firstOfGenericArray(reference.pointer,
             _id_firstOfGenericArray.pointer, _$objects.pointer)
-        .object<$U?>();
+        .objectNullable<$U>();
   }
 
   static final _id_firstOfArray = _class.instanceMethodId(
@@ -3847,7 +3860,7 @@ extension type GenericInterface<$T extends jni$_.JObject?>._(
     final _$objects = objects?.reference ?? jni$_.jNullReference;
     return _firstOfArray(
             reference.pointer, _id_firstOfArray.pointer, _$objects.pointer)
-        .object<$T?>();
+        .objectNullable<$T>();
   }
 
   static final _id_firstKeyOf = _class.instanceMethodId(
@@ -3873,7 +3886,7 @@ extension type GenericInterface<$T extends jni$_.JObject?>._(
   ) {
     final _$map = map?.reference ?? jni$_.jNullReference;
     return _firstKeyOf(reference.pointer, _id_firstKeyOf.pointer, _$map.pointer)
-        .object<$T?>();
+        .objectNullable<$T>();
   }
 
   static final _id_firstValueOf = _class.instanceMethodId(
@@ -3900,7 +3913,7 @@ extension type GenericInterface<$T extends jni$_.JObject?>._(
     final _$map = map?.reference ?? jni$_.jNullReference;
     return _firstValueOf(
             reference.pointer, _id_firstValueOf.pointer, _$map.pointer)
-        .object<$U?>();
+        .objectNullable<$U>();
   }
 
   /// Maps a specific port to the implemented interface.
@@ -3986,7 +3999,7 @@ extension type GenericInterface<$T extends jni$_.JObject?>._(
       }
       if ($d == r'firstKeyOf(Ljava/util/Map;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.firstKeyOf(
-          ($a![0] as jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?),
+          ($a![0] as jni$_.JMap?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -3996,7 +4009,7 @@ extension type GenericInterface<$T extends jni$_.JObject?>._(
       }
       if ($d == r'firstValueOf(Ljava/util/Map;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.firstValueOf(
-          ($a![0] as jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?),
+          ($a![0] as jni$_.JMap?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -4208,7 +4221,7 @@ extension type InheritedFromMyInterface._(jni$_.JObject _$this)
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _stringCallback(
             reference.pointer, _id_stringCallback.pointer, _$string.pointer)
-        .object<jni$_.JString?>();
+        .objectNullable<jni$_.JString>();
   }
 
   static final _id_varCallback = _class.instanceMethodId(
@@ -4235,7 +4248,7 @@ extension type InheritedFromMyInterface._(jni$_.JObject _$this)
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _varCallback(
             reference.pointer, _id_varCallback.pointer, _$object.pointer)
-        .object<jni$_.JString?>();
+        .objectNullable<jni$_.JString>();
   }
 
   static final _id_manyPrimitives = _class.instanceMethodId(
@@ -4639,7 +4652,7 @@ extension type MyInterface<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _stringCallback(
             reference.pointer, _id_stringCallback.pointer, _$string.pointer)
-        .object<jni$_.JString?>();
+        .objectNullable<jni$_.JString>();
   }
 
   static final _id_varCallback = _class.instanceMethodId(
@@ -4666,7 +4679,7 @@ extension type MyInterface<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _varCallback(
             reference.pointer, _id_varCallback.pointer, _$object.pointer)
-        .object<$T?>();
+        .objectNullable<$T>();
   }
 
   static final _id_manyPrimitives = _class.instanceMethodId(
@@ -5187,7 +5200,7 @@ extension type MyRunnableRunner._(jni$_.JObject _$this)
   /// from: `public java.lang.Throwable error`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? get error =>
-      _id_error.get(this, jni$_.JObject.type) as jni$_.JObject?;
+      _id_error.getNullable(this, jni$_.JObject.type) as jni$_.JObject?;
 
   /// from: `public java.lang.Throwable error`
   /// The returned object must be released after use, by calling the [release] method.
@@ -5554,7 +5567,7 @@ extension type StringConverterConsumer._(jni$_.JObject _$this)
             _id_consumeOnSameThread.pointer,
             _$stringConverter.pointer,
             _$string.pointer)
-        .object<jni$_.JInteger?>();
+        .objectNullable<jni$_.JInteger>();
   }
 
   static final _id_consumeOnAnotherThread = _class.staticMethodId(
@@ -5593,7 +5606,7 @@ extension type StringConverterConsumer._(jni$_.JObject _$this)
             _id_consumeOnAnotherThread.pointer,
             _$stringConverter.pointer,
             _$string.pointer)
-        .object<jni$_.JObject?>();
+        .objectNullable<jni$_.JObject>();
   }
 }
 
@@ -5679,7 +5692,7 @@ extension type BaseGenericInterface<$T extends jni$_.JObject?>._(
   /// from: `public abstract T foo()`
   /// The returned object must be released after use, by calling the [release] method.
   $T? foo() {
-    return _foo(reference.pointer, _id_foo.pointer).object<$T?>();
+    return _foo(reference.pointer, _id_foo.pointer).objectNullable<$T>();
   }
 
   /// Maps a specific port to the implemented interface.
@@ -5819,7 +5832,8 @@ extension type BaseInterface._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public abstract java.lang.String foo()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? foo() {
-    return _foo(reference.pointer, _id_foo.pointer).object<jni$_.JString?>();
+    return _foo(reference.pointer, _id_foo.pointer)
+        .objectNullable<jni$_.JString>();
   }
 
   /// Maps a specific port to the implemented interface.
@@ -5958,7 +5972,8 @@ extension type DerivedInterface._(jni$_.JObject _$this)
   /// from: `public abstract java.lang.String foo()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? foo() {
-    return _foo(reference.pointer, _id_foo.pointer).object<jni$_.JString?>();
+    return _foo(reference.pointer, _id_foo.pointer)
+        .objectNullable<jni$_.JString>();
   }
 
   /// Maps a specific port to the implemented interface.
@@ -6176,7 +6191,7 @@ extension type Annotated$Nested<
 
   /// from: `public V v`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? get v => _id_v.get(this, jni$_.JObject.type) as $V?;
+  $V? get v => _id_v.getNullable(this, jni$_.JObject.type) as $V?;
 
   /// from: `public V v`
   /// The returned object must be released after use, by calling the [release] method.
@@ -6255,7 +6270,7 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
 
   /// from: `public T t`
   /// The returned object must be released after use, by calling the [release] method.
-  $T? get t => _id_t.get(this, jni$_.JObject.type) as $T?;
+  $T? get t => _id_t.getNullable(this, jni$_.JObject.type) as $T?;
 
   /// from: `public T t`
   /// The returned object must be released after use, by calling the [release] method.
@@ -6394,7 +6409,7 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   ) {
     return _nullableHello(
             reference.pointer, _id_nullableHello.pointer, z ? 1 : 0)
-        .object<jni$_.JString?>();
+        .objectNullable<jni$_.JString>();
   }
 
   static final _id_echo = _class.instanceMethodId(
@@ -6447,7 +6462,7 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _nullableEcho(
             reference.pointer, _id_nullableEcho.pointer, _$string.pointer)
-        .object<jni$_.JString?>();
+        .objectNullable<jni$_.JString>();
   }
 
   static final _id_array = _class.instanceMethodId(
@@ -6520,7 +6535,7 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   ) {
     return _nullableArray(
             reference.pointer, _id_nullableArray.pointer, z ? 1 : 0)
-        .object<jni$_.JArray<jni$_.JString>?>();
+        .objectNullable<jni$_.JArray<jni$_.JString>>();
   }
 
   static final _id_nullableArrayOfNullable = _class.instanceMethodId(
@@ -6545,7 +6560,7 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   ) {
     return _nullableArrayOfNullable(
             reference.pointer, _id_nullableArrayOfNullable.pointer, z ? 1 : 0)
-        .object<jni$_.JArray<jni$_.JString?>?>();
+        .objectNullable<jni$_.JArray<jni$_.JString?>>();
   }
 
   static final _id_list = _class.instanceMethodId(
@@ -6617,7 +6632,7 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
     core$_.bool z,
   ) {
     return _nullableList(reference.pointer, _id_nullableList.pointer, z ? 1 : 0)
-        .object<jni$_.JList<jni$_.JString>?>();
+        .objectNullable<jni$_.JList<jni$_.JString>>();
   }
 
   static final _id_nullableListOfNullable = _class.instanceMethodId(
@@ -6642,7 +6657,7 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   ) {
     return _nullableListOfNullable(
             reference.pointer, _id_nullableListOfNullable.pointer, z ? 1 : 0)
-        .object<jni$_.JList<jni$_.JString?>?>();
+        .objectNullable<jni$_.JList<jni$_.JString?>>();
   }
 
   static final _id_classGenericEcho = _class.instanceMethodId(
@@ -6663,13 +6678,13 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
 
   /// from: `public T classGenericEcho(T object)`
   /// The returned object must be released after use, by calling the [release] method.
-  $T classGenericEcho(
-    $T object,
+  $T? classGenericEcho(
+    $T? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _classGenericEcho(
             reference.pointer, _id_classGenericEcho.pointer, _$object.pointer)
-        .object<$T>();
+        .objectNullable<$T>();
   }
 
   static final _id_nullableClassGenericEcho = _class.instanceMethodId(
@@ -6696,7 +6711,7 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _nullableClassGenericEcho(reference.pointer,
             _id_nullableClassGenericEcho.pointer, _$object.pointer)
-        .object<$T?>();
+        .objectNullable<$T>();
   }
 
   static final _id_methodGenericEcho = _class.instanceMethodId(
@@ -6717,13 +6732,13 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
 
   /// from: `public V methodGenericEcho(V object)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V methodGenericEcho<$V extends jni$_.JObject?>(
-    $V object,
+  $V? methodGenericEcho<$V extends jni$_.JObject?>(
+    $V? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _methodGenericEcho(
             reference.pointer, _id_methodGenericEcho.pointer, _$object.pointer)
-        .object<$V>();
+        .objectNullable<$V>();
   }
 
   static final _id_methodGenericEcho2 = _class.instanceMethodId(
@@ -6803,7 +6818,7 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public V nullableReturnMethodGenericEcho(V object, boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   $V? nullableReturnMethodGenericEcho<$V extends jni$_.JObject?>(
-    $V object,
+    $V? object,
     core$_.bool z,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -6812,7 +6827,7 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
             _id_nullableReturnMethodGenericEcho.pointer,
             _$object.pointer,
             z ? 1 : 0)
-        .object<$V?>();
+        .objectNullable<$V>();
   }
 
   static final _id_nullableReturnMethodGenericEcho2 = _class.instanceMethodId(
@@ -6847,7 +6862,7 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
             _id_nullableReturnMethodGenericEcho2.pointer,
             _$object.pointer,
             z ? 1 : 0)
-        .object<$V?>();
+        .objectNullable<$V>();
   }
 
   static final _id_nullableMethodGenericEcho = _class.instanceMethodId(
@@ -6868,13 +6883,13 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
 
   /// from: `public V nullableMethodGenericEcho(V object)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V nullableMethodGenericEcho<$V extends jni$_.JObject?>(
-    $V object,
+  $V? nullableMethodGenericEcho<$V extends jni$_.JObject?>(
+    $V? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _nullableMethodGenericEcho(reference.pointer,
             _id_nullableMethodGenericEcho.pointer, _$object.pointer)
-        .object<$V>();
+        .objectNullable<$V>();
   }
 
   static final _id_noAnnotationMethodGenericEcho = _class.instanceMethodId(
@@ -6902,7 +6917,7 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _noAnnotationMethodGenericEcho(reference.pointer,
             _id_noAnnotationMethodGenericEcho.pointer, _$object.pointer)
-        .object<$V?>();
+        .objectNullable<$V>();
   }
 
   static final _id_nullableArgMethodGenericEcho = _class.instanceMethodId(
@@ -6952,9 +6967,9 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
 
   /// from: `public java.util.List<T> classGenericList()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JList<$T> classGenericList() {
+  jni$_.JList<$T?> classGenericList() {
     return _classGenericList(reference.pointer, _id_classGenericList.pointer)
-        .object<jni$_.JList<$T>>();
+        .object<jni$_.JList<$T?>>();
   }
 
   static final _id_classGenericListOfNullable = _class.instanceMethodId(
@@ -7000,12 +7015,12 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
 
   /// from: `public java.util.List<T> nullableClassGenericList(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JList<$T>? nullableClassGenericList(
+  jni$_.JList<$T?>? nullableClassGenericList(
     core$_.bool z,
   ) {
     return _nullableClassGenericList(
             reference.pointer, _id_nullableClassGenericList.pointer, z ? 1 : 0)
-        .object<jni$_.JList<$T>?>();
+        .objectNullable<jni$_.JList<$T?>>();
   }
 
   static final _id_nullableClassGenericListOfNullable = _class.instanceMethodId(
@@ -7030,7 +7045,7 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   ) {
     return _nullableClassGenericListOfNullable(reference.pointer,
             _id_nullableClassGenericListOfNullable.pointer, z ? 1 : 0)
-        .object<jni$_.JList<$T?>?>();
+        .objectNullable<jni$_.JList<$T?>>();
   }
 
   static final _id_methodGenericList = _class.instanceMethodId(
@@ -7051,13 +7066,13 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
 
   /// from: `public java.util.List<V> methodGenericList(V object)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JList<$V> methodGenericList<$V extends jni$_.JObject?>(
-    $V object,
+  jni$_.JList<$V?> methodGenericList<$V extends jni$_.JObject?>(
+    $V? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _methodGenericList(
             reference.pointer, _id_methodGenericList.pointer, _$object.pointer)
-        .object<jni$_.JList<$V>>();
+        .object<jni$_.JList<$V?>>();
   }
 
   static final _id_methodGenericListOfNullable = _class.instanceMethodId(
@@ -7105,14 +7120,14 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
 
   /// from: `public java.util.List<V> nullableMethodGenericList(V object, boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JList<$V>? nullableMethodGenericList<$V extends jni$_.JObject?>(
-    $V object,
+  jni$_.JList<$V?>? nullableMethodGenericList<$V extends jni$_.JObject?>(
+    $V? object,
     core$_.bool z,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _nullableMethodGenericList(reference.pointer,
             _id_nullableMethodGenericList.pointer, _$object.pointer, z ? 1 : 0)
-        .object<jni$_.JList<$V>?>();
+        .objectNullable<jni$_.JList<$V?>>();
   }
 
   static final _id_nullableMethodGenericListOfNullable =
@@ -7139,7 +7154,7 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   ) {
     return _nullableMethodGenericListOfNullable(reference.pointer,
             _id_nullableMethodGenericListOfNullable.pointer, z ? 1 : 0)
-        .object<jni$_.JList<$V?>?>();
+        .objectNullable<jni$_.JList<$V?>>();
   }
 
   static final _id_firstOfClassGenericList = _class.instanceMethodId(
@@ -7161,12 +7176,12 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public T firstOfClassGenericList(java.util.List<T> list)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? firstOfClassGenericList(
-    jni$_.JList<$T> list,
+    jni$_.JList<$T?> list,
   ) {
     final _$list = list.reference;
     return _firstOfClassGenericList(reference.pointer,
             _id_firstOfClassGenericList.pointer, _$list.pointer)
-        .object<$T?>();
+        .objectNullable<$T>();
   }
 
   static final _id_firstOfClassGenericNullableList = _class.instanceMethodId(
@@ -7189,12 +7204,12 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public T firstOfClassGenericNullableList(java.util.List<T> list)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? firstOfClassGenericNullableList(
-    jni$_.JList<$T>? list,
+    jni$_.JList<$T?>? list,
   ) {
     final _$list = list?.reference ?? jni$_.jNullReference;
     return _firstOfClassGenericNullableList(reference.pointer,
             _id_firstOfClassGenericNullableList.pointer, _$list.pointer)
-        .object<$T?>();
+        .objectNullable<$T>();
   }
 
   static final _id_firstOfClassGenericListOfNullable = _class.instanceMethodId(
@@ -7222,7 +7237,7 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
     final _$list = list.reference;
     return _firstOfClassGenericListOfNullable(reference.pointer,
             _id_firstOfClassGenericListOfNullable.pointer, _$list.pointer)
-        .object<$T?>();
+        .objectNullable<$T>();
   }
 
   static final _id_firstOfClassGenericNullableListOfNullable =
@@ -7253,7 +7268,7 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
             reference.pointer,
             _id_firstOfClassGenericNullableListOfNullable.pointer,
             _$list.pointer)
-        .object<$T?>();
+        .objectNullable<$T>();
   }
 
   static final _id_firstOfMethodGenericList = _class.instanceMethodId(
@@ -7275,12 +7290,12 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public V firstOfMethodGenericList(java.util.List<V> list)`
   /// The returned object must be released after use, by calling the [release] method.
   $V? firstOfMethodGenericList<$V extends jni$_.JObject?>(
-    jni$_.JList<$V> list,
+    jni$_.JList<$V?> list,
   ) {
     final _$list = list.reference;
     return _firstOfMethodGenericList(reference.pointer,
             _id_firstOfMethodGenericList.pointer, _$list.pointer)
-        .object<$V?>();
+        .objectNullable<$V>();
   }
 
   static final _id_firstOfMethodGenericNullableList = _class.instanceMethodId(
@@ -7303,12 +7318,12 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public V firstOfMethodGenericNullableList(java.util.List<V> list)`
   /// The returned object must be released after use, by calling the [release] method.
   $V? firstOfMethodGenericNullableList<$V extends jni$_.JObject?>(
-    jni$_.JList<$V>? list,
+    jni$_.JList<$V?>? list,
   ) {
     final _$list = list?.reference ?? jni$_.jNullReference;
     return _firstOfMethodGenericNullableList(reference.pointer,
             _id_firstOfMethodGenericNullableList.pointer, _$list.pointer)
-        .object<$V?>();
+        .objectNullable<$V>();
   }
 
   static final _id_firstOfMethodGenericListOfNullable = _class.instanceMethodId(
@@ -7336,7 +7351,7 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
     final _$list = list.reference;
     return _firstOfMethodGenericListOfNullable(reference.pointer,
             _id_firstOfMethodGenericListOfNullable.pointer, _$list.pointer)
-        .object<$V?>();
+        .objectNullable<$V>();
   }
 
   static final _id_firstOfMethodGenericNullableListOfNullable =
@@ -7367,7 +7382,7 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
             reference.pointer,
             _id_firstOfMethodGenericNullableListOfNullable.pointer,
             _$list.pointer)
-        .object<$V?>();
+        .objectNullable<$V>();
   }
 
   static final _id_firstKeyOfComboMap = _class.instanceMethodId(
@@ -7389,12 +7404,12 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public T firstKeyOfComboMap(java.util.Map<T, V> map)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? firstKeyOfComboMap<$V extends jni$_.JObject?>(
-    jni$_.JMap<$T, $V> map,
+    jni$_.JMap<$T?, $V?> map,
   ) {
     final _$map = map.reference;
     return _firstKeyOfComboMap(
             reference.pointer, _id_firstKeyOfComboMap.pointer, _$map.pointer)
-        .object<$T?>();
+        .objectNullable<$T>();
   }
 
   static final _id_firstValueOfComboMap = _class.instanceMethodId(
@@ -7416,12 +7431,12 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public V firstValueOfComboMap(java.util.Map<T, V> map)`
   /// The returned object must be released after use, by calling the [release] method.
   $V? firstValueOfComboMap<$V extends jni$_.JObject?>(
-    jni$_.JMap<$T, $V> map,
+    jni$_.JMap<$T?, $V?> map,
   ) {
     final _$map = map.reference;
     return _firstValueOfComboMap(
             reference.pointer, _id_firstValueOfComboMap.pointer, _$map.pointer)
-        .object<$V?>();
+        .objectNullable<$V>();
   }
 
   static final _id_firstKeyOfComboMapNullableKey = _class.instanceMethodId(
@@ -7444,12 +7459,12 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public T firstKeyOfComboMapNullableKey(java.util.Map<T, V> map)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? firstKeyOfComboMapNullableKey<$V extends jni$_.JObject?>(
-    jni$_.JMap<$T?, $V> map,
+    jni$_.JMap<$T?, $V?> map,
   ) {
     final _$map = map.reference;
     return _firstKeyOfComboMapNullableKey(reference.pointer,
             _id_firstKeyOfComboMapNullableKey.pointer, _$map.pointer)
-        .object<$T?>();
+        .objectNullable<$T>();
   }
 
   static final _id_firstValueOfComboMapNullableKey = _class.instanceMethodId(
@@ -7472,12 +7487,12 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public V firstValueOfComboMapNullableKey(java.util.Map<T, V> map)`
   /// The returned object must be released after use, by calling the [release] method.
   $V? firstValueOfComboMapNullableKey<$V extends jni$_.JObject?>(
-    jni$_.JMap<$T?, $V> map,
+    jni$_.JMap<$T?, $V?> map,
   ) {
     final _$map = map.reference;
     return _firstValueOfComboMapNullableKey(reference.pointer,
             _id_firstValueOfComboMapNullableKey.pointer, _$map.pointer)
-        .object<$V?>();
+        .objectNullable<$V>();
   }
 
   static final _id_firstKeyOfComboMapNullableValue = _class.instanceMethodId(
@@ -7500,12 +7515,12 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public T firstKeyOfComboMapNullableValue(java.util.Map<T, V> map)`
   /// The returned object must be released after use, by calling the [release] method.
   $T? firstKeyOfComboMapNullableValue<$V extends jni$_.JObject?>(
-    jni$_.JMap<$T, $V?> map,
+    jni$_.JMap<$T?, $V?> map,
   ) {
     final _$map = map.reference;
     return _firstKeyOfComboMapNullableValue(reference.pointer,
             _id_firstKeyOfComboMapNullableValue.pointer, _$map.pointer)
-        .object<$T?>();
+        .objectNullable<$T>();
   }
 
   static final _id_firstValueOfComboMapNullableValue = _class.instanceMethodId(
@@ -7528,12 +7543,12 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public V firstValueOfComboMapNullableValue(java.util.Map<T, V> map)`
   /// The returned object must be released after use, by calling the [release] method.
   $V? firstValueOfComboMapNullableValue<$V extends jni$_.JObject?>(
-    jni$_.JMap<$T, $V?> map,
+    jni$_.JMap<$T?, $V?> map,
   ) {
     final _$map = map.reference;
     return _firstValueOfComboMapNullableValue(reference.pointer,
             _id_firstValueOfComboMapNullableValue.pointer, _$map.pointer)
-        .object<$V?>();
+        .objectNullable<$V>();
   }
 
   static final _id_firstKeyOfComboMapNullableKeyAndValue =
@@ -7562,7 +7577,7 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
     final _$map = map.reference;
     return _firstKeyOfComboMapNullableKeyAndValue(reference.pointer,
             _id_firstKeyOfComboMapNullableKeyAndValue.pointer, _$map.pointer)
-        .object<$T?>();
+        .objectNullable<$T>();
   }
 
   static final _id_firstValueOfComboMapNullableKeyAndValue =
@@ -7591,7 +7606,7 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
     final _$map = map.reference;
     return _firstValueOfComboMapNullableKeyAndValue(reference.pointer,
             _id_firstValueOfComboMapNullableKeyAndValue.pointer, _$map.pointer)
-        .object<$V?>();
+        .objectNullable<$V>();
   }
 
   static final _id_firstEntryOfComboMap = _class.instanceMethodId(
@@ -7613,12 +7628,12 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// from: `public java.util.Map$Entry<T, V> firstEntryOfComboMap(java.util.Map<T, V> map)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? firstEntryOfComboMap<$V extends jni$_.JObject?>(
-    jni$_.JMap<$T, $V> map,
+    jni$_.JMap<$T?, $V?> map,
   ) {
     final _$map = map.reference;
     return _firstEntryOfComboMap(
             reference.pointer, _id_firstEntryOfComboMap.pointer, _$map.pointer)
-        .object<jni$_.JObject?>();
+        .objectNullable<jni$_.JObject>();
   }
 
   static final _id_getW = _class.instanceMethodId(
@@ -7665,7 +7680,7 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
     core$_.bool z,
   ) {
     return _nullableGetW(reference.pointer, _id_nullableGetW.pointer, z ? 1 : 0)
-        .object<$W?>();
+        .objectNullable<$W>();
   }
 
   static final _id_list3dOfT = _class.instanceMethodId(
@@ -7811,7 +7826,7 @@ extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
   /// The returned object must be released after use, by calling the [release] method.
   Annotated$Nested<$T?, $U, $W, jni$_.JInteger>? nested() {
     return _nested(reference.pointer, _id_nested.pointer)
-        .object<Annotated$Nested<$T?, $U, $W, jni$_.JInteger>?>();
+        .objectNullable<Annotated$Nested<$T?, $U, $W, jni$_.JInteger>>();
   }
 
   static final _id_intList = _class.instanceMethodId(
@@ -7912,7 +7927,7 @@ extension type JsonSerializable$Case._(jni$_.JObject _$this)
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<JsonSerializable$Case?>? values() {
     return _values(_class.reference.pointer, _id_values.pointer)
-        .object<jni$_.JArray<JsonSerializable$Case?>?>();
+        .objectNullable<jni$_.JArray<JsonSerializable$Case?>>();
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -7939,7 +7954,7 @@ extension type JsonSerializable$Case._(jni$_.JObject _$this)
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _valueOf(
             _class.reference.pointer, _id_valueOf.pointer, _$string.pointer)
-        .object<JsonSerializable$Case?>();
+        .objectNullable<JsonSerializable$Case>();
   }
 }
 
@@ -7983,7 +7998,7 @@ extension type JsonSerializable._(jni$_.JObject _$this)
   /// The returned object must be released after use, by calling the [release] method.
   JsonSerializable$Case? value() {
     return _value(reference.pointer, _id_value.pointer)
-        .object<JsonSerializable$Case?>();
+        .objectNullable<JsonSerializable$Case>();
   }
 
   /// Maps a specific port to the implemented interface.

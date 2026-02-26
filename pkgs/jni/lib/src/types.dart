@@ -27,19 +27,25 @@ sealed class JTypeBase<JavaT> {
 mixin JCallable<JavaT, DartT> on JTypeBase<JavaT> {
   DartT _staticCall(
       JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args);
+  DartT? _staticCallNullable(
+      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args);
   DartT _instanceCall(
+      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args);
+  DartT? _instanceCallNullable(
       JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args);
 }
 
 /// Able to be the type of a field that can be get and set.
 mixin JAccessible<JavaT, DartT> on JTypeBase<JavaT> {
   DartT _staticGet(JClassPtr clazz, JFieldIDPtr fieldID);
+  DartT? _staticGetNullable(JClassPtr clazz, JFieldIDPtr fieldID);
   DartT _instanceGet(JObjectPtr obj, JFieldIDPtr fieldID);
+  DartT? _instanceGetNullable(JObjectPtr obj, JFieldIDPtr fieldID);
   void _staticSet(JClassPtr clazz, JFieldIDPtr fieldID, DartT val);
   void _instanceSet(JObjectPtr obj, JFieldIDPtr fieldID, DartT val);
 }
 
-abstract class JType<T extends JObject?> extends JTypeBase<T>
+abstract class JType<T extends JObject> extends JTypeBase<T>
     with JCallable<T, T>, JAccessible<T, T> {
   @internal
   const JType();
@@ -55,15 +61,39 @@ abstract class JType<T extends JObject?> extends JTypeBase<T>
   }
 
   @override
+  T? _staticCallNullable(
+      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    final result = Jni.env.CallStaticObjectMethodA(clazz, methodID, args);
+    return result == nullptr
+        ? null
+        : JObject.fromReference(JGlobalReference(result)) as T?;
+  }
+
+  @override
   T _instanceCall(JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args) {
-    return JObject.fromReference(
-        JGlobalReference(Jni.env.CallObjectMethodA(obj, methodID, args))) as T;
+    final result = Jni.env.CallObjectMethodA(obj, methodID, args);
+    return JObject.fromReference(JGlobalReference(result)) as T;
+  }
+
+  @override
+  T? _instanceCallNullable(
+      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args) {
+    final result = Jni.env.CallObjectMethodA(obj, methodID, args);
+    return result == nullptr
+        ? null
+        : JObject.fromReference(JGlobalReference(result)) as T?;
   }
 
   @override
   T _instanceGet(JObjectPtr obj, JFieldIDPtr fieldID) {
     final ref = JGlobalReference(Jni.env.GetObjectField(obj, fieldID));
-    return (ref.isNull ? null : JObject.fromReference(ref)) as T;
+    return JObject.fromReference(ref) as T;
+  }
+
+  @override
+  T? _instanceGetNullable(JObjectPtr obj, JFieldIDPtr fieldID) {
+    final ref = JGlobalReference(Jni.env.GetObjectField(obj, fieldID));
+    return (ref.isNull ? null : JObject.fromReference(ref)) as T?;
   }
 
   @override
@@ -75,7 +105,13 @@ abstract class JType<T extends JObject?> extends JTypeBase<T>
   @override
   T _staticGet(JClassPtr clazz, JFieldIDPtr fieldID) {
     final ref = JGlobalReference(Jni.env.GetStaticObjectField(clazz, fieldID));
-    return (ref.isNull ? null : JObject.fromReference(ref)) as T;
+    return JObject.fromReference(ref) as T;
+  }
+
+  @override
+  T? _staticGetNullable(JClassPtr clazz, JFieldIDPtr fieldID) {
+    final ref = JGlobalReference(Jni.env.GetStaticObjectField(clazz, fieldID));
+    return (ref.isNull ? null : JObject.fromReference(ref)) as T?;
   }
 
   @override
