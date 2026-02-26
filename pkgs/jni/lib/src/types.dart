@@ -45,7 +45,7 @@ mixin JAccessible<JavaT, DartT> on JTypeBase<JavaT> {
   void _instanceSet(JObjectPtr obj, JFieldIDPtr fieldID, DartT val);
 }
 
-abstract class JType<T extends JObject> extends JTypeBase<T>
+abstract class JType<T extends JObject?> extends JTypeBase<T>
     with JCallable<T, T>, JAccessible<T, T> {
   @internal
   const JType();

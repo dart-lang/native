@@ -861,11 +861,6 @@ class _JniResultGetter extends TypeVisitor<String> {
 
   @override
   String visitNonPrimitiveType(ReferredType node) {
-    if (node.isNullable) {
-      final type =
-          node.accept(_TypeGenerator(resolver, includeNullability: false));
-      return 'objectNullable<$type>()';
-    }
     final type = node.accept(_TypeGenerator(resolver));
     return 'object<$type>()';
   }
@@ -953,7 +948,8 @@ ${modifier}final _id_$name =
           typeErasure: true, includeNullability: false));
       typeClass = '$type.type';
     }
-    return '_id_$name.${node.type.isNullable ? 'getNullable' : 'get'}($self, $typeClass)';
+    final getter = node.type.isNullable ? 'getNullable' : 'get';
+    return '_id_$name.$getter($self, $typeClass)';
   }
 
   String setter(Field node) {

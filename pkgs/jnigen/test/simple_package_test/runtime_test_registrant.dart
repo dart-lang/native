@@ -762,8 +762,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
               '700'.toJString(),
             )!;
             final int sevenHundred;
-            if (sevenHundredBoxed is JInteger) {
-              sevenHundred = sevenHundredBoxed.intValue();
+            if (sevenHundredBoxed.isA(JInteger.type)) {
+              sevenHundred = (sevenHundredBoxed as JInteger).intValue();
             } else {
               sevenHundred = (await toDartFuture(
                 sevenHundredBoxed,
@@ -775,8 +775,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
             final fooBoxed = consume(stringConverter, 'foo'.toJString())!;
             final int foo;
-            if (fooBoxed is JInteger) {
-              foo = fooBoxed.intValue();
+            if (fooBoxed.isA(JInteger.type)) {
+              foo = (fooBoxed as JInteger).intValue();
             } else {
               foo = (await toDartFuture(fooBoxed, JInteger.type)).intValue();
             }
@@ -805,7 +805,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             'hello'.toJString()..releasedBy(arena),
           )!
             ..releasedBy(arena);
-          expect(stringArray, hasLength(1));
+          expect(stringArray.asDart(), hasLength(1));
           expect(stringArray[0]!.toDartString(releaseOriginal: true), 'hello');
           expect(
             genericInterface
@@ -851,23 +851,15 @@ void registerTests(String groupName, TestRunnerCallback test) {
         });
       });
       test('Superinterface methods are available', () {
-        expect(
-          $R2250.new,
-          isA<
-              $R2250<$T> Function<$T extends JObject>({
-                required JType<$T> T,
-                required void Function($T?) foo,
-                bool foo$async,
-              })>(),
+        final parent = $R2250(
+          foo: (JString? _) => 42,
         );
-        expect(
-          $R2250$Child.new,
-          isA<
-              $R2250$Child Function({
-                required void Function(JObject?) foo,
-                bool foo$async,
-              })>(),
+        expect(parent.foo(null), 42);
+
+        final child = $R2250$Child(
+          foo: (JObject? _) => 24,
         );
+        expect(child.foo(null), 24);
       });
     });
 
@@ -1057,13 +1049,13 @@ void registerTests(String groupName, TestRunnerCallback test) {
           );
           expect(
             annotated
-                .methodGenericEcho2(object)!
+                .methodGenericEcho2(object)
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
             annotated
-                .methodGenericEcho3(object)!
+                .methodGenericEcho3(object)
                 .toDartString(releaseOriginal: true),
             'hello',
           );

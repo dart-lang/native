@@ -8350,26 +8350,26 @@ extension type R2250$Child._(jni$_.JObject _$this) implements jni$_.JObject {
   static const jni$_.JType<R2250$Child> type = $R2250$Child$Type$();
   static final _id_foo = _class.instanceMethodId(
     r'foo',
-    r'(Ljava/lang/Object;)V',
+    r'(Ljava/lang/Object;)I',
   );
 
   static final _foo = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
+                  jni$_.JniResult Function(
                       jni$_.Pointer<jni$_.Void>,
                       jni$_.JMethodIDPtr,
                       jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
+          'globalEnv_CallIntMethod')
       .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract void foo(java.lang.Object object)`
-  void foo(
+  /// from: `public abstract int foo(java.lang.Object object)`
+  int foo(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    _foo(reference.pointer, _id_foo.pointer, _$object.pointer).check();
+    return _foo(reference.pointer, _id_foo.pointer, _$object.pointer).integer;
   }
 
   /// Maps a specific port to the implemented interface.
@@ -8402,11 +8402,11 @@ extension type R2250$Child._(jni$_.JObject _$this) implements jni$_.JObject {
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'foo(Ljava/lang/Object;)V') {
-        _$impls[$p]!.foo(
+      if ($d == r'foo(Ljava/lang/Object;)I') {
+        final $r = _$impls[$p]!.foo(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.nullptr;
+        return jni$_.JInteger($r).reference.toPointer();
       }
     } catch (e) {
       return jni$_.ProtectedJniExtensions.newDartException(e);
@@ -8433,9 +8433,7 @@ extension type R2250$Child._(jni$_.JObject _$this) implements jni$_.JObject {
       r'com.github.dart_lang.jnigen.regressions.R2250$Child',
       $p,
       _$invokePointer,
-      [
-        if ($impl.foo$async) r'foo(Ljava/lang/Object;)V',
-      ],
+      [],
     );
     final $a = $p.sendPort.nativePort;
     _$impls[$a] = $impl;
@@ -8452,24 +8450,20 @@ extension type R2250$Child._(jni$_.JObject _$this) implements jni$_.JObject {
 
 abstract base mixin class $R2250$Child {
   factory $R2250$Child({
-    required void Function(jni$_.JObject? object) foo,
-    core$_.bool foo$async,
+    required int Function(jni$_.JObject? object) foo,
   }) = _$R2250$Child;
 
-  void foo(jni$_.JObject? object);
-  core$_.bool get foo$async => false;
+  int foo(jni$_.JObject? object);
 }
 
 final class _$R2250$Child with $R2250$Child {
   _$R2250$Child({
-    required void Function(jni$_.JObject? object) foo,
-    this.foo$async = false,
+    required int Function(jni$_.JObject? object) foo,
   }) : _foo = foo;
 
-  final void Function(jni$_.JObject? object) _foo;
-  final core$_.bool foo$async;
+  final int Function(jni$_.JObject? object) _foo;
 
-  void foo(jni$_.JObject? object) {
+  int foo(jni$_.JObject? object) {
     return _foo(object);
   }
 }
@@ -8494,26 +8488,26 @@ extension type R2250<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   static const jni$_.JType<R2250> type = $R2250$Type$();
   static final _id_foo = _class.instanceMethodId(
     r'foo',
-    r'(Ljava/lang/Object;)V',
+    r'(Ljava/lang/Object;)I',
   );
 
   static final _foo = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
+                  jni$_.JniResult Function(
                       jni$_.Pointer<jni$_.Void>,
                       jni$_.JMethodIDPtr,
                       jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
+          'globalEnv_CallIntMethod')
       .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract void foo(T object)`
-  void foo(
+  /// from: `public abstract int foo(T object)`
+  int foo(
     $T? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    _foo(reference.pointer, _id_foo.pointer, _$object.pointer).check();
+    return _foo(reference.pointer, _id_foo.pointer, _$object.pointer).integer;
   }
 
   /// Maps a specific port to the implemented interface.
@@ -8546,11 +8540,11 @@ extension type R2250<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     try {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
-      if ($d == r'foo(Ljava/lang/Object;)V') {
-        _$impls[$p]!.foo(
+      if ($d == r'foo(Ljava/lang/Object;)I') {
+        final $r = _$impls[$p]!.foo(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.nullptr;
+        return jni$_.JInteger($r).reference.toPointer();
       }
     } catch (e) {
       return jni$_.ProtectedJniExtensions.newDartException(e);
@@ -8577,9 +8571,7 @@ extension type R2250<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
       r'com.github.dart_lang.jnigen.regressions.R2250',
       $p,
       _$invokePointer,
-      [
-        if ($impl.foo$async) r'foo(Ljava/lang/Object;)V',
-      ],
+      [],
     );
     final $a = $p.sendPort.nativePort;
     _$impls[$a] = $impl;
@@ -8596,24 +8588,20 @@ extension type R2250<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
 
 abstract base mixin class $R2250<$T extends jni$_.JObject?> {
   factory $R2250({
-    required void Function($T? object) foo,
-    core$_.bool foo$async,
+    required int Function($T? object) foo,
   }) = _$R2250<$T>;
 
-  void foo($T? object);
-  core$_.bool get foo$async => false;
+  int foo($T? object);
 }
 
 final class _$R2250<$T extends jni$_.JObject?> with $R2250<$T> {
   _$R2250({
-    required void Function($T? object) foo,
-    this.foo$async = false,
+    required int Function($T? object) foo,
   }) : _foo = foo;
 
-  final void Function($T? object) _foo;
-  final core$_.bool foo$async;
+  final int Function($T? object) _foo;
 
-  void foo($T? object) {
+  int foo($T? object) {
     return _foo(object);
   }
 }

@@ -225,7 +225,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
             obj
                 .methodGenericNullableEcho(
                   'hello'.toJString()..releasedBy(arena),
-                )?.toDartString(releaseOriginal: true),
+                )
+                ?.toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
