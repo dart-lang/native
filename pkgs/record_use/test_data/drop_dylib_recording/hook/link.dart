@@ -37,13 +37,13 @@ void main(List<String> arguments) async {
             'package:drop_dylib_recording/src/drop_dylib_recording.dart',
             [
               const Name(
-                kind: DefinitionKind.classKind,
+                kind: .classKind,
                 'MyMath',
               ),
               Name(
-                kind: DefinitionKind.methodKind,
+                kind: .methodKind,
                 methodName,
-                disambiguators: {DefinitionDisambiguator.staticDisambiguator},
+                disambiguators: {.staticDisambiguator},
               ),
             ],
           )] ??
@@ -82,7 +82,7 @@ void main(List<String> arguments) async {
             'package:drop_dylib_recording/src/drop_dylib_recording.dart',
             [
               Name(
-                kind: DefinitionKind.classKind,
+                kind: .classKind,
                 className,
               ),
             ],

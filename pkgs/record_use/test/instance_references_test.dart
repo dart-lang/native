@@ -14,7 +14,7 @@ void main() {
 
   const constructorDefinition = Definition(
     'package:test/test.dart',
-    [Name('MyClass'), Name('', kind: DefinitionKind.constructorKind)],
+    [Name('MyClass'), Name('', kind: .constructorKind)],
   );
 
   const loadingUnitRoot = LoadingUnit('root');
