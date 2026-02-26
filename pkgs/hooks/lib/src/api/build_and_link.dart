@@ -52,7 +52,7 @@ import '../validation.dart';
 ///
 /// void main(List<String> args) async {
 ///   await build(args, (input, output) async {
-///     if (input.config.code.linkModePreference == LinkModePreference.static) {
+///     if (input.config.code.linkModePreference == .static) {
 ///       // Simulate that this hook only supports dynamic libraries.
 ///       throw UnsupportedError('LinkModePreference.static is not supported.');
 ///     }
@@ -205,7 +205,7 @@ Future<void> build(
       for (final error in errors) '- $error',
     ].join('\n');
     stderr.writeln(message);
-    output.setFailure(FailureType.build);
+    output.setFailure(.build);
     await _writeOutput(output, outputFile);
     exit(BuildError(message: message).exitCode);
   }
@@ -373,7 +373,7 @@ Future<void> link(
       for (final error in errors) '- $error',
     ].join('\n');
     stderr.writeln(message);
-    output.setFailure(FailureType.build);
+    output.setFailure(.build);
     await _writeOutput(output, outputFile);
     exit(BuildError(message: message).exitCode);
   }
