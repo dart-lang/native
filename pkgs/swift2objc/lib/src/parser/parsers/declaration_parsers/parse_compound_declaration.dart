@@ -10,6 +10,7 @@ import '../../../ast/declarations/compounds/class_declaration.dart';
 import '../../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../../ast/declarations/compounds/members/property_declaration.dart';
+import '../../../ast/declarations/compounds/members/subscript_declaration.dart';
 import '../../../ast/declarations/compounds/struct_declaration.dart';
 import '../../../config.dart';
 import '../../../context.dart';
@@ -78,6 +79,12 @@ ParsedCompound<T> parseCompoundDeclaration<T extends CompoundDeclaration>(
       (m) => m.fullName,
     ),
   );
+  compound.subscripts.addAll(
+    memberDeclarations.removeWhereType<SubscriptDeclaration>(),
+  );
+  compound.subscripts.addAll(
+    memberDeclarations.removeWhereType<SubscriptDeclaration>(),
+  );
   compound.nestedDeclarations.addAll(
     memberDeclarations.removeWhereType<InnerNestableDeclaration>(),
   );
@@ -109,6 +116,7 @@ ClassDeclaration parseClassDeclaration(
       properties: [],
       methods: [],
       initializers: [],
+      subscripts: [],
       nestedDeclarations: [],
     ),
   ).compound;
@@ -136,6 +144,7 @@ StructDeclaration parseStructDeclaration(
       properties: [],
       methods: [],
       initializers: [],
+      subscripts: [],
       nestedDeclarations: [],
     ),
   ).compound;

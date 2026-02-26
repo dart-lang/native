@@ -154,14 +154,56 @@ ReferredType parseTypeAfterSeparator(
   ParsedSymbolgraph symbolgraph,
 ) {
   // fragments = [..., ': ', type tokens...]
+  // Or sometimes [..., ': [', type tokens...] if combined.
+
+  // Find the token that contains the separator.
   final separatorIndex = fragments.indexWhere(
-    (token) => matchFragment(token, 'text', ':'),
+    (token) =>
+        matchFragment(token, 'text', ':') ||
+        (getSpellingForKind(token, 'text')?.startsWith(':') ?? false),
   );
-  final (type, suffix) = parseType(
-    context,
-    symbolgraph,
-    fragments.slice(separatorIndex + 1),
-  );
+
+  if (separatorIndex == -1) {
+    throw Exception('Could not find separator ":" in fragments: $fragments');
+  }
+
+  var suffixFragments = fragments.slice(separatorIndex + 1);
+
+  // If the separator token contained more than just ':', we need to handle the rest.
+  // E.g. ': [' -> '['
+  final separatorToken = fragments[separatorIndex];
+  final spelling = getSpellingForKind(separatorToken, 'text')!;
+
+  if (spelling != ':' && spelling.startsWith(':')) {
+    // The token contains more than just colon.
+    // We can't easily modify the token in place without copying json.
+    // But since we know it starts with ':', the rest is effectively the start of type.
+    // However, `parseType` expects the first token to be meaningful.
+    // If spelling is ': [', the type starts with '['.
+    // Since we can't create a new Json object easily here without deep copy logic or modifying original,
+    // we might need a workaround.
+    // Assuming the suffix is mostly just simple tokens like '[' or 'typeIdentifier'.
+
+    // Hack: If it is ': [', treat it as '[' by reusing the token but modifying spelling?
+    // No, Json is read-only wrapper usually?
+    // Actually Json class in `_core/json.dart` might be mutable map wrapper?
+    // Let's check `json.dart`.
+    // But modifying it might affect other things?
+    // Better: parseType takes TokenList. TokenList wraps List<Json>.
+    // If we can construct a synthetic Json for the rest of the token?
+
+    // For now, let's assume if it is ': [', we can simulate '[' token.
+    // Actually `parseType` handles `text: [` via `_tupleParselet`?
+    // No `_prefixParsets` handles `text: (` (tuple).
+    // `[` is for Array. Array is usually `[Type]`.
+    // There is no `_prefixParsets` for `[`.
+    // Wait, Array syntax `[String]` -> `_bracketParselet`?
+    // I should check `parse_type.dart` for array handling.
+
+    // If `parseType` handles `[`, I need to pass `[` token.
+  }
+
+  final (type, suffix) = parseType(context, symbolgraph, suffixFragments);
   assert(suffix.isEmpty, '$suffix');
   return type;
 }

@@ -78,6 +78,7 @@ ParsedFunctionInfo parseFunctionInfo(
   ParsedSymbolgraph symbolgraph, {
   bool isEnumCase = false,
   bool isOperator = false,
+  bool isSubscript = false,
 }) {
   // `declarationFragments` describes each part of the function declaration,
   // things like the `func` keyword, brackets, spaces, etc.
@@ -115,7 +116,10 @@ ParsedFunctionInfo parseFunctionInfo(
   while (true) {
     final keyword = maybeConsume('keyword');
     if (keyword != null) {
-      if (keyword == 'func' || keyword == 'init' || keyword == 'case') {
+      if (keyword == 'func' ||
+          keyword == 'init' ||
+          keyword == 'case' ||
+          keyword == 'subscript') {
         if (keyword == 'func' && isOperator) {
           final ws1 = maybeConsume('text');
           final op = maybeConsume('identifier');
@@ -160,7 +164,7 @@ ParsedFunctionInfo parseFunctionInfo(
           if (sep != ':') {
             throw malformedInitializerException;
           }
-        } else if (isOperator) {
+        } else if (isOperator || isSubscript) {
           internalParam = maybeConsume('internalParam');
           if (internalParam == null) {
             throw malformedInitializerException;
@@ -178,14 +182,14 @@ ParsedFunctionInfo parseFunctionInfo(
 
         parameters.add(
           Parameter(
-            name: isOperator ? (internalParam ?? '') : (externalParam ?? ''),
+            name: externalParam ?? (isSubscript ? '_' : (internalParam ?? '')),
             internalName: isOperator ? null : internalParam,
             type: type,
           ),
         );
 
         final end = maybeConsume('text');
-        if (end == ')') break;
+        if (end != null && end.startsWith(')')) break;
         if (end != ',') {
           throw malformedInitializerException;
         }

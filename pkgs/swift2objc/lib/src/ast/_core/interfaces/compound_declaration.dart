@@ -5,6 +5,7 @@
 import '../../declarations/compounds/members/initializer_declaration.dart';
 import '../../declarations/compounds/members/method_declaration.dart';
 import '../../declarations/compounds/members/property_declaration.dart';
+import '../../declarations/compounds/members/subscript_declaration.dart';
 import 'declaration.dart';
 import 'nestable_declaration.dart';
 import 'protocol_conformable.dart';
@@ -22,5 +23,6 @@ abstract interface class CompoundDeclaration
         InnerNestableDeclaration {
   abstract List<PropertyDeclaration> properties;
   abstract List<MethodDeclaration> methods;
+  abstract List<SubscriptDeclaration> subscripts;
   abstract List<InitializerDeclaration> initializers;
 }

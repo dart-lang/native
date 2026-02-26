@@ -18,6 +18,7 @@ import '../_core/utils.dart';
 import '../transform.dart';
 import 'transform_function.dart';
 import 'transform_initializer.dart';
+import 'transform_subscript.dart';
 import 'transform_variable.dart';
 
 ClassDeclaration transformCompound(
@@ -104,6 +105,17 @@ ClassDeclaration transformCompound(
         .nonNulls
         .toList();
 
+    final transformedSubscripts = originalCompound.subscripts
+        .map(
+          (subscript) => transformSubscript(
+            subscript,
+            wrappedCompoundInstance,
+            parentNamer,
+            state,
+          ),
+        )
+        .toList();
+
     transformedCompound.properties = transformedProperties
         .removeWhereType<PropertyDeclaration>()
         .sortedById();
@@ -117,6 +129,8 @@ ClassDeclaration transformCompound(
       ...transformedProperties.removeWhereType<MethodDeclaration>(),
       ...transformedInitializers.removeWhereType<MethodDeclaration>(),
     ].sortedById();
+
+    transformedCompound.subscripts = transformedSubscripts;
 
     assert(transformedProperties.isEmpty);
     assert(transformedInitializers.isEmpty);

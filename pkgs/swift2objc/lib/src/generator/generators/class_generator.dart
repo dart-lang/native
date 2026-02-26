@@ -8,6 +8,7 @@ import '../../ast/declarations/compounds/class_declaration.dart';
 import '../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
+import '../../ast/declarations/compounds/members/subscript_declaration.dart';
 import '../_core/utils.dart';
 import '../generator.dart';
 
@@ -19,6 +20,8 @@ List<String> generateClass(ClassDeclaration declaration) {
     ...[
       _generateClassWrappedInstance(declaration),
       ..._generateClassProperties(declaration),
+
+      ..._generateClassSubscripts(declaration),
       ..._generateInitializers(declaration),
       ..._generateClassMethods(declaration),
       ..._generateNestedDeclarations(declaration),
@@ -143,6 +146,43 @@ List<String> _generateClassProperties(ClassDeclaration declaration) => [
   for (final property in declaration.properties)
     ..._generateClassProperty(property),
 ];
+
+List<String> _generateClassSubscripts(ClassDeclaration declaration) => [
+  for (final subscript in declaration.subscripts)
+    ..._generateClassSubscript(subscript),
+];
+
+List<String> _generateClassSubscript(SubscriptDeclaration subscript) {
+  final header = StringBuffer();
+
+  if (subscript.hasObjCAnnotation) {
+    header.write('@objc ');
+  }
+
+  header.write(
+    'public subscript(${generateParameters(subscript.params)}) -> ${subscript.returnType.swiftType} {',
+  );
+
+  final callArgs = subscript.params
+      .map((p) {
+        final label = p.name == '_' ? '' : '${p.name}: ';
+        final value = p.internalName ?? p.name;
+        return '$label$value';
+      })
+      .join(', ');
+
+  final getterLines = ['get {', '  wrappedInstance[$callArgs]', '}'];
+
+  final setterLines = ['set {', '  wrappedInstance[$callArgs] = newValue', '}'];
+
+  return [
+    ...generateAvailability(subscript),
+    header.toString(),
+    ...getterLines.indent(),
+    if (subscript.hasSetter) ...setterLines.indent(),
+    '}\n',
+  ];
+}
 
 List<String> _generateClassProperty(PropertyDeclaration property) {
   final header = StringBuffer();
