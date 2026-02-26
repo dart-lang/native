@@ -27,6 +27,10 @@ sealed class Reference {
   /// Canonicalizes this [Reference].
   Reference _canonicalizeChildren(CanonicalizationContext context);
 
+  /// Returns a new [Reference] that only contains information allowed
+  /// by the provided criteria.
+  Reference _filter({String? definitionPackageName});
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
@@ -116,6 +120,9 @@ sealed class CallReference extends Reference {
 
   CallSyntax _toSyntax(SerializationContext context);
 
+  @override
+  CallReference _filter({String? definitionPackageName});
+
   /// Compares this [CallWithArguments] with [other] for semantic equality.
   ///
   /// If [allowTearoffToStaticPromotion] is true, this may be equal to a
@@ -197,6 +204,22 @@ final class CallWithArguments extends CallReference {
       },
     );
   }
+
+  @override
+  CallReference _filter({String? definitionPackageName}) => CallWithArguments(
+    loadingUnits: loadingUnits,
+    receiver: receiver?.filter(definitionPackageName: definitionPackageName),
+    positionalArguments: [
+      for (final c in positionalArguments)
+        c.filter(definitionPackageName: definitionPackageName),
+    ],
+    namedArguments: namedArguments.map(
+      (key, value) => MapEntry(
+        key,
+        value.filter(definitionPackageName: definitionPackageName),
+      ),
+    ),
+  );
 
   @override
   WithArgumentsCallSyntax _toSyntax(SerializationContext context) {
@@ -335,6 +358,12 @@ final class CallTearoff extends CallReference {
       );
 
   @override
+  CallReference _filter({String? definitionPackageName}) => CallTearoff(
+    loadingUnits: loadingUnits,
+    receiver: receiver?.filter(definitionPackageName: definitionPackageName),
+  );
+
+  @override
   TearoffCallSyntax _toSyntax(SerializationContext context) =>
       TearoffCallSyntax(
         loadingUnitIndices: [
@@ -433,6 +462,9 @@ sealed class InstanceReference extends Reference {
 
   InstanceSyntax _toSyntax(SerializationContext context);
 
+  @override
+  InstanceReference _filter({String? definitionPackageName});
+
   /// Compares this [InstanceReference] with [other] for semantic equality.
   ///
   /// The loading unit can be mapped with [loadingUnitMapping].
@@ -464,6 +496,17 @@ final class InstanceConstantReference extends InstanceReference {
         ],
         instanceConstant:
             context.canonicalizeConstant(instanceConstant) as Constant,
+      );
+
+  @override
+  InstanceReference _filter({String? definitionPackageName}) =>
+      InstanceConstantReference(
+        loadingUnits: loadingUnits,
+        instanceConstant:
+            instanceConstant.filter(
+                  definitionPackageName: definitionPackageName,
+                )
+                as Constant,
       );
 
   @override
@@ -550,6 +593,22 @@ final class InstanceCreationReference extends InstanceReference {
       },
     );
   }
+
+  @override
+  InstanceReference _filter({String? definitionPackageName}) =>
+      InstanceCreationReference(
+        loadingUnits: loadingUnits,
+        positionalArguments: [
+          for (final c in positionalArguments)
+            c.filter(definitionPackageName: definitionPackageName),
+        ],
+        namedArguments: namedArguments.map(
+          (key, value) => MapEntry(
+            key,
+            value.filter(definitionPackageName: definitionPackageName),
+          ),
+        ),
+      );
 
   @override
   CreationInstanceSyntax _toSyntax(SerializationContext context) {
@@ -670,6 +729,9 @@ final class ConstructorTearoffReference extends InstanceReference {
       );
 
   @override
+  InstanceReference _filter({String? definitionPackageName}) => this;
+
+  @override
   TearoffInstanceSyntax _toSyntax(SerializationContext context) =>
       TearoffInstanceSyntax(
         loadingUnitIndices: [
@@ -711,6 +773,9 @@ final class ConstructorTearoffReference extends InstanceReference {
 extension ReferenceProtected on Reference {
   Reference canonicalizeChildren(CanonicalizationContext context) =>
       _canonicalizeChildren(context);
+
+  Reference filter({String? definitionPackageName}) =>
+      _filter(definitionPackageName: definitionPackageName);
 }
 
 /// Package private (protected) methods for [CallReference].
@@ -722,6 +787,9 @@ extension CallReferenceProtected on CallReference {
 
   CallReference canonicalizeChildren(CanonicalizationContext context) =>
       _canonicalizeChildren(context) as CallReference;
+
+  CallReference filter({String? definitionPackageName}) =>
+      _filter(definitionPackageName: definitionPackageName);
 
   static CallReference fromSyntax(
     CallSyntax syntax,
@@ -738,6 +806,9 @@ extension InstanceReferenceProtected on InstanceReference {
 
   InstanceReference canonicalizeChildren(CanonicalizationContext context) =>
       _canonicalizeChildren(context) as InstanceReference;
+
+  InstanceReference filter({String? definitionPackageName}) =>
+      _filter(definitionPackageName: definitionPackageName);
 
   static InstanceReference fromSyntax(
     InstanceSyntax syntax,

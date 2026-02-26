@@ -31,6 +31,14 @@ sealed class MaybeConstant {
   /// Canonicalizes this [MaybeConstant].
   MaybeConstant _canonicalizeChildren(CanonicalizationContext context);
 
+  /// Returns a new [MaybeConstant] that only contains information allowed
+  /// by the provided criteria.
+  ///
+  /// If [definitionPackageName] is provided, constants that are instances of
+  /// classes or enums from other packages are replaced with an
+  /// [UnsupportedConstant].
+  MaybeConstant _filter({String? definitionPackageName});
+
   /// Compares this [MaybeConstant] with [other] for stable sorting.
   int _compareTo(MaybeConstant other) {
     if (identical(this, other)) return 0;
@@ -201,6 +209,9 @@ final class NonConstant extends MaybeConstant {
   MaybeConstant _canonicalizeChildren(CanonicalizationContext context) => this;
 
   @override
+  MaybeConstant _filter({String? definitionPackageName}) => this;
+
+  @override
   int get hashCode => 0x4e6f6e43;
 
   @override
@@ -233,6 +244,9 @@ abstract class Constant extends MaybeConstant {
 
   @override
   Constant _canonicalizeChildren(CanonicalizationContext context);
+
+  @override
+  Constant _filter({String? definitionPackageName});
 
   @override
   @visibleForTesting
@@ -273,6 +287,9 @@ final class NullConstant extends Constant {
 
   @override
   Constant _canonicalizeChildren(CanonicalizationContext context) => this;
+
+  @override
+  Constant _filter({String? definitionPackageName}) => this;
 
   @override
   int get hashCode => 0x4e756c6c;
@@ -319,6 +336,9 @@ final class UnsupportedConstant extends Constant {
   Constant _canonicalizeChildren(CanonicalizationContext context) => this;
 
   @override
+  Constant _filter({String? definitionPackageName}) => this;
+
+  @override
   int get hashCode => message.hashCode;
 
   @override
@@ -362,6 +382,9 @@ final class BoolConstant extends Constant {
 
   @override
   Constant _canonicalizeChildren(CanonicalizationContext context) => this;
+
+  @override
+  Constant _filter({String? definitionPackageName}) => this;
 
   @override
   bool operator ==(Object other) =>
@@ -411,6 +434,9 @@ final class IntConstant extends Constant {
   Constant _canonicalizeChildren(CanonicalizationContext context) => this;
 
   @override
+  Constant _filter({String? definitionPackageName}) => this;
+
+  @override
   bool operator ==(Object other) =>
       other is IntConstant && other.value == value;
 
@@ -453,6 +479,9 @@ final class StringConstant extends Constant {
 
   @override
   Constant _canonicalizeChildren(CanonicalizationContext context) => this;
+
+  @override
+  Constant _filter({String? definitionPackageName}) => this;
 
   @override
   bool operator ==(Object other) =>
@@ -502,6 +531,9 @@ final class SymbolConstant extends Constant {
 
   @override
   Constant _canonicalizeChildren(CanonicalizationContext context) => this;
+
+  @override
+  Constant _filter({String? definitionPackageName}) => this;
 
   @override
   bool operator ==(Object other) =>
@@ -573,6 +605,12 @@ final class ListConstant extends Constant {
       ListConstant([
         for (final c in value) context.canonicalizeConstant(c) as Constant,
       ]);
+
+  @override
+  Constant _filter({String? definitionPackageName}) => ListConstant([
+    for (final c in value)
+      c._filter(definitionPackageName: definitionPackageName),
+  ]);
 
   @override
   bool operator ==(Object other) {
@@ -671,6 +709,15 @@ final class MapConstant extends Constant {
     canonEntries.sort((a, b) => a.key._compareTo(b.key));
     return MapConstant(canonEntries);
   }
+
+  @override
+  Constant _filter({String? definitionPackageName}) => MapConstant([
+    for (final entry in entries)
+      MapEntry(
+        entry.key._filter(definitionPackageName: definitionPackageName),
+        entry.value._filter(definitionPackageName: definitionPackageName),
+      ),
+  ]);
 
   @override
   bool operator ==(Object other) {
@@ -817,6 +864,25 @@ final class InstanceConstant extends Constant {
   }
 
   @override
+  Constant _filter({String? definitionPackageName}) {
+    if (definitionPackageName != null &&
+        !definition.library.startsWith('package:$definitionPackageName/')) {
+      return UnsupportedConstant(
+        'Instance of $definition from other package is not supported.',
+      );
+    }
+    return InstanceConstant(
+      definition: definition,
+      fields: fields.map(
+        (key, value) => MapEntry(
+          key,
+          value._filter(definitionPackageName: definitionPackageName),
+        ),
+      ),
+    );
+  }
+
+  @override
   int get _orderingTypePriority => 11;
 
   @override
@@ -955,6 +1021,27 @@ final class EnumConstant extends Constant {
         for (final e in sortedEntries)
           e.key: context.canonicalizeConstant(e.value) as Constant,
       },
+    );
+  }
+
+  @override
+  Constant _filter({String? definitionPackageName}) {
+    if (definitionPackageName != null &&
+        !definition.library.startsWith('package:$definitionPackageName/')) {
+      return UnsupportedConstant(
+        'Instance of $definition from other package is not supported.',
+      );
+    }
+    return EnumConstant(
+      definition: definition,
+      index: index,
+      name: name,
+      fields: fields.map(
+        (key, value) => MapEntry(
+          key,
+          value._filter(definitionPackageName: definitionPackageName),
+        ),
+      ),
     );
   }
 
@@ -1098,6 +1185,20 @@ final class RecordConstant extends Constant {
   }
 
   @override
+  Constant _filter({String? definitionPackageName}) => RecordConstant(
+    positional: [
+      for (final c in positional)
+        c._filter(definitionPackageName: definitionPackageName),
+    ],
+    named: named.map(
+      (key, value) => MapEntry(
+        key,
+        value._filter(definitionPackageName: definitionPackageName),
+      ),
+    ),
+  );
+
+  @override
   int get _orderingTypePriority => 9;
 
   @override
@@ -1169,6 +1270,9 @@ extension MaybeConstantProtected on MaybeConstant {
 
   MaybeConstant canonicalizeChildren(CanonicalizationContext context) =>
       _canonicalizeChildren(context);
+
+  MaybeConstant filter({String? definitionPackageName}) =>
+      _filter(definitionPackageName: definitionPackageName);
 
   int compareTo(MaybeConstant other) => _compareTo(other);
 
