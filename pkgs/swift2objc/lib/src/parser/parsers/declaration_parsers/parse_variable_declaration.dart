@@ -71,8 +71,9 @@ ReferredType _parseVariableType(
       symbolgraph,
     );
   } catch (e) {
+    final id = symbolJson['identifier']['precise'];
     throw Exception(
-      'Failed to parse variable type for ${symbolJson['identifier']['precise'].get<String>()}: $e\n'
+      'Failed to parse variable type for $id: $e\n'
       'SubHeading: ${symbolJson['names']['subHeading']}',
     );
   }

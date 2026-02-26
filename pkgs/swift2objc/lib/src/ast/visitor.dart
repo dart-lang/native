@@ -98,7 +98,7 @@ abstract class Visitation {
   void visitGlobalVariableDeclaration(GlobalVariableDeclaration node) =>
       visitVariableDeclaration(node);
   void visitSubscriptDeclaration(SubscriptDeclaration node) =>
-      visitAstNode(node);
+      visitDeclaration(node);
   void visitCompoundDeclaration(CompoundDeclaration node) =>
       visitDeclaration(node);
   void visitClassDeclaration(ClassDeclaration node) =>

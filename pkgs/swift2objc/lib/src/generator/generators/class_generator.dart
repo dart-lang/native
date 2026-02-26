@@ -20,7 +20,6 @@ List<String> generateClass(ClassDeclaration declaration) {
     ...[
       _generateClassWrappedInstance(declaration),
       ..._generateClassProperties(declaration),
-
       ..._generateClassSubscripts(declaration),
       ..._generateInitializers(declaration),
       ..._generateClassMethods(declaration),
@@ -159,8 +158,9 @@ List<String> _generateClassSubscript(SubscriptDeclaration subscript) {
     header.write('@objc ');
   }
 
+  final params = generateParameters(subscript.params);
   header.write(
-    'public subscript(${generateParameters(subscript.params)}) -> ${subscript.returnType.swiftType} {',
+    'public subscript($params) -> ${subscript.returnType.swiftType} {',
   );
 
   final callArgs = subscript.params

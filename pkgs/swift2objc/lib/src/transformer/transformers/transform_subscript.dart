@@ -17,11 +17,9 @@ SubscriptDeclaration transformSubscript(
       _transformParam(i, original.params[i], globalNamer, state),
   ];
 
-  // Transform return type (which is the type of the value being accessed/set)
   final localNamer = UniqueNamer();
   final resultName = localNamer.makeUnique('result');
 
-  // We wrap the result of GETTER.
   final (wrapperResult, type) = maybeWrapValue(
     original.returnType,
     resultName,
@@ -43,7 +41,6 @@ SubscriptDeclaration transformSubscript(
     hasSetter: original.hasSetter,
   );
 
-  // Generate Getter
   transformedSubscript.getter = PropertyStatements(
     _generateGetterStatements(
       original,
@@ -56,7 +53,6 @@ SubscriptDeclaration transformSubscript(
     ),
   );
 
-  // Generate Setter if needed
   if (original.hasSetter) {
     transformedSubscript.setter = PropertyStatements(
       _generateSetterStatements(
@@ -93,7 +89,6 @@ List<String> _generateGetterStatements(
   String resultName,
   String wrappedResult,
 ) {
-  // Generate invocation params string (unwrapping wrapper types)
   final arguments = generateInvocationParams(
     localNamer,
     original.params,
@@ -115,24 +110,17 @@ List<String> _generateSetterStatements(
   PropertyDeclaration wrappedClassInstance,
   UniqueNamer globalNamer,
 ) {
-  // For setter, we need to unwrap 'newValue'.
-  // 'newValue' is available in set block.
-  // transformed type of 'newValue' matches transformed return type.
-
   final localNamer = UniqueNamer();
-  // Unwrap params first
   final arguments = generateInvocationParams(
     localNamer,
     original.params,
     transformed.params,
   );
 
-  // Unwrap 'newValue'
   final (unwrappedNewValue, unwrappedType) = maybeUnwrapValue(
     transformed.returnType,
     'newValue',
   );
-  // assert(unwrappedType.sameAs(original.returnType)); // might fail if generic logic differs slightly?
 
   final methodSource = original.isStatic
       ? wrappedClassInstance.type.swiftType

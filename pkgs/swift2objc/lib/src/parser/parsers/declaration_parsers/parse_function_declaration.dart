@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../../ast/_core/shared/parameter.dart';
-import '../../../ast/_core/shared/referred_type.dart';
 import '../../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../../ast/declarations/globals/globals.dart';
 import '../../../context.dart';
@@ -28,7 +27,7 @@ GlobalFunctionDeclaration parseGlobalFunctionDeclaration(
     name: parseSymbolName(symbol.json),
     source: symbol.source,
     availability: parseAvailability(symbol.json),
-    returnType: _parseFunctionReturnType(context, symbol.json, symbolgraph),
+    returnType: parseReturnType(context, symbol.json, symbolgraph),
     params: info.params,
     throws: info.throws,
     async: info.async,
@@ -54,7 +53,7 @@ MethodDeclaration parseMethodDeclaration(
     source: symbol.source,
     lineNumber: parseLineNumber(symbol.json),
     availability: parseAvailability(symbol.json),
-    returnType: _parseFunctionReturnType(context, symbol.json, symbolgraph),
+    returnType: parseReturnType(context, symbol.json, symbolgraph),
     params: info.params,
     hasObjCAnnotation: parseSymbolHasObjcAnnotation(symbol.json),
     isStatic: isStatic,
@@ -215,15 +214,4 @@ ParsedFunctionInfo parseFunctionInfo(
     async: annotations.contains('async'),
     mutating: prefixAnnotations.contains('mutating'),
   );
-}
-
-ReferredType _parseFunctionReturnType(
-  Context context,
-  Json symbolJson,
-  ParsedSymbolgraph symbolgraph,
-) {
-  final returnJson = TokenList(symbolJson['functionSignature']['returns']);
-  final (returnType, unparsed) = parseType(context, symbolgraph, returnJson);
-  assert(unparsed.isEmpty, '$returnJson\n\n$returnType\n\n$unparsed\n');
-  return returnType;
 }

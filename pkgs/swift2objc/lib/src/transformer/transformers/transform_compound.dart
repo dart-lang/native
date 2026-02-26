@@ -105,17 +105,6 @@ ClassDeclaration transformCompound(
         .nonNulls
         .toList();
 
-    final transformedSubscripts = originalCompound.subscripts
-        .map(
-          (subscript) => transformSubscript(
-            subscript,
-            wrappedCompoundInstance,
-            parentNamer,
-            state,
-          ),
-        )
-        .toList();
-
     transformedCompound.properties = transformedProperties
         .removeWhereType<PropertyDeclaration>()
         .sortedById();
@@ -130,7 +119,16 @@ ClassDeclaration transformCompound(
       ...transformedInitializers.removeWhereType<MethodDeclaration>(),
     ].sortedById();
 
-    transformedCompound.subscripts = transformedSubscripts;
+    transformedCompound.subscripts = originalCompound.subscripts
+        .map(
+          (subscript) => transformSubscript(
+            subscript,
+            wrappedCompoundInstance,
+            parentNamer,
+            state,
+          ),
+        )
+        .toList();
 
     assert(transformedProperties.isEmpty);
     assert(transformedInitializers.isEmpty);

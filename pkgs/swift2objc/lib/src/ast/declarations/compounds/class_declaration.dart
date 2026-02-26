@@ -111,7 +111,6 @@ class ClassDeclaration extends AstNode
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visitAll(properties);
-    visitor.visitAll(properties);
     visitor.visitAll(methods);
     visitor.visitAll(subscripts);
     visitor.visitAll(conformedProtocols);

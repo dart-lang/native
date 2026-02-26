@@ -82,9 +82,6 @@ ParsedCompound<T> parseCompoundDeclaration<T extends CompoundDeclaration>(
   compound.subscripts.addAll(
     memberDeclarations.removeWhereType<SubscriptDeclaration>(),
   );
-  compound.subscripts.addAll(
-    memberDeclarations.removeWhereType<SubscriptDeclaration>(),
-  );
   compound.nestedDeclarations.addAll(
     memberDeclarations.removeWhereType<InnerNestableDeclaration>(),
   );
