@@ -449,6 +449,9 @@
           },
           "then": {
             "properties": {
+              "definition_index": {
+                "type": "integer"
+              },
               "named": {
                 "type": "object",
                 "additionalProperties": {
@@ -461,7 +464,29 @@
                   "type": "integer"
                 }
               }
+            },
+            "required": [
+              "definition_index"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "tearoff"
+              }
             }
+          },
+          "then": {
+            "properties": {
+              "definition_index": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "definition_index"
+            ]
           }
         }
       ]

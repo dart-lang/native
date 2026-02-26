@@ -373,11 +373,13 @@ class CreationInstanceSyntax extends InstanceSyntax {
   }) : super._fromJson();
 
   CreationInstanceSyntax({
+    required int definitionIndex,
     required super.loadingUnitIndices,
     Map<String, int>? named,
     List<int>? positional,
     super.path = const [],
   }) : super(type: 'creation') {
+    _definitionIndex = definitionIndex;
     _named = named;
     _positional = positional;
     json.sortOnKey();
@@ -386,13 +388,24 @@ class CreationInstanceSyntax extends InstanceSyntax {
   /// Setup all fields for [CreationInstanceSyntax] that are not in
   /// [InstanceSyntax].
   void setup({
+    required int definitionIndex,
     required Map<String, int>? named,
     required List<int>? positional,
   }) {
+    _definitionIndex = definitionIndex;
     _named = named;
     _positional = positional;
     json.sortOnKey();
   }
+
+  int get definitionIndex => _reader.get<int>('definition_index');
+
+  set _definitionIndex(int value) {
+    json.setOrRemove('definition_index', value);
+  }
+
+  List<String> _validateDefinitionIndex() =>
+      _reader.validate<int>('definition_index');
 
   Map<String, int>? get named => _reader.optionalMap<int>(
     'named',
@@ -421,6 +434,7 @@ class CreationInstanceSyntax extends InstanceSyntax {
   @override
   List<String> validate() => [
     ...super.validate(),
+    ..._validateDefinitionIndex(),
     ..._validateNamed(),
     ..._validatePositional(),
   ];
@@ -767,7 +781,16 @@ class InstanceSyntax extends JsonObjectSyntax {
     ...super.validate(),
     ..._validateLoadingUnitIndices(),
     ..._validateType(),
+    ..._validateExtraRulesInstance(),
   ];
+
+  List<String> _validateExtraRulesInstance() {
+    final result = <String>[];
+    if (_reader.tryTraverse(['type']) == 'creation') {
+      result.addAll(_reader.validate<Object>('definition_index'));
+    }
+    return result;
+  }
 
   @override
   String toString() => 'InstanceSyntax($json)';
@@ -1798,13 +1821,34 @@ class TearoffInstanceSyntax extends InstanceSyntax {
   }) : super._fromJson();
 
   TearoffInstanceSyntax({
+    required int definitionIndex,
     required super.loadingUnitIndices,
     super.path = const [],
-  }) : super(type: 'tearoff');
+  }) : super(type: 'tearoff') {
+    _definitionIndex = definitionIndex;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [TearoffInstanceSyntax] that are not in
+  /// [InstanceSyntax].
+  void setup({required int definitionIndex}) {
+    _definitionIndex = definitionIndex;
+    json.sortOnKey();
+  }
+
+  int get definitionIndex => _reader.get<int>('definition_index');
+
+  set _definitionIndex(int value) {
+    json.setOrRemove('definition_index', value);
+  }
+
+  List<String> _validateDefinitionIndex() =>
+      _reader.validate<int>('definition_index');
 
   @override
   List<String> validate() => [
     ...super.validate(),
+    ..._validateDefinitionIndex(),
   ];
 
   @override

@@ -436,8 +436,10 @@ sealed class InstanceReference extends Reference {
       :final named,
       :final positional,
       :final loadingUnitIndices,
+      :final definitionIndex,
     ) =>
       InstanceCreationReference(
+        definition: context.definitions[definitionIndex],
         positionalArguments: (positional ?? [])
             .map((index) => CallReference._argumentFromSyntax(index, context))
             .toList(),
@@ -451,8 +453,12 @@ sealed class InstanceReference extends Reference {
             .map((index) => context.loadingUnits[index])
             .toList(),
       ),
-    TearoffInstanceSyntax(:final loadingUnitIndices) =>
+    TearoffInstanceSyntax(
+      :final loadingUnitIndices,
+      :final definitionIndex,
+    ) =>
       ConstructorTearoffReference(
+        definition: context.definitions[definitionIndex],
         loadingUnits: loadingUnitIndices
             .map((index) => context.loadingUnits[index])
             .toList(),
@@ -567,10 +573,12 @@ final class InstanceConstantReference extends InstanceReference {
 }
 
 final class InstanceCreationReference extends InstanceReference {
+  final Definition definition;
   final List<MaybeConstant> positionalArguments;
   final Map<String, MaybeConstant> namedArguments;
 
   const InstanceCreationReference({
+    required this.definition,
     required this.positionalArguments,
     required this.namedArguments,
     required super.loadingUnits,
@@ -581,6 +589,7 @@ final class InstanceCreationReference extends InstanceReference {
     final sortedNamedArgs = namedArguments.entries.toList()
       ..sort((a, b) => a.key.compareTo(b.key));
     return InstanceCreationReference(
+      definition: context.canonicalizeDefinition(definition),
       loadingUnits: [
         for (final u in loadingUnits) context.canonicalizeLoadingUnit(u),
       ],
@@ -597,6 +606,7 @@ final class InstanceCreationReference extends InstanceReference {
   @override
   InstanceReference _filter({String? definitionPackageName}) =>
       InstanceCreationReference(
+        definition: definition,
         loadingUnits: loadingUnits,
         positionalArguments: [
           for (final c in positionalArguments)
@@ -618,6 +628,7 @@ final class InstanceCreationReference extends InstanceReference {
     }
 
     return CreationInstanceSyntax(
+      definitionIndex: context.definitions[definition]!,
       loadingUnitIndices: [
         for (final unit in loadingUnits) context.loadingUnits[unit]!,
       ],
@@ -637,6 +648,7 @@ final class InstanceCreationReference extends InstanceReference {
     if (!(super == other)) return false;
 
     return other is InstanceCreationReference &&
+        other.definition == definition &&
         deepEquals(other.positionalArguments, positionalArguments) &&
         deepEquals(other.namedArguments, namedArguments);
   }
@@ -644,6 +656,7 @@ final class InstanceCreationReference extends InstanceReference {
   @override
   int get hashCode => cacheHashCode(
     () => Object.hash(
+      definition,
       deepHash(positionalArguments),
       deepHash(namedArguments),
       super.hashCode,
@@ -660,6 +673,10 @@ final class InstanceCreationReference extends InstanceReference {
     bool allowPromotionOfUnsupported = false,
   }) {
     if (other is! InstanceCreationReference) return false;
+    // ignore: invalid_use_of_visible_for_testing_member
+    if (!definition.semanticEquals(other.definition, uriMapping: uriMapping)) {
+      return false;
+    }
     if (positionalArguments.length != other.positionalArguments.length) {
       return false;
     }
@@ -699,6 +716,7 @@ final class InstanceCreationReference extends InstanceReference {
   @override
   String toString() {
     final parts = <String>[];
+    parts.add('definition: $definition');
     if (positionalArguments.isNotEmpty) {
       parts.add('positional: ${positionalArguments.join(', ')}');
     }
@@ -718,11 +736,17 @@ final class InstanceCreationReference extends InstanceReference {
 }
 
 final class ConstructorTearoffReference extends InstanceReference {
-  const ConstructorTearoffReference({required super.loadingUnits});
+  final Definition definition;
+
+  const ConstructorTearoffReference({
+    required this.definition,
+    required super.loadingUnits,
+  });
 
   @override
   Reference _canonicalizeChildren(CanonicalizationContext context) =>
       ConstructorTearoffReference(
+        definition: context.canonicalizeDefinition(definition),
         loadingUnits: [
           for (final u in loadingUnits) context.canonicalizeLoadingUnit(u),
         ],
@@ -734,10 +758,24 @@ final class ConstructorTearoffReference extends InstanceReference {
   @override
   TearoffInstanceSyntax _toSyntax(SerializationContext context) =>
       TearoffInstanceSyntax(
+        definitionIndex: context.definitions[definition]!,
         loadingUnitIndices: [
           for (final unit in loadingUnits) context.loadingUnits[unit]!,
         ],
       );
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+    if (!(super == other)) return false;
+
+    return other is ConstructorTearoffReference &&
+        other.definition == definition;
+  }
+
+  @override
+  int get hashCode =>
+      cacheHashCode(() => Object.hash(definition, super.hashCode));
 
   @override
   @visibleForTesting
@@ -749,6 +787,10 @@ final class ConstructorTearoffReference extends InstanceReference {
     bool allowPromotionOfUnsupported = false,
   }) {
     if (other is! ConstructorTearoffReference) return false;
+    // ignore: invalid_use_of_visible_for_testing_member
+    if (!definition.semanticEquals(other.definition, uriMapping: uriMapping)) {
+      return false;
+    }
     return _semanticEqualsShared(
       other,
       uriMapping: uriMapping,
@@ -759,6 +801,7 @@ final class ConstructorTearoffReference extends InstanceReference {
   @override
   String toString() {
     final parts = <String>[];
+    parts.add('definition: $definition');
     if (loadingUnits.isNotEmpty) {
       parts.add('loadingUnits: ${loadingUnits.map((u) => u.name).join(', ')}');
     }
