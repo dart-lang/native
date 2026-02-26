@@ -272,7 +272,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<JsonToken?>? values() {
     return _values(_class.reference.pointer, _id_values.pointer)
-        .objectNullable<jni$_.JArray<JsonToken?>>();
+        .object<jni$_.JArray<JsonToken?>?>();
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -299,7 +299,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
     final _$name = name?.reference ?? jni$_.jNullReference;
     return _valueOf(
             _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
-        .objectNullable<JsonToken>();
+        .object<JsonToken?>();
   }
 
   static final _id_id = _class.instanceMethodId(
@@ -345,7 +345,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? asString() {
     return _asString(reference.pointer, _id_asString.pointer)
-        .objectNullable<jni$_.JString>();
+        .object<jni$_.JString?>();
   }
 
   static final _id_asCharArray = _class.instanceMethodId(
@@ -369,7 +369,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JCharArray? asCharArray() {
     return _asCharArray(reference.pointer, _id_asCharArray.pointer)
-        .objectNullable<jni$_.JCharArray>();
+        .object<jni$_.JCharArray?>();
   }
 
   static final _id_asByteArray = _class.instanceMethodId(
@@ -393,7 +393,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JByteArray? asByteArray() {
     return _asByteArray(reference.pointer, _id_asByteArray.pointer)
-        .objectNullable<jni$_.JByteArray>();
+        .object<jni$_.JByteArray?>();
   }
 
   static final _id_isNumeric = _class.instanceMethodId(

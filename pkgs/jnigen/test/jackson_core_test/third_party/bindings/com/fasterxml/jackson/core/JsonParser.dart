@@ -453,7 +453,7 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<JsonParser$Feature?>? values() {
     return _values(_class.reference.pointer, _id_values.pointer)
-        .objectNullable<jni$_.JArray<JsonParser$Feature?>>();
+        .object<jni$_.JArray<JsonParser$Feature?>?>();
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -480,7 +480,7 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
     final _$name = name?.reference ?? jni$_.jNullReference;
     return _valueOf(
             _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
-        .objectNullable<JsonParser$Feature>();
+        .object<JsonParser$Feature?>();
   }
 
   static final _id_collectDefaults = _class.staticMethodId(
@@ -686,7 +686,7 @@ extension type JsonParser$NumberType._(jni$_.JObject _$this)
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JArray<JsonParser$NumberType?>? values() {
     return _values(_class.reference.pointer, _id_values.pointer)
-        .objectNullable<jni$_.JArray<JsonParser$NumberType?>>();
+        .object<jni$_.JArray<JsonParser$NumberType?>?>();
   }
 
   static final _id_valueOf = _class.staticMethodId(
@@ -713,7 +713,7 @@ extension type JsonParser$NumberType._(jni$_.JObject _$this)
     final _$name = name?.reference ?? jni$_.jNullReference;
     return _valueOf(
             _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
-        .objectNullable<JsonParser$NumberType>();
+        .object<JsonParser$NumberType?>();
   }
 }
 
@@ -765,7 +765,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@return Codec assigned to this parser, if any; {@code null} if none
   jni$_.JObject? getCodec() {
     return _getCodec(reference.pointer, _id_getCodec.pointer)
-        .objectNullable<jni$_.JObject>();
+        .object<jni$_.JObject?>();
   }
 
   static final _id_setCodec = _class.instanceMethodId(
@@ -833,7 +833,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@return Input source this parser was configured with
   jni$_.JObject? getInputSource() {
     return _getInputSource(reference.pointer, _id_getInputSource.pointer)
-        .objectNullable<jni$_.JObject>();
+        .object<jni$_.JObject?>();
   }
 
   static final _id_setRequestPayloadOnError = _class.instanceMethodId(
@@ -1002,7 +1002,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@since 2.1
   jni$_.JObject? getSchema() {
     return _getSchema(reference.pointer, _id_getSchema.pointer)
-        .objectNullable<jni$_.JObject>();
+        .object<jni$_.JObject?>();
   }
 
   static final _id_canUseSchema = _class.instanceMethodId(
@@ -1131,7 +1131,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   jni$_.JObject? getNonBlockingInputFeeder() {
     return _getNonBlockingInputFeeder(
             reference.pointer, _id_getNonBlockingInputFeeder.pointer)
-        .objectNullable<jni$_.JObject>();
+        .object<jni$_.JObject?>();
   }
 
   static final _id_getReadCapabilities = _class.instanceMethodId(
@@ -1161,7 +1161,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   jni$_.JObject? getReadCapabilities() {
     return _getReadCapabilities(
             reference.pointer, _id_getReadCapabilities.pointer)
-        .objectNullable<jni$_.JObject>();
+        .object<jni$_.JObject?>();
   }
 
   static final _id_version = _class.instanceMethodId(
@@ -1190,7 +1190,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///   {@code jackson-core} jar that contains the class
   jni$_.JObject? version() {
     return _version(reference.pointer, _id_version.pointer)
-        .objectNullable<jni$_.JObject>();
+        .object<jni$_.JObject?>();
   }
 
   static final _id_close = _class.instanceMethodId(
@@ -1291,7 +1291,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@return Stream input context (JsonStreamContext) associated with this parser
   jni$_.JObject? getParsingContext() {
     return _getParsingContext(reference.pointer, _id_getParsingContext.pointer)
-        .objectNullable<jni$_.JObject>();
+        .object<jni$_.JObject?>();
   }
 
   static final _id_currentLocation = _class.instanceMethodId(
@@ -1328,7 +1328,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@since 2.13
   jni$_.JObject? currentLocation() {
     return _currentLocation(reference.pointer, _id_currentLocation.pointer)
-        .objectNullable<jni$_.JObject>();
+        .object<jni$_.JObject?>();
   }
 
   static final _id_currentTokenLocation = _class.instanceMethodId(
@@ -1366,7 +1366,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   jni$_.JObject? currentTokenLocation() {
     return _currentTokenLocation(
             reference.pointer, _id_currentTokenLocation.pointer)
-        .objectNullable<jni$_.JObject>();
+        .object<jni$_.JObject?>();
   }
 
   static final _id_getCurrentLocation = _class.instanceMethodId(
@@ -1395,7 +1395,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   jni$_.JObject? getCurrentLocation() {
     return _getCurrentLocation(
             reference.pointer, _id_getCurrentLocation.pointer)
-        .objectNullable<jni$_.JObject>();
+        .object<jni$_.JObject?>();
   }
 
   static final _id_getTokenLocation = _class.instanceMethodId(
@@ -1423,7 +1423,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@return Starting location of the token parser currently points to
   jni$_.JObject? getTokenLocation() {
     return _getTokenLocation(reference.pointer, _id_getTokenLocation.pointer)
-        .objectNullable<jni$_.JObject>();
+        .object<jni$_.JObject?>();
   }
 
   static final _id_currentValue = _class.instanceMethodId(
@@ -1459,7 +1459,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@since 2.13 (added as replacement for older \#getCurrentValue()
   jni$_.JObject? currentValue() {
     return _currentValue(reference.pointer, _id_currentValue.pointer)
-        .objectNullable<jni$_.JObject>();
+        .object<jni$_.JObject?>();
   }
 
   static final _id_assignCurrentValue = _class.instanceMethodId(
@@ -1520,7 +1520,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@return Location of the last processed input unit (byte or character)
   jni$_.JObject? getCurrentValue() {
     return _getCurrentValue(reference.pointer, _id_getCurrentValue.pointer)
-        .objectNullable<jni$_.JObject>();
+        .object<jni$_.JObject?>();
   }
 
   static final _id_setCurrentValue = _class.instanceMethodId(
@@ -1658,7 +1658,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
     return _enable(reference.pointer, _id_enable.pointer, _$f.pointer)
-        .objectNullable<JsonParser>();
+        .object<JsonParser?>();
   }
 
   static final _id_disable = _class.instanceMethodId(
@@ -1689,7 +1689,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ) {
     final _$f = f?.reference ?? jni$_.jNullReference;
     return _disable(reference.pointer, _id_disable.pointer, _$f.pointer)
-        .objectNullable<JsonParser>();
+        .object<JsonParser?>();
   }
 
   static final _id_configure = _class.instanceMethodId(
@@ -1724,7 +1724,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     final _$f = f?.reference ?? jni$_.jNullReference;
     return _configure(reference.pointer, _id_configure.pointer, _$f.pointer,
             state ? 1 : 0)
-        .objectNullable<JsonParser>();
+        .object<JsonParser?>();
   }
 
   static final _id_isEnabled = _class.instanceMethodId(
@@ -1840,7 +1840,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     int mask,
   ) {
     return _setFeatureMask(reference.pointer, _id_setFeatureMask.pointer, mask)
-        .objectNullable<JsonParser>();
+        .object<JsonParser?>();
   }
 
   static final _id_overrideStdFeatures = _class.instanceMethodId(
@@ -1880,7 +1880,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ) {
     return _overrideStdFeatures(
             reference.pointer, _id_overrideStdFeatures.pointer, values, mask)
-        .objectNullable<JsonParser>();
+        .object<JsonParser?>();
   }
 
   static final _id_getFormatFeatures = _class.instanceMethodId(
@@ -1946,7 +1946,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ) {
     return _overrideFormatFeatures(
             reference.pointer, _id_overrideFormatFeatures.pointer, values, mask)
-        .objectNullable<JsonParser>();
+        .object<JsonParser?>();
   }
 
   static final _id_nextToken = _class.instanceMethodId(
@@ -1979,7 +1979,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///   JsonParseException for decoding problems
   jsontoken$_.JsonToken? nextToken() {
     return _nextToken(reference.pointer, _id_nextToken.pointer)
-        .objectNullable<jsontoken$_.JsonToken>();
+        .object<jsontoken$_.JsonToken?>();
   }
 
   static final _id_nextValue = _class.instanceMethodId(
@@ -2020,7 +2020,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///   JsonParseException for decoding problems
   jsontoken$_.JsonToken? nextValue() {
     return _nextValue(reference.pointer, _id_nextValue.pointer)
-        .objectNullable<jsontoken$_.JsonToken>();
+        .object<jsontoken$_.JsonToken?>();
   }
 
   static final _id_nextFieldName = _class.instanceMethodId(
@@ -2095,7 +2095,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@since 2.5
   jni$_.JString? nextFieldName$1() {
     return _nextFieldName$1(reference.pointer, _id_nextFieldName$1.pointer)
-        .objectNullable<jni$_.JString>();
+        .object<jni$_.JString?>();
   }
 
   static final _id_nextTextValue = _class.instanceMethodId(
@@ -2133,7 +2133,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///   JsonParseException for decoding problems
   jni$_.JString? nextTextValue() {
     return _nextTextValue(reference.pointer, _id_nextTextValue.pointer)
-        .objectNullable<jni$_.JString>();
+        .object<jni$_.JString?>();
   }
 
   static final _id_nextIntValue = _class.instanceMethodId(
@@ -2258,7 +2258,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///   JsonParseException for decoding problems
   jni$_.JBoolean? nextBooleanValue() {
     return _nextBooleanValue(reference.pointer, _id_nextBooleanValue.pointer)
-        .objectNullable<jni$_.JBoolean>();
+        .object<jni$_.JBoolean?>();
   }
 
   static final _id_skipChildren = _class.instanceMethodId(
@@ -2298,7 +2298,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///   JsonParseException for decoding problems
   JsonParser? skipChildren() {
     return _skipChildren(reference.pointer, _id_skipChildren.pointer)
-        .objectNullable<JsonParser>();
+        .object<JsonParser?>();
   }
 
   static final _id_finishToken = _class.instanceMethodId(
@@ -2368,7 +2368,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@since 2.8
   jsontoken$_.JsonToken? currentToken() {
     return _currentToken(reference.pointer, _id_currentToken.pointer)
-        .objectNullable<jsontoken$_.JsonToken>();
+        .object<jsontoken$_.JsonToken?>();
   }
 
   static final _id_currentTokenId = _class.instanceMethodId(
@@ -2430,7 +2430,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///   if any: null before any tokens have been read, and
   jsontoken$_.JsonToken? getCurrentToken() {
     return _getCurrentToken(reference.pointer, _id_getCurrentToken.pointer)
-        .objectNullable<jsontoken$_.JsonToken>();
+        .object<jsontoken$_.JsonToken?>();
   }
 
   static final _id_getCurrentTokenId = _class.instanceMethodId(
@@ -2771,7 +2771,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   jsontoken$_.JsonToken? getLastClearedToken() {
     return _getLastClearedToken(
             reference.pointer, _id_getLastClearedToken.pointer)
-        .objectNullable<jsontoken$_.JsonToken>();
+        .object<jsontoken$_.JsonToken?>();
   }
 
   static final _id_overrideCurrentName = _class.instanceMethodId(
@@ -2835,7 +2835,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///   JsonParseException for decoding problems
   jni$_.JString? getCurrentName() {
     return _getCurrentName(reference.pointer, _id_getCurrentName.pointer)
-        .objectNullable<jni$_.JString>();
+        .object<jni$_.JString?>();
   }
 
   static final _id_currentName = _class.instanceMethodId(
@@ -2869,7 +2869,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@since 2.10
   jni$_.JString? currentName() {
     return _currentName(reference.pointer, _id_currentName.pointer)
-        .objectNullable<jni$_.JString>();
+        .object<jni$_.JString?>();
   }
 
   static final _id_getText = _class.instanceMethodId(
@@ -2902,7 +2902,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///   JsonParseException for decoding problems
   jni$_.JString? getText() {
     return _getText(reference.pointer, _id_getText.pointer)
-        .objectNullable<jni$_.JString>();
+        .object<jni$_.JString?>();
   }
 
   static final _id_getText$1 = _class.instanceMethodId(
@@ -2996,7 +2996,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///   JsonParseException for decoding problems
   jni$_.JCharArray? getTextCharacters() {
     return _getTextCharacters(reference.pointer, _id_getTextCharacters.pointer)
-        .objectNullable<jni$_.JCharArray>();
+        .object<jni$_.JCharArray?>();
   }
 
   static final _id_getTextLength = _class.instanceMethodId(
@@ -3129,7 +3129,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///    content read fails (possible if values are extracted lazily)
   jni$_.JNumber? getNumberValue() {
     return _getNumberValue(reference.pointer, _id_getNumberValue.pointer)
-        .objectNullable<jni$_.JNumber>();
+        .object<jni$_.JNumber?>();
   }
 
   static final _id_getNumberValueExact = _class.instanceMethodId(
@@ -3169,7 +3169,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   jni$_.JNumber? getNumberValueExact() {
     return _getNumberValueExact(
             reference.pointer, _id_getNumberValueExact.pointer)
-        .objectNullable<jni$_.JNumber>();
+        .object<jni$_.JNumber?>();
   }
 
   static final _id_getNumberType = _class.instanceMethodId(
@@ -3201,7 +3201,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///   JsonParseException for decoding problems
   JsonParser$NumberType? getNumberType() {
     return _getNumberType(reference.pointer, _id_getNumberType.pointer)
-        .objectNullable<JsonParser$NumberType>();
+        .object<JsonParser$NumberType?>();
   }
 
   static final _id_getByteValue = _class.instanceMethodId(
@@ -3396,7 +3396,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   jni$_.JObject? getBigIntegerValue() {
     return _getBigIntegerValue(
             reference.pointer, _id_getBigIntegerValue.pointer)
-        .objectNullable<jni$_.JObject>();
+        .object<jni$_.JObject?>();
   }
 
   static final _id_getFloatValue = _class.instanceMethodId(
@@ -3506,7 +3506,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///   JsonParseException for decoding problems
   jni$_.JObject? getDecimalValue() {
     return _getDecimalValue(reference.pointer, _id_getDecimalValue.pointer)
-        .objectNullable<jni$_.JObject>();
+        .object<jni$_.JObject?>();
   }
 
   static final _id_getBooleanValue = _class.instanceMethodId(
@@ -3580,7 +3580,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///   JsonParseException for decoding problems
   jni$_.JObject? getEmbeddedObject() {
     return _getEmbeddedObject(reference.pointer, _id_getEmbeddedObject.pointer)
-        .objectNullable<jni$_.JObject>();
+        .object<jni$_.JObject?>();
   }
 
   static final _id_getBinaryValue = _class.instanceMethodId(
@@ -3628,7 +3628,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     final _$bv = bv?.reference ?? jni$_.jNullReference;
     return _getBinaryValue(
             reference.pointer, _id_getBinaryValue.pointer, _$bv.pointer)
-        .objectNullable<jni$_.JByteArray>();
+        .object<jni$_.JByteArray?>();
   }
 
   static final _id_getBinaryValue$1 = _class.instanceMethodId(
@@ -3659,7 +3659,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///   JsonParseException for decoding problems
   jni$_.JByteArray? getBinaryValue$1() {
     return _getBinaryValue$1(reference.pointer, _id_getBinaryValue$1.pointer)
-        .objectNullable<jni$_.JByteArray>();
+        .object<jni$_.JByteArray?>();
   }
 
   static final _id_readBinaryValue = _class.instanceMethodId(
@@ -4075,7 +4075,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@since 2.1
   jni$_.JString? getValueAsString() {
     return _getValueAsString(reference.pointer, _id_getValueAsString.pointer)
-        .objectNullable<jni$_.JString>();
+        .object<jni$_.JString?>();
   }
 
   static final _id_getValueAsString$1 = _class.instanceMethodId(
@@ -4115,7 +4115,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     final _$def = def?.reference ?? jni$_.jNullReference;
     return _getValueAsString$1(
             reference.pointer, _id_getValueAsString$1.pointer, _$def.pointer)
-        .objectNullable<jni$_.JString>();
+        .object<jni$_.JString?>();
   }
 
   static final _id_canReadObjectId = _class.instanceMethodId(
@@ -4222,7 +4222,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@since 2.3
   jni$_.JObject? getObjectId() {
     return _getObjectId(reference.pointer, _id_getObjectId.pointer)
-        .objectNullable<jni$_.JObject>();
+        .object<jni$_.JObject?>();
   }
 
   static final _id_getTypeId = _class.instanceMethodId(
@@ -4260,7 +4260,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///@since 2.3
   jni$_.JObject? getTypeId() {
     return _getTypeId(reference.pointer, _id_getTypeId.pointer)
-        .objectNullable<jni$_.JObject>();
+        .object<jni$_.JObject?>();
   }
 
   static final _id_readValueAs = _class.instanceMethodId(
@@ -4313,7 +4313,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     final _$valueType = valueType?.reference ?? jni$_.jNullReference;
     return _readValueAs(
             reference.pointer, _id_readValueAs.pointer, _$valueType.pointer)
-        .objectNullable<$T>();
+        .object<$T?>();
   }
 
   static final _id_readValueAs$1 = _class.instanceMethodId(
@@ -4363,7 +4363,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     final _$valueTypeRef = valueTypeRef?.reference ?? jni$_.jNullReference;
     return _readValueAs$1(reference.pointer, _id_readValueAs$1.pointer,
             _$valueTypeRef.pointer)
-        .objectNullable<$T>();
+        .object<$T?>();
   }
 
   static final _id_readValuesAs = _class.instanceMethodId(
@@ -4399,7 +4399,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     final _$valueType = valueType?.reference ?? jni$_.jNullReference;
     return _readValuesAs(
             reference.pointer, _id_readValuesAs.pointer, _$valueType.pointer)
-        .objectNullable<jni$_.JIterator<$T?>>();
+        .object<jni$_.JIterator<$T?>?>();
   }
 
   static final _id_readValuesAs$1 = _class.instanceMethodId(
@@ -4435,7 +4435,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     final _$valueTypeRef = valueTypeRef?.reference ?? jni$_.jNullReference;
     return _readValuesAs$1(reference.pointer, _id_readValuesAs$1.pointer,
             _$valueTypeRef.pointer)
-        .objectNullable<jni$_.JIterator<$T?>>();
+        .object<jni$_.JIterator<$T?>?>();
   }
 
   static final _id_readValueAsTree = _class.instanceMethodId(
@@ -4469,7 +4469,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
   ///    issue at format layer
   $T? readValueAsTree<$T extends jni$_.JObject?>() {
     return _readValueAsTree(reference.pointer, _id_readValueAsTree.pointer)
-        .objectNullable<$T>();
+        .object<$T?>();
   }
 }
 

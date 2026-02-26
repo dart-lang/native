@@ -54,10 +54,6 @@ import 'dart:core' show Object, String, double, int;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
-import '../cos/COSBase.dart' as cosbase$_;
-
-import '../cos/COSDictionary.dart' as cosdictionary$_;
-
 /// from: `org.apache.pdfbox.pdmodel.PDDocumentInformation`
 ///
 /// This is the document metadata.  Each getXXX method will return the entry if
@@ -119,7 +115,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
   /// Constructor that is used for a preexisting dictionary.
   ///@param dic The underlying dictionary.
   factory PDDocumentInformation.new$1(
-    cosdictionary$_.COSDictionary? dic,
+    jni$_.JObject? dic,
   ) {
     final _$dic = dic?.reference ?? jni$_.jNullReference;
     return _new$1(_class.reference.pointer, _id_new$1.pointer, _$dic.pointer)
@@ -148,9 +144,9 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
   ///
   /// This will get the underlying dictionary that this object wraps.
   ///@return The underlying info dictionary.
-  cosdictionary$_.COSDictionary? getCOSObject() {
+  jni$_.JObject? getCOSObject() {
     return _getCOSObject(reference.pointer, _id_getCOSObject.pointer)
-        .object<cosdictionary$_.COSDictionary?>();
+        .object<jni$_.JObject?>();
   }
 
   static final _id_getPropertyStringValue = _class.instanceMethodId(
@@ -788,33 +784,6 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
     final _$value = value?.reference ?? jni$_.jNullReference;
     _setTrapped(reference.pointer, _id_setTrapped.pointer, _$value.pointer)
         .check();
-  }
-
-  static final _id_getCOSObject$1 = _class.instanceMethodId(
-    r'getCOSObject',
-    r'()Lorg/apache/pdfbox/cos/COSBase;',
-  );
-
-  static final _getCOSObject$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract org.apache.pdfbox.cos.COSBase getCOSObject()`
-  /// The returned object must be released after use, by calling the [release] method.
-  ///
-  /// Convert this standard java object to a COS object.
-  ///@return The cos object that matches this Java object.
-  cosbase$_.COSBase? getCOSObject$1() {
-    return _getCOSObject$1(reference.pointer, _id_getCOSObject$1.pointer)
-        .object<cosbase$_.COSBase?>();
   }
 }
 
