@@ -116,6 +116,77 @@ void main() async {
       );
     });
   });
+
+  test('record_use_filtering caching', timeout: longTimeout, () async {
+    await inTempDir((tempUri) async {
+      await copyTestProjects(targetUri: tempUri);
+      final packageUri = tempUri.resolve('pirate_adventure/');
+
+      final resourcesUri = tempUri.resolve('treeshaking_info.json');
+      await File.fromUri(
+        resourcesUri,
+      ).writeAsString(jsonEncode(_pirateAdventureRecordings.toJson()));
+
+      // First, run `pub get`, we need pub to resolve our dependencies.
+      await runPubGet(workingDirectory: packageUri, logger: logger);
+
+      final buildResult = (await buildDataAssets(
+        packageUri,
+        linkingEnabled: true,
+      )).success;
+
+      final logMessages = <String>[];
+      Future<void> runLink() async {
+        logMessages.clear();
+        await link(
+          packageUri,
+          logger,
+          dartExecutable,
+          buildResult: buildResult,
+          resourceIdentifiers: resourcesUri,
+          buildAssetTypes: [BuildAssetType.data],
+          capturedLogs: logMessages,
+        );
+      }
+
+      // Initial run: should run hooks.
+      await runLink();
+      expect(
+        logMessages.join('\n'),
+        stringContainsInOrder(['pirate_speak', 'hook.dill']),
+      );
+
+      // Second run: should be cached.
+      await runLink();
+      expect(
+        logMessages.join('\n'),
+        contains('Skipping link for pirate_speak'),
+      );
+
+      // Change resources: should re-run hooks.
+      final newRecordings = Recordings(
+        metadata: Metadata(version: Version(1, 0, 0), comment: 'Changed'),
+        calls: _pirateAdventureRecordings.calls,
+        instances: {},
+      );
+      await File.fromUri(
+        resourcesUri,
+      ).writeAsString(jsonEncode(newRecordings.toJson()));
+
+      await runLink();
+      expect(
+        logMessages.join('\n'),
+        stringContainsInOrder(['pirate_speak', 'hook.dill']),
+      );
+
+      // Run again: should be cached again.
+      await runLink();
+      expect(
+        logMessages.join('\n'),
+        contains('Skipping link for pirate_speak'),
+      );
+    });
+  });
 }
 
 /// Expected result of the compiler when running from pirate_adventure

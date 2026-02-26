@@ -108,8 +108,6 @@ void main(List<String> arguments) async {
 
     print('Keeping only ${neededCodeAssets.map((e) => e.id).join(', ')}.');
     output.assets.code.addAll(neededCodeAssets);
-
-    output.dependencies.add(recordedUsagesFile);
   });
 }
 
