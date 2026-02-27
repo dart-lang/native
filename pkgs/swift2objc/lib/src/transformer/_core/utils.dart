@@ -84,7 +84,7 @@ import 'unique_namer.dart';
     );
 
     return (
-      '${transformedTypeDeclaration.name}($value)',
+      '${transformedTypeDeclaration.fullName}($value)',
       transformedTypeDeclaration.asDeclaredType,
     );
   } else if (type is OptionalType) {
