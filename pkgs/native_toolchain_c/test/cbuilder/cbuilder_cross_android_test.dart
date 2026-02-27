@@ -14,48 +14,77 @@ import '../helpers.dart';
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() {
-  const targets = [
-    Architecture.arm,
-    Architecture.arm64,
-    Architecture.ia32,
-    Architecture.x64,
-    Architecture.riscv64,
+  // These configurations are a selection of combinations of architectures,
+  // link modes, and optimization levels.
+  // We don't test the full cartesian product to keep the CI time manageable.
+  // When adding a new configuration, consider if it tests a new combination
+  // that is not yet covered by the existing tests.
+  final configurations = [
+    (
+      architecture: Architecture.arm,
+      apiLevel: flutterAndroidNdkVersionLowestSupported,
+      linkMode: DynamicLoadingBundled(),
+      optimizationLevel: OptimizationLevel.o0,
+    ),
+    (
+      architecture: Architecture.arm64,
+      apiLevel: flutterAndroidNdkVersionHighestSupported,
+      linkMode: StaticLinking(),
+      optimizationLevel: OptimizationLevel.o1,
+    ),
+    (
+      architecture: Architecture.ia32,
+      apiLevel: flutterAndroidNdkVersionLowestSupported,
+      linkMode: StaticLinking(),
+      optimizationLevel: OptimizationLevel.o2,
+    ),
+    (
+      architecture: Architecture.x64,
+      apiLevel: flutterAndroidNdkVersionHighestSupported,
+      linkMode: DynamicLoadingBundled(),
+      optimizationLevel: OptimizationLevel.o3,
+    ),
+    (
+      architecture: Architecture.riscv64,
+      apiLevel: flutterAndroidNdkVersionLowestSupported,
+      linkMode: DynamicLoadingBundled(),
+      optimizationLevel: OptimizationLevel.oS,
+    ),
+    (
+      architecture: Architecture.arm64,
+      apiLevel: flutterAndroidNdkVersionLowestSupported,
+      linkMode: StaticLinking(),
+      optimizationLevel: OptimizationLevel.unspecified,
+    ),
+    (
+      architecture: Architecture.arm,
+      apiLevel: flutterAndroidNdkVersionHighestSupported,
+      linkMode: DynamicLoadingBundled(),
+      optimizationLevel: OptimizationLevel.o2,
+    ),
   ];
 
-  const optimizationLevels = OptimizationLevel.values;
-  var selectOptimizationLevel = 0;
-
-  for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
-    for (final target in targets) {
-      for (final apiLevel in [
-        flutterAndroidNdkVersionLowestSupported,
-        flutterAndroidNdkVersionHighestSupported,
-      ]) {
-        // Cycle through all optimization levels.
-        final optimizationLevel = optimizationLevels[selectOptimizationLevel];
-        selectOptimizationLevel =
-            (selectOptimizationLevel + 1) % optimizationLevels.length;
-        test(
-          'CBuilder $linkMode library $target minSdkVersion $apiLevel '
-          '$optimizationLevel',
-          timeout: longTimeout,
-          () async {
-            final tempUri = await tempDirForTest();
-            final libUri = await buildLib(
-              tempUri,
-              target,
-              apiLevel,
-              linkMode,
-              optimizationLevel: optimizationLevel,
-            );
-            await expectMachineArchitecture(libUri, target, OS.android);
-            if (linkMode == DynamicLoadingBundled()) {
-              await expectPageSize(libUri, 16 * 1024);
-            }
-          },
+  for (final (:architecture, :apiLevel, :linkMode, :optimizationLevel)
+      in configurations) {
+    test(
+      'CBuilder $linkMode library $architecture minSdkVersion $apiLevel '
+      '$optimizationLevel',
+      timeout: longTimeout,
+      () async {
+        final tempUri = await tempDirForTest();
+        final libUri = await buildLib(
+          tempUri,
+          architecture,
+          apiLevel,
+          linkMode,
+          optimizationLevel: optimizationLevel,
         );
-      }
-    }
+        await expectMachineArchitecture(libUri, architecture, OS.android);
+        if (linkMode == DynamicLoadingBundled()) {
+          await expectPageSize(libUri, 16 * 1024);
+        }
+      },
+    );
   }
 
   test('CBuilder API levels binary difference', timeout: longTimeout, () async {
@@ -124,13 +153,13 @@ Future<Uri> buildLib(
     ..config.setupBuild(linkingEnabled: false)
     ..addExtension(
       CodeAssetExtension(
-        targetOS: OS.android,
+        targetOS: .android,
         targetArchitecture: targetArchitecture,
         cCompiler: cCompiler,
         android: AndroidCodeConfig(targetNdkApi: androidNdkApi),
         linkModePreference: linkMode == DynamicLoadingBundled()
-            ? LinkModePreference.dynamic
-            : LinkModePreference.static,
+            ? .dynamic
+            : .static,
       ),
     );
 
@@ -142,7 +171,7 @@ Future<Uri> buildLib(
     assetName: name,
     sources: [addCUri.toFilePath()],
     flags: flags,
-    buildMode: BuildMode.release,
+    buildMode: .release,
   );
   await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 
