@@ -281,24 +281,29 @@ void run({required TestRunnerCallback testRunner}) {
     expect(long.isA(JLong.type), isTrue);
     expect(long.isA(JNumber.type), isTrue);
     expect(long.isA(JObject.type), isTrue);
+    expect(JLong.type.isA(long), isTrue);
+    expect(JNumber.type.isA(long), isTrue);
+    expect(JObject.type.isA(long), isTrue);
   });
 
   testRunner('isA returns false', () {
     final long = JLong(1);
     expect(long.isA(JInteger.type), isFalse);
     expect(long.isA(JString.type), isFalse);
+    expect(JInteger.type.isA(long), isFalse);
+    expect(JString.type.isA(long), isFalse);
   });
 
   testRunner('Casting correctly succeeds', () {
     final long = JLong(1);
-    final long2 = long.as(JLong.type, releaseOriginal: true);
+    final long2 = JLong.type.as(long, releaseOriginal: true);
     expect(long2.longValue(releaseOriginal: true), 1);
   });
 
   testRunner('Casting incorrectly fails', () {
     final long = JLong(1);
     expect(
-      () => long.as(JInteger.type, releaseOriginal: true),
+      () => JInteger.type.as(long, releaseOriginal: true),
       throwsA(isA<CastError>().having(
           (e) => e.toString(), 'toString()', contains('java/lang/Integer'))),
     );

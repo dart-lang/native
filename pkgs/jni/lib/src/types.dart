@@ -57,6 +57,41 @@ abstract class JType<T extends JObject?> extends JTypeBase<T>
     return JClass.forName(name);
   }
 
+  /// Whether the [object] is of this type.
+  ///
+  /// For example:
+  /// ```dart
+  /// if (JString.type.isA(object)) {
+  ///   ...
+  /// }
+  /// ```
+  bool isA(JObject? object) {
+    if (object == null) return T == dynamic || null is T;
+    return object.isInstanceOf(jClass);
+  }
+
+  /// Casts the [object] to this type.
+  ///
+  /// If [releaseOriginal] is `true`, the casted object will be released.
+  ///
+  /// Throws [CastError] if the [object] is not of this type.
+  T as(JObject? object, {bool releaseOriginal = false}) {
+    if (!isA(object)) {
+      throw CastError('not a subtype of "$signature"');
+    }
+    if (object == null) return null as T;
+
+    if (releaseOriginal) {
+      final ret =
+          JObject.fromReference(JGlobalReference(object.reference.pointer)) as T;
+      object.reference.setAsReleased();
+      return ret;
+    }
+    final newRef =
+        JGlobalReference(Jni.env.NewGlobalRef(object.reference.pointer));
+    return JObject.fromReference(newRef) as T;
+  }
+
   @override
   T _staticCall(JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
     final result = Jni.env.CallStaticObjectMethodA(clazz, methodID, args);

@@ -80,16 +80,13 @@ class JObject {
   /// For example:
   ///
   /// ```dart
-  /// if (object.isA(JLong.type)) {
-  ///   final i = object.as(JLong.type).longValue;
+  /// if (JLong.type.isA(object)) {
+  ///   final i = JLong.type.as(object).longValue;
   ///   ...
   /// }
   /// ```
   bool isA<T extends JObject>(JType<T> type) {
-    final targetJClass = type.jClass;
-    final canBeCasted = isInstanceOf(targetJClass);
-    targetJClass.release();
-    return canBeCasted;
+    return type.isA(this);
   }
 
   /// Whether this object is of the type of the given [jclass].
@@ -106,18 +103,7 @@ class JObject {
     JType<T> type, {
     bool releaseOriginal = false,
   }) {
-    if (!isA(type)) {
-      throw CastError('not a subtype of "${type.signature}"');
-    }
-
-    if (releaseOriginal) {
-      final ret =
-          JObject.fromReference(JGlobalReference(reference.pointer)) as T;
-      reference.setAsReleased();
-      return ret;
-    }
-    final newRef = JGlobalReference(Jni.env.NewGlobalRef(reference.pointer));
-    return JObject.fromReference(newRef) as T;
+    return type.as(this, releaseOriginal: releaseOriginal);
   }
 
   static final _class = JClass.forName('java/lang/Object');
