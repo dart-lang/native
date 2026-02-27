@@ -940,7 +940,6 @@ ${modifier}final _id_$name =
     final name = node.finalName;
     final self = node.isStatic ? classRef : _self;
     final String typeClass;
-    // TODO: Simplify this.
     if (node.type is PrimitiveType || node.type is ArrayType) {
       typeClass = node.type.accept(_TypeClassGenerator(resolver));
     } else {

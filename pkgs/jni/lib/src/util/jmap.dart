@@ -12,9 +12,7 @@ extension JMapToAdapter<K extends JObject?, V extends JObject?> on JMap<K, V> {
   /// Wraps this [JMap] in an adapter that implements an immutable [Map].
   ///
   /// This is not a conversion, doesn't create a new map, or change the
-  /// elements. For deep conversion, use toDartMap.
-  ///
-  /// TODO: Implement toDartMap if it doesn't exist. Be consistent with objc.
+  /// elements.
   Map<K, V> asDart() => _JMapAdapter<K, V>(this);
 }
 
