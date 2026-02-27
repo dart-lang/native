@@ -53,7 +53,7 @@ void main() async {
         dartExecutable,
         buildResult: buildResult,
         resourceIdentifiers: resourcesUri,
-        buildAssetTypes: [BuildAssetType.data],
+        buildAssetTypes: [.data],
       );
       expect(buildFiles(), anyElement(endsWith('recorded_uses.json')));
     });
@@ -83,7 +83,7 @@ void main() async {
         dartExecutable,
         buildResult: buildResult,
         resourceIdentifiers: resourcesUri,
-        buildAssetTypes: [BuildAssetType.data],
+        buildAssetTypes: [.data],
       )).success;
 
       // Verify outputs
@@ -144,7 +144,7 @@ void main() async {
           dartExecutable,
           buildResult: buildResult,
           resourceIdentifiers: resourcesUri,
-          buildAssetTypes: [BuildAssetType.data],
+          buildAssetTypes: [.data],
           capturedLogs: logMessages,
         );
       }
@@ -196,9 +196,9 @@ final _pirateAdventureRecordings = Recordings(
   calls: {
     Definition('package:pirate_speak/src/definitions.dart', [
       Name(
-        kind: DefinitionKind.methodKind,
+        kind: .methodKind,
         'pirateSpeak',
-        disambiguators: {DefinitionDisambiguator.staticDisambiguator},
+        disambiguators: {.staticDisambiguator},
       ),
     ]): [
       const CallWithArguments(
@@ -214,9 +214,9 @@ final _pirateAdventureRecordings = Recordings(
     ],
     Definition('package:pirate_technology/src/definitions.dart', [
       Name(
-        kind: DefinitionKind.methodKind,
+        kind: .methodKind,
         'useCannon',
-        disambiguators: {DefinitionDisambiguator.staticDisambiguator},
+        disambiguators: {.staticDisambiguator},
       ),
     ]): [
       const CallWithArguments(

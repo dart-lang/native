@@ -194,7 +194,7 @@ void main() async {
         ].toString(),
       );
 
-      final randomAccessFile = await lockFile.open(mode: FileMode.write);
+      final randomAccessFile = await lockFile.open(mode: .write);
       final lock = await randomAccessFile.lock(FileLock.exclusive);
       var helperCompletedFirst = false;
       var timeoutCompletedFirst = false;
