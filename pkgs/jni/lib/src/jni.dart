@@ -190,10 +190,6 @@ abstract final class Jni {
   /// Uses the correct class loader on Android.
   /// Prefer this over `Jni.env.FindClass`.
   static JClassPtr findClass(String name) {
-    // TODO(https://github.com/dart-lang/native/issues/3174): Remove this hack.
-    if (name.startsWith('L') && name.endsWith(';')) {
-      name = name.substring(1, name.length - 1);
-    }
     return using((arena) => _bindings.JniFindClass(name.toNativeChars(arena)))
         .checkedClassRef;
   }
