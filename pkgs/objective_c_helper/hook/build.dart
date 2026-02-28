@@ -50,8 +50,10 @@ void main(List<String> args) async {
     final sysroot = sdkPath(codeConfig);
     final minVersion = minOSVersion(codeConfig);
     final cFlags = <String>[
-      '-isysroot', sysroot,
-      '-target', target,
+      '-isysroot',
+      sysroot,
+      '-target',
+      target,
       minVersion,
     ];
 
@@ -72,6 +74,7 @@ void main(List<String> args) async {
     );
   });
 }
+
 class Builder {
   final String _comp;
   final String _rootDir;

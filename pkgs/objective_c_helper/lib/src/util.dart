@@ -42,6 +42,7 @@ int objectRetainCount(Pointer<ObjCObjectImpl> object) {
   if (!internal_for_testing.isValidClass(clazz)) return 0;
   return _getObjectRetainCount(object.cast());
 }
+
 final _executeInternalCommand = () {
   try {
     return DynamicLibrary.process()
