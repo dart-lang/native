@@ -110,7 +110,7 @@ String _normalizeGeneratedCode(
 ///
 /// This will not delete the actual debug file incase [expect] throws an error.
 void matchLibraryWithExpected(
-  Context context, 
+  Context context,
   Library library,
   String pathForActual,
   List<String> pathToExpected, {
@@ -132,7 +132,7 @@ void matchLibraryWithExpected(
 ///
 /// This will not delete the actual debug file incase [expect] throws an error.
 void matchLibrarySymbolFileWithExpected(
-  Context context, 
+  Context context,
   Library library,
   String pathForActual,
   List<String> pathToExpected,

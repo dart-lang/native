@@ -22,9 +22,12 @@ void main() {
       );
       final context = testContext(config);
       final library = parse(context);
-      matchLibraryWithExpected(context, library, 'example_shared_bindings.dart', [
-        config.output.dartFile.toFilePath(),
-      ]);
+      matchLibraryWithExpected(
+        context,
+        library,
+        'example_shared_bindings.dart',
+        [config.output.dartFile.toFilePath()],
+      );
     });
 
     test('base symbol file output', () {

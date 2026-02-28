@@ -82,7 +82,6 @@ void main() {
           ),
         ], context),
       );
-      final context = testContext();
       matchLibraryWithExpected(
         context,
         library,

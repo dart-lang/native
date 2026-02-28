@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:logging/logging.dart';
 
@@ -34,28 +35,30 @@ class Context {
   final String tmpDir;
 
   Context(
-  this.logger,
-  FfiGenerator generator, {
-  Uri? libclangDylib,
-  String? tmpDir, // optional parameter
-})  : config = Config(generator),
-      cursorIndex = CursorIndex(logger),
-      tmpDir = tmpDir ?? Directory.systemTemp.createTempSync('ffigen temp dir ').path // default temp dir with spaces
-{
-  // Initialize compiler options
-  compilerOpts = config.headers.compilerOptions ?? defaultCompilerOpts(logger);
+    this.logger,
+    FfiGenerator generator, {
+    Uri? libclangDylib,
+    String? tmpDir, // optional parameter
+  }) : config = Config(generator),
+       cursorIndex = CursorIndex(logger),
+       tmpDir =
+           tmpDir ??
+           Directory.systemTemp
+               .createTempSync('ffigen temp dir ')
+               .path // default temp dir with spaces
+               {
+    objCBuiltInFunctions = ObjCBuiltInFunctions(
+      this,
+      generator.objectiveC?.generateForPackageObjectiveC ?? false,
+    );
 
-  objCBuiltInFunctions = ObjCBuiltInFunctions(
-    this,
-    generator.objectiveC?.generateForPackageObjectiveC ?? false,
-  );
+    final libclangDylibPath =
+        generator.libclangDylib?.toFilePath() ??
+        libclangDylib?.toFilePath() ??
+        findDylibAtDefaultLocations(logger);
 
-  final libclangDylibPath =
-      generator.libclangDylib?.toFilePath() ??
-      libclangDylib?.toFilePath() ??
-      findDylibAtDefaultLocations(logger);
-
-  _clang ??= Clang(DynamicLibrary.open(libclangDylibPath));
+    _clang ??= Clang(DynamicLibrary.open(libclangDylibPath));
+  }
 }
 
 /// The clang bindings.
@@ -132,4 +135,3 @@ typedef ExtraSymbols = ({
   // TODO(https://github.com/dart-lang/native/issues/1259): Make this nullable.
   Symbol symbolAddressVariableName,
 });
-}
