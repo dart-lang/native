@@ -1,22 +1,5 @@
 {
   "$schema": "../../doc/schema/record_use.schema.json",
-  "constants": [
-    {
-      "type": "non_constant"
-    },
-    {
-      "type": "int",
-      "value": 1
-    },
-    {
-      "type": "int",
-      "value": 2
-    },
-    {
-      "type": "string",
-      "value": "named_arg_value"
-    }
-  ],
   "definitions": [
     {
       "path": [
@@ -35,7 +18,7 @@
         },
         {
           "kind": "constructor",
-          "name": ""
+          "name": "named"
         }
       ],
       "uri": "package:record_use_test/test.dart"
@@ -47,7 +30,7 @@
     }
   ],
   "metadata": {
-    "comment": "Constructor invocation recording",
+    "comment": "Constructor tearoff recording",
     "version": "1.0.0"
   },
   "uses": {
@@ -60,15 +43,7 @@
             "loading_unit_indices": [
               0
             ],
-            "named": {
-              "other": 0,
-              "param": 3
-            },
-            "positional": [
-              1,
-              2
-            ],
-            "type": "creation"
+            "type": "tearoff"
           }
         ]
       }

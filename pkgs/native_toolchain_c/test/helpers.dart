@@ -206,7 +206,7 @@ Future<String> readelf(String filePath, String flags) async {
 }
 
 List<String> nmParameterFor(OS targetOS) => switch (targetOS) {
-  OS.macOS || OS.iOS => const [],
+  .macOS || .iOS => const [],
   OS() => ['-D'],
 };
 
@@ -214,7 +214,7 @@ List<String> nmParameterFor(OS targetOS) => switch (targetOS) {
 Future<String?> readSymbols(CodeAsset asset, OS targetOS) async {
   final assetUri = asset.file!;
   switch (targetOS) {
-    case OS.windows:
+    case .windows:
       final result = await _runDumpbin(['/EXPORTS'], asset.file!);
       if (result == null) {
         return null;
@@ -373,28 +373,20 @@ Future<void> expectMachineArchitecture(
 }
 
 List<Architecture> supportedArchitecturesFor(OS targetOS) => switch (targetOS) {
-  OS.macOS || OS.iOS => [Architecture.arm64, Architecture.x64],
-  OS.windows => [
+  .macOS || .iOS => [.arm64, .x64],
+  .windows => [
     // TODO(https://github.com/dart-lang/native/issues/170): Support arm64.
     // Architecture.arm64,
-    Architecture.ia32,
-    Architecture.x64,
+    .ia32,
+    .x64,
   ],
-  OS() => [
-    Architecture.arm,
-    Architecture.arm64,
-    Architecture.ia32,
-    Architecture.x64,
-    Architecture.riscv64,
-  ],
+  OS() => [.arm, .arm64, .ia32, .x64, .riscv64],
 };
 
 List<Architecture> iOSSupportedArchitecturesFor(IOSSdk iosSdk) =>
     switch (iosSdk) {
-      IOSSdk.iPhoneOS => supportedArchitecturesFor(
-        OS.iOS,
-      )..remove(Architecture.x64),
-      IOSSdk.iPhoneSimulator => supportedArchitecturesFor(OS.iOS),
+      .iPhoneOS => supportedArchitecturesFor(.iOS)..remove(Architecture.x64),
+      .iPhoneSimulator => supportedArchitecturesFor(.iOS),
       IOSSdk() => throw UnimplementedError(),
     };
 

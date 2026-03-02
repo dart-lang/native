@@ -63,8 +63,8 @@ void main() {
       name: name,
       assetName: name,
       sources: [addMUri.toFilePath()],
-      language: Language.objectiveC,
-      buildMode: BuildMode.release,
+      language: .objectiveC,
+      buildMode: .release,
     );
     await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 

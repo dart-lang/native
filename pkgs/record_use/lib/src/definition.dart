@@ -68,7 +68,11 @@ class Definition {
   );
 
   /// Canonicalizes the children of this [Definition].
-  Definition _canonicalizeChildren(CanonicalizationContext context) => this;
+  Definition _canonicalizeChildren(CanonicalizationContext context) =>
+      Definition(
+        library,
+        [for (final name in path) name._canonicalizeChildren(context)],
+      );
 
   /// The parent, if it exists.
   Definition? get parent => path.length > 1
@@ -136,6 +140,18 @@ class Name {
     this.kind,
     this.disambiguators = const {},
   });
+
+  Name _canonicalizeChildren(CanonicalizationContext context) {
+    if (disambiguators.isEmpty) return this;
+    return Name(
+      name,
+      kind: kind,
+      disambiguators: Set.from(
+        disambiguators.toList()
+          ..sort((a, b) => a.toString().compareTo(b.toString())),
+      ),
+    );
+  }
 
   @override
   bool operator ==(Object other) {

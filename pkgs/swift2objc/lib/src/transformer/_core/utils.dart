@@ -50,6 +50,21 @@ import 'unique_namer.dart';
     );
   }
 
+  if (type is OptionalType) {
+    final (wrappedChildType, childIsPrimitive) = maybeGetPrimitiveWrapper(
+      type.child,
+      true,
+      state,
+    );
+    if (childIsPrimitive) {
+      final wrapperName = (wrappedChildType as DeclaredType).name;
+      return (
+        '$value == nil ? nil : $wrapperName($value!)',
+        OptionalType(wrappedChildType),
+      );
+    }
+  }
+
   if (type.isObjCRepresentable) {
     return (value, type);
   }
@@ -75,7 +90,7 @@ import 'unique_namer.dart';
     );
 
     return (
-      '${transformedTypeDeclaration.name}($value)',
+      '${transformedTypeDeclaration.fullName}($value)',
       transformedTypeDeclaration.asDeclaredType,
     );
   } else if (type is OptionalType) {
