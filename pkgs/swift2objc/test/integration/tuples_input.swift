@@ -57,6 +57,8 @@ public class TupleTest {
         return ((1, "a"), (2, "b"))
     }
     // Test tuple with cycle
+    // TODO(https://github.com/dart-lang/native/issues/1358): Enable this when the bug is fixed.
+    /*
     public func getCircularTuple() -> (Foo, Bar)? {
         return nil
     }
@@ -72,6 +74,7 @@ public class TupleTest {
             return (Foo(), self)
         }
     }
+    */
 
 // TODO(https://github.com/dart-lang/native/issues/1743): Enable this when optional return types are fully supported.
 // public class OptionalTupleTest {

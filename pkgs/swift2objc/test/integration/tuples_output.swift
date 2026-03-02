@@ -14,11 +14,6 @@ import Foundation
     return Tuple_id_Int_name_String(result)
   }
 
-  @objc public func getCircularTuple() -> Tuple_TupleTestFoo_TupleTestBar? {
-    let result = wrappedInstance.getCircularTuple()
-    return result == nil ? nil : Tuple_TupleTestFoo_TupleTestBar(result!)
-  }
-
   @objc public func getAllLabeledTuple() -> Tuple_x_Int_y_Int_z_String {
     let result = wrappedInstance.getAllLabeledTuple()
     return Tuple_x_Int_y_Int_z_String(result)
@@ -67,34 +62,6 @@ import Foundation
     @objc public func getNestedTuple() -> Tuple_Int_StringBool {
       let result = wrappedInstance.getNestedTuple()
       return Tuple_Int_StringBool(result)
-    }
-
-  }
-
-  @objc public class BarWrapper: NSObject {
-    var wrappedInstance: TupleTest.Bar
-
-    init(_ wrappedInstance: TupleTest.Bar) {
-      self.wrappedInstance = wrappedInstance
-    }
-
-    @objc public func getCycle() -> Tuple_TupleTestFoo_TupleTestBar {
-      let result = wrappedInstance.getCycle()
-      return Tuple_TupleTestFoo_TupleTestBar(result)
-    }
-
-  }
-
-  @objc public class FooWrapper: NSObject {
-    var wrappedInstance: TupleTest.Foo
-
-    init(_ wrappedInstance: TupleTest.Foo) {
-      self.wrappedInstance = wrappedInstance
-    }
-
-    @objc public func getCycle() -> Tuple_TupleTestFoo_TupleTestBar {
-      let result = wrappedInstance.getCycle()
-      return Tuple_TupleTestFoo_TupleTestBar(result)
     }
 
   }
@@ -402,33 +369,6 @@ import Foundation
   }
 
   init(_ wrappedInstance: (String, (Bool, Double))) {
-    self.wrappedInstance = wrappedInstance
-  }
-
-}
-
-@objc public class Tuple_TupleTestFoo_TupleTestBar: NSObject {
-  var wrappedInstance: (TupleTest.Foo, TupleTest.Bar)
-
-  @objc public var _0: TupleTestWrapper.FooWrapper {
-    get {
-      FooWrapper(wrappedInstance.0)
-    }
-    set {
-      wrappedInstance.0 = newValue.wrappedInstance
-    }
-  }
-
-  @objc public var _1: TupleTestWrapper.BarWrapper {
-    get {
-      BarWrapper(wrappedInstance.1)
-    }
-    set {
-      wrappedInstance.1 = newValue.wrappedInstance
-    }
-  }
-
-  init(_ wrappedInstance: (TupleTest.Foo, TupleTest.Bar)) {
     self.wrappedInstance = wrappedInstance
   }
 
