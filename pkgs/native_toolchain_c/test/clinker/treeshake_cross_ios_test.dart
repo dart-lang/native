@@ -9,9 +9,48 @@ import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
 import 'package:test/test.dart';
+import 'package:test_case_selector/test_case_selector.dart';
 
 import '../helpers.dart';
 import 'treeshake_helper.dart';
+
+const targetOS = OS.iOS;
+
+/// This comment is generated. To regenerate, run:
+/// `REGENERATE_TEST_CONFIGS=true dart test`
+///
+/// | #   | Architecture | IOSSdk          | IOSVersion |
+/// |-----|--------------|-----------------|------------|
+/// | 1   | arm64        | iphoneos        | 16         |
+/// | 2   | arm64        | iphoneos        | 17         |
+/// | 3   | arm64        | iphonesimulator | 16         |
+/// | 4   | x64          | iphonesimulator | 17         |
+final configurations =
+    TestCaseSelector(
+      dimensions: {
+        Architecture: [Architecture.arm64, Architecture.x64],
+        IOSSdk: [IOSSdk.iPhoneOS, IOSSdk.iPhoneSimulator],
+        IOSVersion: [
+          IOSVersion.flutterHighestBestEffort,
+          IOSVersion.flutterHighestSupported,
+        ],
+      },
+      interactionGroups: [
+        {Architecture, IOSSdk},
+        {IOSSdk, IOSVersion},
+      ],
+      isValid: (config) {
+        if (config.get<IOSSdk>() == IOSSdk.iPhoneOS &&
+            config.get<Architecture>() == Architecture.x64) {
+          return false;
+        }
+        return true;
+      },
+    ).selectAndValidate(
+      tableUri: packageUri.resolve(
+        'test/clinker/treeshake_cross_ios_test.dart',
+      ),
+    );
 
 void main() {
   if (!Platform.isMacOS) {
@@ -19,37 +58,11 @@ void main() {
     return;
   }
 
-  const targetOS = OS.iOS;
+  for (final config in configurations) {
+    final architecture = config.get<Architecture>();
+    final iOSTargetSdk = config.get<IOSSdk>();
+    final iOSVersion = config.get<IOSVersion>().value;
 
-  // These configurations are a selection of combinations of architectures
-  // and iOS versions.
-  // We don't test the full cartesian product to keep the CI time manageable.
-  // When adding a new configuration, consider if it tests a new combination
-  // that is not yet covered by the existing tests.
-  final configurations = [
-    (
-      architecture: Architecture.arm64,
-      iOSTargetSdk: IOSSdk.iPhoneOS,
-      iOSVersion: flutteriOSHighestBestEffort,
-    ),
-    (
-      architecture: Architecture.arm64,
-      iOSTargetSdk: IOSSdk.iPhoneSimulator,
-      iOSVersion: flutteriOSHighestSupported,
-    ),
-    (
-      architecture: Architecture.x64,
-      iOSTargetSdk: IOSSdk.iPhoneSimulator,
-      iOSVersion: flutteriOSHighestBestEffort,
-    ),
-    (
-      architecture: Architecture.arm64,
-      iOSTargetSdk: IOSSdk.iPhoneOS,
-      iOSVersion: flutteriOSHighestSupported,
-    ),
-  ];
-
-  for (final (:architecture, :iOSTargetSdk, :iOSVersion) in configurations) {
     group('$iOSTargetSdk $iOSVersion ($architecture):', () {
       runTreeshakeTests(
         targetOS,

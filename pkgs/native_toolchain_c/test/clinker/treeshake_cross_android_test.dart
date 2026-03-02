@@ -2,48 +2,54 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: lines_longer_than_80_chars
+
 import 'package:code_assets/code_assets.dart';
 import 'package:test/test.dart';
+import 'package:test_case_selector/test_case_selector.dart';
 
 import '../helpers.dart';
 import 'treeshake_helper.dart';
 
+const targetOS = OS.android;
+
+/// This comment is generated. To regenerate, run:
+/// `REGENERATE_TEST_CONFIGS=true dart test`
+///
+/// | #   | Architecture | Android Api Level |
+/// |-----|--------------|-------------------|
+/// | 1   | arm          | 34                |
+/// | 2   | arm64        | 34                |
+/// | 3   | ia32         | 34                |
+/// | 4   | riscv64      | 21                |
+/// | 5   | x64          | 34                |
+final configurations =
+    TestCaseSelector(
+      dimensions: {
+        Architecture: [
+          Architecture.arm,
+          Architecture.arm64,
+          Architecture.ia32,
+          Architecture.x64,
+          Architecture.riscv64,
+        ],
+        AndroidApiLevel: [
+          AndroidApiLevel.flutterLowestSupported,
+          AndroidApiLevel.flutterHighestSupported,
+        ],
+      },
+      interactionGroups: [],
+    ).selectAndValidate(
+      tableUri: packageUri.resolve(
+        'test/clinker/treeshake_cross_android_test.dart',
+      ),
+    );
+
 void main() {
-  const targetOS = OS.android;
+  for (final config in configurations) {
+    final architecture = config.get<Architecture>();
+    final apiLevel = config.get<AndroidApiLevel>().value;
 
-  // These configurations are a selection of combinations of architectures
-  // and API levels.
-  // We don't test the full cartesian product to keep the CI time manageable.
-  // When adding a new configuration, consider if it tests a new combination
-  // that is not yet covered by the existing tests.
-  final configurations = [
-    (
-      architecture: Architecture.arm,
-      apiLevel: flutterAndroidNdkVersionLowestSupported,
-    ),
-    (
-      architecture: Architecture.arm64,
-      apiLevel: flutterAndroidNdkVersionHighestSupported,
-    ),
-    (
-      architecture: Architecture.ia32,
-      apiLevel: flutterAndroidNdkVersionLowestSupported,
-    ),
-    (
-      architecture: Architecture.x64,
-      apiLevel: flutterAndroidNdkVersionHighestSupported,
-    ),
-    (
-      architecture: Architecture.riscv64,
-      apiLevel: flutterAndroidNdkVersionLowestSupported,
-    ),
-    (
-      architecture: Architecture.arm64,
-      apiLevel: flutterAndroidNdkVersionLowestSupported,
-    ),
-  ];
-
-  for (final (:architecture, :apiLevel) in configurations) {
     group('Android API$apiLevel ($architecture):', () {
       runTreeshakeTests(targetOS, architecture, androidTargetNdkApi: apiLevel);
     });

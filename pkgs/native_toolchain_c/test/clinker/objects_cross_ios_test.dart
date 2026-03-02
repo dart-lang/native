@@ -9,9 +9,33 @@ import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
 import 'package:test/test.dart';
+import 'package:test_case_selector/test_case_selector.dart';
 
 import '../helpers.dart';
 import 'objects_helper.dart';
+
+const targetOS = OS.iOS;
+
+/// This comment is generated. To regenerate, run:
+/// `REGENERATE_TEST_CONFIGS=true dart test`
+///
+/// | #   | IOSSdk          | IOSVersion |
+/// |-----|-----------------|------------|
+/// | 1   | iphoneos        | 16         |
+/// | 2   | iphonesimulator | 17         |
+final configurations =
+    TestCaseSelector(
+      dimensions: {
+        IOSSdk: [IOSSdk.iPhoneOS, IOSSdk.iPhoneSimulator],
+        IOSVersion: [
+          IOSVersion.flutterHighestBestEffort,
+          IOSVersion.flutterHighestSupported,
+        ],
+      },
+      interactionGroups: [],
+    ).selectAndValidate(
+      tableUri: packageUri.resolve('test/clinker/objects_cross_ios_test.dart'),
+    );
 
 void main() {
   if (!Platform.isMacOS) {
@@ -19,23 +43,10 @@ void main() {
     return;
   }
 
-  const targetOS = OS.iOS;
+  for (final config in configurations) {
+    final iOSTargetSdk = config.get<IOSSdk>();
+    final iOSVersion = config.get<IOSVersion>().value;
 
-  // These configurations are a selection of combinations of architectures
-  // and iOS versions.
-  // We don't test the full cartesian product to keep the CI time manageable.
-  // When adding a new configuration, consider if it tests a new combination
-  // that is not yet covered by the existing tests.
-  final configurations = [
-    (iOSTargetSdk: IOSSdk.iPhoneOS, iOSVersion: flutteriOSHighestBestEffort),
-    (
-      iOSTargetSdk: IOSSdk.iPhoneSimulator,
-      iOSVersion: flutteriOSHighestSupported,
-    ),
-    (iOSTargetSdk: IOSSdk.iPhoneOS, iOSVersion: flutteriOSHighestSupported),
-  ];
-
-  for (final (:iOSTargetSdk, :iOSVersion) in configurations) {
     group('$iOSTargetSdk $iOSVersion:', () {
       runObjectsTests(
         targetOS,
