@@ -36,7 +36,6 @@ class TransformationState {
 
   // Map from tuple signature to generated wrapper class
   final tupleWrappers = <String, ClassDeclaration>{};
-
 }
 
 /// Transforms the given declarations into the desired ObjC wrapped declarations
@@ -132,7 +131,14 @@ Declaration? maybeTransformDeclaration(
 
     // Now that the parents are transformed, this declaration should haven been
     // transformed, and will be in the cache.
-    return state.map[declaration]!;
+    // TODO(https://github.com/dart-lang/native/issues/1358): This is brittle. Switch naming to a transformer.
+    return state.map[declaration] ??
+        maybeTransformDeclaration(
+          declaration,
+          parentNamer,
+          state,
+          nested: true,
+        );
   }
 
   return switch (declaration) {
