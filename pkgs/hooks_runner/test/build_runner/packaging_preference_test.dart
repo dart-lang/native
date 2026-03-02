@@ -23,32 +23,32 @@ void main() async {
         packageUri,
         logger,
         dartExecutable,
-        linkModePreference: LinkModePreference.dynamic,
-        buildAssetTypes: [BuildAssetType.code],
+        linkModePreference: .dynamic,
+        buildAssetTypes: [.code],
       )).success;
 
       final resultPreferDynamic = (await build(
         packageUri,
         logger,
         dartExecutable,
-        linkModePreference: LinkModePreference.preferDynamic,
-        buildAssetTypes: [BuildAssetType.code],
+        linkModePreference: .preferDynamic,
+        buildAssetTypes: [.code],
       )).success;
 
       final resultStatic = (await build(
         packageUri,
         logger,
         dartExecutable,
-        linkModePreference: LinkModePreference.static,
-        buildAssetTypes: [BuildAssetType.code],
+        linkModePreference: .static,
+        buildAssetTypes: [.code],
       )).success;
 
       final resultPreferStatic = (await build(
         packageUri,
         logger,
         dartExecutable,
-        linkModePreference: LinkModePreference.preferStatic,
-        buildAssetTypes: [BuildAssetType.code],
+        linkModePreference: .preferStatic,
+        buildAssetTypes: [.code],
       )).success;
 
       // This package honors preferences.

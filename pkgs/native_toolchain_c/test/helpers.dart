@@ -385,8 +385,8 @@ List<Architecture> supportedArchitecturesFor(OS targetOS) => switch (targetOS) {
 
 List<Architecture> iOSSupportedArchitecturesFor(IOSSdk iosSdk) =>
     switch (iosSdk) {
-      .iPhoneOS => supportedArchitecturesFor(.iOS)..remove(Architecture.x64),
-      .iPhoneSimulator => supportedArchitecturesFor(.iOS),
+      .iPhoneOS => supportedArchitecturesFor(OS.iOS)..remove(Architecture.x64),
+      .iPhoneSimulator => supportedArchitecturesFor(OS.iOS),
       IOSSdk() => throw UnimplementedError(),
     };
 

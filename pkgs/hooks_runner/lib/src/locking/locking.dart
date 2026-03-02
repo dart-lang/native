@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:async';
-import 'dart:io' show Platform, pid;
+import 'dart:io' show FileLock, Platform, pid;
 import 'package:file/file.dart';
 
 import 'package:logging/logging.dart';
@@ -85,7 +85,7 @@ Future<T> _runUnderFileLock<T>(
   Logger? logger,
 }) async {
   if (!await file.exists()) await file.create(recursive: true);
-  final randomAccessFile = await file.open(mode: FileMode.write);
+  final randomAccessFile = await file.open(mode: .write);
   var printed = false;
   var errorFromCallback = false;
   final stopwatch = Stopwatch()..start();
