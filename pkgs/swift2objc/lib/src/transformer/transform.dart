@@ -31,6 +31,8 @@ class TransformationState {
 
   // Bindings that will be generated as stubs.
   final stubs = <Declaration>{};
+
+  late final UniqueNamer globalNamer;
 }
 
 /// Transforms the given declarations into the desired ObjC wrapped declarations
@@ -61,7 +63,7 @@ List<Declaration> transform(
   state.stubs.addAll(listDecls.stubDecls);
   state.bindings.addAll(listDecls.stubDecls);
 
-  final globalNamer = UniqueNamer(
+  state.globalNamer = UniqueNamer(
     state.bindings.map((declaration) => declaration.name),
   );
 
@@ -72,9 +74,9 @@ List<Declaration> transform(
 
   final transformedDeclarations = [
     ...topLevelDecls.map(
-      (d) => maybeTransformDeclaration(d, globalNamer, state),
+      (d) => maybeTransformDeclaration(d, state.globalNamer, state),
     ),
-    transformGlobals(globals, globalNamer, state),
+    transformGlobals(globals, state.globalNamer, state),
   ].nonNulls.toList();
 
   return [
@@ -112,10 +114,20 @@ Declaration? maybeTransformDeclaration(
   }
 
   if (declaration is InnerNestableDeclaration &&
-      declaration.nestingParent != null) {
+      declaration.nestingParent != null &&
+      !nested) {
     // It's important that nested declarations are only transformed in the
-    // context of their parent, so that their parentNamer is correct.
-    assert(nested);
+    // context of their parent, so that their parentNamer is correct. So find
+    // the top level declaration this is nested in, and transform that first.
+    maybeTransformDeclaration(
+      _topLevelNestingParent(declaration),
+      state.globalNamer,
+      state,
+    );
+
+    // Now that the parents are transformed, this declaration should haven been
+    // transformed, and will be in the cache.
+    return state.map[declaration]!;
   }
 
   return switch (declaration) {
@@ -136,3 +148,8 @@ List<Declaration> _getPrimitiveWrapperClasses(TransformationState state) =>
         .map((entry) => entry.value)
         .nonNulls
         .toList();
+
+Declaration _topLevelNestingParent(Declaration declaration) =>
+    declaration is InnerNestableDeclaration && declaration.nestingParent != null
+    ? _topLevelNestingParent(declaration.nestingParent!)
+    : declaration;
