@@ -20,9 +20,9 @@ enum GenerationStage {
   // `../generate_bindings.dart`.
   unprocessed,
   userVisitors,
-  excluder,
   kotlinProcessor,
   linker,
+  excluder,
   renamer,
   dartGenerator;
 
@@ -141,9 +141,11 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   /// Final name of this class.
   ///
   /// Populated by [Renamer].
-  @JsonKey(includeFromJson: false)
   @override
   late String finalName;
+
+  @JsonKey(includeFromJson: false)
+  bool isRenamed = false;
 
   /// Name of the type class.
   @JsonKey(includeFromJson: false)
@@ -830,6 +832,16 @@ class Param with Annotated implements Element<Param> {
   @JsonKey(includeFromJson: false)
   late String finalName;
 
+  /// Whether this parameter is a Kotlin synthetic parameter
+  /// (e.g., DefaultConstructorMarker).
+  ///
+  /// These parameters should be hidden from the generated Dart API but still
+  /// passed to the JNI constructor (as jNullReference).
+  ///
+  /// Populated by [KotlinProcessor].
+  @JsonKey(includeFromJson: false)
+  bool isKotlinSynthetic = false;
+
   factory Param.fromJson(Map<String, dynamic> json) => _$ParamFromJson(json);
 
   Param clone({GenerationStage until = GenerationStage.userVisitors}) {
@@ -841,6 +853,9 @@ class Param with Annotated implements Element<Param> {
     );
     if (GenerationStage.linker <= until) {
       cloned.method = method;
+    }
+    if (GenerationStage.kotlinProcessor <= until) {
+      cloned.isKotlinSynthetic = isKotlinSynthetic;
     }
     if (GenerationStage.renamer <= until) {
       cloned.finalName = finalName;

@@ -165,11 +165,16 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
 
   _ClassRenamer(
     this.config,
-  ) : renamed = {...config.importedClasses.values};
+  ) : renamed = {...config.importedClasses.values} {
+    for (final node in renamed) {
+      node.isRenamed = true;
+    }
+  }
 
   @override
   void visit(ClassDecl node) {
     if (renamed.contains(node)) return;
+    node.isRenamed = true;
     log.finest('Renaming ${node.binaryName}.');
     renamed.add(node);
 
