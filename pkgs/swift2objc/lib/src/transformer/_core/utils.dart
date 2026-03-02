@@ -11,6 +11,7 @@ import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../ast/declarations/typealias_declaration.dart';
 import '../../transformer/_core/primitive_wrappers.dart';
 import '../transform.dart';
+import '../transformers/transform_referred_type.dart';
 import 'unique_namer.dart';
 
 // TODO(https://github.com/dart-lang/native/issues/1358): These functions should
@@ -33,6 +34,11 @@ import 'unique_namer.dart';
       shouldWrapPrimitives: shouldWrapPrimitives,
     );
     return (newValue, InoutType(newType));
+  }
+
+  // Handle tuple types first
+  if (type is TupleType) {
+    return _wrapTupleValue(type, value, globalNamer, state);
   }
 
   final (wrappedPrimitiveType, returnsWrappedPrimitive) =
@@ -98,6 +104,19 @@ import 'unique_namer.dart';
   } else {
     throw UnimplementedError('Unknown type: $type');
   }
+}
+
+(String, ReferredType) _wrapTupleValue(
+  TupleType tupleType,
+  String tupleExpression,
+  UniqueNamer globalNamer,
+  TransformationState state,
+) {
+  final wrapperType = transformReferredType(tupleType, globalNamer, state);
+  final wrapperClass =
+      (wrapperType as DeclaredType).declaration as ClassDeclaration;
+
+  return ('${wrapperClass.name}($tupleExpression)', wrapperType);
 }
 
 (String value, ReferredType type) maybeUnwrapValue(
