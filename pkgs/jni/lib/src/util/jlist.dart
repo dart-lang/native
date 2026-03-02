@@ -36,12 +36,6 @@ final class _JListAdapter<E extends JObject?> with ListBase<E> {
   }
 
   @override
-  E elementAt(int index) {
-    RangeError.checkValidIndex(index, this);
-    return _jlist.get(index) as E;
-  }
-
-  @override
   E removeAt(int index) {
     RangeError.checkValidIndex(index, this);
     return _jlist.remove(index) as E;
@@ -51,7 +45,10 @@ final class _JListAdapter<E extends JObject?> with ListBase<E> {
   Iterator<E> get iterator => JIteratorAdapter<E>(_jlist.iterator()!);
 
   @override
-  E operator [](int index) => elementAt(index);
+  E operator [](int index) {
+    RangeError.checkValidIndex(index, this);
+    return _jlist.get(index) as E;
+  }
 
   @override
   void operator []=(int index, E value) {
