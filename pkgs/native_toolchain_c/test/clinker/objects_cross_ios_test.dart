@@ -21,19 +21,28 @@ void main() {
 
   const targetOS = OS.iOS;
 
-  for (final iOSVersion in [
-    flutteriOSHighestBestEffort,
-    flutteriOSHighestSupported,
-  ]) {
-    for (final iOSTargetSdk in IOSSdk.values) {
-      group('$iOSTargetSdk $iOSVersion:', () {
-        runObjectsTests(
-          targetOS,
-          iOSSupportedArchitecturesFor(iOSTargetSdk),
-          iOSTargetVersion: iOSVersion,
-          iOSTargetSdk: iOSTargetSdk,
-        );
-      });
-    }
+  // These configurations are a selection of combinations of architectures
+  // and iOS versions.
+  // We don't test the full cartesian product to keep the CI time manageable.
+  // When adding a new configuration, consider if it tests a new combination
+  // that is not yet covered by the existing tests.
+  final configurations = [
+    (iOSTargetSdk: IOSSdk.iPhoneOS, iOSVersion: flutteriOSHighestBestEffort),
+    (
+      iOSTargetSdk: IOSSdk.iPhoneSimulator,
+      iOSVersion: flutteriOSHighestSupported,
+    ),
+    (iOSTargetSdk: IOSSdk.iPhoneOS, iOSVersion: flutteriOSHighestSupported),
+  ];
+
+  for (final (:iOSTargetSdk, :iOSVersion) in configurations) {
+    group('$iOSTargetSdk $iOSVersion:', () {
+      runObjectsTests(
+        targetOS,
+        iOSSupportedArchitecturesFor(iOSTargetSdk),
+        iOSTargetVersion: iOSVersion,
+        iOSTargetSdk: iOSTargetSdk,
+      );
+    });
   }
 }
