@@ -93,3 +93,4 @@ export 'src/lang/lang.dart';
 export 'src/nio/nio.dart';
 export 'src/types.dart' hide JTypeBase, lowestCommonSuperType;
 export 'src/util/util.dart';
+export 'src/converter.dart';
