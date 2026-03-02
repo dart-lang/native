@@ -10,62 +10,44 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
+import '../utils/test_configuration_generator.dart';
 
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
 void main() {
-  // These configurations are a selection of combinations of architectures,
-  // link modes, and optimization levels.
-  // We don't test the full cartesian product to keep the CI time manageable.
-  // When adding a new configuration, consider if it tests a new combination
-  // that is not yet covered by the existing tests.
-  final configurations = [
-    (
-      architecture: Architecture.arm,
-      apiLevel: flutterAndroidNdkVersionLowestSupported,
-      linkMode: DynamicLoadingBundled(),
-      optimizationLevel: OptimizationLevel.o0,
-    ),
-    (
-      architecture: Architecture.arm64,
-      apiLevel: flutterAndroidNdkVersionHighestSupported,
-      linkMode: StaticLinking(),
-      optimizationLevel: OptimizationLevel.o1,
-    ),
-    (
-      architecture: Architecture.ia32,
-      apiLevel: flutterAndroidNdkVersionLowestSupported,
-      linkMode: StaticLinking(),
-      optimizationLevel: OptimizationLevel.o2,
-    ),
-    (
-      architecture: Architecture.x64,
-      apiLevel: flutterAndroidNdkVersionHighestSupported,
-      linkMode: DynamicLoadingBundled(),
-      optimizationLevel: OptimizationLevel.o3,
-    ),
-    (
-      architecture: Architecture.riscv64,
-      apiLevel: flutterAndroidNdkVersionLowestSupported,
-      linkMode: DynamicLoadingBundled(),
-      optimizationLevel: OptimizationLevel.oS,
-    ),
-    (
-      architecture: Architecture.arm64,
-      apiLevel: flutterAndroidNdkVersionLowestSupported,
-      linkMode: StaticLinking(),
-      optimizationLevel: OptimizationLevel.unspecified,
-    ),
-    (
-      architecture: Architecture.arm,
-      apiLevel: flutterAndroidNdkVersionHighestSupported,
-      linkMode: DynamicLoadingBundled(),
-      optimizationLevel: OptimizationLevel.o2,
-    ),
-  ];
+  final configurations =
+      TestConfigurationGenerator(
+        dimensions: {
+          Architecture: [
+            Architecture.arm,
+            Architecture.arm64,
+            Architecture.ia32,
+            Architecture.x64,
+            Architecture.riscv64,
+          ],
+          LinkMode: [DynamicLoadingBundled(), StaticLinking()],
+          OptimizationLevel: OptimizationLevel.values,
+          AndroidApiLevel: [
+            AndroidApiLevel.flutterLowestSupported,
+            AndroidApiLevel.flutterHighestSupported,
+          ],
+        },
+        interactionGroups: [
+          {Architecture, LinkMode},
+          {Architecture, AndroidApiLevel},
+        ],
+      ).generateAndValidate(
+        tableUri: packageUri.resolve(
+          'test/cbuilder/cbuilder_cross_android_test.md',
+        ),
+      );
 
-  for (final (:architecture, :apiLevel, :linkMode, :optimizationLevel)
-      in configurations) {
+  for (final config in configurations) {
+    final architecture = config.get<Architecture>();
+    final linkMode = config.get<LinkMode>();
+    final optimizationLevel = config.get<OptimizationLevel>();
+    final apiLevel = config.get<AndroidApiLevel>().value;
+
     test(
       'CBuilder $linkMode library $architecture minSdkVersion $apiLevel '
       '$optimizationLevel',
@@ -90,8 +72,8 @@ void main() {
   test('CBuilder API levels binary difference', timeout: longTimeout, () async {
     const target = Architecture.arm64;
     final linkMode = DynamicLoadingBundled();
-    const apiLevel1 = flutterAndroidNdkVersionLowestSupported;
-    const apiLevel2 = flutterAndroidNdkVersionHighestSupported;
+    final apiLevel1 = AndroidApiLevel.flutterLowestSupported.value;
+    final apiLevel2 = AndroidApiLevel.flutterHighestSupported.value;
     final tempUri = await tempDirForTest();
     final out1Uri = tempUri.resolve('out1/');
     final out2Uri = tempUri.resolve('out2/');
@@ -114,7 +96,7 @@ void main() {
   test('page size override', timeout: longTimeout, () async {
     const target = Architecture.arm64;
     final linkMode = DynamicLoadingBundled();
-    const apiLevel1 = flutterAndroidNdkVersionLowestSupported;
+    final apiLevel1 = AndroidApiLevel.flutterLowestSupported.value;
     final tempUri = await tempDirForTest();
     final outUri = tempUri.resolve('out1/');
     await Directory.fromUri(outUri).create();
