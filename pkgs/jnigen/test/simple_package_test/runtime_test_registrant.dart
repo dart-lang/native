@@ -1208,6 +1208,26 @@ void registerTests(String groupName, TestRunnerCallback test) {
       });
     });
 
+    group('Inheritance', () {
+      test('methods', () {
+        using((arena) {
+          final base = BaseClass<JString>()..releasedBy(arena);
+          final derived = SpecificDerivedClass()..releasedBy(arena);
+
+          expect(
+              base
+                  .someMethod('Foo'.toJString()..releasedBy(arena))
+                  ?.toDartString(releaseOriginal: true),
+              'Foo');
+          expect(
+              derived
+                  .someMethod('Bar'.toJString()..releasedBy(arena))
+                  ?.toDartString(releaseOriginal: true),
+              'Hello Bar');
+        });
+      });
+    });
+
     group('$groupName (load tests)', () {
       const k4 = 4 * 1024; // This is a round number, unlike say 4000
       const k256 = 256 * 1024;

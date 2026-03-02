@@ -5649,6 +5649,33 @@ extension type BaseClass<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     return _new$(_class.reference.pointer, _id_new$.pointer)
         .object<BaseClass<$T>>();
   }
+
+  static final _id_someMethod = _class.instanceMethodId(
+    r'someMethod',
+    r'(Ljava/lang/CharSequence;)Ljava/lang/CharSequence;',
+  );
+
+  static final _someMethod = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public T someMethod(T charSequence)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T? someMethod(
+    $T? charSequence,
+  ) {
+    final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
+    return _someMethod(
+            reference.pointer, _id_someMethod.pointer, _$charSequence.pointer)
+        .object<$T?>();
+  }
 }
 
 final class $BaseClass$Type$ extends jni$_.JType<BaseClass> {
@@ -6154,6 +6181,33 @@ extension type SpecificDerivedClass._(jni$_.JObject _$this)
   factory SpecificDerivedClass() {
     return _new$(_class.reference.pointer, _id_new$.pointer)
         .object<SpecificDerivedClass>();
+  }
+
+  static final _id_someMethod$1 = _class.instanceMethodId(
+    r'someMethod',
+    r'(Ljava/lang/String;)Ljava/lang/String;',
+  );
+
+  static final _someMethod$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public java.lang.String someMethod(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString? someMethod$1(
+    jni$_.JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _someMethod$1(
+            reference.pointer, _id_someMethod$1.pointer, _$string.pointer)
+        .object<jni$_.JString?>();
   }
 }
 
