@@ -2,30 +2,30 @@
   "$schema": "../../doc/schema/record_use.schema.json",
   "constants": [
     {
-      "type": "int",
-      "value": 1
-    },
-    {
-      "type": "string",
-      "value": "int-key"
-    },
-    {
       "type": "bool",
       "value": true
+    },
+    {
+      "type": "int",
+      "value": 1
     },
     {
       "type": "string",
       "value": "bool-key"
     },
     {
+      "type": "string",
+      "value": "int-key"
+    },
+    {
       "type": "map",
       "value": [
         {
           "key": 0,
-          "value": 1
+          "value": 2
         },
         {
-          "key": 2,
+          "key": 1,
           "value": 3
         }
       ]

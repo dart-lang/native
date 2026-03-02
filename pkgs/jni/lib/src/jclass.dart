@@ -54,6 +54,12 @@ extension type JInstanceFieldId._fromPointer(JFieldIDPtr pointer) {
     return type._instanceGet(objectRef.pointer, pointer);
   }
 
+  DartT? getNullable<JavaT, DartT>(
+      JObject object, JAccessible<JavaT, DartT> type) {
+    final objectRef = object.reference;
+    return type._instanceGetNullable(objectRef.pointer, pointer);
+  }
+
   void set<JavaT, DartT>(
       JObject object, JAccessible<JavaT, DartT> type, DartT value) {
     final objectRef = object.reference;
@@ -76,6 +82,12 @@ extension type JStaticFieldId._fromPointer(JFieldIDPtr pointer) {
   DartT get<JavaT, DartT>(JClass jClass, JAccessible<JavaT, DartT> type) {
     final jClassRef = jClass.reference;
     return type._staticGet(jClassRef.pointer, pointer);
+  }
+
+  DartT? getNullable<JavaT, DartT>(
+      JClass jClass, JAccessible<JavaT, DartT> type) {
+    final jClassRef = jClass.reference;
+    return type._staticGetNullable(jClassRef.pointer, pointer);
   }
 
   void set<JavaT, DartT>(
@@ -114,6 +126,19 @@ class JInstanceMethodId {
           objectRef.pointer, pointer, toJValues(args, allocator: arena));
     });
   }
+
+  /// Calls the instance method on [object] with the given arguments.
+  DartT? callNullable<JavaT, DartT>(
+    JObject object,
+    JCallable<JavaT, DartT> returnType,
+    List<dynamic> args,
+  ) {
+    return using((arena) {
+      final objectRef = object.reference;
+      return returnType._instanceCallNullable(
+          objectRef.pointer, pointer, toJValues(args, allocator: arena));
+    });
+  }
 }
 
 /// A thin wrapper over a [JMethodIDPtr] of a static mehtod.
@@ -139,6 +164,17 @@ extension type JStaticMethodId._fromPointer(JMethodIDPtr pointer) {
   ) {
     final jClassRef = jClass.reference;
     return using((arena) => returnType._staticCall(
+        jClassRef.pointer, pointer, toJValues(args, allocator: arena)));
+  }
+
+  /// Calls the static method on [jClass] with the given arguments.
+  DartT? callNullable<JavaT, DartT>(
+    JClass jClass,
+    JCallable<JavaT, DartT> returnType,
+    List<dynamic> args,
+  ) {
+    final jClassRef = jClass.reference;
+    return using((arena) => returnType._staticCallNullable(
         jClassRef.pointer, pointer, toJValues(args, allocator: arena)));
   }
 }

@@ -244,6 +244,9 @@ class ConstantSyntax extends JsonObjectSyntax {
     if (result.isStringConstant) {
       return result.asStringConstant;
     }
+    if (result.isSymbolConstant) {
+      return result.asSymbolConstant;
+    }
     if (result.isUnsupportedConstant) {
       return result.asUnsupportedConstant;
     }
@@ -279,6 +282,9 @@ class ConstantSyntax extends JsonObjectSyntax {
     final result = <String>[];
     if (_reader.tryTraverse(['type']) == 'instance') {
       result.addAll(_reader.validate<Object>('definition_index'));
+    }
+    if (_reader.tryTraverse(['type']) == 'symbol') {
+      result.addAll(_reader.validate<Object>('name'));
     }
     return result;
   }
@@ -367,11 +373,13 @@ class CreationInstanceSyntax extends InstanceSyntax {
   }) : super._fromJson();
 
   CreationInstanceSyntax({
+    required int definitionIndex,
     required super.loadingUnitIndices,
     Map<String, int>? named,
     List<int>? positional,
     super.path = const [],
   }) : super(type: 'creation') {
+    _definitionIndex = definitionIndex;
     _named = named;
     _positional = positional;
     json.sortOnKey();
@@ -380,13 +388,24 @@ class CreationInstanceSyntax extends InstanceSyntax {
   /// Setup all fields for [CreationInstanceSyntax] that are not in
   /// [InstanceSyntax].
   void setup({
+    required int definitionIndex,
     required Map<String, int>? named,
     required List<int>? positional,
   }) {
+    _definitionIndex = definitionIndex;
     _named = named;
     _positional = positional;
     json.sortOnKey();
   }
+
+  int get definitionIndex => _reader.get<int>('definition_index');
+
+  set _definitionIndex(int value) {
+    json.setOrRemove('definition_index', value);
+  }
+
+  List<String> _validateDefinitionIndex() =>
+      _reader.validate<int>('definition_index');
 
   Map<String, int>? get named => _reader.optionalMap<int>(
     'named',
@@ -415,6 +434,7 @@ class CreationInstanceSyntax extends InstanceSyntax {
   @override
   List<String> validate() => [
     ...super.validate(),
+    ..._validateDefinitionIndex(),
     ..._validateNamed(),
     ..._validatePositional(),
   ];
@@ -761,7 +781,16 @@ class InstanceSyntax extends JsonObjectSyntax {
     ...super.validate(),
     ..._validateLoadingUnitIndices(),
     ..._validateType(),
+    ..._validateExtraRulesInstance(),
   ];
+
+  List<String> _validateExtraRulesInstance() {
+    final result = <String>[];
+    if (_reader.tryTraverse(['type']) == 'creation') {
+      result.addAll(_reader.validate<Object>('definition_index'));
+    }
+    return result;
+  }
 
   @override
   String toString() => 'InstanceSyntax($json)';
@@ -1688,6 +1717,75 @@ extension StringConstantSyntaxExtension on ConstantSyntax {
       StringConstantSyntax.fromJson(json, path: path);
 }
 
+class SymbolConstantSyntax extends ConstantSyntax {
+  SymbolConstantSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  SymbolConstantSyntax({
+    String? libraryUri,
+    required String name,
+    super.path = const [],
+  }) : super(type: 'symbol') {
+    _libraryUri = libraryUri;
+    _name = name;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [SymbolConstantSyntax] that are not in
+  /// [ConstantSyntax].
+  void setup({required String? libraryUri, required String name}) {
+    _libraryUri = libraryUri;
+    _name = name;
+    json.sortOnKey();
+  }
+
+  static final _libraryUriPattern = RegExp(r'^package:');
+
+  String? get libraryUri =>
+      _reader.optionalString('libraryUri', _libraryUriPattern);
+
+  set _libraryUri(String? value) {
+    if (value != null && !_libraryUriPattern.hasMatch(value)) {
+      throw ArgumentError.value(
+        value,
+        'value',
+        'Value does not satisify pattern: ${_libraryUriPattern.pattern}.',
+      );
+    }
+    json.setOrRemove('libraryUri', value);
+  }
+
+  List<String> _validateLibraryUri() =>
+      _reader.validateOptionalString('libraryUri', _libraryUriPattern);
+
+  String get name => _reader.get<String>('name');
+
+  set _name(String value) {
+    json.setOrRemove('name', value);
+  }
+
+  List<String> _validateName() => _reader.validate<String>('name');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateLibraryUri(),
+    ..._validateName(),
+  ];
+
+  @override
+  String toString() => 'SymbolConstantSyntax($json)';
+}
+
+extension SymbolConstantSyntaxExtension on ConstantSyntax {
+  bool get isSymbolConstant => type == 'symbol';
+
+  SymbolConstantSyntax get asSymbolConstant =>
+      SymbolConstantSyntax.fromJson(json, path: path);
+}
+
 class TearoffCallSyntax extends CallSyntax {
   TearoffCallSyntax.fromJson(
     super.json, {
@@ -1723,13 +1821,34 @@ class TearoffInstanceSyntax extends InstanceSyntax {
   }) : super._fromJson();
 
   TearoffInstanceSyntax({
+    required int definitionIndex,
     required super.loadingUnitIndices,
     super.path = const [],
-  }) : super(type: 'tearoff');
+  }) : super(type: 'tearoff') {
+    _definitionIndex = definitionIndex;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [TearoffInstanceSyntax] that are not in
+  /// [InstanceSyntax].
+  void setup({required int definitionIndex}) {
+    _definitionIndex = definitionIndex;
+    json.sortOnKey();
+  }
+
+  int get definitionIndex => _reader.get<int>('definition_index');
+
+  set _definitionIndex(int value) {
+    json.setOrRemove('definition_index', value);
+  }
+
+  List<String> _validateDefinitionIndex() =>
+      _reader.validate<int>('definition_index');
 
   @override
   List<String> validate() => [
     ...super.validate(),
+    ..._validateDefinitionIndex(),
   ];
 
   @override

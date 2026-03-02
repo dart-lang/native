@@ -50,6 +50,28 @@ final class jbyteType extends JTypeBase<jbyte>
   }
 
   @override
+  int? _staticGetNullable(JClassPtr clazz, JFieldIDPtr fieldID) {
+    return _staticGet(clazz, fieldID);
+  }
+
+  @override
+  int? _instanceGetNullable(JObjectPtr obj, JFieldIDPtr fieldID) {
+    return _instanceGet(obj, fieldID);
+  }
+
+  @override
+  int? _staticCallNullable(
+      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    return _staticCall(clazz, methodID, args);
+  }
+
+  @override
+  int? _instanceCallNullable(
+      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args) {
+    return _instanceCall(obj, methodID, args);
+  }
+
+  @override
   void _staticSet(JClassPtr clazz, JFieldIDPtr fieldID, int val) {
     return Jni.env.SetStaticByteField(clazz, fieldID, val);
   }
@@ -92,6 +114,28 @@ final class jbooleanType extends JTypeBase<jboolean>
   @override
   bool _staticGet(JClassPtr clazz, JFieldIDPtr fieldID) {
     return Jni.env.GetStaticBooleanField(clazz, fieldID);
+  }
+
+  @override
+  bool? _staticGetNullable(JClassPtr clazz, JFieldIDPtr fieldID) {
+    return _staticGet(clazz, fieldID);
+  }
+
+  @override
+  bool? _instanceGetNullable(JObjectPtr obj, JFieldIDPtr fieldID) {
+    return _instanceGet(obj, fieldID);
+  }
+
+  @override
+  bool? _staticCallNullable(
+      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    return _staticCall(clazz, methodID, args);
+  }
+
+  @override
+  bool? _instanceCallNullable(
+      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args) {
+    return _instanceCall(obj, methodID, args);
   }
 
   @override
@@ -140,6 +184,28 @@ final class jcharType extends JTypeBase<jchar>
   }
 
   @override
+  int? _staticGetNullable(JClassPtr clazz, JFieldIDPtr fieldID) {
+    return _staticGet(clazz, fieldID);
+  }
+
+  @override
+  int? _instanceGetNullable(JObjectPtr obj, JFieldIDPtr fieldID) {
+    return _instanceGet(obj, fieldID);
+  }
+
+  @override
+  int? _staticCallNullable(
+      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    return _staticCall(clazz, methodID, args);
+  }
+
+  @override
+  int? _instanceCallNullable(
+      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args) {
+    return _instanceCall(obj, methodID, args);
+  }
+
+  @override
   void _staticSet(JClassPtr clazz, JFieldIDPtr fieldID, int val) {
     return Jni.env.SetStaticCharField(clazz, fieldID, val);
   }
@@ -182,6 +248,28 @@ final class jshortType extends JTypeBase<jshort>
   @override
   int _staticGet(JClassPtr clazz, JFieldIDPtr fieldID) {
     return Jni.env.GetStaticShortField(clazz, fieldID);
+  }
+
+  @override
+  int? _staticGetNullable(JClassPtr clazz, JFieldIDPtr fieldID) {
+    return _staticGet(clazz, fieldID);
+  }
+
+  @override
+  int? _instanceGetNullable(JObjectPtr obj, JFieldIDPtr fieldID) {
+    return _instanceGet(obj, fieldID);
+  }
+
+  @override
+  int? _staticCallNullable(
+      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    return _staticCall(clazz, methodID, args);
+  }
+
+  @override
+  int? _instanceCallNullable(
+      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args) {
+    return _instanceCall(obj, methodID, args);
   }
 
   @override
@@ -230,6 +318,28 @@ final class jintType extends JTypeBase<jint>
   }
 
   @override
+  int? _staticGetNullable(JClassPtr clazz, JFieldIDPtr fieldID) {
+    return _staticGet(clazz, fieldID);
+  }
+
+  @override
+  int? _instanceGetNullable(JObjectPtr obj, JFieldIDPtr fieldID) {
+    return _instanceGet(obj, fieldID);
+  }
+
+  @override
+  int? _staticCallNullable(
+      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    return _staticCall(clazz, methodID, args);
+  }
+
+  @override
+  int? _instanceCallNullable(
+      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args) {
+    return _instanceCall(obj, methodID, args);
+  }
+
+  @override
   void _staticSet(JClassPtr clazz, JFieldIDPtr fieldID, int val) {
     return Jni.env.SetStaticIntField(clazz, fieldID, val);
   }
@@ -272,6 +382,28 @@ final class jlongType extends JTypeBase<jlong>
   @override
   int _staticGet(JClassPtr clazz, JFieldIDPtr fieldID) {
     return Jni.env.GetStaticLongField(clazz, fieldID);
+  }
+
+  @override
+  int? _staticGetNullable(JClassPtr clazz, JFieldIDPtr fieldID) {
+    return _staticGet(clazz, fieldID);
+  }
+
+  @override
+  int? _instanceGetNullable(JObjectPtr obj, JFieldIDPtr fieldID) {
+    return _instanceGet(obj, fieldID);
+  }
+
+  @override
+  int? _staticCallNullable(
+      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    return _staticCall(clazz, methodID, args);
+  }
+
+  @override
+  int? _instanceCallNullable(
+      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args) {
+    return _instanceCall(obj, methodID, args);
   }
 
   @override
@@ -320,6 +452,28 @@ final class jfloatType extends JTypeBase<jfloat>
   }
 
   @override
+  double? _staticGetNullable(JClassPtr clazz, JFieldIDPtr fieldID) {
+    return _staticGet(clazz, fieldID);
+  }
+
+  @override
+  double? _instanceGetNullable(JObjectPtr obj, JFieldIDPtr fieldID) {
+    return _instanceGet(obj, fieldID);
+  }
+
+  @override
+  double? _staticCallNullable(
+      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    return _staticCall(clazz, methodID, args);
+  }
+
+  @override
+  double? _instanceCallNullable(
+      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args) {
+    return _instanceCall(obj, methodID, args);
+  }
+
+  @override
   void _staticSet(JClassPtr clazz, JFieldIDPtr fieldID, double val) {
     return Jni.env.SetStaticFloatField(clazz, fieldID, val);
   }
@@ -365,6 +519,28 @@ final class jdoubleType extends JTypeBase<jdouble>
   }
 
   @override
+  double? _staticGetNullable(JClassPtr clazz, JFieldIDPtr fieldID) {
+    return _staticGet(clazz, fieldID);
+  }
+
+  @override
+  double? _instanceGetNullable(JObjectPtr obj, JFieldIDPtr fieldID) {
+    return _instanceGet(obj, fieldID);
+  }
+
+  @override
+  double? _staticCallNullable(
+      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    return _staticCall(clazz, methodID, args);
+  }
+
+  @override
+  double? _instanceCallNullable(
+      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args) {
+    return _instanceCall(obj, methodID, args);
+  }
+
+  @override
   void _staticSet(JClassPtr clazz, JFieldIDPtr fieldID, double val) {
     return Jni.env.SetStaticDoubleField(clazz, fieldID, val);
   }
@@ -385,6 +561,18 @@ final class jvoidType extends JTypeBase<jvoid> with JCallable<jvoid, void> {
   void _staticCall(
       JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
     return Jni.env.CallStaticVoidMethodA(clazz, methodID, args);
+  }
+
+  @override
+  void _staticCallNullable(
+      JClassPtr clazz, JMethodIDPtr methodID, Pointer<JValue> args) {
+    return _staticCall(clazz, methodID, args);
+  }
+
+  @override
+  void _instanceCallNullable(
+      JObjectPtr obj, JMethodIDPtr methodID, Pointer<JValue> args) {
+    return _instanceCall(obj, methodID, args);
   }
 
   @override

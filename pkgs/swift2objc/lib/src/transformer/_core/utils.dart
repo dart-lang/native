@@ -24,6 +24,17 @@ import 'unique_namer.dart';
   TransformationState state, {
   bool shouldWrapPrimitives = false,
 }) {
+  if (type is InoutType) {
+    final (newValue, newType) = maybeWrapValue(
+      type.child,
+      value,
+      globalNamer,
+      state,
+      shouldWrapPrimitives: shouldWrapPrimitives,
+    );
+    return (newValue, InoutType(newType));
+  }
+
   final (wrappedPrimitiveType, returnsWrappedPrimitive) =
       maybeGetPrimitiveWrapper(type, shouldWrapPrimitives, state);
   if (returnsWrappedPrimitive) {
@@ -31,6 +42,21 @@ import 'unique_namer.dart';
       '${(wrappedPrimitiveType as DeclaredType).name}($value)',
       wrappedPrimitiveType,
     );
+  }
+
+  if (type is OptionalType) {
+    final (wrappedChildType, childIsPrimitive) = maybeGetPrimitiveWrapper(
+      type.child,
+      true,
+      state,
+    );
+    if (childIsPrimitive) {
+      final wrapperName = (wrappedChildType as DeclaredType).name;
+      return (
+        '$value == nil ? nil : $wrapperName($value!)',
+        OptionalType(wrappedChildType),
+      );
+    }
   }
 
   if (type.isObjCRepresentable) {
@@ -58,7 +84,7 @@ import 'unique_namer.dart';
     );
 
     return (
-      '${transformedTypeDeclaration.name}($value)',
+      '${transformedTypeDeclaration.fullName}($value)',
       transformedTypeDeclaration.asDeclaredType,
     );
   } else if (type is OptionalType) {
@@ -78,6 +104,11 @@ import 'unique_namer.dart';
   ReferredType type,
   String value,
 ) {
+  if (type is InoutType) {
+    final (newValue, newType) = maybeUnwrapValue(type.child, value);
+    return (newValue, InoutType(newType));
+  }
+
   if (!type.isObjCRepresentable) {
     return (value, type);
   }

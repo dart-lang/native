@@ -5635,6 +5635,14 @@ final class CXCodeCompleteResults extends ffi.Struct {
   /// The number of code-completion results stored in the Results array.
   @ffi.UnsignedInt()
   external int NumResults;
+
+  static ffi.Pointer<CXCodeCompleteResults> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<CXCompletionResult> Results,
+    required int NumResults,
+  }) => $allocator<CXCodeCompleteResults>()
+    ..ref.Results = Results
+    ..ref.NumResults = NumResults;
 }
 
 /// Flags that can be passed to clang_codeCompleteAt() to modify its behavior.
@@ -5911,6 +5919,14 @@ final class CXCompletionResult extends ffi.Struct {
   /// The code-completion string that describes how to insert this
   /// code-completion result into the editing buffer.
   external CXCompletionString CompletionString;
+
+  static ffi.Pointer<CXCompletionResult> $allocate(
+    ffi.Allocator $allocator, {
+    required CXCursorKind CursorKind,
+    required CXCompletionString CompletionString,
+  }) => $allocator<CXCompletionResult>()
+    ..ref.CursorKind = CursorKind
+    ..ref.CompletionString = CompletionString;
 }
 
 /// A semantic string that describes a code-completion result.
@@ -5941,6 +5957,19 @@ final class CXCursorAndRangeVisitor extends ffi.Struct {
     >
   >
   visit;
+
+  static ffi.Pointer<CXCursorAndRangeVisitor> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<ffi.Void> context,
+    required ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.UnsignedInt Function(ffi.Pointer<ffi.Void>, CXCursor, CXSourceRange)
+      >
+    >
+    visit,
+  }) => $allocator<CXCursorAndRangeVisitor>()
+    ..ref.context = context
+    ..ref.visit = visit;
 }
 
 /// Describes the kind of entity that a cursor refers to.
@@ -7184,6 +7213,16 @@ final class CXIdxCXXClassDeclInfo extends ffi.Struct {
 
   @ffi.UnsignedInt()
   external int numBases;
+
+  static ffi.Pointer<CXIdxCXXClassDeclInfo> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<CXIdxDeclInfo> declInfo,
+    required ffi.Pointer<ffi.Pointer<CXIdxBaseClassInfo>> bases,
+    required int numBases,
+  }) => $allocator<CXIdxCXXClassDeclInfo>()
+    ..ref.declInfo = declInfo
+    ..ref.bases = bases
+    ..ref.numBases = numBases;
 }
 
 /// The client's data object that is associated with an AST file (PCH or
@@ -7523,6 +7562,14 @@ final class CXIdxObjCContainerDeclInfo extends ffi.Struct {
   CXIdxObjCContainerKind get kind =>
       CXIdxObjCContainerKind.fromValue(kindAsInt);
   set kind(CXIdxObjCContainerKind value) => kindAsInt = value.value;
+
+  static ffi.Pointer<CXIdxObjCContainerDeclInfo> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<CXIdxDeclInfo> declInfo,
+    required CXIdxObjCContainerKind kind,
+  }) => $allocator<CXIdxObjCContainerDeclInfo>()
+    ..ref.declInfo = declInfo
+    ..ref.kind = kind;
 }
 
 enum CXIdxObjCContainerKind {
@@ -7549,6 +7596,16 @@ final class CXIdxObjCInterfaceDeclInfo extends ffi.Struct {
   external ffi.Pointer<CXIdxBaseClassInfo> superInfo;
 
   external ffi.Pointer<CXIdxObjCProtocolRefListInfo> protocols;
+
+  static ffi.Pointer<CXIdxObjCInterfaceDeclInfo> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<CXIdxObjCContainerDeclInfo> containerInfo,
+    required ffi.Pointer<CXIdxBaseClassInfo> superInfo,
+    required ffi.Pointer<CXIdxObjCProtocolRefListInfo> protocols,
+  }) => $allocator<CXIdxObjCInterfaceDeclInfo>()
+    ..ref.containerInfo = containerInfo
+    ..ref.superInfo = superInfo
+    ..ref.protocols = protocols;
 }
 
 final class CXIdxObjCPropertyDeclInfo extends ffi.Struct {
@@ -7557,6 +7614,16 @@ final class CXIdxObjCPropertyDeclInfo extends ffi.Struct {
   external ffi.Pointer<CXIdxEntityInfo> getter;
 
   external ffi.Pointer<CXIdxEntityInfo> setter;
+
+  static ffi.Pointer<CXIdxObjCPropertyDeclInfo> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<CXIdxDeclInfo> declInfo,
+    required ffi.Pointer<CXIdxEntityInfo> getter,
+    required ffi.Pointer<CXIdxEntityInfo> setter,
+  }) => $allocator<CXIdxObjCPropertyDeclInfo>()
+    ..ref.declInfo = declInfo
+    ..ref.getter = getter
+    ..ref.setter = setter;
 }
 
 final class CXIdxObjCProtocolRefInfo extends ffi.Struct {
@@ -7572,6 +7639,14 @@ final class CXIdxObjCProtocolRefListInfo extends ffi.Struct {
 
   @ffi.UnsignedInt()
   external int numProtocols;
+
+  static ffi.Pointer<CXIdxObjCProtocolRefListInfo> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<ffi.Pointer<CXIdxObjCProtocolRefInfo>> protocols,
+    required int numProtocols,
+  }) => $allocator<CXIdxObjCProtocolRefListInfo>()
+    ..ref.protocols = protocols
+    ..ref.numProtocols = numProtocols;
 }
 
 /// Visitor invoked for each file in a translation unit (used with
@@ -8060,6 +8135,14 @@ final class CXSourceRangeList extends ffi.Struct {
 
   /// An array of CXSourceRanges.
   external ffi.Pointer<CXSourceRange> ranges;
+
+  static ffi.Pointer<CXSourceRangeList> $allocate(
+    ffi.Allocator $allocator, {
+    required int count,
+    required ffi.Pointer<CXSourceRange> ranges,
+  }) => $allocator<CXSourceRangeList>()
+    ..ref.count = count
+    ..ref.ranges = ranges;
 }
 
 /// A character string.
@@ -8068,6 +8151,14 @@ final class CXString extends ffi.Struct {
 
   @ffi.UnsignedInt()
   external int private_flags;
+
+  static ffi.Pointer<CXString> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<ffi.Void> data,
+    required int private_flags,
+  }) => $allocator<CXString>()
+    ..ref.data = data
+    ..ref.private_flags = private_flags;
 }
 
 final class CXStringSet extends ffi.Struct {
@@ -8075,6 +8166,14 @@ final class CXStringSet extends ffi.Struct {
 
   @ffi.UnsignedInt()
   external int Count;
+
+  static ffi.Pointer<CXStringSet> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<CXString> Strings,
+    required int Count,
+  }) => $allocator<CXStringSet>()
+    ..ref.Strings = Strings
+    ..ref.Count = Count;
 }
 
 /// Roles that are attributed to symbol occurrences.
@@ -8134,6 +8233,16 @@ final class CXTUResourceUsage extends ffi.Struct {
   external int numEntries;
 
   external ffi.Pointer<CXTUResourceUsageEntry> entries;
+
+  static ffi.Pointer<CXTUResourceUsage> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<ffi.Void> data,
+    required int numEntries,
+    required ffi.Pointer<CXTUResourceUsageEntry> entries,
+  }) => $allocator<CXTUResourceUsage>()
+    ..ref.data = data
+    ..ref.numEntries = numEntries
+    ..ref.entries = entries;
 }
 
 final class CXTUResourceUsageEntry extends ffi.Struct {
@@ -8145,6 +8254,14 @@ final class CXTUResourceUsageEntry extends ffi.Struct {
 
   @ffi.UnsignedLong()
   external int amount;
+
+  static ffi.Pointer<CXTUResourceUsageEntry> $allocate(
+    ffi.Allocator $allocator, {
+    required CXTUResourceUsageKind kind,
+    required int amount,
+  }) => $allocator<CXTUResourceUsageEntry>()
+    ..ref.kind = kind
+    ..ref.amount = amount;
 }
 
 /// Categorizes how memory is being used by a translation unit.
@@ -8718,6 +8835,16 @@ final class CXUnsavedFile extends ffi.Struct {
   /// The length of the unsaved contents of this buffer.
   @ffi.UnsignedLong()
   external int Length;
+
+  static ffi.Pointer<CXUnsavedFile> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<ffi.Char> Filename,
+    required ffi.Pointer<ffi.Char> Contents,
+    required int Length,
+  }) => $allocator<CXUnsavedFile>()
+    ..ref.Filename = Filename
+    ..ref.Contents = Contents
+    ..ref.Length = Length;
 }
 
 /// Describes a version number of the form major.minor.subminor.
@@ -8737,6 +8864,16 @@ final class CXVersion extends ffi.Struct {
   /// version '10' or '10.7'.
   @ffi.Int()
   external int Subminor;
+
+  static ffi.Pointer<CXVersion> $allocate(
+    ffi.Allocator $allocator, {
+    required int Major,
+    required int Minor,
+    required int Subminor,
+  }) => $allocator<CXVersion>()
+    ..ref.Major = Major
+    ..ref.Minor = Minor
+    ..ref.Subminor = Subminor;
 }
 
 /// Object encapsulating information about overlaying virtual file/directories
@@ -8909,4 +9046,80 @@ final class IndexerCallbacks extends ffi.Struct {
     >
   >
   indexEntityReference;
+
+  static ffi.Pointer<IndexerCallbacks> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Int Function(
+          CXClientData client_data,
+          ffi.Pointer<ffi.Void> reserved,
+        )
+      >
+    >
+    abortQuery,
+    required ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Void Function(CXClientData, CXDiagnosticSet, ffi.Pointer<ffi.Void>)
+      >
+    >
+    diagnostic,
+    required ffi.Pointer<
+      ffi.NativeFunction<
+        CXIdxClientFile Function(
+          CXClientData client_data,
+          CXFile mainFile,
+          ffi.Pointer<ffi.Void> reserved,
+        )
+      >
+    >
+    enteredMainFile,
+    required ffi.Pointer<
+      ffi.NativeFunction<
+        CXIdxClientFile Function(
+          CXClientData,
+          ffi.Pointer<CXIdxIncludedFileInfo>,
+        )
+      >
+    >
+    ppIncludedFile,
+    required ffi.Pointer<
+      ffi.NativeFunction<
+        CXIdxClientASTFile Function(
+          CXClientData,
+          ffi.Pointer<CXIdxImportedASTFileInfo>,
+        )
+      >
+    >
+    importedASTFile,
+    required ffi.Pointer<
+      ffi.NativeFunction<
+        CXIdxClientContainer Function(
+          CXClientData client_data,
+          ffi.Pointer<ffi.Void> reserved,
+        )
+      >
+    >
+    startedTranslationUnit,
+    required ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Void Function(CXClientData, ffi.Pointer<CXIdxDeclInfo>)
+      >
+    >
+    indexDeclaration,
+    required ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Void Function(CXClientData, ffi.Pointer<CXIdxEntityRefInfo>)
+      >
+    >
+    indexEntityReference,
+  }) => $allocator<IndexerCallbacks>()
+    ..ref.abortQuery = abortQuery
+    ..ref.diagnostic = diagnostic
+    ..ref.enteredMainFile = enteredMainFile
+    ..ref.ppIncludedFile = ppIncludedFile
+    ..ref.importedASTFile = importedASTFile
+    ..ref.startedTranslationUnit = startedTranslationUnit
+    ..ref.indexDeclaration = indexDeclaration
+    ..ref.indexEntityReference = indexEntityReference;
 }

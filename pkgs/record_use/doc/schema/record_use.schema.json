@@ -98,6 +98,7 @@
                 "null",
                 "record",
                 "string",
+                "symbol",
                 "unsupported"
               ]
             },
@@ -326,6 +327,32 @@
           "if": {
             "properties": {
               "type": {
+                "const": "symbol"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "libraryUri": {
+                "type": [
+                  "null",
+                  "string"
+                ],
+                "pattern": "^package:"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
                 "const": "unsupported"
               }
             }
@@ -422,6 +449,9 @@
           },
           "then": {
             "properties": {
+              "definition_index": {
+                "type": "integer"
+              },
               "named": {
                 "type": "object",
                 "additionalProperties": {
@@ -434,7 +464,29 @@
                   "type": "integer"
                 }
               }
+            },
+            "required": [
+              "definition_index"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "tearoff"
+              }
             }
+          },
+          "then": {
+            "properties": {
+              "definition_index": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "definition_index"
+            ]
           }
         }
       ]

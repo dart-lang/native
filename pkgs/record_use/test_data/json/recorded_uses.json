@@ -2,6 +2,24 @@
   "$schema": "../../doc/schema/record_use.schema.json",
   "constants": [
     {
+      "type": "non_constant"
+    },
+    {
+      "message": "MethodTearoff",
+      "type": "unsupported"
+    },
+    {
+      "type": "null"
+    },
+    {
+      "type": "bool",
+      "value": false
+    },
+    {
+      "type": "int",
+      "value": 42
+    },
+    {
       "type": "string",
       "value": "42"
     },
@@ -10,65 +28,56 @@
       "value": "h"
     },
     {
-      "type": "bool",
-      "value": false
+      "type": "list",
+      "value": [
+        4
+      ]
     },
     {
       "type": "map",
       "value": [
         {
-          "key": 1,
-          "value": 2
+          "key": 6,
+          "value": 3
         }
       ]
     },
     {
-      "type": "null"
-    },
-    {
-      "type": "non_constant"
-    },
-    {
-      "type": "int",
-      "value": 42
-    },
-    {
-      "definition_index": 1,
-      "type": "instance",
-      "value": {
-        "i": 6
-      }
-    },
-    {
-      "type": "list",
-      "value": [
-        6
-      ]
-    },
-    {
-      "message": "MethodTearoff",
-      "type": "unsupported"
-    },
-    {
       "named": {
-        "a": 0
+        "a": 5
       },
       "positional": [
-        6
+        4
       ],
       "type": "record"
     },
     {
-      "definition_index": 2,
+      "definition_index": 0,
       "index": 0,
       "name": "red",
       "type": "enum",
       "value": {
-        "hex": 6
+        "hex": 4
+      }
+    },
+    {
+      "definition_index": 2,
+      "type": "instance",
+      "value": {
+        "i": 4
       }
     }
   ],
   "definitions": [
+    {
+      "path": [
+        {
+          "kind": "enum",
+          "name": "Color"
+        }
+      ],
+      "uri": "package:record_use_test/color.dart"
+    },
     {
       "path": [
         {
@@ -93,15 +102,6 @@
         }
       ],
       "uri": "package:record_use_test/instance_class.dart"
-    },
-    {
-      "path": [
-        {
-          "kind": "enum",
-          "name": "Color"
-        }
-      ],
-      "uri": "package:record_use_test/color.dart"
     }
   ],
   "loading_units": [
@@ -116,10 +116,10 @@
   "uses": {
     "instances": [
       {
-        "definition_index": 1,
+        "definition_index": 2,
         "uses": [
           {
-            "constant_index": 7,
+            "constant_index": 11,
             "loading_unit_indices": [
               0
             ],
@@ -130,29 +130,29 @@
     ],
     "static_calls": [
       {
-        "definition_index": 0,
+        "definition_index": 1,
         "uses": [
           {
             "loading_unit_indices": [
               0
             ],
             "named": {
-              "a": 0,
-              "b": 2,
-              "c": 6,
-              "d": 5
+              "a": 5,
+              "b": 3,
+              "c": 4,
+              "d": 0
             },
             "positional": [
-              0,
-              3,
-              4,
               5,
-              6,
-              7,
               8,
+              2,
+              0,
+              4,
+              11,
+              7,
+              1,
               9,
-              10,
-              11
+              10
             ],
             "type": "with_arguments"
           }

@@ -523,7 +523,10 @@ class NativeAssetsBuildRunner {
                   ' in ${buildDirUri.toFilePath()}.'
                   ' Last build on ${output.timestamp}.',
                 );
-                return Success((output, hookHashes.fileSystemEntities));
+                return Success((
+                  output,
+                  [...hookHashes.fileSystemEntities, ?resources],
+                ));
               }
             }
           }
@@ -552,14 +555,17 @@ class NativeAssetsBuildRunner {
         } else {
           final success = result.success;
           final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
-            [...success.dependencies],
+            [...success.dependencies, ?resources],
             lastModifiedCutoffTime,
             hookEnvironment,
           );
           if (modifiedDuringBuild != null) {
             logger.severe('File modified during build. Build must be rerun.');
           }
-          return Success((success, hookHashes.fileSystemEntities));
+          return Success((
+            success,
+            [...hookHashes.fileSystemEntities, ?resources],
+          ));
         }
       },
     ),

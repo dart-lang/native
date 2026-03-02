@@ -521,16 +521,12 @@ class ApiToolTask extends Task {
     required ArgResults argResults,
   }) async {
     if (pubTask.shouldRun(argResults)) {
-      // Pull in https://github.com/bmw-tech/dart_apitool/pull/252.
       await _runProcess('dart', [
         'pub',
         'global',
         'activate',
-        '--source',
-        'git',
-        'https://github.com/bmw-tech/dart_apitool.git',
-        '--git-ref',
-        '906fa0f3dca24d81d1c26ee71c884ecbb6234ecf',
+        'dart_apitool',
+        '^0.23.1',
       ]);
     }
     await _runMaybeParallel([

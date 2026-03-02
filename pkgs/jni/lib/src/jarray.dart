@@ -26,16 +26,16 @@ final class _$JArray$Type$<E extends JObject?> extends JType<JArray<E>> {
 
 extension type JArray<E extends JObject?>._(JObject _$this) implements JObject {
   /// The type which includes information such as the signature of this class.
-  static JType<JArray<E>> type<E extends JObject?>(JType<E> innerType) =>
-      _$JArray$Type$<E>(innerType);
+  static JType<JArray<$E>> type<$E extends JObject?>(JType<$E> innerType) =>
+      _$JArray$Type$<$E>(innerType);
 
   /// Creates a [JArray] of the given length from the given [elementType].
   ///
   /// The [length] must be a non-negative integer.
-  static JArray<E?> withLength<E extends JObject?>(
-      JType<E> elementType, int length) {
+  static JArray<$E?> withLength<$E extends JObject?>(
+      JType<$E> elementType, int length) {
     RangeError.checkNotNegative(length);
-    return _newArray<E>(elementType.jClass, length);
+    return _newArray<$E>(elementType.jClass, length);
   }
 
   static JArray<$E> _newArray<$E extends JObject?>(JClass jClass, int length,

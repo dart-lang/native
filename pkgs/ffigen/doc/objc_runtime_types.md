@@ -26,15 +26,22 @@ Just like in the pure Dart case, the Dart static type determines
 what methods are allowed to be invoked, but now the method
 implementation that is actually invoked at run time is determined
 by the *Objective-C* runtime type. In fact, the Dart runtime type is
-completely irrelevant when doing Objective-C interop.
+completely irrelevant when doing Objective-C interop. Moreover, the
+Dart wrapper around the Objective-C object is an [extension type](
+https://dart.dev/language/extension-types#type-considerations),
+which means the Dart runtime type will always be [`ObjCObject`](
+https://pub.dev/documentation/objective_c/latest/objective_c/ObjCObject-class.html).
 
 Dart's `is` keyword checks the Dart runtime type. You shouldn't use
-this on Objective-C objects, because the Dart runtime type is irrelevant, and
-often won't match the Objective-C runtime type. Instead of `x is Foo`,
-use `Foo.isA(x)`.
+this on Objective-C objects, because the Dart runtime type is always
+`ObjCObject`. If `Foo` and `Bar` are unrelated  `ObjCObject`s, and `x`
+a `Foo`, then `x is Bar` will be true, making these checks useless and
+misleading. Instead of `x is Foo`, use `Foo.isA(x)`, which calls into
+Objective-C to check the runtime type of the underlying object.
 
 Dart's `as` keyword changes the static type of an object (and also
-checks its runtime type). You shouldn't use this on Objective-C objects,
-because the runtime type check may fail since the Dart runtime
-type often won't match the Objective-C runtime type. Instead of `x as Foo`,
-use `Foo.as(x)`.
+checks its runtime type). Since the Objective-C wrapper objects are
+extension types, this works, but is unsafe. The implicit `is` check
+that `as` performs is useless, for the reasons mentioned above.
+Instead of `x as Foo`, use `Foo.as(x)`, which internally checks
+`Foo.isA(x)`.

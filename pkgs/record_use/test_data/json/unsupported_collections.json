@@ -6,20 +6,20 @@
       "type": "unsupported"
     },
     {
+      "type": "string",
+      "value": "key"
+    },
+    {
       "type": "list",
       "value": [
         0
       ]
     },
     {
-      "type": "string",
-      "value": "key"
-    },
-    {
       "type": "map",
       "value": [
         {
-          "key": 2,
+          "key": 1,
           "value": 0
         }
       ]
@@ -55,7 +55,7 @@
               0
             ],
             "positional": [
-              1
+              2
             ],
             "type": "with_arguments"
           },

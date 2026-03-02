@@ -17,7 +17,7 @@ import 'visitor.dart';
 /// Version of jnigen. Keep in sync with `pubspec.yaml` removing the `-wip`
 /// suffix.
 @visibleForTesting
-const String version = '0.15.1';
+const String version = '0.16.0';
 
 // Import prefixes.
 const _jni = r'jni$_';
@@ -700,7 +700,7 @@ class _TypeGenerator extends TypeVisitor<String> {
         return '$_jObject$nullable';
       }
     }
-    final nullable = includeNullability && node.hasQuestionMark ? '?' : '';
+    final nullable = includeNullability && node.isNullable ? '?' : '';
     return '$_typeParamPrefix${node.name}$nullable';
   }
 
@@ -940,7 +940,6 @@ ${modifier}final _id_$name =
     final name = node.finalName;
     final self = node.isStatic ? classRef : _self;
     final String typeClass;
-    // TODO: Simplify this.
     if (node.type is PrimitiveType || node.type is ArrayType) {
       typeClass = node.type.accept(_TypeClassGenerator(resolver));
     } else {
@@ -948,7 +947,8 @@ ${modifier}final _id_$name =
           typeErasure: true, includeNullability: false));
       typeClass = '$type.type';
     }
-    return '_id_$name.get($self, $typeClass)';
+    final getter = node.type.isNullable ? 'getNullable' : 'get';
+    return '_id_$name.$getter($self, $typeClass)';
   }
 
   String setter(Field node) {
@@ -1196,7 +1196,8 @@ ${modifier}final _$name = $_protectedExtension
       if (node.isAsyncVoid) {
         s.write('    return;');
       } else {
-        final returningType = asyncReturnType.accept(_TypeGenerator(resolver));
+        final returningType = asyncReturnType
+            .accept(_TypeGenerator(resolver, includeNullability: false));
         final returningTypeClass =
             asyncReturnType.accept(_TypeClassGenerator(resolver));
         s.write('''
