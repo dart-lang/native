@@ -17,6 +17,17 @@ ReferredType transformReferredType(
   UniqueNamer globalNamer,
   TransformationState state,
 ) {
+  if (type is OptionalType) {
+    final (wrappedChildType, childIsPrimitive) = maybeGetPrimitiveWrapper(
+      type.child,
+      true,
+      state,
+    );
+    if (childIsPrimitive) {
+      return OptionalType(wrappedChildType);
+    }
+  }
+
   if (type is InoutType) {
     final (wrappedPrimitive, hasWrappedPrimitive) = maybeGetPrimitiveWrapper(
       type.child,

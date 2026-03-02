@@ -71,7 +71,7 @@ void main() async {
     for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
       for (final (os, arch) in targets) {
         // Don't build Objective-C targets for linux.
-        if (language == Language.objectiveC && os == OS.linux) continue;
+        if (language == .objectiveC && os == .linux) continue;
 
         // Cycle through all optimization levels.
         final optimizationLevel = optimizationLevels[selectOptimizationLevel];
@@ -84,10 +84,8 @@ void main() async {
             final tempUri = await tempDirForTest();
             final tempUri2 = await tempDirForTest();
             final sourceUri = switch (language) {
-              Language.c => packageUri.resolve(
-                'test/cbuilder/testfiles/add/src/add.c',
-              ),
-              Language.objectiveC => packageUri.resolve(
+              .c => packageUri.resolve('test/cbuilder/testfiles/add/src/add.c'),
+              .objectiveC => packageUri.resolve(
                 'test/cbuilder/testfiles/add_objective_c/src/add.m',
               ),
               Language() => throw UnimplementedError(),
@@ -99,7 +97,7 @@ void main() async {
             // The default tool-finding does not support macos cross compiling
             // right now.
             var chosenCCompiler = cCompiler;
-            if (os == OS.linux) {
+            if (os == .linux) {
               // still respect the CI-provided compiler
               chosenCCompiler ??= await resolveAppleToolchain();
             }
@@ -117,8 +115,8 @@ void main() async {
                   targetOS: os,
                   targetArchitecture: arch,
                   linkModePreference: linkMode == DynamicLoadingBundled()
-                      ? LinkModePreference.dynamic
-                      : LinkModePreference.static,
+                      ? .dynamic
+                      : .static,
                   cCompiler: chosenCCompiler,
                   macOS: MacOSCodeConfig(targetVersion: defaultMacOSVersion),
                 ),
@@ -132,23 +130,23 @@ void main() async {
               sources: [sourceUri.toFilePath()],
               language: language,
               optimizationLevel: optimizationLevel,
-              buildMode: BuildMode.release,
+              buildMode: .release,
               flags: [
-                if (os == OS.linux)
+                if (os == .linux)
                   switch (arch) {
-                    Architecture.arm => '--target=arm-linux-gnueabihf',
-                    Architecture.arm64 => '--target=aarch64-linux-gnu',
-                    Architecture.ia32 => '--target=i686-linux-gnu',
-                    Architecture.x64 => '--target=x86_64-linux-gnu',
-                    Architecture.riscv32 => '--target=riscv32-linux-gnu',
-                    Architecture.riscv64 => '--target=riscv64-linux-gnu',
+                    .arm => '--target=arm-linux-gnueabihf',
+                    .arm64 => '--target=aarch64-linux-gnu',
+                    .ia32 => '--target=i686-linux-gnu',
+                    .x64 => '--target=x86_64-linux-gnu',
+                    .riscv32 => '--target=riscv32-linux-gnu',
+                    .riscv64 => '--target=riscv64-linux-gnu',
                     _ => throw UnsupportedError(
                       'Unexpected linux architecture: $arch',
                     ),
                   },
                 // Only homebrew lld can link for linux, and we don't have a
                 // sysroot so we can't use stdlibs / C-runtime files.
-                if (os == OS.linux) ...[
+                if (os == .linux) ...[
                   '--ld-path=$lldPath',
                   '-nostartfiles',
                   '-nostdlib',
@@ -235,11 +233,11 @@ Future<Uri> buildLib(
     ..config.setupBuild(linkingEnabled: false)
     ..addExtension(
       CodeAssetExtension(
-        targetOS: OS.macOS,
+        targetOS: .macOS,
         targetArchitecture: targetArchitecture,
         linkModePreference: linkMode == DynamicLoadingBundled()
-            ? LinkModePreference.dynamic
-            : LinkModePreference.static,
+            ? .dynamic
+            : .static,
         macOS: MacOSCodeConfig(targetVersion: targetMacOSVersion),
         cCompiler: cCompiler,
       ),
@@ -252,7 +250,7 @@ Future<Uri> buildLib(
     name: name,
     assetName: name,
     sources: [addCUri.toFilePath()],
-    buildMode: BuildMode.release,
+    buildMode: .release,
   );
   await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 

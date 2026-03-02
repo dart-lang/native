@@ -505,12 +505,20 @@ Error: $e
 
     final newCallsForDefinition = {
       for (final entry in calls.entries)
-        if (belongsToPackage(entry.key)) entry.key: entry.value,
+        if (belongsToPackage(entry.key))
+          entry.key: [
+            for (final call in entry.value)
+              call.filter(definitionPackageName: definitionPackageName),
+          ],
     };
 
     final newInstancesForDefinition = {
       for (final entry in instances.entries)
-        if (belongsToPackage(entry.key)) entry.key: entry.value,
+        if (belongsToPackage(entry.key))
+          entry.key: [
+            for (final instance in entry.value)
+              instance.filter(definitionPackageName: definitionPackageName),
+          ],
     };
 
     return Recordings(
