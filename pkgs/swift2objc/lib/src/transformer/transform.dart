@@ -73,7 +73,7 @@ List<Declaration> transform(
       .toList();
   state.bindings.addAll(extensionDecls);
 
-  final globalNamer = UniqueNamer(
+  state.globalNamer = UniqueNamer(
     state.bindings.map((declaration) => declaration.name),
   );
 
@@ -138,6 +138,8 @@ Declaration? maybeTransformDeclaration(
       declaration.nestingParent != null &&
       !nested) {
     // It's important that nested declarations are only transformed in the
+    // context of their parent, so that their parentNamer is correct.
+    assert(nested);
     // context of their parent, so that their parentNamer is correct. So find
     // the top level declaration this is nested in, and transform that first.
     maybeTransformDeclaration(
@@ -156,6 +158,7 @@ Declaration? maybeTransformDeclaration(
           state,
           nested: true,
         );
+    return state.map[declaration]!;
   }
 
   return switch (declaration) {
