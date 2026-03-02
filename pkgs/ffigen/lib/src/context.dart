@@ -38,21 +38,23 @@ class Context {
     this.logger,
     FfiGenerator generator, {
     Uri? libclangDylib,
-    String? tmpDir, // optional parameter
+    String? tmpDir, 
   }) : config = Config(generator),
        cursorIndex = CursorIndex(logger),
        tmpDir =
            tmpDir ??
            Directory.systemTemp
                .createTempSync('ffigen temp dir ')
-               .path // default temp dir with spaces
+               .path 
                {
     objCBuiltInFunctions = ObjCBuiltInFunctions(
       this,
+      // ignore: deprecated_member_use_from_same_package
       generator.objectiveC?.generateForPackageObjectiveC ?? false,
     );
 
     final libclangDylibPath =
+      // ignore: deprecated_member_use_from_same_package
         generator.libclangDylib?.toFilePath() ??
         libclangDylib?.toFilePath() ??
         findDylibAtDefaultLocations(logger);

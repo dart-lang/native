@@ -15,7 +15,7 @@ void main() {
         path.join(packagePathForTests, 'example', 'c_json', 'config.yaml'),
       );
       final context = testContext(config);
-      final library = parse(testContext(config));
+      final library = parse(context);
 
       matchLibraryWithExpected(context, library, 'example_c_json.dart', [
         config.output.dartFile.toFilePath(),
