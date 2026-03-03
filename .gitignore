@@ -1,11 +1,14 @@
 .DS_Store
 .atom/
 .idea
+.flutter-plugins*
+.last_build_id
 .packages
 .pub/
 .pub-cache/
 .svn/
 .dart_tool/
+local.properties
 .vscode/
 .clangd
 .gdb_history
@@ -46,7 +49,7 @@ local.properties
 keystore.properties
 **/Flutter/Generated.xcconfig
 **/Flutter/App.framework/
-**/Flutter/ephemeral/
+**/ephemeral/
 **/Flutter/Flutter.podspec
 **/Flutter/Flutter.framework/
 **/Flutter/flutter_assets/

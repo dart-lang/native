@@ -552,11 +552,13 @@ extension type TestMessageService._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [TestMessageService].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_TestMessageService,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_TestMessageService,
+        );
 
   /// alloc
   static TestMessageService alloc() {

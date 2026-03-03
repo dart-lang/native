@@ -154,8 +154,6 @@ class _ClassLinker extends Visitor<ClassDecl, void> {
       }
     }
 
-    node.superCount = superclass.superCount + 1;
-
     final fieldLinker = _FieldLinker(typeLinker);
     for (final field in node.fields) {
       field.classDecl = node;

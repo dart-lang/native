@@ -460,7 +460,7 @@ class ObjCMsgSendFunc extends AstNode with HasLocalScope {
     Iterable<String> params, {
     String? structRetPtr,
   }) {
-    return '''$name(${[if (structRetPtr != null) structRetPtr, target, sel, ...params].join(', ')})''';
+    return '''$name(${[?structRetPtr, target, sel, ...params].join(', ')})''';
   }
 
   @override

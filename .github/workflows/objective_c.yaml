@@ -100,7 +100,9 @@ jobs:
       - name: Select the XCode version
         run: sudo xcode-select -switch /Applications/Xcode_${{ matrix.xcode_version }}.app/Contents/Developer
       - name: Install iOS SDK
-        run: xcodebuild -downloadPlatform iOS -buildVersion ${{ matrix.ios_version }}
+        run: |
+          xcrun simctl list > /dev/null  # Wakes up and initializes the CoreSimulator daemon
+          xcodebuild -downloadPlatform iOS -buildVersion ${{ matrix.ios_version }}
       - name: Install dependencies
         run: flutter pub get
       - name: Build the example app for macos

@@ -1,0 +1,19 @@
+name: pirate_technology
+description: >
+  Test data for record_use filtering. This package simulates a tech library.
+  The build hook produces a JSON asset with tech specs.
+  The link hook includes tech specs if the corresponding method is called,
+  identified via @RecordUse on the tech methods. The content of the call doesn't matter, just presence.
+
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+
+dependencies:
+  data_assets: any
+  hooks: any
+  meta: ^1.17.0
+  record_use: any

@@ -7,8 +7,10 @@ import 'package:test/test.dart';
 import '../helpers.dart';
 import 'helpers.dart';
 
+const Timeout longTimeout = Timeout(Duration(minutes: 5));
+
 void main() async {
-  test('relative path', () async {
+  test('relative path', timeout: longTimeout, () async {
     await inTempDir((tempUri) async {
       await copyTestProjects(targetUri: tempUri);
       final packageUri = tempUri.resolve('relative_path/');

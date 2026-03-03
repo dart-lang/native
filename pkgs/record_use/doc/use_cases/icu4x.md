@@ -8,6 +8,7 @@ MBs.
 
 The native symbols that are reachable:
 
+<!-- no-source-file -->
 ```dart
 @ffi.Native<ffi.Pointer<ffi.Void> Function(ffi.Size, ffi.Size)>(
   symbol: 'diplomat_alloc',
@@ -28,6 +29,7 @@ The file containing the external static functions is a generated file.
 
 The link hook could import a generated file that contains the mapping:
 
+<!-- no-source-file -->
 ```dart
 const dartStaticCallToNativeSymbol = {
     'diplomat_alloc': '_diplomat_alloc',

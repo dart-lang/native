@@ -62,34 +62,25 @@ library;
 
 export 'package:ffi/ffi.dart' show Arena, using;
 
+export 'src/core_bindings.dart'
+    show
+        JArrayList,
+        JCollection,
+        JHashMap,
+        JHashSet,
+        JIterator,
+        JList,
+        JMap,
+        JSet;
 export 'src/errors.dart';
-export 'src/jarray.dart'
-    hide
-        $JArray$NullableType$,
-        $JArray$Type$,
-        $JBooleanArray$NullableType$,
-        $JBooleanArray$Type$,
-        $JByteArray$NullableType$,
-        $JByteArray$Type$,
-        $JCharArray$NullableType$,
-        $JCharArray$Type$,
-        $JDoubleArray$NullableType$,
-        $JDoubleArray$Type$,
-        $JFloatArray$NullableType$,
-        $JFloatArray$Type$,
-        $JIntArray$NullableType$,
-        $JIntArray$Type$,
-        $JLongArray$NullableType$,
-        $JLongArray$Type$,
-        $JShortArray$NullableType$,
-        $JShortArray$Type$;
+export 'src/jarray.dart';
 export 'src/jimplementer.dart';
 export 'src/jni.dart'
     hide InternalJniExtension, ProtectedJniExtensions, StringMethodsForJni;
-export 'src/jobject.dart' hide $JObject$NullableType$, $JObject$Type$;
+export 'src/jobject.dart' hide $JObject$Type$;
 export 'src/jreference.dart' hide ProtectedJReference;
 export 'src/jvalues.dart';
 export 'src/lang/lang.dart';
 export 'src/nio/nio.dart';
-export 'src/types.dart' hide JTypeBase, lowestCommonSuperType;
-export 'src/util/util.dart';
+export 'src/types.dart' hide JTypeBase;
+export 'src/util/util.dart' hide JIteratorAdapter;

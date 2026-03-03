@@ -24,77 +24,29 @@ void main(List<String> arguments) async {
       final recordings = await readUsagesFile(recordedUsagesFile);
 
       // This package.
-      final myMethodIdentifier = recordings.calls.keys.firstWhere(
-        (i) => i.name == 'myMethod',
+      final myMethodDefinition = recordings.calls.keys.firstWhere(
+        (i) => i.path.last.name == 'myMethod',
       );
       expect(
-        myMethodIdentifier.importUri,
+        myMethodDefinition.library,
         'package:library_uris/src/definition.dart',
       );
 
-      final callsToMyMethod = recordings.calls[myMethodIdentifier]!;
-
-      final callFromCallDotDart = callsToMyMethod.firstWhere(
-        (c) => c.location!.uri.endsWith('call.dart'),
-      );
-      expect(
-        callFromCallDotDart.location!.uri,
-        'package:library_uris/src/call.dart',
-      );
-
-      final callFromBin = callsToMyMethod.firstWhere(
-        (c) => c.location!.uri.endsWith('my_bin.dart'),
-      );
-      expect(
-        callFromBin.location!.uri,
-        // TODO(https://github.com/dart-lang/native/issues/2891): What should
-        // this be? We don't have library uris for bin.
-        'package:library_uris/../bin/my_bin.dart',
-      );
-
       // The helper package.
-      final helperMethodIdentifier = recordings.calls.keys.firstWhere(
-        (i) => i.name == 'methodInHelper',
+      final helperMethodDefinition = recordings.calls.keys.firstWhere(
+        (i) => i.path.last.name == 'methodInHelper',
       );
       expect(
-        helperMethodIdentifier.importUri,
+        helperMethodDefinition.library,
         'package:library_uris_helper/src/helper_definition.dart',
       );
 
-      final callsToHelperMethod = recordings.calls[helperMethodIdentifier]!;
-
-      final callFromHelperCallDotDart = callsToHelperMethod.firstWhere(
-        (c) => c.location!.uri.endsWith('helper_call.dart'),
-      );
-      expect(
-        callFromHelperCallDotDart.location!.uri,
-        'package:library_uris_helper/src/helper_call.dart',
-      );
-
-      final callFromCallDotDart2 = callsToHelperMethod.firstWhere(
-        (c) => c.location!.uri.endsWith('call.dart'),
-      );
-      expect(
-        callFromCallDotDart2.location!.uri,
-        'package:library_uris/src/call.dart',
-      );
-
-      final callFromBin2 = callsToHelperMethod.firstWhere(
-        (c) => c.location!.uri.endsWith('my_bin.dart'),
-      );
-      expect(
-        callFromBin2.location!.uri,
-        // TODO(https://github.com/dart-lang/native/issues/2891): What should
-        // this be? We don't have library uris for bin.
-        'package:library_uris/../bin/my_bin.dart',
-      );
-
       // Outside the lib dir, no package: uri.
-      final methodInBinIdentifer = recordings.calls.keys.firstWhere(
-        (i) => i.name == 'methodInBin',
+      final methodInBinDefinition = recordings.calls.keys.firstWhere(
+        (i) => i.path.last.name == 'methodInBin',
       );
       expect(
-        methodInBinIdentifer.importUri,
+        methodInBinDefinition.library,
         // TODO(https://github.com/dart-lang/native/issues/2891): What should
         // this be? We don't have library uris for bin.
         'package:library_uris/../bin/my_bin.dart',

@@ -3,6 +3,7 @@
 The goal of this package is to provide translation. The goal of using link hooks
 is to be able to shrink the translation files based on use.
 
+<!-- no-source-file -->
 ```dart
 class MessageTable {
   @RecordUse()
@@ -14,6 +15,7 @@ class MessageTable {
 }
 ```
 
+<!-- no-source-file -->
 ```dart
 String translateFoo() => lookup(/*int id of foo*/0, 'baz');
 
@@ -26,6 +28,7 @@ the API for the translations.
 
 If a transformer is used, the pre-transform code looks something like:
 
+<!-- no-source-file -->
 ```dart
 class Intl {
   static String message(String messageText,

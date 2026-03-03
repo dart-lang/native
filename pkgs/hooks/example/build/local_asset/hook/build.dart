@@ -12,7 +12,7 @@ final packageAssetPath = Uri.file('assets/$assetName');
 
 Future<void> main(List<String> args) async {
   await build(args, (input, output) async {
-    if (input.config.code.linkModePreference == LinkModePreference.static) {
+    if (input.config.code.linkModePreference == .static) {
       // Simulate that this build hook only supports dynamic libraries.
       throw UnsupportedError('LinkModePreference.static is not supported.');
     }

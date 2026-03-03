@@ -16,12 +16,17 @@ import Foundation
 
   @objc static public func makeInnerClass() -> OuterClassWrapper.InnerClassWrapper {
     let result = OuterClass.makeInnerClass()
-    return InnerClassWrapper(result)
+    return OuterClassWrapper.InnerClassWrapper(result)
   }
 
   @objc static public func makeInnerStruct() -> OuterClassWrapper.InnerStructWrapper {
     let result = OuterClass.makeInnerStruct()
-    return InnerStructWrapper(result)
+    return OuterClassWrapper.InnerStructWrapper(result)
+  }
+
+  @objc public func makeOther() -> OuterStructWrapper.InnerClassWrapper {
+    let result = wrappedInstance.makeOther()
+    return OuterStructWrapper.InnerClassWrapper(result)
   }
 
   @objc public class InnerClassWrapper: NSObject {
@@ -78,12 +83,17 @@ import Foundation
 
   @objc static public func makeInnerStruct() -> OuterStructWrapper.InnerStructWrapper {
     let result = OuterStruct.makeInnerStruct()
-    return InnerStructWrapper(result)
+    return OuterStructWrapper.InnerStructWrapper(result)
   }
 
   @objc static public func makeInnerClass() -> OuterStructWrapper.InnerClassWrapper {
     let result = OuterStruct.makeInnerClass()
-    return InnerClassWrapper(result)
+    return OuterStructWrapper.InnerClassWrapper(result)
+  }
+
+  @objc public func makeOther() -> OuterClassWrapper.InnerClassWrapper {
+    let result = wrappedInstance.makeOther()
+    return OuterClassWrapper.InnerClassWrapper(result)
   }
 
   @objc public class InnerStructWrapper: NSObject {

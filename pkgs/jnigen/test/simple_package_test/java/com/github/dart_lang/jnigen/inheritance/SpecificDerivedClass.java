@@ -4,4 +4,9 @@
 
 package com.github.dart_lang.jnigen.inheritance;
 
-public class SpecificDerivedClass extends BaseClass<String> {}
+public class SpecificDerivedClass extends BaseClass<String> {
+  @Override
+  public String someMethod(String s) {
+    return "Hello " + s;
+  }
+}

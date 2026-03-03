@@ -21,23 +21,24 @@ void main() {
       decl.id: ParsedSymbol(source: null, json: Json(null), declaration: decl),
   };
   final emptySymbolgraph = ParsedSymbolgraph(symbols: parsedSymbols);
-  group('Function Valid json', () {
-    void expectEqualParams(
-      List<Parameter> actualParams,
-      List<Parameter> expectedParams,
-    ) {
-      expect(actualParams.length, expectedParams.length);
 
-      for (var i = 0; i < actualParams.length; i++) {
-        final actualParam = actualParams[i];
-        final expectedParam = expectedParams[i];
+  void expectEqualParams(
+    List<Parameter> actualParams,
+    List<Parameter> expectedParams,
+  ) {
+    expect(actualParams.length, expectedParams.length);
 
-        expect(actualParam.name, expectedParam.name);
-        expect(actualParam.internalName, expectedParam.internalName);
-        expect(actualParam.type.sameAs(expectedParam.type), isTrue);
-      }
+    for (var i = 0; i < actualParams.length; i++) {
+      final actualParam = actualParams[i];
+      final expectedParam = expectedParams[i];
+
+      expect(actualParam.name, expectedParam.name);
+      expect(actualParam.internalName, expectedParam.internalName);
+      expect(actualParam.type.sameAs(expectedParam.type), isTrue);
     }
+  }
 
+  group('Function Valid json', () {
     test('Two params with one internal name', () {
       final json = Json(
         jsonDecode('''
@@ -583,6 +584,163 @@ void main() {
         () => parseFunctionInfo(context, json, emptySymbolgraph),
         throwsA(isA<Exception>()),
       );
+    });
+  });
+
+  group('Operator functions', () {
+    test('Operator with two params (internalParam only)', () {
+      final json = Json(
+        jsonDecode('''
+        [
+          { "kind": "keyword", "spelling": "static" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "keyword", "spelling": "func" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "+" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "internalParam", "spelling": "lhs" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ", " },
+          { "kind": "internalParam", "spelling": "rhs" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ") -> " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          }
+        ]
+        '''),
+      );
+
+      final info = parseFunctionInfo(
+        context,
+        json,
+        emptySymbolgraph,
+        isOperator: true,
+      );
+
+      final expectedParams = [
+        Parameter(name: 'lhs', type: intType),
+        Parameter(name: 'rhs', type: intType),
+      ];
+
+      expectEqualParams(info.params, expectedParams);
+      expect(info.throws, isFalse);
+      expect(info.async, isFalse);
+    });
+
+    test('Custom operator ***', () {
+      final json = Json(
+        jsonDecode('''
+        [
+          { "kind": "keyword", "spelling": "static" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "keyword", "spelling": "func" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "***" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "internalParam", "spelling": "lhs" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Double",
+            "preciseIdentifier": "s:Sd"
+          },
+          { "kind": "text", "spelling": ", " },
+          { "kind": "internalParam", "spelling": "rhs" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Double",
+            "preciseIdentifier": "s:Sd"
+          },
+          { "kind": "text", "spelling": ") -> " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Double",
+            "preciseIdentifier": "s:Sd"
+          }
+        ]
+        '''),
+      );
+
+      final info = parseFunctionInfo(
+        context,
+        json,
+        emptySymbolgraph,
+        isOperator: true,
+      );
+
+      final expectedParams = [
+        Parameter(name: 'lhs', type: doubleType),
+        Parameter(name: 'rhs', type: doubleType),
+      ];
+
+      expectEqualParams(info.params, expectedParams);
+      expect(info.throws, isFalse);
+      expect(info.async, isFalse);
+    });
+
+    test('Operator parameters should have no internalName', () {
+      final json = Json(
+        jsonDecode('''
+        [
+          { "kind": "keyword", "spelling": "static" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "keyword", "spelling": "func" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "==" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "internalParam", "spelling": "lhs" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ", " },
+          { "kind": "internalParam", "spelling": "rhs" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ") -> " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Bool",
+            "preciseIdentifier": "s:Sb"
+          }
+        ]
+        '''),
+      );
+
+      final info = parseFunctionInfo(
+        context,
+        json,
+        emptySymbolgraph,
+        isOperator: true,
+      );
+
+      expect(info.params[0].name, equals('lhs'));
+      expect(info.params[0].internalName, isNull);
+      expect(info.params[1].name, equals('rhs'));
+      expect(info.params[1].internalName, isNull);
     });
   });
 }

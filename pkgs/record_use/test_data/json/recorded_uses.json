@@ -2,97 +2,162 @@
   "$schema": "../../doc/schema/record_use.schema.json",
   "constants": [
     {
-      "type": "string",
-      "value": "42"
+      "type": "non_constant"
+    },
+    {
+      "message": "MethodTearoff",
+      "type": "unsupported"
+    },
+    {
+      "type": "null"
     },
     {
       "type": "bool",
       "value": false
     },
     {
-      "type": "map",
-      "value": {
-        "h": 1
-      }
-    },
-    {
-      "type": "null"
-    },
-    {
       "type": "int",
       "value": 42
     },
     {
-      "type": "instance",
-      "value": {
-        "i": 4
-      }
+      "type": "string",
+      "value": "42"
+    },
+    {
+      "type": "string",
+      "value": "h"
     },
     {
       "type": "list",
       "value": [
         4
       ]
+    },
+    {
+      "type": "map",
+      "value": [
+        {
+          "key": 6,
+          "value": 3
+        }
+      ]
+    },
+    {
+      "named": {
+        "a": 5
+      },
+      "positional": [
+        4
+      ],
+      "type": "record"
+    },
+    {
+      "definition_index": 0,
+      "index": 0,
+      "name": "red",
+      "type": "enum",
+      "value": {
+        "hex": 4
+      }
+    },
+    {
+      "definition_index": 2,
+      "type": "instance",
+      "value": {
+        "i": 4
+      }
     }
   ],
-  "locations": [
+  "definitions": [
     {
-      "column": 30,
-      "line": 12,
-      "uri": "complex.dart"
+      "path": [
+        {
+          "kind": "enum",
+          "name": "Color"
+        }
+      ],
+      "uri": "package:record_use_test/color.dart"
+    },
+    {
+      "path": [
+        {
+          "kind": "class",
+          "name": "OtherClass"
+        },
+        {
+          "disambiguators": [
+            "static"
+          ],
+          "kind": "method",
+          "name": "generate"
+        }
+      ],
+      "uri": "package:record_use_test/complex.dart"
+    },
+    {
+      "path": [
+        {
+          "kind": "class",
+          "name": "MyClass"
+        }
+      ],
+      "uri": "package:record_use_test/instance_class.dart"
+    }
+  ],
+  "loading_units": [
+    {
+      "name": "1"
     }
   ],
   "metadata": {
     "comment": "Recorded usages of objects tagged with a `RecordUse` annotation",
     "version": "0.4.0"
   },
-  "recordings": [
-    {
-      "calls": [
-        {
-          "@": 0,
-          "loading_unit": "1",
-          "named": {
-            "a": 0,
-            "b": 1,
-            "c": 4
-          },
-          "positional": [
-            0,
-            2,
-            3,
-            null,
-            4,
-            5,
-            6
-          ],
-          "type": "with_arguments"
-        }
-      ],
-      "definition": {
-        "identifier": {
-          "name": "generate",
-          "scope": "OtherClass",
-          "uri": "complex.dart"
-        },
-        "loading_unit": "1"
+  "uses": {
+    "instances": [
+      {
+        "definition_index": 2,
+        "uses": [
+          {
+            "constant_index": 11,
+            "loading_unit_indices": [
+              0
+            ],
+            "type": "constant"
+          }
+        ]
       }
-    },
-    {
-      "definition": {
-        "identifier": {
-          "name": "MyClass",
-          "uri": "instance_class.dart"
-        },
-        "loading_unit": "1"
-      },
-      "instances": [
-        {
-          "@": 0,
-          "constant_index": 5,
-          "loading_unit": "1"
-        }
-      ]
-    }
-  ]
+    ],
+    "static_calls": [
+      {
+        "definition_index": 1,
+        "uses": [
+          {
+            "loading_unit_indices": [
+              0
+            ],
+            "named": {
+              "a": 5,
+              "b": 3,
+              "c": 4,
+              "d": 0
+            },
+            "positional": [
+              5,
+              8,
+              2,
+              0,
+              4,
+              11,
+              7,
+              1,
+              9,
+              10
+            ],
+            "type": "with_arguments"
+          }
+        ]
+      }
+    ]
+  }
 }

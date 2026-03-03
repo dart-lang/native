@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -22,9 +21,9 @@ void main() async {
         final logMessages = <String>[];
         final result = await build(
           packageUri,
-          createCapturingLogger(logMessages, level: Level.SEVERE),
+          createCapturingLogger(logMessages, level: .SEVERE),
           dartExecutable,
-          buildAssetTypes: [BuildAssetType.code],
+          buildAssetTypes: [.code],
         );
         final fullLog = logMessages.join('\n');
         expect(result.isFailure, isTrue);
@@ -48,7 +47,7 @@ void main() async {
           logger,
           linkingEnabled: true,
           dartExecutable,
-          buildAssetTypes: [BuildAssetType.code],
+          buildAssetTypes: [.code],
         )).success;
 
         final linkResult = await link(
@@ -56,7 +55,7 @@ void main() async {
           logger,
           dartExecutable,
           buildResult: buildResult,
-          buildAssetTypes: [BuildAssetType.code],
+          buildAssetTypes: [.code],
         );
         // Application validation error due to conflicting dylib name.
         expect(linkResult.isFailure, isTrue);

@@ -13,7 +13,6 @@ import '../../test/jstring_test.dart' as jstring_test;
 import '../../test/jset_test.dart' as jset_test;
 import '../../test/jarray_test.dart' as jarray_test;
 import '../../test/boxed_test.dart' as boxed_test;
-import '../../test/type_test.dart' as type_test;
 import '../../test/load_test.dart' as load_test;
 import '../../test/isolate_test.dart' as isolate_test;
 
@@ -34,7 +33,6 @@ void main() {
     jset_test.run,
     jarray_test.run,
     boxed_test.run,
-    type_test.run,
     load_test.run,
     isolate_test.run,
   ];

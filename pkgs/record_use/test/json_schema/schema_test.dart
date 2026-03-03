@@ -33,72 +33,194 @@ void main() {
       missingExpectations: field.$2,
     );
   }
+
+  final constructorInvocationDataUri = testDataUri.resolve(
+    'constructor_invocation.json',
+  );
+  for (final field in constructorInvocationFields) {
+    testField(
+      schemaUri: schemaUri,
+      dataUri: constructorInvocationDataUri,
+      schema: schema,
+      data: allTestData[constructorInvocationDataUri]!,
+      field: field.$1,
+      missingExpectations: field.$2,
+    );
+  }
+
+  final constructorTearoffDataUri = testDataUri.resolve(
+    'constructor_tearoff.json',
+  );
+  for (final field in constructorTearoffFields) {
+    testField(
+      schemaUri: schemaUri,
+      dataUri: constructorTearoffDataUri,
+      schema: schema,
+      data: allTestData[constructorTearoffDataUri]!,
+      field: field.$1,
+      missingExpectations: field.$2,
+    );
+  }
 }
 
-const constNullIndex = 3;
-const constInstanceIndex = 5;
-List<(List<Object>, void Function(ValidationResults result))>
-recordUseFields = [
+const constNonConstantIndex = 0;
+const constUnsupportedIndex = 1;
+const constNullIndex = 2;
+const constMapIndex = 8;
+const constRecordIndex = 9;
+const constEnumIndex = 10;
+const constInstanceIndex = 11;
+typedef SchemaTestField = (
+  List<Object> path,
+  void Function(ValidationResults result) missingExpectations,
+);
+
+List<SchemaTestField> recordUseFields = [
   (['constants'], expectOptionalFieldMissing),
-  for (var index = 0; index < 7; index++) ...[
+  for (var index = 0; index < 12; index++) ...[
     (['constants', index, 'type'], expectRequiredFieldMissing),
-    if (index != constNullIndex && index != constInstanceIndex)
+    if (index != constNullIndex &&
+        index != constNonConstantIndex &&
+        index != constInstanceIndex &&
+        index != constUnsupportedIndex &&
+        index != constRecordIndex &&
+        index != constEnumIndex)
       (['constants', index, 'value'], expectRequiredFieldMissing),
     if (index == constInstanceIndex)
       (['constants', index, 'value'], expectOptionalFieldMissing),
+    if (index == constEnumIndex) ...[
+      (['constants', index, 'definition_index'], expectRequiredFieldMissing),
+      (['constants', index, 'index'], expectRequiredFieldMissing),
+      (['constants', index, 'name'], expectRequiredFieldMissing),
+      (['constants', index, 'value'], expectOptionalFieldMissing),
+    ],
+    if (index == constMapIndex) ...[
+      (['constants', index, 'value', 0, 'key'], expectRequiredFieldMissing),
+      (['constants', index, 'value', 0, 'value'], expectRequiredFieldMissing),
+    ],
+    if (index == constUnsupportedIndex)
+      (['constants', index, 'message'], expectRequiredFieldMissing),
+    if (index == constRecordIndex) ...[
+      (['constants', index, 'positional'], expectOptionalFieldMissing),
+      (['constants', index, 'named'], expectOptionalFieldMissing),
+    ],
     // Note the value for 'Instance' is optional because an empty map is
-    // omitted. Also, Null has no value field.
+    // omitted. Also, Null and NonConstant have no value field.
   ],
-  (['locations'], expectOptionalFieldMissing),
-  (['locations', 0, 'uri'], expectRequiredFieldMissing),
-  (['locations', 0, 'line'], expectOptionalFieldMissing),
-  (['locations', 0, 'column'], expectOptionalFieldMissing),
-  (['recordings'], expectOptionalFieldMissing),
-  (['recordings', 0, 'definition'], expectRequiredFieldMissing),
-  (['recordings', 0, 'definition', 'identifier'], expectRequiredFieldMissing),
+  (['definitions'], expectOptionalFieldMissing),
+  (['definitions', 1, 'uri'], expectRequiredFieldMissing),
+  (['definitions', 1, 'path'], expectRequiredFieldMissing),
+  (['definitions', 1, 'path', 0], expectOptionalFieldMissing),
   (
-    ['recordings', 0, 'definition', 'identifier', 'uri'],
+    ['definitions', 1, 'path', 0, 'name'],
     expectRequiredFieldMissing,
   ),
-  // TODO(https://github.com/dart-lang/native/issues/1093): Potentially split
-  // out the concept of a class definition (which should never have a scope),
-  // and static method definition, which optionally have a scope. And the scope
-  // is always an enclosing class.
   (
-    ['recordings', 0, 'definition', 'identifier', 'scope'],
+    ['definitions', 1, 'path', 0, 'kind'],
     expectOptionalFieldMissing,
   ),
   (
-    ['recordings', 0, 'definition', 'identifier', 'name'],
-    expectRequiredFieldMissing,
+    [
+      'definitions',
+      1,
+      'path',
+      0,
+      'disambiguators',
+    ],
+    expectOptionalFieldMissing,
   ),
-  // TODO: Why is this optional in the package test data?
-  (['recordings', 0, 'definition', 'loading_unit'], expectOptionalFieldMissing),
+  (['loading_units'], expectOptionalFieldMissing),
+  (['loading_units', 0, 'name'], expectRequiredFieldMissing),
+  (['uses'], expectOptionalFieldMissing),
+  (['uses', 'static_calls'], expectOptionalFieldMissing),
+  (['uses', 'static_calls', 0, 'definition_index'], expectRequiredFieldMissing),
 
-  // TODO(https://github.com/dart-lang/native/issues/1093): Whether calls or
-  // instances is required depends on whether the definition is a class or
-  // method. This should be cleaned up.
-  (['recordings', 0, 'calls'], expectOptionalFieldMissing),
-  (['recordings', 0, 'calls', 0, 'type'], expectRequiredFieldMissing),
-  (['recordings', 0, 'calls', 0, 'named'], expectOptionalFieldMissing),
-  (['recordings', 0, 'calls', 0, 'named', 'a'], expectOptionalFieldMissing),
-  (['recordings', 0, 'calls', 0, 'positional'], expectOptionalFieldMissing),
-  (['recordings', 0, 'calls', 0, 'positional', 0], expectOptionalFieldMissing),
-  (['recordings', 0, 'calls', 0, 'loading_unit'], expectRequiredFieldMissing),
-  (['recordings', 0, 'calls', 0, '@'], expectOptionalFieldMissing),
-  (['recordings', 1, 'instances'], expectOptionalFieldMissing),
+  (['uses', 'static_calls', 0, 'uses'], expectRequiredFieldMissing),
+  (['uses', 'static_calls', 0, 'uses', 0, 'type'], expectRequiredFieldMissing),
   (
-    ['recordings', 1, 'instances', 0, 'constant_index'],
+    ['uses', 'static_calls', 0, 'uses', 0, 'named'],
+    expectOptionalFieldMissing,
+  ),
+  (
+    ['uses', 'static_calls', 0, 'uses', 0, 'named', 'a'],
+    expectOptionalFieldMissing,
+  ),
+  (
+    ['uses', 'static_calls', 0, 'uses', 0, 'named', 'd'],
+    expectOptionalFieldMissing,
+  ),
+  (
+    ['uses', 'static_calls', 0, 'uses', 0, 'positional'],
+    expectOptionalFieldMissing,
+  ),
+  (
+    ['uses', 'static_calls', 0, 'uses', 0, 'positional', 0],
+    expectOptionalFieldMissing,
+  ),
+  (
+    ['uses', 'static_calls', 0, 'uses', 0, 'positional', 3],
+    expectOptionalFieldMissing,
+  ),
+  (
+    ['uses', 'static_calls', 0, 'uses', 0, 'loading_unit_indices'],
+    expectRequiredFieldMissing,
+  ),
+  (['uses', 'instances'], expectOptionalFieldMissing),
+  (['uses', 'instances', 0, 'uses'], expectRequiredFieldMissing),
+  (
+    ['uses', 'instances', 0, 'uses', 0, 'type'],
     expectRequiredFieldMissing,
   ),
   (
-    ['recordings', 1, 'instances', 0, 'loading_unit'],
+    ['uses', 'instances', 0, 'uses', 0, 'constant_index'],
     expectRequiredFieldMissing,
   ),
-  (['recordings', 1, 'instances', 0, '@'], expectOptionalFieldMissing),
+  (
+    ['uses', 'instances', 0, 'uses', 0, 'loading_unit_indices'],
+    expectRequiredFieldMissing,
+  ),
+];
 
-  // TODO: Locations are not always provided by dart2js for const values. So we
-  // need to make it optional.
+List<SchemaTestField> constructorInvocationFields = [
+  (
+    ['uses', 'instances', 0, 'uses', 0, 'definition_index'],
+    expectRequiredFieldMissing,
+  ),
+  (
+    ['uses', 'instances', 0, 'uses', 0, 'loading_unit_indices'],
+    expectRequiredFieldMissing,
+  ),
+  (
+    ['uses', 'instances', 0, 'uses', 0, 'type'],
+    expectRequiredFieldMissing,
+  ),
+  (
+    ['uses', 'instances', 0, 'uses', 0, 'positional'],
+    expectOptionalFieldMissing,
+  ),
+  (
+    ['uses', 'instances', 0, 'uses', 0, 'named', 'param'],
+    expectOptionalFieldMissing,
+  ),
+  (
+    ['uses', 'instances', 0, 'uses', 0, 'named', 'other'],
+    expectOptionalFieldMissing,
+  ),
+];
+
+List<SchemaTestField> constructorTearoffFields = [
+  (
+    ['uses', 'instances', 0, 'uses', 0, 'definition_index'],
+    expectRequiredFieldMissing,
+  ),
+  (
+    ['uses', 'instances', 0, 'uses', 0, 'loading_unit_indices'],
+    expectRequiredFieldMissing,
+  ),
+  (
+    ['uses', 'instances', 0, 'uses', 0, 'type'],
+    expectRequiredFieldMissing,
+  ),
 ];
 
 void testAllTestData(
@@ -137,8 +259,6 @@ Uri packageUri = findPackageRoot('record_use');
 
 /// Test removing a field or modifying it.
 ///
-/// Changing a field to a wrong type is always expected to fail.
-///
 /// Removing a field can be valid, the expectations must be passed in
 /// [missingExpectations].
 void testField({
@@ -160,8 +280,7 @@ void testField({
       final index = field.last as int;
       dataToModify.removeAt(index);
     } else {
-      // ignore: avoid_dynamic_calls
-      dataToModify.remove(field.last);
+      (dataToModify as Map).remove(field.last);
     }
 
     final result = schema.validate(dataDecoded);
@@ -175,11 +294,28 @@ void testField({
       dataDecoded,
       field.sublist(0, field.length - 1),
     );
-    // ignore: avoid_dynamic_calls
-    final originalValue = dataToModify[field.last];
+    final Object? originalValue;
+    if (dataToModify is List) {
+      originalValue = dataToModify[field.last as int];
+    } else {
+      originalValue = (dataToModify as Map)[field.last];
+    }
     final wrongTypeValue = originalValue is int ? '123' : 123;
-    // ignore: avoid_dynamic_calls
-    dataToModify[field.last] = wrongTypeValue;
+    if (originalValue == null) {
+      // If the field allows null, it likely also allows int. So use a string
+      // to ensure it's invalid.
+      if (dataToModify is List) {
+        dataToModify[field.last as int] = 'invalid';
+      } else {
+        (dataToModify as Map)[field.last] = 'invalid';
+      }
+    } else {
+      if (dataToModify is List) {
+        dataToModify[field.last as int] = wrongTypeValue;
+      } else {
+        (dataToModify as Map)[field.last] = wrongTypeValue;
+      }
+    }
 
     final result = schema.validate(dataDecoded);
     expect(result.isValid, isFalse);
