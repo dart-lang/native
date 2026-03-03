@@ -27,14 +27,14 @@ class MethodInvocation {
   ) {
     return MethodInvocation._(
       Pointer<CallbackResult>.fromAddress(resultAddress),
-      JString.fromReference(
-          JGlobalReference(Pointer<Void>.fromAddress(descriptorAddress))),
+      JObject.fromReference(
+              JGlobalReference(Pointer<Void>.fromAddress(descriptorAddress)))
+          as JString,
       argsAddress == 0
           ? null
-          : JArray.fromReference(
-              const $JObject$NullableType$(),
+          : JObject.fromReference(
               JGlobalReference(Pointer<Void>.fromAddress(argsAddress)),
-            ),
+            ) as JArray<JObject?>,
     );
   }
 
