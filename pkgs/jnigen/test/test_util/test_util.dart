@@ -19,7 +19,7 @@ const largeTestTag = 'large_test';
 const summarizerTestTag = 'summarizer_test';
 
 Directory getTempDir(String prefix) {
-  return _currentDirectory.createTempSync(prefix);
+  return _currentDirectory.createTempSync('$prefix ');
 }
 
 Future<bool> isEmptyOrNotExistDir(String path) async {
@@ -117,7 +117,7 @@ Future<void> generateAndCompareBindings(Config config) async {
   final dartReferenceBindings =
       config.outputConfig.dartConfig.path.toFilePath();
   final currentDir = Directory.current;
-  final tempDir = currentDir.createTempSync('jnigen_test_temp');
+  final tempDir = currentDir.createTempSync('jnigen_test_temp ');
   final singleFile =
       config.outputConfig.dartConfig.structure == OutputStructure.singleFile;
   final tempLib = singleFile
@@ -133,7 +133,7 @@ Future<void> generateAndCompareBindings(Config config) async {
 
 Future<void> generateAndAnalyzeBindings(Config config,
     {Iterable<String> confirmExists = const []}) async {
-  final tempDir = Directory.current.createTempSync('jnigen_test_temp');
+  final tempDir = Directory.current.createTempSync('jnigen_test_temp ');
   try {
     await _generateTempBindings(config, tempDir);
     final analyzeResult = Process.runSync('dart', ['analyze', tempDir.path]);

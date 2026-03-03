@@ -3,6 +3,9 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
+import 'dart:io';
+
+import 'package:meta/meta.dart';
 
 import 'package:logging/logging.dart';
 
@@ -40,12 +43,14 @@ class Context {
       // ignore: deprecated_member_use_from_same_package
       generator.objectiveC?.generateForPackageObjectiveC ?? false,
     );
-    final libclangDylibPath =
-        // ignore: deprecated_member_use_from_same_package
-        generator.libclangDylib?.toFilePath() ??
-        libclangDylib?.toFilePath() ??
-        findDylibAtDefaultLocations(logger);
-    _clang ??= Clang(DynamicLibrary.open(libclangDylibPath));
+    if (Platform.environment['FFIGEN_NO_CLANG'] != 'true') {
+      final libclangDylibPath =
+          // ignore: deprecated_member_use_from_same_package
+          generator.libclangDylib?.toFilePath() ??
+          libclangDylib?.toFilePath() ??
+          findDylibAtDefaultLocations(logger);
+      _clang ??= Clang(DynamicLibrary.open(libclangDylibPath));
+    }
   }
 }
 
@@ -60,6 +65,8 @@ class Context {
 // skew. So the safest thing is to simply load clang the first time a Context
 // is created, and reuse it for all subsequent runs.
 Clang get clang => _clang!;
+@visibleForTesting
+set clang(Clang value) => _clang = value;
 Clang? _clang;
 
 class LibraryImports {
