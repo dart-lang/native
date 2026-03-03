@@ -1,11 +1,4 @@
-## 0.16.1-wip
-
-- Fixed JNI wrapper null handling: method/field ID getters now properly
-  validate null parameters and propagate a java.lang.RuntimeException
-  instead of returning invalid results. Added correct support for
-  JNI APIs that legally accept NULL (e.g., PopLocalFrame).
-
-## 0.16.0
+## 0.16.0-wip
 
 - **Breaking Change**: All Java wrapper classes have been migrated to extension
   types. The main effects are:
@@ -24,6 +17,9 @@
 - Changed the behavior of `JObject.releasedBy`. It now does not throw a
   `DoubleReleaseError` if the object was manually released before the end of
   arena.
+- Fixed JNI wrapper null handling: method/field ID getters now properly
+  validate null parameters and propagate a java.lang.RuntimeException
+  instead of crashing.
 
 ## 0.15.2
 
