@@ -7,7 +7,7 @@ import 'dart:io';
 
 import 'package:data_assets/data_assets.dart';
 import 'package:hooks/hooks.dart';
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
 
 void main(List<String> args) async {
   await link(args, (input, output) async {
