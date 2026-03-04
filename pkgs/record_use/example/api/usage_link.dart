@@ -9,7 +9,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:hooks/hooks.dart';
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
 
 final methodId = Definition(
   'package:pirate_speak/pirate_speak.dart',

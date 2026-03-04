@@ -7,7 +7,7 @@ import 'dart:io';
 
 import 'package:data_assets/data_assets.dart';
 import 'package:pub_semver/pub_semver.dart';
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';

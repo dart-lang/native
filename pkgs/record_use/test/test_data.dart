@@ -6,7 +6,7 @@ import 'dart:io';
 
 import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:pub_semver/pub_semver.dart';
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
 
 const callId = Definition(
   'package:js_runtime/js_helper.dart',
