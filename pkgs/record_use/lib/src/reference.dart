@@ -173,6 +173,9 @@ sealed class CallReference extends Reference {
 
 /// A reference to a call to some [Definition] with [positionalArguments] and
 /// [namedArguments].
+///
+/// Any non-provided arguments with default values will have their default
+/// values filled in.
 final class CallWithArguments extends CallReference {
   final List<MaybeConstant> positionalArguments;
   final Map<String, MaybeConstant> namedArguments;
@@ -572,6 +575,10 @@ final class InstanceConstantReference extends InstanceReference {
   }
 }
 
+/// Recorded for generative constructor invocations (non-const).
+///
+/// Any non-provided arguments with default values will have their default
+/// values filled in.
 final class InstanceCreationReference extends InstanceReference {
   final Definition definition;
   final List<MaybeConstant> positionalArguments;
