@@ -206,10 +206,10 @@ abstract final class Jni {
     final env = Jni.env;
     final message = env.toDartString(details.message);
     final stacktrace = env.toDartString(details.stacktrace);
-    env.DeleteGlobalRef(exception);
     env.DeleteGlobalRef(details.message);
     env.DeleteGlobalRef(details.stacktrace);
-    throw JniException(message, stacktrace);
+    throw JThrowable.fromReference(
+        JGlobalReference(exception), message, stacktrace);
   }
 
   /// Returns the instance of [GlobalJniEnvStruct], which is an abstraction over

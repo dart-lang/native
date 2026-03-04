@@ -250,7 +250,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
     group('exception tests', () {
       void throwsException(void Function() f) {
-        expect(f, throwsA(isA<JniException>()));
+        expect(f, throwsA(isA<JThrowable>()));
       }
 
       test('Example throw exception', () {
@@ -281,13 +281,29 @@ void registerTests(String groupName, TestRunnerCallback test) {
       test('Exception contains error message & stack trace', () {
         try {
           Exceptions.throwLoremIpsum();
-        } on JniException catch (e) {
+        } on JThrowable catch (e) {
           expect(e.message, stringContainsInOrder(['Lorem Ipsum']));
           expect(
             e.toString(),
             stringContainsInOrder(['Lorem Ipsum', 'throwLoremIpsum']),
           );
           return;
+        }
+        throw AssertionError('No exception was thrown');
+      });
+
+      test('Custom exception handling', () {
+        try {
+          Exceptions.throwMyException();
+        } on JThrowable catch (e) {
+          if (e.isA(Exceptions$MyException.type)) {
+            final myEx = e.as(Exceptions$MyException.type);
+            expect(myEx.errorCode, 123);
+            return;
+          }
+          fail('Expected Exceptions\$MyException, but got JThrowable: $e');
+        } catch (e) {
+          fail('Expected JThrowable, but got ${e.runtimeType}: $e');
         }
         throw AssertionError('No exception was thrown');
       });
@@ -1129,7 +1145,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           );
           expect(
             () => annotated.nullableArgMethodGenericEcho<JString>(null),
-            throwsA(isA<JniException>()),
+            throwsA(isA<JThrowable>()),
           );
           expect(
             annotated

@@ -106,21 +106,6 @@ final class NoJvmInstanceError extends Error {
   String toString() => 'No JNI instance is available';
 }
 
-// TODO(#567): Remove this class in favor of `JThrowable`.
-class JniException implements Exception {
-  /// Error message from Java exception.
-  final String message;
-
-  /// Stack trace from Java.
-  final String stackTrace;
-
-  JniException(this.message, this.stackTrace);
-
-  @override
-  String toString() => 'Exception in Java code called through JNI: '
-      '$message\n\n$stackTrace\n';
-}
-
 final class HelperNotFoundError extends Error {
   final String path;
 
