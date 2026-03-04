@@ -158,22 +158,26 @@ List<String> _generateClassSubscript(SubscriptDeclaration subscript) {
     header.write('@objc ');
   }
 
+  if (subscript.isStatic) {
+    header.write('static ');
+  }
+
   final params = generateParameters(subscript.params);
   header.write(
     'public subscript($params) -> ${subscript.returnType.swiftType} {',
   );
 
-  final callArgs = subscript.params
-      .map((p) {
-        final label = p.name == '_' ? '' : '${p.name}: ';
-        final value = p.internalName ?? p.name;
-        return '$label$value';
-      })
-      .join(', ');
+  final getterLines = [
+    'get ${generateAnnotations(subscript)}{',
+    ...(subscript.getter?.statements.indent() ?? <String>[]),
+    '}',
+  ];
 
-  final getterLines = ['get {', '  wrappedInstance[$callArgs]', '}'];
-
-  final setterLines = ['set {', '  wrappedInstance[$callArgs] = newValue', '}'];
+  final setterLines = [
+    'set {',
+    ...(subscript.setter?.statements.indent() ?? <String>[]),
+    '}',
+  ];
 
   return [
     ...generateAvailability(subscript),

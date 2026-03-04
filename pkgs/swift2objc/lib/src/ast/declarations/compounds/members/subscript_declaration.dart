@@ -4,6 +4,8 @@
 
 import '../../../../config.dart';
 import '../../../_core/interfaces/availability.dart';
+import '../../../_core/interfaces/can_async.dart';
+import '../../../_core/interfaces/can_throw.dart';
 import '../../../_core/interfaces/declaration.dart';
 import '../../../_core/interfaces/objc_annotatable.dart';
 import '../../../_core/shared/parameter.dart';
@@ -13,7 +15,7 @@ import 'property_declaration.dart';
 
 /// Describes a subscript declaration for a Swift compound entity
 class SubscriptDeclaration extends AstNode
-    implements Declaration, ObjCAnnotatable {
+    implements Declaration, ObjCAnnotatable, CanThrow, CanAsync {
   @override
   String id;
 
@@ -36,8 +38,10 @@ class SubscriptDeclaration extends AstNode
 
   List<Parameter> params;
 
+  @override
   bool throws;
 
+  @override
   bool async;
 
   bool mutating;

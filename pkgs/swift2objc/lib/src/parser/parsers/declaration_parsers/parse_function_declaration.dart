@@ -202,9 +202,30 @@ ParsedFunctionInfo parseFunctionInfo(
   while (true) {
     final keyword = maybeConsume('keyword');
     if (keyword == null) {
-      if (maybeConsume('text') != '') break;
+      final text = maybeConsume('text');
+      if (text == null) break;
+      if (text == '') continue;
+
+      // For subscripts, 'throws' and 'async' can be inside the { get ... }
+      // block. We'll just collect all keywords in the fragments if it's a
+      // subscript.
+      if (isSubscript) continue;
+      break;
     } else {
       annotations.add(keyword);
+    }
+  }
+
+  if (isSubscript) {
+    // If it's a subscript, we just look for 'throws' and 'async' anywhere in
+    // the fragments after the parameters.
+    while (tokens.isNotEmpty) {
+      final keyword = maybeConsume('keyword');
+      if (keyword != null) {
+        annotations.add(keyword);
+      } else {
+        tokens = tokens.slice(1);
+      }
     }
   }
 

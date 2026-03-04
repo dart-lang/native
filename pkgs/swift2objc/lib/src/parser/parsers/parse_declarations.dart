@@ -77,6 +77,12 @@ Declaration parseDeclaration(
       symbolgraph,
       isStatic: false,
     ),
+    'swift.type.subscript' => parseSubscriptDeclaration(
+      context,
+      parsedSymbol,
+      symbolgraph,
+      isStatic: true,
+    ),
     'swift.method' => parseMethodDeclaration(
       context,
       parsedSymbol,

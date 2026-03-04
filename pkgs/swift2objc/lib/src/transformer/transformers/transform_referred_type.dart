@@ -31,6 +31,9 @@ ReferredType transformReferredType(
 
   if (type.isObjCRepresentable) return type;
 
+  final (wrapped, hasWrapped) = maybeGetPrimitiveWrapper(type, true, state);
+  if (hasWrapped) return wrapped;
+
   if (type is GenericType) {
     throw UnimplementedError('Generic types are not supported yet');
   } else if (type is DeclaredType) {

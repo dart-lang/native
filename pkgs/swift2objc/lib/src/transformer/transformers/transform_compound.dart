@@ -11,6 +11,7 @@ import '../../ast/declarations/compounds/class_declaration.dart';
 import '../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
+import '../../ast/declarations/compounds/members/subscript_declaration.dart';
 import '../../ast/declarations/compounds/struct_declaration.dart';
 import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
@@ -105,6 +106,17 @@ ClassDeclaration transformCompound(
         .nonNulls
         .toList();
 
+    final transformedSubscripts = originalCompound.subscripts
+        .expand(
+          (subscript) => transformSubscript(
+            subscript,
+            wrappedCompoundInstance,
+            parentNamer,
+            state,
+          ),
+        )
+        .toList();
+
     transformedCompound.properties = transformedProperties
         .removeWhereType<PropertyDeclaration>()
         .sortedById();
@@ -117,21 +129,16 @@ ClassDeclaration transformCompound(
       ...transformedMethods,
       ...transformedProperties.removeWhereType<MethodDeclaration>(),
       ...transformedInitializers.removeWhereType<MethodDeclaration>(),
+      ...transformedSubscripts.removeWhereType<MethodDeclaration>(),
     ].sortedById();
 
-    transformedCompound.subscripts = originalCompound.subscripts
-        .map(
-          (subscript) => transformSubscript(
-            subscript,
-            wrappedCompoundInstance,
-            parentNamer,
-            state,
-          ),
-        )
-        .toList();
+    transformedCompound.subscripts = transformedSubscripts
+        .removeWhereType<SubscriptDeclaration>()
+        .sortedById();
 
     assert(transformedProperties.isEmpty);
     assert(transformedInitializers.isEmpty);
+    assert(transformedSubscripts.isEmpty);
   }
 
   return transformedCompound;

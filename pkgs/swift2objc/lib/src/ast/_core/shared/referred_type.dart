@@ -117,7 +117,21 @@ class OptionalType extends AstNode implements ReferredType {
   final ReferredType child;
 
   @override
-  bool get isObjCRepresentable => child.isObjCRepresentable;
+  bool get isObjCRepresentable {
+    if (!child.isObjCRepresentable) return false;
+
+    if (child is DeclaredType) {
+      final id = (child as DeclaredType).id;
+      final isPrimitive =
+          id == 's:Si' || // Int
+          id == 's:Sf' || // Float
+          id == 's:Sd' || // Double
+          id == 's:Sb'; // Bool
+      if (isPrimitive) return false;
+    }
+
+    return true;
+  }
 
   @override
   String get swiftType => '$child?';
