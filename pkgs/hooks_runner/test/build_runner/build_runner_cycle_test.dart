@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:hooks_runner/src/model/hook_result.dart' show HookResult;
-import 'package:logging/logging.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
@@ -23,7 +22,7 @@ void main() async {
         final logMessages = <String>[];
         final result = await build(
           packageUri,
-          createCapturingLogger(logMessages, level: Level.SEVERE),
+          createCapturingLogger(logMessages, level: .SEVERE),
           dartExecutable,
           buildAssetTypes: [],
         );
@@ -52,7 +51,7 @@ void main() async {
         final result = await link(
           buildResult: HookResult(),
           packageUri,
-          createCapturingLogger(logMessages, level: Level.SEVERE),
+          createCapturingLogger(logMessages, level: .SEVERE),
           dartExecutable,
           buildAssetTypes: [],
         );

@@ -23,7 +23,7 @@ void main() async {
         logger,
         dartExecutable,
         capturedLogs: logMessages,
-        buildAssetTypes: [BuildAssetType.code],
+        buildAssetTypes: [.code],
       )).success;
       expect(result.encodedAssets.length, 3);
     });

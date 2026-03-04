@@ -21,7 +21,7 @@ void main(List<String> args) async {
   }
 
   final logger = Logger('')
-    ..level = Level.ALL
+    ..level = .ALL
     ..onRecord.listen((event) => print(event.message));
 
   final targetOS = OS.current;
@@ -45,7 +45,7 @@ void main(List<String> args) async {
             targetOS: targetOS,
             linkModePreference: LinkModePreference.dynamic,
             cCompiler: dartCICompilerConfig,
-            macOS: targetOS == OS.macOS
+            macOS: targetOS == .macOS
                 ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
                 : null,
           ),

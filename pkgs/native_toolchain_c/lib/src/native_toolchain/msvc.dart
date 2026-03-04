@@ -141,8 +141,8 @@ final Tool vsDevCmd = Tool(
 final Tool cl = _msvcTool(
   name: 'cl',
   versionArguments: [],
-  targetArchitecture: Architecture.x64,
-  hostArchitecture: Architecture.current,
+  targetArchitecture: .x64,
+  hostArchitecture: .current,
 );
 
 /// The C/C++ Optimizing Compiler main executable.
@@ -151,8 +151,8 @@ final Tool cl = _msvcTool(
 final Tool clIA32 = _msvcTool(
   name: 'cl',
   versionArguments: [],
-  targetArchitecture: Architecture.ia32,
-  hostArchitecture: Architecture.current,
+  targetArchitecture: .ia32,
+  hostArchitecture: .current,
 );
 
 /// The C/C++ Optimizing Compiler main executable.
@@ -161,30 +161,30 @@ final Tool clIA32 = _msvcTool(
 final Tool clArm64 = _msvcTool(
   name: 'cl',
   versionArguments: [],
-  targetArchitecture: Architecture.arm64,
-  hostArchitecture: Architecture.current,
+  targetArchitecture: .arm64,
+  hostArchitecture: .current,
 );
 
 final Tool lib = _msvcTool(
   name: 'lib',
-  targetArchitecture: Architecture.x64,
-  hostArchitecture: Architecture.current,
+  targetArchitecture: .x64,
+  hostArchitecture: .current,
   // https://github.com/dart-lang/native/issues/18
   resolveVersion: false,
 );
 
 final Tool libIA32 = _msvcTool(
   name: 'lib',
-  targetArchitecture: Architecture.ia32,
-  hostArchitecture: Architecture.current,
+  targetArchitecture: .ia32,
+  hostArchitecture: .current,
   // https://github.com/dart-lang/native/issues/18
   resolveVersion: false,
 );
 
 final Tool libArm64 = _msvcTool(
   name: 'lib',
-  targetArchitecture: Architecture.arm64,
-  hostArchitecture: Architecture.current,
+  targetArchitecture: .arm64,
+  hostArchitecture: .current,
   // https://github.com/dart-lang/native/issues/18
   resolveVersion: false,
 );
@@ -193,30 +193,30 @@ final Tool msvcLink = _msvcTool(
   name: 'link',
   versionArguments: ['/help'],
   versionExitCode: 1100,
-  targetArchitecture: Architecture.x64,
-  hostArchitecture: Architecture.current,
+  targetArchitecture: .x64,
+  hostArchitecture: .current,
 );
 
 final Tool linkIA32 = _msvcTool(
   name: 'link',
   versionArguments: ['/help'],
   versionExitCode: 1100,
-  targetArchitecture: Architecture.ia32,
-  hostArchitecture: Architecture.current,
+  targetArchitecture: .ia32,
+  hostArchitecture: .current,
 );
 
 final Tool linkArm64 = _msvcTool(
   name: 'link',
   versionArguments: ['/help'],
   versionExitCode: 1100,
-  targetArchitecture: Architecture.arm64,
-  hostArchitecture: Architecture.current,
+  targetArchitecture: .arm64,
+  hostArchitecture: .current,
 );
 
 final Tool dumpbin = _msvcTool(
   name: 'dumpbin',
-  targetArchitecture: Architecture.x64,
-  hostArchitecture: Architecture.current,
+  targetArchitecture: .x64,
+  hostArchitecture: .current,
 );
 
 const _msvcArchNames = {

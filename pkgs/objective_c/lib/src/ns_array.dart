@@ -17,9 +17,6 @@ class _NSArrayAdapter with ListBase<ObjCObject> {
   int get length => _array.count;
 
   @override
-  ObjCObject elementAt(int index) => _array.objectAtIndex(index);
-
-  @override
   Iterator<ObjCObject> get iterator => _NSArrayIterator(this);
 
   @override
@@ -60,9 +57,6 @@ class _NSMutableArrayAdapter with ListBase<ObjCObject> {
       _array.removeLastObject();
     }
   }
-
-  @override
-  ObjCObject elementAt(int index) => _array.objectAtIndex(index);
 
   @override
   Iterator<ObjCObject> get iterator => _NSArrayIterator(this);
