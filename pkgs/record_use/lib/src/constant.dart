@@ -790,10 +790,13 @@ final class MapConstant extends Constant {
   }
 }
 
-/// A constant instance of a class with its fields
+/// A constant instance of a class with its fields.
 ///
 /// Only as far as they can also be represented by constants. This is more or
 /// less the same as a [MapConstant].
+///
+/// Fields initialized by default constructor values are also included in
+/// [fields].
 final class InstanceConstant extends Constant {
   /// The definition of the class of this instance.
   final Definition definition;
@@ -935,6 +938,9 @@ final class InstanceConstant extends Constant {
 }
 
 /// A constant enum value.
+///
+/// Fields initialized by default constructor values (for enhanced enums) are
+/// also included in [fields].
 final class EnumConstant extends Constant {
   /// The definition of the enum class of this value.
   final Definition definition;
