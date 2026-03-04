@@ -199,7 +199,6 @@ abstract final class Jni {
   }
 
   /// Throws an exception.
-  // TODO(#561): Throw an actual `JThrowable`.
   @internal
   static void throwException(JThrowablePtr exception) {
     final details = _bindings.GetExceptionDetails(exception);
