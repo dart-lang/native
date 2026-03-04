@@ -140,3 +140,11 @@ Please ensure ${Platform.isWindows ? r'that `\bin\server\jvm.dll` is in the PATH
 ''';
   }
 }
+
+final class JniNewStringException implements Exception {
+  final String string;
+  JniNewStringException(this.string);
+
+  @override
+  String toString() => 'Failed to convert string to a JString: $string';
+}

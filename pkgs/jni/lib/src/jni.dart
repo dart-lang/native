@@ -422,8 +422,7 @@ extension AdditionalEnvMethods on GlobalJniEnv {
         final utf = s.toNativeUtf16(allocator: arena).cast<Uint16>();
         final result = NewString(utf, s.length);
         if (utf == nullptr) {
-          throw JniException(
-              'Fatal: cannot convert string to Java string: $s', '');
+          throw JniNewStringException(s);
         }
         return result;
       });
