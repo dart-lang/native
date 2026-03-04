@@ -12,7 +12,8 @@ jobs:
     with:
       coverage_web: false
       # TODO(https://github.com/dart-lang/native/issues/1242): Add coverage back.
-      checks: "changelog,license,do-not-submit,breaking,leaking"
+      # TODO(https://github.com/dart-lang/native/issues/3148): Add copyright back.
+      checks: "changelog,do-not-submit,breaking,leaking"
       flutter_packages: "pkgs/ffigen,pkgs/jni,pkgs/jnigen,pkgs/objective_c"
       ignore_license: "**.g.dart"
       ignore_coverage: "**.mock.dart,**.g.dart"
