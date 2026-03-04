@@ -119,17 +119,30 @@ typedef struct CallbackResult {
   jobject object;
 } CallbackResult;
 
-typedef struct JniLocks {
+typedef struct JniContextLocks {
   MutexLock classLoadingLock;
-} JniLocks;
+} JniContextLocks;
 
 /// Stores the global state of the JNI.
 typedef struct JniContext {
   JavaVM* jvm;
   jobject classLoader;
   jmethodID loadClassMethod;
-  JniLocks locks;
+  JniContextLocks locks;
 } JniContext;
+
+// Forward declaration for JniExceptionMethods
+typedef struct JniExceptionMethods {
+  jclass objectClass, exceptionClass, printStreamClass;
+  jclass byteArrayOutputStreamClass;
+  jclass runtimeExceptionClass;
+  jmethodID toStringMethod, printStackTraceMethod;
+  jmethodID byteArrayOutputStreamCtor, printStreamCtor;
+  jmethodID runtimeExceptionCtor;
+} JniExceptionMethods;
+
+// External reference to exception methods (defined in dartjni.c)
+extern JniExceptionMethods exceptionMethods;
 
 // jniEnv for this thread, used by inline functions in this header,
 // therefore declared as extern.
@@ -306,6 +319,58 @@ static inline jthrowable check_exception() {
   if (exception != NULL) (*jniEnv)->ExceptionClear(jniEnv);
   if (exception == NULL) return NULL;
   return to_global_ref(exception);
+}
+
+/// Creates a RuntimeException for null parameter errors.
+/// Returns a global reference to the exception.
+/// Uses cached RuntimeException class/constructor initialized during JVM init.
+static inline jthrowable create_null_parameter_exception(
+    const char* param_name) {
+  // Use cached RuntimeException class and constructor from exceptionMethods
+  jclass runtime_exception_class = exceptionMethods.runtimeExceptionClass;
+  jmethodID constructor = exceptionMethods.runtimeExceptionCtor;
+
+  // If not initialized yet (shouldn't happen after init), return NULL
+  // This provides safety during early bootstrap before exception methods are cached
+  if (runtime_exception_class == NULL || constructor == NULL) {
+    return NULL;
+  }
+
+  // Create error message
+  char message[256];
+  snprintf(message, sizeof(message), "Parameter %s is null", param_name);
+  jstring message_str = (*jniEnv)->NewStringUTF(jniEnv, message);
+
+  if (message_str == NULL) {
+    // Can't create string - bail out
+    return NULL;
+  }
+
+  // Clear any pending exceptions before creating our exception
+  if ((*jniEnv)->ExceptionCheck(jniEnv)) {
+    (*jniEnv)->ExceptionClear(jniEnv);
+  }
+
+  // Create the RuntimeException instance
+  jobject exception = (*jniEnv)->NewObject(jniEnv, runtime_exception_class,
+                                           constructor, message_str);
+
+  // Clean up local reference to message string
+  (*jniEnv)->DeleteLocalRef(jniEnv, message_str);
+
+  if (exception == NULL) {
+    // Failed to create exception - clear any errors and bail
+    if ((*jniEnv)->ExceptionCheck(jniEnv)) {
+      (*jniEnv)->ExceptionClear(jniEnv);
+    }
+    return NULL;
+  }
+
+  // Convert to global reference
+  jthrowable global_exception = (*jniEnv)->NewGlobalRef(jniEnv, exception);
+  (*jniEnv)->DeleteLocalRef(jniEnv, exception);
+
+  return global_exception;
 }
 
 static inline JniResult to_global_ref_result(jobject ref) {

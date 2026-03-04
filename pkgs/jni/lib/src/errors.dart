@@ -37,8 +37,8 @@ final class UseAfterReleaseError extends StateError with _ExplainsRelease {
 }
 
 // TODO(#567): Use NullPointerError once it's available.
-final class JNullError extends StateError {
-  JNullError() : super('The reference was null');
+final class JNullError extends JniException {
+  JNullError() : super('The reference was null', '');
 }
 
 final class DoubleReleaseError extends StateError with _ExplainsRelease {

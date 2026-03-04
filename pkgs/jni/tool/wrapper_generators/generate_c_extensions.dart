@@ -228,6 +228,92 @@ const _noCheckException = {
   'GetObjectRefType',
 };
 
+/// Functions that accept null per the JNI specification:
+/// - IsSameObject: https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/functions.html#IsSameObject
+/// - DeleteLocalRef: https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/functions.html#DeleteLocalRef
+/// - DeleteGlobalRef: https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/functions.html#DeleteGlobalRef
+/// - DeleteWeakGlobalRef: https://docs.oracle.com/javase/8/docs/technotes/guides/jni/spec/functions.html#DeleteWeakGlobalRef
+///
+/// Also includes bootstrap-critical functions that cannot safely call FindClass
+/// during JVM initialization (e.g., FindClass itself would cause recursion).
+const _nullSafeFunctions = {
+  // JNI spec explicitly allows null
+  'IsSameObject',
+  'DeleteGlobalRef',
+  'DeleteLocalRef',
+  'DeleteWeakGlobalRef',
+  'NewLocalRef',
+  'NewGlobalRef',
+  'NewWeakGlobalRef',
+
+  // Bootstrap-critical: cannot call FindClass during early JVM initialization
+  'FindClass', // Calling FindClass from within FindClass causes recursion
+};
+
+/// Map of function names to parameter names that allowed to be NULL according
+/// to JNI specification. These parameters accept NULL as a valid value with
+/// specific semantics.
+const _nullableParameterMap = {
+  'NewObjectArray': {'initialElement'},
+  'SetObjectArrayElement': {'val'},
+  'IsSameObject': {'ref1', 'ref2'},
+  'PopLocalFrame': {'result'},
+};
+
+/// Determines if a parameter type needs null checking.
+bool needsNullCheck(String paramType, String paramName, String functionName) {
+  // Skip null checks for parameters that legitimately accept NULL per JNI spec
+  if (_nullableParameterMap[functionName]?.contains(paramName) ?? false) {
+    return false;
+  }
+  // Check for jobject-related types
+  if (isJRefType(paramType)) {
+    return true;
+  }
+  // Check for method/field IDs
+  if (paramType == 'jmethodID' || paramType == 'jfieldID') {
+    return true;
+  }
+  return false;
+}
+
+/// Generates null check code for parameters.
+///
+/// For null parameters, we create a java.lang.RuntimeException and return it
+/// in the .exception field. This ensures the Dart side properly detects the
+/// error instead of treating NULL as success.
+String generateNullChecks(
+  List<Parameter> params,
+  ResultWrapper wrapper,
+  String functionName,
+) {
+  if (_nullSafeFunctions.contains(functionName) ||
+      refFunctions.contains(functionName)) {
+    return '';
+  }
+
+  final checks = StringBuffer();
+  for (final param in params) {
+    final paramType = getCType(param.type);
+    if (needsNullCheck(paramType, param.name, functionName)) {
+      checks.writeln('  if (${param.name} == NULL) {');
+      // Create a RuntimeException and return it in .exception field
+      checks.writeln(
+          // ignore: lines_longer_than_80_chars
+          '    jthrowable _null_exc = create_null_parameter_exception("${param.name}");');
+      final errorResult = wrapper.returnType.contains('JniResult')
+          ? '(${wrapper.returnType}){.value = {.j = 0}, .exception = _null_exc}'
+          : wrapper.returnType.contains('JniPointerResult') ||
+                  wrapper.returnType.contains('JniClassLookupResult')
+              ? '(${wrapper.returnType}){.value = NULL, .exception = _null_exc}'
+              : '_null_exc';
+      checks.writeln('    return $errorResult;');
+      checks.writeln('  }');
+    }
+  }
+  return checks.toString();
+}
+
 String? getWrapperFunc(CompoundMember field) {
   final fieldType = field.type;
   if (fieldType is PointerType && fieldType.child is NativeFunc) {
@@ -268,6 +354,11 @@ String? getWrapperFunc(CompoundMember field) {
 '''
         : '';
     final varArgsEnd = withVarArgs ? 'va_end(args);\n' : '';
+    final nullChecks = generateNullChecks(
+      outerFunctionType.parameters,
+      resultWrapper,
+      field.name,
+    );
     final exceptionCheck = _noCheckException.contains(field.name)
         ? ''
         : '''
@@ -280,6 +371,7 @@ String? getWrapperFunc(CompoundMember field) {
     return '$willExport'
         '${resultWrapper.returnType} $wrapperName($params) {\n'
         '  attach_thread();\n'
+        '$nullChecks'
         '$varArgsInit'
         '  $returnCapture (*jniEnv)->$callee($callParams);\n'
         '$varArgsEnd'

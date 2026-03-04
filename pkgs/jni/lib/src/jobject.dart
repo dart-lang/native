@@ -45,7 +45,7 @@ class JObject {
 
   /// Constructs a [JObject] with the underlying [reference].
   JObject.fromReference(this.reference) {
-    if (reference.isNull) {
+    if (reference.isNull && runtimeType == JObject) {
       throw JNullError();
     }
   }
