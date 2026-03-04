@@ -27,7 +27,7 @@ Context testContext([FfiGenerator? generator]) => Context(
 
 Logger createTestLogger({
   List<String>? capturedMessages,
-  Level level = Level.ALL,
+  Level level = Level.WARNING,
 }) => Logger.detached('')
   ..level = level
   ..onRecord.listen((record) {

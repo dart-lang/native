@@ -76,20 +76,21 @@ jobs:
       - name: Run pub get, analysis, formatting, generators, tests, and examples.
         run: dart tool/ci.dart --all --no-apitool
 
-      - name: Upload coverage
-        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
-        with:
-          flag-name: native_pkgs_${{ matrix.os }}
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          parallel: true
+      # https://github.com/dart-lang/native/issues/3177
+      # - name: Upload coverage
+      #   uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
+      #   with:
+      #     flag-name: native_pkgs_${{ matrix.os }}
+      #     github-token: ${{ secrets.GITHUB_TOKEN }}
+      #     parallel: true
 
-  coverage-finished:
-    needs: [build]
-    runs-on: ubuntu-latest
-    steps:
-      - name: Upload coverage
-        uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
-        with:
-          carryforward: 'ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen'
-          github-token: ${{ secrets.GITHUB_TOKEN }}
-          parallel-finished: true
+  # coverage-finished:
+  #   needs: [build]
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - name: Upload coverage
+  #       uses: coverallsapp/github-action@5cbfd81b66ca5d10c19b062c04de0199c215fb6e
+  #       with:
+  #         carryforward: 'ffigen,jni,jnigen,native_pkgs_macos,native_pkgs_ubuntu,native_pkgs_windows,objective_c,swift2objc,swiftgen'
+  #         github-token: ${{ secrets.GITHUB_TOKEN }}
+  #         parallel-finished: true

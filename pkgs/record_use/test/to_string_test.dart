@@ -48,5 +48,20 @@ void main() {
         'package:a/a.dart::#_bar',
       );
     });
+
+    test('InstanceConstantReference with EnumConstant', () {
+      const ref = InstanceConstantReference(
+        instanceConstant: EnumConstant(
+          definition: Definition('package:a/a.dart', [Name('MyEnum')]),
+          index: 0,
+          name: 'val1',
+        ),
+        loadingUnits: [loadingUnitFoo],
+      );
+      expect(
+        ref.toString(),
+        'InstanceConstantReference(instanceConstant: EnumConstant(package:a/a.dart#MyEnum, index: 0, name: val1, fields: {}), loadingUnits: dart.foo)',
+      );
+    });
   });
 }

@@ -2,8 +2,11 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:math';
+
 import 'package:meta/meta.dart';
 
+import 'canonicalization_context.dart';
 import 'definition.dart';
 import 'helper.dart';
 import 'serialization_context.dart';
@@ -12,6 +15,51 @@ import 'syntax.g.dart';
 /// A value recorded during compilation.
 sealed class MaybeConstant {
   const MaybeConstant();
+
+  /// The maximum depth of the constant tree.
+  ///
+  /// Used for fast-path optimization in `operator ==`. Not included in
+  /// `hashCode` because it is implicitly covered by the content-based hash.
+  int get _depth;
+
+  /// The total number of nodes in the constant tree.
+  ///
+  /// Used for fast-path optimization in `operator ==`. Not included in
+  /// `hashCode` because it is implicitly covered by the content-based hash.
+  int get _size;
+
+  /// Canonicalizes this [MaybeConstant].
+  MaybeConstant _canonicalizeChildren(CanonicalizationContext context);
+
+  /// Returns a new [MaybeConstant] that only contains information allowed
+  /// by the provided criteria.
+  ///
+  /// If [definitionPackageName] is provided, constants that are instances of
+  /// classes or enums from other packages are replaced with an
+  /// [UnsupportedConstant].
+  MaybeConstant _filter({String? definitionPackageName});
+
+  /// Compares this [MaybeConstant] with [other] for stable sorting.
+  int _compareTo(MaybeConstant other) {
+    if (identical(this, other)) return 0;
+    // By comparing the depth first, the serialization order of constants
+    // always has the children serialized before the parents.
+    var compare = _depth.compareTo(other._depth);
+    if (compare != 0) return compare;
+    compare = _orderingTypePriority.compareTo(other._orderingTypePriority);
+    if (compare != 0) return compare;
+    compare = _size.compareTo(other._size);
+    if (compare != 0) return compare;
+    return _compareToSameType(other);
+  }
+
+  /// Internal comparison for objects of the same type.
+  @protected
+  int _compareToSameType(covariant MaybeConstant other);
+
+  /// A stable priority for this type.
+  @protected
+  int get _orderingTypePriority;
 
   /// Compares this [MaybeConstant] with [other] for semantic equality.
   ///
@@ -152,7 +200,25 @@ final class NonConstant extends MaybeConstant {
   bool operator ==(Object other) => other is NonConstant;
 
   @override
+  int get _depth => 1;
+
+  @override
+  int get _size => 1;
+
+  @override
+  MaybeConstant _canonicalizeChildren(CanonicalizationContext context) => this;
+
+  @override
+  MaybeConstant _filter({String? definitionPackageName}) => this;
+
+  @override
   int get hashCode => 0x4e6f6e43;
+
+  @override
+  int get _orderingTypePriority => 0;
+
+  @override
+  int _compareToSameType(NonConstant other) => 0;
 
   @override
   String toString() => 'NonConstant()';
@@ -175,6 +241,12 @@ final class NonConstant extends MaybeConstant {
 abstract class Constant extends MaybeConstant {
   /// Creates a [Constant] object.
   const Constant();
+
+  @override
+  Constant _canonicalizeChildren(CanonicalizationContext context);
+
+  @override
+  Constant _filter({String? definitionPackageName});
 
   @override
   @visibleForTesting
@@ -208,7 +280,25 @@ final class NullConstant extends Constant {
   bool operator ==(Object other) => other is NullConstant;
 
   @override
+  int get _depth => 1;
+
+  @override
+  int get _size => 1;
+
+  @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) => this;
+
+  @override
+  Constant _filter({String? definitionPackageName}) => this;
+
+  @override
   int get hashCode => 0x4e756c6c;
+
+  @override
+  int get _orderingTypePriority => 2;
+
+  @override
+  int _compareToSameType(NullConstant other) => 0;
 
   @override
   String toString() => 'NullConstant()';
@@ -237,7 +327,26 @@ final class UnsupportedConstant extends Constant {
       other is UnsupportedConstant && other.message == message;
 
   @override
+  int get _depth => 1;
+
+  @override
+  int get _size => 1;
+
+  @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) => this;
+
+  @override
+  Constant _filter({String? definitionPackageName}) => this;
+
+  @override
   int get hashCode => message.hashCode;
+
+  @override
+  int get _orderingTypePriority => 1;
+
+  @override
+  int _compareToSameType(UnsupportedConstant other) =>
+      message.compareTo(other.message);
 
   @override
   String toString() => 'UnsupportedConstant($message)';
@@ -266,8 +375,29 @@ final class BoolConstant extends Constant {
   int get hashCode => value.hashCode;
 
   @override
+  int get _depth => 1;
+
+  @override
+  int get _size => 1;
+
+  @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) => this;
+
+  @override
+  Constant _filter({String? definitionPackageName}) => this;
+
+  @override
   bool operator ==(Object other) =>
       other is BoolConstant && other.value == value;
+
+  @override
+  int get _orderingTypePriority => 3;
+
+  @override
+  int _compareToSameType(BoolConstant other) {
+    if (value == other.value) return 0;
+    return value ? 1 : -1;
+  }
 
   @override
   String toString() => 'BoolConstant($value)';
@@ -295,8 +425,26 @@ final class IntConstant extends Constant {
   int get hashCode => value.hashCode;
 
   @override
+  int get _depth => 1;
+
+  @override
+  int get _size => 1;
+
+  @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) => this;
+
+  @override
+  Constant _filter({String? definitionPackageName}) => this;
+
+  @override
   bool operator ==(Object other) =>
       other is IntConstant && other.value == value;
+
+  @override
+  int get _orderingTypePriority => 4;
+
+  @override
+  int _compareToSameType(IntConstant other) => value.compareTo(other.value);
 
   @override
   String toString() => 'IntConstant($value)';
@@ -324,8 +472,26 @@ final class StringConstant extends Constant {
   int get hashCode => value.hashCode;
 
   @override
+  int get _depth => 1;
+
+  @override
+  int get _size => 1;
+
+  @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) => this;
+
+  @override
+  Constant _filter({String? definitionPackageName}) => this;
+
+  @override
   bool operator ==(Object other) =>
       other is StringConstant && other.value == value;
+
+  @override
+  int get _orderingTypePriority => 5;
+
+  @override
+  int _compareToSameType(StringConstant other) => value.compareTo(other.value);
 
   @override
   String toString() => 'StringConstant($value)';
@@ -358,10 +524,34 @@ final class SymbolConstant extends Constant {
   int get hashCode => Object.hash(name, libraryUri);
 
   @override
+  int get _depth => 1;
+
+  @override
+  int get _size => 1;
+
+  @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) => this;
+
+  @override
+  Constant _filter({String? definitionPackageName}) => this;
+
+  @override
   bool operator ==(Object other) =>
       other is SymbolConstant &&
       other.name == name &&
       other.libraryUri == libraryUri;
+
+  @override
+  int get _orderingTypePriority => 6;
+
+  @override
+  int _compareToSameType(SymbolConstant other) {
+    final nameCompare = name.compareTo(other.name);
+    if (nameCompare != 0) return nameCompare;
+    if (libraryUri == null) return other.libraryUri == null ? 0 : -1;
+    if (other.libraryUri == null) return 1;
+    return libraryUri!.compareTo(other.libraryUri!);
+  }
 
   @override
   String toString() {
@@ -393,17 +583,64 @@ final class ListConstant extends Constant {
   int get hashCode => cacheHashCode(() => deepHash(value));
 
   @override
+  int get _depth => cacheDepth(() {
+    var depth = 0;
+    for (final constant in value) {
+      depth = max(depth, constant._depth);
+    }
+    return 1 + depth;
+  });
+
+  @override
+  int get _size => cacheSize(() {
+    var size = 0;
+    for (final constant in value) {
+      size += constant._size;
+    }
+    return 1 + size;
+  });
+
+  @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) =>
+      ListConstant([
+        for (final c in value) context.canonicalizeConstant(c) as Constant,
+      ]);
+
+  @override
+  Constant _filter({String? definitionPackageName}) => ListConstant([
+    for (final c in value)
+      c._filter(definitionPackageName: definitionPackageName),
+  ]);
+
+  @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
-    return other is ListConstant && deepEquals(other.value, value);
+    return other is ListConstant &&
+        other._depth == _depth &&
+        other._size == _size &&
+        deepEquals(other.value, value);
   }
 
   @override
   ListConstantSyntax _toSyntax(SerializationContext context) =>
       ListConstantSyntax(
-        value: value.map((constant) => context.constants[constant]!).toList(),
+        value: [for (final constant in value) context.constants[constant]!],
       );
+
+  @override
+  int get _orderingTypePriority => 7;
+
+  @override
+  int _compareToSameType(ListConstant other) {
+    final lengthCompare = value.length.compareTo(other.value.length);
+    if (lengthCompare != 0) return lengthCompare;
+    for (var i = 0; i < value.length; i++) {
+      final itemCompare = value[i]._compareTo(other.value[i]);
+      if (itemCompare != 0) return itemCompare;
+    }
+    return 0;
+  }
 
   @override
   String toString() => 'ListConstant([${value.join(', ')}])';
@@ -443,10 +680,51 @@ final class MapConstant extends Constant {
   );
 
   @override
+  int get _depth => cacheDepth(() {
+    var depth = 0;
+    for (final entry in entries) {
+      depth = max(depth, max(entry.key._depth, entry.value._depth));
+    }
+    return 1 + depth;
+  });
+
+  @override
+  int get _size => cacheSize(() {
+    var size = 0;
+    for (final entry in entries) {
+      size += entry.key._size + entry.value._size;
+    }
+    return 1 + size;
+  });
+
+  @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) {
+    final canonEntries = [
+      for (final e in entries)
+        MapEntry(
+          context.canonicalizeConstant(e.key) as Constant,
+          context.canonicalizeConstant(e.value) as Constant,
+        ),
+    ];
+    canonEntries.sort((a, b) => a.key._compareTo(b.key));
+    return MapConstant(canonEntries);
+  }
+
+  @override
+  Constant _filter({String? definitionPackageName}) => MapConstant([
+    for (final entry in entries)
+      MapEntry(
+        entry.key._filter(definitionPackageName: definitionPackageName),
+        entry.value._filter(definitionPackageName: definitionPackageName),
+      ),
+  ]);
+
+  @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
 
     if (other is! MapConstant) return false;
+    if (other._depth != _depth || other._size != _size) return false;
     if (other.entries.length != entries.length) return false;
     for (var i = 0; i < entries.length; i++) {
       if (entries[i].key != other.entries[i].key ||
@@ -460,15 +738,30 @@ final class MapConstant extends Constant {
   @override
   MapConstantSyntax _toSyntax(SerializationContext context) =>
       MapConstantSyntax(
-        value: entries
-            .map(
-              (entry) => MapEntrySyntax(
-                key: context.constants[entry.key]!,
-                value: context.constants[entry.value]!,
-              ),
-            )
-            .toList(),
+        value: [
+          for (final entry in entries)
+            MapEntrySyntax(
+              key: context.constants[entry.key]!,
+              value: context.constants[entry.value]!,
+            ),
+        ],
       );
+
+  @override
+  int get _orderingTypePriority => 8;
+
+  @override
+  int _compareToSameType(MapConstant other) {
+    final lengthCompare = entries.length.compareTo(other.entries.length);
+    if (lengthCompare != 0) return lengthCompare;
+    for (var i = 0; i < entries.length; i++) {
+      final keyCompare = entries[i].key._compareTo(other.entries[i].key);
+      if (keyCompare != 0) return keyCompare;
+      final valueCompare = entries[i].value._compareTo(other.entries[i].value);
+      if (valueCompare != 0) return valueCompare;
+    }
+    return 0;
+  }
 
   @override
   String toString() =>
@@ -517,12 +810,10 @@ final class InstanceConstant extends Constant {
       InstanceConstantSyntax(
         definitionIndex: context.definitions[definition]!,
         value: fields.isNotEmpty
-            ? JsonObjectSyntax.fromJson(
-                fields.map(
-                  (name, constant) =>
-                      MapEntry(name, context.constants[constant]!),
-                ),
-              )
+            ? JsonObjectSyntax.fromJson({
+                for (final entry in fields.entries)
+                  entry.key: context.constants[entry.value]!,
+              })
             : null,
       );
 
@@ -531,6 +822,8 @@ final class InstanceConstant extends Constant {
     if (identical(this, other)) return true;
 
     return other is InstanceConstant &&
+        other._depth == _depth &&
+        other._size == _size &&
         other.definition == definition &&
         deepEquals(other.fields, fields);
   }
@@ -538,6 +831,80 @@ final class InstanceConstant extends Constant {
   @override
   int get hashCode =>
       cacheHashCode(() => Object.hash(definition, deepHash(fields)));
+
+  @override
+  int get _depth => cacheDepth(() {
+    var depth = 0;
+    for (final field in fields.values) {
+      depth = max(depth, field._depth);
+    }
+    return 1 + depth;
+  });
+
+  @override
+  int get _size => cacheSize(() {
+    var size = 0;
+    for (final field in fields.values) {
+      size += field._size;
+    }
+    return 1 + size;
+  });
+
+  @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) {
+    final sortedEntries = fields.entries.toList()
+      ..sort((a, b) => a.key.compareTo(b.key));
+    return InstanceConstant(
+      definition: context.canonicalizeDefinition(definition),
+      fields: {
+        for (final e in sortedEntries)
+          e.key: context.canonicalizeConstant(e.value) as Constant,
+      },
+    );
+  }
+
+  @override
+  Constant _filter({String? definitionPackageName}) {
+    if (definitionPackageName != null &&
+        !definition.library.startsWith('package:$definitionPackageName/')) {
+      return UnsupportedConstant(
+        'Instance of $definition from other package is not supported.',
+      );
+    }
+    return InstanceConstant(
+      definition: definition,
+      fields: fields.map(
+        (key, value) => MapEntry(
+          key,
+          value._filter(definitionPackageName: definitionPackageName),
+        ),
+      ),
+    );
+  }
+
+  @override
+  int get _orderingTypePriority => 11;
+
+  @override
+  int _compareToSameType(InstanceConstant other) {
+    final definitionCompare = definition.toString().compareTo(
+      other.definition.toString(),
+    );
+    if (definitionCompare != 0) return definitionCompare;
+    final lengthCompare = fields.length.compareTo(other.fields.length);
+    if (lengthCompare != 0) return lengthCompare;
+    final sortedKeys = fields.keys.toList()..sort();
+    final otherSortedKeys = other.fields.keys.toList()..sort();
+    for (var i = 0; i < sortedKeys.length; i++) {
+      final keyCompare = sortedKeys[i].compareTo(otherSortedKeys[i]);
+      if (keyCompare != 0) return keyCompare;
+      final valueCompare = fields[sortedKeys[i]]!._compareTo(
+        other.fields[otherSortedKeys[i]]!,
+      );
+      if (valueCompare != 0) return valueCompare;
+    }
+    return 0;
+  }
 
   @override
   String toString() =>
@@ -599,9 +966,10 @@ final class EnumConstant extends Constant {
         index: index,
         name: name,
         value: fields.isNotEmpty
-            ? fields.map(
-                (key, value) => MapEntry(key, context.constants[value]!),
-              )
+            ? {
+                for (final entry in fields.entries)
+                  entry.key: context.constants[entry.value]!,
+              }
             : null,
       );
 
@@ -610,6 +978,8 @@ final class EnumConstant extends Constant {
     if (identical(this, other)) return true;
 
     return other is EnumConstant &&
+        other._depth == _depth &&
+        other._size == _size &&
         other.definition == definition &&
         other.index == index &&
         other.name == name &&
@@ -620,6 +990,86 @@ final class EnumConstant extends Constant {
   int get hashCode => cacheHashCode(
     () => Object.hash(definition, index, name, deepHash(fields)),
   );
+
+  @override
+  int get _depth => cacheDepth(() {
+    var depth = 0;
+    for (final field in fields.values) {
+      depth = max(depth, field._depth);
+    }
+    return 1 + depth;
+  });
+
+  @override
+  int get _size => cacheSize(() {
+    var size = 0;
+    for (final field in fields.values) {
+      size += field._size;
+    }
+    return 1 + size;
+  });
+
+  @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) {
+    final sortedEntries = fields.entries.toList()
+      ..sort((a, b) => a.key.compareTo(b.key));
+    return EnumConstant(
+      definition: context.canonicalizeDefinition(definition),
+      index: index,
+      name: name,
+      fields: {
+        for (final e in sortedEntries)
+          e.key: context.canonicalizeConstant(e.value) as Constant,
+      },
+    );
+  }
+
+  @override
+  Constant _filter({String? definitionPackageName}) {
+    if (definitionPackageName != null &&
+        !definition.library.startsWith('package:$definitionPackageName/')) {
+      return UnsupportedConstant(
+        'Instance of $definition from other package is not supported.',
+      );
+    }
+    return EnumConstant(
+      definition: definition,
+      index: index,
+      name: name,
+      fields: fields.map(
+        (key, value) => MapEntry(
+          key,
+          value._filter(definitionPackageName: definitionPackageName),
+        ),
+      ),
+    );
+  }
+
+  @override
+  int get _orderingTypePriority => 10;
+
+  @override
+  int _compareToSameType(EnumConstant other) {
+    final definitionCompare = definition.toString().compareTo(
+      other.definition.toString(),
+    );
+    if (definitionCompare != 0) return definitionCompare;
+    final indexCompare = index.compareTo(other.index);
+    if (indexCompare != 0) return indexCompare;
+    final lengthCompare = fields.length.compareTo(other.fields.length);
+    if (lengthCompare != 0) return lengthCompare;
+    final sortedKeys = fields.keys.toList()..sort();
+    final otherSortedKeys = other.fields.keys.toList()..sort();
+    for (var i = 0; i < sortedKeys.length; i++) {
+      final keyCompare = sortedKeys[i].compareTo(otherSortedKeys[i]);
+      if (keyCompare != 0) return keyCompare;
+      final valueCompare = fields[sortedKeys[i]]!._compareTo(
+        other.fields[otherSortedKeys[i]]!,
+      );
+      if (valueCompare != 0) return valueCompare;
+    }
+    return 0;
+  }
 
   @override
   String toString() =>
@@ -669,10 +1119,13 @@ final class RecordConstant extends Constant {
   RecordConstantSyntax _toSyntax(SerializationContext context) =>
       RecordConstantSyntax(
         positional: positional.isNotEmpty
-            ? positional.map((c) => context.constants[c]!).toList()
+            ? [for (final c in positional) context.constants[c]!]
             : null,
         named: named.isNotEmpty
-            ? named.map((name, c) => MapEntry(name, context.constants[c]!))
+            ? {
+                for (final entry in named.entries)
+                  entry.key: context.constants[entry.value]!,
+              }
             : null,
       );
 
@@ -681,6 +1134,8 @@ final class RecordConstant extends Constant {
     if (identical(this, other)) return true;
 
     return other is RecordConstant &&
+        other._depth == _depth &&
+        other._size == _size &&
         deepEquals(other.positional, positional) &&
         deepEquals(other.named, named);
   }
@@ -689,6 +1144,85 @@ final class RecordConstant extends Constant {
   int get hashCode => cacheHashCode(
     () => Object.hash(deepHash(positional), deepHash(named)),
   );
+
+  @override
+  int get _depth => cacheDepth(() {
+    var depth = 0;
+    for (final constant in positional) {
+      depth = max(depth, constant._depth);
+    }
+    for (final constant in named.values) {
+      depth = max(depth, constant._depth);
+    }
+    return 1 + depth;
+  });
+
+  @override
+  int get _size => cacheSize(() {
+    var size = 0;
+    for (final constant in positional) {
+      size += constant._size;
+    }
+    for (final constant in named.values) {
+      size += constant._size;
+    }
+    return 1 + size;
+  });
+
+  @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) {
+    final sortedNamedEntries = named.entries.toList()
+      ..sort((a, b) => a.key.compareTo(b.key));
+    return RecordConstant(
+      positional: [
+        for (final c in positional) context.canonicalizeConstant(c) as Constant,
+      ],
+      named: {
+        for (final e in sortedNamedEntries)
+          e.key: context.canonicalizeConstant(e.value) as Constant,
+      },
+    );
+  }
+
+  @override
+  Constant _filter({String? definitionPackageName}) => RecordConstant(
+    positional: [
+      for (final c in positional)
+        c._filter(definitionPackageName: definitionPackageName),
+    ],
+    named: named.map(
+      (key, value) => MapEntry(
+        key,
+        value._filter(definitionPackageName: definitionPackageName),
+      ),
+    ),
+  );
+
+  @override
+  int get _orderingTypePriority => 9;
+
+  @override
+  int _compareToSameType(RecordConstant other) {
+    var compare = positional.length.compareTo(other.positional.length);
+    if (compare != 0) return compare;
+    compare = named.length.compareTo(other.named.length);
+    if (compare != 0) return compare;
+    for (var i = 0; i < positional.length; i++) {
+      compare = positional[i]._compareTo(other.positional[i]);
+      if (compare != 0) return compare;
+    }
+    final sortedKeys = named.keys.toList()..sort();
+    final otherSortedKeys = other.named.keys.toList()..sort();
+    for (var i = 0; i < sortedKeys.length; i++) {
+      compare = sortedKeys[i].compareTo(otherSortedKeys[i]);
+      if (compare != 0) return compare;
+      compare = named[sortedKeys[i]]!._compareTo(
+        other.named[otherSortedKeys[i]]!,
+      );
+      if (compare != 0) return compare;
+    }
+    return 0;
+  }
 
   @override
   String toString() =>
@@ -733,6 +1267,14 @@ final class RecordConstant extends Constant {
 /// internal types from leaking from the API.
 extension MaybeConstantProtected on MaybeConstant {
   ConstantSyntax toSyntax(SerializationContext context) => _toSyntax(context);
+
+  MaybeConstant canonicalizeChildren(CanonicalizationContext context) =>
+      _canonicalizeChildren(context);
+
+  MaybeConstant filter({String? definitionPackageName}) =>
+      _filter(definitionPackageName: definitionPackageName);
+
+  int compareTo(MaybeConstant other) => _compareTo(other);
 
   static MaybeConstant fromSyntax(
     ConstantSyntax syntax,

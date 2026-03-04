@@ -12,6 +12,10 @@ public class OuterClass {
     public static func makeOuter() -> OuterClass { return OuterClass(); }
     public static func makeInner() -> InnerStruct { return InnerStruct(); }
   }
+
+  public func makeOther() -> OuterStruct.InnerClass {
+    return OuterStruct.InnerClass();
+  }
 }
 
 public struct OuterStruct {
@@ -27,5 +31,9 @@ public struct OuterStruct {
   public struct InnerStruct {
     public static func makeOuter() -> OuterStruct { return OuterStruct(); }
     public static func makeInner() -> InnerStruct { return InnerStruct(); }
+  }
+
+  public func makeOther() -> OuterClass.InnerClass {
+    return OuterClass.InnerClass();
   }
 }

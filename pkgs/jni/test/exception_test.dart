@@ -38,7 +38,7 @@ void main() {
 
 void run({required TestRunnerCallback testRunner}) {
   JObject newRandom(JClass randomClass) {
-    return randomClass.constructorId('()V').call(randomClass, JObject.type, []);
+    return randomClass.constructorId('()V').call<JObject>(randomClass, []);
   }
 
   testRunner('double free throws exception', () {

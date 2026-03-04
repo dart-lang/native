@@ -5,13 +5,9 @@
 import 'package:code_assets/code_assets.dart';
 
 LinkMode getLinkMode(LinkModePreference preference) {
-  if (preference == LinkModePreference.dynamic ||
-      preference == LinkModePreference.preferDynamic) {
+  if (preference == .dynamic || preference == .preferDynamic) {
     return DynamicLoadingBundled();
   }
-  assert(
-    preference == LinkModePreference.static ||
-        preference == LinkModePreference.preferStatic,
-  );
+  assert(preference == .static || preference == .preferStatic);
   return StaticLinking();
 }
