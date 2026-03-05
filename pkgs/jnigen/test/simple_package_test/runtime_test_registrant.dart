@@ -1226,6 +1226,44 @@ void registerTests(String groupName, TestRunnerCallback test) {
               'Hello Bar');
         });
       });
+      test('Child implements BaseClass and BaseInterface', () {
+        using((arena) {
+          final child = Child()..releasedBy(arena);
+          expect(child.foo()!.toDartString(releaseOriginal: true), 'foo');
+          expect(
+            child
+                .someMethod('bar'.toJString()..releasedBy(arena))
+                ?.toDartString(releaseOriginal: true),
+            'bar',
+          );
+
+          // Verify it can be assigned to BaseInterface
+          final BaseInterface interface = child;
+          expect(interface.foo()!.toDartString(releaseOriginal: true), 'foo');
+
+          // Verify it can be assigned to BaseClass
+          final BaseClass<JString?> base = child;
+          expect(
+            base
+                .someMethod('baz'.toJString()..releasedBy(arena))
+                ?.toDartString(releaseOriginal: true),
+            'baz',
+          );
+        });
+      });
+      test('DerivedInterface implements BaseGenericInterface and BaseInterface',
+          () {
+        // Since we can't easily get an instance of an interface without
+        // implementing it, we just verify it compiles and can be cast.
+        // DerivedInterface is an extension type, its representation is JObject.
+        // We can use JImplementer or just a dummy JObject cast for type
+        // checking.
+        const DerivedInterface? derived = null;
+        const BaseGenericInterface<JString?>? baseGeneric = derived;
+        const BaseInterface? base = derived;
+        expect(baseGeneric, isNull);
+        expect(base, isNull);
+      });
     });
 
     group('$groupName (load tests)', () {

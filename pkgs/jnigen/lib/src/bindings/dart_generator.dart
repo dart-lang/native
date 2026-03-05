@@ -354,6 +354,12 @@ ${modifier}final $classRef = $_jni.JClass.forName(r'$internalName');
     final superName = node.superclass!.accept(
       _TypeGenerator(resolver, includeNullability: false),
     );
+    final interfaces = node.interfaces.map(
+      (interface) => interface.accept(
+        _TypeGenerator(resolver, includeNullability: false),
+      ),
+    );
+    final implementsClause = {superName, ...interfaces}.join(', ');
     final implClassName = '\$$name';
     final typeParamsDef = node.allTypeParams
         .accept(const _TypeParamDef())
@@ -365,7 +371,7 @@ ${modifier}final $classRef = $_jni.JClass.forName(r'$internalName');
         .join(', ')
         .encloseIfNotEmpty('<', '>');
     s.write('''
-extension type $name$typeParamsDef._($_jObject _\$this) implements $superName {
+extension type $name$typeParamsDef._($_jObject _\$this) implements $implementsClause {
 ''');
 
     final classRef = writeClassRef(node);
