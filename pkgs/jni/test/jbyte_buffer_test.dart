@@ -20,7 +20,7 @@ void main() {
 }
 
 void run({required TestRunnerCallback testRunner}) {
-  final throwsAJniException = throwsA(isA<JniException>());
+  final throwsAJThrowable = throwsA(isA<JThrowable>());
   JByteBuffer testDataBuffer(Arena arena) {
     final buffer = JByteBuffer.allocate(3)..releasedBy(arena);
     buffer.nextByte = 1;
@@ -49,7 +49,7 @@ void run({required TestRunnerCallback testRunner}) {
       array[2] = 3;
       final buffer = JByteBuffer.wrap(array, 1, 1)..releasedBy(arena);
       expect(buffer.nextByte, 2);
-      expect(() => buffer.nextByte, throwsAJniException);
+      expect(() => buffer.nextByte, throwsAJThrowable);
     });
   });
 
@@ -117,7 +117,7 @@ void run({required TestRunnerCallback testRunner}) {
       buffer.position = 2;
       buffer.rewind();
       expect(buffer.position, 0);
-      expect(buffer.reset, throwsAJniException);
+      expect(buffer.reset, throwsAJThrowable);
     });
   });
 

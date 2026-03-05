@@ -1,4 +1,4 @@
-## 0.16.0
+## 0.16.0-wip
 
 - **Breaking Change**: All Java wrapper classes have been migrated to extension
   types. The main effects are:
@@ -17,6 +17,13 @@
 - Changed the behavior of `JObject.releasedBy`. It now does not throw a
   `DoubleReleaseError` if the object was manually released before the end of
   arena.
+- Added `JThrowable` class which inherits from `JObject` and implements
+  `Exception`.
+- **Breaking Change**: `JniException` has been deleted. Java exceptions are now
+  thrown as `JThrowable` instead. `JThrowable` holds an actual Java exception,
+  instead of just holding a string message. It's a `JObject`, so the usual
+  `.isA` and `.as` methods work to cast the `JThrowable` to the underlying Java
+  exception.
 
 ## 0.15.2
 
