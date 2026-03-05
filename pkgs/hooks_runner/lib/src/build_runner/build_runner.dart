@@ -13,7 +13,7 @@ import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:package_config/package_config.dart';
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
 import 'package:yaml/yaml.dart';
 
 import '../dependencies_hash_file/dependencies_hash_file.dart';

@@ -33,9 +33,215 @@ class Recordings {
   final Metadata metadata;
 
   /// The collected [CallReference]s for each [Definition].
+  ///
+  /// Recorded when `@RecordUse()` is placed on a static member (top-level
+  /// functions, static methods, getters, setters, or operators) in any
+  /// container (library, class, mixin, enum, extension, or extension type).
+  ///
+  /// For example, to record calls to a static method:
+  ///
+  /// <!-- file://./../../example/api/usage.dart#static-call -->
+  /// ```dart
+  /// abstract class PirateTranslator {
+  ///   @RecordUse()
+  ///   static String speak(String english) => 'Ahoy $english';
+  /// }
+  /// ```
+  ///
+  /// Supported Locations:
+  /// - Top-level function / getter / setter.
+  /// - Static method / getter / setter in a class, mixin, or enum.
+  /// - Extension/Extension type method / getter / setter / operator (both
+  ///   static and instance).
+  ///
+  /// What is Recorded:
+  /// - [CallWithArguments]: Recorded for direct invocations.
+  ///   - [CallWithArguments.positionalArguments] and
+  ///     [CallWithArguments.namedArguments]: Captured if they are constant;
+  ///     otherwise recorded as [NonConstant]. Any non-provided arguments with
+  ///     default values will have their default values filled in.
+  ///   - [CallReference.receiver]: For extension instance members, the receiver
+  ///     is captured if it is a constant.
+  /// - [CallTearoff]: Recorded for method tear-offs.
+  /// - Getters/Setters: Simple access is recorded as a [CallWithArguments]. For
+  ///   setters, the assigned value is captured as a positional argument.
+  ///
+  /// Supported Constants:
+  /// - [NullConstant]: The `null` literal.
+  /// - [BoolConstant]: `true` and `false`.
+  /// - [IntConstant]: All constant integer values.
+  /// - [StringConstant]: All constant string values.
+  /// - [SymbolConstant]: Both public (e.g. `#mySymbol`) and private (e.g.
+  ///   `#_myPrivateSymbol`). Private symbols include the library URI in the
+  ///   recording to ensure they are unambiguous.
+  /// - [ListConstant]: Constant lists where every element is also a
+  ///   supported constant.
+  /// - [MapConstant]: Constant maps where every key and value is a
+  ///   supported constant.
+  /// - [RecordConstant]: Constant records (positional and named fields)
+  ///   containing supported constants.
+  /// - [EnumConstant]: Constants of an enum type, provided the enum itself is
+  ///   annotated with `@RecordUse()`. The recording includes the index, name,
+  ///   and any field values (for enhanced enums).
+  /// - [InstanceConstant]: `const` instances of a `final` class, provided the
+  ///   class is annotated with `@RecordUse()`. The recording includes all
+  ///   constant field values.
+  ///
+  /// Unsupported Constants:
+  /// The following types are explicitly not supported and will be recorded as
+  /// an [UnsupportedConstant] with a descriptive message if encountered:
+  /// - Doubles: Double literals are currently excluded from recording to avoid
+  ///   precision/portability issues across different platforms (VM vs JS).
+  /// - Sets: Constant sets are currently not supported (they are handled
+  ///   differently than Lists/Maps in the compiler backends).
+  /// - Type Literals: Passing a type itself (e.g. `MyClass`) as a constant
+  ///   argument is not supported.
+  ///   https://github.com/dart-lang/native/issues/3199
+  /// - Function/Method Tear-offs: While the tool records the fact that a
+  ///   method was torn off (as a usage), passing a method tear-off as a
+  ///   constant value into another recorded call is not supported (it will not
+  ///   be recorded as a constant value).
+  ///
+  /// Usage in a link hook:
+  ///
+  /// <!-- file://./../../example/api/usage_link.dart#static-call -->
+  /// ```dart
+  /// final calls = uses.calls[methodId] ?? [];
+  /// for (final call in calls) {
+  ///   switch (call) {
+  ///     case CallWithArguments(
+  ///       positionalArguments: [StringConstant(value: final english), ...],
+  ///     ):
+  ///       // Shrink a translations file based on all the different translation
+  ///       // keys.
+  ///       print('Translating to pirate: $english');
+  ///     case _:
+  ///       print('Cannot determine which translations are used.');
+  ///   }
+  /// }
+  /// ```
+  ///
+  /// Notes:
+  /// - Type Arguments: Intentionally not recorded (e.g., `myMethod<int>()`),
+  ///   as we don't currently have a serialization format for types.
+  ///   https://github.com/dart-lang/native/issues/3198
+  /// - Non-redirecting Factory Constructors: Not yet supported for static
+  ///   calls, because they can be the target of redirecting constructors.
+  ///   https://github.com/dart-lang/native/issues/3192
   final Map<Definition, List<CallReference>> calls;
 
   /// The collected [InstanceReference]s for each [Definition].
+  ///
+  /// Recorded when `@RecordUse()` is placed on a `final class` or `enum` to
+  /// track the lifecycle of instances.
+  ///
+  /// For example, to record instances of a class:
+  ///
+  /// <!-- file://./../../example/api/usage.dart#const-instance -->
+  /// ```dart
+  /// @RecordUse()
+  /// final class PirateShip {
+  ///   final String name;
+  ///   final int cannons;
+  ///
+  ///   const PirateShip(this.name, this.cannons);
+  /// }
+  /// ```
+  ///
+  /// Supported Locations:
+  /// - `final class` (must be `final` to ensure all creation points are known).
+  /// - `enum` (implicitly `final`).
+  ///
+  /// What is Recorded:
+  /// - [InstanceConstantReference]: Recorded for constant instances and enum
+  ///   elements.
+  ///   - [InstanceConstantReference.instanceConstant]: The captured constant
+  ///     value.
+  /// - [InstanceCreationReference]: Recorded for generative constructor
+  ///   invocations (non-const).
+  ///   - [InstanceCreationReference.positionalArguments] and
+  ///     [InstanceCreationReference.namedArguments]: Captured if they are
+  ///     constant; otherwise recorded as [NonConstant]. Any non-provided
+  ///     arguments with default values will have their default values
+  ///     filled in.
+  /// - [ConstructorTearoffReference]: Recorded for constructor tear-offs.
+  /// - Redirecting Factories (`=`): Resolved to the effective target class and
+  ///   recorded as an instance creation, constant, or tear-off of that class.
+  /// - Typedefs: Resolved back to the underlying class.
+  /// - Redirecting Generative Constructors (`: this.`): Recorded at the entry
+  ///   point only.
+  ///
+  /// Supported Constants:
+  /// - [NullConstant]: The `null` literal.
+  /// - [BoolConstant]: `true` and `false`.
+  /// - [IntConstant]: All constant integer values.
+  /// - [StringConstant]: All constant string values.
+  /// - [SymbolConstant]: Both public (e.g. `#mySymbol`) and private (e.g.
+  ///   `#_myPrivateSymbol`). Private symbols include the library URI in the
+  ///   recording to ensure they are unambiguous.
+  /// - [ListConstant]: Constant lists where every element is also a
+  ///   supported constant.
+  /// - [MapConstant]: Constant maps where every key and value is a
+  ///   supported constant.
+  /// - [RecordConstant]: Constant records (positional and named fields)
+  ///   containing supported constants.
+  /// - [EnumConstant]: Constants of an enum type, provided the enum itself is
+  ///   annotated with `@RecordUse()`. The recording includes the index, name,
+  ///   and any field values (for enhanced enums).
+  /// - [InstanceConstant]: `const` instances of a `final` class, provided the
+  ///   class is annotated with `@RecordUse()`. The recording includes all
+  ///   constant field values.
+  ///
+  /// Unsupported Constants:
+  /// The following types are explicitly not supported and will be recorded as
+  /// an [UnsupportedConstant] with a descriptive message if encountered:
+  /// - Doubles: Double literals are currently excluded from recording to avoid
+  ///   precision/portability issues across different platforms (VM vs JS).
+  /// - Sets: Constant sets are currently not supported (they are handled
+  ///   differently than Lists/Maps in the compiler backends).
+  /// - Type Literals: Passing a type itself (e.g. `MyClass`) as a constant
+  ///   argument is not supported.
+  ///   https://github.com/dart-lang/native/issues/3199
+  /// - Function/Method Tear-offs: While the tool records the fact that a
+  ///   method was torn off (as a usage), passing a method tear-off as a
+  ///   constant value into another recorded call is not supported (it will not
+  ///   be recorded as a constant value).
+  ///
+  /// Usage in a link hook:
+  ///
+  /// <!-- file://./../../example/api/usage_link.dart#const-instance -->
+  /// ```dart
+  /// final ships = uses.instances[classId] ?? [];
+  /// for (final ship in ships) {
+  ///   switch (ship) {
+  ///     case InstanceConstantReference(
+  ///       instanceConstant: InstanceConstant(
+  ///         fields: {'name': StringConstant(value: final name)},
+  ///       ),
+  ///     ):
+  ///       // Include the 3d model for this ship in the application but not
+  ///       // bundle the other ships.
+  ///       print('Pirate ship found: $name');
+  ///     case _:
+  ///       print('Cannot determine which ships are used.');
+  ///   }
+  /// }
+  /// ```
+  ///
+  /// Notes:
+  /// - Type Arguments: Intentionally not recorded (e.g., `MyClass<int>()`),
+  ///   as we don't currently have a serialization format for types.
+  ///   https://github.com/dart-lang/native/issues/3198
+  /// - Non-redirecting Factories: Invocations of non-redirecting factories are
+  ///   NOT recorded as instances. Instead, the body of the factory is analyzed
+  ///   like a static method, and any generative constructor calls inside the
+  ///   body are recorded as instances of the class.
+  /// - Non-final classes: This is not (yet) supported due to the extra
+  ///   complexity with reasoning about instances of subtypes. If we ever
+  ///   support this we will likely not allow type hierarchies to cross package
+  ///   boundaries due to the ambiguity of to which packages' link hook the
+  ///   information should be sent.
+  ///   https://github.com/dart-lang/native/issues/3200
   final Map<Definition, List<InstanceReference>> instances;
 
   Recordings({
