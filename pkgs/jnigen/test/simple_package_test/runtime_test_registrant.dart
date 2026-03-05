@@ -1237,11 +1237,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
             'bar',
           );
 
-          // Verify it can be assigned to BaseInterface
+          // Verify it can be assigned to BaseInterface.
           final BaseInterface interface = child;
           expect(interface.foo()!.toDartString(releaseOriginal: true), 'foo');
 
-          // Verify it can be assigned to BaseClass
+          // Verify it can be assigned to BaseClass.
           final BaseClass<JString?> base = child;
           expect(
             base
@@ -1253,16 +1253,26 @@ void registerTests(String groupName, TestRunnerCallback test) {
       });
       test('DerivedInterface implements BaseGenericInterface and BaseInterface',
           () {
-        // Since we can't easily get an instance of an interface without
-        // implementing it, we just verify it compiles and can be cast.
-        // DerivedInterface is an extension type, its representation is JObject.
-        // We can use JImplementer or just a dummy JObject cast for type
-        // checking.
-        const DerivedInterface? derived = null;
-        const BaseGenericInterface<JString?>? baseGeneric = derived;
-        const BaseInterface? base = derived;
-        expect(baseGeneric, isNull);
-        expect(base, isNull);
+        using((arena) {
+          final derived = DerivedInterface.implement(
+            $DerivedInterface(
+              foo: () => 'derived_foo'.toJString()..releasedBy(arena),
+            ),
+          )..releasedBy(arena);
+
+          expect(derived.foo()!.toDartString(releaseOriginal: true),
+              'derived_foo');
+
+          // Verify it can be assigned to BaseGenericInterface.
+          final BaseGenericInterface<JString?> baseGeneric = derived;
+          expect(baseGeneric.foo()!.toDartString(releaseOriginal: true),
+              'derived_foo');
+
+          // Verify it can be assigned to BaseInterface.
+          final BaseInterface base = derived;
+          expect(
+              base.foo()!.toDartString(releaseOriginal: true), 'derived_foo');
+        });
       });
     });
 
