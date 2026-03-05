@@ -616,4 +616,66 @@ void main() {
     expect(remaining.length, 0);
   });
 
+  test('Throws async closure type', () {
+    final fragments = Json(
+      jsonDecode('''
+      [
+        {"kind": "text", "spelling": "("},
+        {"kind": "typeIdentifier", "spelling": "Int", "preciseIdentifier": "s:Si"},
+        {"kind": "text", "spelling": ")"},
+        {"kind": "keyword", "spelling": "throws"},
+        {"kind": "keyword", "spelling": "async"},
+        {"kind": "text", "spelling": " -> "},
+        {"kind": "typeIdentifier", "spelling": "String", "preciseIdentifier": "s:SS"}
+      ]
+      '''),
+    );
+
+    final (type, remaining) = parseType(
+      context,
+      parsedSymbols,
+      TokenList(fragments),
+    );
+
+    expect(type is ClosureType, isTrue);
+    final closure = type as ClosureType;
+    expect(closure.isAsync, isTrue);
+    expect(closure.isThrowing, isTrue);
+    expect(closure.returnType.sameAs(stringType), isTrue);
+    expect(remaining.length, 0);
+  });
+
+  test('Attributed async throws closure type', () {
+    final fragments = Json(
+      jsonDecode('''
+      [
+        {"kind": "attribute", "spelling": "@Sendable"},
+        {"kind": "attribute", "spelling": "@escaping"},
+        {"kind": "text", "spelling": "("},
+        {"kind": "typeIdentifier", "spelling": "Int", "preciseIdentifier": "s:Si"},
+        {"kind": "text", "spelling": ")"},
+        {"kind": "keyword", "spelling": "async"},
+        {"kind": "keyword", "spelling": "throws"},
+        {"kind": "text", "spelling": " -> "},
+        {"kind": "typeIdentifier", "spelling": "String", "preciseIdentifier": "s:SS"}
+      ]
+      '''),
+    );
+
+    final (type, remaining) = parseType(
+      context,
+      parsedSymbols,
+      TokenList(fragments),
+    );
+
+    expect(type is ClosureType, isTrue);
+    final closure = type as ClosureType;
+    expect(closure.isEscaping, isTrue);
+    expect(closure.isSendable, isTrue);
+    expect(closure.isAsync, isTrue);
+    expect(closure.isThrowing, isTrue);
+    expect(closure.returnType.sameAs(stringType), isTrue);
+    expect(remaining.length, 0);
+  });
+
 }
