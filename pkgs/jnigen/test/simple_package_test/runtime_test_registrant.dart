@@ -296,12 +296,14 @@ void registerTests(String groupName, TestRunnerCallback test) {
         try {
           Exceptions.throwMyException();
         } on JThrowable catch (e) {
-          if (e.isA(Exceptions$MyException.type)) {
-            final myEx = e.as(Exceptions$MyException.type);
-            expect(myEx.errorCode, 123);
-            return;
+          switch (e) {
+            case _ when e.isA(Exceptions$MyException.type):
+              final myEx = e.as(Exceptions$MyException.type);
+              expect(myEx.errorCode, 123);
+              return;
+            default:
+              fail('Expected Exceptions\$MyException, but got JThrowable: $e');
           }
-          fail('Expected Exceptions\$MyException, but got JThrowable: $e');
         } catch (e) {
           fail('Expected JThrowable, but got ${e.runtimeType}: $e');
         }
