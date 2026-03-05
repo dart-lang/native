@@ -1,4 +1,4 @@
-
+import Foundation
 public class SubscriptClass {
     public var stored: String = ""
 
@@ -36,16 +36,16 @@ public class StaticSubscript {
     }
 }
 
-public class NonTrivialArgsSubscript {
-    public subscript(other: SubscriptClass) -> Int {
+public class NonTrivialTypesSubscript {
+    public subscript(other: SubscriptClass) -> SubscriptClass {
         get {
-            return other.stored.count
+            return other
         }
     }
 }
 
-public class OptionalSubscript {
-    public subscript(opt: Int?) -> String? {
+@objc public class OptionalSubscript: NSObject {
+    @objc public subscript(opt: String?) -> String? {
         get {
             return opt == nil ? nil : "Value: \(opt!)"
         }

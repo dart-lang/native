@@ -2,6 +2,20 @@
 
 import Foundation
 
+@objc public class OptionalSubscriptWrapper: NSObject {
+  var wrappedInstance: OptionalSubscript
+
+  init(_ wrappedInstance: OptionalSubscript) {
+    self.wrappedInstance = wrappedInstance
+  }
+
+  @objc public func getValue(_ opt: String?) -> String? {
+    let result =  wrappedInstance[opt]
+    return result
+  }
+
+}
+
 @objc public class AsyncSubscriptWrapper: NSObject {
   var wrappedInstance: AsyncSubscript
 
@@ -90,20 +104,6 @@ import Foundation
 
 }
 
-@objc public class OptionalSubscriptWrapper: NSObject {
-  var wrappedInstance: OptionalSubscript
-
-  init(_ wrappedInstance: OptionalSubscript) {
-    self.wrappedInstance = wrappedInstance
-  }
-
-  @objc public func getValue(_ opt: IntWrapper?) -> String? {
-    let result =  wrappedInstance[opt?.wrappedInstance]
-    return result
-  }
-
-}
-
 @objc public class ThrowingSubscriptWrapper: NSObject {
   var wrappedInstance: ThrowingSubscript
 
@@ -146,25 +146,16 @@ import Foundation
 
 }
 
-@objc public class NonTrivialArgsSubscriptWrapper: NSObject {
-  var wrappedInstance: NonTrivialArgsSubscript
+@objc public class NonTrivialTypesSubscriptWrapper: NSObject {
+  var wrappedInstance: NonTrivialTypesSubscript
 
-  init(_ wrappedInstance: NonTrivialArgsSubscript) {
+  init(_ wrappedInstance: NonTrivialTypesSubscript) {
     self.wrappedInstance = wrappedInstance
   }
 
-  @objc public func getValue(_ other: SubscriptClassWrapper) -> Int {
+  @objc public func getValue(_ other: SubscriptClassWrapper) -> SubscriptClassWrapper {
     let result =  wrappedInstance[other.wrappedInstance]
-    return result
-  }
-
-}
-
-@objc public class IntWrapper: NSObject {
-  var wrappedInstance: Int
-
-  init(_ wrappedInstance: Int) {
-    self.wrappedInstance = wrappedInstance
+    return SubscriptClassWrapper(result)
   }
 
 }
