@@ -217,6 +217,14 @@ String generateInvocationParams(
 }
 
 
+String _closureAttributes(ClosureType closureType) {
+  // `@escaping` is a function-type attribute and does not apply to closure
+  // expressions. `@Sendable` can be applied to closure expressions and should
+  // be propagated when adapting closures.
+  final attrs = [if (closureType.isSendable) '@Sendable'];
+  return attrs.isEmpty ? '' : '${attrs.join(' ')} ';
+}
+
 String _closureEffects(ClosureType closureType) {
   final effects = [
     if (closureType.isAsync) 'async',
@@ -224,6 +232,9 @@ String _closureEffects(ClosureType closureType) {
   ];
   return effects.isEmpty ? '' : ' ${effects.join(' ')}';
 }
+
+String _closureSignature(ClosureType closureType, List<String> parameterDecls) =>
+    '${_closureAttributes(closureType)}(${parameterDecls.join(', ')})${_closureEffects(closureType)}';
 
 String _adaptClosureForInvocation(
   ClosureType originalClosure,
@@ -259,7 +270,7 @@ String _adaptClosureForInvocation(
   if (originalClosure.isThrowing) callExpression = 'try $callExpression';
 
   if (originalClosure.returnType.sameAs(voidType)) {
-    return '{ (${parameterDecls.join(', ')})${_closureEffects(originalClosure)} in $callExpression }';
+    return '{ ${_closureSignature(originalClosure, parameterDecls)} in $callExpression }';
   }
 
   final (unwrappedReturn, unwrappedType) = maybeUnwrapValue(
@@ -268,7 +279,7 @@ String _adaptClosureForInvocation(
   );
   assert(unwrappedType.sameAs(originalClosure.returnType));
 
-  return '{ (${parameterDecls.join(', ')})${_closureEffects(originalClosure)} in return $unwrappedReturn }';
+  return '{ ${_closureSignature(originalClosure, parameterDecls)} in return $unwrappedReturn }';
 }
 
 String _adaptClosureForWrapperReturn(
@@ -300,7 +311,7 @@ String _adaptClosureForWrapperReturn(
   if (originalClosure.isThrowing) callExpression = 'try $callExpression';
 
   if (transformedClosure.returnType.sameAs(voidType)) {
-    return '{ (${parameterDecls.join(', ')})${_closureEffects(transformedClosure)} in $callExpression }';
+    return '{ ${_closureSignature(transformedClosure, parameterDecls)} in $callExpression }';
   }
 
   final (wrappedReturn, wrappedType) = maybeWrapValue(
@@ -311,7 +322,7 @@ String _adaptClosureForWrapperReturn(
   );
   assert(wrappedType.sameAs(transformedClosure.returnType));
 
-  return '{ (${parameterDecls.join(', ')})${_closureEffects(transformedClosure)} in return $wrappedReturn }';
+  return '{ ${_closureSignature(transformedClosure, parameterDecls)} in return $wrappedReturn }';
 }
 
 List<String> _generateStatements(
