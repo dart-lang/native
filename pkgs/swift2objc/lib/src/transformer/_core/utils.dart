@@ -71,6 +71,8 @@ import 'unique_namer.dart';
 
   if (type is GenericType) {
     throw UnimplementedError('Generic types are not implemented yet');
+  } else if (type is ClosureType) {
+    return (value, type);
   } else if (type is DeclaredType) {
     final declaration = type.declaration;
     if (declaration is TypealiasDeclaration) {
@@ -134,6 +136,8 @@ import 'unique_namer.dart';
 
   if (type is GenericType) {
     throw UnimplementedError('Generic types are not implemented yet');
+  } else if (type is ClosureType) {
+    return (value, type);
   } else if (type is DeclaredType) {
     final declaration = type.declaration;
     if (declaration is ClassDeclaration) {

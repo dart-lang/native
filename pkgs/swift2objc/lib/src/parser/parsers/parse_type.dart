@@ -19,6 +19,12 @@ import 'parse_declarations.dart';
   Context context,
   ParsedSymbolgraph symbolgraph,
   TokenList fragments,
+) => _parseTypeExpression(context, symbolgraph, fragments);
+
+(ReferredType, TokenList) _parseTypeExpression(
+  Context context,
+  ParsedSymbolgraph symbolgraph,
+  TokenList fragments,
 ) {
   var (type, suffix) = _parsePrefixTypeExpression(
     context,
@@ -55,6 +61,69 @@ import 'parse_declarations.dart';
   return parselet(context, symbolgraph, token, fragments.slice(1));
 }
 
+(ReferredType, TokenList) _parseTypeExpressionUntilArrow(
+  Context context,
+  ParsedSymbolgraph symbolgraph,
+  TokenList fragments,
+) {
+  var (type, suffix) = _parsePrefixTypeExpression(
+    context,
+    symbolgraph,
+    fragments,
+  );
+
+  while (suffix.isNotEmpty) {
+    final suffixToken = _tokenId(suffix[0]);
+    if (suffixToken == 'text: ->' ||
+        suffixToken == 'keyword: async' ||
+        suffixToken == 'keyword: throws') {
+      break;
+    }
+    final (nextType, nextSuffix) = _maybeParseSuffixTypeExpression(
+      context,
+      symbolgraph,
+      type,
+      suffix,
+    );
+    if (nextType == null) break;
+    type = nextType;
+    suffix = nextSuffix;
+  }
+
+  return (type, suffix);
+}
+
+
+
+(bool, bool, TokenList) _parseClosureModifiers(TokenList fragments) {
+  var current = fragments;
+  var isAsync = false;
+  var isThrowing = false;
+
+  while (current.isNotEmpty) {
+    final token = _tokenId(current[0]);
+    if (token == 'keyword: async') {
+      isAsync = true;
+      current = current.slice(1);
+    } else if (token == 'keyword: throws') {
+      isThrowing = true;
+      current = current.slice(1);
+    } else {
+      break;
+    }
+  }
+
+  return (isAsync, isThrowing, current);
+}
+
+List<ReferredType> _closureParametersFromType(ReferredType parameterType) {
+  if (parameterType.sameAs(voidType)) return const [];
+  return switch (parameterType) {
+    TupleType t => [for (final e in t.elements) e.type],
+    _ => [parameterType],
+  };
+}
+
 // Suffix expressions are infix operators or suffix operators (basically
 // anything that isn't a prefix). If we were parsing a programming language,
 // these would be things like `x + y`, `z!`, or even `x ? y : z`.
@@ -65,6 +134,27 @@ import 'parse_declarations.dart';
   TokenList fragments,
 ) {
   if (fragments.isEmpty) return (null, fragments);
+
+  final (isAsync, isThrowing, afterEffects) = _parseClosureModifiers(fragments);
+  if ((isAsync || isThrowing) &&
+      afterEffects.isNotEmpty &&
+      _tokenId(afterEffects[0]) == 'text: ->') {
+    final (returnType, suffix) = parseType(
+      context,
+      symbolgraph,
+      afterEffects.slice(1),
+    );
+    return (
+      ClosureType(
+        parameters: _closureParametersFromType(prefixType),
+        returnType: returnType,
+        isAsync: isAsync,
+        isThrowing: isThrowing,
+      ),
+      suffix,
+    );
+  }
+
   final token = fragments[0];
   final parselet = _suffixParsets[_tokenId(token)];
   if (parselet == null) return (null, fragments);
@@ -188,10 +278,75 @@ typedef PrefixParselet =
   return (InoutType(type), suffix);
 }
 
+
+
+(ReferredType, TokenList) _attributeParselet(
+  Context context,
+  ParsedSymbolgraph symbolgraph,
+  Json token,
+  TokenList fragments,
+) {
+  var isEscaping = false;
+  var isSendable = false;
+
+  void consumeAttribute(Json attributeToken) {
+    final spelling = attributeToken['spelling'].get<String>();
+    if (spelling == '@escaping') {
+      isEscaping = true;
+    } else if (spelling == '@Sendable') {
+      isSendable = true;
+    } else {
+      throw Exception(
+        'Unsupported type attribute for closure at '
+        '"${attributeToken.path}": $spelling',
+      );
+    }
+  }
+
+  consumeAttribute(token);
+
+  var current = fragments;
+  while (current.isNotEmpty && current[0]['kind'].get<String>() == 'attribute') {
+    consumeAttribute(current[0]);
+    current = current.slice(1);
+  }
+
+  final (parameterType, suffix) = _parseTypeExpressionUntilArrow(
+    context,
+    symbolgraph,
+    current,
+  );
+
+  final (isAsync, isThrowing, afterEffects) = _parseClosureModifiers(suffix);
+
+  if (afterEffects.isEmpty || _tokenId(afterEffects[0]) != 'text: ->') {
+    throw Exception('Expected "->" after closure attributes at ${token.path}');
+  }
+
+  final (returnType, remaining) = _parseTypeExpression(
+    context,
+    symbolgraph,
+    afterEffects.slice(1),
+  );
+
+  return (
+    ClosureType(
+      parameters: _closureParametersFromType(parameterType),
+      returnType: returnType,
+      isEscaping: isEscaping,
+      isSendable: isSendable,
+      isAsync: isAsync,
+      isThrowing: isThrowing,
+    ),
+    remaining,
+  );
+}
+
 Map<String, PrefixParselet> _prefixParsets = {
   'typeIdentifier': _typeIdentifierParselet,
   'text: (': _tupleParselet,
   'keyword: inout': _inoutParselet,
+  'attribute': _attributeParselet,
 };
 
 // ========================
@@ -228,7 +383,25 @@ typedef SuffixParselet =
   return parseType(context, symbolgraph, fragments);
 }
 
+
+(ReferredType, TokenList) _closureSuffixParselet(
+  Context context,
+  ParsedSymbolgraph symbolgraph,
+  ReferredType prefixType,
+  Json token,
+  TokenList fragments,
+) {
+  final (returnType, suffix) = parseType(context, symbolgraph, fragments);
+  return (
+    ClosureType(
+      parameters: _closureParametersFromType(prefixType),
+      returnType: returnType,
+    ),
+    suffix,
+  );
+}
 Map<String, SuffixParselet> _suffixParsets = {
   'text: ?': _optionalParselet,
   'text: .': _nestedTypeParselet,
+  'text: ->': _closureSuffixParselet,
 };

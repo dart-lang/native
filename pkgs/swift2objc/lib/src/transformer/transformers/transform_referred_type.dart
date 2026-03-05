@@ -48,6 +48,11 @@ ReferredType transformReferredType(
 
   if (type is TupleType) {
     return _transformTupleType(type, globalNamer, state);
+  } else if (type is ClosureType) {
+    // Keep closure types unchanged for now. Transforming closure parameter and
+    // return types would also require value-level thunk generation when calling
+    // between wrapper and wrapped APIs.
+    return type;
   } else if (type is GenericType) {
     throw UnimplementedError('Generic types are not supported yet');
   } else if (type is DeclaredType) {

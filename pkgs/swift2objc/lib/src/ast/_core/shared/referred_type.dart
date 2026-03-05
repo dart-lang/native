@@ -175,6 +175,82 @@ class InoutType extends AstNode implements ReferredType {
   }
 }
 
+class ClosureType extends AstNode implements ReferredType {
+  final List<ReferredType> parameters;
+  final ReferredType returnType;
+  final bool isEscaping;
+  final bool isSendable;
+  final bool isAsync;
+  final bool isThrowing;
+
+  @override
+  bool get isObjCRepresentable => false;
+
+  @override
+  String get swiftType {
+    final attrs = [
+      if (isEscaping) '@escaping',
+      if (isSendable) '@Sendable',
+    ];
+    final attrsPrefix = attrs.isEmpty ? '' : '${attrs.join(' ')} ';
+    final effects = [
+      if (isAsync) 'async',
+      if (isThrowing) 'throws',
+    ];
+    final effectsSuffix = effects.isEmpty ? '' : ' ${effects.join(' ')}';
+    final params = parameters.map((p) => p.swiftType).join(', ');
+    return '$attrsPrefix($params)$effectsSuffix -> ${returnType.swiftType}';
+  }
+
+  @override
+  bool _sameAs(ReferredType other) {
+    if (other is! ClosureType) return false;
+    if (isEscaping != other.isEscaping ||
+        isSendable != other.isSendable ||
+        isAsync != other.isAsync ||
+        isThrowing != other.isThrowing) {
+      return false;
+    }
+    if (parameters.length != other.parameters.length) return false;
+    for (var i = 0; i < parameters.length; i++) {
+      if (!parameters[i].sameAs(other.parameters[i])) return false;
+    }
+    return returnType.sameAs(other.returnType);
+  }
+
+  @override
+  ReferredType get aliasedType => ClosureType(
+    parameters: parameters.map((p) => p.aliasedType).toList(),
+    returnType: returnType.aliasedType,
+    isEscaping: isEscaping,
+    isSendable: isSendable,
+    isAsync: isAsync,
+    isThrowing: isThrowing,
+  );
+
+  const ClosureType({
+    required this.parameters,
+    required this.returnType,
+    this.isEscaping = false,
+    this.isSendable = false,
+    this.isAsync = false,
+    this.isThrowing = false,
+  });
+
+  @override
+  String toString() => swiftType;
+
+  @override
+  void visit(Visitation visitation) => visitation.visitClosureType(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visitAll(parameters);
+    visitor.visit(returnType);
+  }
+}
+
 /// Describes a reference to a Swift Tuple type (e.g., `(Int, String)`).
 class TupleType extends AstNode implements ReferredType {
   final List<TupleElement> elements;
