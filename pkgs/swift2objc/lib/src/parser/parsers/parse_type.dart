@@ -93,8 +93,6 @@ import 'parse_declarations.dart';
   return (type, suffix);
 }
 
-
-
 (bool, bool, TokenList) _parseClosureModifiers(TokenList fragments) {
   var current = fragments;
   var isAsync = false;
@@ -278,8 +276,6 @@ typedef PrefixParselet =
   return (InoutType(type), suffix);
 }
 
-
-
 (ReferredType, TokenList) _attributeParselet(
   Context context,
   ParsedSymbolgraph symbolgraph,
@@ -306,7 +302,8 @@ typedef PrefixParselet =
   consumeAttribute(token);
 
   var current = fragments;
-  while (current.isNotEmpty && current[0]['kind'].get<String>() == 'attribute') {
+  while (current.isNotEmpty &&
+      current[0]['kind'].get<String>() == 'attribute') {
     consumeAttribute(current[0]);
     current = current.slice(1);
   }
@@ -383,7 +380,6 @@ typedef SuffixParselet =
   return parseType(context, symbolgraph, fragments);
 }
 
-
 (ReferredType, TokenList) _closureSuffixParselet(
   Context context,
   ParsedSymbolgraph symbolgraph,
@@ -400,6 +396,7 @@ typedef SuffixParselet =
     suffix,
   );
 }
+
 Map<String, SuffixParselet> _suffixParsets = {
   'text: ?': _optionalParselet,
   'text: .': _nestedTypeParselet,

@@ -461,9 +461,10 @@ void main() {
       TokenList(fragments),
     );
 
-    expect(type is OptionalType, isTrue);
-    final outer = (type as OptionalType).child as ClosureType;
-    expect(outer.returnType.sameAs(stringType), isTrue);
+    expect(type is ClosureType, isTrue);
+    final outer = type as ClosureType;
+    expect(outer.returnType is OptionalType, isTrue);
+    expect((outer.returnType as OptionalType).child.sameAs(stringType), isTrue);
     expect(outer.parameters.length, 1);
     expect(outer.parameters.first is ClosureType, isTrue);
     final inner = outer.parameters.first as ClosureType;
