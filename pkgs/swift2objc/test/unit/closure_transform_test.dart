@@ -49,4 +49,42 @@ void main() {
     expect(wrappedValue, 'callback');
     expect(wrappedType.sameAs(closure), isTrue);
   });
+
+
+  test('transformReferredType transforms nested closure tuple types', () {
+    final closure = ClosureType(
+      parameters: [
+        TupleType([
+          TupleElement(type: intType),
+          TupleElement(type: stringType),
+        ]),
+      ],
+      returnType: TupleType([
+        TupleElement(type: intType),
+        TupleElement(type: stringType),
+      ]),
+      isEscaping: true,
+      isSendable: true,
+      isAsync: true,
+      isThrowing: true,
+    );
+
+    final state = TransformationState();
+    final globalNamer = UniqueNamer();
+    state.globalNamer = globalNamer;
+
+    final transformed = transformReferredType(closure, globalNamer, state);
+
+    expect(transformed, isA<ClosureType>());
+    final transformedClosure = transformed as ClosureType;
+    expect(transformedClosure.isEscaping, isTrue);
+    expect(transformedClosure.isSendable, isTrue);
+    expect(transformedClosure.isAsync, isTrue);
+    expect(transformedClosure.isThrowing, isTrue);
+
+    expect(transformedClosure.parameters.single is DeclaredType, isTrue);
+    expect(transformedClosure.returnType is DeclaredType, isTrue);
+    expect(state.tupleWrappers, isNotEmpty);
+  });
+
 }
