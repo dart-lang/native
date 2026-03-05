@@ -13,7 +13,7 @@ import 'package:swift2objc/src/transformer/transformers/transform_referred_type.
 import 'package:test/test.dart';
 
 void main() {
-  test('transformReferredType keeps closure type unchanged', () {
+  test('transformReferredType preserves closure flags', () {
     final closure = ClosureType(
       parameters: [OptionalType(intType)],
       returnType: stringType,
@@ -27,11 +27,16 @@ void main() {
 
     final transformed = transformReferredType(closure, globalNamer, state);
 
-    expect(transformed.sameAs(closure), isTrue);
     expect(transformed, isA<ClosureType>());
     final transformedClosure = transformed as ClosureType;
     expect(transformedClosure.isEscaping, isTrue);
     expect(transformedClosure.isSendable, isTrue);
+    expect(transformedClosure.returnType.sameAs(stringType), isTrue);
+    expect(transformedClosure.parameters.single, isA<OptionalType>());
+    expect(
+      (transformedClosure.parameters.single as OptionalType).child,
+      isA<DeclaredType>(),
+    );
   });
 
   test('maybeWrapValue returns closure value unchanged', () {
