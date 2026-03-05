@@ -11,6 +11,7 @@ import '../../ast_node.dart';
 import 'members/initializer_declaration.dart';
 import 'members/method_declaration.dart';
 import 'members/property_declaration.dart';
+import 'members/subscript_declaration.dart';
 import 'protocol_declaration.dart';
 
 /// Describes the declaration of a Swift struct.
@@ -37,6 +38,9 @@ class StructDeclaration extends AstNode implements CompoundDeclaration {
   List<MethodDeclaration> methods;
 
   @override
+  List<SubscriptDeclaration> subscripts;
+
+  @override
   List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
 
   @override
@@ -59,6 +63,7 @@ class StructDeclaration extends AstNode implements CompoundDeclaration {
     required this.availability,
     this.properties = const [],
     this.methods = const [],
+    this.subscripts = const [],
     this.initializers = const [],
     this.conformedProtocols = const [],
     this.typeParams = const [],
@@ -73,7 +78,9 @@ class StructDeclaration extends AstNode implements CompoundDeclaration {
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visitAll(properties);
+    visitor.visitAll(properties);
     visitor.visitAll(methods);
+    visitor.visitAll(subscripts);
     visitor.visitAll(conformedProtocols);
     visitor.visitAll(typeParams);
     visitor.visitAll(initializers);

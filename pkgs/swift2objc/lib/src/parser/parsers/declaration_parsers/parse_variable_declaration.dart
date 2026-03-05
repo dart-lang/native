@@ -63,11 +63,21 @@ ReferredType _parseVariableType(
   Context context,
   Json symbolJson,
   ParsedSymbolgraph symbolgraph,
-) => parseTypeAfterSeparator(
-  context,
-  TokenList(symbolJson['names']['subHeading']),
-  symbolgraph,
-);
+) {
+  try {
+    return parseTypeAfterSeparator(
+      context,
+      TokenList(symbolJson['names']['subHeading']),
+      symbolgraph,
+    );
+  } catch (e) {
+    final id = symbolJson['identifier']['precise'];
+    throw Exception(
+      'Failed to parse variable type for $id: $e\n'
+      'SubHeading: ${symbolJson['names']['subHeading']}',
+    );
+  }
+}
 
 bool _parseVariableIsConstant(Json fragmentsJson) {
   final declarationKeyword = fragmentsJson.firstWhere(
