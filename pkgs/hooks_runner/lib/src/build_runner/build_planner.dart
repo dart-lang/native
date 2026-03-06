@@ -332,8 +332,7 @@ class PackageGraph {
 /// compilation. This enum holds static information about these hooks.
 enum Hook {
   link('link'),
-  build('build')
-  ;
+  build('build');
 
   final String _scriptName;
 
