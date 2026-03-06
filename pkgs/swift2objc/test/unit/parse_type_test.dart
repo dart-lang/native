@@ -378,4 +378,296 @@ void main() {
     expect(type, voidType);
     expect(remaining.length, 0);
   });
+
+  test('Closure type from single parameter', () {
+    final fragments = Json(
+      jsonDecode('''
+      [
+        {"kind": "text", "spelling": "("},
+        {"kind": "typeIdentifier", "spelling": "Int", "preciseIdentifier": "s:Si"},
+        {"kind": "text", "spelling": ")"},
+        {"kind": "text", "spelling": " -> "},
+        {"kind": "typeIdentifier", "spelling": "Int", "preciseIdentifier": "s:Si"}
+      ]
+      '''),
+    );
+
+    final (type, remaining) = parseType(
+      context,
+      parsedSymbols,
+      TokenList(fragments),
+    );
+
+    expect(type is ClosureType, isTrue);
+    final closure = type as ClosureType;
+    expect(closure.parameters.length, 1);
+    expect(closure.parameters.first.sameAs(intType), isTrue);
+    expect(closure.returnType.sameAs(intType), isTrue);
+    expect(remaining.length, 0);
+  });
+
+  test('Attributed closure type', () {
+    final fragments = Json(
+      jsonDecode('''
+      [
+        {"kind": "attribute", "spelling": "@escaping"},
+        {"kind": "attribute", "spelling": "@Sendable"},
+        {"kind": "text", "spelling": "("},
+        {"kind": "typeIdentifier", "spelling": "Int", "preciseIdentifier": "s:Si"},
+        {"kind": "text", "spelling": ")"},
+        {"kind": "text", "spelling": " -> "},
+        {"kind": "typeIdentifier", "spelling": "String", "preciseIdentifier": "s:SS"}
+      ]
+      '''),
+    );
+
+    final (type, remaining) = parseType(
+      context,
+      parsedSymbols,
+      TokenList(fragments),
+    );
+
+    expect(type is ClosureType, isTrue);
+    final closure = type as ClosureType;
+    expect(closure.isEscaping, isTrue);
+    expect(closure.isSendable, isTrue);
+    expect(closure.parameters.length, 1);
+    expect(closure.parameters.first.sameAs(intType), isTrue);
+    expect(closure.returnType.sameAs(stringType), isTrue);
+    expect(remaining.length, 0);
+  });
+
+  test('Optional nested closure type', () {
+    final fragments = Json(
+      jsonDecode('''
+      [
+        {"kind": "text", "spelling": "("},
+        {"kind": "text", "spelling": "("},
+        {"kind": "typeIdentifier", "spelling": "Int", "preciseIdentifier": "s:Si"},
+        {"kind": "text", "spelling": ")"},
+        {"kind": "text", "spelling": " -> "},
+        {"kind": "typeIdentifier", "spelling": "Int", "preciseIdentifier": "s:Si"},
+        {"kind": "text", "spelling": ")"},
+        {"kind": "text", "spelling": " -> "},
+        {"kind": "typeIdentifier", "spelling": "String", "preciseIdentifier": "s:SS"},
+        {"kind": "text", "spelling": "?"}
+      ]
+      '''),
+    );
+
+    final (type, remaining) = parseType(
+      context,
+      parsedSymbols,
+      TokenList(fragments),
+    );
+
+    expect(type is ClosureType, isTrue);
+    final outer = type as ClosureType;
+    expect(outer.returnType is OptionalType, isTrue);
+    expect((outer.returnType as OptionalType).child.sameAs(stringType), isTrue);
+    expect(outer.parameters.length, 1);
+    expect(outer.parameters.first is ClosureType, isTrue);
+    final inner = outer.parameters.first as ClosureType;
+    expect(inner.parameters.length, 1);
+    expect(inner.parameters.first.sameAs(intType), isTrue);
+    expect(inner.returnType.sameAs(intType), isTrue);
+    expect(remaining.length, 0);
+  });
+
+
+  test('Attributed closure with optional parameter', () {
+    final fragments = Json(
+      jsonDecode('''
+      [
+        {"kind": "attribute", "spelling": "@escaping"},
+        {"kind": "typeIdentifier", "spelling": "Int", "preciseIdentifier": "s:Si"},
+        {"kind": "text", "spelling": "?"},
+        {"kind": "text", "spelling": " -> "},
+        {"kind": "typeIdentifier", "spelling": "String", "preciseIdentifier": "s:SS"}
+      ]
+      '''),
+    );
+
+    final (type, remaining) = parseType(
+      context,
+      parsedSymbols,
+      TokenList(fragments),
+    );
+
+    expect(type is ClosureType, isTrue);
+    final closure = type as ClosureType;
+    expect(closure.isEscaping, isTrue);
+    expect(closure.parameters.length, 1);
+    expect(closure.parameters.first.sameAs(OptionalType(intType)), isTrue);
+    expect(closure.returnType.sameAs(stringType), isTrue);
+    expect(remaining.length, 0);
+  });
+
+
+
+
+  test('Closure type with empty parameters', () {
+    final fragments = Json(
+      jsonDecode('''
+      [
+        {"kind": "text", "spelling": "("},
+        {"kind": "text", "spelling": ")"},
+        {"kind": "text", "spelling": " -> "},
+        {"kind": "typeIdentifier", "spelling": "Int", "preciseIdentifier": "s:Si"}
+      ]
+      '''),
+    );
+
+    final (type, remaining) = parseType(
+      context,
+      parsedSymbols,
+      TokenList(fragments),
+    );
+
+    expect(type is ClosureType, isTrue);
+    final closure = type as ClosureType;
+    expect(closure.parameters, isEmpty);
+    expect(closure.returnType.sameAs(intType), isTrue);
+    expect(remaining.length, 0);
+  });
+
+  test('Async closure type', () {
+    final fragments = Json(
+      jsonDecode('''
+      [
+        {"kind": "text", "spelling": "("},
+        {"kind": "typeIdentifier", "spelling": "Int", "preciseIdentifier": "s:Si"},
+        {"kind": "text", "spelling": ")"},
+        {"kind": "keyword", "spelling": "async"},
+        {"kind": "text", "spelling": " -> "},
+        {"kind": "typeIdentifier", "spelling": "String", "preciseIdentifier": "s:SS"}
+      ]
+      '''),
+    );
+
+    final (type, remaining) = parseType(
+      context,
+      parsedSymbols,
+      TokenList(fragments),
+    );
+
+    expect(type is ClosureType, isTrue);
+    final closure = type as ClosureType;
+    expect(closure.isAsync, isTrue);
+    expect(closure.isThrowing, isFalse);
+    expect(closure.returnType.sameAs(stringType), isTrue);
+    expect(remaining.length, 0);
+  });
+
+  test('Throws closure type', () {
+    final fragments = Json(
+      jsonDecode('''
+      [
+        {"kind": "text", "spelling": "("},
+        {"kind": "typeIdentifier", "spelling": "Int", "preciseIdentifier": "s:Si"},
+        {"kind": "text", "spelling": ")"},
+        {"kind": "keyword", "spelling": "throws"},
+        {"kind": "text", "spelling": " -> "},
+        {"kind": "typeIdentifier", "spelling": "String", "preciseIdentifier": "s:SS"}
+      ]
+      '''),
+    );
+
+    final (type, remaining) = parseType(
+      context,
+      parsedSymbols,
+      TokenList(fragments),
+    );
+
+    expect(type is ClosureType, isTrue);
+    final closure = type as ClosureType;
+    expect(closure.isAsync, isFalse);
+    expect(closure.isThrowing, isTrue);
+    expect(closure.returnType.sameAs(stringType), isTrue);
+    expect(remaining.length, 0);
+  });
+
+  test('Async throws closure type', () {
+    final fragments = Json(
+      jsonDecode('''
+      [
+        {"kind": "text", "spelling": "("},
+        {"kind": "typeIdentifier", "spelling": "Int", "preciseIdentifier": "s:Si"},
+        {"kind": "text", "spelling": ")"},
+        {"kind": "keyword", "spelling": "async"},
+        {"kind": "keyword", "spelling": "throws"},
+        {"kind": "text", "spelling": " -> "},
+        {"kind": "typeIdentifier", "spelling": "String", "preciseIdentifier": "s:SS"}
+      ]
+      '''),
+    );
+
+    final (type, remaining) = parseType(
+      context,
+      parsedSymbols,
+      TokenList(fragments),
+    );
+
+    expect(type is ClosureType, isTrue);
+    final closure = type as ClosureType;
+    expect(closure.isAsync, isTrue);
+    expect(closure.isThrowing, isTrue);
+    expect(closure.returnType.sameAs(stringType), isTrue);
+    expect(remaining.length, 0);
+  });
+
+  test('Throws async closure type is rejected', () {
+    final fragments = Json(
+      jsonDecode('''
+      [
+        {"kind": "text", "spelling": "("},
+        {"kind": "typeIdentifier", "spelling": "Int", "preciseIdentifier": "s:Si"},
+        {"kind": "text", "spelling": ")"},
+        {"kind": "keyword", "spelling": "throws"},
+        {"kind": "keyword", "spelling": "async"},
+        {"kind": "text", "spelling": " -> "},
+        {"kind": "typeIdentifier", "spelling": "String", "preciseIdentifier": "s:SS"}
+      ]
+      '''),
+    );
+
+    expect(
+      () => parseType(context, parsedSymbols, TokenList(fragments)),
+      throwsA(isA<Exception>()),
+    );
+  });
+
+  test('Attributed async throws closure type', () {
+    final fragments = Json(
+      jsonDecode('''
+      [
+        {"kind": "attribute", "spelling": "@Sendable"},
+        {"kind": "attribute", "spelling": "@escaping"},
+        {"kind": "text", "spelling": "("},
+        {"kind": "typeIdentifier", "spelling": "Int", "preciseIdentifier": "s:Si"},
+        {"kind": "text", "spelling": ")"},
+        {"kind": "keyword", "spelling": "async"},
+        {"kind": "keyword", "spelling": "throws"},
+        {"kind": "text", "spelling": " -> "},
+        {"kind": "typeIdentifier", "spelling": "String", "preciseIdentifier": "s:SS"}
+      ]
+      '''),
+    );
+
+    final (type, remaining) = parseType(
+      context,
+      parsedSymbols,
+      TokenList(fragments),
+    );
+
+    expect(type is ClosureType, isTrue);
+    final closure = type as ClosureType;
+    expect(closure.isEscaping, isTrue);
+    expect(closure.isSendable, isTrue);
+    expect(closure.isAsync, isTrue);
+    expect(closure.isThrowing, isTrue);
+    expect(closure.returnType.sameAs(stringType), isTrue);
+    expect(remaining.length, 0);
+  });
+
 }

@@ -51,6 +51,8 @@ Declaration transformInitializer(
         wrappedClassInstance,
         methodReturnType,
         transformedParams,
+        globalNamer,
+        state,
       ),
       throws: originalInitializer.throws,
       async: originalInitializer.async,
@@ -77,6 +79,8 @@ Declaration transformInitializer(
     originalInitializer,
     wrappedClassInstance,
     transformedInitializer,
+    globalNamer,
+    state,
   );
 
   return transformedInitializer;
@@ -86,11 +90,15 @@ List<String> _generateInitializerStatements(
   InitializerDeclaration originalInitializer,
   PropertyDeclaration wrappedClassInstance,
   InitializerDeclaration transformedInitializer,
+  UniqueNamer globalNamer,
+  TransformationState state,
 ) {
   final (instanceConstruction, localNamer) = _generateInstanceConstruction(
     originalInitializer,
     wrappedClassInstance,
     transformedInitializer.params,
+    globalNamer,
+    state,
   );
   if (originalInitializer.isFailable) {
     final instance = localNamer.makeUnique('instance');
@@ -111,11 +119,15 @@ List<String> _generateMethodStatements(
   PropertyDeclaration wrappedClassInstance,
   ReferredType wrapperClass,
   List<Parameter> transformedParams,
+  UniqueNamer globalNamer,
+  TransformationState state,
 ) {
   final (instanceConstruction, localNamer) = _generateInstanceConstruction(
     originalInitializer,
     wrappedClassInstance,
     transformedParams,
+    globalNamer,
+    state,
   );
   final instance = localNamer.makeUnique('instance');
   if (originalInitializer.isFailable) {
@@ -138,12 +150,16 @@ List<String> _generateMethodStatements(
   InitializerDeclaration originalInitializer,
   PropertyDeclaration wrappedClassInstance,
   List<Parameter> transformedParams,
+  UniqueNamer globalNamer,
+  TransformationState state,
 ) {
   final localNamer = UniqueNamer();
   final arguments = generateInvocationParams(
     localNamer,
     originalInitializer.params,
     transformedParams,
+    globalNamer,
+    state,
   );
   var instanceConstruction =
       '${wrappedClassInstance.type.swiftType}($arguments)';
