@@ -6,6 +6,7 @@ import 'package:code_assets/code_assets.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
+import '../utils/test_configuration_generator.dart';
 import 'objects_helper.dart';
 
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
@@ -13,39 +14,32 @@ const Timeout longTimeout = Timeout(Duration(minutes: 5));
 void main() {
   const targetOS = OS.android;
 
-  // These configurations are a selection of combinations of architectures
-  // and API levels.
-  // We don't test the full cartesian product to keep the CI time manageable.
-  // When adding a new configuration, consider if it tests a new combination
-  // that is not yet covered by the existing tests.
-  final configurations = [
-    (
-      architecture: Architecture.arm,
-      apiLevel: flutterAndroidNdkVersionLowestSupported,
-    ),
-    (
-      architecture: Architecture.arm64,
-      apiLevel: flutterAndroidNdkVersionHighestSupported,
-    ),
-    (
-      architecture: Architecture.ia32,
-      apiLevel: flutterAndroidNdkVersionLowestSupported,
-    ),
-    (
-      architecture: Architecture.x64,
-      apiLevel: flutterAndroidNdkVersionHighestSupported,
-    ),
-    (
-      architecture: Architecture.riscv64,
-      apiLevel: flutterAndroidNdkVersionLowestSupported,
-    ),
-    (
-      architecture: Architecture.arm64,
-      apiLevel: flutterAndroidNdkVersionLowestSupported,
-    ),
-  ];
+  final configurations =
+      TestConfigurationGenerator(
+        dimensions: {
+          Architecture: [
+            Architecture.arm,
+            Architecture.arm64,
+            Architecture.ia32,
+            Architecture.x64,
+            Architecture.riscv64,
+          ],
+          AndroidApiLevel: [
+            AndroidApiLevel.flutterLowestSupported,
+            AndroidApiLevel.flutterHighestSupported,
+          ],
+        },
+        interactionGroups: [],
+      ).generateAndValidate(
+        tableUri: packageUri.resolve(
+          'test/clinker/objects_cross_android_test.md',
+        ),
+      );
 
-  for (final (:architecture, :apiLevel) in configurations) {
+  for (final config in configurations) {
+    final architecture = config.get<Architecture>();
+    final apiLevel = config.get<AndroidApiLevel>().value;
+
     group('Android API$apiLevel ($architecture):', () {
       runObjectsTests(
         targetOS,

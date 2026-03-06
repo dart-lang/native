@@ -11,6 +11,7 @@ import 'package:code_assets/code_assets.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
+import '../utils/test_configuration_generator.dart';
 import 'treeshake_helper.dart';
 
 void main() {
@@ -21,35 +22,38 @@ void main() {
 
   const targetOS = OS.iOS;
 
-  // These configurations are a selection of combinations of architectures
-  // and iOS versions.
-  // We don't test the full cartesian product to keep the CI time manageable.
-  // When adding a new configuration, consider if it tests a new combination
-  // that is not yet covered by the existing tests.
-  final configurations = [
-    (
-      architecture: Architecture.arm64,
-      iOSTargetSdk: IOSSdk.iPhoneOS,
-      iOSVersion: flutteriOSHighestBestEffort,
-    ),
-    (
-      architecture: Architecture.arm64,
-      iOSTargetSdk: IOSSdk.iPhoneSimulator,
-      iOSVersion: flutteriOSHighestSupported,
-    ),
-    (
-      architecture: Architecture.x64,
-      iOSTargetSdk: IOSSdk.iPhoneSimulator,
-      iOSVersion: flutteriOSHighestBestEffort,
-    ),
-    (
-      architecture: Architecture.arm64,
-      iOSTargetSdk: IOSSdk.iPhoneOS,
-      iOSVersion: flutteriOSHighestSupported,
-    ),
-  ];
+  final configurations =
+      TestConfigurationGenerator(
+        dimensions: {
+          Architecture: [Architecture.arm64, Architecture.x64],
+          IOSSdk: [IOSSdk.iPhoneOS, IOSSdk.iPhoneSimulator],
+          IOSVersion: [
+            IOSVersion.flutterHighestBestEffort,
+            IOSVersion.flutterHighestSupported,
+          ],
+        },
+        interactionGroups: [
+          {Architecture, IOSSdk},
+          {IOSSdk, IOSVersion},
+        ],
+        isValid: (config) {
+          if (config.get<IOSSdk>() == IOSSdk.iPhoneOS &&
+              config.get<Architecture>() == Architecture.x64) {
+            return false;
+          }
+          return true;
+        },
+      ).generateAndValidate(
+        tableUri: packageUri.resolve(
+          'test/clinker/treeshake_cross_ios_test.md',
+        ),
+      );
 
-  for (final (:architecture, :iOSTargetSdk, :iOSVersion) in configurations) {
+  for (final config in configurations) {
+    final architecture = config.get<Architecture>();
+    final iOSTargetSdk = config.get<IOSSdk>();
+    final iOSVersion = config.get<IOSVersion>().value;
+
     group('$iOSTargetSdk $iOSVersion ($architecture):', () {
       runTreeshakeTests(
         targetOS,

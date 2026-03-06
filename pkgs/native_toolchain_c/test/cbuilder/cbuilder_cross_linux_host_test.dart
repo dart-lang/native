@@ -13,6 +13,7 @@ import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
+import '../utils/test_configuration_generator.dart';
 
 void main() {
   if (!Platform.isLinux) {
@@ -20,46 +21,34 @@ void main() {
     return;
   }
 
-  // These configurations are a selection of combinations of architectures,
-  // link modes, and optimization levels.
-  // We don't test the full cartesian product to keep the CI time manageable.
-  // When adding a new configuration, consider if it tests a new combination
-  // that is not yet covered by the existing tests.
-  final configurations = [
-    (
-      linkMode: DynamicLoadingBundled(),
-      target: Architecture.arm,
-      optimizationLevel: OptimizationLevel.o0,
-    ),
-    (
-      linkMode: StaticLinking(),
-      target: Architecture.arm64,
-      optimizationLevel: OptimizationLevel.o1,
-    ),
-    (
-      linkMode: DynamicLoadingBundled(),
-      target: Architecture.ia32,
-      optimizationLevel: OptimizationLevel.o2,
-    ),
-    (
-      linkMode: StaticLinking(),
-      target: Architecture.x64,
-      optimizationLevel: OptimizationLevel.o3,
-    ),
-    (
-      linkMode: DynamicLoadingBundled(),
-      target: Architecture.riscv64,
-      optimizationLevel: OptimizationLevel.oS,
-    ),
-    (
-      linkMode: StaticLinking(),
-      target: Architecture.arm,
-      optimizationLevel: OptimizationLevel.unspecified,
-    ),
-  ];
+  final configurations =
+      TestConfigurationGenerator(
+        dimensions: {
+          Architecture: [
+            Architecture.arm,
+            Architecture.arm64,
+            Architecture.ia32,
+            Architecture.x64,
+            Architecture.riscv64,
+          ],
+          LinkMode: [DynamicLoadingBundled(), StaticLinking()],
+          OptimizationLevel: OptimizationLevel.values,
+        },
+        interactionGroups: [
+          {Architecture, LinkMode},
+        ],
+      ).generateAndValidate(
+        tableUri: packageUri.resolve(
+          'test/cbuilder/cbuilder_cross_linux_host_test.md',
+        ),
+      );
 
-  for (final (:linkMode, :target, :optimizationLevel) in configurations) {
-    test('CBuilder $linkMode library $target $optimizationLevel', () async {
+  for (final config in configurations) {
+    final linkMode = config.get<LinkMode>();
+    final target = config.get<Architecture>();
+    final optimizationLevel = config.get<OptimizationLevel>();
+
+    test('CBuilder $target $linkMode $optimizationLevel', () async {
       final tempUri = await tempDirForTest();
       final tempUri2 = await tempDirForTest();
       final addCUri = packageUri.resolve(

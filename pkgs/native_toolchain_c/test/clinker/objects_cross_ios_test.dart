@@ -11,6 +11,7 @@ import 'package:code_assets/code_assets.dart';
 import 'package:test/test.dart';
 
 import '../helpers.dart';
+import '../utils/test_configuration_generator.dart';
 import 'objects_helper.dart';
 
 void main() {
@@ -21,21 +22,24 @@ void main() {
 
   const targetOS = OS.iOS;
 
-  // These configurations are a selection of combinations of architectures
-  // and iOS versions.
-  // We don't test the full cartesian product to keep the CI time manageable.
-  // When adding a new configuration, consider if it tests a new combination
-  // that is not yet covered by the existing tests.
-  final configurations = [
-    (iOSTargetSdk: IOSSdk.iPhoneOS, iOSVersion: flutteriOSHighestBestEffort),
-    (
-      iOSTargetSdk: IOSSdk.iPhoneSimulator,
-      iOSVersion: flutteriOSHighestSupported,
-    ),
-    (iOSTargetSdk: IOSSdk.iPhoneOS, iOSVersion: flutteriOSHighestSupported),
-  ];
+  final configurations =
+      TestConfigurationGenerator(
+        dimensions: {
+          IOSSdk: [IOSSdk.iPhoneOS, IOSSdk.iPhoneSimulator],
+          IOSVersion: [
+            IOSVersion.flutterHighestBestEffort,
+            IOSVersion.flutterHighestSupported,
+          ],
+        },
+        interactionGroups: [],
+      ).generateAndValidate(
+        tableUri: packageUri.resolve('test/clinker/objects_cross_ios_test.md'),
+      );
 
-  for (final (:iOSTargetSdk, :iOSVersion) in configurations) {
+  for (final config in configurations) {
+    final iOSTargetSdk = config.get<IOSSdk>();
+    final iOSVersion = config.get<IOSVersion>().value;
+
     group('$iOSTargetSdk $iOSVersion:', () {
       runObjectsTests(
         targetOS,
