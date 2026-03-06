@@ -11,8 +11,8 @@ being recorded.
 
 - If placed on a static method, the annotation means that arguments passed to
 the method will be recorded, as far as they can be inferred at compile time.
-- If placed on a class with a constant constructor, the annotation means that
-any constant instance of the class will be recorded.
+- If placed on a class, the annotation means that any constant instance of the
+class and any constructor invocation will be recorded.
 
 > [!NOTE]
 > The `@RecordUse()` annotation is only allowed on definitions within a package's
