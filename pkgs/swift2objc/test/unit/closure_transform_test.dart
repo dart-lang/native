@@ -4,12 +4,12 @@
 
 import 'package:swift2objc/src/ast/_core/shared/parameter.dart';
 import 'package:swift2objc/src/ast/_core/shared/referred_type.dart';
-import 'package:swift2objc/src/ast/declarations/built_in/built_in_declaration.dart';
+import '../../lib/src/ast/declarations/built_in/built_in_declaration.dart';
 import 'package:swift2objc/src/transformer/_core/unique_namer.dart';
 import 'package:swift2objc/src/transformer/_core/utils.dart';
 import 'package:swift2objc/src/transformer/transform.dart';
-import 'package:swift2objc/src/transformer/transformers/transform_function.dart';
-import 'package:swift2objc/src/transformer/transformers/transform_referred_type.dart';
+import '../../lib/src/transformer/transformers/transform_function.dart';
+import '../../lib/src/transformer/transformers/transform_referred_type.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -57,7 +57,6 @@ void main() {
     expect(wrappedType.sameAs(closure), isTrue);
   });
 
-
   test('transformReferredType transforms nested closure tuple types', () {
     final closure = ClosureType(
       parameters: [
@@ -94,7 +93,6 @@ void main() {
     expect(state.tupleWrappers, isNotEmpty);
   });
 
-
   test('generateInvocationParams preserves @Sendable in adapted closures', () {
     final originalClosure = ClosureType(
       parameters: [intType],
@@ -121,33 +119,35 @@ void main() {
     expect(invocation, contains('@Sendable ('));
   });
 
-  test('generateInvocationParams does not emit @escaping for closure literals', () {
-    final originalClosure = ClosureType(
-      parameters: [intType],
-      returnType: voidType,
-      isEscaping: true,
-      isSendable: true,
-    );
-    final transformedClosure = ClosureType(
-      parameters: [intType],
-      returnType: voidType,
-      isSendable: true,
-    );
+  test(
+    'generateInvocationParams does not emit @escaping for closure literals',
+    () {
+      final originalClosure = ClosureType(
+        parameters: [intType],
+        returnType: voidType,
+        isEscaping: true,
+        isSendable: true,
+      );
+      final transformedClosure = ClosureType(
+        parameters: [intType],
+        returnType: voidType,
+        isSendable: true,
+      );
 
-    final localNamer = UniqueNamer();
-    final globalNamer = UniqueNamer();
-    final state = TransformationState()..globalNamer = globalNamer;
+      final localNamer = UniqueNamer();
+      final globalNamer = UniqueNamer();
+      final state = TransformationState()..globalNamer = globalNamer;
 
-    final invocation = generateInvocationParams(
-      localNamer,
-      [Parameter(name: 'callback', type: originalClosure)],
-      [Parameter(name: 'callback', type: transformedClosure)],
-      globalNamer,
-      state,
-    );
+      final invocation = generateInvocationParams(
+        localNamer,
+        [Parameter(name: 'callback', type: originalClosure)],
+        [Parameter(name: 'callback', type: transformedClosure)],
+        globalNamer,
+        state,
+      );
 
-    expect(invocation, isNot(contains('@escaping')));
-    expect(invocation, contains('@Sendable ('));
-  });
-
+      expect(invocation, isNot(contains('@escaping')));
+      expect(invocation, contains('@Sendable ('));
+    },
+  );
 }
