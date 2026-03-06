@@ -21,9 +21,9 @@ void registerTests(String groupName, TestRunnerCallback test) {
         expect(helloBob.toDartString(releaseOriginal: true), 'Hello $name!');
         final noDelayHello = await suspendFun.sayHelloWithoutDelay();
         expect(noDelayHello.toDartString(releaseOriginal: true), 'Hello!');
-        await expectLater(suspendFun.fail, throwsA(isA<JniException>()));
+        await expectLater(suspendFun.fail, throwsA(isA<JThrowable>()));
         await expectLater(
-            suspendFun.failWithoutDelay, throwsA(isA<JniException>()));
+            suspendFun.failWithoutDelay, throwsA(isA<JThrowable>()));
         final noDelayNullableHello =
             await suspendFun.nullableHelloWithoutDelay(false);
         expect(noDelayNullableHello!.toDartString(releaseOriginal: true),
@@ -499,21 +499,19 @@ kotlin.Unit
           noReturn: () async => throw Exception(),
         ));
 
-        await expectLater(itf.sayHello(), throwsA(isA<JniException>()));
+        await expectLater(itf.sayHello(), throwsA(isA<JThrowable>()));
         await expectLater(itf.sayHello$1(JString.fromString('Bob')),
-            throwsA(isA<JniException>()));
+            throwsA(isA<JThrowable>()));
+        await expectLater(itf.nullableHello(false), throwsA(isA<JThrowable>()));
+        await expectLater(itf.sayInt(), throwsA(isA<JThrowable>()));
         await expectLater(
-            itf.nullableHello(false), throwsA(isA<JniException>()));
-        await expectLater(itf.sayInt(), throwsA(isA<JniException>()));
-        await expectLater(
-            itf.sayInt$1(JInteger(456)), throwsA(isA<JniException>()));
-        await expectLater(itf.nullableInt(false), throwsA(isA<JniException>()));
-        await expectLater(itf.noReturn(), throwsA(isA<JniException>()));
+            itf.sayInt$1(JInteger(456)), throwsA(isA<JThrowable>()));
+        await expectLater(itf.nullableInt(false), throwsA(isA<JThrowable>()));
+        await expectLater(itf.noReturn(), throwsA(isA<JThrowable>()));
 
+        await expectLater(consumeOnSameThread(itf), throwsA(isA<JThrowable>()));
         await expectLater(
-            consumeOnSameThread(itf), throwsA(isA<JniException>()));
-        await expectLater(
-            consumeOnAnotherThread(itf), throwsA(isA<JniException>()));
+            consumeOnAnotherThread(itf), throwsA(isA<JThrowable>()));
       });
 
       test('throw delayed', () async {
@@ -548,21 +546,19 @@ kotlin.Unit
           },
         ));
 
-        await expectLater(itf.sayHello(), throwsA(isA<JniException>()));
+        await expectLater(itf.sayHello(), throwsA(isA<JThrowable>()));
         await expectLater(itf.sayHello$1(JString.fromString('Bob')),
-            throwsA(isA<JniException>()));
+            throwsA(isA<JThrowable>()));
+        await expectLater(itf.nullableHello(false), throwsA(isA<JThrowable>()));
+        await expectLater(itf.sayInt(), throwsA(isA<JThrowable>()));
         await expectLater(
-            itf.nullableHello(false), throwsA(isA<JniException>()));
-        await expectLater(itf.sayInt(), throwsA(isA<JniException>()));
-        await expectLater(
-            itf.sayInt$1(JInteger(456)), throwsA(isA<JniException>()));
-        await expectLater(itf.nullableInt(false), throwsA(isA<JniException>()));
-        await expectLater(itf.noReturn(), throwsA(isA<JniException>()));
+            itf.sayInt$1(JInteger(456)), throwsA(isA<JThrowable>()));
+        await expectLater(itf.nullableInt(false), throwsA(isA<JThrowable>()));
+        await expectLater(itf.noReturn(), throwsA(isA<JThrowable>()));
 
+        await expectLater(consumeOnSameThread(itf), throwsA(isA<JThrowable>()));
         await expectLater(
-            consumeOnSameThread(itf), throwsA(isA<JniException>()));
-        await expectLater(
-            consumeOnAnotherThread(itf), throwsA(isA<JniException>()));
+            consumeOnAnotherThread(itf), throwsA(isA<JThrowable>()));
       });
     });
   });

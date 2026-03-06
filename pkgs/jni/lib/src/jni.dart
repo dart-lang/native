@@ -199,17 +199,16 @@ abstract final class Jni {
   }
 
   /// Throws an exception.
-  // TODO(#561): Throw an actual `JThrowable`.
   @internal
   static void throwException(JThrowablePtr exception) {
     final details = _bindings.GetExceptionDetails(exception);
     final env = Jni.env;
     final message = env.toDartString(details.message);
     final stacktrace = env.toDartString(details.stacktrace);
-    env.DeleteGlobalRef(exception);
     env.DeleteGlobalRef(details.message);
     env.DeleteGlobalRef(details.stacktrace);
-    throw JniException(message, stacktrace);
+    throw JThrowable.fromReference(
+        JGlobalReference(exception), message, stacktrace);
   }
 
   /// Returns the instance of [GlobalJniEnvStruct], which is an abstraction over
@@ -422,8 +421,7 @@ extension AdditionalEnvMethods on GlobalJniEnv {
         final utf = s.toNativeUtf16(allocator: arena).cast<Uint16>();
         final result = NewString(utf, s.length);
         if (utf == nullptr) {
-          throw JniException(
-              'Fatal: cannot convert string to Java string: $s', '');
+          throw JniNewStringException(s);
         }
         return result;
       });
