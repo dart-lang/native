@@ -116,17 +116,18 @@ MethodDeclaration _transformFunction(
     transformedReturnType,
   )) {
     (ClosureType originalClosure, ClosureType transformedClosure)
-        when !originalClosure.sameAs(transformedClosure) => (
-          _adaptClosureForWrapperReturn(
-            originalClosure,
-            transformedClosure,
-            resultName,
-            localNamer,
-            globalNamer,
-            state,
-          ),
-          transformedReturnType,
+        when !originalClosure.sameAs(transformedClosure) =>
+      (
+        _adaptClosureForWrapperReturn(
+          originalClosure,
+          transformedClosure,
+          resultName,
+          localNamer,
+          globalNamer,
+          state,
         ),
+        transformedReturnType,
+      ),
     _ => maybeWrapValue(
       originalFunction.returnType,
       resultName,
@@ -188,17 +189,18 @@ String generateInvocationParams(
       transformedParam.type,
     )) {
       (ClosureType originalClosure, ClosureType transformedClosure)
-          when !originalClosure.sameAs(transformedClosure) => (
-            _adaptClosureForInvocation(
-              originalClosure,
-              transformedClosure,
-              transformedParamName,
-              localNamer,
-              globalNamer,
-              state,
-            ),
-            originalParam.type,
+          when !originalClosure.sameAs(transformedClosure) =>
+        (
+          _adaptClosureForInvocation(
+            originalClosure,
+            transformedClosure,
+            transformedParamName,
+            localNamer,
+            globalNamer,
+            state,
           ),
+          originalParam.type,
+        ),
       _ => maybeUnwrapValue(transformedParam.type, transformedParamName),
     };
 
@@ -216,7 +218,6 @@ String generateInvocationParams(
   return argumentsList.join(', ');
 }
 
-
 String _closureAttributes(ClosureType closureType) {
   // `@escaping` is a function-type attribute and does not apply to closure
   // expressions. `@Sendable` can be applied to closure expressions and should
@@ -233,7 +234,10 @@ String _closureEffects(ClosureType closureType) {
   return effects.isEmpty ? '' : ' ${effects.join(' ')}';
 }
 
-String _closureSignature(ClosureType closureType, List<String> parameterDecls) =>
+String _closureSignature(
+  ClosureType closureType,
+  List<String> parameterDecls,
+) =>
     '${_closureAttributes(closureType)}(${parameterDecls.join(', ')})${_closureEffects(closureType)}';
 
 String _adaptClosureForInvocation(
@@ -244,7 +248,9 @@ String _adaptClosureForInvocation(
   UniqueNamer globalNamer,
   TransformationState state,
 ) {
-  assert(originalClosure.parameters.length == transformedClosure.parameters.length);
+  assert(
+    originalClosure.parameters.length == transformedClosure.parameters.length,
+  );
 
   final parameterDecls = <String>[];
   final invocationArgs = <String>[];
@@ -290,7 +296,9 @@ String _adaptClosureForWrapperReturn(
   UniqueNamer globalNamer,
   TransformationState state,
 ) {
-  assert(originalClosure.parameters.length == transformedClosure.parameters.length);
+  assert(
+    originalClosure.parameters.length == transformedClosure.parameters.length,
+  );
 
   final parameterDecls = <String>[];
   final invocationArgs = <String>[];
@@ -301,7 +309,10 @@ String _adaptClosureForWrapperReturn(
     final argName = localNamer.makeUnique('closureArg$i');
     parameterDecls.add('$argName: ${transformedType.swiftType}');
 
-    final (unwrappedArg, unwrappedType) = maybeUnwrapValue(transformedType, argName);
+    final (unwrappedArg, unwrappedType) = maybeUnwrapValue(
+      transformedType,
+      argName,
+    );
     assert(unwrappedType.sameAs(originalType));
     invocationArgs.add(unwrappedArg);
   }
