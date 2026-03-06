@@ -119,6 +119,59 @@ void main() {
     expect(invocation, contains('@Sendable ('));
   });
 
+  test('generateInvocationParams skips closure thunk when closure types match', () {
+    final closure = ClosureType(
+      parameters: [intType],
+      returnType: voidType,
+      isSendable: true,
+    );
+
+    final localNamer = UniqueNamer();
+    final globalNamer = UniqueNamer();
+    final state = TransformationState()..globalNamer = globalNamer;
+
+    final invocation = generateInvocationParams(
+      localNamer,
+      [Parameter(name: 'callback', type: closure)],
+      [Parameter(name: 'callback', type: closure)],
+      globalNamer,
+      state,
+    );
+
+    expect(invocation, 'callback: callback');
+  });
+
+  test(
+    'generateInvocationParams adapts closure argument direction with wrap/unwrap',
+    () {
+      final originalClosure = ClosureType(
+        parameters: [TupleType([TupleElement(type: intType)])],
+        returnType: TupleType([TupleElement(type: intType)]),
+      );
+
+      final state = TransformationState();
+      final globalNamer = UniqueNamer();
+      state.globalNamer = globalNamer;
+      final transformedClosure =
+          transformReferredType(originalClosure, globalNamer, state)
+              as ClosureType;
+
+      final localNamer = UniqueNamer();
+      final invocation = generateInvocationParams(
+        localNamer,
+        [Parameter(name: 'callback', type: originalClosure)],
+        [Parameter(name: 'callback', type: transformedClosure)],
+        globalNamer,
+        state,
+      );
+
+      // The thunk should wrap tuple arguments into the transformed tuple
+      // wrapper class and unwrap returns back via `.wrappedInstance`.
+      expect(invocation, contains('{ ('));
+      expect(invocation, contains('wrappedInstance'));
+    },
+  );
+
   test(
     'generateInvocationParams does not emit @escaping for closure literals',
     () {

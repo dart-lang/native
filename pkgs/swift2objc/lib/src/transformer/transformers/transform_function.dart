@@ -183,6 +183,9 @@ String generateInvocationParams(
       transformedParam.internalName ?? transformedParam.name,
     );
 
+    // If closure types differ after transformation, we need a closure thunk
+    // that converts values at the closure boundary. For non-closures (or
+    // equivalent closure types), the regular unwrap path is enough.
     final (unwrappedParamValue, unwrappedType) = switch ((
       originalParam.type,
       transformedParam.type,
@@ -261,6 +264,9 @@ String _adaptClosureForInvocation(
     final argName = localNamer.makeUnique('closureArg$i');
     parameterDecls.add('$argName: ${originalType.swiftType}');
 
+    // Invocation adaptation goes from original closure signature to
+    // transformed closure signature:
+    //   original parameter value -> wrapped/transformed value.
     final (wrappedArg, wrappedType) = maybeWrapValue(
       originalType,
       argName,
@@ -280,6 +286,8 @@ String _adaptClosureForInvocation(
         'in $callExpression }';
   }
 
+  // Return value flows in the opposite direction:
+  //   transformed closure return -> original closure return.
   final (unwrappedReturn, unwrappedType) = maybeUnwrapValue(
     transformedClosure.returnType,
     callExpression,
@@ -311,6 +319,9 @@ String _adaptClosureForWrapperReturn(
     final argName = localNamer.makeUnique('closureArg$i');
     parameterDecls.add('$argName: ${transformedType.swiftType}');
 
+    // Wrapper-return adaptation receives transformed parameters and passes them
+    // into the original closure:
+    //   transformed parameter value -> unwrapped/original value.
     final (unwrappedArg, unwrappedType) = maybeUnwrapValue(
       transformedType,
       argName,
@@ -328,6 +339,8 @@ String _adaptClosureForWrapperReturn(
         'in $callExpression }';
   }
 
+  // Return flow is reversed here:
+  //   original closure return -> wrapped/transformed return.
   final (wrappedReturn, wrappedType) = maybeWrapValue(
     originalClosure.returnType,
     callExpression,
