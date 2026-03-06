@@ -222,9 +222,6 @@ String generateInvocationParams(
 }
 
 String _closureAttributes(ClosureType closureType) {
-  // `@escaping` is a function-type attribute and does not apply to closure
-  // expressions. `@Sendable` can be applied to closure expressions and should
-  // be propagated when adapting closures.
   final attrs = [if (closureType.isSendable) '@Sendable'];
   return attrs.isEmpty ? '' : '${attrs.join(' ')} ';
 }
@@ -320,7 +317,10 @@ String _adaptClosureForWrapperReturn(
     final argName = localNamer.makeUnique('closureArg$i');
     parameterDecls.add('$argName: ${transformedType.swiftType}');
 
-    final (unwrappedArg, unwrappedType) = maybeUnwrapValue(transformedType, argName);
+    final (unwrappedArg, unwrappedType) = maybeUnwrapValue(
+      transformedType,
+      argName,
+    );
     assert(unwrappedType.sameAs(originalType));
     invocationArgs.add(unwrappedArg);
   }

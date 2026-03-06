@@ -109,7 +109,9 @@ import 'parse_declarations.dart';
   }
 
   if (current.isNotEmpty && _tokenId(current[0]) == 'keyword: async') {
-    throw Exception('Invalid closure effects order: use "async throws", not "throws async".');
+    throw Exception(
+      'Invalid closure effects order: use "async throws", not "throws async".',
+    );
   }
 
   return (isAsync, isThrowing, current);

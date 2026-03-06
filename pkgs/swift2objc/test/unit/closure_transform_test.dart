@@ -4,14 +4,14 @@
 
 import 'package:swift2objc/src/ast/_core/shared/parameter.dart';
 import 'package:swift2objc/src/ast/_core/shared/referred_type.dart';
-import '../../lib/src/ast/declarations/built_in/built_in_declaration.dart';
-import '../../lib/src/ast/declarations/compounds/class_declaration.dart';
-import '../../lib/src/ast/declarations/compounds/members/method_declaration.dart';
+import 'package:swift2objc/src/ast/declarations/built_in/built_in_declaration.dart';
+import 'package:swift2objc/src/ast/declarations/compounds/class_declaration.dart';
+import 'package:swift2objc/src/ast/declarations/compounds/members/method_declaration.dart';
 import 'package:swift2objc/src/transformer/_core/unique_namer.dart';
 import 'package:swift2objc/src/transformer/_core/utils.dart';
 import 'package:swift2objc/src/transformer/transform.dart';
-import '../../lib/src/transformer/transformers/transform_function.dart';
-import '../../lib/src/transformer/transformers/transform_referred_type.dart';
+import 'package:swift2objc/src/transformer/transformers/transform_function.dart';
+import 'package:swift2objc/src/transformer/transformers/transform_referred_type.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -121,42 +121,50 @@ void main() {
     expect(invocation, contains('@Sendable ('));
   });
 
-  test('generateInvocationParams skips closure thunk when closure types match', () {
-    final closure = ClosureType(
-      parameters: [intType],
-      returnType: voidType,
-      isSendable: true,
-    );
+  test(
+    'generateInvocationParams skips closure thunk when closure types match',
+    () {
+      final closure = ClosureType(
+        parameters: [intType],
+        returnType: voidType,
+        isSendable: true,
+      );
 
-    final localNamer = UniqueNamer();
-    final globalNamer = UniqueNamer();
-    final state = TransformationState()..globalNamer = globalNamer;
+      final localNamer = UniqueNamer();
+      final globalNamer = UniqueNamer();
+      final state = TransformationState()..globalNamer = globalNamer;
 
-    final invocation = generateInvocationParams(
-      localNamer,
-      [Parameter(name: 'callback', type: closure)],
-      [Parameter(name: 'callback', type: closure)],
-      globalNamer,
-      state,
-    );
+      final invocation = generateInvocationParams(
+        localNamer,
+        [Parameter(name: 'callback', type: closure)],
+        [Parameter(name: 'callback', type: closure)],
+        globalNamer,
+        state,
+      );
 
-    expect(invocation, 'callback: callback');
-  });
+      expect(invocation, 'callback: callback');
+    },
+  );
 
   test(
     'generateInvocationParams adapts closure argument direction with wrap/unwrap',
     () {
       final originalClosure = ClosureType(
-        parameters: [TupleType([TupleElement(type: intType)])],
+        parameters: [
+          TupleType([TupleElement(type: intType)]),
+        ],
         returnType: TupleType([TupleElement(type: intType)]),
       );
 
       final state = TransformationState();
       final globalNamer = UniqueNamer();
       state.globalNamer = globalNamer;
-      final transformedClosure =
-          transformReferredType(originalClosure, globalNamer, state)
-              as ClosureType;
+      final transformedClosure = transformReferredType(
+        originalClosure,
+        globalNamer,
+        state,
+      ) as
+          ClosureType;
 
       final localNamer = UniqueNamer();
       final invocation = generateInvocationParams(
@@ -174,46 +182,59 @@ void main() {
     },
   );
 
-
-  test('transformDeclaration accepts closure parameter and return types on methods', () {
-    final originalClass = ClassDeclaration(
-      id: 'Foo',
-      name: 'Foo',
-      source: null,
-      availability: const [],
-      methods: [
-        MethodDeclaration(
-          id: 'Foo.bar',
-          name: 'bar',
-          source: null,
-          availability: const [],
-          returnType: ClosureType(parameters: [intType], returnType: intType),
-          params: [
-            Parameter(
-              name: 'callback',
-              type: ClosureType(parameters: [intType], returnType: intType),
+  test(
+    'transformDeclaration accepts and returns closure',
+    () {
+      final originalClass = ClassDeclaration(
+        id: 'Foo',
+        name: 'Foo',
+        source: null,
+        availability: const [],
+        methods: [
+          MethodDeclaration(
+            id: 'Foo.bar',
+            name: 'bar',
+            source: null,
+            availability: const [],
+            returnType: ClosureType(
+              parameters: [intType],
+              returnType: intType,
             ),
-          ],
-          isStatic: false,
-        ),
-      ],
-    );
+            params: [
+              Parameter(
+                name: 'callback',
+                type: ClosureType(
+                  parameters: [intType],
+                  returnType: intType,
+                ),
+              ),
+            ],
+            isStatic: false,
+          ),
+        ],
+      );
 
-    final state = TransformationState();
-    state.bindings.add(originalClass);
-    final globalNamer = UniqueNamer();
-    state.globalNamer = globalNamer;
+      final state = TransformationState();
+      state.bindings.add(originalClass);
+      final globalNamer = UniqueNamer();
+      state.globalNamer = globalNamer;
 
-    final transformed = transformDeclaration(originalClass, globalNamer, state);
-    expect(transformed, isA<ClassDeclaration>());
+      final transformed = transformDeclaration(
+        originalClass,
+        globalNamer,
+        state,
+      );
+      expect(transformed, isA<ClassDeclaration>());
 
-    final transformedClass = transformed as ClassDeclaration;
-    final transformedMethod = transformedClass.methods
-        .singleWhere((method) => method.name == 'bar');
+      final transformedClass = transformed as ClassDeclaration;
+      final transformedMethod = transformedClass.methods.singleWhere(
+        (method) => method.name == 'bar',
+      );
 
-    expect(transformedMethod.params.single.type, isA<ClosureType>());
-    expect(transformedMethod.returnType, isA<ClosureType>());
-  });
+      expect(transformedMethod.params.single.type, isA<ClosureType>());
+      expect(transformedMethod.returnType, isA<ClosureType>());
+    },
+  );
 
   test(
     'generateInvocationParams does not emit @escaping for closure literals',
