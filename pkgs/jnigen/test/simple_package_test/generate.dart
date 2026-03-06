@@ -40,6 +40,7 @@ final javaFiles = [
   join(javaPrefix, 'inheritance', 'BaseClass.java'),
   join(javaPrefix, 'inheritance', 'BaseInterface.java'),
   join(javaPrefix, 'inheritance', 'BaseGenericInterface.java'),
+  join(javaPrefix, 'inheritance', 'Child.java'),
   join(javaPrefix, 'inheritance', 'DerivedInterface.java'),
   join(javaPrefix, 'inheritance', 'GenericDerivedClass.java'),
   join(javaPrefix, 'inheritance', 'SpecificDerivedClass.java'),

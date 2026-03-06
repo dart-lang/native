@@ -2654,9 +2654,11 @@ final class $GenericTypeParams$Type$ extends jni$_.JType<GenericTypeParams> {
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.GrandParent$Parent$Child`
-extension type GrandParent$Parent$Child<$T extends jni$_.JObject?,
-        $S extends jni$_.JObject?, $U extends jni$_.JObject?>._(
-    jni$_.JObject _$this) implements jni$_.JObject {
+extension type GrandParent$Parent$Child<
+        $T extends jni$_.JObject?,
+        $S extends jni$_.JObject?,
+        $U extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static final _class = jni$_.JClass.forName(
       r'com/github/dart_lang/jnigen/generics/GrandParent$Parent$Child');
 
@@ -4246,7 +4248,7 @@ final class $GenericInterface$Type$ extends jni$_.JType<GenericInterface> {
 
 /// from: `com.github.dart_lang.jnigen.interfaces.InheritedFromMyInterface`
 extension type InheritedFromMyInterface._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+    implements jni$_.JObject, MyInterface<jni$_.JString?> {
   static final _class = jni$_.JClass.forName(
       r'com/github/dart_lang/jnigen/interfaces/InheritedFromMyInterface');
 
@@ -4536,7 +4538,7 @@ final class $InheritedFromMyInterface$Type$
 
 /// from: `com.github.dart_lang.jnigen.interfaces.InheritedFromMyRunnable`
 extension type InheritedFromMyRunnable._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+    implements jni$_.JObject, MyRunnable {
   static final _class = jni$_.JClass.forName(
       r'com/github/dart_lang/jnigen/interfaces/InheritedFromMyRunnable');
 
@@ -6051,9 +6053,75 @@ final class $BaseInterface$Type$ extends jni$_.JType<BaseInterface> {
       r'Lcom/github/dart_lang/jnigen/inheritance/BaseInterface;';
 }
 
+/// from: `com.github.dart_lang.jnigen.inheritance.Child`
+extension type Child._(jni$_.JObject _$this)
+    implements BaseClass<jni$_.JString?>, BaseInterface {
+  static final _class =
+      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/inheritance/Child');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<Child> type = $Child$Type$();
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Child() {
+    return _new$(_class.reference.pointer, _id_new$.pointer).object<Child>();
+  }
+
+  static final _id_foo = _class.instanceMethodId(
+    r'foo',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _foo = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String foo()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString? foo() {
+    return _foo(reference.pointer, _id_foo.pointer).object<jni$_.JString?>();
+  }
+}
+
+final class $Child$Type$ extends jni$_.JType<Child> {
+  @jni$_.internal
+  const $Child$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/inheritance/Child;';
+}
+
 /// from: `com.github.dart_lang.jnigen.inheritance.DerivedInterface`
 extension type DerivedInterface._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+    implements
+        jni$_.JObject,
+        BaseGenericInterface<jni$_.JString?>,
+        BaseInterface {
   static final _class = jni$_.JClass.forName(
       r'com/github/dart_lang/jnigen/inheritance/DerivedInterface');
 
@@ -8475,7 +8543,8 @@ final class $Nullable$Type$ extends jni$_.JType<Nullable> {
 }
 
 /// from: `com.github.dart_lang.jnigen.regressions.R2250$Child`
-extension type R2250$Child._(jni$_.JObject _$this) implements jni$_.JObject {
+extension type R2250$Child._(jni$_.JObject _$this)
+    implements jni$_.JObject, R2250<jni$_.JObject?> {
   static final _class = jni$_.JClass.forName(
       r'com/github/dart_lang/jnigen/regressions/R2250$Child');
 

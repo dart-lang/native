@@ -1244,6 +1244,54 @@ void registerTests(String groupName, TestRunnerCallback test) {
               'Hello Bar');
         });
       });
+      test('Child implements BaseClass and BaseInterface', () {
+        using((arena) {
+          final child = Child()..releasedBy(arena);
+          expect(child.foo()!.toDartString(releaseOriginal: true), 'foo');
+          expect(
+            child
+                .someMethod('bar'.toJString()..releasedBy(arena))
+                ?.toDartString(releaseOriginal: true),
+            'bar',
+          );
+
+          // Verify it can be assigned to BaseInterface.
+          final BaseInterface interface = child;
+          expect(interface.foo()!.toDartString(releaseOriginal: true), 'foo');
+
+          // Verify it can be assigned to BaseClass.
+          final BaseClass<JString?> base = child;
+          expect(
+            base
+                .someMethod('baz'.toJString()..releasedBy(arena))
+                ?.toDartString(releaseOriginal: true),
+            'baz',
+          );
+        });
+      });
+      test('DerivedInterface implements BaseGenericInterface and BaseInterface',
+          () {
+        using((arena) {
+          final derived = DerivedInterface.implement(
+            $DerivedInterface(
+              foo: () => 'derived_foo'.toJString()..releasedBy(arena),
+            ),
+          )..releasedBy(arena);
+
+          expect(derived.foo()!.toDartString(releaseOriginal: true),
+              'derived_foo');
+
+          // Verify it can be assigned to BaseGenericInterface.
+          final BaseGenericInterface<JString?> baseGeneric = derived;
+          expect(baseGeneric.foo()!.toDartString(releaseOriginal: true),
+              'derived_foo');
+
+          // Verify it can be assigned to BaseInterface.
+          final BaseInterface base = derived;
+          expect(
+              base.foo()!.toDartString(releaseOriginal: true), 'derived_foo');
+        });
+      });
     });
 
     group('$groupName (load tests)', () {

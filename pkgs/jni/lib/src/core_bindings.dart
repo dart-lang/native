@@ -43,7 +43,7 @@ import 'package:jni/jni.dart' as jni$_;
 
 /// from: `java.util.ArrayList`
 extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+    implements jni$_.JObject, JList<$E?> {
   static final _class = jni$_.JClass.forName(r'java/util/ArrayList');
 
   /// The type which includes information such as the signature of this class.
@@ -2723,7 +2723,7 @@ final class $JCollection$Type$ extends jni$_.JType<JCollection> {
 
 /// from: `java.util.HashMap`
 extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
-    jni$_.JObject _$this) implements jni$_.JObject {
+    jni$_.JObject _$this) implements jni$_.JObject, JMap<$K?, $V?> {
   static final _class = jni$_.JClass.forName(r'java/util/HashMap');
 
   /// The type which includes information such as the signature of this class.
@@ -4550,7 +4550,7 @@ final class $JHashMap$Type$ extends jni$_.JType<JHashMap> {
 
 /// from: `java.util.HashSet`
 extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+    implements jni$_.JObject, JSet<$E?> {
   static final _class = jni$_.JClass.forName(r'java/util/HashSet');
 
   /// The type which includes information such as the signature of this class.
@@ -6074,7 +6074,7 @@ final class $JIterator$Type$ extends jni$_.JType<JIterator> {
 
 /// from: `java.util.List`
 extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+    implements jni$_.JObject, JCollection<$E?> {
   static final _class = jni$_.JClass.forName(r'java/util/List');
 
   /// The type which includes information such as the signature of this class.
@@ -12816,7 +12816,7 @@ final class $JMap$Type$ extends jni$_.JType<JMap> {
 
 /// from: `java.util.Set`
 extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+    implements jni$_.JObject, JCollection<$E?> {
   static final _class = jni$_.JClass.forName(r'java/util/Set');
 
   /// The type which includes information such as the signature of this class.
