@@ -5,6 +5,8 @@
 import 'package:swift2objc/src/ast/_core/shared/parameter.dart';
 import 'package:swift2objc/src/ast/_core/shared/referred_type.dart';
 import '../../lib/src/ast/declarations/built_in/built_in_declaration.dart';
+import '../../lib/src/ast/declarations/compounds/class_declaration.dart';
+import '../../lib/src/ast/declarations/compounds/members/method_declaration.dart';
 import 'package:swift2objc/src/transformer/_core/unique_namer.dart';
 import 'package:swift2objc/src/transformer/_core/utils.dart';
 import 'package:swift2objc/src/transformer/transform.dart';
@@ -171,6 +173,47 @@ void main() {
       expect(invocation, contains('wrappedInstance'));
     },
   );
+
+
+  test('transformDeclaration accepts closure parameter and return types on methods', () {
+    final originalClass = ClassDeclaration(
+      id: 'Foo',
+      name: 'Foo',
+      source: null,
+      availability: const [],
+      methods: [
+        MethodDeclaration(
+          id: 'Foo.bar',
+          name: 'bar',
+          source: null,
+          availability: const [],
+          returnType: ClosureType(parameters: [intType], returnType: intType),
+          params: [
+            Parameter(
+              name: 'callback',
+              type: ClosureType(parameters: [intType], returnType: intType),
+            ),
+          ],
+          isStatic: false,
+        ),
+      ],
+    );
+
+    final state = TransformationState();
+    state.bindings.add(originalClass);
+    final globalNamer = UniqueNamer();
+    state.globalNamer = globalNamer;
+
+    final transformed = transformDeclaration(originalClass, globalNamer, state);
+    expect(transformed, isA<ClassDeclaration>());
+
+    final transformedClass = transformed as ClassDeclaration;
+    final transformedMethod = transformedClass.methods
+        .singleWhere((method) => method.name == 'bar');
+
+    expect(transformedMethod.params.single.type, isA<ClosureType>());
+    expect(transformedMethod.returnType, isA<ClosureType>());
+  });
 
   test(
     'generateInvocationParams does not emit @escaping for closure literals',
