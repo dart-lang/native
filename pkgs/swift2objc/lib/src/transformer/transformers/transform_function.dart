@@ -184,6 +184,9 @@ String generateInvocationParams(
       transformedParam.internalName ?? transformedParam.name,
     );
 
+    // If closure types differ after transformation, we need a closure thunk
+    // that converts values at the closure boundary. For non-closures (or
+    // equivalent closure types), the regular unwrap path is enough.
     final (unwrappedParamValue, unwrappedType) = switch ((
       originalParam.type,
       transformedParam.type,
@@ -238,7 +241,8 @@ String _closureSignature(
   ClosureType closureType,
   List<String> parameterDecls,
 ) =>
-    '${_closureAttributes(closureType)}(${parameterDecls.join(', ')})${_closureEffects(closureType)}';
+    '${_closureAttributes(closureType)}(${parameterDecls.join(', ')})'
+    '${_closureEffects(closureType)}';
 
 String _adaptClosureForInvocation(
   ClosureType originalClosure,
@@ -261,6 +265,9 @@ String _adaptClosureForInvocation(
     final argName = localNamer.makeUnique('closureArg$i');
     parameterDecls.add('$argName: ${originalType.swiftType}');
 
+    // Invocation adaptation goes from original closure signature to
+    // transformed closure signature:
+    //   original parameter value -> wrapped/transformed value.
     final (wrappedArg, wrappedType) = maybeWrapValue(
       originalType,
       argName,
@@ -276,16 +283,20 @@ String _adaptClosureForInvocation(
   if (originalClosure.isThrowing) callExpression = 'try $callExpression';
 
   if (originalClosure.returnType.sameAs(voidType)) {
-    return '{ ${_closureSignature(originalClosure, parameterDecls)} in $callExpression }';
+    return '{ ${_closureSignature(originalClosure, parameterDecls)} '
+        'in $callExpression }';
   }
 
+  // Return value flows in the opposite direction:
+  //   transformed closure return -> original closure return.
   final (unwrappedReturn, unwrappedType) = maybeUnwrapValue(
     transformedClosure.returnType,
     callExpression,
   );
   assert(unwrappedType.sameAs(originalClosure.returnType));
 
-  return '{ ${_closureSignature(originalClosure, parameterDecls)} in return $unwrappedReturn }';
+  return '{ ${_closureSignature(originalClosure, parameterDecls)} '
+      'in return $unwrappedReturn }';
 }
 
 String _adaptClosureForWrapperReturn(
@@ -309,10 +320,7 @@ String _adaptClosureForWrapperReturn(
     final argName = localNamer.makeUnique('closureArg$i');
     parameterDecls.add('$argName: ${transformedType.swiftType}');
 
-    final (unwrappedArg, unwrappedType) = maybeUnwrapValue(
-      transformedType,
-      argName,
-    );
+    final (unwrappedArg, unwrappedType) = maybeUnwrapValue(transformedType, argName);
     assert(unwrappedType.sameAs(originalType));
     invocationArgs.add(unwrappedArg);
   }
@@ -322,9 +330,12 @@ String _adaptClosureForWrapperReturn(
   if (originalClosure.isThrowing) callExpression = 'try $callExpression';
 
   if (transformedClosure.returnType.sameAs(voidType)) {
-    return '{ ${_closureSignature(transformedClosure, parameterDecls)} in $callExpression }';
+    return '{ ${_closureSignature(transformedClosure, parameterDecls)} '
+        'in $callExpression }';
   }
 
+  // Return flow is reversed here:
+  //   original closure return -> wrapped/transformed return.
   final (wrappedReturn, wrappedType) = maybeWrapValue(
     originalClosure.returnType,
     callExpression,
@@ -333,7 +344,8 @@ String _adaptClosureForWrapperReturn(
   );
   assert(wrappedType.sameAs(transformedClosure.returnType));
 
-  return '{ ${_closureSignature(transformedClosure, parameterDecls)} in return $wrappedReturn }';
+  return '{ ${_closureSignature(transformedClosure, parameterDecls)} '
+      'in return $wrappedReturn }';
 }
 
 List<String> _generateStatements(

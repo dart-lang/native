@@ -616,7 +616,7 @@ void main() {
     expect(remaining.length, 0);
   });
 
-  test('Throws async closure type', () {
+  test('Throws async closure type is rejected', () {
     final fragments = Json(
       jsonDecode('''
       [
@@ -631,18 +631,10 @@ void main() {
       '''),
     );
 
-    final (type, remaining) = parseType(
-      context,
-      parsedSymbols,
-      TokenList(fragments),
+    expect(
+      () => parseType(context, parsedSymbols, TokenList(fragments)),
+      throwsA(isA<Exception>()),
     );
-
-    expect(type is ClosureType, isTrue);
-    final closure = type as ClosureType;
-    expect(closure.isAsync, isTrue);
-    expect(closure.isThrowing, isTrue);
-    expect(closure.returnType.sameAs(stringType), isTrue);
-    expect(remaining.length, 0);
   });
 
   test('Attributed async throws closure type', () {

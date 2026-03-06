@@ -98,17 +98,18 @@ import 'parse_declarations.dart';
   var isAsync = false;
   var isThrowing = false;
 
-  while (current.isNotEmpty) {
-    final token = _tokenId(current[0]);
-    if (token == 'keyword: async') {
-      isAsync = true;
-      current = current.slice(1);
-    } else if (token == 'keyword: throws') {
-      isThrowing = true;
-      current = current.slice(1);
-    } else {
-      break;
-    }
+  if (current.isNotEmpty && _tokenId(current[0]) == 'keyword: async') {
+    isAsync = true;
+    current = current.slice(1);
+  }
+
+  if (current.isNotEmpty && _tokenId(current[0]) == 'keyword: throws') {
+    isThrowing = true;
+    current = current.slice(1);
+  }
+
+  if (current.isNotEmpty && _tokenId(current[0]) == 'keyword: async') {
+    throw Exception('Invalid closure effects order: use "async throws", not "throws async".');
   }
 
   return (isAsync, isThrowing, current);
