@@ -1482,6 +1482,66 @@ final class $Example$Type$ extends jni$_.JType<Example> {
       r'Lcom/github/dart_lang/jnigen/simple_package/Example;';
 }
 
+/// from: `com.github.dart_lang.jnigen.simple_package.Exceptions$MyException`
+extension type Exceptions$MyException._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static final _class = jni$_.JClass.forName(
+      r'com/github/dart_lang/jnigen/simple_package/Exceptions$MyException');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<Exceptions$MyException> type =
+      $Exceptions$MyException$Type$();
+  static final _id_errorCode = _class.instanceFieldId(
+    r'errorCode',
+    r'I',
+  );
+
+  /// from: `public int errorCode`
+  int get errorCode => _id_errorCode.getNullable(this, jni$_.jint.type) as int;
+
+  /// from: `public int errorCode`
+  set errorCode(int value) => _id_errorCode.set(this, jni$_.jint.type, value);
+
+  static final _id_new$ = _class.constructorId(
+    r'(Ljava/lang/String;I)V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int32)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `public void <init>(java.lang.String string, int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory Exceptions$MyException(
+    jni$_.JString? string,
+    int i,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _new$(
+            _class.reference.pointer, _id_new$.pointer, _$string.pointer, i)
+        .object<Exceptions$MyException>();
+  }
+}
+
+final class $Exceptions$MyException$Type$
+    extends jni$_.JType<Exceptions$MyException> {
+  @jni$_.internal
+  const $Exceptions$MyException$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/simple_package/Exceptions$MyException;';
+}
+
 /// from: `com.github.dart_lang.jnigen.simple_package.Exceptions`
 extension type Exceptions._(jni$_.JObject _$this) implements jni$_.JObject {
   static final _class = jni$_.JClass.forName(
@@ -1908,6 +1968,29 @@ extension type Exceptions._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public void throwLoremIpsum()`
   static void throwLoremIpsum() {
     _throwLoremIpsum(_class.reference.pointer, _id_throwLoremIpsum.pointer)
+        .check();
+  }
+
+  static final _id_throwMyException = _class.staticMethodId(
+    r'throwMyException',
+    r'()V',
+  );
+
+  static final _throwMyException = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallStaticVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `static public void throwMyException()`
+  static void throwMyException() {
+    _throwMyException(_class.reference.pointer, _id_throwMyException.pointer)
         .check();
   }
 }

@@ -244,7 +244,7 @@ void run({required TestRunnerCallback testRunner}) {
     expect(random, lessThan(256));
   });
 
-  testRunner('Methods rethrow exceptions in Java as JniException', () {
+  testRunner('Methods rethrow exceptions in Java as JThrowable', () {
     expect(
       () {
         final integerClass = JInteger.type.jClass;
@@ -252,7 +252,7 @@ void run({required TestRunnerCallback testRunner}) {
             .staticMethodId('parseInt', '(Ljava/lang/String;)I')
             .call(integerClass, jint.type, ['X'.toJString()]);
       },
-      throwsA(isA<JniException>()),
+      throwsA(isA<JThrowable>()),
     );
   });
 

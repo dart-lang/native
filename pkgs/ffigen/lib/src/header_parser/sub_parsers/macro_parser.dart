@@ -12,7 +12,6 @@ import 'package:path/path.dart' as p;
 import '../../code_generator.dart';
 import '../../config_provider/config_types.dart';
 import '../../context.dart';
-import '../../strings.dart' as strings;
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
 
@@ -178,7 +177,7 @@ late Set<String> _macroVarNames;
 
 /// Creates a temporary file for parsing macros in current directory.
 File createFileForMacros(Context context) {
-  final fileNameBase = p.normalize(p.join(strings.tmpDir, 'temp_for_macros'));
+  final fileNameBase = p.normalize(p.join(context.tmpDir, 'temp_for_macros'));
   final fileExt = 'hpp';
 
   // Find a filename which doesn't already exist.
