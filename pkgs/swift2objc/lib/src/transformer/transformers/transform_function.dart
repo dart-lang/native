@@ -184,9 +184,6 @@ String generateInvocationParams(
       transformedParam.internalName ?? transformedParam.name,
     );
 
-    // If closure types differ after transformation, we need a closure thunk
-    // that converts values at the closure boundary. For non-closures (or
-    // equivalent closure types), the regular unwrap path is enough.
     final (unwrappedParamValue, unwrappedType) = switch ((
       originalParam.type,
       transformedParam.type,

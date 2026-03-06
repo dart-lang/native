@@ -175,8 +175,6 @@ void main() {
         state,
       );
 
-      // The thunk should wrap tuple arguments into the transformed tuple
-      // wrapper class and unwrap returns back via `.wrappedInstance`.
       expect(invocation, contains('{ ('));
       expect(invocation, contains('wrappedInstance'));
     },
