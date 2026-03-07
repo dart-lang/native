@@ -40,6 +40,213 @@ import 'dart:core' show Object, String, double, int;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
+/// from: `com.github.dart_lang.jnigen.AllDefaults`
+extension type AllDefaults._(jni$_.JObject _$this) implements jni$_.JObject {
+  static final _class =
+      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/AllDefaults');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<AllDefaults> type = $AllDefaults$Type$();
+  static final _id_new$ = _class.constructorId(
+    r'(ILjava/lang/String;Z)V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Int32,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `public void <init>(int i, java.lang.String string, boolean z)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory AllDefaults(
+    int i,
+    jni$_.JString string,
+    core$_.bool z,
+  ) {
+    final _$string = string.reference;
+    return _new$(_class.reference.pointer, _id_new$.pointer, i,
+            _$string.pointer, z ? 1 : 0)
+        .object<AllDefaults>();
+  }
+
+  static final _id_new$1 = _class.constructorId(
+    r'(ILjava/lang/String;ZILkotlin/jvm/internal/DefaultConstructorMarker;)V',
+  );
+
+  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Int32,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              int,
+              jni$_.Pointer<jni$_.Void>,
+              int,
+              int,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `synthetic public void <init>(int i, java.lang.String string, boolean z, int i1, kotlin.jvm.internal.DefaultConstructorMarker defaultConstructorMarker)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory AllDefaults.new$1(
+    int i,
+    jni$_.JString? string,
+    core$_.bool z,
+    int i1,
+    jni$_.JObject? defaultConstructorMarker,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    final _$defaultConstructorMarker =
+        defaultConstructorMarker?.reference ?? jni$_.jNullReference;
+    return _new$1(_class.reference.pointer, _id_new$1.pointer, i,
+            _$string.pointer, z ? 1 : 0, i1, _$defaultConstructorMarker.pointer)
+        .object<AllDefaults>();
+  }
+
+  static final _id_getA = _class.instanceMethodId(
+    r'getA',
+    r'()I',
+  );
+
+  static final _getA = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final int getA()`
+  int getA() {
+    return _getA(reference.pointer, _id_getA.pointer).integer;
+  }
+
+  static final _id_getB = _class.instanceMethodId(
+    r'getB',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _getB = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final java.lang.String getB()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString getB() {
+    return _getB(reference.pointer, _id_getB.pointer).object<jni$_.JString>();
+  }
+
+  static final _id_getC = _class.instanceMethodId(
+    r'getC',
+    r'()Z',
+  );
+
+  static final _getC = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final boolean getC()`
+  core$_.bool getC() {
+    return _getC(reference.pointer, _id_getC.pointer).boolean;
+  }
+
+  static final _id_summary = _class.instanceMethodId(
+    r'summary',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _summary = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public fun summary(): kotlin.String`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString summary() {
+    return _summary(reference.pointer, _id_summary.pointer)
+        .object<jni$_.JString>();
+  }
+
+  static final _id_new$2 = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$2 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory AllDefaults.new$2() {
+    return _new$2(_class.reference.pointer, _id_new$2.pointer)
+        .object<AllDefaults>();
+  }
+}
+
+final class $AllDefaults$Type$ extends jni$_.JType<AllDefaults> {
+  @jni$_.internal
+  const $AllDefaults$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/AllDefaults;';
+}
+
 /// from: `com.github.dart_lang.jnigen.CanDoA`
 extension type CanDoA._(jni$_.JObject _$this) implements jni$_.JObject {
   static final _class =
@@ -316,6 +523,183 @@ final class $CanDoB$Type$ extends jni$_.JType<CanDoB> {
   String get signature => r'Lcom/github/dart_lang/jnigen/CanDoB;';
 }
 
+/// from: `com.github.dart_lang.jnigen.DefaultParams`
+extension type DefaultParams._(jni$_.JObject _$this) implements jni$_.JObject {
+  static final _class =
+      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/DefaultParams');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<DefaultParams> type = $DefaultParams$Type$();
+  static final _id_new$ = _class.constructorId(
+    r'(ILjava/lang/String;)V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(int i, java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory DefaultParams(
+    int i,
+    jni$_.JString string,
+  ) {
+    final _$string = string.reference;
+    return _new$(
+            _class.reference.pointer, _id_new$.pointer, i, _$string.pointer)
+        .object<DefaultParams>();
+  }
+
+  static final _id_new$1 = _class.constructorId(
+    r'(ILjava/lang/String;ILkotlin/jvm/internal/DefaultConstructorMarker;)V',
+  );
+
+  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Int32,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              int,
+              jni$_.Pointer<jni$_.Void>,
+              int,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `synthetic public void <init>(int i, java.lang.String string, int i1, kotlin.jvm.internal.DefaultConstructorMarker defaultConstructorMarker)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory DefaultParams.new$1(
+    int i,
+    jni$_.JString? string,
+    int i1,
+    jni$_.JObject? defaultConstructorMarker,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    final _$defaultConstructorMarker =
+        defaultConstructorMarker?.reference ?? jni$_.jNullReference;
+    return _new$1(_class.reference.pointer, _id_new$1.pointer, i,
+            _$string.pointer, i1, _$defaultConstructorMarker.pointer)
+        .object<DefaultParams>();
+  }
+
+  static final _id_getX = _class.instanceMethodId(
+    r'getX',
+    r'()I',
+  );
+
+  static final _getX = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final int getX()`
+  int getX() {
+    return _getX(reference.pointer, _id_getX.pointer).integer;
+  }
+
+  static final _id_getY = _class.instanceMethodId(
+    r'getY',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _getY = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final java.lang.String getY()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString getY() {
+    return _getY(reference.pointer, _id_getY.pointer).object<jni$_.JString>();
+  }
+
+  static final _id_greet = _class.instanceMethodId(
+    r'greet',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _greet = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public fun greet(): kotlin.String`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString greet() {
+    return _greet(reference.pointer, _id_greet.pointer).object<jni$_.JString>();
+  }
+
+  static final _id_new$2 = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$2 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory DefaultParams.new$2() {
+    return _new$2(_class.reference.pointer, _id_new$2.pointer)
+        .object<DefaultParams>();
+  }
+}
+
+final class $DefaultParams$Type$ extends jni$_.JType<DefaultParams> {
+  @jni$_.internal
+  const $DefaultParams$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/DefaultParams;';
+}
+
 /// from: `com.github.dart_lang.jnigen.Measure`
 extension type Measure<$T extends jni$_.JObject>._(jni$_.JObject _$this)
     implements jni$_.JObject {
@@ -578,10 +962,168 @@ final class $MeasureUnit$Type$ extends jni$_.JType<MeasureUnit> {
   String get signature => r'Lcom/github/dart_lang/jnigen/MeasureUnit;';
 }
 
+/// from: `com.github.dart_lang.jnigen.MixedParams`
+extension type MixedParams._(jni$_.JObject _$this) implements jni$_.JObject {
+  static final _class =
+      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/MixedParams');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<MixedParams> type = $MixedParams$Type$();
+  static final _id_new$ = _class.constructorId(
+    r'(Ljava/lang/String;I)V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int32)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `public void <init>(java.lang.String string, int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory MixedParams(
+    jni$_.JString string,
+    int i,
+  ) {
+    final _$string = string.reference;
+    return _new$(
+            _class.reference.pointer, _id_new$.pointer, _$string.pointer, i)
+        .object<MixedParams>();
+  }
+
+  static final _id_new$1 = _class.constructorId(
+    r'(Ljava/lang/String;IILkotlin/jvm/internal/DefaultConstructorMarker;)V',
+  );
+
+  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              int,
+              int,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `synthetic public void <init>(java.lang.String string, int i, int i1, kotlin.jvm.internal.DefaultConstructorMarker defaultConstructorMarker)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory MixedParams.new$1(
+    jni$_.JString? string,
+    int i,
+    int i1,
+    jni$_.JObject? defaultConstructorMarker,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    final _$defaultConstructorMarker =
+        defaultConstructorMarker?.reference ?? jni$_.jNullReference;
+    return _new$1(_class.reference.pointer, _id_new$1.pointer, _$string.pointer,
+            i, i1, _$defaultConstructorMarker.pointer)
+        .object<MixedParams>();
+  }
+
+  static final _id_getRequired = _class.instanceMethodId(
+    r'getRequired',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _getRequired = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final java.lang.String getRequired()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString getRequired() {
+    return _getRequired(reference.pointer, _id_getRequired.pointer)
+        .object<jni$_.JString>();
+  }
+
+  static final _id_getOptional = _class.instanceMethodId(
+    r'getOptional',
+    r'()I',
+  );
+
+  static final _getOptional = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final int getOptional()`
+  int getOptional() {
+    return _getOptional(reference.pointer, _id_getOptional.pointer).integer;
+  }
+
+  static final _id_describe = _class.instanceMethodId(
+    r'describe',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _describe = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public fun describe(): kotlin.String`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString describe() {
+    return _describe(reference.pointer, _id_describe.pointer)
+        .object<jni$_.JString>();
+  }
+}
+
+final class $MixedParams$Type$ extends jni$_.JType<MixedParams> {
+  @jni$_.internal
+  const $MixedParams$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/MixedParams;';
+}
+
 /// from: `com.github.dart_lang.jnigen.Nullability$InnerClass`
-extension type Nullability$InnerClass<$T extends jni$_.JObject?,
-        $U extends jni$_.JObject, $V extends jni$_.JObject?>._(
-    jni$_.JObject _$this) implements jni$_.JObject {
+extension type Nullability$InnerClass<
+        $T extends jni$_.JObject?,
+        $U extends jni$_.JObject,
+        $V extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static final _class = jni$_.JClass.forName(
       r'com/github/dart_lang/jnigen/Nullability$InnerClass');
 

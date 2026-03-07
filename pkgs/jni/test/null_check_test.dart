@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:jni/jni.dart';
 import 'package:test/test.dart';
@@ -10,6 +11,10 @@ import 'package:test/test.dart';
 import 'test_util/test_util.dart';
 
 void main() {
+  if (!Platform.isAndroid) {
+    checkDylibIsUpToDate();
+    spawnJvm();
+  }
   run(testRunner: test);
 }
 
@@ -46,8 +51,7 @@ void run({required TestRunnerCallback testRunner}) {
     final randomClass = JClass.forName('java/util/Random');
     final random = randomClass.constructorId('()V').call(
       randomClass,
-      JObject.type,
-      [],
+      <dynamic>[],
     );
 
     final methodId = randomClass.instanceMethodId('nextInt', '(I)I');
@@ -82,7 +86,6 @@ void run({required TestRunnerCallback testRunner}) {
     // Valid constructor call should work
     final integer = ctorId.call(
       integerClass,
-      JObject.type,
       [JValueInt(42)],
     );
     expect(integer, isNotNull);
@@ -91,7 +94,7 @@ void run({required TestRunnerCallback testRunner}) {
     // Null class reference for constructor should be handled
     final nullClassRef = JClass.fromReference(jNullReference);
     expect(
-      () => ctorId.call(nullClassRef, JObject.type, [JValueInt(42)]),
+      () => ctorId.call(nullClassRef, [JValueInt(42)]),
       throwsA(isA<JniException>()),
     );
   });
@@ -107,8 +110,7 @@ void run({required TestRunnerCallback testRunner}) {
     final randomClass = JClass.forName('java/util/Random');
     final random = randomClass.constructorId('()V').call(
       randomClass,
-      JObject.type,
-      [],
+      <dynamic>[],
     );
 
     final isSame1 = Jni.env.IsSameObject(random.reference.pointer, nullptr);
