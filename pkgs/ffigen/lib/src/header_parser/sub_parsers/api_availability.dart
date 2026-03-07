@@ -19,6 +19,7 @@ class ApiAvailability {
   final bool alwaysUnavailable;
   final PlatformAvailability? ios;
   final PlatformAvailability? macos;
+  final bool swiftUnavailable;
 
   late final Availability availability;
 
@@ -27,6 +28,7 @@ class ApiAvailability {
     this.alwaysUnavailable = false,
     this.ios,
     this.macos,
+    this.swiftUnavailable = false,
     required ExternalVersions? externalVersions,
   }) {
     availability = _getAvailability(externalVersions);
@@ -64,6 +66,7 @@ class ApiAvailability {
 
     PlatformAvailability? ios;
     PlatformAvailability? macos;
+    var swiftIsUnavailable = false;
 
     for (var i = 0; i < platformsLength; ++i) {
       final platform = platforms[i];
@@ -80,6 +83,9 @@ class ApiAvailability {
         case 'macos':
           macos = platformAvailability..name = 'macOS';
           break;
+        case 'swift':
+          if (platformAvailability.unavailable) swiftIsUnavailable = true;
+          break;
       }
     }
 
@@ -88,6 +94,7 @@ class ApiAvailability {
       alwaysUnavailable: alwaysUnavailable.value != 0,
       ios: ios,
       macos: macos,
+      swiftUnavailable: swiftIsUnavailable,
       externalVersions: context.config.objectiveC?.externalVersions,
     );
 

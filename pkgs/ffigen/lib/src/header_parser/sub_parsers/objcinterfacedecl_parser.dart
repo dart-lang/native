@@ -77,6 +77,25 @@ void fillObjCInterfaceMethodsIfNeeded(
     'Name: ${itf.originalName}, ${cursor.completeStringRepr()}',
   );
 
+  if (!cursor.isInSystemHeader()) {
+    cursor.visitChildren((child) {
+      final isMethodDecl =
+          child.kind ==
+              clang_types.CXCursorKind.CXCursor_ObjCInstanceMethodDecl ||
+          child.kind == clang_types.CXCursorKind.CXCursor_ObjCClassMethodDecl;
+      if (isMethodDecl) {
+        final avail = ApiAvailability.fromCursor(child, context);
+        if (avail.swiftUnavailable) {
+          itf.swiftUnavailableSelectors.add(child.spelling());
+          context.logger.info(
+            'Marking swift-unavailable: '
+            '${itf.originalName}.${child.spelling()}',
+          );
+        }
+      }
+    });
+  }
+
   final itfDecl = Declaration(usr: itf.usr, originalName: itf.originalName);
   cursor.visitChildren((child) {
     switch (child.kind) {

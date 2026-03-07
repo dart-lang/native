@@ -25,6 +25,7 @@ class ObjCInterface extends BindingType with ObjCMethods, HasLocalScope {
   final categories = <ObjCCategory>[];
   final subtypes = <ObjCInterface>[];
   final ApiAvailability apiAvailability;
+  final Set<String> swiftUnavailableSelectors = {};
 
   // Filled by ListBindingsVisitation.
   bool generateAsStub = false;
@@ -168,7 +169,9 @@ ${generateInstanceMethodBindings(w, this)}
               m.originalName == 'new',
         )
         .firstOrNull;
-    if (newMethod != null && originalName != 'NSString') {
+    if (newMethod != null &&
+        originalName != 'NSString' &&
+        !swiftUnavailableSelectors.contains('new')) {
       s.write('''
   /// Returns a new instance of $name constructed with the default `new` method.
   $name() : this.as(${newMethod.name}().object\$);
