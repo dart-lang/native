@@ -57,7 +57,8 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
         if (isNSObject) {
           node.addMethod(m);
         } else if (m.isClassMethod &&
-            !_excludedNSObjectMethods.contains(m.originalName)) {
+            !_excludedNSObjectMethods.contains(m.originalName) &&
+            !node.swiftUnavailableSelectors.contains(m.originalName)) {
           node.addMethod(m);
         } else if (ObjCBuiltInFunctions.isInstanceType(m.returnType)) {
           node.addMethod(m);
