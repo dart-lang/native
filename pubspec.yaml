@@ -108,6 +108,7 @@ workspace:
   # - pkgs/objective_c  # TODO
   # - pkgs/objective_c/example/command_line  # TODO
   # - pkgs/objective_c/example/flutter_app  # Requires Flutter.
+  # - pkgs/objective_c_helper  # TODO
   - pkgs/pub_formats
   - pkgs/record_use
   - pkgs/record_use/test_data/drop_data_asset

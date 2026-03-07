@@ -1,4 +1,4 @@
-// Copyright (c) 2025, the Dart project authors.  Please see the AUTHORS file
+// Copyright (c) 2024, the Dart project authors. Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
@@ -9,12 +9,7 @@ import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
 import 'package:native_toolchain_c/src/cbuilder/compiler_resolver.dart';
 
-const objCFlags = ['-x', 'objective-c', '-fobjc-arc'];
-
-const assetName = 'objective_c.dylib';
-
-// TODO(https://github.com/dart-lang/native/issues/2272): Remove this from the
-// main build.
+const assetName = 'objective_c_helper.dylib';
 
 final logger = Logger('')
   ..level = Level.INFO
@@ -25,15 +20,14 @@ final logger = Logger('')
 void main(List<String> args) async {
   await build(args, (input, output) async {
     if (!input.config.buildCodeAssets) {
-      // Don't build any other asset types.
       return;
     }
 
-    const supportedOSs = {OS.iOS, OS.macOS};
     final codeConfig = input.config.code;
     final os = codeConfig.targetOS;
-    if (!supportedOSs.contains(os)) {
-      // Nothing to do.
+
+    // util.c only compiles on macOS (uses macOS-specific memory functions).
+    if (os != OS.macOS) {
       return;
     }
 
@@ -43,24 +37,15 @@ void main(List<String> args) async {
 
     final packageName = input.packageName;
     final assetPath = input.outputDirectory.resolve(assetName);
-    final srcDir = Directory.fromUri(input.packageRoot.resolve('src/'));
+    final srcDir = Directory.fromUri(input.packageRoot.resolve('lib/src/'));
     final target = toTargetTriple(codeConfig);
 
     final cFiles = <String>[];
-    final mFiles = <String>[];
-    final hFiles = <String>[];
     for (final file in srcDir.listSync(recursive: true)) {
-      if (file is File) {
-        final path = file.path;
-        if (path.endsWith('.c')) cFiles.add(path);
-        if (path.endsWith('.m')) mFiles.add(path);
-        if (path.endsWith('.h')) hFiles.add(path);
+      if (file is File && file.path.endsWith('.c')) {
+        cFiles.add(file.path);
       }
     }
-
-    // Only include the test utils on mac OS. They use memory functions that
-    // aren't supported on iOS, like mach_vm_region. We don't need them on iOS
-    // anyway since we only run memory tests on mac.
 
     final sysroot = sdkPath(codeConfig);
     final minVersion = minOSVersion(codeConfig);
@@ -71,21 +56,14 @@ void main(List<String> args) async {
       target,
       minVersion,
     ];
-    final mFlags = [...cFlags, ...objCFlags];
-    final linkFlags = cFlags;
 
     final builder = await Builder.create(input, input.packageRoot.toFilePath());
-
-    final objectFiles = await Future.wait(<Future<String>>[
+    final objectFiles = await Future.wait([
       for (final src in cFiles) builder.buildObject(src, cFlags),
-      for (final src in mFiles) builder.buildObject(src, mFlags),
     ]);
-    await builder.linkLib(objectFiles, assetPath.toFilePath(), linkFlags);
+    await builder.linkLib(objectFiles, assetPath.toFilePath(), cFlags);
 
     output.dependencies.addAll(cFiles.map(Uri.file));
-    output.dependencies.addAll(mFiles.map(Uri.file));
-    output.dependencies.addAll(hFiles.map(Uri.file));
-
     output.assets.code.add(
       CodeAsset(
         package: packageName,
@@ -152,18 +130,8 @@ class Builder {
 }
 
 String sdkPath(CodeConfig codeConfig) {
-  final String target;
-  if (codeConfig.targetOS == OS.iOS) {
-    if (codeConfig.iOS.targetSdk == IOSSdk.iPhoneOS) {
-      target = 'iphoneos';
-    } else {
-      target = 'iphonesimulator';
-    }
-  } else {
-    assert(codeConfig.targetOS == OS.macOS);
-    target = 'macosx';
-  }
-  return firstLineOfStdout('xcrun', ['--show-sdk-path', '--sdk', target]);
+  assert(codeConfig.targetOS == OS.macOS);
+  return firstLineOfStdout('xcrun', ['--show-sdk-path', '--sdk', 'macosx']);
 }
 
 String firstLineOfStdout(String cmd, List<String> args) {
@@ -176,33 +144,17 @@ String firstLineOfStdout(String cmd, List<String> args) {
 }
 
 String minOSVersion(CodeConfig codeConfig) {
-  if (codeConfig.targetOS == OS.iOS) {
-    final targetVersion = codeConfig.iOS.targetVersion;
-    return '-mios-version-min=$targetVersion';
-  }
   assert(codeConfig.targetOS == OS.macOS);
   final targetVersion = codeConfig.macOS.targetVersion;
   return '-mmacos-version-min=$targetVersion';
 }
 
 String toTargetTriple(CodeConfig codeConfig) {
-  final architecture = codeConfig.targetArchitecture;
-  if (codeConfig.targetOS == OS.iOS) {
-    return appleClangIosTargetFlags[architecture]![codeConfig.iOS.targetSdk]!;
-  }
   assert(codeConfig.targetOS == OS.macOS);
-  return appleClangMacosTargetFlags[architecture]!;
+  return appleClangMacosTargetFlags[codeConfig.targetArchitecture]!;
 }
 
 const appleClangMacosTargetFlags = {
   Architecture.arm64: 'arm64-apple-darwin',
   Architecture.x64: 'x86_64-apple-darwin',
-};
-
-const appleClangIosTargetFlags = {
-  Architecture.arm64: {
-    IOSSdk.iPhoneOS: 'arm64-apple-ios',
-    IOSSdk.iPhoneSimulator: 'arm64-apple-ios-simulator',
-  },
-  Architecture.x64: {IOSSdk.iPhoneSimulator: 'x86_64-apple-ios-simulator'},
 };

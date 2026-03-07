@@ -9,10 +9,9 @@ library;
 import 'dart:io';
 
 import 'package:ffigen/src/code_generator/objc_built_in_types.dart';
+import 'package:objective_c_helper/src/util.dart';
 import 'package:path/path.dart' as p;
 import 'package:test/test.dart';
-
-import 'util.dart';
 
 // The default expect error message for sets isn't very useful. In the common
 // case where the sets are different lengths, the default matcher just says the
