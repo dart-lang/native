@@ -7,19 +7,28 @@ import '../../ast_node.dart';
 import '../../declarations/built_in/built_in_declaration.dart';
 import '../shared/referred_type.dart';
 import 'availability.dart';
+import 'nestable_declaration.dart';
 
 /// A common interface for all Swift entities declarations.
 abstract interface class Declaration implements AstNode, Availability {
   abstract final String id;
   abstract final String name;
   abstract final InputConfig? source;
+  abstract final int? lineNumber;
 }
 
 extension AsDeclaredType<T extends Declaration> on T {
   DeclaredType<T> get asDeclaredType => DeclaredType(id: id, declaration: this);
 }
 
-extension DeclarationIsBuiltIn on Declaration {
+extension DeclarationExtensions on Declaration {
   bool get isBuiltIn =>
       this is BuiltInDeclaration || source == builtInInputConfig;
+
+  String get fullName {
+    final parent = this is InnerNestableDeclaration
+        ? (this as InnerNestableDeclaration).nestingParent
+        : null;
+    return parent != null ? '${parent.fullName}.$name' : name;
+  }
 }

@@ -1,0 +1,19 @@
+name: pirate_speak
+description: >
+  Test data for record_use filtering. This package simulates a translation library.
+  The build hook produces a JSON asset with translations.
+  The link hook filters the JSON to only include translations for phrases used in the code,
+  identified via @RecordUse on the `pirateSpeak` function.
+
+publish_to: none
+
+resolution: workspace
+
+environment:
+  sdk: '>=3.10.0 <4.0.0'
+
+dependencies:
+  data_assets: any
+  hooks: any
+  meta: ^1.17.0
+  record_use: any

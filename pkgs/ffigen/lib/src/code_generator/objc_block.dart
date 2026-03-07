@@ -567,6 +567,9 @@ $ret $fnName(id target, $argRecv) {
   }
 
   @override
+  void visit(Visitation visitation) => visitation.visitObjCBlock(this);
+
+  @override
   bool isSupertypeOf(Type other) {
     other = other.typealiasType;
     if (other is ObjCBlock) {

@@ -1,5 +1,11 @@
-## 0.15.1-wip
+## 0.16.0
 
+- **Breaking Change**: All Java wrapper classes have been migrated to extension
+  types. The main effects are:
+  - No more nullable `JType` classes, only `JType` classes, and the `JType`
+    class is simplified.
+  - It is no longer necessary to pass around the `JType` in many cases where it
+    used to be required.
 - Add docs about debugging.
 - Add support for Kotlin interfaces with suspend functions. These can now be
   implemented using Dart functions that return a `Future`.
@@ -10,6 +16,7 @@
 - Generated bindings now use `JClass.forNameCached` instead of `JClass.forName`
   for class lookups, reducing redundant `FindClass` JNI calls via the new
   isolate-local LRU cache in `package:jni`.
+- Improve error message for unsupported Java class file versions in summary generation.
 
 ## 0.15.0
 

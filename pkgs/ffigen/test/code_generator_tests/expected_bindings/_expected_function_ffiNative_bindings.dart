@@ -11,13 +11,14 @@ library;
 
 import 'dart:ffi' as ffi;
 
+/// A function with isLeaf: true
+@ffi.Native<ffi.Int32 Function(ffi.Int32)>(isLeaf: true)
+external int leafFunc(int a);
+
 /// Just a test function
 /// heres another line
 @ffi.Native<ffi.Int32 Function()>()
 external int noParam();
-
-@ffi.Native<ffi.Uint8 Function(ffi.Int32, ffi.Uint8)>()
-external int withPrimitiveParam(int a, int b);
 
 @ffi.Native<
   ffi.Pointer<ffi.Double> Function(
@@ -30,6 +31,5 @@ external ffi.Pointer<ffi.Double> withPointerParam(
   ffi.Pointer<ffi.Pointer<ffi.Uint8>> b,
 );
 
-/// A function with isLeaf: true
-@ffi.Native<ffi.Int32 Function(ffi.Int32)>(isLeaf: true)
-external int leafFunc(int a);
+@ffi.Native<ffi.Uint8 Function(ffi.Int32, ffi.Uint8)>()
+external int withPrimitiveParam(int a, int b);

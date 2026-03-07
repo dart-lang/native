@@ -45,9 +45,8 @@ Future<RunProcessResult> runProcess({
     arguments: {
       'executable': executable.toFilePath(),
       'arguments': arguments,
-      if (workingDirectory != null)
-        'workingDirectory': workingDirectory.toFilePath(),
-      if (environment != null) 'environment': environment,
+      'workingDirectory': ?workingDirectory?.toFilePath(),
+      'environment': ?environment,
     },
   );
   try {

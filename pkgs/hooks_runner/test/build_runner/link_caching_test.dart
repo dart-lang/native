@@ -40,7 +40,7 @@ void main() async {
           logger,
           dartExecutable,
           buildResult: buildResult,
-          buildAssetTypes: [BuildAssetType.data],
+          buildAssetTypes: [.data],
           capturedLogs: logMessages,
         )).success;
       }

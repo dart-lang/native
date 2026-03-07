@@ -19,6 +19,24 @@ class Bindings {
     lookup,
   ) : _lookup = lookup;
 
+  void ffi$1() {
+    return _ffi$1();
+  }
+
+  late final _ffi$1Ptr = _lookup<ffi$2.NativeFunction<ffi$2.Void Function()>>(
+    'ffi\$1',
+  );
+  late final _ffi$1 = _ffi$1Ptr.asFunction<void Function()>();
+
+  void testCrossDecl$1() {
+    return _testCrossDecl$1();
+  }
+
+  late final _testCrossDecl$1Ptr =
+      _lookup<ffi$2.NativeFunction<ffi$2.Void Function()>>('testCrossDecl');
+  late final _testCrossDecl$1 = _testCrossDecl$1Ptr
+      .asFunction<void Function()>();
+
   void testFunc() {
     return _testFunc();
   }
@@ -34,50 +52,32 @@ class Bindings {
   late final _testFunc$1Ptr =
       _lookup<ffi$2.NativeFunction<ffi$2.Void Function()>>('testFunc');
   late final _testFunc$1 = _testFunc$1Ptr.asFunction<void Function()>();
-
-  void testCrossDecl$1() {
-    return _testCrossDecl$1();
-  }
-
-  late final _testCrossDecl$1Ptr =
-      _lookup<ffi$2.NativeFunction<ffi$2.Void Function()>>('testCrossDecl');
-  late final _testCrossDecl$1 = _testCrossDecl$1Ptr
-      .asFunction<void Function()>();
-
-  void ffi$1() {
-    return _ffi$1();
-  }
-
-  late final _ffi$1Ptr = _lookup<ffi$2.NativeFunction<ffi$2.Void Function()>>(
-    'ffi\$1',
-  );
-  late final _ffi$1 = _ffi$1Ptr.asFunction<void Function()>();
 }
-
-final class TestStruct extends ffi$2.Opaque {}
-
-final class TestStruct$1 extends ffi$2.Opaque {}
 
 sealed class TestEnum {}
 
 sealed class TestEnum$1 {}
 
+final class TestStruct extends ffi$2.Opaque {}
+
+final class TestStruct$1 extends ffi$2.Opaque {}
+
 const int Test_Macro = 0;
 
 const int Test_Macro$1 = 0;
+
+final class ffi extends ffi$2.Opaque {}
 
 typedef testAlias = ffi$2.Void;
 typedef DarttestAlias = void;
 typedef testAlias$1 = ffi$2.Void;
 typedef DarttestAlias$1 = void;
 
-final class testCrossDecl$3 extends ffi$2.Opaque {}
+sealed class testCrossDecl {}
 
 const int testCrossDecl$2 = 0;
 
-sealed class testCrossDecl {}
+final class testCrossDecl$3 extends ffi$2.Opaque {}
 
 typedef testCrossDecl$4 = ffi$2.Void;
 typedef DarttestCrossDecl = void;
-
-final class ffi extends ffi$2.Opaque {}

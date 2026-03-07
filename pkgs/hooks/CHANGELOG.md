@@ -1,3 +1,11 @@
+## 1.0.2
+
+- Update documentation about `CCACHE_` environment variables.
+
+## 1.0.1
+
+- Update documentation about environment variables.
+
 ## 1.0.0
 
 - Stable release.

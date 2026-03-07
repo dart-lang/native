@@ -24,23 +24,14 @@ class init_dylib$1 {
     ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
   ) : _lookup = lookup;
 
-  void test() {
-    return _test$1();
+  void Test() {
+    return _Test$1();
   }
 
-  late final _testPtr = _lookup<ffi.NativeFunction<ffi.Void Function()>>(
-    'test',
+  late final _TestPtr = _lookup<ffi.NativeFunction<ffi.Void Function()>>(
+    'Test',
   );
-  late final _test$1 = _testPtr.asFunction<void Function()>();
-
-  void _test() {
-    return __test();
-  }
-
-  late final __testPtr = _lookup<ffi.NativeFunction<ffi.Void Function()>>(
-    '_test',
-  );
-  late final __test = __testPtr.asFunction<void Function()>();
+  late final _Test$1 = _TestPtr.asFunction<void Function()>();
 
   void _c_test() {
     return __c_test();
@@ -60,22 +51,31 @@ class init_dylib$1 {
   );
   late final __dart_test = __dart_testPtr.asFunction<void Function()>();
 
-  void Test() {
-    return _Test$1();
+  void _test() {
+    return __test();
   }
 
-  late final _TestPtr = _lookup<ffi.NativeFunction<ffi.Void Function()>>(
-    'Test',
+  late final __testPtr = _lookup<ffi.NativeFunction<ffi.Void Function()>>(
+    '_test',
   );
-  late final _Test$1 = _TestPtr.asFunction<void Function()>();
+  late final __test = __testPtr.asFunction<void Function()>();
+
+  void test() {
+    return _test$1();
+  }
+
+  late final _testPtr = _lookup<ffi.NativeFunction<ffi.Void Function()>>(
+    'test',
+  );
+  late final _test$1 = _testPtr.asFunction<void Function()>();
 }
+
+final class ArrayHelperPrefixCollisionTest extends ffi.Opaque {}
 
 final class _Test extends ffi.Struct {
   @ffi.Array.multi([2])
   external ffi.Array<ffi.Int8> array;
 }
-
-final class ArrayHelperPrefixCollisionTest extends ffi.Opaque {}
 
 sealed class _c_Test {}
 

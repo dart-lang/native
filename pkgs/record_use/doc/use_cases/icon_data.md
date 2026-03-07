@@ -6,6 +6,7 @@ package.
 
 Dart API and use:
 
+<!-- no-source-file -->
 ```dart
 class IconData {
   const IconData(
@@ -18,6 +19,7 @@ class IconData {
 }
 ```
 
+<!-- no-source-file -->
 ```dart
 abstract final class GalleryIcons {
   static const IconData tooltip = IconData(0xe900, fontFamily: 'GalleryIcons');
@@ -45,6 +47,7 @@ the const instances.
 Since this API is already in active use, we cannot simply change the API to
 static getters, as that would prevent const:
 
+<!-- no-source-file -->
 ```dart
 abstract final class GalleryIcons {
   static IconData get tooltip => IconData(0xe900, fontFamily: 'GalleryIcons');

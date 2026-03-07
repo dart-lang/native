@@ -1,3 +1,19 @@
+## 9.4.0
+- Fix (https://github.com/dart-lang/native/issues/2877) such that all occurances of ObjCObject `isA` now accepts a nullable `ObjCObject?` and returns `false` when input is`null`
+
+## 9.3.0
+- `autoReleasePool` now returns the value produced by its callback.
+
+## 9.2.5
+- Fix a [bug](https://github.com/dart-lang/native/issues/3011) by adding
+  minimum OS version flags to the build script.
+ 
+## 9.2.4
+
+- Fix a [bug](https://github.com/dart-lang/native/issues/2990) build hook path
+  issue that could pass percent-encoded cache paths to clang, leading to missing
+  source file errors.
+
 ## 9.2.3
 
 - Fix a [bug](https://github.com/dart-lang/native/issues/2973) where the

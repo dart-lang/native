@@ -71,33 +71,33 @@ class CallSyntax extends JsonObjectSyntax {
   }) : super.fromJson();
 
   CallSyntax({
-    int? at,
-    required String loadingUnit,
+    required List<int> loadingUnitIndices,
+    int? receiver,
     required String type,
     super.path = const [],
   }) : super() {
-    _at = at;
-    _loadingUnit = loadingUnit;
+    _loadingUnitIndices = loadingUnitIndices;
+    _receiver = receiver;
     _type = type;
     json.sortOnKey();
   }
 
-  int? get at => _reader.get<int?>('@');
+  List<int> get loadingUnitIndices => _reader.list<int>('loading_unit_indices');
 
-  set _at(int? value) {
-    json.setOrRemove('@', value);
+  set _loadingUnitIndices(List<int> value) {
+    json['loading_unit_indices'] = value;
   }
 
-  List<String> _validateAt() => _reader.validate<int?>('@');
+  List<String> _validateLoadingUnitIndices() =>
+      _reader.validateList<int>('loading_unit_indices');
 
-  String get loadingUnit => _reader.get<String>('loading_unit');
+  int? get receiver => _reader.get<int?>('receiver');
 
-  set _loadingUnit(String value) {
-    json.setOrRemove('loading_unit', value);
+  set _receiver(int? value) {
+    json.setOrRemove('receiver', value);
   }
 
-  List<String> _validateLoadingUnit() =>
-      _reader.validate<String>('loading_unit');
+  List<String> _validateReceiver() => _reader.validate<int?>('receiver');
 
   String get type => _reader.get<String>('type');
 
@@ -110,13 +110,102 @@ class CallSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [
     ...super.validate(),
-    ..._validateAt(),
-    ..._validateLoadingUnit(),
+    ..._validateLoadingUnitIndices(),
+    ..._validateReceiver(),
     ..._validateType(),
   ];
 
   @override
   String toString() => 'CallSyntax($json)';
+}
+
+class CallRecordingSyntax extends JsonObjectSyntax {
+  CallRecordingSyntax.fromJson(
+    super.json, {
+    super.path = const [],
+  }) : super.fromJson();
+
+  CallRecordingSyntax({
+    required int definitionIndex,
+    required List<CallSyntax> uses,
+    super.path = const [],
+  }) : super() {
+    _definitionIndex = definitionIndex;
+    _uses = uses;
+    json.sortOnKey();
+  }
+
+  int get definitionIndex => _reader.get<int>('definition_index');
+
+  set _definitionIndex(int value) {
+    json.setOrRemove('definition_index', value);
+  }
+
+  List<String> _validateDefinitionIndex() =>
+      _reader.validate<int>('definition_index');
+
+  List<CallSyntax> get uses {
+    final jsonValue = _reader.list('uses');
+    return [
+      for (final (index, element) in jsonValue.indexed)
+        CallSyntax.fromJson(
+          element as Map<String, Object?>,
+          path: [...path, 'uses', index],
+        ),
+    ];
+  }
+
+  set _uses(List<CallSyntax> value) {
+    json['uses'] = [for (final item in value) item.json];
+  }
+
+  List<String> _validateUses() {
+    final listErrors = _reader.validateList<Map<String, Object?>>(
+      'uses',
+    );
+    if (listErrors.isNotEmpty) {
+      return listErrors;
+    }
+    final elements = uses;
+    return [for (final element in elements) ...element.validate()];
+  }
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateDefinitionIndex(),
+    ..._validateUses(),
+  ];
+
+  @override
+  String toString() => 'CallRecordingSyntax($json)';
+}
+
+class ClassNameSyntax extends NameSyntax {
+  ClassNameSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  ClassNameSyntax({
+    super.disambiguators,
+    required super.name,
+    super.path = const [],
+  }) : super(kind: 'class');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'ClassNameSyntax($json)';
+}
+
+extension ClassNameSyntaxExtension on NameSyntax {
+  bool get isClassName => kind == 'class';
+
+  ClassNameSyntax get asClassName => ClassNameSyntax.fromJson(json, path: path);
 }
 
 class ConstantSyntax extends JsonObjectSyntax {
@@ -127,6 +216,9 @@ class ConstantSyntax extends JsonObjectSyntax {
     final result = ConstantSyntax._fromJson(json, path: path);
     if (result.isBoolConstant) {
       return result.asBoolConstant;
+    }
+    if (result.isEnumConstant) {
+      return result.asEnumConstant;
     }
     if (result.isInstanceConstant) {
       return result.asInstanceConstant;
@@ -140,11 +232,23 @@ class ConstantSyntax extends JsonObjectSyntax {
     if (result.isMapConstant) {
       return result.asMapConstant;
     }
+    if (result.isNonConstantConstant) {
+      return result.asNonConstantConstant;
+    }
     if (result.isNullConstant) {
       return result.asNullConstant;
     }
+    if (result.isRecordConstant) {
+      return result.asRecordConstant;
+    }
     if (result.isStringConstant) {
       return result.asStringConstant;
+    }
+    if (result.isSymbolConstant) {
+      return result.asSymbolConstant;
+    }
+    if (result.isUnsupportedConstant) {
+      return result.asUnsupportedConstant;
     }
     return result;
   }
@@ -168,144 +272,48 @@ class ConstantSyntax extends JsonObjectSyntax {
   List<String> _validateType() => _reader.validate<String>('type');
 
   @override
-  List<String> validate() => [...super.validate(), ..._validateType()];
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateType(),
+    ..._validateExtraRulesConstant(),
+  ];
+
+  List<String> _validateExtraRulesConstant() {
+    final result = <String>[];
+    if (_reader.tryTraverse(['type']) == 'instance') {
+      result.addAll(_reader.validate<Object>('definition_index'));
+    }
+    if (_reader.tryTraverse(['type']) == 'symbol') {
+      result.addAll(_reader.validate<Object>('name'));
+    }
+    return result;
+  }
 
   @override
   String toString() => 'ConstantSyntax($json)';
 }
 
-class DefinitionSyntax extends JsonObjectSyntax {
-  DefinitionSyntax.fromJson(
+class ConstantInstanceSyntax extends InstanceSyntax {
+  ConstantInstanceSyntax.fromJson(
     super.json, {
-    super.path = const [],
-  }) : super.fromJson();
+    super.path,
+  }) : super._fromJson();
 
-  DefinitionSyntax({
-    required IdentifierSyntax identifier,
-    String? loadingUnit,
-    super.path = const [],
-  }) : super() {
-    _identifier = identifier;
-    _loadingUnit = loadingUnit;
-    json.sortOnKey();
-  }
-
-  IdentifierSyntax get identifier {
-    final jsonValue = _reader.map$('identifier');
-    return IdentifierSyntax.fromJson(jsonValue, path: [...path, 'identifier']);
-  }
-
-  set _identifier(IdentifierSyntax value) {
-    json['identifier'] = value.json;
-  }
-
-  List<String> _validateIdentifier() {
-    final mapErrors = _reader.validate<Map<String, Object?>>('identifier');
-    if (mapErrors.isNotEmpty) {
-      return mapErrors;
-    }
-    return identifier.validate();
-  }
-
-  String? get loadingUnit => _reader.get<String?>('loading_unit');
-
-  set _loadingUnit(String? value) {
-    json.setOrRemove('loading_unit', value);
-  }
-
-  List<String> _validateLoadingUnit() =>
-      _reader.validate<String?>('loading_unit');
-
-  @override
-  List<String> validate() => [
-    ...super.validate(),
-    ..._validateIdentifier(),
-    ..._validateLoadingUnit(),
-  ];
-
-  @override
-  String toString() => 'DefinitionSyntax($json)';
-}
-
-class IdentifierSyntax extends JsonObjectSyntax {
-  IdentifierSyntax.fromJson(
-    super.json, {
-    super.path = const [],
-  }) : super.fromJson();
-
-  IdentifierSyntax({
-    required String name,
-    String? scope,
-    required String uri,
-    super.path = const [],
-  }) : super() {
-    _name = name;
-    _scope = scope;
-    _uri = uri;
-    json.sortOnKey();
-  }
-
-  String get name => _reader.get<String>('name');
-
-  set _name(String value) {
-    json.setOrRemove('name', value);
-  }
-
-  List<String> _validateName() => _reader.validate<String>('name');
-
-  String? get scope => _reader.get<String?>('scope');
-
-  set _scope(String? value) {
-    json.setOrRemove('scope', value);
-  }
-
-  List<String> _validateScope() => _reader.validate<String?>('scope');
-
-  String get uri => _reader.get<String>('uri');
-
-  set _uri(String value) {
-    json.setOrRemove('uri', value);
-  }
-
-  List<String> _validateUri() => _reader.validate<String>('uri');
-
-  @override
-  List<String> validate() => [
-    ...super.validate(),
-    ..._validateName(),
-    ..._validateScope(),
-    ..._validateUri(),
-  ];
-
-  @override
-  String toString() => 'IdentifierSyntax($json)';
-}
-
-class InstanceSyntax extends JsonObjectSyntax {
-  InstanceSyntax.fromJson(
-    super.json, {
-    super.path = const [],
-  }) : super.fromJson();
-
-  InstanceSyntax({
-    int? at,
+  ConstantInstanceSyntax({
     required int constantIndex,
-    required String loadingUnit,
+    required super.loadingUnitIndices,
     super.path = const [],
-  }) : super() {
-    _at = at;
+  }) : super(type: 'constant') {
     _constantIndex = constantIndex;
-    _loadingUnit = loadingUnit;
     json.sortOnKey();
   }
 
-  int? get at => _reader.get<int?>('@');
-
-  set _at(int? value) {
-    json.setOrRemove('@', value);
+  /// Setup all fields for [ConstantInstanceSyntax] that are not in
+  /// [InstanceSyntax].
+  void setup({required int constantIndex}) {
+    _constantIndex = constantIndex;
+    json.sortOnKey();
   }
-
-  List<String> _validateAt() => _reader.validate<int?>('@');
 
   int get constantIndex => _reader.get<int>('constant_index');
 
@@ -316,22 +324,473 @@ class InstanceSyntax extends JsonObjectSyntax {
   List<String> _validateConstantIndex() =>
       _reader.validate<int>('constant_index');
 
-  String get loadingUnit => _reader.get<String>('loading_unit');
+  @override
+  List<String> validate() => [...super.validate(), ..._validateConstantIndex()];
 
-  set _loadingUnit(String value) {
-    json.setOrRemove('loading_unit', value);
-  }
+  @override
+  String toString() => 'ConstantInstanceSyntax($json)';
+}
 
-  List<String> _validateLoadingUnit() =>
-      _reader.validate<String>('loading_unit');
+extension ConstantInstanceSyntaxExtension on InstanceSyntax {
+  bool get isConstantInstance => type == 'constant';
+
+  ConstantInstanceSyntax get asConstantInstance =>
+      ConstantInstanceSyntax.fromJson(json, path: path);
+}
+
+class ConstructorNameSyntax extends NameSyntax {
+  ConstructorNameSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  ConstructorNameSyntax({
+    super.disambiguators,
+    required super.name,
+    super.path = const [],
+  }) : super(kind: 'constructor');
 
   @override
   List<String> validate() => [
     ...super.validate(),
-    ..._validateAt(),
-    ..._validateConstantIndex(),
-    ..._validateLoadingUnit(),
   ];
+
+  @override
+  String toString() => 'ConstructorNameSyntax($json)';
+}
+
+extension ConstructorNameSyntaxExtension on NameSyntax {
+  bool get isConstructorName => kind == 'constructor';
+
+  ConstructorNameSyntax get asConstructorName =>
+      ConstructorNameSyntax.fromJson(json, path: path);
+}
+
+class CreationInstanceSyntax extends InstanceSyntax {
+  CreationInstanceSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  CreationInstanceSyntax({
+    required int definitionIndex,
+    required super.loadingUnitIndices,
+    Map<String, int>? named,
+    List<int>? positional,
+    super.path = const [],
+  }) : super(type: 'creation') {
+    _definitionIndex = definitionIndex;
+    _named = named;
+    _positional = positional;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [CreationInstanceSyntax] that are not in
+  /// [InstanceSyntax].
+  void setup({
+    required int definitionIndex,
+    required Map<String, int>? named,
+    required List<int>? positional,
+  }) {
+    _definitionIndex = definitionIndex;
+    _named = named;
+    _positional = positional;
+    json.sortOnKey();
+  }
+
+  int get definitionIndex => _reader.get<int>('definition_index');
+
+  set _definitionIndex(int value) {
+    json.setOrRemove('definition_index', value);
+  }
+
+  List<String> _validateDefinitionIndex() =>
+      _reader.validate<int>('definition_index');
+
+  Map<String, int>? get named => _reader.optionalMap<int>(
+    'named',
+  );
+
+  set _named(Map<String, int>? value) {
+    _checkArgumentMapKeys(
+      value,
+    );
+    json.setOrRemove('named', value);
+  }
+
+  List<String> _validateNamed() => _reader.validateOptionalMap<int>(
+    'named',
+  );
+
+  List<int>? get positional => _reader.optionalList<int>('positional');
+
+  set _positional(List<int>? value) {
+    json.setOrRemove('positional', value);
+  }
+
+  List<String> _validatePositional() =>
+      _reader.validateOptionalList<int>('positional');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateDefinitionIndex(),
+    ..._validateNamed(),
+    ..._validatePositional(),
+  ];
+
+  @override
+  String toString() => 'CreationInstanceSyntax($json)';
+}
+
+extension CreationInstanceSyntaxExtension on InstanceSyntax {
+  bool get isCreationInstance => type == 'creation';
+
+  CreationInstanceSyntax get asCreationInstance =>
+      CreationInstanceSyntax.fromJson(json, path: path);
+}
+
+class DefinitionSyntax extends JsonObjectSyntax {
+  DefinitionSyntax.fromJson(
+    super.json, {
+    super.path = const [],
+  }) : super.fromJson();
+
+  DefinitionSyntax({
+    required List<NameSyntax> definitionPath,
+    required String uri,
+    super.path = const [],
+  }) : super() {
+    _definitionPath = definitionPath;
+    _uri = uri;
+    json.sortOnKey();
+  }
+
+  List<NameSyntax> get definitionPath {
+    final jsonValue = _reader.list('path');
+    return [
+      for (final (index, element) in jsonValue.indexed)
+        NameSyntax.fromJson(
+          element as Map<String, Object?>,
+          path: [...path, 'path', index],
+        ),
+    ];
+  }
+
+  set _definitionPath(List<NameSyntax> value) {
+    json['path'] = [for (final item in value) item.json];
+  }
+
+  List<String> _validateDefinitionPath() {
+    final listErrors = _reader.validateList<Map<String, Object?>>(
+      'path',
+    );
+    if (listErrors.isNotEmpty) {
+      return listErrors;
+    }
+    final elements = definitionPath;
+    return [for (final element in elements) ...element.validate()];
+  }
+
+  static final _uriPattern = RegExp(r'^package:');
+
+  String get uri => _reader.string('uri', _uriPattern);
+
+  set _uri(String value) {
+    if (!_uriPattern.hasMatch(value)) {
+      throw ArgumentError.value(
+        value,
+        'value',
+        'Value does not satisify pattern: ${_uriPattern.pattern}.',
+      );
+    }
+    json.setOrRemove('uri', value);
+  }
+
+  List<String> _validateUri() => _reader.validateString('uri', _uriPattern);
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateDefinitionPath(),
+    ..._validateUri(),
+  ];
+
+  @override
+  String toString() => 'DefinitionSyntax($json)';
+}
+
+class EnumConstantSyntax extends ConstantSyntax {
+  EnumConstantSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  EnumConstantSyntax({
+    required int definitionIndex,
+    required int index,
+    required String name,
+    Map<String, int>? value,
+    super.path = const [],
+  }) : super(type: 'enum') {
+    _definitionIndex = definitionIndex;
+    _index = index;
+    _name = name;
+    _value = value;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [EnumConstantSyntax] that are not in
+  /// [ConstantSyntax].
+  void setup({
+    required int definitionIndex,
+    required int index,
+    required String name,
+    required Map<String, int>? value,
+  }) {
+    _definitionIndex = definitionIndex;
+    _index = index;
+    _name = name;
+    _value = value;
+    json.sortOnKey();
+  }
+
+  int get definitionIndex => _reader.get<int>('definition_index');
+
+  set _definitionIndex(int value) {
+    json.setOrRemove('definition_index', value);
+  }
+
+  List<String> _validateDefinitionIndex() =>
+      _reader.validate<int>('definition_index');
+
+  int get index => _reader.get<int>('index');
+
+  set _index(int value) {
+    json.setOrRemove('index', value);
+  }
+
+  List<String> _validateIndex() => _reader.validate<int>('index');
+
+  String get name => _reader.get<String>('name');
+
+  set _name(String value) {
+    json.setOrRemove('name', value);
+  }
+
+  List<String> _validateName() => _reader.validate<String>('name');
+
+  Map<String, int>? get value => _reader.optionalMap<int>(
+    'value',
+  );
+
+  set _value(Map<String, int>? value) {
+    _checkArgumentMapKeys(
+      value,
+    );
+    json.setOrRemove('value', value);
+  }
+
+  List<String> _validateValue() => _reader.validateOptionalMap<int>(
+    'value',
+  );
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateDefinitionIndex(),
+    ..._validateIndex(),
+    ..._validateName(),
+    ..._validateValue(),
+  ];
+
+  @override
+  String toString() => 'EnumConstantSyntax($json)';
+}
+
+extension EnumConstantSyntaxExtension on ConstantSyntax {
+  bool get isEnumConstant => type == 'enum';
+
+  EnumConstantSyntax get asEnumConstant =>
+      EnumConstantSyntax.fromJson(json, path: path);
+}
+
+class EnumNameSyntax extends NameSyntax {
+  EnumNameSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  EnumNameSyntax({
+    super.disambiguators,
+    required super.name,
+    super.path = const [],
+  }) : super(kind: 'enum');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'EnumNameSyntax($json)';
+}
+
+extension EnumNameSyntaxExtension on NameSyntax {
+  bool get isEnumName => kind == 'enum';
+
+  EnumNameSyntax get asEnumName => EnumNameSyntax.fromJson(json, path: path);
+}
+
+class ExtensionNameSyntax extends NameSyntax {
+  ExtensionNameSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  ExtensionNameSyntax({
+    super.disambiguators,
+    required super.name,
+    super.path = const [],
+  }) : super(kind: 'extension');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'ExtensionNameSyntax($json)';
+}
+
+extension ExtensionNameSyntaxExtension on NameSyntax {
+  bool get isExtensionName => kind == 'extension';
+
+  ExtensionNameSyntax get asExtensionName =>
+      ExtensionNameSyntax.fromJson(json, path: path);
+}
+
+class ExtensionTypeNameSyntax extends NameSyntax {
+  ExtensionTypeNameSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  ExtensionTypeNameSyntax({
+    super.disambiguators,
+    required super.name,
+    super.path = const [],
+  }) : super(kind: 'extension_type');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'ExtensionTypeNameSyntax($json)';
+}
+
+extension ExtensionTypeNameSyntaxExtension on NameSyntax {
+  bool get isExtensionTypeName => kind == 'extension_type';
+
+  ExtensionTypeNameSyntax get asExtensionTypeName =>
+      ExtensionTypeNameSyntax.fromJson(json, path: path);
+}
+
+class GetterNameSyntax extends NameSyntax {
+  GetterNameSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  GetterNameSyntax({
+    super.disambiguators,
+    required super.name,
+    super.path = const [],
+  }) : super(kind: 'getter');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'GetterNameSyntax($json)';
+}
+
+extension GetterNameSyntaxExtension on NameSyntax {
+  bool get isGetterName => kind == 'getter';
+
+  GetterNameSyntax get asGetterName =>
+      GetterNameSyntax.fromJson(json, path: path);
+}
+
+class InstanceSyntax extends JsonObjectSyntax {
+  factory InstanceSyntax.fromJson(
+    Map<String, Object?> json, {
+    List<Object> path = const [],
+  }) {
+    final result = InstanceSyntax._fromJson(json, path: path);
+    if (result.isConstantInstance) {
+      return result.asConstantInstance;
+    }
+    if (result.isCreationInstance) {
+      return result.asCreationInstance;
+    }
+    if (result.isTearoffInstance) {
+      return result.asTearoffInstance;
+    }
+    return result;
+  }
+
+  InstanceSyntax._fromJson(
+    super.json, {
+    super.path = const [],
+  }) : super.fromJson();
+
+  InstanceSyntax({
+    required List<int> loadingUnitIndices,
+    required String type,
+    super.path = const [],
+  }) : super() {
+    _loadingUnitIndices = loadingUnitIndices;
+    _type = type;
+    json.sortOnKey();
+  }
+
+  List<int> get loadingUnitIndices => _reader.list<int>('loading_unit_indices');
+
+  set _loadingUnitIndices(List<int> value) {
+    json['loading_unit_indices'] = value;
+  }
+
+  List<String> _validateLoadingUnitIndices() =>
+      _reader.validateList<int>('loading_unit_indices');
+
+  String get type => _reader.get<String>('type');
+
+  set _type(String value) {
+    json.setOrRemove('type', value);
+  }
+
+  List<String> _validateType() => _reader.validate<String>('type');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateLoadingUnitIndices(),
+    ..._validateType(),
+    ..._validateExtraRulesInstance(),
+  ];
+
+  List<String> _validateExtraRulesInstance() {
+    final result = <String>[];
+    if (_reader.tryTraverse(['type']) == 'creation') {
+      result.addAll(_reader.validate<Object>('definition_index'));
+    }
+    return result;
+  }
 
   @override
   String toString() => 'InstanceSyntax($json)';
@@ -343,18 +802,32 @@ class InstanceConstantSyntax extends ConstantSyntax {
     super.path,
   }) : super._fromJson();
 
-  InstanceConstantSyntax({JsonObjectSyntax? value, super.path = const []})
-    : super(type: 'instance') {
+  InstanceConstantSyntax({
+    required int definitionIndex,
+    JsonObjectSyntax? value,
+    super.path = const [],
+  }) : super(type: 'instance') {
+    _definitionIndex = definitionIndex;
     _value = value;
     json.sortOnKey();
   }
 
   /// Setup all fields for [InstanceConstantSyntax] that are not in
   /// [ConstantSyntax].
-  void setup({required JsonObjectSyntax? value}) {
+  void setup({required int definitionIndex, required JsonObjectSyntax? value}) {
+    _definitionIndex = definitionIndex;
     _value = value;
     json.sortOnKey();
   }
+
+  int get definitionIndex => _reader.get<int>('definition_index');
+
+  set _definitionIndex(int value) {
+    json.setOrRemove('definition_index', value);
+  }
+
+  List<String> _validateDefinitionIndex() =>
+      _reader.validate<int>('definition_index');
 
   JsonObjectSyntax? get value {
     final jsonValue = _reader.optionalMap('value');
@@ -375,7 +848,11 @@ class InstanceConstantSyntax extends ConstantSyntax {
   }
 
   @override
-  List<String> validate() => [...super.validate(), ..._validateValue()];
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateDefinitionIndex(),
+    ..._validateValue(),
+  ];
 
   @override
   String toString() => 'InstanceConstantSyntax($json)';
@@ -386,6 +863,68 @@ extension InstanceConstantSyntaxExtension on ConstantSyntax {
 
   InstanceConstantSyntax get asInstanceConstant =>
       InstanceConstantSyntax.fromJson(json, path: path);
+}
+
+class InstanceRecordingSyntax extends JsonObjectSyntax {
+  InstanceRecordingSyntax.fromJson(
+    super.json, {
+    super.path = const [],
+  }) : super.fromJson();
+
+  InstanceRecordingSyntax({
+    required int definitionIndex,
+    required List<InstanceSyntax> uses,
+    super.path = const [],
+  }) : super() {
+    _definitionIndex = definitionIndex;
+    _uses = uses;
+    json.sortOnKey();
+  }
+
+  int get definitionIndex => _reader.get<int>('definition_index');
+
+  set _definitionIndex(int value) {
+    json.setOrRemove('definition_index', value);
+  }
+
+  List<String> _validateDefinitionIndex() =>
+      _reader.validate<int>('definition_index');
+
+  List<InstanceSyntax> get uses {
+    final jsonValue = _reader.list('uses');
+    return [
+      for (final (index, element) in jsonValue.indexed)
+        InstanceSyntax.fromJson(
+          element as Map<String, Object?>,
+          path: [...path, 'uses', index],
+        ),
+    ];
+  }
+
+  set _uses(List<InstanceSyntax> value) {
+    json['uses'] = [for (final item in value) item.json];
+  }
+
+  List<String> _validateUses() {
+    final listErrors = _reader.validateList<Map<String, Object?>>(
+      'uses',
+    );
+    if (listErrors.isNotEmpty) {
+      return listErrors;
+    }
+    final elements = uses;
+    return [for (final element in elements) ...element.validate()];
+  }
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateDefinitionIndex(),
+    ..._validateUses(),
+  ];
+
+  @override
+  String toString() => 'InstanceRecordingSyntax($json)';
 }
 
 class IntConstantSyntax extends ConstantSyntax {
@@ -471,58 +1010,30 @@ extension ListConstantSyntaxExtension on ConstantSyntax {
       ListConstantSyntax.fromJson(json, path: path);
 }
 
-class LocationSyntax extends JsonObjectSyntax {
-  LocationSyntax.fromJson(
+class LoadingUnitSyntax extends JsonObjectSyntax {
+  LoadingUnitSyntax.fromJson(
     super.json, {
     super.path = const [],
   }) : super.fromJson();
 
-  LocationSyntax({
-    int? column,
-    int? line,
-    required String uri,
-    super.path = const [],
-  }) : super() {
-    _column = column;
-    _line = line;
-    _uri = uri;
+  LoadingUnitSyntax({required String name, super.path = const []}) : super() {
+    _name = name;
     json.sortOnKey();
   }
 
-  int? get column => _reader.get<int?>('column');
+  String get name => _reader.get<String>('name');
 
-  set _column(int? value) {
-    json.setOrRemove('column', value);
+  set _name(String value) {
+    json.setOrRemove('name', value);
   }
 
-  List<String> _validateColumn() => _reader.validate<int?>('column');
-
-  int? get line => _reader.get<int?>('line');
-
-  set _line(int? value) {
-    json.setOrRemove('line', value);
-  }
-
-  List<String> _validateLine() => _reader.validate<int?>('line');
-
-  String get uri => _reader.get<String>('uri');
-
-  set _uri(String value) {
-    json.setOrRemove('uri', value);
-  }
-
-  List<String> _validateUri() => _reader.validate<String>('uri');
+  List<String> _validateName() => _reader.validate<String>('name');
 
   @override
-  List<String> validate() => [
-    ...super.validate(),
-    ..._validateColumn(),
-    ..._validateLine(),
-    ..._validateUri(),
-  ];
+  List<String> validate() => [...super.validate(), ..._validateName()];
 
   @override
-  String toString() => 'LocationSyntax($json)';
+  String toString() => 'LoadingUnitSyntax($json)';
 }
 
 class MapConstantSyntax extends ConstantSyntax {
@@ -531,34 +1042,45 @@ class MapConstantSyntax extends ConstantSyntax {
     super.path,
   }) : super._fromJson();
 
-  MapConstantSyntax({required JsonObjectSyntax value, super.path = const []})
-    : super(type: 'map') {
+  MapConstantSyntax({
+    required List<MapEntrySyntax> value,
+    super.path = const [],
+  }) : super(type: 'map') {
     _value = value;
     json.sortOnKey();
   }
 
   /// Setup all fields for [MapConstantSyntax] that are not in
   /// [ConstantSyntax].
-  void setup({required JsonObjectSyntax value}) {
+  void setup({required List<MapEntrySyntax> value}) {
     _value = value;
     json.sortOnKey();
   }
 
-  JsonObjectSyntax get value {
-    final jsonValue = _reader.map$('value');
-    return JsonObjectSyntax.fromJson(jsonValue, path: [...path, 'value']);
+  List<MapEntrySyntax> get value {
+    final jsonValue = _reader.list('value');
+    return [
+      for (final (index, element) in jsonValue.indexed)
+        MapEntrySyntax.fromJson(
+          element as Map<String, Object?>,
+          path: [...path, 'value', index],
+        ),
+    ];
   }
 
-  set _value(JsonObjectSyntax value) {
-    json['value'] = value.json;
+  set _value(List<MapEntrySyntax> value) {
+    json['value'] = [for (final item in value) item.json];
   }
 
   List<String> _validateValue() {
-    final mapErrors = _reader.validate<Map<String, Object?>>('value');
-    if (mapErrors.isNotEmpty) {
-      return mapErrors;
+    final listErrors = _reader.validateList<Map<String, Object?>>(
+      'value',
+    );
+    if (listErrors.isNotEmpty) {
+      return listErrors;
     }
-    return value.validate();
+    final elements = value;
+    return [for (final element in elements) ...element.validate()];
   }
 
   @override
@@ -573,6 +1095,46 @@ extension MapConstantSyntaxExtension on ConstantSyntax {
 
   MapConstantSyntax get asMapConstant =>
       MapConstantSyntax.fromJson(json, path: path);
+}
+
+class MapEntrySyntax extends JsonObjectSyntax {
+  MapEntrySyntax.fromJson(
+    super.json, {
+    super.path = const [],
+  }) : super.fromJson();
+
+  MapEntrySyntax({required int key, required int value, super.path = const []})
+    : super() {
+    _key = key;
+    _value = value;
+    json.sortOnKey();
+  }
+
+  int get key => _reader.get<int>('key');
+
+  set _key(int value) {
+    json.setOrRemove('key', value);
+  }
+
+  List<String> _validateKey() => _reader.validate<int>('key');
+
+  int get value => _reader.get<int>('value');
+
+  set _value(int value) {
+    json.setOrRemove('value', value);
+  }
+
+  List<String> _validateValue() => _reader.validate<int>('value');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateKey(),
+    ..._validateValue(),
+  ];
+
+  @override
+  String toString() => 'MapEntrySyntax($json)';
 }
 
 class MetadataSyntax extends JsonObjectSyntax {
@@ -618,6 +1180,180 @@ class MetadataSyntax extends JsonObjectSyntax {
   String toString() => 'MetadataSyntax($json)';
 }
 
+class MethodNameSyntax extends NameSyntax {
+  MethodNameSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  MethodNameSyntax({
+    super.disambiguators,
+    required super.name,
+    super.path = const [],
+  }) : super(kind: 'method');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'MethodNameSyntax($json)';
+}
+
+extension MethodNameSyntaxExtension on NameSyntax {
+  bool get isMethodName => kind == 'method';
+
+  MethodNameSyntax get asMethodName =>
+      MethodNameSyntax.fromJson(json, path: path);
+}
+
+class MixinNameSyntax extends NameSyntax {
+  MixinNameSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  MixinNameSyntax({
+    super.disambiguators,
+    required super.name,
+    super.path = const [],
+  }) : super(kind: 'mixin');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'MixinNameSyntax($json)';
+}
+
+extension MixinNameSyntaxExtension on NameSyntax {
+  bool get isMixinName => kind == 'mixin';
+
+  MixinNameSyntax get asMixinName => MixinNameSyntax.fromJson(json, path: path);
+}
+
+class NameSyntax extends JsonObjectSyntax {
+  factory NameSyntax.fromJson(
+    Map<String, Object?> json, {
+    List<Object> path = const [],
+  }) {
+    final result = NameSyntax._fromJson(json, path: path);
+    if (result.isClassName) {
+      return result.asClassName;
+    }
+    if (result.isConstructorName) {
+      return result.asConstructorName;
+    }
+    if (result.isEnumName) {
+      return result.asEnumName;
+    }
+    if (result.isExtensionName) {
+      return result.asExtensionName;
+    }
+    if (result.isExtensionTypeName) {
+      return result.asExtensionTypeName;
+    }
+    if (result.isGetterName) {
+      return result.asGetterName;
+    }
+    if (result.isMethodName) {
+      return result.asMethodName;
+    }
+    if (result.isMixinName) {
+      return result.asMixinName;
+    }
+    if (result.isOperatorName) {
+      return result.asOperatorName;
+    }
+    if (result.isSetterName) {
+      return result.asSetterName;
+    }
+    return result;
+  }
+
+  NameSyntax._fromJson(
+    super.json, {
+    super.path = const [],
+  }) : super.fromJson();
+
+  NameSyntax({
+    List<String>? disambiguators,
+    String? kind,
+    required String name,
+    super.path = const [],
+  }) : super() {
+    _disambiguators = disambiguators;
+    _kind = kind;
+    _name = name;
+    json.sortOnKey();
+  }
+
+  List<String>? get disambiguators =>
+      _reader.optionalStringList('disambiguators');
+
+  set _disambiguators(List<String>? value) {
+    json.setOrRemove('disambiguators', value);
+  }
+
+  List<String> _validateDisambiguators() =>
+      _reader.validateOptionalStringList('disambiguators');
+
+  String? get kind => _reader.get<String?>('kind');
+
+  set _kind(String? value) {
+    json.setOrRemove('kind', value);
+  }
+
+  List<String> _validateKind() => _reader.validate<String?>('kind');
+
+  String get name => _reader.get<String>('name');
+
+  set _name(String value) {
+    json.setOrRemove('name', value);
+  }
+
+  List<String> _validateName() => _reader.validate<String>('name');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateDisambiguators(),
+    ..._validateKind(),
+    ..._validateName(),
+  ];
+
+  @override
+  String toString() => 'NameSyntax($json)';
+}
+
+class NonConstantConstantSyntax extends ConstantSyntax {
+  NonConstantConstantSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  NonConstantConstantSyntax({super.path = const []})
+    : super(type: 'non_constant');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'NonConstantConstantSyntax($json)';
+}
+
+extension NonConstantConstantSyntaxExtension on ConstantSyntax {
+  bool get isNonConstantConstant => type == 'non_constant';
+
+  NonConstantConstantSyntax get asNonConstantConstant =>
+      NonConstantConstantSyntax.fromJson(json, path: path);
+}
+
 class NullConstantSyntax extends ConstantSyntax {
   NullConstantSyntax.fromJson(
     super.json, {
@@ -642,6 +1378,103 @@ extension NullConstantSyntaxExtension on ConstantSyntax {
       NullConstantSyntax.fromJson(json, path: path);
 }
 
+class OperatorNameSyntax extends NameSyntax {
+  OperatorNameSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  OperatorNameSyntax({
+    super.disambiguators,
+    required super.name,
+    super.path = const [],
+  }) : super(kind: 'operator');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'OperatorNameSyntax($json)';
+}
+
+extension OperatorNameSyntaxExtension on NameSyntax {
+  bool get isOperatorName => kind == 'operator';
+
+  OperatorNameSyntax get asOperatorName =>
+      OperatorNameSyntax.fromJson(json, path: path);
+}
+
+class RecordConstantSyntax extends ConstantSyntax {
+  RecordConstantSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  RecordConstantSyntax({
+    Map<String, int>? named,
+    List<int>? positional,
+    super.path = const [],
+  }) : super(type: 'record') {
+    _named = named;
+    _positional = positional;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [RecordConstantSyntax] that are not in
+  /// [ConstantSyntax].
+  void setup({
+    required Map<String, int>? named,
+    required List<int>? positional,
+  }) {
+    _named = named;
+    _positional = positional;
+    json.sortOnKey();
+  }
+
+  Map<String, int>? get named => _reader.optionalMap<int>(
+    'named',
+  );
+
+  set _named(Map<String, int>? value) {
+    _checkArgumentMapKeys(
+      value,
+    );
+    json.setOrRemove('named', value);
+  }
+
+  List<String> _validateNamed() => _reader.validateOptionalMap<int>(
+    'named',
+  );
+
+  List<int>? get positional => _reader.optionalList<int>('positional');
+
+  set _positional(List<int>? value) {
+    json.setOrRemove('positional', value);
+  }
+
+  List<String> _validatePositional() =>
+      _reader.validateOptionalList<int>('positional');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateNamed(),
+    ..._validatePositional(),
+  ];
+
+  @override
+  String toString() => 'RecordConstantSyntax($json)';
+}
+
+extension RecordConstantSyntaxExtension on ConstantSyntax {
+  bool get isRecordConstant => type == 'record';
+
+  RecordConstantSyntax get asRecordConstant =>
+      RecordConstantSyntax.fromJson(json, path: path);
+}
+
 class RecordedUsesSyntax extends JsonObjectSyntax {
   RecordedUsesSyntax.fromJson(
     super.json, {
@@ -650,15 +1483,17 @@ class RecordedUsesSyntax extends JsonObjectSyntax {
 
   RecordedUsesSyntax({
     List<ConstantSyntax>? constants,
-    List<LocationSyntax>? locations,
+    List<DefinitionSyntax>? definitions,
+    List<LoadingUnitSyntax>? loadingUnits,
     required MetadataSyntax metadata,
-    List<RecordingSyntax>? recordings,
+    UsesSyntax? uses,
     super.path = const [],
   }) : super() {
     _constants = constants;
-    _locations = locations;
+    _definitions = definitions;
+    _loadingUnits = loadingUnits;
     _metadata = metadata;
-    _recordings = recordings;
+    _uses = uses;
     json.sortOnKey();
   }
 
@@ -696,34 +1531,68 @@ class RecordedUsesSyntax extends JsonObjectSyntax {
     return [for (final element in elements) ...element.validate()];
   }
 
-  List<LocationSyntax>? get locations {
-    final jsonValue = _reader.optionalList('locations');
+  List<DefinitionSyntax>? get definitions {
+    final jsonValue = _reader.optionalList('definitions');
     if (jsonValue == null) return null;
     return [
       for (final (index, element) in jsonValue.indexed)
-        LocationSyntax.fromJson(
+        DefinitionSyntax.fromJson(
           element as Map<String, Object?>,
-          path: [...path, 'locations', index],
+          path: [...path, 'definitions', index],
         ),
     ];
   }
 
-  set _locations(List<LocationSyntax>? value) {
+  set _definitions(List<DefinitionSyntax>? value) {
     if (value == null) {
-      json.remove('locations');
+      json.remove('definitions');
     } else {
-      json['locations'] = [for (final item in value) item.json];
+      json['definitions'] = [for (final item in value) item.json];
     }
   }
 
-  List<String> _validateLocations() {
+  List<String> _validateDefinitions() {
     final listErrors = _reader.validateOptionalList<Map<String, Object?>>(
-      'locations',
+      'definitions',
     );
     if (listErrors.isNotEmpty) {
       return listErrors;
     }
-    final elements = locations;
+    final elements = definitions;
+    if (elements == null) {
+      return [];
+    }
+    return [for (final element in elements) ...element.validate()];
+  }
+
+  List<LoadingUnitSyntax>? get loadingUnits {
+    final jsonValue = _reader.optionalList('loading_units');
+    if (jsonValue == null) return null;
+    return [
+      for (final (index, element) in jsonValue.indexed)
+        LoadingUnitSyntax.fromJson(
+          element as Map<String, Object?>,
+          path: [...path, 'loading_units', index],
+        ),
+    ];
+  }
+
+  set _loadingUnits(List<LoadingUnitSyntax>? value) {
+    if (value == null) {
+      json.remove('loading_units');
+    } else {
+      json['loading_units'] = [for (final item in value) item.json];
+    }
+  }
+
+  List<String> _validateLoadingUnits() {
+    final listErrors = _reader.validateOptionalList<Map<String, Object?>>(
+      'loading_units',
+    );
+    if (listErrors.isNotEmpty) {
+      return listErrors;
+    }
+    final elements = loadingUnits;
     if (elements == null) {
       return [];
     }
@@ -747,166 +1616,64 @@ class RecordedUsesSyntax extends JsonObjectSyntax {
     return metadata.validate();
   }
 
-  List<RecordingSyntax>? get recordings {
-    final jsonValue = _reader.optionalList('recordings');
+  UsesSyntax? get uses {
+    final jsonValue = _reader.optionalMap('uses');
     if (jsonValue == null) return null;
-    return [
-      for (final (index, element) in jsonValue.indexed)
-        RecordingSyntax.fromJson(
-          element as Map<String, Object?>,
-          path: [...path, 'recordings', index],
-        ),
-    ];
+    return UsesSyntax.fromJson(jsonValue, path: [...path, 'uses']);
   }
 
-  set _recordings(List<RecordingSyntax>? value) {
-    if (value == null) {
-      json.remove('recordings');
-    } else {
-      json['recordings'] = [for (final item in value) item.json];
-    }
+  set _uses(UsesSyntax? value) {
+    json.setOrRemove('uses', value?.json);
   }
 
-  List<String> _validateRecordings() {
-    final listErrors = _reader.validateOptionalList<Map<String, Object?>>(
-      'recordings',
-    );
-    if (listErrors.isNotEmpty) {
-      return listErrors;
+  List<String> _validateUses() {
+    final mapErrors = _reader.validate<Map<String, Object?>?>('uses');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
     }
-    final elements = recordings;
-    if (elements == null) {
-      return [];
-    }
-    return [for (final element in elements) ...element.validate()];
+    return uses?.validate() ?? [];
   }
 
   @override
   List<String> validate() => [
     ...super.validate(),
     ..._validateConstants(),
-    ..._validateLocations(),
+    ..._validateDefinitions(),
+    ..._validateLoadingUnits(),
     ..._validateMetadata(),
-    ..._validateRecordings(),
+    ..._validateUses(),
   ];
 
   @override
   String toString() => 'RecordedUsesSyntax($json)';
 }
 
-class RecordingSyntax extends JsonObjectSyntax {
-  RecordingSyntax.fromJson(
+class SetterNameSyntax extends NameSyntax {
+  SetterNameSyntax.fromJson(
     super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  SetterNameSyntax({
+    super.disambiguators,
+    required super.name,
     super.path = const [],
-  }) : super.fromJson();
-
-  RecordingSyntax({
-    List<CallSyntax>? calls,
-    required DefinitionSyntax definition,
-    List<InstanceSyntax>? instances,
-    super.path = const [],
-  }) : super() {
-    _calls = calls;
-    _definition = definition;
-    _instances = instances;
-    json.sortOnKey();
-  }
-
-  List<CallSyntax>? get calls {
-    final jsonValue = _reader.optionalList('calls');
-    if (jsonValue == null) return null;
-    return [
-      for (final (index, element) in jsonValue.indexed)
-        CallSyntax.fromJson(
-          element as Map<String, Object?>,
-          path: [...path, 'calls', index],
-        ),
-    ];
-  }
-
-  set _calls(List<CallSyntax>? value) {
-    if (value == null) {
-      json.remove('calls');
-    } else {
-      json['calls'] = [for (final item in value) item.json];
-    }
-  }
-
-  List<String> _validateCalls() {
-    final listErrors = _reader.validateOptionalList<Map<String, Object?>>(
-      'calls',
-    );
-    if (listErrors.isNotEmpty) {
-      return listErrors;
-    }
-    final elements = calls;
-    if (elements == null) {
-      return [];
-    }
-    return [for (final element in elements) ...element.validate()];
-  }
-
-  DefinitionSyntax get definition {
-    final jsonValue = _reader.map$('definition');
-    return DefinitionSyntax.fromJson(jsonValue, path: [...path, 'definition']);
-  }
-
-  set _definition(DefinitionSyntax value) {
-    json['definition'] = value.json;
-  }
-
-  List<String> _validateDefinition() {
-    final mapErrors = _reader.validate<Map<String, Object?>>('definition');
-    if (mapErrors.isNotEmpty) {
-      return mapErrors;
-    }
-    return definition.validate();
-  }
-
-  List<InstanceSyntax>? get instances {
-    final jsonValue = _reader.optionalList('instances');
-    if (jsonValue == null) return null;
-    return [
-      for (final (index, element) in jsonValue.indexed)
-        InstanceSyntax.fromJson(
-          element as Map<String, Object?>,
-          path: [...path, 'instances', index],
-        ),
-    ];
-  }
-
-  set _instances(List<InstanceSyntax>? value) {
-    if (value == null) {
-      json.remove('instances');
-    } else {
-      json['instances'] = [for (final item in value) item.json];
-    }
-  }
-
-  List<String> _validateInstances() {
-    final listErrors = _reader.validateOptionalList<Map<String, Object?>>(
-      'instances',
-    );
-    if (listErrors.isNotEmpty) {
-      return listErrors;
-    }
-    final elements = instances;
-    if (elements == null) {
-      return [];
-    }
-    return [for (final element in elements) ...element.validate()];
-  }
+  }) : super(kind: 'setter');
 
   @override
   List<String> validate() => [
     ...super.validate(),
-    ..._validateCalls(),
-    ..._validateDefinition(),
-    ..._validateInstances(),
   ];
 
   @override
-  String toString() => 'RecordingSyntax($json)';
+  String toString() => 'SetterNameSyntax($json)';
+}
+
+extension SetterNameSyntaxExtension on NameSyntax {
+  bool get isSetterName => kind == 'setter';
+
+  SetterNameSyntax get asSetterName =>
+      SetterNameSyntax.fromJson(json, path: path);
 }
 
 class StringConstantSyntax extends ConstantSyntax {
@@ -950,6 +1717,75 @@ extension StringConstantSyntaxExtension on ConstantSyntax {
       StringConstantSyntax.fromJson(json, path: path);
 }
 
+class SymbolConstantSyntax extends ConstantSyntax {
+  SymbolConstantSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  SymbolConstantSyntax({
+    String? libraryUri,
+    required String name,
+    super.path = const [],
+  }) : super(type: 'symbol') {
+    _libraryUri = libraryUri;
+    _name = name;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [SymbolConstantSyntax] that are not in
+  /// [ConstantSyntax].
+  void setup({required String? libraryUri, required String name}) {
+    _libraryUri = libraryUri;
+    _name = name;
+    json.sortOnKey();
+  }
+
+  static final _libraryUriPattern = RegExp(r'^package:');
+
+  String? get libraryUri =>
+      _reader.optionalString('libraryUri', _libraryUriPattern);
+
+  set _libraryUri(String? value) {
+    if (value != null && !_libraryUriPattern.hasMatch(value)) {
+      throw ArgumentError.value(
+        value,
+        'value',
+        'Value does not satisify pattern: ${_libraryUriPattern.pattern}.',
+      );
+    }
+    json.setOrRemove('libraryUri', value);
+  }
+
+  List<String> _validateLibraryUri() =>
+      _reader.validateOptionalString('libraryUri', _libraryUriPattern);
+
+  String get name => _reader.get<String>('name');
+
+  set _name(String value) {
+    json.setOrRemove('name', value);
+  }
+
+  List<String> _validateName() => _reader.validate<String>('name');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateLibraryUri(),
+    ..._validateName(),
+  ];
+
+  @override
+  String toString() => 'SymbolConstantSyntax($json)';
+}
+
+extension SymbolConstantSyntaxExtension on ConstantSyntax {
+  bool get isSymbolConstant => type == 'symbol';
+
+  SymbolConstantSyntax get asSymbolConstant =>
+      SymbolConstantSyntax.fromJson(json, path: path);
+}
+
 class TearoffCallSyntax extends CallSyntax {
   TearoffCallSyntax.fromJson(
     super.json, {
@@ -957,8 +1793,8 @@ class TearoffCallSyntax extends CallSyntax {
   }) : super._fromJson();
 
   TearoffCallSyntax({
-    super.at,
-    required super.loadingUnit,
+    required super.loadingUnitIndices,
+    super.receiver,
     super.path = const [],
   }) : super(type: 'tearoff');
 
@@ -978,6 +1814,190 @@ extension TearoffCallSyntaxExtension on CallSyntax {
       TearoffCallSyntax.fromJson(json, path: path);
 }
 
+class TearoffInstanceSyntax extends InstanceSyntax {
+  TearoffInstanceSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  TearoffInstanceSyntax({
+    required int definitionIndex,
+    required super.loadingUnitIndices,
+    super.path = const [],
+  }) : super(type: 'tearoff') {
+    _definitionIndex = definitionIndex;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [TearoffInstanceSyntax] that are not in
+  /// [InstanceSyntax].
+  void setup({required int definitionIndex}) {
+    _definitionIndex = definitionIndex;
+    json.sortOnKey();
+  }
+
+  int get definitionIndex => _reader.get<int>('definition_index');
+
+  set _definitionIndex(int value) {
+    json.setOrRemove('definition_index', value);
+  }
+
+  List<String> _validateDefinitionIndex() =>
+      _reader.validate<int>('definition_index');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateDefinitionIndex(),
+  ];
+
+  @override
+  String toString() => 'TearoffInstanceSyntax($json)';
+}
+
+extension TearoffInstanceSyntaxExtension on InstanceSyntax {
+  bool get isTearoffInstance => type == 'tearoff';
+
+  TearoffInstanceSyntax get asTearoffInstance =>
+      TearoffInstanceSyntax.fromJson(json, path: path);
+}
+
+class UnsupportedConstantSyntax extends ConstantSyntax {
+  UnsupportedConstantSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  UnsupportedConstantSyntax({required String message, super.path = const []})
+    : super(type: 'unsupported') {
+    _message = message;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [UnsupportedConstantSyntax] that are not in
+  /// [ConstantSyntax].
+  void setup({required String message}) {
+    _message = message;
+    json.sortOnKey();
+  }
+
+  String get message => _reader.get<String>('message');
+
+  set _message(String value) {
+    json.setOrRemove('message', value);
+  }
+
+  List<String> _validateMessage() => _reader.validate<String>('message');
+
+  @override
+  List<String> validate() => [...super.validate(), ..._validateMessage()];
+
+  @override
+  String toString() => 'UnsupportedConstantSyntax($json)';
+}
+
+extension UnsupportedConstantSyntaxExtension on ConstantSyntax {
+  bool get isUnsupportedConstant => type == 'unsupported';
+
+  UnsupportedConstantSyntax get asUnsupportedConstant =>
+      UnsupportedConstantSyntax.fromJson(json, path: path);
+}
+
+class UsesSyntax extends JsonObjectSyntax {
+  UsesSyntax.fromJson(
+    super.json, {
+    super.path = const [],
+  }) : super.fromJson();
+
+  UsesSyntax({
+    List<InstanceRecordingSyntax>? instances,
+    List<CallRecordingSyntax>? staticCalls,
+    super.path = const [],
+  }) : super() {
+    _instances = instances;
+    _staticCalls = staticCalls;
+    json.sortOnKey();
+  }
+
+  List<InstanceRecordingSyntax>? get instances {
+    final jsonValue = _reader.optionalList('instances');
+    if (jsonValue == null) return null;
+    return [
+      for (final (index, element) in jsonValue.indexed)
+        InstanceRecordingSyntax.fromJson(
+          element as Map<String, Object?>,
+          path: [...path, 'instances', index],
+        ),
+    ];
+  }
+
+  set _instances(List<InstanceRecordingSyntax>? value) {
+    if (value == null) {
+      json.remove('instances');
+    } else {
+      json['instances'] = [for (final item in value) item.json];
+    }
+  }
+
+  List<String> _validateInstances() {
+    final listErrors = _reader.validateOptionalList<Map<String, Object?>>(
+      'instances',
+    );
+    if (listErrors.isNotEmpty) {
+      return listErrors;
+    }
+    final elements = instances;
+    if (elements == null) {
+      return [];
+    }
+    return [for (final element in elements) ...element.validate()];
+  }
+
+  List<CallRecordingSyntax>? get staticCalls {
+    final jsonValue = _reader.optionalList('static_calls');
+    if (jsonValue == null) return null;
+    return [
+      for (final (index, element) in jsonValue.indexed)
+        CallRecordingSyntax.fromJson(
+          element as Map<String, Object?>,
+          path: [...path, 'static_calls', index],
+        ),
+    ];
+  }
+
+  set _staticCalls(List<CallRecordingSyntax>? value) {
+    if (value == null) {
+      json.remove('static_calls');
+    } else {
+      json['static_calls'] = [for (final item in value) item.json];
+    }
+  }
+
+  List<String> _validateStaticCalls() {
+    final listErrors = _reader.validateOptionalList<Map<String, Object?>>(
+      'static_calls',
+    );
+    if (listErrors.isNotEmpty) {
+      return listErrors;
+    }
+    final elements = staticCalls;
+    if (elements == null) {
+      return [];
+    }
+    return [for (final element in elements) ...element.validate()];
+  }
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateInstances(),
+    ..._validateStaticCalls(),
+  ];
+
+  @override
+  String toString() => 'UsesSyntax($json)';
+}
+
 class WithArgumentsCallSyntax extends CallSyntax {
   WithArgumentsCallSyntax.fromJson(
     super.json, {
@@ -985,10 +2005,10 @@ class WithArgumentsCallSyntax extends CallSyntax {
   }) : super._fromJson();
 
   WithArgumentsCallSyntax({
-    super.at,
-    required super.loadingUnit,
+    required super.loadingUnitIndices,
     Map<String, int>? named,
-    List<int?>? positional,
+    List<int>? positional,
+    super.receiver,
     super.path = const [],
   }) : super(type: 'with_arguments') {
     _named = named;
@@ -1000,7 +2020,7 @@ class WithArgumentsCallSyntax extends CallSyntax {
   /// [CallSyntax].
   void setup({
     required Map<String, int>? named,
-    required List<int?>? positional,
+    required List<int>? positional,
   }) {
     _named = named;
     _positional = positional;
@@ -1018,18 +2038,18 @@ class WithArgumentsCallSyntax extends CallSyntax {
     json.setOrRemove('named', value);
   }
 
-  List<String> _validateNamed() => _reader.validateMap<int>(
+  List<String> _validateNamed() => _reader.validateOptionalMap<int>(
     'named',
   );
 
-  List<int?>? get positional => _reader.optionalList<int?>('positional');
+  List<int>? get positional => _reader.optionalList<int>('positional');
 
-  set _positional(List<int?>? value) {
+  set _positional(List<int>? value) {
     json.setOrRemove('positional', value);
   }
 
   List<String> _validatePositional() =>
-      _reader.validateOptionalList<int?>('positional');
+      _reader.validateOptionalList<int>('positional');
 
   @override
   List<String> validate() => [

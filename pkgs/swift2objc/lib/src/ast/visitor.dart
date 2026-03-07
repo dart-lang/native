@@ -78,6 +78,7 @@ abstract class Visitation {
   void visitDeclaredType(DeclaredType node) => visitReferredType(node);
   void visitGenericType(GenericType node) => visitReferredType(node);
   void visitOptionalType(OptionalType node) => visitReferredType(node);
+  void visitInoutType(InoutType node) => visitReferredType(node);
   void visitDeclaration(Declaration node) => visitAstNode(node);
   void visitBuiltInDeclaration(BuiltInDeclaration node) =>
       visitDeclaration(node);
@@ -107,6 +108,7 @@ abstract class Visitation {
       visitCompoundDeclaration(node);
   void visitTypealiasDeclaration(TypealiasDeclaration node) =>
       visitDeclaration(node);
+  void visitTupleType(TupleType node) => visitReferredType(node);
 
   /// Default behavior for all visit methods.
   void visitAstNode(AstNode node) => node.visitChildren(visitor);

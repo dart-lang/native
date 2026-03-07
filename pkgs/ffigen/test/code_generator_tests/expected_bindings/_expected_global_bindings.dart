@@ -21,6 +21,12 @@ class Bindings {
     ffi.Pointer<T> Function<T extends ffi.NativeType>(String symbolName) lookup,
   ) : _lookup = lookup;
 
+  late final ffi.Pointer<EmptyStruct> _globalStruct = _lookup<EmptyStruct>(
+    'globalStruct',
+  );
+
+  ffi.Pointer<EmptyStruct> get globalStruct => _globalStruct;
+
   late final ffi.Pointer<ffi.Int32> _test1 = _lookup<ffi.Int32>('test1');
 
   int get test1 => _test1.value;
@@ -43,14 +49,8 @@ class Bindings {
   ffi.Pointer<Some> get test5 => _test5.value;
 
   set test5(ffi.Pointer<Some> value) => _test5.value = value;
-
-  late final ffi.Pointer<EmptyStruct> _globalStruct = _lookup<EmptyStruct>(
-    'globalStruct',
-  );
-
-  ffi.Pointer<EmptyStruct> get globalStruct => _globalStruct;
 }
 
-final class Some extends ffi.Opaque {}
-
 final class EmptyStruct extends ffi.Opaque {}
+
+final class Some extends ffi.Opaque {}

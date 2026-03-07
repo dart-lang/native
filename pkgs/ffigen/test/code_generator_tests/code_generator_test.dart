@@ -197,6 +197,32 @@ void main() {
       _matchLib(library, 'struct');
     });
 
+    test('Struct allocate helper name collisions', () {
+      final context = makeContext();
+      final library = Library(
+        context: context,
+        header: licenseHeader,
+        bindings: transformBindings([
+          Struct(
+            context: context,
+            name: 'CollisionStruct',
+            members: [
+              CompoundMember(
+                name: 'allocator',
+                type: NativeType(SupportedNativeType.int32),
+              ),
+              CompoundMember(
+                name: 'allocate',
+                type: NativeType(SupportedNativeType.int32),
+              ),
+            ],
+          ),
+        ], context),
+      );
+
+      _matchLib(library, 'struct_allocate_collision');
+    });
+
     test('Function and Struct Binding (pointer to Struct)', () {
       final context = makeContext();
       final structSome = Struct(
@@ -789,10 +815,16 @@ void main() {
 
 /// Utility to match expected bindings to the generated bindings.
 void _matchLib(Library lib, String testName) {
-  matchLibraryWithExpected(lib, 'code_generator_test_${testName}_output.dart', [
-    'test',
-    'code_generator_tests',
-    'expected_bindings',
-    '_expected_${testName}_bindings.dart',
-  ]);
+  final context = testContext();
+  matchLibraryWithExpected(
+    context,
+    lib,
+    'code_generator_test_${testName}_output.dart',
+    [
+      'test',
+      'code_generator_tests',
+      'expected_bindings',
+      '_expected_${testName}_bindings.dart',
+    ],
+  );
 }

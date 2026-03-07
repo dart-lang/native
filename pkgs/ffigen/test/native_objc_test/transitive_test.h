@@ -153,3 +153,23 @@
 @interface NotIncluded (NotIncludedCategory)
 -(int)notIncludedCategoryMethod;
 @end
+
+
+// === Regression test for https://github.com/dart-lang/native/issues/2935 ===
+
+@interface Bug2935TransitiveBlockInterface {}
+-(int)bug2935TransitiveBlockInterfaceMethod;
+@end
+
+@protocol Bug2935TransitiveProtocol<NSObject> {}
+-(void)bug2935TransitiveProtocolMethod:
+    (void (^)(Bug2935TransitiveBlockInterface* itf)) block;
+@end
+
+@interface Bug2935TransitiveInterface : NSObject<Bug2935TransitiveProtocol> {}
+-(int)bug2935TransitiveInterfaceMethod;
+@end
+
+@interface Bug2935DirectInterface {}
+-(Bug2935TransitiveInterface*)bug2935DirectInterfaceMethod;
+@end

@@ -33,8 +33,8 @@ class CompilerResolver {
     required this.logger,
     OS? hostOS, // Only visible for testing.
     Architecture? hostArchitecture, // Only visible for testing.
-  }) : hostOS = hostOS ?? OS.current,
-       hostArchitecture = hostArchitecture ?? Architecture.current,
+  }) : hostOS = hostOS ?? .current,
+       hostArchitecture = hostArchitecture ?? .current,
        context = ToolResolvingContext(logger: logger);
 
   Future<ToolInstance> resolveCompiler() async {
@@ -65,28 +65,28 @@ class CompilerResolver {
     final targetArch = codeConfig.targetArchitecture;
 
     switch ((hostOS, targetOS, targetArch)) {
-      case (_, OS.android, _):
+      case (_, .android, _):
         yield androidNdkClang;
-      case (OS.macOS, OS.macOS || OS.iOS, _):
+      case (.macOS, .macOS || .iOS, _):
         yield appleClang;
         yield clang;
-      case (OS.linux, OS.linux, _) when hostArchitecture == targetArch:
+      case (.linux, .linux, _) when hostArchitecture == targetArch:
         yield clang;
-      case (OS.linux, _, Architecture.arm):
+      case (.linux, _, .arm):
         yield armLinuxGnueabihfGcc;
-      case (OS.linux, _, Architecture.arm64):
+      case (.linux, _, .arm64):
         yield aarch64LinuxGnuGcc;
-      case (OS.linux, _, Architecture.ia32):
+      case (.linux, _, .ia32):
         yield i686LinuxGnuGcc;
-      case (OS.linux, _, Architecture.x64):
+      case (.linux, _, .x64):
         yield x86_64LinuxGnuGcc;
-      case (OS.linux, _, Architecture.riscv64):
+      case (.linux, _, .riscv64):
         yield riscv64LinuxGnuGcc;
-      case (OS.windows, _, Architecture.ia32):
+      case (.windows, _, .ia32):
         yield clIA32;
-      case (OS.windows, _, Architecture.arm64):
+      case (.windows, _, .arm64):
         yield clArm64;
-      case (OS.windows, _, Architecture.x64):
+      case (.windows, _, .x64):
         yield cl;
     }
   }
@@ -143,32 +143,32 @@ class CompilerResolver {
     // TODO(dacoharkes): Support falling back on other tools.
     if (targetArchitecture == hostArchitecture &&
         targetOS == hostOS &&
-        hostOS == OS.linux) {
+        hostOS == .linux) {
       return llvmAr;
     }
-    if (targetOS == OS.macOS || targetOS == OS.iOS) return appleAr;
-    if (targetOS == OS.android) return androidNdkLlvmAr;
-    if (hostOS == OS.linux) {
+    if (targetOS == .macOS || targetOS == .iOS) return appleAr;
+    if (targetOS == .android) return androidNdkLlvmAr;
+    if (hostOS == .linux) {
       switch (targetArchitecture) {
-        case Architecture.arm:
+        case .arm:
           return armLinuxGnueabihfGccAr;
-        case Architecture.arm64:
+        case .arm64:
           return aarch64LinuxGnuGccAr;
-        case Architecture.ia32:
+        case .ia32:
           return i686LinuxGnuGccAr;
-        case Architecture.x64:
+        case .x64:
           return x86_64LinuxGnuGccAr;
-        case Architecture.riscv64:
+        case .riscv64:
           return riscv64LinuxGnuGccAr;
       }
     }
-    if (hostOS == OS.windows) {
+    if (hostOS == .windows) {
       switch (targetArchitecture) {
-        case Architecture.ia32:
+        case .ia32:
           return libIA32;
-        case Architecture.arm64:
+        case .arm64:
           return libArm64;
-        case Architecture.x64:
+        case .x64:
           return lib;
       }
     }
@@ -191,7 +191,7 @@ class CompilerResolver {
   }
 
   Future<Map<String, String>> resolveEnvironment(ToolInstance compiler) async {
-    if (codeConfig.targetOS != OS.windows) {
+    if (codeConfig.targetOS != .windows) {
       return {};
     }
 

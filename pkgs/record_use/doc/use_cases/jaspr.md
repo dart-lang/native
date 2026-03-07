@@ -9,6 +9,7 @@ use style utilities and the final CSS is tree-shaken.
 For example, a `Column` component might have styling options passed to its
 constructor:
 
+<!-- no-source-file -->
 ```dart
 class Column extends Component {
   @RecordUse()
@@ -24,6 +25,7 @@ class Column extends Component {
 When this component is used, we want to record the constructor call, including
 the arguments:
 
+<!-- no-source-file -->
 ```dart
 class MyComponent extends Component {
   @override

@@ -83,7 +83,7 @@ void main() {
 
     test('Transitive category on built-in type', () {
       // Regression test for https://github.com/dart-lang/native/issues/1820.
-      // Include transitive category of explicitly included buit-in type.
+      // Include transitive category of explicitly included built-in type.
       expect(objc.NSURL.alloc().extensionMethod(), 555);
 
       // Don't include transitive category of built-in type that hasn't been

@@ -1,5 +1,14 @@
-## 0.15.3-wip
+## 0.16.0-wip
 
+- **Breaking Change**: All Java wrapper classes have been migrated to extension
+  types. The main effects are:
+  - All collections (`JList`, `JMap` etc) are now direct code generated wrappers
+    around the Java objects, so are less Darty. Instead there are now Darty
+    adapter classes you can access via `asDart()`.
+  - No more nullable `JType` classes, only `JType` classes, and the `JType`
+    class is simplified.
+  - It is no longer necessary to pass around the `JType` in many cases where it
+    used to be required.
 - Added `Jni.captureStackTraceOnRelease` which defaults to `false`. When this is
   set, the stack traces of the release points will be stored for `JObject`s to
   help debug `DoubleReleaseError` and `UseAfterReleaseError`s. This includes the
@@ -8,15 +17,17 @@
 - Changed the behavior of `JObject.releasedBy`. It now does not throw a
   `DoubleReleaseError` if the object was manually released before the end of
   arena.
-- Added an isolate-local LRU cache for `JClass` global references, bounded by a
-  configurable capacity (default 256 entries).
-- Added `Jni.getCachedClass(String name)` which returns a cached `JClass`
-  instance, minimizing redundant JNI `FindClass` calls and `GlobalRef`
-  allocations.
-- Added `JClass.forNameCached(String name)` factory which delegates to
-  `Jni.getCachedClass`.
-- Added `Jni.setClassCacheSize(int size)` to configure the cache capacity at
-  runtime. Reducing the capacity evicts least-recently-used entries immediately.
+- Added an isolate-local bounded LRU cache (default 256 entries) for `JClass`global
+  references to reduce repeated FindClass calls and GlobalRef allocations.Introduced
+  `Jni.getCachedClass`, `JClass.forNameCached`, and `Jni.setClassCacheSize` to access
+  and configure the cache, with immediate eviction when the capacity is reduced.
+- Added `JThrowable` class which inherits from `JObject` and implements
+  `Exception`.
+- **Breaking Change**: `JniException` has been deleted. Java exceptions are now
+  thrown as `JThrowable` instead. `JThrowable` holds an actual Java exception,
+  instead of just holding a string message. It's a `JObject`, so the usual
+  `.isA` and `.as` methods work to cast the `JThrowable` to the underlying Java
+  exception.
 
 ## 0.15.2
 

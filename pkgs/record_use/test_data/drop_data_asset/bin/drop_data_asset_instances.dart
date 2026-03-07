@@ -5,5 +5,5 @@
 import 'package:drop_data_asset/drop_data_asset.dart';
 
 void main(List<String> arguments) {
-  print('Hello world: ${MyMath.double(3)}!');
+  print('Hello world: ${const Double(3).run()}!');
 }

@@ -30,6 +30,9 @@ class EnumDeclaration extends AstNode implements CompoundDeclaration {
   @override
   List<AvailabilityInfo> availability;
 
+  @override
+  final int? lineNumber;
+
   List<EnumCaseDeclaration> cases;
 
   @override
@@ -58,6 +61,7 @@ class EnumDeclaration extends AstNode implements CompoundDeclaration {
     required this.name,
     required this.source,
     required this.availability,
+    this.lineNumber,
     required this.cases,
     required this.properties,
     required this.methods,
@@ -101,12 +105,16 @@ class EnumCaseDeclaration extends AstNode
   List<AvailabilityInfo> availability;
 
   @override
+  final int? lineNumber;
+
+  @override
   List<EnumCaseParam> params;
 
   EnumCaseDeclaration({
     required this.id,
     required this.name,
     required this.source,
+    this.lineNumber,
     required this.availability,
     required this.params,
   });

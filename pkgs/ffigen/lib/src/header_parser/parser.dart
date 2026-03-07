@@ -164,18 +164,17 @@ List<String> _findObjectiveCSysroot() => [
 ];
 
 @visibleForTesting
-List<Binding> transformBindings(List<Binding> bindings, Context context) {
+List<Binding> transformBindings(List<Binding> rawBindings, Context context) {
   final config = context.config;
 
   final allBindings = visit(
     context,
     FindTransitiveDepsVisitation(),
-    bindings,
+    rawBindings,
   ).transitives;
 
   visit(context, CopyMethodsFromSuperTypesVisitation(), allBindings);
   visit(context, FixOverriddenMethodsVisitation(context), allBindings);
-  visit(context, FillMethodDependenciesVisitation(), allBindings);
 
   final applyConfigFiltersVisitation = ApplyConfigFiltersVisitation(config);
   visit(context, applyConfigFiltersVisitation, allBindings);
@@ -206,26 +205,27 @@ List<Binding> transformBindings(List<Binding> bindings, Context context) {
     included,
   ).directTransitives;
 
-  final finalBindings = visit(
+  final semiFinalBindings = visit(
     context,
     ListBindingsVisitation(config, included, transitives, directTransitives),
-    bindings,
+    included,
   ).bindings;
+  final finalBindings = visit(
+    context,
+    FillMethodDependenciesVisitation(context, semiFinalBindings),
+    semiFinalBindings,
+  ).finalBindings;
   visit(context, MarkBindingsVisitation(finalBindings), allBindings);
-
   visit(context, MarkImportsVisitation(context), finalBindings);
 
   _nameAllSymbols(context, finalBindings);
 
   /// Sort bindings.
-  var finalBindingsList = finalBindings.toList();
-  if (config.output.sort) {
-    finalBindingsList = visit(
-      context,
-      SorterVisitation(finalBindings, SorterVisitation.nameSortKey),
-      finalBindings,
-    ).sorted;
-  }
+  final finalBindingsList = visit(
+    context,
+    SorterVisitation(finalBindings, SorterVisitation.nameSortKey),
+    finalBindings,
+  ).sorted;
 
   /// Handle any declaration-declaration name conflicts and emit warnings.
   for (final b in finalBindingsList) {

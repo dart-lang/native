@@ -28,7 +28,7 @@ void main() async {
           logger,
           dartExecutable,
           capturedLogs: logMessages,
-          buildAssetTypes: [BuildAssetType.code],
+          buildAssetTypes: [.code],
         )).success;
         expect(
           logMessages.join('\n'),
