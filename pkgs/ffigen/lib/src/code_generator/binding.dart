@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../config_provider/config_types.dart' show Declaration;
+import '../config_provider/declaration.dart';
 import '../visitor/ast.dart';
 import 'binding_string.dart';
 import 'scope.dart';
@@ -90,6 +90,10 @@ abstract class LookUpBinding extends Binding {
   bool get loadFromNativeAsset;
 }
 
+
+
+// ... existing code ...
+
 /// Base class for bindings which don't look up symbols in dynamic library.
 abstract class NoLookUpBinding extends Binding {
   NoLookUpBinding({
@@ -106,3 +110,5 @@ abstract class NoLookUpBinding extends Binding {
   @override
   void visit(Visitation visitation) => visitation.visitNoLookUpBinding(this);
 }
+
+

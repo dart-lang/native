@@ -32,7 +32,9 @@ Future<void> bindingsTestSetup() async {
     'jni:setup',
   ]);
   tempClassDir =
-      Directory.current.createTempSync('jnigen_runtime_test_classpath_');
+      Directory.current.createTempSync(
+        'jnigen_runtime_test_classpath with spaces ',
+      );
   await compileJavaFiles(Directory(simplePackageTestJava), tempClassDir);
   await runCommand('dart', [
     'run',

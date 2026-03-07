@@ -23,7 +23,8 @@ void main() async {
   const name = 'native_dynamic_linking';
 
   setUp(() async {
-    tempUri = (await Directory.systemTemp.createTemp()).uri;
+    tempUri = (await Directory.systemTemp.createTemp('hooks example temp '))
+        .uri;
   });
 
   tearDown(() async {

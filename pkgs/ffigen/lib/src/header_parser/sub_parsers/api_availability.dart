@@ -7,7 +7,7 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart';
 
-import '../../config_provider/config_types.dart';
+import '../../config_provider/external_versions.dart';
 import '../../context.dart';
 import '../clang_bindings/clang_bindings.dart' as clang_types;
 import '../utils.dart';
@@ -150,6 +150,76 @@ class ApiAvailability {
     if (platforms.isEmpty) return null;
     final args = platforms.map((platform) => platform.checkArgs).join(', ');
     return "$checkOsVersion('$apiName', $args);";
+  }
+
+  /// Combines two [ApiAvailability] objects by taking the union of their
+  /// availability.
+  ///
+  /// The resulting availability is the intersection of the sets of available
+  /// versions. Use this when a construct depends on multiple other constructs,
+  /// and is only available when *all* of them are available.
+  static ApiAvailability union(ApiAvailability a, ApiAvailability b) {
+    return ApiAvailability(
+      alwaysDeprecated: a.alwaysDeprecated || b.alwaysDeprecated,
+      alwaysUnavailable: a.alwaysUnavailable || b.alwaysUnavailable,
+      ios: _unionPlatform(a.ios, b.ios),
+      macos: _unionPlatform(a.macos, b.macos),
+      externalVersions: null,
+    );
+  }
+
+  static PlatformAvailability? _unionPlatform(
+    PlatformAvailability? a,
+    PlatformAvailability? b,
+  ) {
+    if (a == null && b == null) return null;
+    if (a == null) return b;
+    if (b == null) return a;
+
+    return PlatformAvailability(
+      name: a.name ?? b.name,
+      introduced: _max(a.introduced, b.introduced),
+      deprecated: _min(a.deprecated, b.deprecated),
+      obsoleted: _min(a.obsoleted, b.obsoleted),
+      unavailable: a.unavailable || b.unavailable,
+    );
+  }
+
+  static Version? _max(Version? a, Version? b) {
+    if (a == null) return b;
+    if (b == null) return a;
+    return a > b ? a : b;
+  }
+
+  static Version? _min(Version? a, Version? b) {
+    if (a == null) return b;
+    if (b == null) return a;
+    return a < b ? a : b;
+  }
+
+  String get attribute {
+    final parts = <String>[];
+    for (final platform in [ios, macos].nonNulls) {
+      if (platform.unavailable) {
+        parts.add('${platform.name!.toLowerCase()}(unavailable)');
+        continue;
+      }
+      final versionParts = <String>[];
+      if (platform.introduced != null) {
+        versionParts.add('introduced=${platform.introduced}');
+      }
+      if (platform.deprecated != null) {
+        versionParts.add('deprecated=${platform.deprecated}');
+      }
+      if (platform.obsoleted != null) {
+        versionParts.add('obsoleted=${platform.obsoleted}');
+      }
+      if (versionParts.isNotEmpty) {
+        parts.add('${platform.name!.toLowerCase()}(${versionParts.join(", ")})');
+      }
+    }
+    if (parts.isEmpty) return '';
+    return 'API_AVAILABLE(${parts.join(", ")})';
   }
 
   @override
