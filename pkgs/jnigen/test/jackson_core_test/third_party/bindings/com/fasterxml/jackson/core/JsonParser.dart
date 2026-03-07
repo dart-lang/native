@@ -58,10 +58,19 @@ import 'JsonToken.dart' as jsontoken$_;
 /// from: `com.fasterxml.jackson.core.JsonParser$Feature`
 ///
 /// Enumeration that defines all on/off features for parsers.
-extension type JsonParser$Feature._(jni$_.JObject _$this)
-    implements jni$_.JObject {
-  static final _class =
-      jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonParser$Feature');
+class JsonParser$Feature extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JType<JsonParser$Feature> $type;
+
+  @jni$_.internal
+  JsonParser$Feature.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
+      r'com/fasterxml/jackson/core/JsonParser$Feature');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<JsonParser$Feature> type =
@@ -593,10 +602,19 @@ final class $JsonParser$Feature$Type$ extends jni$_.JType<JsonParser$Feature> {
 ///
 /// Enumeration of possible "native" (optimal) types that can be
 /// used for numbers.
-extension type JsonParser$NumberType._(jni$_.JObject _$this)
-    implements jni$_.JObject {
-  static final _class =
-      jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonParser$NumberType');
+class JsonParser$NumberType extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JType<JsonParser$NumberType> $type;
+
+  @jni$_.internal
+  JsonParser$NumberType.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
+      r'com/fasterxml/jackson/core/JsonParser$NumberType');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<JsonParser$NumberType> type =
@@ -733,9 +751,19 @@ final class $JsonParser$NumberType$Type$
 /// Instances are created using factory methods of
 /// a JsonFactory instance.
 ///@author Tatu Saloranta
-extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
-  static final _class =
-      jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonParser');
+class JsonParser extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JType<JsonParser> $type;
+
+  @jni$_.internal
+  JsonParser.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static jni$_.JClass get _class =>
+      jni$_.JClass.forNameCached(r'com/fasterxml/jackson/core/JsonParser');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<JsonParser> type = $JsonParser$Type$();

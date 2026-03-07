@@ -57,9 +57,19 @@ import 'package:jni/jni.dart' as jni$_;
 ///
 /// Enumeration for basic token types used for returning results
 /// of parsing JSON content.
-extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
-  static final _class =
-      jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonToken');
+class JsonToken extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JType<JsonToken> $type;
+
+  @jni$_.internal
+  JsonToken.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static jni$_.JClass get _class =>
+      jni$_.JClass.forNameCached(r'com/fasterxml/jackson/core/JsonToken');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<JsonToken> type = $JsonToken$Type$();
