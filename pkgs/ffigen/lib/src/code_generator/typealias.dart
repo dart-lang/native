@@ -4,6 +4,7 @@
 
 import '../code_generator.dart';
 import '../context.dart';
+import '../header_parser/sub_parsers/api_availability.dart';
 import '../strings.dart' as strings;
 import '../visitor/ast.dart';
 import 'binding_string.dart';
@@ -104,6 +105,9 @@ class Typealias extends BindingType {
     if (pointee is! NativeFunc) return null;
     return pointee.type;
   }
+
+  @override
+  ApiAvailability get computeAvailability => type.computeAvailability;
 
   @override
   BindingString toBindingString(Writer w) {

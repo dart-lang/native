@@ -4,6 +4,7 @@
 
 import '../code_generator.dart';
 import '../context.dart';
+import '../header_parser/sub_parsers/api_availability.dart';
 import '../visitor/ast.dart';
 import 'scope.dart';
 
@@ -58,6 +59,18 @@ class FunctionType extends Type with HasLocalScope {
     sb.write(')');
 
     return sb.toString();
+  }
+
+  @override
+  ApiAvailability get computeAvailability {
+    var avail = returnType.computeAvailability;
+    for (final param in parameters) {
+      avail = avail.merge(param.type.computeAvailability);
+    }
+    for (final param in varArgParameters) {
+      avail = avail.merge(param.type.computeAvailability);
+    }
+    return avail;
   }
 
   @override
@@ -158,6 +171,9 @@ class NativeFunc extends Type {
     }
     return _type as FunctionType;
   }
+
+  @override
+  ApiAvailability get computeAvailability => type.computeAvailability;
 
   @override
   String getCType(Context context, {bool writeArgumentNames = true}) {
