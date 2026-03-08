@@ -188,15 +188,9 @@ class ClosureType extends AstNode implements ReferredType {
 
   @override
   String get swiftType {
-    final attrs = [
-      if (isEscaping) '@escaping',
-      if (isSendable) '@Sendable',
-    ];
+    final attrs = [if (isEscaping) '@escaping', if (isSendable) '@Sendable'];
     final attrsPrefix = attrs.isEmpty ? '' : '${attrs.join(' ')} ';
-    final effects = [
-      if (isAsync) 'async',
-      if (isThrowing) 'throws',
-    ];
+    final effects = [if (isAsync) 'async', if (isThrowing) 'throws'];
     final effectsSuffix = effects.isEmpty ? '' : ' ${effects.join(' ')}';
     final params = parameters.map((p) => p.swiftType).join(', ');
     return '$attrsPrefix($params)$effectsSuffix -> ${returnType.swiftType}';

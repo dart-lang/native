@@ -159,12 +159,9 @@ void main() {
       final state = TransformationState();
       final globalNamer = UniqueNamer();
       state.globalNamer = globalNamer;
-      final transformedClosure = transformReferredType(
-        originalClosure,
-        globalNamer,
-        state,
-      ) as
-          ClosureType;
+      final transformedClosure =
+          transformReferredType(originalClosure, globalNamer, state)
+              as ClosureType;
 
       final localNamer = UniqueNamer();
       final invocation = generateInvocationParams(
@@ -180,59 +177,46 @@ void main() {
     },
   );
 
-  test(
-    'transformDeclaration accepts and returns closure',
-    () {
-      final originalClass = ClassDeclaration(
-        id: 'Foo',
-        name: 'Foo',
-        source: null,
-        availability: const [],
-        methods: [
-          MethodDeclaration(
-            id: 'Foo.bar',
-            name: 'bar',
-            source: null,
-            availability: const [],
-            returnType: ClosureType(
-              parameters: [intType],
-              returnType: intType,
+  test('transformDeclaration accepts and returns closure', () {
+    final originalClass = ClassDeclaration(
+      id: 'Foo',
+      name: 'Foo',
+      source: null,
+      availability: const [],
+      methods: [
+        MethodDeclaration(
+          id: 'Foo.bar',
+          name: 'bar',
+          source: null,
+          availability: const [],
+          returnType: ClosureType(parameters: [intType], returnType: intType),
+          params: [
+            Parameter(
+              name: 'callback',
+              type: ClosureType(parameters: [intType], returnType: intType),
             ),
-            params: [
-              Parameter(
-                name: 'callback',
-                type: ClosureType(
-                  parameters: [intType],
-                  returnType: intType,
-                ),
-              ),
-            ],
-            isStatic: false,
-          ),
-        ],
-      );
+          ],
+          isStatic: false,
+        ),
+      ],
+    );
 
-      final state = TransformationState();
-      state.bindings.add(originalClass);
-      final globalNamer = UniqueNamer();
-      state.globalNamer = globalNamer;
+    final state = TransformationState();
+    state.bindings.add(originalClass);
+    final globalNamer = UniqueNamer();
+    state.globalNamer = globalNamer;
 
-      final transformed = transformDeclaration(
-        originalClass,
-        globalNamer,
-        state,
-      );
-      expect(transformed, isA<ClassDeclaration>());
+    final transformed = transformDeclaration(originalClass, globalNamer, state);
+    expect(transformed, isA<ClassDeclaration>());
 
-      final transformedClass = transformed as ClassDeclaration;
-      final transformedMethod = transformedClass.methods.singleWhere(
-        (method) => method.name == 'bar',
-      );
+    final transformedClass = transformed as ClassDeclaration;
+    final transformedMethod = transformedClass.methods.singleWhere(
+      (method) => method.name == 'bar',
+    );
 
-      expect(transformedMethod.params.single.type, isA<ClosureType>());
-      expect(transformedMethod.returnType, isA<ClosureType>());
-    },
-  );
+    expect(transformedMethod.params.single.type, isA<ClosureType>());
+    expect(transformedMethod.returnType, isA<ClosureType>());
+  });
 
   test(
     'generateInvocationParams does not emit @escaping for closure literals',

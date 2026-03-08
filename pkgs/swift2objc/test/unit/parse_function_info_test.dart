@@ -222,7 +222,7 @@ void main() {
       expect(info.async, isFalse);
     });
 
-test('Function with closure parameter', () {
+    test('Function with closure parameter', () {
       final json = Json(
         jsonDecode('''
         [

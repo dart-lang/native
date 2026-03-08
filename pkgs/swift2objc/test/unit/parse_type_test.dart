@@ -474,7 +474,6 @@ void main() {
     expect(remaining.length, 0);
   });
 
-
   test('Attributed closure with optional parameter', () {
     final fragments = Json(
       jsonDecode('''
@@ -502,9 +501,6 @@ void main() {
     expect(closure.returnType.sameAs(stringType), isTrue);
     expect(remaining.length, 0);
   });
-
-
-
 
   test('Closure type with empty parameters', () {
     final fragments = Json(
@@ -669,5 +665,4 @@ void main() {
     expect(closure.returnType.sameAs(stringType), isTrue);
     expect(remaining.length, 0);
   });
-
 }
