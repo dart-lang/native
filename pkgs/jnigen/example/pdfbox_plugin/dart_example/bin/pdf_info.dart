@@ -12,7 +12,7 @@ void writeInfo(String file) {
   final fileInputStreamClass = JClass.forName("java/io/FileInputStream");
   final inputFile = fileInputStreamClass
       .constructorId("(Ljava/lang/String;)V")
-      .call(fileInputStreamClass, JObject.type, [file.toJString()]);
+      .call(fileInputStreamClass, [file.toJString()]);
   final pdDoc = PDDocument.load$6(inputFile)!;
   int pages = pdDoc.getNumberOfPages();
   final info = pdDoc.getDocumentInformation()!;

@@ -27,7 +27,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
-          buildAssetTypes: [BuildAssetType.code],
+          buildAssetTypes: [.code],
         )).success;
         expect(result.encodedAssets.length, 1);
         await expectSymbols(
@@ -80,7 +80,7 @@ void main() async {
           packageUri,
           logger,
           dartExecutable,
-          buildAssetTypes: [BuildAssetType.code],
+          buildAssetTypes: [.code],
         )).success;
         expect(result.encodedAssets.length, 1);
         await expectSymbols(
@@ -111,7 +111,7 @@ void main() async {
           logger,
           capturedLogs: logMessages,
           dartExecutable,
-          buildAssetTypes: [BuildAssetType.code],
+          buildAssetTypes: [.code],
         );
         Matcher stringContainsBuildHookCompilation(String packageName) =>
             stringContainsInOrder([

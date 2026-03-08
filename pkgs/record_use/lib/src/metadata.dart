@@ -6,6 +6,7 @@ import 'package:pub_semver/pub_semver.dart';
 
 import 'helper.dart';
 import 'syntax.g.dart';
+import 'version.dart';
 
 /// Metadata attached to a recorded usages file.
 ///
@@ -18,10 +19,12 @@ class Metadata {
   const Metadata._(this._syntax);
 
   factory Metadata({
-    required Version version,
-    required String comment,
+    Version? version,
+    String comment =
+        'Recorded usages of objects tagged with a `RecordUse` annotation.',
     Map<String, Object?>? extension,
   }) {
+    version ??= versionInternal;
     final syntax = MetadataSyntax(
       comment: comment,
       version: version.toString(),
@@ -62,7 +65,7 @@ class Metadata {
   }
 
   @override
-  int get hashCode => deepHash(json);
+  int get hashCode => cacheHashCode(() => deepHash(json));
 }
 
 /// Package private (protected) methods for [Metadata].

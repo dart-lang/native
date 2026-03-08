@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
+import 'dart:io';
 
 import 'package:logging/logging.dart';
 
@@ -31,20 +32,30 @@ class Context {
   final Scope rootScope = Scope.createRoot('root');
   final Scope rootObjCScope = Scope.createRoot('objc_root');
   late final ExtraSymbols extraSymbols;
+  final String tmpDir;
 
-  Context(this.logger, FfiGenerator generator, {Uri? libclangDylib})
-    : config = Config(generator),
-      cursorIndex = CursorIndex(logger) {
+  Context(
+    this.logger,
+    FfiGenerator generator, {
+    Uri? libclangDylib,
+    String? tmpDir,
+  }) : config = Config(generator),
+       cursorIndex = CursorIndex(logger),
+       tmpDir =
+           tmpDir ??
+           Directory.systemTemp.createTempSync('ffigen temp dir ').path {
     objCBuiltInFunctions = ObjCBuiltInFunctions(
       this,
       // ignore: deprecated_member_use_from_same_package
       generator.objectiveC?.generateForPackageObjectiveC ?? false,
     );
+
     final libclangDylibPath =
         // ignore: deprecated_member_use_from_same_package
         generator.libclangDylib?.toFilePath() ??
         libclangDylib?.toFilePath() ??
         findDylibAtDefaultLocations(logger);
+
     _clang ??= Clang(DynamicLibrary.open(libclangDylibPath));
   }
 }

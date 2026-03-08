@@ -48,5 +48,11 @@ void main() {
       expect(IsInstanceChildClass.isA(base), isFalse);
       expect(IsInstanceChildClass.isA(child), isTrue);
     });
+
+    test('Null input', () {
+      expect(IsInstanceBaseClass.isA(null), isFalse);
+      expect(IsInstanceChildClass.isA(null), isFalse);
+      expect(IsInstanceUnrelatedClass.isA(null), isFalse);
+    });
   });
 }

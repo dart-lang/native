@@ -1,3 +1,9 @@
+## 1.1.0
+
+- Filter `recorded_uses.json` passed to link hooks based on the
+  package name of the definition.
+- Add `CCACHE_` to the environment variables allowlist.
+
 ## 1.0.2
 
 - Pass `HTTP(S)_PROXY` and related environment variables to hooks.

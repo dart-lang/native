@@ -28,38 +28,61 @@ void main(List<String> arguments) async {
 
     // Tree-shake unused assets using calls
     for (final methodName in ['add', 'multiply']) {
-      final calls = usages.constArgumentsFor(
-        Identifier(
-          importUri:
-              'package:${input.packageName}/src/${input.packageName}.dart',
-          scope: 'MyMath',
-          name: methodName,
-        ),
-      );
+      final calls =
+          usages.calls[Definition(
+            'package:${input.packageName}/src/${input.packageName}.dart',
+            [
+              const Name(kind: .classKind, 'MyMath'),
+              Name(methodName),
+            ],
+          )] ??
+          const [];
       print('Checking calls to $methodName...');
       for (final call in calls) {
-        print(
-          'A call was made to "$methodName" with the arguments ('
-          '${call.positional[0] as int},${call.positional[1] as int})',
-        );
+        switch (call) {
+          case CallWithArguments(
+            positionalArguments: [
+              IntConstant(value: final v0),
+              IntConstant(value: final v1),
+            ],
+          ):
+            print(
+              'A call was made to "$methodName" with the arguments ($v0,$v1)',
+            );
+          case _:
+            throw UnsupportedError(
+              'Cannot determine math operations for "$methodName".',
+            );
+        }
         symbols.add(methodName);
       }
     }
 
+    const classNameToSymbol = {
+      'Double': 'double',
+      'Square': 'square',
+    };
+
     // Tree-shake unused assets using instances
-    for (final className in ['Double', 'Square']) {
-      final instances = usages.constantsOf(
-        Identifier(
-          importUri:
-              'package:${input.packageName}/src/${input.packageName}.dart',
-          name: className,
-        ),
-      );
+    for (final className in classNameToSymbol.keys) {
+      final instances =
+          usages.instances[Definition(
+            'package:${input.packageName}/src/${input.packageName}.dart',
+            [Name(kind: .classKind, className)],
+          )] ??
+          const [];
       print('Checking instances of $className...');
       for (final instance in instances) {
-        print('An instance of "$className" was found: $instance');
-        // Map class name to asset symbol (lowercase)
-        symbols.add(className.toLowerCase());
+        switch (instance) {
+          case InstanceConstantReference(:final instanceConstant):
+            print('An instance of "$className" was found: $instanceConstant');
+            // Map class name to asset symbol
+            symbols.add(classNameToSymbol[className]!);
+          case _:
+            throw UnsupportedError(
+              'Cannot determine math classes for "$className".',
+            );
+        }
       }
     }
 
@@ -70,15 +93,13 @@ void main(List<String> arguments) async {
 
     print('Keeping only ${neededCodeAssets.map((e) => e.id).join(', ')}.');
     output.assets.data.addAll(neededCodeAssets);
-
-    output.dependencies.add(recordedUsagesFile);
   });
 }
 
-Future<RecordedUsages> recordedUsages(Uri recordedUsagesFile) async {
+Future<Recordings> recordedUsages(Uri recordedUsagesFile) async {
   final file = File.fromUri(recordedUsagesFile);
   final string = await file.readAsString();
-  final usages = RecordedUsages.fromJson(
+  final usages = Recordings.fromJson(
     jsonDecode(string) as Map<String, Object?>,
   );
   return usages;

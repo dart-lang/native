@@ -2,40 +2,65 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:record_use/src/location.dart';
-import 'package:record_use/src/reference.dart';
+import 'package:record_use/record_use.dart';
 import 'package:test/test.dart';
+
+const loadingUnitFoo = LoadingUnit('dart.foo');
 
 void main() {
   group('toString', () {
-    test('Location', () {
-      const location = Location(uri: 'package:foo/foo.dart');
-      expect(location.toString(), 'Location(uri: package:foo/foo.dart)');
-    });
-
     test('CallWithArguments', () {
       const call = CallWithArguments(
         positionalArguments: [],
         namedArguments: {},
-        loadingUnit: 'dart.foo',
-        location: Location(uri: 'package:foo/foo.dart'),
+        loadingUnits: [loadingUnitFoo],
       );
       expect(
         call.toString(),
-        'CallWithArguments(location: Location(uri: package:foo/foo.dart), loadingUnit: dart.foo)',
+        'CallWithArguments(loadingUnits: dart.foo)',
       );
     });
 
     test('CallWithArguments with multiple args', () {
       const call = CallWithArguments(
-        positionalArguments: [null, null],
-        namedArguments: {'bar': null, 'baz': null},
-        loadingUnit: 'dart.foo',
-        location: Location(uri: 'package:foo/foo.dart'),
+        positionalArguments: [NonConstant(), NonConstant()],
+        namedArguments: {
+          'bar': NonConstant(),
+          'baz': NonConstant(),
+        },
+        loadingUnits: [loadingUnitFoo],
       );
       expect(
         call.toString(),
-        'CallWithArguments(positional: null, null, named: bar=null, baz=null, location: Location(uri: package:foo/foo.dart), loadingUnit: dart.foo)',
+        'CallWithArguments(positional: NonConstant(), '
+        'NonConstant(), named: bar=NonConstant(), '
+        'baz=NonConstant(), loadingUnits: dart.foo)',
+      );
+    });
+
+    test('SymbolConstant', () {
+      expect(
+        const SymbolConstant('foo').toString(),
+        '#foo',
+      );
+      expect(
+        const SymbolConstant('_bar', libraryUri: 'package:a/a.dart').toString(),
+        'package:a/a.dart::#_bar',
+      );
+    });
+
+    test('InstanceConstantReference with EnumConstant', () {
+      const ref = InstanceConstantReference(
+        instanceConstant: EnumConstant(
+          definition: Definition('package:a/a.dart', [Name('MyEnum')]),
+          index: 0,
+          name: 'val1',
+        ),
+        loadingUnits: [loadingUnitFoo],
+      );
+      expect(
+        ref.toString(),
+        'InstanceConstantReference(instanceConstant: EnumConstant(package:a/a.dart#MyEnum, index: 0, name: val1, fields: {}), loadingUnits: dart.foo)',
       );
     });
   });

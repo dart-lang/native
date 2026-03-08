@@ -25,6 +25,9 @@ class MethodDeclaration extends AstNode
   InputConfig? source;
 
   @override
+  final int? lineNumber;
+
+  @override
   List<AvailabilityInfo> availability;
 
   @override
@@ -54,6 +57,7 @@ class MethodDeclaration extends AstNode
   bool isStatic;
 
   bool mutating;
+  bool isOperator = false;
 
   String get fullName => [name, for (final p in params) p.name].join(':');
 
@@ -64,6 +68,7 @@ class MethodDeclaration extends AstNode
     required this.availability,
     required this.returnType,
     required this.params,
+    this.lineNumber,
     this.typeParams = const [],
     this.hasObjCAnnotation = false,
     this.statements = const [],
@@ -72,6 +77,7 @@ class MethodDeclaration extends AstNode
     this.throws = false,
     this.async = false,
     this.mutating = false,
+    this.isOperator = false,
   }) : assert(!isStatic || !isOverriding);
 
   @override

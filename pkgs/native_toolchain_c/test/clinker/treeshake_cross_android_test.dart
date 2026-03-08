@@ -11,18 +11,41 @@ import 'treeshake_helper.dart';
 void main() {
   const targetOS = OS.android;
 
-  for (final apiLevel in [
-    flutterAndroidNdkVersionLowestSupported,
-    flutterAndroidNdkVersionHighestSupported,
-  ]) {
-    for (final architecture in supportedArchitecturesFor(targetOS)) {
-      group('Android API$apiLevel ($architecture):', () {
-        runTreeshakeTests(
-          targetOS,
-          architecture,
-          androidTargetNdkApi: apiLevel,
-        );
-      });
-    }
+  // These configurations are a selection of combinations of architectures
+  // and API levels.
+  // We don't test the full cartesian product to keep the CI time manageable.
+  // When adding a new configuration, consider if it tests a new combination
+  // that is not yet covered by the existing tests.
+  final configurations = [
+    (
+      architecture: Architecture.arm,
+      apiLevel: flutterAndroidNdkVersionLowestSupported,
+    ),
+    (
+      architecture: Architecture.arm64,
+      apiLevel: flutterAndroidNdkVersionHighestSupported,
+    ),
+    (
+      architecture: Architecture.ia32,
+      apiLevel: flutterAndroidNdkVersionLowestSupported,
+    ),
+    (
+      architecture: Architecture.x64,
+      apiLevel: flutterAndroidNdkVersionHighestSupported,
+    ),
+    (
+      architecture: Architecture.riscv64,
+      apiLevel: flutterAndroidNdkVersionLowestSupported,
+    ),
+    (
+      architecture: Architecture.arm64,
+      apiLevel: flutterAndroidNdkVersionLowestSupported,
+    ),
+  ];
+
+  for (final (:architecture, :apiLevel) in configurations) {
+    group('Android API$apiLevel ($architecture):', () {
+      runTreeshakeTests(targetOS, architecture, androidTargetNdkApi: apiLevel);
+    });
   }
 }

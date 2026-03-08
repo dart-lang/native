@@ -2,7 +2,128 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-export 'src/identifier.dart' show Identifier;
+/// @docImport 'src/recordings.dart';
+
+/// This package provides the data classes for the usage recording feature in
+/// the Dart SDK.
+///
+/// Dart objects with the `@RecordUse()` annotation are being recorded at
+/// compile time, providing the user with information. The information depends
+/// on the object being recorded.
+///
+/// The main entrypoint for recorded usages is [Recordings].
+///
+/// - If placed on a static method, the annotation means that arguments passed
+///   to the method will be recorded, as far as they can be inferred at compile
+///   time. These can be found in [Recordings.calls].
+/// - If placed on a class, the annotation means that any constant instance of
+///   the class and any constructor invocation will be recorded. These can be
+///   found in [Recordings.instances].
+///
+/// > [!NOTE]
+/// > The `@RecordUse()` annotation is only allowed on definitions within a
+/// > package's `lib/` directory. This includes definitions that are members of
+/// > a class, such as static methods.
+///
+/// ## Example
+///
+/// <!-- file://./../example/api/usage.dart#usage -->
+/// ```dart
+/// void main() {
+///   PirateTranslator.speak('Hello');
+///   print(const PirateShip('Black Pearl', 50));
+/// }
+///
+/// abstract class PirateTranslator {
+///   @RecordUse()
+///   static String speak(String english) => 'Ahoy $english';
+/// }
+///
+/// @RecordUse()
+/// final class PirateShip {
+///   final String name;
+///   final int cannons;
+///
+///   const PirateShip(this.name, this.cannons);
+/// }
+/// ```
+/// This code will generate a data file that contains both the field values of
+/// the `PirateShip` instances, as well as the arguments for the `speak`
+/// method annotated with `@RecordUse()`.
+///
+/// This information can then be accessed in a link hook as follows:
+/// <!-- file://./../example/api/usage_link.dart#link -->
+/// ```dart
+/// void main(List<String> arguments) {
+///   link(arguments, (input, output) async {
+///     final usesUri = input.recordedUsagesFile;
+///     if (usesUri == null) return;
+///     final usesJson = await File.fromUri(usesUri).readAsString();
+///     final uses = Recordings.fromJson(
+///       jsonDecode(usesJson) as Map<String, Object?>,
+///     );
+///
+///     final calls = uses.calls[methodId] ?? [];
+///     for (final call in calls) {
+///       switch (call) {
+///         case CallWithArguments(
+///           positionalArguments: [StringConstant(value: final english), ...],
+///         ):
+///           // Shrink a translations file based on all the different translation
+///           // keys.
+///           print('Translating to pirate: $english');
+///         case _:
+///           print('Cannot determine which translations are used.');
+///       }
+///     }
+///
+///     final ships = uses.instances[classId] ?? [];
+///     for (final ship in ships) {
+///       switch (ship) {
+///         case InstanceConstantReference(
+///           instanceConstant: InstanceConstant(
+///             fields: {'name': StringConstant(value: final name)},
+///           ),
+///         ):
+///           // Include the 3d model for this ship in the application but not
+///           // bundle the other ships.
+///           print('Pirate ship found: $name');
+///         case _:
+///           print('Cannot determine which ships are used.');
+///       }
+///     }
+///   });
+/// }
+/// ```
+library;
+
+export 'src/constant.dart'
+    show
+        BoolConstant,
+        Constant,
+        EnumConstant,
+        InstanceConstant,
+        IntConstant,
+        ListConstant,
+        MapConstant,
+        MaybeConstant,
+        NonConstant,
+        NullConstant,
+        RecordConstant,
+        StringConstant,
+        SymbolConstant,
+        UnsupportedConstant;
+export 'src/definition.dart'
+    show Definition, DefinitionDisambiguator, DefinitionKind, Name;
+export 'src/loading_unit.dart' show LoadingUnit;
 export 'src/metadata.dart' show Metadata;
-export 'src/record_use.dart' show ConstantInstance, RecordedUsages;
-export 'src/recorded_usage_from_file.dart' show parseFromFile;
+export 'src/recordings.dart' show Recordings;
+export 'src/reference.dart'
+    show
+        CallReference,
+        CallTearoff,
+        CallWithArguments,
+        ConstructorTearoffReference,
+        InstanceConstantReference,
+        InstanceCreationReference,
+        InstanceReference;

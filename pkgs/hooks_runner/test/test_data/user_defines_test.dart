@@ -30,7 +30,7 @@ void main() async {
         logger,
         dartExecutable,
         capturedLogs: logMessages,
-        buildAssetTypes: [BuildAssetType.data],
+        buildAssetTypes: [.data],
         userDefines: UserDefines(workspacePubspec: pubspecUri),
       )).success;
 

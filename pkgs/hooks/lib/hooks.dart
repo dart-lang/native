@@ -101,6 +101,8 @@
 ///     *   `ANDROID_HOME`: Standard location for the Android SDK/NDK.
 ///     *   `ANDROID_NDK`, `ANDROID_NDK_HOME`, `ANDROID_NDK_LATEST_HOME`,
 ///         `ANDROID_NDK_ROOT`: Alternative locations for the NDK.
+/// *   **Ccache:**
+///     *   Any variable starting with `CCACHE_`.
 /// *   **Nix:**
 ///     *   Any variable starting with `NIX_`.
 ///
