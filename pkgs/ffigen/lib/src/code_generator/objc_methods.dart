@@ -50,6 +50,8 @@ mixin ObjCMethods {
   }
 
   bool _shouldReplaceMethod(ObjCMethod oldMethod, ObjCMethod newMethod) {
+    if (oldMethod.unavailable || newMethod.unavailable) return false;
+
     // Typically we ignore duplicate methods. However, property setters and
     // getters are duplicated in the AST. One copy is marked with
     // ObjCMethodKind.propertyGetter/Setter. The other copy is missing
@@ -309,6 +311,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
       kind == ObjCMethodKind.propertySetter;
   bool get isRequired => !isOptional;
   bool get isInstanceMethod => !isClassMethod;
+  bool get unavailable => apiAvailability.swiftUnavailable;
 
   ObjCMsgSendFunc fillMsgSend() {
     return msgSend ??= context.objCBuiltInFunctions.getMsgSendFunc(
