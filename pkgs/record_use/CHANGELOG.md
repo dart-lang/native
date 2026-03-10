@@ -1,3 +1,7 @@
+## 0.6.0-wip
+
+- **Breaking Change**: Changed the JSON format and Dart API in various ways.
+
 ## 0.5.0
 
 - Complete reimplementation of the package. The Dart API changed completely, the

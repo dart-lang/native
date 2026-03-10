@@ -30,7 +30,7 @@ void main() {
           const CallWithArguments(
             positionalArguments: [otherInstance],
             namedArguments: {},
-            loadingUnits: [],
+            loadingUnit: LoadingUnit(''),
           ),
         ],
       },
@@ -75,7 +75,7 @@ void main() {
               MapConstant([MapEntry(StringConstant('key'), otherInstance)]),
             ],
             namedArguments: {},
-            loadingUnits: [],
+            loadingUnit: LoadingUnit(''),
           ),
         ],
       },
@@ -119,7 +119,7 @@ void main() {
           const CallWithArguments(
             positionalArguments: [otherEnum],
             namedArguments: {},
-            loadingUnits: [],
+            loadingUnit: LoadingUnit(''),
           ),
         ],
       },

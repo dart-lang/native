@@ -147,16 +147,12 @@
         "uses": [
           {
             "constant_index": 17,
-            "loading_unit_indices": [
-              0
-            ],
+            "loading_unit_index": 0,
             "type": "constant"
           },
           {
             "constant_index": 13,
-            "loading_unit_indices": [
-              0
-            ],
+            "loading_unit_index": 0,
             "type": "constant"
           }
         ]
@@ -166,9 +162,7 @@
         "uses": [
           {
             "constant_index": 16,
-            "loading_unit_indices": [
-              0
-            ],
+            "loading_unit_index": 0,
             "type": "constant"
           }
         ]
@@ -179,9 +173,7 @@
         "definition_index": 1,
         "uses": [
           {
-            "loading_unit_indices": [
-              1
-            ],
+            "loading_unit_index": 1,
             "named": {
               "freddy": 12,
               "leroy": 9
@@ -194,9 +186,7 @@
             "type": "with_arguments"
           },
           {
-            "loading_unit_indices": [
-              1
-            ],
+            "loading_unit_index": 1,
             "named": {
               "freddy": 2,
               "leroy": 9

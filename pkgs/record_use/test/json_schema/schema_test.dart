@@ -162,7 +162,7 @@ List<SchemaTestField> recordUseFields = [
     expectOptionalFieldMissing,
   ),
   (
-    ['uses', 'static_calls', 0, 'uses', 0, 'loading_unit_indices'],
+    ['uses', 'static_calls', 0, 'uses', 0, 'loading_unit_index'],
     expectRequiredFieldMissing,
   ),
   (['uses', 'instances'], expectOptionalFieldMissing),
@@ -176,7 +176,7 @@ List<SchemaTestField> recordUseFields = [
     expectRequiredFieldMissing,
   ),
   (
-    ['uses', 'instances', 0, 'uses', 0, 'loading_unit_indices'],
+    ['uses', 'instances', 0, 'uses', 0, 'loading_unit_index'],
     expectRequiredFieldMissing,
   ),
 ];
@@ -187,7 +187,7 @@ List<SchemaTestField> constructorInvocationFields = [
     expectRequiredFieldMissing,
   ),
   (
-    ['uses', 'instances', 0, 'uses', 0, 'loading_unit_indices'],
+    ['uses', 'instances', 0, 'uses', 0, 'loading_unit_index'],
     expectRequiredFieldMissing,
   ),
   (
@@ -214,7 +214,7 @@ List<SchemaTestField> constructorTearoffFields = [
     expectRequiredFieldMissing,
   ),
   (
-    ['uses', 'instances', 0, 'uses', 0, 'loading_unit_indices'],
+    ['uses', 'instances', 0, 'uses', 0, 'loading_unit_index'],
     expectRequiredFieldMissing,
   ),
   (

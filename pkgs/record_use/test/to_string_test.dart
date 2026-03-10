@@ -13,11 +13,11 @@ void main() {
       const call = CallWithArguments(
         positionalArguments: [],
         namedArguments: {},
-        loadingUnits: [loadingUnitFoo],
+        loadingUnit: loadingUnitFoo,
       );
       expect(
         call.toString(),
-        'CallWithArguments(loadingUnits: dart.foo)',
+        'CallWithArguments(loadingUnit: dart.foo)',
       );
     });
 
@@ -28,13 +28,13 @@ void main() {
           'bar': NonConstant(),
           'baz': NonConstant(),
         },
-        loadingUnits: [loadingUnitFoo],
+        loadingUnit: loadingUnitFoo,
       );
       expect(
         call.toString(),
         'CallWithArguments(positional: NonConstant(), '
         'NonConstant(), named: bar=NonConstant(), '
-        'baz=NonConstant(), loadingUnits: dart.foo)',
+        'baz=NonConstant(), loadingUnit: dart.foo)',
       );
     });
 
@@ -56,11 +56,11 @@ void main() {
           index: 0,
           name: 'val1',
         ),
-        loadingUnits: [loadingUnitFoo],
+        loadingUnit: loadingUnitFoo,
       );
       expect(
         ref.toString(),
-        'InstanceConstantReference(instanceConstant: EnumConstant(package:a/a.dart#MyEnum, index: 0, name: val1, fields: {}), loadingUnits: dart.foo)',
+        'InstanceConstantReference(instanceConstant: EnumConstant(package:a/a.dart#MyEnum, index: 0, name: val1, fields: {}), loadingUnit: dart.foo)',
       );
     });
   });
