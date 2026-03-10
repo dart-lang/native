@@ -43,7 +43,6 @@ Config getConfig() {
     join(testRoot, 'bindings'),
   );
   final config = Config(
-    configRoot: Uri.directory(testRoot),
     classPath: [Uri.file(jarPath)],
     classes: [
       // Generating the entire library.

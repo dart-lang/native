@@ -6,14 +6,16 @@ void main(List<String> args) {
   final packageRoot = Platform.script.resolve('../');
   generateJniBindings(
     Config(
-      configRoot: packageRoot,
       outputConfig: OutputConfig(
         dartConfig: DartCodeOutputConfig(
           path: packageRoot.resolve('lib/android_utils.g.dart'),
           structure: OutputStructure.singleFile,
         ),
       ),
-      androidSdkConfig: AndroidSdkConfig(addGradleDeps: true),
+      androidSdkConfig: AndroidSdkConfig(
+        addGradleDeps: true,
+        androidExample: packageRoot.toFilePath(),
+      ),
       sourcePath: [packageRoot.resolve('android/app/src/main/java')],
       classes: [
         'com.example.in_app_java', // Generate the entire package

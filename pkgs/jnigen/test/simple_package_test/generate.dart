@@ -77,7 +77,6 @@ Config getConfig({SummarizerBackend backend = SummarizerBackend.asm}) {
     join(testRoot, 'bindings'),
   );
   final config = Config(
-    configRoot: Uri.directory(testRoot),
     sourcePath: [Uri.directory(javaPath)],
     classPath: [Uri.directory(javaPath)],
     summarizerOptions: SummarizerOptions(backend: backend),
