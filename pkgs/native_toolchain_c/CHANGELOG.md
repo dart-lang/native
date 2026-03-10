@@ -1,4 +1,4 @@
-## 0.17.5-wip
+## 0.17.5
 
 - Search for NDK in `ANDROID_HOME` and `ANDROID_NDK` environment variables.
 - On iOS and macOS, use the `-encryptable` linker flag. This resolves an
