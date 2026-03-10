@@ -37,7 +37,7 @@ Future<void> main() async {
     Config(
       androidSdkConfig: AndroidSdkConfig(
         addGradleDeps: true,
-        androidExample: packageRoot.resolve('example/'),
+        androidExample: packageRoot.resolve('example/').toFilePath(),
       ),
       outputConfig: OutputConfig(
         dartConfig: DartCodeOutputConfig(
@@ -53,10 +53,9 @@ Future<void> main() async {
   );
   await generateJniBindings(
     Config(
-      configRoot: packageRoot,
       androidSdkConfig: AndroidSdkConfig(
         addGradleDeps: true,
-        androidExample: packageRoot.resolve('example/'),
+        androidExample: packageRoot.resolve('example/').toFilePath(),
       ),
       outputConfig: OutputConfig(
         dartConfig: DartCodeOutputConfig(
