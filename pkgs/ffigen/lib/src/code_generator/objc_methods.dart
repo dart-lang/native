@@ -311,7 +311,7 @@ class ObjCMethod extends AstNode with HasLocalScope {
       kind == ObjCMethodKind.propertySetter;
   bool get isRequired => !isOptional;
   bool get isInstanceMethod => !isClassMethod;
-  bool get unavailable => apiAvailability.swiftUnavailable;
+  bool get unavailable => apiAvailability.alwaysUnavailable;
 
   ObjCMsgSendFunc fillMsgSend() {
     return msgSend ??= context.objCBuiltInFunctions.getMsgSendFunc(
