@@ -32,15 +32,17 @@ Future<void> main() async {
 
 // ignore_for_file: prefer_relative_imports''';
 
+  final pkgRoot = Platform.script.resolve('..');
   await generateJniBindings(
     Config(
+      configRoot: pkgRoot,
       androidSdkConfig: AndroidSdkConfig(
         addGradleDeps: true,
         androidExample: 'example/',
       ),
       outputConfig: OutputConfig(
         dartConfig: DartCodeOutputConfig(
-          path: Platform.script.resolve('../lib/src/core_bindings.dart'),
+          path: pkgRoot.resolve('lib/src/core_bindings.dart'),
           structure: OutputStructure.singleFile,
         ),
       ),
@@ -52,14 +54,14 @@ Future<void> main() async {
   );
   await generateJniBindings(
     Config(
+      configRoot: pkgRoot,
       androidSdkConfig: AndroidSdkConfig(
         addGradleDeps: true,
         androidExample: 'example/',
       ),
       outputConfig: OutputConfig(
         dartConfig: DartCodeOutputConfig(
-          path: Platform.script
-              .resolve('../lib/src/plugin/generated_plugin.dart'),
+          path: pkgRoot.resolve('lib/src/plugin/generated_plugin.dart'),
           structure: OutputStructure.singleFile,
         ),
       ),

@@ -67,7 +67,7 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory JniPlugin() {
-    return JniPlugin._new$(_class.reference.pointer, JniPlugin._id_new$.pointer)
+    return _new$(_class.reference.pointer, _id_new$.pointer)
         .object<JniPlugin>();
   }
 
@@ -91,8 +91,8 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public android.content.Context getApplicationContext()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JObject getApplicationContext() {
-    return JniPlugin._getApplicationContext(_class.reference.pointer,
-            JniPlugin._id_getApplicationContext.pointer)
+    return _getApplicationContext(
+            _class.reference.pointer, _id_getApplicationContext.pointer)
         .object<jni$_.JObject>();
   }
 
@@ -115,8 +115,7 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JObject? getActivity(
     int j,
   ) {
-    return JniPlugin._getActivity(
-            _class.reference.pointer, JniPlugin._id_getActivity.pointer, j)
+    return _getActivity(_class.reference.pointer, _id_getActivity.pointer, j)
         .object<jni$_.JObject?>();
   }
 }
@@ -143,9 +142,7 @@ extension JniPlugin$$Methods on JniPlugin {
     jni$_.JObject flutterPluginBinding,
   ) {
     final _$flutterPluginBinding = flutterPluginBinding.reference;
-    JniPlugin$$Methods._onAttachedToEngine(
-            reference.pointer,
-            JniPlugin$$Methods._id_onAttachedToEngine.pointer,
+    _onAttachedToEngine(reference.pointer, _id_onAttachedToEngine.pointer,
             _$flutterPluginBinding.pointer)
         .check();
   }
@@ -171,9 +168,7 @@ extension JniPlugin$$Methods on JniPlugin {
     jni$_.JObject flutterPluginBinding,
   ) {
     final _$flutterPluginBinding = flutterPluginBinding.reference;
-    JniPlugin$$Methods._onDetachedFromEngine(
-            reference.pointer,
-            JniPlugin$$Methods._id_onDetachedFromEngine.pointer,
+    _onDetachedFromEngine(reference.pointer, _id_onDetachedFromEngine.pointer,
             _$flutterPluginBinding.pointer)
         .check();
   }
@@ -199,9 +194,7 @@ extension JniPlugin$$Methods on JniPlugin {
     jni$_.JObject activityPluginBinding,
   ) {
     final _$activityPluginBinding = activityPluginBinding.reference;
-    JniPlugin$$Methods._onAttachedToActivity(
-            reference.pointer,
-            JniPlugin$$Methods._id_onAttachedToActivity.pointer,
+    _onAttachedToActivity(reference.pointer, _id_onAttachedToActivity.pointer,
             _$activityPluginBinding.pointer)
         .check();
   }
@@ -227,10 +220,8 @@ extension JniPlugin$$Methods on JniPlugin {
 
   /// from: `public void onDetachedFromActivityForConfigChanges()`
   void onDetachedFromActivityForConfigChanges() {
-    JniPlugin$$Methods._onDetachedFromActivityForConfigChanges(
-            reference.pointer,
-            JniPlugin$$Methods
-                ._id_onDetachedFromActivityForConfigChanges.pointer)
+    _onDetachedFromActivityForConfigChanges(reference.pointer,
+            _id_onDetachedFromActivityForConfigChanges.pointer)
         .check();
   }
 
@@ -257,10 +248,9 @@ extension JniPlugin$$Methods on JniPlugin {
     jni$_.JObject activityPluginBinding,
   ) {
     final _$activityPluginBinding = activityPluginBinding.reference;
-    JniPlugin$$Methods._onReattachedToActivityForConfigChanges(
+    _onReattachedToActivityForConfigChanges(
             reference.pointer,
-            JniPlugin$$Methods
-                ._id_onReattachedToActivityForConfigChanges.pointer,
+            _id_onReattachedToActivityForConfigChanges.pointer,
             _$activityPluginBinding.pointer)
         .check();
   }
@@ -284,8 +274,8 @@ extension JniPlugin$$Methods on JniPlugin {
 
   /// from: `public void onDetachedFromActivity()`
   void onDetachedFromActivity() {
-    JniPlugin$$Methods._onDetachedFromActivity(reference.pointer,
-            JniPlugin$$Methods._id_onDetachedFromActivity.pointer)
+    _onDetachedFromActivity(
+            reference.pointer, _id_onDetachedFromActivity.pointer)
         .check();
   }
 }
