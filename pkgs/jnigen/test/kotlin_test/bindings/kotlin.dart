@@ -591,11 +591,8 @@ final class $MeasureUnit$Type$ extends jni$_.JType<MeasureUnit> {
 }
 
 /// from: `com.github.dart_lang.jnigen.Nullability$InnerClass`
-extension type Nullability$InnerClass<
-        $T extends jni$_.JObject?,
-        $U extends jni$_.JObject,
-        $V extends jni$_.JObject?>._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+extension type Nullability$InnerClass<$T extends jni$_.JObject?,
+        $U extends jni$_.JObject, $V extends jni$_.JObject?>._(
   static final _class = jni$_.JClass.forName(
       r'com/github/dart_lang/jnigen/Nullability$InnerClass');
 
