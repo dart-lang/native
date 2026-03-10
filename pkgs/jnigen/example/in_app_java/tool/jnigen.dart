@@ -6,6 +6,7 @@ void main(List<String> args) {
   final packageRoot = Platform.script.resolve('../');
   generateJniBindings(
     Config(
+      configRoot: packageRoot,
       outputConfig: OutputConfig(
         dartConfig: DartCodeOutputConfig(
           path: packageRoot.resolve('lib/android_utils.g.dart'),

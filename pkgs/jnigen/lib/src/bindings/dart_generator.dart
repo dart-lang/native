@@ -303,26 +303,49 @@ class _ClassGenerator extends Visitor<ClassDecl, void> {
 
   _ClassGenerator(this.config, this.s, this.resolver);
 
-  void generateFieldsAndMethods(ClassDecl node, String classRef) {
-    final fieldGenerator = _FieldGenerator(
+  void generateFieldsAndMethods(
+    ClassDecl node,
+    String classRef, {
+    required StringSink staticSink,
+    required StringSink instanceSink,
+  }) {
+    final instanceClassRef = '${node.finalName}.$classRef';
+    final staticFieldGenerator = _FieldGenerator(
       config,
       resolver,
-      s,
+      staticSink,
       isTopLevel: node.isTopLevel,
       classRef: classRef,
+    );
+    final instanceFieldGenerator = _FieldGenerator(
+      config,
+      resolver,
+      instanceSink,
+      isTopLevel: node.isTopLevel,
+      classRef: instanceClassRef,
     );
     for (final field in node.fields) {
-      field.accept(fieldGenerator);
+      field.accept(
+          field.isStatic ? staticFieldGenerator : instanceFieldGenerator);
     }
-    final methodGenerator = _MethodGenerator(
+    final staticMethodGenerator = _MethodGenerator(
       config,
       resolver,
-      s,
+      staticSink,
       isTopLevel: node.isTopLevel,
       classRef: classRef,
     );
+    final instanceMethodGenerator = _MethodGenerator(
+      config,
+      resolver,
+      instanceSink,
+      isTopLevel: node.isTopLevel,
+      classRef: instanceClassRef,
+    );
     for (final method in node.methods) {
-      method.accept(methodGenerator);
+      method.accept(method.isStatic || method.isConstructor
+          ? staticMethodGenerator
+          : instanceMethodGenerator);
     }
   }
 
@@ -342,7 +365,14 @@ ${modifier}final $classRef = $_jni.JClass.forName(r'$internalName');
     if (node.isTopLevel) {
       // If the class is top-level, only generate its methods and fields.
       final classRef = writeClassRef(node);
-      generateFieldsAndMethods(node, classRef);
+      final sink = StringBuffer();
+      generateFieldsAndMethods(
+        node,
+        classRef,
+        staticSink: s,
+        instanceSink: sink,
+      );
+      s.write(sink);
       return;
     }
     // Docs.
@@ -385,15 +415,14 @@ extension type $name$typeParamsDef._($_jObject _\$this) implements $implementsCl
   static const $_jType<$name> type = $typeClassName();
 ''');
 
+    final instanceSink = StringBuffer();
     // Fields and Methods
-    generateFieldsAndMethods(node, classRef);
-
-    // Operators
-    for (final MapEntry(key: operator, value: method)
-        in node.operators.entries) {
-      method.accept(_OperatorGenerator(resolver, s, operator: operator));
-    }
-    node.compareTo?.accept(_ComparatorGenerator(resolver, s));
+    generateFieldsAndMethods(
+      node,
+      classRef,
+      staticSink: s,
+      instanceSink: instanceSink,
+    );
 
     if (node.declKind == DeclKind.interfaceKind) {
       s.write('''
@@ -473,20 +502,18 @@ extension type $name$typeParamsDef._($_jObject _\$this) implements $implementsCl
       s.write('''
       ],
     );
-    final \$a = \$p.sendPort.nativePort; 
+    final \$a = \$p.sendPort.nativePort;
     _\$impls[\$a] = \$impl;
   }
 
   factory $name.implement(
     $implClassName$typeParamsCall \$impl,
   ) {
-''');
-      s.write('''
     final \$i = $_jni.JImplementer();
     implementIn(\$i, \$impl);
     return \$i.implement<$name$typeParamsCall>();
   }
-  ''');
+''');
     }
 
     // Writing any custom code provided for this class.
@@ -494,8 +521,23 @@ extension type $name$typeParamsDef._($_jObject _\$this) implements $implementsCl
       s.writeln(config.customClassBody![node.binaryName]);
     }
 
-    // End of Class definition.
-    s.writeln('}');
+    s.write('''
+}
+
+extension $name\$\$Methods$typeParamsDef on $name$typeParamsCall {
+''');
+    s.write(instanceSink);
+
+    // Operators
+    for (final MapEntry(key: operator, value: method)
+        in node.operators.entries) {
+      method.accept(_OperatorGenerator(resolver, s, operator: operator));
+    }
+    node.compareTo?.accept(_ComparatorGenerator(resolver, s));
+
+    s.write('''
+}
+''');
 
     // Abstract and concrete Impl class definition.
     // Used for interface implementation.

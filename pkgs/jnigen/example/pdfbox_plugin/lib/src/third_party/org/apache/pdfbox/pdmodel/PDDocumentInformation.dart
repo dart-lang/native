@@ -121,8 +121,10 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
     return _new$1(_class.reference.pointer, _id_new$1.pointer, _$dic.pointer)
         .object<PDDocumentInformation>();
   }
+}
 
-  static final _id_getCOSObject = _class.instanceMethodId(
+extension PDDocumentInformation$$Methods on PDDocumentInformation {
+  static final _id_getCOSObject = PDDocumentInformation._class.instanceMethodId(
     r'getCOSObject',
     r'()Lorg/apache/pdfbox/cos/COSDictionary;',
   );
@@ -149,7 +151,8 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
         .object<jni$_.JObject?>();
   }
 
-  static final _id_getPropertyStringValue = _class.instanceMethodId(
+  static final _id_getPropertyStringValue =
+      PDDocumentInformation._class.instanceMethodId(
     r'getPropertyStringValue',
     r'(Ljava/lang/String;)Ljava/lang/Object;',
   );
@@ -185,7 +188,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
         .object<jni$_.JObject?>();
   }
 
-  static final _id_getTitle = _class.instanceMethodId(
+  static final _id_getTitle = PDDocumentInformation._class.instanceMethodId(
     r'getTitle',
     r'()Ljava/lang/String;',
   );
@@ -212,7 +215,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
         .object<jni$_.JString?>();
   }
 
-  static final _id_setTitle = _class.instanceMethodId(
+  static final _id_setTitle = PDDocumentInformation._class.instanceMethodId(
     r'setTitle',
     r'(Ljava/lang/String;)V',
   );
@@ -239,7 +242,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
     _setTitle(reference.pointer, _id_setTitle.pointer, _$title.pointer).check();
   }
 
-  static final _id_getAuthor = _class.instanceMethodId(
+  static final _id_getAuthor = PDDocumentInformation._class.instanceMethodId(
     r'getAuthor',
     r'()Ljava/lang/String;',
   );
@@ -266,7 +269,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
         .object<jni$_.JString?>();
   }
 
-  static final _id_setAuthor = _class.instanceMethodId(
+  static final _id_setAuthor = PDDocumentInformation._class.instanceMethodId(
     r'setAuthor',
     r'(Ljava/lang/String;)V',
   );
@@ -294,7 +297,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getSubject = _class.instanceMethodId(
+  static final _id_getSubject = PDDocumentInformation._class.instanceMethodId(
     r'getSubject',
     r'()Ljava/lang/String;',
   );
@@ -321,7 +324,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
         .object<jni$_.JString?>();
   }
 
-  static final _id_setSubject = _class.instanceMethodId(
+  static final _id_setSubject = PDDocumentInformation._class.instanceMethodId(
     r'setSubject',
     r'(Ljava/lang/String;)V',
   );
@@ -349,7 +352,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getKeywords = _class.instanceMethodId(
+  static final _id_getKeywords = PDDocumentInformation._class.instanceMethodId(
     r'getKeywords',
     r'()Ljava/lang/String;',
   );
@@ -376,7 +379,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
         .object<jni$_.JString?>();
   }
 
-  static final _id_setKeywords = _class.instanceMethodId(
+  static final _id_setKeywords = PDDocumentInformation._class.instanceMethodId(
     r'setKeywords',
     r'(Ljava/lang/String;)V',
   );
@@ -404,7 +407,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getCreator = _class.instanceMethodId(
+  static final _id_getCreator = PDDocumentInformation._class.instanceMethodId(
     r'getCreator',
     r'()Ljava/lang/String;',
   );
@@ -431,7 +434,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
         .object<jni$_.JString?>();
   }
 
-  static final _id_setCreator = _class.instanceMethodId(
+  static final _id_setCreator = PDDocumentInformation._class.instanceMethodId(
     r'setCreator',
     r'(Ljava/lang/String;)V',
   );
@@ -459,7 +462,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getProducer = _class.instanceMethodId(
+  static final _id_getProducer = PDDocumentInformation._class.instanceMethodId(
     r'getProducer',
     r'()Ljava/lang/String;',
   );
@@ -486,7 +489,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
         .object<jni$_.JString?>();
   }
 
-  static final _id_setProducer = _class.instanceMethodId(
+  static final _id_setProducer = PDDocumentInformation._class.instanceMethodId(
     r'setProducer',
     r'(Ljava/lang/String;)V',
   );
@@ -514,7 +517,8 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getCreationDate = _class.instanceMethodId(
+  static final _id_getCreationDate =
+      PDDocumentInformation._class.instanceMethodId(
     r'getCreationDate',
     r'()Ljava/util/Calendar;',
   );
@@ -541,7 +545,8 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
         .object<jni$_.JObject?>();
   }
 
-  static final _id_setCreationDate = _class.instanceMethodId(
+  static final _id_setCreationDate =
+      PDDocumentInformation._class.instanceMethodId(
     r'setCreationDate',
     r'(Ljava/util/Calendar;)V',
   );
@@ -570,7 +575,8 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getModificationDate = _class.instanceMethodId(
+  static final _id_getModificationDate =
+      PDDocumentInformation._class.instanceMethodId(
     r'getModificationDate',
     r'()Ljava/util/Calendar;',
   );
@@ -598,7 +604,8 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
         .object<jni$_.JObject?>();
   }
 
-  static final _id_setModificationDate = _class.instanceMethodId(
+  static final _id_setModificationDate =
+      PDDocumentInformation._class.instanceMethodId(
     r'setModificationDate',
     r'(Ljava/util/Calendar;)V',
   );
@@ -627,7 +634,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getTrapped = _class.instanceMethodId(
+  static final _id_getTrapped = PDDocumentInformation._class.instanceMethodId(
     r'getTrapped',
     r'()Ljava/lang/String;',
   );
@@ -655,7 +662,8 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
         .object<jni$_.JString?>();
   }
 
-  static final _id_getMetadataKeys = _class.instanceMethodId(
+  static final _id_getMetadataKeys =
+      PDDocumentInformation._class.instanceMethodId(
     r'getMetadataKeys',
     r'()Ljava/util/Set;',
   );
@@ -683,7 +691,8 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
         .object<jni$_.JSet<jni$_.JString?>?>();
   }
 
-  static final _id_getCustomMetadataValue = _class.instanceMethodId(
+  static final _id_getCustomMetadataValue =
+      PDDocumentInformation._class.instanceMethodId(
     r'getCustomMetadataValue',
     r'(Ljava/lang/String;)Ljava/lang/String;',
   );
@@ -715,7 +724,8 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
         .object<jni$_.JString?>();
   }
 
-  static final _id_setCustomMetadataValue = _class.instanceMethodId(
+  static final _id_setCustomMetadataValue =
+      PDDocumentInformation._class.instanceMethodId(
     r'setCustomMetadataValue',
     r'(Ljava/lang/String;Ljava/lang/String;)V',
   );
@@ -756,7 +766,7 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_setTrapped = _class.instanceMethodId(
+  static final _id_setTrapped = PDDocumentInformation._class.instanceMethodId(
     r'setTrapped',
     r'(Ljava/lang/String;)V',
   );

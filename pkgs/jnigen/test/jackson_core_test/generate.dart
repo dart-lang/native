@@ -35,6 +35,7 @@ Config getConfig({
 }) {
   final rootDir = root ?? thirdPartyDir;
   final config = Config(
+    configRoot: Uri.directory(rootDir),
     mavenDownloads: MavenDownloads(
       sourceDeps: deps,
       sourceDir: join(thirdPartyDir, 'java'),

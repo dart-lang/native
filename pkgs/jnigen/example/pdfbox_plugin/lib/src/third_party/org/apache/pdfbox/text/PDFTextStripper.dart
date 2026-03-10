@@ -97,8 +97,10 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
     return _new$(_class.reference.pointer, _id_new$.pointer)
         .object<PDFTextStripper>();
   }
+}
 
-  static final _id_getText = _class.instanceMethodId(
+extension PDFTextStripper$$Methods on PDFTextStripper {
+  static final _id_getText = PDFTextStripper._class.instanceMethodId(
     r'getText',
     r'(Lorg/apache/pdfbox/pdmodel/PDDocument;)Ljava/lang/String;',
   );
@@ -135,7 +137,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .object<jni$_.JString?>();
   }
 
-  static final _id_writeText = _class.instanceMethodId(
+  static final _id_writeText = PDFTextStripper._class.instanceMethodId(
     r'writeText',
     r'(Lorg/apache/pdfbox/pdmodel/PDDocument;Ljava/io/Writer;)V',
   );
@@ -174,7 +176,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_processPage = _class.instanceMethodId(
+  static final _id_processPage = PDFTextStripper._class.instanceMethodId(
     r'processPage',
     r'(Lorg/apache/pdfbox/pdmodel/PDPage;)V',
   );
@@ -203,7 +205,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getStartPage = _class.instanceMethodId(
+  static final _id_getStartPage = PDFTextStripper._class.instanceMethodId(
     r'getStartPage',
     r'()I',
   );
@@ -230,7 +232,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
     return _getStartPage(reference.pointer, _id_getStartPage.pointer).integer;
   }
 
-  static final _id_setStartPage = _class.instanceMethodId(
+  static final _id_setStartPage = PDFTextStripper._class.instanceMethodId(
     r'setStartPage',
     r'(I)V',
   );
@@ -256,7 +258,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getEndPage = _class.instanceMethodId(
+  static final _id_getEndPage = PDFTextStripper._class.instanceMethodId(
     r'getEndPage',
     r'()I',
   );
@@ -283,7 +285,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
     return _getEndPage(reference.pointer, _id_getEndPage.pointer).integer;
   }
 
-  static final _id_setEndPage = _class.instanceMethodId(
+  static final _id_setEndPage = PDFTextStripper._class.instanceMethodId(
     r'setEndPage',
     r'(I)V',
   );
@@ -309,7 +311,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_setLineSeparator = _class.instanceMethodId(
+  static final _id_setLineSeparator = PDFTextStripper._class.instanceMethodId(
     r'setLineSeparator',
     r'(Ljava/lang/String;)V',
   );
@@ -339,7 +341,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getLineSeparator = _class.instanceMethodId(
+  static final _id_getLineSeparator = PDFTextStripper._class.instanceMethodId(
     r'getLineSeparator',
     r'()Ljava/lang/String;',
   );
@@ -366,7 +368,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .object<jni$_.JString?>();
   }
 
-  static final _id_getWordSeparator = _class.instanceMethodId(
+  static final _id_getWordSeparator = PDFTextStripper._class.instanceMethodId(
     r'getWordSeparator',
     r'()Ljava/lang/String;',
   );
@@ -393,7 +395,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .object<jni$_.JString?>();
   }
 
-  static final _id_setWordSeparator = _class.instanceMethodId(
+  static final _id_setWordSeparator = PDFTextStripper._class.instanceMethodId(
     r'setWordSeparator',
     r'(Ljava/lang/String;)V',
   );
@@ -426,7 +428,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
   }
 
   static final _id_getSuppressDuplicateOverlappingText =
-      _class.instanceMethodId(
+      PDFTextStripper._class.instanceMethodId(
     r'getSuppressDuplicateOverlappingText',
     r'()Z',
   );
@@ -454,7 +456,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
   }
 
   static final _id_setSuppressDuplicateOverlappingText =
-      _class.instanceMethodId(
+      PDFTextStripper._class.instanceMethodId(
     r'setSuppressDuplicateOverlappingText',
     r'(Z)V',
   );
@@ -485,7 +487,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getSeparateByBeads = _class.instanceMethodId(
+  static final _id_getSeparateByBeads = PDFTextStripper._class.instanceMethodId(
     r'getSeparateByBeads',
     r'()Z',
   );
@@ -512,7 +514,8 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .boolean;
   }
 
-  static final _id_setShouldSeparateByBeads = _class.instanceMethodId(
+  static final _id_setShouldSeparateByBeads =
+      PDFTextStripper._class.instanceMethodId(
     r'setShouldSeparateByBeads',
     r'(Z)V',
   );
@@ -541,7 +544,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getEndBookmark = _class.instanceMethodId(
+  static final _id_getEndBookmark = PDFTextStripper._class.instanceMethodId(
     r'getEndBookmark',
     r'()Lorg/apache/pdfbox/pdmodel/interactive/documentnavigation/outline/PDOutlineItem;',
   );
@@ -568,7 +571,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .object<jni$_.JObject?>();
   }
 
-  static final _id_setEndBookmark = _class.instanceMethodId(
+  static final _id_setEndBookmark = PDFTextStripper._class.instanceMethodId(
     r'setEndBookmark',
     r'(Lorg/apache/pdfbox/pdmodel/interactive/documentnavigation/outline/PDOutlineItem;)V',
   );
@@ -597,7 +600,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getStartBookmark = _class.instanceMethodId(
+  static final _id_getStartBookmark = PDFTextStripper._class.instanceMethodId(
     r'getStartBookmark',
     r'()Lorg/apache/pdfbox/pdmodel/interactive/documentnavigation/outline/PDOutlineItem;',
   );
@@ -624,7 +627,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .object<jni$_.JObject?>();
   }
 
-  static final _id_setStartBookmark = _class.instanceMethodId(
+  static final _id_setStartBookmark = PDFTextStripper._class.instanceMethodId(
     r'setStartBookmark',
     r'(Lorg/apache/pdfbox/pdmodel/interactive/documentnavigation/outline/PDOutlineItem;)V',
   );
@@ -653,7 +656,8 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getAddMoreFormatting = _class.instanceMethodId(
+  static final _id_getAddMoreFormatting =
+      PDFTextStripper._class.instanceMethodId(
     r'getAddMoreFormatting',
     r'()Z',
   );
@@ -680,7 +684,8 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .boolean;
   }
 
-  static final _id_setAddMoreFormatting = _class.instanceMethodId(
+  static final _id_setAddMoreFormatting =
+      PDFTextStripper._class.instanceMethodId(
     r'setAddMoreFormatting',
     r'(Z)V',
   );
@@ -707,7 +712,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getSortByPosition = _class.instanceMethodId(
+  static final _id_getSortByPosition = PDFTextStripper._class.instanceMethodId(
     r'getSortByPosition',
     r'()Z',
   );
@@ -733,7 +738,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .boolean;
   }
 
-  static final _id_setSortByPosition = _class.instanceMethodId(
+  static final _id_setSortByPosition = PDFTextStripper._class.instanceMethodId(
     r'setSortByPosition',
     r'(Z)V',
   );
@@ -766,7 +771,8 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getSpacingTolerance = _class.instanceMethodId(
+  static final _id_getSpacingTolerance =
+      PDFTextStripper._class.instanceMethodId(
     r'getSpacingTolerance',
     r'()F',
   );
@@ -794,7 +800,8 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .float;
   }
 
-  static final _id_setSpacingTolerance = _class.instanceMethodId(
+  static final _id_setSpacingTolerance =
+      PDFTextStripper._class.instanceMethodId(
     r'setSpacingTolerance',
     r'(F)V',
   );
@@ -823,7 +830,8 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getAverageCharTolerance = _class.instanceMethodId(
+  static final _id_getAverageCharTolerance =
+      PDFTextStripper._class.instanceMethodId(
     r'getAverageCharTolerance',
     r'()F',
   );
@@ -851,7 +859,8 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .float;
   }
 
-  static final _id_setAverageCharTolerance = _class.instanceMethodId(
+  static final _id_setAverageCharTolerance =
+      PDFTextStripper._class.instanceMethodId(
     r'setAverageCharTolerance',
     r'(F)V',
   );
@@ -880,7 +889,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getIndentThreshold = _class.instanceMethodId(
+  static final _id_getIndentThreshold = PDFTextStripper._class.instanceMethodId(
     r'getIndentThreshold',
     r'()F',
   );
@@ -908,7 +917,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .float;
   }
 
-  static final _id_setIndentThreshold = _class.instanceMethodId(
+  static final _id_setIndentThreshold = PDFTextStripper._class.instanceMethodId(
     r'setIndentThreshold',
     r'(F)V',
   );
@@ -937,7 +946,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getDropThreshold = _class.instanceMethodId(
+  static final _id_getDropThreshold = PDFTextStripper._class.instanceMethodId(
     r'getDropThreshold',
     r'()F',
   );
@@ -964,7 +973,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .float;
   }
 
-  static final _id_setDropThreshold = _class.instanceMethodId(
+  static final _id_setDropThreshold = PDFTextStripper._class.instanceMethodId(
     r'setDropThreshold',
     r'(F)V',
   );
@@ -993,7 +1002,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getParagraphStart = _class.instanceMethodId(
+  static final _id_getParagraphStart = PDFTextStripper._class.instanceMethodId(
     r'getParagraphStart',
     r'()Ljava/lang/String;',
   );
@@ -1020,7 +1029,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .object<jni$_.JString?>();
   }
 
-  static final _id_setParagraphStart = _class.instanceMethodId(
+  static final _id_setParagraphStart = PDFTextStripper._class.instanceMethodId(
     r'setParagraphStart',
     r'(Ljava/lang/String;)V',
   );
@@ -1049,7 +1058,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getParagraphEnd = _class.instanceMethodId(
+  static final _id_getParagraphEnd = PDFTextStripper._class.instanceMethodId(
     r'getParagraphEnd',
     r'()Ljava/lang/String;',
   );
@@ -1076,7 +1085,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .object<jni$_.JString?>();
   }
 
-  static final _id_setParagraphEnd = _class.instanceMethodId(
+  static final _id_setParagraphEnd = PDFTextStripper._class.instanceMethodId(
     r'setParagraphEnd',
     r'(Ljava/lang/String;)V',
   );
@@ -1105,7 +1114,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getPageStart = _class.instanceMethodId(
+  static final _id_getPageStart = PDFTextStripper._class.instanceMethodId(
     r'getPageStart',
     r'()Ljava/lang/String;',
   );
@@ -1132,7 +1141,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .object<jni$_.JString?>();
   }
 
-  static final _id_setPageStart = _class.instanceMethodId(
+  static final _id_setPageStart = PDFTextStripper._class.instanceMethodId(
     r'setPageStart',
     r'(Ljava/lang/String;)V',
   );
@@ -1161,7 +1170,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getPageEnd = _class.instanceMethodId(
+  static final _id_getPageEnd = PDFTextStripper._class.instanceMethodId(
     r'getPageEnd',
     r'()Ljava/lang/String;',
   );
@@ -1188,7 +1197,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .object<jni$_.JString?>();
   }
 
-  static final _id_setPageEnd = _class.instanceMethodId(
+  static final _id_setPageEnd = PDFTextStripper._class.instanceMethodId(
     r'setPageEnd',
     r'(Ljava/lang/String;)V',
   );
@@ -1217,7 +1226,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getArticleStart = _class.instanceMethodId(
+  static final _id_getArticleStart = PDFTextStripper._class.instanceMethodId(
     r'getArticleStart',
     r'()Ljava/lang/String;',
   );
@@ -1244,7 +1253,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .object<jni$_.JString?>();
   }
 
-  static final _id_setArticleStart = _class.instanceMethodId(
+  static final _id_setArticleStart = PDFTextStripper._class.instanceMethodId(
     r'setArticleStart',
     r'(Ljava/lang/String;)V',
   );
@@ -1274,7 +1283,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .check();
   }
 
-  static final _id_getArticleEnd = _class.instanceMethodId(
+  static final _id_getArticleEnd = PDFTextStripper._class.instanceMethodId(
     r'getArticleEnd',
     r'()Ljava/lang/String;',
   );
@@ -1301,7 +1310,7 @@ extension type PDFTextStripper._(jni$_.JObject _$this)
         .object<jni$_.JString?>();
   }
 
-  static final _id_setArticleEnd = _class.instanceMethodId(
+  static final _id_setArticleEnd = PDFTextStripper._class.instanceMethodId(
     r'setArticleEnd',
     r'(Ljava/lang/String;)V',
   );

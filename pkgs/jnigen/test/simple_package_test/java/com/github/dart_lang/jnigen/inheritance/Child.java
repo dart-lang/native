@@ -9,4 +9,8 @@ public class Child extends BaseClass<String> implements BaseInterface {
   public String foo() {
     return "foo";
   }
+
+  public String someMethod(String s) {
+    return s;
+  }
 }

@@ -263,6 +263,7 @@ class Config {
       required this.classes,
       this.experiments,
       this.sourcePath,
+      this.configRoot,
       this.classPath,
       this.preamble,
       this.customClassBody,
@@ -446,8 +447,7 @@ class Config {
   }
 
   /// Directory containing the YAML configuration file, if any.
-  Uri? get configRoot => _configRoot;
-  Uri? _configRoot;
+  Uri? configRoot;
 
   /// Log verbosity. The possible values in decreasing order of verbosity
   /// are verbose > debug > info > warning > error.
@@ -576,7 +576,7 @@ class Config {
       }
       exit(1);
     }
-    config._configRoot = configRoot;
+    config.configRoot = configRoot;
     return config;
   }
 }

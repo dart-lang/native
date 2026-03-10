@@ -67,7 +67,8 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory JArrayList() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    return JArrayList._new$(
+            _class.reference.pointer, JArrayList._id_new$.pointer)
         .object<JArrayList<$E>>();
   }
 
@@ -90,7 +91,8 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   factory JArrayList.new$1(
     int i,
   ) {
-    return _new$1(_class.reference.pointer, _id_new$1.pointer, i)
+    return JArrayList._new$1(
+            _class.reference.pointer, JArrayList._id_new$1.pointer, i)
         .object<JArrayList<$E>>();
   }
 
@@ -115,963 +117,9 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     JCollection<$E?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _new$2(
-            _class.reference.pointer, _id_new$2.pointer, _$collection.pointer)
+    return JArrayList._new$2(_class.reference.pointer,
+            JArrayList._id_new$2.pointer, _$collection.pointer)
         .object<JArrayList<$E>>();
-  }
-
-  static final _id_add = _class.instanceMethodId(
-    r'add',
-    r'(Ljava/lang/Object;)Z',
-  );
-
-  static final _add = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public boolean add(E object)`
-  core$_.bool add(
-    $E? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _add(reference.pointer, _id_add.pointer, _$object.pointer).boolean;
-  }
-
-  static final _id_add$1 = _class.instanceMethodId(
-    r'add',
-    r'(ILjava/lang/Object;)V',
-  );
-
-  static final _add$1 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_
-                          .VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void add(int i, E object)`
-  void add$1(
-    int i,
-    $E? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    _add$1(reference.pointer, _id_add$1.pointer, i, _$object.pointer).check();
-  }
-
-  static final _id_addAll = _class.instanceMethodId(
-    r'addAll',
-    r'(ILjava/util/Collection;)Z',
-  );
-
-  static final _addAll = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_
-                          .VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public boolean addAll(int i, java.util.Collection<? extends E> collection)`
-  core$_.bool addAll(
-    int i,
-    JCollection<$E?>? collection,
-  ) {
-    final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _addAll(
-            reference.pointer, _id_addAll.pointer, i, _$collection.pointer)
-        .boolean;
-  }
-
-  static final _id_addAll$1 = _class.instanceMethodId(
-    r'addAll',
-    r'(Ljava/util/Collection;)Z',
-  );
-
-  static final _addAll$1 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public boolean addAll(java.util.Collection<? extends E> collection)`
-  core$_.bool addAll$1(
-    JCollection<$E?>? collection,
-  ) {
-    final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _addAll$1(
-            reference.pointer, _id_addAll$1.pointer, _$collection.pointer)
-        .boolean;
-  }
-
-  static final _id_addFirst = _class.instanceMethodId(
-    r'addFirst',
-    r'(Ljava/lang/Object;)V',
-  );
-
-  static final _addFirst = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void addFirst(E object)`
-  void addFirst(
-    $E? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    _addFirst(reference.pointer, _id_addFirst.pointer, _$object.pointer)
-        .check();
-  }
-
-  static final _id_addLast = _class.instanceMethodId(
-    r'addLast',
-    r'(Ljava/lang/Object;)V',
-  );
-
-  static final _addLast = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void addLast(E object)`
-  void addLast(
-    $E? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    _addLast(reference.pointer, _id_addLast.pointer, _$object.pointer).check();
-  }
-
-  static final _id_clear = _class.instanceMethodId(
-    r'clear',
-    r'()V',
-  );
-
-  static final _clear = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public void clear()`
-  void clear() {
-    _clear(reference.pointer, _id_clear.pointer).check();
-  }
-
-  static final _id_clone = _class.instanceMethodId(
-    r'clone',
-    r'()Ljava/lang/Object;',
-  );
-
-  static final _clone = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.lang.Object clone()`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? clone() {
-    return _clone(reference.pointer, _id_clone.pointer)
-        .object<jni$_.JObject?>();
-  }
-
-  static final _id_contains = _class.instanceMethodId(
-    r'contains',
-    r'(Ljava/lang/Object;)Z',
-  );
-
-  static final _contains = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public boolean contains(java.lang.Object object)`
-  core$_.bool contains(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _contains(reference.pointer, _id_contains.pointer, _$object.pointer)
-        .boolean;
-  }
-
-  static final _id_ensureCapacity = _class.instanceMethodId(
-    r'ensureCapacity',
-    r'(I)V',
-  );
-
-  static final _ensureCapacity = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
-
-  /// from: `public void ensureCapacity(int i)`
-  void ensureCapacity(
-    int i,
-  ) {
-    _ensureCapacity(reference.pointer, _id_ensureCapacity.pointer, i).check();
-  }
-
-  static final _id_equals = _class.instanceMethodId(
-    r'equals',
-    r'(Ljava/lang/Object;)Z',
-  );
-
-  static final _equals = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public boolean equals(java.lang.Object object)`
-  core$_.bool equals(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
-        .boolean;
-  }
-
-  static final _id_forEach = _class.instanceMethodId(
-    r'forEach',
-    r'(Ljava/util/function/Consumer;)V',
-  );
-
-  static final _forEach = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void forEach(java.util.function.Consumer<? super E> consumer)`
-  void forEach(
-    jni$_.JObject? consumer,
-  ) {
-    final _$consumer = consumer?.reference ?? jni$_.jNullReference;
-    _forEach(reference.pointer, _id_forEach.pointer, _$consumer.pointer)
-        .check();
-  }
-
-  static final _id_get = _class.instanceMethodId(
-    r'get',
-    r'(I)Ljava/lang/Object;',
-  );
-
-  static final _get = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
-
-  /// from: `public E get(int i)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $E? get(
-    int i,
-  ) {
-    return _get(reference.pointer, _id_get.pointer, i).object<$E?>();
-  }
-
-  static final _id_getFirst = _class.instanceMethodId(
-    r'getFirst',
-    r'()Ljava/lang/Object;',
-  );
-
-  static final _getFirst = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public E getFirst()`
-  /// The returned object must be released after use, by calling the [release] method.
-  $E? getFirst() {
-    return _getFirst(reference.pointer, _id_getFirst.pointer).object<$E?>();
-  }
-
-  static final _id_getLast = _class.instanceMethodId(
-    r'getLast',
-    r'()Ljava/lang/Object;',
-  );
-
-  static final _getLast = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public E getLast()`
-  /// The returned object must be released after use, by calling the [release] method.
-  $E? getLast() {
-    return _getLast(reference.pointer, _id_getLast.pointer).object<$E?>();
-  }
-
-  static final _id_hashCode$1 = _class.instanceMethodId(
-    r'hashCode',
-    r'()I',
-  );
-
-  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public int hashCode()`
-  int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
-  }
-
-  static final _id_indexOf = _class.instanceMethodId(
-    r'indexOf',
-    r'(Ljava/lang/Object;)I',
-  );
-
-  static final _indexOf = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public int indexOf(java.lang.Object object)`
-  int indexOf(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _indexOf(reference.pointer, _id_indexOf.pointer, _$object.pointer)
-        .integer;
-  }
-
-  static final _id_isEmpty = _class.instanceMethodId(
-    r'isEmpty',
-    r'()Z',
-  );
-
-  static final _isEmpty = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public boolean isEmpty()`
-  core$_.bool isEmpty() {
-    return _isEmpty(reference.pointer, _id_isEmpty.pointer).boolean;
-  }
-
-  static final _id_iterator = _class.instanceMethodId(
-    r'iterator',
-    r'()Ljava/util/Iterator;',
-  );
-
-  static final _iterator = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.util.Iterator<E> iterator()`
-  /// The returned object must be released after use, by calling the [release] method.
-  JIterator<$E?>? iterator() {
-    return _iterator(reference.pointer, _id_iterator.pointer)
-        .object<JIterator<$E?>?>();
-  }
-
-  static final _id_lastIndexOf = _class.instanceMethodId(
-    r'lastIndexOf',
-    r'(Ljava/lang/Object;)I',
-  );
-
-  static final _lastIndexOf = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public int lastIndexOf(java.lang.Object object)`
-  int lastIndexOf(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _lastIndexOf(
-            reference.pointer, _id_lastIndexOf.pointer, _$object.pointer)
-        .integer;
-  }
-
-  static final _id_listIterator = _class.instanceMethodId(
-    r'listIterator',
-    r'()Ljava/util/ListIterator;',
-  );
-
-  static final _listIterator = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.util.ListIterator<E> listIterator()`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? listIterator() {
-    return _listIterator(reference.pointer, _id_listIterator.pointer)
-        .object<jni$_.JObject?>();
-  }
-
-  static final _id_listIterator$1 = _class.instanceMethodId(
-    r'listIterator',
-    r'(I)Ljava/util/ListIterator;',
-  );
-
-  static final _listIterator$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
-
-  /// from: `public java.util.ListIterator<E> listIterator(int i)`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? listIterator$1(
-    int i,
-  ) {
-    return _listIterator$1(reference.pointer, _id_listIterator$1.pointer, i)
-        .object<jni$_.JObject?>();
-  }
-
-  static final _id_remove = _class.instanceMethodId(
-    r'remove',
-    r'(I)Ljava/lang/Object;',
-  );
-
-  static final _remove = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
-
-  /// from: `public E remove(int i)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $E? remove(
-    int i,
-  ) {
-    return _remove(reference.pointer, _id_remove.pointer, i).object<$E?>();
-  }
-
-  static final _id_remove$1 = _class.instanceMethodId(
-    r'remove',
-    r'(Ljava/lang/Object;)Z',
-  );
-
-  static final _remove$1 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public boolean remove(java.lang.Object object)`
-  core$_.bool remove$1(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _remove$1(reference.pointer, _id_remove$1.pointer, _$object.pointer)
-        .boolean;
-  }
-
-  static final _id_removeAll = _class.instanceMethodId(
-    r'removeAll',
-    r'(Ljava/util/Collection;)Z',
-  );
-
-  static final _removeAll = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public boolean removeAll(java.util.Collection<?> collection)`
-  core$_.bool removeAll(
-    JCollection<jni$_.JObject?>? collection,
-  ) {
-    final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _removeAll(
-            reference.pointer, _id_removeAll.pointer, _$collection.pointer)
-        .boolean;
-  }
-
-  static final _id_removeFirst = _class.instanceMethodId(
-    r'removeFirst',
-    r'()Ljava/lang/Object;',
-  );
-
-  static final _removeFirst = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public E removeFirst()`
-  /// The returned object must be released after use, by calling the [release] method.
-  $E? removeFirst() {
-    return _removeFirst(reference.pointer, _id_removeFirst.pointer)
-        .object<$E?>();
-  }
-
-  static final _id_removeIf = _class.instanceMethodId(
-    r'removeIf',
-    r'(Ljava/util/function/Predicate;)Z',
-  );
-
-  static final _removeIf = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public boolean removeIf(java.util.function.Predicate<? super E> predicate)`
-  core$_.bool removeIf(
-    jni$_.JObject? predicate,
-  ) {
-    final _$predicate = predicate?.reference ?? jni$_.jNullReference;
-    return _removeIf(
-            reference.pointer, _id_removeIf.pointer, _$predicate.pointer)
-        .boolean;
-  }
-
-  static final _id_removeLast = _class.instanceMethodId(
-    r'removeLast',
-    r'()Ljava/lang/Object;',
-  );
-
-  static final _removeLast = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public E removeLast()`
-  /// The returned object must be released after use, by calling the [release] method.
-  $E? removeLast() {
-    return _removeLast(reference.pointer, _id_removeLast.pointer).object<$E?>();
-  }
-
-  static final _id_replaceAll = _class.instanceMethodId(
-    r'replaceAll',
-    r'(Ljava/util/function/UnaryOperator;)V',
-  );
-
-  static final _replaceAll = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void replaceAll(java.util.function.UnaryOperator<E> unaryOperator)`
-  void replaceAll(
-    jni$_.JObject? unaryOperator,
-  ) {
-    final _$unaryOperator = unaryOperator?.reference ?? jni$_.jNullReference;
-    _replaceAll(
-            reference.pointer, _id_replaceAll.pointer, _$unaryOperator.pointer)
-        .check();
-  }
-
-  static final _id_retainAll = _class.instanceMethodId(
-    r'retainAll',
-    r'(Ljava/util/Collection;)Z',
-  );
-
-  static final _retainAll = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public boolean retainAll(java.util.Collection<?> collection)`
-  core$_.bool retainAll(
-    JCollection<jni$_.JObject?>? collection,
-  ) {
-    final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _retainAll(
-            reference.pointer, _id_retainAll.pointer, _$collection.pointer)
-        .boolean;
-  }
-
-  static final _id_set = _class.instanceMethodId(
-    r'set',
-    r'(ILjava/lang/Object;)Ljava/lang/Object;',
-  );
-
-  static final _set = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_
-                          .VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public E set(int i, E object)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $E? set(
-    int i,
-    $E? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _set(reference.pointer, _id_set.pointer, i, _$object.pointer)
-        .object<$E?>();
-  }
-
-  static final _id_size = _class.instanceMethodId(
-    r'size',
-    r'()I',
-  );
-
-  static final _size = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public int size()`
-  int size() {
-    return _size(reference.pointer, _id_size.pointer).integer;
-  }
-
-  static final _id_sort = _class.instanceMethodId(
-    r'sort',
-    r'(Ljava/util/Comparator;)V',
-  );
-
-  static final _sort = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void sort(java.util.Comparator<? super E> comparator)`
-  void sort(
-    jni$_.JObject? comparator,
-  ) {
-    final _$comparator = comparator?.reference ?? jni$_.jNullReference;
-    _sort(reference.pointer, _id_sort.pointer, _$comparator.pointer).check();
-  }
-
-  static final _id_spliterator = _class.instanceMethodId(
-    r'spliterator',
-    r'()Ljava/util/Spliterator;',
-  );
-
-  static final _spliterator = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.util.Spliterator<E> spliterator()`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? spliterator() {
-    return _spliterator(reference.pointer, _id_spliterator.pointer)
-        .object<jni$_.JObject?>();
-  }
-
-  static final _id_subList = _class.instanceMethodId(
-    r'subList',
-    r'(II)Ljava/util/List;',
-  );
-
-  static final _subList = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
-
-  /// from: `public java.util.List<E> subList(int i, int i1)`
-  /// The returned object must be released after use, by calling the [release] method.
-  JList<$E?>? subList(
-    int i,
-    int i1,
-  ) {
-    return _subList(reference.pointer, _id_subList.pointer, i, i1)
-        .object<JList<$E?>?>();
-  }
-
-  static final _id_toArray = _class.instanceMethodId(
-    r'toArray',
-    r'()[Ljava/lang/Object;',
-  );
-
-  static final _toArray = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.lang.Object[] toArray()`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? toArray() {
-    return _toArray(reference.pointer, _id_toArray.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
-  }
-
-  static final _id_toArray$1 = _class.instanceMethodId(
-    r'toArray',
-    r'([Ljava/lang/Object;)[Ljava/lang/Object;',
-  );
-
-  static final _toArray$1 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public T[] toArray(T[] objects)`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<$T?>? toArray$1<$T extends jni$_.JObject?>(
-    jni$_.JArray<$T?>? objects,
-  ) {
-    final _$objects = objects?.reference ?? jni$_.jNullReference;
-    return _toArray$1(
-            reference.pointer, _id_toArray$1.pointer, _$objects.pointer)
-        .object<jni$_.JArray<$T?>?>();
-  }
-
-  static final _id_trimToSize = _class.instanceMethodId(
-    r'trimToSize',
-    r'()V',
-  );
-
-  static final _trimToSize = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public void trimToSize()`
-  void trimToSize() {
-    _trimToSize(reference.pointer, _id_trimToSize.pointer).check();
-  }
-
-  static final _id_containsAll = _class.instanceMethodId(
-    r'containsAll',
-    r'(Ljava/util/Collection;)Z',
-  );
-
-  static final _containsAll = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean containsAll(java.util.Collection<?> collection)`
-  core$_.bool containsAll(
-    JCollection<jni$_.JObject?>? collection,
-  ) {
-    final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _containsAll(
-            reference.pointer, _id_containsAll.pointer, _$collection.pointer)
-        .boolean;
   }
 
   static final _id_copyOf = _class.staticMethodId(
@@ -1096,8 +144,8 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     JCollection<$E?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _copyOf(
-            _class.reference.pointer, _id_copyOf.pointer, _$collection.pointer)
+    return JArrayList._copyOf(_class.reference.pointer,
+            JArrayList._id_copyOf.pointer, _$collection.pointer)
         .object<JList<$E?>?>();
   }
 
@@ -1121,7 +169,8 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `static public java.util.List<E> of()`
   /// The returned object must be released after use, by calling the [release] method.
   static JList<$E?>? of<$E extends jni$_.JObject?>() {
-    return _of(_class.reference.pointer, _id_of.pointer).object<JList<$E?>?>();
+    return JArrayList._of(_class.reference.pointer, JArrayList._id_of.pointer)
+        .object<JList<$E?>?>();
   }
 
   static final _id_of$1 = _class.staticMethodId(
@@ -1146,7 +195,8 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _of$1(_class.reference.pointer, _id_of$1.pointer, _$object.pointer)
+    return JArrayList._of$1(_class.reference.pointer,
+            JArrayList._id_of$1.pointer, _$object.pointer)
         .object<JList<$E?>?>();
   }
 
@@ -1180,8 +230,8 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _of$2(_class.reference.pointer, _id_of$2.pointer, _$object.pointer,
-            _$object1.pointer)
+    return JArrayList._of$2(_class.reference.pointer,
+            JArrayList._id_of$2.pointer, _$object.pointer, _$object1.pointer)
         .object<JList<$E?>?>();
   }
 
@@ -1219,8 +269,12 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
-    return _of$3(_class.reference.pointer, _id_of$3.pointer, _$object.pointer,
-            _$object1.pointer, _$object2.pointer)
+    return JArrayList._of$3(
+            _class.reference.pointer,
+            JArrayList._id_of$3.pointer,
+            _$object.pointer,
+            _$object1.pointer,
+            _$object2.pointer)
         .object<JList<$E?>?>();
   }
 
@@ -1262,8 +316,13 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
-    return _of$4(_class.reference.pointer, _id_of$4.pointer, _$object.pointer,
-            _$object1.pointer, _$object2.pointer, _$object3.pointer)
+    return JArrayList._of$4(
+            _class.reference.pointer,
+            JArrayList._id_of$4.pointer,
+            _$object.pointer,
+            _$object1.pointer,
+            _$object2.pointer,
+            _$object3.pointer)
         .object<JList<$E?>?>();
   }
 
@@ -1309,9 +368,9 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
-    return _of$5(
+    return JArrayList._of$5(
             _class.reference.pointer,
-            _id_of$5.pointer,
+            JArrayList._id_of$5.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -1366,9 +425,9 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
-    return _of$6(
+    return JArrayList._of$6(
             _class.reference.pointer,
-            _id_of$6.pointer,
+            JArrayList._id_of$6.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -1428,9 +487,9 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
-    return _of$7(
+    return JArrayList._of$7(
             _class.reference.pointer,
-            _id_of$7.pointer,
+            JArrayList._id_of$7.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -1495,9 +554,9 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
-    return _of$8(
+    return JArrayList._of$8(
             _class.reference.pointer,
-            _id_of$8.pointer,
+            JArrayList._id_of$8.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -1567,9 +626,9 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
     final _$object8 = object8?.reference ?? jni$_.jNullReference;
-    return _of$9(
+    return JArrayList._of$9(
             _class.reference.pointer,
-            _id_of$9.pointer,
+            JArrayList._id_of$9.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -1644,9 +703,9 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
     final _$object8 = object8?.reference ?? jni$_.jNullReference;
     final _$object9 = object9?.reference ?? jni$_.jNullReference;
-    return _of$10(
+    return JArrayList._of$10(
             _class.reference.pointer,
-            _id_of$10.pointer,
+            JArrayList._id_of$10.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -1682,128 +741,14 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     jni$_.JArray<$E?>? objects,
   ) {
     final _$objects = objects?.reference ?? jni$_.jNullReference;
-    return _of$11(
-            _class.reference.pointer, _id_of$11.pointer, _$objects.pointer)
+    return JArrayList._of$11(_class.reference.pointer,
+            JArrayList._id_of$11.pointer, _$objects.pointer)
         .object<JList<$E?>?>();
-  }
-
-  static final _id_reversed = _class.instanceMethodId(
-    r'reversed',
-    r'()Ljava/util/List;',
-  );
-
-  static final _reversed = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.util.List<E> reversed()`
-  /// The returned object must be released after use, by calling the [release] method.
-  JList<$E?>? reversed() {
-    return _reversed(reference.pointer, _id_reversed.pointer)
-        .object<JList<$E?>?>();
-  }
-
-  static final _id_parallelStream = _class.instanceMethodId(
-    r'parallelStream',
-    r'()Ljava/util/stream/Stream;',
-  );
-
-  static final _parallelStream = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.util.stream.Stream<E> parallelStream()`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? parallelStream() {
-    return _parallelStream(reference.pointer, _id_parallelStream.pointer)
-        .object<jni$_.JObject?>();
-  }
-
-  static final _id_stream = _class.instanceMethodId(
-    r'stream',
-    r'()Ljava/util/stream/Stream;',
-  );
-
-  static final _stream = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.util.stream.Stream<E> stream()`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? stream() {
-    return _stream(reference.pointer, _id_stream.pointer)
-        .object<jni$_.JObject?>();
-  }
-
-  static final _id_toArray$2 = _class.instanceMethodId(
-    r'toArray',
-    r'(Ljava/util/function/IntFunction;)[Ljava/lang/Object;',
-  );
-
-  static final _toArray$2 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public T[] toArray(java.util.function.IntFunction<T[]> intFunction)`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<$T?>? toArray$2<$T extends jni$_.JObject?>(
-    jni$_.JObject? intFunction,
-  ) {
-    final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
-    return _toArray$2(
-            reference.pointer, _id_toArray$2.pointer, _$intFunction.pointer)
-        .object<jni$_.JArray<$T?>?>();
   }
 }
 
-final class $JArrayList$Type$ extends jni$_.JType<JArrayList> {
-  @jni$_.internal
-  const $JArrayList$Type$();
-
-  @jni$_.internal
-  @core$_.override
-  String get signature => r'Ljava/util/ArrayList;';
-}
-
-/// from: `java.util.Collection`
-extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
-    implements jni$_.JObject {
-  static final _class = jni$_.JClass.forName(r'java/util/Collection');
-
-  /// The type which includes information such as the signature of this class.
-  static const jni$_.JType<JCollection> type = $JCollection$Type$();
-  static final _id_add = _class.instanceMethodId(
+extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
+  static final _id_add = JArrayList._class.instanceMethodId(
     r'add',
     r'(Ljava/lang/Object;)Z',
   );
@@ -1819,20 +764,78 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract boolean add(E object)`
+  /// from: `public boolean add(E object)`
   core$_.bool add(
     $E? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _add(reference.pointer, _id_add.pointer, _$object.pointer).boolean;
+    return JArrayList$$Methods._add(reference.pointer,
+            JArrayList$$Methods._id_add.pointer, _$object.pointer)
+        .boolean;
   }
 
-  static final _id_addAll = _class.instanceMethodId(
+  static final _id_add$1 = JArrayList._class.instanceMethodId(
+    r'add',
+    r'(ILjava/lang/Object;)V',
+  );
+
+  static final _add$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void add(int i, E object)`
+  void add$1(
+    int i,
+    $E? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    JArrayList$$Methods._add$1(reference.pointer,
+            JArrayList$$Methods._id_add$1.pointer, i, _$object.pointer)
+        .check();
+  }
+
+  static final _id_addAll = JArrayList._class.instanceMethodId(
+    r'addAll',
+    r'(ILjava/util/Collection;)Z',
+  );
+
+  static final _addAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean addAll(int i, java.util.Collection<? extends E> collection)`
+  core$_.bool addAll(
+    int i,
+    JCollection<$E?>? collection,
+  ) {
+    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    return JArrayList$$Methods._addAll(reference.pointer,
+            JArrayList$$Methods._id_addAll.pointer, i, _$collection.pointer)
+        .boolean;
+  }
+
+  static final _id_addAll$1 = JArrayList._class.instanceMethodId(
     r'addAll',
     r'(Ljava/util/Collection;)Z',
   );
 
-  static final _addAll = jni$_.ProtectedJniExtensions.lookup<
+  static final _addAll$1 = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JniResult Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -1843,16 +846,69 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract boolean addAll(java.util.Collection<? extends E> collection)`
-  core$_.bool addAll(
+  /// from: `public boolean addAll(java.util.Collection<? extends E> collection)`
+  core$_.bool addAll$1(
     JCollection<$E?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _addAll(reference.pointer, _id_addAll.pointer, _$collection.pointer)
+    return JArrayList$$Methods._addAll$1(reference.pointer,
+            JArrayList$$Methods._id_addAll$1.pointer, _$collection.pointer)
         .boolean;
   }
 
-  static final _id_clear = _class.instanceMethodId(
+  static final _id_addFirst = JArrayList._class.instanceMethodId(
+    r'addFirst',
+    r'(Ljava/lang/Object;)V',
+  );
+
+  static final _addFirst = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void addFirst(E object)`
+  void addFirst(
+    $E? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    JArrayList$$Methods._addFirst(reference.pointer,
+            JArrayList$$Methods._id_addFirst.pointer, _$object.pointer)
+        .check();
+  }
+
+  static final _id_addLast = JArrayList._class.instanceMethodId(
+    r'addLast',
+    r'(Ljava/lang/Object;)V',
+  );
+
+  static final _addLast = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void addLast(E object)`
+  void addLast(
+    $E? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    JArrayList$$Methods._addLast(reference.pointer,
+            JArrayList$$Methods._id_addLast.pointer, _$object.pointer)
+        .check();
+  }
+
+  static final _id_clear = JArrayList._class.instanceMethodId(
     r'clear',
     r'()V',
   );
@@ -1869,12 +925,39 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract void clear()`
+  /// from: `public void clear()`
   void clear() {
-    _clear(reference.pointer, _id_clear.pointer).check();
+    JArrayList$$Methods._clear(
+            reference.pointer, JArrayList$$Methods._id_clear.pointer)
+        .check();
   }
 
-  static final _id_contains = _class.instanceMethodId(
+  static final _id_clone = JArrayList._class.instanceMethodId(
+    r'clone',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _clone = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.Object clone()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? clone() {
+    return JArrayList$$Methods._clone(
+            reference.pointer, JArrayList$$Methods._id_clone.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_contains = JArrayList._class.instanceMethodId(
     r'contains',
     r'(Ljava/lang/Object;)Z',
   );
@@ -1890,42 +973,41 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract boolean contains(java.lang.Object object)`
+  /// from: `public boolean contains(java.lang.Object object)`
   core$_.bool contains(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _contains(reference.pointer, _id_contains.pointer, _$object.pointer)
+    return JArrayList$$Methods._contains(reference.pointer,
+            JArrayList$$Methods._id_contains.pointer, _$object.pointer)
         .boolean;
   }
 
-  static final _id_containsAll = _class.instanceMethodId(
-    r'containsAll',
-    r'(Ljava/util/Collection;)Z',
+  static final _id_ensureCapacity = JArrayList._class.instanceMethodId(
+    r'ensureCapacity',
+    r'(I)V',
   );
 
-  static final _containsAll = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
+  static final _ensureCapacity = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+          jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
-  /// from: `public abstract boolean containsAll(java.util.Collection<?> collection)`
-  core$_.bool containsAll(
-    JCollection<jni$_.JObject?>? collection,
+  /// from: `public void ensureCapacity(int i)`
+  void ensureCapacity(
+    int i,
   ) {
-    final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _containsAll(
-            reference.pointer, _id_containsAll.pointer, _$collection.pointer)
-        .boolean;
+    JArrayList$$Methods._ensureCapacity(reference.pointer,
+            JArrayList$$Methods._id_ensureCapacity.pointer, i)
+        .check();
   }
 
-  static final _id_equals = _class.instanceMethodId(
+  static final _id_equals = JArrayList._class.instanceMethodId(
     r'equals',
     r'(Ljava/lang/Object;)Z',
   );
@@ -1941,16 +1023,118 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract boolean equals(java.lang.Object object)`
+  /// from: `public boolean equals(java.lang.Object object)`
   core$_.bool equals(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+    return JArrayList$$Methods._equals(reference.pointer,
+            JArrayList$$Methods._id_equals.pointer, _$object.pointer)
         .boolean;
   }
 
-  static final _id_hashCode$1 = _class.instanceMethodId(
+  static final _id_forEach = JArrayList._class.instanceMethodId(
+    r'forEach',
+    r'(Ljava/util/function/Consumer;)V',
+  );
+
+  static final _forEach = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void forEach(java.util.function.Consumer<? super E> consumer)`
+  void forEach(
+    jni$_.JObject? consumer,
+  ) {
+    final _$consumer = consumer?.reference ?? jni$_.jNullReference;
+    JArrayList$$Methods._forEach(reference.pointer,
+            JArrayList$$Methods._id_forEach.pointer, _$consumer.pointer)
+        .check();
+  }
+
+  static final _id_get = JArrayList._class.instanceMethodId(
+    r'get',
+    r'(I)Ljava/lang/Object;',
+  );
+
+  static final _get = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public E get(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $E? get(
+    int i,
+  ) {
+    return JArrayList$$Methods._get(
+            reference.pointer, JArrayList$$Methods._id_get.pointer, i)
+        .object<$E?>();
+  }
+
+  static final _id_getFirst = JArrayList._class.instanceMethodId(
+    r'getFirst',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _getFirst = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public E getFirst()`
+  /// The returned object must be released after use, by calling the [release] method.
+  $E? getFirst() {
+    return JArrayList$$Methods._getFirst(
+            reference.pointer, JArrayList$$Methods._id_getFirst.pointer)
+        .object<$E?>();
+  }
+
+  static final _id_getLast = JArrayList._class.instanceMethodId(
+    r'getLast',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _getLast = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public E getLast()`
+  /// The returned object must be released after use, by calling the [release] method.
+  $E? getLast() {
+    return JArrayList$$Methods._getLast(
+            reference.pointer, JArrayList$$Methods._id_getLast.pointer)
+        .object<$E?>();
+  }
+
+  static final _id_hashCode$1 = JArrayList._class.instanceMethodId(
     r'hashCode',
     r'()I',
   );
@@ -1967,12 +1151,40 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract int hashCode()`
+  /// from: `public int hashCode()`
   int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+    return JArrayList$$Methods._hashCode$1(
+            reference.pointer, JArrayList$$Methods._id_hashCode$1.pointer)
+        .integer;
   }
 
-  static final _id_isEmpty = _class.instanceMethodId(
+  static final _id_indexOf = JArrayList._class.instanceMethodId(
+    r'indexOf',
+    r'(Ljava/lang/Object;)I',
+  );
+
+  static final _indexOf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public int indexOf(java.lang.Object object)`
+  int indexOf(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JArrayList$$Methods._indexOf(reference.pointer,
+            JArrayList$$Methods._id_indexOf.pointer, _$object.pointer)
+        .integer;
+  }
+
+  static final _id_isEmpty = JArrayList._class.instanceMethodId(
     r'isEmpty',
     r'()Z',
   );
@@ -1989,12 +1201,14 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract boolean isEmpty()`
+  /// from: `public boolean isEmpty()`
   core$_.bool isEmpty() {
-    return _isEmpty(reference.pointer, _id_isEmpty.pointer).boolean;
+    return JArrayList$$Methods._isEmpty(
+            reference.pointer, JArrayList$$Methods._id_isEmpty.pointer)
+        .boolean;
   }
 
-  static final _id_iterator = _class.instanceMethodId(
+  static final _id_iterator = JArrayList._class.instanceMethodId(
     r'iterator',
     r'()Ljava/util/Iterator;',
   );
@@ -2011,19 +1225,46 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract java.util.Iterator<E> iterator()`
+  /// from: `public java.util.Iterator<E> iterator()`
   /// The returned object must be released after use, by calling the [release] method.
   JIterator<$E?>? iterator() {
-    return _iterator(reference.pointer, _id_iterator.pointer)
+    return JArrayList$$Methods._iterator(
+            reference.pointer, JArrayList$$Methods._id_iterator.pointer)
         .object<JIterator<$E?>?>();
   }
 
-  static final _id_parallelStream = _class.instanceMethodId(
-    r'parallelStream',
-    r'()Ljava/util/stream/Stream;',
+  static final _id_lastIndexOf = JArrayList._class.instanceMethodId(
+    r'lastIndexOf',
+    r'(Ljava/lang/Object;)I',
   );
 
-  static final _parallelStream = jni$_.ProtectedJniExtensions.lookup<
+  static final _lastIndexOf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public int lastIndexOf(java.lang.Object object)`
+  int lastIndexOf(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JArrayList$$Methods._lastIndexOf(reference.pointer,
+            JArrayList$$Methods._id_lastIndexOf.pointer, _$object.pointer)
+        .integer;
+  }
+
+  static final _id_listIterator = JArrayList._class.instanceMethodId(
+    r'listIterator',
+    r'()Ljava/util/ListIterator;',
+  );
+
+  static final _listIterator = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -2035,19 +1276,70 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public java.util.stream.Stream<E> parallelStream()`
+  /// from: `public java.util.ListIterator<E> listIterator()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? parallelStream() {
-    return _parallelStream(reference.pointer, _id_parallelStream.pointer)
+  jni$_.JObject? listIterator() {
+    return JArrayList$$Methods._listIterator(
+            reference.pointer, JArrayList$$Methods._id_listIterator.pointer)
         .object<jni$_.JObject?>();
   }
 
-  static final _id_remove = _class.instanceMethodId(
+  static final _id_listIterator$1 = JArrayList._class.instanceMethodId(
+    r'listIterator',
+    r'(I)Ljava/util/ListIterator;',
+  );
+
+  static final _listIterator$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public java.util.ListIterator<E> listIterator(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? listIterator$1(
+    int i,
+  ) {
+    return JArrayList$$Methods._listIterator$1(reference.pointer,
+            JArrayList$$Methods._id_listIterator$1.pointer, i)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_remove = JArrayList._class.instanceMethodId(
+    r'remove',
+    r'(I)Ljava/lang/Object;',
+  );
+
+  static final _remove = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public E remove(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $E? remove(
+    int i,
+  ) {
+    return JArrayList$$Methods._remove(
+            reference.pointer, JArrayList$$Methods._id_remove.pointer, i)
+        .object<$E?>();
+  }
+
+  static final _id_remove$1 = JArrayList._class.instanceMethodId(
     r'remove',
     r'(Ljava/lang/Object;)Z',
   );
 
-  static final _remove = jni$_.ProtectedJniExtensions.lookup<
+  static final _remove$1 = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JniResult Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -2058,16 +1350,17 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract boolean remove(java.lang.Object object)`
-  core$_.bool remove(
+  /// from: `public boolean remove(java.lang.Object object)`
+  core$_.bool remove$1(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _remove(reference.pointer, _id_remove.pointer, _$object.pointer)
+    return JArrayList$$Methods._remove$1(reference.pointer,
+            JArrayList$$Methods._id_remove$1.pointer, _$object.pointer)
         .boolean;
   }
 
-  static final _id_removeAll = _class.instanceMethodId(
+  static final _id_removeAll = JArrayList._class.instanceMethodId(
     r'removeAll',
     r'(Ljava/util/Collection;)Z',
   );
@@ -2083,17 +1376,42 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract boolean removeAll(java.util.Collection<?> collection)`
+  /// from: `public boolean removeAll(java.util.Collection<?> collection)`
   core$_.bool removeAll(
     JCollection<jni$_.JObject?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _removeAll(
-            reference.pointer, _id_removeAll.pointer, _$collection.pointer)
+    return JArrayList$$Methods._removeAll(reference.pointer,
+            JArrayList$$Methods._id_removeAll.pointer, _$collection.pointer)
         .boolean;
   }
 
-  static final _id_removeIf = _class.instanceMethodId(
+  static final _id_removeFirst = JArrayList._class.instanceMethodId(
+    r'removeFirst',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _removeFirst = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public E removeFirst()`
+  /// The returned object must be released after use, by calling the [release] method.
+  $E? removeFirst() {
+    return JArrayList$$Methods._removeFirst(
+            reference.pointer, JArrayList$$Methods._id_removeFirst.pointer)
+        .object<$E?>();
+  }
+
+  static final _id_removeIf = JArrayList._class.instanceMethodId(
     r'removeIf',
     r'(Ljava/util/function/Predicate;)Z',
   );
@@ -2114,12 +1432,63 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     jni$_.JObject? predicate,
   ) {
     final _$predicate = predicate?.reference ?? jni$_.jNullReference;
-    return _removeIf(
-            reference.pointer, _id_removeIf.pointer, _$predicate.pointer)
+    return JArrayList$$Methods._removeIf(reference.pointer,
+            JArrayList$$Methods._id_removeIf.pointer, _$predicate.pointer)
         .boolean;
   }
 
-  static final _id_retainAll = _class.instanceMethodId(
+  static final _id_removeLast = JArrayList._class.instanceMethodId(
+    r'removeLast',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _removeLast = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public E removeLast()`
+  /// The returned object must be released after use, by calling the [release] method.
+  $E? removeLast() {
+    return JArrayList$$Methods._removeLast(
+            reference.pointer, JArrayList$$Methods._id_removeLast.pointer)
+        .object<$E?>();
+  }
+
+  static final _id_replaceAll = JArrayList._class.instanceMethodId(
+    r'replaceAll',
+    r'(Ljava/util/function/UnaryOperator;)V',
+  );
+
+  static final _replaceAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void replaceAll(java.util.function.UnaryOperator<E> unaryOperator)`
+  void replaceAll(
+    jni$_.JObject? unaryOperator,
+  ) {
+    final _$unaryOperator = unaryOperator?.reference ?? jni$_.jNullReference;
+    JArrayList$$Methods._replaceAll(reference.pointer,
+            JArrayList$$Methods._id_replaceAll.pointer, _$unaryOperator.pointer)
+        .check();
+  }
+
+  static final _id_retainAll = JArrayList._class.instanceMethodId(
     r'retainAll',
     r'(Ljava/util/Collection;)Z',
   );
@@ -2135,17 +1504,46 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract boolean retainAll(java.util.Collection<?> collection)`
+  /// from: `public boolean retainAll(java.util.Collection<?> collection)`
   core$_.bool retainAll(
     JCollection<jni$_.JObject?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _retainAll(
-            reference.pointer, _id_retainAll.pointer, _$collection.pointer)
+    return JArrayList$$Methods._retainAll(reference.pointer,
+            JArrayList$$Methods._id_retainAll.pointer, _$collection.pointer)
         .boolean;
   }
 
-  static final _id_size = _class.instanceMethodId(
+  static final _id_set = JArrayList._class.instanceMethodId(
+    r'set',
+    r'(ILjava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _set = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public E set(int i, E object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $E? set(
+    int i,
+    $E? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JArrayList$$Methods._set(reference.pointer,
+            JArrayList$$Methods._id_set.pointer, i, _$object.pointer)
+        .object<$E?>();
+  }
+
+  static final _id_size = JArrayList._class.instanceMethodId(
     r'size',
     r'()I',
   );
@@ -2162,12 +1560,40 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             jni$_.JMethodIDPtr,
           )>();
 
-  /// from: `public abstract int size()`
+  /// from: `public int size()`
   int size() {
-    return _size(reference.pointer, _id_size.pointer).integer;
+    return JArrayList$$Methods._size(
+            reference.pointer, JArrayList$$Methods._id_size.pointer)
+        .integer;
   }
 
-  static final _id_spliterator = _class.instanceMethodId(
+  static final _id_sort = JArrayList._class.instanceMethodId(
+    r'sort',
+    r'(Ljava/util/Comparator;)V',
+  );
+
+  static final _sort = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void sort(java.util.Comparator<? super E> comparator)`
+  void sort(
+    jni$_.JObject? comparator,
+  ) {
+    final _$comparator = comparator?.reference ?? jni$_.jNullReference;
+    JArrayList$$Methods._sort(reference.pointer,
+            JArrayList$$Methods._id_sort.pointer, _$comparator.pointer)
+        .check();
+  }
+
+  static final _id_spliterator = JArrayList._class.instanceMethodId(
     r'spliterator',
     r'()Ljava/util/Spliterator;',
   );
@@ -2187,11 +1613,191 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public java.util.Spliterator<E> spliterator()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? spliterator() {
-    return _spliterator(reference.pointer, _id_spliterator.pointer)
+    return JArrayList$$Methods._spliterator(
+            reference.pointer, JArrayList$$Methods._id_spliterator.pointer)
         .object<jni$_.JObject?>();
   }
 
-  static final _id_stream = _class.instanceMethodId(
+  static final _id_subList = JArrayList._class.instanceMethodId(
+    r'subList',
+    r'(II)Ljava/util/List;',
+  );
+
+  static final _subList = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `public java.util.List<E> subList(int i, int i1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JList<$E?>? subList(
+    int i,
+    int i1,
+  ) {
+    return JArrayList$$Methods._subList(
+            reference.pointer, JArrayList$$Methods._id_subList.pointer, i, i1)
+        .object<JList<$E?>?>();
+  }
+
+  static final _id_toArray = JArrayList._class.instanceMethodId(
+    r'toArray',
+    r'()[Ljava/lang/Object;',
+  );
+
+  static final _toArray = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.Object[] toArray()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JArray<jni$_.JObject?>? toArray() {
+    return JArrayList$$Methods._toArray(
+            reference.pointer, JArrayList$$Methods._id_toArray.pointer)
+        .object<jni$_.JArray<jni$_.JObject?>?>();
+  }
+
+  static final _id_toArray$1 = JArrayList._class.instanceMethodId(
+    r'toArray',
+    r'([Ljava/lang/Object;)[Ljava/lang/Object;',
+  );
+
+  static final _toArray$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public T[] toArray(T[] objects)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JArray<$T?>? toArray$1<$T extends jni$_.JObject?>(
+    jni$_.JArray<$T?>? objects,
+  ) {
+    final _$objects = objects?.reference ?? jni$_.jNullReference;
+    return JArrayList$$Methods._toArray$1(reference.pointer,
+            JArrayList$$Methods._id_toArray$1.pointer, _$objects.pointer)
+        .object<jni$_.JArray<$T?>?>();
+  }
+
+  static final _id_trimToSize = JArrayList._class.instanceMethodId(
+    r'trimToSize',
+    r'()V',
+  );
+
+  static final _trimToSize = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public void trimToSize()`
+  void trimToSize() {
+    JArrayList$$Methods._trimToSize(
+            reference.pointer, JArrayList$$Methods._id_trimToSize.pointer)
+        .check();
+  }
+
+  static final _id_containsAll = JArrayList._class.instanceMethodId(
+    r'containsAll',
+    r'(Ljava/util/Collection;)Z',
+  );
+
+  static final _containsAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean containsAll(java.util.Collection<?> collection)`
+  core$_.bool containsAll(
+    JCollection<jni$_.JObject?>? collection,
+  ) {
+    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    return JArrayList$$Methods._containsAll(reference.pointer,
+            JArrayList$$Methods._id_containsAll.pointer, _$collection.pointer)
+        .boolean;
+  }
+
+  static final _id_reversed = JArrayList._class.instanceMethodId(
+    r'reversed',
+    r'()Ljava/util/List;',
+  );
+
+  static final _reversed = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.List<E> reversed()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JList<$E?>? reversed() {
+    return JArrayList$$Methods._reversed(
+            reference.pointer, JArrayList$$Methods._id_reversed.pointer)
+        .object<JList<$E?>?>();
+  }
+
+  static final _id_parallelStream = JArrayList._class.instanceMethodId(
+    r'parallelStream',
+    r'()Ljava/util/stream/Stream;',
+  );
+
+  static final _parallelStream = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.stream.Stream<E> parallelStream()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? parallelStream() {
+    return JArrayList$$Methods._parallelStream(
+            reference.pointer, JArrayList$$Methods._id_parallelStream.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_stream = JArrayList._class.instanceMethodId(
     r'stream',
     r'()Ljava/util/stream/Stream;',
   );
@@ -2211,64 +1817,14 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public java.util.stream.Stream<E> stream()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? stream() {
-    return _stream(reference.pointer, _id_stream.pointer)
+    return JArrayList$$Methods._stream(
+            reference.pointer, JArrayList$$Methods._id_stream.pointer)
         .object<jni$_.JObject?>();
   }
 
-  static final _id_toArray = _class.instanceMethodId(
-    r'toArray',
-    r'()[Ljava/lang/Object;',
-  );
-
-  static final _toArray = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract java.lang.Object[] toArray()`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? toArray() {
-    return _toArray(reference.pointer, _id_toArray.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
-  }
-
-  static final _id_toArray$1 = _class.instanceMethodId(
+  static final _id_toArray$2 = JArrayList._class.instanceMethodId(
     r'toArray',
     r'(Ljava/util/function/IntFunction;)[Ljava/lang/Object;',
-  );
-
-  static final _toArray$1 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public T[] toArray(java.util.function.IntFunction<T[]> intFunction)`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<$T?>? toArray$1<$T extends jni$_.JObject?>(
-    jni$_.JObject? intFunction,
-  ) {
-    final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
-    return _toArray$1(
-            reference.pointer, _id_toArray$1.pointer, _$intFunction.pointer)
-        .object<jni$_.JArray<$T?>?>();
-  }
-
-  static final _id_toArray$2 = _class.instanceMethodId(
-    r'toArray',
-    r'([Ljava/lang/Object;)[Ljava/lang/Object;',
   );
 
   static final _toArray$2 = jni$_.ProtectedJniExtensions.lookup<
@@ -2282,16 +1838,34 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public abstract T[] toArray(T[] objects)`
+  /// from: `public T[] toArray(java.util.function.IntFunction<T[]> intFunction)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<$T?>? toArray$2<$T extends jni$_.JObject?>(
-    jni$_.JArray<$T?>? objects,
+    jni$_.JObject? intFunction,
   ) {
-    final _$objects = objects?.reference ?? jni$_.jNullReference;
-    return _toArray$2(
-            reference.pointer, _id_toArray$2.pointer, _$objects.pointer)
+    final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
+    return JArrayList$$Methods._toArray$2(reference.pointer,
+            JArrayList$$Methods._id_toArray$2.pointer, _$intFunction.pointer)
         .object<jni$_.JArray<$T?>?>();
   }
+}
+
+final class $JArrayList$Type$ extends jni$_.JType<JArrayList> {
+  @jni$_.internal
+  const $JArrayList$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/util/ArrayList;';
+}
+
+/// from: `java.util.Collection`
+extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static final _class = jni$_.JClass.forName(r'java/util/Collection');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<JCollection> type = $JCollection$Type$();
 
   /// Maps a specific port to the implemented interface.
   static final core$_.Map<int, $JCollection> _$impls = {};
@@ -2493,6 +2067,517 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final $i = jni$_.JImplementer();
     implementIn($i, $impl);
     return $i.implement<JCollection<$E>>();
+  }
+}
+
+extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
+  static final _id_add = JCollection._class.instanceMethodId(
+    r'add',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _add = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean add(E object)`
+  core$_.bool add(
+    $E? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JCollection$$Methods._add(reference.pointer,
+            JCollection$$Methods._id_add.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_addAll = JCollection._class.instanceMethodId(
+    r'addAll',
+    r'(Ljava/util/Collection;)Z',
+  );
+
+  static final _addAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean addAll(java.util.Collection<? extends E> collection)`
+  core$_.bool addAll(
+    JCollection<$E?>? collection,
+  ) {
+    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    return JCollection$$Methods._addAll(reference.pointer,
+            JCollection$$Methods._id_addAll.pointer, _$collection.pointer)
+        .boolean;
+  }
+
+  static final _id_clear = JCollection._class.instanceMethodId(
+    r'clear',
+    r'()V',
+  );
+
+  static final _clear = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract void clear()`
+  void clear() {
+    JCollection$$Methods._clear(
+            reference.pointer, JCollection$$Methods._id_clear.pointer)
+        .check();
+  }
+
+  static final _id_contains = JCollection._class.instanceMethodId(
+    r'contains',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _contains = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean contains(java.lang.Object object)`
+  core$_.bool contains(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JCollection$$Methods._contains(reference.pointer,
+            JCollection$$Methods._id_contains.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_containsAll = JCollection._class.instanceMethodId(
+    r'containsAll',
+    r'(Ljava/util/Collection;)Z',
+  );
+
+  static final _containsAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean containsAll(java.util.Collection<?> collection)`
+  core$_.bool containsAll(
+    JCollection<jni$_.JObject?>? collection,
+  ) {
+    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    return JCollection$$Methods._containsAll(reference.pointer,
+            JCollection$$Methods._id_containsAll.pointer, _$collection.pointer)
+        .boolean;
+  }
+
+  static final _id_equals = JCollection._class.instanceMethodId(
+    r'equals',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _equals = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean equals(java.lang.Object object)`
+  core$_.bool equals(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JCollection$$Methods._equals(reference.pointer,
+            JCollection$$Methods._id_equals.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_hashCode$1 = JCollection._class.instanceMethodId(
+    r'hashCode',
+    r'()I',
+  );
+
+  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract int hashCode()`
+  int hashCode$1() {
+    return JCollection$$Methods._hashCode$1(
+            reference.pointer, JCollection$$Methods._id_hashCode$1.pointer)
+        .integer;
+  }
+
+  static final _id_isEmpty = JCollection._class.instanceMethodId(
+    r'isEmpty',
+    r'()Z',
+  );
+
+  static final _isEmpty = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract boolean isEmpty()`
+  core$_.bool isEmpty() {
+    return JCollection$$Methods._isEmpty(
+            reference.pointer, JCollection$$Methods._id_isEmpty.pointer)
+        .boolean;
+  }
+
+  static final _id_iterator = JCollection._class.instanceMethodId(
+    r'iterator',
+    r'()Ljava/util/Iterator;',
+  );
+
+  static final _iterator = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.util.Iterator<E> iterator()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JIterator<$E?>? iterator() {
+    return JCollection$$Methods._iterator(
+            reference.pointer, JCollection$$Methods._id_iterator.pointer)
+        .object<JIterator<$E?>?>();
+  }
+
+  static final _id_parallelStream = JCollection._class.instanceMethodId(
+    r'parallelStream',
+    r'()Ljava/util/stream/Stream;',
+  );
+
+  static final _parallelStream = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.stream.Stream<E> parallelStream()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? parallelStream() {
+    return JCollection$$Methods._parallelStream(
+            reference.pointer, JCollection$$Methods._id_parallelStream.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_remove = JCollection._class.instanceMethodId(
+    r'remove',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _remove = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean remove(java.lang.Object object)`
+  core$_.bool remove(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JCollection$$Methods._remove(reference.pointer,
+            JCollection$$Methods._id_remove.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_removeAll = JCollection._class.instanceMethodId(
+    r'removeAll',
+    r'(Ljava/util/Collection;)Z',
+  );
+
+  static final _removeAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean removeAll(java.util.Collection<?> collection)`
+  core$_.bool removeAll(
+    JCollection<jni$_.JObject?>? collection,
+  ) {
+    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    return JCollection$$Methods._removeAll(reference.pointer,
+            JCollection$$Methods._id_removeAll.pointer, _$collection.pointer)
+        .boolean;
+  }
+
+  static final _id_removeIf = JCollection._class.instanceMethodId(
+    r'removeIf',
+    r'(Ljava/util/function/Predicate;)Z',
+  );
+
+  static final _removeIf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean removeIf(java.util.function.Predicate<? super E> predicate)`
+  core$_.bool removeIf(
+    jni$_.JObject? predicate,
+  ) {
+    final _$predicate = predicate?.reference ?? jni$_.jNullReference;
+    return JCollection$$Methods._removeIf(reference.pointer,
+            JCollection$$Methods._id_removeIf.pointer, _$predicate.pointer)
+        .boolean;
+  }
+
+  static final _id_retainAll = JCollection._class.instanceMethodId(
+    r'retainAll',
+    r'(Ljava/util/Collection;)Z',
+  );
+
+  static final _retainAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean retainAll(java.util.Collection<?> collection)`
+  core$_.bool retainAll(
+    JCollection<jni$_.JObject?>? collection,
+  ) {
+    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    return JCollection$$Methods._retainAll(reference.pointer,
+            JCollection$$Methods._id_retainAll.pointer, _$collection.pointer)
+        .boolean;
+  }
+
+  static final _id_size = JCollection._class.instanceMethodId(
+    r'size',
+    r'()I',
+  );
+
+  static final _size = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract int size()`
+  int size() {
+    return JCollection$$Methods._size(
+            reference.pointer, JCollection$$Methods._id_size.pointer)
+        .integer;
+  }
+
+  static final _id_spliterator = JCollection._class.instanceMethodId(
+    r'spliterator',
+    r'()Ljava/util/Spliterator;',
+  );
+
+  static final _spliterator = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.Spliterator<E> spliterator()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? spliterator() {
+    return JCollection$$Methods._spliterator(
+            reference.pointer, JCollection$$Methods._id_spliterator.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_stream = JCollection._class.instanceMethodId(
+    r'stream',
+    r'()Ljava/util/stream/Stream;',
+  );
+
+  static final _stream = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.stream.Stream<E> stream()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? stream() {
+    return JCollection$$Methods._stream(
+            reference.pointer, JCollection$$Methods._id_stream.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_toArray = JCollection._class.instanceMethodId(
+    r'toArray',
+    r'()[Ljava/lang/Object;',
+  );
+
+  static final _toArray = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.lang.Object[] toArray()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JArray<jni$_.JObject?>? toArray() {
+    return JCollection$$Methods._toArray(
+            reference.pointer, JCollection$$Methods._id_toArray.pointer)
+        .object<jni$_.JArray<jni$_.JObject?>?>();
+  }
+
+  static final _id_toArray$1 = JCollection._class.instanceMethodId(
+    r'toArray',
+    r'(Ljava/util/function/IntFunction;)[Ljava/lang/Object;',
+  );
+
+  static final _toArray$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public T[] toArray(java.util.function.IntFunction<T[]> intFunction)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JArray<$T?>? toArray$1<$T extends jni$_.JObject?>(
+    jni$_.JObject? intFunction,
+  ) {
+    final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
+    return JCollection$$Methods._toArray$1(reference.pointer,
+            JCollection$$Methods._id_toArray$1.pointer, _$intFunction.pointer)
+        .object<jni$_.JArray<$T?>?>();
+  }
+
+  static final _id_toArray$2 = JCollection._class.instanceMethodId(
+    r'toArray',
+    r'([Ljava/lang/Object;)[Ljava/lang/Object;',
+  );
+
+  static final _toArray$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract T[] toArray(T[] objects)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JArray<$T?>? toArray$2<$T extends jni$_.JObject?>(
+    jni$_.JArray<$T?>? objects,
+  ) {
+    final _$objects = objects?.reference ?? jni$_.jNullReference;
+    return JCollection$$Methods._toArray$2(reference.pointer,
+            JCollection$$Methods._id_toArray$2.pointer, _$objects.pointer)
+        .object<jni$_.JArray<$T?>?>();
   }
 }
 
@@ -2747,7 +2832,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory JHashMap() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    return JHashMap._new$(_class.reference.pointer, JHashMap._id_new$.pointer)
         .object<JHashMap<$K, $V>>();
   }
 
@@ -2770,7 +2855,8 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   factory JHashMap.new$1(
     int i,
   ) {
-    return _new$1(_class.reference.pointer, _id_new$1.pointer, i)
+    return JHashMap._new$1(
+            _class.reference.pointer, JHashMap._id_new$1.pointer, i)
         .object<JHashMap<$K, $V>>();
   }
 
@@ -2795,7 +2881,8 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     int i,
     double f,
   ) {
-    return _new$2(_class.reference.pointer, _id_new$2.pointer, i, f)
+    return JHashMap._new$2(
+            _class.reference.pointer, JHashMap._id_new$2.pointer, i, f)
         .object<JHashMap<$K, $V>>();
   }
 
@@ -2820,405 +2907,9 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     JMap<$K?, $V?>? map,
   ) {
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _new$3(_class.reference.pointer, _id_new$3.pointer, _$map.pointer)
+    return JHashMap._new$3(
+            _class.reference.pointer, JHashMap._id_new$3.pointer, _$map.pointer)
         .object<JHashMap<$K, $V>>();
-  }
-
-  static final _id_clear = _class.instanceMethodId(
-    r'clear',
-    r'()V',
-  );
-
-  static final _clear = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public void clear()`
-  void clear() {
-    _clear(reference.pointer, _id_clear.pointer).check();
-  }
-
-  static final _id_clone = _class.instanceMethodId(
-    r'clone',
-    r'()Ljava/lang/Object;',
-  );
-
-  static final _clone = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.lang.Object clone()`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? clone() {
-    return _clone(reference.pointer, _id_clone.pointer)
-        .object<jni$_.JObject?>();
-  }
-
-  static final _id_compute = _class.instanceMethodId(
-    r'compute',
-    r'(Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;',
-  );
-
-  static final _compute = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public V compute(K object, java.util.function.BiFunction<? super K, ? super V, ? extends V> biFunction)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $V? compute(
-    $K? object,
-    jni$_.JObject? biFunction,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
-    return _compute(reference.pointer, _id_compute.pointer, _$object.pointer,
-            _$biFunction.pointer)
-        .object<$V?>();
-  }
-
-  static final _id_computeIfAbsent = _class.instanceMethodId(
-    r'computeIfAbsent',
-    r'(Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;',
-  );
-
-  static final _computeIfAbsent = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public V computeIfAbsent(K object, java.util.function.Function<? super K, ? extends V> function)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $V? computeIfAbsent(
-    $K? object,
-    jni$_.JObject? function,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    final _$function = function?.reference ?? jni$_.jNullReference;
-    return _computeIfAbsent(reference.pointer, _id_computeIfAbsent.pointer,
-            _$object.pointer, _$function.pointer)
-        .object<$V?>();
-  }
-
-  static final _id_computeIfPresent = _class.instanceMethodId(
-    r'computeIfPresent',
-    r'(Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;',
-  );
-
-  static final _computeIfPresent = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public V computeIfPresent(K object, java.util.function.BiFunction<? super K, ? super V, ? extends V> biFunction)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $V? computeIfPresent(
-    $K? object,
-    jni$_.JObject? biFunction,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
-    return _computeIfPresent(reference.pointer, _id_computeIfPresent.pointer,
-            _$object.pointer, _$biFunction.pointer)
-        .object<$V?>();
-  }
-
-  static final _id_containsKey = _class.instanceMethodId(
-    r'containsKey',
-    r'(Ljava/lang/Object;)Z',
-  );
-
-  static final _containsKey = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public boolean containsKey(java.lang.Object object)`
-  core$_.bool containsKey(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _containsKey(
-            reference.pointer, _id_containsKey.pointer, _$object.pointer)
-        .boolean;
-  }
-
-  static final _id_containsValue = _class.instanceMethodId(
-    r'containsValue',
-    r'(Ljava/lang/Object;)Z',
-  );
-
-  static final _containsValue = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public boolean containsValue(java.lang.Object object)`
-  core$_.bool containsValue(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _containsValue(
-            reference.pointer, _id_containsValue.pointer, _$object.pointer)
-        .boolean;
-  }
-
-  static final _id_entrySet = _class.instanceMethodId(
-    r'entrySet',
-    r'()Ljava/util/Set;',
-  );
-
-  static final _entrySet = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.util.Set<java.util.Map$Entry<K, V>> entrySet()`
-  /// The returned object must be released after use, by calling the [release] method.
-  JSet<JMap$JEntry<$K?, $V?>?>? entrySet() {
-    return _entrySet(reference.pointer, _id_entrySet.pointer)
-        .object<JSet<JMap$JEntry<$K?, $V?>?>?>();
-  }
-
-  static final _id_forEach = _class.instanceMethodId(
-    r'forEach',
-    r'(Ljava/util/function/BiConsumer;)V',
-  );
-
-  static final _forEach = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void forEach(java.util.function.BiConsumer<? super K, ? super V> biConsumer)`
-  void forEach(
-    jni$_.JObject? biConsumer,
-  ) {
-    final _$biConsumer = biConsumer?.reference ?? jni$_.jNullReference;
-    _forEach(reference.pointer, _id_forEach.pointer, _$biConsumer.pointer)
-        .check();
-  }
-
-  static final _id_get = _class.instanceMethodId(
-    r'get',
-    r'(Ljava/lang/Object;)Ljava/lang/Object;',
-  );
-
-  static final _get = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public V get(java.lang.Object object)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $V? get(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _get(reference.pointer, _id_get.pointer, _$object.pointer)
-        .object<$V?>();
-  }
-
-  static final _id_getOrDefault = _class.instanceMethodId(
-    r'getOrDefault',
-    r'(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;',
-  );
-
-  static final _getOrDefault = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public V getOrDefault(java.lang.Object object, V object1)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $V? getOrDefault(
-    jni$_.JObject? object,
-    $V? object1,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _getOrDefault(reference.pointer, _id_getOrDefault.pointer,
-            _$object.pointer, _$object1.pointer)
-        .object<$V?>();
-  }
-
-  static final _id_isEmpty = _class.instanceMethodId(
-    r'isEmpty',
-    r'()Z',
-  );
-
-  static final _isEmpty = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public boolean isEmpty()`
-  core$_.bool isEmpty() {
-    return _isEmpty(reference.pointer, _id_isEmpty.pointer).boolean;
-  }
-
-  static final _id_keySet = _class.instanceMethodId(
-    r'keySet',
-    r'()Ljava/util/Set;',
-  );
-
-  static final _keySet = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.util.Set<K> keySet()`
-  /// The returned object must be released after use, by calling the [release] method.
-  JSet<$K?>? keySet() {
-    return _keySet(reference.pointer, _id_keySet.pointer).object<JSet<$K?>?>();
-  }
-
-  static final _id_merge = _class.instanceMethodId(
-    r'merge',
-    r'(Ljava/lang/Object;Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;',
-  );
-
-  static final _merge = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public V merge(K object, V object1, java.util.function.BiFunction<? super V, ? super V, ? extends V> biFunction)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $V? merge(
-    $K? object,
-    $V? object1,
-    jni$_.JObject? biFunction,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
-    return _merge(reference.pointer, _id_merge.pointer, _$object.pointer,
-            _$object1.pointer, _$biFunction.pointer)
-        .object<$V?>();
   }
 
   static final _id_newHashMap = _class.staticMethodId(
@@ -3241,306 +2932,9 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       newHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
     int i,
   ) {
-    return _newHashMap(_class.reference.pointer, _id_newHashMap.pointer, i)
+    return JHashMap._newHashMap(
+            _class.reference.pointer, JHashMap._id_newHashMap.pointer, i)
         .object<JHashMap<$K?, $V?>?>();
-  }
-
-  static final _id_put = _class.instanceMethodId(
-    r'put',
-    r'(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;',
-  );
-
-  static final _put = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public V put(K object, V object1)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $V? put(
-    $K? object,
-    $V? object1,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _put(reference.pointer, _id_put.pointer, _$object.pointer,
-            _$object1.pointer)
-        .object<$V?>();
-  }
-
-  static final _id_putAll = _class.instanceMethodId(
-    r'putAll',
-    r'(Ljava/util/Map;)V',
-  );
-
-  static final _putAll = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void putAll(java.util.Map<? extends K, ? extends V> map)`
-  void putAll(
-    JMap<$K?, $V?>? map,
-  ) {
-    final _$map = map?.reference ?? jni$_.jNullReference;
-    _putAll(reference.pointer, _id_putAll.pointer, _$map.pointer).check();
-  }
-
-  static final _id_putIfAbsent = _class.instanceMethodId(
-    r'putIfAbsent',
-    r'(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;',
-  );
-
-  static final _putIfAbsent = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public V putIfAbsent(K object, V object1)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $V? putIfAbsent(
-    $K? object,
-    $V? object1,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _putIfAbsent(reference.pointer, _id_putIfAbsent.pointer,
-            _$object.pointer, _$object1.pointer)
-        .object<$V?>();
-  }
-
-  static final _id_remove = _class.instanceMethodId(
-    r'remove',
-    r'(Ljava/lang/Object;)Ljava/lang/Object;',
-  );
-
-  static final _remove = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public V remove(java.lang.Object object)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $V? remove(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _remove(reference.pointer, _id_remove.pointer, _$object.pointer)
-        .object<$V?>();
-  }
-
-  static final _id_remove$1 = _class.instanceMethodId(
-    r'remove',
-    r'(Ljava/lang/Object;Ljava/lang/Object;)Z',
-  );
-
-  static final _remove$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public boolean remove(java.lang.Object object, java.lang.Object object1)`
-  core$_.bool remove$1(
-    jni$_.JObject? object,
-    jni$_.JObject? object1,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _remove$1(reference.pointer, _id_remove$1.pointer, _$object.pointer,
-            _$object1.pointer)
-        .boolean;
-  }
-
-  static final _id_replace = _class.instanceMethodId(
-    r'replace',
-    r'(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;',
-  );
-
-  static final _replace = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public V replace(K object, V object1)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $V? replace(
-    $K? object,
-    $V? object1,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _replace(reference.pointer, _id_replace.pointer, _$object.pointer,
-            _$object1.pointer)
-        .object<$V?>();
-  }
-
-  static final _id_replace$1 = _class.instanceMethodId(
-    r'replace',
-    r'(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z',
-  );
-
-  static final _replace$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public boolean replace(K object, V object1, V object2)`
-  core$_.bool replace$1(
-    $K? object,
-    $V? object1,
-    $V? object2,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    final _$object2 = object2?.reference ?? jni$_.jNullReference;
-    return _replace$1(reference.pointer, _id_replace$1.pointer,
-            _$object.pointer, _$object1.pointer, _$object2.pointer)
-        .boolean;
-  }
-
-  static final _id_replaceAll = _class.instanceMethodId(
-    r'replaceAll',
-    r'(Ljava/util/function/BiFunction;)V',
-  );
-
-  static final _replaceAll = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void replaceAll(java.util.function.BiFunction<? super K, ? super V, ? extends V> biFunction)`
-  void replaceAll(
-    jni$_.JObject? biFunction,
-  ) {
-    final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
-    _replaceAll(reference.pointer, _id_replaceAll.pointer, _$biFunction.pointer)
-        .check();
-  }
-
-  static final _id_size = _class.instanceMethodId(
-    r'size',
-    r'()I',
-  );
-
-  static final _size = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public int size()`
-  int size() {
-    return _size(reference.pointer, _id_size.pointer).integer;
-  }
-
-  static final _id_values = _class.instanceMethodId(
-    r'values',
-    r'()Ljava/util/Collection;',
-  );
-
-  static final _values = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.util.Collection<V> values()`
-  /// The returned object must be released after use, by calling the [release] method.
-  JCollection<$V?>? values() {
-    return _values(reference.pointer, _id_values.pointer)
-        .object<JCollection<$V?>?>();
   }
 
   static final _id_copyOf = _class.staticMethodId(
@@ -3566,7 +2960,8 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     JMap<$K?, $V?>? map,
   ) {
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _copyOf(_class.reference.pointer, _id_copyOf.pointer, _$map.pointer)
+    return JHashMap._copyOf(_class.reference.pointer,
+            JHashMap._id_copyOf.pointer, _$map.pointer)
         .object<JMap<$K?, $V?>?>();
   }
 
@@ -3601,56 +2996,9 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _entry(_class.reference.pointer, _id_entry.pointer, _$object.pointer,
-            _$object1.pointer)
+    return JHashMap._entry(_class.reference.pointer, JHashMap._id_entry.pointer,
+            _$object.pointer, _$object1.pointer)
         .object<JMap$JEntry<$K?, $V?>?>();
-  }
-
-  static final _id_equals = _class.instanceMethodId(
-    r'equals',
-    r'(Ljava/lang/Object;)Z',
-  );
-
-  static final _equals = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean equals(java.lang.Object object)`
-  core$_.bool equals(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
-        .boolean;
-  }
-
-  static final _id_hashCode$1 = _class.instanceMethodId(
-    r'hashCode',
-    r'()I',
-  );
-
-  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract int hashCode()`
-  int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_of = _class.staticMethodId(
@@ -3674,7 +3022,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   /// The returned object must be released after use, by calling the [release] method.
   static JMap<$K?, $V?>?
       of<$K extends jni$_.JObject?, $V extends jni$_.JObject?>() {
-    return _of(_class.reference.pointer, _id_of.pointer)
+    return JHashMap._of(_class.reference.pointer, JHashMap._id_of.pointer)
         .object<JMap<$K?, $V?>?>();
   }
 
@@ -3709,8 +3057,8 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _of$1(_class.reference.pointer, _id_of$1.pointer, _$object.pointer,
-            _$object1.pointer)
+    return JHashMap._of$1(_class.reference.pointer, JHashMap._id_of$1.pointer,
+            _$object.pointer, _$object1.pointer)
         .object<JMap<$K?, $V?>?>();
   }
 
@@ -3753,8 +3101,13 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
-    return _of$2(_class.reference.pointer, _id_of$2.pointer, _$object.pointer,
-            _$object1.pointer, _$object2.pointer, _$object3.pointer)
+    return JHashMap._of$2(
+            _class.reference.pointer,
+            JHashMap._id_of$2.pointer,
+            _$object.pointer,
+            _$object1.pointer,
+            _$object2.pointer,
+            _$object3.pointer)
         .object<JMap<$K?, $V?>?>();
   }
 
@@ -3805,9 +3158,9 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
-    return _of$3(
+    return JHashMap._of$3(
             _class.reference.pointer,
-            _id_of$3.pointer,
+            JHashMap._id_of$3.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -3872,9 +3225,9 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
-    return _of$4(
+    return JHashMap._of$4(
             _class.reference.pointer,
-            _id_of$4.pointer,
+            JHashMap._id_of$4.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -3949,9 +3302,9 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
     final _$object8 = object8?.reference ?? jni$_.jNullReference;
     final _$object9 = object9?.reference ?? jni$_.jNullReference;
-    return _of$5(
+    return JHashMap._of$5(
             _class.reference.pointer,
-            _id_of$5.pointer,
+            JHashMap._id_of$5.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -4036,9 +3389,9 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object9 = object9?.reference ?? jni$_.jNullReference;
     final _$object10 = object10?.reference ?? jni$_.jNullReference;
     final _$object11 = object11?.reference ?? jni$_.jNullReference;
-    return _of$6(
+    return JHashMap._of$6(
             _class.reference.pointer,
-            _id_of$6.pointer,
+            JHashMap._id_of$6.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -4133,9 +3486,9 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object11 = object11?.reference ?? jni$_.jNullReference;
     final _$object12 = object12?.reference ?? jni$_.jNullReference;
     final _$object13 = object13?.reference ?? jni$_.jNullReference;
-    return _of$7(
+    return JHashMap._of$7(
             _class.reference.pointer,
-            _id_of$7.pointer,
+            JHashMap._id_of$7.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -4240,9 +3593,9 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object13 = object13?.reference ?? jni$_.jNullReference;
     final _$object14 = object14?.reference ?? jni$_.jNullReference;
     final _$object15 = object15?.reference ?? jni$_.jNullReference;
-    return _of$8(
+    return JHashMap._of$8(
             _class.reference.pointer,
-            _id_of$8.pointer,
+            JHashMap._id_of$8.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -4357,9 +3710,9 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object15 = object15?.reference ?? jni$_.jNullReference;
     final _$object16 = object16?.reference ?? jni$_.jNullReference;
     final _$object17 = object17?.reference ?? jni$_.jNullReference;
-    return _of$9(
+    return JHashMap._of$9(
             _class.reference.pointer,
-            _id_of$9.pointer,
+            JHashMap._id_of$9.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -4484,9 +3837,9 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object17 = object17?.reference ?? jni$_.jNullReference;
     final _$object18 = object18?.reference ?? jni$_.jNullReference;
     final _$object19 = object19?.reference ?? jni$_.jNullReference;
-    return _of$10(
+    return JHashMap._of$10(
             _class.reference.pointer,
-            _id_of$10.pointer,
+            JHashMap._id_of$10.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -4533,9 +3886,806 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     jni$_.JArray<JMap$JEntry<$K?, $V?>?>? entrys,
   ) {
     final _$entrys = entrys?.reference ?? jni$_.jNullReference;
-    return _ofEntries(
-            _class.reference.pointer, _id_ofEntries.pointer, _$entrys.pointer)
+    return JHashMap._ofEntries(_class.reference.pointer,
+            JHashMap._id_ofEntries.pointer, _$entrys.pointer)
         .object<JMap<$K?, $V?>?>();
+  }
+}
+
+extension JHashMap$$Methods<$K extends jni$_.JObject?,
+    $V extends jni$_.JObject?> on JHashMap<$K, $V> {
+  static final _id_clear = JHashMap._class.instanceMethodId(
+    r'clear',
+    r'()V',
+  );
+
+  static final _clear = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public void clear()`
+  void clear() {
+    JHashMap$$Methods._clear(
+            reference.pointer, JHashMap$$Methods._id_clear.pointer)
+        .check();
+  }
+
+  static final _id_clone = JHashMap._class.instanceMethodId(
+    r'clone',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _clone = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.Object clone()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? clone() {
+    return JHashMap$$Methods._clone(
+            reference.pointer, JHashMap$$Methods._id_clone.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_compute = JHashMap._class.instanceMethodId(
+    r'compute',
+    r'(Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;',
+  );
+
+  static final _compute = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public V compute(K object, java.util.function.BiFunction<? super K, ? super V, ? extends V> biFunction)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? compute(
+    $K? object,
+    jni$_.JObject? biFunction,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
+    return JHashMap$$Methods._compute(
+            reference.pointer,
+            JHashMap$$Methods._id_compute.pointer,
+            _$object.pointer,
+            _$biFunction.pointer)
+        .object<$V?>();
+  }
+
+  static final _id_computeIfAbsent = JHashMap._class.instanceMethodId(
+    r'computeIfAbsent',
+    r'(Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;',
+  );
+
+  static final _computeIfAbsent = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public V computeIfAbsent(K object, java.util.function.Function<? super K, ? extends V> function)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? computeIfAbsent(
+    $K? object,
+    jni$_.JObject? function,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$function = function?.reference ?? jni$_.jNullReference;
+    return JHashMap$$Methods._computeIfAbsent(
+            reference.pointer,
+            JHashMap$$Methods._id_computeIfAbsent.pointer,
+            _$object.pointer,
+            _$function.pointer)
+        .object<$V?>();
+  }
+
+  static final _id_computeIfPresent = JHashMap._class.instanceMethodId(
+    r'computeIfPresent',
+    r'(Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;',
+  );
+
+  static final _computeIfPresent = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public V computeIfPresent(K object, java.util.function.BiFunction<? super K, ? super V, ? extends V> biFunction)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? computeIfPresent(
+    $K? object,
+    jni$_.JObject? biFunction,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
+    return JHashMap$$Methods._computeIfPresent(
+            reference.pointer,
+            JHashMap$$Methods._id_computeIfPresent.pointer,
+            _$object.pointer,
+            _$biFunction.pointer)
+        .object<$V?>();
+  }
+
+  static final _id_containsKey = JHashMap._class.instanceMethodId(
+    r'containsKey',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _containsKey = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean containsKey(java.lang.Object object)`
+  core$_.bool containsKey(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JHashMap$$Methods._containsKey(reference.pointer,
+            JHashMap$$Methods._id_containsKey.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_containsValue = JHashMap._class.instanceMethodId(
+    r'containsValue',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _containsValue = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean containsValue(java.lang.Object object)`
+  core$_.bool containsValue(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JHashMap$$Methods._containsValue(reference.pointer,
+            JHashMap$$Methods._id_containsValue.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_entrySet = JHashMap._class.instanceMethodId(
+    r'entrySet',
+    r'()Ljava/util/Set;',
+  );
+
+  static final _entrySet = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.Set<java.util.Map$Entry<K, V>> entrySet()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JSet<JMap$JEntry<$K?, $V?>?>? entrySet() {
+    return JHashMap$$Methods._entrySet(
+            reference.pointer, JHashMap$$Methods._id_entrySet.pointer)
+        .object<JSet<JMap$JEntry<$K?, $V?>?>?>();
+  }
+
+  static final _id_forEach = JHashMap._class.instanceMethodId(
+    r'forEach',
+    r'(Ljava/util/function/BiConsumer;)V',
+  );
+
+  static final _forEach = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void forEach(java.util.function.BiConsumer<? super K, ? super V> biConsumer)`
+  void forEach(
+    jni$_.JObject? biConsumer,
+  ) {
+    final _$biConsumer = biConsumer?.reference ?? jni$_.jNullReference;
+    JHashMap$$Methods._forEach(reference.pointer,
+            JHashMap$$Methods._id_forEach.pointer, _$biConsumer.pointer)
+        .check();
+  }
+
+  static final _id_get = JHashMap._class.instanceMethodId(
+    r'get',
+    r'(Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _get = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public V get(java.lang.Object object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? get(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JHashMap$$Methods._get(reference.pointer,
+            JHashMap$$Methods._id_get.pointer, _$object.pointer)
+        .object<$V?>();
+  }
+
+  static final _id_getOrDefault = JHashMap._class.instanceMethodId(
+    r'getOrDefault',
+    r'(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _getOrDefault = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public V getOrDefault(java.lang.Object object, V object1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? getOrDefault(
+    jni$_.JObject? object,
+    $V? object1,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$object1 = object1?.reference ?? jni$_.jNullReference;
+    return JHashMap$$Methods._getOrDefault(
+            reference.pointer,
+            JHashMap$$Methods._id_getOrDefault.pointer,
+            _$object.pointer,
+            _$object1.pointer)
+        .object<$V?>();
+  }
+
+  static final _id_isEmpty = JHashMap._class.instanceMethodId(
+    r'isEmpty',
+    r'()Z',
+  );
+
+  static final _isEmpty = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public boolean isEmpty()`
+  core$_.bool isEmpty() {
+    return JHashMap$$Methods._isEmpty(
+            reference.pointer, JHashMap$$Methods._id_isEmpty.pointer)
+        .boolean;
+  }
+
+  static final _id_keySet = JHashMap._class.instanceMethodId(
+    r'keySet',
+    r'()Ljava/util/Set;',
+  );
+
+  static final _keySet = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.Set<K> keySet()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JSet<$K?>? keySet() {
+    return JHashMap$$Methods._keySet(
+            reference.pointer, JHashMap$$Methods._id_keySet.pointer)
+        .object<JSet<$K?>?>();
+  }
+
+  static final _id_merge = JHashMap._class.instanceMethodId(
+    r'merge',
+    r'(Ljava/lang/Object;Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;',
+  );
+
+  static final _merge = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public V merge(K object, V object1, java.util.function.BiFunction<? super V, ? super V, ? extends V> biFunction)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? merge(
+    $K? object,
+    $V? object1,
+    jni$_.JObject? biFunction,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$object1 = object1?.reference ?? jni$_.jNullReference;
+    final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
+    return JHashMap$$Methods._merge(
+            reference.pointer,
+            JHashMap$$Methods._id_merge.pointer,
+            _$object.pointer,
+            _$object1.pointer,
+            _$biFunction.pointer)
+        .object<$V?>();
+  }
+
+  static final _id_put = JHashMap._class.instanceMethodId(
+    r'put',
+    r'(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _put = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public V put(K object, V object1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? put(
+    $K? object,
+    $V? object1,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$object1 = object1?.reference ?? jni$_.jNullReference;
+    return JHashMap$$Methods._put(
+            reference.pointer,
+            JHashMap$$Methods._id_put.pointer,
+            _$object.pointer,
+            _$object1.pointer)
+        .object<$V?>();
+  }
+
+  static final _id_putAll = JHashMap._class.instanceMethodId(
+    r'putAll',
+    r'(Ljava/util/Map;)V',
+  );
+
+  static final _putAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void putAll(java.util.Map<? extends K, ? extends V> map)`
+  void putAll(
+    JMap<$K?, $V?>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    JHashMap$$Methods._putAll(reference.pointer,
+            JHashMap$$Methods._id_putAll.pointer, _$map.pointer)
+        .check();
+  }
+
+  static final _id_putIfAbsent = JHashMap._class.instanceMethodId(
+    r'putIfAbsent',
+    r'(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _putIfAbsent = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public V putIfAbsent(K object, V object1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? putIfAbsent(
+    $K? object,
+    $V? object1,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$object1 = object1?.reference ?? jni$_.jNullReference;
+    return JHashMap$$Methods._putIfAbsent(
+            reference.pointer,
+            JHashMap$$Methods._id_putIfAbsent.pointer,
+            _$object.pointer,
+            _$object1.pointer)
+        .object<$V?>();
+  }
+
+  static final _id_remove = JHashMap._class.instanceMethodId(
+    r'remove',
+    r'(Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _remove = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public V remove(java.lang.Object object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? remove(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JHashMap$$Methods._remove(reference.pointer,
+            JHashMap$$Methods._id_remove.pointer, _$object.pointer)
+        .object<$V?>();
+  }
+
+  static final _id_remove$1 = JHashMap._class.instanceMethodId(
+    r'remove',
+    r'(Ljava/lang/Object;Ljava/lang/Object;)Z',
+  );
+
+  static final _remove$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean remove(java.lang.Object object, java.lang.Object object1)`
+  core$_.bool remove$1(
+    jni$_.JObject? object,
+    jni$_.JObject? object1,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$object1 = object1?.reference ?? jni$_.jNullReference;
+    return JHashMap$$Methods._remove$1(
+            reference.pointer,
+            JHashMap$$Methods._id_remove$1.pointer,
+            _$object.pointer,
+            _$object1.pointer)
+        .boolean;
+  }
+
+  static final _id_replace = JHashMap._class.instanceMethodId(
+    r'replace',
+    r'(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _replace = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public V replace(K object, V object1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? replace(
+    $K? object,
+    $V? object1,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$object1 = object1?.reference ?? jni$_.jNullReference;
+    return JHashMap$$Methods._replace(
+            reference.pointer,
+            JHashMap$$Methods._id_replace.pointer,
+            _$object.pointer,
+            _$object1.pointer)
+        .object<$V?>();
+  }
+
+  static final _id_replace$1 = JHashMap._class.instanceMethodId(
+    r'replace',
+    r'(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z',
+  );
+
+  static final _replace$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean replace(K object, V object1, V object2)`
+  core$_.bool replace$1(
+    $K? object,
+    $V? object1,
+    $V? object2,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$object1 = object1?.reference ?? jni$_.jNullReference;
+    final _$object2 = object2?.reference ?? jni$_.jNullReference;
+    return JHashMap$$Methods._replace$1(
+            reference.pointer,
+            JHashMap$$Methods._id_replace$1.pointer,
+            _$object.pointer,
+            _$object1.pointer,
+            _$object2.pointer)
+        .boolean;
+  }
+
+  static final _id_replaceAll = JHashMap._class.instanceMethodId(
+    r'replaceAll',
+    r'(Ljava/util/function/BiFunction;)V',
+  );
+
+  static final _replaceAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void replaceAll(java.util.function.BiFunction<? super K, ? super V, ? extends V> biFunction)`
+  void replaceAll(
+    jni$_.JObject? biFunction,
+  ) {
+    final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
+    JHashMap$$Methods._replaceAll(reference.pointer,
+            JHashMap$$Methods._id_replaceAll.pointer, _$biFunction.pointer)
+        .check();
+  }
+
+  static final _id_size = JHashMap._class.instanceMethodId(
+    r'size',
+    r'()I',
+  );
+
+  static final _size = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public int size()`
+  int size() {
+    return JHashMap$$Methods._size(
+            reference.pointer, JHashMap$$Methods._id_size.pointer)
+        .integer;
+  }
+
+  static final _id_values = JHashMap._class.instanceMethodId(
+    r'values',
+    r'()Ljava/util/Collection;',
+  );
+
+  static final _values = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.Collection<V> values()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JCollection<$V?>? values() {
+    return JHashMap$$Methods._values(
+            reference.pointer, JHashMap$$Methods._id_values.pointer)
+        .object<JCollection<$V?>?>();
+  }
+
+  static final _id_equals = JHashMap._class.instanceMethodId(
+    r'equals',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _equals = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean equals(java.lang.Object object)`
+  core$_.bool equals(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JHashMap$$Methods._equals(reference.pointer,
+            JHashMap$$Methods._id_equals.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_hashCode$1 = JHashMap._class.instanceMethodId(
+    r'hashCode',
+    r'()I',
+  );
+
+  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract int hashCode()`
+  int hashCode$1() {
+    return JHashMap$$Methods._hashCode$1(
+            reference.pointer, JHashMap$$Methods._id_hashCode$1.pointer)
+        .integer;
   }
 }
 
@@ -4574,7 +4724,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
   factory JHashSet() {
-    return _new$(_class.reference.pointer, _id_new$.pointer)
+    return JHashSet._new$(_class.reference.pointer, JHashSet._id_new$.pointer)
         .object<JHashSet<$E>>();
   }
 
@@ -4597,7 +4747,8 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   factory JHashSet.new$1(
     int i,
   ) {
-    return _new$1(_class.reference.pointer, _id_new$1.pointer, i)
+    return JHashSet._new$1(
+            _class.reference.pointer, JHashSet._id_new$1.pointer, i)
         .object<JHashSet<$E>>();
   }
 
@@ -4622,7 +4773,8 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     int i,
     double f,
   ) {
-    return _new$2(_class.reference.pointer, _id_new$2.pointer, i, f)
+    return JHashSet._new$2(
+            _class.reference.pointer, JHashSet._id_new$2.pointer, i, f)
         .object<JHashSet<$E>>();
   }
 
@@ -4647,150 +4799,9 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     JCollection<$E?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _new$3(
-            _class.reference.pointer, _id_new$3.pointer, _$collection.pointer)
+    return JHashSet._new$3(_class.reference.pointer, JHashSet._id_new$3.pointer,
+            _$collection.pointer)
         .object<JHashSet<$E>>();
-  }
-
-  static final _id_add = _class.instanceMethodId(
-    r'add',
-    r'(Ljava/lang/Object;)Z',
-  );
-
-  static final _add = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public boolean add(E object)`
-  core$_.bool add(
-    $E? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _add(reference.pointer, _id_add.pointer, _$object.pointer).boolean;
-  }
-
-  static final _id_clear = _class.instanceMethodId(
-    r'clear',
-    r'()V',
-  );
-
-  static final _clear = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public void clear()`
-  void clear() {
-    _clear(reference.pointer, _id_clear.pointer).check();
-  }
-
-  static final _id_clone = _class.instanceMethodId(
-    r'clone',
-    r'()Ljava/lang/Object;',
-  );
-
-  static final _clone = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.lang.Object clone()`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? clone() {
-    return _clone(reference.pointer, _id_clone.pointer)
-        .object<jni$_.JObject?>();
-  }
-
-  static final _id_contains = _class.instanceMethodId(
-    r'contains',
-    r'(Ljava/lang/Object;)Z',
-  );
-
-  static final _contains = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public boolean contains(java.lang.Object object)`
-  core$_.bool contains(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _contains(reference.pointer, _id_contains.pointer, _$object.pointer)
-        .boolean;
-  }
-
-  static final _id_isEmpty = _class.instanceMethodId(
-    r'isEmpty',
-    r'()Z',
-  );
-
-  static final _isEmpty = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public boolean isEmpty()`
-  core$_.bool isEmpty() {
-    return _isEmpty(reference.pointer, _id_isEmpty.pointer).boolean;
-  }
-
-  static final _id_iterator = _class.instanceMethodId(
-    r'iterator',
-    r'()Ljava/util/Iterator;',
-  );
-
-  static final _iterator = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.util.Iterator<E> iterator()`
-  /// The returned object must be released after use, by calling the [release] method.
-  JIterator<$E?>? iterator() {
-    return _iterator(reference.pointer, _id_iterator.pointer)
-        .object<JIterator<$E?>?>();
   }
 
   static final _id_newHashSet = _class.staticMethodId(
@@ -4812,181 +4823,9 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   static JHashSet<$T?>? newHashSet<$T extends jni$_.JObject?>(
     int i,
   ) {
-    return _newHashSet(_class.reference.pointer, _id_newHashSet.pointer, i)
+    return JHashSet._newHashSet(
+            _class.reference.pointer, JHashSet._id_newHashSet.pointer, i)
         .object<JHashSet<$T?>?>();
-  }
-
-  static final _id_remove = _class.instanceMethodId(
-    r'remove',
-    r'(Ljava/lang/Object;)Z',
-  );
-
-  static final _remove = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public boolean remove(java.lang.Object object)`
-  core$_.bool remove(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _remove(reference.pointer, _id_remove.pointer, _$object.pointer)
-        .boolean;
-  }
-
-  static final _id_size = _class.instanceMethodId(
-    r'size',
-    r'()I',
-  );
-
-  static final _size = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public int size()`
-  int size() {
-    return _size(reference.pointer, _id_size.pointer).integer;
-  }
-
-  static final _id_spliterator = _class.instanceMethodId(
-    r'spliterator',
-    r'()Ljava/util/Spliterator;',
-  );
-
-  static final _spliterator = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.util.Spliterator<E> spliterator()`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? spliterator() {
-    return _spliterator(reference.pointer, _id_spliterator.pointer)
-        .object<jni$_.JObject?>();
-  }
-
-  static final _id_toArray = _class.instanceMethodId(
-    r'toArray',
-    r'()[Ljava/lang/Object;',
-  );
-
-  static final _toArray = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.lang.Object[] toArray()`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? toArray() {
-    return _toArray(reference.pointer, _id_toArray.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
-  }
-
-  static final _id_toArray$1 = _class.instanceMethodId(
-    r'toArray',
-    r'([Ljava/lang/Object;)[Ljava/lang/Object;',
-  );
-
-  static final _toArray$1 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public T[] toArray(T[] objects)`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<$T?>? toArray$1<$T extends jni$_.JObject?>(
-    jni$_.JArray<$T?>? objects,
-  ) {
-    final _$objects = objects?.reference ?? jni$_.jNullReference;
-    return _toArray$1(
-            reference.pointer, _id_toArray$1.pointer, _$objects.pointer)
-        .object<jni$_.JArray<$T?>?>();
-  }
-
-  static final _id_addAll = _class.instanceMethodId(
-    r'addAll',
-    r'(Ljava/util/Collection;)Z',
-  );
-
-  static final _addAll = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean addAll(java.util.Collection<? extends E> collection)`
-  core$_.bool addAll(
-    JCollection<$E?>? collection,
-  ) {
-    final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _addAll(reference.pointer, _id_addAll.pointer, _$collection.pointer)
-        .boolean;
-  }
-
-  static final _id_containsAll = _class.instanceMethodId(
-    r'containsAll',
-    r'(Ljava/util/Collection;)Z',
-  );
-
-  static final _containsAll = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean containsAll(java.util.Collection<?> collection)`
-  core$_.bool containsAll(
-    JCollection<jni$_.JObject?>? collection,
-  ) {
-    final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _containsAll(
-            reference.pointer, _id_containsAll.pointer, _$collection.pointer)
-        .boolean;
   }
 
   static final _id_copyOf = _class.staticMethodId(
@@ -5011,56 +4850,9 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     JCollection<$E?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _copyOf(
-            _class.reference.pointer, _id_copyOf.pointer, _$collection.pointer)
+    return JHashSet._copyOf(_class.reference.pointer,
+            JHashSet._id_copyOf.pointer, _$collection.pointer)
         .object<JSet<$E?>?>();
-  }
-
-  static final _id_equals = _class.instanceMethodId(
-    r'equals',
-    r'(Ljava/lang/Object;)Z',
-  );
-
-  static final _equals = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean equals(java.lang.Object object)`
-  core$_.bool equals(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
-        .boolean;
-  }
-
-  static final _id_hashCode$1 = _class.instanceMethodId(
-    r'hashCode',
-    r'()I',
-  );
-
-  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract int hashCode()`
-  int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 
   static final _id_of = _class.staticMethodId(
@@ -5083,7 +4875,8 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `static public java.util.Set<E> of()`
   /// The returned object must be released after use, by calling the [release] method.
   static JSet<$E?>? of<$E extends jni$_.JObject?>() {
-    return _of(_class.reference.pointer, _id_of.pointer).object<JSet<$E?>?>();
+    return JHashSet._of(_class.reference.pointer, JHashSet._id_of.pointer)
+        .object<JSet<$E?>?>();
   }
 
   static final _id_of$1 = _class.staticMethodId(
@@ -5108,7 +4901,8 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _of$1(_class.reference.pointer, _id_of$1.pointer, _$object.pointer)
+    return JHashSet._of$1(_class.reference.pointer, JHashSet._id_of$1.pointer,
+            _$object.pointer)
         .object<JSet<$E?>?>();
   }
 
@@ -5142,8 +4936,8 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _of$2(_class.reference.pointer, _id_of$2.pointer, _$object.pointer,
-            _$object1.pointer)
+    return JHashSet._of$2(_class.reference.pointer, JHashSet._id_of$2.pointer,
+            _$object.pointer, _$object1.pointer)
         .object<JSet<$E?>?>();
   }
 
@@ -5181,8 +4975,8 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
-    return _of$3(_class.reference.pointer, _id_of$3.pointer, _$object.pointer,
-            _$object1.pointer, _$object2.pointer)
+    return JHashSet._of$3(_class.reference.pointer, JHashSet._id_of$3.pointer,
+            _$object.pointer, _$object1.pointer, _$object2.pointer)
         .object<JSet<$E?>?>();
   }
 
@@ -5224,8 +5018,13 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
-    return _of$4(_class.reference.pointer, _id_of$4.pointer, _$object.pointer,
-            _$object1.pointer, _$object2.pointer, _$object3.pointer)
+    return JHashSet._of$4(
+            _class.reference.pointer,
+            JHashSet._id_of$4.pointer,
+            _$object.pointer,
+            _$object1.pointer,
+            _$object2.pointer,
+            _$object3.pointer)
         .object<JSet<$E?>?>();
   }
 
@@ -5271,9 +5070,9 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
-    return _of$5(
+    return JHashSet._of$5(
             _class.reference.pointer,
-            _id_of$5.pointer,
+            JHashSet._id_of$5.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -5328,9 +5127,9 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
-    return _of$6(
+    return JHashSet._of$6(
             _class.reference.pointer,
-            _id_of$6.pointer,
+            JHashSet._id_of$6.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -5390,9 +5189,9 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
-    return _of$7(
+    return JHashSet._of$7(
             _class.reference.pointer,
-            _id_of$7.pointer,
+            JHashSet._id_of$7.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -5457,9 +5256,9 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
-    return _of$8(
+    return JHashSet._of$8(
             _class.reference.pointer,
-            _id_of$8.pointer,
+            JHashSet._id_of$8.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -5529,9 +5328,9 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
     final _$object8 = object8?.reference ?? jni$_.jNullReference;
-    return _of$9(
+    return JHashSet._of$9(
             _class.reference.pointer,
-            _id_of$9.pointer,
+            JHashSet._id_of$9.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -5606,9 +5405,9 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
     final _$object8 = object8?.reference ?? jni$_.jNullReference;
     final _$object9 = object9?.reference ?? jni$_.jNullReference;
-    return _of$10(
+    return JHashSet._of$10(
             _class.reference.pointer,
-            _id_of$10.pointer,
+            JHashSet._id_of$10.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -5644,12 +5443,393 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     jni$_.JArray<$E?>? objects,
   ) {
     final _$objects = objects?.reference ?? jni$_.jNullReference;
-    return _of$11(
-            _class.reference.pointer, _id_of$11.pointer, _$objects.pointer)
+    return JHashSet._of$11(_class.reference.pointer, JHashSet._id_of$11.pointer,
+            _$objects.pointer)
         .object<JSet<$E?>?>();
   }
+}
 
-  static final _id_removeAll = _class.instanceMethodId(
+extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
+  static final _id_add = JHashSet._class.instanceMethodId(
+    r'add',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _add = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean add(E object)`
+  core$_.bool add(
+    $E? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JHashSet$$Methods._add(reference.pointer,
+            JHashSet$$Methods._id_add.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_clear = JHashSet._class.instanceMethodId(
+    r'clear',
+    r'()V',
+  );
+
+  static final _clear = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public void clear()`
+  void clear() {
+    JHashSet$$Methods._clear(
+            reference.pointer, JHashSet$$Methods._id_clear.pointer)
+        .check();
+  }
+
+  static final _id_clone = JHashSet._class.instanceMethodId(
+    r'clone',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _clone = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.Object clone()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? clone() {
+    return JHashSet$$Methods._clone(
+            reference.pointer, JHashSet$$Methods._id_clone.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_contains = JHashSet._class.instanceMethodId(
+    r'contains',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _contains = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean contains(java.lang.Object object)`
+  core$_.bool contains(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JHashSet$$Methods._contains(reference.pointer,
+            JHashSet$$Methods._id_contains.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_isEmpty = JHashSet._class.instanceMethodId(
+    r'isEmpty',
+    r'()Z',
+  );
+
+  static final _isEmpty = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public boolean isEmpty()`
+  core$_.bool isEmpty() {
+    return JHashSet$$Methods._isEmpty(
+            reference.pointer, JHashSet$$Methods._id_isEmpty.pointer)
+        .boolean;
+  }
+
+  static final _id_iterator = JHashSet._class.instanceMethodId(
+    r'iterator',
+    r'()Ljava/util/Iterator;',
+  );
+
+  static final _iterator = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.Iterator<E> iterator()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JIterator<$E?>? iterator() {
+    return JHashSet$$Methods._iterator(
+            reference.pointer, JHashSet$$Methods._id_iterator.pointer)
+        .object<JIterator<$E?>?>();
+  }
+
+  static final _id_remove = JHashSet._class.instanceMethodId(
+    r'remove',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _remove = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean remove(java.lang.Object object)`
+  core$_.bool remove(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JHashSet$$Methods._remove(reference.pointer,
+            JHashSet$$Methods._id_remove.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_size = JHashSet._class.instanceMethodId(
+    r'size',
+    r'()I',
+  );
+
+  static final _size = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public int size()`
+  int size() {
+    return JHashSet$$Methods._size(
+            reference.pointer, JHashSet$$Methods._id_size.pointer)
+        .integer;
+  }
+
+  static final _id_spliterator = JHashSet._class.instanceMethodId(
+    r'spliterator',
+    r'()Ljava/util/Spliterator;',
+  );
+
+  static final _spliterator = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.Spliterator<E> spliterator()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? spliterator() {
+    return JHashSet$$Methods._spliterator(
+            reference.pointer, JHashSet$$Methods._id_spliterator.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_toArray = JHashSet._class.instanceMethodId(
+    r'toArray',
+    r'()[Ljava/lang/Object;',
+  );
+
+  static final _toArray = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.Object[] toArray()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JArray<jni$_.JObject?>? toArray() {
+    return JHashSet$$Methods._toArray(
+            reference.pointer, JHashSet$$Methods._id_toArray.pointer)
+        .object<jni$_.JArray<jni$_.JObject?>?>();
+  }
+
+  static final _id_toArray$1 = JHashSet._class.instanceMethodId(
+    r'toArray',
+    r'([Ljava/lang/Object;)[Ljava/lang/Object;',
+  );
+
+  static final _toArray$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public T[] toArray(T[] objects)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JArray<$T?>? toArray$1<$T extends jni$_.JObject?>(
+    jni$_.JArray<$T?>? objects,
+  ) {
+    final _$objects = objects?.reference ?? jni$_.jNullReference;
+    return JHashSet$$Methods._toArray$1(reference.pointer,
+            JHashSet$$Methods._id_toArray$1.pointer, _$objects.pointer)
+        .object<jni$_.JArray<$T?>?>();
+  }
+
+  static final _id_addAll = JHashSet._class.instanceMethodId(
+    r'addAll',
+    r'(Ljava/util/Collection;)Z',
+  );
+
+  static final _addAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean addAll(java.util.Collection<? extends E> collection)`
+  core$_.bool addAll(
+    JCollection<$E?>? collection,
+  ) {
+    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    return JHashSet$$Methods._addAll(reference.pointer,
+            JHashSet$$Methods._id_addAll.pointer, _$collection.pointer)
+        .boolean;
+  }
+
+  static final _id_containsAll = JHashSet._class.instanceMethodId(
+    r'containsAll',
+    r'(Ljava/util/Collection;)Z',
+  );
+
+  static final _containsAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean containsAll(java.util.Collection<?> collection)`
+  core$_.bool containsAll(
+    JCollection<jni$_.JObject?>? collection,
+  ) {
+    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    return JHashSet$$Methods._containsAll(reference.pointer,
+            JHashSet$$Methods._id_containsAll.pointer, _$collection.pointer)
+        .boolean;
+  }
+
+  static final _id_equals = JHashSet._class.instanceMethodId(
+    r'equals',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _equals = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean equals(java.lang.Object object)`
+  core$_.bool equals(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JHashSet$$Methods._equals(reference.pointer,
+            JHashSet$$Methods._id_equals.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_hashCode$1 = JHashSet._class.instanceMethodId(
+    r'hashCode',
+    r'()I',
+  );
+
+  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract int hashCode()`
+  int hashCode$1() {
+    return JHashSet$$Methods._hashCode$1(
+            reference.pointer, JHashSet$$Methods._id_hashCode$1.pointer)
+        .integer;
+  }
+
+  static final _id_removeAll = JHashSet._class.instanceMethodId(
     r'removeAll',
     r'(Ljava/util/Collection;)Z',
   );
@@ -5670,12 +5850,12 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     JCollection<jni$_.JObject?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _removeAll(
-            reference.pointer, _id_removeAll.pointer, _$collection.pointer)
+    return JHashSet$$Methods._removeAll(reference.pointer,
+            JHashSet$$Methods._id_removeAll.pointer, _$collection.pointer)
         .boolean;
   }
 
-  static final _id_retainAll = _class.instanceMethodId(
+  static final _id_retainAll = JHashSet._class.instanceMethodId(
     r'retainAll',
     r'(Ljava/util/Collection;)Z',
   );
@@ -5696,12 +5876,12 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     JCollection<jni$_.JObject?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _retainAll(
-            reference.pointer, _id_retainAll.pointer, _$collection.pointer)
+    return JHashSet$$Methods._retainAll(reference.pointer,
+            JHashSet$$Methods._id_retainAll.pointer, _$collection.pointer)
         .boolean;
   }
 
-  static final _id_parallelStream = _class.instanceMethodId(
+  static final _id_parallelStream = JHashSet._class.instanceMethodId(
     r'parallelStream',
     r'()Ljava/util/stream/Stream;',
   );
@@ -5721,11 +5901,12 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public java.util.stream.Stream<E> parallelStream()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? parallelStream() {
-    return _parallelStream(reference.pointer, _id_parallelStream.pointer)
+    return JHashSet$$Methods._parallelStream(
+            reference.pointer, JHashSet$$Methods._id_parallelStream.pointer)
         .object<jni$_.JObject?>();
   }
 
-  static final _id_removeIf = _class.instanceMethodId(
+  static final _id_removeIf = JHashSet._class.instanceMethodId(
     r'removeIf',
     r'(Ljava/util/function/Predicate;)Z',
   );
@@ -5746,12 +5927,12 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     jni$_.JObject? predicate,
   ) {
     final _$predicate = predicate?.reference ?? jni$_.jNullReference;
-    return _removeIf(
-            reference.pointer, _id_removeIf.pointer, _$predicate.pointer)
+    return JHashSet$$Methods._removeIf(reference.pointer,
+            JHashSet$$Methods._id_removeIf.pointer, _$predicate.pointer)
         .boolean;
   }
 
-  static final _id_stream = _class.instanceMethodId(
+  static final _id_stream = JHashSet._class.instanceMethodId(
     r'stream',
     r'()Ljava/util/stream/Stream;',
   );
@@ -5771,11 +5952,12 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public java.util.stream.Stream<E> stream()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? stream() {
-    return _stream(reference.pointer, _id_stream.pointer)
+    return JHashSet$$Methods._stream(
+            reference.pointer, JHashSet$$Methods._id_stream.pointer)
         .object<jni$_.JObject?>();
   }
 
-  static final _id_toArray$2 = _class.instanceMethodId(
+  static final _id_toArray$2 = JHashSet._class.instanceMethodId(
     r'toArray',
     r'(Ljava/util/function/IntFunction;)[Ljava/lang/Object;',
   );
@@ -5797,8 +5979,8 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     jni$_.JObject? intFunction,
   ) {
     final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
-    return _toArray$2(
-            reference.pointer, _id_toArray$2.pointer, _$intFunction.pointer)
+    return JHashSet$$Methods._toArray$2(reference.pointer,
+            JHashSet$$Methods._id_toArray$2.pointer, _$intFunction.pointer)
         .object<jni$_.JArray<$T?>?>();
   }
 }
@@ -5819,98 +6001,6 @@ extension type JIterator<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<JIterator> type = $JIterator$Type$();
-  static final _id_forEachRemaining = _class.instanceMethodId(
-    r'forEachRemaining',
-    r'(Ljava/util/function/Consumer;)V',
-  );
-
-  static final _forEachRemaining = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void forEachRemaining(java.util.function.Consumer<? super E> consumer)`
-  void forEachRemaining(
-    jni$_.JObject? consumer,
-  ) {
-    final _$consumer = consumer?.reference ?? jni$_.jNullReference;
-    _forEachRemaining(
-            reference.pointer, _id_forEachRemaining.pointer, _$consumer.pointer)
-        .check();
-  }
-
-  static final _id_hasNext = _class.instanceMethodId(
-    r'hasNext',
-    r'()Z',
-  );
-
-  static final _hasNext = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract boolean hasNext()`
-  core$_.bool hasNext() {
-    return _hasNext(reference.pointer, _id_hasNext.pointer).boolean;
-  }
-
-  static final _id_next = _class.instanceMethodId(
-    r'next',
-    r'()Ljava/lang/Object;',
-  );
-
-  static final _next = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract E next()`
-  /// The returned object must be released after use, by calling the [release] method.
-  $E? next() {
-    return _next(reference.pointer, _id_next.pointer).object<$E?>();
-  }
-
-  static final _id_remove = _class.instanceMethodId(
-    r'remove',
-    r'()V',
-  );
-
-  static final _remove = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public void remove()`
-  void remove() {
-    _remove(reference.pointer, _id_remove.pointer).check();
-  }
 
   /// Maps a specific port to the implemented interface.
   static final core$_.Map<int, $JIterator> _$impls = {};
@@ -6008,6 +6098,107 @@ extension type JIterator<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   }
 }
 
+extension JIterator$$Methods<$E extends jni$_.JObject?> on JIterator<$E> {
+  static final _id_forEachRemaining = JIterator._class.instanceMethodId(
+    r'forEachRemaining',
+    r'(Ljava/util/function/Consumer;)V',
+  );
+
+  static final _forEachRemaining = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void forEachRemaining(java.util.function.Consumer<? super E> consumer)`
+  void forEachRemaining(
+    jni$_.JObject? consumer,
+  ) {
+    final _$consumer = consumer?.reference ?? jni$_.jNullReference;
+    JIterator$$Methods._forEachRemaining(reference.pointer,
+            JIterator$$Methods._id_forEachRemaining.pointer, _$consumer.pointer)
+        .check();
+  }
+
+  static final _id_hasNext = JIterator._class.instanceMethodId(
+    r'hasNext',
+    r'()Z',
+  );
+
+  static final _hasNext = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract boolean hasNext()`
+  core$_.bool hasNext() {
+    return JIterator$$Methods._hasNext(
+            reference.pointer, JIterator$$Methods._id_hasNext.pointer)
+        .boolean;
+  }
+
+  static final _id_next = JIterator._class.instanceMethodId(
+    r'next',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _next = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract E next()`
+  /// The returned object must be released after use, by calling the [release] method.
+  $E? next() {
+    return JIterator$$Methods._next(
+            reference.pointer, JIterator$$Methods._id_next.pointer)
+        .object<$E?>();
+  }
+
+  static final _id_remove = JIterator._class.instanceMethodId(
+    r'remove',
+    r'()V',
+  );
+
+  static final _remove = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public void remove()`
+  void remove() {
+    JIterator$$Methods._remove(
+            reference.pointer, JIterator$$Methods._id_remove.pointer)
+        .check();
+  }
+}
+
 abstract base mixin class $JIterator<$E extends jni$_.JObject?> {
   factory $JIterator({
     required void Function(jni$_.JObject? consumer) forEachRemaining,
@@ -6079,232 +6270,6 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<JList> type = $JList$Type$();
-  static final _id_add = _class.instanceMethodId(
-    r'add',
-    r'(Ljava/lang/Object;)Z',
-  );
-
-  static final _add = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean add(E object)`
-  core$_.bool add(
-    $E? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _add(reference.pointer, _id_add.pointer, _$object.pointer).boolean;
-  }
-
-  static final _id_add$1 = _class.instanceMethodId(
-    r'add',
-    r'(ILjava/lang/Object;)V',
-  );
-
-  static final _add$1 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_
-                          .VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract void add(int i, E object)`
-  void add$1(
-    int i,
-    $E? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    _add$1(reference.pointer, _id_add$1.pointer, i, _$object.pointer).check();
-  }
-
-  static final _id_addAll = _class.instanceMethodId(
-    r'addAll',
-    r'(ILjava/util/Collection;)Z',
-  );
-
-  static final _addAll = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_
-                          .VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean addAll(int i, java.util.Collection<? extends E> collection)`
-  core$_.bool addAll(
-    int i,
-    JCollection<$E?>? collection,
-  ) {
-    final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _addAll(
-            reference.pointer, _id_addAll.pointer, i, _$collection.pointer)
-        .boolean;
-  }
-
-  static final _id_addAll$1 = _class.instanceMethodId(
-    r'addAll',
-    r'(Ljava/util/Collection;)Z',
-  );
-
-  static final _addAll$1 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean addAll(java.util.Collection<? extends E> collection)`
-  core$_.bool addAll$1(
-    JCollection<$E?>? collection,
-  ) {
-    final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _addAll$1(
-            reference.pointer, _id_addAll$1.pointer, _$collection.pointer)
-        .boolean;
-  }
-
-  static final _id_addFirst = _class.instanceMethodId(
-    r'addFirst',
-    r'(Ljava/lang/Object;)V',
-  );
-
-  static final _addFirst = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void addFirst(E object)`
-  void addFirst(
-    $E? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    _addFirst(reference.pointer, _id_addFirst.pointer, _$object.pointer)
-        .check();
-  }
-
-  static final _id_addLast = _class.instanceMethodId(
-    r'addLast',
-    r'(Ljava/lang/Object;)V',
-  );
-
-  static final _addLast = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void addLast(E object)`
-  void addLast(
-    $E? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    _addLast(reference.pointer, _id_addLast.pointer, _$object.pointer).check();
-  }
-
-  static final _id_clear = _class.instanceMethodId(
-    r'clear',
-    r'()V',
-  );
-
-  static final _clear = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract void clear()`
-  void clear() {
-    _clear(reference.pointer, _id_clear.pointer).check();
-  }
-
-  static final _id_contains = _class.instanceMethodId(
-    r'contains',
-    r'(Ljava/lang/Object;)Z',
-  );
-
-  static final _contains = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean contains(java.lang.Object object)`
-  core$_.bool contains(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _contains(reference.pointer, _id_contains.pointer, _$object.pointer)
-        .boolean;
-  }
-
-  static final _id_containsAll = _class.instanceMethodId(
-    r'containsAll',
-    r'(Ljava/util/Collection;)Z',
-  );
-
-  static final _containsAll = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean containsAll(java.util.Collection<?> collection)`
-  core$_.bool containsAll(
-    JCollection<jni$_.JObject?>? collection,
-  ) {
-    final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _containsAll(
-            reference.pointer, _id_containsAll.pointer, _$collection.pointer)
-        .boolean;
-  }
-
   static final _id_copyOf = _class.staticMethodId(
     r'copyOf',
     r'(Ljava/util/Collection;)Ljava/util/List;',
@@ -6327,270 +6292,9 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     JCollection<$E?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _copyOf(
-            _class.reference.pointer, _id_copyOf.pointer, _$collection.pointer)
+    return JList._copyOf(_class.reference.pointer, JList._id_copyOf.pointer,
+            _$collection.pointer)
         .object<JList<$E?>?>();
-  }
-
-  static final _id_equals = _class.instanceMethodId(
-    r'equals',
-    r'(Ljava/lang/Object;)Z',
-  );
-
-  static final _equals = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean equals(java.lang.Object object)`
-  core$_.bool equals(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
-        .boolean;
-  }
-
-  static final _id_get = _class.instanceMethodId(
-    r'get',
-    r'(I)Ljava/lang/Object;',
-  );
-
-  static final _get = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
-
-  /// from: `public abstract E get(int i)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $E? get(
-    int i,
-  ) {
-    return _get(reference.pointer, _id_get.pointer, i).object<$E?>();
-  }
-
-  static final _id_getFirst = _class.instanceMethodId(
-    r'getFirst',
-    r'()Ljava/lang/Object;',
-  );
-
-  static final _getFirst = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public E getFirst()`
-  /// The returned object must be released after use, by calling the [release] method.
-  $E? getFirst() {
-    return _getFirst(reference.pointer, _id_getFirst.pointer).object<$E?>();
-  }
-
-  static final _id_getLast = _class.instanceMethodId(
-    r'getLast',
-    r'()Ljava/lang/Object;',
-  );
-
-  static final _getLast = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public E getLast()`
-  /// The returned object must be released after use, by calling the [release] method.
-  $E? getLast() {
-    return _getLast(reference.pointer, _id_getLast.pointer).object<$E?>();
-  }
-
-  static final _id_hashCode$1 = _class.instanceMethodId(
-    r'hashCode',
-    r'()I',
-  );
-
-  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract int hashCode()`
-  int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
-  }
-
-  static final _id_indexOf = _class.instanceMethodId(
-    r'indexOf',
-    r'(Ljava/lang/Object;)I',
-  );
-
-  static final _indexOf = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract int indexOf(java.lang.Object object)`
-  int indexOf(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _indexOf(reference.pointer, _id_indexOf.pointer, _$object.pointer)
-        .integer;
-  }
-
-  static final _id_isEmpty = _class.instanceMethodId(
-    r'isEmpty',
-    r'()Z',
-  );
-
-  static final _isEmpty = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract boolean isEmpty()`
-  core$_.bool isEmpty() {
-    return _isEmpty(reference.pointer, _id_isEmpty.pointer).boolean;
-  }
-
-  static final _id_iterator = _class.instanceMethodId(
-    r'iterator',
-    r'()Ljava/util/Iterator;',
-  );
-
-  static final _iterator = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract java.util.Iterator<E> iterator()`
-  /// The returned object must be released after use, by calling the [release] method.
-  JIterator<$E?>? iterator() {
-    return _iterator(reference.pointer, _id_iterator.pointer)
-        .object<JIterator<$E?>?>();
-  }
-
-  static final _id_lastIndexOf = _class.instanceMethodId(
-    r'lastIndexOf',
-    r'(Ljava/lang/Object;)I',
-  );
-
-  static final _lastIndexOf = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract int lastIndexOf(java.lang.Object object)`
-  int lastIndexOf(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _lastIndexOf(
-            reference.pointer, _id_lastIndexOf.pointer, _$object.pointer)
-        .integer;
-  }
-
-  static final _id_listIterator = _class.instanceMethodId(
-    r'listIterator',
-    r'()Ljava/util/ListIterator;',
-  );
-
-  static final _listIterator = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract java.util.ListIterator<E> listIterator()`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? listIterator() {
-    return _listIterator(reference.pointer, _id_listIterator.pointer)
-        .object<jni$_.JObject?>();
-  }
-
-  static final _id_listIterator$1 = _class.instanceMethodId(
-    r'listIterator',
-    r'(I)Ljava/util/ListIterator;',
-  );
-
-  static final _listIterator$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
-
-  /// from: `public abstract java.util.ListIterator<E> listIterator(int i)`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? listIterator$1(
-    int i,
-  ) {
-    return _listIterator$1(reference.pointer, _id_listIterator$1.pointer, i)
-        .object<jni$_.JObject?>();
   }
 
   static final _id_of = _class.staticMethodId(
@@ -6613,7 +6317,8 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `static public java.util.List<E> of()`
   /// The returned object must be released after use, by calling the [release] method.
   static JList<$E?>? of<$E extends jni$_.JObject?>() {
-    return _of(_class.reference.pointer, _id_of.pointer).object<JList<$E?>?>();
+    return JList._of(_class.reference.pointer, JList._id_of.pointer)
+        .object<JList<$E?>?>();
   }
 
   static final _id_of$1 = _class.staticMethodId(
@@ -6638,7 +6343,8 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _of$1(_class.reference.pointer, _id_of$1.pointer, _$object.pointer)
+    return JList._of$1(
+            _class.reference.pointer, JList._id_of$1.pointer, _$object.pointer)
         .object<JList<$E?>?>();
   }
 
@@ -6672,8 +6378,8 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _of$2(_class.reference.pointer, _id_of$2.pointer, _$object.pointer,
-            _$object1.pointer)
+    return JList._of$2(_class.reference.pointer, JList._id_of$2.pointer,
+            _$object.pointer, _$object1.pointer)
         .object<JList<$E?>?>();
   }
 
@@ -6711,8 +6417,8 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
-    return _of$3(_class.reference.pointer, _id_of$3.pointer, _$object.pointer,
-            _$object1.pointer, _$object2.pointer)
+    return JList._of$3(_class.reference.pointer, JList._id_of$3.pointer,
+            _$object.pointer, _$object1.pointer, _$object2.pointer)
         .object<JList<$E?>?>();
   }
 
@@ -6754,8 +6460,13 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
-    return _of$4(_class.reference.pointer, _id_of$4.pointer, _$object.pointer,
-            _$object1.pointer, _$object2.pointer, _$object3.pointer)
+    return JList._of$4(
+            _class.reference.pointer,
+            JList._id_of$4.pointer,
+            _$object.pointer,
+            _$object1.pointer,
+            _$object2.pointer,
+            _$object3.pointer)
         .object<JList<$E?>?>();
   }
 
@@ -6801,9 +6512,9 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
-    return _of$5(
+    return JList._of$5(
             _class.reference.pointer,
-            _id_of$5.pointer,
+            JList._id_of$5.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -6858,9 +6569,9 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
-    return _of$6(
+    return JList._of$6(
             _class.reference.pointer,
-            _id_of$6.pointer,
+            JList._id_of$6.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -6920,9 +6631,9 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
-    return _of$7(
+    return JList._of$7(
             _class.reference.pointer,
-            _id_of$7.pointer,
+            JList._id_of$7.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -6987,9 +6698,9 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
-    return _of$8(
+    return JList._of$8(
             _class.reference.pointer,
-            _id_of$8.pointer,
+            JList._id_of$8.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -7059,9 +6770,9 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
     final _$object8 = object8?.reference ?? jni$_.jNullReference;
-    return _of$9(
+    return JList._of$9(
             _class.reference.pointer,
-            _id_of$9.pointer,
+            JList._id_of$9.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -7136,9 +6847,9 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
     final _$object8 = object8?.reference ?? jni$_.jNullReference;
     final _$object9 = object9?.reference ?? jni$_.jNullReference;
-    return _of$10(
+    return JList._of$10(
             _class.reference.pointer,
-            _id_of$10.pointer,
+            JList._id_of$10.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -7174,482 +6885,9 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     jni$_.JArray<$E?>? objects,
   ) {
     final _$objects = objects?.reference ?? jni$_.jNullReference;
-    return _of$11(
-            _class.reference.pointer, _id_of$11.pointer, _$objects.pointer)
+    return JList._of$11(_class.reference.pointer, JList._id_of$11.pointer,
+            _$objects.pointer)
         .object<JList<$E?>?>();
-  }
-
-  static final _id_remove = _class.instanceMethodId(
-    r'remove',
-    r'(I)Ljava/lang/Object;',
-  );
-
-  static final _remove = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
-
-  /// from: `public abstract E remove(int i)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $E? remove(
-    int i,
-  ) {
-    return _remove(reference.pointer, _id_remove.pointer, i).object<$E?>();
-  }
-
-  static final _id_remove$1 = _class.instanceMethodId(
-    r'remove',
-    r'(Ljava/lang/Object;)Z',
-  );
-
-  static final _remove$1 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean remove(java.lang.Object object)`
-  core$_.bool remove$1(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _remove$1(reference.pointer, _id_remove$1.pointer, _$object.pointer)
-        .boolean;
-  }
-
-  static final _id_removeAll = _class.instanceMethodId(
-    r'removeAll',
-    r'(Ljava/util/Collection;)Z',
-  );
-
-  static final _removeAll = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean removeAll(java.util.Collection<?> collection)`
-  core$_.bool removeAll(
-    JCollection<jni$_.JObject?>? collection,
-  ) {
-    final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _removeAll(
-            reference.pointer, _id_removeAll.pointer, _$collection.pointer)
-        .boolean;
-  }
-
-  static final _id_removeFirst = _class.instanceMethodId(
-    r'removeFirst',
-    r'()Ljava/lang/Object;',
-  );
-
-  static final _removeFirst = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public E removeFirst()`
-  /// The returned object must be released after use, by calling the [release] method.
-  $E? removeFirst() {
-    return _removeFirst(reference.pointer, _id_removeFirst.pointer)
-        .object<$E?>();
-  }
-
-  static final _id_removeLast = _class.instanceMethodId(
-    r'removeLast',
-    r'()Ljava/lang/Object;',
-  );
-
-  static final _removeLast = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public E removeLast()`
-  /// The returned object must be released after use, by calling the [release] method.
-  $E? removeLast() {
-    return _removeLast(reference.pointer, _id_removeLast.pointer).object<$E?>();
-  }
-
-  static final _id_replaceAll = _class.instanceMethodId(
-    r'replaceAll',
-    r'(Ljava/util/function/UnaryOperator;)V',
-  );
-
-  static final _replaceAll = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void replaceAll(java.util.function.UnaryOperator<E> unaryOperator)`
-  void replaceAll(
-    jni$_.JObject? unaryOperator,
-  ) {
-    final _$unaryOperator = unaryOperator?.reference ?? jni$_.jNullReference;
-    _replaceAll(
-            reference.pointer, _id_replaceAll.pointer, _$unaryOperator.pointer)
-        .check();
-  }
-
-  static final _id_retainAll = _class.instanceMethodId(
-    r'retainAll',
-    r'(Ljava/util/Collection;)Z',
-  );
-
-  static final _retainAll = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean retainAll(java.util.Collection<?> collection)`
-  core$_.bool retainAll(
-    JCollection<jni$_.JObject?>? collection,
-  ) {
-    final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _retainAll(
-            reference.pointer, _id_retainAll.pointer, _$collection.pointer)
-        .boolean;
-  }
-
-  static final _id_reversed = _class.instanceMethodId(
-    r'reversed',
-    r'()Ljava/util/List;',
-  );
-
-  static final _reversed = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.util.List<E> reversed()`
-  /// The returned object must be released after use, by calling the [release] method.
-  JList<$E?>? reversed() {
-    return _reversed(reference.pointer, _id_reversed.pointer)
-        .object<JList<$E?>?>();
-  }
-
-  static final _id_set = _class.instanceMethodId(
-    r'set',
-    r'(ILjava/lang/Object;)Ljava/lang/Object;',
-  );
-
-  static final _set = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_
-                          .VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract E set(int i, E object)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $E? set(
-    int i,
-    $E? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _set(reference.pointer, _id_set.pointer, i, _$object.pointer)
-        .object<$E?>();
-  }
-
-  static final _id_size = _class.instanceMethodId(
-    r'size',
-    r'()I',
-  );
-
-  static final _size = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract int size()`
-  int size() {
-    return _size(reference.pointer, _id_size.pointer).integer;
-  }
-
-  static final _id_sort = _class.instanceMethodId(
-    r'sort',
-    r'(Ljava/util/Comparator;)V',
-  );
-
-  static final _sort = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void sort(java.util.Comparator<? super E> comparator)`
-  void sort(
-    jni$_.JObject? comparator,
-  ) {
-    final _$comparator = comparator?.reference ?? jni$_.jNullReference;
-    _sort(reference.pointer, _id_sort.pointer, _$comparator.pointer).check();
-  }
-
-  static final _id_spliterator = _class.instanceMethodId(
-    r'spliterator',
-    r'()Ljava/util/Spliterator;',
-  );
-
-  static final _spliterator = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.util.Spliterator<E> spliterator()`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? spliterator() {
-    return _spliterator(reference.pointer, _id_spliterator.pointer)
-        .object<jni$_.JObject?>();
-  }
-
-  static final _id_subList = _class.instanceMethodId(
-    r'subList',
-    r'(II)Ljava/util/List;',
-  );
-
-  static final _subList = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
-
-  /// from: `public abstract java.util.List<E> subList(int i, int i1)`
-  /// The returned object must be released after use, by calling the [release] method.
-  JList<$E?>? subList(
-    int i,
-    int i1,
-  ) {
-    return _subList(reference.pointer, _id_subList.pointer, i, i1)
-        .object<JList<$E?>?>();
-  }
-
-  static final _id_toArray = _class.instanceMethodId(
-    r'toArray',
-    r'()[Ljava/lang/Object;',
-  );
-
-  static final _toArray = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract java.lang.Object[] toArray()`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? toArray() {
-    return _toArray(reference.pointer, _id_toArray.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
-  }
-
-  static final _id_toArray$1 = _class.instanceMethodId(
-    r'toArray',
-    r'([Ljava/lang/Object;)[Ljava/lang/Object;',
-  );
-
-  static final _toArray$1 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract T[] toArray(T[] objects)`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<$T?>? toArray$1<$T extends jni$_.JObject?>(
-    jni$_.JArray<$T?>? objects,
-  ) {
-    final _$objects = objects?.reference ?? jni$_.jNullReference;
-    return _toArray$1(
-            reference.pointer, _id_toArray$1.pointer, _$objects.pointer)
-        .object<jni$_.JArray<$T?>?>();
-  }
-
-  static final _id_parallelStream = _class.instanceMethodId(
-    r'parallelStream',
-    r'()Ljava/util/stream/Stream;',
-  );
-
-  static final _parallelStream = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.util.stream.Stream<E> parallelStream()`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? parallelStream() {
-    return _parallelStream(reference.pointer, _id_parallelStream.pointer)
-        .object<jni$_.JObject?>();
-  }
-
-  static final _id_removeIf = _class.instanceMethodId(
-    r'removeIf',
-    r'(Ljava/util/function/Predicate;)Z',
-  );
-
-  static final _removeIf = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public boolean removeIf(java.util.function.Predicate<? super E> predicate)`
-  core$_.bool removeIf(
-    jni$_.JObject? predicate,
-  ) {
-    final _$predicate = predicate?.reference ?? jni$_.jNullReference;
-    return _removeIf(
-            reference.pointer, _id_removeIf.pointer, _$predicate.pointer)
-        .boolean;
-  }
-
-  static final _id_stream = _class.instanceMethodId(
-    r'stream',
-    r'()Ljava/util/stream/Stream;',
-  );
-
-  static final _stream = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.util.stream.Stream<E> stream()`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? stream() {
-    return _stream(reference.pointer, _id_stream.pointer)
-        .object<jni$_.JObject?>();
-  }
-
-  static final _id_toArray$2 = _class.instanceMethodId(
-    r'toArray',
-    r'(Ljava/util/function/IntFunction;)[Ljava/lang/Object;',
-  );
-
-  static final _toArray$2 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public T[] toArray(java.util.function.IntFunction<T[]> intFunction)`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<$T?>? toArray$2<$T extends jni$_.JObject?>(
-    jni$_.JObject? intFunction,
-  ) {
-    final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
-    return _toArray$2(
-            reference.pointer, _id_toArray$2.pointer, _$intFunction.pointer)
-        .object<jni$_.JArray<$T?>?>();
   }
 
   /// Maps a specific port to the implemented interface.
@@ -8189,6 +7427,1009 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final $i = jni$_.JImplementer();
     implementIn($i, $impl);
     return $i.implement<JList<$E>>();
+  }
+}
+
+extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
+  static final _id_add = JList._class.instanceMethodId(
+    r'add',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _add = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean add(E object)`
+  core$_.bool add(
+    $E? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JList$$Methods._add(
+            reference.pointer, JList$$Methods._id_add.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_add$1 = JList._class.instanceMethodId(
+    r'add',
+    r'(ILjava/lang/Object;)V',
+  );
+
+  static final _add$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract void add(int i, E object)`
+  void add$1(
+    int i,
+    $E? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    JList$$Methods._add$1(reference.pointer, JList$$Methods._id_add$1.pointer,
+            i, _$object.pointer)
+        .check();
+  }
+
+  static final _id_addAll = JList._class.instanceMethodId(
+    r'addAll',
+    r'(ILjava/util/Collection;)Z',
+  );
+
+  static final _addAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean addAll(int i, java.util.Collection<? extends E> collection)`
+  core$_.bool addAll(
+    int i,
+    JCollection<$E?>? collection,
+  ) {
+    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    return JList$$Methods._addAll(reference.pointer,
+            JList$$Methods._id_addAll.pointer, i, _$collection.pointer)
+        .boolean;
+  }
+
+  static final _id_addAll$1 = JList._class.instanceMethodId(
+    r'addAll',
+    r'(Ljava/util/Collection;)Z',
+  );
+
+  static final _addAll$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean addAll(java.util.Collection<? extends E> collection)`
+  core$_.bool addAll$1(
+    JCollection<$E?>? collection,
+  ) {
+    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    return JList$$Methods._addAll$1(reference.pointer,
+            JList$$Methods._id_addAll$1.pointer, _$collection.pointer)
+        .boolean;
+  }
+
+  static final _id_addFirst = JList._class.instanceMethodId(
+    r'addFirst',
+    r'(Ljava/lang/Object;)V',
+  );
+
+  static final _addFirst = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void addFirst(E object)`
+  void addFirst(
+    $E? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    JList$$Methods._addFirst(reference.pointer,
+            JList$$Methods._id_addFirst.pointer, _$object.pointer)
+        .check();
+  }
+
+  static final _id_addLast = JList._class.instanceMethodId(
+    r'addLast',
+    r'(Ljava/lang/Object;)V',
+  );
+
+  static final _addLast = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void addLast(E object)`
+  void addLast(
+    $E? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    JList$$Methods._addLast(reference.pointer,
+            JList$$Methods._id_addLast.pointer, _$object.pointer)
+        .check();
+  }
+
+  static final _id_clear = JList._class.instanceMethodId(
+    r'clear',
+    r'()V',
+  );
+
+  static final _clear = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract void clear()`
+  void clear() {
+    JList$$Methods._clear(reference.pointer, JList$$Methods._id_clear.pointer)
+        .check();
+  }
+
+  static final _id_contains = JList._class.instanceMethodId(
+    r'contains',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _contains = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean contains(java.lang.Object object)`
+  core$_.bool contains(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JList$$Methods._contains(reference.pointer,
+            JList$$Methods._id_contains.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_containsAll = JList._class.instanceMethodId(
+    r'containsAll',
+    r'(Ljava/util/Collection;)Z',
+  );
+
+  static final _containsAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean containsAll(java.util.Collection<?> collection)`
+  core$_.bool containsAll(
+    JCollection<jni$_.JObject?>? collection,
+  ) {
+    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    return JList$$Methods._containsAll(reference.pointer,
+            JList$$Methods._id_containsAll.pointer, _$collection.pointer)
+        .boolean;
+  }
+
+  static final _id_equals = JList._class.instanceMethodId(
+    r'equals',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _equals = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean equals(java.lang.Object object)`
+  core$_.bool equals(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JList$$Methods._equals(reference.pointer,
+            JList$$Methods._id_equals.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_get = JList._class.instanceMethodId(
+    r'get',
+    r'(I)Ljava/lang/Object;',
+  );
+
+  static final _get = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public abstract E get(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $E? get(
+    int i,
+  ) {
+    return JList$$Methods._get(
+            reference.pointer, JList$$Methods._id_get.pointer, i)
+        .object<$E?>();
+  }
+
+  static final _id_getFirst = JList._class.instanceMethodId(
+    r'getFirst',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _getFirst = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public E getFirst()`
+  /// The returned object must be released after use, by calling the [release] method.
+  $E? getFirst() {
+    return JList$$Methods._getFirst(
+            reference.pointer, JList$$Methods._id_getFirst.pointer)
+        .object<$E?>();
+  }
+
+  static final _id_getLast = JList._class.instanceMethodId(
+    r'getLast',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _getLast = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public E getLast()`
+  /// The returned object must be released after use, by calling the [release] method.
+  $E? getLast() {
+    return JList$$Methods._getLast(
+            reference.pointer, JList$$Methods._id_getLast.pointer)
+        .object<$E?>();
+  }
+
+  static final _id_hashCode$1 = JList._class.instanceMethodId(
+    r'hashCode',
+    r'()I',
+  );
+
+  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract int hashCode()`
+  int hashCode$1() {
+    return JList$$Methods._hashCode$1(
+            reference.pointer, JList$$Methods._id_hashCode$1.pointer)
+        .integer;
+  }
+
+  static final _id_indexOf = JList._class.instanceMethodId(
+    r'indexOf',
+    r'(Ljava/lang/Object;)I',
+  );
+
+  static final _indexOf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract int indexOf(java.lang.Object object)`
+  int indexOf(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JList$$Methods._indexOf(reference.pointer,
+            JList$$Methods._id_indexOf.pointer, _$object.pointer)
+        .integer;
+  }
+
+  static final _id_isEmpty = JList._class.instanceMethodId(
+    r'isEmpty',
+    r'()Z',
+  );
+
+  static final _isEmpty = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract boolean isEmpty()`
+  core$_.bool isEmpty() {
+    return JList$$Methods._isEmpty(
+            reference.pointer, JList$$Methods._id_isEmpty.pointer)
+        .boolean;
+  }
+
+  static final _id_iterator = JList._class.instanceMethodId(
+    r'iterator',
+    r'()Ljava/util/Iterator;',
+  );
+
+  static final _iterator = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.util.Iterator<E> iterator()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JIterator<$E?>? iterator() {
+    return JList$$Methods._iterator(
+            reference.pointer, JList$$Methods._id_iterator.pointer)
+        .object<JIterator<$E?>?>();
+  }
+
+  static final _id_lastIndexOf = JList._class.instanceMethodId(
+    r'lastIndexOf',
+    r'(Ljava/lang/Object;)I',
+  );
+
+  static final _lastIndexOf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract int lastIndexOf(java.lang.Object object)`
+  int lastIndexOf(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JList$$Methods._lastIndexOf(reference.pointer,
+            JList$$Methods._id_lastIndexOf.pointer, _$object.pointer)
+        .integer;
+  }
+
+  static final _id_listIterator = JList._class.instanceMethodId(
+    r'listIterator',
+    r'()Ljava/util/ListIterator;',
+  );
+
+  static final _listIterator = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.util.ListIterator<E> listIterator()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? listIterator() {
+    return JList$$Methods._listIterator(
+            reference.pointer, JList$$Methods._id_listIterator.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_listIterator$1 = JList._class.instanceMethodId(
+    r'listIterator',
+    r'(I)Ljava/util/ListIterator;',
+  );
+
+  static final _listIterator$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public abstract java.util.ListIterator<E> listIterator(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? listIterator$1(
+    int i,
+  ) {
+    return JList$$Methods._listIterator$1(
+            reference.pointer, JList$$Methods._id_listIterator$1.pointer, i)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_remove = JList._class.instanceMethodId(
+    r'remove',
+    r'(I)Ljava/lang/Object;',
+  );
+
+  static final _remove = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public abstract E remove(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $E? remove(
+    int i,
+  ) {
+    return JList$$Methods._remove(
+            reference.pointer, JList$$Methods._id_remove.pointer, i)
+        .object<$E?>();
+  }
+
+  static final _id_remove$1 = JList._class.instanceMethodId(
+    r'remove',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _remove$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean remove(java.lang.Object object)`
+  core$_.bool remove$1(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JList$$Methods._remove$1(reference.pointer,
+            JList$$Methods._id_remove$1.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_removeAll = JList._class.instanceMethodId(
+    r'removeAll',
+    r'(Ljava/util/Collection;)Z',
+  );
+
+  static final _removeAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean removeAll(java.util.Collection<?> collection)`
+  core$_.bool removeAll(
+    JCollection<jni$_.JObject?>? collection,
+  ) {
+    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    return JList$$Methods._removeAll(reference.pointer,
+            JList$$Methods._id_removeAll.pointer, _$collection.pointer)
+        .boolean;
+  }
+
+  static final _id_removeFirst = JList._class.instanceMethodId(
+    r'removeFirst',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _removeFirst = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public E removeFirst()`
+  /// The returned object must be released after use, by calling the [release] method.
+  $E? removeFirst() {
+    return JList$$Methods._removeFirst(
+            reference.pointer, JList$$Methods._id_removeFirst.pointer)
+        .object<$E?>();
+  }
+
+  static final _id_removeLast = JList._class.instanceMethodId(
+    r'removeLast',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _removeLast = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public E removeLast()`
+  /// The returned object must be released after use, by calling the [release] method.
+  $E? removeLast() {
+    return JList$$Methods._removeLast(
+            reference.pointer, JList$$Methods._id_removeLast.pointer)
+        .object<$E?>();
+  }
+
+  static final _id_replaceAll = JList._class.instanceMethodId(
+    r'replaceAll',
+    r'(Ljava/util/function/UnaryOperator;)V',
+  );
+
+  static final _replaceAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void replaceAll(java.util.function.UnaryOperator<E> unaryOperator)`
+  void replaceAll(
+    jni$_.JObject? unaryOperator,
+  ) {
+    final _$unaryOperator = unaryOperator?.reference ?? jni$_.jNullReference;
+    JList$$Methods._replaceAll(reference.pointer,
+            JList$$Methods._id_replaceAll.pointer, _$unaryOperator.pointer)
+        .check();
+  }
+
+  static final _id_retainAll = JList._class.instanceMethodId(
+    r'retainAll',
+    r'(Ljava/util/Collection;)Z',
+  );
+
+  static final _retainAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean retainAll(java.util.Collection<?> collection)`
+  core$_.bool retainAll(
+    JCollection<jni$_.JObject?>? collection,
+  ) {
+    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    return JList$$Methods._retainAll(reference.pointer,
+            JList$$Methods._id_retainAll.pointer, _$collection.pointer)
+        .boolean;
+  }
+
+  static final _id_reversed = JList._class.instanceMethodId(
+    r'reversed',
+    r'()Ljava/util/List;',
+  );
+
+  static final _reversed = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.List<E> reversed()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JList<$E?>? reversed() {
+    return JList$$Methods._reversed(
+            reference.pointer, JList$$Methods._id_reversed.pointer)
+        .object<JList<$E?>?>();
+  }
+
+  static final _id_set = JList._class.instanceMethodId(
+    r'set',
+    r'(ILjava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _set = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract E set(int i, E object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $E? set(
+    int i,
+    $E? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JList$$Methods._set(reference.pointer,
+            JList$$Methods._id_set.pointer, i, _$object.pointer)
+        .object<$E?>();
+  }
+
+  static final _id_size = JList._class.instanceMethodId(
+    r'size',
+    r'()I',
+  );
+
+  static final _size = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract int size()`
+  int size() {
+    return JList$$Methods._size(
+            reference.pointer, JList$$Methods._id_size.pointer)
+        .integer;
+  }
+
+  static final _id_sort = JList._class.instanceMethodId(
+    r'sort',
+    r'(Ljava/util/Comparator;)V',
+  );
+
+  static final _sort = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void sort(java.util.Comparator<? super E> comparator)`
+  void sort(
+    jni$_.JObject? comparator,
+  ) {
+    final _$comparator = comparator?.reference ?? jni$_.jNullReference;
+    JList$$Methods._sort(reference.pointer, JList$$Methods._id_sort.pointer,
+            _$comparator.pointer)
+        .check();
+  }
+
+  static final _id_spliterator = JList._class.instanceMethodId(
+    r'spliterator',
+    r'()Ljava/util/Spliterator;',
+  );
+
+  static final _spliterator = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.Spliterator<E> spliterator()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? spliterator() {
+    return JList$$Methods._spliterator(
+            reference.pointer, JList$$Methods._id_spliterator.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_subList = JList._class.instanceMethodId(
+    r'subList',
+    r'(II)Ljava/util/List;',
+  );
+
+  static final _subList = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `public abstract java.util.List<E> subList(int i, int i1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JList<$E?>? subList(
+    int i,
+    int i1,
+  ) {
+    return JList$$Methods._subList(
+            reference.pointer, JList$$Methods._id_subList.pointer, i, i1)
+        .object<JList<$E?>?>();
+  }
+
+  static final _id_toArray = JList._class.instanceMethodId(
+    r'toArray',
+    r'()[Ljava/lang/Object;',
+  );
+
+  static final _toArray = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.lang.Object[] toArray()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JArray<jni$_.JObject?>? toArray() {
+    return JList$$Methods._toArray(
+            reference.pointer, JList$$Methods._id_toArray.pointer)
+        .object<jni$_.JArray<jni$_.JObject?>?>();
+  }
+
+  static final _id_toArray$1 = JList._class.instanceMethodId(
+    r'toArray',
+    r'([Ljava/lang/Object;)[Ljava/lang/Object;',
+  );
+
+  static final _toArray$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract T[] toArray(T[] objects)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JArray<$T?>? toArray$1<$T extends jni$_.JObject?>(
+    jni$_.JArray<$T?>? objects,
+  ) {
+    final _$objects = objects?.reference ?? jni$_.jNullReference;
+    return JList$$Methods._toArray$1(reference.pointer,
+            JList$$Methods._id_toArray$1.pointer, _$objects.pointer)
+        .object<jni$_.JArray<$T?>?>();
+  }
+
+  static final _id_parallelStream = JList._class.instanceMethodId(
+    r'parallelStream',
+    r'()Ljava/util/stream/Stream;',
+  );
+
+  static final _parallelStream = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.stream.Stream<E> parallelStream()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? parallelStream() {
+    return JList$$Methods._parallelStream(
+            reference.pointer, JList$$Methods._id_parallelStream.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_removeIf = JList._class.instanceMethodId(
+    r'removeIf',
+    r'(Ljava/util/function/Predicate;)Z',
+  );
+
+  static final _removeIf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean removeIf(java.util.function.Predicate<? super E> predicate)`
+  core$_.bool removeIf(
+    jni$_.JObject? predicate,
+  ) {
+    final _$predicate = predicate?.reference ?? jni$_.jNullReference;
+    return JList$$Methods._removeIf(reference.pointer,
+            JList$$Methods._id_removeIf.pointer, _$predicate.pointer)
+        .boolean;
+  }
+
+  static final _id_stream = JList._class.instanceMethodId(
+    r'stream',
+    r'()Ljava/util/stream/Stream;',
+  );
+
+  static final _stream = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.stream.Stream<E> stream()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? stream() {
+    return JList$$Methods._stream(
+            reference.pointer, JList$$Methods._id_stream.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_toArray$2 = JList._class.instanceMethodId(
+    r'toArray',
+    r'(Ljava/util/function/IntFunction;)[Ljava/lang/Object;',
+  );
+
+  static final _toArray$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public T[] toArray(java.util.function.IntFunction<T[]> intFunction)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JArray<$T?>? toArray$2<$T extends jni$_.JObject?>(
+    jni$_.JObject? intFunction,
+  ) {
+    final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
+    return JList$$Methods._toArray$2(reference.pointer,
+            JList$$Methods._id_toArray$2.pointer, _$intFunction.pointer)
+        .object<jni$_.JArray<$T?>?>();
   }
 }
 
@@ -9030,7 +9271,8 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JObject?
       comparingByKey<$K extends jni$_.JObject?, $V extends jni$_.JObject?>() {
-    return _comparingByKey(_class.reference.pointer, _id_comparingByKey.pointer)
+    return JMap$JEntry._comparingByKey(
+            _class.reference.pointer, JMap$JEntry._id_comparingByKey.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -9057,8 +9299,8 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
     jni$_.JObject? comparator,
   ) {
     final _$comparator = comparator?.reference ?? jni$_.jNullReference;
-    return _comparingByKey$1(_class.reference.pointer,
-            _id_comparingByKey$1.pointer, _$comparator.pointer)
+    return JMap$JEntry._comparingByKey$1(_class.reference.pointer,
+            JMap$JEntry._id_comparingByKey$1.pointer, _$comparator.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -9083,8 +9325,8 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JObject?
       comparingByValue<$K extends jni$_.JObject?, $V extends jni$_.JObject?>() {
-    return _comparingByValue(
-            _class.reference.pointer, _id_comparingByValue.pointer)
+    return JMap$JEntry._comparingByValue(
+            _class.reference.pointer, JMap$JEntry._id_comparingByValue.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -9111,8 +9353,8 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
     jni$_.JObject? comparator,
   ) {
     final _$comparator = comparator?.reference ?? jni$_.jNullReference;
-    return _comparingByValue$1(_class.reference.pointer,
-            _id_comparingByValue$1.pointer, _$comparator.pointer)
+    return JMap$JEntry._comparingByValue$1(_class.reference.pointer,
+            JMap$JEntry._id_comparingByValue$1.pointer, _$comparator.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -9139,128 +9381,9 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
     JMap$JEntry<$K?, $V?>? entry,
   ) {
     final _$entry = entry?.reference ?? jni$_.jNullReference;
-    return _copyOf(
-            _class.reference.pointer, _id_copyOf.pointer, _$entry.pointer)
+    return JMap$JEntry._copyOf(_class.reference.pointer,
+            JMap$JEntry._id_copyOf.pointer, _$entry.pointer)
         .object<JMap$JEntry<$K?, $V?>?>();
-  }
-
-  static final _id_equals = _class.instanceMethodId(
-    r'equals',
-    r'(Ljava/lang/Object;)Z',
-  );
-
-  static final _equals = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean equals(java.lang.Object object)`
-  core$_.bool equals(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
-        .boolean;
-  }
-
-  static final _id_getKey = _class.instanceMethodId(
-    r'getKey',
-    r'()Ljava/lang/Object;',
-  );
-
-  static final _getKey = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract K getKey()`
-  /// The returned object must be released after use, by calling the [release] method.
-  $K? getKey() {
-    return _getKey(reference.pointer, _id_getKey.pointer).object<$K?>();
-  }
-
-  static final _id_getValue = _class.instanceMethodId(
-    r'getValue',
-    r'()Ljava/lang/Object;',
-  );
-
-  static final _getValue = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract V getValue()`
-  /// The returned object must be released after use, by calling the [release] method.
-  $V? getValue() {
-    return _getValue(reference.pointer, _id_getValue.pointer).object<$V?>();
-  }
-
-  static final _id_hashCode$1 = _class.instanceMethodId(
-    r'hashCode',
-    r'()I',
-  );
-
-  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract int hashCode()`
-  int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
-  }
-
-  static final _id_setValue = _class.instanceMethodId(
-    r'setValue',
-    r'(Ljava/lang/Object;)Ljava/lang/Object;',
-  );
-
-  static final _setValue = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract V setValue(V object)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $V? setValue(
-    $V? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _setValue(reference.pointer, _id_setValue.pointer, _$object.pointer)
-        .object<$V?>();
   }
 
   /// Maps a specific port to the implemented interface.
@@ -9417,6 +9540,136 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
   }
 }
 
+extension JMap$JEntry$$Methods<$K extends jni$_.JObject?,
+    $V extends jni$_.JObject?> on JMap$JEntry<$K, $V> {
+  static final _id_equals = JMap$JEntry._class.instanceMethodId(
+    r'equals',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _equals = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean equals(java.lang.Object object)`
+  core$_.bool equals(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JMap$JEntry$$Methods._equals(reference.pointer,
+            JMap$JEntry$$Methods._id_equals.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_getKey = JMap$JEntry._class.instanceMethodId(
+    r'getKey',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _getKey = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract K getKey()`
+  /// The returned object must be released after use, by calling the [release] method.
+  $K? getKey() {
+    return JMap$JEntry$$Methods._getKey(
+            reference.pointer, JMap$JEntry$$Methods._id_getKey.pointer)
+        .object<$K?>();
+  }
+
+  static final _id_getValue = JMap$JEntry._class.instanceMethodId(
+    r'getValue',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _getValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract V getValue()`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? getValue() {
+    return JMap$JEntry$$Methods._getValue(
+            reference.pointer, JMap$JEntry$$Methods._id_getValue.pointer)
+        .object<$V?>();
+  }
+
+  static final _id_hashCode$1 = JMap$JEntry._class.instanceMethodId(
+    r'hashCode',
+    r'()I',
+  );
+
+  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract int hashCode()`
+  int hashCode$1() {
+    return JMap$JEntry$$Methods._hashCode$1(
+            reference.pointer, JMap$JEntry$$Methods._id_hashCode$1.pointer)
+        .integer;
+  }
+
+  static final _id_setValue = JMap$JEntry._class.instanceMethodId(
+    r'setValue',
+    r'(Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _setValue = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract V setValue(V object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? setValue(
+    $V? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JMap$JEntry$$Methods._setValue(reference.pointer,
+            JMap$JEntry$$Methods._id_setValue.pointer, _$object.pointer)
+        .object<$V?>();
+  }
+}
+
 abstract base mixin class $JMap$JEntry<$K extends jni$_.JObject?,
     $V extends jni$_.JObject?> {
   factory $JMap$JEntry({
@@ -9547,185 +9800,6 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<JMap> type = $JMap$Type$();
-  static final _id_clear = _class.instanceMethodId(
-    r'clear',
-    r'()V',
-  );
-
-  static final _clear = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract void clear()`
-  void clear() {
-    _clear(reference.pointer, _id_clear.pointer).check();
-  }
-
-  static final _id_compute = _class.instanceMethodId(
-    r'compute',
-    r'(Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;',
-  );
-
-  static final _compute = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public V compute(K object, java.util.function.BiFunction<? super K, ? super V, ? extends V> biFunction)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $V? compute(
-    $K? object,
-    jni$_.JObject? biFunction,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
-    return _compute(reference.pointer, _id_compute.pointer, _$object.pointer,
-            _$biFunction.pointer)
-        .object<$V?>();
-  }
-
-  static final _id_computeIfAbsent = _class.instanceMethodId(
-    r'computeIfAbsent',
-    r'(Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;',
-  );
-
-  static final _computeIfAbsent = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public V computeIfAbsent(K object, java.util.function.Function<? super K, ? extends V> function)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $V? computeIfAbsent(
-    $K? object,
-    jni$_.JObject? function,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    final _$function = function?.reference ?? jni$_.jNullReference;
-    return _computeIfAbsent(reference.pointer, _id_computeIfAbsent.pointer,
-            _$object.pointer, _$function.pointer)
-        .object<$V?>();
-  }
-
-  static final _id_computeIfPresent = _class.instanceMethodId(
-    r'computeIfPresent',
-    r'(Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;',
-  );
-
-  static final _computeIfPresent = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public V computeIfPresent(K object, java.util.function.BiFunction<? super K, ? super V, ? extends V> biFunction)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $V? computeIfPresent(
-    $K? object,
-    jni$_.JObject? biFunction,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
-    return _computeIfPresent(reference.pointer, _id_computeIfPresent.pointer,
-            _$object.pointer, _$biFunction.pointer)
-        .object<$V?>();
-  }
-
-  static final _id_containsKey = _class.instanceMethodId(
-    r'containsKey',
-    r'(Ljava/lang/Object;)Z',
-  );
-
-  static final _containsKey = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean containsKey(java.lang.Object object)`
-  core$_.bool containsKey(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _containsKey(
-            reference.pointer, _id_containsKey.pointer, _$object.pointer)
-        .boolean;
-  }
-
-  static final _id_containsValue = _class.instanceMethodId(
-    r'containsValue',
-    r'(Ljava/lang/Object;)Z',
-  );
-
-  static final _containsValue = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean containsValue(java.lang.Object object)`
-  core$_.bool containsValue(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _containsValue(
-            reference.pointer, _id_containsValue.pointer, _$object.pointer)
-        .boolean;
-  }
-
   static final _id_copyOf = _class.staticMethodId(
     r'copyOf',
     r'(Ljava/util/Map;)Ljava/util/Map;',
@@ -9749,7 +9823,8 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     JMap<$K?, $V?>? map,
   ) {
     final _$map = map?.reference ?? jni$_.jNullReference;
-    return _copyOf(_class.reference.pointer, _id_copyOf.pointer, _$map.pointer)
+    return JMap._copyOf(
+            _class.reference.pointer, JMap._id_copyOf.pointer, _$map.pointer)
         .object<JMap<$K?, $V?>?>();
   }
 
@@ -9784,250 +9859,9 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _entry(_class.reference.pointer, _id_entry.pointer, _$object.pointer,
-            _$object1.pointer)
-        .object<JMap$JEntry<$K?, $V?>?>();
-  }
-
-  static final _id_entrySet = _class.instanceMethodId(
-    r'entrySet',
-    r'()Ljava/util/Set;',
-  );
-
-  static final _entrySet = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract java.util.Set<java.util.Map$Entry<K, V>> entrySet()`
-  /// The returned object must be released after use, by calling the [release] method.
-  JSet<JMap$JEntry<$K?, $V?>?>? entrySet() {
-    return _entrySet(reference.pointer, _id_entrySet.pointer)
-        .object<JSet<JMap$JEntry<$K?, $V?>?>?>();
-  }
-
-  static final _id_equals = _class.instanceMethodId(
-    r'equals',
-    r'(Ljava/lang/Object;)Z',
-  );
-
-  static final _equals = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean equals(java.lang.Object object)`
-  core$_.bool equals(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
-        .boolean;
-  }
-
-  static final _id_forEach = _class.instanceMethodId(
-    r'forEach',
-    r'(Ljava/util/function/BiConsumer;)V',
-  );
-
-  static final _forEach = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void forEach(java.util.function.BiConsumer<? super K, ? super V> biConsumer)`
-  void forEach(
-    jni$_.JObject? biConsumer,
-  ) {
-    final _$biConsumer = biConsumer?.reference ?? jni$_.jNullReference;
-    _forEach(reference.pointer, _id_forEach.pointer, _$biConsumer.pointer)
-        .check();
-  }
-
-  static final _id_get = _class.instanceMethodId(
-    r'get',
-    r'(Ljava/lang/Object;)Ljava/lang/Object;',
-  );
-
-  static final _get = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract V get(java.lang.Object object)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $V? get(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _get(reference.pointer, _id_get.pointer, _$object.pointer)
-        .object<$V?>();
-  }
-
-  static final _id_getOrDefault = _class.instanceMethodId(
-    r'getOrDefault',
-    r'(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;',
-  );
-
-  static final _getOrDefault = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public V getOrDefault(java.lang.Object object, V object1)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $V? getOrDefault(
-    jni$_.JObject? object,
-    $V? object1,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _getOrDefault(reference.pointer, _id_getOrDefault.pointer,
+    return JMap._entry(_class.reference.pointer, JMap._id_entry.pointer,
             _$object.pointer, _$object1.pointer)
-        .object<$V?>();
-  }
-
-  static final _id_hashCode$1 = _class.instanceMethodId(
-    r'hashCode',
-    r'()I',
-  );
-
-  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract int hashCode()`
-  int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
-  }
-
-  static final _id_isEmpty = _class.instanceMethodId(
-    r'isEmpty',
-    r'()Z',
-  );
-
-  static final _isEmpty = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract boolean isEmpty()`
-  core$_.bool isEmpty() {
-    return _isEmpty(reference.pointer, _id_isEmpty.pointer).boolean;
-  }
-
-  static final _id_keySet = _class.instanceMethodId(
-    r'keySet',
-    r'()Ljava/util/Set;',
-  );
-
-  static final _keySet = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract java.util.Set<K> keySet()`
-  /// The returned object must be released after use, by calling the [release] method.
-  JSet<$K?>? keySet() {
-    return _keySet(reference.pointer, _id_keySet.pointer).object<JSet<$K?>?>();
-  }
-
-  static final _id_merge = _class.instanceMethodId(
-    r'merge',
-    r'(Ljava/lang/Object;Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;',
-  );
-
-  static final _merge = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public V merge(K object, V object1, java.util.function.BiFunction<? super V, ? super V, ? extends V> biFunction)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $V? merge(
-    $K? object,
-    $V? object1,
-    jni$_.JObject? biFunction,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
-    return _merge(reference.pointer, _id_merge.pointer, _$object.pointer,
-            _$object1.pointer, _$biFunction.pointer)
-        .object<$V?>();
+        .object<JMap$JEntry<$K?, $V?>?>();
   }
 
   static final _id_of = _class.staticMethodId(
@@ -10051,7 +9885,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   /// The returned object must be released after use, by calling the [release] method.
   static JMap<$K?, $V?>?
       of<$K extends jni$_.JObject?, $V extends jni$_.JObject?>() {
-    return _of(_class.reference.pointer, _id_of.pointer)
+    return JMap._of(_class.reference.pointer, JMap._id_of.pointer)
         .object<JMap<$K?, $V?>?>();
   }
 
@@ -10086,8 +9920,8 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _of$1(_class.reference.pointer, _id_of$1.pointer, _$object.pointer,
-            _$object1.pointer)
+    return JMap._of$1(_class.reference.pointer, JMap._id_of$1.pointer,
+            _$object.pointer, _$object1.pointer)
         .object<JMap<$K?, $V?>?>();
   }
 
@@ -10130,8 +9964,13 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
-    return _of$2(_class.reference.pointer, _id_of$2.pointer, _$object.pointer,
-            _$object1.pointer, _$object2.pointer, _$object3.pointer)
+    return JMap._of$2(
+            _class.reference.pointer,
+            JMap._id_of$2.pointer,
+            _$object.pointer,
+            _$object1.pointer,
+            _$object2.pointer,
+            _$object3.pointer)
         .object<JMap<$K?, $V?>?>();
   }
 
@@ -10182,9 +10021,9 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
-    return _of$3(
+    return JMap._of$3(
             _class.reference.pointer,
-            _id_of$3.pointer,
+            JMap._id_of$3.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -10249,9 +10088,9 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
-    return _of$4(
+    return JMap._of$4(
             _class.reference.pointer,
-            _id_of$4.pointer,
+            JMap._id_of$4.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -10326,9 +10165,9 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
     final _$object8 = object8?.reference ?? jni$_.jNullReference;
     final _$object9 = object9?.reference ?? jni$_.jNullReference;
-    return _of$5(
+    return JMap._of$5(
             _class.reference.pointer,
-            _id_of$5.pointer,
+            JMap._id_of$5.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -10413,9 +10252,9 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object9 = object9?.reference ?? jni$_.jNullReference;
     final _$object10 = object10?.reference ?? jni$_.jNullReference;
     final _$object11 = object11?.reference ?? jni$_.jNullReference;
-    return _of$6(
+    return JMap._of$6(
             _class.reference.pointer,
-            _id_of$6.pointer,
+            JMap._id_of$6.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -10510,9 +10349,9 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object11 = object11?.reference ?? jni$_.jNullReference;
     final _$object12 = object12?.reference ?? jni$_.jNullReference;
     final _$object13 = object13?.reference ?? jni$_.jNullReference;
-    return _of$7(
+    return JMap._of$7(
             _class.reference.pointer,
-            _id_of$7.pointer,
+            JMap._id_of$7.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -10617,9 +10456,9 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object13 = object13?.reference ?? jni$_.jNullReference;
     final _$object14 = object14?.reference ?? jni$_.jNullReference;
     final _$object15 = object15?.reference ?? jni$_.jNullReference;
-    return _of$8(
+    return JMap._of$8(
             _class.reference.pointer,
-            _id_of$8.pointer,
+            JMap._id_of$8.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -10734,9 +10573,9 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object15 = object15?.reference ?? jni$_.jNullReference;
     final _$object16 = object16?.reference ?? jni$_.jNullReference;
     final _$object17 = object17?.reference ?? jni$_.jNullReference;
-    return _of$9(
+    return JMap._of$9(
             _class.reference.pointer,
-            _id_of$9.pointer,
+            JMap._id_of$9.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -10861,9 +10700,9 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object17 = object17?.reference ?? jni$_.jNullReference;
     final _$object18 = object18?.reference ?? jni$_.jNullReference;
     final _$object19 = object19?.reference ?? jni$_.jNullReference;
-    return _of$10(
+    return JMap._of$10(
             _class.reference.pointer,
-            _id_of$10.pointer,
+            JMap._id_of$10.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -10910,307 +10749,9 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     jni$_.JArray<JMap$JEntry<$K?, $V?>?>? entrys,
   ) {
     final _$entrys = entrys?.reference ?? jni$_.jNullReference;
-    return _ofEntries(
-            _class.reference.pointer, _id_ofEntries.pointer, _$entrys.pointer)
+    return JMap._ofEntries(_class.reference.pointer, JMap._id_ofEntries.pointer,
+            _$entrys.pointer)
         .object<JMap<$K?, $V?>?>();
-  }
-
-  static final _id_put = _class.instanceMethodId(
-    r'put',
-    r'(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;',
-  );
-
-  static final _put = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract V put(K object, V object1)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $V? put(
-    $K? object,
-    $V? object1,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _put(reference.pointer, _id_put.pointer, _$object.pointer,
-            _$object1.pointer)
-        .object<$V?>();
-  }
-
-  static final _id_putAll = _class.instanceMethodId(
-    r'putAll',
-    r'(Ljava/util/Map;)V',
-  );
-
-  static final _putAll = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract void putAll(java.util.Map<? extends K, ? extends V> map)`
-  void putAll(
-    JMap<$K?, $V?>? map,
-  ) {
-    final _$map = map?.reference ?? jni$_.jNullReference;
-    _putAll(reference.pointer, _id_putAll.pointer, _$map.pointer).check();
-  }
-
-  static final _id_putIfAbsent = _class.instanceMethodId(
-    r'putIfAbsent',
-    r'(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;',
-  );
-
-  static final _putIfAbsent = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public V putIfAbsent(K object, V object1)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $V? putIfAbsent(
-    $K? object,
-    $V? object1,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _putIfAbsent(reference.pointer, _id_putIfAbsent.pointer,
-            _$object.pointer, _$object1.pointer)
-        .object<$V?>();
-  }
-
-  static final _id_remove = _class.instanceMethodId(
-    r'remove',
-    r'(Ljava/lang/Object;)Ljava/lang/Object;',
-  );
-
-  static final _remove = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract V remove(java.lang.Object object)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $V? remove(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _remove(reference.pointer, _id_remove.pointer, _$object.pointer)
-        .object<$V?>();
-  }
-
-  static final _id_remove$1 = _class.instanceMethodId(
-    r'remove',
-    r'(Ljava/lang/Object;Ljava/lang/Object;)Z',
-  );
-
-  static final _remove$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public boolean remove(java.lang.Object object, java.lang.Object object1)`
-  core$_.bool remove$1(
-    jni$_.JObject? object,
-    jni$_.JObject? object1,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _remove$1(reference.pointer, _id_remove$1.pointer, _$object.pointer,
-            _$object1.pointer)
-        .boolean;
-  }
-
-  static final _id_replace = _class.instanceMethodId(
-    r'replace',
-    r'(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;',
-  );
-
-  static final _replace = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public V replace(K object, V object1)`
-  /// The returned object must be released after use, by calling the [release] method.
-  $V? replace(
-    $K? object,
-    $V? object1,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _replace(reference.pointer, _id_replace.pointer, _$object.pointer,
-            _$object1.pointer)
-        .object<$V?>();
-  }
-
-  static final _id_replace$1 = _class.instanceMethodId(
-    r'replace',
-    r'(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z',
-  );
-
-  static final _replace$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public boolean replace(K object, V object1, V object2)`
-  core$_.bool replace$1(
-    $K? object,
-    $V? object1,
-    $V? object2,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    final _$object2 = object2?.reference ?? jni$_.jNullReference;
-    return _replace$1(reference.pointer, _id_replace$1.pointer,
-            _$object.pointer, _$object1.pointer, _$object2.pointer)
-        .boolean;
-  }
-
-  static final _id_replaceAll = _class.instanceMethodId(
-    r'replaceAll',
-    r'(Ljava/util/function/BiFunction;)V',
-  );
-
-  static final _replaceAll = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void replaceAll(java.util.function.BiFunction<? super K, ? super V, ? extends V> biFunction)`
-  void replaceAll(
-    jni$_.JObject? biFunction,
-  ) {
-    final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
-    _replaceAll(reference.pointer, _id_replaceAll.pointer, _$biFunction.pointer)
-        .check();
-  }
-
-  static final _id_size = _class.instanceMethodId(
-    r'size',
-    r'()I',
-  );
-
-  static final _size = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract int size()`
-  int size() {
-    return _size(reference.pointer, _id_size.pointer).integer;
-  }
-
-  static final _id_values = _class.instanceMethodId(
-    r'values',
-    r'()Ljava/util/Collection;',
-  );
-
-  static final _values = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract java.util.Collection<V> values()`
-  /// The returned object must be released after use, by calling the [release] method.
-  JCollection<$V?>? values() {
-    return _values(reference.pointer, _id_values.pointer)
-        .object<JCollection<$V?>?>();
   }
 
   /// Maps a specific port to the implemented interface.
@@ -11744,6 +11285,774 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final $i = jni$_.JImplementer();
     implementIn($i, $impl);
     return $i.implement<JMap<$K, $V>>();
+  }
+}
+
+extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
+    on JMap<$K, $V> {
+  static final _id_clear = JMap._class.instanceMethodId(
+    r'clear',
+    r'()V',
+  );
+
+  static final _clear = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract void clear()`
+  void clear() {
+    JMap$$Methods._clear(reference.pointer, JMap$$Methods._id_clear.pointer)
+        .check();
+  }
+
+  static final _id_compute = JMap._class.instanceMethodId(
+    r'compute',
+    r'(Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;',
+  );
+
+  static final _compute = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public V compute(K object, java.util.function.BiFunction<? super K, ? super V, ? extends V> biFunction)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? compute(
+    $K? object,
+    jni$_.JObject? biFunction,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
+    return JMap$$Methods._compute(
+            reference.pointer,
+            JMap$$Methods._id_compute.pointer,
+            _$object.pointer,
+            _$biFunction.pointer)
+        .object<$V?>();
+  }
+
+  static final _id_computeIfAbsent = JMap._class.instanceMethodId(
+    r'computeIfAbsent',
+    r'(Ljava/lang/Object;Ljava/util/function/Function;)Ljava/lang/Object;',
+  );
+
+  static final _computeIfAbsent = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public V computeIfAbsent(K object, java.util.function.Function<? super K, ? extends V> function)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? computeIfAbsent(
+    $K? object,
+    jni$_.JObject? function,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$function = function?.reference ?? jni$_.jNullReference;
+    return JMap$$Methods._computeIfAbsent(
+            reference.pointer,
+            JMap$$Methods._id_computeIfAbsent.pointer,
+            _$object.pointer,
+            _$function.pointer)
+        .object<$V?>();
+  }
+
+  static final _id_computeIfPresent = JMap._class.instanceMethodId(
+    r'computeIfPresent',
+    r'(Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;',
+  );
+
+  static final _computeIfPresent = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public V computeIfPresent(K object, java.util.function.BiFunction<? super K, ? super V, ? extends V> biFunction)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? computeIfPresent(
+    $K? object,
+    jni$_.JObject? biFunction,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
+    return JMap$$Methods._computeIfPresent(
+            reference.pointer,
+            JMap$$Methods._id_computeIfPresent.pointer,
+            _$object.pointer,
+            _$biFunction.pointer)
+        .object<$V?>();
+  }
+
+  static final _id_containsKey = JMap._class.instanceMethodId(
+    r'containsKey',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _containsKey = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean containsKey(java.lang.Object object)`
+  core$_.bool containsKey(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JMap$$Methods._containsKey(reference.pointer,
+            JMap$$Methods._id_containsKey.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_containsValue = JMap._class.instanceMethodId(
+    r'containsValue',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _containsValue = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean containsValue(java.lang.Object object)`
+  core$_.bool containsValue(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JMap$$Methods._containsValue(reference.pointer,
+            JMap$$Methods._id_containsValue.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_entrySet = JMap._class.instanceMethodId(
+    r'entrySet',
+    r'()Ljava/util/Set;',
+  );
+
+  static final _entrySet = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.util.Set<java.util.Map$Entry<K, V>> entrySet()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JSet<JMap$JEntry<$K?, $V?>?>? entrySet() {
+    return JMap$$Methods._entrySet(
+            reference.pointer, JMap$$Methods._id_entrySet.pointer)
+        .object<JSet<JMap$JEntry<$K?, $V?>?>?>();
+  }
+
+  static final _id_equals = JMap._class.instanceMethodId(
+    r'equals',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _equals = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean equals(java.lang.Object object)`
+  core$_.bool equals(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JMap$$Methods._equals(reference.pointer,
+            JMap$$Methods._id_equals.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_forEach = JMap._class.instanceMethodId(
+    r'forEach',
+    r'(Ljava/util/function/BiConsumer;)V',
+  );
+
+  static final _forEach = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void forEach(java.util.function.BiConsumer<? super K, ? super V> biConsumer)`
+  void forEach(
+    jni$_.JObject? biConsumer,
+  ) {
+    final _$biConsumer = biConsumer?.reference ?? jni$_.jNullReference;
+    JMap$$Methods._forEach(reference.pointer, JMap$$Methods._id_forEach.pointer,
+            _$biConsumer.pointer)
+        .check();
+  }
+
+  static final _id_get = JMap._class.instanceMethodId(
+    r'get',
+    r'(Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _get = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract V get(java.lang.Object object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? get(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JMap$$Methods._get(
+            reference.pointer, JMap$$Methods._id_get.pointer, _$object.pointer)
+        .object<$V?>();
+  }
+
+  static final _id_getOrDefault = JMap._class.instanceMethodId(
+    r'getOrDefault',
+    r'(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _getOrDefault = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public V getOrDefault(java.lang.Object object, V object1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? getOrDefault(
+    jni$_.JObject? object,
+    $V? object1,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$object1 = object1?.reference ?? jni$_.jNullReference;
+    return JMap$$Methods._getOrDefault(
+            reference.pointer,
+            JMap$$Methods._id_getOrDefault.pointer,
+            _$object.pointer,
+            _$object1.pointer)
+        .object<$V?>();
+  }
+
+  static final _id_hashCode$1 = JMap._class.instanceMethodId(
+    r'hashCode',
+    r'()I',
+  );
+
+  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract int hashCode()`
+  int hashCode$1() {
+    return JMap$$Methods._hashCode$1(
+            reference.pointer, JMap$$Methods._id_hashCode$1.pointer)
+        .integer;
+  }
+
+  static final _id_isEmpty = JMap._class.instanceMethodId(
+    r'isEmpty',
+    r'()Z',
+  );
+
+  static final _isEmpty = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract boolean isEmpty()`
+  core$_.bool isEmpty() {
+    return JMap$$Methods._isEmpty(
+            reference.pointer, JMap$$Methods._id_isEmpty.pointer)
+        .boolean;
+  }
+
+  static final _id_keySet = JMap._class.instanceMethodId(
+    r'keySet',
+    r'()Ljava/util/Set;',
+  );
+
+  static final _keySet = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.util.Set<K> keySet()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JSet<$K?>? keySet() {
+    return JMap$$Methods._keySet(
+            reference.pointer, JMap$$Methods._id_keySet.pointer)
+        .object<JSet<$K?>?>();
+  }
+
+  static final _id_merge = JMap._class.instanceMethodId(
+    r'merge',
+    r'(Ljava/lang/Object;Ljava/lang/Object;Ljava/util/function/BiFunction;)Ljava/lang/Object;',
+  );
+
+  static final _merge = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public V merge(K object, V object1, java.util.function.BiFunction<? super V, ? super V, ? extends V> biFunction)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? merge(
+    $K? object,
+    $V? object1,
+    jni$_.JObject? biFunction,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$object1 = object1?.reference ?? jni$_.jNullReference;
+    final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
+    return JMap$$Methods._merge(
+            reference.pointer,
+            JMap$$Methods._id_merge.pointer,
+            _$object.pointer,
+            _$object1.pointer,
+            _$biFunction.pointer)
+        .object<$V?>();
+  }
+
+  static final _id_put = JMap._class.instanceMethodId(
+    r'put',
+    r'(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _put = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract V put(K object, V object1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? put(
+    $K? object,
+    $V? object1,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$object1 = object1?.reference ?? jni$_.jNullReference;
+    return JMap$$Methods._put(reference.pointer, JMap$$Methods._id_put.pointer,
+            _$object.pointer, _$object1.pointer)
+        .object<$V?>();
+  }
+
+  static final _id_putAll = JMap._class.instanceMethodId(
+    r'putAll',
+    r'(Ljava/util/Map;)V',
+  );
+
+  static final _putAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract void putAll(java.util.Map<? extends K, ? extends V> map)`
+  void putAll(
+    JMap<$K?, $V?>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    JMap$$Methods._putAll(
+            reference.pointer, JMap$$Methods._id_putAll.pointer, _$map.pointer)
+        .check();
+  }
+
+  static final _id_putIfAbsent = JMap._class.instanceMethodId(
+    r'putIfAbsent',
+    r'(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _putIfAbsent = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public V putIfAbsent(K object, V object1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? putIfAbsent(
+    $K? object,
+    $V? object1,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$object1 = object1?.reference ?? jni$_.jNullReference;
+    return JMap$$Methods._putIfAbsent(
+            reference.pointer,
+            JMap$$Methods._id_putIfAbsent.pointer,
+            _$object.pointer,
+            _$object1.pointer)
+        .object<$V?>();
+  }
+
+  static final _id_remove = JMap._class.instanceMethodId(
+    r'remove',
+    r'(Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _remove = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract V remove(java.lang.Object object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? remove(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JMap$$Methods._remove(reference.pointer,
+            JMap$$Methods._id_remove.pointer, _$object.pointer)
+        .object<$V?>();
+  }
+
+  static final _id_remove$1 = JMap._class.instanceMethodId(
+    r'remove',
+    r'(Ljava/lang/Object;Ljava/lang/Object;)Z',
+  );
+
+  static final _remove$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean remove(java.lang.Object object, java.lang.Object object1)`
+  core$_.bool remove$1(
+    jni$_.JObject? object,
+    jni$_.JObject? object1,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$object1 = object1?.reference ?? jni$_.jNullReference;
+    return JMap$$Methods._remove$1(
+            reference.pointer,
+            JMap$$Methods._id_remove$1.pointer,
+            _$object.pointer,
+            _$object1.pointer)
+        .boolean;
+  }
+
+  static final _id_replace = JMap._class.instanceMethodId(
+    r'replace',
+    r'(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _replace = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public V replace(K object, V object1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $V? replace(
+    $K? object,
+    $V? object1,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$object1 = object1?.reference ?? jni$_.jNullReference;
+    return JMap$$Methods._replace(
+            reference.pointer,
+            JMap$$Methods._id_replace.pointer,
+            _$object.pointer,
+            _$object1.pointer)
+        .object<$V?>();
+  }
+
+  static final _id_replace$1 = JMap._class.instanceMethodId(
+    r'replace',
+    r'(Ljava/lang/Object;Ljava/lang/Object;Ljava/lang/Object;)Z',
+  );
+
+  static final _replace$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean replace(K object, V object1, V object2)`
+  core$_.bool replace$1(
+    $K? object,
+    $V? object1,
+    $V? object2,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    final _$object1 = object1?.reference ?? jni$_.jNullReference;
+    final _$object2 = object2?.reference ?? jni$_.jNullReference;
+    return JMap$$Methods._replace$1(
+            reference.pointer,
+            JMap$$Methods._id_replace$1.pointer,
+            _$object.pointer,
+            _$object1.pointer,
+            _$object2.pointer)
+        .boolean;
+  }
+
+  static final _id_replaceAll = JMap._class.instanceMethodId(
+    r'replaceAll',
+    r'(Ljava/util/function/BiFunction;)V',
+  );
+
+  static final _replaceAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void replaceAll(java.util.function.BiFunction<? super K, ? super V, ? extends V> biFunction)`
+  void replaceAll(
+    jni$_.JObject? biFunction,
+  ) {
+    final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
+    JMap$$Methods._replaceAll(reference.pointer,
+            JMap$$Methods._id_replaceAll.pointer, _$biFunction.pointer)
+        .check();
+  }
+
+  static final _id_size = JMap._class.instanceMethodId(
+    r'size',
+    r'()I',
+  );
+
+  static final _size = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract int size()`
+  int size() {
+    return JMap$$Methods._size(
+            reference.pointer, JMap$$Methods._id_size.pointer)
+        .integer;
+  }
+
+  static final _id_values = JMap._class.instanceMethodId(
+    r'values',
+    r'()Ljava/util/Collection;',
+  );
+
+  static final _values = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.util.Collection<V> values()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JCollection<$V?>? values() {
+    return JMap$$Methods._values(
+            reference.pointer, JMap$$Methods._id_values.pointer)
+        .object<JCollection<$V?>?>();
   }
 }
 
@@ -12821,128 +13130,6 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<JSet> type = $JSet$Type$();
-  static final _id_add = _class.instanceMethodId(
-    r'add',
-    r'(Ljava/lang/Object;)Z',
-  );
-
-  static final _add = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean add(E object)`
-  core$_.bool add(
-    $E? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _add(reference.pointer, _id_add.pointer, _$object.pointer).boolean;
-  }
-
-  static final _id_addAll = _class.instanceMethodId(
-    r'addAll',
-    r'(Ljava/util/Collection;)Z',
-  );
-
-  static final _addAll = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean addAll(java.util.Collection<? extends E> collection)`
-  core$_.bool addAll(
-    JCollection<$E?>? collection,
-  ) {
-    final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _addAll(reference.pointer, _id_addAll.pointer, _$collection.pointer)
-        .boolean;
-  }
-
-  static final _id_clear = _class.instanceMethodId(
-    r'clear',
-    r'()V',
-  );
-
-  static final _clear = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract void clear()`
-  void clear() {
-    _clear(reference.pointer, _id_clear.pointer).check();
-  }
-
-  static final _id_contains = _class.instanceMethodId(
-    r'contains',
-    r'(Ljava/lang/Object;)Z',
-  );
-
-  static final _contains = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean contains(java.lang.Object object)`
-  core$_.bool contains(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _contains(reference.pointer, _id_contains.pointer, _$object.pointer)
-        .boolean;
-  }
-
-  static final _id_containsAll = _class.instanceMethodId(
-    r'containsAll',
-    r'(Ljava/util/Collection;)Z',
-  );
-
-  static final _containsAll = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean containsAll(java.util.Collection<?> collection)`
-  core$_.bool containsAll(
-    JCollection<jni$_.JObject?>? collection,
-  ) {
-    final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _containsAll(
-            reference.pointer, _id_containsAll.pointer, _$collection.pointer)
-        .boolean;
-  }
-
   static final _id_copyOf = _class.staticMethodId(
     r'copyOf',
     r'(Ljava/util/Collection;)Ljava/util/Set;',
@@ -12965,102 +13152,9 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     JCollection<$E?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _copyOf(
-            _class.reference.pointer, _id_copyOf.pointer, _$collection.pointer)
+    return JSet._copyOf(_class.reference.pointer, JSet._id_copyOf.pointer,
+            _$collection.pointer)
         .object<JSet<$E?>?>();
-  }
-
-  static final _id_equals = _class.instanceMethodId(
-    r'equals',
-    r'(Ljava/lang/Object;)Z',
-  );
-
-  static final _equals = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean equals(java.lang.Object object)`
-  core$_.bool equals(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
-        .boolean;
-  }
-
-  static final _id_hashCode$1 = _class.instanceMethodId(
-    r'hashCode',
-    r'()I',
-  );
-
-  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract int hashCode()`
-  int hashCode$1() {
-    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
-  }
-
-  static final _id_isEmpty = _class.instanceMethodId(
-    r'isEmpty',
-    r'()Z',
-  );
-
-  static final _isEmpty = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract boolean isEmpty()`
-  core$_.bool isEmpty() {
-    return _isEmpty(reference.pointer, _id_isEmpty.pointer).boolean;
-  }
-
-  static final _id_iterator = _class.instanceMethodId(
-    r'iterator',
-    r'()Ljava/util/Iterator;',
-  );
-
-  static final _iterator = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract java.util.Iterator<E> iterator()`
-  /// The returned object must be released after use, by calling the [release] method.
-  JIterator<$E?>? iterator() {
-    return _iterator(reference.pointer, _id_iterator.pointer)
-        .object<JIterator<$E?>?>();
   }
 
   static final _id_of = _class.staticMethodId(
@@ -13083,7 +13177,8 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `static public java.util.Set<E> of()`
   /// The returned object must be released after use, by calling the [release] method.
   static JSet<$E?>? of<$E extends jni$_.JObject?>() {
-    return _of(_class.reference.pointer, _id_of.pointer).object<JSet<$E?>?>();
+    return JSet._of(_class.reference.pointer, JSet._id_of.pointer)
+        .object<JSet<$E?>?>();
   }
 
   static final _id_of$1 = _class.staticMethodId(
@@ -13108,7 +13203,8 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     $E? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    return _of$1(_class.reference.pointer, _id_of$1.pointer, _$object.pointer)
+    return JSet._of$1(
+            _class.reference.pointer, JSet._id_of$1.pointer, _$object.pointer)
         .object<JSet<$E?>?>();
   }
 
@@ -13142,8 +13238,8 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
-    return _of$2(_class.reference.pointer, _id_of$2.pointer, _$object.pointer,
-            _$object1.pointer)
+    return JSet._of$2(_class.reference.pointer, JSet._id_of$2.pointer,
+            _$object.pointer, _$object1.pointer)
         .object<JSet<$E?>?>();
   }
 
@@ -13181,8 +13277,8 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
-    return _of$3(_class.reference.pointer, _id_of$3.pointer, _$object.pointer,
-            _$object1.pointer, _$object2.pointer)
+    return JSet._of$3(_class.reference.pointer, JSet._id_of$3.pointer,
+            _$object.pointer, _$object1.pointer, _$object2.pointer)
         .object<JSet<$E?>?>();
   }
 
@@ -13224,8 +13320,13 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
-    return _of$4(_class.reference.pointer, _id_of$4.pointer, _$object.pointer,
-            _$object1.pointer, _$object2.pointer, _$object3.pointer)
+    return JSet._of$4(
+            _class.reference.pointer,
+            JSet._id_of$4.pointer,
+            _$object.pointer,
+            _$object1.pointer,
+            _$object2.pointer,
+            _$object3.pointer)
         .object<JSet<$E?>?>();
   }
 
@@ -13271,9 +13372,9 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
-    return _of$5(
+    return JSet._of$5(
             _class.reference.pointer,
-            _id_of$5.pointer,
+            JSet._id_of$5.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -13328,9 +13429,9 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
-    return _of$6(
+    return JSet._of$6(
             _class.reference.pointer,
-            _id_of$6.pointer,
+            JSet._id_of$6.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -13390,9 +13491,9 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object4 = object4?.reference ?? jni$_.jNullReference;
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
-    return _of$7(
+    return JSet._of$7(
             _class.reference.pointer,
-            _id_of$7.pointer,
+            JSet._id_of$7.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -13457,9 +13558,9 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object5 = object5?.reference ?? jni$_.jNullReference;
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
-    return _of$8(
+    return JSet._of$8(
             _class.reference.pointer,
-            _id_of$8.pointer,
+            JSet._id_of$8.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -13529,9 +13630,9 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object6 = object6?.reference ?? jni$_.jNullReference;
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
     final _$object8 = object8?.reference ?? jni$_.jNullReference;
-    return _of$9(
+    return JSet._of$9(
             _class.reference.pointer,
-            _id_of$9.pointer,
+            JSet._id_of$9.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -13606,9 +13707,9 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object7 = object7?.reference ?? jni$_.jNullReference;
     final _$object8 = object8?.reference ?? jni$_.jNullReference;
     final _$object9 = object9?.reference ?? jni$_.jNullReference;
-    return _of$10(
+    return JSet._of$10(
             _class.reference.pointer,
-            _id_of$10.pointer,
+            JSet._id_of$10.pointer,
             _$object.pointer,
             _$object1.pointer,
             _$object2.pointer,
@@ -13644,284 +13745,9 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     jni$_.JArray<$E?>? objects,
   ) {
     final _$objects = objects?.reference ?? jni$_.jNullReference;
-    return _of$11(
-            _class.reference.pointer, _id_of$11.pointer, _$objects.pointer)
+    return JSet._of$11(
+            _class.reference.pointer, JSet._id_of$11.pointer, _$objects.pointer)
         .object<JSet<$E?>?>();
-  }
-
-  static final _id_remove = _class.instanceMethodId(
-    r'remove',
-    r'(Ljava/lang/Object;)Z',
-  );
-
-  static final _remove = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean remove(java.lang.Object object)`
-  core$_.bool remove(
-    jni$_.JObject? object,
-  ) {
-    final _$object = object?.reference ?? jni$_.jNullReference;
-    return _remove(reference.pointer, _id_remove.pointer, _$object.pointer)
-        .boolean;
-  }
-
-  static final _id_removeAll = _class.instanceMethodId(
-    r'removeAll',
-    r'(Ljava/util/Collection;)Z',
-  );
-
-  static final _removeAll = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean removeAll(java.util.Collection<?> collection)`
-  core$_.bool removeAll(
-    JCollection<jni$_.JObject?>? collection,
-  ) {
-    final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _removeAll(
-            reference.pointer, _id_removeAll.pointer, _$collection.pointer)
-        .boolean;
-  }
-
-  static final _id_retainAll = _class.instanceMethodId(
-    r'retainAll',
-    r'(Ljava/util/Collection;)Z',
-  );
-
-  static final _retainAll = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract boolean retainAll(java.util.Collection<?> collection)`
-  core$_.bool retainAll(
-    JCollection<jni$_.JObject?>? collection,
-  ) {
-    final _$collection = collection?.reference ?? jni$_.jNullReference;
-    return _retainAll(
-            reference.pointer, _id_retainAll.pointer, _$collection.pointer)
-        .boolean;
-  }
-
-  static final _id_size = _class.instanceMethodId(
-    r'size',
-    r'()I',
-  );
-
-  static final _size = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallIntMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract int size()`
-  int size() {
-    return _size(reference.pointer, _id_size.pointer).integer;
-  }
-
-  static final _id_spliterator = _class.instanceMethodId(
-    r'spliterator',
-    r'()Ljava/util/Spliterator;',
-  );
-
-  static final _spliterator = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.util.Spliterator<E> spliterator()`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? spliterator() {
-    return _spliterator(reference.pointer, _id_spliterator.pointer)
-        .object<jni$_.JObject?>();
-  }
-
-  static final _id_toArray = _class.instanceMethodId(
-    r'toArray',
-    r'()[Ljava/lang/Object;',
-  );
-
-  static final _toArray = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public abstract java.lang.Object[] toArray()`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<jni$_.JObject?>? toArray() {
-    return _toArray(reference.pointer, _id_toArray.pointer)
-        .object<jni$_.JArray<jni$_.JObject?>?>();
-  }
-
-  static final _id_toArray$1 = _class.instanceMethodId(
-    r'toArray',
-    r'([Ljava/lang/Object;)[Ljava/lang/Object;',
-  );
-
-  static final _toArray$1 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public abstract T[] toArray(T[] objects)`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<$T?>? toArray$1<$T extends jni$_.JObject?>(
-    jni$_.JArray<$T?>? objects,
-  ) {
-    final _$objects = objects?.reference ?? jni$_.jNullReference;
-    return _toArray$1(
-            reference.pointer, _id_toArray$1.pointer, _$objects.pointer)
-        .object<jni$_.JArray<$T?>?>();
-  }
-
-  static final _id_parallelStream = _class.instanceMethodId(
-    r'parallelStream',
-    r'()Ljava/util/stream/Stream;',
-  );
-
-  static final _parallelStream = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.util.stream.Stream<E> parallelStream()`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? parallelStream() {
-    return _parallelStream(reference.pointer, _id_parallelStream.pointer)
-        .object<jni$_.JObject?>();
-  }
-
-  static final _id_removeIf = _class.instanceMethodId(
-    r'removeIf',
-    r'(Ljava/util/function/Predicate;)Z',
-  );
-
-  static final _removeIf = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public boolean removeIf(java.util.function.Predicate<? super E> predicate)`
-  core$_.bool removeIf(
-    jni$_.JObject? predicate,
-  ) {
-    final _$predicate = predicate?.reference ?? jni$_.jNullReference;
-    return _removeIf(
-            reference.pointer, _id_removeIf.pointer, _$predicate.pointer)
-        .boolean;
-  }
-
-  static final _id_stream = _class.instanceMethodId(
-    r'stream',
-    r'()Ljava/util/stream/Stream;',
-  );
-
-  static final _stream = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.util.stream.Stream<E> stream()`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JObject? stream() {
-    return _stream(reference.pointer, _id_stream.pointer)
-        .object<jni$_.JObject?>();
-  }
-
-  static final _id_toArray$2 = _class.instanceMethodId(
-    r'toArray',
-    r'(Ljava/util/function/IntFunction;)[Ljava/lang/Object;',
-  );
-
-  static final _toArray$2 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public T[] toArray(java.util.function.IntFunction<T[]> intFunction)`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<$T?>? toArray$2<$T extends jni$_.JObject?>(
-    jni$_.JObject? intFunction,
-  ) {
-    final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
-    return _toArray$2(
-            reference.pointer, _id_toArray$2.pointer, _$intFunction.pointer)
-        .object<jni$_.JArray<$T?>?>();
   }
 
   /// Maps a specific port to the implemented interface.
@@ -14305,6 +14131,516 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final $i = jni$_.JImplementer();
     implementIn($i, $impl);
     return $i.implement<JSet<$E>>();
+  }
+}
+
+extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
+  static final _id_add = JSet._class.instanceMethodId(
+    r'add',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _add = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean add(E object)`
+  core$_.bool add(
+    $E? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JSet$$Methods._add(
+            reference.pointer, JSet$$Methods._id_add.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_addAll = JSet._class.instanceMethodId(
+    r'addAll',
+    r'(Ljava/util/Collection;)Z',
+  );
+
+  static final _addAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean addAll(java.util.Collection<? extends E> collection)`
+  core$_.bool addAll(
+    JCollection<$E?>? collection,
+  ) {
+    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    return JSet$$Methods._addAll(reference.pointer,
+            JSet$$Methods._id_addAll.pointer, _$collection.pointer)
+        .boolean;
+  }
+
+  static final _id_clear = JSet._class.instanceMethodId(
+    r'clear',
+    r'()V',
+  );
+
+  static final _clear = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract void clear()`
+  void clear() {
+    JSet$$Methods._clear(reference.pointer, JSet$$Methods._id_clear.pointer)
+        .check();
+  }
+
+  static final _id_contains = JSet._class.instanceMethodId(
+    r'contains',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _contains = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean contains(java.lang.Object object)`
+  core$_.bool contains(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JSet$$Methods._contains(reference.pointer,
+            JSet$$Methods._id_contains.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_containsAll = JSet._class.instanceMethodId(
+    r'containsAll',
+    r'(Ljava/util/Collection;)Z',
+  );
+
+  static final _containsAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean containsAll(java.util.Collection<?> collection)`
+  core$_.bool containsAll(
+    JCollection<jni$_.JObject?>? collection,
+  ) {
+    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    return JSet$$Methods._containsAll(reference.pointer,
+            JSet$$Methods._id_containsAll.pointer, _$collection.pointer)
+        .boolean;
+  }
+
+  static final _id_equals = JSet._class.instanceMethodId(
+    r'equals',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _equals = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean equals(java.lang.Object object)`
+  core$_.bool equals(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JSet$$Methods._equals(reference.pointer,
+            JSet$$Methods._id_equals.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_hashCode$1 = JSet._class.instanceMethodId(
+    r'hashCode',
+    r'()I',
+  );
+
+  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract int hashCode()`
+  int hashCode$1() {
+    return JSet$$Methods._hashCode$1(
+            reference.pointer, JSet$$Methods._id_hashCode$1.pointer)
+        .integer;
+  }
+
+  static final _id_isEmpty = JSet._class.instanceMethodId(
+    r'isEmpty',
+    r'()Z',
+  );
+
+  static final _isEmpty = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract boolean isEmpty()`
+  core$_.bool isEmpty() {
+    return JSet$$Methods._isEmpty(
+            reference.pointer, JSet$$Methods._id_isEmpty.pointer)
+        .boolean;
+  }
+
+  static final _id_iterator = JSet._class.instanceMethodId(
+    r'iterator',
+    r'()Ljava/util/Iterator;',
+  );
+
+  static final _iterator = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.util.Iterator<E> iterator()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JIterator<$E?>? iterator() {
+    return JSet$$Methods._iterator(
+            reference.pointer, JSet$$Methods._id_iterator.pointer)
+        .object<JIterator<$E?>?>();
+  }
+
+  static final _id_remove = JSet._class.instanceMethodId(
+    r'remove',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _remove = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean remove(java.lang.Object object)`
+  core$_.bool remove(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return JSet$$Methods._remove(reference.pointer,
+            JSet$$Methods._id_remove.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_removeAll = JSet._class.instanceMethodId(
+    r'removeAll',
+    r'(Ljava/util/Collection;)Z',
+  );
+
+  static final _removeAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean removeAll(java.util.Collection<?> collection)`
+  core$_.bool removeAll(
+    JCollection<jni$_.JObject?>? collection,
+  ) {
+    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    return JSet$$Methods._removeAll(reference.pointer,
+            JSet$$Methods._id_removeAll.pointer, _$collection.pointer)
+        .boolean;
+  }
+
+  static final _id_retainAll = JSet._class.instanceMethodId(
+    r'retainAll',
+    r'(Ljava/util/Collection;)Z',
+  );
+
+  static final _retainAll = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract boolean retainAll(java.util.Collection<?> collection)`
+  core$_.bool retainAll(
+    JCollection<jni$_.JObject?>? collection,
+  ) {
+    final _$collection = collection?.reference ?? jni$_.jNullReference;
+    return JSet$$Methods._retainAll(reference.pointer,
+            JSet$$Methods._id_retainAll.pointer, _$collection.pointer)
+        .boolean;
+  }
+
+  static final _id_size = JSet._class.instanceMethodId(
+    r'size',
+    r'()I',
+  );
+
+  static final _size = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract int size()`
+  int size() {
+    return JSet$$Methods._size(
+            reference.pointer, JSet$$Methods._id_size.pointer)
+        .integer;
+  }
+
+  static final _id_spliterator = JSet._class.instanceMethodId(
+    r'spliterator',
+    r'()Ljava/util/Spliterator;',
+  );
+
+  static final _spliterator = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.Spliterator<E> spliterator()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? spliterator() {
+    return JSet$$Methods._spliterator(
+            reference.pointer, JSet$$Methods._id_spliterator.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_toArray = JSet._class.instanceMethodId(
+    r'toArray',
+    r'()[Ljava/lang/Object;',
+  );
+
+  static final _toArray = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.lang.Object[] toArray()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JArray<jni$_.JObject?>? toArray() {
+    return JSet$$Methods._toArray(
+            reference.pointer, JSet$$Methods._id_toArray.pointer)
+        .object<jni$_.JArray<jni$_.JObject?>?>();
+  }
+
+  static final _id_toArray$1 = JSet._class.instanceMethodId(
+    r'toArray',
+    r'([Ljava/lang/Object;)[Ljava/lang/Object;',
+  );
+
+  static final _toArray$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract T[] toArray(T[] objects)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JArray<$T?>? toArray$1<$T extends jni$_.JObject?>(
+    jni$_.JArray<$T?>? objects,
+  ) {
+    final _$objects = objects?.reference ?? jni$_.jNullReference;
+    return JSet$$Methods._toArray$1(reference.pointer,
+            JSet$$Methods._id_toArray$1.pointer, _$objects.pointer)
+        .object<jni$_.JArray<$T?>?>();
+  }
+
+  static final _id_parallelStream = JSet._class.instanceMethodId(
+    r'parallelStream',
+    r'()Ljava/util/stream/Stream;',
+  );
+
+  static final _parallelStream = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.stream.Stream<E> parallelStream()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? parallelStream() {
+    return JSet$$Methods._parallelStream(
+            reference.pointer, JSet$$Methods._id_parallelStream.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_removeIf = JSet._class.instanceMethodId(
+    r'removeIf',
+    r'(Ljava/util/function/Predicate;)Z',
+  );
+
+  static final _removeIf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean removeIf(java.util.function.Predicate<? super E> predicate)`
+  core$_.bool removeIf(
+    jni$_.JObject? predicate,
+  ) {
+    final _$predicate = predicate?.reference ?? jni$_.jNullReference;
+    return JSet$$Methods._removeIf(reference.pointer,
+            JSet$$Methods._id_removeIf.pointer, _$predicate.pointer)
+        .boolean;
+  }
+
+  static final _id_stream = JSet._class.instanceMethodId(
+    r'stream',
+    r'()Ljava/util/stream/Stream;',
+  );
+
+  static final _stream = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.stream.Stream<E> stream()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? stream() {
+    return JSet$$Methods._stream(
+            reference.pointer, JSet$$Methods._id_stream.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_toArray$2 = JSet._class.instanceMethodId(
+    r'toArray',
+    r'(Ljava/util/function/IntFunction;)[Ljava/lang/Object;',
+  );
+
+  static final _toArray$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public T[] toArray(java.util.function.IntFunction<T[]> intFunction)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JArray<$T?>? toArray$2<$T extends jni$_.JObject?>(
+    jni$_.JObject? intFunction,
+  ) {
+    final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
+    return JSet$$Methods._toArray$2(reference.pointer,
+            JSet$$Methods._id_toArray$2.pointer, _$intFunction.pointer)
+        .object<jni$_.JArray<$T?>?>();
   }
 }
 

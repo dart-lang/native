@@ -1250,7 +1250,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(child.foo()!.toDartString(releaseOriginal: true), 'foo');
           expect(
             child
-                .someMethod('bar'.toJString()..releasedBy(arena))
+                .someMethod$1('bar'.toJString()..releasedBy(arena))
                 ?.toDartString(releaseOriginal: true),
             'bar',
           );
@@ -1275,6 +1275,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           final derived = DerivedInterface.implement(
             $DerivedInterface(
               foo: () => 'derived_foo'.toJString()..releasedBy(arena),
+              someMethod: (s) => s,
             ),
           )..releasedBy(arena);
 
