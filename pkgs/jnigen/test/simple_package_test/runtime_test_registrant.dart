@@ -1279,18 +1279,18 @@ void registerTests(String groupName, TestRunnerCallback test) {
             ),
           )..releasedBy(arena);
 
-          expect(derived.foo()!.toDartString(releaseOriginal: true),
+          expect(derived.foo()?.toDartString(releaseOriginal: true),
               'derived_foo');
 
           // Verify it can be assigned to BaseGenericInterface.
           final BaseGenericInterface<JString?> baseGeneric = derived;
-          expect(baseGeneric.foo()!.toDartString(releaseOriginal: true),
+          expect(baseGeneric.foo()?.toDartString(releaseOriginal: true),
               'derived_foo');
 
           // Verify it can be assigned to BaseInterface.
           final BaseInterface base = derived;
           expect(
-              base.foo()!.toDartString(releaseOriginal: true), 'derived_foo');
+              base.foo()?.toDartString(releaseOriginal: true), 'derived_foo');
         });
       });
     });
