@@ -1287,7 +1287,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
           // https://github.com/dart-lang/native/issues/3212
           final BaseGenericInterface<JString?> baseGeneric = derived;
           expect(baseGeneric.foo()?.toDartString(releaseOriginal: true),
-              'derived_foo', skip: Platform.isAndroid);
+              'derived_foo',
+              skip: Platform.isAndroid);
 
           // Verify it can be assigned to BaseInterface.
           final BaseInterface base = derived;
