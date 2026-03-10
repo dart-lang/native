@@ -711,8 +711,7 @@ class _TypeGenerator extends TypeVisitor<String> {
       },
     );
 
-    final typeParams =
-        typeErasure ? '' : allTypeParams.join(', ').encloseIfNotEmpty('<', '>');
+    final typeParams = allTypeParams.join(', ').encloseIfNotEmpty('<', '>');
     final prefix = resolver?.resolvePrefix(node.classDecl) ?? '';
     return '$prefix${node.classDecl.finalName}$typeParams$nullable';
   }

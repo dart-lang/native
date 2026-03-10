@@ -1844,7 +1844,7 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'addAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.addAll(
-          ($a![0] as JCollection?),
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
@@ -1860,7 +1860,7 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'containsAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.containsAll(
-          ($a![0] as JCollection?),
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
@@ -1902,7 +1902,7 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'removeAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.removeAll(
-          ($a![0] as JCollection?),
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
@@ -1914,7 +1914,7 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'retainAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.retainAll(
-          ($a![0] as JCollection?),
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
@@ -6751,13 +6751,13 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       if ($d == r'addAll(ILjava/util/Collection;)Z') {
         final $r = _$impls[$p]!.addAll(
           ($a![0] as jni$_.JInteger).intValue(releaseOriginal: true),
-          ($a![1] as JCollection?),
+          ($a![1] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'addAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.addAll$1(
-          ($a![0] as JCollection?),
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
@@ -6785,13 +6785,13 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'containsAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.containsAll(
-          ($a![0] as JCollection?),
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'copyOf(Ljava/util/Collection;)Ljava/util/List;') {
         final $r = _$impls[$p]!.copyOf(
-          ($a![0] as JCollection?),
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -7066,7 +7066,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'removeAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.removeAll(
-          ($a![0] as JCollection?),
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
@@ -7094,7 +7094,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'retainAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.retainAll(
-          ($a![0] as JCollection?),
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
@@ -9229,7 +9229,7 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
       }
       if ($d == r'copyOf(Ljava/util/Map$Entry;)Ljava/util/Map$Entry;') {
         final $r = _$impls[$p]!.copyOf(
-          ($a![0] as JMap$JEntry?),
+          ($a![0] as JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -10597,7 +10597,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       }
       if ($d == r'copyOf(Ljava/util/Map;)Ljava/util/Map;') {
         final $r = _$impls[$p]!.copyOf(
-          ($a![0] as JMap?),
+          ($a![0] as JMap<jni$_.JObject?, jni$_.JObject?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -10907,7 +10907,8 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       }
       if ($d == r'ofEntries([Ljava/util/Map$Entry;)Ljava/util/Map;') {
         final $r = _$impls[$p]!.ofEntries(
-          ($a![0] as jni$_.JArray<JMap$JEntry?>?),
+          ($a![0]
+              as jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -10929,7 +10930,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       }
       if ($d == r'putAll(Ljava/util/Map;)V') {
         _$impls[$p]!.putAll(
-          ($a![0] as JMap?),
+          ($a![0] as JMap<jni$_.JObject?, jni$_.JObject?>?),
         );
         return jni$_.nullptr;
       }
@@ -11785,7 +11786,8 @@ abstract base mixin class $JMap<$K extends jni$_.JObject?,
     required JMap$JEntry<jni$_.JObject?, jni$_.JObject?>? Function(
             jni$_.JObject? object, jni$_.JObject? object1)
         entry,
-    required JSet<JMap$JEntry?>? Function() entrySet,
+    required JSet<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? Function()
+        entrySet,
     required core$_.bool Function(jni$_.JObject? object) equals,
     required void Function(jni$_.JObject? biConsumer) forEach,
     core$_.bool forEach$async,
@@ -11930,7 +11932,7 @@ abstract base mixin class $JMap<$K extends jni$_.JObject?,
             jni$_.JObject? object19)
         of$10,
     required JMap<jni$_.JObject?, jni$_.JObject?>? Function(
-            jni$_.JArray<JMap$JEntry?>? entrys)
+            jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrys)
         ofEntries,
     required jni$_.JObject? Function(
             jni$_.JObject? object, jni$_.JObject? object1)
@@ -11966,7 +11968,7 @@ abstract base mixin class $JMap<$K extends jni$_.JObject?,
       JMap<jni$_.JObject?, jni$_.JObject?>? map);
   JMap$JEntry<jni$_.JObject?, jni$_.JObject?>? entry(
       jni$_.JObject? object, jni$_.JObject? object1);
-  JSet<JMap$JEntry?>? entrySet();
+  JSet<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrySet();
   core$_.bool equals(jni$_.JObject? object);
   void forEach(jni$_.JObject? biConsumer);
   core$_.bool get forEach$async => false;
@@ -12095,7 +12097,7 @@ abstract base mixin class $JMap<$K extends jni$_.JObject?,
       jni$_.JObject? object18,
       jni$_.JObject? object19);
   JMap<jni$_.JObject?, jni$_.JObject?>? ofEntries(
-      jni$_.JArray<JMap$JEntry?>? entrys);
+      jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrys);
   jni$_.JObject? put(jni$_.JObject? object, jni$_.JObject? object1);
   void putAll(JMap<jni$_.JObject?, jni$_.JObject?>? map);
   core$_.bool get putAll$async => false;
@@ -12128,7 +12130,8 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     required JMap$JEntry<jni$_.JObject?, jni$_.JObject?>? Function(
             jni$_.JObject? object, jni$_.JObject? object1)
         entry,
-    required JSet<JMap$JEntry?>? Function() entrySet,
+    required JSet<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? Function()
+        entrySet,
     required core$_.bool Function(jni$_.JObject? object) equals,
     required void Function(jni$_.JObject? biConsumer) forEach,
     this.forEach$async = false,
@@ -12273,7 +12276,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
             jni$_.JObject? object19)
         of$10,
     required JMap<jni$_.JObject?, jni$_.JObject?>? Function(
-            jni$_.JArray<JMap$JEntry?>? entrys)
+            jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrys)
         ofEntries,
     required jni$_.JObject? Function(
             jni$_.JObject? object, jni$_.JObject? object1)
@@ -12347,7 +12350,8 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
       JMap<jni$_.JObject?, jni$_.JObject?>? map) _copyOf;
   final JMap$JEntry<jni$_.JObject?, jni$_.JObject?>? Function(
       jni$_.JObject? object, jni$_.JObject? object1) _entry;
-  final JSet<JMap$JEntry?>? Function() _entrySet;
+  final JSet<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? Function()
+      _entrySet;
   final core$_.bool Function(jni$_.JObject? object) _equals;
   final void Function(jni$_.JObject? biConsumer) _forEach;
   final core$_.bool forEach$async;
@@ -12480,7 +12484,8 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
       jni$_.JObject? object18,
       jni$_.JObject? object19) _of$10;
   final JMap<jni$_.JObject?, jni$_.JObject?>? Function(
-      jni$_.JArray<JMap$JEntry?>? entrys) _ofEntries;
+          jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrys)
+      _ofEntries;
   final jni$_.JObject? Function(jni$_.JObject? object, jni$_.JObject? object1)
       _put;
   final void Function(JMap<jni$_.JObject?, jni$_.JObject?>? map) _putAll;
@@ -12534,7 +12539,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     return _entry(object, object1);
   }
 
-  JSet<JMap$JEntry?>? entrySet() {
+  JSet<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrySet() {
     return _entrySet();
   }
 
@@ -12780,7 +12785,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   }
 
   JMap<jni$_.JObject?, jni$_.JObject?>? ofEntries(
-      jni$_.JArray<JMap$JEntry?>? entrys) {
+      jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrys) {
     return _ofEntries(entrys);
   }
 
@@ -13493,7 +13498,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'addAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.addAll(
-          ($a![0] as JCollection?),
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
@@ -13509,13 +13514,13 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'containsAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.containsAll(
-          ($a![0] as JCollection?),
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'copyOf(Ljava/util/Collection;)Ljava/util/Set;') {
         final $r = _$impls[$p]!.copyOf(
-          ($a![0] as JCollection?),
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -13724,13 +13729,13 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'removeAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.removeAll(
-          ($a![0] as JCollection?),
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'retainAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.retainAll(
-          ($a![0] as JCollection?),
+          ($a![0] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
       }
