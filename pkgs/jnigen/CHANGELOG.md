@@ -13,10 +13,11 @@
   `bool`.
 - Kotlin suspend functions with no result (a return type of `Unit`) now return
   `Future<void>` in Dart instead of `Future<JObject>`.
-- Improve error message for unsupported Java class file versions in summary generation.
+- Improve error message for unsupported Java class file versions in summary
+  generation.
 - Generated extension types now implement their Java interfaces.
 - Instance members of generated extension types have been moved to extension
-  methods to avoid naming conflicts.
+  methods.
 
 ## 0.15.0
 
