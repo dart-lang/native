@@ -52,6 +52,7 @@ class InitializerDeclaration extends AstNode
   bool async;
 
   bool isFailable;
+  bool isExtensionMember;
 
   @override
   List<Parameter> params;
@@ -73,6 +74,7 @@ class InitializerDeclaration extends AstNode
     required this.throws,
     required this.async,
     required this.isFailable,
+    this.isExtensionMember = false,
   });
 
   @override

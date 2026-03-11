@@ -4,6 +4,7 @@
 
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/declarations/built_in/built_in_declaration.dart';
+import '../../ast/declarations/compounds/extension_declaration.dart';
 import '../../config.dart';
 import 'json.dart';
 
@@ -66,6 +67,7 @@ class ParsedSymbol {
   final InputConfig? source;
   final Json json;
   Declaration? declaration;
+  ExtensionDeclaration? extension;
 
   ParsedSymbol({required this.source, required this.json, this.declaration});
 }

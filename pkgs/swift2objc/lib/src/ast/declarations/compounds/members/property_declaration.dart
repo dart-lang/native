@@ -60,6 +60,7 @@ class PropertyDeclaration extends AstNode
   bool lazy;
 
   bool isStatic;
+  bool isExtensionMember;
 
   PropertyDeclaration({
     required this.id,
@@ -75,6 +76,7 @@ class PropertyDeclaration extends AstNode
     this.setter,
     this.hasExplicitGetter = false,
     this.isStatic = false,
+    this.isExtensionMember = false,
     this.throws = false,
     this.async = false,
     this.unowned = false,

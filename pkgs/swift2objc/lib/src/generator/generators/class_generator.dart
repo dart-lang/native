@@ -73,13 +73,13 @@ String? _generateClassWrappedInstance(ClassDeclaration declaration) {
 
 List<String> _generateInitializers(ClassDeclaration declaration) {
   return [
-    ..._generateInitializer(declaration.wrapperInitializer, isPublic: false),
+    ...generateInitializer(declaration.wrapperInitializer, isPublic: false),
     for (final init in declaration.initializers)
-      ..._generateInitializer(init, isPublic: true),
+      ...generateInitializer(init, isPublic: true),
   ];
 }
 
-List<String> _generateInitializer(
+List<String> generateInitializer(
   InitializerDeclaration? initializer, {
   required bool isPublic,
 }) {
@@ -103,10 +103,10 @@ List<String> _generateInitializer(
 }
 
 List<String> _generateClassMethods(ClassDeclaration declaration) => [
-  for (final method in declaration.methods) ..._generateClassMethod(method),
+  for (final method in declaration.methods) ...generateClassMethod(method),
 ];
 
-List<String> _generateClassMethod(MethodDeclaration method) {
+List<String> generateClassMethod(MethodDeclaration method) {
   final header = StringBuffer();
 
   if (method.hasObjCAnnotation) {
@@ -141,10 +141,10 @@ List<String> _generateClassMethod(MethodDeclaration method) {
 
 List<String> _generateClassProperties(ClassDeclaration declaration) => [
   for (final property in declaration.properties)
-    ..._generateClassProperty(property),
+    ...generateClassProperty(property),
 ];
 
-List<String> _generateClassProperty(PropertyDeclaration property) {
+List<String> generateClassProperty(PropertyDeclaration property) {
   final header = StringBuffer();
 
   if (property.hasObjCAnnotation) {
