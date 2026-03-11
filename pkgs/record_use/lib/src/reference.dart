@@ -42,6 +42,20 @@ sealed class Reference {
   @override
   int get hashCode => cacheHashCode(() => loadingUnit.hashCode);
 
+  int _compareTo(Reference other) {
+    var result = loadingUnit.name.compareTo(other.loadingUnit.name);
+    if (result != 0) return result;
+    result = _orderingTypePriority.compareTo(other._orderingTypePriority);
+    if (result != 0) return result;
+    return _compareToInternal(other);
+  }
+
+  int _compareToInternal(covariant Reference other);
+
+  /// A stable priority for this type.
+  @protected
+  int get _orderingTypePriority;
+
   bool _semanticEqualsShared(
     Reference other, {
     String Function(String)? uriMapping,
@@ -59,6 +73,104 @@ sealed class Reference {
   String toString() => loadingUnit.name;
 }
 
+mixin _HasArguments {
+  List<MaybeConstant> get positionalArguments;
+  Map<String, MaybeConstant> get namedArguments;
+
+  int _compareToArguments(covariant _HasArguments other) {
+    if (positionalArguments.length != other.positionalArguments.length) {
+      return positionalArguments.length.compareTo(
+        other.positionalArguments.length,
+      );
+    }
+    for (var i = 0; i < positionalArguments.length; i++) {
+      final result = positionalArguments[i].compareTo(
+        other.positionalArguments[i],
+      );
+      if (result != 0) return result;
+    }
+    if (namedArguments.length != other.namedArguments.length) {
+      return namedArguments.length.compareTo(other.namedArguments.length);
+    }
+    final thisSorted = namedArguments.keys.toList()..sort();
+    final otherSorted = other.namedArguments.keys.toList()..sort();
+    for (var i = 0; i < thisSorted.length; i++) {
+      var result = thisSorted[i].compareTo(otherSorted[i]);
+      if (result != 0) return result;
+      result = namedArguments[thisSorted[i]]!.compareTo(
+        other.namedArguments[otherSorted[i]]!,
+      );
+      if (result != 0) return result;
+    }
+    return 0;
+  }
+
+  List<MaybeConstant> _canonicalizePositional(
+    CanonicalizationContext context,
+  ) => [for (final c in positionalArguments) context.canonicalizeConstant(c)];
+
+  Map<String, MaybeConstant> _canonicalizeNamed(
+    CanonicalizationContext context,
+  ) {
+    final sortedNamedArgs = namedArguments.entries.toList()
+      ..sort((a, b) => a.key.compareTo(b.key));
+    return {
+      for (final e in sortedNamedArgs)
+        e.key: context.canonicalizeConstant(e.value),
+    };
+  }
+
+  List<MaybeConstant> _filterPositional({String? definitionPackageName}) => [
+    for (final c in positionalArguments)
+      c.filter(definitionPackageName: definitionPackageName),
+  ];
+
+  Map<String, MaybeConstant> _filterNamed({String? definitionPackageName}) =>
+      namedArguments.map(
+        (key, value) => MapEntry(
+          key,
+          value.filter(definitionPackageName: definitionPackageName),
+        ),
+      );
+
+  bool _semanticEqualsArguments(
+    _HasArguments other, {
+    required bool allowMoreConstArguments,
+    required bool allowPromotionOfUnsupported,
+  }) {
+    if (positionalArguments.length != other.positionalArguments.length) {
+      return false;
+    }
+    for (final (index, argument) in other.positionalArguments.indexed) {
+      if (argument is NonConstant && allowMoreConstArguments) {
+        continue;
+      }
+      // ignore: invalid_use_of_visible_for_testing_member
+      if (!positionalArguments[index].semanticEquals(
+        argument,
+        allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+      )) {
+        return false;
+      }
+    }
+    for (final entry in other.namedArguments.entries) {
+      final name = entry.key;
+      final argument = entry.value;
+      if (argument is NonConstant && allowMoreConstArguments) {
+        continue;
+      }
+      // ignore: invalid_use_of_visible_for_testing_member
+      if (!namedArguments[name]!.semanticEquals(
+        argument,
+        allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+      )) {
+        return false;
+      }
+    }
+    return true;
+  }
+}
+
 /// A reference to a call to some [Definition].
 ///
 /// This might be an actual call, in which case we record the arguments, or a
@@ -70,6 +182,21 @@ sealed class CallReference extends Reference {
   final MaybeConstant? receiver;
 
   const CallReference({required super.loadingUnit, this.receiver});
+
+  @override
+  int _compareToInternal(covariant CallReference other) {
+    if (receiver != null && other.receiver != null) {
+      final result = receiver!.compareTo(other.receiver!);
+      if (result != 0) return result;
+    } else if (receiver != null) {
+      return 1;
+    } else if (other.receiver != null) {
+      return -1;
+    }
+    return _compareToCallInternal(other);
+  }
+
+  int _compareToCallInternal(covariant CallReference other);
 
   static CallReference _fromSyntax(
     CallSyntax syntax,
@@ -164,8 +291,10 @@ sealed class CallReference extends Reference {
 ///
 /// Any non-provided arguments with default values will have their default
 /// values filled in.
-final class CallWithArguments extends CallReference {
+final class CallWithArguments extends CallReference with _HasArguments {
+  @override
   final List<MaybeConstant> positionalArguments;
+  @override
   final Map<String, MaybeConstant> namedArguments;
 
   const CallWithArguments({
@@ -176,38 +305,31 @@ final class CallWithArguments extends CallReference {
   });
 
   @override
-  Reference _canonicalizeChildren(CanonicalizationContext context) {
-    final sortedNamedArgs = namedArguments.entries.toList()
-      ..sort((a, b) => a.key.compareTo(b.key));
-    return CallWithArguments(
-      loadingUnit: context.canonicalizeLoadingUnit(loadingUnit),
-      receiver: receiver != null
-          ? context.canonicalizeConstant(receiver!)
-          : null,
-      positionalArguments: [
-        for (final c in positionalArguments) context.canonicalizeConstant(c),
-      ],
-      namedArguments: {
-        for (final e in sortedNamedArgs)
-          e.key: context.canonicalizeConstant(e.value),
-      },
-    );
-  }
+  int get _orderingTypePriority => 0;
+
+  @override
+  int _compareToCallInternal(covariant CallWithArguments other) =>
+      _compareToArguments(other);
+
+  @override
+  Reference _canonicalizeChildren(CanonicalizationContext context) =>
+      CallWithArguments(
+        loadingUnit: context.canonicalizeLoadingUnit(loadingUnit),
+        receiver: receiver != null
+            ? context.canonicalizeConstant(receiver!)
+            : null,
+        positionalArguments: _canonicalizePositional(context),
+        namedArguments: _canonicalizeNamed(context),
+      );
 
   @override
   CallReference _filter({String? definitionPackageName}) => CallWithArguments(
     loadingUnit: loadingUnit,
     receiver: receiver?.filter(definitionPackageName: definitionPackageName),
-    positionalArguments: [
-      for (final c in positionalArguments)
-        c.filter(definitionPackageName: definitionPackageName),
-    ],
-    namedArguments: namedArguments.map(
-      (key, value) => MapEntry(
-        key,
-        value.filter(definitionPackageName: definitionPackageName),
-      ),
+    positionalArguments: _filterPositional(
+      definitionPackageName: definitionPackageName,
     ),
+    namedArguments: _filterNamed(definitionPackageName: definitionPackageName),
   );
 
   @override
@@ -263,34 +385,12 @@ final class CallWithArguments extends CallReference {
   }) {
     switch (other) {
       case CallWithArguments():
-        if (positionalArguments.length != other.positionalArguments.length) {
+        if (!_semanticEqualsArguments(
+          other,
+          allowMoreConstArguments: allowMoreConstArguments,
+          allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+        )) {
           return false;
-        }
-        for (final (index, argument) in other.positionalArguments.indexed) {
-          if (argument is NonConstant && allowMoreConstArguments) {
-            continue;
-          }
-          // ignore: invalid_use_of_visible_for_testing_member
-          if (!positionalArguments[index].semanticEquals(
-            argument,
-            allowPromotionOfUnsupported: allowPromotionOfUnsupported,
-          )) {
-            return false;
-          }
-        }
-        for (final entry in other.namedArguments.entries) {
-          final name = entry.key;
-          final argument = entry.value;
-          if (argument is NonConstant && allowMoreConstArguments) {
-            continue;
-          }
-          // ignore: invalid_use_of_visible_for_testing_member
-          if (!namedArguments[name]!.semanticEquals(
-            argument,
-            allowPromotionOfUnsupported: allowPromotionOfUnsupported,
-          )) {
-            return false;
-          }
         }
         return _semanticEqualsCall(
           other,
@@ -330,6 +430,12 @@ final class CallWithArguments extends CallReference {
 /// record the arguments possibly passed to the method somewhere else.
 final class CallTearoff extends CallReference {
   const CallTearoff({required super.loadingUnit, super.receiver});
+
+  @override
+  int get _orderingTypePriority => 1;
+
+  @override
+  int _compareToCallInternal(covariant CallTearoff other) => 0;
 
   @override
   Reference _canonicalizeChildren(CanonicalizationContext context) =>
@@ -396,6 +502,12 @@ final class CallTearoff extends CallReference {
 //
 sealed class InstanceReference extends Reference {
   const InstanceReference({required super.loadingUnit});
+
+  @override
+  int _compareToInternal(covariant InstanceReference other) =>
+      _compareToInstanceInternal(other);
+
+  int _compareToInstanceInternal(covariant InstanceReference other);
 
   static InstanceReference _fromSyntax(
     InstanceSyntax syntax,
@@ -466,6 +578,13 @@ final class InstanceConstantReference extends InstanceReference {
     required this.instanceConstant,
     required super.loadingUnit,
   });
+
+  @override
+  int get _orderingTypePriority => 2;
+
+  @override
+  int _compareToInstanceInternal(covariant InstanceConstantReference other) =>
+      instanceConstant.compareTo(other.instanceConstant);
 
   @override
   Reference _canonicalizeChildren(CanonicalizationContext context) =>
@@ -543,9 +662,12 @@ final class InstanceConstantReference extends InstanceReference {
 ///
 /// Any non-provided arguments with default values will have their default
 /// values filled in.
-final class InstanceCreationReference extends InstanceReference {
+final class InstanceCreationReference extends InstanceReference
+    with _HasArguments {
   final Definition definition;
+  @override
   final List<MaybeConstant> positionalArguments;
+  @override
   final Map<String, MaybeConstant> namedArguments;
 
   const InstanceCreationReference({
@@ -556,36 +678,34 @@ final class InstanceCreationReference extends InstanceReference {
   });
 
   @override
-  Reference _canonicalizeChildren(CanonicalizationContext context) {
-    final sortedNamedArgs = namedArguments.entries.toList()
-      ..sort((a, b) => a.key.compareTo(b.key));
-    return InstanceCreationReference(
-      definition: context.canonicalizeDefinition(definition),
-      loadingUnit: context.canonicalizeLoadingUnit(loadingUnit),
-      positionalArguments: [
-        for (final c in positionalArguments) context.canonicalizeConstant(c),
-      ],
-      namedArguments: {
-        for (final e in sortedNamedArgs)
-          e.key: context.canonicalizeConstant(e.value),
-      },
-    );
+  int get _orderingTypePriority => 3;
+
+  @override
+  int _compareToInstanceInternal(covariant InstanceCreationReference other) {
+    final result = definition.compareTo(other.definition);
+    if (result != 0) return result;
+    return _compareToArguments(other);
   }
+
+  @override
+  Reference _canonicalizeChildren(CanonicalizationContext context) =>
+      InstanceCreationReference(
+        definition: context.canonicalizeDefinition(definition),
+        loadingUnit: context.canonicalizeLoadingUnit(loadingUnit),
+        positionalArguments: _canonicalizePositional(context),
+        namedArguments: _canonicalizeNamed(context),
+      );
 
   @override
   InstanceReference _filter({String? definitionPackageName}) =>
       InstanceCreationReference(
         definition: definition,
         loadingUnit: loadingUnit,
-        positionalArguments: [
-          for (final c in positionalArguments)
-            c.filter(definitionPackageName: definitionPackageName),
-        ],
-        namedArguments: namedArguments.map(
-          (key, value) => MapEntry(
-            key,
-            value.filter(definitionPackageName: definitionPackageName),
-          ),
+        positionalArguments: _filterPositional(
+          definitionPackageName: definitionPackageName,
+        ),
+        namedArguments: _filterNamed(
+          definitionPackageName: definitionPackageName,
         ),
       );
 
@@ -644,34 +764,12 @@ final class InstanceCreationReference extends InstanceReference {
     if (!definition.semanticEquals(other.definition, uriMapping: uriMapping)) {
       return false;
     }
-    if (positionalArguments.length != other.positionalArguments.length) {
+    if (!_semanticEqualsArguments(
+      other,
+      allowMoreConstArguments: allowMoreConstArguments,
+      allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+    )) {
       return false;
-    }
-    for (final (index, argument) in other.positionalArguments.indexed) {
-      if (argument is NonConstant && allowMoreConstArguments) {
-        continue;
-      }
-      // ignore: invalid_use_of_visible_for_testing_member
-      if (!positionalArguments[index].semanticEquals(
-        argument,
-        allowPromotionOfUnsupported: allowPromotionOfUnsupported,
-      )) {
-        return false;
-      }
-    }
-    for (final entry in other.namedArguments.entries) {
-      final name = entry.key;
-      final argument = entry.value;
-      if (argument is NonConstant && allowMoreConstArguments) {
-        continue;
-      }
-      // ignore: invalid_use_of_visible_for_testing_member
-      if (!namedArguments[name]!.semanticEquals(
-        argument,
-        allowPromotionOfUnsupported: allowPromotionOfUnsupported,
-      )) {
-        return false;
-      }
     }
     return _semanticEqualsShared(
       other,
@@ -707,6 +805,13 @@ final class ConstructorTearoffReference extends InstanceReference {
     required this.definition,
     required super.loadingUnit,
   });
+
+  @override
+  int get _orderingTypePriority => 4;
+
+  @override
+  int _compareToInstanceInternal(covariant ConstructorTearoffReference other) =>
+      definition.compareTo(other.definition);
 
   @override
   Reference _canonicalizeChildren(CanonicalizationContext context) =>
@@ -778,6 +883,8 @@ extension ReferenceProtected on Reference {
 
   Reference filter({String? definitionPackageName}) =>
       _filter(definitionPackageName: definitionPackageName);
+
+  int compareTo(Reference other) => _compareTo(other);
 }
 
 /// Package private (protected) methods for [CallReference].
@@ -792,6 +899,8 @@ extension CallReferenceProtected on CallReference {
 
   CallReference filter({String? definitionPackageName}) =>
       _filter(definitionPackageName: definitionPackageName);
+
+  int compareTo(Reference other) => _compareTo(other);
 
   static CallReference fromSyntax(
     CallSyntax syntax,
@@ -811,6 +920,8 @@ extension InstanceReferenceProtected on InstanceReference {
 
   InstanceReference filter({String? definitionPackageName}) =>
       _filter(definitionPackageName: definitionPackageName);
+
+  int compareTo(Reference other) => _compareTo(other);
 
   static InstanceReference fromSyntax(
     InstanceSyntax syntax,

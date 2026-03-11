@@ -329,28 +329,30 @@ Error: $e
     );
   }
 
-  Recordings _canonicalizeChildren(CanonicalizationContext context) {
-    final newCalls = <Definition, List<CallReference>>{};
-    for (final entry in calls.entries) {
+  Recordings _canonicalizeChildren(CanonicalizationContext context) =>
+      Recordings(
+        metadata: metadata,
+        calls: _canonicalizeReferences(context, calls),
+        instances: _canonicalizeReferences(context, instances),
+      );
+
+  Map<Definition, List<R>> _canonicalizeReferences<R extends Reference>(
+    CanonicalizationContext context,
+    Map<Definition, List<R>> references,
+  ) {
+    final map = <Definition, Set<R>>{};
+    for (final entry in references.entries) {
       final definition = context.canonicalizeDefinition(entry.key);
-      final references = [
-        for (final r in entry.value) r.canonicalizeChildren(context),
-      ];
-      newCalls.putIfAbsent(definition, () => []).addAll(references);
+      final set = map.putIfAbsent(definition, () => {});
+      for (final reference in entry.value) {
+        set.add(reference.canonicalizeChildren(context) as R);
+      }
     }
-    final newInstances = <Definition, List<InstanceReference>>{};
-    for (final entry in instances.entries) {
-      final definition = context.canonicalizeDefinition(entry.key);
-      final references = [
-        for (final r in entry.value) r.canonicalizeChildren(context),
-      ];
-      newInstances.putIfAbsent(definition, () => []).addAll(references);
-    }
-    return Recordings(
-      metadata: metadata,
-      calls: newCalls,
-      instances: newInstances,
-    );
+    final sortedKeys = map.keys.toList()..sort((a, b) => a.compareTo(b));
+    return <Definition, List<R>>{
+      for (final key in sortedKeys)
+        key: map[key]!.toList()..sort((a, b) => a.compareTo(b)),
+    };
   }
 
   static LoadingUnitDeserializationContext _deserializeLoadingUnits(
@@ -414,7 +416,7 @@ Error: $e
     final sortedLoadingUnits = canonContext.loadingUnits.toList()
       ..sort((a, b) => a.name.compareTo(b.name));
     final sortedDefinitions = canonContext.definitions.toList()
-      ..sort((a, b) => a.toString().compareTo(b.toString()));
+      ..sort((a, b) => a.compareTo(b));
     final sortedConstants = canonContext.constants.toList()
       ..sort((a, b) => a.compareTo(b));
 
@@ -425,28 +427,20 @@ Error: $e
     );
 
     final callRecordings = <CallRecordingSyntax>[];
-    for (final definition in context.definitions.keys) {
-      final callsForDefinition = canon.calls[definition];
-      if (callsForDefinition == null || callsForDefinition.isEmpty) continue;
+    for (final entry in canon.calls.entries) {
       callRecordings.add(
         CallRecordingSyntax(
-          definitionIndex: context.definitions[definition]!,
-          uses: callsForDefinition
-              .map((call) => call.toSyntax(context))
-              .toList(),
+          definitionIndex: context.definitions[entry.key]!,
+          uses: entry.value.map((call) => call.toSyntax(context)).toList(),
         ),
       );
     }
     final instanceRecordings = <InstanceRecordingSyntax>[];
-    for (final definition in context.definitions.keys) {
-      final instancesForDefinition = canon.instances[definition];
-      if (instancesForDefinition == null || instancesForDefinition.isEmpty) {
-        continue;
-      }
+    for (final entry in canon.instances.entries) {
       instanceRecordings.add(
         InstanceRecordingSyntax(
-          definitionIndex: context.definitions[definition]!,
-          uses: instancesForDefinition
+          definitionIndex: context.definitions[entry.key]!,
+          uses: entry.value
               .map((instance) => instance.toSyntax(context))
               .toList(),
         ),
@@ -733,6 +727,11 @@ Error: $e
       instances: newInstancesForDefinition,
     );
   }
+}
+
+extension RecordingsProtected on Recordings {
+  Recordings canonicalizeChildren(CanonicalizationContext context) =>
+      _canonicalizeChildren(context);
 }
 
 extension MapifyIterableExtension<T> on Iterable<T> {

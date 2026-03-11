@@ -146,12 +146,12 @@
         "definition_index": 0,
         "uses": [
           {
-            "constant_index": 17,
+            "constant_index": 13,
             "loading_unit_index": 0,
             "type": "constant"
           },
           {
-            "constant_index": 13,
+            "constant_index": 17,
             "loading_unit_index": 0,
             "type": "constant"
           }

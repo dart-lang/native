@@ -7,6 +7,8 @@ import 'dart:io';
 import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:pub_semver/pub_semver.dart';
 import 'package:record_use/record_use.dart';
+import 'package:record_use/src/canonicalization_context.dart';
+import 'package:record_use/src/recordings.dart';
 
 const callId = Definition(
   'package:js_runtime/js_helper.dart',
@@ -95,7 +97,7 @@ final recordedUses = Recordings(
       ),
     ],
   },
-);
+).canonicalizeChildren(CanonicalizationContext());
 
 final recordedUses2 = Recordings(
   metadata: Metadata(
@@ -117,7 +119,7 @@ final recordedUses2 = Recordings(
     ],
   },
   instances: {},
-);
+).canonicalizeChildren(CanonicalizationContext());
 
 final _testDataUri = findPackageRoot('record_use').resolve('test_data/json/');
 

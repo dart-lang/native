@@ -890,9 +890,7 @@ final class InstanceConstant extends Constant {
 
   @override
   int _compareToSameType(InstanceConstant other) {
-    final definitionCompare = definition.toString().compareTo(
-      other.definition.toString(),
-    );
+    final definitionCompare = definition.compareTo(other.definition);
     if (definitionCompare != 0) return definitionCompare;
     final lengthCompare = fields.length.compareTo(other.fields.length);
     if (lengthCompare != 0) return lengthCompare;
@@ -1056,9 +1054,7 @@ final class EnumConstant extends Constant {
 
   @override
   int _compareToSameType(EnumConstant other) {
-    final definitionCompare = definition.toString().compareTo(
-      other.definition.toString(),
-    );
+    final definitionCompare = definition.compareTo(other.definition);
     if (definitionCompare != 0) return definitionCompare;
     final indexCompare = index.compareTo(other.index);
     if (indexCompare != 0) return indexCompare;

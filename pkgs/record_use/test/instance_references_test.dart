@@ -4,6 +4,8 @@
 
 import 'package:pub_semver/pub_semver.dart';
 import 'package:record_use/record_use.dart';
+import 'package:record_use/src/canonicalization_context.dart';
+import 'package:record_use/src/recordings.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -123,8 +125,9 @@ void main() {
   });
 
   test('Round trip serialization', () {
-    final serializedJson = recordings.toJson();
+    final canon = recordings.canonicalizeChildren(CanonicalizationContext());
+    final serializedJson = canon.toJson();
     final roundTrippedRecordings = Recordings.fromJson(serializedJson);
-    expect(roundTrippedRecordings, equals(recordings));
+    expect(roundTrippedRecordings, equals(canon));
   });
 }

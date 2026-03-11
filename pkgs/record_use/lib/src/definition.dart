@@ -96,6 +96,9 @@ class Definition {
   int get hashCode =>
       cacheHashCode(() => Object.hash(library, Object.hashAll(path)));
 
+  // This should align with [toString] ordering.
+  int _compareTo(Definition other) => toString().compareTo(other.toString());
+
   /// Returns a URI representation of this definition.
   ///
   /// The [library] is the base URI and the [path] is the fragment.
@@ -147,8 +150,7 @@ class Name {
       name,
       kind: kind,
       disambiguators: Set.from(
-        disambiguators.toList()
-          ..sort((a, b) => a.toString().compareTo(b.toString())),
+        disambiguators.toList()..sort((a, b) => a.compareTo(b)),
       ),
     );
   }
@@ -182,8 +184,7 @@ class Name {
     }
     buffer.write(name);
     if (disambiguators.isNotEmpty) {
-      final sorted = disambiguators.toList()
-        ..sort((a, b) => a.toString().compareTo(b.toString()));
+      final sorted = disambiguators.toList()..sort((a, b) => a.compareTo(b));
       for (final disambiguator in sorted) {
         buffer.write('@$disambiguator');
       }
@@ -237,8 +238,18 @@ final class DefinitionKind {
   @override
   int get hashCode => _name.hashCode;
 
+  int _compareTo(DefinitionKind other) => _name.compareTo(other._name);
+
   @override
   String toString() => _name;
+}
+
+/// Package private (protected) methods for [DefinitionKind].
+///
+/// This avoids bloating the public API and public API docs and prevents
+/// internal types from leaking from the API.
+extension DefinitionKindProtected on DefinitionKind {
+  int compareTo(DefinitionKind other) => _compareTo(other);
 }
 
 /// Extra metadata to disambiguate between elements that might have the same
@@ -282,8 +293,18 @@ final class DefinitionDisambiguator {
   @override
   int get hashCode => _name.hashCode;
 
+  int _compareTo(DefinitionDisambiguator other) => _name.compareTo(other._name);
+
   @override
   String toString() => _name;
+}
+
+/// Package private (protected) methods for [DefinitionDisambiguator].
+///
+/// This avoids bloating the public API and public API docs and prevents
+/// internal types from leaking from the API.
+extension DefinitionDisambiguatorProtected on DefinitionDisambiguator {
+  int compareTo(DefinitionDisambiguator other) => _compareTo(other);
 }
 
 /// Package private (protected) methods for [Definition].
@@ -295,6 +316,8 @@ extension DefinitionProtected on Definition {
 
   Definition canonicalizeChildren(CanonicalizationContext context) =>
       _canonicalizeChildren(context);
+
+  int compareTo(Definition other) => _compareTo(other);
 
   static Definition fromSyntax(DefinitionSyntax syntax) =>
       Definition._fromSyntax(syntax);
