@@ -838,7 +838,7 @@ extension type DartInputStreamAdapter._(objc.ObjCObject object$)
   /// -1 => The `NSInputStream` has been closed and the port can be closed.
   /// _  => The number of types being required in a `read:maxLength` call.
   static DartInputStreamAdapter inputStreamWithPort(int sendPort) {
-    final $ret = _objc_msgSend_14hvw5k(
+    final $ret = _objc_msgSend_1ya1kjn(
       _class_DOBJCDartInputStreamAdapter,
       _sel_inputStreamWithPort_,
       sendPort,
@@ -1205,7 +1205,7 @@ extension DartProtocol$Methods on DartProtocol {
     DartProtocolBuilder builder, {
     required int withDisposePort,
   }) {
-    final $ret = _objc_msgSend_s27qhy(
+    final $ret = _objc_msgSend_dbvvll(
       object$.ref.retainAndReturnPointer(),
       _sel_initDOBJCDartProtocolFromDartProtocolBuilder_withDisposePort_,
       builder.ref.pointer,
@@ -1286,7 +1286,7 @@ extension DartProtocolBuilder$Methods on DartProtocolBuilder {
 
   /// buildInstance:
   DartProtocol buildInstance(int port) {
-    final $ret = _objc_msgSend_14hvw5k(
+    final $ret = _objc_msgSend_1ya1kjn(
       object$.ref.pointer,
       _sel_buildInstance_,
       port,
@@ -3491,11 +3491,11 @@ extension NSCharacterSet$Methods on NSCharacterSet {
   }
 
   /// hasMemberInPlane:
-  bool hasMemberInPlane(objc.ObjCObject thePlane) {
-    return _objc_msgSend_19nvye5(
+  bool hasMemberInPlane(int thePlane) {
+    return _objc_msgSend_gerswc(
       object$.ref.pointer,
       _sel_hasMemberInPlane_,
-      thePlane.ref.pointer,
+      thePlane,
     );
   }
 
@@ -9023,13 +9023,13 @@ extension type NSInputStream._(objc.ObjCObject object$)
 extension NSInputStream$Methods on NSInputStream {
   /// getBuffer:length:
   bool getBuffer(
-    objc.ObjCObject buffer, {
+    ffi.Pointer<ffi.Pointer<ffi.Uint8>> buffer, {
     required ffi.Pointer<ffi.UnsignedLong> length,
   }) {
-    return _objc_msgSend_dsy2bg(
+    return _objc_msgSend_19lrthf(
       object$.ref.pointer,
       _sel_getBuffer_length_,
-      buffer.ref.pointer,
+      buffer,
       length,
     );
   }
@@ -9093,11 +9093,11 @@ extension NSInputStream$Methods on NSInputStream {
   }
 
   /// read:maxLength:
-  int read(objc.ObjCObject buffer, {required int maxLength}) {
-    return _objc_msgSend_o870ko(
+  int read(ffi.Pointer<ffi.Uint8> buffer, {required int maxLength}) {
+    return _objc_msgSend_11e9f5x(
       object$.ref.pointer,
       _sel_read_maxLength_,
-      buffer.ref.pointer,
+      buffer,
       maxLength,
     );
   }
@@ -10243,6 +10243,20 @@ extension NSLocale$Methods on NSLocale {
       _sel_encodeWithCoder_,
       coder.ref.pointer,
     );
+  }
+
+  /// init
+  NSLocale init() {
+    objc.checkOsVersionInternal(
+      'NSLocale.init',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(
+      object$.ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return NSLocale.fromPointer($ret, retain: false, release: true);
   }
 
   /// initWithCoder:
@@ -15897,24 +15911,6 @@ extension NSOrderedCollectionChange$Methods on NSOrderedCollectionChange {
     return _objc_msgSend_xw2lbc(object$.ref.pointer, _sel_index);
   }
 
-  /// init
-  NSOrderedCollectionChange init() {
-    objc.checkOsVersionInternal(
-      'NSOrderedCollectionChange.init',
-      iOS: (false, (2, 0, 0)),
-      macOS: (false, (10, 0, 0)),
-    );
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSOrderedCollectionChange.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
-  }
-
   /// initWithObject:type:index:
   ///
   /// iOS: introduced 13.0.0
@@ -16849,13 +16845,13 @@ extension type NSOutputStream._(objc.ObjCObject object$)
 
   /// outputStreamToBuffer:capacity:
   static NSOutputStream outputStreamToBuffer(
-    objc.ObjCObject buffer, {
+    ffi.Pointer<ffi.Uint8> buffer, {
     required int capacity,
   }) {
-    final $ret = _objc_msgSend_1k4kd9s(
+    final $ret = _objc_msgSend_158ju31(
       _class_NSOutputStream,
       _sel_outputStreamToBuffer_capacity_,
-      buffer.ref.pointer,
+      buffer,
       capacity,
     );
     return NSOutputStream.fromPointer($ret, retain: true, release: true);
@@ -16930,11 +16926,14 @@ extension NSOutputStream$Methods on NSOutputStream {
   }
 
   /// initToBuffer:capacity:
-  NSOutputStream initToBuffer(objc.ObjCObject buffer, {required int capacity}) {
-    final $ret = _objc_msgSend_1k4kd9s(
+  NSOutputStream initToBuffer(
+    ffi.Pointer<ffi.Uint8> buffer, {
+    required int capacity,
+  }) {
+    final $ret = _objc_msgSend_158ju31(
       object$.ref.retainAndReturnPointer(),
       _sel_initToBuffer_capacity_,
-      buffer.ref.pointer,
+      buffer,
       capacity,
     );
     return NSOutputStream.fromPointer($ret, retain: false, release: true);
@@ -16981,11 +16980,11 @@ extension NSOutputStream$Methods on NSOutputStream {
   }
 
   /// write:maxLength:
-  int write(objc.ObjCObject buffer, {required int maxLength}) {
-    return _objc_msgSend_o870ko(
+  int write(ffi.Pointer<ffi.Uint8> buffer, {required int maxLength}) {
+    return _objc_msgSend_11e9f5x(
       object$.ref.pointer,
       _sel_write_maxLength_,
-      buffer.ref.pointer,
+      buffer,
       maxLength,
     );
   }
@@ -35563,6 +35562,25 @@ final _objc_msgSend_11cbyu0 = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
       )
     >();
+final _objc_msgSend_11e9f5x = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Long Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<ffi.Uint8>,
+          ffi.UnsignedLong,
+        )
+      >
+    >()
+    .asFunction<
+      int Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<ffi.Uint8>,
+        int,
+      )
+    >();
 final _objc_msgSend_11spmsz = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -35789,6 +35807,25 @@ final _objc_msgSend_151sglz = objc.msgSendPointer
       ffi.Pointer<objc.ObjCObjectImpl> Function(
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
+final _objc_msgSend_158ju31 = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<ffi.Uint8>,
+          ffi.UnsignedLong,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<ffi.Uint8>,
+        int,
       )
     >();
 final _objc_msgSend_15bolr3 = objc.msgSendPointer
@@ -36095,6 +36132,25 @@ final _objc_msgSend_194u5n2 = objc.msgSendPointer
       int Function(
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
+      )
+    >();
+final _objc_msgSend_19lrthf = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Bool Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+          ffi.Pointer<ffi.UnsignedLong>,
+        )
+      >
+    >()
+    .asFunction<
+      bool Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<ffi.Pointer<ffi.Uint8>>,
+        ffi.Pointer<ffi.UnsignedLong>,
       )
     >();
 final _objc_msgSend_19nvye5 = objc.msgSendPointer
@@ -38442,6 +38498,25 @@ final _objc_msgSend_d3i1uyStret = objc.msgSendStretPointer
         int,
       )
     >();
+final _objc_msgSend_dbvvll = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Pointer<objc.ObjCObjectImpl> Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Int64,
+        )
+      >
+    >()
+    .asFunction<
+      ffi.Pointer<objc.ObjCObjectImpl> Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        int,
+      )
+    >();
 final _objc_msgSend_degb40 = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -38495,25 +38570,6 @@ final _objc_msgSend_djsa9o = objc.msgSendPointer
         ffi.Pointer<objc.ObjCSelector>,
         ffi.Pointer<objc.ObjCObjectImpl>,
         int,
-      )
-    >();
-final _objc_msgSend_dsy2bg = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Bool Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<ffi.UnsignedLong>,
-        )
-      >
-    >()
-    .asFunction<
-      bool Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<ffi.UnsignedLong>,
       )
     >();
 final _objc_msgSend_dv3z6r = objc.msgSendPointer
@@ -38663,6 +38719,23 @@ final _objc_msgSend_gcjqkl = objc.msgSendPointer
         ffi.Pointer<objc.ObjCObjectImpl>,
         ffi.Pointer<objc.ObjCSelector>,
         ffi.Pointer<ffi.Pointer<objc.ObjCObjectImpl>>,
+        int,
+      )
+    >();
+final _objc_msgSend_gerswc = objc.msgSendPointer
+    .cast<
+      ffi.NativeFunction<
+        ffi.Bool Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.Pointer<objc.ObjCSelector>,
+          ffi.Uint8,
+        )
+      >
+    >()
+    .asFunction<
+      bool Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.Pointer<objc.ObjCSelector>,
         int,
       )
     >();
@@ -39161,25 +39234,6 @@ final _objc_msgSend_o762yo = objc.msgSendPointer
         ffi.Pointer<objc.ObjCBlockImpl>,
       )
     >();
-final _objc_msgSend_o870ko = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Long Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.UnsignedLong,
-        )
-      >
-    >()
-    .asFunction<
-      int Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        int,
-      )
-    >();
 final _objc_msgSend_oa8mke = objc.msgSendPointer
     .cast<
       ffi.NativeFunction<
@@ -39454,25 +39508,6 @@ final _objc_msgSend_s058d2 = objc.msgSendPointer
           ffi.Pointer<objc.ObjCSelector>,
           ffi.Pointer<objc.ObjCObjectImpl>,
           ffi.UnsignedLong,
-        )
-      >
-    >()
-    .asFunction<
-      ffi.Pointer<objc.ObjCObjectImpl> Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.Pointer<objc.ObjCSelector>,
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        int,
-      )
-    >();
-final _objc_msgSend_s27qhy = objc.msgSendPointer
-    .cast<
-      ffi.NativeFunction<
-        ffi.Pointer<objc.ObjCObjectImpl> Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Pointer<objc.ObjCSelector>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.Int,
         )
       >
     >()
