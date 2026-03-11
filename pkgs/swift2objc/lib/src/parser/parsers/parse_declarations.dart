@@ -32,15 +32,20 @@ List<Declaration> parseDeclarations(
 
   for (final symbol in symbolgraph.symbols.values) {
     final declaration = tryParseDeclaration(context, symbol, symbolgraph);
-    if (declaration != null) {
-      declarations.add(declaration);
-    }
+    if (declaration != null) declarations.add(declaration);
   }
 
+  // Collect ExtensionDeclarations that were created during compound parsing
+  // and stored on their symbols.
+  final extensions = symbolgraph.symbols.values
+      .map((s) => s.extension)
+      .nonNulls
+      .toList();
+
+  declarations.addAll(extensions);
   return declarations.topLevelOnly;
 }
 
-// TODO(https://github.com/dart-lang/native/issues/1815): Support for extensions
 Declaration parseDeclaration(
   Context context,
   ParsedSymbol parsedSymbol,

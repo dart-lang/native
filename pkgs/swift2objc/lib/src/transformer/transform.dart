@@ -8,6 +8,7 @@ import '../ast/_core/interfaces/nestable_declaration.dart';
 import '../ast/declarations/built_in/built_in_declaration.dart';
 import '../ast/declarations/compounds/class_declaration.dart';
 import '../ast/declarations/compounds/enum_declaration.dart';
+import '../ast/declarations/compounds/extension_declaration.dart';
 import '../ast/declarations/compounds/struct_declaration.dart';
 import '../ast/declarations/globals/globals.dart';
 import '../ast/declarations/typealias_declaration.dart';
@@ -19,6 +20,7 @@ import '_core/unique_namer.dart';
 import '_core/utils.dart';
 import 'transformers/transform_compound.dart';
 import 'transformers/transform_enum.dart';
+import 'transformers/transform_extension.dart';
 import 'transformers/transform_globals.dart';
 
 class TransformationState {
@@ -66,7 +68,12 @@ List<Declaration> transform(
   state.stubs.addAll(listDecls.stubDecls);
   state.bindings.addAll(listDecls.stubDecls);
 
-  state.globalNamer = UniqueNamer(
+  final extensionDecls = declarations
+      .whereType<ExtensionDeclaration>()
+      .toList();
+  state.bindings.addAll(extensionDecls);
+
+  final globalNamer = UniqueNamer(
     state.bindings.map((declaration) => declaration.name),
   );
 
@@ -75,6 +82,7 @@ List<Declaration> transform(
     variables: topLevelDecls.removeWhereType<GlobalVariableDeclaration>(),
   );
 
+  // Transform compounds first so their wrappers exist in state.map
   final transformedDeclarations = [
     ...topLevelDecls.map(
       (d) => maybeTransformDeclaration(d, state.globalNamer, state),
@@ -82,11 +90,20 @@ List<Declaration> transform(
     transformGlobals(globals, state.globalNamer, state),
   ].nonNulls.toList();
 
+  // Transform extensions after compounds
+  final transformedExtensions = extensionDecls
+      .map((e) => transformExtension(e, globalNamer, state))
+      .nonNulls
+      .toList();
+
   return [
-    ...transformedDeclarations,
-    ..._getPrimitiveWrapperClasses(state),
-    ...state.tupleWrappers.values,
-  ].sortedById();
+    ...[
+      ...transformedDeclarations,
+      ..._getPrimitiveWrapperClasses(state),
+      ...state.tupleWrappers.values,
+    ].sortedById(),
+    ...transformedExtensions.sortedById(),
+  ];
 }
 
 Declaration transformDeclaration(
@@ -149,6 +166,11 @@ Declaration? maybeTransformDeclaration(
     ),
     EnumDeclaration() => transformEnum(declaration, parentNamer, state),
     TypealiasDeclaration() => null,
+    ExtensionDeclaration() => transformExtension(
+      declaration,
+      parentNamer,
+      state,
+    ),
     _ => throw UnimplementedError(),
   };
 }

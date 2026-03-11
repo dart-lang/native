@@ -16,7 +16,7 @@ EnumDeclaration parseEnumDeclaration(
   ParsedSymbol symbol,
   ParsedSymbolgraph symbolgraph,
 ) {
-  final (compound: enumDecl, :excessMembers) = parseCompoundDeclaration(
+  final (:compound, :excessMembers) = parseCompoundDeclaration(
     context,
     symbol,
     symbolgraph,
@@ -37,8 +37,8 @@ EnumDeclaration parseEnumDeclaration(
       nestedDeclarations: [],
     ),
   );
-  enumDecl.cases.addAll(excessMembers.removeWhereType<EnumCaseDeclaration>());
-  return enumDecl;
+  compound.cases.addAll(excessMembers.removeWhereType<EnumCaseDeclaration>());
+  return compound;
 }
 
 EnumCaseDeclaration parseEnumCaseDeclaration(
