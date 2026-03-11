@@ -41,9 +41,19 @@ import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
 /// from: `com.github.dart_lang.jnigen.CanDoA`
-extension type CanDoA._(jni$_.JObject _$this) implements jni$_.JObject {
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/CanDoA');
+class CanDoA extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JType<CanDoA> $type;
+
+  @jni$_.internal
+  CanDoA.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static jni$_.JClass get _class =>
+      jni$_.JClass.forNameCached(r'com/github/dart_lang/jnigen/CanDoA');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<CanDoA> type = $CanDoA$Type$();
@@ -179,9 +189,19 @@ final class $CanDoA$Type$ extends jni$_.JType<CanDoA> {
 }
 
 /// from: `com.github.dart_lang.jnigen.CanDoB`
-extension type CanDoB._(jni$_.JObject _$this) implements jni$_.JObject {
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/CanDoB');
+class CanDoB extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JType<CanDoB> $type;
+
+  @jni$_.internal
+  CanDoB.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static jni$_.JClass get _class =>
+      jni$_.JClass.forNameCached(r'com/github/dart_lang/jnigen/CanDoB');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<CanDoB> type = $CanDoB$Type$();
@@ -317,10 +337,23 @@ final class $CanDoB$Type$ extends jni$_.JType<CanDoB> {
 }
 
 /// from: `com.github.dart_lang.jnigen.Measure`
-extension type Measure<$T extends jni$_.JObject>._(jni$_.JObject _$this)
-    implements jni$_.JObject {
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/Measure');
+class Measure<$T extends jni$_.JObject> extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JType<Measure<$T>> $type;
+
+  @jni$_.internal
+  final jni$_.JType<$T> T;
+
+  @jni$_.internal
+  Measure.fromReference(
+    this.T,
+    jni$_.JReference reference,
+  )   : $type = type<$T>(T),
+        super.fromReference(reference);
+
+  static jni$_.JClass get _class =>
+      jni$_.JClass.forNameCached(r'com/github/dart_lang/jnigen/Measure');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<Measure> type = $Measure$Type$();
@@ -406,9 +439,19 @@ final class $Measure$Type$ extends jni$_.JType<Measure> {
 }
 
 /// from: `com.github.dart_lang.jnigen.MeasureUnit`
-extension type MeasureUnit._(jni$_.JObject _$this) implements jni$_.JObject {
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/MeasureUnit');
+class MeasureUnit extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JType<MeasureUnit> $type;
+
+  @jni$_.internal
+  MeasureUnit.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static jni$_.JClass get _class =>
+      jni$_.JClass.forNameCached(r'com/github/dart_lang/jnigen/MeasureUnit');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<MeasureUnit> type = $MeasureUnit$Type$();
@@ -579,10 +622,31 @@ final class $MeasureUnit$Type$ extends jni$_.JType<MeasureUnit> {
 }
 
 /// from: `com.github.dart_lang.jnigen.Nullability$InnerClass`
-extension type Nullability$InnerClass<$T extends jni$_.JObject?,
-        $U extends jni$_.JObject, $V extends jni$_.JObject?>._(
-    jni$_.JObject _$this) implements jni$_.JObject {
-  static final _class = jni$_.JClass.forName(
+class Nullability$InnerClass<$T extends jni$_.JObject?,
+    $U extends jni$_.JObject, $V extends jni$_.JObject?> extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JType<Nullability$InnerClass<$T, $U, $V>> $type;
+
+  @jni$_.internal
+  final jni$_.JType<$T> T;
+
+  @jni$_.internal
+  final jni$_.JType<$U> U;
+
+  @jni$_.internal
+  final jni$_.JType<$V> V;
+
+  @jni$_.internal
+  Nullability$InnerClass.fromReference(
+    this.T,
+    this.U,
+    this.V,
+    jni$_.JReference reference,
+  )   : $type = type<$T, $U, $V>(T, U, V),
+        super.fromReference(reference);
+
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/Nullability$InnerClass');
 
   /// The type which includes information such as the signature of this class.
@@ -665,10 +729,28 @@ final class $Nullability$InnerClass$Type$
 }
 
 /// from: `com.github.dart_lang.jnigen.Nullability`
-extension type Nullability<$T extends jni$_.JObject?,
-    $U extends jni$_.JObject>._(jni$_.JObject _$this) implements jni$_.JObject {
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/Nullability');
+class Nullability<$T extends jni$_.JObject?, $U extends jni$_.JObject>
+    extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JType<Nullability<$T, $U>> $type;
+
+  @jni$_.internal
+  final jni$_.JType<$T> T;
+
+  @jni$_.internal
+  final jni$_.JType<$U> U;
+
+  @jni$_.internal
+  Nullability.fromReference(
+    this.T,
+    this.U,
+    jni$_.JReference reference,
+  )   : $type = type<$T, $U>(T, U),
+        super.fromReference(reference);
+
+  static jni$_.JClass get _class =>
+      jni$_.JClass.forNameCached(r'com/github/dart_lang/jnigen/Nullability');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<Nullability> type = $Nullability$Type$();
@@ -1399,9 +1481,19 @@ final class $Nullability$Type$ extends jni$_.JType<Nullability> {
 }
 
 /// from: `com.github.dart_lang.jnigen.Operators`
-extension type Operators._(jni$_.JObject _$this) implements jni$_.JObject {
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/Operators');
+class Operators extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JType<Operators> $type;
+
+  @jni$_.internal
+  Operators.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static jni$_.JClass get _class =>
+      jni$_.JClass.forNameCached(r'com/github/dart_lang/jnigen/Operators');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<Operators> type = $Operators$Type$();
@@ -1754,9 +1846,19 @@ final class $Operators$Type$ extends jni$_.JType<Operators> {
 }
 
 /// from: `com.github.dart_lang.jnigen.Speed`
-extension type Speed._(jni$_.JObject _$this) implements Measure<SpeedUnit> {
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/Speed');
+class Speed extends Measure<SpeedUnit> {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JType<Speed> $type;
+
+  @jni$_.internal
+  Speed.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(const $SpeedUnit$Type$(), reference);
+
+  static jni$_.JClass get _class =>
+      jni$_.JClass.forNameCached(r'com/github/dart_lang/jnigen/Speed');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<Speed> type = $Speed$Type$();
@@ -1994,9 +2096,19 @@ final class $Speed$Type$ extends jni$_.JType<Speed> {
 }
 
 /// from: `com.github.dart_lang.jnigen.SpeedUnit`
-extension type SpeedUnit._(jni$_.JObject _$this) implements jni$_.JObject {
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/SpeedUnit');
+class SpeedUnit extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JType<SpeedUnit> $type;
+
+  @jni$_.internal
+  SpeedUnit.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static jni$_.JClass get _class =>
+      jni$_.JClass.forNameCached(r'com/github/dart_lang/jnigen/SpeedUnit');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<SpeedUnit> type = $SpeedUnit$Type$();
@@ -2128,9 +2240,19 @@ final class $SpeedUnit$Type$ extends jni$_.JType<SpeedUnit> {
 }
 
 /// from: `com.github.dart_lang.jnigen.SuspendFun`
-extension type SuspendFun._(jni$_.JObject _$this) implements jni$_.JObject {
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/SuspendFun');
+class SuspendFun extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JType<SuspendFun> $type;
+
+  @jni$_.internal
+  SuspendFun.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static jni$_.JClass get _class =>
+      jni$_.JClass.forNameCached(r'com/github/dart_lang/jnigen/SuspendFun');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<SuspendFun> type = $SuspendFun$Type$();
@@ -2621,8 +2743,8 @@ final class $SuspendFun$Type$ extends jni$_.JType<SuspendFun> {
   String get signature => r'Lcom/github/dart_lang/jnigen/SuspendFun;';
 }
 
-final _SuspendFunKtClass =
-    jni$_.JClass.forName(r'com/github/dart_lang/jnigen/SuspendFunKt');
+jni$_.JClass get _SuspendFunKtClass =>
+    jni$_.JClass.forNameCached(r'com/github/dart_lang/jnigen/SuspendFunKt');
 
 final _id_consumeOnAnotherThread = _SuspendFunKtClass.staticMethodId(
   r'consumeOnAnotherThread',
@@ -2739,10 +2861,19 @@ core$_.Future<jni$_.JString> consumeOnSameThread(
 }
 
 /// from: `com.github.dart_lang.jnigen.SuspendInterface`
-extension type SuspendInterface._(jni$_.JObject _$this)
-    implements jni$_.JObject {
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/SuspendInterface');
+class SuspendInterface extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JType<SuspendInterface> $type;
+
+  @jni$_.internal
+  SuspendInterface.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
+      r'com/github/dart_lang/jnigen/SuspendInterface');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<SuspendInterface> type = $SuspendInterface$Type$();
@@ -3356,8 +3487,8 @@ final class $SuspendInterface$Type$ extends jni$_.JType<SuspendInterface> {
   String get signature => r'Lcom/github/dart_lang/jnigen/SuspendInterface;';
 }
 
-final _TopLevelKtClass =
-    jni$_.JClass.forName(r'com/github/dart_lang/jnigen/TopLevelKt');
+jni$_.JClass get _TopLevelKtClass =>
+    jni$_.JClass.forNameCached(r'com/github/dart_lang/jnigen/TopLevelKt');
 
 final _id_getTopLevelField = _TopLevelKtClass.staticMethodId(
   r'getTopLevelField',
@@ -3455,8 +3586,8 @@ int topLevelSum(
       .integer;
 }
 
-final _TopLevelKt$1Class =
-    jni$_.JClass.forName(r'com/github/dart_lang/jnigen/subpackage/TopLevelKt');
+jni$_.JClass get _TopLevelKt$1Class => jni$_.JClass.forNameCached(
+    r'com/github/dart_lang/jnigen/subpackage/TopLevelKt');
 
 final _id_getTopLevelField$1 = _TopLevelKt$1Class.staticMethodId(
   r'getTopLevelField',

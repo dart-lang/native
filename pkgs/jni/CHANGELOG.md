@@ -17,6 +17,10 @@
 - Changed the behavior of `JObject.releasedBy`. It now does not throw a
   `DoubleReleaseError` if the object was manually released before the end of
   arena.
+- Added an isolate-local bounded LRU cache (default 256 entries) for `JClass`global
+  references to reduce repeated FindClass calls and GlobalRef allocations.Introduced
+  `Jni.getCachedClass`, `JClass.forNameCached`, and `Jni.setClassCacheSize` to access
+  and configure the cache, with immediate eviction when the capacity is reduced.
 - Added `JThrowable` class which inherits from `JObject` and implements
   `Exception`.
 - **Breaking Change**: `JniException` has been deleted. Java exceptions are now

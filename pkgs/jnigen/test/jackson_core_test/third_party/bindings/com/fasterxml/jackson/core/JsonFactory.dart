@@ -59,10 +59,19 @@ import 'JsonParser.dart' as jsonparser$_;
 ///
 /// Enumeration that defines all on/off features that can only be
 /// changed for JsonFactory.
-extension type JsonFactory$Feature._(jni$_.JObject _$this)
-    implements jni$_.JObject {
-  static final _class =
-      jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonFactory$Feature');
+class JsonFactory$Feature extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JType<JsonFactory$Feature> $type;
+
+  @jni$_.internal
+  JsonFactory$Feature.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
+      r'com/fasterxml/jackson/core/JsonFactory$Feature');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<JsonFactory$Feature> type =
@@ -334,9 +343,19 @@ final class $JsonFactory$Feature$Type$
 /// the default constructor is used for constructing factory
 /// instances.
 ///@author Tatu Saloranta
-extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
-  static final _class =
-      jni$_.JClass.forName(r'com/fasterxml/jackson/core/JsonFactory');
+class JsonFactory extends jni$_.JObject {
+  @jni$_.internal
+  @core$_.override
+  final jni$_.JType<JsonFactory> $type;
+
+  @jni$_.internal
+  JsonFactory.fromReference(
+    jni$_.JReference reference,
+  )   : $type = type,
+        super.fromReference(reference);
+
+  static jni$_.JClass get _class =>
+      jni$_.JClass.forNameCached(r'com/fasterxml/jackson/core/JsonFactory');
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<JsonFactory> type = $JsonFactory$Type$();
