@@ -34,7 +34,7 @@ void main() {
             'uses': [
               {
                 'type': 'with_arguments',
-                'loading_unit_indices': [0],
+                'loading_unit_index': 0,
                 'positional': [0, 1, 2],
                 'named': {'a': 0, 'b': 1, 'c': 2},
               },
@@ -105,7 +105,7 @@ void main() {
               'f': SymbolConstant('foo'),
               'g': SymbolConstant('_bar', libraryUri: 'package:a/a.dart'),
             },
-            loadingUnits: [loadingUnit1],
+            loadingUnit: loadingUnit1,
           ),
         ],
       },
@@ -140,7 +140,7 @@ void main() {
           const CallWithArguments(
             positionalArguments: [IntConstant(42)],
             namedArguments: {'a': StringConstant('bar')},
-            loadingUnits: [loadingUnit1],
+            loadingUnit: loadingUnit1,
           ),
         ],
       },
@@ -154,7 +154,7 @@ void main() {
           const CallWithArguments(
             positionalArguments: [UnsupportedConstant('MethodTearoff')],
             namedArguments: {'a': UnsupportedConstant('MethodTearoff')},
-            loadingUnits: [loadingUnit1],
+            loadingUnit: loadingUnit1,
           ),
         ],
       },

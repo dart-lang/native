@@ -71,25 +71,25 @@ class CallSyntax extends JsonObjectSyntax {
   }) : super.fromJson();
 
   CallSyntax({
-    required List<int> loadingUnitIndices,
+    required int loadingUnitIndex,
     int? receiver,
     required String type,
     super.path = const [],
   }) : super() {
-    _loadingUnitIndices = loadingUnitIndices;
+    _loadingUnitIndex = loadingUnitIndex;
     _receiver = receiver;
     _type = type;
     json.sortOnKey();
   }
 
-  List<int> get loadingUnitIndices => _reader.list<int>('loading_unit_indices');
+  int get loadingUnitIndex => _reader.get<int>('loading_unit_index');
 
-  set _loadingUnitIndices(List<int> value) {
-    json['loading_unit_indices'] = value;
+  set _loadingUnitIndex(int value) {
+    json.setOrRemove('loading_unit_index', value);
   }
 
-  List<String> _validateLoadingUnitIndices() =>
-      _reader.validateList<int>('loading_unit_indices');
+  List<String> _validateLoadingUnitIndex() =>
+      _reader.validate<int>('loading_unit_index');
 
   int? get receiver => _reader.get<int?>('receiver');
 
@@ -110,7 +110,7 @@ class CallSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [
     ...super.validate(),
-    ..._validateLoadingUnitIndices(),
+    ..._validateLoadingUnitIndex(),
     ..._validateReceiver(),
     ..._validateType(),
   ];
@@ -301,7 +301,7 @@ class ConstantInstanceSyntax extends InstanceSyntax {
 
   ConstantInstanceSyntax({
     required int constantIndex,
-    required super.loadingUnitIndices,
+    required super.loadingUnitIndex,
     super.path = const [],
   }) : super(type: 'constant') {
     _constantIndex = constantIndex;
@@ -374,7 +374,7 @@ class CreationInstanceSyntax extends InstanceSyntax {
 
   CreationInstanceSyntax({
     required int definitionIndex,
-    required super.loadingUnitIndices,
+    required super.loadingUnitIndex,
     Map<String, int>? named,
     List<int>? positional,
     super.path = const [],
@@ -750,23 +750,23 @@ class InstanceSyntax extends JsonObjectSyntax {
   }) : super.fromJson();
 
   InstanceSyntax({
-    required List<int> loadingUnitIndices,
+    required int loadingUnitIndex,
     required String type,
     super.path = const [],
   }) : super() {
-    _loadingUnitIndices = loadingUnitIndices;
+    _loadingUnitIndex = loadingUnitIndex;
     _type = type;
     json.sortOnKey();
   }
 
-  List<int> get loadingUnitIndices => _reader.list<int>('loading_unit_indices');
+  int get loadingUnitIndex => _reader.get<int>('loading_unit_index');
 
-  set _loadingUnitIndices(List<int> value) {
-    json['loading_unit_indices'] = value;
+  set _loadingUnitIndex(int value) {
+    json.setOrRemove('loading_unit_index', value);
   }
 
-  List<String> _validateLoadingUnitIndices() =>
-      _reader.validateList<int>('loading_unit_indices');
+  List<String> _validateLoadingUnitIndex() =>
+      _reader.validate<int>('loading_unit_index');
 
   String get type => _reader.get<String>('type');
 
@@ -779,7 +779,7 @@ class InstanceSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [
     ...super.validate(),
-    ..._validateLoadingUnitIndices(),
+    ..._validateLoadingUnitIndex(),
     ..._validateType(),
     ..._validateExtraRulesInstance(),
   ];
@@ -1793,7 +1793,7 @@ class TearoffCallSyntax extends CallSyntax {
   }) : super._fromJson();
 
   TearoffCallSyntax({
-    required super.loadingUnitIndices,
+    required super.loadingUnitIndex,
     super.receiver,
     super.path = const [],
   }) : super(type: 'tearoff');
@@ -1822,7 +1822,7 @@ class TearoffInstanceSyntax extends InstanceSyntax {
 
   TearoffInstanceSyntax({
     required int definitionIndex,
-    required super.loadingUnitIndices,
+    required super.loadingUnitIndex,
     super.path = const [],
   }) : super(type: 'tearoff') {
     _definitionIndex = definitionIndex;
@@ -2005,7 +2005,7 @@ class WithArgumentsCallSyntax extends CallSyntax {
   }) : super._fromJson();
 
   WithArgumentsCallSyntax({
-    required super.loadingUnitIndices,
+    required super.loadingUnitIndex,
     Map<String, int>? named,
     List<int>? positional,
     super.receiver,

@@ -62,12 +62,12 @@ void main() {
             const CallWithArguments(
               positionalArguments: [constant],
               namedArguments: {},
-              loadingUnits: [],
+              loadingUnit: LoadingUnit(''),
             ),
             const CallWithArguments(
               positionalArguments: [constant],
               namedArguments: {},
-              loadingUnits: [],
+              loadingUnit: LoadingUnit(''),
             ),
           ],
         },

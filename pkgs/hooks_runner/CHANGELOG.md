@@ -1,3 +1,7 @@
+## 1.1.1-wip
+
+- Nothing yet.
+
 ## 1.1.0
 
 - Filter `recorded_uses.json` passed to link hooks based on the

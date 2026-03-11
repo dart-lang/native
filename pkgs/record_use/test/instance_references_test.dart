@@ -34,11 +34,11 @@ void main() {
           definition: constructorDefinition,
           positionalArguments: [IntConstant(1), IntConstant(2)],
           namedArguments: {'param': StringConstant('named_arg_value')},
-          loadingUnits: [loadingUnitRoot],
+          loadingUnit: loadingUnitRoot,
         ),
         const ConstructorTearoffReference(
           definition: constructorDefinition,
-          loadingUnits: [loadingUnitOther],
+          loadingUnit: loadingUnitOther,
         ),
         const InstanceConstantReference(
           instanceConstant: EnumConstant(
@@ -46,7 +46,7 @@ void main() {
             index: 0,
             name: 'value1',
           ),
-          loadingUnits: [loadingUnitRoot],
+          loadingUnit: loadingUnitRoot,
         ),
         const InstanceConstantReference(
           instanceConstant: EnumConstant(
@@ -62,7 +62,7 @@ void main() {
               ),
             },
           ),
-          loadingUnits: [loadingUnitRoot],
+          loadingUnit: loadingUnitRoot,
         ),
       ],
     },
@@ -77,7 +77,7 @@ void main() {
     expect(creation, isA<InstanceCreationReference>());
     if (creation is InstanceCreationReference) {
       expect(creation.definition, constructorDefinition);
-      expect(creation.loadingUnits.first.name, loadingUnitRoot.name);
+      expect(creation.loadingUnit.name, loadingUnitRoot.name);
       expect(creation.positionalArguments, hasLength(2));
       expect(creation.positionalArguments[0], isA<IntConstant>());
       expect((creation.positionalArguments[0] as IntConstant).value, 1);
@@ -94,7 +94,7 @@ void main() {
     expect(tearoff, isA<ConstructorTearoffReference>());
     if (tearoff is ConstructorTearoffReference) {
       expect(tearoff.definition, constructorDefinition);
-      expect(tearoff.loadingUnits.first.name, loadingUnitOther.name);
+      expect(tearoff.loadingUnit.name, loadingUnitOther.name);
     }
 
     final enumInstance = instances[2];

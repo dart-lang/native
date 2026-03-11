@@ -202,12 +202,12 @@ final _pirateAdventureRecordings = Recordings(
       ),
     ]): [
       const CallWithArguments(
-        loadingUnits: [loadingUnitRoot],
+        loadingUnit: loadingUnitRoot,
         positionalArguments: [StringConstant('Hello')],
         namedArguments: {},
       ),
       const CallWithArguments(
-        loadingUnits: [loadingUnitRoot],
+        loadingUnit: loadingUnitRoot,
         positionalArguments: [StringConstant('Money')],
         namedArguments: {},
       ),
@@ -220,7 +220,7 @@ final _pirateAdventureRecordings = Recordings(
       ),
     ]): [
       const CallWithArguments(
-        loadingUnits: [loadingUnitRoot],
+        loadingUnit: loadingUnitRoot,
         positionalArguments: [],
         namedArguments: {},
       ),

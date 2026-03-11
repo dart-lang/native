@@ -6,6 +6,10 @@ import 'canonicalization_context.dart';
 import 'definition.dart';
 
 /// A loading unit in which a usage of a [Definition] was recorded.
+///
+/// A loading unit is a blob in the target format of the compiler that can be
+/// loaded separately when an application is loaded. Loading units are either
+/// binary blobs containing machine code, web assembly or javascript files.
 final class LoadingUnit {
   /// The name of the loading unit.
   final String name;
