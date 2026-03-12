@@ -30,4 +30,6 @@ dev_dependencies:
   native_test_helpers:
     path: ../native_test_helpers/
   test: ^1.25.15
+  test_case_selector:
+    path: ../test_case_selector/
   test_descriptor: ^2.0.2

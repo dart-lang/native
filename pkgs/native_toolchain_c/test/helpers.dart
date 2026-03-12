@@ -291,13 +291,43 @@ Future<void> expectPageSize(Uri dylib, int pageSize) async {
   }
 }
 
-int defaultMacOSVersion = 13;
+class AndroidApiLevel {
+  final int value;
+  const AndroidApiLevel(this.value);
 
-/// From https://docs.flutter.dev/reference/supported-platforms.
-const flutterAndroidNdkVersionLowestSupported = 21;
+  @override
+  String toString() => '$value';
 
-/// From https://docs.flutter.dev/reference/supported-platforms.
-const flutterAndroidNdkVersionHighestSupported = 34;
+  /// From https://docs.flutter.dev/reference/supported-platforms.
+  static const flutterLowestSupported = AndroidApiLevel(21);
+
+  /// From https://docs.flutter.dev/reference/supported-platforms.
+  static const flutterHighestSupported = AndroidApiLevel(34);
+}
+
+class IOSVersion {
+  final int value;
+  const IOSVersion(this.value);
+
+  @override
+  String toString() => '$value';
+
+  static const flutterHighestBestEffort = IOSVersion(16);
+  static const flutterHighestSupported = IOSVersion(17);
+}
+
+class MacOSVersion {
+  final int value;
+  const MacOSVersion(this.value);
+
+  @override
+  String toString() => '$value';
+
+  static const flutterLowestBestEffort = MacOSVersion(12);
+  static const flutterLowestSupported = MacOSVersion(13);
+}
+
+int defaultMacOSVersion = MacOSVersion.flutterLowestSupported.value;
 
 /// File-format strings used by the `objdump` tool for Android binaries that
 /// run on a given architecture.
@@ -389,6 +419,3 @@ List<Architecture> iOSSupportedArchitecturesFor(IOSSdk iosSdk) =>
       .iPhoneSimulator => supportedArchitecturesFor(OS.iOS),
       IOSSdk() => throw UnimplementedError(),
     };
-
-const flutteriOSHighestBestEffort = 16;
-const flutteriOSHighestSupported = 17;
