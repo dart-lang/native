@@ -5784,6 +5784,151 @@ final class $StringConverterConsumer$Type$
       r'Lcom/github/dart_lang/jnigen/interfaces/StringConverterConsumer;';
 }
 
+/// from: `com.github.dart_lang.jnigen.inheritance.Animal`
+extension type Animal._(jni$_.JObject _$this) implements jni$_.JObject {
+  static final _class =
+      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/inheritance/Animal');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<Animal> type = $Animal$Type$();
+
+  /// Maps a specific port to the implemented interface.
+  static final core$_.Map<int, $Animal> _$impls = {};
+  static jni$_.JObjectPtr _$invoke(
+    int port,
+    jni$_.JObjectPtr descriptor,
+    jni$_.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      jni$_.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final jni$_.Pointer<
+          jni$_.NativeFunction<
+              jni$_.JObjectPtr Function(
+                  jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)>>
+      _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
+
+  static jni$_.Pointer<jni$_.Void> _$invokeMethod(
+    int $p,
+    jni$_.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'eat(Ljava/lang/String;)Ljava/lang/String;') {
+        final $r = _$impls[$p]!.eat(
+          ($a![0] as jni$_.JString),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+    } catch (e) {
+      return jni$_.ProtectedJniExtensions.newDartException(e);
+    }
+    return jni$_.nullptr;
+  }
+
+  static void implementIn(
+    jni$_.JImplementer implementer,
+    $Animal $impl,
+  ) {
+    late final jni$_.RawReceivePort $p;
+    $p = jni$_.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = jni$_.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.github.dart_lang.jnigen.inheritance.Animal',
+      $p,
+      _$invokePointer,
+      [],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory Animal.implement(
+    $Animal $impl,
+  ) {
+    final $i = jni$_.JImplementer();
+    implementIn($i, $impl);
+    return $i.implement<Animal>();
+  }
+}
+
+extension Animal$$Methods on Animal {
+  static final _id_eat = Animal._class.instanceMethodId(
+    r'eat',
+    r'(Ljava/lang/String;)Ljava/lang/String;',
+  );
+
+  static final _eat = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract java.lang.String eat(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString eat(
+    jni$_.JString string,
+  ) {
+    final _$string = string.reference;
+    return _eat(reference.pointer, _id_eat.pointer, _$string.pointer)
+        .object<jni$_.JString>();
+  }
+}
+
+abstract base mixin class $Animal {
+  factory $Animal({
+    required jni$_.JString Function(jni$_.JString string) eat,
+  }) = _$Animal;
+
+  jni$_.JString eat(jni$_.JString string);
+}
+
+final class _$Animal with $Animal {
+  _$Animal({
+    required jni$_.JString Function(jni$_.JString string) eat,
+  }) : _eat = eat;
+
+  final jni$_.JString Function(jni$_.JString string) _eat;
+
+  jni$_.JString eat(jni$_.JString string) {
+    return _eat(string);
+  }
+}
+
+final class $Animal$Type$ extends jni$_.JType<Animal> {
+  @jni$_.internal
+  const $Animal$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/inheritance/Animal;';
+}
+
 /// from: `com.github.dart_lang.jnigen.inheritance.BaseClass`
 extension type BaseClass<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     implements jni$_.JObject {
@@ -6471,6 +6616,684 @@ final class $DerivedInterface$Type$ extends jni$_.JType<DerivedInterface> {
       r'Lcom/github/dart_lang/jnigen/inheritance/DerivedInterface;';
 }
 
+/// from: `com.github.dart_lang.jnigen.inheritance.Dog`
+extension type Dog._(jni$_.JObject _$this)
+    implements jni$_.JObject, Mammal, FourLegged {
+  static final _class =
+      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/inheritance/Dog');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<Dog> type = $Dog$Type$();
+
+  /// Maps a specific port to the implemented interface.
+  static final core$_.Map<int, $Dog> _$impls = {};
+  static jni$_.JObjectPtr _$invoke(
+    int port,
+    jni$_.JObjectPtr descriptor,
+    jni$_.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      jni$_.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final jni$_.Pointer<
+          jni$_.NativeFunction<
+              jni$_.JObjectPtr Function(
+                  jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)>>
+      _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
+
+  static jni$_.Pointer<jni$_.Void> _$invokeMethod(
+    int $p,
+    jni$_.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'bark()Ljava/lang/String;') {
+        final $r = _$impls[$p]!.bark();
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'giveBirth(Z)Ljava/lang/String;') {
+        final $r = _$impls[$p]!.giveBirth(
+          ($a![0] as jni$_.JBoolean).booleanValue(releaseOriginal: true),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'eat(Ljava/lang/String;)Ljava/lang/String;') {
+        final $r = _$impls[$p]!.eat(
+          ($a![0] as jni$_.JString),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'walk(I)I') {
+        final $r = _$impls[$p]!.walk(
+          ($a![0] as jni$_.JInteger).intValue(releaseOriginal: true),
+        );
+        return jni$_.JInteger($r).reference.toPointer();
+      }
+    } catch (e) {
+      return jni$_.ProtectedJniExtensions.newDartException(e);
+    }
+    return jni$_.nullptr;
+  }
+
+  static void implementIn(
+    jni$_.JImplementer implementer,
+    $Dog $impl,
+  ) {
+    late final jni$_.RawReceivePort $p;
+    $p = jni$_.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = jni$_.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.github.dart_lang.jnigen.inheritance.Dog',
+      $p,
+      _$invokePointer,
+      [],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory Dog.implement(
+    $Dog $impl,
+  ) {
+    final $i = jni$_.JImplementer();
+    implementIn($i, $impl);
+    return $i.implement<Dog>();
+  }
+}
+
+extension Dog$$Methods on Dog {
+  static final _id_bark = Dog._class.instanceMethodId(
+    r'bark',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _bark = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.lang.String bark()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString bark() {
+    return _bark(reference.pointer, _id_bark.pointer).object<jni$_.JString>();
+  }
+
+  static final _id_giveBirth = Dog._class.instanceMethodId(
+    r'giveBirth',
+    r'(Z)Ljava/lang/String;',
+  );
+
+  static final _giveBirth = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public abstract java.lang.String giveBirth(boolean z)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString? giveBirth(
+    core$_.bool z,
+  ) {
+    return _giveBirth(reference.pointer, _id_giveBirth.pointer, z ? 1 : 0)
+        .object<jni$_.JString?>();
+  }
+
+  static final _id_eat = Dog._class.instanceMethodId(
+    r'eat',
+    r'(Ljava/lang/String;)Ljava/lang/String;',
+  );
+
+  static final _eat = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract java.lang.String eat(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString eat(
+    jni$_.JString string,
+  ) {
+    final _$string = string.reference;
+    return _eat(reference.pointer, _id_eat.pointer, _$string.pointer)
+        .object<jni$_.JString>();
+  }
+
+  static final _id_walk = Dog._class.instanceMethodId(
+    r'walk',
+    r'(I)I',
+  );
+
+  static final _walk = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public abstract int walk(int i)`
+  int walk(
+    int i,
+  ) {
+    return _walk(reference.pointer, _id_walk.pointer, i).integer;
+  }
+}
+
+abstract base mixin class $Dog {
+  factory $Dog({
+    required jni$_.JString Function() bark,
+    required jni$_.JString? Function(core$_.bool z) giveBirth,
+    required jni$_.JString Function(jni$_.JString string) eat,
+    required int Function(int i) walk,
+  }) = _$Dog;
+
+  jni$_.JString bark();
+  jni$_.JString? giveBirth(core$_.bool z);
+  jni$_.JString eat(jni$_.JString string);
+  int walk(int i);
+}
+
+final class _$Dog with $Dog {
+  _$Dog({
+    required jni$_.JString Function() bark,
+    required jni$_.JString? Function(core$_.bool z) giveBirth,
+    required jni$_.JString Function(jni$_.JString string) eat,
+    required int Function(int i) walk,
+  })  : _bark = bark,
+        _giveBirth = giveBirth,
+        _eat = eat,
+        _walk = walk;
+
+  final jni$_.JString Function() _bark;
+  final jni$_.JString? Function(core$_.bool z) _giveBirth;
+  final jni$_.JString Function(jni$_.JString string) _eat;
+  final int Function(int i) _walk;
+
+  jni$_.JString bark() {
+    return _bark();
+  }
+
+  jni$_.JString? giveBirth(core$_.bool z) {
+    return _giveBirth(z);
+  }
+
+  jni$_.JString eat(jni$_.JString string) {
+    return _eat(string);
+  }
+
+  int walk(int i) {
+    return _walk(i);
+  }
+}
+
+final class $Dog$Type$ extends jni$_.JType<Dog> {
+  @jni$_.internal
+  const $Dog$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/inheritance/Dog;';
+}
+
+/// from: `com.github.dart_lang.jnigen.inheritance.FourLegged`
+extension type FourLegged._(jni$_.JObject _$this)
+    implements jni$_.JObject, Animal {
+  static final _class = jni$_.JClass.forName(
+      r'com/github/dart_lang/jnigen/inheritance/FourLegged');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<FourLegged> type = $FourLegged$Type$();
+
+  /// Maps a specific port to the implemented interface.
+  static final core$_.Map<int, $FourLegged> _$impls = {};
+  static jni$_.JObjectPtr _$invoke(
+    int port,
+    jni$_.JObjectPtr descriptor,
+    jni$_.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      jni$_.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final jni$_.Pointer<
+          jni$_.NativeFunction<
+              jni$_.JObjectPtr Function(
+                  jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)>>
+      _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
+
+  static jni$_.Pointer<jni$_.Void> _$invokeMethod(
+    int $p,
+    jni$_.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'walk(I)I') {
+        final $r = _$impls[$p]!.walk(
+          ($a![0] as jni$_.JInteger).intValue(releaseOriginal: true),
+        );
+        return jni$_.JInteger($r).reference.toPointer();
+      }
+      if ($d == r'eat(Ljava/lang/String;)Ljava/lang/String;') {
+        final $r = _$impls[$p]!.eat(
+          ($a![0] as jni$_.JString),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+    } catch (e) {
+      return jni$_.ProtectedJniExtensions.newDartException(e);
+    }
+    return jni$_.nullptr;
+  }
+
+  static void implementIn(
+    jni$_.JImplementer implementer,
+    $FourLegged $impl,
+  ) {
+    late final jni$_.RawReceivePort $p;
+    $p = jni$_.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = jni$_.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.github.dart_lang.jnigen.inheritance.FourLegged',
+      $p,
+      _$invokePointer,
+      [],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory FourLegged.implement(
+    $FourLegged $impl,
+  ) {
+    final $i = jni$_.JImplementer();
+    implementIn($i, $impl);
+    return $i.implement<FourLegged>();
+  }
+}
+
+extension FourLegged$$Methods on FourLegged {
+  static final _id_walk = FourLegged._class.instanceMethodId(
+    r'walk',
+    r'(I)I',
+  );
+
+  static final _walk = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public abstract int walk(int i)`
+  int walk(
+    int i,
+  ) {
+    return _walk(reference.pointer, _id_walk.pointer, i).integer;
+  }
+
+  static final _id_eat = FourLegged._class.instanceMethodId(
+    r'eat',
+    r'(Ljava/lang/String;)Ljava/lang/String;',
+  );
+
+  static final _eat = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract java.lang.String eat(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString eat(
+    jni$_.JString string,
+  ) {
+    final _$string = string.reference;
+    return _eat(reference.pointer, _id_eat.pointer, _$string.pointer)
+        .object<jni$_.JString>();
+  }
+}
+
+abstract base mixin class $FourLegged {
+  factory $FourLegged({
+    required int Function(int i) walk,
+    required jni$_.JString Function(jni$_.JString string) eat,
+  }) = _$FourLegged;
+
+  int walk(int i);
+  jni$_.JString eat(jni$_.JString string);
+}
+
+final class _$FourLegged with $FourLegged {
+  _$FourLegged({
+    required int Function(int i) walk,
+    required jni$_.JString Function(jni$_.JString string) eat,
+  })  : _walk = walk,
+        _eat = eat;
+
+  final int Function(int i) _walk;
+  final jni$_.JString Function(jni$_.JString string) _eat;
+
+  int walk(int i) {
+    return _walk(i);
+  }
+
+  jni$_.JString eat(jni$_.JString string) {
+    return _eat(string);
+  }
+}
+
+final class $FourLegged$Type$ extends jni$_.JType<FourLegged> {
+  @jni$_.internal
+  const $FourLegged$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/inheritance/FourLegged;';
+}
+
+/// from: `com.github.dart_lang.jnigen.inheritance.Furry`
+extension type Furry._(jni$_.JObject _$this) implements jni$_.JObject, Mammal {
+  static final _class =
+      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/inheritance/Furry');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<Furry> type = $Furry$Type$();
+
+  /// Maps a specific port to the implemented interface.
+  static final core$_.Map<int, $Furry> _$impls = {};
+  static jni$_.JObjectPtr _$invoke(
+    int port,
+    jni$_.JObjectPtr descriptor,
+    jni$_.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      jni$_.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final jni$_.Pointer<
+          jni$_.NativeFunction<
+              jni$_.JObjectPtr Function(
+                  jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)>>
+      _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
+
+  static jni$_.Pointer<jni$_.Void> _$invokeMethod(
+    int $p,
+    jni$_.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'groom()Ljava/lang/String;') {
+        final $r = _$impls[$p]!.groom();
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'giveBirth(Z)Ljava/lang/String;') {
+        final $r = _$impls[$p]!.giveBirth(
+          ($a![0] as jni$_.JBoolean).booleanValue(releaseOriginal: true),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'eat(Ljava/lang/String;)Ljava/lang/String;') {
+        final $r = _$impls[$p]!.eat(
+          ($a![0] as jni$_.JString),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+    } catch (e) {
+      return jni$_.ProtectedJniExtensions.newDartException(e);
+    }
+    return jni$_.nullptr;
+  }
+
+  static void implementIn(
+    jni$_.JImplementer implementer,
+    $Furry $impl,
+  ) {
+    late final jni$_.RawReceivePort $p;
+    $p = jni$_.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = jni$_.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.github.dart_lang.jnigen.inheritance.Furry',
+      $p,
+      _$invokePointer,
+      [],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory Furry.implement(
+    $Furry $impl,
+  ) {
+    final $i = jni$_.JImplementer();
+    implementIn($i, $impl);
+    return $i.implement<Furry>();
+  }
+}
+
+extension Furry$$Methods on Furry {
+  static final _id_groom = Furry._class.instanceMethodId(
+    r'groom',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _groom = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.lang.String groom()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString groom() {
+    return _groom(reference.pointer, _id_groom.pointer).object<jni$_.JString>();
+  }
+
+  static final _id_giveBirth = Furry._class.instanceMethodId(
+    r'giveBirth',
+    r'(Z)Ljava/lang/String;',
+  );
+
+  static final _giveBirth = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public abstract java.lang.String giveBirth(boolean z)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString? giveBirth(
+    core$_.bool z,
+  ) {
+    return _giveBirth(reference.pointer, _id_giveBirth.pointer, z ? 1 : 0)
+        .object<jni$_.JString?>();
+  }
+
+  static final _id_eat = Furry._class.instanceMethodId(
+    r'eat',
+    r'(Ljava/lang/String;)Ljava/lang/String;',
+  );
+
+  static final _eat = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract java.lang.String eat(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString eat(
+    jni$_.JString string,
+  ) {
+    final _$string = string.reference;
+    return _eat(reference.pointer, _id_eat.pointer, _$string.pointer)
+        .object<jni$_.JString>();
+  }
+}
+
+abstract base mixin class $Furry {
+  factory $Furry({
+    required jni$_.JString Function() groom,
+    required jni$_.JString? Function(core$_.bool z) giveBirth,
+    required jni$_.JString Function(jni$_.JString string) eat,
+  }) = _$Furry;
+
+  jni$_.JString groom();
+  jni$_.JString? giveBirth(core$_.bool z);
+  jni$_.JString eat(jni$_.JString string);
+}
+
+final class _$Furry with $Furry {
+  _$Furry({
+    required jni$_.JString Function() groom,
+    required jni$_.JString? Function(core$_.bool z) giveBirth,
+    required jni$_.JString Function(jni$_.JString string) eat,
+  })  : _groom = groom,
+        _giveBirth = giveBirth,
+        _eat = eat;
+
+  final jni$_.JString Function() _groom;
+  final jni$_.JString? Function(core$_.bool z) _giveBirth;
+  final jni$_.JString Function(jni$_.JString string) _eat;
+
+  jni$_.JString groom() {
+    return _groom();
+  }
+
+  jni$_.JString? giveBirth(core$_.bool z) {
+    return _giveBirth(z);
+  }
+
+  jni$_.JString eat(jni$_.JString string) {
+    return _eat(string);
+  }
+}
+
+final class $Furry$Type$ extends jni$_.JType<Furry> {
+  @jni$_.internal
+  const $Furry$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/inheritance/Furry;';
+}
+
 /// from: `com.github.dart_lang.jnigen.inheritance.GenericDerivedClass`
 extension type GenericDerivedClass<$T extends jni$_.JObject?>._(
     jni$_.JObject _$this) implements BaseClass<$T?> {
@@ -6513,6 +7336,354 @@ final class $GenericDerivedClass$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/inheritance/GenericDerivedClass;';
+}
+
+/// from: `com.github.dart_lang.jnigen.inheritance.Mammal`
+extension type Mammal._(jni$_.JObject _$this) implements jni$_.JObject, Animal {
+  static final _class =
+      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/inheritance/Mammal');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<Mammal> type = $Mammal$Type$();
+
+  /// Maps a specific port to the implemented interface.
+  static final core$_.Map<int, $Mammal> _$impls = {};
+  static jni$_.JObjectPtr _$invoke(
+    int port,
+    jni$_.JObjectPtr descriptor,
+    jni$_.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      jni$_.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final jni$_.Pointer<
+          jni$_.NativeFunction<
+              jni$_.JObjectPtr Function(
+                  jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)>>
+      _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
+
+  static jni$_.Pointer<jni$_.Void> _$invokeMethod(
+    int $p,
+    jni$_.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'giveBirth(Z)Ljava/lang/String;') {
+        final $r = _$impls[$p]!.giveBirth(
+          ($a![0] as jni$_.JBoolean).booleanValue(releaseOriginal: true),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'eat(Ljava/lang/String;)Ljava/lang/String;') {
+        final $r = _$impls[$p]!.eat(
+          ($a![0] as jni$_.JString),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+    } catch (e) {
+      return jni$_.ProtectedJniExtensions.newDartException(e);
+    }
+    return jni$_.nullptr;
+  }
+
+  static void implementIn(
+    jni$_.JImplementer implementer,
+    $Mammal $impl,
+  ) {
+    late final jni$_.RawReceivePort $p;
+    $p = jni$_.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = jni$_.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.github.dart_lang.jnigen.inheritance.Mammal',
+      $p,
+      _$invokePointer,
+      [],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory Mammal.implement(
+    $Mammal $impl,
+  ) {
+    final $i = jni$_.JImplementer();
+    implementIn($i, $impl);
+    return $i.implement<Mammal>();
+  }
+}
+
+extension Mammal$$Methods on Mammal {
+  static final _id_giveBirth = Mammal._class.instanceMethodId(
+    r'giveBirth',
+    r'(Z)Ljava/lang/String;',
+  );
+
+  static final _giveBirth = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public abstract java.lang.String giveBirth(boolean z)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString? giveBirth(
+    core$_.bool z,
+  ) {
+    return _giveBirth(reference.pointer, _id_giveBirth.pointer, z ? 1 : 0)
+        .object<jni$_.JString?>();
+  }
+
+  static final _id_eat = Mammal._class.instanceMethodId(
+    r'eat',
+    r'(Ljava/lang/String;)Ljava/lang/String;',
+  );
+
+  static final _eat = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public abstract java.lang.String eat(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString eat(
+    jni$_.JString string,
+  ) {
+    final _$string = string.reference;
+    return _eat(reference.pointer, _id_eat.pointer, _$string.pointer)
+        .object<jni$_.JString>();
+  }
+}
+
+abstract base mixin class $Mammal {
+  factory $Mammal({
+    required jni$_.JString? Function(core$_.bool z) giveBirth,
+    required jni$_.JString Function(jni$_.JString string) eat,
+  }) = _$Mammal;
+
+  jni$_.JString? giveBirth(core$_.bool z);
+  jni$_.JString eat(jni$_.JString string);
+}
+
+final class _$Mammal with $Mammal {
+  _$Mammal({
+    required jni$_.JString? Function(core$_.bool z) giveBirth,
+    required jni$_.JString Function(jni$_.JString string) eat,
+  })  : _giveBirth = giveBirth,
+        _eat = eat;
+
+  final jni$_.JString? Function(core$_.bool z) _giveBirth;
+  final jni$_.JString Function(jni$_.JString string) _eat;
+
+  jni$_.JString? giveBirth(core$_.bool z) {
+    return _giveBirth(z);
+  }
+
+  jni$_.JString eat(jni$_.JString string) {
+    return _eat(string);
+  }
+}
+
+final class $Mammal$Type$ extends jni$_.JType<Mammal> {
+  @jni$_.internal
+  const $Mammal$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/inheritance/Mammal;';
+}
+
+/// from: `com.github.dart_lang.jnigen.inheritance.ShibaInu`
+extension type ShibaInu._(jni$_.JObject _$this)
+    implements jni$_.JObject, Dog, Furry {
+  static final _class =
+      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/inheritance/ShibaInu');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<ShibaInu> type = $ShibaInu$Type$();
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory ShibaInu() {
+    return _new$(_class.reference.pointer, _id_new$.pointer).object<ShibaInu>();
+  }
+}
+
+extension ShibaInu$$Methods on ShibaInu {
+  static final _id_eat = ShibaInu._class.instanceMethodId(
+    r'eat',
+    r'(Ljava/lang/String;)Ljava/lang/String;',
+  );
+
+  static final _eat = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public java.lang.String eat(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString eat(
+    jni$_.JString string,
+  ) {
+    final _$string = string.reference;
+    return _eat(reference.pointer, _id_eat.pointer, _$string.pointer)
+        .object<jni$_.JString>();
+  }
+
+  static final _id_giveBirth = ShibaInu._class.instanceMethodId(
+    r'giveBirth',
+    r'(Z)Ljava/lang/String;',
+  );
+
+  static final _giveBirth = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public java.lang.String giveBirth(boolean z)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString? giveBirth(
+    core$_.bool z,
+  ) {
+    return _giveBirth(reference.pointer, _id_giveBirth.pointer, z ? 1 : 0)
+        .object<jni$_.JString?>();
+  }
+
+  static final _id_walk = ShibaInu._class.instanceMethodId(
+    r'walk',
+    r'(I)I',
+  );
+
+  static final _walk = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public int walk(int i)`
+  int walk(
+    int i,
+  ) {
+    return _walk(reference.pointer, _id_walk.pointer, i).integer;
+  }
+
+  static final _id_bark = ShibaInu._class.instanceMethodId(
+    r'bark',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _bark = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String bark()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString bark() {
+    return _bark(reference.pointer, _id_bark.pointer).object<jni$_.JString>();
+  }
+
+  static final _id_groom = ShibaInu._class.instanceMethodId(
+    r'groom',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _groom = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String groom()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JString groom() {
+    return _groom(reference.pointer, _id_groom.pointer).object<jni$_.JString>();
+  }
+}
+
+final class $ShibaInu$Type$ extends jni$_.JType<ShibaInu> {
+  @jni$_.internal
+  const $ShibaInu$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Lcom/github/dart_lang/jnigen/inheritance/ShibaInu;';
 }
 
 /// from: `com.github.dart_lang.jnigen.inheritance.SpecificDerivedClass`

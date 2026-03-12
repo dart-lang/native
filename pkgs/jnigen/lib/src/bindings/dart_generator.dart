@@ -428,7 +428,8 @@ extension type $name$typeParamsDef._($_jObject _\$this) implements $implementsCl
     // Operators
     for (final MapEntry(key: operator, value: method)
         in node.operators.entries) {
-      method.accept(_OperatorGenerator(resolver, instanceSink, operator: operator));
+      method.accept(
+          _OperatorGenerator(resolver, instanceSink, operator: operator));
     }
     node.compareTo?.accept(_ComparatorGenerator(resolver, instanceSink));
 

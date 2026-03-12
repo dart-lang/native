@@ -1296,6 +1296,52 @@ void registerTests(String groupName, TestRunnerCallback test) {
               base.foo()?.toDartString(releaseOriginal: true), 'derived_foo');
         });
       });
+      test('ShibaInu complicated inheritance', () {
+        using((arena) {
+          final shiba = ShibaInu()..releasedBy(arena);
+          expect(shiba.bark().toDartString(releaseOriginal: true), 'Woof!');
+          expect(shiba.groom().toDartString(releaseOriginal: true),
+              'Grooming Shiba');
+          expect(
+              shiba
+                  .eat('bones'.toJString()..releasedBy(arena))
+                  .toDartString(releaseOriginal: true),
+              'Shiba eating bones');
+          expect(shiba.walk(42), 42);
+          expect(shiba.giveBirth(true)?.toDartString(releaseOriginal: true),
+              'Baby Shiba');
+          expect(shiba.giveBirth(false), isNull);
+
+          // Test assignments (diamonds)
+          final Dog dog = shiba;
+          expect(dog.bark().toDartString(releaseOriginal: true), 'Woof!');
+
+          final Mammal mammal = dog;
+          expect(mammal.giveBirth(true)?.toDartString(releaseOriginal: true),
+              'Baby Shiba');
+
+          final FourLegged fourLegged = dog;
+          expect(fourLegged.walk(10), 10);
+
+          final Animal animalFromMammal = mammal;
+          expect(
+              animalFromMammal
+                  .eat('meat'.toJString()..releasedBy(arena))
+                  .toDartString(releaseOriginal: true),
+              'Shiba eating meat');
+
+          final Animal animalFromFourLegged = fourLegged;
+          expect(
+              animalFromFourLegged
+                  .eat('fish'.toJString()..releasedBy(arena))
+                  .toDartString(releaseOriginal: true),
+              'Shiba eating fish');
+
+          final Furry furry = shiba;
+          expect(furry.groom().toDartString(releaseOriginal: true),
+              'Grooming Shiba');
+        });
+      });
     });
 
     group('$groupName (load tests)', () {
