@@ -26,6 +26,8 @@
   `false` when called with `null`, aligning its behavior with Dart’s `is`operator.
 - Use `xcrun` for resolving macOS SDK paths, enabling support for non-standard
   Xcode installations. ([#3134](https://github.com/dart-lang/native/issues/3134))
+-  Add allocate constructor for native C structs:
+  `$allocate(Allocator $allocator, {required ...})`
 - Fix a [bug](https://github.com/dart-lang/native/issues/2665) where ObjC
   classes with `SWIFT_UNAVAILABLE` annotated `init`/`new` methods were
   generating runtime-crashing no-arg constructors.
