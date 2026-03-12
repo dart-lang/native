@@ -65,17 +65,8 @@ import '../pdmodel/PDDocument.dart' as pddocument$_;
 /// The basic flow of this process is that we get a document and use a series of processXXX() functions that work on
 /// smaller and smaller chunks of the page. Eventually, we fully process each page and then print it.
 ///@author Ben Litchfield
-class PDFTextStripper extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<PDFTextStripper> $type;
-
-  @jni$_.internal
-  PDFTextStripper.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type PDFTextStripper._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class =>
       jni$_.JClass.forNameCached(r'org/apache/pdfbox/text/PDFTextStripper');
 

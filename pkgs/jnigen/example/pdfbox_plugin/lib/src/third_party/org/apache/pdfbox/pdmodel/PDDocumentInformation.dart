@@ -61,17 +61,8 @@ import 'package:jni/jni.dart' as jni$_;
 /// method then it will clear the value.
 ///@author Ben Litchfield
 ///@author Gerardo Ortiz
-class PDDocumentInformation extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<PDDocumentInformation> $type;
-
-  @jni$_.internal
-  PDDocumentInformation.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type PDDocumentInformation._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'org/apache/pdfbox/pdmodel/PDDocumentInformation');
 

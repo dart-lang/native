@@ -5,7 +5,6 @@
 @Tags(['load_test'])
 library;
 
-import 'dart:ffi';
 import 'dart:io';
 
 import 'package:jni/jni.dart';
@@ -101,22 +100,22 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('Eviction and reload', () {
     Jni.setClassCacheSize(2);
 
-    final _name1 = 'java/lang/String';
-    final _name2 = 'java/lang/Integer';
-    final _name3 = 'java/lang/Double';
+    const name1 = 'java/lang/String';
+    const name2 = 'java/lang/Integer';
+    const name3 = 'java/lang/Double';
 
-    final ref1 = Jni.getCachedClass(_name1);
-    final ref2 = Jni.getCachedClass(_name2);
+    final ref1 = Jni.getCachedClass(name1);
+    final ref2 = Jni.getCachedClass(name2);
 
     // Insert third class, evicting String (LRU)
-    final ref3 = Jni.getCachedClass(_name3);
+    final ref3 = Jni.getCachedClass(name3);
 
     // ref2 and ref3 still cached and valid
     expect(ref2, isNotNull);
     expect(ref3, isNotNull);
 
     // String evicted; reload creates new cached instance
-    final ref1Reload = Jni.getCachedClass(_name1);
+    final ref1Reload = Jni.getCachedClass(name1);
     // Not identical since eviction recreated it
     expect(identical(ref1, ref1Reload), isFalse);
   });

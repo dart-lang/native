@@ -41,17 +41,8 @@ import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
 /// from: `com.github.dart_lang.jnigen.simple_package.Example$Nested$NestedTwice`
-class Example$Nested$NestedTwice extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<Example$Nested$NestedTwice> $type;
-
-  @jni$_.internal
-  Example$Nested$NestedTwice.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type Example$Nested$NestedTwice._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/simple_package/Example$Nested$NestedTwice');
 
@@ -105,17 +96,7 @@ final class $Example$Nested$NestedTwice$Type$
 }
 
 /// from: `com.github.dart_lang.jnigen.simple_package.Example$Nested`
-class Example$Nested extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<Example$Nested> $type;
-
-  @jni$_.internal
-  Example$Nested.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type Example$Nested._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/simple_package/Example$Nested');
 
@@ -224,17 +205,8 @@ final class $Example$Nested$Type$ extends jni$_.JType<Example$Nested> {
 }
 
 /// from: `com.github.dart_lang.jnigen.simple_package.Example$NonStaticNested`
-class Example$NonStaticNested extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<Example$NonStaticNested> $type;
-
-  @jni$_.internal
-  Example$NonStaticNested.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type Example$NonStaticNested._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/simple_package/Example$NonStaticNested');
 
@@ -292,17 +264,7 @@ final class $Example$NonStaticNested$Type$
 }
 
 /// from: `com.github.dart_lang.jnigen.simple_package.Example`
-class Example extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<Example> $type;
-
-  @jni$_.internal
-  Example.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/simple_package/Example');
 
@@ -1523,7 +1485,7 @@ final class $Example$Type$ extends jni$_.JType<Example> {
 /// from: `com.github.dart_lang.jnigen.simple_package.Exceptions$MyException`
 extension type Exceptions$MyException._(jni$_.JObject _$this)
     implements jni$_.JObject {
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/simple_package/Exceptions$MyException');
 
   /// The type which includes information such as the signature of this class.
@@ -1581,17 +1543,7 @@ final class $Exceptions$MyException$Type$
 }
 
 /// from: `com.github.dart_lang.jnigen.simple_package.Exceptions`
-class Exceptions extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<Exceptions> $type;
-
-  @jni$_.internal
-  Exceptions.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type Exceptions._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/simple_package/Exceptions');
 
@@ -2054,17 +2006,7 @@ final class $Exceptions$Type$ extends jni$_.JType<Exceptions> {
 }
 
 /// from: `com.github.dart_lang.jnigen.simple_package.Fields$Nested`
-class Fields$Nested extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<Fields$Nested> $type;
-
-  @jni$_.internal
-  Fields$Nested.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type Fields$Nested._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/simple_package/Fields$Nested');
 
@@ -2131,17 +2073,7 @@ final class $Fields$Nested$Type$ extends jni$_.JType<Fields$Nested> {
 }
 
 /// from: `com.github.dart_lang.jnigen.simple_package.Fields`
-class Fields extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<Fields> $type;
-
-  @jni$_.internal
-  Fields.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/simple_package/Fields');
 
@@ -2316,17 +2248,7 @@ final class $Fields$Type$ extends jni$_.JType<Fields> {
 }
 
 /// from: `com.github.dart_lang.jnigen.pkg2.C2`
-class C2 extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<C2> $type;
-
-  @jni$_.internal
-  C2.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type C2._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JClass get _class =>
       jni$_.JClass.forNameCached(r'com/github/dart_lang/jnigen/pkg2/C2');
 
@@ -2378,17 +2300,7 @@ final class $C2$Type$ extends jni$_.JType<C2> {
 }
 
 /// from: `com.github.dart_lang.jnigen.pkg2.Example`
-class Example$1 extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<Example$1> $type;
-
-  @jni$_.internal
-  Example$1.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type Example$1._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JClass get _class =>
       jni$_.JClass.forNameCached(r'com/github/dart_lang/jnigen/pkg2/Example');
 
@@ -2450,17 +2362,7 @@ final class $Example$1$Type$ extends jni$_.JType<Example$1> {
 }
 
 /// from: `com.github.dart_lang.jnigen.enums.Colors$RGB`
-class Colors$RGB extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<Colors$RGB> $type;
-
-  @jni$_.internal
-  Colors$RGB.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type Colors$RGB._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/enums/Colors$RGB');
 
@@ -2584,77 +2486,8 @@ final class $Colors$RGB$Type$ extends jni$_.JType<Colors$RGB> {
 
 /// from: `com.github.dart_lang.jnigen.enums.Colors`
 extension type Colors._(jni$_.JObject _$this) implements jni$_.JObject {
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jnigen/enums/Colors');
-
-  @jni$_.internal
-  @core$_.override
-  final superCount = 1;
-
-  @core$_.override
-  int get hashCode => ($Colors$RGB$NullableType$).hashCode;
-
-  @core$_.override
-  core$_.bool operator ==(Object other) {
-    return other.runtimeType == ($Colors$RGB$NullableType$) &&
-        other is $Colors$RGB$NullableType$;
-  }
-}
-
-final class $Colors$RGB$Type$ extends jni$_.JType<Colors$RGB> {
-  @jni$_.internal
-  const $Colors$RGB$Type$();
-
-  @jni$_.internal
-  @core$_.override
-  String get signature => r'Lcom/github/dart_lang/jnigen/enums/Colors$RGB;';
-
-  @jni$_.internal
-  @core$_.override
-  Colors$RGB fromReference(jni$_.JReference reference) =>
-      Colors$RGB.fromReference(
-        reference,
-      );
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType get superType => const jni$_.$JObject$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType<Colors$RGB?> get nullableType =>
-      const $Colors$RGB$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  final superCount = 1;
-
-  @core$_.override
-  int get hashCode => ($Colors$RGB$Type$).hashCode;
-
-  @core$_.override
-  core$_.bool operator ==(Object other) {
-    return other.runtimeType == ($Colors$RGB$Type$) &&
-        other is $Colors$RGB$Type$;
-  }
-}
-
-/// from: `com.github.dart_lang.jnigen.enums.Colors`
-class Colors extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<Colors> $type;
-
-  @jni$_.internal
-  Colors.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
   static jni$_.JClass get _class =>
       jni$_.JClass.forNameCached(r'com/github/dart_lang/jnigen/enums/Colors');
-
-  /// The type which includes information such as the signature of this class.
-  static const jni$_.JType<Colors?> nullableType = $Colors$NullableType$();
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<Colors> type = $Colors$Type$();
@@ -2778,26 +2611,9 @@ final class $Colors$Type$ extends jni$_.JType<Colors> {
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.GenericTypeParams`
-class GenericTypeParams<$S extends jni$_.JObject?, $K extends jni$_.JObject?>
-    extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<GenericTypeParams<$S, $K>> $type;
-
-  @jni$_.internal
-  final jni$_.JType<$S> S;
-
-  @jni$_.internal
-  final jni$_.JType<$K> K;
-
-  @jni$_.internal
-  GenericTypeParams.fromReference(
-    this.S,
-    this.K,
-    jni$_.JReference reference,
-  )   : $type = type<$S, $K>(S, K),
-        super.fromReference(reference);
-
+extension type GenericTypeParams<$S extends jni$_.JObject?,
+        $K extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/generics/GenericTypeParams');
 
@@ -2838,32 +2654,11 @@ final class $GenericTypeParams$Type$ extends jni$_.JType<GenericTypeParams> {
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.GrandParent$Parent$Child`
-class GrandParent$Parent$Child<
-    $T extends jni$_.JObject?,
-    $S extends jni$_.JObject?,
-    $U extends jni$_.JObject?> extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<GrandParent$Parent$Child<$T, $S, $U>> $type;
-
-  @jni$_.internal
-  final jni$_.JType<$T> T;
-
-  @jni$_.internal
-  final jni$_.JType<$S> S;
-
-  @jni$_.internal
-  final jni$_.JType<$U> U;
-
-  @jni$_.internal
-  GrandParent$Parent$Child.fromReference(
-    this.T,
-    this.S,
-    this.U,
-    jni$_.JReference reference,
-  )   : $type = type<$T, $S, $U>(T, S, U),
-        super.fromReference(reference);
-
+extension type GrandParent$Parent$Child<
+        $T extends jni$_.JObject?,
+        $S extends jni$_.JObject?,
+        $U extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/generics/GrandParent$Parent$Child');
 
@@ -2960,26 +2755,9 @@ final class $GrandParent$Parent$Child$Type$
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.GrandParent$Parent`
-class GrandParent$Parent<$T extends jni$_.JObject?, $S extends jni$_.JObject?>
-    extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<GrandParent$Parent<$T, $S>> $type;
-
-  @jni$_.internal
-  final jni$_.JType<$T> T;
-
-  @jni$_.internal
-  final jni$_.JType<$S> S;
-
-  @jni$_.internal
-  GrandParent$Parent.fromReference(
-    this.T,
-    this.S,
-    jni$_.JReference reference,
-  )   : $type = type<$T, $S>(T, S),
-        super.fromReference(reference);
-
+extension type GrandParent$Parent<$T extends jni$_.JObject?,
+        $S extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/generics/GrandParent$Parent');
 
@@ -3060,26 +2838,9 @@ final class $GrandParent$Parent$Type$ extends jni$_.JType<GrandParent$Parent> {
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.GrandParent$StaticParent$Child`
-class GrandParent$StaticParent$Child<$S extends jni$_.JObject?,
-    $U extends jni$_.JObject?> extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<GrandParent$StaticParent$Child<$S, $U>> $type;
-
-  @jni$_.internal
-  final jni$_.JType<$S> S;
-
-  @jni$_.internal
-  final jni$_.JType<$U> U;
-
-  @jni$_.internal
-  GrandParent$StaticParent$Child.fromReference(
-    this.S,
-    this.U,
-    jni$_.JReference reference,
-  )   : $type = type<$S, $U>(S, U),
-        super.fromReference(reference);
-
+extension type GrandParent$StaticParent$Child<$S extends jni$_.JObject?,
+        $U extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/generics/GrandParent$StaticParent$Child');
 
@@ -3165,22 +2926,8 @@ final class $GrandParent$StaticParent$Child$Type$
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.GrandParent$StaticParent`
-class GrandParent$StaticParent<$S extends jni$_.JObject?>
-    extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<GrandParent$StaticParent<$S>> $type;
-
-  @jni$_.internal
-  final jni$_.JType<$S> S;
-
-  @jni$_.internal
-  GrandParent$StaticParent.fromReference(
-    this.S,
-    jni$_.JReference reference,
-  )   : $type = type<$S>(S),
-        super.fromReference(reference);
-
+extension type GrandParent$StaticParent<$S extends jni$_.JObject?>._(
+    jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/generics/GrandParent$StaticParent');
 
@@ -3238,21 +2985,8 @@ final class $GrandParent$StaticParent$Type$
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.GrandParent`
-class GrandParent<$T extends jni$_.JObject?> extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<GrandParent<$T>> $type;
-
-  @jni$_.internal
-  final jni$_.JType<$T> T;
-
-  @jni$_.internal
-  GrandParent.fromReference(
-    this.T,
-    jni$_.JReference reference,
-  )   : $type = type<$T>(T),
-        super.fromReference(reference);
-
+extension type GrandParent<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/generics/GrandParent');
 
@@ -3439,7 +3173,7 @@ final class $GrandParent$Type$ extends jni$_.JType<GrandParent> {
 extension type MyMap$MyEntry<$K extends jni$_.JObject?,
         $V extends jni$_.JObject?>._(jni$_.JObject _$this)
     implements jni$_.JObject {
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/generics/MyMap$MyEntry');
 
   /// The type which includes information such as the signature of this class.
@@ -3469,88 +3203,6 @@ extension type MyMap$MyEntry<$K extends jni$_.JObject?,
   /// from: `public V value`
   /// The returned object must be released after use, by calling the [release] method.
   set value($V? value) => _id_value.set(this, jni$_.JObject.type, value);
-
-  @core$_.override
-  core$_.bool operator ==(Object other) {
-    return other.runtimeType == ($GrandParent$Type$<$T>) &&
-        other is $GrandParent$Type$<$T> &&
-        T == other.T;
-  }
-}
-
-/// from: `com.github.dart_lang.jnigen.generics.MyMap$MyEntry`
-class MyMap$MyEntry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
-    extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<MyMap$MyEntry<$K, $V>> $type;
-
-  @jni$_.internal
-  final jni$_.JType<$K> K;
-
-  @jni$_.internal
-  final jni$_.JType<$V> V;
-
-  @jni$_.internal
-  MyMap$MyEntry.fromReference(
-    this.K,
-    this.V,
-    jni$_.JReference reference,
-  )   : $type = type<$K, $V>(K, V),
-        super.fromReference(reference);
-
-  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
-      r'com/github/dart_lang/jnigen/generics/MyMap$MyEntry');
-
-  /// The type which includes information such as the signature of this class.
-  static jni$_.JType<MyMap$MyEntry<$K, $V>?>
-      nullableType<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    jni$_.JType<$K> K,
-    jni$_.JType<$V> V,
-  ) {
-    return $MyMap$MyEntry$NullableType$<$K, $V>(
-      K,
-      V,
-    );
-  }
-
-  /// The type which includes information such as the signature of this class.
-  static jni$_.JType<MyMap$MyEntry<$K, $V>>
-      type<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    jni$_.JType<$K> K,
-    jni$_.JType<$V> V,
-  ) {
-    return $MyMap$MyEntry$Type$<$K, $V>(
-      K,
-      V,
-    );
-  }
-
-  static final _id_key = _class.instanceFieldId(
-    r'key',
-    r'Ljava/lang/Object;',
-  );
-
-  /// from: `public K key`
-  /// The returned object must be released after use, by calling the [release] method.
-  $K? get key => _id_key.get(this, K.nullableType);
-
-  /// from: `public K key`
-  /// The returned object must be released after use, by calling the [release] method.
-  set key($K? value) => _id_key.set(this, K.nullableType, value);
-
-  static final _id_value = _class.instanceFieldId(
-    r'value',
-    r'Ljava/lang/Object;',
-  );
-
-  /// from: `public V value`
-  /// The returned object must be released after use, by calling the [release] method.
-  $V? get value => _id_value.get(this, V.nullableType);
-
-  /// from: `public V value`
-  /// The returned object must be released after use, by calling the [release] method.
-  set value($V? value) => _id_value.set(this, V.nullableType, value);
 
   static final _id_new$ = _class.constructorId(
     r'(Lcom/github/dart_lang/jnigen/generics/MyMap;Ljava/lang/Object;Ljava/lang/Object;)V',
@@ -3602,26 +3254,8 @@ final class $MyMap$MyEntry$Type$ extends jni$_.JType<MyMap$MyEntry> {
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.MyMap`
-class MyMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
-    extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<MyMap<$K, $V>> $type;
-
-  @jni$_.internal
-  final jni$_.JType<$K> K;
-
-  @jni$_.internal
-  final jni$_.JType<$V> V;
-
-  @jni$_.internal
-  MyMap.fromReference(
-    this.K,
-    this.V,
-    jni$_.JReference reference,
-  )   : $type = type<$K, $V>(K, V),
-        super.fromReference(reference);
-
+extension type MyMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
+    jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JClass get _class =>
       jni$_.JClass.forNameCached(r'com/github/dart_lang/jnigen/generics/MyMap');
 
@@ -3746,21 +3380,8 @@ final class $MyMap$Type$ extends jni$_.JType<MyMap> {
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.MyStack`
-class MyStack<$T extends jni$_.JObject?> extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<MyStack<$T>> $type;
-
-  @jni$_.internal
-  final jni$_.JType<$T> T;
-
-  @jni$_.internal
-  MyStack.fromReference(
-    this.T,
-    jni$_.JReference reference,
-  )   : $type = type<$T>(T),
-        super.fromReference(reference);
-
+extension type MyStack<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/generics/MyStack');
 
@@ -4010,23 +3631,8 @@ final class $MyStack$Type$ extends jni$_.JType<MyStack> {
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.StringKeyedMap`
-class StringKeyedMap<$V extends jni$_.JObject?>
-    extends MyMap<jni$_.JString?, $V?> {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<StringKeyedMap<$V>> $type;
-
-  @jni$_.internal
-  final jni$_.JType<$V> V;
-
-  @jni$_.internal
-  StringKeyedMap.fromReference(
-    this.V,
-    jni$_.JReference reference,
-  )   : $type = type<$V>(V),
-        super.fromReference(
-            const jni$_.$JString$NullableType$(), V.nullableType, reference);
-
+extension type StringKeyedMap<$V extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements MyMap<jni$_.JString?, $V?> {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/generics/StringKeyedMap');
 
@@ -4067,17 +3673,8 @@ final class $StringKeyedMap$Type$ extends jni$_.JType<StringKeyedMap> {
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.StringMap`
-class StringMap extends StringKeyedMap<jni$_.JString?> {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<StringMap> $type;
-
-  @jni$_.internal
-  StringMap.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(const jni$_.$JString$NullableType$(), reference);
-
+extension type StringMap._(jni$_.JObject _$this)
+    implements StringKeyedMap<jni$_.JString?> {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/generics/StringMap');
 
@@ -4116,196 +3713,11 @@ final class $StringMap$Type$ extends jni$_.JType<StringMap> {
   String get signature => r'Lcom/github/dart_lang/jnigen/generics/StringMap;';
 }
 
-  @jni$_.internal
-  @core$_.override
-  StringMap fromReference(jni$_.JReference reference) =>
-      StringMap.fromReference(
-        reference,
-      );
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType get superType =>
-      const $StringKeyedMap$NullableType$<jni$_.JString?>(
-          jni$_.$JString$NullableType$());
-
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType<StringMap?> get nullableType => const $StringMap$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  final superCount = 3;
-
-  @core$_.override
-  int get hashCode => ($StringMap$Type$).hashCode;
-
-  @core$_.override
-  core$_.bool operator ==(Object other) {
-    return other.runtimeType == ($StringMap$Type$) && other is $StringMap$Type$;
-  }
-}
-
 /// from: `com.github.dart_lang.jnigen.generics.StringStack`
-class StringStack extends MyStack<jni$_.JString?> {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<StringStack> $type;
-
-  @jni$_.internal
-  StringStack.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(const jni$_.$JString$NullableType$(), reference);
-
+extension type StringStack._(jni$_.JObject _$this)
+    implements MyStack<jni$_.JString?> {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/generics/StringStack');
-
-  /// The type which includes information such as the signature of this class.
-  static const jni$_.JType<StringStack?> nullableType =
-      $StringStack$NullableType$();
-
-  /// The type which includes information such as the signature of this class.
-  static const jni$_.JType<StringStack> type = $StringStack$Type$();
-  static final _id_new$ = _class.constructorId(
-    r'()V',
-  );
-
-  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public void <init>()`
-  /// The returned object must be released after use, by calling the [release] method.
-  factory StringStack() {
-    return StringStack.fromReference(
-        _new$(_class.reference.pointer, _id_new$ as jni$_.JMethodIDPtr)
-            .reference);
-  }
-}
-
-final class $StringStack$NullableType$ extends jni$_.JType<StringStack?> {
-  @jni$_.internal
-  const $StringStack$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  String get signature => r'Lcom/github/dart_lang/jnigen/generics/StringStack;';
-
-  @jni$_.internal
-  @core$_.override
-  StringStack? fromReference(jni$_.JReference reference) => reference.isNull
-      ? null
-      : StringStack.fromReference(
-          reference,
-        );
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType get superType => const $MyStack$NullableType$<jni$_.JString?>(
-      jni$_.$JString$NullableType$());
-
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType<StringStack?> get nullableType => this;
-
-  @jni$_.internal
-  @core$_.override
-  final superCount = 2;
-
-  @core$_.override
-  int get hashCode => ($StringStack$NullableType$).hashCode;
-
-  @core$_.override
-  core$_.bool operator ==(Object other) {
-    return other.runtimeType == ($StringStack$NullableType$) &&
-        other is $StringStack$NullableType$;
-  }
-}
-
-final class $StringStack$Type$ extends jni$_.JType<StringStack> {
-  @jni$_.internal
-  const $StringStack$Type$();
-
-  @jni$_.internal
-  @core$_.override
-  String get signature => r'Lcom/github/dart_lang/jnigen/generics/StringStack;';
-
-  @jni$_.internal
-  @core$_.override
-  StringStack fromReference(jni$_.JReference reference) =>
-      StringStack.fromReference(
-        reference,
-      );
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType get superType => const $MyStack$NullableType$<jni$_.JString?>(
-      jni$_.$JString$NullableType$());
-
-  @jni$_.internal
-  @core$_.override
-  jni$_.JType<StringStack?> get nullableType =>
-      const $StringStack$NullableType$();
-
-  @jni$_.internal
-  @core$_.override
-  final superCount = 2;
-
-  @core$_.override
-  int get hashCode => ($StringStack$Type$).hashCode;
-
-  @core$_.override
-  core$_.bool operator ==(Object other) {
-    return other.runtimeType == ($StringStack$Type$) &&
-        other is $StringStack$Type$;
-  }
-}
-
-/// from: `com.github.dart_lang.jnigen.generics.StringValuedMap`
-class StringValuedMap<$K extends jni$_.JObject?>
-    extends MyMap<$K?, jni$_.JString?> {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<StringValuedMap<$K>> $type;
-
-  @jni$_.internal
-  final jni$_.JType<$K> K;
-
-  @jni$_.internal
-  StringValuedMap.fromReference(
-    this.K,
-    jni$_.JReference reference,
-  )   : $type = type<$K>(K),
-        super.fromReference(
-            K.nullableType, const jni$_.$JString$NullableType$(), reference);
-
-  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
-      r'com/github/dart_lang/jnigen/generics/StringValuedMap');
-
-  /// The type which includes information such as the signature of this class.
-  static jni$_.JType<StringValuedMap<$K>?>
-      nullableType<$K extends jni$_.JObject?>(
-    jni$_.JType<$K> K,
-  ) {
-    return $StringValuedMap$NullableType$<$K>(
-      K,
-    );
-  }
-
-  /// The type which includes information such as the signature of this class.
-  static jni$_.JType<StringValuedMap<$K>> type<$K extends jni$_.JObject?>(
-    jni$_.JType<$K> K,
-  ) {
-    return $StringValuedMap$Type$<$K>(
-      K,
-    );
-  }
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<StringStack> type = $StringStack$Type$();
@@ -4345,7 +3757,7 @@ final class $StringStack$Type$ extends jni$_.JType<StringStack> {
 /// from: `com.github.dart_lang.jnigen.generics.StringValuedMap`
 extension type StringValuedMap<$K extends jni$_.JObject?>._(
     jni$_.JObject _$this) implements MyMap<$K?, jni$_.JString?> {
-  static final _class = jni$_.JClass.forName(
+  static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/generics/StringValuedMap');
 
   /// The type which includes information such as the signature of this class.
@@ -4385,21 +3797,8 @@ final class $StringValuedMap$Type$ extends jni$_.JType<StringValuedMap> {
 }
 
 /// from: `com.github.dart_lang.jnigen.interfaces.GenericInterface`
-class GenericInterface<$T extends jni$_.JObject?> extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<GenericInterface<$T>> $type;
-
-  @jni$_.internal
-  final jni$_.JType<$T> T;
-
-  @jni$_.internal
-  GenericInterface.fromReference(
-    this.T,
-    jni$_.JReference reference,
-  )   : $type = type<$T>(T),
-        super.fromReference(reference);
-
+extension type GenericInterface<$T extends jni$_.JObject?>._(
+    jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/interfaces/GenericInterface');
 
@@ -4848,17 +4247,8 @@ final class $GenericInterface$Type$ extends jni$_.JType<GenericInterface> {
 }
 
 /// from: `com.github.dart_lang.jnigen.interfaces.InheritedFromMyInterface`
-class InheritedFromMyInterface extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<InheritedFromMyInterface> $type;
-
-  @jni$_.internal
-  InheritedFromMyInterface.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type InheritedFromMyInterface._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/interfaces/InheritedFromMyInterface');
 
@@ -5147,17 +4537,8 @@ final class $InheritedFromMyInterface$Type$
 }
 
 /// from: `com.github.dart_lang.jnigen.interfaces.InheritedFromMyRunnable`
-class InheritedFromMyRunnable extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<InheritedFromMyRunnable> $type;
-
-  @jni$_.internal
-  InheritedFromMyRunnable.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type InheritedFromMyRunnable._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/interfaces/InheritedFromMyRunnable');
 
@@ -5298,41 +4679,10 @@ final class $InheritedFromMyRunnable$Type$
 }
 
 /// from: `com.github.dart_lang.jnigen.interfaces.MyInterface`
-class MyInterface<$T extends jni$_.JObject?> extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<MyInterface<$T>> $type;
-
-  @jni$_.internal
-  final jni$_.JType<$T> T;
-
-  @jni$_.internal
-  MyInterface.fromReference(
-    this.T,
-    jni$_.JReference reference,
-  )   : $type = type<$T>(T),
-        super.fromReference(reference);
-
+extension type MyInterface<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/interfaces/MyInterface');
-
-  /// The type which includes information such as the signature of this class.
-  static jni$_.JType<MyInterface<$T>?> nullableType<$T extends jni$_.JObject?>(
-    jni$_.JType<$T> T,
-  ) {
-    return $MyInterface$NullableType$<$T>(
-      T,
-    );
-  }
-
-  /// The type which includes information such as the signature of this class.
-  static jni$_.JType<MyInterface<$T>> type<$T extends jni$_.JObject?>(
-    jni$_.JType<$T> T,
-  ) {
-    return $MyInterface$Type$<$T>(
-      T,
-    );
-  }
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<MyInterface> type = $MyInterface$Type$();
@@ -5618,17 +4968,8 @@ final class $MyInterface$Type$ extends jni$_.JType<MyInterface> {
 }
 
 /// from: `com.github.dart_lang.jnigen.interfaces.MyInterfaceConsumer`
-class MyInterfaceConsumer extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<MyInterfaceConsumer> $type;
-
-  @jni$_.internal
-  MyInterfaceConsumer.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type MyInterfaceConsumer._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/interfaces/MyInterfaceConsumer');
 
@@ -5787,17 +5128,7 @@ final class $MyInterfaceConsumer$Type$
 }
 
 /// from: `com.github.dart_lang.jnigen.interfaces.MyRunnable`
-class MyRunnable extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<MyRunnable> $type;
-
-  @jni$_.internal
-  MyRunnable.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type MyRunnable._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/interfaces/MyRunnable');
 
@@ -5937,17 +5268,8 @@ final class $MyRunnable$Type$ extends jni$_.JType<MyRunnable> {
 }
 
 /// from: `com.github.dart_lang.jnigen.interfaces.MyRunnableRunner`
-class MyRunnableRunner extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<MyRunnableRunner> $type;
-
-  @jni$_.internal
-  MyRunnableRunner.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type MyRunnableRunner._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/interfaces/MyRunnableRunner');
 
@@ -6075,17 +5397,8 @@ final class $MyRunnableRunner$Type$ extends jni$_.JType<MyRunnableRunner> {
 }
 
 /// from: `com.github.dart_lang.jnigen.interfaces.StringConversionException`
-class StringConversionException extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<StringConversionException> $type;
-
-  @jni$_.internal
-  StringConversionException.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type StringConversionException._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/interfaces/StringConversionException');
 
@@ -6130,17 +5443,8 @@ final class $StringConversionException$Type$
 }
 
 /// from: `com.github.dart_lang.jnigen.interfaces.StringConverter`
-class StringConverter extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<StringConverter> $type;
-
-  @jni$_.internal
-  StringConverter.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type StringConverter._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/interfaces/StringConverter');
 
@@ -6279,17 +5583,8 @@ final class $StringConverter$Type$ extends jni$_.JType<StringConverter> {
 }
 
 /// from: `com.github.dart_lang.jnigen.interfaces.StringConverterConsumer`
-class StringConverterConsumer extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<StringConverterConsumer> $type;
-
-  @jni$_.internal
-  StringConverterConsumer.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type StringConverterConsumer._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/interfaces/StringConverterConsumer');
 
@@ -6410,21 +5705,8 @@ final class $StringConverterConsumer$Type$
 }
 
 /// from: `com.github.dart_lang.jnigen.inheritance.BaseClass`
-class BaseClass<$T extends jni$_.JObject?> extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<BaseClass<$T>> $type;
-
-  @jni$_.internal
-  final jni$_.JType<$T> T;
-
-  @jni$_.internal
-  BaseClass.fromReference(
-    this.T,
-    jni$_.JReference reference,
-  )   : $type = type<$T>(T),
-        super.fromReference(reference);
-
+extension type BaseClass<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/inheritance/BaseClass');
 
@@ -6492,21 +5774,8 @@ final class $BaseClass$Type$ extends jni$_.JType<BaseClass> {
 }
 
 /// from: `com.github.dart_lang.jnigen.inheritance.BaseGenericInterface`
-class BaseGenericInterface<$T extends jni$_.JObject?> extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<BaseGenericInterface<$T>> $type;
-
-  @jni$_.internal
-  final jni$_.JType<$T> T;
-
-  @jni$_.internal
-  BaseGenericInterface.fromReference(
-    this.T,
-    jni$_.JReference reference,
-  )   : $type = type<$T>(T),
-        super.fromReference(reference);
-
+extension type BaseGenericInterface<$T extends jni$_.JObject?>._(
+    jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/inheritance/BaseGenericInterface');
 
@@ -6647,17 +5916,7 @@ final class $BaseGenericInterface$Type$
 }
 
 /// from: `com.github.dart_lang.jnigen.inheritance.BaseInterface`
-class BaseInterface extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<BaseInterface> $type;
-
-  @jni$_.internal
-  BaseInterface.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type BaseInterface._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/inheritance/BaseInterface');
 
@@ -6795,17 +6054,8 @@ final class $BaseInterface$Type$ extends jni$_.JType<BaseInterface> {
 }
 
 /// from: `com.github.dart_lang.jnigen.inheritance.DerivedInterface`
-class DerivedInterface extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<DerivedInterface> $type;
-
-  @jni$_.internal
-  DerivedInterface.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type DerivedInterface._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/inheritance/DerivedInterface');
 
@@ -6943,21 +6193,8 @@ final class $DerivedInterface$Type$ extends jni$_.JType<DerivedInterface> {
 }
 
 /// from: `com.github.dart_lang.jnigen.inheritance.GenericDerivedClass`
-class GenericDerivedClass<$T extends jni$_.JObject?> extends BaseClass<$T?> {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<GenericDerivedClass<$T>> $type;
-
-  @jni$_.internal
-  final jni$_.JType<$T> T;
-
-  @jni$_.internal
-  GenericDerivedClass.fromReference(
-    this.T,
-    jni$_.JReference reference,
-  )   : $type = type<$T>(T),
-        super.fromReference(T.nullableType, reference);
-
+extension type GenericDerivedClass<$T extends jni$_.JObject?>._(
+    jni$_.JObject _$this) implements BaseClass<$T?> {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/inheritance/GenericDerivedClass');
 
@@ -7000,17 +6237,8 @@ final class $GenericDerivedClass$Type$
 }
 
 /// from: `com.github.dart_lang.jnigen.inheritance.SpecificDerivedClass`
-class SpecificDerivedClass extends BaseClass<jni$_.JString?> {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<SpecificDerivedClass> $type;
-
-  @jni$_.internal
-  SpecificDerivedClass.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(const jni$_.$JString$NullableType$(), reference);
-
+extension type SpecificDerivedClass._(jni$_.JObject _$this)
+    implements BaseClass<jni$_.JString?> {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/inheritance/SpecificDerivedClass');
 
@@ -7079,6 +6307,13 @@ final class $SpecificDerivedClass$Type$
       r'Lcom/github/dart_lang/jnigen/inheritance/SpecificDerivedClass;';
 }
 
+/// from: `com.github.dart_lang.jnigen.annotations.Annotated$Nested`
+extension type Annotated$Nested<
+        $T extends jni$_.JObject?,
+        $U extends jni$_.JObject,
+        $W extends jni$_.JObject,
+        $V extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/annotations/Annotated$Nested');
 
@@ -7156,30 +6391,8 @@ final class $Annotated$Nested$Type$ extends jni$_.JType<Annotated$Nested> {
 }
 
 /// from: `com.github.dart_lang.jnigen.annotations.Annotated`
-class Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
-    $W extends jni$_.JObject> extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<Annotated<$T, $U, $W>> $type;
-
-  @jni$_.internal
-  final jni$_.JType<$T> T;
-
-  @jni$_.internal
-  final jni$_.JType<$U> U;
-
-  @jni$_.internal
-  final jni$_.JType<$W> W;
-
-  @jni$_.internal
-  Annotated.fromReference(
-    this.T,
-    this.U,
-    this.W,
-    jni$_.JReference reference,
-  )   : $type = type<$T, $U, $W>(T, U, W),
-        super.fromReference(reference);
-
+extension type Annotated<$T extends jni$_.JObject?, $U extends jni$_.JObject,
+    $W extends jni$_.JObject>._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/annotations/Annotated');
 
@@ -8786,6 +7999,9 @@ final class $Annotated$Type$ extends jni$_.JType<Annotated> {
       r'Lcom/github/dart_lang/jnigen/annotations/Annotated;';
 }
 
+/// from: `com.github.dart_lang.jnigen.annotations.JsonSerializable$Case`
+extension type JsonSerializable$Case._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/annotations/JsonSerializable$Case');
 
@@ -8889,17 +8105,8 @@ final class $JsonSerializable$Case$Type$
 }
 
 /// from: `com.github.dart_lang.jnigen.annotations.JsonSerializable`
-class JsonSerializable extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<JsonSerializable> $type;
-
-  @jni$_.internal
-  JsonSerializable.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type JsonSerializable._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/annotations/JsonSerializable');
 
@@ -9039,17 +8246,7 @@ final class $JsonSerializable$Type$ extends jni$_.JType<JsonSerializable> {
 }
 
 /// from: `com.github.dart_lang.jnigen.annotations.MyDataClass`
-class MyDataClass extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<MyDataClass> $type;
-
-  @jni$_.internal
-  MyDataClass.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type MyDataClass._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/annotations/MyDataClass');
 
@@ -9090,17 +8287,7 @@ final class $MyDataClass$Type$ extends jni$_.JType<MyDataClass> {
 }
 
 /// from: `com.github.dart_lang.jnigen.annotations.NotNull`
-class NotNull extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<NotNull> $type;
-
-  @jni$_.internal
-  NotNull.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type NotNull._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/annotations/NotNull');
 
@@ -9195,17 +8382,7 @@ final class $NotNull$Type$ extends jni$_.JType<NotNull> {
 }
 
 /// from: `com.github.dart_lang.jnigen.annotations.Nullable`
-class Nullable extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<Nullable> $type;
-
-  @jni$_.internal
-  Nullable.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(reference);
-
+extension type Nullable._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/annotations/Nullable');
 
@@ -9299,6 +8476,8 @@ final class $Nullable$Type$ extends jni$_.JType<Nullable> {
   String get signature => r'Lcom/github/dart_lang/jnigen/annotations/Nullable;';
 }
 
+/// from: `com.github.dart_lang.jnigen.regressions.R2250$Child`
+extension type R2250$Child._(jni$_.JObject _$this) implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/regressions/R2250$Child');
 
@@ -9435,21 +8614,8 @@ final class $R2250$Child$Type$ extends jni$_.JType<R2250$Child> {
 }
 
 /// from: `com.github.dart_lang.jnigen.regressions.R2250`
-class R2250<$T extends jni$_.JObject?> extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<R2250<$T>> $type;
-
-  @jni$_.internal
-  final jni$_.JType<$T> T;
-
-  @jni$_.internal
-  R2250.fromReference(
-    this.T,
-    jni$_.JReference reference,
-  )   : $type = type<$T>(T),
-        super.fromReference(reference);
-
+extension type R2250<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/regressions/R2250');
 
@@ -9585,17 +8751,7 @@ final class $R2250$Type$ extends jni$_.JType<R2250> {
 }
 
 /// from: `com.github.dart_lang.jnigen.regressions.R693$Child`
-class R693$Child extends R693<R693$Child?> {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<R693$Child> $type;
-
-  @jni$_.internal
-  R693$Child.fromReference(
-    jni$_.JReference reference,
-  )   : $type = type,
-        super.fromReference(const $R693$Child$NullableType$(), reference);
-
+extension type R693$Child._(jni$_.JObject _$this) implements R693<R693$Child?> {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/regressions/R693$Child');
 
@@ -9636,21 +8792,8 @@ final class $R693$Child$Type$ extends jni$_.JType<R693$Child> {
 }
 
 /// from: `com.github.dart_lang.jnigen.regressions.R693`
-class R693<$T extends jni$_.JObject?> extends jni$_.JObject {
-  @jni$_.internal
-  @core$_.override
-  final jni$_.JType<R693<$T>> $type;
-
-  @jni$_.internal
-  final jni$_.JType<$T> T;
-
-  @jni$_.internal
-  R693.fromReference(
-    this.T,
-    jni$_.JReference reference,
-  )   : $type = type<$T>(T),
-        super.fromReference(reference);
-
+extension type R693<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements jni$_.JObject {
   static jni$_.JClass get _class => jni$_.JClass.forNameCached(
       r'com/github/dart_lang/jnigen/regressions/R693');
 
