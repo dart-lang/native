@@ -217,6 +217,9 @@ class ConstantSyntax extends JsonObjectSyntax {
     if (result.isBoolConstant) {
       return result.asBoolConstant;
     }
+    if (result.isDoubleConstant) {
+      return result.asDoubleConstant;
+    }
     if (result.isEnumConstant) {
       return result.asEnumConstant;
     }
@@ -280,6 +283,17 @@ class ConstantSyntax extends JsonObjectSyntax {
 
   List<String> _validateExtraRulesConstant() {
     final result = <String>[];
+    if (_reader.tryTraverse(['type']) == 'double') {
+      final objectErrors = _reader.validate<Map<String, Object?>?>('value');
+      result.addAll(objectErrors);
+      if (objectErrors.isEmpty) {
+        final jsonValue = _reader.get<Map<String, Object?>?>('value');
+        if (jsonValue != null) {
+          final reader = _JsonReader(jsonValue, [...path, 'value']);
+          result.addAll(reader.validate<Object>('type'));
+        }
+      }
+    }
     if (_reader.tryTraverse(['type']) == 'instance') {
       result.addAll(_reader.validate<Object>('definition_index'));
     }
@@ -518,6 +532,133 @@ class DefinitionSyntax extends JsonObjectSyntax {
 
   @override
   String toString() => 'DefinitionSyntax($json)';
+}
+
+class DoubleConstantSyntax extends ConstantSyntax {
+  DoubleConstantSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  DoubleConstantSyntax({
+    required DoubleConstantValueSyntax value,
+    super.path = const [],
+  }) : super(type: 'double') {
+    _value = value;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [DoubleConstantSyntax] that are not in
+  /// [ConstantSyntax].
+  void setup({required DoubleConstantValueSyntax value}) {
+    _value = value;
+    json.sortOnKey();
+  }
+
+  DoubleConstantValueSyntax get value {
+    final jsonValue = _reader.map$('value');
+    return DoubleConstantValueSyntax.fromJson(
+      jsonValue,
+      path: [...path, 'value'],
+    );
+  }
+
+  set _value(DoubleConstantValueSyntax value) {
+    json['value'] = value.json;
+  }
+
+  List<String> _validateValue() {
+    final mapErrors = _reader.validate<Map<String, Object?>>('value');
+    if (mapErrors.isNotEmpty) {
+      return mapErrors;
+    }
+    return value.validate();
+  }
+
+  @override
+  List<String> validate() => [...super.validate(), ..._validateValue()];
+
+  @override
+  String toString() => 'DoubleConstantSyntax($json)';
+}
+
+extension DoubleConstantSyntaxExtension on ConstantSyntax {
+  bool get isDoubleConstant => type == 'double';
+
+  DoubleConstantSyntax get asDoubleConstant =>
+      DoubleConstantSyntax.fromJson(json, path: path);
+}
+
+class DoubleConstantValueSyntax extends JsonObjectSyntax {
+  factory DoubleConstantValueSyntax.fromJson(
+    Map<String, Object?> json, {
+    List<Object> path = const [],
+  }) {
+    final result = DoubleConstantValueSyntax._fromJson(json, path: path);
+    if (result.isNegativeInfinityDoubleConstantValue) {
+      return result.asNegativeInfinityDoubleConstantValue;
+    }
+    if (result.isNotANumberDoubleConstantValue) {
+      return result.asNotANumberDoubleConstantValue;
+    }
+    if (result.isNumberDoubleConstantValue) {
+      return result.asNumberDoubleConstantValue;
+    }
+    if (result.isPositiveInfinityDoubleConstantValue) {
+      return result.asPositiveInfinityDoubleConstantValue;
+    }
+    return result;
+  }
+
+  DoubleConstantValueSyntax._fromJson(
+    super.json, {
+    super.path = const [],
+  }) : super.fromJson();
+
+  DoubleConstantValueSyntax({
+    required String type,
+    double? value,
+    super.path = const [],
+  }) : super() {
+    _type = type;
+    _value = value;
+    json.sortOnKey();
+  }
+
+  String get type => _reader.get<String>('type');
+
+  set _type(String value) {
+    json.setOrRemove('type', value);
+  }
+
+  List<String> _validateType() => _reader.validate<String>('type');
+
+  double? get value => _reader.get<double?>('value');
+
+  set _value(double? value) {
+    json.setOrRemove('value', value);
+  }
+
+  List<String> _validateValue() => _reader.validate<double?>('value');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+    ..._validateType(),
+    ..._validateValue(),
+    ..._validateExtraRulesDoubleConstantValue(),
+  ];
+
+  List<String> _validateExtraRulesDoubleConstantValue() {
+    final result = <String>[];
+    if (_reader.tryTraverse(['type']) == 'number') {
+      result.addAll(_reader.validate<Object>('value'));
+    }
+    return result;
+  }
+
+  @override
+  String toString() => 'DoubleConstantValueSyntax($json)';
 }
 
 class EnumConstantSyntax extends ConstantSyntax {
@@ -1329,6 +1470,36 @@ class NameSyntax extends JsonObjectSyntax {
   String toString() => 'NameSyntax($json)';
 }
 
+class NegativeInfinityDoubleConstantValueSyntax
+    extends DoubleConstantValueSyntax {
+  NegativeInfinityDoubleConstantValueSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  NegativeInfinityDoubleConstantValueSyntax({
+    super.value,
+    super.path = const [],
+  }) : super(type: 'negative_infinity');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'NegativeInfinityDoubleConstantValueSyntax($json)';
+}
+
+extension NegativeInfinityDoubleConstantValueSyntaxExtension
+    on DoubleConstantValueSyntax {
+  bool get isNegativeInfinityDoubleConstantValue => type == 'negative_infinity';
+
+  NegativeInfinityDoubleConstantValueSyntax
+  get asNegativeInfinityDoubleConstantValue =>
+      NegativeInfinityDoubleConstantValueSyntax.fromJson(json, path: path);
+}
+
 class NonConstantConstantSyntax extends ConstantSyntax {
   NonConstantConstantSyntax.fromJson(
     super.json, {
@@ -1354,6 +1525,32 @@ extension NonConstantConstantSyntaxExtension on ConstantSyntax {
       NonConstantConstantSyntax.fromJson(json, path: path);
 }
 
+class NotANumberDoubleConstantValueSyntax extends DoubleConstantValueSyntax {
+  NotANumberDoubleConstantValueSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  NotANumberDoubleConstantValueSyntax({super.value, super.path = const []})
+    : super(type: 'not_a_number');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'NotANumberDoubleConstantValueSyntax($json)';
+}
+
+extension NotANumberDoubleConstantValueSyntaxExtension
+    on DoubleConstantValueSyntax {
+  bool get isNotANumberDoubleConstantValue => type == 'not_a_number';
+
+  NotANumberDoubleConstantValueSyntax get asNotANumberDoubleConstantValue =>
+      NotANumberDoubleConstantValueSyntax.fromJson(json, path: path);
+}
+
 class NullConstantSyntax extends ConstantSyntax {
   NullConstantSyntax.fromJson(
     super.json, {
@@ -1376,6 +1573,32 @@ extension NullConstantSyntaxExtension on ConstantSyntax {
 
   NullConstantSyntax get asNullConstant =>
       NullConstantSyntax.fromJson(json, path: path);
+}
+
+class NumberDoubleConstantValueSyntax extends DoubleConstantValueSyntax {
+  NumberDoubleConstantValueSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  NumberDoubleConstantValueSyntax({super.value, super.path = const []})
+    : super(type: 'number');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'NumberDoubleConstantValueSyntax($json)';
+}
+
+extension NumberDoubleConstantValueSyntaxExtension
+    on DoubleConstantValueSyntax {
+  bool get isNumberDoubleConstantValue => type == 'number';
+
+  NumberDoubleConstantValueSyntax get asNumberDoubleConstantValue =>
+      NumberDoubleConstantValueSyntax.fromJson(json, path: path);
 }
 
 class OperatorNameSyntax extends NameSyntax {
@@ -1404,6 +1627,36 @@ extension OperatorNameSyntaxExtension on NameSyntax {
 
   OperatorNameSyntax get asOperatorName =>
       OperatorNameSyntax.fromJson(json, path: path);
+}
+
+class PositiveInfinityDoubleConstantValueSyntax
+    extends DoubleConstantValueSyntax {
+  PositiveInfinityDoubleConstantValueSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  PositiveInfinityDoubleConstantValueSyntax({
+    super.value,
+    super.path = const [],
+  }) : super(type: 'positive_infinity');
+
+  @override
+  List<String> validate() => [
+    ...super.validate(),
+  ];
+
+  @override
+  String toString() => 'PositiveInfinityDoubleConstantValueSyntax($json)';
+}
+
+extension PositiveInfinityDoubleConstantValueSyntaxExtension
+    on DoubleConstantValueSyntax {
+  bool get isPositiveInfinityDoubleConstantValue => type == 'positive_infinity';
+
+  PositiveInfinityDoubleConstantValueSyntax
+  get asPositiveInfinityDoubleConstantValue =>
+      PositiveInfinityDoubleConstantValueSyntax.fromJson(json, path: path);
 }
 
 class RecordConstantSyntax extends ConstantSyntax {

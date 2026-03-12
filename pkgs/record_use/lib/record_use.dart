@@ -101,6 +101,7 @@ export 'src/constant.dart'
     show
         BoolConstant,
         Constant,
+        DoubleConstant,
         EnumConstant,
         InstanceConstant,
         IntConstant,
