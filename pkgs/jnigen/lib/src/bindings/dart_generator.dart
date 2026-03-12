@@ -1004,8 +1004,8 @@ ${modifier}final _id_$name =
       typeClass = '$type.type';
     }
     final type = node.type;
-    final isPotentiallyNullable = type.isNullable ||
-        (type is TypeVar && type.origin.isNullable);
+    final isPotentiallyNullable =
+        type.isNullable || (type is TypeVar && type.origin.isNullable);
     final getter = isPotentiallyNullable ? 'getNullable' : 'get';
     return '_id_$name.$getter($self, $typeClass)';
   }
@@ -1384,8 +1384,8 @@ class _ParamReference extends Visitor<Param, String> {
       return '';
     }
     final type = node.type;
-    final isPotentiallyNullable = node.isNullable ||
-        (type is TypeVar && type.origin.isNullable);
+    final isPotentiallyNullable =
+        node.isNullable || (type is TypeVar && type.origin.isNullable);
     final nullable = isPotentiallyNullable ? '?' : '';
     final orDefault = isPotentiallyNullable ? ' ?? $_jni.jNullReference' : '';
     return 'final _\$${node.finalName} = '

@@ -2679,11 +2679,9 @@ final class $GenericTypeParams$Type$ extends jni$_.JType<GenericTypeParams> {
 }
 
 /// from: `com.github.dart_lang.jnigen.generics.GrandParent$Parent$Child`
-extension type GrandParent$Parent$Child<
-        $T extends jni$_.JObject?,
-        $S extends jni$_.JObject?,
-        $U extends jni$_.JObject?>._(jni$_.JObject _$this)
-    implements jni$_.JObject {
+extension type GrandParent$Parent$Child<$T extends jni$_.JObject?,
+        $S extends jni$_.JObject?, $U extends jni$_.JObject?>._(
+    jni$_.JObject _$this) implements jni$_.JObject {
   static final _class = jni$_.JClass.forName(
       r'com/github/dart_lang/jnigen/generics/GrandParent$Parent$Child');
 
