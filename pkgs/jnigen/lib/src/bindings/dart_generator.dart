@@ -647,6 +647,7 @@ class _TypeGenerator extends TypeVisitor<String> {
   final bool isTopTypeNullable;
 
   final bool forInterfaceImplementation;
+  final bool forInterfaceInvoker;
 
   /// Whether or not to return the equivalent boxed type class for primitives.
   /// Only for interface implemetation.
@@ -663,6 +664,7 @@ class _TypeGenerator extends TypeVisitor<String> {
   const _TypeGenerator(
     this.resolver, {
     this.forInterfaceImplementation = false,
+    this.forInterfaceInvoker = false,
     this.boxPrimitives = false,
     this.typeErasure = false,
     this.includeNullability = true,
@@ -711,7 +713,8 @@ class _TypeGenerator extends TypeVisitor<String> {
       },
     );
 
-    final typeParams = allTypeParams.join(', ').encloseIfNotEmpty('<', '>');
+    final typeParams =
+        typeErasure ? '' : allTypeParams.join(', ').encloseIfNotEmpty('<', '>');
     final prefix = resolver?.resolvePrefix(node.classDecl) ?? '';
     return '$prefix${node.classDecl.finalName}$typeParams$nullable';
   }
@@ -740,7 +743,7 @@ class _TypeGenerator extends TypeVisitor<String> {
     {
       final nullable =
           includeNullability && node.isNullable && isTopTypeNullable ? '?' : '';
-      if (typeErasure) {
+      if (typeErasure || forInterfaceInvoker) {
         return '$_jObject$nullable';
       }
       if (forInterfaceImplementation && node.origin.parent is Method) {
@@ -1644,7 +1647,7 @@ class _InterfaceParamCast extends Visitor<Param, void> {
     final type = node.type.accept(_TypeGenerator(
       resolver,
       forInterfaceImplementation: true,
-      typeErasure: true,
+      forInterfaceInvoker: true,
       boxPrimitives: true,
     ));
     s.write('(\$a![$paramIndex] as $type)');
