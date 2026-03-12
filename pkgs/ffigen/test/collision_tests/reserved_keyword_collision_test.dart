@@ -12,6 +12,7 @@ import '../test_utils.dart';
 void main() {
   group('reserved_keyword_collision_test', () {
     test('reserved keyword collision', () {
+      final context = testContext();
       final library = parser.parse(
         testContext(
           FfiGenerator(
@@ -45,6 +46,7 @@ void main() {
         ),
       );
       matchLibraryWithExpected(
+        context,
         library,
         'reserved_keyword_collision_test_output.dart',
         [

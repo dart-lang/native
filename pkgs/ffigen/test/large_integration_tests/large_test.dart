@@ -74,8 +74,10 @@ void main() {
         ),
       );
       final library = parse(Context(logger, generator));
+      final context = testContext();
 
       matchLibraryWithExpected(
+        context,
         library,
         'large_test_libclang.dart',
         ['test', 'large_integration_tests', '_expected_libclang_bindings.dart'],
@@ -151,9 +153,10 @@ void main() {
         macros: Macros.includeAll,
         typedefs: Typedefs.includeAll,
       );
-      final library = parse(testContext(generator));
+      final context = testContext(generator);
+      final library = parse(context);
 
-      matchLibraryWithExpected(library, 'large_test_cjson.dart', [
+      matchLibraryWithExpected(context, library, 'large_test_cjson.dart', [
         'test',
         'large_integration_tests',
         '_expected_cjson_bindings.dart',
@@ -202,9 +205,10 @@ void main() {
           include: (declaration) => !vaRegex.hasMatch(declaration.originalName),
         ),
       );
-      final library = parse(testContext(generator));
+      final context = testContext(generator);
+      final library = parse(context);
 
-      matchLibraryWithExpected(library, 'large_test_sqlite.dart', [
+      matchLibraryWithExpected(context, library, 'large_test_sqlite.dart', [
         'test',
         'large_integration_tests',
         '_expected_sqlite_bindings.dart',

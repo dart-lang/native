@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:pub_semver/pub_semver.dart';
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -40,7 +40,7 @@ void main() {
           const CallWithArguments(
             positionalArguments: [mapConstant],
             namedArguments: {},
-            loadingUnits: [LoadingUnit('main.js')],
+            loadingUnit: LoadingUnit('main.js'),
           ),
         ],
       },
@@ -110,7 +110,7 @@ void main() {
           const CallWithArguments(
             positionalArguments: [complexMap],
             namedArguments: {},
-            loadingUnits: [LoadingUnit('main.js')],
+            loadingUnit: LoadingUnit('main.js'),
           ),
         ],
       },

@@ -129,11 +129,50 @@ typedef PrefixParselet =
   Json token,
   TokenList fragments,
 ) {
-  final nextToken = fragments[0];
-  if (_tokenId(nextToken) != 'text: )') {
-    throw Exception('Tuples not supported yet, at ${token.path}');
+  var currentFragments = fragments;
+  final elements = <TupleElement>[];
+
+  while (currentFragments.isNotEmpty &&
+      _tokenId(currentFragments[0]) != 'text: )') {
+    String? label;
+
+    if (currentFragments.length > 1 &&
+        _tokenId(currentFragments[1]) == 'text: :') {
+      label = currentFragments[0]['spelling'].get<String>();
+      currentFragments = currentFragments.slice(2);
+    }
+
+    final (elementType, nextFragments) = parseType(
+      context,
+      symbolgraph,
+      currentFragments,
+    );
+
+    elements.add(TupleElement(label: label, type: elementType));
+    currentFragments = nextFragments;
+
+    if (currentFragments.isNotEmpty &&
+        _tokenId(currentFragments[0]) == 'text: ,') {
+      currentFragments = currentFragments.slice(1);
+    }
   }
-  return (voidType, fragments.slice(1));
+
+  if (currentFragments.isNotEmpty &&
+      _tokenId(currentFragments[0]) == 'text: )') {
+    currentFragments = currentFragments.slice(1);
+  } else {
+    throw Exception('Expected closing parenthesis for tuple at ${token.path}');
+  }
+
+  if (elements.isEmpty) {
+    return (voidType, currentFragments);
+  }
+
+  if (elements.length == 1) {
+    return (elements[0].type, currentFragments);
+  }
+
+  return (TupleType(elements), currentFragments);
 }
 
 (ReferredType, TokenList) _inoutParselet(

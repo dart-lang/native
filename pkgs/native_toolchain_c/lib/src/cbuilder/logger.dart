@@ -9,9 +9,9 @@ import 'package:logging/logging.dart';
 /// Creates a default logger that logs to stdout and stderr.
 Logger createDefaultLogger() {
   final logger = Logger.detached('CBuilder');
-  logger.level = Level.INFO;
+  logger.level = .INFO;
   logger.onRecord.listen((record) {
-    if (record.level >= Level.WARNING) {
+    if (record.level >= .WARNING) {
       stderr.writeln(record.message);
     } else {
       stdout.writeln(record.message);

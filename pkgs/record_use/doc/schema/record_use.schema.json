@@ -19,11 +19,8 @@
             }
           ]
         },
-        "loading_unit_indices": {
-          "type": "array",
-          "items": {
-            "type": "integer"
-          }
+        "loading_unit_index": {
+          "type": "integer"
         },
         "receiver": {
           "type": [
@@ -33,7 +30,7 @@
         }
       },
       "required": [
-        "loading_unit_indices",
+        "loading_unit_index",
         "type"
       ],
       "if": {
@@ -408,15 +405,12 @@
             }
           ]
         },
-        "loading_unit_indices": {
-          "type": "array",
-          "items": {
-            "type": "integer"
-          }
+        "loading_unit_index": {
+          "type": "integer"
         }
       },
       "required": [
-        "loading_unit_indices",
+        "loading_unit_index",
         "type"
       ],
       "allOf": [
@@ -449,6 +443,9 @@
           },
           "then": {
             "properties": {
+              "definition_index": {
+                "type": "integer"
+              },
               "named": {
                 "type": "object",
                 "additionalProperties": {
@@ -461,7 +458,29 @@
                   "type": "integer"
                 }
               }
+            },
+            "required": [
+              "definition_index"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "tearoff"
+              }
             }
+          },
+          "then": {
+            "properties": {
+              "definition_index": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "definition_index"
+            ]
           }
         }
       ]

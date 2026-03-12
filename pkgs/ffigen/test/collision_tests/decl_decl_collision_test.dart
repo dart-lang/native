@@ -83,6 +83,7 @@ void main() {
         ], context),
       );
       matchLibraryWithExpected(
+        context,
         library,
         'decl_decl_collision_test_output.dart',
         [

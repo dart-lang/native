@@ -38,7 +38,7 @@ void main() {
 
 void run({required TestRunnerCallback testRunner}) {
   JObject newRandom(JClass randomClass) {
-    return randomClass.constructorId('()V').call(randomClass, JObject.type, []);
+    return randomClass.constructorId('()V').call<JObject>(randomClass, []);
   }
 
   testRunner('double free throws exception', () {
@@ -59,13 +59,13 @@ void run({required TestRunnerCallback testRunner}) {
         throwsA(isA<UseAfterReleaseError>()));
   });
 
-  testRunner('An exception in JNI throws JniException in Dart', () {
+  testRunner('An exception in JNI throws JThrowable in Dart', () {
     final rc = JClass.forName('java/util/Random');
     final r = newRandom(rc);
     expect(
         () => rc
             .instanceMethodId('nextInt', '(I)I')
             .call(r, jint.type, [JValueInt(-1)]),
-        throwsA(isA<JniException>()));
+        throwsA(isA<JThrowable>()));
   });
 }

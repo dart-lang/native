@@ -1,5 +1,11 @@
-## 0.15.1-wip
+## 0.16.0
 
+- **Breaking Change**: All Java wrapper classes have been migrated to extension
+  types. The main effects are:
+  - No more nullable `JType` classes, only `JType` classes, and the `JType`
+    class is simplified.
+  - It is no longer necessary to pass around the `JType` in many cases where it
+    used to be required.
 - Add docs about debugging.
 - Add support for Kotlin interfaces with suspend functions. These can now be
   implemented using Dart functions that return a `Future`.
@@ -7,7 +13,11 @@
   `bool`.
 - Kotlin suspend functions with no result (a return type of `Unit`) now return
   `Future<void>` in Dart instead of `Future<JObject>`.
-- Improve error message for unsupported Java class file versions in summary generation.
+- Improve error message for unsupported Java class file versions in summary
+  generation.
+- Generated extension types now implement their Java interfaces.
+- Instance members of generated extension types have been moved to extension
+  methods.
 
 ## 0.15.0
 

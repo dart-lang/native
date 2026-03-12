@@ -31,7 +31,9 @@ ${strings.comments}:
     });
 
     test('Expected bindings', () {
+      final context = testContext();
       matchLibraryWithExpected(
+        context,
         actual,
         'header_parser_comment_markup_test_output.dart',
         [

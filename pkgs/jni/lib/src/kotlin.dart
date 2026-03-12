@@ -63,7 +63,7 @@ class KotlinContinuation extends JObject {
   );
   void resumeWithException(Object dartException, StackTrace stackTrace) {
     resumeWith(
-      _result$FailureConstructor(result$FailureClass, JObject.type, [
+      _result$FailureConstructor<JObject>(result$FailureClass, [
         ProtectedJniExtensions.newDartException('$dartException\n$stackTrace'),
       ]),
     );

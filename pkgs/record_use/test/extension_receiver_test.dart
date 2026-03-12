@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
 import 'package:test/test.dart';
 
 const loadingUnit1 = LoadingUnit('1');
@@ -33,7 +33,7 @@ void main() {
             'uses': [
               {
                 'type': 'with_arguments',
-                'loading_unit_indices': [0],
+                'loading_unit_index': 0,
                 'receiver': 0,
                 'positional': [1],
               },
@@ -61,7 +61,7 @@ void main() {
             receiver: StringConstant('receiver'),
             positionalArguments: [IntConstant(42)],
             namedArguments: {},
-            loadingUnits: [loadingUnit1],
+            loadingUnit: loadingUnit1,
           ),
         ],
       },
@@ -90,7 +90,7 @@ void main() {
         definition: [
           const CallTearoff(
             receiver: StringConstant('receiver'),
-            loadingUnits: [loadingUnit1],
+            loadingUnit: loadingUnit1,
           ),
         ],
       },

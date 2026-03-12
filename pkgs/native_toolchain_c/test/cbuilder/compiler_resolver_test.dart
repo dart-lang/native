@@ -56,7 +56,7 @@ void main() {
               ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
               : null,
           targetArchitecture: Architecture.current,
-          linkModePreference: LinkModePreference.dynamic,
+          linkModePreference: .dynamic,
           cCompiler: CCompilerConfig(
             archiver: ar,
             compiler: cc,
@@ -102,9 +102,9 @@ void main() {
       ..config.setupBuild(linkingEnabled: false)
       ..addExtension(
         CodeAssetExtension(
-          targetOS: OS.windows,
-          targetArchitecture: Architecture.arm64,
-          linkModePreference: LinkModePreference.dynamic,
+          targetOS: .windows,
+          targetArchitecture: .arm64,
+          linkModePreference: .dynamic,
           cCompiler: cCompiler,
         ),
       );
@@ -114,8 +114,8 @@ void main() {
     final resolver = CompilerResolver(
       codeConfig: buildInput.config.code,
       logger: logger,
-      hostOS: OS.android, // This is never a host.
-      hostArchitecture: Architecture.arm64, // This is never a host.
+      hostOS: .android, // This is never a host.
+      hostArchitecture: .arm64, // This is never a host.
     );
     expect(resolver.resolveCompiler, throwsA(isA<ToolError>()));
     expect(resolver.resolveArchiver, throwsA(isA<ToolError>()));

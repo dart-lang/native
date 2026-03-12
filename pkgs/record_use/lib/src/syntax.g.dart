@@ -71,25 +71,25 @@ class CallSyntax extends JsonObjectSyntax {
   }) : super.fromJson();
 
   CallSyntax({
-    required List<int> loadingUnitIndices,
+    required int loadingUnitIndex,
     int? receiver,
     required String type,
     super.path = const [],
   }) : super() {
-    _loadingUnitIndices = loadingUnitIndices;
+    _loadingUnitIndex = loadingUnitIndex;
     _receiver = receiver;
     _type = type;
     json.sortOnKey();
   }
 
-  List<int> get loadingUnitIndices => _reader.list<int>('loading_unit_indices');
+  int get loadingUnitIndex => _reader.get<int>('loading_unit_index');
 
-  set _loadingUnitIndices(List<int> value) {
-    json['loading_unit_indices'] = value;
+  set _loadingUnitIndex(int value) {
+    json.setOrRemove('loading_unit_index', value);
   }
 
-  List<String> _validateLoadingUnitIndices() =>
-      _reader.validateList<int>('loading_unit_indices');
+  List<String> _validateLoadingUnitIndex() =>
+      _reader.validate<int>('loading_unit_index');
 
   int? get receiver => _reader.get<int?>('receiver');
 
@@ -110,7 +110,7 @@ class CallSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [
     ...super.validate(),
-    ..._validateLoadingUnitIndices(),
+    ..._validateLoadingUnitIndex(),
     ..._validateReceiver(),
     ..._validateType(),
   ];
@@ -301,7 +301,7 @@ class ConstantInstanceSyntax extends InstanceSyntax {
 
   ConstantInstanceSyntax({
     required int constantIndex,
-    required super.loadingUnitIndices,
+    required super.loadingUnitIndex,
     super.path = const [],
   }) : super(type: 'constant') {
     _constantIndex = constantIndex;
@@ -373,11 +373,13 @@ class CreationInstanceSyntax extends InstanceSyntax {
   }) : super._fromJson();
 
   CreationInstanceSyntax({
-    required super.loadingUnitIndices,
+    required int definitionIndex,
+    required super.loadingUnitIndex,
     Map<String, int>? named,
     List<int>? positional,
     super.path = const [],
   }) : super(type: 'creation') {
+    _definitionIndex = definitionIndex;
     _named = named;
     _positional = positional;
     json.sortOnKey();
@@ -386,13 +388,24 @@ class CreationInstanceSyntax extends InstanceSyntax {
   /// Setup all fields for [CreationInstanceSyntax] that are not in
   /// [InstanceSyntax].
   void setup({
+    required int definitionIndex,
     required Map<String, int>? named,
     required List<int>? positional,
   }) {
+    _definitionIndex = definitionIndex;
     _named = named;
     _positional = positional;
     json.sortOnKey();
   }
+
+  int get definitionIndex => _reader.get<int>('definition_index');
+
+  set _definitionIndex(int value) {
+    json.setOrRemove('definition_index', value);
+  }
+
+  List<String> _validateDefinitionIndex() =>
+      _reader.validate<int>('definition_index');
 
   Map<String, int>? get named => _reader.optionalMap<int>(
     'named',
@@ -421,6 +434,7 @@ class CreationInstanceSyntax extends InstanceSyntax {
   @override
   List<String> validate() => [
     ...super.validate(),
+    ..._validateDefinitionIndex(),
     ..._validateNamed(),
     ..._validatePositional(),
   ];
@@ -736,23 +750,23 @@ class InstanceSyntax extends JsonObjectSyntax {
   }) : super.fromJson();
 
   InstanceSyntax({
-    required List<int> loadingUnitIndices,
+    required int loadingUnitIndex,
     required String type,
     super.path = const [],
   }) : super() {
-    _loadingUnitIndices = loadingUnitIndices;
+    _loadingUnitIndex = loadingUnitIndex;
     _type = type;
     json.sortOnKey();
   }
 
-  List<int> get loadingUnitIndices => _reader.list<int>('loading_unit_indices');
+  int get loadingUnitIndex => _reader.get<int>('loading_unit_index');
 
-  set _loadingUnitIndices(List<int> value) {
-    json['loading_unit_indices'] = value;
+  set _loadingUnitIndex(int value) {
+    json.setOrRemove('loading_unit_index', value);
   }
 
-  List<String> _validateLoadingUnitIndices() =>
-      _reader.validateList<int>('loading_unit_indices');
+  List<String> _validateLoadingUnitIndex() =>
+      _reader.validate<int>('loading_unit_index');
 
   String get type => _reader.get<String>('type');
 
@@ -765,9 +779,18 @@ class InstanceSyntax extends JsonObjectSyntax {
   @override
   List<String> validate() => [
     ...super.validate(),
-    ..._validateLoadingUnitIndices(),
+    ..._validateLoadingUnitIndex(),
     ..._validateType(),
+    ..._validateExtraRulesInstance(),
   ];
+
+  List<String> _validateExtraRulesInstance() {
+    final result = <String>[];
+    if (_reader.tryTraverse(['type']) == 'creation') {
+      result.addAll(_reader.validate<Object>('definition_index'));
+    }
+    return result;
+  }
 
   @override
   String toString() => 'InstanceSyntax($json)';
@@ -1770,7 +1793,7 @@ class TearoffCallSyntax extends CallSyntax {
   }) : super._fromJson();
 
   TearoffCallSyntax({
-    required super.loadingUnitIndices,
+    required super.loadingUnitIndex,
     super.receiver,
     super.path = const [],
   }) : super(type: 'tearoff');
@@ -1798,13 +1821,34 @@ class TearoffInstanceSyntax extends InstanceSyntax {
   }) : super._fromJson();
 
   TearoffInstanceSyntax({
-    required super.loadingUnitIndices,
+    required int definitionIndex,
+    required super.loadingUnitIndex,
     super.path = const [],
-  }) : super(type: 'tearoff');
+  }) : super(type: 'tearoff') {
+    _definitionIndex = definitionIndex;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [TearoffInstanceSyntax] that are not in
+  /// [InstanceSyntax].
+  void setup({required int definitionIndex}) {
+    _definitionIndex = definitionIndex;
+    json.sortOnKey();
+  }
+
+  int get definitionIndex => _reader.get<int>('definition_index');
+
+  set _definitionIndex(int value) {
+    json.setOrRemove('definition_index', value);
+  }
+
+  List<String> _validateDefinitionIndex() =>
+      _reader.validate<int>('definition_index');
 
   @override
   List<String> validate() => [
     ...super.validate(),
+    ..._validateDefinitionIndex(),
   ];
 
   @override
@@ -1961,7 +2005,7 @@ class WithArgumentsCallSyntax extends CallSyntax {
   }) : super._fromJson();
 
   WithArgumentsCallSyntax({
-    required super.loadingUnitIndices,
+    required super.loadingUnitIndex,
     Map<String, int>? named,
     List<int>? positional,
     super.receiver,

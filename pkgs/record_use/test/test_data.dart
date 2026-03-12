@@ -6,7 +6,9 @@ import 'dart:io';
 
 import 'package:native_test_helpers/native_test_helpers.dart';
 import 'package:pub_semver/pub_semver.dart';
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
+import 'package:record_use/src/canonicalization_context.dart';
+import 'package:record_use/src/recordings.dart';
 
 const callId = Definition(
   'package:js_runtime/js_helper.dart',
@@ -43,7 +45,7 @@ final recordedUses = Recordings(
           'freddy': StringConstant('mercury'),
           'leroy': StringConstant('jenkins'),
         },
-        loadingUnits: [loadingUnitOJs],
+        loadingUnit: loadingUnitOJs,
       ),
       const CallWithArguments(
         positionalArguments: [
@@ -65,7 +67,7 @@ final recordedUses = Recordings(
           'freddy': IntConstant(0),
           'leroy': StringConstant('jenkins'),
         },
-        loadingUnits: [loadingUnitOJs],
+        loadingUnit: loadingUnitOJs,
       ),
     ],
   },
@@ -76,11 +78,11 @@ final recordedUses = Recordings(
           definition: instanceId,
           fields: {'a': IntConstant(42), 'b': NullConstant()},
         ),
-        loadingUnits: [loadingUnit3],
+        loadingUnit: loadingUnit3,
       ),
       const InstanceConstantReference(
         instanceConstant: InstanceConstant(definition: instanceId, fields: {}),
-        loadingUnits: [loadingUnit3],
+        loadingUnit: loadingUnit3,
       ),
     ],
     enumId: [
@@ -91,11 +93,11 @@ final recordedUses = Recordings(
           name: 'val1',
           fields: {'a': IntConstant(42)},
         ),
-        loadingUnits: [loadingUnit3],
+        loadingUnit: loadingUnit3,
       ),
     ],
   },
-);
+).canonicalizeChildren(CanonicalizationContext());
 
 final recordedUses2 = Recordings(
   metadata: Metadata(
@@ -112,12 +114,12 @@ final recordedUses2 = Recordings(
           'freddy': StringConstant('mercury'),
           'answer': IntConstant(42),
         },
-        loadingUnits: [loadingUnitOJs],
+        loadingUnit: loadingUnitOJs,
       ),
     ],
   },
   instances: {},
-);
+).canonicalizeChildren(CanonicalizationContext());
 
 final _testDataUri = findPackageRoot('record_use').resolve('test_data/json/');
 

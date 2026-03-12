@@ -3,7 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:pub_semver/pub_semver.dart';
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -26,20 +26,20 @@ void main() {
   const callDefintion1Static = CallWithArguments(
     positionalArguments: [],
     namedArguments: {},
-    loadingUnits: [],
+    loadingUnit: LoadingUnit(''),
   );
   const callDefintion1Static2 = CallWithArguments(
     positionalArguments: [],
     namedArguments: {},
-    loadingUnits: [],
+    loadingUnit: LoadingUnit(''),
   );
   const callDefinition2Static = CallWithArguments(
     positionalArguments: [],
     namedArguments: {},
-    loadingUnits: [],
+    loadingUnit: LoadingUnit(''),
   );
   const callDefinition1Tearoff = CallTearoff(
-    loadingUnits: [],
+    loadingUnit: LoadingUnit(''),
   );
   const definition1differentLibrary2 = Definition(
     'memory:a/a.dart',
@@ -48,7 +48,7 @@ void main() {
   const callDefintion1StaticDifferentUri = CallWithArguments(
     positionalArguments: [],
     namedArguments: {},
-    loadingUnits: [],
+    loadingUnit: LoadingUnit(''),
   );
   final metadata = Metadata(
     version: Version(1, 0, 0),
@@ -251,7 +251,7 @@ void main() {
           const CallWithArguments(
             positionalArguments: [IntConstant(1)],
             namedArguments: {},
-            loadingUnits: [],
+            loadingUnit: LoadingUnit(''),
           ),
         ],
       },
@@ -264,7 +264,7 @@ void main() {
           const CallWithArguments(
             positionalArguments: [IntConstant(1), IntConstant(2)],
             namedArguments: {},
-            loadingUnits: [],
+            loadingUnit: LoadingUnit(''),
           ),
         ],
       },
@@ -289,7 +289,7 @@ void main() {
               name: 'a',
               fields: {'f': IntConstant(1)},
             ),
-            loadingUnits: [],
+            loadingUnit: LoadingUnit(''),
           ),
         ],
       },
@@ -306,7 +306,7 @@ void main() {
               name: 'a',
               fields: {'f': IntConstant(1)},
             ),
-            loadingUnits: [],
+            loadingUnit: LoadingUnit(''),
           ),
         ],
       },
@@ -323,7 +323,7 @@ void main() {
               name: 'b',
               fields: {'f': IntConstant(1)},
             ),
-            loadingUnits: [],
+            loadingUnit: LoadingUnit(''),
           ),
         ],
       },
