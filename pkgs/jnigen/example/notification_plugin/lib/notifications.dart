@@ -112,8 +112,6 @@ extension type Notifications._(jni$_.JObject _$this) implements jni$_.JObject {
   }
 }
 
-extension Notifications$$Methods on Notifications {}
-
 final class $Notifications$Type$ extends jni$_.JType<Notifications> {
   @jni$_.internal
   const $Notifications$Type$();

@@ -57,8 +57,6 @@ extension type R$drawable._(jni$_.JObject _$this) implements jni$_.JObject {
       _id_launch_background.set(_class, jni$_.jint.type, value);
 }
 
-extension R$drawable$$Methods on R$drawable {}
-
 final class $R$drawable$Type$ extends jni$_.JType<R$drawable> {
   @jni$_.internal
   const $R$drawable$Type$();
@@ -88,8 +86,6 @@ extension type R$mipmap._(jni$_.JObject _$this) implements jni$_.JObject {
   static set ic_launcher(int value) =>
       _id_ic_launcher.set(_class, jni$_.jint.type, value);
 }
-
-extension R$mipmap$$Methods on R$mipmap {}
 
 final class $R$mipmap$Type$ extends jni$_.JType<R$mipmap> {
   @jni$_.internal
@@ -134,8 +130,6 @@ extension type R$style._(jni$_.JObject _$this) implements jni$_.JObject {
       _id_NormalTheme.set(_class, jni$_.jint.type, value);
 }
 
-extension R$style$$Methods on R$style {}
-
 final class $R$style$Type$ extends jni$_.JType<R$style> {
   @jni$_.internal
   const $R$style$Type$();
@@ -152,8 +146,6 @@ extension type R._(jni$_.JObject _$this) implements jni$_.JObject {
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<R> type = $R$Type$();
 }
-
-extension R$$Methods on R {}
 
 final class $R$Type$ extends jni$_.JType<R> {
   @jni$_.internal
@@ -244,9 +236,6 @@ extension type EmojiCompat$CodepointSequenceMatchResult._(jni$_.JObject _$this)
     return $i.implement<EmojiCompat$CodepointSequenceMatchResult>();
   }
 }
-
-extension EmojiCompat$CodepointSequenceMatchResult$$Methods
-    on EmojiCompat$CodepointSequenceMatchResult {}
 
 abstract base mixin class $EmojiCompat$CodepointSequenceMatchResult {
   factory $EmojiCompat$CodepointSequenceMatchResult() =
@@ -949,8 +938,6 @@ extension type EmojiCompat$LoadStrategy._(jni$_.JObject _$this)
   }
 }
 
-extension EmojiCompat$LoadStrategy$$Methods on EmojiCompat$LoadStrategy {}
-
 abstract base mixin class $EmojiCompat$LoadStrategy {
   factory $EmojiCompat$LoadStrategy() = _$EmojiCompat$LoadStrategy;
 }
@@ -1286,8 +1273,6 @@ extension type EmojiCompat$ReplaceStrategy._(jni$_.JObject _$this)
     return $i.implement<EmojiCompat$ReplaceStrategy>();
   }
 }
-
-extension EmojiCompat$ReplaceStrategy$$Methods on EmojiCompat$ReplaceStrategy {}
 
 abstract base mixin class $EmojiCompat$ReplaceStrategy {
   factory $EmojiCompat$ReplaceStrategy() = _$EmojiCompat$ReplaceStrategy;
@@ -2813,8 +2798,6 @@ extension type DefaultEmojiCompatConfig._(jni$_.JObject _$this)
   }
 }
 
-extension DefaultEmojiCompatConfig$$Methods on DefaultEmojiCompatConfig {}
-
 final class $DefaultEmojiCompatConfig$Type$
     extends jni$_.JType<DefaultEmojiCompatConfig> {
   @jni$_.internal
@@ -3123,8 +3106,6 @@ extension type Build$VERSION._(jni$_.JObject _$this) implements jni$_.JObject {
   }
 }
 
-extension Build$VERSION$$Methods on Build$VERSION {}
-
 final class $Build$VERSION$Type$ extends jni$_.JType<Build$VERSION> {
   @jni$_.internal
   const $Build$VERSION$Type$();
@@ -3277,8 +3258,6 @@ extension type Build$VERSION_CODES._(jni$_.JObject _$this)
   }
 }
 
-extension Build$VERSION_CODES$$Methods on Build$VERSION_CODES {}
-
 final class $Build$VERSION_CODES$Type$
     extends jni$_.JType<Build$VERSION_CODES> {
   @jni$_.internal
@@ -3407,8 +3386,6 @@ extension type Build$VERSION_CODES_FULL._(jni$_.JObject _$this)
   /// from: `static public final int VANILLA_ICE_CREAM`
   static const VANILLA_ICE_CREAM = 3500000;
 }
-
-extension Build$VERSION_CODES_FULL$$Methods on Build$VERSION_CODES_FULL {}
 
 final class $Build$VERSION_CODES_FULL$Type$
     extends jni$_.JType<Build$VERSION_CODES_FULL> {
@@ -3855,8 +3832,6 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JString?>();
   }
 }
-
-extension Build$$Methods on Build {}
 
 final class $Build$Type$ extends jni$_.JType<Build> {
   @jni$_.internal
@@ -4747,8 +4722,6 @@ extension type AndroidUtils._(jni$_.JObject _$this) implements jni$_.JObject {
         .check();
   }
 }
-
-extension AndroidUtils$$Methods on AndroidUtils {}
 
 final class $AndroidUtils$Type$ extends jni$_.JType<AndroidUtils> {
   @jni$_.internal

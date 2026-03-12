@@ -720,8 +720,6 @@ extension type JsonParser$NumberType._(jni$_.JObject _$this)
   }
 }
 
-extension JsonParser$NumberType$$Methods on JsonParser$NumberType {}
-
 final class $JsonParser$NumberType$Type$
     extends jni$_.JType<JsonParser$NumberType> {
   @jni$_.internal

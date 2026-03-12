@@ -416,6 +416,7 @@ extension type $name$typeParamsDef._($_jObject _\$this) implements $implementsCl
 ''');
 
     final instanceSink = StringBuffer();
+
     // Fields and Methods
     generateFieldsAndMethods(
       node,
@@ -423,6 +424,13 @@ extension type $name$typeParamsDef._($_jObject _\$this) implements $implementsCl
       staticSink: s,
       instanceSink: instanceSink,
     );
+
+    // Operators
+    for (final MapEntry(key: operator, value: method)
+        in node.operators.entries) {
+      method.accept(_OperatorGenerator(resolver, instanceSink, operator: operator));
+    }
+    node.compareTo?.accept(_ComparatorGenerator(resolver, instanceSink));
 
     if (node.declKind == DeclKind.interfaceKind) {
       s.write('''
@@ -523,21 +531,16 @@ extension type $name$typeParamsDef._($_jObject _\$this) implements $implementsCl
 
     s.write('''
 }
-
-extension $name\$\$Methods$typeParamsDef on $name$typeParamsCall {
 ''');
-    s.write(instanceSink);
 
-    // Operators
-    for (final MapEntry(key: operator, value: method)
-        in node.operators.entries) {
-      method.accept(_OperatorGenerator(resolver, s, operator: operator));
+    final instanceMethods = instanceSink.toString();
+    if (instanceMethods.isNotEmpty) {
+      s.write('''
+  extension $name\$\$Methods$typeParamsDef on $name$typeParamsCall {
+    $instanceMethods
+  }
+  ''');
     }
-    node.compareTo?.accept(_ComparatorGenerator(resolver, s));
-
-    s.write('''
-}
-''');
 
     // Abstract and concrete Impl class definition.
     // Used for interface implementation.

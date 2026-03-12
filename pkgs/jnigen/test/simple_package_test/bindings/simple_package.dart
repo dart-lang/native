@@ -84,8 +84,6 @@ extension type Example$Nested$NestedTwice._(jni$_.JObject _$this)
   }
 }
 
-extension Example$Nested$NestedTwice$$Methods on Example$Nested$NestedTwice {}
-
 final class $Example$Nested$NestedTwice$Type$
     extends jni$_.JType<Example$Nested$NestedTwice> {
   @jni$_.internal
@@ -2311,8 +2309,6 @@ extension type C2._(jni$_.JObject _$this) implements jni$_.JObject {
   }
 }
 
-extension C2$$Methods on C2 {}
-
 final class $C2$Type$ extends jni$_.JType<C2> {
   @jni$_.internal
   const $C2$Type$();
@@ -2671,9 +2667,6 @@ extension type GenericTypeParams<$S extends jni$_.JObject?,
         .object<GenericTypeParams<$S, $K>>();
   }
 }
-
-extension GenericTypeParams$$Methods<$S extends jni$_.JObject?,
-    $K extends jni$_.JObject?> on GenericTypeParams<$S, $K> {}
 
 final class $GenericTypeParams$Type$ extends jni$_.JType<GenericTypeParams> {
   @jni$_.internal
@@ -3721,9 +3714,6 @@ extension type StringKeyedMap<$V extends jni$_.JObject?>._(jni$_.JObject _$this)
   }
 }
 
-extension StringKeyedMap$$Methods<$V extends jni$_.JObject?>
-    on StringKeyedMap<$V> {}
-
 final class $StringKeyedMap$Type$ extends jni$_.JType<StringKeyedMap> {
   @jni$_.internal
   const $StringKeyedMap$Type$();
@@ -3766,8 +3756,6 @@ extension type StringMap._(jni$_.JObject _$this)
   }
 }
 
-extension StringMap$$Methods on StringMap {}
-
 final class $StringMap$Type$ extends jni$_.JType<StringMap> {
   @jni$_.internal
   const $StringMap$Type$();
@@ -3809,8 +3797,6 @@ extension type StringStack._(jni$_.JObject _$this)
   }
 }
 
-extension StringStack$$Methods on StringStack {}
-
 final class $StringStack$Type$ extends jni$_.JType<StringStack> {
   @jni$_.internal
   const $StringStack$Type$();
@@ -3851,9 +3837,6 @@ extension type StringValuedMap<$K extends jni$_.JObject?>._(
         .object<StringValuedMap<$K>>();
   }
 }
-
-extension StringValuedMap$$Methods<$K extends jni$_.JObject?>
-    on StringValuedMap<$K> {}
 
 final class $StringValuedMap$Type$ extends jni$_.JType<StringValuedMap> {
   @jni$_.internal
@@ -5203,8 +5186,6 @@ extension type MyInterfaceConsumer._(jni$_.JObject _$this)
   }
 }
 
-extension MyInterfaceConsumer$$Methods on MyInterfaceConsumer {}
-
 final class $MyInterfaceConsumer$Type$
     extends jni$_.JType<MyInterfaceConsumer> {
   @jni$_.internal
@@ -5527,8 +5508,6 @@ extension type StringConversionException._(jni$_.JObject _$this)
   }
 }
 
-extension StringConversionException$$Methods on StringConversionException {}
-
 final class $StringConversionException$Type$
     extends jni$_.JType<StringConversionException> {
   @jni$_.internal
@@ -5793,8 +5772,6 @@ extension type StringConverterConsumer._(jni$_.JObject _$this)
         .object<jni$_.JObject?>();
   }
 }
-
-extension StringConverterConsumer$$Methods on StringConverterConsumer {}
 
 final class $StringConverterConsumer$Type$
     extends jni$_.JType<StringConverterConsumer> {
@@ -6526,9 +6503,6 @@ extension type GenericDerivedClass<$T extends jni$_.JObject?>._(
         .object<GenericDerivedClass<$T>>();
   }
 }
-
-extension GenericDerivedClass$$Methods<$T extends jni$_.JObject?>
-    on GenericDerivedClass<$T> {}
 
 final class $GenericDerivedClass$Type$
     extends jni$_.JType<GenericDerivedClass> {
@@ -8428,8 +8402,6 @@ extension type JsonSerializable$Case._(jni$_.JObject _$this)
   }
 }
 
-extension JsonSerializable$Case$$Methods on JsonSerializable$Case {}
-
 final class $JsonSerializable$Case$Type$
     extends jni$_.JType<JsonSerializable$Case> {
   @jni$_.internal
@@ -8616,8 +8588,6 @@ extension type MyDataClass._(jni$_.JObject _$this) implements jni$_.JObject {
   }
 }
 
-extension MyDataClass$$Methods on MyDataClass {}
-
 final class $MyDataClass$Type$ extends jni$_.JType<MyDataClass> {
   @jni$_.internal
   const $MyDataClass$Type$();
@@ -8705,8 +8675,6 @@ extension type NotNull._(jni$_.JObject _$this) implements jni$_.JObject {
     return $i.implement<NotNull>();
   }
 }
-
-extension NotNull$$Methods on NotNull {}
 
 abstract base mixin class $NotNull {
   factory $NotNull() = _$NotNull;
@@ -8802,8 +8770,6 @@ extension type Nullable._(jni$_.JObject _$this) implements jni$_.JObject {
     return $i.implement<Nullable>();
   }
 }
-
-extension Nullable$$Methods on Nullable {}
 
 abstract base mixin class $Nullable {
   factory $Nullable() = _$Nullable;
@@ -9134,8 +9100,6 @@ extension type R693$Child._(jni$_.JObject _$this) implements R693<R693$Child?> {
   }
 }
 
-extension R693$Child$$Methods on R693$Child {}
-
 final class $R693$Child$Type$ extends jni$_.JType<R693$Child> {
   @jni$_.internal
   const $R693$Child$Type$();
@@ -9176,8 +9140,6 @@ extension type R693<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     return _new$(_class.reference.pointer, _id_new$.pointer).object<R693<$T>>();
   }
 }
-
-extension R693$$Methods<$T extends jni$_.JObject?> on R693<$T> {}
 
 final class $R693$Type$ extends jni$_.JType<R693> {
   @jni$_.internal
