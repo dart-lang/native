@@ -318,7 +318,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             'Hello'.toJString()..releasedBy(arena),
           )..releasedBy(arena);
           expect(
-            grandParent.value!.toDartString(releaseOriginal: true),
+            grandParent.value.toDartString(releaseOriginal: true),
             'Hello',
           );
         });
@@ -328,13 +328,22 @@ void registerTests(String groupName, TestRunnerCallback test) {
           final stack = MyStack<JString>()..releasedBy(arena);
           stack.push('Hello'.toJString()..releasedBy(arena));
           stack.push('World'.toJString()..releasedBy(arena));
-          expect(stack.pop()!.toDartString(releaseOriginal: true), 'World');
-          expect(stack.pop()!.toDartString(releaseOriginal: true), 'Hello');
+          expect(stack.pop().toDartString(releaseOriginal: true), 'World');
+          expect(stack.pop().toDartString(releaseOriginal: true), 'Hello');
+        });
+      });
+      test('MyStack<T?>', () {
+        using((arena) {
+          final stack = MyStack<JString?>()..releasedBy(arena);
+          stack.push('Hello'.toJString()..releasedBy(arena));
+          stack.push(null);
+          expect(stack.pop()?.toDartString(releaseOriginal: true), null);
+          expect(stack.pop()?.toDartString(releaseOriginal: true), 'Hello');
         });
       });
       test('MyMap<K, V>', () {
         using((arena) {
-          final map = MyMap<JString, Example>()..releasedBy(arena);
+          final map = MyMap<JString, Example?>()..releasedBy(arena);
           final helloExample = Example.new$1(1)..releasedBy(arena);
           final worldExample = Example.new$1(2)..releasedBy(arena);
           map.put('Hello'.toJString()..releasedBy(arena), helloExample);
@@ -357,7 +366,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           );
           expect(
             ((map.entryStack()!..releasedBy(arena)).pop()!..releasedBy(arena))
-                .key!
+                .key
                 .as(JString.type, releaseOriginal: true)
                 .toDartString(releaseOriginal: true),
             anyOf('Hello', 'World'),
@@ -377,7 +386,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
         });
         test('StringKeyedMap', () {
           using((arena) {
-            final map = StringKeyedMap<Example>()..releasedBy(arena);
+            final map = StringKeyedMap<Example?>()..releasedBy(arena);
             final example = Example()..releasedBy(arena);
             map.put('Hello'.toJString()..releasedBy(arena), example);
             expect(
@@ -422,7 +431,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           final grandParent = GrandParent<JString>(
             '!'.toJString()..releasedBy(arena),
           )..releasedBy(arena);
-          expect(grandParent.value!.toDartString(releaseOriginal: true), '!');
+          expect(grandParent.value.toDartString(releaseOriginal: true), '!');
 
           final strStaticParent = GrandParent.stringStaticParent()!
             ..releasedBy(arena);
@@ -436,13 +445,13 @@ void registerTests(String groupName, TestRunnerCallback test) {
           )!
             ..releasedBy(arena);
           expect(
-            (exampleStaticParent.value!..releasedBy(arena)).getNumber(),
+            (exampleStaticParent.value..releasedBy(arena)).getNumber(),
             0,
           );
 
           final strParent = grandParent.stringParent()!..releasedBy(arena);
           expect(
-            strParent.parentValue!
+            strParent.parentValue
                 .as(JString.type, releaseOriginal: true)
                 .toDartString(releaseOriginal: true),
             '!',
@@ -454,12 +463,12 @@ void registerTests(String groupName, TestRunnerCallback test) {
           )!
             ..releasedBy(arena);
           expect(
-            exampleParent.parentValue!
+            exampleParent.parentValue
                 .as(JString.type, releaseOriginal: true)
                 .toDartString(releaseOriginal: true),
             '!',
           );
-          expect((exampleParent.value!..releasedBy(arena)).getNumber(), 0);
+          expect((exampleParent.value..releasedBy(arena)).getNumber(), 0);
           // TODO(#139): test constructing Child, currently does not work due
           // to a problem with C-bindings.
         });
@@ -476,12 +485,12 @@ void registerTests(String groupName, TestRunnerCallback test) {
           parent,
           3.toJInteger(),
         )..releasedBy(arena);
-        expect(grandParent.value!.intValue(releaseOriginal: true), 1);
-        expect(parent.parentValue!.intValue(releaseOriginal: true), 1);
-        expect(parent.value!.intValue(releaseOriginal: true), 2);
-        expect(child.grandParentValue!.intValue(releaseOriginal: true), 1);
-        expect(child.parentValue!.intValue(releaseOriginal: true), 2);
-        expect(child.value!.intValue(releaseOriginal: true), 3);
+        expect(grandParent.value.intValue(releaseOriginal: true), 1);
+        expect(parent.parentValue.intValue(releaseOriginal: true), 1);
+        expect(parent.value.intValue(releaseOriginal: true), 2);
+        expect(child.grandParentValue.intValue(releaseOriginal: true), 1);
+        expect(child.parentValue.intValue(releaseOriginal: true), 2);
+        expect(child.value.intValue(releaseOriginal: true), 3);
       });
     });
 
@@ -808,15 +817,16 @@ void registerTests(String groupName, TestRunnerCallback test) {
         using((arena) {
           final genericInterface = GenericInterface.implement(
             $GenericInterface(
-              arrayOf: (JObject? element) =>
-                  JArray.withLength(JString.type, 1)..[0] = element!,
-              firstKeyOf: (JMap? map) => map!.asDart().keys.first! as JString,
-              firstValueOf: (JMap? map) => map!.asDart().values.first,
-              firstOfArray: (JArray? array) => array!.asDart()[0]! as JString,
-              firstOfGenericArray: (JArray? array) => array!.asDart()[0],
+              arrayOf: (JObject element) =>
+                  JArray.withLength(JString.type, 1)..[0] = element as JString,
+              firstKeyOf: (JMap? map) => map!.asDart().keys.first as JString,
+              firstValueOf: (JMap? map) => map!.asDart().values.first!,
+              firstOfArray: (JArray? array) => array!.asDart()[0] as JString,
+              firstOfGenericArray: (JArray? array) => array!.asDart()[0]!,
               genericArrayOf: (JObject? element) =>
                   JArray.withLength(JObject.type, 1)..[0] = element,
-              mapOf: (JObject? key, JObject? value) => {key: value}.toJMap(),
+              mapOf: (JObject key, JObject? value) =>
+                  <JObject, JObject?>{key: value}.toJMap(),
             ),
           )..releasedBy(arena);
           final stringArray = genericInterface.arrayOf(
@@ -824,10 +834,10 @@ void registerTests(String groupName, TestRunnerCallback test) {
           )!
             ..releasedBy(arena);
           expect(stringArray.asDart(), hasLength(1));
-          expect(stringArray[0]!.toDartString(releaseOriginal: true), 'hello');
+          expect(stringArray[0].toDartString(releaseOriginal: true), 'hello');
           expect(
             genericInterface
-                .firstOfArray(stringArray)!
+                .firstOfArray(stringArray)
                 .toDartString(releaseOriginal: true),
             'hello',
           );
@@ -838,7 +848,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             ..releasedBy(arena);
           expect(
             genericInterface
-                .firstOfGenericArray(intArray)!
+                .firstOfGenericArray(intArray)
                 .intValue(releaseOriginal: true),
             42,
           );
@@ -856,14 +866,12 @@ void registerTests(String groupName, TestRunnerCallback test) {
           );
           expect(
             genericInterface
-                .firstKeyOf(jmap)!
+                .firstKeyOf(jmap)
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
-            genericInterface
-                .firstValueOf(jmap)!
-                .intValue(releaseOriginal: true),
+            genericInterface.firstValueOf(jmap).intValue(releaseOriginal: true),
             42,
           );
         });
@@ -1034,17 +1042,16 @@ void registerTests(String groupName, TestRunnerCallback test) {
           final annotatedNonNullableT = newNonNullTestObject(arena);
           expect(
             annotatedNonNullableT
-                .classGenericEcho(object)!
+                .classGenericEcho(object)
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
             annotatedNonNullableT
-                .nullableClassGenericEcho(object)!
+                .nullableClassGenericEcho(object)
                 .toDartString(releaseOriginal: true),
             'hello',
           );
-          expect(annotatedNonNullableT.nullableClassGenericEcho(null), isNull);
         });
       });
 
@@ -1054,14 +1061,14 @@ void registerTests(String groupName, TestRunnerCallback test) {
           final object = 'hello'.toJString()..releasedBy(arena);
           expect(
             annotated
-                .methodGenericEcho(object)!
+                .methodGenericEcho(object)
                 // Cannot make it non-nullable.
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
             annotated
-                .methodGenericEcho(object)!
+                .methodGenericEcho(object)
                 .toDartString(releaseOriginal: true),
             'hello',
           );
@@ -1080,7 +1087,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(
             annotated
                 // Requires `V`.
-                .nullableReturnMethodGenericEcho(object, false)!
+                .nullableReturnMethodGenericEcho(object, false)
                 // Cannot make it non-nullable.
                 .toDartString(releaseOriginal: true),
             'hello',
@@ -1088,7 +1095,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(
             annotated
                 // Requires `V`.
-                .nullableReturnMethodGenericEcho(object, true),
+                .nullableReturnMethodGenericEcho<JString?>(object, true),
             isNull,
           );
           expect(
@@ -1102,32 +1109,32 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(
             annotated
                 // `V` is optional.
-                .nullableReturnMethodGenericEcho2(object, true),
+                .nullableReturnMethodGenericEcho2<JString>(object, true),
             isNull,
           );
           expect(
-            annotated.nullableMethodGenericEcho<JObject>(null),
+            annotated.nullableMethodGenericEcho<JObject?>(null),
             isNull,
           );
           expect(
             annotated
-                .nullableMethodGenericEcho(object)!
+                .nullableMethodGenericEcho(object)
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
             annotated
-                .nullableMethodGenericEcho(object)!
+                .nullableMethodGenericEcho(object)
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
-            annotated.noAnnotationMethodGenericEcho<JObject>(null),
+            annotated.noAnnotationMethodGenericEcho<JObject?>(null),
             isNull,
           );
           expect(
             annotated
-                .noAnnotationMethodGenericEcho(object)!
+                .noAnnotationMethodGenericEcho(object)
                 .toDartString(releaseOriginal: true),
             'hello',
           );
@@ -1135,7 +1142,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             annotated
                 // With no annotations, specifying a non-nullable type still
                 // requires `!`.
-                .noAnnotationMethodGenericEcho(object)!
+                .noAnnotationMethodGenericEcho(object)
                 .toDartString(releaseOriginal: true),
             'hello',
           );
@@ -1160,7 +1167,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
       test('Class generic list methods', () {
         using((arena) {
-          final annotated = newNonNullTestObject(arena);
+          final annotated = newTestObject(arena);
+          annotated.t = 'hello'.toJString()..releasedBy(arena);
           expect(
             (annotated.classGenericList()..releasedBy(arena))
                 .asDart()
@@ -1235,7 +1243,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(
               base
                   .someMethod('Foo'.toJString()..releasedBy(arena))
-                  ?.toDartString(releaseOriginal: true),
+                  .toDartString(releaseOriginal: true),
               'Foo');
           expect(
               derived

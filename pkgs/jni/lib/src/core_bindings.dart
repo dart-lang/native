@@ -43,7 +43,7 @@ import 'package:jni/jni.dart' as jni$_;
 
 /// from: `java.util.ArrayList`
 extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
-    implements jni$_.JObject, JList<$E?> {
+    implements jni$_.JObject, JList<$E> {
   static final _class = jni$_.JClass.forName(r'java/util/ArrayList');
 
   /// The type which includes information such as the signature of this class.
@@ -112,7 +112,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public void <init>(java.util.Collection<? extends E> collection)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JArrayList.new$2(
-    JCollection<$E?>? collection,
+    JCollection<$E>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _new$2(
@@ -138,13 +138,13 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> copyOf(java.util.Collection<? extends E> collection)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? copyOf<$E extends jni$_.JObject?>(
-    JCollection<$E?>? collection,
+  static JList<$E>? copyOf<$E extends jni$_.JObject?>(
+    JCollection<$E>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _copyOf(
             _class.reference.pointer, _id_copyOf.pointer, _$collection.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_of = _class.staticMethodId(
@@ -166,8 +166,8 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of()`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of<$E extends jni$_.JObject?>() {
-    return _of(_class.reference.pointer, _id_of.pointer).object<JList<$E?>?>();
+  static JList<$E>? of<$E extends jni$_.JObject?>() {
+    return _of(_class.reference.pointer, _id_of.pointer).object<JList<$E>?>();
   }
 
   static final _id_of$1 = _class.staticMethodId(
@@ -188,12 +188,12 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of(E object)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of$1<$E extends jni$_.JObject?>(
-    $E? object,
+  static JList<$E>? of$1<$E extends jni$_.JObject?>(
+    $E object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _of$1(_class.reference.pointer, _id_of$1.pointer, _$object.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_of$2 = _class.staticMethodId(
@@ -220,15 +220,15 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of(E object, E object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of$2<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
+  static JList<$E>? of$2<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return _of$2(_class.reference.pointer, _id_of$2.pointer, _$object.pointer,
             _$object1.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_of$3 = _class.staticMethodId(
@@ -257,17 +257,17 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of(E object, E object1, E object2)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of$3<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
+  static JList<$E>? of$3<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     return _of$3(_class.reference.pointer, _id_of$3.pointer, _$object.pointer,
             _$object1.pointer, _$object2.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_of$4 = _class.staticMethodId(
@@ -298,11 +298,11 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of(E object, E object1, E object2, E object3)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of$4<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
+  static JList<$E>? of$4<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -310,7 +310,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
     return _of$4(_class.reference.pointer, _id_of$4.pointer, _$object.pointer,
             _$object1.pointer, _$object2.pointer, _$object3.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_of$5 = _class.staticMethodId(
@@ -343,12 +343,12 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of(E object, E object1, E object2, E object3, E object4)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of$5<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
+  static JList<$E>? of$5<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -363,7 +363,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object2.pointer,
             _$object3.pointer,
             _$object4.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_of$6 = _class.staticMethodId(
@@ -398,13 +398,13 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of(E object, E object1, E object2, E object3, E object4, E object5)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of$6<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
-    $E? object5,
+  static JList<$E>? of$6<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
+    $E object5,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -421,7 +421,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object3.pointer,
             _$object4.pointer,
             _$object5.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_of$7 = _class.staticMethodId(
@@ -458,14 +458,14 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of(E object, E object1, E object2, E object3, E object4, E object5, E object6)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of$7<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
-    $E? object5,
-    $E? object6,
+  static JList<$E>? of$7<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
+    $E object5,
+    $E object6,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -484,7 +484,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object4.pointer,
             _$object5.pointer,
             _$object6.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_of$8 = _class.staticMethodId(
@@ -523,15 +523,15 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of(E object, E object1, E object2, E object3, E object4, E object5, E object6, E object7)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of$8<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
-    $E? object5,
-    $E? object6,
-    $E? object7,
+  static JList<$E>? of$8<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
+    $E object5,
+    $E object6,
+    $E object7,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -552,7 +552,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object5.pointer,
             _$object6.pointer,
             _$object7.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_of$9 = _class.staticMethodId(
@@ -593,16 +593,16 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of(E object, E object1, E object2, E object3, E object4, E object5, E object6, E object7, E object8)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of$9<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
-    $E? object5,
-    $E? object6,
-    $E? object7,
-    $E? object8,
+  static JList<$E>? of$9<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
+    $E object5,
+    $E object6,
+    $E object7,
+    $E object8,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -625,7 +625,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object6.pointer,
             _$object7.pointer,
             _$object8.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_of$10 = _class.staticMethodId(
@@ -668,17 +668,17 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of(E object, E object1, E object2, E object3, E object4, E object5, E object6, E object7, E object8, E object9)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of$10<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
-    $E? object5,
-    $E? object6,
-    $E? object7,
-    $E? object8,
-    $E? object9,
+  static JList<$E>? of$10<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
+    $E object5,
+    $E object6,
+    $E object7,
+    $E object8,
+    $E object9,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -703,7 +703,7 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object7.pointer,
             _$object8.pointer,
             _$object9.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_of$11 = _class.staticMethodId(
@@ -724,13 +724,13 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of(E[] objects)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of$11<$E extends jni$_.JObject?>(
-    jni$_.JArray<$E?>? objects,
+  static JList<$E>? of$11<$E extends jni$_.JObject?>(
+    jni$_.JArray<$E>? objects,
   ) {
     final _$objects = objects?.reference ?? jni$_.jNullReference;
     return _of$11(
             _class.reference.pointer, _id_of$11.pointer, _$objects.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 }
 
@@ -753,7 +753,7 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
 
   /// from: `public boolean add(E object)`
   core$_.bool add(
-    $E? object,
+    $E object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _add(reference.pointer, _id_add.pointer, _$object.pointer).boolean;
@@ -779,7 +779,7 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   /// from: `public void add(int i, E object)`
   void add$1(
     int i,
-    $E? object,
+    $E object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     _add$1(reference.pointer, _id_add$1.pointer, i, _$object.pointer).check();
@@ -805,7 +805,7 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
   /// from: `public boolean addAll(int i, java.util.Collection<? extends E> collection)`
   core$_.bool addAll(
     int i,
-    JCollection<$E?>? collection,
+    JCollection<$E>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _addAll(
@@ -831,7 +831,7 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
 
   /// from: `public boolean addAll(java.util.Collection<? extends E> collection)`
   core$_.bool addAll$1(
-    JCollection<$E?>? collection,
+    JCollection<$E>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _addAll$1(
@@ -857,7 +857,7 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
 
   /// from: `public void addFirst(E object)`
   void addFirst(
-    $E? object,
+    $E object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     _addFirst(reference.pointer, _id_addFirst.pointer, _$object.pointer)
@@ -882,7 +882,7 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
 
   /// from: `public void addLast(E object)`
   void addLast(
-    $E? object,
+    $E object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     _addLast(reference.pointer, _id_addLast.pointer, _$object.pointer).check();
@@ -1048,10 +1048,10 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
 
   /// from: `public E get(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  $E? get(
+  $E get(
     int i,
   ) {
-    return _get(reference.pointer, _id_get.pointer, i).object<$E?>();
+    return _get(reference.pointer, _id_get.pointer, i).object<$E>();
   }
 
   static final _id_getFirst = JArrayList._class.instanceMethodId(
@@ -1073,8 +1073,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
 
   /// from: `public E getFirst()`
   /// The returned object must be released after use, by calling the [release] method.
-  $E? getFirst() {
-    return _getFirst(reference.pointer, _id_getFirst.pointer).object<$E?>();
+  $E getFirst() {
+    return _getFirst(reference.pointer, _id_getFirst.pointer).object<$E>();
   }
 
   static final _id_getLast = JArrayList._class.instanceMethodId(
@@ -1096,8 +1096,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
 
   /// from: `public E getLast()`
   /// The returned object must be released after use, by calling the [release] method.
-  $E? getLast() {
-    return _getLast(reference.pointer, _id_getLast.pointer).object<$E?>();
+  $E getLast() {
+    return _getLast(reference.pointer, _id_getLast.pointer).object<$E>();
   }
 
   static final _id_hashCode$1 = JArrayList._class.instanceMethodId(
@@ -1188,9 +1188,9 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
 
   /// from: `public java.util.Iterator<E> iterator()`
   /// The returned object must be released after use, by calling the [release] method.
-  JIterator<$E?>? iterator() {
+  JIterator<$E>? iterator() {
     return _iterator(reference.pointer, _id_iterator.pointer)
-        .object<JIterator<$E?>?>();
+        .object<JIterator<$E>?>();
   }
 
   static final _id_lastIndexOf = JArrayList._class.instanceMethodId(
@@ -1284,10 +1284,10 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
 
   /// from: `public E remove(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  $E? remove(
+  $E remove(
     int i,
   ) {
-    return _remove(reference.pointer, _id_remove.pointer, i).object<$E?>();
+    return _remove(reference.pointer, _id_remove.pointer, i).object<$E>();
   }
 
   static final _id_remove$1 = JArrayList._class.instanceMethodId(
@@ -1360,9 +1360,9 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
 
   /// from: `public E removeFirst()`
   /// The returned object must be released after use, by calling the [release] method.
-  $E? removeFirst() {
+  $E removeFirst() {
     return _removeFirst(reference.pointer, _id_removeFirst.pointer)
-        .object<$E?>();
+        .object<$E>();
   }
 
   static final _id_removeIf = JArrayList._class.instanceMethodId(
@@ -1410,8 +1410,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
 
   /// from: `public E removeLast()`
   /// The returned object must be released after use, by calling the [release] method.
-  $E? removeLast() {
-    return _removeLast(reference.pointer, _id_removeLast.pointer).object<$E?>();
+  $E removeLast() {
+    return _removeLast(reference.pointer, _id_removeLast.pointer).object<$E>();
   }
 
   static final _id_replaceAll = JArrayList._class.instanceMethodId(
@@ -1485,13 +1485,13 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
 
   /// from: `public E set(int i, E object)`
   /// The returned object must be released after use, by calling the [release] method.
-  $E? set(
+  $E set(
     int i,
-    $E? object,
+    $E object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _set(reference.pointer, _id_set.pointer, i, _$object.pointer)
-        .object<$E?>();
+        .object<$E>();
   }
 
   static final _id_size = JArrayList._class.instanceMethodId(
@@ -1582,12 +1582,12 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
 
   /// from: `public java.util.List<E> subList(int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
-  JList<$E?>? subList(
+  JList<$E>? subList(
     int i,
     int i1,
   ) {
     return _subList(reference.pointer, _id_subList.pointer, i, i1)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_toArray = JArrayList._class.instanceMethodId(
@@ -1632,13 +1632,13 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
 
   /// from: `public T[] toArray(T[] objects)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<$T?>? toArray$1<$T extends jni$_.JObject?>(
-    jni$_.JArray<$T?>? objects,
+  jni$_.JArray<$T>? toArray$1<$T extends jni$_.JObject?>(
+    jni$_.JArray<$T>? objects,
   ) {
     final _$objects = objects?.reference ?? jni$_.jNullReference;
     return _toArray$1(
             reference.pointer, _id_toArray$1.pointer, _$objects.pointer)
-        .object<jni$_.JArray<$T?>?>();
+        .object<jni$_.JArray<$T>?>();
   }
 
   static final _id_trimToSize = JArrayList._class.instanceMethodId(
@@ -1708,9 +1708,9 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
 
   /// from: `public java.util.List<E> reversed()`
   /// The returned object must be released after use, by calling the [release] method.
-  JList<$E?>? reversed() {
+  JList<$E>? reversed() {
     return _reversed(reference.pointer, _id_reversed.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_parallelStream = JArrayList._class.instanceMethodId(
@@ -1779,13 +1779,13 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
 
   /// from: `public T[] toArray(java.util.function.IntFunction<T[]> intFunction)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<$T?>? toArray$2<$T extends jni$_.JObject?>(
+  jni$_.JArray<$T>? toArray$2<$T extends jni$_.JObject?>(
     jni$_.JObject? intFunction,
   ) {
     final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
     return _toArray$2(
             reference.pointer, _id_toArray$2.pointer, _$intFunction.pointer)
-        .object<jni$_.JArray<$T?>?>();
+        .object<jni$_.JArray<$T>?>();
   }
 }
 
@@ -2028,7 +2028,7 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
 
   /// from: `public abstract boolean add(E object)`
   core$_.bool add(
-    $E? object,
+    $E object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _add(reference.pointer, _id_add.pointer, _$object.pointer).boolean;
@@ -2052,7 +2052,7 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
 
   /// from: `public abstract boolean addAll(java.util.Collection<? extends E> collection)`
   core$_.bool addAll(
-    JCollection<$E?>? collection,
+    JCollection<$E>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _addAll(reference.pointer, _id_addAll.pointer, _$collection.pointer)
@@ -2220,9 +2220,9 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
 
   /// from: `public abstract java.util.Iterator<E> iterator()`
   /// The returned object must be released after use, by calling the [release] method.
-  JIterator<$E?>? iterator() {
+  JIterator<$E>? iterator() {
     return _iterator(reference.pointer, _id_iterator.pointer)
-        .object<JIterator<$E?>?>();
+        .object<JIterator<$E>?>();
   }
 
   static final _id_parallelStream = JCollection._class.instanceMethodId(
@@ -2464,13 +2464,13 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
 
   /// from: `public T[] toArray(java.util.function.IntFunction<T[]> intFunction)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<$T?>? toArray$1<$T extends jni$_.JObject?>(
+  jni$_.JArray<$T>? toArray$1<$T extends jni$_.JObject?>(
     jni$_.JObject? intFunction,
   ) {
     final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
     return _toArray$1(
             reference.pointer, _id_toArray$1.pointer, _$intFunction.pointer)
-        .object<jni$_.JArray<$T?>?>();
+        .object<jni$_.JArray<$T>?>();
   }
 
   static final _id_toArray$2 = JCollection._class.instanceMethodId(
@@ -2491,19 +2491,19 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
 
   /// from: `public abstract T[] toArray(T[] objects)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<$T?>? toArray$2<$T extends jni$_.JObject?>(
-    jni$_.JArray<$T?>? objects,
+  jni$_.JArray<$T>? toArray$2<$T extends jni$_.JObject?>(
+    jni$_.JArray<$T>? objects,
   ) {
     final _$objects = objects?.reference ?? jni$_.jNullReference;
     return _toArray$2(
             reference.pointer, _id_toArray$2.pointer, _$objects.pointer)
-        .object<jni$_.JArray<$T?>?>();
+        .object<jni$_.JArray<$T>?>();
   }
 }
 
 abstract base mixin class $JCollection<$E extends jni$_.JObject?> {
   factory $JCollection({
-    required core$_.bool Function($E? object) add,
+    required core$_.bool Function($E object) add,
     required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
         addAll,
     required void Function() clear,
@@ -2533,7 +2533,7 @@ abstract base mixin class $JCollection<$E extends jni$_.JObject?> {
         toArray$2,
   }) = _$JCollection<$E>;
 
-  core$_.bool add($E? object);
+  core$_.bool add($E object);
   core$_.bool addAll(JCollection<jni$_.JObject?>? collection);
   void clear();
   core$_.bool get clear$async => false;
@@ -2559,7 +2559,7 @@ abstract base mixin class $JCollection<$E extends jni$_.JObject?> {
 
 final class _$JCollection<$E extends jni$_.JObject?> with $JCollection<$E> {
   _$JCollection({
-    required core$_.bool Function($E? object) add,
+    required core$_.bool Function($E object) add,
     required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
         addAll,
     required void Function() clear,
@@ -2608,7 +2608,7 @@ final class _$JCollection<$E extends jni$_.JObject?> with $JCollection<$E> {
         _toArray$1 = toArray$1,
         _toArray$2 = toArray$2;
 
-  final core$_.bool Function($E? object) _add;
+  final core$_.bool Function($E object) _add;
   final core$_.bool Function(JCollection<jni$_.JObject?>? collection) _addAll;
   final void Function() _clear;
   final core$_.bool clear$async;
@@ -2635,7 +2635,7 @@ final class _$JCollection<$E extends jni$_.JObject?> with $JCollection<$E> {
   final jni$_.JArray<jni$_.JObject?>? Function(
       jni$_.JArray<jni$_.JObject?>? objects) _toArray$2;
 
-  core$_.bool add($E? object) {
+  core$_.bool add($E object) {
     return _add(object);
   }
 
@@ -2728,7 +2728,7 @@ final class $JCollection$Type$ extends jni$_.JType<JCollection> {
 
 /// from: `java.util.HashMap`
 extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
-    jni$_.JObject _$this) implements jni$_.JObject, JMap<$K?, $V?> {
+    jni$_.JObject _$this) implements jni$_.JObject, JMap<$K, $V> {
   static final _class = jni$_.JClass.forName(r'java/util/HashMap');
 
   /// The type which includes information such as the signature of this class.
@@ -2822,7 +2822,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   /// from: `public void <init>(java.util.Map<? extends K, ? extends V> map)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JHashMap.new$3(
-    JMap<$K?, $V?>? map,
+    JMap<$K, $V>? map,
   ) {
     final _$map = map?.reference ?? jni$_.jNullReference;
     return _new$3(_class.reference.pointer, _id_new$3.pointer, _$map.pointer)
@@ -2845,12 +2845,12 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.HashMap<K, V> newHashMap(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JHashMap<$K?, $V?>?
+  static JHashMap<$K, $V>?
       newHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
     int i,
   ) {
     return _newHashMap(_class.reference.pointer, _id_newHashMap.pointer, i)
-        .object<JHashMap<$K?, $V?>?>();
+        .object<JHashMap<$K, $V>?>();
   }
 
   static final _id_copyOf = _class.staticMethodId(
@@ -2871,13 +2871,13 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> copyOf(java.util.Map<? extends K, ? extends V> map)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       copyOf<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    JMap<$K?, $V?>? map,
+    JMap<$K, $V>? map,
   ) {
     final _$map = map?.reference ?? jni$_.jNullReference;
     return _copyOf(_class.reference.pointer, _id_copyOf.pointer, _$map.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_entry = _class.staticMethodId(
@@ -2904,16 +2904,16 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map$Entry<K, V> entry(K object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap$JEntry<$K?, $V?>?
+  static JMap$JEntry<$K, $V>?
       entry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    $K? object,
-    $V? object1,
+    $K object,
+    $V object1,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return _entry(_class.reference.pointer, _id_entry.pointer, _$object.pointer,
             _$object1.pointer)
-        .object<JMap$JEntry<$K?, $V?>?>();
+        .object<JMap$JEntry<$K, $V>?>();
   }
 
   static final _id_of = _class.staticMethodId(
@@ -2935,10 +2935,10 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> of()`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       of<$K extends jni$_.JObject?, $V extends jni$_.JObject?>() {
     return _of(_class.reference.pointer, _id_of.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_of$1 = _class.staticMethodId(
@@ -2965,16 +2965,16 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> of(K object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       of$1<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    $K? object,
-    $V? object1,
+    $K object,
+    $V object1,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return _of$1(_class.reference.pointer, _id_of$1.pointer, _$object.pointer,
             _$object1.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_of$2 = _class.staticMethodId(
@@ -3005,12 +3005,12 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> of(K object, V object1, K object2, V object3)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       of$2<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    $K? object,
-    $V? object1,
-    $K? object2,
-    $V? object3,
+    $K object,
+    $V object1,
+    $K object2,
+    $V object3,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -3018,7 +3018,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
     return _of$2(_class.reference.pointer, _id_of$2.pointer, _$object.pointer,
             _$object1.pointer, _$object2.pointer, _$object3.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_of$3 = _class.staticMethodId(
@@ -3053,14 +3053,14 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> of(K object, V object1, K object2, V object3, K object4, V object5)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       of$3<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    $K? object,
-    $V? object1,
-    $K? object2,
-    $V? object3,
-    $K? object4,
-    $V? object5,
+    $K object,
+    $V object1,
+    $K object2,
+    $V object3,
+    $K object4,
+    $V object5,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -3077,7 +3077,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
             _$object3.pointer,
             _$object4.pointer,
             _$object5.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_of$4 = _class.staticMethodId(
@@ -3116,16 +3116,16 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> of(K object, V object1, K object2, V object3, K object4, V object5, K object6, V object7)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       of$4<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    $K? object,
-    $V? object1,
-    $K? object2,
-    $V? object3,
-    $K? object4,
-    $V? object5,
-    $K? object6,
-    $V? object7,
+    $K object,
+    $V object1,
+    $K object2,
+    $V object3,
+    $K object4,
+    $V object5,
+    $K object6,
+    $V object7,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -3146,7 +3146,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
             _$object5.pointer,
             _$object6.pointer,
             _$object7.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_of$5 = _class.staticMethodId(
@@ -3189,18 +3189,18 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> of(K object, V object1, K object2, V object3, K object4, V object5, K object6, V object7, K object8, V object9)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       of$5<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    $K? object,
-    $V? object1,
-    $K? object2,
-    $V? object3,
-    $K? object4,
-    $V? object5,
-    $K? object6,
-    $V? object7,
-    $K? object8,
-    $V? object9,
+    $K object,
+    $V object1,
+    $K object2,
+    $V object3,
+    $K object4,
+    $V object5,
+    $K object6,
+    $V object7,
+    $K object8,
+    $V object9,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -3225,7 +3225,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
             _$object7.pointer,
             _$object8.pointer,
             _$object9.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_of$6 = _class.staticMethodId(
@@ -3272,20 +3272,20 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> of(K object, V object1, K object2, V object3, K object4, V object5, K object6, V object7, K object8, V object9, K object10, V object11)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       of$6<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    $K? object,
-    $V? object1,
-    $K? object2,
-    $V? object3,
-    $K? object4,
-    $V? object5,
-    $K? object6,
-    $V? object7,
-    $K? object8,
-    $V? object9,
-    $K? object10,
-    $V? object11,
+    $K object,
+    $V object1,
+    $K object2,
+    $V object3,
+    $K object4,
+    $V object5,
+    $K object6,
+    $V object7,
+    $K object8,
+    $V object9,
+    $K object10,
+    $V object11,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -3314,7 +3314,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
             _$object9.pointer,
             _$object10.pointer,
             _$object11.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_of$7 = _class.staticMethodId(
@@ -3365,22 +3365,22 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> of(K object, V object1, K object2, V object3, K object4, V object5, K object6, V object7, K object8, V object9, K object10, V object11, K object12, V object13)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       of$7<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    $K? object,
-    $V? object1,
-    $K? object2,
-    $V? object3,
-    $K? object4,
-    $V? object5,
-    $K? object6,
-    $V? object7,
-    $K? object8,
-    $V? object9,
-    $K? object10,
-    $V? object11,
-    $K? object12,
-    $V? object13,
+    $K object,
+    $V object1,
+    $K object2,
+    $V object3,
+    $K object4,
+    $V object5,
+    $K object6,
+    $V object7,
+    $K object8,
+    $V object9,
+    $K object10,
+    $V object11,
+    $K object12,
+    $V object13,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -3413,7 +3413,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
             _$object11.pointer,
             _$object12.pointer,
             _$object13.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_of$8 = _class.staticMethodId(
@@ -3468,24 +3468,24 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> of(K object, V object1, K object2, V object3, K object4, V object5, K object6, V object7, K object8, V object9, K object10, V object11, K object12, V object13, K object14, V object15)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       of$8<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    $K? object,
-    $V? object1,
-    $K? object2,
-    $V? object3,
-    $K? object4,
-    $V? object5,
-    $K? object6,
-    $V? object7,
-    $K? object8,
-    $V? object9,
-    $K? object10,
-    $V? object11,
-    $K? object12,
-    $V? object13,
-    $K? object14,
-    $V? object15,
+    $K object,
+    $V object1,
+    $K object2,
+    $V object3,
+    $K object4,
+    $V object5,
+    $K object6,
+    $V object7,
+    $K object8,
+    $V object9,
+    $K object10,
+    $V object11,
+    $K object12,
+    $V object13,
+    $K object14,
+    $V object15,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -3522,7 +3522,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
             _$object13.pointer,
             _$object14.pointer,
             _$object15.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_of$9 = _class.staticMethodId(
@@ -3581,26 +3581,26 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> of(K object, V object1, K object2, V object3, K object4, V object5, K object6, V object7, K object8, V object9, K object10, V object11, K object12, V object13, K object14, V object15, K object16, V object17)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       of$9<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    $K? object,
-    $V? object1,
-    $K? object2,
-    $V? object3,
-    $K? object4,
-    $V? object5,
-    $K? object6,
-    $V? object7,
-    $K? object8,
-    $V? object9,
-    $K? object10,
-    $V? object11,
-    $K? object12,
-    $V? object13,
-    $K? object14,
-    $V? object15,
-    $K? object16,
-    $V? object17,
+    $K object,
+    $V object1,
+    $K object2,
+    $V object3,
+    $K object4,
+    $V object5,
+    $K object6,
+    $V object7,
+    $K object8,
+    $V object9,
+    $K object10,
+    $V object11,
+    $K object12,
+    $V object13,
+    $K object14,
+    $V object15,
+    $K object16,
+    $V object17,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -3641,7 +3641,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
             _$object15.pointer,
             _$object16.pointer,
             _$object17.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_of$10 = _class.staticMethodId(
@@ -3704,28 +3704,28 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> of(K object, V object1, K object2, V object3, K object4, V object5, K object6, V object7, K object8, V object9, K object10, V object11, K object12, V object13, K object14, V object15, K object16, V object17, K object18, V object19)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       of$10<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    $K? object,
-    $V? object1,
-    $K? object2,
-    $V? object3,
-    $K? object4,
-    $V? object5,
-    $K? object6,
-    $V? object7,
-    $K? object8,
-    $V? object9,
-    $K? object10,
-    $V? object11,
-    $K? object12,
-    $V? object13,
-    $K? object14,
-    $V? object15,
-    $K? object16,
-    $V? object17,
-    $K? object18,
-    $V? object19,
+    $K object,
+    $V object1,
+    $K object2,
+    $V object3,
+    $K object4,
+    $V object5,
+    $K object6,
+    $V object7,
+    $K object8,
+    $V object9,
+    $K object10,
+    $V object11,
+    $K object12,
+    $V object13,
+    $K object14,
+    $V object15,
+    $K object16,
+    $V object17,
+    $K object18,
+    $V object19,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -3770,7 +3770,7 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
             _$object17.pointer,
             _$object18.pointer,
             _$object19.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_ofEntries = _class.staticMethodId(
@@ -3791,14 +3791,14 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> ofEntries(java.util.Map$Entry[] entrys)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       ofEntries<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    jni$_.JArray<JMap$JEntry<$K?, $V?>?>? entrys,
+    jni$_.JArray<JMap$JEntry<$K, $V>?>? entrys,
   ) {
     final _$entrys = entrys?.reference ?? jni$_.jNullReference;
     return _ofEntries(
             _class.reference.pointer, _id_ofEntries.pointer, _$entrys.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 }
 
@@ -3874,15 +3874,15 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public V compute(K object, java.util.function.BiFunction<? super K, ? super V, ? extends V> biFunction)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? compute(
-    $K? object,
+  $V compute(
+    $K object,
     jni$_.JObject? biFunction,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
     return _compute(reference.pointer, _id_compute.pointer, _$object.pointer,
             _$biFunction.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_computeIfAbsent = JHashMap._class.instanceMethodId(
@@ -3909,15 +3909,15 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public V computeIfAbsent(K object, java.util.function.Function<? super K, ? extends V> function)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? computeIfAbsent(
-    $K? object,
+  $V computeIfAbsent(
+    $K object,
     jni$_.JObject? function,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$function = function?.reference ?? jni$_.jNullReference;
     return _computeIfAbsent(reference.pointer, _id_computeIfAbsent.pointer,
             _$object.pointer, _$function.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_computeIfPresent = JHashMap._class.instanceMethodId(
@@ -3944,15 +3944,15 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public V computeIfPresent(K object, java.util.function.BiFunction<? super K, ? super V, ? extends V> biFunction)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? computeIfPresent(
-    $K? object,
+  $V computeIfPresent(
+    $K object,
     jni$_.JObject? biFunction,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
     return _computeIfPresent(reference.pointer, _id_computeIfPresent.pointer,
             _$object.pointer, _$biFunction.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_containsKey = JHashMap._class.instanceMethodId(
@@ -4026,9 +4026,9 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public java.util.Set<java.util.Map$Entry<K, V>> entrySet()`
   /// The returned object must be released after use, by calling the [release] method.
-  JSet<JMap$JEntry<$K?, $V?>?>? entrySet() {
+  JSet<JMap$JEntry<$K, $V>?>? entrySet() {
     return _entrySet(reference.pointer, _id_entrySet.pointer)
-        .object<JSet<JMap$JEntry<$K?, $V?>?>?>();
+        .object<JSet<JMap$JEntry<$K, $V>?>?>();
   }
 
   static final _id_forEach = JHashMap._class.instanceMethodId(
@@ -4074,12 +4074,12 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public V get(java.lang.Object object)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? get(
+  $V get(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _get(reference.pointer, _id_get.pointer, _$object.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_getOrDefault = JHashMap._class.instanceMethodId(
@@ -4106,15 +4106,15 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public V getOrDefault(java.lang.Object object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? getOrDefault(
+  $V getOrDefault(
     jni$_.JObject? object,
-    $V? object1,
+    $V object1,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return _getOrDefault(reference.pointer, _id_getOrDefault.pointer,
             _$object.pointer, _$object1.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_isEmpty = JHashMap._class.instanceMethodId(
@@ -4158,8 +4158,8 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public java.util.Set<K> keySet()`
   /// The returned object must be released after use, by calling the [release] method.
-  JSet<$K?>? keySet() {
-    return _keySet(reference.pointer, _id_keySet.pointer).object<JSet<$K?>?>();
+  JSet<$K>? keySet() {
+    return _keySet(reference.pointer, _id_keySet.pointer).object<JSet<$K>?>();
   }
 
   static final _id_merge = JHashMap._class.instanceMethodId(
@@ -4188,9 +4188,9 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public V merge(K object, V object1, java.util.function.BiFunction<? super V, ? super V, ? extends V> biFunction)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? merge(
-    $K? object,
-    $V? object1,
+  $V merge(
+    $K object,
+    $V object1,
     jni$_.JObject? biFunction,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -4198,7 +4198,7 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
     final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
     return _merge(reference.pointer, _id_merge.pointer, _$object.pointer,
             _$object1.pointer, _$biFunction.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_put = JHashMap._class.instanceMethodId(
@@ -4225,15 +4225,15 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public V put(K object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? put(
-    $K? object,
-    $V? object1,
+  $V put(
+    $K object,
+    $V object1,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return _put(reference.pointer, _id_put.pointer, _$object.pointer,
             _$object1.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_putAll = JHashMap._class.instanceMethodId(
@@ -4254,7 +4254,7 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public void putAll(java.util.Map<? extends K, ? extends V> map)`
   void putAll(
-    JMap<$K?, $V?>? map,
+    JMap<$K, $V>? map,
   ) {
     final _$map = map?.reference ?? jni$_.jNullReference;
     _putAll(reference.pointer, _id_putAll.pointer, _$map.pointer).check();
@@ -4284,15 +4284,15 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public V putIfAbsent(K object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? putIfAbsent(
-    $K? object,
-    $V? object1,
+  $V putIfAbsent(
+    $K object,
+    $V object1,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return _putIfAbsent(reference.pointer, _id_putIfAbsent.pointer,
             _$object.pointer, _$object1.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_remove = JHashMap._class.instanceMethodId(
@@ -4313,12 +4313,12 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public V remove(java.lang.Object object)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? remove(
+  $V remove(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _remove(reference.pointer, _id_remove.pointer, _$object.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_remove$1 = JHashMap._class.instanceMethodId(
@@ -4379,15 +4379,15 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public V replace(K object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? replace(
-    $K? object,
-    $V? object1,
+  $V replace(
+    $K object,
+    $V object1,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return _replace(reference.pointer, _id_replace.pointer, _$object.pointer,
             _$object1.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_replace$1 = JHashMap._class.instanceMethodId(
@@ -4416,9 +4416,9 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public boolean replace(K object, V object1, V object2)`
   core$_.bool replace$1(
-    $K? object,
-    $V? object1,
-    $V? object2,
+    $K object,
+    $V object1,
+    $V object2,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -4494,9 +4494,9 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public java.util.Collection<V> values()`
   /// The returned object must be released after use, by calling the [release] method.
-  JCollection<$V?>? values() {
+  JCollection<$V>? values() {
     return _values(reference.pointer, _id_values.pointer)
-        .object<JCollection<$V?>?>();
+        .object<JCollection<$V>?>();
   }
 
   static final _id_equals = JHashMap._class.instanceMethodId(
@@ -4558,7 +4558,7 @@ final class $JHashMap$Type$ extends jni$_.JType<JHashMap> {
 
 /// from: `java.util.HashSet`
 extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
-    implements jni$_.JObject, JSet<$E?> {
+    implements jni$_.JObject, JSet<$E> {
   static final _class = jni$_.JClass.forName(r'java/util/HashSet');
 
   /// The type which includes information such as the signature of this class.
@@ -4652,7 +4652,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   /// from: `public void <init>(java.util.Collection<? extends E> collection)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JHashSet.new$3(
-    JCollection<$E?>? collection,
+    JCollection<$E>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _new$3(
@@ -4676,11 +4676,11 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.HashSet<T> newHashSet(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JHashSet<$T?>? newHashSet<$T extends jni$_.JObject?>(
+  static JHashSet<$T>? newHashSet<$T extends jni$_.JObject?>(
     int i,
   ) {
     return _newHashSet(_class.reference.pointer, _id_newHashSet.pointer, i)
-        .object<JHashSet<$T?>?>();
+        .object<JHashSet<$T>?>();
   }
 
   static final _id_copyOf = _class.staticMethodId(
@@ -4701,13 +4701,13 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> copyOf(java.util.Collection<? extends E> collection)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? copyOf<$E extends jni$_.JObject?>(
-    JCollection<$E?>? collection,
+  static JSet<$E>? copyOf<$E extends jni$_.JObject?>(
+    JCollection<$E>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _copyOf(
             _class.reference.pointer, _id_copyOf.pointer, _$collection.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 
   static final _id_of = _class.staticMethodId(
@@ -4729,8 +4729,8 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of()`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of<$E extends jni$_.JObject?>() {
-    return _of(_class.reference.pointer, _id_of.pointer).object<JSet<$E?>?>();
+  static JSet<$E>? of<$E extends jni$_.JObject?>() {
+    return _of(_class.reference.pointer, _id_of.pointer).object<JSet<$E>?>();
   }
 
   static final _id_of$1 = _class.staticMethodId(
@@ -4751,12 +4751,12 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of(E object)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of$1<$E extends jni$_.JObject?>(
-    $E? object,
+  static JSet<$E>? of$1<$E extends jni$_.JObject?>(
+    $E object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _of$1(_class.reference.pointer, _id_of$1.pointer, _$object.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 
   static final _id_of$2 = _class.staticMethodId(
@@ -4783,15 +4783,15 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of(E object, E object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of$2<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
+  static JSet<$E>? of$2<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return _of$2(_class.reference.pointer, _id_of$2.pointer, _$object.pointer,
             _$object1.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 
   static final _id_of$3 = _class.staticMethodId(
@@ -4820,17 +4820,17 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of(E object, E object1, E object2)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of$3<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
+  static JSet<$E>? of$3<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     return _of$3(_class.reference.pointer, _id_of$3.pointer, _$object.pointer,
             _$object1.pointer, _$object2.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 
   static final _id_of$4 = _class.staticMethodId(
@@ -4861,11 +4861,11 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of(E object, E object1, E object2, E object3)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of$4<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
+  static JSet<$E>? of$4<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -4873,7 +4873,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
     return _of$4(_class.reference.pointer, _id_of$4.pointer, _$object.pointer,
             _$object1.pointer, _$object2.pointer, _$object3.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 
   static final _id_of$5 = _class.staticMethodId(
@@ -4906,12 +4906,12 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of(E object, E object1, E object2, E object3, E object4)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of$5<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
+  static JSet<$E>? of$5<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -4926,7 +4926,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object2.pointer,
             _$object3.pointer,
             _$object4.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 
   static final _id_of$6 = _class.staticMethodId(
@@ -4961,13 +4961,13 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of(E object, E object1, E object2, E object3, E object4, E object5)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of$6<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
-    $E? object5,
+  static JSet<$E>? of$6<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
+    $E object5,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -4984,7 +4984,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object3.pointer,
             _$object4.pointer,
             _$object5.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 
   static final _id_of$7 = _class.staticMethodId(
@@ -5021,14 +5021,14 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of(E object, E object1, E object2, E object3, E object4, E object5, E object6)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of$7<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
-    $E? object5,
-    $E? object6,
+  static JSet<$E>? of$7<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
+    $E object5,
+    $E object6,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -5047,7 +5047,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object4.pointer,
             _$object5.pointer,
             _$object6.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 
   static final _id_of$8 = _class.staticMethodId(
@@ -5086,15 +5086,15 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of(E object, E object1, E object2, E object3, E object4, E object5, E object6, E object7)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of$8<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
-    $E? object5,
-    $E? object6,
-    $E? object7,
+  static JSet<$E>? of$8<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
+    $E object5,
+    $E object6,
+    $E object7,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -5115,7 +5115,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object5.pointer,
             _$object6.pointer,
             _$object7.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 
   static final _id_of$9 = _class.staticMethodId(
@@ -5156,16 +5156,16 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of(E object, E object1, E object2, E object3, E object4, E object5, E object6, E object7, E object8)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of$9<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
-    $E? object5,
-    $E? object6,
-    $E? object7,
-    $E? object8,
+  static JSet<$E>? of$9<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
+    $E object5,
+    $E object6,
+    $E object7,
+    $E object8,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -5188,7 +5188,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object6.pointer,
             _$object7.pointer,
             _$object8.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 
   static final _id_of$10 = _class.staticMethodId(
@@ -5231,17 +5231,17 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of(E object, E object1, E object2, E object3, E object4, E object5, E object6, E object7, E object8, E object9)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of$10<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
-    $E? object5,
-    $E? object6,
-    $E? object7,
-    $E? object8,
-    $E? object9,
+  static JSet<$E>? of$10<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
+    $E object5,
+    $E object6,
+    $E object7,
+    $E object8,
+    $E object9,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -5266,7 +5266,7 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object7.pointer,
             _$object8.pointer,
             _$object9.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 
   static final _id_of$11 = _class.staticMethodId(
@@ -5287,13 +5287,13 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of(E[] objects)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of$11<$E extends jni$_.JObject?>(
-    jni$_.JArray<$E?>? objects,
+  static JSet<$E>? of$11<$E extends jni$_.JObject?>(
+    jni$_.JArray<$E>? objects,
   ) {
     final _$objects = objects?.reference ?? jni$_.jNullReference;
     return _of$11(
             _class.reference.pointer, _id_of$11.pointer, _$objects.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 }
 
@@ -5316,7 +5316,7 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
 
   /// from: `public boolean add(E object)`
   core$_.bool add(
-    $E? object,
+    $E object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _add(reference.pointer, _id_add.pointer, _$object.pointer).boolean;
@@ -5434,9 +5434,9 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
 
   /// from: `public java.util.Iterator<E> iterator()`
   /// The returned object must be released after use, by calling the [release] method.
-  JIterator<$E?>? iterator() {
+  JIterator<$E>? iterator() {
     return _iterator(reference.pointer, _id_iterator.pointer)
-        .object<JIterator<$E?>?>();
+        .object<JIterator<$E>?>();
   }
 
   static final _id_remove = JHashSet._class.instanceMethodId(
@@ -5552,13 +5552,13 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
 
   /// from: `public T[] toArray(T[] objects)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<$T?>? toArray$1<$T extends jni$_.JObject?>(
-    jni$_.JArray<$T?>? objects,
+  jni$_.JArray<$T>? toArray$1<$T extends jni$_.JObject?>(
+    jni$_.JArray<$T>? objects,
   ) {
     final _$objects = objects?.reference ?? jni$_.jNullReference;
     return _toArray$1(
             reference.pointer, _id_toArray$1.pointer, _$objects.pointer)
-        .object<jni$_.JArray<$T?>?>();
+        .object<jni$_.JArray<$T>?>();
   }
 
   static final _id_addAll = JHashSet._class.instanceMethodId(
@@ -5579,7 +5579,7 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
 
   /// from: `public abstract boolean addAll(java.util.Collection<? extends E> collection)`
   core$_.bool addAll(
-    JCollection<$E?>? collection,
+    JCollection<$E>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _addAll(reference.pointer, _id_addAll.pointer, _$collection.pointer)
@@ -5803,13 +5803,13 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
 
   /// from: `public T[] toArray(java.util.function.IntFunction<T[]> intFunction)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<$T?>? toArray$2<$T extends jni$_.JObject?>(
+  jni$_.JArray<$T>? toArray$2<$T extends jni$_.JObject?>(
     jni$_.JObject? intFunction,
   ) {
     final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
     return _toArray$2(
             reference.pointer, _id_toArray$2.pointer, _$intFunction.pointer)
-        .object<jni$_.JArray<$T?>?>();
+        .object<jni$_.JArray<$T>?>();
   }
 }
 
@@ -5994,8 +5994,8 @@ extension JIterator$$Methods<$E extends jni$_.JObject?> on JIterator<$E> {
 
   /// from: `public abstract E next()`
   /// The returned object must be released after use, by calling the [release] method.
-  $E? next() {
-    return _next(reference.pointer, _id_next.pointer).object<$E?>();
+  $E next() {
+    return _next(reference.pointer, _id_next.pointer).object<$E>();
   }
 
   static final _id_remove = JIterator._class.instanceMethodId(
@@ -6026,7 +6026,7 @@ abstract base mixin class $JIterator<$E extends jni$_.JObject?> {
     required void Function(jni$_.JObject? consumer) forEachRemaining,
     core$_.bool forEachRemaining$async,
     required core$_.bool Function() hasNext,
-    required $E? Function() next,
+    required $E Function() next,
     required void Function() remove,
     core$_.bool remove$async,
   }) = _$JIterator<$E>;
@@ -6034,7 +6034,7 @@ abstract base mixin class $JIterator<$E extends jni$_.JObject?> {
   void forEachRemaining(jni$_.JObject? consumer);
   core$_.bool get forEachRemaining$async => false;
   core$_.bool hasNext();
-  $E? next();
+  $E next();
   void remove();
   core$_.bool get remove$async => false;
 }
@@ -6044,7 +6044,7 @@ final class _$JIterator<$E extends jni$_.JObject?> with $JIterator<$E> {
     required void Function(jni$_.JObject? consumer) forEachRemaining,
     this.forEachRemaining$async = false,
     required core$_.bool Function() hasNext,
-    required $E? Function() next,
+    required $E Function() next,
     required void Function() remove,
     this.remove$async = false,
   })  : _forEachRemaining = forEachRemaining,
@@ -6055,7 +6055,7 @@ final class _$JIterator<$E extends jni$_.JObject?> with $JIterator<$E> {
   final void Function(jni$_.JObject? consumer) _forEachRemaining;
   final core$_.bool forEachRemaining$async;
   final core$_.bool Function() _hasNext;
-  final $E? Function() _next;
+  final $E Function() _next;
   final void Function() _remove;
   final core$_.bool remove$async;
 
@@ -6067,7 +6067,7 @@ final class _$JIterator<$E extends jni$_.JObject?> with $JIterator<$E> {
     return _hasNext();
   }
 
-  $E? next() {
+  $E next() {
     return _next();
   }
 
@@ -6087,7 +6087,7 @@ final class $JIterator$Type$ extends jni$_.JType<JIterator> {
 
 /// from: `java.util.List`
 extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
-    implements jni$_.JObject, JCollection<$E?> {
+    implements jni$_.JObject, JCollection<$E> {
   static final _class = jni$_.JClass.forName(r'java/util/List');
 
   /// The type which includes information such as the signature of this class.
@@ -6110,13 +6110,13 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> copyOf(java.util.Collection<? extends E> collection)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? copyOf<$E extends jni$_.JObject?>(
-    JCollection<$E?>? collection,
+  static JList<$E>? copyOf<$E extends jni$_.JObject?>(
+    JCollection<$E>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _copyOf(
             _class.reference.pointer, _id_copyOf.pointer, _$collection.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_of = _class.staticMethodId(
@@ -6138,8 +6138,8 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of()`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of<$E extends jni$_.JObject?>() {
-    return _of(_class.reference.pointer, _id_of.pointer).object<JList<$E?>?>();
+  static JList<$E>? of<$E extends jni$_.JObject?>() {
+    return _of(_class.reference.pointer, _id_of.pointer).object<JList<$E>?>();
   }
 
   static final _id_of$1 = _class.staticMethodId(
@@ -6160,12 +6160,12 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of(E object)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of$1<$E extends jni$_.JObject?>(
-    $E? object,
+  static JList<$E>? of$1<$E extends jni$_.JObject?>(
+    $E object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _of$1(_class.reference.pointer, _id_of$1.pointer, _$object.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_of$2 = _class.staticMethodId(
@@ -6192,15 +6192,15 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of(E object, E object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of$2<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
+  static JList<$E>? of$2<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return _of$2(_class.reference.pointer, _id_of$2.pointer, _$object.pointer,
             _$object1.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_of$3 = _class.staticMethodId(
@@ -6229,17 +6229,17 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of(E object, E object1, E object2)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of$3<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
+  static JList<$E>? of$3<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     return _of$3(_class.reference.pointer, _id_of$3.pointer, _$object.pointer,
             _$object1.pointer, _$object2.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_of$4 = _class.staticMethodId(
@@ -6270,11 +6270,11 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of(E object, E object1, E object2, E object3)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of$4<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
+  static JList<$E>? of$4<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -6282,7 +6282,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
     return _of$4(_class.reference.pointer, _id_of$4.pointer, _$object.pointer,
             _$object1.pointer, _$object2.pointer, _$object3.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_of$5 = _class.staticMethodId(
@@ -6315,12 +6315,12 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of(E object, E object1, E object2, E object3, E object4)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of$5<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
+  static JList<$E>? of$5<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -6335,7 +6335,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object2.pointer,
             _$object3.pointer,
             _$object4.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_of$6 = _class.staticMethodId(
@@ -6370,13 +6370,13 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of(E object, E object1, E object2, E object3, E object4, E object5)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of$6<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
-    $E? object5,
+  static JList<$E>? of$6<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
+    $E object5,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -6393,7 +6393,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object3.pointer,
             _$object4.pointer,
             _$object5.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_of$7 = _class.staticMethodId(
@@ -6430,14 +6430,14 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of(E object, E object1, E object2, E object3, E object4, E object5, E object6)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of$7<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
-    $E? object5,
-    $E? object6,
+  static JList<$E>? of$7<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
+    $E object5,
+    $E object6,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -6456,7 +6456,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object4.pointer,
             _$object5.pointer,
             _$object6.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_of$8 = _class.staticMethodId(
@@ -6495,15 +6495,15 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of(E object, E object1, E object2, E object3, E object4, E object5, E object6, E object7)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of$8<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
-    $E? object5,
-    $E? object6,
-    $E? object7,
+  static JList<$E>? of$8<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
+    $E object5,
+    $E object6,
+    $E object7,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -6524,7 +6524,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object5.pointer,
             _$object6.pointer,
             _$object7.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_of$9 = _class.staticMethodId(
@@ -6565,16 +6565,16 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of(E object, E object1, E object2, E object3, E object4, E object5, E object6, E object7, E object8)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of$9<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
-    $E? object5,
-    $E? object6,
-    $E? object7,
-    $E? object8,
+  static JList<$E>? of$9<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
+    $E object5,
+    $E object6,
+    $E object7,
+    $E object8,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -6597,7 +6597,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object6.pointer,
             _$object7.pointer,
             _$object8.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_of$10 = _class.staticMethodId(
@@ -6640,17 +6640,17 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of(E object, E object1, E object2, E object3, E object4, E object5, E object6, E object7, E object8, E object9)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of$10<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
-    $E? object5,
-    $E? object6,
-    $E? object7,
-    $E? object8,
-    $E? object9,
+  static JList<$E>? of$10<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
+    $E object5,
+    $E object6,
+    $E object7,
+    $E object8,
+    $E object9,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -6675,7 +6675,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object7.pointer,
             _$object8.pointer,
             _$object9.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_of$11 = _class.staticMethodId(
@@ -6696,13 +6696,13 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.List<E> of(E[] objects)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JList<$E?>? of$11<$E extends jni$_.JObject?>(
-    jni$_.JArray<$E?>? objects,
+  static JList<$E>? of$11<$E extends jni$_.JObject?>(
+    jni$_.JArray<$E>? objects,
   ) {
     final _$objects = objects?.reference ?? jni$_.jNullReference;
     return _of$11(
             _class.reference.pointer, _id_of$11.pointer, _$objects.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   /// Maps a specific port to the implemented interface.
@@ -7264,7 +7264,7 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
 
   /// from: `public abstract boolean add(E object)`
   core$_.bool add(
-    $E? object,
+    $E object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _add(reference.pointer, _id_add.pointer, _$object.pointer).boolean;
@@ -7290,7 +7290,7 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   /// from: `public abstract void add(int i, E object)`
   void add$1(
     int i,
-    $E? object,
+    $E object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     _add$1(reference.pointer, _id_add$1.pointer, i, _$object.pointer).check();
@@ -7316,7 +7316,7 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
   /// from: `public abstract boolean addAll(int i, java.util.Collection<? extends E> collection)`
   core$_.bool addAll(
     int i,
-    JCollection<$E?>? collection,
+    JCollection<$E>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _addAll(
@@ -7342,7 +7342,7 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
 
   /// from: `public abstract boolean addAll(java.util.Collection<? extends E> collection)`
   core$_.bool addAll$1(
-    JCollection<$E?>? collection,
+    JCollection<$E>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _addAll$1(
@@ -7368,7 +7368,7 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
 
   /// from: `public void addFirst(E object)`
   void addFirst(
-    $E? object,
+    $E object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     _addFirst(reference.pointer, _id_addFirst.pointer, _$object.pointer)
@@ -7393,7 +7393,7 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
 
   /// from: `public void addLast(E object)`
   void addLast(
-    $E? object,
+    $E object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     _addLast(reference.pointer, _id_addLast.pointer, _$object.pointer).check();
@@ -7514,10 +7514,10 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
 
   /// from: `public abstract E get(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  $E? get(
+  $E get(
     int i,
   ) {
-    return _get(reference.pointer, _id_get.pointer, i).object<$E?>();
+    return _get(reference.pointer, _id_get.pointer, i).object<$E>();
   }
 
   static final _id_getFirst = JList._class.instanceMethodId(
@@ -7539,8 +7539,8 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
 
   /// from: `public E getFirst()`
   /// The returned object must be released after use, by calling the [release] method.
-  $E? getFirst() {
-    return _getFirst(reference.pointer, _id_getFirst.pointer).object<$E?>();
+  $E getFirst() {
+    return _getFirst(reference.pointer, _id_getFirst.pointer).object<$E>();
   }
 
   static final _id_getLast = JList._class.instanceMethodId(
@@ -7562,8 +7562,8 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
 
   /// from: `public E getLast()`
   /// The returned object must be released after use, by calling the [release] method.
-  $E? getLast() {
-    return _getLast(reference.pointer, _id_getLast.pointer).object<$E?>();
+  $E getLast() {
+    return _getLast(reference.pointer, _id_getLast.pointer).object<$E>();
   }
 
   static final _id_hashCode$1 = JList._class.instanceMethodId(
@@ -7654,9 +7654,9 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
 
   /// from: `public abstract java.util.Iterator<E> iterator()`
   /// The returned object must be released after use, by calling the [release] method.
-  JIterator<$E?>? iterator() {
+  JIterator<$E>? iterator() {
     return _iterator(reference.pointer, _id_iterator.pointer)
-        .object<JIterator<$E?>?>();
+        .object<JIterator<$E>?>();
   }
 
   static final _id_lastIndexOf = JList._class.instanceMethodId(
@@ -7750,10 +7750,10 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
 
   /// from: `public abstract E remove(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  $E? remove(
+  $E remove(
     int i,
   ) {
-    return _remove(reference.pointer, _id_remove.pointer, i).object<$E?>();
+    return _remove(reference.pointer, _id_remove.pointer, i).object<$E>();
   }
 
   static final _id_remove$1 = JList._class.instanceMethodId(
@@ -7826,9 +7826,9 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
 
   /// from: `public E removeFirst()`
   /// The returned object must be released after use, by calling the [release] method.
-  $E? removeFirst() {
+  $E removeFirst() {
     return _removeFirst(reference.pointer, _id_removeFirst.pointer)
-        .object<$E?>();
+        .object<$E>();
   }
 
   static final _id_removeLast = JList._class.instanceMethodId(
@@ -7850,8 +7850,8 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
 
   /// from: `public E removeLast()`
   /// The returned object must be released after use, by calling the [release] method.
-  $E? removeLast() {
-    return _removeLast(reference.pointer, _id_removeLast.pointer).object<$E?>();
+  $E removeLast() {
+    return _removeLast(reference.pointer, _id_removeLast.pointer).object<$E>();
   }
 
   static final _id_replaceAll = JList._class.instanceMethodId(
@@ -7925,9 +7925,9 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
 
   /// from: `public java.util.List<E> reversed()`
   /// The returned object must be released after use, by calling the [release] method.
-  JList<$E?>? reversed() {
+  JList<$E>? reversed() {
     return _reversed(reference.pointer, _id_reversed.pointer)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_set = JList._class.instanceMethodId(
@@ -7949,13 +7949,13 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
 
   /// from: `public abstract E set(int i, E object)`
   /// The returned object must be released after use, by calling the [release] method.
-  $E? set(
+  $E set(
     int i,
-    $E? object,
+    $E object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _set(reference.pointer, _id_set.pointer, i, _$object.pointer)
-        .object<$E?>();
+        .object<$E>();
   }
 
   static final _id_size = JList._class.instanceMethodId(
@@ -8046,12 +8046,12 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
 
   /// from: `public abstract java.util.List<E> subList(int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
-  JList<$E?>? subList(
+  JList<$E>? subList(
     int i,
     int i1,
   ) {
     return _subList(reference.pointer, _id_subList.pointer, i, i1)
-        .object<JList<$E?>?>();
+        .object<JList<$E>?>();
   }
 
   static final _id_toArray = JList._class.instanceMethodId(
@@ -8096,13 +8096,13 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
 
   /// from: `public abstract T[] toArray(T[] objects)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<$T?>? toArray$1<$T extends jni$_.JObject?>(
-    jni$_.JArray<$T?>? objects,
+  jni$_.JArray<$T>? toArray$1<$T extends jni$_.JObject?>(
+    jni$_.JArray<$T>? objects,
   ) {
     final _$objects = objects?.reference ?? jni$_.jNullReference;
     return _toArray$1(
             reference.pointer, _id_toArray$1.pointer, _$objects.pointer)
-        .object<jni$_.JArray<$T?>?>();
+        .object<jni$_.JArray<$T>?>();
   }
 
   static final _id_parallelStream = JList._class.instanceMethodId(
@@ -8197,29 +8197,29 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
 
   /// from: `public T[] toArray(java.util.function.IntFunction<T[]> intFunction)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<$T?>? toArray$2<$T extends jni$_.JObject?>(
+  jni$_.JArray<$T>? toArray$2<$T extends jni$_.JObject?>(
     jni$_.JObject? intFunction,
   ) {
     final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
     return _toArray$2(
             reference.pointer, _id_toArray$2.pointer, _$intFunction.pointer)
-        .object<jni$_.JArray<$T?>?>();
+        .object<jni$_.JArray<$T>?>();
   }
 }
 
 abstract base mixin class $JList<$E extends jni$_.JObject?> {
   factory $JList({
-    required core$_.bool Function($E? object) add,
-    required void Function(int i, $E? object) add$1,
+    required core$_.bool Function($E object) add,
+    required void Function(int i, $E object) add$1,
     core$_.bool add$1$async,
     required core$_.bool Function(
             int i, JCollection<jni$_.JObject?>? collection)
         addAll,
     required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
         addAll$1,
-    required void Function($E? object) addFirst,
+    required void Function($E object) addFirst,
     core$_.bool addFirst$async,
-    required void Function($E? object) addLast,
+    required void Function($E object) addLast,
     core$_.bool addLast$async,
     required void Function() clear,
     core$_.bool clear$async,
@@ -8342,14 +8342,14 @@ abstract base mixin class $JList<$E extends jni$_.JObject?> {
         toArray$2,
   }) = _$JList<$E>;
 
-  core$_.bool add($E? object);
-  void add$1(int i, $E? object);
+  core$_.bool add($E object);
+  void add$1(int i, $E object);
   core$_.bool get add$1$async => false;
   core$_.bool addAll(int i, JCollection<jni$_.JObject?>? collection);
   core$_.bool addAll$1(JCollection<jni$_.JObject?>? collection);
-  void addFirst($E? object);
+  void addFirst($E object);
   core$_.bool get addFirst$async => false;
-  void addLast($E? object);
+  void addLast($E object);
   core$_.bool get addLast$async => false;
   void clear();
   core$_.bool get clear$async => false;
@@ -8448,17 +8448,17 @@ abstract base mixin class $JList<$E extends jni$_.JObject?> {
 
 final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
   _$JList({
-    required core$_.bool Function($E? object) add,
-    required void Function(int i, $E? object) add$1,
+    required core$_.bool Function($E object) add,
+    required void Function(int i, $E object) add$1,
     this.add$1$async = false,
     required core$_.bool Function(
             int i, JCollection<jni$_.JObject?>? collection)
         addAll,
     required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
         addAll$1,
-    required void Function($E? object) addFirst,
+    required void Function($E object) addFirst,
     this.addFirst$async = false,
-    required void Function($E? object) addLast,
+    required void Function($E object) addLast,
     this.addLast$async = false,
     required void Function() clear,
     this.clear$async = false,
@@ -8632,15 +8632,15 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
         _stream = stream,
         _toArray$2 = toArray$2;
 
-  final core$_.bool Function($E? object) _add;
-  final void Function(int i, $E? object) _add$1;
+  final core$_.bool Function($E object) _add;
+  final void Function(int i, $E object) _add$1;
   final core$_.bool add$1$async;
   final core$_.bool Function(int i, JCollection<jni$_.JObject?>? collection)
       _addAll;
   final core$_.bool Function(JCollection<jni$_.JObject?>? collection) _addAll$1;
-  final void Function($E? object) _addFirst;
+  final void Function($E object) _addFirst;
   final core$_.bool addFirst$async;
-  final void Function($E? object) _addLast;
+  final void Function($E object) _addLast;
   final core$_.bool addLast$async;
   final void Function() _clear;
   final core$_.bool clear$async;
@@ -8751,11 +8751,11 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
   final jni$_.JArray<jni$_.JObject?>? Function(jni$_.JObject? intFunction)
       _toArray$2;
 
-  core$_.bool add($E? object) {
+  core$_.bool add($E object) {
     return _add(object);
   }
 
-  void add$1(int i, $E? object) {
+  void add$1(int i, $E object) {
     return _add$1(i, object);
   }
 
@@ -8767,11 +8767,11 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
     return _addAll$1(collection);
   }
 
-  void addFirst($E? object) {
+  void addFirst($E object) {
     return _addFirst(object);
   }
 
-  void addLast($E? object) {
+  void addLast($E object) {
     return _addLast(object);
   }
 
@@ -9149,14 +9149,14 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
 
   /// from: `static public java.util.Map$Entry<K, V> copyOf(java.util.Map$Entry<? extends K, ? extends V> entry)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap$JEntry<$K?, $V?>?
+  static JMap$JEntry<$K, $V>?
       copyOf<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    JMap$JEntry<$K?, $V?>? entry,
+    JMap$JEntry<$K, $V>? entry,
   ) {
     final _$entry = entry?.reference ?? jni$_.jNullReference;
     return _copyOf(
             _class.reference.pointer, _id_copyOf.pointer, _$entry.pointer)
-        .object<JMap$JEntry<$K?, $V?>?>();
+        .object<JMap$JEntry<$K, $V>?>();
   }
 
   /// Maps a specific port to the implemented interface.
@@ -9359,8 +9359,8 @@ extension JMap$JEntry$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public abstract K getKey()`
   /// The returned object must be released after use, by calling the [release] method.
-  $K? getKey() {
-    return _getKey(reference.pointer, _id_getKey.pointer).object<$K?>();
+  $K getKey() {
+    return _getKey(reference.pointer, _id_getKey.pointer).object<$K>();
   }
 
   static final _id_getValue = JMap$JEntry._class.instanceMethodId(
@@ -9382,8 +9382,8 @@ extension JMap$JEntry$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public abstract V getValue()`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? getValue() {
-    return _getValue(reference.pointer, _id_getValue.pointer).object<$V?>();
+  $V getValue() {
+    return _getValue(reference.pointer, _id_getValue.pointer).object<$V>();
   }
 
   static final _id_hashCode$1 = JMap$JEntry._class.instanceMethodId(
@@ -9426,12 +9426,12 @@ extension JMap$JEntry$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public abstract V setValue(V object)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? setValue(
-    $V? object,
+  $V setValue(
+    $V object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _setValue(reference.pointer, _id_setValue.pointer, _$object.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 }
 
@@ -9583,13 +9583,13 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> copyOf(java.util.Map<? extends K, ? extends V> map)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       copyOf<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    JMap<$K?, $V?>? map,
+    JMap<$K, $V>? map,
   ) {
     final _$map = map?.reference ?? jni$_.jNullReference;
     return _copyOf(_class.reference.pointer, _id_copyOf.pointer, _$map.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_entry = _class.staticMethodId(
@@ -9616,16 +9616,16 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map$Entry<K, V> entry(K object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap$JEntry<$K?, $V?>?
+  static JMap$JEntry<$K, $V>?
       entry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    $K? object,
-    $V? object1,
+    $K object,
+    $V object1,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return _entry(_class.reference.pointer, _id_entry.pointer, _$object.pointer,
             _$object1.pointer)
-        .object<JMap$JEntry<$K?, $V?>?>();
+        .object<JMap$JEntry<$K, $V>?>();
   }
 
   static final _id_of = _class.staticMethodId(
@@ -9647,10 +9647,10 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> of()`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       of<$K extends jni$_.JObject?, $V extends jni$_.JObject?>() {
     return _of(_class.reference.pointer, _id_of.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_of$1 = _class.staticMethodId(
@@ -9677,16 +9677,16 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> of(K object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       of$1<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    $K? object,
-    $V? object1,
+    $K object,
+    $V object1,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return _of$1(_class.reference.pointer, _id_of$1.pointer, _$object.pointer,
             _$object1.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_of$2 = _class.staticMethodId(
@@ -9717,12 +9717,12 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> of(K object, V object1, K object2, V object3)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       of$2<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    $K? object,
-    $V? object1,
-    $K? object2,
-    $V? object3,
+    $K object,
+    $V object1,
+    $K object2,
+    $V object3,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -9730,7 +9730,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
     return _of$2(_class.reference.pointer, _id_of$2.pointer, _$object.pointer,
             _$object1.pointer, _$object2.pointer, _$object3.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_of$3 = _class.staticMethodId(
@@ -9765,14 +9765,14 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> of(K object, V object1, K object2, V object3, K object4, V object5)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       of$3<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    $K? object,
-    $V? object1,
-    $K? object2,
-    $V? object3,
-    $K? object4,
-    $V? object5,
+    $K object,
+    $V object1,
+    $K object2,
+    $V object3,
+    $K object4,
+    $V object5,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -9789,7 +9789,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
             _$object3.pointer,
             _$object4.pointer,
             _$object5.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_of$4 = _class.staticMethodId(
@@ -9828,16 +9828,16 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> of(K object, V object1, K object2, V object3, K object4, V object5, K object6, V object7)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       of$4<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    $K? object,
-    $V? object1,
-    $K? object2,
-    $V? object3,
-    $K? object4,
-    $V? object5,
-    $K? object6,
-    $V? object7,
+    $K object,
+    $V object1,
+    $K object2,
+    $V object3,
+    $K object4,
+    $V object5,
+    $K object6,
+    $V object7,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -9858,7 +9858,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
             _$object5.pointer,
             _$object6.pointer,
             _$object7.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_of$5 = _class.staticMethodId(
@@ -9901,18 +9901,18 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> of(K object, V object1, K object2, V object3, K object4, V object5, K object6, V object7, K object8, V object9)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       of$5<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    $K? object,
-    $V? object1,
-    $K? object2,
-    $V? object3,
-    $K? object4,
-    $V? object5,
-    $K? object6,
-    $V? object7,
-    $K? object8,
-    $V? object9,
+    $K object,
+    $V object1,
+    $K object2,
+    $V object3,
+    $K object4,
+    $V object5,
+    $K object6,
+    $V object7,
+    $K object8,
+    $V object9,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -9937,7 +9937,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
             _$object7.pointer,
             _$object8.pointer,
             _$object9.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_of$6 = _class.staticMethodId(
@@ -9984,20 +9984,20 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> of(K object, V object1, K object2, V object3, K object4, V object5, K object6, V object7, K object8, V object9, K object10, V object11)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       of$6<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    $K? object,
-    $V? object1,
-    $K? object2,
-    $V? object3,
-    $K? object4,
-    $V? object5,
-    $K? object6,
-    $V? object7,
-    $K? object8,
-    $V? object9,
-    $K? object10,
-    $V? object11,
+    $K object,
+    $V object1,
+    $K object2,
+    $V object3,
+    $K object4,
+    $V object5,
+    $K object6,
+    $V object7,
+    $K object8,
+    $V object9,
+    $K object10,
+    $V object11,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -10026,7 +10026,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
             _$object9.pointer,
             _$object10.pointer,
             _$object11.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_of$7 = _class.staticMethodId(
@@ -10077,22 +10077,22 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> of(K object, V object1, K object2, V object3, K object4, V object5, K object6, V object7, K object8, V object9, K object10, V object11, K object12, V object13)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       of$7<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    $K? object,
-    $V? object1,
-    $K? object2,
-    $V? object3,
-    $K? object4,
-    $V? object5,
-    $K? object6,
-    $V? object7,
-    $K? object8,
-    $V? object9,
-    $K? object10,
-    $V? object11,
-    $K? object12,
-    $V? object13,
+    $K object,
+    $V object1,
+    $K object2,
+    $V object3,
+    $K object4,
+    $V object5,
+    $K object6,
+    $V object7,
+    $K object8,
+    $V object9,
+    $K object10,
+    $V object11,
+    $K object12,
+    $V object13,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -10125,7 +10125,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
             _$object11.pointer,
             _$object12.pointer,
             _$object13.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_of$8 = _class.staticMethodId(
@@ -10180,24 +10180,24 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> of(K object, V object1, K object2, V object3, K object4, V object5, K object6, V object7, K object8, V object9, K object10, V object11, K object12, V object13, K object14, V object15)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       of$8<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    $K? object,
-    $V? object1,
-    $K? object2,
-    $V? object3,
-    $K? object4,
-    $V? object5,
-    $K? object6,
-    $V? object7,
-    $K? object8,
-    $V? object9,
-    $K? object10,
-    $V? object11,
-    $K? object12,
-    $V? object13,
-    $K? object14,
-    $V? object15,
+    $K object,
+    $V object1,
+    $K object2,
+    $V object3,
+    $K object4,
+    $V object5,
+    $K object6,
+    $V object7,
+    $K object8,
+    $V object9,
+    $K object10,
+    $V object11,
+    $K object12,
+    $V object13,
+    $K object14,
+    $V object15,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -10234,7 +10234,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
             _$object13.pointer,
             _$object14.pointer,
             _$object15.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_of$9 = _class.staticMethodId(
@@ -10293,26 +10293,26 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> of(K object, V object1, K object2, V object3, K object4, V object5, K object6, V object7, K object8, V object9, K object10, V object11, K object12, V object13, K object14, V object15, K object16, V object17)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       of$9<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    $K? object,
-    $V? object1,
-    $K? object2,
-    $V? object3,
-    $K? object4,
-    $V? object5,
-    $K? object6,
-    $V? object7,
-    $K? object8,
-    $V? object9,
-    $K? object10,
-    $V? object11,
-    $K? object12,
-    $V? object13,
-    $K? object14,
-    $V? object15,
-    $K? object16,
-    $V? object17,
+    $K object,
+    $V object1,
+    $K object2,
+    $V object3,
+    $K object4,
+    $V object5,
+    $K object6,
+    $V object7,
+    $K object8,
+    $V object9,
+    $K object10,
+    $V object11,
+    $K object12,
+    $V object13,
+    $K object14,
+    $V object15,
+    $K object16,
+    $V object17,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -10353,7 +10353,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
             _$object15.pointer,
             _$object16.pointer,
             _$object17.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_of$10 = _class.staticMethodId(
@@ -10416,28 +10416,28 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> of(K object, V object1, K object2, V object3, K object4, V object5, K object6, V object7, K object8, V object9, K object10, V object11, K object12, V object13, K object14, V object15, K object16, V object17, K object18, V object19)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       of$10<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    $K? object,
-    $V? object1,
-    $K? object2,
-    $V? object3,
-    $K? object4,
-    $V? object5,
-    $K? object6,
-    $V? object7,
-    $K? object8,
-    $V? object9,
-    $K? object10,
-    $V? object11,
-    $K? object12,
-    $V? object13,
-    $K? object14,
-    $V? object15,
-    $K? object16,
-    $V? object17,
-    $K? object18,
-    $V? object19,
+    $K object,
+    $V object1,
+    $K object2,
+    $V object3,
+    $K object4,
+    $V object5,
+    $K object6,
+    $V object7,
+    $K object8,
+    $V object9,
+    $K object10,
+    $V object11,
+    $K object12,
+    $V object13,
+    $K object14,
+    $V object15,
+    $K object16,
+    $V object17,
+    $K object18,
+    $V object19,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -10482,7 +10482,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
             _$object17.pointer,
             _$object18.pointer,
             _$object19.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   static final _id_ofEntries = _class.staticMethodId(
@@ -10503,14 +10503,14 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.Map<K, V> ofEntries(java.util.Map$Entry[] entrys)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JMap<$K?, $V?>?
+  static JMap<$K, $V>?
       ofEntries<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    jni$_.JArray<JMap$JEntry<$K?, $V?>?>? entrys,
+    jni$_.JArray<JMap$JEntry<$K, $V>?>? entrys,
   ) {
     final _$entrys = entrys?.reference ?? jni$_.jNullReference;
     return _ofEntries(
             _class.reference.pointer, _id_ofEntries.pointer, _$entrys.pointer)
-        .object<JMap<$K?, $V?>?>();
+        .object<JMap<$K, $V>?>();
   }
 
   /// Maps a specific port to the implemented interface.
@@ -10907,8 +10907,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       }
       if ($d == r'ofEntries([Ljava/util/Map$Entry;)Ljava/util/Map;') {
         final $r = _$impls[$p]!.ofEntries(
-          ($a![0]
-              as jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>?),
+          ($a![0] as jni$_.JArray<JMap$JEntry?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11096,15 +11095,15 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public V compute(K object, java.util.function.BiFunction<? super K, ? super V, ? extends V> biFunction)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? compute(
-    $K? object,
+  $V compute(
+    $K object,
     jni$_.JObject? biFunction,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
     return _compute(reference.pointer, _id_compute.pointer, _$object.pointer,
             _$biFunction.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_computeIfAbsent = JMap._class.instanceMethodId(
@@ -11131,15 +11130,15 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public V computeIfAbsent(K object, java.util.function.Function<? super K, ? extends V> function)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? computeIfAbsent(
-    $K? object,
+  $V computeIfAbsent(
+    $K object,
     jni$_.JObject? function,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$function = function?.reference ?? jni$_.jNullReference;
     return _computeIfAbsent(reference.pointer, _id_computeIfAbsent.pointer,
             _$object.pointer, _$function.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_computeIfPresent = JMap._class.instanceMethodId(
@@ -11166,15 +11165,15 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public V computeIfPresent(K object, java.util.function.BiFunction<? super K, ? super V, ? extends V> biFunction)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? computeIfPresent(
-    $K? object,
+  $V computeIfPresent(
+    $K object,
     jni$_.JObject? biFunction,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
     return _computeIfPresent(reference.pointer, _id_computeIfPresent.pointer,
             _$object.pointer, _$biFunction.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_containsKey = JMap._class.instanceMethodId(
@@ -11248,9 +11247,9 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public abstract java.util.Set<java.util.Map$Entry<K, V>> entrySet()`
   /// The returned object must be released after use, by calling the [release] method.
-  JSet<JMap$JEntry<$K?, $V?>?>? entrySet() {
+  JSet<JMap$JEntry<$K, $V>?>? entrySet() {
     return _entrySet(reference.pointer, _id_entrySet.pointer)
-        .object<JSet<JMap$JEntry<$K?, $V?>?>?>();
+        .object<JSet<JMap$JEntry<$K, $V>?>?>();
   }
 
   static final _id_equals = JMap._class.instanceMethodId(
@@ -11321,12 +11320,12 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public abstract V get(java.lang.Object object)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? get(
+  $V get(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _get(reference.pointer, _id_get.pointer, _$object.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_getOrDefault = JMap._class.instanceMethodId(
@@ -11353,15 +11352,15 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public V getOrDefault(java.lang.Object object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? getOrDefault(
+  $V getOrDefault(
     jni$_.JObject? object,
-    $V? object1,
+    $V object1,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return _getOrDefault(reference.pointer, _id_getOrDefault.pointer,
             _$object.pointer, _$object1.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_hashCode$1 = JMap._class.instanceMethodId(
@@ -11427,8 +11426,8 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public abstract java.util.Set<K> keySet()`
   /// The returned object must be released after use, by calling the [release] method.
-  JSet<$K?>? keySet() {
-    return _keySet(reference.pointer, _id_keySet.pointer).object<JSet<$K?>?>();
+  JSet<$K>? keySet() {
+    return _keySet(reference.pointer, _id_keySet.pointer).object<JSet<$K>?>();
   }
 
   static final _id_merge = JMap._class.instanceMethodId(
@@ -11457,9 +11456,9 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public V merge(K object, V object1, java.util.function.BiFunction<? super V, ? super V, ? extends V> biFunction)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? merge(
-    $K? object,
-    $V? object1,
+  $V merge(
+    $K object,
+    $V object1,
     jni$_.JObject? biFunction,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -11467,7 +11466,7 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
     return _merge(reference.pointer, _id_merge.pointer, _$object.pointer,
             _$object1.pointer, _$biFunction.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_put = JMap._class.instanceMethodId(
@@ -11494,15 +11493,15 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public abstract V put(K object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? put(
-    $K? object,
-    $V? object1,
+  $V put(
+    $K object,
+    $V object1,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return _put(reference.pointer, _id_put.pointer, _$object.pointer,
             _$object1.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_putAll = JMap._class.instanceMethodId(
@@ -11523,7 +11522,7 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public abstract void putAll(java.util.Map<? extends K, ? extends V> map)`
   void putAll(
-    JMap<$K?, $V?>? map,
+    JMap<$K, $V>? map,
   ) {
     final _$map = map?.reference ?? jni$_.jNullReference;
     _putAll(reference.pointer, _id_putAll.pointer, _$map.pointer).check();
@@ -11553,15 +11552,15 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public V putIfAbsent(K object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? putIfAbsent(
-    $K? object,
-    $V? object1,
+  $V putIfAbsent(
+    $K object,
+    $V object1,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return _putIfAbsent(reference.pointer, _id_putIfAbsent.pointer,
             _$object.pointer, _$object1.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_remove = JMap._class.instanceMethodId(
@@ -11582,12 +11581,12 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public abstract V remove(java.lang.Object object)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? remove(
+  $V remove(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _remove(reference.pointer, _id_remove.pointer, _$object.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_remove$1 = JMap._class.instanceMethodId(
@@ -11648,15 +11647,15 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public V replace(K object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? replace(
-    $K? object,
-    $V? object1,
+  $V replace(
+    $K object,
+    $V object1,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return _replace(reference.pointer, _id_replace.pointer, _$object.pointer,
             _$object1.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_replace$1 = JMap._class.instanceMethodId(
@@ -11685,9 +11684,9 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public boolean replace(K object, V object1, V object2)`
   core$_.bool replace$1(
-    $K? object,
-    $V? object1,
-    $V? object2,
+    $K object,
+    $V object1,
+    $V object2,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -11763,9 +11762,9 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public abstract java.util.Collection<V> values()`
   /// The returned object must be released after use, by calling the [release] method.
-  JCollection<$V?>? values() {
+  JCollection<$V>? values() {
     return _values(reference.pointer, _id_values.pointer)
-        .object<JCollection<$V?>?>();
+        .object<JCollection<$V>?>();
   }
 }
 
@@ -11774,10 +11773,9 @@ abstract base mixin class $JMap<$K extends jni$_.JObject?,
   factory $JMap({
     required void Function() clear,
     core$_.bool clear$async,
-    required $V? Function($K? object, jni$_.JObject? biFunction) compute,
-    required $V? Function($K? object, jni$_.JObject? function) computeIfAbsent,
-    required $V? Function($K? object, jni$_.JObject? biFunction)
-        computeIfPresent,
+    required $V Function($K object, jni$_.JObject? biFunction) compute,
+    required $V Function($K object, jni$_.JObject? function) computeIfAbsent,
+    required $V Function($K object, jni$_.JObject? biFunction) computeIfPresent,
     required core$_.bool Function(jni$_.JObject? object) containsKey,
     required core$_.bool Function(jni$_.JObject? object) containsValue,
     required JMap<jni$_.JObject?, jni$_.JObject?>? Function(
@@ -11786,8 +11784,7 @@ abstract base mixin class $JMap<$K extends jni$_.JObject?,
     required JMap$JEntry<jni$_.JObject?, jni$_.JObject?>? Function(
             jni$_.JObject? object, jni$_.JObject? object1)
         entry,
-    required JSet<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? Function()
-        entrySet,
+    required JSet<JMap$JEntry?>? Function() entrySet,
     required core$_.bool Function(jni$_.JObject? object) equals,
     required void Function(jni$_.JObject? biConsumer) forEach,
     core$_.bool forEach$async,
@@ -11932,7 +11929,7 @@ abstract base mixin class $JMap<$K extends jni$_.JObject?,
             jni$_.JObject? object19)
         of$10,
     required JMap<jni$_.JObject?, jni$_.JObject?>? Function(
-            jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrys)
+            jni$_.JArray<JMap$JEntry?>? entrys)
         ofEntries,
     required jni$_.JObject? Function(
             jni$_.JObject? object, jni$_.JObject? object1)
@@ -11959,16 +11956,16 @@ abstract base mixin class $JMap<$K extends jni$_.JObject?,
 
   void clear();
   core$_.bool get clear$async => false;
-  $V? compute($K? object, jni$_.JObject? biFunction);
-  $V? computeIfAbsent($K? object, jni$_.JObject? function);
-  $V? computeIfPresent($K? object, jni$_.JObject? biFunction);
+  $V compute($K object, jni$_.JObject? biFunction);
+  $V computeIfAbsent($K object, jni$_.JObject? function);
+  $V computeIfPresent($K object, jni$_.JObject? biFunction);
   core$_.bool containsKey(jni$_.JObject? object);
   core$_.bool containsValue(jni$_.JObject? object);
   JMap<jni$_.JObject?, jni$_.JObject?>? copyOf(
       JMap<jni$_.JObject?, jni$_.JObject?>? map);
   JMap$JEntry<jni$_.JObject?, jni$_.JObject?>? entry(
       jni$_.JObject? object, jni$_.JObject? object1);
-  JSet<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrySet();
+  JSet<JMap$JEntry?>? entrySet();
   core$_.bool equals(jni$_.JObject? object);
   void forEach(jni$_.JObject? biConsumer);
   core$_.bool get forEach$async => false;
@@ -12097,7 +12094,7 @@ abstract base mixin class $JMap<$K extends jni$_.JObject?,
       jni$_.JObject? object18,
       jni$_.JObject? object19);
   JMap<jni$_.JObject?, jni$_.JObject?>? ofEntries(
-      jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrys);
+      jni$_.JArray<JMap$JEntry?>? entrys);
   jni$_.JObject? put(jni$_.JObject? object, jni$_.JObject? object1);
   void putAll(JMap<jni$_.JObject?, jni$_.JObject?>? map);
   core$_.bool get putAll$async => false;
@@ -12118,10 +12115,9 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   _$JMap({
     required void Function() clear,
     this.clear$async = false,
-    required $V? Function($K? object, jni$_.JObject? biFunction) compute,
-    required $V? Function($K? object, jni$_.JObject? function) computeIfAbsent,
-    required $V? Function($K? object, jni$_.JObject? biFunction)
-        computeIfPresent,
+    required $V Function($K object, jni$_.JObject? biFunction) compute,
+    required $V Function($K object, jni$_.JObject? function) computeIfAbsent,
+    required $V Function($K object, jni$_.JObject? biFunction) computeIfPresent,
     required core$_.bool Function(jni$_.JObject? object) containsKey,
     required core$_.bool Function(jni$_.JObject? object) containsValue,
     required JMap<jni$_.JObject?, jni$_.JObject?>? Function(
@@ -12130,8 +12126,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     required JMap$JEntry<jni$_.JObject?, jni$_.JObject?>? Function(
             jni$_.JObject? object, jni$_.JObject? object1)
         entry,
-    required JSet<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? Function()
-        entrySet,
+    required JSet<JMap$JEntry?>? Function() entrySet,
     required core$_.bool Function(jni$_.JObject? object) equals,
     required void Function(jni$_.JObject? biConsumer) forEach,
     this.forEach$async = false,
@@ -12276,7 +12271,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
             jni$_.JObject? object19)
         of$10,
     required JMap<jni$_.JObject?, jni$_.JObject?>? Function(
-            jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrys)
+            jni$_.JArray<JMap$JEntry?>? entrys)
         ofEntries,
     required jni$_.JObject? Function(
             jni$_.JObject? object, jni$_.JObject? object1)
@@ -12341,17 +12336,16 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   final void Function() _clear;
   final core$_.bool clear$async;
-  final $V? Function($K? object, jni$_.JObject? biFunction) _compute;
-  final $V? Function($K? object, jni$_.JObject? function) _computeIfAbsent;
-  final $V? Function($K? object, jni$_.JObject? biFunction) _computeIfPresent;
+  final $V Function($K object, jni$_.JObject? biFunction) _compute;
+  final $V Function($K object, jni$_.JObject? function) _computeIfAbsent;
+  final $V Function($K object, jni$_.JObject? biFunction) _computeIfPresent;
   final core$_.bool Function(jni$_.JObject? object) _containsKey;
   final core$_.bool Function(jni$_.JObject? object) _containsValue;
   final JMap<jni$_.JObject?, jni$_.JObject?>? Function(
       JMap<jni$_.JObject?, jni$_.JObject?>? map) _copyOf;
   final JMap$JEntry<jni$_.JObject?, jni$_.JObject?>? Function(
       jni$_.JObject? object, jni$_.JObject? object1) _entry;
-  final JSet<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? Function()
-      _entrySet;
+  final JSet<JMap$JEntry?>? Function() _entrySet;
   final core$_.bool Function(jni$_.JObject? object) _equals;
   final void Function(jni$_.JObject? biConsumer) _forEach;
   final core$_.bool forEach$async;
@@ -12484,8 +12478,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
       jni$_.JObject? object18,
       jni$_.JObject? object19) _of$10;
   final JMap<jni$_.JObject?, jni$_.JObject?>? Function(
-          jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrys)
-      _ofEntries;
+      jni$_.JArray<JMap$JEntry?>? entrys) _ofEntries;
   final jni$_.JObject? Function(jni$_.JObject? object, jni$_.JObject? object1)
       _put;
   final void Function(JMap<jni$_.JObject?, jni$_.JObject?>? map) _putAll;
@@ -12509,15 +12502,15 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     return _clear();
   }
 
-  $V? compute($K? object, jni$_.JObject? biFunction) {
+  $V compute($K object, jni$_.JObject? biFunction) {
     return _compute(object, biFunction);
   }
 
-  $V? computeIfAbsent($K? object, jni$_.JObject? function) {
+  $V computeIfAbsent($K object, jni$_.JObject? function) {
     return _computeIfAbsent(object, function);
   }
 
-  $V? computeIfPresent($K? object, jni$_.JObject? biFunction) {
+  $V computeIfPresent($K object, jni$_.JObject? biFunction) {
     return _computeIfPresent(object, biFunction);
   }
 
@@ -12539,7 +12532,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     return _entry(object, object1);
   }
 
-  JSet<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrySet() {
+  JSet<JMap$JEntry?>? entrySet() {
     return _entrySet();
   }
 
@@ -12785,7 +12778,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   }
 
   JMap<jni$_.JObject?, jni$_.JObject?>? ofEntries(
-      jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrys) {
+      jni$_.JArray<JMap$JEntry?>? entrys) {
     return _ofEntries(entrys);
   }
 
@@ -12842,7 +12835,7 @@ final class $JMap$Type$ extends jni$_.JType<JMap> {
 
 /// from: `java.util.Set`
 extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
-    implements jni$_.JObject, JCollection<$E?> {
+    implements jni$_.JObject, JCollection<$E> {
   static final _class = jni$_.JClass.forName(r'java/util/Set');
 
   /// The type which includes information such as the signature of this class.
@@ -12865,13 +12858,13 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> copyOf(java.util.Collection<? extends E> collection)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? copyOf<$E extends jni$_.JObject?>(
-    JCollection<$E?>? collection,
+  static JSet<$E>? copyOf<$E extends jni$_.JObject?>(
+    JCollection<$E>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _copyOf(
             _class.reference.pointer, _id_copyOf.pointer, _$collection.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 
   static final _id_of = _class.staticMethodId(
@@ -12893,8 +12886,8 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of()`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of<$E extends jni$_.JObject?>() {
-    return _of(_class.reference.pointer, _id_of.pointer).object<JSet<$E?>?>();
+  static JSet<$E>? of<$E extends jni$_.JObject?>() {
+    return _of(_class.reference.pointer, _id_of.pointer).object<JSet<$E>?>();
   }
 
   static final _id_of$1 = _class.staticMethodId(
@@ -12915,12 +12908,12 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of(E object)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of$1<$E extends jni$_.JObject?>(
-    $E? object,
+  static JSet<$E>? of$1<$E extends jni$_.JObject?>(
+    $E object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _of$1(_class.reference.pointer, _id_of$1.pointer, _$object.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 
   static final _id_of$2 = _class.staticMethodId(
@@ -12947,15 +12940,15 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of(E object, E object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of$2<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
+  static JSet<$E>? of$2<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return _of$2(_class.reference.pointer, _id_of$2.pointer, _$object.pointer,
             _$object1.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 
   static final _id_of$3 = _class.staticMethodId(
@@ -12984,17 +12977,17 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of(E object, E object1, E object2)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of$3<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
+  static JSet<$E>? of$3<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     final _$object2 = object2?.reference ?? jni$_.jNullReference;
     return _of$3(_class.reference.pointer, _id_of$3.pointer, _$object.pointer,
             _$object1.pointer, _$object2.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 
   static final _id_of$4 = _class.staticMethodId(
@@ -13025,11 +13018,11 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of(E object, E object1, E object2, E object3)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of$4<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
+  static JSet<$E>? of$4<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -13037,7 +13030,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     final _$object3 = object3?.reference ?? jni$_.jNullReference;
     return _of$4(_class.reference.pointer, _id_of$4.pointer, _$object.pointer,
             _$object1.pointer, _$object2.pointer, _$object3.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 
   static final _id_of$5 = _class.staticMethodId(
@@ -13070,12 +13063,12 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of(E object, E object1, E object2, E object3, E object4)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of$5<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
+  static JSet<$E>? of$5<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -13090,7 +13083,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object2.pointer,
             _$object3.pointer,
             _$object4.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 
   static final _id_of$6 = _class.staticMethodId(
@@ -13125,13 +13118,13 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of(E object, E object1, E object2, E object3, E object4, E object5)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of$6<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
-    $E? object5,
+  static JSet<$E>? of$6<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
+    $E object5,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -13148,7 +13141,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object3.pointer,
             _$object4.pointer,
             _$object5.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 
   static final _id_of$7 = _class.staticMethodId(
@@ -13185,14 +13178,14 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of(E object, E object1, E object2, E object3, E object4, E object5, E object6)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of$7<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
-    $E? object5,
-    $E? object6,
+  static JSet<$E>? of$7<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
+    $E object5,
+    $E object6,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -13211,7 +13204,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object4.pointer,
             _$object5.pointer,
             _$object6.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 
   static final _id_of$8 = _class.staticMethodId(
@@ -13250,15 +13243,15 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of(E object, E object1, E object2, E object3, E object4, E object5, E object6, E object7)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of$8<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
-    $E? object5,
-    $E? object6,
-    $E? object7,
+  static JSet<$E>? of$8<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
+    $E object5,
+    $E object6,
+    $E object7,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -13279,7 +13272,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object5.pointer,
             _$object6.pointer,
             _$object7.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 
   static final _id_of$9 = _class.staticMethodId(
@@ -13320,16 +13313,16 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of(E object, E object1, E object2, E object3, E object4, E object5, E object6, E object7, E object8)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of$9<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
-    $E? object5,
-    $E? object6,
-    $E? object7,
-    $E? object8,
+  static JSet<$E>? of$9<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
+    $E object5,
+    $E object6,
+    $E object7,
+    $E object8,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -13352,7 +13345,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object6.pointer,
             _$object7.pointer,
             _$object8.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 
   static final _id_of$10 = _class.staticMethodId(
@@ -13395,17 +13388,17 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of(E object, E object1, E object2, E object3, E object4, E object5, E object6, E object7, E object8, E object9)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of$10<$E extends jni$_.JObject?>(
-    $E? object,
-    $E? object1,
-    $E? object2,
-    $E? object3,
-    $E? object4,
-    $E? object5,
-    $E? object6,
-    $E? object7,
-    $E? object8,
-    $E? object9,
+  static JSet<$E>? of$10<$E extends jni$_.JObject?>(
+    $E object,
+    $E object1,
+    $E object2,
+    $E object3,
+    $E object4,
+    $E object5,
+    $E object6,
+    $E object7,
+    $E object8,
+    $E object9,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
@@ -13430,7 +13423,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             _$object7.pointer,
             _$object8.pointer,
             _$object9.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 
   static final _id_of$11 = _class.staticMethodId(
@@ -13451,13 +13444,13 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
 
   /// from: `static public java.util.Set<E> of(E[] objects)`
   /// The returned object must be released after use, by calling the [release] method.
-  static JSet<$E?>? of$11<$E extends jni$_.JObject?>(
-    jni$_.JArray<$E?>? objects,
+  static JSet<$E>? of$11<$E extends jni$_.JObject?>(
+    jni$_.JArray<$E>? objects,
   ) {
     final _$objects = objects?.reference ?? jni$_.jNullReference;
     return _of$11(
             _class.reference.pointer, _id_of$11.pointer, _$objects.pointer)
-        .object<JSet<$E?>?>();
+        .object<JSet<$E>?>();
   }
 
   /// Maps a specific port to the implemented interface.
@@ -13863,7 +13856,7 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
 
   /// from: `public abstract boolean add(E object)`
   core$_.bool add(
-    $E? object,
+    $E object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _add(reference.pointer, _id_add.pointer, _$object.pointer).boolean;
@@ -13887,7 +13880,7 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
 
   /// from: `public abstract boolean addAll(java.util.Collection<? extends E> collection)`
   core$_.bool addAll(
-    JCollection<$E?>? collection,
+    JCollection<$E>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
     return _addAll(reference.pointer, _id_addAll.pointer, _$collection.pointer)
@@ -14055,9 +14048,9 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
 
   /// from: `public abstract java.util.Iterator<E> iterator()`
   /// The returned object must be released after use, by calling the [release] method.
-  JIterator<$E?>? iterator() {
+  JIterator<$E>? iterator() {
     return _iterator(reference.pointer, _id_iterator.pointer)
-        .object<JIterator<$E?>?>();
+        .object<JIterator<$E>?>();
   }
 
   static final _id_remove = JSet._class.instanceMethodId(
@@ -14225,13 +14218,13 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
 
   /// from: `public abstract T[] toArray(T[] objects)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<$T?>? toArray$1<$T extends jni$_.JObject?>(
-    jni$_.JArray<$T?>? objects,
+  jni$_.JArray<$T>? toArray$1<$T extends jni$_.JObject?>(
+    jni$_.JArray<$T>? objects,
   ) {
     final _$objects = objects?.reference ?? jni$_.jNullReference;
     return _toArray$1(
             reference.pointer, _id_toArray$1.pointer, _$objects.pointer)
-        .object<jni$_.JArray<$T?>?>();
+        .object<jni$_.JArray<$T>?>();
   }
 
   static final _id_parallelStream = JSet._class.instanceMethodId(
@@ -14326,19 +14319,19 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
 
   /// from: `public T[] toArray(java.util.function.IntFunction<T[]> intFunction)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JArray<$T?>? toArray$2<$T extends jni$_.JObject?>(
+  jni$_.JArray<$T>? toArray$2<$T extends jni$_.JObject?>(
     jni$_.JObject? intFunction,
   ) {
     final _$intFunction = intFunction?.reference ?? jni$_.jNullReference;
     return _toArray$2(
             reference.pointer, _id_toArray$2.pointer, _$intFunction.pointer)
-        .object<jni$_.JArray<$T?>?>();
+        .object<jni$_.JArray<$T>?>();
   }
 }
 
 abstract base mixin class $JSet<$E extends jni$_.JObject?> {
   factory $JSet({
-    required core$_.bool Function($E? object) add,
+    required core$_.bool Function($E object) add,
     required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
         addAll,
     required void Function() clear,
@@ -14445,7 +14438,7 @@ abstract base mixin class $JSet<$E extends jni$_.JObject?> {
         toArray$2,
   }) = _$JSet<$E>;
 
-  core$_.bool add($E? object);
+  core$_.bool add($E object);
   core$_.bool addAll(JCollection<jni$_.JObject?>? collection);
   void clear();
   core$_.bool get clear$async => false;
@@ -14527,7 +14520,7 @@ abstract base mixin class $JSet<$E extends jni$_.JObject?> {
 
 final class _$JSet<$E extends jni$_.JObject?> with $JSet<$E> {
   _$JSet({
-    required core$_.bool Function($E? object) add,
+    required core$_.bool Function($E object) add,
     required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
         addAll,
     required void Function() clear,
@@ -14666,7 +14659,7 @@ final class _$JSet<$E extends jni$_.JObject?> with $JSet<$E> {
         _stream = stream,
         _toArray$2 = toArray$2;
 
-  final core$_.bool Function($E? object) _add;
+  final core$_.bool Function($E object) _add;
   final core$_.bool Function(JCollection<jni$_.JObject?>? collection) _addAll;
   final void Function() _clear;
   final core$_.bool clear$async;
@@ -14760,7 +14753,7 @@ final class _$JSet<$E extends jni$_.JObject?> with $JSet<$E> {
   final jni$_.JArray<jni$_.JObject?>? Function(jni$_.JObject? intFunction)
       _toArray$2;
 
-  core$_.bool add($E? object) {
+  core$_.bool add($E object) {
     return _add(object);
   }
 

@@ -3844,7 +3844,7 @@ final class $Build$Type$ extends jni$_.JType<Build> {
 
 /// from: `java.util.HashMap`
 extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
-    jni$_.JObject _$this) implements jni$_.JObject, jni$_.JMap<$K?, $V?> {
+    jni$_.JObject _$this) implements jni$_.JObject, jni$_.JMap<$K, $V> {
   static final _class = jni$_.JClass.forName(r'java/util/HashMap');
 
   /// The type which includes information such as the signature of this class.
@@ -3938,7 +3938,7 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   /// from: `public void <init>(java.util.Map<? extends K, ? extends V> map)`
   /// The returned object must be released after use, by calling the [release] method.
   factory HashMap.new$3(
-    jni$_.JMap<$K?, $V?>? map,
+    jni$_.JMap<$K, $V>? map,
   ) {
     final _$map = map?.reference ?? jni$_.jNullReference;
     return _new$3(_class.reference.pointer, _id_new$3.pointer, _$map.pointer)
@@ -3961,12 +3961,12 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
 
   /// from: `static public java.util.HashMap<K, V> newHashMap(int i)`
   /// The returned object must be released after use, by calling the [release] method.
-  static HashMap<$K?, $V?>?
+  static HashMap<$K, $V>?
       newHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
     int i,
   ) {
     return _newHashMap(_class.reference.pointer, _id_newHashMap.pointer, i)
-        .object<HashMap<$K?, $V?>?>();
+        .object<HashMap<$K, $V>?>();
   }
 }
 
@@ -4042,15 +4042,15 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public V compute(K object, java.util.function.BiFunction<? super K, ? super V, ? extends V> biFunction)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? compute(
-    $K? object,
+  $V compute(
+    $K object,
     jni$_.JObject? biFunction,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
     return _compute(reference.pointer, _id_compute.pointer, _$object.pointer,
             _$biFunction.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_computeIfAbsent = HashMap._class.instanceMethodId(
@@ -4077,15 +4077,15 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public V computeIfAbsent(K object, java.util.function.Function<? super K, ? extends V> function)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? computeIfAbsent(
-    $K? object,
+  $V computeIfAbsent(
+    $K object,
     jni$_.JObject? function,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$function = function?.reference ?? jni$_.jNullReference;
     return _computeIfAbsent(reference.pointer, _id_computeIfAbsent.pointer,
             _$object.pointer, _$function.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_computeIfPresent = HashMap._class.instanceMethodId(
@@ -4112,15 +4112,15 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public V computeIfPresent(K object, java.util.function.BiFunction<? super K, ? super V, ? extends V> biFunction)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? computeIfPresent(
-    $K? object,
+  $V computeIfPresent(
+    $K object,
     jni$_.JObject? biFunction,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
     return _computeIfPresent(reference.pointer, _id_computeIfPresent.pointer,
             _$object.pointer, _$biFunction.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_containsKey = HashMap._class.instanceMethodId(
@@ -4242,12 +4242,12 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public V get(java.lang.Object object)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? get(
+  $V get(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _get(reference.pointer, _id_get.pointer, _$object.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_getOrDefault = HashMap._class.instanceMethodId(
@@ -4274,15 +4274,15 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public V getOrDefault(java.lang.Object object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? getOrDefault(
+  $V getOrDefault(
     jni$_.JObject? object,
-    $V? object1,
+    $V object1,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return _getOrDefault(reference.pointer, _id_getOrDefault.pointer,
             _$object.pointer, _$object1.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_isEmpty = HashMap._class.instanceMethodId(
@@ -4326,9 +4326,9 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public java.util.Set<K> keySet()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JSet<$K?>? keySet() {
+  jni$_.JSet<$K>? keySet() {
     return _keySet(reference.pointer, _id_keySet.pointer)
-        .object<jni$_.JSet<$K?>?>();
+        .object<jni$_.JSet<$K>?>();
   }
 
   static final _id_merge = HashMap._class.instanceMethodId(
@@ -4357,9 +4357,9 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public V merge(K object, V object1, java.util.function.BiFunction<? super V, ? super V, ? extends V> biFunction)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? merge(
-    $K? object,
-    $V? object1,
+  $V merge(
+    $K object,
+    $V object1,
     jni$_.JObject? biFunction,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -4367,7 +4367,7 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     final _$biFunction = biFunction?.reference ?? jni$_.jNullReference;
     return _merge(reference.pointer, _id_merge.pointer, _$object.pointer,
             _$object1.pointer, _$biFunction.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_put = HashMap._class.instanceMethodId(
@@ -4394,15 +4394,15 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public V put(K object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? put(
-    $K? object,
-    $V? object1,
+  $V put(
+    $K object,
+    $V object1,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return _put(reference.pointer, _id_put.pointer, _$object.pointer,
             _$object1.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_putAll = HashMap._class.instanceMethodId(
@@ -4423,7 +4423,7 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public void putAll(java.util.Map<? extends K, ? extends V> map)`
   void putAll(
-    jni$_.JMap<$K?, $V?>? map,
+    jni$_.JMap<$K, $V>? map,
   ) {
     final _$map = map?.reference ?? jni$_.jNullReference;
     _putAll(reference.pointer, _id_putAll.pointer, _$map.pointer).check();
@@ -4453,15 +4453,15 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public V putIfAbsent(K object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? putIfAbsent(
-    $K? object,
-    $V? object1,
+  $V putIfAbsent(
+    $K object,
+    $V object1,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return _putIfAbsent(reference.pointer, _id_putIfAbsent.pointer,
             _$object.pointer, _$object1.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_remove = HashMap._class.instanceMethodId(
@@ -4482,12 +4482,12 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public V remove(java.lang.Object object)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? remove(
+  $V remove(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     return _remove(reference.pointer, _id_remove.pointer, _$object.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_remove$1 = HashMap._class.instanceMethodId(
@@ -4548,15 +4548,15 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public V replace(K object, V object1)`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? replace(
-    $K? object,
-    $V? object1,
+  $V replace(
+    $K object,
+    $V object1,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;
     return _replace(reference.pointer, _id_replace.pointer, _$object.pointer,
             _$object1.pointer)
-        .object<$V?>();
+        .object<$V>();
   }
 
   static final _id_replace$1 = HashMap._class.instanceMethodId(
@@ -4585,9 +4585,9 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
 
   /// from: `public boolean replace(K object, V object1, V object2)`
   core$_.bool replace$1(
-    $K? object,
-    $V? object1,
-    $V? object2,
+    $K object,
+    $V object1,
+    $V object2,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
     final _$object1 = object1?.reference ?? jni$_.jNullReference;

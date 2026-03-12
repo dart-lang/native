@@ -746,7 +746,9 @@ class _TypeGenerator extends TypeVisitor<String> {
     // typevar bounds instead.
     {
       final nullable =
-          includeNullability && node.isNullable && isTopTypeNullable ? '?' : '';
+          includeNullability && (node.isNullable || isTopTypeNullable)
+              ? '?'
+              : '';
       if (typeErasure || forInterfaceInvoker) {
         return '$_jObject$nullable';
       }
@@ -1001,7 +1003,10 @@ ${modifier}final _id_$name =
           typeErasure: true, includeNullability: false));
       typeClass = '$type.type';
     }
-    final getter = node.type.isNullable ? 'getNullable' : 'get';
+    final type = node.type;
+    final isPotentiallyNullable = type.isNullable ||
+        (type is TypeVar && type.origin.isNullable);
+    final getter = isPotentiallyNullable ? 'getNullable' : 'get';
     return '_id_$name.$getter($self, $typeClass)';
   }
 
@@ -1378,8 +1383,11 @@ class _ParamReference extends Visitor<Param, String> {
     if (node.type is PrimitiveType) {
       return '';
     }
-    final nullable = node.isNullable ? '?' : '';
-    final orDefault = node.isNullable ? ' ?? $_jni.jNullReference' : '';
+    final type = node.type;
+    final isPotentiallyNullable = node.isNullable ||
+        (type is TypeVar && type.origin.isNullable);
+    final nullable = isPotentiallyNullable ? '?' : '';
+    final orDefault = isPotentiallyNullable ? ' ?? $_jni.jNullReference' : '';
     return 'final _\$${node.finalName} = '
         '${node.finalName}$nullable.reference$orDefault;';
   }
