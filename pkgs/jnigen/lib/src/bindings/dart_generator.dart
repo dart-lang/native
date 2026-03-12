@@ -1050,14 +1050,14 @@ ${modifier}final _id_$name =
     final name = node.finalName;
     final ifStatic = node.isStatic && !isTopLevel ? 'static ' : '';
     final type = node.type.accept(_TypeGenerator(resolver));
-    s.write('$ifStatic$type get $name => ');
+    s.write('  $ifStatic$type get $name => ');
     s.write(getter(node));
     s.writeln(' as $type;\n');
     if (!node.isFinal) {
       // Setter docs.
       writeDocs(node, writeReleaseInstructions: true);
 
-      s.write('${ifStatic}set $name($type value) => ');
+      s.write('  ${ifStatic}set $name($type value) => ');
       s.write(setter(node));
       s.writeln(';\n');
     }
@@ -1107,8 +1107,16 @@ class _MethodGenerator extends Visitor<Method, void> {
 
   String get modifier => isTopLevel ? '' : '  static ';
 
-  void writeAccessor(Method node) {
+  String _idName(Method node) {
     final name = node.finalName;
+    if (node.propertyKind == MethodPropertyKind.none) {
+      return name;
+    }
+    return '${name}__${node.name}';
+  }
+
+  void writeAccessor(Method node) {
+    final idName = _idName(node);
     final kind = node.isConstructor
         ? 'constructor'
         : node.isStatic
@@ -1116,7 +1124,7 @@ class _MethodGenerator extends Visitor<Method, void> {
             : 'instanceMethod';
     final descriptor = node.descriptor;
     s.write('''
-${modifier}final _id_$name = $classRef.${kind}Id(
+${modifier}final _id_$idName = $classRef.${kind}Id(
 ''');
     if (!node.isConstructor) s.writeln("    r'${node.name}',");
     s.write('''
@@ -1128,36 +1136,36 @@ ${modifier}final _id_$name = $classRef.${kind}Id(
     final methodName = node.accept(const _CallMethodName());
     s.write('''
 
-${modifier}final _$name = $_protectedExtension
+${modifier}final _$idName = $_protectedExtension
     .lookup<$_jni.NativeFunction<$ffiSig>>('$methodName')
     .asFunction<$dartSig>();
 ''');
   }
 
   String constructor(Method node) {
-    final name = node.finalName;
+    final idName = _idName(node);
     final params = [
       '$classRef.reference.pointer',
-      '_id_$name.pointer',
+      '_id_$idName.pointer',
       ...node.params.accept(const _ParamCall()),
     ].join(', ');
     final typeParamsCall = node.classDecl.allTypeParams
         .map((typeParam) => '$_typeParamPrefix${typeParam.name}')
         .join(', ')
         .encloseIfNotEmpty('<', '>');
-    return '_$name($params).object'
+    return '_$idName($params).object'
         '<${node.classDecl.finalName}$typeParamsCall>()';
   }
 
   String methodCall(Method node) {
-    final name = node.finalName;
+    final idName = _idName(node);
     final params = [
       node.isStatic ? '$classRef.reference.pointer' : 'reference.pointer',
-      '_id_$name.pointer',
+      '_id_$idName.pointer',
       ...node.params.accept(const _ParamCall()),
     ].join(', ');
     final resultGetter = node.returnType.accept(_JniResultGetter(resolver));
-    return '_$name($params).$resultGetter';
+    return '_$idName($params).$resultGetter';
   }
 
   @override
@@ -1216,7 +1224,15 @@ ${modifier}final _$name = $_protectedExtension
       localReferences.removeLast();
     }
     final params = defArgs.delimited(', ');
-    s.write('  $ifStatic$returnType $name$typeParamsDef($params)');
+    if (node.propertyKind == MethodPropertyKind.getter) {
+      s.write('  $ifStatic$returnType get $name ');
+    } else if (node.propertyKind == MethodPropertyKind.setter) {
+      final type = node.params[0].type.accept(_TypeGenerator(resolver));
+      final paramName = node.params[0].finalName;
+      s.write('  $ifStatic set $name($type $paramName) ');
+    } else {
+      s.write('  $ifStatic$returnType $name$typeParamsDef($params)');
+    }
     final callExpr = methodCall(node);
     if (node.isSuspendFun) {
       final asyncReturnType = node.asyncReturnType!;
