@@ -59,9 +59,32 @@ extension type TestClassWrapper._(objc.ObjCObject object$)
     final $ret = _objc_msgSend_151sglz(_class_TestClassWrapper, _sel_create);
     return TestClassWrapper.fromPointer($ret, retain: true, release: true);
   }
+
+  /// new
+  static TestClassWrapper new$() {
+    final $ret = _objc_msgSend_151sglz(_class_TestClassWrapper, _sel_new);
+    return TestClassWrapper.fromPointer($ret, retain: false, release: true);
+  }
+
+  /// Returns a new instance of TestClassWrapper constructed with the default `new` method.
+  TestClassWrapper() : this.as(new$().object$);
 }
 
 extension TestClassWrapper$Methods on TestClassWrapper {
+  /// init
+  TestClassWrapper init() {
+    objc.checkOsVersionInternal(
+      'TestClassWrapper.init',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(
+      object$.ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return TestClassWrapper.fromPointer($ret, retain: false, release: true);
+  }
+
   /// myMethod
   TestOtherClassWrapper myMethod() {
     final $ret = _objc_msgSend_151sglz(object$.ref.pointer, _sel_myMethod);
@@ -121,9 +144,40 @@ extension type TestOtherClassWrapper._(objc.ObjCObject object$)
       release: true,
     );
   }
+
+  /// new
+  static TestOtherClassWrapper new$() {
+    final $ret = _objc_msgSend_151sglz(_class_TestOtherClassWrapper, _sel_new);
+    return TestOtherClassWrapper.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
+  /// Returns a new instance of TestOtherClassWrapper constructed with the default `new` method.
+  TestOtherClassWrapper() : this.as(new$().object$);
 }
 
 extension TestOtherClassWrapper$Methods on TestOtherClassWrapper {
+  /// init
+  TestOtherClassWrapper init() {
+    objc.checkOsVersionInternal(
+      'TestOtherClassWrapper.init',
+      iOS: (false, (2, 0, 0)),
+      macOS: (false, (10, 0, 0)),
+    );
+    final $ret = _objc_msgSend_151sglz(
+      object$.ref.retainAndReturnPointer(),
+      _sel_init,
+    );
+    return TestOtherClassWrapper.fromPointer(
+      $ret,
+      retain: false,
+      release: true,
+    );
+  }
+
   /// times10WithX:
   int times10WithX(int x) {
     return _objc_msgSend_12hwf9n(object$.ref.pointer, _sel_times10WithX_, x);
@@ -203,8 +257,10 @@ final _objc_msgSend_1cwp428 = objc.msgSendPointer
 late final _sel_alloc = objc.registerName("alloc");
 late final _sel_allocWithZone_ = objc.registerName("allocWithZone:");
 late final _sel_create = objc.registerName("create");
+late final _sel_init = objc.registerName("init");
 late final _sel_isKindOfClass_ = objc.registerName("isKindOfClass:");
 late final _sel_myMethod = objc.registerName("myMethod");
+late final _sel_new = objc.registerName("new");
 late final _sel_times10WithX_ = objc.registerName("times10WithX:");
 typedef instancetype = ffi.Pointer<objc.ObjCObjectImpl>;
 typedef Dartinstancetype = objc.ObjCObject;

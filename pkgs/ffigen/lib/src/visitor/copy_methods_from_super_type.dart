@@ -44,13 +44,12 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
   void visitObjCInterface(ObjCInterface node) {
     node.visitChildren(visitor, typeGraphOnly: true);
 
-    final isNSObject = ObjCBuiltInFunctions.isNSObject(node.originalName);
-
     // We need to copy certain methods from the super type:
     //  - Class methods, because Dart classes don't inherit static methods.
     //  - Methods that return instancetype, because the subclass's copy of the
     //    method needs to return the subclass, not the super class.
     //    Note: instancetype is only allowed as a return type, not an arg type.
+    final isNSObject = ObjCBuiltInFunctions.isNSObject(node.originalName);
     final superType = node.superType;
     if (superType != null) {
       for (final m in superType.methods) {
@@ -64,7 +63,6 @@ class CopyMethodsFromSuperTypesVisitation extends Visitation {
         }
       }
     }
-
     // Copy all methods from all the interface's protocols.
     _copyMethodFromProtocols(node, node.protocols, node.addMethod);
 

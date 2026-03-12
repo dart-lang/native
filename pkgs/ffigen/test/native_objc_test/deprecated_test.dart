@@ -121,7 +121,7 @@ void main() {
         expect(bindings, contains('depIos3'));
         expect(bindings, contains('depIos3Mac2'));
         expect(bindings, contains('depIos3Mac3'));
-        expect(bindings, contains('alwaysDeprecated'));
+        expect(bindings, isNot(contains('alwaysDeprecated')));
         expect(bindings, isNot(contains('alwaysUnavailable')));
       });
 
@@ -145,7 +145,7 @@ void main() {
         expect(bindings, contains('protDepIos3'));
         expect(bindings, contains('protDepIos3Mac2'));
         expect(bindings, contains('protDepIos3Mac3'));
-        expect(bindings, contains('protAlwaysDeprecated'));
+        expect(bindings, isNot(contains('protAlwaysDeprecated')));
         expect(bindings, isNot(contains('protAlwaysUnavailable')));
       });
 
@@ -169,7 +169,7 @@ void main() {
         expect(bindings, contains('catDepIos3'));
         expect(bindings, contains('catDepIos3Mac2'));
         expect(bindings, contains('catDepIos3Mac3'));
-        expect(bindings, contains('catAlwaysDeprecated'));
+        expect(bindings, isNot(contains('catAlwaysDeprecated')));
         expect(bindings, isNot(contains('catAlwaysUnavailable')));
       });
 

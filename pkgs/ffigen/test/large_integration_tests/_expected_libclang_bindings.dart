@@ -3275,19 +3275,6 @@ class LibClang {
   late final _clang_getDiagnosticCategory = _clang_getDiagnosticCategoryPtr
       .asFunction<int Function(CXDiagnostic)>();
 
-  /// Retrieve the name of a particular diagnostic category. This is now
-  /// deprecated. Use clang_getDiagnosticCategoryText() instead.
-  CXString clang_getDiagnosticCategoryName(int Category) {
-    return _clang_getDiagnosticCategoryName(Category);
-  }
-
-  late final _clang_getDiagnosticCategoryNamePtr =
-      _lookup<ffi.NativeFunction<CXString Function(ffi.UnsignedInt)>>(
-        'clang_getDiagnosticCategoryName',
-      );
-  late final _clang_getDiagnosticCategoryName =
-      _clang_getDiagnosticCategoryNamePtr.asFunction<CXString Function(int)>();
-
   /// Retrieve the diagnostic category text for a given diagnostic.
   CXString clang_getDiagnosticCategoryText(CXDiagnostic arg0) {
     return _clang_getDiagnosticCategoryText(arg0);

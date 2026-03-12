@@ -110,7 +110,7 @@ class ApiAvailability {
   }
 
   Availability _getAvailability(ExternalVersions? externalVersions) {
-    if (alwaysUnavailable) return Availability.none;
+    if (alwaysUnavailable || alwaysDeprecated) return Availability.none;
 
     final macosVer = _normalizeVersions(externalVersions?.macos);
     final iosVer = _normalizeVersions(externalVersions?.ios);
@@ -118,10 +118,6 @@ class ApiAvailability {
     // If no versions are specified, everything is available.
     if (iosVer == null && macosVer == null) {
       return Availability.all;
-    }
-
-    if (alwaysDeprecated || alwaysUnavailable) {
-      return Availability.none;
     }
 
     Availability? availability_;

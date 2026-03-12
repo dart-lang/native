@@ -4,7 +4,6 @@
 
 import '../code_generator.dart';
 import '../config_provider/config.dart' show Config, Declarations;
-import '../header_parser/sub_parsers/api_availability.dart';
 
 import 'ast.dart';
 
@@ -48,8 +47,7 @@ class ApplyConfigFiltersVisitation extends Visitation {
 
     node.filterMethods(
       (m) =>
-          m.apiAvailability.availability != Availability.none &&
-          objcInterfaces.includeMember(node, m.originalName),
+          !m.unavailable && objcInterfaces.includeMember(node, m.originalName),
     );
     _visitImpl(node, objcInterfaces);
 
@@ -67,7 +65,6 @@ class ApplyConfigFiltersVisitation extends Visitation {
     if (objcCategories == null) return;
     node.filterMethods((m) {
       if (m.unavailable) return false;
-      if (m.apiAvailability.availability == Availability.none) return false;
       if (node.shouldCopyMethodToInterface(m)) return false;
       return objcCategories.includeMember(node, m.originalName);
     });
@@ -86,7 +83,6 @@ class ApplyConfigFiltersVisitation extends Visitation {
       // filter here instead of during parsing so that these methods are still
       // copied to any interfaces that implement the protocol.
       if (m.unavailable) return false;
-      if (m.apiAvailability.availability == Availability.none) return false;
       if (m.isClassMethod) return false;
 
       return objcProtocols.includeMember(node, m.originalName);

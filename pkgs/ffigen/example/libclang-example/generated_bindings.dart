@@ -3651,26 +3651,6 @@ class LibClang {
   late final _clang_getDiagnosticCategory = _clang_getDiagnosticCategoryPtr
       .asFunction<DartClang_getDiagnosticCategory>();
 
-  /// Retrieve the name of a particular diagnostic category.  This
-  /// is now deprecated.  Use clang_getDiagnosticCategoryText()
-  /// instead.
-  ///
-  /// \param Category A diagnostic category number, as returned by
-  /// \c clang_getDiagnosticCategory().
-  ///
-  /// \returns The name of the given diagnostic category.
-  CXString clang_getDiagnosticCategoryName(int Category) {
-    return _clang_getDiagnosticCategoryName(Category);
-  }
-
-  late final _clang_getDiagnosticCategoryNamePtr =
-      _lookup<ffi.NativeFunction<NativeClang_getDiagnosticCategoryName>>(
-        'clang_getDiagnosticCategoryName',
-      );
-  late final _clang_getDiagnosticCategoryName =
-      _clang_getDiagnosticCategoryNamePtr
-          .asFunction<DartClang_getDiagnosticCategoryName>();
-
   /// Retrieve the diagnostic category text for a given diagnostic.
   ///
   /// \returns The text of the given diagnostic category.
@@ -6441,9 +6421,6 @@ class _SymbolAddresses {
   get clang_getDiagnostic => _library._clang_getDiagnosticPtr;
   ffi.Pointer<ffi.NativeFunction<NativeClang_getDiagnosticCategory>>
   get clang_getDiagnosticCategory => _library._clang_getDiagnosticCategoryPtr;
-  ffi.Pointer<ffi.NativeFunction<NativeClang_getDiagnosticCategoryName>>
-  get clang_getDiagnosticCategoryName =>
-      _library._clang_getDiagnosticCategoryNamePtr;
   ffi.Pointer<ffi.NativeFunction<NativeClang_getDiagnosticCategoryText>>
   get clang_getDiagnosticCategoryText =>
       _library._clang_getDiagnosticCategoryTextPtr;
@@ -10700,9 +10677,6 @@ typedef DartClang_getDiagnostic =
 typedef NativeClang_getDiagnosticCategory =
     ffi.UnsignedInt Function(CXDiagnostic);
 typedef DartClang_getDiagnosticCategory = int Function(CXDiagnostic);
-typedef NativeClang_getDiagnosticCategoryName =
-    CXString Function(ffi.UnsignedInt Category);
-typedef DartClang_getDiagnosticCategoryName = CXString Function(int Category);
 typedef NativeClang_getDiagnosticCategoryText = CXString Function(CXDiagnostic);
 typedef DartClang_getDiagnosticCategoryText = CXString Function(CXDiagnostic);
 typedef NativeClang_getDiagnosticFixIt =
