@@ -63,8 +63,10 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
   factory Example() {
     return _new$(_class.reference.pointer, _id_new$.pointer).object<Example>();
   }
+}
 
-  static final _id_thinkBeforeAnswering = _class.instanceMethodId(
+extension Example$$Methods on Example {
+  static final _id_thinkBeforeAnswering = Example._class.instanceMethodId(
     r'thinkBeforeAnswering',
     r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
   );

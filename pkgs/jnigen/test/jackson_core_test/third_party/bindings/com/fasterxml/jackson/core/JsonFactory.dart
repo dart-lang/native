@@ -235,8 +235,11 @@ extension type JsonFactory$Feature._(jni$_.JObject _$this)
             _class.reference.pointer, _id_collectDefaults.pointer)
         .integer;
   }
+}
 
-  static final _id_enabledByDefault = _class.instanceMethodId(
+extension JsonFactory$Feature$$Methods on JsonFactory$Feature {
+  static final _id_enabledByDefault =
+      JsonFactory$Feature._class.instanceMethodId(
     r'enabledByDefault',
     r'()Z',
   );
@@ -259,7 +262,7 @@ extension type JsonFactory$Feature._(jni$_.JObject _$this)
         .boolean;
   }
 
-  static final _id_enabledIn = _class.instanceMethodId(
+  static final _id_enabledIn = JsonFactory$Feature._class.instanceMethodId(
     r'enabledIn',
     r'(I)Z',
   );
@@ -282,7 +285,7 @@ extension type JsonFactory$Feature._(jni$_.JObject _$this)
     return _enabledIn(reference.pointer, _id_enabledIn.pointer, flags).boolean;
   }
 
-  static final _id_getMask = _class.instanceMethodId(
+  static final _id_getMask = JsonFactory$Feature._class.instanceMethodId(
     r'getMask',
     r'()I',
   );
@@ -455,35 +458,6 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JsonFactory>();
   }
 
-  static final _id_rebuild = _class.instanceMethodId(
-    r'rebuild',
-    r'()Lcom/fasterxml/jackson/core/TSFBuilder;',
-  );
-
-  static final _rebuild = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public com.fasterxml.jackson.core.TSFBuilder<?, ?> rebuild()`
-  /// The returned object must be released after use, by calling the [release] method.
-  ///
-  /// Method that allows construction of differently configured factory, starting
-  /// with settings of this factory.
-  ///@return Builder instance to use
-  ///@since 2.10
-  jni$_.JObject? rebuild() {
-    return _rebuild(reference.pointer, _id_rebuild.pointer)
-        .object<jni$_.JObject?>();
-  }
-
   static final _id_builder = _class.staticMethodId(
     r'builder',
     r'()Lcom/fasterxml/jackson/core/TSFBuilder;',
@@ -516,8 +490,39 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
     return _builder(_class.reference.pointer, _id_builder.pointer)
         .object<jni$_.JObject?>();
   }
+}
 
-  static final _id_copy = _class.instanceMethodId(
+extension JsonFactory$$Methods on JsonFactory {
+  static final _id_rebuild = JsonFactory._class.instanceMethodId(
+    r'rebuild',
+    r'()Lcom/fasterxml/jackson/core/TSFBuilder;',
+  );
+
+  static final _rebuild = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public com.fasterxml.jackson.core.TSFBuilder<?, ?> rebuild()`
+  /// The returned object must be released after use, by calling the [release] method.
+  ///
+  /// Method that allows construction of differently configured factory, starting
+  /// with settings of this factory.
+  ///@return Builder instance to use
+  ///@since 2.10
+  jni$_.JObject? rebuild() {
+    return _rebuild(reference.pointer, _id_rebuild.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_copy = JsonFactory._class.instanceMethodId(
     r'copy',
     r'()Lcom/fasterxml/jackson/core/JsonFactory;',
   );
@@ -553,7 +558,8 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
     return _copy(reference.pointer, _id_copy.pointer).object<JsonFactory?>();
   }
 
-  static final _id_requiresPropertyOrdering = _class.instanceMethodId(
+  static final _id_requiresPropertyOrdering =
+      JsonFactory._class.instanceMethodId(
     r'requiresPropertyOrdering',
     r'()Z',
   );
@@ -592,7 +598,8 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_canHandleBinaryNatively = _class.instanceMethodId(
+  static final _id_canHandleBinaryNatively =
+      JsonFactory._class.instanceMethodId(
     r'canHandleBinaryNatively',
     r'()Z',
   );
@@ -628,7 +635,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_canUseCharArrays = _class.instanceMethodId(
+  static final _id_canUseCharArrays = JsonFactory._class.instanceMethodId(
     r'canUseCharArrays',
     r'()Z',
   );
@@ -663,7 +670,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_canParseAsync = _class.instanceMethodId(
+  static final _id_canParseAsync = JsonFactory._class.instanceMethodId(
     r'canParseAsync',
     r'()Z',
   );
@@ -693,7 +700,8 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
     return _canParseAsync(reference.pointer, _id_canParseAsync.pointer).boolean;
   }
 
-  static final _id_getFormatReadFeatureType = _class.instanceMethodId(
+  static final _id_getFormatReadFeatureType =
+      JsonFactory._class.instanceMethodId(
     r'getFormatReadFeatureType',
     r'()Ljava/lang/Class;',
   );
@@ -718,7 +726,8 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_getFormatWriteFeatureType = _class.instanceMethodId(
+  static final _id_getFormatWriteFeatureType =
+      JsonFactory._class.instanceMethodId(
     r'getFormatWriteFeatureType',
     r'()Ljava/lang/Class;',
   );
@@ -743,7 +752,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_canUseSchema = _class.instanceMethodId(
+  static final _id_canUseSchema = JsonFactory._class.instanceMethodId(
     r'canUseSchema',
     r'(Lcom/fasterxml/jackson/core/FormatSchema;)Z',
   );
@@ -779,7 +788,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_getFormatName = _class.instanceMethodId(
+  static final _id_getFormatName = JsonFactory._class.instanceMethodId(
     r'getFormatName',
     r'()Ljava/lang/String;',
   );
@@ -810,7 +819,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JString?>();
   }
 
-  static final _id_hasFormat = _class.instanceMethodId(
+  static final _id_hasFormat = JsonFactory._class.instanceMethodId(
     r'hasFormat',
     r'(Lcom/fasterxml/jackson/core/format/InputAccessor;)Lcom/fasterxml/jackson/core/format/MatchStrength;',
   );
@@ -836,7 +845,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_requiresCustomCodec = _class.instanceMethodId(
+  static final _id_requiresCustomCodec = JsonFactory._class.instanceMethodId(
     r'requiresCustomCodec',
     r'()Z',
   );
@@ -870,7 +879,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_version = _class.instanceMethodId(
+  static final _id_version = JsonFactory._class.instanceMethodId(
     r'version',
     r'()Lcom/fasterxml/jackson/core/Version;',
   );
@@ -894,7 +903,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_configure = _class.instanceMethodId(
+  static final _id_configure = JsonFactory._class.instanceMethodId(
     r'configure',
     r'(Lcom/fasterxml/jackson/core/JsonFactory$Feature;Z)Lcom/fasterxml/jackson/core/JsonFactory;',
   );
@@ -930,7 +939,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JsonFactory?>();
   }
 
-  static final _id_enable = _class.instanceMethodId(
+  static final _id_enable = JsonFactory._class.instanceMethodId(
     r'enable',
     r'(Lcom/fasterxml/jackson/core/JsonFactory$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;',
   );
@@ -962,7 +971,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JsonFactory?>();
   }
 
-  static final _id_disable = _class.instanceMethodId(
+  static final _id_disable = JsonFactory._class.instanceMethodId(
     r'disable',
     r'(Lcom/fasterxml/jackson/core/JsonFactory$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;',
   );
@@ -994,7 +1003,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JsonFactory?>();
   }
 
-  static final _id_isEnabled = _class.instanceMethodId(
+  static final _id_isEnabled = JsonFactory._class.instanceMethodId(
     r'isEnabled',
     r'(Lcom/fasterxml/jackson/core/JsonFactory$Feature;)Z',
   );
@@ -1023,7 +1032,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_getParserFeatures = _class.instanceMethodId(
+  static final _id_getParserFeatures = JsonFactory._class.instanceMethodId(
     r'getParserFeatures',
     r'()I',
   );
@@ -1046,7 +1055,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .integer;
   }
 
-  static final _id_getGeneratorFeatures = _class.instanceMethodId(
+  static final _id_getGeneratorFeatures = JsonFactory._class.instanceMethodId(
     r'getGeneratorFeatures',
     r'()I',
   );
@@ -1070,7 +1079,8 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .integer;
   }
 
-  static final _id_getFormatParserFeatures = _class.instanceMethodId(
+  static final _id_getFormatParserFeatures =
+      JsonFactory._class.instanceMethodId(
     r'getFormatParserFeatures',
     r'()I',
   );
@@ -1094,7 +1104,8 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .integer;
   }
 
-  static final _id_getFormatGeneratorFeatures = _class.instanceMethodId(
+  static final _id_getFormatGeneratorFeatures =
+      JsonFactory._class.instanceMethodId(
     r'getFormatGeneratorFeatures',
     r'()I',
   );
@@ -1119,7 +1130,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .integer;
   }
 
-  static final _id_configure$1 = _class.instanceMethodId(
+  static final _id_configure$1 = JsonFactory._class.instanceMethodId(
     r'configure',
     r'(Lcom/fasterxml/jackson/core/JsonParser$Feature;Z)Lcom/fasterxml/jackson/core/JsonFactory;',
   );
@@ -1154,7 +1165,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JsonFactory?>();
   }
 
-  static final _id_enable$1 = _class.instanceMethodId(
+  static final _id_enable$1 = JsonFactory._class.instanceMethodId(
     r'enable',
     r'(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;',
   );
@@ -1185,7 +1196,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JsonFactory?>();
   }
 
-  static final _id_disable$1 = _class.instanceMethodId(
+  static final _id_disable$1 = JsonFactory._class.instanceMethodId(
     r'disable',
     r'(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;',
   );
@@ -1216,7 +1227,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JsonFactory?>();
   }
 
-  static final _id_isEnabled$1 = _class.instanceMethodId(
+  static final _id_isEnabled$1 = JsonFactory._class.instanceMethodId(
     r'isEnabled',
     r'(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Z',
   );
@@ -1245,7 +1256,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_isEnabled$2 = _class.instanceMethodId(
+  static final _id_isEnabled$2 = JsonFactory._class.instanceMethodId(
     r'isEnabled',
     r'(Lcom/fasterxml/jackson/core/StreamReadFeature;)Z',
   );
@@ -1275,7 +1286,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_getInputDecorator = _class.instanceMethodId(
+  static final _id_getInputDecorator = JsonFactory._class.instanceMethodId(
     r'getInputDecorator',
     r'()Lcom/fasterxml/jackson/core/io/InputDecorator;',
   );
@@ -1303,7 +1314,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_setInputDecorator = _class.instanceMethodId(
+  static final _id_setInputDecorator = JsonFactory._class.instanceMethodId(
     r'setInputDecorator',
     r'(Lcom/fasterxml/jackson/core/io/InputDecorator;)Lcom/fasterxml/jackson/core/JsonFactory;',
   );
@@ -1335,7 +1346,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JsonFactory?>();
   }
 
-  static final _id_configure$2 = _class.instanceMethodId(
+  static final _id_configure$2 = JsonFactory._class.instanceMethodId(
     r'configure',
     r'(Lcom/fasterxml/jackson/core/JsonGenerator$Feature;Z)Lcom/fasterxml/jackson/core/JsonFactory;',
   );
@@ -1370,7 +1381,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JsonFactory?>();
   }
 
-  static final _id_enable$2 = _class.instanceMethodId(
+  static final _id_enable$2 = JsonFactory._class.instanceMethodId(
     r'enable',
     r'(Lcom/fasterxml/jackson/core/JsonGenerator$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;',
   );
@@ -1401,7 +1412,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JsonFactory?>();
   }
 
-  static final _id_disable$2 = _class.instanceMethodId(
+  static final _id_disable$2 = JsonFactory._class.instanceMethodId(
     r'disable',
     r'(Lcom/fasterxml/jackson/core/JsonGenerator$Feature;)Lcom/fasterxml/jackson/core/JsonFactory;',
   );
@@ -1432,7 +1443,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JsonFactory?>();
   }
 
-  static final _id_isEnabled$3 = _class.instanceMethodId(
+  static final _id_isEnabled$3 = JsonFactory._class.instanceMethodId(
     r'isEnabled',
     r'(Lcom/fasterxml/jackson/core/JsonGenerator$Feature;)Z',
   );
@@ -1461,7 +1472,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_isEnabled$4 = _class.instanceMethodId(
+  static final _id_isEnabled$4 = JsonFactory._class.instanceMethodId(
     r'isEnabled',
     r'(Lcom/fasterxml/jackson/core/StreamWriteFeature;)Z',
   );
@@ -1491,7 +1502,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_getCharacterEscapes = _class.instanceMethodId(
+  static final _id_getCharacterEscapes = JsonFactory._class.instanceMethodId(
     r'getCharacterEscapes',
     r'()Lcom/fasterxml/jackson/core/io/CharacterEscapes;',
   );
@@ -1520,7 +1531,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_setCharacterEscapes = _class.instanceMethodId(
+  static final _id_setCharacterEscapes = JsonFactory._class.instanceMethodId(
     r'setCharacterEscapes',
     r'(Lcom/fasterxml/jackson/core/io/CharacterEscapes;)Lcom/fasterxml/jackson/core/JsonFactory;',
   );
@@ -1552,7 +1563,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JsonFactory?>();
   }
 
-  static final _id_getOutputDecorator = _class.instanceMethodId(
+  static final _id_getOutputDecorator = JsonFactory._class.instanceMethodId(
     r'getOutputDecorator',
     r'()Lcom/fasterxml/jackson/core/io/OutputDecorator;',
   );
@@ -1582,7 +1593,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_setOutputDecorator = _class.instanceMethodId(
+  static final _id_setOutputDecorator = JsonFactory._class.instanceMethodId(
     r'setOutputDecorator',
     r'(Lcom/fasterxml/jackson/core/io/OutputDecorator;)Lcom/fasterxml/jackson/core/JsonFactory;',
   );
@@ -1614,7 +1625,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JsonFactory?>();
   }
 
-  static final _id_setRootValueSeparator = _class.instanceMethodId(
+  static final _id_setRootValueSeparator = JsonFactory._class.instanceMethodId(
     r'setRootValueSeparator',
     r'(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonFactory;',
   );
@@ -1647,7 +1658,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JsonFactory?>();
   }
 
-  static final _id_getRootValueSeparator = _class.instanceMethodId(
+  static final _id_getRootValueSeparator = JsonFactory._class.instanceMethodId(
     r'getRootValueSeparator',
     r'()Ljava/lang/String;',
   );
@@ -1674,7 +1685,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JString?>();
   }
 
-  static final _id_setCodec = _class.instanceMethodId(
+  static final _id_setCodec = JsonFactory._class.instanceMethodId(
     r'setCodec',
     r'(Lcom/fasterxml/jackson/core/ObjectCodec;)Lcom/fasterxml/jackson/core/JsonFactory;',
   );
@@ -1708,7 +1719,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JsonFactory?>();
   }
 
-  static final _id_getCodec = _class.instanceMethodId(
+  static final _id_getCodec = JsonFactory._class.instanceMethodId(
     r'getCodec',
     r'()Lcom/fasterxml/jackson/core/ObjectCodec;',
   );
@@ -1732,7 +1743,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_createParser = _class.instanceMethodId(
+  static final _id_createParser = JsonFactory._class.instanceMethodId(
     r'createParser',
     r'(Ljava/io/File;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -1776,7 +1787,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jsonparser$_.JsonParser?>();
   }
 
-  static final _id_createParser$1 = _class.instanceMethodId(
+  static final _id_createParser$1 = JsonFactory._class.instanceMethodId(
     r'createParser',
     r'(Ljava/net/URL;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -1818,7 +1829,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jsonparser$_.JsonParser?>();
   }
 
-  static final _id_createParser$2 = _class.instanceMethodId(
+  static final _id_createParser$2 = JsonFactory._class.instanceMethodId(
     r'createParser',
     r'(Ljava/io/InputStream;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -1863,7 +1874,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jsonparser$_.JsonParser?>();
   }
 
-  static final _id_createParser$3 = _class.instanceMethodId(
+  static final _id_createParser$3 = JsonFactory._class.instanceMethodId(
     r'createParser',
     r'(Ljava/io/Reader;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -1901,7 +1912,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jsonparser$_.JsonParser?>();
   }
 
-  static final _id_createParser$4 = _class.instanceMethodId(
+  static final _id_createParser$4 = JsonFactory._class.instanceMethodId(
     r'createParser',
     r'([B)Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -1932,7 +1943,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jsonparser$_.JsonParser?>();
   }
 
-  static final _id_createParser$5 = _class.instanceMethodId(
+  static final _id_createParser$5 = JsonFactory._class.instanceMethodId(
     r'createParser',
     r'([BII)Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -1972,7 +1983,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jsonparser$_.JsonParser?>();
   }
 
-  static final _id_createParser$6 = _class.instanceMethodId(
+  static final _id_createParser$6 = JsonFactory._class.instanceMethodId(
     r'createParser',
     r'(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -2003,7 +2014,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jsonparser$_.JsonParser?>();
   }
 
-  static final _id_createParser$7 = _class.instanceMethodId(
+  static final _id_createParser$7 = JsonFactory._class.instanceMethodId(
     r'createParser',
     r'([C)Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -2034,7 +2045,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jsonparser$_.JsonParser?>();
   }
 
-  static final _id_createParser$8 = _class.instanceMethodId(
+  static final _id_createParser$8 = JsonFactory._class.instanceMethodId(
     r'createParser',
     r'([CII)Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -2070,7 +2081,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jsonparser$_.JsonParser?>();
   }
 
-  static final _id_createParser$9 = _class.instanceMethodId(
+  static final _id_createParser$9 = JsonFactory._class.instanceMethodId(
     r'createParser',
     r'(Ljava/io/DataInput;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -2104,7 +2115,8 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jsonparser$_.JsonParser?>();
   }
 
-  static final _id_createNonBlockingByteArrayParser = _class.instanceMethodId(
+  static final _id_createNonBlockingByteArrayParser =
+      JsonFactory._class.instanceMethodId(
     r'createNonBlockingByteArrayParser',
     r'()Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -2144,7 +2156,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jsonparser$_.JsonParser?>();
   }
 
-  static final _id_createGenerator = _class.instanceMethodId(
+  static final _id_createGenerator = JsonFactory._class.instanceMethodId(
     r'createGenerator',
     r'(Ljava/io/OutputStream;Lcom/fasterxml/jackson/core/JsonEncoding;)Lcom/fasterxml/jackson/core/JsonGenerator;',
   );
@@ -2198,7 +2210,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_createGenerator$1 = _class.instanceMethodId(
+  static final _id_createGenerator$1 = JsonFactory._class.instanceMethodId(
     r'createGenerator',
     r'(Ljava/io/OutputStream;)Lcom/fasterxml/jackson/core/JsonGenerator;',
   );
@@ -2231,7 +2243,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_createGenerator$2 = _class.instanceMethodId(
+  static final _id_createGenerator$2 = JsonFactory._class.instanceMethodId(
     r'createGenerator',
     r'(Ljava/io/Writer;)Lcom/fasterxml/jackson/core/JsonGenerator;',
   );
@@ -2270,7 +2282,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_createGenerator$3 = _class.instanceMethodId(
+  static final _id_createGenerator$3 = JsonFactory._class.instanceMethodId(
     r'createGenerator',
     r'(Ljava/io/File;Lcom/fasterxml/jackson/core/JsonEncoding;)Lcom/fasterxml/jackson/core/JsonGenerator;',
   );
@@ -2318,7 +2330,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_createGenerator$4 = _class.instanceMethodId(
+  static final _id_createGenerator$4 = JsonFactory._class.instanceMethodId(
     r'createGenerator',
     r'(Ljava/io/DataOutput;Lcom/fasterxml/jackson/core/JsonEncoding;)Lcom/fasterxml/jackson/core/JsonGenerator;',
   );
@@ -2357,7 +2369,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_createGenerator$5 = _class.instanceMethodId(
+  static final _id_createGenerator$5 = JsonFactory._class.instanceMethodId(
     r'createGenerator',
     r'(Ljava/io/DataOutput;)Lcom/fasterxml/jackson/core/JsonGenerator;',
   );
@@ -2390,7 +2402,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_createJsonParser = _class.instanceMethodId(
+  static final _id_createJsonParser = JsonFactory._class.instanceMethodId(
     r'createJsonParser',
     r'(Ljava/io/File;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -2436,7 +2448,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jsonparser$_.JsonParser?>();
   }
 
-  static final _id_createJsonParser$1 = _class.instanceMethodId(
+  static final _id_createJsonParser$1 = JsonFactory._class.instanceMethodId(
     r'createJsonParser',
     r'(Ljava/net/URL;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -2481,7 +2493,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jsonparser$_.JsonParser?>();
   }
 
-  static final _id_createJsonParser$2 = _class.instanceMethodId(
+  static final _id_createJsonParser$2 = JsonFactory._class.instanceMethodId(
     r'createJsonParser',
     r'(Ljava/io/InputStream;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -2529,7 +2541,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jsonparser$_.JsonParser?>();
   }
 
-  static final _id_createJsonParser$3 = _class.instanceMethodId(
+  static final _id_createJsonParser$3 = JsonFactory._class.instanceMethodId(
     r'createJsonParser',
     r'(Ljava/io/Reader;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -2570,7 +2582,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jsonparser$_.JsonParser?>();
   }
 
-  static final _id_createJsonParser$4 = _class.instanceMethodId(
+  static final _id_createJsonParser$4 = JsonFactory._class.instanceMethodId(
     r'createJsonParser',
     r'([B)Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -2604,7 +2616,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jsonparser$_.JsonParser?>();
   }
 
-  static final _id_createJsonParser$5 = _class.instanceMethodId(
+  static final _id_createJsonParser$5 = JsonFactory._class.instanceMethodId(
     r'createJsonParser',
     r'([BII)Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -2647,7 +2659,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jsonparser$_.JsonParser?>();
   }
 
-  static final _id_createJsonParser$6 = _class.instanceMethodId(
+  static final _id_createJsonParser$6 = JsonFactory._class.instanceMethodId(
     r'createJsonParser',
     r'(Ljava/lang/String;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -2682,7 +2694,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jsonparser$_.JsonParser?>();
   }
 
-  static final _id_createJsonGenerator = _class.instanceMethodId(
+  static final _id_createJsonGenerator = JsonFactory._class.instanceMethodId(
     r'createJsonGenerator',
     r'(Ljava/io/OutputStream;Lcom/fasterxml/jackson/core/JsonEncoding;)Lcom/fasterxml/jackson/core/JsonGenerator;',
   );
@@ -2738,7 +2750,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_createJsonGenerator$1 = _class.instanceMethodId(
+  static final _id_createJsonGenerator$1 = JsonFactory._class.instanceMethodId(
     r'createJsonGenerator',
     r'(Ljava/io/Writer;)Lcom/fasterxml/jackson/core/JsonGenerator;',
   );
@@ -2779,7 +2791,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_createJsonGenerator$2 = _class.instanceMethodId(
+  static final _id_createJsonGenerator$2 = JsonFactory._class.instanceMethodId(
     r'createJsonGenerator',
     r'(Ljava/io/OutputStream;)Lcom/fasterxml/jackson/core/JsonGenerator;',
   );
@@ -2815,7 +2827,7 @@ extension type JsonFactory._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_$_getBufferRecycler = _class.instanceMethodId(
+  static final _id_$_getBufferRecycler = JsonFactory._class.instanceMethodId(
     r'_getBufferRecycler',
     r'()Lcom/fasterxml/jackson/core/util/BufferRecycler;',
   );

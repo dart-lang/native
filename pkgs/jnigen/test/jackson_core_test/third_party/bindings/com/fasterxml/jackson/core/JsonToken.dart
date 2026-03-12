@@ -301,8 +301,10 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
             _class.reference.pointer, _id_valueOf.pointer, _$name.pointer)
         .object<JsonToken?>();
   }
+}
 
-  static final _id_id = _class.instanceMethodId(
+extension JsonToken$$Methods on JsonToken {
+  static final _id_id = JsonToken._class.instanceMethodId(
     r'id',
     r'()I',
   );
@@ -324,7 +326,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
     return _id(reference.pointer, _id_id.pointer).integer;
   }
 
-  static final _id_asString = _class.instanceMethodId(
+  static final _id_asString = JsonToken._class.instanceMethodId(
     r'asString',
     r'()Ljava/lang/String;',
   );
@@ -348,7 +350,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JString?>();
   }
 
-  static final _id_asCharArray = _class.instanceMethodId(
+  static final _id_asCharArray = JsonToken._class.instanceMethodId(
     r'asCharArray',
     r'()[C',
   );
@@ -372,7 +374,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JCharArray?>();
   }
 
-  static final _id_asByteArray = _class.instanceMethodId(
+  static final _id_asByteArray = JsonToken._class.instanceMethodId(
     r'asByteArray',
     r'()[B',
   );
@@ -396,7 +398,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JByteArray?>();
   }
 
-  static final _id_isNumeric = _class.instanceMethodId(
+  static final _id_isNumeric = JsonToken._class.instanceMethodId(
     r'isNumeric',
     r'()Z',
   );
@@ -421,7 +423,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
     return _isNumeric(reference.pointer, _id_isNumeric.pointer).boolean;
   }
 
-  static final _id_isStructStart = _class.instanceMethodId(
+  static final _id_isStructStart = JsonToken._class.instanceMethodId(
     r'isStructStart',
     r'()Z',
   );
@@ -451,7 +453,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
     return _isStructStart(reference.pointer, _id_isStructStart.pointer).boolean;
   }
 
-  static final _id_isStructEnd = _class.instanceMethodId(
+  static final _id_isStructEnd = JsonToken._class.instanceMethodId(
     r'isStructEnd',
     r'()Z',
   );
@@ -481,7 +483,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
     return _isStructEnd(reference.pointer, _id_isStructEnd.pointer).boolean;
   }
 
-  static final _id_isScalarValue = _class.instanceMethodId(
+  static final _id_isScalarValue = JsonToken._class.instanceMethodId(
     r'isScalarValue',
     r'()Z',
   );
@@ -510,7 +512,7 @@ extension type JsonToken._(jni$_.JObject _$this) implements jni$_.JObject {
     return _isScalarValue(reference.pointer, _id_isScalarValue.pointer).boolean;
   }
 
-  static final _id_isBoolean = _class.instanceMethodId(
+  static final _id_isBoolean = JsonToken._class.instanceMethodId(
     r'isBoolean',
     r'()Z',
   );

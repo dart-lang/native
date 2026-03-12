@@ -233,702 +233,6 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<PDDocument>();
   }
 
-  static final _id_addPage = _class.instanceMethodId(
-    r'addPage',
-    r'(Lorg/apache/pdfbox/pdmodel/PDPage;)V',
-  );
-
-  static final _addPage = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void addPage(org.apache.pdfbox.pdmodel.PDPage page)`
-  ///
-  /// This will add a page to the document. This is a convenience method, that will add the page to the root of the
-  /// hierarchy and set the parent of the page to the root.
-  ///@param page The page to add to the document.
-  void addPage(
-    jni$_.JObject? page,
-  ) {
-    final _$page = page?.reference ?? jni$_.jNullReference;
-    _addPage(reference.pointer, _id_addPage.pointer, _$page.pointer).check();
-  }
-
-  static final _id_addSignature = _class.instanceMethodId(
-    r'addSignature',
-    r'(Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;)V',
-  );
-
-  static final _addSignature = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject)`
-  ///
-  /// Add parameters of signature to be created externally using default signature options. See
-  /// \#saveIncrementalForExternalSigning(OutputStream) method description on external
-  /// signature creation scenario details.
-  ///
-  /// Only one signature may be added in a document. To sign several times,
-  /// load document, add signature, save incremental and close again.
-  ///@param sigObject is the PDSignatureField model
-  ///@throws IOException if there is an error creating required fields
-  ///@throws IllegalStateException if one attempts to add several signature
-  /// fields.
-  void addSignature(
-    jni$_.JObject? sigObject,
-  ) {
-    final _$sigObject = sigObject?.reference ?? jni$_.jNullReference;
-    _addSignature(
-            reference.pointer, _id_addSignature.pointer, _$sigObject.pointer)
-        .check();
-  }
-
-  static final _id_addSignature$1 = _class.instanceMethodId(
-    r'addSignature',
-    r'(Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureOptions;)V',
-  );
-
-  static final _addSignature$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)`
-  ///
-  /// Add parameters of signature to be created externally. See
-  /// \#saveIncrementalForExternalSigning(OutputStream) method description on external
-  /// signature creation scenario details.
-  ///
-  /// Only one signature may be added in a document. To sign several times,
-  /// load document, add signature, save incremental and close again.
-  ///@param sigObject is the PDSignatureField model
-  ///@param options signature options
-  ///@throws IOException if there is an error creating required fields
-  ///@throws IllegalStateException if one attempts to add several signature
-  /// fields.
-  void addSignature$1(
-    jni$_.JObject? sigObject,
-    jni$_.JObject? options,
-  ) {
-    final _$sigObject = sigObject?.reference ?? jni$_.jNullReference;
-    final _$options = options?.reference ?? jni$_.jNullReference;
-    _addSignature$1(reference.pointer, _id_addSignature$1.pointer,
-            _$sigObject.pointer, _$options.pointer)
-        .check();
-  }
-
-  static final _id_addSignature$2 = _class.instanceMethodId(
-    r'addSignature',
-    r'(Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureInterface;)V',
-  );
-
-  static final _addSignature$2 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface)`
-  ///
-  /// Add a signature to be created using the instance of given interface.
-  ///
-  /// Only one signature may be added in a document. To sign several times,
-  /// load document, add signature, save incremental and close again.
-  ///@param sigObject is the PDSignatureField model
-  ///@param signatureInterface is an interface whose implementation provides
-  /// signing capabilities. Can be null if external signing if used.
-  ///@throws IOException if there is an error creating required fields
-  ///@throws IllegalStateException if one attempts to add several signature
-  /// fields.
-  void addSignature$2(
-    jni$_.JObject? sigObject,
-    jni$_.JObject? signatureInterface,
-  ) {
-    final _$sigObject = sigObject?.reference ?? jni$_.jNullReference;
-    final _$signatureInterface =
-        signatureInterface?.reference ?? jni$_.jNullReference;
-    _addSignature$2(reference.pointer, _id_addSignature$2.pointer,
-            _$sigObject.pointer, _$signatureInterface.pointer)
-        .check();
-  }
-
-  static final _id_addSignature$3 = _class.instanceMethodId(
-    r'addSignature',
-    r'(Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureInterface;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureOptions;)V',
-  );
-
-  static final _addSignature$3 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)`
-  ///
-  /// This will add a signature to the document. If the 0-based page number in the options
-  /// parameter is smaller than 0 or larger than max, the nearest valid page number will be used
-  /// (i.e. 0 or max) and no exception will be thrown.
-  ///
-  /// Only one signature may be added in a document. To sign several times,
-  /// load document, add signature, save incremental and close again.
-  ///@param sigObject is the PDSignatureField model
-  ///@param signatureInterface is an interface whose implementation provides
-  /// signing capabilities. Can be null if external signing if used.
-  ///@param options signature options
-  ///@throws IOException if there is an error creating required fields
-  ///@throws IllegalStateException if one attempts to add several signature
-  /// fields.
-  void addSignature$3(
-    jni$_.JObject? sigObject,
-    jni$_.JObject? signatureInterface,
-    jni$_.JObject? options,
-  ) {
-    final _$sigObject = sigObject?.reference ?? jni$_.jNullReference;
-    final _$signatureInterface =
-        signatureInterface?.reference ?? jni$_.jNullReference;
-    final _$options = options?.reference ?? jni$_.jNullReference;
-    _addSignature$3(
-            reference.pointer,
-            _id_addSignature$3.pointer,
-            _$sigObject.pointer,
-            _$signatureInterface.pointer,
-            _$options.pointer)
-        .check();
-  }
-
-  static final _id_addSignatureField = _class.instanceMethodId(
-    r'addSignatureField',
-    r'(Ljava/util/List;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureInterface;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureOptions;)V',
-  );
-
-  static final _addSignatureField = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<
-                      (
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>,
-                        jni$_.Pointer<jni$_.Void>
-                      )>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>,
-              jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void addSignatureField(java.util.List<org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField> sigFields, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)`
-  ///
-  /// This will add a list of signature fields to the document.
-  ///@param sigFields are the PDSignatureFields that should be added to the document
-  ///@param signatureInterface is an interface whose implementation provides
-  /// signing capabilities. Can be null if external signing if used.
-  ///@param options signature options
-  ///@throws IOException if there is an error creating required fields
-  ///@deprecated The method is misleading, because only one signature may be
-  /// added in a document. The method will be removed in the future.
-  void addSignatureField(
-    jni$_.JList<jni$_.JObject?>? sigFields,
-    jni$_.JObject? signatureInterface,
-    jni$_.JObject? options,
-  ) {
-    final _$sigFields = sigFields?.reference ?? jni$_.jNullReference;
-    final _$signatureInterface =
-        signatureInterface?.reference ?? jni$_.jNullReference;
-    final _$options = options?.reference ?? jni$_.jNullReference;
-    _addSignatureField(
-            reference.pointer,
-            _id_addSignatureField.pointer,
-            _$sigFields.pointer,
-            _$signatureInterface.pointer,
-            _$options.pointer)
-        .check();
-  }
-
-  static final _id_removePage = _class.instanceMethodId(
-    r'removePage',
-    r'(Lorg/apache/pdfbox/pdmodel/PDPage;)V',
-  );
-
-  static final _removePage = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void removePage(org.apache.pdfbox.pdmodel.PDPage page)`
-  ///
-  /// Remove the page from the document.
-  ///@param page The page to remove from the document.
-  void removePage(
-    jni$_.JObject? page,
-  ) {
-    final _$page = page?.reference ?? jni$_.jNullReference;
-    _removePage(reference.pointer, _id_removePage.pointer, _$page.pointer)
-        .check();
-  }
-
-  static final _id_removePage$1 = _class.instanceMethodId(
-    r'removePage',
-    r'(I)V',
-  );
-
-  static final _removePage$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
-
-  /// from: `public void removePage(int pageNumber)`
-  ///
-  /// Remove the page from the document.
-  ///@param pageNumber 0 based index to page number.
-  void removePage$1(
-    int pageNumber,
-  ) {
-    _removePage$1(reference.pointer, _id_removePage$1.pointer, pageNumber)
-        .check();
-  }
-
-  static final _id_importPage = _class.instanceMethodId(
-    r'importPage',
-    r'(Lorg/apache/pdfbox/pdmodel/PDPage;)Lorg/apache/pdfbox/pdmodel/PDPage;',
-  );
-
-  static final _importPage = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public org.apache.pdfbox.pdmodel.PDPage importPage(org.apache.pdfbox.pdmodel.PDPage page)`
-  /// The returned object must be released after use, by calling the [release] method.
-  ///
-  /// This will import and copy the contents from another location. Currently the content stream is
-  /// stored in a scratch file. The scratch file is associated with the document. If you are adding
-  /// a page to this document from another document and want to copy the contents to this
-  /// document's scratch file then use this method otherwise just use the \#addPage addPage()
-  /// method.
-  ///
-  /// Unlike \#addPage addPage(), this method creates a new PDPage object. If your page has
-  /// annotations, and if these link to pages not in the target document, then the target document
-  /// might become huge. What you need to do is to delete page references of such annotations. See
-  /// <a href="http://stackoverflow.com/a/35477351/535646">here</a> for how to do this.
-  ///
-  /// Inherited (global) resources are ignored because these can contain resources not needed for
-  /// this page which could bloat your document, see
-  /// <a href="https://issues.apache.org/jira/browse/PDFBOX-28">PDFBOX-28</a> and related issues.
-  /// If you need them, call <code>importedPage.setResources(page.getResources());</code>
-  ///
-  /// This method should only be used to import a page from a loaded document, not from a generated
-  /// document because these can contain unfinished parts, e.g. font subsetting information.
-  ///@param page The page to import.
-  ///@return The page that was imported.
-  ///@throws IOException If there is an error copying the page.
-  jni$_.JObject? importPage(
-    jni$_.JObject? page,
-  ) {
-    final _$page = page?.reference ?? jni$_.jNullReference;
-    return _importPage(
-            reference.pointer, _id_importPage.pointer, _$page.pointer)
-        .object<jni$_.JObject?>();
-  }
-
-  static final _id_getDocument = _class.instanceMethodId(
-    r'getDocument',
-    r'()Lorg/apache/pdfbox/cos/COSDocument;',
-  );
-
-  static final _getDocument = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public org.apache.pdfbox.cos.COSDocument getDocument()`
-  /// The returned object must be released after use, by calling the [release] method.
-  ///
-  /// This will get the low level document.
-  ///@return The document that this layer sits on top of.
-  jni$_.JObject? getDocument() {
-    return _getDocument(reference.pointer, _id_getDocument.pointer)
-        .object<jni$_.JObject?>();
-  }
-
-  static final _id_getDocumentInformation = _class.instanceMethodId(
-    r'getDocumentInformation',
-    r'()Lorg/apache/pdfbox/pdmodel/PDDocumentInformation;',
-  );
-
-  static final _getDocumentInformation = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public org.apache.pdfbox.pdmodel.PDDocumentInformation getDocumentInformation()`
-  /// The returned object must be released after use, by calling the [release] method.
-  ///
-  /// This will get the document info dictionary. If it doesn't exist, an empty document info
-  /// dictionary is created in the document trailer.
-  ///
-  /// In PDF 2.0 this is deprecated except for two entries, /CreationDate and /ModDate. For any other
-  /// document level metadata, a metadata stream should be used instead, see
-  /// PDDocumentCatalog\#getMetadata().
-  ///@return The documents /Info dictionary, never null.
-  pddocumentinformation$_.PDDocumentInformation? getDocumentInformation() {
-    return _getDocumentInformation(
-            reference.pointer, _id_getDocumentInformation.pointer)
-        .object<pddocumentinformation$_.PDDocumentInformation?>();
-  }
-
-  static final _id_setDocumentInformation = _class.instanceMethodId(
-    r'setDocumentInformation',
-    r'(Lorg/apache/pdfbox/pdmodel/PDDocumentInformation;)V',
-  );
-
-  static final _setDocumentInformation = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void setDocumentInformation(org.apache.pdfbox.pdmodel.PDDocumentInformation info)`
-  ///
-  /// This will set the document information for this document.
-  ///
-  /// In PDF 2.0 this is deprecated except for two entries, /CreationDate and /ModDate. For any other
-  /// document level metadata, a metadata stream should be used instead, see
-  /// PDDocumentCatalog\#setMetadata(org.apache.pdfbox.pdmodel.common.PDMetadata) PDDocumentCatalog\#setMetadata(PDMetadata).
-  ///@param info The updated document information.
-  void setDocumentInformation(
-    pddocumentinformation$_.PDDocumentInformation? info,
-  ) {
-    final _$info = info?.reference ?? jni$_.jNullReference;
-    _setDocumentInformation(reference.pointer,
-            _id_setDocumentInformation.pointer, _$info.pointer)
-        .check();
-  }
-
-  static final _id_getDocumentCatalog = _class.instanceMethodId(
-    r'getDocumentCatalog',
-    r'()Lorg/apache/pdfbox/pdmodel/PDDocumentCatalog;',
-  );
-
-  static final _getDocumentCatalog = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public org.apache.pdfbox.pdmodel.PDDocumentCatalog getDocumentCatalog()`
-  /// The returned object must be released after use, by calling the [release] method.
-  ///
-  /// This will get the document CATALOG. This is guaranteed to not return null.
-  ///@return The documents /Root dictionary
-  jni$_.JObject? getDocumentCatalog() {
-    return _getDocumentCatalog(
-            reference.pointer, _id_getDocumentCatalog.pointer)
-        .object<jni$_.JObject?>();
-  }
-
-  static final _id_isEncrypted = _class.instanceMethodId(
-    r'isEncrypted',
-    r'()Z',
-  );
-
-  static final _isEncrypted = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public boolean isEncrypted()`
-  ///
-  /// This will tell if this document is encrypted or not.
-  ///@return true If this document is encrypted.
-  core$_.bool isEncrypted() {
-    return _isEncrypted(reference.pointer, _id_isEncrypted.pointer).boolean;
-  }
-
-  static final _id_getEncryption = _class.instanceMethodId(
-    r'getEncryption',
-    r'()Lorg/apache/pdfbox/pdmodel/encryption/PDEncryption;',
-  );
-
-  static final _getEncryption = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public org.apache.pdfbox.pdmodel.encryption.PDEncryption getEncryption()`
-  /// The returned object must be released after use, by calling the [release] method.
-  ///
-  /// This will get the encryption dictionary for this document. This will still return the parameters if the document
-  /// was decrypted. As the encryption architecture in PDF documents is pluggable this returns an abstract class,
-  /// but the only supported subclass at this time is a
-  /// PDStandardEncryption object.
-  ///@return The encryption dictionary(most likely a PDStandardEncryption object)
-  jni$_.JObject? getEncryption() {
-    return _getEncryption(reference.pointer, _id_getEncryption.pointer)
-        .object<jni$_.JObject?>();
-  }
-
-  static final _id_setEncryptionDictionary = _class.instanceMethodId(
-    r'setEncryptionDictionary',
-    r'(Lorg/apache/pdfbox/pdmodel/encryption/PDEncryption;)V',
-  );
-
-  static final _setEncryptionDictionary = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JThrowablePtr Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallVoidMethod')
-      .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void setEncryptionDictionary(org.apache.pdfbox.pdmodel.encryption.PDEncryption encryption)`
-  ///
-  /// This will set the encryption dictionary for this document.
-  ///@param encryption The encryption dictionary(most likely a PDStandardEncryption object)
-  ///@throws IOException If there is an error determining which security handler to use.
-  void setEncryptionDictionary(
-    jni$_.JObject? encryption,
-  ) {
-    final _$encryption = encryption?.reference ?? jni$_.jNullReference;
-    _setEncryptionDictionary(reference.pointer,
-            _id_setEncryptionDictionary.pointer, _$encryption.pointer)
-        .check();
-  }
-
-  static final _id_getLastSignatureDictionary = _class.instanceMethodId(
-    r'getLastSignatureDictionary',
-    r'()Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;',
-  );
-
-  static final _getLastSignatureDictionary =
-      jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                    jni$_.Pointer<jni$_.Void>,
-                    jni$_.JMethodIDPtr,
-                  )>>('globalEnv_CallObjectMethod')
-          .asFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>();
-
-  /// from: `public org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature getLastSignatureDictionary()`
-  /// The returned object must be released after use, by calling the [release] method.
-  ///
-  /// This will return the last signature from the field tree. Note that this may not be the
-  /// last in time when empty signature fields are created first but signed after other fields.
-  ///@return the last signature as <code>PDSignatureField</code>.
-  ///@throws IOException if no document catalog can be found.
-  jni$_.JObject? getLastSignatureDictionary() {
-    return _getLastSignatureDictionary(
-            reference.pointer, _id_getLastSignatureDictionary.pointer)
-        .object<jni$_.JObject?>();
-  }
-
-  static final _id_getSignatureFields = _class.instanceMethodId(
-    r'getSignatureFields',
-    r'()Ljava/util/List;',
-  );
-
-  static final _getSignatureFields = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.util.List<org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField> getSignatureFields()`
-  /// The returned object must be released after use, by calling the [release] method.
-  ///
-  /// Retrieve all signature fields from the document.
-  ///@return a <code>List</code> of <code>PDSignatureField</code>s
-  ///@throws IOException if no document catalog can be found.
-  jni$_.JList<jni$_.JObject?>? getSignatureFields() {
-    return _getSignatureFields(
-            reference.pointer, _id_getSignatureFields.pointer)
-        .object<jni$_.JList<jni$_.JObject?>?>();
-  }
-
-  static final _id_getSignatureDictionaries = _class.instanceMethodId(
-    r'getSignatureDictionaries',
-    r'()Ljava/util/List;',
-  );
-
-  static final _getSignatureDictionaries = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                jni$_.Pointer<jni$_.Void>,
-                jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
-
-  /// from: `public java.util.List<org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature> getSignatureDictionaries()`
-  /// The returned object must be released after use, by calling the [release] method.
-  ///
-  /// Retrieve all signature dictionaries from the document.
-  ///@return a <code>List</code> of <code>PDSignatureField</code>s
-  ///@throws IOException if no document catalog can be found.
-  jni$_.JList<jni$_.JObject?>? getSignatureDictionaries() {
-    return _getSignatureDictionaries(
-            reference.pointer, _id_getSignatureDictionaries.pointer)
-        .object<jni$_.JList<jni$_.JObject?>?>();
-  }
-
-  static final _id_registerTrueTypeFontForClosing = _class.instanceMethodId(
-    r'registerTrueTypeFontForClosing',
-    r'(Lorg/apache/fontbox/ttf/TrueTypeFont;)V',
-  );
-
-  static final _registerTrueTypeFontForClosing =
-      jni$_.ProtectedJniExtensions.lookup<
-                  jni$_.NativeFunction<
-                      jni$_.JThrowablePtr Function(
-                          jni$_.Pointer<jni$_.Void>,
-                          jni$_.JMethodIDPtr,
-                          jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-              'globalEnv_CallVoidMethod')
-          .asFunction<
-              jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void registerTrueTypeFontForClosing(org.apache.fontbox.ttf.TrueTypeFont ttf)`
-  ///
-  /// For internal PDFBox use when creating PDF documents: register a TrueTypeFont to make sure it
-  /// is closed when the PDDocument is closed to avoid memory leaks. Users don't have to call this
-  /// method, it is done by the appropriate PDFont classes.
-  ///@param ttf
-  void registerTrueTypeFontForClosing(
-    jni$_.JObject? ttf,
-  ) {
-    final _$ttf = ttf?.reference ?? jni$_.jNullReference;
-    _registerTrueTypeFontForClosing(reference.pointer,
-            _id_registerTrueTypeFontForClosing.pointer, _$ttf.pointer)
-        .check();
-  }
-
   static final _id_load = _class.staticMethodId(
     r'load',
     r'(Ljava/io/File;)Lorg/apache/pdfbox/pdmodel/PDDocument;',
@@ -1695,8 +999,709 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
             _$memUsageSetting.pointer)
         .object<PDDocument?>();
   }
+}
 
-  static final _id_save = _class.instanceMethodId(
+extension PDDocument$$Methods on PDDocument {
+  static final _id_addPage = PDDocument._class.instanceMethodId(
+    r'addPage',
+    r'(Lorg/apache/pdfbox/pdmodel/PDPage;)V',
+  );
+
+  static final _addPage = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void addPage(org.apache.pdfbox.pdmodel.PDPage page)`
+  ///
+  /// This will add a page to the document. This is a convenience method, that will add the page to the root of the
+  /// hierarchy and set the parent of the page to the root.
+  ///@param page The page to add to the document.
+  void addPage(
+    jni$_.JObject? page,
+  ) {
+    final _$page = page?.reference ?? jni$_.jNullReference;
+    _addPage(reference.pointer, _id_addPage.pointer, _$page.pointer).check();
+  }
+
+  static final _id_addSignature = PDDocument._class.instanceMethodId(
+    r'addSignature',
+    r'(Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;)V',
+  );
+
+  static final _addSignature = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject)`
+  ///
+  /// Add parameters of signature to be created externally using default signature options. See
+  /// \#saveIncrementalForExternalSigning(OutputStream) method description on external
+  /// signature creation scenario details.
+  ///
+  /// Only one signature may be added in a document. To sign several times,
+  /// load document, add signature, save incremental and close again.
+  ///@param sigObject is the PDSignatureField model
+  ///@throws IOException if there is an error creating required fields
+  ///@throws IllegalStateException if one attempts to add several signature
+  /// fields.
+  void addSignature(
+    jni$_.JObject? sigObject,
+  ) {
+    final _$sigObject = sigObject?.reference ?? jni$_.jNullReference;
+    _addSignature(
+            reference.pointer, _id_addSignature.pointer, _$sigObject.pointer)
+        .check();
+  }
+
+  static final _id_addSignature$1 = PDDocument._class.instanceMethodId(
+    r'addSignature',
+    r'(Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureOptions;)V',
+  );
+
+  static final _addSignature$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)`
+  ///
+  /// Add parameters of signature to be created externally. See
+  /// \#saveIncrementalForExternalSigning(OutputStream) method description on external
+  /// signature creation scenario details.
+  ///
+  /// Only one signature may be added in a document. To sign several times,
+  /// load document, add signature, save incremental and close again.
+  ///@param sigObject is the PDSignatureField model
+  ///@param options signature options
+  ///@throws IOException if there is an error creating required fields
+  ///@throws IllegalStateException if one attempts to add several signature
+  /// fields.
+  void addSignature$1(
+    jni$_.JObject? sigObject,
+    jni$_.JObject? options,
+  ) {
+    final _$sigObject = sigObject?.reference ?? jni$_.jNullReference;
+    final _$options = options?.reference ?? jni$_.jNullReference;
+    _addSignature$1(reference.pointer, _id_addSignature$1.pointer,
+            _$sigObject.pointer, _$options.pointer)
+        .check();
+  }
+
+  static final _id_addSignature$2 = PDDocument._class.instanceMethodId(
+    r'addSignature',
+    r'(Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureInterface;)V',
+  );
+
+  static final _addSignature$2 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface)`
+  ///
+  /// Add a signature to be created using the instance of given interface.
+  ///
+  /// Only one signature may be added in a document. To sign several times,
+  /// load document, add signature, save incremental and close again.
+  ///@param sigObject is the PDSignatureField model
+  ///@param signatureInterface is an interface whose implementation provides
+  /// signing capabilities. Can be null if external signing if used.
+  ///@throws IOException if there is an error creating required fields
+  ///@throws IllegalStateException if one attempts to add several signature
+  /// fields.
+  void addSignature$2(
+    jni$_.JObject? sigObject,
+    jni$_.JObject? signatureInterface,
+  ) {
+    final _$sigObject = sigObject?.reference ?? jni$_.jNullReference;
+    final _$signatureInterface =
+        signatureInterface?.reference ?? jni$_.jNullReference;
+    _addSignature$2(reference.pointer, _id_addSignature$2.pointer,
+            _$sigObject.pointer, _$signatureInterface.pointer)
+        .check();
+  }
+
+  static final _id_addSignature$3 = PDDocument._class.instanceMethodId(
+    r'addSignature',
+    r'(Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureInterface;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureOptions;)V',
+  );
+
+  static final _addSignature$3 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void addSignature(org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature sigObject, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)`
+  ///
+  /// This will add a signature to the document. If the 0-based page number in the options
+  /// parameter is smaller than 0 or larger than max, the nearest valid page number will be used
+  /// (i.e. 0 or max) and no exception will be thrown.
+  ///
+  /// Only one signature may be added in a document. To sign several times,
+  /// load document, add signature, save incremental and close again.
+  ///@param sigObject is the PDSignatureField model
+  ///@param signatureInterface is an interface whose implementation provides
+  /// signing capabilities. Can be null if external signing if used.
+  ///@param options signature options
+  ///@throws IOException if there is an error creating required fields
+  ///@throws IllegalStateException if one attempts to add several signature
+  /// fields.
+  void addSignature$3(
+    jni$_.JObject? sigObject,
+    jni$_.JObject? signatureInterface,
+    jni$_.JObject? options,
+  ) {
+    final _$sigObject = sigObject?.reference ?? jni$_.jNullReference;
+    final _$signatureInterface =
+        signatureInterface?.reference ?? jni$_.jNullReference;
+    final _$options = options?.reference ?? jni$_.jNullReference;
+    _addSignature$3(
+            reference.pointer,
+            _id_addSignature$3.pointer,
+            _$sigObject.pointer,
+            _$signatureInterface.pointer,
+            _$options.pointer)
+        .check();
+  }
+
+  static final _id_addSignatureField = PDDocument._class.instanceMethodId(
+    r'addSignatureField',
+    r'(Ljava/util/List;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureInterface;Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/SignatureOptions;)V',
+  );
+
+  static final _addSignatureField = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void addSignatureField(java.util.List<org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField> sigFields, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureInterface signatureInterface, org.apache.pdfbox.pdmodel.interactive.digitalsignature.SignatureOptions options)`
+  ///
+  /// This will add a list of signature fields to the document.
+  ///@param sigFields are the PDSignatureFields that should be added to the document
+  ///@param signatureInterface is an interface whose implementation provides
+  /// signing capabilities. Can be null if external signing if used.
+  ///@param options signature options
+  ///@throws IOException if there is an error creating required fields
+  ///@deprecated The method is misleading, because only one signature may be
+  /// added in a document. The method will be removed in the future.
+  void addSignatureField(
+    jni$_.JList<jni$_.JObject?>? sigFields,
+    jni$_.JObject? signatureInterface,
+    jni$_.JObject? options,
+  ) {
+    final _$sigFields = sigFields?.reference ?? jni$_.jNullReference;
+    final _$signatureInterface =
+        signatureInterface?.reference ?? jni$_.jNullReference;
+    final _$options = options?.reference ?? jni$_.jNullReference;
+    _addSignatureField(
+            reference.pointer,
+            _id_addSignatureField.pointer,
+            _$sigFields.pointer,
+            _$signatureInterface.pointer,
+            _$options.pointer)
+        .check();
+  }
+
+  static final _id_removePage = PDDocument._class.instanceMethodId(
+    r'removePage',
+    r'(Lorg/apache/pdfbox/pdmodel/PDPage;)V',
+  );
+
+  static final _removePage = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void removePage(org.apache.pdfbox.pdmodel.PDPage page)`
+  ///
+  /// Remove the page from the document.
+  ///@param page The page to remove from the document.
+  void removePage(
+    jni$_.JObject? page,
+  ) {
+    final _$page = page?.reference ?? jni$_.jNullReference;
+    _removePage(reference.pointer, _id_removePage.pointer, _$page.pointer)
+        .check();
+  }
+
+  static final _id_removePage$1 = PDDocument._class.instanceMethodId(
+    r'removePage',
+    r'(I)V',
+  );
+
+  static final _removePage$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public void removePage(int pageNumber)`
+  ///
+  /// Remove the page from the document.
+  ///@param pageNumber 0 based index to page number.
+  void removePage$1(
+    int pageNumber,
+  ) {
+    _removePage$1(reference.pointer, _id_removePage$1.pointer, pageNumber)
+        .check();
+  }
+
+  static final _id_importPage = PDDocument._class.instanceMethodId(
+    r'importPage',
+    r'(Lorg/apache/pdfbox/pdmodel/PDPage;)Lorg/apache/pdfbox/pdmodel/PDPage;',
+  );
+
+  static final _importPage = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public org.apache.pdfbox.pdmodel.PDPage importPage(org.apache.pdfbox.pdmodel.PDPage page)`
+  /// The returned object must be released after use, by calling the [release] method.
+  ///
+  /// This will import and copy the contents from another location. Currently the content stream is
+  /// stored in a scratch file. The scratch file is associated with the document. If you are adding
+  /// a page to this document from another document and want to copy the contents to this
+  /// document's scratch file then use this method otherwise just use the \#addPage addPage()
+  /// method.
+  ///
+  /// Unlike \#addPage addPage(), this method creates a new PDPage object. If your page has
+  /// annotations, and if these link to pages not in the target document, then the target document
+  /// might become huge. What you need to do is to delete page references of such annotations. See
+  /// <a href="http://stackoverflow.com/a/35477351/535646">here</a> for how to do this.
+  ///
+  /// Inherited (global) resources are ignored because these can contain resources not needed for
+  /// this page which could bloat your document, see
+  /// <a href="https://issues.apache.org/jira/browse/PDFBOX-28">PDFBOX-28</a> and related issues.
+  /// If you need them, call <code>importedPage.setResources(page.getResources());</code>
+  ///
+  /// This method should only be used to import a page from a loaded document, not from a generated
+  /// document because these can contain unfinished parts, e.g. font subsetting information.
+  ///@param page The page to import.
+  ///@return The page that was imported.
+  ///@throws IOException If there is an error copying the page.
+  jni$_.JObject? importPage(
+    jni$_.JObject? page,
+  ) {
+    final _$page = page?.reference ?? jni$_.jNullReference;
+    return _importPage(
+            reference.pointer, _id_importPage.pointer, _$page.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_getDocument = PDDocument._class.instanceMethodId(
+    r'getDocument',
+    r'()Lorg/apache/pdfbox/cos/COSDocument;',
+  );
+
+  static final _getDocument = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public org.apache.pdfbox.cos.COSDocument getDocument()`
+  /// The returned object must be released after use, by calling the [release] method.
+  ///
+  /// This will get the low level document.
+  ///@return The document that this layer sits on top of.
+  jni$_.JObject? getDocument() {
+    return _getDocument(reference.pointer, _id_getDocument.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_getDocumentInformation = PDDocument._class.instanceMethodId(
+    r'getDocumentInformation',
+    r'()Lorg/apache/pdfbox/pdmodel/PDDocumentInformation;',
+  );
+
+  static final _getDocumentInformation = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public org.apache.pdfbox.pdmodel.PDDocumentInformation getDocumentInformation()`
+  /// The returned object must be released after use, by calling the [release] method.
+  ///
+  /// This will get the document info dictionary. If it doesn't exist, an empty document info
+  /// dictionary is created in the document trailer.
+  ///
+  /// In PDF 2.0 this is deprecated except for two entries, /CreationDate and /ModDate. For any other
+  /// document level metadata, a metadata stream should be used instead, see
+  /// PDDocumentCatalog\#getMetadata().
+  ///@return The documents /Info dictionary, never null.
+  pddocumentinformation$_.PDDocumentInformation? getDocumentInformation() {
+    return _getDocumentInformation(
+            reference.pointer, _id_getDocumentInformation.pointer)
+        .object<pddocumentinformation$_.PDDocumentInformation?>();
+  }
+
+  static final _id_setDocumentInformation = PDDocument._class.instanceMethodId(
+    r'setDocumentInformation',
+    r'(Lorg/apache/pdfbox/pdmodel/PDDocumentInformation;)V',
+  );
+
+  static final _setDocumentInformation = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void setDocumentInformation(org.apache.pdfbox.pdmodel.PDDocumentInformation info)`
+  ///
+  /// This will set the document information for this document.
+  ///
+  /// In PDF 2.0 this is deprecated except for two entries, /CreationDate and /ModDate. For any other
+  /// document level metadata, a metadata stream should be used instead, see
+  /// PDDocumentCatalog\#setMetadata(org.apache.pdfbox.pdmodel.common.PDMetadata) PDDocumentCatalog\#setMetadata(PDMetadata).
+  ///@param info The updated document information.
+  void setDocumentInformation(
+    pddocumentinformation$_.PDDocumentInformation? info,
+  ) {
+    final _$info = info?.reference ?? jni$_.jNullReference;
+    _setDocumentInformation(reference.pointer,
+            _id_setDocumentInformation.pointer, _$info.pointer)
+        .check();
+  }
+
+  static final _id_getDocumentCatalog = PDDocument._class.instanceMethodId(
+    r'getDocumentCatalog',
+    r'()Lorg/apache/pdfbox/pdmodel/PDDocumentCatalog;',
+  );
+
+  static final _getDocumentCatalog = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public org.apache.pdfbox.pdmodel.PDDocumentCatalog getDocumentCatalog()`
+  /// The returned object must be released after use, by calling the [release] method.
+  ///
+  /// This will get the document CATALOG. This is guaranteed to not return null.
+  ///@return The documents /Root dictionary
+  jni$_.JObject? getDocumentCatalog() {
+    return _getDocumentCatalog(
+            reference.pointer, _id_getDocumentCatalog.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_isEncrypted = PDDocument._class.instanceMethodId(
+    r'isEncrypted',
+    r'()Z',
+  );
+
+  static final _isEncrypted = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public boolean isEncrypted()`
+  ///
+  /// This will tell if this document is encrypted or not.
+  ///@return true If this document is encrypted.
+  core$_.bool isEncrypted() {
+    return _isEncrypted(reference.pointer, _id_isEncrypted.pointer).boolean;
+  }
+
+  static final _id_getEncryption = PDDocument._class.instanceMethodId(
+    r'getEncryption',
+    r'()Lorg/apache/pdfbox/pdmodel/encryption/PDEncryption;',
+  );
+
+  static final _getEncryption = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public org.apache.pdfbox.pdmodel.encryption.PDEncryption getEncryption()`
+  /// The returned object must be released after use, by calling the [release] method.
+  ///
+  /// This will get the encryption dictionary for this document. This will still return the parameters if the document
+  /// was decrypted. As the encryption architecture in PDF documents is pluggable this returns an abstract class,
+  /// but the only supported subclass at this time is a
+  /// PDStandardEncryption object.
+  ///@return The encryption dictionary(most likely a PDStandardEncryption object)
+  jni$_.JObject? getEncryption() {
+    return _getEncryption(reference.pointer, _id_getEncryption.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_setEncryptionDictionary = PDDocument._class.instanceMethodId(
+    r'setEncryptionDictionary',
+    r'(Lorg/apache/pdfbox/pdmodel/encryption/PDEncryption;)V',
+  );
+
+  static final _setEncryptionDictionary = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void setEncryptionDictionary(org.apache.pdfbox.pdmodel.encryption.PDEncryption encryption)`
+  ///
+  /// This will set the encryption dictionary for this document.
+  ///@param encryption The encryption dictionary(most likely a PDStandardEncryption object)
+  ///@throws IOException If there is an error determining which security handler to use.
+  void setEncryptionDictionary(
+    jni$_.JObject? encryption,
+  ) {
+    final _$encryption = encryption?.reference ?? jni$_.jNullReference;
+    _setEncryptionDictionary(reference.pointer,
+            _id_setEncryptionDictionary.pointer, _$encryption.pointer)
+        .check();
+  }
+
+  static final _id_getLastSignatureDictionary =
+      PDDocument._class.instanceMethodId(
+    r'getLastSignatureDictionary',
+    r'()Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/PDSignature;',
+  );
+
+  static final _getLastSignatureDictionary =
+      jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.JMethodIDPtr,
+                  )>>('globalEnv_CallObjectMethod')
+          .asFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>();
+
+  /// from: `public org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature getLastSignatureDictionary()`
+  /// The returned object must be released after use, by calling the [release] method.
+  ///
+  /// This will return the last signature from the field tree. Note that this may not be the
+  /// last in time when empty signature fields are created first but signed after other fields.
+  ///@return the last signature as <code>PDSignatureField</code>.
+  ///@throws IOException if no document catalog can be found.
+  jni$_.JObject? getLastSignatureDictionary() {
+    return _getLastSignatureDictionary(
+            reference.pointer, _id_getLastSignatureDictionary.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_getSignatureFields = PDDocument._class.instanceMethodId(
+    r'getSignatureFields',
+    r'()Ljava/util/List;',
+  );
+
+  static final _getSignatureFields = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.List<org.apache.pdfbox.pdmodel.interactive.form.PDSignatureField> getSignatureFields()`
+  /// The returned object must be released after use, by calling the [release] method.
+  ///
+  /// Retrieve all signature fields from the document.
+  ///@return a <code>List</code> of <code>PDSignatureField</code>s
+  ///@throws IOException if no document catalog can be found.
+  jni$_.JList<jni$_.JObject?>? getSignatureFields() {
+    return _getSignatureFields(
+            reference.pointer, _id_getSignatureFields.pointer)
+        .object<jni$_.JList<jni$_.JObject?>?>();
+  }
+
+  static final _id_getSignatureDictionaries =
+      PDDocument._class.instanceMethodId(
+    r'getSignatureDictionaries',
+    r'()Ljava/util/List;',
+  );
+
+  static final _getSignatureDictionaries = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.List<org.apache.pdfbox.pdmodel.interactive.digitalsignature.PDSignature> getSignatureDictionaries()`
+  /// The returned object must be released after use, by calling the [release] method.
+  ///
+  /// Retrieve all signature dictionaries from the document.
+  ///@return a <code>List</code> of <code>PDSignatureField</code>s
+  ///@throws IOException if no document catalog can be found.
+  jni$_.JList<jni$_.JObject?>? getSignatureDictionaries() {
+    return _getSignatureDictionaries(
+            reference.pointer, _id_getSignatureDictionaries.pointer)
+        .object<jni$_.JList<jni$_.JObject?>?>();
+  }
+
+  static final _id_registerTrueTypeFontForClosing =
+      PDDocument._class.instanceMethodId(
+    r'registerTrueTypeFontForClosing',
+    r'(Lorg/apache/fontbox/ttf/TrueTypeFont;)V',
+  );
+
+  static final _registerTrueTypeFontForClosing =
+      jni$_.ProtectedJniExtensions.lookup<
+                  jni$_.NativeFunction<
+                      jni$_.JThrowablePtr Function(
+                          jni$_.Pointer<jni$_.Void>,
+                          jni$_.JMethodIDPtr,
+                          jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+              'globalEnv_CallVoidMethod')
+          .asFunction<
+              jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void registerTrueTypeFontForClosing(org.apache.fontbox.ttf.TrueTypeFont ttf)`
+  ///
+  /// For internal PDFBox use when creating PDF documents: register a TrueTypeFont to make sure it
+  /// is closed when the PDDocument is closed to avoid memory leaks. Users don't have to call this
+  /// method, it is done by the appropriate PDFont classes.
+  ///@param ttf
+  void registerTrueTypeFontForClosing(
+    jni$_.JObject? ttf,
+  ) {
+    final _$ttf = ttf?.reference ?? jni$_.jNullReference;
+    _registerTrueTypeFontForClosing(reference.pointer,
+            _id_registerTrueTypeFontForClosing.pointer, _$ttf.pointer)
+        .check();
+  }
+
+  static final _id_save = PDDocument._class.instanceMethodId(
     r'save',
     r'(Ljava/lang/String;)V',
   );
@@ -1728,7 +1733,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
     _save(reference.pointer, _id_save.pointer, _$fileName.pointer).check();
   }
 
-  static final _id_save$1 = _class.instanceMethodId(
+  static final _id_save$1 = PDDocument._class.instanceMethodId(
     r'save',
     r'(Ljava/io/File;)V',
   );
@@ -1760,7 +1765,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
     _save$1(reference.pointer, _id_save$1.pointer, _$file.pointer).check();
   }
 
-  static final _id_save$2 = _class.instanceMethodId(
+  static final _id_save$2 = PDDocument._class.instanceMethodId(
     r'save',
     r'(Ljava/io/OutputStream;)V',
   );
@@ -1793,7 +1798,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
     _save$2(reference.pointer, _id_save$2.pointer, _$output.pointer).check();
   }
 
-  static final _id_saveIncremental = _class.instanceMethodId(
+  static final _id_saveIncremental = PDDocument._class.instanceMethodId(
     r'saveIncremental',
     r'(Ljava/io/OutputStream;)V',
   );
@@ -1833,7 +1838,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
         .check();
   }
 
-  static final _id_saveIncremental$1 = _class.instanceMethodId(
+  static final _id_saveIncremental$1 = PDDocument._class.instanceMethodId(
     r'saveIncremental',
     r'(Ljava/io/OutputStream;Ljava/util/Set;)V',
   );
@@ -1886,7 +1891,8 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
         .check();
   }
 
-  static final _id_saveIncrementalForExternalSigning = _class.instanceMethodId(
+  static final _id_saveIncrementalForExternalSigning =
+      PDDocument._class.instanceMethodId(
     r'saveIncrementalForExternalSigning',
     r'(Ljava/io/OutputStream;)Lorg/apache/pdfbox/pdmodel/interactive/digitalsignature/ExternalSigningSupport;',
   );
@@ -1952,7 +1958,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_getPage = _class.instanceMethodId(
+  static final _id_getPage = PDDocument._class.instanceMethodId(
     r'getPage',
     r'(I)Lorg/apache/pdfbox/pdmodel/PDPage;',
   );
@@ -1984,7 +1990,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_getPages = _class.instanceMethodId(
+  static final _id_getPages = PDDocument._class.instanceMethodId(
     r'getPages',
     r'()Lorg/apache/pdfbox/pdmodel/PDPageTree;',
   );
@@ -2011,7 +2017,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_getNumberOfPages = _class.instanceMethodId(
+  static final _id_getNumberOfPages = PDDocument._class.instanceMethodId(
     r'getNumberOfPages',
     r'()I',
   );
@@ -2037,7 +2043,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
         .integer;
   }
 
-  static final _id_close = _class.instanceMethodId(
+  static final _id_close = PDDocument._class.instanceMethodId(
     r'close',
     r'()V',
   );
@@ -2062,7 +2068,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
     _close(reference.pointer, _id_close.pointer).check();
   }
 
-  static final _id_protect = _class.instanceMethodId(
+  static final _id_protect = PDDocument._class.instanceMethodId(
     r'protect',
     r'(Lorg/apache/pdfbox/pdmodel/encryption/ProtectionPolicy;)V',
   );
@@ -2097,7 +2103,8 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
     _protect(reference.pointer, _id_protect.pointer, _$policy.pointer).check();
   }
 
-  static final _id_getCurrentAccessPermission = _class.instanceMethodId(
+  static final _id_getCurrentAccessPermission =
+      PDDocument._class.instanceMethodId(
     r'getCurrentAccessPermission',
     r'()Lorg/apache/pdfbox/pdmodel/encryption/AccessPermission;',
   );
@@ -2129,7 +2136,8 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_isAllSecurityToBeRemoved = _class.instanceMethodId(
+  static final _id_isAllSecurityToBeRemoved =
+      PDDocument._class.instanceMethodId(
     r'isAllSecurityToBeRemoved',
     r'()Z',
   );
@@ -2156,7 +2164,8 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_setAllSecurityToBeRemoved = _class.instanceMethodId(
+  static final _id_setAllSecurityToBeRemoved =
+      PDDocument._class.instanceMethodId(
     r'setAllSecurityToBeRemoved',
     r'(Z)V',
   );
@@ -2183,7 +2192,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
         .check();
   }
 
-  static final _id_getDocumentId = _class.instanceMethodId(
+  static final _id_getDocumentId = PDDocument._class.instanceMethodId(
     r'getDocumentId',
     r'()Ljava/lang/Long;',
   );
@@ -2210,7 +2219,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JLong?>();
   }
 
-  static final _id_setDocumentId = _class.instanceMethodId(
+  static final _id_setDocumentId = PDDocument._class.instanceMethodId(
     r'setDocumentId',
     r'(Ljava/lang/Long;)V',
   );
@@ -2239,7 +2248,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
         .check();
   }
 
-  static final _id_getVersion = _class.instanceMethodId(
+  static final _id_getVersion = PDDocument._class.instanceMethodId(
     r'getVersion',
     r'()F',
   );
@@ -2264,7 +2273,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
     return _getVersion(reference.pointer, _id_getVersion.pointer).float;
   }
 
-  static final _id_setVersion = _class.instanceMethodId(
+  static final _id_setVersion = PDDocument._class.instanceMethodId(
     r'setVersion',
     r'(F)V',
   );
@@ -2289,7 +2298,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
     _setVersion(reference.pointer, _id_setVersion.pointer, newVersion).check();
   }
 
-  static final _id_getResourceCache = _class.instanceMethodId(
+  static final _id_getResourceCache = PDDocument._class.instanceMethodId(
     r'getResourceCache',
     r'()Lorg/apache/pdfbox/pdmodel/ResourceCache;',
   );
@@ -2316,7 +2325,7 @@ extension type PDDocument._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_setResourceCache = _class.instanceMethodId(
+  static final _id_setResourceCache = PDDocument._class.instanceMethodId(
     r'setResourceCache',
     r'(Lorg/apache/pdfbox/pdmodel/ResourceCache;)V',
   );

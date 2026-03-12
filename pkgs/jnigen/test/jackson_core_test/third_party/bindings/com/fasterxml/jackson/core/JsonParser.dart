@@ -510,8 +510,11 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
             _class.reference.pointer, _id_collectDefaults.pointer)
         .integer;
   }
+}
 
-  static final _id_enabledByDefault = _class.instanceMethodId(
+extension JsonParser$Feature$$Methods on JsonParser$Feature {
+  static final _id_enabledByDefault =
+      JsonParser$Feature._class.instanceMethodId(
     r'enabledByDefault',
     r'()Z',
   );
@@ -534,7 +537,7 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
         .boolean;
   }
 
-  static final _id_enabledIn = _class.instanceMethodId(
+  static final _id_enabledIn = JsonParser$Feature._class.instanceMethodId(
     r'enabledIn',
     r'(I)Z',
   );
@@ -557,7 +560,7 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
     return _enabledIn(reference.pointer, _id_enabledIn.pointer, flags).boolean;
   }
 
-  static final _id_getMask = _class.instanceMethodId(
+  static final _id_getMask = JsonParser$Feature._class.instanceMethodId(
     r'getMask',
     r'()I',
   );
@@ -739,7 +742,10 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// The type which includes information such as the signature of this class.
   static const jni$_.JType<JsonParser> type = $JsonParser$Type$();
-  static final _id_getCodec = _class.instanceMethodId(
+}
+
+extension JsonParser$$Methods on JsonParser {
+  static final _id_getCodec = JsonParser._class.instanceMethodId(
     r'getCodec',
     r'()Lcom/fasterxml/jackson/core/ObjectCodec;',
   );
@@ -768,7 +774,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_setCodec = _class.instanceMethodId(
+  static final _id_setCodec = JsonParser._class.instanceMethodId(
     r'setCodec',
     r'(Lcom/fasterxml/jackson/core/ObjectCodec;)V',
   );
@@ -797,7 +803,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     _setCodec(reference.pointer, _id_setCodec.pointer, _$oc.pointer).check();
   }
 
-  static final _id_getInputSource = _class.instanceMethodId(
+  static final _id_getInputSource = JsonParser._class.instanceMethodId(
     r'getInputSource',
     r'()Ljava/lang/Object;',
   );
@@ -836,7 +842,8 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_setRequestPayloadOnError = _class.instanceMethodId(
+  static final _id_setRequestPayloadOnError =
+      JsonParser._class.instanceMethodId(
     r'setRequestPayloadOnError',
     r'(Lcom/fasterxml/jackson/core/util/RequestPayload;)V',
   );
@@ -866,7 +873,8 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .check();
   }
 
-  static final _id_setRequestPayloadOnError$1 = _class.instanceMethodId(
+  static final _id_setRequestPayloadOnError$1 =
+      JsonParser._class.instanceMethodId(
     r'setRequestPayloadOnError',
     r'([BLjava/lang/String;)V',
   );
@@ -909,7 +917,8 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .check();
   }
 
-  static final _id_setRequestPayloadOnError$2 = _class.instanceMethodId(
+  static final _id_setRequestPayloadOnError$2 =
+      JsonParser._class.instanceMethodId(
     r'setRequestPayloadOnError',
     r'(Ljava/lang/String;)V',
   );
@@ -940,7 +949,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .check();
   }
 
-  static final _id_setSchema = _class.instanceMethodId(
+  static final _id_setSchema = JsonParser._class.instanceMethodId(
     r'setSchema',
     r'(Lcom/fasterxml/jackson/core/FormatSchema;)V',
   );
@@ -976,7 +985,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .check();
   }
 
-  static final _id_getSchema = _class.instanceMethodId(
+  static final _id_getSchema = JsonParser._class.instanceMethodId(
     r'getSchema',
     r'()Lcom/fasterxml/jackson/core/FormatSchema;',
   );
@@ -1005,7 +1014,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_canUseSchema = _class.instanceMethodId(
+  static final _id_canUseSchema = JsonParser._class.instanceMethodId(
     r'canUseSchema',
     r'(Lcom/fasterxml/jackson/core/FormatSchema;)Z',
   );
@@ -1036,7 +1045,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_requiresCustomCodec = _class.instanceMethodId(
+  static final _id_requiresCustomCodec = JsonParser._class.instanceMethodId(
     r'requiresCustomCodec',
     r'()Z',
   );
@@ -1069,7 +1078,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_canParseAsync = _class.instanceMethodId(
+  static final _id_canParseAsync = JsonParser._class.instanceMethodId(
     r'canParseAsync',
     r'()Z',
   );
@@ -1103,7 +1112,8 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     return _canParseAsync(reference.pointer, _id_canParseAsync.pointer).boolean;
   }
 
-  static final _id_getNonBlockingInputFeeder = _class.instanceMethodId(
+  static final _id_getNonBlockingInputFeeder =
+      JsonParser._class.instanceMethodId(
     r'getNonBlockingInputFeeder',
     r'()Lcom/fasterxml/jackson/core/async/NonBlockingInputFeeder;',
   );
@@ -1134,7 +1144,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_getReadCapabilities = _class.instanceMethodId(
+  static final _id_getReadCapabilities = JsonParser._class.instanceMethodId(
     r'getReadCapabilities',
     r'()Lcom/fasterxml/jackson/core/util/JacksonFeatureSet;',
   );
@@ -1164,7 +1174,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_version = _class.instanceMethodId(
+  static final _id_version = JsonParser._class.instanceMethodId(
     r'version',
     r'()Lcom/fasterxml/jackson/core/Version;',
   );
@@ -1193,7 +1203,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_close = _class.instanceMethodId(
+  static final _id_close = JsonParser._class.instanceMethodId(
     r'close',
     r'()V',
   );
@@ -1230,7 +1240,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     _close(reference.pointer, _id_close.pointer).check();
   }
 
-  static final _id_isClosed = _class.instanceMethodId(
+  static final _id_isClosed = JsonParser._class.instanceMethodId(
     r'isClosed',
     r'()Z',
   );
@@ -1260,7 +1270,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     return _isClosed(reference.pointer, _id_isClosed.pointer).boolean;
   }
 
-  static final _id_getParsingContext = _class.instanceMethodId(
+  static final _id_getParsingContext = JsonParser._class.instanceMethodId(
     r'getParsingContext',
     r'()Lcom/fasterxml/jackson/core/JsonStreamContext;',
   );
@@ -1294,7 +1304,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_currentLocation = _class.instanceMethodId(
+  static final _id_currentLocation = JsonParser._class.instanceMethodId(
     r'currentLocation',
     r'()Lcom/fasterxml/jackson/core/JsonLocation;',
   );
@@ -1331,7 +1341,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_currentTokenLocation = _class.instanceMethodId(
+  static final _id_currentTokenLocation = JsonParser._class.instanceMethodId(
     r'currentTokenLocation',
     r'()Lcom/fasterxml/jackson/core/JsonLocation;',
   );
@@ -1369,7 +1379,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_getCurrentLocation = _class.instanceMethodId(
+  static final _id_getCurrentLocation = JsonParser._class.instanceMethodId(
     r'getCurrentLocation',
     r'()Lcom/fasterxml/jackson/core/JsonLocation;',
   );
@@ -1398,7 +1408,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_getTokenLocation = _class.instanceMethodId(
+  static final _id_getTokenLocation = JsonParser._class.instanceMethodId(
     r'getTokenLocation',
     r'()Lcom/fasterxml/jackson/core/JsonLocation;',
   );
@@ -1426,7 +1436,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_currentValue = _class.instanceMethodId(
+  static final _id_currentValue = JsonParser._class.instanceMethodId(
     r'currentValue',
     r'()Ljava/lang/Object;',
   );
@@ -1462,7 +1472,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_assignCurrentValue = _class.instanceMethodId(
+  static final _id_assignCurrentValue = JsonParser._class.instanceMethodId(
     r'assignCurrentValue',
     r'(Ljava/lang/Object;)V',
   );
@@ -1495,7 +1505,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .check();
   }
 
-  static final _id_getCurrentValue = _class.instanceMethodId(
+  static final _id_getCurrentValue = JsonParser._class.instanceMethodId(
     r'getCurrentValue',
     r'()Ljava/lang/Object;',
   );
@@ -1523,7 +1533,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_setCurrentValue = _class.instanceMethodId(
+  static final _id_setCurrentValue = JsonParser._class.instanceMethodId(
     r'setCurrentValue',
     r'(Ljava/lang/Object;)V',
   );
@@ -1553,7 +1563,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .check();
   }
 
-  static final _id_releaseBuffered = _class.instanceMethodId(
+  static final _id_releaseBuffered = JsonParser._class.instanceMethodId(
     r'releaseBuffered',
     r'(Ljava/io/OutputStream;)I',
   );
@@ -1591,7 +1601,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .integer;
   }
 
-  static final _id_releaseBuffered$1 = _class.instanceMethodId(
+  static final _id_releaseBuffered$1 = JsonParser._class.instanceMethodId(
     r'releaseBuffered',
     r'(Ljava/io/Writer;)I',
   );
@@ -1630,7 +1640,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .integer;
   }
 
-  static final _id_enable = _class.instanceMethodId(
+  static final _id_enable = JsonParser._class.instanceMethodId(
     r'enable',
     r'(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -1661,7 +1671,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JsonParser?>();
   }
 
-  static final _id_disable = _class.instanceMethodId(
+  static final _id_disable = JsonParser._class.instanceMethodId(
     r'disable',
     r'(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -1692,7 +1702,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JsonParser?>();
   }
 
-  static final _id_configure = _class.instanceMethodId(
+  static final _id_configure = JsonParser._class.instanceMethodId(
     r'configure',
     r'(Lcom/fasterxml/jackson/core/JsonParser$Feature;Z)Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -1727,7 +1737,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JsonParser?>();
   }
 
-  static final _id_isEnabled = _class.instanceMethodId(
+  static final _id_isEnabled = JsonParser._class.instanceMethodId(
     r'isEnabled',
     r'(Lcom/fasterxml/jackson/core/JsonParser$Feature;)Z',
   );
@@ -1756,7 +1766,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_isEnabled$1 = _class.instanceMethodId(
+  static final _id_isEnabled$1 = JsonParser._class.instanceMethodId(
     r'isEnabled',
     r'(Lcom/fasterxml/jackson/core/StreamReadFeature;)Z',
   );
@@ -1786,7 +1796,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_getFeatureMask = _class.instanceMethodId(
+  static final _id_getFeatureMask = JsonParser._class.instanceMethodId(
     r'getFeatureMask',
     r'()I',
   );
@@ -1813,7 +1823,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .integer;
   }
 
-  static final _id_setFeatureMask = _class.instanceMethodId(
+  static final _id_setFeatureMask = JsonParser._class.instanceMethodId(
     r'setFeatureMask',
     r'(I)Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -1843,7 +1853,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JsonParser?>();
   }
 
-  static final _id_overrideStdFeatures = _class.instanceMethodId(
+  static final _id_overrideStdFeatures = JsonParser._class.instanceMethodId(
     r'overrideStdFeatures',
     r'(II)Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -1883,7 +1893,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JsonParser?>();
   }
 
-  static final _id_getFormatFeatures = _class.instanceMethodId(
+  static final _id_getFormatFeatures = JsonParser._class.instanceMethodId(
     r'getFormatFeatures',
     r'()I',
   );
@@ -1911,7 +1921,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .integer;
   }
 
-  static final _id_overrideFormatFeatures = _class.instanceMethodId(
+  static final _id_overrideFormatFeatures = JsonParser._class.instanceMethodId(
     r'overrideFormatFeatures',
     r'(II)Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -1949,7 +1959,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JsonParser?>();
   }
 
-  static final _id_nextToken = _class.instanceMethodId(
+  static final _id_nextToken = JsonParser._class.instanceMethodId(
     r'nextToken',
     r'()Lcom/fasterxml/jackson/core/JsonToken;',
   );
@@ -1982,7 +1992,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jsontoken$_.JsonToken?>();
   }
 
-  static final _id_nextValue = _class.instanceMethodId(
+  static final _id_nextValue = JsonParser._class.instanceMethodId(
     r'nextValue',
     r'()Lcom/fasterxml/jackson/core/JsonToken;',
   );
@@ -2023,7 +2033,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jsontoken$_.JsonToken?>();
   }
 
-  static final _id_nextFieldName = _class.instanceMethodId(
+  static final _id_nextFieldName = JsonParser._class.instanceMethodId(
     r'nextFieldName',
     r'(Lcom/fasterxml/jackson/core/SerializableString;)Z',
   );
@@ -2065,7 +2075,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_nextFieldName$1 = _class.instanceMethodId(
+  static final _id_nextFieldName$1 = JsonParser._class.instanceMethodId(
     r'nextFieldName',
     r'()Ljava/lang/String;',
   );
@@ -2098,7 +2108,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JString?>();
   }
 
-  static final _id_nextTextValue = _class.instanceMethodId(
+  static final _id_nextTextValue = JsonParser._class.instanceMethodId(
     r'nextTextValue',
     r'()Ljava/lang/String;',
   );
@@ -2136,7 +2146,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JString?>();
   }
 
-  static final _id_nextIntValue = _class.instanceMethodId(
+  static final _id_nextIntValue = JsonParser._class.instanceMethodId(
     r'nextIntValue',
     r'(I)I',
   );
@@ -2178,7 +2188,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .integer;
   }
 
-  static final _id_nextLongValue = _class.instanceMethodId(
+  static final _id_nextLongValue = JsonParser._class.instanceMethodId(
     r'nextLongValue',
     r'(J)J',
   );
@@ -2220,7 +2230,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .long;
   }
 
-  static final _id_nextBooleanValue = _class.instanceMethodId(
+  static final _id_nextBooleanValue = JsonParser._class.instanceMethodId(
     r'nextBooleanValue',
     r'()Ljava/lang/Boolean;',
   );
@@ -2261,7 +2271,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JBoolean?>();
   }
 
-  static final _id_skipChildren = _class.instanceMethodId(
+  static final _id_skipChildren = JsonParser._class.instanceMethodId(
     r'skipChildren',
     r'()Lcom/fasterxml/jackson/core/JsonParser;',
   );
@@ -2301,7 +2311,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JsonParser?>();
   }
 
-  static final _id_finishToken = _class.instanceMethodId(
+  static final _id_finishToken = JsonParser._class.instanceMethodId(
     r'finishToken',
     r'()V',
   );
@@ -2337,7 +2347,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     _finishToken(reference.pointer, _id_finishToken.pointer).check();
   }
 
-  static final _id_currentToken = _class.instanceMethodId(
+  static final _id_currentToken = JsonParser._class.instanceMethodId(
     r'currentToken',
     r'()Lcom/fasterxml/jackson/core/JsonToken;',
   );
@@ -2371,7 +2381,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jsontoken$_.JsonToken?>();
   }
 
-  static final _id_currentTokenId = _class.instanceMethodId(
+  static final _id_currentTokenId = JsonParser._class.instanceMethodId(
     r'currentTokenId',
     r'()I',
   );
@@ -2404,7 +2414,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .integer;
   }
 
-  static final _id_getCurrentToken = _class.instanceMethodId(
+  static final _id_getCurrentToken = JsonParser._class.instanceMethodId(
     r'getCurrentToken',
     r'()Lcom/fasterxml/jackson/core/JsonToken;',
   );
@@ -2433,7 +2443,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jsontoken$_.JsonToken?>();
   }
 
-  static final _id_getCurrentTokenId = _class.instanceMethodId(
+  static final _id_getCurrentTokenId = JsonParser._class.instanceMethodId(
     r'getCurrentTokenId',
     r'()I',
   );
@@ -2460,7 +2470,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .integer;
   }
 
-  static final _id_hasCurrentToken = _class.instanceMethodId(
+  static final _id_hasCurrentToken = JsonParser._class.instanceMethodId(
     r'hasCurrentToken',
     r'()Z',
   );
@@ -2492,7 +2502,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_hasTokenId = _class.instanceMethodId(
+  static final _id_hasTokenId = JsonParser._class.instanceMethodId(
     r'hasTokenId',
     r'(I)Z',
   );
@@ -2528,7 +2538,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     return _hasTokenId(reference.pointer, _id_hasTokenId.pointer, id).boolean;
   }
 
-  static final _id_hasToken = _class.instanceMethodId(
+  static final _id_hasToken = JsonParser._class.instanceMethodId(
     r'hasToken',
     r'(Lcom/fasterxml/jackson/core/JsonToken;)Z',
   );
@@ -2566,7 +2576,8 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_isExpectedStartArrayToken = _class.instanceMethodId(
+  static final _id_isExpectedStartArrayToken =
+      JsonParser._class.instanceMethodId(
     r'isExpectedStartArrayToken',
     r'()Z',
   );
@@ -2607,7 +2618,8 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_isExpectedStartObjectToken = _class.instanceMethodId(
+  static final _id_isExpectedStartObjectToken =
+      JsonParser._class.instanceMethodId(
     r'isExpectedStartObjectToken',
     r'()Z',
   );
@@ -2639,7 +2651,8 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_isExpectedNumberIntToken = _class.instanceMethodId(
+  static final _id_isExpectedNumberIntToken =
+      JsonParser._class.instanceMethodId(
     r'isExpectedNumberIntToken',
     r'()Z',
   );
@@ -2673,7 +2686,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_isNaN = _class.instanceMethodId(
+  static final _id_isNaN = JsonParser._class.instanceMethodId(
     r'isNaN',
     r'()Z',
   );
@@ -2708,7 +2721,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     return _isNaN(reference.pointer, _id_isNaN.pointer).boolean;
   }
 
-  static final _id_clearCurrentToken = _class.instanceMethodId(
+  static final _id_clearCurrentToken = JsonParser._class.instanceMethodId(
     r'clearCurrentToken',
     r'()V',
   );
@@ -2742,7 +2755,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .check();
   }
 
-  static final _id_getLastClearedToken = _class.instanceMethodId(
+  static final _id_getLastClearedToken = JsonParser._class.instanceMethodId(
     r'getLastClearedToken',
     r'()Lcom/fasterxml/jackson/core/JsonToken;',
   );
@@ -2774,7 +2787,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jsontoken$_.JsonToken?>();
   }
 
-  static final _id_overrideCurrentName = _class.instanceMethodId(
+  static final _id_overrideCurrentName = JsonParser._class.instanceMethodId(
     r'overrideCurrentName',
     r'(Ljava/lang/String;)V',
   );
@@ -2809,7 +2822,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .check();
   }
 
-  static final _id_getCurrentName = _class.instanceMethodId(
+  static final _id_getCurrentName = JsonParser._class.instanceMethodId(
     r'getCurrentName',
     r'()Ljava/lang/String;',
   );
@@ -2838,7 +2851,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JString?>();
   }
 
-  static final _id_currentName = _class.instanceMethodId(
+  static final _id_currentName = JsonParser._class.instanceMethodId(
     r'currentName',
     r'()Ljava/lang/String;',
   );
@@ -2872,7 +2885,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JString?>();
   }
 
-  static final _id_getText = _class.instanceMethodId(
+  static final _id_getText = JsonParser._class.instanceMethodId(
     r'getText',
     r'()Ljava/lang/String;',
   );
@@ -2905,7 +2918,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JString?>();
   }
 
-  static final _id_getText$1 = _class.instanceMethodId(
+  static final _id_getText$1 = JsonParser._class.instanceMethodId(
     r'getText',
     r'(Ljava/io/Writer;)I',
   );
@@ -2947,7 +2960,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .integer;
   }
 
-  static final _id_getTextCharacters = _class.instanceMethodId(
+  static final _id_getTextCharacters = JsonParser._class.instanceMethodId(
     r'getTextCharacters',
     r'()[C',
   );
@@ -2999,7 +3012,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JCharArray?>();
   }
 
-  static final _id_getTextLength = _class.instanceMethodId(
+  static final _id_getTextLength = JsonParser._class.instanceMethodId(
     r'getTextLength',
     r'()I',
   );
@@ -3029,7 +3042,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     return _getTextLength(reference.pointer, _id_getTextLength.pointer).integer;
   }
 
-  static final _id_getTextOffset = _class.instanceMethodId(
+  static final _id_getTextOffset = JsonParser._class.instanceMethodId(
     r'getTextOffset',
     r'()I',
   );
@@ -3059,7 +3072,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     return _getTextOffset(reference.pointer, _id_getTextOffset.pointer).integer;
   }
 
-  static final _id_hasTextCharacters = _class.instanceMethodId(
+  static final _id_hasTextCharacters = JsonParser._class.instanceMethodId(
     r'hasTextCharacters',
     r'()Z',
   );
@@ -3097,7 +3110,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_getNumberValue = _class.instanceMethodId(
+  static final _id_getNumberValue = JsonParser._class.instanceMethodId(
     r'getNumberValue',
     r'()Ljava/lang/Number;',
   );
@@ -3132,7 +3145,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JNumber?>();
   }
 
-  static final _id_getNumberValueExact = _class.instanceMethodId(
+  static final _id_getNumberValueExact = JsonParser._class.instanceMethodId(
     r'getNumberValueExact',
     r'()Ljava/lang/Number;',
   );
@@ -3172,7 +3185,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JNumber?>();
   }
 
-  static final _id_getNumberType = _class.instanceMethodId(
+  static final _id_getNumberType = JsonParser._class.instanceMethodId(
     r'getNumberType',
     r'()Lcom/fasterxml/jackson/core/JsonParser$NumberType;',
   );
@@ -3204,7 +3217,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JsonParser$NumberType?>();
   }
 
-  static final _id_getByteValue = _class.instanceMethodId(
+  static final _id_getByteValue = JsonParser._class.instanceMethodId(
     r'getByteValue',
     r'()B',
   );
@@ -3248,7 +3261,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     return _getByteValue(reference.pointer, _id_getByteValue.pointer).byte;
   }
 
-  static final _id_getShortValue = _class.instanceMethodId(
+  static final _id_getShortValue = JsonParser._class.instanceMethodId(
     r'getShortValue',
     r'()S',
   );
@@ -3286,7 +3299,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     return _getShortValue(reference.pointer, _id_getShortValue.pointer).short;
   }
 
-  static final _id_getIntValue = _class.instanceMethodId(
+  static final _id_getIntValue = JsonParser._class.instanceMethodId(
     r'getIntValue',
     r'()I',
   );
@@ -3324,7 +3337,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     return _getIntValue(reference.pointer, _id_getIntValue.pointer).integer;
   }
 
-  static final _id_getLongValue = _class.instanceMethodId(
+  static final _id_getLongValue = JsonParser._class.instanceMethodId(
     r'getLongValue',
     r'()J',
   );
@@ -3362,7 +3375,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     return _getLongValue(reference.pointer, _id_getLongValue.pointer).long;
   }
 
-  static final _id_getBigIntegerValue = _class.instanceMethodId(
+  static final _id_getBigIntegerValue = JsonParser._class.instanceMethodId(
     r'getBigIntegerValue',
     r'()Ljava/math/BigInteger;',
   );
@@ -3399,7 +3412,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_getFloatValue = _class.instanceMethodId(
+  static final _id_getFloatValue = JsonParser._class.instanceMethodId(
     r'getFloatValue',
     r'()F',
   );
@@ -3437,7 +3450,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     return _getFloatValue(reference.pointer, _id_getFloatValue.pointer).float;
   }
 
-  static final _id_getDoubleValue = _class.instanceMethodId(
+  static final _id_getDoubleValue = JsonParser._class.instanceMethodId(
     r'getDoubleValue',
     r'()D',
   );
@@ -3476,7 +3489,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .doubleFloat;
   }
 
-  static final _id_getDecimalValue = _class.instanceMethodId(
+  static final _id_getDecimalValue = JsonParser._class.instanceMethodId(
     r'getDecimalValue',
     r'()Ljava/math/BigDecimal;',
   );
@@ -3509,7 +3522,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_getBooleanValue = _class.instanceMethodId(
+  static final _id_getBooleanValue = JsonParser._class.instanceMethodId(
     r'getBooleanValue',
     r'()Z',
   );
@@ -3544,7 +3557,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_getEmbeddedObject = _class.instanceMethodId(
+  static final _id_getEmbeddedObject = JsonParser._class.instanceMethodId(
     r'getEmbeddedObject',
     r'()Ljava/lang/Object;',
   );
@@ -3583,7 +3596,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_getBinaryValue = _class.instanceMethodId(
+  static final _id_getBinaryValue = JsonParser._class.instanceMethodId(
     r'getBinaryValue',
     r'(Lcom/fasterxml/jackson/core/Base64Variant;)[B',
   );
@@ -3631,7 +3644,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JByteArray?>();
   }
 
-  static final _id_getBinaryValue$1 = _class.instanceMethodId(
+  static final _id_getBinaryValue$1 = JsonParser._class.instanceMethodId(
     r'getBinaryValue',
     r'()[B',
   );
@@ -3662,7 +3675,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JByteArray?>();
   }
 
-  static final _id_readBinaryValue = _class.instanceMethodId(
+  static final _id_readBinaryValue = JsonParser._class.instanceMethodId(
     r'readBinaryValue',
     r'(Ljava/io/OutputStream;)I',
   );
@@ -3700,7 +3713,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .integer;
   }
 
-  static final _id_readBinaryValue$1 = _class.instanceMethodId(
+  static final _id_readBinaryValue$1 = JsonParser._class.instanceMethodId(
     r'readBinaryValue',
     r'(Lcom/fasterxml/jackson/core/Base64Variant;Ljava/io/OutputStream;)I',
   );
@@ -3743,7 +3756,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .integer;
   }
 
-  static final _id_getValueAsInt = _class.instanceMethodId(
+  static final _id_getValueAsInt = JsonParser._class.instanceMethodId(
     r'getValueAsInt',
     r'()I',
   );
@@ -3779,7 +3792,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     return _getValueAsInt(reference.pointer, _id_getValueAsInt.pointer).integer;
   }
 
-  static final _id_getValueAsInt$1 = _class.instanceMethodId(
+  static final _id_getValueAsInt$1 = JsonParser._class.instanceMethodId(
     r'getValueAsInt',
     r'(I)I',
   );
@@ -3816,7 +3829,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .integer;
   }
 
-  static final _id_getValueAsLong = _class.instanceMethodId(
+  static final _id_getValueAsLong = JsonParser._class.instanceMethodId(
     r'getValueAsLong',
     r'()J',
   );
@@ -3852,7 +3865,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     return _getValueAsLong(reference.pointer, _id_getValueAsLong.pointer).long;
   }
 
-  static final _id_getValueAsLong$1 = _class.instanceMethodId(
+  static final _id_getValueAsLong$1 = JsonParser._class.instanceMethodId(
     r'getValueAsLong',
     r'(J)J',
   );
@@ -3890,7 +3903,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .long;
   }
 
-  static final _id_getValueAsDouble = _class.instanceMethodId(
+  static final _id_getValueAsDouble = JsonParser._class.instanceMethodId(
     r'getValueAsDouble',
     r'()D',
   );
@@ -3927,7 +3940,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .doubleFloat;
   }
 
-  static final _id_getValueAsDouble$1 = _class.instanceMethodId(
+  static final _id_getValueAsDouble$1 = JsonParser._class.instanceMethodId(
     r'getValueAsDouble',
     r'(D)D',
   );
@@ -3966,7 +3979,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .doubleFloat;
   }
 
-  static final _id_getValueAsBoolean = _class.instanceMethodId(
+  static final _id_getValueAsBoolean = JsonParser._class.instanceMethodId(
     r'getValueAsBoolean',
     r'()Z',
   );
@@ -4003,7 +4016,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_getValueAsBoolean$1 = _class.instanceMethodId(
+  static final _id_getValueAsBoolean$1 = JsonParser._class.instanceMethodId(
     r'getValueAsBoolean',
     r'(Z)Z',
   );
@@ -4042,7 +4055,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_getValueAsString = _class.instanceMethodId(
+  static final _id_getValueAsString = JsonParser._class.instanceMethodId(
     r'getValueAsString',
     r'()Ljava/lang/String;',
   );
@@ -4078,7 +4091,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JString?>();
   }
 
-  static final _id_getValueAsString$1 = _class.instanceMethodId(
+  static final _id_getValueAsString$1 = JsonParser._class.instanceMethodId(
     r'getValueAsString',
     r'(Ljava/lang/String;)Ljava/lang/String;',
   );
@@ -4118,7 +4131,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JString?>();
   }
 
-  static final _id_canReadObjectId = _class.instanceMethodId(
+  static final _id_canReadObjectId = JsonParser._class.instanceMethodId(
     r'canReadObjectId',
     r'()Z',
   );
@@ -4153,7 +4166,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .boolean;
   }
 
-  static final _id_canReadTypeId = _class.instanceMethodId(
+  static final _id_canReadTypeId = JsonParser._class.instanceMethodId(
     r'canReadTypeId',
     r'()Z',
   );
@@ -4187,7 +4200,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
     return _canReadTypeId(reference.pointer, _id_canReadTypeId.pointer).boolean;
   }
 
-  static final _id_getObjectId = _class.instanceMethodId(
+  static final _id_getObjectId = JsonParser._class.instanceMethodId(
     r'getObjectId',
     r'()Ljava/lang/Object;',
   );
@@ -4225,7 +4238,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_getTypeId = _class.instanceMethodId(
+  static final _id_getTypeId = JsonParser._class.instanceMethodId(
     r'getTypeId',
     r'()Ljava/lang/Object;',
   );
@@ -4263,7 +4276,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_readValueAs = _class.instanceMethodId(
+  static final _id_readValueAs = JsonParser._class.instanceMethodId(
     r'readValueAs',
     r'(Ljava/lang/Class;)Ljava/lang/Object;',
   );
@@ -4316,7 +4329,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<$T?>();
   }
 
-  static final _id_readValueAs$1 = _class.instanceMethodId(
+  static final _id_readValueAs$1 = JsonParser._class.instanceMethodId(
     r'readValueAs',
     r'(Lcom/fasterxml/jackson/core/type/TypeReference;)Ljava/lang/Object;',
   );
@@ -4366,7 +4379,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<$T?>();
   }
 
-  static final _id_readValuesAs = _class.instanceMethodId(
+  static final _id_readValuesAs = JsonParser._class.instanceMethodId(
     r'readValuesAs',
     r'(Ljava/lang/Class;)Ljava/util/Iterator;',
   );
@@ -4402,7 +4415,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JIterator<$T?>?>();
   }
 
-  static final _id_readValuesAs$1 = _class.instanceMethodId(
+  static final _id_readValuesAs$1 = JsonParser._class.instanceMethodId(
     r'readValuesAs',
     r'(Lcom/fasterxml/jackson/core/type/TypeReference;)Ljava/util/Iterator;',
   );
@@ -4438,7 +4451,7 @@ extension type JsonParser._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<jni$_.JIterator<$T?>?>();
   }
 
-  static final _id_readValueAsTree = _class.instanceMethodId(
+  static final _id_readValueAsTree = JsonParser._class.instanceMethodId(
     r'readValueAsTree',
     r'()Lcom/fasterxml/jackson/core/TreeNode;',
   );

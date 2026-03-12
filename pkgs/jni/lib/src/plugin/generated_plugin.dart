@@ -118,8 +118,10 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
     return _getActivity(_class.reference.pointer, _id_getActivity.pointer, j)
         .object<jni$_.JObject?>();
   }
+}
 
-  static final _id_onAttachedToEngine = _class.instanceMethodId(
+extension JniPlugin$$Methods on JniPlugin {
+  static final _id_onAttachedToEngine = JniPlugin._class.instanceMethodId(
     r'onAttachedToEngine',
     r'(Lio/flutter/embedding/engine/plugins/FlutterPlugin$FlutterPluginBinding;)V',
   );
@@ -145,7 +147,7 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
         .check();
   }
 
-  static final _id_onDetachedFromEngine = _class.instanceMethodId(
+  static final _id_onDetachedFromEngine = JniPlugin._class.instanceMethodId(
     r'onDetachedFromEngine',
     r'(Lio/flutter/embedding/engine/plugins/FlutterPlugin$FlutterPluginBinding;)V',
   );
@@ -171,7 +173,7 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
         .check();
   }
 
-  static final _id_onAttachedToActivity = _class.instanceMethodId(
+  static final _id_onAttachedToActivity = JniPlugin._class.instanceMethodId(
     r'onAttachedToActivity',
     r'(Lio/flutter/embedding/engine/plugins/activity/ActivityPluginBinding;)V',
   );
@@ -198,7 +200,7 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
   }
 
   static final _id_onDetachedFromActivityForConfigChanges =
-      _class.instanceMethodId(
+      JniPlugin._class.instanceMethodId(
     r'onDetachedFromActivityForConfigChanges',
     r'()V',
   );
@@ -224,7 +226,7 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
   }
 
   static final _id_onReattachedToActivityForConfigChanges =
-      _class.instanceMethodId(
+      JniPlugin._class.instanceMethodId(
     r'onReattachedToActivityForConfigChanges',
     r'(Lio/flutter/embedding/engine/plugins/activity/ActivityPluginBinding;)V',
   );
@@ -253,7 +255,7 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
         .check();
   }
 
-  static final _id_onDetachedFromActivity = _class.instanceMethodId(
+  static final _id_onDetachedFromActivity = JniPlugin._class.instanceMethodId(
     r'onDetachedFromActivity',
     r'()V',
   );
