@@ -222,6 +222,86 @@ void main() {
       expect(info.async, isFalse);
     });
 
+    test('Function with closure parameter', () {
+      final json = Json(
+        jsonDecode('''
+        [
+          { "kind": "keyword", "spelling": "func" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "apply" },
+          { "kind": "text", "spelling": "(" },
+          { "kind": "externalParam", "spelling": "callback" },
+          { "kind": "text", "spelling": ": " },
+          { "kind": "text", "spelling": "(" },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ") -> " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ", " },
+          { "kind": "externalParam", "spelling": "value" },
+          { "kind": "text", "spelling": ": " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ")" }
+        ]
+        '''),
+      );
+
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
+
+      final expectedParams = [
+        Parameter(
+          name: 'callback',
+          type: ClosureType(parameters: [intType], returnType: intType),
+        ),
+        Parameter(name: 'value', type: intType),
+      ];
+
+      expectEqualParams(info.params, expectedParams);
+      expect(info.throws, isFalse);
+      expect(info.async, isFalse);
+    });
+
+    test('Function with closure return type keeps empty params', () {
+      final json = Json(
+        jsonDecode('''
+        [
+          { "kind": "keyword", "spelling": "func" },
+          { "kind": "text", "spelling": " " },
+          { "kind": "identifier", "spelling": "factory" },
+          { "kind": "text", "spelling": "() -> (" },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          },
+          { "kind": "text", "spelling": ") -> " },
+          {
+            "kind": "typeIdentifier",
+            "spelling": "Int",
+            "preciseIdentifier": "s:Si"
+          }
+        ]
+        '''),
+      );
+
+      final info = parseFunctionInfo(context, json, emptySymbolgraph);
+
+      expectEqualParams(info.params, []);
+      expect(info.throws, isFalse);
+      expect(info.async, isFalse);
+    });
+
     test('Function with no params with return type', () {
       final json = Json(
         jsonDecode('''
