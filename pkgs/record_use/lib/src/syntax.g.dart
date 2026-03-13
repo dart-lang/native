@@ -244,6 +244,9 @@ class ConstantSyntax extends JsonObjectSyntax {
     if (result.isRecordConstant) {
       return result.asRecordConstant;
     }
+    if (result.isSetConstant) {
+      return result.asSetConstant;
+    }
     if (result.isStringConstant) {
       return result.asStringConstant;
     }
@@ -1115,7 +1118,7 @@ class ListConstantSyntax extends ConstantSyntax {
     super.path,
   }) : super._fromJson();
 
-  ListConstantSyntax({List<Object?>? value, super.path = const []})
+  ListConstantSyntax({required List<int> value, super.path = const []})
     : super(type: 'list') {
     _value = value;
     json.sortOnKey();
@@ -1123,19 +1126,18 @@ class ListConstantSyntax extends ConstantSyntax {
 
   /// Setup all fields for [ListConstantSyntax] that are not in
   /// [ConstantSyntax].
-  void setup({required List<Object?>? value}) {
+  void setup({required List<int> value}) {
     _value = value;
     json.sortOnKey();
   }
 
-  List<Object?>? get value => _reader.optionalList<Object?>('value');
+  List<int> get value => _reader.list<int>('value');
 
-  set _value(List<Object?>? value) {
-    json.setOrRemove('value', value);
+  set _value(List<int> value) {
+    json['value'] = value;
   }
 
-  List<String> _validateValue() =>
-      _reader.validateOptionalList<Object?>('value');
+  List<String> _validateValue() => _reader.validateList<int>('value');
 
   @override
   List<String> validate() => [...super.validate(), ..._validateValue()];
@@ -1899,6 +1901,47 @@ class RecordedUsesSyntax extends JsonObjectSyntax {
 
   @override
   String toString() => 'RecordedUsesSyntax($json)';
+}
+
+class SetConstantSyntax extends ConstantSyntax {
+  SetConstantSyntax.fromJson(
+    super.json, {
+    super.path,
+  }) : super._fromJson();
+
+  SetConstantSyntax({required List<int> value, super.path = const []})
+    : super(type: 'set') {
+    _value = value;
+    json.sortOnKey();
+  }
+
+  /// Setup all fields for [SetConstantSyntax] that are not in
+  /// [ConstantSyntax].
+  void setup({required List<int> value}) {
+    _value = value;
+    json.sortOnKey();
+  }
+
+  List<int> get value => _reader.list<int>('value');
+
+  set _value(List<int> value) {
+    json['value'] = value;
+  }
+
+  List<String> _validateValue() => _reader.validateList<int>('value');
+
+  @override
+  List<String> validate() => [...super.validate(), ..._validateValue()];
+
+  @override
+  String toString() => 'SetConstantSyntax($json)';
+}
+
+extension SetConstantSyntaxExtension on ConstantSyntax {
+  bool get isSetConstant => type == 'set';
+
+  SetConstantSyntax get asSetConstant =>
+      SetConstantSyntax.fromJson(json, path: path);
 }
 
 class SetterNameSyntax extends NameSyntax {

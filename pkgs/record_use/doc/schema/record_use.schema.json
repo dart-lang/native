@@ -95,6 +95,7 @@
                 "non_constant",
                 "null",
                 "record",
+                "set",
                 "string",
                 "symbol",
                 "unsupported"
@@ -234,7 +235,10 @@
           "then": {
             "properties": {
               "value": {
-                "type": "array"
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
               }
             },
             "required": [
@@ -319,6 +323,28 @@
                 }
               }
             }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "set"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              }
+            },
+            "required": [
+              "value"
+            ]
           }
         },
         {

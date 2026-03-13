@@ -88,6 +88,7 @@ void main() {
               ),
               SymbolConstant('foo'),
               SymbolConstant('_bar', libraryUri: 'package:a/a.dart'),
+              SetConstant([IntConstant(1), IntConstant(2)]),
             ],
             namedArguments: {
               'a': IntConstant(42),
@@ -104,6 +105,7 @@ void main() {
               ),
               'f': SymbolConstant('foo'),
               'g': SymbolConstant('_bar', libraryUri: 'package:a/a.dart'),
+              'h': SetConstant([IntConstant(3), IntConstant(4)]),
             },
             loadingUnit: loadingUnit1,
           ),
