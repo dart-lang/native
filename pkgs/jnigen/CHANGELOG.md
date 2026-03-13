@@ -1,4 +1,4 @@
-## 0.16.0
+## 0.16.0-wip
 
 - **Breaking Change**: All Java wrapper classes have been migrated to extension
   types. The main effects are:
@@ -6,6 +6,9 @@
     class is simplified.
   - It is no longer necessary to pass around the `JType` in many cases where it
     used to be required.
+- **Breaking Change**: Relaxed the nullability generation of type variables.
+  Unannotated type variables are now generated as `T` in Dart instead of `T?`,
+  relying on the nullability of the provided type argument.
 - Add docs about debugging.
 - Add support for Kotlin interfaces with suspend functions. These can now be
   implemented using Dart functions that return a `Future`.

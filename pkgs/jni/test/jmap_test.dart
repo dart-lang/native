@@ -18,8 +18,8 @@ void main() {
 }
 
 void run({required TestRunnerCallback testRunner}) {
-  JMap<JString, JString> testDataMap(Arena arena) {
-    return {
+  JMap<JString, JString?> testDataMap(Arena arena) {
+    return <JString, JString?>{
       '1'.toJString()..releasedBy(arena): 'One'.toJString()..releasedBy(arena),
       '2'.toJString()..releasedBy(arena): 'Two'.toJString()..releasedBy(arena),
       '3'.toJString()..releasedBy(arena): 'Three'.toJString()

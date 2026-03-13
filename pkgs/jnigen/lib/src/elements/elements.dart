@@ -450,35 +450,7 @@ class TypeVar extends ReferredType {
   List<Annotation>? annotations;
 
   @override
-  bool get isNullable {
-    // A type-var is nullable if its origin is nullable.
-    if (origin.isNullable) {
-      return true;
-    }
-    // If origin is non-null, it has to be explicitly set as nullable.
-    if (!origin.isNullable && !hasNullable) {
-      return false;
-    }
-    return super.isNullable;
-  }
-
-  /// Whether this type-variable has a question mark.
-  ///
-  /// This is different from [isNullable], a type-variable that extends
-  /// `JObject?` is nullable, so to get the reference from an object with this
-  /// type, a null check is needed. However type-variables can have an extra
-  /// question mark, meaning that even if the original type extends `JObject`,
-  /// this is nullable.
-  bool get hasQuestionMark {
-    // If the origin has any nullability set, this will only be nullable if it
-    // is explicitly set to be.
-    if (origin.hasNonNull || origin.hasNullable) {
-      return hasNullable;
-    }
-    // Otherwise it is always nullable unless explicitly set to be
-    // non-nullable.
-    return !hasNonNull;
-  }
+  bool get isNullable => hasNullable;
 
   factory TypeVar.fromJson(Map<String, dynamic> json) =>
       _$TypeVarFromJson(json);

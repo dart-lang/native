@@ -4320,13 +4320,13 @@ extension JsonParser$$Methods on JsonParser {
   ///@return Java value read from content
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
-  $T? readValueAs<$T extends jni$_.JObject?>(
+  $T readValueAs<$T extends jni$_.JObject?>(
     jni$_.JObject? valueType,
   ) {
     final _$valueType = valueType?.reference ?? jni$_.jNullReference;
     return _readValueAs(
             reference.pointer, _id_readValueAs.pointer, _$valueType.pointer)
-        .object<$T?>();
+        .object<$T>();
   }
 
   static final _id_readValueAs$1 = JsonParser._class.instanceMethodId(
@@ -4370,13 +4370,13 @@ extension JsonParser$$Methods on JsonParser {
   ///@return Java value read from content
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
-  $T? readValueAs$1<$T extends jni$_.JObject?>(
+  $T readValueAs$1<$T extends jni$_.JObject?>(
     jni$_.JObject? valueTypeRef,
   ) {
     final _$valueTypeRef = valueTypeRef?.reference ?? jni$_.jNullReference;
     return _readValueAs$1(reference.pointer, _id_readValueAs$1.pointer,
             _$valueTypeRef.pointer)
-        .object<$T?>();
+        .object<$T>();
   }
 
   static final _id_readValuesAs = JsonParser._class.instanceMethodId(
@@ -4406,13 +4406,13 @@ extension JsonParser$$Methods on JsonParser {
   ///@return Iterator for reading multiple Java values from content
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
-  jni$_.JIterator<$T?>? readValuesAs<$T extends jni$_.JObject?>(
+  jni$_.JIterator<$T>? readValuesAs<$T extends jni$_.JObject?>(
     jni$_.JObject? valueType,
   ) {
     final _$valueType = valueType?.reference ?? jni$_.jNullReference;
     return _readValuesAs(
             reference.pointer, _id_readValuesAs.pointer, _$valueType.pointer)
-        .object<jni$_.JIterator<$T?>?>();
+        .object<jni$_.JIterator<$T>?>();
   }
 
   static final _id_readValuesAs$1 = JsonParser._class.instanceMethodId(
@@ -4442,13 +4442,13 @@ extension JsonParser$$Methods on JsonParser {
   ///@return Iterator for reading multiple Java values from content
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
-  jni$_.JIterator<$T?>? readValuesAs$1<$T extends jni$_.JObject?>(
+  jni$_.JIterator<$T>? readValuesAs$1<$T extends jni$_.JObject?>(
     jni$_.JObject? valueTypeRef,
   ) {
     final _$valueTypeRef = valueTypeRef?.reference ?? jni$_.jNullReference;
     return _readValuesAs$1(reference.pointer, _id_readValuesAs$1.pointer,
             _$valueTypeRef.pointer)
-        .object<jni$_.JIterator<$T?>?>();
+        .object<jni$_.JIterator<$T>?>();
   }
 
   static final _id_readValueAsTree = JsonParser._class.instanceMethodId(
@@ -4480,9 +4480,9 @@ extension JsonParser$$Methods on JsonParser {
   ///@return root of the document, or null if empty or whitespace.
   ///@throws IOException if there is either an underlying I/O problem or decoding
   ///    issue at format layer
-  $T? readValueAsTree<$T extends jni$_.JObject?>() {
+  $T readValueAsTree<$T extends jni$_.JObject?>() {
     return _readValueAsTree(reference.pointer, _id_readValueAsTree.pointer)
-        .object<$T?>();
+        .object<$T>();
   }
 }
 
