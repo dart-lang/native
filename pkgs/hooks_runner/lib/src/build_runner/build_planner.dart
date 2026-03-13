@@ -76,8 +76,8 @@ class NativeAssetsBuildPlanner {
     'BuildPlanner.packagesWithHook',
     arguments: {'hook': hook.toString()},
     () async => switch (hook) {
-      Hook.build => _packagesWithBuildHook ??= await _runPackagesWithHook(hook),
-      Hook.link => _packagesWithLinkHook ??= await _runPackagesWithHook(hook),
+      .build => _packagesWithBuildHook ??= await _runPackagesWithHook(hook),
+      .link => _packagesWithLinkHook ??= await _runPackagesWithHook(hook),
     },
   );
 

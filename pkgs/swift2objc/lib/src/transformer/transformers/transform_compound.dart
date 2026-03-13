@@ -5,11 +5,13 @@
 import '../../ast/_core/interfaces/compound_declaration.dart';
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/interfaces/nestable_declaration.dart';
+import '../../ast/_core/shared/parameter.dart';
 import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
 import '../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
+import '../../ast/declarations/compounds/struct_declaration.dart';
 import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
 import '../_core/utils.dart';
@@ -79,7 +81,7 @@ ClassDeclaration transformCompound(
         .nonNulls
         .toList();
 
-    final transformedInitializers = originalCompound.initializers
+    final transformedInitializers = _compoundInitializers(originalCompound)
         .map(
           (initializer) => transformInitializer(
             initializer,
@@ -121,4 +123,39 @@ ClassDeclaration transformCompound(
   }
 
   return transformedCompound;
+}
+
+List<InitializerDeclaration> _compoundInitializers(
+  CompoundDeclaration originalCompound,
+) {
+  final initializers = originalCompound.initializers;
+  if (originalCompound is! StructDeclaration || initializers.isNotEmpty) {
+    return initializers;
+  }
+  final storedProperties = originalCompound.properties
+      .where((prop) => !prop.isStatic && !prop.hasExplicitGetter)
+      .sortedById();
+
+  if (storedProperties.isEmpty) {
+    return initializers;
+  }
+
+  final implicitInit = InitializerDeclaration(
+    id: originalCompound.id.addIdSuffix('implicit_init'),
+    source: originalCompound.source,
+    availability: originalCompound.availability,
+    params: storedProperties
+        .map(
+          (prop) =>
+              Parameter(name: prop.name, internalName: null, type: prop.type),
+        )
+        .toList(),
+    hasObjCAnnotation: true,
+    isOverriding: false,
+    throws: false,
+    async: false,
+    isFailable: false,
+  );
+
+  return [implicitInit];
 }

@@ -32,5 +32,42 @@ void main() {
       TestWeatherService.fetchWeatherWithDelegate(delegate);
       expect(await result.future, 'Sunny, 25°C');
     });
+
+    for (final (name, invoke) in [
+      ('same thread', TestSwiftInvoker.invokeAsyncMethodWithProtocolInstance),
+      (
+        'different thread',
+        TestSwiftInvoker
+            .invokeAsyncMethodOnBackgroundThreadWithProtocolInstance,
+      ),
+    ]) {
+      test('async protocol method, $name', () async {
+        final protocolInstance = TestAsyncProtocol$Builder.implementAsBlocking(
+          fetchDataWithParam_completionHandler_:
+              (
+                NSString param,
+                ObjCBlock<Void Function(NSString)> completionHandler,
+              ) {
+                final result = '${param.toDartString()} processed'.toNSString();
+                completionHandler(result);
+              },
+        );
+
+        final resultCompleter = Completer<String>();
+        final completionHandler = ObjCBlock_ffiVoid_NSString.blocking((
+          NSString result,
+        ) {
+          resultCompleter.complete(result.toDartString());
+        });
+
+        invoke(
+          protocolInstance,
+          param: 'input'.toNSString(),
+          completionHandler: completionHandler,
+        );
+
+        expect(await resultCompleter.future, 'input processed');
+      });
+    }
   });
 }

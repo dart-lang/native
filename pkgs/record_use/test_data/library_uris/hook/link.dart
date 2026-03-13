@@ -10,7 +10,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:hooks/hooks.dart';
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
 
 void main(List<String> arguments) async {
   await link(

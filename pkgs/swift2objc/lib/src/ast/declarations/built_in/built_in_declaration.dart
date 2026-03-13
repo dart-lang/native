@@ -18,6 +18,9 @@ class BuiltInDeclaration extends AstNode
   final String name;
 
   @override
+  final int? lineNumber;
+
+  @override
   InputConfig? get source => null;
 
   @override
@@ -26,7 +29,11 @@ class BuiltInDeclaration extends AstNode
   @override
   bool get hasObjCAnnotation => true;
 
-  const BuiltInDeclaration({required this.id, required this.name});
+  const BuiltInDeclaration({
+    required this.id,
+    required this.name,
+    this.lineNumber,
+  });
 
   @override
   void visit(Visitation visitation) => visitation.visitBuiltInDeclaration(this);

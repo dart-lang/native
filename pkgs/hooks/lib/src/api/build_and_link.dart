@@ -52,7 +52,7 @@ import '../validation.dart';
 ///
 /// void main(List<String> args) async {
 ///   await build(args, (input, output) async {
-///     if (input.config.code.linkModePreference == LinkModePreference.static) {
+///     if (input.config.code.linkModePreference == .static) {
 ///       // Simulate that this hook only supports dynamic libraries.
 ///       throw UnsupportedError('LinkModePreference.static is not supported.');
 ///     }
@@ -106,6 +106,8 @@ import '../validation.dart';
 ///     *   `ANDROID_HOME`: Standard location for the Android SDK/NDK.
 ///     *   `ANDROID_NDK`, `ANDROID_NDK_HOME`, `ANDROID_NDK_LATEST_HOME`,
 ///         `ANDROID_NDK_ROOT`: Alternative locations for the NDK.
+/// *   **Ccache:**
+///     *   Any variable starting with `CCACHE_`.
 /// *   **Nix:**
 ///     *   Any variable starting with `NIX_`.
 ///
@@ -203,7 +205,7 @@ Future<void> build(
       for (final error in errors) '- $error',
     ].join('\n');
     stderr.writeln(message);
-    output.setFailure(FailureType.build);
+    output.setFailure(.build);
     await _writeOutput(output, outputFile);
     exit(BuildError(message: message).exitCode);
   }
@@ -272,6 +274,8 @@ Future<void> build(
 ///     *   `ANDROID_HOME`: Standard location for the Android SDK/NDK.
 ///     *   `ANDROID_NDK`, `ANDROID_NDK_HOME`, `ANDROID_NDK_LATEST_HOME`,
 ///         `ANDROID_NDK_ROOT`: Alternative locations for the NDK.
+/// *   **Ccache:**
+///     *   Any variable starting with `CCACHE_`.
 /// *   **Nix:**
 ///     *   Any variable starting with `NIX_`.
 ///
@@ -369,7 +373,7 @@ Future<void> link(
       for (final error in errors) '- $error',
     ].join('\n');
     stderr.writeln(message);
-    output.setFailure(FailureType.build);
+    output.setFailure(.build);
     await _writeOutput(output, outputFile);
     exit(BuildError(message: message).exitCode);
   }

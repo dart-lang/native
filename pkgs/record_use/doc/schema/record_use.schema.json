@@ -19,12 +19,18 @@
             }
           ]
         },
-        "loading_unit": {
-          "type": "string"
+        "loading_unit_index": {
+          "type": "integer"
+        },
+        "receiver": {
+          "type": [
+            "integer",
+            "null"
+          ]
         }
       },
       "required": [
-        "loading_unit",
+        "loading_unit_index",
         "type"
       ],
       "if": {
@@ -39,23 +45,37 @@
           "named": {
             "type": "object",
             "additionalProperties": {
-              "type": [
-                "integer",
-                "null"
-              ]
+              "type": "integer"
             }
           },
           "positional": {
             "type": "array",
             "items": {
-              "type": [
-                "integer",
-                "null"
-              ]
+              "type": "integer"
             }
           }
         }
       }
+    },
+    "CallRecording": {
+      "type": "object",
+      "properties": {
+        "definition_index": {
+          "type": "integer"
+        },
+        "uses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Call"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "definition_index",
+        "uses"
+      ],
+      "additionalProperties": false
     },
     "Constant": {
       "type": "object",
@@ -66,12 +86,17 @@
             {
               "enum": [
                 "bool",
+                "double",
+                "enum",
                 "instance",
                 "int",
                 "list",
                 "map",
+                "non_constant",
                 "null",
+                "record",
                 "string",
+                "symbol",
                 "unsupported"
               ]
             },
@@ -108,17 +133,75 @@
           "if": {
             "properties": {
               "type": {
-                "const": "instance"
+                "const": "double"
               }
             }
           },
           "then": {
             "properties": {
               "value": {
+                "$ref": "#/definitions/DoubleConstantValue"
+              }
+            },
+            "required": [
+              "value"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "enum"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "definition_index": {
+                "type": "integer"
+              },
+              "index": {
+                "type": "integer"
+              },
+              "name": {
+                "type": "string"
+              },
+              "value": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer"
+                }
+              }
+            },
+            "required": [
+              "definition_index",
+              "index",
+              "name"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "instance"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "definition_index": {
+                "type": "integer"
+              },
+              "value": {
                 "type": "object",
                 "additionalProperties": true
               }
-            }
+            },
+            "required": [
+              "definition_index"
+            ]
           }
         },
         {
@@ -185,6 +268,22 @@
           "if": {
             "properties": {
               "type": {
+                "const": "non_constant"
+              }
+            }
+          },
+          "then": {
+            "not": {
+              "required": [
+                "value"
+              ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
                 "const": "null"
               }
             }
@@ -194,6 +293,31 @@
               "required": [
                 "value"
               ]
+            }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "record"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "named": {
+                "type": "object",
+                "additionalProperties": {
+                  "type": "integer"
+                }
+              },
+              "positional": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              }
             }
           }
         },
@@ -213,6 +337,32 @@
             },
             "required": [
               "value"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "symbol"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "libraryUri": {
+                "type": [
+                  "null",
+                  "string"
+                ],
+                "pattern": "^package:"
+              },
+              "name": {
+                "type": "string"
+              }
+            },
+            "required": [
+              "name"
             ]
           }
         },
@@ -257,6 +407,49 @@
         "uri"
       ]
     },
+    "DoubleConstantValue": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "anyOf": [
+            {
+              "enum": [
+                "negative_infinity",
+                "not_a_number",
+                "number",
+                "positive_infinity"
+              ]
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "number"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "value"
+            ]
+          }
+        }
+      ]
+    },
     "Instance": {
       "type": "object",
       "properties": {
@@ -275,12 +468,12 @@
             }
           ]
         },
-        "loading_unit": {
-          "type": "string"
+        "loading_unit_index": {
+          "type": "integer"
         }
       },
       "required": [
-        "loading_unit",
+        "loading_unit_index",
         "type"
       ],
       "allOf": [
@@ -313,27 +506,77 @@
           },
           "then": {
             "properties": {
+              "definition_index": {
+                "type": "integer"
+              },
               "named": {
                 "type": "object",
                 "additionalProperties": {
-                  "type": [
-                    "integer",
-                    "null"
-                  ]
+                  "type": "integer"
                 }
               },
               "positional": {
                 "type": "array",
                 "items": {
-                  "type": [
-                    "integer",
-                    "null"
-                  ]
+                  "type": "integer"
                 }
               }
+            },
+            "required": [
+              "definition_index"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "tearoff"
+              }
             }
+          },
+          "then": {
+            "properties": {
+              "definition_index": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "definition_index"
+            ]
           }
         }
+      ]
+    },
+    "InstanceRecording": {
+      "type": "object",
+      "properties": {
+        "definition_index": {
+          "type": "integer"
+        },
+        "uses": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Instance"
+          },
+          "minItems": 1
+        }
+      },
+      "required": [
+        "definition_index",
+        "uses"
+      ],
+      "additionalProperties": false
+    },
+    "LoadingUnit": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "name"
       ]
     },
     "MapEntry": {
@@ -404,10 +647,22 @@
     "RecordedUses": {
       "type": "object",
       "properties": {
+        "definitions": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Definition"
+          }
+        },
         "constants": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/Constant"
+          }
+        },
+        "loading_units": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/LoadingUnit"
           }
         },
         "metadata": {
@@ -425,39 +680,31 @@
             "version"
           ]
         },
-        "recordings": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Recording"
-          }
+        "uses": {
+          "$ref": "#/definitions/Uses"
         }
       },
       "required": [
         "metadata"
       ]
     },
-    "Recording": {
+    "Uses": {
       "type": "object",
       "properties": {
-        "calls": {
-          "type": "array",
-          "items": {
-            "$ref": "#/definitions/Call"
-          }
-        },
-        "definition": {
-          "$ref": "#/definitions/Definition"
-        },
         "instances": {
           "type": "array",
           "items": {
-            "$ref": "#/definitions/Instance"
+            "$ref": "#/definitions/InstanceRecording"
+          }
+        },
+        "static_calls": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/CallRecording"
           }
         }
       },
-      "required": [
-        "definition"
-      ]
+      "additionalProperties": false
     }
   }
 }

@@ -21,7 +21,7 @@ abstract class PirateTranslator {
 
 // snippet-start#const-instance
 @RecordUse()
-class PirateShip {
+final class PirateShip {
   final String name;
   final int cannons;
 

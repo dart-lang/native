@@ -52,6 +52,7 @@ MethodDeclaration parseMethodDeclaration(
     id: parseSymbolId(symbol.json),
     name: parseSymbolName(symbol.json),
     source: symbol.source,
+    lineNumber: parseLineNumber(symbol.json),
     availability: parseAvailability(symbol.json),
     returnType: _parseFunctionReturnType(context, symbol.json, symbolgraph),
     params: info.params,

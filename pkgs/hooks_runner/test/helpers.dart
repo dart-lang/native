@@ -282,12 +282,12 @@ Logger? _logger;
 
 Logger createCapturingLogger(
   List<String> capturedMessages, {
-  Level level = Level.ALL,
+  Level level = .ALL,
 }) => _createTestLogger(capturedMessages: capturedMessages, level: level);
 
 Logger _createTestLogger({
   List<String>? capturedMessages,
-  Level level = Level.ALL,
+  Level level = .ALL,
 }) => Logger.detached('')
   ..level = level
   ..onRecord.listen((record) {

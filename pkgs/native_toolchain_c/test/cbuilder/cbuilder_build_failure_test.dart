@@ -50,7 +50,7 @@ void main() {
               ? MacOSCodeConfig(targetVersion: defaultMacOSVersion)
               : null,
           targetArchitecture: Architecture.current,
-          linkModePreference: LinkModePreference.dynamic,
+          linkModePreference: .dynamic,
           cCompiler: cCompiler,
         ),
       );
@@ -62,7 +62,7 @@ void main() {
       sources: [addCUri.toFilePath()],
       name: name,
       assetName: name,
-      buildMode: BuildMode.release,
+      buildMode: .release,
     );
     expect(
       () =>
@@ -94,9 +94,9 @@ void main() {
       ..config.setupBuild(linkingEnabled: false)
       ..addExtension(
         CodeAssetExtension(
-          targetOS: OS.windows,
+          targetOS: .windows,
           targetArchitecture: Architecture.current,
-          linkModePreference: LinkModePreference.dynamic,
+          linkModePreference: .dynamic,
           cCompiler: cCompiler,
         ),
       );
@@ -111,7 +111,7 @@ void main() {
       name: name,
       assetName: name,
       includes: [],
-      buildMode: BuildMode.release,
+      buildMode: .release,
     );
     await expectLater(
       cbuilder.run(input: buildInput, output: buildOutput, logger: logger),
@@ -121,8 +121,7 @@ void main() {
     // Note: don't check the entire message as CL output is based on user
     //       locale.
     final line = logs.firstWhereOrNull(
-      (log) =>
-          log.level == Level.INFO && log.message.contains('fatal error C1070'),
+      (log) => log.level == .INFO && log.message.contains('fatal error C1070'),
     );
     expect(line != null, true);
   });

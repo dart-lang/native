@@ -3,12 +3,18 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:pub_semver/pub_semver.dart';
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
 import 'package:test/test.dart';
 
 void main() {
+  const classDefinition = Definition(
+    'package:test/test.dart',
+    [Name('MyClass')],
+  );
+
   test('MapConstant with InstanceConstant keys round-trip', () {
     const instanceKey = InstanceConstant(
+      definition: classDefinition,
       fields: {
         'id': IntConstant(1),
         'tag': StringConstant('key'),
@@ -34,7 +40,7 @@ void main() {
           const CallWithArguments(
             positionalArguments: [mapConstant],
             namedArguments: {},
-            loadingUnit: 'main.js',
+            loadingUnit: LoadingUnit('main.js'),
           ),
         ],
       },
@@ -49,6 +55,7 @@ void main() {
 
   test('MapConstant equality with InstanceConstant keys', () {
     const instanceKey = InstanceConstant(
+      definition: classDefinition,
       fields: {
         'id': IntConstant(1),
         'tag': StringConstant('key'),
@@ -62,6 +69,7 @@ void main() {
     expect(
       mapConstant.entries.first.key,
       const InstanceConstant(
+        definition: classDefinition,
         fields: {
           'id': IntConstant(1),
           'tag': StringConstant('key'),
@@ -76,10 +84,15 @@ void main() {
     const mapKey = MapConstant([
       MapEntry(StringConstant('inner'), IntConstant(3)),
     ]);
+    const recordKey = RecordConstant(
+      positional: [IntConstant(4)],
+      named: {'a': StringConstant('b')},
+    );
 
     const complexMap = MapConstant([
       MapEntry(listKey, mapKey),
       MapEntry(mapKey, listKey),
+      MapEntry(recordKey, IntConstant(5)),
     ]);
 
     const definition = Definition(
@@ -97,7 +110,7 @@ void main() {
           const CallWithArguments(
             positionalArguments: [complexMap],
             namedArguments: {},
-            loadingUnit: 'main.js',
+            loadingUnit: LoadingUnit('main.js'),
           ),
         ],
       },
@@ -115,13 +128,18 @@ void main() {
     const mapKey = MapConstant([
       MapEntry(StringConstant('inner'), IntConstant(3)),
     ]);
+    const recordKey = RecordConstant(
+      positional: [IntConstant(4)],
+      named: {'a': StringConstant('b')},
+    );
 
     const complexMap = MapConstant([
       MapEntry(listKey, mapKey),
       MapEntry(mapKey, listKey),
+      MapEntry(recordKey, IntConstant(5)),
     ]);
 
-    expect(complexMap.entries, hasLength(2));
+    expect(complexMap.entries, hasLength(3));
     final entries = complexMap.entries;
     expect(
       entries[0].key,
@@ -143,5 +161,13 @@ void main() {
       entries[1].value,
       const ListConstant([IntConstant(1), IntConstant(2)]),
     );
+    expect(
+      entries[2].key,
+      const RecordConstant(
+        positional: [IntConstant(4)],
+        named: {'a': StringConstant('b')},
+      ),
+    );
+    expect(entries[2].value, const IntConstant(5));
   });
 }

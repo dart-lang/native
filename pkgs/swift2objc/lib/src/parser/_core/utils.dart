@@ -64,6 +64,19 @@ String parseSymbolName(Json symbolJson) => symbolJson['declarationFragments']
     .firstJsonWhereKey('kind', 'identifier')['spelling']
     .get();
 
+int? parseLineNumber(Json symbolJson) {
+  final locationJson = symbolJson['location'];
+  if (!locationJson.exists) return null;
+
+  final positionJson = locationJson['position'];
+  if (!positionJson.exists) return null;
+
+  final lineJson = positionJson['line'];
+  if (!lineJson.exists) return null;
+
+  return lineJson.get<int>();
+}
+
 bool parseSymbolHasObjcAnnotation(Json symbolJson) =>
     symbolJson['declarationFragments'].any(
       (json) => matchFragment(json, 'attribute', '@objc'),

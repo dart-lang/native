@@ -1,21 +1,25 @@
 > [!CAUTION]
-> This is an experimental package, and it's API can break at any time. Use at
-> your own discretion.
+> This is an experimental package. Its API and the underlying JSON format
+> **will break** as we are actively iterating. Use at your own discretion.
+>
+> We are continuously changing the implementation, so a released version of the
+> package may only work with one or two [dev releases] of the Dart SDK. This
+> version will work with the first dev release _after_ `3.12.0-203.0.dev`.
 
 This package provides the data classes for the usage recording feature in the
 Dart SDK.
 
-Dart objects with the `@RecordUse` annotation are being recorded at compile 
+Dart objects with the `@RecordUse()` annotation are being recorded at compile 
 time, providing the user with information. The information depends on the object
 being recorded.
 
 - If placed on a static method, the annotation means that arguments passed to
 the method will be recorded, as far as they can be inferred at compile time.
-- If placed on a class with a constant constructor, the annotation means that
-any constant instance of the class will be recorded.
+- If placed on a class, the annotation means that any constant instance of the
+class and any constructor invocation will be recorded.
 
 > [!NOTE]
-> The `@RecordUse` annotation is only allowed on definitions within a package's
+> The `@RecordUse()` annotation is only allowed on definitions within a package's
 > `lib/` directory. This includes definitions that are members of a class, such
 > as static methods.
 
@@ -34,7 +38,7 @@ abstract class PirateTranslator {
 }
 
 @RecordUse()
-class PirateShip {
+final class PirateShip {
   final String name;
   final int cannons;
 
@@ -53,25 +57,37 @@ void main(List<String> arguments) {
     final usesUri = input.recordedUsagesFile;
     if (usesUri == null) return;
     final usesJson = await File.fromUri(usesUri).readAsString();
-    final uses = RecordedUsages.fromJson(
+    final uses = Recordings.fromJson(
       jsonDecode(usesJson) as Map<String, Object?>,
     );
 
-    final args = uses.constArgumentsFor(methodId);
-    for (final arg in args) {
-      if (arg.positional[0] case StringConstant(value: final english)) {
-        print('Translating to pirate: $english');
-        // Shrink a translations file based on all the different translation
-        // keys.
+    final calls = uses.calls[methodId] ?? [];
+    for (final call in calls) {
+      switch (call) {
+        case CallWithArguments(
+          positionalArguments: [StringConstant(value: final english), ...],
+        ):
+          // Shrink a translations file based on all the different translation
+          // keys.
+          print('Translating to pirate: $english');
+        case _:
+          print('Cannot determine which translations are used.');
       }
     }
 
-    final ships = uses.constantsOf(classId);
+    final ships = uses.instances[classId] ?? [];
     for (final ship in ships) {
-      if (ship.fields['name'] case StringConstant(value: final name)) {
-        print('Pirate ship found: $name');
-        // Include the 3d model for this ship in the application but not
-        // bundle the other ships.
+      switch (ship) {
+        case InstanceConstantReference(
+          instanceConstant: InstanceConstant(
+            fields: {'name': StringConstant(value: final name)},
+          ),
+        ):
+          // Include the 3d model for this ship in the application but not
+          // bundle the other ships.
+          print('Pirate ship found: $name');
+        case _:
+          print('Cannot determine which ships are used.');
       }
     }
   });
@@ -80,3 +96,5 @@ void main(List<String> arguments) {
 
 ## Contributing
 Contributions are welcome! Please open an issue or submit a pull request.
+
+[dev releases]: https://dart.dev/get-dart/archive#dev-channel

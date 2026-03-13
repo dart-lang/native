@@ -101,6 +101,11 @@ const int A_MACRO_1 = 1;
 final class A_Struct1 extends ffi.Struct {
   @ffi.Int()
   external int a;
+
+  static ffi.Pointer<A_Struct1> $allocate(
+    ffi.Allocator $allocator, {
+    required int a,
+  }) => $allocator<A_Struct1>()..ref.a = a;
 }
 
 final class A_Union1 extends ffi.Union {

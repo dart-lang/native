@@ -15,7 +15,7 @@ class MyMath {
 }
 
 @RecordUse()
-class Double {
+final class Double {
   final int value;
   const Double(this.value);
 
@@ -23,7 +23,7 @@ class Double {
 }
 
 @RecordUse()
-class Square {
+final class Square {
   final int value;
   const Square(this.value);
 

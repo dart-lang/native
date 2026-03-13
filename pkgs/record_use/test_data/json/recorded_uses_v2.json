@@ -1,0 +1,205 @@
+{
+  "$schema": "../../doc/schema/record_use.schema.json",
+  "constants": [
+    {
+      "type": "null"
+    },
+    {
+      "type": "bool",
+      "value": false
+    },
+    {
+      "type": "int",
+      "value": 0
+    },
+    {
+      "type": "int",
+      "value": 1
+    },
+    {
+      "type": "int",
+      "value": 42
+    },
+    {
+      "type": "int",
+      "value": 99
+    },
+    {
+      "type": "string",
+      "value": "camus"
+    },
+    {
+      "type": "string",
+      "value": "einstein"
+    },
+    {
+      "type": "string",
+      "value": "insert"
+    },
+    {
+      "type": "string",
+      "value": "jenkins"
+    },
+    {
+      "type": "string",
+      "value": "key"
+    },
+    {
+      "type": "string",
+      "value": "lib_SHA1"
+    },
+    {
+      "type": "string",
+      "value": "mercury"
+    },
+    {
+      "definition_index": 0,
+      "type": "instance"
+    },
+    {
+      "type": "list",
+      "value": [
+        7,
+        8,
+        1
+      ]
+    },
+    {
+      "type": "map",
+      "value": [
+        {
+          "key": 10,
+          "value": 5
+        }
+      ]
+    },
+    {
+      "definition_index": 2,
+      "index": 0,
+      "name": "val1",
+      "type": "enum",
+      "value": {
+        "a": 4
+      }
+    },
+    {
+      "definition_index": 0,
+      "type": "instance",
+      "value": {
+        "a": 4,
+        "b": 0
+      }
+    },
+    {
+      "type": "list",
+      "value": [
+        6,
+        14,
+        7
+      ]
+    }
+  ],
+  "definitions": [
+    {
+      "path": [
+        {
+          "name": "MyAnnotation"
+        }
+      ],
+      "uri": "package:js_runtime/js_helper.dart"
+    },
+    {
+      "path": [
+        {
+          "name": "MyClass"
+        },
+        {
+          "name": "get:loadDeferredLibrary"
+        }
+      ],
+      "uri": "package:js_runtime/js_helper.dart"
+    },
+    {
+      "path": [
+        {
+          "name": "MyEnum"
+        }
+      ],
+      "uri": "package:js_runtime/js_helper.dart"
+    }
+  ],
+  "loading_units": [
+    {
+      "name": "3"
+    },
+    {
+      "name": "o.js"
+    }
+  ],
+  "metadata": {
+    "comment": "Recorded references at compile time and their argument values, as far as known, to definitions annotated with @RecordUse",
+    "version": "1.6.2-wip+5.-.2.z"
+  },
+  "uses": {
+    "instances": [
+      {
+        "definition_index": 0,
+        "uses": [
+          {
+            "constant_index": 13,
+            "loading_unit_index": 0,
+            "type": "constant"
+          },
+          {
+            "constant_index": 17,
+            "loading_unit_index": 0,
+            "type": "constant"
+          }
+        ]
+      },
+      {
+        "definition_index": 2,
+        "uses": [
+          {
+            "constant_index": 16,
+            "loading_unit_index": 0,
+            "type": "constant"
+          }
+        ]
+      }
+    ],
+    "static_calls": [
+      {
+        "definition_index": 1,
+        "uses": [
+          {
+            "loading_unit_index": 1,
+            "named": {
+              "freddy": 12,
+              "leroy": 9
+            },
+            "positional": [
+              11,
+              1,
+              3
+            ],
+            "type": "with_arguments"
+          },
+          {
+            "loading_unit_index": 1,
+            "named": {
+              "freddy": 2,
+              "leroy": 9
+            },
+            "positional": [
+              11,
+              15,
+              18
+            ],
+            "type": "with_arguments"
+          }
+        ]
+      }
+    ]
+  }
+}

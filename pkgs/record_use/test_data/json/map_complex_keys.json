@@ -2,66 +2,76 @@
   "$schema": "../../doc/schema/record_use.schema.json",
   "constants": [
     {
-      "type": "int",
-      "value": 1
-    },
-    {
-      "type": "string",
-      "value": "int-key"
-    },
-    {
       "type": "bool",
       "value": true
+    },
+    {
+      "type": "int",
+      "value": 1
     },
     {
       "type": "string",
       "value": "bool-key"
     },
     {
+      "type": "string",
+      "value": "int-key"
+    },
+    {
       "type": "map",
       "value": [
         {
           "key": 0,
-          "value": 1
+          "value": 2
         },
         {
-          "key": 2,
+          "key": 1,
           "value": 3
         }
       ]
+    }
+  ],
+  "definitions": [
+    {
+      "path": [
+        {
+          "kind": "class",
+          "name": "SomeClass"
+        },
+        {
+          "disambiguators": [
+            "static"
+          ],
+          "kind": "method",
+          "name": "someStaticMethod"
+        }
+      ],
+      "uri": "package:record_use_test/map_complex_keys.dart"
+    }
+  ],
+  "loading_units": [
+    {
+      "name": "1"
     }
   ],
   "metadata": {
     "comment": "Recorded usages of objects tagged with a `RecordUse` annotation",
     "version": "0.4.0"
   },
-  "recordings": [
-    {
-      "calls": [
-        {
-          "loading_unit": "1",
-          "positional": [
-            4
-          ],
-          "type": "with_arguments"
-        }
-      ],
-      "definition": {
-        "path": [
+  "uses": {
+    "static_calls": [
+      {
+        "definition_index": 0,
+        "uses": [
           {
-            "kind": "class",
-            "name": "SomeClass"
-          },
-          {
-            "disambiguators": [
-              "static"
+            "loading_unit_index": 0,
+            "positional": [
+              4
             ],
-            "kind": "method",
-            "name": "someStaticMethod"
+            "type": "with_arguments"
           }
-        ],
-        "uri": "package:record_use_test/map_complex_keys.dart"
+        ]
       }
-    }
-  ]
+    ]
+  }
 }

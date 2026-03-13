@@ -2,6 +2,9 @@
   "$schema": "../../doc/schema/record_use.schema.json",
   "constants": [
     {
+      "type": "non_constant"
+    },
+    {
       "type": "int",
       "value": 1
     },
@@ -14,35 +17,59 @@
       "value": "named_arg_value"
     }
   ],
+  "definitions": [
+    {
+      "path": [
+        {
+          "kind": "class",
+          "name": "MyClass"
+        }
+      ],
+      "uri": "package:record_use_test/test.dart"
+    },
+    {
+      "path": [
+        {
+          "kind": "class",
+          "name": "MyClass"
+        },
+        {
+          "kind": "constructor",
+          "name": ""
+        }
+      ],
+      "uri": "package:record_use_test/test.dart"
+    }
+  ],
+  "loading_units": [
+    {
+      "name": "root"
+    }
+  ],
   "metadata": {
     "comment": "Constructor invocation recording",
     "version": "1.0.0"
   },
-  "recordings": [
-    {
-      "definition": {
-        "path": [
+  "uses": {
+    "instances": [
+      {
+        "definition_index": 0,
+        "uses": [
           {
-            "kind": "class",
-            "name": "MyClass"
+            "definition_index": 1,
+            "loading_unit_index": 0,
+            "named": {
+              "other": 0,
+              "param": 3
+            },
+            "positional": [
+              1,
+              2
+            ],
+            "type": "creation"
           }
-        ],
-        "uri": "package:record_use_test/test.dart"
-      },
-      "instances": [
-        {
-          "loading_unit": "root",
-          "named": {
-            "other": null,
-            "param": 2
-          },
-          "positional": [
-            0,
-            1
-          ],
-          "type": "creation"
-        }
-      ]
-    }
-  ]
+        ]
+      }
+    ]
+  }
 }

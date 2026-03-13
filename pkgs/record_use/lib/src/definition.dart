@@ -4,6 +4,8 @@
 
 import 'package:meta/meta.dart';
 
+import 'canonicalization_context.dart';
+import 'helper.dart';
 import 'syntax.g.dart';
 
 /// A unique identifier for a code element, such as a class, method,
@@ -65,6 +67,13 @@ class Definition {
         .toList(),
   );
 
+  /// Canonicalizes the children of this [Definition].
+  Definition _canonicalizeChildren(CanonicalizationContext context) =>
+      Definition(
+        library,
+        [for (final name in path) name._canonicalizeChildren(context)],
+      );
+
   /// The parent, if it exists.
   Definition? get parent => path.length > 1
       ? Definition(library, path.sublist(0, path.length - 1))
@@ -84,7 +93,11 @@ class Definition {
   }
 
   @override
-  int get hashCode => Object.hash(library, Object.hashAll(path));
+  int get hashCode =>
+      cacheHashCode(() => Object.hash(library, Object.hashAll(path)));
+
+  // This should align with [toString] ordering.
+  int _compareTo(Definition other) => toString().compareTo(other.toString());
 
   /// Returns a URI representation of this definition.
   ///
@@ -131,6 +144,17 @@ class Name {
     this.disambiguators = const {},
   });
 
+  Name _canonicalizeChildren(CanonicalizationContext context) {
+    if (disambiguators.isEmpty) return this;
+    return Name(
+      name,
+      kind: kind,
+      disambiguators: Set.from(
+        disambiguators.toList()..sort((a, b) => a.compareTo(b)),
+      ),
+    );
+  }
+
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;
@@ -143,10 +167,8 @@ class Name {
   }
 
   @override
-  int get hashCode => Object.hash(
-    name,
-    kind,
-    Object.hashAllUnordered(disambiguators),
+  int get hashCode => cacheHashCode(
+    () => Object.hash(name, kind, Object.hashAllUnordered(disambiguators)),
   );
 
   /// Returns a string representation of this name that can be used as a part of
@@ -162,8 +184,7 @@ class Name {
     }
     buffer.write(name);
     if (disambiguators.isNotEmpty) {
-      final sorted = disambiguators.toList()
-        ..sort((a, b) => a.toString().compareTo(b.toString()));
+      final sorted = disambiguators.toList()..sort((a, b) => a.compareTo(b));
       for (final disambiguator in sorted) {
         buffer.write('@$disambiguator');
       }
@@ -217,8 +238,18 @@ final class DefinitionKind {
   @override
   int get hashCode => _name.hashCode;
 
+  int _compareTo(DefinitionKind other) => _name.compareTo(other._name);
+
   @override
   String toString() => _name;
+}
+
+/// Package private (protected) methods for [DefinitionKind].
+///
+/// This avoids bloating the public API and public API docs and prevents
+/// internal types from leaking from the API.
+extension DefinitionKindProtected on DefinitionKind {
+  int compareTo(DefinitionKind other) => _compareTo(other);
 }
 
 /// Extra metadata to disambiguate between elements that might have the same
@@ -262,8 +293,18 @@ final class DefinitionDisambiguator {
   @override
   int get hashCode => _name.hashCode;
 
+  int _compareTo(DefinitionDisambiguator other) => _name.compareTo(other._name);
+
   @override
   String toString() => _name;
+}
+
+/// Package private (protected) methods for [DefinitionDisambiguator].
+///
+/// This avoids bloating the public API and public API docs and prevents
+/// internal types from leaking from the API.
+extension DefinitionDisambiguatorProtected on DefinitionDisambiguator {
+  int compareTo(DefinitionDisambiguator other) => _compareTo(other);
 }
 
 /// Package private (protected) methods for [Definition].
@@ -272,6 +313,11 @@ final class DefinitionDisambiguator {
 /// internal types from leaking from the API.
 extension DefinitionProtected on Definition {
   DefinitionSyntax toSyntax() => _toSyntax();
+
+  Definition canonicalizeChildren(CanonicalizationContext context) =>
+      _canonicalizeChildren(context);
+
+  int compareTo(Definition other) => _compareTo(other);
 
   static Definition fromSyntax(DefinitionSyntax syntax) =>
       Definition._fromSyntax(syntax);
