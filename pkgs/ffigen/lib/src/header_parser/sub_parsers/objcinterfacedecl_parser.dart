@@ -155,7 +155,7 @@ void _parseSuperType(
   final apiAvailability = ApiAvailability.fromCursor(
     cursor,
     context,
-    treatSwiftUnavailableAsUnavailable: !cursor.isInSystemHeader(),
+    // treatSwiftUnavailableAsUnavailable: !cursor.isInSystemHeader(),
   );
 
   if (fieldType.isIncompleteCompound) {
@@ -261,7 +261,7 @@ ObjCMethod? parseObjCMethod(
   final apiAvailability = ApiAvailability.fromCursor(
     cursor,
     context,
-    treatSwiftUnavailableAsUnavailable: !cursor.isInSystemHeader(),
+    // treatSwiftUnavailableAsUnavailable: !cursor.isInSystemHeader(),
   );
 
   logger.fine(

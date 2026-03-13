@@ -155,7 +155,7 @@ void main() {
           alwaysDeprecated: true,
           externalVersions: const ExternalVersions(),
         ).availability,
-        Availability.none,
+        Availability.all,
       );
       expect(
         ApiAvailability(

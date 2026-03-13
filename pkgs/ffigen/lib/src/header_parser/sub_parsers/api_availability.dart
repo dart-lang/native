@@ -34,9 +34,9 @@ class ApiAvailability {
 
   static ApiAvailability fromCursor(
     clang_types.CXCursor cursor,
-    Context context, {
-    bool treatSwiftUnavailableAsUnavailable = false,
-  }) {
+    Context context,
+    // { bool treatSwiftUnavailableAsUnavailable = false,}
+  ) {
     final platformsLength = clang.clang_getCursorPlatformAvailability(
       cursor,
       nullptr,
@@ -83,8 +83,7 @@ class ApiAvailability {
           macos = platformAvailability..name = 'macOS';
           break;
         case 'swift':
-          if (platformAvailability.unavailable &&
-              treatSwiftUnavailableAsUnavailable) {
+          if (platformAvailability.unavailable) {
             swiftIsUnavailable = true;
           }
           break;
@@ -110,7 +109,7 @@ class ApiAvailability {
   }
 
   Availability _getAvailability(ExternalVersions? externalVersions) {
-    if (alwaysUnavailable || alwaysDeprecated) return Availability.none;
+    if (alwaysUnavailable) return Availability.none;
 
     final macosVer = _normalizeVersions(externalVersions?.macos);
     final iosVer = _normalizeVersions(externalVersions?.ios);
@@ -118,6 +117,10 @@ class ApiAvailability {
     // If no versions are specified, everything is available.
     if (iosVer == null && macosVer == null) {
       return Availability.all;
+    }
+
+    if (alwaysDeprecated) {
+      return Availability.none;
     }
 
     Availability? availability_;
