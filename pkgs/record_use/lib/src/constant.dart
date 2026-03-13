@@ -83,6 +83,17 @@ sealed class MaybeConstant {
     NullConstantSyntax() => const NullConstant(),
     BoolConstantSyntax(:final value) => BoolConstant(value),
     IntConstantSyntax(:final value) => IntConstant(value),
+    DoubleConstantSyntax(value: final doubleValue) => DoubleConstant(
+      switch (doubleValue.type) {
+        'number' => doubleValue.asNumberDoubleConstantValue.value!,
+        'positive_infinity' => double.infinity,
+        'negative_infinity' => double.negativeInfinity,
+        'not_a_number' => double.nan,
+        _ => throw FormatException(
+          'Invalid double constant type: ${doubleValue.type}',
+        ),
+      },
+    ),
     StringConstantSyntax(:final value) => StringConstant(value),
     SymbolConstantSyntax(:final name, :final libraryUri) => SymbolConstant(
       name,
@@ -456,6 +467,64 @@ final class IntConstant extends Constant {
   ) => other is IntConstant && other.value == value;
 }
 
+/// A constant double value.
+final class DoubleConstant extends Constant {
+  /// The underlying value of this constant.
+  final double value;
+
+  /// Creates a [DoubleConstant] object with the given double [value].
+  const DoubleConstant(this.value);
+
+  @override
+  DoubleConstantSyntax _toSyntax(SerializationContext context) {
+    final DoubleConstantValueSyntax syntaxValue;
+    if (value.isNaN) {
+      syntaxValue = NotANumberDoubleConstantValueSyntax();
+    } else if (value == double.infinity) {
+      syntaxValue = PositiveInfinityDoubleConstantValueSyntax();
+    } else if (value == double.negativeInfinity) {
+      syntaxValue = NegativeInfinityDoubleConstantValueSyntax();
+    } else {
+      syntaxValue = NumberDoubleConstantValueSyntax(value: value);
+    }
+    return DoubleConstantSyntax(value: syntaxValue);
+  }
+
+  @override
+  int get hashCode => Object.hash(value, value.isNegative);
+
+  @override
+  int get _depth => 1;
+
+  @override
+  int get _size => 1;
+
+  @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) => this;
+
+  @override
+  Constant _filter({String? definitionPackageName}) => this;
+
+  @override
+  bool operator ==(Object other) =>
+      other is DoubleConstant && value.compareTo(other.value) == 0;
+
+  @override
+  int get _orderingTypePriority => 5;
+
+  @override
+  int _compareToSameType(DoubleConstant other) => value.compareTo(other.value);
+
+  @override
+  String toString() => 'DoubleConstant($value)';
+
+  @override
+  bool _semanticEqualsInternal(
+    MaybeConstant other,
+    bool allowPromotionOfUnsupported,
+  ) => other is DoubleConstant && value.compareTo(other.value) == 0;
+}
+
 /// A constant string value.
 final class StringConstant extends Constant {
   /// The underlying value of this constant.
@@ -488,7 +557,7 @@ final class StringConstant extends Constant {
       other is StringConstant && other.value == value;
 
   @override
-  int get _orderingTypePriority => 5;
+  int get _orderingTypePriority => 6;
 
   @override
   int _compareToSameType(StringConstant other) => value.compareTo(other.value);
@@ -542,7 +611,7 @@ final class SymbolConstant extends Constant {
       other.libraryUri == libraryUri;
 
   @override
-  int get _orderingTypePriority => 6;
+  int get _orderingTypePriority => 7;
 
   @override
   int _compareToSameType(SymbolConstant other) {
@@ -629,7 +698,7 @@ final class ListConstant extends Constant {
       );
 
   @override
-  int get _orderingTypePriority => 7;
+  int get _orderingTypePriority => 8;
 
   @override
   int _compareToSameType(ListConstant other) {
@@ -748,7 +817,7 @@ final class MapConstant extends Constant {
       );
 
   @override
-  int get _orderingTypePriority => 8;
+  int get _orderingTypePriority => 9;
 
   @override
   int _compareToSameType(MapConstant other) {
@@ -886,7 +955,7 @@ final class InstanceConstant extends Constant {
   }
 
   @override
-  int get _orderingTypePriority => 11;
+  int get _orderingTypePriority => 12;
 
   @override
   int _compareToSameType(InstanceConstant other) {
@@ -1050,7 +1119,7 @@ final class EnumConstant extends Constant {
   }
 
   @override
-  int get _orderingTypePriority => 10;
+  int get _orderingTypePriority => 11;
 
   @override
   int _compareToSameType(EnumConstant other) {
@@ -1201,7 +1270,7 @@ final class RecordConstant extends Constant {
   );
 
   @override
-  int get _orderingTypePriority => 9;
+  int get _orderingTypePriority => 10;
 
   @override
   int _compareToSameType(RecordConstant other) {

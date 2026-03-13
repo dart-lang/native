@@ -311,6 +311,8 @@ class SchemaAnalyzer {
         dartType = BoolDartType(isNullable: isNullable);
       case SchemaType.integer:
         dartType = IntDartType(isNullable: isNullable);
+      case SchemaType.number:
+        dartType = DoubleDartType(isNullable: isNullable);
       case SchemaType.string:
         if (schemas.generateUri) {
           dartType = UriDartType(isNullable: isNullable);

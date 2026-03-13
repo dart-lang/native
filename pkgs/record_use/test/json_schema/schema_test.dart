@@ -66,10 +66,11 @@ void main() {
 const constNonConstantIndex = 0;
 const constUnsupportedIndex = 1;
 const constNullIndex = 2;
-const constMapIndex = 8;
-const constRecordIndex = 9;
-const constEnumIndex = 10;
-const constInstanceIndex = 11;
+const constDoubleIndex = 5;
+const constMapIndex = 9;
+const constRecordIndex = 10;
+const constEnumIndex = 11;
+const constInstanceIndex = 12;
 typedef SchemaTestField = (
   List<Object> path,
   void Function(ValidationResults result) missingExpectations,
@@ -77,17 +78,23 @@ typedef SchemaTestField = (
 
 List<SchemaTestField> recordUseFields = [
   (['constants'], expectOptionalFieldMissing),
-  for (var index = 0; index < 12; index++) ...[
+  for (var index = 0; index < 13; index++) ...[
     (['constants', index, 'type'], expectRequiredFieldMissing),
     if (index != constNullIndex &&
         index != constNonConstantIndex &&
         index != constInstanceIndex &&
         index != constUnsupportedIndex &&
         index != constRecordIndex &&
-        index != constEnumIndex)
+        index != constEnumIndex &&
+        index != constDoubleIndex)
       (['constants', index, 'value'], expectRequiredFieldMissing),
     if (index == constInstanceIndex)
       (['constants', index, 'value'], expectOptionalFieldMissing),
+    if (index == constDoubleIndex) ...[
+      (['constants', index, 'value'], expectRequiredFieldMissing),
+      (['constants', index, 'value', 'type'], expectRequiredFieldMissing),
+      (['constants', index, 'value', 'value'], expectRequiredFieldMissing),
+    ],
     if (index == constEnumIndex) ...[
       (['constants', index, 'definition_index'], expectRequiredFieldMissing),
       (['constants', index, 'index'], expectRequiredFieldMissing),
@@ -300,7 +307,7 @@ void testField({
     } else {
       originalValue = (dataToModify as Map)[field.last];
     }
-    final wrongTypeValue = originalValue is int ? '123' : 123;
+    final wrongTypeValue = originalValue is num ? '123' : 123;
     if (originalValue == null) {
       // If the field allows null, it likely also allows int. So use a string
       // to ensure it's invalid.

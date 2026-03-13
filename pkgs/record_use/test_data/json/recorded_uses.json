@@ -20,6 +20,13 @@
       "value": 42
     },
     {
+      "type": "double",
+      "value": {
+        "type": "number",
+        "value": 3.14
+      }
+    },
+    {
       "type": "string",
       "value": "42"
     },
@@ -37,14 +44,14 @@
       "type": "map",
       "value": [
         {
-          "key": 6,
+          "key": 7,
           "value": 3
         }
       ]
     },
     {
       "named": {
-        "a": 5
+        "a": 6
       },
       "positional": [
         4
@@ -119,7 +126,7 @@
         "definition_index": 2,
         "uses": [
           {
-            "constant_index": 11,
+            "constant_index": 12,
             "loading_unit_index": 0,
             "type": "constant"
           }
@@ -133,22 +140,23 @@
           {
             "loading_unit_index": 0,
             "named": {
-              "a": 5,
+              "a": 6,
               "b": 3,
               "c": 4,
               "d": 0
             },
             "positional": [
-              5,
-              8,
+              6,
+              9,
               2,
               0,
               4,
-              11,
-              7,
+              12,
+              8,
               1,
-              9,
-              10
+              10,
+              11,
+              5
             ],
             "type": "with_arguments"
           }
