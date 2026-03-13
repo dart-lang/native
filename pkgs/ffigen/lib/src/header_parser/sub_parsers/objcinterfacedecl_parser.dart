@@ -152,13 +152,11 @@ void _parseSuperType(
   final fieldName = cursor.spelling();
   final fieldType = cursor.type().toCodeGenType(context);
 
-  final apiAvailability = ApiAvailability.fromCursor(cursor, context);
-  if (apiAvailability.availability == Availability.none) {
-    context.logger.info(
-      'Omitting deprecated property ${decl.originalName}.$fieldName',
-    );
-    return (null, null);
-  }
+  final apiAvailability = ApiAvailability.fromCursor(
+    cursor,
+    context,
+    // treatSwiftUnavailableAsUnavailable: !cursor.isInSystemHeader(),
+  );
 
   if (fieldType.isIncompleteCompound) {
     context.logger.warning(
@@ -260,13 +258,11 @@ ObjCMethod? parseObjCMethod(
     return null;
   }
 
-  final apiAvailability = ApiAvailability.fromCursor(cursor, context);
-  if (apiAvailability.availability == Availability.none) {
-    logger.info(
-      'Omitting deprecated method ${itfDecl.originalName}.$methodName',
-    );
-    return null;
-  }
+  final apiAvailability = ApiAvailability.fromCursor(
+    cursor,
+    context,
+    // treatSwiftUnavailableAsUnavailable: !cursor.isInSystemHeader(),
+  );
 
   logger.fine(
     '       > ${isClassMethod ? 'Class' : 'Instance'} method: '

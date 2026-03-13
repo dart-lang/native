@@ -122,7 +122,7 @@ void main() {
         expect(bindings, contains('depIos3Mac2'));
         expect(bindings, contains('depIos3Mac3'));
         expect(bindings, contains('alwaysDeprecated'));
-        expect(bindings, contains('alwaysUnavailable'));
+        expect(bindings, isNot(contains('alwaysUnavailable')));
       });
 
       test('interface properties', () {
@@ -146,7 +146,7 @@ void main() {
         expect(bindings, contains('protDepIos3Mac2'));
         expect(bindings, contains('protDepIos3Mac3'));
         expect(bindings, contains('protAlwaysDeprecated'));
-        expect(bindings, contains('protAlwaysUnavailable'));
+        expect(bindings, isNot(contains('protAlwaysUnavailable')));
       });
 
       test('protocol properties', () {
@@ -170,7 +170,7 @@ void main() {
         expect(bindings, contains('catDepIos3Mac2'));
         expect(bindings, contains('catDepIos3Mac3'));
         expect(bindings, contains('catAlwaysDeprecated'));
-        expect(bindings, contains('catAlwaysUnavailable'));
+        expect(bindings, isNot(contains('catAlwaysUnavailable')));
       });
 
       test('category properties', () {
