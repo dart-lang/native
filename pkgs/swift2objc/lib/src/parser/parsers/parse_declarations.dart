@@ -32,7 +32,9 @@ List<Declaration> parseDeclarations(
 
   for (final symbol in symbolgraph.symbols.values) {
     final declaration = tryParseDeclaration(context, symbol, symbolgraph);
-    if (declaration != null) declarations.add(declaration);
+    if (declaration != null) {
+      declarations.add(declaration);
+    }
   }
 
   // Collect ExtensionDeclarations that were created during compound parsing

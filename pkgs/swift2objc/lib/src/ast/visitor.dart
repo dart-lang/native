@@ -112,7 +112,6 @@ abstract class Visitation {
   void visitTupleType(TupleType node) => visitReferredType(node);
   void visitExtensionDeclaration(ExtensionDeclaration node) =>
       visitDeclaration(node);
-  void visitTupleType(TupleType node) => visitReferredType(node);
 
   /// Default behavior for all visit methods.
   void visitAstNode(AstNode node) => node.visitChildren(visitor);

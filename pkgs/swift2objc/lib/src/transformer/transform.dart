@@ -68,6 +68,8 @@ List<Declaration> transform(
   state.stubs.addAll(listDecls.stubDecls);
   state.bindings.addAll(listDecls.stubDecls);
 
+  // Collect extension declarations and add to bindings so they are visible
+  // during transformation.
   final extensionDecls = declarations
       .whereType<ExtensionDeclaration>()
       .toList();
@@ -82,7 +84,6 @@ List<Declaration> transform(
     variables: topLevelDecls.removeWhereType<GlobalVariableDeclaration>(),
   );
 
-  // Transform compounds first so their wrappers exist in state.map
   final transformedDeclarations = [
     ...topLevelDecls.map(
       (d) => maybeTransformDeclaration(d, state.globalNamer, state),
@@ -90,9 +91,8 @@ List<Declaration> transform(
     transformGlobals(globals, state.globalNamer, state),
   ].nonNulls.toList();
 
-  // Transform extensions after compounds
   final transformedExtensions = extensionDecls
-      .map((e) => transformExtension(e, globalNamer, state))
+      .map((e) => transformExtension(e, state.globalNamer, state))
       .nonNulls
       .toList();
 
@@ -158,7 +158,6 @@ Declaration? maybeTransformDeclaration(
           state,
           nested: true,
         );
-    return state.map[declaration]!;
   }
 
   return switch (declaration) {
@@ -168,12 +167,8 @@ Declaration? maybeTransformDeclaration(
       state,
     ),
     EnumDeclaration() => transformEnum(declaration, parentNamer, state),
+    ExtensionDeclaration() => null,
     TypealiasDeclaration() => null,
-    ExtensionDeclaration() => transformExtension(
-      declaration,
-      parentNamer,
-      state,
-    ),
     _ => throw UnimplementedError(),
   };
 }
