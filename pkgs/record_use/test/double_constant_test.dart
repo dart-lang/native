@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:convert';
+
 import 'package:record_use/record_use.dart';
 import 'package:record_use/src/canonicalization_context.dart';
 import 'package:test/test.dart';
@@ -41,8 +43,10 @@ void main() {
           instances: {},
         );
 
-        final json = recordings.toJson();
-        final roundTripped = Recordings.fromJson(json);
+        final json = jsonEncode(recordings.toJson());
+        final roundTripped = Recordings.fromJson(
+          jsonDecode(json) as Map<String, Object?>,
+        );
 
         final roundTrippedConstant =
             (roundTripped.calls.values.first.first as CallWithArguments)
