@@ -34,6 +34,7 @@ EnumDeclaration parseEnumDeclaration(
       properties: [],
       methods: [],
       initializers: [],
+      subscripts: [],
       nestedDeclarations: [],
     ),
   );

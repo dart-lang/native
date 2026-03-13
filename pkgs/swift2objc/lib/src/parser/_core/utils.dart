@@ -82,8 +82,12 @@ bool parseSymbolHasObjcAnnotation(Json symbolJson) =>
       (json) => matchFragment(json, 'attribute', '@objc'),
     );
 
-bool parseIsOverriding(Json symbolJson) => symbolJson['declarationFragments']
-    .any((json) => matchFragment(json, 'keyword', 'override'));
+bool parseIsOverriding(Json symbolJson) =>
+    findKeywordInFragments(symbolJson['declarationFragments'], 'override');
+
+bool findKeywordInFragments(Json json, String keyword) {
+  return json.any((frag) => matchFragment(frag, 'keyword', keyword));
+}
 
 List<AvailabilityInfo> parseAvailability(Json symbolJson) {
   final availability = symbolJson['availability'];
@@ -164,4 +168,15 @@ ReferredType parseTypeAfterSeparator(
   );
   assert(suffix.isEmpty, '$suffix');
   return type;
+}
+
+ReferredType parseReturnType(
+  Context context,
+  Json symbolJson,
+  ParsedSymbolgraph symbolgraph,
+) {
+  final returnJson = TokenList(symbolJson['functionSignature']['returns']);
+  final (returnType, unparsed) = parseType(context, symbolgraph, returnJson);
+  assert(unparsed.isEmpty, '$returnJson\n\n$returnType\n\n$unparsed\n');
+  return returnType;
 }

@@ -50,17 +50,32 @@ ReferredType _createWrapperClass(DeclaredType primitiveType) {
   bool shouldWrapPrimitives,
   TransformationState state,
 ) {
-  if (type is! DeclaredType || !shouldWrapPrimitives) {
+  if (!shouldWrapPrimitives) {
     return (type, false);
   }
 
-  final wrapper = _getPrimitiveWrapper(type);
-  if (wrapper == null) {
-    return (type, false);
+  if (type is DeclaredType) {
+    final wrapper = _getPrimitiveWrapper(type);
+    if (wrapper == null) {
+      return (type, false);
+    }
+
+    state.map[type.declaration] = (wrapper as DeclaredType).declaration;
+    return (wrapper, true);
   }
 
-  state.map[type.declaration] = (wrapper as DeclaredType).declaration;
-  return (wrapper, true);
+  if (type is OptionalType) {
+    final (wrappedChild, hasWrappedChild) = maybeGetPrimitiveWrapper(
+      type.child,
+      shouldWrapPrimitives,
+      state,
+    );
+    if (hasWrappedChild) {
+      return (OptionalType(wrappedChild), true);
+    }
+  }
+
+  return (type, false);
 }
 
 ReferredType? _getPrimitiveWrapper(DeclaredType other) {
