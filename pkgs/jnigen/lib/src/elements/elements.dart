@@ -667,6 +667,12 @@ mixin ClassMember {
   bool get isBridge => modifiers.contains('bridge');
 }
 
+enum MethodPropertyKind {
+  none,
+  getter,
+  setter,
+}
+
 @JsonSerializable(createToJson: false)
 class Method with ClassMember, Annotated implements Element<Method> {
   Method({
@@ -691,6 +697,12 @@ class Method with ClassMember, Annotated implements Element<Method> {
   List<TypeParam> typeParams;
   List<Param> params;
   ReferredType returnType;
+
+  /// Whether this method is a getter, setter or none in Dart.
+  ///
+  /// Populated by [Renamer].
+  @JsonKey(includeFromJson: false)
+  MethodPropertyKind propertyKind = MethodPropertyKind.none;
 
   /// Populated by user-defined visitors.
   @JsonKey(includeFromJson: false)
@@ -755,6 +767,7 @@ class Method with ClassMember, Annotated implements Element<Method> {
       case GenerationStage.dartGenerator:
       case GenerationStage.renamer:
         cloned.finalName = finalName;
+        cloned.propertyKind = propertyKind;
         continue linker;
       linker:
       case GenerationStage.linker:

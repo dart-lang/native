@@ -333,12 +333,12 @@ extension type Measure<$T extends jni$_.JObject>._(jni$_.JObject _$this)
 }
 
 extension Measure$$Methods<$T extends jni$_.JObject> on Measure<$T> {
-  static final _id_getValue = Measure._class.instanceMethodId(
+  static final _id_value__getValue = Measure._class.instanceMethodId(
     r'getValue',
     r'()F',
   );
 
-  static final _getValue = jni$_.ProtectedJniExtensions.lookup<
+  static final _value__getValue = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -351,16 +351,17 @@ extension Measure$$Methods<$T extends jni$_.JObject> on Measure<$T> {
           )>();
 
   /// from: `public float getValue()`
-  double getValue() {
-    return _getValue(reference.pointer, _id_getValue.pointer).float;
+  double get value {
+    return _value__getValue(reference.pointer, _id_value__getValue.pointer)
+        .float;
   }
 
-  static final _id_getUnit = Measure._class.instanceMethodId(
+  static final _id_unit__getUnit = Measure._class.instanceMethodId(
     r'getUnit',
     r'()Lcom/github/dart_lang/jnigen/MeasureUnit;',
   );
 
-  static final _getUnit = jni$_.ProtectedJniExtensions.lookup<
+  static final _unit__getUnit = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -374,8 +375,9 @@ extension Measure$$Methods<$T extends jni$_.JObject> on Measure<$T> {
 
   /// from: `public T getUnit()`
   /// The returned object must be released after use, by calling the [release] method.
-  $T getUnit() {
-    return _getUnit(reference.pointer, _id_getUnit.pointer).object<$T>();
+  $T get unit {
+    return _unit__getUnit(reference.pointer, _id_unit__getUnit.pointer)
+        .object<$T>();
   }
 
   static final _id_convertValue = Measure._class.instanceMethodId(
@@ -453,7 +455,7 @@ extension type MeasureUnit._(jni$_.JObject _$this) implements jni$_.JObject {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
       if ($d == r'getSign()Ljava/lang/String;') {
-        final $r = _$impls[$p]!.getSign();
+        final $r = _$impls[$p]!.sign();
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
                 .reference
@@ -461,7 +463,7 @@ extension type MeasureUnit._(jni$_.JObject _$this) implements jni$_.JObject {
             jni$_.nullptr;
       }
       if ($d == r'getCoefficient()F') {
-        final $r = _$impls[$p]!.getCoefficient();
+        final $r = _$impls[$p]!.coefficient();
         return jni$_.JFloat($r).reference.toPointer();
       }
     } catch (e) {
@@ -505,12 +507,12 @@ extension type MeasureUnit._(jni$_.JObject _$this) implements jni$_.JObject {
 }
 
 extension MeasureUnit$$Methods on MeasureUnit {
-  static final _id_getSign = MeasureUnit._class.instanceMethodId(
+  static final _id_sign__getSign = MeasureUnit._class.instanceMethodId(
     r'getSign',
     r'()Ljava/lang/String;',
   );
 
-  static final _getSign = jni$_.ProtectedJniExtensions.lookup<
+  static final _sign__getSign = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -524,60 +526,64 @@ extension MeasureUnit$$Methods on MeasureUnit {
 
   /// from: `public abstract java.lang.String getSign()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString getSign() {
-    return _getSign(reference.pointer, _id_getSign.pointer)
+  jni$_.JString get sign {
+    return _sign__getSign(reference.pointer, _id_sign__getSign.pointer)
         .object<jni$_.JString>();
   }
 
-  static final _id_getCoefficient = MeasureUnit._class.instanceMethodId(
+  static final _id_coefficient__getCoefficient =
+      MeasureUnit._class.instanceMethodId(
     r'getCoefficient',
     r'()F',
   );
 
-  static final _getCoefficient = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _coefficient__getCoefficient =
+      jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.JMethodIDPtr,
+                  )>>('globalEnv_CallFloatMethod')
+          .asFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallFloatMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )>();
 
   /// from: `public abstract float getCoefficient()`
-  double getCoefficient() {
-    return _getCoefficient(reference.pointer, _id_getCoefficient.pointer).float;
+  double get coefficient {
+    return _coefficient__getCoefficient(
+            reference.pointer, _id_coefficient__getCoefficient.pointer)
+        .float;
   }
 }
 
 abstract base mixin class $MeasureUnit {
   factory $MeasureUnit({
-    required jni$_.JString Function() getSign,
-    required double Function() getCoefficient,
+    required jni$_.JString Function() sign,
+    required double Function() coefficient,
   }) = _$MeasureUnit;
 
-  jni$_.JString getSign();
-  double getCoefficient();
+  jni$_.JString sign();
+  double coefficient();
 }
 
 final class _$MeasureUnit with $MeasureUnit {
   _$MeasureUnit({
-    required jni$_.JString Function() getSign,
-    required double Function() getCoefficient,
-  })  : _getSign = getSign,
-        _getCoefficient = getCoefficient;
+    required jni$_.JString Function() sign,
+    required double Function() coefficient,
+  })  : _sign = sign,
+        _coefficient = coefficient;
 
-  final jni$_.JString Function() _getSign;
-  final double Function() _getCoefficient;
+  final jni$_.JString Function() _sign;
+  final double Function() _coefficient;
 
-  jni$_.JString getSign() {
-    return _getSign();
+  jni$_.JString sign() {
+    return _sign();
   }
 
-  double getCoefficient() {
-    return _getCoefficient();
+  double coefficient() {
+    return _coefficient();
   }
 }
 
@@ -730,12 +736,12 @@ extension type Nullability<$T extends jni$_.JObject?,
 
 extension Nullability$$Methods<$T extends jni$_.JObject?,
     $U extends jni$_.JObject> on Nullability<$T, $U> {
-  static final _id_getT = Nullability._class.instanceMethodId(
+  static final _id_t__getT = Nullability._class.instanceMethodId(
     r'getT',
     r'()Ljava/lang/Object;',
   );
 
-  static final _getT = jni$_.ProtectedJniExtensions.lookup<
+  static final _t__getT = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -749,16 +755,16 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public final T getT()`
   /// The returned object must be released after use, by calling the [release] method.
-  $T? getT() {
-    return _getT(reference.pointer, _id_getT.pointer).object<$T?>();
+  $T? get t {
+    return _t__getT(reference.pointer, _id_t__getT.pointer).object<$T?>();
   }
 
-  static final _id_getU = Nullability._class.instanceMethodId(
+  static final _id_u__getU = Nullability._class.instanceMethodId(
     r'getU',
     r'()Ljava/lang/Object;',
   );
 
-  static final _getU = jni$_.ProtectedJniExtensions.lookup<
+  static final _u__getU = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -772,16 +778,17 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public final U getU()`
   /// The returned object must be released after use, by calling the [release] method.
-  $U getU() {
-    return _getU(reference.pointer, _id_getU.pointer).object<$U>();
+  $U get u {
+    return _u__getU(reference.pointer, _id_u__getU.pointer).object<$U>();
   }
 
-  static final _id_getNullableU = Nullability._class.instanceMethodId(
+  static final _id_nullableU__getNullableU =
+      Nullability._class.instanceMethodId(
     r'getNullableU',
     r'()Ljava/lang/Object;',
   );
 
-  static final _getNullableU = jni$_.ProtectedJniExtensions.lookup<
+  static final _nullableU__getNullableU = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -795,17 +802,19 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
 
   /// from: `public final U getNullableU()`
   /// The returned object must be released after use, by calling the [release] method.
-  $U? getNullableU() {
-    return _getNullableU(reference.pointer, _id_getNullableU.pointer)
+  $U? get nullableU {
+    return _nullableU__getNullableU(
+            reference.pointer, _id_nullableU__getNullableU.pointer)
         .object<$U?>();
   }
 
-  static final _id_setNullableU = Nullability._class.instanceMethodId(
+  static final _id_nullableU__setNullableU =
+      Nullability._class.instanceMethodId(
     r'setNullableU',
     r'(Ljava/lang/Object;)V',
   );
 
-  static final _setNullableU = jni$_.ProtectedJniExtensions.lookup<
+  static final _nullableU__setNullableU = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -817,11 +826,10 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public final void setNullableU(U object)`
-  void setNullableU(
-    $U? object,
-  ) {
+  set nullableU($U? object) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    _setNullableU(reference.pointer, _id_setNullableU.pointer, _$object.pointer)
+    _nullableU__setNullableU(reference.pointer,
+            _id_nullableU__setNullableU.pointer, _$object.pointer)
         .check();
   }
 
@@ -1456,12 +1464,12 @@ extension type Operators._(jni$_.JObject _$this) implements jni$_.JObject {
 }
 
 extension Operators$$Methods on Operators {
-  static final _id_getValue = Operators._class.instanceMethodId(
+  static final _id_value__getValue = Operators._class.instanceMethodId(
     r'getValue',
     r'()I',
   );
 
-  static final _getValue = jni$_.ProtectedJniExtensions.lookup<
+  static final _value__getValue = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -1474,16 +1482,17 @@ extension Operators$$Methods on Operators {
           )>();
 
   /// from: `public final int getValue()`
-  int getValue() {
-    return _getValue(reference.pointer, _id_getValue.pointer).integer;
+  int get value {
+    return _value__getValue(reference.pointer, _id_value__getValue.pointer)
+        .integer;
   }
 
-  static final _id_setValue = Operators._class.instanceMethodId(
+  static final _id_value__setValue = Operators._class.instanceMethodId(
     r'setValue',
     r'(I)V',
   );
 
-  static final _setValue = jni$_.ProtectedJniExtensions.lookup<
+  static final _value__setValue = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -1494,10 +1503,8 @@ extension Operators$$Methods on Operators {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
   /// from: `public final void setValue(int i)`
-  void setValue(
-    int i,
-  ) {
-    _setValue(reference.pointer, _id_setValue.pointer, i).check();
+  set value(int i) {
+    _value__setValue(reference.pointer, _id_value__setValue.pointer, i).check();
   }
 
   static final _id_plus = Operators._class.instanceMethodId(
@@ -1820,12 +1827,12 @@ extension type Speed._(jni$_.JObject _$this) implements Measure<SpeedUnit> {
 }
 
 extension Speed$$Methods on Speed {
-  static final _id_getValue = Speed._class.instanceMethodId(
+  static final _id_value__getValue = Speed._class.instanceMethodId(
     r'getValue',
     r'()F',
   );
 
-  static final _getValue = jni$_.ProtectedJniExtensions.lookup<
+  static final _value__getValue = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -1838,16 +1845,17 @@ extension Speed$$Methods on Speed {
           )>();
 
   /// from: `public float getValue()`
-  double getValue() {
-    return _getValue(reference.pointer, _id_getValue.pointer).float;
+  double get value {
+    return _value__getValue(reference.pointer, _id_value__getValue.pointer)
+        .float;
   }
 
-  static final _id_getUnit$1 = Speed._class.instanceMethodId(
+  static final _id_unit$1__getUnit = Speed._class.instanceMethodId(
     r'getUnit',
     r'()Lcom/github/dart_lang/jnigen/SpeedUnit;',
   );
 
-  static final _getUnit$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _unit$1__getUnit = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -1861,8 +1869,8 @@ extension Speed$$Methods on Speed {
 
   /// from: `public com.github.dart_lang.jnigen.SpeedUnit getUnit()`
   /// The returned object must be released after use, by calling the [release] method.
-  SpeedUnit getUnit$1() {
-    return _getUnit$1(reference.pointer, _id_getUnit$1.pointer)
+  SpeedUnit get unit$1 {
+    return _unit$1__getUnit(reference.pointer, _id_unit$1__getUnit.pointer)
         .object<SpeedUnit>();
   }
 
@@ -2104,12 +2112,12 @@ extension type SpeedUnit._(jni$_.JObject _$this)
 }
 
 extension SpeedUnit$$Methods on SpeedUnit {
-  static final _id_getSign = SpeedUnit._class.instanceMethodId(
+  static final _id_sign__getSign = SpeedUnit._class.instanceMethodId(
     r'getSign',
     r'()Ljava/lang/String;',
   );
 
-  static final _getSign = jni$_.ProtectedJniExtensions.lookup<
+  static final _sign__getSign = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -2123,31 +2131,35 @@ extension SpeedUnit$$Methods on SpeedUnit {
 
   /// from: `public java.lang.String getSign()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString getSign() {
-    return _getSign(reference.pointer, _id_getSign.pointer)
+  jni$_.JString get sign {
+    return _sign__getSign(reference.pointer, _id_sign__getSign.pointer)
         .object<jni$_.JString>();
   }
 
-  static final _id_getCoefficient = SpeedUnit._class.instanceMethodId(
+  static final _id_coefficient__getCoefficient =
+      SpeedUnit._class.instanceMethodId(
     r'getCoefficient',
     r'()F',
   );
 
-  static final _getCoefficient = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _coefficient__getCoefficient =
+      jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.JMethodIDPtr,
+                  )>>('globalEnv_CallFloatMethod')
+          .asFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallFloatMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )>();
 
   /// from: `public float getCoefficient()`
-  double getCoefficient() {
-    return _getCoefficient(reference.pointer, _id_getCoefficient.pointer).float;
+  double get coefficient {
+    return _coefficient__getCoefficient(
+            reference.pointer, _id_coefficient__getCoefficient.pointer)
+        .float;
   }
 }
 
@@ -2557,12 +2569,12 @@ extension SuspendFun$$Methods on SuspendFun {
     );
   }
 
-  static final _id_getResult = SuspendFun._class.instanceMethodId(
+  static final _id_result__getResult = SuspendFun._class.instanceMethodId(
     r'getResult',
     r'()I',
   );
 
-  static final _getResult = jni$_.ProtectedJniExtensions.lookup<
+  static final _result__getResult = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -2575,16 +2587,17 @@ extension SuspendFun$$Methods on SuspendFun {
           )>();
 
   /// from: `public final int getResult()`
-  int getResult() {
-    return _getResult(reference.pointer, _id_getResult.pointer).integer;
+  int get result {
+    return _result__getResult(reference.pointer, _id_result__getResult.pointer)
+        .integer;
   }
 
-  static final _id_setResult = SuspendFun._class.instanceMethodId(
+  static final _id_result__setResult = SuspendFun._class.instanceMethodId(
     r'setResult',
     r'(I)V',
   );
 
-  static final _setResult = jni$_.ProtectedJniExtensions.lookup<
+  static final _result__setResult = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -2595,10 +2608,9 @@ extension SuspendFun$$Methods on SuspendFun {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
   /// from: `public final void setResult(int i)`
-  void setResult(
-    int i,
-  ) {
-    _setResult(reference.pointer, _id_setResult.pointer, i).check();
+  set result(int i) {
+    _result__setResult(reference.pointer, _id_result__setResult.pointer, i)
+        .check();
   }
 
   static final _id_noReturn = SuspendFun._class.instanceMethodId(
@@ -3398,12 +3410,12 @@ final class $SuspendInterface$Type$ extends jni$_.JType<SuspendInterface> {
 final _TopLevelKtClass =
     jni$_.JClass.forName(r'com/github/dart_lang/jnigen/TopLevelKt');
 
-final _id_getTopLevelField = _TopLevelKtClass.staticMethodId(
+final _id_topLevelField__getTopLevelField = _TopLevelKtClass.staticMethodId(
   r'getTopLevelField',
   r'()I',
 );
 
-final _getTopLevelField = jni$_.ProtectedJniExtensions.lookup<
+final _topLevelField__getTopLevelField = jni$_.ProtectedJniExtensions.lookup<
         jni$_.NativeFunction<
             jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
@@ -3416,18 +3428,18 @@ final _getTopLevelField = jni$_.ProtectedJniExtensions.lookup<
         )>();
 
 /// from: `static public final int getTopLevelField()`
-int getTopLevelField() {
-  return _getTopLevelField(
-          _TopLevelKtClass.reference.pointer, _id_getTopLevelField.pointer)
+int get topLevelField {
+  return _topLevelField__getTopLevelField(_TopLevelKtClass.reference.pointer,
+          _id_topLevelField__getTopLevelField.pointer)
       .integer;
 }
 
-final _id_setTopLevelField = _TopLevelKtClass.staticMethodId(
+final _id_topLevelField__setTopLevelField = _TopLevelKtClass.staticMethodId(
   r'setTopLevelField',
   r'(I)V',
 );
 
-final _setTopLevelField = jni$_.ProtectedJniExtensions.lookup<
+final _topLevelField__setTopLevelField = jni$_.ProtectedJniExtensions.lookup<
             jni$_.NativeFunction<
                 jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
                     jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
@@ -3437,11 +3449,9 @@ final _setTopLevelField = jni$_.ProtectedJniExtensions.lookup<
             jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
 /// from: `static public final void setTopLevelField(int i)`
-void setTopLevelField(
-  int i,
-) {
-  _setTopLevelField(
-          _TopLevelKtClass.reference.pointer, _id_setTopLevelField.pointer, i)
+set topLevelField(int i) {
+  _topLevelField__setTopLevelField(_TopLevelKtClass.reference.pointer,
+          _id_topLevelField__setTopLevelField.pointer, i)
       .check();
 }
 
@@ -3497,12 +3507,12 @@ int topLevelSum(
 final _TopLevelKt$1Class =
     jni$_.JClass.forName(r'com/github/dart_lang/jnigen/subpackage/TopLevelKt');
 
-final _id_getTopLevelField$1 = _TopLevelKt$1Class.staticMethodId(
+final _id_topLevelField$1__getTopLevelField = _TopLevelKt$1Class.staticMethodId(
   r'getTopLevelField',
   r'()I',
 );
 
-final _getTopLevelField$1 = jni$_.ProtectedJniExtensions.lookup<
+final _topLevelField$1__getTopLevelField = jni$_.ProtectedJniExtensions.lookup<
         jni$_.NativeFunction<
             jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
@@ -3515,18 +3525,19 @@ final _getTopLevelField$1 = jni$_.ProtectedJniExtensions.lookup<
         )>();
 
 /// from: `static public final int getTopLevelField()`
-int getTopLevelField$1() {
-  return _getTopLevelField$1(
-          _TopLevelKt$1Class.reference.pointer, _id_getTopLevelField$1.pointer)
+int get topLevelField$1 {
+  return _topLevelField$1__getTopLevelField(
+          _TopLevelKt$1Class.reference.pointer,
+          _id_topLevelField$1__getTopLevelField.pointer)
       .integer;
 }
 
-final _id_setTopLevelField$1 = _TopLevelKt$1Class.staticMethodId(
+final _id_topLevelField$1__setTopLevelField = _TopLevelKt$1Class.staticMethodId(
   r'setTopLevelField',
   r'(I)V',
 );
 
-final _setTopLevelField$1 = jni$_.ProtectedJniExtensions.lookup<
+final _topLevelField$1__setTopLevelField = jni$_.ProtectedJniExtensions.lookup<
             jni$_.NativeFunction<
                 jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
                     jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
@@ -3536,11 +3547,9 @@ final _setTopLevelField$1 = jni$_.ProtectedJniExtensions.lookup<
             jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
 /// from: `static public final void setTopLevelField(int i)`
-void setTopLevelField$1(
-  int i,
-) {
-  _setTopLevelField$1(_TopLevelKt$1Class.reference.pointer,
-          _id_setTopLevelField$1.pointer, i)
+set topLevelField$1(int i) {
+  _topLevelField$1__setTopLevelField(_TopLevelKt$1Class.reference.pointer,
+          _id_topLevelField$1__setTopLevelField.pointer, i)
       .check();
 }
 
