@@ -4,6 +4,7 @@
 
 import '../code_generator.dart';
 import '../context.dart';
+import '../header_parser/sub_parsers/api_availability.dart';
 import '../strings.dart' as strings;
 import '../visitor/ast.dart';
 
@@ -148,6 +149,15 @@ class ObjCBlock extends BindingType with HasLocalScope {
   }
 
   bool get hasListener => returnType == voidType;
+
+  @override
+  ApiAvailability get computeAvailability {
+    var avail = returnType.computeAvailability;
+    for (final param in params) {
+      avail = avail.merge(param.type.computeAvailability);
+    }
+    return avail;
+  }
 
   String _blockType(Context context) {
     final argStr = params
@@ -444,10 +454,13 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
       context.rootObjCScope.addPrivate('_BlockingTrampoline'),
     );
 
+    final availStr = computeAvailability.apiAvailableMacro;
+    final avail = availStr == null ? '' : '$availStr\n';
+
     return '''
 
-typedef ${returnType.getNativeType()} (^$listenerName)($declArgStr);
-__attribute__((visibility("default"))) __attribute__((used))
+${avail}typedef ${returnType.getNativeType()} (^$listenerName)($declArgStr);
+${avail}__attribute__((visibility("default"))) __attribute__((used))
 $listenerName $listenerWrapper($listenerName block) NS_RETURNS_RETAINED {
   return ^void($argStr) {
     ${generateRetain('block')};
@@ -455,8 +468,8 @@ $listenerName $listenerWrapper($listenerName block) NS_RETURNS_RETAINED {
   };
 }
 
-typedef ${returnType.getNativeType()} (^$blockingName)($blockingArgStr);
-__attribute__((visibility("default"))) __attribute__((used))
+${avail}typedef ${returnType.getNativeType()} (^$blockingName)($blockingArgStr);
+${avail}__attribute__((visibility("default"))) __attribute__((used))
 $listenerName $blockingWrapper(
     $blockingName block, $blockingName listenerBlock,
     DOBJC_Context* ctx) NS_RETURNS_RETAINED {
@@ -495,10 +508,13 @@ $listenerName $blockingWrapper(
     final getterSel = '@selector(getDOBJCDartProtocolMethodForSelector:)';
     final blkGetter = '(($block)$msgSend(target, $getterSel, sel))';
 
+    final availStr = computeAvailability.apiAvailableMacro;
+    final avail = availStr == null ? '' : '$availStr\n';
+
     return '''
 
-typedef $ret (^$block)($argRecv);
-__attribute__((visibility("default"))) __attribute__((used))
+${avail}typedef $ret (^$block)($argRecv);
+${avail}__attribute__((visibility("default"))) __attribute__((used))
 $ret $fnName(id target, $argRecv) {
   return $blkGetter($argPass);
 }
