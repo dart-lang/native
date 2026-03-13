@@ -341,6 +341,43 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(stack.pop()?.toDartString(releaseOriginal: true), 'Hello');
         });
       });
+
+      test('GenericSubclass inheritance nullability', () {
+        using((arena) {
+          final subclass =
+              GenericSubclass<JString, JString>()..releasedBy(arena);
+
+          // Test method overrides (unannotated in subclass)
+          // Should follow relaxed rule: non-nullable usage in Dart.
+          final JString m1 =
+              subclass.method('hello'.toJString()..releasedBy(arena));
+          m1.release();
+
+          final JString m2 =
+              subclass.method2('world'.toJString()..releasedBy(arena));
+          m2.release();
+
+          // Test annotated methods in subclass
+          final JString? m3 = subclass
+              .methodReturningNullableT('foo'.toJString()..releasedBy(arena));
+          m3?.release();
+
+          final JString m4 = subclass
+              .methodReturningNotNullU('bar'.toJString()..releasedBy(arena));
+          m4.release();
+
+          // Test inherited fields from GenericBase<$T, $U?>
+          subclass.field = 'baseT'.toJString()..releasedBy(arena);
+          final JString f1 = subclass.field;
+          expect(f1.toDartString(releaseOriginal: true), 'baseT');
+
+          subclass.field2 = 'baseU'.toJString()..releasedBy(arena);
+          // field2 is from GenericBase<..., $U?>, so it should be JString?
+          final JString? f2 = subclass.field2;
+          expect(f2!.toDartString(releaseOriginal: true), 'baseU');
+        });
+      });
+
       test('MyMap<K, V>', () {
         using((arena) {
           final map = MyMap<JString, Example?>()..releasedBy(arena);
