@@ -344,37 +344,37 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
       test('GenericSubclass inheritance nullability', () {
         using((arena) {
-          final subclass =
-              GenericSubclass<JString, JString>()..releasedBy(arena);
+          final subclass = GenericSubclass<JString, JString?>()
+            ..releasedBy(arena);
 
-          // Test method overrides (unannotated in subclass)
-          // Should follow relaxed rule: non-nullable usage in Dart.
+          // ignore: omit_local_variable_types
           final JString m1 =
               subclass.method('hello'.toJString()..releasedBy(arena));
-          m1.release();
+          expect(m1.toDartString(releaseOriginal: true), 'hello');
 
-          final JString m2 =
-              subclass.method2('world'.toJString()..releasedBy(arena));
-          m2.release();
+          // ignore: omit_local_variable_types
+          final JString? m2 = subclass.method2(null);
+          expect(m2, null);
 
-          // Test annotated methods in subclass
+          // ignore: omit_local_variable_types
           final JString? m3 = subclass
               .methodReturningNullableT('foo'.toJString()..releasedBy(arena));
-          m3?.release();
+          expect(m3?.toDartString(releaseOriginal: true), 'foo');
 
-          final JString m4 = subclass
+          // ignore: omit_local_variable_types
+          final JString? m4 = subclass
               .methodReturningNotNullU('bar'.toJString()..releasedBy(arena));
-          m4.release();
+          expect(m4?.toDartString(releaseOriginal: true), 'bar');
 
-          // Test inherited fields from GenericBase<$T, $U?>
-          subclass.field = 'baseT'.toJString()..releasedBy(arena);
+          subclass.field = 'baz'.toJString()..releasedBy(arena);
+          // ignore: omit_local_variable_types
           final JString f1 = subclass.field;
-          expect(f1.toDartString(releaseOriginal: true), 'baseT');
+          expect(f1.toDartString(releaseOriginal: true), 'baz');
 
-          subclass.field2 = 'baseU'.toJString()..releasedBy(arena);
-          // field2 is from GenericBase<..., $U?>, so it should be JString?
+          subclass.field2 = null;
+          // ignore: omit_local_variable_types
           final JString? f2 = subclass.field2;
-          expect(f2!.toDartString(releaseOriginal: true), 'baseU');
+          expect(f2, null);
         });
       });
 
