@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:hooks_runner/src/model/kernel_assets.dart';
-import 'package:hooks_runner/src/model/target.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -16,37 +15,37 @@ void main() {
     KernelAsset(
       id: 'foo',
       path: KernelAssetAbsolutePath(fooUri),
-      target: Target.androidX64,
+      target: .androidX64,
     ),
     KernelAsset(
       id: 'foo2',
       path: KernelAssetRelativePath(foo2Uri),
-      target: Target.androidX64,
+      target: .androidX64,
     ),
     KernelAsset(
       id: 'foo3',
       path: KernelAssetSystemPath(foo3Uri),
-      target: Target.androidX64,
+      target: .androidX64,
     ),
     KernelAsset(
       id: 'foo4',
       path: KernelAssetInExecutable(),
-      target: Target.androidX64,
+      target: .androidX64,
     ),
     KernelAsset(
       id: 'foo5',
       path: KernelAssetInProcess(),
-      target: Target.androidX64,
+      target: .androidX64,
     ),
     KernelAsset(
       id: 'bar',
       path: KernelAssetAbsolutePath(barUri),
-      target: Target.linuxArm64,
+      target: .linuxArm64,
     ),
     KernelAsset(
       id: 'bla',
       path: KernelAssetAbsolutePath(blaUri),
-      target: Target.windowsX64,
+      target: .windowsX64,
     ),
   ]);
 

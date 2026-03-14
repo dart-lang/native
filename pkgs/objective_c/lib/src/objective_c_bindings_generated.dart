@@ -622,6 +622,14 @@ final class AEDesc extends ffi.Struct {
   external int descriptorType;
 
   external ffi.Pointer<ffi.Pointer<OpaqueAEDataStorageType>> dataHandle;
+
+  static ffi.Pointer<AEDesc> $allocate(
+    ffi.Allocator $allocator, {
+    required int descriptorType,
+    required ffi.Pointer<ffi.Pointer<OpaqueAEDataStorageType>> dataHandle,
+  }) => $allocator<AEDesc>()
+    ..ref.descriptorType = descriptorType
+    ..ref.dataHandle = dataHandle;
 }
 
 final class CFRunLoop extends ffi.Opaque {}
@@ -636,6 +644,14 @@ final class CGPoint extends ffi.Struct {
 
   @ffi.Double()
   external double y;
+
+  static ffi.Pointer<CGPoint> $allocate(
+    ffi.Allocator $allocator, {
+    required double x,
+    required double y,
+  }) => $allocator<CGPoint>()
+    ..ref.x = x
+    ..ref.y = y;
 }
 
 final class CGRect extends ffi.Struct {
@@ -650,6 +666,14 @@ final class CGSize extends ffi.Struct {
 
   @ffi.Double()
   external double height;
+
+  static ffi.Pointer<CGSize> $allocate(
+    ffi.Allocator $allocator, {
+    required double width,
+    required double height,
+  }) => $allocator<CGSize>()
+    ..ref.width = width
+    ..ref.height = height;
 }
 
 /// Represents a single KVO observation. Each observation creates a new
@@ -5078,6 +5102,18 @@ final class NSEdgeInsets extends ffi.Struct {
 
   @ffi.Double()
   external double right;
+
+  static ffi.Pointer<NSEdgeInsets> $allocate(
+    ffi.Allocator $allocator, {
+    required double top,
+    required double left,
+    required double bottom,
+    required double right,
+  }) => $allocator<NSEdgeInsets>()
+    ..ref.top = top
+    ..ref.left = left
+    ..ref.bottom = bottom
+    ..ref.right = right;
 }
 
 sealed class NSEnumerationOptions {
@@ -18385,6 +18421,14 @@ final class NSRange extends ffi.Struct {
 
   @ffi.UnsignedLong()
   external int length;
+
+  static ffi.Pointer<NSRange> $allocate(
+    ffi.Allocator $allocator, {
+    required int location,
+    required int length,
+  }) => $allocator<NSRange>()
+    ..ref.location = location
+    ..ref.length = length;
 }
 
 /// NSRunLoop

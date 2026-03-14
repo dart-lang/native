@@ -27,7 +27,7 @@ void main() async {
           dartExecutable,
           capturedLogs: logMessages,
           runPackageName: 'some_dev_dep',
-          buildAssetTypes: [BuildAssetType.code],
+          buildAssetTypes: [.code],
         )).success;
         expect(result.encodedAssets, isEmpty);
         expect(result.dependencies, isEmpty);
@@ -41,7 +41,7 @@ void main() async {
           dartExecutable,
           capturedLogs: logMessages,
           runPackageName: 'native_add',
-          buildAssetTypes: [BuildAssetType.code],
+          buildAssetTypes: [.code],
         )).success;
         expect(result.encodedAssets, isNotEmpty);
         expect(

@@ -495,7 +495,7 @@ sealed class HookOutputBuilder {
     timestamp: DateTime.now().roundDownToSeconds().toString(),
     assets: null,
     dependencies: null,
-    status: OutputStatusSyntax.success,
+    status: .success,
     failureDetails: null,
     assetsForLinking: {},
   );
@@ -529,13 +529,13 @@ sealed class HookOutputBuilder {
 
   /// Sets the failure of this output.
   void setFailure(FailureType value) {
-    _syntax.status = OutputStatusSyntax.failure;
+    _syntax.status = .failure;
     _syntax.failureDetails = FailureSyntax(
       type: switch (value) {
-        FailureType.build => FailureTypeSyntax.build,
-        FailureType.infra => FailureTypeSyntax.infra,
-        FailureType.uncategorized => FailureTypeSyntax.uncategorized,
-        _ => FailureTypeSyntax.uncategorized,
+        FailureType.build => .build,
+        FailureType.infra => .infra,
+        FailureType.uncategorized => .uncategorized,
+        _ => .uncategorized,
       },
     );
   }
@@ -1217,9 +1217,9 @@ final class HookOutputFailure {
   /// This helps in categorizing the error and determining the appropriate
   /// response or fix.
   FailureType get type => switch (_syntax.failureDetails?.type) {
-    FailureTypeSyntax.build => FailureType.build,
-    FailureTypeSyntax.infra => FailureType.infra,
-    FailureTypeSyntax.uncategorized => FailureType.uncategorized,
+    .build => FailureType.build,
+    .infra => FailureType.infra,
+    .uncategorized => FailureType.uncategorized,
     _ => FailureType.uncategorized,
   };
 }
@@ -1250,9 +1250,9 @@ sealed class BuildOutputMaybeFailure {
     final status = syntax.status;
     switch (status) {
       case null: // backwards compatibility.
-      case OutputStatusSyntax.success:
+      case .success:
         return BuildOutput(json);
-      case OutputStatusSyntax.failure:
+      case .failure:
         return BuildOutputFailure._(json);
     }
     throw StateError('Unknown status: $status.');
@@ -1269,9 +1269,9 @@ sealed class LinkOutputMaybeFailure {
     final status = syntax.status;
     switch (status) {
       case null: // backwards compatibility.
-      case OutputStatusSyntax.success:
+      case .success:
         return LinkOutput(json);
-      case OutputStatusSyntax.failure:
+      case .failure:
         return LinkOutputFailure._(json);
     }
     throw StateError('Unknown status: $status.');

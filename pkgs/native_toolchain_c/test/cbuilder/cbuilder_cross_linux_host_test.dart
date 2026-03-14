@@ -20,72 +20,93 @@ void main() {
     return;
   }
 
-  const targets = [
-    Architecture.arm,
-    Architecture.arm64,
-    Architecture.ia32,
-    Architecture.x64,
-    Architecture.riscv64,
+  // These configurations are a selection of combinations of architectures,
+  // link modes, and optimization levels.
+  // We don't test the full cartesian product to keep the CI time manageable.
+  // When adding a new configuration, consider if it tests a new combination
+  // that is not yet covered by the existing tests.
+  final configurations = [
+    (
+      linkMode: DynamicLoadingBundled(),
+      target: Architecture.arm,
+      optimizationLevel: OptimizationLevel.o0,
+    ),
+    (
+      linkMode: StaticLinking(),
+      target: Architecture.arm64,
+      optimizationLevel: OptimizationLevel.o1,
+    ),
+    (
+      linkMode: DynamicLoadingBundled(),
+      target: Architecture.ia32,
+      optimizationLevel: OptimizationLevel.o2,
+    ),
+    (
+      linkMode: StaticLinking(),
+      target: Architecture.x64,
+      optimizationLevel: OptimizationLevel.o3,
+    ),
+    (
+      linkMode: DynamicLoadingBundled(),
+      target: Architecture.riscv64,
+      optimizationLevel: OptimizationLevel.oS,
+    ),
+    (
+      linkMode: StaticLinking(),
+      target: Architecture.arm,
+      optimizationLevel: OptimizationLevel.unspecified,
+    ),
   ];
 
-  const optimizationLevels = OptimizationLevel.values;
-  var selectOptimizationLevel = 0;
+  for (final (:linkMode, :target, :optimizationLevel) in configurations) {
+    test('CBuilder $linkMode library $target $optimizationLevel', () async {
+      final tempUri = await tempDirForTest();
+      final tempUri2 = await tempDirForTest();
+      final addCUri = packageUri.resolve(
+        'test/cbuilder/testfiles/add/src/add.c',
+      );
+      const name = 'add';
 
-  for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
-    for (final target in targets) {
-      // Cycle through all optimization levels.
-      final optimizationLevel = optimizationLevels[selectOptimizationLevel];
-      selectOptimizationLevel =
-          (selectOptimizationLevel + 1) % optimizationLevels.length;
-      test('CBuilder $linkMode library $target $optimizationLevel', () async {
-        final tempUri = await tempDirForTest();
-        final tempUri2 = await tempDirForTest();
-        final addCUri = packageUri.resolve(
-          'test/cbuilder/testfiles/add/src/add.c',
-        );
-        const name = 'add';
-
-        final buildInputBuilder = BuildInputBuilder()
-          ..setupShared(
-            packageName: name,
-            packageRoot: tempUri,
-            outputFile: tempUri.resolve('output.json'),
-            outputDirectoryShared: tempUri2,
-          )
-          ..config.setupBuild(linkingEnabled: false)
-          ..addExtension(
-            CodeAssetExtension(
-              targetOS: OS.linux,
-              targetArchitecture: target,
-              linkModePreference: linkMode == DynamicLoadingBundled()
-                  ? LinkModePreference.dynamic
-                  : LinkModePreference.static,
-              cCompiler: cCompiler,
-            ),
-          );
-
-        final buildInput = buildInputBuilder.build();
-        final buildOutput = BuildOutputBuilder();
-
-        final cbuilder = CBuilder.library(
-          name: name,
-          assetName: name,
-          sources: [addCUri.toFilePath()],
-          optimizationLevel: optimizationLevel,
-          buildMode: BuildMode.release,
-        );
-        await cbuilder.run(
-          input: buildInput,
-          output: buildOutput,
-          logger: logger,
+      final buildInputBuilder = BuildInputBuilder()
+        ..setupShared(
+          packageName: name,
+          packageRoot: tempUri,
+          outputFile: tempUri.resolve('output.json'),
+          outputDirectoryShared: tempUri2,
+        )
+        ..config.setupBuild(linkingEnabled: false)
+        ..addExtension(
+          CodeAssetExtension(
+            targetOS: .linux,
+            targetArchitecture: target,
+            linkModePreference: linkMode == DynamicLoadingBundled()
+                ? .dynamic
+                : .static,
+            cCompiler: cCompiler,
+          ),
         );
 
-        final libUri = buildInput.outputDirectory.resolve(
-          OS.linux.libraryFileName(name, linkMode),
-        );
-        final machine = await readelfMachine(libUri.path);
-        expect(machine, contains(readElfMachine[target]));
-      });
-    }
+      final buildInput = buildInputBuilder.build();
+      final buildOutput = BuildOutputBuilder();
+
+      final cbuilder = CBuilder.library(
+        name: name,
+        assetName: name,
+        sources: [addCUri.toFilePath()],
+        optimizationLevel: optimizationLevel,
+        buildMode: .release,
+      );
+      await cbuilder.run(
+        input: buildInput,
+        output: buildOutput,
+        logger: logger,
+      );
+
+      final libUri = buildInput.outputDirectory.resolve(
+        OS.linux.libraryFileName(name, linkMode),
+      );
+      final machine = await readelfMachine(libUri.path);
+      expect(machine, contains(readElfMachine[target]));
+    });
   }
 }

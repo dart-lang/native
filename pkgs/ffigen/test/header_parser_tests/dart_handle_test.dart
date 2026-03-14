@@ -34,7 +34,9 @@ ${strings.headers}:
       );
     });
     test('Expected Bindings', () {
+      final context = testContext();
       matchLibraryWithExpected(
+        context,
         actual,
         'header_parser_dart_handle_test_output.dart',
         [

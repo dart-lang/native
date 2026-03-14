@@ -6,13 +6,6 @@
       "value": 42
     },
     {
-      "definition_index": 0,
-      "type": "instance",
-      "value": {
-        "i": 0
-      }
-    },
-    {
       "type": "int",
       "value": 43
     },
@@ -20,7 +13,14 @@
       "definition_index": 0,
       "type": "instance",
       "value": {
-        "i": 2
+        "i": 0
+      }
+    },
+    {
+      "definition_index": 0,
+      "type": "instance",
+      "value": {
+        "i": 1
       }
     }
   ],
@@ -50,17 +50,13 @@
         "definition_index": 0,
         "uses": [
           {
-            "constant_index": 1,
-            "loading_unit_indices": [
-              0
-            ],
+            "constant_index": 2,
+            "loading_unit_index": 0,
             "type": "constant"
           },
           {
             "constant_index": 3,
-            "loading_unit_indices": [
-              0
-            ],
+            "loading_unit_index": 0,
             "type": "constant"
           }
         ]

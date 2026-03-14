@@ -121,7 +121,7 @@ extension LinkerOptionsExt on LinkerOptions {
     OS targetOS,
   ) {
     switch (targetOS) {
-      case OS.macOS || OS.iOS:
+      case .macOS || .iOS:
         return [
           if (!_keepAllSymbols) ...sourceFiles,
           ..._toLinkerSyntax(tool, [
@@ -137,7 +137,7 @@ extension LinkerOptionsExt on LinkerOptions {
           ]),
         ];
 
-      case OS.android || OS.linux:
+      case .android || .linux:
         final wholeArchiveSandwich =
             sourceFiles.any((source) => source.endsWith('.a')) ||
             _keepAllSymbols;
@@ -173,8 +173,7 @@ extension LinkerOptionsExt on LinkerOptions {
     if (_keepAllSymbols) ...sourceFiles.map((e) => '/WHOLEARCHIVE:$e'),
     ..._linkerFlags,
     ..._symbols.map(
-      (symbol) =>
-          '/INCLUDE:${targetArch == Architecture.ia32 ? '_' : ''}$symbol',
+      (symbol) => '/INCLUDE:${targetArch == .ia32 ? '_' : ''}$symbol',
     ),
     if (_linkerScriptMode is ManualLinkerScript)
       '/DEF:${_linkerScriptMode.script.toFilePath()}'

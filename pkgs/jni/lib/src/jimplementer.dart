@@ -11,7 +11,6 @@ import 'package:meta/meta.dart' show internal;
 import 'accessors.dart';
 import 'jni.dart';
 import 'jobject.dart';
-import 'jreference.dart';
 import 'lang/jstring.dart';
 import 'third_party/generated_bindings.dart';
 import 'types.dart';
@@ -42,10 +41,8 @@ class JImplementer extends JObject {
 
   factory JImplementer() {
     ProtectedJniExtensions.ensureInitialized();
-    return JImplementer.fromReference(_new(
-            _class.reference.pointer,
-            _newId as JMethodIDPtr,
-            ProtectedJniExtensions.getCurrentIsolateId())
+    return JImplementer.fromReference(_new(_class.reference.pointer,
+            _newId.pointer, ProtectedJniExtensions.getCurrentIsolateId())
         .reference);
   }
 
@@ -79,13 +76,11 @@ class JImplementer extends JObject {
           (binaryName.toJString()..releasedBy(arena)).reference;
       _addImplementation(
         reference.pointer,
-        _addImplementationId as JMethodIDPtr,
+        _addImplementationId.pointer,
         binaryNameRef.pointer,
         port.sendPort.nativePort,
         pointer.address,
-        (asyncMethods
-                .map((m) => m.toJString()..releasedBy(arena))
-                .toJList(JString.type)
+        (asyncMethods.map((m) => m.toJString()..releasedBy(arena)).toJList()
               ..releasedBy(arena))
             .reference
             .pointer,
@@ -114,17 +109,7 @@ class JImplementer extends JObject {
   /// added interfaces with the given implementations.
   ///
   /// Releases this implementer.
-  T implement<T extends JObject>(JType<T> type) {
-    return type.fromReference(implementReference());
-  }
-
-  /// Used in the JNIgen generated code.
-  ///
-  /// It is unnecessary to construct the type object when the code is generated.
-  @internal
-  JReference implementReference() {
-    final ref = _build(reference.pointer, _buildId as JMethodIDPtr).reference;
-    release();
-    return ref;
+  T implement<T extends JObject>() {
+    return _build(reference.pointer, _buildId.pointer).object<T>();
   }
 }

@@ -274,6 +274,7 @@ class Config {
       this.logLevel = Level.INFO,
       this.dumpJsonTo,
       this.imports,
+      this.hide,
       this.visitors}) {
     for (final className in classes) {
       _validateClassName(className);
@@ -322,6 +323,9 @@ class Config {
 
   /// List of dependencies.
   final List<Uri>? imports;
+
+  /// Hide concrete classes from the imports
+  final List<String>? hide;
 
   /// Call [importClasses] before using this.
   late final Map<String, ClassDecl> importedClasses;
@@ -387,6 +391,9 @@ class Config {
         final classes = entry.value as YamlMap;
         for (final classEntry in classes.entries) {
           final binaryName = classEntry.key as String;
+          if (hide?.contains(binaryName) ?? false) {
+            continue;
+          }
           final decl = classEntry.value as YamlMap;
           if (importedClasses.containsKey(binaryName)) {
             log.fatal(
@@ -400,7 +407,6 @@ class Config {
           )
             ..path = '$importPath/$filePath'
             ..finalName = decl['name'] as String
-            ..superCount = decl['super_count'] as int
             ..allTypeParams = []
             // TODO(https://github.com/dart-lang/native/issues/746): include
             // outerClass in the interop information.

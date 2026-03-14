@@ -10,12 +10,12 @@
       "value": 1
     },
     {
-      "type": "string",
-      "value": "mercury"
-    },
-    {
       "type": "int",
       "value": 42
+    },
+    {
+      "type": "string",
+      "value": "mercury"
     }
   ],
   "definitions": [
@@ -46,12 +46,10 @@
         "definition_index": 0,
         "uses": [
           {
-            "loading_unit_indices": [
-              0
-            ],
+            "loading_unit_index": 0,
             "named": {
-              "freddy": 2,
-              "answer": 3
+              "answer": 2,
+              "freddy": 3
             },
             "positional": [
               0,

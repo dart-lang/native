@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
 import 'package:record_use/src/canonicalization_context.dart';
 import 'package:test/test.dart';
 
@@ -62,12 +62,12 @@ void main() {
             const CallWithArguments(
               positionalArguments: [constant],
               namedArguments: {},
-              loadingUnits: [],
+              loadingUnit: LoadingUnit(''),
             ),
             const CallWithArguments(
               positionalArguments: [constant],
               namedArguments: {},
-              loadingUnits: [],
+              loadingUnit: LoadingUnit(''),
             ),
           ],
         },
@@ -81,13 +81,78 @@ void main() {
       expect(constants, hasLength(1));
       expect(constants[0], {'type': 'int', 'value': 42});
 
-      // Both calls should reference the same constant index.
+      // Both calls are identical, so they should be deduplicated into one.
       final uses = json['uses'] as Map;
       final staticCalls = uses['static_calls'] as List;
       final recording = staticCalls[0] as Map;
       final calls = recording['uses'] as List;
+      expect(calls, hasLength(1));
       expect((calls[0] as Map)['positional'], [0]);
-      expect((calls[1] as Map)['positional'], [0]);
+    });
+
+    test('Recordings.toJson deduplicates and sorts references', () {
+      const definition = Definition('package:a/a.dart', [Name('foo')]);
+      const unit1 = LoadingUnit('1');
+      const unit2 = LoadingUnit('2');
+
+      final recordings = Recordings(
+        calls: {
+          definition: [
+            const CallWithArguments(
+              positionalArguments: [IntConstant(2)],
+              namedArguments: {},
+              loadingUnit: unit1,
+            ),
+            const CallWithArguments(
+              positionalArguments: [IntConstant(1)],
+              namedArguments: {},
+              loadingUnit: unit1,
+            ),
+            const CallWithArguments(
+              positionalArguments: [IntConstant(1)],
+              namedArguments: {},
+              loadingUnit: unit1,
+            ),
+            const CallWithArguments(
+              positionalArguments: [IntConstant(1)],
+              namedArguments: {},
+              loadingUnit: unit2,
+            ),
+          ],
+        },
+        instances: {},
+      );
+
+      final json = recordings.toJson();
+      final uses = json['uses'] as Map;
+      final staticCalls = uses['static_calls'] as List;
+      final recording = staticCalls[0] as Map;
+      final calls = recording['uses'] as List;
+
+      // Should have 3 unique calls after deduplication, sorted by toString.
+      // CallWithArguments(positional: IntConstant(1), loadingUnit: 1)
+      // CallWithArguments(positional: IntConstant(1), loadingUnit: 2)
+      // CallWithArguments(positional: IntConstant(2), loadingUnit: 1)
+      expect(calls, hasLength(3));
+
+      final backAgain = Recordings.fromJson(json);
+      final backCalls = backAgain.calls[definition]!;
+      expect(backCalls, hasLength(3));
+
+      // Verify sorting (based on toString which includes positional args and
+      // loading units)
+      expect(
+        backCalls[0].toString(),
+        contains('positional: IntConstant(1), loadingUnit: 1'),
+      );
+      expect(
+        backCalls[1].toString(),
+        contains('positional: IntConstant(2), loadingUnit: 1'),
+      );
+      expect(
+        backCalls[2].toString(),
+        contains('positional: IntConstant(1), loadingUnit: 2'),
+      );
     });
   });
 }

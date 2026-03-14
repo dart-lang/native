@@ -13,8 +13,8 @@
       "definition_index": 0,
       "type": "instance",
       "value": {
-        "index": 0,
-        "_name": 1
+        "_name": 1,
+        "index": 0
       }
     }
   ],
@@ -44,9 +44,7 @@
         "definition_index": 0,
         "uses": [
           {
-            "loading_unit_indices": [
-              0
-            ],
+            "loading_unit_index": 0,
             "positional": [
               2
             ],

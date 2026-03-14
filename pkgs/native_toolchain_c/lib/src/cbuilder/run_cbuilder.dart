@@ -71,7 +71,7 @@ class RunCBuilder {
     this.defines = const {},
     this.pic,
     this.std,
-    this.language = Language.c,
+    this.language = .c,
     this.cppLinkStdLib,
     required this.optimizationLevel,
   }) : outDir = input.outputDirectory,
@@ -79,7 +79,7 @@ class RunCBuilder {
          [executable, dynamicLibrary, staticLibrary].whereType<Uri>().length ==
              1,
        ) {
-    if (codeConfig.targetOS == OS.windows && cppLinkStdLib != null) {
+    if (codeConfig.targetOS == .windows && cppLinkStdLib != null) {
       throw ArgumentError.value(
         cppLinkStdLib,
         'cppLinkStdLib',
@@ -98,12 +98,12 @@ class RunCBuilder {
   Future<Uri> archiver() async => (await _resolver.resolveArchiver()).uri;
 
   Future<Uri> iosSdk(IOSSdk iosSdk, ToolResolvingContext context) async {
-    if (iosSdk == IOSSdk.iPhoneOS) {
+    if (iosSdk == .iPhoneOS) {
       return (await iPhoneOSSdk.defaultResolver!.resolve(
         context,
       )).where((i) => i.tool == iPhoneOSSdk).first.uri;
     }
-    assert(iosSdk == IOSSdk.iPhoneSimulator);
+    assert(iosSdk == .iPhoneSimulator);
     return (await iPhoneSimulatorSdk.defaultResolver!.resolve(
       context,
     )).where((i) => i.tool == iPhoneSimulatorSdk).first.uri;
@@ -141,7 +141,7 @@ class RunCBuilder {
     }
 
     final IOSSdk? targetIosSdk;
-    if (codeConfig.targetOS == OS.iOS) {
+    if (codeConfig.targetOS == .iOS) {
       targetIosSdk = codeConfig.iOS.targetSdk;
     } else {
       targetIosSdk = null;
@@ -151,7 +151,7 @@ class RunCBuilder {
     // invoking clang. Mimic that behavior here.
     // See https://github.com/dart-lang/native/issues/171.
     final int? targetAndroidNdkApi;
-    if (codeConfig.targetOS == OS.android) {
+    if (codeConfig.targetOS == .android) {
       final minimumApi = codeConfig.targetArchitecture == Architecture.riscv64
           ? 35
           : 21;
@@ -160,10 +160,10 @@ class RunCBuilder {
       targetAndroidNdkApi = null;
     }
 
-    final targetIOSVersion = codeConfig.targetOS == OS.iOS
+    final targetIOSVersion = codeConfig.targetOS == .iOS
         ? codeConfig.iOS.targetVersion
         : null;
-    final targetMacOSVersion = codeConfig.targetOS == OS.macOS
+    final targetMacOSVersion = codeConfig.targetOS == .macOS
         ? codeConfig.macOS.targetVersion
         : null;
 
@@ -231,26 +231,26 @@ class RunCBuilder {
       executable: toolInstance.uri,
       environment: environment,
       arguments: [
-        if (codeConfig.targetOS == OS.android) ...[
+        if (codeConfig.targetOS == .android) ...[
           '--target='
               '${androidNdkClangTargetFlags[architecture]!}'
               '${targetAndroidNdkApi!}',
           '--sysroot=${androidSysroot(toolInstance).toFilePath()}',
         ],
-        if (codeConfig.targetOS == OS.windows)
+        if (codeConfig.targetOS == .windows)
           '--target=${clangWindowsTargetFlags[architecture]!}',
-        if (codeConfig.targetOS == OS.macOS)
+        if (codeConfig.targetOS == .macOS)
           '--target=${appleClangMacosTargetFlags[architecture]!}',
-        if (codeConfig.targetOS == OS.iOS)
+        if (codeConfig.targetOS == .iOS)
           '--target=${appleClangIosTargetFlags[architecture]![targetIosSdk]!}',
         if (targetIOSVersion != null) '-mios-version-min=$targetIOSVersion',
         if (targetMacOSVersion != null)
           '-mmacos-version-min=$targetMacOSVersion',
-        if (codeConfig.targetOS == OS.iOS) ...[
+        if (codeConfig.targetOS == .iOS) ...[
           '-isysroot',
           (await iosSdk(targetIosSdk!, context)).toFilePath(),
         ],
-        if (codeConfig.targetOS == OS.macOS) ...[
+        if (codeConfig.targetOS == .macOS) ...[
           '-isysroot',
           (await macosSdk(context)).toFilePath(),
         ],
@@ -260,7 +260,7 @@ class RunCBuilder {
         ],
         if (pic != null)
           if (toolInstance.tool.isClangLike &&
-              codeConfig.targetOS != OS.windows) ...[
+              codeConfig.targetOS != .windows) ...[
             if (pic!) ...[
               if (dynamicLibrary != null) '-fPIC',
               // Using PIC for static libraries allows them to be linked into
@@ -291,18 +291,17 @@ class RunCBuilder {
             ],
           ],
         if (std != null) '-std=$std',
-        if (language == Language.cpp) ...[
+        if (language == .cpp) ...[
           '-x',
           'c++',
           '-l',
           cppLinkStdLib ?? defaultCppLinkStdLib[codeConfig.targetOS]!,
         ],
-        if (optimizationLevel != OptimizationLevel.unspecified)
-          optimizationLevel.clangFlag(),
+        if (optimizationLevel != .unspecified) optimizationLevel.clangFlag(),
         // Support Android 15 page size by default, can be overridden by
         // passing [flags].
-        if (codeConfig.targetOS == OS.android) '-Wl,-z,max-page-size=16384',
-        if (codeConfig.targetOS == OS.iOS || codeConfig.targetOS == OS.macOS)
+        if (codeConfig.targetOS == .android) '-Wl,-z,max-page-size=16384',
+        if (codeConfig.targetOS == .iOS || codeConfig.targetOS == .macOS)
           '-Wl,-encryptable',
         ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
@@ -319,7 +318,7 @@ class RunCBuilder {
           )
         else
           ...sourceFiles,
-        if (language == Language.objectiveC) ...[
+        if (language == .objectiveC) ...[
           for (final framework in frameworks) ...['-framework', framework],
         ],
         if (executable != null) ...[
@@ -335,7 +334,7 @@ class RunCBuilder {
           outFile!.toFilePath(),
         ],
         if (executable != null || dynamicLibrary != null) ...[
-          if (codeConfig.targetOS case OS.android || OS.linux)
+          if (codeConfig.targetOS case .android || .linux)
             // During bundling code assets are all placed in the same directory.
             // Setting this rpath allows the binary to find other code assets
             // it is linked against.
@@ -364,10 +363,9 @@ class RunCBuilder {
     final result = await runProcess(
       executable: tool.uri,
       arguments: [
-        if (optimizationLevel != OptimizationLevel.unspecified)
-          optimizationLevel.msvcFlag(),
+        if (optimizationLevel != .unspecified) optimizationLevel.msvcFlag(),
         if (std != null) '/std:$std',
-        if (language == Language.cpp) '/TP',
+        if (language == .cpp) '/TP',
         ...flags,
         for (final MapEntry(key: name, :value) in defines.entries)
           if (value == null) '/D$name' else '/D$name=$value',

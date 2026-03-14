@@ -47,15 +47,30 @@ void main() {
       missingExpectations: field.$2,
     );
   }
+
+  final constructorTearoffDataUri = testDataUri.resolve(
+    'constructor_tearoff.json',
+  );
+  for (final field in constructorTearoffFields) {
+    testField(
+      schemaUri: schemaUri,
+      dataUri: constructorTearoffDataUri,
+      schema: schema,
+      data: allTestData[constructorTearoffDataUri]!,
+      field: field.$1,
+      missingExpectations: field.$2,
+    );
+  }
 }
 
-const constNullIndex = 4;
-const constNonConstantIndex = 5;
-const constInstanceIndex = 7;
-const constMapIndex = 3;
-const constUnsupportedIndex = 9;
+const constNonConstantIndex = 0;
+const constUnsupportedIndex = 1;
+const constNullIndex = 2;
+const constDoubleIndex = 5;
+const constMapIndex = 9;
 const constRecordIndex = 10;
 const constEnumIndex = 11;
+const constInstanceIndex = 12;
 typedef SchemaTestField = (
   List<Object> path,
   void Function(ValidationResults result) missingExpectations,
@@ -63,17 +78,23 @@ typedef SchemaTestField = (
 
 List<SchemaTestField> recordUseFields = [
   (['constants'], expectOptionalFieldMissing),
-  for (var index = 0; index < 12; index++) ...[
+  for (var index = 0; index < 13; index++) ...[
     (['constants', index, 'type'], expectRequiredFieldMissing),
     if (index != constNullIndex &&
         index != constNonConstantIndex &&
         index != constInstanceIndex &&
         index != constUnsupportedIndex &&
         index != constRecordIndex &&
-        index != constEnumIndex)
+        index != constEnumIndex &&
+        index != constDoubleIndex)
       (['constants', index, 'value'], expectRequiredFieldMissing),
     if (index == constInstanceIndex)
       (['constants', index, 'value'], expectOptionalFieldMissing),
+    if (index == constDoubleIndex) ...[
+      (['constants', index, 'value'], expectRequiredFieldMissing),
+      (['constants', index, 'value', 'type'], expectRequiredFieldMissing),
+      (['constants', index, 'value', 'value'], expectRequiredFieldMissing),
+    ],
     if (index == constEnumIndex) ...[
       (['constants', index, 'definition_index'], expectRequiredFieldMissing),
       (['constants', index, 'index'], expectRequiredFieldMissing),
@@ -94,21 +115,21 @@ List<SchemaTestField> recordUseFields = [
     // omitted. Also, Null and NonConstant have no value field.
   ],
   (['definitions'], expectOptionalFieldMissing),
-  (['definitions', 0, 'uri'], expectRequiredFieldMissing),
-  (['definitions', 0, 'path'], expectRequiredFieldMissing),
-  (['definitions', 0, 'path', 0], expectOptionalFieldMissing),
+  (['definitions', 1, 'uri'], expectRequiredFieldMissing),
+  (['definitions', 1, 'path'], expectRequiredFieldMissing),
+  (['definitions', 1, 'path', 0], expectOptionalFieldMissing),
   (
-    ['definitions', 0, 'path', 0, 'name'],
+    ['definitions', 1, 'path', 0, 'name'],
     expectRequiredFieldMissing,
   ),
   (
-    ['definitions', 0, 'path', 0, 'kind'],
+    ['definitions', 1, 'path', 0, 'kind'],
     expectOptionalFieldMissing,
   ),
   (
     [
       'definitions',
-      0,
+      1,
       'path',
       0,
       'disambiguators',
@@ -148,7 +169,7 @@ List<SchemaTestField> recordUseFields = [
     expectOptionalFieldMissing,
   ),
   (
-    ['uses', 'static_calls', 0, 'uses', 0, 'loading_unit_indices'],
+    ['uses', 'static_calls', 0, 'uses', 0, 'loading_unit_index'],
     expectRequiredFieldMissing,
   ),
   (['uses', 'instances'], expectOptionalFieldMissing),
@@ -162,14 +183,18 @@ List<SchemaTestField> recordUseFields = [
     expectRequiredFieldMissing,
   ),
   (
-    ['uses', 'instances', 0, 'uses', 0, 'loading_unit_indices'],
+    ['uses', 'instances', 0, 'uses', 0, 'loading_unit_index'],
     expectRequiredFieldMissing,
   ),
 ];
 
 List<SchemaTestField> constructorInvocationFields = [
   (
-    ['uses', 'instances', 0, 'uses', 0, 'loading_unit_indices'],
+    ['uses', 'instances', 0, 'uses', 0, 'definition_index'],
+    expectRequiredFieldMissing,
+  ),
+  (
+    ['uses', 'instances', 0, 'uses', 0, 'loading_unit_index'],
     expectRequiredFieldMissing,
   ),
   (
@@ -187,6 +212,21 @@ List<SchemaTestField> constructorInvocationFields = [
   (
     ['uses', 'instances', 0, 'uses', 0, 'named', 'other'],
     expectOptionalFieldMissing,
+  ),
+];
+
+List<SchemaTestField> constructorTearoffFields = [
+  (
+    ['uses', 'instances', 0, 'uses', 0, 'definition_index'],
+    expectRequiredFieldMissing,
+  ),
+  (
+    ['uses', 'instances', 0, 'uses', 0, 'loading_unit_index'],
+    expectRequiredFieldMissing,
+  ),
+  (
+    ['uses', 'instances', 0, 'uses', 0, 'type'],
+    expectRequiredFieldMissing,
   ),
 ];
 
@@ -267,7 +307,7 @@ void testField({
     } else {
       originalValue = (dataToModify as Map)[field.last];
     }
-    final wrongTypeValue = originalValue is int ? '123' : 123;
+    final wrongTypeValue = originalValue is num ? '123' : 123;
     if (originalValue == null) {
       // If the field allows null, it likely also allows int. So use a string
       // to ensure it's invalid.

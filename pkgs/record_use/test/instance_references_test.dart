@@ -3,13 +3,20 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'package:pub_semver/pub_semver.dart';
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
+import 'package:record_use/src/canonicalization_context.dart';
+import 'package:record_use/src/recordings.dart';
 import 'package:test/test.dart';
 
 void main() {
   const definition = Definition(
     'package:test/test.dart',
     [Name('MyClass')],
+  );
+
+  const constructorDefinition = Definition(
+    'package:test/test.dart',
+    [Name('MyClass'), Name('', kind: .constructorKind)],
   );
 
   const loadingUnitRoot = LoadingUnit('root');
@@ -26,18 +33,22 @@ void main() {
     instances: {
       definition: [
         const InstanceCreationReference(
+          definition: constructorDefinition,
           positionalArguments: [IntConstant(1), IntConstant(2)],
           namedArguments: {'param': StringConstant('named_arg_value')},
-          loadingUnits: [loadingUnitRoot],
+          loadingUnit: loadingUnitRoot,
         ),
-        const ConstructorTearoffReference(loadingUnits: [loadingUnitOther]),
+        const ConstructorTearoffReference(
+          definition: constructorDefinition,
+          loadingUnit: loadingUnitOther,
+        ),
         const InstanceConstantReference(
           instanceConstant: EnumConstant(
             definition: definition,
             index: 0,
             name: 'value1',
           ),
-          loadingUnits: [loadingUnitRoot],
+          loadingUnit: loadingUnitRoot,
         ),
         const InstanceConstantReference(
           instanceConstant: EnumConstant(
@@ -53,7 +64,7 @@ void main() {
               ),
             },
           ),
-          loadingUnits: [loadingUnitRoot],
+          loadingUnit: loadingUnitRoot,
         ),
       ],
     },
@@ -67,7 +78,8 @@ void main() {
     final creation = instances![0];
     expect(creation, isA<InstanceCreationReference>());
     if (creation is InstanceCreationReference) {
-      expect(creation.loadingUnits.first.name, loadingUnitRoot.name);
+      expect(creation.definition, constructorDefinition);
+      expect(creation.loadingUnit.name, loadingUnitRoot.name);
       expect(creation.positionalArguments, hasLength(2));
       expect(creation.positionalArguments[0], isA<IntConstant>());
       expect((creation.positionalArguments[0] as IntConstant).value, 1);
@@ -83,7 +95,8 @@ void main() {
     final tearoff = instances[1];
     expect(tearoff, isA<ConstructorTearoffReference>());
     if (tearoff is ConstructorTearoffReference) {
-      expect(tearoff.loadingUnits.first.name, loadingUnitOther.name);
+      expect(tearoff.definition, constructorDefinition);
+      expect(tearoff.loadingUnit.name, loadingUnitOther.name);
     }
 
     final enumInstance = instances[2];
@@ -112,8 +125,9 @@ void main() {
   });
 
   test('Round trip serialization', () {
-    final serializedJson = recordings.toJson();
+    final canon = recordings.canonicalizeChildren(CanonicalizationContext());
+    final serializedJson = canon.toJson();
     final roundTrippedRecordings = Recordings.fromJson(serializedJson);
-    expect(roundTrippedRecordings, equals(recordings));
+    expect(roundTrippedRecordings, equals(canon));
   });
 }

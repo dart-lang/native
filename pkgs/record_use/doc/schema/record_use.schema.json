@@ -19,11 +19,8 @@
             }
           ]
         },
-        "loading_unit_indices": {
-          "type": "array",
-          "items": {
-            "type": "integer"
-          }
+        "loading_unit_index": {
+          "type": "integer"
         },
         "receiver": {
           "type": [
@@ -33,7 +30,7 @@
         }
       },
       "required": [
-        "loading_unit_indices",
+        "loading_unit_index",
         "type"
       ],
       "if": {
@@ -89,6 +86,7 @@
             {
               "enum": [
                 "bool",
+                "double",
                 "enum",
                 "instance",
                 "int",
@@ -124,6 +122,25 @@
             "properties": {
               "value": {
                 "type": "boolean"
+              }
+            },
+            "required": [
+              "value"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "double"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "$ref": "#/definitions/DoubleConstantValue"
               }
             },
             "required": [
@@ -390,6 +407,49 @@
         "uri"
       ]
     },
+    "DoubleConstantValue": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "anyOf": [
+            {
+              "enum": [
+                "negative_infinity",
+                "not_a_number",
+                "number",
+                "positive_infinity"
+              ]
+            },
+            {
+              "type": "string"
+            }
+          ]
+        },
+        "value": {
+          "type": "number"
+        }
+      },
+      "required": [
+        "type"
+      ],
+      "allOf": [
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "number"
+              }
+            }
+          },
+          "then": {
+            "required": [
+              "value"
+            ]
+          }
+        }
+      ]
+    },
     "Instance": {
       "type": "object",
       "properties": {
@@ -408,15 +468,12 @@
             }
           ]
         },
-        "loading_unit_indices": {
-          "type": "array",
-          "items": {
-            "type": "integer"
-          }
+        "loading_unit_index": {
+          "type": "integer"
         }
       },
       "required": [
-        "loading_unit_indices",
+        "loading_unit_index",
         "type"
       ],
       "allOf": [
@@ -449,6 +506,9 @@
           },
           "then": {
             "properties": {
+              "definition_index": {
+                "type": "integer"
+              },
               "named": {
                 "type": "object",
                 "additionalProperties": {
@@ -461,7 +521,29 @@
                   "type": "integer"
                 }
               }
+            },
+            "required": [
+              "definition_index"
+            ]
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "tearoff"
+              }
             }
+          },
+          "then": {
+            "properties": {
+              "definition_index": {
+                "type": "integer"
+              }
+            },
+            "required": [
+              "definition_index"
+            ]
           }
         }
       ]

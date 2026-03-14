@@ -19,7 +19,7 @@ Future<RunProcessResult> runProcess({
   Map<String, String>? environment,
   required Logger? logger,
   bool captureOutput = true,
-  Level stdoutLogLevel = Level.FINE,
+  Level stdoutLogLevel = .FINE,
   int expectedExitCode = 0,
   bool throwOnUnexpectedExitCode = false,
 }) async {
