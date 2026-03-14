@@ -62,6 +62,7 @@ MethodDeclaration parseMethodDeclaration(
     async: info.async,
     mutating: info.mutating,
     isOperator: isOperator,
+    isExtensionMember: symbol.json['swiftExtension'].exists,
   );
 }
 
