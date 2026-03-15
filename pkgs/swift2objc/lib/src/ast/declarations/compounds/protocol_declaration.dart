@@ -27,10 +27,13 @@ class ProtocolDeclaration extends AstNode implements CompoundDeclaration {
   List<AvailabilityInfo> availability;
 
   @override
-  covariant List<PropertyDeclaration> properties;
+  final int? lineNumber;
 
   @override
-  covariant List<MethodDeclaration> methods;
+  List<PropertyDeclaration> properties;
+
+  @override
+  List<MethodDeclaration> methods;
 
   @override
   List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
@@ -51,6 +54,7 @@ class ProtocolDeclaration extends AstNode implements CompoundDeclaration {
     required this.id,
     required this.name,
     required this.source,
+    this.lineNumber,
     required this.availability,
     required this.properties,
     required this.methods,

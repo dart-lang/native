@@ -16,7 +16,7 @@ void main(List<String> arguments) async {
     final recordedUsagesFile = input.recordedUsagesFile;
     if (recordedUsagesFile == null) {
       throw ArgumentError(
-        'Enable the --enable-experiments=record-use experiment'
+        'Enable the --enable-experiment=record-use experiment'
         ' to use this app.',
       );
     }
@@ -32,35 +32,73 @@ void main(List<String> arguments) async {
     final dataLines = <String>[];
     // Tree-shake unused assets using calls
     for (final methodName in ['add', 'multiply']) {
-      final calls = usages.constArgumentsFor(
-        Identifier(
-          importUri:
-              'package:drop_dylib_recording/src/drop_dylib_recording.dart',
-          scope: 'MyMath',
-          name: methodName,
-        ),
-      );
+      final calls =
+          usages.calls[Definition(
+            'package:drop_dylib_recording/src/drop_dylib_recording.dart',
+            [
+              const Name(
+                kind: .classKind,
+                'MyMath',
+              ),
+              Name(
+                kind: .methodKind,
+                methodName,
+                disambiguators: {.staticDisambiguator},
+              ),
+            ],
+          )] ??
+          const [];
       for (final call in calls) {
-        dataLines.add(
-          'A call was made to "$methodName" with the arguments ('
-          '${call.positional[0] as int},${call.positional[1] as int})',
-        );
+        switch (call) {
+          case CallWithArguments(
+            positionalArguments: [
+              IntConstant(value: final v0),
+              IntConstant(value: final v1),
+            ],
+          ):
+            dataLines.add(
+              'A call was made to "$methodName" with the arguments ($v0,$v1)',
+            );
+          case _:
+            throw UnsupportedError(
+              'Cannot determine math operations for "$methodName".',
+            );
+        }
         symbols.add(methodName);
       }
     }
 
     argumentsFile.writeAsStringSync(dataLines.join('\n'));
 
-    // Tree-shake unused assets
-    final instances = usages.constantsOf(
-      const Identifier(
-        importUri: 'package:drop_dylib_recording/src/drop_dylib_recording.dart',
-        name: 'RecordCallToC',
-      ),
-    );
-    for (final instance in instances) {
-      final symbol = instance['symbol'] as String;
-      symbols.add(symbol);
+    const classNameToSymbol = {
+      'Double': 'add',
+      'Square': 'multiply',
+    };
+
+    // Tree-shake unused assets using instances
+    for (final className in classNameToSymbol.keys) {
+      final instances =
+          usages.instances[Definition(
+            'package:drop_dylib_recording/src/drop_dylib_recording.dart',
+            [
+              Name(
+                kind: .classKind,
+                className,
+              ),
+            ],
+          )] ??
+          const [];
+      for (final instance in instances) {
+        switch (instance) {
+          case InstanceConstantReference(:final instanceConstant):
+            print('An instance of "$className" was found: $instanceConstant');
+            symbols.add(classNameToSymbol[className]!);
+          case _:
+            throw UnsupportedError(
+              'Cannot determine math classes for "$className".',
+            );
+        }
+      }
     }
 
     final neededCodeAssets = [
@@ -70,15 +108,13 @@ void main(List<String> arguments) async {
 
     print('Keeping only ${neededCodeAssets.map((e) => e.id).join(', ')}.');
     output.assets.code.addAll(neededCodeAssets);
-
-    output.dependencies.add(recordedUsagesFile);
   });
 }
 
-Future<RecordedUsages> recordedUsages(Uri recordedUsagesFile) async {
+Future<Recordings> recordedUsages(Uri recordedUsagesFile) async {
   final file = File.fromUri(recordedUsagesFile);
   final string = await file.readAsString();
-  final usages = RecordedUsages.fromJson(
+  final usages = Recordings.fromJson(
     jsonDecode(string) as Map<String, Object?>,
   );
   return usages;

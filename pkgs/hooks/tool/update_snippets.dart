@@ -21,7 +21,7 @@ void main(List<String> args) {
   final counts = Counts();
   final errors = <String>[];
   final hooksPackageRoot = findPackageRoot('hooks');
-  for (final package in ['hooks', 'code_assets', 'data_assets']) {
+  for (final package in ['hooks', 'code_assets', 'data_assets', 'record_use']) {
     final packageRoot = hooksPackageRoot.resolve('../$package/');
 
     final files = Directory.fromUri(packageRoot)
@@ -141,7 +141,7 @@ String updateSnippets(String oldContent, Uri fileUri, List<String> errors) {
     final lineBeforeText = oldContent.split('\n')[lastLineOfContentBefore];
 
     final fileLineMatch = RegExp(
-      r'^(.*?)<!-- (?:file://./(\S+)|(no-source-file)) -->\s*$',
+      r'^(.*?)<!-- (?:file://./(\S+?)(?:#(\S+))?|(no-source-file)) -->\s*$',
     ).firstMatch(lineBeforeText);
 
     if (fileLineMatch == null) {
@@ -163,7 +163,8 @@ String updateSnippets(String oldContent, Uri fileUri, List<String> errors) {
     }
 
     final filePath = fileLineMatch.group(2);
-    final noSourceFile = fileLineMatch.group(3) != null;
+    final anchor = fileLineMatch.group(3);
+    final noSourceFile = fileLineMatch.group(4) != null;
 
     if (noSourceFile || filePath == null) continue;
 
@@ -179,14 +180,42 @@ String updateSnippets(String oldContent, Uri fileUri, List<String> errors) {
     );
 
     var newSnippetText = snippetContent;
+    final String startMarker;
+    final String endMarker;
+    if (anchor == null) {
+      startMarker = '// snippet-start';
+      endMarker = '// snippet-end';
+    } else {
+      startMarker = '// snippet-start#$anchor';
+      endMarker = '// snippet-end#$anchor';
+    }
+
     final anchorRegex = RegExp(
-      r'// snippet-start\n([\s\S]*?)// snippet-end',
+      '${RegExp.escape(startMarker)}\\n([\\s\\S]*?)${RegExp.escape(endMarker)}',
       multiLine: true,
     );
     final extractedMatch = anchorRegex.firstMatch(snippetContent);
     if (extractedMatch != null) {
       newSnippetText = extractedMatch.group(1)!;
+    } else {
+      if (anchor != null) {
+        errors.add('Error: Anchor "$anchor" not found in $snippetUri.');
+        continue;
+      }
+      // If no anchor was specified and // snippet-start wasn't found,
+      // we use the whole file (original behavior).
     }
+
+    // Strip any (nested) snippet markers from the extracted content.
+    final markerRegex = RegExp(
+      r'^[ \t]*// snippet-(?:start|end)(?:#\S+)?[ \t]*\n?',
+      multiLine: true,
+    );
+    newSnippetText = newSnippetText.replaceAll(markerRegex, '');
+
+    newSnippetText = _dedent(newSnippetText);
+    newSnippetText = newSnippetText.trim();
+
     final copyrightRegex = RegExp(r'''
 // Copyright \(c\) [0-9]*, the Dart project authors.  Please see the AUTHORS file
 // for details. All rights reserved. Use of this source code is governed by a
@@ -215,4 +244,28 @@ String updateSnippets(String oldContent, Uri fileUri, List<String> errors) {
   }
 
   return newContent;
+}
+
+String _dedent(String text) {
+  final lines = text.split('\n');
+  if (lines.isEmpty) return text;
+
+  // Find minimum indentation of non-empty lines.
+  int? minIndent;
+  for (final line in lines) {
+    if (line.trim().isEmpty) continue;
+    final indent = line.length - line.trimLeft().length;
+    if (minIndent == null || indent < minIndent) {
+      minIndent = indent;
+    }
+  }
+
+  if (minIndent == null || minIndent == 0) return text;
+
+  return lines
+      .map((line) {
+        if (line.trim().isEmpty) return '';
+        return line.substring(minIndent!);
+      })
+      .join('\n');
 }

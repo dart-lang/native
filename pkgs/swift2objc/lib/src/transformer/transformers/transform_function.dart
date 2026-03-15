@@ -5,6 +5,7 @@
 import '../../ast/_core/interfaces/function_declaration.dart';
 import '../../ast/_core/shared/parameter.dart';
 import '../../ast/_core/shared/referred_type.dart';
+import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../ast/declarations/globals/globals.dart';
@@ -29,16 +30,32 @@ MethodDeclaration? transformMethod(
   if (disallowedMethods.contains(originalMethod.name)) {
     return null;
   }
+  if (originalMethod.isOperator &&
+      originalMethod.params.any((p) => p.type.sameAs(selfType))) {
+    return null;
+  }
+
+  final wrapperMethodName = originalMethod.isOperator
+      ? globalNamer.makeUnique(originalMethod.name)
+      : originalMethod.name;
 
   return _transformFunction(
     originalMethod,
     globalNamer,
     state,
-    wrapperMethodName: originalMethod.name,
+    wrapperMethodName: wrapperMethodName,
     originalCallStatementGenerator: (arguments) {
       final methodSource = originalMethod.isStatic
           ? wrappedClassInstance.type.swiftType
           : wrappedClassInstance.name;
+
+      if (originalMethod.isOperator) {
+        final params = originalMethod.params;
+        return '${params[0].internalName ?? params[0].name}.wrappedInstance '
+            '${originalMethod.name} '
+            '${params[1].internalName ?? params[1].name}.wrappedInstance';
+      }
+
       return '$methodSource.${originalMethod.name}($arguments)';
     },
   );
@@ -61,6 +78,19 @@ MethodDeclaration transformGlobalFunction(
 
 // -------------------------- Core Implementation --------------------------
 
+Parameter _transformParam(
+  int index,
+  Parameter p,
+  UniqueNamer globalNamer,
+  TransformationState state,
+) => Parameter(
+  name: p.name.isEmpty ? '_' : p.name,
+  internalName: p.name.isEmpty && p.internalName == null
+      ? 'arg$index'
+      : p.internalName,
+  type: transformReferredType(p.type, globalNamer, state),
+);
+
 MethodDeclaration _transformFunction(
   FunctionDeclaration originalFunction,
   UniqueNamer globalNamer,
@@ -68,15 +98,10 @@ MethodDeclaration _transformFunction(
   required String wrapperMethodName,
   required String Function(String arguments) originalCallStatementGenerator,
 }) {
-  final transformedParams = originalFunction.params
-      .map(
-        (param) => Parameter(
-          name: param.name,
-          internalName: param.internalName,
-          type: transformReferredType(param.type, globalNamer, state),
-        ),
-      )
-      .toList();
+  final transformedParams = [
+    for (var i = 0; i < originalFunction.params.length; ++i)
+      _transformParam(i, originalFunction.params[i], globalNamer, state),
+  ];
 
   final localNamer = UniqueNamer();
   final resultName = localNamer.makeUnique('result');
@@ -140,11 +165,14 @@ String generateInvocationParams(
     );
 
     assert(unwrappedType.sameAs(originalParam.type));
+    final invocationValue = originalParam.type is InoutType
+        ? '&$unwrappedParamValue'
+        : unwrappedParamValue;
 
     argumentsList.add(
-      originalParam.name == '_'
-          ? unwrappedParamValue
-          : '${originalParam.name}: $unwrappedParamValue',
+      originalParam.name.isEmpty || originalParam.name == '_'
+          ? invocationValue
+          : '${originalParam.name}: $invocationValue',
     );
   }
   return argumentsList.join(', ');
@@ -165,7 +193,9 @@ List<String> _generateStatements(
     originalFunction.params,
     transformedMethod.params,
   );
+
   var originalMethodCall = originalCallGenerator(arguments);
+
   if (transformedMethod.async) {
     originalMethodCall = 'await $originalMethodCall';
   }

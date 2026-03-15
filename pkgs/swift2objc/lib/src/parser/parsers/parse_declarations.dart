@@ -9,10 +9,20 @@ import '../_core/parsed_symbolgraph.dart';
 import '../_core/utils.dart';
 import 'declaration_parsers/parse_built_in_declaration.dart';
 import 'declaration_parsers/parse_compound_declaration.dart';
+import 'declaration_parsers/parse_enum_declaration.dart';
 import 'declaration_parsers/parse_function_declaration.dart';
 import 'declaration_parsers/parse_initializer_declaration.dart';
 import 'declaration_parsers/parse_typealias_declaration.dart';
 import 'declaration_parsers/parse_variable_declaration.dart';
+
+final class UnsupportedSymbolException implements Exception {
+  String message;
+  bool isWarning;
+  UnsupportedSymbolException(this.message, {this.isWarning = false});
+
+  @override
+  String toString() => message;
+}
 
 List<Declaration> parseDeclarations(
   Context context,
@@ -72,6 +82,13 @@ Declaration parseDeclaration(
       symbolgraph,
       isStatic: true,
     ),
+    'swift.func.op' => parseMethodDeclaration(
+      context,
+      parsedSymbol,
+      symbolgraph,
+      isStatic: true,
+      isOperator: true,
+    ),
     'swift.property' => parsePropertyDeclaration(
       context,
       parsedSymbol,
@@ -104,7 +121,16 @@ Declaration parseDeclaration(
       parsedSymbol,
       symbolgraph,
     ),
-    _ => throw Exception('Symbol of type $symbolType is not implemented yet.'),
+    'swift.enum' => parseEnumDeclaration(context, parsedSymbol, symbolgraph),
+    'swift.enum.case' => parseEnumCaseDeclaration(
+      context,
+      parsedSymbol,
+      symbolgraph,
+    ),
+    _ => throw UnsupportedSymbolException(
+      'Symbol of type $symbolType is not supported yet: '
+      '${parseSymbolId(symbolJson)}',
+    ),
   };
 
   return parsedSymbol.declaration!;
@@ -119,7 +145,11 @@ Declaration? tryParseDeclaration(
     return parseDeclaration(context, parsedSymbol, symbolgraph);
   } catch (e) {
     if (parsedSymbol.source != builtInInputConfig) {
-      context.logger.severe('$e');
+      if (e is UnsupportedSymbolException && e.isWarning) {
+        context.logger.warning('$e');
+      } else {
+        context.logger.severe('$e');
+      }
     }
   }
   return null;

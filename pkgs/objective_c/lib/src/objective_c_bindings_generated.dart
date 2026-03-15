@@ -622,6 +622,14 @@ final class AEDesc extends ffi.Struct {
   external int descriptorType;
 
   external ffi.Pointer<ffi.Pointer<OpaqueAEDataStorageType>> dataHandle;
+
+  static ffi.Pointer<AEDesc> $allocate(
+    ffi.Allocator $allocator, {
+    required int descriptorType,
+    required ffi.Pointer<ffi.Pointer<OpaqueAEDataStorageType>> dataHandle,
+  }) => $allocator<AEDesc>()
+    ..ref.descriptorType = descriptorType
+    ..ref.dataHandle = dataHandle;
 }
 
 final class CFRunLoop extends ffi.Opaque {}
@@ -636,6 +644,14 @@ final class CGPoint extends ffi.Struct {
 
   @ffi.Double()
   external double y;
+
+  static ffi.Pointer<CGPoint> $allocate(
+    ffi.Allocator $allocator, {
+    required double x,
+    required double y,
+  }) => $allocator<CGPoint>()
+    ..ref.x = x
+    ..ref.y = y;
 }
 
 final class CGRect extends ffi.Struct {
@@ -650,6 +666,14 @@ final class CGSize extends ffi.Struct {
 
   @ffi.Double()
   external double height;
+
+  static ffi.Pointer<CGSize> $allocate(
+    ffi.Allocator $allocator, {
+    required double width,
+    required double height,
+  }) => $allocator<CGSize>()
+    ..ref.width = width
+    ..ref.height = height;
 }
 
 /// Represents a single KVO observation. Each observation creates a new
@@ -671,11 +695,13 @@ extension type DOBJCObservation._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [DOBJCObservation].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_DOBJCObservation,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_DOBJCObservation,
+        );
 
   /// alloc
   static DOBJCObservation alloc() {
@@ -772,11 +798,13 @@ extension type DartInputStreamAdapter._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [DartInputStreamAdapter].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_DOBJCDartInputStreamAdapter,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_DOBJCDartInputStreamAdapter,
+        );
 
   /// alloc
   static DartInputStreamAdapter alloc() {
@@ -1011,11 +1039,13 @@ extension type DartInputStreamAdapterWeakHolder._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [DartInputStreamAdapterWeakHolder].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_DOBJCDartInputStreamAdapterWeakHolder,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_DOBJCDartInputStreamAdapterWeakHolder,
+        );
 
   /// alloc
   static DartInputStreamAdapterWeakHolder alloc() {
@@ -1128,11 +1158,13 @@ extension type DartProtocol._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [DartProtocol].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_DOBJCDartProtocol,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_DOBJCDartProtocol,
+        );
 
   /// alloc
   static DartProtocol alloc() {
@@ -1226,11 +1258,13 @@ extension type DartProtocolBuilder._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [DartProtocolBuilder].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_DOBJCDartProtocolBuilder,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_DOBJCDartProtocolBuilder,
+        );
 
   /// alloc
   static DartProtocolBuilder alloc() {
@@ -1381,11 +1415,13 @@ extension type NSArray._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSArray].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSArray,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSArray,
+        );
 
   /// alloc
   static NSArray alloc() {
@@ -1613,11 +1649,13 @@ extension type NSAttributedString._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSAttributedString].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSAttributedString,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSAttributedString,
+        );
 
   /// alloc
   static NSAttributedString alloc() {
@@ -2096,11 +2134,13 @@ extension type NSAttributedStringMarkdownParsingOptions._(
   }
 
   /// Returns whether [obj] is an instance of [NSAttributedStringMarkdownParsingOptions].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSAttributedStringMarkdownParsingOptions,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSAttributedStringMarkdownParsingOptions,
+        );
 
   /// alloc
   static NSAttributedStringMarkdownParsingOptions alloc() {
@@ -2337,11 +2377,13 @@ extension type NSBundle._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSBundle].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSBundle,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSBundle,
+        );
 
   /// URLForResource:withExtension:subdirectory:inBundleWithURL:
   static NSURL? URLForResource$3(
@@ -3220,11 +3262,13 @@ extension type NSCharacterSet._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSCharacterSet].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSCharacterSet,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSCharacterSet,
+        );
 
   /// alloc
   static NSCharacterSet alloc() {
@@ -3548,11 +3592,13 @@ extension type NSCoder._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSCoder].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSCoder,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSCoder,
+        );
 
   /// alloc
   static NSCoder alloc() {
@@ -4037,11 +4083,13 @@ extension type NSData._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSData].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSData,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSData,
+        );
 
   /// alloc
   static NSData alloc() {
@@ -4548,11 +4596,13 @@ extension type NSDate._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSDate].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSDate,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSDate,
+        );
 
   /// alloc
   static NSDate alloc() {
@@ -4793,11 +4843,13 @@ extension type NSDictionary._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSDictionary].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSDictionary,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSDictionary,
+        );
 
   /// alloc
   static NSDictionary alloc() {
@@ -5050,6 +5102,18 @@ final class NSEdgeInsets extends ffi.Struct {
 
   @ffi.Double()
   external double right;
+
+  static ffi.Pointer<NSEdgeInsets> $allocate(
+    ffi.Allocator $allocator, {
+    required double top,
+    required double left,
+    required double bottom,
+    required double right,
+  }) => $allocator<NSEdgeInsets>()
+    ..ref.top = top
+    ..ref.left = left
+    ..ref.bottom = bottom
+    ..ref.right = right;
 }
 
 sealed class NSEnumerationOptions {
@@ -5075,11 +5139,13 @@ extension type NSEnumerator._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSEnumerator].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSEnumerator,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSEnumerator,
+        );
 
   /// alloc
   static NSEnumerator alloc() {
@@ -5164,11 +5230,13 @@ extension type NSError._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSError].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSError,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSError,
+        );
 
   /// alloc
   static NSError alloc() {
@@ -8396,11 +8464,13 @@ extension type NSIndexSet._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSIndexSet].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSIndexSet,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSIndexSet,
+        );
 
   /// alloc
   static NSIndexSet alloc() {
@@ -8911,11 +8981,13 @@ extension type NSInputStream._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSInputStream].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSInputStream,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSInputStream,
+        );
 
   /// alloc
   static NSInputStream alloc() {
@@ -9085,11 +9157,13 @@ extension type NSInvocation._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSInvocation].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSInvocation,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSInvocation,
+        );
 
   /// alloc
   static NSInvocation alloc() {
@@ -9274,11 +9348,13 @@ extension type NSItemProvider._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSItemProvider].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSItemProvider,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSItemProvider,
+        );
 
   /// alloc
   static NSItemProvider alloc() {
@@ -10128,11 +10204,13 @@ extension type NSLocale._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSLocale].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSLocale,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSLocale,
+        );
 
   /// alloc
   static NSLocale alloc() {
@@ -10292,11 +10370,13 @@ extension type NSMethodSignature._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSMethodSignature].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSMethodSignature,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSMethodSignature,
+        );
 
   /// alloc
   static NSMethodSignature alloc() {
@@ -10423,11 +10503,13 @@ extension type NSMutableArray._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSMutableArray].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSMutableArray,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSMutableArray,
+        );
 
   /// alloc
   static NSMutableArray alloc() {
@@ -10771,11 +10853,13 @@ extension type NSMutableData._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSMutableData].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSMutableData,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSMutableData,
+        );
 
   /// alloc
   static NSMutableData alloc() {
@@ -11291,11 +11375,13 @@ extension type NSMutableDictionary._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSMutableDictionary].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSMutableDictionary,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSMutableDictionary,
+        );
 
   /// alloc
   static NSMutableDictionary alloc() {
@@ -11555,11 +11641,13 @@ extension type NSMutableIndexSet._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSMutableIndexSet].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSMutableIndexSet,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSMutableIndexSet,
+        );
 
   /// alloc
   static NSMutableIndexSet alloc() {
@@ -11764,11 +11852,13 @@ extension type NSMutableOrderedSet._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSMutableOrderedSet].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSMutableOrderedSet,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSMutableOrderedSet,
+        );
 
   /// alloc
   static NSMutableOrderedSet alloc() {
@@ -12283,11 +12373,13 @@ extension type NSMutableSet._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSMutableSet].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSMutableSet,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSMutableSet,
+        );
 
   /// alloc
   static NSMutableSet alloc() {
@@ -12519,11 +12611,13 @@ extension type NSMutableString._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSMutableString].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSMutableString,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSMutableString,
+        );
 
   /// alloc
   static NSMutableString alloc() {
@@ -13178,11 +13272,13 @@ extension type NSNotification._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSNotification].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSNotification,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSNotification,
+        );
 
   /// alloc
   static NSNotification alloc() {
@@ -13333,11 +13429,13 @@ extension type NSNull._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSNull].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSNull,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSNull,
+        );
 
   /// alloc
   static NSNull alloc() {
@@ -13431,11 +13529,13 @@ extension type NSNumber._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSNumber].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSNumber,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSNumber,
+        );
 
   /// alloc
   static NSNumber alloc() {
@@ -13996,11 +14096,13 @@ extension type NSObject._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSObject].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSObject,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSObject,
+        );
 
   /// alloc
   static NSObject alloc() {
@@ -15700,11 +15802,13 @@ extension type NSOrderedCollectionChange._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSOrderedCollectionChange].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSOrderedCollectionChange,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSOrderedCollectionChange,
+        );
 
   /// alloc
   static NSOrderedCollectionChange alloc() {
@@ -15965,11 +16069,13 @@ extension type NSOrderedCollectionDifference._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSOrderedCollectionDifference].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSOrderedCollectionDifference,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSOrderedCollectionDifference,
+        );
 
   /// alloc
   static NSOrderedCollectionDifference alloc() {
@@ -16260,11 +16366,13 @@ extension type NSOrderedSet._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSOrderedSet].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSOrderedSet,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSOrderedSet,
+        );
 
   /// alloc
   static NSOrderedSet alloc() {
@@ -16759,11 +16867,13 @@ extension type NSOutputStream._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSOutputStream].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSOutputStream,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSOutputStream,
+        );
 
   /// alloc
   static NSOutputStream alloc() {
@@ -16952,11 +17062,13 @@ extension type NSPort._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSPort].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSPort,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSPort,
+        );
 
   /// alloc
   static NSPort alloc() {
@@ -17329,11 +17441,13 @@ extension type NSPortMessage._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSPortMessage].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSPortMessage,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSPortMessage,
+        );
 
   /// alloc
   static NSPortMessage alloc() {
@@ -17454,11 +17568,13 @@ extension type NSProgress._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSProgress].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSProgress,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSProgress,
+        );
 
   /// addSubscriberForFileURL:withPublishingHandler:
   ///
@@ -18305,6 +18421,14 @@ final class NSRange extends ffi.Struct {
 
   @ffi.UnsignedLong()
   external int length;
+
+  static ffi.Pointer<NSRange> $allocate(
+    ffi.Allocator $allocator, {
+    required int location,
+    required int length,
+  }) => $allocator<NSRange>()
+    ..ref.location = location
+    ..ref.length = length;
 }
 
 /// NSRunLoop
@@ -18325,11 +18449,13 @@ extension type NSRunLoop._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSRunLoop].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSRunLoop,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSRunLoop,
+        );
 
   /// alloc
   static NSRunLoop alloc() {
@@ -18721,8 +18847,13 @@ extension type NSSet._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSSet].
-  static bool isA(objc.ObjCObject obj) =>
-      _objc_msgSend_19nvye5(obj.ref.pointer, _sel_isKindOfClass_, _class_NSSet);
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSSet,
+        );
 
   /// alloc
   static NSSet alloc() {
@@ -18967,11 +19098,13 @@ extension type NSStream._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSStream].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSStream,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSStream,
+        );
 
   /// alloc
   static NSStream alloc() {
@@ -19366,11 +19499,13 @@ extension type NSString._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSString].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSString,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSString,
+        );
 
   /// alloc
   static NSString alloc() {
@@ -21231,11 +21366,13 @@ extension type NSTimer._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSTimer].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSTimer,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSTimer,
+        );
 
   /// alloc
   static NSTimer alloc() {
@@ -21523,8 +21660,13 @@ extension type NSURL._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSURL].
-  static bool isA(objc.ObjCObject obj) =>
-      _objc_msgSend_19nvye5(obj.ref.pointer, _sel_isKindOfClass_, _class_NSURL);
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSURL,
+        );
 
   /// URLByResolvingAliasFileAtURL:options:error:
   static NSURL? URLByResolvingAliasFileAtURL(
@@ -22567,11 +22709,13 @@ extension type NSURLHandle._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSURLHandle].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSURLHandle,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSURLHandle,
+        );
 
   /// alloc
   static NSURLHandle alloc() {
@@ -22651,11 +22795,13 @@ extension type NSValue._(objc.ObjCObject object$)
   }
 
   /// Returns whether [obj] is an instance of [NSValue].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_NSValue,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_NSValue,
+        );
 
   /// alloc
   static NSValue alloc() {
@@ -29492,387 +29638,6 @@ extension ObjCBlock_ffiVoid_NSURL_bool_NSError$CallExtension
       );
 }
 
-/// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)>`.
-abstract final class ObjCBlock_ffiVoid_ObjectType_NSUInteger_bool {
-  /// Returns a block that wraps the given raw block pointer.
-  static objc.ObjCBlock<
-    ffi.Void Function(
-      ffi.Pointer<objc.ObjCObjectImpl>,
-      ffi.UnsignedLong,
-      ffi.Pointer<ffi.Bool>,
-    )
-  >
-  fromPointer(
-    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
-    bool retain = false,
-    bool release = false,
-  }) =>
-      objc.ObjCBlock<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.UnsignedLong,
-          ffi.Pointer<ffi.Bool>,
-        )
-      >(pointer, retain: retain, release: release);
-
-  /// Creates a block from a C function pointer.
-  ///
-  /// This block must be invoked by native code running on the same thread as
-  /// the isolate that registered it. Invoking the block on the wrong thread
-  /// will result in a crash.
-  static objc.ObjCBlock<
-    ffi.Void Function(
-      ffi.Pointer<objc.ObjCObjectImpl>,
-      ffi.UnsignedLong,
-      ffi.Pointer<ffi.Bool>,
-    )
-  >
-  fromFunctionPointer(
-    ffi.Pointer<
-      ffi.NativeFunction<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl> arg0,
-          ffi.UnsignedLong arg1,
-          ffi.Pointer<ffi.Bool> arg2,
-        )
-      >
-    >
-    ptr,
-  ) =>
-      objc.ObjCBlock<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.UnsignedLong,
-          ffi.Pointer<ffi.Bool>,
-        )
-      >(
-        objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
-        retain: false,
-        release: true,
-      );
-
-  /// Creates a block from a Dart function.
-  ///
-  /// This block must be invoked by native code running on the same thread as
-  /// the isolate that registered it. Invoking the block on the wrong thread
-  /// will result in a crash.
-  ///
-  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
-  /// until it is garbage collected by both Dart and ObjC.
-  static objc.ObjCBlock<
-    ffi.Void Function(
-      ffi.Pointer<objc.ObjCObjectImpl>,
-      ffi.UnsignedLong,
-      ffi.Pointer<ffi.Bool>,
-    )
-  >
-  fromFunction(
-    void Function(objc.ObjCObject, int, ffi.Pointer<ffi.Bool>) fn, {
-    bool keepIsolateAlive = true,
-  }) =>
-      objc.ObjCBlock<
-        ffi.Void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          ffi.UnsignedLong,
-          ffi.Pointer<ffi.Bool>,
-        )
-      >(
-        objc.newClosureBlock(
-          _closureCallable,
-          (
-            ffi.Pointer<objc.ObjCObjectImpl> arg0,
-            int arg1,
-            ffi.Pointer<ffi.Bool> arg2,
-          ) => fn(
-            objc.ObjCObject(arg0, retain: true, release: true),
-            arg1,
-            arg2,
-          ),
-          keepIsolateAlive,
-        ),
-        retain: false,
-        release: true,
-      );
-
-  /// Creates a listener block from a Dart function.
-  ///
-  /// This is based on FFI's NativeCallable.listener, and has the same
-  /// capabilities and limitations. This block can be invoked from any thread,
-  /// but only supports void functions, and is not run synchronously. See
-  /// NativeCallable.listener for more details.
-  ///
-  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
-  /// until it is garbage collected by both Dart and ObjC.
-  static objc.ObjCBlock<
-    ffi.Void Function(
-      ffi.Pointer<objc.ObjCObjectImpl>,
-      ffi.UnsignedLong,
-      ffi.Pointer<ffi.Bool>,
-    )
-  >
-  listener(
-    void Function(objc.ObjCObject, int, ffi.Pointer<ffi.Bool>) fn, {
-    bool keepIsolateAlive = true,
-  }) {
-    final raw = objc.newClosureBlock(
-      _listenerCallable.nativeFunction.cast(),
-      (
-        ffi.Pointer<objc.ObjCObjectImpl> arg0,
-        int arg1,
-        ffi.Pointer<ffi.Bool> arg2,
-      ) => fn(objc.ObjCObject(arg0, retain: false, release: true), arg1, arg2),
-      keepIsolateAlive,
-    );
-    final wrapper = _1wx624s_wrapListenerBlock_1p9ui4q(raw);
-    objc.objectRelease(raw.cast());
-    return objc.ObjCBlock<
-      ffi.Void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.UnsignedLong,
-        ffi.Pointer<ffi.Bool>,
-      )
-    >(wrapper, retain: false, release: true);
-  }
-
-  /// Creates a blocking block from a Dart function.
-  ///
-  /// This callback can be invoked from any native thread, and will block the
-  /// caller until the callback is handled by the Dart isolate that created
-  /// the block. Async functions are not supported.
-  ///
-  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
-  /// until it is garbage collected by both Dart and ObjC. If the owner isolate
-  /// has shut down, and the block is invoked by native code, it may block
-  /// indefinitely, or have other undefined behavior.
-  static objc.ObjCBlock<
-    ffi.Void Function(
-      ffi.Pointer<objc.ObjCObjectImpl>,
-      ffi.UnsignedLong,
-      ffi.Pointer<ffi.Bool>,
-    )
-  >
-  blocking(
-    void Function(objc.ObjCObject, int, ffi.Pointer<ffi.Bool>) fn, {
-    bool keepIsolateAlive = true,
-  }) {
-    final raw = objc.newClosureBlock(
-      _blockingCallable.nativeFunction.cast(),
-      (
-        ffi.Pointer<objc.ObjCObjectImpl> arg0,
-        int arg1,
-        ffi.Pointer<ffi.Bool> arg2,
-      ) => fn(objc.ObjCObject(arg0, retain: false, release: true), arg1, arg2),
-      keepIsolateAlive,
-    );
-    final rawListener = objc.newClosureBlock(
-      _blockingListenerCallable.nativeFunction.cast(),
-      (
-        ffi.Pointer<objc.ObjCObjectImpl> arg0,
-        int arg1,
-        ffi.Pointer<ffi.Bool> arg2,
-      ) => fn(objc.ObjCObject(arg0, retain: false, release: true), arg1, arg2),
-      keepIsolateAlive,
-    );
-    final wrapper = _1wx624s_wrapBlockingBlock_1p9ui4q(
-      raw,
-      rawListener,
-      objc.objCContext,
-    );
-    objc.objectRelease(raw.cast());
-    objc.objectRelease(rawListener.cast());
-    return objc.ObjCBlock<
-      ffi.Void Function(
-        ffi.Pointer<objc.ObjCObjectImpl>,
-        ffi.UnsignedLong,
-        ffi.Pointer<ffi.Bool>,
-      )
-    >(wrapper, retain: false, release: true);
-  }
-
-  static void _listenerTrampoline(
-    ffi.Pointer<objc.ObjCBlockImpl> block,
-    ffi.Pointer<objc.ObjCObjectImpl> arg0,
-    int arg1,
-    ffi.Pointer<ffi.Bool> arg2,
-  ) {
-    (objc.getBlockClosure(block)
-        as void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          int,
-          ffi.Pointer<ffi.Bool>,
-        ))(arg0, arg1, arg2);
-    objc.objectRelease(block.cast());
-  }
-
-  static ffi.NativeCallable<
-    ffi.Void Function(
-      ffi.Pointer<objc.ObjCBlockImpl>,
-      ffi.Pointer<objc.ObjCObjectImpl>,
-      ffi.UnsignedLong,
-      ffi.Pointer<ffi.Bool>,
-    )
-  >
-  _listenerCallable =
-      ffi.NativeCallable<
-          ffi.Void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            ffi.UnsignedLong,
-            ffi.Pointer<ffi.Bool>,
-          )
-        >.listener(_listenerTrampoline)
-        ..keepIsolateAlive = false;
-  static void _blockingTrampoline(
-    ffi.Pointer<objc.ObjCBlockImpl> block,
-    ffi.Pointer<ffi.Void> waiter,
-    ffi.Pointer<objc.ObjCObjectImpl> arg0,
-    int arg1,
-    ffi.Pointer<ffi.Bool> arg2,
-  ) {
-    try {
-      (objc.getBlockClosure(block)
-          as void Function(
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            int,
-            ffi.Pointer<ffi.Bool>,
-          ))(arg0, arg1, arg2);
-    } catch (e) {
-    } finally {
-      objc.signalWaiter(waiter);
-      objc.objectRelease(block.cast());
-    }
-  }
-
-  static ffi.NativeCallable<
-    ffi.Void Function(
-      ffi.Pointer<objc.ObjCBlockImpl>,
-      ffi.Pointer<ffi.Void>,
-      ffi.Pointer<objc.ObjCObjectImpl>,
-      ffi.UnsignedLong,
-      ffi.Pointer<ffi.Bool>,
-    )
-  >
-  _blockingCallable =
-      ffi.NativeCallable<
-          ffi.Void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            ffi.UnsignedLong,
-            ffi.Pointer<ffi.Bool>,
-          )
-        >.isolateLocal(_blockingTrampoline)
-        ..keepIsolateAlive = false;
-  static ffi.NativeCallable<
-    ffi.Void Function(
-      ffi.Pointer<objc.ObjCBlockImpl>,
-      ffi.Pointer<ffi.Void>,
-      ffi.Pointer<objc.ObjCObjectImpl>,
-      ffi.UnsignedLong,
-      ffi.Pointer<ffi.Bool>,
-    )
-  >
-  _blockingListenerCallable =
-      ffi.NativeCallable<
-          ffi.Void Function(
-            ffi.Pointer<objc.ObjCBlockImpl>,
-            ffi.Pointer<ffi.Void>,
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            ffi.UnsignedLong,
-            ffi.Pointer<ffi.Bool>,
-          )
-        >.listener(_blockingTrampoline)
-        ..keepIsolateAlive = false;
-  static void _fnPtrTrampoline(
-    ffi.Pointer<objc.ObjCBlockImpl> block,
-    ffi.Pointer<objc.ObjCObjectImpl> arg0,
-    int arg1,
-    ffi.Pointer<ffi.Bool> arg2,
-  ) => block.ref.target
-      .cast<
-        ffi.NativeFunction<
-          ffi.Void Function(
-            ffi.Pointer<objc.ObjCObjectImpl> arg0,
-            ffi.UnsignedLong arg1,
-            ffi.Pointer<ffi.Bool> arg2,
-          )
-        >
-      >()
-      .asFunction<
-        void Function(
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          int,
-          ffi.Pointer<ffi.Bool>,
-        )
-      >()(arg0, arg1, arg2);
-  static ffi.Pointer<ffi.Void> _fnPtrCallable =
-      ffi.Pointer.fromFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-              ffi.UnsignedLong,
-              ffi.Pointer<ffi.Bool>,
-            )
-          >(_fnPtrTrampoline)
-          .cast();
-  static void _closureTrampoline(
-    ffi.Pointer<objc.ObjCBlockImpl> block,
-    ffi.Pointer<objc.ObjCObjectImpl> arg0,
-    int arg1,
-    ffi.Pointer<ffi.Bool> arg2,
-  ) =>
-      (objc.getBlockClosure(block)
-          as void Function(
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            int,
-            ffi.Pointer<ffi.Bool>,
-          ))(arg0, arg1, arg2);
-  static ffi.Pointer<ffi.Void> _closureCallable =
-      ffi.Pointer.fromFunction<
-            ffi.Void Function(
-              ffi.Pointer<objc.ObjCBlockImpl>,
-              ffi.Pointer<objc.ObjCObjectImpl>,
-              ffi.UnsignedLong,
-              ffi.Pointer<ffi.Bool>,
-            )
-          >(_closureTrampoline)
-          .cast();
-}
-
-/// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)>`.
-extension ObjCBlock_ffiVoid_ObjectType_NSUInteger_bool$CallExtension
-    on
-        objc.ObjCBlock<
-          ffi.Void Function(
-            ffi.Pointer<objc.ObjCObjectImpl>,
-            ffi.UnsignedLong,
-            ffi.Pointer<ffi.Bool>,
-          )
-        > {
-  void call(objc.ObjCObject arg0, int arg1, ffi.Pointer<ffi.Bool> arg2) => ref
-      .pointer
-      .ref
-      .invoke
-      .cast<
-        ffi.NativeFunction<
-          ffi.Void Function(
-            ffi.Pointer<objc.ObjCBlockImpl> block,
-            ffi.Pointer<objc.ObjCObjectImpl> arg0,
-            ffi.UnsignedLong arg1,
-            ffi.Pointer<ffi.Bool> arg2,
-          )
-        >
-      >()
-      .asFunction<
-        void Function(
-          ffi.Pointer<objc.ObjCBlockImpl>,
-          ffi.Pointer<objc.ObjCObjectImpl>,
-          int,
-          ffi.Pointer<ffi.Bool>,
-        )
-      >()(ref.pointer, arg0.ref.pointer, arg1, arg2);
-}
-
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.Pointer<ffi.Bool>)>`.
 abstract final class ObjCBlock_ffiVoid_ObjectType_bool {
   /// Returns a block that wraps the given raw block pointer.
@@ -33471,6 +33236,387 @@ extension ObjCBlock_ffiVoid_idNSSecureCoding_NSError$CallExtension
       >()(ref.pointer, arg0?.ref.pointer ?? ffi.nullptr, arg1.ref.pointer);
 }
 
+/// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)>`.
+abstract final class ObjCBlock_ffiVoid_objcObjCObjectImpl_ffiUnsignedLong_bool {
+  /// Returns a block that wraps the given raw block pointer.
+  static objc.ObjCBlock<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCObjectImpl>,
+      ffi.UnsignedLong,
+      ffi.Pointer<ffi.Bool>,
+    )
+  >
+  fromPointer(
+    ffi.Pointer<objc.ObjCBlockImpl> pointer, {
+    bool retain = false,
+    bool release = false,
+  }) =>
+      objc.ObjCBlock<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.UnsignedLong,
+          ffi.Pointer<ffi.Bool>,
+        )
+      >(pointer, retain: retain, release: release);
+
+  /// Creates a block from a C function pointer.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  static objc.ObjCBlock<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCObjectImpl>,
+      ffi.UnsignedLong,
+      ffi.Pointer<ffi.Bool>,
+    )
+  >
+  fromFunctionPointer(
+    ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl> arg0,
+          ffi.UnsignedLong arg1,
+          ffi.Pointer<ffi.Bool> arg2,
+        )
+      >
+    >
+    ptr,
+  ) =>
+      objc.ObjCBlock<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.UnsignedLong,
+          ffi.Pointer<ffi.Bool>,
+        )
+      >(
+        objc.newPointerBlock(_fnPtrCallable, ptr.cast()),
+        retain: false,
+        release: true,
+      );
+
+  /// Creates a block from a Dart function.
+  ///
+  /// This block must be invoked by native code running on the same thread as
+  /// the isolate that registered it. Invoking the block on the wrong thread
+  /// will result in a crash.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCObjectImpl>,
+      ffi.UnsignedLong,
+      ffi.Pointer<ffi.Bool>,
+    )
+  >
+  fromFunction(
+    void Function(objc.ObjCObject, int, ffi.Pointer<ffi.Bool>) fn, {
+    bool keepIsolateAlive = true,
+  }) =>
+      objc.ObjCBlock<
+        ffi.Void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          ffi.UnsignedLong,
+          ffi.Pointer<ffi.Bool>,
+        )
+      >(
+        objc.newClosureBlock(
+          _closureCallable,
+          (
+            ffi.Pointer<objc.ObjCObjectImpl> arg0,
+            int arg1,
+            ffi.Pointer<ffi.Bool> arg2,
+          ) => fn(
+            objc.ObjCObject(arg0, retain: true, release: true),
+            arg1,
+            arg2,
+          ),
+          keepIsolateAlive,
+        ),
+        retain: false,
+        release: true,
+      );
+
+  /// Creates a listener block from a Dart function.
+  ///
+  /// This is based on FFI's NativeCallable.listener, and has the same
+  /// capabilities and limitations. This block can be invoked from any thread,
+  /// but only supports void functions, and is not run synchronously. See
+  /// NativeCallable.listener for more details.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC.
+  static objc.ObjCBlock<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCObjectImpl>,
+      ffi.UnsignedLong,
+      ffi.Pointer<ffi.Bool>,
+    )
+  >
+  listener(
+    void Function(objc.ObjCObject, int, ffi.Pointer<ffi.Bool>) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    final raw = objc.newClosureBlock(
+      _listenerCallable.nativeFunction.cast(),
+      (
+        ffi.Pointer<objc.ObjCObjectImpl> arg0,
+        int arg1,
+        ffi.Pointer<ffi.Bool> arg2,
+      ) => fn(objc.ObjCObject(arg0, retain: false, release: true), arg1, arg2),
+      keepIsolateAlive,
+    );
+    final wrapper = _1wx624s_wrapListenerBlock_1p9ui4q(raw);
+    objc.objectRelease(raw.cast());
+    return objc.ObjCBlock<
+      ffi.Void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.UnsignedLong,
+        ffi.Pointer<ffi.Bool>,
+      )
+    >(wrapper, retain: false, release: true);
+  }
+
+  /// Creates a blocking block from a Dart function.
+  ///
+  /// This callback can be invoked from any native thread, and will block the
+  /// caller until the callback is handled by the Dart isolate that created
+  /// the block. Async functions are not supported.
+  ///
+  /// If `keepIsolateAlive` is true, this block will keep this isolate alive
+  /// until it is garbage collected by both Dart and ObjC. If the owner isolate
+  /// has shut down, and the block is invoked by native code, it may block
+  /// indefinitely, or have other undefined behavior.
+  static objc.ObjCBlock<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCObjectImpl>,
+      ffi.UnsignedLong,
+      ffi.Pointer<ffi.Bool>,
+    )
+  >
+  blocking(
+    void Function(objc.ObjCObject, int, ffi.Pointer<ffi.Bool>) fn, {
+    bool keepIsolateAlive = true,
+  }) {
+    final raw = objc.newClosureBlock(
+      _blockingCallable.nativeFunction.cast(),
+      (
+        ffi.Pointer<objc.ObjCObjectImpl> arg0,
+        int arg1,
+        ffi.Pointer<ffi.Bool> arg2,
+      ) => fn(objc.ObjCObject(arg0, retain: false, release: true), arg1, arg2),
+      keepIsolateAlive,
+    );
+    final rawListener = objc.newClosureBlock(
+      _blockingListenerCallable.nativeFunction.cast(),
+      (
+        ffi.Pointer<objc.ObjCObjectImpl> arg0,
+        int arg1,
+        ffi.Pointer<ffi.Bool> arg2,
+      ) => fn(objc.ObjCObject(arg0, retain: false, release: true), arg1, arg2),
+      keepIsolateAlive,
+    );
+    final wrapper = _1wx624s_wrapBlockingBlock_1p9ui4q(
+      raw,
+      rawListener,
+      objc.objCContext,
+    );
+    objc.objectRelease(raw.cast());
+    objc.objectRelease(rawListener.cast());
+    return objc.ObjCBlock<
+      ffi.Void Function(
+        ffi.Pointer<objc.ObjCObjectImpl>,
+        ffi.UnsignedLong,
+        ffi.Pointer<ffi.Bool>,
+      )
+    >(wrapper, retain: false, release: true);
+  }
+
+  static void _listenerTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<objc.ObjCObjectImpl> arg0,
+    int arg1,
+    ffi.Pointer<ffi.Bool> arg2,
+  ) {
+    (objc.getBlockClosure(block)
+        as void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          int,
+          ffi.Pointer<ffi.Bool>,
+        ))(arg0, arg1, arg2);
+    objc.objectRelease(block.cast());
+  }
+
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+      ffi.UnsignedLong,
+      ffi.Pointer<ffi.Bool>,
+    )
+  >
+  _listenerCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.UnsignedLong,
+            ffi.Pointer<ffi.Bool>,
+          )
+        >.listener(_listenerTrampoline)
+        ..keepIsolateAlive = false;
+  static void _blockingTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<ffi.Void> waiter,
+    ffi.Pointer<objc.ObjCObjectImpl> arg0,
+    int arg1,
+    ffi.Pointer<ffi.Bool> arg2,
+  ) {
+    try {
+      (objc.getBlockClosure(block)
+          as void Function(
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            int,
+            ffi.Pointer<ffi.Bool>,
+          ))(arg0, arg1, arg2);
+    } catch (e) {
+    } finally {
+      objc.signalWaiter(waiter);
+      objc.objectRelease(block.cast());
+    }
+  }
+
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+      ffi.UnsignedLong,
+      ffi.Pointer<ffi.Bool>,
+    )
+  >
+  _blockingCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.UnsignedLong,
+            ffi.Pointer<ffi.Bool>,
+          )
+        >.isolateLocal(_blockingTrampoline)
+        ..keepIsolateAlive = false;
+  static ffi.NativeCallable<
+    ffi.Void Function(
+      ffi.Pointer<objc.ObjCBlockImpl>,
+      ffi.Pointer<ffi.Void>,
+      ffi.Pointer<objc.ObjCObjectImpl>,
+      ffi.UnsignedLong,
+      ffi.Pointer<ffi.Bool>,
+    )
+  >
+  _blockingListenerCallable =
+      ffi.NativeCallable<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl>,
+            ffi.Pointer<ffi.Void>,
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.UnsignedLong,
+            ffi.Pointer<ffi.Bool>,
+          )
+        >.listener(_blockingTrampoline)
+        ..keepIsolateAlive = false;
+  static void _fnPtrTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<objc.ObjCObjectImpl> arg0,
+    int arg1,
+    ffi.Pointer<ffi.Bool> arg2,
+  ) => block.ref.target
+      .cast<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCObjectImpl> arg0,
+            ffi.UnsignedLong arg1,
+            ffi.Pointer<ffi.Bool> arg2,
+          )
+        >
+      >()
+      .asFunction<
+        void Function(
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          int,
+          ffi.Pointer<ffi.Bool>,
+        )
+      >()(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _fnPtrCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.UnsignedLong,
+              ffi.Pointer<ffi.Bool>,
+            )
+          >(_fnPtrTrampoline)
+          .cast();
+  static void _closureTrampoline(
+    ffi.Pointer<objc.ObjCBlockImpl> block,
+    ffi.Pointer<objc.ObjCObjectImpl> arg0,
+    int arg1,
+    ffi.Pointer<ffi.Bool> arg2,
+  ) =>
+      (objc.getBlockClosure(block)
+          as void Function(
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            int,
+            ffi.Pointer<ffi.Bool>,
+          ))(arg0, arg1, arg2);
+  static ffi.Pointer<ffi.Void> _closureCallable =
+      ffi.Pointer.fromFunction<
+            ffi.Void Function(
+              ffi.Pointer<objc.ObjCBlockImpl>,
+              ffi.Pointer<objc.ObjCObjectImpl>,
+              ffi.UnsignedLong,
+              ffi.Pointer<ffi.Bool>,
+            )
+          >(_closureTrampoline)
+          .cast();
+}
+
+/// Call operator for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<objc.ObjCObjectImpl>, ffi.UnsignedLong, ffi.Pointer<ffi.Bool>)>`.
+extension ObjCBlock_ffiVoid_objcObjCObjectImpl_ffiUnsignedLong_bool$CallExtension
+    on
+        objc.ObjCBlock<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCObjectImpl>,
+            ffi.UnsignedLong,
+            ffi.Pointer<ffi.Bool>,
+          )
+        > {
+  void call(objc.ObjCObject arg0, int arg1, ffi.Pointer<ffi.Bool> arg2) => ref
+      .pointer
+      .ref
+      .invoke
+      .cast<
+        ffi.NativeFunction<
+          ffi.Void Function(
+            ffi.Pointer<objc.ObjCBlockImpl> block,
+            ffi.Pointer<objc.ObjCObjectImpl> arg0,
+            ffi.UnsignedLong arg1,
+            ffi.Pointer<ffi.Bool> arg2,
+          )
+        >
+      >()
+      .asFunction<
+        void Function(
+          ffi.Pointer<objc.ObjCBlockImpl>,
+          ffi.Pointer<objc.ObjCObjectImpl>,
+          int,
+          ffi.Pointer<ffi.Bool>,
+        )
+      >()(ref.pointer, arg0.ref.pointer, arg1, arg2);
+}
+
 /// Construction methods for `objc.ObjCBlock<ffi.Void Function(ffi.Pointer<ffi.UnsignedShort>, ffi.UnsignedLong)>`.
 abstract final class ObjCBlock_ffiVoid_unichar_NSUInteger {
   /// Returns a block that wraps the given raw block pointer.
@@ -35330,11 +35476,13 @@ extension type Protocol._(objc.ObjCObject object$) implements objc.ObjCObject {
   }
 
   /// Returns whether [obj] is an instance of [Protocol].
-  static bool isA(objc.ObjCObject obj) => _objc_msgSend_19nvye5(
-    obj.ref.pointer,
-    _sel_isKindOfClass_,
-    _class_Protocol,
-  );
+  static bool isA(objc.ObjCObject? obj) => obj == null
+      ? false
+      : _objc_msgSend_19nvye5(
+          obj.ref.pointer,
+          _sel_isKindOfClass_,
+          _class_Protocol,
+        );
 }
 
 extension Protocol$Methods on Protocol {}

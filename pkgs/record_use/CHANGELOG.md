@@ -1,8 +1,15 @@
-## 0.5.0-wip
+## 0.6.0-wip
 
-- Made locations optional to accomodate for dart2js compiler not providing
-  source locations for constant instances.
-- Introduce a JSON schema for the json encoding.
+- **Breaking Change**: Changed the JSON format and Dart API in various ways.
+
+## 0.5.0
+
+- Complete reimplementation of the package. The Dart API changed completely, the
+  underlying JSON format changed completely, the internal architecture changed
+  completely to be based on a JSON schema, the format can now express many more
+  recordings, the code samples in the doc comments are now tested and up to
+  date, and many more changes. This is by no means a final version, but will
+  enable people to play with the current state of the implementation.
 
 ## 0.4.2
 

@@ -49,7 +49,9 @@ import 'parse_declarations.dart';
 ) {
   final token = fragments[0];
   final parselet = _prefixParsets[_tokenId(token)];
-  if (parselet == null) throw Exception('Invalid type at "${token.path}"');
+  if (parselet == null) {
+    throw Exception('Invalid type at "${token.path}": $token');
+  }
   return parselet(context, symbolgraph, token, fragments.slice(1));
 }
 
@@ -73,7 +75,10 @@ import 'parse_declarations.dart';
 // kind of 'text', and the spelling is what distinguishes them.
 String _tokenId(Json token) {
   final kind = token['kind'].get<String>();
-  return kind == 'text' ? 'text: ${token['spelling'].get<String>()}' : kind;
+  if (kind == 'text' || kind == 'keyword') {
+    return '$kind: ${token['spelling'].get<String>()}';
+  }
+  return kind;
 }
 
 // ========================
@@ -94,12 +99,23 @@ typedef PrefixParselet =
   Json token,
   TokenList fragments,
 ) {
-  final id = token['preciseIdentifier'].get<String>();
+  final preciseIdJson = token['preciseIdentifier'];
+  if (!preciseIdJson.exists) {
+    final spelling = token['spelling'].get<String>();
+    if (spelling == 'Self') {
+      return (selfType, fragments);
+    }
+    throw Exception(
+      'Type at "${token.path}" has no preciseIdentifier '
+      'and is not Self: $token',
+    );
+  }
+  final id = preciseIdJson.get<String>();
   final symbol = symbolgraph.symbols[id];
 
   if (symbol == null) {
     throw Exception(
-      'The type at "${token.path}" does not exist among parsed symbols.',
+      'The type at "${token.path}" does not exist among parsed symbols: $token',
     );
   }
 
@@ -113,16 +129,69 @@ typedef PrefixParselet =
   Json token,
   TokenList fragments,
 ) {
-  final nextToken = fragments[0];
-  if (_tokenId(nextToken) != 'text: )') {
-    throw Exception('Tuples not supported yet, at ${token.path}');
+  var currentFragments = fragments;
+  final elements = <TupleElement>[];
+
+  while (currentFragments.isNotEmpty &&
+      _tokenId(currentFragments[0]) != 'text: )') {
+    String? label;
+
+    if (currentFragments.length > 1 &&
+        _tokenId(currentFragments[1]) == 'text: :') {
+      label = currentFragments[0]['spelling'].get<String>();
+      currentFragments = currentFragments.slice(2);
+    }
+
+    final (elementType, nextFragments) = parseType(
+      context,
+      symbolgraph,
+      currentFragments,
+    );
+
+    elements.add(TupleElement(label: label, type: elementType));
+    currentFragments = nextFragments;
+
+    if (currentFragments.isNotEmpty &&
+        _tokenId(currentFragments[0]) == 'text: ,') {
+      currentFragments = currentFragments.slice(1);
+    }
   }
-  return (voidType, fragments.slice(1));
+
+  if (currentFragments.isNotEmpty &&
+      _tokenId(currentFragments[0]) == 'text: )') {
+    currentFragments = currentFragments.slice(1);
+  } else {
+    throw Exception('Expected closing parenthesis for tuple at ${token.path}');
+  }
+
+  if (elements.isEmpty) {
+    return (voidType, currentFragments);
+  }
+
+  if (elements.length == 1) {
+    return (elements[0].type, currentFragments);
+  }
+
+  return (TupleType(elements), currentFragments);
+}
+
+(ReferredType, TokenList) _inoutParselet(
+  Context context,
+  ParsedSymbolgraph symbolgraph,
+  Json token,
+  TokenList fragments,
+) {
+  if (_tokenId(fragments[0]) == 'text: ') {
+    fragments = fragments.slice(1);
+  }
+  final (type, suffix) = parseType(context, symbolgraph, fragments);
+  return (InoutType(type), suffix);
 }
 
 Map<String, PrefixParselet> _prefixParsets = {
   'typeIdentifier': _typeIdentifierParselet,
   'text: (': _tupleParselet,
+  'keyword: inout': _inoutParselet,
 };
 
 // ========================

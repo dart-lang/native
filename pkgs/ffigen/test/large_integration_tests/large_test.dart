@@ -74,8 +74,10 @@ void main() {
         ),
       );
       final library = parse(Context(logger, generator));
+      final context = testContext();
 
       matchLibraryWithExpected(
+        context,
         library,
         'large_test_libclang.dart',
         ['test', 'large_integration_tests', '_expected_libclang_bindings.dart'],
@@ -151,9 +153,10 @@ void main() {
         macros: Macros.includeAll,
         typedefs: Typedefs.includeAll,
       );
-      final library = parse(testContext(generator));
+      final context = testContext(generator);
+      final library = parse(context);
 
-      matchLibraryWithExpected(library, 'large_test_cjson.dart', [
+      matchLibraryWithExpected(context, library, 'large_test_cjson.dart', [
         'test',
         'large_integration_tests',
         '_expected_cjson_bindings.dart',
@@ -161,8 +164,9 @@ void main() {
     });
 
     test('SQLite test', () {
-      // Excluding functions that use 'va_list' because it can either be a
+      // Excluding functions etc that use 'va_list' because it can either be a
       // Pointer<__va_list_tag> or int depending on the OS.
+      final vaRegex = RegExp(r'(^|[^a-z])va($|[^a-z])');
       final generator = FfiGenerator(
         output: Output(
           dartFile: Uri.file('unused'),
@@ -192,14 +196,19 @@ void main() {
             'sqlite3_str_vappendf',
           }.contains(declaration.originalName),
         ),
-        structs: Structs.includeAll,
+        structs: Structs(
+          include: (declaration) => !vaRegex.hasMatch(declaration.originalName),
+        ),
         globals: Globals.includeAll,
         macros: Macros.includeAll,
-        typedefs: Typedefs.includeAll,
+        typedefs: Typedefs(
+          include: (declaration) => !vaRegex.hasMatch(declaration.originalName),
+        ),
       );
-      final library = parse(testContext(generator));
+      final context = testContext(generator);
+      final library = parse(context);
 
-      matchLibraryWithExpected(library, 'large_test_sqlite.dart', [
+      matchLibraryWithExpected(context, library, 'large_test_sqlite.dart', [
         'test',
         'large_integration_tests',
         '_expected_sqlite_bindings.dart',

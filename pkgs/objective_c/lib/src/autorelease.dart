@@ -35,10 +35,10 @@ import 'runtime_bindings_generated.dart';
 /// here (the [Future] it returns will not be awaited). Objective-C autorelease
 /// pools form a strict stack, and allowing async execution gaps inside the pool
 /// scope could easily break this nesting, so async functions are not supported.
-void autoReleasePool(void Function() function) {
+T autoReleasePool<T>(T Function() function) {
   final pool = autoreleasePoolPush();
   try {
-    function();
+    return function();
   } finally {
     autoreleasePoolPop(pool);
   }

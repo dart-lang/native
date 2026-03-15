@@ -7,60 +7,267 @@ import 'dart:convert';
 
 import 'package:meta/meta.dart';
 
+import 'canonicalization_context.dart';
 import 'constant.dart';
 import 'definition.dart';
 import 'helper.dart';
-import 'identifier.dart';
-import 'location.dart';
+import 'loading_unit.dart';
 import 'metadata.dart';
 import 'reference.dart';
+import 'serialization_context.dart';
 import 'syntax.g.dart';
 
-/// [Recordings] combines recordings of calls and instances with metadata.
+/// Holds all information recorded during compilation.
 ///
-/// This class acts as the top-level container for recorded usage information.
-/// The metadata provides context for the recording, such as version and
-/// commentary. The [callsForDefinition] and [instancesForDefinition] store the
-/// core data, associating each [Definition] with its corresponding [Reference]
-/// details.
+/// Associate [Definition]s annotated with `@RecordUse()` from `package:meta`
+/// with their corresponding recorded usages.
 ///
-/// The class uses a normalized JSON format, allowing the reuse of locations and
-/// constants across multiple recordings to optimize storage.
+/// The definition annotated with `@RecordUse()` must be inside the `lib/`
+/// directory of the package. If the definition is a member of a class (e.g. a
+/// static method), the class must be in the `lib/` directory.
+///
+/// The class uses a normalized JSON format, allowing the reuse of constants
+/// across multiple recordings to optimize storage.
 class Recordings {
   /// [Metadata] such as the recording protocol version.
   final Metadata metadata;
 
   /// The collected [CallReference]s for each [Definition].
-  final Map<Definition, List<CallReference>> callsForDefinition;
-
-  late final Map<Identifier, List<CallReference>> calls = callsForDefinition
-      .map((definition, calls) => MapEntry(definition.identifier, calls));
+  ///
+  /// Recorded when `@RecordUse()` is placed on a static member (top-level
+  /// functions, static methods, getters, setters, or operators) in any
+  /// container (library, class, mixin, enum, extension, or extension type).
+  ///
+  /// For example, to record calls to a static method:
+  ///
+  /// <!-- file://./../../example/api/usage.dart#static-call -->
+  /// ```dart
+  /// abstract class PirateTranslator {
+  ///   @RecordUse()
+  ///   static String speak(String english) => 'Ahoy $english';
+  /// }
+  /// ```
+  ///
+  /// Supported Locations:
+  /// - Top-level function / getter / setter.
+  /// - Static method / getter / setter in a class, mixin, or enum.
+  /// - Extension/Extension type method / getter / setter / operator (both
+  ///   static and instance).
+  ///
+  /// What is Recorded:
+  /// - [CallWithArguments]: Recorded for direct invocations.
+  ///   - [CallWithArguments.positionalArguments] and
+  ///     [CallWithArguments.namedArguments]: Captured if they are constant;
+  ///     otherwise recorded as [NonConstant]. Any non-provided arguments with
+  ///     default values will have their default values filled in.
+  ///   - [CallReference.receiver]: For extension instance members, the receiver
+  ///     is captured if it is a constant.
+  /// - [CallTearoff]: Recorded for method tear-offs.
+  /// - Getters/Setters: Simple access is recorded as a [CallWithArguments]. For
+  ///   setters, the assigned value is captured as a positional argument.
+  ///
+  /// Supported Constants:
+  /// - [NullConstant]: The `null` literal.
+  /// - [BoolConstant]: `true` and `false`.
+  /// - [IntConstant]: All constant integer values.
+  /// - [StringConstant]: All constant string values.
+  /// - [SymbolConstant]: Both public (e.g. `#mySymbol`) and private (e.g.
+  ///   `#_myPrivateSymbol`). Private symbols include the library URI in the
+  ///   recording to ensure they are unambiguous.
+  /// - [ListConstant]: Constant lists where every element is also a
+  ///   supported constant.
+  /// - [MapConstant]: Constant maps where every key and value is a
+  ///   supported constant.
+  /// - [RecordConstant]: Constant records (positional and named fields)
+  ///   containing supported constants.
+  /// - [EnumConstant]: Constants of an enum type, provided the enum itself is
+  ///   annotated with `@RecordUse()`. The recording includes the index, name,
+  ///   and any field values (for enhanced enums).
+  /// - [InstanceConstant]: `const` instances of a `final` class, provided the
+  ///   class is annotated with `@RecordUse()`. The recording includes all
+  ///   constant field values.
+  ///
+  /// Unsupported Constants:
+  /// The following types are explicitly not supported and will be recorded as
+  /// an [UnsupportedConstant] with a descriptive message if encountered:
+  /// - Doubles: Double literals are currently excluded from recording to avoid
+  ///   precision/portability issues across different platforms (VM vs JS).
+  /// - Sets: Constant sets are currently not supported (they are handled
+  ///   differently than Lists/Maps in the compiler backends).
+  /// - Type Literals: Passing a type itself (e.g. `MyClass`) as a constant
+  ///   argument is not supported.
+  ///   https://github.com/dart-lang/native/issues/3199
+  /// - Function/Method Tear-offs: While the tool records the fact that a
+  ///   method was torn off (as a usage), passing a method tear-off as a
+  ///   constant value into another recorded call is not supported (it will not
+  ///   be recorded as a constant value).
+  ///
+  /// Usage in a link hook:
+  ///
+  /// <!-- file://./../../example/api/usage_link.dart#static-call -->
+  /// ```dart
+  /// final calls = uses.calls[methodId] ?? [];
+  /// for (final call in calls) {
+  ///   switch (call) {
+  ///     case CallWithArguments(
+  ///       positionalArguments: [StringConstant(value: final english), ...],
+  ///     ):
+  ///       // Shrink a translations file based on all the different translation
+  ///       // keys.
+  ///       print('Translating to pirate: $english');
+  ///     case _:
+  ///       print('Cannot determine which translations are used.');
+  ///   }
+  /// }
+  /// ```
+  ///
+  /// Notes:
+  /// - Type Arguments: Intentionally not recorded (e.g., `myMethod<int>()`),
+  ///   as we don't currently have a serialization format for types.
+  ///   https://github.com/dart-lang/native/issues/3198
+  /// - Non-redirecting Factory Constructors: Not yet supported for static
+  ///   calls, because they can be the target of redirecting constructors.
+  ///   https://github.com/dart-lang/native/issues/3192
+  final Map<Definition, List<CallReference>> calls;
 
   /// The collected [InstanceReference]s for each [Definition].
-  final Map<Definition, List<InstanceReference>> instancesForDefinition;
-
-  late final Map<Identifier, List<InstanceReference>> instances =
-      instancesForDefinition.map(
-        (definition, instances) => MapEntry(definition.identifier, instances),
-      );
+  ///
+  /// Recorded when `@RecordUse()` is placed on a `final class` or `enum` to
+  /// track the lifecycle of instances.
+  ///
+  /// For example, to record instances of a class:
+  ///
+  /// <!-- file://./../../example/api/usage.dart#const-instance -->
+  /// ```dart
+  /// @RecordUse()
+  /// final class PirateShip {
+  ///   final String name;
+  ///   final int cannons;
+  ///
+  ///   const PirateShip(this.name, this.cannons);
+  /// }
+  /// ```
+  ///
+  /// Supported Locations:
+  /// - `final class` (must be `final` to ensure all creation points are known).
+  /// - `enum` (implicitly `final`).
+  ///
+  /// What is Recorded:
+  /// - [InstanceConstantReference]: Recorded for constant instances and enum
+  ///   elements.
+  ///   - [InstanceConstantReference.instanceConstant]: The captured constant
+  ///     value.
+  /// - [InstanceCreationReference]: Recorded for generative constructor
+  ///   invocations (non-const).
+  ///   - [InstanceCreationReference.positionalArguments] and
+  ///     [InstanceCreationReference.namedArguments]: Captured if they are
+  ///     constant; otherwise recorded as [NonConstant]. Any non-provided
+  ///     arguments with default values will have their default values
+  ///     filled in.
+  /// - [ConstructorTearoffReference]: Recorded for constructor tear-offs.
+  /// - Redirecting Factories (`=`): Resolved to the effective target class and
+  ///   recorded as an instance creation, constant, or tear-off of that class.
+  /// - Typedefs: Resolved back to the underlying class.
+  /// - Redirecting Generative Constructors (`: this.`): Recorded at the entry
+  ///   point only.
+  ///
+  /// Supported Constants:
+  /// - [NullConstant]: The `null` literal.
+  /// - [BoolConstant]: `true` and `false`.
+  /// - [IntConstant]: All constant integer values.
+  /// - [StringConstant]: All constant string values.
+  /// - [SymbolConstant]: Both public (e.g. `#mySymbol`) and private (e.g.
+  ///   `#_myPrivateSymbol`). Private symbols include the library URI in the
+  ///   recording to ensure they are unambiguous.
+  /// - [ListConstant]: Constant lists where every element is also a
+  ///   supported constant.
+  /// - [MapConstant]: Constant maps where every key and value is a
+  ///   supported constant.
+  /// - [RecordConstant]: Constant records (positional and named fields)
+  ///   containing supported constants.
+  /// - [EnumConstant]: Constants of an enum type, provided the enum itself is
+  ///   annotated with `@RecordUse()`. The recording includes the index, name,
+  ///   and any field values (for enhanced enums).
+  /// - [InstanceConstant]: `const` instances of a `final` class, provided the
+  ///   class is annotated with `@RecordUse()`. The recording includes all
+  ///   constant field values.
+  ///
+  /// Unsupported Constants:
+  /// The following types are explicitly not supported and will be recorded as
+  /// an [UnsupportedConstant] with a descriptive message if encountered:
+  /// - Doubles: Double literals are currently excluded from recording to avoid
+  ///   precision/portability issues across different platforms (VM vs JS).
+  /// - Sets: Constant sets are currently not supported (they are handled
+  ///   differently than Lists/Maps in the compiler backends).
+  /// - Type Literals: Passing a type itself (e.g. `MyClass`) as a constant
+  ///   argument is not supported.
+  ///   https://github.com/dart-lang/native/issues/3199
+  /// - Function/Method Tear-offs: While the tool records the fact that a
+  ///   method was torn off (as a usage), passing a method tear-off as a
+  ///   constant value into another recorded call is not supported (it will not
+  ///   be recorded as a constant value).
+  ///
+  /// Usage in a link hook:
+  ///
+  /// <!-- file://./../../example/api/usage_link.dart#const-instance -->
+  /// ```dart
+  /// final ships = uses.instances[classId] ?? [];
+  /// for (final ship in ships) {
+  ///   switch (ship) {
+  ///     case InstanceConstantReference(
+  ///       instanceConstant: InstanceConstant(
+  ///         fields: {'name': StringConstant(value: final name)},
+  ///       ),
+  ///     ):
+  ///       // Include the 3d model for this ship in the application but not
+  ///       // bundle the other ships.
+  ///       print('Pirate ship found: $name');
+  ///     case _:
+  ///       print('Cannot determine which ships are used.');
+  ///   }
+  /// }
+  /// ```
+  ///
+  /// Notes:
+  /// - Type Arguments: Intentionally not recorded (e.g., `MyClass<int>()`),
+  ///   as we don't currently have a serialization format for types.
+  ///   https://github.com/dart-lang/native/issues/3198
+  /// - Non-redirecting Factories: Invocations of non-redirecting factories are
+  ///   NOT recorded as instances. Instead, the body of the factory is analyzed
+  ///   like a static method, and any generative constructor calls inside the
+  ///   body are recorded as instances of the class.
+  /// - Non-final classes: This is not (yet) supported due to the extra
+  ///   complexity with reasoning about instances of subtypes. If we ever
+  ///   support this we will likely not allow type hierarchies to cross package
+  ///   boundaries due to the ambiguity of to which packages' link hook the
+  ///   information should be sent.
+  ///   https://github.com/dart-lang/native/issues/3200
+  final Map<Definition, List<InstanceReference>> instances;
 
   Recordings({
-    required this.metadata,
-    required this.callsForDefinition,
-    required this.instancesForDefinition,
-  });
+    Metadata? metadata,
+    required this.calls,
+    required this.instances,
+  }) : metadata = metadata ?? Metadata();
 
   /// Decodes a JSON representation into a [Recordings] object.
   ///
   /// The format is specifically designed to reduce redundancy and improve
-  /// efficiency. Identifiers and constants are stored in separate tables,
+  /// efficiency. Definitions and constants are stored in separate tables,
   /// allowing them to be referenced by index in the `recordings` map.
   factory Recordings.fromJson(Map<String, Object?> json) {
     try {
       final syntax = RecordedUsesSyntax.fromJson(json);
+      final syntaxErrors = syntax.validate();
+      if (syntaxErrors.isNotEmpty) {
+        final errorsString = syntaxErrors.map((e) => ' - $e').join('\n');
+        throw FormatException(
+          'Validation errors for record use file:\n$errorsString\n',
+        );
+      }
       return Recordings._fromSyntax(syntax);
     } on FormatException catch (e) {
-      throw ArgumentError('''
+      throw FormatException('''
 Invalid JSON format for Recordings:
 ${const JsonEncoder.withIndent('  ').convert(json)}
 Error: $e
@@ -69,60 +276,132 @@ Error: $e
   }
 
   factory Recordings._fromSyntax(RecordedUsesSyntax syntax) {
-    final constants = <Constant>[];
-    for (final constantSyntax in syntax.constants ?? <ConstantSyntax>[]) {
-      final constant = ConstantProtected.fromSyntax(constantSyntax, constants);
-      if (!constants.contains(constant)) {
-        constants.add(constant);
-      }
-    }
-
-    final locations = <Location>[];
-    for (final locationSyntax in syntax.locations ?? <LocationSyntax>[]) {
-      final location = LocationProtected.fromSyntax(locationSyntax);
-      if (!locations.contains(location)) {
-        locations.add(location);
-      }
-    }
+    final loadingUnitContext = _deserializeLoadingUnits(syntax);
+    final definitionContext = _deserializeDefinitions(
+      syntax,
+      loadingUnitContext,
+    );
+    final context = _deserializeConstants(syntax, definitionContext);
 
     final callsForDefinition = <Definition, List<CallReference>>{};
     final instancesForDefinition = <Definition, List<InstanceReference>>{};
 
-    for (final recordingSyntax in syntax.recordings ?? <RecordingSyntax>[]) {
-      final definition = DefinitionProtected.fromSyntax(
-        recordingSyntax.definition,
-      );
-      if (recordingSyntax.calls case final callSyntaxes?) {
+    final uses = syntax.uses;
+    if (uses != null) {
+      for (final callRecording in uses.staticCalls ?? <CallRecordingSyntax>[]) {
+        final definition = context.definitions[callRecording.definitionIndex];
+        final callSyntaxes = callRecording.uses;
         final callReferences = callSyntaxes
             .map<CallReference>(
               (callSyntax) => CallReferenceProtected.fromSyntax(
                 callSyntax,
-                constants,
-                locations,
+                context,
               ),
             )
             .toList();
-        callsForDefinition[definition] = callReferences;
+        callsForDefinition
+            .putIfAbsent(definition, () => [])
+            .addAll(callReferences);
       }
-      if (recordingSyntax.instances case final instanceSyntaxes?) {
+      for (final instanceRecording
+          in uses.instances ?? <InstanceRecordingSyntax>[]) {
+        final definition =
+            context.definitions[instanceRecording.definitionIndex];
+        final instanceSyntaxes = instanceRecording.uses;
         final instanceReferences = instanceSyntaxes
             .map<InstanceReference>(
               (instanceSyntax) => InstanceReferenceProtected.fromSyntax(
                 instanceSyntax,
-                constants,
-                locations,
+                context,
               ),
             )
             .toList();
-        instancesForDefinition[definition] = instanceReferences;
+        instancesForDefinition
+            .putIfAbsent(definition, () => [])
+            .addAll(instanceReferences);
       }
     }
 
     return Recordings(
       metadata: MetadataProtected.fromSyntax(syntax.metadata),
-      callsForDefinition: callsForDefinition,
-      instancesForDefinition: instancesForDefinition,
+      calls: callsForDefinition,
+      instances: instancesForDefinition,
     );
+  }
+
+  Recordings _canonicalizeChildren(CanonicalizationContext context) =>
+      Recordings(
+        metadata: metadata,
+        calls: _canonicalizeReferences(context, calls),
+        instances: _canonicalizeReferences(context, instances),
+      );
+
+  Map<Definition, List<R>> _canonicalizeReferences<R extends Reference>(
+    CanonicalizationContext context,
+    Map<Definition, List<R>> references,
+  ) {
+    final map = <Definition, Set<R>>{};
+    for (final entry in references.entries) {
+      final definition = context.canonicalizeDefinition(entry.key);
+      final set = map.putIfAbsent(definition, () => {});
+      for (final reference in entry.value) {
+        set.add(reference.canonicalizeChildren(context) as R);
+      }
+    }
+    final sortedKeys = map.keys.toList()..sort((a, b) => a.compareTo(b));
+    return <Definition, List<R>>{
+      for (final key in sortedKeys)
+        key: map[key]!.toList()..sort((a, b) => a.compareTo(b)),
+    };
+  }
+
+  static LoadingUnitDeserializationContext _deserializeLoadingUnits(
+    RecordedUsesSyntax syntax,
+  ) {
+    final loadingUnits = <LoadingUnit>[];
+    for (final unit in syntax.loadingUnits ?? <LoadingUnitSyntax>[]) {
+      loadingUnits.add(LoadingUnit(unit.name));
+    }
+    return LoadingUnitDeserializationContext(loadingUnits);
+  }
+
+  static DefinitionDeserializationContext _deserializeDefinitions(
+    RecordedUsesSyntax syntax,
+    LoadingUnitDeserializationContext loadingUnitContext,
+  ) {
+    final definitions = <Definition>[];
+    for (final definitionSyntax in syntax.definitions ?? <DefinitionSyntax>[]) {
+      definitions.add(DefinitionProtected.fromSyntax(definitionSyntax));
+    }
+    return DefinitionDeserializationContext.fromPrevious(
+      loadingUnitContext,
+      definitions,
+    );
+  }
+
+  static DeserializationContext _deserializeConstants(
+    RecordedUsesSyntax syntax,
+    DefinitionDeserializationContext definitionContext,
+  ) {
+    final constants = <MaybeConstant>[];
+    // Create a context that includes an empty list for the constants. This
+    // list will be populated by [_deserializeConstants], providing the
+    // self-referential access needed to resolve recursive constants (e.g.
+    // list and map constants).
+    final context = DeserializationContext.fromPrevious(
+      definitionContext,
+      constants,
+    );
+    for (final constantSyntax in syntax.constants ?? <ConstantSyntax>[]) {
+      final constant = MaybeConstantProtected.fromSyntax(
+        constantSyntax,
+        context,
+      );
+      if (!constants.contains(constant)) {
+        constants.add(constant);
+      }
+    }
+    return context;
   }
 
   /// Encodes this object into a JSON representation.
@@ -131,78 +410,70 @@ Error: $e
   Map<String, Object?> toJson() => _toSyntax().json;
 
   RecordedUsesSyntax _toSyntax() {
-    final constantsIndex = {
-      ...callsForDefinition.values
-          .expand((calls) => calls)
-          .whereType<CallWithArguments>()
-          .expand(
-            (call) => [
-              ...call.positionalArguments,
-              ...call.namedArguments.values,
-            ],
-          )
-          .nonNulls,
-      ...instancesForDefinition.values
-          .expand((instances) => instances)
-          .expand(
-            (instance) => {
-              ...instance.instanceConstant.fields.values,
-              instance.instanceConstant,
-            },
-          ),
-    }.flatten().asMapToIndices;
+    final canonContext = CanonicalizationContext();
+    final canon = _canonicalizeChildren(canonContext);
 
-    final locationsIndex = {
-      ...callsForDefinition.values
-          .expand((calls) => calls)
-          .map((call) => call.location)
-          .nonNulls,
-      ...instancesForDefinition.values
-          .expand((instances) => instances)
-          .map((instance) => instance.location)
-          .nonNulls,
-    }.asMapToIndices;
+    final sortedLoadingUnits = canonContext.loadingUnits.toList()
+      ..sort((a, b) => a.name.compareTo(b.name));
+    final sortedDefinitions = canonContext.definitions.toList()
+      ..sort((a, b) => a.compareTo(b));
+    final sortedConstants = canonContext.constants.toList()
+      ..sort((a, b) => a.compareTo(b));
 
-    final recordings = <RecordingSyntax>[];
-    if (callsForDefinition.isNotEmpty) {
-      recordings.addAll(
-        callsForDefinition.entries.map(
-          (entry) => RecordingSyntax(
-            definition: entry.key.toSyntax(),
-            calls: entry.value
-                .map((call) => call.toSyntax(constantsIndex, locationsIndex))
-                .toList(),
-          ),
+    final context = SerializationContext(
+      loadingUnits: sortedLoadingUnits.asMapToIndices,
+      definitions: sortedDefinitions.asMapToIndices,
+      constants: sortedConstants.asMapToIndices,
+    );
+
+    final callRecordings = <CallRecordingSyntax>[];
+    for (final entry in canon.calls.entries) {
+      callRecordings.add(
+        CallRecordingSyntax(
+          definitionIndex: context.definitions[entry.key]!,
+          uses: entry.value.map((call) => call.toSyntax(context)).toList(),
         ),
       );
     }
-    if (instancesForDefinition.isNotEmpty) {
-      recordings.addAll(
-        instancesForDefinition.entries.map(
-          (entry) => RecordingSyntax(
-            definition: entry.key.toSyntax(),
-            instances: entry.value
-                .map(
-                  (instance) =>
-                      instance.toSyntax(constantsIndex, locationsIndex),
-                )
-                .toList(),
-          ),
+    final instanceRecordings = <InstanceRecordingSyntax>[];
+    for (final entry in canon.instances.entries) {
+      instanceRecordings.add(
+        InstanceRecordingSyntax(
+          definitionIndex: context.definitions[entry.key]!,
+          uses: entry.value
+              .map((instance) => instance.toSyntax(context))
+              .toList(),
         ),
       );
     }
+
+    final uses = (callRecordings.isEmpty && instanceRecordings.isEmpty)
+        ? null
+        : UsesSyntax(
+            staticCalls: callRecordings.isEmpty ? null : callRecordings,
+            instances: instanceRecordings.isEmpty ? null : instanceRecordings,
+          );
 
     return RecordedUsesSyntax(
       metadata: metadata.toSyntax(),
-      constants: constantsIndex.isEmpty
+      constants: sortedConstants.isEmpty
           ? null
-          : constantsIndex.keys
-                .map((constant) => constant.toSyntax(constantsIndex))
-                .toList(),
-      locations: locationsIndex.isEmpty
+          : [
+              for (final constant in sortedConstants)
+                constant.toSyntax(context),
+            ],
+      loadingUnits: sortedLoadingUnits.isEmpty
           ? null
-          : locationsIndex.keys.map((location) => location.toSyntax()).toList(),
-      recordings: recordings.isEmpty ? null : recordings,
+          : [
+              for (final unit in sortedLoadingUnits)
+                LoadingUnitSyntax(name: unit.name),
+            ],
+      definitions: sortedDefinitions.isEmpty
+          ? null
+          : [
+              for (final definition in sortedDefinitions) definition.toSyntax(),
+            ],
+      uses: uses,
     );
   }
 
@@ -211,15 +482,17 @@ Error: $e
     if (identical(this, other)) return true;
 
     return other.metadata == metadata &&
-        deepEquals(other.callsForDefinition, callsForDefinition) &&
-        deepEquals(other.instancesForDefinition, instancesForDefinition);
+        deepEquals(other.calls, calls) &&
+        deepEquals(other.instances, instances);
   }
 
   @override
-  int get hashCode => Object.hash(
-    metadata.hashCode,
-    deepHash(callsForDefinition),
-    deepHash(instancesForDefinition),
+  int get hashCode => cacheHashCode(
+    () => Object.hash(
+      metadata.hashCode,
+      deepHash(calls),
+      deepHash(instances),
+    ),
   );
 
   /// Compares this set of usages ('actual') with the [expected] set
@@ -244,17 +517,8 @@ Error: $e
   /// a usage from [expected] cannot be found in `this`, simulating the effect
   /// of a compiler optimizing away a call entirely.
   ///
-  /// If [allowTearOffToStaticPromotion] is `true`, allows an [expected]
+  /// If [allowTearoffToStaticPromotion] is `true`, allows an [expected]
   /// function tear-off to match an `actual` static call.
-  ///
-  /// If [allowLocationNull] is `true`, having a `null` in one and a column and
-  /// line number in the other is considered semantically equal. Useful for if
-  /// one compiler does not provide source locations but the other does.
-  ///
-  /// If [allowDefinitionLoadingUnitNull] is `true`, allows a definition's
-  /// loading unit to be `null` in one set but not the other. This handles
-  /// cases where a compiler might not emit loading unit information for all
-  ///   definitions.
   ///
   /// If [allowMoreConstArguments] is `true`, `null` arguments in an `expected`
   /// call are ignored during comparison. This can be used to accommodate
@@ -267,10 +531,9 @@ Error: $e
     Recordings expected, {
     bool expectedIsSubset = false,
     bool allowDeadCodeElimination = false,
-    bool allowTearOffToStaticPromotion = false,
-    bool allowLocationNull = false,
-    bool allowDefinitionLoadingUnitNull = false,
+    bool allowTearoffToStaticPromotion = false,
     bool allowMoreConstArguments = false,
+    bool allowPromotionOfUnsupported = false,
     bool allowMetadataMismatch = false,
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
@@ -278,36 +541,33 @@ Error: $e
     if (!allowMetadataMismatch && metadata != expected.metadata) {
       return false;
     }
-    // ignore: invalid_use_of_visible_for_testing_member
-    bool definitionMatches(Definition a, Definition b) => a.semanticEquals(
-      b,
-      allowLoadingUnitNull: allowDefinitionLoadingUnitNull,
-      uriMapping: uriMapping,
-      loadingUnitMapping: loadingUnitMapping,
-    );
+    bool definitionMatches(Definition a, Definition b) =>
+        // ignore: invalid_use_of_visible_for_testing_member
+        a.semanticEquals(b, uriMapping: uriMapping);
 
     if (!_compareUsageMap(
-      actual: callsForDefinition,
-      expected: expected.callsForDefinition,
+      actual: calls,
+      expected: expected.calls,
       expectedIsSubset: expectedIsSubset,
       allowDeadCodeElimination: allowDeadCodeElimination,
       definitionMatches: definitionMatches,
-      // ignore: invalid_use_of_visible_for_testing_member
-      referenceMatches: (CallReference a, CallReference b) => a.semanticEquals(
-        b,
-        allowTearOffToStaticPromotion: allowTearOffToStaticPromotion,
-        allowLocationNull: allowLocationNull,
-        allowMoreConstArguments: allowMoreConstArguments,
-        uriMapping: uriMapping,
-        loadingUnitMapping: loadingUnitMapping,
-      ),
+      referenceMatches: (CallReference a, CallReference b) =>
+          // ignore: invalid_use_of_visible_for_testing_member
+          a.semanticEquals(
+            b,
+            allowTearoffToStaticPromotion: allowTearoffToStaticPromotion,
+            allowMoreConstArguments: allowMoreConstArguments,
+            allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+            uriMapping: uriMapping,
+            loadingUnitMapping: loadingUnitMapping,
+          ),
     )) {
       return false;
     }
 
     if (!_compareUsageMap(
-      actual: instancesForDefinition,
-      expected: expected.instancesForDefinition,
+      actual: instances,
+      expected: expected.instances,
       expectedIsSubset: expectedIsSubset,
       allowDeadCodeElimination: allowDeadCodeElimination,
       definitionMatches: definitionMatches,
@@ -315,9 +575,10 @@ Error: $e
           // ignore: invalid_use_of_visible_for_testing_member
           a.semanticEquals(
             b,
-            allowLocationNull: allowLocationNull,
             uriMapping: uriMapping,
             loadingUnitMapping: loadingUnitMapping,
+            allowMoreConstArguments: allowMoreConstArguments,
+            allowPromotionOfUnsupported: allowPromotionOfUnsupported,
           ),
     )) {
       return false;
@@ -355,12 +616,9 @@ Error: $e
 
         final actualUsage = actualUsages[i];
 
-        if (definitionMatches(
-          actualUsage.key,
-          expectedUsage.key,
-        )) {
+        if (definitionMatches(actualUsage.key, expectedUsage.key)) {
           // Definitions match semantically. Now check the references.
-          // The list of references for this definition must be an exact
+          // The list of references for this identifier must be an exact
           // semantic match.
           final referencesMatch = _matchReferences(
             actual: actualUsage.value,
@@ -432,31 +690,48 @@ Error: $e
 
     return true;
   }
+
+  /// Returns a new [Recordings] that only contains usages of definitions
+  /// filtered by the provided criteria.
+  ///
+  /// If [definitionPackageName] is provided, only usages of definitions
+  /// defined in that package are included.
+  Recordings filter({String? definitionPackageName}) {
+    bool belongsToPackage(Definition definition) {
+      if (definitionPackageName == null) return true;
+      final uri = definition.library;
+      return uri.startsWith('package:$definitionPackageName/');
+    }
+
+    final newCallsForDefinition = {
+      for (final entry in calls.entries)
+        if (belongsToPackage(entry.key))
+          entry.key: [
+            for (final call in entry.value)
+              call.filter(definitionPackageName: definitionPackageName),
+          ],
+    };
+
+    final newInstancesForDefinition = {
+      for (final entry in instances.entries)
+        if (belongsToPackage(entry.key))
+          entry.key: [
+            for (final instance in entry.value)
+              instance.filter(definitionPackageName: definitionPackageName),
+          ],
+    };
+
+    return Recordings(
+      metadata: metadata,
+      calls: newCallsForDefinition,
+      instances: newInstancesForDefinition,
+    );
+  }
 }
 
-extension FlattenConstantsExtension on Iterable<Constant> {
-  Set<Constant> flatten() {
-    final constants = <Constant>{};
-    for (final constant in this) {
-      depthFirstSearch(constant, constants);
-    }
-    return constants;
-  }
-
-  void depthFirstSearch(Constant constant, Set<Constant> collected) {
-    final children = switch (constant) {
-      ListConstant<Constant>() => constant.value,
-      MapConstant<Constant>() => constant.value.values,
-      InstanceConstant() => constant.fields.values,
-      _ => <Constant>[],
-    };
-    for (final child in children) {
-      if (!collected.contains(child)) {
-        depthFirstSearch(child, collected);
-      }
-    }
-    collected.add(constant);
-  }
+extension RecordingsProtected on Recordings {
+  Recordings canonicalizeChildren(CanonicalizationContext context) =>
+      _canonicalizeChildren(context);
 }
 
 extension MapifyIterableExtension<T> on Iterable<T> {

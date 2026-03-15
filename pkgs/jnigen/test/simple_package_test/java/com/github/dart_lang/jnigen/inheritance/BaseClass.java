@@ -4,4 +4,8 @@
 
 package com.github.dart_lang.jnigen.inheritance;
 
-public class BaseClass<T extends CharSequence> {}
+public class BaseClass<T extends CharSequence> {
+  public T someMethod(T t) {
+    return t;
+  }
+}

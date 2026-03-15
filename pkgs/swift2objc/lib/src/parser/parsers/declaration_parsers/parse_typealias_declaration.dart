@@ -9,7 +9,7 @@ import '../../_core/token_list.dart';
 import '../../_core/utils.dart';
 import '../parse_type.dart';
 
-TypealiasDeclaration? parseTypealiasDeclaration(
+TypealiasDeclaration parseTypealiasDeclaration(
   Context context,
   ParsedSymbol symbol,
   ParsedSymbolgraph symbolgraph,

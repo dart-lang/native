@@ -82,6 +82,7 @@ abstract class Visitation {
   void visitObjCInterface(ObjCInterface node) => visitBindingType(node);
   void visitObjCProtocol(ObjCProtocol node) => visitNoLookUpBinding(node);
   void visitObjCCategory(ObjCCategory node) => visitNoLookUpBinding(node);
+  void visitObjCBlock(ObjCBlock node) => visitBindingType(node);
   void visitStruct(Struct node) => visitCompound(node);
   void visitUnion(Union node) => visitCompound(node);
   void visitCompound(Compound node) => visitBindingType(node);
@@ -101,6 +102,10 @@ abstract class Visitation {
   void visitLibraryImport(LibraryImport node) => visitAstNode(node);
   void visitSymbol(Symbol node) => visitAstNode(node);
   void visitObjCMsgSendFunc(ObjCMsgSendFunc node) => visitAstNode(node);
+  void visitObjCMsgSendVariantFunc(ObjCMsgSendVariantFunc node) =>
+      visitNoLookUpBinding(node);
+  void visitObjCBlockWrapperFuncs(ObjCBlockWrapperFuncs node) =>
+      visitAstNode(node);
   void visitObjCMethod(ObjCMethod node) => visitAstNode(node);
 
   /// Default behavior for all visit methods.

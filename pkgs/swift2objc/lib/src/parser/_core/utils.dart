@@ -64,6 +64,19 @@ String parseSymbolName(Json symbolJson) => symbolJson['declarationFragments']
     .firstJsonWhereKey('kind', 'identifier')['spelling']
     .get();
 
+int? parseLineNumber(Json symbolJson) {
+  final locationJson = symbolJson['location'];
+  if (!locationJson.exists) return null;
+
+  final positionJson = locationJson['position'];
+  if (!positionJson.exists) return null;
+
+  final lineJson = positionJson['line'];
+  if (!lineJson.exists) return null;
+
+  return lineJson.get<int>();
+}
+
 bool parseSymbolHasObjcAnnotation(Json symbolJson) =>
     symbolJson['declarationFragments'].any(
       (json) => matchFragment(json, 'attribute', '@objc'),
@@ -119,6 +132,20 @@ bool isObsoleted(Json symbolJson) {
 extension Deduper<T> on Iterable<T> {
   Iterable<T> dedupeBy<K>(K Function(T) id) =>
       <K, T>{for (final t in this) id(t): t}.values;
+}
+
+extension Remover<T> on List<T> {
+  List<U> removeWhereType<U>() {
+    final removed = <U>[];
+    removeWhere((t) {
+      if (t is U) {
+        removed.add(t);
+        return true;
+      }
+      return false;
+    });
+    return removed;
+  }
 }
 
 ReferredType parseTypeAfterSeparator(

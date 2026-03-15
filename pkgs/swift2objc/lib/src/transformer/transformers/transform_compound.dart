@@ -5,11 +5,13 @@
 import '../../ast/_core/interfaces/compound_declaration.dart';
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/interfaces/nestable_declaration.dart';
+import '../../ast/_core/shared/parameter.dart';
 import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
 import '../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
+import '../../ast/declarations/compounds/struct_declaration.dart';
 import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
 import '../_core/utils.dart';
@@ -49,21 +51,19 @@ ClassDeclaration transformCompound(
 
   state.map[originalCompound] = transformedCompound;
 
-  transformedCompound.nestedDeclarations =
-      originalCompound.nestedDeclarations
-          .map(
-            (nested) =>
-                maybeTransformDeclaration(
-                      nested,
-                      compoundNamer,
-                      state,
-                      nested: true,
-                    )
-                    as InnerNestableDeclaration?,
-          )
-          .nonNulls
-          .toList()
-        ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+  transformedCompound.nestedDeclarations = originalCompound.nestedDeclarations
+      .map(
+        (nested) =>
+            maybeTransformDeclaration(
+                  nested,
+                  compoundNamer,
+                  state,
+                  nested: true,
+                )
+                as InnerNestableDeclaration?,
+      )
+      .nonNulls
+      .sortedById();
   transformedCompound.nestedDeclarations.fillNestingParents(
     transformedCompound,
   );
@@ -81,7 +81,7 @@ ClassDeclaration transformCompound(
         .nonNulls
         .toList();
 
-    final transformedInitializers = originalCompound.initializers
+    final transformedInitializers = _compoundInitializers(originalCompound)
         .map(
           (initializer) => transformInitializer(
             initializer,
@@ -104,20 +104,58 @@ ClassDeclaration transformCompound(
         .nonNulls
         .toList();
 
-    transformedCompound.properties =
-        transformedProperties.whereType<PropertyDeclaration>().toList()
-          ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+    transformedCompound.properties = transformedProperties
+        .removeWhereType<PropertyDeclaration>()
+        .sortedById();
 
-    transformedCompound.initializers =
-        transformedInitializers.whereType<InitializerDeclaration>().toList()
-          ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+    transformedCompound.initializers = transformedInitializers
+        .removeWhereType<InitializerDeclaration>()
+        .sortedById();
 
-    transformedCompound.methods =
-        (transformedMethods +
-              transformedProperties.whereType<MethodDeclaration>().toList() +
-              transformedInitializers.whereType<MethodDeclaration>().toList())
-          ..sort((Declaration a, Declaration b) => a.id.compareTo(b.id));
+    transformedCompound.methods = [
+      ...transformedMethods,
+      ...transformedProperties.removeWhereType<MethodDeclaration>(),
+      ...transformedInitializers.removeWhereType<MethodDeclaration>(),
+    ].sortedById();
+
+    assert(transformedProperties.isEmpty);
+    assert(transformedInitializers.isEmpty);
   }
 
   return transformedCompound;
+}
+
+List<InitializerDeclaration> _compoundInitializers(
+  CompoundDeclaration originalCompound,
+) {
+  final initializers = originalCompound.initializers;
+  if (originalCompound is! StructDeclaration || initializers.isNotEmpty) {
+    return initializers;
+  }
+  final storedProperties = originalCompound.properties
+      .where((prop) => !prop.isStatic && !prop.hasExplicitGetter)
+      .sortedById();
+
+  if (storedProperties.isEmpty) {
+    return initializers;
+  }
+
+  final implicitInit = InitializerDeclaration(
+    id: originalCompound.id.addIdSuffix('implicit_init'),
+    source: originalCompound.source,
+    availability: originalCompound.availability,
+    params: storedProperties
+        .map(
+          (prop) =>
+              Parameter(name: prop.name, internalName: null, type: prop.type),
+        )
+        .toList(),
+    hasObjCAnnotation: true,
+    isOverriding: false,
+    throws: false,
+    async: false,
+    isFailable: false,
+  );
+
+  return [implicitInit];
 }

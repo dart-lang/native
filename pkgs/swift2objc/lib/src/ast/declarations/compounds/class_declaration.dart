@@ -32,10 +32,13 @@ class ClassDeclaration extends AstNode
   List<AvailabilityInfo> availability;
 
   @override
-  covariant List<PropertyDeclaration> properties;
+  final int? lineNumber;
 
   @override
-  covariant List<MethodDeclaration> methods;
+  List<PropertyDeclaration> properties;
+
+  @override
+  List<MethodDeclaration> methods;
 
   @override
   List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
@@ -76,6 +79,7 @@ class ClassDeclaration extends AstNode
     required this.name,
     required this.source,
     required this.availability,
+    this.lineNumber,
     this.properties = const [],
     this.methods = const [],
     this.nestingParent,

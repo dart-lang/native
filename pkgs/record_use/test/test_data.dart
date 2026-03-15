@@ -2,32 +2,39 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:pub_semver/pub_semver.dart';
-import 'package:record_use/record_use_internal.dart';
+import 'dart:io';
 
-final callId = Identifier(
-  importUri: Uri.parse(
-    'file://lib/_internal/js_runtime/lib/js_helper.dart',
-  ).toString(),
-  scope: 'MyClass',
-  name: 'get:loadDeferredLibrary',
+import 'package:native_test_helpers/native_test_helpers.dart';
+import 'package:pub_semver/pub_semver.dart';
+import 'package:record_use/record_use.dart';
+import 'package:record_use/src/canonicalization_context.dart';
+import 'package:record_use/src/recordings.dart';
+
+const callId = Definition(
+  'package:js_runtime/js_helper.dart',
+  [Name('MyClass'), Name('get:loadDeferredLibrary')],
 );
-final instanceId = Identifier(
-  importUri: Uri.parse(
-    'file://lib/_internal/js_runtime/lib/js_helper.dart',
-  ).toString(),
-  name: 'MyAnnotation',
+const instanceId = Definition(
+  'package:js_runtime/js_helper.dart',
+  [Name('MyAnnotation')],
 );
+const enumId = Definition(
+  'package:js_runtime/js_helper.dart',
+  [Name('MyEnum')],
+);
+
+const loadingUnitOJs = LoadingUnit('o.js');
+const loadingUnit3 = LoadingUnit('3');
 
 final recordedUses = Recordings(
-  metadata: Metadata.fromJson({
-    'version': Version(1, 6, 2, pre: 'wip', build: '5.-.2.z').toString(),
-    'comment':
+  metadata: Metadata(
+    version: Version(1, 6, 2, pre: 'wip', build: '5.-.2.z'),
+    comment:
         'Recorded references at compile time and their argument values, as'
         ' far as known, to definitions annotated with @RecordUse',
-  }),
-  callsForDefinition: {
-    Definition(identifier: callId, loadingUnit: 'part_15.js'): [
+  ),
+  calls: {
+    callId: [
       const CallWithArguments(
         positionalArguments: [
           StringConstant('lib_SHA1'),
@@ -38,13 +45,14 @@ final recordedUses = Recordings(
           'freddy': StringConstant('mercury'),
           'leroy': StringConstant('jenkins'),
         },
-        loadingUnit: 'o.js',
-        location: Location(uri: 'lib/test.dart', line: 12, column: 36),
+        loadingUnit: loadingUnitOJs,
       ),
       const CallWithArguments(
         positionalArguments: [
           StringConstant('lib_SHA1'),
-          MapConstant<IntConstant>({'key': IntConstant(99)}),
+          MapConstant([
+            MapEntry(StringConstant('key'), IntConstant(99)),
+          ]),
           ListConstant([
             StringConstant('camus'),
             ListConstant([
@@ -59,268 +67,66 @@ final recordedUses = Recordings(
           'freddy': IntConstant(0),
           'leroy': StringConstant('jenkins'),
         },
-        loadingUnit: 'o.js',
-        location: Location(uri: 'lib/test2.dart'),
+        loadingUnit: loadingUnitOJs,
       ),
     ],
   },
-  instancesForDefinition: {
-    Definition(identifier: instanceId): [
-      const InstanceReference(
+  instances: {
+    instanceId: [
+      const InstanceConstantReference(
         instanceConstant: InstanceConstant(
+          definition: instanceId,
           fields: {'a': IntConstant(42), 'b': NullConstant()},
         ),
-        loadingUnit: '3',
-        location: Location(uri: 'lib/test3.dart'),
+        loadingUnit: loadingUnit3,
       ),
-      const InstanceReference(
-        instanceConstant: InstanceConstant(fields: {}),
-        loadingUnit: '3',
-        location: Location(uri: 'lib/test3.dart'),
+      const InstanceConstantReference(
+        instanceConstant: InstanceConstant(definition: instanceId, fields: {}),
+        loadingUnit: loadingUnit3,
+      ),
+    ],
+    enumId: [
+      const InstanceConstantReference(
+        instanceConstant: EnumConstant(
+          definition: enumId,
+          index: 0,
+          name: 'val1',
+          fields: {'a': IntConstant(42)},
+        ),
+        loadingUnit: loadingUnit3,
       ),
     ],
   },
-);
+).canonicalizeChildren(CanonicalizationContext());
 
 final recordedUses2 = Recordings(
-  metadata: Metadata.fromJson({
-    'version': Version(1, 6, 2, pre: 'wip', build: '5.-.2.z').toString(),
-    'comment':
+  metadata: Metadata(
+    version: Version(1, 6, 2, pre: 'wip', build: '5.-.2.z'),
+    comment:
         'Recorded references at compile time and their argument values, as'
         ' far as known, to definitions annotated with @RecordUse',
-  }),
-  callsForDefinition: {
-    Definition(identifier: callId, loadingUnit: 'part_15.js'): [
+  ),
+  calls: {
+    callId: [
       const CallWithArguments(
         positionalArguments: [BoolConstant(false), IntConstant(1)],
         namedArguments: {
           'freddy': StringConstant('mercury'),
           'answer': IntConstant(42),
         },
-        loadingUnit: 'o.js',
-        location: Location(uri: 'lib/test3.dart'),
+        loadingUnit: loadingUnitOJs,
       ),
     ],
   },
-  instancesForDefinition: {},
-);
+  instances: {},
+).canonicalizeChildren(CanonicalizationContext());
 
-const recordedUsesJson = '''{
-  "metadata": {
-    "version": "1.6.2-wip+5.-.2.z",
-    "comment": "Recorded references at compile time and their argument values, as far as known, to definitions annotated with @RecordUse"
-  },
-  "constants": [
-    {
-      "type": "String",
-      "value": "lib_SHA1"
-    },
-    {
-      "type": "bool",
-      "value": false
-    },
-    {
-      "type": "int",
-      "value": 1
-    },
-    {
-      "type": "String",
-      "value": "mercury"
-    },
-    {
-      "type": "String",
-      "value": "jenkins"
-    },
-    {
-      "type": "int",
-      "value": 99
-    },
-    {
-      "type": "map",
-      "value": {
-        "key": 5
-      }
-    },
-    {
-      "type": "String",
-      "value": "camus"
-    },
-    {
-      "type": "String",
-      "value": "einstein"
-    },
-    {
-      "type": "String",
-      "value": "insert"
-    },
-    {
-      "type": "list",
-      "value": [
-        8,
-        9,
-        1
-      ]
-    },
-    {
-      "type": "list",
-      "value": [
-        7,
-        10,
-        8
-      ]
-    },
-    {
-      "type": "int",
-      "value": 0
-    },
-    {
-      "type": "int",
-      "value": 42
-    },
-    {
-      "type": "Null"
-    },
-    {
-      "type": "Instance",
-      "value": {
-        "a": 13,
-        "b": 14
-      }
-    },
-    {
-      "type": "Instance"
-    }
-  ],
-  "locations": [
-    {
-      "uri": "lib/test.dart",
-      "line": 12,
-      "column": 36
-    },
-    {
-      "uri": "lib/test2.dart"
-    },
-    {
-      "uri": "lib/test3.dart"
-    }
-  ],
-  "recordings": [
-    {
-      "definition": {
-        "identifier": {
-          "uri": "file://lib/_internal/js_runtime/lib/js_helper.dart",
-          "scope": "MyClass",
-          "name": "get:loadDeferredLibrary"
-        },
-        "loading_unit": "part_15.js"
-      },
-      "calls": [
-        {
-          "type": "with_arguments",
-          "positional": [
-            0,
-            1,
-            2
-          ],
-          "named": {
-            "freddy": 3,
-            "leroy": 4
-          },
-          "loading_unit": "o.js",
-          "@": 0
-        },
-        {
-          "type": "with_arguments",
-          "positional": [
-            0,
-            6,
-            11
-          ],
-          "named": {
-            "freddy": 12,
-            "leroy": 4
-          },
-          "loading_unit": "o.js",
-          "@": 1
-        }
-      ]
-    },
-    {
-      "definition": {
-        "identifier": {
-          "uri": "file://lib/_internal/js_runtime/lib/js_helper.dart",
-          "name": "MyAnnotation"
-        }
-      },
-      "instances": [
-        {
-          "constant_index": 15,
-          "loading_unit": "3",
-          "@": 2
-        },
-        {
-          "constant_index": 16,
-          "loading_unit": "3",
-          "@": 2
-        }
-      ]
-    }
-  ]
-}''';
+final _testDataUri = findPackageRoot('record_use').resolve('test_data/json/');
 
-const recordedUsesJson2 = '''{
-  "metadata": {
-    "version": "1.6.2-wip+5.-.2.z",
-    "comment": "Recorded references at compile time and their argument values, as far as known, to definitions annotated with @RecordUse"
-  },
-  "constants": [
-    {
-      "type": "bool",
-      "value": false
-    },
-    {
-      "type": "int",
-      "value": 1
-    },
-    {
-      "type": "String",
-      "value": "mercury"
-    },
-    {
-      "type": "int",
-      "value": 42
-    }
-  ],
-  "locations": [
-    {
-      "uri": "lib/test3.dart"
-    }
-  ],
-  "recordings": [
-    {
-      "definition": {
-        "identifier": {
-          "uri": "file://lib/_internal/js_runtime/lib/js_helper.dart",
-          "scope": "MyClass",
-          "name": "get:loadDeferredLibrary"
-        },
-        "loading_unit": "part_15.js"
-      },
-      "calls": [
-        {
-          "type": "with_arguments",
-          "positional": [
-            0,
-            1
-          ],
-          "named": {
-            "freddy": 2,
-            "answer": 3
-          },
-          "loading_unit": "o.js",
-          "@": 0
-        }
-      ]
-    }
-  ]
-}''';
+final recordedUsesJson = File.fromUri(
+  _testDataUri.resolve('recorded_uses_v2.json'),
+).readAsStringSync();
+
+final recordedUsesJson2 = File.fromUri(
+  _testDataUri.resolve('recorded_uses_v2_2.json'),
+).readAsStringSync();

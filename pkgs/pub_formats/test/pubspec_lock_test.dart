@@ -41,8 +41,12 @@ void main() {
     expect(
       errorsDescription,
       equals([
-        "Unexpected value 'not a valid name' (String) for 'dart_apitool.description.name'. Expected a String satisfying ^[a-zA-Z_]\\w*\$.",
-        "Unexpected value 'not a valid sha' (String) for 'dart_apitool.description.sha256'. Expected a String satisfying ^[a-f0-9]{64}\$.",
+        "Unexpected value 'not a valid name' (String) "
+            "for 'dart_apitool.description.name'. "
+            'Expected a String satisfying ^[a-zA-Z_]\\w*\$.',
+        "Unexpected value 'not a valid sha' (String) "
+            "for 'dart_apitool.description.sha256'. "
+            'Expected a String satisfying ^[a-f0-9]{64}\$.',
       ]),
     );
     expect(() => description.sha256, throwsFormatException);

@@ -14,7 +14,7 @@ import '../ffi.dart';
 /// the equivalent of a char pointer (`const char*`) in C code.
 final class Utf8 extends Opaque {}
 
-/// Extension method for converting a`Pointer<Utf8>` to a [String].
+/// Extension method for converting a `Pointer<Utf8>` to a [String].
 extension Utf8Pointer on Pointer<Utf8> {
   /// The number of UTF-8 code units in this zero-terminated UTF-8 string.
   ///

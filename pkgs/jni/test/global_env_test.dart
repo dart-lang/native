@@ -115,7 +115,7 @@ void run({required TestRunnerCallback testRunner}) {
             expect(
                 () => env.CallStaticIntMethodA(
                     integerClass, parseIntMethod, args),
-                throwsA(isA<JniException>()));
+                throwsA(isA<JThrowable>()));
           }));
 
   testRunner(

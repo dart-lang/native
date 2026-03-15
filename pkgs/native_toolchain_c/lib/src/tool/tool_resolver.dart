@@ -82,8 +82,7 @@ class PathToolResolver extends ToolResolver {
     if (process.exitCode == 0) {
       final file = File(LineSplitter.split(process.stdout).first);
       final uri = File(await file.resolveSymbolicLinks()).uri;
-      if (uri.pathSegments.last == 'llvm' ||
-          uri.pathSegments.last == 'swiftly') {
+      if (uri.pathSegments.last case 'llvm' || 'lld' || 'swiftly') {
         // https://github.com/dart-lang/native/issues/136
         // https://github.com/dart-lang/native/issues/2792
         return file.uri;

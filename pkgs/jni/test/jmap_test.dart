@@ -24,7 +24,7 @@ void run({required TestRunnerCallback testRunner}) {
       '2'.toJString()..releasedBy(arena): 'Two'.toJString()..releasedBy(arena),
       '3'.toJString()..releasedBy(arena): 'Three'.toJString()
         ..releasedBy(arena),
-    }.toJMap(JString.type, JString.type)
+    }.toJMap()
       ..releasedBy(arena);
   }
 
@@ -34,19 +34,19 @@ void run({required TestRunnerCallback testRunner}) {
       '2'.toJString()..releasedBy(arena): 'Two'.toJString()..releasedBy(arena),
       '3'.toJString()..releasedBy(arena): null,
       null: null,
-    }.toJMap(JString.nullableType, JString.nullableType)
+    }.toJMap()
       ..releasedBy(arena);
   }
 
   testRunner('length', () {
     using((arena) {
-      final map = testDataMap(arena);
+      final map = testDataMap(arena).asDart();
       expect(map.length, 3);
     });
   });
   testRunner('[]', () {
     using((arena) {
-      final map = testDataMap(arena);
+      final map = testDataMap(arena).asDart();
       // ignore: collection_methods_unrelated_type
       expect(map[1], null);
       expect(
@@ -62,7 +62,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('nullable []', () {
     using((arena) {
-      final map = testNullableDataMap(arena);
+      final map = testNullableDataMap(arena).asDart();
       // ignore: collection_methods_unrelated_type
       expect(map[1], null);
       expect(
@@ -86,7 +86,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('[]=', () {
     using((arena) {
-      final map = testDataMap(arena);
+      final map = testDataMap(arena).asDart();
       map['0'.toJString()..releasedBy(arena)] = 'Zero'.toJString()
         ..releasedBy(arena);
       expect(
@@ -107,7 +107,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('nullable []=', () {
     using((arena) {
-      final map = testNullableDataMap(arena);
+      final map = testNullableDataMap(arena).asDart();
       map['0'.toJString()..releasedBy(arena)] = 'Zero'.toJString()
         ..releasedBy(arena);
       expect(
@@ -136,13 +136,13 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('addAll', () {
     using((arena) {
-      final map = testDataMap(arena);
+      final map = testDataMap(arena).asDart();
       final toAdd = {
         '0'.toJString()..releasedBy(arena): 'Zero'.toJString()
           ..releasedBy(arena),
         '1'.toJString()..releasedBy(arena): 'one!'.toJString()
           ..releasedBy(arena),
-      }.toJMap(JString.type, JString.type);
+      };
       map.addAll(toAdd);
       expect(map.length, 4);
       expect(
@@ -164,7 +164,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('clear, isEmpty, isNotEmpty', () {
     using((arena) {
-      final map = testDataMap(arena);
+      final map = testDataMap(arena).asDart();
       expect(map.isEmpty, false);
       expect(map.isNotEmpty, true);
       map.clear();
@@ -174,7 +174,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('containsKey', () {
     using((arena) {
-      final map = testDataMap(arena);
+      final map = testDataMap(arena).asDart();
       // ignore: collection_methods_unrelated_type
       expect(map.containsKey(1), false);
       expect(map.containsKey('1'.toJString()..releasedBy(arena)), true);
@@ -183,7 +183,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('nullable containsKey', () {
     using((arena) {
-      final map = testNullableDataMap(arena);
+      final map = testNullableDataMap(arena).asDart();
       // ignore: collection_methods_unrelated_type
       expect(map.containsKey(1), false);
       expect(map.containsKey('1'.toJString()..releasedBy(arena)), true);
@@ -193,7 +193,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('containsValue', () {
     using((arena) {
-      final map = testDataMap(arena);
+      final map = testDataMap(arena).asDart();
       // ignore: collection_methods_unrelated_type
       expect(map.containsValue(1), false);
       expect(map.containsValue('One'.toJString()..releasedBy(arena)), true);
@@ -202,7 +202,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('nullable containsValue', () {
     using((arena) {
-      final map = testNullableDataMap(arena);
+      final map = testNullableDataMap(arena).asDart();
       // ignore: collection_methods_unrelated_type
       expect(map.containsValue(1), false);
       expect(map.containsValue('One'.toJString()..releasedBy(arena)), true);
@@ -212,7 +212,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('keys', () {
     using((arena) {
-      final map = testDataMap(arena);
+      final map = testDataMap(arena).asDart();
       final keys = map.keys;
       expect(
         keys
@@ -224,7 +224,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('remove', () {
     using((arena) {
-      final map = testDataMap(arena);
+      final map = testDataMap(arena).asDart();
       // ignore: collection_methods_unrelated_type
       expect(map.remove(1), null);
       expect(map.remove('4'.toJString()..releasedBy(arena)), null);
@@ -240,7 +240,7 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('nullable remove', () {
     using((arena) {
-      final map = testNullableDataMap(arena);
+      final map = testNullableDataMap(arena).asDart();
       // ignore: collection_methods_unrelated_type
       expect(map.remove(1), null);
       expect(map.remove('4'.toJString()..releasedBy(arena)), null);
@@ -257,18 +257,6 @@ void run({required TestRunnerCallback testRunner}) {
         null,
       );
       expect(map.length, 2);
-    });
-  });
-  testRunner('type hashCode, ==', () {
-    using((arena) {
-      final a = testDataMap(arena);
-      final b = testDataMap(arena);
-      expect(a.$type, b.$type);
-      expect(a.$type, b.$type);
-      expect(a.$type.hashCode, b.$type.hashCode);
-      final c = JMap.hash(JObject.type, JObject.type)..releasedBy(arena);
-      expect(a.$type, isNot(c.$type));
-      expect(a.$type.hashCode, isNot(c.$type.hashCode));
     });
   });
 }

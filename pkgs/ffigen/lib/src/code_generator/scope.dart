@@ -161,15 +161,23 @@ class Namer {
 /// Add the [Symbol] to a [Scope], and it will be assigned a name during the
 /// transformation phase.
 class Symbol extends AstNode {
-  final String oldName;
+  String _oldName;
   final SymbolKind kind;
   bool isImported = false;
   String? _name;
 
+  String get oldName => _oldName;
+
+  /// Only valid if [Scope.fillNames] has not been called yet.
+  set oldName(String n) {
+    assert(!isFilled);
+    _oldName = n;
+  }
+
   /// Only valid if [Scope.fillNames] has been called already.
   String get name => _name!;
 
-  Symbol(this.oldName, this.kind);
+  Symbol(this._oldName, this.kind);
 
   bool get isFilled => _name != null;
 

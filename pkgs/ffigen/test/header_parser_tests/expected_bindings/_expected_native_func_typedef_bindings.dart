@@ -71,6 +71,11 @@ class NativeLibrary {
       .asFunction<void Function(WithTypedefReturnType)>();
 }
 
+typedef InsideReturnType =
+    ffi.Pointer<ffi.NativeFunction<InsideReturnTypeFunction>>;
+typedef InsideReturnTypeFunction = ffi.Void Function();
+typedef DartInsideReturnTypeFunction = void Function();
+
 final class Struct extends ffi.Struct {
   external ffi.Pointer<
     ffi.NativeFunction<
@@ -80,20 +85,33 @@ final class Struct extends ffi.Struct {
     >
   >
   unnamed1;
-}
 
-typedef InsideReturnTypeFunction = ffi.Void Function();
-typedef DartInsideReturnTypeFunction = void Function();
-typedef InsideReturnType =
-    ffi.Pointer<ffi.NativeFunction<InsideReturnTypeFunction>>;
-typedef WithTypedefReturnTypeFunction = InsideReturnType Function();
-typedef WithTypedefReturnType =
-    ffi.Pointer<ffi.NativeFunction<WithTypedefReturnTypeFunction>>;
-typedef VoidFuncPointerFunction = ffi.Void Function();
-typedef DartVoidFuncPointerFunction = void Function();
-typedef VoidFuncPointer =
-    ffi.Pointer<ffi.NativeFunction<VoidFuncPointerFunction>>;
+  static ffi.Pointer<Struct> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<ffi.NativeFunction<ffi.Void Function()>> unnamed2,
+        )
+      >
+    >
+    unnamed1,
+  }) => $allocator<Struct>()..ref.unnamed1 = unnamed1;
+}
 
 final class Struct2 extends ffi.Struct {
   external VoidFuncPointer constFuncPointer;
+
+  static ffi.Pointer<Struct2> $allocate(
+    ffi.Allocator $allocator, {
+    required VoidFuncPointer constFuncPointer,
+  }) => $allocator<Struct2>()..ref.constFuncPointer = constFuncPointer;
 }
+
+typedef VoidFuncPointer =
+    ffi.Pointer<ffi.NativeFunction<VoidFuncPointerFunction>>;
+typedef VoidFuncPointerFunction = ffi.Void Function();
+typedef DartVoidFuncPointerFunction = void Function();
+typedef WithTypedefReturnType =
+    ffi.Pointer<ffi.NativeFunction<WithTypedefReturnTypeFunction>>;
+typedef WithTypedefReturnTypeFunction = InsideReturnType Function();

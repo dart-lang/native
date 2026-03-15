@@ -15,7 +15,19 @@
   supports integers, doubles, and string literals. Including the variable name
   in the globals -> symbol-address configuration will still generate symbol 
   lookups.
-
+- Fix [a bug](https://github.com/dart-lang/native/issues/2952) where block
+  helpers were occasionally given unexpected names. Technically a breaking
+  change because if you were affected by the bug, the block helper's name will
+  change to something more sensible.
+- __Breaking change__: Deleted the config option `Output.sort`. Sorting is now
+  always enabled.
+- Fix(https://github.com/dart-lang/native/issues/2877) 
+  such that ObjCObject `isA` now accepts a nullable `ObjCObject?` and returns
+  `false` when called with `null`, aligning its behavior with Dart’s `is`operator.
+- Use `xcrun` for resolving macOS SDK paths, enabling support for non-standard
+  Xcode installations. [#3134](https://github.com/dart-lang/native/issues/3134)
+- Add allocate constructor for native C structs:
+  `$allocate(Allocator $allocator, {required ...})`
 
 ## 20.1.1
 

@@ -50,13 +50,19 @@ typedef BAlias = B;
 
 final class C extends ffi.Opaque {}
 
-final class NoDefinitionStructInD extends ffi.Opaque {}
-
 final class D extends ffi.Struct {
   @ffi.Int()
   external int a;
 
   external ffi.Pointer<NoDefinitionStructInD> nds;
+
+  static ffi.Pointer<D> $allocate(
+    ffi.Allocator $allocator, {
+    required int a,
+    required ffi.Pointer<NoDefinitionStructInD> nds,
+  }) => $allocator<D>()
+    ..ref.a = a
+    ..ref.nds = nds;
 }
 
 final class DArray extends ffi.Struct {
@@ -64,6 +70,14 @@ final class DArray extends ffi.Struct {
   external int a;
 
   external ffi.Pointer<NoDefinitionStructInD> nds;
+
+  static ffi.Pointer<DArray> $allocate(
+    ffi.Allocator $allocator, {
+    required int a,
+    required ffi.Pointer<NoDefinitionStructInD> nds,
+  }) => $allocator<DArray>()
+    ..ref.a = a
+    ..ref.nds = nds;
 }
 
 final class E extends ffi.Struct {
@@ -74,6 +88,8 @@ final class E extends ffi.Struct {
   @ffi.Array.multi([10])
   external ffi.Array<DArray> dArray;
 }
+
+final class NoDefinitionStructInD extends ffi.Opaque {}
 
 final class UA extends ffi.Opaque {}
 

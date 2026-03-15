@@ -79,4 +79,17 @@ public class Exceptions {
   public static void throwLoremIpsum() {
     throw new RuntimeException("Lorem Ipsum");
   }
+
+  public static class MyException extends RuntimeException {
+    public int errorCode;
+
+    public MyException(String message, int errorCode) {
+      super(message);
+      this.errorCode = errorCode;
+    }
+  }
+
+  public static void throwMyException() {
+    throw new MyException("My custom exception", 123);
+  }
 }
