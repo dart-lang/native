@@ -59,6 +59,8 @@ abstract class Type extends AstNode {
   /// as getFfiDartType. For ObjC bindings this refers to the wrapper object.
   String getDartType(Context context) => getFfiDartType(context);
 
+
+
   /// Returns the type to be used if this type appears in an ObjC block
   /// signature. By default it's the same as [getCType]. But for some types
   /// that's not enough to distinguish them (eg all ObjC objects have a C type
@@ -246,6 +248,10 @@ abstract class BindingType extends NoLookUpBinding implements Type {
   void visit(Visitation visitation) => visitation.visitBindingType(this);
 }
 
+
+
+
+
 /// Represents an unimplemented type. Used as a marker, so that declarations
 /// having these can exclude them.
 class UnimplementedType extends Type {
@@ -257,4 +263,142 @@ class UnimplementedType extends Type {
 
   @override
   bool get sameFfiDartAndCType => true;
+}
+
+/// Represents the `void` type.
+final voidType = NativeType(SupportedNativeType.voidType);
+
+/// Represents the `char` type.
+final charType = NativeType(SupportedNativeType.char);
+
+/// Represents the `signed char` type.
+final signedCharType = NativeType(SupportedNativeType.int8);
+
+/// Represents the `unsigned char` type.
+final unsignedCharType = NativeType(SupportedNativeType.uint8);
+
+/// Represents the `short` type.
+final shortType = NativeType(SupportedNativeType.int16);
+
+/// Represents the `unsigned short` type.
+final unsignedShortType = NativeType(SupportedNativeType.uint16);
+
+/// Represents the `int` type.
+final intType = NativeType(SupportedNativeType.int32);
+
+/// Represents the `unsigned int` type.
+final unsignedIntType = NativeType(SupportedNativeType.uint32);
+
+/// Represents the `long` type.
+final longType = NativeType(SupportedNativeType.int64);
+
+/// Represents the `unsigned long` type.
+final unsignedLongType = NativeType(SupportedNativeType.uint64);
+
+/// Represents the `long long` type.
+final longLongType = NativeType(SupportedNativeType.int64);
+
+/// Represents the `unsigned long long` type.
+final unsignedLongLongType = NativeType(SupportedNativeType.uint64);
+
+/// Represents the `float` type.
+final floatType = NativeType(SupportedNativeType.float);
+
+/// Represents the `double` type.
+final doubleType = NativeType(SupportedNativeType.double);
+
+/// Represents the `size_t` type.
+final sizeType = NativeType(SupportedNativeType.intPtr);
+
+/// Represents the `wchar_t` type.
+final wCharType = NativeType(SupportedNativeType.int32);
+
+/// Represents the `intptr_t` type.
+final intPtrType = NativeType(SupportedNativeType.intPtr);
+
+/// Represents the `uintptr_t` type.
+final uintPtrType = NativeType(SupportedNativeType.uintPtr);
+
+/// Represents the `id` type.
+final objCObjectType = ObjCObjectType();
+
+/// Represents the `void (^)(void)` type.
+///
+/// This is used as a placeholder for any block type.
+final objCBlockType = ObjCBlockType();
+
+class ObjCObjectType extends Type {
+  const ObjCObjectType();
+
+  @override
+  String getCType(Context context) =>
+      ObjCBuiltInFunctions.objectBase.gen(context);
+
+  @override
+  String getFfiDartType(Context context) => getCType(context);
+
+  @override
+  String getNativeType({String varName = ''}) => 'id $varName';
+
+  @override
+  bool get sameFfiDartAndCType => true;
+
+  @override
+  String toString() => 'id';
+
+  @override
+  String cacheKey() => 'id';
+
+  @override
+  bool get sameDartAndFfiDartType => true;
+
+  @override
+  bool get sameDartAndCType => true;
+
+  @override
+  String convertDartTypeToFfiDartType(Context context, String value, {required bool objCRetain, required bool objCAutorelease}) => value;
+
+  @override
+  String convertFfiDartTypeToDartType(Context context, String value, {required bool objCRetain, String? objCEnclosingClass}) => value;
+
+  @override
+  String? generateRetain(String value) => null;
+}
+
+class ObjCBlockType extends Type {
+  const ObjCBlockType();
+
+  @override
+  String getCType(Context context) =>
+      ObjCBuiltInFunctions.blockType.gen(context);
+
+  @override
+  String getFfiDartType(Context context) => getCType(context);
+
+  @override
+  String getNativeType({String varName = ''}) => 'void (^$varName)(void)';
+
+  @override
+  bool get sameFfiDartAndCType => true;
+
+  @override
+  String toString() => 'Block';
+
+  @override
+  String cacheKey() => 'Block';
+
+  @override
+  bool get sameDartAndFfiDartType => true;
+
+  @override
+  bool get sameDartAndCType => true;
+
+  @override
+  String convertDartTypeToFfiDartType(Context context, String value, {required bool objCRetain, required bool objCAutorelease}) => value;
+
+  @override
+  String convertFfiDartTypeToDartType(Context context, String value, {required bool objCRetain, String? objCEnclosingClass}) => value;
+
+  @override
+  String? generateRetain(String value) => null;
 }
