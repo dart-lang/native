@@ -40,8 +40,9 @@ void run({required TestRunnerCallback testRunner}) {
 
   testRunner('length', () {
     using((arena) {
-      final map = testDataMap(arena).asDart();
-      expect(map.length, 3);
+      final map = testDataMap(arena);
+      expect(map.size(), 3);
+      expect(map.asDart().length, 3);
     });
   });
   testRunner('[]', () {
