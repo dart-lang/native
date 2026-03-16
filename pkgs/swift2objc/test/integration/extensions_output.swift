@@ -85,7 +85,7 @@ import Foundation
     return MyStruct.extensionStaticFunc()
   }
 
-  @objc public init(value: Int) {
+  @objc public convenience init(value: Int) {
     wrappedInstance = MyStruct(value: value)
   }
 

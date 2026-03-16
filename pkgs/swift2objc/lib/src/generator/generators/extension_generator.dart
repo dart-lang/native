@@ -15,7 +15,7 @@ List<String> generateExtension(ExtensionDeclaration declaration) {
       for (final property in declaration.properties)
         ...generateClassProperty(property),
       for (final init in declaration.initializers)
-        ...generateInitializer(init, isPublic: true),
+        ...generateInitializer(init, isPublic: true, isConvenience: true),
     ].indent(),
     '}\n',
   ];

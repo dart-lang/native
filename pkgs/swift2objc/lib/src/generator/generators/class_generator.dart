@@ -82,12 +82,14 @@ List<String> _generateInitializers(ClassDeclaration declaration) {
 List<String> generateInitializer(
   InitializerDeclaration? initializer, {
   required bool isPublic,
+  bool isConvenience = false,
 }) {
   if (initializer == null) return [];
   final header = [
     if (initializer.hasObjCAnnotation) '@objc ',
     if (initializer.isOverriding) 'override ',
     if (isPublic) 'public ',
+    if (isConvenience) 'convenience ',
     'init',
     if (initializer.isFailable) '?',
     '(${generateParameters(initializer.params)}) ',
