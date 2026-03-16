@@ -39,8 +39,9 @@ void run({required TestRunnerCallback testRunner}) {
 
   testRunner('length', () {
     using((arena) {
-      final set = testDataSet(arena).asDart();
-      expect(set.length, 3);
+      final set = testDataSet(arena);
+      expect(set.size(), 3);
+      expect(set.asDart().length, 3);
     });
   });
   testRunner('add', () {
