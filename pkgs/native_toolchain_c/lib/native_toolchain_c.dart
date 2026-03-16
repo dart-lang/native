@@ -12,4 +12,5 @@ export 'src/cbuilder/language.dart' show Language;
 export 'src/cbuilder/linker_options.dart' show LinkerOptions;
 export 'src/cbuilder/optimization_level.dart';
 export 'src/cbuilder/output_type.dart' show OutputType;
+export 'src/cbuilder/run_cbuilder.dart' show resolveAndroidSystemLibPath;
 export 'src/utils/env_from_bat.dart';

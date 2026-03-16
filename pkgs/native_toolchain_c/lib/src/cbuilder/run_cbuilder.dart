@@ -19,6 +19,11 @@ import 'language.dart';
 import 'linker_options.dart';
 import 'optimization_level.dart';
 
+Future<Uri> resolveAndroidSystemLibPath(
+  CodeConfig codeConfig,
+  Logger logger,
+) async => RunCBuilder.androidSystemLibPath(codeConfig, logger);
+
 class RunCBuilder {
   /// The options are for linking only, so this will be non-null iff a linker
   /// should be run.
@@ -114,8 +119,24 @@ class RunCBuilder {
         context,
       )).where((i) => i.tool == macosxSdk).first.uri;
 
-  Uri androidSysroot(ToolInstance compiler) =>
+  static Uri androidSysroot(ToolInstance compiler) =>
       compiler.uri.resolve('../sysroot/');
+
+  static Uri androidLibPath(ToolInstance compiler) =>
+      androidSysroot(compiler).resolve('usr/lib/');
+
+  static Future<Uri> androidSystemLibPath(
+    CodeConfig codeConfig,
+    Logger logger,
+  ) async {
+    final resolver = CompilerResolver(codeConfig: codeConfig, logger: logger);
+    final androidSysroot = RunCBuilder.androidLibPath(
+      await resolver.resolveCompiler(),
+    );
+    final systemLibArch =
+        androidNdkSystemLibArch[codeConfig.targetArchitecture]!;
+    return androidSysroot.resolve('$systemLibArch/');
+  }
 
   Future<void> run() async {
     final toolInstance_ = await compiler();
@@ -424,6 +445,14 @@ class RunCBuilder {
 
   static const androidNdkClangTargetFlags = {
     Architecture.arm: 'armv7a-linux-androideabi',
+    Architecture.arm64: 'aarch64-linux-android',
+    Architecture.ia32: 'i686-linux-android',
+    Architecture.x64: 'x86_64-linux-android',
+    Architecture.riscv64: 'riscv64-linux-android',
+  };
+
+  static const androidNdkSystemLibArch = {
+    Architecture.arm: 'arm-linux-androideabi',
     Architecture.arm64: 'aarch64-linux-android',
     Architecture.ia32: 'i686-linux-android',
     Architecture.x64: 'x86_64-linux-android',

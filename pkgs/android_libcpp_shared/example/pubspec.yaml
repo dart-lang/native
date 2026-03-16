@@ -1,0 +1,27 @@
+name: android_libcpp_shared_example
+description: "Android libcpp_shared example package."
+publish_to: 'none'
+resolution: workspace
+
+version: 0.1.0
+
+environment:
+  sdk: ^3.9.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+  android_libcpp_shared: ^0.1.0
+  ffi: ^2.2.0
+
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  flutter_lints: ^6.0.0
+  flutter_launcher_icons: ^0.14.4
+
+flutter:
+  uses-material-design: true

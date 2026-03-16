@@ -5,6 +5,8 @@ environment:
   sdk: '>=3.10.0 <4.0.0'
 
 workspace:
+  - pkgs/android_libcpp_shared
+  - pkgs/android_libcpp_shared/example
   - pkgs/code_assets
   - pkgs/code_assets/example/host_name
   - pkgs/code_assets/example/mini_audio
