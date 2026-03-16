@@ -41,6 +41,13 @@
       ]
     },
     {
+      "type": "set",
+      "value": [
+        4,
+        5
+      ]
+    },
+    {
       "type": "map",
       "value": [
         {
@@ -126,7 +133,7 @@
         "definition_index": 2,
         "uses": [
           {
-            "constant_index": 12,
+            "constant_index": 13,
             "loading_unit_index": 0,
             "type": "constant"
           }
@@ -147,16 +154,17 @@
             },
             "positional": [
               6,
-              9,
+              10,
               2,
               0,
               4,
-              12,
+              13,
               8,
               1,
-              10,
               11,
-              5
+              12,
+              5,
+              9
             ],
             "type": "with_arguments"
           }

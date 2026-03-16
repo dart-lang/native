@@ -111,6 +111,7 @@ export 'src/constant.dart'
         NonConstant,
         NullConstant,
         RecordConstant,
+        SetConstant,
         StringConstant,
         SymbolConstant,
         UnsupportedConstant;

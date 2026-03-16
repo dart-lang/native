@@ -332,4 +332,32 @@ void main() {
     expect(recordings1.semanticEquals(recordings2), isTrue);
     expect(recordings1.semanticEquals(recordings3), isFalse);
   });
+
+  test('SetConstant semantic equality', () {
+    const set1 = SetConstant([IntConstant(1), IntConstant(2)]);
+    const set2 = SetConstant([IntConstant(2), IntConstant(1)]);
+    const set3 = SetConstant([IntConstant(1), IntConstant(3)]);
+    const set4 = SetConstant([IntConstant(1)]);
+
+    expect(set1.semanticEquals(set1), isTrue);
+    expect(set1.semanticEquals(set2), isTrue);
+    expect(set1.semanticEquals(set3), isFalse);
+    expect(set1.semanticEquals(set4), isFalse);
+
+    const unsupported = UnsupportedConstant('MethodTearoff');
+    const setWithUnsupported = SetConstant([IntConstant(1), unsupported]);
+    const setWithInt2 = SetConstant([IntConstant(1), IntConstant(2)]);
+
+    // unsupported does not match IntConstant(2) by default
+    expect(setWithInt2.semanticEquals(setWithUnsupported), isFalse);
+
+    // unsupported matches any constant when promotion is allowed
+    expect(
+      setWithInt2.semanticEquals(
+        setWithUnsupported,
+        allowPromotionOfUnsupported: true,
+      ),
+      isTrue,
+    );
+  });
 }
