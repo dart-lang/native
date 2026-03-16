@@ -15,6 +15,7 @@ import 'declarations/compounds/enum_declaration.dart';
 import 'declarations/compounds/members/initializer_declaration.dart';
 import 'declarations/compounds/members/method_declaration.dart';
 import 'declarations/compounds/members/property_declaration.dart';
+import 'declarations/compounds/members/subscript_declaration.dart';
 import 'declarations/compounds/protocol_declaration.dart';
 import 'declarations/compounds/struct_declaration.dart';
 import 'declarations/globals/globals.dart';
@@ -96,6 +97,8 @@ abstract class Visitation {
       visitVariableDeclaration(node);
   void visitGlobalVariableDeclaration(GlobalVariableDeclaration node) =>
       visitVariableDeclaration(node);
+  void visitSubscriptDeclaration(SubscriptDeclaration node) =>
+      visitDeclaration(node);
   void visitCompoundDeclaration(CompoundDeclaration node) =>
       visitDeclaration(node);
   void visitClassDeclaration(ClassDeclaration node) =>

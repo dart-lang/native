@@ -12,6 +12,7 @@ import 'declaration_parsers/parse_compound_declaration.dart';
 import 'declaration_parsers/parse_enum_declaration.dart';
 import 'declaration_parsers/parse_function_declaration.dart';
 import 'declaration_parsers/parse_initializer_declaration.dart';
+import 'declaration_parsers/parse_subscript_declaration.dart';
 import 'declaration_parsers/parse_typealias_declaration.dart';
 import 'declaration_parsers/parse_variable_declaration.dart';
 
@@ -69,6 +70,18 @@ Declaration parseDeclaration(
       context,
       parsedSymbol,
       symbolgraph,
+    ),
+    'swift.subscript' => parseSubscriptDeclaration(
+      context,
+      parsedSymbol,
+      symbolgraph,
+      isStatic: false,
+    ),
+    'swift.type.subscript' => parseSubscriptDeclaration(
+      context,
+      parsedSymbol,
+      symbolgraph,
+      isStatic: true,
     ),
     'swift.method' => parseMethodDeclaration(
       context,

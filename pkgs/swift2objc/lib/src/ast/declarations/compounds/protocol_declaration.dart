@@ -11,6 +11,7 @@ import '../../ast_node.dart';
 import 'members/initializer_declaration.dart';
 import 'members/method_declaration.dart';
 import 'members/property_declaration.dart';
+import 'members/subscript_declaration.dart';
 
 /// Describes the declaration of a Swift protocol.
 class ProtocolDeclaration extends AstNode implements CompoundDeclaration {
@@ -36,6 +37,9 @@ class ProtocolDeclaration extends AstNode implements CompoundDeclaration {
   List<MethodDeclaration> methods;
 
   @override
+  List<SubscriptDeclaration> subscripts;
+
+  @override
   List<DeclaredType<ProtocolDeclaration>> conformedProtocols;
 
   @override
@@ -58,6 +62,7 @@ class ProtocolDeclaration extends AstNode implements CompoundDeclaration {
     required this.availability,
     required this.properties,
     required this.methods,
+    required this.subscripts,
     required this.initializers,
     required this.conformedProtocols,
     required this.typeParams,
@@ -73,7 +78,9 @@ class ProtocolDeclaration extends AstNode implements CompoundDeclaration {
   void visitChildren(Visitor visitor) {
     super.visitChildren(visitor);
     visitor.visitAll(properties);
+    visitor.visitAll(properties);
     visitor.visitAll(methods);
+    visitor.visitAll(subscripts);
     visitor.visitAll(conformedProtocols);
     visitor.visitAll(typeParams);
     visitor.visitAll(initializers);

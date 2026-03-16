@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../../ast/_core/shared/parameter.dart';
-import '../../../ast/_core/shared/referred_type.dart';
 import '../../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../../ast/declarations/globals/globals.dart';
 import '../../../context.dart';
@@ -28,7 +27,7 @@ GlobalFunctionDeclaration parseGlobalFunctionDeclaration(
     name: parseSymbolName(symbol.json),
     source: symbol.source,
     availability: parseAvailability(symbol.json),
-    returnType: _parseFunctionReturnType(context, symbol.json, symbolgraph),
+    returnType: parseReturnType(context, symbol.json, symbolgraph),
     params: info.params,
     throws: info.throws,
     async: info.async,
@@ -54,7 +53,7 @@ MethodDeclaration parseMethodDeclaration(
     source: symbol.source,
     lineNumber: parseLineNumber(symbol.json),
     availability: parseAvailability(symbol.json),
-    returnType: _parseFunctionReturnType(context, symbol.json, symbolgraph),
+    returnType: parseReturnType(context, symbol.json, symbolgraph),
     params: info.params,
     hasObjCAnnotation: parseSymbolHasObjcAnnotation(symbol.json),
     isStatic: isStatic,
@@ -78,6 +77,7 @@ ParsedFunctionInfo parseFunctionInfo(
   ParsedSymbolgraph symbolgraph, {
   bool isEnumCase = false,
   bool isOperator = false,
+  bool isSubscript = false,
 }) {
   // `declarationFragments` describes each part of the function declaration,
   // things like the `func` keyword, brackets, spaces, etc.
@@ -115,7 +115,10 @@ ParsedFunctionInfo parseFunctionInfo(
   while (true) {
     final keyword = maybeConsume('keyword');
     if (keyword != null) {
-      if (keyword == 'func' || keyword == 'init' || keyword == 'case') {
+      if (keyword == 'func' ||
+          keyword == 'init' ||
+          keyword == 'case' ||
+          keyword == 'subscript') {
         if (keyword == 'func' && isOperator) {
           final ws1 = maybeConsume('text');
           final op = maybeConsume('identifier');
@@ -160,7 +163,7 @@ ParsedFunctionInfo parseFunctionInfo(
           if (sep != ':') {
             throw malformedInitializerException;
           }
-        } else if (isOperator) {
+        } else if (isOperator || isSubscript) {
           internalParam = maybeConsume('internalParam');
           if (internalParam == null) {
             throw malformedInitializerException;
@@ -178,14 +181,14 @@ ParsedFunctionInfo parseFunctionInfo(
 
         parameters.add(
           Parameter(
-            name: isOperator ? (internalParam ?? '') : (externalParam ?? ''),
+            name: externalParam ?? (isSubscript ? '_' : (internalParam ?? '')),
             internalName: isOperator ? null : internalParam,
             type: type,
           ),
         );
 
         final end = maybeConsume('text');
-        if (end == ')') break;
+        if (end != null && end.startsWith(')')) break;
         if (end != ',') {
           throw malformedInitializerException;
         }
@@ -199,9 +202,30 @@ ParsedFunctionInfo parseFunctionInfo(
   while (true) {
     final keyword = maybeConsume('keyword');
     if (keyword == null) {
-      if (maybeConsume('text') != '') break;
+      final text = maybeConsume('text');
+      if (text == null) break;
+      if (text == '') continue;
+
+      // For subscripts, 'throws' and 'async' can be inside the { get ... }
+      // block. We'll just collect all keywords in the fragments if it's a
+      // subscript.
+      if (isSubscript) continue;
+      break;
     } else {
       annotations.add(keyword);
+    }
+  }
+
+  if (isSubscript) {
+    // If it's a subscript, we just look for 'throws' and 'async' anywhere in
+    // the fragments after the parameters.
+    while (tokens.isNotEmpty) {
+      final keyword = maybeConsume('keyword');
+      if (keyword != null) {
+        annotations.add(keyword);
+      } else {
+        tokens = tokens.slice(1);
+      }
     }
   }
 
@@ -211,15 +235,4 @@ ParsedFunctionInfo parseFunctionInfo(
     async: annotations.contains('async'),
     mutating: prefixAnnotations.contains('mutating'),
   );
-}
-
-ReferredType _parseFunctionReturnType(
-  Context context,
-  Json symbolJson,
-  ParsedSymbolgraph symbolgraph,
-) {
-  final returnJson = TokenList(symbolJson['functionSignature']['returns']);
-  final (returnType, unparsed) = parseType(context, symbolgraph, returnJson);
-  assert(unparsed.isEmpty, '$returnJson\n\n$returnType\n\n$unparsed\n');
-  return returnType;
 }
