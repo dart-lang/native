@@ -86,7 +86,7 @@ import Foundation
   }
 
   @objc public convenience init(value: Int) {
-    wrappedInstance = MyStruct(value: value)
+    self.init(MyStruct(value: value))
   }
 
 }

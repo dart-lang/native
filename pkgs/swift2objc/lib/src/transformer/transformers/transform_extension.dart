@@ -40,7 +40,15 @@ ExtensionDeclaration? transformExtension(
       .toList();
 
   final transformedInitializers = extDecl.initializers
-      .map((i) => transformInitializer(i, wrappedInstance, parentNamer, state))
+      .map(
+        (i) => transformInitializer(
+          i,
+          wrappedInstance,
+          parentNamer,
+          state,
+          isConvenience: true,
+        ),
+      )
       .toList();
 
   final transformedExt = ExtensionDeclaration(
