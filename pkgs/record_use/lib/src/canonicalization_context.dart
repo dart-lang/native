@@ -14,28 +14,33 @@ class CanonicalizationContext {
   final Set<MaybeConstant> _constants = {};
 
   /// Canonicalizes the given [Definition].
-  Definition canonicalizeDefinition(Definition definition) {
+  T canonicalizeDefinition<T extends Definition>(T definition) {
     final existing = _definitions.lookup(definition);
-    if (existing != null) return existing;
-    final canonical = definition.canonicalizeChildren(this);
-    _definitions.add(canonical);
-    return canonical;
+    if (existing != null) return existing as T;
+    _definitions.add(definition);
+    return definition;
   }
 
   /// Canonicalizes the given [LoadingUnit].
   LoadingUnit canonicalizeLoadingUnit(LoadingUnit loadingUnit) {
     final existing = _loadingUnits.lookup(loadingUnit);
     if (existing != null) return existing;
-    final canonical = loadingUnit.canonicalizeChildren(this);
+    final canonical = LoadingUnitProtected(
+      loadingUnit,
+    ).canonicalizeChildren(this);
     _loadingUnits.add(canonical);
     return canonical;
   }
 
   /// Canonicalizes the given [MaybeConstant].
-  MaybeConstant canonicalizeConstant(MaybeConstant constant) {
+  T canonicalizeConstant<T extends MaybeConstant>(T constant) {
     final existing = _constants.lookup(constant);
-    if (existing != null) return existing;
-    final canonical = constant.canonicalizeChildren(this);
+    if (existing != null) return existing as T;
+    final canonical =
+        MaybeConstantProtected(
+              constant,
+            ).canonicalizeChildren(this)
+            as T;
     _constants.add(canonical);
     return canonical;
   }
