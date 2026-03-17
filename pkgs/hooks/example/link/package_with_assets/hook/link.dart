@@ -11,14 +11,14 @@ import 'package:data_assets/data_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:record_use/record_use.dart';
 
-const someMethodDefinition = Definition(
-  'package:package_with_assets/package_with_assets.dart',
-  [Name(kind: .methodKind, 'someMethod')],
+const someMethodDefinition = Method(
+  'someMethod',
+  Library('package:package_with_assets/package_with_assets.dart'),
 );
 
-const someOtherMethodDefinition = Definition(
-  'package:package_with_assets/package_with_assets.dart',
-  [Name(kind: .methodKind, 'someOtherMethod')],
+const someOtherMethodDefinition = Method(
+  'someOtherMethod',
+  Library('package:package_with_assets/package_with_assets.dart'),
 );
 
 final assetMapping = {

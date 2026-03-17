@@ -116,7 +116,24 @@ export 'src/constant.dart'
         SymbolConstant,
         UnsupportedConstant;
 export 'src/definition.dart'
-    show Definition, DefinitionDisambiguator, DefinitionKind, Name;
+    show
+        Class,
+        Constructor,
+        Definition,
+        DefinitionWithInstances,
+        DefinitionWithMembers,
+        DefinitionWithStaticCalls,
+        Enum,
+        Extension,
+        ExtensionType,
+        Getter,
+        Library,
+        Member,
+        Method,
+        Mixin,
+        Operator,
+        ScopeWithMembers,
+        Setter;
 export 'src/loading_unit.dart' show LoadingUnit;
 export 'src/recordings.dart' show Recordings;
 export 'src/reference.dart'
