@@ -232,6 +232,32 @@ Future<String?> readSymbols(CodeAsset asset, OS targetOS) async {
   }
 }
 
+/// Asserts that [symbol] is not an undefined dynamic symbol in the
+/// library described by [asset].
+///
+/// Uses [readSymbols] to inspect the symbol table and checks that
+/// the symbol does not appear with the `U` (undefined) binding type.
+Future<void> expectSymbolNotUndefined(
+  CodeAsset asset,
+  OS targetOS,
+  String symbol,
+) async {
+  final symbols = await readSymbols(asset, targetOS);
+  if (symbols == null) {
+    // Skip if the tool to extract symbols is not available.
+    return;
+  }
+  final undefinedMatches = symbols
+      .split('\n')
+      .where((line) => line.contains(' U ') && line.contains(symbol))
+      .toList();
+  expect(
+    undefinedMatches,
+    isEmpty,
+    reason: '$symbol should not be an undefined symbol',
+  );
+}
+
 /// Returns null if the dumpbin tool is not available.
 Future<RunProcessResult?> _runDumpbin(
   List<String> arguments,

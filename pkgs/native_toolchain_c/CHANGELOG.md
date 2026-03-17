@@ -1,9 +1,9 @@
-## 0.17.6-wip
+## 0.17.6
 
-- On Android, let clang handle C++ standard library linking instead of passing
-  `-l` directly. This fixes `cppLinkStdLib: 'c++_static'` not linking
-  `libc++abi`, which caused `dlopen` failures on newer Android versions.
-  ([#3240](https://github.com/dart-lang/native/issues/3240))
+- On Android, use the NDK's `libc++.a` linker script when `cppLinkStdLib` is
+  `'c++_static'`. This ensures both `libc++_static` and `libc++abi` are linked,
+  fixing `dlopen` failures on newer Android versions caused by missing C++ ABI
+  symbols. ([#3240](https://github.com/dart-lang/native/issues/3240))
 
 ## 0.17.5
 

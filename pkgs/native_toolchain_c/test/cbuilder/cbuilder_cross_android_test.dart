@@ -111,6 +111,68 @@ void main() {
     expect(bytes2, bytes3);
   });
 
+  test(
+    'CBuilder c++_static links libc++abi on Android',
+    timeout: longTimeout,
+    () async {
+      final tempUri = await tempDirForTest();
+      final cxxabiUri = packageUri.resolve(
+        'test/cbuilder/testfiles/cxxabi/src/cxxabi.cc',
+      );
+      const name = 'cxxabi';
+
+      final tempUriShared = tempUri.resolve('shared/');
+      await Directory.fromUri(tempUriShared).create();
+      final buildInputBuilder = BuildInputBuilder()
+        ..setupShared(
+          packageName: name,
+          packageRoot: tempUri,
+          outputFile: tempUri.resolve('output.json'),
+          outputDirectoryShared: tempUriShared,
+        )
+        ..config.setupBuild(linkingEnabled: false)
+        ..addExtension(
+          CodeAssetExtension(
+            targetOS: .android,
+            targetArchitecture: Architecture.arm64,
+            cCompiler: cCompiler,
+            android: AndroidCodeConfig(
+              targetNdkApi: flutterAndroidNdkVersionLowestSupported,
+            ),
+            linkModePreference: .dynamic,
+          ),
+        );
+
+      final buildInput = buildInputBuilder.build();
+      final buildOutput = BuildOutputBuilder();
+
+      final cbuilder = CBuilder.library(
+        name: name,
+        assetName: name,
+        sources: [cxxabiUri.toFilePath()],
+        language: .cpp,
+        cppLinkStdLib: 'c++_static',
+        buildMode: .release,
+      );
+      await cbuilder.run(
+        input: buildInput,
+        output: buildOutput,
+        logger: logger,
+      );
+
+      final asset = BuildOutput(buildOutput.json).assets.code.first;
+
+      // Without linking libc++abi, typeinfo for std::runtime_error
+      // would be an undefined dynamic symbol, causing dlopen to fail
+      // on newer Android versions.
+      await expectSymbolNotUndefined(
+        asset,
+        OS.android,
+        '_ZTISt13runtime_error',
+      );
+    },
+  );
+
   test('page size override', timeout: longTimeout, () async {
     const target = Architecture.arm64;
     final linkMode = DynamicLoadingBundled();

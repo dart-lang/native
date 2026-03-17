@@ -294,16 +294,19 @@ class RunCBuilder {
         if (language == .cpp) ...[
           '-x',
           'c++',
-          // On Android, let clang's driver handle C++ standard library linking
-          // rather than passing `-l <lib>` directly. This ensures that both
-          // libc++_static.a and libc++abi.a are linked when statically linking
-          // the C++ standard library. See:
+          // On Android with c++_static, use -Bstatic/-Bdynamic to force
+          // static resolution of -lc++. This picks up the NDK's libc++.a
+          // linker script which expands to INPUT(-lc++_static -lc++abi),
+          // ensuring libc++abi is also linked. Passing -l c++_static directly
+          // would miss libc++abi. See:
           // https://android.googlesource.com/platform/ndk/+show/refs/heads/main/docs/BuildSystemMaintainers.md
-          if (codeConfig.targetOS == .android) ...[
-            if ((cppLinkStdLib ?? defaultCppLinkStdLib[codeConfig.targetOS]!) ==
-                'c++_static')
-              '-static-libstdc++',
-            // For c++_shared (the default), clang links it automatically.
+          if (codeConfig.targetOS == .android &&
+              (cppLinkStdLib ?? defaultCppLinkStdLib[codeConfig.targetOS]!) ==
+                  'c++_static') ...[
+            '-Wl,-Bstatic',
+            '-l',
+            'c++',
+            '-Wl,-Bdynamic',
           ] else ...[
             '-l',
             cppLinkStdLib ?? defaultCppLinkStdLib[codeConfig.targetOS]!,
