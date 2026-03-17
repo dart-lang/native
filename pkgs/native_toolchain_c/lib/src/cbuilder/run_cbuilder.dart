@@ -294,8 +294,23 @@ class RunCBuilder {
         if (language == .cpp) ...[
           '-x',
           'c++',
-          '-l',
-          cppLinkStdLib ?? defaultCppLinkStdLib[codeConfig.targetOS]!,
+          // On Android with c++_static, use -Bstatic/-Bdynamic to force
+          // static resolution of -lc++. This picks up the NDK's libc++.a
+          // linker script which expands to INPUT(-lc++_static -lc++abi),
+          // ensuring libc++abi is also linked. Passing -l c++_static directly
+          // would miss libc++abi. See:
+          // https://android.googlesource.com/platform/ndk/+show/refs/heads/main/docs/BuildSystemMaintainers.md
+          if (codeConfig.targetOS == .android &&
+              (cppLinkStdLib ?? defaultCppLinkStdLib[codeConfig.targetOS]!) ==
+                  'c++_static') ...[
+            '-Wl,-Bstatic',
+            '-l',
+            'c++',
+            '-Wl,-Bdynamic',
+          ] else ...[
+            '-l',
+            cppLinkStdLib ?? defaultCppLinkStdLib[codeConfig.targetOS]!,
+          ],
         ],
         if (optimizationLevel != .unspecified) optimizationLevel.clangFlag(),
         // Support Android 15 page size by default, can be overridden by
