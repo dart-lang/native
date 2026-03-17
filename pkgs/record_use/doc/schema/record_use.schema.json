@@ -691,28 +691,10 @@
             "$ref": "#/definitions/LoadingUnit"
           }
         },
-        "metadata": {
-          "type": "object",
-          "properties": {
-            "comment": {
-              "type": "string"
-            },
-            "version": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "comment",
-            "version"
-          ]
-        },
         "uses": {
           "$ref": "#/definitions/Uses"
         }
-      },
-      "required": [
-        "metadata"
-      ]
+      }
     },
     "Uses": {
       "type": "object",

@@ -8,7 +8,6 @@ import 'package:test/test.dart';
 void main() {
   test('NonConstant in ListConstant throws FormatException', () {
     final json = {
-      'metadata': {'version': '1.0.0', 'comment': 'test'},
       'constants': [
         {'type': 'non_constant'},
         {
@@ -23,7 +22,6 @@ void main() {
 
   test('NonConstant in MapConstant key throws FormatException', () {
     final json = {
-      'metadata': {'version': '1.0.0', 'comment': 'test'},
       'constants': [
         {'type': 'non_constant'},
         {'type': 'int', 'value': 1},
@@ -41,7 +39,6 @@ void main() {
 
   test('NonConstant in MapConstant value throws FormatException', () {
     final json = {
-      'metadata': {'version': '1.0.0', 'comment': 'test'},
       'constants': [
         {'type': 'non_constant'},
         {'type': 'int', 'value': 1},
@@ -59,7 +56,6 @@ void main() {
 
   test('NonConstant in InstanceConstant field throws FormatException', () {
     final json = {
-      'metadata': {'version': '1.0.0', 'comment': 'test'},
       'constants': [
         {'type': 'non_constant'},
         {

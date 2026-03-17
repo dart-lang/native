@@ -1280,49 +1280,6 @@ class MapEntrySyntax extends JsonObjectSyntax {
   String toString() => 'MapEntrySyntax($json)';
 }
 
-class MetadataSyntax extends JsonObjectSyntax {
-  MetadataSyntax.fromJson(
-    super.json, {
-    super.path = const [],
-  }) : super.fromJson();
-
-  MetadataSyntax({
-    required String comment,
-    required String version,
-    super.path = const [],
-  }) : super() {
-    _comment = comment;
-    _version = version;
-    json.sortOnKey();
-  }
-
-  String get comment => _reader.get<String>('comment');
-
-  set _comment(String value) {
-    json.setOrRemove('comment', value);
-  }
-
-  List<String> _validateComment() => _reader.validate<String>('comment');
-
-  String get version => _reader.get<String>('version');
-
-  set _version(String value) {
-    json.setOrRemove('version', value);
-  }
-
-  List<String> _validateVersion() => _reader.validate<String>('version');
-
-  @override
-  List<String> validate() => [
-    ...super.validate(),
-    ..._validateComment(),
-    ..._validateVersion(),
-  ];
-
-  @override
-  String toString() => 'MetadataSyntax($json)';
-}
-
 class MethodNameSyntax extends NameSyntax {
   MethodNameSyntax.fromJson(
     super.json, {
@@ -1740,14 +1697,12 @@ class RecordedUsesSyntax extends JsonObjectSyntax {
     List<ConstantSyntax>? constants,
     List<DefinitionSyntax>? definitions,
     List<LoadingUnitSyntax>? loadingUnits,
-    required MetadataSyntax metadata,
     UsesSyntax? uses,
     super.path = const [],
   }) : super() {
     _constants = constants;
     _definitions = definitions;
     _loadingUnits = loadingUnits;
-    _metadata = metadata;
     _uses = uses;
     json.sortOnKey();
   }
@@ -1854,23 +1809,6 @@ class RecordedUsesSyntax extends JsonObjectSyntax {
     return [for (final element in elements) ...element.validate()];
   }
 
-  MetadataSyntax get metadata {
-    final jsonValue = _reader.map$('metadata');
-    return MetadataSyntax.fromJson(jsonValue, path: [...path, 'metadata']);
-  }
-
-  set _metadata(MetadataSyntax value) {
-    json['metadata'] = value.json;
-  }
-
-  List<String> _validateMetadata() {
-    final mapErrors = _reader.validate<Map<String, Object?>>('metadata');
-    if (mapErrors.isNotEmpty) {
-      return mapErrors;
-    }
-    return metadata.validate();
-  }
-
   UsesSyntax? get uses {
     final jsonValue = _reader.optionalMap('uses');
     if (jsonValue == null) return null;
@@ -1895,7 +1833,6 @@ class RecordedUsesSyntax extends JsonObjectSyntax {
     ..._validateConstants(),
     ..._validateDefinitions(),
     ..._validateLoadingUnits(),
-    ..._validateMetadata(),
     ..._validateUses(),
   ];
 

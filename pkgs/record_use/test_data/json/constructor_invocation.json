@@ -46,10 +46,6 @@
       "name": "root"
     }
   ],
-  "metadata": {
-    "comment": "Constructor invocation recording",
-    "version": "1.0.0"
-  },
   "uses": {
     "instances": [
       {

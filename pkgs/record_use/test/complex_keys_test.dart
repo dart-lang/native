@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:pub_semver/pub_semver.dart';
 import 'package:record_use/record_use.dart';
 import 'package:test/test.dart';
 
@@ -31,10 +30,6 @@ void main() {
     );
 
     final recordings = Recordings(
-      metadata: Metadata(
-        version: Version(1, 0, 0),
-        comment: 'Test complex keys',
-      ),
       calls: {
         definition: [
           const CallWithArguments(
@@ -101,10 +96,6 @@ void main() {
     );
 
     final recordings = Recordings(
-      metadata: Metadata(
-        version: Version(1, 0, 0),
-        comment: 'Test deeply nested complex keys',
-      ),
       calls: {
         definition: [
           const CallWithArguments(
