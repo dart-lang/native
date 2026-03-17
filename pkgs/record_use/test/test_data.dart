@@ -5,7 +5,6 @@
 import 'dart:io';
 
 import 'package:native_test_helpers/native_test_helpers.dart';
-import 'package:pub_semver/pub_semver.dart';
 import 'package:record_use/record_use.dart';
 import 'package:record_use/src/canonicalization_context.dart';
 import 'package:record_use/src/recordings.dart';
@@ -27,12 +26,6 @@ const loadingUnitOJs = LoadingUnit('o.js');
 const loadingUnit3 = LoadingUnit('3');
 
 final recordedUses = Recordings(
-  metadata: Metadata(
-    version: Version(1, 6, 2, pre: 'wip', build: '5.-.2.z'),
-    comment:
-        'Recorded references at compile time and their argument values, as'
-        ' far as known, to definitions annotated with @RecordUse',
-  ),
   calls: {
     callId: [
       const CallWithArguments(
@@ -100,12 +93,6 @@ final recordedUses = Recordings(
 ).canonicalizeChildren(CanonicalizationContext());
 
 final recordedUses2 = Recordings(
-  metadata: Metadata(
-    version: Version(1, 6, 2, pre: 'wip', build: '5.-.2.z'),
-    comment:
-        'Recorded references at compile time and their argument values, as'
-        ' far as known, to definitions annotated with @RecordUse',
-  ),
   calls: {
     callId: [
       const CallWithArguments(

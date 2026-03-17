@@ -10,7 +10,6 @@ const loadingUnit1 = LoadingUnit('1');
 void main() {
   test('Call with receiver in JSON', () {
     const json = {
-      'metadata': {'version': '1.0.0', 'comment': 'test'},
       'constants': [
         {'type': 'string', 'value': 'receiver'},
         {'type': 'int', 'value': 42},
