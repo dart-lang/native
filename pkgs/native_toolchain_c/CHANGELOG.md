@@ -1,3 +1,10 @@
+## 0.17.6-wip
+
+- On Android, let clang handle C++ standard library linking instead of passing
+  `-l` directly. This fixes `cppLinkStdLib: 'c++_static'` not linking
+  `libc++abi`, which caused `dlopen` failures on newer Android versions.
+  ([#3240](https://github.com/dart-lang/native/issues/3240))
+
 ## 0.17.5
 
 - Search for NDK in `ANDROID_HOME` and `ANDROID_NDK` environment variables.

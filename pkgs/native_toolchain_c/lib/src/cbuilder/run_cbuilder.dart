@@ -294,8 +294,20 @@ class RunCBuilder {
         if (language == .cpp) ...[
           '-x',
           'c++',
-          '-l',
-          cppLinkStdLib ?? defaultCppLinkStdLib[codeConfig.targetOS]!,
+          // On Android, let clang's driver handle C++ standard library linking
+          // rather than passing `-l <lib>` directly. This ensures that both
+          // libc++_static.a and libc++abi.a are linked when statically linking
+          // the C++ standard library. See:
+          // https://android.googlesource.com/platform/ndk/+show/refs/heads/main/docs/BuildSystemMaintainers.md
+          if (codeConfig.targetOS == .android) ...[
+            if ((cppLinkStdLib ?? defaultCppLinkStdLib[codeConfig.targetOS]!) ==
+                'c++_static')
+              '-static-libstdc++',
+            // For c++_shared (the default), clang links it automatically.
+          ] else ...[
+            '-l',
+            cppLinkStdLib ?? defaultCppLinkStdLib[codeConfig.targetOS]!,
+          ],
         ],
         if (optimizationLevel != .unspecified) optimizationLevel.clangFlag(),
         // Support Android 15 page size by default, can be overridden by
