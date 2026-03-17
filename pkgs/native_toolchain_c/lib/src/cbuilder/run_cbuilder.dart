@@ -8,6 +8,7 @@ import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
 
+import '../native_toolchain/android_ndk.dart';
 import '../native_toolchain/msvc.dart';
 import '../native_toolchain/tool_likeness.dart';
 import '../native_toolchain/xcode.dart';
@@ -19,9 +20,17 @@ import 'language.dart';
 import 'linker_options.dart';
 import 'optimization_level.dart';
 
-Future<Uri> resolveAndroidSystemLibPath(
-  CodeConfig codeConfig,
-  Logger logger,
+/// Returns the path for the Android system libraries for the given
+/// [codeConfig] (i.e. the target architecture).
+///
+/// If [codeConfig] is null, the library paths for all architectures are
+/// returned.
+///
+/// If a [logger] is provided, it is passed to the [CompilerResolver] which
+/// is used to find the NDK sysroot.
+Future<List<Uri>> resolveAndroidSystemLibPath(
+  CodeConfig? codeConfig,
+  Logger? logger,
 ) async => RunCBuilder.androidSystemLibPath(codeConfig, logger);
 
 class RunCBuilder {
@@ -125,17 +134,34 @@ class RunCBuilder {
   static Uri androidLibPath(ToolInstance compiler) =>
       androidSysroot(compiler).resolve('usr/lib/');
 
-  static Future<Uri> androidSystemLibPath(
-    CodeConfig codeConfig,
-    Logger logger,
+  // If [codeConfig] is provided, we can determine the correct library
+  // path, if not, the lib path for each available architecture is returned.
+  static Future<List<Uri>> androidSystemLibPath(
+    CodeConfig? codeConfig,
+    Logger? logger,
   ) async {
-    final resolver = CompilerResolver(codeConfig: codeConfig, logger: logger);
-    final androidSysroot = RunCBuilder.androidLibPath(
-      await resolver.resolveCompiler(),
+    if (codeConfig != null) {
+      final resolver = CompilerResolver(codeConfig: codeConfig, logger: logger);
+      final sysrootPath = RunCBuilder.androidLibPath(
+        await resolver.resolveCompiler(),
+      );
+      final systemLibArch =
+          androidNdkSystemLibArch[codeConfig.targetArchitecture]!;
+
+      return [sysrootPath.resolve('$systemLibArch/')];
+    }
+
+    // Use the default Ndk resolver
+    final toolInstances = await androidNdk.defaultResolver!.resolve(
+      ToolResolvingContext(logger: logger),
     );
-    final systemLibArch =
-        androidNdkSystemLibArch[codeConfig.targetArchitecture]!;
-    return androidSysroot.resolve('$systemLibArch/');
+
+    if (toolInstances.isEmpty) {
+      throw StateError('No Android NDK installation found.');
+    }
+    final sysrootPath = RunCBuilder.androidSysroot(toolInstances.first);
+    final systemLibPath = sysrootPath.resolve('usr/lib/*/');
+    return ToolResolver.tryResolvePath(systemLibPath.toFilePath());
   }
 
   Future<void> run() async {

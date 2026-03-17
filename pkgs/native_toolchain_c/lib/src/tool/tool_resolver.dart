@@ -20,6 +20,37 @@ import 'tool_instance.dart';
 abstract class ToolResolver {
   /// Resolves tools on the host system.
   Future<List<ToolInstance>> resolve(ToolResolvingContext context);
+  static const home = '\$HOME';
+  static Future<List<Uri>> tryResolvePath(String path) async {
+    if (path.startsWith(home)) {
+      final homeDir_ = homeDir;
+      if (homeDir_ == null) return [];
+      path = path.replaceAll(
+        '$home/',
+        homeDir!.toFilePath().replaceAll('\\', '/'),
+      );
+    }
+
+    final result = <Uri>[];
+    final fileSystemEntities = await Glob(path).list().toList();
+    for (final fileSystemEntity in fileSystemEntities) {
+      if (!await fileSystemEntity.exists()) {
+        continue;
+      }
+      if (fileSystemEntity is! Directory && path.endsWith('/')) {
+        continue;
+      }
+      result.add(fileSystemEntity.uri);
+    }
+    return result;
+  }
+
+  static final Uri? homeDir = () {
+    final path =
+        Platform.environment['HOME'] ?? Platform.environment['USERPROFILE'];
+    if (path == null) return null;
+    return Directory(path).uri;
+  }();
 }
 
 /// A context passed to [ToolResolver.resolve].
@@ -210,14 +241,12 @@ class InstallLocationResolver implements ToolResolver {
 
   InstallLocationResolver({required this.toolName, required this.paths});
 
-  static const home = '\$HOME';
-
   @override
   Future<List<ToolInstance>> resolve(ToolResolvingContext context) async {
     final logger = context.logger;
     logger?.finer('Looking for $toolName in $paths.');
     final resolvedPaths = [
-      for (final path in paths) ...await tryResolvePath(path),
+      for (final path in paths) ...await ToolResolver.tryResolvePath(path),
     ];
     final toolInstances = [
       for (final uri in resolvedPaths)
@@ -233,37 +262,6 @@ class InstallLocationResolver implements ToolResolver {
     }
     return toolInstances;
   }
-
-  Future<List<Uri>> tryResolvePath(String path) async {
-    if (path.startsWith(home)) {
-      final homeDir_ = homeDir;
-      if (homeDir_ == null) return [];
-      path = path.replaceAll(
-        '$home/',
-        homeDir!.toFilePath().replaceAll('\\', '/'),
-      );
-    }
-
-    final result = <Uri>[];
-    final fileSystemEntities = await Glob(path).list().toList();
-    for (final fileSystemEntity in fileSystemEntities) {
-      if (!await fileSystemEntity.exists()) {
-        continue;
-      }
-      if (fileSystemEntity is! Directory && path.endsWith('/')) {
-        continue;
-      }
-      result.add(fileSystemEntity.uri);
-    }
-    return result;
-  }
-
-  static final Uri? homeDir = () {
-    final path =
-        Platform.environment['HOME'] ?? Platform.environment['USERPROFILE'];
-    if (path == null) return null;
-    return Directory(path).uri;
-  }();
 }
 
 /// A tool resolver considering environment variables such as `ANDROID_HOME`.
