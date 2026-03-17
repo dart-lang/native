@@ -10,12 +10,15 @@ import 'package:test/test.dart';
 void main() {
   const definition = Definition(
     'package:test/test.dart',
-    [Name('MyClass')],
+    [Name('MyClass', kind: DefinitionKind.classKind)],
   );
 
   const constructorDefinition = Definition(
     'package:test/test.dart',
-    [Name('MyClass'), Name('', kind: .constructorKind)],
+    [
+      Name('MyClass', kind: DefinitionKind.classKind),
+      Name('', kind: DefinitionKind.constructorKind),
+    ],
   );
 
   const loadingUnitRoot = LoadingUnit('root');
