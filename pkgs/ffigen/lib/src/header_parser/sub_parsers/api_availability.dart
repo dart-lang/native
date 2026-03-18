@@ -21,14 +21,17 @@ class ApiAvailability {
   final PlatformAvailability? macos;
 
   late final Availability availability;
+  final ExternalVersions? _externalVersions;
+
+  static final alwaysAvailable = ApiAvailability(externalVersions: null);
 
   ApiAvailability({
     this.alwaysDeprecated = false,
     this.alwaysUnavailable = false,
     this.ios,
     this.macos,
-    required ExternalVersions? externalVersions,
-  }) {
+    ExternalVersions? externalVersions,
+  }) : _externalVersions = externalVersions {
     availability = _getAvailability(externalVersions);
   }
 
@@ -152,6 +155,57 @@ class ApiAvailability {
     return "$checkOsVersion('$apiName', $args);";
   }
 
+  ApiAvailability merge(ApiAvailability other) {
+    if (this == alwaysAvailable) return other;
+    if (other == alwaysAvailable) return this;
+
+    return ApiAvailability(
+      alwaysDeprecated: alwaysDeprecated || other.alwaysDeprecated,
+      alwaysUnavailable: alwaysUnavailable || other.alwaysUnavailable,
+      ios: PlatformAvailability.merge(ios, other.ios),
+      macos: PlatformAvailability.merge(macos, other.macos),
+      externalVersions: _externalVersions ?? other._externalVersions,
+    );
+  }
+
+  String? get apiAvailableMacro {
+    if (alwaysUnavailable) return '__attribute__((unavailable))';
+    if (alwaysDeprecated) return '__attribute__((deprecated))';
+
+    final platforms = _platforms;
+    if (platforms.isEmpty) return null;
+
+    final attributes = <String>[];
+    for (final platform in platforms) {
+      if (platform.unavailable) {
+        attributes.add(
+          'availability(${platform.name!.toLowerCase()}, unavailable)',
+        );
+      } else {
+        final platformAttrs = <String>[];
+        if (platform.introduced != null) {
+          platformAttrs.add('introduced=${platform.introduced}');
+        }
+        if (platform.deprecated != null) {
+          platformAttrs.add('deprecated=${platform.deprecated}');
+        }
+        if (platform.obsoleted != null) {
+          platformAttrs.add('obsoleted=${platform.obsoleted}');
+        }
+        if (platformAttrs.isNotEmpty) {
+          attributes.add(
+            // ignore: lines_longer_than_80_chars
+            'availability(${platform.name!.toLowerCase()},${platformAttrs.join(',')})',
+          );
+        } else {
+          attributes.add('availability(${platform.name!.toLowerCase()})');
+        }
+      }
+    }
+    if (attributes.isEmpty) return null;
+    return attributes.map((a) => '__attribute__(($a))').join(' ');
+  }
+
   @override
   String toString() =>
       '''Availability {
@@ -183,6 +237,53 @@ class PlatformAvailability {
       return deprecated ?? obsoleted;
     }
     return deprecated! < obsoleted! ? deprecated : obsoleted;
+  }
+
+  static PlatformAvailability? merge(
+    PlatformAvailability? a,
+    PlatformAvailability? b,
+  ) {
+    if (a == null) return b;
+    if (b == null) return a;
+
+    Version? newIntroduced;
+    if (a.introduced == null) {
+      newIntroduced = b.introduced;
+    } else if (b.introduced == null) {
+      newIntroduced = a.introduced;
+    } else {
+      newIntroduced = a.introduced! > b.introduced!
+          ? a.introduced
+          : b.introduced;
+    }
+
+    Version? newDeprecated;
+    if (a.deprecated == null) {
+      newDeprecated = b.deprecated;
+    } else if (b.deprecated == null) {
+      newDeprecated = a.deprecated;
+    } else {
+      newDeprecated = a.deprecated! < b.deprecated!
+          ? a.deprecated
+          : b.deprecated;
+    }
+
+    Version? newObsoleted;
+    if (a.obsoleted == null) {
+      newObsoleted = b.obsoleted;
+    } else if (b.obsoleted == null) {
+      newObsoleted = a.obsoleted;
+    } else {
+      newObsoleted = a.obsoleted! < b.obsoleted! ? a.obsoleted : b.obsoleted;
+    }
+
+    return PlatformAvailability(
+      name: a.name ?? b.name,
+      introduced: newIntroduced,
+      deprecated: newDeprecated,
+      obsoleted: newObsoleted,
+      unavailable: a.unavailable || b.unavailable,
+    );
   }
 
   @visibleForTesting
