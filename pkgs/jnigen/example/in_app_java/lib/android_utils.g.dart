@@ -1890,13 +1890,12 @@ extension EmojiCompat$$Methods on EmojiCompat {
         .check();
   }
 
-  static final _id_loadState__getLoadState =
-      EmojiCompat._class.instanceMethodId(
+  static final _id_get$loadState = EmojiCompat._class.instanceMethodId(
     r'getLoadState',
     r'()I',
   );
 
-  static final _loadState__getLoadState = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$loadState = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -1910,9 +1909,7 @@ extension EmojiCompat$$Methods on EmojiCompat {
 
   /// from: `public int getLoadState()`
   int get loadState {
-    return _loadState__getLoadState(
-            reference.pointer, _id_loadState__getLoadState.pointer)
-        .integer;
+    return _get$loadState(reference.pointer, _id_get$loadState.pointer).integer;
   }
 
   static final _id_isEmojiSpanIndicatorEnabled =
@@ -1941,13 +1938,13 @@ extension EmojiCompat$$Methods on EmojiCompat {
         .boolean;
   }
 
-  static final _id_emojiSpanIndicatorColor__getEmojiSpanIndicatorColor =
+  static final _id_get$emojiSpanIndicatorColor =
       EmojiCompat._class.instanceMethodId(
     r'getEmojiSpanIndicatorColor',
     r'()I',
   );
 
-  static final _emojiSpanIndicatorColor__getEmojiSpanIndicatorColor =
+  static final _get$emojiSpanIndicatorColor =
       jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JniResult Function(
@@ -1962,9 +1959,8 @@ extension EmojiCompat$$Methods on EmojiCompat {
 
   /// from: `public int getEmojiSpanIndicatorColor()`
   int get emojiSpanIndicatorColor {
-    return _emojiSpanIndicatorColor__getEmojiSpanIndicatorColor(
-            reference.pointer,
-            _id_emojiSpanIndicatorColor__getEmojiSpanIndicatorColor.pointer)
+    return _get$emojiSpanIndicatorColor(
+            reference.pointer, _id_get$emojiSpanIndicatorColor.pointer)
         .integer;
   }
 
@@ -2244,30 +2240,28 @@ extension EmojiCompat$$Methods on EmojiCompat {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_assetSignature__getAssetSignature =
-      EmojiCompat._class.instanceMethodId(
+  static final _id_get$assetSignature = EmojiCompat._class.instanceMethodId(
     r'getAssetSignature',
     r'()Ljava/lang/String;',
   );
 
-  static final _assetSignature__getAssetSignature =
-      jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                    jni$_.Pointer<jni$_.Void>,
-                    jni$_.JMethodIDPtr,
-                  )>>('globalEnv_CallObjectMethod')
-          .asFunction<
+  static final _get$assetSignature = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>();
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `public java.lang.String getAssetSignature()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString get assetSignature {
-    return _assetSignature__getAssetSignature(
-            reference.pointer, _id_assetSignature__getAssetSignature.pointer)
+    return _get$assetSignature(
+            reference.pointer, _id_get$assetSignature.pointer)
         .object<jni$_.JString>();
   }
 
@@ -2860,65 +2854,61 @@ extension Build$Partition$$Methods on Build$Partition {
         .boolean;
   }
 
-  static final _id_buildTimeMillis__getBuildTimeMillis =
+  static final _id_get$buildTimeMillis =
       Build$Partition._class.instanceMethodId(
     r'getBuildTimeMillis',
     r'()J',
   );
 
-  static final _buildTimeMillis__getBuildTimeMillis =
-      jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                    jni$_.Pointer<jni$_.Void>,
-                    jni$_.JMethodIDPtr,
-                  )>>('globalEnv_CallLongMethod')
-          .asFunction<
+  static final _get$buildTimeMillis = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>();
+              )>>('globalEnv_CallLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `public long getBuildTimeMillis()`
   int get buildTimeMillis {
-    return _buildTimeMillis__getBuildTimeMillis(
-            reference.pointer, _id_buildTimeMillis__getBuildTimeMillis.pointer)
+    return _get$buildTimeMillis(
+            reference.pointer, _id_get$buildTimeMillis.pointer)
         .long;
   }
 
-  static final _id_fingerprint__getFingerprint =
-      Build$Partition._class.instanceMethodId(
+  static final _id_get$fingerprint = Build$Partition._class.instanceMethodId(
     r'getFingerprint',
     r'()Ljava/lang/String;',
   );
 
-  static final _fingerprint__getFingerprint =
-      jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                    jni$_.Pointer<jni$_.Void>,
-                    jni$_.JMethodIDPtr,
-                  )>>('globalEnv_CallObjectMethod')
-          .asFunction<
+  static final _get$fingerprint = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>();
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `public java.lang.String getFingerprint()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? get fingerprint {
-    return _fingerprint__getFingerprint(
-            reference.pointer, _id_fingerprint__getFingerprint.pointer)
+    return _get$fingerprint(reference.pointer, _id_get$fingerprint.pointer)
         .object<jni$_.JString?>();
   }
 
-  static final _id_name__getName = Build$Partition._class.instanceMethodId(
+  static final _id_get$name = Build$Partition._class.instanceMethodId(
     r'getName',
     r'()Ljava/lang/String;',
   );
 
-  static final _name__getName = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$name = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -2933,7 +2923,7 @@ extension Build$Partition$$Methods on Build$Partition {
   /// from: `public java.lang.String getName()`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JString? get name {
-    return _name__getName(reference.pointer, _id_name__getName.pointer)
+    return _get$name(reference.pointer, _id_get$name.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -3723,13 +3713,12 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
     return _new$(_class.reference.pointer, _id_new$.pointer).object<Build>();
   }
 
-  static final _id_fingerprintedPartitions__getFingerprintedPartitions =
-      _class.staticMethodId(
+  static final _id_get$fingerprintedPartitions = _class.staticMethodId(
     r'getFingerprintedPartitions',
     r'()Ljava/util/List;',
   );
 
-  static final _fingerprintedPartitions__getFingerprintedPartitions =
+  static final _get$fingerprintedPartitions =
       jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JniResult Function(
@@ -3745,9 +3734,8 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public java.util.List<android.os.Build$Partition> getFingerprintedPartitions()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JList<Build$Partition?>? get fingerprintedPartitions {
-    return _fingerprintedPartitions__getFingerprintedPartitions(
-            _class.reference.pointer,
-            _id_fingerprintedPartitions__getFingerprintedPartitions.pointer)
+    return _get$fingerprintedPartitions(
+            _class.reference.pointer, _id_get$fingerprintedPartitions.pointer)
         .object<jni$_.JList<Build$Partition?>?>();
   }
 
@@ -3797,38 +3785,37 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
         .integer;
   }
 
-  static final _id_radioVersion__getRadioVersion = _class.staticMethodId(
+  static final _id_get$radioVersion = _class.staticMethodId(
     r'getRadioVersion',
     r'()Ljava/lang/String;',
   );
 
-  static final _radioVersion__getRadioVersion =
-      jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                    jni$_.Pointer<jni$_.Void>,
-                    jni$_.JMethodIDPtr,
-                  )>>('globalEnv_CallStaticObjectMethod')
-          .asFunction<
+  static final _get$radioVersion = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>();
+              )>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `static public java.lang.String getRadioVersion()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get radioVersion {
-    return _radioVersion__getRadioVersion(
-            _class.reference.pointer, _id_radioVersion__getRadioVersion.pointer)
+    return _get$radioVersion(
+            _class.reference.pointer, _id_get$radioVersion.pointer)
         .object<jni$_.JString?>();
   }
 
-  static final _id_serial__getSerial = _class.staticMethodId(
+  static final _id_get$serial = _class.staticMethodId(
     r'getSerial',
     r'()Ljava/lang/String;',
   );
 
-  static final _serial__getSerial = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$serial = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -3843,8 +3830,7 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   /// from: `static public java.lang.String getSerial()`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JString? get serial {
-    return _serial__getSerial(
-            _class.reference.pointer, _id_serial__getSerial.pointer)
+    return _get$serial(_class.reference.pointer, _id_get$serial.pointer)
         .object<jni$_.JString?>();
   }
 }

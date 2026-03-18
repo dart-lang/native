@@ -124,13 +124,13 @@ extension type PDDocumentInformation._(jni$_.JObject _$this)
 }
 
 extension PDDocumentInformation$$Methods on PDDocumentInformation {
-  static final _id_cOSObject__getCOSObject =
+  static final _id_get$cOSObject =
       PDDocumentInformation._class.instanceMethodId(
     r'getCOSObject',
     r'()Lorg/apache/pdfbox/cos/COSDictionary;',
   );
 
-  static final _cOSObject__getCOSObject = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$cOSObject = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -148,8 +148,7 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   /// This will get the underlying dictionary that this object wraps.
   ///@return The underlying info dictionary.
   jni$_.JObject? get cOSObject {
-    return _cOSObject__getCOSObject(
-            reference.pointer, _id_cOSObject__getCOSObject.pointer)
+    return _get$cOSObject(reference.pointer, _id_get$cOSObject.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -190,13 +189,12 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_title__getTitle =
-      PDDocumentInformation._class.instanceMethodId(
+  static final _id_get$title = PDDocumentInformation._class.instanceMethodId(
     r'getTitle',
     r'()Ljava/lang/String;',
   );
 
-  static final _title__getTitle = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$title = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -214,17 +212,16 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   /// This will get the title of the document.  This will return null if no title exists.
   ///@return The title of the document.
   jni$_.JString? get title {
-    return _title__getTitle(reference.pointer, _id_title__getTitle.pointer)
+    return _get$title(reference.pointer, _id_get$title.pointer)
         .object<jni$_.JString?>();
   }
 
-  static final _id_title__setTitle =
-      PDDocumentInformation._class.instanceMethodId(
+  static final _id_set$title = PDDocumentInformation._class.instanceMethodId(
     r'setTitle',
     r'(Ljava/lang/String;)V',
   );
 
-  static final _title__setTitle = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$title = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -241,18 +238,16 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///@param title The new title for the document.
   set title(jni$_.JString? title) {
     final _$title = title?.reference ?? jni$_.jNullReference;
-    _title__setTitle(
-            reference.pointer, _id_title__setTitle.pointer, _$title.pointer)
+    _set$title(reference.pointer, _id_set$title.pointer, _$title.pointer)
         .check();
   }
 
-  static final _id_author__getAuthor =
-      PDDocumentInformation._class.instanceMethodId(
+  static final _id_get$author = PDDocumentInformation._class.instanceMethodId(
     r'getAuthor',
     r'()Ljava/lang/String;',
   );
 
-  static final _author__getAuthor = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$author = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -270,17 +265,16 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   /// This will get the author of the document.  This will return null if no author exists.
   ///@return The author of the document.
   jni$_.JString? get author {
-    return _author__getAuthor(reference.pointer, _id_author__getAuthor.pointer)
+    return _get$author(reference.pointer, _id_get$author.pointer)
         .object<jni$_.JString?>();
   }
 
-  static final _id_author__setAuthor =
-      PDDocumentInformation._class.instanceMethodId(
+  static final _id_set$author = PDDocumentInformation._class.instanceMethodId(
     r'setAuthor',
     r'(Ljava/lang/String;)V',
   );
 
-  static final _author__setAuthor = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$author = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -297,18 +291,16 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///@param author The new author for the document.
   set author(jni$_.JString? author) {
     final _$author = author?.reference ?? jni$_.jNullReference;
-    _author__setAuthor(
-            reference.pointer, _id_author__setAuthor.pointer, _$author.pointer)
+    _set$author(reference.pointer, _id_set$author.pointer, _$author.pointer)
         .check();
   }
 
-  static final _id_subject__getSubject =
-      PDDocumentInformation._class.instanceMethodId(
+  static final _id_get$subject = PDDocumentInformation._class.instanceMethodId(
     r'getSubject',
     r'()Ljava/lang/String;',
   );
 
-  static final _subject__getSubject = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$subject = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -326,18 +318,16 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   /// This will get the subject of the document.  This will return null if no subject exists.
   ///@return The subject of the document.
   jni$_.JString? get subject {
-    return _subject__getSubject(
-            reference.pointer, _id_subject__getSubject.pointer)
+    return _get$subject(reference.pointer, _id_get$subject.pointer)
         .object<jni$_.JString?>();
   }
 
-  static final _id_subject__setSubject =
-      PDDocumentInformation._class.instanceMethodId(
+  static final _id_set$subject = PDDocumentInformation._class.instanceMethodId(
     r'setSubject',
     r'(Ljava/lang/String;)V',
   );
 
-  static final _subject__setSubject = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$subject = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -354,18 +344,16 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///@param subject The new subject for the document.
   set subject(jni$_.JString? subject) {
     final _$subject = subject?.reference ?? jni$_.jNullReference;
-    _subject__setSubject(reference.pointer, _id_subject__setSubject.pointer,
-            _$subject.pointer)
+    _set$subject(reference.pointer, _id_set$subject.pointer, _$subject.pointer)
         .check();
   }
 
-  static final _id_keywords__getKeywords =
-      PDDocumentInformation._class.instanceMethodId(
+  static final _id_get$keywords = PDDocumentInformation._class.instanceMethodId(
     r'getKeywords',
     r'()Ljava/lang/String;',
   );
 
-  static final _keywords__getKeywords = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$keywords = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -383,18 +371,16 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   /// This will get the keywords of the document.  This will return null if no keywords exists.
   ///@return The keywords of the document.
   jni$_.JString? get keywords {
-    return _keywords__getKeywords(
-            reference.pointer, _id_keywords__getKeywords.pointer)
+    return _get$keywords(reference.pointer, _id_get$keywords.pointer)
         .object<jni$_.JString?>();
   }
 
-  static final _id_keywords__setKeywords =
-      PDDocumentInformation._class.instanceMethodId(
+  static final _id_set$keywords = PDDocumentInformation._class.instanceMethodId(
     r'setKeywords',
     r'(Ljava/lang/String;)V',
   );
 
-  static final _keywords__setKeywords = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$keywords = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -411,18 +397,17 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///@param keywords The new keywords for the document.
   set keywords(jni$_.JString? keywords) {
     final _$keywords = keywords?.reference ?? jni$_.jNullReference;
-    _keywords__setKeywords(reference.pointer, _id_keywords__setKeywords.pointer,
-            _$keywords.pointer)
+    _set$keywords(
+            reference.pointer, _id_set$keywords.pointer, _$keywords.pointer)
         .check();
   }
 
-  static final _id_creator__getCreator =
-      PDDocumentInformation._class.instanceMethodId(
+  static final _id_get$creator = PDDocumentInformation._class.instanceMethodId(
     r'getCreator',
     r'()Ljava/lang/String;',
   );
 
-  static final _creator__getCreator = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$creator = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -440,18 +425,16 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   /// This will get the creator of the document.  This will return null if no creator exists.
   ///@return The creator of the document.
   jni$_.JString? get creator {
-    return _creator__getCreator(
-            reference.pointer, _id_creator__getCreator.pointer)
+    return _get$creator(reference.pointer, _id_get$creator.pointer)
         .object<jni$_.JString?>();
   }
 
-  static final _id_creator__setCreator =
-      PDDocumentInformation._class.instanceMethodId(
+  static final _id_set$creator = PDDocumentInformation._class.instanceMethodId(
     r'setCreator',
     r'(Ljava/lang/String;)V',
   );
 
-  static final _creator__setCreator = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$creator = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -468,18 +451,16 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///@param creator The new creator for the document.
   set creator(jni$_.JString? creator) {
     final _$creator = creator?.reference ?? jni$_.jNullReference;
-    _creator__setCreator(reference.pointer, _id_creator__setCreator.pointer,
-            _$creator.pointer)
+    _set$creator(reference.pointer, _id_set$creator.pointer, _$creator.pointer)
         .check();
   }
 
-  static final _id_producer__getProducer =
-      PDDocumentInformation._class.instanceMethodId(
+  static final _id_get$producer = PDDocumentInformation._class.instanceMethodId(
     r'getProducer',
     r'()Ljava/lang/String;',
   );
 
-  static final _producer__getProducer = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$producer = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -497,18 +478,16 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   /// This will get the producer of the document.  This will return null if no producer exists.
   ///@return The producer of the document.
   jni$_.JString? get producer {
-    return _producer__getProducer(
-            reference.pointer, _id_producer__getProducer.pointer)
+    return _get$producer(reference.pointer, _id_get$producer.pointer)
         .object<jni$_.JString?>();
   }
 
-  static final _id_producer__setProducer =
-      PDDocumentInformation._class.instanceMethodId(
+  static final _id_set$producer = PDDocumentInformation._class.instanceMethodId(
     r'setProducer',
     r'(Ljava/lang/String;)V',
   );
 
-  static final _producer__setProducer = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$producer = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -525,29 +504,28 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///@param producer The new producer for the document.
   set producer(jni$_.JString? producer) {
     final _$producer = producer?.reference ?? jni$_.jNullReference;
-    _producer__setProducer(reference.pointer, _id_producer__setProducer.pointer,
-            _$producer.pointer)
+    _set$producer(
+            reference.pointer, _id_set$producer.pointer, _$producer.pointer)
         .check();
   }
 
-  static final _id_creationDate__getCreationDate =
+  static final _id_get$creationDate =
       PDDocumentInformation._class.instanceMethodId(
     r'getCreationDate',
     r'()Ljava/util/Calendar;',
   );
 
-  static final _creationDate__getCreationDate =
-      jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                    jni$_.Pointer<jni$_.Void>,
-                    jni$_.JMethodIDPtr,
-                  )>>('globalEnv_CallObjectMethod')
-          .asFunction<
+  static final _get$creationDate = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>();
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `public java.util.Calendar getCreationDate()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -555,28 +533,26 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   /// This will get the creation date of the document.  This will return null if no creation date exists.
   ///@return The creation date of the document.
   jni$_.JObject? get creationDate {
-    return _creationDate__getCreationDate(
-            reference.pointer, _id_creationDate__getCreationDate.pointer)
+    return _get$creationDate(reference.pointer, _id_get$creationDate.pointer)
         .object<jni$_.JObject?>();
   }
 
-  static final _id_creationDate__setCreationDate =
+  static final _id_set$creationDate =
       PDDocumentInformation._class.instanceMethodId(
     r'setCreationDate',
     r'(Ljava/util/Calendar;)V',
   );
 
-  static final _creationDate__setCreationDate =
-      jni$_.ProtectedJniExtensions.lookup<
-                  jni$_.NativeFunction<
-                      jni$_.JThrowablePtr Function(
-                          jni$_.Pointer<jni$_.Void>,
-                          jni$_.JMethodIDPtr,
-                          jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-              'globalEnv_CallVoidMethod')
-          .asFunction<
-              jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _set$creationDate = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public void setCreationDate(java.util.Calendar date)`
   ///
@@ -584,29 +560,28 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///@param date The new creation date for the document.
   set creationDate(jni$_.JObject? date) {
     final _$date = date?.reference ?? jni$_.jNullReference;
-    _creationDate__setCreationDate(reference.pointer,
-            _id_creationDate__setCreationDate.pointer, _$date.pointer)
+    _set$creationDate(
+            reference.pointer, _id_set$creationDate.pointer, _$date.pointer)
         .check();
   }
 
-  static final _id_modificationDate__getModificationDate =
+  static final _id_get$modificationDate =
       PDDocumentInformation._class.instanceMethodId(
     r'getModificationDate',
     r'()Ljava/util/Calendar;',
   );
 
-  static final _modificationDate__getModificationDate =
-      jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                    jni$_.Pointer<jni$_.Void>,
-                    jni$_.JMethodIDPtr,
-                  )>>('globalEnv_CallObjectMethod')
-          .asFunction<
+  static final _get$modificationDate = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>();
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `public java.util.Calendar getModificationDate()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -614,28 +589,27 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   /// This will get the modification date of the document.  This will return null if no modification date exists.
   ///@return The modification date of the document.
   jni$_.JObject? get modificationDate {
-    return _modificationDate__getModificationDate(reference.pointer,
-            _id_modificationDate__getModificationDate.pointer)
+    return _get$modificationDate(
+            reference.pointer, _id_get$modificationDate.pointer)
         .object<jni$_.JObject?>();
   }
 
-  static final _id_modificationDate__setModificationDate =
+  static final _id_set$modificationDate =
       PDDocumentInformation._class.instanceMethodId(
     r'setModificationDate',
     r'(Ljava/util/Calendar;)V',
   );
 
-  static final _modificationDate__setModificationDate =
-      jni$_.ProtectedJniExtensions.lookup<
-                  jni$_.NativeFunction<
-                      jni$_.JThrowablePtr Function(
-                          jni$_.Pointer<jni$_.Void>,
-                          jni$_.JMethodIDPtr,
-                          jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-              'globalEnv_CallVoidMethod')
-          .asFunction<
-              jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+  static final _set$modificationDate = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JThrowablePtr Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public void setModificationDate(java.util.Calendar date)`
   ///
@@ -643,18 +617,17 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///@param date The new modification date for the document.
   set modificationDate(jni$_.JObject? date) {
     final _$date = date?.reference ?? jni$_.jNullReference;
-    _modificationDate__setModificationDate(reference.pointer,
-            _id_modificationDate__setModificationDate.pointer, _$date.pointer)
+    _set$modificationDate(
+            reference.pointer, _id_set$modificationDate.pointer, _$date.pointer)
         .check();
   }
 
-  static final _id_trapped__getTrapped =
-      PDDocumentInformation._class.instanceMethodId(
+  static final _id_get$trapped = PDDocumentInformation._class.instanceMethodId(
     r'getTrapped',
     r'()Ljava/lang/String;',
   );
 
-  static final _trapped__getTrapped = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$trapped = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -673,29 +646,27 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   /// This will return null if one is not found.
   ///@return The trapped value for the document.
   jni$_.JString? get trapped {
-    return _trapped__getTrapped(
-            reference.pointer, _id_trapped__getTrapped.pointer)
+    return _get$trapped(reference.pointer, _id_get$trapped.pointer)
         .object<jni$_.JString?>();
   }
 
-  static final _id_metadataKeys__getMetadataKeys =
+  static final _id_get$metadataKeys =
       PDDocumentInformation._class.instanceMethodId(
     r'getMetadataKeys',
     r'()Ljava/util/Set;',
   );
 
-  static final _metadataKeys__getMetadataKeys =
-      jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                    jni$_.Pointer<jni$_.Void>,
-                    jni$_.JMethodIDPtr,
-                  )>>('globalEnv_CallObjectMethod')
-          .asFunction<
+  static final _get$metadataKeys = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>();
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
 
   /// from: `public java.util.Set<java.lang.String> getMetadataKeys()`
   /// The returned object must be released after use, by calling the [release] method.
@@ -704,8 +675,7 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///@return all metadata key strings.
   ///@since Apache PDFBox 1.3.0
   jni$_.JSet<jni$_.JString?>? get metadataKeys {
-    return _metadataKeys__getMetadataKeys(
-            reference.pointer, _id_metadataKeys__getMetadataKeys.pointer)
+    return _get$metadataKeys(reference.pointer, _id_get$metadataKeys.pointer)
         .object<jni$_.JSet<jni$_.JString?>?>();
   }
 
@@ -784,13 +754,12 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
         .check();
   }
 
-  static final _id_trapped__setTrapped =
-      PDDocumentInformation._class.instanceMethodId(
+  static final _id_set$trapped = PDDocumentInformation._class.instanceMethodId(
     r'setTrapped',
     r'(Ljava/lang/String;)V',
   );
 
-  static final _trapped__setTrapped = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$trapped = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -809,8 +778,7 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///@throws IllegalArgumentException if the parameter is invalid.
   set trapped(jni$_.JString? value) {
     final _$value = value?.reference ?? jni$_.jNullReference;
-    _trapped__setTrapped(
-            reference.pointer, _id_trapped__setTrapped.pointer, _$value.pointer)
+    _set$trapped(reference.pointer, _id_set$trapped.pointer, _$value.pointer)
         .check();
   }
 }

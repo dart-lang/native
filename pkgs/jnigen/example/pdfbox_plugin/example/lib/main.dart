@@ -161,12 +161,12 @@ class PDFFileInfo {
     final fileConstructor = fileClass.constructorId("(Ljava/lang/String;)V");
     final inputFile =
         fileConstructor(fileClass, [JString.fromString(filename)]);
-    // Static method call PDDocument.load -> PDDocument
+    // Static method call PDDocument.load -> PDDocument.
     final pdf = PDDocument.load(inputFile)!;
-    // Instance method call getNumberOfPages() -> int
-    numPages = pdf.getNumberOfPages();
-    // Instance method that returns an object
-    final info = pdf.getDocumentInformation()!;
+    // Instance method call that returns an int.
+    numPages = pdf.numberOfPages;
+    // Instance method that returns an object.
+    final info = pdf.documentInformation!;
 
     /// java.lang.String is a special case and is mapped to JlString which is
     /// a subclass of JlObject.

@@ -1109,10 +1109,14 @@ class _MethodGenerator extends Visitor<Method, void> {
 
   String _idName(Method node) {
     final name = node.finalName;
-    if (node.propertyKind == MethodPropertyKind.none) {
-      return name;
+    switch (node.propertyKind) {
+      case MethodPropertyKind.none:
+        return name;
+      case MethodPropertyKind.getter:
+        return 'get\$$name';
+      case MethodPropertyKind.setter:
+        return 'set\$$name';
     }
-    return '${name}__${node.name}';
   }
 
   void writeAccessor(Method node) {
