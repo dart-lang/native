@@ -699,7 +699,7 @@ class Method with ClassMember, Annotated implements Element<Method> {
   List<Param> params;
   ReferredType returnType;
 
-  /// Whether this method is a getter, setter or none in Dart.
+  /// Whether this method is a getter, setter, or normal method.
   ///
   /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)

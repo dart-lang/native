@@ -6,6 +6,8 @@
     class is simplified.
   - It is no longer necessary to pass around the `JType` in many cases where it
     used to be required.
+- **Breaking Change**: Class methods like getFoo and setFoo are now getters and
+  setters in Dart.
 - Add docs about debugging.
 - Add support for Kotlin interfaces with suspend functions. These can now be
   implemented using Dart functions that return a `Future`.

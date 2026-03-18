@@ -223,6 +223,7 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     final methodRenamer = _MethodRenamer(
       config,
       uniquifyName && node.isTopLevel ? topLevelNameCounts : nameCounts[node]!,
+      node.declKind == DeclKind.interfaceKind,
     );
     for (final method in node.methods) {
       method.accept(methodRenamer);
@@ -231,18 +232,20 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
 }
 
 class _MethodRenamer implements Visitor<Method, void> {
-  _MethodRenamer(this.config, this.nameCounts);
+  _MethodRenamer(this.config, this.nameCounts, this.isInterface);
 
   final Config config;
   final Map<String, int> nameCounts;
   final Map<String, String> propertyNames = {};
+  final bool isInterface;
 
   bool _isVoid(ReferredType t) => t is PrimitiveType && t.name == 'void';
 
   final _getterRegExp = RegExp(r'^get[A-Z]');
   bool _isGetter(Method node) {
     final name = node.name;
-    return _getterRegExp.hasMatch(name) &&
+    return !isInterface &&
+        _getterRegExp.hasMatch(name) &&
         node.params.isEmpty &&
         node.typeParams.isEmpty &&
         node.asyncReturnType == null &&
@@ -252,7 +255,8 @@ class _MethodRenamer implements Visitor<Method, void> {
   final _setterRegExp = RegExp(r'^set[A-Z]');
   bool _isSetter(Method node) {
     final name = node.name;
-    return _setterRegExp.hasMatch(name) &&
+    return !isInterface &&
+        _setterRegExp.hasMatch(name) &&
         node.params.length == 1 &&
         node.typeParams.isEmpty &&
         node.asyncReturnType == null &&
@@ -276,14 +280,14 @@ class _MethodRenamer implements Visitor<Method, void> {
       return (rawName: 'new', skipRenaming: false, propertySig: null);
     }
 
-    String propertyType;
+    ReferredType propertyType;
     final staticSig = node.isStatic ? 'static' : 'inst';
     if (_isGetter(node)) {
       node.propertyKind = MethodPropertyKind.getter;
-      propertyType = node.returnType.descriptor!;
+      propertyType = node.returnType;
     } else if (_isSetter(node)) {
       node.propertyKind = MethodPropertyKind.setter;
-      propertyType = node.params[0].type.descriptor!;
+      propertyType = node.params[0].type;
     } else {
       return (rawName: node.name, skipRenaming: false, propertySig: null);
     }

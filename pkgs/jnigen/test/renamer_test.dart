@@ -339,10 +339,19 @@ void main() {
         r'Outer$$With$$Many$$Dollarsigns');
   });
 
-  test('Getters and setters', () async {
+  test('Class getters and setters', () async {
     final void_ = PrimitiveType.fromJson({'name': 'void'});
     final int_ = PrimitiveType.fromJson({'name': 'int'});
     final double_ = PrimitiveType.fromJson({'name': 'double'});
+    final listOfObject = DeclaredType(
+      binaryName: 'java.util.List',
+      params: [DeclaredType.object],
+    );
+    final listOfString = DeclaredType(
+      binaryName: 'java.util.List',
+      params: [DeclaredType(binaryName: 'java.lang.String')],
+    );
+
     final classes = Classes({
       'Foo': ClassDecl(
         binaryName: 'Foo',
@@ -417,13 +426,14 @@ void main() {
             asyncReturnType: DeclaredType.object,
           ),
 
-          // Getter and setter with same name. Transformed.
+          // Getter and setter with same name. Transformed and deduped.
           Method(name: 'getPropC', returnType: DeclaredType.object),
           Method(name: 'setPropC', returnType: void_, params: [
             Param(name: 'value', type: DeclaredType.object),
           ]),
 
-          // Overloaded and setter with same name. Transformed.
+          // Overloaded and setter with same name. Transformed and deduped by
+          // type.
           Method(name: 'getPropD', returnType: DeclaredType.object),
           Method(name: 'getPropD', returnType: int_),
           Method(name: 'getPropD', returnType: double_),
@@ -436,6 +446,13 @@ void main() {
           Method(name: 'setPropD', returnType: void_, params: [
             Param(name: 'value', type: int_),
           ]),
+
+          // Setter and getter with same name, but slightly different types.
+          // Transformed, but not deduped by type.
+          Method(name: 'getPropE', returnType: listOfObject),
+          Method(name: 'setPropE', returnType: void_, params: [
+            Param(name: 'value', type: listOfString),
+          ]),
         ],
       ),
     });
@@ -443,29 +460,58 @@ void main() {
 
     final renamedMethods = classes.decls['Foo']!.methods.namesAndPropertyKinds;
     expect(renamedMethods, [
-      'get propA',
-      'set propB',
-      'gettingThings',
-      'settingThings',
-      'get123',
-      'set123',
-      'getPropWithParam',
-      'setPropWithTwoParams',
-      'setPropWithNoParams',
-      'getPropWrongReturn',
-      'setPropWrongReturn',
-      'getPropWithTypeParams',
-      'setPropWithTypeParams',
-      'getPropAsync',
-      'setPropAsync',
-      'get propC',
-      'set propC',
-      'get propD',
+      r'get propA',
+      r'set propB',
+      r'gettingThings',
+      r'settingThings',
+      r'get123',
+      r'set123',
+      r'getPropWithParam',
+      r'setPropWithTwoParams',
+      r'setPropWithNoParams',
+      r'getPropWrongReturn',
+      r'setPropWrongReturn',
+      r'getPropWithTypeParams',
+      r'setPropWithTypeParams',
+      r'getPropAsync',
+      r'setPropAsync',
+      r'get propC',
+      r'set propC',
+      r'get propD',
       r'get propD$1',
       r'get propD$2',
-      'set propD',
+      r'set propD',
       r'set propD$2',
       r'set propD$1',
+      r'get propE',
+      r'set propE$1',
+    ]);
+  });
+
+  test('Interface getters and setters', () async {
+    final void_ = PrimitiveType.fromJson({'name': 'void'});
+
+    final classes = Classes({
+      'Foo': ClassDecl(
+        binaryName: 'Foo',
+        declKind: DeclKind.interfaceKind,
+        superclass: DeclaredType.object,
+        methods: [
+          // Normal getter and setter. Not transformed, because this is an
+          // interface.
+          Method(name: 'getPropA', returnType: DeclaredType.object),
+          Method(name: 'setPropB', returnType: void_, params: [
+            Param(name: 'value', type: DeclaredType.object),
+          ]),
+        ],
+      ),
+    });
+    await rename(classes);
+
+    final renamedMethods = classes.decls['Foo']!.methods.namesAndPropertyKinds;
+    expect(renamedMethods, [
+      r'getPropA',
+      r'setPropB',
     ]);
   });
 }
