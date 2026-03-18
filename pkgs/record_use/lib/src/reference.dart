@@ -590,8 +590,7 @@ final class InstanceConstantReference extends InstanceReference {
   Reference _canonicalizeChildren(CanonicalizationContext context) =>
       InstanceConstantReference(
         loadingUnit: context.canonicalizeLoadingUnit(loadingUnit),
-        instanceConstant:
-            context.canonicalizeConstant(instanceConstant) as Constant,
+        instanceConstant: context.canonicalizeConstant(instanceConstant),
       );
 
   @override

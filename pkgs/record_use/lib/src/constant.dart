@@ -683,7 +683,7 @@ final class ListConstant extends Constant {
   @override
   Constant _canonicalizeChildren(CanonicalizationContext context) =>
       ListConstant([
-        for (final c in value) context.canonicalizeConstant(c) as Constant,
+        for (final c in value) context.canonicalizeConstant(c),
       ]);
 
   @override
@@ -776,7 +776,7 @@ final class SetConstant extends Constant {
   @override
   Constant _canonicalizeChildren(CanonicalizationContext context) {
     final canonicalized = [
-      for (final c in value) context.canonicalizeConstant(c) as Constant,
+      for (final c in value) context.canonicalizeConstant(c),
     ];
     canonicalized.sort((a, b) => a._compareTo(b));
     return SetConstant(canonicalized);
@@ -887,8 +887,8 @@ final class MapConstant extends Constant {
     final canonEntries = [
       for (final e in entries)
         MapEntry(
-          context.canonicalizeConstant(e.key) as Constant,
-          context.canonicalizeConstant(e.value) as Constant,
+          context.canonicalizeConstant(e.key),
+          context.canonicalizeConstant(e.value),
         ),
     ];
     canonEntries.sort((a, b) => a.key._compareTo(b.key));
@@ -1050,7 +1050,7 @@ final class InstanceConstant extends Constant {
       definition: context.canonicalizeDefinition(definition),
       fields: {
         for (final e in sortedEntries)
-          e.key: context.canonicalizeConstant(e.value) as Constant,
+          e.key: context.canonicalizeConstant(e.value),
       },
     );
   }
@@ -1212,7 +1212,7 @@ final class EnumConstant extends Constant {
       name: name,
       fields: {
         for (final e in sortedEntries)
-          e.key: context.canonicalizeConstant(e.value) as Constant,
+          e.key: context.canonicalizeConstant(e.value),
       },
     );
   }
@@ -1366,11 +1366,11 @@ final class RecordConstant extends Constant {
       ..sort((a, b) => a.key.compareTo(b.key));
     return RecordConstant(
       positional: [
-        for (final c in positional) context.canonicalizeConstant(c) as Constant,
+        for (final c in positional) context.canonicalizeConstant(c),
       ],
       named: {
         for (final e in sortedNamedEntries)
-          e.key: context.canonicalizeConstant(e.value) as Constant,
+          e.key: context.canonicalizeConstant(e.value),
       },
     );
   }
