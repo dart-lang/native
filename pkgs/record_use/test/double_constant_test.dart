@@ -32,7 +32,9 @@ void main() {
       for (final constant in constants) {
         final recordings = Recordings(
           calls: {
-            const Definition('package:a/a.dart', [Name('foo')]): [
+            const Definition('package:a/a.dart', [
+              Name('foo', kind: DefinitionKind.methodKind),
+            ]): [
               CallWithArguments(
                 positionalArguments: [constant],
                 namedArguments: const {},

@@ -32,8 +32,8 @@ void main(List<String> arguments) async {
           usages.calls[Definition(
             'package:${input.packageName}/src/${input.packageName}.dart',
             [
-              const Name(kind: .classKind, 'MyMath'),
-              Name(methodName),
+              const Name(kind: DefinitionKind.classKind, 'MyMath'),
+              Name(methodName, kind: DefinitionKind.methodKind),
             ],
           )] ??
           const [];
@@ -68,7 +68,7 @@ void main(List<String> arguments) async {
       final instances =
           usages.instances[Definition(
             'package:${input.packageName}/src/${input.packageName}.dart',
-            [Name(kind: .classKind, className)],
+            [Name(kind: DefinitionKind.classKind, className)],
           )] ??
           const [];
       print('Checking instances of $className...');

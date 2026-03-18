@@ -8,7 +8,7 @@ import 'package:test/test.dart';
 void main() {
   const classDefinition = Definition(
     'package:test/test.dart',
-    [Name('MyClass')],
+    [Name('MyClass', kind: .classKind)],
   );
 
   test('MapConstant with InstanceConstant keys round-trip', () {
@@ -26,7 +26,7 @@ void main() {
 
     const definition = Definition(
       'package:test/test.dart',
-      [Name('testMethod')],
+      [Name('testMethod', kind: .methodKind)],
     );
 
     final recordings = Recordings(
@@ -92,7 +92,7 @@ void main() {
 
     const definition = Definition(
       'package:test/test.dart',
-      [Name('complexMethod')],
+      [Name('complexMethod', kind: DefinitionKind.methodKind)],
     );
 
     final recordings = Recordings(

@@ -38,9 +38,7 @@ class Definition {
         .map(
           (nameSyntax) => Name(
             nameSyntax.name,
-            kind: nameSyntax.kind != null
-                ? DefinitionKind._fromName(nameSyntax.kind!)
-                : null,
+            kind: DefinitionKind._fromName(nameSyntax.kind),
             disambiguators:
                 nameSyntax.disambiguators
                     ?.map(DefinitionDisambiguator._fromName)
@@ -58,7 +56,7 @@ class Definition {
         .map(
           (name) => NameSyntax(
             name: name.name,
-            kind: name.kind?.toString(),
+            kind: name.kind.toString(),
             disambiguators: name.disambiguators.isEmpty
                 ? null
                 : name.disambiguators.map((d) => d.toString()).toList(),
@@ -129,10 +127,7 @@ class Name {
   final String name;
 
   /// The kind of the element.
-  ///
-  /// TODO(https://github.com/dart-lang/native/issues/2888): Make this
-  /// non-nullable.
-  final DefinitionKind? kind;
+  final DefinitionKind kind;
 
   /// Optional disambiguators (e.g. to distinguish between static and instance
   /// members in extensions and extension types).
@@ -140,7 +135,7 @@ class Name {
 
   const Name(
     this.name, {
-    this.kind,
+    required this.kind,
     this.disambiguators = const {},
   });
 
@@ -179,9 +174,7 @@ class Name {
   @override
   String toString() {
     final buffer = StringBuffer();
-    if (kind != null) {
-      buffer.write('$kind:');
-    }
+    buffer.write('$kind:');
     buffer.write(name);
     if (disambiguators.isNotEmpty) {
       final sorted = disambiguators.toList()..sort((a, b) => a.compareTo(b));

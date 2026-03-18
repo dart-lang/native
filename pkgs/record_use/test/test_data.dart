@@ -11,15 +11,18 @@ import 'package:record_use/src/recordings.dart';
 
 const callId = Definition(
   'package:js_runtime/js_helper.dart',
-  [Name('MyClass'), Name('get:loadDeferredLibrary')],
+  [
+    Name('MyClass', kind: DefinitionKind.classKind),
+    Name('loadDeferredLibrary', kind: DefinitionKind.getterKind),
+  ],
 );
 const instanceId = Definition(
   'package:js_runtime/js_helper.dart',
-  [Name('MyAnnotation')],
+  [Name('MyAnnotation', kind: DefinitionKind.classKind)],
 );
 const enumId = Definition(
   'package:js_runtime/js_helper.dart',
-  [Name('MyEnum')],
+  [Name('MyEnum', kind: DefinitionKind.enumKind)],
 );
 
 const loadingUnitOJs = LoadingUnit('o.js');
