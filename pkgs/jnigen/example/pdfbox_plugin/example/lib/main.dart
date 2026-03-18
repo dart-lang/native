@@ -170,9 +170,9 @@ class PDFFileInfo {
 
     /// java.lang.String is a special case and is mapped to JlString which is
     /// a subclass of JlObject.
-    author = info.getAuthor()?.toDartString(releaseOriginal: true) ?? 'null';
-    title = info.getTitle()?.toDartString(releaseOriginal: true) ?? 'null';
-    subject = info.getSubject()?.toDartString(releaseOriginal: true) ?? 'null';
+    author = info.author?.toDartString(releaseOriginal: true) ?? 'null';
+    title = info.title?.toDartString(releaseOriginal: true) ?? 'null';
+    subject = info.subject?.toDartString(releaseOriginal: true) ?? 'null';
 
     pdf.close();
   }
