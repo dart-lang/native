@@ -29,10 +29,6 @@
       "name": "root"
     }
   ],
-  "metadata": {
-    "comment": "Constructor tearoff recording",
-    "version": "1.0.0"
-  },
   "uses": {
     "instances": [
       {

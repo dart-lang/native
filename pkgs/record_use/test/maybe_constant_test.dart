@@ -10,7 +10,6 @@ const loadingUnit1 = LoadingUnit('1');
 void main() {
   test('MaybeConstant arguments in JSON', () {
     const json = {
-      'metadata': {'version': '1.0.0', 'comment': 'test'},
       'constants': [
         {'type': 'int', 'value': 42},
         {'type': 'unsupported', 'message': 'MethodTearoff'},
@@ -88,6 +87,7 @@ void main() {
               ),
               SymbolConstant('foo'),
               SymbolConstant('_bar', libraryUri: 'package:a/a.dart'),
+              SetConstant([IntConstant(1), IntConstant(2)]),
             ],
             namedArguments: {
               'a': IntConstant(42),
@@ -104,6 +104,7 @@ void main() {
               ),
               'f': SymbolConstant('foo'),
               'g': SymbolConstant('_bar', libraryUri: 'package:a/a.dart'),
+              'h': SetConstant([IntConstant(3), IntConstant(4)]),
             },
             loadingUnit: loadingUnit1,
           ),
@@ -134,7 +135,6 @@ void main() {
     const definition = Definition('package:a/a.dart', [Name('foo')]);
 
     final actualRecordings = Recordings(
-      metadata: Metadata(comment: 'actual'),
       calls: {
         definition: [
           const CallWithArguments(
@@ -148,7 +148,6 @@ void main() {
     );
 
     final expectedRecordings = Recordings(
-      metadata: Metadata(comment: 'expected'),
       calls: {
         definition: [
           const CallWithArguments(
@@ -165,7 +164,6 @@ void main() {
     expect(
       actualRecordings.semanticEquals(
         expectedRecordings,
-        allowMetadataMismatch: true,
       ),
       isFalse,
     );
@@ -174,7 +172,6 @@ void main() {
     expect(
       actualRecordings.semanticEquals(
         expectedRecordings,
-        allowMetadataMismatch: true,
         allowPromotionOfUnsupported: true,
       ),
       isTrue,
@@ -184,7 +181,6 @@ void main() {
     expect(
       expectedRecordings.semanticEquals(
         actualRecordings,
-        allowMetadataMismatch: true,
         allowPromotionOfUnsupported: true,
       ),
       isFalse,

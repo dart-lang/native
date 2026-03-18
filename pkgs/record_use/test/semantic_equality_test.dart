@@ -2,7 +2,6 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:pub_semver/pub_semver.dart';
 import 'package:record_use/record_use.dart';
 import 'package:test/test.dart';
 
@@ -50,10 +49,6 @@ void main() {
     namedArguments: {},
     loadingUnit: LoadingUnit(''),
   );
-  final metadata = Metadata(
-    version: Version(1, 0, 0),
-    comment: '',
-  );
 
   test('Definition semantic equality', () {
     expect(definition1.semanticEquals(definition1), isTrue);
@@ -71,7 +66,6 @@ void main() {
 
   test('Strict equality', () {
     final recordings1 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefintion1Static, callDefintion1Static2],
         definition2: [callDefinition2Static],
@@ -79,7 +73,6 @@ void main() {
       instances: const {},
     );
     final recordings2 = Recordings(
-      metadata: metadata,
       calls: {
         definition2: [callDefinition2Static],
         definition1: [callDefintion1Static2, callDefintion1Static],
@@ -87,7 +80,6 @@ void main() {
       instances: const {},
     );
     final recordings3 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefintion1Static],
       },
@@ -103,7 +95,6 @@ void main() {
 
   test('otherIsSubset', () {
     final recordings1 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefintion1Static],
         definition2: [callDefinition2Static],
@@ -111,7 +102,6 @@ void main() {
       instances: const {},
     );
     final recordings2 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefintion1Static],
       },
@@ -134,14 +124,12 @@ void main() {
 
   test('allowDeadCodeElimination', () {
     final recordings1 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefintion1Static],
       },
       instances: const {},
     );
     final recordings2 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefintion1Static],
         definition2: [callDefinition2Static],
@@ -174,14 +162,12 @@ void main() {
 
   test('allowTearoffToStaticPromotion', () {
     final recordings1 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefintion1Static],
       },
       instances: const {},
     );
     final recordings2 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefinition1Tearoff],
       },
@@ -213,7 +199,6 @@ void main() {
 
   test('allowUriMismatch', () {
     final recordings1 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [
           callDefintion1Static,
@@ -222,7 +207,6 @@ void main() {
       instances: const {},
     );
     final recordings2 = Recordings(
-      metadata: metadata,
       calls: {
         definition1differentLibrary2: [
           callDefintion1StaticDifferentUri,
@@ -245,7 +229,6 @@ void main() {
 
   test('CallWithArguments positional arguments different length', () {
     final recordings1 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [
           const CallWithArguments(
@@ -258,7 +241,6 @@ void main() {
       instances: const {},
     );
     final recordings2 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [
           const CallWithArguments(
@@ -278,7 +260,6 @@ void main() {
 
   test('InstanceConstantReference semantic equality with EnumConstant', () {
     final recordings1 = Recordings(
-      metadata: metadata,
       calls: const {},
       instances: {
         definition1: [
@@ -295,7 +276,6 @@ void main() {
       },
     );
     final recordings2 = Recordings(
-      metadata: metadata,
       calls: const {},
       instances: {
         definition1: [
@@ -312,7 +292,6 @@ void main() {
       },
     );
     final recordings3 = Recordings(
-      metadata: metadata,
       calls: const {},
       instances: {
         definition1: [
@@ -331,5 +310,33 @@ void main() {
 
     expect(recordings1.semanticEquals(recordings2), isTrue);
     expect(recordings1.semanticEquals(recordings3), isFalse);
+  });
+
+  test('SetConstant semantic equality', () {
+    const set1 = SetConstant([IntConstant(1), IntConstant(2)]);
+    const set2 = SetConstant([IntConstant(2), IntConstant(1)]);
+    const set3 = SetConstant([IntConstant(1), IntConstant(3)]);
+    const set4 = SetConstant([IntConstant(1)]);
+
+    expect(set1.semanticEquals(set1), isTrue);
+    expect(set1.semanticEquals(set2), isTrue);
+    expect(set1.semanticEquals(set3), isFalse);
+    expect(set1.semanticEquals(set4), isFalse);
+
+    const unsupported = UnsupportedConstant('MethodTearoff');
+    const setWithUnsupported = SetConstant([IntConstant(1), unsupported]);
+    const setWithInt2 = SetConstant([IntConstant(1), IntConstant(2)]);
+
+    // unsupported does not match IntConstant(2) by default
+    expect(setWithInt2.semanticEquals(setWithUnsupported), isFalse);
+
+    // unsupported matches any constant when promotion is allowed
+    expect(
+      setWithInt2.semanticEquals(
+        setWithUnsupported,
+        allowPromotionOfUnsupported: true,
+      ),
+      isTrue,
+    );
   });
 }

@@ -83,17 +83,39 @@ sealed class MaybeConstant {
     NullConstantSyntax() => const NullConstant(),
     BoolConstantSyntax(:final value) => BoolConstant(value),
     IntConstantSyntax(:final value) => IntConstant(value),
+    DoubleConstantSyntax(value: final doubleValue) => DoubleConstant(
+      switch (doubleValue.type) {
+        'number' => doubleValue.asNumberDoubleConstantValue.value!,
+        'positive_infinity' => double.infinity,
+        'negative_infinity' => double.negativeInfinity,
+        'not_a_number' => double.nan,
+        _ => throw FormatException(
+          'Invalid double constant type: ${doubleValue.type}',
+        ),
+      },
+    ),
     StringConstantSyntax(:final value) => StringConstant(value),
     SymbolConstantSyntax(:final name, :final libraryUri) => SymbolConstant(
       name,
       libraryUri: libraryUri,
     ),
     ListConstantSyntax(:final value) => ListConstant(
-      value!.cast<int>().map((i) {
+      value.map((i) {
         final constant = context.constants[i];
         if (constant is! Constant) {
           throw FormatException(
             'List constant element at index $i is not a constant',
+          );
+        }
+        return constant;
+      }).toList(),
+    ),
+    SetConstantSyntax(:final value) => SetConstant(
+      value.map((i) {
+        final constant = context.constants[i];
+        if (constant is! Constant) {
+          throw FormatException(
+            'Set constant element at index $i is not a constant',
           );
         }
         return constant;
@@ -456,6 +478,64 @@ final class IntConstant extends Constant {
   ) => other is IntConstant && other.value == value;
 }
 
+/// A constant double value.
+final class DoubleConstant extends Constant {
+  /// The underlying value of this constant.
+  final double value;
+
+  /// Creates a [DoubleConstant] object with the given double [value].
+  const DoubleConstant(this.value);
+
+  @override
+  DoubleConstantSyntax _toSyntax(SerializationContext context) {
+    final DoubleConstantValueSyntax syntaxValue;
+    if (value.isNaN) {
+      syntaxValue = NotANumberDoubleConstantValueSyntax();
+    } else if (value == double.infinity) {
+      syntaxValue = PositiveInfinityDoubleConstantValueSyntax();
+    } else if (value == double.negativeInfinity) {
+      syntaxValue = NegativeInfinityDoubleConstantValueSyntax();
+    } else {
+      syntaxValue = NumberDoubleConstantValueSyntax(value: value);
+    }
+    return DoubleConstantSyntax(value: syntaxValue);
+  }
+
+  @override
+  int get hashCode => Object.hash(value, value.isNegative);
+
+  @override
+  int get _depth => 1;
+
+  @override
+  int get _size => 1;
+
+  @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) => this;
+
+  @override
+  Constant _filter({String? definitionPackageName}) => this;
+
+  @override
+  bool operator ==(Object other) =>
+      other is DoubleConstant && value.compareTo(other.value) == 0;
+
+  @override
+  int get _orderingTypePriority => 5;
+
+  @override
+  int _compareToSameType(DoubleConstant other) => value.compareTo(other.value);
+
+  @override
+  String toString() => 'DoubleConstant($value)';
+
+  @override
+  bool _semanticEqualsInternal(
+    MaybeConstant other,
+    bool allowPromotionOfUnsupported,
+  ) => other is DoubleConstant && value.compareTo(other.value) == 0;
+}
+
 /// A constant string value.
 final class StringConstant extends Constant {
   /// The underlying value of this constant.
@@ -488,7 +568,7 @@ final class StringConstant extends Constant {
       other is StringConstant && other.value == value;
 
   @override
-  int get _orderingTypePriority => 5;
+  int get _orderingTypePriority => 6;
 
   @override
   int _compareToSameType(StringConstant other) => value.compareTo(other.value);
@@ -542,7 +622,7 @@ final class SymbolConstant extends Constant {
       other.libraryUri == libraryUri;
 
   @override
-  int get _orderingTypePriority => 6;
+  int get _orderingTypePriority => 7;
 
   @override
   int _compareToSameType(SymbolConstant other) {
@@ -629,7 +709,7 @@ final class ListConstant extends Constant {
       );
 
   @override
-  int get _orderingTypePriority => 7;
+  int get _orderingTypePriority => 8;
 
   @override
   int _compareToSameType(ListConstant other) {
@@ -656,6 +736,111 @@ final class ListConstant extends Constant {
       if (!value[i].semanticEquals(
         other.value[i],
         allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+      )) {
+        return false;
+      }
+    }
+    return true;
+  }
+}
+
+/// A constant set of [Constant] values.
+final class SetConstant extends Constant {
+  /// The underlying set of constant values.
+  final List<Constant> value;
+
+  /// Creates a [SetConstant] object with the given set of [value]s.
+  const SetConstant(this.value);
+
+  @override
+  int get hashCode => cacheHashCode(() => deepHash(value));
+
+  @override
+  int get _depth => cacheDepth(() {
+    var depth = 0;
+    for (final constant in value) {
+      depth = max(depth, constant._depth);
+    }
+    return 1 + depth;
+  });
+
+  @override
+  int get _size => cacheSize(() {
+    var size = 0;
+    for (final constant in value) {
+      size += constant._size;
+    }
+    return 1 + size;
+  });
+
+  @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) {
+    final canonicalized = [
+      for (final c in value) context.canonicalizeConstant(c) as Constant,
+    ];
+    canonicalized.sort((a, b) => a._compareTo(b));
+    return SetConstant(canonicalized);
+  }
+
+  @override
+  Constant _filter({String? definitionPackageName}) {
+    final filtered = [
+      for (final c in value)
+        c._filter(definitionPackageName: definitionPackageName),
+    ];
+    filtered.sort((a, b) => a._compareTo(b));
+    return SetConstant(filtered);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is SetConstant &&
+        other._depth == _depth &&
+        other._size == _size &&
+        deepEquals(other.value, value);
+  }
+
+  @override
+  SetConstantSyntax _toSyntax(SerializationContext context) =>
+      SetConstantSyntax(
+        value: [for (final constant in value) context.constants[constant]!],
+      );
+
+  @override
+  int get _orderingTypePriority => 9;
+
+  @override
+  int _compareToSameType(SetConstant other) {
+    var compare = value.length.compareTo(other.value.length);
+    if (compare != 0) return compare;
+    for (var i = 0; i < value.length; i++) {
+      compare = value[i]._compareTo(other.value[i]);
+      if (compare != 0) return compare;
+    }
+    return 0;
+  }
+
+  @override
+  String toString() => 'SetConstant({${value.join(', ')}})';
+
+  @override
+  bool _semanticEqualsInternal(
+    MaybeConstant other,
+    bool allowPromotionOfUnsupported,
+  ) {
+    if (other is! SetConstant) return false;
+    if (value.length != other.value.length) return false;
+    // Set equality is tricky for semanticEquals because it's not just identity.
+    // Check if every element in this set has a semantically equal element in
+    // the other set.
+    for (final element in value) {
+      if (!other.value.any(
+        (e) => element.semanticEquals(
+          e,
+          allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+        ),
       )) {
         return false;
       }
@@ -711,13 +896,17 @@ final class MapConstant extends Constant {
   }
 
   @override
-  Constant _filter({String? definitionPackageName}) => MapConstant([
-    for (final entry in entries)
-      MapEntry(
-        entry.key._filter(definitionPackageName: definitionPackageName),
-        entry.value._filter(definitionPackageName: definitionPackageName),
-      ),
-  ]);
+  Constant _filter({String? definitionPackageName}) {
+    final filtered = [
+      for (final entry in entries)
+        MapEntry(
+          entry.key._filter(definitionPackageName: definitionPackageName),
+          entry.value._filter(definitionPackageName: definitionPackageName),
+        ),
+    ];
+    filtered.sort((a, b) => a.key._compareTo(b.key));
+    return MapConstant(filtered);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -748,7 +937,7 @@ final class MapConstant extends Constant {
       );
 
   @override
-  int get _orderingTypePriority => 8;
+  int get _orderingTypePriority => 10;
 
   @override
   int _compareToSameType(MapConstant other) {
@@ -886,7 +1075,7 @@ final class InstanceConstant extends Constant {
   }
 
   @override
-  int get _orderingTypePriority => 11;
+  int get _orderingTypePriority => 13;
 
   @override
   int _compareToSameType(InstanceConstant other) {
@@ -1050,7 +1239,7 @@ final class EnumConstant extends Constant {
   }
 
   @override
-  int get _orderingTypePriority => 10;
+  int get _orderingTypePriority => 12;
 
   @override
   int _compareToSameType(EnumConstant other) {
@@ -1201,7 +1390,7 @@ final class RecordConstant extends Constant {
   );
 
   @override
-  int get _orderingTypePriority => 9;
+  int get _orderingTypePriority => 11;
 
   @override
   int _compareToSameType(RecordConstant other) {

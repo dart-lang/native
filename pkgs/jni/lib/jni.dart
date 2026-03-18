@@ -65,13 +65,21 @@ export 'package:ffi/ffi.dart' show Arena, using;
 export 'src/core_bindings.dart'
     show
         JArrayList,
+        JArrayList$$Methods,
         JCollection,
+        JCollection$$Methods,
         JHashMap,
+        JHashMap$$Methods,
         JHashSet,
+        JHashSet$$Methods,
         JIterator,
+        JIterator$$Methods,
         JList,
+        JList$$Methods,
         JMap,
-        JSet;
+        JMap$$Methods,
+        JSet,
+        JSet$$Methods;
 export 'src/errors.dart';
 export 'src/jarray.dart';
 export 'src/jimplementer.dart';
