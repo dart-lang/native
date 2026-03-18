@@ -453,7 +453,7 @@ extension type MeasureUnit._(jni$_.JObject _$this) implements jni$_.JObject {
       final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
       final $a = $i.args;
       if ($d == r'getSign()Ljava/lang/String;') {
-        final $r = _$impls[$p]!.sign();
+        final $r = _$impls[$p]!.getSign();
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
                 .reference
@@ -461,7 +461,7 @@ extension type MeasureUnit._(jni$_.JObject _$this) implements jni$_.JObject {
             jni$_.nullptr;
       }
       if ($d == r'getCoefficient()F') {
-        final $r = _$impls[$p]!.coefficient();
+        final $r = _$impls[$p]!.getCoefficient();
         return jni$_.JFloat($r).reference.toPointer();
       }
     } catch (e) {
@@ -505,12 +505,12 @@ extension type MeasureUnit._(jni$_.JObject _$this) implements jni$_.JObject {
 }
 
 extension MeasureUnit$$Methods on MeasureUnit {
-  static final _id_get$sign = MeasureUnit._class.instanceMethodId(
+  static final _id_getSign = MeasureUnit._class.instanceMethodId(
     r'getSign',
     r'()Ljava/lang/String;',
   );
 
-  static final _get$sign = jni$_.ProtectedJniExtensions.lookup<
+  static final _getSign = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -524,17 +524,17 @@ extension MeasureUnit$$Methods on MeasureUnit {
 
   /// from: `public abstract java.lang.String getSign()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JString get sign {
-    return _get$sign(reference.pointer, _id_get$sign.pointer)
+  jni$_.JString getSign() {
+    return _getSign(reference.pointer, _id_getSign.pointer)
         .object<jni$_.JString>();
   }
 
-  static final _id_get$coefficient = MeasureUnit._class.instanceMethodId(
+  static final _id_getCoefficient = MeasureUnit._class.instanceMethodId(
     r'getCoefficient',
     r'()F',
   );
 
-  static final _get$coefficient = jni$_.ProtectedJniExtensions.lookup<
+  static final _getCoefficient = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -547,38 +547,37 @@ extension MeasureUnit$$Methods on MeasureUnit {
           )>();
 
   /// from: `public abstract float getCoefficient()`
-  double get coefficient {
-    return _get$coefficient(reference.pointer, _id_get$coefficient.pointer)
-        .float;
+  double getCoefficient() {
+    return _getCoefficient(reference.pointer, _id_getCoefficient.pointer).float;
   }
 }
 
 abstract base mixin class $MeasureUnit {
   factory $MeasureUnit({
-    required jni$_.JString Function() sign,
-    required double Function() coefficient,
+    required jni$_.JString Function() getSign,
+    required double Function() getCoefficient,
   }) = _$MeasureUnit;
 
-  jni$_.JString sign();
-  double coefficient();
+  jni$_.JString getSign();
+  double getCoefficient();
 }
 
 final class _$MeasureUnit with $MeasureUnit {
   _$MeasureUnit({
-    required jni$_.JString Function() sign,
-    required double Function() coefficient,
-  })  : _sign = sign,
-        _coefficient = coefficient;
+    required jni$_.JString Function() getSign,
+    required double Function() getCoefficient,
+  })  : _getSign = getSign,
+        _getCoefficient = getCoefficient;
 
-  final jni$_.JString Function() _sign;
-  final double Function() _coefficient;
+  final jni$_.JString Function() _getSign;
+  final double Function() _getCoefficient;
 
-  jni$_.JString sign() {
-    return _sign();
+  jni$_.JString getSign() {
+    return _getSign();
   }
 
-  double coefficient() {
-    return _coefficient();
+  double getCoefficient() {
+    return _getCoefficient();
   }
 }
 
