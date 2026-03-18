@@ -801,12 +801,12 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
         .object<$U?>();
   }
 
-  static final _id_set$nullableU$1 = Nullability._class.instanceMethodId(
+  static final _id_set$nullableU = Nullability._class.instanceMethodId(
     r'setNullableU',
     r'(Ljava/lang/Object;)V',
   );
 
-  static final _set$nullableU$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$nullableU = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -818,10 +818,10 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public final void setNullableU(U object)`
-  set nullableU$1($U? object) {
+  set nullableU($U? object) {
     final _$object = object?.reference ?? jni$_.jNullReference;
-    _set$nullableU$1(
-            reference.pointer, _id_set$nullableU$1.pointer, _$object.pointer)
+    _set$nullableU(
+            reference.pointer, _id_set$nullableU.pointer, _$object.pointer)
         .check();
   }
 
@@ -1478,12 +1478,12 @@ extension Operators$$Methods on Operators {
     return _get$value(reference.pointer, _id_get$value.pointer).integer;
   }
 
-  static final _id_set$value$1 = Operators._class.instanceMethodId(
+  static final _id_set$value = Operators._class.instanceMethodId(
     r'setValue',
     r'(I)V',
   );
 
-  static final _set$value$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$value = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -1494,8 +1494,8 @@ extension Operators$$Methods on Operators {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
   /// from: `public final void setValue(int i)`
-  set value$1(int i) {
-    _set$value$1(reference.pointer, _id_set$value$1.pointer, i).check();
+  set value(int i) {
+    _set$value(reference.pointer, _id_set$value.pointer, i).check();
   }
 
   static final _id_plus = Operators._class.instanceMethodId(
@@ -2578,12 +2578,12 @@ extension SuspendFun$$Methods on SuspendFun {
     return _get$result(reference.pointer, _id_get$result.pointer).integer;
   }
 
-  static final _id_set$result$1 = SuspendFun._class.instanceMethodId(
+  static final _id_set$result = SuspendFun._class.instanceMethodId(
     r'setResult',
     r'(I)V',
   );
 
-  static final _set$result$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$result = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -2594,8 +2594,8 @@ extension SuspendFun$$Methods on SuspendFun {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
   /// from: `public final void setResult(int i)`
-  set result$1(int i) {
-    _set$result$1(reference.pointer, _id_set$result$1.pointer, i).check();
+  set result(int i) {
+    _set$result(reference.pointer, _id_set$result.pointer, i).check();
   }
 
   static final _id_noReturn = SuspendFun._class.instanceMethodId(
@@ -3419,12 +3419,12 @@ int get topLevelField {
       .integer;
 }
 
-final _id_set$topLevelField$1 = _TopLevelKtClass.staticMethodId(
+final _id_set$topLevelField = _TopLevelKtClass.staticMethodId(
   r'setTopLevelField',
   r'(I)V',
 );
 
-final _set$topLevelField$1 = jni$_.ProtectedJniExtensions.lookup<
+final _set$topLevelField = jni$_.ProtectedJniExtensions.lookup<
             jni$_.NativeFunction<
                 jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
                     jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
@@ -3434,9 +3434,9 @@ final _set$topLevelField$1 = jni$_.ProtectedJniExtensions.lookup<
             jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
 /// from: `static public final void setTopLevelField(int i)`
-set topLevelField$1(int i) {
-  _set$topLevelField$1(_TopLevelKtClass.reference.pointer,
-          _id_set$topLevelField$1.pointer, i)
+set topLevelField(int i) {
+  _set$topLevelField(
+          _TopLevelKtClass.reference.pointer, _id_set$topLevelField.pointer, i)
       .check();
 }
 
@@ -3492,12 +3492,12 @@ int topLevelSum(
 final _TopLevelKt$1Class =
     jni$_.JClass.forName(r'com/github/dart_lang/jnigen/subpackage/TopLevelKt');
 
-final _id_get$topLevelField$2 = _TopLevelKt$1Class.staticMethodId(
+final _id_get$topLevelField$1 = _TopLevelKt$1Class.staticMethodId(
   r'getTopLevelField',
   r'()I',
 );
 
-final _get$topLevelField$2 = jni$_.ProtectedJniExtensions.lookup<
+final _get$topLevelField$1 = jni$_.ProtectedJniExtensions.lookup<
         jni$_.NativeFunction<
             jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
@@ -3510,18 +3510,18 @@ final _get$topLevelField$2 = jni$_.ProtectedJniExtensions.lookup<
         )>();
 
 /// from: `static public final int getTopLevelField()`
-int get topLevelField$2 {
-  return _get$topLevelField$2(
-          _TopLevelKt$1Class.reference.pointer, _id_get$topLevelField$2.pointer)
+int get topLevelField$1 {
+  return _get$topLevelField$1(
+          _TopLevelKt$1Class.reference.pointer, _id_get$topLevelField$1.pointer)
       .integer;
 }
 
-final _id_set$topLevelField$3 = _TopLevelKt$1Class.staticMethodId(
+final _id_set$topLevelField$1 = _TopLevelKt$1Class.staticMethodId(
   r'setTopLevelField',
   r'(I)V',
 );
 
-final _set$topLevelField$3 = jni$_.ProtectedJniExtensions.lookup<
+final _set$topLevelField$1 = jni$_.ProtectedJniExtensions.lookup<
             jni$_.NativeFunction<
                 jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
                     jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
@@ -3531,9 +3531,9 @@ final _set$topLevelField$3 = jni$_.ProtectedJniExtensions.lookup<
             jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
 /// from: `static public final void setTopLevelField(int i)`
-set topLevelField$3(int i) {
-  _set$topLevelField$3(_TopLevelKt$1Class.reference.pointer,
-          _id_set$topLevelField$3.pointer, i)
+set topLevelField$1(int i) {
+  _set$topLevelField$1(_TopLevelKt$1Class.reference.pointer,
+          _id_set$topLevelField$1.pointer, i)
       .check();
 }
 

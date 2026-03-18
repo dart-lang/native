@@ -1431,13 +1431,12 @@ extension PDDocument$$Methods on PDDocument {
         .object<pddocumentinformation$_.PDDocumentInformation?>();
   }
 
-  static final _id_set$documentInformation$1 =
-      PDDocument._class.instanceMethodId(
+  static final _id_set$documentInformation = PDDocument._class.instanceMethodId(
     r'setDocumentInformation',
     r'(Lorg/apache/pdfbox/pdmodel/PDDocumentInformation;)V',
   );
 
-  static final _set$documentInformation$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$documentInformation = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -1456,11 +1455,10 @@ extension PDDocument$$Methods on PDDocument {
   /// document level metadata, a metadata stream should be used instead, see
   /// PDDocumentCatalog\#setMetadata(org.apache.pdfbox.pdmodel.common.PDMetadata) PDDocumentCatalog\#setMetadata(PDMetadata).
   ///@param info The updated document information.
-  set documentInformation$1(
-      pddocumentinformation$_.PDDocumentInformation? info) {
+  set documentInformation(pddocumentinformation$_.PDDocumentInformation? info) {
     final _$info = info?.reference ?? jni$_.jNullReference;
-    _set$documentInformation$1(reference.pointer,
-            _id_set$documentInformation$1.pointer, _$info.pointer)
+    _set$documentInformation(reference.pointer,
+            _id_set$documentInformation.pointer, _$info.pointer)
         .check();
   }
 
@@ -2216,12 +2214,12 @@ extension PDDocument$$Methods on PDDocument {
         .object<jni$_.JLong?>();
   }
 
-  static final _id_set$documentId$1 = PDDocument._class.instanceMethodId(
+  static final _id_set$documentId = PDDocument._class.instanceMethodId(
     r'setDocumentId',
     r'(Ljava/lang/Long;)V',
   );
 
-  static final _set$documentId$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$documentId = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -2236,10 +2234,10 @@ extension PDDocument$$Methods on PDDocument {
   ///
   /// Sets the document ID to the given value.
   ///@param docId the new document ID
-  set documentId$1(jni$_.JLong? docId) {
+  set documentId(jni$_.JLong? docId) {
     final _$docId = docId?.reference ?? jni$_.jNullReference;
-    _set$documentId$1(
-            reference.pointer, _id_set$documentId$1.pointer, _$docId.pointer)
+    _set$documentId(
+            reference.pointer, _id_set$documentId.pointer, _$docId.pointer)
         .check();
   }
 
@@ -2268,12 +2266,12 @@ extension PDDocument$$Methods on PDDocument {
     return _get$version(reference.pointer, _id_get$version.pointer).float;
   }
 
-  static final _id_set$version$1 = PDDocument._class.instanceMethodId(
+  static final _id_set$version = PDDocument._class.instanceMethodId(
     r'setVersion',
     r'(F)V',
   );
 
-  static final _set$version$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$version = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -2287,8 +2285,8 @@ extension PDDocument$$Methods on PDDocument {
   ///
   /// Sets the PDF specification version for this document.
   ///@param newVersion the new PDF version (e.g. 1.4f)
-  set version$1(double newVersion) {
-    _set$version$1(reference.pointer, _id_set$version$1.pointer, newVersion)
+  set version(double newVersion) {
+    _set$version(reference.pointer, _id_set$version.pointer, newVersion)
         .check();
   }
 
@@ -2319,12 +2317,12 @@ extension PDDocument$$Methods on PDDocument {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_set$resourceCache$1 = PDDocument._class.instanceMethodId(
+  static final _id_set$resourceCache = PDDocument._class.instanceMethodId(
     r'setResourceCache',
     r'(Lorg/apache/pdfbox/pdmodel/ResourceCache;)V',
   );
 
-  static final _set$resourceCache$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$resourceCache = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -2339,9 +2337,9 @@ extension PDDocument$$Methods on PDDocument {
   ///
   /// Sets the resource cache associated with this document.
   ///@param resourceCache A resource cache, or null.
-  set resourceCache$1(jni$_.JObject? resourceCache) {
+  set resourceCache(jni$_.JObject? resourceCache) {
     final _$resourceCache = resourceCache?.reference ?? jni$_.jNullReference;
-    _set$resourceCache$1(reference.pointer, _id_set$resourceCache$1.pointer,
+    _set$resourceCache(reference.pointer, _id_set$resourceCache.pointer,
             _$resourceCache.pointer)
         .check();
   }

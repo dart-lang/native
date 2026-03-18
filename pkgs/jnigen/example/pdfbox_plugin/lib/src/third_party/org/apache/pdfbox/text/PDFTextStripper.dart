@@ -232,12 +232,12 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
     return _get$startPage(reference.pointer, _id_get$startPage.pointer).integer;
   }
 
-  static final _id_set$startPage$1 = PDFTextStripper._class.instanceMethodId(
+  static final _id_set$startPage = PDFTextStripper._class.instanceMethodId(
     r'setStartPage',
     r'(I)V',
   );
 
-  static final _set$startPage$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$startPage = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -251,9 +251,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   ///
   /// This will set the first page to be extracted by this class.
   ///@param startPageValue New value of 1-based startPage property.
-  set startPage$1(int startPageValue) {
-    _set$startPage$1(
-            reference.pointer, _id_set$startPage$1.pointer, startPageValue)
+  set startPage(int startPageValue) {
+    _set$startPage(reference.pointer, _id_set$startPage.pointer, startPageValue)
         .check();
   }
 
@@ -284,12 +283,12 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
     return _get$endPage(reference.pointer, _id_get$endPage.pointer).integer;
   }
 
-  static final _id_set$endPage$1 = PDFTextStripper._class.instanceMethodId(
+  static final _id_set$endPage = PDFTextStripper._class.instanceMethodId(
     r'setEndPage',
     r'(I)V',
   );
 
-  static final _set$endPage$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$endPage = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -303,8 +302,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   ///
   /// This will set the last page to be extracted by this class.
   ///@param endPageValue New value of 1-based endPage property.
-  set endPage$1(int endPageValue) {
-    _set$endPage$1(reference.pointer, _id_set$endPage$1.pointer, endPageValue)
+  set endPage(int endPageValue) {
+    _set$endPage(reference.pointer, _id_set$endPage.pointer, endPageValue)
         .check();
   }
 
@@ -336,13 +335,12 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
         .check();
   }
 
-  static final _id_get$lineSeparator$1 =
-      PDFTextStripper._class.instanceMethodId(
+  static final _id_get$lineSeparator = PDFTextStripper._class.instanceMethodId(
     r'getLineSeparator',
     r'()Ljava/lang/String;',
   );
 
-  static final _get$lineSeparator$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$lineSeparator = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -359,9 +357,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   ///
   /// This will get the line separator.
   ///@return The desired line separator string.
-  jni$_.JString? get lineSeparator$1 {
-    return _get$lineSeparator$1(
-            reference.pointer, _id_get$lineSeparator$1.pointer)
+  jni$_.JString? get lineSeparator {
+    return _get$lineSeparator(reference.pointer, _id_get$lineSeparator.pointer)
         .object<jni$_.JString?>();
   }
 
@@ -392,13 +389,12 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
         .object<jni$_.JString?>();
   }
 
-  static final _id_set$wordSeparator$1 =
-      PDFTextStripper._class.instanceMethodId(
+  static final _id_set$wordSeparator = PDFTextStripper._class.instanceMethodId(
     r'setWordSeparator',
     r'(Ljava/lang/String;)V',
   );
 
-  static final _set$wordSeparator$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$wordSeparator = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -416,9 +412,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// accurate count of characters that are found in a PDF document then you might want to set the word separator to
   /// the empty string.
   ///@param separator The desired page separator string.
-  set wordSeparator$1(jni$_.JString? separator) {
+  set wordSeparator(jni$_.JString? separator) {
     final _$separator = separator?.reference ?? jni$_.jNullReference;
-    _set$wordSeparator$1(reference.pointer, _id_set$wordSeparator$1.pointer,
+    _set$wordSeparator(reference.pointer, _id_set$wordSeparator.pointer,
             _$separator.pointer)
         .check();
   }
@@ -451,13 +447,13 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
         .boolean;
   }
 
-  static final _id_set$suppressDuplicateOverlappingText$1 =
+  static final _id_set$suppressDuplicateOverlappingText =
       PDFTextStripper._class.instanceMethodId(
     r'setSuppressDuplicateOverlappingText',
     r'(Z)V',
   );
 
-  static final _set$suppressDuplicateOverlappingText$1 =
+  static final _set$suppressDuplicateOverlappingText =
       jni$_.ProtectedJniExtensions.lookup<
                   jni$_.NativeFunction<
                       jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
@@ -473,11 +469,11 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// character several times in order to make it look bold. By setting this to false all text will be extracted, which
   /// means that certain sections will be duplicated, but better performance will be noticed.
   ///@param suppressDuplicateOverlappingTextValue The suppressDuplicateOverlappingText to set.
-  set suppressDuplicateOverlappingText$1(
+  set suppressDuplicateOverlappingText(
       core$_.bool suppressDuplicateOverlappingTextValue) {
-    _set$suppressDuplicateOverlappingText$1(
+    _set$suppressDuplicateOverlappingText(
             reference.pointer,
-            _id_set$suppressDuplicateOverlappingText$1.pointer,
+            _id_set$suppressDuplicateOverlappingText.pointer,
             suppressDuplicateOverlappingTextValue ? 1 : 0)
         .check();
   }
@@ -565,12 +561,12 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_set$endBookmark$1 = PDFTextStripper._class.instanceMethodId(
+  static final _id_set$endBookmark = PDFTextStripper._class.instanceMethodId(
     r'setEndBookmark',
     r'(Lorg/apache/pdfbox/pdmodel/interactive/documentnavigation/outline/PDOutlineItem;)V',
   );
 
-  static final _set$endBookmark$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$endBookmark = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -585,9 +581,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   ///
   /// Set the bookmark where the text extraction should stop.
   ///@param aEndBookmark The ending bookmark.
-  set endBookmark$1(jni$_.JObject? aEndBookmark) {
+  set endBookmark(jni$_.JObject? aEndBookmark) {
     final _$aEndBookmark = aEndBookmark?.reference ?? jni$_.jNullReference;
-    _set$endBookmark$1(reference.pointer, _id_set$endBookmark$1.pointer,
+    _set$endBookmark(reference.pointer, _id_set$endBookmark.pointer,
             _$aEndBookmark.pointer)
         .check();
   }
@@ -619,13 +615,12 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_set$startBookmark$1 =
-      PDFTextStripper._class.instanceMethodId(
+  static final _id_set$startBookmark = PDFTextStripper._class.instanceMethodId(
     r'setStartBookmark',
     r'(Lorg/apache/pdfbox/pdmodel/interactive/documentnavigation/outline/PDOutlineItem;)V',
   );
 
-  static final _set$startBookmark$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$startBookmark = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -640,9 +635,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   ///
   /// Set the bookmark where text extraction should start, inclusive.
   ///@param aStartBookmark The starting bookmark.
-  set startBookmark$1(jni$_.JObject? aStartBookmark) {
+  set startBookmark(jni$_.JObject? aStartBookmark) {
     final _$aStartBookmark = aStartBookmark?.reference ?? jni$_.jNullReference;
-    _set$startBookmark$1(reference.pointer, _id_set$startBookmark$1.pointer,
+    _set$startBookmark(reference.pointer, _id_set$startBookmark.pointer,
             _$aStartBookmark.pointer)
         .check();
   }
@@ -675,13 +670,13 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
         .boolean;
   }
 
-  static final _id_set$addMoreFormatting$1 =
+  static final _id_set$addMoreFormatting =
       PDFTextStripper._class.instanceMethodId(
     r'setAddMoreFormatting',
     r'(Z)V',
   );
 
-  static final _set$addMoreFormatting$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$addMoreFormatting = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -695,9 +690,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   ///
   /// There will some additional text formatting be added if addMoreFormatting is set to true. Default is false.
   ///@param newAddMoreFormatting Tell PDFBox to add some more text formatting
-  set addMoreFormatting$1(core$_.bool newAddMoreFormatting) {
-    _set$addMoreFormatting$1(reference.pointer,
-            _id_set$addMoreFormatting$1.pointer, newAddMoreFormatting ? 1 : 0)
+  set addMoreFormatting(core$_.bool newAddMoreFormatting) {
+    _set$addMoreFormatting(reference.pointer, _id_set$addMoreFormatting.pointer,
+            newAddMoreFormatting ? 1 : 0)
         .check();
   }
 
@@ -728,13 +723,12 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
         .boolean;
   }
 
-  static final _id_set$sortByPosition$1 =
-      PDFTextStripper._class.instanceMethodId(
+  static final _id_set$sortByPosition = PDFTextStripper._class.instanceMethodId(
     r'setSortByPosition',
     r'(Z)V',
   );
 
-  static final _set$sortByPosition$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$sortByPosition = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -754,8 +748,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// A PDF writer could choose to write each character in a different order. By default PDFBox does __not__ sort
   /// the text tokens before processing them due to performance reasons.
   ///@param newSortByPosition Tell PDFBox to sort the text positions.
-  set sortByPosition$1(core$_.bool newSortByPosition) {
-    _set$sortByPosition$1(reference.pointer, _id_set$sortByPosition$1.pointer,
+  set sortByPosition(core$_.bool newSortByPosition) {
+    _set$sortByPosition(reference.pointer, _id_set$sortByPosition.pointer,
             newSortByPosition ? 1 : 0)
         .check();
   }
@@ -789,13 +783,13 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
         .float;
   }
 
-  static final _id_set$spacingTolerance$1 =
+  static final _id_set$spacingTolerance =
       PDFTextStripper._class.instanceMethodId(
     r'setSpacingTolerance',
     r'(F)V',
   );
 
-  static final _set$spacingTolerance$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$spacingTolerance = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -811,9 +805,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// that the default value for this has been determined from trial and error. Setting this value larger will reduce
   /// the number of spaces added.
   ///@param spacingToleranceValue tolerance / scaling factor to use
-  set spacingTolerance$1(double spacingToleranceValue) {
-    _set$spacingTolerance$1(reference.pointer,
-            _id_set$spacingTolerance$1.pointer, spacingToleranceValue)
+  set spacingTolerance(double spacingToleranceValue) {
+    _set$spacingTolerance(reference.pointer, _id_set$spacingTolerance.pointer,
+            spacingToleranceValue)
         .check();
   }
 
@@ -846,21 +840,21 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
         .float;
   }
 
-  static final _id_set$averageCharTolerance$1 =
+  static final _id_set$averageCharTolerance =
       PDFTextStripper._class.instanceMethodId(
     r'setAverageCharTolerance',
     r'(F)V',
   );
 
-  static final _set$averageCharTolerance$1 =
-      jni$_.ProtectedJniExtensions.lookup<
-                  jni$_.NativeFunction<
-                      jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-                          jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Double,)>)>>(
-              'globalEnv_CallVoidMethod')
-          .asFunction<
+  static final _set$averageCharTolerance = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Double,)>)>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
 
   /// from: `public void setAverageCharTolerance(float averageCharToleranceValue)`
   ///
@@ -868,9 +862,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// that the default value for this has been determined from trial and error. Setting this value larger will reduce
   /// the number of spaces added.
   ///@param averageCharToleranceValue average tolerance / scaling factor to use
-  set averageCharTolerance$1(double averageCharToleranceValue) {
-    _set$averageCharTolerance$1(reference.pointer,
-            _id_set$averageCharTolerance$1.pointer, averageCharToleranceValue)
+  set averageCharTolerance(double averageCharToleranceValue) {
+    _set$averageCharTolerance(reference.pointer,
+            _id_set$averageCharTolerance.pointer, averageCharToleranceValue)
         .check();
   }
 
@@ -903,13 +897,13 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
         .float;
   }
 
-  static final _id_set$indentThreshold$1 =
+  static final _id_set$indentThreshold =
       PDFTextStripper._class.instanceMethodId(
     r'setIndentThreshold',
     r'(F)V',
   );
 
-  static final _set$indentThreshold$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$indentThreshold = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -925,8 +919,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// indented from the previous line start beyond which the current line start is considered to be a paragraph start.
   /// The default value is 2.0.
   ///@param indentThresholdValue the number of whitespace character widths to use when detecting paragraph indents.
-  set indentThreshold$1(double indentThresholdValue) {
-    _set$indentThreshold$1(reference.pointer, _id_set$indentThreshold$1.pointer,
+  set indentThreshold(double indentThresholdValue) {
+    _set$indentThreshold(reference.pointer, _id_set$indentThreshold.pointer,
             indentThresholdValue)
         .check();
   }
@@ -958,13 +952,12 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
         .float;
   }
 
-  static final _id_set$dropThreshold$1 =
-      PDFTextStripper._class.instanceMethodId(
+  static final _id_set$dropThreshold = PDFTextStripper._class.instanceMethodId(
     r'setDropThreshold',
     r'(F)V',
   );
 
-  static final _set$dropThreshold$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$dropThreshold = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -980,8 +973,8 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// line start is considered to be a paragraph start. The default value is 2.5.
   ///@param dropThresholdValue the character height multiple for max allowed whitespace between lines in the same
   /// paragraph.
-  set dropThreshold$1(double dropThresholdValue) {
-    _set$dropThreshold$1(reference.pointer, _id_set$dropThreshold$1.pointer,
+  set dropThreshold(double dropThresholdValue) {
+    _set$dropThreshold(reference.pointer, _id_set$dropThreshold.pointer,
             dropThresholdValue)
         .check();
   }
@@ -1014,13 +1007,12 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
         .object<jni$_.JString?>();
   }
 
-  static final _id_set$paragraphStart$1 =
-      PDFTextStripper._class.instanceMethodId(
+  static final _id_set$paragraphStart = PDFTextStripper._class.instanceMethodId(
     r'setParagraphStart',
     r'(Ljava/lang/String;)V',
   );
 
-  static final _set$paragraphStart$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$paragraphStart = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -1035,10 +1027,10 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   ///
   /// Sets the string which will be used at the beginning of a paragraph.
   ///@param s the paragraph start string
-  set paragraphStart$1(jni$_.JString? s) {
+  set paragraphStart(jni$_.JString? s) {
     final _$s = s?.reference ?? jni$_.jNullReference;
-    _set$paragraphStart$1(
-            reference.pointer, _id_set$paragraphStart$1.pointer, _$s.pointer)
+    _set$paragraphStart(
+            reference.pointer, _id_set$paragraphStart.pointer, _$s.pointer)
         .check();
   }
 
@@ -1069,12 +1061,12 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
         .object<jni$_.JString?>();
   }
 
-  static final _id_set$paragraphEnd$1 = PDFTextStripper._class.instanceMethodId(
+  static final _id_set$paragraphEnd = PDFTextStripper._class.instanceMethodId(
     r'setParagraphEnd',
     r'(Ljava/lang/String;)V',
   );
 
-  static final _set$paragraphEnd$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$paragraphEnd = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -1089,10 +1081,10 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   ///
   /// Sets the string which will be used at the end of a paragraph.
   ///@param s the paragraph end string
-  set paragraphEnd$1(jni$_.JString? s) {
+  set paragraphEnd(jni$_.JString? s) {
     final _$s = s?.reference ?? jni$_.jNullReference;
-    _set$paragraphEnd$1(
-            reference.pointer, _id_set$paragraphEnd$1.pointer, _$s.pointer)
+    _set$paragraphEnd(
+            reference.pointer, _id_set$paragraphEnd.pointer, _$s.pointer)
         .check();
   }
 
@@ -1123,12 +1115,12 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
         .object<jni$_.JString?>();
   }
 
-  static final _id_set$pageStart$1 = PDFTextStripper._class.instanceMethodId(
+  static final _id_set$pageStart = PDFTextStripper._class.instanceMethodId(
     r'setPageStart',
     r'(Ljava/lang/String;)V',
   );
 
-  static final _set$pageStart$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$pageStart = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -1143,9 +1135,9 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   ///
   /// Sets the string which will be used at the beginning of a page.
   ///@param pageStartValue the page start string
-  set pageStart$1(jni$_.JString? pageStartValue) {
+  set pageStart(jni$_.JString? pageStartValue) {
     final _$pageStartValue = pageStartValue?.reference ?? jni$_.jNullReference;
-    _set$pageStart$1(reference.pointer, _id_set$pageStart$1.pointer,
+    _set$pageStart(reference.pointer, _id_set$pageStart.pointer,
             _$pageStartValue.pointer)
         .check();
   }
@@ -1177,12 +1169,12 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
         .object<jni$_.JString?>();
   }
 
-  static final _id_set$pageEnd$1 = PDFTextStripper._class.instanceMethodId(
+  static final _id_set$pageEnd = PDFTextStripper._class.instanceMethodId(
     r'setPageEnd',
     r'(Ljava/lang/String;)V',
   );
 
-  static final _set$pageEnd$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$pageEnd = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -1197,10 +1189,10 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   ///
   /// Sets the string which will be used at the end of a page.
   ///@param pageEndValue the page end string
-  set pageEnd$1(jni$_.JString? pageEndValue) {
+  set pageEnd(jni$_.JString? pageEndValue) {
     final _$pageEndValue = pageEndValue?.reference ?? jni$_.jNullReference;
-    _set$pageEnd$1(reference.pointer, _id_set$pageEnd$1.pointer,
-            _$pageEndValue.pointer)
+    _set$pageEnd(
+            reference.pointer, _id_set$pageEnd.pointer, _$pageEndValue.pointer)
         .check();
   }
 
@@ -1231,12 +1223,12 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
         .object<jni$_.JString?>();
   }
 
-  static final _id_set$articleStart$1 = PDFTextStripper._class.instanceMethodId(
+  static final _id_set$articleStart = PDFTextStripper._class.instanceMethodId(
     r'setArticleStart',
     r'(Ljava/lang/String;)V',
   );
 
-  static final _set$articleStart$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$articleStart = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -1251,10 +1243,10 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   ///
   /// Sets the string which will be used at the beginning of an article.
   ///@param articleStartValue the article start string
-  set articleStart$1(jni$_.JString? articleStartValue) {
+  set articleStart(jni$_.JString? articleStartValue) {
     final _$articleStartValue =
         articleStartValue?.reference ?? jni$_.jNullReference;
-    _set$articleStart$1(reference.pointer, _id_set$articleStart$1.pointer,
+    _set$articleStart(reference.pointer, _id_set$articleStart.pointer,
             _$articleStartValue.pointer)
         .check();
   }
@@ -1286,12 +1278,12 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
         .object<jni$_.JString?>();
   }
 
-  static final _id_set$articleEnd$1 = PDFTextStripper._class.instanceMethodId(
+  static final _id_set$articleEnd = PDFTextStripper._class.instanceMethodId(
     r'setArticleEnd',
     r'(Ljava/lang/String;)V',
   );
 
-  static final _set$articleEnd$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$articleEnd = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -1306,10 +1298,10 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   ///
   /// Sets the string which will be used at the end of an article.
   ///@param articleEndValue the article end string
-  set articleEnd$1(jni$_.JString? articleEndValue) {
+  set articleEnd(jni$_.JString? articleEndValue) {
     final _$articleEndValue =
         articleEndValue?.reference ?? jni$_.jNullReference;
-    _set$articleEnd$1(reference.pointer, _id_set$articleEnd$1.pointer,
+    _set$articleEnd(reference.pointer, _id_set$articleEnd.pointer,
             _$articleEndValue.pointer)
         .check();
   }
