@@ -684,6 +684,7 @@ class Method with ClassMember, Annotated implements Element<Method> {
     this.descriptor,
     this.typeParams = const [],
     this.params = const [],
+    this.asyncReturnType,
     required this.returnType,
   });
 

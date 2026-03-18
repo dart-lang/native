@@ -774,12 +774,12 @@ extension JsonParser$$Methods on JsonParser {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_set$codec = JsonParser._class.instanceMethodId(
+  static final _id_set$codec$1 = JsonParser._class.instanceMethodId(
     r'setCodec',
     r'(Lcom/fasterxml/jackson/core/ObjectCodec;)V',
   );
 
-  static final _set$codec = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$codec$1 = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -796,9 +796,10 @@ extension JsonParser$$Methods on JsonParser {
   /// parser, if any. Codec is used by \#readValueAs(Class)
   /// method (and its variants).
   ///@param oc Codec to assign, if any; {@code null} if none
-  set codec(jni$_.JObject? oc) {
+  set codec$1(jni$_.JObject? oc) {
     final _$oc = oc?.reference ?? jni$_.jNullReference;
-    _set$codec(reference.pointer, _id_set$codec.pointer, _$oc.pointer).check();
+    _set$codec$1(reference.pointer, _id_set$codec$1.pointer, _$oc.pointer)
+        .check();
   }
 
   static final _id_get$inputSource = JsonParser._class.instanceMethodId(
@@ -976,12 +977,12 @@ extension JsonParser$$Methods on JsonParser {
         .check();
   }
 
-  static final _id_get$schema = JsonParser._class.instanceMethodId(
+  static final _id_get$schema$1 = JsonParser._class.instanceMethodId(
     r'getSchema',
     r'()Lcom/fasterxml/jackson/core/FormatSchema;',
   );
 
-  static final _get$schema = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$schema$1 = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -1000,8 +1001,8 @@ extension JsonParser$$Methods on JsonParser {
   /// Default implementation returns null.
   ///@return Schema in use by this parser, if any; {@code null} if none
   ///@since 2.1
-  jni$_.JObject? get schema {
-    return _get$schema(reference.pointer, _id_get$schema.pointer)
+  jni$_.JObject? get schema$1 {
+    return _get$schema$1(reference.pointer, _id_get$schema$1.pointer)
         .object<jni$_.JObject?>();
   }
 
@@ -1527,12 +1528,12 @@ extension JsonParser$$Methods on JsonParser {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_set$currentValue$1 = JsonParser._class.instanceMethodId(
+  static final _id_set$currentValue$2 = JsonParser._class.instanceMethodId(
     r'setCurrentValue',
     r'(Ljava/lang/Object;)V',
   );
 
-  static final _set$currentValue$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$currentValue$2 = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -1548,10 +1549,10 @@ extension JsonParser$$Methods on JsonParser {
   /// Alias for \#assignCurrentValue, to be deprecated in later
   /// Jackson 2.x versions (and removed from Jackson 3.0).
   ///@param v Current value to assign for the current input context of this parser
-  set currentValue$1(jni$_.JObject? v) {
+  set currentValue$2(jni$_.JObject? v) {
     final _$v = v?.reference ?? jni$_.jNullReference;
-    _set$currentValue$1(
-            reference.pointer, _id_set$currentValue$1.pointer, _$v.pointer)
+    _set$currentValue$2(
+            reference.pointer, _id_set$currentValue$2.pointer, _$v.pointer)
         .check();
   }
 

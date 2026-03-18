@@ -216,12 +216,12 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
         .object<jni$_.JString?>();
   }
 
-  static final _id_set$title = PDDocumentInformation._class.instanceMethodId(
+  static final _id_set$title$1 = PDDocumentInformation._class.instanceMethodId(
     r'setTitle',
     r'(Ljava/lang/String;)V',
   );
 
-  static final _set$title = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$title$1 = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -236,9 +236,9 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///
   /// This will set the title of the document.
   ///@param title The new title for the document.
-  set title(jni$_.JString? title) {
+  set title$1(jni$_.JString? title) {
     final _$title = title?.reference ?? jni$_.jNullReference;
-    _set$title(reference.pointer, _id_set$title.pointer, _$title.pointer)
+    _set$title$1(reference.pointer, _id_set$title$1.pointer, _$title.pointer)
         .check();
   }
 
@@ -269,12 +269,12 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
         .object<jni$_.JString?>();
   }
 
-  static final _id_set$author = PDDocumentInformation._class.instanceMethodId(
+  static final _id_set$author$1 = PDDocumentInformation._class.instanceMethodId(
     r'setAuthor',
     r'(Ljava/lang/String;)V',
   );
 
-  static final _set$author = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$author$1 = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -289,9 +289,9 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///
   /// This will set the author of the document.
   ///@param author The new author for the document.
-  set author(jni$_.JString? author) {
+  set author$1(jni$_.JString? author) {
     final _$author = author?.reference ?? jni$_.jNullReference;
-    _set$author(reference.pointer, _id_set$author.pointer, _$author.pointer)
+    _set$author$1(reference.pointer, _id_set$author$1.pointer, _$author.pointer)
         .check();
   }
 
@@ -322,12 +322,13 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
         .object<jni$_.JString?>();
   }
 
-  static final _id_set$subject = PDDocumentInformation._class.instanceMethodId(
+  static final _id_set$subject$1 =
+      PDDocumentInformation._class.instanceMethodId(
     r'setSubject',
     r'(Ljava/lang/String;)V',
   );
 
-  static final _set$subject = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$subject$1 = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -342,9 +343,10 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///
   /// This will set the subject of the document.
   ///@param subject The new subject for the document.
-  set subject(jni$_.JString? subject) {
+  set subject$1(jni$_.JString? subject) {
     final _$subject = subject?.reference ?? jni$_.jNullReference;
-    _set$subject(reference.pointer, _id_set$subject.pointer, _$subject.pointer)
+    _set$subject$1(
+            reference.pointer, _id_set$subject$1.pointer, _$subject.pointer)
         .check();
   }
 
@@ -375,12 +377,13 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
         .object<jni$_.JString?>();
   }
 
-  static final _id_set$keywords = PDDocumentInformation._class.instanceMethodId(
+  static final _id_set$keywords$1 =
+      PDDocumentInformation._class.instanceMethodId(
     r'setKeywords',
     r'(Ljava/lang/String;)V',
   );
 
-  static final _set$keywords = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$keywords$1 = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -395,10 +398,10 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///
   /// This will set the keywords of the document.
   ///@param keywords The new keywords for the document.
-  set keywords(jni$_.JString? keywords) {
+  set keywords$1(jni$_.JString? keywords) {
     final _$keywords = keywords?.reference ?? jni$_.jNullReference;
-    _set$keywords(
-            reference.pointer, _id_set$keywords.pointer, _$keywords.pointer)
+    _set$keywords$1(
+            reference.pointer, _id_set$keywords$1.pointer, _$keywords.pointer)
         .check();
   }
 
@@ -429,12 +432,13 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
         .object<jni$_.JString?>();
   }
 
-  static final _id_set$creator = PDDocumentInformation._class.instanceMethodId(
+  static final _id_set$creator$1 =
+      PDDocumentInformation._class.instanceMethodId(
     r'setCreator',
     r'(Ljava/lang/String;)V',
   );
 
-  static final _set$creator = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$creator$1 = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -449,9 +453,10 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///
   /// This will set the creator of the document.
   ///@param creator The new creator for the document.
-  set creator(jni$_.JString? creator) {
+  set creator$1(jni$_.JString? creator) {
     final _$creator = creator?.reference ?? jni$_.jNullReference;
-    _set$creator(reference.pointer, _id_set$creator.pointer, _$creator.pointer)
+    _set$creator$1(
+            reference.pointer, _id_set$creator$1.pointer, _$creator.pointer)
         .check();
   }
 
@@ -482,12 +487,13 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
         .object<jni$_.JString?>();
   }
 
-  static final _id_set$producer = PDDocumentInformation._class.instanceMethodId(
+  static final _id_set$producer$1 =
+      PDDocumentInformation._class.instanceMethodId(
     r'setProducer',
     r'(Ljava/lang/String;)V',
   );
 
-  static final _set$producer = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$producer$1 = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -502,10 +508,10 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///
   /// This will set the producer of the document.
   ///@param producer The new producer for the document.
-  set producer(jni$_.JString? producer) {
+  set producer$1(jni$_.JString? producer) {
     final _$producer = producer?.reference ?? jni$_.jNullReference;
-    _set$producer(
-            reference.pointer, _id_set$producer.pointer, _$producer.pointer)
+    _set$producer$1(
+            reference.pointer, _id_set$producer$1.pointer, _$producer.pointer)
         .check();
   }
 
@@ -537,13 +543,13 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_set$creationDate =
+  static final _id_set$creationDate$1 =
       PDDocumentInformation._class.instanceMethodId(
     r'setCreationDate',
     r'(Ljava/util/Calendar;)V',
   );
 
-  static final _set$creationDate = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$creationDate$1 = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -558,10 +564,10 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///
   /// This will set the creation date of the document.
   ///@param date The new creation date for the document.
-  set creationDate(jni$_.JObject? date) {
+  set creationDate$1(jni$_.JObject? date) {
     final _$date = date?.reference ?? jni$_.jNullReference;
-    _set$creationDate(
-            reference.pointer, _id_set$creationDate.pointer, _$date.pointer)
+    _set$creationDate$1(
+            reference.pointer, _id_set$creationDate$1.pointer, _$date.pointer)
         .check();
   }
 
@@ -594,13 +600,13 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_set$modificationDate =
+  static final _id_set$modificationDate$1 =
       PDDocumentInformation._class.instanceMethodId(
     r'setModificationDate',
     r'(Ljava/util/Calendar;)V',
   );
 
-  static final _set$modificationDate = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$modificationDate$1 = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -615,10 +621,10 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   ///
   /// This will set the modification date of the document.
   ///@param date The new modification date for the document.
-  set modificationDate(jni$_.JObject? date) {
+  set modificationDate$1(jni$_.JObject? date) {
     final _$date = date?.reference ?? jni$_.jNullReference;
-    _set$modificationDate(
-            reference.pointer, _id_set$modificationDate.pointer, _$date.pointer)
+    _set$modificationDate$1(reference.pointer,
+            _id_set$modificationDate$1.pointer, _$date.pointer)
         .check();
   }
 
@@ -754,12 +760,13 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
         .check();
   }
 
-  static final _id_set$trapped = PDDocumentInformation._class.instanceMethodId(
+  static final _id_set$trapped$1 =
+      PDDocumentInformation._class.instanceMethodId(
     r'setTrapped',
     r'(Ljava/lang/String;)V',
   );
 
-  static final _set$trapped = jni$_.ProtectedJniExtensions.lookup<
+  static final _set$trapped$1 = jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JThrowablePtr Function(
                       jni$_.Pointer<jni$_.Void>,
@@ -776,9 +783,10 @@ extension PDDocumentInformation$$Methods on PDDocumentInformation {
   /// 'True', 'False', or 'Unknown'.
   ///@param value The new trapped value for the document.
   ///@throws IllegalArgumentException if the parameter is invalid.
-  set trapped(jni$_.JString? value) {
+  set trapped$1(jni$_.JString? value) {
     final _$value = value?.reference ?? jni$_.jNullReference;
-    _set$trapped(reference.pointer, _id_set$trapped.pointer, _$value.pointer)
+    _set$trapped$1(
+            reference.pointer, _id_set$trapped$1.pointer, _$value.pointer)
         .check();
   }
 }
