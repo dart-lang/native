@@ -403,7 +403,8 @@ class AbsoluteToolResolver implements ToolResolver {
       logger?.fine('Found $result.');
     } else {
       logger?.finer(
-        'Found no $toolName with the specified absolute path $otherToolInstances.',
+        'Found no $toolName with the specified absolute path '
+        '$otherToolInstances.',
       );
     }
     return result;
