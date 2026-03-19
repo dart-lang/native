@@ -667,8 +667,8 @@ mixin ClassMember {
   bool get isBridge => modifiers.contains('bridge');
 }
 
-enum MethodPropertyKind {
-  none,
+enum MethodKind {
+  normal,
   getter,
   setter,
 }
@@ -703,7 +703,7 @@ class Method with ClassMember, Annotated implements Element<Method> {
   ///
   /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
-  MethodPropertyKind propertyKind = MethodPropertyKind.none;
+  MethodKind propertyKind = MethodKind.normal;
 
   /// Populated by user-defined visitors.
   @JsonKey(includeFromJson: false)

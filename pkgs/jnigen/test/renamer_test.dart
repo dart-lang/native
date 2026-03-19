@@ -13,9 +13,9 @@ extension on Iterable<ClassMember> {
 
 extension on Iterable<Method> {
   List<String> get namesAndPropertyKinds => map((m) => switch (m.propertyKind) {
-        MethodPropertyKind.none => m.finalName,
-        MethodPropertyKind.getter => 'get ${m.finalName}',
-        MethodPropertyKind.setter => 'set ${m.finalName}',
+        MethodKind.normal => m.finalName,
+        MethodKind.getter => 'get ${m.finalName}',
+        MethodKind.setter => 'set ${m.finalName}',
       }).toList();
 }
 
