@@ -377,7 +377,7 @@ class RelativeToolResolver implements ToolResolver {
 class CliFilter implements ToolResolver {
   final ToolResolver wrappedResolver;
   final List<String> cliArguments;
-  final bool Function({required String stdout}) keepIf;
+  final bool Function({required String stdout, required String stderr}) keepIf;
 
   CliFilter({
     required this.wrappedResolver,
@@ -400,12 +400,12 @@ class CliFilter implements ToolResolver {
   }) async {
     if (toolInstance.version != null) return toolInstance;
     logger?.finer('Checking if $toolInstance satisfies CLI filter.');
-    final stdout = await executeCli(
+    final (:stdout, :stderr) = await executeCli(
       toolInstance.uri,
       arguments: cliArguments,
       logger: logger,
     );
-    final doKeep = keepIf(stdout: stdout);
+    final doKeep = keepIf(stdout: stdout, stderr: stderr);
     if (doKeep) {
       logger?.fine('$toolInstance satisfies CLI filter.');
       return toolInstance;
@@ -414,7 +414,7 @@ class CliFilter implements ToolResolver {
     return null;
   }
 
-  static Future<String> executeCli(
+  static Future<({String stdout, String stderr})> executeCli(
     Uri executable, {
     required List<String> arguments,
     int expectedExitCode = 0,
@@ -427,6 +427,6 @@ class CliFilter implements ToolResolver {
     );
     final exitCode = process.exitCode;
     assert(exitCode == expectedExitCode);
-    return process.stdout;
+    return (stdout: process.stdout, stderr: process.stderr);
   }
 }

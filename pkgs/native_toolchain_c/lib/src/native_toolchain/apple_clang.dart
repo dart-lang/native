@@ -15,7 +15,8 @@ final Tool appleClang = Tool(
   defaultResolver: CliVersionResolver(
     wrappedResolver: CliFilter(
       cliArguments: ['--version'],
-      keepIf: ({required String stdout}) => stdout.contains('Apple clang'),
+      keepIf: ({required String stdout, required String stderr}) =>
+          stdout.contains('Apple clang'),
       wrappedResolver: PathToolResolver(
         toolName: 'Apple Clang',
         executableName: 'clang',
@@ -55,7 +56,8 @@ final Tool appleLd = Tool(
         executableName: OS.current.executableFileName('ld'),
       ),
       cliArguments: ['-v'],
-      keepIf: ({required String stdout}) => stdout.contains('Apple TAPI'),
+      keepIf: ({required String stdout, required String stderr}) =>
+          stdout.contains('Apple TAPI') || stderr.contains('Apple TAPI'),
     ),
   ]),
 );
