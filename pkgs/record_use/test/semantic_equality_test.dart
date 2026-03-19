@@ -8,19 +8,22 @@ import 'package:test/test.dart';
 void main() {
   const definition1 = Definition(
     'package:a/a.dart',
-    [Name('definition1')],
+    [Name('definition1', kind: DefinitionKind.methodKind)],
   );
   const definition2 = Definition(
     'package:a/a.dart',
-    [Name('definition2')],
+    [Name('definition2', kind: DefinitionKind.methodKind)],
   );
   const definition1differentLibrary = Definition(
     'package:a/b.dart',
-    [Name('definition1')],
+    [Name('definition1', kind: DefinitionKind.methodKind)],
   );
   const definition3 = Definition(
     'package:a/a.dart',
-    [Name('SomeClass'), Name('definition1')],
+    [
+      Name('SomeClass', kind: DefinitionKind.classKind),
+      Name('definition1', kind: DefinitionKind.methodKind),
+    ],
   );
   const callDefintion1Static = CallWithArguments(
     positionalArguments: [],
@@ -42,7 +45,7 @@ void main() {
   );
   const definition1differentLibrary2 = Definition(
     'memory:a/a.dart',
-    [Name('definition1')],
+    [Name('definition1', kind: DefinitionKind.methodKind)],
   );
   const callDefintion1StaticDifferentUri = CallWithArguments(
     positionalArguments: [],

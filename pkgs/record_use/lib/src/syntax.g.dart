@@ -1381,7 +1381,7 @@ class NameSyntax extends JsonObjectSyntax {
 
   NameSyntax({
     List<String>? disambiguators,
-    String? kind,
+    required String kind,
     required String name,
     super.path = const [],
   }) : super() {
@@ -1401,13 +1401,13 @@ class NameSyntax extends JsonObjectSyntax {
   List<String> _validateDisambiguators() =>
       _reader.validateOptionalStringList('disambiguators');
 
-  String? get kind => _reader.get<String?>('kind');
+  String get kind => _reader.get<String>('kind');
 
-  set _kind(String? value) {
+  set _kind(String value) {
     json.setOrRemove('kind', value);
   }
 
-  List<String> _validateKind() => _reader.validate<String?>('kind');
+  List<String> _validateKind() => _reader.validate<String>('kind');
 
   String get name => _reader.get<String>('name');
 

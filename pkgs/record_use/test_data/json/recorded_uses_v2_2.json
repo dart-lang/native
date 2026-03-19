@@ -22,10 +22,12 @@
     {
       "path": [
         {
+          "kind": "class",
           "name": "MyClass"
         },
         {
-          "name": "get:loadDeferredLibrary"
+          "kind": "getter",
+          "name": "loadDeferredLibrary"
         }
       ],
       "uri": "package:js_runtime/js_helper.dart"

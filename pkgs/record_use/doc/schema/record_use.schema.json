@@ -667,6 +667,7 @@
         }
       },
       "required": [
+        "kind",
         "name"
       ]
     },

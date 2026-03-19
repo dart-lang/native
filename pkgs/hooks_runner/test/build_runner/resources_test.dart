@@ -165,7 +165,9 @@ void main() async {
       final newRecordings = Recordings(
         calls: {
           ..._pirateAdventureRecordings.calls,
-          const Definition('package:dummy/dummy.dart', [Name('dummy')]): [
+          const Definition('package:dummy/dummy.dart', [
+            Name('dummy', kind: DefinitionKind.methodKind),
+          ]): [
             const CallWithArguments(
               loadingUnit: loadingUnitRoot,
               positionalArguments: [],

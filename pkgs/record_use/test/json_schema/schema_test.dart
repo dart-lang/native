@@ -128,7 +128,7 @@ List<SchemaTestField> recordUseFields = [
   ),
   (
     ['definitions', 1, 'path', 0, 'kind'],
-    expectOptionalFieldMissing,
+    expectRequiredFieldMissing,
   ),
   (
     [
@@ -260,8 +260,9 @@ typedef AllTestData = Map<Uri, String>;
 AllTestData loadTestsData(Uri directory) {
   final allTestData = <Uri, String>{};
   for (final file in Directory.fromUri(directory).listSync()) {
-    file as File;
-    allTestData[file.uri] = file.readAsStringSync();
+    if (file is File && file.path.endsWith('.json')) {
+      allTestData[file.uri] = file.readAsStringSync();
+    }
   }
   return allTestData;
 }

@@ -45,15 +45,17 @@ void main() {
 
       expect(identical(list1, list2), isFalse);
 
-      final canonical1 = context.canonicalizeConstant(list1) as ListConstant;
-      final canonical2 = context.canonicalizeConstant(list2) as ListConstant;
+      final canonical1 = context.canonicalizeConstant(list1);
+      final canonical2 = context.canonicalizeConstant(list2);
 
       expect(identical(canonical1, canonical2), isTrue);
       expect(identical(canonical1.value[0], canonical2.value[0]), isTrue);
     });
 
     test('Recordings.toJson canonicalizes constants across calls', () {
-      const definition = Definition('package:a/a.dart', [Name('foo')]);
+      const definition = Definition('package:a/a.dart', [
+        Name('foo', kind: DefinitionKind.methodKind),
+      ]);
       const constant = IntConstant(42);
 
       final recordings = Recordings(
@@ -91,7 +93,9 @@ void main() {
     });
 
     test('Recordings.toJson deduplicates and sorts references', () {
-      const definition = Definition('package:a/a.dart', [Name('foo')]);
+      const definition = Definition('package:a/a.dart', [
+        Name('foo', kind: DefinitionKind.methodKind),
+      ]);
       const unit1 = LoadingUnit('1');
       const unit2 = LoadingUnit('2');
 

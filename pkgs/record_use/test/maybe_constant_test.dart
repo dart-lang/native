@@ -22,7 +22,7 @@ void main() {
         {
           'uri': 'package:a/a.dart',
           'path': [
-            {'name': 'foo'},
+            {'name': 'foo', 'kind': 'method'},
           ],
         },
       ],
@@ -44,7 +44,9 @@ void main() {
     };
 
     final recordings = Recordings.fromJson(json);
-    const definition = Definition('package:a/a.dart', [Name('foo')]);
+    const definition = Definition('package:a/a.dart', [
+      Name('foo', kind: .methodKind),
+    ]);
     final calls = recordings.calls[definition]!;
     final call = calls[0] as CallWithArguments;
 
@@ -66,7 +68,9 @@ void main() {
   });
 
   test('MaybeConstant serialization round-trip', () {
-    const definition = Definition('package:a/a.dart', [Name('foo')]);
+    const definition = Definition('package:a/a.dart', [
+      Name('foo', kind: .methodKind),
+    ]);
     final recordings = Recordings(
       calls: {
         definition: [
@@ -132,7 +136,9 @@ void main() {
   });
 
   test('allowPromotionOfUnsupported semantic equality', () {
-    const definition = Definition('package:a/a.dart', [Name('foo')]);
+    const definition = Definition('package:a/a.dart', [
+      Name('foo', kind: .methodKind),
+    ]);
 
     final actualRecordings = Recordings(
       calls: {

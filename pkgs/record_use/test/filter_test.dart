@@ -12,11 +12,11 @@ void main() {
 
     const myDefinition = Definition(
       'package:$myPackage/my_lib.dart',
-      [Name('myFunc')],
+      [Name('myFunc', kind: DefinitionKind.methodKind)],
     );
     const otherDefinition = Definition(
       'package:$otherPackage/other_lib.dart',
-      [Name('OtherClass')],
+      [Name('OtherClass', kind: DefinitionKind.classKind)],
     );
 
     const otherInstance = InstanceConstant(
@@ -54,11 +54,11 @@ void main() {
 
     const myDefinition = Definition(
       'package:$myPackage/my_lib.dart',
-      [Name('myFunc')],
+      [Name('myFunc', kind: DefinitionKind.methodKind)],
     );
     const otherDefinition = Definition(
       'package:$otherPackage/other_lib.dart',
-      [Name('OtherClass')],
+      [Name('OtherClass', kind: DefinitionKind.classKind)],
     );
 
     const otherInstance = InstanceConstant(
@@ -100,11 +100,11 @@ void main() {
 
     const myDefinition = Definition(
       'package:$myPackage/my_lib.dart',
-      [Name('myFunc')],
+      [Name('myFunc', kind: DefinitionKind.methodKind)],
     );
     const otherEnumDefinition = Definition(
       'package:$otherPackage/other_lib.dart',
-      [Name('OtherEnum')],
+      [Name('OtherEnum', kind: DefinitionKind.enumKind)],
     );
 
     const otherEnum = EnumConstant(
