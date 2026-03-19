@@ -1,7 +1,14 @@
-## 0.17.6
+## 0.17.7
 
 - Fixed resolution of C compiler and tools on macOS when `swiftly` is installed.
 - Broaden compiler tool discovery on macOS.
+
+## 0.17.6
+
+- On Android, use the NDK's `libc++.a` linker script when `cppLinkStdLib` is
+  `'c++_static'`. This ensures both `libc++_static` and `libc++abi` are linked,
+  fixing `dlopen` failures on newer Android versions caused by missing C++ ABI
+  symbols. ([#3240](https://github.com/dart-lang/native/issues/3240))
 
 ## 0.17.5
 

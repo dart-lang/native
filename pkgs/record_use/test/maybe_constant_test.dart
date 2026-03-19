@@ -10,7 +10,6 @@ const loadingUnit1 = LoadingUnit('1');
 void main() {
   test('MaybeConstant arguments in JSON', () {
     const json = {
-      'metadata': {'version': '1.0.0', 'comment': 'test'},
       'constants': [
         {'type': 'int', 'value': 42},
         {'type': 'unsupported', 'message': 'MethodTearoff'},
@@ -23,7 +22,7 @@ void main() {
         {
           'uri': 'package:a/a.dart',
           'path': [
-            {'name': 'foo'},
+            {'name': 'foo', 'kind': 'method'},
           ],
         },
       ],
@@ -45,7 +44,9 @@ void main() {
     };
 
     final recordings = Recordings.fromJson(json);
-    const definition = Definition('package:a/a.dart', [Name('foo')]);
+    const definition = Definition('package:a/a.dart', [
+      Name('foo', kind: .methodKind),
+    ]);
     final calls = recordings.calls[definition]!;
     final call = calls[0] as CallWithArguments;
 
@@ -67,7 +68,9 @@ void main() {
   });
 
   test('MaybeConstant serialization round-trip', () {
-    const definition = Definition('package:a/a.dart', [Name('foo')]);
+    const definition = Definition('package:a/a.dart', [
+      Name('foo', kind: .methodKind),
+    ]);
     final recordings = Recordings(
       calls: {
         definition: [
@@ -88,6 +91,7 @@ void main() {
               ),
               SymbolConstant('foo'),
               SymbolConstant('_bar', libraryUri: 'package:a/a.dart'),
+              SetConstant([IntConstant(1), IntConstant(2)]),
             ],
             namedArguments: {
               'a': IntConstant(42),
@@ -104,6 +108,7 @@ void main() {
               ),
               'f': SymbolConstant('foo'),
               'g': SymbolConstant('_bar', libraryUri: 'package:a/a.dart'),
+              'h': SetConstant([IntConstant(3), IntConstant(4)]),
             },
             loadingUnit: loadingUnit1,
           ),
@@ -131,10 +136,11 @@ void main() {
   });
 
   test('allowPromotionOfUnsupported semantic equality', () {
-    const definition = Definition('package:a/a.dart', [Name('foo')]);
+    const definition = Definition('package:a/a.dart', [
+      Name('foo', kind: .methodKind),
+    ]);
 
     final actualRecordings = Recordings(
-      metadata: Metadata(comment: 'actual'),
       calls: {
         definition: [
           const CallWithArguments(
@@ -148,7 +154,6 @@ void main() {
     );
 
     final expectedRecordings = Recordings(
-      metadata: Metadata(comment: 'expected'),
       calls: {
         definition: [
           const CallWithArguments(
@@ -165,7 +170,6 @@ void main() {
     expect(
       actualRecordings.semanticEquals(
         expectedRecordings,
-        allowMetadataMismatch: true,
       ),
       isFalse,
     );
@@ -174,7 +178,6 @@ void main() {
     expect(
       actualRecordings.semanticEquals(
         expectedRecordings,
-        allowMetadataMismatch: true,
         allowPromotionOfUnsupported: true,
       ),
       isTrue,
@@ -184,7 +187,6 @@ void main() {
     expect(
       expectedRecordings.semanticEquals(
         actualRecordings,
-        allowMetadataMismatch: true,
         allowPromotionOfUnsupported: true,
       ),
       isFalse,

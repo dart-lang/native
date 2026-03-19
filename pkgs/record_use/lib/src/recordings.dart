@@ -12,7 +12,6 @@ import 'constant.dart';
 import 'definition.dart';
 import 'helper.dart';
 import 'loading_unit.dart';
-import 'metadata.dart';
 import 'reference.dart';
 import 'serialization_context.dart';
 import 'syntax.g.dart';
@@ -29,9 +28,6 @@ import 'syntax.g.dart';
 /// The class uses a normalized JSON format, allowing the reuse of constants
 /// across multiple recordings to optimize storage.
 class Recordings {
-  /// [Metadata] such as the recording protocol version.
-  final Metadata metadata;
-
   /// The collected [CallReference]s for each [Definition].
   ///
   /// Recorded when `@RecordUse()` is placed on a static member (top-level
@@ -245,10 +241,9 @@ class Recordings {
   final Map<Definition, List<InstanceReference>> instances;
 
   Recordings({
-    Metadata? metadata,
     required this.calls,
     required this.instances,
-  }) : metadata = metadata ?? Metadata();
+  });
 
   /// Decodes a JSON representation into a [Recordings] object.
   ///
@@ -323,7 +318,6 @@ Error: $e
     }
 
     return Recordings(
-      metadata: MetadataProtected.fromSyntax(syntax.metadata),
       calls: callsForDefinition,
       instances: instancesForDefinition,
     );
@@ -331,7 +325,6 @@ Error: $e
 
   Recordings _canonicalizeChildren(CanonicalizationContext context) =>
       Recordings(
-        metadata: metadata,
         calls: _canonicalizeReferences(context, calls),
         instances: _canonicalizeReferences(context, instances),
       );
@@ -455,7 +448,6 @@ Error: $e
           );
 
     return RecordedUsesSyntax(
-      metadata: metadata.toSyntax(),
       constants: sortedConstants.isEmpty
           ? null
           : [
@@ -481,15 +473,13 @@ Error: $e
   bool operator ==(covariant Recordings other) {
     if (identical(this, other)) return true;
 
-    return other.metadata == metadata &&
-        deepEquals(other.calls, calls) &&
+    return deepEquals(other.calls, calls) &&
         deepEquals(other.instances, instances);
   }
 
   @override
   int get hashCode => cacheHashCode(
     () => Object.hash(
-      metadata.hashCode,
       deepHash(calls),
       deepHash(instances),
     ),
@@ -523,9 +513,6 @@ Error: $e
   /// If [allowMoreConstArguments] is `true`, `null` arguments in an `expected`
   /// call are ignored during comparison. This can be used to accommodate
   /// differences in how compilers handle default or optional arguments.
-  ///
-  /// If [allowMetadataMismatch] is `true`, the [metadata] does not need to
-  /// match.
   @visibleForTesting
   bool semanticEquals(
     Recordings expected, {
@@ -534,13 +521,9 @@ Error: $e
     bool allowTearoffToStaticPromotion = false,
     bool allowMoreConstArguments = false,
     bool allowPromotionOfUnsupported = false,
-    bool allowMetadataMismatch = false,
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
   }) {
-    if (!allowMetadataMismatch && metadata != expected.metadata) {
-      return false;
-    }
     bool definitionMatches(Definition a, Definition b) =>
         // ignore: invalid_use_of_visible_for_testing_member
         a.semanticEquals(b, uriMapping: uriMapping);
@@ -722,7 +705,6 @@ Error: $e
     };
 
     return Recordings(
-      metadata: metadata,
       calls: newCallsForDefinition,
       instances: newInstancesForDefinition,
     );

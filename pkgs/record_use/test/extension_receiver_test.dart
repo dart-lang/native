@@ -10,7 +10,6 @@ const loadingUnit1 = LoadingUnit('1');
 void main() {
   test('Call with receiver in JSON', () {
     const json = {
-      'metadata': {'version': '1.0.0', 'comment': 'test'},
       'constants': [
         {'type': 'string', 'value': 'receiver'},
         {'type': 'int', 'value': 42},
@@ -22,7 +21,7 @@ void main() {
         {
           'uri': 'package:a/a.dart',
           'path': [
-            {'name': 'foo'},
+            {'name': 'foo', 'kind': 'method'},
           ],
         },
       ],
@@ -44,7 +43,9 @@ void main() {
     };
 
     final recordings = Recordings.fromJson(json);
-    const definition = Definition('package:a/a.dart', [Name('foo')]);
+    const definition = Definition('package:a/a.dart', [
+      Name('foo', kind: DefinitionKind.methodKind),
+    ]);
     final calls = recordings.calls[definition]!;
     final call = calls[0] as CallWithArguments;
 
@@ -53,7 +54,9 @@ void main() {
   });
 
   test('Call with receiver serialization round-trip', () {
-    const definition = Definition('package:a/a.dart', [Name('foo')]);
+    const definition = Definition('package:a/a.dart', [
+      Name('foo', kind: DefinitionKind.methodKind),
+    ]);
     final recordings = Recordings(
       calls: {
         definition: [
@@ -84,7 +87,9 @@ void main() {
   });
 
   test('CallTearoff with receiver serialization round-trip', () {
-    const definition = Definition('package:a/a.dart', [Name('foo')]);
+    const definition = Definition('package:a/a.dart', [
+      Name('foo', kind: DefinitionKind.methodKind),
+    ]);
     final recordings = Recordings(
       calls: {
         definition: [

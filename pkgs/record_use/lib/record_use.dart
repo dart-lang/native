@@ -111,13 +111,13 @@ export 'src/constant.dart'
         NonConstant,
         NullConstant,
         RecordConstant,
+        SetConstant,
         StringConstant,
         SymbolConstant,
         UnsupportedConstant;
 export 'src/definition.dart'
     show Definition, DefinitionDisambiguator, DefinitionKind, Name;
 export 'src/loading_unit.dart' show LoadingUnit;
-export 'src/metadata.dart' show Metadata;
 export 'src/recordings.dart' show Recordings;
 export 'src/reference.dart'
     show

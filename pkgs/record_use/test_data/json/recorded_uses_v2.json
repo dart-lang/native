@@ -103,6 +103,7 @@
     {
       "path": [
         {
+          "kind": "class",
           "name": "MyAnnotation"
         }
       ],
@@ -111,10 +112,12 @@
     {
       "path": [
         {
+          "kind": "class",
           "name": "MyClass"
         },
         {
-          "name": "get:loadDeferredLibrary"
+          "kind": "getter",
+          "name": "loadDeferredLibrary"
         }
       ],
       "uri": "package:js_runtime/js_helper.dart"
@@ -122,6 +125,7 @@
     {
       "path": [
         {
+          "kind": "enum",
           "name": "MyEnum"
         }
       ],
@@ -136,10 +140,6 @@
       "name": "o.js"
     }
   ],
-  "metadata": {
-    "comment": "Recorded references at compile time and their argument values, as far as known, to definitions annotated with @RecordUse",
-    "version": "1.6.2-wip+5.-.2.z"
-  },
   "uses": {
     "instances": [
       {

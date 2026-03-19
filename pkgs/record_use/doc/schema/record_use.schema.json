@@ -95,6 +95,7 @@
                 "non_constant",
                 "null",
                 "record",
+                "set",
                 "string",
                 "symbol",
                 "unsupported"
@@ -234,7 +235,10 @@
           "then": {
             "properties": {
               "value": {
-                "type": "array"
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
               }
             },
             "required": [
@@ -319,6 +323,28 @@
                 }
               }
             }
+          }
+        },
+        {
+          "if": {
+            "properties": {
+              "type": {
+                "const": "set"
+              }
+            }
+          },
+          "then": {
+            "properties": {
+              "value": {
+                "type": "array",
+                "items": {
+                  "type": "integer"
+                }
+              }
+            },
+            "required": [
+              "value"
+            ]
           }
         },
         {
@@ -641,6 +667,7 @@
         }
       },
       "required": [
+        "kind",
         "name"
       ]
     },
@@ -665,28 +692,10 @@
             "$ref": "#/definitions/LoadingUnit"
           }
         },
-        "metadata": {
-          "type": "object",
-          "properties": {
-            "comment": {
-              "type": "string"
-            },
-            "version": {
-              "type": "string"
-            }
-          },
-          "required": [
-            "comment",
-            "version"
-          ]
-        },
         "uses": {
           "$ref": "#/definitions/Uses"
         }
-      },
-      "required": [
-        "metadata"
-      ]
+      }
     },
     "Uses": {
       "type": "object",

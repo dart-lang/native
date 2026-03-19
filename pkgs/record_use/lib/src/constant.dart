@@ -100,11 +100,22 @@ sealed class MaybeConstant {
       libraryUri: libraryUri,
     ),
     ListConstantSyntax(:final value) => ListConstant(
-      value!.cast<int>().map((i) {
+      value.map((i) {
         final constant = context.constants[i];
         if (constant is! Constant) {
           throw FormatException(
             'List constant element at index $i is not a constant',
+          );
+        }
+        return constant;
+      }).toList(),
+    ),
+    SetConstantSyntax(:final value) => SetConstant(
+      value.map((i) {
+        final constant = context.constants[i];
+        if (constant is! Constant) {
+          throw FormatException(
+            'Set constant element at index $i is not a constant',
           );
         }
         return constant;
@@ -672,7 +683,7 @@ final class ListConstant extends Constant {
   @override
   Constant _canonicalizeChildren(CanonicalizationContext context) =>
       ListConstant([
-        for (final c in value) context.canonicalizeConstant(c) as Constant,
+        for (final c in value) context.canonicalizeConstant(c),
       ]);
 
   @override
@@ -733,6 +744,111 @@ final class ListConstant extends Constant {
   }
 }
 
+/// A constant set of [Constant] values.
+final class SetConstant extends Constant {
+  /// The underlying set of constant values.
+  final List<Constant> value;
+
+  /// Creates a [SetConstant] object with the given set of [value]s.
+  const SetConstant(this.value);
+
+  @override
+  int get hashCode => cacheHashCode(() => deepHash(value));
+
+  @override
+  int get _depth => cacheDepth(() {
+    var depth = 0;
+    for (final constant in value) {
+      depth = max(depth, constant._depth);
+    }
+    return 1 + depth;
+  });
+
+  @override
+  int get _size => cacheSize(() {
+    var size = 0;
+    for (final constant in value) {
+      size += constant._size;
+    }
+    return 1 + size;
+  });
+
+  @override
+  Constant _canonicalizeChildren(CanonicalizationContext context) {
+    final canonicalized = [
+      for (final c in value) context.canonicalizeConstant(c),
+    ];
+    canonicalized.sort((a, b) => a._compareTo(b));
+    return SetConstant(canonicalized);
+  }
+
+  @override
+  Constant _filter({String? definitionPackageName}) {
+    final filtered = [
+      for (final c in value)
+        c._filter(definitionPackageName: definitionPackageName),
+    ];
+    filtered.sort((a, b) => a._compareTo(b));
+    return SetConstant(filtered);
+  }
+
+  @override
+  bool operator ==(Object other) {
+    if (identical(this, other)) return true;
+
+    return other is SetConstant &&
+        other._depth == _depth &&
+        other._size == _size &&
+        deepEquals(other.value, value);
+  }
+
+  @override
+  SetConstantSyntax _toSyntax(SerializationContext context) =>
+      SetConstantSyntax(
+        value: [for (final constant in value) context.constants[constant]!],
+      );
+
+  @override
+  int get _orderingTypePriority => 9;
+
+  @override
+  int _compareToSameType(SetConstant other) {
+    var compare = value.length.compareTo(other.value.length);
+    if (compare != 0) return compare;
+    for (var i = 0; i < value.length; i++) {
+      compare = value[i]._compareTo(other.value[i]);
+      if (compare != 0) return compare;
+    }
+    return 0;
+  }
+
+  @override
+  String toString() => 'SetConstant({${value.join(', ')}})';
+
+  @override
+  bool _semanticEqualsInternal(
+    MaybeConstant other,
+    bool allowPromotionOfUnsupported,
+  ) {
+    if (other is! SetConstant) return false;
+    if (value.length != other.value.length) return false;
+    // Set equality is tricky for semanticEquals because it's not just identity.
+    // Check if every element in this set has a semantically equal element in
+    // the other set.
+    for (final element in value) {
+      if (!other.value.any(
+        (e) => element.semanticEquals(
+          e,
+          allowPromotionOfUnsupported: allowPromotionOfUnsupported,
+        ),
+      )) {
+        return false;
+      }
+    }
+    return true;
+  }
+}
+
 /// A constant map from [Constant] keys to [Constant] values.
 final class MapConstant extends Constant {
   /// The underlying map of constant values.
@@ -771,8 +887,8 @@ final class MapConstant extends Constant {
     final canonEntries = [
       for (final e in entries)
         MapEntry(
-          context.canonicalizeConstant(e.key) as Constant,
-          context.canonicalizeConstant(e.value) as Constant,
+          context.canonicalizeConstant(e.key),
+          context.canonicalizeConstant(e.value),
         ),
     ];
     canonEntries.sort((a, b) => a.key._compareTo(b.key));
@@ -780,13 +896,17 @@ final class MapConstant extends Constant {
   }
 
   @override
-  Constant _filter({String? definitionPackageName}) => MapConstant([
-    for (final entry in entries)
-      MapEntry(
-        entry.key._filter(definitionPackageName: definitionPackageName),
-        entry.value._filter(definitionPackageName: definitionPackageName),
-      ),
-  ]);
+  Constant _filter({String? definitionPackageName}) {
+    final filtered = [
+      for (final entry in entries)
+        MapEntry(
+          entry.key._filter(definitionPackageName: definitionPackageName),
+          entry.value._filter(definitionPackageName: definitionPackageName),
+        ),
+    ];
+    filtered.sort((a, b) => a.key._compareTo(b.key));
+    return MapConstant(filtered);
+  }
 
   @override
   bool operator ==(Object other) {
@@ -817,7 +937,7 @@ final class MapConstant extends Constant {
       );
 
   @override
-  int get _orderingTypePriority => 9;
+  int get _orderingTypePriority => 10;
 
   @override
   int _compareToSameType(MapConstant other) {
@@ -930,7 +1050,7 @@ final class InstanceConstant extends Constant {
       definition: context.canonicalizeDefinition(definition),
       fields: {
         for (final e in sortedEntries)
-          e.key: context.canonicalizeConstant(e.value) as Constant,
+          e.key: context.canonicalizeConstant(e.value),
       },
     );
   }
@@ -955,7 +1075,7 @@ final class InstanceConstant extends Constant {
   }
 
   @override
-  int get _orderingTypePriority => 12;
+  int get _orderingTypePriority => 13;
 
   @override
   int _compareToSameType(InstanceConstant other) {
@@ -1092,7 +1212,7 @@ final class EnumConstant extends Constant {
       name: name,
       fields: {
         for (final e in sortedEntries)
-          e.key: context.canonicalizeConstant(e.value) as Constant,
+          e.key: context.canonicalizeConstant(e.value),
       },
     );
   }
@@ -1119,7 +1239,7 @@ final class EnumConstant extends Constant {
   }
 
   @override
-  int get _orderingTypePriority => 11;
+  int get _orderingTypePriority => 12;
 
   @override
   int _compareToSameType(EnumConstant other) {
@@ -1246,11 +1366,11 @@ final class RecordConstant extends Constant {
       ..sort((a, b) => a.key.compareTo(b.key));
     return RecordConstant(
       positional: [
-        for (final c in positional) context.canonicalizeConstant(c) as Constant,
+        for (final c in positional) context.canonicalizeConstant(c),
       ],
       named: {
         for (final e in sortedNamedEntries)
-          e.key: context.canonicalizeConstant(e.value) as Constant,
+          e.key: context.canonicalizeConstant(e.value),
       },
     );
   }
@@ -1270,7 +1390,7 @@ final class RecordConstant extends Constant {
   );
 
   @override
-  int get _orderingTypePriority => 10;
+  int get _orderingTypePriority => 11;
 
   @override
   int _compareToSameType(RecordConstant other) {
