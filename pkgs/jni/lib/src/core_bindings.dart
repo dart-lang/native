@@ -10907,8 +10907,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       }
       if ($d == r'ofEntries([Ljava/util/Map$Entry;)Ljava/util/Map;') {
         final $r = _$impls[$p]!.ofEntries(
-          ($a![0]
-              as jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>?),
+          ($a![0] as jni$_.JArray<JMap$JEntry?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11786,8 +11785,7 @@ abstract base mixin class $JMap<$K extends jni$_.JObject?,
     required JMap$JEntry<jni$_.JObject?, jni$_.JObject?>? Function(
             jni$_.JObject? object, jni$_.JObject? object1)
         entry,
-    required JSet<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? Function()
-        entrySet,
+    required JSet<JMap$JEntry?>? Function() entrySet,
     required core$_.bool Function(jni$_.JObject? object) equals,
     required void Function(jni$_.JObject? biConsumer) forEach,
     core$_.bool forEach$async,
@@ -11932,7 +11930,7 @@ abstract base mixin class $JMap<$K extends jni$_.JObject?,
             jni$_.JObject? object19)
         of$10,
     required JMap<jni$_.JObject?, jni$_.JObject?>? Function(
-            jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrys)
+            jni$_.JArray<JMap$JEntry?>? entrys)
         ofEntries,
     required jni$_.JObject? Function(
             jni$_.JObject? object, jni$_.JObject? object1)
@@ -11968,7 +11966,7 @@ abstract base mixin class $JMap<$K extends jni$_.JObject?,
       JMap<jni$_.JObject?, jni$_.JObject?>? map);
   JMap$JEntry<jni$_.JObject?, jni$_.JObject?>? entry(
       jni$_.JObject? object, jni$_.JObject? object1);
-  JSet<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrySet();
+  JSet<JMap$JEntry?>? entrySet();
   core$_.bool equals(jni$_.JObject? object);
   void forEach(jni$_.JObject? biConsumer);
   core$_.bool get forEach$async => false;
@@ -12097,7 +12095,7 @@ abstract base mixin class $JMap<$K extends jni$_.JObject?,
       jni$_.JObject? object18,
       jni$_.JObject? object19);
   JMap<jni$_.JObject?, jni$_.JObject?>? ofEntries(
-      jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrys);
+      jni$_.JArray<JMap$JEntry?>? entrys);
   jni$_.JObject? put(jni$_.JObject? object, jni$_.JObject? object1);
   void putAll(JMap<jni$_.JObject?, jni$_.JObject?>? map);
   core$_.bool get putAll$async => false;
@@ -12130,8 +12128,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     required JMap$JEntry<jni$_.JObject?, jni$_.JObject?>? Function(
             jni$_.JObject? object, jni$_.JObject? object1)
         entry,
-    required JSet<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? Function()
-        entrySet,
+    required JSet<JMap$JEntry?>? Function() entrySet,
     required core$_.bool Function(jni$_.JObject? object) equals,
     required void Function(jni$_.JObject? biConsumer) forEach,
     this.forEach$async = false,
@@ -12276,7 +12273,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
             jni$_.JObject? object19)
         of$10,
     required JMap<jni$_.JObject?, jni$_.JObject?>? Function(
-            jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrys)
+            jni$_.JArray<JMap$JEntry?>? entrys)
         ofEntries,
     required jni$_.JObject? Function(
             jni$_.JObject? object, jni$_.JObject? object1)
@@ -12350,8 +12347,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
       JMap<jni$_.JObject?, jni$_.JObject?>? map) _copyOf;
   final JMap$JEntry<jni$_.JObject?, jni$_.JObject?>? Function(
       jni$_.JObject? object, jni$_.JObject? object1) _entry;
-  final JSet<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? Function()
-      _entrySet;
+  final JSet<JMap$JEntry?>? Function() _entrySet;
   final core$_.bool Function(jni$_.JObject? object) _equals;
   final void Function(jni$_.JObject? biConsumer) _forEach;
   final core$_.bool forEach$async;
@@ -12484,8 +12480,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
       jni$_.JObject? object18,
       jni$_.JObject? object19) _of$10;
   final JMap<jni$_.JObject?, jni$_.JObject?>? Function(
-          jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrys)
-      _ofEntries;
+      jni$_.JArray<JMap$JEntry?>? entrys) _ofEntries;
   final jni$_.JObject? Function(jni$_.JObject? object, jni$_.JObject? object1)
       _put;
   final void Function(JMap<jni$_.JObject?, jni$_.JObject?>? map) _putAll;
@@ -12539,7 +12534,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     return _entry(object, object1);
   }
 
-  JSet<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrySet() {
+  JSet<JMap$JEntry?>? entrySet() {
     return _entrySet();
   }
 
@@ -12785,7 +12780,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   }
 
   JMap<jni$_.JObject?, jni$_.JObject?>? ofEntries(
-      jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrys) {
+      jni$_.JArray<JMap$JEntry?>? entrys) {
     return _ofEntries(entrys);
   }
 

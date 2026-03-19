@@ -1,0 +1,45 @@
+// The Android Gradle Plugin builds the native code with the Android NDK.
+
+group 'com.github.dart_lang.jni_flutter'
+version '1.0'
+
+buildscript {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+rootProject.allprojects {
+    repositories {
+        google()
+        mavenCentral()
+    }
+}
+
+apply plugin: 'com.android.library'
+
+android {
+    if (project.android.hasProperty("namespace")) {
+        namespace 'com.github.dart_lang.jni_flutter'
+    }
+
+    sourceSets {
+        main {
+            java {
+                srcDirs '../../jni/java/src/main/java'
+            }
+        }
+    }
+
+    compileSdk 35
+
+    defaultConfig {
+        minSdk 21
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_11
+        targetCompatibility JavaVersion.VERSION_11
+    }
+}

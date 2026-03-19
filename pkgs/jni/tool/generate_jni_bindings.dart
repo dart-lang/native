@@ -51,20 +51,4 @@ Future<void> main() async {
       visitors: [Renamer()],
     ),
   );
-  await generateJniBindings(
-    Config(
-      androidSdkConfig: AndroidSdkConfig(
-        addGradleDeps: true,
-        androidExample: packageRoot.resolve('example/').toFilePath(),
-      ),
-      outputConfig: OutputConfig(
-        dartConfig: DartCodeOutputConfig(
-          path: packageRoot.resolve('lib/src/plugin/generated_plugin.dart'),
-          structure: OutputStructure.singleFile,
-        ),
-      ),
-      classes: ['com.github.dart_lang.jni.JniPlugin'],
-      preamble: preamble,
-    ),
-  );
 }
