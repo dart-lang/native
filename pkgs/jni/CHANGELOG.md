@@ -9,13 +9,6 @@
     class is simplified.
   - It is no longer necessary to pass around the `JType` in many cases where it
     used to be required.
-- **Breaking Change**: `JniException` has been deleted. Java exceptions are now
-  thrown as `JThrowable` instead. `JThrowable` holds an actual Java exception,
-  instead of just holding a string message. It's a `JObject`, so the usual
-  `.isA` and `.as` methods work to cast the `JThrowable` to the underlying Java
-  exception.
-- **Breaking Change**: Class methods like getFoo and setFoo are now getters and
-  setters in Dart.
 - Added `Jni.captureStackTraceOnRelease` which defaults to `false`. When this is
   set, the stack traces of the release points will be stored for `JObject`s to
   help debug `DoubleReleaseError` and `UseAfterReleaseError`s. This includes the
@@ -26,6 +19,13 @@
   arena.
 - Added `JThrowable` class which inherits from `JObject` and implements
   `Exception`.
+- **Breaking Change**: `JniException` has been deleted. Java exceptions are now
+  thrown as `JThrowable` instead. `JThrowable` holds an actual Java exception,
+  instead of just holding a string message. It's a `JObject`, so the usual
+  `.isA` and `.as` methods work to cast the `JThrowable` to the underlying Java
+  exception.
+- **Breaking Change**: Class methods like getFoo and setFoo are now getters and
+  setters in Dart.
 
 ## 0.15.2
 
