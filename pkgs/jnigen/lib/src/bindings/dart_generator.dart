@@ -1657,8 +1657,8 @@ class _InterfaceParamCast extends Visitor<Param, void> {
     s.write('(\$a![$paramIndex] as $type)');
     if (node.type is PrimitiveType) {
       // Convert to Dart type.
-      final name = node.type.name;
-      s.write('.${name}Value(releaseOriginal: true)');
+      final boxedName = (node.type as PrimitiveType).boxedName;
+      s.write('.toDart$boxedName(releaseOriginal: true)');
     }
   }
 }
@@ -1693,7 +1693,7 @@ class _InterfaceReturnBox extends TypeVisitor<String> {
     if (node.name == 'void') {
       return '$_jni.nullptr';
     }
-    return '$_jni.J${node.boxedName}(\$r).reference.toPointer()';
+    return '\$r.toJ${node.boxedName}().reference.toPointer()';
   }
 }
 

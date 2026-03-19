@@ -462,7 +462,7 @@ extension type MeasureUnit._(jni$_.JObject _$this) implements jni$_.JObject {
       }
       if ($d == r'getCoefficient()F') {
         final $r = _$impls[$p]!.getCoefficient();
-        return jni$_.JFloat($r).reference.toPointer();
+        return $r.toJFloat().reference.toPointer();
       }
     } catch (e) {
       return jni$_.ProtectedJniExtensions.newDartException(e);
@@ -2842,7 +2842,7 @@ extension type SuspendInterface._(jni$_.JObject _$this)
         final $r = jni$_.KotlinContinuation.fromReference(
                 ($a![1] as jni$_.JObject).reference)
             .resumeWithFuture(_$impls[$p]!.nullableHello(
-          ($a![0] as jni$_.JBoolean).booleanValue(releaseOriginal: true),
+          ($a![0] as jni$_.JBoolean).toDartBoolean(releaseOriginal: true),
         ));
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -2878,7 +2878,7 @@ extension type SuspendInterface._(jni$_.JObject _$this)
         final $r = jni$_.KotlinContinuation.fromReference(
                 ($a![1] as jni$_.JObject).reference)
             .resumeWithFuture(_$impls[$p]!.nullableInt(
-          ($a![0] as jni$_.JBoolean).booleanValue(releaseOriginal: true),
+          ($a![0] as jni$_.JBoolean).toDartBoolean(releaseOriginal: true),
         ));
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())

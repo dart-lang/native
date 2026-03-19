@@ -41,6 +41,19482 @@ import 'dart:core' show Object, String, double, int;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
+/// from: `java.lang.Boolean`
+extension type JBoolean._(jni$_.JObject _$this) implements jni$_.JObject {
+  static final _class = jni$_.JClass.forName(r'java/lang/Boolean');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<JBoolean> type = $JBoolean$Type$();
+  static final _id_FALSE = _class.staticFieldId(
+    r'FALSE',
+    r'Ljava/lang/Boolean;',
+  );
+
+  /// from: `static public final java.lang.Boolean FALSE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JBoolean? get FALSE =>
+      _id_FALSE.getNullable(_class, JBoolean.type) as JBoolean?;
+
+  static final _id_TRUE = _class.staticFieldId(
+    r'TRUE',
+    r'Ljava/lang/Boolean;',
+  );
+
+  /// from: `static public final java.lang.Boolean TRUE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JBoolean? get TRUE =>
+      _id_TRUE.getNullable(_class, JBoolean.type) as JBoolean?;
+
+  static final _id_TYPE = _class.staticFieldId(
+    r'TYPE',
+    r'Ljava/lang/Class;',
+  );
+
+  /// from: `static public final java.lang.Class<java.lang.Boolean> TYPE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni$_.JObject? get TYPE =>
+      _id_TYPE.getNullable(_class, jni$_.JObject.type) as jni$_.JObject?;
+
+  static final _id_new$ = _class.constructorId(
+    r'(Z)V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public void <init>(boolean z)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JBoolean(
+    core$_.bool z,
+  ) {
+    return _new$(_class.reference.pointer, _id_new$.pointer, z ? 1 : 0)
+        .object<JBoolean>();
+  }
+
+  static final _id_new$1 = _class.constructorId(
+    r'(Ljava/lang/String;)V',
+  );
+
+  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JBoolean.new$1(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _new$1(_class.reference.pointer, _id_new$1.pointer, _$string.pointer)
+        .object<JBoolean>();
+  }
+
+  static final _id_compare = _class.staticMethodId(
+    r'compare',
+    r'(ZZ)I',
+  );
+
+  static final _compare = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public int compare(boolean z, boolean z1)`
+  static int compare(
+    core$_.bool z,
+    core$_.bool z1,
+  ) {
+    return _compare(_class.reference.pointer, _id_compare.pointer, z ? 1 : 0,
+            z1 ? 1 : 0)
+        .integer;
+  }
+
+  static final _id_getBoolean = _class.staticMethodId(
+    r'getBoolean',
+    r'(Ljava/lang/String;)Z',
+  );
+
+  static final _getBoolean = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public boolean getBoolean(java.lang.String string)`
+  static core$_.bool getBoolean(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _getBoolean(
+            _class.reference.pointer, _id_getBoolean.pointer, _$string.pointer)
+        .boolean;
+  }
+
+  static final _id_hashCode$2 = _class.staticMethodId(
+    r'hashCode',
+    r'(Z)I',
+  );
+
+  static final _hashCode$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int hashCode(boolean z)`
+  static int hashCode$2(
+    core$_.bool z,
+  ) {
+    return _hashCode$2(
+            _class.reference.pointer, _id_hashCode$2.pointer, z ? 1 : 0)
+        .integer;
+  }
+
+  static final _id_logicalAnd = _class.staticMethodId(
+    r'logicalAnd',
+    r'(ZZ)Z',
+  );
+
+  static final _logicalAnd = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public boolean logicalAnd(boolean z, boolean z1)`
+  static core$_.bool logicalAnd(
+    core$_.bool z,
+    core$_.bool z1,
+  ) {
+    return _logicalAnd(_class.reference.pointer, _id_logicalAnd.pointer,
+            z ? 1 : 0, z1 ? 1 : 0)
+        .boolean;
+  }
+
+  static final _id_logicalOr = _class.staticMethodId(
+    r'logicalOr',
+    r'(ZZ)Z',
+  );
+
+  static final _logicalOr = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public boolean logicalOr(boolean z, boolean z1)`
+  static core$_.bool logicalOr(
+    core$_.bool z,
+    core$_.bool z1,
+  ) {
+    return _logicalOr(_class.reference.pointer, _id_logicalOr.pointer,
+            z ? 1 : 0, z1 ? 1 : 0)
+        .boolean;
+  }
+
+  static final _id_logicalXor = _class.staticMethodId(
+    r'logicalXor',
+    r'(ZZ)Z',
+  );
+
+  static final _logicalXor = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public boolean logicalXor(boolean z, boolean z1)`
+  static core$_.bool logicalXor(
+    core$_.bool z,
+    core$_.bool z1,
+  ) {
+    return _logicalXor(_class.reference.pointer, _id_logicalXor.pointer,
+            z ? 1 : 0, z1 ? 1 : 0)
+        .boolean;
+  }
+
+  static final _id_parseBoolean = _class.staticMethodId(
+    r'parseBoolean',
+    r'(Ljava/lang/String;)Z',
+  );
+
+  static final _parseBoolean = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public boolean parseBoolean(java.lang.String string)`
+  static core$_.bool parseBoolean(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _parseBoolean(_class.reference.pointer, _id_parseBoolean.pointer,
+            _$string.pointer)
+        .boolean;
+  }
+
+  static final _id_toString$2 = _class.staticMethodId(
+    r'toString',
+    r'(Z)Ljava/lang/String;',
+  );
+
+  static final _toString$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.String toString(boolean z)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? toString$2(
+    core$_.bool z,
+  ) {
+    return _toString$2(
+            _class.reference.pointer, _id_toString$2.pointer, z ? 1 : 0)
+        .object<JString?>();
+  }
+
+  static final _id_valueOf = _class.staticMethodId(
+    r'valueOf',
+    r'(Z)Ljava/lang/Boolean;',
+  );
+
+  static final _valueOf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.Boolean valueOf(boolean z)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JBoolean? valueOf(
+    core$_.bool z,
+  ) {
+    return _valueOf(_class.reference.pointer, _id_valueOf.pointer, z ? 1 : 0)
+        .object<JBoolean?>();
+  }
+
+  static final _id_valueOf$1 = _class.staticMethodId(
+    r'valueOf',
+    r'(Ljava/lang/String;)Ljava/lang/Boolean;',
+  );
+
+  static final _valueOf$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.Boolean valueOf(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JBoolean? valueOf$1(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _valueOf$1(
+            _class.reference.pointer, _id_valueOf$1.pointer, _$string.pointer)
+        .object<JBoolean?>();
+  }
+}
+
+extension JBoolean$$Methods on JBoolean {
+  static final _id_booleanValue = JBoolean._class.instanceMethodId(
+    r'booleanValue',
+    r'()Z',
+  );
+
+  static final _booleanValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public boolean booleanValue()`
+  core$_.bool booleanValue() {
+    return _booleanValue(reference.pointer, _id_booleanValue.pointer).boolean;
+  }
+
+  static final _id_compareTo = JBoolean._class.instanceMethodId(
+    r'compareTo',
+    r'(Ljava/lang/Boolean;)I',
+  );
+
+  static final _compareTo = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public int compareTo(java.lang.Boolean boolean)`
+  int compareTo(
+    JBoolean? boolean,
+  ) {
+    final _$boolean = boolean?.reference ?? jni$_.jNullReference;
+    return _compareTo(
+            reference.pointer, _id_compareTo.pointer, _$boolean.pointer)
+        .integer;
+  }
+
+  static final _id_equals = JBoolean._class.instanceMethodId(
+    r'equals',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _equals = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean equals(java.lang.Object object)`
+  core$_.bool equals(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_hashCode$1 = JBoolean._class.instanceMethodId(
+    r'hashCode',
+    r'()I',
+  );
+
+  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public int hashCode()`
+  int hashCode$1() {
+    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+  }
+
+  static final _id_toString$1 = JBoolean._class.instanceMethodId(
+    r'toString',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _toString$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String toString()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? toString$1() {
+    return _toString$1(reference.pointer, _id_toString$1.pointer)
+        .object<JString?>();
+  }
+
+  core$_.bool operator <(JBoolean? boolean) {
+    return compareTo(boolean) < 0;
+  }
+
+  core$_.bool operator <=(JBoolean? boolean) {
+    return compareTo(boolean) <= 0;
+  }
+
+  core$_.bool operator >(JBoolean? boolean) {
+    return compareTo(boolean) > 0;
+  }
+
+  core$_.bool operator >=(JBoolean? boolean) {
+    return compareTo(boolean) >= 0;
+  }
+}
+
+final class $JBoolean$Type$ extends jni$_.JType<JBoolean> {
+  @jni$_.internal
+  const $JBoolean$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/Boolean;';
+}
+
+/// from: `java.lang.Byte`
+extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
+  static final _class = jni$_.JClass.forName(r'java/lang/Byte');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<JByte> type = $JByte$Type$();
+
+  /// from: `static public final int BYTES`
+  static const BYTES = 1;
+
+  /// from: `static public final byte MAX_VALUE`
+  static const MAX_VALUE = 127;
+
+  /// from: `static public final byte MIN_VALUE`
+  static const MIN_VALUE = -128;
+
+  /// from: `static public final int SIZE`
+  static const SIZE = 8;
+  static final _id_TYPE = _class.staticFieldId(
+    r'TYPE',
+    r'Ljava/lang/Class;',
+  );
+
+  /// from: `static public final java.lang.Class<java.lang.Byte> TYPE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni$_.JObject? get TYPE =>
+      _id_TYPE.getNullable(_class, jni$_.JObject.type) as jni$_.JObject?;
+
+  static final _id_new$ = _class.constructorId(
+    r'(B)V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public void <init>(byte b)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JByte(
+    int b,
+  ) {
+    return _new$(_class.reference.pointer, _id_new$.pointer, b).object<JByte>();
+  }
+
+  static final _id_new$1 = _class.constructorId(
+    r'(Ljava/lang/String;)V',
+  );
+
+  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JByte.new$1(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _new$1(_class.reference.pointer, _id_new$1.pointer, _$string.pointer)
+        .object<JByte>();
+  }
+
+  static final _id_compare = _class.staticMethodId(
+    r'compare',
+    r'(BB)I',
+  );
+
+  static final _compare = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public int compare(byte b, byte b1)`
+  static int compare(
+    int b,
+    int b1,
+  ) {
+    return _compare(_class.reference.pointer, _id_compare.pointer, b, b1)
+        .integer;
+  }
+
+  static final _id_compareUnsigned = _class.staticMethodId(
+    r'compareUnsigned',
+    r'(BB)I',
+  );
+
+  static final _compareUnsigned = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public int compareUnsigned(byte b, byte b1)`
+  static int compareUnsigned(
+    int b,
+    int b1,
+  ) {
+    return _compareUnsigned(
+            _class.reference.pointer, _id_compareUnsigned.pointer, b, b1)
+        .integer;
+  }
+
+  static final _id_decode = _class.staticMethodId(
+    r'decode',
+    r'(Ljava/lang/String;)Ljava/lang/Byte;',
+  );
+
+  static final _decode = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.Byte decode(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JByte? decode(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _decode(
+            _class.reference.pointer, _id_decode.pointer, _$string.pointer)
+        .object<JByte?>();
+  }
+
+  static final _id_hashCode$2 = _class.staticMethodId(
+    r'hashCode',
+    r'(B)I',
+  );
+
+  static final _hashCode$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int hashCode(byte b)`
+  static int hashCode$2(
+    int b,
+  ) {
+    return _hashCode$2(_class.reference.pointer, _id_hashCode$2.pointer, b)
+        .integer;
+  }
+
+  static final _id_parseByte = _class.staticMethodId(
+    r'parseByte',
+    r'(Ljava/lang/String;)B',
+  );
+
+  static final _parseByte = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticByteMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public byte parseByte(java.lang.String string)`
+  static int parseByte(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _parseByte(
+            _class.reference.pointer, _id_parseByte.pointer, _$string.pointer)
+        .byte;
+  }
+
+  static final _id_parseByte$1 = _class.staticMethodId(
+    r'parseByte',
+    r'(Ljava/lang/String;I)B',
+  );
+
+  static final _parseByte$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticByteMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `static public byte parseByte(java.lang.String string, int i)`
+  static int parseByte$1(
+    JString? string,
+    int i,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _parseByte$1(_class.reference.pointer, _id_parseByte$1.pointer,
+            _$string.pointer, i)
+        .byte;
+  }
+
+  static final _id_toString$2 = _class.staticMethodId(
+    r'toString',
+    r'(B)Ljava/lang/String;',
+  );
+
+  static final _toString$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.String toString(byte b)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? toString$2(
+    int b,
+  ) {
+    return _toString$2(_class.reference.pointer, _id_toString$2.pointer, b)
+        .object<JString?>();
+  }
+
+  static final _id_toUnsignedInt = _class.staticMethodId(
+    r'toUnsignedInt',
+    r'(B)I',
+  );
+
+  static final _toUnsignedInt = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int toUnsignedInt(byte b)`
+  static int toUnsignedInt(
+    int b,
+  ) {
+    return _toUnsignedInt(
+            _class.reference.pointer, _id_toUnsignedInt.pointer, b)
+        .integer;
+  }
+
+  static final _id_toUnsignedLong = _class.staticMethodId(
+    r'toUnsignedLong',
+    r'(B)J',
+  );
+
+  static final _toUnsignedLong = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public long toUnsignedLong(byte b)`
+  static int toUnsignedLong(
+    int b,
+  ) {
+    return _toUnsignedLong(
+            _class.reference.pointer, _id_toUnsignedLong.pointer, b)
+        .long;
+  }
+
+  static final _id_valueOf = _class.staticMethodId(
+    r'valueOf',
+    r'(B)Ljava/lang/Byte;',
+  );
+
+  static final _valueOf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.Byte valueOf(byte b)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JByte? valueOf(
+    int b,
+  ) {
+    return _valueOf(_class.reference.pointer, _id_valueOf.pointer, b)
+        .object<JByte?>();
+  }
+
+  static final _id_valueOf$1 = _class.staticMethodId(
+    r'valueOf',
+    r'(Ljava/lang/String;)Ljava/lang/Byte;',
+  );
+
+  static final _valueOf$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.Byte valueOf(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JByte? valueOf$1(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _valueOf$1(
+            _class.reference.pointer, _id_valueOf$1.pointer, _$string.pointer)
+        .object<JByte?>();
+  }
+
+  static final _id_valueOf$2 = _class.staticMethodId(
+    r'valueOf',
+    r'(Ljava/lang/String;I)Ljava/lang/Byte;',
+  );
+
+  static final _valueOf$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `static public java.lang.Byte valueOf(java.lang.String string, int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JByte? valueOf$2(
+    JString? string,
+    int i,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _valueOf$2(_class.reference.pointer, _id_valueOf$2.pointer,
+            _$string.pointer, i)
+        .object<JByte?>();
+  }
+}
+
+extension JByte$$Methods on JByte {
+  static final _id_byteValue = JByte._class.instanceMethodId(
+    r'byteValue',
+    r'()B',
+  );
+
+  static final _byteValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallByteMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public byte byteValue()`
+  int byteValue() {
+    return _byteValue(reference.pointer, _id_byteValue.pointer).byte;
+  }
+
+  static final _id_compareTo = JByte._class.instanceMethodId(
+    r'compareTo',
+    r'(Ljava/lang/Byte;)I',
+  );
+
+  static final _compareTo = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public int compareTo(java.lang.Byte byte)`
+  int compareTo(
+    JByte? byte,
+  ) {
+    final _$byte = byte?.reference ?? jni$_.jNullReference;
+    return _compareTo(reference.pointer, _id_compareTo.pointer, _$byte.pointer)
+        .integer;
+  }
+
+  static final _id_doubleValue = JByte._class.instanceMethodId(
+    r'doubleValue',
+    r'()D',
+  );
+
+  static final _doubleValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallDoubleMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public double doubleValue()`
+  double doubleValue() {
+    return _doubleValue(reference.pointer, _id_doubleValue.pointer).doubleFloat;
+  }
+
+  static final _id_equals = JByte._class.instanceMethodId(
+    r'equals',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _equals = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean equals(java.lang.Object object)`
+  core$_.bool equals(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_floatValue = JByte._class.instanceMethodId(
+    r'floatValue',
+    r'()F',
+  );
+
+  static final _floatValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallFloatMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public float floatValue()`
+  double floatValue() {
+    return _floatValue(reference.pointer, _id_floatValue.pointer).float;
+  }
+
+  static final _id_hashCode$1 = JByte._class.instanceMethodId(
+    r'hashCode',
+    r'()I',
+  );
+
+  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public int hashCode()`
+  int hashCode$1() {
+    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+  }
+
+  static final _id_intValue = JByte._class.instanceMethodId(
+    r'intValue',
+    r'()I',
+  );
+
+  static final _intValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public int intValue()`
+  int intValue() {
+    return _intValue(reference.pointer, _id_intValue.pointer).integer;
+  }
+
+  static final _id_longValue = JByte._class.instanceMethodId(
+    r'longValue',
+    r'()J',
+  );
+
+  static final _longValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public long longValue()`
+  int longValue() {
+    return _longValue(reference.pointer, _id_longValue.pointer).long;
+  }
+
+  static final _id_shortValue = JByte._class.instanceMethodId(
+    r'shortValue',
+    r'()S',
+  );
+
+  static final _shortValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallShortMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public short shortValue()`
+  int shortValue() {
+    return _shortValue(reference.pointer, _id_shortValue.pointer).short;
+  }
+
+  static final _id_toString$1 = JByte._class.instanceMethodId(
+    r'toString',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _toString$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String toString()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? toString$1() {
+    return _toString$1(reference.pointer, _id_toString$1.pointer)
+        .object<JString?>();
+  }
+
+  core$_.bool operator <(JByte? byte) {
+    return compareTo(byte) < 0;
+  }
+
+  core$_.bool operator <=(JByte? byte) {
+    return compareTo(byte) <= 0;
+  }
+
+  core$_.bool operator >(JByte? byte) {
+    return compareTo(byte) > 0;
+  }
+
+  core$_.bool operator >=(JByte? byte) {
+    return compareTo(byte) >= 0;
+  }
+}
+
+final class $JByte$Type$ extends jni$_.JType<JByte> {
+  @jni$_.internal
+  const $JByte$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/Byte;';
+}
+
+/// from: `java.lang.Character$Subset`
+extension type JCharacter$JSubset._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static final _class = jni$_.JClass.forName(r'java/lang/Character$Subset');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<JCharacter$JSubset> type =
+      $JCharacter$JSubset$Type$();
+}
+
+extension JCharacter$JSubset$$Methods on JCharacter$JSubset {
+  static final _id_equals = JCharacter$JSubset._class.instanceMethodId(
+    r'equals',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _equals = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public final boolean equals(java.lang.Object object)`
+  core$_.bool equals(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_hashCode$1 = JCharacter$JSubset._class.instanceMethodId(
+    r'hashCode',
+    r'()I',
+  );
+
+  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final int hashCode()`
+  int hashCode$1() {
+    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+  }
+
+  static final _id_toString$1 = JCharacter$JSubset._class.instanceMethodId(
+    r'toString',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _toString$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final java.lang.String toString()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? toString$1() {
+    return _toString$1(reference.pointer, _id_toString$1.pointer)
+        .object<JString?>();
+  }
+}
+
+final class $JCharacter$JSubset$Type$ extends jni$_.JType<JCharacter$JSubset> {
+  @jni$_.internal
+  const $JCharacter$JSubset$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/Character$Subset;';
+}
+
+/// from: `java.lang.Character$UnicodeBlock`
+extension type JCharacter$JUnicodeBlock._(jni$_.JObject _$this)
+    implements JCharacter$JSubset {
+  static final _class =
+      jni$_.JClass.forName(r'java/lang/Character$UnicodeBlock');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<JCharacter$JUnicodeBlock> type =
+      $JCharacter$JUnicodeBlock$Type$();
+  static final _id_ADLAM = _class.staticFieldId(
+    r'ADLAM',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ADLAM`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ADLAM =>
+      _id_ADLAM.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_AEGEAN_NUMBERS = _class.staticFieldId(
+    r'AEGEAN_NUMBERS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock AEGEAN_NUMBERS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get AEGEAN_NUMBERS =>
+      _id_AEGEAN_NUMBERS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_AHOM = _class.staticFieldId(
+    r'AHOM',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock AHOM`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get AHOM =>
+      _id_AHOM.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_ALCHEMICAL_SYMBOLS = _class.staticFieldId(
+    r'ALCHEMICAL_SYMBOLS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ALCHEMICAL_SYMBOLS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ALCHEMICAL_SYMBOLS =>
+      _id_ALCHEMICAL_SYMBOLS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_ALPHABETIC_PRESENTATION_FORMS = _class.staticFieldId(
+    r'ALPHABETIC_PRESENTATION_FORMS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ALPHABETIC_PRESENTATION_FORMS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ALPHABETIC_PRESENTATION_FORMS =>
+      _id_ALPHABETIC_PRESENTATION_FORMS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_ANATOLIAN_HIEROGLYPHS = _class.staticFieldId(
+    r'ANATOLIAN_HIEROGLYPHS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ANATOLIAN_HIEROGLYPHS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ANATOLIAN_HIEROGLYPHS =>
+      _id_ANATOLIAN_HIEROGLYPHS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_ANCIENT_GREEK_MUSICAL_NOTATION = _class.staticFieldId(
+    r'ANCIENT_GREEK_MUSICAL_NOTATION',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ANCIENT_GREEK_MUSICAL_NOTATION`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ANCIENT_GREEK_MUSICAL_NOTATION =>
+      _id_ANCIENT_GREEK_MUSICAL_NOTATION.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_ANCIENT_GREEK_NUMBERS = _class.staticFieldId(
+    r'ANCIENT_GREEK_NUMBERS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ANCIENT_GREEK_NUMBERS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ANCIENT_GREEK_NUMBERS =>
+      _id_ANCIENT_GREEK_NUMBERS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_ANCIENT_SYMBOLS = _class.staticFieldId(
+    r'ANCIENT_SYMBOLS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ANCIENT_SYMBOLS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ANCIENT_SYMBOLS =>
+      _id_ANCIENT_SYMBOLS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_ARABIC = _class.staticFieldId(
+    r'ARABIC',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ARABIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ARABIC =>
+      _id_ARABIC.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_ARABIC_EXTENDED_A = _class.staticFieldId(
+    r'ARABIC_EXTENDED_A',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ARABIC_EXTENDED_A`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ARABIC_EXTENDED_A =>
+      _id_ARABIC_EXTENDED_A.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_ARABIC_EXTENDED_B = _class.staticFieldId(
+    r'ARABIC_EXTENDED_B',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ARABIC_EXTENDED_B`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ARABIC_EXTENDED_B =>
+      _id_ARABIC_EXTENDED_B.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_ARABIC_EXTENDED_C = _class.staticFieldId(
+    r'ARABIC_EXTENDED_C',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ARABIC_EXTENDED_C`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ARABIC_EXTENDED_C =>
+      _id_ARABIC_EXTENDED_C.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_ARABIC_MATHEMATICAL_ALPHABETIC_SYMBOLS =
+      _class.staticFieldId(
+    r'ARABIC_MATHEMATICAL_ALPHABETIC_SYMBOLS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ARABIC_MATHEMATICAL_ALPHABETIC_SYMBOLS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ARABIC_MATHEMATICAL_ALPHABETIC_SYMBOLS =>
+      _id_ARABIC_MATHEMATICAL_ALPHABETIC_SYMBOLS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_ARABIC_PRESENTATION_FORMS_A = _class.staticFieldId(
+    r'ARABIC_PRESENTATION_FORMS_A',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ARABIC_PRESENTATION_FORMS_A`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ARABIC_PRESENTATION_FORMS_A =>
+      _id_ARABIC_PRESENTATION_FORMS_A.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_ARABIC_PRESENTATION_FORMS_B = _class.staticFieldId(
+    r'ARABIC_PRESENTATION_FORMS_B',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ARABIC_PRESENTATION_FORMS_B`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ARABIC_PRESENTATION_FORMS_B =>
+      _id_ARABIC_PRESENTATION_FORMS_B.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_ARABIC_SUPPLEMENT = _class.staticFieldId(
+    r'ARABIC_SUPPLEMENT',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ARABIC_SUPPLEMENT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ARABIC_SUPPLEMENT =>
+      _id_ARABIC_SUPPLEMENT.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_ARMENIAN = _class.staticFieldId(
+    r'ARMENIAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ARMENIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ARMENIAN =>
+      _id_ARMENIAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_ARROWS = _class.staticFieldId(
+    r'ARROWS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ARROWS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ARROWS =>
+      _id_ARROWS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_AVESTAN = _class.staticFieldId(
+    r'AVESTAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock AVESTAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get AVESTAN =>
+      _id_AVESTAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_BALINESE = _class.staticFieldId(
+    r'BALINESE',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock BALINESE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get BALINESE =>
+      _id_BALINESE.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_BAMUM = _class.staticFieldId(
+    r'BAMUM',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock BAMUM`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get BAMUM =>
+      _id_BAMUM.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_BAMUM_SUPPLEMENT = _class.staticFieldId(
+    r'BAMUM_SUPPLEMENT',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock BAMUM_SUPPLEMENT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get BAMUM_SUPPLEMENT =>
+      _id_BAMUM_SUPPLEMENT.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_BASIC_LATIN = _class.staticFieldId(
+    r'BASIC_LATIN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock BASIC_LATIN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get BASIC_LATIN =>
+      _id_BASIC_LATIN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_BASSA_VAH = _class.staticFieldId(
+    r'BASSA_VAH',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock BASSA_VAH`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get BASSA_VAH =>
+      _id_BASSA_VAH.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_BATAK = _class.staticFieldId(
+    r'BATAK',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock BATAK`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get BATAK =>
+      _id_BATAK.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_BENGALI = _class.staticFieldId(
+    r'BENGALI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock BENGALI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get BENGALI =>
+      _id_BENGALI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_BHAIKSUKI = _class.staticFieldId(
+    r'BHAIKSUKI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock BHAIKSUKI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get BHAIKSUKI =>
+      _id_BHAIKSUKI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_BLOCK_ELEMENTS = _class.staticFieldId(
+    r'BLOCK_ELEMENTS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock BLOCK_ELEMENTS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get BLOCK_ELEMENTS =>
+      _id_BLOCK_ELEMENTS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_BOPOMOFO = _class.staticFieldId(
+    r'BOPOMOFO',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock BOPOMOFO`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get BOPOMOFO =>
+      _id_BOPOMOFO.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_BOPOMOFO_EXTENDED = _class.staticFieldId(
+    r'BOPOMOFO_EXTENDED',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock BOPOMOFO_EXTENDED`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get BOPOMOFO_EXTENDED =>
+      _id_BOPOMOFO_EXTENDED.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_BOX_DRAWING = _class.staticFieldId(
+    r'BOX_DRAWING',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock BOX_DRAWING`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get BOX_DRAWING =>
+      _id_BOX_DRAWING.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_BRAHMI = _class.staticFieldId(
+    r'BRAHMI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock BRAHMI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get BRAHMI =>
+      _id_BRAHMI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_BRAILLE_PATTERNS = _class.staticFieldId(
+    r'BRAILLE_PATTERNS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock BRAILLE_PATTERNS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get BRAILLE_PATTERNS =>
+      _id_BRAILLE_PATTERNS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_BUGINESE = _class.staticFieldId(
+    r'BUGINESE',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock BUGINESE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get BUGINESE =>
+      _id_BUGINESE.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_BUHID = _class.staticFieldId(
+    r'BUHID',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock BUHID`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get BUHID =>
+      _id_BUHID.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_BYZANTINE_MUSICAL_SYMBOLS = _class.staticFieldId(
+    r'BYZANTINE_MUSICAL_SYMBOLS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock BYZANTINE_MUSICAL_SYMBOLS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get BYZANTINE_MUSICAL_SYMBOLS =>
+      _id_BYZANTINE_MUSICAL_SYMBOLS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_CARIAN = _class.staticFieldId(
+    r'CARIAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CARIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CARIAN =>
+      _id_CARIAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_CAUCASIAN_ALBANIAN = _class.staticFieldId(
+    r'CAUCASIAN_ALBANIAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CAUCASIAN_ALBANIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CAUCASIAN_ALBANIAN =>
+      _id_CAUCASIAN_ALBANIAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_CHAKMA = _class.staticFieldId(
+    r'CHAKMA',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CHAKMA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CHAKMA =>
+      _id_CHAKMA.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_CHAM = _class.staticFieldId(
+    r'CHAM',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CHAM`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CHAM =>
+      _id_CHAM.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_CHEROKEE = _class.staticFieldId(
+    r'CHEROKEE',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CHEROKEE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CHEROKEE =>
+      _id_CHEROKEE.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_CHEROKEE_SUPPLEMENT = _class.staticFieldId(
+    r'CHEROKEE_SUPPLEMENT',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CHEROKEE_SUPPLEMENT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CHEROKEE_SUPPLEMENT =>
+      _id_CHEROKEE_SUPPLEMENT.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_CHESS_SYMBOLS = _class.staticFieldId(
+    r'CHESS_SYMBOLS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CHESS_SYMBOLS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CHESS_SYMBOLS =>
+      _id_CHESS_SYMBOLS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_CHORASMIAN = _class.staticFieldId(
+    r'CHORASMIAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CHORASMIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CHORASMIAN =>
+      _id_CHORASMIAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_CJK_COMPATIBILITY = _class.staticFieldId(
+    r'CJK_COMPATIBILITY',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CJK_COMPATIBILITY`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CJK_COMPATIBILITY =>
+      _id_CJK_COMPATIBILITY.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_CJK_COMPATIBILITY_FORMS = _class.staticFieldId(
+    r'CJK_COMPATIBILITY_FORMS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CJK_COMPATIBILITY_FORMS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CJK_COMPATIBILITY_FORMS =>
+      _id_CJK_COMPATIBILITY_FORMS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_CJK_COMPATIBILITY_IDEOGRAPHS = _class.staticFieldId(
+    r'CJK_COMPATIBILITY_IDEOGRAPHS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CJK_COMPATIBILITY_IDEOGRAPHS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CJK_COMPATIBILITY_IDEOGRAPHS =>
+      _id_CJK_COMPATIBILITY_IDEOGRAPHS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_CJK_COMPATIBILITY_IDEOGRAPHS_SUPPLEMENT =
+      _class.staticFieldId(
+    r'CJK_COMPATIBILITY_IDEOGRAPHS_SUPPLEMENT',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CJK_COMPATIBILITY_IDEOGRAPHS_SUPPLEMENT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock?
+      get CJK_COMPATIBILITY_IDEOGRAPHS_SUPPLEMENT =>
+          _id_CJK_COMPATIBILITY_IDEOGRAPHS_SUPPLEMENT.getNullable(
+                  _class, JCharacter$JUnicodeBlock.type)
+              as JCharacter$JUnicodeBlock?;
+
+  static final _id_CJK_RADICALS_SUPPLEMENT = _class.staticFieldId(
+    r'CJK_RADICALS_SUPPLEMENT',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CJK_RADICALS_SUPPLEMENT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CJK_RADICALS_SUPPLEMENT =>
+      _id_CJK_RADICALS_SUPPLEMENT.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_CJK_STROKES = _class.staticFieldId(
+    r'CJK_STROKES',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CJK_STROKES`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CJK_STROKES =>
+      _id_CJK_STROKES.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_CJK_SYMBOLS_AND_PUNCTUATION = _class.staticFieldId(
+    r'CJK_SYMBOLS_AND_PUNCTUATION',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CJK_SYMBOLS_AND_PUNCTUATION`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CJK_SYMBOLS_AND_PUNCTUATION =>
+      _id_CJK_SYMBOLS_AND_PUNCTUATION.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_CJK_UNIFIED_IDEOGRAPHS = _class.staticFieldId(
+    r'CJK_UNIFIED_IDEOGRAPHS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CJK_UNIFIED_IDEOGRAPHS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CJK_UNIFIED_IDEOGRAPHS =>
+      _id_CJK_UNIFIED_IDEOGRAPHS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A = _class.staticFieldId(
+    r'CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A =>
+      _id_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_A.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_B = _class.staticFieldId(
+    r'CJK_UNIFIED_IDEOGRAPHS_EXTENSION_B',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CJK_UNIFIED_IDEOGRAPHS_EXTENSION_B`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CJK_UNIFIED_IDEOGRAPHS_EXTENSION_B =>
+      _id_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_B.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_C = _class.staticFieldId(
+    r'CJK_UNIFIED_IDEOGRAPHS_EXTENSION_C',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CJK_UNIFIED_IDEOGRAPHS_EXTENSION_C`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CJK_UNIFIED_IDEOGRAPHS_EXTENSION_C =>
+      _id_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_C.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_D = _class.staticFieldId(
+    r'CJK_UNIFIED_IDEOGRAPHS_EXTENSION_D',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CJK_UNIFIED_IDEOGRAPHS_EXTENSION_D`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CJK_UNIFIED_IDEOGRAPHS_EXTENSION_D =>
+      _id_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_D.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_E = _class.staticFieldId(
+    r'CJK_UNIFIED_IDEOGRAPHS_EXTENSION_E',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CJK_UNIFIED_IDEOGRAPHS_EXTENSION_E`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CJK_UNIFIED_IDEOGRAPHS_EXTENSION_E =>
+      _id_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_E.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_F = _class.staticFieldId(
+    r'CJK_UNIFIED_IDEOGRAPHS_EXTENSION_F',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CJK_UNIFIED_IDEOGRAPHS_EXTENSION_F`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CJK_UNIFIED_IDEOGRAPHS_EXTENSION_F =>
+      _id_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_F.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_G = _class.staticFieldId(
+    r'CJK_UNIFIED_IDEOGRAPHS_EXTENSION_G',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CJK_UNIFIED_IDEOGRAPHS_EXTENSION_G`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CJK_UNIFIED_IDEOGRAPHS_EXTENSION_G =>
+      _id_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_G.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_H = _class.staticFieldId(
+    r'CJK_UNIFIED_IDEOGRAPHS_EXTENSION_H',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CJK_UNIFIED_IDEOGRAPHS_EXTENSION_H`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CJK_UNIFIED_IDEOGRAPHS_EXTENSION_H =>
+      _id_CJK_UNIFIED_IDEOGRAPHS_EXTENSION_H.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_COMBINING_DIACRITICAL_MARKS = _class.staticFieldId(
+    r'COMBINING_DIACRITICAL_MARKS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock COMBINING_DIACRITICAL_MARKS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get COMBINING_DIACRITICAL_MARKS =>
+      _id_COMBINING_DIACRITICAL_MARKS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_COMBINING_DIACRITICAL_MARKS_EXTENDED = _class.staticFieldId(
+    r'COMBINING_DIACRITICAL_MARKS_EXTENDED',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock COMBINING_DIACRITICAL_MARKS_EXTENDED`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get COMBINING_DIACRITICAL_MARKS_EXTENDED =>
+      _id_COMBINING_DIACRITICAL_MARKS_EXTENDED.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_COMBINING_DIACRITICAL_MARKS_SUPPLEMENT =
+      _class.staticFieldId(
+    r'COMBINING_DIACRITICAL_MARKS_SUPPLEMENT',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock COMBINING_DIACRITICAL_MARKS_SUPPLEMENT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get COMBINING_DIACRITICAL_MARKS_SUPPLEMENT =>
+      _id_COMBINING_DIACRITICAL_MARKS_SUPPLEMENT.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_COMBINING_HALF_MARKS = _class.staticFieldId(
+    r'COMBINING_HALF_MARKS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock COMBINING_HALF_MARKS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get COMBINING_HALF_MARKS =>
+      _id_COMBINING_HALF_MARKS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_COMBINING_MARKS_FOR_SYMBOLS = _class.staticFieldId(
+    r'COMBINING_MARKS_FOR_SYMBOLS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock COMBINING_MARKS_FOR_SYMBOLS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get COMBINING_MARKS_FOR_SYMBOLS =>
+      _id_COMBINING_MARKS_FOR_SYMBOLS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_COMMON_INDIC_NUMBER_FORMS = _class.staticFieldId(
+    r'COMMON_INDIC_NUMBER_FORMS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock COMMON_INDIC_NUMBER_FORMS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get COMMON_INDIC_NUMBER_FORMS =>
+      _id_COMMON_INDIC_NUMBER_FORMS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_CONTROL_PICTURES = _class.staticFieldId(
+    r'CONTROL_PICTURES',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CONTROL_PICTURES`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CONTROL_PICTURES =>
+      _id_CONTROL_PICTURES.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_COPTIC = _class.staticFieldId(
+    r'COPTIC',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock COPTIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get COPTIC =>
+      _id_COPTIC.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_COPTIC_EPACT_NUMBERS = _class.staticFieldId(
+    r'COPTIC_EPACT_NUMBERS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock COPTIC_EPACT_NUMBERS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get COPTIC_EPACT_NUMBERS =>
+      _id_COPTIC_EPACT_NUMBERS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_COUNTING_ROD_NUMERALS = _class.staticFieldId(
+    r'COUNTING_ROD_NUMERALS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock COUNTING_ROD_NUMERALS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get COUNTING_ROD_NUMERALS =>
+      _id_COUNTING_ROD_NUMERALS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_CUNEIFORM = _class.staticFieldId(
+    r'CUNEIFORM',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CUNEIFORM`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CUNEIFORM =>
+      _id_CUNEIFORM.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_CUNEIFORM_NUMBERS_AND_PUNCTUATION = _class.staticFieldId(
+    r'CUNEIFORM_NUMBERS_AND_PUNCTUATION',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CUNEIFORM_NUMBERS_AND_PUNCTUATION`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CUNEIFORM_NUMBERS_AND_PUNCTUATION =>
+      _id_CUNEIFORM_NUMBERS_AND_PUNCTUATION.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_CURRENCY_SYMBOLS = _class.staticFieldId(
+    r'CURRENCY_SYMBOLS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CURRENCY_SYMBOLS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CURRENCY_SYMBOLS =>
+      _id_CURRENCY_SYMBOLS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_CYPRIOT_SYLLABARY = _class.staticFieldId(
+    r'CYPRIOT_SYLLABARY',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CYPRIOT_SYLLABARY`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CYPRIOT_SYLLABARY =>
+      _id_CYPRIOT_SYLLABARY.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_CYPRO_MINOAN = _class.staticFieldId(
+    r'CYPRO_MINOAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CYPRO_MINOAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CYPRO_MINOAN =>
+      _id_CYPRO_MINOAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_CYRILLIC = _class.staticFieldId(
+    r'CYRILLIC',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CYRILLIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CYRILLIC =>
+      _id_CYRILLIC.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_CYRILLIC_EXTENDED_A = _class.staticFieldId(
+    r'CYRILLIC_EXTENDED_A',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CYRILLIC_EXTENDED_A`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CYRILLIC_EXTENDED_A =>
+      _id_CYRILLIC_EXTENDED_A.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_CYRILLIC_EXTENDED_B = _class.staticFieldId(
+    r'CYRILLIC_EXTENDED_B',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CYRILLIC_EXTENDED_B`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CYRILLIC_EXTENDED_B =>
+      _id_CYRILLIC_EXTENDED_B.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_CYRILLIC_EXTENDED_C = _class.staticFieldId(
+    r'CYRILLIC_EXTENDED_C',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CYRILLIC_EXTENDED_C`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CYRILLIC_EXTENDED_C =>
+      _id_CYRILLIC_EXTENDED_C.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_CYRILLIC_EXTENDED_D = _class.staticFieldId(
+    r'CYRILLIC_EXTENDED_D',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CYRILLIC_EXTENDED_D`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CYRILLIC_EXTENDED_D =>
+      _id_CYRILLIC_EXTENDED_D.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_CYRILLIC_SUPPLEMENTARY = _class.staticFieldId(
+    r'CYRILLIC_SUPPLEMENTARY',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock CYRILLIC_SUPPLEMENTARY`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get CYRILLIC_SUPPLEMENTARY =>
+      _id_CYRILLIC_SUPPLEMENTARY.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_DESERET = _class.staticFieldId(
+    r'DESERET',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock DESERET`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get DESERET =>
+      _id_DESERET.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_DEVANAGARI = _class.staticFieldId(
+    r'DEVANAGARI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock DEVANAGARI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get DEVANAGARI =>
+      _id_DEVANAGARI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_DEVANAGARI_EXTENDED = _class.staticFieldId(
+    r'DEVANAGARI_EXTENDED',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock DEVANAGARI_EXTENDED`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get DEVANAGARI_EXTENDED =>
+      _id_DEVANAGARI_EXTENDED.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_DEVANAGARI_EXTENDED_A = _class.staticFieldId(
+    r'DEVANAGARI_EXTENDED_A',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock DEVANAGARI_EXTENDED_A`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get DEVANAGARI_EXTENDED_A =>
+      _id_DEVANAGARI_EXTENDED_A.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_DINGBATS = _class.staticFieldId(
+    r'DINGBATS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock DINGBATS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get DINGBATS =>
+      _id_DINGBATS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_DIVES_AKURU = _class.staticFieldId(
+    r'DIVES_AKURU',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock DIVES_AKURU`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get DIVES_AKURU =>
+      _id_DIVES_AKURU.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_DOGRA = _class.staticFieldId(
+    r'DOGRA',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock DOGRA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get DOGRA =>
+      _id_DOGRA.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_DOMINO_TILES = _class.staticFieldId(
+    r'DOMINO_TILES',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock DOMINO_TILES`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get DOMINO_TILES =>
+      _id_DOMINO_TILES.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_DUPLOYAN = _class.staticFieldId(
+    r'DUPLOYAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock DUPLOYAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get DUPLOYAN =>
+      _id_DUPLOYAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_EARLY_DYNASTIC_CUNEIFORM = _class.staticFieldId(
+    r'EARLY_DYNASTIC_CUNEIFORM',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock EARLY_DYNASTIC_CUNEIFORM`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get EARLY_DYNASTIC_CUNEIFORM =>
+      _id_EARLY_DYNASTIC_CUNEIFORM.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_EGYPTIAN_HIEROGLYPHS = _class.staticFieldId(
+    r'EGYPTIAN_HIEROGLYPHS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock EGYPTIAN_HIEROGLYPHS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get EGYPTIAN_HIEROGLYPHS =>
+      _id_EGYPTIAN_HIEROGLYPHS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_EGYPTIAN_HIEROGLYPH_FORMAT_CONTROLS = _class.staticFieldId(
+    r'EGYPTIAN_HIEROGLYPH_FORMAT_CONTROLS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock EGYPTIAN_HIEROGLYPH_FORMAT_CONTROLS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get EGYPTIAN_HIEROGLYPH_FORMAT_CONTROLS =>
+      _id_EGYPTIAN_HIEROGLYPH_FORMAT_CONTROLS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_ELBASAN = _class.staticFieldId(
+    r'ELBASAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ELBASAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ELBASAN =>
+      _id_ELBASAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_ELYMAIC = _class.staticFieldId(
+    r'ELYMAIC',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ELYMAIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ELYMAIC =>
+      _id_ELYMAIC.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_EMOTICONS = _class.staticFieldId(
+    r'EMOTICONS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock EMOTICONS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get EMOTICONS =>
+      _id_EMOTICONS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_ENCLOSED_ALPHANUMERICS = _class.staticFieldId(
+    r'ENCLOSED_ALPHANUMERICS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ENCLOSED_ALPHANUMERICS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ENCLOSED_ALPHANUMERICS =>
+      _id_ENCLOSED_ALPHANUMERICS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_ENCLOSED_ALPHANUMERIC_SUPPLEMENT = _class.staticFieldId(
+    r'ENCLOSED_ALPHANUMERIC_SUPPLEMENT',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ENCLOSED_ALPHANUMERIC_SUPPLEMENT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ENCLOSED_ALPHANUMERIC_SUPPLEMENT =>
+      _id_ENCLOSED_ALPHANUMERIC_SUPPLEMENT.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_ENCLOSED_CJK_LETTERS_AND_MONTHS = _class.staticFieldId(
+    r'ENCLOSED_CJK_LETTERS_AND_MONTHS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ENCLOSED_CJK_LETTERS_AND_MONTHS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ENCLOSED_CJK_LETTERS_AND_MONTHS =>
+      _id_ENCLOSED_CJK_LETTERS_AND_MONTHS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_ENCLOSED_IDEOGRAPHIC_SUPPLEMENT = _class.staticFieldId(
+    r'ENCLOSED_IDEOGRAPHIC_SUPPLEMENT',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ENCLOSED_IDEOGRAPHIC_SUPPLEMENT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ENCLOSED_IDEOGRAPHIC_SUPPLEMENT =>
+      _id_ENCLOSED_IDEOGRAPHIC_SUPPLEMENT.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_ETHIOPIC = _class.staticFieldId(
+    r'ETHIOPIC',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ETHIOPIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ETHIOPIC =>
+      _id_ETHIOPIC.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_ETHIOPIC_EXTENDED = _class.staticFieldId(
+    r'ETHIOPIC_EXTENDED',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ETHIOPIC_EXTENDED`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ETHIOPIC_EXTENDED =>
+      _id_ETHIOPIC_EXTENDED.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_ETHIOPIC_EXTENDED_A = _class.staticFieldId(
+    r'ETHIOPIC_EXTENDED_A',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ETHIOPIC_EXTENDED_A`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ETHIOPIC_EXTENDED_A =>
+      _id_ETHIOPIC_EXTENDED_A.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_ETHIOPIC_EXTENDED_B = _class.staticFieldId(
+    r'ETHIOPIC_EXTENDED_B',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ETHIOPIC_EXTENDED_B`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ETHIOPIC_EXTENDED_B =>
+      _id_ETHIOPIC_EXTENDED_B.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_ETHIOPIC_SUPPLEMENT = _class.staticFieldId(
+    r'ETHIOPIC_SUPPLEMENT',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ETHIOPIC_SUPPLEMENT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ETHIOPIC_SUPPLEMENT =>
+      _id_ETHIOPIC_SUPPLEMENT.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_GENERAL_PUNCTUATION = _class.staticFieldId(
+    r'GENERAL_PUNCTUATION',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock GENERAL_PUNCTUATION`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get GENERAL_PUNCTUATION =>
+      _id_GENERAL_PUNCTUATION.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_GEOMETRIC_SHAPES = _class.staticFieldId(
+    r'GEOMETRIC_SHAPES',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock GEOMETRIC_SHAPES`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get GEOMETRIC_SHAPES =>
+      _id_GEOMETRIC_SHAPES.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_GEOMETRIC_SHAPES_EXTENDED = _class.staticFieldId(
+    r'GEOMETRIC_SHAPES_EXTENDED',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock GEOMETRIC_SHAPES_EXTENDED`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get GEOMETRIC_SHAPES_EXTENDED =>
+      _id_GEOMETRIC_SHAPES_EXTENDED.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_GEORGIAN = _class.staticFieldId(
+    r'GEORGIAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock GEORGIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get GEORGIAN =>
+      _id_GEORGIAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_GEORGIAN_EXTENDED = _class.staticFieldId(
+    r'GEORGIAN_EXTENDED',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock GEORGIAN_EXTENDED`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get GEORGIAN_EXTENDED =>
+      _id_GEORGIAN_EXTENDED.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_GEORGIAN_SUPPLEMENT = _class.staticFieldId(
+    r'GEORGIAN_SUPPLEMENT',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock GEORGIAN_SUPPLEMENT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get GEORGIAN_SUPPLEMENT =>
+      _id_GEORGIAN_SUPPLEMENT.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_GLAGOLITIC = _class.staticFieldId(
+    r'GLAGOLITIC',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock GLAGOLITIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get GLAGOLITIC =>
+      _id_GLAGOLITIC.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_GLAGOLITIC_SUPPLEMENT = _class.staticFieldId(
+    r'GLAGOLITIC_SUPPLEMENT',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock GLAGOLITIC_SUPPLEMENT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get GLAGOLITIC_SUPPLEMENT =>
+      _id_GLAGOLITIC_SUPPLEMENT.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_GOTHIC = _class.staticFieldId(
+    r'GOTHIC',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock GOTHIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get GOTHIC =>
+      _id_GOTHIC.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_GRANTHA = _class.staticFieldId(
+    r'GRANTHA',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock GRANTHA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get GRANTHA =>
+      _id_GRANTHA.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_GREEK = _class.staticFieldId(
+    r'GREEK',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock GREEK`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get GREEK =>
+      _id_GREEK.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_GREEK_EXTENDED = _class.staticFieldId(
+    r'GREEK_EXTENDED',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock GREEK_EXTENDED`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get GREEK_EXTENDED =>
+      _id_GREEK_EXTENDED.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_GUJARATI = _class.staticFieldId(
+    r'GUJARATI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock GUJARATI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get GUJARATI =>
+      _id_GUJARATI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_GUNJALA_GONDI = _class.staticFieldId(
+    r'GUNJALA_GONDI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock GUNJALA_GONDI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get GUNJALA_GONDI =>
+      _id_GUNJALA_GONDI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_GURMUKHI = _class.staticFieldId(
+    r'GURMUKHI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock GURMUKHI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get GURMUKHI =>
+      _id_GURMUKHI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_HALFWIDTH_AND_FULLWIDTH_FORMS = _class.staticFieldId(
+    r'HALFWIDTH_AND_FULLWIDTH_FORMS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock HALFWIDTH_AND_FULLWIDTH_FORMS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get HALFWIDTH_AND_FULLWIDTH_FORMS =>
+      _id_HALFWIDTH_AND_FULLWIDTH_FORMS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_HANGUL_COMPATIBILITY_JAMO = _class.staticFieldId(
+    r'HANGUL_COMPATIBILITY_JAMO',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock HANGUL_COMPATIBILITY_JAMO`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get HANGUL_COMPATIBILITY_JAMO =>
+      _id_HANGUL_COMPATIBILITY_JAMO.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_HANGUL_JAMO = _class.staticFieldId(
+    r'HANGUL_JAMO',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock HANGUL_JAMO`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get HANGUL_JAMO =>
+      _id_HANGUL_JAMO.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_HANGUL_JAMO_EXTENDED_A = _class.staticFieldId(
+    r'HANGUL_JAMO_EXTENDED_A',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock HANGUL_JAMO_EXTENDED_A`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get HANGUL_JAMO_EXTENDED_A =>
+      _id_HANGUL_JAMO_EXTENDED_A.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_HANGUL_JAMO_EXTENDED_B = _class.staticFieldId(
+    r'HANGUL_JAMO_EXTENDED_B',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock HANGUL_JAMO_EXTENDED_B`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get HANGUL_JAMO_EXTENDED_B =>
+      _id_HANGUL_JAMO_EXTENDED_B.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_HANGUL_SYLLABLES = _class.staticFieldId(
+    r'HANGUL_SYLLABLES',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock HANGUL_SYLLABLES`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get HANGUL_SYLLABLES =>
+      _id_HANGUL_SYLLABLES.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_HANIFI_ROHINGYA = _class.staticFieldId(
+    r'HANIFI_ROHINGYA',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock HANIFI_ROHINGYA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get HANIFI_ROHINGYA =>
+      _id_HANIFI_ROHINGYA.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_HANUNOO = _class.staticFieldId(
+    r'HANUNOO',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock HANUNOO`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get HANUNOO =>
+      _id_HANUNOO.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_HATRAN = _class.staticFieldId(
+    r'HATRAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock HATRAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get HATRAN =>
+      _id_HATRAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_HEBREW = _class.staticFieldId(
+    r'HEBREW',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock HEBREW`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get HEBREW =>
+      _id_HEBREW.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_HIGH_PRIVATE_USE_SURROGATES = _class.staticFieldId(
+    r'HIGH_PRIVATE_USE_SURROGATES',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock HIGH_PRIVATE_USE_SURROGATES`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get HIGH_PRIVATE_USE_SURROGATES =>
+      _id_HIGH_PRIVATE_USE_SURROGATES.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_HIGH_SURROGATES = _class.staticFieldId(
+    r'HIGH_SURROGATES',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock HIGH_SURROGATES`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get HIGH_SURROGATES =>
+      _id_HIGH_SURROGATES.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_HIRAGANA = _class.staticFieldId(
+    r'HIRAGANA',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock HIRAGANA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get HIRAGANA =>
+      _id_HIRAGANA.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_IDEOGRAPHIC_DESCRIPTION_CHARACTERS = _class.staticFieldId(
+    r'IDEOGRAPHIC_DESCRIPTION_CHARACTERS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock IDEOGRAPHIC_DESCRIPTION_CHARACTERS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get IDEOGRAPHIC_DESCRIPTION_CHARACTERS =>
+      _id_IDEOGRAPHIC_DESCRIPTION_CHARACTERS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_IDEOGRAPHIC_SYMBOLS_AND_PUNCTUATION = _class.staticFieldId(
+    r'IDEOGRAPHIC_SYMBOLS_AND_PUNCTUATION',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock IDEOGRAPHIC_SYMBOLS_AND_PUNCTUATION`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get IDEOGRAPHIC_SYMBOLS_AND_PUNCTUATION =>
+      _id_IDEOGRAPHIC_SYMBOLS_AND_PUNCTUATION.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_IMPERIAL_ARAMAIC = _class.staticFieldId(
+    r'IMPERIAL_ARAMAIC',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock IMPERIAL_ARAMAIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get IMPERIAL_ARAMAIC =>
+      _id_IMPERIAL_ARAMAIC.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_INDIC_SIYAQ_NUMBERS = _class.staticFieldId(
+    r'INDIC_SIYAQ_NUMBERS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock INDIC_SIYAQ_NUMBERS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get INDIC_SIYAQ_NUMBERS =>
+      _id_INDIC_SIYAQ_NUMBERS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_INSCRIPTIONAL_PAHLAVI = _class.staticFieldId(
+    r'INSCRIPTIONAL_PAHLAVI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock INSCRIPTIONAL_PAHLAVI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get INSCRIPTIONAL_PAHLAVI =>
+      _id_INSCRIPTIONAL_PAHLAVI.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_INSCRIPTIONAL_PARTHIAN = _class.staticFieldId(
+    r'INSCRIPTIONAL_PARTHIAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock INSCRIPTIONAL_PARTHIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get INSCRIPTIONAL_PARTHIAN =>
+      _id_INSCRIPTIONAL_PARTHIAN.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_IPA_EXTENSIONS = _class.staticFieldId(
+    r'IPA_EXTENSIONS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock IPA_EXTENSIONS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get IPA_EXTENSIONS =>
+      _id_IPA_EXTENSIONS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_JAVANESE = _class.staticFieldId(
+    r'JAVANESE',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock JAVANESE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get JAVANESE =>
+      _id_JAVANESE.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_KAITHI = _class.staticFieldId(
+    r'KAITHI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock KAITHI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get KAITHI =>
+      _id_KAITHI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_KAKTOVIK_NUMERALS = _class.staticFieldId(
+    r'KAKTOVIK_NUMERALS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock KAKTOVIK_NUMERALS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get KAKTOVIK_NUMERALS =>
+      _id_KAKTOVIK_NUMERALS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_KANA_EXTENDED_A = _class.staticFieldId(
+    r'KANA_EXTENDED_A',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock KANA_EXTENDED_A`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get KANA_EXTENDED_A =>
+      _id_KANA_EXTENDED_A.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_KANA_EXTENDED_B = _class.staticFieldId(
+    r'KANA_EXTENDED_B',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock KANA_EXTENDED_B`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get KANA_EXTENDED_B =>
+      _id_KANA_EXTENDED_B.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_KANA_SUPPLEMENT = _class.staticFieldId(
+    r'KANA_SUPPLEMENT',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock KANA_SUPPLEMENT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get KANA_SUPPLEMENT =>
+      _id_KANA_SUPPLEMENT.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_KANBUN = _class.staticFieldId(
+    r'KANBUN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock KANBUN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get KANBUN =>
+      _id_KANBUN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_KANGXI_RADICALS = _class.staticFieldId(
+    r'KANGXI_RADICALS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock KANGXI_RADICALS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get KANGXI_RADICALS =>
+      _id_KANGXI_RADICALS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_KANNADA = _class.staticFieldId(
+    r'KANNADA',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock KANNADA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get KANNADA =>
+      _id_KANNADA.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_KATAKANA = _class.staticFieldId(
+    r'KATAKANA',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock KATAKANA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get KATAKANA =>
+      _id_KATAKANA.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_KATAKANA_PHONETIC_EXTENSIONS = _class.staticFieldId(
+    r'KATAKANA_PHONETIC_EXTENSIONS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock KATAKANA_PHONETIC_EXTENSIONS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get KATAKANA_PHONETIC_EXTENSIONS =>
+      _id_KATAKANA_PHONETIC_EXTENSIONS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_KAWI = _class.staticFieldId(
+    r'KAWI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock KAWI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get KAWI =>
+      _id_KAWI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_KAYAH_LI = _class.staticFieldId(
+    r'KAYAH_LI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock KAYAH_LI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get KAYAH_LI =>
+      _id_KAYAH_LI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_KHAROSHTHI = _class.staticFieldId(
+    r'KHAROSHTHI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock KHAROSHTHI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get KHAROSHTHI =>
+      _id_KHAROSHTHI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_KHITAN_SMALL_SCRIPT = _class.staticFieldId(
+    r'KHITAN_SMALL_SCRIPT',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock KHITAN_SMALL_SCRIPT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get KHITAN_SMALL_SCRIPT =>
+      _id_KHITAN_SMALL_SCRIPT.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_KHMER = _class.staticFieldId(
+    r'KHMER',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock KHMER`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get KHMER =>
+      _id_KHMER.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_KHMER_SYMBOLS = _class.staticFieldId(
+    r'KHMER_SYMBOLS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock KHMER_SYMBOLS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get KHMER_SYMBOLS =>
+      _id_KHMER_SYMBOLS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_KHOJKI = _class.staticFieldId(
+    r'KHOJKI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock KHOJKI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get KHOJKI =>
+      _id_KHOJKI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_KHUDAWADI = _class.staticFieldId(
+    r'KHUDAWADI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock KHUDAWADI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get KHUDAWADI =>
+      _id_KHUDAWADI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_LAO = _class.staticFieldId(
+    r'LAO',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock LAO`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get LAO =>
+      _id_LAO.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_LATIN_1_SUPPLEMENT = _class.staticFieldId(
+    r'LATIN_1_SUPPLEMENT',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock LATIN_1_SUPPLEMENT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get LATIN_1_SUPPLEMENT =>
+      _id_LATIN_1_SUPPLEMENT.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_LATIN_EXTENDED_A = _class.staticFieldId(
+    r'LATIN_EXTENDED_A',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock LATIN_EXTENDED_A`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get LATIN_EXTENDED_A =>
+      _id_LATIN_EXTENDED_A.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_LATIN_EXTENDED_ADDITIONAL = _class.staticFieldId(
+    r'LATIN_EXTENDED_ADDITIONAL',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock LATIN_EXTENDED_ADDITIONAL`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get LATIN_EXTENDED_ADDITIONAL =>
+      _id_LATIN_EXTENDED_ADDITIONAL.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_LATIN_EXTENDED_B = _class.staticFieldId(
+    r'LATIN_EXTENDED_B',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock LATIN_EXTENDED_B`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get LATIN_EXTENDED_B =>
+      _id_LATIN_EXTENDED_B.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_LATIN_EXTENDED_C = _class.staticFieldId(
+    r'LATIN_EXTENDED_C',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock LATIN_EXTENDED_C`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get LATIN_EXTENDED_C =>
+      _id_LATIN_EXTENDED_C.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_LATIN_EXTENDED_D = _class.staticFieldId(
+    r'LATIN_EXTENDED_D',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock LATIN_EXTENDED_D`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get LATIN_EXTENDED_D =>
+      _id_LATIN_EXTENDED_D.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_LATIN_EXTENDED_E = _class.staticFieldId(
+    r'LATIN_EXTENDED_E',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock LATIN_EXTENDED_E`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get LATIN_EXTENDED_E =>
+      _id_LATIN_EXTENDED_E.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_LATIN_EXTENDED_F = _class.staticFieldId(
+    r'LATIN_EXTENDED_F',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock LATIN_EXTENDED_F`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get LATIN_EXTENDED_F =>
+      _id_LATIN_EXTENDED_F.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_LATIN_EXTENDED_G = _class.staticFieldId(
+    r'LATIN_EXTENDED_G',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock LATIN_EXTENDED_G`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get LATIN_EXTENDED_G =>
+      _id_LATIN_EXTENDED_G.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_LEPCHA = _class.staticFieldId(
+    r'LEPCHA',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock LEPCHA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get LEPCHA =>
+      _id_LEPCHA.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_LETTERLIKE_SYMBOLS = _class.staticFieldId(
+    r'LETTERLIKE_SYMBOLS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock LETTERLIKE_SYMBOLS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get LETTERLIKE_SYMBOLS =>
+      _id_LETTERLIKE_SYMBOLS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_LIMBU = _class.staticFieldId(
+    r'LIMBU',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock LIMBU`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get LIMBU =>
+      _id_LIMBU.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_LINEAR_A = _class.staticFieldId(
+    r'LINEAR_A',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock LINEAR_A`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get LINEAR_A =>
+      _id_LINEAR_A.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_LINEAR_B_IDEOGRAMS = _class.staticFieldId(
+    r'LINEAR_B_IDEOGRAMS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock LINEAR_B_IDEOGRAMS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get LINEAR_B_IDEOGRAMS =>
+      _id_LINEAR_B_IDEOGRAMS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_LINEAR_B_SYLLABARY = _class.staticFieldId(
+    r'LINEAR_B_SYLLABARY',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock LINEAR_B_SYLLABARY`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get LINEAR_B_SYLLABARY =>
+      _id_LINEAR_B_SYLLABARY.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_LISU = _class.staticFieldId(
+    r'LISU',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock LISU`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get LISU =>
+      _id_LISU.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_LISU_SUPPLEMENT = _class.staticFieldId(
+    r'LISU_SUPPLEMENT',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock LISU_SUPPLEMENT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get LISU_SUPPLEMENT =>
+      _id_LISU_SUPPLEMENT.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_LOW_SURROGATES = _class.staticFieldId(
+    r'LOW_SURROGATES',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock LOW_SURROGATES`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get LOW_SURROGATES =>
+      _id_LOW_SURROGATES.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_LYCIAN = _class.staticFieldId(
+    r'LYCIAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock LYCIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get LYCIAN =>
+      _id_LYCIAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_LYDIAN = _class.staticFieldId(
+    r'LYDIAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock LYDIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get LYDIAN =>
+      _id_LYDIAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_MAHAJANI = _class.staticFieldId(
+    r'MAHAJANI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MAHAJANI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MAHAJANI =>
+      _id_MAHAJANI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_MAHJONG_TILES = _class.staticFieldId(
+    r'MAHJONG_TILES',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MAHJONG_TILES`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MAHJONG_TILES =>
+      _id_MAHJONG_TILES.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_MAKASAR = _class.staticFieldId(
+    r'MAKASAR',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MAKASAR`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MAKASAR =>
+      _id_MAKASAR.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_MALAYALAM = _class.staticFieldId(
+    r'MALAYALAM',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MALAYALAM`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MALAYALAM =>
+      _id_MALAYALAM.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_MANDAIC = _class.staticFieldId(
+    r'MANDAIC',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MANDAIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MANDAIC =>
+      _id_MANDAIC.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_MANICHAEAN = _class.staticFieldId(
+    r'MANICHAEAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MANICHAEAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MANICHAEAN =>
+      _id_MANICHAEAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_MARCHEN = _class.staticFieldId(
+    r'MARCHEN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MARCHEN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MARCHEN =>
+      _id_MARCHEN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_MASARAM_GONDI = _class.staticFieldId(
+    r'MASARAM_GONDI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MASARAM_GONDI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MASARAM_GONDI =>
+      _id_MASARAM_GONDI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_MATHEMATICAL_ALPHANUMERIC_SYMBOLS = _class.staticFieldId(
+    r'MATHEMATICAL_ALPHANUMERIC_SYMBOLS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MATHEMATICAL_ALPHANUMERIC_SYMBOLS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MATHEMATICAL_ALPHANUMERIC_SYMBOLS =>
+      _id_MATHEMATICAL_ALPHANUMERIC_SYMBOLS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_MATHEMATICAL_OPERATORS = _class.staticFieldId(
+    r'MATHEMATICAL_OPERATORS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MATHEMATICAL_OPERATORS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MATHEMATICAL_OPERATORS =>
+      _id_MATHEMATICAL_OPERATORS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_MAYAN_NUMERALS = _class.staticFieldId(
+    r'MAYAN_NUMERALS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MAYAN_NUMERALS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MAYAN_NUMERALS =>
+      _id_MAYAN_NUMERALS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_MEDEFAIDRIN = _class.staticFieldId(
+    r'MEDEFAIDRIN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MEDEFAIDRIN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MEDEFAIDRIN =>
+      _id_MEDEFAIDRIN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_MEETEI_MAYEK = _class.staticFieldId(
+    r'MEETEI_MAYEK',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MEETEI_MAYEK`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MEETEI_MAYEK =>
+      _id_MEETEI_MAYEK.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_MEETEI_MAYEK_EXTENSIONS = _class.staticFieldId(
+    r'MEETEI_MAYEK_EXTENSIONS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MEETEI_MAYEK_EXTENSIONS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MEETEI_MAYEK_EXTENSIONS =>
+      _id_MEETEI_MAYEK_EXTENSIONS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_MENDE_KIKAKUI = _class.staticFieldId(
+    r'MENDE_KIKAKUI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MENDE_KIKAKUI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MENDE_KIKAKUI =>
+      _id_MENDE_KIKAKUI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_MEROITIC_CURSIVE = _class.staticFieldId(
+    r'MEROITIC_CURSIVE',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MEROITIC_CURSIVE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MEROITIC_CURSIVE =>
+      _id_MEROITIC_CURSIVE.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_MEROITIC_HIEROGLYPHS = _class.staticFieldId(
+    r'MEROITIC_HIEROGLYPHS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MEROITIC_HIEROGLYPHS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MEROITIC_HIEROGLYPHS =>
+      _id_MEROITIC_HIEROGLYPHS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_MIAO = _class.staticFieldId(
+    r'MIAO',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MIAO`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MIAO =>
+      _id_MIAO.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_MISCELLANEOUS_MATHEMATICAL_SYMBOLS_A = _class.staticFieldId(
+    r'MISCELLANEOUS_MATHEMATICAL_SYMBOLS_A',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MISCELLANEOUS_MATHEMATICAL_SYMBOLS_A`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MISCELLANEOUS_MATHEMATICAL_SYMBOLS_A =>
+      _id_MISCELLANEOUS_MATHEMATICAL_SYMBOLS_A.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_MISCELLANEOUS_MATHEMATICAL_SYMBOLS_B = _class.staticFieldId(
+    r'MISCELLANEOUS_MATHEMATICAL_SYMBOLS_B',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MISCELLANEOUS_MATHEMATICAL_SYMBOLS_B`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MISCELLANEOUS_MATHEMATICAL_SYMBOLS_B =>
+      _id_MISCELLANEOUS_MATHEMATICAL_SYMBOLS_B.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_MISCELLANEOUS_SYMBOLS = _class.staticFieldId(
+    r'MISCELLANEOUS_SYMBOLS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MISCELLANEOUS_SYMBOLS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MISCELLANEOUS_SYMBOLS =>
+      _id_MISCELLANEOUS_SYMBOLS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_MISCELLANEOUS_SYMBOLS_AND_ARROWS = _class.staticFieldId(
+    r'MISCELLANEOUS_SYMBOLS_AND_ARROWS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MISCELLANEOUS_SYMBOLS_AND_ARROWS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MISCELLANEOUS_SYMBOLS_AND_ARROWS =>
+      _id_MISCELLANEOUS_SYMBOLS_AND_ARROWS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_MISCELLANEOUS_SYMBOLS_AND_PICTOGRAPHS = _class.staticFieldId(
+    r'MISCELLANEOUS_SYMBOLS_AND_PICTOGRAPHS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MISCELLANEOUS_SYMBOLS_AND_PICTOGRAPHS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MISCELLANEOUS_SYMBOLS_AND_PICTOGRAPHS =>
+      _id_MISCELLANEOUS_SYMBOLS_AND_PICTOGRAPHS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_MISCELLANEOUS_TECHNICAL = _class.staticFieldId(
+    r'MISCELLANEOUS_TECHNICAL',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MISCELLANEOUS_TECHNICAL`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MISCELLANEOUS_TECHNICAL =>
+      _id_MISCELLANEOUS_TECHNICAL.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_MODI = _class.staticFieldId(
+    r'MODI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MODI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MODI =>
+      _id_MODI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_MODIFIER_TONE_LETTERS = _class.staticFieldId(
+    r'MODIFIER_TONE_LETTERS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MODIFIER_TONE_LETTERS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MODIFIER_TONE_LETTERS =>
+      _id_MODIFIER_TONE_LETTERS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_MONGOLIAN = _class.staticFieldId(
+    r'MONGOLIAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MONGOLIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MONGOLIAN =>
+      _id_MONGOLIAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_MONGOLIAN_SUPPLEMENT = _class.staticFieldId(
+    r'MONGOLIAN_SUPPLEMENT',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MONGOLIAN_SUPPLEMENT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MONGOLIAN_SUPPLEMENT =>
+      _id_MONGOLIAN_SUPPLEMENT.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_MRO = _class.staticFieldId(
+    r'MRO',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MRO`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MRO =>
+      _id_MRO.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_MULTANI = _class.staticFieldId(
+    r'MULTANI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MULTANI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MULTANI =>
+      _id_MULTANI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_MUSICAL_SYMBOLS = _class.staticFieldId(
+    r'MUSICAL_SYMBOLS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MUSICAL_SYMBOLS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MUSICAL_SYMBOLS =>
+      _id_MUSICAL_SYMBOLS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_MYANMAR = _class.staticFieldId(
+    r'MYANMAR',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MYANMAR`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MYANMAR =>
+      _id_MYANMAR.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_MYANMAR_EXTENDED_A = _class.staticFieldId(
+    r'MYANMAR_EXTENDED_A',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MYANMAR_EXTENDED_A`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MYANMAR_EXTENDED_A =>
+      _id_MYANMAR_EXTENDED_A.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_MYANMAR_EXTENDED_B = _class.staticFieldId(
+    r'MYANMAR_EXTENDED_B',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock MYANMAR_EXTENDED_B`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get MYANMAR_EXTENDED_B =>
+      _id_MYANMAR_EXTENDED_B.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_NABATAEAN = _class.staticFieldId(
+    r'NABATAEAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock NABATAEAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get NABATAEAN =>
+      _id_NABATAEAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_NAG_MUNDARI = _class.staticFieldId(
+    r'NAG_MUNDARI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock NAG_MUNDARI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get NAG_MUNDARI =>
+      _id_NAG_MUNDARI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_NANDINAGARI = _class.staticFieldId(
+    r'NANDINAGARI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock NANDINAGARI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get NANDINAGARI =>
+      _id_NANDINAGARI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_NEWA = _class.staticFieldId(
+    r'NEWA',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock NEWA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get NEWA =>
+      _id_NEWA.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_NEW_TAI_LUE = _class.staticFieldId(
+    r'NEW_TAI_LUE',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock NEW_TAI_LUE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get NEW_TAI_LUE =>
+      _id_NEW_TAI_LUE.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_NKO = _class.staticFieldId(
+    r'NKO',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock NKO`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get NKO =>
+      _id_NKO.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_NUMBER_FORMS = _class.staticFieldId(
+    r'NUMBER_FORMS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock NUMBER_FORMS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get NUMBER_FORMS =>
+      _id_NUMBER_FORMS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_NUSHU = _class.staticFieldId(
+    r'NUSHU',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock NUSHU`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get NUSHU =>
+      _id_NUSHU.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_NYIAKENG_PUACHUE_HMONG = _class.staticFieldId(
+    r'NYIAKENG_PUACHUE_HMONG',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock NYIAKENG_PUACHUE_HMONG`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get NYIAKENG_PUACHUE_HMONG =>
+      _id_NYIAKENG_PUACHUE_HMONG.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_OGHAM = _class.staticFieldId(
+    r'OGHAM',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock OGHAM`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get OGHAM =>
+      _id_OGHAM.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_OLD_HUNGARIAN = _class.staticFieldId(
+    r'OLD_HUNGARIAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock OLD_HUNGARIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get OLD_HUNGARIAN =>
+      _id_OLD_HUNGARIAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_OLD_ITALIC = _class.staticFieldId(
+    r'OLD_ITALIC',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock OLD_ITALIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get OLD_ITALIC =>
+      _id_OLD_ITALIC.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_OLD_NORTH_ARABIAN = _class.staticFieldId(
+    r'OLD_NORTH_ARABIAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock OLD_NORTH_ARABIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get OLD_NORTH_ARABIAN =>
+      _id_OLD_NORTH_ARABIAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_OLD_PERMIC = _class.staticFieldId(
+    r'OLD_PERMIC',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock OLD_PERMIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get OLD_PERMIC =>
+      _id_OLD_PERMIC.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_OLD_PERSIAN = _class.staticFieldId(
+    r'OLD_PERSIAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock OLD_PERSIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get OLD_PERSIAN =>
+      _id_OLD_PERSIAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_OLD_SOGDIAN = _class.staticFieldId(
+    r'OLD_SOGDIAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock OLD_SOGDIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get OLD_SOGDIAN =>
+      _id_OLD_SOGDIAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_OLD_SOUTH_ARABIAN = _class.staticFieldId(
+    r'OLD_SOUTH_ARABIAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock OLD_SOUTH_ARABIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get OLD_SOUTH_ARABIAN =>
+      _id_OLD_SOUTH_ARABIAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_OLD_TURKIC = _class.staticFieldId(
+    r'OLD_TURKIC',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock OLD_TURKIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get OLD_TURKIC =>
+      _id_OLD_TURKIC.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_OLD_UYGHUR = _class.staticFieldId(
+    r'OLD_UYGHUR',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock OLD_UYGHUR`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get OLD_UYGHUR =>
+      _id_OLD_UYGHUR.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_OL_CHIKI = _class.staticFieldId(
+    r'OL_CHIKI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock OL_CHIKI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get OL_CHIKI =>
+      _id_OL_CHIKI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_OPTICAL_CHARACTER_RECOGNITION = _class.staticFieldId(
+    r'OPTICAL_CHARACTER_RECOGNITION',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock OPTICAL_CHARACTER_RECOGNITION`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get OPTICAL_CHARACTER_RECOGNITION =>
+      _id_OPTICAL_CHARACTER_RECOGNITION.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_ORIYA = _class.staticFieldId(
+    r'ORIYA',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ORIYA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ORIYA =>
+      _id_ORIYA.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_ORNAMENTAL_DINGBATS = _class.staticFieldId(
+    r'ORNAMENTAL_DINGBATS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ORNAMENTAL_DINGBATS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ORNAMENTAL_DINGBATS =>
+      _id_ORNAMENTAL_DINGBATS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_OSAGE = _class.staticFieldId(
+    r'OSAGE',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock OSAGE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get OSAGE =>
+      _id_OSAGE.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_OSMANYA = _class.staticFieldId(
+    r'OSMANYA',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock OSMANYA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get OSMANYA =>
+      _id_OSMANYA.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_OTTOMAN_SIYAQ_NUMBERS = _class.staticFieldId(
+    r'OTTOMAN_SIYAQ_NUMBERS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock OTTOMAN_SIYAQ_NUMBERS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get OTTOMAN_SIYAQ_NUMBERS =>
+      _id_OTTOMAN_SIYAQ_NUMBERS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_PAHAWH_HMONG = _class.staticFieldId(
+    r'PAHAWH_HMONG',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock PAHAWH_HMONG`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get PAHAWH_HMONG =>
+      _id_PAHAWH_HMONG.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_PALMYRENE = _class.staticFieldId(
+    r'PALMYRENE',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock PALMYRENE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get PALMYRENE =>
+      _id_PALMYRENE.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_PAU_CIN_HAU = _class.staticFieldId(
+    r'PAU_CIN_HAU',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock PAU_CIN_HAU`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get PAU_CIN_HAU =>
+      _id_PAU_CIN_HAU.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_PHAGS_PA = _class.staticFieldId(
+    r'PHAGS_PA',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock PHAGS_PA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get PHAGS_PA =>
+      _id_PHAGS_PA.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_PHAISTOS_DISC = _class.staticFieldId(
+    r'PHAISTOS_DISC',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock PHAISTOS_DISC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get PHAISTOS_DISC =>
+      _id_PHAISTOS_DISC.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_PHOENICIAN = _class.staticFieldId(
+    r'PHOENICIAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock PHOENICIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get PHOENICIAN =>
+      _id_PHOENICIAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_PHONETIC_EXTENSIONS = _class.staticFieldId(
+    r'PHONETIC_EXTENSIONS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock PHONETIC_EXTENSIONS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get PHONETIC_EXTENSIONS =>
+      _id_PHONETIC_EXTENSIONS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_PHONETIC_EXTENSIONS_SUPPLEMENT = _class.staticFieldId(
+    r'PHONETIC_EXTENSIONS_SUPPLEMENT',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock PHONETIC_EXTENSIONS_SUPPLEMENT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get PHONETIC_EXTENSIONS_SUPPLEMENT =>
+      _id_PHONETIC_EXTENSIONS_SUPPLEMENT.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_PLAYING_CARDS = _class.staticFieldId(
+    r'PLAYING_CARDS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock PLAYING_CARDS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get PLAYING_CARDS =>
+      _id_PLAYING_CARDS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_PRIVATE_USE_AREA = _class.staticFieldId(
+    r'PRIVATE_USE_AREA',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock PRIVATE_USE_AREA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get PRIVATE_USE_AREA =>
+      _id_PRIVATE_USE_AREA.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_PSALTER_PAHLAVI = _class.staticFieldId(
+    r'PSALTER_PAHLAVI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock PSALTER_PAHLAVI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get PSALTER_PAHLAVI =>
+      _id_PSALTER_PAHLAVI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_REJANG = _class.staticFieldId(
+    r'REJANG',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock REJANG`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get REJANG =>
+      _id_REJANG.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_RUMI_NUMERAL_SYMBOLS = _class.staticFieldId(
+    r'RUMI_NUMERAL_SYMBOLS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock RUMI_NUMERAL_SYMBOLS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get RUMI_NUMERAL_SYMBOLS =>
+      _id_RUMI_NUMERAL_SYMBOLS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_RUNIC = _class.staticFieldId(
+    r'RUNIC',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock RUNIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get RUNIC =>
+      _id_RUNIC.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_SAMARITAN = _class.staticFieldId(
+    r'SAMARITAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SAMARITAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SAMARITAN =>
+      _id_SAMARITAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_SAURASHTRA = _class.staticFieldId(
+    r'SAURASHTRA',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SAURASHTRA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SAURASHTRA =>
+      _id_SAURASHTRA.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_SHARADA = _class.staticFieldId(
+    r'SHARADA',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SHARADA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SHARADA =>
+      _id_SHARADA.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_SHAVIAN = _class.staticFieldId(
+    r'SHAVIAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SHAVIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SHAVIAN =>
+      _id_SHAVIAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_SHORTHAND_FORMAT_CONTROLS = _class.staticFieldId(
+    r'SHORTHAND_FORMAT_CONTROLS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SHORTHAND_FORMAT_CONTROLS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SHORTHAND_FORMAT_CONTROLS =>
+      _id_SHORTHAND_FORMAT_CONTROLS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_SIDDHAM = _class.staticFieldId(
+    r'SIDDHAM',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SIDDHAM`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SIDDHAM =>
+      _id_SIDDHAM.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_SINHALA = _class.staticFieldId(
+    r'SINHALA',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SINHALA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SINHALA =>
+      _id_SINHALA.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_SINHALA_ARCHAIC_NUMBERS = _class.staticFieldId(
+    r'SINHALA_ARCHAIC_NUMBERS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SINHALA_ARCHAIC_NUMBERS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SINHALA_ARCHAIC_NUMBERS =>
+      _id_SINHALA_ARCHAIC_NUMBERS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_SMALL_FORM_VARIANTS = _class.staticFieldId(
+    r'SMALL_FORM_VARIANTS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SMALL_FORM_VARIANTS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SMALL_FORM_VARIANTS =>
+      _id_SMALL_FORM_VARIANTS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_SMALL_KANA_EXTENSION = _class.staticFieldId(
+    r'SMALL_KANA_EXTENSION',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SMALL_KANA_EXTENSION`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SMALL_KANA_EXTENSION =>
+      _id_SMALL_KANA_EXTENSION.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_SOGDIAN = _class.staticFieldId(
+    r'SOGDIAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SOGDIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SOGDIAN =>
+      _id_SOGDIAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_SORA_SOMPENG = _class.staticFieldId(
+    r'SORA_SOMPENG',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SORA_SOMPENG`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SORA_SOMPENG =>
+      _id_SORA_SOMPENG.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_SOYOMBO = _class.staticFieldId(
+    r'SOYOMBO',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SOYOMBO`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SOYOMBO =>
+      _id_SOYOMBO.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_SPACING_MODIFIER_LETTERS = _class.staticFieldId(
+    r'SPACING_MODIFIER_LETTERS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SPACING_MODIFIER_LETTERS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SPACING_MODIFIER_LETTERS =>
+      _id_SPACING_MODIFIER_LETTERS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_SPECIALS = _class.staticFieldId(
+    r'SPECIALS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SPECIALS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SPECIALS =>
+      _id_SPECIALS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_SUNDANESE = _class.staticFieldId(
+    r'SUNDANESE',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SUNDANESE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SUNDANESE =>
+      _id_SUNDANESE.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_SUNDANESE_SUPPLEMENT = _class.staticFieldId(
+    r'SUNDANESE_SUPPLEMENT',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SUNDANESE_SUPPLEMENT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SUNDANESE_SUPPLEMENT =>
+      _id_SUNDANESE_SUPPLEMENT.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_SUPERSCRIPTS_AND_SUBSCRIPTS = _class.staticFieldId(
+    r'SUPERSCRIPTS_AND_SUBSCRIPTS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SUPERSCRIPTS_AND_SUBSCRIPTS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SUPERSCRIPTS_AND_SUBSCRIPTS =>
+      _id_SUPERSCRIPTS_AND_SUBSCRIPTS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_SUPPLEMENTAL_ARROWS_A = _class.staticFieldId(
+    r'SUPPLEMENTAL_ARROWS_A',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SUPPLEMENTAL_ARROWS_A`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SUPPLEMENTAL_ARROWS_A =>
+      _id_SUPPLEMENTAL_ARROWS_A.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_SUPPLEMENTAL_ARROWS_B = _class.staticFieldId(
+    r'SUPPLEMENTAL_ARROWS_B',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SUPPLEMENTAL_ARROWS_B`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SUPPLEMENTAL_ARROWS_B =>
+      _id_SUPPLEMENTAL_ARROWS_B.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_SUPPLEMENTAL_ARROWS_C = _class.staticFieldId(
+    r'SUPPLEMENTAL_ARROWS_C',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SUPPLEMENTAL_ARROWS_C`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SUPPLEMENTAL_ARROWS_C =>
+      _id_SUPPLEMENTAL_ARROWS_C.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_SUPPLEMENTAL_MATHEMATICAL_OPERATORS = _class.staticFieldId(
+    r'SUPPLEMENTAL_MATHEMATICAL_OPERATORS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SUPPLEMENTAL_MATHEMATICAL_OPERATORS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SUPPLEMENTAL_MATHEMATICAL_OPERATORS =>
+      _id_SUPPLEMENTAL_MATHEMATICAL_OPERATORS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_SUPPLEMENTAL_PUNCTUATION = _class.staticFieldId(
+    r'SUPPLEMENTAL_PUNCTUATION',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SUPPLEMENTAL_PUNCTUATION`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SUPPLEMENTAL_PUNCTUATION =>
+      _id_SUPPLEMENTAL_PUNCTUATION.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_SUPPLEMENTAL_SYMBOLS_AND_PICTOGRAPHS = _class.staticFieldId(
+    r'SUPPLEMENTAL_SYMBOLS_AND_PICTOGRAPHS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SUPPLEMENTAL_SYMBOLS_AND_PICTOGRAPHS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SUPPLEMENTAL_SYMBOLS_AND_PICTOGRAPHS =>
+      _id_SUPPLEMENTAL_SYMBOLS_AND_PICTOGRAPHS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_SUPPLEMENTARY_PRIVATE_USE_AREA_A = _class.staticFieldId(
+    r'SUPPLEMENTARY_PRIVATE_USE_AREA_A',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SUPPLEMENTARY_PRIVATE_USE_AREA_A`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SUPPLEMENTARY_PRIVATE_USE_AREA_A =>
+      _id_SUPPLEMENTARY_PRIVATE_USE_AREA_A.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_SUPPLEMENTARY_PRIVATE_USE_AREA_B = _class.staticFieldId(
+    r'SUPPLEMENTARY_PRIVATE_USE_AREA_B',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SUPPLEMENTARY_PRIVATE_USE_AREA_B`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SUPPLEMENTARY_PRIVATE_USE_AREA_B =>
+      _id_SUPPLEMENTARY_PRIVATE_USE_AREA_B.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_SURROGATES_AREA = _class.staticFieldId(
+    r'SURROGATES_AREA',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SURROGATES_AREA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SURROGATES_AREA =>
+      _id_SURROGATES_AREA.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_SUTTON_SIGNWRITING = _class.staticFieldId(
+    r'SUTTON_SIGNWRITING',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SUTTON_SIGNWRITING`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SUTTON_SIGNWRITING =>
+      _id_SUTTON_SIGNWRITING.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_SYLOTI_NAGRI = _class.staticFieldId(
+    r'SYLOTI_NAGRI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SYLOTI_NAGRI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SYLOTI_NAGRI =>
+      _id_SYLOTI_NAGRI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_SYMBOLS_AND_PICTOGRAPHS_EXTENDED_A = _class.staticFieldId(
+    r'SYMBOLS_AND_PICTOGRAPHS_EXTENDED_A',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SYMBOLS_AND_PICTOGRAPHS_EXTENDED_A`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SYMBOLS_AND_PICTOGRAPHS_EXTENDED_A =>
+      _id_SYMBOLS_AND_PICTOGRAPHS_EXTENDED_A.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_SYMBOLS_FOR_LEGACY_COMPUTING = _class.staticFieldId(
+    r'SYMBOLS_FOR_LEGACY_COMPUTING',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SYMBOLS_FOR_LEGACY_COMPUTING`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SYMBOLS_FOR_LEGACY_COMPUTING =>
+      _id_SYMBOLS_FOR_LEGACY_COMPUTING.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_SYRIAC = _class.staticFieldId(
+    r'SYRIAC',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SYRIAC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SYRIAC =>
+      _id_SYRIAC.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_SYRIAC_SUPPLEMENT = _class.staticFieldId(
+    r'SYRIAC_SUPPLEMENT',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock SYRIAC_SUPPLEMENT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get SYRIAC_SUPPLEMENT =>
+      _id_SYRIAC_SUPPLEMENT.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_TAGALOG = _class.staticFieldId(
+    r'TAGALOG',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock TAGALOG`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get TAGALOG =>
+      _id_TAGALOG.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_TAGBANWA = _class.staticFieldId(
+    r'TAGBANWA',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock TAGBANWA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get TAGBANWA =>
+      _id_TAGBANWA.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_TAGS = _class.staticFieldId(
+    r'TAGS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock TAGS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get TAGS =>
+      _id_TAGS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_TAI_LE = _class.staticFieldId(
+    r'TAI_LE',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock TAI_LE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get TAI_LE =>
+      _id_TAI_LE.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_TAI_THAM = _class.staticFieldId(
+    r'TAI_THAM',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock TAI_THAM`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get TAI_THAM =>
+      _id_TAI_THAM.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_TAI_VIET = _class.staticFieldId(
+    r'TAI_VIET',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock TAI_VIET`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get TAI_VIET =>
+      _id_TAI_VIET.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_TAI_XUAN_JING_SYMBOLS = _class.staticFieldId(
+    r'TAI_XUAN_JING_SYMBOLS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock TAI_XUAN_JING_SYMBOLS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get TAI_XUAN_JING_SYMBOLS =>
+      _id_TAI_XUAN_JING_SYMBOLS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_TAKRI = _class.staticFieldId(
+    r'TAKRI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock TAKRI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get TAKRI =>
+      _id_TAKRI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_TAMIL = _class.staticFieldId(
+    r'TAMIL',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock TAMIL`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get TAMIL =>
+      _id_TAMIL.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_TAMIL_SUPPLEMENT = _class.staticFieldId(
+    r'TAMIL_SUPPLEMENT',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock TAMIL_SUPPLEMENT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get TAMIL_SUPPLEMENT =>
+      _id_TAMIL_SUPPLEMENT.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_TANGSA = _class.staticFieldId(
+    r'TANGSA',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock TANGSA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get TANGSA =>
+      _id_TANGSA.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_TANGUT = _class.staticFieldId(
+    r'TANGUT',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock TANGUT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get TANGUT =>
+      _id_TANGUT.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_TANGUT_COMPONENTS = _class.staticFieldId(
+    r'TANGUT_COMPONENTS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock TANGUT_COMPONENTS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get TANGUT_COMPONENTS =>
+      _id_TANGUT_COMPONENTS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_TANGUT_SUPPLEMENT = _class.staticFieldId(
+    r'TANGUT_SUPPLEMENT',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock TANGUT_SUPPLEMENT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get TANGUT_SUPPLEMENT =>
+      _id_TANGUT_SUPPLEMENT.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_TELUGU = _class.staticFieldId(
+    r'TELUGU',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock TELUGU`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get TELUGU =>
+      _id_TELUGU.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_THAANA = _class.staticFieldId(
+    r'THAANA',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock THAANA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get THAANA =>
+      _id_THAANA.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_THAI = _class.staticFieldId(
+    r'THAI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock THAI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get THAI =>
+      _id_THAI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_TIBETAN = _class.staticFieldId(
+    r'TIBETAN',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock TIBETAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get TIBETAN =>
+      _id_TIBETAN.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_TIFINAGH = _class.staticFieldId(
+    r'TIFINAGH',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock TIFINAGH`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get TIFINAGH =>
+      _id_TIFINAGH.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_TIRHUTA = _class.staticFieldId(
+    r'TIRHUTA',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock TIRHUTA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get TIRHUTA =>
+      _id_TIRHUTA.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_TOTO = _class.staticFieldId(
+    r'TOTO',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock TOTO`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get TOTO =>
+      _id_TOTO.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_TRANSPORT_AND_MAP_SYMBOLS = _class.staticFieldId(
+    r'TRANSPORT_AND_MAP_SYMBOLS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock TRANSPORT_AND_MAP_SYMBOLS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get TRANSPORT_AND_MAP_SYMBOLS =>
+      _id_TRANSPORT_AND_MAP_SYMBOLS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_UGARITIC = _class.staticFieldId(
+    r'UGARITIC',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock UGARITIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get UGARITIC =>
+      _id_UGARITIC.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS = _class.staticFieldId(
+    r'UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS =>
+      _id_UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS_EXTENDED =
+      _class.staticFieldId(
+    r'UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS_EXTENDED',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS_EXTENDED`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock?
+      get UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS_EXTENDED =>
+          _id_UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS_EXTENDED.getNullable(
+                  _class, JCharacter$JUnicodeBlock.type)
+              as JCharacter$JUnicodeBlock?;
+
+  static final _id_UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS_EXTENDED_A =
+      _class.staticFieldId(
+    r'UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS_EXTENDED_A',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS_EXTENDED_A`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock?
+      get UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS_EXTENDED_A =>
+          _id_UNIFIED_CANADIAN_ABORIGINAL_SYLLABICS_EXTENDED_A.getNullable(
+                  _class, JCharacter$JUnicodeBlock.type)
+              as JCharacter$JUnicodeBlock?;
+
+  static final _id_VAI = _class.staticFieldId(
+    r'VAI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock VAI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get VAI =>
+      _id_VAI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_VARIATION_SELECTORS = _class.staticFieldId(
+    r'VARIATION_SELECTORS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock VARIATION_SELECTORS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get VARIATION_SELECTORS =>
+      _id_VARIATION_SELECTORS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_VARIATION_SELECTORS_SUPPLEMENT = _class.staticFieldId(
+    r'VARIATION_SELECTORS_SUPPLEMENT',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock VARIATION_SELECTORS_SUPPLEMENT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get VARIATION_SELECTORS_SUPPLEMENT =>
+      _id_VARIATION_SELECTORS_SUPPLEMENT.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_VEDIC_EXTENSIONS = _class.staticFieldId(
+    r'VEDIC_EXTENSIONS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock VEDIC_EXTENSIONS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get VEDIC_EXTENSIONS =>
+      _id_VEDIC_EXTENSIONS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_VERTICAL_FORMS = _class.staticFieldId(
+    r'VERTICAL_FORMS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock VERTICAL_FORMS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get VERTICAL_FORMS =>
+      _id_VERTICAL_FORMS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_VITHKUQI = _class.staticFieldId(
+    r'VITHKUQI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock VITHKUQI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get VITHKUQI =>
+      _id_VITHKUQI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_WANCHO = _class.staticFieldId(
+    r'WANCHO',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock WANCHO`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get WANCHO =>
+      _id_WANCHO.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_WARANG_CITI = _class.staticFieldId(
+    r'WARANG_CITI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock WARANG_CITI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get WARANG_CITI =>
+      _id_WARANG_CITI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_YEZIDI = _class.staticFieldId(
+    r'YEZIDI',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock YEZIDI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get YEZIDI =>
+      _id_YEZIDI.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_YIJING_HEXAGRAM_SYMBOLS = _class.staticFieldId(
+    r'YIJING_HEXAGRAM_SYMBOLS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock YIJING_HEXAGRAM_SYMBOLS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get YIJING_HEXAGRAM_SYMBOLS =>
+      _id_YIJING_HEXAGRAM_SYMBOLS.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_YI_RADICALS = _class.staticFieldId(
+    r'YI_RADICALS',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock YI_RADICALS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get YI_RADICALS =>
+      _id_YI_RADICALS.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_YI_SYLLABLES = _class.staticFieldId(
+    r'YI_SYLLABLES',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock YI_SYLLABLES`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get YI_SYLLABLES =>
+      _id_YI_SYLLABLES.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_ZANABAZAR_SQUARE = _class.staticFieldId(
+    r'ZANABAZAR_SQUARE',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ZANABAZAR_SQUARE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ZANABAZAR_SQUARE =>
+      _id_ZANABAZAR_SQUARE.getNullable(_class, JCharacter$JUnicodeBlock.type)
+          as JCharacter$JUnicodeBlock?;
+
+  static final _id_ZNAMENNY_MUSICAL_NOTATION = _class.staticFieldId(
+    r'ZNAMENNY_MUSICAL_NOTATION',
+    r'Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeBlock ZNAMENNY_MUSICAL_NOTATION`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? get ZNAMENNY_MUSICAL_NOTATION =>
+      _id_ZNAMENNY_MUSICAL_NOTATION.getNullable(
+          _class, JCharacter$JUnicodeBlock.type) as JCharacter$JUnicodeBlock?;
+
+  static final _id_forName = _class.staticMethodId(
+    r'forName',
+    r'(Ljava/lang/String;)Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  static final _forName = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.Character$UnicodeBlock forName(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? forName(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _forName(
+            _class.reference.pointer, _id_forName.pointer, _$string.pointer)
+        .object<JCharacter$JUnicodeBlock?>();
+  }
+
+  static final _id_of = _class.staticMethodId(
+    r'of',
+    r'(C)Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  static final _of = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.Character$UnicodeBlock of(char c)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? of(
+    int c,
+  ) {
+    return _of(_class.reference.pointer, _id_of.pointer, c)
+        .object<JCharacter$JUnicodeBlock?>();
+  }
+
+  static final _id_of$1 = _class.staticMethodId(
+    r'of',
+    r'(I)Ljava/lang/Character$UnicodeBlock;',
+  );
+
+  static final _of$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.Character$UnicodeBlock of(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeBlock? of$1(
+    int i,
+  ) {
+    return _of$1(_class.reference.pointer, _id_of$1.pointer, i)
+        .object<JCharacter$JUnicodeBlock?>();
+  }
+}
+
+final class $JCharacter$JUnicodeBlock$Type$
+    extends jni$_.JType<JCharacter$JUnicodeBlock> {
+  @jni$_.internal
+  const $JCharacter$JUnicodeBlock$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/Character$UnicodeBlock;';
+}
+
+/// from: `java.lang.Character$UnicodeScript`
+extension type JCharacter$JUnicodeScript._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static final _class =
+      jni$_.JClass.forName(r'java/lang/Character$UnicodeScript');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<JCharacter$JUnicodeScript> type =
+      $JCharacter$JUnicodeScript$Type$();
+  static final _id_ADLAM = _class.staticFieldId(
+    r'ADLAM',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript ADLAM`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get ADLAM =>
+      _id_ADLAM.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_AHOM = _class.staticFieldId(
+    r'AHOM',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript AHOM`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get AHOM =>
+      _id_AHOM.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_ANATOLIAN_HIEROGLYPHS = _class.staticFieldId(
+    r'ANATOLIAN_HIEROGLYPHS',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript ANATOLIAN_HIEROGLYPHS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get ANATOLIAN_HIEROGLYPHS =>
+      _id_ANATOLIAN_HIEROGLYPHS.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_ARABIC = _class.staticFieldId(
+    r'ARABIC',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript ARABIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get ARABIC =>
+      _id_ARABIC.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_ARMENIAN = _class.staticFieldId(
+    r'ARMENIAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript ARMENIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get ARMENIAN =>
+      _id_ARMENIAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_AVESTAN = _class.staticFieldId(
+    r'AVESTAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript AVESTAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get AVESTAN =>
+      _id_AVESTAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_BALINESE = _class.staticFieldId(
+    r'BALINESE',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript BALINESE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get BALINESE =>
+      _id_BALINESE.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_BAMUM = _class.staticFieldId(
+    r'BAMUM',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript BAMUM`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get BAMUM =>
+      _id_BAMUM.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_BASSA_VAH = _class.staticFieldId(
+    r'BASSA_VAH',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript BASSA_VAH`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get BASSA_VAH =>
+      _id_BASSA_VAH.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_BATAK = _class.staticFieldId(
+    r'BATAK',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript BATAK`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get BATAK =>
+      _id_BATAK.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_BENGALI = _class.staticFieldId(
+    r'BENGALI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript BENGALI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get BENGALI =>
+      _id_BENGALI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_BHAIKSUKI = _class.staticFieldId(
+    r'BHAIKSUKI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript BHAIKSUKI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get BHAIKSUKI =>
+      _id_BHAIKSUKI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_BOPOMOFO = _class.staticFieldId(
+    r'BOPOMOFO',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript BOPOMOFO`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get BOPOMOFO =>
+      _id_BOPOMOFO.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_BRAHMI = _class.staticFieldId(
+    r'BRAHMI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript BRAHMI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get BRAHMI =>
+      _id_BRAHMI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_BRAILLE = _class.staticFieldId(
+    r'BRAILLE',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript BRAILLE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get BRAILLE =>
+      _id_BRAILLE.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_BUGINESE = _class.staticFieldId(
+    r'BUGINESE',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript BUGINESE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get BUGINESE =>
+      _id_BUGINESE.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_BUHID = _class.staticFieldId(
+    r'BUHID',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript BUHID`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get BUHID =>
+      _id_BUHID.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_CANADIAN_ABORIGINAL = _class.staticFieldId(
+    r'CANADIAN_ABORIGINAL',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript CANADIAN_ABORIGINAL`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get CANADIAN_ABORIGINAL =>
+      _id_CANADIAN_ABORIGINAL.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_CARIAN = _class.staticFieldId(
+    r'CARIAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript CARIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get CARIAN =>
+      _id_CARIAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_CAUCASIAN_ALBANIAN = _class.staticFieldId(
+    r'CAUCASIAN_ALBANIAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript CAUCASIAN_ALBANIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get CAUCASIAN_ALBANIAN =>
+      _id_CAUCASIAN_ALBANIAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_CHAKMA = _class.staticFieldId(
+    r'CHAKMA',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript CHAKMA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get CHAKMA =>
+      _id_CHAKMA.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_CHAM = _class.staticFieldId(
+    r'CHAM',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript CHAM`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get CHAM =>
+      _id_CHAM.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_CHEROKEE = _class.staticFieldId(
+    r'CHEROKEE',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript CHEROKEE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get CHEROKEE =>
+      _id_CHEROKEE.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_CHORASMIAN = _class.staticFieldId(
+    r'CHORASMIAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript CHORASMIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get CHORASMIAN =>
+      _id_CHORASMIAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_COMMON = _class.staticFieldId(
+    r'COMMON',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript COMMON`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get COMMON =>
+      _id_COMMON.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_COPTIC = _class.staticFieldId(
+    r'COPTIC',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript COPTIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get COPTIC =>
+      _id_COPTIC.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_CUNEIFORM = _class.staticFieldId(
+    r'CUNEIFORM',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript CUNEIFORM`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get CUNEIFORM =>
+      _id_CUNEIFORM.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_CYPRIOT = _class.staticFieldId(
+    r'CYPRIOT',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript CYPRIOT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get CYPRIOT =>
+      _id_CYPRIOT.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_CYPRO_MINOAN = _class.staticFieldId(
+    r'CYPRO_MINOAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript CYPRO_MINOAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get CYPRO_MINOAN =>
+      _id_CYPRO_MINOAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_CYRILLIC = _class.staticFieldId(
+    r'CYRILLIC',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript CYRILLIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get CYRILLIC =>
+      _id_CYRILLIC.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_DESERET = _class.staticFieldId(
+    r'DESERET',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript DESERET`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get DESERET =>
+      _id_DESERET.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_DEVANAGARI = _class.staticFieldId(
+    r'DEVANAGARI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript DEVANAGARI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get DEVANAGARI =>
+      _id_DEVANAGARI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_DIVES_AKURU = _class.staticFieldId(
+    r'DIVES_AKURU',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript DIVES_AKURU`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get DIVES_AKURU =>
+      _id_DIVES_AKURU.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_DOGRA = _class.staticFieldId(
+    r'DOGRA',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript DOGRA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get DOGRA =>
+      _id_DOGRA.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_DUPLOYAN = _class.staticFieldId(
+    r'DUPLOYAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript DUPLOYAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get DUPLOYAN =>
+      _id_DUPLOYAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_EGYPTIAN_HIEROGLYPHS = _class.staticFieldId(
+    r'EGYPTIAN_HIEROGLYPHS',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript EGYPTIAN_HIEROGLYPHS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get EGYPTIAN_HIEROGLYPHS =>
+      _id_EGYPTIAN_HIEROGLYPHS.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_ELBASAN = _class.staticFieldId(
+    r'ELBASAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript ELBASAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get ELBASAN =>
+      _id_ELBASAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_ELYMAIC = _class.staticFieldId(
+    r'ELYMAIC',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript ELYMAIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get ELYMAIC =>
+      _id_ELYMAIC.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_ETHIOPIC = _class.staticFieldId(
+    r'ETHIOPIC',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript ETHIOPIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get ETHIOPIC =>
+      _id_ETHIOPIC.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_GEORGIAN = _class.staticFieldId(
+    r'GEORGIAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript GEORGIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get GEORGIAN =>
+      _id_GEORGIAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_GLAGOLITIC = _class.staticFieldId(
+    r'GLAGOLITIC',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript GLAGOLITIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get GLAGOLITIC =>
+      _id_GLAGOLITIC.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_GOTHIC = _class.staticFieldId(
+    r'GOTHIC',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript GOTHIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get GOTHIC =>
+      _id_GOTHIC.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_GRANTHA = _class.staticFieldId(
+    r'GRANTHA',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript GRANTHA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get GRANTHA =>
+      _id_GRANTHA.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_GREEK = _class.staticFieldId(
+    r'GREEK',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript GREEK`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get GREEK =>
+      _id_GREEK.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_GUJARATI = _class.staticFieldId(
+    r'GUJARATI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript GUJARATI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get GUJARATI =>
+      _id_GUJARATI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_GUNJALA_GONDI = _class.staticFieldId(
+    r'GUNJALA_GONDI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript GUNJALA_GONDI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get GUNJALA_GONDI =>
+      _id_GUNJALA_GONDI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_GURMUKHI = _class.staticFieldId(
+    r'GURMUKHI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript GURMUKHI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get GURMUKHI =>
+      _id_GURMUKHI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_HAN = _class.staticFieldId(
+    r'HAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript HAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get HAN =>
+      _id_HAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_HANGUL = _class.staticFieldId(
+    r'HANGUL',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript HANGUL`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get HANGUL =>
+      _id_HANGUL.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_HANIFI_ROHINGYA = _class.staticFieldId(
+    r'HANIFI_ROHINGYA',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript HANIFI_ROHINGYA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get HANIFI_ROHINGYA =>
+      _id_HANIFI_ROHINGYA.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_HANUNOO = _class.staticFieldId(
+    r'HANUNOO',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript HANUNOO`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get HANUNOO =>
+      _id_HANUNOO.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_HATRAN = _class.staticFieldId(
+    r'HATRAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript HATRAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get HATRAN =>
+      _id_HATRAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_HEBREW = _class.staticFieldId(
+    r'HEBREW',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript HEBREW`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get HEBREW =>
+      _id_HEBREW.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_HIRAGANA = _class.staticFieldId(
+    r'HIRAGANA',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript HIRAGANA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get HIRAGANA =>
+      _id_HIRAGANA.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_IMPERIAL_ARAMAIC = _class.staticFieldId(
+    r'IMPERIAL_ARAMAIC',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript IMPERIAL_ARAMAIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get IMPERIAL_ARAMAIC =>
+      _id_IMPERIAL_ARAMAIC.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_INHERITED = _class.staticFieldId(
+    r'INHERITED',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript INHERITED`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get INHERITED =>
+      _id_INHERITED.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_INSCRIPTIONAL_PAHLAVI = _class.staticFieldId(
+    r'INSCRIPTIONAL_PAHLAVI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript INSCRIPTIONAL_PAHLAVI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get INSCRIPTIONAL_PAHLAVI =>
+      _id_INSCRIPTIONAL_PAHLAVI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_INSCRIPTIONAL_PARTHIAN = _class.staticFieldId(
+    r'INSCRIPTIONAL_PARTHIAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript INSCRIPTIONAL_PARTHIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get INSCRIPTIONAL_PARTHIAN =>
+      _id_INSCRIPTIONAL_PARTHIAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_JAVANESE = _class.staticFieldId(
+    r'JAVANESE',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript JAVANESE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get JAVANESE =>
+      _id_JAVANESE.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_KAITHI = _class.staticFieldId(
+    r'KAITHI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript KAITHI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get KAITHI =>
+      _id_KAITHI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_KANNADA = _class.staticFieldId(
+    r'KANNADA',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript KANNADA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get KANNADA =>
+      _id_KANNADA.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_KATAKANA = _class.staticFieldId(
+    r'KATAKANA',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript KATAKANA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get KATAKANA =>
+      _id_KATAKANA.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_KAWI = _class.staticFieldId(
+    r'KAWI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript KAWI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get KAWI =>
+      _id_KAWI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_KAYAH_LI = _class.staticFieldId(
+    r'KAYAH_LI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript KAYAH_LI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get KAYAH_LI =>
+      _id_KAYAH_LI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_KHAROSHTHI = _class.staticFieldId(
+    r'KHAROSHTHI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript KHAROSHTHI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get KHAROSHTHI =>
+      _id_KHAROSHTHI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_KHITAN_SMALL_SCRIPT = _class.staticFieldId(
+    r'KHITAN_SMALL_SCRIPT',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript KHITAN_SMALL_SCRIPT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get KHITAN_SMALL_SCRIPT =>
+      _id_KHITAN_SMALL_SCRIPT.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_KHMER = _class.staticFieldId(
+    r'KHMER',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript KHMER`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get KHMER =>
+      _id_KHMER.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_KHOJKI = _class.staticFieldId(
+    r'KHOJKI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript KHOJKI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get KHOJKI =>
+      _id_KHOJKI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_KHUDAWADI = _class.staticFieldId(
+    r'KHUDAWADI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript KHUDAWADI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get KHUDAWADI =>
+      _id_KHUDAWADI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_LAO = _class.staticFieldId(
+    r'LAO',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript LAO`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get LAO =>
+      _id_LAO.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_LATIN = _class.staticFieldId(
+    r'LATIN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript LATIN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get LATIN =>
+      _id_LATIN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_LEPCHA = _class.staticFieldId(
+    r'LEPCHA',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript LEPCHA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get LEPCHA =>
+      _id_LEPCHA.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_LIMBU = _class.staticFieldId(
+    r'LIMBU',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript LIMBU`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get LIMBU =>
+      _id_LIMBU.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_LINEAR_A = _class.staticFieldId(
+    r'LINEAR_A',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript LINEAR_A`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get LINEAR_A =>
+      _id_LINEAR_A.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_LINEAR_B = _class.staticFieldId(
+    r'LINEAR_B',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript LINEAR_B`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get LINEAR_B =>
+      _id_LINEAR_B.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_LISU = _class.staticFieldId(
+    r'LISU',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript LISU`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get LISU =>
+      _id_LISU.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_LYCIAN = _class.staticFieldId(
+    r'LYCIAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript LYCIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get LYCIAN =>
+      _id_LYCIAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_LYDIAN = _class.staticFieldId(
+    r'LYDIAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript LYDIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get LYDIAN =>
+      _id_LYDIAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_MAHAJANI = _class.staticFieldId(
+    r'MAHAJANI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript MAHAJANI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get MAHAJANI =>
+      _id_MAHAJANI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_MAKASAR = _class.staticFieldId(
+    r'MAKASAR',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript MAKASAR`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get MAKASAR =>
+      _id_MAKASAR.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_MALAYALAM = _class.staticFieldId(
+    r'MALAYALAM',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript MALAYALAM`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get MALAYALAM =>
+      _id_MALAYALAM.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_MANDAIC = _class.staticFieldId(
+    r'MANDAIC',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript MANDAIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get MANDAIC =>
+      _id_MANDAIC.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_MANICHAEAN = _class.staticFieldId(
+    r'MANICHAEAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript MANICHAEAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get MANICHAEAN =>
+      _id_MANICHAEAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_MARCHEN = _class.staticFieldId(
+    r'MARCHEN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript MARCHEN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get MARCHEN =>
+      _id_MARCHEN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_MASARAM_GONDI = _class.staticFieldId(
+    r'MASARAM_GONDI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript MASARAM_GONDI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get MASARAM_GONDI =>
+      _id_MASARAM_GONDI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_MEDEFAIDRIN = _class.staticFieldId(
+    r'MEDEFAIDRIN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript MEDEFAIDRIN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get MEDEFAIDRIN =>
+      _id_MEDEFAIDRIN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_MEETEI_MAYEK = _class.staticFieldId(
+    r'MEETEI_MAYEK',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript MEETEI_MAYEK`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get MEETEI_MAYEK =>
+      _id_MEETEI_MAYEK.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_MENDE_KIKAKUI = _class.staticFieldId(
+    r'MENDE_KIKAKUI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript MENDE_KIKAKUI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get MENDE_KIKAKUI =>
+      _id_MENDE_KIKAKUI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_MEROITIC_CURSIVE = _class.staticFieldId(
+    r'MEROITIC_CURSIVE',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript MEROITIC_CURSIVE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get MEROITIC_CURSIVE =>
+      _id_MEROITIC_CURSIVE.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_MEROITIC_HIEROGLYPHS = _class.staticFieldId(
+    r'MEROITIC_HIEROGLYPHS',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript MEROITIC_HIEROGLYPHS`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get MEROITIC_HIEROGLYPHS =>
+      _id_MEROITIC_HIEROGLYPHS.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_MIAO = _class.staticFieldId(
+    r'MIAO',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript MIAO`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get MIAO =>
+      _id_MIAO.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_MODI = _class.staticFieldId(
+    r'MODI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript MODI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get MODI =>
+      _id_MODI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_MONGOLIAN = _class.staticFieldId(
+    r'MONGOLIAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript MONGOLIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get MONGOLIAN =>
+      _id_MONGOLIAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_MRO = _class.staticFieldId(
+    r'MRO',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript MRO`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get MRO =>
+      _id_MRO.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_MULTANI = _class.staticFieldId(
+    r'MULTANI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript MULTANI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get MULTANI =>
+      _id_MULTANI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_MYANMAR = _class.staticFieldId(
+    r'MYANMAR',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript MYANMAR`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get MYANMAR =>
+      _id_MYANMAR.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_NABATAEAN = _class.staticFieldId(
+    r'NABATAEAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript NABATAEAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get NABATAEAN =>
+      _id_NABATAEAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_NAG_MUNDARI = _class.staticFieldId(
+    r'NAG_MUNDARI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript NAG_MUNDARI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get NAG_MUNDARI =>
+      _id_NAG_MUNDARI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_NANDINAGARI = _class.staticFieldId(
+    r'NANDINAGARI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript NANDINAGARI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get NANDINAGARI =>
+      _id_NANDINAGARI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_NEWA = _class.staticFieldId(
+    r'NEWA',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript NEWA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get NEWA =>
+      _id_NEWA.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_NEW_TAI_LUE = _class.staticFieldId(
+    r'NEW_TAI_LUE',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript NEW_TAI_LUE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get NEW_TAI_LUE =>
+      _id_NEW_TAI_LUE.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_NKO = _class.staticFieldId(
+    r'NKO',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript NKO`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get NKO =>
+      _id_NKO.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_NUSHU = _class.staticFieldId(
+    r'NUSHU',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript NUSHU`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get NUSHU =>
+      _id_NUSHU.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_NYIAKENG_PUACHUE_HMONG = _class.staticFieldId(
+    r'NYIAKENG_PUACHUE_HMONG',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript NYIAKENG_PUACHUE_HMONG`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get NYIAKENG_PUACHUE_HMONG =>
+      _id_NYIAKENG_PUACHUE_HMONG.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_OGHAM = _class.staticFieldId(
+    r'OGHAM',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript OGHAM`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get OGHAM =>
+      _id_OGHAM.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_OLD_HUNGARIAN = _class.staticFieldId(
+    r'OLD_HUNGARIAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript OLD_HUNGARIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get OLD_HUNGARIAN =>
+      _id_OLD_HUNGARIAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_OLD_ITALIC = _class.staticFieldId(
+    r'OLD_ITALIC',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript OLD_ITALIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get OLD_ITALIC =>
+      _id_OLD_ITALIC.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_OLD_NORTH_ARABIAN = _class.staticFieldId(
+    r'OLD_NORTH_ARABIAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript OLD_NORTH_ARABIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get OLD_NORTH_ARABIAN =>
+      _id_OLD_NORTH_ARABIAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_OLD_PERMIC = _class.staticFieldId(
+    r'OLD_PERMIC',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript OLD_PERMIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get OLD_PERMIC =>
+      _id_OLD_PERMIC.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_OLD_PERSIAN = _class.staticFieldId(
+    r'OLD_PERSIAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript OLD_PERSIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get OLD_PERSIAN =>
+      _id_OLD_PERSIAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_OLD_SOGDIAN = _class.staticFieldId(
+    r'OLD_SOGDIAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript OLD_SOGDIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get OLD_SOGDIAN =>
+      _id_OLD_SOGDIAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_OLD_SOUTH_ARABIAN = _class.staticFieldId(
+    r'OLD_SOUTH_ARABIAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript OLD_SOUTH_ARABIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get OLD_SOUTH_ARABIAN =>
+      _id_OLD_SOUTH_ARABIAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_OLD_TURKIC = _class.staticFieldId(
+    r'OLD_TURKIC',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript OLD_TURKIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get OLD_TURKIC =>
+      _id_OLD_TURKIC.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_OLD_UYGHUR = _class.staticFieldId(
+    r'OLD_UYGHUR',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript OLD_UYGHUR`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get OLD_UYGHUR =>
+      _id_OLD_UYGHUR.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_OL_CHIKI = _class.staticFieldId(
+    r'OL_CHIKI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript OL_CHIKI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get OL_CHIKI =>
+      _id_OL_CHIKI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_ORIYA = _class.staticFieldId(
+    r'ORIYA',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript ORIYA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get ORIYA =>
+      _id_ORIYA.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_OSAGE = _class.staticFieldId(
+    r'OSAGE',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript OSAGE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get OSAGE =>
+      _id_OSAGE.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_OSMANYA = _class.staticFieldId(
+    r'OSMANYA',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript OSMANYA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get OSMANYA =>
+      _id_OSMANYA.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_PAHAWH_HMONG = _class.staticFieldId(
+    r'PAHAWH_HMONG',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript PAHAWH_HMONG`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get PAHAWH_HMONG =>
+      _id_PAHAWH_HMONG.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_PALMYRENE = _class.staticFieldId(
+    r'PALMYRENE',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript PALMYRENE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get PALMYRENE =>
+      _id_PALMYRENE.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_PAU_CIN_HAU = _class.staticFieldId(
+    r'PAU_CIN_HAU',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript PAU_CIN_HAU`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get PAU_CIN_HAU =>
+      _id_PAU_CIN_HAU.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_PHAGS_PA = _class.staticFieldId(
+    r'PHAGS_PA',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript PHAGS_PA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get PHAGS_PA =>
+      _id_PHAGS_PA.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_PHOENICIAN = _class.staticFieldId(
+    r'PHOENICIAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript PHOENICIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get PHOENICIAN =>
+      _id_PHOENICIAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_PSALTER_PAHLAVI = _class.staticFieldId(
+    r'PSALTER_PAHLAVI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript PSALTER_PAHLAVI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get PSALTER_PAHLAVI =>
+      _id_PSALTER_PAHLAVI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_REJANG = _class.staticFieldId(
+    r'REJANG',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript REJANG`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get REJANG =>
+      _id_REJANG.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_RUNIC = _class.staticFieldId(
+    r'RUNIC',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript RUNIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get RUNIC =>
+      _id_RUNIC.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_SAMARITAN = _class.staticFieldId(
+    r'SAMARITAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript SAMARITAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get SAMARITAN =>
+      _id_SAMARITAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_SAURASHTRA = _class.staticFieldId(
+    r'SAURASHTRA',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript SAURASHTRA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get SAURASHTRA =>
+      _id_SAURASHTRA.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_SHARADA = _class.staticFieldId(
+    r'SHARADA',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript SHARADA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get SHARADA =>
+      _id_SHARADA.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_SHAVIAN = _class.staticFieldId(
+    r'SHAVIAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript SHAVIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get SHAVIAN =>
+      _id_SHAVIAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_SIDDHAM = _class.staticFieldId(
+    r'SIDDHAM',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript SIDDHAM`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get SIDDHAM =>
+      _id_SIDDHAM.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_SIGNWRITING = _class.staticFieldId(
+    r'SIGNWRITING',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript SIGNWRITING`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get SIGNWRITING =>
+      _id_SIGNWRITING.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_SINHALA = _class.staticFieldId(
+    r'SINHALA',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript SINHALA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get SINHALA =>
+      _id_SINHALA.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_SOGDIAN = _class.staticFieldId(
+    r'SOGDIAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript SOGDIAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get SOGDIAN =>
+      _id_SOGDIAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_SORA_SOMPENG = _class.staticFieldId(
+    r'SORA_SOMPENG',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript SORA_SOMPENG`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get SORA_SOMPENG =>
+      _id_SORA_SOMPENG.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_SOYOMBO = _class.staticFieldId(
+    r'SOYOMBO',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript SOYOMBO`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get SOYOMBO =>
+      _id_SOYOMBO.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_SUNDANESE = _class.staticFieldId(
+    r'SUNDANESE',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript SUNDANESE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get SUNDANESE =>
+      _id_SUNDANESE.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_SYLOTI_NAGRI = _class.staticFieldId(
+    r'SYLOTI_NAGRI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript SYLOTI_NAGRI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get SYLOTI_NAGRI =>
+      _id_SYLOTI_NAGRI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_SYRIAC = _class.staticFieldId(
+    r'SYRIAC',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript SYRIAC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get SYRIAC =>
+      _id_SYRIAC.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_TAGALOG = _class.staticFieldId(
+    r'TAGALOG',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript TAGALOG`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get TAGALOG =>
+      _id_TAGALOG.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_TAGBANWA = _class.staticFieldId(
+    r'TAGBANWA',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript TAGBANWA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get TAGBANWA =>
+      _id_TAGBANWA.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_TAI_LE = _class.staticFieldId(
+    r'TAI_LE',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript TAI_LE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get TAI_LE =>
+      _id_TAI_LE.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_TAI_THAM = _class.staticFieldId(
+    r'TAI_THAM',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript TAI_THAM`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get TAI_THAM =>
+      _id_TAI_THAM.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_TAI_VIET = _class.staticFieldId(
+    r'TAI_VIET',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript TAI_VIET`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get TAI_VIET =>
+      _id_TAI_VIET.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_TAKRI = _class.staticFieldId(
+    r'TAKRI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript TAKRI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get TAKRI =>
+      _id_TAKRI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_TAMIL = _class.staticFieldId(
+    r'TAMIL',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript TAMIL`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get TAMIL =>
+      _id_TAMIL.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_TANGSA = _class.staticFieldId(
+    r'TANGSA',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript TANGSA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get TANGSA =>
+      _id_TANGSA.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_TANGUT = _class.staticFieldId(
+    r'TANGUT',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript TANGUT`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get TANGUT =>
+      _id_TANGUT.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_TELUGU = _class.staticFieldId(
+    r'TELUGU',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript TELUGU`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get TELUGU =>
+      _id_TELUGU.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_THAANA = _class.staticFieldId(
+    r'THAANA',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript THAANA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get THAANA =>
+      _id_THAANA.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_THAI = _class.staticFieldId(
+    r'THAI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript THAI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get THAI =>
+      _id_THAI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_TIBETAN = _class.staticFieldId(
+    r'TIBETAN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript TIBETAN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get TIBETAN =>
+      _id_TIBETAN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_TIFINAGH = _class.staticFieldId(
+    r'TIFINAGH',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript TIFINAGH`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get TIFINAGH =>
+      _id_TIFINAGH.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_TIRHUTA = _class.staticFieldId(
+    r'TIRHUTA',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript TIRHUTA`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get TIRHUTA =>
+      _id_TIRHUTA.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_TOTO = _class.staticFieldId(
+    r'TOTO',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript TOTO`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get TOTO =>
+      _id_TOTO.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_UGARITIC = _class.staticFieldId(
+    r'UGARITIC',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript UGARITIC`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get UGARITIC =>
+      _id_UGARITIC.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_UNKNOWN = _class.staticFieldId(
+    r'UNKNOWN',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript UNKNOWN`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get UNKNOWN =>
+      _id_UNKNOWN.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_VAI = _class.staticFieldId(
+    r'VAI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript VAI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get VAI =>
+      _id_VAI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_VITHKUQI = _class.staticFieldId(
+    r'VITHKUQI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript VITHKUQI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get VITHKUQI =>
+      _id_VITHKUQI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_WANCHO = _class.staticFieldId(
+    r'WANCHO',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript WANCHO`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get WANCHO =>
+      _id_WANCHO.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_WARANG_CITI = _class.staticFieldId(
+    r'WARANG_CITI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript WARANG_CITI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get WARANG_CITI =>
+      _id_WARANG_CITI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_YEZIDI = _class.staticFieldId(
+    r'YEZIDI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript YEZIDI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get YEZIDI =>
+      _id_YEZIDI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_YI = _class.staticFieldId(
+    r'YI',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript YI`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get YI =>
+      _id_YI.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_ZANABAZAR_SQUARE = _class.staticFieldId(
+    r'ZANABAZAR_SQUARE',
+    r'Ljava/lang/Character$UnicodeScript;',
+  );
+
+  /// from: `static public final java.lang.Character$UnicodeScript ZANABAZAR_SQUARE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript get ZANABAZAR_SQUARE =>
+      _id_ZANABAZAR_SQUARE.get(_class, JCharacter$JUnicodeScript.type)
+          as JCharacter$JUnicodeScript;
+
+  static final _id_values = _class.staticMethodId(
+    r'values',
+    r'()[Ljava/lang/Character$UnicodeScript;',
+  );
+
+  static final _values = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `static public java.lang.Character$UnicodeScript[] values()`
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni$_.JArray<JCharacter$JUnicodeScript?>? values() {
+    return _values(_class.reference.pointer, _id_values.pointer)
+        .object<jni$_.JArray<JCharacter$JUnicodeScript?>?>();
+  }
+
+  static final _id_valueOf = _class.staticMethodId(
+    r'valueOf',
+    r'(Ljava/lang/String;)Ljava/lang/Character$UnicodeScript;',
+  );
+
+  static final _valueOf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.Character$UnicodeScript valueOf(java.lang.String synthetic)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript? valueOf(
+    JString? synthetic,
+  ) {
+    final _$synthetic = synthetic?.reference ?? jni$_.jNullReference;
+    return _valueOf(
+            _class.reference.pointer, _id_valueOf.pointer, _$synthetic.pointer)
+        .object<JCharacter$JUnicodeScript?>();
+  }
+
+  static final _id_forName = _class.staticMethodId(
+    r'forName',
+    r'(Ljava/lang/String;)Ljava/lang/Character$UnicodeScript;',
+  );
+
+  static final _forName = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.Character$UnicodeScript forName(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript? forName(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _forName(
+            _class.reference.pointer, _id_forName.pointer, _$string.pointer)
+        .object<JCharacter$JUnicodeScript?>();
+  }
+
+  static final _id_of = _class.staticMethodId(
+    r'of',
+    r'(I)Ljava/lang/Character$UnicodeScript;',
+  );
+
+  static final _of = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.Character$UnicodeScript of(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter$JUnicodeScript? of(
+    int i,
+  ) {
+    return _of(_class.reference.pointer, _id_of.pointer, i)
+        .object<JCharacter$JUnicodeScript?>();
+  }
+}
+
+final class $JCharacter$JUnicodeScript$Type$
+    extends jni$_.JType<JCharacter$JUnicodeScript> {
+  @jni$_.internal
+  const $JCharacter$JUnicodeScript$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/Character$UnicodeScript;';
+}
+
+/// from: `java.lang.Character`
+extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
+  static final _class = jni$_.JClass.forName(r'java/lang/Character');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<JCharacter> type = $JCharacter$Type$();
+
+  /// from: `static public final int BYTES`
+  static const BYTES = 2;
+
+  /// from: `static public final byte COMBINING_SPACING_MARK`
+  static const COMBINING_SPACING_MARK = 8;
+
+  /// from: `static public final byte CONNECTOR_PUNCTUATION`
+  static const CONNECTOR_PUNCTUATION = 23;
+
+  /// from: `static public final byte CONTROL`
+  static const CONTROL = 15;
+
+  /// from: `static public final byte CURRENCY_SYMBOL`
+  static const CURRENCY_SYMBOL = 26;
+
+  /// from: `static public final byte DASH_PUNCTUATION`
+  static const DASH_PUNCTUATION = 20;
+
+  /// from: `static public final byte DECIMAL_DIGIT_NUMBER`
+  static const DECIMAL_DIGIT_NUMBER = 9;
+
+  /// from: `static public final byte DIRECTIONALITY_ARABIC_NUMBER`
+  static const DIRECTIONALITY_ARABIC_NUMBER = 6;
+
+  /// from: `static public final byte DIRECTIONALITY_BOUNDARY_NEUTRAL`
+  static const DIRECTIONALITY_BOUNDARY_NEUTRAL = 9;
+
+  /// from: `static public final byte DIRECTIONALITY_COMMON_NUMBER_SEPARATOR`
+  static const DIRECTIONALITY_COMMON_NUMBER_SEPARATOR = 7;
+
+  /// from: `static public final byte DIRECTIONALITY_EUROPEAN_NUMBER`
+  static const DIRECTIONALITY_EUROPEAN_NUMBER = 3;
+
+  /// from: `static public final byte DIRECTIONALITY_EUROPEAN_NUMBER_SEPARATOR`
+  static const DIRECTIONALITY_EUROPEAN_NUMBER_SEPARATOR = 4;
+
+  /// from: `static public final byte DIRECTIONALITY_EUROPEAN_NUMBER_TERMINATOR`
+  static const DIRECTIONALITY_EUROPEAN_NUMBER_TERMINATOR = 5;
+
+  /// from: `static public final byte DIRECTIONALITY_FIRST_STRONG_ISOLATE`
+  static const DIRECTIONALITY_FIRST_STRONG_ISOLATE = 21;
+
+  /// from: `static public final byte DIRECTIONALITY_LEFT_TO_RIGHT`
+  static const DIRECTIONALITY_LEFT_TO_RIGHT = 0;
+
+  /// from: `static public final byte DIRECTIONALITY_LEFT_TO_RIGHT_EMBEDDING`
+  static const DIRECTIONALITY_LEFT_TO_RIGHT_EMBEDDING = 14;
+
+  /// from: `static public final byte DIRECTIONALITY_LEFT_TO_RIGHT_ISOLATE`
+  static const DIRECTIONALITY_LEFT_TO_RIGHT_ISOLATE = 19;
+
+  /// from: `static public final byte DIRECTIONALITY_LEFT_TO_RIGHT_OVERRIDE`
+  static const DIRECTIONALITY_LEFT_TO_RIGHT_OVERRIDE = 15;
+
+  /// from: `static public final byte DIRECTIONALITY_NONSPACING_MARK`
+  static const DIRECTIONALITY_NONSPACING_MARK = 8;
+
+  /// from: `static public final byte DIRECTIONALITY_OTHER_NEUTRALS`
+  static const DIRECTIONALITY_OTHER_NEUTRALS = 13;
+
+  /// from: `static public final byte DIRECTIONALITY_PARAGRAPH_SEPARATOR`
+  static const DIRECTIONALITY_PARAGRAPH_SEPARATOR = 10;
+
+  /// from: `static public final byte DIRECTIONALITY_POP_DIRECTIONAL_FORMAT`
+  static const DIRECTIONALITY_POP_DIRECTIONAL_FORMAT = 18;
+
+  /// from: `static public final byte DIRECTIONALITY_POP_DIRECTIONAL_ISOLATE`
+  static const DIRECTIONALITY_POP_DIRECTIONAL_ISOLATE = 22;
+
+  /// from: `static public final byte DIRECTIONALITY_RIGHT_TO_LEFT`
+  static const DIRECTIONALITY_RIGHT_TO_LEFT = 1;
+
+  /// from: `static public final byte DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC`
+  static const DIRECTIONALITY_RIGHT_TO_LEFT_ARABIC = 2;
+
+  /// from: `static public final byte DIRECTIONALITY_RIGHT_TO_LEFT_EMBEDDING`
+  static const DIRECTIONALITY_RIGHT_TO_LEFT_EMBEDDING = 16;
+
+  /// from: `static public final byte DIRECTIONALITY_RIGHT_TO_LEFT_ISOLATE`
+  static const DIRECTIONALITY_RIGHT_TO_LEFT_ISOLATE = 20;
+
+  /// from: `static public final byte DIRECTIONALITY_RIGHT_TO_LEFT_OVERRIDE`
+  static const DIRECTIONALITY_RIGHT_TO_LEFT_OVERRIDE = 17;
+
+  /// from: `static public final byte DIRECTIONALITY_SEGMENT_SEPARATOR`
+  static const DIRECTIONALITY_SEGMENT_SEPARATOR = 11;
+
+  /// from: `static public final byte DIRECTIONALITY_UNDEFINED`
+  static const DIRECTIONALITY_UNDEFINED = -1;
+
+  /// from: `static public final byte DIRECTIONALITY_WHITESPACE`
+  static const DIRECTIONALITY_WHITESPACE = 12;
+
+  /// from: `static public final byte ENCLOSING_MARK`
+  static const ENCLOSING_MARK = 7;
+
+  /// from: `static public final byte END_PUNCTUATION`
+  static const END_PUNCTUATION = 22;
+
+  /// from: `static public final byte FINAL_QUOTE_PUNCTUATION`
+  static const FINAL_QUOTE_PUNCTUATION = 30;
+
+  /// from: `static public final byte FORMAT`
+  static const FORMAT = 16;
+
+  /// from: `static public final byte INITIAL_QUOTE_PUNCTUATION`
+  static const INITIAL_QUOTE_PUNCTUATION = 29;
+
+  /// from: `static public final byte LETTER_NUMBER`
+  static const LETTER_NUMBER = 10;
+
+  /// from: `static public final byte LINE_SEPARATOR`
+  static const LINE_SEPARATOR = 13;
+
+  /// from: `static public final byte LOWERCASE_LETTER`
+  static const LOWERCASE_LETTER = 2;
+
+  /// from: `static public final byte MATH_SYMBOL`
+  static const MATH_SYMBOL = 25;
+
+  /// from: `static public final int MAX_CODE_POINT`
+  static const MAX_CODE_POINT = 1114111;
+
+  /// from: `static public final char MAX_HIGH_SURROGATE`
+  static const MAX_HIGH_SURROGATE = 56319;
+
+  /// from: `static public final char MAX_LOW_SURROGATE`
+  static const MAX_LOW_SURROGATE = 57343;
+
+  /// from: `static public final int MAX_RADIX`
+  static const MAX_RADIX = 36;
+
+  /// from: `static public final char MAX_SURROGATE`
+  static const MAX_SURROGATE = 57343;
+
+  /// from: `static public final char MAX_VALUE`
+  static const MAX_VALUE = 65535;
+
+  /// from: `static public final int MIN_CODE_POINT`
+  static const MIN_CODE_POINT = 0;
+
+  /// from: `static public final char MIN_HIGH_SURROGATE`
+  static const MIN_HIGH_SURROGATE = 55296;
+
+  /// from: `static public final char MIN_LOW_SURROGATE`
+  static const MIN_LOW_SURROGATE = 56320;
+
+  /// from: `static public final int MIN_RADIX`
+  static const MIN_RADIX = 2;
+
+  /// from: `static public final int MIN_SUPPLEMENTARY_CODE_POINT`
+  static const MIN_SUPPLEMENTARY_CODE_POINT = 65536;
+
+  /// from: `static public final char MIN_SURROGATE`
+  static const MIN_SURROGATE = 55296;
+
+  /// from: `static public final char MIN_VALUE`
+  static const MIN_VALUE = 0;
+
+  /// from: `static public final byte MODIFIER_LETTER`
+  static const MODIFIER_LETTER = 4;
+
+  /// from: `static public final byte MODIFIER_SYMBOL`
+  static const MODIFIER_SYMBOL = 27;
+
+  /// from: `static public final byte NON_SPACING_MARK`
+  static const NON_SPACING_MARK = 6;
+
+  /// from: `static public final byte OTHER_LETTER`
+  static const OTHER_LETTER = 5;
+
+  /// from: `static public final byte OTHER_NUMBER`
+  static const OTHER_NUMBER = 11;
+
+  /// from: `static public final byte OTHER_PUNCTUATION`
+  static const OTHER_PUNCTUATION = 24;
+
+  /// from: `static public final byte OTHER_SYMBOL`
+  static const OTHER_SYMBOL = 28;
+
+  /// from: `static public final byte PARAGRAPH_SEPARATOR`
+  static const PARAGRAPH_SEPARATOR = 14;
+
+  /// from: `static public final byte PRIVATE_USE`
+  static const PRIVATE_USE = 18;
+
+  /// from: `static public final int SIZE`
+  static const SIZE = 16;
+
+  /// from: `static public final byte SPACE_SEPARATOR`
+  static const SPACE_SEPARATOR = 12;
+
+  /// from: `static public final byte START_PUNCTUATION`
+  static const START_PUNCTUATION = 21;
+
+  /// from: `static public final byte SURROGATE`
+  static const SURROGATE = 19;
+
+  /// from: `static public final byte TITLECASE_LETTER`
+  static const TITLECASE_LETTER = 3;
+  static final _id_TYPE = _class.staticFieldId(
+    r'TYPE',
+    r'Ljava/lang/Class;',
+  );
+
+  /// from: `static public final java.lang.Class<java.lang.Character> TYPE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni$_.JObject? get TYPE =>
+      _id_TYPE.getNullable(_class, jni$_.JObject.type) as jni$_.JObject?;
+
+  /// from: `static public final byte UNASSIGNED`
+  static const UNASSIGNED = 0;
+
+  /// from: `static public final byte UPPERCASE_LETTER`
+  static const UPPERCASE_LETTER = 1;
+  static final _id_new$ = _class.constructorId(
+    r'(C)V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public void <init>(char c)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JCharacter(
+    int c,
+  ) {
+    return _new$(_class.reference.pointer, _id_new$.pointer, c)
+        .object<JCharacter>();
+  }
+
+  static final _id_charCount = _class.staticMethodId(
+    r'charCount',
+    r'(I)I',
+  );
+
+  static final _charCount = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int charCount(int i)`
+  static int charCount(
+    int i,
+  ) {
+    return _charCount(_class.reference.pointer, _id_charCount.pointer, i)
+        .integer;
+  }
+
+  static final _id_codePointAt = _class.staticMethodId(
+    r'codePointAt',
+    r'([CI)I',
+  );
+
+  static final _codePointAt = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `static public int codePointAt(char[] cs, int i)`
+  static int codePointAt(
+    jni$_.JCharArray? cs,
+    int i,
+  ) {
+    final _$cs = cs?.reference ?? jni$_.jNullReference;
+    return _codePointAt(
+            _class.reference.pointer, _id_codePointAt.pointer, _$cs.pointer, i)
+        .integer;
+  }
+
+  static final _id_codePointAt$1 = _class.staticMethodId(
+    r'codePointAt',
+    r'([CII)I',
+  );
+
+  static final _codePointAt$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+
+  /// from: `static public int codePointAt(char[] cs, int i, int i1)`
+  static int codePointAt$1(
+    jni$_.JCharArray? cs,
+    int i,
+    int i1,
+  ) {
+    final _$cs = cs?.reference ?? jni$_.jNullReference;
+    return _codePointAt$1(_class.reference.pointer, _id_codePointAt$1.pointer,
+            _$cs.pointer, i, i1)
+        .integer;
+  }
+
+  static final _id_codePointAt$2 = _class.staticMethodId(
+    r'codePointAt',
+    r'(Ljava/lang/CharSequence;I)I',
+  );
+
+  static final _codePointAt$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `static public int codePointAt(java.lang.CharSequence charSequence, int i)`
+  static int codePointAt$2(
+    jni$_.JObject? charSequence,
+    int i,
+  ) {
+    final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
+    return _codePointAt$2(_class.reference.pointer, _id_codePointAt$2.pointer,
+            _$charSequence.pointer, i)
+        .integer;
+  }
+
+  static final _id_codePointBefore = _class.staticMethodId(
+    r'codePointBefore',
+    r'([CI)I',
+  );
+
+  static final _codePointBefore = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `static public int codePointBefore(char[] cs, int i)`
+  static int codePointBefore(
+    jni$_.JCharArray? cs,
+    int i,
+  ) {
+    final _$cs = cs?.reference ?? jni$_.jNullReference;
+    return _codePointBefore(_class.reference.pointer,
+            _id_codePointBefore.pointer, _$cs.pointer, i)
+        .integer;
+  }
+
+  static final _id_codePointBefore$1 = _class.staticMethodId(
+    r'codePointBefore',
+    r'([CII)I',
+  );
+
+  static final _codePointBefore$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+
+  /// from: `static public int codePointBefore(char[] cs, int i, int i1)`
+  static int codePointBefore$1(
+    jni$_.JCharArray? cs,
+    int i,
+    int i1,
+  ) {
+    final _$cs = cs?.reference ?? jni$_.jNullReference;
+    return _codePointBefore$1(_class.reference.pointer,
+            _id_codePointBefore$1.pointer, _$cs.pointer, i, i1)
+        .integer;
+  }
+
+  static final _id_codePointBefore$2 = _class.staticMethodId(
+    r'codePointBefore',
+    r'(Ljava/lang/CharSequence;I)I',
+  );
+
+  static final _codePointBefore$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `static public int codePointBefore(java.lang.CharSequence charSequence, int i)`
+  static int codePointBefore$2(
+    jni$_.JObject? charSequence,
+    int i,
+  ) {
+    final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
+    return _codePointBefore$2(_class.reference.pointer,
+            _id_codePointBefore$2.pointer, _$charSequence.pointer, i)
+        .integer;
+  }
+
+  static final _id_codePointCount = _class.staticMethodId(
+    r'codePointCount',
+    r'([CII)I',
+  );
+
+  static final _codePointCount = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+
+  /// from: `static public int codePointCount(char[] cs, int i, int i1)`
+  static int codePointCount(
+    jni$_.JCharArray? cs,
+    int i,
+    int i1,
+  ) {
+    final _$cs = cs?.reference ?? jni$_.jNullReference;
+    return _codePointCount(_class.reference.pointer, _id_codePointCount.pointer,
+            _$cs.pointer, i, i1)
+        .integer;
+  }
+
+  static final _id_codePointCount$1 = _class.staticMethodId(
+    r'codePointCount',
+    r'(Ljava/lang/CharSequence;II)I',
+  );
+
+  static final _codePointCount$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+
+  /// from: `static public int codePointCount(java.lang.CharSequence charSequence, int i, int i1)`
+  static int codePointCount$1(
+    jni$_.JObject? charSequence,
+    int i,
+    int i1,
+  ) {
+    final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
+    return _codePointCount$1(_class.reference.pointer,
+            _id_codePointCount$1.pointer, _$charSequence.pointer, i, i1)
+        .integer;
+  }
+
+  static final _id_codePointOf = _class.staticMethodId(
+    r'codePointOf',
+    r'(Ljava/lang/String;)I',
+  );
+
+  static final _codePointOf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public int codePointOf(java.lang.String string)`
+  static int codePointOf(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _codePointOf(
+            _class.reference.pointer, _id_codePointOf.pointer, _$string.pointer)
+        .integer;
+  }
+
+  static final _id_compare = _class.staticMethodId(
+    r'compare',
+    r'(CC)I',
+  );
+
+  static final _compare = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public int compare(char c, char c1)`
+  static int compare(
+    int c,
+    int c1,
+  ) {
+    return _compare(_class.reference.pointer, _id_compare.pointer, c, c1)
+        .integer;
+  }
+
+  static final _id_digit = _class.staticMethodId(
+    r'digit',
+    r'(CI)I',
+  );
+
+  static final _digit = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public int digit(char c, int i)`
+  static int digit(
+    int c,
+    int i,
+  ) {
+    return _digit(_class.reference.pointer, _id_digit.pointer, c, i).integer;
+  }
+
+  static final _id_digit$1 = _class.staticMethodId(
+    r'digit',
+    r'(II)I',
+  );
+
+  static final _digit$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public int digit(int i, int i1)`
+  static int digit$1(
+    int i,
+    int i1,
+  ) {
+    return _digit$1(_class.reference.pointer, _id_digit$1.pointer, i, i1)
+        .integer;
+  }
+
+  static final _id_forDigit = _class.staticMethodId(
+    r'forDigit',
+    r'(II)C',
+  );
+
+  static final _forDigit = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticCharMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public char forDigit(int i, int i1)`
+  static int forDigit(
+    int i,
+    int i1,
+  ) {
+    return _forDigit(_class.reference.pointer, _id_forDigit.pointer, i, i1)
+        .char;
+  }
+
+  static final _id_getDirectionality = _class.staticMethodId(
+    r'getDirectionality',
+    r'(C)B',
+  );
+
+  static final _getDirectionality = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticByteMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public byte getDirectionality(char c)`
+  static int getDirectionality(
+    int c,
+  ) {
+    return _getDirectionality(
+            _class.reference.pointer, _id_getDirectionality.pointer, c)
+        .byte;
+  }
+
+  static final _id_getDirectionality$1 = _class.staticMethodId(
+    r'getDirectionality',
+    r'(I)B',
+  );
+
+  static final _getDirectionality$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticByteMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public byte getDirectionality(int i)`
+  static int getDirectionality$1(
+    int i,
+  ) {
+    return _getDirectionality$1(
+            _class.reference.pointer, _id_getDirectionality$1.pointer, i)
+        .byte;
+  }
+
+  static final _id_getName = _class.staticMethodId(
+    r'getName',
+    r'(I)Ljava/lang/String;',
+  );
+
+  static final _getName = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.String getName(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? getName(
+    int i,
+  ) {
+    return _getName(_class.reference.pointer, _id_getName.pointer, i)
+        .object<JString?>();
+  }
+
+  static final _id_getNumericValue = _class.staticMethodId(
+    r'getNumericValue',
+    r'(C)I',
+  );
+
+  static final _getNumericValue = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int getNumericValue(char c)`
+  static int getNumericValue(
+    int c,
+  ) {
+    return _getNumericValue(
+            _class.reference.pointer, _id_getNumericValue.pointer, c)
+        .integer;
+  }
+
+  static final _id_getNumericValue$1 = _class.staticMethodId(
+    r'getNumericValue',
+    r'(I)I',
+  );
+
+  static final _getNumericValue$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int getNumericValue(int i)`
+  static int getNumericValue$1(
+    int i,
+  ) {
+    return _getNumericValue$1(
+            _class.reference.pointer, _id_getNumericValue$1.pointer, i)
+        .integer;
+  }
+
+  static final _id_getType = _class.staticMethodId(
+    r'getType',
+    r'(C)I',
+  );
+
+  static final _getType = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int getType(char c)`
+  static int getType(
+    int c,
+  ) {
+    return _getType(_class.reference.pointer, _id_getType.pointer, c).integer;
+  }
+
+  static final _id_getType$1 = _class.staticMethodId(
+    r'getType',
+    r'(I)I',
+  );
+
+  static final _getType$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int getType(int i)`
+  static int getType$1(
+    int i,
+  ) {
+    return _getType$1(_class.reference.pointer, _id_getType$1.pointer, i)
+        .integer;
+  }
+
+  static final _id_hashCode$2 = _class.staticMethodId(
+    r'hashCode',
+    r'(C)I',
+  );
+
+  static final _hashCode$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int hashCode(char c)`
+  static int hashCode$2(
+    int c,
+  ) {
+    return _hashCode$2(_class.reference.pointer, _id_hashCode$2.pointer, c)
+        .integer;
+  }
+
+  static final _id_highSurrogate = _class.staticMethodId(
+    r'highSurrogate',
+    r'(I)C',
+  );
+
+  static final _highSurrogate = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticCharMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public char highSurrogate(int i)`
+  static int highSurrogate(
+    int i,
+  ) {
+    return _highSurrogate(
+            _class.reference.pointer, _id_highSurrogate.pointer, i)
+        .char;
+  }
+
+  static final _id_isAlphabetic = _class.staticMethodId(
+    r'isAlphabetic',
+    r'(I)Z',
+  );
+
+  static final _isAlphabetic = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isAlphabetic(int i)`
+  static core$_.bool isAlphabetic(
+    int i,
+  ) {
+    return _isAlphabetic(_class.reference.pointer, _id_isAlphabetic.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isBmpCodePoint = _class.staticMethodId(
+    r'isBmpCodePoint',
+    r'(I)Z',
+  );
+
+  static final _isBmpCodePoint = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isBmpCodePoint(int i)`
+  static core$_.bool isBmpCodePoint(
+    int i,
+  ) {
+    return _isBmpCodePoint(
+            _class.reference.pointer, _id_isBmpCodePoint.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isDefined = _class.staticMethodId(
+    r'isDefined',
+    r'(C)Z',
+  );
+
+  static final _isDefined = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isDefined(char c)`
+  static core$_.bool isDefined(
+    int c,
+  ) {
+    return _isDefined(_class.reference.pointer, _id_isDefined.pointer, c)
+        .boolean;
+  }
+
+  static final _id_isDefined$1 = _class.staticMethodId(
+    r'isDefined',
+    r'(I)Z',
+  );
+
+  static final _isDefined$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isDefined(int i)`
+  static core$_.bool isDefined$1(
+    int i,
+  ) {
+    return _isDefined$1(_class.reference.pointer, _id_isDefined$1.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isDigit = _class.staticMethodId(
+    r'isDigit',
+    r'(C)Z',
+  );
+
+  static final _isDigit = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isDigit(char c)`
+  static core$_.bool isDigit(
+    int c,
+  ) {
+    return _isDigit(_class.reference.pointer, _id_isDigit.pointer, c).boolean;
+  }
+
+  static final _id_isDigit$1 = _class.staticMethodId(
+    r'isDigit',
+    r'(I)Z',
+  );
+
+  static final _isDigit$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isDigit(int i)`
+  static core$_.bool isDigit$1(
+    int i,
+  ) {
+    return _isDigit$1(_class.reference.pointer, _id_isDigit$1.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isEmoji = _class.staticMethodId(
+    r'isEmoji',
+    r'(I)Z',
+  );
+
+  static final _isEmoji = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isEmoji(int i)`
+  static core$_.bool isEmoji(
+    int i,
+  ) {
+    return _isEmoji(_class.reference.pointer, _id_isEmoji.pointer, i).boolean;
+  }
+
+  static final _id_isEmojiComponent = _class.staticMethodId(
+    r'isEmojiComponent',
+    r'(I)Z',
+  );
+
+  static final _isEmojiComponent = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isEmojiComponent(int i)`
+  static core$_.bool isEmojiComponent(
+    int i,
+  ) {
+    return _isEmojiComponent(
+            _class.reference.pointer, _id_isEmojiComponent.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isEmojiModifier = _class.staticMethodId(
+    r'isEmojiModifier',
+    r'(I)Z',
+  );
+
+  static final _isEmojiModifier = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isEmojiModifier(int i)`
+  static core$_.bool isEmojiModifier(
+    int i,
+  ) {
+    return _isEmojiModifier(
+            _class.reference.pointer, _id_isEmojiModifier.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isEmojiModifierBase = _class.staticMethodId(
+    r'isEmojiModifierBase',
+    r'(I)Z',
+  );
+
+  static final _isEmojiModifierBase = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isEmojiModifierBase(int i)`
+  static core$_.bool isEmojiModifierBase(
+    int i,
+  ) {
+    return _isEmojiModifierBase(
+            _class.reference.pointer, _id_isEmojiModifierBase.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isEmojiPresentation = _class.staticMethodId(
+    r'isEmojiPresentation',
+    r'(I)Z',
+  );
+
+  static final _isEmojiPresentation = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isEmojiPresentation(int i)`
+  static core$_.bool isEmojiPresentation(
+    int i,
+  ) {
+    return _isEmojiPresentation(
+            _class.reference.pointer, _id_isEmojiPresentation.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isExtendedPictographic = _class.staticMethodId(
+    r'isExtendedPictographic',
+    r'(I)Z',
+  );
+
+  static final _isExtendedPictographic = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isExtendedPictographic(int i)`
+  static core$_.bool isExtendedPictographic(
+    int i,
+  ) {
+    return _isExtendedPictographic(
+            _class.reference.pointer, _id_isExtendedPictographic.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isHighSurrogate = _class.staticMethodId(
+    r'isHighSurrogate',
+    r'(C)Z',
+  );
+
+  static final _isHighSurrogate = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isHighSurrogate(char c)`
+  static core$_.bool isHighSurrogate(
+    int c,
+  ) {
+    return _isHighSurrogate(
+            _class.reference.pointer, _id_isHighSurrogate.pointer, c)
+        .boolean;
+  }
+
+  static final _id_isISOControl = _class.staticMethodId(
+    r'isISOControl',
+    r'(C)Z',
+  );
+
+  static final _isISOControl = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isISOControl(char c)`
+  static core$_.bool isISOControl(
+    int c,
+  ) {
+    return _isISOControl(_class.reference.pointer, _id_isISOControl.pointer, c)
+        .boolean;
+  }
+
+  static final _id_isISOControl$1 = _class.staticMethodId(
+    r'isISOControl',
+    r'(I)Z',
+  );
+
+  static final _isISOControl$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isISOControl(int i)`
+  static core$_.bool isISOControl$1(
+    int i,
+  ) {
+    return _isISOControl$1(
+            _class.reference.pointer, _id_isISOControl$1.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isIdentifierIgnorable = _class.staticMethodId(
+    r'isIdentifierIgnorable',
+    r'(C)Z',
+  );
+
+  static final _isIdentifierIgnorable = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isIdentifierIgnorable(char c)`
+  static core$_.bool isIdentifierIgnorable(
+    int c,
+  ) {
+    return _isIdentifierIgnorable(
+            _class.reference.pointer, _id_isIdentifierIgnorable.pointer, c)
+        .boolean;
+  }
+
+  static final _id_isIdentifierIgnorable$1 = _class.staticMethodId(
+    r'isIdentifierIgnorable',
+    r'(I)Z',
+  );
+
+  static final _isIdentifierIgnorable$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isIdentifierIgnorable(int i)`
+  static core$_.bool isIdentifierIgnorable$1(
+    int i,
+  ) {
+    return _isIdentifierIgnorable$1(
+            _class.reference.pointer, _id_isIdentifierIgnorable$1.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isIdeographic = _class.staticMethodId(
+    r'isIdeographic',
+    r'(I)Z',
+  );
+
+  static final _isIdeographic = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isIdeographic(int i)`
+  static core$_.bool isIdeographic(
+    int i,
+  ) {
+    return _isIdeographic(
+            _class.reference.pointer, _id_isIdeographic.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isJavaIdentifierPart = _class.staticMethodId(
+    r'isJavaIdentifierPart',
+    r'(C)Z',
+  );
+
+  static final _isJavaIdentifierPart = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isJavaIdentifierPart(char c)`
+  static core$_.bool isJavaIdentifierPart(
+    int c,
+  ) {
+    return _isJavaIdentifierPart(
+            _class.reference.pointer, _id_isJavaIdentifierPart.pointer, c)
+        .boolean;
+  }
+
+  static final _id_isJavaIdentifierPart$1 = _class.staticMethodId(
+    r'isJavaIdentifierPart',
+    r'(I)Z',
+  );
+
+  static final _isJavaIdentifierPart$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isJavaIdentifierPart(int i)`
+  static core$_.bool isJavaIdentifierPart$1(
+    int i,
+  ) {
+    return _isJavaIdentifierPart$1(
+            _class.reference.pointer, _id_isJavaIdentifierPart$1.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isJavaIdentifierStart = _class.staticMethodId(
+    r'isJavaIdentifierStart',
+    r'(C)Z',
+  );
+
+  static final _isJavaIdentifierStart = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isJavaIdentifierStart(char c)`
+  static core$_.bool isJavaIdentifierStart(
+    int c,
+  ) {
+    return _isJavaIdentifierStart(
+            _class.reference.pointer, _id_isJavaIdentifierStart.pointer, c)
+        .boolean;
+  }
+
+  static final _id_isJavaIdentifierStart$1 = _class.staticMethodId(
+    r'isJavaIdentifierStart',
+    r'(I)Z',
+  );
+
+  static final _isJavaIdentifierStart$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isJavaIdentifierStart(int i)`
+  static core$_.bool isJavaIdentifierStart$1(
+    int i,
+  ) {
+    return _isJavaIdentifierStart$1(
+            _class.reference.pointer, _id_isJavaIdentifierStart$1.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isJavaLetter = _class.staticMethodId(
+    r'isJavaLetter',
+    r'(C)Z',
+  );
+
+  static final _isJavaLetter = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isJavaLetter(char c)`
+  static core$_.bool isJavaLetter(
+    int c,
+  ) {
+    return _isJavaLetter(_class.reference.pointer, _id_isJavaLetter.pointer, c)
+        .boolean;
+  }
+
+  static final _id_isJavaLetterOrDigit = _class.staticMethodId(
+    r'isJavaLetterOrDigit',
+    r'(C)Z',
+  );
+
+  static final _isJavaLetterOrDigit = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isJavaLetterOrDigit(char c)`
+  static core$_.bool isJavaLetterOrDigit(
+    int c,
+  ) {
+    return _isJavaLetterOrDigit(
+            _class.reference.pointer, _id_isJavaLetterOrDigit.pointer, c)
+        .boolean;
+  }
+
+  static final _id_isLetter = _class.staticMethodId(
+    r'isLetter',
+    r'(C)Z',
+  );
+
+  static final _isLetter = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isLetter(char c)`
+  static core$_.bool isLetter(
+    int c,
+  ) {
+    return _isLetter(_class.reference.pointer, _id_isLetter.pointer, c).boolean;
+  }
+
+  static final _id_isLetter$1 = _class.staticMethodId(
+    r'isLetter',
+    r'(I)Z',
+  );
+
+  static final _isLetter$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isLetter(int i)`
+  static core$_.bool isLetter$1(
+    int i,
+  ) {
+    return _isLetter$1(_class.reference.pointer, _id_isLetter$1.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isLetterOrDigit = _class.staticMethodId(
+    r'isLetterOrDigit',
+    r'(C)Z',
+  );
+
+  static final _isLetterOrDigit = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isLetterOrDigit(char c)`
+  static core$_.bool isLetterOrDigit(
+    int c,
+  ) {
+    return _isLetterOrDigit(
+            _class.reference.pointer, _id_isLetterOrDigit.pointer, c)
+        .boolean;
+  }
+
+  static final _id_isLetterOrDigit$1 = _class.staticMethodId(
+    r'isLetterOrDigit',
+    r'(I)Z',
+  );
+
+  static final _isLetterOrDigit$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isLetterOrDigit(int i)`
+  static core$_.bool isLetterOrDigit$1(
+    int i,
+  ) {
+    return _isLetterOrDigit$1(
+            _class.reference.pointer, _id_isLetterOrDigit$1.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isLowSurrogate = _class.staticMethodId(
+    r'isLowSurrogate',
+    r'(C)Z',
+  );
+
+  static final _isLowSurrogate = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isLowSurrogate(char c)`
+  static core$_.bool isLowSurrogate(
+    int c,
+  ) {
+    return _isLowSurrogate(
+            _class.reference.pointer, _id_isLowSurrogate.pointer, c)
+        .boolean;
+  }
+
+  static final _id_isLowerCase = _class.staticMethodId(
+    r'isLowerCase',
+    r'(C)Z',
+  );
+
+  static final _isLowerCase = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isLowerCase(char c)`
+  static core$_.bool isLowerCase(
+    int c,
+  ) {
+    return _isLowerCase(_class.reference.pointer, _id_isLowerCase.pointer, c)
+        .boolean;
+  }
+
+  static final _id_isLowerCase$1 = _class.staticMethodId(
+    r'isLowerCase',
+    r'(I)Z',
+  );
+
+  static final _isLowerCase$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isLowerCase(int i)`
+  static core$_.bool isLowerCase$1(
+    int i,
+  ) {
+    return _isLowerCase$1(
+            _class.reference.pointer, _id_isLowerCase$1.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isMirrored = _class.staticMethodId(
+    r'isMirrored',
+    r'(C)Z',
+  );
+
+  static final _isMirrored = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isMirrored(char c)`
+  static core$_.bool isMirrored(
+    int c,
+  ) {
+    return _isMirrored(_class.reference.pointer, _id_isMirrored.pointer, c)
+        .boolean;
+  }
+
+  static final _id_isMirrored$1 = _class.staticMethodId(
+    r'isMirrored',
+    r'(I)Z',
+  );
+
+  static final _isMirrored$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isMirrored(int i)`
+  static core$_.bool isMirrored$1(
+    int i,
+  ) {
+    return _isMirrored$1(_class.reference.pointer, _id_isMirrored$1.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isSpace = _class.staticMethodId(
+    r'isSpace',
+    r'(C)Z',
+  );
+
+  static final _isSpace = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isSpace(char c)`
+  static core$_.bool isSpace(
+    int c,
+  ) {
+    return _isSpace(_class.reference.pointer, _id_isSpace.pointer, c).boolean;
+  }
+
+  static final _id_isSpaceChar = _class.staticMethodId(
+    r'isSpaceChar',
+    r'(C)Z',
+  );
+
+  static final _isSpaceChar = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isSpaceChar(char c)`
+  static core$_.bool isSpaceChar(
+    int c,
+  ) {
+    return _isSpaceChar(_class.reference.pointer, _id_isSpaceChar.pointer, c)
+        .boolean;
+  }
+
+  static final _id_isSpaceChar$1 = _class.staticMethodId(
+    r'isSpaceChar',
+    r'(I)Z',
+  );
+
+  static final _isSpaceChar$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isSpaceChar(int i)`
+  static core$_.bool isSpaceChar$1(
+    int i,
+  ) {
+    return _isSpaceChar$1(
+            _class.reference.pointer, _id_isSpaceChar$1.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isSupplementaryCodePoint = _class.staticMethodId(
+    r'isSupplementaryCodePoint',
+    r'(I)Z',
+  );
+
+  static final _isSupplementaryCodePoint = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isSupplementaryCodePoint(int i)`
+  static core$_.bool isSupplementaryCodePoint(
+    int i,
+  ) {
+    return _isSupplementaryCodePoint(
+            _class.reference.pointer, _id_isSupplementaryCodePoint.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isSurrogate = _class.staticMethodId(
+    r'isSurrogate',
+    r'(C)Z',
+  );
+
+  static final _isSurrogate = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isSurrogate(char c)`
+  static core$_.bool isSurrogate(
+    int c,
+  ) {
+    return _isSurrogate(_class.reference.pointer, _id_isSurrogate.pointer, c)
+        .boolean;
+  }
+
+  static final _id_isSurrogatePair = _class.staticMethodId(
+    r'isSurrogatePair',
+    r'(CC)Z',
+  );
+
+  static final _isSurrogatePair = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public boolean isSurrogatePair(char c, char c1)`
+  static core$_.bool isSurrogatePair(
+    int c,
+    int c1,
+  ) {
+    return _isSurrogatePair(
+            _class.reference.pointer, _id_isSurrogatePair.pointer, c, c1)
+        .boolean;
+  }
+
+  static final _id_isTitleCase = _class.staticMethodId(
+    r'isTitleCase',
+    r'(C)Z',
+  );
+
+  static final _isTitleCase = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isTitleCase(char c)`
+  static core$_.bool isTitleCase(
+    int c,
+  ) {
+    return _isTitleCase(_class.reference.pointer, _id_isTitleCase.pointer, c)
+        .boolean;
+  }
+
+  static final _id_isTitleCase$1 = _class.staticMethodId(
+    r'isTitleCase',
+    r'(I)Z',
+  );
+
+  static final _isTitleCase$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isTitleCase(int i)`
+  static core$_.bool isTitleCase$1(
+    int i,
+  ) {
+    return _isTitleCase$1(
+            _class.reference.pointer, _id_isTitleCase$1.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isUnicodeIdentifierPart = _class.staticMethodId(
+    r'isUnicodeIdentifierPart',
+    r'(C)Z',
+  );
+
+  static final _isUnicodeIdentifierPart = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isUnicodeIdentifierPart(char c)`
+  static core$_.bool isUnicodeIdentifierPart(
+    int c,
+  ) {
+    return _isUnicodeIdentifierPart(
+            _class.reference.pointer, _id_isUnicodeIdentifierPart.pointer, c)
+        .boolean;
+  }
+
+  static final _id_isUnicodeIdentifierPart$1 = _class.staticMethodId(
+    r'isUnicodeIdentifierPart',
+    r'(I)Z',
+  );
+
+  static final _isUnicodeIdentifierPart$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isUnicodeIdentifierPart(int i)`
+  static core$_.bool isUnicodeIdentifierPart$1(
+    int i,
+  ) {
+    return _isUnicodeIdentifierPart$1(
+            _class.reference.pointer, _id_isUnicodeIdentifierPart$1.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isUnicodeIdentifierStart = _class.staticMethodId(
+    r'isUnicodeIdentifierStart',
+    r'(C)Z',
+  );
+
+  static final _isUnicodeIdentifierStart = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isUnicodeIdentifierStart(char c)`
+  static core$_.bool isUnicodeIdentifierStart(
+    int c,
+  ) {
+    return _isUnicodeIdentifierStart(
+            _class.reference.pointer, _id_isUnicodeIdentifierStart.pointer, c)
+        .boolean;
+  }
+
+  static final _id_isUnicodeIdentifierStart$1 = _class.staticMethodId(
+    r'isUnicodeIdentifierStart',
+    r'(I)Z',
+  );
+
+  static final _isUnicodeIdentifierStart$1 =
+      jni$_.ProtectedJniExtensions.lookup<
+                  jni$_.NativeFunction<
+                      jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                          jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+              'globalEnv_CallStaticBooleanMethod')
+          .asFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isUnicodeIdentifierStart(int i)`
+  static core$_.bool isUnicodeIdentifierStart$1(
+    int i,
+  ) {
+    return _isUnicodeIdentifierStart$1(
+            _class.reference.pointer, _id_isUnicodeIdentifierStart$1.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isUpperCase = _class.staticMethodId(
+    r'isUpperCase',
+    r'(C)Z',
+  );
+
+  static final _isUpperCase = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isUpperCase(char c)`
+  static core$_.bool isUpperCase(
+    int c,
+  ) {
+    return _isUpperCase(_class.reference.pointer, _id_isUpperCase.pointer, c)
+        .boolean;
+  }
+
+  static final _id_isUpperCase$1 = _class.staticMethodId(
+    r'isUpperCase',
+    r'(I)Z',
+  );
+
+  static final _isUpperCase$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isUpperCase(int i)`
+  static core$_.bool isUpperCase$1(
+    int i,
+  ) {
+    return _isUpperCase$1(
+            _class.reference.pointer, _id_isUpperCase$1.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isValidCodePoint = _class.staticMethodId(
+    r'isValidCodePoint',
+    r'(I)Z',
+  );
+
+  static final _isValidCodePoint = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isValidCodePoint(int i)`
+  static core$_.bool isValidCodePoint(
+    int i,
+  ) {
+    return _isValidCodePoint(
+            _class.reference.pointer, _id_isValidCodePoint.pointer, i)
+        .boolean;
+  }
+
+  static final _id_isWhitespace = _class.staticMethodId(
+    r'isWhitespace',
+    r'(C)Z',
+  );
+
+  static final _isWhitespace = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isWhitespace(char c)`
+  static core$_.bool isWhitespace(
+    int c,
+  ) {
+    return _isWhitespace(_class.reference.pointer, _id_isWhitespace.pointer, c)
+        .boolean;
+  }
+
+  static final _id_isWhitespace$1 = _class.staticMethodId(
+    r'isWhitespace',
+    r'(I)Z',
+  );
+
+  static final _isWhitespace$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public boolean isWhitespace(int i)`
+  static core$_.bool isWhitespace$1(
+    int i,
+  ) {
+    return _isWhitespace$1(
+            _class.reference.pointer, _id_isWhitespace$1.pointer, i)
+        .boolean;
+  }
+
+  static final _id_lowSurrogate = _class.staticMethodId(
+    r'lowSurrogate',
+    r'(I)C',
+  );
+
+  static final _lowSurrogate = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticCharMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public char lowSurrogate(int i)`
+  static int lowSurrogate(
+    int i,
+  ) {
+    return _lowSurrogate(_class.reference.pointer, _id_lowSurrogate.pointer, i)
+        .char;
+  }
+
+  static final _id_offsetByCodePoints = _class.staticMethodId(
+    r'offsetByCodePoints',
+    r'([CIIII)I',
+  );
+
+  static final _offsetByCodePoints = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              int,
+              int,
+              int,
+              int)>();
+
+  /// from: `static public int offsetByCodePoints(char[] cs, int i, int i1, int i2, int i3)`
+  static int offsetByCodePoints(
+    jni$_.JCharArray? cs,
+    int i,
+    int i1,
+    int i2,
+    int i3,
+  ) {
+    final _$cs = cs?.reference ?? jni$_.jNullReference;
+    return _offsetByCodePoints(_class.reference.pointer,
+            _id_offsetByCodePoints.pointer, _$cs.pointer, i, i1, i2, i3)
+        .integer;
+  }
+
+  static final _id_offsetByCodePoints$1 = _class.staticMethodId(
+    r'offsetByCodePoints',
+    r'(Ljava/lang/CharSequence;II)I',
+  );
+
+  static final _offsetByCodePoints$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+
+  /// from: `static public int offsetByCodePoints(java.lang.CharSequence charSequence, int i, int i1)`
+  static int offsetByCodePoints$1(
+    jni$_.JObject? charSequence,
+    int i,
+    int i1,
+  ) {
+    final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
+    return _offsetByCodePoints$1(_class.reference.pointer,
+            _id_offsetByCodePoints$1.pointer, _$charSequence.pointer, i, i1)
+        .integer;
+  }
+
+  static final _id_reverseBytes = _class.staticMethodId(
+    r'reverseBytes',
+    r'(C)C',
+  );
+
+  static final _reverseBytes = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticCharMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public char reverseBytes(char c)`
+  static int reverseBytes(
+    int c,
+  ) {
+    return _reverseBytes(_class.reference.pointer, _id_reverseBytes.pointer, c)
+        .char;
+  }
+
+  static final _id_toChars = _class.staticMethodId(
+    r'toChars',
+    r'(I)[C',
+  );
+
+  static final _toChars = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public char[] toChars(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni$_.JCharArray? toChars(
+    int i,
+  ) {
+    return _toChars(_class.reference.pointer, _id_toChars.pointer, i)
+        .object<jni$_.JCharArray?>();
+  }
+
+  static final _id_toChars$1 = _class.staticMethodId(
+    r'toChars',
+    r'(I[CI)I',
+  );
+
+  static final _toChars$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Int32,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `static public int toChars(int i, char[] cs, int i1)`
+  static int toChars$1(
+    int i,
+    jni$_.JCharArray? cs,
+    int i1,
+  ) {
+    final _$cs = cs?.reference ?? jni$_.jNullReference;
+    return _toChars$1(_class.reference.pointer, _id_toChars$1.pointer, i,
+            _$cs.pointer, i1)
+        .integer;
+  }
+
+  static final _id_toCodePoint = _class.staticMethodId(
+    r'toCodePoint',
+    r'(CC)I',
+  );
+
+  static final _toCodePoint = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public int toCodePoint(char c, char c1)`
+  static int toCodePoint(
+    int c,
+    int c1,
+  ) {
+    return _toCodePoint(
+            _class.reference.pointer, _id_toCodePoint.pointer, c, c1)
+        .integer;
+  }
+
+  static final _id_toLowerCase = _class.staticMethodId(
+    r'toLowerCase',
+    r'(C)C',
+  );
+
+  static final _toLowerCase = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticCharMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public char toLowerCase(char c)`
+  static int toLowerCase(
+    int c,
+  ) {
+    return _toLowerCase(_class.reference.pointer, _id_toLowerCase.pointer, c)
+        .char;
+  }
+
+  static final _id_toLowerCase$1 = _class.staticMethodId(
+    r'toLowerCase',
+    r'(I)I',
+  );
+
+  static final _toLowerCase$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int toLowerCase(int i)`
+  static int toLowerCase$1(
+    int i,
+  ) {
+    return _toLowerCase$1(
+            _class.reference.pointer, _id_toLowerCase$1.pointer, i)
+        .integer;
+  }
+
+  static final _id_toString$2 = _class.staticMethodId(
+    r'toString',
+    r'(C)Ljava/lang/String;',
+  );
+
+  static final _toString$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.String toString(char c)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? toString$2(
+    int c,
+  ) {
+    return _toString$2(_class.reference.pointer, _id_toString$2.pointer, c)
+        .object<JString?>();
+  }
+
+  static final _id_toString$3 = _class.staticMethodId(
+    r'toString',
+    r'(I)Ljava/lang/String;',
+  );
+
+  static final _toString$3 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.String toString(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? toString$3(
+    int i,
+  ) {
+    return _toString$3(_class.reference.pointer, _id_toString$3.pointer, i)
+        .object<JString?>();
+  }
+
+  static final _id_toTitleCase = _class.staticMethodId(
+    r'toTitleCase',
+    r'(C)C',
+  );
+
+  static final _toTitleCase = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticCharMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public char toTitleCase(char c)`
+  static int toTitleCase(
+    int c,
+  ) {
+    return _toTitleCase(_class.reference.pointer, _id_toTitleCase.pointer, c)
+        .char;
+  }
+
+  static final _id_toTitleCase$1 = _class.staticMethodId(
+    r'toTitleCase',
+    r'(I)I',
+  );
+
+  static final _toTitleCase$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int toTitleCase(int i)`
+  static int toTitleCase$1(
+    int i,
+  ) {
+    return _toTitleCase$1(
+            _class.reference.pointer, _id_toTitleCase$1.pointer, i)
+        .integer;
+  }
+
+  static final _id_toUpperCase = _class.staticMethodId(
+    r'toUpperCase',
+    r'(C)C',
+  );
+
+  static final _toUpperCase = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticCharMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public char toUpperCase(char c)`
+  static int toUpperCase(
+    int c,
+  ) {
+    return _toUpperCase(_class.reference.pointer, _id_toUpperCase.pointer, c)
+        .char;
+  }
+
+  static final _id_toUpperCase$1 = _class.staticMethodId(
+    r'toUpperCase',
+    r'(I)I',
+  );
+
+  static final _toUpperCase$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int toUpperCase(int i)`
+  static int toUpperCase$1(
+    int i,
+  ) {
+    return _toUpperCase$1(
+            _class.reference.pointer, _id_toUpperCase$1.pointer, i)
+        .integer;
+  }
+
+  static final _id_valueOf = _class.staticMethodId(
+    r'valueOf',
+    r'(C)Ljava/lang/Character;',
+  );
+
+  static final _valueOf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.Character valueOf(char c)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JCharacter? valueOf(
+    int c,
+  ) {
+    return _valueOf(_class.reference.pointer, _id_valueOf.pointer, c)
+        .object<JCharacter?>();
+  }
+}
+
+extension JCharacter$$Methods on JCharacter {
+  static final _id_charValue = JCharacter._class.instanceMethodId(
+    r'charValue',
+    r'()C',
+  );
+
+  static final _charValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallCharMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public char charValue()`
+  int charValue() {
+    return _charValue(reference.pointer, _id_charValue.pointer).char;
+  }
+
+  static final _id_compareTo = JCharacter._class.instanceMethodId(
+    r'compareTo',
+    r'(Ljava/lang/Character;)I',
+  );
+
+  static final _compareTo = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public int compareTo(java.lang.Character character)`
+  int compareTo(
+    JCharacter? character,
+  ) {
+    final _$character = character?.reference ?? jni$_.jNullReference;
+    return _compareTo(
+            reference.pointer, _id_compareTo.pointer, _$character.pointer)
+        .integer;
+  }
+
+  static final _id_equals = JCharacter._class.instanceMethodId(
+    r'equals',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _equals = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean equals(java.lang.Object object)`
+  core$_.bool equals(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_hashCode$1 = JCharacter._class.instanceMethodId(
+    r'hashCode',
+    r'()I',
+  );
+
+  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public int hashCode()`
+  int hashCode$1() {
+    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+  }
+
+  static final _id_toString$1 = JCharacter._class.instanceMethodId(
+    r'toString',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _toString$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String toString()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? toString$1() {
+    return _toString$1(reference.pointer, _id_toString$1.pointer)
+        .object<JString?>();
+  }
+
+  core$_.bool operator <(JCharacter? character) {
+    return compareTo(character) < 0;
+  }
+
+  core$_.bool operator <=(JCharacter? character) {
+    return compareTo(character) <= 0;
+  }
+
+  core$_.bool operator >(JCharacter? character) {
+    return compareTo(character) > 0;
+  }
+
+  core$_.bool operator >=(JCharacter? character) {
+    return compareTo(character) >= 0;
+  }
+}
+
+final class $JCharacter$Type$ extends jni$_.JType<JCharacter> {
+  @jni$_.internal
+  const $JCharacter$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/Character;';
+}
+
+/// from: `java.lang.Double`
+extension type JDouble._(jni$_.JObject _$this)
+    implements JNumber, jni$_.JObject {
+  static final _class = jni$_.JClass.forName(r'java/lang/Double');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<JDouble> type = $JDouble$Type$();
+
+  /// from: `static public final int BYTES`
+  static const BYTES = 8;
+
+  /// from: `static public final int MAX_EXPONENT`
+  static const MAX_EXPONENT = 1023;
+
+  /// from: `static public final double MAX_VALUE`
+  static const MAX_VALUE = 1.7976931348623157e+308;
+
+  /// from: `static public final int MIN_EXPONENT`
+  static const MIN_EXPONENT = -1022;
+
+  /// from: `static public final double MIN_NORMAL`
+  static const MIN_NORMAL = 2.2250738585072014e-308;
+
+  /// from: `static public final double MIN_VALUE`
+  static const MIN_VALUE = 5e-324;
+  static final _id_NEGATIVE_INFINITY = _class.staticFieldId(
+    r'NEGATIVE_INFINITY',
+    r'D',
+  );
+
+  /// from: `static public final double NEGATIVE_INFINITY`
+  static double get NEGATIVE_INFINITY =>
+      _id_NEGATIVE_INFINITY.getNullable(_class, jni$_.jdouble.type) as double;
+
+  static final _id_NaN = _class.staticFieldId(
+    r'NaN',
+    r'D',
+  );
+
+  /// from: `static public final double NaN`
+  static double get NaN =>
+      _id_NaN.getNullable(_class, jni$_.jdouble.type) as double;
+
+  static final _id_POSITIVE_INFINITY = _class.staticFieldId(
+    r'POSITIVE_INFINITY',
+    r'D',
+  );
+
+  /// from: `static public final double POSITIVE_INFINITY`
+  static double get POSITIVE_INFINITY =>
+      _id_POSITIVE_INFINITY.getNullable(_class, jni$_.jdouble.type) as double;
+
+  /// from: `static public final int PRECISION`
+  static const PRECISION = 53;
+
+  /// from: `static public final int SIZE`
+  static const SIZE = 64;
+  static final _id_TYPE = _class.staticFieldId(
+    r'TYPE',
+    r'Ljava/lang/Class;',
+  );
+
+  /// from: `static public final java.lang.Class<java.lang.Double> TYPE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni$_.JObject? get TYPE =>
+      _id_TYPE.getNullable(_class, jni$_.JObject.type) as jni$_.JObject?;
+
+  static final _id_new$ = _class.constructorId(
+    r'(D)V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Double,)>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `public void <init>(double d)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JDouble(
+    double d,
+  ) {
+    return _new$(_class.reference.pointer, _id_new$.pointer, d)
+        .object<JDouble>();
+  }
+
+  static final _id_new$1 = _class.constructorId(
+    r'(Ljava/lang/String;)V',
+  );
+
+  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JDouble.new$1(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _new$1(_class.reference.pointer, _id_new$1.pointer, _$string.pointer)
+        .object<JDouble>();
+  }
+
+  static final _id_compare = _class.staticMethodId(
+    r'compare',
+    r'(DD)I',
+  );
+
+  static final _compare = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Double, jni$_.Double)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double, double)>();
+
+  /// from: `static public int compare(double d, double d1)`
+  static int compare(
+    double d,
+    double d1,
+  ) {
+    return _compare(_class.reference.pointer, _id_compare.pointer, d, d1)
+        .integer;
+  }
+
+  static final _id_doubleToLongBits = _class.staticMethodId(
+    r'doubleToLongBits',
+    r'(D)J',
+  );
+
+  static final _doubleToLongBits = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Double,)>)>>(
+          'globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `static public long doubleToLongBits(double d)`
+  static int doubleToLongBits(
+    double d,
+  ) {
+    return _doubleToLongBits(
+            _class.reference.pointer, _id_doubleToLongBits.pointer, d)
+        .long;
+  }
+
+  static final _id_doubleToRawLongBits = _class.staticMethodId(
+    r'doubleToRawLongBits',
+    r'(D)J',
+  );
+
+  static final _doubleToRawLongBits = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Double,)>)>>(
+          'globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `static public native long doubleToRawLongBits(double d)`
+  static int doubleToRawLongBits(
+    double d,
+  ) {
+    return _doubleToRawLongBits(
+            _class.reference.pointer, _id_doubleToRawLongBits.pointer, d)
+        .long;
+  }
+
+  static final _id_hashCode$2 = _class.staticMethodId(
+    r'hashCode',
+    r'(D)I',
+  );
+
+  static final _hashCode$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Double,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `static public int hashCode(double d)`
+  static int hashCode$2(
+    double d,
+  ) {
+    return _hashCode$2(_class.reference.pointer, _id_hashCode$2.pointer, d)
+        .integer;
+  }
+
+  static final _id_isFinite = _class.staticMethodId(
+    r'isFinite',
+    r'(D)Z',
+  );
+
+  static final _isFinite = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Double,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `static public boolean isFinite(double d)`
+  static core$_.bool isFinite(
+    double d,
+  ) {
+    return _isFinite(_class.reference.pointer, _id_isFinite.pointer, d).boolean;
+  }
+
+  static final _id_isInfinite$1 = _class.staticMethodId(
+    r'isInfinite',
+    r'(D)Z',
+  );
+
+  static final _isInfinite$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Double,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `static public boolean isInfinite(double d)`
+  static core$_.bool isInfinite$1(
+    double d,
+  ) {
+    return _isInfinite$1(_class.reference.pointer, _id_isInfinite$1.pointer, d)
+        .boolean;
+  }
+
+  static final _id_isNaN$1 = _class.staticMethodId(
+    r'isNaN',
+    r'(D)Z',
+  );
+
+  static final _isNaN$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Double,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `static public boolean isNaN(double d)`
+  static core$_.bool isNaN$1(
+    double d,
+  ) {
+    return _isNaN$1(_class.reference.pointer, _id_isNaN$1.pointer, d).boolean;
+  }
+
+  static final _id_longBitsToDouble = _class.staticMethodId(
+    r'longBitsToDouble',
+    r'(J)D',
+  );
+
+  static final _longBitsToDouble = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int64,)>)>>(
+          'globalEnv_CallStaticDoubleMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public native double longBitsToDouble(long j)`
+  static double longBitsToDouble(
+    int j,
+  ) {
+    return _longBitsToDouble(
+            _class.reference.pointer, _id_longBitsToDouble.pointer, j)
+        .doubleFloat;
+  }
+
+  static final _id_max = _class.staticMethodId(
+    r'max',
+    r'(DD)D',
+  );
+
+  static final _max = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Double, jni$_.Double)>)>>(
+          'globalEnv_CallStaticDoubleMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double, double)>();
+
+  /// from: `static public double max(double d, double d1)`
+  static double max(
+    double d,
+    double d1,
+  ) {
+    return _max(_class.reference.pointer, _id_max.pointer, d, d1).doubleFloat;
+  }
+
+  static final _id_min = _class.staticMethodId(
+    r'min',
+    r'(DD)D',
+  );
+
+  static final _min = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Double, jni$_.Double)>)>>(
+          'globalEnv_CallStaticDoubleMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double, double)>();
+
+  /// from: `static public double min(double d, double d1)`
+  static double min(
+    double d,
+    double d1,
+  ) {
+    return _min(_class.reference.pointer, _id_min.pointer, d, d1).doubleFloat;
+  }
+
+  static final _id_parseDouble = _class.staticMethodId(
+    r'parseDouble',
+    r'(Ljava/lang/String;)D',
+  );
+
+  static final _parseDouble = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticDoubleMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public double parseDouble(java.lang.String string)`
+  static double parseDouble(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _parseDouble(
+            _class.reference.pointer, _id_parseDouble.pointer, _$string.pointer)
+        .doubleFloat;
+  }
+
+  static final _id_sum = _class.staticMethodId(
+    r'sum',
+    r'(DD)D',
+  );
+
+  static final _sum = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Double, jni$_.Double)>)>>(
+          'globalEnv_CallStaticDoubleMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double, double)>();
+
+  /// from: `static public double sum(double d, double d1)`
+  static double sum(
+    double d,
+    double d1,
+  ) {
+    return _sum(_class.reference.pointer, _id_sum.pointer, d, d1).doubleFloat;
+  }
+
+  static final _id_toHexString = _class.staticMethodId(
+    r'toHexString',
+    r'(D)Ljava/lang/String;',
+  );
+
+  static final _toHexString = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Double,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `static public java.lang.String toHexString(double d)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? toHexString(
+    double d,
+  ) {
+    return _toHexString(_class.reference.pointer, _id_toHexString.pointer, d)
+        .object<JString?>();
+  }
+
+  static final _id_toString$2 = _class.staticMethodId(
+    r'toString',
+    r'(D)Ljava/lang/String;',
+  );
+
+  static final _toString$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Double,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `static public java.lang.String toString(double d)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? toString$2(
+    double d,
+  ) {
+    return _toString$2(_class.reference.pointer, _id_toString$2.pointer, d)
+        .object<JString?>();
+  }
+
+  static final _id_valueOf = _class.staticMethodId(
+    r'valueOf',
+    r'(D)Ljava/lang/Double;',
+  );
+
+  static final _valueOf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Double,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `static public java.lang.Double valueOf(double d)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JDouble? valueOf(
+    double d,
+  ) {
+    return _valueOf(_class.reference.pointer, _id_valueOf.pointer, d)
+        .object<JDouble?>();
+  }
+
+  static final _id_valueOf$1 = _class.staticMethodId(
+    r'valueOf',
+    r'(Ljava/lang/String;)Ljava/lang/Double;',
+  );
+
+  static final _valueOf$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.Double valueOf(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JDouble? valueOf$1(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _valueOf$1(
+            _class.reference.pointer, _id_valueOf$1.pointer, _$string.pointer)
+        .object<JDouble?>();
+  }
+}
+
+extension JDouble$$Methods on JDouble {
+  static final _id_byteValue = JDouble._class.instanceMethodId(
+    r'byteValue',
+    r'()B',
+  );
+
+  static final _byteValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallByteMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public byte byteValue()`
+  int byteValue() {
+    return _byteValue(reference.pointer, _id_byteValue.pointer).byte;
+  }
+
+  static final _id_compareTo = JDouble._class.instanceMethodId(
+    r'compareTo',
+    r'(Ljava/lang/Double;)I',
+  );
+
+  static final _compareTo = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public int compareTo(java.lang.Double double)`
+  int compareTo(
+    JDouble? double,
+  ) {
+    final _$double = double?.reference ?? jni$_.jNullReference;
+    return _compareTo(
+            reference.pointer, _id_compareTo.pointer, _$double.pointer)
+        .integer;
+  }
+
+  static final _id_doubleValue = JDouble._class.instanceMethodId(
+    r'doubleValue',
+    r'()D',
+  );
+
+  static final _doubleValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallDoubleMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public double doubleValue()`
+  double doubleValue() {
+    return _doubleValue(reference.pointer, _id_doubleValue.pointer).doubleFloat;
+  }
+
+  static final _id_equals = JDouble._class.instanceMethodId(
+    r'equals',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _equals = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean equals(java.lang.Object object)`
+  core$_.bool equals(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_floatValue = JDouble._class.instanceMethodId(
+    r'floatValue',
+    r'()F',
+  );
+
+  static final _floatValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallFloatMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public float floatValue()`
+  double floatValue() {
+    return _floatValue(reference.pointer, _id_floatValue.pointer).float;
+  }
+
+  static final _id_hashCode$1 = JDouble._class.instanceMethodId(
+    r'hashCode',
+    r'()I',
+  );
+
+  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public int hashCode()`
+  int hashCode$1() {
+    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+  }
+
+  static final _id_intValue = JDouble._class.instanceMethodId(
+    r'intValue',
+    r'()I',
+  );
+
+  static final _intValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public int intValue()`
+  int intValue() {
+    return _intValue(reference.pointer, _id_intValue.pointer).integer;
+  }
+
+  static final _id_isInfinite = JDouble._class.instanceMethodId(
+    r'isInfinite',
+    r'()Z',
+  );
+
+  static final _isInfinite = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public boolean isInfinite()`
+  core$_.bool isInfinite() {
+    return _isInfinite(reference.pointer, _id_isInfinite.pointer).boolean;
+  }
+
+  static final _id_isNaN = JDouble._class.instanceMethodId(
+    r'isNaN',
+    r'()Z',
+  );
+
+  static final _isNaN = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public boolean isNaN()`
+  core$_.bool isNaN() {
+    return _isNaN(reference.pointer, _id_isNaN.pointer).boolean;
+  }
+
+  static final _id_longValue = JDouble._class.instanceMethodId(
+    r'longValue',
+    r'()J',
+  );
+
+  static final _longValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public long longValue()`
+  int longValue() {
+    return _longValue(reference.pointer, _id_longValue.pointer).long;
+  }
+
+  static final _id_shortValue = JDouble._class.instanceMethodId(
+    r'shortValue',
+    r'()S',
+  );
+
+  static final _shortValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallShortMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public short shortValue()`
+  int shortValue() {
+    return _shortValue(reference.pointer, _id_shortValue.pointer).short;
+  }
+
+  static final _id_toString$1 = JDouble._class.instanceMethodId(
+    r'toString',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _toString$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String toString()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? toString$1() {
+    return _toString$1(reference.pointer, _id_toString$1.pointer)
+        .object<JString?>();
+  }
+
+  core$_.bool operator <(JDouble? double) {
+    return compareTo(double) < 0;
+  }
+
+  core$_.bool operator <=(JDouble? double) {
+    return compareTo(double) <= 0;
+  }
+
+  core$_.bool operator >(JDouble? double) {
+    return compareTo(double) > 0;
+  }
+
+  core$_.bool operator >=(JDouble? double) {
+    return compareTo(double) >= 0;
+  }
+}
+
+final class $JDouble$Type$ extends jni$_.JType<JDouble> {
+  @jni$_.internal
+  const $JDouble$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/Double;';
+}
+
+/// from: `java.lang.Float`
+extension type JFloat._(jni$_.JObject _$this)
+    implements JNumber, jni$_.JObject {
+  static final _class = jni$_.JClass.forName(r'java/lang/Float');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<JFloat> type = $JFloat$Type$();
+
+  /// from: `static public final int BYTES`
+  static const BYTES = 4;
+
+  /// from: `static public final int MAX_EXPONENT`
+  static const MAX_EXPONENT = 127;
+
+  /// from: `static public final float MAX_VALUE`
+  static const MAX_VALUE = 3.4028235e+38;
+
+  /// from: `static public final int MIN_EXPONENT`
+  static const MIN_EXPONENT = -126;
+
+  /// from: `static public final float MIN_NORMAL`
+  static const MIN_NORMAL = 1.17549435e-38;
+
+  /// from: `static public final float MIN_VALUE`
+  static const MIN_VALUE = 1.4e-45;
+  static final _id_NEGATIVE_INFINITY = _class.staticFieldId(
+    r'NEGATIVE_INFINITY',
+    r'F',
+  );
+
+  /// from: `static public final float NEGATIVE_INFINITY`
+  static double get NEGATIVE_INFINITY =>
+      _id_NEGATIVE_INFINITY.getNullable(_class, jni$_.jfloat.type) as double;
+
+  static final _id_NaN = _class.staticFieldId(
+    r'NaN',
+    r'F',
+  );
+
+  /// from: `static public final float NaN`
+  static double get NaN =>
+      _id_NaN.getNullable(_class, jni$_.jfloat.type) as double;
+
+  static final _id_POSITIVE_INFINITY = _class.staticFieldId(
+    r'POSITIVE_INFINITY',
+    r'F',
+  );
+
+  /// from: `static public final float POSITIVE_INFINITY`
+  static double get POSITIVE_INFINITY =>
+      _id_POSITIVE_INFINITY.getNullable(_class, jni$_.jfloat.type) as double;
+
+  /// from: `static public final int PRECISION`
+  static const PRECISION = 24;
+
+  /// from: `static public final int SIZE`
+  static const SIZE = 32;
+  static final _id_TYPE = _class.staticFieldId(
+    r'TYPE',
+    r'Ljava/lang/Class;',
+  );
+
+  /// from: `static public final java.lang.Class<java.lang.Float> TYPE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni$_.JObject? get TYPE =>
+      _id_TYPE.getNullable(_class, jni$_.JObject.type) as jni$_.JObject?;
+
+  static final _id_new$ = _class.constructorId(
+    r'(D)V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Double,)>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `public void <init>(double d)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JFloat(
+    double d,
+  ) {
+    return _new$(_class.reference.pointer, _id_new$.pointer, d)
+        .object<JFloat>();
+  }
+
+  static final _id_new$1 = _class.constructorId(
+    r'(F)V',
+  );
+
+  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Double,)>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `public void <init>(float f)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JFloat.new$1(
+    double f,
+  ) {
+    return _new$1(_class.reference.pointer, _id_new$1.pointer, f)
+        .object<JFloat>();
+  }
+
+  static final _id_new$2 = _class.constructorId(
+    r'(Ljava/lang/String;)V',
+  );
+
+  static final _new$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JFloat.new$2(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _new$2(_class.reference.pointer, _id_new$2.pointer, _$string.pointer)
+        .object<JFloat>();
+  }
+
+  static final _id_compare = _class.staticMethodId(
+    r'compare',
+    r'(FF)I',
+  );
+
+  static final _compare = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Double, jni$_.Double)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double, double)>();
+
+  /// from: `static public int compare(float f, float f1)`
+  static int compare(
+    double f,
+    double f1,
+  ) {
+    return _compare(_class.reference.pointer, _id_compare.pointer, f, f1)
+        .integer;
+  }
+
+  static final _id_float16ToFloat = _class.staticMethodId(
+    r'float16ToFloat',
+    r'(S)F',
+  );
+
+  static final _float16ToFloat = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticFloatMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public float float16ToFloat(short s)`
+  static double float16ToFloat(
+    int s,
+  ) {
+    return _float16ToFloat(
+            _class.reference.pointer, _id_float16ToFloat.pointer, s)
+        .float;
+  }
+
+  static final _id_floatToFloat16 = _class.staticMethodId(
+    r'floatToFloat16',
+    r'(F)S',
+  );
+
+  static final _floatToFloat16 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Double,)>)>>(
+          'globalEnv_CallStaticShortMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `static public short floatToFloat16(float f)`
+  static int floatToFloat16(
+    double f,
+  ) {
+    return _floatToFloat16(
+            _class.reference.pointer, _id_floatToFloat16.pointer, f)
+        .short;
+  }
+
+  static final _id_floatToIntBits = _class.staticMethodId(
+    r'floatToIntBits',
+    r'(F)I',
+  );
+
+  static final _floatToIntBits = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Double,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `static public int floatToIntBits(float f)`
+  static int floatToIntBits(
+    double f,
+  ) {
+    return _floatToIntBits(
+            _class.reference.pointer, _id_floatToIntBits.pointer, f)
+        .integer;
+  }
+
+  static final _id_floatToRawIntBits = _class.staticMethodId(
+    r'floatToRawIntBits',
+    r'(F)I',
+  );
+
+  static final _floatToRawIntBits = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Double,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `static public native int floatToRawIntBits(float f)`
+  static int floatToRawIntBits(
+    double f,
+  ) {
+    return _floatToRawIntBits(
+            _class.reference.pointer, _id_floatToRawIntBits.pointer, f)
+        .integer;
+  }
+
+  static final _id_hashCode$2 = _class.staticMethodId(
+    r'hashCode',
+    r'(F)I',
+  );
+
+  static final _hashCode$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Double,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `static public int hashCode(float f)`
+  static int hashCode$2(
+    double f,
+  ) {
+    return _hashCode$2(_class.reference.pointer, _id_hashCode$2.pointer, f)
+        .integer;
+  }
+
+  static final _id_intBitsToFloat = _class.staticMethodId(
+    r'intBitsToFloat',
+    r'(I)F',
+  );
+
+  static final _intBitsToFloat = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticFloatMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public native float intBitsToFloat(int i)`
+  static double intBitsToFloat(
+    int i,
+  ) {
+    return _intBitsToFloat(
+            _class.reference.pointer, _id_intBitsToFloat.pointer, i)
+        .float;
+  }
+
+  static final _id_isFinite = _class.staticMethodId(
+    r'isFinite',
+    r'(F)Z',
+  );
+
+  static final _isFinite = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Double,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `static public boolean isFinite(float f)`
+  static core$_.bool isFinite(
+    double f,
+  ) {
+    return _isFinite(_class.reference.pointer, _id_isFinite.pointer, f).boolean;
+  }
+
+  static final _id_isInfinite$1 = _class.staticMethodId(
+    r'isInfinite',
+    r'(F)Z',
+  );
+
+  static final _isInfinite$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Double,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `static public boolean isInfinite(float f)`
+  static core$_.bool isInfinite$1(
+    double f,
+  ) {
+    return _isInfinite$1(_class.reference.pointer, _id_isInfinite$1.pointer, f)
+        .boolean;
+  }
+
+  static final _id_isNaN$1 = _class.staticMethodId(
+    r'isNaN',
+    r'(F)Z',
+  );
+
+  static final _isNaN$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Double,)>)>>(
+          'globalEnv_CallStaticBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `static public boolean isNaN(float f)`
+  static core$_.bool isNaN$1(
+    double f,
+  ) {
+    return _isNaN$1(_class.reference.pointer, _id_isNaN$1.pointer, f).boolean;
+  }
+
+  static final _id_max = _class.staticMethodId(
+    r'max',
+    r'(FF)F',
+  );
+
+  static final _max = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Double, jni$_.Double)>)>>(
+          'globalEnv_CallStaticFloatMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double, double)>();
+
+  /// from: `static public float max(float f, float f1)`
+  static double max(
+    double f,
+    double f1,
+  ) {
+    return _max(_class.reference.pointer, _id_max.pointer, f, f1).float;
+  }
+
+  static final _id_min = _class.staticMethodId(
+    r'min',
+    r'(FF)F',
+  );
+
+  static final _min = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Double, jni$_.Double)>)>>(
+          'globalEnv_CallStaticFloatMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double, double)>();
+
+  /// from: `static public float min(float f, float f1)`
+  static double min(
+    double f,
+    double f1,
+  ) {
+    return _min(_class.reference.pointer, _id_min.pointer, f, f1).float;
+  }
+
+  static final _id_parseFloat = _class.staticMethodId(
+    r'parseFloat',
+    r'(Ljava/lang/String;)F',
+  );
+
+  static final _parseFloat = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticFloatMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public float parseFloat(java.lang.String string)`
+  static double parseFloat(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _parseFloat(
+            _class.reference.pointer, _id_parseFloat.pointer, _$string.pointer)
+        .float;
+  }
+
+  static final _id_sum = _class.staticMethodId(
+    r'sum',
+    r'(FF)F',
+  );
+
+  static final _sum = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Double, jni$_.Double)>)>>(
+          'globalEnv_CallStaticFloatMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double, double)>();
+
+  /// from: `static public float sum(float f, float f1)`
+  static double sum(
+    double f,
+    double f1,
+  ) {
+    return _sum(_class.reference.pointer, _id_sum.pointer, f, f1).float;
+  }
+
+  static final _id_toHexString = _class.staticMethodId(
+    r'toHexString',
+    r'(F)Ljava/lang/String;',
+  );
+
+  static final _toHexString = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Double,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `static public java.lang.String toHexString(float f)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? toHexString(
+    double f,
+  ) {
+    return _toHexString(_class.reference.pointer, _id_toHexString.pointer, f)
+        .object<JString?>();
+  }
+
+  static final _id_toString$2 = _class.staticMethodId(
+    r'toString',
+    r'(F)Ljava/lang/String;',
+  );
+
+  static final _toString$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Double,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `static public java.lang.String toString(float f)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? toString$2(
+    double f,
+  ) {
+    return _toString$2(_class.reference.pointer, _id_toString$2.pointer, f)
+        .object<JString?>();
+  }
+
+  static final _id_valueOf = _class.staticMethodId(
+    r'valueOf',
+    r'(F)Ljava/lang/Float;',
+  );
+
+  static final _valueOf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Double,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `static public java.lang.Float valueOf(float f)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JFloat? valueOf(
+    double f,
+  ) {
+    return _valueOf(_class.reference.pointer, _id_valueOf.pointer, f)
+        .object<JFloat?>();
+  }
+
+  static final _id_valueOf$1 = _class.staticMethodId(
+    r'valueOf',
+    r'(Ljava/lang/String;)Ljava/lang/Float;',
+  );
+
+  static final _valueOf$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.Float valueOf(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JFloat? valueOf$1(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _valueOf$1(
+            _class.reference.pointer, _id_valueOf$1.pointer, _$string.pointer)
+        .object<JFloat?>();
+  }
+}
+
+extension JFloat$$Methods on JFloat {
+  static final _id_byteValue = JFloat._class.instanceMethodId(
+    r'byteValue',
+    r'()B',
+  );
+
+  static final _byteValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallByteMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public byte byteValue()`
+  int byteValue() {
+    return _byteValue(reference.pointer, _id_byteValue.pointer).byte;
+  }
+
+  static final _id_compareTo = JFloat._class.instanceMethodId(
+    r'compareTo',
+    r'(Ljava/lang/Float;)I',
+  );
+
+  static final _compareTo = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public int compareTo(java.lang.Float float)`
+  int compareTo(
+    JFloat? float,
+  ) {
+    final _$float = float?.reference ?? jni$_.jNullReference;
+    return _compareTo(reference.pointer, _id_compareTo.pointer, _$float.pointer)
+        .integer;
+  }
+
+  static final _id_doubleValue = JFloat._class.instanceMethodId(
+    r'doubleValue',
+    r'()D',
+  );
+
+  static final _doubleValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallDoubleMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public double doubleValue()`
+  double doubleValue() {
+    return _doubleValue(reference.pointer, _id_doubleValue.pointer).doubleFloat;
+  }
+
+  static final _id_equals = JFloat._class.instanceMethodId(
+    r'equals',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _equals = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean equals(java.lang.Object object)`
+  core$_.bool equals(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_floatValue = JFloat._class.instanceMethodId(
+    r'floatValue',
+    r'()F',
+  );
+
+  static final _floatValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallFloatMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public float floatValue()`
+  double floatValue() {
+    return _floatValue(reference.pointer, _id_floatValue.pointer).float;
+  }
+
+  static final _id_hashCode$1 = JFloat._class.instanceMethodId(
+    r'hashCode',
+    r'()I',
+  );
+
+  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public int hashCode()`
+  int hashCode$1() {
+    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+  }
+
+  static final _id_intValue = JFloat._class.instanceMethodId(
+    r'intValue',
+    r'()I',
+  );
+
+  static final _intValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public int intValue()`
+  int intValue() {
+    return _intValue(reference.pointer, _id_intValue.pointer).integer;
+  }
+
+  static final _id_isInfinite = JFloat._class.instanceMethodId(
+    r'isInfinite',
+    r'()Z',
+  );
+
+  static final _isInfinite = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public boolean isInfinite()`
+  core$_.bool isInfinite() {
+    return _isInfinite(reference.pointer, _id_isInfinite.pointer).boolean;
+  }
+
+  static final _id_isNaN = JFloat._class.instanceMethodId(
+    r'isNaN',
+    r'()Z',
+  );
+
+  static final _isNaN = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public boolean isNaN()`
+  core$_.bool isNaN() {
+    return _isNaN(reference.pointer, _id_isNaN.pointer).boolean;
+  }
+
+  static final _id_longValue = JFloat._class.instanceMethodId(
+    r'longValue',
+    r'()J',
+  );
+
+  static final _longValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public long longValue()`
+  int longValue() {
+    return _longValue(reference.pointer, _id_longValue.pointer).long;
+  }
+
+  static final _id_shortValue = JFloat._class.instanceMethodId(
+    r'shortValue',
+    r'()S',
+  );
+
+  static final _shortValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallShortMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public short shortValue()`
+  int shortValue() {
+    return _shortValue(reference.pointer, _id_shortValue.pointer).short;
+  }
+
+  static final _id_toString$1 = JFloat._class.instanceMethodId(
+    r'toString',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _toString$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String toString()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? toString$1() {
+    return _toString$1(reference.pointer, _id_toString$1.pointer)
+        .object<JString?>();
+  }
+
+  core$_.bool operator <(JFloat? float) {
+    return compareTo(float) < 0;
+  }
+
+  core$_.bool operator <=(JFloat? float) {
+    return compareTo(float) <= 0;
+  }
+
+  core$_.bool operator >(JFloat? float) {
+    return compareTo(float) > 0;
+  }
+
+  core$_.bool operator >=(JFloat? float) {
+    return compareTo(float) >= 0;
+  }
+}
+
+final class $JFloat$Type$ extends jni$_.JType<JFloat> {
+  @jni$_.internal
+  const $JFloat$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/Float;';
+}
+
+/// from: `java.lang.Integer`
+extension type JInteger._(jni$_.JObject _$this)
+    implements JNumber, jni$_.JObject {
+  static final _class = jni$_.JClass.forName(r'java/lang/Integer');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<JInteger> type = $JInteger$Type$();
+
+  /// from: `static public final int BYTES`
+  static const BYTES = 4;
+
+  /// from: `static public final int MAX_VALUE`
+  static const MAX_VALUE = 2147483647;
+
+  /// from: `static public final int MIN_VALUE`
+  static const MIN_VALUE = -2147483648;
+
+  /// from: `static public final int SIZE`
+  static const SIZE = 32;
+  static final _id_TYPE = _class.staticFieldId(
+    r'TYPE',
+    r'Ljava/lang/Class;',
+  );
+
+  /// from: `static public final java.lang.Class<java.lang.Integer> TYPE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni$_.JObject? get TYPE =>
+      _id_TYPE.getNullable(_class, jni$_.JObject.type) as jni$_.JObject?;
+
+  static final _id_new$ = _class.constructorId(
+    r'(I)V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public void <init>(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JInteger(
+    int i,
+  ) {
+    return _new$(_class.reference.pointer, _id_new$.pointer, i)
+        .object<JInteger>();
+  }
+
+  static final _id_new$1 = _class.constructorId(
+    r'(Ljava/lang/String;)V',
+  );
+
+  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JInteger.new$1(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _new$1(_class.reference.pointer, _id_new$1.pointer, _$string.pointer)
+        .object<JInteger>();
+  }
+
+  static final _id_bitCount = _class.staticMethodId(
+    r'bitCount',
+    r'(I)I',
+  );
+
+  static final _bitCount = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int bitCount(int i)`
+  static int bitCount(
+    int i,
+  ) {
+    return _bitCount(_class.reference.pointer, _id_bitCount.pointer, i).integer;
+  }
+
+  static final _id_compare = _class.staticMethodId(
+    r'compare',
+    r'(II)I',
+  );
+
+  static final _compare = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public int compare(int i, int i1)`
+  static int compare(
+    int i,
+    int i1,
+  ) {
+    return _compare(_class.reference.pointer, _id_compare.pointer, i, i1)
+        .integer;
+  }
+
+  static final _id_compareUnsigned = _class.staticMethodId(
+    r'compareUnsigned',
+    r'(II)I',
+  );
+
+  static final _compareUnsigned = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public int compareUnsigned(int i, int i1)`
+  static int compareUnsigned(
+    int i,
+    int i1,
+  ) {
+    return _compareUnsigned(
+            _class.reference.pointer, _id_compareUnsigned.pointer, i, i1)
+        .integer;
+  }
+
+  static final _id_compress = _class.staticMethodId(
+    r'compress',
+    r'(II)I',
+  );
+
+  static final _compress = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public int compress(int i, int i1)`
+  static int compress(
+    int i,
+    int i1,
+  ) {
+    return _compress(_class.reference.pointer, _id_compress.pointer, i, i1)
+        .integer;
+  }
+
+  static final _id_decode = _class.staticMethodId(
+    r'decode',
+    r'(Ljava/lang/String;)Ljava/lang/Integer;',
+  );
+
+  static final _decode = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.Integer decode(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JInteger? decode(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _decode(
+            _class.reference.pointer, _id_decode.pointer, _$string.pointer)
+        .object<JInteger?>();
+  }
+
+  static final _id_divideUnsigned = _class.staticMethodId(
+    r'divideUnsigned',
+    r'(II)I',
+  );
+
+  static final _divideUnsigned = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public int divideUnsigned(int i, int i1)`
+  static int divideUnsigned(
+    int i,
+    int i1,
+  ) {
+    return _divideUnsigned(
+            _class.reference.pointer, _id_divideUnsigned.pointer, i, i1)
+        .integer;
+  }
+
+  static final _id_expand = _class.staticMethodId(
+    r'expand',
+    r'(II)I',
+  );
+
+  static final _expand = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public int expand(int i, int i1)`
+  static int expand(
+    int i,
+    int i1,
+  ) {
+    return _expand(_class.reference.pointer, _id_expand.pointer, i, i1).integer;
+  }
+
+  static final _id_getInteger = _class.staticMethodId(
+    r'getInteger',
+    r'(Ljava/lang/String;)Ljava/lang/Integer;',
+  );
+
+  static final _getInteger = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.Integer getInteger(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JInteger? getInteger(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _getInteger(
+            _class.reference.pointer, _id_getInteger.pointer, _$string.pointer)
+        .object<JInteger?>();
+  }
+
+  static final _id_getInteger$1 = _class.staticMethodId(
+    r'getInteger',
+    r'(Ljava/lang/String;I)Ljava/lang/Integer;',
+  );
+
+  static final _getInteger$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `static public java.lang.Integer getInteger(java.lang.String string, int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JInteger? getInteger$1(
+    JString? string,
+    int i,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _getInteger$1(_class.reference.pointer, _id_getInteger$1.pointer,
+            _$string.pointer, i)
+        .object<JInteger?>();
+  }
+
+  static final _id_getInteger$2 = _class.staticMethodId(
+    r'getInteger',
+    r'(Ljava/lang/String;Ljava/lang/Integer;)Ljava/lang/Integer;',
+  );
+
+  static final _getInteger$2 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.Integer getInteger(java.lang.String string, java.lang.Integer integer)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JInteger? getInteger$2(
+    JString? string,
+    JInteger? integer,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    final _$integer = integer?.reference ?? jni$_.jNullReference;
+    return _getInteger$2(_class.reference.pointer, _id_getInteger$2.pointer,
+            _$string.pointer, _$integer.pointer)
+        .object<JInteger?>();
+  }
+
+  static final _id_hashCode$2 = _class.staticMethodId(
+    r'hashCode',
+    r'(I)I',
+  );
+
+  static final _hashCode$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int hashCode(int i)`
+  static int hashCode$2(
+    int i,
+  ) {
+    return _hashCode$2(_class.reference.pointer, _id_hashCode$2.pointer, i)
+        .integer;
+  }
+
+  static final _id_highestOneBit = _class.staticMethodId(
+    r'highestOneBit',
+    r'(I)I',
+  );
+
+  static final _highestOneBit = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int highestOneBit(int i)`
+  static int highestOneBit(
+    int i,
+  ) {
+    return _highestOneBit(
+            _class.reference.pointer, _id_highestOneBit.pointer, i)
+        .integer;
+  }
+
+  static final _id_lowestOneBit = _class.staticMethodId(
+    r'lowestOneBit',
+    r'(I)I',
+  );
+
+  static final _lowestOneBit = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int lowestOneBit(int i)`
+  static int lowestOneBit(
+    int i,
+  ) {
+    return _lowestOneBit(_class.reference.pointer, _id_lowestOneBit.pointer, i)
+        .integer;
+  }
+
+  static final _id_max = _class.staticMethodId(
+    r'max',
+    r'(II)I',
+  );
+
+  static final _max = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public int max(int i, int i1)`
+  static int max(
+    int i,
+    int i1,
+  ) {
+    return _max(_class.reference.pointer, _id_max.pointer, i, i1).integer;
+  }
+
+  static final _id_min = _class.staticMethodId(
+    r'min',
+    r'(II)I',
+  );
+
+  static final _min = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public int min(int i, int i1)`
+  static int min(
+    int i,
+    int i1,
+  ) {
+    return _min(_class.reference.pointer, _id_min.pointer, i, i1).integer;
+  }
+
+  static final _id_numberOfLeadingZeros = _class.staticMethodId(
+    r'numberOfLeadingZeros',
+    r'(I)I',
+  );
+
+  static final _numberOfLeadingZeros = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int numberOfLeadingZeros(int i)`
+  static int numberOfLeadingZeros(
+    int i,
+  ) {
+    return _numberOfLeadingZeros(
+            _class.reference.pointer, _id_numberOfLeadingZeros.pointer, i)
+        .integer;
+  }
+
+  static final _id_numberOfTrailingZeros = _class.staticMethodId(
+    r'numberOfTrailingZeros',
+    r'(I)I',
+  );
+
+  static final _numberOfTrailingZeros = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int numberOfTrailingZeros(int i)`
+  static int numberOfTrailingZeros(
+    int i,
+  ) {
+    return _numberOfTrailingZeros(
+            _class.reference.pointer, _id_numberOfTrailingZeros.pointer, i)
+        .integer;
+  }
+
+  static final _id_parseInt = _class.staticMethodId(
+    r'parseInt',
+    r'(Ljava/lang/CharSequence;III)I',
+  );
+
+  static final _parseInt = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int, int)>();
+
+  /// from: `static public int parseInt(java.lang.CharSequence charSequence, int i, int i1, int i2)`
+  static int parseInt(
+    jni$_.JObject? charSequence,
+    int i,
+    int i1,
+    int i2,
+  ) {
+    final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
+    return _parseInt(_class.reference.pointer, _id_parseInt.pointer,
+            _$charSequence.pointer, i, i1, i2)
+        .integer;
+  }
+
+  static final _id_parseInt$1 = _class.staticMethodId(
+    r'parseInt',
+    r'(Ljava/lang/String;)I',
+  );
+
+  static final _parseInt$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public int parseInt(java.lang.String string)`
+  static int parseInt$1(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _parseInt$1(
+            _class.reference.pointer, _id_parseInt$1.pointer, _$string.pointer)
+        .integer;
+  }
+
+  static final _id_parseInt$2 = _class.staticMethodId(
+    r'parseInt',
+    r'(Ljava/lang/String;I)I',
+  );
+
+  static final _parseInt$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `static public int parseInt(java.lang.String string, int i)`
+  static int parseInt$2(
+    JString? string,
+    int i,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _parseInt$2(_class.reference.pointer, _id_parseInt$2.pointer,
+            _$string.pointer, i)
+        .integer;
+  }
+
+  static final _id_parseUnsignedInt = _class.staticMethodId(
+    r'parseUnsignedInt',
+    r'(Ljava/lang/CharSequence;III)I',
+  );
+
+  static final _parseUnsignedInt = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int, int)>();
+
+  /// from: `static public int parseUnsignedInt(java.lang.CharSequence charSequence, int i, int i1, int i2)`
+  static int parseUnsignedInt(
+    jni$_.JObject? charSequence,
+    int i,
+    int i1,
+    int i2,
+  ) {
+    final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
+    return _parseUnsignedInt(_class.reference.pointer,
+            _id_parseUnsignedInt.pointer, _$charSequence.pointer, i, i1, i2)
+        .integer;
+  }
+
+  static final _id_parseUnsignedInt$1 = _class.staticMethodId(
+    r'parseUnsignedInt',
+    r'(Ljava/lang/String;)I',
+  );
+
+  static final _parseUnsignedInt$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public int parseUnsignedInt(java.lang.String string)`
+  static int parseUnsignedInt$1(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _parseUnsignedInt$1(_class.reference.pointer,
+            _id_parseUnsignedInt$1.pointer, _$string.pointer)
+        .integer;
+  }
+
+  static final _id_parseUnsignedInt$2 = _class.staticMethodId(
+    r'parseUnsignedInt',
+    r'(Ljava/lang/String;I)I',
+  );
+
+  static final _parseUnsignedInt$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `static public int parseUnsignedInt(java.lang.String string, int i)`
+  static int parseUnsignedInt$2(
+    JString? string,
+    int i,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _parseUnsignedInt$2(_class.reference.pointer,
+            _id_parseUnsignedInt$2.pointer, _$string.pointer, i)
+        .integer;
+  }
+
+  static final _id_remainderUnsigned = _class.staticMethodId(
+    r'remainderUnsigned',
+    r'(II)I',
+  );
+
+  static final _remainderUnsigned = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public int remainderUnsigned(int i, int i1)`
+  static int remainderUnsigned(
+    int i,
+    int i1,
+  ) {
+    return _remainderUnsigned(
+            _class.reference.pointer, _id_remainderUnsigned.pointer, i, i1)
+        .integer;
+  }
+
+  static final _id_reverse = _class.staticMethodId(
+    r'reverse',
+    r'(I)I',
+  );
+
+  static final _reverse = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int reverse(int i)`
+  static int reverse(
+    int i,
+  ) {
+    return _reverse(_class.reference.pointer, _id_reverse.pointer, i).integer;
+  }
+
+  static final _id_reverseBytes = _class.staticMethodId(
+    r'reverseBytes',
+    r'(I)I',
+  );
+
+  static final _reverseBytes = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int reverseBytes(int i)`
+  static int reverseBytes(
+    int i,
+  ) {
+    return _reverseBytes(_class.reference.pointer, _id_reverseBytes.pointer, i)
+        .integer;
+  }
+
+  static final _id_rotateLeft = _class.staticMethodId(
+    r'rotateLeft',
+    r'(II)I',
+  );
+
+  static final _rotateLeft = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public int rotateLeft(int i, int i1)`
+  static int rotateLeft(
+    int i,
+    int i1,
+  ) {
+    return _rotateLeft(_class.reference.pointer, _id_rotateLeft.pointer, i, i1)
+        .integer;
+  }
+
+  static final _id_rotateRight = _class.staticMethodId(
+    r'rotateRight',
+    r'(II)I',
+  );
+
+  static final _rotateRight = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public int rotateRight(int i, int i1)`
+  static int rotateRight(
+    int i,
+    int i1,
+  ) {
+    return _rotateRight(
+            _class.reference.pointer, _id_rotateRight.pointer, i, i1)
+        .integer;
+  }
+
+  static final _id_signum = _class.staticMethodId(
+    r'signum',
+    r'(I)I',
+  );
+
+  static final _signum = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int signum(int i)`
+  static int signum(
+    int i,
+  ) {
+    return _signum(_class.reference.pointer, _id_signum.pointer, i).integer;
+  }
+
+  static final _id_sum = _class.staticMethodId(
+    r'sum',
+    r'(II)I',
+  );
+
+  static final _sum = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public int sum(int i, int i1)`
+  static int sum(
+    int i,
+    int i1,
+  ) {
+    return _sum(_class.reference.pointer, _id_sum.pointer, i, i1).integer;
+  }
+
+  static final _id_toBinaryString = _class.staticMethodId(
+    r'toBinaryString',
+    r'(I)Ljava/lang/String;',
+  );
+
+  static final _toBinaryString = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.String toBinaryString(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? toBinaryString(
+    int i,
+  ) {
+    return _toBinaryString(
+            _class.reference.pointer, _id_toBinaryString.pointer, i)
+        .object<JString?>();
+  }
+
+  static final _id_toHexString = _class.staticMethodId(
+    r'toHexString',
+    r'(I)Ljava/lang/String;',
+  );
+
+  static final _toHexString = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.String toHexString(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? toHexString(
+    int i,
+  ) {
+    return _toHexString(_class.reference.pointer, _id_toHexString.pointer, i)
+        .object<JString?>();
+  }
+
+  static final _id_toOctalString = _class.staticMethodId(
+    r'toOctalString',
+    r'(I)Ljava/lang/String;',
+  );
+
+  static final _toOctalString = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.String toOctalString(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? toOctalString(
+    int i,
+  ) {
+    return _toOctalString(
+            _class.reference.pointer, _id_toOctalString.pointer, i)
+        .object<JString?>();
+  }
+
+  static final _id_toString$2 = _class.staticMethodId(
+    r'toString',
+    r'(I)Ljava/lang/String;',
+  );
+
+  static final _toString$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.String toString(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? toString$2(
+    int i,
+  ) {
+    return _toString$2(_class.reference.pointer, _id_toString$2.pointer, i)
+        .object<JString?>();
+  }
+
+  static final _id_toString$3 = _class.staticMethodId(
+    r'toString',
+    r'(II)Ljava/lang/String;',
+  );
+
+  static final _toString$3 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public java.lang.String toString(int i, int i1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? toString$3(
+    int i,
+    int i1,
+  ) {
+    return _toString$3(_class.reference.pointer, _id_toString$3.pointer, i, i1)
+        .object<JString?>();
+  }
+
+  static final _id_toUnsignedLong = _class.staticMethodId(
+    r'toUnsignedLong',
+    r'(I)J',
+  );
+
+  static final _toUnsignedLong = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public long toUnsignedLong(int i)`
+  static int toUnsignedLong(
+    int i,
+  ) {
+    return _toUnsignedLong(
+            _class.reference.pointer, _id_toUnsignedLong.pointer, i)
+        .long;
+  }
+
+  static final _id_toUnsignedString = _class.staticMethodId(
+    r'toUnsignedString',
+    r'(I)Ljava/lang/String;',
+  );
+
+  static final _toUnsignedString = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.String toUnsignedString(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? toUnsignedString(
+    int i,
+  ) {
+    return _toUnsignedString(
+            _class.reference.pointer, _id_toUnsignedString.pointer, i)
+        .object<JString?>();
+  }
+
+  static final _id_toUnsignedString$1 = _class.staticMethodId(
+    r'toUnsignedString',
+    r'(II)Ljava/lang/String;',
+  );
+
+  static final _toUnsignedString$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public java.lang.String toUnsignedString(int i, int i1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? toUnsignedString$1(
+    int i,
+    int i1,
+  ) {
+    return _toUnsignedString$1(
+            _class.reference.pointer, _id_toUnsignedString$1.pointer, i, i1)
+        .object<JString?>();
+  }
+
+  static final _id_valueOf = _class.staticMethodId(
+    r'valueOf',
+    r'(I)Ljava/lang/Integer;',
+  );
+
+  static final _valueOf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.Integer valueOf(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JInteger? valueOf(
+    int i,
+  ) {
+    return _valueOf(_class.reference.pointer, _id_valueOf.pointer, i)
+        .object<JInteger?>();
+  }
+
+  static final _id_valueOf$1 = _class.staticMethodId(
+    r'valueOf',
+    r'(Ljava/lang/String;)Ljava/lang/Integer;',
+  );
+
+  static final _valueOf$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.Integer valueOf(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JInteger? valueOf$1(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _valueOf$1(
+            _class.reference.pointer, _id_valueOf$1.pointer, _$string.pointer)
+        .object<JInteger?>();
+  }
+
+  static final _id_valueOf$2 = _class.staticMethodId(
+    r'valueOf',
+    r'(Ljava/lang/String;I)Ljava/lang/Integer;',
+  );
+
+  static final _valueOf$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `static public java.lang.Integer valueOf(java.lang.String string, int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JInteger? valueOf$2(
+    JString? string,
+    int i,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _valueOf$2(_class.reference.pointer, _id_valueOf$2.pointer,
+            _$string.pointer, i)
+        .object<JInteger?>();
+  }
+}
+
+extension JInteger$$Methods on JInteger {
+  static final _id_byteValue = JInteger._class.instanceMethodId(
+    r'byteValue',
+    r'()B',
+  );
+
+  static final _byteValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallByteMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public byte byteValue()`
+  int byteValue() {
+    return _byteValue(reference.pointer, _id_byteValue.pointer).byte;
+  }
+
+  static final _id_compareTo = JInteger._class.instanceMethodId(
+    r'compareTo',
+    r'(Ljava/lang/Integer;)I',
+  );
+
+  static final _compareTo = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public int compareTo(java.lang.Integer integer)`
+  int compareTo(
+    JInteger? integer,
+  ) {
+    final _$integer = integer?.reference ?? jni$_.jNullReference;
+    return _compareTo(
+            reference.pointer, _id_compareTo.pointer, _$integer.pointer)
+        .integer;
+  }
+
+  static final _id_doubleValue = JInteger._class.instanceMethodId(
+    r'doubleValue',
+    r'()D',
+  );
+
+  static final _doubleValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallDoubleMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public double doubleValue()`
+  double doubleValue() {
+    return _doubleValue(reference.pointer, _id_doubleValue.pointer).doubleFloat;
+  }
+
+  static final _id_equals = JInteger._class.instanceMethodId(
+    r'equals',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _equals = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean equals(java.lang.Object object)`
+  core$_.bool equals(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_floatValue = JInteger._class.instanceMethodId(
+    r'floatValue',
+    r'()F',
+  );
+
+  static final _floatValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallFloatMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public float floatValue()`
+  double floatValue() {
+    return _floatValue(reference.pointer, _id_floatValue.pointer).float;
+  }
+
+  static final _id_hashCode$1 = JInteger._class.instanceMethodId(
+    r'hashCode',
+    r'()I',
+  );
+
+  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public int hashCode()`
+  int hashCode$1() {
+    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+  }
+
+  static final _id_intValue = JInteger._class.instanceMethodId(
+    r'intValue',
+    r'()I',
+  );
+
+  static final _intValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public int intValue()`
+  int intValue() {
+    return _intValue(reference.pointer, _id_intValue.pointer).integer;
+  }
+
+  static final _id_longValue = JInteger._class.instanceMethodId(
+    r'longValue',
+    r'()J',
+  );
+
+  static final _longValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public long longValue()`
+  int longValue() {
+    return _longValue(reference.pointer, _id_longValue.pointer).long;
+  }
+
+  static final _id_shortValue = JInteger._class.instanceMethodId(
+    r'shortValue',
+    r'()S',
+  );
+
+  static final _shortValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallShortMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public short shortValue()`
+  int shortValue() {
+    return _shortValue(reference.pointer, _id_shortValue.pointer).short;
+  }
+
+  static final _id_toString$1 = JInteger._class.instanceMethodId(
+    r'toString',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _toString$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String toString()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? toString$1() {
+    return _toString$1(reference.pointer, _id_toString$1.pointer)
+        .object<JString?>();
+  }
+
+  core$_.bool operator <(JInteger? integer) {
+    return compareTo(integer) < 0;
+  }
+
+  core$_.bool operator <=(JInteger? integer) {
+    return compareTo(integer) <= 0;
+  }
+
+  core$_.bool operator >(JInteger? integer) {
+    return compareTo(integer) > 0;
+  }
+
+  core$_.bool operator >=(JInteger? integer) {
+    return compareTo(integer) >= 0;
+  }
+}
+
+final class $JInteger$Type$ extends jni$_.JType<JInteger> {
+  @jni$_.internal
+  const $JInteger$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/Integer;';
+}
+
+/// from: `java.lang.Long`
+extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
+  static final _class = jni$_.JClass.forName(r'java/lang/Long');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<JLong> type = $JLong$Type$();
+
+  /// from: `static public final int BYTES`
+  static const BYTES = 8;
+
+  /// from: `static public final long MAX_VALUE`
+  static const MAX_VALUE = 9223372036854775807;
+
+  /// from: `static public final long MIN_VALUE`
+  static const MIN_VALUE = -9223372036854775808;
+
+  /// from: `static public final int SIZE`
+  static const SIZE = 64;
+  static final _id_TYPE = _class.staticFieldId(
+    r'TYPE',
+    r'Ljava/lang/Class;',
+  );
+
+  /// from: `static public final java.lang.Class<java.lang.Long> TYPE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni$_.JObject? get TYPE =>
+      _id_TYPE.getNullable(_class, jni$_.JObject.type) as jni$_.JObject?;
+
+  static final _id_new$ = _class.constructorId(
+    r'(Ljava/lang/String;)V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JLong(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _new$(_class.reference.pointer, _id_new$.pointer, _$string.pointer)
+        .object<JLong>();
+  }
+
+  static final _id_new$1 = _class.constructorId(
+    r'(J)V',
+  );
+
+  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int64,)>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public void <init>(long j)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JLong.new$1(
+    int j,
+  ) {
+    return _new$1(_class.reference.pointer, _id_new$1.pointer, j)
+        .object<JLong>();
+  }
+
+  static final _id_bitCount = _class.staticMethodId(
+    r'bitCount',
+    r'(J)I',
+  );
+
+  static final _bitCount = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int64,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int bitCount(long j)`
+  static int bitCount(
+    int j,
+  ) {
+    return _bitCount(_class.reference.pointer, _id_bitCount.pointer, j).integer;
+  }
+
+  static final _id_compare = _class.staticMethodId(
+    r'compare',
+    r'(JJ)I',
+  );
+
+  static final _compare = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int64, jni$_.Int64)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public int compare(long j, long j1)`
+  static int compare(
+    int j,
+    int j1,
+  ) {
+    return _compare(_class.reference.pointer, _id_compare.pointer, j, j1)
+        .integer;
+  }
+
+  static final _id_compareUnsigned = _class.staticMethodId(
+    r'compareUnsigned',
+    r'(JJ)I',
+  );
+
+  static final _compareUnsigned = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int64, jni$_.Int64)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public int compareUnsigned(long j, long j1)`
+  static int compareUnsigned(
+    int j,
+    int j1,
+  ) {
+    return _compareUnsigned(
+            _class.reference.pointer, _id_compareUnsigned.pointer, j, j1)
+        .integer;
+  }
+
+  static final _id_compress = _class.staticMethodId(
+    r'compress',
+    r'(JJ)J',
+  );
+
+  static final _compress = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int64, jni$_.Int64)>)>>(
+          'globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public long compress(long j, long j1)`
+  static int compress(
+    int j,
+    int j1,
+  ) {
+    return _compress(_class.reference.pointer, _id_compress.pointer, j, j1)
+        .long;
+  }
+
+  static final _id_decode = _class.staticMethodId(
+    r'decode',
+    r'(Ljava/lang/String;)Ljava/lang/Long;',
+  );
+
+  static final _decode = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.Long decode(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JLong? decode(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _decode(
+            _class.reference.pointer, _id_decode.pointer, _$string.pointer)
+        .object<JLong?>();
+  }
+
+  static final _id_divideUnsigned = _class.staticMethodId(
+    r'divideUnsigned',
+    r'(JJ)J',
+  );
+
+  static final _divideUnsigned = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int64, jni$_.Int64)>)>>(
+          'globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public long divideUnsigned(long j, long j1)`
+  static int divideUnsigned(
+    int j,
+    int j1,
+  ) {
+    return _divideUnsigned(
+            _class.reference.pointer, _id_divideUnsigned.pointer, j, j1)
+        .long;
+  }
+
+  static final _id_expand = _class.staticMethodId(
+    r'expand',
+    r'(JJ)J',
+  );
+
+  static final _expand = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int64, jni$_.Int64)>)>>(
+          'globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public long expand(long j, long j1)`
+  static int expand(
+    int j,
+    int j1,
+  ) {
+    return _expand(_class.reference.pointer, _id_expand.pointer, j, j1).long;
+  }
+
+  static final _id_getLong = _class.staticMethodId(
+    r'getLong',
+    r'(Ljava/lang/String;)Ljava/lang/Long;',
+  );
+
+  static final _getLong = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.Long getLong(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JLong? getLong(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _getLong(
+            _class.reference.pointer, _id_getLong.pointer, _$string.pointer)
+        .object<JLong?>();
+  }
+
+  static final _id_getLong$1 = _class.staticMethodId(
+    r'getLong',
+    r'(Ljava/lang/String;Ljava/lang/Long;)Ljava/lang/Long;',
+  );
+
+  static final _getLong$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.Long getLong(java.lang.String string, java.lang.Long long)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JLong? getLong$1(
+    JString? string,
+    JLong? long,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    final _$long = long?.reference ?? jni$_.jNullReference;
+    return _getLong$1(_class.reference.pointer, _id_getLong$1.pointer,
+            _$string.pointer, _$long.pointer)
+        .object<JLong?>();
+  }
+
+  static final _id_getLong$2 = _class.staticMethodId(
+    r'getLong',
+    r'(Ljava/lang/String;J)Ljava/lang/Long;',
+  );
+
+  static final _getLong$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int64)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `static public java.lang.Long getLong(java.lang.String string, long j)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JLong? getLong$2(
+    JString? string,
+    int j,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _getLong$2(_class.reference.pointer, _id_getLong$2.pointer,
+            _$string.pointer, j)
+        .object<JLong?>();
+  }
+
+  static final _id_hashCode$2 = _class.staticMethodId(
+    r'hashCode',
+    r'(J)I',
+  );
+
+  static final _hashCode$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int64,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int hashCode(long j)`
+  static int hashCode$2(
+    int j,
+  ) {
+    return _hashCode$2(_class.reference.pointer, _id_hashCode$2.pointer, j)
+        .integer;
+  }
+
+  static final _id_highestOneBit = _class.staticMethodId(
+    r'highestOneBit',
+    r'(J)J',
+  );
+
+  static final _highestOneBit = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int64,)>)>>(
+          'globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public long highestOneBit(long j)`
+  static int highestOneBit(
+    int j,
+  ) {
+    return _highestOneBit(
+            _class.reference.pointer, _id_highestOneBit.pointer, j)
+        .long;
+  }
+
+  static final _id_lowestOneBit = _class.staticMethodId(
+    r'lowestOneBit',
+    r'(J)J',
+  );
+
+  static final _lowestOneBit = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int64,)>)>>(
+          'globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public long lowestOneBit(long j)`
+  static int lowestOneBit(
+    int j,
+  ) {
+    return _lowestOneBit(_class.reference.pointer, _id_lowestOneBit.pointer, j)
+        .long;
+  }
+
+  static final _id_max = _class.staticMethodId(
+    r'max',
+    r'(JJ)J',
+  );
+
+  static final _max = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int64, jni$_.Int64)>)>>(
+          'globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public long max(long j, long j1)`
+  static int max(
+    int j,
+    int j1,
+  ) {
+    return _max(_class.reference.pointer, _id_max.pointer, j, j1).long;
+  }
+
+  static final _id_min = _class.staticMethodId(
+    r'min',
+    r'(JJ)J',
+  );
+
+  static final _min = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int64, jni$_.Int64)>)>>(
+          'globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public long min(long j, long j1)`
+  static int min(
+    int j,
+    int j1,
+  ) {
+    return _min(_class.reference.pointer, _id_min.pointer, j, j1).long;
+  }
+
+  static final _id_numberOfLeadingZeros = _class.staticMethodId(
+    r'numberOfLeadingZeros',
+    r'(J)I',
+  );
+
+  static final _numberOfLeadingZeros = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int64,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int numberOfLeadingZeros(long j)`
+  static int numberOfLeadingZeros(
+    int j,
+  ) {
+    return _numberOfLeadingZeros(
+            _class.reference.pointer, _id_numberOfLeadingZeros.pointer, j)
+        .integer;
+  }
+
+  static final _id_numberOfTrailingZeros = _class.staticMethodId(
+    r'numberOfTrailingZeros',
+    r'(J)I',
+  );
+
+  static final _numberOfTrailingZeros = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int64,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int numberOfTrailingZeros(long j)`
+  static int numberOfTrailingZeros(
+    int j,
+  ) {
+    return _numberOfTrailingZeros(
+            _class.reference.pointer, _id_numberOfTrailingZeros.pointer, j)
+        .integer;
+  }
+
+  static final _id_parseLong = _class.staticMethodId(
+    r'parseLong',
+    r'(Ljava/lang/CharSequence;III)J',
+  );
+
+  static final _parseLong = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int, int)>();
+
+  /// from: `static public long parseLong(java.lang.CharSequence charSequence, int i, int i1, int i2)`
+  static int parseLong(
+    jni$_.JObject? charSequence,
+    int i,
+    int i1,
+    int i2,
+  ) {
+    final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
+    return _parseLong(_class.reference.pointer, _id_parseLong.pointer,
+            _$charSequence.pointer, i, i1, i2)
+        .long;
+  }
+
+  static final _id_parseLong$1 = _class.staticMethodId(
+    r'parseLong',
+    r'(Ljava/lang/String;)J',
+  );
+
+  static final _parseLong$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public long parseLong(java.lang.String string)`
+  static int parseLong$1(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _parseLong$1(
+            _class.reference.pointer, _id_parseLong$1.pointer, _$string.pointer)
+        .long;
+  }
+
+  static final _id_parseLong$2 = _class.staticMethodId(
+    r'parseLong',
+    r'(Ljava/lang/String;I)J',
+  );
+
+  static final _parseLong$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `static public long parseLong(java.lang.String string, int i)`
+  static int parseLong$2(
+    JString? string,
+    int i,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _parseLong$2(_class.reference.pointer, _id_parseLong$2.pointer,
+            _$string.pointer, i)
+        .long;
+  }
+
+  static final _id_parseUnsignedLong = _class.staticMethodId(
+    r'parseUnsignedLong',
+    r'(Ljava/lang/CharSequence;III)J',
+  );
+
+  static final _parseUnsignedLong = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int, int)>();
+
+  /// from: `static public long parseUnsignedLong(java.lang.CharSequence charSequence, int i, int i1, int i2)`
+  static int parseUnsignedLong(
+    jni$_.JObject? charSequence,
+    int i,
+    int i1,
+    int i2,
+  ) {
+    final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
+    return _parseUnsignedLong(_class.reference.pointer,
+            _id_parseUnsignedLong.pointer, _$charSequence.pointer, i, i1, i2)
+        .long;
+  }
+
+  static final _id_parseUnsignedLong$1 = _class.staticMethodId(
+    r'parseUnsignedLong',
+    r'(Ljava/lang/String;)J',
+  );
+
+  static final _parseUnsignedLong$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public long parseUnsignedLong(java.lang.String string)`
+  static int parseUnsignedLong$1(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _parseUnsignedLong$1(_class.reference.pointer,
+            _id_parseUnsignedLong$1.pointer, _$string.pointer)
+        .long;
+  }
+
+  static final _id_parseUnsignedLong$2 = _class.staticMethodId(
+    r'parseUnsignedLong',
+    r'(Ljava/lang/String;I)J',
+  );
+
+  static final _parseUnsignedLong$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `static public long parseUnsignedLong(java.lang.String string, int i)`
+  static int parseUnsignedLong$2(
+    JString? string,
+    int i,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _parseUnsignedLong$2(_class.reference.pointer,
+            _id_parseUnsignedLong$2.pointer, _$string.pointer, i)
+        .long;
+  }
+
+  static final _id_remainderUnsigned = _class.staticMethodId(
+    r'remainderUnsigned',
+    r'(JJ)J',
+  );
+
+  static final _remainderUnsigned = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int64, jni$_.Int64)>)>>(
+          'globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public long remainderUnsigned(long j, long j1)`
+  static int remainderUnsigned(
+    int j,
+    int j1,
+  ) {
+    return _remainderUnsigned(
+            _class.reference.pointer, _id_remainderUnsigned.pointer, j, j1)
+        .long;
+  }
+
+  static final _id_reverse = _class.staticMethodId(
+    r'reverse',
+    r'(J)J',
+  );
+
+  static final _reverse = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int64,)>)>>(
+          'globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public long reverse(long j)`
+  static int reverse(
+    int j,
+  ) {
+    return _reverse(_class.reference.pointer, _id_reverse.pointer, j).long;
+  }
+
+  static final _id_reverseBytes = _class.staticMethodId(
+    r'reverseBytes',
+    r'(J)J',
+  );
+
+  static final _reverseBytes = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int64,)>)>>(
+          'globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public long reverseBytes(long j)`
+  static int reverseBytes(
+    int j,
+  ) {
+    return _reverseBytes(_class.reference.pointer, _id_reverseBytes.pointer, j)
+        .long;
+  }
+
+  static final _id_rotateLeft = _class.staticMethodId(
+    r'rotateLeft',
+    r'(JI)J',
+  );
+
+  static final _rotateLeft = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int64, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public long rotateLeft(long j, int i)`
+  static int rotateLeft(
+    int j,
+    int i,
+  ) {
+    return _rotateLeft(_class.reference.pointer, _id_rotateLeft.pointer, j, i)
+        .long;
+  }
+
+  static final _id_rotateRight = _class.staticMethodId(
+    r'rotateRight',
+    r'(JI)J',
+  );
+
+  static final _rotateRight = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int64, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public long rotateRight(long j, int i)`
+  static int rotateRight(
+    int j,
+    int i,
+  ) {
+    return _rotateRight(_class.reference.pointer, _id_rotateRight.pointer, j, i)
+        .long;
+  }
+
+  static final _id_signum = _class.staticMethodId(
+    r'signum',
+    r'(J)I',
+  );
+
+  static final _signum = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int64,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int signum(long j)`
+  static int signum(
+    int j,
+  ) {
+    return _signum(_class.reference.pointer, _id_signum.pointer, j).integer;
+  }
+
+  static final _id_sum = _class.staticMethodId(
+    r'sum',
+    r'(JJ)J',
+  );
+
+  static final _sum = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int64, jni$_.Int64)>)>>(
+          'globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public long sum(long j, long j1)`
+  static int sum(
+    int j,
+    int j1,
+  ) {
+    return _sum(_class.reference.pointer, _id_sum.pointer, j, j1).long;
+  }
+
+  static final _id_toBinaryString = _class.staticMethodId(
+    r'toBinaryString',
+    r'(J)Ljava/lang/String;',
+  );
+
+  static final _toBinaryString = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int64,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.String toBinaryString(long j)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? toBinaryString(
+    int j,
+  ) {
+    return _toBinaryString(
+            _class.reference.pointer, _id_toBinaryString.pointer, j)
+        .object<JString?>();
+  }
+
+  static final _id_toHexString = _class.staticMethodId(
+    r'toHexString',
+    r'(J)Ljava/lang/String;',
+  );
+
+  static final _toHexString = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int64,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.String toHexString(long j)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? toHexString(
+    int j,
+  ) {
+    return _toHexString(_class.reference.pointer, _id_toHexString.pointer, j)
+        .object<JString?>();
+  }
+
+  static final _id_toOctalString = _class.staticMethodId(
+    r'toOctalString',
+    r'(J)Ljava/lang/String;',
+  );
+
+  static final _toOctalString = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int64,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.String toOctalString(long j)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? toOctalString(
+    int j,
+  ) {
+    return _toOctalString(
+            _class.reference.pointer, _id_toOctalString.pointer, j)
+        .object<JString?>();
+  }
+
+  static final _id_toString$2 = _class.staticMethodId(
+    r'toString',
+    r'(J)Ljava/lang/String;',
+  );
+
+  static final _toString$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int64,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.String toString(long j)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? toString$2(
+    int j,
+  ) {
+    return _toString$2(_class.reference.pointer, _id_toString$2.pointer, j)
+        .object<JString?>();
+  }
+
+  static final _id_toString$3 = _class.staticMethodId(
+    r'toString',
+    r'(JI)Ljava/lang/String;',
+  );
+
+  static final _toString$3 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int64, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public java.lang.String toString(long j, int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? toString$3(
+    int j,
+    int i,
+  ) {
+    return _toString$3(_class.reference.pointer, _id_toString$3.pointer, j, i)
+        .object<JString?>();
+  }
+
+  static final _id_toUnsignedString = _class.staticMethodId(
+    r'toUnsignedString',
+    r'(J)Ljava/lang/String;',
+  );
+
+  static final _toUnsignedString = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int64,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.String toUnsignedString(long j)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? toUnsignedString(
+    int j,
+  ) {
+    return _toUnsignedString(
+            _class.reference.pointer, _id_toUnsignedString.pointer, j)
+        .object<JString?>();
+  }
+
+  static final _id_toUnsignedString$1 = _class.staticMethodId(
+    r'toUnsignedString',
+    r'(JI)Ljava/lang/String;',
+  );
+
+  static final _toUnsignedString$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int64, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public java.lang.String toUnsignedString(long j, int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? toUnsignedString$1(
+    int j,
+    int i,
+  ) {
+    return _toUnsignedString$1(
+            _class.reference.pointer, _id_toUnsignedString$1.pointer, j, i)
+        .object<JString?>();
+  }
+
+  static final _id_valueOf = _class.staticMethodId(
+    r'valueOf',
+    r'(Ljava/lang/String;)Ljava/lang/Long;',
+  );
+
+  static final _valueOf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.Long valueOf(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JLong? valueOf(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _valueOf(
+            _class.reference.pointer, _id_valueOf.pointer, _$string.pointer)
+        .object<JLong?>();
+  }
+
+  static final _id_valueOf$1 = _class.staticMethodId(
+    r'valueOf',
+    r'(Ljava/lang/String;I)Ljava/lang/Long;',
+  );
+
+  static final _valueOf$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `static public java.lang.Long valueOf(java.lang.String string, int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JLong? valueOf$1(
+    JString? string,
+    int i,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _valueOf$1(_class.reference.pointer, _id_valueOf$1.pointer,
+            _$string.pointer, i)
+        .object<JLong?>();
+  }
+
+  static final _id_valueOf$2 = _class.staticMethodId(
+    r'valueOf',
+    r'(J)Ljava/lang/Long;',
+  );
+
+  static final _valueOf$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int64,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.Long valueOf(long j)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JLong? valueOf$2(
+    int j,
+  ) {
+    return _valueOf$2(_class.reference.pointer, _id_valueOf$2.pointer, j)
+        .object<JLong?>();
+  }
+}
+
+extension JLong$$Methods on JLong {
+  static final _id_byteValue = JLong._class.instanceMethodId(
+    r'byteValue',
+    r'()B',
+  );
+
+  static final _byteValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallByteMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public byte byteValue()`
+  int byteValue() {
+    return _byteValue(reference.pointer, _id_byteValue.pointer).byte;
+  }
+
+  static final _id_compareTo = JLong._class.instanceMethodId(
+    r'compareTo',
+    r'(Ljava/lang/Long;)I',
+  );
+
+  static final _compareTo = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public int compareTo(java.lang.Long long)`
+  int compareTo(
+    JLong? long,
+  ) {
+    final _$long = long?.reference ?? jni$_.jNullReference;
+    return _compareTo(reference.pointer, _id_compareTo.pointer, _$long.pointer)
+        .integer;
+  }
+
+  static final _id_doubleValue = JLong._class.instanceMethodId(
+    r'doubleValue',
+    r'()D',
+  );
+
+  static final _doubleValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallDoubleMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public double doubleValue()`
+  double doubleValue() {
+    return _doubleValue(reference.pointer, _id_doubleValue.pointer).doubleFloat;
+  }
+
+  static final _id_equals = JLong._class.instanceMethodId(
+    r'equals',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _equals = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean equals(java.lang.Object object)`
+  core$_.bool equals(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_floatValue = JLong._class.instanceMethodId(
+    r'floatValue',
+    r'()F',
+  );
+
+  static final _floatValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallFloatMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public float floatValue()`
+  double floatValue() {
+    return _floatValue(reference.pointer, _id_floatValue.pointer).float;
+  }
+
+  static final _id_hashCode$1 = JLong._class.instanceMethodId(
+    r'hashCode',
+    r'()I',
+  );
+
+  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public int hashCode()`
+  int hashCode$1() {
+    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+  }
+
+  static final _id_intValue = JLong._class.instanceMethodId(
+    r'intValue',
+    r'()I',
+  );
+
+  static final _intValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public int intValue()`
+  int intValue() {
+    return _intValue(reference.pointer, _id_intValue.pointer).integer;
+  }
+
+  static final _id_longValue = JLong._class.instanceMethodId(
+    r'longValue',
+    r'()J',
+  );
+
+  static final _longValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public long longValue()`
+  int longValue() {
+    return _longValue(reference.pointer, _id_longValue.pointer).long;
+  }
+
+  static final _id_shortValue = JLong._class.instanceMethodId(
+    r'shortValue',
+    r'()S',
+  );
+
+  static final _shortValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallShortMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public short shortValue()`
+  int shortValue() {
+    return _shortValue(reference.pointer, _id_shortValue.pointer).short;
+  }
+
+  static final _id_toString$1 = JLong._class.instanceMethodId(
+    r'toString',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _toString$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String toString()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? toString$1() {
+    return _toString$1(reference.pointer, _id_toString$1.pointer)
+        .object<JString?>();
+  }
+
+  core$_.bool operator <(JLong? long) {
+    return compareTo(long) < 0;
+  }
+
+  core$_.bool operator <=(JLong? long) {
+    return compareTo(long) <= 0;
+  }
+
+  core$_.bool operator >(JLong? long) {
+    return compareTo(long) > 0;
+  }
+
+  core$_.bool operator >=(JLong? long) {
+    return compareTo(long) >= 0;
+  }
+}
+
+final class $JLong$Type$ extends jni$_.JType<JLong> {
+  @jni$_.internal
+  const $JLong$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/Long;';
+}
+
+/// from: `java.lang.Number`
+extension type JNumber._(jni$_.JObject _$this) implements jni$_.JObject {
+  static final _class = jni$_.JClass.forName(r'java/lang/Number');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<JNumber> type = $JNumber$Type$();
+}
+
+extension JNumber$$Methods on JNumber {
+  static final _id_byteValue = JNumber._class.instanceMethodId(
+    r'byteValue',
+    r'()B',
+  );
+
+  static final _byteValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallByteMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public byte byteValue()`
+  int byteValue() {
+    return _byteValue(reference.pointer, _id_byteValue.pointer).byte;
+  }
+
+  static final _id_doubleValue = JNumber._class.instanceMethodId(
+    r'doubleValue',
+    r'()D',
+  );
+
+  static final _doubleValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallDoubleMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract double doubleValue()`
+  double doubleValue() {
+    return _doubleValue(reference.pointer, _id_doubleValue.pointer).doubleFloat;
+  }
+
+  static final _id_floatValue = JNumber._class.instanceMethodId(
+    r'floatValue',
+    r'()F',
+  );
+
+  static final _floatValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallFloatMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract float floatValue()`
+  double floatValue() {
+    return _floatValue(reference.pointer, _id_floatValue.pointer).float;
+  }
+
+  static final _id_intValue = JNumber._class.instanceMethodId(
+    r'intValue',
+    r'()I',
+  );
+
+  static final _intValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract int intValue()`
+  int intValue() {
+    return _intValue(reference.pointer, _id_intValue.pointer).integer;
+  }
+
+  static final _id_longValue = JNumber._class.instanceMethodId(
+    r'longValue',
+    r'()J',
+  );
+
+  static final _longValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract long longValue()`
+  int longValue() {
+    return _longValue(reference.pointer, _id_longValue.pointer).long;
+  }
+
+  static final _id_shortValue = JNumber._class.instanceMethodId(
+    r'shortValue',
+    r'()S',
+  );
+
+  static final _shortValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallShortMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public short shortValue()`
+  int shortValue() {
+    return _shortValue(reference.pointer, _id_shortValue.pointer).short;
+  }
+}
+
+final class $JNumber$Type$ extends jni$_.JType<JNumber> {
+  @jni$_.internal
+  const $JNumber$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/Number;';
+}
+
+/// from: `java.lang.Short`
+extension type JShort._(jni$_.JObject _$this)
+    implements JNumber, jni$_.JObject {
+  static final _class = jni$_.JClass.forName(r'java/lang/Short');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<JShort> type = $JShort$Type$();
+
+  /// from: `static public final int BYTES`
+  static const BYTES = 2;
+
+  /// from: `static public final short MAX_VALUE`
+  static const MAX_VALUE = 32767;
+
+  /// from: `static public final short MIN_VALUE`
+  static const MIN_VALUE = -32768;
+
+  /// from: `static public final int SIZE`
+  static const SIZE = 16;
+  static final _id_TYPE = _class.staticFieldId(
+    r'TYPE',
+    r'Ljava/lang/Class;',
+  );
+
+  /// from: `static public final java.lang.Class<java.lang.Short> TYPE`
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni$_.JObject? get TYPE =>
+      _id_TYPE.getNullable(_class, jni$_.JObject.type) as jni$_.JObject?;
+
+  static final _id_new$ = _class.constructorId(
+    r'(Ljava/lang/String;)V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JShort(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _new$(_class.reference.pointer, _id_new$.pointer, _$string.pointer)
+        .object<JShort>();
+  }
+
+  static final _id_new$1 = _class.constructorId(
+    r'(S)V',
+  );
+
+  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public void <init>(short s)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JShort.new$1(
+    int s,
+  ) {
+    return _new$1(_class.reference.pointer, _id_new$1.pointer, s)
+        .object<JShort>();
+  }
+
+  static final _id_compare = _class.staticMethodId(
+    r'compare',
+    r'(SS)I',
+  );
+
+  static final _compare = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public int compare(short s, short s1)`
+  static int compare(
+    int s,
+    int s1,
+  ) {
+    return _compare(_class.reference.pointer, _id_compare.pointer, s, s1)
+        .integer;
+  }
+
+  static final _id_compareUnsigned = _class.staticMethodId(
+    r'compareUnsigned',
+    r'(SS)I',
+  );
+
+  static final _compareUnsigned = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `static public int compareUnsigned(short s, short s1)`
+  static int compareUnsigned(
+    int s,
+    int s1,
+  ) {
+    return _compareUnsigned(
+            _class.reference.pointer, _id_compareUnsigned.pointer, s, s1)
+        .integer;
+  }
+
+  static final _id_decode = _class.staticMethodId(
+    r'decode',
+    r'(Ljava/lang/String;)Ljava/lang/Short;',
+  );
+
+  static final _decode = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.Short decode(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JShort? decode(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _decode(
+            _class.reference.pointer, _id_decode.pointer, _$string.pointer)
+        .object<JShort?>();
+  }
+
+  static final _id_hashCode$2 = _class.staticMethodId(
+    r'hashCode',
+    r'(S)I',
+  );
+
+  static final _hashCode$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int hashCode(short s)`
+  static int hashCode$2(
+    int s,
+  ) {
+    return _hashCode$2(_class.reference.pointer, _id_hashCode$2.pointer, s)
+        .integer;
+  }
+
+  static final _id_parseShort = _class.staticMethodId(
+    r'parseShort',
+    r'(Ljava/lang/String;)S',
+  );
+
+  static final _parseShort = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticShortMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public short parseShort(java.lang.String string)`
+  static int parseShort(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _parseShort(
+            _class.reference.pointer, _id_parseShort.pointer, _$string.pointer)
+        .short;
+  }
+
+  static final _id_parseShort$1 = _class.staticMethodId(
+    r'parseShort',
+    r'(Ljava/lang/String;I)S',
+  );
+
+  static final _parseShort$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticShortMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `static public short parseShort(java.lang.String string, int i)`
+  static int parseShort$1(
+    JString? string,
+    int i,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _parseShort$1(_class.reference.pointer, _id_parseShort$1.pointer,
+            _$string.pointer, i)
+        .short;
+  }
+
+  static final _id_reverseBytes = _class.staticMethodId(
+    r'reverseBytes',
+    r'(S)S',
+  );
+
+  static final _reverseBytes = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticShortMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public short reverseBytes(short s)`
+  static int reverseBytes(
+    int s,
+  ) {
+    return _reverseBytes(_class.reference.pointer, _id_reverseBytes.pointer, s)
+        .short;
+  }
+
+  static final _id_toString$2 = _class.staticMethodId(
+    r'toString',
+    r'(S)Ljava/lang/String;',
+  );
+
+  static final _toString$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.String toString(short s)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? toString$2(
+    int s,
+  ) {
+    return _toString$2(_class.reference.pointer, _id_toString$2.pointer, s)
+        .object<JString?>();
+  }
+
+  static final _id_toUnsignedInt = _class.staticMethodId(
+    r'toUnsignedInt',
+    r'(S)I',
+  );
+
+  static final _toUnsignedInt = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public int toUnsignedInt(short s)`
+  static int toUnsignedInt(
+    int s,
+  ) {
+    return _toUnsignedInt(
+            _class.reference.pointer, _id_toUnsignedInt.pointer, s)
+        .integer;
+  }
+
+  static final _id_toUnsignedLong = _class.staticMethodId(
+    r'toUnsignedLong',
+    r'(S)J',
+  );
+
+  static final _toUnsignedLong = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public long toUnsignedLong(short s)`
+  static int toUnsignedLong(
+    int s,
+  ) {
+    return _toUnsignedLong(
+            _class.reference.pointer, _id_toUnsignedLong.pointer, s)
+        .long;
+  }
+
+  static final _id_valueOf = _class.staticMethodId(
+    r'valueOf',
+    r'(Ljava/lang/String;)Ljava/lang/Short;',
+  );
+
+  static final _valueOf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.Short valueOf(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JShort? valueOf(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _valueOf(
+            _class.reference.pointer, _id_valueOf.pointer, _$string.pointer)
+        .object<JShort?>();
+  }
+
+  static final _id_valueOf$1 = _class.staticMethodId(
+    r'valueOf',
+    r'(Ljava/lang/String;I)Ljava/lang/Short;',
+  );
+
+  static final _valueOf$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int32)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `static public java.lang.Short valueOf(java.lang.String string, int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JShort? valueOf$1(
+    JString? string,
+    int i,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _valueOf$1(_class.reference.pointer, _id_valueOf$1.pointer,
+            _$string.pointer, i)
+        .object<JShort?>();
+  }
+
+  static final _id_valueOf$2 = _class.staticMethodId(
+    r'valueOf',
+    r'(S)Ljava/lang/Short;',
+  );
+
+  static final _valueOf$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.Short valueOf(short s)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JShort? valueOf$2(
+    int s,
+  ) {
+    return _valueOf$2(_class.reference.pointer, _id_valueOf$2.pointer, s)
+        .object<JShort?>();
+  }
+}
+
+extension JShort$$Methods on JShort {
+  static final _id_byteValue = JShort._class.instanceMethodId(
+    r'byteValue',
+    r'()B',
+  );
+
+  static final _byteValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallByteMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public byte byteValue()`
+  int byteValue() {
+    return _byteValue(reference.pointer, _id_byteValue.pointer).byte;
+  }
+
+  static final _id_compareTo = JShort._class.instanceMethodId(
+    r'compareTo',
+    r'(Ljava/lang/Short;)I',
+  );
+
+  static final _compareTo = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public int compareTo(java.lang.Short short)`
+  int compareTo(
+    JShort? short,
+  ) {
+    final _$short = short?.reference ?? jni$_.jNullReference;
+    return _compareTo(reference.pointer, _id_compareTo.pointer, _$short.pointer)
+        .integer;
+  }
+
+  static final _id_doubleValue = JShort._class.instanceMethodId(
+    r'doubleValue',
+    r'()D',
+  );
+
+  static final _doubleValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallDoubleMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public double doubleValue()`
+  double doubleValue() {
+    return _doubleValue(reference.pointer, _id_doubleValue.pointer).doubleFloat;
+  }
+
+  static final _id_equals = JShort._class.instanceMethodId(
+    r'equals',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _equals = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean equals(java.lang.Object object)`
+  core$_.bool equals(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_floatValue = JShort._class.instanceMethodId(
+    r'floatValue',
+    r'()F',
+  );
+
+  static final _floatValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallFloatMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public float floatValue()`
+  double floatValue() {
+    return _floatValue(reference.pointer, _id_floatValue.pointer).float;
+  }
+
+  static final _id_hashCode$1 = JShort._class.instanceMethodId(
+    r'hashCode',
+    r'()I',
+  );
+
+  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public int hashCode()`
+  int hashCode$1() {
+    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+  }
+
+  static final _id_intValue = JShort._class.instanceMethodId(
+    r'intValue',
+    r'()I',
+  );
+
+  static final _intValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public int intValue()`
+  int intValue() {
+    return _intValue(reference.pointer, _id_intValue.pointer).integer;
+  }
+
+  static final _id_longValue = JShort._class.instanceMethodId(
+    r'longValue',
+    r'()J',
+  );
+
+  static final _longValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public long longValue()`
+  int longValue() {
+    return _longValue(reference.pointer, _id_longValue.pointer).long;
+  }
+
+  static final _id_shortValue = JShort._class.instanceMethodId(
+    r'shortValue',
+    r'()S',
+  );
+
+  static final _shortValue = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallShortMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public short shortValue()`
+  int shortValue() {
+    return _shortValue(reference.pointer, _id_shortValue.pointer).short;
+  }
+
+  static final _id_toString$1 = JShort._class.instanceMethodId(
+    r'toString',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _toString$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String toString()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? toString$1() {
+    return _toString$1(reference.pointer, _id_toString$1.pointer)
+        .object<JString?>();
+  }
+
+  core$_.bool operator <(JShort? short) {
+    return compareTo(short) < 0;
+  }
+
+  core$_.bool operator <=(JShort? short) {
+    return compareTo(short) <= 0;
+  }
+
+  core$_.bool operator >(JShort? short) {
+    return compareTo(short) > 0;
+  }
+
+  core$_.bool operator >=(JShort? short) {
+    return compareTo(short) >= 0;
+  }
+}
+
+final class $JShort$Type$ extends jni$_.JType<JShort> {
+  @jni$_.internal
+  const $JShort$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/Short;';
+}
+
+/// from: `java.lang.String`
+extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
+  static final _class = jni$_.JClass.forName(r'java/lang/String');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<JString> type = $JString$Type$();
+  static final _id_CASE_INSENSITIVE_ORDER = _class.staticFieldId(
+    r'CASE_INSENSITIVE_ORDER',
+    r'Ljava/util/Comparator;',
+  );
+
+  /// from: `static public final java.util.Comparator<java.lang.String> CASE_INSENSITIVE_ORDER`
+  /// The returned object must be released after use, by calling the [release] method.
+  static jni$_.JObject? get CASE_INSENSITIVE_ORDER =>
+      _id_CASE_INSENSITIVE_ORDER.getNullable(_class, jni$_.JObject.type)
+          as jni$_.JObject?;
+
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JString() {
+    return _new$(_class.reference.pointer, _id_new$.pointer).object<JString>();
+  }
+
+  static final _id_new$1 = _class.constructorId(
+    r'([B)V',
+  );
+
+  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(byte[] bs)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JString.new$1(
+    jni$_.JByteArray? bs,
+  ) {
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    return _new$1(_class.reference.pointer, _id_new$1.pointer, _$bs.pointer)
+        .object<JString>();
+  }
+
+  static final _id_new$2 = _class.constructorId(
+    r'([BI)V',
+  );
+
+  static final _new$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int32)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `public void <init>(byte[] bs, int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JString.new$2(
+    jni$_.JByteArray? bs,
+    int i,
+  ) {
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    return _new$2(_class.reference.pointer, _id_new$2.pointer, _$bs.pointer, i)
+        .object<JString>();
+  }
+
+  static final _id_new$3 = _class.constructorId(
+    r'([BII)V',
+  );
+
+  static final _new$3 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+
+  /// from: `public void <init>(byte[] bs, int i, int i1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JString.new$3(
+    jni$_.JByteArray? bs,
+    int i,
+    int i1,
+  ) {
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    return _new$3(
+            _class.reference.pointer, _id_new$3.pointer, _$bs.pointer, i, i1)
+        .object<JString>();
+  }
+
+  static final _id_new$4 = _class.constructorId(
+    r'([BIII)V',
+  );
+
+  static final _new$4 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int, int)>();
+
+  /// from: `public void <init>(byte[] bs, int i, int i1, int i2)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JString.new$4(
+    jni$_.JByteArray? bs,
+    int i,
+    int i1,
+    int i2,
+  ) {
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    return _new$4(_class.reference.pointer, _id_new$4.pointer, _$bs.pointer, i,
+            i1, i2)
+        .object<JString>();
+  }
+
+  static final _id_new$5 = _class.constructorId(
+    r'([BIILjava/lang/String;)V',
+  );
+
+  static final _new$5 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              int,
+              int,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(byte[] bs, int i, int i1, java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JString.new$5(
+    jni$_.JByteArray? bs,
+    int i,
+    int i1,
+    JString? string,
+  ) {
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _new$5(_class.reference.pointer, _id_new$5.pointer, _$bs.pointer, i,
+            i1, _$string.pointer)
+        .object<JString>();
+  }
+
+  static final _id_new$6 = _class.constructorId(
+    r'([BIILjava/nio/charset/Charset;)V',
+  );
+
+  static final _new$6 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              int,
+              int,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(byte[] bs, int i, int i1, java.nio.charset.Charset charset)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JString.new$6(
+    jni$_.JByteArray? bs,
+    int i,
+    int i1,
+    jni$_.JObject? charset,
+  ) {
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    final _$charset = charset?.reference ?? jni$_.jNullReference;
+    return _new$6(_class.reference.pointer, _id_new$6.pointer, _$bs.pointer, i,
+            i1, _$charset.pointer)
+        .object<JString>();
+  }
+
+  static final _id_new$7 = _class.constructorId(
+    r'([BLjava/lang/String;)V',
+  );
+
+  static final _new$7 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(byte[] bs, java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JString.new$7(
+    jni$_.JByteArray? bs,
+    JString? string,
+  ) {
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _new$7(_class.reference.pointer, _id_new$7.pointer, _$bs.pointer,
+            _$string.pointer)
+        .object<JString>();
+  }
+
+  static final _id_new$8 = _class.constructorId(
+    r'([BLjava/nio/charset/Charset;)V',
+  );
+
+  static final _new$8 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(byte[] bs, java.nio.charset.Charset charset)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JString.new$8(
+    jni$_.JByteArray? bs,
+    jni$_.JObject? charset,
+  ) {
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    final _$charset = charset?.reference ?? jni$_.jNullReference;
+    return _new$8(_class.reference.pointer, _id_new$8.pointer, _$bs.pointer,
+            _$charset.pointer)
+        .object<JString>();
+  }
+
+  static final _id_new$9 = _class.constructorId(
+    r'([C)V',
+  );
+
+  static final _new$9 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(char[] cs)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JString.new$9(
+    jni$_.JCharArray? cs,
+  ) {
+    final _$cs = cs?.reference ?? jni$_.jNullReference;
+    return _new$9(_class.reference.pointer, _id_new$9.pointer, _$cs.pointer)
+        .object<JString>();
+  }
+
+  static final _id_new$10 = _class.constructorId(
+    r'([CII)V',
+  );
+
+  static final _new$10 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+
+  /// from: `public void <init>(char[] cs, int i, int i1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JString.new$10(
+    jni$_.JCharArray? cs,
+    int i,
+    int i1,
+  ) {
+    final _$cs = cs?.reference ?? jni$_.jNullReference;
+    return _new$10(
+            _class.reference.pointer, _id_new$10.pointer, _$cs.pointer, i, i1)
+        .object<JString>();
+  }
+
+  static final _id_new$11 = _class.constructorId(
+    r'([III)V',
+  );
+
+  static final _new$11 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+
+  /// from: `public void <init>(int[] is, int i, int i1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JString.new$11(
+    jni$_.JIntArray? is$,
+    int i,
+    int i1,
+  ) {
+    final _$is$ = is$?.reference ?? jni$_.jNullReference;
+    return _new$11(
+            _class.reference.pointer, _id_new$11.pointer, _$is$.pointer, i, i1)
+        .object<JString>();
+  }
+
+  static final _id_new$12 = _class.constructorId(
+    r'(Ljava/lang/String;)V',
+  );
+
+  static final _new$12 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JString.new$12(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _new$12(
+            _class.reference.pointer, _id_new$12.pointer, _$string.pointer)
+        .object<JString>();
+  }
+
+  static final _id_new$13 = _class.constructorId(
+    r'(Ljava/lang/StringBuffer;)V',
+  );
+
+  static final _new$13 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(java.lang.StringBuffer stringBuffer)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JString.new$13(
+    jni$_.JObject? stringBuffer,
+  ) {
+    final _$stringBuffer = stringBuffer?.reference ?? jni$_.jNullReference;
+    return _new$13(_class.reference.pointer, _id_new$13.pointer,
+            _$stringBuffer.pointer)
+        .object<JString>();
+  }
+
+  static final _id_new$14 = _class.constructorId(
+    r'(Ljava/lang/StringBuilder;)V',
+  );
+
+  static final _new$14 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(java.lang.StringBuilder stringBuilder)`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory JString.new$14(
+    jni$_.JObject? stringBuilder,
+  ) {
+    final _$stringBuilder = stringBuilder?.reference ?? jni$_.jNullReference;
+    return _new$14(_class.reference.pointer, _id_new$14.pointer,
+            _$stringBuilder.pointer)
+        .object<JString>();
+  }
+
+  static final _id_copyValueOf = _class.staticMethodId(
+    r'copyValueOf',
+    r'([C)Ljava/lang/String;',
+  );
+
+  static final _copyValueOf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.String copyValueOf(char[] cs)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? copyValueOf(
+    jni$_.JCharArray? cs,
+  ) {
+    final _$cs = cs?.reference ?? jni$_.jNullReference;
+    return _copyValueOf(
+            _class.reference.pointer, _id_copyValueOf.pointer, _$cs.pointer)
+        .object<JString?>();
+  }
+
+  static final _id_copyValueOf$1 = _class.staticMethodId(
+    r'copyValueOf',
+    r'([CII)Ljava/lang/String;',
+  );
+
+  static final _copyValueOf$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+
+  /// from: `static public java.lang.String copyValueOf(char[] cs, int i, int i1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? copyValueOf$1(
+    jni$_.JCharArray? cs,
+    int i,
+    int i1,
+  ) {
+    final _$cs = cs?.reference ?? jni$_.jNullReference;
+    return _copyValueOf$1(_class.reference.pointer, _id_copyValueOf$1.pointer,
+            _$cs.pointer, i, i1)
+        .object<JString?>();
+  }
+
+  static final _id_format = _class.staticMethodId(
+    r'format',
+    r'(Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;',
+  );
+
+  static final _format = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.String format(java.lang.String string, java.lang.Object[] objects)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? format(
+    JString? string,
+    jni$_.JArray<jni$_.JObject?>? objects,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    final _$objects = objects?.reference ?? jni$_.jNullReference;
+    return _format(_class.reference.pointer, _id_format.pointer,
+            _$string.pointer, _$objects.pointer)
+        .object<JString?>();
+  }
+
+  static final _id_format$1 = _class.staticMethodId(
+    r'format',
+    r'(Ljava/util/Locale;Ljava/lang/String;[Ljava/lang/Object;)Ljava/lang/String;',
+  );
+
+  static final _format$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.String format(java.util.Locale locale, java.lang.String string, java.lang.Object[] objects)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? format$1(
+    jni$_.JObject? locale,
+    JString? string,
+    jni$_.JArray<jni$_.JObject?>? objects,
+  ) {
+    final _$locale = locale?.reference ?? jni$_.jNullReference;
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    final _$objects = objects?.reference ?? jni$_.jNullReference;
+    return _format$1(_class.reference.pointer, _id_format$1.pointer,
+            _$locale.pointer, _$string.pointer, _$objects.pointer)
+        .object<JString?>();
+  }
+
+  static final _id_join = _class.staticMethodId(
+    r'join',
+    r'(Ljava/lang/CharSequence;[Ljava/lang/CharSequence;)Ljava/lang/String;',
+  );
+
+  static final _join = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.String join(java.lang.CharSequence charSequence, java.lang.CharSequence[] charSequences)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? join(
+    jni$_.JObject? charSequence,
+    jni$_.JArray<jni$_.JObject?>? charSequences,
+  ) {
+    final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
+    final _$charSequences = charSequences?.reference ?? jni$_.jNullReference;
+    return _join(_class.reference.pointer, _id_join.pointer,
+            _$charSequence.pointer, _$charSequences.pointer)
+        .object<JString?>();
+  }
+
+  static final _id_join$1 = _class.staticMethodId(
+    r'join',
+    r'(Ljava/lang/CharSequence;Ljava/lang/Iterable;)Ljava/lang/String;',
+  );
+
+  static final _join$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.String join(java.lang.CharSequence charSequence, java.lang.Iterable<? extends java.lang.CharSequence> iterable)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? join$1(
+    jni$_.JObject? charSequence,
+    jni$_.JObject? iterable,
+  ) {
+    final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
+    final _$iterable = iterable?.reference ?? jni$_.jNullReference;
+    return _join$1(_class.reference.pointer, _id_join$1.pointer,
+            _$charSequence.pointer, _$iterable.pointer)
+        .object<JString?>();
+  }
+
+  static final _id_valueOf = _class.staticMethodId(
+    r'valueOf',
+    r'(Z)Ljava/lang/String;',
+  );
+
+  static final _valueOf = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.String valueOf(boolean z)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? valueOf(
+    core$_.bool z,
+  ) {
+    return _valueOf(_class.reference.pointer, _id_valueOf.pointer, z ? 1 : 0)
+        .object<JString?>();
+  }
+
+  static final _id_valueOf$1 = _class.staticMethodId(
+    r'valueOf',
+    r'(C)Ljava/lang/String;',
+  );
+
+  static final _valueOf$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.String valueOf(char c)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? valueOf$1(
+    int c,
+  ) {
+    return _valueOf$1(_class.reference.pointer, _id_valueOf$1.pointer, c)
+        .object<JString?>();
+  }
+
+  static final _id_valueOf$2 = _class.staticMethodId(
+    r'valueOf',
+    r'([C)Ljava/lang/String;',
+  );
+
+  static final _valueOf$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.String valueOf(char[] cs)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? valueOf$2(
+    jni$_.JCharArray? cs,
+  ) {
+    final _$cs = cs?.reference ?? jni$_.jNullReference;
+    return _valueOf$2(
+            _class.reference.pointer, _id_valueOf$2.pointer, _$cs.pointer)
+        .object<JString?>();
+  }
+
+  static final _id_valueOf$3 = _class.staticMethodId(
+    r'valueOf',
+    r'([CII)Ljava/lang/String;',
+  );
+
+  static final _valueOf$3 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+
+  /// from: `static public java.lang.String valueOf(char[] cs, int i, int i1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? valueOf$3(
+    jni$_.JCharArray? cs,
+    int i,
+    int i1,
+  ) {
+    final _$cs = cs?.reference ?? jni$_.jNullReference;
+    return _valueOf$3(_class.reference.pointer, _id_valueOf$3.pointer,
+            _$cs.pointer, i, i1)
+        .object<JString?>();
+  }
+
+  static final _id_valueOf$4 = _class.staticMethodId(
+    r'valueOf',
+    r'(D)Ljava/lang/String;',
+  );
+
+  static final _valueOf$4 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Double,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `static public java.lang.String valueOf(double d)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? valueOf$4(
+    double d,
+  ) {
+    return _valueOf$4(_class.reference.pointer, _id_valueOf$4.pointer, d)
+        .object<JString?>();
+  }
+
+  static final _id_valueOf$5 = _class.staticMethodId(
+    r'valueOf',
+    r'(F)Ljava/lang/String;',
+  );
+
+  static final _valueOf$5 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Double,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `static public java.lang.String valueOf(float f)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? valueOf$5(
+    double f,
+  ) {
+    return _valueOf$5(_class.reference.pointer, _id_valueOf$5.pointer, f)
+        .object<JString?>();
+  }
+
+  static final _id_valueOf$6 = _class.staticMethodId(
+    r'valueOf',
+    r'(I)Ljava/lang/String;',
+  );
+
+  static final _valueOf$6 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.String valueOf(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? valueOf$6(
+    int i,
+  ) {
+    return _valueOf$6(_class.reference.pointer, _id_valueOf$6.pointer, i)
+        .object<JString?>();
+  }
+
+  static final _id_valueOf$7 = _class.staticMethodId(
+    r'valueOf',
+    r'(Ljava/lang/Object;)Ljava/lang/String;',
+  );
+
+  static final _valueOf$7 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.lang.String valueOf(java.lang.Object object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? valueOf$7(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _valueOf$7(
+            _class.reference.pointer, _id_valueOf$7.pointer, _$object.pointer)
+        .object<JString?>();
+  }
+
+  static final _id_valueOf$8 = _class.staticMethodId(
+    r'valueOf',
+    r'(J)Ljava/lang/String;',
+  );
+
+  static final _valueOf$8 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int64,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.lang.String valueOf(long j)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JString? valueOf$8(
+    int j,
+  ) {
+    return _valueOf$8(_class.reference.pointer, _id_valueOf$8.pointer, j)
+        .object<JString?>();
+  }
+}
+
+extension JString$$Methods on JString {
+  static final _id_charAt = JString._class.instanceMethodId(
+    r'charAt',
+    r'(I)C',
+  );
+
+  static final _charAt = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallCharMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public native char charAt(int i)`
+  int charAt(
+    int i,
+  ) {
+    return _charAt(reference.pointer, _id_charAt.pointer, i).char;
+  }
+
+  static final _id_chars = JString._class.instanceMethodId(
+    r'chars',
+    r'()Ljava/util/stream/IntStream;',
+  );
+
+  static final _chars = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.stream.IntStream chars()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? chars() {
+    return _chars(reference.pointer, _id_chars.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_codePointAt = JString._class.instanceMethodId(
+    r'codePointAt',
+    r'(I)I',
+  );
+
+  static final _codePointAt = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public int codePointAt(int i)`
+  int codePointAt(
+    int i,
+  ) {
+    return _codePointAt(reference.pointer, _id_codePointAt.pointer, i).integer;
+  }
+
+  static final _id_codePointBefore = JString._class.instanceMethodId(
+    r'codePointBefore',
+    r'(I)I',
+  );
+
+  static final _codePointBefore = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public int codePointBefore(int i)`
+  int codePointBefore(
+    int i,
+  ) {
+    return _codePointBefore(reference.pointer, _id_codePointBefore.pointer, i)
+        .integer;
+  }
+
+  static final _id_codePointCount = JString._class.instanceMethodId(
+    r'codePointCount',
+    r'(II)I',
+  );
+
+  static final _codePointCount = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `public int codePointCount(int i, int i1)`
+  int codePointCount(
+    int i,
+    int i1,
+  ) {
+    return _codePointCount(reference.pointer, _id_codePointCount.pointer, i, i1)
+        .integer;
+  }
+
+  static final _id_codePoints = JString._class.instanceMethodId(
+    r'codePoints',
+    r'()Ljava/util/stream/IntStream;',
+  );
+
+  static final _codePoints = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.stream.IntStream codePoints()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? codePoints() {
+    return _codePoints(reference.pointer, _id_codePoints.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_compareTo = JString._class.instanceMethodId(
+    r'compareTo',
+    r'(Ljava/lang/String;)I',
+  );
+
+  static final _compareTo = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public native int compareTo(java.lang.String string)`
+  int compareTo(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _compareTo(
+            reference.pointer, _id_compareTo.pointer, _$string.pointer)
+        .integer;
+  }
+
+  static final _id_compareToIgnoreCase = JString._class.instanceMethodId(
+    r'compareToIgnoreCase',
+    r'(Ljava/lang/String;)I',
+  );
+
+  static final _compareToIgnoreCase = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public int compareToIgnoreCase(java.lang.String string)`
+  int compareToIgnoreCase(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _compareToIgnoreCase(reference.pointer,
+            _id_compareToIgnoreCase.pointer, _$string.pointer)
+        .integer;
+  }
+
+  static final _id_concat = JString._class.instanceMethodId(
+    r'concat',
+    r'(Ljava/lang/String;)Ljava/lang/String;',
+  );
+
+  static final _concat = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public native java.lang.String concat(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? concat(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _concat(reference.pointer, _id_concat.pointer, _$string.pointer)
+        .object<JString?>();
+  }
+
+  static final _id_contains = JString._class.instanceMethodId(
+    r'contains',
+    r'(Ljava/lang/CharSequence;)Z',
+  );
+
+  static final _contains = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean contains(java.lang.CharSequence charSequence)`
+  core$_.bool contains(
+    jni$_.JObject? charSequence,
+  ) {
+    final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
+    return _contains(
+            reference.pointer, _id_contains.pointer, _$charSequence.pointer)
+        .boolean;
+  }
+
+  static final _id_contentEquals = JString._class.instanceMethodId(
+    r'contentEquals',
+    r'(Ljava/lang/CharSequence;)Z',
+  );
+
+  static final _contentEquals = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean contentEquals(java.lang.CharSequence charSequence)`
+  core$_.bool contentEquals(
+    jni$_.JObject? charSequence,
+  ) {
+    final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
+    return _contentEquals(reference.pointer, _id_contentEquals.pointer,
+            _$charSequence.pointer)
+        .boolean;
+  }
+
+  static final _id_contentEquals$1 = JString._class.instanceMethodId(
+    r'contentEquals',
+    r'(Ljava/lang/StringBuffer;)Z',
+  );
+
+  static final _contentEquals$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean contentEquals(java.lang.StringBuffer stringBuffer)`
+  core$_.bool contentEquals$1(
+    jni$_.JObject? stringBuffer,
+  ) {
+    final _$stringBuffer = stringBuffer?.reference ?? jni$_.jNullReference;
+    return _contentEquals$1(reference.pointer, _id_contentEquals$1.pointer,
+            _$stringBuffer.pointer)
+        .boolean;
+  }
+
+  static final _id_endsWith = JString._class.instanceMethodId(
+    r'endsWith',
+    r'(Ljava/lang/String;)Z',
+  );
+
+  static final _endsWith = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean endsWith(java.lang.String string)`
+  core$_.bool endsWith(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _endsWith(reference.pointer, _id_endsWith.pointer, _$string.pointer)
+        .boolean;
+  }
+
+  static final _id_equals = JString._class.instanceMethodId(
+    r'equals',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _equals = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean equals(java.lang.Object object)`
+  core$_.bool equals(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_equalsIgnoreCase = JString._class.instanceMethodId(
+    r'equalsIgnoreCase',
+    r'(Ljava/lang/String;)Z',
+  );
+
+  static final _equalsIgnoreCase = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean equalsIgnoreCase(java.lang.String string)`
+  core$_.bool equalsIgnoreCase(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _equalsIgnoreCase(
+            reference.pointer, _id_equalsIgnoreCase.pointer, _$string.pointer)
+        .boolean;
+  }
+
+  static final _id_formatted = JString._class.instanceMethodId(
+    r'formatted',
+    r'([Ljava/lang/Object;)Ljava/lang/String;',
+  );
+
+  static final _formatted = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public java.lang.String formatted(java.lang.Object[] objects)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? formatted(
+    jni$_.JArray<jni$_.JObject?>? objects,
+  ) {
+    final _$objects = objects?.reference ?? jni$_.jNullReference;
+    return _formatted(
+            reference.pointer, _id_formatted.pointer, _$objects.pointer)
+        .object<JString?>();
+  }
+
+  static final _id_getBytes = JString._class.instanceMethodId(
+    r'getBytes',
+    r'()[B',
+  );
+
+  static final _getBytes = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public byte[] getBytes()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JByteArray? getBytes() {
+    return _getBytes(reference.pointer, _id_getBytes.pointer)
+        .object<jni$_.JByteArray?>();
+  }
+
+  static final _id_getBytes$1 = JString._class.instanceMethodId(
+    r'getBytes',
+    r'(II[BI)V',
+  );
+
+  static final _getBytes$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, int, int, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `public void getBytes(int i, int i1, byte[] bs, int i2)`
+  void getBytes$1(
+    int i,
+    int i1,
+    jni$_.JByteArray? bs,
+    int i2,
+  ) {
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    _getBytes$1(
+            reference.pointer, _id_getBytes$1.pointer, i, i1, _$bs.pointer, i2)
+        .check();
+  }
+
+  static final _id_getBytes$2 = JString._class.instanceMethodId(
+    r'getBytes',
+    r'(Ljava/lang/String;)[B',
+  );
+
+  static final _getBytes$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public byte[] getBytes(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JByteArray? getBytes$2(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _getBytes$2(
+            reference.pointer, _id_getBytes$2.pointer, _$string.pointer)
+        .object<jni$_.JByteArray?>();
+  }
+
+  static final _id_getBytes$3 = JString._class.instanceMethodId(
+    r'getBytes',
+    r'(Ljava/nio/charset/Charset;)[B',
+  );
+
+  static final _getBytes$3 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public byte[] getBytes(java.nio.charset.Charset charset)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JByteArray? getBytes$3(
+    jni$_.JObject? charset,
+  ) {
+    final _$charset = charset?.reference ?? jni$_.jNullReference;
+    return _getBytes$3(
+            reference.pointer, _id_getBytes$3.pointer, _$charset.pointer)
+        .object<jni$_.JByteArray?>();
+  }
+
+  static final _id_getChars = JString._class.instanceMethodId(
+    r'getChars',
+    r'(II[CI)V',
+  );
+
+  static final _getChars = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JThrowablePtr Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallVoidMethod')
+      .asFunction<
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, int, int, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `public void getChars(int i, int i1, char[] cs, int i2)`
+  void getChars(
+    int i,
+    int i1,
+    jni$_.JCharArray? cs,
+    int i2,
+  ) {
+    final _$cs = cs?.reference ?? jni$_.jNullReference;
+    _getChars(reference.pointer, _id_getChars.pointer, i, i1, _$cs.pointer, i2)
+        .check();
+  }
+
+  static final _id_hashCode$1 = JString._class.instanceMethodId(
+    r'hashCode',
+    r'()I',
+  );
+
+  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public int hashCode()`
+  int hashCode$1() {
+    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+  }
+
+  static final _id_indent = JString._class.instanceMethodId(
+    r'indent',
+    r'(I)Ljava/lang/String;',
+  );
+
+  static final _indent = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public java.lang.String indent(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? indent(
+    int i,
+  ) {
+    return _indent(reference.pointer, _id_indent.pointer, i).object<JString?>();
+  }
+
+  static final _id_indexOf = JString._class.instanceMethodId(
+    r'indexOf',
+    r'(I)I',
+  );
+
+  static final _indexOf = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public int indexOf(int i)`
+  int indexOf(
+    int i,
+  ) {
+    return _indexOf(reference.pointer, _id_indexOf.pointer, i).integer;
+  }
+
+  static final _id_indexOf$1 = JString._class.instanceMethodId(
+    r'indexOf',
+    r'(II)I',
+  );
+
+  static final _indexOf$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `public int indexOf(int i, int i1)`
+  int indexOf$1(
+    int i,
+    int i1,
+  ) {
+    return _indexOf$1(reference.pointer, _id_indexOf$1.pointer, i, i1).integer;
+  }
+
+  static final _id_indexOf$2 = JString._class.instanceMethodId(
+    r'indexOf',
+    r'(Ljava/lang/String;)I',
+  );
+
+  static final _indexOf$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public int indexOf(java.lang.String string)`
+  int indexOf$2(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _indexOf$2(
+            reference.pointer, _id_indexOf$2.pointer, _$string.pointer)
+        .integer;
+  }
+
+  static final _id_indexOf$3 = JString._class.instanceMethodId(
+    r'indexOf',
+    r'(Ljava/lang/String;I)I',
+  );
+
+  static final _indexOf$3 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int32)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `public int indexOf(java.lang.String string, int i)`
+  int indexOf$3(
+    JString? string,
+    int i,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _indexOf$3(
+            reference.pointer, _id_indexOf$3.pointer, _$string.pointer, i)
+        .integer;
+  }
+
+  static final _id_intern = JString._class.instanceMethodId(
+    r'intern',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _intern = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public native java.lang.String intern()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? intern() {
+    return _intern(reference.pointer, _id_intern.pointer).object<JString?>();
+  }
+
+  static final _id_isBlank = JString._class.instanceMethodId(
+    r'isBlank',
+    r'()Z',
+  );
+
+  static final _isBlank = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public boolean isBlank()`
+  core$_.bool isBlank() {
+    return _isBlank(reference.pointer, _id_isBlank.pointer).boolean;
+  }
+
+  static final _id_isEmpty = JString._class.instanceMethodId(
+    r'isEmpty',
+    r'()Z',
+  );
+
+  static final _isEmpty = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public boolean isEmpty()`
+  core$_.bool isEmpty() {
+    return _isEmpty(reference.pointer, _id_isEmpty.pointer).boolean;
+  }
+
+  static final _id_lastIndexOf = JString._class.instanceMethodId(
+    r'lastIndexOf',
+    r'(I)I',
+  );
+
+  static final _lastIndexOf = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public int lastIndexOf(int i)`
+  int lastIndexOf(
+    int i,
+  ) {
+    return _lastIndexOf(reference.pointer, _id_lastIndexOf.pointer, i).integer;
+  }
+
+  static final _id_lastIndexOf$1 = JString._class.instanceMethodId(
+    r'lastIndexOf',
+    r'(II)I',
+  );
+
+  static final _lastIndexOf$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `public int lastIndexOf(int i, int i1)`
+  int lastIndexOf$1(
+    int i,
+    int i1,
+  ) {
+    return _lastIndexOf$1(reference.pointer, _id_lastIndexOf$1.pointer, i, i1)
+        .integer;
+  }
+
+  static final _id_lastIndexOf$2 = JString._class.instanceMethodId(
+    r'lastIndexOf',
+    r'(Ljava/lang/String;)I',
+  );
+
+  static final _lastIndexOf$2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public int lastIndexOf(java.lang.String string)`
+  int lastIndexOf$2(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _lastIndexOf$2(
+            reference.pointer, _id_lastIndexOf$2.pointer, _$string.pointer)
+        .integer;
+  }
+
+  static final _id_lastIndexOf$3 = JString._class.instanceMethodId(
+    r'lastIndexOf',
+    r'(Ljava/lang/String;I)I',
+  );
+
+  static final _lastIndexOf$3 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int32)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `public int lastIndexOf(java.lang.String string, int i)`
+  int lastIndexOf$3(
+    JString? string,
+    int i,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _lastIndexOf$3(
+            reference.pointer, _id_lastIndexOf$3.pointer, _$string.pointer, i)
+        .integer;
+  }
+
+  static final _id_length = JString._class.instanceMethodId(
+    r'length',
+    r'()I',
+  );
+
+  static final _length = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public int length()`
+  int length() {
+    return _length(reference.pointer, _id_length.pointer).integer;
+  }
+
+  static final _id_lines = JString._class.instanceMethodId(
+    r'lines',
+    r'()Ljava/util/stream/Stream;',
+  );
+
+  static final _lines = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.util.stream.Stream<java.lang.String> lines()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? lines() {
+    return _lines(reference.pointer, _id_lines.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_matches = JString._class.instanceMethodId(
+    r'matches',
+    r'(Ljava/lang/String;)Z',
+  );
+
+  static final _matches = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean matches(java.lang.String string)`
+  core$_.bool matches(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _matches(reference.pointer, _id_matches.pointer, _$string.pointer)
+        .boolean;
+  }
+
+  static final _id_offsetByCodePoints = JString._class.instanceMethodId(
+    r'offsetByCodePoints',
+    r'(II)I',
+  );
+
+  static final _offsetByCodePoints = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `public int offsetByCodePoints(int i, int i1)`
+  int offsetByCodePoints(
+    int i,
+    int i1,
+  ) {
+    return _offsetByCodePoints(
+            reference.pointer, _id_offsetByCodePoints.pointer, i, i1)
+        .integer;
+  }
+
+  static final _id_regionMatches = JString._class.instanceMethodId(
+    r'regionMatches',
+    r'(ZILjava/lang/String;II)Z',
+  );
+
+  static final _regionMatches = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Int32,
+                        jni$_.Int32,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              int,
+              int,
+              jni$_.Pointer<jni$_.Void>,
+              int,
+              int)>();
+
+  /// from: `public boolean regionMatches(boolean z, int i, java.lang.String string, int i1, int i2)`
+  core$_.bool regionMatches(
+    core$_.bool z,
+    int i,
+    JString? string,
+    int i1,
+    int i2,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _regionMatches(reference.pointer, _id_regionMatches.pointer,
+            z ? 1 : 0, i, _$string.pointer, i1, i2)
+        .boolean;
+  }
+
+  static final _id_regionMatches$1 = JString._class.instanceMethodId(
+    r'regionMatches',
+    r'(ILjava/lang/String;II)Z',
+  );
+
+  static final _regionMatches$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Int32,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>, int, int)>();
+
+  /// from: `public boolean regionMatches(int i, java.lang.String string, int i1, int i2)`
+  core$_.bool regionMatches$1(
+    int i,
+    JString? string,
+    int i1,
+    int i2,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _regionMatches$1(reference.pointer, _id_regionMatches$1.pointer, i,
+            _$string.pointer, i1, i2)
+        .boolean;
+  }
+
+  static final _id_repeat = JString._class.instanceMethodId(
+    r'repeat',
+    r'(I)Ljava/lang/String;',
+  );
+
+  static final _repeat = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public java.lang.String repeat(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? repeat(
+    int i,
+  ) {
+    return _repeat(reference.pointer, _id_repeat.pointer, i).object<JString?>();
+  }
+
+  static final _id_replace = JString._class.instanceMethodId(
+    r'replace',
+    r'(CC)Ljava/lang/String;',
+  );
+
+  static final _replace = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `public java.lang.String replace(char c, char c1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? replace(
+    int c,
+    int c1,
+  ) {
+    return _replace(reference.pointer, _id_replace.pointer, c, c1)
+        .object<JString?>();
+  }
+
+  static final _id_replace$1 = JString._class.instanceMethodId(
+    r'replace',
+    r'(Ljava/lang/CharSequence;Ljava/lang/CharSequence;)Ljava/lang/String;',
+  );
+
+  static final _replace$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public java.lang.String replace(java.lang.CharSequence charSequence, java.lang.CharSequence charSequence1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? replace$1(
+    jni$_.JObject? charSequence,
+    jni$_.JObject? charSequence1,
+  ) {
+    final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
+    final _$charSequence1 = charSequence1?.reference ?? jni$_.jNullReference;
+    return _replace$1(reference.pointer, _id_replace$1.pointer,
+            _$charSequence.pointer, _$charSequence1.pointer)
+        .object<JString?>();
+  }
+
+  static final _id_replaceAll = JString._class.instanceMethodId(
+    r'replaceAll',
+    r'(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;',
+  );
+
+  static final _replaceAll = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public java.lang.String replaceAll(java.lang.String string, java.lang.String string1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? replaceAll(
+    JString? string,
+    JString? string1,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    final _$string1 = string1?.reference ?? jni$_.jNullReference;
+    return _replaceAll(reference.pointer, _id_replaceAll.pointer,
+            _$string.pointer, _$string1.pointer)
+        .object<JString?>();
+  }
+
+  static final _id_replaceFirst = JString._class.instanceMethodId(
+    r'replaceFirst',
+    r'(Ljava/lang/String;Ljava/lang/String;)Ljava/lang/String;',
+  );
+
+  static final _replaceFirst = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public java.lang.String replaceFirst(java.lang.String string, java.lang.String string1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? replaceFirst(
+    JString? string,
+    JString? string1,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    final _$string1 = string1?.reference ?? jni$_.jNullReference;
+    return _replaceFirst(reference.pointer, _id_replaceFirst.pointer,
+            _$string.pointer, _$string1.pointer)
+        .object<JString?>();
+  }
+
+  static final _id_split = JString._class.instanceMethodId(
+    r'split',
+    r'(Ljava/lang/String;)[Ljava/lang/String;',
+  );
+
+  static final _split = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public java.lang.String[] split(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JArray<JString?>? split(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _split(reference.pointer, _id_split.pointer, _$string.pointer)
+        .object<jni$_.JArray<JString?>?>();
+  }
+
+  static final _id_split$1 = JString._class.instanceMethodId(
+    r'split',
+    r'(Ljava/lang/String;I)[Ljava/lang/String;',
+  );
+
+  static final _split$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int32)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `public java.lang.String[] split(java.lang.String string, int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JArray<JString?>? split$1(
+    JString? string,
+    int i,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _split$1(reference.pointer, _id_split$1.pointer, _$string.pointer, i)
+        .object<jni$_.JArray<JString?>?>();
+  }
+
+  static final _id_startsWith = JString._class.instanceMethodId(
+    r'startsWith',
+    r'(Ljava/lang/String;)Z',
+  );
+
+  static final _startsWith = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean startsWith(java.lang.String string)`
+  core$_.bool startsWith(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _startsWith(
+            reference.pointer, _id_startsWith.pointer, _$string.pointer)
+        .boolean;
+  }
+
+  static final _id_startsWith$1 = JString._class.instanceMethodId(
+    r'startsWith',
+    r'(Ljava/lang/String;I)Z',
+  );
+
+  static final _startsWith$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Pointer<jni$_.Void>, jni$_.Int32)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+
+  /// from: `public boolean startsWith(java.lang.String string, int i)`
+  core$_.bool startsWith$1(
+    JString? string,
+    int i,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _startsWith$1(
+            reference.pointer, _id_startsWith$1.pointer, _$string.pointer, i)
+        .boolean;
+  }
+
+  static final _id_strip = JString._class.instanceMethodId(
+    r'strip',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _strip = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String strip()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? strip() {
+    return _strip(reference.pointer, _id_strip.pointer).object<JString?>();
+  }
+
+  static final _id_stripIndent = JString._class.instanceMethodId(
+    r'stripIndent',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _stripIndent = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String stripIndent()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? stripIndent() {
+    return _stripIndent(reference.pointer, _id_stripIndent.pointer)
+        .object<JString?>();
+  }
+
+  static final _id_stripLeading = JString._class.instanceMethodId(
+    r'stripLeading',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _stripLeading = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String stripLeading()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? stripLeading() {
+    return _stripLeading(reference.pointer, _id_stripLeading.pointer)
+        .object<JString?>();
+  }
+
+  static final _id_stripTrailing = JString._class.instanceMethodId(
+    r'stripTrailing',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _stripTrailing = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String stripTrailing()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? stripTrailing() {
+    return _stripTrailing(reference.pointer, _id_stripTrailing.pointer)
+        .object<JString?>();
+  }
+
+  static final _id_subSequence = JString._class.instanceMethodId(
+    r'subSequence',
+    r'(II)Ljava/lang/CharSequence;',
+  );
+
+  static final _subSequence = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `public java.lang.CharSequence subSequence(int i, int i1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? subSequence(
+    int i,
+    int i1,
+  ) {
+    return _subSequence(reference.pointer, _id_subSequence.pointer, i, i1)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_substring = JString._class.instanceMethodId(
+    r'substring',
+    r'(I)Ljava/lang/String;',
+  );
+
+  static final _substring = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public java.lang.String substring(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? substring(
+    int i,
+  ) {
+    return _substring(reference.pointer, _id_substring.pointer, i)
+        .object<JString?>();
+  }
+
+  static final _id_substring$1 = JString._class.instanceMethodId(
+    r'substring',
+    r'(II)Ljava/lang/String;',
+  );
+
+  static final _substring$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `public java.lang.String substring(int i, int i1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? substring$1(
+    int i,
+    int i1,
+  ) {
+    return _substring$1(reference.pointer, _id_substring$1.pointer, i, i1)
+        .object<JString?>();
+  }
+
+  static final _id_toCharArray = JString._class.instanceMethodId(
+    r'toCharArray',
+    r'()[C',
+  );
+
+  static final _toCharArray = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public native char[] toCharArray()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JCharArray? toCharArray() {
+    return _toCharArray(reference.pointer, _id_toCharArray.pointer)
+        .object<jni$_.JCharArray?>();
+  }
+
+  static final _id_toLowerCase = JString._class.instanceMethodId(
+    r'toLowerCase',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _toLowerCase = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String toLowerCase()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? toLowerCase() {
+    return _toLowerCase(reference.pointer, _id_toLowerCase.pointer)
+        .object<JString?>();
+  }
+
+  static final _id_toLowerCase$1 = JString._class.instanceMethodId(
+    r'toLowerCase',
+    r'(Ljava/util/Locale;)Ljava/lang/String;',
+  );
+
+  static final _toLowerCase$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public java.lang.String toLowerCase(java.util.Locale locale)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? toLowerCase$1(
+    jni$_.JObject? locale,
+  ) {
+    final _$locale = locale?.reference ?? jni$_.jNullReference;
+    return _toLowerCase$1(
+            reference.pointer, _id_toLowerCase$1.pointer, _$locale.pointer)
+        .object<JString?>();
+  }
+
+  static final _id_toString$1 = JString._class.instanceMethodId(
+    r'toString',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _toString$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String toString()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? toString$1() {
+    return _toString$1(reference.pointer, _id_toString$1.pointer)
+        .object<JString?>();
+  }
+
+  static final _id_toUpperCase = JString._class.instanceMethodId(
+    r'toUpperCase',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _toUpperCase = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String toUpperCase()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? toUpperCase() {
+    return _toUpperCase(reference.pointer, _id_toUpperCase.pointer)
+        .object<JString?>();
+  }
+
+  static final _id_toUpperCase$1 = JString._class.instanceMethodId(
+    r'toUpperCase',
+    r'(Ljava/util/Locale;)Ljava/lang/String;',
+  );
+
+  static final _toUpperCase$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public java.lang.String toUpperCase(java.util.Locale locale)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? toUpperCase$1(
+    jni$_.JObject? locale,
+  ) {
+    final _$locale = locale?.reference ?? jni$_.jNullReference;
+    return _toUpperCase$1(
+            reference.pointer, _id_toUpperCase$1.pointer, _$locale.pointer)
+        .object<JString?>();
+  }
+
+  static final _id_transform = JString._class.instanceMethodId(
+    r'transform',
+    r'(Ljava/util/function/Function;)Ljava/lang/Object;',
+  );
+
+  static final _transform = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public R transform(java.util.function.Function<? super java.lang.String, ? extends R> function)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $R? transform<$R extends jni$_.JObject?>(
+    jni$_.JObject? function,
+  ) {
+    final _$function = function?.reference ?? jni$_.jNullReference;
+    return _transform(
+            reference.pointer, _id_transform.pointer, _$function.pointer)
+        .object<$R?>();
+  }
+
+  static final _id_translateEscapes = JString._class.instanceMethodId(
+    r'translateEscapes',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _translateEscapes = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String translateEscapes()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? translateEscapes() {
+    return _translateEscapes(reference.pointer, _id_translateEscapes.pointer)
+        .object<JString?>();
+  }
+
+  static final _id_trim = JString._class.instanceMethodId(
+    r'trim',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _trim = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String trim()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? trim() {
+    return _trim(reference.pointer, _id_trim.pointer).object<JString?>();
+  }
+
+  core$_.bool operator <(JString? string) {
+    return compareTo(string) < 0;
+  }
+
+  core$_.bool operator <=(JString? string) {
+    return compareTo(string) <= 0;
+  }
+
+  core$_.bool operator >(JString? string) {
+    return compareTo(string) > 0;
+  }
+
+  core$_.bool operator >=(JString? string) {
+    return compareTo(string) >= 0;
+  }
+}
+
+final class $JString$Type$ extends jni$_.JType<JString> {
+  @jni$_.internal
+  const $JString$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/lang/String;';
+}
+
+/// from: `java.nio.Buffer`
+extension type JBuffer._(jni$_.JObject _$this) implements jni$_.JObject {
+  static final _class = jni$_.JClass.forName(r'java/nio/Buffer');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<JBuffer> type = $JBuffer$Type$();
+}
+
+extension JBuffer$$Methods on JBuffer {
+  static final _id_array = JBuffer._class.instanceMethodId(
+    r'array',
+    r'()Ljava/lang/Object;',
+  );
+
+  static final _array = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.lang.Object array()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? array() {
+    return _array(reference.pointer, _id_array.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_arrayOffset = JBuffer._class.instanceMethodId(
+    r'arrayOffset',
+    r'()I',
+  );
+
+  static final _arrayOffset = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract int arrayOffset()`
+  int arrayOffset() {
+    return _arrayOffset(reference.pointer, _id_arrayOffset.pointer).integer;
+  }
+
+  static final _id_capacity = JBuffer._class.instanceMethodId(
+    r'capacity',
+    r'()I',
+  );
+
+  static final _capacity = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final int capacity()`
+  int capacity() {
+    return _capacity(reference.pointer, _id_capacity.pointer).integer;
+  }
+
+  static final _id_clear = JBuffer._class.instanceMethodId(
+    r'clear',
+    r'()Ljava/nio/Buffer;',
+  );
+
+  static final _clear = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.nio.Buffer clear()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JBuffer? clear() {
+    return _clear(reference.pointer, _id_clear.pointer).object<JBuffer?>();
+  }
+
+  static final _id_duplicate = JBuffer._class.instanceMethodId(
+    r'duplicate',
+    r'()Ljava/nio/Buffer;',
+  );
+
+  static final _duplicate = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.nio.Buffer duplicate()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JBuffer? duplicate() {
+    return _duplicate(reference.pointer, _id_duplicate.pointer)
+        .object<JBuffer?>();
+  }
+
+  static final _id_flip = JBuffer._class.instanceMethodId(
+    r'flip',
+    r'()Ljava/nio/Buffer;',
+  );
+
+  static final _flip = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.nio.Buffer flip()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JBuffer? flip() {
+    return _flip(reference.pointer, _id_flip.pointer).object<JBuffer?>();
+  }
+
+  static final _id_hasArray = JBuffer._class.instanceMethodId(
+    r'hasArray',
+    r'()Z',
+  );
+
+  static final _hasArray = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract boolean hasArray()`
+  core$_.bool hasArray() {
+    return _hasArray(reference.pointer, _id_hasArray.pointer).boolean;
+  }
+
+  static final _id_hasRemaining = JBuffer._class.instanceMethodId(
+    r'hasRemaining',
+    r'()Z',
+  );
+
+  static final _hasRemaining = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final boolean hasRemaining()`
+  core$_.bool hasRemaining() {
+    return _hasRemaining(reference.pointer, _id_hasRemaining.pointer).boolean;
+  }
+
+  static final _id_isDirect = JBuffer._class.instanceMethodId(
+    r'isDirect',
+    r'()Z',
+  );
+
+  static final _isDirect = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract boolean isDirect()`
+  core$_.bool isDirect() {
+    return _isDirect(reference.pointer, _id_isDirect.pointer).boolean;
+  }
+
+  static final _id_isReadOnly = JBuffer._class.instanceMethodId(
+    r'isReadOnly',
+    r'()Z',
+  );
+
+  static final _isReadOnly = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract boolean isReadOnly()`
+  core$_.bool isReadOnly() {
+    return _isReadOnly(reference.pointer, _id_isReadOnly.pointer).boolean;
+  }
+
+  static final _id_limit = JBuffer._class.instanceMethodId(
+    r'limit',
+    r'()I',
+  );
+
+  static final _limit = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final int limit()`
+  int limit() {
+    return _limit(reference.pointer, _id_limit.pointer).integer;
+  }
+
+  static final _id_limit$1 = JBuffer._class.instanceMethodId(
+    r'limit',
+    r'(I)Ljava/nio/Buffer;',
+  );
+
+  static final _limit$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public java.nio.Buffer limit(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JBuffer? limit$1(
+    int i,
+  ) {
+    return _limit$1(reference.pointer, _id_limit$1.pointer, i)
+        .object<JBuffer?>();
+  }
+
+  static final _id_mark = JBuffer._class.instanceMethodId(
+    r'mark',
+    r'()Ljava/nio/Buffer;',
+  );
+
+  static final _mark = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.nio.Buffer mark()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JBuffer? mark() {
+    return _mark(reference.pointer, _id_mark.pointer).object<JBuffer?>();
+  }
+
+  static final _id_position = JBuffer._class.instanceMethodId(
+    r'position',
+    r'()I',
+  );
+
+  static final _position = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final int position()`
+  int position() {
+    return _position(reference.pointer, _id_position.pointer).integer;
+  }
+
+  static final _id_position$1 = JBuffer._class.instanceMethodId(
+    r'position',
+    r'(I)Ljava/nio/Buffer;',
+  );
+
+  static final _position$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public java.nio.Buffer position(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JBuffer? position$1(
+    int i,
+  ) {
+    return _position$1(reference.pointer, _id_position$1.pointer, i)
+        .object<JBuffer?>();
+  }
+
+  static final _id_remaining = JBuffer._class.instanceMethodId(
+    r'remaining',
+    r'()I',
+  );
+
+  static final _remaining = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final int remaining()`
+  int remaining() {
+    return _remaining(reference.pointer, _id_remaining.pointer).integer;
+  }
+
+  static final _id_reset = JBuffer._class.instanceMethodId(
+    r'reset',
+    r'()Ljava/nio/Buffer;',
+  );
+
+  static final _reset = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.nio.Buffer reset()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JBuffer? reset() {
+    return _reset(reference.pointer, _id_reset.pointer).object<JBuffer?>();
+  }
+
+  static final _id_rewind = JBuffer._class.instanceMethodId(
+    r'rewind',
+    r'()Ljava/nio/Buffer;',
+  );
+
+  static final _rewind = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.nio.Buffer rewind()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JBuffer? rewind() {
+    return _rewind(reference.pointer, _id_rewind.pointer).object<JBuffer?>();
+  }
+
+  static final _id_slice = JBuffer._class.instanceMethodId(
+    r'slice',
+    r'()Ljava/nio/Buffer;',
+  );
+
+  static final _slice = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.nio.Buffer slice()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JBuffer? slice() {
+    return _slice(reference.pointer, _id_slice.pointer).object<JBuffer?>();
+  }
+
+  static final _id_slice$1 = JBuffer._class.instanceMethodId(
+    r'slice',
+    r'(II)Ljava/nio/Buffer;',
+  );
+
+  static final _slice$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `public abstract java.nio.Buffer slice(int i, int i1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JBuffer? slice$1(
+    int i,
+    int i1,
+  ) {
+    return _slice$1(reference.pointer, _id_slice$1.pointer, i, i1)
+        .object<JBuffer?>();
+  }
+}
+
+final class $JBuffer$Type$ extends jni$_.JType<JBuffer> {
+  @jni$_.internal
+  const $JBuffer$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/nio/Buffer;';
+}
+
+/// from: `java.nio.ByteBuffer`
+extension type JByteBuffer._(jni$_.JObject _$this)
+    implements JBuffer, jni$_.JObject {
+  static final _class = jni$_.JClass.forName(r'java/nio/ByteBuffer');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<JByteBuffer> type = $JByteBuffer$Type$();
+  static final _id_allocate = _class.staticMethodId(
+    r'allocate',
+    r'(I)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _allocate = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.nio.ByteBuffer allocate(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JByteBuffer? allocate(
+    int i,
+  ) {
+    return _allocate(_class.reference.pointer, _id_allocate.pointer, i)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_allocateDirect = _class.staticMethodId(
+    r'allocateDirect',
+    r'(I)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _allocateDirect = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr, jni$_.VarArgs<(jni$_.Int32,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `static public java.nio.ByteBuffer allocateDirect(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JByteBuffer? allocateDirect(
+    int i,
+  ) {
+    return _allocateDirect(
+            _class.reference.pointer, _id_allocateDirect.pointer, i)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_wrap = _class.staticMethodId(
+    r'wrap',
+    r'([B)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _wrap = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `static public java.nio.ByteBuffer wrap(byte[] bs)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JByteBuffer? wrap(
+    jni$_.JByteArray? bs,
+  ) {
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    return _wrap(_class.reference.pointer, _id_wrap.pointer, _$bs.pointer)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_wrap$1 = _class.staticMethodId(
+    r'wrap',
+    r'([BII)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _wrap$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallStaticObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+
+  /// from: `static public java.nio.ByteBuffer wrap(byte[] bs, int i, int i1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static JByteBuffer? wrap$1(
+    jni$_.JByteArray? bs,
+    int i,
+    int i1,
+  ) {
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    return _wrap$1(
+            _class.reference.pointer, _id_wrap$1.pointer, _$bs.pointer, i, i1)
+        .object<JByteBuffer?>();
+  }
+}
+
+extension JByteBuffer$$Methods on JByteBuffer {
+  static final _id_alignedSlice = JByteBuffer._class.instanceMethodId(
+    r'alignedSlice',
+    r'(I)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _alignedSlice = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public final java.nio.ByteBuffer alignedSlice(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? alignedSlice(
+    int i,
+  ) {
+    return _alignedSlice(reference.pointer, _id_alignedSlice.pointer, i)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_alignmentOffset = JByteBuffer._class.instanceMethodId(
+    r'alignmentOffset',
+    r'(II)I',
+  );
+
+  static final _alignmentOffset = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `public final int alignmentOffset(int i, int i1)`
+  int alignmentOffset(
+    int i,
+    int i1,
+  ) {
+    return _alignmentOffset(
+            reference.pointer, _id_alignmentOffset.pointer, i, i1)
+        .integer;
+  }
+
+  static final _id_array$1 = JByteBuffer._class.instanceMethodId(
+    r'array',
+    r'()[B',
+  );
+
+  static final _array$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final byte[] array()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JByteArray? array$1() {
+    return _array$1(reference.pointer, _id_array$1.pointer)
+        .object<jni$_.JByteArray?>();
+  }
+
+  static final _id_arrayOffset = JByteBuffer._class.instanceMethodId(
+    r'arrayOffset',
+    r'()I',
+  );
+
+  static final _arrayOffset = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final int arrayOffset()`
+  int arrayOffset() {
+    return _arrayOffset(reference.pointer, _id_arrayOffset.pointer).integer;
+  }
+
+  static final _id_asCharBuffer = JByteBuffer._class.instanceMethodId(
+    r'asCharBuffer',
+    r'()Ljava/nio/CharBuffer;',
+  );
+
+  static final _asCharBuffer = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.nio.CharBuffer asCharBuffer()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? asCharBuffer() {
+    return _asCharBuffer(reference.pointer, _id_asCharBuffer.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_asDoubleBuffer = JByteBuffer._class.instanceMethodId(
+    r'asDoubleBuffer',
+    r'()Ljava/nio/DoubleBuffer;',
+  );
+
+  static final _asDoubleBuffer = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.nio.DoubleBuffer asDoubleBuffer()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? asDoubleBuffer() {
+    return _asDoubleBuffer(reference.pointer, _id_asDoubleBuffer.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_asFloatBuffer = JByteBuffer._class.instanceMethodId(
+    r'asFloatBuffer',
+    r'()Ljava/nio/FloatBuffer;',
+  );
+
+  static final _asFloatBuffer = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.nio.FloatBuffer asFloatBuffer()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? asFloatBuffer() {
+    return _asFloatBuffer(reference.pointer, _id_asFloatBuffer.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_asIntBuffer = JByteBuffer._class.instanceMethodId(
+    r'asIntBuffer',
+    r'()Ljava/nio/IntBuffer;',
+  );
+
+  static final _asIntBuffer = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.nio.IntBuffer asIntBuffer()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? asIntBuffer() {
+    return _asIntBuffer(reference.pointer, _id_asIntBuffer.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_asLongBuffer = JByteBuffer._class.instanceMethodId(
+    r'asLongBuffer',
+    r'()Ljava/nio/LongBuffer;',
+  );
+
+  static final _asLongBuffer = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.nio.LongBuffer asLongBuffer()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? asLongBuffer() {
+    return _asLongBuffer(reference.pointer, _id_asLongBuffer.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_asReadOnlyBuffer = JByteBuffer._class.instanceMethodId(
+    r'asReadOnlyBuffer',
+    r'()Ljava/nio/ByteBuffer;',
+  );
+
+  static final _asReadOnlyBuffer = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.nio.ByteBuffer asReadOnlyBuffer()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? asReadOnlyBuffer() {
+    return _asReadOnlyBuffer(reference.pointer, _id_asReadOnlyBuffer.pointer)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_asShortBuffer = JByteBuffer._class.instanceMethodId(
+    r'asShortBuffer',
+    r'()Ljava/nio/ShortBuffer;',
+  );
+
+  static final _asShortBuffer = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.nio.ShortBuffer asShortBuffer()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? asShortBuffer() {
+    return _asShortBuffer(reference.pointer, _id_asShortBuffer.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_clear = JByteBuffer._class.instanceMethodId(
+    r'clear',
+    r'()Ljava/nio/Buffer;',
+  );
+
+  static final _clear = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.nio.Buffer clear()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JBuffer? clear() {
+    return _clear(reference.pointer, _id_clear.pointer).object<JBuffer?>();
+  }
+
+  static final _id_compact = JByteBuffer._class.instanceMethodId(
+    r'compact',
+    r'()Ljava/nio/ByteBuffer;',
+  );
+
+  static final _compact = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.nio.ByteBuffer compact()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? compact() {
+    return _compact(reference.pointer, _id_compact.pointer)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_compareTo = JByteBuffer._class.instanceMethodId(
+    r'compareTo',
+    r'(Ljava/nio/ByteBuffer;)I',
+  );
+
+  static final _compareTo = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public int compareTo(java.nio.ByteBuffer byteBuffer)`
+  int compareTo(
+    JByteBuffer? byteBuffer,
+  ) {
+    final _$byteBuffer = byteBuffer?.reference ?? jni$_.jNullReference;
+    return _compareTo(
+            reference.pointer, _id_compareTo.pointer, _$byteBuffer.pointer)
+        .integer;
+  }
+
+  static final _id_duplicate$1 = JByteBuffer._class.instanceMethodId(
+    r'duplicate',
+    r'()Ljava/nio/ByteBuffer;',
+  );
+
+  static final _duplicate$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.nio.ByteBuffer duplicate()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? duplicate$1() {
+    return _duplicate$1(reference.pointer, _id_duplicate$1.pointer)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_equals = JByteBuffer._class.instanceMethodId(
+    r'equals',
+    r'(Ljava/lang/Object;)Z',
+  );
+
+  static final _equals = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public boolean equals(java.lang.Object object)`
+  core$_.bool equals(
+    jni$_.JObject? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _equals(reference.pointer, _id_equals.pointer, _$object.pointer)
+        .boolean;
+  }
+
+  static final _id_flip = JByteBuffer._class.instanceMethodId(
+    r'flip',
+    r'()Ljava/nio/Buffer;',
+  );
+
+  static final _flip = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.nio.Buffer flip()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JBuffer? flip() {
+    return _flip(reference.pointer, _id_flip.pointer).object<JBuffer?>();
+  }
+
+  static final _id_get = JByteBuffer._class.instanceMethodId(
+    r'get',
+    r'()B',
+  );
+
+  static final _get = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallByteMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract byte get()`
+  int get() {
+    return _get(reference.pointer, _id_get.pointer).byte;
+  }
+
+  static final _id_get$1 = JByteBuffer._class.instanceMethodId(
+    r'get',
+    r'([B)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _get$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public java.nio.ByteBuffer get(byte[] bs)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? get$1(
+    jni$_.JByteArray? bs,
+  ) {
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    return _get$1(reference.pointer, _id_get$1.pointer, _$bs.pointer)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_get$2 = JByteBuffer._class.instanceMethodId(
+    r'get',
+    r'([BII)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _get$2 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+
+  /// from: `public java.nio.ByteBuffer get(byte[] bs, int i, int i1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? get$2(
+    jni$_.JByteArray? bs,
+    int i,
+    int i1,
+  ) {
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    return _get$2(reference.pointer, _id_get$2.pointer, _$bs.pointer, i, i1)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_get$3 = JByteBuffer._class.instanceMethodId(
+    r'get',
+    r'(I)B',
+  );
+
+  static final _get$3 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallByteMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public abstract byte get(int i)`
+  int get$3(
+    int i,
+  ) {
+    return _get$3(reference.pointer, _id_get$3.pointer, i).byte;
+  }
+
+  static final _id_get$4 = JByteBuffer._class.instanceMethodId(
+    r'get',
+    r'(I[B)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _get$4 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public java.nio.ByteBuffer get(int i, byte[] bs)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? get$4(
+    int i,
+    jni$_.JByteArray? bs,
+  ) {
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    return _get$4(reference.pointer, _id_get$4.pointer, i, _$bs.pointer)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_get$5 = JByteBuffer._class.instanceMethodId(
+    r'get',
+    r'(I[BII)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _get$5 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Int32,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>, int, int)>();
+
+  /// from: `public java.nio.ByteBuffer get(int i, byte[] bs, int i1, int i2)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? get$5(
+    int i,
+    jni$_.JByteArray? bs,
+    int i1,
+    int i2,
+  ) {
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    return _get$5(reference.pointer, _id_get$5.pointer, i, _$bs.pointer, i1, i2)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_getChar = JByteBuffer._class.instanceMethodId(
+    r'getChar',
+    r'()C',
+  );
+
+  static final _getChar = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallCharMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract char getChar()`
+  int getChar() {
+    return _getChar(reference.pointer, _id_getChar.pointer).char;
+  }
+
+  static final _id_getChar$1 = JByteBuffer._class.instanceMethodId(
+    r'getChar',
+    r'(I)C',
+  );
+
+  static final _getChar$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallCharMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public abstract char getChar(int i)`
+  int getChar$1(
+    int i,
+  ) {
+    return _getChar$1(reference.pointer, _id_getChar$1.pointer, i).char;
+  }
+
+  static final _id_getDouble = JByteBuffer._class.instanceMethodId(
+    r'getDouble',
+    r'()D',
+  );
+
+  static final _getDouble = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallDoubleMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract double getDouble()`
+  double getDouble() {
+    return _getDouble(reference.pointer, _id_getDouble.pointer).doubleFloat;
+  }
+
+  static final _id_getDouble$1 = JByteBuffer._class.instanceMethodId(
+    r'getDouble',
+    r'(I)D',
+  );
+
+  static final _getDouble$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallDoubleMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public abstract double getDouble(int i)`
+  double getDouble$1(
+    int i,
+  ) {
+    return _getDouble$1(reference.pointer, _id_getDouble$1.pointer, i)
+        .doubleFloat;
+  }
+
+  static final _id_getFloat = JByteBuffer._class.instanceMethodId(
+    r'getFloat',
+    r'()F',
+  );
+
+  static final _getFloat = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallFloatMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract float getFloat()`
+  double getFloat() {
+    return _getFloat(reference.pointer, _id_getFloat.pointer).float;
+  }
+
+  static final _id_getFloat$1 = JByteBuffer._class.instanceMethodId(
+    r'getFloat',
+    r'(I)F',
+  );
+
+  static final _getFloat$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallFloatMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public abstract float getFloat(int i)`
+  double getFloat$1(
+    int i,
+  ) {
+    return _getFloat$1(reference.pointer, _id_getFloat$1.pointer, i).float;
+  }
+
+  static final _id_getInt = JByteBuffer._class.instanceMethodId(
+    r'getInt',
+    r'()I',
+  );
+
+  static final _getInt = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract int getInt()`
+  int getInt() {
+    return _getInt(reference.pointer, _id_getInt.pointer).integer;
+  }
+
+  static final _id_getInt$1 = JByteBuffer._class.instanceMethodId(
+    r'getInt',
+    r'(I)I',
+  );
+
+  static final _getInt$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public abstract int getInt(int i)`
+  int getInt$1(
+    int i,
+  ) {
+    return _getInt$1(reference.pointer, _id_getInt$1.pointer, i).integer;
+  }
+
+  static final _id_getLong = JByteBuffer._class.instanceMethodId(
+    r'getLong',
+    r'()J',
+  );
+
+  static final _getLong = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract long getLong()`
+  int getLong() {
+    return _getLong(reference.pointer, _id_getLong.pointer).long;
+  }
+
+  static final _id_getLong$1 = JByteBuffer._class.instanceMethodId(
+    r'getLong',
+    r'(I)J',
+  );
+
+  static final _getLong$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallLongMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public abstract long getLong(int i)`
+  int getLong$1(
+    int i,
+  ) {
+    return _getLong$1(reference.pointer, _id_getLong$1.pointer, i).long;
+  }
+
+  static final _id_getShort = JByteBuffer._class.instanceMethodId(
+    r'getShort',
+    r'()S',
+  );
+
+  static final _getShort = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallShortMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract short getShort()`
+  int getShort() {
+    return _getShort(reference.pointer, _id_getShort.pointer).short;
+  }
+
+  static final _id_getShort$1 = JByteBuffer._class.instanceMethodId(
+    r'getShort',
+    r'(I)S',
+  );
+
+  static final _getShort$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallShortMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public abstract short getShort(int i)`
+  int getShort$1(
+    int i,
+  ) {
+    return _getShort$1(reference.pointer, _id_getShort$1.pointer, i).short;
+  }
+
+  static final _id_hasArray = JByteBuffer._class.instanceMethodId(
+    r'hasArray',
+    r'()Z',
+  );
+
+  static final _hasArray = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final boolean hasArray()`
+  core$_.bool hasArray() {
+    return _hasArray(reference.pointer, _id_hasArray.pointer).boolean;
+  }
+
+  static final _id_hashCode$1 = JByteBuffer._class.instanceMethodId(
+    r'hashCode',
+    r'()I',
+  );
+
+  static final _hashCode$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public int hashCode()`
+  int hashCode$1() {
+    return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
+  }
+
+  static final _id_isDirect = JByteBuffer._class.instanceMethodId(
+    r'isDirect',
+    r'()Z',
+  );
+
+  static final _isDirect = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallBooleanMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract boolean isDirect()`
+  core$_.bool isDirect() {
+    return _isDirect(reference.pointer, _id_isDirect.pointer).boolean;
+  }
+
+  static final _id_limit1 = JByteBuffer._class.instanceMethodId(
+    r'limit',
+    r'(I)Ljava/nio/Buffer;',
+  );
+
+  static final _limit1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public java.nio.Buffer limit(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JBuffer? limit1(
+    int i,
+  ) {
+    return _limit1(reference.pointer, _id_limit1.pointer, i).object<JBuffer?>();
+  }
+
+  static final _id_mark = JByteBuffer._class.instanceMethodId(
+    r'mark',
+    r'()Ljava/nio/Buffer;',
+  );
+
+  static final _mark = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.nio.Buffer mark()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JBuffer? mark() {
+    return _mark(reference.pointer, _id_mark.pointer).object<JBuffer?>();
+  }
+
+  static final _id_mismatch = JByteBuffer._class.instanceMethodId(
+    r'mismatch',
+    r'(Ljava/nio/ByteBuffer;)I',
+  );
+
+  static final _mismatch = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallIntMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public int mismatch(java.nio.ByteBuffer byteBuffer)`
+  int mismatch(
+    JByteBuffer? byteBuffer,
+  ) {
+    final _$byteBuffer = byteBuffer?.reference ?? jni$_.jNullReference;
+    return _mismatch(
+            reference.pointer, _id_mismatch.pointer, _$byteBuffer.pointer)
+        .integer;
+  }
+
+  static final _id_order = JByteBuffer._class.instanceMethodId(
+    r'order',
+    r'()Ljava/nio/ByteOrder;',
+  );
+
+  static final _order = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public final java.nio.ByteOrder order()`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? order() {
+    return _order(reference.pointer, _id_order.pointer)
+        .object<jni$_.JObject?>();
+  }
+
+  static final _id_order$1 = JByteBuffer._class.instanceMethodId(
+    r'order',
+    r'(Ljava/nio/ByteOrder;)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _order$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public final java.nio.ByteBuffer order(java.nio.ByteOrder byteOrder)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? order$1(
+    jni$_.JObject? byteOrder,
+  ) {
+    final _$byteOrder = byteOrder?.reference ?? jni$_.jNullReference;
+    return _order$1(reference.pointer, _id_order$1.pointer, _$byteOrder.pointer)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_position1 = JByteBuffer._class.instanceMethodId(
+    r'position',
+    r'(I)Ljava/nio/Buffer;',
+  );
+
+  static final _position1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public java.nio.Buffer position(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JBuffer? position1(
+    int i,
+  ) {
+    return _position1(reference.pointer, _id_position1.pointer, i)
+        .object<JBuffer?>();
+  }
+
+  static final _id_put = JByteBuffer._class.instanceMethodId(
+    r'put',
+    r'(B)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _put = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public abstract java.nio.ByteBuffer put(byte b)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? put(
+    int b,
+  ) {
+    return _put(reference.pointer, _id_put.pointer, b).object<JByteBuffer?>();
+  }
+
+  static final _id_put$1 = JByteBuffer._class.instanceMethodId(
+    r'put',
+    r'([B)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _put$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public final java.nio.ByteBuffer put(byte[] bs)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? put$1(
+    jni$_.JByteArray? bs,
+  ) {
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    return _put$1(reference.pointer, _id_put$1.pointer, _$bs.pointer)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_put$2 = JByteBuffer._class.instanceMethodId(
+    r'put',
+    r'([BII)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _put$2 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+
+  /// from: `public java.nio.ByteBuffer put(byte[] bs, int i, int i1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? put$2(
+    jni$_.JByteArray? bs,
+    int i,
+    int i1,
+  ) {
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    return _put$2(reference.pointer, _id_put$2.pointer, _$bs.pointer, i, i1)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_put$3 = JByteBuffer._class.instanceMethodId(
+    r'put',
+    r'(IB)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _put$3 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `public abstract java.nio.ByteBuffer put(int i, byte b)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? put$3(
+    int i,
+    int b,
+  ) {
+    return _put$3(reference.pointer, _id_put$3.pointer, i, b)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_put$4 = JByteBuffer._class.instanceMethodId(
+    r'put',
+    r'(I[B)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _put$4 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_
+                          .VarArgs<(jni$_.Int32, jni$_.Pointer<jni$_.Void>)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public java.nio.ByteBuffer put(int i, byte[] bs)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? put$4(
+    int i,
+    jni$_.JByteArray? bs,
+  ) {
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    return _put$4(reference.pointer, _id_put$4.pointer, i, _$bs.pointer)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_put$5 = JByteBuffer._class.instanceMethodId(
+    r'put',
+    r'(I[BII)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _put$5 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Int32,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>, int, int)>();
+
+  /// from: `public java.nio.ByteBuffer put(int i, byte[] bs, int i1, int i2)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? put$5(
+    int i,
+    jni$_.JByteArray? bs,
+    int i1,
+    int i2,
+  ) {
+    final _$bs = bs?.reference ?? jni$_.jNullReference;
+    return _put$5(reference.pointer, _id_put$5.pointer, i, _$bs.pointer, i1, i2)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_put$6 = JByteBuffer._class.instanceMethodId(
+    r'put',
+    r'(ILjava/nio/ByteBuffer;II)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _put$6 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Int32,
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Int32,
+                        jni$_.Int32
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>, int, int)>();
+
+  /// from: `public java.nio.ByteBuffer put(int i, java.nio.ByteBuffer byteBuffer, int i1, int i2)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? put$6(
+    int i,
+    JByteBuffer? byteBuffer,
+    int i1,
+    int i2,
+  ) {
+    final _$byteBuffer = byteBuffer?.reference ?? jni$_.jNullReference;
+    return _put$6(reference.pointer, _id_put$6.pointer, i, _$byteBuffer.pointer,
+            i1, i2)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_put$7 = JByteBuffer._class.instanceMethodId(
+    r'put',
+    r'(Ljava/nio/ByteBuffer;)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _put$7 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public java.nio.ByteBuffer put(java.nio.ByteBuffer byteBuffer)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? put$7(
+    JByteBuffer? byteBuffer,
+  ) {
+    final _$byteBuffer = byteBuffer?.reference ?? jni$_.jNullReference;
+    return _put$7(reference.pointer, _id_put$7.pointer, _$byteBuffer.pointer)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_putChar = JByteBuffer._class.instanceMethodId(
+    r'putChar',
+    r'(C)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _putChar = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public abstract java.nio.ByteBuffer putChar(char c)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? putChar(
+    int c,
+  ) {
+    return _putChar(reference.pointer, _id_putChar.pointer, c)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_putChar$1 = JByteBuffer._class.instanceMethodId(
+    r'putChar',
+    r'(IC)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _putChar$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `public abstract java.nio.ByteBuffer putChar(int i, char c)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? putChar$1(
+    int i,
+    int c,
+  ) {
+    return _putChar$1(reference.pointer, _id_putChar$1.pointer, i, c)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_putDouble = JByteBuffer._class.instanceMethodId(
+    r'putDouble',
+    r'(D)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _putDouble = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_
+                      .VarArgs<(jni$_.Double,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `public abstract java.nio.ByteBuffer putDouble(double d)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? putDouble(
+    double d,
+  ) {
+    return _putDouble(reference.pointer, _id_putDouble.pointer, d)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_putDouble$1 = JByteBuffer._class.instanceMethodId(
+    r'putDouble',
+    r'(ID)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _putDouble$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Double)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, double)>();
+
+  /// from: `public abstract java.nio.ByteBuffer putDouble(int i, double d)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? putDouble$1(
+    int i,
+    double d,
+  ) {
+    return _putDouble$1(reference.pointer, _id_putDouble$1.pointer, i, d)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_putFloat = JByteBuffer._class.instanceMethodId(
+    r'putFloat',
+    r'(F)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _putFloat = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_
+                      .VarArgs<(jni$_.Double,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+
+  /// from: `public abstract java.nio.ByteBuffer putFloat(float f)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? putFloat(
+    double f,
+  ) {
+    return _putFloat(reference.pointer, _id_putFloat.pointer, f)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_putFloat$1 = JByteBuffer._class.instanceMethodId(
+    r'putFloat',
+    r'(IF)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _putFloat$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Double)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, double)>();
+
+  /// from: `public abstract java.nio.ByteBuffer putFloat(int i, float f)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? putFloat$1(
+    int i,
+    double f,
+  ) {
+    return _putFloat$1(reference.pointer, _id_putFloat$1.pointer, i, f)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_putInt = JByteBuffer._class.instanceMethodId(
+    r'putInt',
+    r'(I)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _putInt = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public abstract java.nio.ByteBuffer putInt(int i)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? putInt(
+    int i,
+  ) {
+    return _putInt(reference.pointer, _id_putInt.pointer, i)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_putInt$1 = JByteBuffer._class.instanceMethodId(
+    r'putInt',
+    r'(II)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _putInt$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `public abstract java.nio.ByteBuffer putInt(int i, int i1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? putInt$1(
+    int i,
+    int i1,
+  ) {
+    return _putInt$1(reference.pointer, _id_putInt$1.pointer, i, i1)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_putLong = JByteBuffer._class.instanceMethodId(
+    r'putLong',
+    r'(IJ)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _putLong = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int64)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `public abstract java.nio.ByteBuffer putLong(int i, long j)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? putLong(
+    int i,
+    int j,
+  ) {
+    return _putLong(reference.pointer, _id_putLong.pointer, i, j)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_putLong$1 = JByteBuffer._class.instanceMethodId(
+    r'putLong',
+    r'(J)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _putLong$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int64,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public abstract java.nio.ByteBuffer putLong(long j)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? putLong$1(
+    int j,
+  ) {
+    return _putLong$1(reference.pointer, _id_putLong$1.pointer, j)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_putShort = JByteBuffer._class.instanceMethodId(
+    r'putShort',
+    r'(IS)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _putShort = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `public abstract java.nio.ByteBuffer putShort(int i, short s)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? putShort(
+    int i,
+    int s,
+  ) {
+    return _putShort(reference.pointer, _id_putShort.pointer, i, s)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_putShort$1 = JByteBuffer._class.instanceMethodId(
+    r'putShort',
+    r'(S)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _putShort$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+
+  /// from: `public abstract java.nio.ByteBuffer putShort(short s)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? putShort$1(
+    int s,
+  ) {
+    return _putShort$1(reference.pointer, _id_putShort$1.pointer, s)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_reset = JByteBuffer._class.instanceMethodId(
+    r'reset',
+    r'()Ljava/nio/Buffer;',
+  );
+
+  static final _reset = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.nio.Buffer reset()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JBuffer? reset() {
+    return _reset(reference.pointer, _id_reset.pointer).object<JBuffer?>();
+  }
+
+  static final _id_rewind = JByteBuffer._class.instanceMethodId(
+    r'rewind',
+    r'()Ljava/nio/Buffer;',
+  );
+
+  static final _rewind = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.nio.Buffer rewind()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JBuffer? rewind() {
+    return _rewind(reference.pointer, _id_rewind.pointer).object<JBuffer?>();
+  }
+
+  static final _id_slice$2 = JByteBuffer._class.instanceMethodId(
+    r'slice',
+    r'()Ljava/nio/ByteBuffer;',
+  );
+
+  static final _slice$2 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public abstract java.nio.ByteBuffer slice()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? slice$2() {
+    return _slice$2(reference.pointer, _id_slice$2.pointer)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_slice$3 = JByteBuffer._class.instanceMethodId(
+    r'slice',
+    r'(II)Ljava/nio/ByteBuffer;',
+  );
+
+  static final _slice$3 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+
+  /// from: `public abstract java.nio.ByteBuffer slice(int i, int i1)`
+  /// The returned object must be released after use, by calling the [release] method.
+  JByteBuffer? slice$3(
+    int i,
+    int i1,
+  ) {
+    return _slice$3(reference.pointer, _id_slice$3.pointer, i, i1)
+        .object<JByteBuffer?>();
+  }
+
+  static final _id_toString$1 = JByteBuffer._class.instanceMethodId(
+    r'toString',
+    r'()Ljava/lang/String;',
+  );
+
+  static final _toString$1 = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public java.lang.String toString()`
+  /// The returned object must be released after use, by calling the [release] method.
+  JString? toString$1() {
+    return _toString$1(reference.pointer, _id_toString$1.pointer)
+        .object<JString?>();
+  }
+
+  core$_.bool operator <(JByteBuffer? byteBuffer) {
+    return compareTo(byteBuffer) < 0;
+  }
+
+  core$_.bool operator <=(JByteBuffer? byteBuffer) {
+    return compareTo(byteBuffer) <= 0;
+  }
+
+  core$_.bool operator >(JByteBuffer? byteBuffer) {
+    return compareTo(byteBuffer) > 0;
+  }
+
+  core$_.bool operator >=(JByteBuffer? byteBuffer) {
+    return compareTo(byteBuffer) >= 0;
+  }
+}
+
+final class $JByteBuffer$Type$ extends jni$_.JType<JByteBuffer> {
+  @jni$_.internal
+  const $JByteBuffer$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature => r'Ljava/nio/ByteBuffer;';
+}
+
 /// from: `java.util.ArrayList`
 extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
     implements jni$_.JObject, JList<$E?> {
@@ -6743,14 +26219,14 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'add(ILjava/lang/Object;)V') {
         _$impls[$p]!.add$1(
-          ($a![0] as jni$_.JInteger).intValue(releaseOriginal: true),
+          ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
           ($a![1] as jni$_.JObject?),
         );
         return jni$_.nullptr;
       }
       if ($d == r'addAll(ILjava/util/Collection;)Z') {
         final $r = _$impls[$p]!.addAll(
-          ($a![0] as jni$_.JInteger).intValue(releaseOriginal: true),
+          ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
           ($a![1] as JCollection<jni$_.JObject?>?),
         );
         return jni$_.JBoolean($r).reference.toPointer();
@@ -6807,7 +26283,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'get(I)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.get(
-          ($a![0] as jni$_.JInteger).intValue(releaseOriginal: true),
+          ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -6869,7 +26345,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'listIterator(I)Ljava/util/ListIterator;') {
         final $r = _$impls[$p]!.listIterator$1(
-          ($a![0] as jni$_.JInteger).intValue(releaseOriginal: true),
+          ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -7050,7 +26526,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'remove(I)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.remove(
-          ($a![0] as jni$_.JInteger).intValue(releaseOriginal: true),
+          ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -7108,7 +26584,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'set(ILjava/lang/Object;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.set(
-          ($a![0] as jni$_.JInteger).intValue(releaseOriginal: true),
+          ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
           ($a![1] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
@@ -7137,8 +26613,8 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'subList(II)Ljava/util/List;') {
         final $r = _$impls[$p]!.subList(
-          ($a![0] as jni$_.JInteger).intValue(releaseOriginal: true),
-          ($a![1] as jni$_.JInteger).intValue(releaseOriginal: true),
+          ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
+          ($a![1] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -10907,8 +30383,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       }
       if ($d == r'ofEntries([Ljava/util/Map$Entry;)Ljava/util/Map;') {
         final $r = _$impls[$p]!.ofEntries(
-          ($a![0]
-              as jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>?),
+          ($a![0] as jni$_.JArray<JMap$JEntry?>?),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -11786,8 +31261,7 @@ abstract base mixin class $JMap<$K extends jni$_.JObject?,
     required JMap$JEntry<jni$_.JObject?, jni$_.JObject?>? Function(
             jni$_.JObject? object, jni$_.JObject? object1)
         entry,
-    required JSet<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? Function()
-        entrySet,
+    required JSet<JMap$JEntry?>? Function() entrySet,
     required core$_.bool Function(jni$_.JObject? object) equals,
     required void Function(jni$_.JObject? biConsumer) forEach,
     core$_.bool forEach$async,
@@ -11932,7 +31406,7 @@ abstract base mixin class $JMap<$K extends jni$_.JObject?,
             jni$_.JObject? object19)
         of$10,
     required JMap<jni$_.JObject?, jni$_.JObject?>? Function(
-            jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrys)
+            jni$_.JArray<JMap$JEntry?>? entrys)
         ofEntries,
     required jni$_.JObject? Function(
             jni$_.JObject? object, jni$_.JObject? object1)
@@ -11968,7 +31442,7 @@ abstract base mixin class $JMap<$K extends jni$_.JObject?,
       JMap<jni$_.JObject?, jni$_.JObject?>? map);
   JMap$JEntry<jni$_.JObject?, jni$_.JObject?>? entry(
       jni$_.JObject? object, jni$_.JObject? object1);
-  JSet<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrySet();
+  JSet<JMap$JEntry?>? entrySet();
   core$_.bool equals(jni$_.JObject? object);
   void forEach(jni$_.JObject? biConsumer);
   core$_.bool get forEach$async => false;
@@ -12097,7 +31571,7 @@ abstract base mixin class $JMap<$K extends jni$_.JObject?,
       jni$_.JObject? object18,
       jni$_.JObject? object19);
   JMap<jni$_.JObject?, jni$_.JObject?>? ofEntries(
-      jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrys);
+      jni$_.JArray<JMap$JEntry?>? entrys);
   jni$_.JObject? put(jni$_.JObject? object, jni$_.JObject? object1);
   void putAll(JMap<jni$_.JObject?, jni$_.JObject?>? map);
   core$_.bool get putAll$async => false;
@@ -12130,8 +31604,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     required JMap$JEntry<jni$_.JObject?, jni$_.JObject?>? Function(
             jni$_.JObject? object, jni$_.JObject? object1)
         entry,
-    required JSet<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? Function()
-        entrySet,
+    required JSet<JMap$JEntry?>? Function() entrySet,
     required core$_.bool Function(jni$_.JObject? object) equals,
     required void Function(jni$_.JObject? biConsumer) forEach,
     this.forEach$async = false,
@@ -12276,7 +31749,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
             jni$_.JObject? object19)
         of$10,
     required JMap<jni$_.JObject?, jni$_.JObject?>? Function(
-            jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrys)
+            jni$_.JArray<JMap$JEntry?>? entrys)
         ofEntries,
     required jni$_.JObject? Function(
             jni$_.JObject? object, jni$_.JObject? object1)
@@ -12350,8 +31823,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
       JMap<jni$_.JObject?, jni$_.JObject?>? map) _copyOf;
   final JMap$JEntry<jni$_.JObject?, jni$_.JObject?>? Function(
       jni$_.JObject? object, jni$_.JObject? object1) _entry;
-  final JSet<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? Function()
-      _entrySet;
+  final JSet<JMap$JEntry?>? Function() _entrySet;
   final core$_.bool Function(jni$_.JObject? object) _equals;
   final void Function(jni$_.JObject? biConsumer) _forEach;
   final core$_.bool forEach$async;
@@ -12484,8 +31956,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
       jni$_.JObject? object18,
       jni$_.JObject? object19) _of$10;
   final JMap<jni$_.JObject?, jni$_.JObject?>? Function(
-          jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrys)
-      _ofEntries;
+      jni$_.JArray<JMap$JEntry?>? entrys) _ofEntries;
   final jni$_.JObject? Function(jni$_.JObject? object, jni$_.JObject? object1)
       _put;
   final void Function(JMap<jni$_.JObject?, jni$_.JObject?>? map) _putAll;
@@ -12539,7 +32010,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     return _entry(object, object1);
   }
 
-  JSet<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrySet() {
+  JSet<JMap$JEntry?>? entrySet() {
     return _entrySet();
   }
 
@@ -12785,7 +32256,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   }
 
   JMap<jni$_.JObject?, jni$_.JObject?>? ofEntries(
-      jni$_.JArray<JMap$JEntry<jni$_.JObject?, jni$_.JObject?>?>? entrys) {
+      jni$_.JArray<JMap$JEntry?>? entrys) {
     return _ofEntries(entrys);
   }
 

@@ -2,10 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import '../core_bindings.dart' as core_bindings;
 import '../jni.dart';
 import '../jobject.dart';
 import '../jreference.dart';
 import '../types.dart';
+
+export '../core_bindings.dart' show JString$$Methods;
 
 final class _$JString$Type$ extends JType<JString> {
   const _$JString$Type$();
@@ -14,7 +17,8 @@ final class _$JString$Type$ extends JType<JString> {
   String get signature => 'Ljava/lang/String;';
 }
 
-extension type JString._(JObject _$this) implements JObject {
+extension type JString._(JObject _$this)
+    implements JObject, core_bindings.JString {
   /// The type which includes information such as the signature of this class.
   static const JType<JString> type = _$JString$Type$();
 

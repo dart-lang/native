@@ -4371,12 +4371,12 @@ extension type InheritedFromMyInterface._(jni$_.JObject _$this)
       }
       if ($d == r'manyPrimitives(IZCD)J') {
         final $r = _$impls[$p]!.manyPrimitives(
-          ($a![0] as jni$_.JInteger).intValue(releaseOriginal: true),
-          ($a![1] as jni$_.JBoolean).booleanValue(releaseOriginal: true),
-          ($a![2] as jni$_.JCharacter).charValue(releaseOriginal: true),
-          ($a![3] as jni$_.JDouble).doubleValue(releaseOriginal: true),
+          ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
+          ($a![1] as jni$_.JBoolean).toDartBoolean(releaseOriginal: true),
+          ($a![2] as jni$_.JCharacter).toDartCharacter(releaseOriginal: true),
+          ($a![3] as jni$_.JDouble).toDartDouble(releaseOriginal: true),
         );
-        return jni$_.JLong($r).reference.toPointer();
+        return $r.toJLong().reference.toPointer();
       }
     } catch (e) {
       return jni$_.ProtectedJniExtensions.newDartException(e);
@@ -4812,12 +4812,12 @@ extension type MyInterface<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'manyPrimitives(IZCD)J') {
         final $r = _$impls[$p]!.manyPrimitives(
-          ($a![0] as jni$_.JInteger).intValue(releaseOriginal: true),
-          ($a![1] as jni$_.JBoolean).booleanValue(releaseOriginal: true),
-          ($a![2] as jni$_.JCharacter).charValue(releaseOriginal: true),
-          ($a![3] as jni$_.JDouble).doubleValue(releaseOriginal: true),
+          ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
+          ($a![1] as jni$_.JBoolean).toDartBoolean(releaseOriginal: true),
+          ($a![2] as jni$_.JCharacter).toDartCharacter(releaseOriginal: true),
+          ($a![3] as jni$_.JDouble).toDartDouble(releaseOriginal: true),
         );
-        return jni$_.JLong($r).reference.toPointer();
+        return $r.toJLong().reference.toPointer();
       }
     } catch (e) {
       return jni$_.ProtectedJniExtensions.newDartException(e);
@@ -5562,7 +5562,7 @@ extension type StringConverter._(jni$_.JObject _$this)
         final $r = _$impls[$p]!.parseToInt(
           ($a![0] as jni$_.JString?),
         );
-        return jni$_.JInteger($r).reference.toPointer();
+        return $r.toJInteger().reference.toPointer();
       }
     } catch (e) {
       return jni$_.ProtectedJniExtensions.newDartException(e);
@@ -6665,7 +6665,7 @@ extension type Dog._(jni$_.JObject _$this)
       }
       if ($d == r'giveBirth(Z)Ljava/lang/String;') {
         final $r = _$impls[$p]!.giveBirth(
-          ($a![0] as jni$_.JBoolean).booleanValue(releaseOriginal: true),
+          ($a![0] as jni$_.JBoolean).toDartBoolean(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -6685,9 +6685,9 @@ extension type Dog._(jni$_.JObject _$this)
       }
       if ($d == r'walk(I)I') {
         final $r = _$impls[$p]!.walk(
-          ($a![0] as jni$_.JInteger).intValue(releaseOriginal: true),
+          ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
         );
-        return jni$_.JInteger($r).reference.toPointer();
+        return $r.toJInteger().reference.toPointer();
       }
     } catch (e) {
       return jni$_.ProtectedJniExtensions.newDartException(e);
@@ -6923,9 +6923,9 @@ extension type FourLegged._(jni$_.JObject _$this)
       final $a = $i.args;
       if ($d == r'walk(I)I') {
         final $r = _$impls[$p]!.walk(
-          ($a![0] as jni$_.JInteger).intValue(releaseOriginal: true),
+          ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
         );
-        return jni$_.JInteger($r).reference.toPointer();
+        return $r.toJInteger().reference.toPointer();
       }
       if ($d == r'eat(Ljava/lang/String;)Ljava/lang/String;') {
         final $r = _$impls[$p]!.eat(
@@ -7114,7 +7114,7 @@ extension type Furry._(jni$_.JObject _$this) implements jni$_.JObject, Mammal {
       }
       if ($d == r'giveBirth(Z)Ljava/lang/String;') {
         final $r = _$impls[$p]!.giveBirth(
-          ($a![0] as jni$_.JBoolean).booleanValue(releaseOriginal: true),
+          ($a![0] as jni$_.JBoolean).toDartBoolean(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -7378,7 +7378,7 @@ extension type Mammal._(jni$_.JObject _$this) implements jni$_.JObject, Animal {
       final $a = $i.args;
       if ($d == r'giveBirth(Z)Ljava/lang/String;') {
         final $r = _$impls[$p]!.giveBirth(
-          ($a![0] as jni$_.JBoolean).booleanValue(releaseOriginal: true),
+          ($a![0] as jni$_.JBoolean).toDartBoolean(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -10002,7 +10002,7 @@ extension type R2250$Child._(jni$_.JObject _$this)
         final $r = _$impls[$p]!.foo(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.JInteger($r).reference.toPointer();
+        return $r.toJInteger().reference.toPointer();
       }
     } catch (e) {
       return jni$_.ProtectedJniExtensions.newDartException(e);
@@ -10143,7 +10143,7 @@ extension type R2250<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
         final $r = _$impls[$p]!.foo(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.JInteger($r).reference.toPointer();
+        return $r.toJInteger().reference.toPointer();
       }
     } catch (e) {
       return jni$_.ProtectedJniExtensions.newDartException(e);

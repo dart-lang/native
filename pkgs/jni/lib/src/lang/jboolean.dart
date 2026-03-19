@@ -2,32 +2,17 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../jobject.dart';
-import '../types.dart';
+import '../core_bindings.dart';
 
-final class _$JBoolean$Type$ extends JType<JBoolean> {
-  const _$JBoolean$Type$();
+export '../core_bindings.dart' show JBoolean, JBoolean$$Methods;
 
-  @override
-  String get signature => r'Ljava/lang/Boolean;';
-}
-
-extension type JBoolean._(JObject _$this) implements JObject {
-  /// The type which includes information such as the signature of this class.
-  static const JType<JBoolean> type = _$JBoolean$Type$();
-
-  static final _class = type.jClass;
-
-  static final _ctorId = _class.constructorId(r'(Z)V');
-
-  JBoolean(bool boolean)
-      : _$this = _ctorId<JBoolean>(_class, [boolean ? 1 : 0]);
-
-  static final _booleanValueId =
-      _class.instanceMethodId(r'booleanValue', r'()Z');
-
-  bool booleanValue({bool releaseOriginal = false}) {
-    final ret = _booleanValueId(this, const jbooleanType(), []);
+extension JBooleanExtension on JBoolean {
+  /// Returns the value as a Dart bool.
+  ///
+  /// If [releaseOriginal] is true, the underlying reference is deleted
+  /// after conversion and this object will be marked as released.
+  bool toDartBoolean({bool releaseOriginal = false}) {
+    final ret = booleanValue();
     if (releaseOriginal) {
       release();
     }
