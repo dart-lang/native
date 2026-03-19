@@ -374,6 +374,42 @@ class RelativeToolResolver implements ToolResolver {
   }
 }
 
+class AbsoluteToolResolver implements ToolResolver {
+  final String toolName;
+  final ToolResolver wrappedResolver;
+  final Uri absolutePath;
+
+  AbsoluteToolResolver({
+    required this.toolName,
+    required this.wrappedResolver,
+    required this.absolutePath,
+  });
+
+  @override
+  Future<List<ToolInstance>> resolve(ToolResolvingContext context) async {
+    final logger = context.logger;
+    final otherToolInstances = await wrappedResolver.resolve(context);
+
+    logger?.finer(
+      'Checking if one of $toolName resolved as $otherToolInstances is '
+      'at the path $absolutePath',
+    );
+
+    final result = otherToolInstances
+        .where((instance) => instance.uri == absolutePath)
+        .toList();
+
+    if (result.isNotEmpty) {
+      logger?.fine('Found $result.');
+    } else {
+      logger?.finer(
+        'Found no $toolName with the specified absolute path $otherToolInstances.',
+      );
+    }
+    return result;
+  }
+}
+
 class CliFilter implements ToolResolver {
   final ToolResolver wrappedResolver;
   final List<String> cliArguments;
