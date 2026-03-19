@@ -408,17 +408,28 @@ Java_com_github_dart_1lang_jni_PortProxyBuilder__1invoke(
     result = (CallbackResult*)malloc(sizeof(CallbackResult));
   }
 
-  bool isCurrentIsolateTarget =
-      (Dart_CurrentIsolate_DL() == (Dart_Isolate)isolateId);
+  Dart_Isolate currentIsolate = Dart_CurrentIsolate_DL();
+  bool alreadyEnteredTargetIsolate = currentIsolate == (Dart_Isolate)isolateId;
 
-  bool mayEnterIsolate = false;
-  if (Dart_GetCurrentThreadOwnsIsolate_DL != NULL) {
-    mayEnterIsolate =
-        Dart_CurrentIsolate_DL() == NULL &&
-        Dart_GetCurrentThreadOwnsIsolate_DL((Dart_Port)mainPortId);
-  }
+  bool mayEnterIsolate =
+      currentIsolate == NULL && Dart_GetCurrentThreadOwnsIsolate_DL != NULL &&
+      Dart_GetCurrentThreadOwnsIsolate_DL((Dart_Port)mainPortId);
 
-  if ((!isCurrentIsolateTarget && !mayEnterIsolate) || !isBlocking) {
+  if (isBlocking && (alreadyEnteredTargetIsolate || mayEnterIsolate)) {
+    // Current thread owns the isolate associated with mainPortId, or we're
+    // already in it. Invoke the callback synchronously.
+    if (mayEnterIsolate) {
+      Dart_EnterIsolate_DL((Dart_Isolate)isolateId);
+    }
+    typedef jobject (*DartCallback)(uint64_t, jobject, jobject);
+    result->object = ((DartCallback)functionPtr)(
+        port, (*env)->NewGlobalRef(env, methodDescriptor),
+        (*env)->NewGlobalRef(env, args));
+    if (mayEnterIsolate) {
+      Dart_ExitIsolate_DL();
+    }
+  } else {
+    // Otherwise invoke the callback asynchronously (via a port).
     if (isBlocking) {
       init_lock(&result->lock);
       init_cond(&result->cond);
@@ -456,18 +467,6 @@ Java_com_github_dart_1lang_jni_PortProxyBuilder__1invoke(
       release_lock(&result->lock);
       destroy_lock(&result->lock);
       destroy_cond(&result->cond);
-    }
-  } else {
-    // Current thread owns the isolate associated with mainPortId, or we're already in it.
-    if (mayEnterIsolate) {
-      Dart_EnterIsolate_DL((Dart_Isolate)isolateId);
-    }
-    typedef jobject (*DartCallback)(uint64_t, jobject, jobject);
-    result->object = ((DartCallback)functionPtr)(
-        port, (*env)->NewGlobalRef(env, methodDescriptor),
-        (*env)->NewGlobalRef(env, args));
-    if (mayEnterIsolate) {
-      Dart_ExitIsolate_DL();
     }
   }
   if (!isBlocking) {
