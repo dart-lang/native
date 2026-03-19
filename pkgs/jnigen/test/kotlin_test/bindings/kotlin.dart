@@ -590,6 +590,212 @@ final class $MeasureUnit$Type$ extends jni$_.JType<MeasureUnit> {
   String get signature => r'Lcom/github/dart_lang/jnigen/MeasureUnit;';
 }
 
+/// from: `com.github.dart_lang.jnigen.NIHostIntegrationCoreApi`
+extension type NIHostIntegrationCoreApi._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static final _class = jni$_.JClass.forName(
+      r'com/github/dart_lang/jnigen/NIHostIntegrationCoreApi');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<NIHostIntegrationCoreApi> type =
+      $NIHostIntegrationCoreApi$Type$();
+
+  /// Maps a specific port to the implemented interface.
+  static final core$_.Map<int, $NIHostIntegrationCoreApi> _$impls = {};
+  static jni$_.JObjectPtr _$invoke(
+    int port,
+    jni$_.JObjectPtr descriptor,
+    jni$_.JObjectPtr args,
+  ) {
+    return _$invokeMethod(
+      port,
+      jni$_.MethodInvocation.fromAddresses(
+        0,
+        descriptor.address,
+        args.address,
+      ),
+    );
+  }
+
+  static final jni$_.Pointer<
+          jni$_.NativeFunction<
+              jni$_.JObjectPtr Function(
+                  jni$_.Int64, jni$_.JObjectPtr, jni$_.JObjectPtr)>>
+      _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
+
+  static jni$_.Pointer<jni$_.Void> _$invokeMethod(
+    int $p,
+    jni$_.MethodInvocation $i,
+  ) {
+    try {
+      final $d = $i.methodDescriptor.toDartString(releaseOriginal: true);
+      final $a = $i.args;
+      if ($d == r'echoList(Ljava/util/List;)Ljava/util/List;') {
+        final $r = _$impls[$p]!.echoList(
+          ($a![0] as jni$_.JList<jni$_.JObject?>?),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d == r'echoMap(Ljava/util/Map;)Ljava/util/Map;') {
+        final $r = _$impls[$p]!.echoMap(
+          ($a![0] as jni$_.JMap<jni$_.JObject, jni$_.JObject>?),
+        );
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+    } catch (e) {
+      return jni$_.ProtectedJniExtensions.newDartException(e);
+    }
+    return jni$_.nullptr;
+  }
+
+  static void implementIn(
+    jni$_.JImplementer implementer,
+    $NIHostIntegrationCoreApi $impl,
+  ) {
+    late final jni$_.RawReceivePort $p;
+    $p = jni$_.RawReceivePort(($m) {
+      if ($m == null) {
+        _$impls.remove($p.sendPort.nativePort);
+        $p.close();
+        return;
+      }
+      final $i = jni$_.MethodInvocation.fromMessage($m);
+      final $r = _$invokeMethod($p.sendPort.nativePort, $i);
+      jni$_.ProtectedJniExtensions.returnResult($i.result, $r);
+    });
+    implementer.add(
+      r'com.github.dart_lang.jnigen.NIHostIntegrationCoreApi',
+      $p,
+      _$invokePointer,
+      [],
+    );
+    final $a = $p.sendPort.nativePort;
+    _$impls[$a] = $impl;
+  }
+
+  factory NIHostIntegrationCoreApi.implement(
+    $NIHostIntegrationCoreApi $impl,
+  ) {
+    final $i = jni$_.JImplementer();
+    implementIn($i, $impl);
+    return $i.implement<NIHostIntegrationCoreApi>();
+  }
+}
+
+extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
+  static final _id_echoList = NIHostIntegrationCoreApi._class.instanceMethodId(
+    r'echoList',
+    r'(Ljava/util/List;)Ljava/util/List;',
+  );
+
+  static final _echoList = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public fun echoList(list: kotlin.collections.List<kotlin.Any?>?): kotlin.collections.List<kotlin.Any?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JList<jni$_.JObject?>? echoList(
+    jni$_.JList<jni$_.JObject?>? list,
+  ) {
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    return _echoList(reference.pointer, _id_echoList.pointer, _$list.pointer)
+        .object<jni$_.JList<jni$_.JObject?>?>();
+  }
+
+  static final _id_echoMap = NIHostIntegrationCoreApi._class.instanceMethodId(
+    r'echoMap',
+    r'(Ljava/util/Map;)Ljava/util/Map;',
+  );
+
+  static final _echoMap = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public fun echoMap(map: kotlin.collections.Map<kotlin.Any, kotlin.Any>?): kotlin.collections.Map<kotlin.Any, kotlin.Any>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JMap<jni$_.JObject, jni$_.JObject>? echoMap(
+    jni$_.JMap<jni$_.JObject, jni$_.JObject>? map,
+  ) {
+    final _$map = map?.reference ?? jni$_.jNullReference;
+    return _echoMap(reference.pointer, _id_echoMap.pointer, _$map.pointer)
+        .object<jni$_.JMap<jni$_.JObject, jni$_.JObject>?>();
+  }
+}
+
+abstract base mixin class $NIHostIntegrationCoreApi {
+  factory $NIHostIntegrationCoreApi({
+    required jni$_.JList<jni$_.JObject?>? Function(
+            jni$_.JList<jni$_.JObject?>? list)
+        echoList,
+    required jni$_.JMap<jni$_.JObject, jni$_.JObject>? Function(
+            jni$_.JMap<jni$_.JObject, jni$_.JObject>? map)
+        echoMap,
+  }) = _$NIHostIntegrationCoreApi;
+
+  jni$_.JList<jni$_.JObject?>? echoList(jni$_.JList<jni$_.JObject?>? list);
+  jni$_.JMap<jni$_.JObject, jni$_.JObject>? echoMap(
+      jni$_.JMap<jni$_.JObject, jni$_.JObject>? map);
+}
+
+final class _$NIHostIntegrationCoreApi with $NIHostIntegrationCoreApi {
+  _$NIHostIntegrationCoreApi({
+    required jni$_.JList<jni$_.JObject?>? Function(
+            jni$_.JList<jni$_.JObject?>? list)
+        echoList,
+    required jni$_.JMap<jni$_.JObject, jni$_.JObject>? Function(
+            jni$_.JMap<jni$_.JObject, jni$_.JObject>? map)
+        echoMap,
+  })  : _echoList = echoList,
+        _echoMap = echoMap;
+
+  final jni$_.JList<jni$_.JObject?>? Function(jni$_.JList<jni$_.JObject?>? list)
+      _echoList;
+  final jni$_.JMap<jni$_.JObject, jni$_.JObject>? Function(
+      jni$_.JMap<jni$_.JObject, jni$_.JObject>? map) _echoMap;
+
+  jni$_.JList<jni$_.JObject?>? echoList(jni$_.JList<jni$_.JObject?>? list) {
+    return _echoList(list);
+  }
+
+  jni$_.JMap<jni$_.JObject, jni$_.JObject>? echoMap(
+      jni$_.JMap<jni$_.JObject, jni$_.JObject>? map) {
+    return _echoMap(map);
+  }
+}
+
+final class $NIHostIntegrationCoreApi$Type$
+    extends jni$_.JType<NIHostIntegrationCoreApi> {
+  @jni$_.internal
+  const $NIHostIntegrationCoreApi$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/NIHostIntegrationCoreApi;';
+}
+
 /// from: `com.github.dart_lang.jnigen.Nullability$InnerClass`
 extension type Nullability$InnerClass<$T extends jni$_.JObject?,
         $U extends jni$_.JObject, $V extends jni$_.JObject?>._(
