@@ -38,26 +38,13 @@ public class PortProxyBuilder implements InvocationHandler {
 
   private boolean built = false;
   private final long isolateId;
-  private final boolean constructedOnMainThread;
+  private final long mainPortId;
   private final HashMap<String, DartImplementation> implementations = new HashMap<>();
   private final HashSet<String> asyncMethods = new HashSet<>();
 
-  private static boolean isOnMainThread() {
-    try {
-      Class<?> looper = Class.forName("android.os.Looper");
-      Method getMainLooper = looper.getMethod("getMainLooper");
-      Method getThread = looper.getMethod("getThread");
-      Thread mainThread = (Thread) getThread.invoke(getMainLooper.invoke(null));
-      return mainThread == Thread.currentThread();
-    } catch (Exception e) {
-      // Not on Android, so there is no concept of a "main" thread.
-      return false;
-    }
-  }
-
-  public PortProxyBuilder(long isolateId) {
+  public PortProxyBuilder(long isolateId, long mainPortId) {
     this.isolateId = isolateId;
-    this.constructedOnMainThread = isOnMainThread();
+    this.mainPortId = mainPortId;
   }
 
   private static String getDescriptor(Method method) {
@@ -132,12 +119,12 @@ public class PortProxyBuilder implements InvocationHandler {
   private static native Object[] _invoke(
       long port,
       long isolateId,
+      long mainPortId,
       long functionPtr,
       Object proxy,
       String methodDescriptor,
       Object[] args,
-      boolean isBlocking,
-      boolean mayEnterIsolate);
+      boolean isBlocking);
 
   private static native void _cleanUp(long resultPtr);
 
@@ -155,17 +142,16 @@ public class PortProxyBuilder implements InvocationHandler {
     DartImplementation implementation = implementations.get(method.getDeclaringClass().getName());
     String descriptor = getDescriptor(method);
     boolean isBlocking = !asyncMethods.contains(descriptor);
-    boolean mayEnterIsolate = isOnMainThread() && constructedOnMainThread;
     Object[] result =
         _invoke(
             implementation.port,
             isolateId,
+            mainPortId,
             implementation.pointer,
             proxy,
             descriptor,
             args,
-            isBlocking,
-            mayEnterIsolate);
+            isBlocking);
     if (!isBlocking) {
       return null;
     }

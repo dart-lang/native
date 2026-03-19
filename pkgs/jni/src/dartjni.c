@@ -242,6 +242,10 @@ FFI_PLUGIN_EXPORT intptr_t InitDartApiDL(void* data) {
   return Dart_InitializeApiDL(data);
 }
 
+FFI_PLUGIN_EXPORT int64_t GetMainPortId() {
+  return Dart_GetMainPortId_DL();
+}
+
 FFI_PLUGIN_EXPORT int64_t GetCurrentIsolateId() {
   return (int64_t)Dart_CurrentIsolate_DL();
 }
@@ -393,18 +397,28 @@ Java_com_github_dart_1lang_jni_PortProxyBuilder__1invoke(
     jclass clazz,
     jlong port,
     jlong isolateId,
+    jlong mainPortId,
     jlong functionPtr,
     jobject proxy,
     jstring methodDescriptor,
     jobjectArray args,
-    jboolean isBlocking,
-    jboolean mayEnterIsolate) {
+    jboolean isBlocking) {
   CallbackResult* result = NULL;
   if (isBlocking) {
     result = (CallbackResult*)malloc(sizeof(CallbackResult));
   }
-  if ((isolateId != (jlong)Dart_CurrentIsolate_DL() && !mayEnterIsolate) ||
-      !isBlocking) {
+
+  bool isCurrentIsolateTarget =
+      (Dart_CurrentIsolate_DL() == (Dart_Isolate)isolateId);
+
+  bool mayEnterIsolate = false;
+  if (Dart_GetCurrentThreadOwnsIsolate_DL != NULL) {
+    mayEnterIsolate =
+        Dart_CurrentIsolate_DL() == NULL &&
+        Dart_GetCurrentThreadOwnsIsolate_DL((Dart_Port)mainPortId);
+  }
+
+  if ((!isCurrentIsolateTarget && !mayEnterIsolate) || !isBlocking) {
     if (isBlocking) {
       init_lock(&result->lock);
       init_cond(&result->cond);
@@ -444,22 +458,15 @@ Java_com_github_dart_1lang_jni_PortProxyBuilder__1invoke(
       destroy_cond(&result->cond);
     }
   } else {
-    // Flutter-specific: `mayEnterIsolate` is `true` when the proxy was
-    // constructed on the main thread and is being invoked on the main thread.
-    //
-    // When the current isolate is `null`, enter the main isolate that is pinned
-    // to the main thread first before invoking the `functionPtr`.
-    assert(Dart_CurrentIsolate_DL() == NULL ||
-           Dart_CurrentIsolate_DL() == (Dart_Isolate)isolateId);
-    bool mustEnterIsolate = Dart_CurrentIsolate_DL() == NULL && mayEnterIsolate;
-    if (mustEnterIsolate) {
+    // Current thread owns the isolate associated with mainPortId, or we're already in it.
+    if (mayEnterIsolate) {
       Dart_EnterIsolate_DL((Dart_Isolate)isolateId);
     }
     typedef jobject (*DartCallback)(uint64_t, jobject, jobject);
     result->object = ((DartCallback)functionPtr)(
         port, (*env)->NewGlobalRef(env, methodDescriptor),
         (*env)->NewGlobalRef(env, args));
-    if (mustEnterIsolate) {
+    if (mayEnterIsolate) {
       Dart_ExitIsolate_DL();
     }
   }
