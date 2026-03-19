@@ -157,8 +157,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
         )..releasedBy(arena);
 
         {
-          final list =
-              [1.toJInteger(), 2.toJInteger()].toJList()..releasedBy(arena);
+          final list = [1.toJInteger(), 2.toJInteger()].toJList()
+            ..releasedBy(arena);
           final echoedList = itf.echoList(list)!.asDart();
           expect(echoedList.length, 2);
           expect(echoedList[0]!.as(JInteger.type).intValue(), 1);
@@ -167,9 +167,10 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
         {
           final map = {
-            'key'.toJString()..releasedBy(arena):
-                'value'.toJString()..releasedBy(arena),
-          }.toJMap()..releasedBy(arena);
+            'key'.toJString()..releasedBy(arena): 'value'.toJString()
+              ..releasedBy(arena),
+          }.toJMap()
+            ..releasedBy(arena);
           final echoedMap = itf.echoMap(map)!.asDart();
           expect(echoedMap.length, 1);
           expect(
