@@ -1109,7 +1109,7 @@ class _MethodGenerator extends Visitor<Method, void> {
 
   String _idName(Method node) {
     final name = node.finalName;
-    switch (node.propertyKind) {
+    switch (node.methodKind) {
       case MethodKind.normal:
         return name;
       case MethodKind.getter:
@@ -1228,9 +1228,9 @@ ${modifier}final _$idName = $_protectedExtension
       localReferences.removeLast();
     }
     final params = defArgs.delimited(', ');
-    if (node.propertyKind == MethodKind.getter) {
+    if (node.methodKind == MethodKind.getter) {
       s.write('  $ifStatic$returnType get $name ');
-    } else if (node.propertyKind == MethodKind.setter) {
+    } else if (node.methodKind == MethodKind.setter) {
       final type = node.params[0].type.accept(_TypeGenerator(resolver));
       final paramName = node.params[0].finalName;
       s.write('  $ifStatic set $name($type $paramName) ');

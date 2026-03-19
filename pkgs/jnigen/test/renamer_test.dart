@@ -12,7 +12,7 @@ extension on Iterable<ClassMember> {
 }
 
 extension on Iterable<Method> {
-  List<String> get namesAndPropertyKinds => map((m) => switch (m.propertyKind) {
+  List<String> get namesAndPropertyKinds => map((m) => switch (m.methodKind) {
         MethodKind.normal => m.finalName,
         MethodKind.getter => 'get ${m.finalName}',
         MethodKind.setter => 'set ${m.finalName}',

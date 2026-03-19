@@ -283,10 +283,10 @@ class _MethodRenamer implements Visitor<Method, void> {
     ReferredType propertyType;
     final staticSig = node.isStatic ? 'static' : 'inst';
     if (_isGetter(node)) {
-      node.propertyKind = MethodKind.getter;
+      node.methodKind = MethodKind.getter;
       propertyType = node.returnType;
     } else if (_isSetter(node)) {
-      node.propertyKind = MethodKind.setter;
+      node.methodKind = MethodKind.setter;
       propertyType = node.params[0].type;
     } else {
       return (rawName: node.name, skipRenaming: false, propertySig: null);

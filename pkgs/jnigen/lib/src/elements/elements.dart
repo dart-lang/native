@@ -703,7 +703,7 @@ class Method with ClassMember, Annotated implements Element<Method> {
   ///
   /// Populated by [Renamer].
   @JsonKey(includeFromJson: false)
-  MethodKind propertyKind = MethodKind.normal;
+  MethodKind methodKind = MethodKind.normal;
 
   /// Populated by user-defined visitors.
   @JsonKey(includeFromJson: false)
@@ -768,7 +768,7 @@ class Method with ClassMember, Annotated implements Element<Method> {
       case GenerationStage.dartGenerator:
       case GenerationStage.renamer:
         cloned.finalName = finalName;
-        cloned.propertyKind = propertyKind;
+        cloned.methodKind = methodKind;
         continue linker;
       linker:
       case GenerationStage.linker:
