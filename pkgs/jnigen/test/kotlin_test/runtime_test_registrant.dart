@@ -146,6 +146,45 @@ void registerTests(String groupName, TestRunnerCallback test) {
       });
     });
 
+    test('NIHostIntegrationCoreApi implementation', () {
+      // Regression test for https://github.com/dart-lang/native/issues/3235.
+      using((arena) {
+        final itf = NIHostIntegrationCoreApi.implement(
+          $NIHostIntegrationCoreApi(
+            echoList: (list) => list,
+            echoMap: (map) => map,
+          ),
+        )..releasedBy(arena);
+
+        {
+          final list = [1.toJInteger(), 2.toJInteger()].toJList()
+            ..releasedBy(arena);
+          final echoedList = itf.echoList(list)!.asDart();
+          expect(echoedList.length, 2);
+          expect(echoedList[0]!.as(JInteger.type).intValue(), 1);
+          expect(echoedList[1]!.as(JInteger.type).intValue(), 2);
+        }
+
+        {
+          final map = {
+            'key'.toJString()..releasedBy(arena): 'value'.toJString()
+              ..releasedBy(arena),
+          }.toJMap()
+            ..releasedBy(arena);
+          final echoedMap = itf.echoMap(map)!.asDart();
+          expect(echoedMap.length, 1);
+          expect(
+              echoedMap['key'.toJString()..releasedBy(arena)]!
+                  .as(JString.type)
+                  .toDartString(),
+              'value');
+        }
+
+        expect(itf.echoList(null), null);
+        expect(itf.echoMap(null), null);
+      });
+    });
+
     group('Nullability', () {
       Nullability<JString?, JString> testObject(Arena arena) {
         return Nullability(
