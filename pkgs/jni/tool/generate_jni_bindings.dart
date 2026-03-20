@@ -26,8 +26,6 @@ Future<void> main() async {
     'java.lang.Number',
     'java.lang.Short',
     'java.lang.String',
-    'java.nio.Buffer',
-    'java.nio.ByteBuffer',
     'java.util.ArrayList',
     'java.util.Collection',
     'java.util.HashMap',

@@ -68,12 +68,8 @@ export 'src/core_bindings.dart'
         JArrayList$$Methods,
         JBoolean,
         JBoolean$$Methods,
-        JBuffer,
-        JBuffer$$Methods,
         JByte,
         JByte$$Methods,
-        JByteBuffer,
-        JByteBuffer$$Methods,
         JCharacter,
         JCharacter$$Methods,
         JCollection,
@@ -113,6 +109,6 @@ export 'src/jobject.dart' hide $JObject$Type$;
 export 'src/jreference.dart' hide ProtectedJReference;
 export 'src/jvalues.dart';
 export 'src/lang/lang.dart';
-export 'src/nio/nio.dart';
+export 'src/nio/nio.dart' hide $JBuffer$Type$, $JByteBuffer$Type$;
 export 'src/types.dart' hide JTypeBase;
 export 'src/util/util.dart' hide JIteratorAdapter;

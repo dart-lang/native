@@ -5,12 +5,171 @@
 import 'dart:ffi';
 import 'dart:typed_data';
 
-import '../core_bindings.dart';
+import 'package:meta/meta.dart' show internal;
+
 import '../jarray.dart';
 import '../jni.dart';
+import '../jobject.dart';
 import '../jreference.dart';
+import '../jvalues.dart';
+import '../types.dart';
+import 'jbuffer.dart';
 
-extension JByteBufferExtension on JByteBuffer {
+@internal
+final class $JByteBuffer$Type$ extends JType<JByteBuffer> {
+  const $JByteBuffer$Type$();
+
+  @override
+  String get signature => r'Ljava/nio/ByteBuffer;';
+}
+
+/// A byte [JBuffer].
+///
+/// The bindings for `java.nio.ByteBuffer`.
+///
+/// This enables fast memory copying between Java and Dart when directly
+/// allocated (See [JByteBuffer.allocateDirect]).
+///
+/// To create a [JByteBuffer] from the content of a [Uint8List],
+/// use [JByteBuffer.fromList]. This uses direct allocation to enable fast
+/// copying.
+///
+/// [asUint8List] provides a direct access to the underlying [Uint8List] that
+/// this buffer uses. This means any changes to it will change the content of
+/// the buffer and vice versa. This can be used to access to [Uint8List] methods
+/// such as [Uint8List.setRange].
+///
+/// Example:
+/// ```dart
+/// final directBuffer = JByteBuffer.allocateDirect(3);
+/// directBuffer.asUint8List().setAll(0, [1, 2, 3]);
+/// // The buffer is now 1, 2, 3.
+/// ```
+///
+/// Both the original buffer and the [Uint8List] keep the underlying Java buffer
+/// alive. Once all the instances of the original buffer and the lists produced
+/// from [asUint8List] are inaccessible both in Java and Dart, Java will
+/// correctly garbage collects the buffer and frees its underlying memory.
+///
+/// Example:
+/// ```dart
+/// final directBuffer = JByteBuffer.allocateDirect(3);
+/// final data = directBuffer.asUint8List();
+/// directBuffer.release(); // Releasing the original buffer.
+/// data.setAll(0, [1, 2, 3]); // Works! [data] is still accessible.
+/// ```
+///
+/// The original buffer can be [release]d when calling [asUint8List]
+/// by setting the `releaseOriginal` parameter to `true`.
+///
+/// Example:
+/// ```dart
+/// final directBuffer = JByteBuffer.allocateDirect(3);
+/// // [releaseOriginal] is `false` by default.
+/// final data1 = directBuffer.asUint8List();
+/// directBuffer.nextByte = 42; // No problem!
+/// print(data1[0]); // prints 42!
+/// final data2 = directBuffer.asUint8List(releaseOriginal: true);
+/// // directBuffer.nextByte = 42; // throws [UseAfterReleaseException]!
+/// ```
+extension type JByteBuffer._(JObject _$this) implements JBuffer {
+  static final _class = JClass.forName(r'java/nio/ByteBuffer');
+
+  /// The type which includes information such as the signature of this class.
+  static const JType<JByteBuffer> type = $JByteBuffer$Type$();
+
+  static final _allocateDirectId =
+      _class.staticMethodId(r'allocateDirect', r'(I)Ljava/nio/ByteBuffer;');
+
+  /// Allocates a new direct byte buffer.
+  ///
+  /// Throws:
+  /// * `IllegalArgumentException` - If the capacity is a negative integer
+  factory JByteBuffer.allocateDirect(int capacity) {
+    return _allocateDirectId(
+        _class, const $JByteBuffer$Type$(), [JValueInt(capacity)])!;
+  }
+
+  static final _allocateId =
+      _class.staticMethodId(r'allocate', r'(I)Ljava/nio/ByteBuffer;');
+
+  /// Allocates a new byte buffer.
+  ///
+  /// Throws:
+  /// * `IllegalArgumentException` - If the capacity is a negative integer
+  factory JByteBuffer.allocate(int capacity) {
+    return _allocateId(
+        _class, const $JByteBuffer$Type$(), [JValueInt(capacity)])!;
+  }
+
+  static final _wrapWholeId =
+      _class.staticMethodId(r'wrap', r'([B)Ljava/nio/ByteBuffer;');
+  static final _wrapId =
+      _class.staticMethodId(r'wrap', r'([BII)Ljava/nio/ByteBuffer;');
+
+  /// Wraps a byte array into a buffer.
+  ///
+  /// The new buffer will be backed by the given byte array; that is,
+  /// modifications to the buffer will cause the array to be modified
+  /// and vice versa.
+  static JByteBuffer wrap(
+    JByteArray array, [
+    int? offset,
+    int? length,
+  ]) {
+    final arrayRef = array.reference;
+    if (offset == null && length == null) {
+      return _wrapWholeId(
+        _class,
+        const $JByteBuffer$Type$(),
+        [arrayRef.pointer],
+      )!;
+    }
+    offset ??= 0;
+    length ??= array.length - offset;
+    return _wrapId(
+      _class,
+      const $JByteBuffer$Type$(),
+      [arrayRef.pointer, JValueInt(offset), JValueInt(length)],
+    )!;
+  }
+
+  /// Creates a [JByteBuffer] from the content of [list].
+  ///
+  /// The [JByteBuffer] will be allocated using [JByteBuffer.allocateDirect].
+  factory JByteBuffer.fromList(Uint8List list) {
+    final buffer = JByteBuffer.allocateDirect(list.length);
+    buffer._asUint8ListUnsafe().setAll(0, list);
+    return buffer;
+  }
+
+  static final _sliceId =
+      _class.instanceMethodId(r'slice', r'()Ljava/nio/ByteBuffer;');
+
+  /// Creates a new byte buffer whose content is a shared subsequence of this
+  /// buffer's content.
+  JByteBuffer slice() {
+    return _sliceId(this, const $JByteBuffer$Type$(), [])!;
+  }
+
+  static final _duplicateId =
+      _class.instanceMethodId(r'duplicate', r'()Ljava/nio/ByteBuffer;');
+
+  /// Creates a new byte buffer that shares this buffer's content.
+  JByteBuffer duplicate() {
+    return _duplicateId(this, const $JByteBuffer$Type$(), [])!;
+  }
+
+  static final _asReadOnlyBufferId =
+      _class.instanceMethodId(r'asReadOnlyBuffer', r'()Ljava/nio/ByteBuffer;');
+
+  /// Creates a new, read-only byte buffer that shares this buffer's content.
+  JByteBuffer asReadOnlyBuffer() {
+    return _asReadOnlyBufferId(this, const $JByteBuffer$Type$(), [])!;
+  }
+
+  static final _getId = _class.instanceMethodId(r'get', r'()B');
+
   /// Reads the byte at this buffer's current [position], and then increments
   /// the [position].
   ///
@@ -18,8 +177,11 @@ extension JByteBufferExtension on JByteBuffer {
   ///  * `BufferOverflowException` - If the buffer's current [position] is not
   ///    smaller than its [limit]
   int get nextByte {
-    return JByteBuffer$$Methods(this).get();
+    return _getId(this, const jbyteType(), []);
   }
+
+  static final _putId =
+      _class.instanceMethodId(r'put', r'(B)Ljava/nio/ByteBuffer;');
 
   /// Writes the given byte into this buffer at the current [position], and then
   /// increments the [position].
@@ -29,11 +191,13 @@ extension JByteBufferExtension on JByteBuffer {
   ///   smaller than its [limit]
   /// * `ReadOnlyBufferException` - If this buffer is read-only
   set nextByte(int b) {
-    JByteBuffer$$Methods(this).put(b)?.release();
+    _putId(this, const $JObject$Type$(), [JValueByte(b)]).release();
   }
 
-  JByteArray get jArray {
-    return array$1()!.as(JByteArray.type);
+  static final _arrayId = _class.instanceMethodId(r'array', r'()[B');
+
+  JByteArray get array {
+    return _arrayId(this, JByteArray.type, [])!;
   }
 
   void _ensureIsDirect() {
@@ -104,8 +268,6 @@ extension Uint8ListToJava on Uint8List {
   ///
   /// The [JByteBuffer] will be allocated using [JByteBuffer.allocateDirect].
   JByteBuffer toJByteBuffer() {
-    final buffer = JByteBuffer.allocateDirect(length)!;
-    buffer._asUint8ListUnsafe().setAll(0, this);
-    return buffer;
+    return JByteBuffer.fromList(this);
   }
 }
