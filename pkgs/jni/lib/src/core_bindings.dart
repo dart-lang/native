@@ -1147,12 +1147,12 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
         .integer;
   }
 
-  static final _id_isEmpty = JArrayList._class.instanceMethodId(
+  static final _id_get$isEmpty = JArrayList._class.instanceMethodId(
     r'isEmpty',
     r'()Z',
   );
 
-  static final _isEmpty = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isEmpty = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -1165,8 +1165,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
           )>();
 
   /// from: `public boolean isEmpty()`
-  core$_.bool isEmpty() {
-    return _isEmpty(reference.pointer, _id_isEmpty.pointer).boolean;
+  core$_.bool get isEmpty {
+    return _get$isEmpty(reference.pointer, _id_get$isEmpty.pointer).boolean;
   }
 
   static final _id_iterator = JArrayList._class.instanceMethodId(
@@ -4117,12 +4117,12 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
         .object<$V?>();
   }
 
-  static final _id_isEmpty = JHashMap._class.instanceMethodId(
+  static final _id_get$isEmpty = JHashMap._class.instanceMethodId(
     r'isEmpty',
     r'()Z',
   );
 
-  static final _isEmpty = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isEmpty = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -4135,8 +4135,8 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
           )>();
 
   /// from: `public boolean isEmpty()`
-  core$_.bool isEmpty() {
-    return _isEmpty(reference.pointer, _id_isEmpty.pointer).boolean;
+  core$_.bool get isEmpty {
+    return _get$isEmpty(reference.pointer, _id_get$isEmpty.pointer).boolean;
   }
 
   static final _id_keySet = JHashMap._class.instanceMethodId(
@@ -5393,12 +5393,12 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
         .boolean;
   }
 
-  static final _id_isEmpty = JHashSet._class.instanceMethodId(
+  static final _id_get$isEmpty = JHashSet._class.instanceMethodId(
     r'isEmpty',
     r'()Z',
   );
 
-  static final _isEmpty = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isEmpty = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -5411,8 +5411,8 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
           )>();
 
   /// from: `public boolean isEmpty()`
-  core$_.bool isEmpty() {
-    return _isEmpty(reference.pointer, _id_isEmpty.pointer).boolean;
+  core$_.bool get isEmpty {
+    return _get$isEmpty(reference.pointer, _id_get$isEmpty.pointer).boolean;
   }
 
   static final _id_iterator = JHashSet._class.instanceMethodId(
@@ -6816,7 +6816,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             jni$_.nullptr;
       }
       if ($d == r'getFirst()Ljava/lang/Object;') {
-        final $r = _$impls[$p]!.first();
+        final $r = _$impls[$p]!.getFirst();
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
                 .reference
@@ -6824,7 +6824,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
             jni$_.nullptr;
       }
       if ($d == r'getLast()Ljava/lang/Object;') {
-        final $r = _$impls[$p]!.last();
+        final $r = _$impls[$p]!.getLast();
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
                 .reference
@@ -7520,12 +7520,12 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
     return _get(reference.pointer, _id_get.pointer, i).object<$E?>();
   }
 
-  static final _id_get$first = JList._class.instanceMethodId(
+  static final _id_getFirst = JList._class.instanceMethodId(
     r'getFirst',
     r'()Ljava/lang/Object;',
   );
 
-  static final _get$first = jni$_.ProtectedJniExtensions.lookup<
+  static final _getFirst = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -7539,16 +7539,16 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
 
   /// from: `public E getFirst()`
   /// The returned object must be released after use, by calling the [release] method.
-  $E? get first {
-    return _get$first(reference.pointer, _id_get$first.pointer).object<$E?>();
+  $E? getFirst() {
+    return _getFirst(reference.pointer, _id_getFirst.pointer).object<$E?>();
   }
 
-  static final _id_get$last = JList._class.instanceMethodId(
+  static final _id_getLast = JList._class.instanceMethodId(
     r'getLast',
     r'()Ljava/lang/Object;',
   );
 
-  static final _get$last = jni$_.ProtectedJniExtensions.lookup<
+  static final _getLast = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -7562,8 +7562,8 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
 
   /// from: `public E getLast()`
   /// The returned object must be released after use, by calling the [release] method.
-  $E? get last {
-    return _get$last(reference.pointer, _id_get$last.pointer).object<$E?>();
+  $E? getLast() {
+    return _getLast(reference.pointer, _id_getLast.pointer).object<$E?>();
   }
 
   static final _id_hashCode$1 = JList._class.instanceMethodId(
@@ -8231,8 +8231,8 @@ abstract base mixin class $JList<$E extends jni$_.JObject?> {
         copyOf,
     required core$_.bool Function(jni$_.JObject? object) equals,
     required jni$_.JObject? Function(int i) get,
-    required jni$_.JObject? Function() first,
-    required jni$_.JObject? Function() last,
+    required jni$_.JObject? Function() getFirst,
+    required jni$_.JObject? Function() getLast,
     required int Function() hashCode$1,
     required int Function(jni$_.JObject? object) indexOf,
     required core$_.bool Function() isEmpty,
@@ -8358,8 +8358,8 @@ abstract base mixin class $JList<$E extends jni$_.JObject?> {
   JList<jni$_.JObject?>? copyOf(JCollection<jni$_.JObject?>? collection);
   core$_.bool equals(jni$_.JObject? object);
   jni$_.JObject? get(int i);
-  jni$_.JObject? first();
-  jni$_.JObject? last();
+  jni$_.JObject? getFirst();
+  jni$_.JObject? getLast();
   int hashCode$1();
   int indexOf(jni$_.JObject? object);
   core$_.bool isEmpty();
@@ -8470,8 +8470,8 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
         copyOf,
     required core$_.bool Function(jni$_.JObject? object) equals,
     required jni$_.JObject? Function(int i) get,
-    required jni$_.JObject? Function() first,
-    required jni$_.JObject? Function() last,
+    required jni$_.JObject? Function() getFirst,
+    required jni$_.JObject? Function() getLast,
     required int Function() hashCode$1,
     required int Function(jni$_.JObject? object) indexOf,
     required core$_.bool Function() isEmpty,
@@ -8591,8 +8591,8 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
         _copyOf = copyOf,
         _equals = equals,
         _get = get,
-        _first = first,
-        _last = last,
+        _getFirst = getFirst,
+        _getLast = getLast,
         _hashCode$1 = hashCode$1,
         _indexOf = indexOf,
         _isEmpty = isEmpty,
@@ -8651,8 +8651,8 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
       _copyOf;
   final core$_.bool Function(jni$_.JObject? object) _equals;
   final jni$_.JObject? Function(int i) _get;
-  final jni$_.JObject? Function() _first;
-  final jni$_.JObject? Function() _last;
+  final jni$_.JObject? Function() _getFirst;
+  final jni$_.JObject? Function() _getLast;
   final int Function() _hashCode$1;
   final int Function(jni$_.JObject? object) _indexOf;
   final core$_.bool Function() _isEmpty;
@@ -8799,12 +8799,12 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
     return _get(i);
   }
 
-  jni$_.JObject? first() {
-    return _first();
+  jni$_.JObject? getFirst() {
+    return _getFirst();
   }
 
-  jni$_.JObject? last() {
-    return _last();
+  jni$_.JObject? getLast() {
+    return _getLast();
   }
 
   int hashCode$1() {
@@ -9244,7 +9244,7 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
         return jni$_.JBoolean($r).reference.toPointer();
       }
       if ($d == r'getKey()Ljava/lang/Object;') {
-        final $r = _$impls[$p]!.key();
+        final $r = _$impls[$p]!.getKey();
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
                 .reference
@@ -9252,7 +9252,7 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
             jni$_.nullptr;
       }
       if ($d == r'getValue()Ljava/lang/Object;') {
-        final $r = _$impls[$p]!.value();
+        final $r = _$impls[$p]!.getValue();
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
                 .reference
@@ -9340,12 +9340,12 @@ extension JMap$JEntry$$Methods<$K extends jni$_.JObject?,
         .boolean;
   }
 
-  static final _id_get$key = JMap$JEntry._class.instanceMethodId(
+  static final _id_getKey = JMap$JEntry._class.instanceMethodId(
     r'getKey',
     r'()Ljava/lang/Object;',
   );
 
-  static final _get$key = jni$_.ProtectedJniExtensions.lookup<
+  static final _getKey = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -9359,16 +9359,16 @@ extension JMap$JEntry$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public abstract K getKey()`
   /// The returned object must be released after use, by calling the [release] method.
-  $K? get key {
-    return _get$key(reference.pointer, _id_get$key.pointer).object<$K?>();
+  $K? getKey() {
+    return _getKey(reference.pointer, _id_getKey.pointer).object<$K?>();
   }
 
-  static final _id_get$value = JMap$JEntry._class.instanceMethodId(
+  static final _id_getValue = JMap$JEntry._class.instanceMethodId(
     r'getValue',
     r'()Ljava/lang/Object;',
   );
 
-  static final _get$value = jni$_.ProtectedJniExtensions.lookup<
+  static final _getValue = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -9382,8 +9382,8 @@ extension JMap$JEntry$$Methods<$K extends jni$_.JObject?,
 
   /// from: `public abstract V getValue()`
   /// The returned object must be released after use, by calling the [release] method.
-  $V? get value {
-    return _get$value(reference.pointer, _id_get$value.pointer).object<$V?>();
+  $V? getValue() {
+    return _getValue(reference.pointer, _id_getValue.pointer).object<$V?>();
   }
 
   static final _id_hashCode$1 = JMap$JEntry._class.instanceMethodId(
@@ -9448,8 +9448,8 @@ abstract base mixin class $JMap$JEntry<$K extends jni$_.JObject?,
             JMap$JEntry<jni$_.JObject?, jni$_.JObject?>? entry)
         copyOf,
     required core$_.bool Function(jni$_.JObject? object) equals,
-    required jni$_.JObject? Function() key,
-    required jni$_.JObject? Function() value,
+    required jni$_.JObject? Function() getKey,
+    required jni$_.JObject? Function() getValue,
     required int Function() hashCode$1,
     required jni$_.JObject? Function(jni$_.JObject? object) setValue,
   }) = _$JMap$JEntry<$K, $V>;
@@ -9461,8 +9461,8 @@ abstract base mixin class $JMap$JEntry<$K extends jni$_.JObject?,
   JMap$JEntry<jni$_.JObject?, jni$_.JObject?>? copyOf(
       JMap$JEntry<jni$_.JObject?, jni$_.JObject?>? entry);
   core$_.bool equals(jni$_.JObject? object);
-  jni$_.JObject? key();
-  jni$_.JObject? value();
+  jni$_.JObject? getKey();
+  jni$_.JObject? getValue();
   int hashCode$1();
   jni$_.JObject? setValue(jni$_.JObject? object);
 }
@@ -9480,8 +9480,8 @@ final class _$JMap$JEntry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
             JMap$JEntry<jni$_.JObject?, jni$_.JObject?>? entry)
         copyOf,
     required core$_.bool Function(jni$_.JObject? object) equals,
-    required jni$_.JObject? Function() key,
-    required jni$_.JObject? Function() value,
+    required jni$_.JObject? Function() getKey,
+    required jni$_.JObject? Function() getValue,
     required int Function() hashCode$1,
     required jni$_.JObject? Function(jni$_.JObject? object) setValue,
   })  : _comparingByKey = comparingByKey,
@@ -9490,8 +9490,8 @@ final class _$JMap$JEntry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
         _comparingByValue$1 = comparingByValue$1,
         _copyOf = copyOf,
         _equals = equals,
-        _key = key,
-        _value = value,
+        _getKey = getKey,
+        _getValue = getValue,
         _hashCode$1 = hashCode$1,
         _setValue = setValue;
 
@@ -9502,8 +9502,8 @@ final class _$JMap$JEntry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   final JMap$JEntry<jni$_.JObject?, jni$_.JObject?>? Function(
       JMap$JEntry<jni$_.JObject?, jni$_.JObject?>? entry) _copyOf;
   final core$_.bool Function(jni$_.JObject? object) _equals;
-  final jni$_.JObject? Function() _key;
-  final jni$_.JObject? Function() _value;
+  final jni$_.JObject? Function() _getKey;
+  final jni$_.JObject? Function() _getValue;
   final int Function() _hashCode$1;
   final jni$_.JObject? Function(jni$_.JObject? object) _setValue;
 
@@ -9532,12 +9532,12 @@ final class _$JMap$JEntry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     return _equals(object);
   }
 
-  jni$_.JObject? key() {
-    return _key();
+  jni$_.JObject? getKey() {
+    return _getKey();
   }
 
-  jni$_.JObject? value() {
-    return _value();
+  jni$_.JObject? getValue() {
+    return _getValue();
   }
 
   int hashCode$1() {

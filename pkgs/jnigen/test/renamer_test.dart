@@ -341,6 +341,7 @@ void main() {
 
   test('Class getters and setters', () async {
     final void_ = PrimitiveType.fromJson({'name': 'void'});
+    final bool_ = PrimitiveType.fromJson({'name': 'boolean'});
     final int_ = PrimitiveType.fromJson({'name': 'int'});
     final double_ = PrimitiveType.fromJson({'name': 'double'});
     final listOfObject = DeclaredType(
@@ -363,18 +364,21 @@ void main() {
           Method(name: 'setPropB', returnType: void_, params: [
             Param(name: 'value', type: DeclaredType.object),
           ]),
+          Method(name: 'isPropA', returnType: bool_),
 
           // Followed by a lower case letter. Not transformed.
           Method(name: 'gettingThings', returnType: DeclaredType.object),
           Method(name: 'settingThings', returnType: void_, params: [
             Param(name: 'value', type: DeclaredType.object),
           ]),
+          Method(name: 'isomorphic', returnType: bool_),
 
           // Followed by a number. Not transformed.
           Method(name: 'get123', returnType: DeclaredType.object),
           Method(name: 'set123', returnType: void_, params: [
             Param(name: 'value', type: DeclaredType.object),
           ]),
+          Method(name: 'is123', returnType: bool_),
 
           // Wrong number of params. Not transformed.
           Method(
@@ -388,6 +392,12 @@ void main() {
             Param(name: 'value2', type: DeclaredType.object),
           ]),
           Method(name: 'setPropWithNoParams', returnType: void_),
+          Method(
+              name: 'isPropWithParam',
+              returnType: bool_,
+              params: [
+                Param(name: 'value', type: DeclaredType.object),
+              ]),
 
           // Wrong return types. Not transformed.
           Method(name: 'getPropWrongReturn', returnType: void_),
@@ -397,6 +407,7 @@ void main() {
               params: [
                 Param(name: 'value', type: DeclaredType.object),
               ]),
+          Method(name: 'isPropWrongReturn', returnType: DeclaredType.object),
 
           // With type params. Not transformed.
           Method(
@@ -411,6 +422,11 @@ void main() {
             ],
             typeParams: [TypeParam(name: 'T')],
           ),
+          Method(
+              name: 'isPropWithTypeParams',
+              returnType: bool_,
+              typeParams: [TypeParam(name: 'T')],
+          ),
 
           // Async. Not transformed.
           Method(
@@ -424,6 +440,11 @@ void main() {
               Param(name: 'value', type: DeclaredType.object),
             ],
             asyncReturnType: DeclaredType.object,
+          ),
+          Method(
+              name: 'isPropAsync',
+              returnType: bool_,
+              asyncReturnType: DeclaredType.object,
           ),
 
           // Getter and setter with same name. Transformed and deduped.
@@ -462,19 +483,26 @@ void main() {
     expect(renamedMethods, [
       r'get propA',
       r'set propB',
+      r'get isPropA',
       r'gettingThings',
       r'settingThings',
+      r'isomorphic',
       r'get123',
       r'set123',
+      r'is123',
       r'getPropWithParam',
       r'setPropWithTwoParams',
       r'setPropWithNoParams',
+      r'isPropWithParam',
       r'getPropWrongReturn',
       r'setPropWrongReturn',
+      r'isPropWrongReturn',
       r'getPropWithTypeParams',
       r'setPropWithTypeParams',
+      r'isPropWithTypeParams',
       r'getPropAsync',
       r'setPropAsync',
+      r'isPropAsync',
       r'get propC',
       r'set propC',
       r'get propD',
@@ -490,6 +518,7 @@ void main() {
 
   test('Interface getters and setters', () async {
     final void_ = PrimitiveType.fromJson({'name': 'void'});
+    final bool_ = PrimitiveType.fromJson({'name': 'boolean'});
 
     final classes = Classes({
       'Foo': ClassDecl(
@@ -503,6 +532,7 @@ void main() {
           Method(name: 'setPropB', returnType: void_, params: [
             Param(name: 'value', type: DeclaredType.object),
           ]),
+          Method(name: 'isPropA', returnType: bool_),
         ],
       ),
     });
@@ -512,6 +542,7 @@ void main() {
     expect(renamedMethods, [
       r'getPropA',
       r'setPropB',
+      r'isPropA',
     ]);
   });
 }

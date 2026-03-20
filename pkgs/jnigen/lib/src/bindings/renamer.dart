@@ -240,6 +240,7 @@ class _MethodRenamer implements Visitor<Method, void> {
   final bool isInterface;
 
   bool _isVoid(ReferredType t) => t is PrimitiveType && t.name == 'void';
+  bool _isBool(ReferredType t) => t is PrimitiveType && t.name == 'boolean';
 
   final _getterRegExp = RegExp(r'^get[A-Z]');
   bool _isGetter(Method node) {
@@ -250,6 +251,17 @@ class _MethodRenamer implements Visitor<Method, void> {
         node.typeParams.isEmpty &&
         node.asyncReturnType == null &&
         !_isVoid(node.returnType);
+  }
+
+  final _isRegExp = RegExp(r'^is[A-Z]');
+  bool _isIs(Method node) {
+    final name = node.name;
+    return !isInterface &&
+        _isRegExp.hasMatch(name) &&
+        node.params.isEmpty &&
+        node.typeParams.isEmpty &&
+        node.asyncReturnType == null &&
+        _isBool(node.returnType);
   }
 
   final _setterRegExp = RegExp(r'^set[A-Z]');
@@ -280,19 +292,25 @@ class _MethodRenamer implements Visitor<Method, void> {
       return (rawName: 'new', skipRenaming: false, propertySig: null);
     }
 
-    ReferredType propertyType;
+    final ReferredType propertyType;
     final staticSig = node.isStatic ? 'static' : 'inst';
+    final String rawName;
     if (_isGetter(node)) {
       node.methodKind = MethodKind.getter;
       propertyType = node.returnType;
+      rawName = _getterSetterName(node.name);
+    } else if (_isIs(node)) {
+      node.methodKind = MethodKind.getter;
+      propertyType = node.returnType;
+      rawName = node.name;
     } else if (_isSetter(node)) {
       node.methodKind = MethodKind.setter;
       propertyType = node.params[0].type;
+      rawName = _getterSetterName(node.name);
     } else {
       return (rawName: node.name, skipRenaming: false, propertySig: null);
     }
 
-    final rawName = _getterSetterName(node.name);
     final propertySig = '$staticSig $propertyType $rawName';
     final propertyName = propertyNames[propertySig];
     if (propertyName != null) {

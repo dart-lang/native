@@ -1232,12 +1232,12 @@ extension JsonParser$$Methods on JsonParser {
     _close(reference.pointer, _id_close.pointer).check();
   }
 
-  static final _id_isClosed = JsonParser._class.instanceMethodId(
+  static final _id_get$isClosed = JsonParser._class.instanceMethodId(
     r'isClosed',
     r'()Z',
   );
 
-  static final _isClosed = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isClosed = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -1258,8 +1258,8 @@ extension JsonParser$$Methods on JsonParser {
   /// call to \#close or because parser has encountered
   /// end of input.
   ///@return {@code True} if this parser instance has been closed
-  core$_.bool isClosed() {
-    return _isClosed(reference.pointer, _id_isClosed.pointer).boolean;
+  core$_.bool get isClosed {
+    return _get$isClosed(reference.pointer, _id_get$isClosed.pointer).boolean;
   }
 
   static final _id_get$parsingContext = JsonParser._class.instanceMethodId(
@@ -2571,23 +2571,24 @@ extension JsonParser$$Methods on JsonParser {
         .boolean;
   }
 
-  static final _id_isExpectedStartArrayToken =
+  static final _id_get$isExpectedStartArrayToken =
       JsonParser._class.instanceMethodId(
     r'isExpectedStartArrayToken',
     r'()Z',
   );
 
-  static final _isExpectedStartArrayToken = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _get$isExpectedStartArrayToken =
+      jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.JMethodIDPtr,
+                  )>>('globalEnv_CallBooleanMethod')
+          .asFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )>();
 
   /// from: `public boolean isExpectedStartArrayToken()`
   ///
@@ -2607,19 +2608,19 @@ extension JsonParser$$Methods on JsonParser {
   ///@return True if the current token can be considered as a
   ///   start-array marker (such JsonToken\#START_ARRAY);
   ///   {@code false} if not
-  core$_.bool isExpectedStartArrayToken() {
-    return _isExpectedStartArrayToken(
-            reference.pointer, _id_isExpectedStartArrayToken.pointer)
+  core$_.bool get isExpectedStartArrayToken {
+    return _get$isExpectedStartArrayToken(
+            reference.pointer, _id_get$isExpectedStartArrayToken.pointer)
         .boolean;
   }
 
-  static final _id_isExpectedStartObjectToken =
+  static final _id_get$isExpectedStartObjectToken =
       JsonParser._class.instanceMethodId(
     r'isExpectedStartObjectToken',
     r'()Z',
   );
 
-  static final _isExpectedStartObjectToken =
+  static final _get$isExpectedStartObjectToken =
       jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JniResult Function(
@@ -2640,29 +2641,30 @@ extension JsonParser$$Methods on JsonParser {
   ///   start-array marker (such JsonToken\#START_OBJECT);
   ///   {@code false} if not
   ///@since 2.5
-  core$_.bool isExpectedStartObjectToken() {
-    return _isExpectedStartObjectToken(
-            reference.pointer, _id_isExpectedStartObjectToken.pointer)
+  core$_.bool get isExpectedStartObjectToken {
+    return _get$isExpectedStartObjectToken(
+            reference.pointer, _id_get$isExpectedStartObjectToken.pointer)
         .boolean;
   }
 
-  static final _id_isExpectedNumberIntToken =
+  static final _id_get$isExpectedNumberIntToken =
       JsonParser._class.instanceMethodId(
     r'isExpectedNumberIntToken',
     r'()Z',
   );
 
-  static final _isExpectedNumberIntToken = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _get$isExpectedNumberIntToken =
+      jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.JMethodIDPtr,
+                  )>>('globalEnv_CallBooleanMethod')
+          .asFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )>();
 
   /// from: `public boolean isExpectedNumberIntToken()`
   ///
@@ -2675,18 +2677,18 @@ extension JsonParser$$Methods on JsonParser {
   ///   start-array marker (such JsonToken\#VALUE_NUMBER_INT);
   ///   {@code false} if not
   ///@since 2.12
-  core$_.bool isExpectedNumberIntToken() {
-    return _isExpectedNumberIntToken(
-            reference.pointer, _id_isExpectedNumberIntToken.pointer)
+  core$_.bool get isExpectedNumberIntToken {
+    return _get$isExpectedNumberIntToken(
+            reference.pointer, _id_get$isExpectedNumberIntToken.pointer)
         .boolean;
   }
 
-  static final _id_isNaN = JsonParser._class.instanceMethodId(
+  static final _id_get$isNaN = JsonParser._class.instanceMethodId(
     r'isNaN',
     r'()Z',
   );
 
-  static final _isNaN = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isNaN = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -2712,8 +2714,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@since 2.9
-  core$_.bool isNaN() {
-    return _isNaN(reference.pointer, _id_isNaN.pointer).boolean;
+  core$_.bool get isNaN {
+    return _get$isNaN(reference.pointer, _id_get$isNaN.pointer).boolean;
   }
 
   static final _id_clearCurrentToken = JsonParser._class.instanceMethodId(

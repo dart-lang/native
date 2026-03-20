@@ -1490,12 +1490,12 @@ extension PDDocument$$Methods on PDDocument {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_isEncrypted = PDDocument._class.instanceMethodId(
+  static final _id_get$isEncrypted = PDDocument._class.instanceMethodId(
     r'isEncrypted',
     r'()Z',
   );
 
-  static final _isEncrypted = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isEncrypted = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -1511,8 +1511,9 @@ extension PDDocument$$Methods on PDDocument {
   ///
   /// This will tell if this document is encrypted or not.
   ///@return true If this document is encrypted.
-  core$_.bool isEncrypted() {
-    return _isEncrypted(reference.pointer, _id_isEncrypted.pointer).boolean;
+  core$_.bool get isEncrypted {
+    return _get$isEncrypted(reference.pointer, _id_get$isEncrypted.pointer)
+        .boolean;
   }
 
   static final _id_get$encryption = PDDocument._class.instanceMethodId(
@@ -2133,31 +2134,32 @@ extension PDDocument$$Methods on PDDocument {
         .object<jni$_.JObject?>();
   }
 
-  static final _id_isAllSecurityToBeRemoved =
+  static final _id_get$isAllSecurityToBeRemoved =
       PDDocument._class.instanceMethodId(
     r'isAllSecurityToBeRemoved',
     r'()Z',
   );
 
-  static final _isAllSecurityToBeRemoved = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
+  static final _get$isAllSecurityToBeRemoved =
+      jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                    jni$_.Pointer<jni$_.Void>,
+                    jni$_.JMethodIDPtr,
+                  )>>('globalEnv_CallBooleanMethod')
+          .asFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
                 jni$_.JMethodIDPtr,
-              )>>('globalEnv_CallBooleanMethod')
-      .asFunction<
-          jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>,
-            jni$_.JMethodIDPtr,
-          )>();
+              )>();
 
   /// from: `public boolean isAllSecurityToBeRemoved()`
   ///
   /// Indicates if all security is removed or not when writing the pdf.
   ///@return returns true if all security shall be removed otherwise false
-  core$_.bool isAllSecurityToBeRemoved() {
-    return _isAllSecurityToBeRemoved(
-            reference.pointer, _id_isAllSecurityToBeRemoved.pointer)
+  core$_.bool get isAllSecurityToBeRemoved {
+    return _get$isAllSecurityToBeRemoved(
+            reference.pointer, _id_get$isAllSecurityToBeRemoved.pointer)
         .boolean;
   }
 
