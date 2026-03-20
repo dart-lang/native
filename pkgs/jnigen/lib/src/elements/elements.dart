@@ -667,6 +667,12 @@ mixin ClassMember {
   bool get isBridge => modifiers.contains('bridge');
 }
 
+enum MethodKind {
+  normal,
+  getter,
+  setter,
+}
+
 @JsonSerializable(createToJson: false)
 class Method with ClassMember, Annotated implements Element<Method> {
   Method({
@@ -678,6 +684,7 @@ class Method with ClassMember, Annotated implements Element<Method> {
     this.descriptor,
     this.typeParams = const [],
     this.params = const [],
+    this.asyncReturnType,
     required this.returnType,
   });
 
@@ -691,6 +698,12 @@ class Method with ClassMember, Annotated implements Element<Method> {
   List<TypeParam> typeParams;
   List<Param> params;
   ReferredType returnType;
+
+  /// Whether this method is a getter, setter, or normal method.
+  ///
+  /// Populated by [Renamer].
+  @JsonKey(includeFromJson: false)
+  MethodKind methodKind = MethodKind.normal;
 
   /// Populated by user-defined visitors.
   @JsonKey(includeFromJson: false)
@@ -755,6 +768,7 @@ class Method with ClassMember, Annotated implements Element<Method> {
       case GenerationStage.dartGenerator:
       case GenerationStage.renamer:
         cloned.finalName = finalName;
+        cloned.methodKind = methodKind;
         continue linker;
       linker:
       case GenerationStage.linker:

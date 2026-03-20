@@ -5,34 +5,30 @@
 import 'dart:io';
 
 import 'package:native_test_helpers/native_test_helpers.dart';
-import 'package:pub_semver/pub_semver.dart';
 import 'package:record_use/record_use.dart';
 import 'package:record_use/src/canonicalization_context.dart';
 import 'package:record_use/src/recordings.dart';
 
 const callId = Definition(
   'package:js_runtime/js_helper.dart',
-  [Name('MyClass'), Name('get:loadDeferredLibrary')],
+  [
+    Name('MyClass', kind: DefinitionKind.classKind),
+    Name('loadDeferredLibrary', kind: DefinitionKind.getterKind),
+  ],
 );
 const instanceId = Definition(
   'package:js_runtime/js_helper.dart',
-  [Name('MyAnnotation')],
+  [Name('MyAnnotation', kind: DefinitionKind.classKind)],
 );
 const enumId = Definition(
   'package:js_runtime/js_helper.dart',
-  [Name('MyEnum')],
+  [Name('MyEnum', kind: DefinitionKind.enumKind)],
 );
 
 const loadingUnitOJs = LoadingUnit('o.js');
 const loadingUnit3 = LoadingUnit('3');
 
 final recordedUses = Recordings(
-  metadata: Metadata(
-    version: Version(1, 6, 2, pre: 'wip', build: '5.-.2.z'),
-    comment:
-        'Recorded references at compile time and their argument values, as'
-        ' far as known, to definitions annotated with @RecordUse',
-  ),
   calls: {
     callId: [
       const CallWithArguments(
@@ -100,12 +96,6 @@ final recordedUses = Recordings(
 ).canonicalizeChildren(CanonicalizationContext());
 
 final recordedUses2 = Recordings(
-  metadata: Metadata(
-    version: Version(1, 6, 2, pre: 'wip', build: '5.-.2.z'),
-    comment:
-        'Recorded references at compile time and their argument values, as'
-        ' far as known, to definitions annotated with @RecordUse',
-  ),
   calls: {
     callId: [
       const CallWithArguments(

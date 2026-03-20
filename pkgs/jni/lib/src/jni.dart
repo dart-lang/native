@@ -234,7 +234,7 @@ abstract final class Jni {
   /// The `ApplicationContext` is a long-lived singleton tied to the
   /// application's lifecycle. It is safe to store and use from any thread.
   static JObject get androidApplicationContext {
-    return JniPlugin.getApplicationContext();
+    return JniPlugin.applicationContext;
   }
 
   /// Retrieves the current Android `Activity` associated with a Flutter engine.

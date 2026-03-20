@@ -2,14 +2,13 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:pub_semver/pub_semver.dart';
 import 'package:record_use/record_use.dart';
 import 'package:test/test.dart';
 
 void main() {
   const classDefinition = Definition(
     'package:test/test.dart',
-    [Name('MyClass')],
+    [Name('MyClass', kind: .classKind)],
   );
 
   test('MapConstant with InstanceConstant keys round-trip', () {
@@ -27,14 +26,10 @@ void main() {
 
     const definition = Definition(
       'package:test/test.dart',
-      [Name('testMethod')],
+      [Name('testMethod', kind: .methodKind)],
     );
 
     final recordings = Recordings(
-      metadata: Metadata(
-        version: Version(1, 0, 0),
-        comment: 'Test complex keys',
-      ),
       calls: {
         definition: [
           const CallWithArguments(
@@ -97,14 +92,10 @@ void main() {
 
     const definition = Definition(
       'package:test/test.dart',
-      [Name('complexMethod')],
+      [Name('complexMethod', kind: DefinitionKind.methodKind)],
     );
 
     final recordings = Recordings(
-      metadata: Metadata(
-        version: Version(1, 0, 0),
-        comment: 'Test deeply nested complex keys',
-      ),
       calls: {
         definition: [
           const CallWithArguments(

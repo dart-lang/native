@@ -15,11 +15,11 @@ final methodId = Definition(
   'package:pirate_speak/pirate_speak.dart',
   [
     const Name(
-      kind: .classKind,
+      kind: DefinitionKind.classKind,
       'PirateTranslator',
     ),
     Name(
-      kind: .methodKind,
+      kind: DefinitionKind.methodKind,
       'speak',
       disambiguators: {
         .staticDisambiguator,
@@ -32,7 +32,7 @@ const classId = Definition(
   'package:pirate_technology/pirate_technology.dart',
   [
     Name(
-      kind: .classKind,
+      kind: DefinitionKind.classKind,
       'PirateShip',
     ),
   ],

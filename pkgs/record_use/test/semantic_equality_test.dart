@@ -2,26 +2,28 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:pub_semver/pub_semver.dart';
 import 'package:record_use/record_use.dart';
 import 'package:test/test.dart';
 
 void main() {
   const definition1 = Definition(
     'package:a/a.dart',
-    [Name('definition1')],
+    [Name('definition1', kind: DefinitionKind.methodKind)],
   );
   const definition2 = Definition(
     'package:a/a.dart',
-    [Name('definition2')],
+    [Name('definition2', kind: DefinitionKind.methodKind)],
   );
   const definition1differentLibrary = Definition(
     'package:a/b.dart',
-    [Name('definition1')],
+    [Name('definition1', kind: DefinitionKind.methodKind)],
   );
   const definition3 = Definition(
     'package:a/a.dart',
-    [Name('SomeClass'), Name('definition1')],
+    [
+      Name('SomeClass', kind: DefinitionKind.classKind),
+      Name('definition1', kind: DefinitionKind.methodKind),
+    ],
   );
   const callDefintion1Static = CallWithArguments(
     positionalArguments: [],
@@ -43,16 +45,12 @@ void main() {
   );
   const definition1differentLibrary2 = Definition(
     'memory:a/a.dart',
-    [Name('definition1')],
+    [Name('definition1', kind: DefinitionKind.methodKind)],
   );
   const callDefintion1StaticDifferentUri = CallWithArguments(
     positionalArguments: [],
     namedArguments: {},
     loadingUnit: LoadingUnit(''),
-  );
-  final metadata = Metadata(
-    version: Version(1, 0, 0),
-    comment: '',
   );
 
   test('Definition semantic equality', () {
@@ -71,7 +69,6 @@ void main() {
 
   test('Strict equality', () {
     final recordings1 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefintion1Static, callDefintion1Static2],
         definition2: [callDefinition2Static],
@@ -79,7 +76,6 @@ void main() {
       instances: const {},
     );
     final recordings2 = Recordings(
-      metadata: metadata,
       calls: {
         definition2: [callDefinition2Static],
         definition1: [callDefintion1Static2, callDefintion1Static],
@@ -87,7 +83,6 @@ void main() {
       instances: const {},
     );
     final recordings3 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefintion1Static],
       },
@@ -103,7 +98,6 @@ void main() {
 
   test('otherIsSubset', () {
     final recordings1 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefintion1Static],
         definition2: [callDefinition2Static],
@@ -111,7 +105,6 @@ void main() {
       instances: const {},
     );
     final recordings2 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefintion1Static],
       },
@@ -134,14 +127,12 @@ void main() {
 
   test('allowDeadCodeElimination', () {
     final recordings1 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefintion1Static],
       },
       instances: const {},
     );
     final recordings2 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefintion1Static],
         definition2: [callDefinition2Static],
@@ -174,14 +165,12 @@ void main() {
 
   test('allowTearoffToStaticPromotion', () {
     final recordings1 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefintion1Static],
       },
       instances: const {},
     );
     final recordings2 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefinition1Tearoff],
       },
@@ -213,7 +202,6 @@ void main() {
 
   test('allowUriMismatch', () {
     final recordings1 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [
           callDefintion1Static,
@@ -222,7 +210,6 @@ void main() {
       instances: const {},
     );
     final recordings2 = Recordings(
-      metadata: metadata,
       calls: {
         definition1differentLibrary2: [
           callDefintion1StaticDifferentUri,
@@ -245,7 +232,6 @@ void main() {
 
   test('CallWithArguments positional arguments different length', () {
     final recordings1 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [
           const CallWithArguments(
@@ -258,7 +244,6 @@ void main() {
       instances: const {},
     );
     final recordings2 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [
           const CallWithArguments(
@@ -278,7 +263,6 @@ void main() {
 
   test('InstanceConstantReference semantic equality with EnumConstant', () {
     final recordings1 = Recordings(
-      metadata: metadata,
       calls: const {},
       instances: {
         definition1: [
@@ -295,7 +279,6 @@ void main() {
       },
     );
     final recordings2 = Recordings(
-      metadata: metadata,
       calls: const {},
       instances: {
         definition1: [
@@ -312,7 +295,6 @@ void main() {
       },
     );
     final recordings3 = Recordings(
-      metadata: metadata,
       calls: const {},
       instances: {
         definition1: [
