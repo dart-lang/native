@@ -35,12 +35,12 @@ void registerTests(String groupName, TestRunnerCallback test) {
         final asyncNull = await suspendFun.nullableHello(true);
         expect(asyncNull, null);
 
-        expect(suspendFun.getResult(), 0);
+        expect(suspendFun.result, 0);
         final voidFuture = suspendFun.noReturn();
         expect(voidFuture, isA<Future<void>>());
         expect(voidFuture, isNot(isA<Future<JObject>>()));
         await voidFuture;
-        expect(suspendFun.getResult(), 123);
+        expect(suspendFun.result, 123);
       });
     });
 
@@ -48,12 +48,12 @@ void registerTests(String groupName, TestRunnerCallback test) {
       expect(topLevel(), 42);
       expect(topLevel$1(), 42);
       expect(topLevelSum(10, 20), 30);
-      expect(getTopLevelField(), 42);
-      expect(getTopLevelField$1(), 42);
-      setTopLevelField(30);
-      setTopLevelField$1(30);
-      expect(getTopLevelField(), 30);
-      expect(getTopLevelField$1(), 30);
+      expect(topLevelField, 42);
+      expect(topLevelField$1, 42);
+      topLevelField = 30;
+      topLevelField$1 = 30;
+      expect(topLevelField, 30);
+      expect(topLevelField$1, 30);
     });
 
     test('Generics', () {
@@ -72,8 +72,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
         using((arena) {
           final o24 = testObject(24, arena);
           final o18 = testObject(18, arena);
-          expect((o24.plus(o18)..releasedBy(arena)).getValue(), 42);
-          expect(((o24 + o18)..releasedBy(arena)).getValue(), 42);
+          expect((o24.plus(o18)..releasedBy(arena)).value, 42);
+          expect(((o24 + o18)..releasedBy(arena)).value, 42);
         });
       });
 
@@ -81,8 +81,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
         using((arena) {
           final o24 = testObject(24, arena);
           final o18 = testObject(18, arena);
-          expect((o24.minus(o18)..releasedBy(arena)).getValue(), 6);
-          expect(((o24 - o18)..releasedBy(arena)).getValue(), 6);
+          expect((o24.minus(o18)..releasedBy(arena)).value, 6);
+          expect(((o24 - o18)..releasedBy(arena)).value, 6);
         });
       });
 
@@ -90,8 +90,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
         using((arena) {
           final o2 = testObject(2, arena);
           final o3 = testObject(3, arena);
-          expect((o2.times(o3)..releasedBy(arena)).getValue(), 6);
-          expect(((o2 * o3)..releasedBy(arena)).getValue(), 6);
+          expect((o2.times(o3)..releasedBy(arena)).value, 6);
+          expect(((o2 * o3)..releasedBy(arena)).value, 6);
         });
       });
 
@@ -99,8 +99,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
         using((arena) {
           final o24 = testObject(24, arena);
           final o3 = testObject(3, arena);
-          expect((o24.div(o3)..releasedBy(arena)).getValue(), 8);
-          expect(((o24 / o3)..releasedBy(arena)).getValue(), 8);
+          expect((o24.div(o3)..releasedBy(arena)).value, 8);
+          expect(((o24 / o3)..releasedBy(arena)).value, 8);
         });
       });
 
@@ -108,8 +108,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
         using((arena) {
           final o24 = testObject(24, arena);
           final o5 = testObject(5, arena);
-          expect((o24.rem(o5)..releasedBy(arena)).getValue(), 4);
-          expect(((o24 % o5)..releasedBy(arena)).getValue(), 4);
+          expect((o24.rem(o5)..releasedBy(arena)).value, 4);
+          expect(((o24 % o5)..releasedBy(arena)).value, 4);
         });
       });
 
@@ -198,24 +198,26 @@ void registerTests(String groupName, TestRunnerCallback test) {
         using((arena) {
           final obj = testObject(arena);
           expect(
-            obj.getU().toDartString(releaseOriginal: true),
+            obj.u.toDartString(releaseOriginal: true),
             'hello',
           );
-          expect(obj.getT(), null);
-          expect(obj.getNullableU(), null);
+          expect(obj.t, null);
+          expect(obj.nullableU, null);
         });
       });
       test('Setters', () {
         using((arena) {
           final obj = testObject(arena);
-          obj.setNullableU('hello'.toJString()..releasedBy(arena));
+          obj.nullableU = 'hello'.toJString()..releasedBy(arena);
           expect(
-            obj.getNullableU()!.toDartString(releaseOriginal: true),
+            obj.nullableU!
+                .as(JString.type, releaseOriginal: true)
+                .toDartString(releaseOriginal: true),
             'hello',
           );
-          obj.setNullableU(null);
+          obj.nullableU = null;
           expect(
-            obj.getNullableU(),
+            obj.nullableU,
             null,
           );
         });

@@ -71,12 +71,12 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JniPlugin>();
   }
 
-  static final _id_getApplicationContext = _class.staticMethodId(
+  static final _id_get$applicationContext = _class.staticMethodId(
     r'getApplicationContext',
     r'()Landroid/content/Context;',
   );
 
-  static final _getApplicationContext = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$applicationContext = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -90,9 +90,9 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `static public android.content.Context getApplicationContext()`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject getApplicationContext() {
-    return _getApplicationContext(
-            _class.reference.pointer, _id_getApplicationContext.pointer)
+  static jni$_.JObject get applicationContext {
+    return _get$applicationContext(
+            _class.reference.pointer, _id_get$applicationContext.pointer)
         .object<jni$_.JObject>();
   }
 
