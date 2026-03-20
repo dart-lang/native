@@ -36,7 +36,7 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('JShort', () {
     const val = 1 << 10;
     using((arena) {
-      expect(JShort.new$1(val).toDartShort(releaseOriginal: true), val);
+      expect(JShort(val).toDartShort(releaseOriginal: true), val);
       expect((-val).toJShort().toDartShort(releaseOriginal: true), -val);
     });
   });
@@ -50,7 +50,7 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('JLong', () {
     const val = 1 << 40;
     using((arena) {
-      expect(JLong.new$1(val).toDartLong(releaseOriginal: true), val);
+      expect(JLong(val).toDartLong(releaseOriginal: true), val);
       expect((-val).toJLong().toDartLong(releaseOriginal: true), -val);
     });
   });
@@ -58,8 +58,7 @@ void run({required TestRunnerCallback testRunner}) {
     const val = 3.14;
     const eps = 1e-6;
     using((arena) {
-      expect(JFloat.new$1(val).toDartFloat(releaseOriginal: true),
-          closeTo(val, eps));
+      expect(JFloat(val).toDartFloat(releaseOriginal: true), closeTo(val, eps));
       expect((-val).toJFloat().toDartFloat(releaseOriginal: true),
           closeTo(-val, eps));
     });

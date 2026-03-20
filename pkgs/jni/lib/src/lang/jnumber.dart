@@ -80,13 +80,14 @@ extension JNumberExtension on JNumber {
 
 extension IntToJava on int {
   JByte toJByte() => JByte(this);
-  JShort toJShort() => JShort.new$1(this);
+  JShort toJShort() => JShort(this);
   JInteger toJInteger() => JInteger(this);
-  JLong toJLong() => JLong.new$1(this);
+  JCharacter toJCharacter() => JCharacter(this);
+  JLong toJLong() => JLong(this);
 }
 
 extension DoubleToJava on double {
-  JFloat toJFloat() => JFloat.new$1(this);
+  JFloat toJFloat() => JFloat(this);
   JDouble toJDouble() => JDouble(this);
 }
 

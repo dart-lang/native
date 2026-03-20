@@ -100,31 +100,6 @@ extension type JBoolean._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JBoolean>();
   }
 
-  static final _id_new$1 = _class.constructorId(
-    r'(Ljava/lang/String;)V',
-  );
-
-  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void <init>(java.lang.String string)`
-  /// The returned object must be released after use, by calling the [release] method.
-  factory JBoolean.new$1(
-    JString? string,
-  ) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
-    return _new$1(_class.reference.pointer, _id_new$1.pointer, _$string.pointer)
-        .object<JBoolean>();
-  }
-
   static final _id_compare = _class.staticMethodId(
     r'compare',
     r'(ZZ)I',
@@ -573,31 +548,6 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
     core$_.int b,
   ) {
     return _new$(_class.reference.pointer, _id_new$.pointer, b).object<JByte>();
-  }
-
-  static final _id_new$1 = _class.constructorId(
-    r'(Ljava/lang/String;)V',
-  );
-
-  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void <init>(java.lang.String string)`
-  /// The returned object must be released after use, by calling the [release] method.
-  factory JByte.new$1(
-    JString? string,
-  ) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
-    return _new$1(_class.reference.pointer, _id_new$1.pointer, _$string.pointer)
-        .object<JByte>();
   }
 
   static final _id_compare = _class.staticMethodId(
@@ -9519,31 +9469,6 @@ extension type JDouble._(jni$_.JObject _$this)
         .object<JDouble>();
   }
 
-  static final _id_new$1 = _class.constructorId(
-    r'(Ljava/lang/String;)V',
-  );
-
-  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void <init>(java.lang.String string)`
-  /// The returned object must be released after use, by calling the [release] method.
-  factory JDouble.new$1(
-    JString? string,
-  ) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
-    return _new$1(_class.reference.pointer, _id_new$1.pointer, _$string.pointer)
-        .object<JDouble>();
-  }
-
   static final _id_compare = _class.staticMethodId(
     r'compare',
     r'(DD)I',
@@ -10290,7 +10215,7 @@ extension type JFloat._(jni$_.JObject _$this)
       _id_TYPE.getNullable(_class, jni$_.JObject.type) as jni$_.JObject?;
 
   static final _id_new$ = _class.constructorId(
-    r'(D)V',
+    r'(F)V',
   );
 
   static final _new$ = jni$_.ProtectedJniExtensions.lookup<
@@ -10303,60 +10228,12 @@ extension type JFloat._(jni$_.JObject _$this)
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
-  /// from: `public void <init>(double d)`
-  /// The returned object must be released after use, by calling the [release] method.
-  factory JFloat(
-    core$_.double d,
-  ) {
-    return _new$(_class.reference.pointer, _id_new$.pointer, d)
-        .object<JFloat>();
-  }
-
-  static final _id_new$1 = _class.constructorId(
-    r'(F)V',
-  );
-
-  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
-          jni$_.NativeFunction<
-              jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr,
-                  jni$_.VarArgs<(jni$_.Double,)>)>>('globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
-
   /// from: `public void <init>(float f)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory JFloat.new$1(
+  factory JFloat(
     core$_.double f,
   ) {
-    return _new$1(_class.reference.pointer, _id_new$1.pointer, f)
-        .object<JFloat>();
-  }
-
-  static final _id_new$2 = _class.constructorId(
-    r'(Ljava/lang/String;)V',
-  );
-
-  static final _new$2 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void <init>(java.lang.String string)`
-  /// The returned object must be released after use, by calling the [release] method.
-  factory JFloat.new$2(
-    JString? string,
-  ) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
-    return _new$2(_class.reference.pointer, _id_new$2.pointer, _$string.pointer)
+    return _new$(_class.reference.pointer, _id_new$.pointer, f)
         .object<JFloat>();
   }
 
@@ -11130,31 +11007,6 @@ extension type JInteger._(jni$_.JObject _$this)
     core$_.int i,
   ) {
     return _new$(_class.reference.pointer, _id_new$.pointer, i)
-        .object<JInteger>();
-  }
-
-  static final _id_new$1 = _class.constructorId(
-    r'(Ljava/lang/String;)V',
-  );
-
-  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void <init>(java.lang.String string)`
-  /// The returned object must be released after use, by calling the [release] method.
-  factory JInteger.new$1(
-    JString? string,
-  ) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
-    return _new$1(_class.reference.pointer, _id_new$1.pointer, _$string.pointer)
         .object<JInteger>();
   }
 
@@ -12494,35 +12346,10 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
       _id_TYPE.getNullable(_class, jni$_.JObject.type) as jni$_.JObject?;
 
   static final _id_new$ = _class.constructorId(
-    r'(Ljava/lang/String;)V',
-  );
-
-  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void <init>(java.lang.String string)`
-  /// The returned object must be released after use, by calling the [release] method.
-  factory JLong(
-    JString? string,
-  ) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
-    return _new$(_class.reference.pointer, _id_new$.pointer, _$string.pointer)
-        .object<JLong>();
-  }
-
-  static final _id_new$1 = _class.constructorId(
     r'(J)V',
   );
 
-  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -12534,11 +12361,10 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
 
   /// from: `public void <init>(long j)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory JLong.new$1(
+  factory JLong(
     core$_.int j,
   ) {
-    return _new$1(_class.reference.pointer, _id_new$1.pointer, j)
-        .object<JLong>();
+    return _new$(_class.reference.pointer, _id_new$.pointer, j).object<JLong>();
   }
 
   static final _id_bitCount = _class.staticMethodId(
@@ -14004,35 +13830,10 @@ extension type JShort._(jni$_.JObject _$this)
       _id_TYPE.getNullable(_class, jni$_.JObject.type) as jni$_.JObject?;
 
   static final _id_new$ = _class.constructorId(
-    r'(Ljava/lang/String;)V',
-  );
-
-  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_NewObject')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
-  /// from: `public void <init>(java.lang.String string)`
-  /// The returned object must be released after use, by calling the [release] method.
-  factory JShort(
-    JString? string,
-  ) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
-    return _new$(_class.reference.pointer, _id_new$.pointer, _$string.pointer)
-        .object<JShort>();
-  }
-
-  static final _id_new$1 = _class.constructorId(
     r'(S)V',
   );
 
-  static final _new$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -14044,10 +13845,10 @@ extension type JShort._(jni$_.JObject _$this)
 
   /// from: `public void <init>(short s)`
   /// The returned object must be released after use, by calling the [release] method.
-  factory JShort.new$1(
+  factory JShort(
     core$_.int s,
   ) {
-    return _new$1(_class.reference.pointer, _id_new$1.pointer, s)
+    return _new$(_class.reference.pointer, _id_new$.pointer, s)
         .object<JShort>();
   }
 

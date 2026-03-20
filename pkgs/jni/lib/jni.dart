@@ -109,6 +109,6 @@ export 'src/jobject.dart' hide $JObject$Type$;
 export 'src/jreference.dart' hide ProtectedJReference;
 export 'src/jvalues.dart';
 export 'src/lang/lang.dart';
-export 'src/nio/nio.dart' hide $JBuffer$Type$, $JByteBuffer$Type$;
+export 'src/nio/nio.dart';
 export 'src/types.dart' hide JTypeBase;
 export 'src/util/util.dart' hide JIteratorAdapter;

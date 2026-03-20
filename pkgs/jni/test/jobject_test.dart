@@ -277,26 +277,26 @@ void run({required TestRunnerCallback testRunner}) {
   });
 
   testRunner('isA returns true', () {
-    final long = JLong.new$1(1);
+    final long = JLong(1);
     expect(long.isA(JLong.type), isTrue);
     expect(long.isA(JNumber.type), isTrue);
     expect(long.isA(JObject.type), isTrue);
   });
 
   testRunner('isA returns false', () {
-    final long = JLong.new$1(1);
+    final long = JLong(1);
     expect(long.isA(JInteger.type), isFalse);
     expect(long.isA(JString.type), isFalse);
   });
 
   testRunner('Casting correctly succeeds', () {
-    final long = JLong.new$1(1);
+    final long = JLong(1);
     final long2 = long.as(JLong.type, releaseOriginal: true);
     expect(long2.toDartLong(releaseOriginal: true), 1);
   });
 
   testRunner('Casting incorrectly fails', () {
-    final long = JLong.new$1(1);
+    final long = JLong(1);
     expect(
       () => long.as(JInteger.type, releaseOriginal: true),
       throwsA(isA<CastError>().having(
