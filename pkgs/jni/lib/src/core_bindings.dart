@@ -10055,12 +10055,12 @@ extension JDouble$$Methods on JDouble {
     return _intValue(reference.pointer, _id_intValue.pointer).integer;
   }
 
-  static final _id_isInfinite = JDouble._class.instanceMethodId(
+  static final _id_get$isInfinite = JDouble._class.instanceMethodId(
     r'isInfinite',
     r'()Z',
   );
 
-  static final _isInfinite = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isInfinite = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -10073,16 +10073,17 @@ extension JDouble$$Methods on JDouble {
           )>();
 
   /// from: `public boolean isInfinite()`
-  core$_.bool isInfinite() {
-    return _isInfinite(reference.pointer, _id_isInfinite.pointer).boolean;
+  core$_.bool get isInfinite {
+    return _get$isInfinite(reference.pointer, _id_get$isInfinite.pointer)
+        .boolean;
   }
 
-  static final _id_isNaN = JDouble._class.instanceMethodId(
+  static final _id_get$isNaN = JDouble._class.instanceMethodId(
     r'isNaN',
     r'()Z',
   );
 
-  static final _isNaN = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isNaN = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -10095,8 +10096,8 @@ extension JDouble$$Methods on JDouble {
           )>();
 
   /// from: `public boolean isNaN()`
-  core$_.bool isNaN() {
-    return _isNaN(reference.pointer, _id_isNaN.pointer).boolean;
+  core$_.bool get isNaN {
+    return _get$isNaN(reference.pointer, _id_get$isNaN.pointer).boolean;
   }
 
   static final _id_longValue = JDouble._class.instanceMethodId(
@@ -10913,12 +10914,12 @@ extension JFloat$$Methods on JFloat {
     return _intValue(reference.pointer, _id_intValue.pointer).integer;
   }
 
-  static final _id_isInfinite = JFloat._class.instanceMethodId(
+  static final _id_get$isInfinite = JFloat._class.instanceMethodId(
     r'isInfinite',
     r'()Z',
   );
 
-  static final _isInfinite = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isInfinite = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -10931,16 +10932,17 @@ extension JFloat$$Methods on JFloat {
           )>();
 
   /// from: `public boolean isInfinite()`
-  core$_.bool isInfinite() {
-    return _isInfinite(reference.pointer, _id_isInfinite.pointer).boolean;
+  core$_.bool get isInfinite {
+    return _get$isInfinite(reference.pointer, _id_get$isInfinite.pointer)
+        .boolean;
   }
 
-  static final _id_isNaN = JFloat._class.instanceMethodId(
+  static final _id_get$isNaN = JFloat._class.instanceMethodId(
     r'isNaN',
     r'()Z',
   );
 
-  static final _isNaN = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isNaN = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -10953,8 +10955,8 @@ extension JFloat$$Methods on JFloat {
           )>();
 
   /// from: `public boolean isNaN()`
-  core$_.bool isNaN() {
-    return _isNaN(reference.pointer, _id_isNaN.pointer).boolean;
+  core$_.bool get isNaN {
+    return _get$isNaN(reference.pointer, _id_get$isNaN.pointer).boolean;
   }
 
   static final _id_longValue = JFloat._class.instanceMethodId(
@@ -15883,12 +15885,12 @@ extension JString$$Methods on JString {
         .object<JString?>();
   }
 
-  static final _id_getBytes = JString._class.instanceMethodId(
+  static final _id_get$bytes = JString._class.instanceMethodId(
     r'getBytes',
     r'()[B',
   );
 
-  static final _getBytes = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$bytes = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -15902,17 +15904,17 @@ extension JString$$Methods on JString {
 
   /// from: `public byte[] getBytes()`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JByteArray? getBytes() {
-    return _getBytes(reference.pointer, _id_getBytes.pointer)
+  jni$_.JByteArray? get bytes {
+    return _get$bytes(reference.pointer, _id_get$bytes.pointer)
         .object<jni$_.JByteArray?>();
   }
 
-  static final _id_getBytes$1 = JString._class.instanceMethodId(
+  static final _id_getBytes = JString._class.instanceMethodId(
     r'getBytes',
     r'(II[BI)V',
   );
 
-  static final _getBytes$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _getBytes = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JThrowablePtr Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -15929,21 +15931,47 @@ extension JString$$Methods on JString {
               jni$_.JMethodIDPtr, int, int, jni$_.Pointer<jni$_.Void>, int)>();
 
   /// from: `public void getBytes(int i, int i1, byte[] bs, int i2)`
-  void getBytes$1(
+  void getBytes(
     int i,
     int i1,
     jni$_.JByteArray? bs,
     int i2,
   ) {
     final _$bs = bs?.reference ?? jni$_.jNullReference;
-    _getBytes$1(
-            reference.pointer, _id_getBytes$1.pointer, i, i1, _$bs.pointer, i2)
+    _getBytes(reference.pointer, _id_getBytes.pointer, i, i1, _$bs.pointer, i2)
         .check();
+  }
+
+  static final _id_getBytes$1 = JString._class.instanceMethodId(
+    r'getBytes',
+    r'(Ljava/lang/String;)[B',
+  );
+
+  static final _getBytes$1 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public byte[] getBytes(java.lang.String string)`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JByteArray? getBytes$1(
+    JString? string,
+  ) {
+    final _$string = string?.reference ?? jni$_.jNullReference;
+    return _getBytes$1(
+            reference.pointer, _id_getBytes$1.pointer, _$string.pointer)
+        .object<jni$_.JByteArray?>();
   }
 
   static final _id_getBytes$2 = JString._class.instanceMethodId(
     r'getBytes',
-    r'(Ljava/lang/String;)[B',
+    r'(Ljava/nio/charset/Charset;)[B',
   );
 
   static final _getBytes$2 = jni$_.ProtectedJniExtensions.lookup<
@@ -15957,41 +15985,14 @@ extension JString$$Methods on JString {
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
-  /// from: `public byte[] getBytes(java.lang.String string)`
-  /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JByteArray? getBytes$2(
-    JString? string,
-  ) {
-    final _$string = string?.reference ?? jni$_.jNullReference;
-    return _getBytes$2(
-            reference.pointer, _id_getBytes$2.pointer, _$string.pointer)
-        .object<jni$_.JByteArray?>();
-  }
-
-  static final _id_getBytes$3 = JString._class.instanceMethodId(
-    r'getBytes',
-    r'(Ljava/nio/charset/Charset;)[B',
-  );
-
-  static final _getBytes$3 = jni$_.ProtectedJniExtensions.lookup<
-              jni$_.NativeFunction<
-                  jni$_.JniResult Function(
-                      jni$_.Pointer<jni$_.Void>,
-                      jni$_.JMethodIDPtr,
-                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
-          'globalEnv_CallObjectMethod')
-      .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
-
   /// from: `public byte[] getBytes(java.nio.charset.Charset charset)`
   /// The returned object must be released after use, by calling the [release] method.
-  jni$_.JByteArray? getBytes$3(
+  jni$_.JByteArray? getBytes$2(
     jni$_.JObject? charset,
   ) {
     final _$charset = charset?.reference ?? jni$_.jNullReference;
-    return _getBytes$3(
-            reference.pointer, _id_getBytes$3.pointer, _$charset.pointer)
+    return _getBytes$2(
+            reference.pointer, _id_getBytes$2.pointer, _$charset.pointer)
         .object<jni$_.JByteArray?>();
   }
 
@@ -16196,12 +16197,12 @@ extension JString$$Methods on JString {
     return _intern(reference.pointer, _id_intern.pointer).object<JString?>();
   }
 
-  static final _id_isBlank = JString._class.instanceMethodId(
+  static final _id_get$isBlank = JString._class.instanceMethodId(
     r'isBlank',
     r'()Z',
   );
 
-  static final _isBlank = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isBlank = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -16214,16 +16215,16 @@ extension JString$$Methods on JString {
           )>();
 
   /// from: `public boolean isBlank()`
-  core$_.bool isBlank() {
-    return _isBlank(reference.pointer, _id_isBlank.pointer).boolean;
+  core$_.bool get isBlank {
+    return _get$isBlank(reference.pointer, _id_get$isBlank.pointer).boolean;
   }
 
-  static final _id_isEmpty = JString._class.instanceMethodId(
+  static final _id_get$isEmpty = JString._class.instanceMethodId(
     r'isEmpty',
     r'()Z',
   );
 
-  static final _isEmpty = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isEmpty = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -16236,8 +16237,8 @@ extension JString$$Methods on JString {
           )>();
 
   /// from: `public boolean isEmpty()`
-  core$_.bool isEmpty() {
-    return _isEmpty(reference.pointer, _id_isEmpty.pointer).boolean;
+  core$_.bool get isEmpty {
+    return _get$isEmpty(reference.pointer, _id_get$isEmpty.pointer).boolean;
   }
 
   static final _id_lastIndexOf = JString._class.instanceMethodId(
@@ -17388,12 +17389,12 @@ extension JBuffer$$Methods on JBuffer {
     return _hasRemaining(reference.pointer, _id_hasRemaining.pointer).boolean;
   }
 
-  static final _id_isDirect = JBuffer._class.instanceMethodId(
+  static final _id_get$isDirect = JBuffer._class.instanceMethodId(
     r'isDirect',
     r'()Z',
   );
 
-  static final _isDirect = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isDirect = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -17406,16 +17407,16 @@ extension JBuffer$$Methods on JBuffer {
           )>();
 
   /// from: `public abstract boolean isDirect()`
-  core$_.bool isDirect() {
-    return _isDirect(reference.pointer, _id_isDirect.pointer).boolean;
+  core$_.bool get isDirect {
+    return _get$isDirect(reference.pointer, _id_get$isDirect.pointer).boolean;
   }
 
-  static final _id_isReadOnly = JBuffer._class.instanceMethodId(
+  static final _id_get$isReadOnly = JBuffer._class.instanceMethodId(
     r'isReadOnly',
     r'()Z',
   );
 
-  static final _isReadOnly = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isReadOnly = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -17428,8 +17429,9 @@ extension JBuffer$$Methods on JBuffer {
           )>();
 
   /// from: `public abstract boolean isReadOnly()`
-  core$_.bool isReadOnly() {
-    return _isReadOnly(reference.pointer, _id_isReadOnly.pointer).boolean;
+  core$_.bool get isReadOnly {
+    return _get$isReadOnly(reference.pointer, _id_get$isReadOnly.pointer)
+        .boolean;
   }
 
   static final _id_limit = JBuffer._class.instanceMethodId(
@@ -18362,12 +18364,12 @@ extension JByteBuffer$$Methods on JByteBuffer {
         .object<JByteBuffer?>();
   }
 
-  static final _id_getChar = JByteBuffer._class.instanceMethodId(
+  static final _id_get$char = JByteBuffer._class.instanceMethodId(
     r'getChar',
     r'()C',
   );
 
-  static final _getChar = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$char = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -18380,16 +18382,16 @@ extension JByteBuffer$$Methods on JByteBuffer {
           )>();
 
   /// from: `public abstract char getChar()`
-  int getChar() {
-    return _getChar(reference.pointer, _id_getChar.pointer).char;
+  int get char {
+    return _get$char(reference.pointer, _id_get$char.pointer).char;
   }
 
-  static final _id_getChar$1 = JByteBuffer._class.instanceMethodId(
+  static final _id_getChar = JByteBuffer._class.instanceMethodId(
     r'getChar',
     r'(I)C',
   );
 
-  static final _getChar$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _getChar = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -18400,18 +18402,18 @@ extension JByteBuffer$$Methods on JByteBuffer {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
   /// from: `public abstract char getChar(int i)`
-  int getChar$1(
+  int getChar(
     int i,
   ) {
-    return _getChar$1(reference.pointer, _id_getChar$1.pointer, i).char;
+    return _getChar(reference.pointer, _id_getChar.pointer, i).char;
   }
 
-  static final _id_getDouble = JByteBuffer._class.instanceMethodId(
+  static final _id_get$double = JByteBuffer._class.instanceMethodId(
     r'getDouble',
     r'()D',
   );
 
-  static final _getDouble = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$double = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -18424,16 +18426,16 @@ extension JByteBuffer$$Methods on JByteBuffer {
           )>();
 
   /// from: `public abstract double getDouble()`
-  double getDouble() {
-    return _getDouble(reference.pointer, _id_getDouble.pointer).doubleFloat;
+  double get double {
+    return _get$double(reference.pointer, _id_get$double.pointer).doubleFloat;
   }
 
-  static final _id_getDouble$1 = JByteBuffer._class.instanceMethodId(
+  static final _id_getDouble = JByteBuffer._class.instanceMethodId(
     r'getDouble',
     r'(I)D',
   );
 
-  static final _getDouble$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _getDouble = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -18444,19 +18446,18 @@ extension JByteBuffer$$Methods on JByteBuffer {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
   /// from: `public abstract double getDouble(int i)`
-  double getDouble$1(
+  double getDouble(
     int i,
   ) {
-    return _getDouble$1(reference.pointer, _id_getDouble$1.pointer, i)
-        .doubleFloat;
+    return _getDouble(reference.pointer, _id_getDouble.pointer, i).doubleFloat;
   }
 
-  static final _id_getFloat = JByteBuffer._class.instanceMethodId(
+  static final _id_get$float = JByteBuffer._class.instanceMethodId(
     r'getFloat',
     r'()F',
   );
 
-  static final _getFloat = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$float = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -18469,16 +18470,16 @@ extension JByteBuffer$$Methods on JByteBuffer {
           )>();
 
   /// from: `public abstract float getFloat()`
-  double getFloat() {
-    return _getFloat(reference.pointer, _id_getFloat.pointer).float;
+  double get float {
+    return _get$float(reference.pointer, _id_get$float.pointer).float;
   }
 
-  static final _id_getFloat$1 = JByteBuffer._class.instanceMethodId(
+  static final _id_getFloat = JByteBuffer._class.instanceMethodId(
     r'getFloat',
     r'(I)F',
   );
 
-  static final _getFloat$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _getFloat = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -18489,18 +18490,18 @@ extension JByteBuffer$$Methods on JByteBuffer {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
   /// from: `public abstract float getFloat(int i)`
-  double getFloat$1(
+  double getFloat(
     int i,
   ) {
-    return _getFloat$1(reference.pointer, _id_getFloat$1.pointer, i).float;
+    return _getFloat(reference.pointer, _id_getFloat.pointer, i).float;
   }
 
-  static final _id_getInt = JByteBuffer._class.instanceMethodId(
+  static final _id_get$int = JByteBuffer._class.instanceMethodId(
     r'getInt',
     r'()I',
   );
 
-  static final _getInt = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$int = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -18513,16 +18514,16 @@ extension JByteBuffer$$Methods on JByteBuffer {
           )>();
 
   /// from: `public abstract int getInt()`
-  int getInt() {
-    return _getInt(reference.pointer, _id_getInt.pointer).integer;
+  int get int {
+    return _get$int(reference.pointer, _id_get$int.pointer).integer;
   }
 
-  static final _id_getInt$1 = JByteBuffer._class.instanceMethodId(
+  static final _id_getInt = JByteBuffer._class.instanceMethodId(
     r'getInt',
     r'(I)I',
   );
 
-  static final _getInt$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _getInt = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -18533,18 +18534,18 @@ extension JByteBuffer$$Methods on JByteBuffer {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
   /// from: `public abstract int getInt(int i)`
-  int getInt$1(
+  int getInt(
     int i,
   ) {
-    return _getInt$1(reference.pointer, _id_getInt$1.pointer, i).integer;
+    return _getInt(reference.pointer, _id_getInt.pointer, i).integer;
   }
 
-  static final _id_getLong = JByteBuffer._class.instanceMethodId(
+  static final _id_get$long = JByteBuffer._class.instanceMethodId(
     r'getLong',
     r'()J',
   );
 
-  static final _getLong = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$long = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -18557,16 +18558,16 @@ extension JByteBuffer$$Methods on JByteBuffer {
           )>();
 
   /// from: `public abstract long getLong()`
-  int getLong() {
-    return _getLong(reference.pointer, _id_getLong.pointer).long;
+  int get long {
+    return _get$long(reference.pointer, _id_get$long.pointer).long;
   }
 
-  static final _id_getLong$1 = JByteBuffer._class.instanceMethodId(
+  static final _id_getLong = JByteBuffer._class.instanceMethodId(
     r'getLong',
     r'(I)J',
   );
 
-  static final _getLong$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _getLong = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -18577,18 +18578,18 @@ extension JByteBuffer$$Methods on JByteBuffer {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
   /// from: `public abstract long getLong(int i)`
-  int getLong$1(
+  int getLong(
     int i,
   ) {
-    return _getLong$1(reference.pointer, _id_getLong$1.pointer, i).long;
+    return _getLong(reference.pointer, _id_getLong.pointer, i).long;
   }
 
-  static final _id_getShort = JByteBuffer._class.instanceMethodId(
+  static final _id_get$short = JByteBuffer._class.instanceMethodId(
     r'getShort',
     r'()S',
   );
 
-  static final _getShort = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$short = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -18601,16 +18602,16 @@ extension JByteBuffer$$Methods on JByteBuffer {
           )>();
 
   /// from: `public abstract short getShort()`
-  int getShort() {
-    return _getShort(reference.pointer, _id_getShort.pointer).short;
+  int get short {
+    return _get$short(reference.pointer, _id_get$short.pointer).short;
   }
 
-  static final _id_getShort$1 = JByteBuffer._class.instanceMethodId(
+  static final _id_getShort = JByteBuffer._class.instanceMethodId(
     r'getShort',
     r'(I)S',
   );
 
-  static final _getShort$1 = jni$_.ProtectedJniExtensions.lookup<
+  static final _getShort = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                   jni$_.Pointer<jni$_.Void>,
@@ -18621,10 +18622,10 @@ extension JByteBuffer$$Methods on JByteBuffer {
               jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
 
   /// from: `public abstract short getShort(int i)`
-  int getShort$1(
+  int getShort(
     int i,
   ) {
-    return _getShort$1(reference.pointer, _id_getShort$1.pointer, i).short;
+    return _getShort(reference.pointer, _id_getShort.pointer, i).short;
   }
 
   static final _id_hasArray = JByteBuffer._class.instanceMethodId(
@@ -18671,12 +18672,12 @@ extension JByteBuffer$$Methods on JByteBuffer {
     return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 
-  static final _id_isDirect = JByteBuffer._class.instanceMethodId(
+  static final _id_get$isDirect = JByteBuffer._class.instanceMethodId(
     r'isDirect',
     r'()Z',
   );
 
-  static final _isDirect = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isDirect = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -18689,8 +18690,8 @@ extension JByteBuffer$$Methods on JByteBuffer {
           )>();
 
   /// from: `public abstract boolean isDirect()`
-  core$_.bool isDirect() {
-    return _isDirect(reference.pointer, _id_isDirect.pointer).boolean;
+  core$_.bool get isDirect {
+    return _get$isDirect(reference.pointer, _id_get$isDirect.pointer).boolean;
   }
 
   static final _id_limit1 = JByteBuffer._class.instanceMethodId(
@@ -21316,13 +21317,13 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
         final $r = _$impls[$p]!.add(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'addAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.addAll(
           ($a![0] as JCollection<jni$_.JObject?>?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'clear()V') {
         _$impls[$p]!.clear();
@@ -21332,27 +21333,27 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
         final $r = _$impls[$p]!.contains(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'containsAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.containsAll(
           ($a![0] as JCollection<jni$_.JObject?>?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'equals(Ljava/lang/Object;)Z') {
         final $r = _$impls[$p]!.equals(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'hashCode()I') {
         final $r = _$impls[$p]!.hashCode$1();
-        return jni$_.JInteger($r).reference.toPointer();
+        return $r.toJInteger().reference.toPointer();
       }
       if ($d == r'isEmpty()Z') {
         final $r = _$impls[$p]!.isEmpty();
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'iterator()Ljava/util/Iterator;') {
         final $r = _$impls[$p]!.iterator();
@@ -21374,29 +21375,29 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
         final $r = _$impls[$p]!.remove(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'removeAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.removeAll(
           ($a![0] as JCollection<jni$_.JObject?>?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'removeIf(Ljava/util/function/Predicate;)Z') {
         final $r = _$impls[$p]!.removeIf(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'retainAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.retainAll(
           ($a![0] as JCollection<jni$_.JObject?>?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'size()I') {
         final $r = _$impls[$p]!.size();
-        return jni$_.JInteger($r).reference.toPointer();
+        return $r.toJInteger().reference.toPointer();
       }
       if ($d == r'spliterator()Ljava/util/Spliterator;') {
         final $r = _$impls[$p]!.spliterator();
@@ -25344,7 +25345,7 @@ extension type JIterator<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'hasNext()Z') {
         final $r = _$impls[$p]!.hasNext();
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'next()Ljava/lang/Object;') {
         final $r = _$impls[$p]!.next();
@@ -26215,7 +26216,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
         final $r = _$impls[$p]!.add(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'add(ILjava/lang/Object;)V') {
         _$impls[$p]!.add$1(
@@ -26229,13 +26230,13 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
           ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
           ($a![1] as JCollection<jni$_.JObject?>?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'addAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.addAll$1(
           ($a![0] as JCollection<jni$_.JObject?>?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'addFirst(Ljava/lang/Object;)V') {
         _$impls[$p]!.addFirst(
@@ -26257,13 +26258,13 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
         final $r = _$impls[$p]!.contains(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'containsAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.containsAll(
           ($a![0] as JCollection<jni$_.JObject?>?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'copyOf(Ljava/util/Collection;)Ljava/util/List;') {
         final $r = _$impls[$p]!.copyOf(
@@ -26279,7 +26280,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
         final $r = _$impls[$p]!.equals(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'get(I)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.get(
@@ -26309,17 +26310,17 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'hashCode()I') {
         final $r = _$impls[$p]!.hashCode$1();
-        return jni$_.JInteger($r).reference.toPointer();
+        return $r.toJInteger().reference.toPointer();
       }
       if ($d == r'indexOf(Ljava/lang/Object;)I') {
         final $r = _$impls[$p]!.indexOf(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.JInteger($r).reference.toPointer();
+        return $r.toJInteger().reference.toPointer();
       }
       if ($d == r'isEmpty()Z') {
         final $r = _$impls[$p]!.isEmpty();
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'iterator()Ljava/util/Iterator;') {
         final $r = _$impls[$p]!.iterator();
@@ -26333,7 +26334,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
         final $r = _$impls[$p]!.lastIndexOf(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.JInteger($r).reference.toPointer();
+        return $r.toJInteger().reference.toPointer();
       }
       if ($d == r'listIterator()Ljava/util/ListIterator;') {
         final $r = _$impls[$p]!.listIterator();
@@ -26538,13 +26539,13 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
         final $r = _$impls[$p]!.remove$1(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'removeAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.removeAll(
           ($a![0] as JCollection<jni$_.JObject?>?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'removeFirst()Ljava/lang/Object;') {
         final $r = _$impls[$p]!.removeFirst();
@@ -26572,7 +26573,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
         final $r = _$impls[$p]!.retainAll(
           ($a![0] as JCollection<jni$_.JObject?>?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'reversed()Ljava/util/List;') {
         final $r = _$impls[$p]!.reversed();
@@ -26595,7 +26596,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'size()I') {
         final $r = _$impls[$p]!.size();
-        return jni$_.JInteger($r).reference.toPointer();
+        return $r.toJInteger().reference.toPointer();
       }
       if ($d == r'sort(Ljava/util/Comparator;)V') {
         _$impls[$p]!.sort(
@@ -26652,7 +26653,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
         final $r = _$impls[$p]!.removeIf(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'stream()Ljava/util/stream/Stream;') {
         final $r = _$impls[$p]!.stream();
@@ -28717,7 +28718,7 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
         final $r = _$impls[$p]!.equals(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'getKey()Ljava/lang/Object;') {
         final $r = _$impls[$p]!.getKey();
@@ -28737,7 +28738,7 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
       }
       if ($d == r'hashCode()I') {
         final $r = _$impls[$p]!.hashCode$1();
-        return jni$_.JInteger($r).reference.toPointer();
+        return $r.toJInteger().reference.toPointer();
       }
       if ($d == r'setValue(Ljava/lang/Object;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.setValue(
@@ -30063,13 +30064,13 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
         final $r = _$impls[$p]!.containsKey(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'containsValue(Ljava/lang/Object;)Z') {
         final $r = _$impls[$p]!.containsValue(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'copyOf(Ljava/util/Map;)Ljava/util/Map;') {
         final $r = _$impls[$p]!.copyOf(
@@ -30105,7 +30106,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
         final $r = _$impls[$p]!.equals(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'forEach(Ljava/util/function/BiConsumer;)V') {
         _$impls[$p]!.forEach(
@@ -30137,11 +30138,11 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       }
       if ($d == r'hashCode()I') {
         final $r = _$impls[$p]!.hashCode$1();
-        return jni$_.JInteger($r).reference.toPointer();
+        return $r.toJInteger().reference.toPointer();
       }
       if ($d == r'isEmpty()Z') {
         final $r = _$impls[$p]!.isEmpty();
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'keySet()Ljava/util/Set;') {
         final $r = _$impls[$p]!.keySet();
@@ -30436,7 +30437,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
           ($a![0] as jni$_.JObject?),
           ($a![1] as jni$_.JObject?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d ==
           r'replace(Ljava/lang/Object;Ljava/lang/Object;)Ljava/lang/Object;') {
@@ -30457,7 +30458,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
           ($a![1] as jni$_.JObject?),
           ($a![2] as jni$_.JObject?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'replaceAll(Ljava/util/function/BiFunction;)V') {
         _$impls[$p]!.replaceAll(
@@ -30467,7 +30468,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       }
       if ($d == r'size()I') {
         final $r = _$impls[$p]!.size();
-        return jni$_.JInteger($r).reference.toPointer();
+        return $r.toJInteger().reference.toPointer();
       }
       if ($d == r'values()Ljava/util/Collection;') {
         final $r = _$impls[$p]!.values();
@@ -32965,13 +32966,13 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
         final $r = _$impls[$p]!.add(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'addAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.addAll(
           ($a![0] as JCollection<jni$_.JObject?>?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'clear()V') {
         _$impls[$p]!.clear();
@@ -32981,13 +32982,13 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
         final $r = _$impls[$p]!.contains(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'containsAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.containsAll(
           ($a![0] as JCollection<jni$_.JObject?>?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'copyOf(Ljava/util/Collection;)Ljava/util/Set;') {
         final $r = _$impls[$p]!.copyOf(
@@ -33003,15 +33004,15 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
         final $r = _$impls[$p]!.equals(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'hashCode()I') {
         final $r = _$impls[$p]!.hashCode$1();
-        return jni$_.JInteger($r).reference.toPointer();
+        return $r.toJInteger().reference.toPointer();
       }
       if ($d == r'isEmpty()Z') {
         final $r = _$impls[$p]!.isEmpty();
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'iterator()Ljava/util/Iterator;') {
         final $r = _$impls[$p]!.iterator();
@@ -33196,23 +33197,23 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
         final $r = _$impls[$p]!.remove(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'removeAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.removeAll(
           ($a![0] as JCollection<jni$_.JObject?>?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'retainAll(Ljava/util/Collection;)Z') {
         final $r = _$impls[$p]!.retainAll(
           ($a![0] as JCollection<jni$_.JObject?>?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'size()I') {
         final $r = _$impls[$p]!.size();
-        return jni$_.JInteger($r).reference.toPointer();
+        return $r.toJInteger().reference.toPointer();
       }
       if ($d == r'spliterator()Ljava/util/Spliterator;') {
         final $r = _$impls[$p]!.spliterator();
@@ -33252,7 +33253,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
         final $r = _$impls[$p]!.removeIf(
           ($a![0] as jni$_.JObject?),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
       if ($d == r'stream()Ljava/util/stream/Stream;') {
         final $r = _$impls[$p]!.stream();
