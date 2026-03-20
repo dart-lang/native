@@ -29,8 +29,8 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('JCharacter', () {
     const val = 1 << 5;
     using((arena) {
-      expect(JCharacter(val).toDartCharacter(releaseOriginal: true), val);
-      expect(JCharacter(0).toDartCharacter(releaseOriginal: true), 0);
+      expect(JCharacter(val).toDartInt(releaseOriginal: true), val);
+      expect(JCharacter(0).toDartInt(releaseOriginal: true), 0);
     });
   });
   testRunner('JShort', () {
@@ -58,7 +58,8 @@ void run({required TestRunnerCallback testRunner}) {
     const val = 3.14;
     const eps = 1e-6;
     using((arena) {
-      expect(JFloat.new$1(val).toDartFloat(releaseOriginal: true), closeTo(val, eps));
+      expect(JFloat.new$1(val).toDartFloat(releaseOriginal: true),
+          closeTo(val, eps));
       expect((-val).toJFloat().toDartFloat(releaseOriginal: true),
           closeTo(-val, eps));
     });
@@ -75,8 +76,8 @@ void run({required TestRunnerCallback testRunner}) {
   });
   testRunner('JBoolean', () {
     using((arena) {
-      expect(JBoolean(false).toDartBoolean(releaseOriginal: true), false);
-      expect(JBoolean(true).toDartBoolean(releaseOriginal: true), true);
+      expect(JBoolean(false).toDartBool(releaseOriginal: true), false);
+      expect(JBoolean(true).toDartBool(releaseOriginal: true), true);
     });
   });
 }

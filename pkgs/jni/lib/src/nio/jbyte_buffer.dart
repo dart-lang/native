@@ -5,14 +5,12 @@
 import 'dart:ffi';
 import 'dart:typed_data';
 
-import '../core_bindings.dart' as core_bindings;
+import '../core_bindings.dart';
 import '../jarray.dart';
 import '../jni.dart';
 import '../jreference.dart';
 
-export '../core_bindings.dart' show JByteBuffer, JByteBuffer$$Methods;
-
-extension JByteBufferExtension on core_bindings.JByteBuffer {
+extension JByteBufferExtension on JByteBuffer {
   /// Reads the byte at this buffer's current [position], and then increments
   /// the [position].
   ///
@@ -20,7 +18,7 @@ extension JByteBufferExtension on core_bindings.JByteBuffer {
   ///  * `BufferOverflowException` - If the buffer's current [position] is not
   ///    smaller than its [limit]
   int get nextByte {
-    return get();
+    return JByteBuffer$$Methods(this).get();
   }
 
   /// Writes the given byte into this buffer at the current [position], and then
@@ -31,7 +29,7 @@ extension JByteBufferExtension on core_bindings.JByteBuffer {
   ///   smaller than its [limit]
   /// * `ReadOnlyBufferException` - If this buffer is read-only
   set nextByte(int b) {
-    put(b)?.release();
+    JByteBuffer$$Methods(this).put(b)?.release();
   }
 
   JByteArray get jArray {
@@ -39,7 +37,7 @@ extension JByteBufferExtension on core_bindings.JByteBuffer {
   }
 
   void _ensureIsDirect() {
-    if (!isDirect()) {
+    if (!isDirect) {
       throw StateError(
         'The buffer must be created with `JByteBuffer.allocateDirect`.',
       );
@@ -105,8 +103,8 @@ extension Uint8ListToJava on Uint8List {
   /// Creates a [JByteBuffer] from the content of this list.
   ///
   /// The [JByteBuffer] will be allocated using [JByteBuffer.allocateDirect].
-  core_bindings.JByteBuffer toJByteBuffer() {
-    final buffer = core_bindings.JByteBuffer.allocateDirect(length)!;
+  JByteBuffer toJByteBuffer() {
+    final buffer = JByteBuffer.allocateDirect(length)!;
     buffer._asUint8ListUnsafe().setAll(0, this);
     return buffer;
   }

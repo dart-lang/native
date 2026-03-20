@@ -36,7 +36,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' as core$_;
-import 'dart:core' show Object, String, double, int;
+import 'dart:core' show Object, String;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
@@ -89,7 +89,7 @@ extension type JBoolean._(jni$_.JObject _$this) implements jni$_.JObject {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_NewObject')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void <init>(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -138,11 +138,11 @@ extension type JBoolean._(jni$_.JObject _$this) implements jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int compare(boolean z, boolean z1)`
-  static int compare(
+  static core$_.int compare(
     core$_.bool z,
     core$_.bool z1,
   ) {
@@ -189,10 +189,10 @@ extension type JBoolean._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int hashCode(boolean z)`
-  static int hashCode$2(
+  static core$_.int hashCode$2(
     core$_.bool z,
   ) {
     return _hashCode$2(
@@ -213,8 +213,8 @@ extension type JBoolean._(jni$_.JObject _$this) implements jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public boolean logicalAnd(boolean z, boolean z1)`
   static core$_.bool logicalAnd(
@@ -239,8 +239,8 @@ extension type JBoolean._(jni$_.JObject _$this) implements jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public boolean logicalOr(boolean z, boolean z1)`
   static core$_.bool logicalOr(
@@ -265,8 +265,8 @@ extension type JBoolean._(jni$_.JObject _$this) implements jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public boolean logicalXor(boolean z, boolean z1)`
   static core$_.bool logicalXor(
@@ -316,7 +316,7 @@ extension type JBoolean._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.String toString(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -340,7 +340,7 @@ extension type JBoolean._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.Boolean valueOf(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -419,7 +419,7 @@ extension JBoolean$$Methods on JBoolean {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public int compareTo(java.lang.Boolean boolean)`
-  int compareTo(
+  core$_.int compareTo(
     JBoolean? boolean,
   ) {
     final _$boolean = boolean?.reference ?? jni$_.jNullReference;
@@ -471,7 +471,7 @@ extension JBoolean$$Methods on JBoolean {
           )>();
 
   /// from: `public int hashCode()`
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 
@@ -565,12 +565,12 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_NewObject')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void <init>(byte b)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JByte(
-    int b,
+    core$_.int b,
   ) {
     return _new$(_class.reference.pointer, _id_new$.pointer, b).object<JByte>();
   }
@@ -613,13 +613,13 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int compare(byte b, byte b1)`
-  static int compare(
-    int b,
-    int b1,
+  static core$_.int compare(
+    core$_.int b,
+    core$_.int b1,
   ) {
     return _compare(_class.reference.pointer, _id_compare.pointer, b, b1)
         .integer;
@@ -638,13 +638,13 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int compareUnsigned(byte b, byte b1)`
-  static int compareUnsigned(
-    int b,
-    int b1,
+  static core$_.int compareUnsigned(
+    core$_.int b,
+    core$_.int b1,
   ) {
     return _compareUnsigned(
             _class.reference.pointer, _id_compareUnsigned.pointer, b, b1)
@@ -690,11 +690,11 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int hashCode(byte b)`
-  static int hashCode$2(
-    int b,
+  static core$_.int hashCode$2(
+    core$_.int b,
   ) {
     return _hashCode$2(_class.reference.pointer, _id_hashCode$2.pointer, b)
         .integer;
@@ -717,7 +717,7 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `static public byte parseByte(java.lang.String string)`
-  static int parseByte(
+  static core$_.int parseByte(
     JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -741,12 +741,12 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticByteMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `static public byte parseByte(java.lang.String string, int i)`
-  static int parseByte$1(
+  static core$_.int parseByte$1(
     JString? string,
-    int i,
+    core$_.int i,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _parseByte$1(_class.reference.pointer, _id_parseByte$1.pointer,
@@ -766,12 +766,12 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.String toString(byte b)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? toString$2(
-    int b,
+    core$_.int b,
   ) {
     return _toString$2(_class.reference.pointer, _id_toString$2.pointer, b)
         .object<JString?>();
@@ -789,11 +789,11 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int toUnsignedInt(byte b)`
-  static int toUnsignedInt(
-    int b,
+  static core$_.int toUnsignedInt(
+    core$_.int b,
   ) {
     return _toUnsignedInt(
             _class.reference.pointer, _id_toUnsignedInt.pointer, b)
@@ -812,11 +812,11 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticLongMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public long toUnsignedLong(byte b)`
-  static int toUnsignedLong(
-    int b,
+  static core$_.int toUnsignedLong(
+    core$_.int b,
   ) {
     return _toUnsignedLong(
             _class.reference.pointer, _id_toUnsignedLong.pointer, b)
@@ -835,12 +835,12 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.Byte valueOf(byte b)`
   /// The returned object must be released after use, by calling the [release] method.
   static JByte? valueOf(
-    int b,
+    core$_.int b,
   ) {
     return _valueOf(_class.reference.pointer, _id_valueOf.pointer, b)
         .object<JByte?>();
@@ -888,13 +888,13 @@ extension type JByte._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `static public java.lang.Byte valueOf(java.lang.String string, int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static JByte? valueOf$2(
     JString? string,
-    int i,
+    core$_.int i,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _valueOf$2(_class.reference.pointer, _id_valueOf$2.pointer,
@@ -922,7 +922,7 @@ extension JByte$$Methods on JByte {
           )>();
 
   /// from: `public byte byteValue()`
-  int byteValue() {
+  core$_.int byteValue() {
     return _byteValue(reference.pointer, _id_byteValue.pointer).byte;
   }
 
@@ -943,7 +943,7 @@ extension JByte$$Methods on JByte {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public int compareTo(java.lang.Byte byte)`
-  int compareTo(
+  core$_.int compareTo(
     JByte? byte,
   ) {
     final _$byte = byte?.reference ?? jni$_.jNullReference;
@@ -969,7 +969,7 @@ extension JByte$$Methods on JByte {
           )>();
 
   /// from: `public double doubleValue()`
-  double doubleValue() {
+  core$_.double doubleValue() {
     return _doubleValue(reference.pointer, _id_doubleValue.pointer).doubleFloat;
   }
 
@@ -1016,7 +1016,7 @@ extension JByte$$Methods on JByte {
           )>();
 
   /// from: `public float floatValue()`
-  double floatValue() {
+  core$_.double floatValue() {
     return _floatValue(reference.pointer, _id_floatValue.pointer).float;
   }
 
@@ -1038,7 +1038,7 @@ extension JByte$$Methods on JByte {
           )>();
 
   /// from: `public int hashCode()`
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 
@@ -1060,7 +1060,7 @@ extension JByte$$Methods on JByte {
           )>();
 
   /// from: `public int intValue()`
-  int intValue() {
+  core$_.int intValue() {
     return _intValue(reference.pointer, _id_intValue.pointer).integer;
   }
 
@@ -1082,7 +1082,7 @@ extension JByte$$Methods on JByte {
           )>();
 
   /// from: `public long longValue()`
-  int longValue() {
+  core$_.int longValue() {
     return _longValue(reference.pointer, _id_longValue.pointer).long;
   }
 
@@ -1104,7 +1104,7 @@ extension JByte$$Methods on JByte {
           )>();
 
   /// from: `public short shortValue()`
-  int shortValue() {
+  core$_.int shortValue() {
     return _shortValue(reference.pointer, _id_shortValue.pointer).short;
   }
 
@@ -1212,7 +1212,7 @@ extension JCharacter$JSubset$$Methods on JCharacter$JSubset {
           )>();
 
   /// from: `public final int hashCode()`
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 
@@ -4917,12 +4917,12 @@ extension type JCharacter$JUnicodeBlock._(jni$_.JObject _$this)
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.Character$UnicodeBlock of(char c)`
   /// The returned object must be released after use, by calling the [release] method.
   static JCharacter$JUnicodeBlock? of(
-    int c,
+    core$_.int c,
   ) {
     return _of(_class.reference.pointer, _id_of.pointer, c)
         .object<JCharacter$JUnicodeBlock?>();
@@ -4940,12 +4940,12 @@ extension type JCharacter$JUnicodeBlock._(jni$_.JObject _$this)
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.Character$UnicodeBlock of(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static JCharacter$JUnicodeBlock? of$1(
-    int i,
+    core$_.int i,
   ) {
     return _of$1(_class.reference.pointer, _id_of$1.pointer, i)
         .object<JCharacter$JUnicodeBlock?>();
@@ -6865,12 +6865,12 @@ extension type JCharacter$JUnicodeScript._(jni$_.JObject _$this)
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.Character$UnicodeScript of(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static JCharacter$JUnicodeScript? of(
-    int i,
+    core$_.int i,
   ) {
     return _of(_class.reference.pointer, _id_of.pointer, i)
         .object<JCharacter$JUnicodeScript?>();
@@ -7121,12 +7121,12 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_NewObject')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void <init>(char c)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JCharacter(
-    int c,
+    core$_.int c,
   ) {
     return _new$(_class.reference.pointer, _id_new$.pointer, c)
         .object<JCharacter>();
@@ -7144,11 +7144,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int charCount(int i)`
-  static int charCount(
-    int i,
+  static core$_.int charCount(
+    core$_.int i,
   ) {
     return _charCount(_class.reference.pointer, _id_charCount.pointer, i)
         .integer;
@@ -7169,12 +7169,12 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `static public int codePointAt(char[] cs, int i)`
-  static int codePointAt(
+  static core$_.int codePointAt(
     jni$_.JCharArray? cs,
-    int i,
+    core$_.int i,
   ) {
     final _$cs = cs?.reference ?? jni$_.jNullReference;
     return _codePointAt(
@@ -7199,14 +7199,18 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
                         jni$_.Int32
                       )>)>>('globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `static public int codePointAt(char[] cs, int i, int i1)`
-  static int codePointAt$1(
+  static core$_.int codePointAt$1(
     jni$_.JCharArray? cs,
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
   ) {
     final _$cs = cs?.reference ?? jni$_.jNullReference;
     return _codePointAt$1(_class.reference.pointer, _id_codePointAt$1.pointer,
@@ -7229,12 +7233,12 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `static public int codePointAt(java.lang.CharSequence charSequence, int i)`
-  static int codePointAt$2(
+  static core$_.int codePointAt$2(
     jni$_.JObject? charSequence,
-    int i,
+    core$_.int i,
   ) {
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
     return _codePointAt$2(_class.reference.pointer, _id_codePointAt$2.pointer,
@@ -7257,12 +7261,12 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `static public int codePointBefore(char[] cs, int i)`
-  static int codePointBefore(
+  static core$_.int codePointBefore(
     jni$_.JCharArray? cs,
-    int i,
+    core$_.int i,
   ) {
     final _$cs = cs?.reference ?? jni$_.jNullReference;
     return _codePointBefore(_class.reference.pointer,
@@ -7287,14 +7291,18 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
                         jni$_.Int32
                       )>)>>('globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `static public int codePointBefore(char[] cs, int i, int i1)`
-  static int codePointBefore$1(
+  static core$_.int codePointBefore$1(
     jni$_.JCharArray? cs,
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
   ) {
     final _$cs = cs?.reference ?? jni$_.jNullReference;
     return _codePointBefore$1(_class.reference.pointer,
@@ -7317,12 +7325,12 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `static public int codePointBefore(java.lang.CharSequence charSequence, int i)`
-  static int codePointBefore$2(
+  static core$_.int codePointBefore$2(
     jni$_.JObject? charSequence,
-    int i,
+    core$_.int i,
   ) {
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
     return _codePointBefore$2(_class.reference.pointer,
@@ -7347,14 +7355,18 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
                         jni$_.Int32
                       )>)>>('globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `static public int codePointCount(char[] cs, int i, int i1)`
-  static int codePointCount(
+  static core$_.int codePointCount(
     jni$_.JCharArray? cs,
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
   ) {
     final _$cs = cs?.reference ?? jni$_.jNullReference;
     return _codePointCount(_class.reference.pointer, _id_codePointCount.pointer,
@@ -7379,14 +7391,18 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
                         jni$_.Int32
                       )>)>>('globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `static public int codePointCount(java.lang.CharSequence charSequence, int i, int i1)`
-  static int codePointCount$1(
+  static core$_.int codePointCount$1(
     jni$_.JObject? charSequence,
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
   ) {
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
     return _codePointCount$1(_class.reference.pointer,
@@ -7411,7 +7427,7 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `static public int codePointOf(java.lang.String string)`
-  static int codePointOf(
+  static core$_.int codePointOf(
     JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -7433,13 +7449,13 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int compare(char c, char c1)`
-  static int compare(
-    int c,
-    int c1,
+  static core$_.int compare(
+    core$_.int c,
+    core$_.int c1,
   ) {
     return _compare(_class.reference.pointer, _id_compare.pointer, c, c1)
         .integer;
@@ -7458,13 +7474,13 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int digit(char c, int i)`
-  static int digit(
-    int c,
-    int i,
+  static core$_.int digit(
+    core$_.int c,
+    core$_.int i,
   ) {
     return _digit(_class.reference.pointer, _id_digit.pointer, c, i).integer;
   }
@@ -7482,13 +7498,13 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int digit(int i, int i1)`
-  static int digit$1(
-    int i,
-    int i1,
+  static core$_.int digit$1(
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _digit$1(_class.reference.pointer, _id_digit$1.pointer, i, i1)
         .integer;
@@ -7507,13 +7523,13 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticCharMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public char forDigit(int i, int i1)`
-  static int forDigit(
-    int i,
-    int i1,
+  static core$_.int forDigit(
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _forDigit(_class.reference.pointer, _id_forDigit.pointer, i, i1)
         .char;
@@ -7531,11 +7547,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticByteMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public byte getDirectionality(char c)`
-  static int getDirectionality(
-    int c,
+  static core$_.int getDirectionality(
+    core$_.int c,
   ) {
     return _getDirectionality(
             _class.reference.pointer, _id_getDirectionality.pointer, c)
@@ -7554,11 +7570,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticByteMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public byte getDirectionality(int i)`
-  static int getDirectionality$1(
-    int i,
+  static core$_.int getDirectionality$1(
+    core$_.int i,
   ) {
     return _getDirectionality$1(
             _class.reference.pointer, _id_getDirectionality$1.pointer, i)
@@ -7577,12 +7593,12 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.String getName(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? getName(
-    int i,
+    core$_.int i,
   ) {
     return _getName(_class.reference.pointer, _id_getName.pointer, i)
         .object<JString?>();
@@ -7600,11 +7616,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int getNumericValue(char c)`
-  static int getNumericValue(
-    int c,
+  static core$_.int getNumericValue(
+    core$_.int c,
   ) {
     return _getNumericValue(
             _class.reference.pointer, _id_getNumericValue.pointer, c)
@@ -7623,11 +7639,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int getNumericValue(int i)`
-  static int getNumericValue$1(
-    int i,
+  static core$_.int getNumericValue$1(
+    core$_.int i,
   ) {
     return _getNumericValue$1(
             _class.reference.pointer, _id_getNumericValue$1.pointer, i)
@@ -7646,11 +7662,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int getType(char c)`
-  static int getType(
-    int c,
+  static core$_.int getType(
+    core$_.int c,
   ) {
     return _getType(_class.reference.pointer, _id_getType.pointer, c).integer;
   }
@@ -7667,11 +7683,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int getType(int i)`
-  static int getType$1(
-    int i,
+  static core$_.int getType$1(
+    core$_.int i,
   ) {
     return _getType$1(_class.reference.pointer, _id_getType$1.pointer, i)
         .integer;
@@ -7689,11 +7705,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int hashCode(char c)`
-  static int hashCode$2(
-    int c,
+  static core$_.int hashCode$2(
+    core$_.int c,
   ) {
     return _hashCode$2(_class.reference.pointer, _id_hashCode$2.pointer, c)
         .integer;
@@ -7711,11 +7727,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticCharMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public char highSurrogate(int i)`
-  static int highSurrogate(
-    int i,
+  static core$_.int highSurrogate(
+    core$_.int i,
   ) {
     return _highSurrogate(
             _class.reference.pointer, _id_highSurrogate.pointer, i)
@@ -7734,11 +7750,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isAlphabetic(int i)`
   static core$_.bool isAlphabetic(
-    int i,
+    core$_.int i,
   ) {
     return _isAlphabetic(_class.reference.pointer, _id_isAlphabetic.pointer, i)
         .boolean;
@@ -7756,11 +7772,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isBmpCodePoint(int i)`
   static core$_.bool isBmpCodePoint(
-    int i,
+    core$_.int i,
   ) {
     return _isBmpCodePoint(
             _class.reference.pointer, _id_isBmpCodePoint.pointer, i)
@@ -7779,11 +7795,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isDefined(char c)`
   static core$_.bool isDefined(
-    int c,
+    core$_.int c,
   ) {
     return _isDefined(_class.reference.pointer, _id_isDefined.pointer, c)
         .boolean;
@@ -7801,11 +7817,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isDefined(int i)`
   static core$_.bool isDefined$1(
-    int i,
+    core$_.int i,
   ) {
     return _isDefined$1(_class.reference.pointer, _id_isDefined$1.pointer, i)
         .boolean;
@@ -7823,11 +7839,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isDigit(char c)`
   static core$_.bool isDigit(
-    int c,
+    core$_.int c,
   ) {
     return _isDigit(_class.reference.pointer, _id_isDigit.pointer, c).boolean;
   }
@@ -7844,11 +7860,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isDigit(int i)`
   static core$_.bool isDigit$1(
-    int i,
+    core$_.int i,
   ) {
     return _isDigit$1(_class.reference.pointer, _id_isDigit$1.pointer, i)
         .boolean;
@@ -7866,11 +7882,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isEmoji(int i)`
   static core$_.bool isEmoji(
-    int i,
+    core$_.int i,
   ) {
     return _isEmoji(_class.reference.pointer, _id_isEmoji.pointer, i).boolean;
   }
@@ -7887,11 +7903,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isEmojiComponent(int i)`
   static core$_.bool isEmojiComponent(
-    int i,
+    core$_.int i,
   ) {
     return _isEmojiComponent(
             _class.reference.pointer, _id_isEmojiComponent.pointer, i)
@@ -7910,11 +7926,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isEmojiModifier(int i)`
   static core$_.bool isEmojiModifier(
-    int i,
+    core$_.int i,
   ) {
     return _isEmojiModifier(
             _class.reference.pointer, _id_isEmojiModifier.pointer, i)
@@ -7933,11 +7949,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isEmojiModifierBase(int i)`
   static core$_.bool isEmojiModifierBase(
-    int i,
+    core$_.int i,
   ) {
     return _isEmojiModifierBase(
             _class.reference.pointer, _id_isEmojiModifierBase.pointer, i)
@@ -7956,11 +7972,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isEmojiPresentation(int i)`
   static core$_.bool isEmojiPresentation(
-    int i,
+    core$_.int i,
   ) {
     return _isEmojiPresentation(
             _class.reference.pointer, _id_isEmojiPresentation.pointer, i)
@@ -7979,11 +7995,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isExtendedPictographic(int i)`
   static core$_.bool isExtendedPictographic(
-    int i,
+    core$_.int i,
   ) {
     return _isExtendedPictographic(
             _class.reference.pointer, _id_isExtendedPictographic.pointer, i)
@@ -8002,11 +8018,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isHighSurrogate(char c)`
   static core$_.bool isHighSurrogate(
-    int c,
+    core$_.int c,
   ) {
     return _isHighSurrogate(
             _class.reference.pointer, _id_isHighSurrogate.pointer, c)
@@ -8025,11 +8041,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isISOControl(char c)`
   static core$_.bool isISOControl(
-    int c,
+    core$_.int c,
   ) {
     return _isISOControl(_class.reference.pointer, _id_isISOControl.pointer, c)
         .boolean;
@@ -8047,11 +8063,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isISOControl(int i)`
   static core$_.bool isISOControl$1(
-    int i,
+    core$_.int i,
   ) {
     return _isISOControl$1(
             _class.reference.pointer, _id_isISOControl$1.pointer, i)
@@ -8070,11 +8086,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isIdentifierIgnorable(char c)`
   static core$_.bool isIdentifierIgnorable(
-    int c,
+    core$_.int c,
   ) {
     return _isIdentifierIgnorable(
             _class.reference.pointer, _id_isIdentifierIgnorable.pointer, c)
@@ -8093,11 +8109,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isIdentifierIgnorable(int i)`
   static core$_.bool isIdentifierIgnorable$1(
-    int i,
+    core$_.int i,
   ) {
     return _isIdentifierIgnorable$1(
             _class.reference.pointer, _id_isIdentifierIgnorable$1.pointer, i)
@@ -8116,11 +8132,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isIdeographic(int i)`
   static core$_.bool isIdeographic(
-    int i,
+    core$_.int i,
   ) {
     return _isIdeographic(
             _class.reference.pointer, _id_isIdeographic.pointer, i)
@@ -8139,11 +8155,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isJavaIdentifierPart(char c)`
   static core$_.bool isJavaIdentifierPart(
-    int c,
+    core$_.int c,
   ) {
     return _isJavaIdentifierPart(
             _class.reference.pointer, _id_isJavaIdentifierPart.pointer, c)
@@ -8162,11 +8178,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isJavaIdentifierPart(int i)`
   static core$_.bool isJavaIdentifierPart$1(
-    int i,
+    core$_.int i,
   ) {
     return _isJavaIdentifierPart$1(
             _class.reference.pointer, _id_isJavaIdentifierPart$1.pointer, i)
@@ -8185,11 +8201,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isJavaIdentifierStart(char c)`
   static core$_.bool isJavaIdentifierStart(
-    int c,
+    core$_.int c,
   ) {
     return _isJavaIdentifierStart(
             _class.reference.pointer, _id_isJavaIdentifierStart.pointer, c)
@@ -8208,11 +8224,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isJavaIdentifierStart(int i)`
   static core$_.bool isJavaIdentifierStart$1(
-    int i,
+    core$_.int i,
   ) {
     return _isJavaIdentifierStart$1(
             _class.reference.pointer, _id_isJavaIdentifierStart$1.pointer, i)
@@ -8231,11 +8247,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isJavaLetter(char c)`
   static core$_.bool isJavaLetter(
-    int c,
+    core$_.int c,
   ) {
     return _isJavaLetter(_class.reference.pointer, _id_isJavaLetter.pointer, c)
         .boolean;
@@ -8253,11 +8269,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isJavaLetterOrDigit(char c)`
   static core$_.bool isJavaLetterOrDigit(
-    int c,
+    core$_.int c,
   ) {
     return _isJavaLetterOrDigit(
             _class.reference.pointer, _id_isJavaLetterOrDigit.pointer, c)
@@ -8276,11 +8292,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isLetter(char c)`
   static core$_.bool isLetter(
-    int c,
+    core$_.int c,
   ) {
     return _isLetter(_class.reference.pointer, _id_isLetter.pointer, c).boolean;
   }
@@ -8297,11 +8313,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isLetter(int i)`
   static core$_.bool isLetter$1(
-    int i,
+    core$_.int i,
   ) {
     return _isLetter$1(_class.reference.pointer, _id_isLetter$1.pointer, i)
         .boolean;
@@ -8319,11 +8335,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isLetterOrDigit(char c)`
   static core$_.bool isLetterOrDigit(
-    int c,
+    core$_.int c,
   ) {
     return _isLetterOrDigit(
             _class.reference.pointer, _id_isLetterOrDigit.pointer, c)
@@ -8342,11 +8358,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isLetterOrDigit(int i)`
   static core$_.bool isLetterOrDigit$1(
-    int i,
+    core$_.int i,
   ) {
     return _isLetterOrDigit$1(
             _class.reference.pointer, _id_isLetterOrDigit$1.pointer, i)
@@ -8365,11 +8381,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isLowSurrogate(char c)`
   static core$_.bool isLowSurrogate(
-    int c,
+    core$_.int c,
   ) {
     return _isLowSurrogate(
             _class.reference.pointer, _id_isLowSurrogate.pointer, c)
@@ -8388,11 +8404,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isLowerCase(char c)`
   static core$_.bool isLowerCase(
-    int c,
+    core$_.int c,
   ) {
     return _isLowerCase(_class.reference.pointer, _id_isLowerCase.pointer, c)
         .boolean;
@@ -8410,11 +8426,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isLowerCase(int i)`
   static core$_.bool isLowerCase$1(
-    int i,
+    core$_.int i,
   ) {
     return _isLowerCase$1(
             _class.reference.pointer, _id_isLowerCase$1.pointer, i)
@@ -8433,11 +8449,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isMirrored(char c)`
   static core$_.bool isMirrored(
-    int c,
+    core$_.int c,
   ) {
     return _isMirrored(_class.reference.pointer, _id_isMirrored.pointer, c)
         .boolean;
@@ -8455,11 +8471,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isMirrored(int i)`
   static core$_.bool isMirrored$1(
-    int i,
+    core$_.int i,
   ) {
     return _isMirrored$1(_class.reference.pointer, _id_isMirrored$1.pointer, i)
         .boolean;
@@ -8477,11 +8493,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isSpace(char c)`
   static core$_.bool isSpace(
-    int c,
+    core$_.int c,
   ) {
     return _isSpace(_class.reference.pointer, _id_isSpace.pointer, c).boolean;
   }
@@ -8498,11 +8514,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isSpaceChar(char c)`
   static core$_.bool isSpaceChar(
-    int c,
+    core$_.int c,
   ) {
     return _isSpaceChar(_class.reference.pointer, _id_isSpaceChar.pointer, c)
         .boolean;
@@ -8520,11 +8536,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isSpaceChar(int i)`
   static core$_.bool isSpaceChar$1(
-    int i,
+    core$_.int i,
   ) {
     return _isSpaceChar$1(
             _class.reference.pointer, _id_isSpaceChar$1.pointer, i)
@@ -8543,11 +8559,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isSupplementaryCodePoint(int i)`
   static core$_.bool isSupplementaryCodePoint(
-    int i,
+    core$_.int i,
   ) {
     return _isSupplementaryCodePoint(
             _class.reference.pointer, _id_isSupplementaryCodePoint.pointer, i)
@@ -8566,11 +8582,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isSurrogate(char c)`
   static core$_.bool isSurrogate(
-    int c,
+    core$_.int c,
   ) {
     return _isSurrogate(_class.reference.pointer, _id_isSurrogate.pointer, c)
         .boolean;
@@ -8589,13 +8605,13 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public boolean isSurrogatePair(char c, char c1)`
   static core$_.bool isSurrogatePair(
-    int c,
-    int c1,
+    core$_.int c,
+    core$_.int c1,
   ) {
     return _isSurrogatePair(
             _class.reference.pointer, _id_isSurrogatePair.pointer, c, c1)
@@ -8614,11 +8630,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isTitleCase(char c)`
   static core$_.bool isTitleCase(
-    int c,
+    core$_.int c,
   ) {
     return _isTitleCase(_class.reference.pointer, _id_isTitleCase.pointer, c)
         .boolean;
@@ -8636,11 +8652,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isTitleCase(int i)`
   static core$_.bool isTitleCase$1(
-    int i,
+    core$_.int i,
   ) {
     return _isTitleCase$1(
             _class.reference.pointer, _id_isTitleCase$1.pointer, i)
@@ -8659,11 +8675,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isUnicodeIdentifierPart(char c)`
   static core$_.bool isUnicodeIdentifierPart(
-    int c,
+    core$_.int c,
   ) {
     return _isUnicodeIdentifierPart(
             _class.reference.pointer, _id_isUnicodeIdentifierPart.pointer, c)
@@ -8682,11 +8698,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isUnicodeIdentifierPart(int i)`
   static core$_.bool isUnicodeIdentifierPart$1(
-    int i,
+    core$_.int i,
   ) {
     return _isUnicodeIdentifierPart$1(
             _class.reference.pointer, _id_isUnicodeIdentifierPart$1.pointer, i)
@@ -8705,11 +8721,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isUnicodeIdentifierStart(char c)`
   static core$_.bool isUnicodeIdentifierStart(
-    int c,
+    core$_.int c,
   ) {
     return _isUnicodeIdentifierStart(
             _class.reference.pointer, _id_isUnicodeIdentifierStart.pointer, c)
@@ -8729,11 +8745,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
               'globalEnv_CallStaticBooleanMethod')
           .asFunction<
               jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+                  jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isUnicodeIdentifierStart(int i)`
   static core$_.bool isUnicodeIdentifierStart$1(
-    int i,
+    core$_.int i,
   ) {
     return _isUnicodeIdentifierStart$1(
             _class.reference.pointer, _id_isUnicodeIdentifierStart$1.pointer, i)
@@ -8752,11 +8768,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isUpperCase(char c)`
   static core$_.bool isUpperCase(
-    int c,
+    core$_.int c,
   ) {
     return _isUpperCase(_class.reference.pointer, _id_isUpperCase.pointer, c)
         .boolean;
@@ -8774,11 +8790,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isUpperCase(int i)`
   static core$_.bool isUpperCase$1(
-    int i,
+    core$_.int i,
   ) {
     return _isUpperCase$1(
             _class.reference.pointer, _id_isUpperCase$1.pointer, i)
@@ -8797,11 +8813,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isValidCodePoint(int i)`
   static core$_.bool isValidCodePoint(
-    int i,
+    core$_.int i,
   ) {
     return _isValidCodePoint(
             _class.reference.pointer, _id_isValidCodePoint.pointer, i)
@@ -8820,11 +8836,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isWhitespace(char c)`
   static core$_.bool isWhitespace(
-    int c,
+    core$_.int c,
   ) {
     return _isWhitespace(_class.reference.pointer, _id_isWhitespace.pointer, c)
         .boolean;
@@ -8842,11 +8858,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public boolean isWhitespace(int i)`
   static core$_.bool isWhitespace$1(
-    int i,
+    core$_.int i,
   ) {
     return _isWhitespace$1(
             _class.reference.pointer, _id_isWhitespace$1.pointer, i)
@@ -8865,11 +8881,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticCharMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public char lowSurrogate(int i)`
-  static int lowSurrogate(
-    int i,
+  static core$_.int lowSurrogate(
+    core$_.int i,
   ) {
     return _lowSurrogate(_class.reference.pointer, _id_lowSurrogate.pointer, i)
         .char;
@@ -8898,18 +8914,18 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
-              int,
-              int,
-              int,
-              int)>();
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `static public int offsetByCodePoints(char[] cs, int i, int i1, int i2, int i3)`
-  static int offsetByCodePoints(
+  static core$_.int offsetByCodePoints(
     jni$_.JCharArray? cs,
-    int i,
-    int i1,
-    int i2,
-    int i3,
+    core$_.int i,
+    core$_.int i1,
+    core$_.int i2,
+    core$_.int i3,
   ) {
     final _$cs = cs?.reference ?? jni$_.jNullReference;
     return _offsetByCodePoints(_class.reference.pointer,
@@ -8934,14 +8950,18 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
                         jni$_.Int32
                       )>)>>('globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `static public int offsetByCodePoints(java.lang.CharSequence charSequence, int i, int i1)`
-  static int offsetByCodePoints$1(
+  static core$_.int offsetByCodePoints$1(
     jni$_.JObject? charSequence,
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
   ) {
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
     return _offsetByCodePoints$1(_class.reference.pointer,
@@ -8961,11 +8981,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticCharMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public char reverseBytes(char c)`
-  static int reverseBytes(
-    int c,
+  static core$_.int reverseBytes(
+    core$_.int c,
   ) {
     return _reverseBytes(_class.reference.pointer, _id_reverseBytes.pointer, c)
         .char;
@@ -8983,12 +9003,12 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public char[] toChars(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JCharArray? toChars(
-    int i,
+    core$_.int i,
   ) {
     return _toChars(_class.reference.pointer, _id_toChars.pointer, i)
         .object<jni$_.JCharArray?>();
@@ -9011,14 +9031,18 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
                         jni$_.Int32
                       )>)>>('globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              core$_.int,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int)>();
 
   /// from: `static public int toChars(int i, char[] cs, int i1)`
-  static int toChars$1(
-    int i,
+  static core$_.int toChars$1(
+    core$_.int i,
     jni$_.JCharArray? cs,
-    int i1,
+    core$_.int i1,
   ) {
     final _$cs = cs?.reference ?? jni$_.jNullReference;
     return _toChars$1(_class.reference.pointer, _id_toChars$1.pointer, i,
@@ -9039,13 +9063,13 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int toCodePoint(char c, char c1)`
-  static int toCodePoint(
-    int c,
-    int c1,
+  static core$_.int toCodePoint(
+    core$_.int c,
+    core$_.int c1,
   ) {
     return _toCodePoint(
             _class.reference.pointer, _id_toCodePoint.pointer, c, c1)
@@ -9064,11 +9088,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticCharMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public char toLowerCase(char c)`
-  static int toLowerCase(
-    int c,
+  static core$_.int toLowerCase(
+    core$_.int c,
   ) {
     return _toLowerCase(_class.reference.pointer, _id_toLowerCase.pointer, c)
         .char;
@@ -9086,11 +9110,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int toLowerCase(int i)`
-  static int toLowerCase$1(
-    int i,
+  static core$_.int toLowerCase$1(
+    core$_.int i,
   ) {
     return _toLowerCase$1(
             _class.reference.pointer, _id_toLowerCase$1.pointer, i)
@@ -9109,12 +9133,12 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.String toString(char c)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? toString$2(
-    int c,
+    core$_.int c,
   ) {
     return _toString$2(_class.reference.pointer, _id_toString$2.pointer, c)
         .object<JString?>();
@@ -9132,12 +9156,12 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.String toString(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? toString$3(
-    int i,
+    core$_.int i,
   ) {
     return _toString$3(_class.reference.pointer, _id_toString$3.pointer, i)
         .object<JString?>();
@@ -9155,11 +9179,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticCharMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public char toTitleCase(char c)`
-  static int toTitleCase(
-    int c,
+  static core$_.int toTitleCase(
+    core$_.int c,
   ) {
     return _toTitleCase(_class.reference.pointer, _id_toTitleCase.pointer, c)
         .char;
@@ -9177,11 +9201,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int toTitleCase(int i)`
-  static int toTitleCase$1(
-    int i,
+  static core$_.int toTitleCase$1(
+    core$_.int i,
   ) {
     return _toTitleCase$1(
             _class.reference.pointer, _id_toTitleCase$1.pointer, i)
@@ -9200,11 +9224,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticCharMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public char toUpperCase(char c)`
-  static int toUpperCase(
-    int c,
+  static core$_.int toUpperCase(
+    core$_.int c,
   ) {
     return _toUpperCase(_class.reference.pointer, _id_toUpperCase.pointer, c)
         .char;
@@ -9222,11 +9246,11 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int toUpperCase(int i)`
-  static int toUpperCase$1(
-    int i,
+  static core$_.int toUpperCase$1(
+    core$_.int i,
   ) {
     return _toUpperCase$1(
             _class.reference.pointer, _id_toUpperCase$1.pointer, i)
@@ -9245,12 +9269,12 @@ extension type JCharacter._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.Character valueOf(char c)`
   /// The returned object must be released after use, by calling the [release] method.
   static JCharacter? valueOf(
-    int c,
+    core$_.int c,
   ) {
     return _valueOf(_class.reference.pointer, _id_valueOf.pointer, c)
         .object<JCharacter?>();
@@ -9276,7 +9300,7 @@ extension JCharacter$$Methods on JCharacter {
           )>();
 
   /// from: `public char charValue()`
-  int charValue() {
+  core$_.int charValue() {
     return _charValue(reference.pointer, _id_charValue.pointer).char;
   }
 
@@ -9297,7 +9321,7 @@ extension JCharacter$$Methods on JCharacter {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public int compareTo(java.lang.Character character)`
-  int compareTo(
+  core$_.int compareTo(
     JCharacter? character,
   ) {
     final _$character = character?.reference ?? jni$_.jNullReference;
@@ -9349,7 +9373,7 @@ extension JCharacter$$Methods on JCharacter {
           )>();
 
   /// from: `public int hashCode()`
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 
@@ -9434,8 +9458,9 @@ extension type JDouble._(jni$_.JObject _$this)
   );
 
   /// from: `static public final double NEGATIVE_INFINITY`
-  static double get NEGATIVE_INFINITY =>
-      _id_NEGATIVE_INFINITY.getNullable(_class, jni$_.jdouble.type) as double;
+  static core$_.double get NEGATIVE_INFINITY =>
+      _id_NEGATIVE_INFINITY.getNullable(_class, jni$_.jdouble.type)
+          as core$_.double;
 
   static final _id_NaN = _class.staticFieldId(
     r'NaN',
@@ -9443,8 +9468,8 @@ extension type JDouble._(jni$_.JObject _$this)
   );
 
   /// from: `static public final double NaN`
-  static double get NaN =>
-      _id_NaN.getNullable(_class, jni$_.jdouble.type) as double;
+  static core$_.double get NaN =>
+      _id_NaN.getNullable(_class, jni$_.jdouble.type) as core$_.double;
 
   static final _id_POSITIVE_INFINITY = _class.staticFieldId(
     r'POSITIVE_INFINITY',
@@ -9452,8 +9477,9 @@ extension type JDouble._(jni$_.JObject _$this)
   );
 
   /// from: `static public final double POSITIVE_INFINITY`
-  static double get POSITIVE_INFINITY =>
-      _id_POSITIVE_INFINITY.getNullable(_class, jni$_.jdouble.type) as double;
+  static core$_.double get POSITIVE_INFINITY =>
+      _id_POSITIVE_INFINITY.getNullable(_class, jni$_.jdouble.type)
+          as core$_.double;
 
   /// from: `static public final int PRECISION`
   static const PRECISION = 53;
@@ -9482,12 +9508,12 @@ extension type JDouble._(jni$_.JObject _$this)
                   jni$_.VarArgs<(jni$_.Double,)>)>>('globalEnv_NewObject')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `public void <init>(double d)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JDouble(
-    double d,
+    core$_.double d,
   ) {
     return _new$(_class.reference.pointer, _id_new$.pointer, d)
         .object<JDouble>();
@@ -9531,13 +9557,13 @@ extension type JDouble._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Double, jni$_.Double)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double, double)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.double, core$_.double)>();
 
   /// from: `static public int compare(double d, double d1)`
-  static int compare(
-    double d,
-    double d1,
+  static core$_.int compare(
+    core$_.double d,
+    core$_.double d1,
   ) {
     return _compare(_class.reference.pointer, _id_compare.pointer, d, d1)
         .integer;
@@ -9555,11 +9581,11 @@ extension type JDouble._(jni$_.JObject _$this)
           'globalEnv_CallStaticLongMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `static public long doubleToLongBits(double d)`
-  static int doubleToLongBits(
-    double d,
+  static core$_.int doubleToLongBits(
+    core$_.double d,
   ) {
     return _doubleToLongBits(
             _class.reference.pointer, _id_doubleToLongBits.pointer, d)
@@ -9578,11 +9604,11 @@ extension type JDouble._(jni$_.JObject _$this)
           'globalEnv_CallStaticLongMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `static public native long doubleToRawLongBits(double d)`
-  static int doubleToRawLongBits(
-    double d,
+  static core$_.int doubleToRawLongBits(
+    core$_.double d,
   ) {
     return _doubleToRawLongBits(
             _class.reference.pointer, _id_doubleToRawLongBits.pointer, d)
@@ -9601,11 +9627,11 @@ extension type JDouble._(jni$_.JObject _$this)
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `static public int hashCode(double d)`
-  static int hashCode$2(
-    double d,
+  static core$_.int hashCode$2(
+    core$_.double d,
   ) {
     return _hashCode$2(_class.reference.pointer, _id_hashCode$2.pointer, d)
         .integer;
@@ -9623,11 +9649,11 @@ extension type JDouble._(jni$_.JObject _$this)
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `static public boolean isFinite(double d)`
   static core$_.bool isFinite(
-    double d,
+    core$_.double d,
   ) {
     return _isFinite(_class.reference.pointer, _id_isFinite.pointer, d).boolean;
   }
@@ -9644,11 +9670,11 @@ extension type JDouble._(jni$_.JObject _$this)
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `static public boolean isInfinite(double d)`
   static core$_.bool isInfinite$1(
-    double d,
+    core$_.double d,
   ) {
     return _isInfinite$1(_class.reference.pointer, _id_isInfinite$1.pointer, d)
         .boolean;
@@ -9666,11 +9692,11 @@ extension type JDouble._(jni$_.JObject _$this)
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `static public boolean isNaN(double d)`
   static core$_.bool isNaN$1(
-    double d,
+    core$_.double d,
   ) {
     return _isNaN$1(_class.reference.pointer, _id_isNaN$1.pointer, d).boolean;
   }
@@ -9687,11 +9713,11 @@ extension type JDouble._(jni$_.JObject _$this)
           'globalEnv_CallStaticDoubleMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public native double longBitsToDouble(long j)`
-  static double longBitsToDouble(
-    int j,
+  static core$_.double longBitsToDouble(
+    core$_.int j,
   ) {
     return _longBitsToDouble(
             _class.reference.pointer, _id_longBitsToDouble.pointer, j)
@@ -9711,13 +9737,13 @@ extension type JDouble._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Double, jni$_.Double)>)>>(
           'globalEnv_CallStaticDoubleMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double, double)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.double, core$_.double)>();
 
   /// from: `static public double max(double d, double d1)`
-  static double max(
-    double d,
-    double d1,
+  static core$_.double max(
+    core$_.double d,
+    core$_.double d1,
   ) {
     return _max(_class.reference.pointer, _id_max.pointer, d, d1).doubleFloat;
   }
@@ -9735,13 +9761,13 @@ extension type JDouble._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Double, jni$_.Double)>)>>(
           'globalEnv_CallStaticDoubleMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double, double)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.double, core$_.double)>();
 
   /// from: `static public double min(double d, double d1)`
-  static double min(
-    double d,
-    double d1,
+  static core$_.double min(
+    core$_.double d,
+    core$_.double d1,
   ) {
     return _min(_class.reference.pointer, _id_min.pointer, d, d1).doubleFloat;
   }
@@ -9763,7 +9789,7 @@ extension type JDouble._(jni$_.JObject _$this)
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `static public double parseDouble(java.lang.String string)`
-  static double parseDouble(
+  static core$_.double parseDouble(
     JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -9785,13 +9811,13 @@ extension type JDouble._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Double, jni$_.Double)>)>>(
           'globalEnv_CallStaticDoubleMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double, double)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.double, core$_.double)>();
 
   /// from: `static public double sum(double d, double d1)`
-  static double sum(
-    double d,
-    double d1,
+  static core$_.double sum(
+    core$_.double d,
+    core$_.double d1,
   ) {
     return _sum(_class.reference.pointer, _id_sum.pointer, d, d1).doubleFloat;
   }
@@ -9808,12 +9834,12 @@ extension type JDouble._(jni$_.JObject _$this)
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `static public java.lang.String toHexString(double d)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? toHexString(
-    double d,
+    core$_.double d,
   ) {
     return _toHexString(_class.reference.pointer, _id_toHexString.pointer, d)
         .object<JString?>();
@@ -9831,12 +9857,12 @@ extension type JDouble._(jni$_.JObject _$this)
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `static public java.lang.String toString(double d)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? toString$2(
-    double d,
+    core$_.double d,
   ) {
     return _toString$2(_class.reference.pointer, _id_toString$2.pointer, d)
         .object<JString?>();
@@ -9854,12 +9880,12 @@ extension type JDouble._(jni$_.JObject _$this)
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `static public java.lang.Double valueOf(double d)`
   /// The returned object must be released after use, by calling the [release] method.
   static JDouble? valueOf(
-    double d,
+    core$_.double d,
   ) {
     return _valueOf(_class.reference.pointer, _id_valueOf.pointer, d)
         .object<JDouble?>();
@@ -9912,7 +9938,7 @@ extension JDouble$$Methods on JDouble {
           )>();
 
   /// from: `public byte byteValue()`
-  int byteValue() {
+  core$_.int byteValue() {
     return _byteValue(reference.pointer, _id_byteValue.pointer).byte;
   }
 
@@ -9933,7 +9959,7 @@ extension JDouble$$Methods on JDouble {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public int compareTo(java.lang.Double double)`
-  int compareTo(
+  core$_.int compareTo(
     JDouble? double,
   ) {
     final _$double = double?.reference ?? jni$_.jNullReference;
@@ -9960,7 +9986,7 @@ extension JDouble$$Methods on JDouble {
           )>();
 
   /// from: `public double doubleValue()`
-  double doubleValue() {
+  core$_.double doubleValue() {
     return _doubleValue(reference.pointer, _id_doubleValue.pointer).doubleFloat;
   }
 
@@ -10007,7 +10033,7 @@ extension JDouble$$Methods on JDouble {
           )>();
 
   /// from: `public float floatValue()`
-  double floatValue() {
+  core$_.double floatValue() {
     return _floatValue(reference.pointer, _id_floatValue.pointer).float;
   }
 
@@ -10029,7 +10055,7 @@ extension JDouble$$Methods on JDouble {
           )>();
 
   /// from: `public int hashCode()`
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 
@@ -10051,7 +10077,7 @@ extension JDouble$$Methods on JDouble {
           )>();
 
   /// from: `public int intValue()`
-  int intValue() {
+  core$_.int intValue() {
     return _intValue(reference.pointer, _id_intValue.pointer).integer;
   }
 
@@ -10118,7 +10144,7 @@ extension JDouble$$Methods on JDouble {
           )>();
 
   /// from: `public long longValue()`
-  int longValue() {
+  core$_.int longValue() {
     return _longValue(reference.pointer, _id_longValue.pointer).long;
   }
 
@@ -10140,7 +10166,7 @@ extension JDouble$$Methods on JDouble {
           )>();
 
   /// from: `public short shortValue()`
-  int shortValue() {
+  core$_.int shortValue() {
     return _shortValue(reference.pointer, _id_shortValue.pointer).short;
   }
 
@@ -10225,8 +10251,9 @@ extension type JFloat._(jni$_.JObject _$this)
   );
 
   /// from: `static public final float NEGATIVE_INFINITY`
-  static double get NEGATIVE_INFINITY =>
-      _id_NEGATIVE_INFINITY.getNullable(_class, jni$_.jfloat.type) as double;
+  static core$_.double get NEGATIVE_INFINITY =>
+      _id_NEGATIVE_INFINITY.getNullable(_class, jni$_.jfloat.type)
+          as core$_.double;
 
   static final _id_NaN = _class.staticFieldId(
     r'NaN',
@@ -10234,8 +10261,8 @@ extension type JFloat._(jni$_.JObject _$this)
   );
 
   /// from: `static public final float NaN`
-  static double get NaN =>
-      _id_NaN.getNullable(_class, jni$_.jfloat.type) as double;
+  static core$_.double get NaN =>
+      _id_NaN.getNullable(_class, jni$_.jfloat.type) as core$_.double;
 
   static final _id_POSITIVE_INFINITY = _class.staticFieldId(
     r'POSITIVE_INFINITY',
@@ -10243,8 +10270,9 @@ extension type JFloat._(jni$_.JObject _$this)
   );
 
   /// from: `static public final float POSITIVE_INFINITY`
-  static double get POSITIVE_INFINITY =>
-      _id_POSITIVE_INFINITY.getNullable(_class, jni$_.jfloat.type) as double;
+  static core$_.double get POSITIVE_INFINITY =>
+      _id_POSITIVE_INFINITY.getNullable(_class, jni$_.jfloat.type)
+          as core$_.double;
 
   /// from: `static public final int PRECISION`
   static const PRECISION = 24;
@@ -10273,12 +10301,12 @@ extension type JFloat._(jni$_.JObject _$this)
                   jni$_.VarArgs<(jni$_.Double,)>)>>('globalEnv_NewObject')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `public void <init>(double d)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JFloat(
-    double d,
+    core$_.double d,
   ) {
     return _new$(_class.reference.pointer, _id_new$.pointer, d)
         .object<JFloat>();
@@ -10296,12 +10324,12 @@ extension type JFloat._(jni$_.JObject _$this)
                   jni$_.VarArgs<(jni$_.Double,)>)>>('globalEnv_NewObject')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `public void <init>(float f)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JFloat.new$1(
-    double f,
+    core$_.double f,
   ) {
     return _new$1(_class.reference.pointer, _id_new$1.pointer, f)
         .object<JFloat>();
@@ -10345,13 +10373,13 @@ extension type JFloat._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Double, jni$_.Double)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double, double)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.double, core$_.double)>();
 
   /// from: `static public int compare(float f, float f1)`
-  static int compare(
-    double f,
-    double f1,
+  static core$_.int compare(
+    core$_.double f,
+    core$_.double f1,
   ) {
     return _compare(_class.reference.pointer, _id_compare.pointer, f, f1)
         .integer;
@@ -10369,11 +10397,11 @@ extension type JFloat._(jni$_.JObject _$this)
           'globalEnv_CallStaticFloatMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public float float16ToFloat(short s)`
-  static double float16ToFloat(
-    int s,
+  static core$_.double float16ToFloat(
+    core$_.int s,
   ) {
     return _float16ToFloat(
             _class.reference.pointer, _id_float16ToFloat.pointer, s)
@@ -10392,11 +10420,11 @@ extension type JFloat._(jni$_.JObject _$this)
           'globalEnv_CallStaticShortMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `static public short floatToFloat16(float f)`
-  static int floatToFloat16(
-    double f,
+  static core$_.int floatToFloat16(
+    core$_.double f,
   ) {
     return _floatToFloat16(
             _class.reference.pointer, _id_floatToFloat16.pointer, f)
@@ -10415,11 +10443,11 @@ extension type JFloat._(jni$_.JObject _$this)
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `static public int floatToIntBits(float f)`
-  static int floatToIntBits(
-    double f,
+  static core$_.int floatToIntBits(
+    core$_.double f,
   ) {
     return _floatToIntBits(
             _class.reference.pointer, _id_floatToIntBits.pointer, f)
@@ -10438,11 +10466,11 @@ extension type JFloat._(jni$_.JObject _$this)
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `static public native int floatToRawIntBits(float f)`
-  static int floatToRawIntBits(
-    double f,
+  static core$_.int floatToRawIntBits(
+    core$_.double f,
   ) {
     return _floatToRawIntBits(
             _class.reference.pointer, _id_floatToRawIntBits.pointer, f)
@@ -10461,11 +10489,11 @@ extension type JFloat._(jni$_.JObject _$this)
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `static public int hashCode(float f)`
-  static int hashCode$2(
-    double f,
+  static core$_.int hashCode$2(
+    core$_.double f,
   ) {
     return _hashCode$2(_class.reference.pointer, _id_hashCode$2.pointer, f)
         .integer;
@@ -10483,11 +10511,11 @@ extension type JFloat._(jni$_.JObject _$this)
           'globalEnv_CallStaticFloatMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public native float intBitsToFloat(int i)`
-  static double intBitsToFloat(
-    int i,
+  static core$_.double intBitsToFloat(
+    core$_.int i,
   ) {
     return _intBitsToFloat(
             _class.reference.pointer, _id_intBitsToFloat.pointer, i)
@@ -10506,11 +10534,11 @@ extension type JFloat._(jni$_.JObject _$this)
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `static public boolean isFinite(float f)`
   static core$_.bool isFinite(
-    double f,
+    core$_.double f,
   ) {
     return _isFinite(_class.reference.pointer, _id_isFinite.pointer, f).boolean;
   }
@@ -10527,11 +10555,11 @@ extension type JFloat._(jni$_.JObject _$this)
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `static public boolean isInfinite(float f)`
   static core$_.bool isInfinite$1(
-    double f,
+    core$_.double f,
   ) {
     return _isInfinite$1(_class.reference.pointer, _id_isInfinite$1.pointer, f)
         .boolean;
@@ -10549,11 +10577,11 @@ extension type JFloat._(jni$_.JObject _$this)
           'globalEnv_CallStaticBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `static public boolean isNaN(float f)`
   static core$_.bool isNaN$1(
-    double f,
+    core$_.double f,
   ) {
     return _isNaN$1(_class.reference.pointer, _id_isNaN$1.pointer, f).boolean;
   }
@@ -10571,13 +10599,13 @@ extension type JFloat._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Double, jni$_.Double)>)>>(
           'globalEnv_CallStaticFloatMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double, double)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.double, core$_.double)>();
 
   /// from: `static public float max(float f, float f1)`
-  static double max(
-    double f,
-    double f1,
+  static core$_.double max(
+    core$_.double f,
+    core$_.double f1,
   ) {
     return _max(_class.reference.pointer, _id_max.pointer, f, f1).float;
   }
@@ -10595,13 +10623,13 @@ extension type JFloat._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Double, jni$_.Double)>)>>(
           'globalEnv_CallStaticFloatMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double, double)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.double, core$_.double)>();
 
   /// from: `static public float min(float f, float f1)`
-  static double min(
-    double f,
-    double f1,
+  static core$_.double min(
+    core$_.double f,
+    core$_.double f1,
   ) {
     return _min(_class.reference.pointer, _id_min.pointer, f, f1).float;
   }
@@ -10623,7 +10651,7 @@ extension type JFloat._(jni$_.JObject _$this)
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `static public float parseFloat(java.lang.String string)`
-  static double parseFloat(
+  static core$_.double parseFloat(
     JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -10645,13 +10673,13 @@ extension type JFloat._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Double, jni$_.Double)>)>>(
           'globalEnv_CallStaticFloatMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double, double)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.double, core$_.double)>();
 
   /// from: `static public float sum(float f, float f1)`
-  static double sum(
-    double f,
-    double f1,
+  static core$_.double sum(
+    core$_.double f,
+    core$_.double f1,
   ) {
     return _sum(_class.reference.pointer, _id_sum.pointer, f, f1).float;
   }
@@ -10668,12 +10696,12 @@ extension type JFloat._(jni$_.JObject _$this)
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `static public java.lang.String toHexString(float f)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? toHexString(
-    double f,
+    core$_.double f,
   ) {
     return _toHexString(_class.reference.pointer, _id_toHexString.pointer, f)
         .object<JString?>();
@@ -10691,12 +10719,12 @@ extension type JFloat._(jni$_.JObject _$this)
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `static public java.lang.String toString(float f)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? toString$2(
-    double f,
+    core$_.double f,
   ) {
     return _toString$2(_class.reference.pointer, _id_toString$2.pointer, f)
         .object<JString?>();
@@ -10714,12 +10742,12 @@ extension type JFloat._(jni$_.JObject _$this)
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `static public java.lang.Float valueOf(float f)`
   /// The returned object must be released after use, by calling the [release] method.
   static JFloat? valueOf(
-    double f,
+    core$_.double f,
   ) {
     return _valueOf(_class.reference.pointer, _id_valueOf.pointer, f)
         .object<JFloat?>();
@@ -10772,7 +10800,7 @@ extension JFloat$$Methods on JFloat {
           )>();
 
   /// from: `public byte byteValue()`
-  int byteValue() {
+  core$_.int byteValue() {
     return _byteValue(reference.pointer, _id_byteValue.pointer).byte;
   }
 
@@ -10793,7 +10821,7 @@ extension JFloat$$Methods on JFloat {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public int compareTo(java.lang.Float float)`
-  int compareTo(
+  core$_.int compareTo(
     JFloat? float,
   ) {
     final _$float = float?.reference ?? jni$_.jNullReference;
@@ -10819,7 +10847,7 @@ extension JFloat$$Methods on JFloat {
           )>();
 
   /// from: `public double doubleValue()`
-  double doubleValue() {
+  core$_.double doubleValue() {
     return _doubleValue(reference.pointer, _id_doubleValue.pointer).doubleFloat;
   }
 
@@ -10866,7 +10894,7 @@ extension JFloat$$Methods on JFloat {
           )>();
 
   /// from: `public float floatValue()`
-  double floatValue() {
+  core$_.double floatValue() {
     return _floatValue(reference.pointer, _id_floatValue.pointer).float;
   }
 
@@ -10888,7 +10916,7 @@ extension JFloat$$Methods on JFloat {
           )>();
 
   /// from: `public int hashCode()`
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 
@@ -10910,7 +10938,7 @@ extension JFloat$$Methods on JFloat {
           )>();
 
   /// from: `public int intValue()`
-  int intValue() {
+  core$_.int intValue() {
     return _intValue(reference.pointer, _id_intValue.pointer).integer;
   }
 
@@ -10977,7 +11005,7 @@ extension JFloat$$Methods on JFloat {
           )>();
 
   /// from: `public long longValue()`
-  int longValue() {
+  core$_.int longValue() {
     return _longValue(reference.pointer, _id_longValue.pointer).long;
   }
 
@@ -10999,7 +11027,7 @@ extension JFloat$$Methods on JFloat {
           )>();
 
   /// from: `public short shortValue()`
-  int shortValue() {
+  core$_.int shortValue() {
     return _shortValue(reference.pointer, _id_shortValue.pointer).short;
   }
 
@@ -11094,12 +11122,12 @@ extension type JInteger._(jni$_.JObject _$this)
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_NewObject')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void <init>(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JInteger(
-    int i,
+    core$_.int i,
   ) {
     return _new$(_class.reference.pointer, _id_new$.pointer, i)
         .object<JInteger>();
@@ -11142,11 +11170,11 @@ extension type JInteger._(jni$_.JObject _$this)
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int bitCount(int i)`
-  static int bitCount(
-    int i,
+  static core$_.int bitCount(
+    core$_.int i,
   ) {
     return _bitCount(_class.reference.pointer, _id_bitCount.pointer, i).integer;
   }
@@ -11164,13 +11192,13 @@ extension type JInteger._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int compare(int i, int i1)`
-  static int compare(
-    int i,
-    int i1,
+  static core$_.int compare(
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _compare(_class.reference.pointer, _id_compare.pointer, i, i1)
         .integer;
@@ -11189,13 +11217,13 @@ extension type JInteger._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int compareUnsigned(int i, int i1)`
-  static int compareUnsigned(
-    int i,
-    int i1,
+  static core$_.int compareUnsigned(
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _compareUnsigned(
             _class.reference.pointer, _id_compareUnsigned.pointer, i, i1)
@@ -11215,13 +11243,13 @@ extension type JInteger._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int compress(int i, int i1)`
-  static int compress(
-    int i,
-    int i1,
+  static core$_.int compress(
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _compress(_class.reference.pointer, _id_compress.pointer, i, i1)
         .integer;
@@ -11267,13 +11295,13 @@ extension type JInteger._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int divideUnsigned(int i, int i1)`
-  static int divideUnsigned(
-    int i,
-    int i1,
+  static core$_.int divideUnsigned(
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _divideUnsigned(
             _class.reference.pointer, _id_divideUnsigned.pointer, i, i1)
@@ -11293,13 +11321,13 @@ extension type JInteger._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int expand(int i, int i1)`
-  static int expand(
-    int i,
-    int i1,
+  static core$_.int expand(
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _expand(_class.reference.pointer, _id_expand.pointer, i, i1).integer;
   }
@@ -11346,13 +11374,13 @@ extension type JInteger._(jni$_.JObject _$this)
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `static public java.lang.Integer getInteger(java.lang.String string, int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static JInteger? getInteger$1(
     JString? string,
-    int i,
+    core$_.int i,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _getInteger$1(_class.reference.pointer, _id_getInteger$1.pointer,
@@ -11407,11 +11435,11 @@ extension type JInteger._(jni$_.JObject _$this)
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int hashCode(int i)`
-  static int hashCode$2(
-    int i,
+  static core$_.int hashCode$2(
+    core$_.int i,
   ) {
     return _hashCode$2(_class.reference.pointer, _id_hashCode$2.pointer, i)
         .integer;
@@ -11429,11 +11457,11 @@ extension type JInteger._(jni$_.JObject _$this)
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int highestOneBit(int i)`
-  static int highestOneBit(
-    int i,
+  static core$_.int highestOneBit(
+    core$_.int i,
   ) {
     return _highestOneBit(
             _class.reference.pointer, _id_highestOneBit.pointer, i)
@@ -11452,11 +11480,11 @@ extension type JInteger._(jni$_.JObject _$this)
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int lowestOneBit(int i)`
-  static int lowestOneBit(
-    int i,
+  static core$_.int lowestOneBit(
+    core$_.int i,
   ) {
     return _lowestOneBit(_class.reference.pointer, _id_lowestOneBit.pointer, i)
         .integer;
@@ -11475,13 +11503,13 @@ extension type JInteger._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int max(int i, int i1)`
-  static int max(
-    int i,
-    int i1,
+  static core$_.int max(
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _max(_class.reference.pointer, _id_max.pointer, i, i1).integer;
   }
@@ -11499,13 +11527,13 @@ extension type JInteger._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int min(int i, int i1)`
-  static int min(
-    int i,
-    int i1,
+  static core$_.int min(
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _min(_class.reference.pointer, _id_min.pointer, i, i1).integer;
   }
@@ -11522,11 +11550,11 @@ extension type JInteger._(jni$_.JObject _$this)
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int numberOfLeadingZeros(int i)`
-  static int numberOfLeadingZeros(
-    int i,
+  static core$_.int numberOfLeadingZeros(
+    core$_.int i,
   ) {
     return _numberOfLeadingZeros(
             _class.reference.pointer, _id_numberOfLeadingZeros.pointer, i)
@@ -11545,11 +11573,11 @@ extension type JInteger._(jni$_.JObject _$this)
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int numberOfTrailingZeros(int i)`
-  static int numberOfTrailingZeros(
-    int i,
+  static core$_.int numberOfTrailingZeros(
+    core$_.int i,
   ) {
     return _numberOfTrailingZeros(
             _class.reference.pointer, _id_numberOfTrailingZeros.pointer, i)
@@ -11574,15 +11602,20 @@ extension type JInteger._(jni$_.JObject _$this)
                         jni$_.Int32
                       )>)>>('globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `static public int parseInt(java.lang.CharSequence charSequence, int i, int i1, int i2)`
-  static int parseInt(
+  static core$_.int parseInt(
     jni$_.JObject? charSequence,
-    int i,
-    int i1,
-    int i2,
+    core$_.int i,
+    core$_.int i1,
+    core$_.int i2,
   ) {
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
     return _parseInt(_class.reference.pointer, _id_parseInt.pointer,
@@ -11607,7 +11640,7 @@ extension type JInteger._(jni$_.JObject _$this)
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `static public int parseInt(java.lang.String string)`
-  static int parseInt$1(
+  static core$_.int parseInt$1(
     JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -11631,12 +11664,12 @@ extension type JInteger._(jni$_.JObject _$this)
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `static public int parseInt(java.lang.String string, int i)`
-  static int parseInt$2(
+  static core$_.int parseInt$2(
     JString? string,
-    int i,
+    core$_.int i,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _parseInt$2(_class.reference.pointer, _id_parseInt$2.pointer,
@@ -11662,15 +11695,20 @@ extension type JInteger._(jni$_.JObject _$this)
                         jni$_.Int32
                       )>)>>('globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `static public int parseUnsignedInt(java.lang.CharSequence charSequence, int i, int i1, int i2)`
-  static int parseUnsignedInt(
+  static core$_.int parseUnsignedInt(
     jni$_.JObject? charSequence,
-    int i,
-    int i1,
-    int i2,
+    core$_.int i,
+    core$_.int i1,
+    core$_.int i2,
   ) {
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
     return _parseUnsignedInt(_class.reference.pointer,
@@ -11695,7 +11733,7 @@ extension type JInteger._(jni$_.JObject _$this)
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `static public int parseUnsignedInt(java.lang.String string)`
-  static int parseUnsignedInt$1(
+  static core$_.int parseUnsignedInt$1(
     JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -11719,12 +11757,12 @@ extension type JInteger._(jni$_.JObject _$this)
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `static public int parseUnsignedInt(java.lang.String string, int i)`
-  static int parseUnsignedInt$2(
+  static core$_.int parseUnsignedInt$2(
     JString? string,
-    int i,
+    core$_.int i,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _parseUnsignedInt$2(_class.reference.pointer,
@@ -11745,13 +11783,13 @@ extension type JInteger._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int remainderUnsigned(int i, int i1)`
-  static int remainderUnsigned(
-    int i,
-    int i1,
+  static core$_.int remainderUnsigned(
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _remainderUnsigned(
             _class.reference.pointer, _id_remainderUnsigned.pointer, i, i1)
@@ -11770,11 +11808,11 @@ extension type JInteger._(jni$_.JObject _$this)
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int reverse(int i)`
-  static int reverse(
-    int i,
+  static core$_.int reverse(
+    core$_.int i,
   ) {
     return _reverse(_class.reference.pointer, _id_reverse.pointer, i).integer;
   }
@@ -11791,11 +11829,11 @@ extension type JInteger._(jni$_.JObject _$this)
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int reverseBytes(int i)`
-  static int reverseBytes(
-    int i,
+  static core$_.int reverseBytes(
+    core$_.int i,
   ) {
     return _reverseBytes(_class.reference.pointer, _id_reverseBytes.pointer, i)
         .integer;
@@ -11814,13 +11852,13 @@ extension type JInteger._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int rotateLeft(int i, int i1)`
-  static int rotateLeft(
-    int i,
-    int i1,
+  static core$_.int rotateLeft(
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _rotateLeft(_class.reference.pointer, _id_rotateLeft.pointer, i, i1)
         .integer;
@@ -11839,13 +11877,13 @@ extension type JInteger._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int rotateRight(int i, int i1)`
-  static int rotateRight(
-    int i,
-    int i1,
+  static core$_.int rotateRight(
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _rotateRight(
             _class.reference.pointer, _id_rotateRight.pointer, i, i1)
@@ -11864,11 +11902,11 @@ extension type JInteger._(jni$_.JObject _$this)
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int signum(int i)`
-  static int signum(
-    int i,
+  static core$_.int signum(
+    core$_.int i,
   ) {
     return _signum(_class.reference.pointer, _id_signum.pointer, i).integer;
   }
@@ -11886,13 +11924,13 @@ extension type JInteger._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int sum(int i, int i1)`
-  static int sum(
-    int i,
-    int i1,
+  static core$_.int sum(
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _sum(_class.reference.pointer, _id_sum.pointer, i, i1).integer;
   }
@@ -11909,12 +11947,12 @@ extension type JInteger._(jni$_.JObject _$this)
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.String toBinaryString(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? toBinaryString(
-    int i,
+    core$_.int i,
   ) {
     return _toBinaryString(
             _class.reference.pointer, _id_toBinaryString.pointer, i)
@@ -11933,12 +11971,12 @@ extension type JInteger._(jni$_.JObject _$this)
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.String toHexString(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? toHexString(
-    int i,
+    core$_.int i,
   ) {
     return _toHexString(_class.reference.pointer, _id_toHexString.pointer, i)
         .object<JString?>();
@@ -11956,12 +11994,12 @@ extension type JInteger._(jni$_.JObject _$this)
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.String toOctalString(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? toOctalString(
-    int i,
+    core$_.int i,
   ) {
     return _toOctalString(
             _class.reference.pointer, _id_toOctalString.pointer, i)
@@ -11980,12 +12018,12 @@ extension type JInteger._(jni$_.JObject _$this)
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.String toString(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? toString$2(
-    int i,
+    core$_.int i,
   ) {
     return _toString$2(_class.reference.pointer, _id_toString$2.pointer, i)
         .object<JString?>();
@@ -12004,14 +12042,14 @@ extension type JInteger._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public java.lang.String toString(int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? toString$3(
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _toString$3(_class.reference.pointer, _id_toString$3.pointer, i, i1)
         .object<JString?>();
@@ -12029,11 +12067,11 @@ extension type JInteger._(jni$_.JObject _$this)
           'globalEnv_CallStaticLongMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public long toUnsignedLong(int i)`
-  static int toUnsignedLong(
-    int i,
+  static core$_.int toUnsignedLong(
+    core$_.int i,
   ) {
     return _toUnsignedLong(
             _class.reference.pointer, _id_toUnsignedLong.pointer, i)
@@ -12052,12 +12090,12 @@ extension type JInteger._(jni$_.JObject _$this)
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.String toUnsignedString(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? toUnsignedString(
-    int i,
+    core$_.int i,
   ) {
     return _toUnsignedString(
             _class.reference.pointer, _id_toUnsignedString.pointer, i)
@@ -12077,14 +12115,14 @@ extension type JInteger._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public java.lang.String toUnsignedString(int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? toUnsignedString$1(
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _toUnsignedString$1(
             _class.reference.pointer, _id_toUnsignedString$1.pointer, i, i1)
@@ -12103,12 +12141,12 @@ extension type JInteger._(jni$_.JObject _$this)
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.Integer valueOf(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static JInteger? valueOf(
-    int i,
+    core$_.int i,
   ) {
     return _valueOf(_class.reference.pointer, _id_valueOf.pointer, i)
         .object<JInteger?>();
@@ -12156,13 +12194,13 @@ extension type JInteger._(jni$_.JObject _$this)
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `static public java.lang.Integer valueOf(java.lang.String string, int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static JInteger? valueOf$2(
     JString? string,
-    int i,
+    core$_.int i,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _valueOf$2(_class.reference.pointer, _id_valueOf$2.pointer,
@@ -12190,7 +12228,7 @@ extension JInteger$$Methods on JInteger {
           )>();
 
   /// from: `public byte byteValue()`
-  int byteValue() {
+  core$_.int byteValue() {
     return _byteValue(reference.pointer, _id_byteValue.pointer).byte;
   }
 
@@ -12211,7 +12249,7 @@ extension JInteger$$Methods on JInteger {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public int compareTo(java.lang.Integer integer)`
-  int compareTo(
+  core$_.int compareTo(
     JInteger? integer,
   ) {
     final _$integer = integer?.reference ?? jni$_.jNullReference;
@@ -12238,7 +12276,7 @@ extension JInteger$$Methods on JInteger {
           )>();
 
   /// from: `public double doubleValue()`
-  double doubleValue() {
+  core$_.double doubleValue() {
     return _doubleValue(reference.pointer, _id_doubleValue.pointer).doubleFloat;
   }
 
@@ -12285,7 +12323,7 @@ extension JInteger$$Methods on JInteger {
           )>();
 
   /// from: `public float floatValue()`
-  double floatValue() {
+  core$_.double floatValue() {
     return _floatValue(reference.pointer, _id_floatValue.pointer).float;
   }
 
@@ -12307,7 +12345,7 @@ extension JInteger$$Methods on JInteger {
           )>();
 
   /// from: `public int hashCode()`
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 
@@ -12329,7 +12367,7 @@ extension JInteger$$Methods on JInteger {
           )>();
 
   /// from: `public int intValue()`
-  int intValue() {
+  core$_.int intValue() {
     return _intValue(reference.pointer, _id_intValue.pointer).integer;
   }
 
@@ -12351,7 +12389,7 @@ extension JInteger$$Methods on JInteger {
           )>();
 
   /// from: `public long longValue()`
-  int longValue() {
+  core$_.int longValue() {
     return _longValue(reference.pointer, _id_longValue.pointer).long;
   }
 
@@ -12373,7 +12411,7 @@ extension JInteger$$Methods on JInteger {
           )>();
 
   /// from: `public short shortValue()`
-  int shortValue() {
+  core$_.int shortValue() {
     return _shortValue(reference.pointer, _id_shortValue.pointer).short;
   }
 
@@ -12492,12 +12530,12 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
                   jni$_.VarArgs<(jni$_.Int64,)>)>>('globalEnv_NewObject')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void <init>(long j)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JLong.new$1(
-    int j,
+    core$_.int j,
   ) {
     return _new$1(_class.reference.pointer, _id_new$1.pointer, j)
         .object<JLong>();
@@ -12515,11 +12553,11 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int bitCount(long j)`
-  static int bitCount(
-    int j,
+  static core$_.int bitCount(
+    core$_.int j,
   ) {
     return _bitCount(_class.reference.pointer, _id_bitCount.pointer, j).integer;
   }
@@ -12537,13 +12575,13 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int64, jni$_.Int64)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int compare(long j, long j1)`
-  static int compare(
-    int j,
-    int j1,
+  static core$_.int compare(
+    core$_.int j,
+    core$_.int j1,
   ) {
     return _compare(_class.reference.pointer, _id_compare.pointer, j, j1)
         .integer;
@@ -12562,13 +12600,13 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int64, jni$_.Int64)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int compareUnsigned(long j, long j1)`
-  static int compareUnsigned(
-    int j,
-    int j1,
+  static core$_.int compareUnsigned(
+    core$_.int j,
+    core$_.int j1,
   ) {
     return _compareUnsigned(
             _class.reference.pointer, _id_compareUnsigned.pointer, j, j1)
@@ -12588,13 +12626,13 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int64, jni$_.Int64)>)>>(
           'globalEnv_CallStaticLongMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public long compress(long j, long j1)`
-  static int compress(
-    int j,
-    int j1,
+  static core$_.int compress(
+    core$_.int j,
+    core$_.int j1,
   ) {
     return _compress(_class.reference.pointer, _id_compress.pointer, j, j1)
         .long;
@@ -12640,13 +12678,13 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int64, jni$_.Int64)>)>>(
           'globalEnv_CallStaticLongMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public long divideUnsigned(long j, long j1)`
-  static int divideUnsigned(
-    int j,
-    int j1,
+  static core$_.int divideUnsigned(
+    core$_.int j,
+    core$_.int j1,
   ) {
     return _divideUnsigned(
             _class.reference.pointer, _id_divideUnsigned.pointer, j, j1)
@@ -12666,13 +12704,13 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int64, jni$_.Int64)>)>>(
           'globalEnv_CallStaticLongMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public long expand(long j, long j1)`
-  static int expand(
-    int j,
-    int j1,
+  static core$_.int expand(
+    core$_.int j,
+    core$_.int j1,
   ) {
     return _expand(_class.reference.pointer, _id_expand.pointer, j, j1).long;
   }
@@ -12754,13 +12792,13 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `static public java.lang.Long getLong(java.lang.String string, long j)`
   /// The returned object must be released after use, by calling the [release] method.
   static JLong? getLong$2(
     JString? string,
-    int j,
+    core$_.int j,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _getLong$2(_class.reference.pointer, _id_getLong$2.pointer,
@@ -12780,11 +12818,11 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int hashCode(long j)`
-  static int hashCode$2(
-    int j,
+  static core$_.int hashCode$2(
+    core$_.int j,
   ) {
     return _hashCode$2(_class.reference.pointer, _id_hashCode$2.pointer, j)
         .integer;
@@ -12802,11 +12840,11 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticLongMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public long highestOneBit(long j)`
-  static int highestOneBit(
-    int j,
+  static core$_.int highestOneBit(
+    core$_.int j,
   ) {
     return _highestOneBit(
             _class.reference.pointer, _id_highestOneBit.pointer, j)
@@ -12825,11 +12863,11 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticLongMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public long lowestOneBit(long j)`
-  static int lowestOneBit(
-    int j,
+  static core$_.int lowestOneBit(
+    core$_.int j,
   ) {
     return _lowestOneBit(_class.reference.pointer, _id_lowestOneBit.pointer, j)
         .long;
@@ -12848,13 +12886,13 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int64, jni$_.Int64)>)>>(
           'globalEnv_CallStaticLongMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public long max(long j, long j1)`
-  static int max(
-    int j,
-    int j1,
+  static core$_.int max(
+    core$_.int j,
+    core$_.int j1,
   ) {
     return _max(_class.reference.pointer, _id_max.pointer, j, j1).long;
   }
@@ -12872,13 +12910,13 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int64, jni$_.Int64)>)>>(
           'globalEnv_CallStaticLongMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public long min(long j, long j1)`
-  static int min(
-    int j,
-    int j1,
+  static core$_.int min(
+    core$_.int j,
+    core$_.int j1,
   ) {
     return _min(_class.reference.pointer, _id_min.pointer, j, j1).long;
   }
@@ -12895,11 +12933,11 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int numberOfLeadingZeros(long j)`
-  static int numberOfLeadingZeros(
-    int j,
+  static core$_.int numberOfLeadingZeros(
+    core$_.int j,
   ) {
     return _numberOfLeadingZeros(
             _class.reference.pointer, _id_numberOfLeadingZeros.pointer, j)
@@ -12918,11 +12956,11 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int numberOfTrailingZeros(long j)`
-  static int numberOfTrailingZeros(
-    int j,
+  static core$_.int numberOfTrailingZeros(
+    core$_.int j,
   ) {
     return _numberOfTrailingZeros(
             _class.reference.pointer, _id_numberOfTrailingZeros.pointer, j)
@@ -12947,15 +12985,20 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
                         jni$_.Int32
                       )>)>>('globalEnv_CallStaticLongMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `static public long parseLong(java.lang.CharSequence charSequence, int i, int i1, int i2)`
-  static int parseLong(
+  static core$_.int parseLong(
     jni$_.JObject? charSequence,
-    int i,
-    int i1,
-    int i2,
+    core$_.int i,
+    core$_.int i1,
+    core$_.int i2,
   ) {
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
     return _parseLong(_class.reference.pointer, _id_parseLong.pointer,
@@ -12980,7 +13023,7 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `static public long parseLong(java.lang.String string)`
-  static int parseLong$1(
+  static core$_.int parseLong$1(
     JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -13004,12 +13047,12 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticLongMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `static public long parseLong(java.lang.String string, int i)`
-  static int parseLong$2(
+  static core$_.int parseLong$2(
     JString? string,
-    int i,
+    core$_.int i,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _parseLong$2(_class.reference.pointer, _id_parseLong$2.pointer,
@@ -13035,15 +13078,20 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
                         jni$_.Int32
                       )>)>>('globalEnv_CallStaticLongMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `static public long parseUnsignedLong(java.lang.CharSequence charSequence, int i, int i1, int i2)`
-  static int parseUnsignedLong(
+  static core$_.int parseUnsignedLong(
     jni$_.JObject? charSequence,
-    int i,
-    int i1,
-    int i2,
+    core$_.int i,
+    core$_.int i1,
+    core$_.int i2,
   ) {
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
     return _parseUnsignedLong(_class.reference.pointer,
@@ -13068,7 +13116,7 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `static public long parseUnsignedLong(java.lang.String string)`
-  static int parseUnsignedLong$1(
+  static core$_.int parseUnsignedLong$1(
     JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -13092,12 +13140,12 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticLongMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `static public long parseUnsignedLong(java.lang.String string, int i)`
-  static int parseUnsignedLong$2(
+  static core$_.int parseUnsignedLong$2(
     JString? string,
-    int i,
+    core$_.int i,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _parseUnsignedLong$2(_class.reference.pointer,
@@ -13118,13 +13166,13 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int64, jni$_.Int64)>)>>(
           'globalEnv_CallStaticLongMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public long remainderUnsigned(long j, long j1)`
-  static int remainderUnsigned(
-    int j,
-    int j1,
+  static core$_.int remainderUnsigned(
+    core$_.int j,
+    core$_.int j1,
   ) {
     return _remainderUnsigned(
             _class.reference.pointer, _id_remainderUnsigned.pointer, j, j1)
@@ -13143,11 +13191,11 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticLongMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public long reverse(long j)`
-  static int reverse(
-    int j,
+  static core$_.int reverse(
+    core$_.int j,
   ) {
     return _reverse(_class.reference.pointer, _id_reverse.pointer, j).long;
   }
@@ -13164,11 +13212,11 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticLongMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public long reverseBytes(long j)`
-  static int reverseBytes(
-    int j,
+  static core$_.int reverseBytes(
+    core$_.int j,
   ) {
     return _reverseBytes(_class.reference.pointer, _id_reverseBytes.pointer, j)
         .long;
@@ -13187,13 +13235,13 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int64, jni$_.Int32)>)>>(
           'globalEnv_CallStaticLongMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public long rotateLeft(long j, int i)`
-  static int rotateLeft(
-    int j,
-    int i,
+  static core$_.int rotateLeft(
+    core$_.int j,
+    core$_.int i,
   ) {
     return _rotateLeft(_class.reference.pointer, _id_rotateLeft.pointer, j, i)
         .long;
@@ -13212,13 +13260,13 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int64, jni$_.Int32)>)>>(
           'globalEnv_CallStaticLongMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public long rotateRight(long j, int i)`
-  static int rotateRight(
-    int j,
-    int i,
+  static core$_.int rotateRight(
+    core$_.int j,
+    core$_.int i,
   ) {
     return _rotateRight(_class.reference.pointer, _id_rotateRight.pointer, j, i)
         .long;
@@ -13236,11 +13284,11 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int signum(long j)`
-  static int signum(
-    int j,
+  static core$_.int signum(
+    core$_.int j,
   ) {
     return _signum(_class.reference.pointer, _id_signum.pointer, j).integer;
   }
@@ -13258,13 +13306,13 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int64, jni$_.Int64)>)>>(
           'globalEnv_CallStaticLongMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public long sum(long j, long j1)`
-  static int sum(
-    int j,
-    int j1,
+  static core$_.int sum(
+    core$_.int j,
+    core$_.int j1,
   ) {
     return _sum(_class.reference.pointer, _id_sum.pointer, j, j1).long;
   }
@@ -13281,12 +13329,12 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.String toBinaryString(long j)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? toBinaryString(
-    int j,
+    core$_.int j,
   ) {
     return _toBinaryString(
             _class.reference.pointer, _id_toBinaryString.pointer, j)
@@ -13305,12 +13353,12 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.String toHexString(long j)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? toHexString(
-    int j,
+    core$_.int j,
   ) {
     return _toHexString(_class.reference.pointer, _id_toHexString.pointer, j)
         .object<JString?>();
@@ -13328,12 +13376,12 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.String toOctalString(long j)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? toOctalString(
-    int j,
+    core$_.int j,
   ) {
     return _toOctalString(
             _class.reference.pointer, _id_toOctalString.pointer, j)
@@ -13352,12 +13400,12 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.String toString(long j)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? toString$2(
-    int j,
+    core$_.int j,
   ) {
     return _toString$2(_class.reference.pointer, _id_toString$2.pointer, j)
         .object<JString?>();
@@ -13376,14 +13424,14 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int64, jni$_.Int32)>)>>(
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public java.lang.String toString(long j, int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? toString$3(
-    int j,
-    int i,
+    core$_.int j,
+    core$_.int i,
   ) {
     return _toString$3(_class.reference.pointer, _id_toString$3.pointer, j, i)
         .object<JString?>();
@@ -13401,12 +13449,12 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.String toUnsignedString(long j)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? toUnsignedString(
-    int j,
+    core$_.int j,
   ) {
     return _toUnsignedString(
             _class.reference.pointer, _id_toUnsignedString.pointer, j)
@@ -13426,14 +13474,14 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int64, jni$_.Int32)>)>>(
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public java.lang.String toUnsignedString(long j, int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? toUnsignedString$1(
-    int j,
-    int i,
+    core$_.int j,
+    core$_.int i,
   ) {
     return _toUnsignedString$1(
             _class.reference.pointer, _id_toUnsignedString$1.pointer, j, i)
@@ -13482,13 +13530,13 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `static public java.lang.Long valueOf(java.lang.String string, int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static JLong? valueOf$1(
     JString? string,
-    int i,
+    core$_.int i,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _valueOf$1(_class.reference.pointer, _id_valueOf$1.pointer,
@@ -13508,12 +13556,12 @@ extension type JLong._(jni$_.JObject _$this) implements JNumber, jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.Long valueOf(long j)`
   /// The returned object must be released after use, by calling the [release] method.
   static JLong? valueOf$2(
-    int j,
+    core$_.int j,
   ) {
     return _valueOf$2(_class.reference.pointer, _id_valueOf$2.pointer, j)
         .object<JLong?>();
@@ -13539,7 +13587,7 @@ extension JLong$$Methods on JLong {
           )>();
 
   /// from: `public byte byteValue()`
-  int byteValue() {
+  core$_.int byteValue() {
     return _byteValue(reference.pointer, _id_byteValue.pointer).byte;
   }
 
@@ -13560,7 +13608,7 @@ extension JLong$$Methods on JLong {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public int compareTo(java.lang.Long long)`
-  int compareTo(
+  core$_.int compareTo(
     JLong? long,
   ) {
     final _$long = long?.reference ?? jni$_.jNullReference;
@@ -13586,7 +13634,7 @@ extension JLong$$Methods on JLong {
           )>();
 
   /// from: `public double doubleValue()`
-  double doubleValue() {
+  core$_.double doubleValue() {
     return _doubleValue(reference.pointer, _id_doubleValue.pointer).doubleFloat;
   }
 
@@ -13633,7 +13681,7 @@ extension JLong$$Methods on JLong {
           )>();
 
   /// from: `public float floatValue()`
-  double floatValue() {
+  core$_.double floatValue() {
     return _floatValue(reference.pointer, _id_floatValue.pointer).float;
   }
 
@@ -13655,7 +13703,7 @@ extension JLong$$Methods on JLong {
           )>();
 
   /// from: `public int hashCode()`
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 
@@ -13677,7 +13725,7 @@ extension JLong$$Methods on JLong {
           )>();
 
   /// from: `public int intValue()`
-  int intValue() {
+  core$_.int intValue() {
     return _intValue(reference.pointer, _id_intValue.pointer).integer;
   }
 
@@ -13699,7 +13747,7 @@ extension JLong$$Methods on JLong {
           )>();
 
   /// from: `public long longValue()`
-  int longValue() {
+  core$_.int longValue() {
     return _longValue(reference.pointer, _id_longValue.pointer).long;
   }
 
@@ -13721,7 +13769,7 @@ extension JLong$$Methods on JLong {
           )>();
 
   /// from: `public short shortValue()`
-  int shortValue() {
+  core$_.int shortValue() {
     return _shortValue(reference.pointer, _id_shortValue.pointer).short;
   }
 
@@ -13802,7 +13850,7 @@ extension JNumber$$Methods on JNumber {
           )>();
 
   /// from: `public byte byteValue()`
-  int byteValue() {
+  core$_.int byteValue() {
     return _byteValue(reference.pointer, _id_byteValue.pointer).byte;
   }
 
@@ -13824,7 +13872,7 @@ extension JNumber$$Methods on JNumber {
           )>();
 
   /// from: `public abstract double doubleValue()`
-  double doubleValue() {
+  core$_.double doubleValue() {
     return _doubleValue(reference.pointer, _id_doubleValue.pointer).doubleFloat;
   }
 
@@ -13846,7 +13894,7 @@ extension JNumber$$Methods on JNumber {
           )>();
 
   /// from: `public abstract float floatValue()`
-  double floatValue() {
+  core$_.double floatValue() {
     return _floatValue(reference.pointer, _id_floatValue.pointer).float;
   }
 
@@ -13868,7 +13916,7 @@ extension JNumber$$Methods on JNumber {
           )>();
 
   /// from: `public abstract int intValue()`
-  int intValue() {
+  core$_.int intValue() {
     return _intValue(reference.pointer, _id_intValue.pointer).integer;
   }
 
@@ -13890,7 +13938,7 @@ extension JNumber$$Methods on JNumber {
           )>();
 
   /// from: `public abstract long longValue()`
-  int longValue() {
+  core$_.int longValue() {
     return _longValue(reference.pointer, _id_longValue.pointer).long;
   }
 
@@ -13912,7 +13960,7 @@ extension JNumber$$Methods on JNumber {
           )>();
 
   /// from: `public short shortValue()`
-  int shortValue() {
+  core$_.int shortValue() {
     return _shortValue(reference.pointer, _id_shortValue.pointer).short;
   }
 }
@@ -13992,12 +14040,12 @@ extension type JShort._(jni$_.JObject _$this)
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_NewObject')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void <init>(short s)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JShort.new$1(
-    int s,
+    core$_.int s,
   ) {
     return _new$1(_class.reference.pointer, _id_new$1.pointer, s)
         .object<JShort>();
@@ -14016,13 +14064,13 @@ extension type JShort._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int compare(short s, short s1)`
-  static int compare(
-    int s,
-    int s1,
+  static core$_.int compare(
+    core$_.int s,
+    core$_.int s1,
   ) {
     return _compare(_class.reference.pointer, _id_compare.pointer, s, s1)
         .integer;
@@ -14041,13 +14089,13 @@ extension type JShort._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int compareUnsigned(short s, short s1)`
-  static int compareUnsigned(
-    int s,
-    int s1,
+  static core$_.int compareUnsigned(
+    core$_.int s,
+    core$_.int s1,
   ) {
     return _compareUnsigned(
             _class.reference.pointer, _id_compareUnsigned.pointer, s, s1)
@@ -14093,11 +14141,11 @@ extension type JShort._(jni$_.JObject _$this)
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int hashCode(short s)`
-  static int hashCode$2(
-    int s,
+  static core$_.int hashCode$2(
+    core$_.int s,
   ) {
     return _hashCode$2(_class.reference.pointer, _id_hashCode$2.pointer, s)
         .integer;
@@ -14120,7 +14168,7 @@ extension type JShort._(jni$_.JObject _$this)
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `static public short parseShort(java.lang.String string)`
-  static int parseShort(
+  static core$_.int parseShort(
     JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -14144,12 +14192,12 @@ extension type JShort._(jni$_.JObject _$this)
           'globalEnv_CallStaticShortMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `static public short parseShort(java.lang.String string, int i)`
-  static int parseShort$1(
+  static core$_.int parseShort$1(
     JString? string,
-    int i,
+    core$_.int i,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _parseShort$1(_class.reference.pointer, _id_parseShort$1.pointer,
@@ -14169,11 +14217,11 @@ extension type JShort._(jni$_.JObject _$this)
           'globalEnv_CallStaticShortMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public short reverseBytes(short s)`
-  static int reverseBytes(
-    int s,
+  static core$_.int reverseBytes(
+    core$_.int s,
   ) {
     return _reverseBytes(_class.reference.pointer, _id_reverseBytes.pointer, s)
         .short;
@@ -14191,12 +14239,12 @@ extension type JShort._(jni$_.JObject _$this)
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.String toString(short s)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? toString$2(
-    int s,
+    core$_.int s,
   ) {
     return _toString$2(_class.reference.pointer, _id_toString$2.pointer, s)
         .object<JString?>();
@@ -14214,11 +14262,11 @@ extension type JShort._(jni$_.JObject _$this)
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int toUnsignedInt(short s)`
-  static int toUnsignedInt(
-    int s,
+  static core$_.int toUnsignedInt(
+    core$_.int s,
   ) {
     return _toUnsignedInt(
             _class.reference.pointer, _id_toUnsignedInt.pointer, s)
@@ -14237,11 +14285,11 @@ extension type JShort._(jni$_.JObject _$this)
           'globalEnv_CallStaticLongMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public long toUnsignedLong(short s)`
-  static int toUnsignedLong(
-    int s,
+  static core$_.int toUnsignedLong(
+    core$_.int s,
   ) {
     return _toUnsignedLong(
             _class.reference.pointer, _id_toUnsignedLong.pointer, s)
@@ -14290,13 +14338,13 @@ extension type JShort._(jni$_.JObject _$this)
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `static public java.lang.Short valueOf(java.lang.String string, int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static JShort? valueOf$1(
     JString? string,
-    int i,
+    core$_.int i,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _valueOf$1(_class.reference.pointer, _id_valueOf$1.pointer,
@@ -14316,12 +14364,12 @@ extension type JShort._(jni$_.JObject _$this)
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.Short valueOf(short s)`
   /// The returned object must be released after use, by calling the [release] method.
   static JShort? valueOf$2(
-    int s,
+    core$_.int s,
   ) {
     return _valueOf$2(_class.reference.pointer, _id_valueOf$2.pointer, s)
         .object<JShort?>();
@@ -14347,7 +14395,7 @@ extension JShort$$Methods on JShort {
           )>();
 
   /// from: `public byte byteValue()`
-  int byteValue() {
+  core$_.int byteValue() {
     return _byteValue(reference.pointer, _id_byteValue.pointer).byte;
   }
 
@@ -14368,7 +14416,7 @@ extension JShort$$Methods on JShort {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public int compareTo(java.lang.Short short)`
-  int compareTo(
+  core$_.int compareTo(
     JShort? short,
   ) {
     final _$short = short?.reference ?? jni$_.jNullReference;
@@ -14394,7 +14442,7 @@ extension JShort$$Methods on JShort {
           )>();
 
   /// from: `public double doubleValue()`
-  double doubleValue() {
+  core$_.double doubleValue() {
     return _doubleValue(reference.pointer, _id_doubleValue.pointer).doubleFloat;
   }
 
@@ -14441,7 +14489,7 @@ extension JShort$$Methods on JShort {
           )>();
 
   /// from: `public float floatValue()`
-  double floatValue() {
+  core$_.double floatValue() {
     return _floatValue(reference.pointer, _id_floatValue.pointer).float;
   }
 
@@ -14463,7 +14511,7 @@ extension JShort$$Methods on JShort {
           )>();
 
   /// from: `public int hashCode()`
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 
@@ -14485,7 +14533,7 @@ extension JShort$$Methods on JShort {
           )>();
 
   /// from: `public int intValue()`
-  int intValue() {
+  core$_.int intValue() {
     return _intValue(reference.pointer, _id_intValue.pointer).integer;
   }
 
@@ -14507,7 +14555,7 @@ extension JShort$$Methods on JShort {
           )>();
 
   /// from: `public long longValue()`
-  int longValue() {
+  core$_.int longValue() {
     return _longValue(reference.pointer, _id_longValue.pointer).long;
   }
 
@@ -14529,7 +14577,7 @@ extension JShort$$Methods on JShort {
           )>();
 
   /// from: `public short shortValue()`
-  int shortValue() {
+  core$_.int shortValue() {
     return _shortValue(reference.pointer, _id_shortValue.pointer).short;
   }
 
@@ -14661,13 +14709,13 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_NewObject')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `public void <init>(byte[] bs, int i)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JString.new$2(
     jni$_.JByteArray? bs,
-    int i,
+    core$_.int i,
   ) {
     final _$bs = bs?.reference ?? jni$_.jNullReference;
     return _new$2(_class.reference.pointer, _id_new$2.pointer, _$bs.pointer, i)
@@ -14690,15 +14738,19 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
                         jni$_.Int32
                       )>)>>('globalEnv_NewObject')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `public void <init>(byte[] bs, int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JString.new$3(
     jni$_.JByteArray? bs,
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
   ) {
     final _$bs = bs?.reference ?? jni$_.jNullReference;
     return _new$3(
@@ -14723,16 +14775,21 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
                         jni$_.Int32
                       )>)>>('globalEnv_NewObject')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `public void <init>(byte[] bs, int i, int i1, int i2)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JString.new$4(
     jni$_.JByteArray? bs,
-    int i,
-    int i1,
-    int i2,
+    core$_.int i,
+    core$_.int i1,
+    core$_.int i2,
   ) {
     final _$bs = bs?.reference ?? jni$_.jNullReference;
     return _new$4(_class.reference.pointer, _id_new$4.pointer, _$bs.pointer, i,
@@ -14761,16 +14818,16 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
-              int,
-              int,
+              core$_.int,
+              core$_.int,
               jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public void <init>(byte[] bs, int i, int i1, java.lang.String string)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JString.new$5(
     jni$_.JByteArray? bs,
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
     JString? string,
   ) {
     final _$bs = bs?.reference ?? jni$_.jNullReference;
@@ -14801,16 +14858,16 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
-              int,
-              int,
+              core$_.int,
+              core$_.int,
               jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public void <init>(byte[] bs, int i, int i1, java.nio.charset.Charset charset)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JString.new$6(
     jni$_.JByteArray? bs,
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
     jni$_.JObject? charset,
   ) {
     final _$bs = bs?.reference ?? jni$_.jNullReference;
@@ -14929,15 +14986,19 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
                         jni$_.Int32
                       )>)>>('globalEnv_NewObject')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `public void <init>(char[] cs, int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JString.new$10(
     jni$_.JCharArray? cs,
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
   ) {
     final _$cs = cs?.reference ?? jni$_.jNullReference;
     return _new$10(
@@ -14961,15 +15022,19 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
                         jni$_.Int32
                       )>)>>('globalEnv_NewObject')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `public void <init>(int[] is, int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JString.new$11(
     jni$_.JIntArray? is$,
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
   ) {
     final _$is$ = is$?.reference ?? jni$_.jNullReference;
     return _new$11(
@@ -15099,15 +15164,19 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
                         jni$_.Int32
                       )>)>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `static public java.lang.String copyValueOf(char[] cs, int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? copyValueOf$1(
     jni$_.JCharArray? cs,
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
   ) {
     final _$cs = cs?.reference ?? jni$_.jNullReference;
     return _copyValueOf$1(_class.reference.pointer, _id_copyValueOf$1.pointer,
@@ -15271,7 +15340,7 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.String valueOf(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -15294,12 +15363,12 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.String valueOf(char c)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? valueOf$1(
-    int c,
+    core$_.int c,
   ) {
     return _valueOf$1(_class.reference.pointer, _id_valueOf$1.pointer, c)
         .object<JString?>();
@@ -15349,15 +15418,19 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
                         jni$_.Int32
                       )>)>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `static public java.lang.String valueOf(char[] cs, int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? valueOf$3(
     jni$_.JCharArray? cs,
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
   ) {
     final _$cs = cs?.reference ?? jni$_.jNullReference;
     return _valueOf$3(_class.reference.pointer, _id_valueOf$3.pointer,
@@ -15377,12 +15450,12 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `static public java.lang.String valueOf(double d)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? valueOf$4(
-    double d,
+    core$_.double d,
   ) {
     return _valueOf$4(_class.reference.pointer, _id_valueOf$4.pointer, d)
         .object<JString?>();
@@ -15400,12 +15473,12 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `static public java.lang.String valueOf(float f)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? valueOf$5(
-    double f,
+    core$_.double f,
   ) {
     return _valueOf$5(_class.reference.pointer, _id_valueOf$5.pointer, f)
         .object<JString?>();
@@ -15423,12 +15496,12 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.String valueOf(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? valueOf$6(
-    int i,
+    core$_.int i,
   ) {
     return _valueOf$6(_class.reference.pointer, _id_valueOf$6.pointer, i)
         .object<JString?>();
@@ -15473,12 +15546,12 @@ extension type JString._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.lang.String valueOf(long j)`
   /// The returned object must be released after use, by calling the [release] method.
   static JString? valueOf$8(
-    int j,
+    core$_.int j,
   ) {
     return _valueOf$8(_class.reference.pointer, _id_valueOf$8.pointer, j)
         .object<JString?>();
@@ -15499,11 +15572,11 @@ extension JString$$Methods on JString {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallCharMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public native char charAt(int i)`
-  int charAt(
-    int i,
+  core$_.int charAt(
+    core$_.int i,
   ) {
     return _charAt(reference.pointer, _id_charAt.pointer, i).char;
   }
@@ -15545,11 +15618,11 @@ extension JString$$Methods on JString {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public int codePointAt(int i)`
-  int codePointAt(
-    int i,
+  core$_.int codePointAt(
+    core$_.int i,
   ) {
     return _codePointAt(reference.pointer, _id_codePointAt.pointer, i).integer;
   }
@@ -15567,11 +15640,11 @@ extension JString$$Methods on JString {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public int codePointBefore(int i)`
-  int codePointBefore(
-    int i,
+  core$_.int codePointBefore(
+    core$_.int i,
   ) {
     return _codePointBefore(reference.pointer, _id_codePointBefore.pointer, i)
         .integer;
@@ -15590,13 +15663,13 @@ extension JString$$Methods on JString {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `public int codePointCount(int i, int i1)`
-  int codePointCount(
-    int i,
-    int i1,
+  core$_.int codePointCount(
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _codePointCount(reference.pointer, _id_codePointCount.pointer, i, i1)
         .integer;
@@ -15643,7 +15716,7 @@ extension JString$$Methods on JString {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public native int compareTo(java.lang.String string)`
-  int compareTo(
+  core$_.int compareTo(
     JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -15669,7 +15742,7 @@ extension JString$$Methods on JString {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public int compareToIgnoreCase(java.lang.String string)`
-  int compareToIgnoreCase(
+  core$_.int compareToIgnoreCase(
     JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -15927,15 +16000,20 @@ extension JString$$Methods on JString {
                         jni$_.Int32
                       )>)>>('globalEnv_CallVoidMethod')
       .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, int, jni$_.Pointer<jni$_.Void>, int)>();
+          jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              core$_.int,
+              core$_.int,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int)>();
 
   /// from: `public void getBytes(int i, int i1, byte[] bs, int i2)`
   void getBytes(
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
     jni$_.JByteArray? bs,
-    int i2,
+    core$_.int i2,
   ) {
     final _$bs = bs?.reference ?? jni$_.jNullReference;
     _getBytes(reference.pointer, _id_getBytes.pointer, i, i1, _$bs.pointer, i2)
@@ -16014,15 +16092,20 @@ extension JString$$Methods on JString {
                         jni$_.Int32
                       )>)>>('globalEnv_CallVoidMethod')
       .asFunction<
-          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, int, jni$_.Pointer<jni$_.Void>, int)>();
+          jni$_.JThrowablePtr Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              core$_.int,
+              core$_.int,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int)>();
 
   /// from: `public void getChars(int i, int i1, char[] cs, int i2)`
   void getChars(
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
     jni$_.JCharArray? cs,
-    int i2,
+    core$_.int i2,
   ) {
     final _$cs = cs?.reference ?? jni$_.jNullReference;
     _getChars(reference.pointer, _id_getChars.pointer, i, i1, _$cs.pointer, i2)
@@ -16047,7 +16130,7 @@ extension JString$$Methods on JString {
           )>();
 
   /// from: `public int hashCode()`
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 
@@ -16064,12 +16147,12 @@ extension JString$$Methods on JString {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public java.lang.String indent(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   JString? indent(
-    int i,
+    core$_.int i,
   ) {
     return _indent(reference.pointer, _id_indent.pointer, i).object<JString?>();
   }
@@ -16087,11 +16170,11 @@ extension JString$$Methods on JString {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public int indexOf(int i)`
-  int indexOf(
-    int i,
+  core$_.int indexOf(
+    core$_.int i,
   ) {
     return _indexOf(reference.pointer, _id_indexOf.pointer, i).integer;
   }
@@ -16109,13 +16192,13 @@ extension JString$$Methods on JString {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `public int indexOf(int i, int i1)`
-  int indexOf$1(
-    int i,
-    int i1,
+  core$_.int indexOf$1(
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _indexOf$1(reference.pointer, _id_indexOf$1.pointer, i, i1).integer;
   }
@@ -16137,7 +16220,7 @@ extension JString$$Methods on JString {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public int indexOf(java.lang.String string)`
-  int indexOf$2(
+  core$_.int indexOf$2(
     JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -16161,12 +16244,12 @@ extension JString$$Methods on JString {
           'globalEnv_CallIntMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `public int indexOf(java.lang.String string, int i)`
-  int indexOf$3(
+  core$_.int indexOf$3(
     JString? string,
-    int i,
+    core$_.int i,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _indexOf$3(
@@ -16254,11 +16337,11 @@ extension JString$$Methods on JString {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public int lastIndexOf(int i)`
-  int lastIndexOf(
-    int i,
+  core$_.int lastIndexOf(
+    core$_.int i,
   ) {
     return _lastIndexOf(reference.pointer, _id_lastIndexOf.pointer, i).integer;
   }
@@ -16276,13 +16359,13 @@ extension JString$$Methods on JString {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `public int lastIndexOf(int i, int i1)`
-  int lastIndexOf$1(
-    int i,
-    int i1,
+  core$_.int lastIndexOf$1(
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _lastIndexOf$1(reference.pointer, _id_lastIndexOf$1.pointer, i, i1)
         .integer;
@@ -16305,7 +16388,7 @@ extension JString$$Methods on JString {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public int lastIndexOf(java.lang.String string)`
-  int lastIndexOf$2(
+  core$_.int lastIndexOf$2(
     JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -16329,12 +16412,12 @@ extension JString$$Methods on JString {
           'globalEnv_CallIntMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `public int lastIndexOf(java.lang.String string, int i)`
-  int lastIndexOf$3(
+  core$_.int lastIndexOf$3(
     JString? string,
-    int i,
+    core$_.int i,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _lastIndexOf$3(
@@ -16360,7 +16443,7 @@ extension JString$$Methods on JString {
           )>();
 
   /// from: `public int length()`
-  int length() {
+  core$_.int length() {
     return _length(reference.pointer, _id_length.pointer).integer;
   }
 
@@ -16426,13 +16509,13 @@ extension JString$$Methods on JString {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `public int offsetByCodePoints(int i, int i1)`
-  int offsetByCodePoints(
-    int i,
-    int i1,
+  core$_.int offsetByCodePoints(
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _offsetByCodePoints(
             reference.pointer, _id_offsetByCodePoints.pointer, i, i1)
@@ -16461,19 +16544,19 @@ extension JString$$Methods on JString {
           jni$_.JniResult Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
-              int,
-              int,
+              core$_.int,
+              core$_.int,
               jni$_.Pointer<jni$_.Void>,
-              int,
-              int)>();
+              core$_.int,
+              core$_.int)>();
 
   /// from: `public boolean regionMatches(boolean z, int i, java.lang.String string, int i1, int i2)`
   core$_.bool regionMatches(
     core$_.bool z,
-    int i,
+    core$_.int i,
     JString? string,
-    int i1,
-    int i2,
+    core$_.int i1,
+    core$_.int i2,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _regionMatches(reference.pointer, _id_regionMatches.pointer,
@@ -16499,15 +16582,20 @@ extension JString$$Methods on JString {
                         jni$_.Int32
                       )>)>>('globalEnv_CallBooleanMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              core$_.int,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `public boolean regionMatches(int i, java.lang.String string, int i1, int i2)`
   core$_.bool regionMatches$1(
-    int i,
+    core$_.int i,
     JString? string,
-    int i1,
-    int i2,
+    core$_.int i1,
+    core$_.int i2,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _regionMatches$1(reference.pointer, _id_regionMatches$1.pointer, i,
@@ -16528,12 +16616,12 @@ extension JString$$Methods on JString {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public java.lang.String repeat(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   JString? repeat(
-    int i,
+    core$_.int i,
   ) {
     return _repeat(reference.pointer, _id_repeat.pointer, i).object<JString?>();
   }
@@ -16551,14 +16639,14 @@ extension JString$$Methods on JString {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `public java.lang.String replace(char c, char c1)`
   /// The returned object must be released after use, by calling the [release] method.
   JString? replace(
-    int c,
-    int c1,
+    core$_.int c,
+    core$_.int c1,
   ) {
     return _replace(reference.pointer, _id_replace.pointer, c, c1)
         .object<JString?>();
@@ -16710,13 +16798,13 @@ extension JString$$Methods on JString {
           'globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `public java.lang.String[] split(java.lang.String string, int i)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JArray<JString?>? split$1(
     JString? string,
-    int i,
+    core$_.int i,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _split$1(reference.pointer, _id_split$1.pointer, _$string.pointer, i)
@@ -16764,12 +16852,12 @@ extension JString$$Methods on JString {
           'globalEnv_CallBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `public boolean startsWith(java.lang.String string, int i)`
   core$_.bool startsWith$1(
     JString? string,
-    int i,
+    core$_.int i,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _startsWith$1(
@@ -16885,14 +16973,14 @@ extension JString$$Methods on JString {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `public java.lang.CharSequence subSequence(int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? subSequence(
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _subSequence(reference.pointer, _id_subSequence.pointer, i, i1)
         .object<jni$_.JObject?>();
@@ -16911,12 +16999,12 @@ extension JString$$Methods on JString {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public java.lang.String substring(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   JString? substring(
-    int i,
+    core$_.int i,
   ) {
     return _substring(reference.pointer, _id_substring.pointer, i)
         .object<JString?>();
@@ -16935,14 +17023,14 @@ extension JString$$Methods on JString {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `public java.lang.String substring(int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
   JString? substring$1(
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _substring$1(reference.pointer, _id_substring$1.pointer, i, i1)
         .object<JString?>();
@@ -17249,7 +17337,7 @@ extension JBuffer$$Methods on JBuffer {
           )>();
 
   /// from: `public abstract int arrayOffset()`
-  int arrayOffset() {
+  core$_.int arrayOffset() {
     return _arrayOffset(reference.pointer, _id_arrayOffset.pointer).integer;
   }
 
@@ -17271,7 +17359,7 @@ extension JBuffer$$Methods on JBuffer {
           )>();
 
   /// from: `public final int capacity()`
-  int capacity() {
+  core$_.int capacity() {
     return _capacity(reference.pointer, _id_capacity.pointer).integer;
   }
 
@@ -17452,7 +17540,7 @@ extension JBuffer$$Methods on JBuffer {
           )>();
 
   /// from: `public final int limit()`
-  int limit() {
+  core$_.int limit() {
     return _limit(reference.pointer, _id_limit.pointer).integer;
   }
 
@@ -17469,12 +17557,12 @@ extension JBuffer$$Methods on JBuffer {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public java.nio.Buffer limit(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   JBuffer? limit$1(
-    int i,
+    core$_.int i,
   ) {
     return _limit$1(reference.pointer, _id_limit$1.pointer, i)
         .object<JBuffer?>();
@@ -17521,7 +17609,7 @@ extension JBuffer$$Methods on JBuffer {
           )>();
 
   /// from: `public final int position()`
-  int position() {
+  core$_.int position() {
     return _position(reference.pointer, _id_position.pointer).integer;
   }
 
@@ -17538,12 +17626,12 @@ extension JBuffer$$Methods on JBuffer {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public java.nio.Buffer position(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   JBuffer? position$1(
-    int i,
+    core$_.int i,
   ) {
     return _position$1(reference.pointer, _id_position$1.pointer, i)
         .object<JBuffer?>();
@@ -17567,7 +17655,7 @@ extension JBuffer$$Methods on JBuffer {
           )>();
 
   /// from: `public final int remaining()`
-  int remaining() {
+  core$_.int remaining() {
     return _remaining(reference.pointer, _id_remaining.pointer).integer;
   }
 
@@ -17653,14 +17741,14 @@ extension JBuffer$$Methods on JBuffer {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `public abstract java.nio.Buffer slice(int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
   JBuffer? slice$1(
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _slice$1(reference.pointer, _id_slice$1.pointer, i, i1)
         .object<JBuffer?>();
@@ -17695,12 +17783,12 @@ extension type JByteBuffer._(jni$_.JObject _$this)
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.nio.ByteBuffer allocate(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static JByteBuffer? allocate(
-    int i,
+    core$_.int i,
   ) {
     return _allocate(_class.reference.pointer, _id_allocate.pointer, i)
         .object<JByteBuffer?>();
@@ -17718,12 +17806,12 @@ extension type JByteBuffer._(jni$_.JObject _$this)
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.nio.ByteBuffer allocateDirect(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static JByteBuffer? allocateDirect(
-    int i,
+    core$_.int i,
   ) {
     return _allocateDirect(
             _class.reference.pointer, _id_allocateDirect.pointer, i)
@@ -17773,15 +17861,19 @@ extension type JByteBuffer._(jni$_.JObject _$this)
                         jni$_.Int32
                       )>)>>('globalEnv_CallStaticObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `static public java.nio.ByteBuffer wrap(byte[] bs, int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
   static JByteBuffer? wrap$1(
     jni$_.JByteArray? bs,
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
   ) {
     final _$bs = bs?.reference ?? jni$_.jNullReference;
     return _wrap$1(
@@ -17804,12 +17896,12 @@ extension JByteBuffer$$Methods on JByteBuffer {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public final java.nio.ByteBuffer alignedSlice(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   JByteBuffer? alignedSlice(
-    int i,
+    core$_.int i,
   ) {
     return _alignedSlice(reference.pointer, _id_alignedSlice.pointer, i)
         .object<JByteBuffer?>();
@@ -17828,13 +17920,13 @@ extension JByteBuffer$$Methods on JByteBuffer {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `public final int alignmentOffset(int i, int i1)`
-  int alignmentOffset(
-    int i,
-    int i1,
+  core$_.int alignmentOffset(
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _alignmentOffset(
             reference.pointer, _id_alignmentOffset.pointer, i, i1)
@@ -17883,7 +17975,7 @@ extension JByteBuffer$$Methods on JByteBuffer {
           )>();
 
   /// from: `public final int arrayOffset()`
-  int arrayOffset() {
+  core$_.int arrayOffset() {
     return _arrayOffset(reference.pointer, _id_arrayOffset.pointer).integer;
   }
 
@@ -18119,7 +18211,7 @@ extension JByteBuffer$$Methods on JByteBuffer {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public int compareTo(java.nio.ByteBuffer byteBuffer)`
-  int compareTo(
+  core$_.int compareTo(
     JByteBuffer? byteBuffer,
   ) {
     final _$byteBuffer = byteBuffer?.reference ?? jni$_.jNullReference;
@@ -18218,7 +18310,7 @@ extension JByteBuffer$$Methods on JByteBuffer {
           )>();
 
   /// from: `public abstract byte get()`
-  int get() {
+  core$_.int get() {
     return _get(reference.pointer, _id_get.pointer).byte;
   }
 
@@ -18265,15 +18357,19 @@ extension JByteBuffer$$Methods on JByteBuffer {
                         jni$_.Int32
                       )>)>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `public java.nio.ByteBuffer get(byte[] bs, int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
   JByteBuffer? get$2(
     jni$_.JByteArray? bs,
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
   ) {
     final _$bs = bs?.reference ?? jni$_.jNullReference;
     return _get$2(reference.pointer, _id_get$2.pointer, _$bs.pointer, i, i1)
@@ -18293,11 +18389,11 @@ extension JByteBuffer$$Methods on JByteBuffer {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallByteMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public abstract byte get(int i)`
-  int get$3(
-    int i,
+  core$_.int get$3(
+    core$_.int i,
   ) {
     return _get$3(reference.pointer, _id_get$3.pointer, i).byte;
   }
@@ -18317,12 +18413,12 @@ extension JByteBuffer$$Methods on JByteBuffer {
           'globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+              jni$_.JMethodIDPtr, core$_.int, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public java.nio.ByteBuffer get(int i, byte[] bs)`
   /// The returned object must be released after use, by calling the [release] method.
   JByteBuffer? get$4(
-    int i,
+    core$_.int i,
     jni$_.JByteArray? bs,
   ) {
     final _$bs = bs?.reference ?? jni$_.jNullReference;
@@ -18348,16 +18444,21 @@ extension JByteBuffer$$Methods on JByteBuffer {
                         jni$_.Int32
                       )>)>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              core$_.int,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `public java.nio.ByteBuffer get(int i, byte[] bs, int i1, int i2)`
   /// The returned object must be released after use, by calling the [release] method.
   JByteBuffer? get$5(
-    int i,
+    core$_.int i,
     jni$_.JByteArray? bs,
-    int i1,
-    int i2,
+    core$_.int i1,
+    core$_.int i2,
   ) {
     final _$bs = bs?.reference ?? jni$_.jNullReference;
     return _get$5(reference.pointer, _id_get$5.pointer, i, _$bs.pointer, i1, i2)
@@ -18382,7 +18483,7 @@ extension JByteBuffer$$Methods on JByteBuffer {
           )>();
 
   /// from: `public abstract char getChar()`
-  int get char {
+  core$_.int get char {
     return _get$char(reference.pointer, _id_get$char.pointer).char;
   }
 
@@ -18399,11 +18500,11 @@ extension JByteBuffer$$Methods on JByteBuffer {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallCharMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public abstract char getChar(int i)`
-  int getChar(
-    int i,
+  core$_.int getChar(
+    core$_.int i,
   ) {
     return _getChar(reference.pointer, _id_getChar.pointer, i).char;
   }
@@ -18426,7 +18527,7 @@ extension JByteBuffer$$Methods on JByteBuffer {
           )>();
 
   /// from: `public abstract double getDouble()`
-  double get double {
+  core$_.double get double {
     return _get$double(reference.pointer, _id_get$double.pointer).doubleFloat;
   }
 
@@ -18443,11 +18544,11 @@ extension JByteBuffer$$Methods on JByteBuffer {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallDoubleMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public abstract double getDouble(int i)`
-  double getDouble(
-    int i,
+  core$_.double getDouble(
+    core$_.int i,
   ) {
     return _getDouble(reference.pointer, _id_getDouble.pointer, i).doubleFloat;
   }
@@ -18470,7 +18571,7 @@ extension JByteBuffer$$Methods on JByteBuffer {
           )>();
 
   /// from: `public abstract float getFloat()`
-  double get float {
+  core$_.double get float {
     return _get$float(reference.pointer, _id_get$float.pointer).float;
   }
 
@@ -18487,11 +18588,11 @@ extension JByteBuffer$$Methods on JByteBuffer {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallFloatMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public abstract float getFloat(int i)`
-  double getFloat(
-    int i,
+  core$_.double getFloat(
+    core$_.int i,
   ) {
     return _getFloat(reference.pointer, _id_getFloat.pointer, i).float;
   }
@@ -18514,7 +18615,7 @@ extension JByteBuffer$$Methods on JByteBuffer {
           )>();
 
   /// from: `public abstract int getInt()`
-  int get int {
+  core$_.int get int {
     return _get$int(reference.pointer, _id_get$int.pointer).integer;
   }
 
@@ -18531,11 +18632,11 @@ extension JByteBuffer$$Methods on JByteBuffer {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public abstract int getInt(int i)`
-  int getInt(
-    int i,
+  core$_.int getInt(
+    core$_.int i,
   ) {
     return _getInt(reference.pointer, _id_getInt.pointer, i).integer;
   }
@@ -18558,7 +18659,7 @@ extension JByteBuffer$$Methods on JByteBuffer {
           )>();
 
   /// from: `public abstract long getLong()`
-  int get long {
+  core$_.int get long {
     return _get$long(reference.pointer, _id_get$long.pointer).long;
   }
 
@@ -18575,11 +18676,11 @@ extension JByteBuffer$$Methods on JByteBuffer {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallLongMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public abstract long getLong(int i)`
-  int getLong(
-    int i,
+  core$_.int getLong(
+    core$_.int i,
   ) {
     return _getLong(reference.pointer, _id_getLong.pointer, i).long;
   }
@@ -18602,7 +18703,7 @@ extension JByteBuffer$$Methods on JByteBuffer {
           )>();
 
   /// from: `public abstract short getShort()`
-  int get short {
+  core$_.int get short {
     return _get$short(reference.pointer, _id_get$short.pointer).short;
   }
 
@@ -18619,11 +18720,11 @@ extension JByteBuffer$$Methods on JByteBuffer {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallShortMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public abstract short getShort(int i)`
-  int getShort(
-    int i,
+  core$_.int getShort(
+    core$_.int i,
   ) {
     return _getShort(reference.pointer, _id_getShort.pointer, i).short;
   }
@@ -18668,7 +18769,7 @@ extension JByteBuffer$$Methods on JByteBuffer {
           )>();
 
   /// from: `public int hashCode()`
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 
@@ -18707,12 +18808,12 @@ extension JByteBuffer$$Methods on JByteBuffer {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public java.nio.Buffer limit(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   JBuffer? limit1(
-    int i,
+    core$_.int i,
   ) {
     return _limit1(reference.pointer, _id_limit1.pointer, i).object<JBuffer?>();
   }
@@ -18757,7 +18858,7 @@ extension JByteBuffer$$Methods on JByteBuffer {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public int mismatch(java.nio.ByteBuffer byteBuffer)`
-  int mismatch(
+  core$_.int mismatch(
     JByteBuffer? byteBuffer,
   ) {
     final _$byteBuffer = byteBuffer?.reference ?? jni$_.jNullReference;
@@ -18829,12 +18930,12 @@ extension JByteBuffer$$Methods on JByteBuffer {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public java.nio.Buffer position(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   JBuffer? position1(
-    int i,
+    core$_.int i,
   ) {
     return _position1(reference.pointer, _id_position1.pointer, i)
         .object<JBuffer?>();
@@ -18853,12 +18954,12 @@ extension JByteBuffer$$Methods on JByteBuffer {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public abstract java.nio.ByteBuffer put(byte b)`
   /// The returned object must be released after use, by calling the [release] method.
   JByteBuffer? put(
-    int b,
+    core$_.int b,
   ) {
     return _put(reference.pointer, _id_put.pointer, b).object<JByteBuffer?>();
   }
@@ -18906,15 +19007,19 @@ extension JByteBuffer$$Methods on JByteBuffer {
                         jni$_.Int32
                       )>)>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `public java.nio.ByteBuffer put(byte[] bs, int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
   JByteBuffer? put$2(
     jni$_.JByteArray? bs,
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
   ) {
     final _$bs = bs?.reference ?? jni$_.jNullReference;
     return _put$2(reference.pointer, _id_put$2.pointer, _$bs.pointer, i, i1)
@@ -18934,14 +19039,14 @@ extension JByteBuffer$$Methods on JByteBuffer {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `public abstract java.nio.ByteBuffer put(int i, byte b)`
   /// The returned object must be released after use, by calling the [release] method.
   JByteBuffer? put$3(
-    int i,
-    int b,
+    core$_.int i,
+    core$_.int b,
   ) {
     return _put$3(reference.pointer, _id_put$3.pointer, i, b)
         .object<JByteBuffer?>();
@@ -18962,12 +19067,12 @@ extension JByteBuffer$$Methods on JByteBuffer {
           'globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+              jni$_.JMethodIDPtr, core$_.int, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public java.nio.ByteBuffer put(int i, byte[] bs)`
   /// The returned object must be released after use, by calling the [release] method.
   JByteBuffer? put$4(
-    int i,
+    core$_.int i,
     jni$_.JByteArray? bs,
   ) {
     final _$bs = bs?.reference ?? jni$_.jNullReference;
@@ -18993,16 +19098,21 @@ extension JByteBuffer$$Methods on JByteBuffer {
                         jni$_.Int32
                       )>)>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              core$_.int,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `public java.nio.ByteBuffer put(int i, byte[] bs, int i1, int i2)`
   /// The returned object must be released after use, by calling the [release] method.
   JByteBuffer? put$5(
-    int i,
+    core$_.int i,
     jni$_.JByteArray? bs,
-    int i1,
-    int i2,
+    core$_.int i1,
+    core$_.int i2,
   ) {
     final _$bs = bs?.reference ?? jni$_.jNullReference;
     return _put$5(reference.pointer, _id_put$5.pointer, i, _$bs.pointer, i1, i2)
@@ -19027,16 +19137,21 @@ extension JByteBuffer$$Methods on JByteBuffer {
                         jni$_.Int32
                       )>)>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              core$_.int,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `public java.nio.ByteBuffer put(int i, java.nio.ByteBuffer byteBuffer, int i1, int i2)`
   /// The returned object must be released after use, by calling the [release] method.
   JByteBuffer? put$6(
-    int i,
+    core$_.int i,
     JByteBuffer? byteBuffer,
-    int i1,
-    int i2,
+    core$_.int i1,
+    core$_.int i2,
   ) {
     final _$byteBuffer = byteBuffer?.reference ?? jni$_.jNullReference;
     return _put$6(reference.pointer, _id_put$6.pointer, i, _$byteBuffer.pointer,
@@ -19083,12 +19198,12 @@ extension JByteBuffer$$Methods on JByteBuffer {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public abstract java.nio.ByteBuffer putChar(char c)`
   /// The returned object must be released after use, by calling the [release] method.
   JByteBuffer? putChar(
-    int c,
+    core$_.int c,
   ) {
     return _putChar(reference.pointer, _id_putChar.pointer, c)
         .object<JByteBuffer?>();
@@ -19107,14 +19222,14 @@ extension JByteBuffer$$Methods on JByteBuffer {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `public abstract java.nio.ByteBuffer putChar(int i, char c)`
   /// The returned object must be released after use, by calling the [release] method.
   JByteBuffer? putChar$1(
-    int i,
-    int c,
+    core$_.int i,
+    core$_.int c,
   ) {
     return _putChar$1(reference.pointer, _id_putChar$1.pointer, i, c)
         .object<JByteBuffer?>();
@@ -19134,12 +19249,12 @@ extension JByteBuffer$$Methods on JByteBuffer {
                       .VarArgs<(jni$_.Double,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `public abstract java.nio.ByteBuffer putDouble(double d)`
   /// The returned object must be released after use, by calling the [release] method.
   JByteBuffer? putDouble(
-    double d,
+    core$_.double d,
   ) {
     return _putDouble(reference.pointer, _id_putDouble.pointer, d)
         .object<JByteBuffer?>();
@@ -19158,14 +19273,14 @@ extension JByteBuffer$$Methods on JByteBuffer {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Double)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, double)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.double)>();
 
   /// from: `public abstract java.nio.ByteBuffer putDouble(int i, double d)`
   /// The returned object must be released after use, by calling the [release] method.
   JByteBuffer? putDouble$1(
-    int i,
-    double d,
+    core$_.int i,
+    core$_.double d,
   ) {
     return _putDouble$1(reference.pointer, _id_putDouble$1.pointer, i, d)
         .object<JByteBuffer?>();
@@ -19185,12 +19300,12 @@ extension JByteBuffer$$Methods on JByteBuffer {
                       .VarArgs<(jni$_.Double,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `public abstract java.nio.ByteBuffer putFloat(float f)`
   /// The returned object must be released after use, by calling the [release] method.
   JByteBuffer? putFloat(
-    double f,
+    core$_.double f,
   ) {
     return _putFloat(reference.pointer, _id_putFloat.pointer, f)
         .object<JByteBuffer?>();
@@ -19209,14 +19324,14 @@ extension JByteBuffer$$Methods on JByteBuffer {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Double)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, double)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.double)>();
 
   /// from: `public abstract java.nio.ByteBuffer putFloat(int i, float f)`
   /// The returned object must be released after use, by calling the [release] method.
   JByteBuffer? putFloat$1(
-    int i,
-    double f,
+    core$_.int i,
+    core$_.double f,
   ) {
     return _putFloat$1(reference.pointer, _id_putFloat$1.pointer, i, f)
         .object<JByteBuffer?>();
@@ -19235,12 +19350,12 @@ extension JByteBuffer$$Methods on JByteBuffer {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public abstract java.nio.ByteBuffer putInt(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   JByteBuffer? putInt(
-    int i,
+    core$_.int i,
   ) {
     return _putInt(reference.pointer, _id_putInt.pointer, i)
         .object<JByteBuffer?>();
@@ -19259,14 +19374,14 @@ extension JByteBuffer$$Methods on JByteBuffer {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `public abstract java.nio.ByteBuffer putInt(int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
   JByteBuffer? putInt$1(
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _putInt$1(reference.pointer, _id_putInt$1.pointer, i, i1)
         .object<JByteBuffer?>();
@@ -19285,14 +19400,14 @@ extension JByteBuffer$$Methods on JByteBuffer {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int64)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `public abstract java.nio.ByteBuffer putLong(int i, long j)`
   /// The returned object must be released after use, by calling the [release] method.
   JByteBuffer? putLong(
-    int i,
-    int j,
+    core$_.int i,
+    core$_.int j,
   ) {
     return _putLong(reference.pointer, _id_putLong.pointer, i, j)
         .object<JByteBuffer?>();
@@ -19311,12 +19426,12 @@ extension JByteBuffer$$Methods on JByteBuffer {
                   jni$_.VarArgs<(jni$_.Int64,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public abstract java.nio.ByteBuffer putLong(long j)`
   /// The returned object must be released after use, by calling the [release] method.
   JByteBuffer? putLong$1(
-    int j,
+    core$_.int j,
   ) {
     return _putLong$1(reference.pointer, _id_putLong$1.pointer, j)
         .object<JByteBuffer?>();
@@ -19335,14 +19450,14 @@ extension JByteBuffer$$Methods on JByteBuffer {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `public abstract java.nio.ByteBuffer putShort(int i, short s)`
   /// The returned object must be released after use, by calling the [release] method.
   JByteBuffer? putShort(
-    int i,
-    int s,
+    core$_.int i,
+    core$_.int s,
   ) {
     return _putShort(reference.pointer, _id_putShort.pointer, i, s)
         .object<JByteBuffer?>();
@@ -19361,12 +19476,12 @@ extension JByteBuffer$$Methods on JByteBuffer {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public abstract java.nio.ByteBuffer putShort(short s)`
   /// The returned object must be released after use, by calling the [release] method.
   JByteBuffer? putShort$1(
-    int s,
+    core$_.int s,
   ) {
     return _putShort$1(reference.pointer, _id_putShort$1.pointer, s)
         .object<JByteBuffer?>();
@@ -19455,14 +19570,14 @@ extension JByteBuffer$$Methods on JByteBuffer {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `public abstract java.nio.ByteBuffer slice(int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
   JByteBuffer? slice$3(
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _slice$3(reference.pointer, _id_slice$3.pointer, i, i1)
         .object<JByteBuffer?>();
@@ -19560,12 +19675,12 @@ extension type JArrayList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_NewObject')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void <init>(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JArrayList.new$1(
-    int i,
+    core$_.int i,
   ) {
     return _new$1(_class.reference.pointer, _id_new$1.pointer, i)
         .object<JArrayList<$E>>();
@@ -20251,11 +20366,11 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
           'globalEnv_CallVoidMethod')
       .asFunction<
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+              jni$_.JMethodIDPtr, core$_.int, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public void add(int i, E object)`
   void add$1(
-    int i,
+    core$_.int i,
     $E? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -20277,11 +20392,11 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
           'globalEnv_CallBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+              jni$_.JMethodIDPtr, core$_.int, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public boolean addAll(int i, java.util.Collection<? extends E> collection)`
   core$_.bool addAll(
-    int i,
+    core$_.int i,
     JCollection<$E?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
@@ -20449,11 +20564,11 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void ensureCapacity(int i)`
   void ensureCapacity(
-    int i,
+    core$_.int i,
   ) {
     _ensureCapacity(reference.pointer, _id_ensureCapacity.pointer, i).check();
   }
@@ -20521,12 +20636,12 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public E get(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   $E? get(
-    int i,
+    core$_.int i,
   ) {
     return _get(reference.pointer, _id_get.pointer, i).object<$E?>();
   }
@@ -20595,7 +20710,7 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
           )>();
 
   /// from: `public int hashCode()`
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 
@@ -20616,7 +20731,7 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public int indexOf(java.lang.Object object)`
-  int indexOf(
+  core$_.int indexOf(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -20687,7 +20802,7 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public int lastIndexOf(java.lang.Object object)`
-  int lastIndexOf(
+  core$_.int lastIndexOf(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -20733,12 +20848,12 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public java.util.ListIterator<E> listIterator(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? listIterator$1(
-    int i,
+    core$_.int i,
   ) {
     return _listIterator$1(reference.pointer, _id_listIterator$1.pointer, i)
         .object<jni$_.JObject?>();
@@ -20757,12 +20872,12 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public E remove(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   $E? remove(
-    int i,
+    core$_.int i,
   ) {
     return _remove(reference.pointer, _id_remove.pointer, i).object<$E?>();
   }
@@ -20958,12 +21073,12 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
           'globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+              jni$_.JMethodIDPtr, core$_.int, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public E set(int i, E object)`
   /// The returned object must be released after use, by calling the [release] method.
   $E? set(
-    int i,
+    core$_.int i,
     $E? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -20989,7 +21104,7 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
           )>();
 
   /// from: `public int size()`
-  int size() {
+  core$_.int size() {
     return _size(reference.pointer, _id_size.pointer).integer;
   }
 
@@ -21054,14 +21169,14 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `public java.util.List<E> subList(int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
   JList<$E?>? subList(
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _subList(reference.pointer, _id_subList.pointer, i, i1)
         .object<JList<$E?>?>();
@@ -21284,9 +21399,9 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   static const jni$_.JType<JCollection> type = $JCollection$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $JCollection> _$impls = {};
+  static final core$_.Map<core$_.int, $JCollection> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -21307,7 +21422,7 @@ extension type JCollection<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -21652,7 +21767,7 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
           )>();
 
   /// from: `public abstract int hashCode()`
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 
@@ -21847,7 +21962,7 @@ extension JCollection$$Methods<$E extends jni$_.JObject?> on JCollection<$E> {
           )>();
 
   /// from: `public abstract int size()`
-  int size() {
+  core$_.int size() {
     return _size(reference.pointer, _id_size.pointer).integer;
   }
 
@@ -21989,7 +22104,7 @@ abstract base mixin class $JCollection<$E extends jni$_.JObject?> {
     required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
         containsAll,
     required core$_.bool Function(jni$_.JObject? object) equals,
-    required int Function() hashCode$1,
+    required core$_.int Function() hashCode$1,
     required core$_.bool Function() isEmpty,
     required JIterator<jni$_.JObject?>? Function() iterator,
     required jni$_.JObject? Function() parallelStream,
@@ -21999,7 +22114,7 @@ abstract base mixin class $JCollection<$E extends jni$_.JObject?> {
     required core$_.bool Function(jni$_.JObject? predicate) removeIf,
     required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
         retainAll,
-    required int Function() size,
+    required core$_.int Function() size,
     required jni$_.JObject? Function() spliterator,
     required jni$_.JObject? Function() stream,
     required jni$_.JArray<jni$_.JObject?>? Function() toArray,
@@ -22017,7 +22132,7 @@ abstract base mixin class $JCollection<$E extends jni$_.JObject?> {
   core$_.bool contains(jni$_.JObject? object);
   core$_.bool containsAll(JCollection<jni$_.JObject?>? collection);
   core$_.bool equals(jni$_.JObject? object);
-  int hashCode$1();
+  core$_.int hashCode$1();
   core$_.bool isEmpty();
   JIterator<jni$_.JObject?>? iterator();
   jni$_.JObject? parallelStream();
@@ -22025,7 +22140,7 @@ abstract base mixin class $JCollection<$E extends jni$_.JObject?> {
   core$_.bool removeAll(JCollection<jni$_.JObject?>? collection);
   core$_.bool removeIf(jni$_.JObject? predicate);
   core$_.bool retainAll(JCollection<jni$_.JObject?>? collection);
-  int size();
+  core$_.int size();
   jni$_.JObject? spliterator();
   jni$_.JObject? stream();
   jni$_.JArray<jni$_.JObject?>? toArray();
@@ -22045,7 +22160,7 @@ final class _$JCollection<$E extends jni$_.JObject?> with $JCollection<$E> {
     required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
         containsAll,
     required core$_.bool Function(jni$_.JObject? object) equals,
-    required int Function() hashCode$1,
+    required core$_.int Function() hashCode$1,
     required core$_.bool Function() isEmpty,
     required JIterator<jni$_.JObject?>? Function() iterator,
     required jni$_.JObject? Function() parallelStream,
@@ -22055,7 +22170,7 @@ final class _$JCollection<$E extends jni$_.JObject?> with $JCollection<$E> {
     required core$_.bool Function(jni$_.JObject? predicate) removeIf,
     required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
         retainAll,
-    required int Function() size,
+    required core$_.int Function() size,
     required jni$_.JObject? Function() spliterator,
     required jni$_.JObject? Function() stream,
     required jni$_.JArray<jni$_.JObject?>? Function() toArray,
@@ -22093,7 +22208,7 @@ final class _$JCollection<$E extends jni$_.JObject?> with $JCollection<$E> {
   final core$_.bool Function(JCollection<jni$_.JObject?>? collection)
       _containsAll;
   final core$_.bool Function(jni$_.JObject? object) _equals;
-  final int Function() _hashCode$1;
+  final core$_.int Function() _hashCode$1;
   final core$_.bool Function() _isEmpty;
   final JIterator<jni$_.JObject?>? Function() _iterator;
   final jni$_.JObject? Function() _parallelStream;
@@ -22103,7 +22218,7 @@ final class _$JCollection<$E extends jni$_.JObject?> with $JCollection<$E> {
   final core$_.bool Function(jni$_.JObject? predicate) _removeIf;
   final core$_.bool Function(JCollection<jni$_.JObject?>? collection)
       _retainAll;
-  final int Function() _size;
+  final core$_.int Function() _size;
   final jni$_.JObject? Function() _spliterator;
   final jni$_.JObject? Function() _stream;
   final jni$_.JArray<jni$_.JObject?>? Function() _toArray;
@@ -22136,7 +22251,7 @@ final class _$JCollection<$E extends jni$_.JObject?> with $JCollection<$E> {
     return _equals(object);
   }
 
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1();
   }
 
@@ -22168,7 +22283,7 @@ final class _$JCollection<$E extends jni$_.JObject?> with $JCollection<$E> {
     return _retainAll(collection);
   }
 
-  int size() {
+  core$_.int size() {
     return _size();
   }
 
@@ -22245,12 +22360,12 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_NewObject')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void <init>(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JHashMap.new$1(
-    int i,
+    core$_.int i,
   ) {
     return _new$1(_class.reference.pointer, _id_new$1.pointer, i)
         .object<JHashMap<$K, $V>>();
@@ -22268,14 +22383,14 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Double)>)>>(
           'globalEnv_NewObject')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, double)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.double)>();
 
   /// from: `public void <init>(int i, float f)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JHashMap.new$2(
-    int i,
-    double f,
+    core$_.int i,
+    core$_.double f,
   ) {
     return _new$2(_class.reference.pointer, _id_new$2.pointer, i, f)
         .object<JHashMap<$K, $V>>();
@@ -22318,13 +22433,13 @@ extension type JHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.util.HashMap<K, V> newHashMap(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static JHashMap<$K?, $V?>?
       newHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    int i,
+    core$_.int i,
   ) {
     return _newHashMap(_class.reference.pointer, _id_newHashMap.pointer, i)
         .object<JHashMap<$K?, $V?>?>();
@@ -23948,7 +24063,7 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
           )>();
 
   /// from: `public int size()`
-  int size() {
+  core$_.int size() {
     return _size(reference.pointer, _id_size.pointer).integer;
   }
 
@@ -24019,7 +24134,7 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
           )>();
 
   /// from: `public abstract int hashCode()`
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 }
@@ -24075,12 +24190,12 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_NewObject')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void <init>(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JHashSet.new$1(
-    int i,
+    core$_.int i,
   ) {
     return _new$1(_class.reference.pointer, _id_new$1.pointer, i)
         .object<JHashSet<$E>>();
@@ -24098,14 +24213,14 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Double)>)>>(
           'globalEnv_NewObject')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, double)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.double)>();
 
   /// from: `public void <init>(int i, float f)`
   /// The returned object must be released after use, by calling the [release] method.
   factory JHashSet.new$2(
-    int i,
-    double f,
+    core$_.int i,
+    core$_.double f,
   ) {
     return _new$2(_class.reference.pointer, _id_new$2.pointer, i, f)
         .object<JHashSet<$E>>();
@@ -24149,12 +24264,12 @@ extension type JHashSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.util.HashSet<T> newHashSet(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static JHashSet<$T?>? newHashSet<$T extends jni$_.JObject?>(
-    int i,
+    core$_.int i,
   ) {
     return _newHashSet(_class.reference.pointer, _id_newHashSet.pointer, i)
         .object<JHashSet<$T?>?>();
@@ -24959,7 +25074,7 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
           )>();
 
   /// from: `public int size()`
-  int size() {
+  core$_.int size() {
     return _size(reference.pointer, _id_size.pointer).integer;
   }
 
@@ -25132,7 +25247,7 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
           )>();
 
   /// from: `public abstract int hashCode()`
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 
@@ -25308,9 +25423,9 @@ extension type JIterator<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   static const jni$_.JType<JIterator> type = $JIterator$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $JIterator> _$impls = {};
+  static final core$_.Map<core$_.int, $JIterator> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -25331,7 +25446,7 @@ extension type JIterator<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -26183,9 +26298,9 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   }
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $JList> _$impls = {};
+  static final core$_.Map<core$_.int, $JList> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -26206,7 +26321,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -26762,11 +26877,11 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
           'globalEnv_CallVoidMethod')
       .asFunction<
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+              jni$_.JMethodIDPtr, core$_.int, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public abstract void add(int i, E object)`
   void add$1(
-    int i,
+    core$_.int i,
     $E? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -26788,11 +26903,11 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
           'globalEnv_CallBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+              jni$_.JMethodIDPtr, core$_.int, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public abstract boolean addAll(int i, java.util.Collection<? extends E> collection)`
   core$_.bool addAll(
-    int i,
+    core$_.int i,
     JCollection<$E?>? collection,
   ) {
     final _$collection = collection?.reference ?? jni$_.jNullReference;
@@ -26987,12 +27102,12 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public abstract E get(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   $E? get(
-    int i,
+    core$_.int i,
   ) {
     return _get(reference.pointer, _id_get.pointer, i).object<$E?>();
   }
@@ -27061,7 +27176,7 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
           )>();
 
   /// from: `public abstract int hashCode()`
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 
@@ -27082,7 +27197,7 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public abstract int indexOf(java.lang.Object object)`
-  int indexOf(
+  core$_.int indexOf(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -27153,7 +27268,7 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public abstract int lastIndexOf(java.lang.Object object)`
-  int lastIndexOf(
+  core$_.int lastIndexOf(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -27199,12 +27314,12 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public abstract java.util.ListIterator<E> listIterator(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? listIterator$1(
-    int i,
+    core$_.int i,
   ) {
     return _listIterator$1(reference.pointer, _id_listIterator$1.pointer, i)
         .object<jni$_.JObject?>();
@@ -27223,12 +27338,12 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public abstract E remove(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   $E? remove(
-    int i,
+    core$_.int i,
   ) {
     return _remove(reference.pointer, _id_remove.pointer, i).object<$E?>();
   }
@@ -27422,12 +27537,12 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
           'globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+              jni$_.JMethodIDPtr, core$_.int, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public abstract E set(int i, E object)`
   /// The returned object must be released after use, by calling the [release] method.
   $E? set(
-    int i,
+    core$_.int i,
     $E? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -27453,7 +27568,7 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
           )>();
 
   /// from: `public abstract int size()`
-  int size() {
+  core$_.int size() {
     return _size(reference.pointer, _id_size.pointer).integer;
   }
 
@@ -27518,14 +27633,14 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `public abstract java.util.List<E> subList(int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
   JList<$E?>? subList(
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _subList(reference.pointer, _id_subList.pointer, i, i1)
         .object<JList<$E?>?>();
@@ -27687,10 +27802,10 @@ extension JList$$Methods<$E extends jni$_.JObject?> on JList<$E> {
 abstract base mixin class $JList<$E extends jni$_.JObject?> {
   factory $JList({
     required core$_.bool Function($E? object) add,
-    required void Function(int i, $E? object) add$1,
+    required void Function(core$_.int i, $E? object) add$1,
     core$_.bool add$1$async,
     required core$_.bool Function(
-            int i, JCollection<jni$_.JObject?>? collection)
+            core$_.int i, JCollection<jni$_.JObject?>? collection)
         addAll,
     required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
         addAll$1,
@@ -27707,16 +27822,16 @@ abstract base mixin class $JList<$E extends jni$_.JObject?> {
             JCollection<jni$_.JObject?>? collection)
         copyOf,
     required core$_.bool Function(jni$_.JObject? object) equals,
-    required jni$_.JObject? Function(int i) get,
+    required jni$_.JObject? Function(core$_.int i) get,
     required jni$_.JObject? Function() getFirst,
     required jni$_.JObject? Function() getLast,
-    required int Function() hashCode$1,
-    required int Function(jni$_.JObject? object) indexOf,
+    required core$_.int Function() hashCode$1,
+    required core$_.int Function(jni$_.JObject? object) indexOf,
     required core$_.bool Function() isEmpty,
     required JIterator<jni$_.JObject?>? Function() iterator,
-    required int Function(jni$_.JObject? object) lastIndexOf,
+    required core$_.int Function(jni$_.JObject? object) lastIndexOf,
     required jni$_.JObject? Function() listIterator,
-    required jni$_.JObject? Function(int i) listIterator$1,
+    required jni$_.JObject? Function(core$_.int i) listIterator$1,
     required JList<jni$_.JObject?>? Function() of,
     required JList<jni$_.JObject?>? Function(jni$_.JObject? object) of$1,
     required JList<jni$_.JObject?>? Function(
@@ -27791,7 +27906,7 @@ abstract base mixin class $JList<$E extends jni$_.JObject?> {
     required JList<jni$_.JObject?>? Function(
             jni$_.JArray<jni$_.JObject?>? objects)
         of$11,
-    required jni$_.JObject? Function(int i) remove,
+    required jni$_.JObject? Function(core$_.int i) remove,
     required core$_.bool Function(jni$_.JObject? object) remove$1,
     required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
         removeAll,
@@ -27802,12 +27917,13 @@ abstract base mixin class $JList<$E extends jni$_.JObject?> {
     required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
         retainAll,
     required JList<jni$_.JObject?>? Function() reversed,
-    required jni$_.JObject? Function(int i, jni$_.JObject? object) set,
-    required int Function() size,
+    required jni$_.JObject? Function(core$_.int i, jni$_.JObject? object) set,
+    required core$_.int Function() size,
     required void Function(jni$_.JObject? comparator) sort,
     core$_.bool sort$async,
     required jni$_.JObject? Function() spliterator,
-    required JList<jni$_.JObject?>? Function(int i, int i1) subList,
+    required JList<jni$_.JObject?>? Function(core$_.int i, core$_.int i1)
+        subList,
     required jni$_.JArray<jni$_.JObject?>? Function() toArray,
     required jni$_.JArray<jni$_.JObject?>? Function(
             jni$_.JArray<jni$_.JObject?>? objects)
@@ -27820,9 +27936,9 @@ abstract base mixin class $JList<$E extends jni$_.JObject?> {
   }) = _$JList<$E>;
 
   core$_.bool add($E? object);
-  void add$1(int i, $E? object);
+  void add$1(core$_.int i, $E? object);
   core$_.bool get add$1$async => false;
-  core$_.bool addAll(int i, JCollection<jni$_.JObject?>? collection);
+  core$_.bool addAll(core$_.int i, JCollection<jni$_.JObject?>? collection);
   core$_.bool addAll$1(JCollection<jni$_.JObject?>? collection);
   void addFirst($E? object);
   core$_.bool get addFirst$async => false;
@@ -27834,16 +27950,16 @@ abstract base mixin class $JList<$E extends jni$_.JObject?> {
   core$_.bool containsAll(JCollection<jni$_.JObject?>? collection);
   JList<jni$_.JObject?>? copyOf(JCollection<jni$_.JObject?>? collection);
   core$_.bool equals(jni$_.JObject? object);
-  jni$_.JObject? get(int i);
+  jni$_.JObject? get(core$_.int i);
   jni$_.JObject? getFirst();
   jni$_.JObject? getLast();
-  int hashCode$1();
-  int indexOf(jni$_.JObject? object);
+  core$_.int hashCode$1();
+  core$_.int indexOf(jni$_.JObject? object);
   core$_.bool isEmpty();
   JIterator<jni$_.JObject?>? iterator();
-  int lastIndexOf(jni$_.JObject? object);
+  core$_.int lastIndexOf(jni$_.JObject? object);
   jni$_.JObject? listIterator();
-  jni$_.JObject? listIterator$1(int i);
+  jni$_.JObject? listIterator$1(core$_.int i);
   JList<jni$_.JObject?>? of();
   JList<jni$_.JObject?>? of$1(jni$_.JObject? object);
   JList<jni$_.JObject?>? of$2(jni$_.JObject? object, jni$_.JObject? object1);
@@ -27899,7 +28015,7 @@ abstract base mixin class $JList<$E extends jni$_.JObject?> {
       jni$_.JObject? object8,
       jni$_.JObject? object9);
   JList<jni$_.JObject?>? of$11(jni$_.JArray<jni$_.JObject?>? objects);
-  jni$_.JObject? remove(int i);
+  jni$_.JObject? remove(core$_.int i);
   core$_.bool remove$1(jni$_.JObject? object);
   core$_.bool removeAll(JCollection<jni$_.JObject?>? collection);
   jni$_.JObject? removeFirst();
@@ -27908,12 +28024,12 @@ abstract base mixin class $JList<$E extends jni$_.JObject?> {
   core$_.bool get replaceAll$async => false;
   core$_.bool retainAll(JCollection<jni$_.JObject?>? collection);
   JList<jni$_.JObject?>? reversed();
-  jni$_.JObject? set(int i, jni$_.JObject? object);
-  int size();
+  jni$_.JObject? set(core$_.int i, jni$_.JObject? object);
+  core$_.int size();
   void sort(jni$_.JObject? comparator);
   core$_.bool get sort$async => false;
   jni$_.JObject? spliterator();
-  JList<jni$_.JObject?>? subList(int i, int i1);
+  JList<jni$_.JObject?>? subList(core$_.int i, core$_.int i1);
   jni$_.JArray<jni$_.JObject?>? toArray();
   jni$_.JArray<jni$_.JObject?>? toArray$1(
       jni$_.JArray<jni$_.JObject?>? objects);
@@ -27926,10 +28042,10 @@ abstract base mixin class $JList<$E extends jni$_.JObject?> {
 final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
   _$JList({
     required core$_.bool Function($E? object) add,
-    required void Function(int i, $E? object) add$1,
+    required void Function(core$_.int i, $E? object) add$1,
     this.add$1$async = false,
     required core$_.bool Function(
-            int i, JCollection<jni$_.JObject?>? collection)
+            core$_.int i, JCollection<jni$_.JObject?>? collection)
         addAll,
     required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
         addAll$1,
@@ -27946,16 +28062,16 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
             JCollection<jni$_.JObject?>? collection)
         copyOf,
     required core$_.bool Function(jni$_.JObject? object) equals,
-    required jni$_.JObject? Function(int i) get,
+    required jni$_.JObject? Function(core$_.int i) get,
     required jni$_.JObject? Function() getFirst,
     required jni$_.JObject? Function() getLast,
-    required int Function() hashCode$1,
-    required int Function(jni$_.JObject? object) indexOf,
+    required core$_.int Function() hashCode$1,
+    required core$_.int Function(jni$_.JObject? object) indexOf,
     required core$_.bool Function() isEmpty,
     required JIterator<jni$_.JObject?>? Function() iterator,
-    required int Function(jni$_.JObject? object) lastIndexOf,
+    required core$_.int Function(jni$_.JObject? object) lastIndexOf,
     required jni$_.JObject? Function() listIterator,
-    required jni$_.JObject? Function(int i) listIterator$1,
+    required jni$_.JObject? Function(core$_.int i) listIterator$1,
     required JList<jni$_.JObject?>? Function() of,
     required JList<jni$_.JObject?>? Function(jni$_.JObject? object) of$1,
     required JList<jni$_.JObject?>? Function(
@@ -28030,7 +28146,7 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
     required JList<jni$_.JObject?>? Function(
             jni$_.JArray<jni$_.JObject?>? objects)
         of$11,
-    required jni$_.JObject? Function(int i) remove,
+    required jni$_.JObject? Function(core$_.int i) remove,
     required core$_.bool Function(jni$_.JObject? object) remove$1,
     required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
         removeAll,
@@ -28041,12 +28157,13 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
     required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
         retainAll,
     required JList<jni$_.JObject?>? Function() reversed,
-    required jni$_.JObject? Function(int i, jni$_.JObject? object) set,
-    required int Function() size,
+    required jni$_.JObject? Function(core$_.int i, jni$_.JObject? object) set,
+    required core$_.int Function() size,
     required void Function(jni$_.JObject? comparator) sort,
     this.sort$async = false,
     required jni$_.JObject? Function() spliterator,
-    required JList<jni$_.JObject?>? Function(int i, int i1) subList,
+    required JList<jni$_.JObject?>? Function(core$_.int i, core$_.int i1)
+        subList,
     required jni$_.JArray<jni$_.JObject?>? Function() toArray,
     required jni$_.JArray<jni$_.JObject?>? Function(
             jni$_.JArray<jni$_.JObject?>? objects)
@@ -28110,10 +28227,10 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
         _toArray$2 = toArray$2;
 
   final core$_.bool Function($E? object) _add;
-  final void Function(int i, $E? object) _add$1;
+  final void Function(core$_.int i, $E? object) _add$1;
   final core$_.bool add$1$async;
-  final core$_.bool Function(int i, JCollection<jni$_.JObject?>? collection)
-      _addAll;
+  final core$_.bool Function(
+      core$_.int i, JCollection<jni$_.JObject?>? collection) _addAll;
   final core$_.bool Function(JCollection<jni$_.JObject?>? collection) _addAll$1;
   final void Function($E? object) _addFirst;
   final core$_.bool addFirst$async;
@@ -28127,16 +28244,16 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
   final JList<jni$_.JObject?>? Function(JCollection<jni$_.JObject?>? collection)
       _copyOf;
   final core$_.bool Function(jni$_.JObject? object) _equals;
-  final jni$_.JObject? Function(int i) _get;
+  final jni$_.JObject? Function(core$_.int i) _get;
   final jni$_.JObject? Function() _getFirst;
   final jni$_.JObject? Function() _getLast;
-  final int Function() _hashCode$1;
-  final int Function(jni$_.JObject? object) _indexOf;
+  final core$_.int Function() _hashCode$1;
+  final core$_.int Function(jni$_.JObject? object) _indexOf;
   final core$_.bool Function() _isEmpty;
   final JIterator<jni$_.JObject?>? Function() _iterator;
-  final int Function(jni$_.JObject? object) _lastIndexOf;
+  final core$_.int Function(jni$_.JObject? object) _lastIndexOf;
   final jni$_.JObject? Function() _listIterator;
-  final jni$_.JObject? Function(int i) _listIterator$1;
+  final jni$_.JObject? Function(core$_.int i) _listIterator$1;
   final JList<jni$_.JObject?>? Function() _of;
   final JList<jni$_.JObject?>? Function(jni$_.JObject? object) _of$1;
   final JList<jni$_.JObject?>? Function(
@@ -28202,7 +28319,7 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
       jni$_.JObject? object9) _of$10;
   final JList<jni$_.JObject?>? Function(jni$_.JArray<jni$_.JObject?>? objects)
       _of$11;
-  final jni$_.JObject? Function(int i) _remove;
+  final jni$_.JObject? Function(core$_.int i) _remove;
   final core$_.bool Function(jni$_.JObject? object) _remove$1;
   final core$_.bool Function(JCollection<jni$_.JObject?>? collection)
       _removeAll;
@@ -28213,12 +28330,12 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
   final core$_.bool Function(JCollection<jni$_.JObject?>? collection)
       _retainAll;
   final JList<jni$_.JObject?>? Function() _reversed;
-  final jni$_.JObject? Function(int i, jni$_.JObject? object) _set;
-  final int Function() _size;
+  final jni$_.JObject? Function(core$_.int i, jni$_.JObject? object) _set;
+  final core$_.int Function() _size;
   final void Function(jni$_.JObject? comparator) _sort;
   final core$_.bool sort$async;
   final jni$_.JObject? Function() _spliterator;
-  final JList<jni$_.JObject?>? Function(int i, int i1) _subList;
+  final JList<jni$_.JObject?>? Function(core$_.int i, core$_.int i1) _subList;
   final jni$_.JArray<jni$_.JObject?>? Function() _toArray;
   final jni$_.JArray<jni$_.JObject?>? Function(
       jni$_.JArray<jni$_.JObject?>? objects) _toArray$1;
@@ -28232,11 +28349,11 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
     return _add(object);
   }
 
-  void add$1(int i, $E? object) {
+  void add$1(core$_.int i, $E? object) {
     return _add$1(i, object);
   }
 
-  core$_.bool addAll(int i, JCollection<jni$_.JObject?>? collection) {
+  core$_.bool addAll(core$_.int i, JCollection<jni$_.JObject?>? collection) {
     return _addAll(i, collection);
   }
 
@@ -28272,7 +28389,7 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
     return _equals(object);
   }
 
-  jni$_.JObject? get(int i) {
+  jni$_.JObject? get(core$_.int i) {
     return _get(i);
   }
 
@@ -28284,11 +28401,11 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
     return _getLast();
   }
 
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1();
   }
 
-  int indexOf(jni$_.JObject? object) {
+  core$_.int indexOf(jni$_.JObject? object) {
     return _indexOf(object);
   }
 
@@ -28300,7 +28417,7 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
     return _iterator();
   }
 
-  int lastIndexOf(jni$_.JObject? object) {
+  core$_.int lastIndexOf(jni$_.JObject? object) {
     return _lastIndexOf(object);
   }
 
@@ -28308,7 +28425,7 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
     return _listIterator();
   }
 
-  jni$_.JObject? listIterator$1(int i) {
+  jni$_.JObject? listIterator$1(core$_.int i) {
     return _listIterator$1(i);
   }
 
@@ -28406,7 +28523,7 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
     return _of$11(objects);
   }
 
-  jni$_.JObject? remove(int i) {
+  jni$_.JObject? remove(core$_.int i) {
     return _remove(i);
   }
 
@@ -28438,11 +28555,11 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
     return _reversed();
   }
 
-  jni$_.JObject? set(int i, jni$_.JObject? object) {
+  jni$_.JObject? set(core$_.int i, jni$_.JObject? object) {
     return _set(i, object);
   }
 
-  int size() {
+  core$_.int size() {
     return _size();
   }
 
@@ -28454,7 +28571,7 @@ final class _$JList<$E extends jni$_.JObject?> with $JList<$E> {
     return _spliterator();
   }
 
-  JList<jni$_.JObject?>? subList(int i, int i1) {
+  JList<jni$_.JObject?>? subList(core$_.int i, core$_.int i1) {
     return _subList(i, i1);
   }
 
@@ -28637,9 +28754,9 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
   }
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $JMap$JEntry> _$impls = {};
+  static final core$_.Map<core$_.int, $JMap$JEntry> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -28660,7 +28777,7 @@ extension type JMap$JEntry<$K extends jni$_.JObject?,
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -28881,7 +28998,7 @@ extension JMap$JEntry$$Methods<$K extends jni$_.JObject?,
           )>();
 
   /// from: `public abstract int hashCode()`
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 
@@ -28927,7 +29044,7 @@ abstract base mixin class $JMap$JEntry<$K extends jni$_.JObject?,
     required core$_.bool Function(jni$_.JObject? object) equals,
     required jni$_.JObject? Function() getKey,
     required jni$_.JObject? Function() getValue,
-    required int Function() hashCode$1,
+    required core$_.int Function() hashCode$1,
     required jni$_.JObject? Function(jni$_.JObject? object) setValue,
   }) = _$JMap$JEntry<$K, $V>;
 
@@ -28940,7 +29057,7 @@ abstract base mixin class $JMap$JEntry<$K extends jni$_.JObject?,
   core$_.bool equals(jni$_.JObject? object);
   jni$_.JObject? getKey();
   jni$_.JObject? getValue();
-  int hashCode$1();
+  core$_.int hashCode$1();
   jni$_.JObject? setValue(jni$_.JObject? object);
 }
 
@@ -28959,7 +29076,7 @@ final class _$JMap$JEntry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     required core$_.bool Function(jni$_.JObject? object) equals,
     required jni$_.JObject? Function() getKey,
     required jni$_.JObject? Function() getValue,
-    required int Function() hashCode$1,
+    required core$_.int Function() hashCode$1,
     required jni$_.JObject? Function(jni$_.JObject? object) setValue,
   })  : _comparingByKey = comparingByKey,
         _comparingByKey$1 = comparingByKey$1,
@@ -28981,7 +29098,7 @@ final class _$JMap$JEntry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   final core$_.bool Function(jni$_.JObject? object) _equals;
   final jni$_.JObject? Function() _getKey;
   final jni$_.JObject? Function() _getValue;
-  final int Function() _hashCode$1;
+  final core$_.int Function() _hashCode$1;
   final jni$_.JObject? Function(jni$_.JObject? object) _setValue;
 
   jni$_.JObject? comparingByKey() {
@@ -29017,7 +29134,7 @@ final class _$JMap$JEntry<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     return _getValue();
   }
 
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1();
   }
 
@@ -29991,9 +30108,9 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
   }
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $JMap> _$impls = {};
+  static final core$_.Map<core$_.int, $JMap> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -30014,7 +30131,7 @@ extension type JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -30858,7 +30975,7 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
           )>();
 
   /// from: `public abstract int hashCode()`
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 
@@ -31216,7 +31333,7 @@ extension JMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
           )>();
 
   /// from: `public abstract int size()`
-  int size() {
+  core$_.int size() {
     return _size(reference.pointer, _id_size.pointer).integer;
   }
 
@@ -31270,7 +31387,7 @@ abstract base mixin class $JMap<$K extends jni$_.JObject?,
     required jni$_.JObject? Function(
             jni$_.JObject? object, jni$_.JObject? object1)
         getOrDefault,
-    required int Function() hashCode$1,
+    required core$_.int Function() hashCode$1,
     required core$_.bool Function() isEmpty,
     required JSet<jni$_.JObject?>? Function() keySet,
     required jni$_.JObject? Function(jni$_.JObject? object,
@@ -31428,7 +31545,7 @@ abstract base mixin class $JMap<$K extends jni$_.JObject?,
         replace$1,
     required void Function(jni$_.JObject? biFunction) replaceAll,
     core$_.bool replaceAll$async,
-    required int Function() size,
+    required core$_.int Function() size,
     required JCollection<jni$_.JObject?>? Function() values,
   }) = _$JMap<$K, $V>;
 
@@ -31449,7 +31566,7 @@ abstract base mixin class $JMap<$K extends jni$_.JObject?,
   core$_.bool get forEach$async => false;
   jni$_.JObject? get(jni$_.JObject? object);
   jni$_.JObject? getOrDefault(jni$_.JObject? object, jni$_.JObject? object1);
-  int hashCode$1();
+  core$_.int hashCode$1();
   core$_.bool isEmpty();
   JSet<jni$_.JObject?>? keySet();
   jni$_.JObject? merge(
@@ -31584,7 +31701,7 @@ abstract base mixin class $JMap<$K extends jni$_.JObject?,
       jni$_.JObject? object, jni$_.JObject? object1, jni$_.JObject? object2);
   void replaceAll(jni$_.JObject? biFunction);
   core$_.bool get replaceAll$async => false;
-  int size();
+  core$_.int size();
   JCollection<jni$_.JObject?>? values();
 }
 
@@ -31613,7 +31730,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     required jni$_.JObject? Function(
             jni$_.JObject? object, jni$_.JObject? object1)
         getOrDefault,
-    required int Function() hashCode$1,
+    required core$_.int Function() hashCode$1,
     required core$_.bool Function() isEmpty,
     required JSet<jni$_.JObject?>? Function() keySet,
     required jni$_.JObject? Function(jni$_.JObject? object,
@@ -31771,7 +31888,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
         replace$1,
     required void Function(jni$_.JObject? biFunction) replaceAll,
     this.replaceAll$async = false,
-    required int Function() size,
+    required core$_.int Function() size,
     required JCollection<jni$_.JObject?>? Function() values,
   })  : _clear = clear,
         _compute = compute,
@@ -31831,7 +31948,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
   final jni$_.JObject? Function(jni$_.JObject? object) _get;
   final jni$_.JObject? Function(jni$_.JObject? object, jni$_.JObject? object1)
       _getOrDefault;
-  final int Function() _hashCode$1;
+  final core$_.int Function() _hashCode$1;
   final core$_.bool Function() _isEmpty;
   final JSet<jni$_.JObject?>? Function() _keySet;
   final jni$_.JObject? Function(jni$_.JObject? object, jni$_.JObject? object1,
@@ -31974,7 +32091,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
       _replace$1;
   final void Function(jni$_.JObject? biFunction) _replaceAll;
   final core$_.bool replaceAll$async;
-  final int Function() _size;
+  final core$_.int Function() _size;
   final JCollection<jni$_.JObject?>? Function() _values;
 
   void clear() {
@@ -32031,7 +32148,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     return _getOrDefault(object, object1);
   }
 
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1();
   }
 
@@ -32294,7 +32411,7 @@ final class _$JMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
     return _replaceAll(biFunction);
   }
 
-  int size() {
+  core$_.int size() {
     return _size();
   }
 
@@ -32933,9 +33050,9 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
   }
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $JSet> _$impls = {};
+  static final core$_.Map<core$_.int, $JSet> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -32956,7 +33073,7 @@ extension type JSet<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -33482,7 +33599,7 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
           )>();
 
   /// from: `public abstract int hashCode()`
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 
@@ -33627,7 +33744,7 @@ extension JSet$$Methods<$E extends jni$_.JObject?> on JSet<$E> {
           )>();
 
   /// from: `public abstract int size()`
-  int size() {
+  core$_.int size() {
     return _size(reference.pointer, _id_size.pointer).integer;
   }
 
@@ -33822,7 +33939,7 @@ abstract base mixin class $JSet<$E extends jni$_.JObject?> {
             JCollection<jni$_.JObject?>? collection)
         copyOf,
     required core$_.bool Function(jni$_.JObject? object) equals,
-    required int Function() hashCode$1,
+    required core$_.int Function() hashCode$1,
     required core$_.bool Function() isEmpty,
     required JIterator<jni$_.JObject?>? Function() iterator,
     required JSet<jni$_.JObject?>? Function() of,
@@ -33904,7 +34021,7 @@ abstract base mixin class $JSet<$E extends jni$_.JObject?> {
         removeAll,
     required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
         retainAll,
-    required int Function() size,
+    required core$_.int Function() size,
     required jni$_.JObject? Function() spliterator,
     required jni$_.JArray<jni$_.JObject?>? Function() toArray,
     required jni$_.JArray<jni$_.JObject?>? Function(
@@ -33925,7 +34042,7 @@ abstract base mixin class $JSet<$E extends jni$_.JObject?> {
   core$_.bool containsAll(JCollection<jni$_.JObject?>? collection);
   JSet<jni$_.JObject?>? copyOf(JCollection<jni$_.JObject?>? collection);
   core$_.bool equals(jni$_.JObject? object);
-  int hashCode$1();
+  core$_.int hashCode$1();
   core$_.bool isEmpty();
   JIterator<jni$_.JObject?>? iterator();
   JSet<jni$_.JObject?>? of();
@@ -33986,7 +34103,7 @@ abstract base mixin class $JSet<$E extends jni$_.JObject?> {
   core$_.bool remove(jni$_.JObject? object);
   core$_.bool removeAll(JCollection<jni$_.JObject?>? collection);
   core$_.bool retainAll(JCollection<jni$_.JObject?>? collection);
-  int size();
+  core$_.int size();
   jni$_.JObject? spliterator();
   jni$_.JArray<jni$_.JObject?>? toArray();
   jni$_.JArray<jni$_.JObject?>? toArray$1(
@@ -34011,7 +34128,7 @@ final class _$JSet<$E extends jni$_.JObject?> with $JSet<$E> {
             JCollection<jni$_.JObject?>? collection)
         copyOf,
     required core$_.bool Function(jni$_.JObject? object) equals,
-    required int Function() hashCode$1,
+    required core$_.int Function() hashCode$1,
     required core$_.bool Function() isEmpty,
     required JIterator<jni$_.JObject?>? Function() iterator,
     required JSet<jni$_.JObject?>? Function() of,
@@ -34093,7 +34210,7 @@ final class _$JSet<$E extends jni$_.JObject?> with $JSet<$E> {
         removeAll,
     required core$_.bool Function(JCollection<jni$_.JObject?>? collection)
         retainAll,
-    required int Function() size,
+    required core$_.int Function() size,
     required jni$_.JObject? Function() spliterator,
     required jni$_.JArray<jni$_.JObject?>? Function() toArray,
     required jni$_.JArray<jni$_.JObject?>? Function(
@@ -34148,7 +34265,7 @@ final class _$JSet<$E extends jni$_.JObject?> with $JSet<$E> {
   final JSet<jni$_.JObject?>? Function(JCollection<jni$_.JObject?>? collection)
       _copyOf;
   final core$_.bool Function(jni$_.JObject? object) _equals;
-  final int Function() _hashCode$1;
+  final core$_.int Function() _hashCode$1;
   final core$_.bool Function() _isEmpty;
   final JIterator<jni$_.JObject?>? Function() _iterator;
   final JSet<jni$_.JObject?>? Function() _of;
@@ -34221,7 +34338,7 @@ final class _$JSet<$E extends jni$_.JObject?> with $JSet<$E> {
       _removeAll;
   final core$_.bool Function(JCollection<jni$_.JObject?>? collection)
       _retainAll;
-  final int Function() _size;
+  final core$_.int Function() _size;
   final jni$_.JObject? Function() _spliterator;
   final jni$_.JArray<jni$_.JObject?>? Function() _toArray;
   final jni$_.JArray<jni$_.JObject?>? Function(
@@ -34260,7 +34377,7 @@ final class _$JSet<$E extends jni$_.JObject?> with $JSet<$E> {
     return _equals(object);
   }
 
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1();
   }
 
@@ -34378,7 +34495,7 @@ final class _$JSet<$E extends jni$_.JObject?> with $JSet<$E> {
     return _retainAll(collection);
   }
 
-  int size() {
+  core$_.int size() {
     return _size();
   }
 

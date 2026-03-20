@@ -4,14 +4,12 @@
 
 import '../core_bindings.dart';
 
-export '../core_bindings.dart' show JBoolean, JBoolean$$Methods;
-
 extension JBooleanExtension on JBoolean {
   /// Returns the value as a Dart bool.
   ///
   /// If [releaseOriginal] is true, the underlying reference is deleted
   /// after conversion and this object will be marked as released.
-  bool toDartBoolean({bool releaseOriginal = false}) {
+  bool toDartBool({bool releaseOriginal = false}) {
     final ret = booleanValue();
     if (releaseOriginal) {
       release();

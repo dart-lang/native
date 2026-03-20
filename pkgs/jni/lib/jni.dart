@@ -68,9 +68,11 @@ export 'src/core_bindings.dart'
         JArrayList$$Methods,
         JBoolean,
         JBoolean$$Methods,
+        JBuffer,
         JBuffer$$Methods,
         JByte,
         JByte$$Methods,
+        JByteBuffer,
         JByteBuffer$$Methods,
         JCharacter,
         JCharacter$$Methods,
@@ -100,6 +102,7 @@ export 'src/core_bindings.dart'
         JSet$$Methods,
         JShort,
         JShort$$Methods,
+        JString,
         JString$$Methods;
 export 'src/errors.dart';
 export 'src/jarray.dart';

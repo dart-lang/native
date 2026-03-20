@@ -117,7 +117,7 @@ void run({required TestRunnerCallback testRunner}) {
       buffer.jPosition = 2;
       buffer.rewind();
       expect(buffer.jPosition, 0);
-      expect(() => buffer.reset(), throwsAJThrowable);
+      expect(buffer.reset, throwsAJThrowable);
     });
   });
 
@@ -188,7 +188,7 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('asUint8List', () {
     using((arena) {
       final buffer = testDataBuffer(arena);
-      expect(() => buffer.asUint8List(), throwsA(isA<StateError>()));
+      expect(buffer.asUint8List, throwsA(isA<StateError>()));
       final list = Uint8List.fromList([1, 2, 3]);
       final directBuffer = list.toJByteBuffer()..releasedBy(arena);
       expect(directBuffer.asUint8List(), list);

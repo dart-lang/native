@@ -2,4 +2,18 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-export '../core_bindings.dart' show JDouble, JDouble$$Methods;
+import '../core_bindings.dart';
+
+extension JDoubleExtension on JDouble {
+  /// Returns the value as a Dart double.
+  ///
+  /// If [releaseOriginal] is true, the underlying reference is deleted
+  /// after conversion and this object will be marked as released.
+  double toDartDouble({bool releaseOriginal = false}) {
+    final ret = doubleValue();
+    if (releaseOriginal) {
+      release();
+    }
+    return ret;
+  }
+}

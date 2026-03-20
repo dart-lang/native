@@ -4,14 +4,12 @@
 
 import '../core_bindings.dart';
 
-export '../core_bindings.dart' show JCharacter, JCharacter$$Methods;
-
 extension JCharacterExtension on JCharacter {
   /// Returns the value as a Dart int.
   ///
   /// If [releaseOriginal] is true, the underlying reference is deleted
   /// after conversion and this object will be marked as released.
-  int toDartCharacter({bool releaseOriginal = false}) {
+  int toDartInt({bool releaseOriginal = false}) {
     final ret = charValue();
     if (releaseOriginal) {
       release();

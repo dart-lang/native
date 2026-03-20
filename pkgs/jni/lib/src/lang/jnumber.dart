@@ -2,19 +2,9 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../core_bindings.dart' as core_bindings;
-import 'jboolean.dart';
-import 'jbyte.dart';
-import 'jcharacter.dart';
-import 'jdouble.dart';
-import 'jfloat.dart';
-import 'jinteger.dart';
-import 'jlong.dart';
-import 'jshort.dart';
+import '../core_bindings.dart';
 
-export '../core_bindings.dart' show JNumber, JNumber$$Methods;
-
-extension JNumberExtension on core_bindings.JNumber {
+extension JNumberExtension on JNumber {
   /// Returns the value as a Dart int.
   ///
   /// If [releaseOriginal] is true, the underlying reference is deleted
