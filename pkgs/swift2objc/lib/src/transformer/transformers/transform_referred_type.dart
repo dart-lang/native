@@ -48,6 +48,18 @@ ReferredType transformReferredType(
 
   if (type is TupleType) {
     return _transformTupleType(type, globalNamer, state);
+  } else if (type is ClosureType) {
+    return ClosureType(
+      parameters: [
+        for (final paramType in type.parameters)
+          transformReferredType(paramType, globalNamer, state),
+      ],
+      returnType: transformReferredType(type.returnType, globalNamer, state),
+      isEscaping: type.isEscaping,
+      isSendable: type.isSendable,
+      isAsync: type.isAsync,
+      isThrowing: type.isThrowing,
+    );
   } else if (type is GenericType) {
     throw UnimplementedError('Generic types are not supported yet');
   } else if (type is DeclaredType) {
