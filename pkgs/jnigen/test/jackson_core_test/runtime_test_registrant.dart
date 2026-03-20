@@ -19,10 +19,10 @@ void registerTests(String groupName, TestRunnerCallback test) {
       factory = JsonFactory();
       final parser = factory.createParser$6(json)!;
       final values = <bool>[];
-      while (!parser.isClosed()) {
+      while (!parser.isClosed) {
         final next = parser.nextToken();
         if (next == null) continue;
-        values.add(next.isNumeric());
+        values.add(next.isNumeric);
         next.release();
       }
       expect(values, equals([false, true, false, false, true, true, false]));

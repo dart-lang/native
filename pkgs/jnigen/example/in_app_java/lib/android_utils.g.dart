@@ -1599,12 +1599,12 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<EmojiCompat>();
   }
 
-  static final _id_isConfigured = _class.staticMethodId(
+  static final _id_get$isConfigured = _class.staticMethodId(
     r'isConfigured',
     r'()Z',
   );
 
-  static final _isConfigured = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isConfigured = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -1617,8 +1617,9 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
           )>();
 
   /// from: `static public boolean isConfigured()`
-  static core$_.bool isConfigured() {
-    return _isConfigured(_class.reference.pointer, _id_isConfigured.pointer)
+  static core$_.bool get isConfigured {
+    return _get$isConfigured(
+            _class.reference.pointer, _id_get$isConfigured.pointer)
         .boolean;
   }
 
@@ -1912,13 +1913,13 @@ extension EmojiCompat$$Methods on EmojiCompat {
     return _get$loadState(reference.pointer, _id_get$loadState.pointer).integer;
   }
 
-  static final _id_isEmojiSpanIndicatorEnabled =
+  static final _id_get$isEmojiSpanIndicatorEnabled =
       EmojiCompat._class.instanceMethodId(
     r'isEmojiSpanIndicatorEnabled',
     r'()Z',
   );
 
-  static final _isEmojiSpanIndicatorEnabled =
+  static final _get$isEmojiSpanIndicatorEnabled =
       jni$_.ProtectedJniExtensions.lookup<
               jni$_.NativeFunction<
                   jni$_.JniResult Function(
@@ -1932,9 +1933,9 @@ extension EmojiCompat$$Methods on EmojiCompat {
               )>();
 
   /// from: `public boolean isEmojiSpanIndicatorEnabled()`
-  core$_.bool isEmojiSpanIndicatorEnabled() {
-    return _isEmojiSpanIndicatorEnabled(
-            reference.pointer, _id_isEmojiSpanIndicatorEnabled.pointer)
+  core$_.bool get isEmojiSpanIndicatorEnabled {
+    return _get$isEmojiSpanIndicatorEnabled(
+            reference.pointer, _id_get$isEmojiSpanIndicatorEnabled.pointer)
         .boolean;
   }
 
@@ -4287,12 +4288,12 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
         .object<$V?>();
   }
 
-  static final _id_isEmpty = HashMap._class.instanceMethodId(
+  static final _id_get$isEmpty = HashMap._class.instanceMethodId(
     r'isEmpty',
     r'()Z',
   );
 
-  static final _isEmpty = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isEmpty = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -4305,8 +4306,8 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
           )>();
 
   /// from: `public boolean isEmpty()`
-  core$_.bool isEmpty() {
-    return _isEmpty(reference.pointer, _id_isEmpty.pointer).boolean;
+  core$_.bool get isEmpty {
+    return _get$isEmpty(reference.pointer, _id_get$isEmpty.pointer).boolean;
   }
 
   static final _id_keySet = HashMap._class.instanceMethodId(

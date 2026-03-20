@@ -392,12 +392,9 @@ void main() {
             Param(name: 'value2', type: DeclaredType.object),
           ]),
           Method(name: 'setPropWithNoParams', returnType: void_),
-          Method(
-              name: 'isPropWithParam',
-              returnType: bool_,
-              params: [
-                Param(name: 'value', type: DeclaredType.object),
-              ]),
+          Method(name: 'isPropWithParam', returnType: bool_, params: [
+            Param(name: 'value', type: DeclaredType.object),
+          ]),
 
           // Wrong return types. Not transformed.
           Method(name: 'getPropWrongReturn', returnType: void_),
@@ -423,9 +420,9 @@ void main() {
             typeParams: [TypeParam(name: 'T')],
           ),
           Method(
-              name: 'isPropWithTypeParams',
-              returnType: bool_,
-              typeParams: [TypeParam(name: 'T')],
+            name: 'isPropWithTypeParams',
+            returnType: bool_,
+            typeParams: [TypeParam(name: 'T')],
           ),
 
           // Async. Not transformed.
@@ -442,9 +439,9 @@ void main() {
             asyncReturnType: DeclaredType.object,
           ),
           Method(
-              name: 'isPropAsync',
-              returnType: bool_,
-              asyncReturnType: DeclaredType.object,
+            name: 'isPropAsync',
+            returnType: bool_,
+            asyncReturnType: DeclaredType.object,
           ),
 
           // Getter and setter with same name. Transformed and deduped.
