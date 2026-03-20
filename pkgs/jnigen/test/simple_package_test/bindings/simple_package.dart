@@ -35,7 +35,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' as core$_;
-import 'dart:core' show Object, String, double, int;
+import 'dart:core' show Object, String;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
@@ -55,10 +55,12 @@ extension type Example$Nested$NestedTwice._(jni$_.JObject _$this)
   );
 
   /// from: `static public int ZERO`
-  static int get ZERO => _id_ZERO.getNullable(_class, jni$_.jint.type) as int;
+  static core$_.int get ZERO =>
+      _id_ZERO.getNullable(_class, jni$_.jint.type) as core$_.int;
 
   /// from: `static public int ZERO`
-  static set ZERO(int value) => _id_ZERO.set(_class, jni$_.jint.type, value);
+  static set ZERO(core$_.int value) =>
+      _id_ZERO.set(_class, jni$_.jint.type, value);
 
   static final _id_new$ = _class.constructorId(
     r'()V',
@@ -114,7 +116,7 @@ extension type Example$Nested._(jni$_.JObject _$this) implements jni$_.JObject {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_NewObject')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void <init>(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -187,7 +189,7 @@ extension Example$Nested$$Methods on Example$Nested {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void setValue(boolean z)`
   set value(core$_.bool z) {
@@ -325,7 +327,7 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
           )>();
 
   /// from: `static public int getAmount()`
-  static int get amount {
+  static core$_.int get amount {
     return _get$amount(_class.reference.pointer, _id_get$amount.pointer)
         .integer;
   }
@@ -348,7 +350,7 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
           )>();
 
   /// from: `static public double getPi()`
-  static double get pi {
+  static core$_.double get pi {
     return _get$pi(_class.reference.pointer, _id_get$pi.pointer).doubleFloat;
   }
 
@@ -370,7 +372,7 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
           )>();
 
   /// from: `static public char getAsterisk()`
-  static int get asterisk {
+  static core$_.int get asterisk {
     return _get$asterisk(_class.reference.pointer, _id_get$asterisk.pointer)
         .char;
   }
@@ -436,10 +438,10 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticVoidMethod')
       .asFunction<
           jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public void setAmount(int i)`
-  static set amount(int i) {
+  static set amount(core$_.int i) {
     _set$amount(_class.reference.pointer, _id_set$amount.pointer, i).check();
   }
 
@@ -508,15 +510,20 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
                         jni$_.Int32
                       )>)>>('globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, int, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `static public int max4(int i, int i1, int i2, int i3)`
-  static int max4(
-    int i,
-    int i1,
-    int i2,
-    int i3,
+  static core$_.int max4(
+    core$_.int i,
+    core$_.int i1,
+    core$_.int i2,
+    core$_.int i3,
   ) {
     return _max4(_class.reference.pointer, _id_max4.pointer, i, i1, i2, i3)
         .integer;
@@ -544,19 +551,28 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
                         jni$_.Int32
                       )>)>>('globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, int, int, int, int, int, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `static public int max8(int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7)`
-  static int max8(
-    int i,
-    int i1,
-    int i2,
-    int i3,
-    int i4,
-    int i5,
-    int i6,
-    int i7,
+  static core$_.int max8(
+    core$_.int i,
+    core$_.int i1,
+    core$_.int i2,
+    core$_.int i3,
+    core$_.int i4,
+    core$_.int i5,
+    core$_.int i6,
+    core$_.int i7,
   ) {
     return _max8(_class.reference.pointer, _id_max8.pointer, i, i1, i2, i3, i4,
             i5, i6, i7)
@@ -597,12 +613,12 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_NewObject')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void <init>(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example.new$1(
-    int i,
+    core$_.int i,
   ) {
     return _new$1(_class.reference.pointer, _id_new$1.pointer, i)
         .object<Example>();
@@ -620,13 +636,13 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_NewObject')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `public void <init>(int i, boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example.new$2(
-    int i,
+    core$_.int i,
     core$_.bool z,
   ) {
     return _new$2(_class.reference.pointer, _id_new$2.pointer, i, z ? 1 : 0)
@@ -649,13 +665,17 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
                         jni$_.Pointer<jni$_.Void>
                       )>)>>('globalEnv_NewObject')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, int, jni$_.Pointer<jni$_.Void>)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              core$_.int,
+              core$_.int,
+              jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public void <init>(int i, boolean z, java.lang.String string)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example.new$3(
-    int i,
+    core$_.int i,
     core$_.bool z,
     jni$_.JString? string,
   ) {
@@ -686,20 +706,29 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
                         jni$_.Int32
                       )>)>>('globalEnv_NewObject')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, int, int, int, int, int, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `public void <init>(int i, int i1, int i2, int i3, int i4, int i5, int i6, int i7)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Example.new$4(
-    int i,
-    int i1,
-    int i2,
-    int i3,
-    int i4,
-    int i5,
-    int i6,
-    int i7,
+    core$_.int i,
+    core$_.int i1,
+    core$_.int i2,
+    core$_.int i3,
+    core$_.int i4,
+    core$_.int i5,
+    core$_.int i6,
+    core$_.int i7,
   ) {
     return _new$4(_class.reference.pointer, _id_new$4.pointer, i, i1, i2, i3,
             i4, i5, i6, i7)
@@ -719,13 +748,13 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallStaticIntMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `static public int addInts(int i, int i1)`
-  static int addInts(
-    int i,
-    int i1,
+  static core$_.int addInts(
+    core$_.int i,
+    core$_.int i1,
   ) {
     return _addInts(_class.reference.pointer, _id_addInts.pointer, i, i1)
         .integer;
@@ -772,7 +801,7 @@ extension type Example._(jni$_.JObject _$this) implements jni$_.JObject {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `static public int addAll(int[] is)`
-  static int addAll(
+  static core$_.int addAll(
     jni$_.JIntArray? is$,
   ) {
     final _$is$ = is$?.reference ?? jni$_.jNullReference;
@@ -823,7 +852,7 @@ extension Example$$Methods on Example {
           )>();
 
   /// from: `public int getNumber()`
-  int get number {
+  core$_.int get number {
     return _get$number(reference.pointer, _id_get$number.pointer).integer;
   }
 
@@ -840,10 +869,10 @@ extension Example$$Methods on Example {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void setNumber(int i)`
-  set number(int i) {
+  set number(core$_.int i) {
     _set$number(reference.pointer, _id_set$number.pointer, i).check();
   }
 
@@ -882,7 +911,7 @@ extension Example$$Methods on Example {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void setUp(boolean z)`
   set up(core$_.bool z) {
@@ -1001,7 +1030,7 @@ extension Example$$Methods on Example {
           )>();
 
   /// from: `public long getRandomLong()`
-  int get randomLong {
+  core$_.int get randomLong {
     return _get$randomLong(reference.pointer, _id_get$randomLong.pointer).long;
   }
 
@@ -1023,15 +1052,20 @@ extension Example$$Methods on Example {
                         jni$_.Int64
                       )>)>>('globalEnv_CallLongMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, int, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `public long add4Longs(long j, long j1, long j2, long j3)`
-  int add4Longs(
-    int j,
-    int j1,
-    int j2,
-    int j3,
+  core$_.int add4Longs(
+    core$_.int j,
+    core$_.int j1,
+    core$_.int j2,
+    core$_.int j3,
   ) {
     return _add4Longs(reference.pointer, _id_add4Longs.pointer, j, j1, j2, j3)
         .long;
@@ -1059,19 +1093,28 @@ extension Example$$Methods on Example {
                         jni$_.Int64
                       )>)>>('globalEnv_CallLongMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, int, int, int, int, int, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `public long add8Longs(long j, long j1, long j2, long j3, long j4, long j5, long j6, long j7)`
-  int add8Longs(
-    int j,
-    int j1,
-    int j2,
-    int j3,
-    int j4,
-    int j5,
-    int j6,
-    int j7,
+  core$_.int add8Longs(
+    core$_.int j,
+    core$_.int j1,
+    core$_.int j2,
+    core$_.int j3,
+    core$_.int j4,
+    core$_.int j5,
+    core$_.int j6,
+    core$_.int j7,
   ) {
     return _add8Longs(reference.pointer, _id_add8Longs.pointer, j, j1, j2, j3,
             j4, j5, j6, j7)
@@ -1209,7 +1252,7 @@ extension Example$$Methods on Example {
           jni$_.JThrowablePtr Function(
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
-              int,
+              core$_.int,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
@@ -1218,7 +1261,7 @@ extension Example$$Methods on Example {
 
   /// from: `public void methodWithSeveralParams(char c, java.lang.String string, int[] is, T charSequence, java.util.List<T> list, java.util.Map<java.lang.String, ? extends java.lang.CharSequence> map)`
   void methodWithSeveralParams<$T extends jni$_.JObject?>(
-    int c,
+    core$_.int c,
     jni$_.JString? string,
     jni$_.JIntArray? is$,
     $T? charSequence,
@@ -1260,7 +1303,7 @@ extension Example$$Methods on Example {
           )>();
 
   /// from: `public int whichExample()`
-  int whichExample() {
+  core$_.int whichExample() {
     return _whichExample(reference.pointer, _id_whichExample.pointer).integer;
   }
 
@@ -1325,11 +1368,11 @@ extension Example$$Methods on Example {
           'globalEnv_CallVoidMethod')
       .asFunction<
           jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+              jni$_.JMethodIDPtr, core$_.int, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public void overloaded(int i, java.lang.String string)`
   void overloaded$1(
-    int i,
+    core$_.int i,
     jni$_.JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -1351,11 +1394,11 @@ extension Example$$Methods on Example {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void overloaded(int i)`
   void overloaded$2(
-    int i,
+    core$_.int i,
   ) {
     _overloaded$2(reference.pointer, _id_overloaded$2.pointer, i).check();
   }
@@ -1433,7 +1476,7 @@ extension Example$$Methods on Example {
                       .VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public boolean bool(boolean z)`
   core$_.bool bool(
@@ -1456,11 +1499,11 @@ extension Example$$Methods on Example {
                       .VarArgs<(jni$_.Double,)>)>>('globalEnv_CallDoubleMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `public double num(double d)`
-  double num(
-    double d,
+  core$_.double num(
+    core$_.double d,
   ) {
     return _num(reference.pointer, _id_num.pointer, d).doubleFloat;
   }
@@ -1499,13 +1542,13 @@ extension type Exceptions$MyException._(jni$_.JObject _$this)
           'globalEnv_NewObject')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `public void <init>(java.lang.String string, int i)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Exceptions$MyException(
     jni$_.JString? string,
-    int i,
+    core$_.int i,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
     return _new$(
@@ -1521,10 +1564,12 @@ extension Exceptions$MyException$$Methods on Exceptions$MyException {
   );
 
   /// from: `public int errorCode`
-  int get errorCode => _id_errorCode.getNullable(this, jni$_.jint.type) as int;
+  core$_.int get errorCode =>
+      _id_errorCode.getNullable(this, jni$_.jint.type) as core$_.int;
 
   /// from: `public int errorCode`
-  set errorCode(int value) => _id_errorCode.set(this, jni$_.jint.type, value);
+  set errorCode(core$_.int value) =>
+      _id_errorCode.set(this, jni$_.jint.type, value);
 }
 
 final class $Exceptions$MyException$Type$
@@ -1580,12 +1625,12 @@ extension type Exceptions._(jni$_.JObject _$this) implements jni$_.JObject {
                   jni$_.VarArgs<(jni$_.Double,)>)>>('globalEnv_NewObject')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `public void <init>(float f)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Exceptions.new$1(
-    double f,
+    core$_.double f,
   ) {
     return _new$1(_class.reference.pointer, _id_new$1.pointer, f)
         .object<Exceptions>();
@@ -1610,18 +1655,25 @@ extension type Exceptions._(jni$_.JObject _$this) implements jni$_.JObject {
                         jni$_.Int32
                       )>)>>('globalEnv_NewObject')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, int, int, int, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `public void <init>(int i, int i1, int i2, int i3, int i4, int i5)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Exceptions.new$2(
-    int i,
-    int i1,
-    int i2,
-    int i3,
-    int i4,
-    int i5,
+    core$_.int i,
+    core$_.int i1,
+    core$_.int i2,
+    core$_.int i3,
+    core$_.int i4,
+    core$_.int i5,
   ) {
     return _new$2(
             _class.reference.pointer, _id_new$2.pointer, i, i1, i2, i3, i4, i5)
@@ -1671,7 +1723,7 @@ extension type Exceptions._(jni$_.JObject _$this) implements jni$_.JObject {
           )>();
 
   /// from: `static public int staticIntMethod()`
-  static int staticIntMethod() {
+  static core$_.int staticIntMethod() {
     return _staticIntMethod(
             _class.reference.pointer, _id_staticIntMethod.pointer)
         .integer;
@@ -1817,7 +1869,7 @@ extension Exceptions$$Methods on Exceptions {
           )>();
 
   /// from: `public int intMethod()`
-  int intMethod() {
+  core$_.int intMethod() {
     return _intMethod(reference.pointer, _id_intMethod.pointer).integer;
   }
 
@@ -1888,7 +1940,7 @@ extension Exceptions$$Methods on Exceptions {
           )>();
 
   /// from: `public int throwNullPointerException()`
-  int throwNullPointerException() {
+  core$_.int throwNullPointerException() {
     return _throwNullPointerException(
             reference.pointer, _id_throwNullPointerException.pointer)
         .integer;
@@ -1965,7 +2017,7 @@ extension Exceptions$$Methods on Exceptions {
           )>();
 
   /// from: `public int throwArrayIndexException()`
-  int throwArrayIndexException() {
+  core$_.int throwArrayIndexException() {
     return _throwArrayIndexException(
             reference.pointer, _id_throwArrayIndexException.pointer)
         .integer;
@@ -1990,7 +2042,7 @@ extension Exceptions$$Methods on Exceptions {
           )>();
 
   /// from: `public int throwArithmeticException()`
-  int throwArithmeticException() {
+  core$_.int throwArithmeticException() {
     return _throwArithmeticException(
             reference.pointer, _id_throwArithmeticException.pointer)
         .integer;
@@ -2060,10 +2112,12 @@ extension Fields$Nested$$Methods on Fields$Nested {
   );
 
   /// from: `public long hundred`
-  int get hundred => _id_hundred.getNullable(this, jni$_.jlong.type) as int;
+  core$_.int get hundred =>
+      _id_hundred.getNullable(this, jni$_.jlong.type) as core$_.int;
 
   /// from: `public long hundred`
-  set hundred(int value) => _id_hundred.set(this, jni$_.jlong.type, value);
+  set hundred(core$_.int value) =>
+      _id_hundred.set(this, jni$_.jlong.type, value);
 }
 
 final class $Fields$Nested$Type$ extends jni$_.JType<Fields$Nested> {
@@ -2089,11 +2143,11 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public int amount`
-  static int get amount =>
-      _id_amount.getNullable(_class, jni$_.jint.type) as int;
+  static core$_.int get amount =>
+      _id_amount.getNullable(_class, jni$_.jint.type) as core$_.int;
 
   /// from: `static public int amount`
-  static set amount(int value) =>
+  static set amount(core$_.int value) =>
       _id_amount.set(_class, jni$_.jint.type, value);
 
   static final _id_pi = _class.staticFieldId(
@@ -2102,11 +2156,12 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public double pi`
-  static double get pi =>
-      _id_pi.getNullable(_class, jni$_.jdouble.type) as double;
+  static core$_.double get pi =>
+      _id_pi.getNullable(_class, jni$_.jdouble.type) as core$_.double;
 
   /// from: `static public double pi`
-  static set pi(double value) => _id_pi.set(_class, jni$_.jdouble.type, value);
+  static set pi(core$_.double value) =>
+      _id_pi.set(_class, jni$_.jdouble.type, value);
 
   static final _id_asterisk = _class.staticFieldId(
     r'asterisk',
@@ -2114,11 +2169,11 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public char asterisk`
-  static int get asterisk =>
-      _id_asterisk.getNullable(_class, jni$_.jchar.type) as int;
+  static core$_.int get asterisk =>
+      _id_asterisk.getNullable(_class, jni$_.jchar.type) as core$_.int;
 
   /// from: `static public char asterisk`
-  static set asterisk(int value) =>
+  static set asterisk(core$_.int value) =>
       _id_asterisk.set(_class, jni$_.jchar.type, value);
 
   static final _id_name = _class.staticFieldId(
@@ -2142,11 +2197,11 @@ extension type Fields._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public char euroSymbol`
-  static int get euroSymbol =>
-      _id_euroSymbol.getNullable(_class, jni$_.jchar.type) as int;
+  static core$_.int get euroSymbol =>
+      _id_euroSymbol.getNullable(_class, jni$_.jchar.type) as core$_.int;
 
   /// from: `static public char euroSymbol`
-  static set euroSymbol(int value) =>
+  static set euroSymbol(core$_.int value) =>
       _id_euroSymbol.set(_class, jni$_.jchar.type, value);
 
   static final _id_new$ = _class.constructorId(
@@ -2193,10 +2248,12 @@ extension Fields$$Methods on Fields {
   );
 
   /// from: `public long trillion`
-  int get trillion => _id_trillion.getNullable(this, jni$_.jlong.type) as int;
+  core$_.int get trillion =>
+      _id_trillion.getNullable(this, jni$_.jlong.type) as core$_.int;
 
   /// from: `public long trillion`
-  set trillion(int value) => _id_trillion.set(this, jni$_.jlong.type, value);
+  set trillion(core$_.int value) =>
+      _id_trillion.set(this, jni$_.jlong.type, value);
 
   static final _id_isAchillesDead = Fields._class.instanceFieldId(
     r'isAchillesDead',
@@ -2266,11 +2323,11 @@ extension type C2._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public int CONSTANT`
-  static int get CONSTANT =>
-      _id_CONSTANT.getNullable(_class, jni$_.jint.type) as int;
+  static core$_.int get CONSTANT =>
+      _id_CONSTANT.getNullable(_class, jni$_.jint.type) as core$_.int;
 
   /// from: `static public int CONSTANT`
-  static set CONSTANT(int value) =>
+  static set CONSTANT(core$_.int value) =>
       _id_CONSTANT.set(_class, jni$_.jint.type, value);
 
   static final _id_new$ = _class.constructorId(
@@ -2355,7 +2412,7 @@ extension Example$1$$Methods on Example$1 {
           )>();
 
   /// from: `public int whichExample()`
-  int whichExample() {
+  core$_.int whichExample() {
     return _whichExample(reference.pointer, _id_whichExample.pointer).integer;
   }
 }
@@ -2388,15 +2445,15 @@ extension type Colors$RGB._(jni$_.JObject _$this) implements jni$_.JObject {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_NewObject')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int, core$_.int)>();
 
   /// from: `public void <init>(int i, int i1, int i2)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Colors$RGB(
-    int i,
-    int i1,
-    int i2,
+    core$_.int i,
+    core$_.int i1,
+    core$_.int i2,
   ) {
     return _new$(_class.reference.pointer, _id_new$.pointer, i, i1, i2)
         .object<Colors$RGB>();
@@ -2410,10 +2467,11 @@ extension Colors$RGB$$Methods on Colors$RGB {
   );
 
   /// from: `public int red`
-  int get red => _id_red.getNullable(this, jni$_.jint.type) as int;
+  core$_.int get red =>
+      _id_red.getNullable(this, jni$_.jint.type) as core$_.int;
 
   /// from: `public int red`
-  set red(int value) => _id_red.set(this, jni$_.jint.type, value);
+  set red(core$_.int value) => _id_red.set(this, jni$_.jint.type, value);
 
   static final _id_green = Colors$RGB._class.instanceFieldId(
     r'green',
@@ -2421,10 +2479,11 @@ extension Colors$RGB$$Methods on Colors$RGB {
   );
 
   /// from: `public int green`
-  int get green => _id_green.getNullable(this, jni$_.jint.type) as int;
+  core$_.int get green =>
+      _id_green.getNullable(this, jni$_.jint.type) as core$_.int;
 
   /// from: `public int green`
-  set green(int value) => _id_green.set(this, jni$_.jint.type, value);
+  set green(core$_.int value) => _id_green.set(this, jni$_.jint.type, value);
 
   static final _id_blue = Colors$RGB._class.instanceFieldId(
     r'blue',
@@ -2432,10 +2491,11 @@ extension Colors$RGB$$Methods on Colors$RGB {
   );
 
   /// from: `public int blue`
-  int get blue => _id_blue.getNullable(this, jni$_.jint.type) as int;
+  core$_.int get blue =>
+      _id_blue.getNullable(this, jni$_.jint.type) as core$_.int;
 
   /// from: `public int blue`
-  set blue(int value) => _id_blue.set(this, jni$_.jint.type, value);
+  set blue(core$_.int value) => _id_blue.set(this, jni$_.jint.type, value);
 
   static final _id_equals = Colors$RGB._class.instanceMethodId(
     r'equals',
@@ -2480,7 +2540,7 @@ extension Colors$RGB$$Methods on Colors$RGB {
           )>();
 
   /// from: `public int hashCode()`
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 }
@@ -2587,7 +2647,8 @@ extension Colors$$Methods on Colors {
   );
 
   /// from: `public final int code`
-  int get code => _id_code.getNullable(this, jni$_.jint.type) as int;
+  core$_.int get code =>
+      _id_code.getNullable(this, jni$_.jint.type) as core$_.int;
 
   static final _id_toRGB = Colors._class.instanceMethodId(
     r'toRGB',
@@ -3655,7 +3716,7 @@ extension MyStack$$Methods<$T extends jni$_.JObject?> on MyStack<$T> {
           )>();
 
   /// from: `public int size()`
-  int size() {
+  core$_.int size() {
     return _size(reference.pointer, _id_size.pointer).integer;
   }
 }
@@ -3845,9 +3906,9 @@ extension type GenericInterface<$T extends jni$_.JObject?>._(
   static const jni$_.JType<GenericInterface> type = $GenericInterface$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $GenericInterface> _$impls = {};
+  static final core$_.Map<core$_.int, $GenericInterface> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -3868,7 +3929,7 @@ extension type GenericInterface<$T extends jni$_.JObject?>._(
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -4301,9 +4362,9 @@ extension type InheritedFromMyInterface._(jni$_.JObject _$this)
       $InheritedFromMyInterface$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $InheritedFromMyInterface> _$impls = {};
+  static final core$_.Map<core$_.int, $InheritedFromMyInterface> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -4324,7 +4385,7 @@ extension type InheritedFromMyInterface._(jni$_.JObject _$this)
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -4359,8 +4420,8 @@ extension type InheritedFromMyInterface._(jni$_.JObject _$this)
       if ($d == r'manyPrimitives(IZCD)J') {
         final $r = _$impls[$p]!.manyPrimitives(
           ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
-          ($a![1] as jni$_.JBoolean).toDartBoolean(releaseOriginal: true),
-          ($a![2] as jni$_.JCharacter).toDartCharacter(releaseOriginal: true),
+          ($a![1] as jni$_.JBoolean).toDartBool(releaseOriginal: true),
+          ($a![2] as jni$_.JCharacter).toDartInt(releaseOriginal: true),
           ($a![3] as jni$_.JDouble).toDartDouble(releaseOriginal: true),
         );
         return $r.toJLong().reference.toPointer();
@@ -4509,15 +4570,20 @@ extension InheritedFromMyInterface$$Methods on InheritedFromMyInterface {
                         jni$_.Double
                       )>)>>('globalEnv_CallLongMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, int, int, double)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.double)>();
 
   /// from: `public abstract long manyPrimitives(int i, boolean z, char c, double d)`
-  int manyPrimitives(
-    int i,
+  core$_.int manyPrimitives(
+    core$_.int i,
     core$_.bool z,
-    int c,
-    double d,
+    core$_.int c,
+    core$_.double d,
   ) {
     return _manyPrimitives(
             reference.pointer, _id_manyPrimitives.pointer, i, z ? 1 : 0, c, d)
@@ -4531,14 +4597,17 @@ abstract base mixin class $InheritedFromMyInterface {
     core$_.bool voidCallback$async,
     required jni$_.JString? Function(jni$_.JString? string) stringCallback,
     required jni$_.JString? Function(jni$_.JString? object) varCallback,
-    required int Function(int i, core$_.bool z, int c, double d) manyPrimitives,
+    required core$_.int Function(
+            core$_.int i, core$_.bool z, core$_.int c, core$_.double d)
+        manyPrimitives,
   }) = _$InheritedFromMyInterface;
 
   void voidCallback(jni$_.JString? string);
   core$_.bool get voidCallback$async => false;
   jni$_.JString? stringCallback(jni$_.JString? string);
   jni$_.JString? varCallback(jni$_.JString? object);
-  int manyPrimitives(int i, core$_.bool z, int c, double d);
+  core$_.int manyPrimitives(
+      core$_.int i, core$_.bool z, core$_.int c, core$_.double d);
 }
 
 final class _$InheritedFromMyInterface with $InheritedFromMyInterface {
@@ -4547,7 +4616,9 @@ final class _$InheritedFromMyInterface with $InheritedFromMyInterface {
     this.voidCallback$async = false,
     required jni$_.JString? Function(jni$_.JString? string) stringCallback,
     required jni$_.JString? Function(jni$_.JString? object) varCallback,
-    required int Function(int i, core$_.bool z, int c, double d) manyPrimitives,
+    required core$_.int Function(
+            core$_.int i, core$_.bool z, core$_.int c, core$_.double d)
+        manyPrimitives,
   })  : _voidCallback = voidCallback,
         _stringCallback = stringCallback,
         _varCallback = varCallback,
@@ -4557,7 +4628,9 @@ final class _$InheritedFromMyInterface with $InheritedFromMyInterface {
   final core$_.bool voidCallback$async;
   final jni$_.JString? Function(jni$_.JString? string) _stringCallback;
   final jni$_.JString? Function(jni$_.JString? object) _varCallback;
-  final int Function(int i, core$_.bool z, int c, double d) _manyPrimitives;
+  final core$_.int Function(
+          core$_.int i, core$_.bool z, core$_.int c, core$_.double d)
+      _manyPrimitives;
 
   void voidCallback(jni$_.JString? string) {
     return _voidCallback(string);
@@ -4571,7 +4644,8 @@ final class _$InheritedFromMyInterface with $InheritedFromMyInterface {
     return _varCallback(object);
   }
 
-  int manyPrimitives(int i, core$_.bool z, int c, double d) {
+  core$_.int manyPrimitives(
+      core$_.int i, core$_.bool z, core$_.int c, core$_.double d) {
     return _manyPrimitives(i, z, c, d);
   }
 }
@@ -4598,9 +4672,9 @@ extension type InheritedFromMyRunnable._(jni$_.JObject _$this)
       $InheritedFromMyRunnable$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $InheritedFromMyRunnable> _$impls = {};
+  static final core$_.Map<core$_.int, $InheritedFromMyRunnable> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -4621,7 +4695,7 @@ extension type InheritedFromMyRunnable._(jni$_.JObject _$this)
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -4742,9 +4816,9 @@ extension type MyInterface<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   static const jni$_.JType<MyInterface> type = $MyInterface$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $MyInterface> _$impls = {};
+  static final core$_.Map<core$_.int, $MyInterface> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -4765,7 +4839,7 @@ extension type MyInterface<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -4800,8 +4874,8 @@ extension type MyInterface<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
       if ($d == r'manyPrimitives(IZCD)J') {
         final $r = _$impls[$p]!.manyPrimitives(
           ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
-          ($a![1] as jni$_.JBoolean).toDartBoolean(releaseOriginal: true),
-          ($a![2] as jni$_.JCharacter).toDartCharacter(releaseOriginal: true),
+          ($a![1] as jni$_.JBoolean).toDartBool(releaseOriginal: true),
+          ($a![2] as jni$_.JCharacter).toDartInt(releaseOriginal: true),
           ($a![3] as jni$_.JDouble).toDartDouble(releaseOriginal: true),
         );
         return $r.toJLong().reference.toPointer();
@@ -4846,7 +4920,7 @@ extension type MyInterface<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
     implementIn($i, $impl);
     return $i.implement<MyInterface<$T>>();
   }
-  static core$_.Map<int, $MyInterface> get $impls => _$impls;
+  static core$_.Map<core$_.int, $MyInterface> get $impls => _$impls;
 }
 
 extension MyInterface$$Methods<$T extends jni$_.JObject?> on MyInterface<$T> {
@@ -4947,15 +5021,20 @@ extension MyInterface$$Methods<$T extends jni$_.JObject?> on MyInterface<$T> {
                         jni$_.Double
                       )>)>>('globalEnv_CallLongMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, int, int, double)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.double)>();
 
   /// from: `public abstract long manyPrimitives(int i, boolean z, char c, double d)`
-  int manyPrimitives(
-    int i,
+  core$_.int manyPrimitives(
+    core$_.int i,
     core$_.bool z,
-    int c,
-    double d,
+    core$_.int c,
+    core$_.double d,
   ) {
     return _manyPrimitives(
             reference.pointer, _id_manyPrimitives.pointer, i, z ? 1 : 0, c, d)
@@ -4969,14 +5048,17 @@ abstract base mixin class $MyInterface<$T extends jni$_.JObject?> {
     core$_.bool voidCallback$async,
     required jni$_.JString? Function(jni$_.JString? string) stringCallback,
     required $T? Function($T? object) varCallback,
-    required int Function(int i, core$_.bool z, int c, double d) manyPrimitives,
+    required core$_.int Function(
+            core$_.int i, core$_.bool z, core$_.int c, core$_.double d)
+        manyPrimitives,
   }) = _$MyInterface<$T>;
 
   void voidCallback(jni$_.JString? string);
   core$_.bool get voidCallback$async => false;
   jni$_.JString? stringCallback(jni$_.JString? string);
   $T? varCallback($T? object);
-  int manyPrimitives(int i, core$_.bool z, int c, double d);
+  core$_.int manyPrimitives(
+      core$_.int i, core$_.bool z, core$_.int c, core$_.double d);
 }
 
 final class _$MyInterface<$T extends jni$_.JObject?> with $MyInterface<$T> {
@@ -4985,7 +5067,9 @@ final class _$MyInterface<$T extends jni$_.JObject?> with $MyInterface<$T> {
     this.voidCallback$async = false,
     required jni$_.JString? Function(jni$_.JString? string) stringCallback,
     required $T? Function($T? object) varCallback,
-    required int Function(int i, core$_.bool z, int c, double d) manyPrimitives,
+    required core$_.int Function(
+            core$_.int i, core$_.bool z, core$_.int c, core$_.double d)
+        manyPrimitives,
   })  : _voidCallback = voidCallback,
         _stringCallback = stringCallback,
         _varCallback = varCallback,
@@ -4995,7 +5079,9 @@ final class _$MyInterface<$T extends jni$_.JObject?> with $MyInterface<$T> {
   final core$_.bool voidCallback$async;
   final jni$_.JString? Function(jni$_.JString? string) _stringCallback;
   final $T? Function($T? object) _varCallback;
-  final int Function(int i, core$_.bool z, int c, double d) _manyPrimitives;
+  final core$_.int Function(
+          core$_.int i, core$_.bool z, core$_.int c, core$_.double d)
+      _manyPrimitives;
 
   void voidCallback(jni$_.JString? string) {
     return _voidCallback(string);
@@ -5009,7 +5095,8 @@ final class _$MyInterface<$T extends jni$_.JObject?> with $MyInterface<$T> {
     return _varCallback(object);
   }
 
-  int manyPrimitives(int i, core$_.bool z, int c, double d) {
+  core$_.int manyPrimitives(
+      core$_.int i, core$_.bool z, core$_.int c, core$_.double d) {
     return _manyPrimitives(i, z, c, d);
   }
 }
@@ -5082,20 +5169,20 @@ extension type MyInterfaceConsumer._(jni$_.JObject _$this)
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
-              int,
-              int,
-              int,
-              double,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.double,
               jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `static public void consumeOnAnotherThread(com.github.dart_lang.jnigen.interfaces.MyInterface<T> myInterface, java.lang.String string, int i, boolean z, char c, double d, T object)`
   static void consumeOnAnotherThread<$T extends jni$_.JObject?>(
     MyInterface<$T?>? myInterface,
     jni$_.JString? string,
-    int i,
+    core$_.int i,
     core$_.bool z,
-    int c,
-    double d,
+    core$_.int c,
+    core$_.double d,
     $T? object,
   ) {
     final _$myInterface = myInterface?.reference ?? jni$_.jNullReference;
@@ -5140,20 +5227,20 @@ extension type MyInterfaceConsumer._(jni$_.JObject _$this)
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
-              int,
-              int,
-              int,
-              double,
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.double,
               jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `static public void consumeOnSameThread(com.github.dart_lang.jnigen.interfaces.MyInterface<T> myInterface, java.lang.String string, int i, boolean z, char c, double d, T object)`
   static void consumeOnSameThread<$T extends jni$_.JObject?>(
     MyInterface<$T?>? myInterface,
     jni$_.JString? string,
-    int i,
+    core$_.int i,
     core$_.bool z,
-    int c,
-    double d,
+    core$_.int c,
+    core$_.double d,
     $T? object,
   ) {
     final _$myInterface = myInterface?.reference ?? jni$_.jNullReference;
@@ -5193,9 +5280,9 @@ extension type MyRunnable._(jni$_.JObject _$this) implements jni$_.JObject {
   static const jni$_.JType<MyRunnable> type = $MyRunnable$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $MyRunnable> _$impls = {};
+  static final core$_.Map<core$_.int, $MyRunnable> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -5216,7 +5303,7 @@ extension type MyRunnable._(jni$_.JObject _$this) implements jni$_.JObject {
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -5266,7 +5353,7 @@ extension type MyRunnable._(jni$_.JObject _$this) implements jni$_.JObject {
     implementIn($i, $impl);
     return $i.implement<MyRunnable>();
   }
-  static core$_.Map<int, $MyRunnable> get $impls => _$impls;
+  static core$_.Map<core$_.int, $MyRunnable> get $impls => _$impls;
 }
 
 extension MyRunnable$$Methods on MyRunnable {
@@ -5516,9 +5603,9 @@ extension type StringConverter._(jni$_.JObject _$this)
   static const jni$_.JType<StringConverter> type = $StringConverter$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $StringConverter> _$impls = {};
+  static final core$_.Map<core$_.int, $StringConverter> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -5539,7 +5626,7 @@ extension type StringConverter._(jni$_.JObject _$this)
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -5609,7 +5696,7 @@ extension StringConverter$$Methods on StringConverter {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public abstract int parseToInt(java.lang.String string)`
-  int parseToInt(
+  core$_.int parseToInt(
     jni$_.JString? string,
   ) {
     final _$string = string?.reference ?? jni$_.jNullReference;
@@ -5621,20 +5708,20 @@ extension StringConverter$$Methods on StringConverter {
 
 abstract base mixin class $StringConverter {
   factory $StringConverter({
-    required int Function(jni$_.JString? string) parseToInt,
+    required core$_.int Function(jni$_.JString? string) parseToInt,
   }) = _$StringConverter;
 
-  int parseToInt(jni$_.JString? string);
+  core$_.int parseToInt(jni$_.JString? string);
 }
 
 final class _$StringConverter with $StringConverter {
   _$StringConverter({
-    required int Function(jni$_.JString? string) parseToInt,
+    required core$_.int Function(jni$_.JString? string) parseToInt,
   }) : _parseToInt = parseToInt;
 
-  final int Function(jni$_.JString? string) _parseToInt;
+  final core$_.int Function(jni$_.JString? string) _parseToInt;
 
-  int parseToInt(jni$_.JString? string) {
+  core$_.int parseToInt(jni$_.JString? string) {
     return _parseToInt(string);
   }
 }
@@ -5780,9 +5867,9 @@ extension type Animal._(jni$_.JObject _$this) implements jni$_.JObject {
   static const jni$_.JType<Animal> type = $Animal$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $Animal> _$impls = {};
+  static final core$_.Map<core$_.int, $Animal> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -5803,7 +5890,7 @@ extension type Animal._(jni$_.JObject _$this) implements jni$_.JObject {
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -5998,9 +6085,9 @@ extension type BaseGenericInterface<$T extends jni$_.JObject?>._(
       $BaseGenericInterface$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $BaseGenericInterface> _$impls = {};
+  static final core$_.Map<core$_.int, $BaseGenericInterface> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -6021,7 +6108,7 @@ extension type BaseGenericInterface<$T extends jni$_.JObject?>._(
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -6142,9 +6229,9 @@ extension type BaseInterface._(jni$_.JObject _$this) implements jni$_.JObject {
   static const jni$_.JType<BaseInterface> type = $BaseInterface$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $BaseInterface> _$impls = {};
+  static final core$_.Map<core$_.int, $BaseInterface> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -6165,7 +6252,7 @@ extension type BaseInterface._(jni$_.JObject _$this) implements jni$_.JObject {
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -6425,9 +6512,9 @@ extension type DerivedInterface._(jni$_.JObject _$this)
   static const jni$_.JType<DerivedInterface> type = $DerivedInterface$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $DerivedInterface> _$impls = {};
+  static final core$_.Map<core$_.int, $DerivedInterface> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -6448,7 +6535,7 @@ extension type DerivedInterface._(jni$_.JObject _$this)
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -6613,9 +6700,9 @@ extension type Dog._(jni$_.JObject _$this)
   static const jni$_.JType<Dog> type = $Dog$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $Dog> _$impls = {};
+  static final core$_.Map<core$_.int, $Dog> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -6636,7 +6723,7 @@ extension type Dog._(jni$_.JObject _$this)
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -6652,7 +6739,7 @@ extension type Dog._(jni$_.JObject _$this)
       }
       if ($d == r'giveBirth(Z)Ljava/lang/String;') {
         final $r = _$impls[$p]!.giveBirth(
-          ($a![0] as jni$_.JBoolean).toDartBoolean(releaseOriginal: true),
+          ($a![0] as jni$_.JBoolean).toDartBool(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -6753,7 +6840,7 @@ extension Dog$$Methods on Dog {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public abstract java.lang.String giveBirth(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -6803,11 +6890,11 @@ extension Dog$$Methods on Dog {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public abstract int walk(int i)`
-  int walk(
-    int i,
+  core$_.int walk(
+    core$_.int i,
   ) {
     return _walk(reference.pointer, _id_walk.pointer, i).integer;
   }
@@ -6818,13 +6905,13 @@ abstract base mixin class $Dog {
     required jni$_.JString Function() bark,
     required jni$_.JString? Function(core$_.bool z) giveBirth,
     required jni$_.JString Function(jni$_.JString string) eat,
-    required int Function(int i) walk,
+    required core$_.int Function(core$_.int i) walk,
   }) = _$Dog;
 
   jni$_.JString bark();
   jni$_.JString? giveBirth(core$_.bool z);
   jni$_.JString eat(jni$_.JString string);
-  int walk(int i);
+  core$_.int walk(core$_.int i);
 }
 
 final class _$Dog with $Dog {
@@ -6832,7 +6919,7 @@ final class _$Dog with $Dog {
     required jni$_.JString Function() bark,
     required jni$_.JString? Function(core$_.bool z) giveBirth,
     required jni$_.JString Function(jni$_.JString string) eat,
-    required int Function(int i) walk,
+    required core$_.int Function(core$_.int i) walk,
   })  : _bark = bark,
         _giveBirth = giveBirth,
         _eat = eat,
@@ -6841,7 +6928,7 @@ final class _$Dog with $Dog {
   final jni$_.JString Function() _bark;
   final jni$_.JString? Function(core$_.bool z) _giveBirth;
   final jni$_.JString Function(jni$_.JString string) _eat;
-  final int Function(int i) _walk;
+  final core$_.int Function(core$_.int i) _walk;
 
   jni$_.JString bark() {
     return _bark();
@@ -6855,7 +6942,7 @@ final class _$Dog with $Dog {
     return _eat(string);
   }
 
-  int walk(int i) {
+  core$_.int walk(core$_.int i) {
     return _walk(i);
   }
 }
@@ -6879,9 +6966,9 @@ extension type FourLegged._(jni$_.JObject _$this)
   static const jni$_.JType<FourLegged> type = $FourLegged$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $FourLegged> _$impls = {};
+  static final core$_.Map<core$_.int, $FourLegged> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -6902,7 +6989,7 @@ extension type FourLegged._(jni$_.JObject _$this)
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -6978,11 +7065,11 @@ extension FourLegged$$Methods on FourLegged {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public abstract int walk(int i)`
-  int walk(
-    int i,
+  core$_.int walk(
+    core$_.int i,
   ) {
     return _walk(reference.pointer, _id_walk.pointer, i).integer;
   }
@@ -7016,25 +7103,25 @@ extension FourLegged$$Methods on FourLegged {
 
 abstract base mixin class $FourLegged {
   factory $FourLegged({
-    required int Function(int i) walk,
+    required core$_.int Function(core$_.int i) walk,
     required jni$_.JString Function(jni$_.JString string) eat,
   }) = _$FourLegged;
 
-  int walk(int i);
+  core$_.int walk(core$_.int i);
   jni$_.JString eat(jni$_.JString string);
 }
 
 final class _$FourLegged with $FourLegged {
   _$FourLegged({
-    required int Function(int i) walk,
+    required core$_.int Function(core$_.int i) walk,
     required jni$_.JString Function(jni$_.JString string) eat,
   })  : _walk = walk,
         _eat = eat;
 
-  final int Function(int i) _walk;
+  final core$_.int Function(core$_.int i) _walk;
   final jni$_.JString Function(jni$_.JString string) _eat;
 
-  int walk(int i) {
+  core$_.int walk(core$_.int i) {
     return _walk(i);
   }
 
@@ -7062,9 +7149,9 @@ extension type Furry._(jni$_.JObject _$this) implements jni$_.JObject, Mammal {
   static const jni$_.JType<Furry> type = $Furry$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $Furry> _$impls = {};
+  static final core$_.Map<core$_.int, $Furry> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -7085,7 +7172,7 @@ extension type Furry._(jni$_.JObject _$this) implements jni$_.JObject, Mammal {
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -7101,7 +7188,7 @@ extension type Furry._(jni$_.JObject _$this) implements jni$_.JObject, Mammal {
       }
       if ($d == r'giveBirth(Z)Ljava/lang/String;') {
         final $r = _$impls[$p]!.giveBirth(
-          ($a![0] as jni$_.JBoolean).toDartBoolean(releaseOriginal: true),
+          ($a![0] as jni$_.JBoolean).toDartBool(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -7196,7 +7283,7 @@ extension Furry$$Methods on Furry {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public abstract java.lang.String giveBirth(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -7334,9 +7421,9 @@ extension type Mammal._(jni$_.JObject _$this) implements jni$_.JObject, Animal {
   static const jni$_.JType<Mammal> type = $Mammal$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $Mammal> _$impls = {};
+  static final core$_.Map<core$_.int, $Mammal> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -7357,7 +7444,7 @@ extension type Mammal._(jni$_.JObject _$this) implements jni$_.JObject, Animal {
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -7365,7 +7452,7 @@ extension type Mammal._(jni$_.JObject _$this) implements jni$_.JObject, Animal {
       final $a = $i.args;
       if ($d == r'giveBirth(Z)Ljava/lang/String;') {
         final $r = _$impls[$p]!.giveBirth(
-          ($a![0] as jni$_.JBoolean).toDartBoolean(releaseOriginal: true),
+          ($a![0] as jni$_.JBoolean).toDartBool(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -7437,7 +7524,7 @@ extension Mammal$$Methods on Mammal {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public abstract java.lang.String giveBirth(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -7584,7 +7671,7 @@ extension ShibaInu$$Methods on ShibaInu {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public java.lang.String giveBirth(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -7608,11 +7695,11 @@ extension ShibaInu$$Methods on ShibaInu {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public int walk(int i)`
-  int walk(
-    int i,
+  core$_.int walk(
+    core$_.int i,
   ) {
     return _walk(reference.pointer, _id_walk.pointer, i).integer;
   }
@@ -7985,7 +8072,7 @@ extension Annotated$$Methods<
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public java.lang.String nullableHello(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -8111,7 +8198,7 @@ extension Annotated$$Methods<
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public java.lang.String[] nullableArray(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -8136,7 +8223,7 @@ extension Annotated$$Methods<
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public java.lang.String[] nullableArrayOfNullable(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -8209,7 +8296,7 @@ extension Annotated$$Methods<
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public java.util.List<java.lang.String> nullableList(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -8233,7 +8320,7 @@ extension Annotated$$Methods<
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public java.util.List<java.lang.String> nullableListOfNullable(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -8399,7 +8486,7 @@ extension Annotated$$Methods<
                           )>)>>('globalEnv_CallObjectMethod')
           .asFunction<
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+                  jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `public V nullableReturnMethodGenericEcho(V object, boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -8435,7 +8522,7 @@ extension Annotated$$Methods<
                           )>)>>('globalEnv_CallObjectMethod')
           .asFunction<
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+                  jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `public V nullableReturnMethodGenericEcho2(V object, boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -8602,7 +8689,7 @@ extension Annotated$$Methods<
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public java.util.List<T> nullableClassGenericList(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -8628,7 +8715,7 @@ extension Annotated$$Methods<
               'globalEnv_CallObjectMethod')
           .asFunction<
               jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+                  jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public java.util.List<T> nullableClassGenericListOfNullable(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -8710,7 +8797,7 @@ extension Annotated$$Methods<
           'globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `public java.util.List<V> nullableMethodGenericList(V object, boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -8738,7 +8825,7 @@ extension Annotated$$Methods<
               'globalEnv_CallObjectMethod')
           .asFunction<
               jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+                  jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public java.util.List<V> nullableMethodGenericListOfNullable(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -9274,7 +9361,7 @@ extension Annotated$$Methods<
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public W nullableGetW(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -9370,7 +9457,7 @@ extension Annotated$$Methods<
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public java.util.List<java.util.List<java.util.List<U>>> list3dOfNullableU(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -9395,7 +9482,7 @@ extension Annotated$$Methods<
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public java.util.List<java.util.List<java.util.List<W>>> list3dOfNullableW(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -9581,9 +9668,9 @@ extension type JsonSerializable._(jni$_.JObject _$this)
   static const jni$_.JType<JsonSerializable> type = $JsonSerializable$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $JsonSerializable> _$impls = {};
+  static final core$_.Map<core$_.int, $JsonSerializable> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -9604,7 +9691,7 @@ extension type JsonSerializable._(jni$_.JObject _$this)
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -9765,9 +9852,9 @@ extension type NotNull._(jni$_.JObject _$this) implements jni$_.JObject {
   static const jni$_.JType<NotNull> type = $NotNull$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $NotNull> _$impls = {};
+  static final core$_.Map<core$_.int, $NotNull> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -9788,7 +9875,7 @@ extension type NotNull._(jni$_.JObject _$this) implements jni$_.JObject {
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -9860,9 +9947,9 @@ extension type Nullable._(jni$_.JObject _$this) implements jni$_.JObject {
   static const jni$_.JType<Nullable> type = $Nullable$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $Nullable> _$impls = {};
+  static final core$_.Map<core$_.int, $Nullable> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -9883,7 +9970,7 @@ extension type Nullable._(jni$_.JObject _$this) implements jni$_.JObject {
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -9956,9 +10043,9 @@ extension type R2250$Child._(jni$_.JObject _$this)
   static const jni$_.JType<R2250$Child> type = $R2250$Child$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $R2250$Child> _$impls = {};
+  static final core$_.Map<core$_.int, $R2250$Child> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -9979,7 +10066,7 @@ extension type R2250$Child._(jni$_.JObject _$this)
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -10049,7 +10136,7 @@ extension R2250$Child$$Methods on R2250$Child {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public abstract int foo(java.lang.Object object)`
-  int foo(
+  core$_.int foo(
     jni$_.JObject? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -10059,20 +10146,20 @@ extension R2250$Child$$Methods on R2250$Child {
 
 abstract base mixin class $R2250$Child {
   factory $R2250$Child({
-    required int Function(jni$_.JObject? object) foo,
+    required core$_.int Function(jni$_.JObject? object) foo,
   }) = _$R2250$Child;
 
-  int foo(jni$_.JObject? object);
+  core$_.int foo(jni$_.JObject? object);
 }
 
 final class _$R2250$Child with $R2250$Child {
   _$R2250$Child({
-    required int Function(jni$_.JObject? object) foo,
+    required core$_.int Function(jni$_.JObject? object) foo,
   }) : _foo = foo;
 
-  final int Function(jni$_.JObject? object) _foo;
+  final core$_.int Function(jni$_.JObject? object) _foo;
 
-  int foo(jni$_.JObject? object) {
+  core$_.int foo(jni$_.JObject? object) {
     return _foo(object);
   }
 }
@@ -10097,9 +10184,9 @@ extension type R2250<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
   static const jni$_.JType<R2250> type = $R2250$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $R2250> _$impls = {};
+  static final core$_.Map<core$_.int, $R2250> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -10120,7 +10207,7 @@ extension type R2250<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -10190,7 +10277,7 @@ extension R2250$$Methods<$T extends jni$_.JObject?> on R2250<$T> {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public abstract int foo(T object)`
-  int foo(
+  core$_.int foo(
     $T? object,
   ) {
     final _$object = object?.reference ?? jni$_.jNullReference;
@@ -10200,20 +10287,20 @@ extension R2250$$Methods<$T extends jni$_.JObject?> on R2250<$T> {
 
 abstract base mixin class $R2250<$T extends jni$_.JObject?> {
   factory $R2250({
-    required int Function($T? object) foo,
+    required core$_.int Function($T? object) foo,
   }) = _$R2250<$T>;
 
-  int foo($T? object);
+  core$_.int foo($T? object);
 }
 
 final class _$R2250<$T extends jni$_.JObject?> with $R2250<$T> {
   _$R2250({
-    required int Function($T? object) foo,
+    required core$_.int Function($T? object) foo,
   }) : _foo = foo;
 
-  final int Function($T? object) _foo;
+  final core$_.int Function($T? object) _foo;
 
-  int foo($T? object) {
+  core$_.int foo($T? object) {
     return _foo(object);
   }
 }

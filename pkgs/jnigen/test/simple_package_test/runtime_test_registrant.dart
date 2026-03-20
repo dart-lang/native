@@ -849,10 +849,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
           )!
             ..releasedBy(arena);
           expect(
-            jmap.asDart()['hello'.toJString()..releasedBy(arena)]!
+            jmap
+                .asDart()['hello'.toJString()..releasedBy(arena)]!
                 .toDartInteger(
-              releaseOriginal: true,
-            ),
+                  releaseOriginal: true,
+                ),
             42,
           );
           expect(

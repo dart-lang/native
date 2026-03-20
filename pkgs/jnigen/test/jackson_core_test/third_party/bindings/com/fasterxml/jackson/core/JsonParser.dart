@@ -48,7 +48,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' as core$_;
-import 'dart:core' show Object, String, double, int;
+import 'dart:core' show Object, String;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
@@ -505,7 +505,7 @@ extension type JsonParser$Feature._(jni$_.JObject _$this)
   /// Method that calculates bit set (flags) of all features that
   /// are enabled by default.
   ///@return Bit mask of all features that are enabled by default
-  static int collectDefaults() {
+  static core$_.int collectDefaults() {
     return _collectDefaults(
             _class.reference.pointer, _id_collectDefaults.pointer)
         .integer;
@@ -551,11 +551,11 @@ extension JsonParser$Feature$$Methods on JsonParser$Feature {
                       .VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public boolean enabledIn(int flags)`
   core$_.bool enabledIn(
-    int flags,
+    core$_.int flags,
   ) {
     return _enabledIn(reference.pointer, _id_enabledIn.pointer, flags).boolean;
   }
@@ -578,7 +578,7 @@ extension JsonParser$Feature$$Methods on JsonParser$Feature {
           )>();
 
   /// from: `public int getMask()`
-  int get mask {
+  core$_.int get mask {
     return _get$mask(reference.pointer, _id_get$mask.pointer).integer;
   }
 }
@@ -1584,7 +1584,7 @@ extension JsonParser$$Methods on JsonParser {
   ///    (that is, input can not be sent to OutputStream;
   ///    otherwise number of bytes released (0 if there was nothing to release)
   ///@throws IOException if write to stream threw exception
-  int releaseBuffered(
+  core$_.int releaseBuffered(
     jni$_.JObject? out,
   ) {
     final _$out = out?.reference ?? jni$_.jNullReference;
@@ -1623,7 +1623,7 @@ extension JsonParser$$Methods on JsonParser {
   ///    (that is, input can not be sent to Writer;
   ///    otherwise number of chars released (0 if there was nothing to release)
   ///@throws IOException if write using Writer threw exception
-  int releaseBuffered$1(
+  core$_.int releaseBuffered$1(
     jni$_.JObject? w,
   ) {
     final _$w = w?.reference ?? jni$_.jNullReference;
@@ -1709,7 +1709,7 @@ extension JsonParser$$Methods on JsonParser {
           'globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `public com.fasterxml.jackson.core.JsonParser configure(com.fasterxml.jackson.core.JsonParser$Feature f, boolean state)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1810,7 +1810,7 @@ extension JsonParser$$Methods on JsonParser {
   /// Bulk access method for getting state of all standard Features.
   ///@return Bit mask that defines current states of all standard Features.
   ///@since 2.3
-  int get featureMask {
+  core$_.int get featureMask {
     return _get$featureMask(reference.pointer, _id_get$featureMask.pointer)
         .integer;
   }
@@ -1828,7 +1828,7 @@ extension JsonParser$$Methods on JsonParser {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public com.fasterxml.jackson.core.JsonParser setFeatureMask(int mask)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1839,7 +1839,7 @@ extension JsonParser$$Methods on JsonParser {
   ///@since 2.3
   ///@deprecated Since 2.7, use \#overrideStdFeatures(int, int) instead
   JsonParser? setFeatureMask(
-    int mask,
+    core$_.int mask,
   ) {
     return _setFeatureMask(reference.pointer, _id_setFeatureMask.pointer, mask)
         .object<JsonParser?>();
@@ -1858,8 +1858,8 @@ extension JsonParser$$Methods on JsonParser {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `public com.fasterxml.jackson.core.JsonParser overrideStdFeatures(int values, int mask)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1877,8 +1877,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@return This parser, to allow call chaining
   ///@since 2.6
   JsonParser? overrideStdFeatures(
-    int values,
-    int mask,
+    core$_.int values,
+    core$_.int mask,
   ) {
     return _overrideStdFeatures(
             reference.pointer, _id_overrideStdFeatures.pointer, values, mask)
@@ -1908,7 +1908,7 @@ extension JsonParser$$Methods on JsonParser {
   /// on/off configuration settings.
   ///@return Bit mask that defines current states of all standard FormatFeatures.
   ///@since 2.6
-  int get formatFeatures {
+  core$_.int get formatFeatures {
     return _get$formatFeatures(
             reference.pointer, _id_get$formatFeatures.pointer)
         .integer;
@@ -1927,8 +1927,8 @@ extension JsonParser$$Methods on JsonParser {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `public com.fasterxml.jackson.core.JsonParser overrideFormatFeatures(int values, int mask)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1944,8 +1944,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@return This parser, to allow call chaining
   ///@since 2.6
   JsonParser? overrideFormatFeatures(
-    int values,
-    int mask,
+    core$_.int values,
+    core$_.int mask,
   ) {
     return _overrideFormatFeatures(
             reference.pointer, _id_overrideFormatFeatures.pointer, values, mask)
@@ -2152,7 +2152,7 @@ extension JsonParser$$Methods on JsonParser {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public int nextIntValue(int defaultValue)`
   ///
@@ -2173,8 +2173,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@throws InputCoercionException if integer number does not fit in Java {@code int}
-  int nextIntValue(
-    int defaultValue,
+  core$_.int nextIntValue(
+    core$_.int defaultValue,
   ) {
     return _nextIntValue(
             reference.pointer, _id_nextIntValue.pointer, defaultValue)
@@ -2194,7 +2194,7 @@ extension JsonParser$$Methods on JsonParser {
                   jni$_.VarArgs<(jni$_.Int64,)>)>>('globalEnv_CallLongMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public long nextLongValue(long defaultValue)`
   ///
@@ -2215,8 +2215,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@throws InputCoercionException if integer number does not fit in Java {@code long}
-  int nextLongValue(
-    int defaultValue,
+  core$_.int nextLongValue(
+    core$_.int defaultValue,
   ) {
     return _nextLongValue(
             reference.pointer, _id_nextLongValue.pointer, defaultValue)
@@ -2402,7 +2402,7 @@ extension JsonParser$$Methods on JsonParser {
   /// to profile performance before deciding to use this method.
   ///@since 2.8
   ///@return {@code int} matching one of constants from JsonTokenId.
-  int currentTokenId() {
+  core$_.int currentTokenId() {
     return _currentTokenId(reference.pointer, _id_currentTokenId.pointer)
         .integer;
   }
@@ -2459,7 +2459,7 @@ extension JsonParser$$Methods on JsonParser {
   /// Deprecated alias for \#currentTokenId().
   ///@return {@code int} matching one of constants from JsonTokenId.
   ///@deprecated Since 2.12 use \#currentTokenId instead
-  int get currentTokenId$1 {
+  core$_.int get currentTokenId$1 {
     return _get$currentTokenId$1(
             reference.pointer, _id_get$currentTokenId$1.pointer)
         .integer;
@@ -2511,7 +2511,7 @@ extension JsonParser$$Methods on JsonParser {
                       .VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public abstract boolean hasTokenId(int id)`
   ///
@@ -2528,7 +2528,7 @@ extension JsonParser$$Methods on JsonParser {
   ///@return {@code True} if the parser current points to specified token
   ///@since 2.5
   core$_.bool hasTokenId(
-    int id,
+    core$_.int id,
   ) {
     return _hasTokenId(reference.pointer, _id_hasTokenId.pointer, id).boolean;
   }
@@ -2948,7 +2948,7 @@ extension JsonParser$$Methods on JsonParser {
   ///   {@code writer}, or
   ///   JsonParseException for decoding problems
   ///@since 2.8
-  int getText(
+  core$_.int getText(
     jni$_.JObject? writer,
   ) {
     final _$writer = writer?.reference ?? jni$_.jNullReference;
@@ -3035,7 +3035,7 @@ extension JsonParser$$Methods on JsonParser {
   ///   textual content of the current token.
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  int get textLength {
+  core$_.int get textLength {
     return _get$textLength(reference.pointer, _id_get$textLength.pointer)
         .integer;
   }
@@ -3066,7 +3066,7 @@ extension JsonParser$$Methods on JsonParser {
   ///   textual content of the current token.
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  int get textOffset {
+  core$_.int get textOffset {
     return _get$textOffset(reference.pointer, _id_get$textOffset.pointer)
         .integer;
   }
@@ -3256,7 +3256,7 @@ extension JsonParser$$Methods on JsonParser {
   ///   range of {@code [-128, 255]}); otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  int get byteValue {
+  core$_.int get byteValue {
     return _get$byteValue(reference.pointer, _id_get$byteValue.pointer).byte;
   }
 
@@ -3294,7 +3294,7 @@ extension JsonParser$$Methods on JsonParser {
   ///   Java 16-bit signed {@code short} range); otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  int get shortValue {
+  core$_.int get shortValue {
     return _get$shortValue(reference.pointer, _id_get$shortValue.pointer).short;
   }
 
@@ -3332,7 +3332,7 @@ extension JsonParser$$Methods on JsonParser {
   ///   Java 32-bit signed {@code int} range); otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  int get intValue {
+  core$_.int get intValue {
     return _get$intValue(reference.pointer, _id_get$intValue.pointer).integer;
   }
 
@@ -3370,7 +3370,7 @@ extension JsonParser$$Methods on JsonParser {
   ///   Java 32-bit signed {@code long} range); otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  int get longValue {
+  core$_.int get longValue {
     return _get$longValue(reference.pointer, _id_get$longValue.pointer).long;
   }
 
@@ -3445,7 +3445,7 @@ extension JsonParser$$Methods on JsonParser {
   ///   Java {@code float} range); otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  double get floatValue {
+  core$_.double get floatValue {
     return _get$floatValue(reference.pointer, _id_get$floatValue.pointer).float;
   }
 
@@ -3483,7 +3483,7 @@ extension JsonParser$$Methods on JsonParser {
   ///   Java {@code double} range); otherwise exception thrown
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  double get doubleValue {
+  core$_.double get doubleValue {
     return _get$doubleValue(reference.pointer, _id_get$doubleValue.pointer)
         .doubleFloat;
   }
@@ -3704,7 +3704,7 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@since 2.1
-  int readBinaryValue(
+  core$_.int readBinaryValue(
     jni$_.JObject? out,
   ) {
     final _$out = out?.reference ?? jni$_.jNullReference;
@@ -3745,7 +3745,7 @@ extension JsonParser$$Methods on JsonParser {
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
   ///@since 2.1
-  int readBinaryValue$1(
+  core$_.int readBinaryValue$1(
     jni$_.JObject? bv,
     jni$_.JObject? out,
   ) {
@@ -3788,7 +3788,7 @@ extension JsonParser$$Methods on JsonParser {
   ///    otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  int get valueAsInt {
+  core$_.int get valueAsInt {
     return _get$valueAsInt(reference.pointer, _id_get$valueAsInt.pointer)
         .integer;
   }
@@ -3806,7 +3806,7 @@ extension JsonParser$$Methods on JsonParser {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public int getValueAsInt(int def)`
   ///
@@ -3823,8 +3823,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@return {@code int} value current token is converted to, if possible; {@code def} otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  int getValueAsInt(
-    int def,
+  core$_.int getValueAsInt(
+    core$_.int def,
   ) {
     return _getValueAsInt(reference.pointer, _id_getValueAsInt.pointer, def)
         .integer;
@@ -3862,7 +3862,7 @@ extension JsonParser$$Methods on JsonParser {
   ///    otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  int get valueAsLong {
+  core$_.int get valueAsLong {
     return _get$valueAsLong(reference.pointer, _id_get$valueAsLong.pointer)
         .long;
   }
@@ -3880,7 +3880,7 @@ extension JsonParser$$Methods on JsonParser {
                   jni$_.VarArgs<(jni$_.Int64,)>)>>('globalEnv_CallLongMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public long getValueAsLong(long def)`
   ///
@@ -3897,8 +3897,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@return {@code long} value current token is converted to, if possible; {@code def} otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  int getValueAsLong(
-    int def,
+  core$_.int getValueAsLong(
+    core$_.int def,
   ) {
     return _getValueAsLong(reference.pointer, _id_getValueAsLong.pointer, def)
         .long;
@@ -3936,7 +3936,7 @@ extension JsonParser$$Methods on JsonParser {
   ///    otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  double get valueAsDouble {
+  core$_.double get valueAsDouble {
     return _get$valueAsDouble(reference.pointer, _id_get$valueAsDouble.pointer)
         .doubleFloat;
   }
@@ -3955,7 +3955,7 @@ extension JsonParser$$Methods on JsonParser {
                       .VarArgs<(jni$_.Double,)>)>>('globalEnv_CallDoubleMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `public double getValueAsDouble(double def)`
   ///
@@ -3972,8 +3972,8 @@ extension JsonParser$$Methods on JsonParser {
   ///@return {@code double} value current token is converted to, if possible; {@code def} otherwise
   ///@throws IOException for low-level read issues, or
   ///   JsonParseException for decoding problems
-  double getValueAsDouble(
-    double def,
+  core$_.double getValueAsDouble(
+    core$_.double def,
   ) {
     return _getValueAsDouble(
             reference.pointer, _id_getValueAsDouble.pointer, def)
@@ -4032,7 +4032,7 @@ extension JsonParser$$Methods on JsonParser {
                       .VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public boolean getValueAsBoolean(boolean def)`
   ///

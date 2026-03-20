@@ -734,10 +734,7 @@ class _TypeGenerator extends TypeVisitor<String> {
     if (boxPrimitives) {
       return '$_jni.J${node.boxedName}';
     }
-    if (node is PrimitiveType) {
-      return '$_core.${node.dartType}';
-    }
-    return node.dartType;
+    return '$_core.${node.dartType}';
   }
 
   @override
@@ -934,10 +931,7 @@ class _TypeSig extends TypeVisitor<String> {
   String visitPrimitiveType(PrimitiveType node) {
     if (isFfi) return '$_jni.${node.ffiVarArgType}';
     if (node.name == 'boolean') return '$_core.int';
-    if (node is PrimitiveType) {
-      return '$_core.${node.dartType}';
-    }
-    return node.dartType;
+    return '$_core.${node.dartType}';
   }
 
   @override
