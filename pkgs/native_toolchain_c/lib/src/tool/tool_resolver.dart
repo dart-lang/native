@@ -374,15 +374,15 @@ class RelativeToolResolver implements ToolResolver {
   }
 }
 
-class AbsoluteToolResolver implements ToolResolver {
+class PathFilter implements ToolResolver {
   final String toolName;
   final ToolResolver wrappedResolver;
-  final Uri absolutePath;
+  final bool Function({required Uri uri}) keepIf;
 
-  AbsoluteToolResolver({
+  PathFilter({
     required this.toolName,
     required this.wrappedResolver,
-    required this.absolutePath,
+    required this.keepIf,
   });
 
   @override
@@ -392,11 +392,11 @@ class AbsoluteToolResolver implements ToolResolver {
 
     logger?.finer(
       'Checking if one of $toolName resolved as $otherToolInstances is '
-      'at the path $absolutePath',
+      'matches filter',
     );
 
     final result = otherToolInstances
-        .where((instance) => instance.uri == absolutePath)
+        .where((instance) => keepIf(uri: instance.uri))
         .toList();
 
     if (result.isNotEmpty) {

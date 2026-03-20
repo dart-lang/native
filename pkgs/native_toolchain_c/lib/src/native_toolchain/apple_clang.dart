@@ -34,13 +34,13 @@ final Tool appleAr = Tool(
       wrappedResolver: appleClang.defaultResolver!,
       relativePath: Uri.file('ar'),
     ),
-    AbsoluteToolResolver(
+    PathFilter(
       toolName: 'Apple archiver',
       wrappedResolver: PathToolResolver(
         toolName: 'Apple archiver',
         executableName: OS.current.executableFileName('ar'),
       ),
-      absolutePath: Uri.file('/usr/bin/ar'),
+      keepIf: ({required uri}) => uri == Uri.file('/usr/bin/ar'),
     ),
   ]),
 );
