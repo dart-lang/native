@@ -14,7 +14,7 @@ import 'third_party/bindings/com/fasterxml/jackson/core/_package.dart';
 void registerTests(String groupName, TestRunnerCallback test) {
   group(groupName, () {
     test('simple json parsing test', () {
-      final json = JString.fromString('[1, true, false, 2, 4]');
+      final json = '[1, true, false, 2, 4]'.toJString();
       JsonFactory factory;
       factory = JsonFactory();
       final parser = factory.createParser$6(json)!;

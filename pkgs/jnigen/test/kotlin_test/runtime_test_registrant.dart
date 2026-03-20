@@ -408,11 +408,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
       test('return immediately', () async {
         var result = 0;
         final itf = SuspendInterface.implement($SuspendInterface(
-          sayHello: () async => JString.fromString('Hello'),
+          sayHello: () async => 'Hello'.toJString(),
           sayHello$1: (JString name) async =>
-              JString.fromString('Hello ${name.toDartString()}'),
+              'Hello ${name.toDartString()}'.toJString(),
           nullableHello: (bool returnNull) async =>
-              returnNull ? null : JString.fromString('Hello'),
+              returnNull ? null : 'Hello'.toJString(),
           sayInt: () async => JInteger(123),
           sayInt$1: (JInteger value) async => JInteger(10 * value.intValue()),
           nullableInt: (bool returnNull) async =>
@@ -421,7 +421,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
         ));
 
         expect((await itf.sayHello()).toDartString(), 'Hello');
-        expect((await itf.sayHello$1(JString.fromString('Bob'))).toDartString(),
+        expect((await itf.sayHello$1('Bob'.toJString())).toDartString(),
             'Hello Bob');
         expect((await itf.nullableHello(false))?.toDartString(), 'Hello');
         expect(await itf.nullableHello(true), null);
@@ -463,15 +463,15 @@ kotlin.Unit
         final itf = SuspendInterface.implement($SuspendInterface(
           sayHello: () async {
             await Future<void>.delayed(const Duration(milliseconds: 100));
-            return JString.fromString('Hello');
+            return 'Hello'.toJString();
           },
           sayHello$1: (JString name) async {
             await Future<void>.delayed(const Duration(milliseconds: 100));
-            return JString.fromString('Hello ${name.toDartString()}');
+            return 'Hello ${name.toDartString()}'.toJString();
           },
           nullableHello: (bool returnNull) async {
             await Future<void>.delayed(const Duration(milliseconds: 100));
-            return returnNull ? null : JString.fromString('Hello');
+            return returnNull ? null : 'Hello'.toJString();
           },
           sayInt: () async {
             await Future<void>.delayed(const Duration(milliseconds: 100));
@@ -492,7 +492,7 @@ kotlin.Unit
         ));
 
         expect((await itf.sayHello()).toDartString(), 'Hello');
-        expect((await itf.sayHello$1(JString.fromString('Bob'))).toDartString(),
+        expect((await itf.sayHello$1('Bob'.toJString())).toDartString(),
             'Hello Bob');
         expect((await itf.nullableHello(false))?.toDartString(), 'Hello');
         expect(await itf.nullableHello(true), null);
@@ -541,8 +541,8 @@ kotlin.Unit
         ));
 
         await expectLater(itf.sayHello(), throwsA(isA<JThrowable>()));
-        await expectLater(itf.sayHello$1(JString.fromString('Bob')),
-            throwsA(isA<JThrowable>()));
+        await expectLater(
+            itf.sayHello$1('Bob'.toJString()), throwsA(isA<JThrowable>()));
         await expectLater(itf.nullableHello(false), throwsA(isA<JThrowable>()));
         await expectLater(itf.sayInt(), throwsA(isA<JThrowable>()));
         await expectLater(
@@ -588,8 +588,8 @@ kotlin.Unit
         ));
 
         await expectLater(itf.sayHello(), throwsA(isA<JThrowable>()));
-        await expectLater(itf.sayHello$1(JString.fromString('Bob')),
-            throwsA(isA<JThrowable>()));
+        await expectLater(
+            itf.sayHello$1('Bob'.toJString()), throwsA(isA<JThrowable>()));
         await expectLater(itf.nullableHello(false), throwsA(isA<JThrowable>()));
         await expectLater(itf.sayInt(), throwsA(isA<JThrowable>()));
         await expectLater(
