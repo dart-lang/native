@@ -39,7 +39,11 @@ class DeclaredType<T extends Declaration> extends AstNode
     final decl = declaration;
     final parent = decl is InnerNestableDeclaration ? decl.nestingParent : null;
     final nesting = parent != null ? '${parent.name}.' : '';
-    return '$nesting${declaration.name}';
+    final genericTypeParams = typeParams.join(', ');
+    final typeParamsSuffix = genericTypeParams.isEmpty
+        ? ''
+        : '<$genericTypeParams>';
+    return '$nesting${declaration.name}$typeParamsSuffix';
   }
 
   final T declaration;
@@ -64,11 +68,11 @@ class DeclaredType<T extends Declaration> extends AstNode
     _ => this,
   };
 
-  const DeclaredType({
+  DeclaredType({
     required this.id,
     required this.declaration,
-    this.typeParams = const [],
-  });
+    List<ReferredType> typeParams = const [],
+  }) : typeParams = List.of(typeParams);
 
   @override
   String toString() => name;

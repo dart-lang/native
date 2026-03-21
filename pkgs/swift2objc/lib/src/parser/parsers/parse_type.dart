@@ -9,6 +9,7 @@ import '../../context.dart';
 import '../_core/json.dart';
 import '../_core/parsed_symbolgraph.dart';
 import '../_core/token_list.dart';
+import '../_core/utils.dart';
 import 'parse_declarations.dart';
 
 /// Parse a type from a list of Json fragments.
@@ -228,7 +229,46 @@ typedef SuffixParselet =
   return parseType(context, symbolgraph, fragments);
 }
 
+// TODO: we can skip the closingBracketParselet by just removing it from the remaining fragments (as we don't need it now)
+// TODO: type pararmeters may contain primitive types that need to be wrapped (investigate this in the transformation phase)
+(ReferredType, TokenList) _genericParamParselet(
+  Context context,
+  ParsedSymbolgraph symbolgraph,
+  ReferredType prefixType,
+  Json token,
+  TokenList fragments,
+) {
+  final closingBracketInd = fragments.indexWhere(
+    (json) => matchFragment(json, 'text', '>'),
+  );
+
+  final genericParamFragments = fragments.slice(0, closingBracketInd);
+  final closingFragment = fragments.slice(closingBracketInd);
+  final genericParamTypes = genericParamFragments
+      .splitWhere((json) => matchFragment(json, 'text', ','))
+      .map((fragments) => parseType(context, symbolgraph, fragments).$1)
+      .toList();
+
+  // I think we can just assert here on the type to be DeclaredType
+  if (prefixType is DeclaredType) {
+    prefixType.typeParams.addAll(genericParamTypes);
+  } else if (prefixType is OptionalType) {
+    (prefixType.child as DeclaredType).typeParams.addAll(genericParamTypes);
+  }
+  return (prefixType, closingFragment);
+}
+
+(ReferredType, TokenList) _closingBracketParselet(
+  Context context,
+  ParsedSymbolgraph symbolgraph,
+  ReferredType prefixType,
+  Json token,
+  TokenList fragments,
+) => (prefixType, fragments);
+
 Map<String, SuffixParselet> _suffixParsets = {
   'text: ?': _optionalParselet,
   'text: .': _nestedTypeParselet,
+  'text: <': _genericParamParselet,
+  'text: >': _closingBracketParselet,
 };
