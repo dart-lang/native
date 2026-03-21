@@ -2,8 +2,16 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../code_generator.dart';
+import 'binding.dart';
+import 'func.dart';
+import 'func_type.dart';
+import 'objc_built_in_functions.dart';
+import 'objc_interface.dart';
+import 'objc_protocol.dart';
+import 'pointer.dart';
+import 'type.dart';
 import '../context.dart';
+import '../header_parser/sub_parsers/api_availability.dart';
 import '../strings.dart' as strings;
 import '../visitor/ast.dart';
 
@@ -447,7 +455,7 @@ ref.pointer.ref.invoke.cast<${_helper.trampNatFnCType}>()
     return '''
 
 typedef ${returnType.getNativeType()} (^$listenerName)($declArgStr);
-__attribute__((visibility("default"))) __attribute__((used))
+__attribute__((visibility("default"))) __attribute__((used)) ${availability.attribute}
 $listenerName $listenerWrapper($listenerName block) NS_RETURNS_RETAINED {
   return ^void($argStr) {
     ${generateRetain('block')};
@@ -456,7 +464,7 @@ $listenerName $listenerWrapper($listenerName block) NS_RETURNS_RETAINED {
 }
 
 typedef ${returnType.getNativeType()} (^$blockingName)($blockingArgStr);
-__attribute__((visibility("default"))) __attribute__((used))
+__attribute__((visibility("default"))) __attribute__((used)) ${availability.attribute}
 $listenerName $blockingWrapper(
     $blockingName block, $blockingName listenerBlock,
     DOBJC_Context* ctx) NS_RETURNS_RETAINED {
@@ -498,11 +506,26 @@ $listenerName $blockingWrapper(
     return '''
 
 typedef $ret (^$block)($argRecv);
-__attribute__((visibility("default"))) __attribute__((used))
+__attribute__((visibility("default"))) __attribute__((used)) ${availability.attribute}
 $ret $fnName(id target, $argRecv) {
   return $blkGetter($argPass);
 }
 ''';
+  }
+
+  @override
+  ApiAvailability get availability {
+    var avail = _getAvailability(returnType);
+    for (final p in params) {
+      avail = ApiAvailability.union(avail, _getAvailability(p.type));
+    }
+    return avail;
+  }
+
+  ApiAvailability _getAvailability(Type t) {
+    if (t is ObjCInterface) return t.apiAvailability;
+    if (t is ObjCBlock) return t.availability;
+    return ApiAvailability(externalVersions: null);
   }
 
   @override

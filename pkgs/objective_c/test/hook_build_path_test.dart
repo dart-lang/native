@@ -17,7 +17,7 @@ void main() {
     'build hook decodes percent-encoded package root paths',
     () async {
       final tempDir = await Directory.systemTemp.createTemp(
-        'objective_c_hook_path',
+        'objective_c_hook path',
       );
       addTearDown(() => tempDir.delete(recursive: true));
 

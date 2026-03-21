@@ -209,7 +209,7 @@ final class Declarations {
 
   /// A function to pass to [rename] that doesn't rename the declaration.
   static String useOriginalName(Declaration declaration) =>
-      declaration.originalName;
+      declaration.originalName ?? '';
 
   /// A function to pass to [rename] that applies a rename map.
   ///
@@ -220,7 +220,9 @@ final class Declarations {
     Map<String, String> renames,
   ) =>
       (Declaration declaration) =>
-          renames[declaration.originalName] ?? declaration.originalName;
+          declaration.originalName == null
+              ? ''
+              : (renames[declaration.originalName!] ?? declaration.originalName!);
 
   /// Returns a new name for the member of the declaration, to replace its
   /// `originalName`.
