@@ -229,6 +229,7 @@ typedef SuffixParselet =
   return parseType(context, symbolgraph, fragments);
 }
 
+// TODO: look for transformation of these type params
 (ReferredType, TokenList) _genericParamParselet(
   Context context,
   ParsedSymbolgraph symbolgraph,
@@ -236,27 +237,48 @@ typedef SuffixParselet =
   Json token,
   TokenList fragments,
 ) {
-  final closingBracketInd = fragments.indexWhere(
-    (json) => matchFragment(json, 'text', '>'),
-  );
-
-  final genericParamFragments = fragments.slice(0, closingBracketInd);
-  final closingFragment = fragments.slice(closingBracketInd + 1);
-  final genericParamTypes = genericParamFragments
-      .splitWhere((json) => matchFragment(json, 'text', ','))
-      .map((fragments) => parseType(context, symbolgraph, fragments).$1)
-      .toList();
-
   if (prefixType is! DeclaredType) {
     throw Exception(
-      'Only declared types can be parsed before parsing generic parameters, '
+      'Only DeclaredTypes are parsed before parsing generic parameters, '
       'but got a ${prefixType.runtimeType} at ${token.path}',
     );
   }
 
-  prefixType.typeParams.addAll(genericParamTypes);
+  var currentFragments = fragments;
+  final parsedTypes = <ReferredType>[];
+  final malformedException = Exception(
+    'Malformed generic parameter list at ${token.path}: '
+    'Expected closing >, or a comma , followed by another generic parameter',
+  );
 
-  return (prefixType, closingFragment);
+  while (currentFragments.isNotEmpty) {
+    final (type, nextFragments) = parseType(
+      context,
+      symbolgraph,
+      currentFragments,
+    );
+    parsedTypes.add(type);
+    currentFragments = nextFragments;
+
+    if (currentFragments.isEmpty) {
+      throw malformedException;
+    }
+
+    // After parsing a generic parameter, we either expect a comma and another
+    // generic parameter, or a '>' to end the list.
+    final nextTokenId = _tokenId(currentFragments[0]);
+    if (nextTokenId != 'text: ,' && nextTokenId != 'text: >') {
+      throw malformedException;
+    }
+
+    currentFragments = currentFragments.slice(1);
+    if (nextTokenId == 'text: >') {
+      break;
+    }
+  }
+
+  prefixType.typeParams.addAll(parsedTypes);
+  return (prefixType, currentFragments);
 }
 
 Map<String, SuffixParselet> _suffixParsets = {
