@@ -229,7 +229,6 @@ typedef SuffixParselet =
   return parseType(context, symbolgraph, fragments);
 }
 
-// TODO: look for transformation of these type params
 (ReferredType, TokenList) _genericParamParselet(
   Context context,
   ParsedSymbolgraph symbolgraph,

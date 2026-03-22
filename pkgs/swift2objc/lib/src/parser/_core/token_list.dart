@@ -90,26 +90,6 @@ class TokenList extends Iterable<Json> {
     endIndex != null ? endIndex + _start : _end,
   );
 
-  /// Splits this TokenList into sub-TokenLists whenever [test] returns
-  /// true for a token.
-  List<TokenList> splitWhere(bool Function(Json) test) {
-    final parts = <TokenList>[];
-    var segStart = _start;
-    for (var i = _start; i < _end; i++) {
-      if (test(_list[i])) {
-        final segLen = i - segStart;
-        if (segLen > 0) {
-          parts.add(slice(segStart - _start, i - _start));
-        }
-        segStart = i + 1;
-      }
-    }
-    if (segStart < _end) {
-      parts.add(slice(segStart - _start));
-    }
-    return parts;
-  }
-
   @override
   String toString() => _list.getRange(_start, _end).toString();
 }
