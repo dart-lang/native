@@ -168,8 +168,16 @@ final class Enum extends DefinitionWithMembers
 
 /// A Dart extension.
 final class Extension extends DefinitionWithMembers {
+  static const String _unnamedName = '';
+
   /// Creates a new [Extension] with the given [name] and [parent].
   const Extension(super.name, super.parent) : super._();
+
+  /// Creates a new unnamed [Extension] in the given [library].
+  const Extension.unnamed(Library library) : this(_unnamedName, library);
+
+  /// Whether this is an unnamed extension.
+  bool get isUnnamed => name == _unnamedName;
 
   @override
   NameSyntax _toNameSyntax() => ExtensionNameSyntax(name: name);
@@ -326,11 +334,20 @@ final class Operator extends Member implements DefinitionWithStaticCalls {
 
 /// A Dart constructor.
 final class Constructor extends Member {
+  static const String _unnamedName = '';
+
   @override
   DefinitionWithMembers get parent => super.parent as DefinitionWithMembers;
 
   /// Creates a new [Constructor] with the given [name] and [parent].
   const Constructor(super.name, DefinitionWithMembers super.parent) : super._();
+
+  /// Creates a new unnamed [Constructor] in the given [parent].
+  const Constructor.unnamed(DefinitionWithMembers parent)
+    : this(_unnamedName, parent);
+
+  /// Whether this is an unnamed constructor.
+  bool get isUnnamed => name == _unnamedName;
 
   @override
   bool get isInstanceMember => false;
