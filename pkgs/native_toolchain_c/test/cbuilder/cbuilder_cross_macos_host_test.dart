@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: lines_longer_than_80_chars
+
 @TestOn('mac-os')
 @OnPlatform({'mac-os': Timeout.factor(2)})
 library;
@@ -17,8 +19,72 @@ import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
 import 'package:native_toolchain_c/src/tool/tool_resolver.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
+import 'package:test_case_selector/test_case_selector.dart';
 
 import '../helpers.dart';
+
+// Dont include 'mach-o' or 'Mach-O', different spelling is used.
+const objdumpFileFormat = {
+  (OS.macOS, Architecture.arm64): 'arm64',
+  (OS.macOS, Architecture.x64): '64-bit x86-64',
+  (OS.linux, Architecture.arm): 'elf32-littlearm',
+  (OS.linux, Architecture.arm64): 'elf64-littleaarch64',
+  (OS.linux, Architecture.ia32): 'elf32-i386',
+  (OS.linux, Architecture.x64): 'elf64-x86-64',
+  (OS.linux, Architecture.riscv32): 'elf32-riscv32',
+  (OS.linux, Architecture.riscv64): 'elf64-riscv64',
+};
+
+/// This comment is generated. To regenerate, run:
+/// `REGENERATE_TEST_CONFIGS=true dart test`
+///
+/// | #   | OS    | Architecture | Link Mode | Language    | Optimization Level |
+/// |-----|-------|--------------|-----------|-------------|--------------------|
+/// | 1   | linux | arm          | bundled   | c           | O2                 |
+/// | 2   | linux | arm          | static    | c           | O0                 |
+/// | 3   | linux | arm64        | static    | c           | O2                 |
+/// | 4   | linux | ia32         | bundled   | c           | Os                 |
+/// | 5   | linux | ia32         | static    | c           | O1                 |
+/// | 6   | linux | x64          | static    | c           | unspecified        |
+/// | 7   | macos | arm64        | bundled   | c           | O3                 |
+/// | 8   | macos | x64          | bundled   | objective c | O1                 |
+final configurations =
+    TestCaseSelector(
+      dimensions: {
+        OS: [OS.macOS, OS.linux],
+        Architecture: [
+          Architecture.arm,
+          Architecture.arm64,
+          Architecture.ia32,
+          Architecture.x64,
+          // Risc-V not supported by Apple Clang right now.
+        ],
+        LinkMode: [DynamicLoadingBundled(), StaticLinking()],
+        Language: [Language.c, Language.objectiveC],
+        OptimizationLevel: OptimizationLevel.values,
+      },
+      interactionGroups: [
+        {OS, Architecture},
+        {Architecture, LinkMode},
+        {OS, Language},
+      ],
+      isValid: (config) {
+        final os = config.get<OS>();
+        final arch = config.get<Architecture>();
+        final language = config.get<Language>();
+        if (!objdumpFileFormat.containsKey((os, arch))) {
+          return false;
+        }
+        if (os == OS.linux && language == Language.objectiveC) {
+          return false;
+        }
+        return true;
+      },
+    ).selectAndValidate(
+      tableUri: packageUri.resolve(
+        'test/cbuilder/cbuilder_cross_macos_host_test.dart',
+      ),
+    );
 
 void main() async {
   if (!Platform.isMacOS) {
@@ -38,87 +104,20 @@ void main() async {
     stderr.writeln("Install with 'brew install lld' on macOS.");
   }
 
-  // Dont include 'mach-o' or 'Mach-O', different spelling is used.
-  const objdumpFileFormat = {
-    (OS.macOS, Architecture.arm64): 'arm64',
-    (OS.macOS, Architecture.x64): '64-bit x86-64',
-    (OS.linux, Architecture.arm): 'elf32-littlearm',
-    (OS.linux, Architecture.arm64): 'elf64-littleaarch64',
-    (OS.linux, Architecture.ia32): 'elf32-i386',
-    (OS.linux, Architecture.x64): 'elf64-x86-64',
+  if (!Platform.isMacOS) {
+    // Avoid needing status files on Dart SDK CI.
+    return;
+  }
 
-    (OS.linux, Architecture.riscv32): 'elf32-riscv32',
-    (OS.linux, Architecture.riscv64): 'elf64-riscv64',
-  };
+  for (final config in configurations) {
+    final language = config.get<Language>();
+    final linkMode = config.get<LinkMode>();
+    final os = config.get<OS>();
+    final arch = config.get<Architecture>();
+    final optimizationLevel = config.get<OptimizationLevel>();
 
-  // These configurations are a selection of combinations of architectures,
-  // link modes, and optimization levels.
-  // We don't test the full cartesian product to keep the CI time manageable.
-  // When adding a new configuration, consider if it tests a new combination
-  // that is not yet covered by the existing tests.
-  final configurations = [
-    (
-      language: Language.c,
-      linkMode: DynamicLoadingBundled(),
-      os: OS.macOS,
-      arch: Architecture.arm64,
-      optimizationLevel: OptimizationLevel.o0,
-    ),
-    (
-      language: Language.objectiveC,
-      linkMode: StaticLinking(),
-      os: OS.macOS,
-      arch: Architecture.x64,
-      optimizationLevel: OptimizationLevel.o1,
-    ),
-    (
-      language: Language.c,
-      linkMode: StaticLinking(),
-      os: OS.linux,
-      arch: Architecture.arm,
-      optimizationLevel: OptimizationLevel.o2,
-    ),
-    (
-      language: Language.c,
-      linkMode: DynamicLoadingBundled(),
-      os: OS.linux,
-      arch: Architecture.arm64,
-      optimizationLevel: OptimizationLevel.o3,
-    ),
-    (
-      language: Language.c,
-      linkMode: StaticLinking(),
-      os: OS.linux,
-      arch: Architecture.ia32,
-      optimizationLevel: OptimizationLevel.oS,
-    ),
-    (
-      language: Language.c,
-      linkMode: DynamicLoadingBundled(),
-      os: OS.linux,
-      arch: Architecture.x64,
-      optimizationLevel: OptimizationLevel.unspecified,
-    ),
-    (
-      language: Language.objectiveC,
-      linkMode: DynamicLoadingBundled(),
-      os: OS.macOS,
-      arch: Architecture.arm64,
-      optimizationLevel: OptimizationLevel.o2,
-    ),
-    (
-      language: Language.c,
-      linkMode: StaticLinking(),
-      os: OS.macOS,
-      arch: Architecture.x64,
-      optimizationLevel: OptimizationLevel.o3,
-    ),
-  ];
-
-  for (final (:language, :linkMode, :os, :arch, :optimizationLevel)
-      in configurations) {
     test(
-      'CBuilder $linkMode $language library $os $arch $optimizationLevel',
+      'CBuilder $os $arch $linkMode $language $optimizationLevel',
       () async {
         final tempUri = await tempDirForTest();
         final tempUri2 = await tempDirForTest();
@@ -212,15 +211,13 @@ void main() async {
             .firstWhere((e) => e.contains('file format'));
         expect(machine, contains(objdumpFileFormat[(os, arch)]));
       },
+      skip: os == OS.linux && !lldAvailable ? 'ld.lld not available' : null,
     );
   }
 
-  const flutterMacOSLowestBestEffort = 12;
-  const flutterMacOSLowestSupported = 13;
-
   for (final macosVersion in [
-    flutterMacOSLowestBestEffort,
-    flutterMacOSLowestSupported,
+    MacOSVersion.flutterLowestBestEffort,
+    MacOSVersion.flutterLowestSupported,
   ]) {
     for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
       test('$linkMode macos min version $macosVersion', () async {
@@ -229,12 +226,12 @@ void main() async {
         final out1Uri = tempUri.resolve('out1/');
         await Directory.fromUri(out1Uri).create();
         final out2Uri = tempUri.resolve('out2/');
-        await Directory.fromUri(out1Uri).create();
+        await Directory.fromUri(out2Uri).create();
         final lib1Uri = await buildLib(
           out1Uri,
           out2Uri,
           target,
-          macosVersion,
+          macosVersion.value,
           linkMode,
         );
 
