@@ -152,11 +152,7 @@ void _parseSuperType(
   final fieldName = cursor.spelling();
   final fieldType = cursor.type().toCodeGenType(context);
 
-  final apiAvailability = ApiAvailability.fromCursor(
-    cursor,
-    context,
-    // treatSwiftUnavailableAsUnavailable: !cursor.isInSystemHeader(),
-  );
+  final apiAvailability = ApiAvailability.fromCursor(cursor, context);
 
   if (fieldType.isIncompleteCompound) {
     context.logger.warning(
@@ -258,11 +254,7 @@ ObjCMethod? parseObjCMethod(
     return null;
   }
 
-  final apiAvailability = ApiAvailability.fromCursor(
-    cursor,
-    context,
-    // treatSwiftUnavailableAsUnavailable: !cursor.isInSystemHeader(),
-  );
+  final apiAvailability = ApiAvailability.fromCursor(cursor, context);
 
   logger.fine(
     '       > ${isClassMethod ? 'Class' : 'Instance'} method: '
