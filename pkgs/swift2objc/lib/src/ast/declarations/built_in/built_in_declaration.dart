@@ -77,8 +77,9 @@ const builtInDeclarations = [
   // don't need @objc compatible wrappers. There's no complete list of these
   // types in the documentation. The closest thing is this, but it's incomplete:
   // https://developer.apple.com/documentation/swift/working-with-foundation-types
-  // TODO(https://github.com/dart-lang/native/issues/2485): Add Array, Set, and
-  // Dictionary to this list.
+  BuiltInDeclaration(id: 's:Sa', name: 'Array'),
+  BuiltInDeclaration(id: 's:SD', name: 'Dictionary'),
+  BuiltInDeclaration(id: 's:Sh', name: 'Set'),
   BuiltInDeclaration(
     id: 's:10Foundation15AffineTransformV',
     name: 'AffineTransform',
