@@ -94,6 +94,10 @@ void main() {
       spelling(split('{ "kind": "text", "spelling": " >?) -> () " }')),
       '[">", "?", ")", "->", "(", ")"]',
     );
+    expect(
+      spelling(split('{ "kind": "text", "spelling": " <> ()" }')),
+      '["<", ">", "(", ")"]',
+    );
 
     // splitToken gives up as soon as it finds a non-matching prefix. Ideally
     // we'd keep splitting out any other tokens we find in the text, but that's

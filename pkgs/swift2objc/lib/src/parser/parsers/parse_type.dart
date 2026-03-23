@@ -242,41 +242,36 @@ typedef SuffixParselet =
     );
   }
 
-  var currentFragments = fragments;
   final parsedTypes = <ReferredType>[];
   final malformedException = Exception(
     'Malformed generic parameter list at ${token.path}: '
     'Expected closing >, or a comma , followed by another generic parameter',
   );
 
-  while (currentFragments.isNotEmpty) {
-    final (type, nextFragments) = parseType(
-      context,
-      symbolgraph,
-      currentFragments,
-    );
+  while (fragments.isNotEmpty) {
+    final (type, nextFragments) = parseType(context, symbolgraph, fragments);
     parsedTypes.add(type);
-    currentFragments = nextFragments;
+    fragments = nextFragments;
 
-    if (currentFragments.isEmpty) {
+    if (fragments.isEmpty) {
       throw malformedException;
     }
 
     // After parsing a generic parameter, we either expect a comma and another
     // generic parameter, or a '>' to end the list.
-    final nextTokenId = _tokenId(currentFragments[0]);
+    final nextTokenId = _tokenId(fragments[0]);
     if (nextTokenId != 'text: ,' && nextTokenId != 'text: >') {
       throw malformedException;
     }
 
-    currentFragments = currentFragments.slice(1);
+    fragments = fragments.slice(1);
     if (nextTokenId == 'text: >') {
       break;
     }
   }
 
   prefixType.typeParams.addAll(parsedTypes);
-  return (prefixType, currentFragments);
+  return (prefixType, fragments);
 }
 
 Map<String, SuffixParselet> _suffixParsets = {

@@ -68,11 +68,11 @@ class DeclaredType<T extends Declaration> extends AstNode
     _ => this,
   };
 
-  DeclaredType({
+  const DeclaredType({
     required this.id,
     required this.declaration,
-    List<ReferredType> typeParams = const [],
-  }) : typeParams = List.of(typeParams);
+    this.typeParams = const [],
+  });
 
   @override
   String toString() => name;
