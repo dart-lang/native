@@ -9,16 +9,13 @@ import '../../ast/_core/shared/parameter.dart';
 import '../../ast/declarations/built_in/built_in_declaration.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
 import '../../ast/declarations/compounds/members/initializer_declaration.dart';
-import '../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../ast/declarations/compounds/struct_declaration.dart';
 import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
 import '../_core/utils.dart';
 import '../transform.dart';
-import 'transform_function.dart';
-import 'transform_initializer.dart';
-import 'transform_variable.dart';
+import 'transform_member.dart';
 
 ClassDeclaration transformCompound(
   CompoundDeclaration originalCompound,
@@ -69,57 +66,18 @@ ClassDeclaration transformCompound(
   );
 
   if (!isStub) {
-    final transformedProperties = originalCompound.properties
-        .map(
-          (property) => transformProperty(
-            property,
-            wrappedCompoundInstance,
-            parentNamer,
-            state,
-          ),
-        )
-        .nonNulls
-        .toList();
+    final (properties, initializers, methods) = transformMembers(
+      properties: originalCompound.properties,
+      initializers: _compoundInitializers(originalCompound),
+      methods: originalCompound.methods,
+      wrappedInstance: wrappedCompoundInstance,
+      namer: parentNamer,
+      state: state,
+    );
 
-    final transformedInitializers = _compoundInitializers(originalCompound)
-        .map(
-          (initializer) => transformInitializer(
-            initializer,
-            wrappedCompoundInstance,
-            parentNamer,
-            state,
-          ),
-        )
-        .toList();
-
-    final transformedMethods = originalCompound.methods
-        .map(
-          (method) => transformMethod(
-            method,
-            wrappedCompoundInstance,
-            parentNamer,
-            state,
-          ),
-        )
-        .nonNulls
-        .toList();
-
-    transformedCompound.properties = transformedProperties
-        .removeWhereType<PropertyDeclaration>()
-        .sortedById();
-
-    transformedCompound.initializers = transformedInitializers
-        .removeWhereType<InitializerDeclaration>()
-        .sortedById();
-
-    transformedCompound.methods = [
-      ...transformedMethods,
-      ...transformedProperties.removeWhereType<MethodDeclaration>(),
-      ...transformedInitializers.removeWhereType<MethodDeclaration>(),
-    ].sortedById();
-
-    assert(transformedProperties.isEmpty);
-    assert(transformedInitializers.isEmpty);
+    transformedCompound.properties = properties;
+    transformedCompound.initializers = initializers;
+    transformedCompound.methods = methods;
   }
 
   return transformedCompound;

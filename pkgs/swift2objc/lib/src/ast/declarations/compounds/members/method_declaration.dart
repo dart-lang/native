@@ -5,6 +5,7 @@
 import '../../../../config.dart';
 import '../../../_core/interfaces/availability.dart';
 import '../../../_core/interfaces/function_declaration.dart';
+import '../../../_core/interfaces/is_extension_member.dart';
 import '../../../_core/interfaces/objc_annotatable.dart';
 import '../../../_core/interfaces/overridable.dart';
 import '../../../_core/shared/parameter.dart';
@@ -14,7 +15,11 @@ import '../../../ast_node.dart';
 /// Describes a method declaration for a Swift compound entity
 /// (e.g, class, structs)
 class MethodDeclaration extends AstNode
-    implements FunctionDeclaration, ObjCAnnotatable, Overridable {
+    implements
+        FunctionDeclaration,
+        ObjCAnnotatable,
+        Overridable,
+        IsExtensionMember {
   @override
   String id;
 
@@ -58,6 +63,8 @@ class MethodDeclaration extends AstNode
 
   bool mutating;
   bool isOperator = false;
+
+  @override
   bool isExtensionMember;
 
   String get fullName => [name, for (final p in params) p.name].join(':');

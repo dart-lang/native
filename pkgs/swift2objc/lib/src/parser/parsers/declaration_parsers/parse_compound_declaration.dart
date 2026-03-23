@@ -46,7 +46,7 @@ ParsedCompound<T> parseCompoundDeclaration<T extends CompoundDeclaration>(
     availability: parseAvailability(symbol.json),
   );
 
-  symbol.declaration = compound;
+  symbol.declarations = [compound];
 
   final memberDeclarations = compoundRelations
       .where((relation) {
@@ -100,15 +100,17 @@ ParsedCompound<T> parseCompoundDeclaration<T extends CompoundDeclaration>(
         'supported yet.',
       );
     } else {
-      symbol.extension = ExtensionDeclaration(
-        id: compoundId.addIdSuffix('extension'),
-        name: compound.name,
-        source: compound.source,
-        availability: compound.availability,
-        extendedType: compound.asDeclaredType,
-        methods: extensionMethods,
-        properties: extensionProperties,
-        initializers: extensionInitializers,
+      symbol.declarations.add(
+        ExtensionDeclaration(
+          id: compoundId.addIdSuffix('extension'),
+          name: compound.name,
+          source: compound.source,
+          availability: compound.availability,
+          extendedType: compound.asDeclaredType,
+          methods: extensionMethods,
+          properties: extensionProperties,
+          initializers: extensionInitializers,
+        ),
       );
     }
   }

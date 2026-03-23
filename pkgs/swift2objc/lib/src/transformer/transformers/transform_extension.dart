@@ -5,51 +5,36 @@
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
 import '../../ast/declarations/compounds/extension_declaration.dart';
-import '../../ast/declarations/compounds/members/initializer_declaration.dart';
-import '../../ast/declarations/compounds/members/method_declaration.dart';
-import '../../ast/declarations/compounds/members/property_declaration.dart';
 import '../../parser/_core/utils.dart';
 import '../_core/unique_namer.dart';
-import '../_core/utils.dart';
 import '../transform.dart';
-import 'transform_function.dart';
-import 'transform_initializer.dart';
-import 'transform_variable.dart';
+import 'transform_member.dart';
 
 ExtensionDeclaration? transformExtension(
   ExtensionDeclaration extDecl,
   UniqueNamer parentNamer,
   TransformationState state,
 ) {
-  // Find the already-transformed wrapper class for the extended type
-  final transformedTarget = state.map[extDecl.extendedType.declaration];
+  final transformedTarget = transformDeclaration(
+    extDecl.extendedType.declaration,
+    parentNamer,
+    state,
+  );
 
   if (transformedTarget is! ClassDeclaration) return null;
 
   final wrappedInstance = transformedTarget.wrappedInstance;
   if (wrappedInstance == null) return null;
 
-  final transformedMethods = extDecl.methods
-      .map((m) => transformMethod(m, wrappedInstance, parentNamer, state))
-      .nonNulls
-      .toList();
-
-  final transformedProperties = extDecl.properties
-      .map((p) => transformProperty(p, wrappedInstance, parentNamer, state))
-      .nonNulls
-      .toList();
-
-  final transformedInitializers = extDecl.initializers
-      .map(
-        (i) => transformInitializer(
-          i,
-          wrappedInstance,
-          parentNamer,
-          state,
-          isConvenience: true,
-        ),
-      )
-      .toList();
+  final (properties, initializers, methods) = transformMembers(
+    properties: extDecl.properties,
+    initializers: extDecl.initializers,
+    methods: extDecl.methods,
+    wrappedInstance: wrappedInstance,
+    namer: parentNamer,
+    state: state,
+    initializersAreConvenience: true,
+  );
 
   final transformedExt = ExtensionDeclaration(
     id: extDecl.id.addIdSuffix('wrapper'),
@@ -57,17 +42,9 @@ ExtensionDeclaration? transformExtension(
     source: extDecl.source,
     availability: extDecl.availability,
     extendedType: transformedTarget.asDeclaredType,
-    methods: [
-      ...transformedMethods.removeWhereType<MethodDeclaration>(),
-      ...transformedProperties.removeWhereType<MethodDeclaration>(),
-      ...transformedInitializers.removeWhereType<MethodDeclaration>(),
-    ].sortedById(),
-    properties: transformedProperties
-        .removeWhereType<PropertyDeclaration>()
-        .sortedById(),
-    initializers: transformedInitializers
-        .removeWhereType<InitializerDeclaration>()
-        .sortedById(),
+    methods: methods,
+    properties: properties,
+    initializers: initializers,
   );
 
   if (transformedExt.methods.isEmpty &&

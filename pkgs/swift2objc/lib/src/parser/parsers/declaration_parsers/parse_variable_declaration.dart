@@ -36,7 +36,7 @@ PropertyDeclaration parsePropertyDeclaration(
     lazy: info.lazy,
     hasSetter: info.constant ? false : (info.getter ? info.setter : true),
     hasExplicitGetter: info.getter,
-    isExtensionMember: symbol.json['swiftExtension'].exists,
+    isExtensionMember: isExtensionMember(symbol.json),
   );
 }
 

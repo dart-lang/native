@@ -4,7 +4,6 @@
 
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/declarations/built_in/built_in_declaration.dart';
-import '../../ast/declarations/compounds/extension_declaration.dart';
 import '../../config.dart';
 import 'json.dart';
 
@@ -66,10 +65,13 @@ class ParsedSymbolgraph {
 class ParsedSymbol {
   final InputConfig? source;
   final Json json;
-  Declaration? declaration;
-  ExtensionDeclaration? extension;
+  List<Declaration> declarations;
 
-  ParsedSymbol({required this.source, required this.json, this.declaration});
+  ParsedSymbol({
+    required this.source,
+    required this.json,
+    Declaration? declaration,
+  }) : declarations = declaration != null ? [declaration] : [];
 }
 
 class ParsedRelation {

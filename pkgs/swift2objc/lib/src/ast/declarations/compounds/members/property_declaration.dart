@@ -5,6 +5,7 @@
 import '../../../../config.dart';
 import '../../../_core/interfaces/availability.dart';
 import '../../../_core/interfaces/executable.dart';
+import '../../../_core/interfaces/is_extension_member.dart';
 import '../../../_core/interfaces/objc_annotatable.dart';
 import '../../../_core/interfaces/variable_declaration.dart';
 import '../../../_core/shared/referred_type.dart';
@@ -13,7 +14,7 @@ import '../../../ast_node.dart';
 /// Describes a property declaration for a Swift compound entity
 /// (e.g, class, structs)
 class PropertyDeclaration extends AstNode
-    implements VariableDeclaration, ObjCAnnotatable {
+    implements VariableDeclaration, ObjCAnnotatable, IsExtensionMember {
   @override
   String id;
 
@@ -60,6 +61,8 @@ class PropertyDeclaration extends AstNode
   bool lazy;
 
   bool isStatic;
+
+  @override
   bool isExtensionMember;
 
   PropertyDeclaration({

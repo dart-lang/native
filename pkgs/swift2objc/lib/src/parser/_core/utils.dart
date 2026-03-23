@@ -167,3 +167,5 @@ ReferredType parseTypeAfterSeparator(
   assert(suffix.isEmpty, '$suffix');
   return type;
 }
+
+bool isExtensionMember(Json symbolJson) => symbolJson['swiftExtension'].exists;
