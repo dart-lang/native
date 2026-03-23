@@ -9,7 +9,6 @@ import '../../context.dart';
 import '../_core/json.dart';
 import '../_core/parsed_symbolgraph.dart';
 import '../_core/token_list.dart';
-import '../_core/utils.dart';
 import 'parse_declarations.dart';
 
 /// Parse a type from a list of Json fragments.
