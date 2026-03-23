@@ -7,8 +7,6 @@ import '../jni.dart';
 import '../jobject.dart';
 import '../jreference.dart';
 
-export '../core_bindings.dart' show JString;
-
 extension JStringExtension on JString {
   /// The number of Unicode characters in this Java string.
   int get length => Jni.env.GetStringLength(reference.pointer);

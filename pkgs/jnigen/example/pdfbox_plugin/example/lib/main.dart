@@ -160,7 +160,7 @@ class PDFFileInfo {
     final fileClass = JClass.forName("java/io/File");
     final fileConstructor = fileClass.constructorId("(Ljava/lang/String;)V");
     final inputFile =
-        fileConstructor(fileClass, [JString.fromString(filename)]);
+        fileConstructor(fileClass, [filename.toJString()]);
     // Static method call PDDocument.load -> PDDocument.
     final pdf = PDDocument.load(inputFile)!;
     // Instance method call that returns an int.
