@@ -316,11 +316,176 @@ final class Setter extends Member implements DefinitionWithStaticCalls {
 
 /// A Dart operator.
 final class Operator extends Member implements DefinitionWithStaticCalls {
+  // English names taken from `package:kernel` lib/names.dart.
+  static const String _plusName = '+';
+  static const String _minusName = '-';
+  static const String _multiplyName = '*';
+  static const String _divisionName = '/';
+  static const String _mustacheName = '~/';
+  static const String _percentName = '%';
+  static const String _ampersandName = '&';
+  static const String _barName = '|';
+  static const String _caretName = '^';
+  static const String _leftShiftName = '<<';
+  static const String _rightShiftName = '>>';
+  static const String _tripleShiftName = '>>>';
+  static const String _lessThanName = '<';
+  static const String _lessThanOrEqualsName = '<=';
+  static const String _greaterThanName = '>';
+  static const String _greaterThanOrEqualsName = '>=';
+  static const String _equalsName = '==';
+  static const String _indexGetName = '[]';
+  static const String _indexSetName = '[]=';
+  static const String _unaryMinusName = 'unary-';
+  static const String _tildeName = '~';
+
   @override
   DefinitionWithMembers get parent => super.parent as DefinitionWithMembers;
 
   /// Creates a new [Operator] with the given [name] and [parent].
   const Operator(super.name, DefinitionWithMembers super.parent) : super._();
+
+  /// Creates a new `+` [Operator] in the given [parent].
+  const Operator.plus(DefinitionWithMembers parent) : this(_plusName, parent);
+
+  /// Creates a new `-` [Operator] in the given [parent].
+  const Operator.minus(DefinitionWithMembers parent) : this(_minusName, parent);
+
+  /// Creates a new `*` [Operator] in the given [parent].
+  const Operator.multiply(DefinitionWithMembers parent)
+    : this(_multiplyName, parent);
+
+  /// Creates a new `/` [Operator] in the given [parent].
+  const Operator.division(DefinitionWithMembers parent)
+    : this(_divisionName, parent);
+
+  /// Creates a new `~/` [Operator] in the given [parent].
+  const Operator.mustache(DefinitionWithMembers parent)
+    : this(_mustacheName, parent);
+
+  /// Creates a new `%` [Operator] in the given [parent].
+  const Operator.percent(DefinitionWithMembers parent)
+    : this(_percentName, parent);
+
+  /// Creates a new `&` [Operator] in the given [parent].
+  const Operator.ampersand(DefinitionWithMembers parent)
+    : this(_ampersandName, parent);
+
+  /// Creates a new `|` [Operator] in the given [parent].
+  const Operator.bar(DefinitionWithMembers parent) : this(_barName, parent);
+
+  /// Creates a new `^` [Operator] in the given [parent].
+  const Operator.caret(DefinitionWithMembers parent) : this(_caretName, parent);
+
+  /// Creates a new `<<` [Operator] in the given [parent].
+  const Operator.leftShift(DefinitionWithMembers parent)
+    : this(_leftShiftName, parent);
+
+  /// Creates a new `>>` [Operator] in the given [parent].
+  const Operator.rightShift(DefinitionWithMembers parent)
+    : this(_rightShiftName, parent);
+
+  /// Creates a new `>>>` [Operator] in the given [parent].
+  const Operator.tripleShift(DefinitionWithMembers parent)
+    : this(_tripleShiftName, parent);
+
+  /// Creates a new `<` [Operator] in the given [parent].
+  const Operator.lessThan(DefinitionWithMembers parent)
+    : this(_lessThanName, parent);
+
+  /// Creates a new `<=` [Operator] in the given [parent].
+  const Operator.lessThanOrEquals(DefinitionWithMembers parent)
+    : this(_lessThanOrEqualsName, parent);
+
+  /// Creates a new `>` [Operator] in the given [parent].
+  const Operator.greaterThan(DefinitionWithMembers parent)
+    : this(_greaterThanName, parent);
+
+  /// Creates a new `>=` [Operator] in the given [parent].
+  const Operator.greaterThanOrEquals(DefinitionWithMembers parent)
+    : this(_greaterThanOrEqualsName, parent);
+
+  /// Creates a new `==` [Operator] in the given [parent].
+  const Operator.equals(DefinitionWithMembers parent)
+    : this(_equalsName, parent);
+
+  /// Creates a new `[]` [Operator] in the given [parent].
+  const Operator.indexGet(DefinitionWithMembers parent)
+    : this(_indexGetName, parent);
+
+  /// Creates a new `[]=` [Operator] in the given [parent].
+  const Operator.indexSet(DefinitionWithMembers parent)
+    : this(_indexSetName, parent);
+
+  /// Creates a new `unary-` [Operator] in the given [parent].
+  const Operator.unaryMinus(DefinitionWithMembers parent)
+    : this(_unaryMinusName, parent);
+
+  /// Creates a new `~` [Operator] in the given [parent].
+  const Operator.tilde(DefinitionWithMembers parent) : this(_tildeName, parent);
+
+  /// Whether this is a `+` operator.
+  bool get isPlus => name == _plusName;
+
+  /// Whether this is a `-` operator.
+  bool get isMinus => name == _minusName;
+
+  /// Whether this is a `*` operator.
+  bool get isMultiply => name == _multiplyName;
+
+  /// Whether this is a `/` operator.
+  bool get isDivision => name == _divisionName;
+
+  /// Whether this is a `~/` operator.
+  bool get isMustache => name == _mustacheName;
+
+  /// Whether this is a `%` operator.
+  bool get isPercent => name == _percentName;
+
+  /// Whether this is a `&` operator.
+  bool get isAmpersand => name == _ampersandName;
+
+  /// Whether this is a `|` operator.
+  bool get isBar => name == _barName;
+
+  /// Whether this is a `^` operator.
+  bool get isCaret => name == _caretName;
+
+  /// Whether this is a `<<` operator.
+  bool get isLeftShift => name == _leftShiftName;
+
+  /// Whether this is a `>>` operator.
+  bool get isRightShift => name == _rightShiftName;
+
+  /// Whether this is a `>>>` operator.
+  bool get isTripleShift => name == _tripleShiftName;
+
+  /// Whether this is a `<` operator.
+  bool get isLessThan => name == _lessThanName;
+
+  /// Whether this is a `<=` operator.
+  bool get isLessThanOrEquals => name == _lessThanOrEqualsName;
+
+  /// Whether this is a `>` operator.
+  bool get isGreaterThan => name == _greaterThanName;
+
+  /// Whether this is a `>=` operator.
+  bool get isGreaterThanOrEquals => name == _greaterThanOrEqualsName;
+
+  /// Whether this is a `==` operator.
+  bool get isEquals => name == _equalsName;
+
+  /// Whether this is a `[]` operator.
+  bool get isIndexGet => name == _indexGetName;
+
+  /// Whether this is a `[]=` operator.
+  bool get isIndexSet => name == _indexSetName;
+
+  /// Whether this is a `unary-` operator.
+  bool get isUnaryMinus => name == _unaryMinusName;
+
+  /// Whether this is a `~` operator.
+  bool get isTilde => name == _tildeName;
 
   @override
   bool get isInstanceMember => true;

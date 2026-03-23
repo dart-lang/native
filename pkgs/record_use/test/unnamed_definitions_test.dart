@@ -85,4 +85,51 @@ void main() {
       expect(ctor1.semanticEquals(ctor4), isFalse);
     });
   });
+
+  group('Operators', () {
+    const library = Library('package:a/a.dart');
+    const classDef = Class('MyClass', library);
+
+    test('Specialized Operator constructors', () {
+      const ops = [
+        (Operator.plus, '+', 'isPlus'),
+        (Operator.minus, '-', 'isMinus'),
+        (Operator.multiply, '*', 'isMultiply'),
+        (Operator.division, '/', 'isDivision'),
+        (Operator.mustache, '~/', 'isMustache'),
+        (Operator.percent, '%', 'isPercent'),
+        (Operator.ampersand, '&', 'isAmpersand'),
+        (Operator.bar, '|', 'isBar'),
+        (Operator.caret, '^', 'isCaret'),
+        (Operator.leftShift, '<<', 'isLeftShift'),
+        (Operator.rightShift, '>>', 'isRightShift'),
+        (Operator.tripleShift, '>>>', 'isTripleShift'),
+        (Operator.lessThan, '<', 'isLessThan'),
+        (Operator.lessThanOrEquals, '<=', 'isLessThanOrEquals'),
+        (Operator.greaterThan, '>', 'isGreaterThan'),
+        (Operator.greaterThanOrEquals, '>=', 'isGreaterThanOrEquals'),
+        (Operator.equals, '==', 'isEquals'),
+        (Operator.indexGet, '[]', 'isIndexGet'),
+        (Operator.indexSet, '[]=', 'isIndexSet'),
+        (Operator.unaryMinus, 'unary-', 'isUnaryMinus'),
+        (Operator.tilde, '~', 'isTilde'),
+      ];
+
+      for (final (constructor, expectedName, _) in ops) {
+        final op = constructor(classDef);
+        expect(op.name, expectedName);
+        expect(op.parent, classDef);
+      }
+    });
+
+    test('isPlus getter', () {
+      expect(const Operator.plus(classDef).isPlus, isTrue);
+      expect(const Operator.minus(classDef).isPlus, isFalse);
+    });
+
+    test('isIndexGet getter', () {
+      expect(const Operator.indexGet(classDef).isIndexGet, isTrue);
+      expect(const Operator.indexSet(classDef).isIndexGet, isFalse);
+    });
+  });
 }
