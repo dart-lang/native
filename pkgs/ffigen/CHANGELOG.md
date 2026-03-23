@@ -28,7 +28,12 @@
   Xcode installations. [#3134](https://github.com/dart-lang/native/issues/3134)
 - Add allocate constructor for native C structs:
   `$allocate(Allocator $allocator, {required ...})`
-
+- Fix a [bug](https://github.com/dart-lang/native/issues/2665) where ObjC
+  classes with `SWIFT_UNAVAILABLE` annotated `init`/`new` methods were
+  generating runtime-crashing no-arg constructors.
+- Fix a bug where methods marked with `__attribute__((unavailable))` or
+  `__attribute__((deprecated))` were incorrectly included in bindings when no platform version info was configured.
+  
 ## 20.1.1
 
 - Update tests and examples now that package:objective_c is using native assets.

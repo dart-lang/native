@@ -35,6 +35,7 @@ class ApiAvailability {
   static ApiAvailability fromCursor(
     clang_types.CXCursor cursor,
     Context context,
+    // { bool treatSwiftUnavailableAsUnavailable = false,}
   ) {
     final platformsLength = clang.clang_getCursorPlatformAvailability(
       cursor,
@@ -64,6 +65,7 @@ class ApiAvailability {
 
     PlatformAvailability? ios;
     PlatformAvailability? macos;
+    var swiftIsUnavailable = false;
 
     for (var i = 0; i < platformsLength; ++i) {
       final platform = platforms[i];
@@ -80,12 +82,17 @@ class ApiAvailability {
         case 'macos':
           macos = platformAvailability..name = 'macOS';
           break;
+        case 'swift':
+          if (platformAvailability.unavailable) {
+            swiftIsUnavailable = true;
+          }
+          break;
       }
     }
 
     final api = ApiAvailability(
       alwaysDeprecated: alwaysDeprecated.value != 0,
-      alwaysUnavailable: alwaysUnavailable.value != 0,
+      alwaysUnavailable: alwaysUnavailable.value != 0 || swiftIsUnavailable,
       ios: ios,
       macos: macos,
       externalVersions: context.config.objectiveC?.externalVersions,
@@ -102,6 +109,8 @@ class ApiAvailability {
   }
 
   Availability _getAvailability(ExternalVersions? externalVersions) {
+    if (alwaysUnavailable) return Availability.none;
+
     final macosVer = _normalizeVersions(externalVersions?.macos);
     final iosVer = _normalizeVersions(externalVersions?.ios);
 
@@ -110,7 +119,7 @@ class ApiAvailability {
       return Availability.all;
     }
 
-    if (alwaysDeprecated || alwaysUnavailable) {
+    if (alwaysDeprecated) {
       return Availability.none;
     }
 
