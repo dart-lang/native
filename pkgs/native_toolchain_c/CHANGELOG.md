@@ -1,3 +1,8 @@
+## 0.17.7
+
+- Fixed resolution of C compiler and tools on macOS when `swiftly` is installed.
+- Broaden compiler tool discovery on macOS.
+
 ## 0.17.6
 
 - On Android, use the NDK's `libc++.a` linker script when `cppLinkStdLib` is

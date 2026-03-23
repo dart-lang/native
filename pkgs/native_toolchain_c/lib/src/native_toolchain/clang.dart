@@ -16,7 +16,8 @@ final Tool clang = Tool(
   defaultResolver: CliVersionResolver(
     wrappedResolver: CliFilter(
       cliArguments: ['--version'],
-      keepIf: ({required String stdout}) => !stdout.contains('Apple clang'),
+      keepIf: ({required String stdout, required String stderr}) =>
+          !stdout.contains('Apple clang'),
       wrappedResolver: ToolResolvers([
         PathToolResolver(
           toolName: 'Clang',

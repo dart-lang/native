@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'package:code_assets/code_assets.dart';
+
 import '../tool/tool.dart';
 import '../tool/tool_resolver.dart';
 
@@ -13,7 +15,8 @@ final Tool appleClang = Tool(
   defaultResolver: CliVersionResolver(
     wrappedResolver: CliFilter(
       cliArguments: ['--version'],
-      keepIf: ({required String stdout}) => stdout.contains('Apple clang'),
+      keepIf: ({required String stdout, required String stderr}) =>
+          stdout.contains('Apple clang'),
       wrappedResolver: PathToolResolver(
         toolName: 'Apple Clang',
         executableName: 'clang',
@@ -31,6 +34,14 @@ final Tool appleAr = Tool(
       wrappedResolver: appleClang.defaultResolver!,
       relativePath: Uri.file('ar'),
     ),
+    PathFilter(
+      toolName: 'Apple archiver',
+      wrappedResolver: PathToolResolver(
+        toolName: 'Apple archiver',
+        executableName: OS.current.executableFileName('ar'),
+      ),
+      keepIf: ({required uri}) => uri == Uri.file('/usr/bin/ar'),
+    ),
   ]),
 );
 
@@ -42,6 +53,15 @@ final Tool appleLd = Tool(
       toolName: 'Apple linker',
       wrappedResolver: appleClang.defaultResolver!,
       relativePath: Uri.file('ld'),
+    ),
+    CliFilter(
+      wrappedResolver: PathToolResolver(
+        toolName: 'Apple linker',
+        executableName: OS.current.executableFileName('ld'),
+      ),
+      cliArguments: ['-v'],
+      keepIf: ({required String stdout, required String stderr}) =>
+          stdout.contains('Apple TAPI') || stderr.contains('Apple TAPI'),
     ),
   ]),
 );
