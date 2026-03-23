@@ -51,15 +51,9 @@ Future<Recordings> _loadRecordings(Uri file) async {
 
 Set<String> _extractUsedPhrases(Recordings recordings) {
   final usedPhrases = <String>{};
-  final pirateSpeakDef = Definition(
-    'package:pirate_speak/src/definitions.dart',
-    [
-      Name(
-        kind: DefinitionKind.methodKind,
-        'pirateSpeak',
-        disambiguators: {DefinitionDisambiguator.staticDisambiguator},
-      ),
-    ],
+  const pirateSpeakDef = Method(
+    'pirateSpeak',
+    Library('package:pirate_speak/src/definitions.dart'),
   );
 
   for (final call in recordings.calls[pirateSpeakDef] ?? const []) {

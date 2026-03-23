@@ -22,6 +22,9 @@
     {
       "path": [
         {
+          "disambiguators": [
+            "static"
+          ],
           "kind": "method",
           "name": "doSomething"
         }

@@ -116,6 +116,9 @@
           "name": "MyClass"
         },
         {
+          "disambiguators": [
+            "static"
+          ],
           "kind": "getter",
           "name": "loadDeferredLibrary"
         }

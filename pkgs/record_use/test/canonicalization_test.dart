@@ -53,9 +53,10 @@ void main() {
     });
 
     test('Recordings.toJson canonicalizes constants across calls', () {
-      const definition = Definition('package:a/a.dart', [
-        Name('foo', kind: DefinitionKind.methodKind),
-      ]);
+      const definition = Method(
+        'foo',
+        Library('package:a/a.dart'),
+      );
       const constant = IntConstant(42);
 
       final recordings = Recordings(
@@ -93,9 +94,10 @@ void main() {
     });
 
     test('Recordings.toJson deduplicates and sorts references', () {
-      const definition = Definition('package:a/a.dart', [
-        Name('foo', kind: DefinitionKind.methodKind),
-      ]);
+      const definition = Method(
+        'foo',
+        Library('package:a/a.dart'),
+      );
       const unit1 = LoadingUnit('1');
       const unit2 = LoadingUnit('2');
 

@@ -34,9 +34,7 @@ void main() {
       for (final constant in constants) {
         final recordings = Recordings(
           calls: {
-            const Definition('package:a/a.dart', [
-              Name('foo', kind: DefinitionKind.methodKind),
-            ]): [
+            const Method('foo', Library('package:a/a.dart')): [
               CallWithArguments(
                 positionalArguments: [constant],
                 namedArguments: const {},
@@ -60,6 +58,7 @@ void main() {
 
         expect(roundTrippedConstant.value, equals(constant.value));
         expect(roundTrippedConstant, equals(constant));
+        expect(roundTripped, equals(recordings));
       }
     });
   });

@@ -32,10 +32,7 @@ void main() {
       // The Definition class itself doesn't have the regex check in its
       // constructor, only the generated syntax class has it.
       expect(
-        () => const Definition(
-          'dart:core',
-          [Name('foo', kind: DefinitionKind.methodKind)],
-        ),
+        () => const Method('foo', Library('dart:core')),
         returnsNormally,
       );
     });

@@ -8,17 +8,14 @@ import 'package:record_use/src/recordings.dart';
 import 'package:test/test.dart';
 
 void main() {
-  const definition = Definition(
-    'package:test/test.dart',
-    [Name('MyClass', kind: DefinitionKind.classKind)],
+  const definition = Class(
+    'MyClass',
+    Library('package:test/test.dart'),
   );
 
-  const constructorDefinition = Definition(
-    'package:test/test.dart',
-    [
-      Name('MyClass', kind: DefinitionKind.classKind),
-      Name('', kind: DefinitionKind.constructorKind),
-    ],
+  const constructorDefinition = Constructor(
+    '',
+    definition,
   );
 
   const loadingUnitRoot = LoadingUnit('root');

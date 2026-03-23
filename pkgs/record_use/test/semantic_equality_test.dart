@@ -6,25 +6,29 @@ import 'package:record_use/record_use.dart';
 import 'package:test/test.dart';
 
 void main() {
-  const definition1 = Definition(
-    'package:a/a.dart',
-    [Name('definition1', kind: DefinitionKind.methodKind)],
+  const definition1 = Method(
+    'definition1',
+    Library('package:a/a.dart'),
   );
-  const definition2 = Definition(
-    'package:a/a.dart',
-    [Name('definition2', kind: DefinitionKind.methodKind)],
+  const definition2 = Method(
+    'definition2',
+    Library('package:a/a.dart'),
   );
-  const definition1differentLibrary = Definition(
-    'package:a/b.dart',
-    [Name('definition1', kind: DefinitionKind.methodKind)],
+  const definition1differentLibrary = Method(
+    'definition1',
+    Library('package:a/b.dart'),
   );
-  const definition3 = Definition(
-    'package:a/a.dart',
-    [
-      Name('SomeClass', kind: DefinitionKind.classKind),
-      Name('definition1', kind: DefinitionKind.methodKind),
-    ],
+  const definition3 = Method(
+    'definition1',
+    Class('SomeClass', Library('package:a/a.dart')),
+    isInstanceMember: true,
   );
+
+  const classDefinition1 = Class(
+    'Class1',
+    Library('package:a/a.dart'),
+  );
+
   const callDefintion1Static = CallWithArguments(
     positionalArguments: [],
     namedArguments: {},
@@ -43,9 +47,9 @@ void main() {
   const callDefinition1Tearoff = CallTearoff(
     loadingUnit: LoadingUnit(''),
   );
-  const definition1differentLibrary2 = Definition(
-    'memory:a/a.dart',
-    [Name('definition1', kind: DefinitionKind.methodKind)],
+  const definition1differentLibrary2 = Method(
+    'definition1',
+    Library('memory:a/a.dart'),
   );
   const callDefintion1StaticDifferentUri = CallWithArguments(
     positionalArguments: [],
@@ -265,10 +269,10 @@ void main() {
     final recordings1 = Recordings(
       calls: const {},
       instances: {
-        definition1: [
+        classDefinition1: [
           const InstanceConstantReference(
             instanceConstant: EnumConstant(
-              definition: definition1,
+              definition: classDefinition1,
               index: 0,
               name: 'a',
               fields: {'f': IntConstant(1)},
@@ -281,10 +285,10 @@ void main() {
     final recordings2 = Recordings(
       calls: const {},
       instances: {
-        definition1: [
+        classDefinition1: [
           const InstanceConstantReference(
             instanceConstant: EnumConstant(
-              definition: definition1,
+              definition: classDefinition1,
               index: 0,
               name: 'a',
               fields: {'f': IntConstant(1)},
@@ -297,10 +301,10 @@ void main() {
     final recordings3 = Recordings(
       calls: const {},
       instances: {
-        definition1: [
+        classDefinition1: [
           const InstanceConstantReference(
             instanceConstant: EnumConstant(
-              definition: definition1,
+              definition: classDefinition1,
               index: 1,
               name: 'b',
               fields: {'f': IntConstant(1)},
@@ -328,7 +332,10 @@ void main() {
 
     const unsupported = UnsupportedConstant('MethodTearoff');
     const setWithUnsupported = SetConstant([IntConstant(1), unsupported]);
-    const setWithInt2 = SetConstant([IntConstant(1), IntConstant(2)]);
+    const setWithInt2 = SetConstant([
+      IntConstant(1),
+      IntConstant(2),
+    ]);
 
     // unsupported does not match IntConstant(2) by default
     expect(setWithInt2.semanticEquals(setWithUnsupported), isFalse);

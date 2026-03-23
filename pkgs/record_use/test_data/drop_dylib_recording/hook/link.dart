@@ -30,22 +30,16 @@ void main(List<String> arguments) async {
     ).create();
 
     final dataLines = <String>[];
-    // Tree-shake unused assets using calls
     for (final methodName in ['add', 'multiply']) {
       final calls =
-          usages.calls[Definition(
-            'package:drop_dylib_recording/src/drop_dylib_recording.dart',
-            [
-              const Name(
-                kind: DefinitionKind.classKind,
-                'MyMath',
+          usages.calls[Method(
+            methodName,
+            const Class(
+              'MyMath',
+              Library(
+                'package:drop_dylib_recording/src/drop_dylib_recording.dart',
               ),
-              Name(
-                kind: DefinitionKind.methodKind,
-                methodName,
-                disambiguators: {DefinitionDisambiguator.staticDisambiguator},
-              ),
-            ],
+            ),
           )] ??
           const [];
       for (final call in calls) {
@@ -75,17 +69,13 @@ void main(List<String> arguments) async {
       'Square': 'multiply',
     };
 
-    // Tree-shake unused assets using instances
     for (final className in classNameToSymbol.keys) {
       final instances =
-          usages.instances[Definition(
-            'package:drop_dylib_recording/src/drop_dylib_recording.dart',
-            [
-              Name(
-                kind: DefinitionKind.classKind,
-                className,
-              ),
-            ],
+          usages.instances[Class(
+            className,
+            const Library(
+              'package:drop_dylib_recording/src/drop_dylib_recording.dart',
+            ),
           )] ??
           const [];
       for (final instance in instances) {
