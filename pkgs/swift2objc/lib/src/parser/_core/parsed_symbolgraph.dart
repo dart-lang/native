@@ -65,9 +65,13 @@ class ParsedSymbolgraph {
 class ParsedSymbol {
   final InputConfig? source;
   final Json json;
-  Declaration? declaration;
+  List<Declaration> declarations;
 
-  ParsedSymbol({required this.source, required this.json, this.declaration});
+  ParsedSymbol({
+    required this.source,
+    required this.json,
+    Declaration? declaration,
+  }) : declarations = declaration != null ? [declaration] : [];
 }
 
 class ParsedRelation {

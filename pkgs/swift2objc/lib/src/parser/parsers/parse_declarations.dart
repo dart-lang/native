@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../ast/_core/interfaces/declaration.dart';
+import '../../ast/declarations/compounds/extension_declaration.dart';
 import '../../config.dart';
 import '../../context.dart';
 import '../_core/parsed_symbolgraph.dart';
@@ -37,24 +38,32 @@ List<Declaration> parseDeclarations(
     }
   }
 
+  // Collect ExtensionDeclarations that were created during compound parsing
+  // and stored on their symbols.
+  final extensions = symbolgraph.symbols.values
+      .expand((s) => s.declarations)
+      .whereType<ExtensionDeclaration>()
+      .toList();
+
+  declarations.addAll(extensions);
   return declarations.topLevelOnly;
 }
 
-// TODO(https://github.com/dart-lang/native/issues/1815): Support for extensions
 Declaration parseDeclaration(
   Context context,
   ParsedSymbol parsedSymbol,
   ParsedSymbolgraph symbolgraph,
 ) {
-  if (parsedSymbol.declaration != null) {
-    return parsedSymbol.declaration!;
+  if (parsedSymbol.declarations.isNotEmpty) {
+    return parsedSymbol.declarations.first;
   }
 
   final symbolJson = parsedSymbol.json;
 
   final builtIn = tryParseBuiltInDeclaration(parsedSymbol);
   if (builtIn != null) {
-    return parsedSymbol.declaration = builtIn;
+    parsedSymbol.declarations = [builtIn];
+    return builtIn;
   }
 
   if (isObsoleted(symbolJson)) {
@@ -63,7 +72,7 @@ Declaration parseDeclaration(
 
   final symbolType = symbolJson['kind']['identifier'].get<String>();
 
-  parsedSymbol.declaration = switch (symbolType) {
+  final decl = switch (symbolType) {
     'swift.class' => parseClassDeclaration(context, parsedSymbol, symbolgraph),
     'swift.struct' => parseStructDeclaration(
       context,
@@ -133,7 +142,7 @@ Declaration parseDeclaration(
     ),
   };
 
-  return parsedSymbol.declaration!;
+  return decl;
 }
 
 Declaration? tryParseDeclaration(

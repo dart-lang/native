@@ -38,6 +38,7 @@ InitializerDeclaration parseInitializerDeclaration(
     isFailable: parseIsFailableInit(id, declarationFragments),
     throws: info.throws,
     async: info.async,
+    isExtensionMember: isExtensionMember(symbol.json),
   );
 }
 
