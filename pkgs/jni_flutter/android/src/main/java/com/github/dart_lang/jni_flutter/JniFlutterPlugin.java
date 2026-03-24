@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-package com.github.dart_lang.jni;
+package com.github.dart_lang.jni_flutter;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -15,8 +15,8 @@ import io.flutter.embedding.engine.plugins.activity.ActivityPluginBinding;
 import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
-public class JniPlugin implements FlutterPlugin, ActivityAware {
-  private static final ConcurrentHashMap<Long, JniPlugin> pluginMap = new ConcurrentHashMap<>();
+public class JniFlutterPlugin implements FlutterPlugin, ActivityAware {
+  private static final ConcurrentHashMap<Long, JniFlutterPlugin> pluginMap = new ConcurrentHashMap<>();
 
   private long engineId;
 
@@ -76,6 +76,6 @@ public class JniPlugin implements FlutterPlugin, ActivityAware {
 
   static {
     System.loadLibrary("dartjni");
-    setClassLoader(JniPlugin.class.getClassLoader());
+    setClassLoader(JniFlutterPlugin.class.getClassLoader());
   }
 }

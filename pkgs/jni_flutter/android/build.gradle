@@ -24,14 +24,6 @@ android {
         namespace 'com.github.dart_lang.jni_flutter'
     }
 
-    sourceSets {
-        main {
-            java {
-                srcDirs '../../jni/java/src/main/java'
-            }
-        }
-    }
-
     compileSdk 35
 
     defaultConfig {

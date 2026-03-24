@@ -19,15 +19,15 @@ Future<void> main() async {
     Config(
       androidSdkConfig: AndroidSdkConfig(
         addGradleDeps: true,
-        androidExample: packageRoot.resolve('example/').toFilePath(),
+        androidExample: packageRoot.resolve('android_test_runner/').toFilePath(),
       ),
       outputConfig: OutputConfig(
         dartConfig: DartCodeOutputConfig(
-          path: packageRoot.resolve('lib/src/plugin/generated_plugin.dart'),
+          path: packageRoot.resolve('lib/src/generated_plugin.dart'),
           structure: OutputStructure.singleFile,
         ),
       ),
-      classes: ['com.github.dart_lang.jni.JniPlugin'],
+      classes: ['com.github.dart_lang.jni_flutter.JniFlutterPlugin'],
       preamble: preamble,
     ),
   );

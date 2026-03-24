@@ -27,4 +27,4 @@ flutter:
     platforms:
       android:
         package: com.github.dart_lang.jni_flutter
-        pluginClass: JniPlugin
+        pluginClass: JniFlutterPlugin
