@@ -16,7 +16,7 @@ dependencies:
   jni:
     path: ../../jni
   jni_flutter:
-    path: ../../../jni_flutter
+    path: ../../jni_flutter
 
   cupertino_icons: ^1.0.2
 
