@@ -52,6 +52,7 @@ Packages not on this repo but also related to FFI and native assets. ❤️
 | [native_toolchain_ninja](https://github.com/knopp/native_toolchain_ninja) | A library to invoke Ninja for Dart Native Assets. | [![pub package](https://img.shields.io/pub/v/native_toolchain_ninja.svg)](https://pub.dev/packages/native_toolchain_ninja) |
 | [native_toolchain_rust](https://github.com/irondash/native_toolchain_rust) | A library to invoke the native Rust compiler installed on the host machine. | [![pub package](https://img.shields.io/pub/v/native_toolchain_rust.svg)](https://pub.dev/packages/native_toolchain_rust) |
 | [native_toolchain_rs](https://github.com/GregoryConrad/native_toolchain_rs) | A library to build and bundle Rust code for Dart Native Assets. | [![pub package](https://img.shields.io/pub/v/native_toolchain_rs.svg)](https://pub.dev/packages/native_toolchain_rs) |
+| [native_toolchain_zig](https://github.com/ykmnkmi/native_toolchain_zig.dart) | A library to build and bundle Zig code for Dart Native Assets. | [![pub package](https://img.shields.io/pub/v/native_toolchain_zig.svg)](https://pub.dev/packages/native_toolchain_zig) |
 
 ## Publishing automation
 
