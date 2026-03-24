@@ -5,7 +5,6 @@
 import 'dart:io';
 
 import 'package:flutter_test/flutter_test.dart';
-import 'package:jni/jni.dart';
 import 'package:jni_flutter/jni_flutter.dart';
 
 void main() {
