@@ -12,7 +12,6 @@ import 'constant.dart';
 import 'definition.dart';
 import 'helper.dart';
 import 'loading_unit.dart';
-import 'metadata.dart';
 import 'reference.dart';
 import 'serialization_context.dart';
 import 'syntax.g.dart';
@@ -29,10 +28,7 @@ import 'syntax.g.dart';
 /// The class uses a normalized JSON format, allowing the reuse of constants
 /// across multiple recordings to optimize storage.
 class Recordings {
-  /// [Metadata] such as the recording protocol version.
-  final Metadata metadata;
-
-  /// The collected [CallReference]s for each [Definition].
+  /// The collected [CallReference]s for each [DefinitionWithStaticCalls].
   ///
   /// Recorded when `@RecordUse()` is placed on a static member (top-level
   /// functions, static methods, getters, setters, or operators) in any
@@ -128,9 +124,9 @@ class Recordings {
   /// - Non-redirecting Factory Constructors: Not yet supported for static
   ///   calls, because they can be the target of redirecting constructors.
   ///   https://github.com/dart-lang/native/issues/3192
-  final Map<Definition, List<CallReference>> calls;
+  final Map<DefinitionWithStaticCalls, List<CallReference>> calls;
 
-  /// The collected [InstanceReference]s for each [Definition].
+  /// The collected [InstanceReference]s for each [DefinitionWithInstances].
   ///
   /// Recorded when `@RecordUse()` is placed on a `final class` or `enum` to
   /// track the lifecycle of instances.
@@ -242,13 +238,12 @@ class Recordings {
   ///   boundaries due to the ambiguity of to which packages' link hook the
   ///   information should be sent.
   ///   https://github.com/dart-lang/native/issues/3200
-  final Map<Definition, List<InstanceReference>> instances;
+  final Map<DefinitionWithInstances, List<InstanceReference>> instances;
 
   Recordings({
-    Metadata? metadata,
     required this.calls,
     required this.instances,
-  }) : metadata = metadata ?? Metadata();
+  });
 
   /// Decodes a JSON representation into a [Recordings] object.
   ///
@@ -283,13 +278,17 @@ Error: $e
     );
     final context = _deserializeConstants(syntax, definitionContext);
 
-    final callsForDefinition = <Definition, List<CallReference>>{};
-    final instancesForDefinition = <Definition, List<InstanceReference>>{};
+    final callsForDefinition =
+        <DefinitionWithStaticCalls, List<CallReference>>{};
+    final instancesForDefinition =
+        <DefinitionWithInstances, List<InstanceReference>>{};
 
     final uses = syntax.uses;
     if (uses != null) {
       for (final callRecording in uses.staticCalls ?? <CallRecordingSyntax>[]) {
-        final definition = context.definitions[callRecording.definitionIndex];
+        final definition =
+            context.definitions[callRecording.definitionIndex]
+                as DefinitionWithStaticCalls;
         final callSyntaxes = callRecording.uses;
         final callReferences = callSyntaxes
             .map<CallReference>(
@@ -306,7 +305,8 @@ Error: $e
       for (final instanceRecording
           in uses.instances ?? <InstanceRecordingSyntax>[]) {
         final definition =
-            context.definitions[instanceRecording.definitionIndex];
+            context.definitions[instanceRecording.definitionIndex]
+                as DefinitionWithInstances;
         final instanceSyntaxes = instanceRecording.uses;
         final instanceReferences = instanceSyntaxes
             .map<InstanceReference>(
@@ -323,7 +323,6 @@ Error: $e
     }
 
     return Recordings(
-      metadata: MetadataProtected.fromSyntax(syntax.metadata),
       calls: callsForDefinition,
       instances: instancesForDefinition,
     );
@@ -331,16 +330,16 @@ Error: $e
 
   Recordings _canonicalizeChildren(CanonicalizationContext context) =>
       Recordings(
-        metadata: metadata,
         calls: _canonicalizeReferences(context, calls),
         instances: _canonicalizeReferences(context, instances),
       );
 
-  Map<Definition, List<R>> _canonicalizeReferences<R extends Reference>(
+  Map<K, List<R>>
+  _canonicalizeReferences<K extends Definition, R extends Reference>(
     CanonicalizationContext context,
-    Map<Definition, List<R>> references,
+    Map<K, List<R>> references,
   ) {
-    final map = <Definition, Set<R>>{};
+    final map = <K, Set<R>>{};
     for (final entry in references.entries) {
       final definition = context.canonicalizeDefinition(entry.key);
       final set = map.putIfAbsent(definition, () => {});
@@ -349,7 +348,7 @@ Error: $e
       }
     }
     final sortedKeys = map.keys.toList()..sort((a, b) => a.compareTo(b));
-    return <Definition, List<R>>{
+    return <K, List<R>>{
       for (final key in sortedKeys)
         key: map[key]!.toList()..sort((a, b) => a.compareTo(b)),
     };
@@ -455,7 +454,6 @@ Error: $e
           );
 
     return RecordedUsesSyntax(
-      metadata: metadata.toSyntax(),
       constants: sortedConstants.isEmpty
           ? null
           : [
@@ -481,15 +479,13 @@ Error: $e
   bool operator ==(covariant Recordings other) {
     if (identical(this, other)) return true;
 
-    return other.metadata == metadata &&
-        deepEquals(other.calls, calls) &&
+    return deepEquals(other.calls, calls) &&
         deepEquals(other.instances, instances);
   }
 
   @override
   int get hashCode => cacheHashCode(
     () => Object.hash(
-      metadata.hashCode,
       deepHash(calls),
       deepHash(instances),
     ),
@@ -523,9 +519,6 @@ Error: $e
   /// If [allowMoreConstArguments] is `true`, `null` arguments in an `expected`
   /// call are ignored during comparison. This can be used to accommodate
   /// differences in how compilers handle default or optional arguments.
-  ///
-  /// If [allowMetadataMismatch] is `true`, the [metadata] does not need to
-  /// match.
   @visibleForTesting
   bool semanticEquals(
     Recordings expected, {
@@ -534,13 +527,9 @@ Error: $e
     bool allowTearoffToStaticPromotion = false,
     bool allowMoreConstArguments = false,
     bool allowPromotionOfUnsupported = false,
-    bool allowMetadataMismatch = false,
     String Function(String)? uriMapping,
     String Function(String)? loadingUnitMapping,
   }) {
-    if (!allowMetadataMismatch && metadata != expected.metadata) {
-      return false;
-    }
     bool definitionMatches(Definition a, Definition b) =>
         // ignore: invalid_use_of_visible_for_testing_member
         a.semanticEquals(b, uriMapping: uriMapping);
@@ -588,12 +577,12 @@ Error: $e
   }
 
   /// Returns true if [expected] is a semantic subset of [actual].
-  static bool _compareUsageMap<R extends Reference>({
-    required Map<Definition, List<R>> actual,
-    required Map<Definition, List<R>> expected,
+  static bool _compareUsageMap<K extends Definition, R extends Reference>({
+    required Map<K, List<R>> actual,
+    required Map<K, List<R>> expected,
     required bool expectedIsSubset,
     required bool allowDeadCodeElimination,
-    required bool Function(Definition, Definition) definitionMatches,
+    required bool Function(K, K) definitionMatches,
     required bool Function(R, R) referenceMatches,
   }) {
     final actualUsages = actual.entries.toList();
@@ -699,7 +688,7 @@ Error: $e
   Recordings filter({String? definitionPackageName}) {
     bool belongsToPackage(Definition definition) {
       if (definitionPackageName == null) return true;
-      final uri = definition.library;
+      final uri = definition.library.uri;
       return uri.startsWith('package:$definitionPackageName/');
     }
 
@@ -722,7 +711,6 @@ Error: $e
     };
 
     return Recordings(
-      metadata: metadata,
       calls: newCallsForDefinition,
       instances: newInstancesForDefinition,
     );

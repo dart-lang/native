@@ -24,6 +24,8 @@
   instead of just holding a string message. It's a `JObject`, so the usual
   `.isA` and `.as` methods work to cast the `JThrowable` to the underlying Java
   exception.
+- **Breaking Change**: Class methods like getFoo, isFoo, and setFoo are now
+  getters and setters in Dart.
 
 ## 0.15.2
 

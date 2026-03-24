@@ -26,6 +26,9 @@
     {
       "path": [
         {
+          "disambiguators": [
+            "static"
+          ],
           "kind": "method",
           "name": "recorded"
         }
@@ -38,10 +41,6 @@
       "name": "1"
     }
   ],
-  "metadata": {
-    "comment": "Recorded usages of objects tagged with a `RecordUse` annotation",
-    "version": "0.4.0"
-  },
   "uses": {
     "instances": [
       {

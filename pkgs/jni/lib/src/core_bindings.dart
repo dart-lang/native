@@ -1054,12 +1054,12 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
     return _get(reference.pointer, _id_get.pointer, i).object<$E?>();
   }
 
-  static final _id_getFirst = JArrayList._class.instanceMethodId(
+  static final _id_get$first = JArrayList._class.instanceMethodId(
     r'getFirst',
     r'()Ljava/lang/Object;',
   );
 
-  static final _getFirst = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$first = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -1073,16 +1073,16 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
 
   /// from: `public E getFirst()`
   /// The returned object must be released after use, by calling the [release] method.
-  $E? getFirst() {
-    return _getFirst(reference.pointer, _id_getFirst.pointer).object<$E?>();
+  $E? get first {
+    return _get$first(reference.pointer, _id_get$first.pointer).object<$E?>();
   }
 
-  static final _id_getLast = JArrayList._class.instanceMethodId(
+  static final _id_get$last = JArrayList._class.instanceMethodId(
     r'getLast',
     r'()Ljava/lang/Object;',
   );
 
-  static final _getLast = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$last = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -1096,8 +1096,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
 
   /// from: `public E getLast()`
   /// The returned object must be released after use, by calling the [release] method.
-  $E? getLast() {
-    return _getLast(reference.pointer, _id_getLast.pointer).object<$E?>();
+  $E? get last {
+    return _get$last(reference.pointer, _id_get$last.pointer).object<$E?>();
   }
 
   static final _id_hashCode$1 = JArrayList._class.instanceMethodId(
@@ -1147,12 +1147,12 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
         .integer;
   }
 
-  static final _id_isEmpty = JArrayList._class.instanceMethodId(
+  static final _id_get$isEmpty = JArrayList._class.instanceMethodId(
     r'isEmpty',
     r'()Z',
   );
 
-  static final _isEmpty = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isEmpty = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -1165,8 +1165,8 @@ extension JArrayList$$Methods<$E extends jni$_.JObject?> on JArrayList<$E> {
           )>();
 
   /// from: `public boolean isEmpty()`
-  core$_.bool isEmpty() {
-    return _isEmpty(reference.pointer, _id_isEmpty.pointer).boolean;
+  core$_.bool get isEmpty {
+    return _get$isEmpty(reference.pointer, _id_get$isEmpty.pointer).boolean;
   }
 
   static final _id_iterator = JArrayList._class.instanceMethodId(
@@ -4117,12 +4117,12 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
         .object<$V?>();
   }
 
-  static final _id_isEmpty = JHashMap._class.instanceMethodId(
+  static final _id_get$isEmpty = JHashMap._class.instanceMethodId(
     r'isEmpty',
     r'()Z',
   );
 
-  static final _isEmpty = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isEmpty = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -4135,8 +4135,8 @@ extension JHashMap$$Methods<$K extends jni$_.JObject?,
           )>();
 
   /// from: `public boolean isEmpty()`
-  core$_.bool isEmpty() {
-    return _isEmpty(reference.pointer, _id_isEmpty.pointer).boolean;
+  core$_.bool get isEmpty {
+    return _get$isEmpty(reference.pointer, _id_get$isEmpty.pointer).boolean;
   }
 
   static final _id_keySet = JHashMap._class.instanceMethodId(
@@ -5393,12 +5393,12 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
         .boolean;
   }
 
-  static final _id_isEmpty = JHashSet._class.instanceMethodId(
+  static final _id_get$isEmpty = JHashSet._class.instanceMethodId(
     r'isEmpty',
     r'()Z',
   );
 
-  static final _isEmpty = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isEmpty = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -5411,8 +5411,8 @@ extension JHashSet$$Methods<$E extends jni$_.JObject?> on JHashSet<$E> {
           )>();
 
   /// from: `public boolean isEmpty()`
-  core$_.bool isEmpty() {
-    return _isEmpty(reference.pointer, _id_isEmpty.pointer).boolean;
+  core$_.bool get isEmpty {
+    return _get$isEmpty(reference.pointer, _id_get$isEmpty.pointer).boolean;
   }
 
   static final _id_iterator = JHashSet._class.instanceMethodId(

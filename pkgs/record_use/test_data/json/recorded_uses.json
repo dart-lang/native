@@ -20,6 +20,13 @@
       "value": 42
     },
     {
+      "type": "double",
+      "value": {
+        "type": "number",
+        "value": 3.14
+      }
+    },
+    {
       "type": "string",
       "value": "42"
     },
@@ -34,17 +41,24 @@
       ]
     },
     {
+      "type": "set",
+      "value": [
+        4,
+        5
+      ]
+    },
+    {
       "type": "map",
       "value": [
         {
-          "key": 6,
+          "key": 7,
           "value": 3
         }
       ]
     },
     {
       "named": {
-        "a": 5
+        "a": 6
       },
       "positional": [
         4
@@ -109,17 +123,13 @@
       "name": "1"
     }
   ],
-  "metadata": {
-    "comment": "Recorded usages of objects tagged with a `RecordUse` annotation",
-    "version": "0.4.0"
-  },
   "uses": {
     "instances": [
       {
         "definition_index": 2,
         "uses": [
           {
-            "constant_index": 11,
+            "constant_index": 13,
             "loading_unit_index": 0,
             "type": "constant"
           }
@@ -133,22 +143,24 @@
           {
             "loading_unit_index": 0,
             "named": {
-              "a": 5,
+              "a": 6,
               "b": 3,
               "c": 4,
               "d": 0
             },
             "positional": [
-              5,
-              8,
+              6,
+              10,
               2,
               0,
               4,
-              11,
-              7,
+              13,
+              8,
               1,
-              9,
-              10
+              11,
+              12,
+              5,
+              9
             ],
             "type": "with_arguments"
           }

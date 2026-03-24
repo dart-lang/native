@@ -18,7 +18,8 @@ abstract interface class Declaration implements AstNode, Availability {
 }
 
 extension AsDeclaredType<T extends Declaration> on T {
-  DeclaredType<T> get asDeclaredType => DeclaredType(id: id, declaration: this);
+  DeclaredType<T> get asDeclaredType =>
+      DeclaredType(id: id, declaration: this, typeParams: []);
 }
 
 extension DeclarationExtensions on Declaration {
