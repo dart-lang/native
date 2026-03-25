@@ -165,6 +165,8 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
       - uses: ./.github/actions/java-format-check
+        with:
+          working-directory: ./pkgs/jni_flutter
       - run: flutter pub get
       - name: install dependencies for android test runner
         run: flutter pub get
