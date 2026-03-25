@@ -72,11 +72,4 @@ public class JniFlutterPlugin implements FlutterPlugin, ActivityAware {
   public void onDetachedFromActivity() {
     setActivity(null);
   }
-
-  static native void setClassLoader(ClassLoader classLoader);
-
-  static {
-    System.loadLibrary("dartjni");
-    setClassLoader(JniFlutterPlugin.class.getClassLoader());
-  }
 }

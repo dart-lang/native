@@ -48,3 +48,5 @@ flutter:
         ffiPlugin: true
       android:
         ffiPlugin: true
+        package: com.github.dart_lang.jni
+        pluginClass: JniPlugin
