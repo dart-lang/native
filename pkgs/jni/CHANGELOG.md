@@ -1,5 +1,9 @@
 ## 0.16.0-wip
 
+- **Breaking Change**: The Flutter specific APIs `Jni.androidApplicationContext`
+  and `Jni.androidActivity(int engineId)` have been moved to a new
+  package:jni_flutter. If you are using package:jni on Android you may need to
+  add this new package as a dependency.
 - **Breaking Change**: All Java wrapper classes have been migrated to extension
   types. The main effects are:
   - All collections (`JList`, `JMap` etc) are now direct code generated wrappers

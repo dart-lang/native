@@ -1,6 +1,6 @@
 name: jni_flutter
 description: A library to access Flutter Android specific APIs from Dart.
-version: 0.1.0-wip
+version: 1.0.0-wip
 publish_to: 'none'
 repository: https://github.com/dart-lang/native/tree/main/pkgs/jni_flutter
 issue_tracker: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Ajni_flutter
