@@ -16,7 +16,8 @@ import java.util.Objects;
 import java.util.concurrent.ConcurrentHashMap;
 
 public class JniFlutterPlugin implements FlutterPlugin, ActivityAware {
-  private static final ConcurrentHashMap<Long, JniFlutterPlugin> pluginMap = new ConcurrentHashMap<>();
+  private static final ConcurrentHashMap<Long, JniFlutterPlugin> pluginMap =
+      new ConcurrentHashMap<>();
 
   private long engineId;
 
