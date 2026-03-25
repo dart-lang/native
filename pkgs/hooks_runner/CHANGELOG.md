@@ -1,6 +1,6 @@
-## 1.1.1-wip
+## 1.1.1
 
-- Nothing yet.
+- Bump `package:record_use` to 0.6.0.
 
 ## 1.1.0
 
