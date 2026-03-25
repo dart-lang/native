@@ -22,8 +22,8 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('JByte', () {
     const val = 1 << 5;
     using((arena) {
-      expect(JByte(val).toDartByte(releaseOriginal: true), val);
-      expect((-val).toJByte().toDartByte(releaseOriginal: true), -val);
+      expect(JByte(val).toDartInt(releaseOriginal: true), val);
+      expect((-val).toJByte().toDartInt(releaseOriginal: true), -val);
     });
   });
   testRunner('JCharacter', () {
@@ -36,30 +36,31 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('JShort', () {
     const val = 1 << 10;
     using((arena) {
-      expect(JShort(val).toDartShort(releaseOriginal: true), val);
-      expect((-val).toJShort().toDartShort(releaseOriginal: true), -val);
+      expect(JShort(val).toDartInt(releaseOriginal: true), val);
+      expect((-val).toJShort().toDartInt(releaseOriginal: true), -val);
     });
   });
   testRunner('JInteger', () {
     const val = 1 << 20;
     using((arena) {
-      expect(JInteger(val).toDartInteger(releaseOriginal: true), val);
-      expect((-val).toJInteger().toDartInteger(releaseOriginal: true), -val);
+      expect(JInteger(val).toDartInt(releaseOriginal: true), val);
+      expect((-val).toJInteger().toDartInt(releaseOriginal: true), -val);
     });
   });
   testRunner('JLong', () {
     const val = 1 << 40;
     using((arena) {
-      expect(JLong(val).toDartLong(releaseOriginal: true), val);
-      expect((-val).toJLong().toDartLong(releaseOriginal: true), -val);
+      expect(JLong(val).toDartInt(releaseOriginal: true), val);
+      expect((-val).toJLong().toDartInt(releaseOriginal: true), -val);
     });
   });
   testRunner('JFloat', () {
     const val = 3.14;
     const eps = 1e-6;
     using((arena) {
-      expect(JFloat(val).toDartFloat(releaseOriginal: true), closeTo(val, eps));
-      expect((-val).toJFloat().toDartFloat(releaseOriginal: true),
+      expect(
+          JFloat(val).toDartDouble(releaseOriginal: true), closeTo(val, eps));
+      expect((-val).toJFloat().toDartDouble(releaseOriginal: true),
           closeTo(-val, eps));
     });
   });
@@ -77,6 +78,41 @@ void run({required TestRunnerCallback testRunner}) {
     using((arena) {
       expect(JBoolean(false).toDartBool(releaseOriginal: true), false);
       expect(JBoolean(true).toDartBool(releaseOriginal: true), true);
+    });
+  });
+  testRunner('JNumber conversion methods', () {
+    using((arena) {
+      final number = JInteger(42).as(JNumber.type, releaseOriginal: true);
+      expect(
+          number
+              .toJByte(releaseOriginal: false)
+              .toDartInt(releaseOriginal: true),
+          42);
+      expect(
+          number
+              .toJShort(releaseOriginal: false)
+              .toDartInt(releaseOriginal: true),
+          42);
+      expect(
+          number
+              .toJInteger(releaseOriginal: false)
+              .toDartInt(releaseOriginal: true),
+          42);
+      expect(
+          number
+              .toJLong(releaseOriginal: false)
+              .toDartInt(releaseOriginal: true),
+          42);
+      expect(
+          number
+              .toJFloat(releaseOriginal: false)
+              .toDartDouble(releaseOriginal: true),
+          closeTo(42.0, 1e-6));
+      expect(
+          number
+              .toJDouble(releaseOriginal: true)
+              .toDartDouble(releaseOriginal: true),
+          closeTo(42.0, 1e-9));
     });
   });
 }

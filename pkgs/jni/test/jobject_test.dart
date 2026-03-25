@@ -292,7 +292,7 @@ void run({required TestRunnerCallback testRunner}) {
   testRunner('Casting correctly succeeds', () {
     final long = JLong(1);
     final long2 = long.as(JLong.type, releaseOriginal: true);
-    expect(long2.toDartLong(releaseOriginal: true), 1);
+    expect(long2.toDartInt(releaseOriginal: true), 1);
   });
 
   testRunner('Casting incorrectly fails', () {

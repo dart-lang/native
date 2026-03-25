@@ -670,9 +670,9 @@ extension type EmojiCompat$GlyphChecker._(jni$_.JObject _$this)
       if ($d == r'hasGlyph(Ljava/lang/CharSequence;III)Z') {
         final $r = _$impls[$p]!.hasGlyph(
           ($a![0] as jni$_.JObject),
-          ($a![1] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
-          ($a![2] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
-          ($a![3] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
+          ($a![1] as jni$_.JInteger).toDartInt(releaseOriginal: true),
+          ($a![2] as jni$_.JInteger).toDartInt(releaseOriginal: true),
+          ($a![3] as jni$_.JInteger).toDartInt(releaseOriginal: true),
         );
         return $r.toJBoolean().reference.toPointer();
       }

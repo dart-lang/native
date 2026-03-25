@@ -5,72 +5,72 @@
 import '../core_bindings.dart';
 
 extension JNumberExtension on JNumber {
-  /// Returns the value as a Dart int.
+  /// Returns the value as a JByte.
   ///
   /// If [releaseOriginal] is true, the underlying reference is deleted
   /// after conversion and this object will be marked as released.
-  int toDartByte({bool releaseOriginal = false}) {
-    final ret = byteValue();
+  JByte toJByte({bool releaseOriginal = false}) {
+    final ret = JByte(byteValue());
     if (releaseOriginal) {
       release();
     }
     return ret;
   }
 
-  /// Returns the value as a Dart int.
+  /// Returns the value as a JShort.
   ///
   /// If [releaseOriginal] is true, the underlying reference is deleted
   /// after conversion and this object will be marked as released.
-  int toDartShort({bool releaseOriginal = false}) {
-    final ret = shortValue();
+  JShort toJShort({bool releaseOriginal = false}) {
+    final ret = JShort(shortValue());
     if (releaseOriginal) {
       release();
     }
     return ret;
   }
 
-  /// Returns the value as a Dart int.
+  /// Returns the value as a JInteger.
   ///
   /// If [releaseOriginal] is true, the underlying reference is deleted
   /// after conversion and this object will be marked as released.
-  int toDartInteger({bool releaseOriginal = false}) {
-    final ret = intValue();
+  JInteger toJInteger({bool releaseOriginal = false}) {
+    final ret = JInteger(intValue());
     if (releaseOriginal) {
       release();
     }
     return ret;
   }
 
-  /// Returns the value as a Dart int.
+  /// Returns the value as a JLong.
   ///
   /// If [releaseOriginal] is true, the underlying reference is deleted
   /// after conversion and this object will be marked as released.
-  int toDartLong({bool releaseOriginal = false}) {
-    final ret = longValue();
+  JLong toJLong({bool releaseOriginal = false}) {
+    final ret = JLong(longValue());
     if (releaseOriginal) {
       release();
     }
     return ret;
   }
 
-  /// Returns the value as a Dart double.
+  /// Returns the value as a JFloat.
   ///
   /// If [releaseOriginal] is true, the underlying reference is deleted
   /// after conversion and this object will be marked as released.
-  double toDartFloat({bool releaseOriginal = false}) {
-    final ret = floatValue();
+  JFloat toJFloat({bool releaseOriginal = false}) {
+    final ret = JFloat(floatValue());
     if (releaseOriginal) {
       release();
     }
     return ret;
   }
 
-  /// Returns the value as a Dart double.
+  /// Returns the value as a JDouble.
   ///
   /// If [releaseOriginal] is true, the underlying reference is deleted
   /// after conversion and this object will be marked as released.
-  double toDartDouble({bool releaseOriginal = false}) {
-    final ret = doubleValue();
+  JDouble toJDouble({bool releaseOriginal = false}) {
+    final ret = JDouble(doubleValue());
     if (releaseOriginal) {
       release();
     }

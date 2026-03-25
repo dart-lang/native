@@ -6,10 +6,10 @@ import 'dart:ffi';
 
 import 'package:meta/meta.dart' show internal;
 
+import 'core_bindings.dart';
 import 'jarray.dart';
 import 'jobject.dart';
 import 'jreference.dart';
-import 'lang/jstring.dart';
 import 'third_party/generated_bindings.dart';
 
 @internal

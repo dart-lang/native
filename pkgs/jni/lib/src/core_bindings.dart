@@ -23789,14 +23789,14 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'add(ILjava/lang/Object;)V') {
         _$impls[$p]!.add$1(
-          ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
+          ($a![0] as jni$_.JInteger).toDartInt(releaseOriginal: true),
           ($a![1] as jni$_.JObject?),
         );
         return jni$_.nullptr;
       }
       if ($d == r'addAll(ILjava/util/Collection;)Z') {
         final $r = _$impls[$p]!.addAll(
-          ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
+          ($a![0] as jni$_.JInteger).toDartInt(releaseOriginal: true),
           ($a![1] as JCollection<jni$_.JObject?>?),
         );
         return $r.toJBoolean().reference.toPointer();
@@ -23853,7 +23853,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'get(I)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.get(
-          ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
+          ($a![0] as jni$_.JInteger).toDartInt(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -23915,7 +23915,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'listIterator(I)Ljava/util/ListIterator;') {
         final $r = _$impls[$p]!.listIterator$1(
-          ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
+          ($a![0] as jni$_.JInteger).toDartInt(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -24096,7 +24096,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'remove(I)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.remove(
-          ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
+          ($a![0] as jni$_.JInteger).toDartInt(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -24154,7 +24154,7 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'set(ILjava/lang/Object;)Ljava/lang/Object;') {
         final $r = _$impls[$p]!.set(
-          ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
+          ($a![0] as jni$_.JInteger).toDartInt(releaseOriginal: true),
           ($a![1] as jni$_.JObject?),
         );
         return ($r as jni$_.JObject?)
@@ -24183,8 +24183,8 @@ extension type JList<$E extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'subList(II)Ljava/util/List;') {
         final $r = _$impls[$p]!.subList(
-          ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
-          ($a![1] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
+          ($a![0] as jni$_.JInteger).toDartInt(releaseOriginal: true),
+          ($a![1] as jni$_.JInteger).toDartInt(releaseOriginal: true),
         );
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())

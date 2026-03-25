@@ -1674,8 +1674,8 @@ class _InterfaceParamCast extends Visitor<Param, void> {
     s.write('(\$a![$paramIndex] as $type)');
     if (node.type is PrimitiveType) {
       // Convert to Dart type.
-      final boxedName = (node.type as PrimitiveType).boxedName;
-      s.write('.toDart$boxedName(releaseOriginal: true)');
+      final dartType = (node.type as PrimitiveType).dartType.capitalize();
+      s.write('.toDart$dartType(releaseOriginal: true)');
     }
   }
 }

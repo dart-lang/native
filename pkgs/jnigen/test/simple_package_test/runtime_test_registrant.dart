@@ -476,12 +476,12 @@ void registerTests(String groupName, TestRunnerCallback test) {
           parent,
           3.toJInteger(),
         )..releasedBy(arena);
-        expect(grandParent.value!.toDartInteger(releaseOriginal: true), 1);
-        expect(parent.parentValue!.toDartInteger(releaseOriginal: true), 1);
-        expect(parent.value!.toDartInteger(releaseOriginal: true), 2);
-        expect(child.grandParentValue!.toDartInteger(releaseOriginal: true), 1);
-        expect(child.parentValue!.toDartInteger(releaseOriginal: true), 2);
-        expect(child.value!.toDartInteger(releaseOriginal: true), 3);
+        expect(grandParent.value!.toDartInt(releaseOriginal: true), 1);
+        expect(parent.parentValue!.toDartInt(releaseOriginal: true), 1);
+        expect(parent.value!.toDartInt(releaseOriginal: true), 2);
+        expect(child.grandParentValue!.toDartInt(releaseOriginal: true), 1);
+        expect(child.parentValue!.toDartInt(releaseOriginal: true), 2);
+        expect(child.value!.toDartInt(releaseOriginal: true), 3);
       });
     });
 
@@ -505,7 +505,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
               },
               varCallback: (JInteger? t) {
                 final result =
-                    (t!.toDartInteger(releaseOriginal: true) * 2).toJInteger();
+                    (t!.toDartInt(releaseOriginal: true) * 2).toJInteger();
                 varCallbackResult.complete(result);
                 return result;
               },
@@ -619,12 +619,12 @@ void registerTests(String groupName, TestRunnerCallback test) {
               hexParser,
               'F'.toJString()..releasedBy(arena),
             )!;
-            expect(fifteen.toDartInteger(releaseOriginal: true), 15);
+            expect(fifteen.toDartInt(releaseOriginal: true), 15);
             final fortyTwo = StringConverterConsumer.consumeOnSameThread(
               decimalParser,
               '42'.toJString()..releasedBy(arena),
             )!;
-            expect(fortyTwo.toDartInteger(releaseOriginal: true), 42);
+            expect(fortyTwo.toDartInt(releaseOriginal: true), 42);
           });
         });
         for (final style in ['callback', 'implemented class']) {
@@ -839,7 +839,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(
             genericInterface
                 .firstOfGenericArray(intArray)!
-                .toDartInteger(releaseOriginal: true),
+                .toDartInt(releaseOriginal: true),
             42,
           );
 
@@ -849,9 +849,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           )!
             ..releasedBy(arena);
           expect(
-            jmap
-                .asDart()['hello'.toJString()..releasedBy(arena)]!
-                .toDartInteger(
+            jmap.asDart()['hello'.toJString()..releasedBy(arena)]!.toDartInt(
                   releaseOriginal: true,
                 ),
             42,
@@ -865,7 +863,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(
             genericInterface
                 .firstValueOf(jmap)!
-                .toDartInteger(releaseOriginal: true),
+                .toDartInt(releaseOriginal: true),
             42,
           );
         });

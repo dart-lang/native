@@ -4419,7 +4419,7 @@ extension type InheritedFromMyInterface._(jni$_.JObject _$this)
       }
       if ($d == r'manyPrimitives(IZCD)J') {
         final $r = _$impls[$p]!.manyPrimitives(
-          ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
+          ($a![0] as jni$_.JInteger).toDartInt(releaseOriginal: true),
           ($a![1] as jni$_.JBoolean).toDartBool(releaseOriginal: true),
           ($a![2] as jni$_.JCharacter).toDartInt(releaseOriginal: true),
           ($a![3] as jni$_.JDouble).toDartDouble(releaseOriginal: true),
@@ -4873,7 +4873,7 @@ extension type MyInterface<$T extends jni$_.JObject?>._(jni$_.JObject _$this)
       }
       if ($d == r'manyPrimitives(IZCD)J') {
         final $r = _$impls[$p]!.manyPrimitives(
-          ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
+          ($a![0] as jni$_.JInteger).toDartInt(releaseOriginal: true),
           ($a![1] as jni$_.JBoolean).toDartBool(releaseOriginal: true),
           ($a![2] as jni$_.JCharacter).toDartInt(releaseOriginal: true),
           ($a![3] as jni$_.JDouble).toDartDouble(releaseOriginal: true),
@@ -6759,7 +6759,7 @@ extension type Dog._(jni$_.JObject _$this)
       }
       if ($d == r'walk(I)I') {
         final $r = _$impls[$p]!.walk(
-          ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
+          ($a![0] as jni$_.JInteger).toDartInt(releaseOriginal: true),
         );
         return $r.toJInteger().reference.toPointer();
       }
@@ -6997,7 +6997,7 @@ extension type FourLegged._(jni$_.JObject _$this)
       final $a = $i.args;
       if ($d == r'walk(I)I') {
         final $r = _$impls[$p]!.walk(
-          ($a![0] as jni$_.JInteger).toDartInteger(releaseOriginal: true),
+          ($a![0] as jni$_.JInteger).toDartInt(releaseOriginal: true),
         );
         return $r.toJInteger().reference.toPointer();
       }
@@ -7368,6 +7368,130 @@ final class $Furry$Type$ extends jni$_.JType<Furry> {
   String get signature => r'Lcom/github/dart_lang/jnigen/inheritance/Furry;';
 }
 
+/// from: `com.github.dart_lang.jnigen.inheritance.GenericBase`
+extension type GenericBase<$T extends jni$_.JObject?,
+        $U extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static final _class = jni$_.JClass.forName(
+      r'com/github/dart_lang/jnigen/inheritance/GenericBase');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<GenericBase> type = $GenericBase$Type$();
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory GenericBase() {
+    return _new$(_class.reference.pointer, _id_new$.pointer)
+        .object<GenericBase<$T, $U>>();
+  }
+}
+
+extension GenericBase$$Methods<$T extends jni$_.JObject?,
+    $U extends jni$_.JObject?> on GenericBase<$T, $U> {
+  static final _id_field = GenericBase._class.instanceFieldId(
+    r'field',
+    r'Ljava/lang/Object;',
+  );
+
+  /// from: `public T field`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T? get field => _id_field.getNullable(this, jni$_.JObject.type) as $T?;
+
+  /// from: `public T field`
+  /// The returned object must be released after use, by calling the [release] method.
+  set field($T? value) => _id_field.set(this, jni$_.JObject.type, value);
+
+  static final _id_field2 = GenericBase._class.instanceFieldId(
+    r'field2',
+    r'Ljava/lang/Object;',
+  );
+
+  /// from: `public U field2`
+  /// The returned object must be released after use, by calling the [release] method.
+  $U? get field2 => _id_field2.getNullable(this, jni$_.JObject.type) as $U?;
+
+  /// from: `public U field2`
+  /// The returned object must be released after use, by calling the [release] method.
+  set field2($U? value) => _id_field2.set(this, jni$_.JObject.type, value);
+
+  static final _id_method = GenericBase._class.instanceMethodId(
+    r'method',
+    r'(Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _method = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public T method(T object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T? method(
+    $T? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _method(reference.pointer, _id_method.pointer, _$object.pointer)
+        .object<$T?>();
+  }
+
+  static final _id_method2 = GenericBase._class.instanceMethodId(
+    r'method2',
+    r'(Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _method2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public U method2(U object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $U? method2(
+    $U? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _method2(reference.pointer, _id_method2.pointer, _$object.pointer)
+        .object<$U?>();
+  }
+}
+
+final class $GenericBase$Type$ extends jni$_.JType<GenericBase> {
+  @jni$_.internal
+  const $GenericBase$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/inheritance/GenericBase;';
+}
+
 /// from: `com.github.dart_lang.jnigen.inheritance.GenericDerivedClass`
 extension type GenericDerivedClass<$T extends jni$_.JObject?>._(
     jni$_.JObject _$this) implements BaseClass<$T?> {
@@ -7410,6 +7534,160 @@ final class $GenericDerivedClass$Type$
   @core$_.override
   String get signature =>
       r'Lcom/github/dart_lang/jnigen/inheritance/GenericDerivedClass;';
+}
+
+/// from: `com.github.dart_lang.jnigen.inheritance.GenericSubclass`
+extension type GenericSubclass<$T extends jni$_.JObject?,
+        $U extends jni$_.JObject?>._(jni$_.JObject _$this)
+    implements GenericBase<$T?, $U?> {
+  static final _class = jni$_.JClass.forName(
+      r'com/github/dart_lang/jnigen/inheritance/GenericSubclass');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<GenericSubclass> type = $GenericSubclass$Type$();
+  static final _id_new$ = _class.constructorId(
+    r'()V',
+  );
+
+  static final _new$ = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                jni$_.Pointer<jni$_.Void>,
+                jni$_.JMethodIDPtr,
+              )>>('globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(
+            jni$_.Pointer<jni$_.Void>,
+            jni$_.JMethodIDPtr,
+          )>();
+
+  /// from: `public void <init>()`
+  /// The returned object must be released after use, by calling the [release] method.
+  factory GenericSubclass() {
+    return _new$(_class.reference.pointer, _id_new$.pointer)
+        .object<GenericSubclass<$T, $U>>();
+  }
+}
+
+extension GenericSubclass$$Methods<$T extends jni$_.JObject?,
+    $U extends jni$_.JObject?> on GenericSubclass<$T, $U> {
+  static final _id_method = GenericSubclass._class.instanceMethodId(
+    r'method',
+    r'(Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _method = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public T method(T object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T? method(
+    $T? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _method(reference.pointer, _id_method.pointer, _$object.pointer)
+        .object<$T?>();
+  }
+
+  static final _id_method2 = GenericSubclass._class.instanceMethodId(
+    r'method2',
+    r'(Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _method2 = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public U method2(U object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $U? method2(
+    $U? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _method2(reference.pointer, _id_method2.pointer, _$object.pointer)
+        .object<$U?>();
+  }
+
+  static final _id_methodReturningNullableT =
+      GenericSubclass._class.instanceMethodId(
+    r'methodReturningNullableT',
+    r'(Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _methodReturningNullableT = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public T methodReturningNullableT(T object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T? methodReturningNullableT(
+    $T? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _methodReturningNullableT(reference.pointer,
+            _id_methodReturningNullableT.pointer, _$object.pointer)
+        .object<$T?>();
+  }
+
+  static final _id_methodReturningNotNullU =
+      GenericSubclass._class.instanceMethodId(
+    r'methodReturningNotNullU',
+    r'(Ljava/lang/Object;)Ljava/lang/Object;',
+  );
+
+  static final _methodReturningNotNullU = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public U methodReturningNotNullU(U object)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $U? methodReturningNotNullU(
+    $U? object,
+  ) {
+    final _$object = object?.reference ?? jni$_.jNullReference;
+    return _methodReturningNotNullU(reference.pointer,
+            _id_methodReturningNotNullU.pointer, _$object.pointer)
+        .object<$U?>();
+  }
+}
+
+final class $GenericSubclass$Type$ extends jni$_.JType<GenericSubclass> {
+  @jni$_.internal
+  const $GenericSubclass$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/inheritance/GenericSubclass;';
 }
 
 /// from: `com.github.dart_lang.jnigen.inheritance.Mammal`
