@@ -168,6 +168,9 @@ jobs:
         with:
           working-directory: ./pkgs/jni_flutter
       - run: flutter pub get
+      - name: install dependencies for android test runner
+        run: flutter pub get
+        working-directory: ./pkgs/jni_flutter/android_test_runner
       - name: Check formatting
         run: dart format --output=none --set-exit-if-changed .
       - name: Run lints
