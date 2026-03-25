@@ -5,7 +5,7 @@
 import '../core_bindings.dart';
 
 extension JNumberExtension on JNumber {
-  /// Returns the value as a JByte.
+  /// Coerces the value to a JByte.
   ///
   /// If [releaseOriginal] is true, the underlying reference is deleted
   /// after conversion and this object will be marked as released.
@@ -17,7 +17,7 @@ extension JNumberExtension on JNumber {
     return ret;
   }
 
-  /// Returns the value as a JShort.
+  /// Coerces the value to a JShort.
   ///
   /// If [releaseOriginal] is true, the underlying reference is deleted
   /// after conversion and this object will be marked as released.
@@ -29,7 +29,7 @@ extension JNumberExtension on JNumber {
     return ret;
   }
 
-  /// Returns the value as a JInteger.
+  /// Coerces the value to a JInteger.
   ///
   /// If [releaseOriginal] is true, the underlying reference is deleted
   /// after conversion and this object will be marked as released.
@@ -41,7 +41,7 @@ extension JNumberExtension on JNumber {
     return ret;
   }
 
-  /// Returns the value as a JLong.
+  /// Coerces the value to a JLong.
   ///
   /// If [releaseOriginal] is true, the underlying reference is deleted
   /// after conversion and this object will be marked as released.
@@ -53,7 +53,7 @@ extension JNumberExtension on JNumber {
     return ret;
   }
 
-  /// Returns the value as a JFloat.
+  /// Coerces the value to a JFloat.
   ///
   /// If [releaseOriginal] is true, the underlying reference is deleted
   /// after conversion and this object will be marked as released.
@@ -65,7 +65,7 @@ extension JNumberExtension on JNumber {
     return ret;
   }
 
-  /// Returns the value as a JDouble.
+  /// Coerces the value to a JDouble.
   ///
   /// If [releaseOriginal] is true, the underlying reference is deleted
   /// after conversion and this object will be marked as released.
