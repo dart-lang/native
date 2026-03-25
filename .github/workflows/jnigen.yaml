@@ -165,8 +165,6 @@ jobs:
           distribution: 'zulu'
           java-version: '17'
       - uses: ./.github/actions/java-format-check
-        with:
-          working-directory: ./pkgs/jni_flutter
       - run: flutter pub get
       - name: install dependencies for android test runner
         run: flutter pub get
@@ -192,9 +190,9 @@ jobs:
       - name: Install dependencies
         run: flutter pub get
       - name: building the test runner project succeeds
-        working-directory: ./pkgs/jni_flutter/android_test_runner/
         run: flutter build apk
       - name: regenerate & compare jni_flutter bindings
+        working-directory: ./pkgs/jni_flutter
         run: |
           dart run tool/generate_jni_bindings.dart
           git diff --exit-code -- lib/src
@@ -209,7 +207,6 @@ jobs:
           api-level: 26
           arch: x86_64
           script: flutter test --timeout=1200s
-          working-directory: ./pkgs/jni_flutter/android_test_runner
 
   analyze_jni:
     runs-on: ubuntu-latest
