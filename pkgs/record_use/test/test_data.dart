@@ -9,20 +9,18 @@ import 'package:record_use/record_use.dart';
 import 'package:record_use/src/canonicalization_context.dart';
 import 'package:record_use/src/recordings.dart';
 
-const callId = Definition(
-  'package:js_runtime/js_helper.dart',
-  [
-    Name('MyClass', kind: DefinitionKind.classKind),
-    Name('loadDeferredLibrary', kind: DefinitionKind.getterKind),
-  ],
+const callId = Getter(
+  'loadDeferredLibrary',
+  Class('MyClass', Library('package:js_runtime/js_helper.dart')),
+  isInstanceMember: false,
 );
-const instanceId = Definition(
-  'package:js_runtime/js_helper.dart',
-  [Name('MyAnnotation', kind: DefinitionKind.classKind)],
+const instanceId = Class(
+  'MyAnnotation',
+  Library('package:js_runtime/js_helper.dart'),
 );
-const enumId = Definition(
-  'package:js_runtime/js_helper.dart',
-  [Name('MyEnum', kind: DefinitionKind.enumKind)],
+const enumId = Enum(
+  'MyEnum',
+  Library('package:js_runtime/js_helper.dart'),
 );
 
 const loadingUnitOJs = LoadingUnit('o.js');

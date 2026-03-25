@@ -6,9 +6,9 @@ import 'package:record_use/record_use.dart';
 import 'package:test/test.dart';
 
 void main() {
-  const classDefinition = Definition(
-    'package:test/test.dart',
-    [Name('MyClass', kind: .classKind)],
+  const classDefinition = Class(
+    'MyClass',
+    Library('package:test/test.dart'),
   );
 
   test('MapConstant with InstanceConstant keys round-trip', () {
@@ -24,9 +24,9 @@ void main() {
       MapEntry(instanceKey, StringConstant('value')),
     ]);
 
-    const definition = Definition(
-      'package:test/test.dart',
-      [Name('testMethod', kind: .methodKind)],
+    const definition = Method(
+      'testMethod',
+      Library('package:test/test.dart'),
     );
 
     final recordings = Recordings(
@@ -90,9 +90,9 @@ void main() {
       MapEntry(recordKey, IntConstant(5)),
     ]);
 
-    const definition = Definition(
-      'package:test/test.dart',
-      [Name('complexMethod', kind: DefinitionKind.methodKind)],
+    const definition = Method(
+      'complexMethod',
+      Library('package:test/test.dart'),
     );
 
     final recordings = Recordings(

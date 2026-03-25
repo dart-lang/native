@@ -29,6 +29,9 @@
     {
       "path": [
         {
+          "disambiguators": [
+            "static"
+          ],
           "kind": "method",
           "name": "recorded"
         }

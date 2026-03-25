@@ -32,7 +32,7 @@ class TokenList extends Iterable<Json> {
 
   @visibleForTesting
   static Iterable<Json> splitToken(Json token) sync* {
-    const splittables = ['(', ')', '?', ',', '->'];
+    const splittables = ['(', ')', '?', ',', '->', '<', '>'];
     Json textToken(String text) =>
         Json({'kind': 'text', 'spelling': text}, token.pathSegments);
 
