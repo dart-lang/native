@@ -16,6 +16,10 @@
   - changed-files:
     - any-glob-to-any-file: 'pkgs/jni/**'
 
+'package:jni_flutter':
+  - changed-files:
+    - any-glob-to-any-file: 'pkgs/jni_flutter/**'
+
 'package:jnigen':
   - changed-files:
     - any-glob-to-any-file: 'pkgs/jnigen/**'
