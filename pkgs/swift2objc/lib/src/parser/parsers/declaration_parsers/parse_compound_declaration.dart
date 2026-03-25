@@ -5,6 +5,7 @@
 import '../../../ast/_core/interfaces/availability.dart';
 import '../../../ast/_core/interfaces/compound_declaration.dart';
 import '../../../ast/_core/interfaces/declaration.dart';
+import '../../../ast/_core/interfaces/is_extension_member.dart';
 import '../../../ast/_core/interfaces/nestable_declaration.dart';
 import '../../../ast/declarations/compounds/class_declaration.dart';
 import '../../../ast/declarations/compounds/extension_declaration.dart';
@@ -55,38 +56,25 @@ ParsedCompound<T> parseCompoundDeclaration<T extends CompoundDeclaration>(
         final isMemeberOfCompound = relation.targetId == compoundId;
         return isMembershipRelation && isMemeberOfCompound;
       })
-      .map((relation) {
+      .expand((relation) {
         final memberSymbol = symbolgraph.symbols[relation.sourceId];
         if (memberSymbol == null) {
-          return null;
+          return <Declaration>[];
         }
         return tryParseDeclaration(context, memberSymbol, symbolgraph);
       })
-      .nonNulls
       .dedupeBy((decl) => decl.id)
       .toList();
 
-  // Separate extension members from regular members
-  final extensionMethods = memberDeclarations
-      .whereType<MethodDeclaration>()
-      .where((m) => m.isExtensionMember)
-      .toList();
-  final extensionProperties = memberDeclarations
-      .whereType<PropertyDeclaration>()
-      .where((p) => p.isExtensionMember)
-      .toList();
-  final extensionInitializers = memberDeclarations
-      .whereType<InitializerDeclaration>()
-      .where((i) => i.isExtensionMember)
-      .toList();
-
-  final firstExtMember = extensionMethods.isNotEmpty
-      ? extensionMethods.first
-      : extensionProperties.isNotEmpty
-      ? extensionProperties.first
-      : extensionInitializers.isNotEmpty
-      ? extensionInitializers.first
-      : null;
+  final extensionMembers = <Declaration>[];
+  memberDeclarations.removeWhere((d) {
+    if (d is IsExtensionMember && (d as IsExtensionMember).isExtensionMember) {
+      extensionMembers.add(d);
+      return true;
+    }
+    return false;
+  });
+  final firstExtMember = extensionMembers.firstOrNull;
 
   if (firstExtMember != null) {
     final isExternal =
@@ -107,50 +95,46 @@ ParsedCompound<T> parseCompoundDeclaration<T extends CompoundDeclaration>(
           source: compound.source,
           availability: compound.availability,
           extendedType: compound.asDeclaredType,
-          methods: extensionMethods,
-          properties: extensionProperties,
-          initializers: extensionInitializers,
+          methods: extensionMembers.whereType<MethodDeclaration>().toList(),
+          properties: extensionMembers
+              .whereType<PropertyDeclaration>()
+              .toList(),
+          initializers: extensionMembers
+              .whereType<InitializerDeclaration>()
+              .toList(),
         ),
       );
     }
   }
 
-  // Only add non-extension members to the compound
-  final regularMembers = memberDeclarations.where((d) {
-    if (d is MethodDeclaration) return !d.isExtensionMember;
-    if (d is PropertyDeclaration) return !d.isExtensionMember;
-    if (d is InitializerDeclaration) return !d.isExtensionMember;
-    return true;
-  }).toList();
-
   compound.methods.addAll(
-    regularMembers.removeWhereType<MethodDeclaration>().dedupeBy(
+    memberDeclarations.removeWhereType<MethodDeclaration>().dedupeBy(
       (m) => m.fullName,
     ),
   );
   compound.properties.addAll(
-    regularMembers.removeWhereType<PropertyDeclaration>(),
+    memberDeclarations.removeWhereType<PropertyDeclaration>(),
   );
   compound.initializers.addAll(
-    regularMembers.removeWhereType<InitializerDeclaration>().dedupeBy(
+    memberDeclarations.removeWhereType<InitializerDeclaration>().dedupeBy(
       (m) => m.fullName,
     ),
   );
   compound.nestedDeclarations.addAll(
-    regularMembers.removeWhereType<InnerNestableDeclaration>(),
+    memberDeclarations.removeWhereType<InnerNestableDeclaration>(),
   );
 
   compound.nestedDeclarations.fillNestingParents(compound);
 
-  return (compound: compound, excessMembers: regularMembers);
+  return (compound: compound, excessMembers: memberDeclarations);
 }
 
-ClassDeclaration parseClassDeclaration(
+List<Declaration> parseClassDeclaration(
   Context context,
   ParsedSymbol classSymbol,
   ParsedSymbolgraph symbolgraph,
 ) {
-  return parseCompoundDeclaration(
+  parseCompoundDeclaration(
     context,
     classSymbol,
     symbolgraph,
@@ -169,17 +153,18 @@ ClassDeclaration parseClassDeclaration(
       initializers: [],
       nestedDeclarations: [],
     ),
-  ).compound;
+  );
+  return classSymbol.declarations;
 }
 
-StructDeclaration parseStructDeclaration(
+List<Declaration> parseStructDeclaration(
   Context context,
-  ParsedSymbol classSymbol,
+  ParsedSymbol structSymbol,
   ParsedSymbolgraph symbolgraph,
 ) {
-  return parseCompoundDeclaration(
+  parseCompoundDeclaration(
     context,
-    classSymbol,
+    structSymbol,
     symbolgraph,
     ({
       required String id,
@@ -196,5 +181,6 @@ StructDeclaration parseStructDeclaration(
       initializers: [],
       nestedDeclarations: [],
     ),
-  ).compound;
+  );
+  return structSymbol.declarations;
 }

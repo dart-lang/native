@@ -3,7 +3,6 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../ast/_core/interfaces/declaration.dart';
-import '../../ast/declarations/compounds/extension_declaration.dart';
 import '../../config.dart';
 import '../../context.dart';
 import '../_core/parsed_symbolgraph.dart';
@@ -32,38 +31,26 @@ List<Declaration> parseDeclarations(
   final declarations = <Declaration>[];
 
   for (final symbol in symbolgraph.symbols.values) {
-    final declaration = tryParseDeclaration(context, symbol, symbolgraph);
-    if (declaration != null) {
-      declarations.add(declaration);
-    }
+    declarations.addAll(tryParseDeclaration(context, symbol, symbolgraph));
   }
 
-  // Collect ExtensionDeclarations that were created during compound parsing
-  // and stored on their symbols.
-  final extensions = symbolgraph.symbols.values
-      .expand((s) => s.declarations)
-      .whereType<ExtensionDeclaration>()
-      .toList();
-
-  declarations.addAll(extensions);
   return declarations.topLevelOnly;
 }
 
-Declaration parseDeclaration(
+List<Declaration> parseDeclaration(
   Context context,
   ParsedSymbol parsedSymbol,
   ParsedSymbolgraph symbolgraph,
 ) {
   if (parsedSymbol.declarations.isNotEmpty) {
-    return parsedSymbol.declarations.first;
+    return parsedSymbol.declarations;
   }
 
   final symbolJson = parsedSymbol.json;
 
   final builtIn = tryParseBuiltInDeclaration(parsedSymbol);
   if (builtIn != null) {
-    parsedSymbol.declarations = [builtIn];
-    return builtIn;
+    return parsedSymbol.declarations = [builtIn];
   }
 
   if (isObsoleted(symbolJson)) {
@@ -72,80 +59,80 @@ Declaration parseDeclaration(
 
   final symbolType = symbolJson['kind']['identifier'].get<String>();
 
-  final decl = switch (symbolType) {
+  parsedSymbol.declarations = switch (symbolType) {
     'swift.class' => parseClassDeclaration(context, parsedSymbol, symbolgraph),
     'swift.struct' => parseStructDeclaration(
       context,
       parsedSymbol,
       symbolgraph,
     ),
-    'swift.method' => parseMethodDeclaration(
-      context,
-      parsedSymbol,
-      symbolgraph,
-      isStatic: false,
-    ),
-    'swift.type.method' => parseMethodDeclaration(
-      context,
-      parsedSymbol,
-      symbolgraph,
-      isStatic: true,
-    ),
-    'swift.func.op' => parseMethodDeclaration(
-      context,
-      parsedSymbol,
-      symbolgraph,
-      isStatic: true,
-      isOperator: true,
-    ),
-    'swift.property' => parsePropertyDeclaration(
-      context,
-      parsedSymbol,
-      symbolgraph,
-      isStatic: false,
-    ),
-    'swift.type.property' => parsePropertyDeclaration(
-      context,
-      parsedSymbol,
-      symbolgraph,
-      isStatic: true,
-    ),
-    'swift.init' => parseInitializerDeclaration(
-      context,
-      parsedSymbol,
-      symbolgraph,
-    ),
-    'swift.func' => parseGlobalFunctionDeclaration(
-      context,
-      parsedSymbol,
-      symbolgraph,
-    ),
-    'swift.var' => parseGlobalVariableDeclaration(
-      context,
-      parsedSymbol,
-      symbolgraph,
-    ),
-    'swift.typealias' => parseTypealiasDeclaration(
-      context,
-      parsedSymbol,
-      symbolgraph,
-    ),
+    'swift.method' => [
+      parseMethodDeclaration(
+        context,
+        parsedSymbol,
+        symbolgraph,
+        isStatic: false,
+      ),
+    ],
+    'swift.type.method' => [
+      parseMethodDeclaration(
+        context,
+        parsedSymbol,
+        symbolgraph,
+        isStatic: true,
+      ),
+    ],
+    'swift.func.op' => [
+      parseMethodDeclaration(
+        context,
+        parsedSymbol,
+        symbolgraph,
+        isStatic: true,
+        isOperator: true,
+      ),
+    ],
+    'swift.property' => [
+      parsePropertyDeclaration(
+        context,
+        parsedSymbol,
+        symbolgraph,
+        isStatic: false,
+      ),
+    ],
+    'swift.type.property' => [
+      parsePropertyDeclaration(
+        context,
+        parsedSymbol,
+        symbolgraph,
+        isStatic: true,
+      ),
+    ],
+    'swift.init' => [
+      parseInitializerDeclaration(context, parsedSymbol, symbolgraph),
+    ],
+    'swift.func' => [
+      parseGlobalFunctionDeclaration(context, parsedSymbol, symbolgraph),
+    ],
+    'swift.var' => [
+      parseGlobalVariableDeclaration(context, parsedSymbol, symbolgraph),
+    ],
+    'swift.typealias' => [
+      parseTypealiasDeclaration(context, parsedSymbol, symbolgraph),
+    ],
     'swift.enum' => parseEnumDeclaration(context, parsedSymbol, symbolgraph),
-    'swift.enum.case' => parseEnumCaseDeclaration(
-      context,
-      parsedSymbol,
-      symbolgraph,
-    ),
+    'swift.enum.case' => [
+      parseEnumCaseDeclaration(context, parsedSymbol, symbolgraph),
+    ],
     _ => throw UnsupportedSymbolException(
       'Symbol of type $symbolType is not supported yet: '
       '${parseSymbolId(symbolJson)}',
     ),
   };
 
-  return decl;
+  return parsedSymbol.declarations;
 }
 
-Declaration? tryParseDeclaration(
+List<Declaration> tryParseDeclaration(
   Context context,
   ParsedSymbol parsedSymbol,
   ParsedSymbolgraph symbolgraph,
@@ -161,5 +148,5 @@ Declaration? tryParseDeclaration(
       }
     }
   }
-  return null;
+  return [];
 }
