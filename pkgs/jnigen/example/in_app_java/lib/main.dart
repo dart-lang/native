@@ -11,7 +11,7 @@ import 'package:jni_flutter/jni_flutter.dart';
 // structure.
 import 'android_utils.g.dart';
 
-JObject context = JniFlutter.androidApplicationContext;
+JObject context = androidApplicationContext;
 
 final hashmap = HashMap<JString, JString>();
 
@@ -40,7 +40,7 @@ void showToast() {
   final message =
       '${newToastCount.toDartString()} - ${Build.MODEL!.toDartString()} $emoji';
   AndroidUtils.showToast(
-    JniFlutter.androidActivity(PlatformDispatcher.instance.engineId!),
+    androidActivity(PlatformDispatcher.instance.engineId!),
     message.toJString(),
     0,
   );

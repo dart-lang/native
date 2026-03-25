@@ -18,7 +18,7 @@ void showNotification(String title, String text) {
   var jTitle = JString.fromString(title);
   var jText = JString.fromString(text);
   Notifications.showNotification(
-    JniFlutter.androidActivity(PlatformDispatcher.instance.engineId!),
+    androidActivity(PlatformDispatcher.instance.engineId!),
     i,
     jTitle,
     jText,

@@ -19,7 +19,8 @@ Future<void> main() async {
     Config(
       androidSdkConfig: AndroidSdkConfig(
         addGradleDeps: true,
-        androidExample: packageRoot.resolve('android_test_runner/').toFilePath(),
+        androidExample:
+            packageRoot.resolve('android_test_runner/').toFilePath(),
       ),
       outputConfig: OutputConfig(
         dartConfig: DartCodeOutputConfig(

@@ -14,7 +14,7 @@ void main() {
   testWidgets('androidApplicationContext does not throw', (tester) async {
     if (Platform.isAndroid) {
       // This will only work on a real device or emulator
-      expect(() => JniFlutter.androidApplicationContext, returnsNormally);
+      expect(() => androidApplicationContext, returnsNormally);
     }
   });
 }

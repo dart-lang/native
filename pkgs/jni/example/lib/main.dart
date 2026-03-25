@@ -32,8 +32,7 @@ String backAndForth() {
 }
 
 void quit() {
-  final activity =
-      JniFlutter.androidActivity(PlatformDispatcher.instance.engineId!);
+  final activity = androidActivity(PlatformDispatcher.instance.engineId!);
   if (activity == null) return;
   activity.jClass
       .instanceMethodId("finish", "()V")
@@ -42,8 +41,7 @@ void quit() {
 }
 
 void showToast(String text) {
-  final activity =
-      JniFlutter.androidActivity(PlatformDispatcher.instance.engineId!);
+  final activity = androidActivity(PlatformDispatcher.instance.engineId!);
   if (activity == null) return;
   final toasterClass =
       JClass.forName('com/github/dart_lang/jni_example/Toaster');
@@ -52,7 +50,7 @@ void showToast(String text) {
       '(Landroid/app/Activity;Landroid/content/Context;'
           'Ljava/lang/CharSequence;I)'
           'Lcom/github/dart_lang/jni_example/Toaster;');
-  final applicationContext = JniFlutter.androidApplicationContext;
+  final applicationContext = androidApplicationContext;
   final toaster = makeText(toasterClass, JObject.type, [
     activity,
     applicationContext,
@@ -89,7 +87,7 @@ void main() {
         "Package name",
         () {
           final activity =
-              JniFlutter.androidActivity(PlatformDispatcher.instance.engineId!);
+              androidActivity(PlatformDispatcher.instance.engineId!);
           if (activity == null) return "Activity not available";
           final packageName = activity.jClass
               .instanceMethodId("getPackageName", "()Ljava/lang/String;")
