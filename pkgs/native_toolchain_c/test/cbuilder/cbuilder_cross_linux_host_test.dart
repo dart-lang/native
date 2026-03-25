@@ -11,8 +11,46 @@ import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
+import 'package:test_case_selector/test_case_selector.dart';
 
 import '../helpers.dart';
+
+/// This comment is generated. To regenerate, run:
+/// `REGENERATE_TEST_CONFIGS=true dart test`
+///
+/// | #   | Architecture | Link Mode | Optimization Level |
+/// |-----|--------------|-----------|--------------------|
+/// | 1   | arm          | bundled   | unspecified        |
+/// | 2   | arm          | static    | O0                 |
+/// | 3   | arm64        | bundled   | O2                 |
+/// | 4   | arm64        | static    | unspecified        |
+/// | 5   | ia32         | bundled   | O3                 |
+/// | 6   | ia32         | static    | Os                 |
+/// | 7   | riscv64      | bundled   | O0                 |
+/// | 8   | riscv64      | static    | O2                 |
+/// | 9   | x64          | bundled   | O1                 |
+/// | 10  | x64          | static    | O2                 |
+final configurations =
+    TestCaseSelector(
+      dimensions: {
+        Architecture: [
+          Architecture.arm,
+          Architecture.arm64,
+          Architecture.ia32,
+          Architecture.x64,
+          Architecture.riscv64,
+        ],
+        LinkMode: [DynamicLoadingBundled(), StaticLinking()],
+        OptimizationLevel: OptimizationLevel.values,
+      },
+      interactionGroups: [
+        {Architecture, LinkMode},
+      ],
+    ).selectAndValidate(
+      tableUri: packageUri.resolve(
+        'test/cbuilder/cbuilder_cross_linux_host_test.dart',
+      ),
+    );
 
 void main() {
   if (!Platform.isLinux) {
@@ -20,46 +58,12 @@ void main() {
     return;
   }
 
-  // These configurations are a selection of combinations of architectures,
-  // link modes, and optimization levels.
-  // We don't test the full cartesian product to keep the CI time manageable.
-  // When adding a new configuration, consider if it tests a new combination
-  // that is not yet covered by the existing tests.
-  final configurations = [
-    (
-      linkMode: DynamicLoadingBundled(),
-      target: Architecture.arm,
-      optimizationLevel: OptimizationLevel.o0,
-    ),
-    (
-      linkMode: StaticLinking(),
-      target: Architecture.arm64,
-      optimizationLevel: OptimizationLevel.o1,
-    ),
-    (
-      linkMode: DynamicLoadingBundled(),
-      target: Architecture.ia32,
-      optimizationLevel: OptimizationLevel.o2,
-    ),
-    (
-      linkMode: StaticLinking(),
-      target: Architecture.x64,
-      optimizationLevel: OptimizationLevel.o3,
-    ),
-    (
-      linkMode: DynamicLoadingBundled(),
-      target: Architecture.riscv64,
-      optimizationLevel: OptimizationLevel.oS,
-    ),
-    (
-      linkMode: StaticLinking(),
-      target: Architecture.arm,
-      optimizationLevel: OptimizationLevel.unspecified,
-    ),
-  ];
+  for (final config in configurations) {
+    final linkMode = config.get<LinkMode>();
+    final target = config.get<Architecture>();
+    final optimizationLevel = config.get<OptimizationLevel>();
 
-  for (final (:linkMode, :target, :optimizationLevel) in configurations) {
-    test('CBuilder $linkMode library $target $optimizationLevel', () async {
+    test('CBuilder $target $linkMode $optimizationLevel', () async {
       final tempUri = await tempDirForTest();
       final tempUri2 = await tempDirForTest();
       final addCUri = packageUri.resolve(
