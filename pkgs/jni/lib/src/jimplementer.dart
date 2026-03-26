@@ -31,18 +31,21 @@ class JImplementer extends JObject {
   static final _class =
       JClass.forName(r'com/github/dart_lang/jni/PortProxyBuilder');
 
-  static final _newId = _class.constructorId(r'(J)V');
+  static final _newId = _class.constructorId(r'(JJ)V');
 
   static final _new = ProtectedJniExtensions.lookup<
           NativeFunction<
               JniResult Function(Pointer<Void>, JMethodIDPtr,
-                  VarArgs<(Int64,)>)>>('globalEnv_NewObject')
-      .asFunction<JniResult Function(Pointer<Void>, JMethodIDPtr, int)>();
+                  VarArgs<(Int64, Int64)>)>>('globalEnv_NewObject')
+      .asFunction<JniResult Function(Pointer<Void>, JMethodIDPtr, int, int)>();
 
   factory JImplementer() {
     ProtectedJniExtensions.ensureInitialized();
-    return JImplementer.fromReference(_new(_class.reference.pointer,
-            _newId.pointer, ProtectedJniExtensions.getCurrentIsolateId())
+    return JImplementer.fromReference(_new(
+            _class.reference.pointer,
+            _newId.pointer,
+            ProtectedJniExtensions.getCurrentIsolateId(),
+            ProtectedJniExtensions.getMainPortId())
         .reference);
   }
 
