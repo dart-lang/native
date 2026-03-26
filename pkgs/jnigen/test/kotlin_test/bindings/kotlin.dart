@@ -35,7 +35,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' as core$_;
-import 'dart:core' show Object, String, double, int;
+import 'dart:core' show Object, String;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
@@ -49,9 +49,9 @@ extension type CanDoA._(jni$_.JObject _$this) implements jni$_.JObject {
   static const jni$_.JType<CanDoA> type = $CanDoA$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $CanDoA> _$impls = {};
+  static final core$_.Map<core$_.int, $CanDoA> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -72,7 +72,7 @@ extension type CanDoA._(jni$_.JObject _$this) implements jni$_.JObject {
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -190,9 +190,9 @@ extension type CanDoB._(jni$_.JObject _$this) implements jni$_.JObject {
   static const jni$_.JType<CanDoB> type = $CanDoB$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $CanDoB> _$impls = {};
+  static final core$_.Map<core$_.int, $CanDoB> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -213,7 +213,7 @@ extension type CanDoB._(jni$_.JObject _$this) implements jni$_.JObject {
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -351,7 +351,7 @@ extension Measure$$Methods<$T extends jni$_.JObject> on Measure<$T> {
           )>();
 
   /// from: `public float getValue()`
-  double get value {
+  core$_.double get value {
     return _get$value(reference.pointer, _id_get$value.pointer).float;
   }
 
@@ -395,7 +395,7 @@ extension Measure$$Methods<$T extends jni$_.JObject> on Measure<$T> {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public fun convertValue(unit: T): kotlin.Float`
-  double convertValue(
+  core$_.double convertValue(
     $T measureUnit,
   ) {
     final _$measureUnit = measureUnit.reference;
@@ -423,9 +423,9 @@ extension type MeasureUnit._(jni$_.JObject _$this) implements jni$_.JObject {
   static const jni$_.JType<MeasureUnit> type = $MeasureUnit$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $MeasureUnit> _$impls = {};
+  static final core$_.Map<core$_.int, $MeasureUnit> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -446,7 +446,7 @@ extension type MeasureUnit._(jni$_.JObject _$this) implements jni$_.JObject {
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -462,7 +462,7 @@ extension type MeasureUnit._(jni$_.JObject _$this) implements jni$_.JObject {
       }
       if ($d == r'getCoefficient()F') {
         final $r = _$impls[$p]!.getCoefficient();
-        return jni$_.JFloat($r).reference.toPointer();
+        return $r.toJFloat().reference.toPointer();
       }
     } catch (e) {
       return jni$_.ProtectedJniExtensions.newDartException(e);
@@ -547,7 +547,7 @@ extension MeasureUnit$$Methods on MeasureUnit {
           )>();
 
   /// from: `public abstract float getCoefficient()`
-  double getCoefficient() {
+  core$_.double getCoefficient() {
     return _getCoefficient(reference.pointer, _id_getCoefficient.pointer).float;
   }
 }
@@ -555,28 +555,28 @@ extension MeasureUnit$$Methods on MeasureUnit {
 abstract base mixin class $MeasureUnit {
   factory $MeasureUnit({
     required jni$_.JString Function() getSign,
-    required double Function() getCoefficient,
+    required core$_.double Function() getCoefficient,
   }) = _$MeasureUnit;
 
   jni$_.JString getSign();
-  double getCoefficient();
+  core$_.double getCoefficient();
 }
 
 final class _$MeasureUnit with $MeasureUnit {
   _$MeasureUnit({
     required jni$_.JString Function() getSign,
-    required double Function() getCoefficient,
+    required core$_.double Function() getCoefficient,
   })  : _getSign = getSign,
         _getCoefficient = getCoefficient;
 
   final jni$_.JString Function() _getSign;
-  final double Function() _getCoefficient;
+  final core$_.double Function() _getCoefficient;
 
   jni$_.JString getSign() {
     return _getSign();
   }
 
-  double getCoefficient() {
+  core$_.double getCoefficient() {
     return _getCoefficient();
   }
 }
@@ -601,9 +601,9 @@ extension type NIHostIntegrationCoreApi._(jni$_.JObject _$this)
       $NIHostIntegrationCoreApi$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $NIHostIntegrationCoreApi> _$impls = {};
+  static final core$_.Map<core$_.int, $NIHostIntegrationCoreApi> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -624,7 +624,7 @@ extension type NIHostIntegrationCoreApi._(jni$_.JObject _$this)
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -1090,7 +1090,7 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public fun nullableHello(returnNull: kotlin.Boolean): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1584,7 +1584,7 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public fun methodWithVarArgs(vararg argument: kotlin.String): kotlin.Int`
-  int methodWithVarArgs(
+  core$_.int methodWithVarArgs(
     jni$_.JArray<jni$_.JString> strings,
   ) {
     final _$strings = strings.reference;
@@ -1610,7 +1610,7 @@ extension Nullability$$Methods<$T extends jni$_.JObject?,
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public fun <V> methodWithWhere(element: V): kotlin.Int where V : com.github.dart_lang.jnigen.CanDoA, V : com.github.dart_lang.jnigen.CanDoB`
-  int methodWithWhere<$V extends jni$_.JObject>(
+  core$_.int methodWithWhere<$V extends jni$_.JObject>(
     $V canDoA,
   ) {
     final _$canDoA = canDoA.reference;
@@ -1648,12 +1648,12 @@ extension type Operators._(jni$_.JObject _$this) implements jni$_.JObject {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_NewObject')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void <init>(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Operators(
-    int i,
+    core$_.int i,
   ) {
     return _new$(_class.reference.pointer, _id_new$.pointer, i)
         .object<Operators>();
@@ -1679,7 +1679,7 @@ extension Operators$$Methods on Operators {
           )>();
 
   /// from: `public final int getValue()`
-  int get value {
+  core$_.int get value {
     return _get$value(reference.pointer, _id_get$value.pointer).integer;
   }
 
@@ -1696,10 +1696,10 @@ extension Operators$$Methods on Operators {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public final void setValue(int i)`
-  set value(int i) {
+  set value(core$_.int i) {
     _set$value(reference.pointer, _id_set$value.pointer, i).check();
   }
 
@@ -1742,12 +1742,12 @@ extension Operators$$Methods on Operators {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public operator fun plus(int: kotlin.Int): com.github.dart_lang.jnigen.Operators`
   /// The returned object must be released after use, by calling the [release] method.
   Operators plus$1(
-    int i,
+    core$_.int i,
   ) {
     return _plus$1(reference.pointer, _id_plus$1.pointer, i)
         .object<Operators>();
@@ -1871,11 +1871,11 @@ extension Operators$$Methods on Operators {
                       .VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public operator fun get(index: kotlin.Int): kotlin.Boolean`
   core$_.bool get(
-    int i,
+    core$_.int i,
   ) {
     return _get(reference.pointer, _id_get.pointer, i).boolean;
   }
@@ -1893,12 +1893,12 @@ extension Operators$$Methods on Operators {
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
           'globalEnv_CallVoidMethod')
       .asFunction<
-          jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+          jni$_.JThrowablePtr Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.int)>();
 
   /// from: `public operator fun set(index: kotlin.Int, bit: kotlin.Boolean): kotlin.Unit`
   void set(
-    int i,
+    core$_.int i,
     core$_.bool z,
   ) {
     _set(reference.pointer, _id_set.pointer, i, z ? 1 : 0).check();
@@ -1921,7 +1921,7 @@ extension Operators$$Methods on Operators {
               jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public fun compareTo(op: com.github.dart_lang.jnigen.Operators): kotlin.Int`
-  int compareTo(
+  core$_.int compareTo(
     Operators operators,
   ) {
     final _$operators = operators.reference;
@@ -1950,11 +1950,11 @@ extension Operators$$Methods on Operators {
     return rem(operators);
   }
 
-  core$_.bool operator [](int i) {
+  core$_.bool operator [](core$_.int i) {
     return get(i);
   }
 
-  void operator []=(int i, core$_.bool z) {
+  void operator []=(core$_.int i, core$_.bool z) {
     set(i, z);
   }
 
@@ -2007,12 +2007,12 @@ extension type Speed._(jni$_.JObject _$this) implements Measure<SpeedUnit> {
                       )>)>>('globalEnv_NewObject')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, double, jni$_.Pointer<jni$_.Void>)>();
+              jni$_.JMethodIDPtr, core$_.double, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public void <init>(float f, com.github.dart_lang.jnigen.SpeedUnit speedUnit)`
   /// The returned object must be released after use, by calling the [release] method.
   factory Speed(
-    double f,
+    core$_.double f,
     SpeedUnit speedUnit,
   ) {
     final _$speedUnit = speedUnit.reference;
@@ -2041,7 +2041,7 @@ extension Speed$$Methods on Speed {
           )>();
 
   /// from: `public float getValue()`
-  double get value {
+  core$_.double get value {
     return _get$value(reference.pointer, _id_get$value.pointer).float;
   }
 
@@ -2111,7 +2111,7 @@ extension Speed$$Methods on Speed {
           )>();
 
   /// from: `public operator fun component1(): kotlin.Float`
-  double component1() {
+  core$_.double component1() {
     return _component1(reference.pointer, _id_component1.pointer).float;
   }
 
@@ -2156,12 +2156,12 @@ extension Speed$$Methods on Speed {
                       )>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, double, jni$_.Pointer<jni$_.Void>)>();
+              jni$_.JMethodIDPtr, core$_.double, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public fun copy(value: kotlin.Float, unit: com.github.dart_lang.jnigen.SpeedUnit): com.github.dart_lang.jnigen.Speed`
   /// The returned object must be released after use, by calling the [release] method.
   Speed copy(
-    double f,
+    core$_.double f,
     SpeedUnit speedUnit,
   ) {
     final _$speedUnit = speedUnit.reference;
@@ -2187,7 +2187,7 @@ extension Speed$$Methods on Speed {
           )>();
 
   /// from: `public fun hashCode(): kotlin.Int`
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 
@@ -2349,7 +2349,7 @@ extension SpeedUnit$$Methods on SpeedUnit {
           )>();
 
   /// from: `public float getCoefficient()`
-  double get coefficient {
+  core$_.double get coefficient {
     return _get$coefficient(reference.pointer, _id_get$coefficient.pointer)
         .float;
   }
@@ -2664,7 +2664,7 @@ extension SuspendFun$$Methods on SuspendFun {
           'globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+              jni$_.JMethodIDPtr, core$_.int, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public suspend fun nullableHello(returnNull: kotlin.Boolean): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
@@ -2719,7 +2719,7 @@ extension SuspendFun$$Methods on SuspendFun {
           'globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+              jni$_.JMethodIDPtr, core$_.int, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public suspend fun nullableHelloWithoutDelay(returnNull: kotlin.Boolean): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
@@ -2779,7 +2779,7 @@ extension SuspendFun$$Methods on SuspendFun {
           )>();
 
   /// from: `public final int getResult()`
-  int get result {
+  core$_.int get result {
     return _get$result(reference.pointer, _id_get$result.pointer).integer;
   }
 
@@ -2796,10 +2796,10 @@ extension SuspendFun$$Methods on SuspendFun {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public final void setResult(int i)`
-  set result(int i) {
+  set result(core$_.int i) {
     _set$result(reference.pointer, _id_set$result.pointer, i).check();
   }
 
@@ -2986,9 +2986,9 @@ extension type SuspendInterface._(jni$_.JObject _$this)
   static const jni$_.JType<SuspendInterface> type = $SuspendInterface$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $SuspendInterface> _$impls = {};
+  static final core$_.Map<core$_.int, $SuspendInterface> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -3009,7 +3009,7 @@ extension type SuspendInterface._(jni$_.JObject _$this)
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -3044,7 +3044,7 @@ extension type SuspendInterface._(jni$_.JObject _$this)
         final $r = jni$_.KotlinContinuation.fromReference(
                 ($a![1] as jni$_.JObject).reference)
             .resumeWithFuture(_$impls[$p]!.nullableHello(
-          ($a![0] as jni$_.JBoolean).booleanValue(releaseOriginal: true),
+          ($a![0] as jni$_.JBoolean).toDartBool(releaseOriginal: true),
         ));
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -3080,7 +3080,7 @@ extension type SuspendInterface._(jni$_.JObject _$this)
         final $r = jni$_.KotlinContinuation.fromReference(
                 ($a![1] as jni$_.JObject).reference)
             .resumeWithFuture(_$impls[$p]!.nullableInt(
-          ($a![0] as jni$_.JBoolean).booleanValue(releaseOriginal: true),
+          ($a![0] as jni$_.JBoolean).toDartBool(releaseOriginal: true),
         ));
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -3261,7 +3261,7 @@ extension SuspendInterface$$Methods on SuspendInterface {
           'globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+              jni$_.JMethodIDPtr, core$_.int, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public suspend fun nullableHello(returnNull: kotlin.Boolean): kotlin.String?`
   /// The returned object must be released after use, by calling the [release] method.
@@ -3421,7 +3421,7 @@ extension SuspendInterface$$Methods on SuspendInterface {
           'globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+              jni$_.JMethodIDPtr, core$_.int, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public suspend fun nullableInt(returnNull: kotlin.Boolean): java.lang.Integer?`
   /// The returned object must be released after use, by calling the [release] method.
@@ -3618,7 +3618,7 @@ final _get$topLevelField = jni$_.ProtectedJniExtensions.lookup<
         )>();
 
 /// from: `static public final int getTopLevelField()`
-int get topLevelField {
+core$_.int get topLevelField {
   return _get$topLevelField(
           _TopLevelKtClass.reference.pointer, _id_get$topLevelField.pointer)
       .integer;
@@ -3636,10 +3636,10 @@ final _set$topLevelField = jni$_.ProtectedJniExtensions.lookup<
         'globalEnv_CallStaticVoidMethod')
     .asFunction<
         jni$_.JThrowablePtr Function(
-            jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+            jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
 /// from: `static public final void setTopLevelField(int i)`
-set topLevelField(int i) {
+set topLevelField(core$_.int i) {
   _set$topLevelField(
           _TopLevelKtClass.reference.pointer, _id_set$topLevelField.pointer, i)
       .check();
@@ -3663,7 +3663,7 @@ final _topLevel = jni$_.ProtectedJniExtensions.lookup<
         )>();
 
 /// from: `public fun topLevel(): kotlin.Int`
-int topLevel() {
+core$_.int topLevel() {
   return _topLevel(_TopLevelKtClass.reference.pointer, _id_topLevel.pointer)
       .integer;
 }
@@ -3681,13 +3681,13 @@ final _topLevelSum = jni$_.ProtectedJniExtensions.lookup<
                     jni$_.VarArgs<(jni$_.Int32, jni$_.Int32)>)>>(
         'globalEnv_CallStaticIntMethod')
     .asFunction<
-        jni$_.JniResult Function(
-            jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, int)>();
+        jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr,
+            core$_.int, core$_.int)>();
 
 /// from: `public fun topLevelSum(a: kotlin.Int, b: kotlin.Int): kotlin.Int`
-int topLevelSum(
-  int i,
-  int i1,
+core$_.int topLevelSum(
+  core$_.int i,
+  core$_.int i1,
 ) {
   return _topLevelSum(
           _TopLevelKtClass.reference.pointer, _id_topLevelSum.pointer, i, i1)
@@ -3715,7 +3715,7 @@ final _get$topLevelField$1 = jni$_.ProtectedJniExtensions.lookup<
         )>();
 
 /// from: `static public final int getTopLevelField()`
-int get topLevelField$1 {
+core$_.int get topLevelField$1 {
   return _get$topLevelField$1(
           _TopLevelKt$1Class.reference.pointer, _id_get$topLevelField$1.pointer)
       .integer;
@@ -3733,10 +3733,10 @@ final _set$topLevelField$1 = jni$_.ProtectedJniExtensions.lookup<
         'globalEnv_CallStaticVoidMethod')
     .asFunction<
         jni$_.JThrowablePtr Function(
-            jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+            jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
 /// from: `static public final void setTopLevelField(int i)`
-set topLevelField$1(int i) {
+set topLevelField$1(core$_.int i) {
   _set$topLevelField$1(_TopLevelKt$1Class.reference.pointer,
           _id_set$topLevelField$1.pointer, i)
       .check();
@@ -3760,7 +3760,7 @@ final _topLevel$1 = jni$_.ProtectedJniExtensions.lookup<
         )>();
 
 /// from: `public fun topLevel(): kotlin.Int`
-int topLevel$1() {
+core$_.int topLevel$1() {
   return _topLevel$1(
           _TopLevelKt$1Class.reference.pointer, _id_topLevel$1.pointer)
       .integer;
