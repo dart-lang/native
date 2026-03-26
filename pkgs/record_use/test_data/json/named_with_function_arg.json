@@ -13,6 +13,9 @@
     {
       "path": [
         {
+          "disambiguators": [
+            "static"
+          ],
           "kind": "method",
           "name": "Ext|foo"
         }

@@ -1057,8 +1057,9 @@ final class InstanceConstant extends Constant {
 
   @override
   Constant _filter({String? definitionPackageName}) {
+    final libraryUri = definition.library.uri;
     if (definitionPackageName != null &&
-        !definition.library.startsWith('package:$definitionPackageName/')) {
+        !libraryUri.startsWith('package:$definitionPackageName/')) {
       return UnsupportedConstant(
         'Instance of $definition from other package is not supported.',
       );
@@ -1219,8 +1220,9 @@ final class EnumConstant extends Constant {
 
   @override
   Constant _filter({String? definitionPackageName}) {
+    final libraryUri = definition.library.uri;
     if (definitionPackageName != null &&
-        !definition.library.startsWith('package:$definitionPackageName/')) {
+        !libraryUri.startsWith('package:$definitionPackageName/')) {
       return UnsupportedConstant(
         'Instance of $definition from other package is not supported.',
       );

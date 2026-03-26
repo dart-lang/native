@@ -60,30 +60,30 @@ void registerTests(String groupName, TestRunnerCallback test) {
     test('Static methods - primitive', () {
       // same test can be run at a replicated (dart-only) test, check for both
       // possible values.
-      expect(Example.getAmount(), isIn([1012, 500]));
-      Example.setAmount(1012);
-      expect(Example.getAmount(), equals(1012));
-      expect(Example.getAsterisk(), equals('*'.codeUnitAt(0)));
+      expect(Example.amount, isIn([1012, 500]));
+      Example.amount = 1012;
+      expect(Example.amount, equals(1012));
+      expect(Example.asterisk, equals('*'.codeUnitAt(0)));
       expect(C2.CONSTANT, equals(12));
     });
 
     test('Static fields & methods - string', () {
       expect(
-        Example.getName()!.toDartString(releaseOriginal: true),
+        Example.name!.toDartString(releaseOriginal: true),
         isIn(['Ragnar Lothbrok', 'Theseus']),
       );
-      Example.setName('Theseus'.toJString());
+      Example.name = 'Theseus'.toJString();
       expect(
-        Example.getName()!.toDartString(releaseOriginal: true),
+        Example.name!.toDartString(releaseOriginal: true),
         equals('Theseus'),
       );
     });
 
     test('Static fields and methods - Object', () {
-      final nested = Example.getNestedInstance()!;
-      expect(nested.getValue(), isIn([true, false]));
-      nested.setValue(false);
-      expect(nested.getValue(), isFalse);
+      final nested = Example.nestedInstance!;
+      expect(nested.value, isIn([true, false]));
+      nested.value = false;
+      expect(nested.value, isFalse);
     });
 
     test('static methods with several arguments', () {
@@ -94,15 +94,15 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
     test('Instance methods (getters & setters)', () {
       final e = Example();
-      expect(e.getNumber(), equals(0));
-      expect(e.getIsUp(), true);
-      expect(e.getCodename()!.toDartString(), equals('achilles'));
-      e.setNumber(1);
-      e.setUp(false);
-      e.setCodename('spartan'.toJString());
-      expect(e.getIsUp(), false);
-      expect(e.getNumber(), 1);
-      expect(e.getCodename()!.toDartString(), equals('spartan'));
+      expect(e.number, equals(0));
+      expect(e.isUp, true);
+      expect(e.codename!.toDartString(), equals('achilles'));
+      e.number = 1;
+      e.up = false;
+      e.codename = 'spartan'.toJString();
+      expect(e.isUp, false);
+      expect(e.number, 1);
+      expect(e.codename!.toDartString(), equals('spartan'));
       e.release();
     });
 
@@ -132,15 +132,15 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
     test('Misc. instance methods', () {
       final e = Example();
-      final rand = e.getRandom();
+      final rand = e.random;
       expect(rand, isNotNull);
-      final _ = e.getRandomLong();
+      final _ = e.randomLong;
       final id =
           e.getRandomNumericString(rand)!.toDartString(releaseOriginal: true);
       expect(int.parse(id), lessThan(10000));
-      e.setNumber(145);
+      e.number = 145;
       expect(
-        e.getSelf()!.getSelf()!.getSelf()!.getSelf()!.getNumber(),
+        e.self!.self!.self!.self!.number,
         equals(145),
       );
       e.release();
@@ -156,21 +156,21 @@ void registerTests(String groupName, TestRunnerCallback test) {
 
     test('Constructors', () {
       final e0 = Example();
-      expect(e0.getNumber(), 0);
-      expect(e0.getIsUp(), true);
-      expect(e0.getCodename()!.toDartString(), equals('achilles'));
+      expect(e0.number, 0);
+      expect(e0.isUp, true);
+      expect(e0.codename!.toDartString(), equals('achilles'));
       final e1 = Example.new$1(111);
-      expect(e1.getNumber(), equals(111));
-      expect(e1.getIsUp(), true);
-      expect(e1.getCodename()!.toDartString(), 'achilles');
+      expect(e1.number, equals(111));
+      expect(e1.isUp, true);
+      expect(e1.codename!.toDartString(), 'achilles');
       final e2 = Example.new$2(122, false);
-      expect(e2.getNumber(), equals(122));
-      expect(e2.getIsUp(), false);
-      expect(e2.getCodename()!.toDartString(), 'achilles');
+      expect(e2.number, equals(122));
+      expect(e2.isUp, false);
+      expect(e2.codename!.toDartString(), 'achilles');
       final e3 = Example.new$3(133, false, 'spartan'.toJString());
-      expect(e3.getNumber(), equals(133));
-      expect(e3.getIsUp(), false);
-      expect(e3.getCodename()!.toDartString(), 'spartan');
+      expect(e3.number, equals(133));
+      expect(e3.isUp, false);
+      expect(e3.codename!.toDartString(), 'spartan');
     });
 
     test('Static (non-final) fields', () {
@@ -215,7 +215,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
     });
 
     test('static methods arrays', () {
-      final array = Example.getArr()!;
+      final array = Example.arr!;
       expect(array[0], 1);
       expect(array[1], 2);
       expect(array[2], 3);
@@ -227,13 +227,13 @@ void registerTests(String groupName, TestRunnerCallback test) {
     test('array of the class', () {
       final ex1 = Example();
       final ex2 = Example();
-      ex1.setNumber(1);
-      ex2.setNumber(2);
+      ex1.number = 1;
+      ex2.number = 2;
       final array = JArray.withLength(Example.type, 2);
       array[0] = ex1;
       array[1] = ex2;
-      expect(array[0]!.getNumber(), 1);
-      expect(array[1]!.getNumber(), 2);
+      expect(array[0]!.number, 1);
+      expect(array[1]!.number, 2);
       array.release();
       ex1.release();
       ex2.release();
@@ -344,7 +344,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
               'Hello'.toJString()..releasedBy(arena),
             )!
                   ..releasedBy(arena))
-                .getNumber(),
+                .number,
             1,
           );
           expect(
@@ -352,7 +352,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
               'World'.toJString()..releasedBy(arena),
             )!
                   ..releasedBy(arena))
-                .getNumber(),
+                .number,
             2,
           );
           expect(
@@ -385,7 +385,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
                 'Hello'.toJString()..releasedBy(arena),
               )!
                     ..releasedBy(arena))
-                  .getNumber(),
+                  .number,
               0,
             );
           });
@@ -436,7 +436,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           )!
             ..releasedBy(arena);
           expect(
-            (exampleStaticParent.value!..releasedBy(arena)).getNumber(),
+            (exampleStaticParent.value!..releasedBy(arena)).number,
             0,
           );
 
@@ -459,7 +459,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
                 .toDartString(releaseOriginal: true),
             '!',
           );
-          expect((exampleParent.value!..releasedBy(arena)).getNumber(), 0);
+          expect((exampleParent.value!..releasedBy(arena)).number, 0);
           // TODO(#139): test constructing Child, currently does not work due
           // to a problem with C-bindings.
         });
@@ -476,12 +476,12 @@ void registerTests(String groupName, TestRunnerCallback test) {
           parent,
           3.toJInteger(),
         )..releasedBy(arena);
-        expect(grandParent.value!.intValue(releaseOriginal: true), 1);
-        expect(parent.parentValue!.intValue(releaseOriginal: true), 1);
-        expect(parent.value!.intValue(releaseOriginal: true), 2);
-        expect(child.grandParentValue!.intValue(releaseOriginal: true), 1);
-        expect(child.parentValue!.intValue(releaseOriginal: true), 2);
-        expect(child.value!.intValue(releaseOriginal: true), 3);
+        expect(grandParent.value!.toDartInt(releaseOriginal: true), 1);
+        expect(parent.parentValue!.toDartInt(releaseOriginal: true), 1);
+        expect(parent.value!.toDartInt(releaseOriginal: true), 2);
+        expect(child.grandParentValue!.toDartInt(releaseOriginal: true), 1);
+        expect(child.parentValue!.toDartInt(releaseOriginal: true), 2);
+        expect(child.value!.toDartInt(releaseOriginal: true), 3);
       });
     });
 
@@ -505,7 +505,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
               },
               varCallback: (JInteger? t) {
                 final result =
-                    (t!.intValue(releaseOriginal: true) * 2).toJInteger();
+                    (t!.toDartInt(releaseOriginal: true) * 2).toJInteger();
                 varCallbackResult.complete(result);
                 return result;
               },
@@ -619,12 +619,12 @@ void registerTests(String groupName, TestRunnerCallback test) {
               hexParser,
               'F'.toJString()..releasedBy(arena),
             )!;
-            expect(fifteen.intValue(releaseOriginal: true), 15);
+            expect(fifteen.toDartInt(releaseOriginal: true), 15);
             final fortyTwo = StringConverterConsumer.consumeOnSameThread(
               decimalParser,
               '42'.toJString()..releasedBy(arena),
             )!;
-            expect(fortyTwo.intValue(releaseOriginal: true), 42);
+            expect(fortyTwo.toDartInt(releaseOriginal: true), 42);
           });
         });
         for (final style in ['callback', 'implemented class']) {
@@ -839,7 +839,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(
             genericInterface
                 .firstOfGenericArray(intArray)!
-                .intValue(releaseOriginal: true),
+                .toDartInt(releaseOriginal: true),
             42,
           );
 
@@ -849,7 +849,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           )!
             ..releasedBy(arena);
           expect(
-            jmap.asDart()['hello'.toJString()..releasedBy(arena)]!.intValue(
+            jmap.asDart()['hello'.toJString()..releasedBy(arena)]!.toDartInt(
                   releaseOriginal: true,
                 ),
             42,
@@ -863,7 +863,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(
             genericInterface
                 .firstValueOf(jmap)!
-                .intValue(releaseOriginal: true),
+                .toDartInt(releaseOriginal: true),
             42,
           );
         });
@@ -1350,14 +1350,14 @@ void registerTests(String groupName, TestRunnerCallback test) {
       test('Create large number of JNI references without deleting', () {
         for (var i = 0; i < k4; i++) {
           final e = Example.new$1(i);
-          expect(e.getNumber(), equals(i));
+          expect(e.number, equals(i));
         }
       });
       test('Create many JNI refs with scoped deletion', () {
         for (var i = 0; i < k256; i++) {
           using((arena) {
             final e = Example.new$1(i)..releasedBy(arena);
-            expect(e.getNumber(), equals(i));
+            expect(e.number, equals(i));
           });
         }
       });
@@ -1366,7 +1366,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           using((arena) {
             for (var i = 0; i < 1024; i++) {
               final e = Example.new$1(i)..releasedBy(arena);
-              expect(e.getNumber(), equals(i));
+              expect(e.number, equals(i));
             }
           });
         }
@@ -1374,7 +1374,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
       test('Create large number of JNI refs with manual delete', () {
         for (var i = 0; i < k256; i++) {
           final e = Example.new$1(i);
-          expect(e.getNumber(), equals(i));
+          expect(e.number, equals(i));
           e.release();
         }
       });
@@ -1382,7 +1382,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
         using((arena) {
           final e = Example.new$1(64)..releasedBy(arena);
           for (var i = 0; i < k256; i++) {
-            expect(e.getNumber(), equals(64));
+            expect(e.number, equals(64));
           }
         });
       });

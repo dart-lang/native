@@ -14,15 +14,15 @@ import 'third_party/bindings/com/fasterxml/jackson/core/_package.dart';
 void registerTests(String groupName, TestRunnerCallback test) {
   group(groupName, () {
     test('simple json parsing test', () {
-      final json = JString.fromString('[1, true, false, 2, 4]');
+      final json = '[1, true, false, 2, 4]'.toJString();
       JsonFactory factory;
       factory = JsonFactory();
       final parser = factory.createParser$6(json)!;
       final values = <bool>[];
-      while (!parser.isClosed()) {
+      while (!parser.isClosed) {
         final next = parser.nextToken();
         if (next == null) continue;
-        values.add(next.isNumeric());
+        values.add(next.isNumeric);
         next.release();
       }
       expect(values, equals([false, true, false, false, true, true, false]));

@@ -26,15 +26,16 @@ void main(List<String> arguments) async {
 
     final symbols = <String>{};
 
-    // Tree-shake unused assets using calls
     for (final methodName in ['add', 'multiply']) {
       final calls =
-          usages.calls[Definition(
-            'package:${input.packageName}/src/${input.packageName}.dart',
-            [
-              const Name(kind: DefinitionKind.classKind, 'MyMath'),
-              Name(methodName, kind: DefinitionKind.methodKind),
-            ],
+          usages.calls[Method(
+            methodName,
+            Class(
+              'MyMath',
+              Library(
+                'package:${input.packageName}/src/${input.packageName}.dart',
+              ),
+            ),
           )] ??
           const [];
       print('Checking calls to $methodName...');
@@ -63,12 +64,13 @@ void main(List<String> arguments) async {
       'Square': 'square',
     };
 
-    // Tree-shake unused assets using instances
     for (final className in classNameToSymbol.keys) {
       final instances =
-          usages.instances[Definition(
-            'package:${input.packageName}/src/${input.packageName}.dart',
-            [Name(kind: DefinitionKind.classKind, className)],
+          usages.instances[Class(
+            className,
+            Library(
+              'package:${input.packageName}/src/${input.packageName}.dart',
+            ),
           )] ??
           const [];
       print('Checking instances of $className...');

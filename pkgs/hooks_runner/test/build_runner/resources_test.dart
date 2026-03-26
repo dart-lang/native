@@ -165,9 +165,10 @@ void main() async {
       final newRecordings = Recordings(
         calls: {
           ..._pirateAdventureRecordings.calls,
-          const Definition('package:dummy/dummy.dart', [
-            Name('dummy', kind: DefinitionKind.methodKind),
-          ]): [
+          const Method(
+            'dummy',
+            Library('package:dummy/dummy.dart'),
+          ): [
             const CallWithArguments(
               loadingUnit: loadingUnitRoot,
               positionalArguments: [],
@@ -201,13 +202,10 @@ void main() async {
 /// bin/pirate_adventure.dart.
 final _pirateAdventureRecordings = Recordings(
   calls: {
-    Definition('package:pirate_speak/src/definitions.dart', [
-      Name(
-        kind: .methodKind,
-        'pirateSpeak',
-        disambiguators: {.staticDisambiguator},
-      ),
-    ]): [
+    const Method(
+      'pirateSpeak',
+      Library('package:pirate_speak/src/definitions.dart'),
+    ): [
       const CallWithArguments(
         loadingUnit: loadingUnitRoot,
         positionalArguments: [StringConstant('Hello')],
@@ -219,13 +217,10 @@ final _pirateAdventureRecordings = Recordings(
         namedArguments: {},
       ),
     ],
-    Definition('package:pirate_technology/src/definitions.dart', [
-      Name(
-        kind: .methodKind,
-        'useCannon',
-        disambiguators: {.staticDisambiguator},
-      ),
-    ]): [
+    const Method(
+      'useCannon',
+      Library('package:pirate_technology/src/definitions.dart'),
+    ): [
       const CallWithArguments(
         loadingUnit: loadingUnitRoot,
         positionalArguments: [],

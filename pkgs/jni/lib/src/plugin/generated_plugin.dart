@@ -36,7 +36,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' as core$_;
-import 'dart:core' show Object, String, double, int;
+import 'dart:core' show Object, String;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
@@ -71,12 +71,12 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
         .object<JniPlugin>();
   }
 
-  static final _id_getApplicationContext = _class.staticMethodId(
+  static final _id_get$applicationContext = _class.staticMethodId(
     r'getApplicationContext',
     r'()Landroid/content/Context;',
   );
 
-  static final _getApplicationContext = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$applicationContext = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -90,9 +90,9 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `static public android.content.Context getApplicationContext()`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject getApplicationContext() {
-    return _getApplicationContext(
-            _class.reference.pointer, _id_getApplicationContext.pointer)
+  static jni$_.JObject get applicationContext {
+    return _get$applicationContext(
+            _class.reference.pointer, _id_get$applicationContext.pointer)
         .object<jni$_.JObject>();
   }
 
@@ -108,12 +108,12 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public android.app.Activity getActivity(long j)`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JObject? getActivity(
-    int j,
+    core$_.int j,
   ) {
     return _getActivity(_class.reference.pointer, _id_getActivity.pointer, j)
         .object<jni$_.JObject?>();

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:jni/jni.dart';
 import 'package:kotlin_plugin/kotlin_plugin.dart';
 
 void main() {
