@@ -135,7 +135,7 @@ class DartGenerator extends Visitor<Classes, Future<void>> {
       'DO NOT EDIT!\n';
   static const defaultImports = '''
 import 'dart:core' as $_core;
-import 'dart:core' show Object, String, double, int;
+import 'dart:core' show Object, String;
 
 import 'package:jni/_internal.dart' as $_jni;
 import 'package:jni/jni.dart' as $_jni;
@@ -436,11 +436,11 @@ extension type $name$typeParamsDef._($_jObject _\$this) implements $implementsCl
     if (node.declKind == DeclKind.interfaceKind) {
       s.write('''
   /// Maps a specific port to the implemented interface.
-  static final $_core.Map<int, $implClassName> _\$impls = {};
+  static final $_core.Map<$_core.int, $implClassName> _\$impls = {};
 ''');
       s.write('''
   static $_jni.JObjectPtr _\$invoke(
-    int port,
+    $_core.int port,
     $_jni.JObjectPtr descriptor,
     $_jni.JObjectPtr args,
   ) {
@@ -461,7 +461,7 @@ extension type $name$typeParamsDef._($_jObject _\$this) implements $implementsCl
       _\$invokePointer = $_jni.Pointer.fromFunction(_\$invoke);
 
   static $_jni.Pointer<$_jni.Void> _\$invokeMethod(
-    int \$p,
+    $_core.int \$p,
     $_methodInvocation \$i,
   ) {
     try {
@@ -734,10 +734,7 @@ class _TypeGenerator extends TypeVisitor<String> {
     if (boxPrimitives) {
       return '$_jni.J${node.boxedName}';
     }
-    if (node.name == 'boolean') {
-      return '$_core.${node.dartType}';
-    }
-    return node.dartType;
+    return '$_core.${node.dartType}';
   }
 
   @override
@@ -933,8 +930,8 @@ class _TypeSig extends TypeVisitor<String> {
   @override
   String visitPrimitiveType(PrimitiveType node) {
     if (isFfi) return '$_jni.${node.ffiVarArgType}';
-    if (node.name == 'boolean') return 'int';
-    return node.dartType;
+    if (node.name == 'boolean') return '$_core.int';
+    return '$_core.${node.dartType}';
   }
 
   @override
@@ -1677,8 +1674,8 @@ class _InterfaceParamCast extends Visitor<Param, void> {
     s.write('(\$a![$paramIndex] as $type)');
     if (node.type is PrimitiveType) {
       // Convert to Dart type.
-      final name = node.type.name;
-      s.write('.${name}Value(releaseOriginal: true)');
+      final dartType = (node.type as PrimitiveType).dartType.capitalize();
+      s.write('.toDart$dartType(releaseOriginal: true)');
     }
   }
 }
@@ -1713,7 +1710,7 @@ class _InterfaceReturnBox extends TypeVisitor<String> {
     if (node.name == 'void') {
       return '$_jni.nullptr';
     }
-    return '$_jni.J${node.boxedName}(\$r).reference.toPointer()';
+    return '\$r.toJ${node.boxedName}().reference.toPointer()';
   }
 }
 

@@ -31,7 +31,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' as core$_;
-import 'dart:core' show Object, String, double, int;
+import 'dart:core' show Object, String;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
@@ -49,11 +49,11 @@ extension type R$drawable._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public int launch_background`
-  static int get launch_background =>
-      _id_launch_background.getNullable(_class, jni$_.jint.type) as int;
+  static core$_.int get launch_background =>
+      _id_launch_background.getNullable(_class, jni$_.jint.type) as core$_.int;
 
   /// from: `static public int launch_background`
-  static set launch_background(int value) =>
+  static set launch_background(core$_.int value) =>
       _id_launch_background.set(_class, jni$_.jint.type, value);
 }
 
@@ -79,11 +79,11 @@ extension type R$mipmap._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public int ic_launcher`
-  static int get ic_launcher =>
-      _id_ic_launcher.getNullable(_class, jni$_.jint.type) as int;
+  static core$_.int get ic_launcher =>
+      _id_ic_launcher.getNullable(_class, jni$_.jint.type) as core$_.int;
 
   /// from: `static public int ic_launcher`
-  static set ic_launcher(int value) =>
+  static set ic_launcher(core$_.int value) =>
       _id_ic_launcher.set(_class, jni$_.jint.type, value);
 }
 
@@ -109,11 +109,11 @@ extension type R$style._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public int LaunchTheme`
-  static int get LaunchTheme =>
-      _id_LaunchTheme.getNullable(_class, jni$_.jint.type) as int;
+  static core$_.int get LaunchTheme =>
+      _id_LaunchTheme.getNullable(_class, jni$_.jint.type) as core$_.int;
 
   /// from: `static public int LaunchTheme`
-  static set LaunchTheme(int value) =>
+  static set LaunchTheme(core$_.int value) =>
       _id_LaunchTheme.set(_class, jni$_.jint.type, value);
 
   static final _id_NormalTheme = _class.staticFieldId(
@@ -122,11 +122,11 @@ extension type R$style._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public int NormalTheme`
-  static int get NormalTheme =>
-      _id_NormalTheme.getNullable(_class, jni$_.jint.type) as int;
+  static core$_.int get NormalTheme =>
+      _id_NormalTheme.getNullable(_class, jni$_.jint.type) as core$_.int;
 
   /// from: `static public int NormalTheme`
-  static set NormalTheme(int value) =>
+  static set NormalTheme(core$_.int value) =>
       _id_NormalTheme.set(_class, jni$_.jint.type, value);
 }
 
@@ -167,10 +167,10 @@ extension type EmojiCompat$CodepointSequenceMatchResult._(jni$_.JObject _$this)
       $EmojiCompat$CodepointSequenceMatchResult$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $EmojiCompat$CodepointSequenceMatchResult>
+  static final core$_.Map<core$_.int, $EmojiCompat$CodepointSequenceMatchResult>
       _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -191,7 +191,7 @@ extension type EmojiCompat$CodepointSequenceMatchResult._(jni$_.JObject _$this)
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -339,7 +339,7 @@ extension EmojiCompat$Config$$Methods on EmojiCompat$Config {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setReplaceAll(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -365,7 +365,7 @@ extension EmojiCompat$Config$$Methods on EmojiCompat$Config {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setUseEmojiAsDefaultStyle(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -396,7 +396,7 @@ extension EmojiCompat$Config$$Methods on EmojiCompat$Config {
                           )>)>>('globalEnv_CallObjectMethod')
           .asFunction<
               jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-                  jni$_.JMethodIDPtr, int, jni$_.Pointer<jni$_.Void>)>();
+                  jni$_.JMethodIDPtr, core$_.int, jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setUseEmojiAsDefaultStyle(boolean z, java.util.List<java.lang.Integer> list)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -424,7 +424,7 @@ extension EmojiCompat$Config$$Methods on EmojiCompat$Config {
               'globalEnv_CallObjectMethod')
           .asFunction<
               jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+                  jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setEmojiSpanIndicatorEnabled(boolean z)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -450,12 +450,12 @@ extension EmojiCompat$Config$$Methods on EmojiCompat$Config {
               'globalEnv_CallObjectMethod')
           .asFunction<
               jni$_.JniResult Function(
-                  jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+                  jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setEmojiSpanIndicatorColor(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   EmojiCompat$Config setEmojiSpanIndicatorColor(
-    int i,
+    core$_.int i,
   ) {
     return _setEmojiSpanIndicatorColor(
             reference.pointer, _id_setEmojiSpanIndicatorColor.pointer, i)
@@ -476,12 +476,12 @@ extension EmojiCompat$Config$$Methods on EmojiCompat$Config {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public androidx.emoji2.text.EmojiCompat$Config setMetadataLoadStrategy(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   EmojiCompat$Config setMetadataLoadStrategy(
-    int i,
+    core$_.int i,
   ) {
     return _setMetadataLoadStrategy(
             reference.pointer, _id_setMetadataLoadStrategy.pointer, i)
@@ -638,9 +638,9 @@ extension type EmojiCompat$GlyphChecker._(jni$_.JObject _$this)
       $EmojiCompat$GlyphChecker$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $EmojiCompat$GlyphChecker> _$impls = {};
+  static final core$_.Map<core$_.int, $EmojiCompat$GlyphChecker> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -661,7 +661,7 @@ extension type EmojiCompat$GlyphChecker._(jni$_.JObject _$this)
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -670,11 +670,11 @@ extension type EmojiCompat$GlyphChecker._(jni$_.JObject _$this)
       if ($d == r'hasGlyph(Ljava/lang/CharSequence;III)Z') {
         final $r = _$impls[$p]!.hasGlyph(
           ($a![0] as jni$_.JObject),
-          ($a![1] as jni$_.JInteger).intValue(releaseOriginal: true),
-          ($a![2] as jni$_.JInteger).intValue(releaseOriginal: true),
-          ($a![3] as jni$_.JInteger).intValue(releaseOriginal: true),
+          ($a![1] as jni$_.JInteger).toDartInt(releaseOriginal: true),
+          ($a![2] as jni$_.JInteger).toDartInt(releaseOriginal: true),
+          ($a![3] as jni$_.JInteger).toDartInt(releaseOriginal: true),
         );
-        return jni$_.JBoolean($r).reference.toPointer();
+        return $r.toJBoolean().reference.toPointer();
       }
     } catch (e) {
       return jni$_.ProtectedJniExtensions.newDartException(e);
@@ -735,15 +735,20 @@ extension EmojiCompat$GlyphChecker$$Methods on EmojiCompat$GlyphChecker {
                         jni$_.Int32
                       )>)>>('globalEnv_CallBooleanMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `public abstract boolean hasGlyph(java.lang.CharSequence charSequence, int i, int i1, int i2)`
   core$_.bool hasGlyph(
     jni$_.JObject charSequence,
-    int i,
-    int i1,
-    int i2,
+    core$_.int i,
+    core$_.int i1,
+    core$_.int i2,
   ) {
     final _$charSequence = charSequence.reference;
     return _hasGlyph(reference.pointer, _id_hasGlyph.pointer,
@@ -754,25 +759,27 @@ extension EmojiCompat$GlyphChecker$$Methods on EmojiCompat$GlyphChecker {
 
 abstract base mixin class $EmojiCompat$GlyphChecker {
   factory $EmojiCompat$GlyphChecker({
-    required core$_.bool Function(
-            jni$_.JObject charSequence, int i, int i1, int i2)
+    required core$_.bool Function(jni$_.JObject charSequence, core$_.int i,
+            core$_.int i1, core$_.int i2)
         hasGlyph,
   }) = _$EmojiCompat$GlyphChecker;
 
-  core$_.bool hasGlyph(jni$_.JObject charSequence, int i, int i1, int i2);
+  core$_.bool hasGlyph(
+      jni$_.JObject charSequence, core$_.int i, core$_.int i1, core$_.int i2);
 }
 
 final class _$EmojiCompat$GlyphChecker with $EmojiCompat$GlyphChecker {
   _$EmojiCompat$GlyphChecker({
-    required core$_.bool Function(
-            jni$_.JObject charSequence, int i, int i1, int i2)
+    required core$_.bool Function(jni$_.JObject charSequence, core$_.int i,
+            core$_.int i1, core$_.int i2)
         hasGlyph,
   }) : _hasGlyph = hasGlyph;
 
-  final core$_.bool Function(jni$_.JObject charSequence, int i, int i1, int i2)
-      _hasGlyph;
+  final core$_.bool Function(jni$_.JObject charSequence, core$_.int i,
+      core$_.int i1, core$_.int i2) _hasGlyph;
 
-  core$_.bool hasGlyph(jni$_.JObject charSequence, int i, int i1, int i2) {
+  core$_.bool hasGlyph(
+      jni$_.JObject charSequence, core$_.int i, core$_.int i1, core$_.int i2) {
     return _hasGlyph(charSequence, i, i1, i2);
   }
 }
@@ -869,9 +876,9 @@ extension type EmojiCompat$LoadStrategy._(jni$_.JObject _$this)
       $EmojiCompat$LoadStrategy$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $EmojiCompat$LoadStrategy> _$impls = {};
+  static final core$_.Map<core$_.int, $EmojiCompat$LoadStrategy> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -892,7 +899,7 @@ extension type EmojiCompat$LoadStrategy._(jni$_.JObject _$this)
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -967,9 +974,10 @@ extension type EmojiCompat$MetadataRepoLoader._(jni$_.JObject _$this)
       $EmojiCompat$MetadataRepoLoader$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $EmojiCompat$MetadataRepoLoader> _$impls = {};
+  static final core$_.Map<core$_.int, $EmojiCompat$MetadataRepoLoader> _$impls =
+      {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -990,7 +998,7 @@ extension type EmojiCompat$MetadataRepoLoader._(jni$_.JObject _$this)
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -1205,9 +1213,10 @@ extension type EmojiCompat$ReplaceStrategy._(jni$_.JObject _$this)
       $EmojiCompat$ReplaceStrategy$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $EmojiCompat$ReplaceStrategy> _$impls = {};
+  static final core$_.Map<core$_.int, $EmojiCompat$ReplaceStrategy> _$impls =
+      {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -1228,7 +1237,7 @@ extension type EmojiCompat$ReplaceStrategy._(jni$_.JObject _$this)
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -1303,9 +1312,9 @@ extension type EmojiCompat$SpanFactory._(jni$_.JObject _$this)
       $EmojiCompat$SpanFactory$Type$();
 
   /// Maps a specific port to the implemented interface.
-  static final core$_.Map<int, $EmojiCompat$SpanFactory> _$impls = {};
+  static final core$_.Map<core$_.int, $EmojiCompat$SpanFactory> _$impls = {};
   static jni$_.JObjectPtr _$invoke(
-    int port,
+    core$_.int port,
     jni$_.JObjectPtr descriptor,
     jni$_.JObjectPtr args,
   ) {
@@ -1326,7 +1335,7 @@ extension type EmojiCompat$SpanFactory._(jni$_.JObject _$this)
       _$invokePointer = jni$_.Pointer.fromFunction(_$invoke);
 
   static jni$_.Pointer<jni$_.Void> _$invokeMethod(
-    int $p,
+    core$_.int $p,
     jni$_.MethodInvocation $i,
   ) {
     try {
@@ -1689,7 +1698,7 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
               'globalEnv_CallStaticVoidMethod')
           .asFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+                  jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public void skipDefaultConfigurationLookup(boolean z)`
   static void skipDefaultConfigurationLookup(
@@ -1745,13 +1754,13 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
-              int,
+              core$_.int,
               jni$_.Pointer<jni$_.Void>)>();
 
   /// from: `static public boolean handleOnKeyDown(android.text.Editable editable, int i, android.view.KeyEvent keyEvent)`
   static core$_.bool handleOnKeyDown(
     jni$_.JObject editable,
-    int i,
+    core$_.int i,
     jni$_.JObject keyEvent,
   ) {
     final _$editable = editable.reference;
@@ -1790,16 +1799,16 @@ extension type EmojiCompat._(jni$_.JObject _$this) implements jni$_.JObject {
                   jni$_.JMethodIDPtr,
                   jni$_.Pointer<jni$_.Void>,
                   jni$_.Pointer<jni$_.Void>,
-                  int,
-                  int,
-                  int)>();
+                  core$_.int,
+                  core$_.int,
+                  core$_.int)>();
 
   /// from: `static public boolean handleDeleteSurroundingText(android.view.inputmethod.InputConnection inputConnection, android.text.Editable editable, int i, int i1, boolean z)`
   static core$_.bool handleDeleteSurroundingText(
     jni$_.JObject inputConnection,
     jni$_.JObject editable,
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
     core$_.bool z,
   ) {
     final _$inputConnection = inputConnection.reference;
@@ -1909,7 +1918,7 @@ extension EmojiCompat$$Methods on EmojiCompat {
           )>();
 
   /// from: `public int getLoadState()`
-  int get loadState {
+  core$_.int get loadState {
     return _get$loadState(reference.pointer, _id_get$loadState.pointer).integer;
   }
 
@@ -1959,7 +1968,7 @@ extension EmojiCompat$$Methods on EmojiCompat {
               )>();
 
   /// from: `public int getEmojiSpanIndicatorColor()`
-  int get emojiSpanIndicatorColor {
+  core$_.int get emojiSpanIndicatorColor {
     return _get$emojiSpanIndicatorColor(
             reference.pointer, _id_get$emojiSpanIndicatorColor.pointer)
         .integer;
@@ -1980,12 +1989,12 @@ extension EmojiCompat$$Methods on EmojiCompat {
           'globalEnv_CallIntMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `public int getEmojiStart(java.lang.CharSequence charSequence, int i)`
-  int getEmojiStart(
+  core$_.int getEmojiStart(
     jni$_.JObject charSequence,
-    int i,
+    core$_.int i,
   ) {
     final _$charSequence = charSequence.reference;
     return _getEmojiStart(reference.pointer, _id_getEmojiStart.pointer,
@@ -2008,12 +2017,12 @@ extension EmojiCompat$$Methods on EmojiCompat {
           'globalEnv_CallIntMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `public int getEmojiEnd(java.lang.CharSequence charSequence, int i)`
-  int getEmojiEnd(
+  core$_.int getEmojiEnd(
     jni$_.JObject charSequence,
-    int i,
+    core$_.int i,
   ) {
     final _$charSequence = charSequence.reference;
     return _getEmojiEnd(reference.pointer, _id_getEmojiEnd.pointer,
@@ -2062,12 +2071,12 @@ extension EmojiCompat$$Methods on EmojiCompat {
           'globalEnv_CallBooleanMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `public boolean hasEmojiGlyph(java.lang.CharSequence charSequence, int i)`
   core$_.bool hasEmojiGlyph$1(
     jni$_.JObject charSequence,
-    int i,
+    core$_.int i,
   ) {
     final _$charSequence = charSequence.reference;
     return _hasEmojiGlyph$1(reference.pointer, _id_hasEmojiGlyph$1.pointer,
@@ -2090,12 +2099,12 @@ extension EmojiCompat$$Methods on EmojiCompat {
           'globalEnv_CallIntMethod')
       .asFunction<
           jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int)>();
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, core$_.int)>();
 
   /// from: `public int getEmojiMatch(java.lang.CharSequence charSequence, int i)`
-  int getEmojiMatch(
+  core$_.int getEmojiMatch(
     jni$_.JObject charSequence,
-    int i,
+    core$_.int i,
   ) {
     final _$charSequence = charSequence.reference;
     return _getEmojiMatch(reference.pointer, _id_getEmojiMatch.pointer,
@@ -2147,15 +2156,19 @@ extension EmojiCompat$$Methods on EmojiCompat {
                         jni$_.Int32
                       )>)>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `public java.lang.CharSequence process(java.lang.CharSequence charSequence, int i, int i1)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? process$1(
     jni$_.JObject? charSequence,
-    int i,
-    int i1,
+    core$_.int i,
+    core$_.int i1,
   ) {
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
     return _process$1(reference.pointer, _id_process$1.pointer,
@@ -2181,16 +2194,21 @@ extension EmojiCompat$$Methods on EmojiCompat {
                         jni$_.Int32
                       )>)>>('globalEnv_CallObjectMethod')
       .asFunction<
-          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
-              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>, int, int, int)>();
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              core$_.int,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `public java.lang.CharSequence process(java.lang.CharSequence charSequence, int i, int i1, int i2)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? process$2(
     jni$_.JObject? charSequence,
-    int i,
-    int i1,
-    int i2,
+    core$_.int i,
+    core$_.int i1,
+    core$_.int i2,
   ) {
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
     return _process$2(reference.pointer, _id_process$2.pointer,
@@ -2221,19 +2239,19 @@ extension EmojiCompat$$Methods on EmojiCompat {
               jni$_.Pointer<jni$_.Void>,
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
-              int,
-              int,
-              int,
-              int)>();
+              core$_.int,
+              core$_.int,
+              core$_.int,
+              core$_.int)>();
 
   /// from: `public java.lang.CharSequence process(java.lang.CharSequence charSequence, int i, int i1, int i2, int i3)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JObject? process$3(
     jni$_.JObject? charSequence,
-    int i,
-    int i1,
-    int i2,
-    int i3,
+    core$_.int i,
+    core$_.int i1,
+    core$_.int i2,
+    core$_.int i3,
   ) {
     final _$charSequence = charSequence?.reference ?? jni$_.jNullReference;
     return _process$3(reference.pointer, _id_process$3.pointer,
@@ -2485,14 +2503,14 @@ extension DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper$$Methods
                   jni$_.JMethodIDPtr,
                   jni$_.Pointer<jni$_.Void>,
                   jni$_.Pointer<jni$_.Void>,
-                  int)>();
+                  core$_.int)>();
 
   /// from: `public java.util.List<android.content.pm.ResolveInfo> queryIntentContentProviders(android.content.pm.PackageManager packageManager, android.content.Intent intent, int i)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject?> queryIntentContentProviders(
     jni$_.JObject packageManager,
     jni$_.JObject intent,
-    int i,
+    core$_.int i,
   ) {
     final _$packageManager = packageManager.reference;
     final _$intent = intent.reference;
@@ -2610,14 +2628,14 @@ extension DefaultEmojiCompatConfig$DefaultEmojiCompatConfigHelper_API19$$Methods
                   jni$_.JMethodIDPtr,
                   jni$_.Pointer<jni$_.Void>,
                   jni$_.Pointer<jni$_.Void>,
-                  int)>();
+                  core$_.int)>();
 
   /// from: `public java.util.List<android.content.pm.ResolveInfo> queryIntentContentProviders(android.content.pm.PackageManager packageManager, android.content.Intent intent, int i)`
   /// The returned object must be released after use, by calling the [release] method.
   jni$_.JList<jni$_.JObject?> queryIntentContentProviders(
     jni$_.JObject packageManager,
     jni$_.JObject intent,
-    int i,
+    core$_.int i,
   ) {
     final _$packageManager = packageManager.reference;
     final _$intent = intent.reference;
@@ -2874,7 +2892,7 @@ extension Build$Partition$$Methods on Build$Partition {
           )>();
 
   /// from: `public long getBuildTimeMillis()`
-  int get buildTimeMillis {
+  core$_.int get buildTimeMillis {
     return _get$buildTimeMillis(
             reference.pointer, _id_get$buildTimeMillis.pointer)
         .long;
@@ -2946,7 +2964,7 @@ extension Build$Partition$$Methods on Build$Partition {
           )>();
 
   /// from: `public int hashCode()`
-  int hashCode$1() {
+  core$_.int hashCode$1() {
     return _hashCode$1(reference.pointer, _id_hashCode$1.pointer).integer;
   }
 }
@@ -3002,8 +3020,9 @@ extension type Build$VERSION._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public final int MEDIA_PERFORMANCE_CLASS`
-  static int get MEDIA_PERFORMANCE_CLASS =>
-      _id_MEDIA_PERFORMANCE_CLASS.getNullable(_class, jni$_.jint.type) as int;
+  static core$_.int get MEDIA_PERFORMANCE_CLASS =>
+      _id_MEDIA_PERFORMANCE_CLASS.getNullable(_class, jni$_.jint.type)
+          as core$_.int;
 
   static final _id_PREVIEW_SDK_INT = _class.staticFieldId(
     r'PREVIEW_SDK_INT',
@@ -3011,8 +3030,8 @@ extension type Build$VERSION._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public final int PREVIEW_SDK_INT`
-  static int get PREVIEW_SDK_INT =>
-      _id_PREVIEW_SDK_INT.getNullable(_class, jni$_.jint.type) as int;
+  static core$_.int get PREVIEW_SDK_INT =>
+      _id_PREVIEW_SDK_INT.getNullable(_class, jni$_.jint.type) as core$_.int;
 
   static final _id_RELEASE = _class.staticFieldId(
     r'RELEASE',
@@ -3062,8 +3081,8 @@ extension type Build$VERSION._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public final int SDK_INT`
-  static int get SDK_INT =>
-      _id_SDK_INT.getNullable(_class, jni$_.jint.type) as int;
+  static core$_.int get SDK_INT =>
+      _id_SDK_INT.getNullable(_class, jni$_.jint.type) as core$_.int;
 
   static final _id_SDK_INT_FULL = _class.staticFieldId(
     r'SDK_INT_FULL',
@@ -3071,8 +3090,8 @@ extension type Build$VERSION._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public final int SDK_INT_FULL`
-  static int get SDK_INT_FULL =>
-      _id_SDK_INT_FULL.getNullable(_class, jni$_.jint.type) as int;
+  static core$_.int get SDK_INT_FULL =>
+      _id_SDK_INT_FULL.getNullable(_class, jni$_.jint.type) as core$_.int;
 
   static final _id_SECURITY_PATCH = _class.staticFieldId(
     r'SECURITY_PATCH',
@@ -3660,7 +3679,8 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
   );
 
   /// from: `static public final long TIME`
-  static int get TIME => _id_TIME.getNullable(_class, jni$_.jlong.type) as int;
+  static core$_.int get TIME =>
+      _id_TIME.getNullable(_class, jni$_.jlong.type) as core$_.int;
 
   static final _id_TYPE = _class.staticFieldId(
     r'TYPE',
@@ -3752,11 +3772,11 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int getMajorSdkVersion(int i)`
-  static int getMajorSdkVersion(
-    int i,
+  static core$_.int getMajorSdkVersion(
+    core$_.int i,
   ) {
     return _getMajorSdkVersion(
             _class.reference.pointer, _id_getMajorSdkVersion.pointer, i)
@@ -3775,11 +3795,11 @@ extension type Build._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticIntMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public int getMinorSdkVersion(int i)`
-  static int getMinorSdkVersion(
-    int i,
+  static core$_.int getMinorSdkVersion(
+    core$_.int i,
   ) {
     return _getMinorSdkVersion(
             _class.reference.pointer, _id_getMinorSdkVersion.pointer, i)
@@ -3887,12 +3907,12 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_NewObject')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void <init>(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   factory HashMap.new$1(
-    int i,
+    core$_.int i,
   ) {
     return _new$1(_class.reference.pointer, _id_new$1.pointer, i)
         .object<HashMap<$K, $V>>();
@@ -3910,14 +3930,14 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
                       jni$_.VarArgs<(jni$_.Int32, jni$_.Double)>)>>(
           'globalEnv_NewObject')
       .asFunction<
-          jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int, double)>();
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, core$_.int, core$_.double)>();
 
   /// from: `public void <init>(int i, float f)`
   /// The returned object must be released after use, by calling the [release] method.
   factory HashMap.new$2(
-    int i,
-    double f,
+    core$_.int i,
+    core$_.double f,
   ) {
     return _new$2(_class.reference.pointer, _id_new$2.pointer, i, f)
         .object<HashMap<$K, $V>>();
@@ -3960,13 +3980,13 @@ extension type HashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>._(
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public java.util.HashMap<K, V> newHashMap(int i)`
   /// The returned object must be released after use, by calling the [release] method.
   static HashMap<$K?, $V?>?
       newHashMap<$K extends jni$_.JObject?, $V extends jni$_.JObject?>(
-    int i,
+    core$_.int i,
   ) {
     return _newHashMap(_class.reference.pointer, _id_newHashMap.pointer, i)
         .object<HashMap<$K?, $V?>?>();
@@ -4643,7 +4663,7 @@ extension HashMap$$Methods<$K extends jni$_.JObject?, $V extends jni$_.JObject?>
           )>();
 
   /// from: `public int size()`
-  int size() {
+  core$_.int size() {
     return _size(reference.pointer, _id_size.pointer).integer;
   }
 
@@ -4710,13 +4730,13 @@ extension type AndroidUtils._(jni$_.JObject _$this) implements jni$_.JObject {
               jni$_.JMethodIDPtr,
               jni$_.Pointer<jni$_.Void>,
               jni$_.Pointer<jni$_.Void>,
-              int)>();
+              core$_.int)>();
 
   /// from: `static public void showToast(android.app.Activity mainActivity, java.lang.CharSequence text, int duration)`
   static void showToast(
     jni$_.JObject? mainActivity,
     jni$_.JObject? text,
-    int duration,
+    core$_.int duration,
   ) {
     final _$mainActivity = mainActivity?.reference ?? jni$_.jNullReference;
     final _$text = text?.reference ?? jni$_.jNullReference;

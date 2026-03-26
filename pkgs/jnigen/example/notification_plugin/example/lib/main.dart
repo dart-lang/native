@@ -15,8 +15,8 @@ int i = 0;
 
 void showNotification(String title, String text) {
   i = i + 1;
-  var jTitle = JString.fromString(title);
-  var jText = JString.fromString(text);
+  var jTitle = title.toJString();
+  var jText = text.toJString();
   Notifications.showNotification(
     androidActivity(PlatformDispatcher.instance.engineId!),
     i,

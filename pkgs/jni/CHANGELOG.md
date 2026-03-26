@@ -30,6 +30,12 @@
   exception.
 - **Breaking Change**: Class methods like getFoo, isFoo, and setFoo are now
   getters and setters in Dart.
+- **Breaking Change**: APIs of `JBoolean`, `JByte`, `JCharacter`, `JDouble`,
+  `JFloat`, `JInteger`, `JLong`, `JNumber`, `JShort`, and `JString` have changed
+  to be more consistent with other APIs. For example, `JBoolean.booleanValue` is
+  now `JBoolean.toDartBool`.
+- Fixed [bugs](https://github.com/dart-lang/native/issues/3244) that were
+  causing crashes in interfaces after app close and reopen.
 
 ## 0.15.2
 

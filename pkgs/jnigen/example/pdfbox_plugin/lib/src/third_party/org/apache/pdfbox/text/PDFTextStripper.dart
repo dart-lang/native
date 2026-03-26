@@ -49,7 +49,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' as core$_;
-import 'dart:core' show Object, String, double, int;
+import 'dart:core' show Object, String;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
@@ -228,7 +228,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// document, if the start page is 1 then all pages will be extracted. If the start page is 4 then pages 4 and 5 will
   /// be extracted. The default value is 1.
   ///@return Value of property startPage.
-  int get startPage {
+  core$_.int get startPage {
     return _get$startPage(reference.pointer, _id_get$startPage.pointer).integer;
   }
 
@@ -245,13 +245,13 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void setStartPage(int startPageValue)`
   ///
   /// This will set the first page to be extracted by this class.
   ///@param startPageValue New value of 1-based startPage property.
-  set startPage(int startPageValue) {
+  set startPage(core$_.int startPageValue) {
     _set$startPage(reference.pointer, _id_set$startPage.pointer, startPageValue)
         .check();
   }
@@ -279,7 +279,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// value of 5 would extract the entire document, an end page of 2 would extract pages 1 and 2. This defaults to
   /// Integer.MAX_VALUE such that all pages of the pdf will be extracted.
   ///@return Value of property endPage.
-  int get endPage {
+  core$_.int get endPage {
     return _get$endPage(reference.pointer, _id_get$endPage.pointer).integer;
   }
 
@@ -296,13 +296,13 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void setEndPage(int endPageValue)`
   ///
   /// This will set the last page to be extracted by this class.
   ///@param endPageValue New value of 1-based endPage property.
-  set endPage(int endPageValue) {
+  set endPage(core$_.int endPageValue) {
     _set$endPage(reference.pointer, _id_set$endPage.pointer, endPageValue)
         .check();
   }
@@ -461,7 +461,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
               'globalEnv_CallVoidMethod')
           .asFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+                  jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void setSuppressDuplicateOverlappingText(boolean suppressDuplicateOverlappingTextValue)`
   ///
@@ -520,7 +520,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void setShouldSeparateByBeads(boolean aShouldSeparateByBeads)`
   ///
@@ -684,7 +684,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void setAddMoreFormatting(boolean newAddMoreFormatting)`
   ///
@@ -736,7 +736,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void setSortByPosition(boolean newSortByPosition)`
   ///
@@ -777,7 +777,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// Get the current space width-based tolerance value that is being used to estimate where spaces in text should be
   /// added. Note that the default value for this has been determined from trial and error.
   ///@return The current tolerance / scaling factor
-  double get spacingTolerance {
+  core$_.double get spacingTolerance {
     return _get$spacingTolerance(
             reference.pointer, _id_get$spacingTolerance.pointer)
         .float;
@@ -797,7 +797,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
                   jni$_.VarArgs<(jni$_.Double,)>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `public void setSpacingTolerance(float spacingToleranceValue)`
   ///
@@ -805,7 +805,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// that the default value for this has been determined from trial and error. Setting this value larger will reduce
   /// the number of spaces added.
   ///@param spacingToleranceValue tolerance / scaling factor to use
-  set spacingTolerance(double spacingToleranceValue) {
+  set spacingTolerance(core$_.double spacingToleranceValue) {
     _set$spacingTolerance(reference.pointer, _id_set$spacingTolerance.pointer,
             spacingToleranceValue)
         .check();
@@ -834,7 +834,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// Get the current character width-based tolerance value that is being used to estimate where spaces in text should
   /// be added. Note that the default value for this has been determined from trial and error.
   ///@return The current tolerance / scaling factor
-  double get averageCharTolerance {
+  core$_.double get averageCharTolerance {
     return _get$averageCharTolerance(
             reference.pointer, _id_get$averageCharTolerance.pointer)
         .float;
@@ -854,7 +854,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
                   jni$_.VarArgs<(jni$_.Double,)>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `public void setAverageCharTolerance(float averageCharToleranceValue)`
   ///
@@ -862,7 +862,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// that the default value for this has been determined from trial and error. Setting this value larger will reduce
   /// the number of spaces added.
   ///@param averageCharToleranceValue average tolerance / scaling factor to use
-  set averageCharTolerance(double averageCharToleranceValue) {
+  set averageCharTolerance(core$_.double averageCharToleranceValue) {
     _set$averageCharTolerance(reference.pointer,
             _id_set$averageCharTolerance.pointer, averageCharToleranceValue)
         .check();
@@ -891,7 +891,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// returns the multiple of whitespace character widths for the current text which the current line start can be
   /// indented from the previous line start beyond which the current line start is considered to be a paragraph start.
   ///@return the number of whitespace character widths to use when detecting paragraph indents.
-  double get indentThreshold {
+  core$_.double get indentThreshold {
     return _get$indentThreshold(
             reference.pointer, _id_get$indentThreshold.pointer)
         .float;
@@ -911,7 +911,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
                   jni$_.VarArgs<(jni$_.Double,)>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `public void setIndentThreshold(float indentThresholdValue)`
   ///
@@ -919,7 +919,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// indented from the previous line start beyond which the current line start is considered to be a paragraph start.
   /// The default value is 2.0.
   ///@param indentThresholdValue the number of whitespace character widths to use when detecting paragraph indents.
-  set indentThreshold(double indentThresholdValue) {
+  set indentThreshold(core$_.double indentThresholdValue) {
     _set$indentThreshold(reference.pointer, _id_set$indentThreshold.pointer,
             indentThresholdValue)
         .check();
@@ -947,7 +947,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// the minimum whitespace, as a multiple of the max height of the current characters beyond which the current line
   /// start is considered to be a paragraph start.
   ///@return the character height multiple for max allowed whitespace between lines in the same paragraph.
-  double get dropThreshold {
+  core$_.double get dropThreshold {
     return _get$dropThreshold(reference.pointer, _id_get$dropThreshold.pointer)
         .float;
   }
@@ -965,7 +965,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
                   jni$_.VarArgs<(jni$_.Double,)>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `public void setDropThreshold(float dropThresholdValue)`
   ///
@@ -973,7 +973,7 @@ extension PDFTextStripper$$Methods on PDFTextStripper {
   /// line start is considered to be a paragraph start. The default value is 2.5.
   ///@param dropThresholdValue the character height multiple for max allowed whitespace between lines in the same
   /// paragraph.
-  set dropThreshold(double dropThresholdValue) {
+  set dropThreshold(core$_.double dropThresholdValue) {
     _set$dropThreshold(reference.pointer, _id_set$dropThreshold.pointer,
             dropThresholdValue)
         .check();

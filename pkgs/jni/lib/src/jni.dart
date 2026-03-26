@@ -244,6 +244,10 @@ extension ProtectedJniExtensions on Jni {
     }
   }
 
+  static int getMainPortId() {
+    return Jni._bindings.GetMainPortId();
+  }
+
   static int getCurrentIsolateId() {
     return Jni._bindings.GetCurrentIsolateId();
   }

@@ -49,7 +49,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' as core$_;
-import 'dart:core' show Object, String, double, int;
+import 'dart:core' show Object, String;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
@@ -1309,14 +1309,14 @@ extension PDDocument$$Methods on PDDocument {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void removePage(int pageNumber)`
   ///
   /// Remove the page from the document.
   ///@param pageNumber 0 based index to page number.
   void removePage$1(
-    int pageNumber,
+    core$_.int pageNumber,
   ) {
     _removePage$1(reference.pointer, _id_removePage$1.pointer, pageNumber)
         .check();
@@ -1969,7 +1969,7 @@ extension PDDocument$$Methods on PDDocument {
                   jni$_.VarArgs<(jni$_.Int32,)>)>>('globalEnv_CallObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public org.apache.pdfbox.pdmodel.PDPage getPage(int pageIndex)`
   /// The returned object must be released after use, by calling the [release] method.
@@ -1982,7 +1982,7 @@ extension PDDocument$$Methods on PDDocument {
   ///@param pageIndex the 0-based page index
   ///@return the page at the given index.
   jni$_.JObject? getPage(
-    int pageIndex,
+    core$_.int pageIndex,
   ) {
     return _getPage(reference.pointer, _id_getPage.pointer, pageIndex)
         .object<jni$_.JObject?>();
@@ -2036,7 +2036,7 @@ extension PDDocument$$Methods on PDDocument {
   ///
   /// This will return the total page count of the PDF document.
   ///@return The total number of pages in the PDF document.
-  int get numberOfPages {
+  core$_.int get numberOfPages {
     return _get$numberOfPages(reference.pointer, _id_get$numberOfPages.pointer)
         .integer;
   }
@@ -2177,7 +2177,7 @@ extension PDDocument$$Methods on PDDocument {
               'globalEnv_CallVoidMethod')
           .asFunction<
               jni$_.JThrowablePtr Function(
-                  jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+                  jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `public void setAllSecurityToBeRemoved(boolean removeAllSecurity)`
   ///
@@ -2264,7 +2264,7 @@ extension PDDocument$$Methods on PDDocument {
   ///
   /// Returns the PDF specification version this document conforms to.
   ///@return the PDF version (e.g. 1.4f)
-  double get version {
+  core$_.double get version {
     return _get$version(reference.pointer, _id_get$version.pointer).float;
   }
 
@@ -2281,13 +2281,13 @@ extension PDDocument$$Methods on PDDocument {
                   jni$_.VarArgs<(jni$_.Double,)>)>>('globalEnv_CallVoidMethod')
       .asFunction<
           jni$_.JThrowablePtr Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, double)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.double)>();
 
   /// from: `public void setVersion(float newVersion)`
   ///
   /// Sets the PDF specification version for this document.
   ///@param newVersion the new PDF version (e.g. 1.4f)
-  set version(double newVersion) {
+  set version(core$_.double newVersion) {
     _set$version(reference.pointer, _id_set$version.pointer, newVersion)
         .check();
   }

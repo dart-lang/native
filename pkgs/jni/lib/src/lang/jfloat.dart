@@ -2,25 +2,18 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import '../jobject.dart';
-import '../jvalues.dart';
-import '../types.dart';
-import 'jnumber.dart';
+import '../core_bindings.dart';
 
-final class _$JFloat$Type$ extends JType<JFloat> {
-  const _$JFloat$Type$();
-
-  @override
-  String get signature => r'Ljava/lang/Float;';
-}
-
-extension type JFloat._(JObject _$this) implements JNumber {
-  /// The type which includes information such as the signature of this class.
-  static const JType<JFloat> type = _$JFloat$Type$();
-
-  static final _class = type.jClass;
-
-  static final _ctorId = _class.constructorId(r'(F)V');
-
-  JFloat(double num) : _$this = _ctorId<JFloat>(_class, [JValueFloat(num)]);
+extension JFloatExtension on JFloat {
+  /// Returns the value as a Dart double.
+  ///
+  /// If [releaseOriginal] is true, the underlying reference is deleted
+  /// after conversion and this object will be marked as released.
+  double toDartDouble({bool releaseOriginal = false}) {
+    final ret = floatValue();
+    if (releaseOriginal) {
+      release();
+    }
+    return ret;
+  }
 }
