@@ -208,7 +208,7 @@ jobs:
         with:
           api-level: 26
           arch: x86_64
-          script: flutter test --timeout=1200s
+          script: flutter test --timeout=1200s integration_test/
 
   analyze_jni:
     runs-on: ubuntu-latest
