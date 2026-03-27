@@ -115,14 +115,6 @@ class JniBindings {
   late final _GetCurrentActivity =
       _GetCurrentActivityPtr.asFunction<JObjectPtr Function()>();
 
-  int GetMainPortId() {
-    return _GetMainPortId();
-  }
-
-  late final _GetMainPortIdPtr =
-      _lookup<ffi.NativeFunction<ffi.Int64 Function()>>('GetMainPortId');
-  late final _GetMainPortId = _GetMainPortIdPtr.asFunction<int Function()>();
-
   int GetCurrentIsolateId() {
     return _GetCurrentIsolateId();
   }
@@ -164,6 +156,14 @@ class JniBindings {
       _lookup<ffi.NativeFunction<ffi.Pointer<JniEnv> Function()>>('GetJniEnv');
   late final _GetJniEnv =
       _GetJniEnvPtr.asFunction<ffi.Pointer<JniEnv> Function()>();
+
+  int GetMainPortId() {
+    return _GetMainPortId();
+  }
+
+  late final _GetMainPortIdPtr =
+      _lookup<ffi.NativeFunction<ffi.Int64 Function()>>('GetMainPortId');
+  late final _GetMainPortId = _GetMainPortIdPtr.asFunction<int Function()>();
 
   int InitDartApiDL(
     ffi.Pointer<ffi.Void> data,
