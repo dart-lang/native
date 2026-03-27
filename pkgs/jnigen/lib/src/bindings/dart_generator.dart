@@ -881,7 +881,7 @@ class _TypeClassGenerator extends TypeVisitor<String> {
 
   @override
   String visitNonPrimitiveType(ReferredType node) {
-    return '$_jObjectTypePrefix$Type\$()';
+    return 'const $_jObjectTypePrefix$Type\$()';
   }
 }
 

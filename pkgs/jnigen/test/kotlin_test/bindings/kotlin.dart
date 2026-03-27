@@ -11032,7 +11032,7 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
       $o = $r;
     }
     return $o?.as<jni$_.JObject>(
-      jni$_.$JObject$Type$(),
+      const jni$_.$JObject$Type$(),
       releaseOriginal: true,
     );
   }
@@ -11745,7 +11745,7 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
       $o = $r;
     }
     return $o.as<jni$_.JObject>(
-      jni$_.$JObject$Type$(),
+      const jni$_.$JObject$Type$(),
       releaseOriginal: true,
     );
   }
@@ -13034,7 +13034,7 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
       $o = $r;
     }
     return $o?.as<jni$_.JObject>(
-      jni$_.$JObject$Type$(),
+      const jni$_.$JObject$Type$(),
       releaseOriginal: true,
     );
   }
@@ -17934,7 +17934,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
       $o = $r;
     }
     return $o.as<jni$_.JObject>(
-      jni$_.$JObject$Type$(),
+      const jni$_.$JObject$Type$(),
       releaseOriginal: true,
     );
   }
@@ -18582,7 +18582,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
       $o = $r;
     }
     return $o?.as<jni$_.JObject>(
-      jni$_.$JObject$Type$(),
+      const jni$_.$JObject$Type$(),
       releaseOriginal: true,
     );
   }
@@ -18681,7 +18681,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
       $o = $r;
     }
     return $o?.as<jni$_.JObject>(
-      jni$_.$JObject$Type$(),
+      const jni$_.$JObject$Type$(),
       releaseOriginal: true,
     );
   }
@@ -19444,7 +19444,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
       $o = $r;
     }
     return $o?.as<jni$_.JObject>(
-      jni$_.$JObject$Type$(),
+      const jni$_.$JObject$Type$(),
       releaseOriginal: true,
     );
   }
@@ -22496,7 +22496,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
       $o = $r;
     }
     return $o.as<jni$_.JObject>(
-      jni$_.$JObject$Type$(),
+      const jni$_.$JObject$Type$(),
       releaseOriginal: true,
     );
   }
@@ -23809,7 +23809,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
       $o = $r;
     }
     return $o?.as<jni$_.JObject>(
-      jni$_.$JObject$Type$(),
+      const jni$_.$JObject$Type$(),
       releaseOriginal: true,
     );
   }
@@ -23873,7 +23873,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
       $o = $r;
     }
     return $o?.as<jni$_.JObject>(
-      jni$_.$JObject$Type$(),
+      const jni$_.$JObject$Type$(),
       releaseOriginal: true,
     );
   }
@@ -27457,7 +27457,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
       $o = $r;
     }
     return $o.as<jni$_.JObject>(
-      jni$_.$JObject$Type$(),
+      const jni$_.$JObject$Type$(),
       releaseOriginal: true,
     );
   }
@@ -28105,7 +28105,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
       $o = $r;
     }
     return $o?.as<jni$_.JObject>(
-      jni$_.$JObject$Type$(),
+      const jni$_.$JObject$Type$(),
       releaseOriginal: true,
     );
   }
@@ -28204,7 +28204,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
       $o = $r;
     }
     return $o?.as<jni$_.JObject>(
-      jni$_.$JObject$Type$(),
+      const jni$_.$JObject$Type$(),
       releaseOriginal: true,
     );
   }
@@ -28967,7 +28967,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
       $o = $r;
     }
     return $o?.as<jni$_.JObject>(
-      jni$_.$JObject$Type$(),
+      const jni$_.$JObject$Type$(),
       releaseOriginal: true,
     );
   }
@@ -32019,7 +32019,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
       $o = $r;
     }
     return $o.as<jni$_.JObject>(
-      jni$_.$JObject$Type$(),
+      const jni$_.$JObject$Type$(),
       releaseOriginal: true,
     );
   }
@@ -33332,7 +33332,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
       $o = $r;
     }
     return $o?.as<jni$_.JObject>(
-      jni$_.$JObject$Type$(),
+      const jni$_.$JObject$Type$(),
       releaseOriginal: true,
     );
   }
@@ -33396,7 +33396,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
       $o = $r;
     }
     return $o?.as<jni$_.JObject>(
-      jni$_.$JObject$Type$(),
+      const jni$_.$JObject$Type$(),
       releaseOriginal: true,
     );
   }
