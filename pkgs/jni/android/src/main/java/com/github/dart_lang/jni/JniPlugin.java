@@ -4,9 +4,17 @@
 
 package com.github.dart_lang.jni;
 
+import androidx.annotation.NonNull;
 import io.flutter.embedding.engine.plugins.FlutterPlugin;
 
 public class JniPlugin implements FlutterPlugin {
+  @Override
+  @SuppressWarnings("deprecation")
+  public void onAttachedToEngine(@NonNull FlutterPluginBinding binding) {}
+
+  @Override
+  public void onDetachedFromEngine(@NonNull FlutterPluginBinding binding) {}
+
   static native void setClassLoader(ClassLoader classLoader);
 
   static {
