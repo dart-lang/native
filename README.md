@@ -20,6 +20,7 @@ See the [doc](doc/) directory for more documentation.
 | [hooks](pkgs/hooks/) | This package contains the API for `hook/build.dart` and `hook/link.dart`. | [![issues](https://img.shields.io/badge/package:hooks-4774bc)][hooks_issues] | [![pub package](https://img.shields.io/pub/v/hooks.svg)](https://pub.dev/packages/hooks) |
 | [hooks_runner](pkgs/hooks_runner/) | This package is the backend that invokes `hook/build.dart` and `hook/link.dart` from Dart and Flutter. | [![issues](https://img.shields.io/badge/package:hooks__runner-4774bc)][hooks_runner_issues] | [![pub package](https://img.shields.io/pub/v/hooks_runner.svg)](https://pub.dev/packages/hooks_runner) |
 | [jni](pkgs/jni/) | A library to access JNI from Dart and Flutter that acts as a support library for package:jnigen. | [![issues](https://img.shields.io/badge/package:jni-4774bc)][jni_issues] | [![pub package](https://img.shields.io/pub/v/jni.svg)](https://pub.dev/packages/jni) |
+| [jni_flutter](pkgs/jni_flutter/) | A library to access Flutter Android specific APIs from Dart. | [![issues](https://img.shields.io/badge/package:jni_flutter-4774bc)][jni_flutter_issues] | [![pub package](https://img.shields.io/pub/v/jni_flutter.svg)](https://pub.dev/packages/jni_flutter) |
 | [jnigen](pkgs/jnigen/) | A Dart bindings generator for Java and Kotlin that uses JNI under the hood to interop with Java virtual machine. | [![issues](https://img.shields.io/badge/package:jnigen-4774bc)][jnigen_issues] | [![pub package](https://img.shields.io/pub/v/jnigen.svg)](https://pub.dev/packages/jnigen) |
 | [native_doc_dartifier](pkgs/native_doc_dartifier/) | A library that converts code snippets from other languages into Dart. | [![issues](https://img.shields.io/badge/package:native__doc__dartifier-4774bc)][native_doc_dartifier_issues] | [![pub package](https://img.shields.io/pub/v/native_doc_dartifier.svg)](https://pub.dev/packages/native_doc_dartifier) |
 | [native_toolchain_c](pkgs/native_toolchain_c/) | A library to invoke the native C compiler installed on the host machine. | [![issues](https://img.shields.io/badge/package:native__toolchain__c-4774bc)][native_toolchain_c_issues] | [![pub package](https://img.shields.io/pub/v/native_toolchain_c.svg)](https://pub.dev/packages/native_toolchain_c) |
@@ -34,6 +35,7 @@ See the [doc](doc/) directory for more documentation.
 [hooks_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Ahooks
 [hooks_runner_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Ahooks_runner
 [jni_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Ajni
+[jni_flutter_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Ajni_flutter
 [jnigen_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Ajnigen
 [native_doc_dartifier_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Anative_doc_dartifier
 [native_toolchain_c_issues]: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Anative_toolchain_c
