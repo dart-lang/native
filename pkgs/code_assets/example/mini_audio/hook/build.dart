@@ -18,8 +18,17 @@ void main(List<String> args) async {
             // Ensure symbols are exported in dll.
             'MA_API': '__declspec(dllexport)',
         },
+        linkModePreference: input.config.linkingEnabled
+            ? LinkModePreference.static
+            : LinkModePreference.dynamic,
       );
-      await builder.run(input: input, output: output);
+      await builder.run(
+        input: input,
+        output: output,
+        routing: input.config.linkingEnabled
+            ? [ToLinkHook(input.packageName)]
+            : [const ToAppBundle()],
+      );
     }
   });
 }

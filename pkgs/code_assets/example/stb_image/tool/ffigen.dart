@@ -12,9 +12,15 @@ void main() {
     headers: Headers(
       entryPoints: [packageRoot.resolve('third_party/stb_image.h')],
     ),
-    functions: Functions.includeSet({'stbi_info'}),
+    functions: Functions(
+      include: (decl) => {'stbi_info'}.contains(decl.originalName),
+      recordUse: (_) => true,
+    ),
     output: Output(
       dartFile: packageRoot.resolve('lib/src/third_party/stb_image.g.dart'),
+      recordUseMapping: packageRoot.resolve(
+        'lib/src/third_party/record_use_mapping.dart',
+      ),
       preamble: '''
 // This is free and unencumbered software released into the public domain.
 // Anyone is free to copy, modify, publish, use, compile, sell, or distribute this
