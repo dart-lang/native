@@ -146,7 +146,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
       });
     });
 
-    test('Pigeon bindings', () {
+    test('Regression test #3235', () {
       // Regression test for https://github.com/dart-lang/native/issues/3235.
       // The important part of this test is that the bindings compile. Here we
       // just poke one of the APIs to make sure it loaded successfully.
