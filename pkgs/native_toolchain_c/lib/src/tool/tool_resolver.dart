@@ -82,8 +82,9 @@ class PathToolResolver extends ToolResolver {
     if (process.exitCode == 0) {
       final file = File(LineSplitter.split(process.stdout).first);
       final uri = File(await file.resolveSymbolicLinks()).uri;
-      if (uri.pathSegments.last case 'llvm' || 'lld') {
+      if (uri.pathSegments.last case 'llvm' || 'lld' || 'swiftly') {
         // https://github.com/dart-lang/native/issues/136
+        // https://github.com/dart-lang/native/issues/2792
         return file.uri;
       }
       return uri;
@@ -373,10 +374,47 @@ class RelativeToolResolver implements ToolResolver {
   }
 }
 
+class PathFilter implements ToolResolver {
+  final String toolName;
+  final ToolResolver wrappedResolver;
+  final bool Function({required Uri uri}) keepIf;
+
+  PathFilter({
+    required this.toolName,
+    required this.wrappedResolver,
+    required this.keepIf,
+  });
+
+  @override
+  Future<List<ToolInstance>> resolve(ToolResolvingContext context) async {
+    final logger = context.logger;
+    final otherToolInstances = await wrappedResolver.resolve(context);
+
+    logger?.finer(
+      'Checking if one of $toolName resolved as $otherToolInstances is '
+      'matches filter',
+    );
+
+    final result = otherToolInstances
+        .where((instance) => keepIf(uri: instance.uri))
+        .toList();
+
+    if (result.isNotEmpty) {
+      logger?.fine('Found $result.');
+    } else {
+      logger?.finer(
+        'Found no $toolName with the specified absolute path '
+        '$otherToolInstances.',
+      );
+    }
+    return result;
+  }
+}
+
 class CliFilter implements ToolResolver {
   final ToolResolver wrappedResolver;
   final List<String> cliArguments;
-  final bool Function({required String stdout}) keepIf;
+  final bool Function({required String stdout, required String stderr}) keepIf;
 
   CliFilter({
     required this.wrappedResolver,
@@ -399,12 +437,12 @@ class CliFilter implements ToolResolver {
   }) async {
     if (toolInstance.version != null) return toolInstance;
     logger?.finer('Checking if $toolInstance satisfies CLI filter.');
-    final stdout = await executeCli(
+    final (:stdout, :stderr) = await executeCli(
       toolInstance.uri,
       arguments: cliArguments,
       logger: logger,
     );
-    final doKeep = keepIf(stdout: stdout);
+    final doKeep = keepIf(stdout: stdout, stderr: stderr);
     if (doKeep) {
       logger?.fine('$toolInstance satisfies CLI filter.');
       return toolInstance;
@@ -413,7 +451,7 @@ class CliFilter implements ToolResolver {
     return null;
   }
 
-  static Future<String> executeCli(
+  static Future<({String stdout, String stderr})> executeCli(
     Uri executable, {
     required List<String> arguments,
     int expectedExitCode = 0,
@@ -426,6 +464,6 @@ class CliFilter implements ToolResolver {
     );
     final exitCode = process.exitCode;
     assert(exitCode == expectedExitCode);
-    return process.stdout;
+    return (stdout: process.stdout, stderr: process.stderr);
   }
 }

@@ -27,7 +27,7 @@ class CompilerRecognizer implements ToolResolver {
     if (filePath.contains('-gcc')) {
       tool = gcc;
     } else if (filePath.endsWith(os.executableFileName('clang'))) {
-      final stdout = await CliFilter.executeCli(
+      final (:stdout, :stderr) = await CliFilter.executeCli(
         uri,
         arguments: ['--version'],
         logger: logger,
