@@ -41,9 +41,6 @@ ma_result ma_engine_init(
   ffi.Pointer<ma_engine> pEngine,
 ) => ma_result.fromValue(_ma_engine_init(pConfig, pEngine));
 
-@ffi.Native<ffi.Void Function(ffi.Pointer<ma_engine>)>()
-external void ma_engine_uninit(ffi.Pointer<ma_engine> pEngine);
-
 @ffi.Native<
   ffi.Int Function(
     ffi.Pointer<ma_engine>,
@@ -63,7 +60,362 @@ ma_result ma_engine_play_sound(
   ffi.Pointer<ma_sound> pGroup,
 ) => ma_result.fromValue(_ma_engine_play_sound(pEngine, pFilePath, pGroup));
 
+@ffi.Native<ffi.Void Function(ffi.Pointer<ma_engine>)>()
+external void ma_engine_uninit(ffi.Pointer<ma_engine> pEngine);
+
+final class ma_allocation_callbacks extends ffi.Struct {
+  external ffi.Pointer<ffi.Void> pUserData;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(
+        ffi.Size sz,
+        ffi.Pointer<ffi.Void> pUserData,
+      )
+    >
+  >
+  onMalloc;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Pointer<ffi.Void> Function(
+        ffi.Pointer<ffi.Void> p,
+        ffi.Size sz,
+        ffi.Pointer<ffi.Void> pUserData,
+      )
+    >
+  >
+  onRealloc;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<ffi.Void> p,
+        ffi.Pointer<ffi.Void> pUserData,
+      )
+    >
+  >
+  onFree;
+
+  static ffi.Pointer<ma_allocation_callbacks> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<ffi.Void> pUserData,
+    required ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Pointer<ffi.Void> Function(
+          ffi.Size sz,
+          ffi.Pointer<ffi.Void> pUserData,
+        )
+      >
+    >
+    onMalloc,
+    required ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Pointer<ffi.Void> Function(
+          ffi.Pointer<ffi.Void> p,
+          ffi.Size sz,
+          ffi.Pointer<ffi.Void> pUserData,
+        )
+      >
+    >
+    onRealloc,
+    required ffi.Pointer<
+      ffi.NativeFunction<
+        ffi.Void Function(
+          ffi.Pointer<ffi.Void> p,
+          ffi.Pointer<ffi.Void> pUserData,
+        )
+      >
+    >
+    onFree,
+  }) => $allocator<ma_allocation_callbacks>()
+    ..ref.pUserData = pUserData
+    ..ref.onMalloc = onMalloc
+    ..ref.onRealloc = onRealloc
+    ..ref.onFree = onFree;
+}
+
+final class ma_atomic_vec3f extends ffi.Struct {
+  external ma_vec3f v;
+
+  @ffi.UnsignedInt()
+  external int lock;
+}
+
 final class ma_device extends ffi.Opaque {}
+
+final class ma_engine extends ffi.Struct {
+  external ma_node_graph nodeGraph;
+
+  external ffi.Pointer<ma_resource_manager> pResourceManager;
+
+  external ffi.Pointer<ma_device> pDevice;
+
+  external ffi.Pointer<ma_log> pLog;
+
+  @ffi.UnsignedInt()
+  external int sampleRate;
+
+  @ffi.UnsignedInt()
+  external int listenerCount;
+
+  @ffi.Array.multi([4])
+  external ffi.Array<ma_spatializer_listener> listeners;
+
+  external ma_allocation_callbacks allocationCallbacks;
+
+  @ffi.UnsignedChar()
+  external int ownsResourceManager;
+
+  @ffi.UnsignedChar()
+  external int ownsDevice;
+
+  @ffi.UnsignedInt()
+  external int inlinedSoundLock;
+
+  external ffi.Pointer<ma_sound_inlined> pInlinedSoundHead;
+
+  @ffi.UnsignedInt()
+  external int inlinedSoundCount;
+
+  @ffi.UnsignedInt()
+  external int gainSmoothTimeInFrames;
+
+  @ffi.UnsignedInt()
+  external int defaultVolumeSmoothTimeInPCMFrames;
+
+  @ffi.UnsignedInt()
+  external int monoExpansionModeAsInt;
+
+  ma_mono_expansion_mode get monoExpansionMode =>
+      ma_mono_expansion_mode.fromValue(monoExpansionModeAsInt);
+  set monoExpansionMode(ma_mono_expansion_mode value) =>
+      monoExpansionModeAsInt = value.value;
+
+  external ffi.Pointer<
+    ffi.NativeFunction<
+      ffi.Void Function(
+        ffi.Pointer<ffi.Void> pUserData,
+        ffi.Pointer<ffi.Float> pFramesOut,
+        ffi.UnsignedLongLong frameCount,
+      )
+    >
+  >
+  onProcess;
+
+  external ffi.Pointer<ffi.Void> pProcessUserData;
+}
+
+final class ma_engine_config extends ffi.Opaque {}
+
+enum ma_handedness {
+  ma_handedness_right(0),
+  ma_handedness_left(1);
+
+  final int value;
+  const ma_handedness(this.value);
+
+  static ma_handedness fromValue(int value) => switch (value) {
+    0 => ma_handedness_right,
+    1 => ma_handedness_left,
+    _ => throw ArgumentError('Unknown value for ma_handedness: $value'),
+  };
+}
+
+final class ma_log extends ffi.Opaque {}
+
+enum ma_mono_expansion_mode {
+  ma_mono_expansion_mode_duplicate(0),
+  ma_mono_expansion_mode_average(1),
+  ma_mono_expansion_mode_stereo_only(2);
+
+  static const ma_mono_expansion_mode_default =
+      ma_mono_expansion_mode_duplicate;
+
+  final int value;
+  const ma_mono_expansion_mode(this.value);
+
+  static ma_mono_expansion_mode fromValue(int value) => switch (value) {
+    0 => ma_mono_expansion_mode_duplicate,
+    1 => ma_mono_expansion_mode_average,
+    2 => ma_mono_expansion_mode_stereo_only,
+    _ => throw ArgumentError(
+      'Unknown value for ma_mono_expansion_mode: $value',
+    ),
+  };
+
+  @override
+  String toString() {
+    if (this == ma_mono_expansion_mode_duplicate)
+      return "ma_mono_expansion_mode.ma_mono_expansion_mode_duplicate, ma_mono_expansion_mode.ma_mono_expansion_mode_default";
+    return super.toString();
+  }
+}
+
+final class ma_node_base extends ffi.Struct {
+  external ffi.Pointer<ma_node_graph> pNodeGraph;
+
+  external ffi.Pointer<ma_node_vtable> vtable;
+
+  @ffi.UnsignedInt()
+  external int inputBusCount;
+
+  @ffi.UnsignedInt()
+  external int outputBusCount;
+
+  external ffi.Pointer<ma_node_input_bus> pInputBuses;
+
+  external ffi.Pointer<ma_node_output_bus> pOutputBuses;
+
+  external ffi.Pointer<ffi.Float> pCachedData;
+
+  @ffi.UnsignedShort()
+  external int cachedDataCapInFramesPerBus;
+
+  @ffi.UnsignedShort()
+  external int cachedFrameCountOut;
+
+  @ffi.UnsignedShort()
+  external int cachedFrameCountIn;
+
+  @ffi.UnsignedShort()
+  external int consumedFrameCountIn;
+
+  @ffi.UnsignedInt()
+  external int stateAsInt;
+
+  ma_node_state get state => ma_node_state.fromValue(stateAsInt);
+  set state(ma_node_state value) => stateAsInt = value.value;
+
+  @ffi.Array.multi([2])
+  external ffi.Array<ffi.UnsignedLongLong> stateTimes;
+
+  @ffi.UnsignedLongLong()
+  external int localTime;
+
+  @ffi.Array.multi([2])
+  external ffi.Array<ma_node_input_bus> _inputBuses;
+
+  @ffi.Array.multi([2])
+  external ffi.Array<ma_node_output_bus> _outputBuses;
+
+  external ffi.Pointer<ffi.Void> _pHeap;
+
+  @ffi.UnsignedInt()
+  external int _ownsHeap;
+}
+
+final class ma_node_graph extends ffi.Struct {
+  external ma_node_base base;
+
+  external ma_node_base endpoint;
+
+  external ffi.Pointer<ffi.Float> pProcessingCache;
+
+  @ffi.UnsignedInt()
+  external int processingCacheFramesRemaining;
+
+  @ffi.UnsignedInt()
+  external int processingSizeInFrames;
+
+  @ffi.UnsignedInt()
+  external int isReading;
+
+  external ffi.Pointer<ma_stack> pPreMixStack;
+}
+
+final class ma_node_input_bus extends ffi.Struct {
+  external ma_node_output_bus head;
+
+  @ffi.UnsignedInt()
+  external int nextCounter;
+
+  @ffi.UnsignedInt()
+  external int lock;
+
+  @ffi.UnsignedChar()
+  external int channels;
+}
+
+final class ma_node_output_bus extends ffi.Struct {
+  external ffi.Pointer<ffi.Void> pNode;
+
+  @ffi.UnsignedChar()
+  external int outputBusIndex;
+
+  @ffi.UnsignedChar()
+  external int channels;
+
+  @ffi.UnsignedChar()
+  external int inputNodeInputBusIndex;
+
+  @ffi.UnsignedInt()
+  external int flags;
+
+  @ffi.UnsignedInt()
+  external int refCount;
+
+  @ffi.UnsignedInt()
+  external int isAttached;
+
+  @ffi.UnsignedInt()
+  external int lock;
+
+  @ffi.Float()
+  external double volume;
+
+  external ffi.Pointer<ma_node_output_bus> pNext;
+
+  external ffi.Pointer<ma_node_output_bus> pPrev;
+
+  external ffi.Pointer<ffi.Void> pInputNode;
+
+  static ffi.Pointer<ma_node_output_bus> $allocate(
+    ffi.Allocator $allocator, {
+    required ffi.Pointer<ffi.Void> pNode,
+    required int outputBusIndex,
+    required int channels,
+    required int inputNodeInputBusIndex,
+    required int flags,
+    required int refCount,
+    required int isAttached,
+    required int lock,
+    required double volume,
+    required ffi.Pointer<ma_node_output_bus> pNext,
+    required ffi.Pointer<ma_node_output_bus> pPrev,
+    required ffi.Pointer<ffi.Void> pInputNode,
+  }) => $allocator<ma_node_output_bus>()
+    ..ref.pNode = pNode
+    ..ref.outputBusIndex = outputBusIndex
+    ..ref.channels = channels
+    ..ref.inputNodeInputBusIndex = inputNodeInputBusIndex
+    ..ref.flags = flags
+    ..ref.refCount = refCount
+    ..ref.isAttached = isAttached
+    ..ref.lock = lock
+    ..ref.volume = volume
+    ..ref.pNext = pNext
+    ..ref.pPrev = pPrev
+    ..ref.pInputNode = pInputNode;
+}
+
+enum ma_node_state {
+  ma_node_state_started(0),
+  ma_node_state_stopped(1);
+
+  final int value;
+  const ma_node_state(this.value);
+
+  static ma_node_state fromValue(int value) => switch (value) {
+    0 => ma_node_state_started,
+    1 => ma_node_state_stopped,
+    _ => throw ArgumentError('Unknown value for ma_node_state: $value'),
+  };
+}
+
+final class ma_node_vtable extends ffi.Opaque {}
+
+final class ma_resource_manager extends ffi.Opaque {}
 
 enum ma_result {
   MA_SUCCESS(0),
@@ -217,100 +569,9 @@ enum ma_result {
   };
 }
 
-final class ma_allocation_callbacks extends ffi.Struct {
-  external ffi.Pointer<ffi.Void> pUserData;
+final class ma_sound extends ffi.Opaque {}
 
-  external ffi.Pointer<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(
-        ffi.Size sz,
-        ffi.Pointer<ffi.Void> pUserData,
-      )
-    >
-  >
-  onMalloc;
-
-  external ffi.Pointer<
-    ffi.NativeFunction<
-      ffi.Pointer<ffi.Void> Function(
-        ffi.Pointer<ffi.Void> p,
-        ffi.Size sz,
-        ffi.Pointer<ffi.Void> pUserData,
-      )
-    >
-  >
-  onRealloc;
-
-  external ffi.Pointer<
-    ffi.NativeFunction<
-      ffi.Void Function(
-        ffi.Pointer<ffi.Void> p,
-        ffi.Pointer<ffi.Void> pUserData,
-      )
-    >
-  >
-  onFree;
-}
-
-final class ma_log extends ffi.Opaque {}
-
-final class ma_vec3f extends ffi.Struct {
-  @ffi.Float()
-  external double x;
-
-  @ffi.Float()
-  external double y;
-
-  @ffi.Float()
-  external double z;
-}
-
-final class ma_atomic_vec3f extends ffi.Struct {
-  external ma_vec3f v;
-
-  @ffi.UnsignedInt()
-  external int lock;
-}
-
-enum ma_handedness {
-  ma_handedness_right(0),
-  ma_handedness_left(1);
-
-  final int value;
-  const ma_handedness(this.value);
-
-  static ma_handedness fromValue(int value) => switch (value) {
-    0 => ma_handedness_right,
-    1 => ma_handedness_left,
-    _ => throw ArgumentError('Unknown value for ma_handedness: $value'),
-  };
-}
-
-final class ma_spatializer_listener_config extends ffi.Struct {
-  @ffi.UnsignedInt()
-  external int channelsOut;
-
-  external ffi.Pointer<ffi.UnsignedChar> pChannelMapOut;
-
-  @ffi.UnsignedInt()
-  external int handednessAsInt;
-
-  ma_handedness get handedness => ma_handedness.fromValue(handednessAsInt);
-
-  @ffi.Float()
-  external double coneInnerAngleInRadians;
-
-  @ffi.Float()
-  external double coneOuterAngleInRadians;
-
-  @ffi.Float()
-  external double coneOuterGain;
-
-  @ffi.Float()
-  external double speedOfSound;
-
-  external ma_vec3f worldUp;
-}
+final class ma_sound_inlined extends ffi.Opaque {}
 
 final class ma_spatializer_listener extends ffi.Struct {
   external ma_spatializer_listener_config config;
@@ -330,234 +591,52 @@ final class ma_spatializer_listener extends ffi.Struct {
   external ffi.Pointer<ffi.Void> _pHeap;
 }
 
-enum ma_mono_expansion_mode {
-  ma_mono_expansion_mode_duplicate(0),
-  ma_mono_expansion_mode_average(1),
-  ma_mono_expansion_mode_stereo_only(2);
+final class ma_spatializer_listener_config extends ffi.Struct {
+  @ffi.UnsignedInt()
+  external int channelsOut;
 
-  static const ma_mono_expansion_mode_default =
-      ma_mono_expansion_mode_duplicate;
+  external ffi.Pointer<ffi.UnsignedChar> pChannelMapOut;
 
-  final int value;
-  const ma_mono_expansion_mode(this.value);
+  @ffi.UnsignedInt()
+  external int handednessAsInt;
 
-  static ma_mono_expansion_mode fromValue(int value) => switch (value) {
-    0 => ma_mono_expansion_mode_duplicate,
-    1 => ma_mono_expansion_mode_average,
-    2 => ma_mono_expansion_mode_stereo_only,
-    _ => throw ArgumentError(
-      'Unknown value for ma_mono_expansion_mode: $value',
-    ),
-  };
+  ma_handedness get handedness => ma_handedness.fromValue(handednessAsInt);
+  set handedness(ma_handedness value) => handednessAsInt = value.value;
 
-  @override
-  String toString() {
-    if (this == ma_mono_expansion_mode_duplicate)
-      return "ma_mono_expansion_mode.ma_mono_expansion_mode_duplicate, ma_mono_expansion_mode.ma_mono_expansion_mode_default";
-    return super.toString();
-  }
+  @ffi.Float()
+  external double coneInnerAngleInRadians;
+
+  @ffi.Float()
+  external double coneOuterAngleInRadians;
+
+  @ffi.Float()
+  external double coneOuterGain;
+
+  @ffi.Float()
+  external double speedOfSound;
+
+  external ma_vec3f worldUp;
 }
-
-final class ma_resource_manager extends ffi.Opaque {}
 
 final class ma_stack extends ffi.Opaque {}
 
-final class ma_node_vtable extends ffi.Opaque {}
-
-final class ma_node_output_bus extends ffi.Struct {
-  external ffi.Pointer<ffi.Void> pNode;
-
-  @ffi.UnsignedChar()
-  external int outputBusIndex;
-
-  @ffi.UnsignedChar()
-  external int channels;
-
-  @ffi.UnsignedChar()
-  external int inputNodeInputBusIndex;
-
-  @ffi.UnsignedInt()
-  external int flags;
-
-  @ffi.UnsignedInt()
-  external int refCount;
-
-  @ffi.UnsignedInt()
-  external int isAttached;
-
-  @ffi.UnsignedInt()
-  external int lock;
+final class ma_vec3f extends ffi.Struct {
+  @ffi.Float()
+  external double x;
 
   @ffi.Float()
-  external double volume;
+  external double y;
 
-  external ffi.Pointer<ma_node_output_bus> pNext;
+  @ffi.Float()
+  external double z;
 
-  external ffi.Pointer<ma_node_output_bus> pPrev;
-
-  external ffi.Pointer<ffi.Void> pInputNode;
+  static ffi.Pointer<ma_vec3f> $allocate(
+    ffi.Allocator $allocator, {
+    required double x,
+    required double y,
+    required double z,
+  }) => $allocator<ma_vec3f>()
+    ..ref.x = x
+    ..ref.y = y
+    ..ref.z = z;
 }
-
-final class ma_node_input_bus extends ffi.Struct {
-  external ma_node_output_bus head;
-
-  @ffi.UnsignedInt()
-  external int nextCounter;
-
-  @ffi.UnsignedInt()
-  external int lock;
-
-  @ffi.UnsignedChar()
-  external int channels;
-}
-
-enum ma_node_state {
-  ma_node_state_started(0),
-  ma_node_state_stopped(1);
-
-  final int value;
-  const ma_node_state(this.value);
-
-  static ma_node_state fromValue(int value) => switch (value) {
-    0 => ma_node_state_started,
-    1 => ma_node_state_stopped,
-    _ => throw ArgumentError('Unknown value for ma_node_state: $value'),
-  };
-}
-
-final class ma_node_base extends ffi.Struct {
-  external ffi.Pointer<ma_node_graph> pNodeGraph;
-
-  external ffi.Pointer<ma_node_vtable> vtable;
-
-  @ffi.UnsignedInt()
-  external int inputBusCount;
-
-  @ffi.UnsignedInt()
-  external int outputBusCount;
-
-  external ffi.Pointer<ma_node_input_bus> pInputBuses;
-
-  external ffi.Pointer<ma_node_output_bus> pOutputBuses;
-
-  external ffi.Pointer<ffi.Float> pCachedData;
-
-  @ffi.UnsignedShort()
-  external int cachedDataCapInFramesPerBus;
-
-  @ffi.UnsignedShort()
-  external int cachedFrameCountOut;
-
-  @ffi.UnsignedShort()
-  external int cachedFrameCountIn;
-
-  @ffi.UnsignedShort()
-  external int consumedFrameCountIn;
-
-  @ffi.UnsignedInt()
-  external int stateAsInt;
-
-  ma_node_state get state => ma_node_state.fromValue(stateAsInt);
-
-  @ffi.Array.multi([2])
-  external ffi.Array<ffi.UnsignedLongLong> stateTimes;
-
-  @ffi.UnsignedLongLong()
-  external int localTime;
-
-  @ffi.Array.multi([2])
-  external ffi.Array<ma_node_input_bus> _inputBuses;
-
-  @ffi.Array.multi([2])
-  external ffi.Array<ma_node_output_bus> _outputBuses;
-
-  external ffi.Pointer<ffi.Void> _pHeap;
-
-  @ffi.UnsignedInt()
-  external int _ownsHeap;
-}
-
-final class ma_node_graph extends ffi.Struct {
-  external ma_node_base base;
-
-  external ma_node_base endpoint;
-
-  external ffi.Pointer<ffi.Float> pProcessingCache;
-
-  @ffi.UnsignedInt()
-  external int processingCacheFramesRemaining;
-
-  @ffi.UnsignedInt()
-  external int processingSizeInFrames;
-
-  @ffi.UnsignedInt()
-  external int isReading;
-
-  external ffi.Pointer<ma_stack> pPreMixStack;
-}
-
-final class ma_sound_inlined extends ffi.Opaque {}
-
-final class ma_engine extends ffi.Struct {
-  external ma_node_graph nodeGraph;
-
-  external ffi.Pointer<ma_resource_manager> pResourceManager;
-
-  external ffi.Pointer<ma_device> pDevice;
-
-  external ffi.Pointer<ma_log> pLog;
-
-  @ffi.UnsignedInt()
-  external int sampleRate;
-
-  @ffi.UnsignedInt()
-  external int listenerCount;
-
-  @ffi.Array.multi([4])
-  external ffi.Array<ma_spatializer_listener> listeners;
-
-  external ma_allocation_callbacks allocationCallbacks;
-
-  @ffi.UnsignedChar()
-  external int ownsResourceManager;
-
-  @ffi.UnsignedChar()
-  external int ownsDevice;
-
-  @ffi.UnsignedInt()
-  external int inlinedSoundLock;
-
-  external ffi.Pointer<ma_sound_inlined> pInlinedSoundHead;
-
-  @ffi.UnsignedInt()
-  external int inlinedSoundCount;
-
-  @ffi.UnsignedInt()
-  external int gainSmoothTimeInFrames;
-
-  @ffi.UnsignedInt()
-  external int defaultVolumeSmoothTimeInPCMFrames;
-
-  @ffi.UnsignedInt()
-  external int monoExpansionModeAsInt;
-
-  ma_mono_expansion_mode get monoExpansionMode =>
-      ma_mono_expansion_mode.fromValue(monoExpansionModeAsInt);
-
-  external ffi.Pointer<
-    ffi.NativeFunction<
-      ffi.Void Function(
-        ffi.Pointer<ffi.Void> pUserData,
-        ffi.Pointer<ffi.Float> pFramesOut,
-        ffi.UnsignedLongLong frameCount,
-      )
-    >
-  >
-  onProcess;
-
-  external ffi.Pointer<ffi.Void> pProcessUserData;
-}
-
-final class ma_sound extends ffi.Opaque {}
-
-final class ma_engine_config extends ffi.Opaque {}
