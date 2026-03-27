@@ -31,8 +31,8 @@
 - Fix a [bug](https://github.com/dart-lang/native/issues/2665) where ObjC
   classes with `SWIFT_UNAVAILABLE` annotated `init`/`new` methods were
   generating runtime-crashing no-arg constructors.
-- Fix a bug where methods marked with `__attribute__((unavailable))` or
-  `__attribute__((deprecated))` were incorrectly included in bindings when no platform version info was configured.
+- Fix a bug where methods marked with `__attribute__((unavailable))` were
+  incorrectly included in bindings when no platform version info was configured.
   
 ## 20.1.1
 

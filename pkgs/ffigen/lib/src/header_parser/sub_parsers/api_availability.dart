@@ -145,11 +145,18 @@ class ApiAvailability {
   static Availability _mergeAvailability(Availability? x, Availability y) =>
       x == null ? y : (x == y ? x : Availability.some);
 
+  static const _swiftUnavailableMacros = {
+    'SWIFT_UNAVAILABLE',
+    'SWIFT_UNAVAILABLE_MSG',
+  };
+
   static bool _hasSwiftUnavailableMacro(clang_types.CXCursor cursor) {
     final attr = cursor.findChildWhere(
       (child) =>
           child.kind == clang_types.CXCursorKind.CXCursor_UnexposedAttr &&
-          (child.extent.readSourceText() ?? '').startsWith('SWIFT_UNAVAILABLE'),
+          _swiftUnavailableMacros.any(
+            (macro) => (child.extent.readSourceText() ?? '').startsWith(macro),
+          ),
     );
     return attr != null;
   }
