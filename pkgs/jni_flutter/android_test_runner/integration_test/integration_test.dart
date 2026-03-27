@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:io';
+import 'dart:ui';
 
 import 'package:flutter_test/flutter_test.dart';
 import 'package:integration_test/integration_test.dart';
@@ -12,9 +13,11 @@ void main() {
   IntegrationTestWidgetsFlutterBinding.ensureInitialized();
 
   testWidgets('androidApplicationContext does not throw', (tester) async {
-    if (Platform.isAndroid) {
-      // This will only work on a real device or emulator
-      expect(() => androidApplicationContext, returnsNormally);
-    }
+    expect(androidApplicationContext, isNotNull);
+    expect(androidApplicationContext.toString(), contains('Application'));
+    final engineId = PlatformDispatcher.instance.engineId;
+    expect(engineId, isNotNull);
+    expect(androidActivity(engineId!), isNotNull);
+    expect(androidActivity(engineId!)!.toString(), contains('Activity'));
   });
 }
