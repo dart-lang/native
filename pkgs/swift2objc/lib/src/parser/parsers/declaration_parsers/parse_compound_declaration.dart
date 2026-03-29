@@ -27,14 +27,13 @@ typedef CompoundTearOff<T extends CompoundDeclaration> =
       required List<AvailabilityInfo> availability,
     });
 
-typedef ParsedCompound<T> = ({T compound, List<Declaration> excessMembers});
-
-ParsedCompound<T> parseCompoundDeclaration<T extends CompoundDeclaration>(
+List<Declaration> parseCompoundDeclaration<T extends CompoundDeclaration>(
   Context context,
   ParsedSymbol symbol,
   ParsedSymbolgraph symbolgraph,
-  CompoundTearOff<T> tearoffConstructor,
-) {
+  CompoundTearOff<T> tearoffConstructor, {
+  void Function(T compound, List<Declaration> excessMembers)? onExcessMembers,
+}) {
   final compoundId = parseSymbolId(symbol.json);
 
   final compoundRelations =
@@ -126,7 +125,9 @@ ParsedCompound<T> parseCompoundDeclaration<T extends CompoundDeclaration>(
 
   compound.nestedDeclarations.fillNestingParents(compound);
 
-  return (compound: compound, excessMembers: memberDeclarations);
+  onExcessMembers?.call(compound, memberDeclarations);
+
+  return symbol.declarations;
 }
 
 List<Declaration> parseClassDeclaration(
@@ -134,7 +135,7 @@ List<Declaration> parseClassDeclaration(
   ParsedSymbol classSymbol,
   ParsedSymbolgraph symbolgraph,
 ) {
-  parseCompoundDeclaration(
+  return parseCompoundDeclaration(
     context,
     classSymbol,
     symbolgraph,
@@ -154,7 +155,6 @@ List<Declaration> parseClassDeclaration(
       nestedDeclarations: [],
     ),
   );
-  return classSymbol.declarations;
 }
 
 List<Declaration> parseStructDeclaration(
@@ -162,7 +162,7 @@ List<Declaration> parseStructDeclaration(
   ParsedSymbol structSymbol,
   ParsedSymbolgraph symbolgraph,
 ) {
-  parseCompoundDeclaration(
+  return parseCompoundDeclaration(
     context,
     structSymbol,
     symbolgraph,
@@ -182,5 +182,4 @@ List<Declaration> parseStructDeclaration(
       nestedDeclarations: [],
     ),
   );
-  return structSymbol.declarations;
 }

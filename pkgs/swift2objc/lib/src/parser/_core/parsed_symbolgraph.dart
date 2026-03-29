@@ -66,6 +66,7 @@ class ParsedSymbol {
   final InputConfig? source;
   final Json json;
   List<Declaration> declarations;
+  Declaration get primaryDeclaration => declarations.first;
 
   ParsedSymbol({
     required this.source,
