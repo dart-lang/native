@@ -881,7 +881,7 @@ class _TypeClassGenerator extends TypeVisitor<String> {
 
   @override
   String visitNonPrimitiveType(ReferredType node) {
-    return '$_jObjectTypePrefix$Type\$()';
+    return 'const $_jObjectTypePrefix$Type\$()';
   }
 }
 
@@ -1269,13 +1269,19 @@ ${modifier}final _$idName = $_protectedExtension
       } else {
         final returningType = asyncReturnType
             .accept(_TypeGenerator(resolver, includeNullability: false));
+        final returningTypeErased = asyncReturnType.accept(_TypeGenerator(
+            resolver,
+            includeNullability: false,
+            typeErasure: true));
         final returningTypeClass =
             asyncReturnType.accept(_TypeClassGenerator(resolver));
+        final extraAs =
+            returningType != returningTypeErased ? ' as $returningType' : '';
         s.write('''
-    return \$o${isNullable ? '?' : ''}.as<$returningType>(
+    return \$o${isNullable ? '?' : ''}.as<$returningTypeErased>(
       $returningTypeClass,
       releaseOriginal: true,
-    );''');
+    )$extraAs;''');
       }
 
       s.write('''
