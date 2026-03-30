@@ -1,10 +1,10 @@
 name: android_test_runner
-description: "A new Flutter project."
+description: Android integration tests for jni_flutter
 publish_to: 'none'
 version: 0.1.0+1
 
 environment:
-  sdk: ^3.11.1
+  sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
   flutter:
@@ -18,6 +18,10 @@ dev_dependencies:
   flutter_lints: ^6.0.0
   integration_test:
     sdk: flutter
+
+dependency_overrides:
+  jni:
+    path: ../../jni
 
 flutter:
   uses-material-design: true
