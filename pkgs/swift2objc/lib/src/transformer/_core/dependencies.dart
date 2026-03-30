@@ -5,6 +5,7 @@
 import '../../ast/_core/interfaces/compound_declaration.dart';
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/declarations/compounds/class_declaration.dart';
+import '../../ast/declarations/compounds/extension_declaration.dart';
 import '../../ast/declarations/compounds/protocol_declaration.dart';
 import '../../ast/declarations/compounds/struct_declaration.dart';
 import '../../ast/declarations/globals/globals.dart';
@@ -19,6 +20,14 @@ class FindIncludesVisitation extends Visitation {
   @override
   void visitDeclaration(Declaration node) {
     if (!node.isBuiltIn && filter(node)) {
+      includes.add(node);
+      node.visitChildren(visitor);
+    }
+  }
+
+  @override
+  void visitExtensionDeclaration(ExtensionDeclaration node) {
+    if (includes.contains(node.extendedType.declaration)) {
       includes.add(node);
       node.visitChildren(visitor);
     }
@@ -55,6 +64,11 @@ class ListDeclsVisitation extends Visitation {
 
   @override
   void visitGlobalVariableDeclaration(GlobalVariableDeclaration node) {
+    topLevelDecls.add(node);
+  }
+
+  @override
+  void visitExtensionDeclaration(ExtensionDeclaration node) {
     topLevelDecls.add(node);
   }
 

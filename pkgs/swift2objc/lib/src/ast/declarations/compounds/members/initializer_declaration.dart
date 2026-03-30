@@ -8,6 +8,7 @@ import '../../../_core/interfaces/can_async.dart';
 import '../../../_core/interfaces/can_throw.dart';
 import '../../../_core/interfaces/declaration.dart';
 import '../../../_core/interfaces/executable.dart';
+import '../../../_core/interfaces/is_extension_member.dart';
 import '../../../_core/interfaces/objc_annotatable.dart';
 import '../../../_core/interfaces/overridable.dart';
 import '../../../_core/interfaces/parameterizable.dart';
@@ -23,7 +24,8 @@ class InitializerDeclaration extends AstNode
         ObjCAnnotatable,
         Overridable,
         CanThrow,
-        CanAsync {
+        CanAsync,
+        IsExtensionMember {
   @override
   String id;
 
@@ -54,6 +56,9 @@ class InitializerDeclaration extends AstNode
   bool isFailable;
 
   @override
+  bool isExtensionMember;
+
+  @override
   List<Parameter> params;
 
   @override
@@ -73,6 +78,7 @@ class InitializerDeclaration extends AstNode
     required this.throws,
     required this.async,
     required this.isFailable,
+    this.isExtensionMember = false,
   });
 
   @override

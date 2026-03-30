@@ -5,8 +5,10 @@
 import '../../../ast/_core/interfaces/availability.dart';
 import '../../../ast/_core/interfaces/compound_declaration.dart';
 import '../../../ast/_core/interfaces/declaration.dart';
+import '../../../ast/_core/interfaces/is_extension_member.dart';
 import '../../../ast/_core/interfaces/nestable_declaration.dart';
 import '../../../ast/declarations/compounds/class_declaration.dart';
+import '../../../ast/declarations/compounds/extension_declaration.dart';
 import '../../../ast/declarations/compounds/members/initializer_declaration.dart';
 import '../../../ast/declarations/compounds/members/method_declaration.dart';
 import '../../../ast/declarations/compounds/members/property_declaration.dart';
@@ -25,14 +27,13 @@ typedef CompoundTearOff<T extends CompoundDeclaration> =
       required List<AvailabilityInfo> availability,
     });
 
-typedef ParsedCompound<T> = ({T compound, List<Declaration> excessMembers});
-
-ParsedCompound<T> parseCompoundDeclaration<T extends CompoundDeclaration>(
+List<Declaration> parseCompoundDeclaration<T extends CompoundDeclaration>(
   Context context,
   ParsedSymbol symbol,
   ParsedSymbolgraph symbolgraph,
-  CompoundTearOff<T> tearoffConstructor,
-) {
+  CompoundTearOff<T> tearoffConstructor, {
+  void Function(T compound, List<Declaration> excessMembers)? onExcessMembers,
+}) {
   final compoundId = parseSymbolId(symbol.json);
 
   final compoundRelations =
@@ -45,7 +46,7 @@ ParsedCompound<T> parseCompoundDeclaration<T extends CompoundDeclaration>(
     availability: parseAvailability(symbol.json),
   );
 
-  symbol.declaration = compound;
+  symbol.declarations = [compound];
 
   final memberDeclarations = compoundRelations
       .where((relation) {
@@ -54,16 +55,56 @@ ParsedCompound<T> parseCompoundDeclaration<T extends CompoundDeclaration>(
         final isMemeberOfCompound = relation.targetId == compoundId;
         return isMembershipRelation && isMemeberOfCompound;
       })
-      .map((relation) {
+      .expand((relation) {
         final memberSymbol = symbolgraph.symbols[relation.sourceId];
         if (memberSymbol == null) {
-          return null;
+          return <Declaration>[];
         }
         return tryParseDeclaration(context, memberSymbol, symbolgraph);
       })
-      .nonNulls
       .dedupeBy((decl) => decl.id)
       .toList();
+
+  final extensionMembers = <Declaration>[];
+  memberDeclarations.removeWhere((d) {
+    if (d is IsExtensionMember && (d as IsExtensionMember).isExtensionMember) {
+      extensionMembers.add(d);
+      return true;
+    }
+    return false;
+  });
+  final firstExtMember = extensionMembers.firstOrNull;
+
+  if (firstExtMember != null) {
+    final isExternal =
+        symbolgraph.symbols[firstExtMember.id]?.source == builtInInputConfig;
+
+    if (isExternal) {
+      // TODO(https://github.com/dart-lang/native/issues/3228): Support
+      // extensions on external types.
+      context.logger.warning(
+        'Extension on external type ${compound.name} is not '
+        'supported yet.',
+      );
+    } else {
+      symbol.declarations.add(
+        ExtensionDeclaration(
+          id: compoundId.addIdSuffix('extension'),
+          name: compound.name,
+          source: compound.source,
+          availability: compound.availability,
+          extendedType: compound.asDeclaredType,
+          methods: extensionMembers.whereType<MethodDeclaration>().toList(),
+          properties: extensionMembers
+              .whereType<PropertyDeclaration>()
+              .toList(),
+          initializers: extensionMembers
+              .whereType<InitializerDeclaration>()
+              .toList(),
+        ),
+      );
+    }
+  }
 
   compound.methods.addAll(
     memberDeclarations.removeWhereType<MethodDeclaration>().dedupeBy(
@@ -84,10 +125,12 @@ ParsedCompound<T> parseCompoundDeclaration<T extends CompoundDeclaration>(
 
   compound.nestedDeclarations.fillNestingParents(compound);
 
-  return (compound: compound, excessMembers: memberDeclarations);
+  onExcessMembers?.call(compound, memberDeclarations);
+
+  return symbol.declarations;
 }
 
-ClassDeclaration parseClassDeclaration(
+List<Declaration> parseClassDeclaration(
   Context context,
   ParsedSymbol classSymbol,
   ParsedSymbolgraph symbolgraph,
@@ -111,17 +154,17 @@ ClassDeclaration parseClassDeclaration(
       initializers: [],
       nestedDeclarations: [],
     ),
-  ).compound;
+  );
 }
 
-StructDeclaration parseStructDeclaration(
+List<Declaration> parseStructDeclaration(
   Context context,
-  ParsedSymbol classSymbol,
+  ParsedSymbol structSymbol,
   ParsedSymbolgraph symbolgraph,
 ) {
   return parseCompoundDeclaration(
     context,
-    classSymbol,
+    structSymbol,
     symbolgraph,
     ({
       required String id,
@@ -138,5 +181,5 @@ StructDeclaration parseStructDeclaration(
       initializers: [],
       nestedDeclarations: [],
     ),
-  ).compound;
+  );
 }
