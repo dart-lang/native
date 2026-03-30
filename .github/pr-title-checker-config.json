@@ -10,6 +10,7 @@
             "[hooks] ",
             "[infra] ",
             "[jni] ",
+            "[jni_flutter] ",
             "[jnigen] ",
             "[json_syntax_generator] ",
             "[native_doc_dartifier] ",

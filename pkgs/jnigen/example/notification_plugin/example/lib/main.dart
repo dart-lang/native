@@ -5,6 +5,7 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jni/jni.dart';
+import 'package:jni_flutter/jni_flutter.dart';
 // The hierarchy created in generated code will mirror the java package
 // structure. This is an implementation convenience and we may allow
 // more customization in future.
@@ -17,7 +18,7 @@ void showNotification(String title, String text) {
   var jTitle = title.toJString();
   var jText = text.toJString();
   Notifications.showNotification(
-    Jni.androidActivity(PlatformDispatcher.instance.engineId!),
+    androidActivity(PlatformDispatcher.instance.engineId!),
     i,
     jTitle,
     jText,
