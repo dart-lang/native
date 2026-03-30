@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
 import 'package:test/test.dart';
 
 import '../test_data.dart';
@@ -28,15 +28,28 @@ void main() {
       );
     });
 
-    test('RecordedUsages.fromJson fails for non-package URI', () {
+    test('Definition constructor does not throw (currently)', () {
+      // The Definition class itself doesn't have the regex check in its
+      // constructor, only the generated syntax class has it.
+      expect(
+        () => const Method('foo', Library('dart:core')),
+        returnsNormally,
+      );
+    });
+
+    test('Recordings.fromJson fails for non-package libraryUri in symbol', () {
       final json = recordedUses.toJson();
-      // Modify the first definition's URI to be invalid.
-      final definitions = json['definitions'] as List;
-      final definition = definitions[0] as Map;
-      definition['uri'] = 'file:///foo.dart'; // Should start with package:
+      // Ensure the constants table exists.
+      final constants = (json['constants'] ??= []) as List;
+      // Add a constant that has an invalid URI.
+      constants.add({
+        'type': 'symbol',
+        'name': '_foo',
+        'libraryUri': 'file:///foo.dart', // Should start with package:
+      });
 
       expect(
-        () => RecordedUsages.fromJson(json),
+        () => Recordings.fromJson(json),
         throwsA(
           isA<FormatException>().having(
             (e) => e.message,
@@ -44,15 +57,6 @@ void main() {
             contains('Expected a String satisfying ^package:'),
           ),
         ),
-      );
-    });
-
-    test('Definition constructor does not throw (currently)', () {
-      // The Definition class itself doesn't have the regex check in its
-      // constructor, only the generated syntax class has it.
-      expect(
-        () => const Definition('dart:core', [Name('foo')]),
-        returnsNormally,
       );
     });
   });

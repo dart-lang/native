@@ -10,7 +10,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:hooks/hooks.dart';
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
 
 void main(List<String> arguments) async {
   await link(
@@ -25,28 +25,28 @@ void main(List<String> arguments) async {
 
       // This package.
       final myMethodDefinition = recordings.calls.keys.firstWhere(
-        (i) => i.path.last.name == 'myMethod',
+        (i) => i.name == 'myMethod',
       );
       expect(
-        myMethodDefinition.library,
+        myMethodDefinition.library.uri,
         'package:library_uris/src/definition.dart',
       );
 
       // The helper package.
       final helperMethodDefinition = recordings.calls.keys.firstWhere(
-        (i) => i.path.last.name == 'methodInHelper',
+        (i) => i.name == 'methodInHelper',
       );
       expect(
-        helperMethodDefinition.library,
+        helperMethodDefinition.library.uri,
         'package:library_uris_helper/src/helper_definition.dart',
       );
 
       // Outside the lib dir, no package: uri.
       final methodInBinDefinition = recordings.calls.keys.firstWhere(
-        (i) => i.path.last.name == 'methodInBin',
+        (i) => i.name == 'methodInBin',
       );
       expect(
-        methodInBinDefinition.library,
+        methodInBinDefinition.library.uri,
         // TODO(https://github.com/dart-lang/native/issues/2891): What should
         // this be? We don't have library uris for bin.
         'package:library_uris/../bin/my_bin.dart',

@@ -9,9 +9,33 @@ import 'dart:io';
 
 import 'package:code_assets/code_assets.dart';
 import 'package:test/test.dart';
+import 'package:test_case_selector/test_case_selector.dart';
 
 import '../helpers.dart';
 import 'objects_helper.dart';
+
+const targetOS = OS.iOS;
+
+/// This comment is generated. To regenerate, run:
+/// `REGENERATE_TEST_CONFIGS=true dart test`
+///
+/// | #   | IOSSdk          | IOSVersion |
+/// |-----|-----------------|------------|
+/// | 1   | iphoneos        | 16         |
+/// | 2   | iphonesimulator | 17         |
+final configurations =
+    TestCaseSelector(
+      dimensions: {
+        IOSSdk: [IOSSdk.iPhoneOS, IOSSdk.iPhoneSimulator],
+        IOSVersion: [
+          IOSVersion.flutterHighestBestEffort,
+          IOSVersion.flutterHighestSupported,
+        ],
+      },
+      interactionGroups: [],
+    ).selectAndValidate(
+      tableUri: packageUri.resolve('test/clinker/objects_cross_ios_test.dart'),
+    );
 
 void main() {
   if (!Platform.isMacOS) {
@@ -19,21 +43,17 @@ void main() {
     return;
   }
 
-  const targetOS = OS.iOS;
+  for (final config in configurations) {
+    final iOSTargetSdk = config.get<IOSSdk>();
+    final iOSVersion = config.get<IOSVersion>().value;
 
-  for (final iOSVersion in [
-    flutteriOSHighestBestEffort,
-    flutteriOSHighestSupported,
-  ]) {
-    for (final iOSTargetSdk in IOSSdk.values) {
-      group('$iOSTargetSdk $iOSVersion:', () {
-        runObjectsTests(
-          targetOS,
-          iOSSupportedArchitecturesFor(iOSTargetSdk),
-          iOSTargetVersion: iOSVersion,
-          iOSTargetSdk: iOSTargetSdk,
-        );
-      });
-    }
+    group('$iOSTargetSdk $iOSVersion:', () {
+      runObjectsTests(
+        targetOS,
+        iOSSupportedArchitecturesFor(iOSTargetSdk),
+        iOSTargetVersion: iOSVersion,
+        iOSTargetSdk: iOSTargetSdk,
+      );
+    });
   }
 }

@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
 import 'package:test/test.dart';
 
 const loadingUnit1 = LoadingUnit('1');
@@ -10,10 +10,9 @@ const loadingUnit1 = LoadingUnit('1');
 void main() {
   test('MaybeConstant arguments in JSON', () {
     const json = {
-      'metadata': {'version': '1.0.0', 'comment': 'test'},
       'constants': [
         {'type': 'int', 'value': 42},
-        {'type': 'unsupported', 'message': 'Record'},
+        {'type': 'unsupported', 'message': 'MethodTearoff'},
         {'type': 'non_constant'},
       ],
       'loading_units': [
@@ -23,7 +22,11 @@ void main() {
         {
           'uri': 'package:a/a.dart',
           'path': [
-            {'name': 'foo'},
+            {
+              'name': 'foo',
+              'kind': 'method',
+              'disambiguators': ['static'],
+            },
           ],
         },
       ],
@@ -34,7 +37,7 @@ void main() {
             'uses': [
               {
                 'type': 'with_arguments',
-                'loading_unit_indices': [0],
+                'loading_unit_index': 0,
                 'positional': [0, 1, 2],
                 'named': {'a': 0, 'b': 1, 'c': 2},
               },
@@ -45,39 +48,75 @@ void main() {
     };
 
     final recordings = Recordings.fromJson(json);
-    const definition = Definition('package:a/a.dart', [Name('foo')]);
+    const definition = Method(
+      'foo',
+      Library('package:a/a.dart'),
+    );
     final calls = recordings.calls[definition]!;
     final call = calls[0] as CallWithArguments;
 
     expect(call.positionalArguments, hasLength(3));
     expect(call.positionalArguments[0], const IntConstant(42));
-    expect(call.positionalArguments[1], const UnsupportedConstant('Record'));
+    expect(
+      call.positionalArguments[1],
+      const UnsupportedConstant('MethodTearoff'),
+    );
     expect(call.positionalArguments[2], const NonConstant());
 
     expect(call.namedArguments, hasLength(3));
     expect(call.namedArguments['a'], const IntConstant(42));
-    expect(call.namedArguments['b'], const UnsupportedConstant('Record'));
+    expect(
+      call.namedArguments['b'],
+      const UnsupportedConstant('MethodTearoff'),
+    );
     expect(call.namedArguments['c'], const NonConstant());
   });
 
   test('MaybeConstant serialization round-trip', () {
-    const definition = Definition('package:a/a.dart', [Name('foo')]);
+    const definition = Method(
+      'foo',
+      Library('package:a/a.dart'),
+    );
     final recordings = Recordings(
-      metadata: Metadata(version: version, comment: 'test'),
       calls: {
         definition: [
           const CallWithArguments(
             positionalArguments: [
               IntConstant(42),
-              UnsupportedConstant('Record'),
+              UnsupportedConstant('MethodTearoff'),
               NonConstant(),
+              RecordConstant(
+                positional: [IntConstant(1)],
+                named: {'a': IntConstant(2)},
+              ),
+              EnumConstant(
+                definition: definition,
+                index: 0,
+                name: 'red',
+                fields: {'hex': IntConstant(0xff0000)},
+              ),
+              SymbolConstant('foo'),
+              SymbolConstant('_bar', libraryUri: 'package:a/a.dart'),
+              SetConstant([IntConstant(1), IntConstant(2)]),
             ],
             namedArguments: {
               'a': IntConstant(42),
-              'b': UnsupportedConstant('Record'),
+              'b': UnsupportedConstant('MethodTearoff'),
               'c': NonConstant(),
+              'd': RecordConstant(
+                positional: [IntConstant(3)],
+                named: {'b': IntConstant(4)},
+              ),
+              'e': EnumConstant(
+                definition: definition,
+                index: 1,
+                name: 'green',
+              ),
+              'f': SymbolConstant('foo'),
+              'g': SymbolConstant('_bar', libraryUri: 'package:a/a.dart'),
+              'h': SetConstant([IntConstant(3), IntConstant(4)]),
             },
-            loadingUnits: [loadingUnit1],
+            loadingUnit: loadingUnit1,
           ),
         ],
       },
@@ -103,16 +142,18 @@ void main() {
   });
 
   test('allowPromotionOfUnsupported semantic equality', () {
-    const definition = Definition('package:a/a.dart', [Name('foo')]);
+    const definition = Method(
+      'foo',
+      Library('package:a/a.dart'),
+    );
 
     final actualRecordings = Recordings(
-      metadata: Metadata(version: version, comment: 'actual'),
       calls: {
         definition: [
           const CallWithArguments(
             positionalArguments: [IntConstant(42)],
             namedArguments: {'a': StringConstant('bar')},
-            loadingUnits: [loadingUnit1],
+            loadingUnit: loadingUnit1,
           ),
         ],
       },
@@ -120,13 +161,12 @@ void main() {
     );
 
     final expectedRecordings = Recordings(
-      metadata: Metadata(version: version, comment: 'expected'),
       calls: {
         definition: [
           const CallWithArguments(
-            positionalArguments: [UnsupportedConstant('Record')],
-            namedArguments: {'a': UnsupportedConstant('Record')},
-            loadingUnits: [loadingUnit1],
+            positionalArguments: [UnsupportedConstant('MethodTearoff')],
+            namedArguments: {'a': UnsupportedConstant('MethodTearoff')},
+            loadingUnit: loadingUnit1,
           ),
         ],
       },
@@ -137,7 +177,6 @@ void main() {
     expect(
       actualRecordings.semanticEquals(
         expectedRecordings,
-        allowMetadataMismatch: true,
       ),
       isFalse,
     );
@@ -146,7 +185,6 @@ void main() {
     expect(
       actualRecordings.semanticEquals(
         expectedRecordings,
-        allowMetadataMismatch: true,
         allowPromotionOfUnsupported: true,
       ),
       isTrue,
@@ -156,7 +194,6 @@ void main() {
     expect(
       expectedRecordings.semanticEquals(
         actualRecordings,
-        allowMetadataMismatch: true,
         allowPromotionOfUnsupported: true,
       ),
       isFalse,

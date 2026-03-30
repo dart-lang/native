@@ -1,9 +1,9 @@
-# Run with `flutter pub run ffigen --config ffigen.yaml`.
+# Run with `dart run ffigen --config ffigen.yaml`.
 name: NativeAddBindings
 description: |
   Bindings for `src/native_add.h`.
 
-  Regenerate bindings with `flutter pub run ffigen --config ffigen.yaml`.
+  Regenerate bindings with `dart run ffigen --config ffigen.yaml`.
 output: 'lib/native_add.dart'
 headers:
   entry-points:

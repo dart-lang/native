@@ -5,28 +5,28 @@
 import 'dart:io';
 
 import 'package:native_test_helpers/native_test_helpers.dart';
-import 'package:pub_semver/pub_semver.dart';
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
+import 'package:record_use/src/canonicalization_context.dart';
+import 'package:record_use/src/recordings.dart';
 
-const callId = Definition(
-  'package:js_runtime/js_helper.dart',
-  [Name('MyClass'), Name('get:loadDeferredLibrary')],
+const callId = Getter(
+  'loadDeferredLibrary',
+  Class('MyClass', Library('package:js_runtime/js_helper.dart')),
+  isInstanceMember: false,
 );
-const instanceId = Definition(
-  'package:js_runtime/js_helper.dart',
-  [Name('MyAnnotation')],
+const instanceId = Class(
+  'MyAnnotation',
+  Library('package:js_runtime/js_helper.dart'),
+);
+const enumId = Enum(
+  'MyEnum',
+  Library('package:js_runtime/js_helper.dart'),
 );
 
 const loadingUnitOJs = LoadingUnit('o.js');
 const loadingUnit3 = LoadingUnit('3');
 
 final recordedUses = Recordings(
-  metadata: Metadata(
-    version: Version(1, 6, 2, pre: 'wip', build: '5.-.2.z'),
-    comment:
-        'Recorded references at compile time and their argument values, as'
-        ' far as known, to definitions annotated with @RecordUse',
-  ),
   calls: {
     callId: [
       const CallWithArguments(
@@ -39,7 +39,7 @@ final recordedUses = Recordings(
           'freddy': StringConstant('mercury'),
           'leroy': StringConstant('jenkins'),
         },
-        loadingUnits: [loadingUnitOJs],
+        loadingUnit: loadingUnitOJs,
       ),
       const CallWithArguments(
         positionalArguments: [
@@ -61,7 +61,7 @@ final recordedUses = Recordings(
           'freddy': IntConstant(0),
           'leroy': StringConstant('jenkins'),
         },
-        loadingUnits: [loadingUnitOJs],
+        loadingUnit: loadingUnitOJs,
       ),
     ],
   },
@@ -72,23 +72,28 @@ final recordedUses = Recordings(
           definition: instanceId,
           fields: {'a': IntConstant(42), 'b': NullConstant()},
         ),
-        loadingUnits: [loadingUnit3],
+        loadingUnit: loadingUnit3,
       ),
       const InstanceConstantReference(
         instanceConstant: InstanceConstant(definition: instanceId, fields: {}),
-        loadingUnits: [loadingUnit3],
+        loadingUnit: loadingUnit3,
+      ),
+    ],
+    enumId: [
+      const InstanceConstantReference(
+        instanceConstant: EnumConstant(
+          definition: enumId,
+          index: 0,
+          name: 'val1',
+          fields: {'a': IntConstant(42)},
+        ),
+        loadingUnit: loadingUnit3,
       ),
     ],
   },
-);
+).canonicalizeChildren(CanonicalizationContext());
 
 final recordedUses2 = Recordings(
-  metadata: Metadata(
-    version: Version(1, 6, 2, pre: 'wip', build: '5.-.2.z'),
-    comment:
-        'Recorded references at compile time and their argument values, as'
-        ' far as known, to definitions annotated with @RecordUse',
-  ),
   calls: {
     callId: [
       const CallWithArguments(
@@ -97,12 +102,12 @@ final recordedUses2 = Recordings(
           'freddy': StringConstant('mercury'),
           'answer': IntConstant(42),
         },
-        loadingUnits: [loadingUnitOJs],
+        loadingUnit: loadingUnitOJs,
       ),
     ],
   },
   instances: {},
-);
+).canonicalizeChildren(CanonicalizationContext());
 
 final _testDataUri = findPackageRoot('record_use').resolve('test_data/json/');
 

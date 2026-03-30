@@ -8,61 +8,86 @@ import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:test/test.dart';
+import 'package:test_case_selector/test_case_selector.dart';
 
 import '../helpers.dart';
 
 const Timeout longTimeout = Timeout(Duration(minutes: 5));
 
+/// This comment is generated. To regenerate, run:
+/// `REGENERATE_TEST_CONFIGS=true dart test`
+///
+/// | #   | Architecture | Link Mode | Optimization Level | Android Api Level |
+/// |-----|--------------|-----------|--------------------|-------------------|
+/// | 1   | arm          | bundled   | unspecified        | 34                |
+/// | 2   | arm          | static    | O2                 | 21                |
+/// | 3   | arm64        | bundled   | O0                 | 34                |
+/// | 4   | arm64        | static    | Os                 | 21                |
+/// | 5   | ia32         | bundled   | O1                 | 21                |
+/// | 6   | ia32         | static    | O2                 | 34                |
+/// | 7   | riscv64      | bundled   | O0                 | 21                |
+/// | 8   | riscv64      | static    | O1                 | 34                |
+/// | 9   | x64          | bundled   | O3                 | 21                |
+/// | 10  | x64          | static    | O3                 | 34                |
+final configurations =
+    TestCaseSelector(
+      dimensions: {
+        Architecture: [
+          Architecture.arm,
+          Architecture.arm64,
+          Architecture.ia32,
+          Architecture.x64,
+          Architecture.riscv64,
+        ],
+        LinkMode: [DynamicLoadingBundled(), StaticLinking()],
+        OptimizationLevel: OptimizationLevel.values,
+        AndroidApiLevel: [
+          AndroidApiLevel.flutterLowestSupported,
+          AndroidApiLevel.flutterHighestSupported,
+        ],
+      },
+      interactionGroups: [
+        {Architecture, LinkMode},
+        {Architecture, AndroidApiLevel},
+      ],
+    ).selectAndValidate(
+      tableUri: packageUri.resolve(
+        'test/cbuilder/cbuilder_cross_android_test.dart',
+      ),
+    );
 void main() {
-  const targets = [
-    Architecture.arm,
-    Architecture.arm64,
-    Architecture.ia32,
-    Architecture.x64,
-    Architecture.riscv64,
-  ];
+  for (final config in configurations) {
+    final architecture = config.get<Architecture>();
+    final linkMode = config.get<LinkMode>();
+    final optimizationLevel = config.get<OptimizationLevel>();
+    final apiLevel = config.get<AndroidApiLevel>().value;
 
-  const optimizationLevels = OptimizationLevel.values;
-  var selectOptimizationLevel = 0;
-
-  for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
-    for (final target in targets) {
-      for (final apiLevel in [
-        flutterAndroidNdkVersionLowestSupported,
-        flutterAndroidNdkVersionHighestSupported,
-      ]) {
-        // Cycle through all optimization levels.
-        final optimizationLevel = optimizationLevels[selectOptimizationLevel];
-        selectOptimizationLevel =
-            (selectOptimizationLevel + 1) % optimizationLevels.length;
-        test(
-          'CBuilder $linkMode library $target minSdkVersion $apiLevel '
-          '$optimizationLevel',
-          timeout: longTimeout,
-          () async {
-            final tempUri = await tempDirForTest();
-            final libUri = await buildLib(
-              tempUri,
-              target,
-              apiLevel,
-              linkMode,
-              optimizationLevel: optimizationLevel,
-            );
-            await expectMachineArchitecture(libUri, target, OS.android);
-            if (linkMode == DynamicLoadingBundled()) {
-              await expectPageSize(libUri, 16 * 1024);
-            }
-          },
+    test(
+      'CBuilder $linkMode library $architecture minSdkVersion $apiLevel '
+      '$optimizationLevel',
+      timeout: longTimeout,
+      () async {
+        final tempUri = await tempDirForTest();
+        final libUri = await buildLib(
+          tempUri,
+          architecture,
+          apiLevel,
+          linkMode,
+          optimizationLevel: optimizationLevel,
         );
-      }
-    }
+        await expectMachineArchitecture(libUri, architecture, OS.android);
+        if (linkMode == DynamicLoadingBundled()) {
+          await expectPageSize(libUri, 16 * 1024);
+        }
+      },
+    );
   }
 
   test('CBuilder API levels binary difference', timeout: longTimeout, () async {
     const target = Architecture.arm64;
     final linkMode = DynamicLoadingBundled();
-    const apiLevel1 = flutterAndroidNdkVersionLowestSupported;
-    const apiLevel2 = flutterAndroidNdkVersionHighestSupported;
+    final apiLevel1 = AndroidApiLevel.flutterLowestSupported.value;
+    final apiLevel2 = AndroidApiLevel.flutterHighestSupported.value;
     final tempUri = await tempDirForTest();
     final out1Uri = tempUri.resolve('out1/');
     final out2Uri = tempUri.resolve('out2/');
@@ -82,10 +107,72 @@ void main() {
     expect(bytes2, bytes3);
   });
 
+  test(
+    'CBuilder c++_static links libc++abi on Android',
+    timeout: longTimeout,
+    () async {
+      final tempUri = await tempDirForTest();
+      final cxxabiUri = packageUri.resolve(
+        'test/cbuilder/testfiles/cxxabi/src/cxxabi.cc',
+      );
+      const name = 'cxxabi';
+
+      final tempUriShared = tempUri.resolve('shared/');
+      await Directory.fromUri(tempUriShared).create();
+      final buildInputBuilder = BuildInputBuilder()
+        ..setupShared(
+          packageName: name,
+          packageRoot: tempUri,
+          outputFile: tempUri.resolve('output.json'),
+          outputDirectoryShared: tempUriShared,
+        )
+        ..config.setupBuild(linkingEnabled: false)
+        ..addExtension(
+          CodeAssetExtension(
+            targetOS: .android,
+            targetArchitecture: Architecture.arm64,
+            cCompiler: cCompiler,
+            android: AndroidCodeConfig(
+              targetNdkApi: AndroidApiLevel.flutterLowestSupported.value,
+            ),
+            linkModePreference: .dynamic,
+          ),
+        );
+
+      final buildInput = buildInputBuilder.build();
+      final buildOutput = BuildOutputBuilder();
+
+      final cbuilder = CBuilder.library(
+        name: name,
+        assetName: name,
+        sources: [cxxabiUri.toFilePath()],
+        language: .cpp,
+        cppLinkStdLib: 'c++_static',
+        buildMode: .release,
+      );
+      await cbuilder.run(
+        input: buildInput,
+        output: buildOutput,
+        logger: logger,
+      );
+
+      final asset = BuildOutput(buildOutput.json).assets.code.first;
+
+      // Without linking libc++abi, typeinfo for std::runtime_error
+      // would be an undefined dynamic symbol, causing dlopen to fail
+      // on newer Android versions.
+      await expectSymbolNotUndefined(
+        asset,
+        OS.android,
+        '_ZTISt13runtime_error',
+      );
+    },
+  );
+
   test('page size override', timeout: longTimeout, () async {
     const target = Architecture.arm64;
     final linkMode = DynamicLoadingBundled();
-    const apiLevel1 = flutterAndroidNdkVersionLowestSupported;
+    final apiLevel1 = AndroidApiLevel.flutterLowestSupported.value;
     final tempUri = await tempDirForTest();
     final outUri = tempUri.resolve('out1/');
     await Directory.fromUri(outUri).create();
@@ -124,13 +211,13 @@ Future<Uri> buildLib(
     ..config.setupBuild(linkingEnabled: false)
     ..addExtension(
       CodeAssetExtension(
-        targetOS: OS.android,
+        targetOS: .android,
         targetArchitecture: targetArchitecture,
         cCompiler: cCompiler,
         android: AndroidCodeConfig(targetNdkApi: androidNdkApi),
         linkModePreference: linkMode == DynamicLoadingBundled()
-            ? LinkModePreference.dynamic
-            : LinkModePreference.static,
+            ? .dynamic
+            : .static,
       ),
     );
 
@@ -142,7 +229,7 @@ Future<Uri> buildLib(
     assetName: name,
     sources: [addCUri.toFilePath()],
     flags: flags,
-    buildMode: BuildMode.release,
+    buildMode: .release,
   );
   await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 

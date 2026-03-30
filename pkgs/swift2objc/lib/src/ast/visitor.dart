@@ -12,6 +12,7 @@ import 'ast_node.dart';
 import 'declarations/built_in/built_in_declaration.dart';
 import 'declarations/compounds/class_declaration.dart';
 import 'declarations/compounds/enum_declaration.dart';
+import 'declarations/compounds/extension_declaration.dart';
 import 'declarations/compounds/members/initializer_declaration.dart';
 import 'declarations/compounds/members/method_declaration.dart';
 import 'declarations/compounds/members/property_declaration.dart';
@@ -78,6 +79,7 @@ abstract class Visitation {
   void visitDeclaredType(DeclaredType node) => visitReferredType(node);
   void visitGenericType(GenericType node) => visitReferredType(node);
   void visitOptionalType(OptionalType node) => visitReferredType(node);
+  void visitInoutType(InoutType node) => visitReferredType(node);
   void visitDeclaration(Declaration node) => visitAstNode(node);
   void visitBuiltInDeclaration(BuiltInDeclaration node) =>
       visitDeclaration(node);
@@ -106,6 +108,9 @@ abstract class Visitation {
   void visitEnumDeclaration(EnumDeclaration node) =>
       visitCompoundDeclaration(node);
   void visitTypealiasDeclaration(TypealiasDeclaration node) =>
+      visitDeclaration(node);
+  void visitTupleType(TupleType node) => visitReferredType(node);
+  void visitExtensionDeclaration(ExtensionDeclaration node) =>
       visitDeclaration(node);
 
   /// Default behavior for all visit methods.

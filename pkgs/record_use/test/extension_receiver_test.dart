@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
 import 'package:test/test.dart';
 
 const loadingUnit1 = LoadingUnit('1');
@@ -10,7 +10,6 @@ const loadingUnit1 = LoadingUnit('1');
 void main() {
   test('Call with receiver in JSON', () {
     const json = {
-      'metadata': {'version': '1.0.0', 'comment': 'test'},
       'constants': [
         {'type': 'string', 'value': 'receiver'},
         {'type': 'int', 'value': 42},
@@ -22,7 +21,11 @@ void main() {
         {
           'uri': 'package:a/a.dart',
           'path': [
-            {'name': 'foo'},
+            {
+              'name': 'foo',
+              'kind': 'method',
+              'disambiguators': ['static'],
+            },
           ],
         },
       ],
@@ -33,7 +36,7 @@ void main() {
             'uses': [
               {
                 'type': 'with_arguments',
-                'loading_unit_indices': [0],
+                'loading_unit_index': 0,
                 'receiver': 0,
                 'positional': [1],
               },
@@ -44,7 +47,10 @@ void main() {
     };
 
     final recordings = Recordings.fromJson(json);
-    const definition = Definition('package:a/a.dart', [Name('foo')]);
+    const definition = Method(
+      'foo',
+      Library('package:a/a.dart'),
+    );
     final calls = recordings.calls[definition]!;
     final call = calls[0] as CallWithArguments;
 
@@ -53,16 +59,18 @@ void main() {
   });
 
   test('Call with receiver serialization round-trip', () {
-    const definition = Definition('package:a/a.dart', [Name('foo')]);
+    const definition = Method(
+      'foo',
+      Library('package:a/a.dart'),
+    );
     final recordings = Recordings(
-      metadata: Metadata(version: version, comment: 'test'),
       calls: {
         definition: [
           const CallWithArguments(
             receiver: StringConstant('receiver'),
             positionalArguments: [IntConstant(42)],
             namedArguments: {},
-            loadingUnits: [loadingUnit1],
+            loadingUnit: loadingUnit1,
           ),
         ],
       },
@@ -85,14 +93,16 @@ void main() {
   });
 
   test('CallTearoff with receiver serialization round-trip', () {
-    const definition = Definition('package:a/a.dart', [Name('foo')]);
+    const definition = Method(
+      'foo',
+      Library('package:a/a.dart'),
+    );
     final recordings = Recordings(
-      metadata: Metadata(version: version, comment: 'test'),
       calls: {
         definition: [
           const CallTearoff(
             receiver: StringConstant('receiver'),
-            loadingUnits: [loadingUnit1],
+            loadingUnit: loadingUnit1,
           ),
         ],
       },

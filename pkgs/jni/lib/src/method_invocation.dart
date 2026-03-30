@@ -6,10 +6,10 @@ import 'dart:ffi';
 
 import 'package:meta/meta.dart' show internal;
 
+import 'core_bindings.dart';
 import 'jarray.dart';
 import 'jobject.dart';
 import 'jreference.dart';
-import 'lang/jstring.dart';
 import 'third_party/generated_bindings.dart';
 
 @internal
@@ -27,14 +27,14 @@ class MethodInvocation {
   ) {
     return MethodInvocation._(
       Pointer<CallbackResult>.fromAddress(resultAddress),
-      JString.fromReference(
-          JGlobalReference(Pointer<Void>.fromAddress(descriptorAddress))),
+      JObject.fromReference(
+              JGlobalReference(Pointer<Void>.fromAddress(descriptorAddress)))
+          as JString,
       argsAddress == 0
           ? null
-          : JArray.fromReference(
-              const $JObject$NullableType$(),
+          : JObject.fromReference(
               JGlobalReference(Pointer<Void>.fromAddress(argsAddress)),
-            ),
+            ) as JArray<JObject?>,
     );
   }
 

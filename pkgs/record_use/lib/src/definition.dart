@@ -4,275 +4,616 @@
 
 import 'package:meta/meta.dart';
 
+import 'recordings.dart';
 import 'syntax.g.dart';
 
-/// A unique identifier for a code element, such as a class, method,
-/// or field, within a Dart program.
+/// A unique identifier for a code element, such as a [Class] or [Method] within
+/// a Dart program.
 ///
-/// A [Definition] is used to pinpoint a specific element based on its
-/// location and name.
-// TODO(https://github.com/dart-lang/native/issues/3062): Make this API more
-// kind-centric, after we've added support for kinds and disambiguators in the
-// compilers.
-class Definition {
-  /// The URI of the library where the element is defined.
-  ///
-  /// This must be a `package:` URI, so that it is OS- and user independent.
-  ///
-  /// For elements annotated with `@RecordUse`, this URI will always point to a
-  /// file in the `lib/` directory of a package.
-  final String library;
+/// A [Definition] is used to pinpoint a specific element based on its location
+/// and name.
+abstract class Definition {
+  /// The name of this definition.
+  final String name;
 
-  /// The hierarchical path to the element within the library.
-  final List<Name> path;
+  /// The parent scope that contains this definition.
+  final ScopeWithMembers parent;
 
-  /// Creates a [Definition] object.
-  const Definition(this.library, this.path);
+  const Definition._(this.name, this.parent);
 
-  /// Creates a [Definition] object from its syntax representation.
-  static Definition _fromSyntax(DefinitionSyntax syntax) => Definition(
-    syntax.uri,
-    syntax.definitionPath
-        .map(
-          (nameSyntax) => Name(
-            nameSyntax.name,
-            kind: nameSyntax.kind != null
-                ? DefinitionKind._fromName(nameSyntax.kind!)
-                : null,
-            disambiguators:
-                nameSyntax.disambiguators
-                    ?.map(DefinitionDisambiguator._fromName)
-                    .toSet() ??
-                {},
-          ),
-        )
-        .toList(),
-  );
+  /// The library where this element is defined.
+  Library get library => parent.library;
 
-  /// Converts this [Definition] object to a syntax representation.
-  DefinitionSyntax _toSyntax() => DefinitionSyntax(
-    uri: library,
-    definitionPath: path
-        .map(
-          (name) => NameSyntax(
-            name: name.name,
-            kind: name.kind?.toString(),
-            disambiguators: name.disambiguators.isEmpty
-                ? null
-                : name.disambiguators.map((d) => d.toString()).toList(),
-          ),
-        )
-        .toList(),
-  );
-
-  /// The parent, if it exists.
-  Definition? get parent => path.length > 1
-      ? Definition(library, path.sublist(0, path.length - 1))
-      : null;
+  NameSyntax _toNameSyntax();
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
-
-    if (other is! Definition) return false;
-    if (other.library != library) return false;
-    if (other.path.length != path.length) return false;
-    for (var i = 0; i < path.length; i++) {
-      if (other.path[i] != path[i]) return false;
-    }
-    return true;
-  }
+  bool operator ==(Object other) =>
+      identical(this, other) ||
+      other is Definition &&
+          other.runtimeType == runtimeType &&
+          other.name == name &&
+          other.parent == parent;
 
   @override
-  int get hashCode => Object.hash(library, Object.hashAll(path));
-
-  /// Returns a URI representation of this definition.
-  ///
-  /// The [library] is the base URI and the [path] is the fragment.
-  /// [Name]s in the [path] are separated by `::`.
-  @override
-  String toString() => '$library#${path.join('::')}';
+  int get hashCode => Object.hash(runtimeType, name, parent);
 
   /// Compares this [Definition] with [other] for semantic equality.
   ///
-  /// The [library] can be mapped using [uriMapping] before comparison.
+  /// The library URI can be mapped using [uriMapping] before comparison.
   @visibleForTesting
   bool semanticEquals(
     Definition other, {
     String Function(String)? uriMapping,
   }) {
-    if (other.path.length != path.length) return false;
-    for (var i = 0; i < path.length; i++) {
-      if (other.path[i] != path[i]) return false;
+    if (other.runtimeType != runtimeType) return false;
+    if (other.name != name) return false;
+    if (!parent._semanticEquals(other.parent, uriMapping: uriMapping)) {
+      return false;
     }
-    final mappedLibrary = uriMapping == null ? library : uriMapping(library);
-    return mappedLibrary == other.library;
+    return true;
   }
 }
 
-/// A component of a [Definition] path.
-class Name {
-  /// The name of the element itself.
-  final String name;
+/// A [Library] or [DefinitionWithMembers] which can contain [Member]s.
+abstract class ScopeWithMembers {
+  const ScopeWithMembers._();
 
-  /// The kind of the element.
+  /// The library which is this scope or contains this scope.
+  Library get library;
+}
+
+/// A [Definition] for which instances or constant values can be recorded in
+/// [Recordings.instances].
+abstract interface class DefinitionWithInstances implements Definition {}
+
+/// A [Definition] that can be recorded as a static call in [Recordings.calls].
+abstract interface class DefinitionWithStaticCalls implements Definition {
+  /// Whether this member is an instance member (declared without the `static`
+  /// keyword) or a static member.
   ///
-  /// TODO(https://github.com/dart-lang/native/issues/2888): Make this
-  /// non-nullable.
-  final DefinitionKind? kind;
+  /// For extension and extension type members, instance members are dispatched
+  /// statically and are therefore recorded as static calls in
+  /// [Recordings.calls].
+  bool get isInstanceMember;
+}
 
-  /// Optional disambiguators (e.g. to distinguish between static and instance
-  /// members in extensions and extension types).
-  final Set<DefinitionDisambiguator> disambiguators;
+extension on ScopeWithMembers {
+  String get _prefix => '$this${this is Library ? '#' : '::'}';
 
-  const Name(
-    this.name, {
-    this.kind,
-    this.disambiguators = const {},
-  });
+  bool _semanticEquals(
+    ScopeWithMembers other, {
+    String Function(String)? uriMapping,
+  }) => switch ((this, other)) {
+    (final Library l1, final Library l2) =>
+      (uriMapping?.call(l1.uri) ?? l1.uri) == l2.uri,
+    (final Definition d1, final Definition d2) => d1.semanticEquals(
+      d2,
+      uriMapping: uriMapping,
+    ),
+    _ => false,
+  };
+}
+
+/// A Dart library.
+///
+/// Contains [Definition]s via [Definition.parent].
+final class Library implements ScopeWithMembers {
+  /// The URI of the library in which [Definition]s are defined.
+  ///
+  /// This must be a `package:` URI, so that it is OS- and user independent.
+  final String uri;
+
+  /// Creates a new [Library] with the given [uri].
+  const Library(this.uri);
 
   @override
-  bool operator ==(Object other) {
-    if (identical(this, other)) return true;
+  Library get library => this;
 
-    if (other is! Name) return false;
-    if (other.name != name) return false;
-    if (other.kind != kind) return false;
-    if (other.disambiguators.length != disambiguators.length) return false;
-    return disambiguators.every(other.disambiguators.contains);
+  @override
+  bool operator ==(Object other) =>
+      identical(this, other) || other is Library && other.uri == uri;
+
+  @override
+  int get hashCode => uri.hashCode;
+
+  @override
+  String toString() => uri;
+}
+
+/// A [Definition] that can contain other [Member]s.
+///
+/// For example, a [Class] can contain [Method]s and [Getter]s.
+abstract class DefinitionWithMembers extends Definition
+    implements ScopeWithMembers {
+  const DefinitionWithMembers._(super.name, super.parent) : super._();
+}
+
+/// A Dart class.
+final class Class extends DefinitionWithMembers
+    implements DefinitionWithInstances {
+  /// Creates a new [Class] with the given [name] and [parent].
+  const Class(super.name, super.parent) : super._();
+
+  @override
+  NameSyntax _toNameSyntax() => ClassNameSyntax(name: name);
+
+  @override
+  String toString() => '${parent._prefix}class:$name';
+}
+
+/// A Dart mixin.
+final class Mixin extends DefinitionWithMembers {
+  /// Creates a new [Mixin] with the given [name] and [parent].
+  const Mixin(super.name, super.parent) : super._();
+
+  @override
+  NameSyntax _toNameSyntax() => MixinNameSyntax(name: name);
+
+  @override
+  String toString() => '${parent._prefix}mixin:$name';
+}
+
+/// A Dart enum.
+final class Enum extends DefinitionWithMembers
+    implements DefinitionWithInstances {
+  /// Creates a new [Enum] with the given [name] and [parent].
+  const Enum(super.name, super.parent) : super._();
+
+  @override
+  NameSyntax _toNameSyntax() => EnumNameSyntax(name: name);
+
+  @override
+  String toString() => '${parent._prefix}enum:$name';
+}
+
+/// A Dart extension.
+final class Extension extends DefinitionWithMembers {
+  static const String _unnamedName = '';
+
+  /// Creates a new [Extension] with the given [name] and [parent].
+  const Extension(super.name, super.parent) : super._();
+
+  /// Creates a new unnamed [Extension] in the given [library].
+  const Extension.unnamed(Library library) : this(_unnamedName, library);
+
+  /// Whether this is an unnamed extension.
+  bool get isUnnamed => name == _unnamedName;
+
+  @override
+  NameSyntax _toNameSyntax() => ExtensionNameSyntax(name: name);
+
+  @override
+  String toString() => '${parent._prefix}extension:$name';
+}
+
+/// A Dart extension type.
+final class ExtensionType extends DefinitionWithMembers {
+  /// Creates a new [ExtensionType] with the given [name] and [parent].
+  const ExtensionType(super.name, super.parent) : super._();
+
+  @override
+  NameSyntax _toNameSyntax() => ExtensionTypeNameSyntax(name: name);
+
+  @override
+  String toString() => '${parent._prefix}extension_type:$name';
+}
+
+/// A member definition.
+abstract class Member extends Definition {
+  const Member._(super.name, super.parent) : super._();
+
+  /// Whether this member is an instance member (declared without the `static`
+  /// keyword) or a static member.
+  ///
+  /// For extension and extension type members, instance members are dispatched
+  /// statically and are therefore recorded as static calls in
+  /// [Recordings.calls].
+  bool get isInstanceMember;
+
+  @override
+  bool operator ==(Object other) =>
+      super == other &&
+      other is Member &&
+      other.isInstanceMember == isInstanceMember;
+
+  @override
+  int get hashCode => Object.hash(super.hashCode, isInstanceMember);
+
+  @override
+  bool semanticEquals(
+    Definition other, {
+    String Function(String)? uriMapping,
+  }) {
+    if (!super.semanticEquals(other, uriMapping: uriMapping)) return false;
+    if (other is! Member) return false;
+    return other.isInstanceMember == isInstanceMember;
   }
+}
+
+/// A Dart method.
+final class Method extends Member implements DefinitionWithStaticCalls {
+  @override
+  final bool isInstanceMember;
+
+  /// Creates a new [Method] with the given [name] and [parent].
+  ///
+  /// The [isInstanceMember] flag indicates whether this is an instance member
+  /// (declared without the `static` keyword) or a static member.
+  const Method(
+    super.name,
+    super.parent, {
+    this.isInstanceMember = false,
+  }) : super._();
 
   @override
-  int get hashCode => Object.hash(
-    name,
-    kind,
-    Object.hashAllUnordered(disambiguators),
+  NameSyntax _toNameSyntax() => MethodNameSyntax(
+    name: name,
+    disambiguators: [isInstanceMember ? 'instance' : 'static'],
   );
 
-  /// Returns a string representation of this name that can be used as a part of
-  /// a URI fragment.
-  ///
-  /// The format is `kind:name@disambiguator1@disambiguator2`.
-  /// Disambiguators are sorted alphabetically.
   @override
   String toString() {
-    final buffer = StringBuffer();
-    if (kind != null) {
-      buffer.write('$kind:');
-    }
-    buffer.write(name);
-    if (disambiguators.isNotEmpty) {
-      final sorted = disambiguators.toList()
-        ..sort((a, b) => a.toString().compareTo(b.toString()));
-      for (final disambiguator in sorted) {
-        buffer.write('@$disambiguator');
-      }
-    }
-    return buffer.toString();
+    final suffix = isInstanceMember ? 'instance' : 'static';
+    return '${parent._prefix}method:$name@$suffix';
   }
 }
 
-/// The kind of code element represented by a [Name].
-///
-/// This is not an enum because adding new elements to an enum is a breaking
-/// change for switch statements. By using a class with static const instances,
-/// we can add new kinds without breaking existing code.
-final class DefinitionKind {
-  final String _name;
-  const DefinitionKind._(this._name);
+/// A Dart getter.
+final class Getter extends Member implements DefinitionWithStaticCalls {
+  @override
+  final bool isInstanceMember;
 
-  static const classKind = DefinitionKind._('class');
-  static const mixinKind = DefinitionKind._('mixin');
-  static const enumKind = DefinitionKind._('enum');
-  static const extensionKind = DefinitionKind._('extension');
-  static const extensionTypeKind = DefinitionKind._('extension_type');
-  static const methodKind = DefinitionKind._('method');
-  static const getterKind = DefinitionKind._('getter');
-  static const setterKind = DefinitionKind._('setter');
-  static const operatorKind = DefinitionKind._('operator');
-  static const constructorKind = DefinitionKind._('constructor');
+  /// Creates a new [Getter] with the given [name] and [parent].
+  ///
+  /// The [isInstanceMember] flag indicates whether this is an instance member
+  /// (declared without the `static` keyword) or a static member.
+  const Getter(
+    super.name,
+    super.parent, {
+    this.isInstanceMember = false,
+  }) : super._();
 
-  static const _knownValues = [
-    classKind,
-    mixinKind,
-    enumKind,
-    extensionKind,
-    extensionTypeKind,
-    methodKind,
-    getterKind,
-    setterKind,
-    operatorKind,
-    constructorKind,
-  ];
-
-  static DefinitionKind _fromName(String name) => _knownValues.firstWhere(
-    (v) => v._name == name,
-    orElse: () => DefinitionKind._(name),
+  @override
+  NameSyntax _toNameSyntax() => GetterNameSyntax(
+    name: name,
+    disambiguators: [isInstanceMember ? 'instance' : 'static'],
   );
 
   @override
-  bool operator ==(Object other) =>
-      other is DefinitionKind && other._name == _name;
-
-  @override
-  int get hashCode => _name.hashCode;
-
-  @override
-  String toString() => _name;
+  String toString() {
+    final suffix = isInstanceMember ? 'instance' : 'static';
+    return '${parent._prefix}getter:$name@$suffix';
+  }
 }
 
-/// Extra metadata to disambiguate between elements that might have the same
-/// name and kind.
-///
-/// This is not an enum because adding new elements to an enum is a breaking
-/// change for switch statements. By using a class with static const instances,
-/// we can add new kinds without breaking existing code.
-final class DefinitionDisambiguator {
-  final String _name;
-  const DefinitionDisambiguator._(this._name);
+/// A Dart setter.
+final class Setter extends Member implements DefinitionWithStaticCalls {
+  @override
+  final bool isInstanceMember;
 
-  /// Applied to members that are static (e.g. a static method in a class).
+  /// Creates a new [Setter] with the given [name] and [parent].
   ///
-  /// Only applies to [DefinitionKind.methodKind], [DefinitionKind.getterKind],
-  /// [DefinitionKind.setterKind], and [DefinitionKind.operatorKind].
-  static const staticDisambiguator = DefinitionDisambiguator._('static');
-
-  /// Applied to members that are instance members (e.g. an instance method in a
-  /// class or extension).
-  ///
-  /// Only applies to [DefinitionKind.methodKind], [DefinitionKind.getterKind],
-  /// [DefinitionKind.setterKind], and [DefinitionKind.operatorKind].
-  static const instanceDisambiguator = DefinitionDisambiguator._('instance');
-
-  static const _knownValues = [
-    staticDisambiguator,
-    instanceDisambiguator,
-  ];
-
-  static DefinitionDisambiguator _fromName(String name) =>
-      _knownValues.firstWhere(
-        (v) => v._name == name,
-        orElse: () => DefinitionDisambiguator._(name),
-      );
+  /// The [isInstanceMember] flag indicates whether this is an instance member
+  /// (declared without the `static` keyword) or a static member.
+  const Setter(
+    super.name,
+    super.parent, {
+    this.isInstanceMember = false,
+  }) : super._();
 
   @override
-  bool operator ==(Object other) =>
-      other is DefinitionDisambiguator && other._name == _name;
+  NameSyntax _toNameSyntax() => SetterNameSyntax(
+    name: name,
+    disambiguators: [isInstanceMember ? 'instance' : 'static'],
+  );
 
   @override
-  int get hashCode => _name.hashCode;
+  String toString() {
+    final suffix = isInstanceMember ? 'instance' : 'static';
+    return '${parent._prefix}setter:$name@$suffix';
+  }
+}
+
+/// A Dart operator.
+final class Operator extends Member implements DefinitionWithStaticCalls {
+  // English names taken from `package:kernel` lib/names.dart.
+  static const String _plusName = '+';
+  static const String _minusName = '-';
+  static const String _multiplyName = '*';
+  static const String _divisionName = '/';
+  static const String _mustacheName = '~/';
+  static const String _percentName = '%';
+  static const String _ampersandName = '&';
+  static const String _barName = '|';
+  static const String _caretName = '^';
+  static const String _leftShiftName = '<<';
+  static const String _rightShiftName = '>>';
+  static const String _tripleShiftName = '>>>';
+  static const String _lessThanName = '<';
+  static const String _lessThanOrEqualsName = '<=';
+  static const String _greaterThanName = '>';
+  static const String _greaterThanOrEqualsName = '>=';
+  static const String _equalsName = '==';
+  static const String _indexGetName = '[]';
+  static const String _indexSetName = '[]=';
+  static const String _unaryMinusName = 'unary-';
+  static const String _tildeName = '~';
 
   @override
-  String toString() => _name;
+  DefinitionWithMembers get parent => super.parent as DefinitionWithMembers;
+
+  /// Creates a new [Operator] with the given [name] and [parent].
+  const Operator(super.name, DefinitionWithMembers super.parent) : super._();
+
+  /// Creates a new `+` [Operator] in the given [parent].
+  const Operator.plus(DefinitionWithMembers parent) : this(_plusName, parent);
+
+  /// Creates a new `-` [Operator] in the given [parent].
+  const Operator.minus(DefinitionWithMembers parent) : this(_minusName, parent);
+
+  /// Creates a new `*` [Operator] in the given [parent].
+  const Operator.multiply(DefinitionWithMembers parent)
+    : this(_multiplyName, parent);
+
+  /// Creates a new `/` [Operator] in the given [parent].
+  const Operator.division(DefinitionWithMembers parent)
+    : this(_divisionName, parent);
+
+  /// Creates a new `~/` [Operator] in the given [parent].
+  const Operator.mustache(DefinitionWithMembers parent)
+    : this(_mustacheName, parent);
+
+  /// Creates a new `%` [Operator] in the given [parent].
+  const Operator.percent(DefinitionWithMembers parent)
+    : this(_percentName, parent);
+
+  /// Creates a new `&` [Operator] in the given [parent].
+  const Operator.ampersand(DefinitionWithMembers parent)
+    : this(_ampersandName, parent);
+
+  /// Creates a new `|` [Operator] in the given [parent].
+  const Operator.bar(DefinitionWithMembers parent) : this(_barName, parent);
+
+  /// Creates a new `^` [Operator] in the given [parent].
+  const Operator.caret(DefinitionWithMembers parent) : this(_caretName, parent);
+
+  /// Creates a new `<<` [Operator] in the given [parent].
+  const Operator.leftShift(DefinitionWithMembers parent)
+    : this(_leftShiftName, parent);
+
+  /// Creates a new `>>` [Operator] in the given [parent].
+  const Operator.rightShift(DefinitionWithMembers parent)
+    : this(_rightShiftName, parent);
+
+  /// Creates a new `>>>` [Operator] in the given [parent].
+  const Operator.tripleShift(DefinitionWithMembers parent)
+    : this(_tripleShiftName, parent);
+
+  /// Creates a new `<` [Operator] in the given [parent].
+  const Operator.lessThan(DefinitionWithMembers parent)
+    : this(_lessThanName, parent);
+
+  /// Creates a new `<=` [Operator] in the given [parent].
+  const Operator.lessThanOrEquals(DefinitionWithMembers parent)
+    : this(_lessThanOrEqualsName, parent);
+
+  /// Creates a new `>` [Operator] in the given [parent].
+  const Operator.greaterThan(DefinitionWithMembers parent)
+    : this(_greaterThanName, parent);
+
+  /// Creates a new `>=` [Operator] in the given [parent].
+  const Operator.greaterThanOrEquals(DefinitionWithMembers parent)
+    : this(_greaterThanOrEqualsName, parent);
+
+  /// Creates a new `==` [Operator] in the given [parent].
+  const Operator.equals(DefinitionWithMembers parent)
+    : this(_equalsName, parent);
+
+  /// Creates a new `[]` [Operator] in the given [parent].
+  const Operator.indexGet(DefinitionWithMembers parent)
+    : this(_indexGetName, parent);
+
+  /// Creates a new `[]=` [Operator] in the given [parent].
+  const Operator.indexSet(DefinitionWithMembers parent)
+    : this(_indexSetName, parent);
+
+  /// Creates a new `unary-` [Operator] in the given [parent].
+  const Operator.unaryMinus(DefinitionWithMembers parent)
+    : this(_unaryMinusName, parent);
+
+  /// Creates a new `~` [Operator] in the given [parent].
+  const Operator.tilde(DefinitionWithMembers parent) : this(_tildeName, parent);
+
+  /// Whether this is a `+` operator.
+  bool get isPlus => name == _plusName;
+
+  /// Whether this is a `-` operator.
+  bool get isMinus => name == _minusName;
+
+  /// Whether this is a `*` operator.
+  bool get isMultiply => name == _multiplyName;
+
+  /// Whether this is a `/` operator.
+  bool get isDivision => name == _divisionName;
+
+  /// Whether this is a `~/` operator.
+  bool get isMustache => name == _mustacheName;
+
+  /// Whether this is a `%` operator.
+  bool get isPercent => name == _percentName;
+
+  /// Whether this is a `&` operator.
+  bool get isAmpersand => name == _ampersandName;
+
+  /// Whether this is a `|` operator.
+  bool get isBar => name == _barName;
+
+  /// Whether this is a `^` operator.
+  bool get isCaret => name == _caretName;
+
+  /// Whether this is a `<<` operator.
+  bool get isLeftShift => name == _leftShiftName;
+
+  /// Whether this is a `>>` operator.
+  bool get isRightShift => name == _rightShiftName;
+
+  /// Whether this is a `>>>` operator.
+  bool get isTripleShift => name == _tripleShiftName;
+
+  /// Whether this is a `<` operator.
+  bool get isLessThan => name == _lessThanName;
+
+  /// Whether this is a `<=` operator.
+  bool get isLessThanOrEquals => name == _lessThanOrEqualsName;
+
+  /// Whether this is a `>` operator.
+  bool get isGreaterThan => name == _greaterThanName;
+
+  /// Whether this is a `>=` operator.
+  bool get isGreaterThanOrEquals => name == _greaterThanOrEqualsName;
+
+  /// Whether this is a `==` operator.
+  bool get isEquals => name == _equalsName;
+
+  /// Whether this is a `[]` operator.
+  bool get isIndexGet => name == _indexGetName;
+
+  /// Whether this is a `[]=` operator.
+  bool get isIndexSet => name == _indexSetName;
+
+  /// Whether this is a `unary-` operator.
+  bool get isUnaryMinus => name == _unaryMinusName;
+
+  /// Whether this is a `~` operator.
+  bool get isTilde => name == _tildeName;
+
+  @override
+  bool get isInstanceMember => true;
+
+  @override
+  NameSyntax _toNameSyntax() => OperatorNameSyntax(name: name);
+
+  @override
+  String toString() => '${parent._prefix}operator:$name';
+}
+
+/// A Dart constructor.
+final class Constructor extends Member {
+  static const String _unnamedName = '';
+
+  @override
+  DefinitionWithMembers get parent => super.parent as DefinitionWithMembers;
+
+  /// Creates a new [Constructor] with the given [name] and [parent].
+  const Constructor(super.name, DefinitionWithMembers super.parent) : super._();
+
+  /// Creates a new unnamed [Constructor] in the given [parent].
+  const Constructor.unnamed(DefinitionWithMembers parent)
+    : this(_unnamedName, parent);
+
+  /// Whether this is an unnamed constructor.
+  bool get isUnnamed => name == _unnamedName;
+
+  @override
+  bool get isInstanceMember => false;
+
+  @override
+  NameSyntax _toNameSyntax() => ConstructorNameSyntax(name: name);
+
+  @override
+  String toString() => '${parent._prefix}constructor:$name';
 }
 
 /// Package private (protected) methods for [Definition].
-///
-/// This avoids bloating the public API and public API docs and prevents
-/// internal types from leaking from the API.
+@internal
 extension DefinitionProtected on Definition {
-  DefinitionSyntax toSyntax() => _toSyntax();
+  DefinitionSyntax toSyntax() {
+    final path = <NameSyntax>[];
+    Definition? current = this;
+    while (current != null) {
+      path.insert(0, current._toNameSyntax());
+      final parent = current.parent;
+      current = parent is Definition ? parent as Definition : null;
+    }
 
-  static Definition fromSyntax(DefinitionSyntax syntax) =>
-      Definition._fromSyntax(syntax);
+    return DefinitionSyntax(uri: library.uri, definitionPath: path);
+  }
+
+  int compareTo(Definition other) => toString().compareTo(other.toString());
+
+  static Definition fromSyntax(DefinitionSyntax syntax) {
+    ScopeWithMembers current = Library(syntax.uri);
+    final path = syntax.definitionPath;
+    for (var i = 0; i < path.length; i++) {
+      final nameSyntax = path[i];
+      final name = nameSyntax.name;
+
+      final next = switch (nameSyntax) {
+        ClassNameSyntax() => Class(name, current),
+        MixinNameSyntax() => Mixin(name, current),
+        EnumNameSyntax() => Enum(name, current),
+        ExtensionNameSyntax() => Extension(name, current),
+        ExtensionTypeNameSyntax() => ExtensionType(name, current),
+        MethodNameSyntax(:final disambiguators) => Method(
+          name,
+          current,
+          isInstanceMember: switch (disambiguators) {
+            ['instance'] => true,
+            ['static'] => false,
+            _ => throw FormatException(
+              'Method requires ["instance"] or ["static"] disambiguator: '
+              '$name',
+            ),
+          },
+        ),
+        GetterNameSyntax(:final disambiguators) => Getter(
+          name,
+          current,
+          isInstanceMember: switch (disambiguators) {
+            ['instance'] => true,
+            ['static'] => false,
+            _ => throw FormatException(
+              'Getter requires ["instance"] or ["static"] disambiguator: '
+              '$name',
+            ),
+          },
+        ),
+        SetterNameSyntax(:final disambiguators) => Setter(
+          name,
+          current,
+          isInstanceMember: switch (disambiguators) {
+            ['instance'] => true,
+            ['static'] => false,
+            _ => throw FormatException(
+              'Setter requires ["instance"] or ["static"] disambiguator: '
+              '$name',
+            ),
+          },
+        ),
+        OperatorNameSyntax() => Operator(
+          name,
+          current as DefinitionWithMembers,
+        ),
+        ConstructorNameSyntax() => Constructor(
+          name,
+          current as DefinitionWithMembers,
+        ),
+        _ => throw FormatException(
+          'Unknown definition kind: ${nameSyntax.kind}',
+        ),
+      };
+      if (i < path.length - 1) {
+        current = next as ScopeWithMembers;
+      } else {
+        return next;
+      }
+    }
+    throw const FormatException('Empty definition path');
+  }
+}
+
+/// Package private (protected) methods for [Library].
+@internal
+extension LibraryProtected on Library {
+  int compareTo(Library other) => uri.compareTo(other.uri);
 }

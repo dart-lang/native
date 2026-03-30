@@ -155,6 +155,10 @@ abstract class CTool {
   /// | Linux   | `stdc++`     |
   /// | macOS   | `c++`        |
   /// | Fuchsia | `c++`        |
+  ///
+  /// On Android, set this to `c++_static` to statically link the
+  /// C++ standard library. This bundles libc++ into the resulting
+  /// binary instead of depending on `libc++_shared.so` at runtime.
   final String? cppLinkStdLib;
 
   /// If the code asset should be a dynamic or static library.

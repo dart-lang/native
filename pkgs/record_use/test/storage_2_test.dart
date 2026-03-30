@@ -6,7 +6,7 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:native_test_helpers/native_test_helpers.dart';
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
 import 'package:test/test.dart';
 
 void main() {
@@ -46,8 +46,9 @@ typedef AllTestData = Map<Uri, String>;
 AllTestData loadTestsData(Uri directory) {
   final allTestData = <Uri, String>{};
   for (final file in Directory.fromUri(directory).listSync()) {
-    file as File;
-    allTestData[file.uri] = file.readAsStringSync();
+    if (file is File && file.path.endsWith('.json')) {
+      allTestData[file.uri] = file.readAsStringSync();
+    }
   }
   return allTestData;
 }

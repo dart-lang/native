@@ -17,7 +17,7 @@ import 'visitor.dart';
 /// Version of jnigen. Keep in sync with `pubspec.yaml` removing the `-wip`
 /// suffix.
 @visibleForTesting
-const String version = '0.15.1';
+const String version = '0.16.0';
 
 // Import prefixes.
 const _jni = r'jni$_';
@@ -29,10 +29,8 @@ const _override = '@$_core.override';
 // package:jni types.
 const _jType = '$_jni.JType';
 const _jPointer = '$_jni.JObjectPtr';
-const _jReference = '$_jni.JReference';
 const _jGlobalReference = '$_jni.JGlobalReference';
 const _jArray = '$_jni.JArray';
-const _jArrayTypePrefix = '$_jni.\$JArray\$';
 const _jObject = '$_jni.JObject';
 const _jObjectTypePrefix = '$_jni.\$JObject\$';
 const _jResult = '$_jni.JniResult';
@@ -104,33 +102,6 @@ String _newLine({int depth = 0}) {
   return '\n${'  ' * depth}';
 }
 
-/// Merges two maps. For the same keys, their value lists will be concatenated.
-///
-/// ** After calling this, the original maps might get modified! **
-Map<K, List<V>> _mergeMapValues<K, V>(Map<K, List<V>> a, Map<K, List<V>> b) {
-  final merged = <K, List<V>>{};
-  for (final key in {...a.keys, ...b.keys}) {
-    if (!a.containsKey(key)) {
-      merged[key] = b[key]!;
-      continue;
-    }
-    if (!b.containsKey(key)) {
-      merged[key] = a[key]!;
-      continue;
-    }
-
-    // Merging the smaller one to the bigger one
-    if (a[key]!.length > b[key]!.length) {
-      merged[key] = a[key]!;
-      merged[key]!.addAll(b[key]!);
-    } else {
-      merged[key] = b[key]!;
-      merged[key]!.addAll(a[key]!);
-    }
-  }
-  return merged;
-}
-
 /// **Naming Convention**
 ///
 /// Let's take the following code as an example:
@@ -164,7 +135,7 @@ class DartGenerator extends Visitor<Classes, Future<void>> {
       'DO NOT EDIT!\n';
   static const defaultImports = '''
 import 'dart:core' as $_core;
-import 'dart:core' show Object, String, double, int;
+import 'dart:core' show Object, String;
 
 import 'package:jni/_internal.dart' as $_jni;
 import 'package:jni/jni.dart' as $_jni;
@@ -332,29 +303,49 @@ class _ClassGenerator extends Visitor<ClassDecl, void> {
 
   _ClassGenerator(this.config, this.s, this.resolver);
 
-  static const staticTypeGetter = 'type';
-  static const instanceTypeGetter = '\$$staticTypeGetter';
-
-  void generateFieldsAndMethods(ClassDecl node, String classRef) {
-    final fieldGenerator = _FieldGenerator(
+  void generateFieldsAndMethods(
+    ClassDecl node,
+    String classRef, {
+    required StringSink staticSink,
+    required StringSink instanceSink,
+  }) {
+    final instanceClassRef = '${node.finalName}.$classRef';
+    final staticFieldGenerator = _FieldGenerator(
       config,
       resolver,
-      s,
+      staticSink,
       isTopLevel: node.isTopLevel,
       classRef: classRef,
+    );
+    final instanceFieldGenerator = _FieldGenerator(
+      config,
+      resolver,
+      instanceSink,
+      isTopLevel: node.isTopLevel,
+      classRef: instanceClassRef,
     );
     for (final field in node.fields) {
-      field.accept(fieldGenerator);
+      field.accept(
+          field.isStatic ? staticFieldGenerator : instanceFieldGenerator);
     }
-    final methodGenerator = _MethodGenerator(
+    final staticMethodGenerator = _MethodGenerator(
       config,
       resolver,
-      s,
+      staticSink,
       isTopLevel: node.isTopLevel,
       classRef: classRef,
     );
+    final instanceMethodGenerator = _MethodGenerator(
+      config,
+      resolver,
+      instanceSink,
+      isTopLevel: node.isTopLevel,
+      classRef: instanceClassRef,
+    );
     for (final method in node.methods) {
-      method.accept(methodGenerator);
+      method.accept(method.isStatic || method.isConstructor
+          ? staticMethodGenerator
+          : instanceMethodGenerator);
     }
   }
 
@@ -374,7 +365,14 @@ ${modifier}final $classRef = $_jni.JClass.forName(r'$internalName');
     if (node.isTopLevel) {
       // If the class is top-level, only generate its methods and fields.
       final classRef = writeClassRef(node);
-      generateFieldsAndMethods(node, classRef);
+      final sink = StringBuffer();
+      generateFieldsAndMethods(
+        node,
+        classRef,
+        staticSink: s,
+        instanceSink: sink,
+      );
+      s.write(sink);
       return;
     }
     // Docs.
@@ -386,6 +384,12 @@ ${modifier}final $classRef = $_jni.JClass.forName(r'$internalName');
     final superName = node.superclass!.accept(
       _TypeGenerator(resolver, includeNullability: false),
     );
+    final interfaces = node.interfaces.map(
+      (interface) => interface.accept(
+        _TypeGenerator(resolver, includeNullability: false),
+      ),
+    );
+    final implementsClause = {superName, ...interfaces}.join(', ');
     final implClassName = '\$$name';
     final typeParamsDef = node.allTypeParams
         .accept(const _TypeParamDef())
@@ -396,106 +400,47 @@ ${modifier}final $classRef = $_jni.JClass.forName(r'$internalName');
         .map((typeParam) => '$_typeParamPrefix$typeParam')
         .join(', ')
         .encloseIfNotEmpty('<', '>');
-    final staticTypeGetterCallArgs =
-        typeParams.join(', ').encloseIfNotEmpty('(', ')');
-    final typeClassesDef = typeParams
-        .map(
-          (typeParam) => '''
-  $_internal
-  final $_jType<$_typeParamPrefix$typeParam> $typeParam;
-''',
-        )
-        .join('\n');
-    final ctorTypeClassesDef = typeParams
-        .map((typeParam) => 'this.$typeParam,')
-        .join(_newLine(depth: 2));
-    final superClass = node.classDecl.superclass! as DeclaredType;
-    final superTypeClassesCall = superClass.classDecl.isObject
-        ? ''
-        : superClass.params
-            .accept(_TypeClassGenerator(resolver))
-            .map((typeClass) => '${typeClass.name},')
-            .join(_newLine(depth: 2));
     s.write('''
-class $name$typeParamsDef extends $superName {
-  $_internal
-  $_override
-  final $_jType<$name$typeParamsCall> $instanceTypeGetter;
-
-  $typeClassesDef
-
-  $_internal
-  $name.fromReference(
-    $ctorTypeClassesDef
-    $_jReference reference,
-  ) :
-    $instanceTypeGetter = $staticTypeGetter$typeParamsCall$staticTypeGetterCallArgs,
-    super.fromReference(
-      $superTypeClassesCall
-      reference
-    );
-
+extension type $name$typeParamsDef._($_jObject _\$this) implements $implementsClause {
 ''');
 
     final classRef = writeClassRef(node);
 
     // Static TypeClass getter.
-    void generateTypeClassGetter({required bool isNullable}) {
-      s.writeln(
-        '  /// The type which includes information such as the signature of this class.',
-      );
-      final typeClassName =
-          isNullable ? node.nullableTypeClassName : node.typeClassName;
-      final typeClassGetterName =
-          isNullable ? 'nullableType' : staticTypeGetter;
-      final questionMark = isNullable ? '?' : '';
-      if (typeParams.isEmpty) {
-        s.write('''
-  static const $_jType<$name$typeParamsCall$questionMark> $typeClassGetterName = $typeClassName$typeParamsCall();
-''');
-      } else {
-        final staticTypeGetterTypeClassesDef = typeParams
-            .map(
-              (typeParam) => '$_jType<$_typeParamPrefix$typeParam> $typeParam,',
-            )
-            .join(_newLine(depth: 2));
-        final typeClassesCall = typeParams
-            .map((typeParam) => '$typeParam,')
-            .join(_newLine(depth: 3));
-        s.write('''
-  static $_jType<$name$typeParamsCall$questionMark> $typeClassGetterName$typeParamsDef(
-    $staticTypeGetterTypeClassesDef
-  ) {
-    return $typeClassName$typeParamsCall(
-      $typeClassesCall
+    s.writeln(
+      '  /// The type which includes information such as the signature of this class.',
     );
-  }
-
+    final typeClassName = node.typeClassName;
+    s.write('''
+  static const $_jType<$name> type = $typeClassName();
 ''');
-      }
-    }
 
-    generateTypeClassGetter(isNullable: true);
-    generateTypeClassGetter(isNullable: false);
+    final instanceSink = StringBuffer();
 
     // Fields and Methods
-    generateFieldsAndMethods(node, classRef);
+    generateFieldsAndMethods(
+      node,
+      classRef,
+      staticSink: s,
+      instanceSink: instanceSink,
+    );
 
     // Operators
     for (final MapEntry(key: operator, value: method)
         in node.operators.entries) {
-      method.accept(_OperatorGenerator(resolver, s, operator: operator));
+      method.accept(
+          _OperatorGenerator(resolver, instanceSink, operator: operator));
     }
-    node.compareTo?.accept(_ComparatorGenerator(resolver, s));
+    node.compareTo?.accept(_ComparatorGenerator(resolver, instanceSink));
 
     if (node.declKind == DeclKind.interfaceKind) {
       s.write('''
   /// Maps a specific port to the implemented interface.
-  static final $_core.Map<int, $implClassName> _\$impls = {};
+  static final $_core.Map<$_core.int, $implClassName> _\$impls = {};
 ''');
       s.write('''
   static $_jni.JObjectPtr _\$invoke(
-    int port,
+    $_core.int port,
     $_jni.JObjectPtr descriptor,
     $_jni.JObjectPtr args,
   ) {
@@ -516,7 +461,7 @@ class $name$typeParamsDef extends $superName {
       _\$invokePointer = $_jni.Pointer.fromFunction(_\$invoke);
 
   static $_jni.Pointer<$_jni.Void> _\$invokeMethod(
-    int \$p,
+    $_core.int \$p,
     $_methodInvocation \$i,
   ) {
     try {
@@ -566,26 +511,18 @@ class $name$typeParamsDef extends $superName {
       s.write('''
       ],
     );
-    final \$a = \$p.sendPort.nativePort; 
+    final \$a = \$p.sendPort.nativePort;
     _\$impls[\$a] = \$impl;
   }
 
   factory $name.implement(
     $implClassName$typeParamsCall \$impl,
   ) {
-''');
-      final typeClassesCall = typeParams
-          .map((typeParam) => '\$impl.$typeParam,')
-          .join(_newLine(depth: 3));
-      s.write('''
     final \$i = $_jni.JImplementer();
     implementIn(\$i, \$impl);
-    return $name$typeParamsCall.fromReference(
-      $typeClassesCall
-      \$i.implementReference(),
-    );
+    return \$i.implement<$name$typeParamsCall>();
   }
-  ''');
+''');
     }
 
     // Writing any custom code provided for this class.
@@ -593,32 +530,32 @@ class $name$typeParamsDef extends $superName {
       s.writeln(config.customClassBody![node.binaryName]);
     }
 
-    // End of Class definition.
-    s.writeln('}');
+    s.write('''
+}
+''');
+
+    final instanceMethods = instanceSink.toString();
+    if (instanceMethods.isNotEmpty) {
+      s.write('''
+  extension $name\$\$Methods$typeParamsDef on $name$typeParamsCall {
+    $instanceMethods
+  }
+  ''');
+    }
 
     // Abstract and concrete Impl class definition.
     // Used for interface implementation.
     if (node.declKind == DeclKind.interfaceKind) {
       // Abstract Impl class.
-      final typeClassGetters = typeParams
-          .map(
-            (typeParam) =>
-                '$_jType<$_typeParamPrefix$typeParam> get $typeParam;',
-          )
-          .join(_newLine(depth: 1));
-      final abstractFactoryArgs = [
-        ...typeParams.map(
-          (typeParam) => 'required $_jType<\$$typeParam> $typeParam,',
-        ),
-        ...node.methods.accept(_AbstractImplFactoryArg(resolver)),
-      ].join(_newLine(depth: 2)).encloseIfNotEmpty('{', '}');
+      final abstractFactoryArgs = node.methods
+          .accept(_AbstractImplFactoryArg(resolver))
+          .join(_newLine(depth: 2))
+          .encloseIfNotEmpty('{', '}');
       s.write('''
 abstract base mixin class $implClassName$typeParamsDef {
   factory $implClassName(
     $abstractFactoryArgs
   ) = _$implClassName$typeParamsCall;
-
-  $typeClassGetters
 
 ''');
       final abstractImplMethod = _AbstractImplMethod(resolver, s);
@@ -629,30 +566,20 @@ abstract base mixin class $implClassName$typeParamsDef {
 
       // Concrete Impl class.
       // This is for passing closures instead of implementing the class.
-      final concreteCtorArgs = [
-        ...typeParams.map((typeParam) => 'required this.$typeParam,'),
-        ...node.methods.accept(_ConcreteImplClosureCtorArg(resolver)),
-      ].join(_newLine(depth: 2)).encloseIfNotEmpty('{', '}');
+      final concreteCtorArgs = node.methods
+          .accept(_ConcreteImplClosureCtorArg(resolver))
+          .join(_newLine(depth: 2))
+          .encloseIfNotEmpty('{', '}');
       final setClosures = node.methods
           .map((method) => '_${method.finalName} = ${method.finalName}')
           .join(', ')
           .encloseIfNotEmpty(' :  ', '');
-      final typeClassesDef = typeParams
-          .map(
-            (typeParam) => '''
-$_override
-final $_jType<\$$typeParam> $typeParam;
-''',
-          )
-          .join(_newLine(depth: 1));
       s.write('''
 
 final class _$implClassName$typeParamsDef with $implClassName$typeParamsCall {
   _$implClassName(
     $concreteCtorArgs
   )$setClosures;
-
-  $typeClassesDef
 
 ''');
       final concreteClosureDef = _ConcreteImplClosureDef(resolver, s);
@@ -667,99 +594,18 @@ final class _$implClassName$typeParamsDef with $implClassName$typeParamsCall {
       s.writeln('}');
     }
     // TypeClass definition.
-    void generateTypeClass({required bool isNullable}) {
-      final typeClassName =
-          isNullable ? node.nullableTypeClassName : node.typeClassName;
-      final typeClassesCall =
-          typeParams.map((typeParam) => '$typeParam,').join(_newLine(depth: 2));
-      final signature = node.signature;
-      final superType = superClass.accept(_TypeClassGenerator(resolver)).name;
-      final hashCodeTypeClasses = typeParams.join(', ');
-      final equalityTypeClasses = typeParams
-          .map((typeParam) => ' &&\n        $typeParam == other.$typeParam')
-          .join();
-      final hashCode = typeParams.isEmpty
-          ? '($typeClassName).hashCode'
-          : 'Object.hash($typeClassName, $hashCodeTypeClasses)';
-      final nullableType = isNullable
-          ? 'this'
-          : (DeclaredType(
-              binaryName: node.binaryName,
-              annotations: [Annotation.nullable],
-              params: node.allTypeParams
-                  .map(
-                    (typeParam) => TypeVar(name: typeParam.name)
-                      ..origin = TypeParam(
-                        name: typeParam.name,
-                        annotations: [Annotation.nonNull],
-                        bounds: typeParam.bounds,
-                      ),
-                  )
-                  .toList(),
-            )..classDecl = node)
-              .accept(_TypeClassGenerator(resolver))
-              .name;
-      final nullable = isNullable ? '?' : '';
-      s.write('''
-final class $typeClassName$typeParamsDef extends $_jType<$name$typeParamsCall$nullable> {
-  $typeClassesDef
-
+    final signature = node.signature;
+    s.write('''
+final class $typeClassName extends $_jType<$name> {
   $_internal
-  const $typeClassName(
-    $ctorTypeClassesDef
-  );
+  const $typeClassName();
 
   $_internal
   $_override
   String get signature => r'$signature';
-
-  $_internal
-  $_override
-  $name$typeParamsCall$nullable fromReference($_jReference reference) =>
-  ''');
-      if (isNullable) {
-        s.write('''
-    reference.isNull ? null : $name$typeParamsCall.fromReference(
-      $typeClassesCall
-      reference,
-    );
-''');
-      } else {
-        s.write('''
-    $name$typeParamsCall.fromReference(
-      $typeClassesCall
-      reference,
-    );
-''');
-      }
-      s.write('''
-  $_internal
-  $_override
-  $_jType get superType => $superType;
-
-  $_internal
-  $_override
-  $_jType<$name$typeParamsCall?> get nullableType => $nullableType;
-
-  $_internal
-  $_override
-  final superCount = ${node.superCount};
-
-  $_override
-  int get hashCode => $hashCode;
-
-  $_override
-  $_core.bool operator ==(Object other) {
-    return other.runtimeType == ($typeClassName$typeParamsCall) &&
-        other is $typeClassName$typeParamsCall$equalityTypeClasses;
-  }
 }
 
 ''');
-    }
-
-    generateTypeClass(isNullable: true);
-    generateTypeClass(isNullable: false);
 
     log.finest('Generated bindings for class ${node.binaryName}');
   }
@@ -805,6 +651,11 @@ class _TypeGenerator extends TypeVisitor<String> {
   final bool isTopTypeNullable;
 
   final bool forInterfaceImplementation;
+  final bool forInterfaceInvoker;
+
+  /// Whether or not to return the equivalent boxed type class for primitives.
+  /// Only for interface implemetation.
+  final bool boxPrimitives;
 
   /// Whether the generic types should be erased.
   final bool typeErasure;
@@ -817,6 +668,8 @@ class _TypeGenerator extends TypeVisitor<String> {
   const _TypeGenerator(
     this.resolver, {
     this.forInterfaceImplementation = false,
+    this.forInterfaceInvoker = false,
+    this.boxPrimitives = false,
     this.typeErasure = false,
     this.includeNullability = true,
     this.arrayType = false,
@@ -864,7 +717,8 @@ class _TypeGenerator extends TypeVisitor<String> {
       },
     );
 
-    final typeParams = allTypeParams.join(', ').encloseIfNotEmpty('<', '>');
+    final typeParams =
+        typeErasure ? '' : allTypeParams.join(', ').encloseIfNotEmpty('<', '>');
     final prefix = resolver?.resolvePrefix(node.classDecl) ?? '';
     return '$prefix${node.classDecl.finalName}$typeParams$nullable';
   }
@@ -874,10 +728,13 @@ class _TypeGenerator extends TypeVisitor<String> {
     if (arrayType) {
       return node.name.capitalize();
     }
-    if (node.name == 'boolean') {
-      return '$_core.${node.dartType}';
+    if (node.name == 'void') {
+      return 'void';
     }
-    return node.dartType;
+    if (boxPrimitives) {
+      return '$_jni.J${node.boxedName}';
+    }
+    return '$_core.${node.dartType}';
   }
 
   @override
@@ -887,14 +744,14 @@ class _TypeGenerator extends TypeVisitor<String> {
     {
       final nullable =
           includeNullability && node.isNullable && isTopTypeNullable ? '?' : '';
-      if (typeErasure) {
+      if (typeErasure || forInterfaceInvoker) {
         return '$_jObject$nullable';
       }
       if (forInterfaceImplementation && node.origin.parent is Method) {
         return '$_jObject$nullable';
       }
     }
-    final nullable = includeNullability && node.hasQuestionMark ? '?' : '';
+    final nullable = includeNullability && node.isNullable ? '?' : '';
     return '$_typeParamPrefix${node.name}$nullable';
   }
 
@@ -925,17 +782,8 @@ class _TypeGenerator extends TypeVisitor<String> {
   }
 }
 
-class _TypeClass {
-  final String name;
-  final bool canBeConst;
-
-  const _TypeClass(this.name, this.canBeConst);
-}
-
 /// Generates the type class.
-class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
-  final bool isConst;
-
+class _TypeClassGenerator extends TypeVisitor<String> {
   /// Whether the top-type of the current type being visited is nullable.
   ///
   /// For example the top-type of `T` in `Foo<T extends Bar>` is `Bar`, this
@@ -959,7 +807,6 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
 
   _TypeClassGenerator(
     this.resolver, {
-    this.isConst = true,
     this.boxPrimitives = false,
     this.forInterfaceImplementation = false,
     this.includeNullability = true,
@@ -968,11 +815,10 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
   });
 
   @override
-  _TypeClass visitArrayType(ArrayType node) {
+  String visitArrayType(ArrayType node) {
     final innerTypeClass = node.elementType.accept(
       _TypeClassGenerator(
         resolver,
-        isConst: false,
         boxPrimitives: false,
         forInterfaceImplementation: forInterfaceImplementation,
         // Do type erasure for interface implementation.
@@ -990,115 +836,32 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
         isTopTypeNullable: true,
       ),
     );
-    final ifConst = innerTypeClass.canBeConst && isConst ? 'const ' : '';
-    final type = includeNullability && node.isNullable && isTopTypeNullable
-        ? 'NullableType'
-        : 'Type';
     if (node.elementType is PrimitiveType) {
-      return _TypeClass(
-        '$ifConst$_jni.\$J${innerType}Array\$$type\$()',
-        innerTypeClass.canBeConst,
-      );
+      return '$_jni.J${innerType}Array.type';
     }
-    return _TypeClass(
-      '$ifConst$_jArrayTypePrefix$type\$<$innerType>(${innerTypeClass.name})',
-      innerTypeClass.canBeConst,
-    );
+    return '$_jArray.type<$innerType>($innerTypeClass)';
   }
 
   @override
-  _TypeClass visitDeclaredType(DeclaredType node) {
+  String visitDeclaredType(DeclaredType node) {
     if (node.classDecl.isObject) {
       // The class is not generated, fall back to `JObject`.
       return super.visitDeclaredType(node);
     }
-    final allTypeClasses = node.mapTypeParameters(
-      (isNullable, definedType) {
-        return definedType.accept(_TypeClassGenerator(
-          resolver,
-          isConst: false,
-          boxPrimitives: false,
-          forInterfaceImplementation: forInterfaceImplementation,
-          typeErasure: forInterfaceImplementation,
-          isTopTypeNullable: isNullable,
-        ));
-      },
-    );
-
-    // Can be const if all the type parameters are defined and each of them are
-    // also const.
-    final canBeConst = allTypeClasses.every((e) => e.canBeConst);
-
-    // Add const to subexpressions if the entire expression is not const.
-    final allTypeParams = allTypeClasses
-        .map((typeClass) =>
-            '${typeClass.canBeConst && !canBeConst ? 'const ' : ''}'
-            '${typeClass.name}')
-        .toList();
-
-    final args = allTypeParams.join(', ');
-    final ifConst = isConst && canBeConst ? 'const ' : '';
-    final type = includeNullability && node.isNullable && isTopTypeNullable
-        ? node.classDecl.nullableTypeClassName
-        : node.classDecl.typeClassName;
-
-    final typeArgsList = node.mapTypeParameters(
-      (isNullable, definedType) {
-        return definedType.accept(
-          _TypeGenerator(
-            resolver,
-            forInterfaceImplementation: forInterfaceImplementation,
-            // Do type erasure for interface implementation.
-            typeErasure: forInterfaceImplementation,
-            isTopTypeNullable: isNullable,
-          ),
-        );
-      },
-    );
-    final typeArgs = typeArgsList.join(', ').encloseIfNotEmpty('<', '>');
+    final type = node.classDecl.finalName;
     final prefix = resolver.resolvePrefix(node.classDecl);
-    return _TypeClass('$ifConst$prefix$type$typeArgs($args)', canBeConst);
+    return '$prefix$type.type';
   }
 
   @override
-  _TypeClass visitPrimitiveType(PrimitiveType node) {
-    final ifConst = isConst ? 'const ' : '';
-    final name = boxPrimitives
-        ? '$_jni.\$J${node.boxedName}\$Type\$'
-        : '$_jni.j${node.name}Type';
-    return _TypeClass('$ifConst$name()', true);
+  String visitPrimitiveType(PrimitiveType node) {
+    return boxPrimitives
+        ? '$_jni.J${node.boxedName}.type'
+        : '$_jni.j${node.name}.type';
   }
 
   @override
-  _TypeClass visitTypeVar(TypeVar node) {
-    // TODO(https://github.com/dart-lang/native/issues/704): Tighten to typevar
-    // bounds instead.
-    final type = includeNullability && node.hasQuestionMark && isTopTypeNullable
-        ? 'NullableType'
-        : 'Type';
-    final convertToNullable =
-        includeNullability && node.hasQuestionMark && isTopTypeNullable
-            ? '.nullableType'
-            : '';
-    if (typeErasure) {
-      final ifConst = isConst ? 'const ' : '';
-      return _TypeClass('$ifConst$_jObjectTypePrefix$type\$()', true);
-    }
-    if (forInterfaceImplementation) {
-      if (node.origin.parent is ClassDecl) {
-        return _TypeClass(
-          '_\$impls[\$p]!.${node.name}$convertToNullable',
-          false,
-        );
-      }
-      final ifConst = isConst ? 'const ' : '';
-      return _TypeClass('$ifConst$_jObjectTypePrefix$type\$()', true);
-    }
-    return _TypeClass('${node.name}$convertToNullable', false);
-  }
-
-  @override
-  _TypeClass visitWildcard(Wildcard node) {
+  String visitWildcard(Wildcard node) {
     // TODO(https://github.com/dart-lang/native/issues/701): Support wildcards.
     if (node.superBound != null || node.extendsBound == null) {
       // Dart does not support `* super T` wildcards. Fall back to Object?.
@@ -1110,7 +873,6 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
       forInterfaceImplementation: forInterfaceImplementation,
       includeNullability:
           includeNullability && node.isNullable && isTopTypeNullable,
-      isConst: isConst,
       typeErasure: typeErasure,
       isTopTypeNullable: true,
     );
@@ -1118,12 +880,8 @@ class _TypeClassGenerator extends TypeVisitor<_TypeClass> {
   }
 
   @override
-  _TypeClass visitNonPrimitiveType(ReferredType node) {
-    final ifConst = isConst ? 'const ' : '';
-    final type = includeNullability && node.isNullable && isTopTypeNullable
-        ? 'NullableType'
-        : 'Type';
-    return _TypeClass('$ifConst$_jObjectTypePrefix$type\$()', true);
+  String visitNonPrimitiveType(ReferredType node) {
+    return 'const $_jObjectTypePrefix$Type\$()';
   }
 }
 
@@ -1154,9 +912,8 @@ class _JniResultGetter extends TypeVisitor<String> {
 
   @override
   String visitNonPrimitiveType(ReferredType node) {
-    final typeClass = node.accept(_TypeClassGenerator(resolver)).name;
     final type = node.accept(_TypeGenerator(resolver));
-    return 'object<$type>($typeClass)';
+    return 'object<$type>()';
   }
 }
 
@@ -1173,8 +930,8 @@ class _TypeSig extends TypeVisitor<String> {
   @override
   String visitPrimitiveType(PrimitiveType node) {
     if (isFfi) return '$_jni.${node.ffiVarArgType}';
-    if (node.name == 'boolean') return 'int';
-    return node.dartType;
+    if (node.name == 'boolean') return '$_core.int';
+    return '$_core.${node.dartType}';
   }
 
   @override
@@ -1230,18 +987,33 @@ ${modifier}final _id_$name =
 ''');
   }
 
-  String dartOnlyGetter(Field node) {
+  String getter(Field node) {
     final name = node.finalName;
     final self = node.isStatic ? classRef : _self;
-    final type = node.type.accept(_TypeClassGenerator(resolver)).name;
-    return '_id_$name.get($self, $type)';
+    final String typeClass;
+    if (node.type is PrimitiveType || node.type is ArrayType) {
+      typeClass = node.type.accept(_TypeClassGenerator(resolver));
+    } else {
+      final type = node.type.accept(_TypeGenerator(resolver,
+          typeErasure: true, includeNullability: false));
+      typeClass = '$type.type';
+    }
+    final getter = node.type.isNullable ? 'getNullable' : 'get';
+    return '_id_$name.$getter($self, $typeClass)';
   }
 
-  String dartOnlySetter(Field node) {
+  String setter(Field node) {
     final name = node.finalName;
     final self = node.isStatic ? classRef : _self;
-    final type = node.type.accept(_TypeClassGenerator(resolver)).name;
-    return '_id_$name.set($self, $type, value)';
+    final String typeClass;
+    if (node.type is PrimitiveType || node.type is ArrayType) {
+      typeClass = node.type.accept(_TypeClassGenerator(resolver));
+    } else {
+      final type = node.type.accept(_TypeGenerator(resolver,
+          typeErasure: true, includeNullability: false));
+      typeClass = '$type.type';
+    }
+    return '_id_$name.set($self, $typeClass, value)';
   }
 
   void writeDocs(Field node, {required bool writeReleaseInstructions}) {
@@ -1275,15 +1047,15 @@ ${modifier}final _id_$name =
     final name = node.finalName;
     final ifStatic = node.isStatic && !isTopLevel ? 'static ' : '';
     final type = node.type.accept(_TypeGenerator(resolver));
-    s.write('$ifStatic$type get $name => ');
-    s.write(dartOnlyGetter(node));
-    s.writeln(';\n');
+    s.write('  $ifStatic$type get $name => ');
+    s.write(getter(node));
+    s.writeln(' as $type;\n');
     if (!node.isFinal) {
       // Setter docs.
       writeDocs(node, writeReleaseInstructions: true);
 
-      s.write('${ifStatic}set $name($type value) => ');
-      s.write(dartOnlySetter(node));
+      s.write('  ${ifStatic}set $name($type value) => ');
+      s.write(setter(node));
       s.writeln(';\n');
     }
   }
@@ -1332,8 +1104,20 @@ class _MethodGenerator extends Visitor<Method, void> {
 
   String get modifier => isTopLevel ? '' : '  static ';
 
-  void writeAccessor(Method node) {
+  String _idName(Method node) {
     final name = node.finalName;
+    switch (node.methodKind) {
+      case MethodKind.normal:
+        return name;
+      case MethodKind.getter:
+        return 'get\$$name';
+      case MethodKind.setter:
+        return 'set\$$name';
+    }
+  }
+
+  void writeAccessor(Method node) {
+    final idName = _idName(node);
     final kind = node.isConstructor
         ? 'constructor'
         : node.isStatic
@@ -1341,7 +1125,7 @@ class _MethodGenerator extends Visitor<Method, void> {
             : 'instanceMethod';
     final descriptor = node.descriptor;
     s.write('''
-${modifier}final _id_$name = $classRef.${kind}Id(
+${modifier}final _id_$idName = $classRef.${kind}Id(
 ''');
     if (!node.isConstructor) s.writeln("    r'${node.name}',");
     s.write('''
@@ -1353,31 +1137,36 @@ ${modifier}final _id_$name = $classRef.${kind}Id(
     final methodName = node.accept(const _CallMethodName());
     s.write('''
 
-${modifier}final _$name = $_protectedExtension
+${modifier}final _$idName = $_protectedExtension
     .lookup<$_jni.NativeFunction<$ffiSig>>('$methodName')
     .asFunction<$dartSig>();
 ''');
   }
 
   String constructor(Method node) {
-    final name = node.finalName;
+    final idName = _idName(node);
     final params = [
       '$classRef.reference.pointer',
-      '_id_$name as $_jni.JMethodIDPtr',
+      '_id_$idName.pointer',
       ...node.params.accept(const _ParamCall()),
     ].join(', ');
-    return '_$name($params).reference';
+    final typeParamsCall = node.classDecl.allTypeParams
+        .map((typeParam) => '$_typeParamPrefix${typeParam.name}')
+        .join(', ')
+        .encloseIfNotEmpty('<', '>');
+    return '_$idName($params).object'
+        '<${node.classDecl.finalName}$typeParamsCall>()';
   }
 
   String methodCall(Method node) {
-    final name = node.finalName;
+    final idName = _idName(node);
     final params = [
       node.isStatic ? '$classRef.reference.pointer' : 'reference.pointer',
-      '_id_$name as $_jni.JMethodIDPtr',
+      '_id_$idName.pointer',
       ...node.params.accept(const _ParamCall()),
     ].join(', ');
     final resultGetter = node.returnType.accept(_JniResultGetter(resolver));
-    return '_$name($params).$resultGetter';
+    return '_$idName($params).$resultGetter';
   }
 
   @override
@@ -1401,27 +1190,6 @@ ${modifier}final _$name = $_protectedExtension
     }
     node.javadoc?.accept(_DocGenerator(s, depth: 1));
 
-    // Used for inferring the type parameter from the given parameters.
-    final typeLocators = node.params
-        .accept(_ParamTypeLocator(resolver: resolver))
-        .fold(<String, List<String>>{}, _mergeMapValues).map(
-      (key, value) =>
-          MapEntry(key, value.delimited(', ').encloseIfNotEmpty('[', ']')),
-    );
-
-    bool isRequired(TypeParam typeParam) {
-      return (typeLocators[typeParam.name] ?? '').isEmpty;
-    }
-
-    final typeInference =
-        (node.isConstructor ? node.classDecl.allTypeParams : node.typeParams)
-            .where((tp) => !isRequired(tp))
-            .map((tp) => tp.name)
-            .map(
-              (tp) => '$tp ??= $_jni.lowestCommonSuperType'
-                  '(${typeLocators[tp]}) as $_jType<$_typeParamPrefix$tp>;',
-            )
-            .join(_newLine(depth: 2));
     // This is needed to keep the references alive in the scope while waiting
     // for the FFI call.
     final localReferences = node.params
@@ -1433,31 +1201,11 @@ ${modifier}final _$name = $_protectedExtension
       final name = node.finalName;
       final ctorName = name == 'new\$' ? className : '$className.$name';
       final paramsDef = node.params.accept(_ParamDef(resolver)).delimited(', ');
-      final typeParamsCall = node.classDecl.allTypeParams
-          .map((typeParam) => '$_typeParamPrefix${typeParam.name}')
-          .join(', ')
-          .encloseIfNotEmpty('<', '>');
-      final typeClassDef = node.classDecl.allTypeParams
-          .map(
-            (typeParam) => typeParam.accept(
-              _CtorTypeClassDef(isRequired: isRequired(typeParam)),
-            ),
-          )
-          .delimited(', ')
-          .encloseIfNotEmpty('{', '}');
-      final typeClassCall = node.classDecl.allTypeParams
-          .map((typeParam) => typeParam.name)
-          .delimited(', ');
-
       final ctorExpr = constructor(node);
       s.write('''
-  factory $ctorName($paramsDef$typeClassDef) {
-    $typeInference
+  factory $ctorName($paramsDef) {
     ${localReferences.join(_newLine(depth: 2))}
-    return ${node.classDecl.finalName}$typeParamsCall.fromReference(
-      $typeClassCall
-      $ctorExpr
-    );
+    return $ctorExpr;
   }
 
 ''');
@@ -1468,14 +1216,6 @@ ${modifier}final _$name = $_protectedExtension
     final returnType = node.returnTypeMaybeAsync(_TypeGenerator(resolver));
     final ifStatic = node.isStatic && !isTopLevel ? 'static ' : '';
     final defArgs = node.params.accept(_ParamDef(resolver)).toList();
-    final typeClassDef = node.typeParams
-        .map(
-          (typeParam) => typeParam.accept(
-            _MethodTypeClassDef(isRequired: isRequired(typeParam)),
-          ),
-        )
-        .delimited(', ')
-        .encloseIfNotEmpty('{', '}');
     final typeParamsDef = node.typeParams
         .accept(const _TypeParamDef())
         .join(', ')
@@ -1485,14 +1225,21 @@ ${modifier}final _$name = $_protectedExtension
       localReferences.removeLast();
     }
     final params = defArgs.delimited(', ');
-    s.write('  $ifStatic$returnType $name$typeParamsDef($params$typeClassDef)');
+    if (node.methodKind == MethodKind.getter) {
+      s.write('  $ifStatic$returnType get $name ');
+    } else if (node.methodKind == MethodKind.setter) {
+      final type = node.params[0].type.accept(_TypeGenerator(resolver));
+      final paramName = node.params[0].finalName;
+      s.write('  $ifStatic set $name($type $paramName) ');
+    } else {
+      s.write('  $ifStatic$returnType $name$typeParamsDef($params)');
+    }
     final callExpr = methodCall(node);
     if (node.isSuspendFun) {
       final asyncReturnType = node.asyncReturnType!;
       final isNullable = asyncReturnType.isNullable;
       final continuation = node.params.last.finalName;
       s.write('''async {
-    $typeInference
     final \$p = $_jni.ReceivePort();
     final _\$$continuation = $_protectedExtension.newPortContinuation(\$p);
     ${localReferences.join(_newLine(depth: 2))}
@@ -1520,14 +1267,21 @@ ${modifier}final _$name = $_protectedExtension
       if (node.isAsyncVoid) {
         s.write('    return;');
       } else {
-        final returningType = asyncReturnType.accept(_TypeGenerator(resolver));
+        final returningType = asyncReturnType
+            .accept(_TypeGenerator(resolver, includeNullability: false));
+        final returningTypeErased = asyncReturnType.accept(_TypeGenerator(
+            resolver,
+            includeNullability: false,
+            typeErasure: true));
         final returningTypeClass =
-            asyncReturnType.accept(_TypeClassGenerator(resolver)).name;
+            asyncReturnType.accept(_TypeClassGenerator(resolver));
+        final extraAs =
+            returningType != returningTypeErased ? ' as $returningType' : '';
         s.write('''
-    return \$o${isNullable ? '?' : ''}.as<$returningType>(
+    return \$o${isNullable ? '?' : ''}.as<$returningTypeErased>(
       $returningTypeClass,
       releaseOriginal: true,
-    );''');
+    )$extraAs;''');
       }
 
       s.write('''
@@ -1537,7 +1291,6 @@ ${modifier}final _$name = $_protectedExtension
     } else {
       final returning = returnType == 'void' ? callExpr : 'return $callExpr';
       s.writeln('''{
-    $typeInference
     ${localReferences.join(_newLine(depth: 2))}
     $returning;
   }
@@ -1604,45 +1357,6 @@ ${modifier}final _$name = $_protectedExtension
       s.write(' where ');
       s.writeAll(whereClauses, ', ');
     }
-  }
-}
-
-/// Generates the method type param definition.
-///
-/// For example `required JObjType<T> $T` in:
-/// ```dart
-/// void bar(..., {required JObjType<T> $T}) => ...
-/// ```
-class _MethodTypeClassDef extends Visitor<TypeParam, String> {
-  final bool isRequired;
-
-  const _MethodTypeClassDef({required this.isRequired});
-
-  @override
-  String visit(TypeParam node) {
-    return '${isRequired ? 'required ' : ''}$_jType'
-        '<$_typeParamPrefix${node.name}>${isRequired ? '' : '?'} ${node.name}';
-  }
-}
-
-/// Generates the class type param definition. Used only in constructors.
-///
-/// For example `required this.$T` in:
-/// ```dart
-/// class Foo {
-///   final JObjType<T> $T;
-///   Foo(..., {required this.$T}) => ...
-/// }
-/// ```
-class _CtorTypeClassDef extends Visitor<TypeParam, String> {
-  final bool isRequired;
-
-  const _CtorTypeClassDef({required this.isRequired});
-
-  @override
-  String visit(TypeParam node) {
-    return '${isRequired ? 'required ' : ''} $_jType'
-        '<$_typeParamPrefix${node.name}>${isRequired ? '' : '?'} ${node.name}';
   }
 }
 
@@ -1747,112 +1461,6 @@ class OutsideInBuffer {
   @override
   String toString() {
     return _leftBuffer.toString() + _rightBuffer.toString().reversed;
-  }
-}
-
-/// The ways to locate each type parameter.
-///
-/// For example in `JArray<JMap<$T, $T>> a`, `T` can be retreived using
-/// ```dart
-/// ((((a.$type as JArrayType).elementType) as $JMapType).K)
-///   as JObjType<$T>
-/// ```
-/// and
-/// ```dart
-/// ((((a.$type as JArrayType).elementType) as $JMapType).V)
-///   as JObjType<$T>
-/// ```
-class _ParamTypeLocator extends Visitor<Param, Map<String, List<String>>> {
-  final Resolver resolver;
-
-  _ParamTypeLocator({required this.resolver});
-
-  @override
-  Map<String, List<String>> visit(Param node) {
-    if (node.isNullable) {
-      return {};
-    }
-    return node.type.accept(_TypeVarLocator(resolver: resolver)).map(
-          (key, value) => MapEntry(
-            key,
-            value
-                .map(
-                  (e) => (e..appendLeft('${node.finalName}.\$type')).toString(),
-                )
-                .toList(),
-          ),
-        );
-  }
-}
-
-class _TypeVarLocator extends TypeVisitor<Map<String, List<OutsideInBuffer>>> {
-  final Resolver resolver;
-
-  _TypeVarLocator({required this.resolver});
-
-  @override
-  Map<String, List<OutsideInBuffer>> visitNonPrimitiveType(ReferredType node) {
-    return {};
-  }
-
-  @override
-  Map<String, List<OutsideInBuffer>> visitWildcard(Wildcard node) {
-    // TODO(https://github.com/dart-lang/native/issues/701): Support wildcards.
-    if (node.superBound != null || node.extendsBound == null) {
-      // Dart does not support `* super T` wildcards. Fall back to Object?.
-      return super.visitWildcard(node);
-    }
-    return node.extendsBound!.accept(this);
-  }
-
-  @override
-  Map<String, List<OutsideInBuffer>> visitTypeVar(TypeVar node) {
-    return {
-      node.name: [OutsideInBuffer()],
-    };
-  }
-
-  @override
-  Map<String, List<OutsideInBuffer>> visitDeclaredType(DeclaredType node) {
-    if (node.classDecl.isObject) {
-      // The class is not generated, fall back to `JObject`.
-      return super.visitDeclaredType(node);
-    }
-    final offset = node.classDecl.allTypeParams.length - node.params.length;
-    final result = <String, List<OutsideInBuffer>>{};
-    final prefix = resolver.resolvePrefix(node.classDecl);
-    final typeClass = '$prefix${node.classDecl.typeClassName}';
-    final typeClassParams = List.filled(
-      node.classDecl.allTypeParams.length,
-      '$_core.dynamic',
-    ).join(', ').encloseIfNotEmpty('<', '>');
-    for (var i = 0; i < node.params.length; ++i) {
-      final typeParam = node.classDecl.allTypeParams[i + offset].name;
-      final exprs = node.params[i].accept(this);
-      for (final expr in exprs.entries) {
-        for (final buffer in expr.value) {
-          buffer.appendLeft('(');
-          buffer.prependRight(' as $typeClass$typeClassParams).$typeParam');
-          result[expr.key] = (result[expr.key] ?? [])..add(buffer);
-        }
-      }
-    }
-    return result;
-  }
-
-  @override
-  Map<String, List<OutsideInBuffer>> visitArrayType(ArrayType node) {
-    final exprs = node.elementType.accept(this);
-    for (final e in exprs.values.expand((i) => i)) {
-      e.appendLeft('((');
-      e.prependRight(' as ${_jArray}Type).elementType as $_jType)');
-    }
-    return exprs;
-  }
-
-  @override
-  Map<String, List<OutsideInBuffer>> visitPrimitiveType(PrimitiveType node) {
-    return {};
   }
 }
 
@@ -2063,22 +1671,17 @@ class _InterfaceParamCast extends Visitor<Param, void> {
 
   @override
   void visit(Param node) {
-    final typeClass = node.type
-        .accept(
-          _TypeClassGenerator(
-            resolver,
-            boxPrimitives: true,
-            forInterfaceImplementation: true,
-            includeNullability: false,
-          ),
-        )
-        .name;
-    final nullable = node.isNullable && node.type is! PrimitiveType ? '?' : '!';
-    s.write('\$a![$paramIndex]$nullable.as($typeClass, releaseOriginal: true)');
+    final type = node.type.accept(_TypeGenerator(
+      resolver,
+      forInterfaceImplementation: true,
+      forInterfaceInvoker: true,
+      boxPrimitives: true,
+    ));
+    s.write('(\$a![$paramIndex] as $type)');
     if (node.type is PrimitiveType) {
       // Convert to Dart type.
-      final name = node.type.name;
-      s.write('.${name}Value(releaseOriginal: true)');
+      final dartType = (node.type as PrimitiveType).dartType.capitalize();
+      s.write('.toDart$dartType(releaseOriginal: true)');
     }
   }
 }
@@ -2113,7 +1716,7 @@ class _InterfaceReturnBox extends TypeVisitor<String> {
     if (node.name == 'void') {
       return '$_jni.nullptr';
     }
-    return '$_jni.J${node.boxedName}(\$r).reference.toPointer()';
+    return '\$r.toJ${node.boxedName}().reference.toPointer()';
   }
 }
 

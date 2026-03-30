@@ -10,22 +10,27 @@
       "value": 1
     },
     {
-      "type": "string",
-      "value": "mercury"
-    },
-    {
       "type": "int",
       "value": 42
+    },
+    {
+      "type": "string",
+      "value": "mercury"
     }
   ],
   "definitions": [
     {
       "path": [
         {
+          "kind": "class",
           "name": "MyClass"
         },
         {
-          "name": "get:loadDeferredLibrary"
+          "disambiguators": [
+            "static"
+          ],
+          "kind": "getter",
+          "name": "loadDeferredLibrary"
         }
       ],
       "uri": "package:js_runtime/js_helper.dart"
@@ -36,22 +41,16 @@
       "name": "o.js"
     }
   ],
-  "metadata": {
-    "comment": "Recorded references at compile time and their argument values, as far as known, to definitions annotated with @RecordUse",
-    "version": "1.6.2-wip+5.-.2.z"
-  },
   "uses": {
     "static_calls": [
       {
         "definition_index": 0,
         "uses": [
           {
-            "loading_unit_indices": [
-              0
-            ],
+            "loading_unit_index": 0,
             "named": {
-              "freddy": 2,
-              "answer": 3
+              "answer": 2,
+              "freddy": 3
             },
             "positional": [
               0,

@@ -39,7 +39,11 @@ class DeclaredType<T extends Declaration> extends AstNode
     final decl = declaration;
     final parent = decl is InnerNestableDeclaration ? decl.nestingParent : null;
     final nesting = parent != null ? '${parent.name}.' : '';
-    return '$nesting${declaration.name}';
+    final genericTypeParams = typeParams.join(', ');
+    final typeParamsSuffix = genericTypeParams.isEmpty
+        ? ''
+        : '<$genericTypeParams>';
+    return '$nesting${declaration.name}$typeParamsSuffix';
   }
 
   final T declaration;
@@ -142,4 +146,95 @@ class OptionalType extends AstNode implements ReferredType {
     super.visitChildren(visitor);
     visitor.visit(child);
   }
+}
+
+class InoutType extends AstNode implements ReferredType {
+  final ReferredType child;
+
+  @override
+  bool get isObjCRepresentable => false;
+
+  @override
+  String get swiftType => child.swiftType;
+
+  @override
+  bool _sameAs(ReferredType other) =>
+      other is InoutType && child.sameAs(other.child);
+
+  @override
+  ReferredType get aliasedType => InoutType(child.aliasedType);
+
+  InoutType(this.child);
+
+  @override
+  String toString() => 'inout $child';
+
+  @override
+  void visit(Visitation visitation) => visitation.visitInoutType(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    visitor.visit(child);
+  }
+}
+
+/// Describes a reference to a Swift Tuple type (e.g., `(Int, String)`).
+class TupleType extends AstNode implements ReferredType {
+  final List<TupleElement> elements;
+
+  @override
+  bool get isObjCRepresentable => false;
+
+  @override
+  String get swiftType {
+    final elementStrings = elements
+        .map((e) {
+          final label = e.label != null ? '${e.label}: ' : '';
+          return '$label${e.type.swiftType}';
+        })
+        .join(', ');
+    return '($elementStrings)';
+  }
+
+  @override
+  bool _sameAs(ReferredType other) {
+    if (other is! TupleType) return false;
+    if (elements.length != other.elements.length) return false;
+    for (var i = 0; i < elements.length; i++) {
+      if (!elements[i].type.sameAs(other.elements[i].type)) return false;
+      if (elements[i].label != other.elements[i].label) return false;
+    }
+    return true;
+  }
+
+  @override
+  ReferredType get aliasedType =>
+      TupleType(elements.map((e) => e.aliasedElement).toList());
+
+  TupleType(this.elements);
+
+  @override
+  String toString() => swiftType;
+
+  @override
+  void visit(Visitation visitation) => visitation.visitTupleType(this);
+
+  @override
+  void visitChildren(Visitor visitor) {
+    super.visitChildren(visitor);
+    for (final element in elements) {
+      visitor.visit(element.type);
+    }
+  }
+}
+
+class TupleElement {
+  final String? label;
+  final ReferredType type;
+
+  TupleElement({this.label, required this.type});
+
+  TupleElement get aliasedElement =>
+      TupleElement(label: label, type: type.aliasedType);
 }

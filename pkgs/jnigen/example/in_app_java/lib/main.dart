@@ -5,14 +5,15 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:jni/jni.dart';
+import 'package:jni_flutter/jni_flutter.dart';
 
 // The hierarchy created in generated code will mirror the java package
 // structure.
 import 'android_utils.g.dart';
 
-JObject context = Jni.androidApplicationContext;
+JObject context = androidApplicationContext;
 
-final hashmap = HashMap(K: JString.type, V: JString.type);
+final hashmap = HashMap<JString, JString>();
 
 final emojiCompat = EmojiCompat.get();
 
@@ -39,7 +40,7 @@ void showToast() {
   final message =
       '${newToastCount.toDartString()} - ${Build.MODEL!.toDartString()} $emoji';
   AndroidUtils.showToast(
-    Jni.androidActivity(PlatformDispatcher.instance.engineId!),
+    androidActivity(PlatformDispatcher.instance.engineId!),
     message.toJString(),
     0,
   );

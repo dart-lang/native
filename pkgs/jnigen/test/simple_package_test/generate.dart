@@ -40,8 +40,15 @@ final javaFiles = [
   join(javaPrefix, 'inheritance', 'BaseClass.java'),
   join(javaPrefix, 'inheritance', 'BaseInterface.java'),
   join(javaPrefix, 'inheritance', 'BaseGenericInterface.java'),
+  join(javaPrefix, 'inheritance', 'Child.java'),
   join(javaPrefix, 'inheritance', 'DerivedInterface.java'),
   join(javaPrefix, 'inheritance', 'GenericDerivedClass.java'),
+  join(javaPrefix, 'inheritance', 'Animal.java'),
+  join(javaPrefix, 'inheritance', 'Mammal.java'),
+  join(javaPrefix, 'inheritance', 'FourLegged.java'),
+  join(javaPrefix, 'inheritance', 'Dog.java'),
+  join(javaPrefix, 'inheritance', 'Furry.java'),
+  join(javaPrefix, 'inheritance', 'ShibaInu.java'),
   join(javaPrefix, 'inheritance', 'SpecificDerivedClass.java'),
   join(javaPrefix, 'interfaces', 'GenericInterface.java'),
   join(javaPrefix, 'interfaces', 'InheritedFromMyInterface.java'),
@@ -94,10 +101,10 @@ Config getConfig({SummarizerBackend backend = SummarizerBackend.asm}) {
     nullableAnnotations: ['com.github.dart_lang.jnigen.annotations.Nullable'],
     customClassBody: {
       'com.github.dart_lang.jnigen.interfaces.MyInterface': r'''
-  static core$_.Map<int, $MyInterface> get $impls => _$impls;
+  static core$_.Map<core$_.int, $MyInterface> get $impls => _$impls;
 ''',
       'com.github.dart_lang.jnigen.interfaces.MyRunnable': r'''
-  static core$_.Map<int, $MyRunnable> get $impls => _$impls;
+  static core$_.Map<core$_.int, $MyRunnable> get $impls => _$impls;
 '''
     },
     outputConfig: OutputConfig(

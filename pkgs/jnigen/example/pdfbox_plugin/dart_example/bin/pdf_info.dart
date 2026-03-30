@@ -12,13 +12,13 @@ void writeInfo(String file) {
   final fileInputStreamClass = JClass.forName("java/io/FileInputStream");
   final inputFile = fileInputStreamClass
       .constructorId("(Ljava/lang/String;)V")
-      .call(fileInputStreamClass, JObject.type, [file.toJString()]);
+      .call(fileInputStreamClass, [file.toJString()]);
   final pdDoc = PDDocument.load$6(inputFile)!;
-  int pages = pdDoc.getNumberOfPages();
-  final info = pdDoc.getDocumentInformation()!;
-  final title = info.getTitle();
-  final subject = info.getSubject();
-  final author = info.getAuthor();
+  int pages = pdDoc.numberOfPages;
+  final info = pdDoc.documentInformation!;
+  final title = info.title;
+  final subject = info.subject;
+  final author = info.author;
   stderr.writeln('Number of pages: $pages');
 
   if (title != null) {
@@ -33,7 +33,7 @@ void writeInfo(String file) {
     stderr.writeln('Author: ${author.toDartString()}');
   }
 
-  stderr.writeln('PDF Version: ${pdDoc.getVersion().toStringAsPrecision(2)}');
+  stderr.writeln('PDF Version: ${pdDoc.version.toStringAsPrecision(2)}');
 }
 
 final jniLibsDir = join('build', 'jni_libs');

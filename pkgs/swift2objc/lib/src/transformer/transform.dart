@@ -8,6 +8,7 @@ import '../ast/_core/interfaces/nestable_declaration.dart';
 import '../ast/declarations/built_in/built_in_declaration.dart';
 import '../ast/declarations/compounds/class_declaration.dart';
 import '../ast/declarations/compounds/enum_declaration.dart';
+import '../ast/declarations/compounds/extension_declaration.dart';
 import '../ast/declarations/compounds/struct_declaration.dart';
 import '../ast/declarations/globals/globals.dart';
 import '../ast/declarations/typealias_declaration.dart';
@@ -19,6 +20,7 @@ import '_core/unique_namer.dart';
 import '_core/utils.dart';
 import 'transformers/transform_compound.dart';
 import 'transformers/transform_enum.dart';
+import 'transformers/transform_extension.dart';
 import 'transformers/transform_globals.dart';
 
 class TransformationState {
@@ -31,6 +33,11 @@ class TransformationState {
 
   // Bindings that will be generated as stubs.
   final stubs = <Declaration>{};
+
+  late final UniqueNamer globalNamer;
+
+  // Map from tuple signature to generated wrapper class
+  final tupleWrappers = <String, ClassDeclaration>{};
 }
 
 /// Transforms the given declarations into the desired ObjC wrapped declarations
@@ -61,7 +68,14 @@ List<Declaration> transform(
   state.stubs.addAll(listDecls.stubDecls);
   state.bindings.addAll(listDecls.stubDecls);
 
-  final globalNamer = UniqueNamer(
+  // Collect extension declarations and add to bindings so they are visible
+  // during transformation.
+  final extensionDecls = declarations
+      .whereType<ExtensionDeclaration>()
+      .toList();
+  state.bindings.addAll(extensionDecls);
+
+  state.globalNamer = UniqueNamer(
     state.bindings.map((declaration) => declaration.name),
   );
 
@@ -72,15 +86,26 @@ List<Declaration> transform(
 
   final transformedDeclarations = [
     ...topLevelDecls.map(
-      (d) => maybeTransformDeclaration(d, globalNamer, state),
+      (d) => maybeTransformDeclaration(d, state.globalNamer, state),
     ),
-    transformGlobals(globals, globalNamer, state),
+    transformGlobals(globals, state.globalNamer, state),
   ].nonNulls.toList();
 
+  // Transform extensions after compounds so state.map is populated with
+  // the transformed wrapper classes that extensions need to reference.
+  final transformedExtensions = extensionDecls
+      .map((e) => transformExtension(e, state.globalNamer, state))
+      .nonNulls
+      .toList();
+
   return [
-    ...transformedDeclarations,
-    ..._getPrimitiveWrapperClasses(state),
-  ].sortedById();
+    ...[
+      ...transformedDeclarations,
+      ..._getPrimitiveWrapperClasses(state),
+      ...state.tupleWrappers.values,
+    ].sortedById(),
+    ...transformedExtensions.sortedById(),
+  ];
 }
 
 Declaration transformDeclaration(
@@ -112,10 +137,27 @@ Declaration? maybeTransformDeclaration(
   }
 
   if (declaration is InnerNestableDeclaration &&
-      declaration.nestingParent != null) {
+      declaration.nestingParent != null &&
+      !nested) {
     // It's important that nested declarations are only transformed in the
-    // context of their parent, so that their parentNamer is correct.
-    assert(nested);
+    // context of their parent, so that their parentNamer is correct. So find
+    // the top level declaration this is nested in, and transform that first.
+    maybeTransformDeclaration(
+      _topLevelNestingParent(declaration),
+      state.globalNamer,
+      state,
+    );
+
+    // Now that the parents are transformed, this declaration should have been
+    // transformed, and will be in the cache.
+    // TODO(https://github.com/dart-lang/native/issues/1358): This is brittle. Switch naming to a transformer.
+    return state.map[declaration] ??
+        maybeTransformDeclaration(
+          declaration,
+          parentNamer,
+          state,
+          nested: true,
+        );
   }
 
   return switch (declaration) {
@@ -125,6 +167,7 @@ Declaration? maybeTransformDeclaration(
       state,
     ),
     EnumDeclaration() => transformEnum(declaration, parentNamer, state),
+    ExtensionDeclaration() => null,
     TypealiasDeclaration() => null,
     _ => throw UnimplementedError(),
   };
@@ -136,3 +179,8 @@ List<Declaration> _getPrimitiveWrapperClasses(TransformationState state) =>
         .map((entry) => entry.value)
         .nonNulls
         .toList();
+
+Declaration _topLevelNestingParent(Declaration declaration) =>
+    declaration is InnerNestableDeclaration && declaration.nestingParent != null
+    ? _topLevelNestingParent(declaration.nestingParent!)
+    : declaration;

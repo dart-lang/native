@@ -1,4 +1,8 @@
-## 1.1.0-wip
+## 1.1.1
+
+- Bump `package:record_use` to 0.6.0.
+
+## 1.1.0
 
 - Filter `recorded_uses.json` passed to link hooks based on the
   package name of the definition.

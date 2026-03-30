@@ -159,20 +159,19 @@ class PDFFileInfo {
     // create a java.io.File object.
     final fileClass = JClass.forName("java/io/File");
     final fileConstructor = fileClass.constructorId("(Ljava/lang/String;)V");
-    final inputFile = fileConstructor(
-        fileClass, JObject.type, [JString.fromString(filename)]);
-    // Static method call PDDocument.load -> PDDocument
+    final inputFile = fileConstructor(fileClass, [filename.toJString()]);
+    // Static method call PDDocument.load -> PDDocument.
     final pdf = PDDocument.load(inputFile)!;
-    // Instance method call getNumberOfPages() -> int
-    numPages = pdf.getNumberOfPages();
-    // Instance method that returns an object
-    final info = pdf.getDocumentInformation()!;
+    // Instance method call that returns an int.
+    numPages = pdf.numberOfPages;
+    // Instance method that returns an object.
+    final info = pdf.documentInformation!;
 
     /// java.lang.String is a special case and is mapped to JlString which is
     /// a subclass of JlObject.
-    author = info.getAuthor()?.toDartString(releaseOriginal: true) ?? 'null';
-    title = info.getTitle()?.toDartString(releaseOriginal: true) ?? 'null';
-    subject = info.getSubject()?.toDartString(releaseOriginal: true) ?? 'null';
+    author = info.author?.toDartString(releaseOriginal: true) ?? 'null';
+    title = info.title?.toDartString(releaseOriginal: true) ?? 'null';
+    subject = info.subject?.toDartString(releaseOriginal: true) ?? 'null';
 
     pdf.close();
   }

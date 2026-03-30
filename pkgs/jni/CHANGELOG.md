@@ -1,5 +1,18 @@
-## 0.15.3-wip
+## 0.16.0-wip
 
+- **Breaking Change**: The Flutter specific APIs `Jni.androidApplicationContext`
+  and `Jni.androidActivity(int engineId)` have been moved to a new
+  package:jni_flutter. If you are using package:jni on Android you may need to
+  add this new package as a dependency.
+- **Breaking Change**: All Java wrapper classes have been migrated to extension
+  types. The main effects are:
+  - All collections (`JList`, `JMap` etc) are now direct code generated wrappers
+    around the Java objects, so are less Darty. Instead there are now Darty
+    adapter classes you can access via `asDart()`.
+  - No more nullable `JType` classes, only `JType` classes, and the `JType`
+    class is simplified.
+  - It is no longer necessary to pass around the `JType` in many cases where it
+    used to be required.
 - Added `Jni.captureStackTraceOnRelease` which defaults to `false`. When this is
   set, the stack traces of the release points will be stored for `JObject`s to
   help debug `DoubleReleaseError` and `UseAfterReleaseError`s. This includes the
@@ -8,6 +21,21 @@
 - Changed the behavior of `JObject.releasedBy`. It now does not throw a
   `DoubleReleaseError` if the object was manually released before the end of
   arena.
+- Added `JThrowable` class which inherits from `JObject` and implements
+  `Exception`.
+- **Breaking Change**: `JniException` has been deleted. Java exceptions are now
+  thrown as `JThrowable` instead. `JThrowable` holds an actual Java exception,
+  instead of just holding a string message. It's a `JObject`, so the usual
+  `.isA` and `.as` methods work to cast the `JThrowable` to the underlying Java
+  exception.
+- **Breaking Change**: Class methods like getFoo, isFoo, and setFoo are now
+  getters and setters in Dart.
+- **Breaking Change**: APIs of `JBoolean`, `JByte`, `JCharacter`, `JDouble`,
+  `JFloat`, `JInteger`, `JLong`, `JNumber`, `JShort`, and `JString` have changed
+  to be more consistent with other APIs. For example, `JBoolean.booleanValue` is
+  now `JBoolean.toDartBool`.
+- Fixed [bugs](https://github.com/dart-lang/native/issues/3244) that were
+  causing crashes in interfaces after app close and reopen.
 
 ## 0.15.2
 

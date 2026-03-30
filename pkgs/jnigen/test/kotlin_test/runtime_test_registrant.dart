@@ -21,9 +21,9 @@ void registerTests(String groupName, TestRunnerCallback test) {
         expect(helloBob.toDartString(releaseOriginal: true), 'Hello $name!');
         final noDelayHello = await suspendFun.sayHelloWithoutDelay();
         expect(noDelayHello.toDartString(releaseOriginal: true), 'Hello!');
-        await expectLater(suspendFun.fail, throwsA(isA<JniException>()));
+        await expectLater(suspendFun.fail, throwsA(isA<JThrowable>()));
         await expectLater(
-            suspendFun.failWithoutDelay, throwsA(isA<JniException>()));
+            suspendFun.failWithoutDelay, throwsA(isA<JThrowable>()));
         final noDelayNullableHello =
             await suspendFun.nullableHelloWithoutDelay(false);
         expect(noDelayNullableHello!.toDartString(releaseOriginal: true),
@@ -35,12 +35,12 @@ void registerTests(String groupName, TestRunnerCallback test) {
         final asyncNull = await suspendFun.nullableHello(true);
         expect(asyncNull, null);
 
-        expect(suspendFun.getResult(), 0);
+        expect(suspendFun.result, 0);
         final voidFuture = suspendFun.noReturn();
         expect(voidFuture, isA<Future<void>>());
         expect(voidFuture, isNot(isA<Future<JObject>>()));
         await voidFuture;
-        expect(suspendFun.getResult(), 123);
+        expect(suspendFun.result, 123);
       });
     });
 
@@ -48,12 +48,12 @@ void registerTests(String groupName, TestRunnerCallback test) {
       expect(topLevel(), 42);
       expect(topLevel$1(), 42);
       expect(topLevelSum(10, 20), 30);
-      expect(getTopLevelField(), 42);
-      expect(getTopLevelField$1(), 42);
-      setTopLevelField(30);
-      setTopLevelField$1(30);
-      expect(getTopLevelField(), 30);
-      expect(getTopLevelField$1(), 30);
+      expect(topLevelField, 42);
+      expect(topLevelField$1, 42);
+      topLevelField = 30;
+      topLevelField$1 = 30;
+      expect(topLevelField, 30);
+      expect(topLevelField$1, 30);
     });
 
     test('Generics', () {
@@ -72,8 +72,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
         using((arena) {
           final o24 = testObject(24, arena);
           final o18 = testObject(18, arena);
-          expect((o24.plus(o18)..releasedBy(arena)).getValue(), 42);
-          expect(((o24 + o18)..releasedBy(arena)).getValue(), 42);
+          expect((o24.plus(o18)..releasedBy(arena)).value, 42);
+          expect(((o24 + o18)..releasedBy(arena)).value, 42);
         });
       });
 
@@ -81,8 +81,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
         using((arena) {
           final o24 = testObject(24, arena);
           final o18 = testObject(18, arena);
-          expect((o24.minus(o18)..releasedBy(arena)).getValue(), 6);
-          expect(((o24 - o18)..releasedBy(arena)).getValue(), 6);
+          expect((o24.minus(o18)..releasedBy(arena)).value, 6);
+          expect(((o24 - o18)..releasedBy(arena)).value, 6);
         });
       });
 
@@ -90,8 +90,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
         using((arena) {
           final o2 = testObject(2, arena);
           final o3 = testObject(3, arena);
-          expect((o2.times(o3)..releasedBy(arena)).getValue(), 6);
-          expect(((o2 * o3)..releasedBy(arena)).getValue(), 6);
+          expect((o2.times(o3)..releasedBy(arena)).value, 6);
+          expect(((o2 * o3)..releasedBy(arena)).value, 6);
         });
       });
 
@@ -99,8 +99,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
         using((arena) {
           final o24 = testObject(24, arena);
           final o3 = testObject(3, arena);
-          expect((o24.div(o3)..releasedBy(arena)).getValue(), 8);
-          expect(((o24 / o3)..releasedBy(arena)).getValue(), 8);
+          expect((o24.div(o3)..releasedBy(arena)).value, 8);
+          expect(((o24 / o3)..releasedBy(arena)).value, 8);
         });
       });
 
@@ -108,8 +108,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
         using((arena) {
           final o24 = testObject(24, arena);
           final o5 = testObject(5, arena);
-          expect((o24.rem(o5)..releasedBy(arena)).getValue(), 4);
-          expect(((o24 % o5)..releasedBy(arena)).getValue(), 4);
+          expect((o24.rem(o5)..releasedBy(arena)).value, 4);
+          expect(((o24 % o5)..releasedBy(arena)).value, 4);
         });
       });
 
@@ -146,14 +146,23 @@ void registerTests(String groupName, TestRunnerCallback test) {
       });
     });
 
+    test('Regression test #3235', () {
+      // Regression test for https://github.com/dart-lang/native/issues/3235.
+      // The important part of this test is that the bindings compile. Here we
+      // just poke one of the APIs to make sure it loaded successfully.
+      using((arena) {
+        final obj = NIAllNullableTypes.new$2()..releasedBy(arena);
+        expect(obj.intList, isNull);
+        expect(obj.toString(), contains('NIAllNullableTypes'));
+      });
+    });
+
     group('Nullability', () {
       Nullability<JString?, JString> testObject(Arena arena) {
         return Nullability(
           null,
           'hello'.toJString(),
           null,
-          T: JString.nullableType,
-          U: JString.type,
         )..releasedBy(arena);
       }
 
@@ -161,24 +170,26 @@ void registerTests(String groupName, TestRunnerCallback test) {
         using((arena) {
           final obj = testObject(arena);
           expect(
-            obj.getU().toDartString(releaseOriginal: true),
+            obj.u.toDartString(releaseOriginal: true),
             'hello',
           );
-          expect(obj.getT(), null);
-          expect(obj.getNullableU(), null);
+          expect(obj.t, null);
+          expect(obj.nullableU, null);
         });
       });
       test('Setters', () {
         using((arena) {
           final obj = testObject(arena);
-          obj.setNullableU('hello'.toJString()..releasedBy(arena));
+          obj.nullableU = 'hello'.toJString()..releasedBy(arena);
           expect(
-            obj.getNullableU()!.toDartString(releaseOriginal: true),
+            obj.nullableU!
+                .as(JString.type, releaseOriginal: true)
+                .toDartString(releaseOriginal: true),
             'hello',
           );
-          obj.setNullableU(null);
+          obj.nullableU = null;
           expect(
-            obj.getNullableU(),
+            obj.nullableU,
             null,
           );
         });
@@ -189,6 +200,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           expect(
             obj
                 .list()
+                .asDart()
                 .first!
                 .as(JString.type, releaseOriginal: true)
                 .toDartString(releaseOriginal: true),
@@ -218,7 +230,6 @@ void registerTests(String groupName, TestRunnerCallback test) {
             obj
                 .methodGenericEcho(
                   'hello'.toJString()..releasedBy(arena),
-                  V: JString.type,
                 )
                 .toDartString(releaseOriginal: true),
             'hello',
@@ -227,84 +238,87 @@ void registerTests(String groupName, TestRunnerCallback test) {
             obj
                 .methodGenericNullableEcho(
                   'hello'.toJString()..releasedBy(arena),
-                  V: JString.nullableType,
-                )!
-                .toDartString(releaseOriginal: true),
+                )
+                ?.toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
-            obj.methodGenericNullableEcho(null, V: JString.nullableType),
+            obj.methodGenericNullableEcho(null),
             null,
           );
           expect(
             obj
-                .stringListOf('hello'.toJString()..releasedBy(arena))[0]
+                .stringListOf('hello'.toJString()..releasedBy(arena))
+                .asDart()[0]
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
             obj
-                .nullableListOf('hello'.toJString()..releasedBy(arena))[0]!
+                .nullableListOf('hello'.toJString()..releasedBy(arena))
+                .asDart()[0]!
                 .toDartString(releaseOriginal: true),
             'hello',
           );
-          expect(obj.nullableListOf(null)[0], null);
+          expect(obj.nullableListOf(null).asDart()[0], null);
           expect(
             obj
-                .classGenericListOf('hello'.toJString()..releasedBy(arena))[0]
+                .classGenericListOf('hello'.toJString()..releasedBy(arena))
+                .asDart()[0]
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
             obj
                 .classGenericNullableListOf(
-                    'hello'.toJString()..releasedBy(arena))[0]!
+                    'hello'.toJString()..releasedBy(arena))
+                .asDart()[0]!
                 .toDartString(releaseOriginal: true),
             'hello',
           );
-          expect(obj.classGenericNullableListOf(null)[0], null);
+          expect(obj.classGenericNullableListOf(null).asDart()[0], null);
           expect(
             obj
-                .methodGenericListOf('hello'.toJString()..releasedBy(arena))[0]
+                .methodGenericListOf('hello'.toJString()..releasedBy(arena))
+                .asDart()[0]
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
             obj
-                .methodGenericNullableListOf(
+                .methodGenericNullableListOf<JString?>(
                   'hello'.toJString()..releasedBy(arena),
-                  V: JString.nullableType,
-                )[0]!
+                )
+                .asDart()[0]!
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
-            obj.methodGenericNullableListOf(null, V: JString.nullableType)[0],
+            obj.methodGenericNullableListOf(null).asDart()[0],
             null,
           );
           expect(
             obj
-                .firstOf(['hello'.toJString()..releasedBy(arena)]
-                    .toJList(JString.type))
+                .firstOf(['hello'.toJString()..releasedBy(arena)].toJList())
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
             obj
-                .firstOfNullable(['hello'.toJString()..releasedBy(arena), null]
-                    .toJList(JString.nullableType))!
+                .firstOfNullable(
+                    ['hello'.toJString()..releasedBy(arena), null].toJList())!
                 .toDartString(releaseOriginal: true),
             'hello',
           );
           expect(
-            obj.firstOfNullable([null, 'hello'.toJString()..releasedBy(arena)]
-                .toJList(JString.nullableType)),
+            obj.firstOfNullable(
+                [null, 'hello'.toJString()..releasedBy(arena)].toJList()),
             null,
           );
           expect(
             obj
-                .classGenericFirstOf(['hello'.toJString()..releasedBy(arena)]
-                    .toJList(JString.type))
+                .classGenericFirstOf(
+                    ['hello'.toJString()..releasedBy(arena)].toJList())
                 .toDartString(releaseOriginal: true),
             'hello',
           );
@@ -313,7 +327,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
                 .classGenericFirstOfNullable([
                   'hello'.toJString()..releasedBy(arena),
                   null,
-                ].toJList(JString.nullableType))!
+                ].toJList())!
                 .toDartString(releaseOriginal: true),
             'hello',
           );
@@ -321,13 +335,13 @@ void registerTests(String groupName, TestRunnerCallback test) {
             obj.classGenericFirstOfNullable([
               null,
               'hello'.toJString()..releasedBy(arena),
-            ].toJList(JString.nullableType)),
+            ].toJList()),
             null,
           );
           expect(
             obj
-                .methodGenericFirstOf(['hello'.toJString()..releasedBy(arena)]
-                    .toJList(JString.type))
+                .methodGenericFirstOf(
+                    ['hello'.toJString()..releasedBy(arena)].toJList())
                 .toDartString(releaseOriginal: true),
             'hello',
           );
@@ -336,7 +350,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
                 .methodGenericFirstOfNullable([
                   'hello'.toJString()..releasedBy(arena),
                   null,
-                ].toJList(JString.nullableType))!
+                ].toJList())!
                 .toDartString(releaseOriginal: true),
             'hello',
           );
@@ -344,7 +358,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
             obj.methodGenericFirstOfNullable([
               null,
               'hello'.toJString()..releasedBy(arena),
-            ].toJList(JString.nullableType)),
+            ].toJList()),
             null,
           );
         });
@@ -352,9 +366,8 @@ void registerTests(String groupName, TestRunnerCallback test) {
       test('Inner class', () {
         using((arena) {
           final obj = testObject(arena);
-          final innerObj = Nullability$InnerClass<JString?, JString, JInteger>(
-              obj,
-              V: JInteger.type);
+          final innerObj =
+              Nullability$InnerClass<JString?, JString, JInteger>(obj);
           expect(
             innerObj.f,
             isA<void Function(JString?, JString, JInteger)>(),
@@ -367,11 +380,11 @@ void registerTests(String groupName, TestRunnerCallback test) {
       test('return immediately', () async {
         var result = 0;
         final itf = SuspendInterface.implement($SuspendInterface(
-          sayHello: () async => JString.fromString('Hello'),
+          sayHello: () async => 'Hello'.toJString(),
           sayHello$1: (JString name) async =>
-              JString.fromString('Hello ${name.toDartString()}'),
+              'Hello ${name.toDartString()}'.toJString(),
           nullableHello: (bool returnNull) async =>
-              returnNull ? null : JString.fromString('Hello'),
+              returnNull ? null : 'Hello'.toJString(),
           sayInt: () async => JInteger(123),
           sayInt$1: (JInteger value) async => JInteger(10 * value.intValue()),
           nullableInt: (bool returnNull) async =>
@@ -380,7 +393,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
         ));
 
         expect((await itf.sayHello()).toDartString(), 'Hello');
-        expect((await itf.sayHello$1(JString.fromString('Bob'))).toDartString(),
+        expect((await itf.sayHello$1('Bob'.toJString())).toDartString(),
             'Hello Bob');
         expect((await itf.nullableHello(false))?.toDartString(), 'Hello');
         expect(await itf.nullableHello(true), null);
@@ -422,15 +435,15 @@ kotlin.Unit
         final itf = SuspendInterface.implement($SuspendInterface(
           sayHello: () async {
             await Future<void>.delayed(const Duration(milliseconds: 100));
-            return JString.fromString('Hello');
+            return 'Hello'.toJString();
           },
           sayHello$1: (JString name) async {
             await Future<void>.delayed(const Duration(milliseconds: 100));
-            return JString.fromString('Hello ${name.toDartString()}');
+            return 'Hello ${name.toDartString()}'.toJString();
           },
           nullableHello: (bool returnNull) async {
             await Future<void>.delayed(const Duration(milliseconds: 100));
-            return returnNull ? null : JString.fromString('Hello');
+            return returnNull ? null : 'Hello'.toJString();
           },
           sayInt: () async {
             await Future<void>.delayed(const Duration(milliseconds: 100));
@@ -451,7 +464,7 @@ kotlin.Unit
         ));
 
         expect((await itf.sayHello()).toDartString(), 'Hello');
-        expect((await itf.sayHello$1(JString.fromString('Bob'))).toDartString(),
+        expect((await itf.sayHello$1('Bob'.toJString())).toDartString(),
             'Hello Bob');
         expect((await itf.nullableHello(false))?.toDartString(), 'Hello');
         expect(await itf.nullableHello(true), null);
@@ -499,21 +512,19 @@ kotlin.Unit
           noReturn: () async => throw Exception(),
         ));
 
-        await expectLater(itf.sayHello(), throwsA(isA<JniException>()));
-        await expectLater(itf.sayHello$1(JString.fromString('Bob')),
-            throwsA(isA<JniException>()));
+        await expectLater(itf.sayHello(), throwsA(isA<JThrowable>()));
         await expectLater(
-            itf.nullableHello(false), throwsA(isA<JniException>()));
-        await expectLater(itf.sayInt(), throwsA(isA<JniException>()));
+            itf.sayHello$1('Bob'.toJString()), throwsA(isA<JThrowable>()));
+        await expectLater(itf.nullableHello(false), throwsA(isA<JThrowable>()));
+        await expectLater(itf.sayInt(), throwsA(isA<JThrowable>()));
         await expectLater(
-            itf.sayInt$1(JInteger(456)), throwsA(isA<JniException>()));
-        await expectLater(itf.nullableInt(false), throwsA(isA<JniException>()));
-        await expectLater(itf.noReturn(), throwsA(isA<JniException>()));
+            itf.sayInt$1(JInteger(456)), throwsA(isA<JThrowable>()));
+        await expectLater(itf.nullableInt(false), throwsA(isA<JThrowable>()));
+        await expectLater(itf.noReturn(), throwsA(isA<JThrowable>()));
 
+        await expectLater(consumeOnSameThread(itf), throwsA(isA<JThrowable>()));
         await expectLater(
-            consumeOnSameThread(itf), throwsA(isA<JniException>()));
-        await expectLater(
-            consumeOnAnotherThread(itf), throwsA(isA<JniException>()));
+            consumeOnAnotherThread(itf), throwsA(isA<JThrowable>()));
       });
 
       test('throw delayed', () async {
@@ -548,21 +559,19 @@ kotlin.Unit
           },
         ));
 
-        await expectLater(itf.sayHello(), throwsA(isA<JniException>()));
-        await expectLater(itf.sayHello$1(JString.fromString('Bob')),
-            throwsA(isA<JniException>()));
+        await expectLater(itf.sayHello(), throwsA(isA<JThrowable>()));
         await expectLater(
-            itf.nullableHello(false), throwsA(isA<JniException>()));
-        await expectLater(itf.sayInt(), throwsA(isA<JniException>()));
+            itf.sayHello$1('Bob'.toJString()), throwsA(isA<JThrowable>()));
+        await expectLater(itf.nullableHello(false), throwsA(isA<JThrowable>()));
+        await expectLater(itf.sayInt(), throwsA(isA<JThrowable>()));
         await expectLater(
-            itf.sayInt$1(JInteger(456)), throwsA(isA<JniException>()));
-        await expectLater(itf.nullableInt(false), throwsA(isA<JniException>()));
-        await expectLater(itf.noReturn(), throwsA(isA<JniException>()));
+            itf.sayInt$1(JInteger(456)), throwsA(isA<JThrowable>()));
+        await expectLater(itf.nullableInt(false), throwsA(isA<JThrowable>()));
+        await expectLater(itf.noReturn(), throwsA(isA<JThrowable>()));
 
+        await expectLater(consumeOnSameThread(itf), throwsA(isA<JThrowable>()));
         await expectLater(
-            consumeOnSameThread(itf), throwsA(isA<JniException>()));
-        await expectLater(
-            consumeOnAnotherThread(itf), throwsA(isA<JniException>()));
+            consumeOnAnotherThread(itf), throwsA(isA<JThrowable>()));
       });
     });
   });

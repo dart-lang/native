@@ -1,4 +1,4 @@
-## 1.0.2-wip
+## 1.0.2
 
 - Update documentation about `CCACHE_` environment variables.
 

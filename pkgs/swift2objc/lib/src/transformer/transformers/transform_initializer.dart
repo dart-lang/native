@@ -17,8 +17,9 @@ Declaration transformInitializer(
   InitializerDeclaration originalInitializer,
   PropertyDeclaration wrappedClassInstance,
   UniqueNamer globalNamer,
-  TransformationState state,
-) {
+  TransformationState state, {
+  bool isConvenience = false,
+}) {
   final transformedParams = originalInitializer.params
       .map(
         (param) => Parameter(
@@ -77,6 +78,7 @@ Declaration transformInitializer(
     originalInitializer,
     wrappedClassInstance,
     transformedInitializer,
+    isConvenience: isConvenience,
   );
 
   return transformedInitializer;
@@ -85,13 +87,28 @@ Declaration transformInitializer(
 List<String> _generateInitializerStatements(
   InitializerDeclaration originalInitializer,
   PropertyDeclaration wrappedClassInstance,
-  InitializerDeclaration transformedInitializer,
-) {
+  InitializerDeclaration transformedInitializer, {
+  bool isConvenience = false,
+}) {
   final (instanceConstruction, localNamer) = _generateInstanceConstruction(
     originalInitializer,
     wrappedClassInstance,
     transformedInitializer.params,
   );
+  if (isConvenience) {
+    if (originalInitializer.isFailable) {
+      final instance = localNamer.makeUnique('instance');
+      return [
+        'if let $instance = $instanceConstruction {',
+        '  self.init($instance)',
+        '} else {',
+        '  return nil',
+        '}',
+      ];
+    } else {
+      return ['self.init($instanceConstruction)'];
+    }
+  }
   if (originalInitializer.isFailable) {
     final instance = localNamer.makeUnique('instance');
     return [

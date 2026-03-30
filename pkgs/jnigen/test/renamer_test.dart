@@ -11,6 +11,14 @@ extension on Iterable<ClassMember> {
   List<String> get finalNames => map((c) => c.finalName).toList();
 }
 
+extension on Iterable<Method> {
+  List<String> get namesAndPropertyKinds => map((m) => switch (m.methodKind) {
+        MethodKind.normal => m.finalName,
+        MethodKind.getter => 'get ${m.finalName}',
+        MethodKind.setter => 'set ${m.finalName}',
+      }).toList();
+}
+
 Future<void> rename(Classes classes) async {
   final config = Config(
     outputConfig: OutputConfig(
@@ -329,5 +337,209 @@ void main() {
         r'Outer$Inner$Innermost');
     expect(classes.decls[r'Outer$With$Many$Dollarsigns']!.finalName,
         r'Outer$$With$$Many$$Dollarsigns');
+  });
+
+  test('Class getters and setters', () async {
+    final void_ = PrimitiveType.fromJson({'name': 'void'});
+    final bool_ = PrimitiveType.fromJson({'name': 'boolean'});
+    final int_ = PrimitiveType.fromJson({'name': 'int'});
+    final double_ = PrimitiveType.fromJson({'name': 'double'});
+    final listOfObject = DeclaredType(
+      binaryName: 'java.util.List',
+      params: [DeclaredType.object],
+    );
+    final listOfString = DeclaredType(
+      binaryName: 'java.util.List',
+      params: [DeclaredType(binaryName: 'java.lang.String')],
+    );
+
+    final classes = Classes({
+      'Foo': ClassDecl(
+        binaryName: 'Foo',
+        declKind: DeclKind.classKind,
+        superclass: DeclaredType.object,
+        methods: [
+          // Normal getter and setter. Transformed.
+          Method(name: 'getPropA', returnType: DeclaredType.object),
+          Method(name: 'setPropB', returnType: void_, params: [
+            Param(name: 'value', type: DeclaredType.object),
+          ]),
+          Method(name: 'isPropA', returnType: bool_),
+
+          // Followed by a lower case letter. Not transformed.
+          Method(name: 'gettingThings', returnType: DeclaredType.object),
+          Method(name: 'settingThings', returnType: void_, params: [
+            Param(name: 'value', type: DeclaredType.object),
+          ]),
+          Method(name: 'isomorphic', returnType: bool_),
+
+          // Followed by a number. Not transformed.
+          Method(name: 'get123', returnType: DeclaredType.object),
+          Method(name: 'set123', returnType: void_, params: [
+            Param(name: 'value', type: DeclaredType.object),
+          ]),
+          Method(name: 'is123', returnType: bool_),
+
+          // Wrong number of params. Not transformed.
+          Method(
+              name: 'getPropWithParam',
+              returnType: DeclaredType.object,
+              params: [
+                Param(name: 'value', type: DeclaredType.object),
+              ]),
+          Method(name: 'setPropWithTwoParams', returnType: void_, params: [
+            Param(name: 'value', type: DeclaredType.object),
+            Param(name: 'value2', type: DeclaredType.object),
+          ]),
+          Method(name: 'setPropWithNoParams', returnType: void_),
+          Method(name: 'isPropWithParam', returnType: bool_, params: [
+            Param(name: 'value', type: DeclaredType.object),
+          ]),
+
+          // Wrong return types. Not transformed.
+          Method(name: 'getPropWrongReturn', returnType: void_),
+          Method(
+              name: 'setPropWrongReturn',
+              returnType: DeclaredType.object,
+              params: [
+                Param(name: 'value', type: DeclaredType.object),
+              ]),
+          Method(name: 'isPropWrongReturn', returnType: DeclaredType.object),
+
+          // With type params. Not transformed.
+          Method(
+              name: 'getPropWithTypeParams',
+              returnType: DeclaredType.object,
+              typeParams: [TypeParam(name: 'T')]),
+          Method(
+            name: 'setPropWithTypeParams',
+            returnType: void_,
+            params: [
+              Param(name: 'value', type: DeclaredType.object),
+            ],
+            typeParams: [TypeParam(name: 'T')],
+          ),
+          Method(
+            name: 'isPropWithTypeParams',
+            returnType: bool_,
+            typeParams: [TypeParam(name: 'T')],
+          ),
+
+          // Async. Not transformed.
+          Method(
+              name: 'getPropAsync',
+              returnType: DeclaredType.object,
+              asyncReturnType: DeclaredType.object),
+          Method(
+            name: 'setPropAsync',
+            returnType: void_,
+            params: [
+              Param(name: 'value', type: DeclaredType.object),
+            ],
+            asyncReturnType: DeclaredType.object,
+          ),
+          Method(
+            name: 'isPropAsync',
+            returnType: bool_,
+            asyncReturnType: DeclaredType.object,
+          ),
+
+          // Getter and setter with same name. Transformed and deduped.
+          Method(name: 'getPropC', returnType: DeclaredType.object),
+          Method(name: 'setPropC', returnType: void_, params: [
+            Param(name: 'value', type: DeclaredType.object),
+          ]),
+
+          // Overloaded and setter with same name. Transformed and deduped by
+          // type.
+          Method(name: 'getPropD', returnType: DeclaredType.object),
+          Method(name: 'getPropD', returnType: int_),
+          Method(name: 'getPropD', returnType: double_),
+          Method(name: 'setPropD', returnType: void_, params: [
+            Param(name: 'value', type: DeclaredType.object),
+          ]),
+          Method(name: 'setPropD', returnType: void_, params: [
+            Param(name: 'value', type: double_),
+          ]),
+          Method(name: 'setPropD', returnType: void_, params: [
+            Param(name: 'value', type: int_),
+          ]),
+
+          // Setter and getter with same name, but slightly different types.
+          // Transformed, but not deduped by type.
+          Method(name: 'getPropE', returnType: listOfObject),
+          Method(name: 'setPropE', returnType: void_, params: [
+            Param(name: 'value', type: listOfString),
+          ]),
+        ],
+      ),
+    });
+    await rename(classes);
+
+    final renamedMethods = classes.decls['Foo']!.methods.namesAndPropertyKinds;
+    expect(renamedMethods, [
+      r'get propA',
+      r'set propB',
+      r'get isPropA',
+      r'gettingThings',
+      r'settingThings',
+      r'isomorphic',
+      r'get123',
+      r'set123',
+      r'is123',
+      r'getPropWithParam',
+      r'setPropWithTwoParams',
+      r'setPropWithNoParams',
+      r'isPropWithParam',
+      r'getPropWrongReturn',
+      r'setPropWrongReturn',
+      r'isPropWrongReturn',
+      r'getPropWithTypeParams',
+      r'setPropWithTypeParams',
+      r'isPropWithTypeParams',
+      r'getPropAsync',
+      r'setPropAsync',
+      r'isPropAsync',
+      r'get propC',
+      r'set propC',
+      r'get propD',
+      r'get propD$1',
+      r'get propD$2',
+      r'set propD',
+      r'set propD$2',
+      r'set propD$1',
+      r'get propE',
+      r'set propE$1',
+    ]);
+  });
+
+  test('Interface getters and setters', () async {
+    final void_ = PrimitiveType.fromJson({'name': 'void'});
+    final bool_ = PrimitiveType.fromJson({'name': 'boolean'});
+
+    final classes = Classes({
+      'Foo': ClassDecl(
+        binaryName: 'Foo',
+        declKind: DeclKind.interfaceKind,
+        superclass: DeclaredType.object,
+        methods: [
+          // Normal getter and setter. Not transformed, because this is an
+          // interface.
+          Method(name: 'getPropA', returnType: DeclaredType.object),
+          Method(name: 'setPropB', returnType: void_, params: [
+            Param(name: 'value', type: DeclaredType.object),
+          ]),
+          Method(name: 'isPropA', returnType: bool_),
+        ],
+      ),
+    });
+    await rename(classes);
+
+    final renamedMethods = classes.decls['Foo']!.methods.namesAndPropertyKinds;
+    expect(renamedMethods, [
+      r'getPropA',
+      r'setPropB',
+      r'isPropA',
+    ]);
   });
 }

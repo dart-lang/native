@@ -2,13 +2,12 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
 import 'package:test/test.dart';
 
 void main() {
   test('NonConstant in ListConstant throws FormatException', () {
     final json = {
-      'metadata': {'version': '1.0.0', 'comment': 'test'},
       'constants': [
         {'type': 'non_constant'},
         {
@@ -23,7 +22,6 @@ void main() {
 
   test('NonConstant in MapConstant key throws FormatException', () {
     final json = {
-      'metadata': {'version': '1.0.0', 'comment': 'test'},
       'constants': [
         {'type': 'non_constant'},
         {'type': 'int', 'value': 1},
@@ -41,7 +39,6 @@ void main() {
 
   test('NonConstant in MapConstant value throws FormatException', () {
     final json = {
-      'metadata': {'version': '1.0.0', 'comment': 'test'},
       'constants': [
         {'type': 'non_constant'},
         {'type': 'int', 'value': 1},
@@ -59,7 +56,6 @@ void main() {
 
   test('NonConstant in InstanceConstant field throws FormatException', () {
     final json = {
-      'metadata': {'version': '1.0.0', 'comment': 'test'},
       'constants': [
         {'type': 'non_constant'},
         {

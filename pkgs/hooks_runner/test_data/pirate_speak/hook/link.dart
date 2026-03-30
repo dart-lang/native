@@ -7,7 +7,7 @@ import 'dart:io';
 
 import 'package:data_assets/data_assets.dart';
 import 'package:hooks/hooks.dart';
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
 
 void main(List<String> args) async {
   await link(args, (input, output) async {
@@ -50,24 +50,20 @@ Future<Recordings> _loadRecordings(Uri file) async {
 }
 
 Set<String> _extractUsedPhrases(Recordings recordings) {
-  final usages = RecordedUsages.fromJson(recordings.toJson());
   final usedPhrases = <String>{};
-  final pirateSpeakDef = Definition(
-    'package:pirate_speak/src/definitions.dart',
-    [
-      Name(
-        kind: DefinitionKind.methodKind,
-        'pirateSpeak',
-        disambiguators: {DefinitionDisambiguator.staticDisambiguator},
-      ),
-    ],
+  const pirateSpeakDef = Method(
+    'pirateSpeak',
+    Library('package:pirate_speak/src/definitions.dart'),
   );
 
-  for (final call in usages.constArgumentsFor(pirateSpeakDef)) {
-    if (call.positional.isNotEmpty) {
-      if (call.positional.first case StringConstant(:final value)) {
+  for (final call in recordings.calls[pirateSpeakDef] ?? const []) {
+    switch (call) {
+      case CallWithArguments(
+        positionalArguments: [StringConstant(:final value), ...],
+      ):
         usedPhrases.add(value);
-      }
+      case _:
+        throw UnsupportedError('Cannot determine which translations are used.');
     }
   }
   return usedPhrases;

@@ -209,7 +209,7 @@ Future<String> readelf(String filePath, String flags) async {
 }
 
 List<String> nmParameterFor(OS targetOS) => switch (targetOS) {
-  OS.macOS || OS.iOS => const [],
+  .macOS || .iOS => const [],
   OS() => ['-D'],
 };
 
@@ -217,7 +217,7 @@ List<String> nmParameterFor(OS targetOS) => switch (targetOS) {
 Future<String?> readSymbols(CodeAsset asset, OS targetOS) async {
   final assetUri = asset.file!;
   switch (targetOS) {
-    case OS.windows:
+    case .windows:
       final result = await _runDumpbin(['/EXPORTS'], asset.file!);
       if (result == null) {
         return null;
@@ -233,6 +233,32 @@ Future<String?> readSymbols(CodeAsset asset, OS targetOS) async {
       expect(result.exitCode, 0);
       return result.stdout;
   }
+}
+
+/// Asserts that [symbol] is not an undefined dynamic symbol in the
+/// library described by [asset].
+///
+/// Uses [readSymbols] to inspect the symbol table and checks that
+/// the symbol does not appear with the `U` (undefined) binding type.
+Future<void> expectSymbolNotUndefined(
+  CodeAsset asset,
+  OS targetOS,
+  String symbol,
+) async {
+  final symbols = await readSymbols(asset, targetOS);
+  if (symbols == null) {
+    // Skip if the tool to extract symbols is not available.
+    return;
+  }
+  final undefinedMatches = symbols
+      .split('\n')
+      .where((line) => line.contains(' U ') && line.contains(symbol))
+      .toList();
+  expect(
+    undefinedMatches,
+    isEmpty,
+    reason: '$symbol should not be an undefined symbol',
+  );
 }
 
 /// Returns null if the dumpbin tool is not available.
@@ -294,13 +320,43 @@ Future<void> expectPageSize(Uri dylib, int pageSize) async {
   }
 }
 
-int defaultMacOSVersion = 13;
+class AndroidApiLevel {
+  final int value;
+  const AndroidApiLevel(this.value);
 
-/// From https://docs.flutter.dev/reference/supported-platforms.
-const flutterAndroidNdkVersionLowestSupported = 21;
+  @override
+  String toString() => '$value';
 
-/// From https://docs.flutter.dev/reference/supported-platforms.
-const flutterAndroidNdkVersionHighestSupported = 34;
+  /// From https://docs.flutter.dev/reference/supported-platforms.
+  static const flutterLowestSupported = AndroidApiLevel(21);
+
+  /// From https://docs.flutter.dev/reference/supported-platforms.
+  static const flutterHighestSupported = AndroidApiLevel(34);
+}
+
+class IOSVersion {
+  final int value;
+  const IOSVersion(this.value);
+
+  @override
+  String toString() => '$value';
+
+  static const flutterHighestBestEffort = IOSVersion(16);
+  static const flutterHighestSupported = IOSVersion(17);
+}
+
+class MacOSVersion {
+  final int value;
+  const MacOSVersion(this.value);
+
+  @override
+  String toString() => '$value';
+
+  static const flutterLowestBestEffort = MacOSVersion(12);
+  static const flutterLowestSupported = MacOSVersion(13);
+}
+
+int defaultMacOSVersion = MacOSVersion.flutterLowestSupported.value;
 
 /// File-format strings used by the `objdump` tool for Android binaries that
 /// run on a given architecture.
@@ -376,30 +432,19 @@ Future<void> expectMachineArchitecture(
 }
 
 List<Architecture> supportedArchitecturesFor(OS targetOS) => switch (targetOS) {
-  OS.macOS || OS.iOS => [Architecture.arm64, Architecture.x64],
-  OS.windows => [
+  .macOS || .iOS => [.arm64, .x64],
+  .windows => [
     // TODO(https://github.com/dart-lang/native/issues/170): Support arm64.
     // Architecture.arm64,
-    Architecture.ia32,
-    Architecture.x64,
+    .ia32,
+    .x64,
   ],
-  OS() => [
-    Architecture.arm,
-    Architecture.arm64,
-    Architecture.ia32,
-    Architecture.x64,
-    Architecture.riscv64,
-  ],
+  OS() => [.arm, .arm64, .ia32, .x64, .riscv64],
 };
 
 List<Architecture> iOSSupportedArchitecturesFor(IOSSdk iosSdk) =>
     switch (iosSdk) {
-      IOSSdk.iPhoneOS => supportedArchitecturesFor(
-        OS.iOS,
-      )..remove(Architecture.x64),
-      IOSSdk.iPhoneSimulator => supportedArchitecturesFor(OS.iOS),
+      .iPhoneOS => supportedArchitecturesFor(OS.iOS)..remove(Architecture.x64),
+      .iPhoneSimulator => supportedArchitecturesFor(OS.iOS),
       IOSSdk() => throw UnimplementedError(),
     };
-
-const flutteriOSHighestBestEffort = 16;
-const flutteriOSHighestSupported = 17;

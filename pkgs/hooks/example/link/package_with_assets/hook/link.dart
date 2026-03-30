@@ -11,14 +11,14 @@ import 'package:data_assets/data_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:record_use/record_use.dart';
 
-const someMethodDefinition = Definition(
-  'package:package_with_assets/package_with_assets.dart',
-  [Name(kind: DefinitionKind.methodKind, 'someMethod')],
+const someMethodDefinition = Method(
+  'someMethod',
+  Library('package:package_with_assets/package_with_assets.dart'),
 );
 
-const someOtherMethodDefinition = Definition(
-  'package:package_with_assets/package_with_assets.dart',
-  [Name(kind: DefinitionKind.methodKind, 'someOtherMethod')],
+const someOtherMethodDefinition = Method(
+  'someOtherMethod',
+  Library('package:package_with_assets/package_with_assets.dart'),
 );
 
 final assetMapping = {
@@ -32,9 +32,7 @@ void main(List<String> args) async {
 
     final usedAssets = [
       for (final entry in assetMapping.entries)
-        if (usages.constArgumentsFor(entry.key).isNotEmpty ||
-            usages.hasNonConstArguments(entry.key))
-          entry.value,
+        if (usages.calls.containsKey(entry.key)) entry.value,
     ];
 
     output.assets.data.addAll(
@@ -46,11 +44,11 @@ void main(List<String> args) async {
 }
 
 extension on LinkInput {
-  RecordedUsages get usages {
+  Recordings get usages {
     final usagesFile = recordedUsagesFile;
     final usagesContent = File.fromUri(usagesFile!).readAsStringSync();
     final usagesJson = jsonDecode(usagesContent) as Map<String, Object?>;
-    final usages = RecordedUsages.fromJson(usagesJson);
+    final usages = Recordings.fromJson(usagesJson);
     return usages;
   }
 }

@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+// ignore_for_file: lines_longer_than_80_chars
+
 @TestOn('mac-os')
 @OnPlatform({'mac-os': Timeout.factor(2)})
 library;
@@ -17,8 +19,72 @@ import 'package:native_toolchain_c/src/native_toolchain/clang.dart';
 import 'package:native_toolchain_c/src/tool/tool_resolver.dart';
 import 'package:native_toolchain_c/src/utils/run_process.dart';
 import 'package:test/test.dart';
+import 'package:test_case_selector/test_case_selector.dart';
 
 import '../helpers.dart';
+
+// Dont include 'mach-o' or 'Mach-O', different spelling is used.
+const objdumpFileFormat = {
+  (OS.macOS, Architecture.arm64): 'arm64',
+  (OS.macOS, Architecture.x64): '64-bit x86-64',
+  (OS.linux, Architecture.arm): 'elf32-littlearm',
+  (OS.linux, Architecture.arm64): 'elf64-littleaarch64',
+  (OS.linux, Architecture.ia32): 'elf32-i386',
+  (OS.linux, Architecture.x64): 'elf64-x86-64',
+  (OS.linux, Architecture.riscv32): 'elf32-riscv32',
+  (OS.linux, Architecture.riscv64): 'elf64-riscv64',
+};
+
+/// This comment is generated. To regenerate, run:
+/// `REGENERATE_TEST_CONFIGS=true dart test`
+///
+/// | #   | OS    | Architecture | Link Mode | Language    | Optimization Level |
+/// |-----|-------|--------------|-----------|-------------|--------------------|
+/// | 1   | linux | arm          | bundled   | c           | O2                 |
+/// | 2   | linux | arm          | static    | c           | O0                 |
+/// | 3   | linux | arm64        | static    | c           | O2                 |
+/// | 4   | linux | ia32         | bundled   | c           | Os                 |
+/// | 5   | linux | ia32         | static    | c           | O1                 |
+/// | 6   | linux | x64          | static    | c           | unspecified        |
+/// | 7   | macos | arm64        | bundled   | c           | O3                 |
+/// | 8   | macos | x64          | bundled   | objective c | O1                 |
+final configurations =
+    TestCaseSelector(
+      dimensions: {
+        OS: [OS.macOS, OS.linux],
+        Architecture: [
+          Architecture.arm,
+          Architecture.arm64,
+          Architecture.ia32,
+          Architecture.x64,
+          // Risc-V not supported by Apple Clang right now.
+        ],
+        LinkMode: [DynamicLoadingBundled(), StaticLinking()],
+        Language: [Language.c, Language.objectiveC],
+        OptimizationLevel: OptimizationLevel.values,
+      },
+      interactionGroups: [
+        {OS, Architecture},
+        {Architecture, LinkMode},
+        {OS, Language},
+      ],
+      isValid: (config) {
+        final os = config.get<OS>();
+        final arch = config.get<Architecture>();
+        final language = config.get<Language>();
+        if (!objdumpFileFormat.containsKey((os, arch))) {
+          return false;
+        }
+        if (os == OS.linux && language == Language.objectiveC) {
+          return false;
+        }
+        return true;
+      },
+    ).selectAndValidate(
+      tableUri: packageUri.resolve(
+        'test/cbuilder/cbuilder_cross_macos_host_test.dart',
+      ),
+    );
 
 void main() async {
   if (!Platform.isMacOS) {
@@ -38,154 +104,120 @@ void main() async {
     stderr.writeln("Install with 'brew install lld' on macOS.");
   }
 
-  final targets = [
-    (OS.macOS, Architecture.arm64),
-    (OS.macOS, Architecture.x64),
-    (OS.linux, Architecture.arm),
-    (OS.linux, Architecture.arm64),
-    (OS.linux, Architecture.ia32),
-    (OS.linux, Architecture.x64),
-
-    // Not supported by Apple Clang right now.
-    // (OS.linux, Architecture.riscv32),
-    // (OS.linux, Architecture.riscv64),
-  ];
-
-  // Dont include 'mach-o' or 'Mach-O', different spelling is used.
-  const objdumpFileFormat = {
-    (OS.macOS, Architecture.arm64): 'arm64',
-    (OS.macOS, Architecture.x64): '64-bit x86-64',
-    (OS.linux, Architecture.arm): 'elf32-littlearm',
-    (OS.linux, Architecture.arm64): 'elf64-littleaarch64',
-    (OS.linux, Architecture.ia32): 'elf32-i386',
-    (OS.linux, Architecture.x64): 'elf64-x86-64',
-
-    (OS.linux, Architecture.riscv32): 'elf32-riscv32',
-    (OS.linux, Architecture.riscv64): 'elf64-riscv64',
-  };
-
-  const optimizationLevels = OptimizationLevel.values;
-  var selectOptimizationLevel = 0;
-
-  for (final language in [Language.c, Language.objectiveC]) {
-    for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
-      for (final (os, arch) in targets) {
-        // Don't build Objective-C targets for linux.
-        if (language == Language.objectiveC && os == OS.linux) continue;
-
-        // Cycle through all optimization levels.
-        final optimizationLevel = optimizationLevels[selectOptimizationLevel];
-        selectOptimizationLevel =
-            (selectOptimizationLevel + 1) % optimizationLevels.length;
-
-        test(
-          'CBuilder $linkMode $language library $os $arch $optimizationLevel',
-          () async {
-            final tempUri = await tempDirForTest();
-            final tempUri2 = await tempDirForTest();
-            final sourceUri = switch (language) {
-              Language.c => packageUri.resolve(
-                'test/cbuilder/testfiles/add/src/add.c',
-              ),
-              Language.objectiveC => packageUri.resolve(
-                'test/cbuilder/testfiles/add_objective_c/src/add.m',
-              ),
-              Language() => throw UnimplementedError(),
-            };
-            const name = 'add';
-
-            // When cross-compiling from MacOS, explicitly specify apple clang.
-            //
-            // The default tool-finding does not support macos cross compiling
-            // right now.
-            var chosenCCompiler = cCompiler;
-            if (os == OS.linux) {
-              // still respect the CI-provided compiler
-              chosenCCompiler ??= await resolveAppleToolchain();
-            }
-
-            final buildInputBuilder = BuildInputBuilder()
-              ..setupShared(
-                packageName: name,
-                packageRoot: tempUri,
-                outputFile: tempUri.resolve('output.json'),
-                outputDirectoryShared: tempUri2,
-              )
-              ..config.setupBuild(linkingEnabled: false)
-              ..addExtension(
-                CodeAssetExtension(
-                  targetOS: os,
-                  targetArchitecture: arch,
-                  linkModePreference: linkMode == DynamicLoadingBundled()
-                      ? LinkModePreference.dynamic
-                      : LinkModePreference.static,
-                  cCompiler: chosenCCompiler,
-                  macOS: MacOSCodeConfig(targetVersion: defaultMacOSVersion),
-                ),
-              );
-            final buildInput = buildInputBuilder.build();
-            final buildOutput = BuildOutputBuilder();
-
-            final cbuilder = CBuilder.library(
-              name: name,
-              assetName: name,
-              sources: [sourceUri.toFilePath()],
-              language: language,
-              optimizationLevel: optimizationLevel,
-              buildMode: BuildMode.release,
-              flags: [
-                if (os == OS.linux)
-                  switch (arch) {
-                    Architecture.arm => '--target=arm-linux-gnueabihf',
-                    Architecture.arm64 => '--target=aarch64-linux-gnu',
-                    Architecture.ia32 => '--target=i686-linux-gnu',
-                    Architecture.x64 => '--target=x86_64-linux-gnu',
-                    Architecture.riscv32 => '--target=riscv32-linux-gnu',
-                    Architecture.riscv64 => '--target=riscv64-linux-gnu',
-                    _ => throw UnsupportedError(
-                      'Unexpected linux architecture: $arch',
-                    ),
-                  },
-                // Only homebrew lld can link for linux, and we don't have a
-                // sysroot so we can't use stdlibs / C-runtime files.
-                if (os == OS.linux) ...[
-                  '--ld-path=$lldPath',
-                  '-nostartfiles',
-                  '-nostdlib',
-                ],
-              ],
-            );
-            await cbuilder.run(
-              input: buildInput,
-              output: buildOutput,
-              logger: logger,
-            );
-
-            final libUri = buildInput.outputDirectory.resolve(
-              os.libraryFileName(name, linkMode),
-            );
-            final result = await runProcess(
-              executable: Uri.file('objdump'),
-              arguments: ['-t', libUri.path],
-              logger: logger,
-            );
-            expect(result.exitCode, 0);
-            final machine = result.stdout
-                .split('\n')
-                .firstWhere((e) => e.contains('file format'));
-            expect(machine, contains(objdumpFileFormat[(os, arch)]));
-          },
-        );
-      }
-    }
+  if (!Platform.isMacOS) {
+    // Avoid needing status files on Dart SDK CI.
+    return;
   }
 
-  const flutterMacOSLowestBestEffort = 12;
-  const flutterMacOSLowestSupported = 13;
+  for (final config in configurations) {
+    final language = config.get<Language>();
+    final linkMode = config.get<LinkMode>();
+    final os = config.get<OS>();
+    final arch = config.get<Architecture>();
+    final optimizationLevel = config.get<OptimizationLevel>();
+
+    test(
+      'CBuilder $os $arch $linkMode $language $optimizationLevel',
+      () async {
+        final tempUri = await tempDirForTest();
+        final tempUri2 = await tempDirForTest();
+        final sourceUri = switch (language) {
+          .c => packageUri.resolve('test/cbuilder/testfiles/add/src/add.c'),
+          .objectiveC => packageUri.resolve(
+            'test/cbuilder/testfiles/add_objective_c/src/add.m',
+          ),
+          Language() => throw UnimplementedError(),
+        };
+        const name = 'add';
+
+        // When cross-compiling from MacOS, explicitly specify apple clang.
+        //
+        // The default tool-finding does not support macos cross compiling
+        // right now.
+        var chosenCCompiler = cCompiler;
+        if (os == .linux) {
+          // still respect the CI-provided compiler
+          chosenCCompiler ??= await resolveAppleToolchain();
+        }
+
+        final buildInputBuilder = BuildInputBuilder()
+          ..setupShared(
+            packageName: name,
+            packageRoot: tempUri,
+            outputFile: tempUri.resolve('output.json'),
+            outputDirectoryShared: tempUri2,
+          )
+          ..config.setupBuild(linkingEnabled: false)
+          ..addExtension(
+            CodeAssetExtension(
+              targetOS: os,
+              targetArchitecture: arch,
+              linkModePreference: linkMode == DynamicLoadingBundled()
+                  ? .dynamic
+                  : .static,
+              cCompiler: chosenCCompiler,
+              macOS: MacOSCodeConfig(targetVersion: defaultMacOSVersion),
+            ),
+          );
+        final buildInput = buildInputBuilder.build();
+        final buildOutput = BuildOutputBuilder();
+
+        final cbuilder = CBuilder.library(
+          name: name,
+          assetName: name,
+          sources: [sourceUri.toFilePath()],
+          language: language,
+          optimizationLevel: optimizationLevel,
+          buildMode: .release,
+          flags: [
+            if (os == .linux)
+              switch (arch) {
+                .arm => '--target=arm-linux-gnueabihf',
+                .arm64 => '--target=aarch64-linux-gnu',
+                .ia32 => '--target=i686-linux-gnu',
+                .x64 => '--target=x86_64-linux-gnu',
+                .riscv32 => '--target=riscv32-linux-gnu',
+                .riscv64 => '--target=riscv64-linux-gnu',
+                _ => throw UnsupportedError(
+                  'Unexpected linux architecture: $arch',
+                ),
+              },
+            // Only homebrew lld can link for linux, and we don't have a
+            // sysroot so we can't use stdlibs / C-runtime files.
+            if (os == .linux) ...[
+              '--ld-path=$lldPath',
+              '-nostartfiles',
+              '-nostdlib',
+            ],
+          ],
+        );
+        await cbuilder.run(
+          input: buildInput,
+          output: buildOutput,
+          logger: logger,
+        );
+
+        final libUri = buildInput.outputDirectory.resolve(
+          os.libraryFileName(name, linkMode),
+        );
+        final result = await runProcess(
+          executable: Uri.file('objdump'),
+          arguments: ['-t', libUri.path],
+          logger: logger,
+        );
+        expect(result.exitCode, 0);
+        final machine = result.stdout
+            .split('\n')
+            .firstWhere((e) => e.contains('file format'));
+        expect(machine, contains(objdumpFileFormat[(os, arch)]));
+      },
+      skip: os == OS.linux && !lldAvailable ? 'ld.lld not available' : null,
+    );
+  }
 
   for (final macosVersion in [
-    flutterMacOSLowestBestEffort,
-    flutterMacOSLowestSupported,
+    MacOSVersion.flutterLowestBestEffort,
+    MacOSVersion.flutterLowestSupported,
   ]) {
     for (final linkMode in [DynamicLoadingBundled(), StaticLinking()]) {
       test('$linkMode macos min version $macosVersion', () async {
@@ -194,12 +226,12 @@ void main() async {
         final out1Uri = tempUri.resolve('out1/');
         await Directory.fromUri(out1Uri).create();
         final out2Uri = tempUri.resolve('out2/');
-        await Directory.fromUri(out1Uri).create();
+        await Directory.fromUri(out2Uri).create();
         final lib1Uri = await buildLib(
           out1Uri,
           out2Uri,
           target,
-          macosVersion,
+          macosVersion.value,
           linkMode,
         );
 
@@ -235,11 +267,11 @@ Future<Uri> buildLib(
     ..config.setupBuild(linkingEnabled: false)
     ..addExtension(
       CodeAssetExtension(
-        targetOS: OS.macOS,
+        targetOS: .macOS,
         targetArchitecture: targetArchitecture,
         linkModePreference: linkMode == DynamicLoadingBundled()
-            ? LinkModePreference.dynamic
-            : LinkModePreference.static,
+            ? .dynamic
+            : .static,
         macOS: MacOSCodeConfig(targetVersion: targetMacOSVersion),
         cCompiler: cCompiler,
       ),
@@ -252,7 +284,7 @@ Future<Uri> buildLib(
     name: name,
     assetName: name,
     sources: [addCUri.toFilePath()],
-    buildMode: BuildMode.release,
+    buildMode: .release,
   );
   await cbuilder.run(input: buildInput, output: buildOutput, logger: logger);
 

@@ -9,6 +9,7 @@ import '../../ast/_core/interfaces/availability.dart';
 import '../../ast/_core/interfaces/declaration.dart';
 import '../../ast/_core/interfaces/nestable_declaration.dart';
 import '../../ast/_core/shared/referred_type.dart';
+import '../../ast/declarations/compounds/extension_declaration.dart';
 import '../../ast/declarations/globals/globals.dart';
 import '../../context.dart';
 import '../parsers/parse_type.dart';
@@ -34,7 +35,8 @@ extension TopLevelOnly<T extends Declaration> on List<T> {
       return declaration.nestingParent == null;
     }
     return declaration is GlobalVariableDeclaration ||
-        declaration is GlobalFunctionDeclaration;
+        declaration is GlobalFunctionDeclaration ||
+        declaration is ExtensionDeclaration;
   }).toList();
 }
 
@@ -165,3 +167,5 @@ ReferredType parseTypeAfterSeparator(
   assert(suffix.isEmpty, '$suffix');
   return type;
 }
+
+bool isExtensionMember(Json symbolJson) => symbolJson['swiftExtension'].exists;

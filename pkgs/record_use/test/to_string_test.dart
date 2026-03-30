@@ -2,7 +2,7 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
 import 'package:test/test.dart';
 
 const loadingUnitFoo = LoadingUnit('dart.foo');
@@ -13,11 +13,11 @@ void main() {
       const call = CallWithArguments(
         positionalArguments: [],
         namedArguments: {},
-        loadingUnits: [loadingUnitFoo],
+        loadingUnit: loadingUnitFoo,
       );
       expect(
         call.toString(),
-        'CallWithArguments(loadingUnits: dart.foo)',
+        'CallWithArguments(loadingUnit: dart.foo)',
       );
     });
 
@@ -28,13 +28,39 @@ void main() {
           'bar': NonConstant(),
           'baz': NonConstant(),
         },
-        loadingUnits: [loadingUnitFoo],
+        loadingUnit: loadingUnitFoo,
       );
       expect(
         call.toString(),
         'CallWithArguments(positional: NonConstant(), '
         'NonConstant(), named: bar=NonConstant(), '
-        'baz=NonConstant(), loadingUnits: dart.foo)',
+        'baz=NonConstant(), loadingUnit: dart.foo)',
+      );
+    });
+
+    test('SymbolConstant', () {
+      expect(
+        const SymbolConstant('foo').toString(),
+        '#foo',
+      );
+      expect(
+        const SymbolConstant('_bar', libraryUri: 'package:a/a.dart').toString(),
+        'package:a/a.dart::#_bar',
+      );
+    });
+
+    test('InstanceConstantReference with EnumConstant', () {
+      const ref = InstanceConstantReference(
+        instanceConstant: EnumConstant(
+          definition: Enum('MyEnum', Library('package:a/a.dart')),
+          index: 0,
+          name: 'val1',
+        ),
+        loadingUnit: loadingUnitFoo,
+      );
+      expect(
+        ref.toString(),
+        'InstanceConstantReference(instanceConstant: EnumConstant(package:a/a.dart#enum:MyEnum, index: 0, name: val1, fields: {}), loadingUnit: dart.foo)',
       );
     });
   });

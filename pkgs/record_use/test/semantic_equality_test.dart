@@ -2,57 +2,59 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
-import 'package:pub_semver/pub_semver.dart';
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
 import 'package:test/test.dart';
 
 void main() {
-  const definition1 = Definition(
-    'package:a/a.dart',
-    [Name('definition1')],
+  const definition1 = Method(
+    'definition1',
+    Library('package:a/a.dart'),
   );
-  const definition2 = Definition(
-    'package:a/a.dart',
-    [Name('definition2')],
+  const definition2 = Method(
+    'definition2',
+    Library('package:a/a.dart'),
   );
-  const definition1differentLibrary = Definition(
-    'package:a/b.dart',
-    [Name('definition1')],
+  const definition1differentLibrary = Method(
+    'definition1',
+    Library('package:a/b.dart'),
   );
-  const definition3 = Definition(
-    'package:a/a.dart',
-    [Name('SomeClass'), Name('definition1')],
+  const definition3 = Method(
+    'definition1',
+    Class('SomeClass', Library('package:a/a.dart')),
+    isInstanceMember: true,
   );
+
+  const classDefinition1 = Class(
+    'Class1',
+    Library('package:a/a.dart'),
+  );
+
   const callDefintion1Static = CallWithArguments(
     positionalArguments: [],
     namedArguments: {},
-    loadingUnits: [],
+    loadingUnit: LoadingUnit(''),
   );
   const callDefintion1Static2 = CallWithArguments(
     positionalArguments: [],
     namedArguments: {},
-    loadingUnits: [],
+    loadingUnit: LoadingUnit(''),
   );
   const callDefinition2Static = CallWithArguments(
     positionalArguments: [],
     namedArguments: {},
-    loadingUnits: [],
+    loadingUnit: LoadingUnit(''),
   );
   const callDefinition1Tearoff = CallTearoff(
-    loadingUnits: [],
+    loadingUnit: LoadingUnit(''),
   );
-  const definition1differentLibrary2 = Definition(
-    'memory:a/a.dart',
-    [Name('definition1')],
+  const definition1differentLibrary2 = Method(
+    'definition1',
+    Library('memory:a/a.dart'),
   );
   const callDefintion1StaticDifferentUri = CallWithArguments(
     positionalArguments: [],
     namedArguments: {},
-    loadingUnits: [],
-  );
-  final metadata = Metadata(
-    version: Version(1, 0, 0),
-    comment: '',
+    loadingUnit: LoadingUnit(''),
   );
 
   test('Definition semantic equality', () {
@@ -71,7 +73,6 @@ void main() {
 
   test('Strict equality', () {
     final recordings1 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefintion1Static, callDefintion1Static2],
         definition2: [callDefinition2Static],
@@ -79,7 +80,6 @@ void main() {
       instances: const {},
     );
     final recordings2 = Recordings(
-      metadata: metadata,
       calls: {
         definition2: [callDefinition2Static],
         definition1: [callDefintion1Static2, callDefintion1Static],
@@ -87,7 +87,6 @@ void main() {
       instances: const {},
     );
     final recordings3 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefintion1Static],
       },
@@ -103,7 +102,6 @@ void main() {
 
   test('otherIsSubset', () {
     final recordings1 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefintion1Static],
         definition2: [callDefinition2Static],
@@ -111,7 +109,6 @@ void main() {
       instances: const {},
     );
     final recordings2 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefintion1Static],
       },
@@ -134,14 +131,12 @@ void main() {
 
   test('allowDeadCodeElimination', () {
     final recordings1 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefintion1Static],
       },
       instances: const {},
     );
     final recordings2 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefintion1Static],
         definition2: [callDefinition2Static],
@@ -174,14 +169,12 @@ void main() {
 
   test('allowTearoffToStaticPromotion', () {
     final recordings1 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefintion1Static],
       },
       instances: const {},
     );
     final recordings2 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [callDefinition1Tearoff],
       },
@@ -213,7 +206,6 @@ void main() {
 
   test('allowUriMismatch', () {
     final recordings1 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [
           callDefintion1Static,
@@ -222,7 +214,6 @@ void main() {
       instances: const {},
     );
     final recordings2 = Recordings(
-      metadata: metadata,
       calls: {
         definition1differentLibrary2: [
           callDefintion1StaticDifferentUri,
@@ -245,26 +236,24 @@ void main() {
 
   test('CallWithArguments positional arguments different length', () {
     final recordings1 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [
           const CallWithArguments(
             positionalArguments: [IntConstant(1)],
             namedArguments: {},
-            loadingUnits: [],
+            loadingUnit: LoadingUnit(''),
           ),
         ],
       },
       instances: const {},
     );
     final recordings2 = Recordings(
-      metadata: metadata,
       calls: {
         definition1: [
           const CallWithArguments(
             positionalArguments: [IntConstant(1), IntConstant(2)],
             namedArguments: {},
-            loadingUnits: [],
+            loadingUnit: LoadingUnit(''),
           ),
         ],
       },
@@ -273,6 +262,91 @@ void main() {
     expect(
       recordings1.semanticEquals(recordings2),
       isFalse,
+    );
+  });
+
+  test('InstanceConstantReference semantic equality with EnumConstant', () {
+    final recordings1 = Recordings(
+      calls: const {},
+      instances: {
+        classDefinition1: [
+          const InstanceConstantReference(
+            instanceConstant: EnumConstant(
+              definition: classDefinition1,
+              index: 0,
+              name: 'a',
+              fields: {'f': IntConstant(1)},
+            ),
+            loadingUnit: LoadingUnit(''),
+          ),
+        ],
+      },
+    );
+    final recordings2 = Recordings(
+      calls: const {},
+      instances: {
+        classDefinition1: [
+          const InstanceConstantReference(
+            instanceConstant: EnumConstant(
+              definition: classDefinition1,
+              index: 0,
+              name: 'a',
+              fields: {'f': IntConstant(1)},
+            ),
+            loadingUnit: LoadingUnit(''),
+          ),
+        ],
+      },
+    );
+    final recordings3 = Recordings(
+      calls: const {},
+      instances: {
+        classDefinition1: [
+          const InstanceConstantReference(
+            instanceConstant: EnumConstant(
+              definition: classDefinition1,
+              index: 1,
+              name: 'b',
+              fields: {'f': IntConstant(1)},
+            ),
+            loadingUnit: LoadingUnit(''),
+          ),
+        ],
+      },
+    );
+
+    expect(recordings1.semanticEquals(recordings2), isTrue);
+    expect(recordings1.semanticEquals(recordings3), isFalse);
+  });
+
+  test('SetConstant semantic equality', () {
+    const set1 = SetConstant([IntConstant(1), IntConstant(2)]);
+    const set2 = SetConstant([IntConstant(2), IntConstant(1)]);
+    const set3 = SetConstant([IntConstant(1), IntConstant(3)]);
+    const set4 = SetConstant([IntConstant(1)]);
+
+    expect(set1.semanticEquals(set1), isTrue);
+    expect(set1.semanticEquals(set2), isTrue);
+    expect(set1.semanticEquals(set3), isFalse);
+    expect(set1.semanticEquals(set4), isFalse);
+
+    const unsupported = UnsupportedConstant('MethodTearoff');
+    const setWithUnsupported = SetConstant([IntConstant(1), unsupported]);
+    const setWithInt2 = SetConstant([
+      IntConstant(1),
+      IntConstant(2),
+    ]);
+
+    // unsupported does not match IntConstant(2) by default
+    expect(setWithInt2.semanticEquals(setWithUnsupported), isFalse);
+
+    // unsupported matches any constant when promotion is allowed
+    expect(
+      setWithInt2.semanticEquals(
+        setWithUnsupported,
+        allowPromotionOfUnsupported: true,
+      ),
+      isTrue,
     );
   });
 }

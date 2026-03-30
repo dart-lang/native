@@ -2,15 +2,15 @@
   "$schema": "../../doc/schema/record_use.schema.json",
   "constants": [
     {
+      "type": "non_constant"
+    },
+    {
       "type": "int",
       "value": 1
     },
     {
       "type": "int",
       "value": 2
-    },
-    {
-      "type": "non_constant"
     },
     {
       "type": "string",
@@ -26,6 +26,19 @@
         }
       ],
       "uri": "package:record_use_test/test.dart"
+    },
+    {
+      "path": [
+        {
+          "kind": "class",
+          "name": "MyClass"
+        },
+        {
+          "kind": "constructor",
+          "name": ""
+        }
+      ],
+      "uri": "package:record_use_test/test.dart"
     }
   ],
   "loading_units": [
@@ -33,26 +46,21 @@
       "name": "root"
     }
   ],
-  "metadata": {
-    "comment": "Constructor invocation recording",
-    "version": "1.0.0"
-  },
   "uses": {
     "instances": [
       {
         "definition_index": 0,
         "uses": [
           {
-            "loading_unit_indices": [
-              0
-            ],
+            "definition_index": 1,
+            "loading_unit_index": 0,
             "named": {
-              "other": 2,
+              "other": 0,
               "param": 3
             },
             "positional": [
-              0,
-              1
+              1,
+              2
             ],
             "type": "creation"
           }

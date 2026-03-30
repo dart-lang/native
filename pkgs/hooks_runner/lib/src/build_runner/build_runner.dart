@@ -13,7 +13,7 @@ import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 import 'package:package_config/package_config.dart';
-import 'package:record_use/record_use_internal.dart';
+import 'package:record_use/record_use.dart';
 import 'package:yaml/yaml.dart';
 
 import '../dependencies_hash_file/dependencies_hash_file.dart';
@@ -136,7 +136,7 @@ class NativeAssetsBuildRunner {
     required List<ProtocolExtension> extensions,
     required bool linkingEnabled,
   }) async => _timeAsync('BuildRunner.build', () async {
-    final planResult = await _makePlan(hook: Hook.build, buildResult: null);
+    final planResult = await _makePlan(hook: .build, buildResult: null);
     if (planResult.isFailure) {
       return planResult.asFailure;
     }
@@ -252,10 +252,7 @@ class NativeAssetsBuildRunner {
     Uri? resourceIdentifiers,
     required BuildResult buildResult,
   }) async => _timeAsync('BuildRunner.link', () async {
-    final planResult = await _makePlan(
-      hook: Hook.link,
-      buildResult: buildResult,
-    );
+    final planResult = await _makePlan(hook: .link, buildResult: buildResult);
     if (planResult.isFailure) return planResult.asFailure;
     final (buildPlan, packageGraph) = planResult.success;
     if (buildPlan.isEmpty) {
@@ -523,7 +520,10 @@ class NativeAssetsBuildRunner {
                   ' in ${buildDirUri.toFilePath()}.'
                   ' Last build on ${output.timestamp}.',
                 );
-                return Success((output, hookHashes.fileSystemEntities));
+                return Success((
+                  output,
+                  [...hookHashes.fileSystemEntities, ?resources],
+                ));
               }
             }
           }
@@ -552,14 +552,17 @@ class NativeAssetsBuildRunner {
         } else {
           final success = result.success;
           final modifiedDuringBuild = await dependenciesHashes.hashDependencies(
-            [...success.dependencies],
+            [...success.dependencies, ?resources],
             lastModifiedCutoffTime,
             hookEnvironment,
           );
           if (modifiedDuringBuild != null) {
             logger.severe('File modified during build. Build must be rerun.');
           }
-          return Success((success, hookHashes.fileSystemEntities));
+          return Success((
+            success,
+            [...hookHashes.fileSystemEntities, ?resources],
+          ));
         }
       },
     ),
@@ -924,7 +927,7 @@ ${compileResult.stdout}
     if (input is BuildInput) {
       final planner = await _planner;
       final packagesWithLink = (await planner.packagesWithHook(
-        Hook.link,
+        .link,
       )).map((p) => p.name);
       for (final targetPackage
           in (output as BuildOutput).assets.encodedAssetsForLinking.keys) {
@@ -960,14 +963,14 @@ ${compileResult.stdout}
   _makePlan({required Hook hook, BuildResult? buildResult}) async =>
       _timeAsync('_makePlan', () async {
         switch (hook) {
-          case Hook.build:
+          case .build:
             final planner = await _planner;
             final planResult = await planner.makeBuildHookPlan();
             if (planResult.isFailure) {
               return planResult.asFailure;
             }
             return Success((planResult.success, planner.packageGraph));
-          case Hook.link:
+          case .link:
             final planner = await _planner;
             final planResult = await planner.makeLinkHookPlan();
             if (planResult.isFailure) {
@@ -998,10 +1001,10 @@ ${e.message}''');
       return const Failure(HooksRunnerFailure.hookRun);
     }
     switch (hook) {
-      case Hook.build:
+      case .build:
         final buildInput = BuildInput(hookInputJson);
         return Success(buildInput);
-      case Hook.link:
+      case .link:
         final linkInput = LinkInput(hookInputJson);
         return Success(linkInput);
     }
@@ -1038,7 +1041,7 @@ ${e.message}''');
       return const Failure(HooksRunnerFailure.hookRun);
     }
     switch (hook) {
-      case Hook.build:
+      case .build:
         final output = BuildOutputMaybeFailure(hookOutputJson);
         switch (output) {
           case BuildOutput _:
@@ -1048,7 +1051,7 @@ ${e.message}''');
           case BuildOutputFailure _:
             return const Failure(HooksRunnerFailure.hookRun);
         }
-      case Hook.link:
+      case .link:
         final output = LinkOutputMaybeFailure(hookOutputJson);
         switch (output) {
           case LinkOutput _:

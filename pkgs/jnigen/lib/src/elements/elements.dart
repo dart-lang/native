@@ -132,12 +132,6 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
 
   String get packageName => (binaryName.split('.')..removeLast()).join('.');
 
-  /// The number of super classes this type has.
-  ///
-  /// Populated by [Linker].
-  @JsonKey(includeFromJson: false)
-  late int superCount;
-
   /// Final name of this class.
   ///
   /// Populated by [Renamer].
@@ -148,9 +142,6 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
   /// Name of the type class.
   @JsonKey(includeFromJson: false)
   String get typeClassName => '\$$finalName\$Type\$';
-
-  /// Name of the nullable type class.
-  String get nullableTypeClassName => '\$$finalName\$NullableType\$';
 
   /// Type parameters including the ones from its outer classes.
   ///
@@ -217,7 +208,7 @@ class ClassDecl with ClassMember, Annotated implements Element<ClassDecl> {
       .split('.')
       .last;
 
-  bool get isObject => superCount == 0;
+  bool get isObject => binaryName == DeclaredType.object.binaryName;
 
   @JsonKey(includeFromJson: false)
   bool get isNested => outerClassBinaryName != null;
@@ -676,6 +667,12 @@ mixin ClassMember {
   bool get isBridge => modifiers.contains('bridge');
 }
 
+enum MethodKind {
+  normal,
+  getter,
+  setter,
+}
+
 @JsonSerializable(createToJson: false)
 class Method with ClassMember, Annotated implements Element<Method> {
   Method({
@@ -687,6 +684,7 @@ class Method with ClassMember, Annotated implements Element<Method> {
     this.descriptor,
     this.typeParams = const [],
     this.params = const [],
+    this.asyncReturnType,
     required this.returnType,
   });
 
@@ -700,6 +698,12 @@ class Method with ClassMember, Annotated implements Element<Method> {
   List<TypeParam> typeParams;
   List<Param> params;
   ReferredType returnType;
+
+  /// Whether this method is a getter, setter, or normal method.
+  ///
+  /// Populated by [Renamer].
+  @JsonKey(includeFromJson: false)
+  MethodKind methodKind = MethodKind.normal;
 
   /// Populated by user-defined visitors.
   @JsonKey(includeFromJson: false)
@@ -764,6 +768,7 @@ class Method with ClassMember, Annotated implements Element<Method> {
       case GenerationStage.dartGenerator:
       case GenerationStage.renamer:
         cloned.finalName = finalName;
+        cloned.methodKind = methodKind;
         continue linker;
       linker:
       case GenerationStage.linker:

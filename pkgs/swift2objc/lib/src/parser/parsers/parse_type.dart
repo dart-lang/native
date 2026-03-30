@@ -119,7 +119,8 @@ typedef PrefixParselet =
     );
   }
 
-  final type = parseDeclaration(context, symbol, symbolgraph).asDeclaredType;
+  parseDeclaration(context, symbol, symbolgraph);
+  final type = symbol.primaryDeclaration.asDeclaredType;
   return (type, fragments);
 }
 
@@ -129,11 +130,50 @@ typedef PrefixParselet =
   Json token,
   TokenList fragments,
 ) {
-  final nextToken = fragments[0];
-  if (_tokenId(nextToken) != 'text: )') {
-    throw Exception('Tuples not supported yet, at ${token.path}');
+  var currentFragments = fragments;
+  final elements = <TupleElement>[];
+
+  while (currentFragments.isNotEmpty &&
+      _tokenId(currentFragments[0]) != 'text: )') {
+    String? label;
+
+    if (currentFragments.length > 1 &&
+        _tokenId(currentFragments[1]) == 'text: :') {
+      label = currentFragments[0]['spelling'].get<String>();
+      currentFragments = currentFragments.slice(2);
+    }
+
+    final (elementType, nextFragments) = parseType(
+      context,
+      symbolgraph,
+      currentFragments,
+    );
+
+    elements.add(TupleElement(label: label, type: elementType));
+    currentFragments = nextFragments;
+
+    if (currentFragments.isNotEmpty &&
+        _tokenId(currentFragments[0]) == 'text: ,') {
+      currentFragments = currentFragments.slice(1);
+    }
   }
-  return (voidType, fragments.slice(1));
+
+  if (currentFragments.isNotEmpty &&
+      _tokenId(currentFragments[0]) == 'text: )') {
+    currentFragments = currentFragments.slice(1);
+  } else {
+    throw Exception('Expected closing parenthesis for tuple at ${token.path}');
+  }
+
+  if (elements.isEmpty) {
+    return (voidType, currentFragments);
+  }
+
+  if (elements.length == 1) {
+    return (elements[0].type, currentFragments);
+  }
+
+  return (TupleType(elements), currentFragments);
 }
 
 (ReferredType, TokenList) _inoutParselet(
@@ -145,9 +185,8 @@ typedef PrefixParselet =
   if (_tokenId(fragments[0]) == 'text: ') {
     fragments = fragments.slice(1);
   }
-  // TODO(https://github.com/dart-lang/native/issues/1754): Mark the returned
-  // type as inout (maybe wrap it in a new InOutType AST node?).
-  return parseType(context, symbolgraph, fragments);
+  final (type, suffix) = parseType(context, symbolgraph, fragments);
+  return (InoutType(type), suffix);
 }
 
 Map<String, PrefixParselet> _prefixParsets = {
@@ -190,7 +229,54 @@ typedef SuffixParselet =
   return parseType(context, symbolgraph, fragments);
 }
 
+(ReferredType, TokenList) _genericParamParselet(
+  Context context,
+  ParsedSymbolgraph symbolgraph,
+  ReferredType prefixType,
+  Json token,
+  TokenList fragments,
+) {
+  if (prefixType is! DeclaredType) {
+    throw Exception(
+      'Only DeclaredTypes are parsed before parsing generic parameters, '
+      'but got a ${prefixType.runtimeType} at ${token.path}',
+    );
+  }
+
+  final parsedTypes = <ReferredType>[];
+  final malformedException = Exception(
+    'Malformed generic parameter list at ${token.path}: '
+    'Expected closing >, or a comma , followed by another generic parameter',
+  );
+
+  while (fragments.isNotEmpty) {
+    final (type, nextFragments) = parseType(context, symbolgraph, fragments);
+    parsedTypes.add(type);
+    fragments = nextFragments;
+
+    if (fragments.isEmpty) {
+      throw malformedException;
+    }
+
+    // After parsing a generic parameter, we either expect a comma and another
+    // generic parameter, or a '>' to end the list.
+    final nextTokenId = _tokenId(fragments[0]);
+    if (nextTokenId != 'text: ,' && nextTokenId != 'text: >') {
+      throw malformedException;
+    }
+
+    fragments = fragments.slice(1);
+    if (nextTokenId == 'text: >') {
+      break;
+    }
+  }
+
+  prefixType.typeParams.addAll(parsedTypes);
+  return (prefixType, fragments);
+}
+
 Map<String, SuffixParselet> _suffixParsets = {
   'text: ?': _optionalParselet,
   'text: .': _nestedTypeParselet,
+  'text: <': _genericParamParselet,
 };

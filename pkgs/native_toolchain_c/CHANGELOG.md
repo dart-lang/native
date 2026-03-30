@@ -1,4 +1,11 @@
-## 0.17.5-wip
+## 0.17.6
+
+- On Android, use the NDK's `libc++.a` linker script when `cppLinkStdLib` is
+  `'c++_static'`. This ensures both `libc++_static` and `libc++abi` are linked,
+  fixing `dlopen` failures on newer Android versions caused by missing C++ ABI
+  symbols. ([#3240](https://github.com/dart-lang/native/issues/3240))
+
+## 0.17.5
 
 - Search for NDK in `ANDROID_HOME` and `ANDROID_NDK` environment variables.
 - On iOS and macOS, use the `-encryptable` linker flag. This resolves an
