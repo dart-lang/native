@@ -44,6 +44,22 @@ extension FfiGenGenerator on FfiGenerator {
       );
     }
 
+    final recordUseMappingFile = config.output.recordUseMapping;
+    if (recordUseMappingFile != null) {
+      final recordUseMappingGen = File(recordUseMappingFile.toFilePath());
+      if (library.generateRecordUseMappingFile(
+        recordUseMappingGen,
+        format: config.output.format,
+      )) {
+        logger.info(
+          _successPen(
+            'Finished, RecordUse Mapping generated '
+            'in ${recordUseMappingGen.absolute.path}',
+          ),
+        );
+      }
+    }
+
     final symbolFile = config.output.symbolFile;
     if (symbolFile != null) {
       final symbolFileGen = File(symbolFile.output.toFilePath());

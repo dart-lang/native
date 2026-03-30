@@ -131,6 +131,36 @@ class Library {
     return true;
   }
 
+  /// Generates [file] with the `@RecordUse()` mapping code needed for the
+  /// bindings, if any.
+  ///
+  /// Returns whether bindings were generated.
+  bool generateRecordUseMappingFile(File file, {bool format = true}) {
+    final mappingString = writer.generateRecordUseMapping();
+
+    if (mappingString == null) {
+      if (file.existsSync()) file.deleteSync();
+      return false;
+    }
+
+    if (!file.existsSync()) file.createSync(recursive: true);
+    file.writeAsStringSync(mappingString);
+
+    if (format) {
+      final result = Process.runSync(dartExecutable, [
+        'format',
+        file.absolute.path,
+      ], workingDirectory: file.parent.absolute.path);
+      if (result.exitCode != 0) {
+        context.logger.severe(
+          'Formatting failed\n${result.stdout}\n${result.stderr}',
+        );
+      }
+    }
+
+    return true;
+  }
+
   /// Generates [file] with symbol output yaml.
   void generateSymbolOutputFile(File file, String importPath) {
     if (!file.existsSync()) file.createSync(recursive: true);

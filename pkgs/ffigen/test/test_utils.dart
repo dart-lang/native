@@ -150,6 +150,29 @@ void matchLibrarySymbolFileWithExpected(
   );
 }
 
+/// Generates actual record-use mapping file using library and tests using
+/// [expect] with expected.
+///
+/// This will not delete the actual debug file incase [expect] throws an error.
+void matchRecordUseMappingWithExpected(
+  Context context,
+  Library library,
+  String pathForActual,
+  List<String> pathToExpected, {
+  String Function(String)? codeNormalizer,
+  bool format = true,
+}) {
+  _matchFileWithExpected(
+    context: context,
+    library: library,
+    pathForActual: pathForActual,
+    pathToExpected: pathToExpected,
+    fileWriter: ({required Library library, required File file}) =>
+        library.generateRecordUseMappingFile(file, format: format),
+    codeNormalizer: codeNormalizer,
+  );
+}
+
 const bool updateExpectations = false;
 
 /// Transforms a repo relative path to an absolute path.
