@@ -31,14 +31,7 @@ dependencies:
     sdk: flutter
 
   ffi: ^2.0.0
-
-  jni:
-    # When depending on this package from a real application you should use:
-    #   jni: ^x.y.z
-    # See https://dart.dev/tools/pub/dependencies#version-constraints
-    # The example app is bundled with the plugin so we use a path dependency on
-    # the parent directory to use the current plugin's version.
-    path: ../
+  jni: ^1.0.0
 
   jni_flutter:
     path: ../../jni_flutter
@@ -46,6 +39,10 @@ dependencies:
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.2
+
+dependency_overrides:
+  jni:
+    path: ..
 
 dev_dependencies:
   test: any
