@@ -183,7 +183,8 @@ import 'package:jni/jni.dart' as $_jni;
 ''';
 
   static const versionCheck = '''
-const _versionCheck = $_jni.JniVersionCheck($jniMajorVersion, $jniMinorVersion);
+const _\$jniVersionCheck =
+    $_jni.JniVersionCheck($jniMajorVersion, $jniMinorVersion);
 ''';
 
   /// Run dart format command on [path].
