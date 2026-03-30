@@ -1,4 +1,4 @@
-## 0.16.0-wip
+## 1.0.0
 
 - **Breaking Change**: The Flutter specific APIs `Jni.androidApplicationContext`
   and `Jni.androidActivity(int engineId)` have been moved to a new
@@ -36,6 +36,8 @@
   now `JBoolean.toDartBool`.
 - Fixed [bugs](https://github.com/dart-lang/native/issues/3244) that were
   causing crashes in interfaces after app close and reopen.
+- Add compile time version checks to verify consistency of package:jni's
+  versions vs JNIgen's generated code.
 
 ## 0.15.2
 

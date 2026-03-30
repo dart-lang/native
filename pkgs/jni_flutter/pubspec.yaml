@@ -13,7 +13,7 @@ dependencies:
   flutter:
     sdk: flutter
   jni:
-    path: ../jni
+    path: ^1.0.0
 
 dev_dependencies:
   dart_flutter_team_lints: ^3.5.2
@@ -23,6 +23,10 @@ dev_dependencies:
     sdk: flutter
   jnigen:
     path: ../jnigen
+
+dependency_overrides:
+  jni:
+    path: ../jni
 
 flutter:
   plugin:

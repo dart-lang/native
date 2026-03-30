@@ -41,6 +41,8 @@ import 'dart:core' show Object, String;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
+const _versionCheck = jni$_.JniVersionCheck(1, 0);
+
 /// from: `java.lang.Boolean`
 extension type JBoolean._(jni$_.JObject _$this) implements jni$_.JObject {
   static final _class = jni$_.JClass.forName(r'java/lang/Boolean');

@@ -40,6 +40,8 @@ import 'dart:core' show Object, String;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
+const _versionCheck = jni$_.JniVersionCheck(1, 0);
+
 /// from: `com.github.dart_lang.jnigen.simple_package.Example$Nested$NestedTwice`
 extension type Example$Nested$NestedTwice._(jni$_.JObject _$this)
     implements jni$_.JObject {

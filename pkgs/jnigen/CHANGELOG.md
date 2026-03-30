@@ -20,6 +20,8 @@
   methods.
 - **Breaking Change**: Class methods like getFoo, isFoo, and setFoo are now
   getters and setters in Dart.
+- Add compile time version checks to verify consistency of package:jni's
+  versions vs JNIgen's generated code.
 
 ## 0.15.0
 
