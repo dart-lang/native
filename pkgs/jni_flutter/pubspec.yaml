@@ -12,8 +12,7 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  jni:
-    path: ^1.0.0
+  jni: ^1.0.0
 
 dev_dependencies:
   dart_flutter_team_lints: ^3.5.2
