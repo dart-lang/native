@@ -18,6 +18,8 @@
 - Generated extension types now implement their Java interfaces.
 - Instance members of generated extension types have been moved to extension
   methods.
+- **Breaking Change**: Class methods like getFoo, isFoo, and setFoo are now
+  getters and setters in Dart.
 
 ## 0.15.0
 

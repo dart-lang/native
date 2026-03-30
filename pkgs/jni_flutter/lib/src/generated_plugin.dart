@@ -36,18 +36,19 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' as core$_;
-import 'dart:core' show Object, String, double, int;
+import 'dart:core' show Object, String;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
-/// from: `com.github.dart_lang.jni.JniPlugin`
-extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
-  static final _class =
-      jni$_.JClass.forName(r'com/github/dart_lang/jni/JniPlugin');
+/// from: `com.github.dart_lang.jni_flutter.JniFlutterPlugin`
+extension type JniFlutterPlugin._(jni$_.JObject _$this)
+    implements jni$_.JObject {
+  static final _class = jni$_.JClass.forName(
+      r'com/github/dart_lang/jni_flutter/JniFlutterPlugin');
 
   /// The type which includes information such as the signature of this class.
-  static const jni$_.JType<JniPlugin> type = $JniPlugin$Type$();
+  static const jni$_.JType<JniFlutterPlugin> type = $JniFlutterPlugin$Type$();
   static final _id_new$ = _class.constructorId(
     r'()V',
   );
@@ -66,17 +67,17 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `public void <init>()`
   /// The returned object must be released after use, by calling the [release] method.
-  factory JniPlugin() {
+  factory JniFlutterPlugin() {
     return _new$(_class.reference.pointer, _id_new$.pointer)
-        .object<JniPlugin>();
+        .object<JniFlutterPlugin>();
   }
 
-  static final _id_getApplicationContext = _class.staticMethodId(
+  static final _id_get$applicationContext = _class.staticMethodId(
     r'getApplicationContext',
     r'()Landroid/content/Context;',
   );
 
-  static final _getApplicationContext = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$applicationContext = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -90,9 +91,9 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
 
   /// from: `static public android.content.Context getApplicationContext()`
   /// The returned object must be released after use, by calling the [release] method.
-  static jni$_.JObject getApplicationContext() {
-    return _getApplicationContext(
-            _class.reference.pointer, _id_getApplicationContext.pointer)
+  static jni$_.JObject get applicationContext {
+    return _get$applicationContext(
+            _class.reference.pointer, _id_get$applicationContext.pointer)
         .object<jni$_.JObject>();
   }
 
@@ -108,20 +109,21 @@ extension type JniPlugin._(jni$_.JObject _$this) implements jni$_.JObject {
           'globalEnv_CallStaticObjectMethod')
       .asFunction<
           jni$_.JniResult Function(
-              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, int)>();
+              jni$_.Pointer<jni$_.Void>, jni$_.JMethodIDPtr, core$_.int)>();
 
   /// from: `static public android.app.Activity getActivity(long j)`
   /// The returned object must be released after use, by calling the [release] method.
   static jni$_.JObject? getActivity(
-    int j,
+    core$_.int j,
   ) {
     return _getActivity(_class.reference.pointer, _id_getActivity.pointer, j)
         .object<jni$_.JObject?>();
   }
 }
 
-extension JniPlugin$$Methods on JniPlugin {
-  static final _id_onAttachedToEngine = JniPlugin._class.instanceMethodId(
+extension JniFlutterPlugin$$Methods on JniFlutterPlugin {
+  static final _id_onAttachedToEngine =
+      JniFlutterPlugin._class.instanceMethodId(
     r'onAttachedToEngine',
     r'(Lio/flutter/embedding/engine/plugins/FlutterPlugin$FlutterPluginBinding;)V',
   );
@@ -147,7 +149,8 @@ extension JniPlugin$$Methods on JniPlugin {
         .check();
   }
 
-  static final _id_onDetachedFromEngine = JniPlugin._class.instanceMethodId(
+  static final _id_onDetachedFromEngine =
+      JniFlutterPlugin._class.instanceMethodId(
     r'onDetachedFromEngine',
     r'(Lio/flutter/embedding/engine/plugins/FlutterPlugin$FlutterPluginBinding;)V',
   );
@@ -173,7 +176,8 @@ extension JniPlugin$$Methods on JniPlugin {
         .check();
   }
 
-  static final _id_onAttachedToActivity = JniPlugin._class.instanceMethodId(
+  static final _id_onAttachedToActivity =
+      JniFlutterPlugin._class.instanceMethodId(
     r'onAttachedToActivity',
     r'(Lio/flutter/embedding/engine/plugins/activity/ActivityPluginBinding;)V',
   );
@@ -200,7 +204,7 @@ extension JniPlugin$$Methods on JniPlugin {
   }
 
   static final _id_onDetachedFromActivityForConfigChanges =
-      JniPlugin._class.instanceMethodId(
+      JniFlutterPlugin._class.instanceMethodId(
     r'onDetachedFromActivityForConfigChanges',
     r'()V',
   );
@@ -226,7 +230,7 @@ extension JniPlugin$$Methods on JniPlugin {
   }
 
   static final _id_onReattachedToActivityForConfigChanges =
-      JniPlugin._class.instanceMethodId(
+      JniFlutterPlugin._class.instanceMethodId(
     r'onReattachedToActivityForConfigChanges',
     r'(Lio/flutter/embedding/engine/plugins/activity/ActivityPluginBinding;)V',
   );
@@ -255,7 +259,8 @@ extension JniPlugin$$Methods on JniPlugin {
         .check();
   }
 
-  static final _id_onDetachedFromActivity = JniPlugin._class.instanceMethodId(
+  static final _id_onDetachedFromActivity =
+      JniFlutterPlugin._class.instanceMethodId(
     r'onDetachedFromActivity',
     r'()V',
   );
@@ -280,11 +285,12 @@ extension JniPlugin$$Methods on JniPlugin {
   }
 }
 
-final class $JniPlugin$Type$ extends jni$_.JType<JniPlugin> {
+final class $JniFlutterPlugin$Type$ extends jni$_.JType<JniFlutterPlugin> {
   @jni$_.internal
-  const $JniPlugin$Type$();
+  const $JniFlutterPlugin$Type$();
 
   @jni$_.internal
   @core$_.override
-  String get signature => r'Lcom/github/dart_lang/jni/JniPlugin;';
+  String get signature =>
+      r'Lcom/github/dart_lang/jni_flutter/JniFlutterPlugin;';
 }

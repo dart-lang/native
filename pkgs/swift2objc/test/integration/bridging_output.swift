@@ -31,6 +31,10 @@ import Foundation
     return funcIndexPath()
   }
 
+  @objc static public func funcDictionaryWrapper() -> Dictionary<String, String>? {
+    return funcDictionary()
+  }
+
   @objc static public func funcURLRequestWrapper() -> URLRequest? {
     return funcURLRequest()
   }
@@ -63,6 +67,10 @@ import Foundation
     return funcAffineTransform()
   }
 
+  @objc static public func funcSetWrapper() -> Set<String>? {
+    return funcSet()
+  }
+
   @objc static public func funcURLWrapper() -> URL? {
     return funcURL()
   }
@@ -77,6 +85,10 @@ import Foundation
 
   @objc static public func funcUUIDWrapper() -> UUID? {
     return funcUUID()
+  }
+
+  @objc static public func funcArrayWrapper() -> Array<String>? {
+    return funcArray()
   }
 
 }

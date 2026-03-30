@@ -52,7 +52,7 @@ void main() {
     test('InstanceConstantReference with EnumConstant', () {
       const ref = InstanceConstantReference(
         instanceConstant: EnumConstant(
-          definition: Definition('package:a/a.dart', [Name('MyEnum')]),
+          definition: Enum('MyEnum', Library('package:a/a.dart')),
           index: 0,
           name: 'val1',
         ),
@@ -60,7 +60,7 @@ void main() {
       );
       expect(
         ref.toString(),
-        'InstanceConstantReference(instanceConstant: EnumConstant(package:a/a.dart#MyEnum, index: 0, name: val1, fields: {}), loadingUnit: dart.foo)',
+        'InstanceConstantReference(instanceConstant: EnumConstant(package:a/a.dart#enum:MyEnum, index: 0, name: val1, fields: {}), loadingUnit: dart.foo)',
       );
     });
   });

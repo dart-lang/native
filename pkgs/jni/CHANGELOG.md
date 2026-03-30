@@ -1,5 +1,9 @@
 ## 0.16.0-wip
 
+- **Breaking Change**: The Flutter specific APIs `Jni.androidApplicationContext`
+  and `Jni.androidActivity(int engineId)` have been moved to a new
+  package:jni_flutter. If you are using package:jni on Android you may need to
+  add this new package as a dependency.
 - **Breaking Change**: All Java wrapper classes have been migrated to extension
   types. The main effects are:
   - All collections (`JList`, `JMap` etc) are now direct code generated wrappers
@@ -24,6 +28,14 @@
   instead of just holding a string message. It's a `JObject`, so the usual
   `.isA` and `.as` methods work to cast the `JThrowable` to the underlying Java
   exception.
+- **Breaking Change**: Class methods like getFoo, isFoo, and setFoo are now
+  getters and setters in Dart.
+- **Breaking Change**: APIs of `JBoolean`, `JByte`, `JCharacter`, `JDouble`,
+  `JFloat`, `JInteger`, `JLong`, `JNumber`, `JShort`, and `JString` have changed
+  to be more consistent with other APIs. For example, `JBoolean.booleanValue` is
+  now `JBoolean.toDartBool`.
+- Fixed [bugs](https://github.com/dart-lang/native/issues/3244) that were
+  causing crashes in interfaces after app close and reopen.
 
 ## 0.15.2
 

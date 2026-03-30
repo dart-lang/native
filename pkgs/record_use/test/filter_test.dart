@@ -10,13 +10,13 @@ void main() {
     const myPackage = 'my_package';
     const otherPackage = 'other_package';
 
-    const myDefinition = Definition(
-      'package:$myPackage/my_lib.dart',
-      [Name('myFunc')],
+    const myDefinition = Method(
+      'myFunc',
+      Library('package:$myPackage/my_lib.dart'),
     );
-    const otherDefinition = Definition(
-      'package:$otherPackage/other_lib.dart',
-      [Name('OtherClass')],
+    const otherDefinition = Class(
+      'OtherClass',
+      Library('package:$otherPackage/other_lib.dart'),
     );
 
     const otherInstance = InstanceConstant(
@@ -52,13 +52,13 @@ void main() {
     const myPackage = 'my_package';
     const otherPackage = 'other_package';
 
-    const myDefinition = Definition(
-      'package:$myPackage/my_lib.dart',
-      [Name('myFunc')],
+    const myDefinition = Method(
+      'myFunc',
+      Library('package:$myPackage/my_lib.dart'),
     );
-    const otherDefinition = Definition(
-      'package:$otherPackage/other_lib.dart',
-      [Name('OtherClass')],
+    const otherDefinition = Class(
+      'OtherClass',
+      Library('package:$otherPackage/other_lib.dart'),
     );
 
     const otherInstance = InstanceConstant(
@@ -72,7 +72,9 @@ void main() {
           const CallWithArguments(
             positionalArguments: [
               ListConstant([otherInstance]),
-              MapConstant([MapEntry(StringConstant('key'), otherInstance)]),
+              MapConstant([
+                MapEntry(StringConstant('key'), otherInstance),
+              ]),
             ],
             namedArguments: {},
             loadingUnit: LoadingUnit(''),
@@ -98,13 +100,13 @@ void main() {
     const myPackage = 'my_package';
     const otherPackage = 'other_package';
 
-    const myDefinition = Definition(
-      'package:$myPackage/my_lib.dart',
-      [Name('myFunc')],
+    const myDefinition = Method(
+      'myFunc',
+      Library('package:$myPackage/my_lib.dart'),
     );
-    const otherEnumDefinition = Definition(
-      'package:$otherPackage/other_lib.dart',
-      [Name('OtherEnum')],
+    const otherEnumDefinition = Enum(
+      'OtherEnum',
+      Library('package:$otherPackage/other_lib.dart'),
     );
 
     const otherEnum = EnumConstant(

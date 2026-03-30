@@ -7,6 +7,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:jni/jni.dart';
+import 'package:jni_flutter/jni_flutter.dart';
 
 double randomDouble() {
   final math = JClass.forName("java/lang/Math");
@@ -31,7 +32,7 @@ String backAndForth() {
 }
 
 void quit() {
-  final activity = Jni.androidActivity(PlatformDispatcher.instance.engineId!);
+  final activity = androidActivity(PlatformDispatcher.instance.engineId!);
   if (activity == null) return;
   activity.jClass
       .instanceMethodId("finish", "()V")
@@ -40,7 +41,7 @@ void quit() {
 }
 
 void showToast(String text) {
-  final activity = Jni.androidActivity(PlatformDispatcher.instance.engineId!);
+  final activity = androidActivity(PlatformDispatcher.instance.engineId!);
   if (activity == null) return;
   final toasterClass =
       JClass.forName('com/github/dart_lang/jni_example/Toaster');
@@ -49,7 +50,7 @@ void showToast(String text) {
       '(Landroid/app/Activity;Landroid/content/Context;'
           'Ljava/lang/CharSequence;I)'
           'Lcom/github/dart_lang/jni_example/Toaster;');
-  final applicationContext = Jni.androidApplicationContext;
+  final applicationContext = androidApplicationContext;
   final toaster = makeText(toasterClass, JObject.type, [
     activity,
     applicationContext,
@@ -86,7 +87,7 @@ void main() {
         "Package name",
         () {
           final activity =
-              Jni.androidActivity(PlatformDispatcher.instance.engineId!);
+              androidActivity(PlatformDispatcher.instance.engineId!);
           if (activity == null) return "Activity not available";
           final packageName = activity.jClass
               .instanceMethodId("getPackageName", "()Ljava/lang/String;")

@@ -46,7 +46,7 @@ import 'dart:ffi' as ffi;
 ///
 /// However, functions prefixed JNI_ are not usable because they are in a different shared library.
 ///
-/// Regenerate bindings with `flutter pub run ffigen --config ffigen.yaml`.
+/// Regenerate bindings with `dart run ffigen --config ffigen.yaml`.
 ///
 class JniBindings {
   /// Holds the symbol lookup function.
@@ -114,6 +114,14 @@ class JniBindings {
       _lookup<ffi.NativeFunction<JObjectPtr Function()>>('GetCurrentActivity');
   late final _GetCurrentActivity =
       _GetCurrentActivityPtr.asFunction<JObjectPtr Function()>();
+
+  int GetMainPortId() {
+    return _GetMainPortId();
+  }
+
+  late final _GetMainPortIdPtr =
+      _lookup<ffi.NativeFunction<ffi.Int64 Function()>>('GetMainPortId');
+  late final _GetMainPortId = _GetMainPortIdPtr.asFunction<int Function()>();
 
   int GetCurrentIsolateId() {
     return _GetCurrentIsolateId();

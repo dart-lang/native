@@ -6,7 +6,6 @@ import 'dart:convert';
 import 'dart:io';
 
 import 'package:data_assets/data_assets.dart';
-import 'package:pub_semver/pub_semver.dart';
 import 'package:record_use/record_use.dart';
 import 'package:test/test.dart';
 
@@ -25,7 +24,6 @@ void main() async {
 
       final resourcesUri = tempUri.resolve('treeshaking_info.json');
       final recordings = Recordings(
-        metadata: Metadata(version: Version(1, 0, 0), comment: 'Empty'),
         calls: {},
         instances: {},
       );
@@ -165,8 +163,19 @@ void main() async {
 
       // Change resources: should re-run hooks.
       final newRecordings = Recordings(
-        metadata: Metadata(version: Version(1, 0, 0), comment: 'Changed'),
-        calls: _pirateAdventureRecordings.calls,
+        calls: {
+          ..._pirateAdventureRecordings.calls,
+          const Method(
+            'dummy',
+            Library('package:dummy/dummy.dart'),
+          ): [
+            const CallWithArguments(
+              loadingUnit: loadingUnitRoot,
+              positionalArguments: [],
+              namedArguments: {},
+            ),
+          ],
+        },
         instances: {},
       );
       await File.fromUri(
@@ -192,15 +201,11 @@ void main() async {
 /// Expected result of the compiler when running from pirate_adventure
 /// bin/pirate_adventure.dart.
 final _pirateAdventureRecordings = Recordings(
-  metadata: Metadata(version: Version(1, 0, 0), comment: 'Filtering test'),
   calls: {
-    Definition('package:pirate_speak/src/definitions.dart', [
-      Name(
-        kind: .methodKind,
-        'pirateSpeak',
-        disambiguators: {.staticDisambiguator},
-      ),
-    ]): [
+    const Method(
+      'pirateSpeak',
+      Library('package:pirate_speak/src/definitions.dart'),
+    ): [
       const CallWithArguments(
         loadingUnit: loadingUnitRoot,
         positionalArguments: [StringConstant('Hello')],
@@ -212,13 +217,10 @@ final _pirateAdventureRecordings = Recordings(
         namedArguments: {},
       ),
     ],
-    Definition('package:pirate_technology/src/definitions.dart', [
-      Name(
-        kind: .methodKind,
-        'useCannon',
-        disambiguators: {.staticDisambiguator},
-      ),
-    ]): [
+    const Method(
+      'useCannon',
+      Library('package:pirate_technology/src/definitions.dart'),
+    ): [
       const CallWithArguments(
         loadingUnit: loadingUnitRoot,
         positionalArguments: [],

@@ -6,6 +6,7 @@ import 'dart:ffi';
 import 'package:ffi/ffi.dart';
 import 'package:meta/meta.dart' show internal;
 
+import 'core_bindings.dart';
 import 'errors.dart';
 import 'jni.dart';
 import 'jreference.dart';

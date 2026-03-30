@@ -79,6 +79,16 @@ class IntDartType extends SimpleDartType {
   int get hashCode => Object.hash(super.hashCode, 'int');
 }
 
+class DoubleDartType extends SimpleDartType {
+  const DoubleDartType({required super.isNullable}) : super(typeName: 'double');
+
+  @override
+  bool operator ==(Object other) => super == other && other is DoubleDartType;
+
+  @override
+  int get hashCode => Object.hash(super.hashCode, 'double');
+}
+
 class BoolDartType extends SimpleDartType {
   const BoolDartType({required super.isNullable}) : super(typeName: 'bool');
 

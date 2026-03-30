@@ -135,7 +135,7 @@ class DartGenerator extends Visitor<Classes, Future<void>> {
       'DO NOT EDIT!\n';
   static const defaultImports = '''
 import 'dart:core' as $_core;
-import 'dart:core' show Object, String, double, int;
+import 'dart:core' show Object, String;
 
 import 'package:jni/_internal.dart' as $_jni;
 import 'package:jni/jni.dart' as $_jni;
@@ -436,11 +436,11 @@ extension type $name$typeParamsDef._($_jObject _\$this) implements $implementsCl
     if (node.declKind == DeclKind.interfaceKind) {
       s.write('''
   /// Maps a specific port to the implemented interface.
-  static final $_core.Map<int, $implClassName> _\$impls = {};
+  static final $_core.Map<$_core.int, $implClassName> _\$impls = {};
 ''');
       s.write('''
   static $_jni.JObjectPtr _\$invoke(
-    int port,
+    $_core.int port,
     $_jni.JObjectPtr descriptor,
     $_jni.JObjectPtr args,
   ) {
@@ -461,7 +461,7 @@ extension type $name$typeParamsDef._($_jObject _\$this) implements $implementsCl
       _\$invokePointer = $_jni.Pointer.fromFunction(_\$invoke);
 
   static $_jni.Pointer<$_jni.Void> _\$invokeMethod(
-    int \$p,
+    $_core.int \$p,
     $_methodInvocation \$i,
   ) {
     try {
@@ -734,10 +734,7 @@ class _TypeGenerator extends TypeVisitor<String> {
     if (boxPrimitives) {
       return '$_jni.J${node.boxedName}';
     }
-    if (node.name == 'boolean') {
-      return '$_core.${node.dartType}';
-    }
-    return node.dartType;
+    return '$_core.${node.dartType}';
   }
 
   @override
@@ -884,7 +881,7 @@ class _TypeClassGenerator extends TypeVisitor<String> {
 
   @override
   String visitNonPrimitiveType(ReferredType node) {
-    return '$_jObjectTypePrefix$Type\$()';
+    return 'const $_jObjectTypePrefix$Type\$()';
   }
 }
 
@@ -933,8 +930,8 @@ class _TypeSig extends TypeVisitor<String> {
   @override
   String visitPrimitiveType(PrimitiveType node) {
     if (isFfi) return '$_jni.${node.ffiVarArgType}';
-    if (node.name == 'boolean') return 'int';
-    return node.dartType;
+    if (node.name == 'boolean') return '$_core.int';
+    return '$_core.${node.dartType}';
   }
 
   @override
@@ -1050,14 +1047,14 @@ ${modifier}final _id_$name =
     final name = node.finalName;
     final ifStatic = node.isStatic && !isTopLevel ? 'static ' : '';
     final type = node.type.accept(_TypeGenerator(resolver));
-    s.write('$ifStatic$type get $name => ');
+    s.write('  $ifStatic$type get $name => ');
     s.write(getter(node));
     s.writeln(' as $type;\n');
     if (!node.isFinal) {
       // Setter docs.
       writeDocs(node, writeReleaseInstructions: true);
 
-      s.write('${ifStatic}set $name($type value) => ');
+      s.write('  ${ifStatic}set $name($type value) => ');
       s.write(setter(node));
       s.writeln(';\n');
     }
@@ -1107,8 +1104,20 @@ class _MethodGenerator extends Visitor<Method, void> {
 
   String get modifier => isTopLevel ? '' : '  static ';
 
-  void writeAccessor(Method node) {
+  String _idName(Method node) {
     final name = node.finalName;
+    switch (node.methodKind) {
+      case MethodKind.normal:
+        return name;
+      case MethodKind.getter:
+        return 'get\$$name';
+      case MethodKind.setter:
+        return 'set\$$name';
+    }
+  }
+
+  void writeAccessor(Method node) {
+    final idName = _idName(node);
     final kind = node.isConstructor
         ? 'constructor'
         : node.isStatic
@@ -1116,7 +1125,7 @@ class _MethodGenerator extends Visitor<Method, void> {
             : 'instanceMethod';
     final descriptor = node.descriptor;
     s.write('''
-${modifier}final _id_$name = $classRef.${kind}Id(
+${modifier}final _id_$idName = $classRef.${kind}Id(
 ''');
     if (!node.isConstructor) s.writeln("    r'${node.name}',");
     s.write('''
@@ -1128,36 +1137,36 @@ ${modifier}final _id_$name = $classRef.${kind}Id(
     final methodName = node.accept(const _CallMethodName());
     s.write('''
 
-${modifier}final _$name = $_protectedExtension
+${modifier}final _$idName = $_protectedExtension
     .lookup<$_jni.NativeFunction<$ffiSig>>('$methodName')
     .asFunction<$dartSig>();
 ''');
   }
 
   String constructor(Method node) {
-    final name = node.finalName;
+    final idName = _idName(node);
     final params = [
       '$classRef.reference.pointer',
-      '_id_$name.pointer',
+      '_id_$idName.pointer',
       ...node.params.accept(const _ParamCall()),
     ].join(', ');
     final typeParamsCall = node.classDecl.allTypeParams
         .map((typeParam) => '$_typeParamPrefix${typeParam.name}')
         .join(', ')
         .encloseIfNotEmpty('<', '>');
-    return '_$name($params).object'
+    return '_$idName($params).object'
         '<${node.classDecl.finalName}$typeParamsCall>()';
   }
 
   String methodCall(Method node) {
-    final name = node.finalName;
+    final idName = _idName(node);
     final params = [
       node.isStatic ? '$classRef.reference.pointer' : 'reference.pointer',
-      '_id_$name.pointer',
+      '_id_$idName.pointer',
       ...node.params.accept(const _ParamCall()),
     ].join(', ');
     final resultGetter = node.returnType.accept(_JniResultGetter(resolver));
-    return '_$name($params).$resultGetter';
+    return '_$idName($params).$resultGetter';
   }
 
   @override
@@ -1216,7 +1225,15 @@ ${modifier}final _$name = $_protectedExtension
       localReferences.removeLast();
     }
     final params = defArgs.delimited(', ');
-    s.write('  $ifStatic$returnType $name$typeParamsDef($params)');
+    if (node.methodKind == MethodKind.getter) {
+      s.write('  $ifStatic$returnType get $name ');
+    } else if (node.methodKind == MethodKind.setter) {
+      final type = node.params[0].type.accept(_TypeGenerator(resolver));
+      final paramName = node.params[0].finalName;
+      s.write('  $ifStatic set $name($type $paramName) ');
+    } else {
+      s.write('  $ifStatic$returnType $name$typeParamsDef($params)');
+    }
     final callExpr = methodCall(node);
     if (node.isSuspendFun) {
       final asyncReturnType = node.asyncReturnType!;
@@ -1252,13 +1269,19 @@ ${modifier}final _$name = $_protectedExtension
       } else {
         final returningType = asyncReturnType
             .accept(_TypeGenerator(resolver, includeNullability: false));
+        final returningTypeErased = asyncReturnType.accept(_TypeGenerator(
+            resolver,
+            includeNullability: false,
+            typeErasure: true));
         final returningTypeClass =
             asyncReturnType.accept(_TypeClassGenerator(resolver));
+        final extraAs =
+            returningType != returningTypeErased ? ' as $returningType' : '';
         s.write('''
-    return \$o${isNullable ? '?' : ''}.as<$returningType>(
+    return \$o${isNullable ? '?' : ''}.as<$returningTypeErased>(
       $returningTypeClass,
       releaseOriginal: true,
-    );''');
+    )$extraAs;''');
       }
 
       s.write('''
@@ -1657,8 +1680,8 @@ class _InterfaceParamCast extends Visitor<Param, void> {
     s.write('(\$a![$paramIndex] as $type)');
     if (node.type is PrimitiveType) {
       // Convert to Dart type.
-      final name = node.type.name;
-      s.write('.${name}Value(releaseOriginal: true)');
+      final dartType = (node.type as PrimitiveType).dartType.capitalize();
+      s.write('.toDart$dartType(releaseOriginal: true)');
     }
   }
 }
@@ -1693,7 +1716,7 @@ class _InterfaceReturnBox extends TypeVisitor<String> {
     if (node.name == 'void') {
       return '$_jni.nullptr';
     }
-    return '$_jni.J${node.boxedName}(\$r).reference.toPointer()';
+    return '\$r.toJ${node.boxedName}().reference.toPointer()';
   }
 }
 

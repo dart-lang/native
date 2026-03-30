@@ -319,6 +319,8 @@ static inline JniResult to_global_ref_result(jobject ref) {
 
 FFI_PLUGIN_EXPORT intptr_t InitDartApiDL(void* data);
 
+FFI_PLUGIN_EXPORT int64_t GetMainPortId();
+
 FFI_PLUGIN_EXPORT int64_t GetCurrentIsolateId();
 
 FFI_PLUGIN_EXPORT

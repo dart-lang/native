@@ -223,6 +223,7 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
     final methodRenamer = _MethodRenamer(
       config,
       uniquifyName && node.isTopLevel ? topLevelNameCounts : nameCounts[node]!,
+      node.declKind == DeclKind.interfaceKind,
     );
     for (final method in node.methods) {
       method.accept(methodRenamer);
@@ -231,30 +232,126 @@ class _ClassRenamer implements Visitor<ClassDecl, void> {
 }
 
 class _MethodRenamer implements Visitor<Method, void> {
-  _MethodRenamer(this.config, this.nameCounts);
+  _MethodRenamer(this.config, this.nameCounts, this.isInterface);
 
   final Config config;
   final Map<String, int> nameCounts;
+  final Map<String, String> propertyNames = {};
+  final bool isInterface;
+
+  bool _isVoid(ReferredType t) => t is PrimitiveType && t.name == 'void';
+  bool _isBool(ReferredType t) => t is PrimitiveType && t.name == 'boolean';
+
+  final _getterRegExp = RegExp(r'^get[A-Z]');
+  bool _isGetter(Method node) {
+    final name = node.name;
+    return !isInterface &&
+        _getterRegExp.hasMatch(name) &&
+        node.params.isEmpty &&
+        node.typeParams.isEmpty &&
+        node.asyncReturnType == null &&
+        !_isVoid(node.returnType);
+  }
+
+  final _isRegExp = RegExp(r'^is[A-Z]');
+  bool _isIs(Method node) {
+    final name = node.name;
+    return !isInterface &&
+        _isRegExp.hasMatch(name) &&
+        node.params.isEmpty &&
+        node.typeParams.isEmpty &&
+        node.asyncReturnType == null &&
+        _isBool(node.returnType);
+  }
+
+  final _setterRegExp = RegExp(r'^set[A-Z]');
+  bool _isSetter(Method node) {
+    final name = node.name;
+    return !isInterface &&
+        _setterRegExp.hasMatch(name) &&
+        node.params.length == 1 &&
+        node.typeParams.isEmpty &&
+        node.asyncReturnType == null &&
+        _isVoid(node.returnType);
+  }
+
+  String _getterSetterName(String name) {
+    final field = name.substring(3);
+    return '${field[0].toLowerCase()}${field.substring(1)}';
+  }
+
+  ({String rawName, bool skipRenaming, String? propertySig}) _planRenaming(
+      Method node) {
+    if (node.userDefinedName != null) {
+      return (
+        rawName: node.userDefinedName!,
+        skipRenaming: false,
+        propertySig: null,
+      );
+    } else if (node.isConstructor) {
+      return (rawName: 'new', skipRenaming: false, propertySig: null);
+    }
+
+    final ReferredType propertyType;
+    final staticSig = node.isStatic ? 'static' : 'inst';
+    final String rawName;
+    if (_isGetter(node)) {
+      node.methodKind = MethodKind.getter;
+      propertyType = node.returnType;
+      rawName = _getterSetterName(node.name);
+    } else if (_isIs(node)) {
+      node.methodKind = MethodKind.getter;
+      propertyType = node.returnType;
+      rawName = node.name;
+    } else if (_isSetter(node)) {
+      node.methodKind = MethodKind.setter;
+      propertyType = node.params[0].type;
+      rawName = _getterSetterName(node.name);
+    } else {
+      return (rawName: node.name, skipRenaming: false, propertySig: null);
+    }
+
+    final propertySig = '$staticSig $propertyType $rawName';
+    final propertyName = propertyNames[propertySig];
+    if (propertyName != null) {
+      return (
+        rawName: propertyName,
+        skipRenaming: true,
+        propertySig: propertySig,
+      );
+    }
+    return (rawName: rawName, skipRenaming: false, propertySig: propertySig);
+  }
 
   @override
   void visit(Method node) {
-    final name = _preprocess(
-        node.userDefinedName ?? (node.isConstructor ? 'new' : node.name));
-    final sig = node.javaSig;
-    // If node is in super class, assign its number, overriding it.
-    final superClass = (node.classDecl.superclass! as DeclaredType).classDecl;
-    final superNum = superClass.methodNumsAfterRenaming[sig];
-    if (superNum != null) {
-      // Don't rename if superNum == 0
-      // Unless the node name is a keyword.
-      final superNumText = superNum == 0 ? '' : '$superNum';
-      final methodName =
-          superNum == 0 ? _keywordRename(name, _ElementKind.method) : name;
-      node.finalName = '$methodName$superNumText';
-      node.classDecl.methodNumsAfterRenaming[sig] = superNum;
+    final (:rawName, :skipRenaming, :propertySig) = _planRenaming(node);
+
+    if (skipRenaming) {
+      node.finalName = rawName;
     } else {
-      node.finalName = _renameConflict(nameCounts, name, _ElementKind.method);
-      node.classDecl.methodNumsAfterRenaming[sig] = nameCounts[name]! - 1;
+      final name = _preprocess(rawName);
+
+      final sig = node.javaSig;
+      // If node is in super class, assign its number, overriding it.
+      final superClass = (node.classDecl.superclass! as DeclaredType).classDecl;
+      final superNum = superClass.methodNumsAfterRenaming[sig];
+      if (superNum != null) {
+        // Don't rename if superNum == 0
+        // Unless the node name is a keyword.
+        final superNumText = superNum == 0 ? '' : '$superNum';
+        final methodName =
+            superNum == 0 ? _keywordRename(name, _ElementKind.method) : name;
+        node.finalName = '$methodName$superNumText';
+        node.classDecl.methodNumsAfterRenaming[sig] = superNum;
+      } else {
+        node.finalName = _renameConflict(nameCounts, name, _ElementKind.method);
+        node.classDecl.methodNumsAfterRenaming[sig] = nameCounts[name]! - 1;
+      }
+
+      if (propertySig != null) {
+        propertyNames[propertySig] = node.finalName;
+      }
     }
 
     if (node.userDefinedName == null ||

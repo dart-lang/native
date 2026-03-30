@@ -31,7 +31,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' as core$_;
-import 'dart:core' show Object, String, double, int;
+import 'dart:core' show Object, String;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;

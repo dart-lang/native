@@ -48,7 +48,7 @@
 // ignore_for_file: use_super_parameters
 
 import 'dart:core' as core$_;
-import 'dart:core' show Object, String, double, int;
+import 'dart:core' show Object, String;
 
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
@@ -322,7 +322,7 @@ extension JsonToken$$Methods on JsonToken {
           )>();
 
   /// from: `public final int id()`
-  int id() {
+  core$_.int id() {
     return _id(reference.pointer, _id_id.pointer).integer;
   }
 
@@ -398,12 +398,12 @@ extension JsonToken$$Methods on JsonToken {
         .object<jni$_.JByteArray?>();
   }
 
-  static final _id_isNumeric = JsonToken._class.instanceMethodId(
+  static final _id_get$isNumeric = JsonToken._class.instanceMethodId(
     r'isNumeric',
     r'()Z',
   );
 
-  static final _isNumeric = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isNumeric = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -419,16 +419,16 @@ extension JsonToken$$Methods on JsonToken {
   ///
   /// @return {@code True} if this token is {@code VALUE_NUMBER_INT} or {@code VALUE_NUMBER_FLOAT},
   ///   {@code false} otherwise
-  core$_.bool isNumeric() {
-    return _isNumeric(reference.pointer, _id_isNumeric.pointer).boolean;
+  core$_.bool get isNumeric {
+    return _get$isNumeric(reference.pointer, _id_get$isNumeric.pointer).boolean;
   }
 
-  static final _id_isStructStart = JsonToken._class.instanceMethodId(
+  static final _id_get$isStructStart = JsonToken._class.instanceMethodId(
     r'isStructStart',
     r'()Z',
   );
 
-  static final _isStructStart = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isStructStart = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -449,16 +449,17 @@ extension JsonToken$$Methods on JsonToken {
   ///@return {@code True} if this token is {@code START_OBJECT} or {@code START_ARRAY},
   ///   {@code false} otherwise
   ///@since 2.3
-  core$_.bool isStructStart() {
-    return _isStructStart(reference.pointer, _id_isStructStart.pointer).boolean;
+  core$_.bool get isStructStart {
+    return _get$isStructStart(reference.pointer, _id_get$isStructStart.pointer)
+        .boolean;
   }
 
-  static final _id_isStructEnd = JsonToken._class.instanceMethodId(
+  static final _id_get$isStructEnd = JsonToken._class.instanceMethodId(
     r'isStructEnd',
     r'()Z',
   );
 
-  static final _isStructEnd = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isStructEnd = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -479,16 +480,17 @@ extension JsonToken$$Methods on JsonToken {
   ///@return {@code True} if this token is {@code END_OBJECT} or {@code END_ARRAY},
   ///   {@code false} otherwise
   ///@since 2.3
-  core$_.bool isStructEnd() {
-    return _isStructEnd(reference.pointer, _id_isStructEnd.pointer).boolean;
+  core$_.bool get isStructEnd {
+    return _get$isStructEnd(reference.pointer, _id_get$isStructEnd.pointer)
+        .boolean;
   }
 
-  static final _id_isScalarValue = JsonToken._class.instanceMethodId(
+  static final _id_get$isScalarValue = JsonToken._class.instanceMethodId(
     r'isScalarValue',
     r'()Z',
   );
 
-  static final _isScalarValue = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isScalarValue = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -508,16 +510,17 @@ extension JsonToken$$Methods on JsonToken {
   /// {@code FIELD_NAME}.
   ///@return {@code True} if this token is a scalar value token (one of
   ///   {@code VALUE_xxx} tokens), {@code false} otherwise
-  core$_.bool isScalarValue() {
-    return _isScalarValue(reference.pointer, _id_isScalarValue.pointer).boolean;
+  core$_.bool get isScalarValue {
+    return _get$isScalarValue(reference.pointer, _id_get$isScalarValue.pointer)
+        .boolean;
   }
 
-  static final _id_isBoolean = JsonToken._class.instanceMethodId(
+  static final _id_get$isBoolean = JsonToken._class.instanceMethodId(
     r'isBoolean',
     r'()Z',
   );
 
-  static final _isBoolean = jni$_.ProtectedJniExtensions.lookup<
+  static final _get$isBoolean = jni$_.ProtectedJniExtensions.lookup<
           jni$_.NativeFunction<
               jni$_.JniResult Function(
                 jni$_.Pointer<jni$_.Void>,
@@ -533,8 +536,8 @@ extension JsonToken$$Methods on JsonToken {
   ///
   /// @return {@code True} if this token is {@code VALUE_TRUE} or {@code VALUE_FALSE},
   ///   {@code false} otherwise
-  core$_.bool isBoolean() {
-    return _isBoolean(reference.pointer, _id_isBoolean.pointer).boolean;
+  core$_.bool get isBoolean {
+    return _get$isBoolean(reference.pointer, _id_get$isBoolean.pointer).boolean;
   }
 }
 

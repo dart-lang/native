@@ -30,6 +30,8 @@ environment:
 dependencies:
   jni:
     path: ../../jni/
+  jni_flutter:
+    path: ../../jni_flutter/
   ffi: any
   flutter:
     sdk: flutter
