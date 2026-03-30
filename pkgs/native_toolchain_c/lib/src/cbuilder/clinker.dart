@@ -12,6 +12,7 @@ import 'package:meta/meta.dart';
 import 'ctool.dart';
 import 'linker_options.dart';
 import 'linkmode.dart';
+import 'logger.dart';
 import 'output_type.dart';
 import 'run_cbuilder.dart';
 
@@ -44,12 +45,16 @@ class CLinker extends CTool implements Linker {
   /// Runs the C Linker with on this C build spec.
   ///
   /// Completes with an error if the linking fails.
+  ///
+  /// If provided, uses [logger] to output logs. Otherwise, uses a default
+  /// logger that streams [Level.WARNING] to stdout and higher levels to stderr.
   @override
   Future<void> run({
     required LinkInput input,
     required LinkOutputBuilder output,
-    required Logger? logger,
+    Logger? logger,
   }) async {
+    logger ??= createDefaultLogger();
     final outDir = input.outputDirectory;
     final packageRoot = input.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);

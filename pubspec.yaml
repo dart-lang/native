@@ -90,6 +90,8 @@ workspace:
   - pkgs/hooks_runner/test_data/wrong_linker
   - pkgs/hooks_runner/test_data/wrong_namespace_asset
   # - pkgs/jni  # TODO
+  # - pkgs/jni_flutter  # TODO
+  # - pkgs/jni_flutter/android_test_runner  # TODO
   # - pkgs/jni/example  # TODO
   # - pkgs/jnigen  # TODO
   # - pkgs/jnigen/android_test_runner  # TODO
