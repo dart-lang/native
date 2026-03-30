@@ -4,6 +4,6 @@
 
 import 'package:jni/_internal.dart';
 
-const _$jniVersionCheck = JniVersionCheck(0, 0);
+const jniVersionCheck = JniVersionCheck(0, 0);
 
 void main() {}

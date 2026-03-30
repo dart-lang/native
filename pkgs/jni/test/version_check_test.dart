@@ -38,10 +38,12 @@ void main() {
           ['analyze', path.join(testDir, fileName)],
         );
 
+        final stdout = result.stdout.toString();
         if (shouldPass) {
-          expect(result.exitCode, 0, reason: result.stdout.toString());
+          expect(result.exitCode, 0, reason: stdout);
         } else {
           expect(result.exitCode, isNot(0));
+          expect(stdout, contains('The generated bindings expect package:jni'));
         }
       });
     }
