@@ -153,12 +153,6 @@ void _parseSuperType(
   final fieldType = cursor.type().toCodeGenType(context);
 
   final apiAvailability = ApiAvailability.fromCursor(cursor, context);
-  if (apiAvailability.availability == Availability.none) {
-    context.logger.info(
-      'Omitting deprecated property ${decl.originalName}.$fieldName',
-    );
-    return (null, null);
-  }
 
   if (fieldType.isIncompleteCompound) {
     context.logger.warning(
@@ -261,12 +255,6 @@ ObjCMethod? parseObjCMethod(
   }
 
   final apiAvailability = ApiAvailability.fromCursor(cursor, context);
-  if (apiAvailability.availability == Availability.none) {
-    logger.info(
-      'Omitting deprecated method ${itfDecl.originalName}.$methodName',
-    );
-    return null;
-  }
 
   logger.fine(
     '       > ${isClassMethod ? 'Class' : 'Instance'} method: '

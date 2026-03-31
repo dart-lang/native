@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import 'dart:ffi';
+import 'dart:io';
 import 'dart:typed_data';
 
 import 'package:ffi/ffi.dart';
@@ -79,6 +80,20 @@ extension CXSourceRangeExt on clang_types.CXSourceRange {
   clang_types.CXSourceLocation get end => clang.clang_getRangeEnd(this);
   ((String, int), (String, int)) toTuple() =>
       (start.fileAndOffset, end.fileAndOffset);
+
+  String? readSourceText() {
+    final ((path, startOffset), (_, endOffset)) = toTuple();
+    try {
+      final file = File(path).openSync();
+      try {
+        file.setPositionSync(startOffset);
+        return String.fromCharCodes(file.readSync(endOffset - startOffset));
+      } finally {
+        file.closeSync();
+      }
+    } catch (_) {}
+    return null;
+  }
 }
 
 extension CXSourceRangePtrExt on Pointer<clang_types.CXSourceRange> {
@@ -91,6 +106,7 @@ extension CXCursorExt on clang_types.CXCursor {
   bool get isNull => clang.clang_Cursor_isNull(this) != 0;
   bool get isDefinition => clang.clang_isCursorDefinition(this) != 0;
   clang_types.CXCursor get definition => clang.clang_getCursorDefinition(this);
+  clang_types.CXSourceRange get extent => clang.clang_getCursorExtent(this);
 
   String usr() {
     var res = clang.clang_getCursorUSR(this).toStringAndDispose();

@@ -15947,24 +15947,6 @@ extension NSOrderedCollectionChange$Methods on NSOrderedCollectionChange {
     return _objc_msgSend_xw2lbc(object$.ref.pointer, _sel_index);
   }
 
-  /// init
-  NSOrderedCollectionChange init() {
-    objc.checkOsVersionInternal(
-      'NSOrderedCollectionChange.init',
-      iOS: (false, (2, 0, 0)),
-      macOS: (false, (10, 0, 0)),
-    );
-    final $ret = _objc_msgSend_151sglz(
-      object$.ref.retainAndReturnPointer(),
-      _sel_init,
-    );
-    return NSOrderedCollectionChange.fromPointer(
-      $ret,
-      retain: false,
-      release: true,
-    );
-  }
-
   /// initWithObject:type:index:
   ///
   /// iOS: introduced 13.0.0
