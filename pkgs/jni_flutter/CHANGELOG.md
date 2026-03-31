@@ -1,4 +1,4 @@
-## 1.0.0-wip
+## 1.0.0
 
 - Initial version: Adds the `androidApplicationContext` and
   `androidActivity(int engineId)` APIs, which used to be part of package:jni.

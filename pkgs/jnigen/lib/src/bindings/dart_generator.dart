@@ -19,6 +19,12 @@ import 'visitor.dart';
 @visibleForTesting
 const String version = '0.16.0';
 
+/// Version of package:jni. Keep in sync with package:jni's `pubspec.yaml`.
+@visibleForTesting
+const String jniMajorVersion = '1';
+@visibleForTesting
+const String jniMinorVersion = '0';
+
 // Import prefixes.
 const _jni = r'jni$_';
 const _core = r'core$_';
@@ -176,6 +182,11 @@ import 'package:jni/jni.dart' as $_jni;
 
 ''';
 
+  static const versionCheck = '''
+const _\$jniVersionCheck =
+    $_jni.JniVersionCheck($jniMajorVersion, $jniMinorVersion);
+''';
+
   /// Run dart format command on [path].
   Future<void> _runDartFormat(String path) async {
     log.info('Running dart format...');
@@ -205,6 +216,7 @@ import 'package:jni/jni.dart' as $_jni;
       s.writeln(preamble);
       s.writeln(defaultLintSuppressions);
       s.writeln(defaultImports);
+      s.writeln(versionCheck);
       final resolver = Resolver(
         importedClasses: config.importedClasses,
         currentClass: null, // Single file mode.

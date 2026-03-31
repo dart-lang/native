@@ -59,6 +59,7 @@ export 'src/util/jiterator.dart';
 export 'src/util/jlist.dart';
 export 'src/util/jmap.dart';
 export 'src/util/jset.dart';
+export 'src/version_check.dart';
 
 /// Temporary fix for the macOS arm64 varargs problem.
 ///

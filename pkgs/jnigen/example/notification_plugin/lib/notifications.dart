@@ -40,6 +40,8 @@ import 'dart:core' show Object, String;
 import 'package:jni/_internal.dart' as jni$_;
 import 'package:jni/jni.dart' as jni$_;
 
+const _$jniVersionCheck = jni$_.JniVersionCheck(1, 0);
+
 /// from: `com.example.notification_plugin.Notifications`
 extension type Notifications._(jni$_.JObject _$this) implements jni$_.JObject {
   static final _class =
