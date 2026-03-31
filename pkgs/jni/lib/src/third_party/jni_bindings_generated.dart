@@ -351,9 +351,9 @@ class JniBindings {
   late final ffi.Pointer<pthread_key_t> _tlsKey =
       _lookup<pthread_key_t>('tlsKey');
 
-  Dart__darwin_pthread_key_t get tlsKey => _tlsKey.value;
+  Dartpthread_key_t get tlsKey => _tlsKey.value;
 
-  set tlsKey(Dart__darwin_pthread_key_t value) => _tlsKey.value = value;
+  set tlsKey(Dartpthread_key_t value) => _tlsKey.value = value;
 }
 
 final class CallbackResult extends ffi.Struct {
@@ -6108,31 +6108,111 @@ enum JniVersions {
 }
 
 typedef MutexLock = pthread_mutex_t;
-typedef __darwin_pthread_cond_t = _opaque_pthread_cond_t;
-typedef __darwin_pthread_key_t = ffi.UnsignedLong;
-typedef Dart__darwin_pthread_key_t = int;
-typedef __darwin_pthread_mutex_t = _opaque_pthread_mutex_t;
 
-final class _opaque_pthread_cond_t extends ffi.Struct {
-  @ffi.Long()
-  external int __sig;
+final class UnnamedStruct extends ffi.Struct {
+  @ffi.UnsignedInt()
+  external int __low;
 
-  @ffi.Array.multi([40])
-  external ffi.Array<ffi.Char> __opaque;
+  @ffi.UnsignedInt()
+  external int __high;
+
+  static ffi.Pointer<UnnamedStruct> $allocate(
+    ffi.Allocator $allocator, {
+    required int $low,
+    required int $high,
+  }) =>
+      $allocator<UnnamedStruct>()
+        ..ref.__low = $low
+        ..ref.__high = $high;
 }
 
-final class _opaque_pthread_mutex_t extends ffi.Struct {
-  @ffi.Long()
-  external int __sig;
+final class __atomic_wide_counter extends ffi.Union {
+  @ffi.UnsignedLongLong()
+  external int __value64;
 
-  @ffi.Array.multi([56])
-  external ffi.Array<ffi.Char> __opaque;
+  external UnnamedStruct __value32;
+}
+
+final class __pthread_cond_s extends ffi.Struct {
+  external __atomic_wide_counter __wseq;
+
+  external __atomic_wide_counter __g1_start;
+
+  @ffi.Array.multi([2])
+  external ffi.Array<ffi.UnsignedInt> __g_size;
+
+  @ffi.UnsignedInt()
+  external int __g1_orig_size;
+
+  @ffi.UnsignedInt()
+  external int __wrefs;
+
+  @ffi.Array.multi([2])
+  external ffi.Array<ffi.UnsignedInt> __g_signals;
+
+  @ffi.UnsignedInt()
+  external int __unused_initialized_1;
+
+  @ffi.UnsignedInt()
+  external int __unused_initialized_2;
+}
+
+final class __pthread_internal_list extends ffi.Struct {
+  external ffi.Pointer<__pthread_internal_list> __prev;
+
+  external ffi.Pointer<__pthread_internal_list> __next;
+}
+
+typedef __pthread_list_t = __pthread_internal_list;
+
+final class __pthread_mutex_s extends ffi.Struct {
+  @ffi.Int()
+  external int __lock;
+
+  @ffi.UnsignedInt()
+  external int __count;
+
+  @ffi.Int()
+  external int __owner;
+
+  @ffi.UnsignedInt()
+  external int __nusers;
+
+  @ffi.Int()
+  external int __kind;
+
+  @ffi.Short()
+  external int __spins;
+
+  @ffi.Short()
+  external int __elision;
+
+  external __pthread_list_t __list;
 }
 
 final class jfieldID_ extends ffi.Opaque {}
 
 final class jmethodID_ extends ffi.Opaque {}
 
-typedef pthread_cond_t = __darwin_pthread_cond_t;
-typedef pthread_key_t = __darwin_pthread_key_t;
-typedef pthread_mutex_t = __darwin_pthread_mutex_t;
+final class pthread_cond_t extends ffi.Union {
+  external __pthread_cond_s __data;
+
+  @ffi.Array.multi([48])
+  external ffi.Array<ffi.Char> __size;
+
+  @ffi.LongLong()
+  external int __align;
+}
+
+typedef pthread_key_t = ffi.UnsignedInt;
+typedef Dartpthread_key_t = int;
+
+final class pthread_mutex_t extends ffi.Union {
+  external __pthread_mutex_s __data;
+
+  @ffi.Array.multi([40])
+  external ffi.Array<ffi.Char> __size;
+
+  @ffi.Long()
+  external int __align;
+}
