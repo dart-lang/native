@@ -35,6 +35,16 @@ void registerTests(String groupName, TestRunnerCallback test) {
         final asyncNull = await suspendFun.nullableHello(true);
         expect(asyncNull, null);
 
+        expect(await suspendFun.nullableList(null), isNull);
+        final list = await suspendFun.nullableList([
+          'abc'.toJString(),
+          null,
+          'def'.toJString(),
+        ].toJList());
+        expect(
+            list!.asDart().map((s) => s?.toDartString(releaseOriginal: true)),
+            ['abc', null, 'def']);
+
         expect(suspendFun.result, 0);
         final voidFuture = suspendFun.noReturn();
         expect(voidFuture, isA<Future<void>>());
@@ -389,6 +399,7 @@ void registerTests(String groupName, TestRunnerCallback test) {
           sayInt$1: (JInteger value) async => JInteger(10 * value.intValue()),
           nullableInt: (bool returnNull) async =>
               returnNull ? null : JInteger(123),
+          nullableList: (JList<JString?>? list) async => list,
           noReturn: () async => result = 123,
         ));
 
@@ -401,6 +412,12 @@ void registerTests(String groupName, TestRunnerCallback test) {
         expect((await itf.sayInt$1(JInteger(456))).intValue(), 4560);
         expect((await itf.nullableInt(false))?.intValue(), 123);
         expect(await itf.nullableInt(true), null);
+        expect(await itf.nullableList(null), null);
+        expect(
+            (await itf.nullableList(['abc'.toJString()].toJList()))
+                ?.asDart()
+                .map((s) => s?.toDartString(releaseOriginal: true)),
+            ['abc']);
         await itf.noReturn();
         expect(result, 123);
 
@@ -413,6 +430,7 @@ Hello
 123
 7890
 123
+[abc, def]
 kotlin.Unit
 '''
                 .trim());
@@ -425,6 +443,7 @@ Hello
 123
 7890
 123
+[abc, def]
 kotlin.Unit
 '''
                 .trim());
@@ -457,6 +476,7 @@ kotlin.Unit
             await Future<void>.delayed(const Duration(milliseconds: 100));
             return returnNull ? null : JInteger(123);
           },
+          nullableList: (JList<JString?>? list) async => list,
           noReturn: () async {
             await Future<void>.delayed(const Duration(milliseconds: 100));
             result = 123;
@@ -472,6 +492,12 @@ kotlin.Unit
         expect((await itf.sayInt$1(JInteger(456))).intValue(), 4560);
         expect((await itf.nullableInt(false))?.intValue(), 123);
         expect(await itf.nullableInt(true), null);
+        expect(await itf.nullableList(null), null);
+        expect(
+            (await itf.nullableList(['abc'.toJString()].toJList()))
+                ?.asDart()
+                .map((s) => s?.toDartString(releaseOriginal: true)),
+            ['abc']);
         await itf.noReturn();
         expect(result, 123);
 
@@ -484,6 +510,7 @@ Hello
 123
 7890
 123
+[abc, def]
 kotlin.Unit
 '''
                 .trim());
@@ -496,6 +523,7 @@ Hello
 123
 7890
 123
+[abc, def]
 kotlin.Unit
 '''
                 .trim());
@@ -509,6 +537,7 @@ kotlin.Unit
           sayInt: () async => throw Exception(),
           sayInt$1: (JInteger value) async => throw Exception(),
           nullableInt: (bool returnNull) async => throw Exception(),
+          nullableList: (JList<JString?>? list) async => throw Exception(),
           noReturn: () async => throw Exception(),
         ));
 
@@ -550,6 +579,10 @@ kotlin.Unit
             throw Exception();
           },
           nullableInt: (bool returnNull) async {
+            await Future<void>.delayed(const Duration(milliseconds: 100));
+            throw Exception();
+          },
+          nullableList: (JList<JString?>? list) async {
             await Future<void>.delayed(const Duration(milliseconds: 100));
             throw Exception();
           },

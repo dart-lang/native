@@ -3,6 +3,7 @@
 // BSD-style license that can be found in the LICENSE file.
 
 import '../../../ast/_core/interfaces/availability.dart';
+import '../../../ast/_core/interfaces/declaration.dart';
 import '../../../ast/declarations/compounds/enum_declaration.dart';
 import '../../../config.dart';
 import '../../../context.dart';
@@ -11,12 +12,12 @@ import '../../_core/utils.dart';
 import 'parse_compound_declaration.dart';
 import 'parse_function_declaration.dart';
 
-EnumDeclaration parseEnumDeclaration(
+List<Declaration> parseEnumDeclaration(
   Context context,
   ParsedSymbol symbol,
   ParsedSymbolgraph symbolgraph,
 ) {
-  final (compound: enumDecl, :excessMembers) = parseCompoundDeclaration(
+  return parseCompoundDeclaration(
     context,
     symbol,
     symbolgraph,
@@ -36,9 +37,12 @@ EnumDeclaration parseEnumDeclaration(
       initializers: [],
       nestedDeclarations: [],
     ),
+    onExcessMembers: (enumDecl, excessMembers) {
+      enumDecl.cases.addAll(
+        excessMembers.removeWhereType<EnumCaseDeclaration>(),
+      );
+    },
   );
-  enumDecl.cases.addAll(excessMembers.removeWhereType<EnumCaseDeclaration>());
-  return enumDecl;
 }
 
 EnumCaseDeclaration parseEnumCaseDeclaration(

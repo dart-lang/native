@@ -8,6 +8,7 @@ import '../ast/_core/interfaces/nestable_declaration.dart';
 import '../ast/declarations/built_in/built_in_declaration.dart';
 import '../ast/declarations/compounds/class_declaration.dart';
 import '../ast/declarations/compounds/enum_declaration.dart';
+import '../ast/declarations/compounds/extension_declaration.dart';
 import '../ast/declarations/compounds/struct_declaration.dart';
 import '../ast/declarations/globals/globals.dart';
 import '../ast/declarations/typealias_declaration.dart';
@@ -19,6 +20,7 @@ import '_core/unique_namer.dart';
 import '_core/utils.dart';
 import 'transformers/transform_compound.dart';
 import 'transformers/transform_enum.dart';
+import 'transformers/transform_extension.dart';
 import 'transformers/transform_globals.dart';
 
 class TransformationState {
@@ -66,6 +68,13 @@ List<Declaration> transform(
   state.stubs.addAll(listDecls.stubDecls);
   state.bindings.addAll(listDecls.stubDecls);
 
+  // Collect extension declarations and add to bindings so they are visible
+  // during transformation.
+  final extensionDecls = declarations
+      .whereType<ExtensionDeclaration>()
+      .toList();
+  state.bindings.addAll(extensionDecls);
+
   state.globalNamer = UniqueNamer(
     state.bindings.map((declaration) => declaration.name),
   );
@@ -82,11 +91,21 @@ List<Declaration> transform(
     transformGlobals(globals, state.globalNamer, state),
   ].nonNulls.toList();
 
+  // Transform extensions after compounds so state.map is populated with
+  // the transformed wrapper classes that extensions need to reference.
+  final transformedExtensions = extensionDecls
+      .map((e) => transformExtension(e, state.globalNamer, state))
+      .nonNulls
+      .toList();
+
   return [
-    ...transformedDeclarations,
-    ..._getPrimitiveWrapperClasses(state),
-    ...state.tupleWrappers.values,
-  ].sortedById();
+    ...[
+      ...transformedDeclarations,
+      ..._getPrimitiveWrapperClasses(state),
+      ...state.tupleWrappers.values,
+    ].sortedById(),
+    ...transformedExtensions.sortedById(),
+  ];
 }
 
 Declaration transformDeclaration(
@@ -129,7 +148,7 @@ Declaration? maybeTransformDeclaration(
       state,
     );
 
-    // Now that the parents are transformed, this declaration should haven been
+    // Now that the parents are transformed, this declaration should have been
     // transformed, and will be in the cache.
     // TODO(https://github.com/dart-lang/native/issues/1358): This is brittle. Switch naming to a transformer.
     return state.map[declaration] ??
@@ -148,6 +167,7 @@ Declaration? maybeTransformDeclaration(
       state,
     ),
     EnumDeclaration() => transformEnum(declaration, parentNamer, state),
+    ExtensionDeclaration() => null,
     TypealiasDeclaration() => null,
     _ => throw UnimplementedError(),
   };

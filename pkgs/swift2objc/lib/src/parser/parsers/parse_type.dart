@@ -119,7 +119,8 @@ typedef PrefixParselet =
     );
   }
 
-  final type = parseDeclaration(context, symbol, symbolgraph).asDeclaredType;
+  parseDeclaration(context, symbol, symbolgraph);
+  final type = symbol.primaryDeclaration.asDeclaredType;
   return (type, fragments);
 }
 

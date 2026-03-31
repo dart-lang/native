@@ -1,3 +1,8 @@
+## 0.17.7-wip
+
+- Made `CLinker.run` `Logger` argument optional. It now defaults to a logger
+  printing to stdout and stderr.
+
 ## 0.17.6
 
 - On Android, use the NDK's `libc++.a` linker script when `cppLinkStdLib` is

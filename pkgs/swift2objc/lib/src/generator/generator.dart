@@ -4,7 +4,9 @@
 
 import '../ast/_core/interfaces/declaration.dart';
 import '../ast/declarations/compounds/class_declaration.dart';
+import '../ast/declarations/compounds/extension_declaration.dart';
 import 'generators/class_generator.dart';
+import 'generators/extension_generator.dart';
 
 String generate(
   List<Declaration> declarations, {
@@ -22,6 +24,7 @@ String generate(
 List<String> generateDeclaration(Declaration declaration) {
   return switch (declaration) {
     ClassDeclaration() => generateClass(declaration),
+    ExtensionDeclaration() => generateExtension(declaration),
     _ => throw UnimplementedError(
       "$declaration generation isn't implemented yet",
     ),
