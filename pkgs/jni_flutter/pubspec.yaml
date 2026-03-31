@@ -1,7 +1,10 @@
+# Copyright (c) 2026, the Dart project authors. Please see the AUTHORS file
+# for details. All rights reserved. Use of this source code is governed by a
+# BSD-style license that can be found in the LICENSE file.
+
 name: jni_flutter
 description: A library to access Flutter Android specific APIs from Dart.
 version: 1.0.0
-publish_to: 'none'
 repository: https://github.com/dart-lang/native/tree/main/pkgs/jni_flutter
 issue_tracker: https://github.com/dart-lang/native/issues?q=is%3Aissue+is%3Aopen+label%3Apackage%3Ajni_flutter
 
