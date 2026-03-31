@@ -46,6 +46,7 @@ class Func extends LookUpBinding with HasLocalScope {
   final bool isLeaf;
   final bool objCReturnsRetained;
   final bool useNameForLookup;
+  final bool recordUse;
 
   @override
   final bool loadFromNativeAsset;
@@ -68,6 +69,7 @@ class Func extends LookUpBinding with HasLocalScope {
     this.isLeaf = false,
     this.objCReturnsRetained = false,
     this.useNameForLookup = false,
+    this.recordUse = false,
     super.isInternal,
     this.loadFromNativeAsset = false,
   }) : functionType = FunctionType(
@@ -151,6 +153,11 @@ class Func extends LookUpBinding with HasLocalScope {
       funcImplCall = '$funcVarName($argString)';
     }
 
+    if (recordUse) {
+      final metaPrefix = context.libs.prefix(metaImport);
+      s.writeln('@$metaPrefix.RecordUse()');
+    }
+
     if (loadFromNativeAsset) {
       final nativeFuncName = needsWrapper ? funcVarName : enclosingFuncName;
       final nativeAnnotation = makeNativeAnnotation(
@@ -224,6 +231,9 @@ late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
     visitor.visit(functionType);
     visitor.visit(_exposedFunctionTypealias);
     visitor.visit(ffiImport);
+    if (recordUse) {
+      visitor.visit(metaImport);
+    }
     if (loadFromNativeAsset && exposeSymbolAddress) {
       visitor.visit(selfImport);
     }
@@ -231,6 +241,19 @@ late final $funcVarName = $funcPointerName.asFunction<$dartType>($isLeafString);
 
   @override
   void visit(Visitation visitation) => visitation.visitFunc(this);
+
+  (String, String)? get recordUseMapping =>
+      recordUse ? (name, useNameForLookup ? name : originalName) : null;
+}
+
+/// Extension on [Iterable<Func>] to generate record use mapping.
+extension FuncRecordUse on Iterable<Func> {
+  Map<String, String> toRecordUseMap() {
+    return {
+      for (final mapping in map((f) => f.recordUseMapping).nonNulls)
+        mapping.$1: mapping.$2,
+    };
+  }
 }
 
 /// Represents a Parameter, used in [Func], [Typealias], [ObjCMethod], and

@@ -154,6 +154,7 @@ List<Func> parseFunctionDeclaration(
           exposeSymbolAddress: config.functions.includeSymbolAddress(decl),
           exposeFunctionTypedefs: config.functions.includeTypedef(decl),
           isLeaf: config.functions.isLeaf(decl),
+          recordUse: config.functions.recordUse(decl),
           objCReturnsRetained: objCReturnsRetained,
           loadFromNativeAsset: config.output.style is NativeExternalBindings,
         ),

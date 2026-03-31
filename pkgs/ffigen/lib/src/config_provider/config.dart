@@ -5,6 +5,7 @@
 import 'dart:ffi';
 
 import 'package:logging/logging.dart';
+import 'package:meta/meta.dart';
 
 import '../code_generator.dart';
 import '../ffigen.dart';
@@ -335,6 +336,14 @@ final class Functions extends Declarations {
 
   static bool _isLeafDefault(Declaration declaration) => false;
 
+  /// Whether to add the `@RecordUse()` annotation to the given function.
+  ///
+  /// Experimental: The record uses feature needs to be enabled as experiment.
+  @experimental
+  final bool Function(Declaration declaration) recordUse;
+
+  static bool _recordUseDefault(Declaration declaration) => false;
+
   /// Map from function's original name to [VarArgFunction]s.
   ///
   /// Dart doesn't support variadic functions. Instead, variadic functions are
@@ -350,6 +359,7 @@ final class Functions extends Declarations {
     super.renameMember,
     this.includeTypedef = _includeTypedefDefault,
     this.isLeaf = _isLeafDefault,
+    this.recordUse = _recordUseDefault,
     this.varArgs = const <String, List<VarArgFunction>>{},
   });
 
@@ -664,6 +674,12 @@ final class Output {
   /// The style of bindings to generate.
   final BindingStyle style;
 
+  /// The output Dart file for the `@RecordUse()` name-to-symbol mapping.
+  ///
+  /// Experimental: The record uses feature needs to be enabled as experiment.
+  @experimental
+  final Uri? recordUseMapping;
+
   Output({
     required this.dartFile,
     this.objectiveCFile,
@@ -672,6 +688,7 @@ final class Output {
     this.preamble,
     this.format = true,
     this.style = const NativeExternalBindings(),
+    this.recordUseMapping,
   });
 }
 
