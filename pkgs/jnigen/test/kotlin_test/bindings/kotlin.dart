@@ -13099,7 +13099,7 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
     return $o?.as<jni$_.JList>(
       jni$_.JList.type,
       releaseOriginal: true,
-    ) as jni$_.JList<jni$_.JObject?>;
+    ) as jni$_.JList<jni$_.JObject?>?;
   }
 
   static final _id_echoAsyncNullableEnumList =
@@ -13162,7 +13162,7 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
     return $o?.as<jni$_.JList>(
       jni$_.JList.type,
       releaseOriginal: true,
-    ) as jni$_.JList<NIAnEnum?>;
+    ) as jni$_.JList<NIAnEnum?>?;
   }
 
   static final _id_echoAsyncNullableClassList =
@@ -13226,7 +13226,7 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
     return $o?.as<jni$_.JList>(
       jni$_.JList.type,
       releaseOriginal: true,
-    ) as jni$_.JList<NIAllNullableTypes?>;
+    ) as jni$_.JList<NIAllNullableTypes?>?;
   }
 
   static final _id_echoAsyncNullableNonNullEnumList =
@@ -13290,7 +13290,7 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
     return $o?.as<jni$_.JList>(
       jni$_.JList.type,
       releaseOriginal: true,
-    ) as jni$_.JList<NIAnEnum>;
+    ) as jni$_.JList<NIAnEnum>?;
   }
 
   static final _id_echoAsyncNullableNonNullClassList =
@@ -13355,7 +13355,7 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
     return $o?.as<jni$_.JList>(
       jni$_.JList.type,
       releaseOriginal: true,
-    ) as jni$_.JList<NIAllNullableTypes>;
+    ) as jni$_.JList<NIAllNullableTypes>?;
   }
 
   static final _id_echoAsyncNullableMap =
@@ -13419,7 +13419,7 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<jni$_.JObject?, jni$_.JObject?>;
+    ) as jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?;
   }
 
   static final _id_echoAsyncNullableStringMap =
@@ -13484,7 +13484,7 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<jni$_.JString?, jni$_.JString?>;
+    ) as jni$_.JMap<jni$_.JString?, jni$_.JString?>?;
   }
 
   static final _id_echoAsyncNullableIntMap =
@@ -13548,7 +13548,7 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<jni$_.JLong?, jni$_.JLong?>;
+    ) as jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?;
   }
 
   static final _id_echoAsyncNullableEnumMap =
@@ -13611,7 +13611,7 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<NIAnEnum?, NIAnEnum?>;
+    ) as jni$_.JMap<NIAnEnum?, NIAnEnum?>?;
   }
 
   static final _id_echoAsyncNullableClassMap =
@@ -13675,7 +13675,7 @@ extension NIFlutterIntegrationCoreApi$$Methods on NIFlutterIntegrationCoreApi {
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>;
+    ) as jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?;
   }
 
   static final _id_echoAsyncNullableEnum =
@@ -19509,7 +19509,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
     return $o?.as<jni$_.JList>(
       jni$_.JList.type,
       releaseOriginal: true,
-    ) as jni$_.JList<jni$_.JObject?>;
+    ) as jni$_.JList<jni$_.JObject?>?;
   }
 
   static final _id_echoAsyncNullableEnumList =
@@ -19572,7 +19572,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
     return $o?.as<jni$_.JList>(
       jni$_.JList.type,
       releaseOriginal: true,
-    ) as jni$_.JList<NIAnEnum?>;
+    ) as jni$_.JList<NIAnEnum?>?;
   }
 
   static final _id_echoAsyncNullableClassList =
@@ -19636,7 +19636,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
     return $o?.as<jni$_.JList>(
       jni$_.JList.type,
       releaseOriginal: true,
-    ) as jni$_.JList<NIAllNullableTypes?>;
+    ) as jni$_.JList<NIAllNullableTypes?>?;
   }
 
   static final _id_echoAsyncNullableMap =
@@ -19700,7 +19700,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<jni$_.JObject?, jni$_.JObject?>;
+    ) as jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?;
   }
 
   static final _id_echoAsyncNullableStringMap =
@@ -19765,7 +19765,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<jni$_.JString?, jni$_.JString?>;
+    ) as jni$_.JMap<jni$_.JString?, jni$_.JString?>?;
   }
 
   static final _id_echoAsyncNullableIntMap =
@@ -19829,7 +19829,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<jni$_.JLong?, jni$_.JLong?>;
+    ) as jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?;
   }
 
   static final _id_echoAsyncNullableEnumMap =
@@ -19892,7 +19892,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<NIAnEnum?, NIAnEnum?>;
+    ) as jni$_.JMap<NIAnEnum?, NIAnEnum?>?;
   }
 
   static final _id_echoAsyncNullableClassMap =
@@ -19956,7 +19956,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>;
+    ) as jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?;
   }
 
   static final _id_echoAsyncNullableEnum =
@@ -23939,7 +23939,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
     return $o?.as<jni$_.JList>(
       jni$_.JList.type,
       releaseOriginal: true,
-    ) as jni$_.JList<jni$_.JObject?>;
+    ) as jni$_.JList<jni$_.JObject?>?;
   }
 
   static final _id_callFlutterEchoAsyncNullableEnumList =
@@ -24003,7 +24003,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
     return $o?.as<jni$_.JList>(
       jni$_.JList.type,
       releaseOriginal: true,
-    ) as jni$_.JList<NIAnEnum?>;
+    ) as jni$_.JList<NIAnEnum?>?;
   }
 
   static final _id_callFlutterEchoAsyncNullableClassList =
@@ -24068,7 +24068,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
     return $o?.as<jni$_.JList>(
       jni$_.JList.type,
       releaseOriginal: true,
-    ) as jni$_.JList<NIAllNullableTypes?>;
+    ) as jni$_.JList<NIAllNullableTypes?>?;
   }
 
   static final _id_callFlutterEchoAsyncNullableNonNullEnumList =
@@ -24133,7 +24133,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
     return $o?.as<jni$_.JList>(
       jni$_.JList.type,
       releaseOriginal: true,
-    ) as jni$_.JList<NIAnEnum>;
+    ) as jni$_.JList<NIAnEnum>?;
   }
 
   static final _id_callFlutterEchoAsyncNullableNonNullClassList =
@@ -24198,7 +24198,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
     return $o?.as<jni$_.JList>(
       jni$_.JList.type,
       releaseOriginal: true,
-    ) as jni$_.JList<NIAllNullableTypes>;
+    ) as jni$_.JList<NIAllNullableTypes>?;
   }
 
   static final _id_callFlutterEchoAsyncNullableMap =
@@ -24263,7 +24263,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<jni$_.JObject?, jni$_.JObject?>;
+    ) as jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?;
   }
 
   static final _id_callFlutterEchoAsyncNullableStringMap =
@@ -24328,7 +24328,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<jni$_.JString?, jni$_.JString?>;
+    ) as jni$_.JMap<jni$_.JString?, jni$_.JString?>?;
   }
 
   static final _id_callFlutterEchoAsyncNullableIntMap =
@@ -24393,7 +24393,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<jni$_.JLong?, jni$_.JLong?>;
+    ) as jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?;
   }
 
   static final _id_callFlutterEchoAsyncNullableEnumMap =
@@ -24458,7 +24458,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<NIAnEnum?, NIAnEnum?>;
+    ) as jni$_.JMap<NIAnEnum?, NIAnEnum?>?;
   }
 
   static final _id_callFlutterEchoAsyncNullableClassMap =
@@ -24523,7 +24523,7 @@ extension NIHostIntegrationCoreApi$$Methods on NIHostIntegrationCoreApi {
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>;
+    ) as jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?;
   }
 
   static final _id_callFlutterEchoAsyncNullableEnum =
@@ -29032,7 +29032,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
     return $o?.as<jni$_.JList>(
       jni$_.JList.type,
       releaseOriginal: true,
-    ) as jni$_.JList<jni$_.JObject?>;
+    ) as jni$_.JList<jni$_.JObject?>?;
   }
 
   static final _id_echoAsyncNullableEnumList =
@@ -29095,7 +29095,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
     return $o?.as<jni$_.JList>(
       jni$_.JList.type,
       releaseOriginal: true,
-    ) as jni$_.JList<NIAnEnum?>;
+    ) as jni$_.JList<NIAnEnum?>?;
   }
 
   static final _id_echoAsyncNullableClassList =
@@ -29159,7 +29159,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
     return $o?.as<jni$_.JList>(
       jni$_.JList.type,
       releaseOriginal: true,
-    ) as jni$_.JList<NIAllNullableTypes?>;
+    ) as jni$_.JList<NIAllNullableTypes?>?;
   }
 
   static final _id_echoAsyncNullableMap =
@@ -29223,7 +29223,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<jni$_.JObject?, jni$_.JObject?>;
+    ) as jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?;
   }
 
   static final _id_echoAsyncNullableStringMap =
@@ -29288,7 +29288,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<jni$_.JString?, jni$_.JString?>;
+    ) as jni$_.JMap<jni$_.JString?, jni$_.JString?>?;
   }
 
   static final _id_echoAsyncNullableIntMap =
@@ -29352,7 +29352,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<jni$_.JLong?, jni$_.JLong?>;
+    ) as jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?;
   }
 
   static final _id_echoAsyncNullableEnumMap =
@@ -29415,7 +29415,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<NIAnEnum?, NIAnEnum?>;
+    ) as jni$_.JMap<NIAnEnum?, NIAnEnum?>?;
   }
 
   static final _id_echoAsyncNullableClassMap =
@@ -29479,7 +29479,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>;
+    ) as jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?;
   }
 
   static final _id_echoAsyncNullableEnum =
@@ -33462,7 +33462,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
     return $o?.as<jni$_.JList>(
       jni$_.JList.type,
       releaseOriginal: true,
-    ) as jni$_.JList<jni$_.JObject?>;
+    ) as jni$_.JList<jni$_.JObject?>?;
   }
 
   static final _id_callFlutterEchoAsyncNullableEnumList =
@@ -33526,7 +33526,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
     return $o?.as<jni$_.JList>(
       jni$_.JList.type,
       releaseOriginal: true,
-    ) as jni$_.JList<NIAnEnum?>;
+    ) as jni$_.JList<NIAnEnum?>?;
   }
 
   static final _id_callFlutterEchoAsyncNullableClassList =
@@ -33591,7 +33591,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
     return $o?.as<jni$_.JList>(
       jni$_.JList.type,
       releaseOriginal: true,
-    ) as jni$_.JList<NIAllNullableTypes?>;
+    ) as jni$_.JList<NIAllNullableTypes?>?;
   }
 
   static final _id_callFlutterEchoAsyncNullableNonNullEnumList =
@@ -33656,7 +33656,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
     return $o?.as<jni$_.JList>(
       jni$_.JList.type,
       releaseOriginal: true,
-    ) as jni$_.JList<NIAnEnum>;
+    ) as jni$_.JList<NIAnEnum>?;
   }
 
   static final _id_callFlutterEchoAsyncNullableNonNullClassList =
@@ -33721,7 +33721,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
     return $o?.as<jni$_.JList>(
       jni$_.JList.type,
       releaseOriginal: true,
-    ) as jni$_.JList<NIAllNullableTypes>;
+    ) as jni$_.JList<NIAllNullableTypes>?;
   }
 
   static final _id_callFlutterEchoAsyncNullableMap =
@@ -33786,7 +33786,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<jni$_.JObject?, jni$_.JObject?>;
+    ) as jni$_.JMap<jni$_.JObject?, jni$_.JObject?>?;
   }
 
   static final _id_callFlutterEchoAsyncNullableStringMap =
@@ -33851,7 +33851,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<jni$_.JString?, jni$_.JString?>;
+    ) as jni$_.JMap<jni$_.JString?, jni$_.JString?>?;
   }
 
   static final _id_callFlutterEchoAsyncNullableIntMap =
@@ -33916,7 +33916,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<jni$_.JLong?, jni$_.JLong?>;
+    ) as jni$_.JMap<jni$_.JLong?, jni$_.JLong?>?;
   }
 
   static final _id_callFlutterEchoAsyncNullableEnumMap =
@@ -33981,7 +33981,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<NIAnEnum?, NIAnEnum?>;
+    ) as jni$_.JMap<NIAnEnum?, NIAnEnum?>?;
   }
 
   static final _id_callFlutterEchoAsyncNullableClassMap =
@@ -34046,7 +34046,7 @@ extension NIHostIntegrationCoreApiRegistrar$$Methods
     return $o?.as<jni$_.JMap>(
       jni$_.JMap.type,
       releaseOriginal: true,
-    ) as jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>;
+    ) as jni$_.JMap<jni$_.JLong?, NIAllNullableTypes?>?;
   }
 
   static final _id_callFlutterEchoAsyncNullableEnum =
@@ -36846,6 +36846,65 @@ extension SuspendFun$$Methods on SuspendFun {
     );
   }
 
+  static final _id_nullableList = SuspendFun._class.instanceMethodId(
+    r'nullableList',
+    r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _nullableList = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public suspend fun nullableList(list: kotlin.collections.List<kotlin.String?>?): kotlin.collections.List<kotlin.String?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<jni$_.JString?>?> nullableList(
+    jni$_.JList<jni$_.JString?>? list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    final $r = _nullableList(reference.pointer, _id_nullableList.pointer,
+            _$list.pointer, _$continuation.pointer)
+        .object<jni$_.JObject?>();
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JList>(
+      jni$_.JList.type,
+      releaseOriginal: true,
+    ) as jni$_.JList<jni$_.JString?>?;
+  }
+
   static final _id_get$result = SuspendFun._class.instanceMethodId(
     r'getResult',
     r'()I',
@@ -37166,6 +37225,19 @@ extension type SuspendInterface._(jni$_.JObject _$this)
                 ($a![1] as jni$_.JObject).reference)
             .resumeWithFuture(_$impls[$p]!.nullableInt(
           ($a![0] as jni$_.JBoolean).toDartBool(releaseOriginal: true),
+        ));
+        return ($r as jni$_.JObject?)
+                ?.as(const jni$_.$JObject$Type$())
+                .reference
+                .toPointer() ??
+            jni$_.nullptr;
+      }
+      if ($d ==
+          r'nullableList(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;') {
+        final $r = jni$_.KotlinContinuation.fromReference(
+                ($a![1] as jni$_.JObject).reference)
+            .resumeWithFuture(_$impls[$p]!.nullableList(
+          ($a![0] as jni$_.JList<jni$_.JString?>?),
         ));
         return ($r as jni$_.JObject?)
                 ?.as(const jni$_.$JObject$Type$())
@@ -37545,6 +37617,65 @@ extension SuspendInterface$$Methods on SuspendInterface {
     );
   }
 
+  static final _id_nullableList = SuspendInterface._class.instanceMethodId(
+    r'nullableList',
+    r'(Ljava/util/List;Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
+  );
+
+  static final _nullableList = jni$_.ProtectedJniExtensions.lookup<
+          jni$_.NativeFunction<
+              jni$_.JniResult Function(
+                  jni$_.Pointer<jni$_.Void>,
+                  jni$_.JMethodIDPtr,
+                  jni$_.VarArgs<
+                      (
+                        jni$_.Pointer<jni$_.Void>,
+                        jni$_.Pointer<jni$_.Void>
+                      )>)>>('globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr,
+              jni$_.Pointer<jni$_.Void>,
+              jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public suspend fun nullableList(list: kotlin.collections.List<kotlin.String?>?): kotlin.collections.List<kotlin.String?>?`
+  /// The returned object must be released after use, by calling the [release] method.
+  core$_.Future<jni$_.JList<jni$_.JString?>?> nullableList(
+    jni$_.JList<jni$_.JString?>? list,
+  ) async {
+    final $p = jni$_.ReceivePort();
+    final _$continuation = jni$_.ProtectedJniExtensions.newPortContinuation($p);
+    final _$list = list?.reference ?? jni$_.jNullReference;
+    final $r = _nullableList(reference.pointer, _id_nullableList.pointer,
+            _$list.pointer, _$continuation.pointer)
+        .object<jni$_.JObject?>();
+    _$continuation.release();
+    jni$_.JObject? $o;
+    if ($r != null && $r.isInstanceOf(jni$_.coroutineSingletonsClass)) {
+      $r.release();
+      final $a = await $p.first;
+      $o = $a == 0
+          ? null
+          : jni$_.JObject.fromReference(
+              jni$_.JGlobalReference(jni$_.JObjectPtr.fromAddress($a)));
+      if ($o != null && $o.isInstanceOf(jni$_.result$Class)) {
+        $o = jni$_.resultValueField.get($o, const jni$_.$JObject$Type$());
+      } else if ($o != null && $o.isInstanceOf(jni$_.result$FailureClass)) {
+        final $e =
+            jni$_.failureExceptionField.get($o, const jni$_.$JObject$Type$());
+        $o.release();
+        jni$_.Jni.throwException($e.reference.toPointer());
+      }
+    } else {
+      $o = $r;
+    }
+    return $o?.as<jni$_.JList>(
+      jni$_.JList.type,
+      releaseOriginal: true,
+    ) as jni$_.JList<jni$_.JString?>?;
+  }
+
   static final _id_noReturn = SuspendInterface._class.instanceMethodId(
     r'noReturn',
     r'(Lkotlin/coroutines/Continuation;)Ljava/lang/Object;',
@@ -37603,6 +37734,9 @@ abstract base mixin class $SuspendInterface {
     required core$_.Future<jni$_.JInteger> Function(jni$_.JInteger integer)
         sayInt$1,
     required core$_.Future<jni$_.JInteger?> Function(core$_.bool z) nullableInt,
+    required core$_.Future<jni$_.JList<jni$_.JString?>?> Function(
+            jni$_.JList<jni$_.JString?>? list)
+        nullableList,
     required core$_.Future<void> Function() noReturn,
   }) = _$SuspendInterface;
 
@@ -37612,6 +37746,8 @@ abstract base mixin class $SuspendInterface {
   core$_.Future<jni$_.JInteger> sayInt();
   core$_.Future<jni$_.JInteger> sayInt$1(jni$_.JInteger integer);
   core$_.Future<jni$_.JInteger?> nullableInt(core$_.bool z);
+  core$_.Future<jni$_.JList<jni$_.JString?>?> nullableList(
+      jni$_.JList<jni$_.JString?>? list);
   core$_.Future<void> noReturn();
 }
 
@@ -37626,6 +37762,9 @@ final class _$SuspendInterface with $SuspendInterface {
     required core$_.Future<jni$_.JInteger> Function(jni$_.JInteger integer)
         sayInt$1,
     required core$_.Future<jni$_.JInteger?> Function(core$_.bool z) nullableInt,
+    required core$_.Future<jni$_.JList<jni$_.JString?>?> Function(
+            jni$_.JList<jni$_.JString?>? list)
+        nullableList,
     required core$_.Future<void> Function() noReturn,
   })  : _sayHello = sayHello,
         _sayHello$1 = sayHello$1,
@@ -37633,6 +37772,7 @@ final class _$SuspendInterface with $SuspendInterface {
         _sayInt = sayInt,
         _sayInt$1 = sayInt$1,
         _nullableInt = nullableInt,
+        _nullableList = nullableList,
         _noReturn = noReturn;
 
   final core$_.Future<jni$_.JString> Function() _sayHello;
@@ -37642,6 +37782,8 @@ final class _$SuspendInterface with $SuspendInterface {
   final core$_.Future<jni$_.JInteger> Function(jni$_.JInteger integer)
       _sayInt$1;
   final core$_.Future<jni$_.JInteger?> Function(core$_.bool z) _nullableInt;
+  final core$_.Future<jni$_.JList<jni$_.JString?>?> Function(
+      jni$_.JList<jni$_.JString?>? list) _nullableList;
   final core$_.Future<void> Function() _noReturn;
 
   core$_.Future<jni$_.JString> sayHello() {
@@ -37666,6 +37808,11 @@ final class _$SuspendInterface with $SuspendInterface {
 
   core$_.Future<jni$_.JInteger?> nullableInt(core$_.bool z) {
     return _nullableInt(z);
+  }
+
+  core$_.Future<jni$_.JList<jni$_.JString?>?> nullableList(
+      jni$_.JList<jni$_.JString?>? list) {
+    return _nullableList(list);
   }
 
   core$_.Future<void> noReturn() {

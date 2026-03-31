@@ -47,6 +47,11 @@ public class SuspendFun {
         return "Hello!"
     }
 
+    suspend fun nullableList(list: List<String?>?): List<String?>? {
+        delay(100L)
+        return list
+    }
+
     var result: Int = 0
     suspend fun noReturn() {
         delay(100L)
@@ -61,6 +66,7 @@ public interface SuspendInterface {
     suspend fun sayInt(): Integer
     suspend fun sayInt(value: Integer): Integer
     suspend fun nullableInt(returnNull: Boolean): Integer?
+    suspend fun nullableList(list: List<String?>?): List<String?>?
     suspend fun noReturn()
 }
 
@@ -78,6 +84,7 @@ ${itf.nullableHello(false)}
 ${itf.sayInt()}
 ${itf.sayInt(Integer(789))}
 ${itf.nullableInt(false)}
+${itf.nullableList(listOf("abc", "def"))}
 ${itf.noReturn()}
 """.trim();
 }
