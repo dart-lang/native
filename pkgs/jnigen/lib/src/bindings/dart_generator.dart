@@ -1269,14 +1269,17 @@ ${modifier}final _$idName = $_protectedExtension
       } else {
         final returningType = asyncReturnType
             .accept(_TypeGenerator(resolver, includeNullability: false));
+        final returningTypeNullable =
+            asyncReturnType.accept(_TypeGenerator(resolver));
         final returningTypeErased = asyncReturnType.accept(_TypeGenerator(
             resolver,
             includeNullability: false,
             typeErasure: true));
         final returningTypeClass =
             asyncReturnType.accept(_TypeClassGenerator(resolver));
-        final extraAs =
-            returningType != returningTypeErased ? ' as $returningType' : '';
+        final extraAs = returningType != returningTypeErased
+            ? ' as $returningTypeNullable'
+            : '';
         s.write('''
     return \$o${isNullable ? '?' : ''}.as<$returningTypeErased>(
       $returningTypeClass,
