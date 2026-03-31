@@ -150,12 +150,15 @@ class ApiAvailability {
     'SWIFT_UNAVAILABLE_MSG',
   };
 
+  static String _extractMacroName(String? text) =>
+      RegExp(r'^\w+').firstMatch(text ?? '')?.group(0) ?? '';
+
   static bool _hasSwiftUnavailableMacro(clang_types.CXCursor cursor) {
     final attr = cursor.findChildWhere(
       (child) =>
           child.kind == clang_types.CXCursorKind.CXCursor_UnexposedAttr &&
-          _swiftUnavailableMacros.any(
-            (macro) => (child.extent.readSourceText() ?? '').startsWith(macro),
+          _swiftUnavailableMacros.contains(
+            _extractMacroName(child.extent.readSourceText()),
           ),
     );
     return attr != null;
