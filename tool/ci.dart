@@ -345,6 +345,11 @@ class GenerateTask extends Task {
     required ArgResults argResults,
   }) async {
     const generators = [
+      'pkgs/code_assets/example/host_name/tool/ffigen.dart',
+      'pkgs/code_assets/example/mini_audio/tool/ffigen.dart',
+      'pkgs/code_assets/example/sqlite/tool/ffigen.dart',
+      'pkgs/code_assets/example/sqlite_prebuilt/tool/ffigen.dart',
+      'pkgs/code_assets/example/stb_image/tool/ffigen.dart',
       'pkgs/hooks_runner/test_data/manifest_generator.dart',
       'pkgs/hooks/tool/generate_schemas.dart',
       'pkgs/hooks/tool/generate_syntax.dart',
