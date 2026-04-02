@@ -5,30 +5,24 @@
 import 'dart:convert';
 import 'dart:io';
 
-import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
 import 'package:native_toolchain_c/native_toolchain_c.dart';
 import 'package:record_use/record_use.dart';
+import 'package:sqlite/src/c_library.dart';
 import 'package:sqlite/src/third_party/record_use_mapping.dart';
 
 void main(List<String> arguments) async {
   await link(arguments, (input, output) async {
-    final asset = input.assets.code.single;
-    final assetId = asset.id;
-    final assetName = assetId.split('/').skip(1).join('/');
-    final linker = CLinker.library(
-      name: 'sqlite3',
-      assetName: assetName,
+    await cLibrary.link(
+      input: input,
+      output: output,
       linkerOptions: LinkerOptions.treeshake(
         symbolsToKeep: input.usages?.calls.keys
             .cast<Method>()
             .map((e) => recordUseMapping[e.name])
             .nonNulls,
       ),
-      sources: [asset.file!.toFilePath()],
     );
-
-    await linker.run(input: input, output: output);
   });
 }
 

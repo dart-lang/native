@@ -10,6 +10,8 @@ import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
 import 'build_mode.dart';
+import 'clibrary.dart';
+import 'clinker.dart';
 import 'ctool.dart';
 import 'linkmode.dart';
 import 'logger.dart';
@@ -117,12 +119,26 @@ class CBuilder extends CTool implements Builder {
   ///
   /// If provided, uses [logger] to output logs. Otherwise, uses a default
   /// logger that streams [Level.WARNING] to stdout and higher levels to stderr.
+  ///
+  /// [routing] determines how the built assets are distributed. Defaults to
+  /// [ToAppBundle].
+  ///
+  /// [linkModePreference] overrides the [CTool.linkModePreference] of this
+  /// [CBuilder]. See [CTool.linkModePreference] for more documentation.
+  ///
+  /// [defines] are merged with the [CTool.defines] of this [CBuilder]. See
+  /// [CTool.defines] for more documentation.
+  ///
+  /// If you're using [CBuilder] in a build hook and [CLinker] in a link hook,
+  /// see [CLibrary] to combine them.
   @override
   Future<void> run({
     required BuildInput input,
     required BuildOutputBuilder output,
     Logger? logger,
     List<AssetRouting> routing = const [ToAppBundle()],
+    LinkModePreference? linkModePreference,
+    Map<String, String?>? defines,
   }) async {
     logger ??= createDefaultLogger();
     if (!input.config.buildCodeAssets) {
@@ -141,7 +157,9 @@ class CBuilder extends CTool implements Builder {
     final packageRoot = input.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
     final linkMode = getLinkMode(
-      linkModePreference ?? input.config.code.linkModePreference,
+      linkModePreference ??
+          this.linkModePreference ??
+          input.config.code.linkModePreference,
     );
     final libUri = outDir.resolve(
       input.config.code.targetOS.libraryFileName(name, linkMode),
@@ -192,7 +210,8 @@ class CBuilder extends CTool implements Builder {
       installName: installName,
       flags: flags,
       defines: {
-        ...defines,
+        ...this.defines,
+        ...?defines,
         if (buildModeDefine) buildMode.name.toUpperCase(): null,
         if (ndebugDefine && buildMode != .debug) 'NDEBUG': null,
       },
