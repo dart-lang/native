@@ -45,7 +45,7 @@ void main(List<String> args) async {
 When compiling C, C++ or Objective-C code from source, consider using
 [`package:native_toolchain_c`](https://pub.dev/packages/native_toolchain_c):
 
-<!-- file://./example/sqlite/hook/build.dart -->
+<!-- file://./example/sqlite_no_link/hook/build.dart -->
 ```dart
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';

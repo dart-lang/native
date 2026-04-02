@@ -22,7 +22,7 @@ API is an extension to this package and is available in
 When compiling C, C++ or Objective-C code from source, consider using
 [`package:native_toolchain_c`](https://pub.dev/packages/native_toolchain_c):
 
-<!-- file://./../code_assets/example/sqlite/hook/build.dart -->
+<!-- file://./../code_assets/example/sqlite_no_link/hook/build.dart -->
 ```dart
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';

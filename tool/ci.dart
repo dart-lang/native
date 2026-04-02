@@ -348,6 +348,7 @@ class GenerateTask extends Task {
       'pkgs/code_assets/example/host_name/tool/ffigen.dart',
       'pkgs/code_assets/example/mini_audio/tool/ffigen.dart',
       'pkgs/code_assets/example/sqlite/tool/ffigen.dart',
+      'pkgs/code_assets/example/sqlite_no_link/tool/ffigen.dart',
       'pkgs/code_assets/example/sqlite_prebuilt/tool/ffigen.dart',
       'pkgs/code_assets/example/stb_image/tool/ffigen.dart',
       'pkgs/hooks_runner/test_data/manifest_generator.dart',
@@ -422,6 +423,7 @@ class ExampleTask extends Task {
     const examplesWithTest = [
       'pkgs/code_assets/example/host_name/',
       'pkgs/code_assets/example/mini_audio/',
+      'pkgs/code_assets/example/sqlite_no_link/',
       'pkgs/code_assets/example/sqlite_prebuilt/',
       'pkgs/code_assets/example/sqlite/',
       'pkgs/code_assets/example/stb_image/',
