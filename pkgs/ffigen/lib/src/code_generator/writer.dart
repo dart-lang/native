@@ -305,6 +305,9 @@ class Writer {
       ),
     );
 
+    s.writeln('// ignore_for_file: type=lint');
+    s.writeln();
+    s.writeln('/// Mapping from Dart function name to native symbol name.');
     s.writeln('const recordUseMapping = {');
     for (final entry in _recordUseMappings.entries) {
       s.writeln("  '${entry.key}': '${entry.value}',");

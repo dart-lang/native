@@ -12,7 +12,9 @@ import '../test_utils.dart';
 void main() {
   group('record_use_test', () {
     test('Expected Bindings', () {
-      final headerFile = p.join('test', 'header_parser_tests', 'record_use.h');
+      final headerFile = absPath(
+        p.join('test', 'header_parser_tests', 'record_use.h'),
+      );
       final generator = FfiGenerator(
         headers: Headers(entryPoints: [Uri.file(headerFile)]),
         functions: Functions(
