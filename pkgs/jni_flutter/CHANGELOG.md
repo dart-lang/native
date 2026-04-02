@@ -1,3 +1,7 @@
+## 1.0.1
+
+- Add an example app.
+
 ## 1.0.0
 
 - Initial version: Adds the `androidApplicationContext` and
