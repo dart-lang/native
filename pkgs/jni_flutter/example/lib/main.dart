@@ -2,6 +2,8 @@
 // for details. All rights reserved. Use of this source code is governed by a
 // BSD-style license that can be found in the LICENSE file.
 
+import 'dart:ui';
+
 import 'package:flutter/material.dart';
 import 'package:jni/jni.dart';
 import 'package:jni_flutter/jni_flutter.dart';
@@ -27,8 +29,8 @@ class JniExamplePage extends StatefulWidget {
 }
 
 class _JniExamplePageState extends State<JniExamplePage> {
-  String _packageName = 'Unknown';
-  String _className = 'Unknown';
+  String _packageName = '';
+  String _activity = '';
 
   @override
   void initState() {
@@ -46,16 +48,21 @@ class _JniExamplePageState extends State<JniExamplePage> {
         '()Ljava/lang/String;',
       );
 
-      final packageName = getPackageNameId.call(context, JString.type, []);
+      final packageName = getPackageNameId
+          .call(context, JString.type, [])
+          .toDartString(releaseOriginal: true);
+
+      final activity = androidActivity(PlatformDispatcher.instance.engineId!);
+      final activityString = activity?.jClass.toString() ?? 'no activity';
+
+      activity?.release();
+      contextClass.release();
+      context.release();
 
       setState(() {
-        _packageName = packageName.toDartString(releaseOriginal: true);
-        _className = contextClass.toString();
+        _packageName = packageName;
+        _activity = activityString;
       });
-
-      contextClass.release();
-      // We don't release androidApplicationContext as it's a global singleton
-      // in jni_flutter.
     } catch (e) {
       setState(() {
         _packageName = 'Error: $e';
@@ -69,24 +76,16 @@ class _JniExamplePageState extends State<JniExamplePage> {
       appBar: AppBar(title: const Text('JNI Flutter Example')),
       body: Center(
         child: Column(
-          mainAxisAlignment: MainType.center.toMainAxisAlignment(),
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Package Name: $_packageName'),
-            const SizedBox(height: 10),
-            Text('Context Class: $_className'),
+            Text('Package name:'),
+            Text(_packageName),
+            const SizedBox(height: 20),
+            Text('Activity:'),
+            Text(_activity),
           ],
         ),
       ),
     );
   }
-}
-
-// Just a helper to show off some Dart 3.7 features if possible,
-// but let's stick to the basics first.
-enum MainType {
-  center;
-
-  MainAxisAlignment toMainAxisAlignment() => switch (this) {
-    MainType.center => MainAxisAlignment.center,
-  };
 }
