@@ -18,7 +18,7 @@
 /// Hooks can for example be used to bundle native source code with a Dart
 /// package:
 ///
-/// <!-- file://./../../code_assets/example/sqlite/hook/build.dart -->
+/// <!-- file://./../../code_assets/example/sqlite_no_link/hook/build.dart -->
 /// ```dart
 /// import 'package:code_assets/code_assets.dart';
 /// import 'package:hooks/hooks.dart';
