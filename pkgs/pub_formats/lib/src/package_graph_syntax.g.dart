@@ -56,7 +56,7 @@ class GraphPackageSyntax extends JsonObjectSyntax {
       throw ArgumentError.value(
         value,
         'value',
-        'Value does not satisify pattern: ${_namePattern.pattern}.',
+        'Value does not satisfy pattern: ${_namePattern.pattern}.',
       );
     }
     json.setOrRemove('name', value);

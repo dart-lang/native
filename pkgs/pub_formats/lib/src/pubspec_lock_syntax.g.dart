@@ -100,7 +100,7 @@ class GitPackageDescriptionSyntax extends PackageDescriptionSyntax {
       throw ArgumentError.value(
         value,
         'value',
-        'Value does not satisify pattern: ${_resolvedRefPattern.pattern}.',
+        'Value does not satisfy pattern: ${_resolvedRefPattern.pattern}.',
       );
     }
     json.setOrRemove('resolved-ref', value);
@@ -168,7 +168,7 @@ class HostedPackageDescriptionSyntax extends PackageDescriptionSyntax {
       throw ArgumentError.value(
         value,
         'value',
-        'Value does not satisify pattern: ${_namePattern.pattern}.',
+        'Value does not satisfy pattern: ${_namePattern.pattern}.',
       );
     }
     json.setOrRemove('name', value);
@@ -185,7 +185,7 @@ class HostedPackageDescriptionSyntax extends PackageDescriptionSyntax {
       throw ArgumentError.value(
         value,
         'value',
-        'Value does not satisify pattern: ${_sha256Pattern.pattern}.',
+        'Value does not satisfy pattern: ${_sha256Pattern.pattern}.',
       );
     }
     json.setOrRemove('sha256', value);
@@ -275,7 +275,7 @@ class PackageSyntax extends JsonObjectSyntax {
   List<String> _validateSource() => _reader.validate<String>('source');
 
   static final _versionPattern = RegExp(
-    r'^[0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-Z0-9.]+)?$',
+    r'^[0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-Z0-9.\-]+)?(?:\+[a-zA-Z0-9.\-]+)?$',
   );
 
   String get version => _reader.string('version', _versionPattern);
@@ -285,7 +285,7 @@ class PackageSyntax extends JsonObjectSyntax {
       throw ArgumentError.value(
         value,
         'value',
-        'Value does not satisify pattern: ${_versionPattern.pattern}.',
+        'Value does not satisfy pattern: ${_versionPattern.pattern}.',
       );
     }
     json.setOrRemove('version', value);

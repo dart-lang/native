@@ -143,4 +143,33 @@ void main() {
       throwsArgumentError,
     );
   });
+
+  test('pubspec version format', () {
+    for (final validVersion in validSemVers) {
+      var versionWithoutBuild = validVersion;
+      if (validVersion.indexOf('+') case final i when i >= 0) {
+        versionWithoutBuild = validVersion.substring(0, i);
+      }
+      var versionHasPreRelease = versionWithoutBuild.contains('-');
+      var range = versionHasPreRelease
+          ? '>=$validVersion <$versionWithoutBuild.0'
+          : '>=$versionWithoutBuild-0 <$validVersion';
+
+      expect(
+        PubspecYamlFileSyntax.fromJson({
+          'name': 'valid_package_name',
+          'version': validVersion,
+          // The following are not currently validated, but shouldn't fail.
+          'environment': {'sdk': '^$validVersion'},
+          'dependencies': {
+            'package_1': {'version': '^$validVersion'},
+            'package_2': {'version': validVersion},
+            'package_3': {'version': range},
+          },
+        }).validate(),
+        isEmpty,
+        reason: 'Version: $validVersion',
+      );
+    }
+  });
 }
