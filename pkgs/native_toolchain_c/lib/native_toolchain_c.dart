@@ -7,6 +7,7 @@ library;
 
 export 'src/cbuilder/build_mode.dart';
 export 'src/cbuilder/cbuilder.dart' show CBuilder;
+export 'src/cbuilder/clibrary.dart' show CLibrary;
 export 'src/cbuilder/clinker.dart' show CLinker;
 export 'src/cbuilder/language.dart' show Language;
 export 'src/cbuilder/linker_options.dart' show LinkerOptions;

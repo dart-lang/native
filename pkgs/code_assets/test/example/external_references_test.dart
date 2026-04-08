@@ -32,8 +32,7 @@ void main() {
     final example = packageRoot.resolve('example/');
     const buildCLibraryFromSource = [
       // The essence of this sample is building with native_toolchain_c.
-      'native_toolchain_c',
-      'CBuilder.library(',
+      '.build(',
     ];
     const filesMustExist = <String, List<String>?>{
       'host_name/hook/build.dart': [

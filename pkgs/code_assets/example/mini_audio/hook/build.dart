@@ -4,30 +4,19 @@
 
 import 'package:code_assets/code_assets.dart';
 import 'package:hooks/hooks.dart';
-import 'package:native_toolchain_c/native_toolchain_c.dart';
+import 'package:mini_audio/src/c_library.dart';
 
 void main(List<String> args) async {
   await build(args, (input, output) async {
     if (input.config.buildCodeAssets) {
-      final builder = CBuilder.library(
-        name: 'miniaudio',
-        assetName: 'src/third_party/miniaudio.g.dart',
-        sources: ['third_party/miniaudio.c'],
+      await cLibrary.build(
+        input: input,
+        output: output,
         defines: {
           if (input.config.code.targetOS == OS.windows)
             // Ensure symbols are exported in dll.
             'MA_API': '__declspec(dllexport)',
         },
-        linkModePreference: input.config.linkingEnabled
-            ? LinkModePreference.static
-            : LinkModePreference.dynamic,
-      );
-      await builder.run(
-        input: input,
-        output: output,
-        routing: input.config.linkingEnabled
-            ? [ToLinkHook(input.packageName)]
-            : [const ToAppBundle()],
       );
     }
   });
