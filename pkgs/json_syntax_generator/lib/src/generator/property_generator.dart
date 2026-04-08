@@ -185,7 +185,7 @@ set $setterName($dartType value) {
     throw ArgumentError.value(
       value,
       'value',
-      'Value does not satisify pattern: \${_${fieldName}Pattern.pattern}.',
+      'Value does not satisfy pattern: \${_${fieldName}Pattern.pattern}.',
     );
   }
   json.setOrRemove('$jsonKey', value);
