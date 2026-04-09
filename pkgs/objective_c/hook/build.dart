@@ -126,7 +126,15 @@ class Builder {
     final relativeInput = input.substring(_rootDir.length);
     final output = '${_tempOutDir.resolve(relativeInput).toFilePath()}.o';
     File(output).parent.createSync(recursive: true);
-    await _compile([...flags, '-c', input, '-fpic', '-I', 'src'], output);
+    await _compile([
+      ...flags,
+      '-c',
+      input,
+      '-fpic',
+      '-gline-tables-only',
+      '-I',
+      'src',
+    ], output);
     return output;
   }
 

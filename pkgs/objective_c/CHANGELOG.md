@@ -1,6 +1,12 @@
-## 9.4.0
-- Fix (https://github.com/dart-lang/native/issues/2877) such that all occurances of ObjCObject `isA` now accepts a nullable `ObjCObject?` and returns `false` when input is`null`
-- Removed `NSOrderedCollectionChange.init()`. This is not a breaking change because this method never would have worked, as it doesn't exist in Objective-C.
+## 9.4.0-wip
+- Fix (https://github.com/dart-lang/native/issues/2877) such that all
+  occurances of ObjCObject `isA` now accepts a nullable `ObjCObject?` and
+  returns `false` when input is`null`
+- Removed `NSOrderedCollectionChange.init()`. This is not a breaking change
+  because this method never would have worked, as it doesn't exist in
+  Objective-C.
+- Fix a [bug](https://github.com/dart-lang/native/issues/3290) where missing
+  debug symbols caused app store valiadtion warnings.
 
 ## 9.3.0
 - `autoReleasePool` now returns the value produced by its callback.
