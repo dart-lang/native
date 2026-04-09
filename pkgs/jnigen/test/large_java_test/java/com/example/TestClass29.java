@@ -1,7 +1,7 @@
 package com.example;
 import java.util.*;
 
-public interface TestClass29<T>  {
-  String[] myField = null;
-  public static record NestedRecord(int x) {}
+public class TestClass29<T, U>  {
+  { }
+  public enum NestedEnum { V1 }
 }

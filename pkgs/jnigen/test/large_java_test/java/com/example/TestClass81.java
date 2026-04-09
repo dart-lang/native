@@ -1,8 +1,8 @@
 package com.example;
 import java.util.*;
 
-public class TestClass81<T, U>  extends ArrayList<String> {
+public class TestClass81<T>  extends ArrayList {
   public void run() {}
-  public float[] getFoo(float[] p1, int p2) { return null; }
-  public static interface Nested {}
+  public <S> int setFoo(int p1, int p2) { return 0; }
+  public static class Nested {}
 }

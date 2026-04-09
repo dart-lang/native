@@ -1,7 +1,7 @@
 package com.example;
 import java.util.*;
 
-public final class TestClass137<T, U>  extends ArrayList<String> {
-  public void run() {}
-  public byte[] myField;
+public interface TestClass137<T, U>  extends Runnable {
+  static <S extends Number> Set<String>[] myMethod(Set<String>[] p1, int p2) { return null; }
+  public static class Nested {}
 }

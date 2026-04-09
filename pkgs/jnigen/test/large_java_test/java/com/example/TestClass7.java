@@ -1,8 +1,7 @@
 package com.example;
 import java.util.*;
 
-public class TestClass7<T>  extends ArrayList {
-  public void run() {}
-  public static int myField;
-  public static interface Nested {}
+public final class TestClass7<T>  {
+  public short[] isFoo(short[] p1) { return null; }
+  public enum NestedEnum { V1 }
 }

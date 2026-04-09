@@ -1,8 +1,7 @@
 package com.example;
 import java.util.*;
 
-public final class TestClass130  implements Runnable {
-  public void run() {}
-  public Map.Entry<String, String>[] setFoo(Map.Entry<String, String>[] p1) { return null; }
+public abstract interface TestClass130<T>  {
+  T[] myMethod(T[] p1);
   public static class Nested {}
 }

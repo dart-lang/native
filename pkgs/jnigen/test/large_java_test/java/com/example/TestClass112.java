@@ -1,6 +1,7 @@
 package com.example;
 import java.util.*;
 
-public final class TestClass112<T>  {
-  public static String[] isFoo(String[] p1) { return null; }
+public interface TestClass112<T>  extends List {
+  default Map.Entry<String, String>[] isFoo(Map.Entry<String, String>[] p1, int p2) { return null; }
+  public static interface Nested {}
 }

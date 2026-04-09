@@ -1,6 +1,7 @@
 package com.example;
 import java.util.*;
 
-public class TestClass84<T>  {
-  public long[] setFoo(long[] p1, int p2) { return null; }
+public interface TestClass84<T>  {
+  <S> Object isFoo(Object p1, int p2);
+  public static class Nested {}
 }

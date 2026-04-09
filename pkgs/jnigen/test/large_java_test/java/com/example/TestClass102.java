@@ -1,7 +1,7 @@
 package com.example;
 import java.util.*;
 
-public interface TestClass102<T, U>  extends List {
-  default Object myMethod() { return null; }
-  public static interface Nested {}
+public class TestClass102<T, U>  implements Runnable, Cloneable {
+  public void run() {}
+  public <S extends Number> Map.Entry<String, String> myMethod(Map.Entry<String, String> p1) { return null; }
 }

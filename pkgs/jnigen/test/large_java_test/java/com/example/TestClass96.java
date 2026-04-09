@@ -1,7 +1,8 @@
 package com.example;
 import java.util.*;
 
-public final class TestClass96<T>  {
-  { }
-  public enum NestedEnum { V1 }
+public class TestClass96<T>  extends ArrayList {
+  public void run() {}
+  public <S, V> Object[] isFoo(Object[] p1) { return null; }
+  public static record NestedRecord(int x) {}
 }

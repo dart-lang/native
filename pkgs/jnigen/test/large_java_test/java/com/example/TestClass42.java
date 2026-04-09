@@ -1,5 +1,7 @@
 package com.example;
 import java.util.*;
 
-public record TestClass42<T extends Number>(String field)  {
+public abstract class TestClass42<T>  extends Object {
+  public abstract <S extends Number> short setFoo();
+  public static interface Nested {}
 }

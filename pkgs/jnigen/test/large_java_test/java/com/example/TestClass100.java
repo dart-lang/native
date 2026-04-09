@@ -1,7 +1,7 @@
 package com.example;
 import java.util.*;
 
-public class TestClass100<T extends Number>  extends ArrayList<String> {
-  public void run() {}
-  { }
+public interface TestClass100<T>  {
+  default <S> S[] setFoo(S[] p1, int p2) { return null; }
+  public enum NestedEnum { V1 }
 }

@@ -1,7 +1,7 @@
 package com.example;
 import java.util.*;
 
-public class TestClass61<T, U>  extends Object {
-  public TestClass61() {}
-  public static record NestedRecord(int x) {}
+public interface TestClass61<T, U>  extends Runnable {
+  <S> double getFoo(double p1, int p2);
+  public static class Nested {}
 }

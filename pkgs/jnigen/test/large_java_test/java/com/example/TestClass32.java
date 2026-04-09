@@ -1,8 +1,6 @@
 package com.example;
 import java.util.*;
 
-public class TestClass32<T>  implements Runnable {
-  public void run() {}
-  { }
-  public static class Nested {}
+public interface TestClass32<T>  extends List {
+  <S extends Number> Set<String> setFoo(Set<String> p1);
 }

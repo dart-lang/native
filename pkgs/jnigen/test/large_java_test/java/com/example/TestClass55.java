@@ -1,6 +1,8 @@
 package com.example;
 import java.util.*;
 
-public record TestClass55<T, U>(Object field)  implements Runnable {
+public class TestClass55  extends ArrayList {
   public void run() {}
+  public <S> TestClass55() {}
+  public static interface Nested {}
 }

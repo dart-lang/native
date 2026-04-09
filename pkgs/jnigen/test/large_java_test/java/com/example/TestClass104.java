@@ -1,8 +1,6 @@
 package com.example;
 import java.util.*;
 
-public final class TestClass104<T>  extends ArrayList {
+public record TestClass104<T>(Set<String>[] field)  implements Runnable {
   public void run() {}
-  { }
-  public static record NestedRecord(int x) {}
 }

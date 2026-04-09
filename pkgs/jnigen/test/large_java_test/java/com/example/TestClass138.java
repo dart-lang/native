@@ -1,7 +1,8 @@
 package com.example;
 import java.util.*;
 
-public final class TestClass138<T>  {
-  public Map.Entry<String, String> setFoo(Map.Entry<String, String> p1) { return null; }
-  public enum NestedEnum { V1 }
+public final class TestClass138<T, U>  extends ArrayList {
+  public void run() {}
+  public synchronized <S extends Number> byte[] getFoo(byte[] p1) { return null; }
+  public static interface Nested {}
 }

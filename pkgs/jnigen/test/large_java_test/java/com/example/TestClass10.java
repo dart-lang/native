@@ -1,7 +1,7 @@
 package com.example;
 import java.util.*;
 
-public class TestClass10  extends Object {
-  { }
-  public enum NestedEnum { V1 }
+public interface TestClass10<T>  {
+  default <S> Object[] isFoo(Object[] p1, int p2) { return null; }
+  public static interface Nested {}
 }

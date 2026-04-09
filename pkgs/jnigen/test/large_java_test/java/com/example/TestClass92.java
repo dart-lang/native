@@ -1,7 +1,7 @@
 package com.example;
 import java.util.*;
 
-public class TestClass92<T extends Number>  {
-  public ArrayList<String>[] myField;
-  public enum NestedEnum { V1 }
+public interface TestClass92  extends Runnable {
+  static int[] myMethod(int[] p1) { return null; }
+  public static interface Nested {}
 }

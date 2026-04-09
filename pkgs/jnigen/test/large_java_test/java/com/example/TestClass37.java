@@ -1,7 +1,5 @@
 package com.example;
 import java.util.*;
 
-public class TestClass37<T>  {
-  { }
-  public static interface Nested {}
+public record TestClass37<T>(Object field)  {
 }

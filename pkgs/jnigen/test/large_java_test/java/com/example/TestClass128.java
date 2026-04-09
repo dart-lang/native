@@ -1,7 +1,6 @@
 package com.example;
 import java.util.*;
 
-public interface TestClass128<T extends Number>  {
-  int[] isFoo();
-  public enum NestedEnum { V1 }
+public class TestClass128  {
+  public static <S, V> Set<String>[] isFoo(Set<String>[] p1) { return null; }
 }

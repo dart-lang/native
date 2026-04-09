@@ -1,8 +1,7 @@
 package com.example;
 import java.util.*;
 
-public class TestClass72  extends ArrayList<String> {
-  public void run() {}
-  public List<String>[] isFoo(List<String>[] p1) { return null; }
-  public static record NestedRecord(int x) {}
+public interface TestClass72<T extends Number>  extends Runnable {
+  <S> T[] isFoo(T[] p1);
+  public enum NestedEnum { V1 }
 }

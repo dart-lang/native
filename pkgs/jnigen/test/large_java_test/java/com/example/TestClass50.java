@@ -1,8 +1,6 @@
 package com.example;
 import java.util.*;
 
-public class TestClass50<T>  implements Runnable, Cloneable {
+public record TestClass50<T>(double[] field)  implements Runnable {
   public void run() {}
-  { }
-  public static interface Nested {}
 }

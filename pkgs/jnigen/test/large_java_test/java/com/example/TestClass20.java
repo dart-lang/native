@@ -1,6 +1,7 @@
 package com.example;
 import java.util.*;
 
-public record TestClass20(Object field)  implements Runnable {
-  public void run() {}
+public abstract interface TestClass20<T, U>  extends List<String> {
+  T[] isFoo();
+  public static record NestedRecord(int x) {}
 }

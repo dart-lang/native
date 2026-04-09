@@ -1,7 +1,7 @@
 package com.example;
 import java.util.*;
 
-public class TestClass89<T, U>  {
-  { }
-  public static interface Nested {}
+public interface TestClass89<T>  {
+  <S extends Number> double[] getFoo();
+  public static class Nested {}
 }

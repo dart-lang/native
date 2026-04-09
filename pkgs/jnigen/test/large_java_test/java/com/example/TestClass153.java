@@ -1,7 +1,7 @@
 package com.example;
 import java.util.*;
 
-public final class TestClass153<T, U>  extends Object {
-  { }
-  public enum NestedEnum { V1 }
+public final class TestClass153<T>  {
+  public <S> Runnable[] setFoo() { return null; }
+  public static record NestedRecord(int x) {}
 }

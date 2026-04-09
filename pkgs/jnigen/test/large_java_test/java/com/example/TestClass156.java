@@ -1,8 +1,7 @@
 package com.example;
 import java.util.*;
 
-public final class TestClass156<T extends Number>  extends ArrayList {
+public final class TestClass156<T>  extends ArrayList<String> {
   public void run() {}
-  public float myMethod() { return 0.0f; }
-  public enum NestedEnum { V1 }
+  public <S, V> T[] getFoo(T[] p1, int p2) { return null; }
 }

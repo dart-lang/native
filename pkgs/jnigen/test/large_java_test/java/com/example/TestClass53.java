@@ -1,7 +1,7 @@
 package com.example;
 import java.util.*;
 
-public class TestClass53<T extends Number>  extends ArrayList {
-  public void run() {}
-  public TestClass53() {}
+public interface TestClass53<T>  extends Runnable, Cloneable {
+  <S extends Number> byte[] setFoo(byte[] p1, int p2);
+  public static record NestedRecord(int x) {}
 }

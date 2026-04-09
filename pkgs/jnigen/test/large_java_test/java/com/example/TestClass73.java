@@ -1,7 +1,6 @@
 package com.example;
 import java.util.*;
 
-public interface TestClass73<T, U>  extends List<String> {
-  Map<String, String>[] myField = null;
-  public static class Nested {}
+public class TestClass73<T>  {
+  public synchronized <S, V> java.lang.Thread.State myMethod() { return null; }
 }

@@ -1,7 +1,7 @@
 package com.example;
 import java.util.*;
 
-public interface TestClass46<T>  extends List<String> {
-  Object[] getFoo(Object[] p1);
-  public static interface Nested {}
+public class TestClass46<T>  {
+  public <S, V> TestClass46() {}
+  public static record NestedRecord(int x) {}
 }

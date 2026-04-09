@@ -1,7 +1,7 @@
 package com.example;
 import java.util.*;
 
-public interface TestClass51<T>  extends Runnable {
-  default short getFoo() { return 0; }
-  public static class Nested {}
+public class TestClass51<T extends Number>  extends Object {
+  public <S extends Number> Map<String, String>[] getFoo(Map<String, String>[] p1) { return null; }
+  public enum NestedEnum { V1 }
 }

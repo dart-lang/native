@@ -1,8 +1,9 @@
 package com.example;
 import java.util.*;
 
-public final class TestClass25<T extends Number>  implements Runnable {
+public enum TestClass25  implements Runnable {
+  VALUE1(null, 0), VALUE2(null, 0);
   public void run() {}
-  public TestClass25(java.lang.Thread.State[] p1, int p2) {}
+  private <S, V> TestClass25(long[] p1, int p2) {}
   public static record NestedRecord(int x) {}
 }

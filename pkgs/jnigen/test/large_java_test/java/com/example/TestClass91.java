@@ -1,8 +1,8 @@
 package com.example;
 import java.util.*;
 
-public class TestClass91<T>  extends ArrayList<String> {
+public final class TestClass91<T>  implements Runnable {
   public void run() {}
-  { }
-  public static record NestedRecord(int x) {}
+  public synchronized <S> int setFoo(int p1, int p2) { return 0; }
+  public static class Nested {}
 }

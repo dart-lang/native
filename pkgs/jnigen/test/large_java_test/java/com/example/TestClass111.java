@@ -1,7 +1,6 @@
 package com.example;
 import java.util.*;
 
-public interface TestClass111  {
-  Object[] setFoo();
-  public static class Nested {}
+public record TestClass111<T>(Map<String, String>[] field)  implements Runnable {
+  public void run() {}
 }

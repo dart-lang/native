@@ -1,8 +1,7 @@
 package com.example;
 import java.util.*;
 
-public class TestClass39  implements Runnable {
-  public void run() {}
-  public String[] getFoo() { return null; }
-  public enum NestedEnum { V1 }
+public interface TestClass39<T>  extends Runnable {
+  Set<String>[] isFoo();
+  public static record NestedRecord(int x) {}
 }

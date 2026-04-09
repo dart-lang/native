@@ -1,7 +1,8 @@
 package com.example;
 import java.util.*;
 
-public final class TestClass98<T>  implements Runnable {
+public class TestClass98<T>  implements Runnable, Cloneable {
   public void run() {}
-  public Runnable myMethod(Runnable p1) { return null; }
+  public <S> List<String>[] isFoo(List<String>[] p1, int p2) { return null; }
+  public static class Nested {}
 }

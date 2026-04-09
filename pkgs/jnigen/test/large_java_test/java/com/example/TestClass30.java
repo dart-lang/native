@@ -1,7 +1,5 @@
 package com.example;
 import java.util.*;
 
-public interface TestClass30<T>  extends List {
-  void setFoo();
-  public static class Nested {}
+public record TestClass30<T, U>(ArrayList<String>[] field)  {
 }

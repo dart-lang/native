@@ -1,7 +1,7 @@
 package com.example;
 import java.util.*;
 
-public abstract interface TestClass114<T>  {
-  byte[] getFoo(byte[] p1, int p2);
-  public static interface Nested {}
+public final class TestClass114<T, U>  extends Object {
+  public <S> String setFoo() { return null; }
+  public static record NestedRecord(int x) {}
 }

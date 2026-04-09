@@ -1,7 +1,6 @@
 package com.example;
 import java.util.*;
 
-public class TestClass75  {
-  { }
-  public static class Nested {}
+public record TestClass75(int[] field)  implements Runnable {
+  public void run() {}
 }

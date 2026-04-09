@@ -1,7 +1,7 @@
 package com.example;
 import java.util.*;
 
-public final class TestClass152  {
-  public native List<String>[] isFoo(List<String>[] p1, int p2);
-  public static class Nested {}
+public final class TestClass152  extends Object {
+  public <S> Map<String, String> setFoo() { return null; }
+  public static interface Nested {}
 }

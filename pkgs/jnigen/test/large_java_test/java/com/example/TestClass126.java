@@ -1,8 +1,7 @@
 package com.example;
 import java.util.*;
 
-public final class TestClass126<T>  extends ArrayList<String> {
+public class TestClass126<T extends Number>  extends ArrayList<String> {
   public void run() {}
-  public native String isFoo();
-  public static record NestedRecord(int x) {}
+  public <S extends Number> ArrayList<String>[] getFoo(ArrayList<String>[] p1) { return null; }
 }

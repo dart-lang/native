@@ -1,6 +1,7 @@
 package com.example;
 import java.util.*;
 
-public final class TestClass125  extends Object {
-  public void myMethod() {  }
+public class TestClass125<T>  {
+  public native <S> int[] myMethod(int[] p1);
+  public static record NestedRecord(int x) {}
 }

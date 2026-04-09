@@ -1,7 +1,7 @@
 package com.example;
 import java.util.*;
 
-public class TestClass86<T, U>  implements Runnable, Cloneable {
-  public void run() {}
-  { }
+public interface TestClass86<T>  {
+  <S extends Number> S isFoo(S p1);
+  public static record NestedRecord(int x) {}
 }

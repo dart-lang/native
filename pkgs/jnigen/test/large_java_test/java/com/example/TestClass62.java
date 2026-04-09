@@ -1,8 +1,7 @@
 package com.example;
 import java.util.*;
 
-public enum TestClass62  {
-  VALUE1(), VALUE2();
-  private TestClass62() {}
-  public static interface Nested {}
+public abstract interface TestClass62<T, U>  extends Runnable {
+  <S extends Number> Object myMethod(Object p1, int p2);
+  public enum NestedEnum { V1 }
 }

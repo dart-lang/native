@@ -1,7 +1,6 @@
 package com.example;
 import java.util.*;
 
-public class TestClass58<T>  implements Runnable {
-  public void run() {}
-  public static long myField;
+public interface TestClass58<T>  extends List<String> {
+  <S> java.lang.Thread.State[] getFoo();
 }

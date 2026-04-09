@@ -1,8 +1,8 @@
 package com.example;
 import java.util.*;
 
-public final class TestClass157  extends ArrayList {
+public final class TestClass157<T>  implements Runnable, Cloneable {
   public void run() {}
-  public synchronized List<String>[] myMethod() { return null; }
-  public static interface Nested {}
+  public TestClass157() {}
+  public enum NestedEnum { V1 }
 }

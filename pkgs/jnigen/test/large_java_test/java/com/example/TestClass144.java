@@ -1,8 +1,8 @@
 package com.example;
 import java.util.*;
 
-public enum TestClass144  {
-  VALUE1, VALUE2;
-  { }
-  public static record NestedRecord(int x) {}
+public final class TestClass144<T, U>  extends ArrayList<String> {
+  public void run() {}
+  public <S, V> T myMethod() { return null; }
+  public static interface Nested {}
 }

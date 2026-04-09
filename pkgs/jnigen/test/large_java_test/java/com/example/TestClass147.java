@@ -1,7 +1,8 @@
 package com.example;
 import java.util.*;
 
-public final class TestClass147<T extends Number>  extends Object {
-  public native java.lang.Thread.State[] isFoo(java.lang.Thread.State[] p1);
-  public static record NestedRecord(int x) {}
+public enum TestClass147  {
+  VALUE1, VALUE2;
+  public Map<String, String>[] myField;
+  public static class Nested {}
 }

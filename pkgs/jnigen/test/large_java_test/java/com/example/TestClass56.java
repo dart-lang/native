@@ -1,7 +1,7 @@
 package com.example;
 import java.util.*;
 
-public class TestClass56<T>  {
-  public TestClass56(Object[] p1) {}
-  public enum NestedEnum { V1 }
+public enum TestClass56  {
+  VALUE1, VALUE2;
+  public <S extends Number> float[] setFoo(float[] p1) { return null; }
 }

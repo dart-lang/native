@@ -1,5 +1,7 @@
 package com.example;
 import java.util.*;
 
-public record TestClass54<T>(Set<String>[] field)  {
+public class TestClass54  extends Object {
+  public <S, V> short[] getFoo(short[] p1) { return null; }
+  public static record NestedRecord(int x) {}
 }

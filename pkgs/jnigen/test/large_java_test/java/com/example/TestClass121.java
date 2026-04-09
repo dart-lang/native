@@ -1,7 +1,7 @@
 package com.example;
 import java.util.*;
 
-public abstract interface TestClass121<T>  extends Runnable, Cloneable {
-  Set<String> setFoo(Set<String> p1);
+public final class TestClass121<T, U>  {
+  public synchronized long[] myMethod(long[] p1, int p2) { return null; }
   public static class Nested {}
 }

@@ -1,7 +1,7 @@
 package com.example;
 import java.util.*;
 
-public interface TestClass109<T>  extends Runnable {
-  Object[] getFoo(Object[] p1, int p2);
-  public enum NestedEnum { V1 }
+public abstract interface TestClass109<T, U>  extends List {
+  <S, V> ArrayList<String>[] setFoo();
+  public static class Nested {}
 }

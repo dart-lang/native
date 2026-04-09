@@ -2,6 +2,6 @@ package com.example;
 import java.util.*;
 
 public final class TestClass149<T>  {
-  public synchronized String myMethod() { return null; }
-  public enum NestedEnum { V1 }
+  public native double[] setFoo(double[] p1, int p2);
+  public static interface Nested {}
 }

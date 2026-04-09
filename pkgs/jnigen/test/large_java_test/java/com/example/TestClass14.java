@@ -1,7 +1,5 @@
 package com.example;
 import java.util.*;
 
-public abstract interface TestClass14<T>  extends List<String> {
-  void setFoo();
-  public static record NestedRecord(int x) {}
+public record TestClass14<T>(Object[] field)  {
 }

@@ -1,7 +1,7 @@
 package com.example;
 import java.util.*;
 
-public interface TestClass49<T extends Number>  extends Runnable {
-  default Object[] myMethod() { return null; }
-  public static interface Nested {}
+public class TestClass49<T>  extends Object {
+  public <S extends Number> TestClass49(Set<String>[] p1, int p2) {}
+  public static record NestedRecord(int x) {}
 }

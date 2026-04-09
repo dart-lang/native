@@ -1,7 +1,8 @@
 package com.example;
 import java.util.*;
 
-public abstract interface TestClass48<T extends Number>  {
-  java.lang.Thread.State[] myMethod(java.lang.Thread.State[] p1);
-  public static interface Nested {}
+public class TestClass48  implements Runnable, Cloneable {
+  public void run() {}
+  public <S extends Number> TestClass48(Runnable[] p1) {}
+  public enum NestedEnum { V1 }
 }

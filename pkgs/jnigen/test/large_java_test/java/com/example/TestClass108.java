@@ -1,7 +1,8 @@
 package com.example;
 import java.util.*;
 
-public interface TestClass108<T extends Number>  {
-  int[] myMethod(int[] p1, int p2);
-  public static class Nested {}
+public class TestClass108  implements Runnable {
+  public void run() {}
+  public synchronized <S, V> S getFoo() { return null; }
+  public static record NestedRecord(int x) {}
 }

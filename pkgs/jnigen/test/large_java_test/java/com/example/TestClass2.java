@@ -1,6 +1,7 @@
 package com.example;
 import java.util.*;
 
-public record TestClass2<T>(List<String> field)  implements Runnable {
-  public void run() {}
+public final class TestClass2  {
+  public static <S> Runnable[] isFoo() { return null; }
+  public static class Nested {}
 }

@@ -1,7 +1,7 @@
 package com.example;
 import java.util.*;
 
-public interface TestClass24<T>  {
-  ArrayList<String> setFoo();
-  public static class Nested {}
+public class TestClass24<T, U>  {
+  public static <S> List<String>[] setFoo(List<String>[] p1) { return null; }
+  public enum NestedEnum { V1 }
 }

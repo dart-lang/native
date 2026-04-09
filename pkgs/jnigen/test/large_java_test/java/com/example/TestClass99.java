@@ -1,8 +1,7 @@
 package com.example;
 import java.util.*;
 
-public final class TestClass99<T>  extends ArrayList {
-  public void run() {}
-  public static void isFoo() {  }
+public interface TestClass99<T>  {
+  <S> byte[] getFoo(byte[] p1, int p2);
   public static interface Nested {}
 }

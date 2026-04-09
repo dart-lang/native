@@ -1,7 +1,7 @@
 package com.example;
 import java.util.*;
 
-public class TestClass88<T>  {
-  public Object setFoo(Object p1) { return null; }
-  public enum NestedEnum { V1 }
+public interface TestClass88<T>  extends Runnable, Cloneable {
+  <S, V> ArrayList<String>[] setFoo(ArrayList<String>[] p1);
+  public static interface Nested {}
 }

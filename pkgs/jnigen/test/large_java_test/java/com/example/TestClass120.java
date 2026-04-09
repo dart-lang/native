@@ -1,7 +1,7 @@
 package com.example;
 import java.util.*;
 
-public interface TestClass120<T>  extends Runnable {
-  Runnable setFoo(Runnable p1, int p2);
-  public static class Nested {}
+public final class TestClass120<T>  {
+  public String[] myMethod(String[] p1) { return null; }
+  public enum NestedEnum { V1 }
 }

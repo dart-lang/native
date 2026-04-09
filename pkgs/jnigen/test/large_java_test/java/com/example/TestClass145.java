@@ -1,8 +1,7 @@
 package com.example;
 import java.util.*;
 
-public final class TestClass145<T, U>  extends ArrayList {
+public final class TestClass145<T, U>  implements Runnable {
   public void run() {}
-  { }
-  public enum NestedEnum { V1 }
+  public byte[] myField;
 }

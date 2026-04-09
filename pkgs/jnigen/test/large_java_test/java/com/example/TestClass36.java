@@ -1,8 +1,7 @@
 package com.example;
 import java.util.*;
 
-public class TestClass36  extends ArrayList {
-  public void run() {}
-  public TestClass36(String p1, int p2) {}
+public interface TestClass36<T extends Number>  extends List<String> {
+  default <S extends Number> Runnable isFoo() { return null; }
   public static record NestedRecord(int x) {}
 }
