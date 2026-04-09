@@ -221,8 +221,6 @@ KotlinClass _$KotlinClassFromJson(Map<String, dynamic> json) => KotlinClass(
           ? null
           : KotlinType.fromJson(
               json['inlineClassUnderlyingType'] as Map<String, dynamic>),
-      flags: (json['flags'] as num).toInt(),
-      jvmFlags: (json['jvmFlags'] as num).toInt(),
     );
 
 KotlinPackage _$KotlinPackageFromJson(Map<String, dynamic> json) =>
@@ -262,7 +260,6 @@ KotlinFunction _$KotlinFunctionFromJson(Map<String, dynamic> json) =>
                   KotlinTypeParameter.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      flags: (json['flags'] as num).toInt(),
       isSuspend: json['isSuspend'] as bool,
       isOperator: json['isOperator'] as bool,
       isPublic: json['isPublic'] as bool,
@@ -280,7 +277,6 @@ KotlinConstructor _$KotlinConstructorFromJson(Map<String, dynamic> json) =>
                   KotlinValueParameter.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      flags: (json['flags'] as num).toInt(),
     );
 
 KotlinProperty _$KotlinPropertyFromJson(Map<String, dynamic> json) =>
@@ -302,10 +298,6 @@ KotlinProperty _$KotlinPropertyFromJson(Map<String, dynamic> json) =>
               ?.map((e) => KotlinType.fromJson(e as Map<String, dynamic>))
               .toList() ??
           const [],
-      jvmFlags: (json['jvmFlags'] as num).toInt(),
-      flags: (json['flags'] as num).toInt(),
-      setterFlags: (json['setterFlags'] as num).toInt(),
-      getterFlags: (json['getterFlags'] as num).toInt(),
       typeParameters: (json['typeParameters'] as List<dynamic>?)
               ?.map((e) =>
                   KotlinTypeParameter.fromJson(e as Map<String, dynamic>))
@@ -318,7 +310,6 @@ KotlinProperty _$KotlinPropertyFromJson(Map<String, dynamic> json) =>
     );
 
 KotlinType _$KotlinTypeFromJson(Map<String, dynamic> json) => KotlinType(
-      flags: (json['flags'] as num).toInt(),
       kind: json['kind'] as String,
       name: json['name'] as String?,
       id: (json['id'] as num).toInt(),
@@ -334,7 +325,6 @@ KotlinTypeParameter _$KotlinTypeParameterFromJson(Map<String, dynamic> json) =>
     KotlinTypeParameter(
       name: json['name'] as String,
       id: (json['id'] as num).toInt(),
-      flags: (json['flags'] as num).toInt(),
       upperBounds: (json['upperBounds'] as List<dynamic>?)
               ?.map((e) => KotlinType.fromJson(e as Map<String, dynamic>))
               .toList() ??
@@ -352,7 +342,6 @@ KotlinValueParameter _$KotlinValueParameterFromJson(
         Map<String, dynamic> json) =>
     KotlinValueParameter(
       name: json['name'] as String,
-      flags: (json['flags'] as num).toInt(),
       type: KotlinType.fromJson(json['type'] as Map<String, dynamic>),
       varargElementType: json['varargElementType'] == null
           ? null
