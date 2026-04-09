@@ -2685,6 +2685,97 @@ final class $Colors$Type$ extends jni$_.JType<Colors> {
   String get signature => r'Lcom/github/dart_lang/jnigen/enums/Colors;';
 }
 
+/// from: `com.github.dart_lang.jnigen.generics.GenericConstructor`
+extension type GenericConstructor<$T extends jni$_.JObject?>._(
+    jni$_.JObject _$this) implements jni$_.JObject {
+  static final _class = jni$_.JClass.forName(
+      r'com/github/dart_lang/jnigen/generics/GenericConstructor');
+
+  /// The type which includes information such as the signature of this class.
+  static const jni$_.JType<GenericConstructor> type =
+      $GenericConstructor$Type$();
+  static final _id_create = _class.constructorId(
+    r'([Ljava/lang/Object;)V',
+  );
+
+  static final _create = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_NewObject')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public void <init>(S[] objects)`
+  /// The returned object must be released after use, by calling the [release] method.
+  static GenericConstructor<$T>
+      create<$T extends jni$_.JObject?, $S extends jni$_.JObject?>(
+    jni$_.JArray<$S?>? objects,
+  ) {
+    final _$objects = objects?.reference ?? jni$_.jNullReference;
+    return _create(
+            _class.reference.pointer, _id_create.pointer, _$objects.pointer)
+        .object<GenericConstructor<$T>>();
+  }
+}
+
+extension GenericConstructor$$Methods<$T extends jni$_.JObject?>
+    on GenericConstructor<$T> {
+  static final _id_field = GenericConstructor._class.instanceFieldId(
+    r'field',
+    r'Ljava/lang/Object;',
+  );
+
+  /// from: `public java.lang.Object field`
+  /// The returned object must be released after use, by calling the [release] method.
+  jni$_.JObject? get field =>
+      _id_field.getNullable(this, jni$_.JObject.type) as jni$_.JObject?;
+
+  /// from: `public java.lang.Object field`
+  /// The returned object must be released after use, by calling the [release] method.
+  set field(jni$_.JObject? value) =>
+      _id_field.set(this, jni$_.JObject.type, value);
+
+  static final _id_identity = GenericConstructor._class.instanceMethodId(
+    r'identity',
+    r'(Ljava/lang/Number;)Ljava/lang/Number;',
+  );
+
+  static final _identity = jni$_.ProtectedJniExtensions.lookup<
+              jni$_.NativeFunction<
+                  jni$_.JniResult Function(
+                      jni$_.Pointer<jni$_.Void>,
+                      jni$_.JMethodIDPtr,
+                      jni$_.VarArgs<(jni$_.Pointer<jni$_.Void>,)>)>>(
+          'globalEnv_CallObjectMethod')
+      .asFunction<
+          jni$_.JniResult Function(jni$_.Pointer<jni$_.Void>,
+              jni$_.JMethodIDPtr, jni$_.Pointer<jni$_.Void>)>();
+
+  /// from: `public T identity(T number)`
+  /// The returned object must be released after use, by calling the [release] method.
+  $T? identity(
+    $T? number,
+  ) {
+    final _$number = number?.reference ?? jni$_.jNullReference;
+    return _identity(reference.pointer, _id_identity.pointer, _$number.pointer)
+        .object<$T?>();
+  }
+}
+
+final class $GenericConstructor$Type$ extends jni$_.JType<GenericConstructor> {
+  @jni$_.internal
+  const $GenericConstructor$Type$();
+
+  @jni$_.internal
+  @core$_.override
+  String get signature =>
+      r'Lcom/github/dart_lang/jnigen/generics/GenericConstructor;';
+}
+
 /// from: `com.github.dart_lang.jnigen.generics.GenericTypeParams`
 extension type GenericTypeParams<$S extends jni$_.JObject?,
         $K extends jni$_.JObject?>._(jni$_.JObject _$this)
