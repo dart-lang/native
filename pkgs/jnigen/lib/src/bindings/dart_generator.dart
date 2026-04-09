@@ -1241,10 +1241,7 @@ ${modifier}final _$idName = $_protectedExtension
     final typeParamsDef = [
       if (node.isConstructor) ...node.classDecl.allTypeParams,
       ...node.typeParams,
-    ]
-        .accept(const _TypeParamDef())
-        .join(', ')
-        .encloseIfNotEmpty('<', '>');
+    ].accept(const _TypeParamDef()).join(', ').encloseIfNotEmpty('<', '>');
     if (node.isSuspendFun) {
       defArgs.removeLast();
       localReferences.removeLast();
