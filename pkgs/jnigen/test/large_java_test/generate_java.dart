@@ -263,13 +263,14 @@ void generateTestCase(StringBuffer sb, String className, TestCase tc) {
   final typeKind = tc.get<TypeKind>();
   final isArray = tc.get<IsArray>();
 
-  final typeStr =
-      getJavaType(typeKind, isArray == IsArray.yes, generics, memberGenerics);
+  final typeStr = getJavaType(
+      typeKind, isArray == IsArray.yes, generics, memberGenerics);
   final inheritanceStr = getInheritanceStr(inheritance, top);
   final genStr = getGenericsStr(generics);
   final memberGenStr = getMemberGenericsStr(memberGenerics);
   final topModStr = getTopLevelModifierStr(modifier, mod);
   final kind = getTopLevelKindStr(top);
+  final params = getParamsStr(paramCount, typeStr);
 
   if (top == TopLevelKind.record) {
     sb.writeln(
@@ -284,16 +285,7 @@ void generateTestCase(StringBuffer sb, String className, TestCase tc) {
   sb.writeln('public $topModStr$kind $className$genStr $inheritanceStr {');
 
   if (top == TopLevelKind.enum_) {
-    if (member == Member.constructor) {
-      final args = switch (paramCount) {
-        ParamCount.zero => '',
-        ParamCount.one => getJavaDefaultValue(typeStr),
-        ParamCount.two => '${getJavaDefaultValue(typeStr)}, 0',
-      };
-      sb.writeln('  VALUE1($args), VALUE2($args);');
-    } else {
-      sb.writeln('  VALUE1, VALUE2;');
-    }
+    sb.writeln(getEnumConstantsStr(member, paramCount, typeStr));
     if (hasRunMethod(inheritance)) {
       sb.writeln('  public void run() {}');
     }
@@ -303,78 +295,15 @@ void generateTestCase(StringBuffer sb, String className, TestCase tc) {
     sb.writeln('  public void run() {}');
   }
 
-  final params = getParamsStr(paramCount, typeStr);
-
-  switch (member) {
-    case Member.field:
-      final staticStr = mod == MemberModifier.static_ ? 'static ' : '';
-      if (top == TopLevelKind.interface) {
-        sb.writeln('  $typeStr myField = ${getJavaDefaultValue(typeStr)};');
-      } else {
-        sb.writeln('  public $staticStr$typeStr myField;');
-      }
-      break;
-    case Member.method:
-      final methodName = name == MemberName.any ? 'myMethod' : name.name;
-      final modStr = getMemberModifierStr(mod);
-
-      if (top == TopLevelKind.interface) {
-        switch (mod) {
-          case MemberModifier.default_:
-            final defaultValue = getJavaDefaultValue(typeStr);
-            final body = typeStr == 'void' ? '' : 'return $defaultValue;';
-            sb.writeln(
-                '  default $memberGenStr$typeStr $methodName($params) { $body }');
-            break;
-          case MemberModifier.static_:
-            final defaultValue = getJavaDefaultValue(typeStr);
-            final body = typeStr == 'void' ? '' : 'return $defaultValue;';
-            sb.writeln(
-                '  static $memberGenStr$typeStr $methodName($params) { $body }');
-            break;
-          default:
-            sb.writeln('  $memberGenStr$typeStr $methodName($params);');
-        }
-      } else {
-        switch (mod) {
-          case MemberModifier.abstract_:
-            sb.writeln(
-                '  public abstract $memberGenStr$typeStr $methodName($params);');
-            break;
-          case MemberModifier.native:
-            sb.writeln(
-                '  public native $memberGenStr$typeStr $methodName($params);');
-            break;
-          default:
-            final defaultValue = getJavaDefaultValue(typeStr);
-            final body = typeStr == 'void' ? '' : 'return $defaultValue;';
-            sb.writeln(
-                '  public $modStr$memberGenStr$typeStr $methodName($params) { $body }');
-        }
-      }
-      break;
-    case Member.constructor:
-      if (top == TopLevelKind.enum_) {
-        sb.writeln('  private $memberGenStr$className($params) {}');
-      } else {
-        sb.writeln('  public $memberGenStr$className($params) {}');
-      }
-      break;
-    case Member.initializer:
-      final staticStr = mod == MemberModifier.static_ ? 'static ' : '';
-      sb.writeln('  $staticStr{ }');
-      break;
-  }
+  sb.write(switch (member) {
+    Member.field => getFieldStr(top, mod, typeStr),
+    Member.method => getMethodStr(top, mod, memberGenStr, typeStr, name, params),
+    Member.constructor => getConstructorStr(top, memberGenStr, className, params),
+    Member.initializer => getInitializerStr(mod),
+  });
 
   if (nested != NestedKind.none) {
-    final nKind = getNestedKindStr(nested);
-    if (nested == NestedKind.record) {
-      sb.writeln('  public static record NestedRecord(int x) {}');
-    } else if (nested == NestedKind.enum_) {
-      sb.writeln('  public enum NestedEnum { V1 }');
-    } else {
-      sb.writeln('  public static $nKind Nested {}');
-    }
+    sb.writeln(getNestedStr(nested));
   }
 
   sb.writeln('}');
@@ -467,14 +396,78 @@ String getParamsStr(ParamCount paramCount, String typeStr) {
   };
 }
 
-String getNestedKindStr(NestedKind nested) {
-  return switch (nested) {
+String getEnumConstantsStr(Member member, ParamCount paramCount, String typeStr) {
+  if (member == Member.constructor) {
+    final args = switch (paramCount) {
+      ParamCount.zero => '',
+      ParamCount.one => getJavaDefaultValue(typeStr),
+      ParamCount.two => '${getJavaDefaultValue(typeStr)}, 0',
+    };
+    return '  VALUE1($args), VALUE2($args);';
+  }
+  return '  VALUE1, VALUE2;';
+}
+
+String getFieldStr(TopLevelKind top, MemberModifier mod, String typeStr) {
+  if (top == TopLevelKind.interface) {
+    return '  $typeStr myField = ${getJavaDefaultValue(typeStr)};\n';
+  }
+  final staticStr = mod == MemberModifier.static_ ? 'static ' : '';
+  return '  public $staticStr$typeStr myField;\n';
+}
+
+String getMethodStr(TopLevelKind top, MemberModifier mod, String memberGenStr,
+    String typeStr, MemberName name, String params) {
+  final methodName = name == MemberName.any ? 'myMethod' : name.name;
+  final defaultValue = getJavaDefaultValue(typeStr);
+  final body = typeStr == 'void' ? '' : 'return $defaultValue;';
+
+  if (top == TopLevelKind.interface) {
+    return switch (mod) {
+      MemberModifier.default_ =>
+        '  default $memberGenStr$typeStr $methodName($params) { $body }\n',
+      MemberModifier.static_ =>
+        '  static $memberGenStr$typeStr $methodName($params) { $body }\n',
+      _ => '  $memberGenStr$typeStr $methodName($params);\n',
+    };
+  }
+
+  final modStr = getMemberModifierStr(mod);
+  return switch (mod) {
+    MemberModifier.abstract_ =>
+      '  public abstract $memberGenStr$typeStr $methodName($params);\n',
+    MemberModifier.native =>
+      '  public native $memberGenStr$typeStr $methodName($params);\n',
+    _ => '  public $modStr$memberGenStr$typeStr $methodName($params) { $body }\n',
+  };
+}
+
+String getConstructorStr(
+    TopLevelKind top, String memberGenStr, String className, String params) {
+  final visibility = top == TopLevelKind.enum_ ? 'private' : 'public';
+  return '  $visibility $memberGenStr$className($params) {}\n';
+}
+
+String getInitializerStr(MemberModifier mod) {
+  final staticStr = mod == MemberModifier.static_ ? 'static ' : '';
+  return '  $staticStr{ }\n';
+}
+
+String getNestedStr(NestedKind nested) {
+  final nKind = switch (nested) {
     NestedKind.class_ => 'class',
     NestedKind.interface => 'interface',
     NestedKind.enum_ => 'enum',
     NestedKind.record => 'record',
     _ => 'class',
   };
+  if (nested == NestedKind.record) {
+    return '  public static record NestedRecord(int x) {}\n';
+  }
+  if (nested == NestedKind.enum_) {
+    return '  public enum NestedEnum { V1 }\n';
+  }
+  return '  public static $nKind Nested {}\n';
 }
 
 bool hasRunMethod(Inheritance inheritance) {

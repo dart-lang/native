@@ -6,4 +6,5 @@ public enum TestClass28  implements Runnable {
   public void run() {}
   public synchronized <S> String[] getFoo() { return null; }
   public static interface Nested {}
+
 }

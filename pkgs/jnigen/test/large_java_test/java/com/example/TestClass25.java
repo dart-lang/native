@@ -6,4 +6,5 @@ public enum TestClass25  implements Runnable {
   public void run() {}
   private <S, V> TestClass25(long[] p1, int p2) {}
   public static record NestedRecord(int x) {}
+
 }

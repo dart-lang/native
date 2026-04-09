@@ -6,4 +6,5 @@ public enum TestClass135  implements Runnable {
   public void run() {}
   public static <S extends Number> Set<String>[] setFoo() { return null; }
   public static class Nested {}
+
 }

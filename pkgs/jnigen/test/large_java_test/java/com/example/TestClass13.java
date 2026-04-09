@@ -6,4 +6,5 @@ public enum TestClass13  implements Runnable {
   public void run() {}
   { }
   public enum NestedEnum { V1 }
+
 }

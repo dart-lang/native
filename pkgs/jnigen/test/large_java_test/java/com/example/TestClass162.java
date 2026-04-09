@@ -5,4 +5,5 @@ public final class TestClass162<T extends Number>  implements Runnable, Cloneabl
   public void run() {}
   public native String[] myMethod();
   public static class Nested {}
+
 }
