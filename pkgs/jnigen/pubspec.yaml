@@ -36,7 +36,11 @@ dev_dependencies:
   dart_flutter_team_lints: ^3.5.2
   jni: ^1.0.0
   json_serializable: ^6.8.0
+  native_test_helpers:
+    path: ../native_test_helpers/
   test: ^1.25.8
+  test_case_selector:
+    path: ../test_case_selector
 
 dependency_overrides:
   jni:
