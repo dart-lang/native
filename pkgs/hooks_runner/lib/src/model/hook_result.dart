@@ -40,6 +40,41 @@ final class HookResult implements BuildResult, LinkResult {
     dependencies: dependencies ?? [],
   );
 
+  @override
+  Map<String, Object?> toJson() => {
+    'encodedAssets': encodedAssets.map((e) => e.toJson()).toList(),
+    'encodedAssetsForLinking': encodedAssetsForLinking.map(
+      (key, value) => MapEntry(
+        key,
+        value.map((e) => e.toJson()).toList(),
+      ),
+    ),
+    'dependencies': dependencies.map((e) => e.toString()).toList(),
+  };
+
+  factory HookResult.fromJson(Map<String, Object?> json) {
+    final encodedAssets = (json['encodedAssets'] as List?)
+        ?.map((e) => EncodedAsset.fromJson(e as Map<String, Object?>))
+        .toList();
+    final encodedAssetsForLinking = (json['encodedAssetsForLinking'] as Map?)
+        ?.map(
+          (key, value) => MapEntry(
+            key as String,
+            (value as List)
+                .map((e) => EncodedAsset.fromJson(e as Map<String, Object?>))
+                .toList(),
+          ),
+        );
+    final dependencies = (json['dependencies'] as List?)
+        ?.map((e) => Uri.parse(e as String))
+        .toList();
+    return HookResult(
+      encodedAssets: encodedAssets,
+      encodedAssetsForLinking: encodedAssetsForLinking,
+      dependencies: dependencies,
+    );
+  }
+
   HookResult copyAdd(HookOutput hookOutput, List<Uri> hookDependencies) {
     final mergedMaps = mergeMaps(
       encodedAssetsForLinking,

@@ -4,6 +4,8 @@
 
 import 'package:hooks/hooks.dart';
 
+import 'hook_result.dart';
+
 /// The result of executing build hooks from all packages in the dependency tree
 /// of the entry point application.
 abstract class BuildResult {
@@ -15,4 +17,11 @@ abstract class BuildResult {
 
   /// The native assets produced by the hooks, which should be linked.
   Map<String, List<EncodedAsset>> get encodedAssetsForLinking;
+
+  /// Encodes this [BuildResult] to JSON.
+  Map<String, Object?> toJson();
+
+  /// Decodes a [BuildResult] from JSON.
+  factory BuildResult.fromJson(Map<String, Object?> json) =>
+      HookResult.fromJson(json);
 }
