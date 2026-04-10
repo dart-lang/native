@@ -289,7 +289,8 @@ class _MethodRenamer implements Visitor<Method, void> {
         propertySig: null,
       );
     } else if (node.isConstructor) {
-      return (rawName: 'new', skipRenaming: false, propertySig: null);
+      final rawName = node.typeParams.isNotEmpty ? 'create' : 'new';
+      return (rawName: rawName, skipRenaming: false, propertySig: null);
     }
 
     final ReferredType propertyType;
