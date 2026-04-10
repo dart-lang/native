@@ -16,8 +16,14 @@
 #if defined(__ANDROID__)
 #include <android/log.h>
 #define __ENVP_CAST (JNIEnv**)
+#define LOGF(...) __android_log_print(ANDROID_LOG_FATAL, "DartJNI", __VA_ARGS__)
 #else
 #define __ENVP_CAST (void**)
+#define LOGF(...) do {                    \
+    fprintf(stderr, "DartJNI [FATAL] ");  \
+    fprintf(stderr, __VA_ARGS__);         \
+    fprintf(stderr, "\n");                \
+  } while(0)
 #endif
 
 /// Locking functions for windows and pthread.
@@ -152,6 +158,10 @@ static inline void detach_thread(void* data) {
 
 static inline void attach_thread() {
   if (jniEnv == NULL) {
+    if (jni->jvm == NULL) {
+      LOGF("JNI is not initialized. Are you trying to invoke a Java API"
+        " too early, before Flutter plugin initialization?");
+    }
     (*jni->jvm)->AttachCurrentThread(jni->jvm, __ENVP_CAST & jniEnv, NULL);
 #if !defined(_WIN32)
     pthread_setspecific(tlsKey, &jniEnv);
