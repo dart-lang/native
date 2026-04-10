@@ -19,11 +19,11 @@
 #define LOGF(...) __android_log_print(ANDROID_LOG_FATAL, "DartJNI", __VA_ARGS__)
 #else
 #define __ENVP_CAST (void**)
-#define LOGF(...)                        \
-  do {                                   \
-    fprintf(stderr, "DartJNI [FATAL] "); \
-    fprintf(stderr, __VA_ARGS__);        \
-    fprintf(stderr, "\n");               \
+#define LOGF(...)                                                              \
+  do {                                                                         \
+    fprintf(stderr, "DartJNI [FATAL] ");                                       \
+    fprintf(stderr, __VA_ARGS__);                                              \
+    fprintf(stderr, "\n");                                                     \
   } while (0)
 #endif
 
