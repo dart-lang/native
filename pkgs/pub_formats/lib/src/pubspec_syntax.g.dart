@@ -604,7 +604,7 @@ class PubspecYamlFileSyntax extends JsonObjectSyntax {
       throw ArgumentError.value(
         value,
         'value',
-        'Value does not satisify pattern: ${_namePattern.pattern}.',
+        'Value does not satisfy pattern: ${_namePattern.pattern}.',
       );
     }
     json.setOrRemove('name', value);
@@ -632,7 +632,7 @@ class PubspecYamlFileSyntax extends JsonObjectSyntax {
   List<String> validateRepository() => _reader.validate<String?>('repository');
 
   static final _versionPattern = RegExp(
-    r'^[0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-Z0-9.]+)?(?:\+[a-zA-Z0-9.]+)?$',
+    r'^[0-9]+\.[0-9]+\.[0-9]+(?:-[a-zA-Z0-9.\-]+)?(?:\+[a-zA-Z0-9.\-]+)?$',
   );
 
   String? get version => _reader.optionalString('version', _versionPattern);
@@ -642,7 +642,7 @@ class PubspecYamlFileSyntax extends JsonObjectSyntax {
       throw ArgumentError.value(
         value,
         'value',
-        'Value does not satisify pattern: ${_versionPattern.pattern}.',
+        'Value does not satisfy pattern: ${_versionPattern.pattern}.',
       );
     }
     json.setOrRemove('version', value);

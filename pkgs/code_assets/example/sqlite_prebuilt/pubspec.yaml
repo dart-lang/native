@@ -19,5 +19,6 @@ dependencies:
   pointycastle: ^4.0.0
 
 dev_dependencies:
-  ffigen: ^20.0.0-dev.1
+  ffigen:
+    path: '../../../ffigen'
   test: ^1.25.15

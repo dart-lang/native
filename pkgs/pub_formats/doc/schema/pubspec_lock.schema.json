@@ -134,7 +134,7 @@
     "PackageVersion": {
       "description": "The locked version of the package.",
       "type": "string",
-      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[a-zA-Z0-9.]+)?$"
+      "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+(?:-[a-zA-Z0-9.\\-]+)?(?:\\+[a-zA-Z0-9.\\-]+)?$"
     },
     "PathPackageDescription": {
       "description": "For path packages.",

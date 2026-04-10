@@ -9,6 +9,8 @@ import 'package:hooks/hooks.dart';
 import 'package:logging/logging.dart';
 import 'package:meta/meta.dart';
 
+import 'cbuilder.dart';
+import 'clibrary.dart';
 import 'ctool.dart';
 import 'linker_options.dart';
 import 'linkmode.dart';
@@ -18,13 +20,13 @@ import 'run_cbuilder.dart';
 
 /// Specification for linking an artifact with a C linker.
 class CLinker extends CTool implements Linker {
-  final LinkerOptions linkerOptions;
+  final LinkerOptions? linkerOptions;
 
   CLinker.library({
     required super.name,
     super.packageName,
     super.assetName,
-    required this.linkerOptions,
+    this.linkerOptions,
     super.sources = const [],
     super.includes = const [],
     super.forcedIncludes = const [],
@@ -48,24 +50,45 @@ class CLinker extends CTool implements Linker {
   ///
   /// If provided, uses [logger] to output logs. Otherwise, uses a default
   /// logger that streams [Level.WARNING] to stdout and higher levels to stderr.
+  ///
+  /// [linkerOptions] overrides the [CLinker.linkerOptions] of this [CLinker].
+  /// See [CLinker.linkerOptions] for more documentation.
+  ///
+  /// [linkModePreference] overrides the [CTool.linkModePreference] of this
+  /// [CLinker]. See [CTool.linkModePreference] for more documentation.
+  ///
+  /// [sources] overrides the [CTool.sources] of this [CLinker]. See
+  /// [CTool.sources] for more documentation.
+  ///
+  /// [defines] are merged with the [CTool.defines] of this [CLinker]. See
+  /// [CTool.defines] for more documentation.
+  ///
+  /// If you're using [CBuilder] in a build hook and [CLinker] in a link hook,
+  /// see [CLibrary] to combine them.
   @override
   Future<void> run({
     required LinkInput input,
     required LinkOutputBuilder output,
     Logger? logger,
+    LinkerOptions? linkerOptions,
+    LinkModePreference? linkModePreference,
+    List<String>? sources,
+    Map<String, String?>? defines,
   }) async {
     logger ??= createDefaultLogger();
     final outDir = input.outputDirectory;
     final packageRoot = input.packageRoot;
     await Directory.fromUri(outDir).create(recursive: true);
     final linkMode = getLinkMode(
-      linkModePreference ?? input.config.code.linkModePreference,
+      linkModePreference ??
+          this.linkModePreference ??
+          input.config.code.linkModePreference,
     );
     final libUri = outDir.resolve(
       input.config.code.targetOS.libraryFileName(name, linkMode),
     );
-    final sources = [
-      for (final source in this.sources)
+    final resolvedSources = [
+      for (final source in sources ?? this.sources)
         packageRoot.resolveUri(Uri.file(source)),
     ];
     final includes = [
@@ -79,9 +102,9 @@ class CLinker extends CTool implements Linker {
     final task = RunCBuilder(
       input: input,
       codeConfig: input.config.code,
-      linkerOptions: linkerOptions,
+      linkerOptions: linkerOptions ?? this.linkerOptions,
       logger: logger,
-      sources: sources,
+      sources: resolvedSources,
       includes: includes,
       frameworks: frameworks,
       libraries: libraries,
@@ -91,7 +114,7 @@ class CLinker extends CTool implements Linker {
       // ignore: invalid_use_of_visible_for_testing_member
       installName: installName,
       flags: flags,
-      defines: defines,
+      defines: {...this.defines, ...?defines},
       pic: pic,
       std: std,
       language: language,
@@ -121,7 +144,7 @@ class CLinker extends CTool implements Linker {
 
     output.dependencies.addAll({
       // Note: We use a Set here to deduplicate the dependencies.
-      ...sources,
+      ...resolvedSources,
       ...includeFiles,
     });
   }

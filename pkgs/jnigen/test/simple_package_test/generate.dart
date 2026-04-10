@@ -37,6 +37,7 @@ final javaFiles = [
   join(javaPrefix, 'generics', 'StringKeyedMap.java'),
   join(javaPrefix, 'generics', 'StringMap.java'),
   join(javaPrefix, 'generics', 'StringValuedMap.java'),
+  join(javaPrefix, 'generics', 'GenericConstructor.java'),
   join(javaPrefix, 'inheritance', 'BaseClass.java'),
   join(javaPrefix, 'inheritance', 'BaseInterface.java'),
   join(javaPrefix, 'inheritance', 'BaseGenericInterface.java'),

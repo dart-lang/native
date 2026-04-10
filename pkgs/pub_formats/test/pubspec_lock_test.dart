@@ -110,4 +110,30 @@ void main() {
       throwsArgumentError,
     );
   });
+
+  test('pubspec lock version format', () {
+    for (var validVersion in validSemVers) {
+      const sha256 =
+          '2fde1607386ab523f7a36bb3e7edb43bd58e6edaf2ffb29d8a6d578b297fdbbd';
+      final packageSyntax = PackageSyntax(
+        dependency: DependencyTypeSyntax.directMain,
+        description: HostedPackageDescriptionSyntax(
+          name: 'valid_package_name',
+          sha256: sha256,
+          url: 'https://pub.dev',
+        ),
+        source: PackageSourceSyntax.hosted,
+        version: validVersion,
+      );
+      final sdKsSyntax = SDKsSyntax(dart: validVersion);
+      expect(
+        () => PubspecLockFileSyntax(
+          sdks: sdKsSyntax,
+          packages: {'valid_package_name': packageSyntax},
+        ),
+        isNot(throwsArgumentError),
+        reason: 'SemVer: $validVersion',
+      );
+    }
+  });
 }

@@ -9,6 +9,7 @@ workspace:
   - pkgs/code_assets/example/host_name
   - pkgs/code_assets/example/mini_audio
   - pkgs/code_assets/example/sqlite
+  - pkgs/code_assets/example/sqlite_no_link
   - pkgs/code_assets/example/sqlite_prebuilt
   - pkgs/code_assets/example/stb_image
   - pkgs/data_assets
@@ -92,6 +93,7 @@ workspace:
   # - pkgs/jni  # TODO
   # - pkgs/jni_flutter  # TODO
   # - pkgs/jni_flutter/android_test_runner  # TODO
+  # - pkgs/jni_flutter/example  # TODO
   # - pkgs/jni/example  # TODO
   # - pkgs/jnigen  # TODO
   # - pkgs/jnigen/android_test_runner  # TODO
@@ -140,3 +142,7 @@ hooks:
       some_file: pkgs/hooks_runner/test_data/user_defines/assets/data.json
     some_other_package: # package name
       user_define_key3: user_define_value3
+
+dependency_overrides:
+  ffigen:
+    path: pkgs/ffigen

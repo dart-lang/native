@@ -12,19 +12,26 @@ void main() {
     headers: Headers(
       entryPoints: [packageRoot.resolve('third_party/miniaudio.h')],
     ),
-    functions: Functions.includeSet({
-      'ma_engine_init',
-      'ma_engine_play_sound',
-      'ma_engine_uninit',
-    }),
-    structs: Structs.includeSet({'ma_engine'}),
+    functions: Functions(
+      include: (decl) => {
+        'ma_engine_init',
+        'ma_engine_play_sound',
+        'ma_engine_uninit',
+      }.contains(decl.originalName),
+      recordUse: (_) => true,
+    ),
+    structs: Structs(
+      include: (decl) => {'ma_engine'}.contains(decl.originalName),
+    ),
     enums: Enums(
-      include: (declaration) =>
-          {'ma_result'}.contains(declaration.originalName),
+      include: (decl) => {'ma_result'}.contains(decl.originalName),
       silenceWarning: true,
     ),
     output: Output(
       dartFile: packageRoot.resolve('lib/src/third_party/miniaudio.g.dart'),
+      recordUseMapping: packageRoot.resolve(
+        'lib/src/third_party/record_use_mapping.dart',
+      ),
       preamble: '''
 // This is free and unencumbered software released into the public domain.
 //

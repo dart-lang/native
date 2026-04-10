@@ -12,9 +12,15 @@ void main() {
     headers: Headers(
       entryPoints: [packageRoot.resolve('third_party/sqlite/sqlite3.h')],
     ),
-    functions: Functions.includeSet({'sqlite3_libversion'}),
+    functions: Functions(
+      include: (decl) => {'sqlite3_libversion'}.contains(decl.originalName),
+      recordUse: (_) => true,
+    ),
     output: Output(
       dartFile: packageRoot.resolve('lib/src/third_party/sqlite3.g.dart'),
+      recordUseMapping: packageRoot.resolve(
+        'lib/src/third_party/record_use_mapping.dart',
+      ),
       preamble: '''
 // The author disclaims copyright to this source code.  In place of
 // a legal notice, here is a blessing:

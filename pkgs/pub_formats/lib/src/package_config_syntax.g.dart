@@ -38,7 +38,7 @@ class PackageConfigEntrySyntax extends JsonObjectSyntax {
       throw ArgumentError.value(
         value,
         'value',
-        'Value does not satisify pattern: ${_languageVersionPattern.pattern}.',
+        'Value does not satisfy pattern: ${_languageVersionPattern.pattern}.',
       );
     }
     json.setOrRemove('languageVersion', value);
@@ -56,7 +56,7 @@ class PackageConfigEntrySyntax extends JsonObjectSyntax {
       throw ArgumentError.value(
         value,
         'value',
-        'Value does not satisify pattern: ${_namePattern.pattern}.',
+        'Value does not satisfy pattern: ${_namePattern.pattern}.',
       );
     }
     json.setOrRemove('name', value);
